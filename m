@@ -2,47 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794593ED1E5
-	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 12:24:49 +0200 (CEST)
-Received: from localhost ([::1]:43254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A80F23ED1F0
+	for <lists+qemu-devel@lfdr.de>; Mon, 16 Aug 2021 12:27:40 +0200 (CEST)
+Received: from localhost ([::1]:45846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFZnU-00043M-Iq
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 06:24:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37028)
+	id 1mFZqF-0005zO-OT
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 06:27:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1mFZmo-0003MF-AZ
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 06:24:06 -0400
-Received: from relay68.bu.edu ([128.197.228.73]:35661)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1mFZmm-0001z4-9P
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 06:24:05 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 17GAMkKg001408
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 16 Aug 2021 06:22:49 -0400
-Date: Mon, 16 Aug 2021 06:22:46 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/11] Optional gitlab-CI and doc fixes for -rc4
-Message-ID: <20210816102246.z4ybsgpmrn4isdoj@mozz.bu.edu>
-References: <20210814060956.12852-1-thuth@redhat.com>
- <CAFEAcA9ur-HX4r30QgEAL73VEgA+=XXpWW6v9arKcM=ijEsHvA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <Jianxian.Wen@verisilicon.com>)
+ id 1mFZnn-0004qI-3e; Mon, 16 Aug 2021 06:25:08 -0400
+Received: from shasxm06.verisilicon.com ([101.89.135.45]:30873
+ helo=shasxm03.verisilicon.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <Jianxian.Wen@verisilicon.com>)
+ id 1mFZnf-0002eP-On; Mon, 16 Aug 2021 06:25:04 -0400
+Content-Language: zh-CN
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; d=Verisilicon.com; s=default;
+ c=simple/simple; t=1629109483; h=from:subject:to:date:message-id;
+ bh=L7N3RgSt5OFYwqCJC8cfNiV5OhDhg5XsfkpZAAdFzd4=;
+ b=BMxPoOEMVvGmknyu3QhdsFBoz0R4DenLNVFXa4D8OE+bPjVnwxbD48qtdvE7LiDYZD2zZHQTwDz
+ GvXdq0j3g7683SCAAAVziktuX6U/KD2jAnTt7SLOuAWkqaV32N+oscLHTzZeo6qY995Oky3DqVvuZ
+ bF5AdaiPV79CamlkV2s=
+Received: from SHASXM03.verisilicon.com ([fe80::938:4dda:a2f9:38aa]) by
+ SHASXM06.verisilicon.com ([fe80::59a8:ce34:dc14:ddda%16]) with mapi id
+ 14.03.0408.000; Mon, 16 Aug 2021 18:24:42 +0800
+From: "Wen, Jianxian" <Jianxian.Wen@verisilicon.com>
+To: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "i.mitsyanko@gmail.com" <i.mitsyanko@gmail.com>, "edgar.iglesias@gmail.com"
+ <edgar.iglesias@gmail.com>, "alistair@alistair23.me" <alistair@alistair23.me>
+Subject: [PATCH v3] hw/dma/pl330: Add memory region to replace default
+Thread-Topic: [PATCH v3] hw/dma/pl330: Add memory region to replace default
+Thread-Index: AdeSiOwk1WdB1iQlRpq1bXETNiKRMA==
+Date: Mon, 16 Aug 2021 10:24:41 +0000
+Message-ID: <4C23C17B8E87E74E906A25A3254A03F4FA1FC8CE@SHASXM03.verisilicon.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [182.148.14.197]
+x-tm-as-product-ver: SMEX-11.0.0.4179-8.100.1062-25628.004
+x-tm-as-result: No--6.106400-0.000000-31
+x-tm-as-user-approved-sender: Yes
+x-tm-as-user-blocked-sender: No
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA9ur-HX4r30QgEAL73VEgA+=XXpWW6v9arKcM=ijEsHvA@mail.gmail.com>
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.998,
- HK_RANDOM_FROM=0.293, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=101.89.135.45;
+ envelope-from=Jianxian.Wen@verisilicon.com; helo=shasxm03.verisilicon.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,57 +68,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Liu,
+ Renwei" <Renwei.Liu@verisilicon.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Li,
+ Chunming" <Chunming.Li@verisilicon.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 210816 1001, Peter Maydell wrote:
-> On Sat, 14 Aug 2021 at 07:10, Thomas Huth <thuth@redhat.com> wrote:
-> >
-> >  Hi Peter,
-> >
-> > in case we're going to have an -rc4, here's a pull request that contains
-> > the fixes for getting the gitlab-CI green again. I also added some doc
-> > updates since they should be completely riskless. But if we won't have an
-> > rc4 due to other reasons, this pull request here certainly also does not
-> > justify another RC, so please ignore this PR in that case.
-> >
-> > The following changes since commit 703e8cd6189cf699c8d5c094bc68b5f3afa6ad71:
-> >
-> >   Update version for v6.1.0-rc3 release (2021-08-10 19:08:09 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://gitlab.com/thuth/qemu.git tags/pull-request-2021-08-11
-> >
-> > for you to fetch changes up to 36b508993c4dcc6b3ef4b5c00e293ee9560926ee:
-> >
-> >   docs/about/removed-features: Document removed machines from older QEMU versions (2021-08-11 15:39:09 +0200)
-> >
-> > CI run can be seen here:
-> >
-> >  https://gitlab.com/thuth/qemu/-/pipelines/351602605
-> >
-> > ----------------------------------------------------------------
-> > * Fixes for the gitlab-CI (fix the hanging  build-oss-fuzz pipeline)
-> > * Add documentation about features that have been removed in older versions
-> >
-> 
-> 
-> Applied, thanks.
-> 
-> Please update the changelog at https://wiki.qemu.org/ChangeLog/6.1
-> for any user-visible changes.
+PL330 needs a memory region which can connect with SMMU IOMMU region to sup=
+port SMMU translate.
 
-https://gitlab.com/qemu-project/qemu/-/jobs/1505950978
-Looks like build-oss-fuzz is still timing out, even without the issue
-in the vhost-usr-blk test. At this point the job should essentially just
-build + test qemu-system-i386 with some extra time spent on linking
-the fuzzer and briefly running through all the fuzzer configs. Maybe the
-only way to make this work is to split the job into a build + test
-stage?
+Signed-off-by: Jianxian Wen <jianxian.wen@verisilicon.com>
+---
+Changes v1 -> v2 (after review of Peter Maydell):
+ - Use the dma_memory_read/dma_memory_write functions, update function Addr=
+essSpace* parameter.
+Changes v2 -> v3 (after review of Philippe Mathieu-Daud=E9):
+ - Refine code to comply with code style, update error message if memory li=
+nk is not set.
 
-> 
-> -- PMM
-> 
+ hw/arm/exynos4210.c  |  3 +++
+ hw/arm/xilinx_zynq.c |  3 +++
+ hw/dma/pl330.c       | 20 ++++++++++++++++----
+ 3 files changed, 22 insertions(+), 4 deletions(-)
+
+diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
+index 5c7a51b..0299e81 100644
+--- a/hw/arm/exynos4210.c
++++ b/hw/arm/exynos4210.c
+@@ -173,6 +173,9 @@ static DeviceState *pl330_create(uint32_t base, qemu_or=
+_irq *orgate,
+     int i;
+=20
+     dev =3D qdev_new("pl330");
++    object_property_set_link(OBJECT(dev), "memory",
++                             OBJECT(get_system_memory()),
++                             &error_fatal);
+     qdev_prop_set_uint8(dev, "num_events", nevents);
+     qdev_prop_set_uint8(dev, "num_chnls",  8);
+     qdev_prop_set_uint8(dev, "num_periph_req",  nreq);
+diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
+index 245af81..69c333e 100644
+--- a/hw/arm/xilinx_zynq.c
++++ b/hw/arm/xilinx_zynq.c
+@@ -312,6 +312,9 @@ static void zynq_init(MachineState *machine)
+     sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[39-IRQ_OFFSET]);
+=20
+     dev =3D qdev_new("pl330");
++    object_property_set_link(OBJECT(dev), "memory",
++                             OBJECT(address_space_mem),
++                             &error_fatal);
+     qdev_prop_set_uint8(dev, "num_chnls",  8);
+     qdev_prop_set_uint8(dev, "num_periph_req",  4);
+     qdev_prop_set_uint8(dev, "num_events",  16);
+diff --git a/hw/dma/pl330.c b/hw/dma/pl330.c
+index 944ba29..c3bd30c 100644
+--- a/hw/dma/pl330.c
++++ b/hw/dma/pl330.c
+@@ -269,6 +269,9 @@ struct PL330State {
+     uint8_t num_faulting;
+     uint8_t periph_busy[PL330_PERIPH_NUM];
+=20
++    /* Memory region that DMA operation access */
++    MemoryRegion *mem_mr;
++    AddressSpace mem_as;
+ };
+=20
+ #define TYPE_PL330 "pl330"
+@@ -1108,7 +1111,7 @@ static inline const PL330InsnDesc *pl330_fetch_insn(P=
+L330Chan *ch)
+     uint8_t opcode;
+     int i;
+=20
+-    dma_memory_read(&address_space_memory, ch->pc, &opcode, 1);
++    dma_memory_read(&ch->parent->mem_as, ch->pc, &opcode, 1);
+     for (i =3D 0; insn_desc[i].size; i++) {
+         if ((opcode & insn_desc[i].opmask) =3D=3D insn_desc[i].opcode) {
+             return &insn_desc[i];
+@@ -1122,7 +1125,7 @@ static inline void pl330_exec_insn(PL330Chan *ch, con=
+st PL330InsnDesc *insn)
+     uint8_t buf[PL330_INSN_MAXSIZE];
+=20
+     assert(insn->size <=3D PL330_INSN_MAXSIZE);
+-    dma_memory_read(&address_space_memory, ch->pc, buf, insn->size);
++    dma_memory_read(&ch->parent->mem_as, ch->pc, buf, insn->size);
+     insn->exec(ch, buf[0], &buf[1], insn->size - 1);
+ }
+=20
+@@ -1186,7 +1189,7 @@ static int pl330_exec_cycle(PL330Chan *channel)
+     if (q !=3D NULL && q->len <=3D pl330_fifo_num_free(&s->fifo)) {
+         int len =3D q->len - (q->addr & (q->len - 1));
+=20
+-        dma_memory_read(&address_space_memory, q->addr, buf, len);
++        dma_memory_read(&s->mem_as, q->addr, buf, len);
+         trace_pl330_exec_cycle(q->addr, len);
+         if (trace_event_get_state_backends(TRACE_PL330_HEXDUMP)) {
+             pl330_hexdump(buf, len);
+@@ -1217,7 +1220,7 @@ static int pl330_exec_cycle(PL330Chan *channel)
+             fifo_res =3D pl330_fifo_get(&s->fifo, buf, len, q->tag);
+         }
+         if (fifo_res =3D=3D PL330_FIFO_OK || q->z) {
+-            dma_memory_write(&address_space_memory, q->addr, buf, len);
++            dma_memory_write(&s->mem_as, q->addr, buf, len);
+             trace_pl330_exec_cycle(q->addr, len);
+             if (trace_event_get_state_backends(TRACE_PL330_HEXDUMP)) {
+                 pl330_hexdump(buf, len);
+@@ -1562,6 +1565,12 @@ static void pl330_realize(DeviceState *dev, Error **=
+errp)
+                           "dma", PL330_IOMEM_SIZE);
+     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
+=20
++    if (!s->mem_mr) {
++        error_setg(errp, "'memory' link is not set");
++        return;
++    }
++    address_space_init(&s->mem_as, s->mem_mr, "pl330");
++
+     s->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, pl330_exec_cycle_timer, =
+s);
+=20
+     s->cfg[0] =3D (s->mgr_ns_at_rst ? 0x4 : 0) |
+@@ -1656,6 +1665,9 @@ static Property pl330_properties[] =3D {
+     DEFINE_PROP_UINT8("rd_q_dep", PL330State, rd_q_dep, 16),
+     DEFINE_PROP_UINT16("data_buffer_dep", PL330State, data_buffer_dep, 256=
+),
+=20
++    DEFINE_PROP_LINK("memory", PL330State, mem_mr,
++                     TYPE_MEMORY_REGION, MemoryRegion *),
++
+     DEFINE_PROP_END_OF_LIST(),
+ };
+=20
+--=20
+2.7.4
 
