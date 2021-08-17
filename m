@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC3DA3EE50C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 05:27:14 +0200 (CEST)
-Received: from localhost ([::1]:56786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03F8B3EE51B
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 05:35:04 +0200 (CEST)
+Received: from localhost ([::1]:51508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFpkv-0002r5-L3
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 23:27:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48500)
+	id 1mFpsV-0001c8-3r
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 23:35:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1mFpiz-00089i-E7; Mon, 16 Aug 2021 23:25:13 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2205)
+ id 1mFpj1-0008Fx-Vi; Mon, 16 Aug 2021 23:25:15 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:3110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1mFpiw-0005gH-MA; Mon, 16 Aug 2021 23:25:13 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Gpbxg0V0mz85Mt;
- Tue, 17 Aug 2021 11:24:55 +0800 (CST)
+ id 1mFpix-0005h4-21; Mon, 16 Aug 2021 23:25:15 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Gpbs85Mr8z86XM;
+ Tue, 17 Aug 2021 11:21:00 +0800 (CST)
 Received: from dggpemm000001.china.huawei.com (7.185.36.245) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 17 Aug 2021 11:25:00 +0800
+ 15.1.2176.2; Tue, 17 Aug 2021 11:25:02 +0800
 Received: from huawei.com (10.174.186.236) by dggpemm000001.china.huawei.com
  (7.185.36.245) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Tue, 17 Aug
- 2021 11:24:59 +0800
+ 2021 11:25:01 +0800
 From: Yifei Jiang <jiangyifei@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
-Subject: [PATCH RFC v6 01/12] linux-header: Update linux/kvm.h
-Date: Tue, 17 Aug 2021 11:24:36 +0800
-Message-ID: <20210817032447.2055-2-jiangyifei@huawei.com>
+Subject: [PATCH RFC v6 02/12] target/riscv: Add target/riscv/kvm.c to place
+ the public kvm interface
+Date: Tue, 17 Aug 2021 11:24:37 +0800
+Message-ID: <20210817032447.2055-3-jiangyifei@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
 In-Reply-To: <20210817032447.2055-1-jiangyifei@huawei.com>
 References: <20210817032447.2055-1-jiangyifei@huawei.com>
@@ -43,8 +44,8 @@ X-Originating-IP: [10.174.186.236]
 X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
  dggpemm000001.china.huawei.com (7.185.36.245)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=jiangyifei@huawei.com; helo=szxga03-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=jiangyifei@huawei.com; helo=szxga02-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -65,49 +66,190 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: bin.meng@windriver.com, limingwang@huawei.com, kvm@vger.kernel.org,
  libvir-list@redhat.com, anup.patel@wdc.com,
- Yifei Jiang <jiangyifei@huawei.com>, Alistair.Francis@wdc.com,
- kvm-riscv@lists.infradead.org, wanghaibin.wang@huawei.com, palmer@dabbelt.com,
- fanliang@huawei.com, wu.wubin@huawei.com
+ Yifei Jiang <jiangyifei@huawei.com>,
+ Alistair Francis <alistair.francis@wdc.com>, kvm-riscv@lists.infradead.org,
+ wanghaibin.wang@huawei.com, palmer@dabbelt.com, fanliang@huawei.com,
+ wu.wubin@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update linux-headers/linux/kvm.h from
-https://github.com/avpatel/linux/tree/riscv_kvm_v19.
-Only use this header file, so here do not update all linux headers by
-update-linux-headers.sh until above KVM series is accepted.
+Add target/riscv/kvm.c to place kvm_arch_* function needed by
+kvm/kvm-all.c. Meanwhile, add kvm support in meson.build file.
 
 Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
 Signed-off-by: Mingwang Li <limingwang@huawei.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- linux-headers/linux/kvm.h | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ meson.build              |   2 +
+ target/riscv/kvm.c       | 133 +++++++++++++++++++++++++++++++++++++++
+ target/riscv/meson.build |   1 +
+ 3 files changed, 136 insertions(+)
+ create mode 100644 target/riscv/kvm.c
 
-diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
-index bcaf66cc4d..5e290c3c3e 100644
---- a/linux-headers/linux/kvm.h
-+++ b/linux-headers/linux/kvm.h
-@@ -269,6 +269,7 @@ struct kvm_xen_exit {
- #define KVM_EXIT_AP_RESET_HOLD    32
- #define KVM_EXIT_X86_BUS_LOCK     33
- #define KVM_EXIT_XEN              34
-+#define KVM_EXIT_RISCV_SBI        35
+diff --git a/meson.build b/meson.build
+index f2e148eaf9..8ad009ceb6 100644
+--- a/meson.build
++++ b/meson.build
+@@ -72,6 +72,8 @@ elif cpu in ['ppc', 'ppc64']
+   kvm_targets = ['ppc-softmmu', 'ppc64-softmmu']
+ elif cpu in ['mips', 'mips64']
+   kvm_targets = ['mips-softmmu', 'mipsel-softmmu', 'mips64-softmmu', 'mips64el-softmmu']
++elif cpu in ['riscv32', 'riscv64']
++  kvm_targets = ['riscv32-softmmu', 'riscv64-softmmu']
+ else
+   kvm_targets = []
+ endif
+diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
+new file mode 100644
+index 0000000000..687dd4b621
+--- /dev/null
++++ b/target/riscv/kvm.c
+@@ -0,0 +1,133 @@
++/*
++ * RISC-V implementation of KVM hooks
++ *
++ * Copyright (c) 2020 Huawei Technologies Co., Ltd
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2 or later, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ *
++ * You should have received a copy of the GNU General Public License along with
++ * this program.  If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include <sys/ioctl.h>
++
++#include <linux/kvm.h>
++
++#include "qemu-common.h"
++#include "qemu/timer.h"
++#include "qemu/error-report.h"
++#include "qemu/main-loop.h"
++#include "sysemu/sysemu.h"
++#include "sysemu/kvm.h"
++#include "sysemu/kvm_int.h"
++#include "cpu.h"
++#include "trace.h"
++#include "hw/pci/pci.h"
++#include "exec/memattrs.h"
++#include "exec/address-spaces.h"
++#include "hw/boards.h"
++#include "hw/irq.h"
++#include "qemu/log.h"
++#include "hw/loader.h"
++
++const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
++    KVM_CAP_LAST_INFO
++};
++
++int kvm_arch_get_registers(CPUState *cs)
++{
++    return 0;
++}
++
++int kvm_arch_put_registers(CPUState *cs, int level)
++{
++    return 0;
++}
++
++int kvm_arch_release_virq_post(int virq)
++{
++    return 0;
++}
++
++int kvm_arch_fixup_msi_route(struct kvm_irq_routing_entry *route,
++                             uint64_t address, uint32_t data, PCIDevice *dev)
++{
++    return 0;
++}
++
++int kvm_arch_destroy_vcpu(CPUState *cs)
++{
++    return 0;
++}
++
++unsigned long kvm_arch_vcpu_id(CPUState *cpu)
++{
++    return cpu->cpu_index;
++}
++
++void kvm_arch_init_irq_routing(KVMState *s)
++{
++}
++
++int kvm_arch_init_vcpu(CPUState *cs)
++{
++    return 0;
++}
++
++int kvm_arch_msi_data_to_gsi(uint32_t data)
++{
++    abort();
++}
++
++int kvm_arch_add_msi_route_post(struct kvm_irq_routing_entry *route,
++                                int vector, PCIDevice *dev)
++{
++    return 0;
++}
++
++int kvm_arch_init(MachineState *ms, KVMState *s)
++{
++    return 0;
++}
++
++int kvm_arch_irqchip_create(KVMState *s)
++{
++    return 0;
++}
++
++int kvm_arch_process_async_events(CPUState *cs)
++{
++    return 0;
++}
++
++void kvm_arch_pre_run(CPUState *cs, struct kvm_run *run)
++{
++}
++
++MemTxAttrs kvm_arch_post_run(CPUState *cs, struct kvm_run *run)
++{
++    return MEMTXATTRS_UNSPECIFIED;
++}
++
++bool kvm_arch_stop_on_emulation_error(CPUState *cs)
++{
++    return true;
++}
++
++int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
++{
++    return 0;
++}
++
++bool kvm_arch_cpu_check_are_resettable(void)
++{
++    return true;
++}
+diff --git a/target/riscv/meson.build b/target/riscv/meson.build
+index d5e0bc93ea..2faf08a941 100644
+--- a/target/riscv/meson.build
++++ b/target/riscv/meson.build
+@@ -19,6 +19,7 @@ riscv_ss.add(files(
+   'bitmanip_helper.c',
+   'translate.c',
+ ))
++riscv_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'))
  
- /* For KVM_EXIT_INTERNAL_ERROR */
- /* Emulate instruction failed. */
-@@ -469,6 +470,13 @@ struct kvm_run {
- 		} msr;
- 		/* KVM_EXIT_XEN */
- 		struct kvm_xen_exit xen;
-+		/* KVM_EXIT_RISCV_SBI */
-+		struct {
-+			unsigned long extension_id;
-+			unsigned long function_id;
-+			unsigned long args[6];
-+			unsigned long ret[2];
-+		} riscv_sbi;
- 		/* Fix the size of the union. */
- 		char padding[256];
- 	};
+ riscv_softmmu_ss = ss.source_set()
+ riscv_softmmu_ss.add(files(
 -- 
 2.19.1
 
