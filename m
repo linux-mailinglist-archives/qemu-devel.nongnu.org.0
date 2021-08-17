@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BC3C3EF4F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 23:28:42 +0200 (CEST)
-Received: from localhost ([::1]:48452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8455B3EF550
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 23:56:11 +0200 (CEST)
+Received: from localhost ([::1]:49008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mG6dU-0000Kp-RD
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 17:28:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43898)
+	id 1mG745-0004Rb-Td
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 17:56:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mG6Tq-0002C8-GS
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 17:18:42 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:43569)
+ (Exim 4.90_1) (envelope-from <srutherford@google.com>)
+ id 1mG72p-0003l3-Ue
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 17:54:51 -0400
+Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:35824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mG6To-0001MT-4Z
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 17:18:42 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id e19so493281pla.10
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 14:18:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=SOPcIuQo0a4qjQdt5bc9IRgsw+0G94KLNOuuDw5SFiI=;
- b=HESksRnigr6oL65da2sHi3MARt+GPeB3AFsJgGd0GVW9VT2FLa3oNDnNcruv/B5YBt
- aUYUsE5o8UumCrzNxynV2QmwxRRoAOa+aKfVYvrVvTfYDHV44KEkJEVMJI6AuGRN2qB+
- fcwh/dcyym78T9/Snc+8Q8ROtCqmw+MrnN2Zg63GebAspRyyjlx/YwmbKZALvMj/ebBK
- Lhqe2YwRXZC5G9Vy3ZBTQr3Frhagh/rQFq5nON3OiwF06dLDYLJ3L9NPX/o4A88/OLIw
- //CjnrUyWb51ImiHK/dWoDXDgC2f6Gxh7kiheRvuMb+O8wYYAin78kRQNWgceVW3O+k8
- Hzxw==
+ (Exim 4.90_1) (envelope-from <srutherford@google.com>)
+ id 1mG72o-0000hW-5f
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 17:54:51 -0400
+Received: by mail-il1-x130.google.com with SMTP id h29so73345ila.2
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 14:54:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6hDhPksNxyR4TcPdTSzYAamiTSiyDlI9TxfOng/Fc6A=;
+ b=I/30yJpCzozkdrYlUv3IltB0unFSuxTmp9pBOvZekLWYygJEwBi8l84vfYI4Sj4E6+
+ jlLIRwTNXyJMb5hXdAig9QX3QBraYEhqhAFaCv8Gg8XTrbB2zKY4ckVR0JwrwViQly0O
+ m+RNE4/u+WJxQp71/OrtkW8twRgrR1RiOhix2CTOv4VgOI6BBWDYPAoXrELdcmGEULND
+ JiNbTKwUWF8NuuRJ8gS3xSWr43Kjp8dkEUSJPanGjGhCJ8ys8nAcGocSOGf09BYgycDO
+ cZlTOvv6A7jU3aVizCNfauwloxVJZvRRc84TrLtNIotIGmjNRlTcbk09W8FLDCnfQVlR
+ dNNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=SOPcIuQo0a4qjQdt5bc9IRgsw+0G94KLNOuuDw5SFiI=;
- b=jvhoMvQZ9eI9vwxBqgRr9tnbdSZ93ZMf5MROfJ/mJGZhMi86X2xLPF4HhGDaTKazwn
- e3odWg+MeuTKpMwqA+yijPSn0WZfhAtLc/iQQwbLC4Vg95ZBRjd8EviZ3vYElaw1WKrJ
- ECmDVLafmxgSM8WuCH21wbkNWprqSDzNDEbhbyumRJKIJkiFlbzcRgdKZFk4It8Tb2D+
- h9bBzZrnKhPGssM620j17ahlM5/tGtcpQh1aYMKfG6avlis8tcBmiPmc+JCoX2yyZ37R
- ghWl1yWMErHOuDMnMpNBnA5vnzmRhB5Gwzsh665hejh/dBhrQgy15jhx6hKQZiPv7Ku4
- fMmg==
-X-Gm-Message-State: AOAM5300+SjNNupD2yCSstUwoFTuidywEeiowIVxJJPZspnCG3QkZTYu
- NuYBHwB2DLXDO1bQZ89TZbGQom2XEcPTRQ==
-X-Google-Smtp-Source: ABdhPJwYgcqFo6O1zMuzmkmoBt4QeOSCvhfyj41Vsh0msGt+M95qNRIwN9XZTx+ruSthBjmgls7pyg==
-X-Received: by 2002:a17:90a:9289:: with SMTP id
- n9mr2247566pjo.27.1629235118765; 
- Tue, 17 Aug 2021 14:18:38 -0700 (PDT)
-Received: from localhost.localdomain ([173.197.107.15])
- by smtp.gmail.com with ESMTPSA id q1sm2978637pjl.44.2021.08.17.14.18.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Aug 2021 14:18:38 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 21/21] target/riscv: Use {get,dest}_gpr for RVV
-Date: Tue, 17 Aug 2021 11:18:03 -1000
-Message-Id: <20210817211803.283639-22-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210817211803.283639-1-richard.henderson@linaro.org>
-References: <20210817211803.283639-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6hDhPksNxyR4TcPdTSzYAamiTSiyDlI9TxfOng/Fc6A=;
+ b=pDuc1GiH/R4H8TtZc0D6ytvCzzAVYHa9+c+2a5X8CmmH4rpidxvx9NiCNgx6GeH1sw
+ EJ7/1YuxtwOTgEMygwNa67ORNkv3DllHidlGpF6vbGCZwGC5AyOxPAiVlIRIENUJsuyd
+ 6WTXe3Jhr98yWOjmtC2rN2LOQB4iATIj5WumVVak71Sj6wdH/+aZ79vebmyCyyJmT4Dg
+ mF9tR4laQTwSVKi+ux/n8xrNZK4g+7oT+t9kF3GwBB0z/XRXrjW+Ijo7hFXA0d8vEeNd
+ Pt95+1NqDfbwLLGWcRUeB7USvIElrizZK/84/fColrp2GAx93lwWrFFUL/sVF0cihz1c
+ Yi4A==
+X-Gm-Message-State: AOAM532MjxIWuDKn/atQ4zKu4eznc/+neuoa7wEFwAX0Z7uKUKbpbnPW
+ 8FQyJlL5WY4TQsc8/UZjF82zFDWJthmYYZ9NXDD+Uw==
+X-Google-Smtp-Source: ABdhPJwHOvXMyv6GRsxj3q3yeK+mab9ypJGKr5LiN8i8B2n95hYEaeBdjtkyPw5waFYCTiZ0LCTWJmJW5W2OAMWJ9a4=
+X-Received: by 2002:a92:6a0d:: with SMTP id f13mr4102979ilc.212.1629237288724; 
+ Tue, 17 Aug 2021 14:54:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <cover.1629118207.git.ashish.kalra@amd.com>
+ <CABayD+fyrcyPGg5TdXLr95AFkPFY+EeeNvY=NvQw_j3_igOd6Q@mail.gmail.com>
+ <0fcfafde-a690-f53a-01fc-542054948bb2@redhat.com>
+In-Reply-To: <0fcfafde-a690-f53a-01fc-542054948bb2@redhat.com>
+From: Steve Rutherford <srutherford@google.com>
+Date: Tue, 17 Aug 2021 14:54:12 -0700
+Message-ID: <CABayD+d4dHBMbshx_gMUxaHkJZENYYRMrzatDtS-a1awGQKv2A@mail.gmail.com>
+Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Ashish Kalra <Ashish.Kalra@amd.com>, qemu-devel@nongnu.org,
+ thomas.lendacky@amd.com, 
+ brijesh.singh@amd.com, ehabkost@redhat.com, mst@redhat.com, 
+ richard.henderson@linaro.org, jejb@linux.ibm.com, tobin@ibm.com, 
+ dovmurik@linux.vnet.ibm.com, frankeh@us.ibm.com, dgilbert@redhat.com, 
+ kvm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
+ envelope-from=srutherford@google.com; helo=mail-il1-x130.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,349 +85,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair.Francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org,
- zhiwei_liu@c-sky.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove gen_get_gpr, as the function becomes unused.
+On Tue, Aug 17, 2021 at 9:32 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 17/08/21 01:53, Steve Rutherford wrote:
+> > Separately, I'm a little weary of leaving the migration helper mapped
+> > into the shared address space as writable.
+>
+> A related question here is what the API should be for how the migration
+> helper sees the memory in both physical and virtual address.
+>
+> First of all, I would like the addresses passed to and from the
+> migration helper to *not* be guest physical addresses (this is what I
+> referred to as QEMU's ram_addr_t in other messages).  The reason is that
+> some unmapped memory regions, such as virtio-mem hotplugged memory,
+> would still have to be transferred and could be encrypted.  While the
+> guest->host hypercall interface uses guest physical addresses to
+> communicate which pages are encrypted, the host can do the
+> GPA->ram_addr_t conversion and remember the encryption status of
+> currently-unmapped regions.
+>
+> This poses a problem, in that the guest needs to prepare the page tables
+> for the migration helper and those need to use the migration helper's
+> physical address space.
+>
+> There's three possibilities for this:
+>
+> 1) the easy one: the bottom 4G of guest memory are mapped in the mirror
+> VM 1:1.  The ram_addr_t-based addresses are shifted by either 4G or a
+> huge value such as 2^42 (MAXPHYADDR - physical address reduction - 1).
+> This even lets the migration helper reuse the OVMF runtime services
+> memory map (but be careful about thread safety...).
+If I understand what you are proposing, this would only work for
+SEV/SEV-ES, since the RMP prevents these remapping games. This makes
+me less enthusiastic about this (but I suspect that's why you call
+this less future proof).
+>
+> 2) the more future-proof one.  Here, the migration helper tells QEMU
+> which area to copy from the guest to the mirror VM, as a (main GPA,
+> length, mirror GPA) tuple.  This could happen for example the first time
+> the guest writes 1 to MSR_KVM_MIGRATION_CONTROL.  When migration starts,
+> QEMU uses this information to issue KVM_SET_USER_MEMORY_REGION
+> accordingly.  The page tables are built for this (usually very high)
+> mirror GPA and the migration helper operates in a completely separate
+> address space.  However, the backing memory would still be shared
+> between the main and mirror VMs.  I am saying this is more future proof
+> because we have more flexibility in setting up the physical address
+> space of the mirror VM.
+>
+> 3) the paranoid one, which I think is what you hint at above: this is an
+> extension of (2), where userspace invokes the PSP send/receive API to
+> copy the small requested area of the main VM into the mirror VM.  The
+> mirror VM code and data are completely separate from the main VM.  All
+> that the mirror VM shares is the ram_addr_t data.  Though I am not even
+> sure it is possible to use the send/receive API this way...
+Moreso what I was hinting at was treating the MH's code and data as
+firmware is treated, i.e. initialize it via LAUNCH_UPDATE_DATA.
+Getting the guest to trust host supplied code (i.e. firmware) needs to
+happen regardless.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/translate.c                | 13 ++---
- target/riscv/insn_trans/trans_rvv.c.inc | 74 +++++++------------------
- 2 files changed, 26 insertions(+), 61 deletions(-)
+>
+> What do you think?
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 75e83fb41f..056d474faa 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -231,11 +231,6 @@ static TCGv get_gpr(DisasContext *ctx, int reg_num, DisasExtend ext)
-     g_assert_not_reached();
- }
- 
--static void gen_get_gpr(DisasContext *ctx, TCGv t, int reg_num)
--{
--    tcg_gen_mov_tl(t, get_gpr(ctx, reg_num, EXT_NONE));
--}
--
- static TCGv dest_gpr(DisasContext *ctx, int reg_num)
- {
-     if (reg_num == 0 || ctx->w) {
-@@ -634,9 +629,11 @@ void riscv_translate_init(void)
- {
-     int i;
- 
--    /* cpu_gpr[0] is a placeholder for the zero register. Do not use it. */
--    /* Use the gen_set_gpr and gen_get_gpr helper functions when accessing */
--    /* registers, unless you specifically block reads/writes to reg 0 */
-+    /*
-+     * cpu_gpr[0] is a placeholder for the zero register. Do not use it.
-+     * Use the gen_set_gpr and get_gpr helper functions when accessing regs,
-+     * unless you specifically block reads/writes to reg 0.
-+     */
-     cpu_gpr[0] = NULL;
- 
-     for (i = 1; i < 32; i++) {
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index de580c493c..fa451938f1 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -27,27 +27,22 @@ static bool trans_vsetvl(DisasContext *ctx, arg_vsetvl *a)
-         return false;
-     }
- 
--    s2 = tcg_temp_new();
--    dst = tcg_temp_new();
-+    s2 = get_gpr(ctx, a->rs2, EXT_ZERO);
-+    dst = dest_gpr(ctx, a->rd);
- 
-     /* Using x0 as the rs1 register specifier, encodes an infinite AVL */
-     if (a->rs1 == 0) {
-         /* As the mask is at least one bit, RV_VLEN_MAX is >= VLMAX */
-         s1 = tcg_constant_tl(RV_VLEN_MAX);
-     } else {
--        s1 = tcg_temp_new();
--        gen_get_gpr(ctx, s1, a->rs1);
-+        s1 = get_gpr(ctx, a->rs1, EXT_ZERO);
-     }
--    gen_get_gpr(ctx, s2, a->rs2);
-     gen_helper_vsetvl(dst, cpu_env, s1, s2);
-     gen_set_gpr(ctx, a->rd, dst);
-+
-     tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
-     lookup_and_goto_ptr(ctx);
-     ctx->base.is_jmp = DISAS_NORETURN;
--
--    tcg_temp_free(s1);
--    tcg_temp_free(s2);
--    tcg_temp_free(dst);
-     return true;
- }
- 
-@@ -60,23 +55,20 @@ static bool trans_vsetvli(DisasContext *ctx, arg_vsetvli *a)
-     }
- 
-     s2 = tcg_constant_tl(a->zimm);
--    dst = tcg_temp_new();
-+    dst = dest_gpr(ctx, a->rd);
- 
-     /* Using x0 as the rs1 register specifier, encodes an infinite AVL */
-     if (a->rs1 == 0) {
-         /* As the mask is at least one bit, RV_VLEN_MAX is >= VLMAX */
-         s1 = tcg_constant_tl(RV_VLEN_MAX);
-     } else {
--        s1 = tcg_temp_new();
--        gen_get_gpr(ctx, s1, a->rs1);
-+        s1 = get_gpr(ctx, a->rs1, EXT_ZERO);
-     }
-     gen_helper_vsetvl(dst, cpu_env, s1, s2);
-     gen_set_gpr(ctx, a->rd, dst);
-+
-     gen_goto_tb(ctx, 0, ctx->pc_succ_insn);
-     ctx->base.is_jmp = DISAS_NORETURN;
--
--    tcg_temp_free(s1);
--    tcg_temp_free(dst);
-     return true;
- }
- 
-@@ -173,7 +165,7 @@ static bool ldst_us_trans(uint32_t vd, uint32_t rs1, uint32_t data,
- 
-     dest = tcg_temp_new_ptr();
-     mask = tcg_temp_new_ptr();
--    base = tcg_temp_new();
-+    base = get_gpr(s, rs1, EXT_NONE);
- 
-     /*
-      * As simd_desc supports at most 256 bytes, and in this implementation,
-@@ -184,7 +176,6 @@ static bool ldst_us_trans(uint32_t vd, uint32_t rs1, uint32_t data,
-      */
-     desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
- 
--    gen_get_gpr(s, base, rs1);
-     tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
-     tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
- 
-@@ -192,7 +183,6 @@ static bool ldst_us_trans(uint32_t vd, uint32_t rs1, uint32_t data,
- 
-     tcg_temp_free_ptr(dest);
-     tcg_temp_free_ptr(mask);
--    tcg_temp_free(base);
-     gen_set_label(over);
-     return true;
- }
-@@ -330,12 +320,10 @@ static bool ldst_stride_trans(uint32_t vd, uint32_t rs1, uint32_t rs2,
- 
-     dest = tcg_temp_new_ptr();
-     mask = tcg_temp_new_ptr();
--    base = tcg_temp_new();
--    stride = tcg_temp_new();
-+    base = get_gpr(s, rs1, EXT_NONE);
-+    stride = get_gpr(s, rs2, EXT_NONE);
-     desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
- 
--    gen_get_gpr(s, base, rs1);
--    gen_get_gpr(s, stride, rs2);
-     tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
-     tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
- 
-@@ -343,8 +331,6 @@ static bool ldst_stride_trans(uint32_t vd, uint32_t rs1, uint32_t rs2,
- 
-     tcg_temp_free_ptr(dest);
-     tcg_temp_free_ptr(mask);
--    tcg_temp_free(base);
--    tcg_temp_free(stride);
-     gen_set_label(over);
-     return true;
- }
-@@ -458,10 +444,9 @@ static bool ldst_index_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
-     dest = tcg_temp_new_ptr();
-     mask = tcg_temp_new_ptr();
-     index = tcg_temp_new_ptr();
--    base = tcg_temp_new();
-+    base = get_gpr(s, rs1, EXT_NONE);
-     desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
- 
--    gen_get_gpr(s, base, rs1);
-     tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
-     tcg_gen_addi_ptr(index, cpu_env, vreg_ofs(s, vs2));
-     tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
-@@ -471,7 +456,6 @@ static bool ldst_index_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
-     tcg_temp_free_ptr(dest);
-     tcg_temp_free_ptr(mask);
-     tcg_temp_free_ptr(index);
--    tcg_temp_free(base);
-     gen_set_label(over);
-     return true;
- }
-@@ -589,10 +573,9 @@ static bool ldff_trans(uint32_t vd, uint32_t rs1, uint32_t data,
- 
-     dest = tcg_temp_new_ptr();
-     mask = tcg_temp_new_ptr();
--    base = tcg_temp_new();
-+    base = get_gpr(s, rs1, EXT_NONE);
-     desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
- 
--    gen_get_gpr(s, base, rs1);
-     tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
-     tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
- 
-@@ -600,7 +583,6 @@ static bool ldff_trans(uint32_t vd, uint32_t rs1, uint32_t data,
- 
-     tcg_temp_free_ptr(dest);
-     tcg_temp_free_ptr(mask);
--    tcg_temp_free(base);
-     gen_set_label(over);
-     return true;
- }
-@@ -665,10 +647,9 @@ static bool amo_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
-     dest = tcg_temp_new_ptr();
-     mask = tcg_temp_new_ptr();
-     index = tcg_temp_new_ptr();
--    base = tcg_temp_new();
-+    base = get_gpr(s, rs1, EXT_NONE);
-     desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
- 
--    gen_get_gpr(s, base, rs1);
-     tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
-     tcg_gen_addi_ptr(index, cpu_env, vreg_ofs(s, vs2));
-     tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
-@@ -678,7 +659,6 @@ static bool amo_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
-     tcg_temp_free_ptr(dest);
-     tcg_temp_free_ptr(mask);
-     tcg_temp_free_ptr(index);
--    tcg_temp_free(base);
-     gen_set_label(over);
-     return true;
- }
-@@ -862,8 +842,7 @@ static bool opivx_trans(uint32_t vd, uint32_t rs1, uint32_t vs2, uint32_t vm,
-     dest = tcg_temp_new_ptr();
-     mask = tcg_temp_new_ptr();
-     src2 = tcg_temp_new_ptr();
--    src1 = tcg_temp_new();
--    gen_get_gpr(s, src1, rs1);
-+    src1 = get_gpr(s, rs1, EXT_NONE);
- 
-     data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-     data = FIELD_DP32(data, VDATA, VM, vm);
-@@ -879,7 +858,6 @@ static bool opivx_trans(uint32_t vd, uint32_t rs1, uint32_t vs2, uint32_t vm,
-     tcg_temp_free_ptr(dest);
-     tcg_temp_free_ptr(mask);
-     tcg_temp_free_ptr(src2);
--    tcg_temp_free(src1);
-     gen_set_label(over);
-     return true;
- }
-@@ -905,15 +883,12 @@ do_opivx_gvec(DisasContext *s, arg_rmrr *a, GVecGen2sFn *gvec_fn,
- 
-     if (a->vm && s->vl_eq_vlmax) {
-         TCGv_i64 src1 = tcg_temp_new_i64();
--        TCGv tmp = tcg_temp_new();
- 
--        gen_get_gpr(s, tmp, a->rs1);
--        tcg_gen_ext_tl_i64(src1, tmp);
-+        tcg_gen_ext_tl_i64(src1, get_gpr(s, a->rs1, EXT_SIGN));
-         gvec_fn(s->sew, vreg_ofs(s, a->rd), vreg_ofs(s, a->rs2),
-                 src1, MAXSZ(s), MAXSZ(s));
- 
-         tcg_temp_free_i64(src1);
--        tcg_temp_free(tmp);
-         return true;
-     }
-     return opivx_trans(a->rd, a->rs1, a->rs2, a->vm, fn, s);
-@@ -1398,16 +1373,13 @@ do_opivx_gvec_shift(DisasContext *s, arg_rmrr *a, GVecGen2sFn32 *gvec_fn,
- 
-     if (a->vm && s->vl_eq_vlmax) {
-         TCGv_i32 src1 = tcg_temp_new_i32();
--        TCGv tmp = tcg_temp_new();
- 
--        gen_get_gpr(s, tmp, a->rs1);
--        tcg_gen_trunc_tl_i32(src1, tmp);
-+        tcg_gen_trunc_tl_i32(src1, get_gpr(s, a->rs1, EXT_NONE));
-         tcg_gen_extract_i32(src1, src1, 0, s->sew + 3);
-         gvec_fn(s->sew, vreg_ofs(s, a->rd), vreg_ofs(s, a->rs2),
-                 src1, MAXSZ(s), MAXSZ(s));
- 
-         tcg_temp_free_i32(src1);
--        tcg_temp_free(tmp);
-         return true;
-     }
-     return opivx_trans(a->rd, a->rs1, a->rs2, a->vm, fn, s);
-@@ -1665,8 +1637,7 @@ static bool trans_vmv_v_x(DisasContext *s, arg_vmv_v_x *a)
-         TCGLabel *over = gen_new_label();
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
- 
--        s1 = tcg_temp_new();
--        gen_get_gpr(s, s1, a->rs1);
-+        s1 = get_gpr(s, a->rs1, EXT_SIGN);
- 
-         if (s->vl_eq_vlmax) {
-             tcg_gen_gvec_dup_tl(s->sew, vreg_ofs(s, a->rd),
-@@ -1690,7 +1661,6 @@ static bool trans_vmv_v_x(DisasContext *s, arg_vmv_v_x *a)
-             tcg_temp_free_i64(s1_i64);
-         }
- 
--        tcg_temp_free(s1);
-         gen_set_label(over);
-         return true;
-     }
-@@ -2412,7 +2382,7 @@ static bool trans_vmpopc_m(DisasContext *s, arg_rmr *a)
- 
-         mask = tcg_temp_new_ptr();
-         src2 = tcg_temp_new_ptr();
--        dst = tcg_temp_new();
-+        dst = dest_gpr(s, a->rd);
-         desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
- 
-         tcg_gen_addi_ptr(src2, cpu_env, vreg_ofs(s, a->rs2));
-@@ -2423,7 +2393,6 @@ static bool trans_vmpopc_m(DisasContext *s, arg_rmr *a)
- 
-         tcg_temp_free_ptr(mask);
-         tcg_temp_free_ptr(src2);
--        tcg_temp_free(dst);
-         return true;
-     }
-     return false;
-@@ -2443,7 +2412,7 @@ static bool trans_vmfirst_m(DisasContext *s, arg_rmr *a)
- 
-         mask = tcg_temp_new_ptr();
-         src2 = tcg_temp_new_ptr();
--        dst = tcg_temp_new();
-+        dst = dest_gpr(s, a->rd);
-         desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
- 
-         tcg_gen_addi_ptr(src2, cpu_env, vreg_ofs(s, a->rs2));
-@@ -2454,7 +2423,6 @@ static bool trans_vmfirst_m(DisasContext *s, arg_rmr *a)
- 
-         tcg_temp_free_ptr(mask);
-         tcg_temp_free_ptr(src2);
--        tcg_temp_free(dst);
-         return true;
-     }
-     return false;
-@@ -2638,7 +2606,7 @@ static void vec_element_loadi(DisasContext *s, TCGv_i64 dest,
- static bool trans_vext_x_v(DisasContext *s, arg_r *a)
- {
-     TCGv_i64 tmp = tcg_temp_new_i64();
--    TCGv dest = tcg_temp_new();
-+    TCGv dest = dest_gpr(s, a->rd);
- 
-     if (a->rs1 == 0) {
-         /* Special case vmv.x.s rd, vs2. */
-@@ -2648,10 +2616,10 @@ static bool trans_vext_x_v(DisasContext *s, arg_r *a)
-         int vlmax = s->vlen >> (3 + s->sew);
-         vec_element_loadx(s, tmp, a->rs2, cpu_gpr[a->rs1], vlmax);
-     }
-+
-     tcg_gen_trunc_i64_tl(dest, tmp);
-     gen_set_gpr(s, a->rd, dest);
- 
--    tcg_temp_free(dest);
-     tcg_temp_free_i64(tmp);
-     return true;
- }
--- 
-2.25.1
+My intuition for this leans more on the host, but matches some of the
+bits you've mentioned in (2)/(3). My intuition would be to put the
+migration helper incredibly high in gPA space, so that it does not
+collide with the rest of the guest (and can then stay in the same
+place for a fairly long period of time without needing to poke a hole
+in the guest). Then you can leave the ram_addr_t-based addresses
+mapped normally (without the offsetting). All this together allows the
+migration helper to be orthogonal to the normal guest and normal
+firmware.
 
+In this case, since the migration helper has a somewhat stable base
+address, you can have a prebaked entry point and page tables
+(determined at build time). The shared communication pages can come
+from neighboring high-memory. The migration helper can support a
+straightforward halt loop (or PIO loop, or whatever) where it reads
+from a predefined page to find what work needs to be done (perhaps
+with that page depending on which CPU it is, so you can support
+multithreading of the migration helper). Additionally, having it high
+in memory makes it quite easy to assess who owns which addresses: high
+mem is under the purview of the migration helper and does not need to
+be dirty tracked. Only "low" memory can and needs to be encrypted for
+transport to the target side.
+
+--Steve
+>
+> Paolo
+>
 
