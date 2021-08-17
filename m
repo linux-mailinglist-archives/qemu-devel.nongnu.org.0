@@ -2,67 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77AC23EF389
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 22:28:48 +0200 (CEST)
-Received: from localhost ([::1]:48124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3782D3EF38E
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 22:32:55 +0200 (CEST)
+Received: from localhost ([::1]:51112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mG5hX-0000xE-J9
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 16:28:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33032)
+	id 1mG5lW-0003Js-95
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 16:32:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mG5gS-00089R-Om
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 16:27:40 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:38416)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mG5kS-0002Gn-1H
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 16:31:51 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:39617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mG5gR-0007m3-4c
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 16:27:40 -0400
-Received: by mail-ej1-x635.google.com with SMTP id z20so102239ejf.5
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 13:27:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mG5kP-0002EU-Pw
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 16:31:47 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ u21-20020a17090a8915b02901782c36f543so7256262pjn.4
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 13:31:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DSMNVCgBSQr/zYMbuai5x9ZefYjxqBmZYkewd68wZT0=;
- b=zNefOs4jbDG/mq/juIEWVVbXcWAK/mQ1eziaQVIz9+sP0/yoO7WDWDu65vt7gKp2Hn
- DedfzUcNRGEo0Dy7sysKyX9LjgjEDB1/npYA5hx2yCmLZcJvkl6oKFHF3ipK2dBSBI6d
- I9xWOrGfCYw+NBQO7K4PaS6Kfy6nHCsVa4IK/UzaNg9hEe48m5YfIAUMpx22iXGVqovu
- weD1BqqclqvVjYeQALm3pqX3UTk1t6iRVX7Bq+c8GNJ/PIGSX7BXYv5srXVQRXkofYUP
- j4GdtlwWdt9VB/7KNG1KxFvQA0zA6A+xllANZPSMFh3xknL48klPSPc0aY7A5//4GYSP
- rmGg==
+ h=subject:to:references:from:message-id:date:user-agent:mime-version
+ :in-reply-to:content-language:content-transfer-encoding;
+ bh=W9wdJClR/7ZCULmGcfSTqMYVVSuIcOv66oLmSImGX94=;
+ b=dvcF9ic1NEs2n1E0Djhk6VtDydBo30DdMkqoAxLTaogiqa4vxJrupeXBHkqI+YHTYP
+ 1hbyp/khAznNzXz0C1Y50m+FVWd6UJhdWAJ9VQGIlrprSXLPIUBLoJwnazrdBPWy4Grk
+ cccJAmsFpCmxxWx6FUvRz9EkBGKoKkxHV1zRDlUwKmJUNgmwo1Xxg8xxutH5GBq84clg
+ pTnotlRRtxMHOXG9yw0A0ASua5vQiXrBcOwJAw5Q5OL+r4kZHn+VCnGgoyeHpU5/WQ8o
+ S5qCRdV1Vku0+O8xT1q75qXG0I6Es4miAQZu5vDaljNtXcMCGpy5ZXoUlLPPXa7WnpET
+ msVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DSMNVCgBSQr/zYMbuai5x9ZefYjxqBmZYkewd68wZT0=;
- b=U9qUhDVw49ovPuDucHpKEdkyJRIBE22hu+2IytNzq/YmaeXIf4AkZzEwbPnyCtczG3
- bLwF8X70e33J992kZ/zAKtxsKX1z5gU5IC5JU/KkHEslz7gkJLCJb3MXugOOS5YdrPVG
- I8Px1rHT8OSVuNyfZJ+Xl7x8+9w8ZDnqFzQBB4vFMhwLHQcsKLAGnyAG1AOLgrhZyUzU
- PUl3DKbstLSfUMwmNw+pFluDy4bfFi+0yGB2kOz1ljFsi+Ib6NwcvStZCk0EEh6B0hn/
- JCFJGnhvEq2BKukLuFsMgRpkre1PtijzhHMeRZ1b8x6S2INnX2Q+ysKldzWH7lqiC4rl
- 5E0Q==
-X-Gm-Message-State: AOAM531Y2t7ZHPCXxah45eySLb2Fe4/PCkgOrc1Fn7eh1f0/aKOaye1X
- l5zsXF+Ma/RizRTG28368K0zEC8d0QQPxxI9Vj6jXw==
-X-Google-Smtp-Source: ABdhPJx7QtN/DGhX8SVz1nrroGw3CkbaGgLIttpheq63kGN8SjsrM1Fc1sPKwHfdbT9RlvPHKBm3PHivVso1GZKwHYE=
-X-Received: by 2002:a17:907:1048:: with SMTP id
- oy8mr5715363ejb.382.1629232057350; 
- Tue, 17 Aug 2021 13:27:37 -0700 (PDT)
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=W9wdJClR/7ZCULmGcfSTqMYVVSuIcOv66oLmSImGX94=;
+ b=r+zkdVsNWcSIHCjk7jGLkn2Zjjku4rQeBppWcCjOzvAtOnWaLQKIUr3yhNWP3ag+As
+ jBK4VftsZKrXMGNsdkJU7DrBkuTa44stgQuAvMR4Lk2k1V4o3yAZyor8sQJ6Ow1+7pxj
+ bIMdAJ6lfbUunJY7fAiHfJZuLHqlrK4Cojqn0qSUbRgkKLwCGnaxb9OD6fSpfhtEEX5w
+ UgzbLvcHv10mQOuJvhDZTTIOp6bSTLuvq5XcKSPU1v8pfSuw34QmQhgUqZ+56lbs1LJP
+ F7eyjP1az/VRT9LDifSark/FE1IX692bPz//ynQ2LdxqWkAgTzX5rlkyGXb9ugn4lgSh
+ Yacw==
+X-Gm-Message-State: AOAM531nkFLRjXgymSpWV8vOh3E90cWlyTc9yyC5RyCDIXu9ZdNrFV8p
+ Tf4x51fIClxhD2HwAHen+QhXjfiqOBBaRA==
+X-Google-Smtp-Source: ABdhPJzHuiWlc2uAcN90GYeMwtfVi6eOrN4ri0nr+Fi3hadxxUeIm7kY/agT/qdXsjpBKZeQOr+Elw==
+X-Received: by 2002:a17:90a:c481:: with SMTP id
+ j1mr647214pjt.164.1629232303999; 
+ Tue, 17 Aug 2021 13:31:43 -0700 (PDT)
+Received: from [192.168.3.43] ([173.197.107.15])
+ by smtp.gmail.com with ESMTPSA id o14sm4073048pgl.85.2021.08.17.13.31.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Aug 2021 13:31:43 -0700 (PDT)
+Subject: Re: [PATCH] target/arm: Take an exception if PSTATE.IL is set
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210817162118.24319-1-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a59ce840-3694-0936-b67e-2187d367a90d@linaro.org>
+Date: Tue, 17 Aug 2021 10:31:40 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210817201843.3829-1-peter.maydell@linaro.org>
-In-Reply-To: <20210817201843.3829-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 17 Aug 2021 21:26:51 +0100
-Message-ID: <CAFEAcA_AXV5zvhWoyxmB03tN_UcTwJhp0V3rRD0Z7VcRMHM+KQ@mail.gmail.com>
-Subject: Re: [PATCH] target/arm: Do hflags rebuild in cpsr_write()
-To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20210817162118.24319-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.961,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,56 +89,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Aug 2021 at 21:18, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> Currently we rely on all the callsites of cpsr_write() to rebuild the
-> cached hflags if they change one of the CPSR bits which we use as a
-> TB flag and cache in hflags.  This is a bit awkward when we want to
-> change the set of CPSR bits that we cache, because it means we need
-> to re-audit all the cpsr_write() callsites to see which flags they
-> are writing and whether they now need to rebuild the hflags.
->
-> Switch instead to making cpsr_write() call arm_rebuild_hflags()
-> itself if one of the bits being changed is a cached bit.
->
-> We don't do the rebuild for the CPSRWriteRaw write type,
+On 8/17/21 6:21 AM, Peter Maydell wrote:
+> In v8A, the PSTATE.IL bit is set for various kinds of illegal
+> exception return or mode-change attempts.  We already set PSTATE.IL
+> (or its AArch32 equivalent CPSR.IL) in all those cases, but we
+> weren't implementing the part of the behaviour where attempting to
+> execute an instruction with PSTATE.IL takes an immediate exception
+> with an appropriate syndrome value.
+> 
+> Add a new TB flags bit tracking PSTATE.IL/CPSR.IL, and generate code
+> to take an exception instead of whatever the instruction would have
+> been.
+> 
+> PSTATE.IL and CPSR.IL change only on exception entry, attempted
+> exception exit, and various AArch32 mode changes via cpsr_write().
+> These places generally already rebuild the hflags, so the only place
+> we need an extra rebuild_hflags call is in the illegal-return
+> codepath of the AArch64 exception_return helper.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> Obviously correct guest code is never going to set PSTATE.IL, but
+> it's pretty confusing to debug bugs in guest OSes if we just plough
+> on executing code rather than taking the illegal-state exception.  We
+> had a user point this bug out to us earlier this year I think
+> (probably on IRC since I can't find anything about it in my email).
 
-Doh. I said this, but then...
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index 201ecf8c67f..cdd6e0858fc 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -9215,6 +9215,7 @@ void cpsr_write(CPUARMState *env, uint32_t val, uint32_t mask,
->                  CPSRWriteType write_type)
->  {
->      uint32_t changed_daif;
-> +    bool rebuild_hflags = mask & (CPSR_M | CPSR_E | CPSR_IL);
-
-...forgot to actually check the write type.
-
-Should be:
-
-    bool rebuild_hflags = (write_type != CPSRWriteRaw) &&
-        (mask & (CPSR_M | CPSR_E | CPSR_IL));
-
->      if (mask & CPSR_NZCV) {
->          env->ZF = (~val) & CPSR_Z;
-> @@ -9334,6 +9335,9 @@ void cpsr_write(CPUARMState *env, uint32_t val, uint32_t mask,
->      }
->      mask &= ~CACHED_CPSR_BITS;
->      env->uncached_cpsr = (env->uncached_cpsr & ~mask) | (val & mask);
-> +    if (rebuild_hflags) {
-> +        arm_rebuild_hflags(env);
+> +    if (s->pstate_il) {
+> +        /*
+> +         * Illegal execution state. This has priority over BTI
+> +         * exceptions, but comes after instruction abort exceptions.
+> +         */
+> +        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
+> +                           syn_illegalstate(), default_exception_el(s));
 > +    }
->  }
->
->  /* Sign/zero extend */
-> --
 
--- PMM
+Missing return after exception.
+
+> @@ -9045,6 +9045,15 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+>           return;
+>       }
+>   
+> +    if (s->pstate_il) {
+> +        /*
+> +         * Illegal execution state. This has priority over BTI
+> +         * exceptions, but comes after instruction abort exceptions.
+> +         */
+> +        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
+> +                           syn_illegalstate(), default_exception_el(s));
+> +    }
+...
+> @@ -9576,6 +9586,15 @@ static void thumb_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+>       }
+>       dc->insn = insn;
+>   
+> +    if (dc->pstate_il) {
+> +        /*
+> +         * Illegal execution state. This has priority over BTI
+> +         * exceptions, but comes after instruction abort exceptions.
+> +         */
+> +        gen_exception_insn(dc, dc->pc_curr, EXCP_UDEF,
+> +                           syn_illegalstate(), default_exception_el(dc));
+> +    }
+
+Likewise.
+
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
