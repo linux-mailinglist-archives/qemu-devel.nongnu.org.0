@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270683EE8F3
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 10:58:50 +0200 (CEST)
-Received: from localhost ([::1]:58380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B5273EE8F1
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 10:57:47 +0200 (CEST)
+Received: from localhost ([::1]:56202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFuvp-0001Mo-7n
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 04:58:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60080)
+	id 1mFuun-0008KY-LR
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 04:57:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1mFuv6-0000hG-7I
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 04:58:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46355)
+ id 1mFutt-0007fW-8E
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 04:56:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1mFuv4-0005j1-KK
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 04:58:03 -0400
+ id 1mFutr-0004WG-0d
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 04:56:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629190681;
+ s=mimecast20190719; t=1629190605;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Pi7VnpVH6EM8gDZHLmeZzVCrienYtGQFMeOTZtWZBOA=;
- b=Iz/n/HMMsga9hOQNjh4YSuYOauVWoz6nYlKQu7KCe0Ps4KnusgHA8ZYJU8L/Om4zD7ccvP
- ZGtmLDDrHFOT7JLD6jntEV54d0w8HTbTtnyaKsri34RAVFDMvITFHrJcxlkMV1/w7PhwNA
- e+NVQKc6jQUPNB0yZvZqHTBtxfJCinw=
+ bh=DgjxDJMOxuV2UwHTihO6jrDYgqC8gKTZqmwzvtgQ0QY=;
+ b=PKKrGvl/bv83NDnIbcE17C/ASLSd3GRAYhnvS+Cu5MbNPIj/VfBdu2UJjU/HC1m7sIhDUg
+ NuyczwQ6ntjY9A5Mval0PfO2d+CKCl4dYy1dvL6xxFKJbVhi4mj4PVvtTLGEXeyoacFrGy
+ 4Slcwn8vwSBMDsm6agVlRQ3db05hCZ4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-xqcvg14CPDmZ64DV7V0DZw-1; Tue, 17 Aug 2021 04:56:42 -0400
-X-MC-Unique: xqcvg14CPDmZ64DV7V0DZw-1
+ us-mta-27-ZiA_INReOteutBARQqN2bw-1; Tue, 17 Aug 2021 04:56:43 -0400
+X-MC-Unique: ZiA_INReOteutBARQqN2bw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE115100A5F3
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 08:56:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C015B802934
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 08:56:42 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.40.194.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 15B2C60C81;
- Tue, 17 Aug 2021 08:56:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 173D461095;
+ Tue, 17 Aug 2021 08:56:41 +0000 (UTC)
 From: Michal Privoznik <mprivozn@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] chardev: Propagate error from logfile opening
-Date: Tue, 17 Aug 2021 10:56:27 +0200
-Message-Id: <f34ee80866e6f591bcb98401dee27682f5543fca.1629190206.git.mprivozn@redhat.com>
+Subject: [PATCH 2/2] monitor: Report EBADFD if fdset contains invalid FD
+Date: Tue, 17 Aug 2021 10:56:28 +0200
+Message-Id: <c0fa7920817020ae2744313ab631e7d76f4c1898.1629190206.git.mprivozn@redhat.com>
 In-Reply-To: <cover.1629190206.git.mprivozn@redhat.com>
 References: <cover.1629190206.git.mprivozn@redhat.com>
 MIME-Version: 1.0
@@ -82,47 +82,43 @@ Cc: marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a chardev has a logfile the file is opened using
-qemu_open_old() which does the job, but since @errp is not
-propagated into qemu_open_internal() we lose much more accurate
-error and just report "Unable to open logfile $errno".  When
-using plain files, it's probably okay as nothing complex is
-happening behind the curtains. But the problem becomes more
-prominent when passing an "/dev/fdset/XXX" path since much more
-needs to be done.
+When opening a path that starts with "/dev/fdset/" the control
+jumps into qemu_parse_fdset() and then into
+monitor_fdset_dup_fd_add(). In here, corresponding fdset is found
+and then all FDs from the set are iterated over trying to find an
+FD that matches expected access mode. For instance, if caller
+wants O_WRONLY then the FD set has to contain an O_WRONLY FD.
 
-The fix is to use qemu_create() which passes @errp further down.
+If no such FD is found then errno is set to EACCES which results
+in very misleading error messages, for instance:
+
+  Could not dup FD for /dev/fdset/3 flags 441: Permission denied
+
+There is no permission issue, the problem is that there was no FD
+within given fdset that was in expected access mode. Therefore,
+let's set errno to EBADFD, which gives us somewhat better
+error messages:
+
+  Could not dup FD for /dev/fdset/3 flags 441: File descriptor in bad state
 
 Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
 ---
- chardev/char.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ monitor/misc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/chardev/char.c b/chardev/char.c
-index 4595a8d430..0169d8dde4 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -241,18 +241,15 @@ static void qemu_char_open(Chardev *chr, ChardevBackend *backend,
-     ChardevCommon *common = backend ? backend->u.null.data : NULL;
+diff --git a/monitor/misc.c b/monitor/misc.c
+index ffe7966870..a0eda0d574 100644
+--- a/monitor/misc.c
++++ b/monitor/misc.c
+@@ -1347,7 +1347,7 @@ int monitor_fdset_dup_fd_add(int64_t fdset_id, int flags)
+         }
  
-     if (common && common->has_logfile) {
--        int flags = O_WRONLY | O_CREAT;
-+        int flags = O_WRONLY;
-         if (common->has_logappend &&
-             common->logappend) {
-             flags |= O_APPEND;
-         } else {
-             flags |= O_TRUNC;
+         if (fd == -1) {
+-            errno = EACCES;
++            errno = EBADFD;
+             return -1;
          }
--        chr->logfd = qemu_open_old(common->logfile, flags, 0666);
-+        chr->logfd = qemu_create(common->logfile, flags, 0666, errp);
-         if (chr->logfd < 0) {
--            error_setg_errno(errp, errno,
--                             "Unable to open logfile %s",
--                             common->logfile);
-             return;
-         }
-     }
+ 
 -- 
 2.31.1
 
