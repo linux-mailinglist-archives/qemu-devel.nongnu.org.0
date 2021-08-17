@@ -2,93 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE0943EF03B
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 18:33:47 +0200 (CEST)
-Received: from localhost ([::1]:50526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE50D3EF12B
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 19:56:45 +0200 (CEST)
+Received: from localhost ([::1]:57498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mG227-0001ss-1L
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 12:33:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59106)
+	id 1mG3KO-0005pR-I5
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 13:56:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mG21C-0001Cf-IR
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 12:32:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27134)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1mG3J9-00050t-Sm
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 13:55:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47495)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mG21A-0002lJ-7m
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 12:32:49 -0400
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1mG3J3-0001oo-QW
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 13:55:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629217967;
+ s=mimecast20190719; t=1629222919;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AwlQ32nbtd+hjp/fxoi8kJbjSm7VsIyjZaetwBPpk0Y=;
- b=L3mX7e/3FQ07dNfGdveW1MZDCWWeirp0c+Fb/AQYWN8tPmgdjM8OG8dG7/0uJngS2rVe00
- G6KkwIX7ZDerI+ewqxDZ629rnF5AGue1UXBY5RHGNH7SbQB41Dzk9hcWXyz3pjlI4emwMJ
- CIRewr6yc+R1PTPSRlbKzYAvDjeQk+s=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-82-cA0rKgq3NbGIDcurDA9fKA-1; Tue, 17 Aug 2021 12:32:46 -0400
-X-MC-Unique: cA0rKgq3NbGIDcurDA9fKA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- p2-20020a05600c358200b002e6dc6adcecso1032547wmq.0
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 09:32:45 -0700 (PDT)
+ bh=zIJ/HquNchLUyoSnSOh4tftuS50Y4wA8Q3wmama86LU=;
+ b=HSjIN6mT6td0qQxiQI2K7b5tkP6marOqOjmsnDJpMO4mJ7DNA+Ix7JeQJP1YUsCLs8E78j
+ h84ebTDR3JY5UcREH8t+SIH7XF8tNxjqVLsNWMYVlNoEci3ooX1yqZbGd13dSx2D+qssxS
+ Nqa8VT+C/RmOs9+nPzyDmDwhuV+L8y0=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-249-yV-GSrHGOZ6vprefMdu53g-1; Tue, 17 Aug 2021 13:55:15 -0400
+X-MC-Unique: yV-GSrHGOZ6vprefMdu53g-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ x1-20020a05651c0241b02901b900da420dso21463ljn.15
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 10:55:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=AwlQ32nbtd+hjp/fxoi8kJbjSm7VsIyjZaetwBPpk0Y=;
- b=QsTwHzOgbhh31jv5OEIMzMH1CDHfEvBQWIhVg2zBhfzYxUovXpN+FLAEac+Tz3BcyS
- qWKq3LA+3tHJP1yzz9+bKIEZamcikvN5KyuxUCdi0beZ+DDNM9LAMqWqFiydom/paWeV
- VkKL5mk7/M7R0F1HGls4FgUnmZh9U9syxzBAY5N3LeHmyuPgbQP/+K/cZbmhA/9jcZaS
- ivV9DqkDoE1kQnc8YkkPlYHaN+DHPGizF5Zsr00EL4hfh7Cpk0GJwqnQHVbQxKGAxtmj
- xvE7hNunEhwFMvzaBGrQjlbwgJz5oEx23mqB78K933055pNgQcIk6R1hEizTbWJ/IoRW
- /7hA==
-X-Gm-Message-State: AOAM533THkDh0XLX1e5qSSlHf6f9gZ0/NGIxAh2afxip2Z9C6d9QnPDW
- NNieOVowlLAL84P5tQQuc2EFgL/JHfKyJHTEHsRpNcfrd7L/BhVfdygQdD6nWTVH3ywPekM8q17
- KH8tcc0+MlFiS0zQ=
-X-Received: by 2002:a5d:4c4e:: with SMTP id n14mr5179069wrt.226.1629217964771; 
- Tue, 17 Aug 2021 09:32:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwMJCcYPUHVU8yjKtJYrLiw+Md+qWmOarkciP0cgLNxW8rE93pg1Ebun+7oZFVWBLYOcwDKKA==
-X-Received: by 2002:a5d:4c4e:: with SMTP id n14mr5179029wrt.226.1629217964444; 
- Tue, 17 Aug 2021 09:32:44 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id o14sm2454877wms.2.2021.08.17.09.32.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Aug 2021 09:32:43 -0700 (PDT)
-Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
-To: Steve Rutherford <srutherford@google.com>,
- Ashish Kalra <Ashish.Kalra@amd.com>
-References: <cover.1629118207.git.ashish.kalra@amd.com>
- <CABayD+fyrcyPGg5TdXLr95AFkPFY+EeeNvY=NvQw_j3_igOd6Q@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <0fcfafde-a690-f53a-01fc-542054948bb2@redhat.com>
-Date: Tue, 17 Aug 2021 18:32:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zIJ/HquNchLUyoSnSOh4tftuS50Y4wA8Q3wmama86LU=;
+ b=mZcQMhPOlTmo2Pu24yhFxjOt9I3YLBfDtIw5ht/ZYUmiRGMe3qDcjsw37L083sULDY
+ M+xSwowKBR/DHuL73G2N5Wf/zdGvdRvZMMZEEkEx/x0eaqzLX8AKEkWyX8LUf0ZTXyLd
+ KkBT5k5UmuFdaM3Yt/qRvUuf0c2LSB/Mc9GtSpCT7mxxveiBtoaL1EmvHN27AbaLkREM
+ DShtTIoiv/H7d6eWLj0tZ7Wj6LshRK+aD0mKShSLpbIzdNZjNm2567DbXsYM4wYHmfoJ
+ Mk3OYYhjXyAvsC5ecs60r181OgH9FIdAsXmyDBqfSojQYq10xjPcX5gB/98WOyTbekzi
+ wgog==
+X-Gm-Message-State: AOAM531Q2w/bXOXzqPWCCiGJd7LD9LLdviAcc1/wKxNTG/sLFV3d4LpO
+ c/8MvtYfOPTOKB09m7D61t+BR+iYkW6njVQnhSNCAjmd1qWPGASuriNpUt71I9oJmPwjbiOuE7y
+ +25P7pkwfoa4E9iFFIzdcdtRqo9BY6jY=
+X-Received: by 2002:a2e:894a:: with SMTP id b10mr4231226ljk.143.1629222914369; 
+ Tue, 17 Aug 2021 10:55:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy+Uwd+E2VnQzX4ZVfiOd91tQ+637XGbrhI8q3aJxtAN2VY/OjKIRRNm8YeDLpLX+LvtxRH5KpUr0bm7wxe8ig=
+X-Received: by 2002:a2e:894a:: with SMTP id b10mr4231199ljk.143.1629222914091; 
+ Tue, 17 Aug 2021 10:55:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CABayD+fyrcyPGg5TdXLr95AFkPFY+EeeNvY=NvQw_j3_igOd6Q@mail.gmail.com>
+References: <20210804212724.07e411d6@gecko.fritz.box>
+ <CAJ6HWG6+OH4tsyybpaTF+kLhSu=DmH2+Gcrypa-WhzcXrXEqYw@mail.gmail.com>
+In-Reply-To: <CAJ6HWG6+OH4tsyybpaTF+kLhSu=DmH2+Gcrypa-WhzcXrXEqYw@mail.gmail.com>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Tue, 17 Aug 2021 14:55:09 -0300
+Message-ID: <CAJ6HWG7r-mJqkoSwX7-C+-C3wybkbYaqUBospeogsOjiN6ZUCQ@mail.gmail.com>
+Subject: Re: [PATCH] multifd: Implement yank for multifd send side
+To: Lukas Straub <lukasstraub2@web.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lsoaresp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.961, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,63 +89,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thomas.lendacky@amd.com, brijesh.singh@amd.com, ehabkost@redhat.com,
- kvm@vger.kernel.org, mst@redhat.com, tobin@ibm.com, jejb@linux.ibm.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, dgilbert@redhat.com,
- frankeh@us.ibm.com, dovmurik@linux.vnet.ibm.com
+Cc: Li Xiaohui <xiaohli@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/08/21 01:53, Steve Rutherford wrote:
-> Separately, I'm a little weary of leaving the migration helper mapped
-> into the shared address space as writable.
+On Mon, Aug 16, 2021 at 2:44 AM Leonardo Bras Soares Passos
+<leobras@redhat.com> wrote:
+>
+> Hello Lukas,
+>
+> On Wed, Aug 4, 2021 at 4:27 PM Lukas Straub <lukasstraub2@web.de> wrote:
+> >
+> > When introducing yank functionality in the migration code I forgot
+> > to cover the multifd send side.
+> >
+> > Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> > ---
+> >
+> > @Leonardo Could you check if this fixes your issue?
+>
+> In the same scenario I was testing my previous patch,
+> (http://patchwork.ozlabs.org/project/qemu-devel/patch/20210730074043.54260-1-leobras@redhat.com/)
+> this patch also seems to fix the issue .
+> (https://bugzilla.redhat.com/show_bug.cgi?id=1970337).
 
-A related question here is what the API should be for how the migration 
-helper sees the memory in both physical and virtual address.
+Regarding this single test:
+Tested-by: Leonardo Bras <leobras@redhat.com>
 
-First of all, I would like the addresses passed to and from the 
-migration helper to *not* be guest physical addresses (this is what I 
-referred to as QEMU's ram_addr_t in other messages).  The reason is that 
-some unmapped memory regions, such as virtio-mem hotplugged memory, 
-would still have to be transferred and could be encrypted.  While the 
-guest->host hypercall interface uses guest physical addresses to 
-communicate which pages are encrypted, the host can do the 
-GPA->ram_addr_t conversion and remember the encryption status of 
-currently-unmapped regions.
+I am by no means a yank or migration expert, but the change seems to
+make sense based on what I could learn in the above BZ.
 
-This poses a problem, in that the guest needs to prepare the page tables 
-for the migration helper and those need to use the migration helper's 
-physical address space.
+So, FWIW:
+Reviewed-by: Leonardo Bras <leobras@redhat.com>
 
-There's three possibilities for this:
+Although I think it would be great if a more experienced person could
+also review.
 
-1) the easy one: the bottom 4G of guest memory are mapped in the mirror 
-VM 1:1.  The ram_addr_t-based addresses are shifted by either 4G or a 
-huge value such as 2^42 (MAXPHYADDR - physical address reduction - 1). 
-This even lets the migration helper reuse the OVMF runtime services 
-memory map (but be careful about thread safety...).
+Best regards,
+Leonardo Bras
 
-2) the more future-proof one.  Here, the migration helper tells QEMU 
-which area to copy from the guest to the mirror VM, as a (main GPA, 
-length, mirror GPA) tuple.  This could happen for example the first time 
-the guest writes 1 to MSR_KVM_MIGRATION_CONTROL.  When migration starts, 
-QEMU uses this information to issue KVM_SET_USER_MEMORY_REGION 
-accordingly.  The page tables are built for this (usually very high) 
-mirror GPA and the migration helper operates in a completely separate 
-address space.  However, the backing memory would still be shared 
-between the main and mirror VMs.  I am saying this is more future proof 
-because we have more flexibility in setting up the physical address 
-space of the mirror VM.
 
-3) the paranoid one, which I think is what you hint at above: this is an 
-extension of (2), where userspace invokes the PSP send/receive API to 
-copy the small requested area of the main VM into the mirror VM.  The 
-mirror VM code and data are completely separate from the main VM.  All 
-that the mirror VM shares is the ram_addr_t data.  Though I am not even 
-sure it is possible to use the send/receive API this way...
 
-What do you think?
-
-Paolo
+>
+>
+> >
+> >  migration/multifd.c | 6 +++++-
+> >  migration/multifd.h | 2 ++
+> >  2 files changed, 7 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/migration/multifd.c b/migration/multifd.c
+> > index 377da78f5b..5a4f158f3c 100644
+> > --- a/migration/multifd.c
+> > +++ b/migration/multifd.c
+> > @@ -546,6 +546,9 @@ void multifd_save_cleanup(void)
+> >          MultiFDSendParams *p = &multifd_send_state->params[i];
+> >          Error *local_err = NULL;
+> >
+> > +        if (p->registered_yank) {
+> > +            migration_ioc_unregister_yank(p->c);
+> > +        }
+> >          socket_send_channel_destroy(p->c);
+> >          p->c = NULL;
+> >          qemu_mutex_destroy(&p->mutex);
+> > @@ -813,7 +816,8 @@ static bool multifd_channel_connect(MultiFDSendParams *p,
+> >                  return false;
+> >              }
+> >          } else {
+> > -            /* update for tls qio channel */
+> > +            migration_ioc_register_yank(ioc);
+> > +            p->registered_yank = true;
+> >              p->c = ioc;
+> >              qemu_thread_create(&p->thread, p->name, multifd_send_thread, p,
+> >                                     QEMU_THREAD_JOINABLE);
+> > diff --git a/migration/multifd.h b/migration/multifd.h
+> > index 8d6751f5ed..16c4d112d1 100644
+> > --- a/migration/multifd.h
+> > +++ b/migration/multifd.h
+> > @@ -85,6 +85,8 @@ typedef struct {
+> >      bool running;
+> >      /* should this thread finish */
+> >      bool quit;
+> > +    /* is the yank function registered */
+> > +    bool registered_yank;
+> >      /* thread has work to do */
+> >      int pending_job;
+> >      /* array of pages to sent */
+> > --
+> > 2.32.0
 
 
