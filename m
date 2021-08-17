@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F693EE9FC
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 11:35:17 +0200 (CEST)
-Received: from localhost ([::1]:45784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECCF53EEA05
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 11:38:09 +0200 (CEST)
+Received: from localhost ([::1]:50006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFvV6-000793-4C
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 05:35:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40956)
+	id 1mFvXs-0001hv-FJ
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 05:38:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1mFvTq-0005mH-KI; Tue, 17 Aug 2021 05:33:58 -0400
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:54238)
+ id 1mFvWv-0000pe-MT; Tue, 17 Aug 2021 05:37:09 -0400
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:54400)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1mFvTo-0003Na-Iz; Tue, 17 Aug 2021 05:33:58 -0400
+ id 1mFvWu-0006Ia-2K; Tue, 17 Aug 2021 05:37:09 -0400
 Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 54F38C6019D;
- Tue, 17 Aug 2021 11:33:54 +0200 (CEST)
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 0F56DC6019D;
+ Tue, 17 Aug 2021 11:37:06 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1629192834;
+ t=1629193026;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=METMcd9nRfoNTaPjmMOKcSgvLFVRhZInPlLz6EF7KSU=;
- b=g09eKTDfMrXjAFgV4NJ7Lz9ZvLIllWr7aPD6rvNcjcvSeQaOq+l1yTWpzGrzMuSM5TQEQ7
- usjejyvcxRz5WSOTruOJlREHNADRQQV3RmoyYAK1haqRRYjZt2lnH8VXTa+NxmNLflLIMz
- Gvyj1DU2J0Gxh2fgUtkhoQ0UI+7VPgSY9zp+lfGhI3K7QJ06k9OmKkNHgPzXLy1GRLJBv/
- J82wm+2CxqrBaS+h4OLbq3MKqsHvD6NpBJtmYNVon50VCvAq9mlDV4xrS8fkGhNd5vmP0p
- YO+B067NPwwLoE6KWYlpT4uEgSLl6If3WHObht4hHEItfbafkfpTD3i3cU0cLg==
-Date: Tue, 17 Aug 2021 11:36:06 +0200
+ bh=lKp+WL5wH8816XdQO+pWfuhiD4n2W7s6ec7uDDidX0g=;
+ b=MT9nHmVj7iJep1/APmEbicMprXgbs0ttBBas6Wk5iaKTxSumrHS5jwxrCfCzdCFzskEbqp
+ ItLFFB5xgO4CGaHSKIvyfUJ3gX0ARmgntR6Tho1pa+fc9AHINs4C7R0RS6LKq/C9+ki4L7
+ a4+y57qqNN0HbSxrUx/9SCP8MVCjvmUnvk/Xk9+L1uzqAoFvMTxvCE2Gq39ISp/bspshV+
+ Fv5IqAD5JYr4oXXzkbBuVwumjo7IkPvZ9jWF3vzK/Ji+LR4h9BbDEgsp4o6BRIAkbohmPd
+ t7vBL/MmbnaLuOfsNPP/vL6chdANAWJBii81kE1WxoVVj6tOJpI5hJeOsviMQw==
+Date: Tue, 17 Aug 2021 11:39:18 +0200
 From: Luc Michel <luc@lmichel.fr>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH for-6.2 07/25] armsse: Wire up systick cpuclk clock
-Message-ID: <20210817093606.wrf7nlcunwuaq4q6@sekoia-pc.home.lmichel.fr>
+Subject: Re: [PATCH for-6.2 08/25] hw/arm/mps2.c: Connect up armv7m clocks
+Message-ID: <20210817093918.rpqaixya2nmvnrao@sekoia-pc.home.lmichel.fr>
 References: <20210812093356.1946-1-peter.maydell@linaro.org>
- <20210812093356.1946-8-peter.maydell@linaro.org>
+ <20210812093356.1946-9-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210812093356.1946-8-peter.maydell@linaro.org>
+In-Reply-To: <20210812093356.1946-9-peter.maydell@linaro.org>
 Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
  helo=pharaoh.lmichel.fr
 X-Spam_score_int: -20
@@ -70,38 +70,70 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10:33 Thu 12 Aug     , Peter Maydell wrote:
-> Wire up the cpuclk for the systick devices to the SSE object's
-> existing mainclk clock.
+> Connect up the armv7m clocks on the mps2-an385/386/500/511.
 > 
-> We do not wire up the refclk because the SSE subsystems do not
-> provide a refclk.  (This is documented in the IoTKit and SSE-200
-> TRMs; the SSE-300 TRM doesn't mention it but we assume it follows the
-> same approach.) When we update the systick device later to honour "no
-> refclk connected" this will fix a minor emulation inaccuracy for the
-> SSE-based boards.
+> Connect up the armv7m object's clocks on the MPS boards defined in
+> mps2.c.  The documentation for these FPGA images doesn't specify what
+> systick reference clock is used (if any), so for the moment we
+> provide a 1MHz refclock, which will result in no behavioural change
+> from the current hardwired 1MHz clock implemented in
+> armv7m_systick.c:systick_scale().
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
 Reviewed-by: Luc Michel <luc@lmichel.fr>
 
 > ---
->  hw/arm/armsse.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  hw/arm/mps2.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
 > 
-> diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-> index a1456cb0f42..70b52c3d4b9 100644
-> --- a/hw/arm/armsse.c
-> +++ b/hw/arm/armsse.c
-> @@ -995,6 +995,9 @@ static void armsse_realize(DeviceState *dev, Error **errp)
->          int j;
->          char *gpioname;
+> diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
+> index 81413b7133e..3671f49ad7b 100644
+> --- a/hw/arm/mps2.c
+> +++ b/hw/arm/mps2.c
+> @@ -86,6 +86,7 @@ struct MPS2MachineState {
+>      CMSDKAPBWatchdog watchdog;
+>      CMSDKAPBTimer timer[2];
+>      Clock *sysclk;
+> +    Clock *refclk;
+>  };
 >  
-> +        qdev_connect_clock_in(cpudev, "cpuclk", s->mainclk);
-> +        /* The SSE subsystems do not wire up a systick refclk */
+>  #define TYPE_MPS2_MACHINE "mps2"
+> @@ -99,6 +100,15 @@ OBJECT_DECLARE_TYPE(MPS2MachineState, MPS2MachineClass, MPS2_MACHINE)
+>  /* Main SYSCLK frequency in Hz */
+>  #define SYSCLK_FRQ 25000000
+>  
+> +/*
+> + * The Application Notes don't say anything about how the
+> + * systick reference clock is configured. (Quite possibly
+> + * they don't have one at all.) This 1MHz clock matches the
+> + * pre-existing behaviour that used to be hardcoded in the
+> + * armv7m_systick implementation.
+> + */
+> +#define REFCLK_FRQ (1 * 1000 * 1000)
 > +
->          qdev_prop_set_uint32(cpudev, "num-irq", s->exp_numirq + NUM_SSE_IRQS);
->          /*
->           * In real hardware the initial Secure VTOR is set from the INITSVTOR*
+>  /* Initialize the auxiliary RAM region @mr and map it into
+>   * the memory map at @base.
+>   */
+> @@ -146,6 +156,9 @@ static void mps2_common_init(MachineState *machine)
+>      mms->sysclk = clock_new(OBJECT(machine), "SYSCLK");
+>      clock_set_hz(mms->sysclk, SYSCLK_FRQ);
+>  
+> +    mms->refclk = clock_new(OBJECT(machine), "REFCLK");
+> +    clock_set_hz(mms->refclk, REFCLK_FRQ);
+> +
+>      /* The FPGA images have an odd combination of different RAMs,
+>       * because in hardware they are different implementations and
+>       * connected to different buses, giving varying performance/size
+> @@ -223,6 +236,8 @@ static void mps2_common_init(MachineState *machine)
+>      default:
+>          g_assert_not_reached();
+>      }
+> +    qdev_connect_clock_in(armv7m, "cpuclk", mms->sysclk);
+> +    qdev_connect_clock_in(armv7m, "refclk", mms->refclk);
+>      qdev_prop_set_string(armv7m, "cpu-type", machine->cpu_type);
+>      qdev_prop_set_bit(armv7m, "enable-bitband", true);
+>      object_property_set_link(OBJECT(&mms->armv7m), "memory",
 > -- 
 > 2.20.1
 > 
