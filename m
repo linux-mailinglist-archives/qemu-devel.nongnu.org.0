@@ -2,90 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 103833EE9B7
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 11:28:33 +0200 (CEST)
-Received: from localhost ([::1]:57868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61C7C3EE9D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 11:29:49 +0200 (CEST)
+Received: from localhost ([::1]:60674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFvOa-0004ck-3a
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 05:28:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39588)
+	id 1mFvPo-0006V3-F0
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 05:29:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mFvNU-0003Zx-VT
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 05:27:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58334)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mFvNS-0005pE-4W
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 05:27:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629192441;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ziLibRFq4LmINPnHZ5Vek/4tfRATvMYN2709y185uB4=;
- b=IQrW2lxI+R300qWioO9EkFau5Bgpg5cAUodNIgMDNHVzwTM1EICLzcRYrwKlHPf9ZHkLya
- vjlM0Wgz7CgyGVd9M3Iy5bqo1nEugA1h+WIVzEmA//M6jDzsy0u436AZ2fHdNlKBiHP1v+
- 4F9gvamRVMHCma87QcYE+0f5CAhoODE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-X8pQyJxlPReUAripeZGEnQ-1; Tue, 17 Aug 2021 05:27:20 -0400
-X-MC-Unique: X8pQyJxlPReUAripeZGEnQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- e12-20020a05600c218cb02902e6bbacdcd1so655759wme.4
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 02:27:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1mFvOW-00053X-5I
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 05:28:28 -0400
+Received: from mail-ua1-x92c.google.com ([2607:f8b0:4864:20::92c]:39498)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1mFvOP-0006go-Fz
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 05:28:27 -0400
+Received: by mail-ua1-x92c.google.com with SMTP id a4so8744031uae.6
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 02:28:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/YwzYHizyS2FJY/mjGMDdrJqf0+FZ5O5eMVi6gzpk9c=;
+ b=t5L/Vc2VTE161UozCdl17ZwsA2Hp8S4Y9kaJMsSSpnNiNADbN9pZ34EHyz8poi4E/n
+ vsAjLkSem8oFKkbYKys78qltVijXI9kEGdelpk4faVmnPv1mKDBTHPiESZrKwRwk29Kv
+ HYTLUf4NyJUlzygAs9kRO5JxWTi3pANYIVT0T87rnEAmt0Vl7l04M7Ibt6bK8TUmnUgu
+ D3UBrNXwgjAwZ6mKG+naZbx6ZeWMuBe88paPcN4I1c7JwzB8q5BgXBZZNIIR17UMkBM6
+ I2DhcrEsohye2q3BC/55Ad4ccSd7LfARW+PXKdqdD8j3+/vdY/isAnGJ4stoxIeEMajH
+ j0WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ziLibRFq4LmINPnHZ5Vek/4tfRATvMYN2709y185uB4=;
- b=peJWnlrWUfnXeBq9WM1nYLusCBI4wB0VkLWhRWw1TRmY+VvIpf1kpo+Il6SLITJlTy
- ZBxshuHQ5MRe9Kdv0YIKU1Rg0ziQQyk98riXigWDD5C/xjTymYUrRty4zbgVS3+RD+aS
- cpM0IZP4Wd8rlxWs0/u9sQJnrWvdas6ATXOhAya8qe271YJJqiM8RUJwXeA7/ZIxoEHU
- LQ4+bDwG9MWMpip9xgFA7gmBAo8BJ8lCcNFpP4kicofNyoIMjbO85JosSYA6vewGHlKj
- VfSsEJqWJp97XCZjXzxqX5b3Gij7AZEJNhRHQNBIyK4Zy+wOZO9W/yUmMoCF04k2Dqv6
- Pguw==
-X-Gm-Message-State: AOAM531E/VGKMMf3SMAw+WDCCsGHgqZYx5EuABhGREe0Iez1eBjSdbJF
- M2pwe56X3ZuiyaZQ2XvR3qcTiiYCyjYvx0lB2PyM8eVC9IOg8bmNRYBxpld5uXeyhw2vs5UTmJa
- 3/HX1nalPjJ8i7dM=
-X-Received: by 2002:a5d:4691:: with SMTP id u17mr2847187wrq.254.1629192438131; 
- Tue, 17 Aug 2021 02:27:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxy3KbW7rrwuG10oElT1CQ2/Xh4J8Ezjir8osNmrWDfB1gG5noq3GvQwgbK1cMOi6fQXJLqCg==
-X-Received: by 2002:a5d:4691:: with SMTP id u17mr2847163wrq.254.1629192437872; 
- Tue, 17 Aug 2021 02:27:17 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id o125sm1527044wme.15.2021.08.17.02.27.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Aug 2021 02:27:17 -0700 (PDT)
-Subject: Re: [PATCH for-6.2 1/2] include/qemu/int128.h: introduce bswap128s
-To: matheus.ferst@eldorado.org.br, qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20210816191316.1163622-1-matheus.ferst@eldorado.org.br>
- <20210816191316.1163622-2-matheus.ferst@eldorado.org.br>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b5b5ca02-aac5-4bc3-3898-b45c53c8b5a6@redhat.com>
-Date: Tue, 17 Aug 2021 11:27:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/YwzYHizyS2FJY/mjGMDdrJqf0+FZ5O5eMVi6gzpk9c=;
+ b=hU2e6E+061eFe6fu1W7j/D/zpu0h0EoC6w6gqrvR53dFMlY5a7XtafeRyEQMerQEsU
+ HUNkEFdC0MqWNgpdtTxvWsi08lXeEfhU/bEZTLbvrQBtlE93joTJY6XSGy72YOAS4uCP
+ tvR0dDzcYVJQlayu+3747DXxxiw62+DBaYmPvrX+9qEt6JpmcMQly97LKjbGFzc87rPx
+ plz34BNHEE724cWyzo7S1e1BlL55reDzuha4hk1hW+//nap+6CGegOdmGGbzfzDhLdfF
+ dcIZEpKU2xxVyXQAER9oOqmjPmbo9Vip8aVCA0dZZAYA7soiwzwdaLPJI2QNCW016ipk
+ 3uSA==
+X-Gm-Message-State: AOAM531rVCCSAHE6pGenLrvaheh4dwEebbZKKpL7piLoqxQWclU45x87
+ 6blhbhGxt+wnQxiwBSqMGG63eZBAS1KBuK9QMkA=
+X-Google-Smtp-Source: ABdhPJyqOcq8Udodj7PMK+OYBlu5T1jOwwfJc/DssbGwKmUPq6hDx8OQFaY7ockc9y/krC4FwInjt6RAyF62wNn7qFo=
+X-Received: by 2002:ab0:1865:: with SMTP id j37mr1330280uag.6.1629192499849;
+ Tue, 17 Aug 2021 02:28:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210816191316.1163622-2-matheus.ferst@eldorado.org.br>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.71, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210617143246.55336-1-yaroshchuk2000@gmail.com>
+ <20210617143246.55336-3-yaroshchuk2000@gmail.com>
+ <20210806211927.dvsn7xvy2ghmonip@redhat.com>
+In-Reply-To: <20210806211927.dvsn7xvy2ghmonip@redhat.com>
+From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+Date: Tue, 17 Aug 2021 12:28:09 +0300
+Message-ID: <CADO9X9T=BOUZf+8nz5khmNbggQXBLwR5WdVFsDmqxTXusYnC8g@mail.gmail.com>
+Subject: Re: [PATCH 2/7] net/vmnet: add new netdevs to qapi/net
+To: Eric Blake <eblake@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000039702105c9bdf0ed"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92c;
+ envelope-from=yaroshchuk2000@gmail.com; helo=mail-ua1-x92c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,60 +79,409 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org, groug@kaod.org,
- david@gibson.dropbear.id.au
+Cc: jasowang@redhat.com, Roman Bolshakov <r.bolshakov@yadro.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/16/21 9:13 PM, matheus.ferst@eldorado.org.br wrote:
-> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> 
-> Introduces bswap128s based on bswap128. Since bswap128 is defined using
-> int128_* methods available in either CONFIG_INT128 or !CONFIG_INT128
-> builds, place both outside of #ifdef CONFIG_INT128.
-> 
-> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> ---
->  include/qemu/int128.h | 16 +++++++++++-----
->  1 file changed, 11 insertions(+), 5 deletions(-)
-> 
-> diff --git a/include/qemu/int128.h b/include/qemu/int128.h
-> index 64500385e3..e0d385628c 100644
-> --- a/include/qemu/int128.h
-> +++ b/include/qemu/int128.h
-> @@ -153,11 +153,6 @@ static inline void int128_subfrom(Int128 *a, Int128 b)
->      *a -= b;
->  }
->  
-> -static inline Int128 bswap128(Int128 a)
-> -{
-> -    return int128_make128(bswap64(int128_gethi(a)), bswap64(int128_getlo(a)));
-> -}
+--00000000000039702105c9bdf0ed
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Personally I'd move this one to the other #ifdef side,
-and implement here with __builtin_bswap128().
+Hi Eric,
+Thank you for your review.
 
->  #else /* !CONFIG_INT128 */
->  
->  typedef struct Int128 Int128;
-> @@ -338,4 +333,15 @@ static inline void int128_subfrom(Int128 *a, Int128 b)
->  }
+=D1=81=D0=B1, 7 =D0=B0=D0=B2=D0=B3. 2021 =D0=B3. =D0=B2 00:19, Eric Blake <=
+eblake@redhat.com>:
 
-> +static inline Int128 bswap128(Int128 a)
-> +{
-> +    return int128_make128(bswap64(int128_gethi(a)), bswap64(int128_getlo(a)));
-> +}
+> On Thu, Jun 17, 2021 at 05:32:41PM +0300, Vladislav Yaroshchuk wrote:
+> > Created separate netdev per each vmnet operating mode
+> > because they use quite different settings. Especially since
+> > macOS 11.0 (vmnet.framework API gets lots of updates)
+> >
+> > Three new netdevs are added:
+> > - vmnet-host
+> > - vmnet-shared
+> > - vmnet-bridged
+> >
+> > Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+> > ---
+>
+> > +++ b/qapi/net.json
+> > @@ -452,6 +452,89 @@
+> >      '*vhostdev':     'str',
+> >      '*queues':       'int' } }
+> >
+> > +##
+> > +# @NetdevVmnetHostOptions:
+> > +#
+> > +# vmnet (host mode) network backend.
+> > +#
+> > +# Allows the vmnet interface to communicate with
+> > +# other vmnet interfaces that are in host mode and also with the nativ=
+e
+> host.
+> > +#
+> > +# @dhcpstart: The starting IPv4 address to use for the interface. Must
+> be in the
+> > +#             private IP range (RFC 1918). Must be specified along
+> > +#             with @dhcpend and @subnetmask.
+> > +#             This address is used as the gateway address. The
+> subsequent address
+> > +#             up to and including dhcpend are  placed in the DHCP pool=
+.
+> > +#
+> > +# @dhcpend: The DHCP IPv4 range end address to use for the interface.
+> Must be in
+> > +#           the private IP range (RFC 1918). Must be specified along
+> > +#           with @dhcpstart and @subnetmask.
+> > +#
+> > +# @subnetmask: The IPv4 subnet mask to use on the interface. Must be
+> specified
+> > +#              along with @dhcpstart and @subnetmask.
+> > +#
+> > +#
+> > +# Since: 6.1,
+> > +##
+>
+> Same comments about 6.1 vs. 6.2 as before (I'll quit pointing it out).
+> Spurious trailing comma.
+>
+> > +{ 'struct': 'NetdevVmnetHostOptions',
+> > +  'data': {
+> > +    '*dhcpstart':   'str',
+> > +    '*dhcpend':     'str',
+> > +    '*subnetmask':  'str'
+>
+> Hmm. You listed all three as optional, but document that they must all
+> be specified together.  Why not just make them all required, and
+> simplify the documentation?
+>
+> All three options can be not specified at all, or, if specified, must be
+used all together. It's the user's choice to adjust DHCP settings or leave
+it for vmnet.framework.
+`-netdev vmnet-host` is correct and `-netdev
+vmnet-host,dhcpstart=3D"..",dhcpend=3D"..",subnetmask=3D".."` is correct to=
+o. So
+we can't make all the options required
 
-   #endif /* CONFIG_INT128 */
+> > +  },
+> > +  'if': 'defined(CONFIG_VMNET)' }
+> > +
+> > +##
+> > +# @NetdevVmnetSharedOptions:
+> > +#
+> > +# vmnet (shared mode) network backend.
+> > +#
+> > +# Allows traffic originating from the vmnet interface to reach the
+> > +# Internet through a network address translator (NAT). The vmnet
+> interface
+> > +# can also communicate with the native host. By default, the vmnet
+> interface
+> > +# is able to communicate with other shared mode interfaces. If a subne=
+t
+> range
+> > +# is specified, the vmnet interface can communicate with other shared
+> mode
+> > +# interfaces on the same subnet.
+> > +#
+> > +# @dhcpstart: The starting IPv4 address to use for the interface. Must
+> be in the
+> > +#             private IP range (RFC 1918). Must be specified along
+> > +#             with @dhcpend and @subnetmask.
+> > +#             This address is used as the gateway address. The
+> subsequent address
+> > +#             up to and including dhcpend are  placed in the DHCP pool=
+.
+>
+> Spurious double space.
+>
+> > +#
+> > +# @dhcpend: The DHCP IPv4 range end address to use for the interface.
+> Must be in
+> > +#           the private IP range (RFC 1918). Must be specified along
+> > +#           with @dhcpstart and @subnetmask.
+> > +#
+> > +# @subnetmask: The IPv4 subnet mask to use on the interface. Must be
+> specified
+> > +#              along with @dhcpstart and @subnetmask.
+> > +#
+> > +#
+> > +# Since: 6.1,
+> > +##
+> > +{ 'struct': 'NetdevVmnetSharedOptions',
+> > +  'data': {
+> > +    '*dhcpstart':    'str',
+> > +    '*dhcpend':      'str',
+> > +    '*subnetmask':   'str'
+> > +  },
+> > +  'if': 'defined(CONFIG_VMNET)' }
+> > +
+> > +##
+> > +# @NetdevVmnetBridgedOptions:
+> > +#
+> > +# vmnet (bridged mode) network backend.
+> > +#
+> > +# Bridges the vmnet interface with a physical network interface.
+> > +#
+> > +# @ifname: The name of the physical interface to be bridged.
+> > +#
+> > +# Since: 6.1
+> > +##
+> > +{ 'struct': 'NetdevVmnetBridgedOptions',
+> > +  'data': { 'ifname': 'str' },
+> > +  'if': 'defined(CONFIG_VMNET)' }
+> > +
+> >  ##
+> >  # @NetClientDriver:
+> >  #
+> > @@ -460,11 +543,16 @@
+> >  # Since: 2.7
+> >  #
+> >  #        @vhost-vdpa since 5.1
+> > -#        @vmnet since 6.1
+>
+> Why are you dropping vmnet?  Especially since you just added it in the
+> previous patch?  That feels like needless churn.
+>
+> Yep, that was my mistake, on that stage I decided to create separate
+backends for each vmnet operational mode. Will remove redundant change the
+next series.
 
-And add this generic one here indeed:
+> +#        @vmnet-host since 6.1
+> > +#        @vmnet-shared since 6.1
+> > +#        @vmnet-bridged since 6.1
+> >  ##
+> >  { 'enum': 'NetClientDriver',
+> >    'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
+> > -            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa',
+> 'vmnet' ] }
+> > +            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa',
+> > +            { 'name': 'vmnet-host', 'if': 'defined(CONFIG_VMNET)' },
+> > +            { 'name': 'vmnet-shared', 'if': 'defined(CONFIG_VMNET)' },
+> > +            { 'name': 'vmnet-bridged', 'if': 'defined(CONFIG_VMNET)' }=
+]
+> }
+>
+> --
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3266
+> Virtualization:  qemu.org | libvirt.org
+>
+>
+Will fix all other issues asap, thank you!
 
-> +static inline void bswap128s(Int128 *s)
-> +{
-> +    *s = bswap128(*s);
-> +}
-> +
->  #endif /* INT128_H */
-> 
+Regards,
+Vladislav
 
+--00000000000039702105c9bdf0ed
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi Eric,</div><div>Thank you for your review.</div><b=
+r><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">=D1=81=
+=D0=B1, 7 =D0=B0=D0=B2=D0=B3. 2021 =D0=B3. =D0=B2 00:19, Eric Blake &lt;<a =
+href=3D"mailto:eblake@redhat.com">eblake@redhat.com</a>&gt;:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">On Thu, Jun 17, 2021 at 05:32:=
+41PM +0300, Vladislav Yaroshchuk wrote:<br>
+&gt; Created separate netdev per each vmnet operating mode<br>
+&gt; because they use quite different settings. Especially since<br>
+&gt; macOS 11.0 (vmnet.framework API gets lots of updates)<br>
+&gt; <br>
+&gt; Three new netdevs are added:<br>
+&gt; - vmnet-host<br>
+&gt; - vmnet-shared<br>
+&gt; - vmnet-bridged<br>
+&gt; <br>
+&gt; Signed-off-by: Vladislav Yaroshchuk &lt;<a href=3D"mailto:yaroshchuk20=
+00@gmail.com" target=3D"_blank">yaroshchuk2000@gmail.com</a>&gt;<br>
+&gt; ---<br>
+<br>
+&gt; +++ b/qapi/net.json<br>
+&gt; @@ -452,6 +452,89 @@<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &#39;*vhostdev&#39;:=C2=A0 =C2=A0 =C2=A0&#39;str&#=
+39;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 &#39;*queues&#39;:=C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;=
+int&#39; } }<br>
+&gt;=C2=A0 <br>
+&gt; +##<br>
+&gt; +# @NetdevVmnetHostOptions:<br>
+&gt; +#<br>
+&gt; +# vmnet (host mode) network backend.<br>
+&gt; +#<br>
+&gt; +# Allows the vmnet interface to communicate with<br>
+&gt; +# other vmnet interfaces that are in host mode and also with the nati=
+ve host.<br>
+&gt; +#<br>
+&gt; +# @dhcpstart: The starting IPv4 address to use for the interface. Mus=
+t be in the<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0private IP range (RF=
+C 1918). Must be specified along<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0with @dhcpend and @s=
+ubnetmask.<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0This address is used=
+ as the gateway address. The subsequent address<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0up to and including =
+dhcpend are=C2=A0 placed in the DHCP pool.<br>
+&gt; +#<br>
+&gt; +# @dhcpend: The DHCP IPv4 range end address to use for the interface.=
+ Must be in<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0the private IP range (RFC 1=
+918). Must be specified along<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0with @dhcpstart and @subnet=
+mask.<br>
+&gt; +#<br>
+&gt; +# @subnetmask: The IPv4 subnet mask to use on the interface. Must be =
+specified<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 along with @dhcpsta=
+rt and @subnetmask.<br>
+&gt; +#<br>
+&gt; +#<br>
+&gt; +# Since: 6.1,<br>
+&gt; +##<br>
+<br>
+Same comments about 6.1 vs. 6.2 as before (I&#39;ll quit pointing it out).<=
+br>
+Spurious trailing comma.<br>
+<br>
+&gt; +{ &#39;struct&#39;: &#39;NetdevVmnetHostOptions&#39;,<br>
+&gt; +=C2=A0 &#39;data&#39;: {<br>
+&gt; +=C2=A0 =C2=A0 &#39;*dhcpstart&#39;:=C2=A0 =C2=A0&#39;str&#39;,<br>
+&gt; +=C2=A0 =C2=A0 &#39;*dhcpend&#39;:=C2=A0 =C2=A0 =C2=A0&#39;str&#39;,<b=
+r>
+&gt; +=C2=A0 =C2=A0 &#39;*subnetmask&#39;:=C2=A0 &#39;str&#39;<br>
+<br>
+Hmm. You listed all three as optional, but document that they must all<br>
+be specified together.=C2=A0 Why not just make them all required, and<br>
+simplify the documentation?<br>
+<br></blockquote><div>All three options can be not specified=C2=A0at all, o=
+r, if specified, must be used all together. It&#39;s the user&#39;s choice =
+to adjust DHCP settings or leave it for vmnet.framework.</div><div>`-netdev=
+ vmnet-host` is correct and `-netdev vmnet-host,dhcpstart=3D&quot;..&quot;,=
+dhcpend=3D&quot;..&quot;,subnetmask=3D&quot;..&quot;` is correct too. So we=
+ can&#39;t make all the options required</div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex">
+&gt; +=C2=A0 },<br>
+&gt; +=C2=A0 &#39;if&#39;: &#39;defined(CONFIG_VMNET)&#39; }<br>
+&gt; +<br>
+&gt; +##<br>
+&gt; +# @NetdevVmnetSharedOptions:<br>
+&gt; +#<br>
+&gt; +# vmnet (shared mode) network backend.<br>
+&gt; +#<br>
+&gt; +# Allows traffic originating from the vmnet interface to reach the<br=
+>
+&gt; +# Internet through a network address translator (NAT). The vmnet inte=
+rface<br>
+&gt; +# can also communicate with the native host. By default, the vmnet in=
+terface<br>
+&gt; +# is able to communicate with other shared mode interfaces. If a subn=
+et range<br>
+&gt; +# is specified, the vmnet interface can communicate with other shared=
+ mode<br>
+&gt; +# interfaces on the same subnet.<br>
+&gt; +#<br>
+&gt; +# @dhcpstart: The starting IPv4 address to use for the interface. Mus=
+t be in the<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0private IP range (RF=
+C 1918). Must be specified along<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0with @dhcpend and @s=
+ubnetmask.<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0This address is used=
+ as the gateway address. The subsequent address<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0up to and including =
+dhcpend are=C2=A0 placed in the DHCP pool.<br>
+<br>
+Spurious double space.<br>
+<br>
+&gt; +#<br>
+&gt; +# @dhcpend: The DHCP IPv4 range end address to use for the interface.=
+ Must be in<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0the private IP range (RFC 1=
+918). Must be specified along<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0with @dhcpstart and @subnet=
+mask.<br>
+&gt; +#<br>
+&gt; +# @subnetmask: The IPv4 subnet mask to use on the interface. Must be =
+specified<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 along with @dhcpsta=
+rt and @subnetmask.<br>
+&gt; +#<br>
+&gt; +#<br>
+&gt; +# Since: 6.1,<br>
+&gt; +##<br>
+&gt; +{ &#39;struct&#39;: &#39;NetdevVmnetSharedOptions&#39;,<br>
+&gt; +=C2=A0 &#39;data&#39;: {<br>
+&gt; +=C2=A0 =C2=A0 &#39;*dhcpstart&#39;:=C2=A0 =C2=A0 &#39;str&#39;,<br>
+&gt; +=C2=A0 =C2=A0 &#39;*dhcpend&#39;:=C2=A0 =C2=A0 =C2=A0 &#39;str&#39;,<=
+br>
+&gt; +=C2=A0 =C2=A0 &#39;*subnetmask&#39;:=C2=A0 =C2=A0&#39;str&#39;<br>
+&gt; +=C2=A0 },<br>
+&gt; +=C2=A0 &#39;if&#39;: &#39;defined(CONFIG_VMNET)&#39; }<br>
+&gt; +<br>
+&gt; +##<br>
+&gt; +# @NetdevVmnetBridgedOptions:<br>
+&gt; +#<br>
+&gt; +# vmnet (bridged mode) network backend.<br>
+&gt; +#<br>
+&gt; +# Bridges the vmnet interface with a physical network interface.<br>
+&gt; +#<br>
+&gt; +# @ifname: The name of the physical interface to be bridged.<br>
+&gt; +#<br>
+&gt; +# Since: 6.1<br>
+&gt; +##<br>
+&gt; +{ &#39;struct&#39;: &#39;NetdevVmnetBridgedOptions&#39;,<br>
+&gt; +=C2=A0 &#39;data&#39;: { &#39;ifname&#39;: &#39;str&#39; },<br>
+&gt; +=C2=A0 &#39;if&#39;: &#39;defined(CONFIG_VMNET)&#39; }<br>
+&gt; +<br>
+&gt;=C2=A0 ##<br>
+&gt;=C2=A0 # @NetClientDriver:<br>
+&gt;=C2=A0 #<br>
+&gt; @@ -460,11 +543,16 @@<br>
+&gt;=C2=A0 # Since: 2.7<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0 @vhost-vdpa since 5.1<br>
+&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 @vmnet since 6.1<br>
+<br>
+Why are you dropping vmnet?=C2=A0 Especially since you just added it in the=
+<br>
+previous patch?=C2=A0 That feels like needless churn.<br>
+<br></blockquote><div>Yep, that was my mistake, on that stage I decided to =
+create separate backends for each vmnet operational mode. Will remove redun=
+dant=C2=A0change the next series.</div><div><br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 @vmnet-host since 6.1<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 @vmnet-shared since 6.1<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 @vmnet-bridged since 6.1<br>
+&gt;=C2=A0 ##<br>
+&gt;=C2=A0 { &#39;enum&#39;: &#39;NetClientDriver&#39;,<br>
+&gt;=C2=A0 =C2=A0 &#39;data&#39;: [ &#39;none&#39;, &#39;nic&#39;, &#39;use=
+r&#39;, &#39;tap&#39;, &#39;l2tpv3&#39;, &#39;socket&#39;, &#39;vde&#39;,<b=
+r>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;bridge&#39;, &#39;hubp=
+ort&#39;, &#39;netmap&#39;, &#39;vhost-user&#39;, &#39;vhost-vdpa&#39;, &#3=
+9;vmnet&#39; ] }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;bridge&#39;, &#39;hubp=
+ort&#39;, &#39;netmap&#39;, &#39;vhost-user&#39;, &#39;vhost-vdpa&#39;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 { &#39;name&#39;: &#39;vmne=
+t-host&#39;, &#39;if&#39;: &#39;defined(CONFIG_VMNET)&#39; },<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 { &#39;name&#39;: &#39;vmne=
+t-shared&#39;, &#39;if&#39;: &#39;defined(CONFIG_VMNET)&#39; },<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 { &#39;name&#39;: &#39;vmne=
+t-bridged&#39;, &#39;if&#39;: &#39;defined(CONFIG_VMNET)&#39; }] }<br>
+<br>
+-- <br>
+Eric Blake, Principal Software Engineer<br>
+Red Hat, Inc.=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+1-919-301-3266<br>
+Virtualization:=C2=A0 <a href=3D"http://qemu.org" rel=3D"noreferrer" target=
+=3D"_blank">qemu.org</a> | <a href=3D"http://libvirt.org" rel=3D"noreferrer=
+" target=3D"_blank">libvirt.org</a><br>
+<br></blockquote><div><br></div><div>Will fix all other issues asap, thank =
+you!</div><div>=C2=A0</div><div>Regards,</div><div>Vladislav</div></div></d=
+iv>
+
+--00000000000039702105c9bdf0ed--
 
