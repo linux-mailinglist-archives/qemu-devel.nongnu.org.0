@@ -2,72 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E273EEC29
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 14:08:15 +0200 (CEST)
-Received: from localhost ([::1]:58024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB8F3EEC3B
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 14:13:32 +0200 (CEST)
+Received: from localhost ([::1]:36716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFxt8-0006KH-EU
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 08:08:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44822)
+	id 1mFxyF-0002jN-8W
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 08:13:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mFxs6-0005dt-Lg
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 08:07:10 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:42810)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mFxs2-0002Uh-Sq
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 08:07:10 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id b10so29640324eju.9
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 05:07:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nlu7aTE7e0kQShtthtNuJIV/3cdjng994sbbc6JxtsI=;
- b=RIMnXOIMSpkEgZtvgftS3RqPhgAlEq89oGQ2F5XlP9ngxtXyVFLK4RexDKPUGdHdAH
- e2PSSdApbcP9ANw3ZvcTCr8Ys4pBlVhSVOxkTvYrt021UhPRnGUjhHbz/YqlnjS8AHL3
- 9AuStTiRpcj7QkI6hw1D+QttjShOCol1gnfr58i9zyQzezjNRtFQZBZ+FscZ9RAHzMXS
- PMHi9IvMUhukzMaV791inx+sMQNcJzYu/nIMN4TwLl8Tev/KHMZf3jkqsEb0XEQaz5K2
- /4EUmJftItq6aonDwOQzc5PYDQoeOc/QoavZ8qNpJ4+sDXEYrAj4Z3nbL3031C2rMD67
- Qo3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nlu7aTE7e0kQShtthtNuJIV/3cdjng994sbbc6JxtsI=;
- b=BsqRMZgBsqRdEqTYrM3twpdhN6kCmAx302MCT0uF1yLoqX2XqR1b+MuKiqWrIXjJBa
- L4hn7VwSI4OZ11MaJAuIsOXhAKCdynXT5z8fLQvaGVpF7JLyye4DpJvnVx2HyHAplWfZ
- NZKA34Ou/zG3HW5iHXaLShwuqn/rNF2759n4dbAhDDolPxvSld663sk59p5iHQBB7erz
- tdS2CRVWb/pXbl4Ons528d7UOr52iTv/Zo8AGHdFGkewlcPy7LgctbMlg0LCkdoeaKEa
- 5GksuaMvFue2hn5x5liiZvhFDUrPeSNoFdPsYUNU9fNAdleCvhEzrpyKbRZ/ryQkuXYs
- fZ+A==
-X-Gm-Message-State: AOAM531s8s9/dpbYT6XGey2Tty26gU8n3SvylnnixeQp5Y0qsEIrDqko
- vvjNA+f18YAPBlcY8dNVgvTAREVrgS8nqwceIqpjAQ==
-X-Google-Smtp-Source: ABdhPJxbuAbsqg2ykgbyRQCI28EfwSrOiA0JHW9XK8w2suIt0OqSqiDEJBg07PvTM2n/MejoDXjgAsH9FXbNWxHDhbc=
-X-Received: by 2002:a17:906:584:: with SMTP id 4mr3727132ejn.56.1629202025302; 
- Tue, 17 Aug 2021 05:07:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1mFxud-00085p-EG; Tue, 17 Aug 2021 08:09:47 -0400
+Received: from [201.28.113.2] (port=57099 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1mFxua-00046K-81; Tue, 17 Aug 2021 08:09:47 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 17 Aug 2021 09:09:40 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id 03DB6800021;
+ Tue, 17 Aug 2021 09:09:39 -0300 (-03)
+Subject: Re: [PATCH for-6.2 1/2] include/qemu/int128.h: introduce bswap128s
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+References: <20210816191316.1163622-1-matheus.ferst@eldorado.org.br>
+ <20210816191316.1163622-2-matheus.ferst@eldorado.org.br>
+ <b5b5ca02-aac5-4bc3-3898-b45c53c8b5a6@redhat.com>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+Message-ID: <a0b41585-27d1-aeaf-be03-f14935c1b8c9@eldorado.org.br>
+Date: Tue, 17 Aug 2021 09:09:39 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210816210603.42337-1-ehabkost@redhat.com>
- <20210816210603.42337-2-ehabkost@redhat.com>
- <CABgObfaWxNsq2i8j6P+oZGFjxyR3MFE9FopHsnvuNAPXa4upYQ@mail.gmail.com>
- <20210817120250.fdpujloefaqtawwo@gator.home>
-In-Reply-To: <20210817120250.fdpujloefaqtawwo@gator.home>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 17 Aug 2021 13:06:19 +0100
-Message-ID: <CAFEAcA_fOa4uV3sA5kxJ1gKTGS3ASgvx2+FrG=5cr0wWaQ48-Q@mail.gmail.com>
-Subject: Re: [PULL 1/1] machine: Disallow specifying topology parameters as
- zero
-To: Andrew Jones <drjones@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <b5b5ca02-aac5-4bc3-3898-b45c53c8b5a6@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 17 Aug 2021 12:09:40.0453 (UTC)
+ FILETIME=[C1937950:01D79360]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -2
+X-Spam_score: -0.3
+X-Spam_bar: /
+X-Spam_report: (-0.3 / 5.0 requ) BAYES_20=-0.001, NICE_REPLY_A=-1.961,
+ PDS_HP_HELO_NORDNS=0.825, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,26 +61,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Yanan Wang <wangyanan55@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org, groug@kaod.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Aug 2021 at 13:02, Andrew Jones <drjones@redhat.com> wrote:
->
-> On Mon, Aug 16, 2021 at 11:37:21PM +0200, Paolo Bonzini wrote:
-> > How do we know that no one has ever used such configuration? The conversion
-> > was meant to be bug-compatible.
->
-> We don't. But we do know that a zero input value was never documented
-> prior to 1e63fe68580, which has not yet been released. Can we claim
-> that an undocumented input value has undefined behavior, giving us
-> freedom to modify that behavior until it is documented?
+On 17/08/2021 06:27, Philippe Mathieu-Daudé wrote:
+> [E-MAIL EXTERNO] Não clique em links ou abra anexos, a menos que você possa confirmar o remetente e saber que o conteúdo é seguro. Em caso de e-mail suspeito entre imediatamente em contato com o DTI.
+> 
+> On 8/16/21 9:13 PM, matheus.ferst@eldorado.org.br wrote:
+>> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>>
+>> Introduces bswap128s based on bswap128. Since bswap128 is defined using
+>> int128_* methods available in either CONFIG_INT128 or !CONFIG_INT128
+>> builds, place both outside of #ifdef CONFIG_INT128.
+>>
+>> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>> ---
+>>   include/qemu/int128.h | 16 +++++++++++-----
+>>   1 file changed, 11 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/include/qemu/int128.h b/include/qemu/int128.h
+>> index 64500385e3..e0d385628c 100644
+>> --- a/include/qemu/int128.h
+>> +++ b/include/qemu/int128.h
+>> @@ -153,11 +153,6 @@ static inline void int128_subfrom(Int128 *a, Int128 b)
+>>       *a -= b;
+>>   }
+>>
+>> -static inline Int128 bswap128(Int128 a)
+>> -{
+>> -    return int128_make128(bswap64(int128_gethi(a)), bswap64(int128_getlo(a)));
+>> -}
+> 
+> Personally I'd move this one to the other #ifdef side,
+> and implement here with __builtin_bswap128().
+> 
 
-Dunno; I definitely don't want a behaviour-change patch at this
-point in the release-cycle, though...
+I saw this builtin, but I couldn't test it on my system. It seems that 
+Clang doesn't implement it, and it's only available on GCC 11: 
+https://godbolt.org/z/T6vhd5a38 . I think we can use it, but I'd need to 
+figure how to add a test for it in the configure script.
 
--- PMM
+>>   #else /* !CONFIG_INT128 */
+>>
+>>   typedef struct Int128 Int128;
+>> @@ -338,4 +333,15 @@ static inline void int128_subfrom(Int128 *a, Int128 b)
+>>   }
+> 
+>> +static inline Int128 bswap128(Int128 a)
+>> +{
+>> +    return int128_make128(bswap64(int128_gethi(a)), bswap64(int128_getlo(a)));
+>> +}
+> 
+>     #endif /* CONFIG_INT128 */
+> 
+> And add this generic one here indeed:
+> 
+>> +static inline void bswap128s(Int128 *s)
+>> +{
+>> +    *s = bswap128(*s);
+>> +}
+>> +
+>>   #endif /* INT128_H */
+>>
+> 
+
+-- 
+Matheus K. Ferst
+Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+Analista de Software Júnior
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
