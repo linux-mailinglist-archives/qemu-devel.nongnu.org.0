@@ -2,90 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AECE23EEAE8
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 12:24:22 +0200 (CEST)
-Received: from localhost ([::1]:58590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F6643EEB34
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 12:48:48 +0200 (CEST)
+Received: from localhost ([::1]:41298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFwGb-0003Oz-CH
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 06:24:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52110)
+	id 1mFweF-00042u-58
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 06:48:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mFwFZ-0002C2-Li
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 06:23:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55197)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mFwFW-0004bB-Lz
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 06:23:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629195793;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MACDhEG65gG89DvU0K5zqbThYFQMoZxPNr/cbDS1yW0=;
- b=QEUY3X9oKYYbdc2Zyn8u+lEV5Yl/TZSNR/i9v24SX6eyv1D9HySgwV5XSFE3ug5c/+3Glm
- 62Zi09KEYS7MiLsweNHm9PrRgh7dz1iJVFakJDosdUgTt6CIJ+xNN8ZtWiHOCPHXfFdXav
- PkgJE7qHSa5iFRqfoQPuQ/lneYw++To=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-492-LC0ECSC8PKSBgaHtOnfhiw-1; Tue, 17 Aug 2021 06:23:12 -0400
-X-MC-Unique: LC0ECSC8PKSBgaHtOnfhiw-1
-Received: by mail-wr1-f72.google.com with SMTP id
- m5-20020a5d6a050000b0290154e83dce73so6351299wru.19
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 03:23:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mFwcn-00030r-Vj
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 06:47:22 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:39511)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mFwck-0000Yo-Ib
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 06:47:17 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id gr13so8633160ejb.6
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 03:47:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lCmMLF1B5PMUUlvFw+laXWpCMvWq314GNcH272VKiYk=;
+ b=JrsTkG6+Vup36vTJfULoFdrxd8HQ6sPWq4cU8L9Pcz71eREwtLwF8+UBiDjUOZkyD3
+ anWCBU2+6lmVaGedsa7G5K/LFXlsSmyfFLvpjSv53pwBKmkHERYxF4iRkLLTcZrytoBW
+ liYl7mQwMdGoXmITuCEe+9aZ5muTxwdtFTMyjlEob+AgknGfb04HYbShxWkmfPmrzYYr
+ CVXAJeEd50VGsbC5tVyMtG2sPU/6YuErT0+fa6HRT16jWGdUr6F0I0NsW1A5/SFaCGtU
+ sOZlh10wd87Q610JUytFLii8DM8uAFlggTawlkbBoHJy2WjsLkuV9rkV7W27bldZMdGY
+ pjvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MACDhEG65gG89DvU0K5zqbThYFQMoZxPNr/cbDS1yW0=;
- b=WqIBZ7JXHuOqaws7kXzH89WCDwBCGBza1RPwC6jlw9Pj/bJR06V9KUu+40h2tAfox9
- daThv0+0THA2vLaGqP9BHRf9duvSXxWhKgFd4k8t8Szjo2jidjsB1XzAtBUvPFDGzBNA
- 26S/EjXNeeVS4F7RzaNGo8hHF4vU57/Tkoy3oO978FaWuoBYadwwMAR97R7KECF7q6IU
- E8jGvndCkv3NaZVpyH0T63sJYKHsppAE+yOup32ZxOV4LzSzsI5ARldBneZoIS4TmbRe
- IqQdZ4QYvhIR5m25OVjYcYltD0Q7b2EnXuiQQJDY6QpaRkvZRJxw5k5XrFHB1E9ELvTB
- lSVQ==
-X-Gm-Message-State: AOAM532AU8IPOOyRDZUEvIuPDoVammhNWD6hSs1K2Hb1RlJExpNpAKNw
- bPnZvU766U3L+PME2bYq60Wf1RJIVd2DKX2aAlV118XDUbpablwAOjE9K+j1xNRggTNOm2Morhp
- GdL7mBeYQL/6bgRPwneHYZf5l1TgchanfhHNceppzuY5r/7E6Rl9IpXhTQXBWUyEt
-X-Received: by 2002:a7b:cf0c:: with SMTP id l12mr2556316wmg.62.1629195791016; 
- Tue, 17 Aug 2021 03:23:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwv1kukfF/ZN2yiPlURyvkcH5w962op2z2T53G0RkM4h3GGUGDL51yDaSNogaxViKnmNf63BA==
-X-Received: by 2002:a7b:cf0c:: with SMTP id l12mr2556288wmg.62.1629195790759; 
- Tue, 17 Aug 2021 03:23:10 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id z1sm1905740wrv.22.2021.08.17.03.23.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Aug 2021 03:23:10 -0700 (PDT)
-Subject: Re: [PATCH] block/file-win32: add reopen handlers
-To: Viktor Prutyanov <viktor.prutyanov@phystech.edu>, kwolf@redhat.com,
- hreitz@redhat.com, sw@weilnetz.de, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210817101251.28438-1-viktor.prutyanov@phystech.edu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9ac4fad6-d328-36e7-6d6c-d772150c19a8@redhat.com>
-Date: Tue, 17 Aug 2021 12:23:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lCmMLF1B5PMUUlvFw+laXWpCMvWq314GNcH272VKiYk=;
+ b=jGephkuwmG2I5iJIz2BHdw7oCAm5v2/vngbW2vR0dI/61a2RVsTT5P9TvnZ8qs0+wY
+ 0XCMclM7zeaTy8nyDzSYod7XoDbjSBDuOtUBOgc8BO+ZcCOFLc+ShFmEbG4gKrlfJJbB
+ hRV3KtvGkGRlsAB/+R1bkj+fc4a/rbenZb7Q/yhyd4lbyON6HFJojR/cTPA2EydxW01S
+ wx+E2bDgBLG8SCIqvpRZcNQqSUChDTbykDtWwUtRC3G3ih4jrNnBQMEmGxCxYK3ZRihW
+ 3dsGtdedXj+jpxChU+Os0qpBxDC8vyqSVygESYMBqU2/CZamllW56fTjG1BlGMaSDv0c
+ UR/w==
+X-Gm-Message-State: AOAM5303t4/FwaJfJ22CW6KH5tCUxH3lM3suXXeTIkjfAYIae74Lic2z
+ NpZtzplXNMquto9kgTwbHrvohImDaN4CtuFi1dNBPA==
+X-Google-Smtp-Source: ABdhPJyBBpr8YKomDqO+TSvmV/6pU5tM74qPragtPmDG8KFjYCLKcy2Dl2U9hdTCDdSjXe0zmLahX82rb3RI96v+UxE=
+X-Received: by 2002:a17:907:1048:: with SMTP id
+ oy8mr3205778ejb.382.1629197231874; 
+ Tue, 17 Aug 2021 03:47:11 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210817101251.28438-1-viktor.prutyanov@phystech.edu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -52
-X-Spam_score: -5.3
-X-Spam_bar: -----
-X-Spam_report: (-5.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.698, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.71,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20210812093356.1946-1-peter.maydell@linaro.org>
+ <20210812093356.1946-10-peter.maydell@linaro.org>
+ <37605028-f1c7-93d7-ce51-dc78f4ed8d8b@greensocs.com>
+In-Reply-To: <37605028-f1c7-93d7-ce51-dc78f4ed8d8b@greensocs.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 17 Aug 2021 11:46:25 +0100
+Message-ID: <CAFEAcA9eU8h586eiK9dy_Jy7aDaeQzLC901SYf68FCi_LC+6GA@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 09/25] clock: Provide builtin multiplier/divider
+To: Damien Hedde <damien.hedde@greensocs.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,162 +79,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Luc Michel <luc@lmichel.fr>, Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Joel Stanley <joel@jms.id.au>, Alexandre Iooss <erdnaxe@crans.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Viktor,
+On Tue, 17 Aug 2021 at 10:59, Damien Hedde <damien.hedde@greensocs.com> wrote:
+>
+>
+>
+> On 8/12/21 11:33 AM, Peter Maydell wrote:
 
-Thanks for the patch :)
+> > +void clock_set_mul_div(Clock *clk, uint32_t multiplier, uint32_t divider)
+> > +{
+> > +    assert(divider != 0);
+> > +
+> > +    clk->multiplier = multiplier;
+> > +    clk->divider = divider;
+> > +}
+> > +
+> >  static void clock_initfn(Object *obj)
+> >  {
+> >      Clock *clk = CLOCK(obj);
+> >
+> > +    clk->multiplier = 1;
+> > +    clk->divider = 1;
+> > +
+> >      QLIST_INIT(&clk->children);
+> >  }
+> >
+> >
+>
+> Regarding migration, you made the vmstate_muldiv subsection optional. I
+> suppose it is to keep backward migration working in case of simple
+> mul=1,div=1 clocks.
 
-On 8/17/21 12:12 PM, Viktor Prutyanov wrote:
-> Make 'qemu-img commit' work on Windows.
-> 
-> Command 'commit' requires reopening backing file in RW mode. So,
-> add reopen prepare/commit/abort handlers and change dwShareMode
-> for CreateFile call in order to allow further read/write reopening.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/418
-> Suggested-by: Hanna Reitz <hreitz@redhat.com>
-> Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-> ---
->  block/file-win32.c | 85 +++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 84 insertions(+), 1 deletion(-)
-> 
-> diff --git a/block/file-win32.c b/block/file-win32.c
-> index 2642088bd6..e44878e6be 100644
-> --- a/block/file-win32.c
-> +++ b/block/file-win32.c
-> @@ -58,6 +58,10 @@ typedef struct BDRVRawState {
->      QEMUWin32AIOState *aio;
->  } BDRVRawState;
->  
-> +typedef struct BDRVRawReopenState {
-> +    HANDLE hfile;
-> +} BDRVRawReopenState;
-> +
->  /*
->   * Read/writes the data to/from a given linear buffer.
->   *
-> @@ -392,7 +396,7 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
->      }
->  
->      s->hfile = CreateFile(filename, access_flags,
-> -                          FILE_SHARE_READ, NULL,
-> +                          FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
->                            OPEN_EXISTING, overlapped, NULL);
->      if (s->hfile == INVALID_HANDLE_VALUE) {
->          int err = GetLastError();
-> @@ -634,6 +638,81 @@ static int coroutine_fn raw_co_create_opts(BlockDriver *drv,
->      return raw_co_create(&options, errp);
->  }
->  
-> +static int raw_reopen_prepare(BDRVReopenState *state,
-> +        BlockReopenQueue *queue, Error **errp)
+Yes -- we only send the subsection if the mul,div are
+something other than 1,1; an inbound migration stream without
+the subsection then means "use 1,1".
 
-Invalid style alignment.
+> Do we need to ensure multiplier and divider fields are set to 1 upon
+> receiving a state if the vmstate_muldiv subsection is absent ? I
+> remember there are post_load() tricks to achieve that.
 
-> +{
-> +    BDRVRawState *s = state->bs->opaque;
-> +    BDRVRawReopenState *rs;
-> +    int access_flags;
-> +    DWORD overlapped;
-> +    int ret = 0;
-> +
-> +    rs = state->opaque = g_new0(BDRVRawReopenState, 1);
-> +
-> +    raw_parse_flags(state->flags, s->aio != NULL, &access_flags, &overlapped);
-> +    rs->hfile = CreateFile(state->bs->filename, access_flags,
-> +                           FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
-> +                           OPEN_EXISTING, overlapped, NULL);
-> +
-> +    if (rs->hfile == INVALID_HANDLE_VALUE) {
-> +        int err = GetLastError();
-> +
-> +        error_setg_win32(errp, err, "Could not reopen '%s'",
-> +                         state->bs->filename);
-> +        if (err == ERROR_ACCESS_DENIED) {
-> +            ret = -EACCES;
-> +        } else {
-> +            ret = -EINVAL;
-> +        }
-> +        goto fail;
-> +    }
-> +
-> +    if (s->aio) {
-> +        ret = win32_aio_attach(s->aio, rs->hfile);
-> +        if (ret < 0) {
-> +            error_setg_errno(errp, -ret, "Could not enable AIO");
-> +            goto fail;
-> +        }
-> +    }
-To avoid non-NULL value in state->opaque on failure,
-I'd use in prologue:
+I was relying on "we set the default in clock_initfn()" (by analogy
+with being able to assume that fields in device state are at their
+reset values when an inbound migration happens, so if the migration
+doesn't set them then they stay at those reset values). But
+thinking about it a bit more I think you're right and we do have to
+have a pre_load function to set them to 1. Otherwise we would get
+wrong the case where a board/SoC/device sets a clock up on reset
+to have a non-1 multiplier, and then later the guest programs it to
+be 1, and then we migrate like that. (That is, the mul/div at point
+of migration will be the value-on-reset as set by the device etc
+code that created the clock, which might be different from what
+clock_initfn() set it to.)
 
-       rs = g_new0(BDRVRawReopenState, 1);
+So we need to add something like
 
-and here:
+static int clock_pre_load(void *opaque)
+{
+    Clock *clk = opaque;
+    /*
+     * The initial out-of-reset settings of the Clock might have been
+     * configured by the device to be different from what we set
+     * in clock_initfn(), so we must here set the default values to
+     * be used if they are not in the inbound migration state.
+     */
+    clk->multiplier = 1;
+    clk->divider = 1;
+}
 
-       state->opaque = rs;
-
-> +    return 0;
-> +
-> +fail:
-
-Shouldn't we free state->opaque on failure? (I'm not sure because
-I don't know well the bdrv_reopen_prepare handler).
-
-> +    return ret;
-> +}
-> +
-> +static void raw_reopen_commit(BDRVReopenState *state)
-> +{
-> +    BDRVRawState *s = state->bs->opaque;
-> +    BDRVRawReopenState *rs = state->opaque;
-> +
-> +    if (!rs) {
-
-Indeed, raw_reopen_prepare() could let state->opaque non-NULL.
-
-> +        return;
-> +    }
-> +
-> +    CloseHandle(s->hfile);
-> +    s->hfile = rs->hfile;
-> +
-> +    g_free(rs);
-> +    state->opaque = NULL;
-> +}
-> +
-> +static void raw_reopen_abort(BDRVReopenState *state)
-> +{
-> +    BDRVRawReopenState *rs = state->opaque;
-> +
-> +    if (!rs) {
-> +        return;
-> +    }
-> +
-> +    if (rs->hfile != INVALID_HANDLE_VALUE) {
-> +        CloseHandle(rs->hfile);
-> +    }
-> +
-> +    g_free(rs);
-> +    state->opaque = NULL;
-> +}
-> +
->  static QemuOptsList raw_create_opts = {
->      .name = "raw-create-opts",
->      .head = QTAILQ_HEAD_INITIALIZER(raw_create_opts.head),
-> @@ -659,6 +738,10 @@ BlockDriver bdrv_file = {
->      .bdrv_co_create_opts = raw_co_create_opts,
->      .bdrv_has_zero_init = bdrv_has_zero_init_1,
->  
-> +    .bdrv_reopen_prepare = raw_reopen_prepare,
-> +    .bdrv_reopen_commit  = raw_reopen_commit,
-> +    .bdrv_reopen_abort   = raw_reopen_abort,
-> +
->      .bdrv_aio_preadv    = raw_aio_preadv,
->      .bdrv_aio_pwritev   = raw_aio_pwritev,
->      .bdrv_aio_flush     = raw_aio_flush,
-> 
-
+thanks
+-- PMM
 
