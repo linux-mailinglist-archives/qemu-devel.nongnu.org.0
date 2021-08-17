@@ -2,79 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37C083EF393
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 22:42:51 +0200 (CEST)
-Received: from localhost ([::1]:55300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFAC73EF445
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 22:52:52 +0200 (CEST)
+Received: from localhost ([::1]:33652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mG5v7-0006y2-MV
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 16:42:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36210)
+	id 1mG64o-0003Ms-Go
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 16:52:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mG5ta-0006G8-8K
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 16:41:14 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:43771)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mG5tY-0000AZ-3F
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 16:41:14 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id e19so389850pla.10
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 13:41:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=6JgcKR7U+fRffWnU9TfMSMUX8i9qJ4l3cHpA13H8iLM=;
- b=drX6v201vCGWak1T+EYtRQjd7tUqSJJ8T07yP6pFO4786dHI7q7BfszTLoGG2pzmdL
- PQR9jZfo4tmra+zVbRn4quPzzjoUXKZNXySLRDJqd7AvL4Q+4lHvFW+5lfSM/i5FYrww
- KOCpfvoAbutWcj2n4y9nWQ/M9xU4k+nm7BxxRQx2WAoavGNz8qunI/ttBiqykzktzVPv
- LdQoKm+meIN/D03pU6QpB6hzTuyLJoib2YOg31toOGw/MaewrSM3ZTR2+pVIU9kfX5mX
- 2LXZIIK228ShFX/Fqgs/GiohkMaBRTRGdyhz/wToZ5b5W49vHBT7czXFEfYnHMnwns/K
- dNUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6JgcKR7U+fRffWnU9TfMSMUX8i9qJ4l3cHpA13H8iLM=;
- b=Ot0H08Ozs4ybDSKv7xAbkgR+Zy5qGhjRhELmhI1bAVJL7Mp6OysafG4ZiV06zfPuNE
- T1LC60GtIryfMRk8BQVdBt1lF4ITCfntjgmE4avn8zEb3J0n2eJBfhCfUpKnpF0jcmrp
- SmhO0ymrGMdjmvNEhokbtvHQp+PJuHu38/A+c6gFLLhRpqf4x8dP6RRDsBIBSR7TzIcK
- gRDAJWDiqjjaH5eh+HijFPAPkt0+CLb2xlHGfmp8AuPj42X6Ln8MSZlRYl9Wy/D8ccDt
- G5vL9kDYAWj/ZwCj1Unw2WMpqsRltu/jWe1yDVbIVfOUAss9tvwxbgtH0oyv4u2OjwSa
- P2eg==
-X-Gm-Message-State: AOAM532LaQDRCLx37YCeREoh6OEWwUKf8oJDRgYp0sPyCecKAOgTwwhl
- wUhrUxdCU44VQlmN3katZR5D/jAkMbL4pA==
-X-Google-Smtp-Source: ABdhPJzr5yWqnmJs+vZ0smylLJUyuPjRUq3x0W3nV/J2H3Pyyc4zGZryG07vYwwCTy282AIScz4F4g==
-X-Received: by 2002:a63:3501:: with SMTP id c1mr5143197pga.280.1629232870421; 
- Tue, 17 Aug 2021 13:41:10 -0700 (PDT)
-Received: from [192.168.3.43] ([173.197.107.15])
- by smtp.gmail.com with ESMTPSA id 11sm4072922pgh.52.2021.08.17.13.41.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Aug 2021 13:41:10 -0700 (PDT)
-Subject: Re: [PATCH] target/arm: Do hflags rebuild in cpsr_write()
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, 
- QEMU Developers <qemu-devel@nongnu.org>
-References: <20210817201843.3829-1-peter.maydell@linaro.org>
- <CAFEAcA_AXV5zvhWoyxmB03tN_UcTwJhp0V3rRD0Z7VcRMHM+KQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4db339d0-8350-8099-0e28-eeb4b5a5a1a0@linaro.org>
-Date: Tue, 17 Aug 2021 10:41:07 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <tobin@linux.ibm.com>)
+ id 1mG63A-0002ap-9B
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 16:51:08 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:12610
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tobin@linux.ibm.com>)
+ id 1mG634-0006wt-Mq
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 16:51:08 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 17HKYodR003818; Tue, 17 Aug 2021 16:50:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=B104m2PI+epMBBjLUjsc3SB9fXJeWpwRwNIs73eCpak=;
+ b=pFwEzqxZEy5wVbAo8N894f0wBAd/wZwMlI7mjibY/F/4p2Hubyy8WywE1QtKgIpYWV/E
+ iS68eGo9sZ8zAb9t4OQ4iInDHvHDWCpVXQ/qVDoQg1xeKGpDvPu0pu0zNsUrmTpERdt3
+ Jg5uIlT4CECcEef6DeuZV2oMamn9w7EcqHXqK13SenAgdjGNhqbLWWIFXgO0ctb3SuSE
+ gtnoFUxnQYsRZudy1uXH3EMKZJY6fOfnHhDYCEIrPKyiIGkkBnuxOPHdypEDGKUjzPaW
+ CONJlHFjou+OH3TqZHiOMpB+2C9NDKMYemqtNdBw/zGe/Fd7ZNvtOKNpZ4mTCJQxtDVr xw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3aeua1dquy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Aug 2021 16:50:57 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 17HKZLer005645;
+ Tue, 17 Aug 2021 16:50:57 -0400
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3aeua1dqu3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Aug 2021 16:50:57 -0400
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 17HKmCJx030408;
+ Tue, 17 Aug 2021 20:50:55 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma01wdc.us.ibm.com with ESMTP id 3ae5fcd9m9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 17 Aug 2021 20:50:55 +0000
+Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
+ [9.57.199.109])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 17HKosDb3473992
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 17 Aug 2021 20:50:54 GMT
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 89D72112067;
+ Tue, 17 Aug 2021 20:50:54 +0000 (GMT)
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2885B112063;
+ Tue, 17 Aug 2021 20:50:54 +0000 (GMT)
+Received: from Tobins-MacBook-Pro-2.local (unknown [9.65.234.123])
+ by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
+ Tue, 17 Aug 2021 20:50:54 +0000 (GMT)
+Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Steve Rutherford <srutherford@google.com>,
+ Ashish Kalra <Ashish.Kalra@amd.com>
+References: <cover.1629118207.git.ashish.kalra@amd.com>
+ <CABayD+fyrcyPGg5TdXLr95AFkPFY+EeeNvY=NvQw_j3_igOd6Q@mail.gmail.com>
+ <0fcfafde-a690-f53a-01fc-542054948bb2@redhat.com>
+From: Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
+Message-ID: <37796fd1-bbc2-f22c-b786-eb44f4d473b9@linux.ibm.com>
+Date: Tue, 17 Aug 2021 16:50:53 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_AXV5zvhWoyxmB03tN_UcTwJhp0V3rRD0Z7VcRMHM+KQ@mail.gmail.com>
+In-Reply-To: <0fcfafde-a690-f53a-01fc-542054948bb2@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: -eVd6COz8P1NJwxjpav9fMNNEB8kjAIF
+X-Proofpoint-ORIG-GUID: 3x3mgxWH1-5y34FI0YQ3S8UeoumS0W9P
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-08-17_06:2021-08-17,
+ 2021-08-17 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015
+ lowpriorityscore=0 impostorscore=0 adultscore=0 bulkscore=0 malwarescore=0
+ priorityscore=1501 mlxlogscore=999 phishscore=0 spamscore=0 suspectscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108170129
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=tobin@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
 X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.961,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.961,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,46 +117,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: thomas.lendacky@amd.com, brijesh.singh@amd.com, ehabkost@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, richard.henderson@linaro.org,
+ jejb@linux.ibm.com, tobin@ibm.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ frankeh@us.ibm.com, dovmurik@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/17/21 10:26 AM, Peter Maydell wrote:
-> On Tue, 17 Aug 2021 at 21:18, Peter Maydell <peter.maydell@linaro.org> wrote:
->>
->> Currently we rely on all the callsites of cpsr_write() to rebuild the
->> cached hflags if they change one of the CPSR bits which we use as a
->> TB flag and cache in hflags.  This is a bit awkward when we want to
->> change the set of CPSR bits that we cache, because it means we need
->> to re-audit all the cpsr_write() callsites to see which flags they
->> are writing and whether they now need to rebuild the hflags.
->>
->> Switch instead to making cpsr_write() call arm_rebuild_hflags()
->> itself if one of the bits being changed is a cached bit.
->>
->> We don't do the rebuild for the CPSRWriteRaw write type,
-> 
-> Doh. I said this, but then...
-> 
->> diff --git a/target/arm/helper.c b/target/arm/helper.c
->> index 201ecf8c67f..cdd6e0858fc 100644
->> --- a/target/arm/helper.c
->> +++ b/target/arm/helper.c
->> @@ -9215,6 +9215,7 @@ void cpsr_write(CPUARMState *env, uint32_t val, uint32_t mask,
->>                   CPSRWriteType write_type)
->>   {
->>       uint32_t changed_daif;
->> +    bool rebuild_hflags = mask & (CPSR_M | CPSR_E | CPSR_IL);
-> 
-> ...forgot to actually check the write type.
-> 
-> Should be:
-> 
->      bool rebuild_hflags = (write_type != CPSRWriteRaw) &&
->          (mask & (CPSR_M | CPSR_E | CPSR_IL));
 
-with the fix,
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On 8/17/21 12:32 PM, Paolo Bonzini wrote:
+> On 17/08/21 01:53, Steve Rutherford wrote:
+>> Separately, I'm a little weary of leaving the migration helper mapped
+>> into the shared address space as writable.
+>
+> A related question here is what the API should be for how the 
+> migration helper sees the memory in both physical and virtual address.
+>
+> First of all, I would like the addresses passed to and from the 
+> migration helper to *not* be guest physical addresses (this is what I 
+> referred to as QEMU's ram_addr_t in other messages).  The reason is 
+> that some unmapped memory regions, such as virtio-mem hotplugged 
+> memory, would still have to be transferred and could be encrypted.  
+> While the guest->host hypercall interface uses guest physical 
+> addresses to communicate which pages are encrypted, the host can do 
+> the GPA->ram_addr_t conversion and remember the encryption status of 
+> currently-unmapped regions.
+>
+> This poses a problem, in that the guest needs to prepare the page 
+> tables for the migration helper and those need to use the migration 
+> helper's physical address space.
+>
+> There's three possibilities for this:
+>
+> 1) the easy one: the bottom 4G of guest memory are mapped in the 
+> mirror VM 1:1.  The ram_addr_t-based addresses are shifted by either 
+> 4G or a huge value such as 2^42 (MAXPHYADDR - physical address 
+> reduction - 1). This even lets the migration helper reuse the OVMF 
+> runtime services memory map (but be careful about thread safety...).
 
+This is essentially what we do in our prototype, although we have an 
+even simpler approach. We have a 1:1 mapping that maps an address to 
+itself with the cbit set. During Migration QEMU asks the migration 
+handler to import/export encrypted pages and provides the GPA for said 
+page. Since the migration handler only exports/imports encrypted pages, 
+we can have the cbit set for every page in our mapping. We can still use 
+OVMF functions with these mappings because they are on encrypted pages. 
+The MH does need to use a few shared pages (to communicate with QEMU, 
+for instance), so we have another mapping without the cbit that is at a 
+large offset.
 
-r~
+I think this is basically equivalent to what you suggest. As you point 
+out above, this approach does require that any page that will be 
+exported/imported by the MH is mapped in the guest. Is this a bad 
+assumption? The VMSA for SEV-ES is one example of a region that is 
+encrypted but not mapped in the guest (the PSP handles it directly). We 
+have been planning to map the VMSA into the guest to support migration 
+with SEV-ES (along with other changes).
+
+> 2) the more future-proof one.  Here, the migration helper tells QEMU 
+> which area to copy from the guest to the mirror VM, as a (main GPA, 
+> length, mirror GPA) tuple.  This could happen for example the first 
+> time the guest writes 1 to MSR_KVM_MIGRATION_CONTROL.  When migration 
+> starts, QEMU uses this information to issue KVM_SET_USER_MEMORY_REGION 
+> accordingly.  The page tables are built for this (usually very high) 
+> mirror GPA and the migration helper operates in a completely separate 
+> address space.  However, the backing memory would still be shared 
+> between the main and mirror VMs.  I am saying this is more future 
+> proof because we have more flexibility in setting up the physical 
+> address space of the mirror VM.
+
+The Migration Handler in OVMF is not a contiguous region of memory. The 
+MH uses OVMF helper functions that are allocated in various regions of 
+runtime memory. I guess I can see how separating the memory of the MH 
+and the guest OS could be positive. On the other hand, since the MH is 
+in OVMF, it is fundamentally designed to coexist with the guest OS.
+
+What do you envision in terms of future changes to the mirror address space?
+
+> 3) the paranoid one, which I think is what you hint at above: this is 
+> an extension of (2), where userspace invokes the PSP send/receive API 
+> to copy the small requested area of the main VM into the mirror VM.  
+> The mirror VM code and data are completely separate from the main VM.  
+> All that the mirror VM shares is the ram_addr_t data. Though I am not 
+> even sure it is possible to use the send/receive API this way...
+
+Yeah not sure if you could use the PSP for this.
+
+-Tobin
+
+>
+> What do you think?
+>
+> Paolo
+>
+>
 
