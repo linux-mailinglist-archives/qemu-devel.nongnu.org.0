@@ -2,71 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FA383EEA2E
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 11:44:43 +0200 (CEST)
-Received: from localhost ([::1]:56972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A51683EEA2F
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 11:44:51 +0200 (CEST)
+Received: from localhost ([::1]:57488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFveE-0006mA-AW
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 05:44:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43060)
+	id 1mFveM-00077Q-Nc
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 05:44:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mFvcv-0005EZ-Vr
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 05:43:22 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:35827)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mFvcu-0003Yv-Cl
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 05:43:21 -0400
-Received: by mail-ed1-x533.google.com with SMTP id dj8so22844559edb.2
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 02:43:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GSs06V76c+0ts8h+JZB1VzzY4ifLbeN52pmDAaCxC4Y=;
- b=aISvpLI2RXr+VZLIs6KJE6MBbGNaoGWrYftekDVvg0Fv0YC83jVAvJExy+PEhmI7gv
- WwWDWwYjcZqsw4t+WNcKOtSOVRSMpXSeVcHCyDjXOwqWR7Qksb8uJ+/xKsa/98kVxasv
- CvT5OPGj9OuhyzJdyudTYNzBySPm0sYpBYL4kpZ8uZJg5+gBn+QmR7N4zf6g7Q2g8FSL
- fIPAk5swZJklf8M8QqSaYVRyn8FwXHW1zqdZE/LpOeC7d9RhxamMvHTv8dHLwgZITLNA
- G7M8qzmITLko719q2U7rGXLApzik0dZ0wQXmFCabh8DONHyUz0IsAoJYX2O6J6FvZ8s6
- xRCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=GSs06V76c+0ts8h+JZB1VzzY4ifLbeN52pmDAaCxC4Y=;
- b=l9AKva1KKZemWzCzqMP9vzzyIO4Rm0Ve7sYyESkW4rnvnUu+GG6dI8hXUu3X0swz0l
- UlWOjKZC2WXEUC3fjCkrPeWc2pvlutLctx+ElT1XQjCb1qgbKBtXFaAU19W0XyMSAgwR
- 7en9ChuuVVO5i8mXpz8tpg9S2lKp2hheCUO/Gm+eBXgtEcR3Tk4/kxtBl4M2xXKq3/BE
- ouSVaRWx/Qv26cdBu9mpdizcHvZQILHsXarBSa3DbJmSUdq2ynVvqZ2YiKbePyhcglUe
- +SP44C+9xWUdJBlQQbFyNlVVR47B35fZa/aYNe0ci7wABzLPgGZ/2Scv4ox0jbCvi3rg
- R6NQ==
-X-Gm-Message-State: AOAM530eGXFv8AE71CyowllNnxcKTwNyIVhDhuC29pn6XbRNIOJ8O3vX
- CaK54GSK1JpmawUppgLaiv31F2zz5HhqpBIawePaBg==
-X-Google-Smtp-Source: ABdhPJyN0jYfas2M4CeN0cp9SdP8KNEwhENf7Um9lvtdbPqnF8HJsLNrbphFSvoeoHYJS+yL8Ej84Yx/c14n6KqLkoU=
-X-Received: by 2002:a05:6402:4387:: with SMTP id
- o7mr3167611edc.204.1629193398425; 
- Tue, 17 Aug 2021 02:43:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1mFvdD-0005XR-7P; Tue, 17 Aug 2021 05:43:39 -0400
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:54690)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1mFvdB-0003lm-BN; Tue, 17 Aug 2021 05:43:39 -0400
+Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 5E788C6019D;
+ Tue, 17 Aug 2021 11:43:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
+ t=1629193414;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DwVJwkTnh0gjW+8d8UYLTpWePPbJq1pe/KSA4pXTc8s=;
+ b=VyR+UTe/VhI5XNsJJeXD6EEfjsOBfHCcbQ3PEhdUtKriqpxQvc5ZkLT1z7+qkBG/VceUaG
+ mQuXxWZb6a+3JFbwX45rLUOew7szObpKxb4sNHJqVUN/Edok0zTfHViMuOm6drhc9ZUkzw
+ n1i1LbVctY8GaYMLEO4w/S+yo460FG5mzJctm9JexAHIIo9n7YzM8D+JQ7CtlntEHWvgcS
+ 79OiklcrBa1iVTfl7eK/gU5lSz2ZKFaC5xqStDOLERkVL7BEhwVAlq6oJ1zxCBeU5Ppgnf
+ r5V/YZViptETY3xB0TM0CBG0el4WQC7swI5chZefQ4kRwoRXGCnyiJOdrguiVA==
+Date: Tue, 17 Aug 2021 11:45:46 +0200
+From: Luc Michel <luc@lmichel.fr>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH for-6.2 11/25] hw/arm/stm32f100: Wire up sysclk and refclk
+Message-ID: <20210817094546.zz6qffv7uplu2nb2@sekoia-pc.home.lmichel.fr>
+References: <20210812093356.1946-1-peter.maydell@linaro.org>
+ <20210812093356.1946-12-peter.maydell@linaro.org>
 MIME-Version: 1.0
-References: <20210816025915.213093-1-linux@roeck-us.net>
- <YRn6d/Vb10JTmZ18@yekko>
- <68327a9-a317-9be8-92a6-ed23a91f4d7e@eik.bme.hu> <YRsnxY+0PplppxeU@yekko>
- <28b9ae3d-80b8-f48b-dfe6-9b895d5c5db3@eik.bme.hu>
-In-Reply-To: <28b9ae3d-80b8-f48b-dfe6-9b895d5c5db3@eik.bme.hu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 17 Aug 2021 10:42:32 +0100
-Message-ID: <CAFEAcA8x5Ne2=WF2NXDsO-6GO=Lbw+8qXx3KR7BhebVPkpiHXQ@mail.gmail.com>
-Subject: Re: [PATCH] hw: ppc: sam460ex: Disable Ethernet devicetree nodes
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210812093356.1946-12-peter.maydell@linaro.org>
+Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
+ helo=pharaoh.lmichel.fr
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,29 +62,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
- Greg Kurz <groug@kaod.org>, Guenter Roeck <linux@roeck-us.net>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, Alexandre Iooss <erdnaxe@crans.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Aug 2021 at 10:25, BALATON Zoltan <balaton@eik.bme.hu> wrote:
-> We could also modify the pc-bios/canyonlands.dts to comment out the
-> ethernet ports from it or add the disabled properties there, maybe also
-> adding a comment that explains these are not emulated in QEMU but to me
-> keeping the dts unmodified, matching real hardware and let the board code
-> patch it according to what's emulated looks more obvious to clearly show
-> what changes we have from the originial hardware which would be less clear
-> if we loaded a modified dtb. Modifying the dtb simplifies the board code
-> but hides the differences from real hardware. So since we already have to
-> modify the loaded dtb anyway I'm OK with changing it at the same place as
-> this patch proposes.
+On 10:33 Thu 12 Aug     , Peter Maydell wrote:
+> Wire up the sysclk and refclk for the stm32f100 SoC.  This SoC always
+> runs the systick refclk at 1/8 the frequency of the main CPU clock,
+> so the board code only needs to provide a single sysclk clock.
+> 
+> Because there is only one board using this SoC, we convert the SoC
+> and the board together, rather than splitting it into "add clock to
+> SoC; connect clock in board; add error check in SoC code that clock
+> is wired up".
+> 
+> When the systick device starts honouring its clock inputs, this will
+> fix an emulation inaccuracy in the stm32vldiscovery board where the
+> systick reference clock was running at 1MHz rather than 3MHz.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-If this was preventing Linux from booting then I'd be a bit more
-inclined to it. But it doesn't sound like it's actually doing that?
-AIUI you just get a couple of non-functional ethernet interfaces
-that can be ignored, and "some devices don't actually work" is
-pretty much par-for-the-course for most QEMU models...
+Reviewed-by: Luc Michel <luc@lmichel.fr>
 
--- PMM
+> ---
+>  include/hw/arm/stm32f100_soc.h |  4 ++++
+>  hw/arm/stm32f100_soc.c         | 30 ++++++++++++++++++++++++++++++
+>  hw/arm/stm32vldiscovery.c      | 12 +++++++-----
+>  3 files changed, 41 insertions(+), 5 deletions(-)
+> 
+> diff --git a/include/hw/arm/stm32f100_soc.h b/include/hw/arm/stm32f100_soc.h
+> index b7d71c6c634..40cd415b284 100644
+> --- a/include/hw/arm/stm32f100_soc.h
+> +++ b/include/hw/arm/stm32f100_soc.h
+> @@ -29,6 +29,7 @@
+>  #include "hw/ssi/stm32f2xx_spi.h"
+>  #include "hw/arm/armv7m.h"
+>  #include "qom/object.h"
+> +#include "hw/clock.h"
+>  
+>  #define TYPE_STM32F100_SOC "stm32f100-soc"
+>  OBJECT_DECLARE_SIMPLE_TYPE(STM32F100State, STM32F100_SOC)
+> @@ -56,6 +57,9 @@ struct STM32F100State {
+>      MemoryRegion sram;
+>      MemoryRegion flash;
+>      MemoryRegion flash_alias;
+> +
+> +    Clock *sysclk;
+> +    Clock *refclk;
+>  };
+>  
+>  #endif
+> diff --git a/hw/arm/stm32f100_soc.c b/hw/arm/stm32f100_soc.c
+> index 0be92b2c475..f7b344ba9fb 100644
+> --- a/hw/arm/stm32f100_soc.c
+> +++ b/hw/arm/stm32f100_soc.c
+> @@ -30,6 +30,7 @@
+>  #include "exec/address-spaces.h"
+>  #include "hw/arm/stm32f100_soc.h"
+>  #include "hw/qdev-properties.h"
+> +#include "hw/qdev-clock.h"
+>  #include "hw/misc/unimp.h"
+>  #include "sysemu/sysemu.h"
+>  
+> @@ -57,6 +58,9 @@ static void stm32f100_soc_initfn(Object *obj)
+>      for (i = 0; i < STM_NUM_SPIS; i++) {
+>          object_initialize_child(obj, "spi[*]", &s->spi[i], TYPE_STM32F2XX_SPI);
+>      }
+> +
+> +    s->sysclk = qdev_init_clock_in(DEVICE(s), "sysclk", NULL, NULL, 0);
+> +    s->refclk = qdev_init_clock_in(DEVICE(s), "refclk", NULL, NULL, 0);
+>  }
+>  
+>  static void stm32f100_soc_realize(DeviceState *dev_soc, Error **errp)
+> @@ -68,6 +72,30 @@ static void stm32f100_soc_realize(DeviceState *dev_soc, Error **errp)
+>  
+>      MemoryRegion *system_memory = get_system_memory();
+>  
+> +    /*
+> +     * We use s->refclk internally and only define it with qdev_init_clock_in()
+> +     * so it is correctly parented and not leaked on an init/deinit; it is not
+> +     * intended as an externally exposed clock.
+> +     */
+> +    if (clock_has_source(s->refclk)) {
+> +        error_setg(errp, "refclk clock must not be wired up by the board code");
+> +        return;
+> +    }
+> +
+> +    if (!clock_has_source(s->sysclk)) {
+> +        error_setg(errp, "sysclk clock must be wired up by the board code");
+> +        return;
+> +    }
+> +
+> +    /*
+> +     * TODO: ideally we should model the SoC RCC and its ability to
+> +     * change the sysclk frequency and define different sysclk sources.
+> +     */
+> +
+> +    /* The refclk always runs at frequency HCLK / 8 */
+> +    clock_set_mul_div(s->refclk, 8, 1);
+> +    clock_set_source(s->refclk, s->sysclk);
+> +
+>      /*
+>       * Init flash region
+>       * Flash starts at 0x08000000 and then is aliased to boot memory at 0x0
+> @@ -89,6 +117,8 @@ static void stm32f100_soc_realize(DeviceState *dev_soc, Error **errp)
+>      qdev_prop_set_uint32(armv7m, "num-irq", 61);
+>      qdev_prop_set_string(armv7m, "cpu-type", s->cpu_type);
+>      qdev_prop_set_bit(armv7m, "enable-bitband", true);
+> +    qdev_connect_clock_in(armv7m, "cpuclk", s->sysclk);
+> +    qdev_connect_clock_in(armv7m, "refclk", s->refclk);
+>      object_property_set_link(OBJECT(&s->armv7m), "memory",
+>                               OBJECT(get_system_memory()), &error_abort);
+>      if (!sysbus_realize(SYS_BUS_DEVICE(&s->armv7m), errp)) {
+> diff --git a/hw/arm/stm32vldiscovery.c b/hw/arm/stm32vldiscovery.c
+> index 7e8191ebf5f..07e401a818d 100644
+> --- a/hw/arm/stm32vldiscovery.c
+> +++ b/hw/arm/stm32vldiscovery.c
+> @@ -27,6 +27,7 @@
+>  #include "qapi/error.h"
+>  #include "hw/boards.h"
+>  #include "hw/qdev-properties.h"
+> +#include "hw/qdev-clock.h"
+>  #include "qemu/error-report.h"
+>  #include "hw/arm/stm32f100_soc.h"
+>  #include "hw/arm/boot.h"
+> @@ -39,16 +40,17 @@
+>  static void stm32vldiscovery_init(MachineState *machine)
+>  {
+>      DeviceState *dev;
+> +    Clock *sysclk;
+>  
+> -    /*
+> -     * TODO: ideally we would model the SoC RCC and let it handle
+> -     * system_clock_scale, including its ability to define different
+> -     * possible SYSCLK sources.
+> -     */
+>      system_clock_scale = NANOSECONDS_PER_SECOND / SYSCLK_FRQ;
+>  
+> +    /* This clock doesn't need migration because it is fixed-frequency */
+> +    sysclk = clock_new(OBJECT(machine), "SYSCLK");
+> +    clock_set_hz(sysclk, SYSCLK_FRQ);
+> +
+>      dev = qdev_new(TYPE_STM32F100_SOC);
+>      qdev_prop_set_string(dev, "cpu-type", ARM_CPU_TYPE_NAME("cortex-m3"));
+> +    qdev_connect_clock_in(dev, "sysclk", sysclk);
+>      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>  
+>      armv7m_load_kernel(ARM_CPU(first_cpu),
+> -- 
+> 2.20.1
+> 
+
+-- 
 
