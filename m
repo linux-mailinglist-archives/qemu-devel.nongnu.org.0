@@ -2,93 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC1C33EEF3D
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 17:37:47 +0200 (CEST)
-Received: from localhost ([::1]:40518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 210FD3EEF4B
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 17:40:12 +0200 (CEST)
+Received: from localhost ([::1]:42776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mG19u-0005Kn-GB
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 11:37:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41528)
+	id 1mG1CF-0006wZ-6S
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 11:40:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mG190-0004Sw-LA
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 11:36:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38045)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mG18x-0005F7-Hz
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 11:36:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629214605;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=b+VmwD56EwOvPyi/fVA5MFZG0BcmnMhP9lsat+fDEL0=;
- b=DPBG4lF9ao3Kvmpew+5moqzMYGqqHxzD6sMdma6NezmqW3PqbSZgnRa0WcCExUItCus4kK
- 3SqlTl5t5g0N4qw92Wg4E6q6kbstfD5sukRUPwpW6QB1dqxkkna8MV7vU3JC5RtvfD89uQ
- rSYNBAGyAQ8NtVlG2j4bOSL35PIdwkc=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215--oppnYnTOp6UM15qGHV41Q-1; Tue, 17 Aug 2021 11:36:43 -0400
-X-MC-Unique: -oppnYnTOp6UM15qGHV41Q-1
-Received: by mail-ed1-f72.google.com with SMTP id
- k13-20020aa7c04d000000b003bf04c03fc4so2268343edo.22
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 08:36:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mG1BD-0006Gq-15
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 11:39:07 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:36609)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mG1BB-00077e-F4
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 11:39:06 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ u13-20020a17090abb0db0290177e1d9b3f7so5906613pjr.1
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 08:39:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=49k5lNuKi0C/FVQyAAPuKSHr9GpSHr5Y39UmzA5YGiQ=;
+ b=VkIkBU8hSYbnSewRJockkpyeZMUgW7mIu61deizqviF9TFZN1tcp2pCS30BcRedpcV
+ n3F8uMc3e2R39trxqU1kDHDCVEhtFek2UXzeT71Xx4hELuDSCKZexLoiRdTY/reZTha5
+ 0Kg+EiRrGDZaCPId1oxicK5nW4JD55W+yInmgxAh9xAr1+Mq0mdelftrS8UuUsXx1ccj
+ VfyMiJokrYjdrQIcGmz/uTDUGeRgVsDHzKOoZl5Fjv/MCpW61FMzObHO2eunwA5zjxsq
+ jBoWRh96HaA6C+GEZ7yMbATQIWZGrOlmcrIB6MIsYT6EOLTHccPon4mg/zAy7P/jOCYw
+ 3Veg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=b+VmwD56EwOvPyi/fVA5MFZG0BcmnMhP9lsat+fDEL0=;
- b=rIDnCvSQCx8eZKJP3IMIBQh/mdGHRZwk7nG+nESonEj+CStcDmHo+eo1ZeazwboJbK
- r3ahYMUGcUZXCD0WQsQokn+3pUiG8hNSzh+gEVHqmLmTzGjSi4eZbMfvEQaE2EUhTIp3
- tGtUVsW1Vdx/lA0KbGgkkwQ/LHhPRd3FUFyFVUmI1YHtlUbORgx1O/JRMqnOU0jpPWgj
- y3H2SEtDlc9OWnrIytrhn11f4hLCJZJIiuwZHT0hzHp/ECykISF3EWXCZZbZno9OhZXD
- 23X5sf0NLep9x2SLNy5ordDlCxr5Il7gSdD+DsOKmc/2CleFRZfYgqC9ZvYQynuM0HA6
- Z1NA==
-X-Gm-Message-State: AOAM530kvGbKYbeFgZwgPl5lZjwgdz5OThGPc3Mka2MmkjyJSWzB1Hsp
- dF/ff9Drcoc2gjO/+RdTUvimw7JnwKjhkkXjorQ74qCazZmXcNMVuWH8znx1SntVuk/e3Vidz3t
- BdgdOfitShJcInoU=
-X-Received: by 2002:a17:906:e0d2:: with SMTP id
- gl18mr4638996ejb.35.1629214601480; 
- Tue, 17 Aug 2021 08:36:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxIJMYFro1Lh20r4xsqvD+ESQB9olC3GNM/3hl8YbdW8Oe8OmKLP/RRPgeVUbABj3MNesbp0A==
-X-Received: by 2002:a17:906:e0d2:: with SMTP id
- gl18mr4638976ejb.35.1629214601284; 
- Tue, 17 Aug 2021 08:36:41 -0700 (PDT)
-Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
- by smtp.gmail.com with ESMTPSA id v10sm1254734edt.25.2021.08.17.08.36.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Aug 2021 08:36:41 -0700 (PDT)
-Date: Tue, 17 Aug 2021 17:36:39 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 1/3] target-arm: Add support for Fujitsu A64FX
-Message-ID: <20210817153639.o5fxdgmuhjusvyhq@gator.home>
-References: <20210812060440.1330348-1-ishii.shuuichir@fujitsu.com>
- <20210812060440.1330348-2-ishii.shuuichir@fujitsu.com>
- <20210812091650.i5np3szvdoelu2cx@gator.home>
- <20210812092517.mwcfhksoe4cgy3cl@gator.home>
- <TYCPR01MB6160B0A6E08CAE7CB2C6D8F0E9FE9@TYCPR01MB6160.jpnprd01.prod.outlook.com>
- <20210817115635.d2wxvnvis5kupegh@gator.home>
- <667f9384-cd28-8e4d-ebd1-4ed4b651676a@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=49k5lNuKi0C/FVQyAAPuKSHr9GpSHr5Y39UmzA5YGiQ=;
+ b=P/l82DgtnoMte7PrAXpTU2+uamjfimFPszxo92vjylGE65McgqG4hJlWpijvDYOrn/
+ vGEb56016C7c9f55UstAYuECKIQmaXTk05od3VY3ygywf2L4KikzJcCTknsgha7rWHCv
+ JqYlYrXrHcwiJVf75wsNYVBAvLh5GldmNmG4OTDkoNV5UrPtxtFdUbFcBqZDjqhvSso6
+ uJO6nh6fMfKHdlVprtMLOxzE2+iKdGExWBh7+ZbXq2cplp+TH0fULwWIHO4UPL/hLSkI
+ qT/d/bca8pkAEuEpvAwdeCxXqpKhf2x5aJ+xeqpO2rGPMBu+Ml6jAby674eoWOxMnzik
+ OcTA==
+X-Gm-Message-State: AOAM533Z212aYx4SPQZW4G+1/5MpKzFSVe8uj5qPO2rR3dHfWSBnewzg
+ Ols4FUvaE7sWs2lgEdyWbinCKA==
+X-Google-Smtp-Source: ABdhPJwgEtPCFD7oKNuEtQcXhAy1ygDQtYummVFy9+HoeZ8zhMBhHanqOYcn1XzWf+q4A9QknRqp2Q==
+X-Received: by 2002:a17:902:da8a:b029:12c:6f0:fe3c with SMTP id
+ j10-20020a170902da8ab029012c06f0fe3cmr3237521plx.41.1629214744007; 
+ Tue, 17 Aug 2021 08:39:04 -0700 (PDT)
+Received: from [192.168.3.43] ([173.197.107.15])
+ by smtp.gmail.com with ESMTPSA id nr6sm2537820pjb.39.2021.08.17.08.39.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Aug 2021 08:39:03 -0700 (PDT)
+Subject: Re: [PULL 24/27] accel/tcg: Move breakpoint recognition outside
+ translation
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210721195954.879535-1-richard.henderson@linaro.org>
+ <20210721195954.879535-25-richard.henderson@linaro.org>
+ <CAFEAcA-nH4xYDG4wh_jYcSZt9ahNrt3WK453tqwD-0mqYekzeg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <00aaafa2-74dd-3c19-1d47-93bc2fc0d83c@linaro.org>
+Date: Tue, 17 Aug 2021 05:39:00 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <667f9384-cd28-8e4d-ebd1-4ed4b651676a@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <CAFEAcA-nH4xYDG4wh_jYcSZt9ahNrt3WK453tqwD-0mqYekzeg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.961,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,29 +91,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "ishii.shuuichir@fujitsu.com" <ishii.shuuichir@fujitsu.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 17, 2021 at 05:23:17AM -1000, Richard Henderson wrote:
-> On 8/17/21 1:56 AM, Andrew Jones wrote:
-> > I guess it's fine. You could easily create a new cpu_arm_set_sve_vq()
-> > which would forbid changing the properties if you wanted to, but then
-> > we need to answer Peter's question in order to see if there's a
-> > precedent for that type of property.
+On 8/17/21 3:33 AM, Peter Maydell wrote:
+> On Wed, 21 Jul 2021 at 21:00, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Trigger breakpoints before beginning translation of a TB
+>> that would begin with a BP.  Thus we never generate code
+>> for the BP at all.
 > 
-> I don't see the point in read-only properties.  If the user wants to set
-> non-standard values on the command-line, let them.  What is most important
-> is getting the correct default from '-cpu a64fx'.
->
+> I happened to notice in the Arm ARM today a corner case that this
+> implementation approach I think gets wrong: the priority ordering
+> of exceptions is supposed to be (among others)
+>   * (architectural) software step
+>   * instruction abort
+>   * (architectural) breakpoints
+> 
+> I think that doing the bp check here means it is incorrectly
+> hoisted up the priority order above both swstep and insn
+> abort.
 
-So maybe we should just go ahead and add all sve* properties, but then
-make sure the default vq map is correct.
+Hmm, you're correct that we get this wrong.
 
-Thanks,
-drew
+> We probably didn't do these in the right priority
+> order before this series, though, and I dunno whether
+> we get the insn-abort vs swstep ordering right either...
 
+And you're correct that we got it wrong beforehand.  The reorg did not alter the 
+recognized ordering of the exceptions.
+
+I'm a bit surprised that insn-abort comes higher than breakpoint.  Fixing this would mean 
+performing the insn decode and only then recognizing the breakpoint.  One of the 
+intermediate versions of the patch set would have allowed this sort of thing, but I didn't 
+realize it was necessary.  And it would be a huge job to alter all of the trans_* functions.
+
+Fixing the order of swstep and bp can be done via the arm_debug_check_breakpoint hook. 
+Just return false if swstep is enabled.
+
+
+r~
 
