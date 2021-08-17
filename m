@@ -2,54 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA7E3EE4D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 05:14:13 +0200 (CEST)
-Received: from localhost ([::1]:44092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E659B3EE50A
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 05:26:51 +0200 (CEST)
+Received: from localhost ([::1]:54740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFpYK-0001xZ-NO
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 23:14:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46288)
+	id 1mFpkY-0001VM-Mk
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 23:26:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mFpUR-0007xv-EU; Mon, 16 Aug 2021 23:10:11 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:53833 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mFpUO-0001qJ-Bm; Mon, 16 Aug 2021 23:10:11 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GpbcX49Gvz9sT6; Tue, 17 Aug 2021 13:10:04 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1629169804;
- bh=sJKcNjj5PmMgkciihaurr214FscblnyfYDHMza4fb8M=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pq5+l6s7Iwi4fx7E7YIt2s9YjyW/sxXH8UPpI86jfNWOyP4MfocdAZ3i9A8FUyeDb
- TdRcLy+Vo4w139udlxJ4oXiKI6oTVq8bYOcj6YWvmrcG8yulOCpPOQR1H0qMuv/axH
- guBqxvXQNMhGVQaS+bTub+RbNHu7j53lSN2dat94=
-Date: Tue, 17 Aug 2021 13:09:23 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH] hw: ppc: sam460ex: Disable Ethernet devicetree nodes
-Message-ID: <YRsoY63uYiVtdpwf@yekko>
-References: <20210816025915.213093-1-linux@roeck-us.net>
- <YRn6d/Vb10JTmZ18@yekko>
- <CAFEAcA-KSFuYbkbu7iBvgLxgBgBPRGeOgLuEuh5g5_MO4=Nk0w@mail.gmail.com>
- <1e0f11ef-fd72-0e96-279f-f02463f96442@amsat.org>
- <9c79035-2fb5-cc7-9530-eedaa69aebec@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mFpiO-0007mQ-JZ; Mon, 16 Aug 2021 23:24:36 -0400
+Received: from mail-il1-x12e.google.com ([2607:f8b0:4864:20::12e]:34780)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mFpiM-0005Ha-Qp; Mon, 16 Aug 2021 23:24:36 -0400
+Received: by mail-il1-x12e.google.com with SMTP id j15so8228462ila.1;
+ Mon, 16 Aug 2021 20:24:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=1JRlwFlcDVjkJ0Slv93hi05h1j6bycmC/7sCimj7TcY=;
+ b=traR0Ycc5nagyUrXT84Ug3qENzOBIBys6Rz3e7a54d40hkzoR6U1jxh81n5n5xKpUQ
+ yLO+QIOGxT1d/xj7wBsu/LKuGTHKk5h9Pgztm1XAaLPIaFlFbUWsqrIckTBVQE/04l9e
+ kBGUQmhZ4C0xzE0Qso+FWPQhRqX4DAkhR+jXYenWZGgcSmdPmfihIYLe0Y+0YHgsUdPW
+ UN3BYvBe3bDAx6AGziCM2cD46LGuCTlJBz8OGnGwOuRIXCmErjO0+S/2yrcZBHMszwfv
+ UTgDLvkUc30Rua72advJEb1wSkHEC1mNqywS/F9BaezpIbtp7XQwTloAQzL3tcHpHp09
+ dtvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=1JRlwFlcDVjkJ0Slv93hi05h1j6bycmC/7sCimj7TcY=;
+ b=eNDH9zhMWxrLXzczYizeG7k+0vZEL6W67p7dDlvQfhGNjs9woV1uUKtHPnmk1hqmD+
+ cPmB0DKjpQ2IL9zAigMbfOqqshi8EHxIq8YTDNom7PqO/aD3XMacAdvu++ANTnXnd9yE
+ UFGhU8lJE14Yukv7fa5O9Fujf0BzrvHQHCS9PdEn+eay56jDv40g41jfuheoSr1p+xxG
+ f4WYR7UBf3IU9NCZILzN3Ta6Q0Z52e9iQJ17RrqcJhENpFgH1HbVpBrsahZk7l+9c5mV
+ wNvxJZhjEE6iRTJQyZNZDfjRCx98JjtouQc2qD9jpkYy8wavr3MdDC+T9d/GrVtxtz5Z
+ ivmQ==
+X-Gm-Message-State: AOAM530j77xluUfr9ly2xBr9C85mRl2un0QkciWJZWcrjyuKXJM3z8RN
+ QPmtJIJ/CjmeOqHW6SyC+6LK1LAO5ggNXJjdKeA=
+X-Google-Smtp-Source: ABdhPJz9jC+2Uq1Y6juuBPz1jXGIJx8LIgkh6qwZT6nZkBG3XouC2xYSsaYhotIpAMTmr+0wl/wTNC0FBfyAbUu+4gA=
+X-Received: by 2002:a92:d3cf:: with SMTP id c15mr884885ilh.131.1629170672480; 
+ Mon, 16 Aug 2021 20:24:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EovOJ+R4cO2MjYWL"
-Content-Disposition: inline
-In-Reply-To: <9c79035-2fb5-cc7-9530-eedaa69aebec@eik.bme.hu>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
+References: <20210816183655.18492-1-david@salt-inc.org>
+In-Reply-To: <20210816183655.18492-1-david@salt-inc.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 17 Aug 2021 13:24:06 +1000
+Message-ID: <CAKmqyKO-0OmKO=8PZE=gJavXB_cBt2vQoMRwqxpKhA=9dLOWLA@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/intc/sifive_clint: Fix overflow in
+ sifive_clint_write_timecmp()
+To: David Hoppenbrouwers <david@salt-inc.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12e;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12e.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,120 +76,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, Guenter Roeck <linux@roeck-us.net>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:SiFive Machines" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Aug 17, 2021 at 4:39 AM David Hoppenbrouwers <david@salt-inc.org> wrote:
+>
+> `next` is an `uint64_t` value, but `timer_mod` takes an `int64_t`. This
+> resulted in high values such as `UINT64_MAX` being converted to `-1`,
+> which caused an immediate timer interrupt.
+>
+> By limiting `next` to `INT64_MAX` no overflow will happen while the
+> timer will still be effectively set to "infinitely" far in the future.
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/493
+> Signed-off-by: David Hoppenbrouwers <david@salt-inc.org>
 
---EovOJ+R4cO2MjYWL
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-On Mon, Aug 16, 2021 at 01:58:08PM +0200, BALATON Zoltan wrote:
-> On Mon, 16 Aug 2021, Philippe Mathieu-Daud=E9 wrote:
-> > On 8/16/21 12:26 PM, Peter Maydell wrote:
-> > > On Mon, 16 Aug 2021 at 06:46, David Gibson <david@gibson.dropbear.id.=
-au> wrote:
-> > > >=20
-> > > > On Sun, Aug 15, 2021 at 07:59:15PM -0700, Guenter Roeck wrote:
-> > > > > IBM EMAC Ethernet controllers are not emulated by qemu. If they a=
-re
-> > > > > enabled in devicetree files, they are instantiated in Linux but
-> > > > > obviously won't work. Disable associated devicetree nodes to prev=
-ent
-> > > > > unpredictable behavior.
-> > > > >=20
-> > > > > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> > > >=20
-> > > > I'll wait for Zoltan's opinion on this, but this sort of thing is w=
-hy
-> > > > I was always pretty dubious about qemu *loading* a dtb file, rather
-> > > > than generating a dt internally.
-> > >=20
-> > > My take is that if you have to modify the dtb file to get QEMU to
-> > > work, then that's a bug in QEMU that should be fixed. It's no
-> > > worse than for the machines we have that don't use dtb and where
-> > > the kernel just knows what the hardware is. (In my experience
-> > > Arm kernels can be a bit finicky about wanting the right dtb
-> > > and not some earlier or later one, so I think at least for Arm
-> > > trying to generate a dt for our non-virt boards would have been
-> > > pretty painful and liable to "new kernels don't boot any more" bugs.)
-> > >=20
-> > > Is it sufficient to create stub "unimplemented-device" ethernet
-> > > controllers here, or does the guest want more behaviour than that?
-> >=20
-> > For raspi4 "unimplemented-device" is not enough, so what would
-> > be the ideal resolution for "the guest wants more behaviour"
-> > when we don't have time / interest / specs for the missing
-> > pieces?
->=20
-> I guess ideal solution is to implement the missing device emulation, if we
-> don't have resources for that effort then that's less than ideal but in t=
-hat
-> case patching the dtb to disable the device does not look too bad to me. I
-> think that's an acceptable way to save the effort of implementing the dev=
-ice
-> that's not srtictly needed.
+Alistair
 
-I'm sympathetic to that, but in that case I think you shold drop the
-pretense of using this external dtb and matching it.  Either generate
-the dtb in qemu, or snapshot the dtb, modify it to be the
-qemu-emulated version of the hardware and load that file explicitly.
-The second being basically just an easy way of generating a dtb when
-it's near-static.
-
-
-> For sam460ex I think Linux has booted so far but
-> displays an error about missing ethernet ports but this did not prevent it
-> from booting. So unless recent kernels fail now, this patch is only
-> suppresses those errors (and avoid going to code paths in guest kernel th=
-at
-> probably never run on real hadware). I think there are arguments for and
-> against it (the errors look ugly so we could prevent it but on the other
-> hand then we have something different than on real hardware however missi=
-ng
-> the device means it's really different) so I'm not quite decided about
-> either approach but I tend to try to keep it as similar to real hardware =
-as
-> possible (so using unmodified dtb) as long as it does not cause real
-> problems. But if patching the dtb makes it nicer by avoiding a big and ma=
-ybe
-> confusing error message on boot and it does not break anything else then
-> that's OK too.
->=20
-> Regards,
-> BALATON Zoltan
-
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---EovOJ+R4cO2MjYWL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEbKGMACgkQbDjKyiDZ
-s5LLEg//Up5g7Ze3cXx7qbuh7SvjjVxPj3JVUBwWxSbqhrgw3tirqq4Xcm1CGet6
-UDX/CnOv8Kzb5tfHiMTeiOnMA0BN6kZLJiOm4p1N8y77X8sEPJU1xGDyXXu3UIzV
-sYFmABo8ryM5ZPk8qmsyojurD+VXwMqqvWiZ/36CcV9DixF28e49xJz5jtEXtJcx
-l0HwlpM1JGLetW5Lbj7xXTuUHk6ANvgQy+HVu5qtZeHlQbd+pmU8rXgWVx3yci4b
-3DcBoTs0S9+t7R1e6+lTOQmhd1G5tWImLvdQ2U+Be5N+3nko73f4EAG0Ezel+ARF
-ImJ04NgLhqha5dvlqDYFQscTSXeEdCw4/ERLbMQIznv/f1uDlfNnNC9Dfa3Y0GdI
-YK94+tF+qTGe10CoKox2onAcFvQXaCEBoumKEVlxw5hSVK2I9phXDbIQKAZ+Yivm
-+lfgNj6nmRJvBII9ex3s7ytwUdnrPHp7kpjHX57JiC/ZdbupHdeH/ctw7DifE0qk
-gYVITjcfKgpuSoDqbv7om4PZqqrBtPG8ZpLJnoa3EO09kCGuGvLkIq87a79SLRSv
-Qj1Yc3IM7rnM8dAYjFwNRrSyok6jf9znahVOMRMbmNzWmeugIaTnVYZYqNcMKTK4
-6w8OX4L4nHjCuQYvoBE3HoNGWH+K4my1xzGlylsV23jISid79bI=
-=T/fY
------END PGP SIGNATURE-----
-
---EovOJ+R4cO2MjYWL--
+> ---
+> I wrongly used `MAX` instead of `MIN`. I've amended the patch.
+>
+>  hw/intc/sifive_clint.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/hw/intc/sifive_clint.c b/hw/intc/sifive_clint.c
+> index 0f41e5ea1c..de47571fca 100644
+> --- a/hw/intc/sifive_clint.c
+> +++ b/hw/intc/sifive_clint.c
+> @@ -61,6 +61,8 @@ static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value,
+>      /* back to ns (note args switched in muldiv64) */
+>      next = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
+>          muldiv64(diff, NANOSECONDS_PER_SECOND, timebase_freq);
+> +    /* ensure next does not overflow, as timer_mod takes a signed value */
+> +    next = MIN(next, INT64_MAX);
+>      timer_mod(cpu->env.timer, next);
+>  }
+>
+> --
+> 2.20.1
+>
+>
 
