@@ -2,58 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 202CB3EEAB7
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 12:14:16 +0200 (CEST)
-Received: from localhost ([::1]:49844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4AAF3EEAB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 12:14:11 +0200 (CEST)
+Received: from localhost ([::1]:51642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFw6p-0005Vh-1w
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 06:14:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49278)
+	id 1mFw6k-0006lE-Mu
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 06:14:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mFw3D-0004RM-NG; Tue, 17 Aug 2021 06:10:31 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:52270)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mFw3B-00023Y-4y; Tue, 17 Aug 2021 06:10:31 -0400
-Received: from [192.168.15.170] (unknown [195.68.53.70])
- by beetle.greensocs.com (Postfix) with ESMTPSA id D29002089E;
- Tue, 17 Aug 2021 10:10:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1629195025;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xD5r6k4rcJdIIpBFuqpV3DgInRnmNGSOlKVwtZbtWFs=;
- b=YU/QuZO5/81X/TuDROfHYAI+TOY0/DlzYB2he0jaBhJHQQPikXB5sinN4X7xmCe/r/Tda7
- nhcr49pFqFXbrMQXTa8MU1qDxwuhMqccsU3jGbbnRbWZC5kB6QEHxstcJYZ9xt+Bb+P2MZ
- 26T37DuuCDKcOSuo3RQijvXRUmMOme4=
-Subject: Re: [PATCH for-6.2 01/25] arm: Move M-profile RAS register block into
- its own device
-To: Luc Michel <luc@lmichel.fr>, Peter Maydell <peter.maydell@linaro.org>
-References: <20210812093356.1946-1-peter.maydell@linaro.org>
- <20210812093356.1946-2-peter.maydell@linaro.org>
- <20210817082512.4snnzp6vmhj26mjn@sekoia-pc.home.lmichel.fr>
-From: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <fb281c0d-e186-21b2-73be-1d3dd003a5f8@greensocs.com>
-Date: Tue, 17 Aug 2021 12:10:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
+ id 1mFw5v-0005tG-CT
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 06:13:19 -0400
+Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129]:45598)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
+ id 1mFw5r-0004SX-Me
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 06:13:18 -0400
+Received: by mail-lf1-x129.google.com with SMTP id g13so40293922lfj.12
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 03:13:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=phystech-edu.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DYUCxdgbICWFj6YWYVB9Eq9Rnw6dwHmMIReyB8M4b3A=;
+ b=lylMzMW5lKHOJyzXqqkPtyExOqkcZwUTF4+wFjA30hJfSOPchbEXImjwImI2eVoMmj
+ yOt7zK6wI+U5LWIXWPFjkCkIN/rIJ5m5NefDyEEex4eKfIKuh7JKpz17jqQaLAPnym0g
+ 2ifNFcSfMXTbDr3vb0gQvkoSF1WvXU2IZcLdHGU6KlSt3qjhRY5Ei/gltuDHMpfnTwP7
+ kaPvuIj7qOtFlvk+oVLNsL0XwMjKwPss52B62zvU7F2jBAHhr7/XXfLP7CTjLsMHT4Yk
+ 6Gc/Wo6ol1RJAXmzKwUm7Cn9fdS/tsm4Yoh6AUYWZ+G7QSSaziTQNbVD+6pk0dXDKyn4
+ FVZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DYUCxdgbICWFj6YWYVB9Eq9Rnw6dwHmMIReyB8M4b3A=;
+ b=uAdOD0opjlZavVX7LIvfTEHa5PSGNpUBxFD3ufbI2LomymDeQHq5zLZeqUTnJApU9m
+ KhF7tGd7YzX8RLJTtv/b0MtTjSHGBVogyE+uhCquRzAeb8mAqs5m3nGBLqhwmzGSO/tz
+ 1TfqoO7BUFp6AdAWwP9bVil3/dFYRIJxbOotqee+GW3+vX9GTDgBAF7zs+pKzznZ6i6L
+ +ssPLnk4HB82pEq9JBVGPh8A3mbd9qow2VSUlASaluCmc6fcVYSSBr4OIqLicul9T/cA
+ 4EsK6ATsbTHS+/ekwnTYGAkePuTuxQW2fhjuP2XmbvfnNyQFaqSYTEbtyy6aQseA4fAc
+ X9kw==
+X-Gm-Message-State: AOAM533IBKJ9MRkclIA5dRGdn9JnsIoXSjblnsgl826wjWTQEMOIrbnH
+ OgDVOG+GP4XutkuckdEl/nTVHw==
+X-Google-Smtp-Source: ABdhPJwrCJ9oAT6W2atkSnT/InOY5WqpCitOJ2+OhIWjQDUrEFijkRwK0+21zw6iecTVTrxM+RNkDA==
+X-Received: by 2002:a05:6512:2248:: with SMTP id
+ i8mr1891816lfu.258.1629195193035; 
+ Tue, 17 Aug 2021 03:13:13 -0700 (PDT)
+Received: from 192.168.1.2 ([2a00:1370:810e:b7ea:7e3d:4f4b:921e:b1ff])
+ by smtp.gmail.com with ESMTPSA id b12sm145923lfs.152.2021.08.17.03.13.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Aug 2021 03:13:12 -0700 (PDT)
+From: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+To: kwolf@redhat.com, hreitz@redhat.com, sw@weilnetz.de, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: [PATCH] block/file-win32: add reopen handlers
+Date: Tue, 17 Aug 2021 13:12:51 +0300
+Message-Id: <20210817101251.28438-1-viktor.prutyanov@phystech.edu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20210817082512.4snnzp6vmhj26mjn@sekoia-pc.home.lmichel.fr>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US-large
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.135.226.135;
- envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.71,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::129;
+ envelope-from=viktor.prutyanov@phystech.edu; helo=mail-lf1-x129.google.com
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,347 +82,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, Alexandre Iooss <erdnaxe@crans.org>
+Cc: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Make 'qemu-img commit' work on Windows.
 
+Command 'commit' requires reopening backing file in RW mode. So,
+add reopen prepare/commit/abort handlers and change dwShareMode
+for CreateFile call in order to allow further read/write reopening.
 
-On 8/17/21 10:25 AM, Luc Michel wrote:
-> On 10:33 Thu 12 Aug     , Peter Maydell wrote:
->> Currently we implement the RAS register block within the NVIC device.
->> It isn't really very tightly coupled with the NVIC proper, so instead
->> move it out into a sysbus device of its own and have the top level
->> ARMv7M container create it and map it into memory at the right
->> address.
->>
->> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> 
-> Reviewed-by: Luc Michel <luc@lmichel.fr>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/418
+Suggested-by: Hanna Reitz <hreitz@redhat.com>
+Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+---
+ block/file-win32.c | 85 +++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 84 insertions(+), 1 deletion(-)
 
-Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
-> 
->> ---
->>  include/hw/arm/armv7m.h       |  2 +
->>  include/hw/intc/armv7m_nvic.h |  1 -
->>  include/hw/misc/armv7m_ras.h  | 37 ++++++++++++++
->>  hw/arm/armv7m.c               | 12 +++++
->>  hw/intc/armv7m_nvic.c         | 56 ---------------------
->>  hw/misc/armv7m_ras.c          | 93 +++++++++++++++++++++++++++++++++++
->>  MAINTAINERS                   |  2 +
->>  hw/misc/meson.build           |  2 +
->>  8 files changed, 148 insertions(+), 57 deletions(-)
->>  create mode 100644 include/hw/misc/armv7m_ras.h
->>  create mode 100644 hw/misc/armv7m_ras.c
->>
->> diff --git a/include/hw/arm/armv7m.h b/include/hw/arm/armv7m.h
->> index bc6733c5184..4cae0d7eeaa 100644
->> --- a/include/hw/arm/armv7m.h
->> +++ b/include/hw/arm/armv7m.h
->> @@ -12,6 +12,7 @@
->>  
->>  #include "hw/sysbus.h"
->>  #include "hw/intc/armv7m_nvic.h"
->> +#include "hw/misc/armv7m_ras.h"
->>  #include "target/arm/idau.h"
->>  #include "qom/object.h"
->>  
->> @@ -58,6 +59,7 @@ struct ARMv7MState {
->>      NVICState nvic;
->>      BitBandState bitband[ARMV7M_NUM_BITBANDS];
->>      ARMCPU *cpu;
->> +    ARMv7MRAS ras;
->>  
->>      /* MemoryRegion we pass to the CPU, with our devices layered on
->>       * top of the ones the board provides in board_memory.
->> diff --git a/include/hw/intc/armv7m_nvic.h b/include/hw/intc/armv7m_nvic.h
->> index 39c71e15936..33b6d8810c7 100644
->> --- a/include/hw/intc/armv7m_nvic.h
->> +++ b/include/hw/intc/armv7m_nvic.h
->> @@ -83,7 +83,6 @@ struct NVICState {
->>      MemoryRegion sysreg_ns_mem;
->>      MemoryRegion systickmem;
->>      MemoryRegion systick_ns_mem;
->> -    MemoryRegion ras_mem;
->>      MemoryRegion container;
->>      MemoryRegion defaultmem;
->>  
->> diff --git a/include/hw/misc/armv7m_ras.h b/include/hw/misc/armv7m_ras.h
->> new file mode 100644
->> index 00000000000..f8773e65b14
->> --- /dev/null
->> +++ b/include/hw/misc/armv7m_ras.h
->> @@ -0,0 +1,37 @@
->> +/*
->> + * Arm M-profile RAS block
->> + *
->> + * Copyright (c) 2021 Linaro Limited
->> + *
->> + *  This program is free software; you can redistribute it and/or modify
->> + *  it under the terms of the GNU General Public License version 2 or
->> + *  (at your option) any later version.
->> + */
->> +
->> +/*
->> + * This is a model of the RAS register block of an M-profile CPU
->> + * (the registers starting at 0xE0005000 with ERRFRn).
->> + *
->> + * QEMU interface:
->> + *  + sysbus MMIO region 0: the register bank
->> + *
->> + * The QEMU implementation currently provides "minimal RAS" only.
->> + */
->> +
->> +#ifndef HW_MISC_ARMV7M_RAS_H
->> +#define HW_MISC_ARMV7M_RAS_H
->> +
->> +#include "hw/sysbus.h"
->> +
->> +#define TYPE_ARMV7M_RAS "armv7m-ras"
->> +OBJECT_DECLARE_SIMPLE_TYPE(ARMv7MRAS, ARMV7M_RAS)
->> +
->> +struct ARMv7MRAS {
->> +    /*< private >*/
->> +    SysBusDevice parent_obj;
->> +
->> +    /*< public >*/
->> +    MemoryRegion iomem;
->> +};
->> +
->> +#endif
->> diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
->> index 9ce5c30cd5c..8964730d153 100644
->> --- a/hw/arm/armv7m.c
->> +++ b/hw/arm/armv7m.c
->> @@ -231,6 +231,18 @@ static void armv7m_realize(DeviceState *dev, Error **errp)
->>      memory_region_add_subregion(&s->container, 0xe0000000,
->>                                  sysbus_mmio_get_region(sbd, 0));
->>  
->> +    /* If the CPU has RAS support, create the RAS register block */
->> +    if (cpu_isar_feature(aa32_ras, s->cpu)) {
->> +        object_initialize_child(OBJECT(dev), "armv7m-ras",
->> +                                &s->ras, TYPE_ARMV7M_RAS);
->> +        sbd = SYS_BUS_DEVICE(&s->ras);
->> +        if (!sysbus_realize(sbd, errp)) {
->> +            return;
->> +        }
->> +        memory_region_add_subregion_overlap(&s->container, 0xe0005000,
->> +                                            sysbus_mmio_get_region(sbd, 0), 1);
->> +    }
->> +
->>      for (i = 0; i < ARRAY_SIZE(s->bitband); i++) {
->>          if (s->enable_bitband) {
->>              Object *obj = OBJECT(&s->bitband[i]);
->> diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
->> index 1e7ddcb94cb..a5975592dfa 100644
->> --- a/hw/intc/armv7m_nvic.c
->> +++ b/hw/intc/armv7m_nvic.c
->> @@ -2549,56 +2549,6 @@ static const MemoryRegionOps nvic_systick_ops = {
->>      .endianness = DEVICE_NATIVE_ENDIAN,
->>  };
->>  
->> -
->> -static MemTxResult ras_read(void *opaque, hwaddr addr,
->> -                            uint64_t *data, unsigned size,
->> -                            MemTxAttrs attrs)
->> -{
->> -    if (attrs.user) {
->> -        return MEMTX_ERROR;
->> -    }
->> -
->> -    switch (addr) {
->> -    case 0xe10: /* ERRIIDR */
->> -        /* architect field = Arm; product/variant/revision 0 */
->> -        *data = 0x43b;
->> -        break;
->> -    case 0xfc8: /* ERRDEVID */
->> -        /* Minimal RAS: we implement 0 error record indexes */
->> -        *data = 0;
->> -        break;
->> -    default:
->> -        qemu_log_mask(LOG_UNIMP, "Read RAS register offset 0x%x\n",
->> -                      (uint32_t)addr);
->> -        *data = 0;
->> -        break;
->> -    }
->> -    return MEMTX_OK;
->> -}
->> -
->> -static MemTxResult ras_write(void *opaque, hwaddr addr,
->> -                             uint64_t value, unsigned size,
->> -                             MemTxAttrs attrs)
->> -{
->> -    if (attrs.user) {
->> -        return MEMTX_ERROR;
->> -    }
->> -
->> -    switch (addr) {
->> -    default:
->> -        qemu_log_mask(LOG_UNIMP, "Write to RAS register offset 0x%x\n",
->> -                      (uint32_t)addr);
->> -        break;
->> -    }
->> -    return MEMTX_OK;
->> -}
->> -
->> -static const MemoryRegionOps ras_ops = {
->> -    .read_with_attrs = ras_read,
->> -    .write_with_attrs = ras_write,
->> -    .endianness = DEVICE_NATIVE_ENDIAN,
->> -};
->> -
->>  /*
->>   * Unassigned portions of the PPB space are RAZ/WI for privileged
->>   * accesses, and fault for non-privileged accesses.
->> @@ -2946,12 +2896,6 @@ static void armv7m_nvic_realize(DeviceState *dev, Error **errp)
->>                                              &s->systick_ns_mem, 1);
->>      }
->>  
->> -    if (cpu_isar_feature(aa32_ras, s->cpu)) {
->> -        memory_region_init_io(&s->ras_mem, OBJECT(s),
->> -                              &ras_ops, s, "nvic_ras", 0x1000);
->> -        memory_region_add_subregion(&s->container, 0x5000, &s->ras_mem);
->> -    }
->> -
->>      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->container);
->>  }
->>  
->> diff --git a/hw/misc/armv7m_ras.c b/hw/misc/armv7m_ras.c
->> new file mode 100644
->> index 00000000000..a2b4f4b8dc8
->> --- /dev/null
->> +++ b/hw/misc/armv7m_ras.c
->> @@ -0,0 +1,93 @@
->> +/*
->> + * Arm M-profile RAS block
->> + *
->> + * Copyright (c) 2021 Linaro Limited
->> + *
->> + *  This program is free software; you can redistribute it and/or modify
->> + *  it under the terms of the GNU General Public License version 2 or
->> + *  (at your option) any later version.
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +#include "hw/misc/armv7m_ras.h"
->> +#include "qemu/log.h"
->> +
->> +static MemTxResult ras_read(void *opaque, hwaddr addr,
->> +                            uint64_t *data, unsigned size,
->> +                            MemTxAttrs attrs)
->> +{
->> +    if (attrs.user) {
->> +        return MEMTX_ERROR;
->> +    }
->> +
->> +    switch (addr) {
->> +    case 0xe10: /* ERRIIDR */
->> +        /* architect field = Arm; product/variant/revision 0 */
->> +        *data = 0x43b;
->> +        break;
->> +    case 0xfc8: /* ERRDEVID */
->> +        /* Minimal RAS: we implement 0 error record indexes */
->> +        *data = 0;
->> +        break;
->> +    default:
->> +        qemu_log_mask(LOG_UNIMP, "Read RAS register offset 0x%x\n",
->> +                      (uint32_t)addr);
->> +        *data = 0;
->> +        break;
->> +    }
->> +    return MEMTX_OK;
->> +}
->> +
->> +static MemTxResult ras_write(void *opaque, hwaddr addr,
->> +                             uint64_t value, unsigned size,
->> +                             MemTxAttrs attrs)
->> +{
->> +    if (attrs.user) {
->> +        return MEMTX_ERROR;
->> +    }
->> +
->> +    switch (addr) {
->> +    default:
->> +        qemu_log_mask(LOG_UNIMP, "Write to RAS register offset 0x%x\n",
->> +                      (uint32_t)addr);
->> +        break;
->> +    }
->> +    return MEMTX_OK;
->> +}
->> +
->> +static const MemoryRegionOps ras_ops = {
->> +    .read_with_attrs = ras_read,
->> +    .write_with_attrs = ras_write,
->> +    .endianness = DEVICE_NATIVE_ENDIAN,
->> +};
->> +
->> +
->> +static void armv7m_ras_init(Object *obj)
->> +{
->> +    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
->> +    ARMv7MRAS *s = ARMV7M_RAS(obj);
->> +
->> +    memory_region_init_io(&s->iomem, obj, &ras_ops,
->> +                          s, "armv7m-ras", 0x1000);
->> +    sysbus_init_mmio(sbd, &s->iomem);
->> +}
->> +
->> +static void armv7m_ras_class_init(ObjectClass *klass, void *data)
->> +{
->> +    /* This device has no state: no need for vmstate or reset */
->> +}
->> +
->> +static const TypeInfo armv7m_ras_info = {
->> +    .name = TYPE_ARMV7M_RAS,
->> +    .parent = TYPE_SYS_BUS_DEVICE,
->> +    .instance_size = sizeof(ARMv7MRAS),
->> +    .instance_init = armv7m_ras_init,
->> +    .class_init = armv7m_ras_class_init,
->> +};
->> +
->> +static void armv7m_ras_register_types(void)
->> +{
->> +    type_register_static(&armv7m_ras_info);
->> +}
->> +
->> +type_init(armv7m_ras_register_types);
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 37b1a8e4428..3cac393bb48 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -617,6 +617,7 @@ F: hw/intc/gic_internal.h
->>  F: hw/misc/a9scu.c
->>  F: hw/misc/arm11scu.c
->>  F: hw/misc/arm_l2x0.c
->> +F: hw/misc/armv7m_ras.c
->>  F: hw/timer/a9gtimer*
->>  F: hw/timer/arm*
->>  F: include/hw/arm/arm*.h
->> @@ -626,6 +627,7 @@ F: include/hw/misc/arm11scu.h
->>  F: include/hw/timer/a9gtimer.h
->>  F: include/hw/timer/arm_mptimer.h
->>  F: include/hw/timer/armv7m_systick.h
->> +F: include/hw/misc/armv7m_ras.h
->>  F: tests/qtest/test-arm-mptimer.c
->>  
->>  Exynos
->> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
->> index a53b849a5a0..3f41a3a5b27 100644
->> --- a/hw/misc/meson.build
->> +++ b/hw/misc/meson.build
->> @@ -17,6 +17,8 @@ softmmu_ss.add(when: 'CONFIG_INTEGRATOR_DEBUG', if_true: files('arm_integrator_d
->>  softmmu_ss.add(when: 'CONFIG_A9SCU', if_true: files('a9scu.c'))
->>  softmmu_ss.add(when: 'CONFIG_ARM11SCU', if_true: files('arm11scu.c'))
->>  
->> +softmmu_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('armv7m_ras.c'))
->> +
->>  # Mac devices
->>  softmmu_ss.add(when: 'CONFIG_MOS6522', if_true: files('mos6522.c'))
->>  
->> -- 
->> 2.20.1
->>
-> 
+diff --git a/block/file-win32.c b/block/file-win32.c
+index 2642088bd6..e44878e6be 100644
+--- a/block/file-win32.c
++++ b/block/file-win32.c
+@@ -58,6 +58,10 @@ typedef struct BDRVRawState {
+     QEMUWin32AIOState *aio;
+ } BDRVRawState;
+ 
++typedef struct BDRVRawReopenState {
++    HANDLE hfile;
++} BDRVRawReopenState;
++
+ /*
+  * Read/writes the data to/from a given linear buffer.
+  *
+@@ -392,7 +396,7 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
+     }
+ 
+     s->hfile = CreateFile(filename, access_flags,
+-                          FILE_SHARE_READ, NULL,
++                          FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
+                           OPEN_EXISTING, overlapped, NULL);
+     if (s->hfile == INVALID_HANDLE_VALUE) {
+         int err = GetLastError();
+@@ -634,6 +638,81 @@ static int coroutine_fn raw_co_create_opts(BlockDriver *drv,
+     return raw_co_create(&options, errp);
+ }
+ 
++static int raw_reopen_prepare(BDRVReopenState *state,
++        BlockReopenQueue *queue, Error **errp)
++{
++    BDRVRawState *s = state->bs->opaque;
++    BDRVRawReopenState *rs;
++    int access_flags;
++    DWORD overlapped;
++    int ret = 0;
++
++    rs = state->opaque = g_new0(BDRVRawReopenState, 1);
++
++    raw_parse_flags(state->flags, s->aio != NULL, &access_flags, &overlapped);
++    rs->hfile = CreateFile(state->bs->filename, access_flags,
++                           FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
++                           OPEN_EXISTING, overlapped, NULL);
++
++    if (rs->hfile == INVALID_HANDLE_VALUE) {
++        int err = GetLastError();
++
++        error_setg_win32(errp, err, "Could not reopen '%s'",
++                         state->bs->filename);
++        if (err == ERROR_ACCESS_DENIED) {
++            ret = -EACCES;
++        } else {
++            ret = -EINVAL;
++        }
++        goto fail;
++    }
++
++    if (s->aio) {
++        ret = win32_aio_attach(s->aio, rs->hfile);
++        if (ret < 0) {
++            error_setg_errno(errp, -ret, "Could not enable AIO");
++            goto fail;
++        }
++    }
++
++    return 0;
++
++fail:
++    return ret;
++}
++
++static void raw_reopen_commit(BDRVReopenState *state)
++{
++    BDRVRawState *s = state->bs->opaque;
++    BDRVRawReopenState *rs = state->opaque;
++
++    if (!rs) {
++        return;
++    }
++
++    CloseHandle(s->hfile);
++    s->hfile = rs->hfile;
++
++    g_free(rs);
++    state->opaque = NULL;
++}
++
++static void raw_reopen_abort(BDRVReopenState *state)
++{
++    BDRVRawReopenState *rs = state->opaque;
++
++    if (!rs) {
++        return;
++    }
++
++    if (rs->hfile != INVALID_HANDLE_VALUE) {
++        CloseHandle(rs->hfile);
++    }
++
++    g_free(rs);
++    state->opaque = NULL;
++}
++
+ static QemuOptsList raw_create_opts = {
+     .name = "raw-create-opts",
+     .head = QTAILQ_HEAD_INITIALIZER(raw_create_opts.head),
+@@ -659,6 +738,10 @@ BlockDriver bdrv_file = {
+     .bdrv_co_create_opts = raw_co_create_opts,
+     .bdrv_has_zero_init = bdrv_has_zero_init_1,
+ 
++    .bdrv_reopen_prepare = raw_reopen_prepare,
++    .bdrv_reopen_commit  = raw_reopen_commit,
++    .bdrv_reopen_abort   = raw_reopen_abort,
++
+     .bdrv_aio_preadv    = raw_aio_preadv,
+     .bdrv_aio_pwritev   = raw_aio_pwritev,
+     .bdrv_aio_flush     = raw_aio_flush,
+-- 
+2.21.0
+
 
