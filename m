@@ -2,53 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB8F3EEC3B
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 14:13:32 +0200 (CEST)
-Received: from localhost ([::1]:36716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 186733EEC48
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 14:19:07 +0200 (CEST)
+Received: from localhost ([::1]:40712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFxyF-0002jN-8W
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 08:13:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45098)
+	id 1mFy3d-0006Vu-Qq
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 08:19:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mFxud-00085p-EG; Tue, 17 Aug 2021 08:09:47 -0400
-Received: from [201.28.113.2] (port=57099 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mFxua-00046K-81; Tue, 17 Aug 2021 08:09:47 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Tue, 17 Aug 2021 09:09:40 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 03DB6800021;
- Tue, 17 Aug 2021 09:09:39 -0300 (-03)
-Subject: Re: [PATCH for-6.2 1/2] include/qemu/int128.h: introduce bswap128s
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mFy0y-0004w5-TL
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 08:16:37 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:36678)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mFy0t-0000DO-SG
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 08:16:17 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id b7so31334401edu.3
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 05:16:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=TqZxfJti8Mw36BvMInAO6++1AAQk02x/kM1fBmTMKck=;
+ b=e2mEfuVpxwNwfFCJJsG6EmKwOHY3DwlJUDp7u3tOAuoHgYBiJULrwzB/DPSWAly470
+ oqGAU8XDLe9JGHZiGHKpe2YEehzsm7iS9Yzf5gjzWsb3U3XR3Kr8d16KD2caNLzQ2IDK
+ I/+MS5O37A34r1YFMQwAFVN9qp50pbWYjCHQQ1G028KF1BfsPdYacuZDinOTdU2cw5F9
+ EGY97zAdij+7hgn7NuXt0MQZoz9hKztQtRwn7VfPaFleOH8819z2BPu+OSJ4gAkkYjdl
+ rXSVrtHvgo2jh8YQXfJe33kop1Qha2cGYpO/N3+DQvV8RJrLq2VuciVT9aK3IW0fRrnd
+ +ajg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=TqZxfJti8Mw36BvMInAO6++1AAQk02x/kM1fBmTMKck=;
+ b=Ev6JK752yCfcKwn2nqekF2TAijH6K7qnzcyz5l+JSVRt8AgHSV17aWBbBv63xlpngO
+ h4yyy+Fe6TbV3OddwBfgNlKzMscGaTjkrZURup2vAamAzTRDirN4OI10NrVZtXlhPgJv
+ LaNI8+Wy9SVx30GijYXmCoLKEpNlBeirgHGh6Rzpp/34yCDDNFVJrYjFYdz1tctfGX3l
+ /U76PejEJYwvyue0Za6SzWE+E0r5K3vpC1kdF7RH1rycWnJoDNckmpiZ51CQGAGrl6k2
+ 1lZZTESvCdYDLXcY4ZB3pO8RFM7jqaRwuAmwrddq9HckhKXPYpX1NgC8L0fScUBJvrp9
+ Cwaw==
+X-Gm-Message-State: AOAM532aNrlFapbOHMNuhazwslYfMgrH9iT9Nl5tJUbazA9TiXVwjKlV
+ biYRgaYBRMZRZD97FJOxOJRAP2Y8/4DWVys5tQoLCA==
+X-Google-Smtp-Source: ABdhPJwILTlfGHD/hKwHZhXHIGceKtJt67Mk48iBJV9LDJkwZAplyTYOiVhCndi57cfun53O8qjfY+215q1L4RhJM68=
+X-Received: by 2002:a05:6402:4387:: with SMTP id
+ o7mr3823488edc.204.1629202573413; 
+ Tue, 17 Aug 2021 05:16:13 -0700 (PDT)
+MIME-Version: 1.0
 References: <20210816191316.1163622-1-matheus.ferst@eldorado.org.br>
  <20210816191316.1163622-2-matheus.ferst@eldorado.org.br>
  <b5b5ca02-aac5-4bc3-3898-b45c53c8b5a6@redhat.com>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-Message-ID: <a0b41585-27d1-aeaf-be03-f14935c1b8c9@eldorado.org.br>
-Date: Tue, 17 Aug 2021 09:09:39 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <b5b5ca02-aac5-4bc3-3898-b45c53c8b5a6@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 17 Aug 2021 12:09:40.0453 (UTC)
- FILETIME=[C1937950:01D79360]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -2
-X-Spam_score: -0.3
-X-Spam_bar: /
-X-Spam_report: (-0.3 / 5.0 requ) BAYES_20=-0.001, NICE_REPLY_A=-1.961,
- PDS_HP_HELO_NORDNS=0.825, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ <a0b41585-27d1-aeaf-be03-f14935c1b8c9@eldorado.org.br>
+In-Reply-To: <a0b41585-27d1-aeaf-be03-f14935c1b8c9@eldorado.org.br>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 17 Aug 2021 13:15:27 +0100
+Message-ID: <CAFEAcA-eOerMaWW60hwq8-QRFND5SZDoC0PRoNy-zC-wdUwW_g@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 1/2] include/qemu/int128.h: introduce bswap128s
+To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,75 +82,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org, groug@kaod.org,
- david@gibson.dropbear.id.au
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/08/2021 06:27, Philippe Mathieu-Daudé wrote:
-> [E-MAIL EXTERNO] Não clique em links ou abra anexos, a menos que você possa confirmar o remetente e saber que o conteúdo é seguro. Em caso de e-mail suspeito entre imediatamente em contato com o DTI.
-> 
-> On 8/16/21 9:13 PM, matheus.ferst@eldorado.org.br wrote:
->> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
->>
->> Introduces bswap128s based on bswap128. Since bswap128 is defined using
->> int128_* methods available in either CONFIG_INT128 or !CONFIG_INT128
->> builds, place both outside of #ifdef CONFIG_INT128.
->>
->> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
->> ---
->>   include/qemu/int128.h | 16 +++++++++++-----
->>   1 file changed, 11 insertions(+), 5 deletions(-)
->>
->> diff --git a/include/qemu/int128.h b/include/qemu/int128.h
->> index 64500385e3..e0d385628c 100644
->> --- a/include/qemu/int128.h
->> +++ b/include/qemu/int128.h
->> @@ -153,11 +153,6 @@ static inline void int128_subfrom(Int128 *a, Int128 b)
->>       *a -= b;
->>   }
->>
->> -static inline Int128 bswap128(Int128 a)
->> -{
->> -    return int128_make128(bswap64(int128_gethi(a)), bswap64(int128_getlo(a)));
->> -}
-> 
-> Personally I'd move this one to the other #ifdef side,
-> and implement here with __builtin_bswap128().
-> 
+On Tue, 17 Aug 2021 at 13:09, Matheus K. Ferst
+<matheus.ferst@eldorado.org.br> wrote:
+>
+> On 17/08/2021 06:27, Philippe Mathieu-Daud=C3=A9 wrote:
+> > On 8/16/21 9:13 PM, matheus.ferst@eldorado.org.br wrote:
+> >> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> >> -static inline Int128 bswap128(Int128 a)
+> >> -{
+> >> -    return int128_make128(bswap64(int128_gethi(a)), bswap64(int128_ge=
+tlo(a)));
+> >> -}
+> >
+> > Personally I'd move this one to the other #ifdef side,
+> > and implement here with __builtin_bswap128().
+> >
+>
+> I saw this builtin, but I couldn't test it on my system. It seems that
+> Clang doesn't implement it, and it's only available on GCC 11:
+> https://godbolt.org/z/T6vhd5a38 . I think we can use it, but I'd need to
+> figure how to add a test for it in the configure script.
 
-I saw this builtin, but I couldn't test it on my system. It seems that 
-Clang doesn't implement it, and it's only available on GCC 11: 
-https://godbolt.org/z/T6vhd5a38 . I think we can use it, but I'd need to 
-figure how to add a test for it in the configure script.
+You should be able to get away without a configure script test --
+#if __has_builtin(__builtin_bswap128)
+/* version with the builtin here */
+#else
+/* fallback */
+#endif
 
->>   #else /* !CONFIG_INT128 */
->>
->>   typedef struct Int128 Int128;
->> @@ -338,4 +333,15 @@ static inline void int128_subfrom(Int128 *a, Int128 b)
->>   }
-> 
->> +static inline Int128 bswap128(Int128 a)
->> +{
->> +    return int128_make128(bswap64(int128_gethi(a)), bswap64(int128_getlo(a)));
->> +}
-> 
->     #endif /* CONFIG_INT128 */
-> 
-> And add this generic one here indeed:
-> 
->> +static inline void bswap128s(Int128 *s)
->> +{
->> +    *s = bswap128(*s);
->> +}
->> +
->>   #endif /* INT128_H */
->>
-> 
+ought to work. (Any gcc new enough to have the builtin also has
+__has_builtin; clang has had __has_builtin for ages; our compiler.h
+defines a fallback "always 0" __has_builtin for older compilers.)
 
--- 
-Matheus K. Ferst
-Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
-Analista de Software Júnior
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+-- PMM
 
