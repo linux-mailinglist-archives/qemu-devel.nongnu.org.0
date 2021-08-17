@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A51683EEA2F
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 11:44:51 +0200 (CEST)
-Received: from localhost ([::1]:57488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2431F3EEA33
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 11:46:41 +0200 (CEST)
+Received: from localhost ([::1]:60820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFveM-00077Q-Nc
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 05:44:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43126)
+	id 1mFvg8-000100-6F
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 05:46:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1mFvdD-0005XR-7P; Tue, 17 Aug 2021 05:43:39 -0400
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:54690)
+ id 1mFveT-0008N3-2h; Tue, 17 Aug 2021 05:44:57 -0400
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:54780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1mFvdB-0003lm-BN; Tue, 17 Aug 2021 05:43:39 -0400
+ id 1mFveQ-0004nM-SQ; Tue, 17 Aug 2021 05:44:56 -0400
 Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 5E788C6019D;
- Tue, 17 Aug 2021 11:43:34 +0200 (CEST)
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 087E8C6019D;
+ Tue, 17 Aug 2021 11:44:52 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1629193414;
+ t=1629193492;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=DwVJwkTnh0gjW+8d8UYLTpWePPbJq1pe/KSA4pXTc8s=;
- b=VyR+UTe/VhI5XNsJJeXD6EEfjsOBfHCcbQ3PEhdUtKriqpxQvc5ZkLT1z7+qkBG/VceUaG
- mQuXxWZb6a+3JFbwX45rLUOew7szObpKxb4sNHJqVUN/Edok0zTfHViMuOm6drhc9ZUkzw
- n1i1LbVctY8GaYMLEO4w/S+yo460FG5mzJctm9JexAHIIo9n7YzM8D+JQ7CtlntEHWvgcS
- 79OiklcrBa1iVTfl7eK/gU5lSz2ZKFaC5xqStDOLERkVL7BEhwVAlq6oJ1zxCBeU5Ppgnf
- r5V/YZViptETY3xB0TM0CBG0el4WQC7swI5chZefQ4kRwoRXGCnyiJOdrguiVA==
-Date: Tue, 17 Aug 2021 11:45:46 +0200
+ bh=5O1ygyha8gywJe77jWHlZQ7fAe2nin+8TAWXoUEo1SY=;
+ b=TTM/+4wSMaCrHXsV1Ee1MB/RePaVwYm2xEAn7px8OV/+OZR3DSnWJ6g7vqr6XA/2eL6gSv
+ l1DwkrlD2R77gu7Lt8B/mfllQ6xzC6b286pfUgrvtYvVnc63l14+Gfr1JaAz0jWQJnVqlS
+ VchgHKtv7FasbHIOYlR24+/rVpPuErpyMtdxyMQLARHn7ShAqTJTn7co+yziFR1KjUXaKl
+ gHtzWCrZT23hU+1yI96AKyuPcdh4kvyD/8aUbWBocRHmXOyT4JlZyE7L8vmAelvmCc5nOW
+ dHSFkOlh50hY//8gILnd6/Ne9uE0GNvS/cQGrDqyjJsX987yq+ZxJfpGBNRq9A==
+Date: Tue, 17 Aug 2021 11:47:04 +0200
 From: Luc Michel <luc@lmichel.fr>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH for-6.2 11/25] hw/arm/stm32f100: Wire up sysclk and refclk
-Message-ID: <20210817094546.zz6qffv7uplu2nb2@sekoia-pc.home.lmichel.fr>
+Subject: Re: [PATCH for-6.2 12/25] hw/arm/stm32f205: Wire up sysclk and refclk
+Message-ID: <20210817094704.4vdrdpfo36vzfy2x@sekoia-pc.home.lmichel.fr>
 References: <20210812093356.1946-1-peter.maydell@linaro.org>
- <20210812093356.1946-12-peter.maydell@linaro.org>
+ <20210812093356.1946-13-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210812093356.1946-12-peter.maydell@linaro.org>
+In-Reply-To: <20210812093356.1946-13-peter.maydell@linaro.org>
 Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
  helo=pharaoh.lmichel.fr
 X-Spam_score_int: -20
@@ -70,7 +70,7 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10:33 Thu 12 Aug     , Peter Maydell wrote:
-> Wire up the sysclk and refclk for the stm32f100 SoC.  This SoC always
+> Wire up the sysclk and refclk for the stm32f205 SoC.  This SoC always
 > runs the systick refclk at 1/8 the frequency of the main CPU clock,
 > so the board code only needs to provide a single sysclk clock.
 > 
@@ -80,32 +80,32 @@ On 10:33 Thu 12 Aug     , Peter Maydell wrote:
 > is wired up".
 > 
 > When the systick device starts honouring its clock inputs, this will
-> fix an emulation inaccuracy in the stm32vldiscovery board where the
-> systick reference clock was running at 1MHz rather than 3MHz.
+> fix an emulation inaccuracy in the netduino2 board where the systick
+> reference clock was running at 1MHz rather than 15MHz.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
 Reviewed-by: Luc Michel <luc@lmichel.fr>
 
 > ---
->  include/hw/arm/stm32f100_soc.h |  4 ++++
->  hw/arm/stm32f100_soc.c         | 30 ++++++++++++++++++++++++++++++
->  hw/arm/stm32vldiscovery.c      | 12 +++++++-----
+>  include/hw/arm/stm32f205_soc.h |  4 ++++
+>  hw/arm/netduino2.c             | 12 +++++++-----
+>  hw/arm/stm32f205_soc.c         | 30 ++++++++++++++++++++++++++++++
 >  3 files changed, 41 insertions(+), 5 deletions(-)
 > 
-> diff --git a/include/hw/arm/stm32f100_soc.h b/include/hw/arm/stm32f100_soc.h
-> index b7d71c6c634..40cd415b284 100644
-> --- a/include/hw/arm/stm32f100_soc.h
-> +++ b/include/hw/arm/stm32f100_soc.h
-> @@ -29,6 +29,7 @@
+> diff --git a/include/hw/arm/stm32f205_soc.h b/include/hw/arm/stm32f205_soc.h
+> index 75251494917..849d3ed8891 100644
+> --- a/include/hw/arm/stm32f205_soc.h
+> +++ b/include/hw/arm/stm32f205_soc.h
+> @@ -32,6 +32,7 @@
+>  #include "hw/or-irq.h"
 >  #include "hw/ssi/stm32f2xx_spi.h"
 >  #include "hw/arm/armv7m.h"
->  #include "qom/object.h"
 > +#include "hw/clock.h"
+>  #include "qom/object.h"
 >  
->  #define TYPE_STM32F100_SOC "stm32f100-soc"
->  OBJECT_DECLARE_SIMPLE_TYPE(STM32F100State, STM32F100_SOC)
-> @@ -56,6 +57,9 @@ struct STM32F100State {
+>  #define TYPE_STM32F205_SOC "stm32f205-soc"
+> @@ -67,6 +68,9 @@ struct STM32F205State {
 >      MemoryRegion sram;
 >      MemoryRegion flash;
 >      MemoryRegion flash_alias;
@@ -115,19 +115,54 @@ Reviewed-by: Luc Michel <luc@lmichel.fr>
 >  };
 >  
 >  #endif
-> diff --git a/hw/arm/stm32f100_soc.c b/hw/arm/stm32f100_soc.c
-> index 0be92b2c475..f7b344ba9fb 100644
-> --- a/hw/arm/stm32f100_soc.c
-> +++ b/hw/arm/stm32f100_soc.c
-> @@ -30,6 +30,7 @@
->  #include "exec/address-spaces.h"
->  #include "hw/arm/stm32f100_soc.h"
+> diff --git a/hw/arm/netduino2.c b/hw/arm/netduino2.c
+> index 1733b71507c..b5c0ba23ee5 100644
+> --- a/hw/arm/netduino2.c
+> +++ b/hw/arm/netduino2.c
+> @@ -26,6 +26,7 @@
+>  #include "qapi/error.h"
+>  #include "hw/boards.h"
 >  #include "hw/qdev-properties.h"
 > +#include "hw/qdev-clock.h"
->  #include "hw/misc/unimp.h"
+>  #include "qemu/error-report.h"
+>  #include "hw/arm/stm32f205_soc.h"
+>  #include "hw/arm/boot.h"
+> @@ -36,16 +37,17 @@
+>  static void netduino2_init(MachineState *machine)
+>  {
+>      DeviceState *dev;
+> +    Clock *sysclk;
+>  
+> -    /*
+> -     * TODO: ideally we would model the SoC RCC and let it handle
+> -     * system_clock_scale, including its ability to define different
+> -     * possible SYSCLK sources.
+> -     */
+>      system_clock_scale = NANOSECONDS_PER_SECOND / SYSCLK_FRQ;
+>  
+> +    /* This clock doesn't need migration because it is fixed-frequency */
+> +    sysclk = clock_new(OBJECT(machine), "SYSCLK");
+> +    clock_set_hz(sysclk, SYSCLK_FRQ);
+> +
+>      dev = qdev_new(TYPE_STM32F205_SOC);
+>      qdev_prop_set_string(dev, "cpu-type", ARM_CPU_TYPE_NAME("cortex-m3"));
+> +    qdev_connect_clock_in(dev, "sysclk", sysclk);
+>      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+>  
+>      armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename,
+> diff --git a/hw/arm/stm32f205_soc.c b/hw/arm/stm32f205_soc.c
+> index 0bd215aebd7..c6b75a381d9 100644
+> --- a/hw/arm/stm32f205_soc.c
+> +++ b/hw/arm/stm32f205_soc.c
+> @@ -29,6 +29,7 @@
+>  #include "exec/address-spaces.h"
+>  #include "hw/arm/stm32f205_soc.h"
+>  #include "hw/qdev-properties.h"
+> +#include "hw/qdev-clock.h"
 >  #include "sysemu/sysemu.h"
 >  
-> @@ -57,6 +58,9 @@ static void stm32f100_soc_initfn(Object *obj)
+>  /* At the moment only Timer 2 to 5 are modelled */
+> @@ -74,6 +75,9 @@ static void stm32f205_soc_initfn(Object *obj)
 >      for (i = 0; i < STM_NUM_SPIS; i++) {
 >          object_initialize_child(obj, "spi[*]", &s->spi[i], TYPE_STM32F2XX_SPI);
 >      }
@@ -136,8 +171,8 @@ Reviewed-by: Luc Michel <luc@lmichel.fr>
 > +    s->refclk = qdev_init_clock_in(DEVICE(s), "refclk", NULL, NULL, 0);
 >  }
 >  
->  static void stm32f100_soc_realize(DeviceState *dev_soc, Error **errp)
-> @@ -68,6 +72,30 @@ static void stm32f100_soc_realize(DeviceState *dev_soc, Error **errp)
+>  static void stm32f205_soc_realize(DeviceState *dev_soc, Error **errp)
+> @@ -85,6 +89,30 @@ static void stm32f205_soc_realize(DeviceState *dev_soc, Error **errp)
 >  
 >      MemoryRegion *system_memory = get_system_memory();
 >  
@@ -165,11 +200,11 @@ Reviewed-by: Luc Michel <luc@lmichel.fr>
 > +    clock_set_mul_div(s->refclk, 8, 1);
 > +    clock_set_source(s->refclk, s->sysclk);
 > +
->      /*
->       * Init flash region
->       * Flash starts at 0x08000000 and then is aliased to boot memory at 0x0
-> @@ -89,6 +117,8 @@ static void stm32f100_soc_realize(DeviceState *dev_soc, Error **errp)
->      qdev_prop_set_uint32(armv7m, "num-irq", 61);
+>      memory_region_init_rom(&s->flash, OBJECT(dev_soc), "STM32F205.flash",
+>                             FLASH_SIZE, &error_fatal);
+>      memory_region_init_alias(&s->flash_alias, OBJECT(dev_soc),
+> @@ -101,6 +129,8 @@ static void stm32f205_soc_realize(DeviceState *dev_soc, Error **errp)
+>      qdev_prop_set_uint32(armv7m, "num-irq", 96);
 >      qdev_prop_set_string(armv7m, "cpu-type", s->cpu_type);
 >      qdev_prop_set_bit(armv7m, "enable-bitband", true);
 > +    qdev_connect_clock_in(armv7m, "cpuclk", s->sysclk);
@@ -177,41 +212,6 @@ Reviewed-by: Luc Michel <luc@lmichel.fr>
 >      object_property_set_link(OBJECT(&s->armv7m), "memory",
 >                               OBJECT(get_system_memory()), &error_abort);
 >      if (!sysbus_realize(SYS_BUS_DEVICE(&s->armv7m), errp)) {
-> diff --git a/hw/arm/stm32vldiscovery.c b/hw/arm/stm32vldiscovery.c
-> index 7e8191ebf5f..07e401a818d 100644
-> --- a/hw/arm/stm32vldiscovery.c
-> +++ b/hw/arm/stm32vldiscovery.c
-> @@ -27,6 +27,7 @@
->  #include "qapi/error.h"
->  #include "hw/boards.h"
->  #include "hw/qdev-properties.h"
-> +#include "hw/qdev-clock.h"
->  #include "qemu/error-report.h"
->  #include "hw/arm/stm32f100_soc.h"
->  #include "hw/arm/boot.h"
-> @@ -39,16 +40,17 @@
->  static void stm32vldiscovery_init(MachineState *machine)
->  {
->      DeviceState *dev;
-> +    Clock *sysclk;
->  
-> -    /*
-> -     * TODO: ideally we would model the SoC RCC and let it handle
-> -     * system_clock_scale, including its ability to define different
-> -     * possible SYSCLK sources.
-> -     */
->      system_clock_scale = NANOSECONDS_PER_SECOND / SYSCLK_FRQ;
->  
-> +    /* This clock doesn't need migration because it is fixed-frequency */
-> +    sysclk = clock_new(OBJECT(machine), "SYSCLK");
-> +    clock_set_hz(sysclk, SYSCLK_FRQ);
-> +
->      dev = qdev_new(TYPE_STM32F100_SOC);
->      qdev_prop_set_string(dev, "cpu-type", ARM_CPU_TYPE_NAME("cortex-m3"));
-> +    qdev_connect_clock_in(dev, "sysclk", sysclk);
->      sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->  
->      armv7m_load_kernel(ARM_CPU(first_cpu),
 > -- 
 > 2.20.1
 > 
