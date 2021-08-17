@@ -2,72 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA1393EEFEB
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 18:02:35 +0200 (CEST)
-Received: from localhost ([::1]:37528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4EB3EEFF4
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 18:07:18 +0200 (CEST)
+Received: from localhost ([::1]:44340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mG1Xu-0006ka-Mm
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 12:02:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49570)
+	id 1mG1cS-0002ym-MN
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 12:07:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mG1VM-0004oN-DC
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 11:59:56 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:35646)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mG1VK-0000fz-O1
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 11:59:56 -0400
-Received: by mail-ej1-x632.google.com with SMTP id w5so39618053ejq.2
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 08:59:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zd0HpYx8oc6AV+sdvyoyC3xuiywtdczlSgu8G+DjCck=;
- b=OZ2PteizhSAHnRtpfBw69QpHay/SJTWvix1PyGNC+YWMxvKb6QlVw421herTR9Blb6
- AWyHcgEFKm0YNQrZVUVwWpLOFy/TxNrmIQOJIfojXQybU/98o2RY2rC83gUEwNm0p8ea
- LkMjk1mPcwLrvVh4pYGGcgesR4alA6Emqd8Ojj9L6ZhYu2kuXPWUllN9wAbmVDm+G7+A
- kgpuhmWuciYRq4s0YCP2rik2o4ZxMeiR1lGtD8Xb53H9mjfsw061QHieFsL3ikw8yRvd
- HTNjlcwBamz7F0lvO7OobndgVHwByklAnI0tspJ6Ow5j9McIQ8end6KKL0zgm/hQObad
- dIpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zd0HpYx8oc6AV+sdvyoyC3xuiywtdczlSgu8G+DjCck=;
- b=CuUvUF61icMhqelt5wcnqAURck5CS+i7ta8PAfdABtPVZnaNx0BJPWQDV3k4gAkA68
- 69e33JYwdUBcpSvts6ICUXy2qGlAfFQXKmEnyavtsUgzc5S3eH0JrXCHSkr6X7TZ/7bY
- Mfj4BQj5sGoBqHDFRzShMQkk80N8TwJKbhg1qtk+86ds9BJIJQDCyzImg4w/Ph5YywTd
- gNjjwk+L9fg+u1KKFhVVQkwZ+uktUAg1UPZd0YIAgODEemfz3uH6NwlBdrtFSHStLxWr
- aP2rLHNNJRfET0jN46MtWN7dgm6OMcnWYFxBFipkVDlFS+ZbwjCXLHbQK/bo7MYTZmU3
- a9yg==
-X-Gm-Message-State: AOAM530jsGRssXSKHsUjZjjvnybprhyFWcWcDIr1RgdZYSNSXrrJVLzl
- tRdwMobH0gWxhi5F4ImHaPmIMfq56Un/TpxcK/3neg==
-X-Google-Smtp-Source: ABdhPJx+hTdgniMehOFWiTz6gWGDFIgSIvz6C5Dqr/XccBbEpQ5gCVJIhdNzBho7QKD+JXEwLHCUI7q2s9WIcaiBTJ8=
-X-Received: by 2002:a17:907:1048:: with SMTP id
- oy8mr4670637ejb.382.1629215992805; 
- Tue, 17 Aug 2021 08:59:52 -0700 (PDT)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mG1VU-00054Q-B3; Tue, 17 Aug 2021 12:00:04 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:54646)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
+ id 1mG1VS-0000m3-IN; Tue, 17 Aug 2021 12:00:04 -0400
+Received: from [192.168.15.170] (unknown [195.68.53.70])
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 4EE3921A87;
+ Tue, 17 Aug 2021 15:59:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+ s=mail; t=1629215999;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=az1uwNVmtchxfKYOV71uHjwQ8xcWiMYgPqq1j7MCryk=;
+ b=7btNgDV0f8/AXDyPzIRDUEeX9RgY18r9lqHT3rYBcyRGB0nwRW3+jTmb3zzJbzKaKLY55k
+ NNDtvPai5bUFQ+TNRvlugdXVwPQ4Ee1hw+s8iUlPN9ws7xCghUg2saxYXFZtJnwnv4J1lR
+ 1UrF7c48kRmBf1ZHOLrRSII5BeO7C8k=
+Subject: Re: [PATCH for-6.2 23/25] hw/arm/stellaris: Split stellaris-gptm into
+ its own file
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 References: <20210812093356.1946-1-peter.maydell@linaro.org>
- <20210812093356.1946-22-peter.maydell@linaro.org>
- <fabba7f1-1607-8cda-00e5-77f656deef55@greensocs.com>
-In-Reply-To: <fabba7f1-1607-8cda-00e5-77f656deef55@greensocs.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 17 Aug 2021 16:59:07 +0100
-Message-ID: <CAFEAcA93OvhA2_e52dZA-Thfkp8APRn9SkOGwfEe0oVkcrh5GA@mail.gmail.com>
-Subject: Re: [PATCH for-6.2 21/25] hw/timer/armv7m_systick: Use clock inputs
- instead of system_clock_scale
-To: Damien Hedde <damien.hedde@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ <20210812093356.1946-24-peter.maydell@linaro.org>
+From: Damien Hedde <damien.hedde@greensocs.com>
+Message-ID: <57a6f01e-9214-20ea-2016-3d40f7e2d029@greensocs.com>
+Date: Tue, 17 Aug 2021 17:59:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
+MIME-Version: 1.0
+In-Reply-To: <20210812093356.1946-24-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=5.135.226.135;
+ envelope-from=damien.hedde@greensocs.com; helo=beetle.greensocs.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.961,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,36 +66,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luc Michel <luc@lmichel.fr>, Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Joel Stanley <joel@jms.id.au>, Alexandre Iooss <erdnaxe@crans.org>
+Cc: Alexandre Iooss <erdnaxe@crans.org>,
+ Alistair Francis <alistair@alistair23.me>, Luc Michel <luc@lmichel.fr>,
+ Joel Stanley <joel@jms.id.au>, Subbaraya Sundeep <sundeep.lkml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Aug 2021 at 16:55, Damien Hedde <damien.hedde@greensocs.com> wrote:
->
->
->
-> On 8/12/21 11:33 AM, Peter Maydell wrote:
-> According to
-> https://developer.arm.com/documentation/ddi0403/d/System-Level-Architecture/System-Address-Map/The-system-timer--SysTick/SysTick-Calibration-value-Register--SYST-CALIB
-> , the field is 24bits wide.
->
-> Should we prevent an overflow into the reserved bits and other fields ?
-> by doing something like this:
->            val &= SYSCALIB_TENMS;
-> with the following #define with the other ones, above.
->     #define SYSCALIB_TENMS ((1U << 24) - 1)
->
-> Note, the overflow would happen around ~1.68GHz refclk frequency, it is
-> probably a config that will never happen. I'm not sure if we should care
-> or do something if this happens because it is probably an error
-> somewhere else.
 
-I guess we should do something, yes, though pretty much anything
-we do will not really provide the guest with sensible data...
-I suppose masking out the higher bits is no worse than anything else.
 
--- PMM
+On 8/12/21 11:33 AM, Peter Maydell wrote:
+> The implementation of the Stellaris general purpose timer module
+> device stellaris-gptm is currently in the same source file as the
+> board model.  Split it out into its own source file in hw/timer.
+> 
+> Apart from the new file comment headers and the Kconfig and
+> meson.build changes, this is just code movement.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+
+Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+
+--
+Damien
 
