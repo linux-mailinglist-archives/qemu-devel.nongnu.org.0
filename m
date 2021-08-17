@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3782D3EF38E
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 22:32:55 +0200 (CEST)
-Received: from localhost ([::1]:51112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37C083EF393
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 22:42:51 +0200 (CEST)
+Received: from localhost ([::1]:55300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mG5lW-0003Js-95
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 16:32:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34036)
+	id 1mG5v7-0006y2-MV
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 16:42:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mG5kS-0002Gn-1H
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 16:31:51 -0400
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:39617)
+ id 1mG5ta-0006G8-8K
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 16:41:14 -0400
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:43771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mG5kP-0002EU-Pw
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 16:31:47 -0400
-Received: by mail-pj1-x1029.google.com with SMTP id
- u21-20020a17090a8915b02901782c36f543so7256262pjn.4
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 13:31:45 -0700 (PDT)
+ id 1mG5tY-0000AZ-3F
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 16:41:14 -0400
+Received: by mail-pl1-x62d.google.com with SMTP id e19so389850pla.10
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 13:41:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=W9wdJClR/7ZCULmGcfSTqMYVVSuIcOv66oLmSImGX94=;
- b=dvcF9ic1NEs2n1E0Djhk6VtDydBo30DdMkqoAxLTaogiqa4vxJrupeXBHkqI+YHTYP
- 1hbyp/khAznNzXz0C1Y50m+FVWd6UJhdWAJ9VQGIlrprSXLPIUBLoJwnazrdBPWy4Grk
- cccJAmsFpCmxxWx6FUvRz9EkBGKoKkxHV1zRDlUwKmJUNgmwo1Xxg8xxutH5GBq84clg
- pTnotlRRtxMHOXG9yw0A0ASua5vQiXrBcOwJAw5Q5OL+r4kZHn+VCnGgoyeHpU5/WQ8o
- S5qCRdV1Vku0+O8xT1q75qXG0I6Es4miAQZu5vDaljNtXcMCGpy5ZXoUlLPPXa7WnpET
- msVQ==
+ bh=6JgcKR7U+fRffWnU9TfMSMUX8i9qJ4l3cHpA13H8iLM=;
+ b=drX6v201vCGWak1T+EYtRQjd7tUqSJJ8T07yP6pFO4786dHI7q7BfszTLoGG2pzmdL
+ PQR9jZfo4tmra+zVbRn4quPzzjoUXKZNXySLRDJqd7AvL4Q+4lHvFW+5lfSM/i5FYrww
+ KOCpfvoAbutWcj2n4y9nWQ/M9xU4k+nm7BxxRQx2WAoavGNz8qunI/ttBiqykzktzVPv
+ LdQoKm+meIN/D03pU6QpB6hzTuyLJoib2YOg31toOGw/MaewrSM3ZTR2+pVIU9kfX5mX
+ 2LXZIIK228ShFX/Fqgs/GiohkMaBRTRGdyhz/wToZ5b5W49vHBT7czXFEfYnHMnwns/K
+ dNUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=W9wdJClR/7ZCULmGcfSTqMYVVSuIcOv66oLmSImGX94=;
- b=r+zkdVsNWcSIHCjk7jGLkn2Zjjku4rQeBppWcCjOzvAtOnWaLQKIUr3yhNWP3ag+As
- jBK4VftsZKrXMGNsdkJU7DrBkuTa44stgQuAvMR4Lk2k1V4o3yAZyor8sQJ6Ow1+7pxj
- bIMdAJ6lfbUunJY7fAiHfJZuLHqlrK4Cojqn0qSUbRgkKLwCGnaxb9OD6fSpfhtEEX5w
- UgzbLvcHv10mQOuJvhDZTTIOp6bSTLuvq5XcKSPU1v8pfSuw34QmQhgUqZ+56lbs1LJP
- F7eyjP1az/VRT9LDifSark/FE1IX692bPz//ynQ2LdxqWkAgTzX5rlkyGXb9ugn4lgSh
- Yacw==
-X-Gm-Message-State: AOAM531nkFLRjXgymSpWV8vOh3E90cWlyTc9yyC5RyCDIXu9ZdNrFV8p
- Tf4x51fIClxhD2HwAHen+QhXjfiqOBBaRA==
-X-Google-Smtp-Source: ABdhPJzHuiWlc2uAcN90GYeMwtfVi6eOrN4ri0nr+Fi3hadxxUeIm7kY/agT/qdXsjpBKZeQOr+Elw==
-X-Received: by 2002:a17:90a:c481:: with SMTP id
- j1mr647214pjt.164.1629232303999; 
- Tue, 17 Aug 2021 13:31:43 -0700 (PDT)
+ bh=6JgcKR7U+fRffWnU9TfMSMUX8i9qJ4l3cHpA13H8iLM=;
+ b=Ot0H08Ozs4ybDSKv7xAbkgR+Zy5qGhjRhELmhI1bAVJL7Mp6OysafG4ZiV06zfPuNE
+ T1LC60GtIryfMRk8BQVdBt1lF4ITCfntjgmE4avn8zEb3J0n2eJBfhCfUpKnpF0jcmrp
+ SmhO0ymrGMdjmvNEhokbtvHQp+PJuHu38/A+c6gFLLhRpqf4x8dP6RRDsBIBSR7TzIcK
+ gRDAJWDiqjjaH5eh+HijFPAPkt0+CLb2xlHGfmp8AuPj42X6Ln8MSZlRYl9Wy/D8ccDt
+ G5vL9kDYAWj/ZwCj1Unw2WMpqsRltu/jWe1yDVbIVfOUAss9tvwxbgtH0oyv4u2OjwSa
+ P2eg==
+X-Gm-Message-State: AOAM532LaQDRCLx37YCeREoh6OEWwUKf8oJDRgYp0sPyCecKAOgTwwhl
+ wUhrUxdCU44VQlmN3katZR5D/jAkMbL4pA==
+X-Google-Smtp-Source: ABdhPJzr5yWqnmJs+vZ0smylLJUyuPjRUq3x0W3nV/J2H3Pyyc4zGZryG07vYwwCTy282AIScz4F4g==
+X-Received: by 2002:a63:3501:: with SMTP id c1mr5143197pga.280.1629232870421; 
+ Tue, 17 Aug 2021 13:41:10 -0700 (PDT)
 Received: from [192.168.3.43] ([173.197.107.15])
- by smtp.gmail.com with ESMTPSA id o14sm4073048pgl.85.2021.08.17.13.31.43
+ by smtp.gmail.com with ESMTPSA id 11sm4072922pgh.52.2021.08.17.13.41.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Aug 2021 13:31:43 -0700 (PDT)
-Subject: Re: [PATCH] target/arm: Take an exception if PSTATE.IL is set
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210817162118.24319-1-peter.maydell@linaro.org>
+ Tue, 17 Aug 2021 13:41:10 -0700 (PDT)
+Subject: Re: [PATCH] target/arm: Do hflags rebuild in cpsr_write()
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <20210817201843.3829-1-peter.maydell@linaro.org>
+ <CAFEAcA_AXV5zvhWoyxmB03tN_UcTwJhp0V3rRD0Z7VcRMHM+KQ@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a59ce840-3694-0936-b67e-2187d367a90d@linaro.org>
-Date: Tue, 17 Aug 2021 10:31:40 -1000
+Message-ID: <4db339d0-8350-8099-0e28-eeb4b5a5a1a0@linaro.org>
+Date: Tue, 17 Aug 2021 10:41:07 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210817162118.24319-1-peter.maydell@linaro.org>
+In-Reply-To: <CAFEAcA_AXV5zvhWoyxmB03tN_UcTwJhp0V3rRD0Z7VcRMHM+KQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
@@ -92,74 +91,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/17/21 6:21 AM, Peter Maydell wrote:
-> In v8A, the PSTATE.IL bit is set for various kinds of illegal
-> exception return or mode-change attempts.  We already set PSTATE.IL
-> (or its AArch32 equivalent CPSR.IL) in all those cases, but we
-> weren't implementing the part of the behaviour where attempting to
-> execute an instruction with PSTATE.IL takes an immediate exception
-> with an appropriate syndrome value.
+On 8/17/21 10:26 AM, Peter Maydell wrote:
+> On Tue, 17 Aug 2021 at 21:18, Peter Maydell <peter.maydell@linaro.org> wrote:
+>>
+>> Currently we rely on all the callsites of cpsr_write() to rebuild the
+>> cached hflags if they change one of the CPSR bits which we use as a
+>> TB flag and cache in hflags.  This is a bit awkward when we want to
+>> change the set of CPSR bits that we cache, because it means we need
+>> to re-audit all the cpsr_write() callsites to see which flags they
+>> are writing and whether they now need to rebuild the hflags.
+>>
+>> Switch instead to making cpsr_write() call arm_rebuild_hflags()
+>> itself if one of the bits being changed is a cached bit.
+>>
+>> We don't do the rebuild for the CPSRWriteRaw write type,
 > 
-> Add a new TB flags bit tracking PSTATE.IL/CPSR.IL, and generate code
-> to take an exception instead of whatever the instruction would have
-> been.
+> Doh. I said this, but then...
 > 
-> PSTATE.IL and CPSR.IL change only on exception entry, attempted
-> exception exit, and various AArch32 mode changes via cpsr_write().
-> These places generally already rebuild the hflags, so the only place
-> we need an extra rebuild_hflags call is in the illegal-return
-> codepath of the AArch64 exception_return helper.
+>> diff --git a/target/arm/helper.c b/target/arm/helper.c
+>> index 201ecf8c67f..cdd6e0858fc 100644
+>> --- a/target/arm/helper.c
+>> +++ b/target/arm/helper.c
+>> @@ -9215,6 +9215,7 @@ void cpsr_write(CPUARMState *env, uint32_t val, uint32_t mask,
+>>                   CPSRWriteType write_type)
+>>   {
+>>       uint32_t changed_daif;
+>> +    bool rebuild_hflags = mask & (CPSR_M | CPSR_E | CPSR_IL);
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> Obviously correct guest code is never going to set PSTATE.IL, but
-> it's pretty confusing to debug bugs in guest OSes if we just plough
-> on executing code rather than taking the illegal-state exception.  We
-> had a user point this bug out to us earlier this year I think
-> (probably on IRC since I can't find anything about it in my email).
+> ...forgot to actually check the write type.
+> 
+> Should be:
+> 
+>      bool rebuild_hflags = (write_type != CPSRWriteRaw) &&
+>          (mask & (CPSR_M | CPSR_E | CPSR_IL));
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-> +    if (s->pstate_il) {
-> +        /*
-> +         * Illegal execution state. This has priority over BTI
-> +         * exceptions, but comes after instruction abort exceptions.
-> +         */
-> +        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
-> +                           syn_illegalstate(), default_exception_el(s));
-> +    }
-
-Missing return after exception.
-
-> @@ -9045,6 +9045,15 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
->           return;
->       }
->   
-> +    if (s->pstate_il) {
-> +        /*
-> +         * Illegal execution state. This has priority over BTI
-> +         * exceptions, but comes after instruction abort exceptions.
-> +         */
-> +        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
-> +                           syn_illegalstate(), default_exception_el(s));
-> +    }
-...
-> @@ -9576,6 +9586,15 @@ static void thumb_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
->       }
->       dc->insn = insn;
->   
-> +    if (dc->pstate_il) {
-> +        /*
-> +         * Illegal execution state. This has priority over BTI
-> +         * exceptions, but comes after instruction abort exceptions.
-> +         */
-> +        gen_exception_insn(dc, dc->pc_curr, EXCP_UDEF,
-> +                           syn_illegalstate(), default_exception_el(dc));
-> +    }
-
-Likewise.
-
-Otherwise,
+with the fix,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
