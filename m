@@ -2,86 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97DAC3EECE7
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 14:57:25 +0200 (CEST)
-Received: from localhost ([::1]:59698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80DDF3EED25
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 15:16:12 +0200 (CEST)
+Received: from localhost ([::1]:44242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFyei-00065K-Jp
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 08:57:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54496)
+	id 1mFywt-0007Ur-2O
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 09:16:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mFycI-00040Z-19
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 08:54:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41275)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mFyvc-0006eJ-RW
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 09:14:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49801)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mFycG-0004OC-7r
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 08:54:53 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mFyvY-0006ji-W1
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 09:14:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629204891;
+ s=mimecast20190719; t=1629206086;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Mu3/XqlBMe2gxH0BqGe4+/sBVM9QVDKKh1CawSUF+z8=;
- b=DDB56s0gVxiINbhcWwereZCAHKq9UT81Xq0mj/sABkqFPqHdPEPGw9TzzZwPLjSSasGEtL
- 4zHryyy4270BJ891/Qf9ucbS4l3On+2PcbFX0l8u41NlaH6qPEAcBH0KrtDp2r8NFhz3+M
- He0p+B1WpVylpVIPZOBj9DT3gEjHb08=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-495-8EL60BlrM_WihShA8jcbDw-1; Tue, 17 Aug 2021 08:54:50 -0400
-X-MC-Unique: 8EL60BlrM_WihShA8jcbDw-1
-Received: by mail-ej1-f70.google.com with SMTP id
- r21-20020a1709067055b02904be5f536463so5986751ejj.0
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 05:54:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=Mu3/XqlBMe2gxH0BqGe4+/sBVM9QVDKKh1CawSUF+z8=;
- b=BmCH/DYQ+4z8PeKlXI6dX5DRDtvWJ0SkpFkuGs7NRQACa7NHe57Pk5HXxTQvbdAlwH
- n4HThOUyWAyjdF+p9CiyXpIN6En/0/Bc1FZQfsdcyi8+tCTQdw29i5knxYzRnopk6stn
- D5T62LzfgPWTjrcvIFwJlbky8fOj8Mj1qtXAOFsdY+0BeU27Y2lTvfIAq9ifx0CYR6FX
- qDXwKZxiORkhrmgkAIf/m9ZeoUbWPLSE9OFIzv62CRQCSMoZaqcTZQXnX/PVRN/QD0ee
- plUuHd+Df7Fcnoi1BNonPeKGSmIOSfYZRc5qQCoiml52+1eDYNoXf76xrXKSQSx7uOH3
- EYog==
-X-Gm-Message-State: AOAM5305F9GifJR05o2gS5dFDIFHYQNYII7F6odyQ/9D6TXbsHoWKHV2
- CqRjaE2rhpkjW4rHav2Dc1uVo96OBnod5zqyjwMnIAtqRWshMEJQj8yfVJ/7doSlgP2Z1/+H30h
- 8q4UdO12icufV+ig=
-X-Received: by 2002:a05:6402:1514:: with SMTP id
- f20mr4018202edw.17.1629204889186; 
- Tue, 17 Aug 2021 05:54:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzJqlY1pWidiFD7XVJnwtc8HKX8vfLAHyFOm7cIK3yqw8z6pPS8/7ps27FqHZXIiaugDmFgPQ==
-X-Received: by 2002:a05:6402:1514:: with SMTP id
- f20mr4018182edw.17.1629204888994; 
- Tue, 17 Aug 2021 05:54:48 -0700 (PDT)
-Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
- by smtp.gmail.com with ESMTPSA id k19sm755386ejq.42.2021.08.17.05.54.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Aug 2021 05:54:48 -0700 (PDT)
-Date: Tue, 17 Aug 2021 14:54:46 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 1/1] machine: Disallow specifying topology parameters as
- zero
-Message-ID: <20210817125446.o6jkavj5n6wo3z5b@gator.home>
-References: <20210816210603.42337-1-ehabkost@redhat.com>
- <20210816210603.42337-2-ehabkost@redhat.com>
- <CABgObfaWxNsq2i8j6P+oZGFjxyR3MFE9FopHsnvuNAPXa4upYQ@mail.gmail.com>
- <20210817120250.fdpujloefaqtawwo@gator.home>
- <CAFEAcA_fOa4uV3sA5kxJ1gKTGS3ASgvx2+FrG=5cr0wWaQ48-Q@mail.gmail.com>
- <20210817122238.hb2dk2a2zmhqrv7h@gator.home>
- <CAFEAcA_=+YuX99KWUS_KqJB1Snadmx9WKUAVpZQQAAcGBPtyAA@mail.gmail.com>
+ bh=uWGyd4wY/VQDoK302mWEJ0Dr/3oOkFMvjnpJVVUnUR4=;
+ b=av3HPkab5vT/3B5Du7U4QtF8g2eihrRbnPcSRKOAXE1Z9SC6+E+d2QlNvagscm5g33xoAV
+ ql/mwS61iXh1wEMor+kQ6QRSR0KtEcHVTkM9sZ/50rJ/8dfiRWgWGslvY4kkYpQEwtoe7a
+ MkqM8bG1R0mc5Vay1Y9Xd+dqj9RqEC4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-268-h0bBeoiUPbKFYtygdl6TmQ-1; Tue, 17 Aug 2021 09:14:45 -0400
+X-MC-Unique: h0bBeoiUPbKFYtygdl6TmQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4518F1B2C981;
+ Tue, 17 Aug 2021 13:14:44 +0000 (UTC)
+Received: from localhost (unknown [10.39.194.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CCFA618B42;
+ Tue, 17 Aug 2021 13:14:43 +0000 (UTC)
+Date: Tue, 17 Aug 2021 14:14:37 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Subject: Re: [PATCH] include/block.h: remove outdated comment in
+ bdrv_drained_begin
+Message-ID: <YRu2PYGNRPqMCZNQ@stefanha-x1.localdomain>
+References: <20210816182325.24517-1-eesposit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_=+YuX99KWUS_KqJB1Snadmx9WKUAVpZQQAAcGBPtyAA@mail.gmail.com>
+In-Reply-To: <20210816182325.24517-1-eesposit@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="smgbIyuNsRYJJYtL"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -102,42 +79,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Yanan Wang <wangyanan55@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 17, 2021 at 01:37:15PM +0100, Peter Maydell wrote:
-> On Tue, 17 Aug 2021 at 13:22, Andrew Jones <drjones@redhat.com> wrote:
-> >
-> > On Tue, Aug 17, 2021 at 01:06:19PM +0100, Peter Maydell wrote:
-> > > On Tue, 17 Aug 2021 at 13:02, Andrew Jones <drjones@redhat.com> wrote:
-> > > >
-> > > > On Mon, Aug 16, 2021 at 11:37:21PM +0200, Paolo Bonzini wrote:
-> > > > > How do we know that no one has ever used such configuration? The conversion
-> > > > > was meant to be bug-compatible.
-> > > >
-> > > > We don't. But we do know that a zero input value was never documented
-> > > > prior to 1e63fe68580, which has not yet been released. Can we claim
-> > > > that an undocumented input value has undefined behavior, giving us
-> > > > freedom to modify that behavior until it is documented?
-> > >
-> > > Dunno; I definitely don't want a behaviour-change patch at this
-> > > point in the release-cycle, though...
-> > >
-> >
-> > Can we replace this patch with the following one for now? And then
-> > discuss this further before committing to supporting a zero input?
-> 
-> If you can agree on that and send out a patch and get it reviewed
-> within the next three hours or so...
+--smgbIyuNsRYJJYtL
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I posted the patch. Agreement/disagreement can come in the form of
-ack/nack. Hopefully in time...
+On Mon, Aug 16, 2021 at 08:23:25PM +0200, Emanuele Giuseppe Esposito wrote:
+> There are a couple of errors in bdrv_drained_begin header comment:
+> - block_job_pause does not exist anymore, it has been replaced
+>   with job_pause in b15de82867
+> - job_pause is automatically invoked as a .drained_begin callback
+>   (child_job_drained_begin) by the child_job BdrvChildClass struct
+>   in blockjob.c. So no additional pause should be required.
+>=20
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  include/block/block.h | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>=20
+> diff --git a/include/block/block.h b/include/block/block.h
+> index 3477290f9a..1b0d05b545 100644
+> --- a/include/block/block.h
+> +++ b/include/block/block.h
+> @@ -749,9 +749,7 @@ bool bdrv_drain_poll(BlockDriverState *bs, bool recur=
+sive,
+>   * bdrv_drained_begin:
+>   *
+>   * Begin a quiesced section for exclusive access to the BDS, by disablin=
+g
+> - * external request sources including NBD server and device model. Note =
+that
+> - * this doesn't block timers or coroutines from submitting more requests=
+, which
+> - * means block_job_pause is still necessary.
+> + * external request sources including NBD server and device model.
 
-Thanks,
-drew
+Block jobs are worth mentioning:
+"NBD server, block jobs, and device model"?
+
+--smgbIyuNsRYJJYtL
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmEbtj0ACgkQnKSrs4Gr
+c8ifzAf/XvoBIwGsrI2pCsD5JGZnjq08SY51Kw0BULGmG6vh2/B68ujX7VDfmV+P
+6pLGHDpCV/PcckNienJsWJWb3vi1cUoODo/Rp03mHkMywHyLpoVNQaw6LQEeccNk
+vmA9E4QAXGrTjkrLRuXrijF09IhJWNif3ArNgdM7GPV4dRNXt3FOpXvw6hLtPBfH
+lo2ytGJA+qi6s1E9A7nXPTgL+snKQ/PmOJZCdeEtRyAOkRgdyVi8+zMao/FzlOfb
+sG9YBUcn/fhu38cuBRs4hcWqrrpkitFgLLJPIRCG9piBE/8fSjDcyXi93YaOqZxl
+CEmECn/1Vi529WhfLt6vd243IK8Glg==
+=39ne
+-----END PGP SIGNATURE-----
+
+--smgbIyuNsRYJJYtL--
 
 
