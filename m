@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9EFE3EF01A
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 18:20:28 +0200 (CEST)
-Received: from localhost ([::1]:37684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 000353EF021
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 18:22:25 +0200 (CEST)
+Received: from localhost ([::1]:41048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mG1pD-00013K-Si
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 12:20:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55850)
+	id 1mG1r7-0003OP-2z
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 12:22:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mG1oI-0000Ac-66
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 12:19:30 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:35515)
+ id 1mG1q8-0002Vt-00
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 12:21:24 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mG1oG-0000cb-7E
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 12:19:29 -0400
-Received: by mail-ed1-x530.google.com with SMTP id dj8so24453654edb.2
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 09:19:27 -0700 (PDT)
+ id 1mG1q6-0002Gv-4L
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 12:21:23 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id f5so29432437wrm.13
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 09:21:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=l39qz/4mBUJGpydjHQjtSShdciU4t6f11zbUvrAddo8=;
- b=xMNec352TFIkQkGXstVyOsAkMi97NxlsILh0L1n0tMpv6Y0rJE21uWU00DfPDZposy
- R7R5W6fd8bqojBih9PVWEWq0+Uvr8bwGz4Tb3s24UVJUpe0D7jK4nt6a1FJI92egoZpe
- Yx6FNeYbbaBdPGQYHTzeiMmG8SmOV73eZVFP2tXsq/kvSba4FvajQDGinETp7dISqXYL
- rg0Akd7GVnTPFrsqQ9x9YufHxqTzhPMlRKlRyd4RAIST1ZAUF9gzdxKyKmZrHwgSvuv3
- xUYR+jGM7HJqEgDuxHtKs6CumyAHuHoIHIa6CfxoYIg92vmKbhK2arH2khSC1v7rXYfT
- A5TQ==
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HkTlNHSIPAIX74t2l5NVRwQupFxsN9vScryo2WGuL+Q=;
+ b=qoZcIOVOSTXcitVaI56SM5MqbnCFLGnpJnODT/1Fs7mc/6rcSCYSp8HfBya12yknkX
+ WGXVhU40eYlk2tr5ScCDvlY5hMcDp4FVhE0d5bhG0oMvsmKW/4jeFINDzS5ZgpcDvVBS
+ tPUvMK3zoiZo8WNz8SdervzUxJ+78x1XUtv+DCxYc7W8JUzS/ujZcTzINev6xLJ3v5da
+ 6OmqC39BbDdsjIPWmXJ/nFEc7PwYe5Opfymn4t7Kxne57PLz0WwTxkU7tpTdENUayk2i
+ ho5T9+7VkeXwpuUVhheb75QhOmJ8iZ8D0H9rPkvSSqppE5kDzXXGkCAafxY9a+YEO4Vl
+ Ra2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=l39qz/4mBUJGpydjHQjtSShdciU4t6f11zbUvrAddo8=;
- b=EjXyxTZ8sMMLiIGKNzEsGbHB4kHQM/3mmhyKZQPRvdKRG3YDpVarSUpG6BuQYo5wgY
- Q16dMA8yF8eablvUqOFcafSzrXPI8qjfJ13vSV6f/TR30+AZA/JWfHtS3MM93GREJMs6
- 5xnBYn+St3CHtsYG/LE3pUhPnS2JZu8OhdrgL27LTV5EhrktIKKUr6K1qOhsAtCDa08m
- hNddlcFqc2F0v4UzQR28q6RrGhvrgBEwapN1cqJ0GeFu77341hVr0wQD5Le4IHtTSBkV
- SRc0eBzY7eNP0Ai0RFCXhgo9w3QKzhggWYts6oos8FWDZ5xPl+VNgUcT7cQQvkuMwKtw
- rmTw==
-X-Gm-Message-State: AOAM531/0PEHnzRibA+DXalxupjWR7H452jvEHqUJh1KlumLoSVcwoCe
- CnmcCUIbIns/6UmXnxlVvP8bHjKxluN9KFc0+s4Tmw==
-X-Google-Smtp-Source: ABdhPJxiFj/r2RHUTjts2fiLTim3RqURM4TgY2a69iuCyKPs13Ht/03mxp5haShyLGDlUVcaDq9PP6v8O4SKFBcIxgU=
-X-Received: by 2002:a05:6402:220e:: with SMTP id
- cq14mr4966036edb.52.1629217166283; 
- Tue, 17 Aug 2021 09:19:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAK7rcp9HQ+uoPqu5vwCD8sCca99N5bV+aqD9Oea=VpTVT7Mb+A@mail.gmail.com>
- <30c3d9c2-08c3-6159-103d-d61ed41efb01@redhat.com>
-In-Reply-To: <30c3d9c2-08c3-6159-103d-d61ed41efb01@redhat.com>
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HkTlNHSIPAIX74t2l5NVRwQupFxsN9vScryo2WGuL+Q=;
+ b=Gi3otEA4Py110VU9HJV5x6fjPc2lnlJK8lfOB4g2/CIbWwo1EuwWqI/YLDaYlb61EJ
+ ed56ipfDIA5fzpLrRI/zb9LObBIf4m/aCoMM+PmpiTT0hVroBwyrFJceiyHwd8qqG466
+ kXBWWCD/wqhjJtye3qNlG+kd0H6isyvvLAre2Q4AxkjExJl591oSl91hl+YsLRTn0NpH
+ Y/9Pt6M29kMPf54lIsyOvFjmruY6tB6pedrXdLPhB+9j4Up1bG+ONnha6iaj2mSnhzeV
+ 7drm3CGIF6GVOWutuJklo8DfyeAz2VWPn2+MSjFyo/eTsfLGePg4TBNQu9O/c7QWoW/j
+ NnKA==
+X-Gm-Message-State: AOAM532QzVUpNTrxFQXCsf6SWTmNvXlixo8WogHCwpgt4HFNGNVBBipZ
+ JboQmgid9DksqkJI1eWkJZV7XFq9SuhopA==
+X-Google-Smtp-Source: ABdhPJzix0+fbx1kkX421E2EZWCEW+sTAW+WXO9egg4RCp4nly5I5KneVB+BelEZ31nCF/+znTcGUg==
+X-Received: by 2002:a5d:4d03:: with SMTP id z3mr5309345wrt.229.1629217280562; 
+ Tue, 17 Aug 2021 09:21:20 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id z126sm2666665wmc.11.2021.08.17.09.21.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Aug 2021 09:21:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 17 Aug 2021 17:18:40 +0100
-Message-ID: <CAFEAcA-fTz-X7G==mvoEMyw5txY4nL3PR+TeXtnu0nmSum1saw@mail.gmail.com>
-Subject: Re: Bootloading within QEMU?
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH] target/arm: Take an exception if PSTATE.IL is set
+Date: Tue, 17 Aug 2021 17:21:18 +0100
+Message-Id: <20210817162118.24319-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,84 +81,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kenneth Adam Miller <kennethadammiller@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Aug 2021 at 16:57, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> On 17/08/21 16:31, Kenneth Adam Miller wrote:
-> > I am trying to discover how to schedule QEMU to begin actual emulation
-> > as currently my target correctly starts QEMU but only shows the shell,
-> > and not even boot loading occurs within QEMU. I'm trying to learn from
-> > example, and so will focus my questions only on X86.
+In v8A, the PSTATE.IL bit is set for various kinds of illegal
+exception return or mode-change attempts.  We already set PSTATE.IL
+(or its AArch32 equivalent CPSR.IL) in all those cases, but we
+weren't implementing the part of the behaviour where attempting to
+execute an instruction with PSTATE.IL takes an immediate exception
+with an appropriate syndrome value.
 
-x86 is the oldest of QEMU's target architectures and thus the
-one most laden down with ancient "we wouldn't write it that way today"
-code, backwards-compatibility cruft and other confusing encrustations.
-It's not a good choice for trying to learn how a target architecture
-should be structured, I'm afraid. Arm is good-in-parts but has a similar
-amount of old code and back-compat junk (we have overhauled the translate.c
-code massively, so that part is good, unlike the i386 translate.c which
-is absolutely dreadful). You might try riscv, that's a lot newer.
+Add a new TB flags bit tracking PSTATE.IL/CPSR.IL, and generate code
+to take an exception instead of whatever the instruction would have
+been.
 
-> > I can see the
-> > MachineClass and MachineState types, and I have tried to follow QEMU
-> > with the debugger and found where QEMU calls qemu_init and
-> > qemu_main_loop under qemu/softmmu/main.c, and even tried to follow
-> > through from init to main loop to see where it would begin booting, but
-> > I cannot see where the bootloader is scheduled or specified or started
-> > from within the target occurs.
->
-> There are two possibilities:
->
-> 1) QEMU loads a fixed firmware file, usually at a fixed address in
-> memory so that the reset vector of the CPU is inside the firmware.  This
-> is what happens for example on x86.  The firmware ultimately boots the
-> machine (e.g. on x86 you have BIOS->GRUB->Linux or something like that).
->
-> 2) QEMU loads a binary specified on the command line---typically with
-> -kernel, which is stored in current_machine->kernel_filename---and
-> somehow arranges for the guest to execute that file when it starts.  For
-> example one possibility is to write a jump instruction at the CPU reset
-> vector (see riscv_setup_rom_reset_vec for an example).  The functions
-> you want to look at for the loading part are load_elf_ram*, and
-> load_uimage_as and load_image_targphys_as.
+PSTATE.IL and CPSR.IL change only on exception entry, attempted
+exception exit, and various AArch32 mode changes via cpsr_write().
+These places generally already rebuild the hflags, so the only place
+we need an extra rebuild_hflags call is in the illegal-return
+codepath of the AArch64 exception_return helper.
 
-For a new architecture I would strongly suggest avoiding putting
-any more magic into the "-kernel" handling than you can avoid.
-You probably do want it to do "load a Linux kernel with whatever
-the standard image format and boot protocol that implies", but
-stick to exactly that (and if you can avoid it, don't even implement
-that). Definitely don't overload it with "and if it's an ELF file then
-load it like an ELF file too" or supporting 15 different kinds of file
-format or other "do what I mean" handling.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+Obviously correct guest code is never going to set PSTATE.IL, but
+it's pretty confusing to debug bugs in guest OSes if we just plough
+on executing code rather than taking the illegal-state exception.  We
+had a user point this bug out to us earlier this year I think
+(probably on IRC since I can't find anything about it in my email).
+---
+ target/arm/cpu.h           |  1 +
+ target/arm/syndrome.h      |  5 +++++
+ target/arm/translate.h     |  2 ++
+ target/arm/helper-a64.c    |  1 +
+ target/arm/helper.c        |  8 ++++++++
+ target/arm/translate-a64.c | 10 ++++++++++
+ target/arm/translate.c     | 19 +++++++++++++++++++
+ 7 files changed, 46 insertions(+)
 
-You can do generic "load an ELF file" with the generic-loader
-https://qemu-project.gitlab.io/qemu/system/generic-loader.html
-which requires no architecture or board specific handling --
-as the name suggests, it is generic ;-) . This makes it different
-from the -kernel and -bios options, which both need at least
-some handling in the board code.
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 9f0a5f84d50..be557bf5d83 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3441,6 +3441,7 @@ FIELD(TBFLAG_ANY, FPEXC_EL, 8, 2)
+ FIELD(TBFLAG_ANY, DEBUG_TARGET_EL, 10, 2)
+ /* Memory operations require alignment: SCTLR_ELx.A or CCR.UNALIGN_TRP */
+ FIELD(TBFLAG_ANY, ALIGN_MEM, 12, 1)
++FIELD(TBFLAG_ANY, PSTATE__IL, 13, 1)
+ 
+ /*
+  * Bit usage when in AArch32 state, both A- and M-profile.
+diff --git a/target/arm/syndrome.h b/target/arm/syndrome.h
+index 39a31260f2d..c590a109da9 100644
+--- a/target/arm/syndrome.h
++++ b/target/arm/syndrome.h
+@@ -270,4 +270,9 @@ static inline uint32_t syn_wfx(int cv, int cond, int ti, bool is_16bit)
+            (cv << 24) | (cond << 20) | ti;
+ }
+ 
++static inline uint32_t syn_illegalstate(void)
++{
++    return EC_ILLEGALSTATE << ARM_EL_EC_SHIFT;
++}
++
+ #endif /* TARGET_ARM_SYNDROME_H */
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index 241596c5bda..af1b6fa03c9 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -98,6 +98,8 @@ typedef struct DisasContext {
+     bool hstr_active;
+     /* True if memory operations require alignment */
+     bool align_mem;
++    /* True if PSTATE.IL is set */
++    bool pstate_il;
+     /*
+      * >= 0, a copy of PSTATE.BTYPE, which will be 0 without v8.5-BTI.
+      *  < 0, set by the current instruction.
+diff --git a/target/arm/helper-a64.c b/target/arm/helper-a64.c
+index 26f79f9141a..19445b3c947 100644
+--- a/target/arm/helper-a64.c
++++ b/target/arm/helper-a64.c
+@@ -1071,6 +1071,7 @@ illegal_return:
+     if (!arm_singlestep_active(env)) {
+         env->pstate &= ~PSTATE_SS;
+     }
++    helper_rebuild_hflags_a64(env, cur_el);
+     qemu_log_mask(LOG_GUEST_ERROR, "Illegal exception return at EL%d: "
+                   "resuming execution at 0x%" PRIx64 "\n", cur_el, env->pc);
+ }
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 155d8bf2399..201ecf8c67f 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -13408,6 +13408,10 @@ static CPUARMTBFlags rebuild_hflags_a32(CPUARMState *env, int fp_el,
+         DP_TBFLAG_A32(flags, HSTR_ACTIVE, 1);
+     }
+ 
++    if (env->uncached_cpsr & CPSR_IL) {
++        DP_TBFLAG_ANY(flags, PSTATE__IL, 1);
++    }
++
+     return rebuild_hflags_common_32(env, fp_el, mmu_idx, flags);
+ }
+ 
+@@ -13502,6 +13506,10 @@ static CPUARMTBFlags rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
+         }
+     }
+ 
++    if (env->pstate & PSTATE_IL) {
++        DP_TBFLAG_ANY(flags, PSTATE__IL, 1);
++    }
++
+     if (cpu_isar_feature(aa64_mte, env_archcpu(env))) {
+         /*
+          * Set MTE_ACTIVE if any access may be Checked, and leave clear
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 422e2ac0c96..7ff922d4302 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -14662,6 +14662,15 @@ static void disas_a64_insn(CPUARMState *env, DisasContext *s)
+     s->fp_access_checked = false;
+     s->sve_access_checked = false;
+ 
++    if (s->pstate_il) {
++        /*
++         * Illegal execution state. This has priority over BTI
++         * exceptions, but comes after instruction abort exceptions.
++         */
++        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
++                           syn_illegalstate(), default_exception_el(s));
++    }
++
+     if (dc_isar_feature(aa64_bti, s)) {
+         if (s->base.num_insns == 1) {
+             /*
+@@ -14780,6 +14789,7 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
+ #endif
+     dc->fp_excp_el = EX_TBFLAG_ANY(tb_flags, FPEXC_EL);
+     dc->align_mem = EX_TBFLAG_ANY(tb_flags, ALIGN_MEM);
++    dc->pstate_il = EX_TBFLAG_ANY(tb_flags, PSTATE__IL);
+     dc->sve_excp_el = EX_TBFLAG_A64(tb_flags, SVEEXC_EL);
+     dc->sve_len = (EX_TBFLAG_A64(tb_flags, ZCR_LEN) + 1) * 16;
+     dc->pauth_active = EX_TBFLAG_A64(tb_flags, PAUTH_ACTIVE);
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 80c282669f0..5dffbe4260b 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -9045,6 +9045,15 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
+         return;
+     }
+ 
++    if (s->pstate_il) {
++        /*
++         * Illegal execution state. This has priority over BTI
++         * exceptions, but comes after instruction abort exceptions.
++         */
++        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
++                           syn_illegalstate(), default_exception_el(s));
++    }
++
+     if (cond == 0xf) {
+         /* In ARMv3 and v4 the NV condition is UNPREDICTABLE; we
+          * choose to UNDEF. In ARMv5 and above the space is used
+@@ -9313,6 +9322,7 @@ static void arm_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+ #endif
+     dc->fp_excp_el = EX_TBFLAG_ANY(tb_flags, FPEXC_EL);
+     dc->align_mem = EX_TBFLAG_ANY(tb_flags, ALIGN_MEM);
++    dc->pstate_il = EX_TBFLAG_ANY(tb_flags, PSTATE__IL);
+ 
+     if (arm_feature(env, ARM_FEATURE_M)) {
+         dc->vfp_enabled = 1;
+@@ -9576,6 +9586,15 @@ static void thumb_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+     }
+     dc->insn = insn;
+ 
++    if (dc->pstate_il) {
++        /*
++         * Illegal execution state. This has priority over BTI
++         * exceptions, but comes after instruction abort exceptions.
++         */
++        gen_exception_insn(dc, dc->pc_curr, EXCP_UDEF,
++                           syn_illegalstate(), default_exception_el(dc));
++    }
++
+     if (dc->eci) {
+         /*
+          * For M-profile continuable instructions, ECI/ICI handling
+-- 
+2.20.1
 
-A general recommendation: to the extent that you can do so, avoid
-implementing behaviour in QEMU which is not just "same thing the
-real hardware does". When you're implementing "what the hardware
-does" you have a concrete specification that defines what the
-"right thing" is, people writing code for it hopefully already
-know what that behaviour is, and you can generally point your users
-at the h/w docs for specifics rather than having to write them
-up in the QEMU docs. As soon as you wander off into the realms
-of "it would be kind of convenient if QEMU directly booted this
-file I had lying around" (which usually implies emulating some
-behaviour that is not that of the hardware but of firmware or
-a bootloader) things get a lot murkier and you can end up with
-a bit of a mess, especially over time. Worse, that mess is hard
-to back out of because we don't like to break backwards-compatibility
-for user command lines that worked with previous QEMU versions.
-target/arm's "let's just pretend we're a bootloader because
-it's convenient" code was initially about 100 lines long;
-today it is more than ten times that size...
-
--- PMM
 
