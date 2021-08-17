@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51EB63EEC9C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 14:39:08 +0200 (CEST)
-Received: from localhost ([::1]:48018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D35C3EECA6
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 14:42:36 +0200 (CEST)
+Received: from localhost ([::1]:52002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFyN0-0005AW-VM
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 08:39:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50926)
+	id 1mFyQN-00083t-A6
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 08:42:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mFyM1-0004Mb-4r
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 08:38:05 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:35613)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mFyLz-00044l-Hp
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 08:38:04 -0400
-Received: by mail-ed1-x532.google.com with SMTP id dj8so23493518edb.2
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 05:38:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lH3xujJiY/+QL7m3VogYrMoorawVXFBEOnUhokLnD9U=;
- b=xmtPDoJbeF5KXXEB+PApalYLUlOiKF3HQI7iAb7Ay5k3Kb5Jlq5C8RhMp3zIWstn2k
- mmMxmZRX8kL9bXun0drAPlPT/sm4thsB11YoA2h134DpvC6yFff6PZeqUxC9WOU5pCxu
- FGbBSHXbyORrokgNUkR/1SLCyh183KBRyriWAtpQBHPzjkyEnb3cVQVui3AolBXEM7n4
- 0VvX1uIlax/UdqmuaymDqz9lrno02eCW0xPT164iuxqB+Xfs/R6F1OXnDwD23C3NTwUZ
- hu5A6I/DRa28TpzMnLydTUDWKfXw3wEP5zweJOFDyBX3BGS2Fj4UKEhWySur/AFm7rS8
- pZCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lH3xujJiY/+QL7m3VogYrMoorawVXFBEOnUhokLnD9U=;
- b=dEdPuNYj0rr9/PTovkzDBZWsTnepF9KoYwd5ohQMiGOw1+MGvKJaCG/0IIlhKF29iA
- GdupgU44k6qc00iHe27z3sa6Zdi6JvlSI9NlUSuekoMIJg7NAXT3/zov6edDerY0zSmx
- os1SGc/jPwFWjyMUFojlxOu99+7NTJMKx2Ym0U8mkDUaCkFS3hGXZ/Ejmo50fe+5hpkd
- Kh9mJR32sHlgQVbLMNz/qDybzWBhXTG8/kqXpgbc4aVj+9Ti27/AFamZ5g+ahktKr6A4
- H9Co5UEq/a3iXO8QIQJ0J/7owNWsNi35mPf2YRIq1hqw7RuZjLAigey8z9nWMKBMvjMb
- eLGQ==
-X-Gm-Message-State: AOAM530Mvl9g8CnMNRCvpGuZ2yXwCb274LoqbJ8ACHgW1s3UWmplJqvY
- u8o8snu+rW7c4C6ExMfj+t2IV8T4YdAhXdMYjUWSHA==
-X-Google-Smtp-Source: ABdhPJx+5nWs8D7vtJdI3Idd1t9z6Gw01oyI/CaDuqeLl0k8LFs1wSzhM6CLfH4Jx4dKUBuXFOLl9tpI0kG6msP8l2A=
-X-Received: by 2002:aa7:dd48:: with SMTP id o8mr727875edw.44.1629203881793;
- Tue, 17 Aug 2021 05:38:01 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mFyPS-00079z-QH
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 08:41:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43758)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mFyPQ-0005pB-1w
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 08:41:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629204092;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0gBk+ln7xeh2xIevCjjknGU3UWmaQBQBmNOjYqZ5y5M=;
+ b=cfVqvomZHw0pMhpu1gPtSPKTK3iD3DR9WL/nyt5dkeieQpQj6W0qtcxmWNF0dCm7oBrfyG
+ +b+UO+BqQXt1zPPs1RvsTY5uP+nH5evbMaJNkxvEED/3nvrXvpngJqX1QhNf7MdMoV2S0q
+ oNbGCpGnFPPWm7se4TAOlbxYWMeZUAA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-417-30t20cXyMMeSVNdn6x_CLg-1; Tue, 17 Aug 2021 08:41:31 -0400
+X-MC-Unique: 30t20cXyMMeSVNdn6x_CLg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDAB21051480;
+ Tue, 17 Aug 2021 12:41:29 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.193.216])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C24895FC23;
+ Tue, 17 Aug 2021 12:41:28 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 1352D1800385; Tue, 17 Aug 2021 14:41:27 +0200 (CEST)
+Date: Tue, 17 Aug 2021 14:41:27 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH 1/3] MAINTAINERS: Split Audio backends VS frontends
+Message-ID: <20210817124127.2ip6fq2ndlubqn5s@sirius.home.kraxel.org>
+References: <20210816191014.2020783-1-philmd@redhat.com>
+ <20210816191014.2020783-2-philmd@redhat.com>
+ <1790111.v9OTG8XKiZ@silver>
 MIME-Version: 1.0
-References: <20210816210603.42337-1-ehabkost@redhat.com>
- <20210816210603.42337-2-ehabkost@redhat.com>
- <CABgObfaWxNsq2i8j6P+oZGFjxyR3MFE9FopHsnvuNAPXa4upYQ@mail.gmail.com>
- <20210817120250.fdpujloefaqtawwo@gator.home>
- <CAFEAcA_fOa4uV3sA5kxJ1gKTGS3ASgvx2+FrG=5cr0wWaQ48-Q@mail.gmail.com>
- <20210817122238.hb2dk2a2zmhqrv7h@gator.home>
-In-Reply-To: <20210817122238.hb2dk2a2zmhqrv7h@gator.home>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 17 Aug 2021 13:37:15 +0100
-Message-ID: <CAFEAcA_=+YuX99KWUS_KqJB1Snadmx9WKUAVpZQQAAcGBPtyAA@mail.gmail.com>
-Subject: Re: [PULL 1/1] machine: Disallow specifying topology parameters as
- zero
-To: Andrew Jones <drjones@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <1790111.v9OTG8XKiZ@silver>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,36 +79,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Yanan Wang <wangyanan55@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Stefan Weil <sw@weilnetz.de>,
+ Volker =?utf-8?Q?R=C3=BCmelin?= <vr_qemu@t-online.de>, qemu-devel@nongnu.org,
+ clamky@hotmail.com, Yonggang Luo <luoyonggang@gmail.com>,
+ =?utf-8?B?S8WRdsOhZ8OzIFpvbHTDoW4=?= <dirty.ice.hu@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 17 Aug 2021 at 13:22, Andrew Jones <drjones@redhat.com> wrote:
->
-> On Tue, Aug 17, 2021 at 01:06:19PM +0100, Peter Maydell wrote:
-> > On Tue, 17 Aug 2021 at 13:02, Andrew Jones <drjones@redhat.com> wrote:
-> > >
-> > > On Mon, Aug 16, 2021 at 11:37:21PM +0200, Paolo Bonzini wrote:
-> > > > How do we know that no one has ever used such configuration? The conversion
-> > > > was meant to be bug-compatible.
-> > >
-> > > We don't. But we do know that a zero input value was never documented
-> > > prior to 1e63fe68580, which has not yet been released. Can we claim
-> > > that an undocumented input value has undefined behavior, giving us
-> > > freedom to modify that behavior until it is documented?
-> >
-> > Dunno; I definitely don't want a behaviour-change patch at this
-> > point in the release-cycle, though...
-> >
->
-> Can we replace this patch with the following one for now? And then
-> discuss this further before committing to supporting a zero input?
+  Hi,
 
-If you can agree on that and send out a patch and get it reviewed
-within the next three hours or so...
+> > +Overall Audio frontends
 
--- PMM
+> I would call that "Audio Hardware Emulation" instead of "Overall Audio 
+> frontends".
+
+> > +Overall Audio backends
+
+> Likewise I would call this section "Shared/common QEMU audio library/
+> subsystem" or something like that instead of "Overall Audio backends".
+
+Well, frontend/backend is common qemu terminology, with "frontend" being
+the emulated/virtual device as seen by the guest and "backend" being the 
+host-side wireup (i.e. -audiodev / -blockdev / -chardev / -netdev / ...)
+
+take care,
+  Gerd
+
 
