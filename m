@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90BF23EF2DF
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 21:49:44 +0200 (CEST)
-Received: from localhost ([::1]:56718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE873EF384
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 22:17:29 +0200 (CEST)
+Received: from localhost ([::1]:37146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mG55j-0002Bs-MP
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 15:49:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54028)
+	id 1mG5WZ-0001ZF-Mi
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 16:17:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mG54H-0001Wl-Ij
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 15:48:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49859)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mG54F-0005jr-VO
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 15:48:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629229690;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=s20mxM8CdCVbfe5cXyz11ulP5apwYdKna0tw8zvPidA=;
- b=AzUAh6YLQ9ITpbnvKglu1hmtmudf0P4dYsdC+8gUZK+hJ5eNJzZ/LkPYT/SJ4JMnOg851g
- 0KZPILNX3nEA/r8zKxGlifKoG6OZGomXBxswFmQQJlE13vhgToVld/2UvVhL2U9bSC6u01
- DE45KrzDL9yAkpBamDEuSl9/aJDSrRM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-VdkPk-3IOG6rpOCm_ZDuZg-1; Tue, 17 Aug 2021 15:48:08 -0400
-X-MC-Unique: VdkPk-3IOG6rpOCm_ZDuZg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B62C8802928;
- Tue, 17 Aug 2021 19:48:07 +0000 (UTC)
-Received: from redhat.com (ovpn-114-146.phx2.redhat.com [10.3.114.146])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DFCE4620DE;
- Tue, 17 Aug 2021 19:47:59 +0000 (UTC)
-Date: Tue, 17 Aug 2021 14:47:58 -0500
-From: Eric Blake <eblake@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v3 13/25] python/aqmp: add QMP Message format
-Message-ID: <20210817194758.4i5lujt7kefp3dmk@redhat.com>
-References: <20210803182941.504537-1-jsnow@redhat.com>
- <20210803182941.504537-14-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
+ id 1mG5VB-0000l4-PW
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 16:16:01 -0400
+Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232]:43622)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
+ id 1mG5V8-0008JQ-63
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 16:16:00 -0400
+Received: by mail-lj1-x232.google.com with SMTP id x7so752874ljn.10
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 13:15:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=phystech-edu.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=e7AC6Hm2NWATq8NSPaGyyVac9lcA9aqK1BXHKqxilAM=;
+ b=RIIWBMm1HuNtTh8qsGmsrX+eNAlY1Iqbr8Jc37l0vN0syrSmmz6W2ZxWNXCkbwHdAG
+ TmmffqQTYD+Iv/UYvZcBnjPKmP8L+ju8vT0zCkOu9OR25PhHGXeW0ojuePrdm8NOsw36
+ 71Nq/Vm/TeJqQFbtHcg9+kSmicAYAPYkPIUqZfIthlRWeco6kjYvjVISSLt4PvB6cN/6
+ q/bcIxHOYn6TpT+dmYPZvRNOszt9jUAD6n8cGGGs3HTBIRUUEzdi9aT1F4gByO/4QpP8
+ 4kJFpsLJsRqQg+h0CUfi5u6TuXi3oGLg+yUVD1sgIdWCiDonl8OVtzRU8N5XGrIYIhBW
+ Rdkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=e7AC6Hm2NWATq8NSPaGyyVac9lcA9aqK1BXHKqxilAM=;
+ b=G77+EdiqyviJG0RU/svXlKqgHbMQipUdB0gxMfc8ebGSGnyuuT8JhyYe1Z8Ep9SiIJ
+ LfHL924qkXuz6AaHp4WrSdSSmBnopgWcRB992P8izFIdjrOmhPcP14LZlBt1PRr0idXz
+ Y6ktz4YdkaInrS0Jzg1+5fmRvMMEGrkd42UBYybuEHCwFDcqajyb9tON5810mUGj/VJs
+ VIRd4eyvtXHna9d1/9fjDlPCnEPDCgW7y5qsVpmmd165gOp5QyboKXzluDSS3i5x7X6Y
+ PXWflHjGw99xZ/kCkTNlpjzCjiWa5cgFc2PyMpKSigGLVs0pXzPm45J68082LTdVrpQy
+ dVrw==
+X-Gm-Message-State: AOAM530mRLxxfeKSJ2SM23MWZi5UFoka9HPPsG6fT9V72wl4rrhCRtDz
+ SZ6Y8Sgozw4tOcl1bGGA4GDUrw==
+X-Google-Smtp-Source: ABdhPJyG4pFLPqNelAESzx1FNUbk2xOHohdAGAC0kF3qT80bqYm49cyUN+urUFIhfh4UcPdGE7Knnw==
+X-Received: by 2002:a05:651c:2006:: with SMTP id
+ s6mr4540878ljo.171.1629231355434; 
+ Tue, 17 Aug 2021 13:15:55 -0700 (PDT)
+Received: from 192.168.1.2 ([2a00:1370:810e:b7ea:7e3d:4f4b:921e:b1ff])
+ by smtp.gmail.com with ESMTPSA id i6sm256507lfl.17.2021.08.17.13.15.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Aug 2021 13:15:54 -0700 (PDT)
+From: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+To: philmd@redhat.com, kwolf@redhat.com, hreitz@redhat.com, sw@weilnetz.de,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v2] block/file-win32: add reopen handlers
+Date: Tue, 17 Aug 2021 23:15:43 +0300
+Message-Id: <20210817201543.16070-1-viktor.prutyanov@phystech.edu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20210803182941.504537-14-jsnow@redhat.com>
-User-Agent: NeoMutt/20210205-719-68949a
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::232;
+ envelope-from=viktor.prutyanov@phystech.edu; helo=mail-lj1-x232.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,34 +82,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <wrampazz@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- "Niteesh G . S ." <niteesh.gs@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 03, 2021 at 02:29:29PM -0400, John Snow wrote:
-> The Message class is here primarily to serve as a solid type to use for
-> mypy static typing for unambiguous annotation and documentation.
-> 
-> We can also stuff JSON serialization and deserialization into this class
-> itself so it can be re-used even outside this infrastructure.
-> 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  python/qemu/aqmp/__init__.py |   4 +-
->  python/qemu/aqmp/message.py  | 209 +++++++++++++++++++++++++++++++++++
->  2 files changed, 212 insertions(+), 1 deletion(-)
->  create mode 100644 python/qemu/aqmp/message.py
+Make 'qemu-img commit' work on Windows.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Command 'commit' requires reopening backing file in RW mode. So,
+add reopen prepare/commit/abort handlers and change dwShareMode
+for CreateFile call in order to allow further read/write reopening.
 
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/418
+
+Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+---
+ v2:
+    - fix indentation in raw_reopen_prepare
+    - free rs if raw_reopen_prepare fails
+
+ block/file-win32.c | 90 +++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 89 insertions(+), 1 deletion(-)
+
+diff --git a/block/file-win32.c b/block/file-win32.c
+index 2642088bd6..9dcbb2b53b 100644
+--- a/block/file-win32.c
++++ b/block/file-win32.c
+@@ -58,6 +58,10 @@ typedef struct BDRVRawState {
+     QEMUWin32AIOState *aio;
+ } BDRVRawState;
+ 
++typedef struct BDRVRawReopenState {
++    HANDLE hfile;
++} BDRVRawReopenState;
++
+ /*
+  * Read/writes the data to/from a given linear buffer.
+  *
+@@ -392,7 +396,7 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
+     }
+ 
+     s->hfile = CreateFile(filename, access_flags,
+-                          FILE_SHARE_READ, NULL,
++                          FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
+                           OPEN_EXISTING, overlapped, NULL);
+     if (s->hfile == INVALID_HANDLE_VALUE) {
+         int err = GetLastError();
+@@ -634,6 +638,86 @@ static int coroutine_fn raw_co_create_opts(BlockDriver *drv,
+     return raw_co_create(&options, errp);
+ }
+ 
++static int raw_reopen_prepare(BDRVReopenState *state,
++                              BlockReopenQueue *queue, Error **errp)
++{
++    BDRVRawState *s = state->bs->opaque;
++    BDRVRawReopenState *rs;
++    int access_flags;
++    DWORD overlapped;
++    int ret = 0;
++
++    rs = g_new0(BDRVRawReopenState, 1);
++
++    raw_parse_flags(state->flags, s->aio != NULL, &access_flags, &overlapped);
++    rs->hfile = CreateFile(state->bs->filename, access_flags,
++                           FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
++                           OPEN_EXISTING, overlapped, NULL);
++
++    if (rs->hfile == INVALID_HANDLE_VALUE) {
++        int err = GetLastError();
++
++        error_setg_win32(errp, err, "Could not reopen '%s'",
++                         state->bs->filename);
++        if (err == ERROR_ACCESS_DENIED) {
++            ret = -EACCES;
++        } else {
++            ret = -EINVAL;
++        }
++        goto fail;
++    }
++
++    if (s->aio) {
++        ret = win32_aio_attach(s->aio, rs->hfile);
++        if (ret < 0) {
++            error_setg_errno(errp, -ret, "Could not enable AIO");
++            goto fail;
++        }
++    }
++
++    state->opaque = rs;
++
++    return 0;
++
++fail:
++    g_free(rs);
++    state->opaque = NULL;
++
++    return ret;
++}
++
++static void raw_reopen_commit(BDRVReopenState *state)
++{
++    BDRVRawState *s = state->bs->opaque;
++    BDRVRawReopenState *rs = state->opaque;
++
++    if (!rs) {
++        return;
++    }
++
++    CloseHandle(s->hfile);
++    s->hfile = rs->hfile;
++
++    g_free(rs);
++    state->opaque = NULL;
++}
++
++static void raw_reopen_abort(BDRVReopenState *state)
++{
++    BDRVRawReopenState *rs = state->opaque;
++
++    if (!rs) {
++        return;
++    }
++
++    if (rs->hfile != INVALID_HANDLE_VALUE) {
++        CloseHandle(rs->hfile);
++    }
++
++    g_free(rs);
++    state->opaque = NULL;
++}
++
+ static QemuOptsList raw_create_opts = {
+     .name = "raw-create-opts",
+     .head = QTAILQ_HEAD_INITIALIZER(raw_create_opts.head),
+@@ -659,6 +743,10 @@ BlockDriver bdrv_file = {
+     .bdrv_co_create_opts = raw_co_create_opts,
+     .bdrv_has_zero_init = bdrv_has_zero_init_1,
+ 
++    .bdrv_reopen_prepare = raw_reopen_prepare,
++    .bdrv_reopen_commit  = raw_reopen_commit,
++    .bdrv_reopen_abort   = raw_reopen_abort,
++
+     .bdrv_aio_preadv    = raw_aio_preadv,
+     .bdrv_aio_pwritev   = raw_aio_pwritev,
+     .bdrv_aio_flush     = raw_aio_flush,
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.21.0
 
 
