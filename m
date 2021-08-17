@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09CDC3EEA7F
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 12:04:57 +0200 (CEST)
-Received: from localhost ([::1]:47040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 202CB3EEAB7
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 12:14:16 +0200 (CEST)
+Received: from localhost ([::1]:49844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFvxn-0002yY-Uq
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 06:04:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46462)
+	id 1mFw6p-0005Vh-1w
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 06:14:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mFvsL-0008MF-Ln; Tue, 17 Aug 2021 05:59:19 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:52178)
+ id 1mFw3D-0004RM-NG; Tue, 17 Aug 2021 06:10:31 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:52270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <damien.hedde@greensocs.com>)
- id 1mFvsJ-0000Vy-4F; Tue, 17 Aug 2021 05:59:17 -0400
+ id 1mFw3B-00023Y-4y; Tue, 17 Aug 2021 06:10:31 -0400
 Received: from [192.168.15.170] (unknown [195.68.53.70])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 2AFB92089E;
- Tue, 17 Aug 2021 09:59:08 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPSA id D29002089E;
+ Tue, 17 Aug 2021 10:10:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1629194348;
+ s=mail; t=1629195025;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cM6Sf5OTkdz5rNX48R+XN99E7FX2KbQEoavqHHnxdPg=;
- b=6yKiE1yyIa1+qsgurh6UVEWrtHLs32IolbSDdIFEO056D/m15jsQa2mHKVlBA0BhzaPgpO
- 1KRa/7CAEK32MgEiGQVYJzPu4JBcoO5JsTP4GC71ypmiZw044WWcaqhCP20s4o7dpyApJt
- G/CR0SMgAMFLYh3btA1TeIWbYpoNnmA=
-Subject: Re: [PATCH for-6.2 09/25] clock: Provide builtin multiplier/divider
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
+ bh=xD5r6k4rcJdIIpBFuqpV3DgInRnmNGSOlKVwtZbtWFs=;
+ b=YU/QuZO5/81X/TuDROfHYAI+TOY0/DlzYB2he0jaBhJHQQPikXB5sinN4X7xmCe/r/Tda7
+ nhcr49pFqFXbrMQXTa8MU1qDxwuhMqccsU3jGbbnRbWZC5kB6QEHxstcJYZ9xt+Bb+P2MZ
+ 26T37DuuCDKcOSuo3RQijvXRUmMOme4=
+Subject: Re: [PATCH for-6.2 01/25] arm: Move M-profile RAS register block into
+ its own device
+To: Luc Michel <luc@lmichel.fr>, Peter Maydell <peter.maydell@linaro.org>
 References: <20210812093356.1946-1-peter.maydell@linaro.org>
- <20210812093356.1946-10-peter.maydell@linaro.org>
+ <20210812093356.1946-2-peter.maydell@linaro.org>
+ <20210817082512.4snnzp6vmhj26mjn@sekoia-pc.home.lmichel.fr>
 From: Damien Hedde <damien.hedde@greensocs.com>
-Message-ID: <37605028-f1c7-93d7-ce51-dc78f4ed8d8b@greensocs.com>
-Date: Tue, 17 Aug 2021 11:59:06 +0200
+Message-ID: <fb281c0d-e186-21b2-73be-1d3dd003a5f8@greensocs.com>
+Date: Tue, 17 Aug 2021 12:10:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210812093356.1946-10-peter.maydell@linaro.org>
+In-Reply-To: <20210817082512.4snnzp6vmhj26mjn@sekoia-pc.home.lmichel.fr>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US-large
 Content-Transfer-Encoding: 7bit
@@ -65,239 +66,347 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexandre Iooss <erdnaxe@crans.org>,
- Alistair Francis <alistair@alistair23.me>, Luc Michel <luc@lmichel.fr>,
- Joel Stanley <joel@jms.id.au>, Subbaraya Sundeep <sundeep.lkml@gmail.com>
+Cc: Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, Alexandre Iooss <erdnaxe@crans.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 8/12/21 11:33 AM, Peter Maydell wrote:
-> It is quite common for a clock tree to involve possibly programmable
-> clock multipliers or dividers, where the frequency of a clock is for
-> instance divided by 8 to produce a slower clock to feed to a
-> particular device.
+On 8/17/21 10:25 AM, Luc Michel wrote:
+> On 10:33 Thu 12 Aug     , Peter Maydell wrote:
+>> Currently we implement the RAS register block within the NVIC device.
+>> It isn't really very tightly coupled with the NVIC proper, so instead
+>> move it out into a sysbus device of its own and have the top level
+>> ARMv7M container create it and map it into memory at the right
+>> address.
+>>
+>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > 
-> Currently we provide no convenient mechanism for modelling this.  You
-> can implement it by having an input Clock and an output Clock, and
-> manually setting the period of the output clock in the period-changed
-> callback of the input clock, but that's quite clunky.
-> 
-> This patch adds support in the Clock objects themselves for setting a
-> multiplier or divider.  The effect of setting this on a clock is that
-> when the clock's period is changed, all the children of the clock are
-> set to period * multiplier / divider, rather than being set to the
-> same period as the parent clock.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  docs/devel/clocks.rst   | 23 +++++++++++++++++++++++
->  include/hw/clock.h      | 29 +++++++++++++++++++++++++++++
->  hw/core/clock-vmstate.c | 24 +++++++++++++++++++++++-
->  hw/core/clock.c         | 29 +++++++++++++++++++++++++----
->  4 files changed, 100 insertions(+), 5 deletions(-)
-> 
-> diff --git a/docs/devel/clocks.rst b/docs/devel/clocks.rst
-> index 956bd147ea0..430fbd842e5 100644
-> --- a/docs/devel/clocks.rst
-> +++ b/docs/devel/clocks.rst
-> @@ -260,6 +260,29 @@ clocks get the new clock period value: *Clock 2*, *Clock 3* and *Clock 4*.
->  It is not possible to disconnect a clock or to change the clock connection
->  after it is connected.
->  
-> +Clock multiplier and divider settings
-> +-------------------------------------
-> +
-> +By default, when clocks are connected together, the child
-> +clocks run with the same period as their source (parent) clock.
-> +The Clock API supports a built-in period multiplier/divider
-> +mechanism so you can configure a clock to make its children
-> +run at a different period from its own. If you call the
-> +``clock_set_mul_div()`` function you can specify the clock's
-> +multiplier and divider values. The children of that clock
-> +will all run with a period of ``parent_period * multiplier / divider``.
-> +For instance, if the clock has a frequency of 8MHz and you set its
-> +multiplier to 2 and its divider to 3, the child clocks will run
-> +at 12MHz.
-> +
-> +You can change the multiplier and divider of a clock at runtime,
-> +so you can use this to model clock controller devices which
-> +have guest-programmable frequency multipliers or dividers.
-> +
-> +Note that ``clock_set_mul_div()`` does not automatically call
-> +``clock_propagate()``. If you make a runtime change to the
-> +multiplier or divider you must call clock_propagate() yourself.a
-> +
->  Unconnected input clocks
->  ------------------------
->  
-> diff --git a/include/hw/clock.h b/include/hw/clock.h
-> index a7187eab95e..11f67fb9701 100644
-> --- a/include/hw/clock.h
-> +++ b/include/hw/clock.h
-> @@ -81,6 +81,10 @@ struct Clock {
->      void *callback_opaque;
->      unsigned int callback_events;
->  
-> +    /* Ratio of the parent clock to run the child clocks at */
-> +    uint32_t multiplier;
-> +    uint32_t divider;
-> +
->      /* Clocks are organized in a clock tree */
->      Clock *source;
->      QLIST_HEAD(, Clock) children;
-> @@ -350,4 +354,29 @@ static inline bool clock_is_enabled(const Clock *clk)
->   */
->  char *clock_display_freq(Clock *clk);
->  
-> +/**
-> + * clock_set_mul_div: set multiplier/divider for child clocks
-> + * @clk: clock
-> + * @multiplier: multiplier value
-> + * @divider: divider value
-> + *
-> + * By default, a Clock's children will all run with the same period
-> + * as their parent. This function allows you to adjust the multiplier
-> + * and divider used to derive the child clock frequency.
-> + * For example, setting a multiplier of 2 and a divider of 3
-> + * will run child clocks with a period 2/3 of the parent clock,
-> + * so if the parent clock is an 8MHz clock the children will
-> + * be 12MHz.
-> + *
-> + * Setting the multiplier to 0 will stop the child clocks.
-> + * Setting the divider to 0 is a programming error (diagnosed with
-> + * an assertion failure).
-> + * Setting a multiplier value that results in the child period
-> + * overflowing is not diagnosed.
-> + *
-> + * Note that this function does not call clock_propagate(); the
-> + * caller should do that if necessary.
-> + */
-> +void clock_set_mul_div(Clock *clk, uint32_t multiplier, uint32_t divider);
-> +
->  #endif /* QEMU_HW_CLOCK_H */
-> diff --git a/hw/core/clock-vmstate.c b/hw/core/clock-vmstate.c
-> index 260b13fc2c8..07bb45d7ed4 100644
-> --- a/hw/core/clock-vmstate.c
-> +++ b/hw/core/clock-vmstate.c
-> @@ -14,6 +14,24 @@
->  #include "migration/vmstate.h"
->  #include "hw/clock.h"
->  
-> +static bool muldiv_needed(void *opaque)
-> +{
-> +    Clock *clk = opaque;
-> +
-> +    return clk->multiplier != 1 || clk->divider != 1;
-> +}
-> +
-> +const VMStateDescription vmstate_muldiv = {
-> +    .name = "clock/muldiv",
-> +    .version_id = 1,
-> +    .minimum_version_id = 1,
-> +    .needed = muldiv_needed,
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_UINT32(multiplier, Clock),
-> +        VMSTATE_UINT32(divider, Clock),
-> +    },
-> +};
-> +
->  const VMStateDescription vmstate_clock = {
->      .name = "clock",
->      .version_id = 0,
-> @@ -21,5 +39,9 @@ const VMStateDescription vmstate_clock = {
->      .fields = (VMStateField[]) {
->          VMSTATE_UINT64(period, Clock),
->          VMSTATE_END_OF_LIST()
-> -    }
-> +    },
-> +    .subsections = (const VMStateDescription*[]) {
-> +        &vmstate_muldiv,
-> +        NULL
-> +    },
->  };
-> diff --git a/hw/core/clock.c b/hw/core/clock.c
-> index fc5a99683f8..c371b9e977a 100644
-> --- a/hw/core/clock.c
-> +++ b/hw/core/clock.c
-> @@ -64,6 +64,15 @@ bool clock_set(Clock *clk, uint64_t period)
->      return true;
->  }
->  
-> +static uint64_t clock_get_child_period(Clock *clk)
-> +{
-> +    /*
-> +     * Return the period to be used for child clocks, which is the parent
-> +     * clock period adjusted for for multiplier and divider effects.
-> +     */
-> +    return muldiv64(clk->period, clk->multiplier, clk->divider);
-> +}
-> +
->  static void clock_call_callback(Clock *clk, ClockEvent event)
->  {
->      /*
-> @@ -78,15 +87,16 @@ static void clock_call_callback(Clock *clk, ClockEvent event)
->  static void clock_propagate_period(Clock *clk, bool call_callbacks)
->  {
->      Clock *child;
-> +    uint64_t child_period = clock_get_child_period(clk);
->  
->      QLIST_FOREACH(child, &clk->children, sibling) {
-> -        if (child->period != clk->period) {
-> +        if (child->period != child_period) {
->              if (call_callbacks) {
->                  clock_call_callback(child, ClockPreUpdate);
->              }
-> -            child->period = clk->period;
-> +            child->period = child_period;
->              trace_clock_update(CLOCK_PATH(child), CLOCK_PATH(clk),
-> -                               CLOCK_PERIOD_TO_HZ(clk->period),
-> +                               CLOCK_PERIOD_TO_HZ(child->period),
->                                 call_callbacks);
->              if (call_callbacks) {
->                  clock_call_callback(child, ClockUpdate);
-> @@ -110,7 +120,7 @@ void clock_set_source(Clock *clk, Clock *src)
->  
->      trace_clock_set_source(CLOCK_PATH(clk), CLOCK_PATH(src));
->  
-> -    clk->period = src->period;
-> +    clk->period = clock_get_child_period(src);
->      QLIST_INSERT_HEAD(&src->children, clk, sibling);
->      clk->source = src;
->      clock_propagate_period(clk, false);
-> @@ -133,10 +143,21 @@ char *clock_display_freq(Clock *clk)
->      return freq_to_str(clock_get_hz(clk));
->  }
->  
-> +void clock_set_mul_div(Clock *clk, uint32_t multiplier, uint32_t divider)
-> +{
-> +    assert(divider != 0);
-> +
-> +    clk->multiplier = multiplier;
-> +    clk->divider = divider;
-> +}
-> +
->  static void clock_initfn(Object *obj)
->  {
->      Clock *clk = CLOCK(obj);
->  
-> +    clk->multiplier = 1;
-> +    clk->divider = 1;
-> +
->      QLIST_INIT(&clk->children);
->  }
->  
-> 
+> Reviewed-by: Luc Michel <luc@lmichel.fr>
 
-Regarding migration, you made the vmstate_muldiv subsection optional. I
-suppose it is to keep backward migration working in case of simple
-mul=1,div=1 clocks.
-
-Do we need to ensure multiplier and divider fields are set to 1 upon
-receiving a state if the vmstate_muldiv subsection is absent ? I
-remember there are post_load() tricks to achieve that.
-
-Thanks,
-Damien
+Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+> 
+>> ---
+>>  include/hw/arm/armv7m.h       |  2 +
+>>  include/hw/intc/armv7m_nvic.h |  1 -
+>>  include/hw/misc/armv7m_ras.h  | 37 ++++++++++++++
+>>  hw/arm/armv7m.c               | 12 +++++
+>>  hw/intc/armv7m_nvic.c         | 56 ---------------------
+>>  hw/misc/armv7m_ras.c          | 93 +++++++++++++++++++++++++++++++++++
+>>  MAINTAINERS                   |  2 +
+>>  hw/misc/meson.build           |  2 +
+>>  8 files changed, 148 insertions(+), 57 deletions(-)
+>>  create mode 100644 include/hw/misc/armv7m_ras.h
+>>  create mode 100644 hw/misc/armv7m_ras.c
+>>
+>> diff --git a/include/hw/arm/armv7m.h b/include/hw/arm/armv7m.h
+>> index bc6733c5184..4cae0d7eeaa 100644
+>> --- a/include/hw/arm/armv7m.h
+>> +++ b/include/hw/arm/armv7m.h
+>> @@ -12,6 +12,7 @@
+>>  
+>>  #include "hw/sysbus.h"
+>>  #include "hw/intc/armv7m_nvic.h"
+>> +#include "hw/misc/armv7m_ras.h"
+>>  #include "target/arm/idau.h"
+>>  #include "qom/object.h"
+>>  
+>> @@ -58,6 +59,7 @@ struct ARMv7MState {
+>>      NVICState nvic;
+>>      BitBandState bitband[ARMV7M_NUM_BITBANDS];
+>>      ARMCPU *cpu;
+>> +    ARMv7MRAS ras;
+>>  
+>>      /* MemoryRegion we pass to the CPU, with our devices layered on
+>>       * top of the ones the board provides in board_memory.
+>> diff --git a/include/hw/intc/armv7m_nvic.h b/include/hw/intc/armv7m_nvic.h
+>> index 39c71e15936..33b6d8810c7 100644
+>> --- a/include/hw/intc/armv7m_nvic.h
+>> +++ b/include/hw/intc/armv7m_nvic.h
+>> @@ -83,7 +83,6 @@ struct NVICState {
+>>      MemoryRegion sysreg_ns_mem;
+>>      MemoryRegion systickmem;
+>>      MemoryRegion systick_ns_mem;
+>> -    MemoryRegion ras_mem;
+>>      MemoryRegion container;
+>>      MemoryRegion defaultmem;
+>>  
+>> diff --git a/include/hw/misc/armv7m_ras.h b/include/hw/misc/armv7m_ras.h
+>> new file mode 100644
+>> index 00000000000..f8773e65b14
+>> --- /dev/null
+>> +++ b/include/hw/misc/armv7m_ras.h
+>> @@ -0,0 +1,37 @@
+>> +/*
+>> + * Arm M-profile RAS block
+>> + *
+>> + * Copyright (c) 2021 Linaro Limited
+>> + *
+>> + *  This program is free software; you can redistribute it and/or modify
+>> + *  it under the terms of the GNU General Public License version 2 or
+>> + *  (at your option) any later version.
+>> + */
+>> +
+>> +/*
+>> + * This is a model of the RAS register block of an M-profile CPU
+>> + * (the registers starting at 0xE0005000 with ERRFRn).
+>> + *
+>> + * QEMU interface:
+>> + *  + sysbus MMIO region 0: the register bank
+>> + *
+>> + * The QEMU implementation currently provides "minimal RAS" only.
+>> + */
+>> +
+>> +#ifndef HW_MISC_ARMV7M_RAS_H
+>> +#define HW_MISC_ARMV7M_RAS_H
+>> +
+>> +#include "hw/sysbus.h"
+>> +
+>> +#define TYPE_ARMV7M_RAS "armv7m-ras"
+>> +OBJECT_DECLARE_SIMPLE_TYPE(ARMv7MRAS, ARMV7M_RAS)
+>> +
+>> +struct ARMv7MRAS {
+>> +    /*< private >*/
+>> +    SysBusDevice parent_obj;
+>> +
+>> +    /*< public >*/
+>> +    MemoryRegion iomem;
+>> +};
+>> +
+>> +#endif
+>> diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
+>> index 9ce5c30cd5c..8964730d153 100644
+>> --- a/hw/arm/armv7m.c
+>> +++ b/hw/arm/armv7m.c
+>> @@ -231,6 +231,18 @@ static void armv7m_realize(DeviceState *dev, Error **errp)
+>>      memory_region_add_subregion(&s->container, 0xe0000000,
+>>                                  sysbus_mmio_get_region(sbd, 0));
+>>  
+>> +    /* If the CPU has RAS support, create the RAS register block */
+>> +    if (cpu_isar_feature(aa32_ras, s->cpu)) {
+>> +        object_initialize_child(OBJECT(dev), "armv7m-ras",
+>> +                                &s->ras, TYPE_ARMV7M_RAS);
+>> +        sbd = SYS_BUS_DEVICE(&s->ras);
+>> +        if (!sysbus_realize(sbd, errp)) {
+>> +            return;
+>> +        }
+>> +        memory_region_add_subregion_overlap(&s->container, 0xe0005000,
+>> +                                            sysbus_mmio_get_region(sbd, 0), 1);
+>> +    }
+>> +
+>>      for (i = 0; i < ARRAY_SIZE(s->bitband); i++) {
+>>          if (s->enable_bitband) {
+>>              Object *obj = OBJECT(&s->bitband[i]);
+>> diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
+>> index 1e7ddcb94cb..a5975592dfa 100644
+>> --- a/hw/intc/armv7m_nvic.c
+>> +++ b/hw/intc/armv7m_nvic.c
+>> @@ -2549,56 +2549,6 @@ static const MemoryRegionOps nvic_systick_ops = {
+>>      .endianness = DEVICE_NATIVE_ENDIAN,
+>>  };
+>>  
+>> -
+>> -static MemTxResult ras_read(void *opaque, hwaddr addr,
+>> -                            uint64_t *data, unsigned size,
+>> -                            MemTxAttrs attrs)
+>> -{
+>> -    if (attrs.user) {
+>> -        return MEMTX_ERROR;
+>> -    }
+>> -
+>> -    switch (addr) {
+>> -    case 0xe10: /* ERRIIDR */
+>> -        /* architect field = Arm; product/variant/revision 0 */
+>> -        *data = 0x43b;
+>> -        break;
+>> -    case 0xfc8: /* ERRDEVID */
+>> -        /* Minimal RAS: we implement 0 error record indexes */
+>> -        *data = 0;
+>> -        break;
+>> -    default:
+>> -        qemu_log_mask(LOG_UNIMP, "Read RAS register offset 0x%x\n",
+>> -                      (uint32_t)addr);
+>> -        *data = 0;
+>> -        break;
+>> -    }
+>> -    return MEMTX_OK;
+>> -}
+>> -
+>> -static MemTxResult ras_write(void *opaque, hwaddr addr,
+>> -                             uint64_t value, unsigned size,
+>> -                             MemTxAttrs attrs)
+>> -{
+>> -    if (attrs.user) {
+>> -        return MEMTX_ERROR;
+>> -    }
+>> -
+>> -    switch (addr) {
+>> -    default:
+>> -        qemu_log_mask(LOG_UNIMP, "Write to RAS register offset 0x%x\n",
+>> -                      (uint32_t)addr);
+>> -        break;
+>> -    }
+>> -    return MEMTX_OK;
+>> -}
+>> -
+>> -static const MemoryRegionOps ras_ops = {
+>> -    .read_with_attrs = ras_read,
+>> -    .write_with_attrs = ras_write,
+>> -    .endianness = DEVICE_NATIVE_ENDIAN,
+>> -};
+>> -
+>>  /*
+>>   * Unassigned portions of the PPB space are RAZ/WI for privileged
+>>   * accesses, and fault for non-privileged accesses.
+>> @@ -2946,12 +2896,6 @@ static void armv7m_nvic_realize(DeviceState *dev, Error **errp)
+>>                                              &s->systick_ns_mem, 1);
+>>      }
+>>  
+>> -    if (cpu_isar_feature(aa32_ras, s->cpu)) {
+>> -        memory_region_init_io(&s->ras_mem, OBJECT(s),
+>> -                              &ras_ops, s, "nvic_ras", 0x1000);
+>> -        memory_region_add_subregion(&s->container, 0x5000, &s->ras_mem);
+>> -    }
+>> -
+>>      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->container);
+>>  }
+>>  
+>> diff --git a/hw/misc/armv7m_ras.c b/hw/misc/armv7m_ras.c
+>> new file mode 100644
+>> index 00000000000..a2b4f4b8dc8
+>> --- /dev/null
+>> +++ b/hw/misc/armv7m_ras.c
+>> @@ -0,0 +1,93 @@
+>> +/*
+>> + * Arm M-profile RAS block
+>> + *
+>> + * Copyright (c) 2021 Linaro Limited
+>> + *
+>> + *  This program is free software; you can redistribute it and/or modify
+>> + *  it under the terms of the GNU General Public License version 2 or
+>> + *  (at your option) any later version.
+>> + */
+>> +
+>> +#include "qemu/osdep.h"
+>> +#include "hw/misc/armv7m_ras.h"
+>> +#include "qemu/log.h"
+>> +
+>> +static MemTxResult ras_read(void *opaque, hwaddr addr,
+>> +                            uint64_t *data, unsigned size,
+>> +                            MemTxAttrs attrs)
+>> +{
+>> +    if (attrs.user) {
+>> +        return MEMTX_ERROR;
+>> +    }
+>> +
+>> +    switch (addr) {
+>> +    case 0xe10: /* ERRIIDR */
+>> +        /* architect field = Arm; product/variant/revision 0 */
+>> +        *data = 0x43b;
+>> +        break;
+>> +    case 0xfc8: /* ERRDEVID */
+>> +        /* Minimal RAS: we implement 0 error record indexes */
+>> +        *data = 0;
+>> +        break;
+>> +    default:
+>> +        qemu_log_mask(LOG_UNIMP, "Read RAS register offset 0x%x\n",
+>> +                      (uint32_t)addr);
+>> +        *data = 0;
+>> +        break;
+>> +    }
+>> +    return MEMTX_OK;
+>> +}
+>> +
+>> +static MemTxResult ras_write(void *opaque, hwaddr addr,
+>> +                             uint64_t value, unsigned size,
+>> +                             MemTxAttrs attrs)
+>> +{
+>> +    if (attrs.user) {
+>> +        return MEMTX_ERROR;
+>> +    }
+>> +
+>> +    switch (addr) {
+>> +    default:
+>> +        qemu_log_mask(LOG_UNIMP, "Write to RAS register offset 0x%x\n",
+>> +                      (uint32_t)addr);
+>> +        break;
+>> +    }
+>> +    return MEMTX_OK;
+>> +}
+>> +
+>> +static const MemoryRegionOps ras_ops = {
+>> +    .read_with_attrs = ras_read,
+>> +    .write_with_attrs = ras_write,
+>> +    .endianness = DEVICE_NATIVE_ENDIAN,
+>> +};
+>> +
+>> +
+>> +static void armv7m_ras_init(Object *obj)
+>> +{
+>> +    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+>> +    ARMv7MRAS *s = ARMV7M_RAS(obj);
+>> +
+>> +    memory_region_init_io(&s->iomem, obj, &ras_ops,
+>> +                          s, "armv7m-ras", 0x1000);
+>> +    sysbus_init_mmio(sbd, &s->iomem);
+>> +}
+>> +
+>> +static void armv7m_ras_class_init(ObjectClass *klass, void *data)
+>> +{
+>> +    /* This device has no state: no need for vmstate or reset */
+>> +}
+>> +
+>> +static const TypeInfo armv7m_ras_info = {
+>> +    .name = TYPE_ARMV7M_RAS,
+>> +    .parent = TYPE_SYS_BUS_DEVICE,
+>> +    .instance_size = sizeof(ARMv7MRAS),
+>> +    .instance_init = armv7m_ras_init,
+>> +    .class_init = armv7m_ras_class_init,
+>> +};
+>> +
+>> +static void armv7m_ras_register_types(void)
+>> +{
+>> +    type_register_static(&armv7m_ras_info);
+>> +}
+>> +
+>> +type_init(armv7m_ras_register_types);
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 37b1a8e4428..3cac393bb48 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -617,6 +617,7 @@ F: hw/intc/gic_internal.h
+>>  F: hw/misc/a9scu.c
+>>  F: hw/misc/arm11scu.c
+>>  F: hw/misc/arm_l2x0.c
+>> +F: hw/misc/armv7m_ras.c
+>>  F: hw/timer/a9gtimer*
+>>  F: hw/timer/arm*
+>>  F: include/hw/arm/arm*.h
+>> @@ -626,6 +627,7 @@ F: include/hw/misc/arm11scu.h
+>>  F: include/hw/timer/a9gtimer.h
+>>  F: include/hw/timer/arm_mptimer.h
+>>  F: include/hw/timer/armv7m_systick.h
+>> +F: include/hw/misc/armv7m_ras.h
+>>  F: tests/qtest/test-arm-mptimer.c
+>>  
+>>  Exynos
+>> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+>> index a53b849a5a0..3f41a3a5b27 100644
+>> --- a/hw/misc/meson.build
+>> +++ b/hw/misc/meson.build
+>> @@ -17,6 +17,8 @@ softmmu_ss.add(when: 'CONFIG_INTEGRATOR_DEBUG', if_true: files('arm_integrator_d
+>>  softmmu_ss.add(when: 'CONFIG_A9SCU', if_true: files('a9scu.c'))
+>>  softmmu_ss.add(when: 'CONFIG_ARM11SCU', if_true: files('arm11scu.c'))
+>>  
+>> +softmmu_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('armv7m_ras.c'))
+>> +
+>>  # Mac devices
+>>  softmmu_ss.add(when: 'CONFIG_MOS6522', if_true: files('mos6522.c'))
+>>  
+>> -- 
+>> 2.20.1
+>>
+> 
 
