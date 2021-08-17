@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B5273EE8F1
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 10:57:47 +0200 (CEST)
-Received: from localhost ([::1]:56202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BD0B3EE905
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 11:01:50 +0200 (CEST)
+Received: from localhost ([::1]:35240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFuun-0008KY-LR
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 04:57:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59770)
+	id 1mFuyj-0004tA-A2
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 05:01:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1mFutt-0007fW-8E
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 04:56:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33052)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1mFutr-0004WG-0d
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 04:56:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629190605;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DgjxDJMOxuV2UwHTihO6jrDYgqC8gKTZqmwzvtgQ0QY=;
- b=PKKrGvl/bv83NDnIbcE17C/ASLSd3GRAYhnvS+Cu5MbNPIj/VfBdu2UJjU/HC1m7sIhDUg
- NuyczwQ6ntjY9A5Mval0PfO2d+CKCl4dYy1dvL6xxFKJbVhi4mj4PVvtTLGEXeyoacFrGy
- 4Slcwn8vwSBMDsm6agVlRQ3db05hCZ4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-ZiA_INReOteutBARQqN2bw-1; Tue, 17 Aug 2021 04:56:43 -0400
-X-MC-Unique: ZiA_INReOteutBARQqN2bw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C015B802934
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 08:56:42 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.40.194.138])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 173D461095;
- Tue, 17 Aug 2021 08:56:41 +0000 (UTC)
-From: Michal Privoznik <mprivozn@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] monitor: Report EBADFD if fdset contains invalid FD
-Date: Tue, 17 Aug 2021 10:56:28 +0200
-Message-Id: <c0fa7920817020ae2744313ab631e7d76f4c1898.1629190206.git.mprivozn@redhat.com>
-In-Reply-To: <cover.1629190206.git.mprivozn@redhat.com>
-References: <cover.1629190206.git.mprivozn@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mFuwu-0003XH-G9
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 04:59:56 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:42945)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mFuws-0007Jd-UR
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 04:59:56 -0400
+Received: by mail-ed1-x533.google.com with SMTP id bo19so30508106edb.9
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 01:59:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kxFfb/c2Bwvv+ZXXwaMm/7wh4+/2MPLEcjU5UHjvX5g=;
+ b=FSTUuxUVc0DqA8j47fGXSOuxuYcN48+Kb2aSXCDPBXJ20BKPBfUIytZqvqjr9MWQ4E
+ U1j9cibJJGLB0CwPrTmd8tWu2qTaBDO9E8DuCyaYQYVTUs5SU7pIeWQIE+wQ6zGkJYIc
+ 8eJ2O3HaaudjmG/4SWoz4pbp4vWEbTvW7VGqRawIQM9cxvewuTuEcQKXnKhyDEQzU0Ve
+ UG/MR/KPzveex8vLWno3Bn7md46+SH0bHJstNQ8TLbNG9ASz+ENkiNgQtOujhcEwVQ15
+ 5vk82TmW2oydDjicwDlHWkzK1xKgFeCsHosbnqZweA8j/yzojSDsL8+WLqO+pRH/MXrE
+ lwVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kxFfb/c2Bwvv+ZXXwaMm/7wh4+/2MPLEcjU5UHjvX5g=;
+ b=dhWbLBLTGkjAFwuiLQAzcLIzz7EUiE7caQuJWO5KVQZsaUGOZ7N63xTKlam87AVDdD
+ tPAFv1lw2bZJ//O7yw6AkZe2deyC2ynQIm/TWzbTrAox9mFZh5YanD05GDDRYAJ5vBvF
+ CiDl89RFySw7DQojBlsXvIgW6jZcZbav5CLhGmPWq3GWP55PIuMYOZDOaQPqzsD+GsyN
+ D3dNWNycffef63agdcZN/8U4vJ9CqAlFsdjtjJAGifABwFpbBztmZj4SIjikRiA6EZMj
+ xhj4ywCNZEuBHq3U0j6X0PTWfrhpXBOLDzrGWqzshe8kudjEt5ac6lvsbjLbQurx46Sh
+ xgOQ==
+X-Gm-Message-State: AOAM532K7cvV3nNbxudCJ2fapQZ4bbBvJWusdpDxzMxCobS2YbqY5zg2
+ KtX+fSLY13Ktb9Ul4zmigUiOK4H0y6Ofp7ltkZ694A==
+X-Google-Smtp-Source: ABdhPJzE2rwr5MpxH+8R7ccXBlu3aTvNwoVm7qru3mW23tIXqCFWMLpP8I3mhj+yebadMYYL0lCzB1w5/RhkKOulRvU=
+X-Received: by 2002:a05:6402:4387:: with SMTP id
+ o7mr2978109edc.204.1629190793098; 
+ Tue, 17 Aug 2021 01:59:53 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mprivozn@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <797ADA26-0366-447F-85F0-5E27DC534479@gmail.com>
+ <CAMVc7JXgn5ttSEjPB_=rS9CsYiQOFS48hcAbr3NQnom-qk75VA@mail.gmail.com>
+ <F9601D44-9866-4CB7-B611-D8930DFBBE15@gmail.com>
+ <CAFEAcA-vGe5BQg6HVtub5mDD6CtQN1OKGPE3Q8eJsjqyDCROnw@mail.gmail.com>
+ <247B2DB8-1076-4617-AE63-8791571A12D4@gmail.com>
+ <CAC5464E-0E9B-4B0B-A844-2F4F3AADCCF5@gmail.com>
+In-Reply-To: <CAC5464E-0E9B-4B0B-A844-2F4F3AADCCF5@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 17 Aug 2021 09:59:06 +0100
+Message-ID: <CAFEAcA_fcg-opZa9UCLy6f7x4gMk6jhX9236nu3BDU1WuC+f=w@mail.gmail.com>
+Subject: Re: Picture missing in About dialog on cocoa ui
+To: Programmingkid <programmingkidx@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,48 +82,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com
+Cc: QEMU devel list <qemu-devel@nongnu.org>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When opening a path that starts with "/dev/fdset/" the control
-jumps into qemu_parse_fdset() and then into
-monitor_fdset_dup_fd_add(). In here, corresponding fdset is found
-and then all FDs from the set are iterated over trying to find an
-FD that matches expected access mode. For instance, if caller
-wants O_WRONLY then the FD set has to contain an O_WRONLY FD.
+On Mon, 16 Aug 2021 at 21:55, Programmingkid <programmingkidx@gmail.com> wrote:
+>
+>
+>
+> > On Jul 8, 2021, at 2:38 PM, Programmingkid <programmingkidx@gmail.com> wrote:
+> >
+> >
+> >
+> >> On Jul 8, 2021, at 1:50 PM, Peter Maydell <peter.maydell@linaro.org> wrote:
+> >>
+> >> On Thu, 8 Jul 2021 at 17:28, Programmingkid <programmingkidx@gmail.com> wrote:
+> >>> The problem with e31746ecf8dd2f25f687c94ac14016a3ba5debfc is it requires a
+> >>> picture file to be found in a certain path. My original code used QEMU's
+> >>> icon to obtain a picture. The reason why the picture in the About dialog
+> >>> stopped appearing was because of the move to the meson build system.
+> >>> A new patch has just been committed that fixes the missing icon issue.
+> >>> Using 'git revert e31746ecf8dd2f25f687c94ac14016a3ba5debfc' fixes the
+> >>> missing picture issue in the About dialog.
+>
+>
+> Hi Peter, I was wondering if you had made a decision on whether you plan on reverting the patch that breaks the About dialog for the Cocoa UI.
 
-If no such FD is found then errno is set to EACCES which results
-in very misleading error messages, for instance:
+No, reverting looks like the wrong thing. If get_relocated_path()
+doesn't work then we should find and fix that bug.
 
-  Could not dup FD for /dev/fdset/3 flags 441: Permission denied
-
-There is no permission issue, the problem is that there was no FD
-within given fdset that was in expected access mode. Therefore,
-let's set errno to EBADFD, which gives us somewhat better
-error messages:
-
-  Could not dup FD for /dev/fdset/3 flags 441: File descriptor in bad state
-
-Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
----
- monitor/misc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/monitor/misc.c b/monitor/misc.c
-index ffe7966870..a0eda0d574 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -1347,7 +1347,7 @@ int monitor_fdset_dup_fd_add(int64_t fdset_id, int flags)
-         }
- 
-         if (fd == -1) {
--            errno = EACCES;
-+            errno = EBADFD;
-             return -1;
-         }
- 
--- 
-2.31.1
-
+-- PMM
 
