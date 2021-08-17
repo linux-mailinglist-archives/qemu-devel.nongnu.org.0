@@ -2,92 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AB5D3EE935
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 11:11:15 +0200 (CEST)
-Received: from localhost ([::1]:38352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AE783EE93B
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 11:13:00 +0200 (CEST)
+Received: from localhost ([::1]:43824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFv7p-0007dm-Ua
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 05:11:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34954)
+	id 1mFv9X-0002v5-Hr
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 05:12:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mFv6e-0006ox-7d
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 05:10:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42178)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mFv6b-0007Ur-V6
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 05:09:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629191396;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d5aV5NJrLYbT4gZs6SvuZeXms1bkCW+DzLIokC+9yu0=;
- b=iqnoMQ77OI5P2uOCnPJvtrhcFnAvaF8kKZtT7I+4z1724k9xyxOlYo87eNSyyi1Nnu47y6
- bXNTimM5lsHcS37wQXn6UEaRLSnSLy9qvf9e7wLGnxfxlbeP4s3rEcVuqKHP2Nna6hgxvb
- Ac4IYUNHaYI6l+JuXiN++RNEQUfCUGc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-ZXn8u7fpOYOKljMWFPITYw-1; Tue, 17 Aug 2021 05:09:54 -0400
-X-MC-Unique: ZXn8u7fpOYOKljMWFPITYw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- n18-20020adfe792000000b00156ae576abdso2636848wrm.9
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 02:09:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1mFv7I-0007VK-Ui
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 05:10:42 -0400
+Received: from mail-vs1-xe2d.google.com ([2607:f8b0:4864:20::e2d]:44815)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1mFv7F-00086t-Hh
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 05:10:40 -0400
+Received: by mail-vs1-xe2d.google.com with SMTP id s19so5184675vsl.11
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 02:10:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=plZ8n7PhLbnJdM7xt+Or/9DSzxCQIRhtBdl9iongUpY=;
+ b=fiCUsDYpPJ/DL/VNFY9lA5iY0gKKkpQ7EouCbeysW1FJn6izdumiaHrKlCP55qMljC
+ /mL4TJfnapcDtNZ2ILAtSV2xCFOND+Rt2CMt+S+j4/YYo9KorgAz+Tk4nvAhonT4aifr
+ kxBFkxvd0S1f1m4vxlycUeiUFlujCZZ3RluYYqRVlNFCwy0axuuW/OQhiFPjyES6/vsz
+ 5ce2miy82WSTQwFzTN3MAdAIkoOSOg3olVZ3gU87CXVlAavqfTBIGl0EE1QMkpwGGUWS
+ a6lNyP4VMiiKpPqkL3/31y2qelTXVZbIkS+iYVYcWCTeHu1dVT9uDiI2O05SKCe5k4gS
+ bY3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=d5aV5NJrLYbT4gZs6SvuZeXms1bkCW+DzLIokC+9yu0=;
- b=oqDpfLSYqyvjPqkb2a4g1UF0l0Pz+CSrjBtWhEPQkzbfknIGeUV9YhVimBkmmflC1G
- 6eXMTry9qnr4AqkWBfrHv4DtdS5Y5l8IGej7Nq60YevJz53QsUeqVDW3tfrdXtHf9oR3
- GIQUUHwOiXK+Ki89y/QmPvnxszzYzGRv0Q6rwhPfIPwq/7tJJc3ZCRY7KzOPl7JffHwt
- Gjp/pJWDDU1+xz2wSy87NkAUDN4cj562wGZrGUcyB+jjcZKhTEplO5RA0X5UsZedPm+r
- MYuT/26+WYq9Q+2hDHmqOUdTcb+Xv8SmD3uPgAOy7W/CYI/A7dc9DqsPPLSyBbpSK5we
- +8Lg==
-X-Gm-Message-State: AOAM531fMHOvxDqTSr6dVT/I2A/J/dMcnHMdaLt5r+z8OLSOUQdMb58i
- ajE36Tn2WAQc9NlCWoqr4gnaoxx9fKs1RNTbEgzMT+Uwwe5YKKg0riCMm9dIFx3yI9mJcrxfBKw
- taBugy6J9QqoXi1Q=
-X-Received: by 2002:a7b:c3d8:: with SMTP id t24mr2257570wmj.88.1629191393151; 
- Tue, 17 Aug 2021 02:09:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyZcnUDYpG22W14fRRlweIHsTJwklxjgBHISbupf0ha6Ohq73RjSeHZU3LZrZy7Ii3pkBoBtA==
-X-Received: by 2002:a7b:c3d8:: with SMTP id t24mr2257537wmj.88.1629191392835; 
- Tue, 17 Aug 2021 02:09:52 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id s13sm1418107wmc.47.2021.08.17.02.09.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Aug 2021 02:09:52 -0700 (PDT)
-Subject: Re: [PATCH 0/7] floppy: build as modules.
-To: John Snow <jsnow@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-References: <20210804142737.3366441-1-kraxel@redhat.com>
- <477961d5-576b-a588-9cea-dad796c592d2@amsat.org>
- <20210805071155.pkvs4fjjdlx3juoo@sirius.home.kraxel.org>
- <CAFn=p-Y-EinfLODwbSNKMov-h1W=Y5XbJNZTwdAE9L4BM+-GJw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <8e1504d9-3214-ba45-1edb-6bf8ae0aa2d5@redhat.com>
-Date: Tue, 17 Aug 2021 11:09:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=plZ8n7PhLbnJdM7xt+Or/9DSzxCQIRhtBdl9iongUpY=;
+ b=bdfKUMY/yYkslfuS+wbxdmvEZaR8iElu0WQ/LYdK42cO199azuS+kMJus+xlDC0ID2
+ PEjv6Szqtmsur0IQ6Q4JZbQNgY4I9SV504keK9/tH/iNgtIbdabP2XXwtobG3heD8KTa
+ F6pc2rd892CzZUIA5c0fFCyI9vnCbL7sOSM1jNeYMNNBTU/M4rHUmp0VNzFouuzZr+43
+ 2J/GzRTHnyzS1t0XW9QkWlIbjQF7mUqG3CaYFFRX1WwVe1Q3V1gelzN3Xa8BaDLk3w6V
+ naYP/qHs5AZKYgcXxPOk1psKmXUwpZ49kPqGuKmXdilPAHkp2/Z3ELU0XNspNECWKPf3
+ Tb6w==
+X-Gm-Message-State: AOAM533h2tF9sBBKmKSldWvNs8H57tRAIbVfHrj+ig88AQdJsTugGthw
+ aZCw/UNZ4tyX5K63o+6pOAWQHHwPTgwjKQVwc84=
+X-Google-Smtp-Source: ABdhPJywnnuoSGXM/E89/RkY9+fcVy7pTzEegQEIbd+hRrZXrBhs7vS42rtzbDX/DSdKduvPhgOYINbtmVsMRpO+VUI=
+X-Received: by 2002:a67:341:: with SMTP id 62mr1827425vsd.12.1629191435763;
+ Tue, 17 Aug 2021 02:10:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFn=p-Y-EinfLODwbSNKMov-h1W=Y5XbJNZTwdAE9L4BM+-GJw@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -71
-X-Spam_score: -7.2
-X-Spam_bar: -------
-X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-3.71, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210617143246.55336-1-yaroshchuk2000@gmail.com>
+ <YRS5BaIhk0sWhwIQ@SPB-NB-133.local>
+In-Reply-To: <YRS5BaIhk0sWhwIQ@SPB-NB-133.local>
+From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+Date: Tue, 17 Aug 2021 12:10:25 +0300
+Message-ID: <CADO9X9QemHmNhs=KbDiENHnCujkfCWMDX8TPoX8dPPJy5a_8xA@mail.gmail.com>
+Subject: Re: [PATCH 0/7] Add vmnet.framework based network backend
+To: Roman Bolshakov <r.bolshakov@yadro.com>
+Content-Type: multipart/alternative; boundary="000000000000ccc16405c9bdb004"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2d;
+ envelope-from=yaroshchuk2000@gmail.com; helo=mail-vs1-xe2d.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,71 +78,245 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ jasowang@redhat.com, qemu-devel@nongnu.org, Cameron Esfahani <dirty@apple.com>,
+ Markus Armbruster <armbru@redhat.com>, Phillip Tennen <phillip@axleos.com>,
+ Howard Spoelstra <hsp.cat7@gmail.com>, Alessio Dionisi <hello@adns.io>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi John,
+--000000000000ccc16405c9bdb004
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 8/16/21 11:55 PM, John Snow wrote:
-> On Thu, Aug 5, 2021 at 3:12 AM Gerd Hoffmann <kraxel@redhat.com
-> <mailto:kraxel@redhat.com>> wrote:
-> 
->     On Wed, Aug 04, 2021 at 05:19:02PM +0200, Philippe Mathieu-Daudé wrote:
->     > +Mark
->     >
->     > On 8/4/21 4:27 PM, Gerd Hoffmann wrote:
->     > > Some code shuffling needed beforehand due to floppy being part of
->     > > several platforms.  While being at it also make floppy optional
->     > > in pc machine type.
->     >
->     > >   floppy: move fdctrl_init_sysbus
->     > >   floppy: move sun4m_fdctrl_init
->     >
->     > https://www.mail-archive.com/qemu-block@nongnu.org/msg84008.html
->     <https://www.mail-archive.com/qemu-block@nongnu.org/msg84008.html>
->     >
->     > Mark suggested:
->     >
->     >   You may be able to simplify this further by removing the
->     >   global legacy init functions fdctrl_init_sysbus() and
->     >   sun4m_fdctrl_init(): from what I can see fdctrl_init_sysbus()
->     >   is only used in hw/mips/jazz.c and sun4m_fdctrl_init() is only
->     >   used in hw/sparc/sun4m.c so you might as well inline them or
->     >   move the functions to the relevant files.
->     >
->     > I did it and plan to send during 6.2. Sounds simpler than module.
->     > You could easily rebase your series on top (or I can include your
->     > patches while sending).
-> 
->     Feel free to include them.  But I can also rebase when your patches
->     landed upstream.  Your choice ;)
-> 
-> What's the plan here, what are we trying to solve with this series
-> *exactly*?
-> If Phil sends his cleanups, do we still want/need the modularization here?
+Hi Roman,
 
-Both series are orthogonal, but if my cleanups get merged first, there
-is less floppy code to modularize.
+Sorry for the late reply. In my series of patches I partially reuse Phillip
+Tennen's work that you have mentioned
+https://mail.gnu.org/archive/html/qemu-devel/2021-02/msg05874.html. The
+main idea and provided feature is the same, so please select the series on
+your choice. I just can say that I'm ready to update/improve my patches
+asap, make them ready to be merged. Can't say anything about Phillip, is he
+ready too or not.
 
-> For now I'm gonna shuffle these off of my review queue and I assume I'll
-> see a respin/rebase from either you or phil during the 6.2 window, let
-> me know if this is wrong.
+Regards,
+Vladislav
 
-This is OK. Probably easier for everybody if I can rebase/include Gerd's
-patches along. I'm still not convinced FDC modularization is the right
-way to go; but the PC machine is one of machines I know the less, and
-has inherited a lot of odd things, so I need to carefully audit few more
-things.
+=D1=87=D1=82, 12 =D0=B0=D0=B2=D0=B3. 2021 =D0=B3. =D0=B2 09:01, Roman Bolsh=
+akov <r.bolshakov@yadro.com>:
 
-I'd rather have faithful chipsets modelled. Long term I don't think
-FDC are going away from QEMU, as they are used by happy hobbyist running
-old DOS programs from the 80's. But being able to build QEMU without
-FDC would be nice indeed.
+> On Thu, Jun 17, 2021 at 05:32:39PM +0300, Vladislav Yaroshchuk wrote:
+> > macOS provides networking API for VMs called vmnet.framework.
+> > I tried to add it as a network backend. All three modes are supported:
+> >
+> > -shared:
+> >   allows the guest to comminicate with other guests in shared mode and
+> >   also with external network (Internet) via NAT
+> >
+> > -host:
+> >   allows the guest to communicate with other guests in host mode
+> >
+> > -bridged:
+> >   bridges the guest with a physical network interface
+> >
+> > Separate netdev for each vmnet mode was created because they use quite
+> > different settings, especially since macOS 11.0 when vmnet.framework
+> > gets a lot of updates.
+> >
+> > Not sure that I use qemu_mutex_lock_iothread() and
+> > qemu_mutex_unlock_iothread() in correct way while sending packet
+> > from vmnet interface to QEMU. I'll be happy to receive
+> > recomendations how to make this thing better if I done sth wrong.
+> >
+> > Also vmnet.framework requires com.apple.vm.networking entitlement to
+> > run without root priveledges. Ad-hoc signing does not fit there,
+> > so I didn't touch anything related to signing. As a result we should
+> > run qemu-system by a priviledged user:
+> > `$ sudo qemu-system-x86_64 -nic vmnet-shared`
+> > otherwise vmnet fails with 'general failure'.
+> >
+> > But in any way it seems working now,
+> > I tested it within qemu-system-x86-64 on macOS 10.15.7 host, with nic
+> > models:
+> > - e1000-82545em
+> > - virtio-net-pci
+> >
+> > and having such guests:
+> > - macOS 10.15.7
+> > - Ubuntu Bionic (server cloudimg)
+> >
+>
+> Hi Vladislav,
+>
+> I appreciate the efforts and I'm sorry I didn't look into it yet, lack
+> of time :(
+>
+> To all: earlier this year another series was sent by Phillip Tennen to
+> add vmnet.framework and some comments were provided:
+> https://mail.gnu.org/archive/html/qemu-devel/2021-02/msg05874.html
+>
+> I'm not sure how to proceed with arbitration which of the series is
+> preferred. FIFO or LIFO?
+>
+> Regards,
+> Roman
+>
+> > Vladislav Yaroshchuk (7):
+> >   net/vmnet: dependencies setup, initial preparations
+> >   net/vmnet: add new netdevs to qapi/net
+> >   net/vmnet: create common netdev state structure
+> >   net/vmnet: implement shared mode (vmnet-shared)
+> >   net/vmnet: implement host mode (vmnet-host)
+> >   net/vmnet: implement bridged mode (vmnet-bridged)
+> >   net/vmnet: update qemu-options.hx
+> >
+> >  configure           |  31 +++++
+> >  meson.build         |   5 +
+> >  net/clients.h       |  11 ++
+> >  net/meson.build     |   7 ++
+> >  net/net.c           |  10 ++
+> >  net/vmnet-bridged.m | 123 ++++++++++++++++++
+> >  net/vmnet-common.m  | 294 ++++++++++++++++++++++++++++++++++++++++++++
+> >  net/vmnet-host.c    |  93 ++++++++++++++
+> >  net/vmnet-shared.c  |  94 ++++++++++++++
+> >  net/vmnet_int.h     |  48 ++++++++
+> >  qapi/net.json       |  99 ++++++++++++++-
+> >  qemu-options.hx     |  17 +++
+> >  12 files changed, 830 insertions(+), 2 deletions(-)
+> >  create mode 100644 net/vmnet-bridged.m
+> >  create mode 100644 net/vmnet-common.m
+> >  create mode 100644 net/vmnet-host.c
+> >  create mode 100644 net/vmnet-shared.c
+> >  create mode 100644 net/vmnet_int.h
+> >
+> > --
+> > 2.23.0
+> >
+>
 
+--000000000000ccc16405c9bdb004
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Roman,<div><br></div><div>Sorry for=C2=A0the late reply=
+. In my series of patches I partially reuse Phillip Tennen&#39;s=C2=A0work =
+that you have mentioned=C2=A0<a href=3D"https://mail.gnu.org/archive/html/q=
+emu-devel/2021-02/msg05874.html" rel=3D"noreferrer" target=3D"_blank">https=
+://mail.gnu.org/archive/html/qemu-devel/2021-02/msg05874.html</a>. The main=
+ idea and provided feature is the same,=C2=A0so please select the series on=
+ your choice. I just can=C2=A0say that I&#39;m ready to update/improve my p=
+atches asap, make them ready to be merged. Can&#39;t say anything about Phi=
+llip,=C2=A0is he ready too or not.</div><div><br></div><div>Regards,</div><=
+div>Vladislav</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
+ass=3D"gmail_attr">=D1=87=D1=82, 12 =D0=B0=D0=B2=D0=B3. 2021 =D0=B3. =D0=B2=
+ 09:01, Roman Bolshakov &lt;<a href=3D"mailto:r.bolshakov@yadro.com">r.bols=
+hakov@yadro.com</a>&gt;:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">On Thu, Jun 17, 2021 at 05:32:39PM +0300, Vladislav Yaroshchuk w=
+rote:<br>
+&gt; macOS provides networking API for VMs called vmnet.framework.<br>
+&gt; I tried to add it as a network backend. All three modes are supported:=
+<br>
+&gt; <br>
+&gt; -shared:<br>
+&gt;=C2=A0 =C2=A0allows the guest to comminicate with other guests in share=
+d mode and<br>
+&gt;=C2=A0 =C2=A0also with external network (Internet) via NAT<br>
+&gt; <br>
+&gt; -host:<br>
+&gt;=C2=A0 =C2=A0allows the guest to communicate with other guests in host =
+mode<br>
+&gt; <br>
+&gt; -bridged:<br>
+&gt;=C2=A0 =C2=A0bridges the guest with a physical network interface<br>
+&gt; <br>
+&gt; Separate netdev for each vmnet mode was created because they use quite=
+<br>
+&gt; different settings, especially since macOS 11.0 when vmnet.framework<b=
+r>
+&gt; gets a lot of updates.<br>
+&gt; <br>
+&gt; Not sure that I use qemu_mutex_lock_iothread() and<br>
+&gt; qemu_mutex_unlock_iothread() in correct way while sending packet<br>
+&gt; from vmnet interface to QEMU. I&#39;ll be happy to receive<br>
+&gt; recomendations how to make this thing better if I done sth wrong.<br>
+&gt; <br>
+&gt; Also vmnet.framework requires com.apple.vm.networking entitlement to<b=
+r>
+&gt; run without root priveledges. Ad-hoc signing does not fit there,<br>
+&gt; so I didn&#39;t touch anything related to signing. As a result we shou=
+ld<br>
+&gt; run qemu-system by a priviledged user:<br>
+&gt; `$ sudo qemu-system-x86_64 -nic vmnet-shared`<br>
+&gt; otherwise vmnet fails with &#39;general failure&#39;.<br>
+&gt; <br>
+&gt; But in any way it seems working now,<br>
+&gt; I tested it within qemu-system-x86-64 on macOS 10.15.7 host, with nic<=
+br>
+&gt; models:<br>
+&gt; - e1000-82545em<br>
+&gt; - virtio-net-pci<br>
+&gt; <br>
+&gt; and having such guests:<br>
+&gt; - macOS 10.15.7<br>
+&gt; - Ubuntu Bionic (server cloudimg) <br>
+&gt; <br>
+<br>
+Hi Vladislav,<br>
+<br>
+I appreciate the efforts and I&#39;m sorry I didn&#39;t look into it yet, l=
+ack<br>
+of time :(<br>
+<br>
+To all: earlier this year another series was sent by Phillip Tennen to<br>
+add vmnet.framework and some comments were provided:<br>
+<a href=3D"https://mail.gnu.org/archive/html/qemu-devel/2021-02/msg05874.ht=
+ml" rel=3D"noreferrer" target=3D"_blank">https://mail.gnu.org/archive/html/=
+qemu-devel/2021-02/msg05874.html</a><br>
+<br>
+I&#39;m not sure how to proceed with arbitration which of the series is<br>
+preferred. FIFO or LIFO?<br>
+<br>
+Regards,<br>
+Roman<br>
+<br>
+&gt; Vladislav Yaroshchuk (7):<br>
+&gt;=C2=A0 =C2=A0net/vmnet: dependencies setup, initial preparations<br>
+&gt;=C2=A0 =C2=A0net/vmnet: add new netdevs to qapi/net<br>
+&gt;=C2=A0 =C2=A0net/vmnet: create common netdev state structure<br>
+&gt;=C2=A0 =C2=A0net/vmnet: implement shared mode (vmnet-shared)<br>
+&gt;=C2=A0 =C2=A0net/vmnet: implement host mode (vmnet-host)<br>
+&gt;=C2=A0 =C2=A0net/vmnet: implement bridged mode (vmnet-bridged)<br>
+&gt;=C2=A0 =C2=A0net/vmnet: update qemu-options.hx<br>
+&gt; <br>
+&gt;=C2=A0 configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 31 +++=
+++<br>
+&gt;=C2=A0 meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A05 +<b=
+r>
+&gt;=C2=A0 net/clients.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 11 ++<br>
+&gt;=C2=A0 net/meson.build=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A07 ++<br>
+&gt;=C2=A0 net/net.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 10 ++<=
+br>
+&gt;=C2=A0 net/vmnet-bridged.m | 123 ++++++++++++++++++<br>
+&gt;=C2=A0 net/vmnet-common.m=C2=A0 | 294 +++++++++++++++++++++++++++++++++=
++++++++++++<br>
+&gt;=C2=A0 net/vmnet-host.c=C2=A0 =C2=A0 |=C2=A0 93 ++++++++++++++<br>
+&gt;=C2=A0 net/vmnet-shared.c=C2=A0 |=C2=A0 94 ++++++++++++++<br>
+&gt;=C2=A0 net/vmnet_int.h=C2=A0 =C2=A0 =C2=A0|=C2=A0 48 ++++++++<br>
+&gt;=C2=A0 qapi/net.json=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 99 +++++++++++++=
++-<br>
+&gt;=C2=A0 qemu-options.hx=C2=A0 =C2=A0 =C2=A0|=C2=A0 17 +++<br>
+&gt;=C2=A0 12 files changed, 830 insertions(+), 2 deletions(-)<br>
+&gt;=C2=A0 create mode 100644 net/vmnet-bridged.m<br>
+&gt;=C2=A0 create mode 100644 net/vmnet-common.m<br>
+&gt;=C2=A0 create mode 100644 net/vmnet-host.c<br>
+&gt;=C2=A0 create mode 100644 net/vmnet-shared.c<br>
+&gt;=C2=A0 create mode 100644 net/vmnet_int.h<br>
+&gt; <br>
+&gt; -- <br>
+&gt; 2.23.0<br>
+&gt; <br>
+</blockquote></div>
+
+--000000000000ccc16405c9bdb004--
 
