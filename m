@@ -2,74 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91CDD3EF244
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 20:53:35 +0200 (CEST)
-Received: from localhost ([::1]:43772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF9F23EF249
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 20:54:49 +0200 (CEST)
+Received: from localhost ([::1]:46454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mG4DO-0004qv-KS
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 14:53:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43158)
+	id 1mG4Ea-0006hk-RT
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 14:54:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>)
- id 1mG4B5-00048P-Jq; Tue, 17 Aug 2021 14:51:11 -0400
-Received: from smtp-out1.suse.de ([195.135.220.28]:55926)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jziviani@suse.de>)
- id 1mG4B3-00009B-UG; Tue, 17 Aug 2021 14:51:11 -0400
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B6F3E21FE6;
- Tue, 17 Aug 2021 18:51:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1629226266; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mG4DP-0005Pj-63
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 14:53:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57767)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mG4DL-0001Xd-Rv
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 14:53:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629226409;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3R5gh2C51rvp0kjdBygGSfzXFoP4g9eLjc6eURbPkAc=;
- b=qu68zCI/Ar5X0+Wlk41PBr0iiZfWlUr+bBUATb1UbqJkCbMBzQuEQi2dMQSQ9mUJ42lqS8
- C51ZW1D7F5FeMIkkv3TT/VJczQ7vStkV77xI1ca7RurOBZxSb06QtoTVFVg+KZxJUVS/wi
- wkUHlftQJg33VzpmBOO8f8mRL5InTzk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1629226266;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3R5gh2C51rvp0kjdBygGSfzXFoP4g9eLjc6eURbPkAc=;
- b=QXNEO5O7urVtX8bL2jmvQQBFj/8f9zAprHWXja8sxU816+Opk1NAAmkgGg8ra3RpUr30Wo
- Ic1bf7IcowlVlwDQ==
-Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id E01C6136BF;
- Tue, 17 Aug 2021 18:51:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap1.suse-dmz.suse.de with ESMTPSA id GGrLKBgFHGHPBQAAGKfGzw
- (envelope-from <jziviani@suse.de>); Tue, 17 Aug 2021 18:51:04 +0000
-Date: Tue, 17 Aug 2021 15:51:02 -0300
-From: "Jose R. Ziviani" <jziviani@suse.de>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3] vga: don't abort when adding a duplicate isa-vga device
-Message-ID: <YRwFFunps1sgKkHC@pizza>
-References: <20210816135504.9089-1-jziviani@suse.de>
- <f047a8d8-93f5-3f62-0834-c036931090d2@redhat.com>
- <cd2d673b-c9aa-1b9a-7025-9afb787f99b6@ilande.co.uk>
- <bc835acf-7a75-3270-019b-d24b7fab3413@redhat.com>
+ bh=xojA692/Nz9AO8HKeABiqeJHiecjMNyT4VrUW9oQk90=;
+ b=cIQXiyV0Pl1FVJzatTWdGQdhjQWeu2y/3WLBn0ebutWtJzQtdz9cCW4hRp57RHjJkyI+YZ
+ 3U6ZQpF37G+2m2s62DCdSK/1Zu7f39pZSWkfK7RFR+f5s/1mvffcW8xbTld3+dKNDaatSW
+ klRl5mRvgZIFUHnvFckM7KoMzXZgM+w=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-229-FNc3YQ5qP1W09X4or-mnoQ-1; Tue, 17 Aug 2021 14:53:26 -0400
+X-MC-Unique: FNc3YQ5qP1W09X4or-mnoQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ x18-20020a5d49120000b0290154e9dcf3dbso6916267wrq.7
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 11:53:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=xojA692/Nz9AO8HKeABiqeJHiecjMNyT4VrUW9oQk90=;
+ b=VkIZxJKz/vyz5qNXTT2oz2cksU6aBCzf7lfZ149EUueMKwZ3y6keix/1s7NALEuDOM
+ ZnKNSorTTIeDjU16B7FcSsknYF7cilv7xrYw+8hRpjHzAnsE80UjR9WqbUI1LJc1RUKO
+ yRDEVn9FabwfTp98ut5TbRschF9OhrECb1kO3mOaKV7bxlVx+VpYrbgXytirWJxxt+dx
+ hWhv9agj9900o3+pzQWl63SjPjndIQ+rsX837ivbk7ab2VHRy4sKESNQd2mLIQFhFn2G
+ ZYHOME8T8cu9YPDTktSCCBGWoyYytCyq+lmeEPZ45jcs90goSdhKYxc1/OAMn2H4XB41
+ GTYg==
+X-Gm-Message-State: AOAM533u4lL4bwV/DabLTAbt65qZ3iiQICm05ljcvHq4YIpt29DmnKBS
+ cKkoDt1VmkXv2cxdNJw6sdxCSi2u3P+7ZUkbx1ob88Krj+UdkuzuVs8BslKSaLfnbPkw/6874Rj
+ h/CoZxXxf8FxKtxI=
+X-Received: by 2002:adf:f541:: with SMTP id j1mr5829014wrp.180.1629226405426; 
+ Tue, 17 Aug 2021 11:53:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyWV+3tCMP1yJoTf7EcjQFEk/i53K0LlZyW3HwcCjhuAKO6bDw4NlcTNy3DmzsE51mcsHeo2A==
+X-Received: by 2002:adf:f541:: with SMTP id j1mr5828999wrp.180.1629226405267; 
+ Tue, 17 Aug 2021 11:53:25 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id q17sm3304312wrr.91.2021.08.17.11.53.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Aug 2021 11:53:24 -0700 (PDT)
+Date: Tue, 17 Aug 2021 19:53:23 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: Using loadvm with snapshot
+Message-ID: <YRwFo6tuqCxUki8T@work-vm>
+References: <BY5PR02MB7028431FD055B48DAD3841F7F7F99@BY5PR02MB7028.namprd02.prod.outlook.com>
+ <YRvjHiZmPkSuv//z@work-vm>
+ <CAFEAcA_h_WWf=0rU1yTqOA4AH5kYfLNqdbqHokdtoBP7bmepUw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="AlsGQrilVXb1u51Z"
+In-Reply-To: <CAFEAcA_h_WWf=0rU1yTqOA4AH5kYfLNqdbqHokdtoBP7bmepUw@mail.gmail.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bc835acf-7a75-3270-019b-d24b7fab3413@redhat.com>
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=jziviani@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,117 +97,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Thomas Huth <thuth@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- kraxel@redhat.com
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Gabriel Southern <gsouther@qti.qualcomm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Peter Maydell (peter.maydell@linaro.org) wrote:
+> On Tue, 17 Aug 2021 at 17:27, Dr. David Alan Gilbert
+> <dgilbert@redhat.com> wrote:
+> >
+> > * Gabriel Southern (gsouther@qti.qualcomm.com) wrote:
+> > > Hi,
+> > >
+> > > Are there plans to support using -loadvm with -snapshot?
+> > >
+> > > I saw some past discussion on mailing list including bug that was closed earlier this year but no recent activity:
+> > >
+> > > https://lore.kernel.org/qemu-devel/162424905685.11837.7303570061857383641.malone@loganberry.canonical.com/
+> > >
+> > > Testing with latest qemu it looks like -loadvm still does not work when combined with -snapshot.
+> > >
+> > > I'm curious how complex it would be to implement this feature and if it may show up on QEMU roadmap in the future. Or if there is alterative command that can be used to save the state of a running VM and then use the same qcow to run multiple QEMU instances loading this VM state running in snapshot mode.
+> 
+> Do you know why -loadvm and -snapshot don't work together?
+> It doesn't on the face of it seem like they would be incompatible...
 
---AlsGQrilVXb1u51Z
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+No I don't; I've never actually used -loadvm - given that both the
+snapshot mechanism and the load/savevm mechanism are fairly special
+qcow2 hacks, it'll be a qcow2 level thing.
 
-On Tue, Aug 17, 2021 at 10:07:55AM +0200, Philippe Mathieu-Daud=C3=A9 wrote:
-> On 8/17/21 9:36 AM, Mark Cave-Ayland wrote:
-> > On 17/08/2021 08:25, Thomas Huth wrote:
-> >=20
-> >> On 16/08/2021 15.55, Jose R. Ziviani wrote:
-> >>> If users try to add an isa-vga device that was already registered,
-> >>> still in command line, qemu will crash:
-> >>>
-> >>> $ qemu-system-mips64el -M pica61 -device isa-vga
-> >>> RAMBlock "vga.vram" already registered, abort!
-> >>> Aborted (core dumped)
-> >>>
-> >>> That particular board registers the device automaticaly, so it's
-> >>> not obvious that a VGA device already exists. This patch changes
-> >>> this behavior by displaying a message and exiting without crashing.
-> >>>
-> >>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/44
-> >>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> >>> Signed-off-by: Jose R. Ziviani <jziviani@suse.de>
-> >>> ---
-> >>> v2 to v3: Improved error message
-> >>> v1 to v2: Use error_setg instead of error_report
-> >>>
-> >>> =C2=A0 hw/display/vga-isa.c | 10 ++++++++++
-> >>> =C2=A0 1 file changed, 10 insertions(+)
-> >>>
-> >>> diff --git a/hw/display/vga-isa.c b/hw/display/vga-isa.c
-> >>> index 90851e730b..30d55b41c3 100644
-> >>> --- a/hw/display/vga-isa.c
-> >>> +++ b/hw/display/vga-isa.c
-> >>> @@ -33,6 +33,7 @@
-> >>> =C2=A0 #include "hw/loader.h"
-> >>> =C2=A0 #include "hw/qdev-properties.h"
-> >>> =C2=A0 #include "qom/object.h"
-> >>> +#include "qapi/error.h"
-> >>> =C2=A0 #define TYPE_ISA_VGA "isa-vga"
-> >>> =C2=A0 OBJECT_DECLARE_SIMPLE_TYPE(ISAVGAState, ISA_VGA)
-> >>> @@ -61,6 +62,15 @@ static void vga_isa_realizefn(DeviceState *dev,
-> >>> Error **errp)
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MemoryRegion *vga_io_memory;
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const MemoryRegionPortio *vga_ports, *=
-vbe_ports;
-> >>> +=C2=A0=C2=A0=C2=A0 /*
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 * make sure this device is not being added =
-twice, if so
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 * exit without crashing qemu
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0 */
-> >>> +=C2=A0=C2=A0=C2=A0 if (qemu_ram_block_by_name("vga.vram")) {
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg(errp, "'isa-vg=
-a' device already registered");
-> >>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
-> >>> +=C2=A0=C2=A0=C2=A0 }
-> >>> +
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->global_vmstate =3D true;
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vga_common_init(s, OBJECT(dev));
-> >>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 s->legacy_address_space =3D isa_addres=
-s_space(isadev);
-> >>>
-> >>
-> >> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> >=20
-> > Instead of checking for the presence of the vga.vram block, would it be
-> > better to use the standard object_resolve_path_type() method to check
-> > for the presence of the existing isa-vga device instead? See
-> > https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg00717.html for
-> > how this was done for virgl.
->=20
-> I remembered there was a nicer way but couldn't find it.
-> If this patch were for 6.1, it was good enough. Now it
-> will be merged in 6.2, I prefer Mark's suggestion.
-> Jose, do you mind a v4?
->=20
+Dave
 
-Hello people! Thanks for reviewing it.
+> -- PMM
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Sure, I'll send a v4. It's not for 6.1 anyway.
-
-Thank you very much
-
---AlsGQrilVXb1u51Z
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEVQB+DwLGVyv815sBaJ4wdCKKF5YFAmEcBRIACgkQaJ4wdCKK
-F5b6FBAAkiYRyCd0gdEZeYJTnR0fniDdBCpfrw8salyXg5GBtpIIbCvfXtKSRoHP
-qZ3EWBlA4ipw/Vq+LsFGh/nyHA+/QF1nGoM3oTR7wghPRxp6OgC9P8XMzLe2Jlup
-9lSKCXKKA+Up/jGp9i6UYaWJ9JRAfT/4lxWx4tgwaIxPKx0dxeixzVNlRZMMirX5
-utB82MAttbOYlw9r471CcEkAps4YlmCAfX8uLEbGycUNQ/9Vs82sUc5R64CmOgC8
-ynGayCzL2xMpju2IB2VZiAIaGlRXrB7BgaiyuVeJU1FUOk1MJWdL/UHYaNaa2tcV
-piZylflemQfGdqPCuZFycBc1nk5rxbaLZx8sIz1w5OSMjjYJ6sKrR/uc3aKe+lPw
-WU9TdMrAp78u0fJ4LpOhX+HMCOd5TFaxT6kyGnvIn0UAgGQlKXZ1VESFBYOuKtNM
-Yyw/GUlWVTs3FxmsjgH1PNi5adexGSb7F8CL/n3Cwt7q6eAvAifQ5OudFIk6P17A
-lG21OOXRVQYisUN8SCxF5c5JE+4MjuGdDZhxPB9ZIPAE2K1ogyxrlzrj7c18nQUV
-qg5nK0MxV8VUyRC9szIhAFKoXcUAX9MtZDHtHd9ki+y2iIMhJb+LAdyk6cYVSEWc
-oSY4VREQOjAFa2FuxKCVm9jcVT6Pm7U9A0CJ6JyYscQRQ3vShW4=
-=ANeb
------END PGP SIGNATURE-----
-
---AlsGQrilVXb1u51Z--
 
