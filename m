@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B47F3EE50B
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 05:27:14 +0200 (CEST)
-Received: from localhost ([::1]:56730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62BF03EE512
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 05:29:06 +0200 (CEST)
+Received: from localhost ([::1]:38462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFpkv-0002on-5q
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 23:27:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48604)
+	id 1mFpmj-0000wu-Dn
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 23:29:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1mFpj4-0008NG-1z; Mon, 16 Aug 2021 23:25:18 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2515)
+ id 1mFpj6-0008TG-9s; Mon, 16 Aug 2021 23:25:20 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:3111)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
- id 1mFpj1-0005oQ-Ah; Mon, 16 Aug 2021 23:25:17 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GpbxY14n7zYkg3;
- Tue, 17 Aug 2021 11:24:49 +0800 (CST)
+ id 1mFpj2-0005pF-Sw; Mon, 16 Aug 2021 23:25:20 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GpbsM1BQSz86Xc;
+ Tue, 17 Aug 2021 11:21:11 +0800 (CST)
 Received: from dggpemm000001.china.huawei.com (7.185.36.245) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 17 Aug 2021 11:25:11 +0800
+ 15.1.2176.2; Tue, 17 Aug 2021 11:25:12 +0800
 Received: from huawei.com (10.174.186.236) by dggpemm000001.china.huawei.com
  (7.185.36.245) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Tue, 17 Aug
- 2021 11:25:10 +0800
+ 2021 11:25:12 +0800
 From: Yifei Jiang <jiangyifei@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>
-Subject: [PATCH RFC v6 09/12] target/riscv: Add host cpu type
-Date: Tue, 17 Aug 2021 11:24:44 +0800
-Message-ID: <20210817032447.2055-10-jiangyifei@huawei.com>
+Subject: [PATCH RFC v6 10/12] target/riscv: Add kvm_riscv_get/put_regs_timer
+Date: Tue, 17 Aug 2021 11:24:45 +0800
+Message-ID: <20210817032447.2055-11-jiangyifei@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
 In-Reply-To: <20210817032447.2055-1-jiangyifei@huawei.com>
 References: <20210817032447.2055-1-jiangyifei@huawei.com>
@@ -43,8 +43,8 @@ X-Originating-IP: [10.174.186.236]
 X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
  dggpemm000001.china.huawei.com (7.185.36.245)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=jiangyifei@huawei.com; helo=szxga01-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=jiangyifei@huawei.com; helo=szxga02-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -65,69 +65,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: bin.meng@windriver.com, limingwang@huawei.com, kvm@vger.kernel.org,
  libvir-list@redhat.com, anup.patel@wdc.com,
- Yifei Jiang <jiangyifei@huawei.com>,
- Alistair Francis <alistair.francis@wdc.com>, kvm-riscv@lists.infradead.org,
- wanghaibin.wang@huawei.com, palmer@dabbelt.com, fanliang@huawei.com,
- wu.wubin@huawei.com
+ Yifei Jiang <jiangyifei@huawei.com>, Alistair.Francis@wdc.com,
+ kvm-riscv@lists.infradead.org, wanghaibin.wang@huawei.com, palmer@dabbelt.com,
+ fanliang@huawei.com, wu.wubin@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'host' type cpu is set isa to RV32 or RV64 simply, more isa info
-will obtain from KVM in kvm_arch_init_vcpu()
+Add kvm_riscv_get/put_regs_timer to synchronize virtual time context
+from KVM.
+
+To set register of RISCV_TIMER_REG(state) will occur a error from KVM
+on kvm_timer_state == 0. It's better to adapt in KVM, but it doesn't matter
+that adaping in QEMU.
 
 Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
 Signed-off-by: Mingwang Li <limingwang@huawei.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.c | 15 +++++++++++++++
- target/riscv/cpu.h |  1 +
- 2 files changed, 16 insertions(+)
+ target/riscv/cpu.h |  6 ++++
+ target/riscv/kvm.c | 72 ++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 78 insertions(+)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 2251784f7b..976e71c4c7 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -260,6 +260,18 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
- }
- #endif
- 
-+#if defined(CONFIG_KVM)
-+static void riscv_host_cpu_init(Object *obj)
-+{
-+    CPURISCVState *env = &RISCV_CPU(obj)->env;
-+#if defined(TARGET_RISCV32)
-+    set_misa(env, RV32);
-+#elif defined(TARGET_RISCV64)
-+    set_misa(env, RV64);
-+#endif
-+}
-+#endif
-+
- static ObjectClass *riscv_cpu_class_by_name(const char *cpu_model)
- {
-     ObjectClass *oc;
-@@ -792,6 +804,9 @@ static const TypeInfo riscv_cpu_type_infos[] = {
-         .class_init = riscv_cpu_class_init,
-     },
-     DEFINE_CPU(TYPE_RISCV_CPU_ANY,              riscv_any_cpu_init),
-+#if defined(CONFIG_KVM)
-+    DEFINE_CPU(TYPE_RISCV_CPU_HOST,             riscv_host_cpu_init),
-+#endif
- #if defined(TARGET_RISCV32)
-     DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           rv32_base_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32_ibex_cpu_init),
 diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 3d3bdc2816..720cb688bb 100644
+index 720cb688bb..42ed9b1232 100644
 --- a/target/riscv/cpu.h
 +++ b/target/riscv/cpu.h
-@@ -44,6 +44,7 @@
- #define TYPE_RISCV_CPU_SIFIVE_E51       RISCV_CPU_TYPE_NAME("sifive-e51")
- #define TYPE_RISCV_CPU_SIFIVE_U34       RISCV_CPU_TYPE_NAME("sifive-u34")
- #define TYPE_RISCV_CPU_SIFIVE_U54       RISCV_CPU_TYPE_NAME("sifive-u54")
-+#define TYPE_RISCV_CPU_HOST             RISCV_CPU_TYPE_NAME("host")
+@@ -247,6 +247,12 @@ struct CPURISCVState {
  
- #if defined(TARGET_RISCV32)
- # define TYPE_RISCV_CPU_BASE            TYPE_RISCV_CPU_BASE32
+     hwaddr kernel_addr;
+     hwaddr fdt_addr;
++
++    /* kvm timer */
++    bool kvm_timer_dirty;
++    uint64_t kvm_timer_time;
++    uint64_t kvm_timer_compare;
++    uint64_t kvm_timer_state;
+ };
+ 
+ OBJECT_DECLARE_TYPE(RISCVCPU, RISCVCPUClass,
+diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
+index a68f31c2f3..d1ab4b1247 100644
+--- a/target/riscv/kvm.c
++++ b/target/riscv/kvm.c
+@@ -59,6 +59,9 @@ static uint64_t kvm_riscv_reg_id(CPURISCVState *env, uint64_t type, uint64_t idx
+ #define RISCV_CSR_REG(env, name)  kvm_riscv_reg_id(env, KVM_REG_RISCV_CSR, \
+                  KVM_REG_RISCV_CSR_REG(name))
+ 
++#define RISCV_TIMER_REG(env, name)  kvm_riscv_reg_id(env, KVM_REG_RISCV_TIMER, \
++                 KVM_REG_RISCV_TIMER_REG(name))
++
+ #define RISCV_FP_F_REG(env, idx)  kvm_riscv_reg_id(env, KVM_REG_RISCV_FP_F, idx)
+ 
+ #define RISCV_FP_D_REG(env, idx)  kvm_riscv_reg_id(env, KVM_REG_RISCV_FP_D, idx)
+@@ -305,6 +308,75 @@ static int kvm_riscv_put_regs_fp(CPUState *cs)
+     return ret;
+ }
+ 
++static void kvm_riscv_get_regs_timer(CPUState *cs)
++{
++    int ret;
++    uint64_t reg;
++    CPURISCVState *env = &RISCV_CPU(cs)->env;
++
++    if (env->kvm_timer_dirty) {
++        return;
++    }
++
++    ret = kvm_get_one_reg(cs, RISCV_TIMER_REG(env, time), &reg);
++    if (ret) {
++        abort();
++    }
++    env->kvm_timer_time = reg;
++
++    ret = kvm_get_one_reg(cs, RISCV_TIMER_REG(env, compare), &reg);
++    if (ret) {
++        abort();
++    }
++    env->kvm_timer_compare = reg;
++
++    ret = kvm_get_one_reg(cs, RISCV_TIMER_REG(env, state), &reg);
++    if (ret) {
++        abort();
++    }
++    env->kvm_timer_state = reg;
++
++    env->kvm_timer_dirty = true;
++}
++
++static void kvm_riscv_put_regs_timer(CPUState *cs)
++{
++    int ret;
++    uint64_t reg;
++    CPURISCVState *env = &RISCV_CPU(cs)->env;
++
++    if (!env->kvm_timer_dirty) {
++        return;
++    }
++
++    reg = env->kvm_timer_time;
++    ret = kvm_set_one_reg(cs, RISCV_TIMER_REG(env, time), &reg);
++    if (ret) {
++        abort();
++    }
++
++    reg = env->kvm_timer_compare;
++    ret = kvm_set_one_reg(cs, RISCV_TIMER_REG(env, compare), &reg);
++    if (ret) {
++        abort();
++    }
++
++    /*
++     * To set register of RISCV_TIMER_REG(state) will occur a error from KVM
++     * on env->kvm_timer_state == 0, It's better to adapt in KVM, but it
++     * doesn't matter that adaping in QEMU now.
++     * TODO If KVM changes, adapt here.
++     */
++    if (env->kvm_timer_state) {
++        reg = env->kvm_timer_state;
++        ret = kvm_set_one_reg(cs, RISCV_TIMER_REG(env, state), &reg);
++        if (ret) {
++            abort();
++        }
++    }
++
++    env->kvm_timer_dirty = false;
++}
+ 
+ const KVMCapabilityInfo kvm_arch_required_capabilities[] = {
+     KVM_CAP_LAST_INFO
 -- 
 2.19.1
 
