@@ -2,61 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0AEF3EEBDD
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 13:43:10 +0200 (CEST)
-Received: from localhost ([::1]:34444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CF5A3EEBE3
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 13:48:10 +0200 (CEST)
+Received: from localhost ([::1]:40694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFxUr-0005gZ-0w
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 07:43:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39936)
+	id 1mFxZh-0001nN-5r
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 07:48:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mFxTb-00050K-Vu
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 07:41:52 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:59133)
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1mFxYb-00012A-Kk
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 07:47:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55363)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mFxTa-0001J1-6J
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 07:41:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=clmfrX7GqOn17Y3YtNmkXU+AnN3R6XjKZjaaSrnxlJk=; b=IyReSb+Z29q+je59wZz1aQ3byy
- SmSM37pua3FE1K1X1v7ZUHDHWb7XxxKO4npsqr5465rJMOPBZyIBNA1FuStIEp/RUIxrqnOhdF7n2
- z7OJCVrCGbglqxvvJKCaxdQYox1vkNiyQg912v+9em7MYfXtbJMxqs2NSQBvANlHAGZ/fFTKQhkJf
- pNasbgKN2auYv0/31v1h1PsETv9dPjhJRkufr0qD1EQN8toYvAIAlheNBpmfF0lMZ/Fjj1TCy6NZU
- GSVP2Z3lF8ZgF+qKJ9Ag0Od0fJyI19s2XUWTLeCJDDYPNv6cKn1xUZZduouPiLdCiqUrN9SN8BzN4
- mwsy6nURUySVgpoIZ2LKRNzkhPhxOO4daHEL3e3iyMEYnV1Dn3hKgZFJZs5fYpt361/N27eY4SFhS
- TxlUmCBO21NToDuui+IFFpr2y/ktERiPGKGoWVBFLKzKnw7Iqqa5r5RrO30vocIwFjXB4/oe85LLc
- s0PRUlkqyxfmNbZfjopF48xwsd16lGKYEdpWf91RJ5okFGm+BQ6/KL/uSBRqheMIKalJ1a6y/6ACD
- Q7AtD6BrAsMz7ebj4BwkK16H+CrLEgoV+YImFQUAn/GSIF8rfj8qZqDxuofvLsREGYwczag6da9Cz
- oaAfe4ik6f4mJWGtko6qCVRrLA7q35eoWkMQFj+Zo=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@redhat.com>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Weil <sw@weilnetz.de>,
- =?utf-8?B?S8WRdsOhZ8OzIFpvbHTDoW4=?= <dirty.ice.hu@gmail.com>,
- Volker =?ISO-8859-1?Q?R=FCmelin?= <vr_qemu@t-online.de>,
- Yonggang Luo <luoyonggang@gmail.com>, clamky@hotmail.com
-Subject: Re: [PATCH 3/3] MAINTAINERS: Split Audio backends sections
-Date: Tue, 17 Aug 2021 13:41:46 +0200
-Message-ID: <2633734.AQBlmsM1iX@silver>
-In-Reply-To: <20210816191014.2020783-4-philmd@redhat.com>
-References: <20210816191014.2020783-1-philmd@redhat.com>
- <20210816191014.2020783-4-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1mFxYY-00051I-M6
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 07:47:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629200816;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=H6GEQN68D+uXbzmz5OzWaRDyL0SAVb4q559jRrJitr8=;
+ b=GGkztHOKJFIoDcQvnWHmLU8a2K/+2hqArXSiNVQzYvNdphLE6OcnAAKJsZtkYJyfdBxLbg
+ N1/L/bQ19clZbXxtCewuNmbGMl+uqAIUY/ElaSrnj7UIGB8cewu3PuCG4EN4X/QhCcgpxp
+ 3MmkC35gGRFRZerlfajiZu7Y3izPS04=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-527-MNNCnvDrPASXiHa5ZS0uoQ-1; Tue, 17 Aug 2021 07:46:55 -0400
+X-MC-Unique: MNNCnvDrPASXiHa5ZS0uoQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ v18-20020adfe2920000b029013bbfb19640so6462484wri.17
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 04:46:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=H6GEQN68D+uXbzmz5OzWaRDyL0SAVb4q559jRrJitr8=;
+ b=RyWp8YXEWeQ8HO3zMu41UmI9fOophRMJ6w6RBXyxNyXo8u97d9a4jnqSnFA0S0zGTp
+ XGCnRwlBsECnCkA7dDeMlTkvnmAonW+052ap9qQ0Naqig6aDRZ1yUOrdAkyM5vuUHt6Y
+ Oi/aFfvwE9/Lc7v/d60i+/hFDZJj/kJWXh0VvNgRxk76wWvQIcICZIGZkNV6BZZEMQCT
+ EeCEpxSxfc57+Ph/aI/xZQYaB++D+tlyK4DPGlErKDknO0ClJO7gPixciGjH/3NdaMLX
+ KmhSL/F4xgluV0ZyCmy9cWXixUSLaFgc+WiJBB8zWxqrkyItUNgnSAeIWZpEWEEHjS07
+ lSrw==
+X-Gm-Message-State: AOAM533J0nZI7LeXuZ553fmI1cM/oSprCGCfOgoxhfFIGxJ1igRi9Y/Y
+ Y2eCzzTENo9v4iB12uKmjX+9fPSUQrC8vIFzUKEM4k0aXBvQkF9d2T/AZiY5tZOm9Y87K6VX0wr
+ 6h39pWJ6bGX+yY9j/ewti/XGdmYUceN5dY2YVRTAQo9pOVVuficdAWuvdRc3LLJyim9I=
+X-Received: by 2002:a05:6000:18c8:: with SMTP id
+ w8mr3520148wrq.90.1629200814080; 
+ Tue, 17 Aug 2021 04:46:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxnv7hybpq1wA+RYRmkEzCKVliAlGnTXQbggYqnL5mF0VNvuywQRnwGtX0X7JSPI+3unpJZqw==
+X-Received: by 2002:a05:6000:18c8:: with SMTP id
+ w8mr3520124wrq.90.1629200813815; 
+ Tue, 17 Aug 2021 04:46:53 -0700 (PDT)
+Received: from [10.43.2.192] (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id s13sm1875191wmc.47.2021.08.17.04.46.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Aug 2021 04:46:53 -0700 (PDT)
+Subject: Re: [PATCH 2/2] monitor: Report EBADFD if fdset contains invalid FD
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+References: <cover.1629190206.git.mprivozn@redhat.com>
+ <c0fa7920817020ae2744313ab631e7d76f4c1898.1629190206.git.mprivozn@redhat.com>
+ <CAMxuvaxeHOrexy6sTBU=1PBBUThi60A2aJ7CWvE+DytR9q_Cuw@mail.gmail.com>
+From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
+Message-ID: <3ed4b931-d8f7-50b4-a2db-2667d58cace3@redhat.com>
+Date: Tue, 17 Aug 2021 13:46:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAMxuvaxeHOrexy6sTBU=1PBBUThi60A2aJ7CWvE+DytR9q_Cuw@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mprivozn@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mprivozn@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.961, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,81 +102,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 16. August 2021 21:10:14 CEST Philippe Mathieu-Daud=E9 wrote:
-> Split the Audio backends into multiple sections (OS / framework /
-> library), allowing developers with different interests to add their
-> contact to the relevant entries.
->=20
-> Suggested-by: Gerd Hoffmann <kraxel@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> ---
->  MAINTAINERS | 42 ++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 42 insertions(+)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f18fcd76450..94dea726e05 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -2270,9 +2270,51 @@ Overall Audio backends
->  M: Gerd Hoffmann <kraxel@redhat.com>
->  S: Odd Fixes
->  F: audio/
-> +X: audio/alsaaudio.c
-> +X: audio/coreaudio.c
-> +X: audio/dsound*
-> +X: audio/jackaudio.c
-> +X: audio/ossaudio.c
-> +X: audio/paaudio.c
-> +X: audio/sdlaudio.c
->  X: audio/spiceaudio.c
->  F: qapi/audio.json
->=20
-> +ALSA Audio backend
-> +M: Gerd Hoffmann <kraxel@redhat.com>
-> +S: Odd Fixes
-> +F: audio/alsaaudio.c
-> +
-> +Core Audio framework backend
-> +M: Gerd Hoffmann <kraxel@redhat.com>
-> +S: Odd Fixes
-> +F: audio/coreaudio.c
-> +
-> +DSound Audio backend
-> +M: Gerd Hoffmann <kraxel@redhat.com>
-> +S: Odd Fixes
-> +F: audio/dsound*
-> +
-> +JACK Audio Connection Kit backend
-> +M: Gerd Hoffmann <kraxel@redhat.com>
-> +S: Odd Fixes
-> +F: audio/jackaudio.c
-> +
-> +Open Sound System (OSS) Audio backend
-> +M: Gerd Hoffmann <kraxel@redhat.com>
-> +S: Odd Fixes
-> +F: audio/ossaudio.c
-> +
-> +PulseAudio backend
-> +M: Gerd Hoffmann <kraxel@redhat.com>
-> +S: Odd Fixes
-> +F: audio/paaudio.c
-> +
-> +SDL Audio backend
-> +M: Gerd Hoffmann <kraxel@redhat.com>
-> +S: Odd Fixes
-> +F: audio/sdlaudio.c
-> +
->  Block layer core
->  M: Kevin Wolf <kwolf@redhat.com>
->  M: Hanna Reitz <hreitz@redhat.com>
+On 8/17/21 11:59 AM, Marc-André Lureau wrote:
+> Hi
+> 
+> On Tue, Aug 17, 2021 at 12:56 PM Michal Privoznik <mprivozn@redhat.com>
+> wrote:
+> 
+>> When opening a path that starts with "/dev/fdset/" the control
+>> jumps into qemu_parse_fdset() and then into
+>> monitor_fdset_dup_fd_add(). In here, corresponding fdset is found
+>> and then all FDs from the set are iterated over trying to find an
+>> FD that matches expected access mode. For instance, if caller
+>> wants O_WRONLY then the FD set has to contain an O_WRONLY FD.
+>>
+>> If no such FD is found then errno is set to EACCES which results
+>> in very misleading error messages, for instance:
+>>
+>>   Could not dup FD for /dev/fdset/3 flags 441: Permission denied
+>>
+>> There is no permission issue, the problem is that there was no FD
+>> within given fdset that was in expected access mode. Therefore,
+>> let's set errno to EBADFD, which gives us somewhat better
+>> error messages:
+>>
+>>   Could not dup FD for /dev/fdset/3 flags 441: File descriptor in bad state
+>>
+>> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+>>
+> 
+> I am not sure this is any better. If you try to open a read-only file, the
+> system also reports EACCES (Permission denied). This is what the current
+> code models, I believe.
 
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Fair enough. Another idea I had was that if an FD that's O_RDWR was
+passed but only read or only write access was requested then such FD
+could be accepted because it is capable of reading/writing.
 
-Best regards,
-Christian Schoenebeck
+But since patch 1/2 was accepted then I guess 2/2 is not that much needed.
 
+Michal
 
 
