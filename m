@@ -2,93 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 459953EF02C
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 18:30:01 +0200 (CEST)
-Received: from localhost ([::1]:46684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE0943EF03B
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 18:33:47 +0200 (CEST)
+Received: from localhost ([::1]:50526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mG1yS-0007X7-AN
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 12:30:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57988)
+	id 1mG227-0001ss-1L
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 12:33:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mG1wr-0006K1-CE
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 12:28:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28537)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mG21C-0001Cf-IR
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 12:32:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27134)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mG1wp-00080W-KF
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 12:28:20 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1mG21A-0002lJ-7m
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 12:32:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629217698;
+ s=mimecast20190719; t=1629217967;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aX9fYUp8Bnps3b3KLSGFLkJzQmdpPbyDeYWUQoEFU6c=;
- b=ajar0NvIhvr+1nEIcVkGFXWteWWOS7YFT/FvjwEXuVFDnZk6p1PIZYLgfAz+4EEKsJXbwS
- 4O8b4IP8fo81awNcaw8wgprnFJsfKaSjIrOxb772MYaVJ/bcz4h9DfkTDbbF7wHQSUvdCg
- ++g++QkL0uyX2y5nQ7kdb97mPzj67R4=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-AOnL0Qc-NXePrAk5X-j2ow-1; Tue, 17 Aug 2021 12:28:15 -0400
-X-MC-Unique: AOnL0Qc-NXePrAk5X-j2ow-1
-Received: by mail-ej1-f71.google.com with SMTP id
- s11-20020a170906060b00b005be824f15daso1673215ejb.2
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 09:28:14 -0700 (PDT)
+ bh=AwlQ32nbtd+hjp/fxoi8kJbjSm7VsIyjZaetwBPpk0Y=;
+ b=L3mX7e/3FQ07dNfGdveW1MZDCWWeirp0c+Fb/AQYWN8tPmgdjM8OG8dG7/0uJngS2rVe00
+ G6KkwIX7ZDerI+ewqxDZ629rnF5AGue1UXBY5RHGNH7SbQB41Dzk9hcWXyz3pjlI4emwMJ
+ CIRewr6yc+R1PTPSRlbKzYAvDjeQk+s=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-82-cA0rKgq3NbGIDcurDA9fKA-1; Tue, 17 Aug 2021 12:32:46 -0400
+X-MC-Unique: cA0rKgq3NbGIDcurDA9fKA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ p2-20020a05600c358200b002e6dc6adcecso1032547wmq.0
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 09:32:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=aX9fYUp8Bnps3b3KLSGFLkJzQmdpPbyDeYWUQoEFU6c=;
- b=SpvoyTc2xhUNu2m2ThoeO4trw5OymD0IZSllmMmlZ4XgMIMv/UWmKsmDmttDNO2uFq
- 3Ie4jVTg3jJPwYrSFB2v5qbG13AgxlTNSAQoVahTzARVXg+fYm3o7zaEcDBqhsj39ywQ
- CFH4Z6BRxdJgzrjcS0OUrvjJ57gTHUbm9kzX08jO90LDe9e0fmBndwP7CvbJWidLLhN5
- V9ECYuvgAX+afX38Iycsf0iWEDqHpB80Q8xhHiYC9gWoTtUY/0gx1pimLoT2+8Wn2Juo
- LXTK8Vw48pumQSfEhkzVDsb7tWe8JECTWMBD55HDt5xC/pn0IUCY+cjVBZ3A7UY772dP
- BX4Q==
-X-Gm-Message-State: AOAM530fPh8BtP+p3bOxQm/ZYkMMPM5s7/+OvS2qWdN2R9BytWvMdMmM
- Fpi2T2HQwsb3V3ibG5mqxzZrXuLKc2B4ThWAO0IGuO8nwmDfcC5VrSFPUxWos8Nx/gt9XrzsWsu
- FsWbF2qrQJnuptkQ=
-X-Received: by 2002:aa7:de98:: with SMTP id j24mr5130718edv.139.1629217694020; 
- Tue, 17 Aug 2021 09:28:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxQmwG0i0QKnELomNfTCgrckzEGnPfpJ3PE6yG4M7RZIjgDtwBR3LsgH170Pn3fDuU5ZjUxiA==
-X-Received: by 2002:aa7:de98:: with SMTP id j24mr5130699edv.139.1629217693825; 
- Tue, 17 Aug 2021 09:28:13 -0700 (PDT)
-Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
- by smtp.gmail.com with ESMTPSA id d16sm1300380edu.8.2021.08.17.09.28.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Aug 2021 09:28:13 -0700 (PDT)
-Date: Tue, 17 Aug 2021 18:28:11 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 1/3] target-arm: Add support for Fujitsu A64FX
-Message-ID: <20210817162811.u3i5hcx7eg52akyq@gator.home>
-References: <20210812060440.1330348-1-ishii.shuuichir@fujitsu.com>
- <20210812060440.1330348-2-ishii.shuuichir@fujitsu.com>
- <20210812091650.i5np3szvdoelu2cx@gator.home>
- <20210812092517.mwcfhksoe4cgy3cl@gator.home>
- <TYCPR01MB6160B0A6E08CAE7CB2C6D8F0E9FE9@TYCPR01MB6160.jpnprd01.prod.outlook.com>
- <20210817115635.d2wxvnvis5kupegh@gator.home>
- <667f9384-cd28-8e4d-ebd1-4ed4b651676a@linaro.org>
- <20210817153639.o5fxdgmuhjusvyhq@gator.home>
- <3846b738-719f-a9a1-a59d-d7f54e71009c@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=AwlQ32nbtd+hjp/fxoi8kJbjSm7VsIyjZaetwBPpk0Y=;
+ b=QsTwHzOgbhh31jv5OEIMzMH1CDHfEvBQWIhVg2zBhfzYxUovXpN+FLAEac+Tz3BcyS
+ qWKq3LA+3tHJP1yzz9+bKIEZamcikvN5KyuxUCdi0beZ+DDNM9LAMqWqFiydom/paWeV
+ VkKL5mk7/M7R0F1HGls4FgUnmZh9U9syxzBAY5N3LeHmyuPgbQP/+K/cZbmhA/9jcZaS
+ ivV9DqkDoE1kQnc8YkkPlYHaN+DHPGizF5Zsr00EL4hfh7Cpk0GJwqnQHVbQxKGAxtmj
+ xvE7hNunEhwFMvzaBGrQjlbwgJz5oEx23mqB78K933055pNgQcIk6R1hEizTbWJ/IoRW
+ /7hA==
+X-Gm-Message-State: AOAM533THkDh0XLX1e5qSSlHf6f9gZ0/NGIxAh2afxip2Z9C6d9QnPDW
+ NNieOVowlLAL84P5tQQuc2EFgL/JHfKyJHTEHsRpNcfrd7L/BhVfdygQdD6nWTVH3ywPekM8q17
+ KH8tcc0+MlFiS0zQ=
+X-Received: by 2002:a5d:4c4e:: with SMTP id n14mr5179069wrt.226.1629217964771; 
+ Tue, 17 Aug 2021 09:32:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwMJCcYPUHVU8yjKtJYrLiw+Md+qWmOarkciP0cgLNxW8rE93pg1Ebun+7oZFVWBLYOcwDKKA==
+X-Received: by 2002:a5d:4c4e:: with SMTP id n14mr5179029wrt.226.1629217964444; 
+ Tue, 17 Aug 2021 09:32:44 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id o14sm2454877wms.2.2021.08.17.09.32.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Aug 2021 09:32:43 -0700 (PDT)
+Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
+To: Steve Rutherford <srutherford@google.com>,
+ Ashish Kalra <Ashish.Kalra@amd.com>
+References: <cover.1629118207.git.ashish.kalra@amd.com>
+ <CABayD+fyrcyPGg5TdXLr95AFkPFY+EeeNvY=NvQw_j3_igOd6Q@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <0fcfafde-a690-f53a-01fc-542054948bb2@redhat.com>
+Date: Tue, 17 Aug 2021 18:32:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <3846b738-719f-a9a1-a59d-d7f54e71009c@linaro.org>
+In-Reply-To: <CABayD+fyrcyPGg5TdXLr95AFkPFY+EeeNvY=NvQw_j3_igOd6Q@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.961, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,46 +101,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "ishii.shuuichir@fujitsu.com" <ishii.shuuichir@fujitsu.com>
+Cc: thomas.lendacky@amd.com, brijesh.singh@amd.com, ehabkost@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, tobin@ibm.com, jejb@linux.ibm.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ frankeh@us.ibm.com, dovmurik@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 17, 2021 at 05:53:34AM -1000, Richard Henderson wrote:
-> On 8/17/21 5:36 AM, Andrew Jones wrote:
-> > On Tue, Aug 17, 2021 at 05:23:17AM -1000, Richard Henderson wrote:
-> > > On 8/17/21 1:56 AM, Andrew Jones wrote:
-> > > > I guess it's fine. You could easily create a new cpu_arm_set_sve_vq()
-> > > > which would forbid changing the properties if you wanted to, but then
-> > > > we need to answer Peter's question in order to see if there's a
-> > > > precedent for that type of property.
-> > > 
-> > > I don't see the point in read-only properties.  If the user wants to set
-> > > non-standard values on the command-line, let them.  What is most important
-> > > is getting the correct default from '-cpu a64fx'.
-> > > 
-> > 
-> > So maybe we should just go ahead and add all sve* properties, but then
-> > make sure the default vq map is correct.
-> 
-> I think that's the right answer.
-> 
-> Presently we have a kvm_supported variable that's initialized by
-> kvm_arm_sve_get_vls().  I think we want to rename that variable and provide
-> a version of that function for tcg. Probably we should have done that
-> before, with a trivial function for -cpu max to set all bits.
-> 
-> Then eliminate most of the other kvm_enabled() checks in
-> arm_cpu_sve_finalize.  I think the only one we keep is the last, where we
-> verify that the final sve_vq_map matches kvm_enabled exactly, modulo max_vq.
-> 
-> This should minimize the differences in behaviour between tcg and kvm.
+On 17/08/21 01:53, Steve Rutherford wrote:
+> Separately, I'm a little weary of leaving the migration helper mapped
+> into the shared address space as writable.
 
-That's a good idea. I'll send a patch with your suggested-by.
+A related question here is what the API should be for how the migration 
+helper sees the memory in both physical and virtual address.
 
-Thanks,
-drew
+First of all, I would like the addresses passed to and from the 
+migration helper to *not* be guest physical addresses (this is what I 
+referred to as QEMU's ram_addr_t in other messages).  The reason is that 
+some unmapped memory regions, such as virtio-mem hotplugged memory, 
+would still have to be transferred and could be encrypted.  While the 
+guest->host hypercall interface uses guest physical addresses to 
+communicate which pages are encrypted, the host can do the 
+GPA->ram_addr_t conversion and remember the encryption status of 
+currently-unmapped regions.
+
+This poses a problem, in that the guest needs to prepare the page tables 
+for the migration helper and those need to use the migration helper's 
+physical address space.
+
+There's three possibilities for this:
+
+1) the easy one: the bottom 4G of guest memory are mapped in the mirror 
+VM 1:1.  The ram_addr_t-based addresses are shifted by either 4G or a 
+huge value such as 2^42 (MAXPHYADDR - physical address reduction - 1). 
+This even lets the migration helper reuse the OVMF runtime services 
+memory map (but be careful about thread safety...).
+
+2) the more future-proof one.  Here, the migration helper tells QEMU 
+which area to copy from the guest to the mirror VM, as a (main GPA, 
+length, mirror GPA) tuple.  This could happen for example the first time 
+the guest writes 1 to MSR_KVM_MIGRATION_CONTROL.  When migration starts, 
+QEMU uses this information to issue KVM_SET_USER_MEMORY_REGION 
+accordingly.  The page tables are built for this (usually very high) 
+mirror GPA and the migration helper operates in a completely separate 
+address space.  However, the backing memory would still be shared 
+between the main and mirror VMs.  I am saying this is more future proof 
+because we have more flexibility in setting up the physical address 
+space of the mirror VM.
+
+3) the paranoid one, which I think is what you hint at above: this is an 
+extension of (2), where userspace invokes the PSP send/receive API to 
+copy the small requested area of the main VM into the mirror VM.  The 
+mirror VM code and data are completely separate from the main VM.  All 
+that the mirror VM shares is the ram_addr_t data.  Though I am not even 
+sure it is possible to use the send/receive API this way...
+
+What do you think?
+
+Paolo
 
 
