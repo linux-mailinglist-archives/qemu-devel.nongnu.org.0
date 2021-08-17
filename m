@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37BB63EE39D
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 03:33:28 +0200 (CEST)
-Received: from localhost ([::1]:46570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38C9D3EE3B8
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 03:36:59 +0200 (CEST)
+Received: from localhost ([::1]:51024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFnyp-0004br-8A
-	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 21:33:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34548)
+	id 1mFo2E-0007tb-41
+	for lists+qemu-devel@lfdr.de; Mon, 16 Aug 2021 21:36:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mFnx0-0002WQ-Ta
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 21:31:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29477)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mFo1I-0007DR-Ja
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 21:36:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51356)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mFnwx-0006uK-8j
- for qemu-devel@nongnu.org; Mon, 16 Aug 2021 21:31:34 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mFo1H-0001L0-4S
+ for qemu-devel@nongnu.org; Mon, 16 Aug 2021 21:36:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629163889;
+ s=mimecast20190719; t=1629164158;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aVYRVMH8WHd91fY4Jdw5KkQgHnOwpylUSfTTbNBS2vA=;
- b=ELqcMbwMA2W2k4dOQP0wBGOIIyNMy1he10kb4wgwJIHb5ad2Byap2aybOuoXyKRz4fZvof
- vhFGTiJrCDRww2TDRaApL1jPC4WDoV6DWy7Ud1VDxMiowJ7XtNKbUToJCUUJBJS1hpLxrz
- YPymsf5O/c47X6a5Csa5Ul+8wHcErCA=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+W16UANu4YazlgM/m0Jfvt4RZ6mLvbdLBD8SbNKOG90=;
+ b=RdtTuevPlvP8t1rDbY3kcQkdqtlju0AJEpE/BQURRZVGiSccVBM9tVA6R+vV5XfHrs8S2W
+ EOgk1KPD3yNjPvkPCtJMSFPpeamDjabtDbko9pOKg3SL+A6HseMuWUoIhjluPEzOo0KXO6
+ eKws3389fMwEK7celZ0n5WicdbkAucI=
 Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
  [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207-KxMgwfsqOKqZzg2CKO_idw-1; Mon, 16 Aug 2021 21:31:29 -0400
-X-MC-Unique: KxMgwfsqOKqZzg2CKO_idw-1
+ us-mta-439-oj1SJgDvOU2U9EiYHrj6kg-1; Mon, 16 Aug 2021 21:35:56 -0400
+X-MC-Unique: oj1SJgDvOU2U9EiYHrj6kg-1
 Received: by mail-qt1-f200.google.com with SMTP id
- h18-20020ac856920000b029025eb726dd9bso9409518qta.8
- for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 18:31:28 -0700 (PDT)
+ g17-20020ac870d10000b02902928f62e229so10302214qtp.18
+ for <qemu-devel@nongnu.org>; Mon, 16 Aug 2021 18:35:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=aVYRVMH8WHd91fY4Jdw5KkQgHnOwpylUSfTTbNBS2vA=;
- b=IC1ONTyG862BOgG103I1VKPqO6KS7a0H0OFNFuPp3nlK/9HjGE6m3IkE1BRl3GeHCg
- m7FWrOAXvSiWjNvriCtNS1Nva03eSaCQPfjokNUUg0xbi6mAPKDRUtN8ZrT0gfg+jRgg
- SfUmCZhIK4BJjLUtrOnWYtr+7s2pjEuuQDMoTxVN9jD99FT4DSq/w8g/r+xia+FLAMLO
- t8OKn1mOBX8PNXgccfYUIQ0UgquiqI9VxiW2wgzi5AAEjnnD8XJiXmCZL0CaBj0Zk/tb
- Ixf4Vizu2rtiT0zUv7D2gBFn5HPJL+qCP7R0nHax8naDn+VWmaN0oi8RGuw1xPLcBqY9
- w+FA==
-X-Gm-Message-State: AOAM532OFXUiJoZiNdSksuAubG133T+ysbjMwAR7Rp2QvmPKnq7x4MvP
- iV+/Cf2dVss/MS00UsMxHIDpv/EiLftab3aiU3z9kuNesYh3v9i/ylIoxLLnpaDzCwuV5gTY9w3
- 5Of0DeylDwBGmMaZNRrG1ptv+lrNg2n4vLlapYnCaLxDefgV3w4XCP401TaFhdu1D
-X-Received: by 2002:a05:6214:768:: with SMTP id f8mr940305qvz.32.1629163888132; 
- Mon, 16 Aug 2021 18:31:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzQm8WcmHcIv+rQewZA2AzMhXkvjyh4MBx8lHBVJ+aVVUaoQvUg3IWnTeUiUlV+bbuyTRctug==
-X-Received: by 2002:a05:6214:768:: with SMTP id f8mr940277qvz.32.1629163887854; 
- Mon, 16 Aug 2021 18:31:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+W16UANu4YazlgM/m0Jfvt4RZ6mLvbdLBD8SbNKOG90=;
+ b=eKZ0m7jVd8hgvZkzCfvikBnwxBDjXQ9gXK4KtT1wvDm+n3xUyXdyPyr0sC6EjC2nlb
+ R57udBYq3572of6soEV/rnDHlDTNHN5/3bRRTccqOYpvJXOle9cDeOQPkGBWUTw7L+/k
+ buMAstynvoX2WHW7qKoe5gt22mcB9k3swaATHOL2St/O42EvEK8i8DxjF2NHrFoHM2BZ
+ QKPPmF8aGb4F3vt+jzzJltXXbdZQdHmR6uGy15U5QVIOcSrEkW2XOGTL6K4jnP0y0l8A
+ F40xvDmQm/Dobf21O0qit/hDULBsTo+ajoddvCnNpYwhBj18tS/FDVtEP22cs4bX1/0O
+ TGYw==
+X-Gm-Message-State: AOAM532lkV33M2wVwrT7zLTw8ma+eSV1yQDvu0q9u24CRVme+RF94/i+
+ /U8MmN15G0L2sO3ekuhiMyOiHjhj+CXx1grqMl41taeg28WjrOp22rZutButVcO/AJJ783TvQsj
+ LQZ3R5+wtGcFgpYPHQ7CxDvSK+23lDd7JqujUj+HbpWw3eaxu8chJmUPCs319VJFF
+X-Received: by 2002:ac8:5984:: with SMTP id e4mr878132qte.228.1629164155841;
+ Mon, 16 Aug 2021 18:35:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy/VwyyruSbqIT3tFDL4tOsOj2kQ8dP/KGM91Vniq0ZqeboEVis0WVqGEtw5hyk0+kyVf3yjg==
+X-Received: by 2002:ac8:5984:: with SMTP id e4mr878103qte.228.1629164155515;
+ Mon, 16 Aug 2021 18:35:55 -0700 (PDT)
 Received: from t490s.redhat.com ([2607:fea8:56a3:500::d413])
- by smtp.gmail.com with ESMTPSA id y185sm423384qkb.36.2021.08.16.18.31.26
+ by smtp.gmail.com with ESMTPSA id b15sm391867qka.107.2021.08.16.18.35.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 16 Aug 2021 18:31:26 -0700 (PDT)
+ Mon, 16 Aug 2021 18:35:54 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] memory: Add tracepoint for dirty sync
-Date: Mon, 16 Aug 2021 21:31:21 -0400
-Message-Id: <20210817013121.29941-3-peterx@redhat.com>
+Subject: [PATCH RESEND 0/2] memory: Add tracepoints for log_sync
+Date: Mon, 16 Aug 2021 21:35:51 -0400
+Message-Id: <20210817013553.30584-1-peterx@redhat.com>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210817013121.29941-1-peterx@redhat.com>
-References: <20210817013121.29941-1-peterx@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -100,48 +97,44 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Trace at memory_region_sync_dirty_bitmap() for log_sync() or global_log_sync()
-on memory regions.  One trace line should suffice when it finishes, so as to
-estimate the time used for each log sync process.
+[this is a resend to hopefully drop '\r' in cover letter caused by git-publish
+ that I should have just fixed; nothing changed inside]
 
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- softmmu/memory.c     | 2 ++
- softmmu/trace-events | 1 +
- 2 files changed, 3 insertions(+)
+It can help to identify which step is slow for migration dirty sync process.
+We have migration_bitmap_sync_* trace events but it's still a bit coarse.
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index bfedaf9c4d..f0c5817b97 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -2149,6 +2149,7 @@ static void memory_region_sync_dirty_bitmap(MemoryRegion *mr)
-                 }
-             }
-             flatview_unref(view);
-+            trace_memory_region_sync_dirty(mr ? mr->name : "(all)", listener->name, 0);
-         } else if (listener->log_sync_global) {
-             /*
-              * No matter whether MR is specified, what we can do here
-@@ -2156,6 +2157,7 @@ static void memory_region_sync_dirty_bitmap(MemoryRegion *mr)
-              * sync in a finer granularity.
-              */
-             listener->log_sync_global(listener);
-+            trace_memory_region_sync_dirty(mr ? mr->name : "(all)", listener->name, 1);
-         }
-     }
- }
-diff --git a/softmmu/trace-events b/softmmu/trace-events
-index 7b278590a0..bf1469990e 100644
---- a/softmmu/trace-events
-+++ b/softmmu/trace-events
-@@ -15,6 +15,7 @@ memory_region_subpage_read(int cpu_index, void *mr, uint64_t offset, uint64_t va
- memory_region_subpage_write(int cpu_index, void *mr, uint64_t offset, uint64_t value, unsigned size) "cpu %d mr %p offset 0x%"PRIx64" value 0x%"PRIx64" size %u"
- memory_region_ram_device_read(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
- memory_region_ram_device_write(int cpu_index, void *mr, uint64_t addr, uint64_t value, unsigned size) "cpu %d mr %p addr 0x%"PRIx64" value 0x%"PRIx64" size %u"
-+memory_region_sync_dirty(const char *mr, const char *listener, int global) "mr '%s' listener '%s' synced (global=%d)"
- flatview_new(void *view, void *root) "%p (root %p)"
- flatview_destroy(void *view, void *root) "%p (root %p)"
- flatview_destroy_rcu(void *view, void *root) "%p (root %p)"
+This should help us to cut migration_bitmap_sync() into finer grained small
+steps when measurement is needed.
+
+Please review, thanks.
+
+Peter Xu (2):
+  memory: Name all the memory listeners
+  memory: Add tracepoint for dirty sync
+
+ accel/hvf/hvf-accel-ops.c         | 1 +
+ accel/kvm/kvm-all.c               | 7 +++++--
+ hw/i386/xen/xen-hvm.c             | 2 ++
+ hw/intc/openpic_kvm.c             | 1 +
+ hw/remote/proxy-memory-listener.c | 1 +
+ hw/vfio/common.c                  | 1 +
+ hw/vfio/spapr.c                   | 1 +
+ hw/virtio/vhost-vdpa.c            | 1 +
+ hw/virtio/vhost.c                 | 2 ++
+ hw/virtio/virtio.c                | 1 +
+ hw/xen/xen_pt.c                   | 2 ++
+ include/exec/memory.h             | 8 ++++++++
+ include/sysemu/kvm_int.h          | 2 +-
+ softmmu/memory.c                  | 2 ++
+ softmmu/physmem.c                 | 1 +
+ softmmu/trace-events              | 1 +
+ target/arm/kvm.c                  | 1 +
+ target/i386/hax/hax-mem.c         | 1 +
+ target/i386/kvm/kvm.c             | 2 +-
+ target/i386/nvmm/nvmm-all.c       | 1 +
+ target/i386/whpx/whpx-all.c       | 1 +
+ 21 files changed, 36 insertions(+), 4 deletions(-)
+
 -- 
 2.31.1
 
