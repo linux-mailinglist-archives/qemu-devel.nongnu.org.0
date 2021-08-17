@@ -2,107 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58DC43EF5F7
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 00:58:54 +0200 (CEST)
-Received: from localhost ([::1]:57314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D58883EF5FC
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 01:05:36 +0200 (CEST)
+Received: from localhost ([::1]:60360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mG82m-000831-VU
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 18:58:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33140)
+	id 1mG89H-0002P2-LC
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 19:05:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1mG81i-0007Bi-G8
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 18:57:46 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40826)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1mG881-0001FT-1u
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 19:04:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50275)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1mG81g-0000rG-RN
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 18:57:46 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 17HMWs3T071831; Tue, 17 Aug 2021 18:57:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : mime-version : content-transfer-encoding; s=pp1;
- bh=np8wlXqYL7QJhV0IaVvxG0wg0wMrgdlyCqBNxaJ13XI=;
- b=nMayQ45eleUHLzZXq0Hs9yeDrp7KGwFewyINDtlsz5KHjoIOmb/MWeFFtjTJhMEiD+pL
- vaDsvsGGEG6Wk8+UwqzwXbQ4UgwqwDLS4AhGVhmWT6w/Q/Tw6GqZqBRcLk6qs0nWJwNx
- 9cQqabgN5+E4hhVRzFNoZvheP4HLq8K54H+d13uWzAKSI6ytiU3Lmb9zflBR3oIP/dwW
- yVTXwSQ21AIuPMSq4WXJb+Srb/m2fHyt+YNwsIfRNts7YgBSU03i8O7d50lfc2Kpe1D8
- FUELfsLXqqV9s31uTuPQmLvcx4Fo2QMlDFQWyc1y+WbwqrjVEJ5xHh6E9oJdvlDtov3d +g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3agg09kapk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 17 Aug 2021 18:57:39 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 17HMuAGE158281;
- Tue, 17 Aug 2021 18:57:39 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3agg09kapb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 17 Aug 2021 18:57:39 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 17HMqM3g016046;
- Tue, 17 Aug 2021 22:57:38 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma02dal.us.ibm.com with ESMTP id 3aeexvrykd-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 17 Aug 2021 22:57:38 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 17HMvaNG48300294
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 17 Aug 2021 22:57:36 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B9C567806A;
- Tue, 17 Aug 2021 22:57:36 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E98E77805E;
- Tue, 17 Aug 2021 22:57:33 +0000 (GMT)
-Received: from jarvis.lan (unknown [9.160.128.138])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 17 Aug 2021 22:57:33 +0000 (GMT)
-Message-ID: <b1b5adcdbf51112d7b3cc2c66123dea5276a4a6d.camel@linux.ibm.com>
-Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
-From: James Bottomley <jejb@linux.ibm.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Steve Rutherford
- <srutherford@google.com>
-Date: Tue, 17 Aug 2021 18:57:32 -0400
-In-Reply-To: <CABgObfZbyTxSO9ScE0RMK2vgyOam_REo+SgLA+-1XyP=8Vx+uQ@mail.gmail.com>
-References: <cover.1629118207.git.ashish.kalra@amd.com>
- <CABayD+fyrcyPGg5TdXLr95AFkPFY+EeeNvY=NvQw_j3_igOd6Q@mail.gmail.com>
- <0fcfafde-a690-f53a-01fc-542054948bb2@redhat.com>
- <CABayD+d4dHBMbshx_gMUxaHkJZENYYRMrzatDtS-a1awGQKv2A@mail.gmail.com>
- <CABgObfZbyTxSO9ScE0RMK2vgyOam_REo+SgLA+-1XyP=8Vx+uQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1mG87x-0005MK-DP
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 19:04:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629241451;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=w2TdNlIo9j2Zb/jjCmE8qS4sYb33N/zFVjr/Il9eOG0=;
+ b=IjH9Sdi0hVU3hqV1qegwyq+nfYJjB8HLK+Nv249lNDxOdX2gV5qSrYwbxNBynmtbEORflt
+ QXgIjHRtrbS+2lfodLm4vvT6mbbGKPkBEuIJzP84lXVTv/rO3GIHPReLjqWBjYQDSe+fPc
+ 4z1HbpqO1PT4rjCxU+xeCMXgiAXNRJA=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-494-w2RRK7wCNkG215vXN3NhZg-1; Tue, 17 Aug 2021 19:04:10 -0400
+X-MC-Unique: w2RRK7wCNkG215vXN3NhZg-1
+Received: by mail-oi1-f197.google.com with SMTP id
+ o185-20020acaf0c20000b029025cacdf2ac0so494398oih.9
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 16:04:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=w2TdNlIo9j2Zb/jjCmE8qS4sYb33N/zFVjr/Il9eOG0=;
+ b=NwM6ZRVXBGAz4Bn0PbOe2SGvRttLtDxN1vsu0kLRO6XEqQYOGaifHTg0ELHTp02yhP
+ P+wCBn842mlXxtN/fyxmVy9wf42whXMNC13nJ0BPbMLQjTyE6Djixii/5i/5HbiDQ5f+
+ ipCPXFz4N1RTLHbvlvW8ku/CjlGlD3o5YlXvjvzXdzHhLrjfzbZRqx6piJphw/egDTey
+ AEAJnaiZmeQpL9GjypfMcYHTWlpONL3wMCcmxztGochoTYVb/Ftmn84wUVjkOB25OXxn
+ 1nCrxKspoTrBJ5jdobiO8P25TxFCZ7UWUHb/ZJ5YG2LIQJykCv3U4vUtQAjCIwCINX3M
+ teBw==
+X-Gm-Message-State: AOAM530OI2IdVwr/vu6FjU8bnUn39dguGn3wozN5lcmwCyu82e6uJwxU
+ vMmhNdkVW4hYR+xX5W2L3YrKmRwwrZfnx41iSNnjNVulwPpa1DwULKyfDEi1OB6XwhMMoFTP1rs
+ rstArbnjPZ//kvDU=
+X-Received: by 2002:a05:6808:d:: with SMTP id u13mr4470414oic.91.1629241450024; 
+ Tue, 17 Aug 2021 16:04:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw7XJrTjlWXUr+uUFdLM3fQNtLnoh5oAkZF/OUCUHiVKxBtYgEKwCTsj092Q2DYDWlo5J77Zw==
+X-Received: by 2002:a05:6808:d:: with SMTP id u13mr4470392oic.91.1629241449854; 
+ Tue, 17 Aug 2021 16:04:09 -0700 (PDT)
+Received: from redhat.com ([198.99.80.109])
+ by smtp.gmail.com with ESMTPSA id z21sm681786oto.46.2021.08.17.16.04.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Aug 2021 16:04:09 -0700 (PDT)
+Date: Tue, 17 Aug 2021 17:04:08 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Subject: Re: [PATCH RFC v2 01/16] vfio-user: introduce vfio-user protocol
+ specification
+Message-ID: <20210817170408.78be6ac7.alex.williamson@redhat.com>
+In-Reply-To: <a928987fdb794e44784186c4aa5135bc6c88d0fc.1629131628.git.elena.ufimtseva@oracle.com>
+References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
+ <a928987fdb794e44784186c4aa5135bc6c88d0fc.1629131628.git.elena.ufimtseva@oracle.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: sybo2ptpItzNBncfSeigdBQAf3gTpsTy
-X-Proofpoint-GUID: q0XuyEINbO1nT3UB2CBwJ8qbUZslk6X5
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-08-17_08:2021-08-17,
- 2021-08-17 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0
- adultscore=0 mlxlogscore=623 phishscore=0 impostorscore=0 malwarescore=0
- priorityscore=1501 clxscore=1011 spamscore=0 lowpriorityscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2108170141
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=jejb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,59 +98,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jejb@linux.ibm.com
-Cc: Thomas Lendacky <thomas.lendacky@amd.com>,
- Ashish Kalra <Ashish.Kalra@amd.com>, Brijesh Singh <brijesh.singh@amd.com>,
- "Habkost, Eduardo" <ehabkost@redhat.com>, kvm <kvm@vger.kernel.org>, "S.
- Tsirkin, Michael" <mst@redhat.com>, Tobin Feldman-Fitzthum <tobin@ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, David Gilbert <dgilbert@redhat.com>,
- Hubertus Franke <frankeh@us.ibm.com>, Dov Murik <dovmurik@linux.vnet.ibm.com>
+Cc: john.g.johnson@oracle.com, jag.raman@oracle.com, swapnil.ingle@nutanix.com,
+ john.levon@nutanix.com, qemu-devel@nongnu.org, stefanha@redhat.com,
+ thanos.makatos@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2021-08-18 at 00:37 +0200, Paolo Bonzini wrote:
-> On Tue, Aug 17, 2021 at 11:54 PM Steve Rutherford
-> <srutherford@google.com> wrote:
-> > > 1) the easy one: the bottom 4G of guest memory are mapped in the
-> > > mirror
-> > > VM 1:1.  The ram_addr_t-based addresses are shifted by either 4G
-> > > or a
-> > > huge value such as 2^42 (MAXPHYADDR - physical address reduction
-> > > - 1).
-> > > This even lets the migration helper reuse the OVMF runtime
-> > > services
-> > > memory map (but be careful about thread safety...).
-> > 
-> > If I understand what you are proposing, this would only work for
-> > SEV/SEV-ES, since the RMP prevents these remapping games. This
-> > makes
-> > me less enthusiastic about this (but I suspect that's why you call
-> > this less future proof).
-> 
-> I called it less future proof because it allows the migration helper
-> to rely more on OVMF details, but those may not apply in the future.
-> 
-> However you're right about SNP; the same page cannot be mapped twice
-> at different GPAs by a single ASID (which includes the VM and the
-> migration helper). :( That does throw a wrench in the idea of mapping
-> pages by ram_addr_t(*), and this applies to both schemes.
+On Mon, 16 Aug 2021 09:42:34 -0700
+Elena Ufimtseva <elena.ufimtseva@oracle.com> wrote:
+> +Authentication
+> +--------------
+> +
+> +For ``AF_UNIX``, we rely on OS mandatory access controls on the socket files,
+> +therefore it is up to the management layer to set up the socket as required.
+> +Socket types than span guests or hosts will require a proper authentication
 
-Right, but in the current IBM approach, since we use the same mapping
-for guest and mirror, we have the same GPA in both and it should work
-with -SNP.
+s/than/that/
 
-> Migrating RAM in PCI BARs is a mess anyway for SNP, because PCI BARs
-> can be moved and every time they do the migration helper needs to
-> wait for validation to happen. :(
+...
+> +``VFIO_USER_DMA_UNMAP``
+> +-----------------------
+> +
+> +This command message is sent by the client to the server to inform it that a
+> +DMA region, previously made available via a ``VFIO_USER_DMA_MAP`` command
+> +message, is no longer available for DMA. It typically occurs when memory is
+> +subtracted from the client or if the client uses a vIOMMU. The DMA region is
+> +described by the following structure:
+> +
+> +Request
+> +^^^^^^^
+> +
+> +The request payload for this message is a structure of the following format:
+> +
+> ++--------------+--------+------------------------+
+> +| Name         | Offset | Size                   |
+> ++==============+========+========================+
+> +| argsz        | 0      | 4                      |
+> ++--------------+--------+------------------------+
+> +| flags        | 4      | 4                      |
+> ++--------------+--------+------------------------+
+> +|              | +-----+-----------------------+ |
+> +|              | | Bit | Definition            | |
+> +|              | +=====+=======================+ |
+> +|              | | 0   | get dirty page bitmap | |
+> +|              | +-----+-----------------------+ |
+> ++--------------+--------+------------------------+
+> +| address      | 8      | 8                      |
+> ++--------------+--------+------------------------+
+> +| size         | 16     | 8                      |
+> ++--------------+--------+------------------------+
+> +
+> +* *argsz* is the maximum size of the reply payload.
+> +* *flags* contains the following DMA region attributes:
+> +
+> +  * *get dirty page bitmap* indicates that a dirty page bitmap must be
+> +    populated before unmapping the DMA region. The client must provide a
+> +    `VFIO Bitmap`_ structure, explained below, immediately following this
+> +    entry.
+> +
+> +* *address* is the base DMA address of the DMA region.
+> +* *size* is the size of the DMA region.
+> +
+> +The address and size of the DMA region being unmapped must match exactly a
+> +previous mapping. The size of request message depends on whether or not the
+> +*get dirty page bitmap* bit is set in Flags:
+> +
+> +* If not set, the size of the total request message is: 16 + 24.
+> +
+> +* If set, the size of the total request message is: 16 + 24 + 16.
 
-Realistically, migration is becoming a royal pain, not just for
-confidential computing, but for virtual functions in general.  I really
-think we should look at S3 suspend, where we shut down the drivers and
-then reattach on S3 resume as the potential pathway to getting
-migration working both for virtual functions and this use case.
+The address/size paradigm falls into the same issues as the vfio kernel
+interface where we can't map or unmap the entire 64-bit address space,
+ie. size is limited to 2^64 - 1.  The kernel interface also requires
+PAGE_SIZE granularity for the DMA, which means the practical limit is
+2^64 - PAGE_SIZE.  If we had a redo on the kernel interface we'd use
+start/end so we can express a size of (end - start + 1).
 
-James
+Is following the vfio kernel interface sufficiently worthwhile for
+compatibility to incur this same limitation?  I don't recall if we've
+already discussed this, but perhaps worth a note in this design doc if
+similarity to the kernel interface is being favored here.  See for
+example QEMU commit 1b296c3def4b ("vfio: Don't issue full 2^64 unmap").
+Thanks,
 
+Alex
 
 
