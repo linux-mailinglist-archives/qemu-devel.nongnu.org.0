@@ -2,91 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71BB13EEFF5
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 18:09:04 +0200 (CEST)
-Received: from localhost ([::1]:52596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5733EF006
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 18:14:13 +0200 (CEST)
+Received: from localhost ([::1]:33168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mG1eB-0000An-EV
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 12:09:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52374)
+	id 1mG1jA-0006C0-0x
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 12:14:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mG1cN-00071v-AI
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 12:07:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22781)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mG1hw-0005Vk-VZ
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 12:12:57 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:59057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mG1cL-0006ww-RW
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 12:07:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629216428;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HTwF2HJlPuWkSZoavhwt0vTmGpDO687+MuFY0MZRmPA=;
- b=GaNwWUSSZSpim9fLTkilx6FGrHRXFoZcU+6ufCvgeDL/xl3UubSvrK8fbqb61vRW0J8Tdb
- ZTpEb34p8fnp+v+hUZGRpG1jkCH8LrKnbe8z/4++1ABHF27BRIxHsMT+VjCE9Ob6/BQ6Ej
- agYxWCmm6lebL63o7sAu82hPoxYvAJM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-9F_oc1kvMte4T9ep4LPbzQ-1; Tue, 17 Aug 2021 12:07:05 -0400
-X-MC-Unique: 9F_oc1kvMte4T9ep4LPbzQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- z18-20020a1c7e120000b02902e69f6fa2e0so5150539wmc.9
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 09:07:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=HTwF2HJlPuWkSZoavhwt0vTmGpDO687+MuFY0MZRmPA=;
- b=KqAbBn822wQfa82xe33qcltAgh4vbpsCIIMenWcFsbS43toGir/HCgkDU4t3ugcFyN
- LMC2+3RMyRBvDWNxXZaeRQTrv1AtlmAWatm+AGSzDImcNWVaTc+U3PprXVt+Xxs5Qq2i
- JrphkPy+azM/dCXnReHrrQrSVwGQrEwzXd6wE8GCeSGTcpv8Gj8ext2WpNe2JvwqRUks
- OwkjMpn7T6Y+G7/3NfjNap2LIBfoRY6bnTKGHx8zjRUfgYBIMSQqG8MZukfK8CCIuhqT
- +mdLl6/g8ijvlolDur/f4Q3az4XwpVikwpRM5bhf8MTN4zDShmlWsj+0WZisidZdeTQa
- 4ZMg==
-X-Gm-Message-State: AOAM530sve4G7/g1P/VlsJlybAzAzTKZ7itNXci6a7y1m5CWkpalAbKK
- KbTqCh0N/33cGX2V+qIYZNuSezoM1AfaEfihdfvMeu14J6UlLwbnC4ZdbLOZQROy2R6MwtgB217
- Bz9Z1SGTo0E3pEOg=
-X-Received: by 2002:a5d:4983:: with SMTP id r3mr5099413wrq.232.1629216423800; 
- Tue, 17 Aug 2021 09:07:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz6I51HWw+oCiUv1ivnwqWmnzJZTU/F4p2Xhm6FRLqITkvHErodDRZp+wycURZtGJ6OpgK0xQ==
-X-Received: by 2002:a5d:4983:: with SMTP id r3mr5099381wrq.232.1629216423611; 
- Tue, 17 Aug 2021 09:07:03 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c65c6.dip0.t-ipconnect.de. [91.12.101.198])
- by smtp.gmail.com with ESMTPSA id k26sm3094016wrc.33.2021.08.17.09.07.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Aug 2021 09:07:03 -0700 (PDT)
-Subject: Re: [PATCH RESEND 2/2] memory: Add tracepoint for dirty sync
-To: Peter Xu <peterx@redhat.com>
-References: <20210817013553.30584-1-peterx@redhat.com>
- <20210817013706.30986-1-peterx@redhat.com>
- <43b42f6e-f2a2-6341-0c53-bcf1586fb191@redhat.com> <YRveXqqR+DELQVSe@t490s>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <5f6066fb-79be-e369-5d05-8bd22db8864d@redhat.com>
-Date: Tue, 17 Aug 2021 18:07:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mG1ht-0003gG-AR
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 12:12:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=3Ekbjw/jq4XZEk8oM6GNLIzRAlil1TX84ts/8WTiAw4=; b=pX5/AL0HqPb4DboBZ6OYL2UDZd
+ flrH4OvhTZ21unRinrgjw3+sRJuhSReSqHYS+ggAyXP7KCirHA1Wq02Z34/i72iX4y+hDGD/AS1I3
+ hEvnUloTKPNCb0p7CkybN4hqJcOOknZPxgjwDEz9+NouK0XptoB8eemPokeWZOvEHZGaombdT9cYd
+ i5cPVlTl0xQUPVhEC07SWbP6vamhDDl0+S6Kn3LIwtdtpbJuNtGwa5/SYZCko1/Aa+FHBhMv4QXS3
+ lymu7CippnhKnAmyp+ckC3Gcp23pbpF6fWal74CdNhwqNb4S8T2DG9eYAo5bPcgFpt3NR0E61vI8H
+ NLoN4vbXeUS8NEGFiwj3WfyowH9hARWsEHPZwjlmtjicmK9H+VZyaM4ve1sLmgwJ4ePHU1BEoenMm
+ jia9QP1L/HaR/hz8TC17u+e4EPlinbUaDyvRxEVmpPCknbKdg5FWICxsUryPalH/FA/5T1Vey4ptW
+ n9zQF9md6JLRz5ad3VYmYcMkSJHjRcVnSvneLmIz9AA9QdC0Uw0mmFWwS4O/+6eM2mFPHR6o56DGW
+ kyKXVoMgstHVq73OFKuJHACZzkb4s2PG8WHUvaEyUKorSqhJhvPxXpmCo4H1tmVFOJcwsuEODw56K
+ /BZpimgL/6cnzA1yNRVGcrw+5RaM6A2gdV7zQwM10=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Volker =?ISO-8859-1?Q?R=FCmelin?= <vr_qemu@t-online.de>, clamky@hotmail.com,
+ Yonggang Luo <luoyonggang@gmail.com>,
+ =?utf-8?B?S8WRdsOhZ8OzIFpvbHTDoW4=?= <dirty.ice.hu@gmail.com>,
+ Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 1/3] MAINTAINERS: Split Audio backends VS frontends
+Date: Tue, 17 Aug 2021 18:12:48 +0200
+Message-ID: <2098132.JuaFiSchrr@silver>
+In-Reply-To: <20210817124127.2ip6fq2ndlubqn5s@sirius.home.kraxel.org>
+References: <20210816191014.2020783-1-philmd@redhat.com>
+ <1790111.v9OTG8XKiZ@silver>
+ <20210817124127.2ip6fq2ndlubqn5s@sirius.home.kraxel.org>
 MIME-Version: 1.0
-In-Reply-To: <YRveXqqR+DELQVSe@t490s>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.961, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,43 +70,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17.08.21 18:05, Peter Xu wrote:
-> On Tue, Aug 17, 2021 at 09:25:56AM +0200, David Hildenbrand wrote:
->> On 17.08.21 03:37, Peter Xu wrote:
->>> Trace at memory_region_sync_dirty_bitmap() for log_sync() or global_log_sync()
->>> on memory regions.  One trace line should suffice when it finishes, so as to
->>> estimate the time used for each log sync process.
->>
->> I wonder if a start/finish would be even nicer. At least it wouldn't really
->> result in significantly more code changes :)
+On Dienstag, 17. August 2021 14:41:27 CEST Gerd Hoffmann wrote:
+>   Hi,
 > 
-> Note that the "name"s I added is not only for not using start/end, it's about
-> knowing which memory listener is slow.  Start/end won't achieve that if we
-> don't have a name for them.  So far I just wanted to identify majorly kvm,
-> vhost and kvm-smram, however it'll always be good when some log_sync is missed
-> when tracing.
+> > > +Overall Audio frontends
+> > 
+> > I would call that "Audio Hardware Emulation" instead of "Overall Audio
+> > frontends".
+> > 
+> > > +Overall Audio backends
+> > 
+> > Likewise I would call this section "Shared/common QEMU audio library/
+> > subsystem" or something like that instead of "Overall Audio backends".
 > 
-> I'm also wondering whether kvm-smram needs a whole bitmap as I don't know what
-> RAM would be touched within system manager mode (as I thought it should only
-> touch a very limited range and should be defined somewhere), but that's
-> off-topic.
+> Well, frontend/backend is common qemu terminology, with "frontend" being
+> the emulated/virtual device as seen by the guest and "backend" being the
+> host-side wireup (i.e. -audiodev / -blockdev / -chardev / -netdev / ...)
 > 
-> If we want to make it start/end pair, I can do that too.  But the 1st patch
-> will still be wanted.
+> take care,
+>   Gerd
 
-Yeah, absolutely, not complaining about the name, it will be valuable to 
-have!
+Yeah, I was seeing this (like usual) more from an external/new developer 
+perspective where the semantic for "frontend"/"backend" is not that obvious 
+here.
 
+But okay ...
 
--- 
-Thanks,
+Acked-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 
-David / dhildenb
+Best regards,
+Christian Schoenebeck
+
 
 
