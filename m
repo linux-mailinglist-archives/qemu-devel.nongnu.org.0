@@ -2,86 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24BCD3EE6F9
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 09:07:29 +0200 (CEST)
-Received: from localhost ([::1]:52520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16C0C3EE710
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 09:16:02 +0200 (CEST)
+Received: from localhost ([::1]:55054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mFtC3-0003I0-Ol
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 03:07:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36126)
+	id 1mFtKL-0005RM-66
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 03:16:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mFtAp-0002aM-Uu
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 03:06:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24214)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mFtJ1-0004jJ-LX
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 03:14:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48117)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mFtAm-0002QN-Gf
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 03:06:10 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mFtIz-0001T9-DE
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 03:14:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629183966;
+ s=mimecast20190719; t=1629184476;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ACHPJbIdKDUhS/odG6yGvHlRzyASudkbg/mNYu8Y77o=;
- b=WaMiloilH8W4/iZb63qX4uebH6uvtyj5acOQ3QGmxOYThr9LvCGRgDYATOdWFQ0T2sx2z6
- 699ECVjZ4fAHImSCDGarV8RQHDG5iUGAOXzValXwXMGaR+fUPLOwY3W4hAH6M1ZK3wKbrj
- Te15zQrURFeDj7zNph55bBrdv2s4kGY=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-2cOsDNMgOHyiUFAstErAqQ-1; Tue, 17 Aug 2021 03:06:05 -0400
-X-MC-Unique: 2cOsDNMgOHyiUFAstErAqQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- k12-20020a170906680cb02905aeccdbd1efso5630391ejr.9
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 00:06:05 -0700 (PDT)
+ bh=k7J3Fmquq9XhyIEYsU3Z09BwuRFN0HEnhK/NYg8vajs=;
+ b=g2qwGtnIy3HiZZncNMUvLI4QzkXX0UxkqHaQIvluBLmOeGfeUOQuqK/2/zoWLec1UFDgM7
+ 00opgISuyRu1hMTF1WWdABj8e56Q79zfjS5Yxj9nJzBif1YUKktEn1m3CEihTwHakh2RNa
+ /wswhY5z7LMHjJYkPrl9aKu4z0r+cio=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-477-hesWv-nFOuqUYSpBA_Pn1Q-1; Tue, 17 Aug 2021 03:14:35 -0400
+X-MC-Unique: hesWv-nFOuqUYSpBA_Pn1Q-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ r125-20020a1c2b830000b0290197a4be97b7so577533wmr.9
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 00:14:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ACHPJbIdKDUhS/odG6yGvHlRzyASudkbg/mNYu8Y77o=;
- b=ckV3nfFM6X5o4u1QpOn9OgeJoUg5WS8yS2F34SL/vChLNHVAtAXXc/GmEDEHAnTGS7
- LYO3l+xMTWgJ7ZJB7K6nmp7zIe9l8dOlO7cjhA///s9cy1t9R1y7BVfJigN9LYGrYdkB
- 3ySv0oTxARbuc/ldWqlOjJhpdTPOp3B/Dhe9UVj5OvS21cRNjJQYxkmRTBKogUjWHjDi
- PYLX9OOUlDolX/7vbeMP6/uEOtnw81+aVE5ioUakFGV5G5+vdmQo0eBTtifgdD5GdarB
- 27DOhoVlWo5YMwSnTklbOCTtP3mjeU7f+uSl2syZCGMg9AhiCTsq4j/V6wEtfH3MylEZ
- Gtog==
-X-Gm-Message-State: AOAM532CP6YKr40162mixYFuJmkZm+CVZ/gbc56oukG78i9gvvHsZCzu
- ihJNEtg5dh+8Ef9q/VLM4cDYyNmyklOMT/E+ANmzykbDz/qPB+NLC8QOR9uZ4ylOlCgRGK6ccWP
- ACGOVge6AVKxWjgA=
-X-Received: by 2002:a17:907:7883:: with SMTP id
- ku3mr2397749ejc.453.1629183964555; 
- Tue, 17 Aug 2021 00:06:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxWnXeTRbnJ+IA8um/1WaCevePcTlg5rkoMqIos60WP0jOTxWS8o35Ua2QT0cMewf32pgMF2A==
-X-Received: by 2002:a17:907:7883:: with SMTP id
- ku3mr2397720ejc.453.1629183964381; 
- Tue, 17 Aug 2021 00:06:04 -0700 (PDT)
-Received: from redhat.com ([2.55.150.133])
- by smtp.gmail.com with ESMTPSA id h10sm564625edb.74.2021.08.17.00.06.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Aug 2021 00:06:03 -0700 (PDT)
-Date: Tue, 17 Aug 2021 03:05:59 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Steve Rutherford <srutherford@google.com>
-Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
-Message-ID: <20210817024924-mutt-send-email-mst@kernel.org>
-References: <cover.1629118207.git.ashish.kalra@amd.com>
- <CABayD+fyrcyPGg5TdXLr95AFkPFY+EeeNvY=NvQw_j3_igOd6Q@mail.gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=k7J3Fmquq9XhyIEYsU3Z09BwuRFN0HEnhK/NYg8vajs=;
+ b=kXJ872xel70S/lX3Comv3nyUp9qmLPaKXrbXnDdC6JRG4IUuGO8Bg1zfNs4Repzk0v
+ eyVx3E7AlFTdXDgT4aJm/v7GKeB9sWiutLcjmzmila8ZNKRtVTiRI/PDCy1aUzV1Tg1y
+ JaQtk6RR79ceffHvXTkNnOSJ6ug314O4vgyZqGUEXYFN1MhysbYj8577wNDx0yJA/wkW
+ gEoy3D959H2SIc6QSye1gsweWnarDHB3YFvLj5Z+XL2/+1GnyFx8jL+xCbQHcDIIv2vd
+ eEaPG3eZNorUghq3Tr8cfq5kHJ4xU9k0lQxF7bi2nUhKqjqpFU/oFk6njtBymVbTx4DC
+ RkIA==
+X-Gm-Message-State: AOAM532CpxyhSrUHowk5qjJx4DknqUEh3yV5GF2HkoybAmGSoWf8yVQx
+ kCpHkJ6PtPT3cI/VNlOj808tt19Bqp+MH+Mr7VBUlGThv1C8vwpqgQXPm1kL4BpUyVMVlTnkxx2
+ MIXyMiZGBRyoCqmM=
+X-Received: by 2002:a7b:cd89:: with SMTP id y9mr1788535wmj.108.1629184474126; 
+ Tue, 17 Aug 2021 00:14:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwpqs51PCY8HdAaA1XmmTIN0ZnJusq7G8FBteffJl8YyDfbV1D/CqtmxwrRaYbzweoOkLfa/A==
+X-Received: by 2002:a7b:cd89:: with SMTP id y9mr1788517wmj.108.1629184473940; 
+ Tue, 17 Aug 2021 00:14:33 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c65c6.dip0.t-ipconnect.de. [91.12.101.198])
+ by smtp.gmail.com with ESMTPSA id g11sm1326042wrd.97.2021.08.17.00.14.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 17 Aug 2021 00:14:33 -0700 (PDT)
+Subject: Re: [PATCH-for-6.1 v2] softmmu/physmem: fix wrong assertion in
+ qemu_ram_alloc_internal()
+To: Peter Xu <peterx@redhat.com>
+References: <20210805092350.31195-1-david@redhat.com> <YRrP+tDsIyL3MaWO@t490s>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <8812f9e2-3b3e-1bc9-2953-107e4c82880b@redhat.com>
+Date: Tue, 17 Aug 2021 09:14:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CABayD+fyrcyPGg5TdXLr95AFkPFY+EeeNvY=NvQw_j3_igOd6Q@mail.gmail.com>
+In-Reply-To: <YRrP+tDsIyL3MaWO@t490s>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
+X-Spam_score_int: -71
+X-Spam_score: -7.2
+X-Spam_bar: -------
+X-Spam_report: (-7.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.698,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-3.71, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,36 +98,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thomas.lendacky@amd.com, Ashish Kalra <Ashish.Kalra@amd.com>,
- brijesh.singh@amd.com, ehabkost@redhat.com, kvm@vger.kernel.org, tobin@ibm.com,
- jejb@linux.ibm.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- dgilbert@redhat.com, frankeh@us.ibm.com, dovmurik@linux.vnet.ibm.com,
- pbonzini@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 16, 2021 at 04:53:17PM -0700, Steve Rutherford wrote:
-> Separately, I'm a little weary of leaving the migration helper mapped
-> into the shared address space as writable. Since the migration threads
-> will be executing guest-owned code, the guest could use these threads
-> to do whatever it pleases (including getting free cycles). The
-> migration helper's code needs to be trusted by both the host and the
-> guest. Making it non-writable, sourced by the host, and attested by
-> the hardware would mitigate these concerns.
+On 16.08.21 22:52, Peter Xu wrote:
+> On Thu, Aug 05, 2021 at 11:23:50AM +0200, David Hildenbrand wrote:
+>> When adding RAM_NORESERVE, we forgot to remove the old assertion when
+>> adding the updated one, most probably when reworking the patches or
+>> rebasing. We can easily crash QEMU by adding
+>>    -object memory-backend-ram,id=mem0,size=500G,reserve=off
+>> to the QEMU cmdline:
+>>    qemu-system-x86_64: ../softmmu/physmem.c:2146: qemu_ram_alloc_internal:
+>>    Assertion `(ram_flags & ~(RAM_SHARED | RAM_RESIZEABLE | RAM_PREALLOC))
+>>    == 0' failed.
+>>
+>> Fix it by removing the old assertion.
+>>
+>> Fixes: 8dbe22c6868b ("memory: Introduce RAM_NORESERVE and wire it up in qemu_ram_mmap()")
+>> Reviewed-by: Peter Xu <peterx@redhat.com>
+>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>> Cc: Peter Xu <peterx@redhat.com>
+>> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>
+>> v1 -> v2:
+>> - Added rbs
+>> - Tagged for 6.1 inclusion
+>>
+>> ---
+>>   softmmu/physmem.c | 1 -
+>>   1 file changed, 1 deletion(-)
+>>
+>> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+>> index 3c1912a1a0..2e18947598 100644
+>> --- a/softmmu/physmem.c
+>> +++ b/softmmu/physmem.c
+>> @@ -2143,7 +2143,6 @@ RAMBlock *qemu_ram_alloc_internal(ram_addr_t size, ram_addr_t max_size,
+>>       RAMBlock *new_block;
+>>       Error *local_err = NULL;
+>>   
+>> -    assert((ram_flags & ~(RAM_SHARED | RAM_RESIZEABLE | RAM_PREALLOC)) == 0);
+>>       assert((ram_flags & ~(RAM_SHARED | RAM_RESIZEABLE | RAM_PREALLOC |
+>>                             RAM_NORESERVE)) == 0);
+>>       assert(!host ^ (ram_flags & RAM_PREALLOC));
+>> -- 
+>> 2.31.1
+>>
+> 
+> Today I just noticed this patch is still missing for 6.1. How many users are
+> there with reserve=off?  Would it be worth rc4 or not?
+> 
 
-Well it's an ABI to maintain against *both* guest and host then.
+Indeed, I forgot to follow up, thanks for bringing this up.
 
-And a separate attestation isn't making things easier to manage.
+Libvirt does not support virtio-mem yet and consequently doesn't support 
+reserve=off yet. (there are use cases without virtio-mem, but I don't 
+think anybody is using it yet)
 
-I feel guest risks much more than the hypervisor here,
-the hypervisor at worst is giving out free cycles and that can
-be mitigated, so it makes sense to have guest be in control.
+It's an easy way to crash QEMU, but we could also fix in the -stable 
+tree instead.
 
-How about we source it from guest but write-protect it on the
-hypervisor side? It could include a signature that hypervisor could
-verify, which would be more flexible than hardware attestation.
+(most probably you and me should also be doing PULL requests for "Memory 
+API", we'll have to discuss with Paolo)
 
 -- 
-MST
+Thanks,
+
+David / dhildenb
 
 
