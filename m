@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B6C33EF293
-	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 21:15:50 +0200 (CEST)
-Received: from localhost ([::1]:60300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E51583EF29A
+	for <lists+qemu-devel@lfdr.de>; Tue, 17 Aug 2021 21:20:07 +0200 (CEST)
+Received: from localhost ([::1]:34652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mG4Yu-0000WV-V5
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 15:15:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47550)
+	id 1mG4d4-0002RP-W0
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 15:20:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mG4Xd-0008GC-U0
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 15:14:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34437)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mG4bQ-0001lN-Mj
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 15:18:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39000)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mG4Xb-0007I0-Nu
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 15:14:28 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mG4bP-0001Zc-Bn
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 15:18:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629227666;
+ s=mimecast20190719; t=1629227902;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3L6oLpvEOM8m+V5pvWMY0mubRQnyXSC4EEBt65CDlUQ=;
- b=DrQpeg+e1OrlQ/mxQSXRPWv5Pn5f95F0PAevBUoyAvee0MNTcJfQta0FxZqxHjIB5A2uUT
- OvZEoLtkBhodanQBrwmXiTmZbETyquAE/v0tBIMq+9lEnizCXv55/T27dQgtt9bnm3siYt
- JnTs9PGt+uCR/v84SSNSpE0qUTxiCO0=
+ bh=XZWFq5hhPIcbIR42tlaueAX3PhVDL2Dtr64Hbi/3xvY=;
+ b=TApartY0WtQ/bZ8zSFHBoz61YdQ3jxfIek9oZebXC0K6I0JWFSPPQnWHRJTG1s1GZuGH2f
+ P5dH9vNmh7JSR4CcVf1SzqddEzfzbSc82hgxSDDJtuMIqzmBNsNBvVuGUTnY2JEikQ2V/G
+ npd1s5+TtSSJ9QH9UUQ9L2qLEYmfshE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-50-s_UrKK5QMQuImWL_GUch3g-1; Tue, 17 Aug 2021 15:14:23 -0400
-X-MC-Unique: s_UrKK5QMQuImWL_GUch3g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-186-NSyj95fkMdS3HjcXCK1C_g-1; Tue, 17 Aug 2021 15:18:20 -0400
+X-MC-Unique: NSyj95fkMdS3HjcXCK1C_g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4782CC621;
- Tue, 17 Aug 2021 19:14:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFD67CC625;
+ Tue, 17 Aug 2021 19:18:19 +0000 (UTC)
 Received: from redhat.com (ovpn-114-146.phx2.redhat.com [10.3.114.146])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2288B69CBC;
- Tue, 17 Aug 2021 19:14:15 +0000 (UTC)
-Date: Tue, 17 Aug 2021 14:14:13 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CA61360C0F;
+ Tue, 17 Aug 2021 19:18:11 +0000 (UTC)
+Date: Tue, 17 Aug 2021 14:18:10 -0500
 From: Eric Blake <eblake@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v3 07/25] python/aqmp: Add logging utility helpers
-Message-ID: <20210817191413.uhjizjca4jagiler@redhat.com>
+Subject: Re: [PATCH v3 08/25] python/aqmp: add logging to AsyncProtocol
+Message-ID: <20210817191810.dpufrgq2khb4ba5j@redhat.com>
 References: <20210803182941.504537-1-jsnow@redhat.com>
- <20210803182941.504537-8-jsnow@redhat.com>
+ <20210803182941.504537-9-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210803182941.504537-8-jsnow@redhat.com>
+In-Reply-To: <20210803182941.504537-9-jsnow@redhat.com>
 User-Agent: NeoMutt/20210205-719-68949a
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,11 +86,14 @@ Cc: Willian Rampazzo <wrampazz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 03, 2021 at 02:29:23PM -0400, John Snow wrote:
+On Tue, Aug 03, 2021 at 02:29:24PM -0400, John Snow wrote:
+> Give the connection and the reader/writer tasks nicknames, and add
+> logging statements throughout.
+> 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  python/qemu/aqmp/util.py | 56 ++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 56 insertions(+)
+>  python/qemu/aqmp/protocol.py | 82 ++++++++++++++++++++++++++++++++----
+>  1 file changed, 73 insertions(+), 9 deletions(-)
 >
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
