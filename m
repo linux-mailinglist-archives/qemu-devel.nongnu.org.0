@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF1A83F0DC4
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 23:57:48 +0200 (CEST)
-Received: from localhost ([::1]:34246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A5E3F0DC5
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 23:57:52 +0200 (CEST)
+Received: from localhost ([::1]:34626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGTZD-0006Hj-Mk
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 17:57:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40270)
+	id 1mGTZH-0006XJ-Kf
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 17:57:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mGTWy-0003ab-AR
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:55:28 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:46032)
+ id 1mGTX2-0003kK-Nr
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:55:32 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:38568)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mGTWw-0008LU-JZ
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:55:28 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- j12-20020a05600c1c0c00b002e6d80c902dso2707382wms.4
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 14:55:26 -0700 (PDT)
+ id 1mGTX1-0008QN-7j
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:55:32 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id u16so5761828wrn.5
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 14:55:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=v88WJY9jWSIDINAld1zfrJMJVvB23xKws1R7Y44jy4I=;
- b=U1teTNutOLhNLP6UNAWZ7PMMxCXOLGO2HQozCJK7+5dBgCRNIoRU8rGHnbLd/ENjmX
- 5PhWS0CyXpWSx/OQRZ2epIpRTovItfbJ+e+Q6RAF9dErUwGAsh0DW9JIZSAKb4o0AY7S
- 6wgstHb7tjxIg5Nh6hylb9poWoeofEuR3zLkKkWtfesB2iR7CR3pS0IPrPH2K9G2YDan
- xFRuZanbXcof86Zo8Hr6kQf1BEYWv+K3h1/EvfzfJKGXKfU3Twjqh/rVdlnl/aE2r4om
- Mn+/H7O+QLwNCmw9riJXcB80cIv+4a/R8FNEOHDkOgA/TOBYPMx6aDdETVHugvbfi4tg
- vhWg==
+ bh=W6S/3CJZSP/BlDLbxQ5gLlsNt2yHDOQ34zQ37MfEbrQ=;
+ b=b6+3/2xNjkLSWfWiNMIDQ5/MX5/lojlQCmiydwKqvLNPuFLT8t3PfGCHScGVflCDfq
+ 6QxtFK2WsvOiHxYrf/VCKhQ1yzwtOfLu6y07HNIhh3ufi8uwGBcJElqgucTIyOzcco7W
+ +D929j9WtrDm2Gs/ySvNY6LwyfMXWrcWHTLVzz0p8WqUXMu7Yu/l0Ugshvbo5Wc5hVIx
+ OsKjWO1UXGOlpQ03eU0JHCILnEFcAK7jmL9iO2wKOfzXqEW09d/sx4wt2v8S3E2bo5N2
+ Crwf7kbLGxhKetyRJCjG86Y3w6IBNlc7bbjwv+JE1RZokFYMODJQ91ogM3F4E2n246x/
+ cCVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=v88WJY9jWSIDINAld1zfrJMJVvB23xKws1R7Y44jy4I=;
- b=rCEP9V0b+wa7dwdeWqTAq/q1T+i71Dv/EwWb9YeVZsETdZaz+n33UVvDxJdHedqk+E
- tluCLzFG4lneaiLyBYZKqEDQbitIhTC9cWvUxucuSFPjIUHzyV9bgX2JjB74Av5NokdX
- zROW4kpWb3rNXlTSrYmWMHqCnaZqpz/CqNnpjKvRpQ/Tk8/sTwEpJq1q2C4sKnpMUin7
- EJjpKwH5rOWbOlyiSBD19jRazhuWXpvwGyAWapKMcUpme9kCBgTbrQToGRPLUBeC5G6H
- 79M1ivSof6Si7/ktLY/tkctS+Ajz7AU492fFIUsTwwfEc8TZtxhqm7yHYTYThQypaaVZ
- pFSg==
-X-Gm-Message-State: AOAM532yHAbz0lQO1G7JP+sJ2buzl0ICEPN9BhcNjZdSZlzQYKL1FdFB
- xvds6YjpMKRiXgXrdOUIRQBHq3LSV9A=
-X-Google-Smtp-Source: ABdhPJyXLxPKPyz8uADqvXpVheWXaxexpvKV9lYwLuzE82t3riVS5EZs8xWUijE5Mk7Vo2qEw4OZSQ==
-X-Received: by 2002:a1c:19c1:: with SMTP id 184mr10587416wmz.98.1629323724661; 
- Wed, 18 Aug 2021 14:55:24 -0700 (PDT)
+ bh=W6S/3CJZSP/BlDLbxQ5gLlsNt2yHDOQ34zQ37MfEbrQ=;
+ b=bes9pX4jz61ylwVqN9ctcge+BUf0rVVVR955cnue8yB7tRnHkEc7AjYEF2/qCDF2pr
+ DiA9H8CVsF4tu3DVZPIBnxx/KXx4ti58CPReeMkCaToNTtFw7bNQTTUTZniBOEAkOZY9
+ Eolh43lmjH2TppCVh/KthKWpP0/FO20jUp8PhhuKV0eXWkoGqXa8YPd3Y1W01Y8q3kQE
+ HEjag2/AtxcbF3f3+Zh4FyD0DAjpO8Q11zoNi8F4Nr74MBmVkGJMV9SzsvaE7ClT9jPU
+ 6uyivBVaDB8TbYavWUMKY0Q9smCZDoHQ6kdAbLC7875m0F+D2GqZDwgvT+nUB9xmCdQP
+ iUvw==
+X-Gm-Message-State: AOAM532mlIma3fMGAJWLJS0srux/02U+F1wD9i4H/sVqa3WfkjiOyky2
+ K1p7gzGeHk279MnjospVyfYYemCASC0=
+X-Google-Smtp-Source: ABdhPJzX1/txMrBVqeT2HlkG7xlPsgMSc+3tUGTInbD7KZLEvEsRmh4C8yC8etYf6lkl0lT1CwZlDg==
+X-Received: by 2002:adf:c549:: with SMTP id s9mr13292557wrf.344.1629323729665; 
+ Wed, 18 Aug 2021 14:55:29 -0700 (PDT)
 Received: from x1w.redhat.com (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id p5sm1118566wrd.25.2021.08.18.14.55.23
+ by smtp.gmail.com with ESMTPSA id z137sm6442070wmc.14.2021.08.18.14.55.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 14:55:24 -0700 (PDT)
+ Wed, 18 Aug 2021 14:55:29 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/5] target/mips: Call cpu_is_bigendian & inline GET_OFFSET
- in ld/st helpers
-Date: Wed, 18 Aug 2021 23:55:13 +0200
-Message-Id: <20210818215517.2560994-2-f4bug@amsat.org>
+Subject: [PATCH v2 2/5] target/mips: Replace GET_LMASK() macro by
+ get_lmask(32) function
+Date: Wed, 18 Aug 2021 23:55:14 +0200
+Message-Id: <20210818215517.2560994-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210818215517.2560994-1-f4bug@amsat.org>
 References: <20210818215517.2560994-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,186 +97,94 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 The target endianess information is stored in the BigEndian
 bit of the Config0 register in CP0.
 
-As a first step, inline the GET_OFFSET() macro, calling
-cpu_is_bigendian() to get the 'direction' of the offset.
+Replace the GET_LMASK() macro by an inlined get_lmask() function,
+passing CPUMIPSState and the word size as argument.
+
+We can remove one use of the TARGET_WORDS_BIGENDIAN definition.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/tcg/ldst_helper.c | 55 +++++++++++++++++++++--------------
- 1 file changed, 33 insertions(+), 22 deletions(-)
+ target/mips/tcg/ldst_helper.c | 32 +++++++++++++++++++++-----------
+ 1 file changed, 21 insertions(+), 11 deletions(-)
 
 diff --git a/target/mips/tcg/ldst_helper.c b/target/mips/tcg/ldst_helper.c
-index d42812b8a6a..8d1dfea6766 100644
+index 8d1dfea6766..c48a2818681 100644
 --- a/target/mips/tcg/ldst_helper.c
 +++ b/target/mips/tcg/ldst_helper.c
-@@ -52,31 +52,36 @@ HELPER_LD_ATOMIC(lld, ldq, 0x7, (target_ulong))
+@@ -57,30 +57,39 @@ static inline bool cpu_is_bigendian(CPUMIPSState *env)
+     return extract32(env->CP0_Config0, CP0C0_BE, 1);
+ }
  
- #endif /* !CONFIG_USER_ONLY */
- 
-+static inline bool cpu_is_bigendian(CPUMIPSState *env)
+-#ifdef TARGET_WORDS_BIGENDIAN
+-#define GET_LMASK(v) ((v) & 3)
+-#else
+-#define GET_LMASK(v) (((v) & 3) ^ 3)
+-#endif
++static inline target_ulong get_lmask(CPUMIPSState *env,
++                                     target_ulong value, unsigned bits)
 +{
-+    return extract32(env->CP0_Config0, CP0C0_BE, 1);
-+}
++    unsigned mask = (bits / BITS_PER_BYTE) - 1;
 +
- #ifdef TARGET_WORDS_BIGENDIAN
- #define GET_LMASK(v) ((v) & 3)
--#define GET_OFFSET(addr, offset) (addr + (offset))
- #else
- #define GET_LMASK(v) (((v) & 3) ^ 3)
--#define GET_OFFSET(addr, offset) (addr - (offset))
- #endif
++    value &= mask;
++
++    if (cpu_is_bigendian(env)) {
++        value ^= mask;
++    }
++
++    return value;
++}
  
  void helper_swl(CPUMIPSState *env, target_ulong arg1, target_ulong arg2,
                  int mem_idx)
  {
-+    int dir = cpu_is_bigendian(env) ? 1 : -1;
-+
++    target_ulong lmask = get_lmask(env, arg2, 32);
+     int dir = cpu_is_bigendian(env) ? 1 : -1;
+ 
      cpu_stb_mmuidx_ra(env, arg2, (uint8_t)(arg1 >> 24), mem_idx, GETPC());
  
-     if (GET_LMASK(arg2) <= 2) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, 1), (uint8_t)(arg1 >> 16),
-+        cpu_stb_mmuidx_ra(env, arg2 + 1 * dir, (uint8_t)(arg1 >> 16),
+-    if (GET_LMASK(arg2) <= 2) {
++    if (lmask <= 2) {
+         cpu_stb_mmuidx_ra(env, arg2 + 1 * dir, (uint8_t)(arg1 >> 16),
                            mem_idx, GETPC());
      }
  
-     if (GET_LMASK(arg2) <= 1) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, 2), (uint8_t)(arg1 >> 8),
-+        cpu_stb_mmuidx_ra(env, arg2 + 2 * dir, (uint8_t)(arg1 >> 8),
+-    if (GET_LMASK(arg2) <= 1) {
++    if (lmask <= 1) {
+         cpu_stb_mmuidx_ra(env, arg2 + 2 * dir, (uint8_t)(arg1 >> 8),
                            mem_idx, GETPC());
      }
  
-     if (GET_LMASK(arg2) == 0) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, 3), (uint8_t)arg1,
-+        cpu_stb_mmuidx_ra(env, arg2 + 3 * dir, (uint8_t)arg1,
+-    if (GET_LMASK(arg2) == 0) {
++    if (lmask == 0) {
+         cpu_stb_mmuidx_ra(env, arg2 + 3 * dir, (uint8_t)arg1,
                            mem_idx, GETPC());
      }
- }
-@@ -84,20 +89,22 @@ void helper_swl(CPUMIPSState *env, target_ulong arg1, target_ulong arg2,
+@@ -89,21 +98,22 @@ void helper_swl(CPUMIPSState *env, target_ulong arg1, target_ulong arg2,
  void helper_swr(CPUMIPSState *env, target_ulong arg1, target_ulong arg2,
                  int mem_idx)
  {
-+    int dir = cpu_is_bigendian(env) ? 1 : -1;
-+
++    target_ulong lmask = get_lmask(env, arg2, 32);
+     int dir = cpu_is_bigendian(env) ? 1 : -1;
+ 
      cpu_stb_mmuidx_ra(env, arg2, (uint8_t)arg1, mem_idx, GETPC());
  
-     if (GET_LMASK(arg2) >= 1) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, -1), (uint8_t)(arg1 >> 8),
-+        cpu_stb_mmuidx_ra(env, arg2 - 1 * dir, (uint8_t)(arg1 >> 8),
+-    if (GET_LMASK(arg2) >= 1) {
++    if (lmask >= 1) {
+         cpu_stb_mmuidx_ra(env, arg2 - 1 * dir, (uint8_t)(arg1 >> 8),
                            mem_idx, GETPC());
      }
  
-     if (GET_LMASK(arg2) >= 2) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, -2), (uint8_t)(arg1 >> 16),
-+        cpu_stb_mmuidx_ra(env, arg2 - 2 * dir, (uint8_t)(arg1 >> 16),
+-    if (GET_LMASK(arg2) >= 2) {
++    if (lmask >= 2) {
+         cpu_stb_mmuidx_ra(env, arg2 - 2 * dir, (uint8_t)(arg1 >> 16),
                            mem_idx, GETPC());
      }
  
-     if (GET_LMASK(arg2) == 3) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, -3), (uint8_t)(arg1 >> 24),
-+        cpu_stb_mmuidx_ra(env, arg2 - 3 * dir, (uint8_t)(arg1 >> 24),
+-    if (GET_LMASK(arg2) == 3) {
++    if (lmask == 3) {
+         cpu_stb_mmuidx_ra(env, arg2 - 3 * dir, (uint8_t)(arg1 >> 24),
                            mem_idx, GETPC());
      }
- }
-@@ -116,40 +123,42 @@ void helper_swr(CPUMIPSState *env, target_ulong arg1, target_ulong arg2,
- void helper_sdl(CPUMIPSState *env, target_ulong arg1, target_ulong arg2,
-                 int mem_idx)
- {
-+    int dir = cpu_is_bigendian(env) ? 1 : -1;
-+
-     cpu_stb_mmuidx_ra(env, arg2, (uint8_t)(arg1 >> 56), mem_idx, GETPC());
- 
-     if (GET_LMASK64(arg2) <= 6) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, 1), (uint8_t)(arg1 >> 48),
-+        cpu_stb_mmuidx_ra(env, arg2 + 1 * dir, (uint8_t)(arg1 >> 48),
-                           mem_idx, GETPC());
-     }
- 
-     if (GET_LMASK64(arg2) <= 5) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, 2), (uint8_t)(arg1 >> 40),
-+        cpu_stb_mmuidx_ra(env, arg2 + 2 * dir, (uint8_t)(arg1 >> 40),
-                           mem_idx, GETPC());
-     }
- 
-     if (GET_LMASK64(arg2) <= 4) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, 3), (uint8_t)(arg1 >> 32),
-+        cpu_stb_mmuidx_ra(env, arg2 + 3 * dir, (uint8_t)(arg1 >> 32),
-                           mem_idx, GETPC());
-     }
- 
-     if (GET_LMASK64(arg2) <= 3) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, 4), (uint8_t)(arg1 >> 24),
-+        cpu_stb_mmuidx_ra(env, arg2 + 4 * dir, (uint8_t)(arg1 >> 24),
-                           mem_idx, GETPC());
-     }
- 
-     if (GET_LMASK64(arg2) <= 2) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, 5), (uint8_t)(arg1 >> 16),
-+        cpu_stb_mmuidx_ra(env, arg2 + 5 * dir, (uint8_t)(arg1 >> 16),
-                           mem_idx, GETPC());
-     }
- 
-     if (GET_LMASK64(arg2) <= 1) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, 6), (uint8_t)(arg1 >> 8),
-+        cpu_stb_mmuidx_ra(env, arg2 + 6 * dir, (uint8_t)(arg1 >> 8),
-                           mem_idx, GETPC());
-     }
- 
-     if (GET_LMASK64(arg2) <= 0) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, 7), (uint8_t)arg1,
-+        cpu_stb_mmuidx_ra(env, arg2 + 7 * dir, (uint8_t)arg1,
-                           mem_idx, GETPC());
-     }
- }
-@@ -157,40 +166,42 @@ void helper_sdl(CPUMIPSState *env, target_ulong arg1, target_ulong arg2,
- void helper_sdr(CPUMIPSState *env, target_ulong arg1, target_ulong arg2,
-                 int mem_idx)
- {
-+    int dir = cpu_is_bigendian(env) ? 1 : -1;
-+
-     cpu_stb_mmuidx_ra(env, arg2, (uint8_t)arg1, mem_idx, GETPC());
- 
-     if (GET_LMASK64(arg2) >= 1) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, -1), (uint8_t)(arg1 >> 8),
-+        cpu_stb_mmuidx_ra(env, arg2 - 1 * dir, (uint8_t)(arg1 >> 8),
-                           mem_idx, GETPC());
-     }
- 
-     if (GET_LMASK64(arg2) >= 2) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, -2), (uint8_t)(arg1 >> 16),
-+        cpu_stb_mmuidx_ra(env, arg2 - 2 * dir, (uint8_t)(arg1 >> 16),
-                           mem_idx, GETPC());
-     }
- 
-     if (GET_LMASK64(arg2) >= 3) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, -3), (uint8_t)(arg1 >> 24),
-+        cpu_stb_mmuidx_ra(env, arg2 - 3 * dir, (uint8_t)(arg1 >> 24),
-                           mem_idx, GETPC());
-     }
- 
-     if (GET_LMASK64(arg2) >= 4) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, -4), (uint8_t)(arg1 >> 32),
-+        cpu_stb_mmuidx_ra(env, arg2 - 4 * dir, (uint8_t)(arg1 >> 32),
-                           mem_idx, GETPC());
-     }
- 
-     if (GET_LMASK64(arg2) >= 5) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, -5), (uint8_t)(arg1 >> 40),
-+        cpu_stb_mmuidx_ra(env, arg2 - 5 * dir, (uint8_t)(arg1 >> 40),
-                           mem_idx, GETPC());
-     }
- 
-     if (GET_LMASK64(arg2) >= 6) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, -6), (uint8_t)(arg1 >> 48),
-+        cpu_stb_mmuidx_ra(env, arg2 - 6 * dir, (uint8_t)(arg1 >> 48),
-                           mem_idx, GETPC());
-     }
- 
-     if (GET_LMASK64(arg2) == 7) {
--        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, -7), (uint8_t)(arg1 >> 56),
-+        cpu_stb_mmuidx_ra(env, arg2 - 7 * dir, (uint8_t)(arg1 >> 56),
-                           mem_idx, GETPC());
-     }
- }
 -- 
 2.31.1
 
