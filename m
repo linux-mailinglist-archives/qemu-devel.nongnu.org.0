@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 603923F0CAB
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 22:24:09 +0200 (CEST)
-Received: from localhost ([::1]:49190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 400763F0CB7
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 22:27:02 +0200 (CEST)
+Received: from localhost ([::1]:57728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGS6a-0006nn-Bw
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 16:24:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33830)
+	id 1mGS9N-00045X-0q
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 16:27:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mGRTA-0002Fh-3I
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:43:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58242)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mGRTB-0002Lq-KH
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:43:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mGRT8-0007Zt-JW
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:43:23 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mGRTA-0007ar-3C
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:43:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629315802;
+ s=mimecast20190719; t=1629315803;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WTxYsdQgG6JOcUELqB0QiB8wIJX8I+i741hrNBaimoA=;
- b=OQHH9TEusDTT5M2lxJDCsBVdnTc37AcPEZt6wZfOqayOWQ22Xoh37x+9RSIH0OaswIcV7v
- 3xjQPtcxEBSbH+r2AIhEy1fOqiR3yFN/wxZ4+i7nV6+MQxzCj6DgX5z3Y3SjjTcTC0MD/T
- U/9E/tA+xP0yyZnx6X/eT1P7HPyRLAE=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-mBkiJzPoPnWIW1TQdLHOBA-1; Wed, 18 Aug 2021 15:43:21 -0400
-X-MC-Unique: mBkiJzPoPnWIW1TQdLHOBA-1
-Received: by mail-qt1-f198.google.com with SMTP id
- o22-20020ac872d60000b029029817302575so1467008qtp.10
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 12:43:20 -0700 (PDT)
+ bh=vjs/U9oiIIzIPYNfJJvQsKifLLyb4W5UUkK1KU3o24Q=;
+ b=ZaNby2xzI7+wfbCQeGL5fG+1MVY24I7uFwKOU2b4/gcGBSvNpIMrSX00rFv1WAAX5PgxRu
+ /84ijcSBiUArC35xTfKGQT+P92huZZquZaiTd/8MdEvWy+p18ok/GoN+rFN2NfiIQDLL+q
+ oPHUvVRQlIG4ucsZMzlKiv4cQ6M5mNQ=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-292-GLiHe7eIPUG9RvEHm_MmGw-1; Wed, 18 Aug 2021 15:43:22 -0400
+X-MC-Unique: GLiHe7eIPUG9RvEHm_MmGw-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ u6-20020ad448660000b02903500bf28866so2885386qvy.23
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 12:43:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WTxYsdQgG6JOcUELqB0QiB8wIJX8I+i741hrNBaimoA=;
- b=TSU4YgURfCP58P+P1swfjHxtjtLLiRu7JDA1o0h4ErG7f41qQD8dUuuSlP+tlY+rqd
- WkRYrwC9SKzo5lEl+Fsq03Ifs5THPk50XmgeHQ+/gRBvBjRBgXasrIl+xr63IKv0mU4Y
- yX16H614UKiw+nMXiddjIjeE8R5N7tfPuGPIDfH5b8f/GsF0bYa29BzKwVL9fLacyGOO
- Ck2RyYYRltHFk69kqHWPbqsmX7KifO1fVYkkKWttrKh5jSUqGkuZMBWgdNui0j8Xn6sM
- qocaP79zl2u3Ca2nWFDxvmbd4c7JxKLr4r6B/wLeHnT3P2OcXJHo9mlOUaU/xffsAfAJ
- KBNA==
-X-Gm-Message-State: AOAM5314dk5gEWo34rZxNSzG20NivXQf6oZ0Y8NptyUpedV+kncx8YPU
- m+1FV5RjiXc8apbXZdRSJRMCGDaGmZFBLDJLZRd9E+7SiZZVs6HGHax5iXgr7G4qyuLiB95qZ9M
- PaQpFr5e83EwFYKM5TrMavYHUfX4zIgqQXtS0ihPoEb/h5ZrWa/LP1wnY2oFbkrOG
-X-Received: by 2002:a37:66d1:: with SMTP id
- a200mr10855110qkc.440.1629315798442; 
- Wed, 18 Aug 2021 12:43:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwxp8XMlxzVOA3srZ9ILhBA6rFUw144C7qTzgaztk9fowyn+G8to8fbq+sjebZzoF25LSXL8w==
-X-Received: by 2002:a37:66d1:: with SMTP id
- a200mr10855082qkc.440.1629315798209; 
- Wed, 18 Aug 2021 12:43:18 -0700 (PDT)
+ bh=vjs/U9oiIIzIPYNfJJvQsKifLLyb4W5UUkK1KU3o24Q=;
+ b=m7bJgoDH98Nx+dpiN1P6IXs9O24pv0eFzXb1TZu4NeZiRrEAptjrSPhu/eFf13/yxI
+ /PSzX/iSuivb7oQYU1lc9vbK22nKrHq0+2ViwmossFGG9D9v0eV9OEvMbPak+6AAg1nh
+ XPr5p3aeZgotseeUIpaCpvztlZWWbxAj59GpGdKpsjfhvvdYD3WiwkiKPOqtA2aEf7m0
+ V++PCvytqYu1COxmYD3dxmKArUT698+pMQW9m5zldrAGtcEwFoqAV1MrqYMbMVmExFSk
+ W5IAoMb6siN0sxReRaJobn8xH4cKglUyMRBTaEh0oDxbLsnw1+ukPNKO0qP9EKZM94um
+ npPg==
+X-Gm-Message-State: AOAM531QET+FWo5tNlJ+pu7NI95aE4f4YTKJ+vuWM5MW1gzxrKjyvVW2
+ JeofauZafCoOntSzFqA2K+CpLQxKtq4EJOoEl0pRsazAGuRNF4iDVwyUNDQJ/tCQY73j69bJyBT
+ Tgqp6VIlyoeRlewgHvyaVnmrquz4RKygl/vev5VgPcKpJXaiA1Fx3W6mbYhBZmoqC
+X-Received: by 2002:ac8:7c52:: with SMTP id o18mr9198345qtv.290.1629315801846; 
+ Wed, 18 Aug 2021 12:43:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzH0dtZoBvjDPrbC83cbmuOKtJ2uyV/+Su/eL/hIeEsTCS9Dc2+qpYsSCkpVEB+lCC0IpCp3Q==
+X-Received: by 2002:ac8:7c52:: with SMTP id o18mr9198313qtv.290.1629315801535; 
+ Wed, 18 Aug 2021 12:43:21 -0700 (PDT)
 Received: from t490s.redhat.com ([2607:fea8:56a3:500::d413])
- by smtp.gmail.com with ESMTPSA id j185sm437905qkf.28.2021.08.18.12.43.16
+ by smtp.gmail.com with ESMTPSA id i16sm428063qtq.52.2021.08.18.12.43.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 12:43:17 -0700 (PDT)
+ Wed, 18 Aug 2021 12:43:21 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/4] qdev: Export qdev_get_device_class()
-Date: Wed, 18 Aug 2021 15:43:16 -0400
-Message-Id: <20210818194316.110942-1-peterx@redhat.com>
+Subject: [PATCH 4/4] vl: Prioritize realizations of devices
+Date: Wed, 18 Aug 2021 15:43:18 -0400
+Message-Id: <20210818194318.110993-1-peterx@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210818194217.110451-1-peterx@redhat.com>
 References: <20210818194217.110451-1-peterx@redhat.com>
@@ -74,7 +72,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -105,46 +103,85 @@ Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It'll be used outside the current source file.
+QEMU creates -device objects in order as specified by the user's cmdline.
+However that ordering may not be the ideal order.  For example, some platform
+devices (vIOMMUs) may want to be created earlier than most of the rest
+devices (e.g., vfio-pci, virtio).
+
+This patch orders the QemuOptsList of '-device's so they'll be sorted first
+before kicking off the device realizations.  This will allow the device
+realization code to be able to use APIs like pci_device_iommu_address_space()
+correctly, because those functions rely on the platfrom devices being realized.
+
+Now we rely on vmsd->priority which is defined as MigrationPriority to provide
+the ordering, as either VM init and migration completes will need such an
+ordering.  In the future we can move that priority information out of vmsd.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- include/monitor/qdev.h | 2 ++
- softmmu/qdev-monitor.c | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ softmmu/vl.c | 35 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
-diff --git a/include/monitor/qdev.h b/include/monitor/qdev.h
-index eaa947d73a..a783ad35b9 100644
---- a/include/monitor/qdev.h
-+++ b/include/monitor/qdev.h
-@@ -2,12 +2,14 @@
- #define MONITOR_QDEV_H
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 5ca11e7469..3a30dfe27d 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -126,6 +126,7 @@
+ #include "qapi/qmp/qerror.h"
+ #include "sysemu/iothread.h"
+ #include "qemu/guest-random.h"
++#include "migration/vmstate.h"
  
- /*** monitor commands ***/
-+#include "hw/qdev-core.h"
+ #include "config-host.h"
  
- void hmp_info_qtree(Monitor *mon, const QDict *qdict);
- void hmp_info_qdm(Monitor *mon, const QDict *qdict);
- void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp);
- 
- int qdev_device_help(QemuOpts *opts);
-+DeviceClass *qdev_get_device_class(const char **driver, Error **errp);
- DeviceState *qdev_device_add(QemuOpts *opts, Error **errp);
- void qdev_set_id(DeviceState *dev, const char *id);
- 
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 8602164082..610745467c 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -220,7 +220,7 @@ static const char *find_typename_by_alias(const char *alias)
-     return NULL;
+@@ -2627,6 +2628,35 @@ static void qemu_init_board(void)
+     }
  }
  
--static DeviceClass *qdev_get_device_class(const char **driver, Error **errp)
-+DeviceClass *qdev_get_device_class(const char **driver, Error **errp)
++/* Return the priority of the device option; zero is the default priority */
++static int qemu_opts_device_priority(QemuOpts *opts)
++{
++    const char *driver;
++    DeviceClass *dc;
++
++    driver = qemu_opt_get(opts, "driver");
++    if (!driver) {
++        return 0;
++    }
++
++    dc = qdev_get_device_class(&driver, NULL);
++    if (!dc) {
++        return 0;
++    }
++
++    if (!dc->vmsd) {
++        return 0;
++    }
++
++    /*
++     * Currently we rely on vmsd priority because that's solving the same
++     * problem for device realization ordering but just for migration.  In the
++     * future, we can move it out of vmsd, but that's not urgently needed.
++     * Return the negative of it so it'll be sorted with descendant order.
++     */
++    return -dc->vmsd->priority;
++}
++
+ static void qemu_create_cli_devices(void)
  {
-     ObjectClass *oc;
-     DeviceClass *dc;
+     soundhw_init();
+@@ -2642,6 +2672,11 @@ static void qemu_create_cli_devices(void)
+ 
+     /* init generic devices */
+     rom_set_order_override(FW_CFG_ORDER_OVERRIDE_DEVICE);
++    /*
++     * Sort all the -device parameters; e.g., platform devices like vIOMMU
++     * should be initialized earlier.
++     */
++    qemu_sort_opts("device", qemu_opts_device_priority);
+     qemu_opts_foreach(qemu_find_opts("device"),
+                       device_init_func, NULL, &error_fatal);
+     rom_reset_order_override();
 -- 
 2.31.1
 
