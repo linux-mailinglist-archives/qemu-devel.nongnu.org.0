@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB9473EF723
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 03:06:42 +0200 (CEST)
-Received: from localhost ([::1]:58148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 907C63EF720
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 03:03:48 +0200 (CEST)
+Received: from localhost ([::1]:49834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGA2T-0004Ua-OK
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 21:06:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51096)
+	id 1mG9zf-0007Pc-Kw
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 21:03:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mG9wu-00049L-Ux
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 21:00:57 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:34480)
+ id 1mG9wr-00048f-GV
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 21:00:55 -0400
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:33552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mG9wl-0001Kx-C4
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 21:00:56 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- gz13-20020a17090b0ecdb0290178c0e0ce8bso4213833pjb.1
- for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 18:00:46 -0700 (PDT)
+ id 1mG9wn-0001Mc-Aw
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 21:00:53 -0400
+Received: by mail-pg1-x530.google.com with SMTP id c17so508869pgc.0
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 18:00:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4MnDP8HjuwI7Ozvw8OKIQCnWMBJ/JVU5d/240T32zMU=;
- b=M3jTGXmuGe0XK8Kd+q7dwEV0cB/bME4FDl5JCMSHKQpZShWnP4PkYSSnEyIaTRUD0R
- MnT1ytiINHFeSaWhG0VU3JHJIf0kdGocUT8oH9iKgZP1B7zHPKjALJpYtHdgQkJ1gDGi
- NBFclj9LLQsIJtqDBm/QoWbCQx5lU8EGY340xwshD/sAIagIqXa1WlkcDSoYe3QNF9Ba
- e97NKBcam2dHjZ2vNyNu+XUKK0RTAkXBiV9I4JCOGlw9DXyHwoxQMg97h5BUHjfIv+xe
- BC2cSM6NVgTf+nrSV0t3gY3tAX205V9Gao8iAlwyJmQHjnKZgfjjcGnDdlzskaz/X74h
- aOqw==
+ bh=v1/sO6IxnnDQFwq5Pe8Zr7e++GUhOT2cEoNs8NX9PiI=;
+ b=QUZ+YM/G6aNe8PPWoITq8ox4vUTf27HFjzRc6EQJ2RNlaX+kvolaR7lyWT8c2ZLS0O
+ 7XQrGYec7gvMUJUk/eb9GlEwuFZmm5sJ6r2KWvsWePj3hmblE81qdg5CFnWPljY9Svyn
+ LrfEvDZt0psyxwf0nKNyPRLJw7bKpvqyYQyHrm9UFMXvUu/JF4Xb3WCqT2S33oS/Sa5V
+ +Ej1VdX/fUWNQROhqCv0KF9u1svTAz7B8XqM4dqj+EJQEih/c1gHcMiZOCd7Prr3wpqg
+ ImdmvWYHZec375CqpIsyp16tJ3vuTL+ZE1B+HazCrpzuFc/+cq5H1rldDQfJlcg78k6+
+ cIvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4MnDP8HjuwI7Ozvw8OKIQCnWMBJ/JVU5d/240T32zMU=;
- b=DOfD0XAdHeP4AtyUbWSnZjU1D1VqBtL6Ymx+QwnYcdx7VJhxSAT9TTRj3m8V2Yr1vE
- NW5XMuhVm96rWSywkQeSBb4GmbPE9X03t0reaDg9S7OSCwcbyGjOIaIdLktvFrAAo0kp
- 7J4F/wXnlOM1CZf+YQBLp2GigFyo2lzz07RQTHAe/G6ZSo9lfC3c5aX7XHCOUPy3Q3jU
- hJozRApp8qkRMdxay7sfgD7m82Cbqy14jbPDk9KcFay2k+hL0Eh4D529Qtt1ZGw7EzSM
- vd6WdX4JOocORE5i7PB1SUydSJjUAmTQcfTrE/pE9VwyHieMYWcnRYGm6JzfuMqmZL7X
- I1oQ==
-X-Gm-Message-State: AOAM533ePzb5+S5Znyw2VNiRr9s9FZgR6Yt17ytmXwu0kny5JGxejLeW
- nQGhOKaKUMCA/Qm1VXvk3276gdSDLvwF4w==
-X-Google-Smtp-Source: ABdhPJxBJKtyspsy2ATGVIdO5FzSJzM3uoozDMOPC3/VitcfTMgQ83sG3LP//KG75G3xDWezhmhVJw==
-X-Received: by 2002:a17:90b:3718:: with SMTP id
- mg24mr6598021pjb.158.1629248445981; 
- Tue, 17 Aug 2021 18:00:45 -0700 (PDT)
+ bh=v1/sO6IxnnDQFwq5Pe8Zr7e++GUhOT2cEoNs8NX9PiI=;
+ b=Uu6YJiqYYK9lKwhBgpamA1DEA1mVhYIdkXnchZaKhCd9HAfpXFgyCCNOxQgdPD3/5n
+ kprLOsujs0uRiy+QyWeH7VVmXCo+synP9T/sJrJpD748S/ebvmzT7Mix0Zs+rsMAc3St
+ Qf/hj0w4VYH4asLLTe2Y6cZvWJDr/5/3HxC2CBdeVOjtbxy0NvBZQQJKKf60G3E/5y3i
+ I+PNojrWmMXhLGh3hJauhtp8OE6jHvEvwzXJE1ypwKUU8LPcNxHXfEZQinPeCnq9kfQ1
+ 8zA4T4Iyvu+mlxua5b51aAvZl4rC25egrPj3pfGEILZzD7CR/IixNd4LowsQbIU1E74V
+ deJQ==
+X-Gm-Message-State: AOAM530YP8R++CKoqnNLmL119tMoJ//3jT9YjlW/GmGw8MG4/3K3QUCj
+ JBL2upCDwh4XKya/BNFfUQDTlUm8sjxNxg==
+X-Google-Smtp-Source: ABdhPJwcVAliFiRrwmv3fsYYSU9DVUWPWLInJdsRMZkuht9J1rXT2erQY1FJdYODA8s2O+Q1UTSz3Q==
+X-Received: by 2002:a05:6a00:c81:b029:30e:21bf:4c15 with SMTP id
+ a1-20020a056a000c81b029030e21bf4c15mr6437864pfv.70.1629248447679; 
+ Tue, 17 Aug 2021 18:00:47 -0700 (PDT)
 Received: from localhost.localdomain ([173.197.107.15])
- by smtp.gmail.com with ESMTPSA id r13sm4567422pgl.90.2021.08.17.18.00.44
+ by smtp.gmail.com with ESMTPSA id r13sm4567422pgl.90.2021.08.17.18.00.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 17 Aug 2021 18:00:45 -0700 (PDT)
+ Tue, 17 Aug 2021 18:00:47 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] target/arm: Take an exception if PSTATE.IL is set
-Date: Tue, 17 Aug 2021 15:00:38 -1000
-Message-Id: <20210818010041.337010-2-richard.henderson@linaro.org>
+Subject: [PATCH 2/4] target/arm: Merge disas_a64_insn into
+ aarch64_tr_translate_insn
+Date: Tue, 17 Aug 2021 15:00:39 -1000
+Message-Id: <20210818010041.337010-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210818010041.337010-1-richard.henderson@linaro.org>
 References: <20210818010041.337010-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,129 +84,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+It is confusing to have different exits from translation
+for various conditions in separate functions.
 
-In v8A, the PSTATE.IL bit is set for various kinds of illegal
-exception return or mode-change attempts.  We already set PSTATE.IL
-(or its AArch32 equivalent CPSR.IL) in all those cases, but we
-weren't implementing the part of the behaviour where attempting to
-execute an instruction with PSTATE.IL takes an immediate exception
-with an appropriate syndrome value.
+Merge disas_a64_insn into its only caller.  Standardize
+on the "s" name for the DisasContext, as the code from
+disas_a64_insn had more instances.
 
-Add a new TB flags bit tracking PSTATE.IL/CPSR.IL, and generate code
-to take an exception instead of whatever the instruction would have
-been.
-
-PSTATE.IL and CPSR.IL change only on exception entry, attempted
-exception exit, and various AArch32 mode changes via cpsr_write().
-These places generally already rebuild the hflags, so the only place
-we need an extra rebuild_hflags call is in the illegal-return
-codepath of the AArch64 exception_return helper.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20210817162118.24319-1-peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-[rth: Added missing returns.]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h           |  1 +
- target/arm/syndrome.h      |  5 +++++
- target/arm/translate.h     |  2 ++
- target/arm/helper-a64.c    |  1 +
- target/arm/helper.c        |  8 ++++++++
- target/arm/translate-a64.c | 11 +++++++++++
- target/arm/translate.c     | 21 +++++++++++++++++++++
- 7 files changed, 49 insertions(+)
+ target/arm/translate-a64.c | 224 ++++++++++++++++++-------------------
+ 1 file changed, 109 insertions(+), 115 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 9f0a5f84d5..be557bf5d8 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3441,6 +3441,7 @@ FIELD(TBFLAG_ANY, FPEXC_EL, 8, 2)
- FIELD(TBFLAG_ANY, DEBUG_TARGET_EL, 10, 2)
- /* Memory operations require alignment: SCTLR_ELx.A or CCR.UNALIGN_TRP */
- FIELD(TBFLAG_ANY, ALIGN_MEM, 12, 1)
-+FIELD(TBFLAG_ANY, PSTATE__IL, 13, 1)
- 
- /*
-  * Bit usage when in AArch32 state, both A- and M-profile.
-diff --git a/target/arm/syndrome.h b/target/arm/syndrome.h
-index 39a31260f2..c590a109da 100644
---- a/target/arm/syndrome.h
-+++ b/target/arm/syndrome.h
-@@ -270,4 +270,9 @@ static inline uint32_t syn_wfx(int cv, int cond, int ti, bool is_16bit)
-            (cv << 24) | (cond << 20) | ti;
- }
- 
-+static inline uint32_t syn_illegalstate(void)
-+{
-+    return EC_ILLEGALSTATE << ARM_EL_EC_SHIFT;
-+}
-+
- #endif /* TARGET_ARM_SYNDROME_H */
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index 241596c5bd..af1b6fa03c 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -98,6 +98,8 @@ typedef struct DisasContext {
-     bool hstr_active;
-     /* True if memory operations require alignment */
-     bool align_mem;
-+    /* True if PSTATE.IL is set */
-+    bool pstate_il;
-     /*
-      * >= 0, a copy of PSTATE.BTYPE, which will be 0 without v8.5-BTI.
-      *  < 0, set by the current instruction.
-diff --git a/target/arm/helper-a64.c b/target/arm/helper-a64.c
-index 26f79f9141..19445b3c94 100644
---- a/target/arm/helper-a64.c
-+++ b/target/arm/helper-a64.c
-@@ -1071,6 +1071,7 @@ illegal_return:
-     if (!arm_singlestep_active(env)) {
-         env->pstate &= ~PSTATE_SS;
-     }
-+    helper_rebuild_hflags_a64(env, cur_el);
-     qemu_log_mask(LOG_GUEST_ERROR, "Illegal exception return at EL%d: "
-                   "resuming execution at 0x%" PRIx64 "\n", cur_el, env->pc);
- }
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 155d8bf239..201ecf8c67 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -13408,6 +13408,10 @@ static CPUARMTBFlags rebuild_hflags_a32(CPUARMState *env, int fp_el,
-         DP_TBFLAG_A32(flags, HSTR_ACTIVE, 1);
-     }
- 
-+    if (env->uncached_cpsr & CPSR_IL) {
-+        DP_TBFLAG_ANY(flags, PSTATE__IL, 1);
-+    }
-+
-     return rebuild_hflags_common_32(env, fp_el, mmu_idx, flags);
- }
- 
-@@ -13502,6 +13506,10 @@ static CPUARMTBFlags rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
-         }
-     }
- 
-+    if (env->pstate & PSTATE_IL) {
-+        DP_TBFLAG_ANY(flags, PSTATE__IL, 1);
-+    }
-+
-     if (cpu_isar_feature(aa64_mte, env_archcpu(env))) {
-         /*
-          * Set MTE_ACTIVE if any access may be Checked, and leave clear
 diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 422e2ac0c9..230cc8d83b 100644
+index 230cc8d83b..333bc836b2 100644
 --- a/target/arm/translate-a64.c
 +++ b/target/arm/translate-a64.c
-@@ -14662,6 +14662,16 @@ static void disas_a64_insn(CPUARMState *env, DisasContext *s)
-     s->fp_access_checked = false;
-     s->sve_access_checked = false;
+@@ -14649,113 +14649,6 @@ static bool btype_destination_ok(uint32_t insn, bool bt, int btype)
+     return false;
+ }
  
+-/* C3.1 A64 instruction index by encoding */
+-static void disas_a64_insn(CPUARMState *env, DisasContext *s)
+-{
+-    uint32_t insn;
+-
+-    s->pc_curr = s->base.pc_next;
+-    insn = arm_ldl_code(env, s->base.pc_next, s->sctlr_b);
+-    s->insn = insn;
+-    s->base.pc_next += 4;
+-
+-    s->fp_access_checked = false;
+-    s->sve_access_checked = false;
+-
+-    if (s->pstate_il) {
+-        /*
+-         * Illegal execution state. This has priority over BTI
+-         * exceptions, but comes after instruction abort exceptions.
+-         */
+-        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
+-                           syn_illegalstate(), default_exception_el(s));
+-        return;
+-    }
+-
+-    if (dc_isar_feature(aa64_bti, s)) {
+-        if (s->base.num_insns == 1) {
+-            /*
+-             * At the first insn of the TB, compute s->guarded_page.
+-             * We delayed computing this until successfully reading
+-             * the first insn of the TB, above.  This (mostly) ensures
+-             * that the softmmu tlb entry has been populated, and the
+-             * page table GP bit is available.
+-             *
+-             * Note that we need to compute this even if btype == 0,
+-             * because this value is used for BR instructions later
+-             * where ENV is not available.
+-             */
+-            s->guarded_page = is_guarded_page(env, s);
+-
+-            /* First insn can have btype set to non-zero.  */
+-            tcg_debug_assert(s->btype >= 0);
+-
+-            /*
+-             * Note that the Branch Target Exception has fairly high
+-             * priority -- below debugging exceptions but above most
+-             * everything else.  This allows us to handle this now
+-             * instead of waiting until the insn is otherwise decoded.
+-             */
+-            if (s->btype != 0
+-                && s->guarded_page
+-                && !btype_destination_ok(insn, s->bt, s->btype)) {
+-                gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
+-                                   syn_btitrap(s->btype),
+-                                   default_exception_el(s));
+-                return;
+-            }
+-        } else {
+-            /* Not the first insn: btype must be 0.  */
+-            tcg_debug_assert(s->btype == 0);
+-        }
+-    }
+-
+-    switch (extract32(insn, 25, 4)) {
+-    case 0x0: case 0x1: case 0x3: /* UNALLOCATED */
+-        unallocated_encoding(s);
+-        break;
+-    case 0x2:
+-        if (!dc_isar_feature(aa64_sve, s) || !disas_sve(s, insn)) {
+-            unallocated_encoding(s);
+-        }
+-        break;
+-    case 0x8: case 0x9: /* Data processing - immediate */
+-        disas_data_proc_imm(s, insn);
+-        break;
+-    case 0xa: case 0xb: /* Branch, exception generation and system insns */
+-        disas_b_exc_sys(s, insn);
+-        break;
+-    case 0x4:
+-    case 0x6:
+-    case 0xc:
+-    case 0xe:      /* Loads and stores */
+-        disas_ldst(s, insn);
+-        break;
+-    case 0x5:
+-    case 0xd:      /* Data processing - register */
+-        disas_data_proc_reg(s, insn);
+-        break;
+-    case 0x7:
+-    case 0xf:      /* Data processing - SIMD and floating point */
+-        disas_data_proc_simd_fp(s, insn);
+-        break;
+-    default:
+-        assert(FALSE); /* all 15 cases should be handled above */
+-        break;
+-    }
+-
+-    /* if we allocated any temporaries, free them here */
+-    free_tmp_a64(s);
+-
+-    /*
+-     * After execution of most insns, btype is reset to 0.
+-     * Note that we set btype == -1 when the insn sets btype.
+-     */
+-    if (s->btype > 0 && s->base.is_jmp != DISAS_NORETURN) {
+-        reset_btype(s);
+-    }
+-}
+-
+ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
+                                           CPUState *cpu)
+ {
+@@ -14857,10 +14750,11 @@ static void aarch64_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
+ 
+ static void aarch64_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+ {
+-    DisasContext *dc = container_of(dcbase, DisasContext, base);
++    DisasContext *s = container_of(dcbase, DisasContext, base);
+     CPUARMState *env = cpu->env_ptr;
++    uint32_t insn;
+ 
+-    if (dc->ss_active && !dc->pstate_ss) {
++    if (s->ss_active && !s->pstate_ss) {
+         /* Singlestep state is Active-pending.
+          * If we're in this state at the start of a TB then either
+          *  a) we just took an exception to an EL which is being debugged
+@@ -14871,14 +14765,114 @@ static void aarch64_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+          * "did not step an insn" case, and so the syndrome ISV and EX
+          * bits should be zero.
+          */
+-        assert(dc->base.num_insns == 1);
+-        gen_swstep_exception(dc, 0, 0);
+-        dc->base.is_jmp = DISAS_NORETURN;
+-    } else {
+-        disas_a64_insn(env, dc);
++        assert(s->base.num_insns == 1);
++        gen_swstep_exception(s, 0, 0);
++        s->base.is_jmp = DISAS_NORETURN;
++        return;
+     }
+ 
+-    translator_loop_temp_check(&dc->base);
++    s->pc_curr = s->base.pc_next;
++    insn = arm_ldl_code(env, s->base.pc_next, s->sctlr_b);
++    s->insn = insn;
++    s->base.pc_next += 4;
++
++    s->fp_access_checked = false;
++    s->sve_access_checked = false;
++
 +    if (s->pstate_il) {
 +        /*
 +         * Illegal execution state. This has priority over BTI
@@ -217,63 +266,93 @@ index 422e2ac0c9..230cc8d83b 100644
 +        return;
 +    }
 +
-     if (dc_isar_feature(aa64_bti, s)) {
-         if (s->base.num_insns == 1) {
-             /*
-@@ -14780,6 +14790,7 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
- #endif
-     dc->fp_excp_el = EX_TBFLAG_ANY(tb_flags, FPEXC_EL);
-     dc->align_mem = EX_TBFLAG_ANY(tb_flags, ALIGN_MEM);
-+    dc->pstate_il = EX_TBFLAG_ANY(tb_flags, PSTATE__IL);
-     dc->sve_excp_el = EX_TBFLAG_A64(tb_flags, SVEEXC_EL);
-     dc->sve_len = (EX_TBFLAG_A64(tb_flags, ZCR_LEN) + 1) * 16;
-     dc->pauth_active = EX_TBFLAG_A64(tb_flags, PAUTH_ACTIVE);
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 80c282669f..5e0fc8a0a0 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -9045,6 +9045,16 @@ static void disas_arm_insn(DisasContext *s, unsigned int insn)
-         return;
-     }
- 
-+    if (s->pstate_il) {
-+        /*
-+         * Illegal execution state. This has priority over BTI
-+         * exceptions, but comes after instruction abort exceptions.
-+         */
-+        gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
-+                           syn_illegalstate(), default_exception_el(s));
-+        return;
++    if (dc_isar_feature(aa64_bti, s)) {
++        if (s->base.num_insns == 1) {
++            /*
++             * At the first insn of the TB, compute s->guarded_page.
++             * We delayed computing this until successfully reading
++             * the first insn of the TB, above.  This (mostly) ensures
++             * that the softmmu tlb entry has been populated, and the
++             * page table GP bit is available.
++             *
++             * Note that we need to compute this even if btype == 0,
++             * because this value is used for BR instructions later
++             * where ENV is not available.
++             */
++            s->guarded_page = is_guarded_page(env, s);
++
++            /* First insn can have btype set to non-zero.  */
++            tcg_debug_assert(s->btype >= 0);
++
++            /*
++             * Note that the Branch Target Exception has fairly high
++             * priority -- below debugging exceptions but above most
++             * everything else.  This allows us to handle this now
++             * instead of waiting until the insn is otherwise decoded.
++             */
++            if (s->btype != 0
++                && s->guarded_page
++                && !btype_destination_ok(insn, s->bt, s->btype)) {
++                gen_exception_insn(s, s->pc_curr, EXCP_UDEF,
++                                   syn_btitrap(s->btype),
++                                   default_exception_el(s));
++                return;
++            }
++        } else {
++            /* Not the first insn: btype must be 0.  */
++            tcg_debug_assert(s->btype == 0);
++        }
 +    }
 +
-     if (cond == 0xf) {
-         /* In ARMv3 and v4 the NV condition is UNPREDICTABLE; we
-          * choose to UNDEF. In ARMv5 and above the space is used
-@@ -9313,6 +9323,7 @@ static void arm_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
- #endif
-     dc->fp_excp_el = EX_TBFLAG_ANY(tb_flags, FPEXC_EL);
-     dc->align_mem = EX_TBFLAG_ANY(tb_flags, ALIGN_MEM);
-+    dc->pstate_il = EX_TBFLAG_ANY(tb_flags, PSTATE__IL);
- 
-     if (arm_feature(env, ARM_FEATURE_M)) {
-         dc->vfp_enabled = 1;
-@@ -9576,6 +9587,16 @@ static void thumb_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
-     }
-     dc->insn = insn;
- 
-+    if (dc->pstate_il) {
-+        /*
-+         * Illegal execution state. This has priority over BTI
-+         * exceptions, but comes after instruction abort exceptions.
-+         */
-+        gen_exception_insn(dc, dc->pc_curr, EXCP_UDEF,
-+                           syn_illegalstate(), default_exception_el(dc));
-+        return;
++    switch (extract32(insn, 25, 4)) {
++    case 0x0: case 0x1: case 0x3: /* UNALLOCATED */
++        unallocated_encoding(s);
++        break;
++    case 0x2:
++        if (!dc_isar_feature(aa64_sve, s) || !disas_sve(s, insn)) {
++            unallocated_encoding(s);
++        }
++        break;
++    case 0x8: case 0x9: /* Data processing - immediate */
++        disas_data_proc_imm(s, insn);
++        break;
++    case 0xa: case 0xb: /* Branch, exception generation and system insns */
++        disas_b_exc_sys(s, insn);
++        break;
++    case 0x4:
++    case 0x6:
++    case 0xc:
++    case 0xe:      /* Loads and stores */
++        disas_ldst(s, insn);
++        break;
++    case 0x5:
++    case 0xd:      /* Data processing - register */
++        disas_data_proc_reg(s, insn);
++        break;
++    case 0x7:
++    case 0xf:      /* Data processing - SIMD and floating point */
++        disas_data_proc_simd_fp(s, insn);
++        break;
++    default:
++        assert(FALSE); /* all 15 cases should be handled above */
++        break;
 +    }
 +
-     if (dc->eci) {
-         /*
-          * For M-profile continuable instructions, ECI/ICI handling
++    /* if we allocated any temporaries, free them here */
++    free_tmp_a64(s);
++
++    /*
++     * After execution of most insns, btype is reset to 0.
++     * Note that we set btype == -1 when the insn sets btype.
++     */
++    if (s->btype > 0 && s->base.is_jmp != DISAS_NORETURN) {
++        reset_btype(s);
++    }
++
++    translator_loop_temp_check(&s->base);
+ }
+ 
+ static void aarch64_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
 -- 
 2.25.1
 
