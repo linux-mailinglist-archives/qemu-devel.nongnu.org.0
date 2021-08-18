@@ -2,67 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09AAB3F006E
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 11:29:07 +0200 (CEST)
-Received: from localhost ([::1]:51736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F50B3F0074
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 11:30:40 +0200 (CEST)
+Received: from localhost ([::1]:54228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGHsf-0006y3-Uk
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 05:29:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57518)
+	id 1mGHuB-0000HD-Fz
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 05:30:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mGHr0-00068D-T6; Wed, 18 Aug 2021 05:27:22 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:35454)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mGHqs-0001vN-Tq; Wed, 18 Aug 2021 05:27:22 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id z5so4046362ybj.2;
- Wed, 18 Aug 2021 02:27:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LI/AtadzficimxrlghGUIAXG2sM4gl9czjT/1FpDESE=;
- b=KAq+qoCAD3Xk2VExMA8dqiwU2XKbWKhoKvFB5/FMfL7JGfTj8EEFza95xp4acPE+7m
- d3oVnPn2I3qqqjJhIGnMHLvHxy1Vz0dyhg90XU6t6DcVpYmrGSl/mErTmjo8jDpzKN84
- wsOogmw8fBxSapR5tqoZgTvlvVPZ5CWVy4HaN+H6VTXGEulX1JkEqT28gq1qQKHoXg8d
- Xu50z+3gDtVrn4alASDBr29VJekfHHw7by7Xegato0cMwNhVtrgvvVNPgBahFz0p0ebJ
- 74XH9rfGSpgNukHMIJ7sQyoqaCyHJk3C7WlXhkQkjYAwrBUhMj4DkJE+bYFguCKoSntF
- Vsrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LI/AtadzficimxrlghGUIAXG2sM4gl9czjT/1FpDESE=;
- b=Jh1pz+f3dZZMRFWOE+iZ5vySoK/uuo5B4GuRNvPTjhQEszJlbps0ZG2+kF6+IQLpj+
- /PoWz9PkMse0CMSa2yrm2JTOBzMjVbMhlTUFu/7zrY8oeaKKZVdJL/5m+6ZVFnN71o4F
- ayKh7OzU2rY7pcUVlp/Ko2dF8/cHuBfKTOXespSLD8GnOo4GlP9ob/ckCrh95znOEfDT
- 1/QC45PWCPTZ184pHsKWC/sf0JTdmuFL1jN0Sbc98JbplUlShSUEEARPwZTvI/vgV3sh
- MZdr0z1O1EAJ9fO1UtQFowKhwifiDVLMxevNn0ax//05qbKz+d80hHYZWwXjQyfNmg9z
- WRZQ==
-X-Gm-Message-State: AOAM532nIh1Dv4mF/giIDH+0ESalZ5k5HmwZRC7eKXG/n7f8xWshCqdD
- kJgLCI6v0bUbGwopXzA/HhbsDyRWOAYl+pJ/1I8=
-X-Google-Smtp-Source: ABdhPJx5QBLogo69q1HNNAUscX8A5msCZqxmqwWlE5DCYJd3377XMEjhVBolUx31B1tce84NUexL61HuIniihzB7Ne0=
-X-Received: by 2002:a5b:304:: with SMTP id j4mr10009654ybp.314.1629278833336; 
- Wed, 18 Aug 2021 02:27:13 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mGHsy-0007xm-JF
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 05:29:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32603)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mGHsu-0003pC-Eu
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 05:29:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629278958;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7ld7mx8oAFHiYzesY5U0tVdzuhgsa0IU1Cjz/hNVWXo=;
+ b=ap/8CCxDGy9d9s9hRxnHgQo2+yFuXdJg1+vK3Qtd9X+fIrcOPKbwtxBJ+WlVkdBNYdPk8g
+ lnOF2bpDNaaD87uZoaWauu/pXudAKr1B3nl2Jr4HT+BTMmYXqEHZk3nqoBEDqajxRRbL6U
+ 6Oa2VrkEVV+3MMp5j6BiXQGX4Ng0Ths=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-260-sZNI_D4KMT2g0ybCDyYQgA-1; Wed, 18 Aug 2021 05:29:13 -0400
+X-MC-Unique: sZNI_D4KMT2g0ybCDyYQgA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29AD118C89CC;
+ Wed, 18 Aug 2021 09:29:12 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.93])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 881D86F97F;
+ Wed, 18 Aug 2021 09:29:03 +0000 (UTC)
+Date: Wed, 18 Aug 2021 10:29:00 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH 1/2] gitlab: exclude sparc-softmmu and riscv32-softmmu
+ from cross builds
+Message-ID: <YRzS3F766na8QeJm@redhat.com>
+References: <20210810140653.3969823-1-berrange@redhat.com>
+ <20210810140653.3969823-2-berrange@redhat.com>
+ <11174538-e2fb-cd99-de92-3153fa56d017@ilande.co.uk>
 MIME-Version: 1.0
-References: <20210817211803.283639-1-richard.henderson@linaro.org>
- <20210817211803.283639-4-richard.henderson@linaro.org>
-In-Reply-To: <20210817211803.283639-4-richard.henderson@linaro.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 18 Aug 2021 17:27:02 +0800
-Message-ID: <CAEUhbmV4kammRMDmhRiPmskGqhfPUb7s2AeiBZinUWqywZoUXQ@mail.gmail.com>
-Subject: Re: [PATCH v2 03/21] target/riscv: Add DisasContext to gen_get_gpr,
- gen_set_gpr
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <11174538-e2fb-cd99-de92-3153fa56d017@ilande.co.uk>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,32 +84,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- liuzhiwei <zhiwei_liu@c-sky.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 18, 2021 at 5:21 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
+On Wed, Aug 18, 2021 at 10:15:47AM +0100, Mark Cave-Ayland wrote:
+> On 10/08/2021 15:06, Daniel P. Berrangé wrote:
+> 
+> > We need to cut down compile time by excluding more targets. Both these
+> > targets still have their 64-bit variant enabled, so the loss of coverage
+> > is mitigated to some degree.
+> > 
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >   .gitlab-ci.d/crossbuild-template.yml | 3 ++-
+> >   1 file changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
+> > index 7d3ad00a1e..cfb576b54c 100644
+> > --- a/.gitlab-ci.d/crossbuild-template.yml
+> > +++ b/.gitlab-ci.d/crossbuild-template.yml
+> > @@ -9,7 +9,8 @@
+> >         ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
+> >           --disable-user --target-list-exclude="arm-softmmu cris-softmmu
+> >             i386-softmmu microblaze-softmmu mips-softmmu mipsel-softmmu
+> > -          mips64-softmmu ppc-softmmu sh4-softmmu xtensa-softmmu"
+> > +          mips64-softmmu ppc-softmmu riscv32-softmmu sh4-softmmu
+> > +          sparc-softmmu xtensa-softmmu"
+> >       - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
+> >       - if grep -q "EXESUF=.exe" config-host.mak;
+> >         then make installer;
+> 
+> I'd prefer to keep sparc-softmmu if possible, simply because my everyday
+> platform is Linux and so having a cross-build for Windows will catch things
+> that I may miss on a day-to-day basis. Is sparc-softmmu currently enabled as
+> part of the native MINGW64 build?
 
-Can we put some commit message here to explain the reason behind this change?
+Note the builds still include  'sparc64-softmmu', so we're only loosing
+cover in places where it diverges fromthe 64-bit build, but this will
+sstil get coverage in native builds.
 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/riscv/translate.c                | 58 ++++++++++++-------------
->  target/riscv/insn_trans/trans_rva.c.inc | 18 ++++----
->  target/riscv/insn_trans/trans_rvb.c.inc |  4 +-
->  target/riscv/insn_trans/trans_rvd.c.inc | 32 +++++++-------
->  target/riscv/insn_trans/trans_rvf.c.inc | 32 +++++++-------
->  target/riscv/insn_trans/trans_rvh.c.inc | 52 +++++++++++-----------
->  target/riscv/insn_trans/trans_rvi.c.inc | 44 +++++++++----------
->  target/riscv/insn_trans/trans_rvm.c.inc | 12 ++---
->  target/riscv/insn_trans/trans_rvv.c.inc | 36 +++++++--------
->  9 files changed, 144 insertions(+), 144 deletions(-)
->
+> If I go to my Gitlab QEMU fork Settings -> CI/CD -> Variables there is an
+> option to set variables that can be used in job scripts. Perhaps this could
+> be used so that I can configure my personal QEMU fork to always run
+> sparc-softmmu builds when preparing PRs even if they aren't enabled for
+> everyone by default? At least this would then allow me to spot any breakage
+> before sending a final PR to Peter.
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Separately from this I'm doing some work to make things more configurable
+
+  https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg02102.html
+
+but not on this level of granularity.
+
+Rather than globally excluding from all cross builds, I think we ought to
+split it up more equitably acrss the different builds in some way.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
