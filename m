@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4FC83F018D
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 12:23:33 +0200 (CEST)
-Received: from localhost ([::1]:38022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD183F0190
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 12:24:34 +0200 (CEST)
+Received: from localhost ([::1]:40182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGIjM-00032n-VR
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 06:23:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40986)
+	id 1mGIkL-0004Ty-E8
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 06:24:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hk@zapateado.de>) id 1mGIiC-0002Mr-7k
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 06:22:20 -0400
-Received: from relay.yourmailgateway.de ([194.59.204.23]:57745)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hk@zapateado.de>) id 1mGIi8-0007y4-2N
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 06:22:19 -0400
-Received: from relay02-mors.netcup.net (localhost [127.0.0.1])
- by relay02-mors.netcup.net (Postfix) with ESMTPS id 4GqP8g3nwpz46t2
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 12:22:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=zapateado.de; s=key2;
- t=1629282131; bh=hjbNesPmUTMHtO7dI70zF9k8XRx2WqreXI0dz6n79pc=;
- h=Subject:To:References:From:Date:In-Reply-To:From;
- b=OtnqD9Qsos54L7N242JgPd/lRro4clw3ClsMKA5D1eXihJwm7K1Yy/Uy1VooNNcum
- w3IUIuPvDqMrHTqCdRk53IpkWTyyqnCWebsIqUr7ofKnMUBffo3c2N1eu0lZoSl8uk
- EBsABEX1lcph4TwKQs85ckBchcjkeDs2rBZ2CgyWsebe7Z3WPYGx8MzQvuMdQzn5P+
- jR5JGOXOBC/GkfxlBZwTHjkSOxKtNsHotesqcSZZ99fczkW1+aOuegryenVm1vaLbO
- cbA7+v6UD9ZPAaME5x8Xi34pT70IE8/tTHUp2zoIJsIxDIhYoqkKngOf5L/3fiDD/N
- kXIEe/j5uxIYw==
-Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
- by relay02-mors.netcup.net (Postfix) with ESMTPS id 4GqP8g3GKFz7tth
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 12:22:11 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at policy02-mors.netcup.net
-X-Spam-Score: -2.9
-Received: from mx2f6e.netcup.net (unknown [10.243.12.53])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by policy02-mors.netcup.net (Postfix) with ESMTPS id 4GqP8V50fsz8sk8
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 12:22:02 +0200 (CEST)
-Received: from [192.168.54.9] (ip-95-223-68-231.hsi16.unitymediagroup.de
- [95.223.68.231])
- by mx2f6e.netcup.net (Postfix) with ESMTPSA id 2E51665985
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 12:22:01 +0200 (CEST)
-Authentication-Results: mx2f6e;
- spf=pass (sender IP is 95.223.68.231) smtp.mailfrom=hk@zapateado.de
- smtp.helo=[192.168.54.9]
-Received-SPF: pass (mx2f6e: connection is authenticated)
-Subject: Re: [PATCH v3] block/file-win32: add reopen handlers
-To: qemu-devel@nongnu.org
-References: <20210817202115.16771-1-viktor.prutyanov@phystech.edu>
-From: Helge Konetzka <hk@zapateado.de>
-Message-ID: <9c3c72c0-5952-aac5-d2a3-4d145f57ea78@zapateado.de>
-Date: Wed, 18 Aug 2021 12:22:00 +0200
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mGIiy-0003ET-Aj
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 06:23:08 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44682)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mGIiw-0000Db-GT
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 06:23:08 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id x12so2635436wrr.11
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 03:23:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=vQ1Ilbz+wPB56hTslPN/pZTyTxV8KPHqP0p1Ek/G5O0=;
+ b=lHsA8R6K0ypR58X5Kv5EuXawX1TORa2Kif8zvQz7fKJE6CaJ7dJS2C5wC7MDfhtszZ
+ NRJJRj/QwQ/czwNNzX5yy/sBHK5ycgBkVhn1L5bDkMhaaTs0pP1vVziXRQgle717D9Iq
+ yupVI8ZWa4WK/rgtzB7bv4s1Lh7F87LybdzGMpGVGXt1/NpDdwGu+WrTO3k3sCfclisI
+ kpXJyPylYLv0DhXVS/lJTfdZUVb3JPyNI47z6UYEfcNkjxLA7lm0sWyr95jYhKNEyKGA
+ ANaqooWvt7TGgysLiazlEtRz9LlqWVMmUttoFM1n/J6F1nSymr2SDQ0flv5WKyFxNocg
+ 9oOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vQ1Ilbz+wPB56hTslPN/pZTyTxV8KPHqP0p1Ek/G5O0=;
+ b=kjUGj/AwmAHMpOpltC9MViHDc8A2HSyjhpROY7kO/SPu152gPo0HesyAt8KonXTPau
+ J1nZWZexO96tIHqTndFqCpM7uzSuc1g0cis1pURNsADtMCIs+RnJzt65YtEVMoKfr3iG
+ KsOcqyiqlrJvi0tjendvWAvZ+lwZ2RCJyXOtxIDO1rmUA9BmIjLcoFoj8f+WIytwW31f
+ FWYm4LrWKApatXUNBGoRCRGzE6oO+ZLis7bk92T1WDeKQadd1Gfl3R0TX2B3RRB1FpQM
+ TB4BtC1vOQCVKK1OXiZ2ywDP6DEuJ/YKLl3vbMzYZqesVj2w84kMLUWU+Ge/A/9x2Ts5
+ gQsg==
+X-Gm-Message-State: AOAM533b1ZoGptcRToIZi7ydhX7TU3553rjdJ51g3/X5/nLG8/m8ui+o
+ lnhgFjixNR9q+/i1RLHJV78=
+X-Google-Smtp-Source: ABdhPJx9GM+7GjUePX9CVoaaAJdEDEvdxKpNHMS6DhB/6AZp8+V8Gei7ydR8ftplfOoYM24PwhP3Tg==
+X-Received: by 2002:a5d:4d03:: with SMTP id z3mr9732567wrt.229.1629282184919; 
+ Wed, 18 Aug 2021 03:23:04 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id m10sm6719232wro.63.2021.08.18.03.23.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Aug 2021 03:23:04 -0700 (PDT)
+Subject: Re: [PATCH 1/2] gitlab: exclude sparc-softmmu and riscv32-softmmu
+ from cross builds
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210810140653.3969823-1-berrange@redhat.com>
+ <20210810140653.3969823-2-berrange@redhat.com>
+ <11174538-e2fb-cd99-de92-3153fa56d017@ilande.co.uk>
+ <YRzS3F766na8QeJm@redhat.com>
+ <16bd9721-a296-9cc7-0a94-dd76e2696b81@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <b63879b0-8fe8-5ec5-2b90-7e9cac1b3f2b@amsat.org>
+Date: Wed, 18 Aug 2021 12:23:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210817202115.16771-1-viktor.prutyanov@phystech.edu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <16bd9721-a296-9cc7-0a94-dd76e2696b81@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-PPP-Message-ID: <162928212175.2966.4116807909292195701@mx2f6e.netcup.net>
-X-PPP-Vhost: konetzka.de
-X-NC-CID: 1naznAIROOGEPd0P7bLE8vAub1lkEAFrMQAtl00Zpw1z
-Received-SPF: pass client-ip=194.59.204.23; envelope-from=hk@zapateado.de;
- helo=relay.yourmailgateway.de
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.961,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.961,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,87 +94,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 17.08.21 um 22:21 schrieb Viktor Prutyanov:
-> Make 'qemu-img commit' work on Windows.
->
-> Command 'commit' requires reopening backing file in RW mode. So,
-> add reopen prepare/commit/abort handlers and change dwShareMode
-> for CreateFile call in order to allow further read/write reopening.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/418
-> Suggested-by: Hanna Reitz <hreitz@redhat.com>
-> Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-> ---
->   v2:
->      - fix indentation in raw_reopen_prepare
->      - free rs if raw_reopen_prepare fails
->   v3:
->      - restore suggested-by field missed in v2
->
->   block/file-win32.c | 90 +++++++++++++++++++++++++++++++++++++++++++++-
->   1 file changed, 89 insertions(+), 1 deletion(-)
+On 8/18/21 11:45 AM, Mark Cave-Ayland wrote:
+> On 18/08/2021 10:29, Daniel P. Berrangé wrote:
+>> On Wed, Aug 18, 2021 at 10:15:47AM +0100, Mark Cave-Ayland wrote:
+>>> On 10/08/2021 15:06, Daniel P. Berrangé wrote:
+>>>
+>>>> We need to cut down compile time by excluding more targets. Both these
+>>>> targets still have their 64-bit variant enabled, so the loss of
+>>>> coverage
+>>>> is mitigated to some degree.
+>>>>
+>>>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+>>>> ---
+>>>>    .gitlab-ci.d/crossbuild-template.yml | 3 ++-
+>>>>    1 file changed, 2 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/.gitlab-ci.d/crossbuild-template.yml
+>>>> b/.gitlab-ci.d/crossbuild-template.yml
+>>>> index 7d3ad00a1e..cfb576b54c 100644
+>>>> --- a/.gitlab-ci.d/crossbuild-template.yml
+>>>> +++ b/.gitlab-ci.d/crossbuild-template.yml
+>>>> @@ -9,7 +9,8 @@
+>>>>          ../configure --enable-werror --disable-docs
+>>>> $QEMU_CONFIGURE_OPTS
+>>>>            --disable-user --target-list-exclude="arm-softmmu
+>>>> cris-softmmu
+>>>>              i386-softmmu microblaze-softmmu mips-softmmu
+>>>> mipsel-softmmu
+>>>> -          mips64-softmmu ppc-softmmu sh4-softmmu xtensa-softmmu"
+>>>> +          mips64-softmmu ppc-softmmu riscv32-softmmu sh4-softmmu
+>>>> +          sparc-softmmu xtensa-softmmu"
+>>>>        - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
+>>>>        - if grep -q "EXESUF=.exe" config-host.mak;
+>>>>          then make installer;
+>>>
+>>> I'd prefer to keep sparc-softmmu if possible, simply because my everyday
+>>> platform is Linux and so having a cross-build for Windows will catch
+>>> things
+>>> that I may miss on a day-to-day basis. Is sparc-softmmu currently
+>>> enabled as
+>>> part of the native MINGW64 build?
+>>
+>> Note the builds still include  'sparc64-softmmu', so we're only loosing
+>> cover in places where it diverges fromthe 64-bit build, but this will
+>> sstil get coverage in native builds.
+> 
+> Okay I see. From my perspective sparc-softmmu covers more corner cases
+> simply because everything is wired up as cMMIO peripherals on a custum
+> bus compared with sparc64-softmmu which is a PCI machine and so there is
+> already a lot of overlap there. However...
+> 
+>>> If I go to my Gitlab QEMU fork Settings -> CI/CD -> Variables there
+>>> is an
+>>> option to set variables that can be used in job scripts. Perhaps this
+>>> could
+>>> be used so that I can configure my personal QEMU fork to always run
+>>> sparc-softmmu builds when preparing PRs even if they aren't enabled for
+>>> everyone by default? At least this would then allow me to spot any
+>>> breakage
+>>> before sending a final PR to Peter.
+>>
+>> Separately from this I'm doing some work to make things more configurable
+>>
+>>    https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg02102.html
+>>
+>> but not on this level of granularity.
+>>
+>> Rather than globally excluding from all cross builds, I think we ought to
+>> split it up more equitably acrss the different builds in some way.
+> 
+> From my perspective as long as I have something in Gitlab that I can
+> push and then get a green CI build that covers both sparc platforms on
+> Linux/Windows then I'm not too concerned about the implementation
+> details. As long as the combination is covered in a job somewhere in
+> your latest set of build changes then that's okay with me.
 
-Test was successful on Windows 10 Pro, 21H1, 19043.1165, build & test 
-environment MSYS2, MINGW64
+Your use case seems similar to mine: I overload the current mainstream
+pipeline with extra jobs. See:
+https://docs.gitlab.com/ee/ci/pipelines/settings.html#specify-a-custom-cicd-configuration-file
 
-Tested-by: Helge Konetzka <hk@zapateado.de>
+My namespace CI points at a custom config in some branch:
+https://gitlab.com/philmd/qemu/raw/my_gci_config/.gitlab-ci.d/philmd.yml
 
-See my test protocol:
+This files simply contains:
 
-$ git clone https://github.com/patchew-project/qemu.git patchew-qemu
-$ cd patchew-qemu
-$ git checkout 
-tags/patchew/20210817202115.16771-1-viktor.prutyanov@phystech.edu
-$ mkdir build-msys2 && cd build-msys2
-$ export AR=gcc-ar NM=nm OBJCOPY=objcopy RANLIB=gcc-ranlib STRIP=strip 
-WINDRES=windres
-$ ../configure \
-   --cross-prefix=x86_64-w64-mingw32- \
-   --prefix=/mingw64/opt/patchew-qemu --target-list=x86_64-softmmu \
-   --bindir=bin --datadir=share/qemu --localedir=share/locale 
---mandir=share/man --docdir=share/doc/qemu
-$ make -j2 && make install
-
-$ export PATH="/mingw64/opt/patchew-qemu/bin:$PATH"
-$ which qemu-img
-/mingw64/opt/patchew-qemu/bin/qemu-img
-$ qemu-img create -f qcow2 testbacking.qcow2 20G
-Formatting 'testbacking.qcow2', fmt=qcow2 cluster_size=65536 
-extended_l2=off compression_type=zlib size=21474836480 
-lazy_refcounts=off refcount_bits=16
-$ qemu-img create -F qcow2 -b testbacking.qcow2 -f qcow2 test.qcow2
-Formatting 'test.qcow2', fmt=qcow2 cluster_size=65536 extended_l2=off 
-compression_type=zlib size=21474836480 backing_file=testbacking.qcow2 
-backing_fmt=qcow2 lazy_refcounts=off refcount_bits=16
-$ ls -l test*.qcow2
--rw-r--r-- 1 User Kein 197120 Aug 18 09:38 test.qcow2
--rw-r--r-- 1 User Kein 197120 Aug 18 09:34 testbacking.qcow2
-$ qemu-img commit test.qcow2
-Image committed.
-$ ls -l test*.qcow2
--rw-r--r-- 1 User Kein 262144 Aug 18 09:39 test.qcow2
--rw-r--r-- 1 User Kein 197120 Aug 18 09:34 testbacking.qcow2
-# Install Linux to image ...
-$ qemu-system-x86_64 -accel whpx,kernel-irqchip=off -m 1G -hda test.qcow2 \
-   -cdrom debian-10.8.0-amd64-netinst.iso
-Windows Hypervisor Platform accelerator is operational
-# Test Linux image before commit  ...
-$ qemu-system-x86_64 -accel whpx,kernel-irqchip=off -m 1G -hda test.qcow2
-Windows Hypervisor Platform accelerator is operational
-$ ls -l test*.qcow2
--rw-r--r-- 1 User Kein 6641090560 Aug 18 10:57 test.qcow2
--rw-r--r-- 1 User Kein     197120 Aug 18 09:34 testbacking.qcow2
-$ qemu-img commit test.qcow2
-Image committed.
-$ ls -l test*.qcow2
--rw-r--r-- 1 User Kein     262144 Aug 18 11:09 test.qcow2
--rw-r--r-- 1 User Kein 6641090560 Aug 18 11:09 testbacking.qcow2
-$ rm test.qcow2
-# Test Linux image after commit ...
-$ qemu-system-x86_64 -accel whpx,kernel-irqchip=off -m 1G -hda 
-testbacking.qcow2
-
+include:
+  # Keep mainstream config ...
+  - local: '/.gitlab-ci.d/qemu-project.yml'
+  # ... but include my extra jobs.
+  -
+'https://gitlab.com/philmd/qemu/raw/my_gci_config/.gitlab-ci.d/nvme_wip.yml'
+  -
+'https://gitlab.com/philmd/qemu/raw/my_gci_config/.gitlab-ci.d/mips_slow.yml'
+  -
+'https://gitlab.com/philmd/qemu/raw/my_gci_config/.gitlab-ci.d/philmd_runners.yml'
 
