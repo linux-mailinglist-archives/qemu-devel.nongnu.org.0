@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A93CE3F0D5B
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 23:32:19 +0200 (CEST)
-Received: from localhost ([::1]:45516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B37FD3F0D72
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 23:36:04 +0200 (CEST)
+Received: from localhost ([::1]:53712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGTAY-0000Fe-Mf
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 17:32:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57260)
+	id 1mGTEB-00061j-OF
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 17:36:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGT7j-0005ph-GW
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:29:23 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:36425)
+ id 1mGT7k-0005qw-4R
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:29:24 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:34313)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGT7h-0005kK-OM
+ id 1mGT7i-0005lH-Kw
  for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:29:23 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id m26so3503261pff.3
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 14:29:21 -0700 (PDT)
+Received: by mail-pl1-x62f.google.com with SMTP id u1so2698300plr.1
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 14:29:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Stidml/odPUvC+YHiMlAiiUsdbljrJSn16BoAbCClEk=;
- b=k9PvBaGJ1d+Chbb7Bg5M3aj1SAybrUF78zNs58IMS2yjy7ebEzfpgoiu7TBTaNE1h8
- hO/2HtoiYyCtLmNY6ypGf2HV0lqTWIC+Fd0qCKPTjNa7glD9JWFwRUS4dJ8eq2twxAws
- 06W0r4Kf+Oyvon/vx92v3P3hmyDuul52zs/3Ss2Ca8Ho7glQHQ45GLyvEfjm0xZ2JvBJ
- vJJWPieSrdrcR9+9L+yJo0Yrix8iiPK0kE2PiKFK8mXKiIeRTDH7eZed+jN8moV6x9oR
- C3iIXI6ZiaQTLVODLwqHRMZjyEhGxd1QuPGlXx8IIF9aiEnRznJ9pwLXhPFdfXYQX0Ma
- RSGw==
+ bh=bLtXt+lT9me4raRszPf/cWzutepwm37BmFJxuVb8lnI=;
+ b=T5CZyFag8HBOBK/jIfxFy3NYgEqQb57tjwrAYxfiX4sgZH5lLQq8jpt8JaOWtbZXXQ
+ 2vTHJAoB8WIvQ/kFwzFAohRJoN2wjnQ4Wwp9A0RwCmtSMywpnt+dMu3GvurNT1IM6SBX
+ iX/RpV9qgBktXAD64mJ67TsaeDz7/4J2S003dYon3qTL/oJQGw6/VGgqSrMSWMUiDhMs
+ gfOyZ6i3vMzvNuVP+oEFBwHiumLuauGHuzztqorkrwM9s8DW8ecMEWqUu0HyE7pMi6W5
+ yUkUAd/gP84A8O6k2oZ72jq7gmCZwaP48lL5i0C8OtNSWEZnKF791Jc+L7o8+H4XgyQf
+ notA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Stidml/odPUvC+YHiMlAiiUsdbljrJSn16BoAbCClEk=;
- b=msc5ZXfrmYdeQiQBxrX7NxZOPMTO2lWei5FnVSf/fMHvEsRn/MeWFZ/vkkPYIipx9S
- WwW7RXDHQjNyv96okNeos+c3AddtSnF8BVrEcWBXgjMCjqgJBOn1B89qttyA2NwwmOMl
- AfQNeqfHJt3aojn5H6lFu9zzO+B7VBEtGRvFO84ZqoR85Y2Z8QqBzril7b9r7YJXHTPt
- bHojce+/kw2XagG8X8uq+iitmwKHyP8l1Li5+L13fmACLrw/xCHf1yTzhkWSjKkdO0PB
- PVJk/qIrHk8gvgn4jYAIpcSp0LyptH6v5YBD4ZOOIXEVopE3IbOb4g1KsPik+S6rdvat
- 7N3w==
-X-Gm-Message-State: AOAM5307CoaFQ2NPATSW/UorogpL0xN/CEbYhnjeJdNtFNLuElM+3kOw
- SQ5RrqFFvVSiss7lZipPFuiu0C2r7Xb3Tw==
-X-Google-Smtp-Source: ABdhPJwGtJ5S4OGcRzNK5W0QUPRuUx8VGlur2h+cQT/vnoVm2HYnsUHSTLlpkhd6GP1U+ulzztdEeg==
-X-Received: by 2002:a63:d34f:: with SMTP id u15mr710238pgi.200.1629322160435; 
- Wed, 18 Aug 2021 14:29:20 -0700 (PDT)
+ bh=bLtXt+lT9me4raRszPf/cWzutepwm37BmFJxuVb8lnI=;
+ b=nPvO+iO+PC7XTSPs4jgABy9ncdCAti9RT7qy4CQg8peWNSSD831wMC7S1qAJ4Vhax5
+ 9TXdIitVn6118ywiIhw7uLd9wDHIVsqd2R3oUs1UeYSZ9nXN7BQKoSglo+Vx/VjvDmbK
+ ZY2CWGsr0ibrCOCbDiT5k5n5Q9aq0FuS3dvE39o+GB3vBxJrw85dW/IP7QGa/fnQ9WRK
+ kTuD3BgTOuz7gbnlFD89ElWdYvyyHFXCED3pEgd+aE67hCPDcUVZ8WRWWtJpLVhddK4R
+ cVNfiVmg4tobJRJB1NjksoqvhMLz/bckFtPWwy8Eka1RxJx671/r5uR04CPxpQ0Rg0Iu
+ cGzA==
+X-Gm-Message-State: AOAM533gPuvYEa61x/O8Fo60jSiw+x7pqS1TajJxdI+9ovoiQ4a+SKmD
+ KbLqMDZiLR8siZRRDBWL11dA5vhSxg3L5A==
+X-Google-Smtp-Source: ABdhPJzePpgJfxu8ggBhgmyAhZRBEfR//xkp0GB3MiTZoDHYBCFigIj1LChKmGl47s3OmI8e00PNBA==
+X-Received: by 2002:a17:90b:14b:: with SMTP id
+ em11mr11372869pjb.125.1629322161354; 
+ Wed, 18 Aug 2021 14:29:21 -0700 (PDT)
 Received: from localhost.localdomain ([173.197.107.15])
- by smtp.gmail.com with ESMTPSA id y19sm751965pfe.71.2021.08.18.14.29.19
+ by smtp.gmail.com with ESMTPSA id y19sm751965pfe.71.2021.08.18.14.29.20
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 14:29:20 -0700 (PDT)
+ Wed, 18 Aug 2021 14:29:21 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/14] tcg/arm: Support unaligned access for softmmu
-Date: Wed, 18 Aug 2021 11:29:04 -1000
-Message-Id: <20210818212912.396794-7-richard.henderson@linaro.org>
+Subject: [PATCH v3 07/14] tcg/arm: Split out tcg_out_ldstm
+Date: Wed, 18 Aug 2021 11:29:05 -1000
+Message-Id: <20210818212912.396794-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210818212912.396794-1-richard.henderson@linaro.org>
 References: <20210818212912.396794-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,152 +87,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From armv6, the architecture supports unaligned accesses.
-All we need to do is perform the correct alignment check
-in tcg_out_tlb_read and not use LDRD/STRD when the access
-is not aligned.
+Expand these hard-coded instructions symbolically.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/arm/tcg-target.c.inc | 69 ++++++++++++++++++++++------------------
- 1 file changed, 38 insertions(+), 31 deletions(-)
+ tcg/arm/tcg-target.c.inc | 19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
 
 diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-index 0c7e4f8411..c55167cc84 100644
+index c55167cc84..63b786a3e5 100644
 --- a/tcg/arm/tcg-target.c.inc
 +++ b/tcg/arm/tcg-target.c.inc
-@@ -34,13 +34,6 @@ bool use_idiv_instructions;
- bool use_neon_instructions;
- #endif
+@@ -134,6 +134,9 @@ typedef enum {
+     INSN_CLZ       = 0x016f0f10,
+     INSN_RBIT      = 0x06ff0f30,
  
--/* ??? Ought to think about changing CONFIG_SOFTMMU to always defined.  */
--#ifdef CONFIG_SOFTMMU
--# define USING_SOFTMMU 1
--#else
--# define USING_SOFTMMU 0
--#endif
--
- #ifdef CONFIG_DEBUG_TCG
- static const char * const tcg_target_reg_names[TCG_TARGET_NB_REGS] = {
-     "%r0",  "%r1",  "%r2",  "%r3",  "%r4",  "%r5",  "%r6",  "%r7",
-@@ -1526,15 +1519,20 @@ static TCGReg tcg_out_tlb_read(TCGContext *s, TCGReg addrlo, TCGReg addrhi,
-     int fast_off = TLB_MASK_TABLE_OFS(mem_index);
-     int mask_off = fast_off + offsetof(CPUTLBDescFast, mask);
-     int table_off = fast_off + offsetof(CPUTLBDescFast, table);
--    unsigned s_bits = opc & MO_SIZE;
--    unsigned a_bits = get_alignment_bits(opc);
-+    unsigned s_mask = (1 << (opc & MO_SIZE)) - 1;
-+    unsigned a_mask = (1 << get_alignment_bits(opc)) - 1;
-+    TCGReg t_addr;
++    INSN_LDMIA     = 0x08b00000,
++    INSN_STMDB     = 0x09200000,
++
+     INSN_LDR_IMM   = 0x04100000,
+     INSN_LDR_REG   = 0x06100000,
+     INSN_STR_IMM   = 0x04000000,
+@@ -586,6 +589,12 @@ static inline void tcg_out_dat_imm(TCGContext *s,
+                     (rn << 16) | (rd << 12) | im);
+ }
  
-     /*
--     * We don't support inline unaligned acceses, but we can easily
--     * support overalignment checks.
-+     * For v7, support for unaligned accesses is mandatory.
-+     * For v6, support for unaligned accesses is enabled by SCTLR.U,
-+     *     which is enabled by (at least) Linux and FreeBSD.
-+     * For v4 and v5, unaligned accesses are... complicated, and
-+     *     unhelped by Linux having a global not per-process flag
-+     *     for unaligned handling.
-      */
--    if (a_bits < s_bits) {
--        a_bits = s_bits;
-+    if (!use_armv6_instructions && a_mask < s_mask) {
-+        a_mask = s_mask;
-     }
++static void tcg_out_ldstm(TCGContext *s, int cond, int opc,
++                          TCGReg rn, uint16_t mask)
++{
++    tcg_out32(s, (cond << 28) | opc | (rn << 16) | mask);
++}
++
+ /* Note that this routine is used for both LDR and LDRH formats, so we do
+    not wish to include an immediate shift at this point.  */
+ static void tcg_out_memop_r(TCGContext *s, int cond, ARMInsn opc, TCGReg rt,
+@@ -3119,7 +3128,10 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+ {
+     /* Calling convention requires us to save r4-r11 and lr.  */
+     /* stmdb sp!, { r4 - r11, lr } */
+-    tcg_out32(s, (COND_AL << 28) | 0x092d4ff0);
++    tcg_out_ldstm(s, COND_AL, INSN_STMDB, TCG_REG_CALL_STACK,
++                  (1 << TCG_REG_R4) | (1 << TCG_REG_R5) | (1 << TCG_REG_R6) |
++                  (1 << TCG_REG_R7) | (1 << TCG_REG_R8) | (1 << TCG_REG_R9) |
++                  (1 << TCG_REG_R10) | (1 << TCG_REG_R11) | (1 << TCG_REG_R14));
  
-     /* Load env_tlb(env)->f[mmu_idx].{mask,table} into {r0,r1}.  */
-@@ -1578,27 +1576,32 @@ static TCGReg tcg_out_tlb_read(TCGContext *s, TCGReg addrlo, TCGReg addrhi,
+     /* Reserve callee argument and tcg temp space.  */
+     tcg_out_dat_rI(s, COND_AL, ARITH_SUB, TCG_REG_CALL_STACK,
+@@ -3147,7 +3159,10 @@ static void tcg_out_epilogue(TCGContext *s)
+                    TCG_REG_CALL_STACK, STACK_ADDEND, 1);
  
-     /*
-      * Check alignment, check comparators.
--     * Do this in no more than 3 insns.  Use MOVW for v7, if possible,
-+     * Do this in 2-4 insns.  Use MOVW for v7, if possible,
-      * to reduce the number of sequential conditional instructions.
-      * Almost all guests have at least 4k pages, which means that we need
-      * to clear at least 9 bits even for an 8-byte memory, which means it
-      * isn't worth checking for an immediate operand for BIC.
-      */
-+    /* For unaligned accesses, test the page of the last byte. */
-+    t_addr = addrlo;
-+    if (a_mask < s_mask) {
-+        t_addr = TCG_REG_R0;
-+        tcg_out_dat_imm(s, COND_AL, ARITH_ADD, t_addr,
-+                        addrlo, s_mask - a_mask);
-+    }
-     if (use_armv7_instructions && TARGET_PAGE_BITS <= 16) {
--        tcg_target_ulong mask = ~(TARGET_PAGE_MASK | ((1 << a_bits) - 1));
--
--        tcg_out_movi32(s, COND_AL, TCG_REG_TMP, mask);
-+        tcg_out_movi32(s, COND_AL, TCG_REG_TMP, ~(TARGET_PAGE_MASK | a_mask));
-         tcg_out_dat_reg(s, COND_AL, ARITH_BIC, TCG_REG_TMP,
--                        addrlo, TCG_REG_TMP, 0);
-+                        t_addr, TCG_REG_TMP, 0);
-         tcg_out_dat_reg(s, COND_AL, ARITH_CMP, 0, TCG_REG_R2, TCG_REG_TMP, 0);
-     } else {
--        if (a_bits) {
--            tcg_out_dat_imm(s, COND_AL, ARITH_TST, 0, addrlo,
--                            (1 << a_bits) - 1);
-+        if (a_mask) {
-+            tcg_debug_assert(a_mask <= 0xff);
-+            tcg_out_dat_imm(s, COND_AL, ARITH_TST, 0, addrlo, a_mask);
-         }
--        tcg_out_dat_reg(s, COND_AL, ARITH_MOV, TCG_REG_TMP, 0, addrlo,
-+        tcg_out_dat_reg(s, COND_AL, ARITH_MOV, TCG_REG_TMP, 0, t_addr,
-                         SHIFT_IMM_LSR(TARGET_PAGE_BITS));
--        tcg_out_dat_reg(s, (a_bits ? COND_EQ : COND_AL), ARITH_CMP,
-+        tcg_out_dat_reg(s, (a_mask ? COND_EQ : COND_AL), ARITH_CMP,
-                         0, TCG_REG_R2, TCG_REG_TMP,
-                         SHIFT_IMM_LSL(TARGET_PAGE_BITS));
-     }
-@@ -1763,8 +1766,9 @@ static inline void tcg_out_qemu_ld_index(TCGContext *s, MemOp opc,
-         tcg_out_ld32_r(s, COND_AL, datalo, addrlo, addend);
-         break;
-     case MO_Q:
--        /* Avoid ldrd for user-only emulation, to handle unaligned.  */
--        if (USING_SOFTMMU && use_armv6_instructions
-+        /* LDRD requires alignment; double-check that. */
-+        if (use_armv6_instructions
-+            && get_alignment_bits(opc) >= MO_64
-             && (datalo & 1) == 0 && datahi == datalo + 1) {
-             tcg_out_ldrd_r(s, COND_AL, datalo, addrlo, addend);
-         } else if (datalo != addend) {
-@@ -1806,8 +1810,9 @@ static inline void tcg_out_qemu_ld_direct(TCGContext *s, MemOp opc,
-         tcg_out_ld32_12(s, COND_AL, datalo, addrlo, 0);
-         break;
-     case MO_Q:
--        /* Avoid ldrd for user-only emulation, to handle unaligned.  */
--        if (USING_SOFTMMU && use_armv6_instructions
-+        /* LDRD requires alignment; double-check that. */
-+        if (use_armv6_instructions
-+            && get_alignment_bits(opc) >= MO_64
-             && (datalo & 1) == 0 && datahi == datalo + 1) {
-             tcg_out_ldrd_8(s, COND_AL, datalo, addrlo, 0);
-         } else if (datalo == addrlo) {
-@@ -1882,8 +1887,9 @@ static inline void tcg_out_qemu_st_index(TCGContext *s, int cond, MemOp opc,
-         tcg_out_st32_r(s, cond, datalo, addrlo, addend);
-         break;
-     case MO_64:
--        /* Avoid strd for user-only emulation, to handle unaligned.  */
--        if (USING_SOFTMMU && use_armv6_instructions
-+        /* STRD requires alignment; double-check that. */
-+        if (use_armv6_instructions
-+            && get_alignment_bits(opc) >= MO_64
-             && (datalo & 1) == 0 && datahi == datalo + 1) {
-             tcg_out_strd_r(s, cond, datalo, addrlo, addend);
-         } else {
-@@ -1914,8 +1920,9 @@ static inline void tcg_out_qemu_st_direct(TCGContext *s, MemOp opc,
-         tcg_out_st32_12(s, COND_AL, datalo, addrlo, 0);
-         break;
-     case MO_64:
--        /* Avoid strd for user-only emulation, to handle unaligned.  */
--        if (USING_SOFTMMU && use_armv6_instructions
-+        /* STRD requires alignment; double-check that. */
-+        if (use_armv6_instructions
-+            && get_alignment_bits(opc) >= MO_64
-             && (datalo & 1) == 0 && datahi == datalo + 1) {
-             tcg_out_strd_8(s, COND_AL, datalo, addrlo, 0);
-         } else {
+     /* ldmia sp!, { r4 - r11, pc } */
+-    tcg_out32(s, (COND_AL << 28) | 0x08bd8ff0);
++    tcg_out_ldstm(s, COND_AL, INSN_LDMIA, TCG_REG_CALL_STACK,
++                  (1 << TCG_REG_R4) | (1 << TCG_REG_R5) | (1 << TCG_REG_R6) |
++                  (1 << TCG_REG_R7) | (1 << TCG_REG_R8) | (1 << TCG_REG_R9) |
++                  (1 << TCG_REG_R10) | (1 << TCG_REG_R11) | (1 << TCG_REG_PC));
+ }
+ 
+ typedef struct {
 -- 
 2.25.1
 
