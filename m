@@ -2,77 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D9853EFD8F
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 09:12:50 +0200 (CEST)
-Received: from localhost ([::1]:37146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 361F63EFDAE
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 09:19:09 +0200 (CEST)
+Received: from localhost ([::1]:48974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGFkn-0000v0-LG
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 03:12:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54492)
+	id 1mGFqu-0000dS-9W
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 03:19:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laramglazier@gmail.com>)
- id 1mGFhG-0006JR-1l
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 03:09:10 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:35744)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <laramglazier@gmail.com>)
- id 1mGFhE-0008G2-Cb
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 03:09:09 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- q11-20020a7bce8b0000b02902e6880d0accso3690257wmj.0
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 00:09:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=FqnCqUbvKoythDShE33NAc32UKogIt9FfTN8uVIQDlA=;
- b=UPjUWHbc/FPZYtzE+rxjxJ44jmT0LfSy6FvHLJ+c0IE5+IeXf2jpNXLYxEJEJCoO4Z
- ao/0wP2ZEfjl6EGzTDmVis5HQ0N9ywOJjNuFSJPnPzdAwldAhlIlopr9Eu8FWVbmDZn0
- 9yVdRc5XAjlRLxhamci9iVpf5kZ0LMGCkLp08IQaXUbUW7KEFJh4jAYPC738LY6k4pK1
- Ul67NoBkF83bz/nzyaaz7nH0oFFyBArYHhmLpbPhDsAK0Ro+3prh4E6aMprnmrbvuQXx
- QjixXWNv7z+mmC2pjmmCKvQrV/zs4qxhLduTufrFWG/3xFt101vphnbosT5er/6CNKQ+
- k9EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=FqnCqUbvKoythDShE33NAc32UKogIt9FfTN8uVIQDlA=;
- b=Onn8HCQq1gWRzQURMcV9kPCIg9Ot8wK95LKGs184TvOG1TUCHKvGkhpwluOg77lOoQ
- 3MtjTHVQPYHdD1l76NQzVrCl7O4ZuptyE+0mESHVgl/SC3aftwrzYnhoy5NbehtGkI9a
- c+Y408lK/7mvYN08GjLj/QmP6gN5mCKXeKPacRR0yDOkHuqbPKTcMR83fhjf4pge17oK
- +IYfJ6xjXOZFMm6kD4exJKkQ2A9TdMinzgXXlQORjkBnQCuxw8v3x/myICeyBI08ajCK
- EuL13i3BTRuK4JQ+vr+bP3s7jwluU304/EzoiT6p/8pb9NMnX0mHU6w+VdRP/2vUTEzI
- 4UVQ==
-X-Gm-Message-State: AOAM533OmVL67Neq5mPz8KfKPOWkQXjlz1VW+BMJzRPh704U5HJSTqMx
- 0w6gT0st0ZVThhssDpKu+TpelTET0kA=
-X-Google-Smtp-Source: ABdhPJzJAiXgnrwVandcU2iCMhR2tkJz+bIhSV85oGMHhEU+svj0DlOIwLqV3JOUNMMJ16lZ678kXQ==
-X-Received: by 2002:a1c:a181:: with SMTP id k123mr1813567wme.90.1629270546652; 
- Wed, 18 Aug 2021 00:09:06 -0700 (PDT)
-Received: from laral.fritz.box
- (200116b82b53c5004989ea3bb9da8dea.dip.versatel-1u1.de.
- [2001:16b8:2b53:c500:4989:ea3b:b9da:8dea])
- by smtp.gmail.com with ESMTPSA id w18sm4902609wrg.68.2021.08.18.00.09.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 00:09:06 -0700 (PDT)
-From: Lara Lazier <laramglazier@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] target/i386: Added changed priority check for VIRQ
-Date: Wed, 18 Aug 2021 09:08:38 +0200
-Message-Id: <20210818070838.44344-6-laramglazier@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210818070838.44344-1-laramglazier@gmail.com>
-References: <20210818070838.44344-1-laramglazier@gmail.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mGFpj-0008Nk-8R
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 03:17:55 -0400
+Received: from smtpout3.3005.mail-out.ovh.net ([217.182.185.173]:44169)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mGFpg-0007WO-Tx
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 03:17:54 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.158])
+ by mo3005.mail-out.ovh.net (Postfix) with ESMTPS id 15FF813FAFB;
+ Wed, 18 Aug 2021 07:17:46 +0000 (UTC)
+Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 18 Aug
+ 2021 09:17:46 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R003d7442448-7733-4972-9cbd-f72b4839a885,
+ 438B77FCB4B6B4A29F77406FD4EC67CD8F0AE401) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 90.89.73.13
+Subject: Re: [PATCH v2] tests/acceptance: Test powernv machines
+To: Thomas Huth <thuth@redhat.com>, <qemu-devel@nongnu.org>
+References: <20210817093036.1288791-1-clg@kaod.org>
+ <3ad06368-59af-8782-d321-9c01675b88e8@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <b935ee47-3040-658c-991f-cddc01dadca4@kaod.org>
+Date: Wed, 18 Aug 2021 09:17:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <3ad06368-59af-8782-d321-9c01675b88e8@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=laramglazier@gmail.com; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 02cddc13-3737-45f1-80b2-278566642dc9
+X-Ovh-Tracer-Id: 12977685276835285865
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrleeggdduudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheeutdehgefhvdehtdeuleetgedvfeeukedtfeeihfffffeiuddutdduhffgvedtnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepthhhuhhthhesrhgvughhrghtrdgtohhm
+Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
+ helo=smtpout3.3005.mail-out.ovh.net
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.961,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,91 +69,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, Lara Lazier <laramglazier@gmail.com>
+Cc: Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Joel Stanley <joel@jms.id.au>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Writes to cr8 affect v_tpr. This could set or unset an interrupt
-request as the priority might have changed.
+On 8/18/21 8:27 AM, Thomas Huth wrote:
+> On 17/08/2021 11.30, Cédric Le Goater wrote:
+>> Fetch the OpenPOWER images to boot the powernv8 and powernv9 machines
+>> with a simple PCI layout.
+>>
+>> Cc: Cleber Rosa <crosa@redhat.com>
+>> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> Cc: Wainer dos Santos Moschetta <wainersm@redhat.com>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>
+>>   Since v2:
+>>
+>>   - Change the skiboot.lid file to use the one shipped with QEMU
+>>     tests/acceptance/boot_linux_console.py | 35 ++++++++++++++++++++++++++
+>>   1 file changed, 35 insertions(+)
+>>
+>> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+>> index 5248c8097df9..59c9309c4d0b 100644
+>> --- a/tests/acceptance/boot_linux_console.py
+>> +++ b/tests/acceptance/boot_linux_console.py
+>> @@ -1176,6 +1176,41 @@ def test_ppc64_e500(self):
+>>           tar_hash = '6951d86d644b302898da2fd701739c9406527fe1'
+>>           self.do_test_advcal_2018('19', tar_hash, 'uImage')
+>>   +    def do_test_ppc64_powernv(self, proc):
+>> +        images_url = ('https://github.com/open-power/op-build/releases/download/v2.7/')
+>> +
+>> +        kernel_url = images_url + 'zImage.epapr'
+>> +        kernel_hash = '0ab237df661727e5392cee97460e8674057a883c5f74381a128fa772588d45cd'
+>> +        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash,
+>> +                                       algorithm='sha256')
+>> +        self.vm.set_console()
+>> +        self.vm.add_args('-kernel', kernel_path,
+>> +                         '-append', 'console=tty0 console=hvc0',
+>> +                         '-device', 'pcie-pci-bridge,id=bridge1,bus=pcie.1,addr=0x0',
+>> +                         '-device', 'nvme,bus=pcie.2,addr=0x0,serial=1234',
+>> +                         '-device', 'e1000e,bus=bridge1,addr=0x3',
+>> +                         '-device', 'nec-usb-xhci,bus=bridge1,addr=0x2')
+>> +        self.vm.launch()
+>> +
+>> +        self.wait_for_console_pattern("CPU: " + proc + " generation processor")
+>> +        self.wait_for_console_pattern("zImage starting: loaded")
+>> +        self.wait_for_console_pattern("Run /init as init process")
+>> +        self.wait_for_console_pattern("Creating 1 MTD partitions")
+> 
+> IMHO it might be sufficient to wait for the last console entry and drop the "zImage starting" and "Run /init" lines
 
-Signed-off-by: Lara Lazier <laramglazier@gmail.com>
----
- target/i386/cpu.h                    | 15 +++++++++++++++
- target/i386/tcg/sysemu/misc_helper.c |  7 +++++++
- target/i386/tcg/sysemu/svm_helper.c  | 15 ---------------
- 3 files changed, 22 insertions(+), 15 deletions(-)
+OK. I might replace them with lines catching the driver log messages as Joel
+suggested.  
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index d26df6de6b..69e722253d 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -2245,6 +2245,21 @@ static inline uint64_t cr4_reserved_bits(CPUX86State *env)
-     return reserved_bits;
- }
+wait_for_console_pattern() doesn't seem to be able to catch output from the 
+petitboot loader which would be even better. Here is the final output :
+
+
+
+ Petitboot (v1.12)                   IBM PowerNV (emulated by qemu) unavailable
+ ──────────────────────────────────────────────────────────────────────────────
+
+  System information
+  System configuration
+  System status log
+  Language
+  Rescan devices
+  Retrieve config from URL
+  Plugins (0)
+ *Exit to shell           
+
+
+
+
+
+
+
+
+
+
+ ──────────────────────────────────────────────────────────────────────────────
+ Enter=accept, e=edit, n=new, x=exit, l=language, g=log, h=help
+ [enP1p2s3] Configuring with DHCP
+
+
+
+> (but I'd keep the "CPU:" line since it checks for the right processor type).
+
+yes
+
+> Anyway:
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+
+Thanks,
+
+C.
  
-+static inline bool ctl_has_irq(CPUX86State *env)
-+{
-+    uint32_t int_prio;
-+    uint32_t tpr;
-+
-+    int_prio = (env->int_ctl & V_INTR_PRIO_MASK) >> V_INTR_PRIO_SHIFT;
-+    tpr = env->int_ctl & V_TPR_MASK;
-+
-+    if (env->int_ctl & V_IGN_TPR_MASK) {
-+        return (env->int_ctl & V_IRQ_MASK);
-+    }
-+
-+    return (env->int_ctl & V_IRQ_MASK) && (int_prio >= tpr);
-+}
-+
- #if defined(TARGET_X86_64) && \
-     defined(CONFIG_USER_ONLY) && \
-     defined(CONFIG_LINUX)
-diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
-index 91b0fc916b..9ccaa054c4 100644
---- a/target/i386/tcg/sysemu/misc_helper.c
-+++ b/target/i386/tcg/sysemu/misc_helper.c
-@@ -122,6 +122,13 @@ void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
-             qemu_mutex_unlock_iothread();
-         }
-         env->int_ctl = (env->int_ctl & ~V_TPR_MASK) | (t0 & V_TPR_MASK);
-+
-+        CPUState *cs = env_cpu(env);
-+        if (ctl_has_irq(env)) {
-+            cpu_interrupt(cs, CPU_INTERRUPT_VIRQ);
-+        } else {
-+            cpu_reset_interrupt(cs, CPU_INTERRUPT_VIRQ);
-+        }
-         break;
-     default:
-         env->cr[reg] = t0;
-diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
-index cbd3f086c4..312f10f1e4 100644
---- a/target/i386/tcg/sysemu/svm_helper.c
-+++ b/target/i386/tcg/sysemu/svm_helper.c
-@@ -76,21 +76,6 @@ static inline void svm_load_seg_cache(CPUX86State *env, hwaddr addr,
-                            sc->base, sc->limit, sc->flags);
- }
- 
--static inline bool ctl_has_irq(CPUX86State *env)
--{
--    uint32_t int_prio;
--    uint32_t tpr;
--
--    int_prio = (env->int_ctl & V_INTR_PRIO_MASK) >> V_INTR_PRIO_SHIFT;
--    tpr = env->int_ctl & V_TPR_MASK;
--
--    if (env->int_ctl & V_IGN_TPR_MASK) {
--        return env->int_ctl & V_IRQ_MASK;
--    }
--
--    return (env->int_ctl & V_IRQ_MASK) && (int_prio >= tpr);
--}
--
- static inline bool is_efer_invalid_state (CPUX86State *env)
- {
-     if (!(env->efer & MSR_EFER_SVME)) {
--- 
-2.25.1
 
 
