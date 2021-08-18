@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E0453F0CAC
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 22:24:47 +0200 (CEST)
-Received: from localhost ([::1]:51412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3A783F0CA6
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 22:22:39 +0200 (CEST)
+Received: from localhost ([::1]:42970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGS7C-0008Hg-68
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 16:24:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40216)
+	id 1mGS58-0002gx-3D
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 16:22:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGS2K-00081W-L4
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 16:19:44 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:39696)
+ id 1mGS2M-00084D-46
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 16:19:46 -0400
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:40597)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGS2H-00068t-7p
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 16:19:44 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id t13so3334639pfl.6
+ id 1mGS2H-00069G-8Z
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 16:19:45 -0400
+Received: by mail-pg1-x52b.google.com with SMTP id y23so3480910pgi.7
  for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 13:19:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=+CMPBOKVQeWTwZGrxMiWTzbA3RbAllHepTMsTUswk6M=;
- b=Zp2bL720Hll6EKYci/jXuMy8QpKRNEFGZinSwnDBhJVvnqNxnGwUwKDgcZ5DwwsVBp
- ICxX1CPTvpa3YJ64341/iQIHJ1Tm4gIWTFjj7h8mERmuAZrJqj4h6BX35lkixCIH7RDF
- qDVSH1o1kO3M/M/2rjDX8jQrwP79UHCOWP4GZs9Km8VT7o/0K0c1hW3RXLmuh4DkPd+f
- bmrU20OZtys6MQwCTV2Hp8CNCIlgobD0A5CvcbSKuyXXFQU3hLEQLZ5rKyP7RvzJMVvr
- Kh9Xv8709i3US18NzOCZmwKMfZTkvDVg4wen5uw0BqtcXMgUNjYWwIDkOqBOWIbUwyAg
- uBfg==
+ bh=3D/M6PiJA/KHiyIzYScTLEu+qTs2bRAx1trHXsXn6VU=;
+ b=SwtvxVvktXqEGyjD8CyMzVorAjhJRXwznN3H6xIOGkHXaRRxp1eg2xZ9TF9C8tYOtP
+ qt6oiSWr/q+YvTDGsDrmHDAkuDldY2Ic7+ItPGEbcS9gxeVkIhZl074D23UE05VewMQ9
+ 2xcZGlH10cISVqUp96ottPIeeX3ikLiPORqU1QQrS4Qpr4tnHL9Qr/eqQhYWEk3C3bKm
+ vf1OjB1WQO/mFcewjeBxSkh8R7cCr3jApZOviorisRjpvLkFB7noW5irPsDWvSYpNq9d
+ jFm2WvJJjoH42kXDgKA59Nszh/3xh8yFeZld085QWbzDCBRPZ5L6lY90vCvyfSKh8C4O
+ 53Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+CMPBOKVQeWTwZGrxMiWTzbA3RbAllHepTMsTUswk6M=;
- b=pumQw4Am+HEAMQkBGNQwoFIMViQyi/+ZLi0SsHLvvwwm1NuqcEMuUr+ANuF+QKY1IC
- tup7NwU5CbcVnLHG7VlW4M9Xtxm3oSe35kdV5IS1TqcJfLb8W4ScLIFebHecNbENc/kE
- WwWFaZVh9T2JhuB+f8XWbf1LjCeTxiKjb8v8uFBm73UZaKduIR/mcpRCHfBatfYPjPKb
- mGnyVVtan7ub7z/L7eY6J1LTYpf0NktRu3B7ZsCz8TQ9A53BR+X4eMcFNFwLsnUsL1JS
- M0hXdFu+8TS7LXX3wWVkXqjG/Ogr+BTKj1tRf9QBiAm+hu2OjvIvBO+0uVCqnEh7nnV4
- KTYg==
-X-Gm-Message-State: AOAM530Wm9Our3MvM++LQ1zim5Sphiw7vTkDk59RlpfdDi68uskkG/o3
- EEuds6dG3KYdP0PxlwnJTXEuZpcKiF28wQ==
-X-Google-Smtp-Source: ABdhPJwr/up1Vjpv30vuG6xsArjAtIzIwPr71QBUqZ1S+CU4i2NwcvRQ16FGH3sQCjrM9HzoDXVrMQ==
-X-Received: by 2002:a05:6a00:a0b:b0:3e1:e511:1224 with SMTP id
- p11-20020a056a000a0b00b003e1e5111224mr10795873pfh.67.1629317978188; 
- Wed, 18 Aug 2021 13:19:38 -0700 (PDT)
+ bh=3D/M6PiJA/KHiyIzYScTLEu+qTs2bRAx1trHXsXn6VU=;
+ b=dHMVfDydsJcAaWc/ZkCNsqu6hBM0OTt7P10/RstgsehW5/NYmDQ5ZH7VCU2QCY2GbW
+ P8KRZsRUQP0LZ0gJJ1e0Ds3zzWXq7ykU+wLdRcn2Q4J66GEpH/XniJv3oZsh4zfozfbX
+ bu0P3nj0H5zD3tA+bgcLlFd8TQyaSLjDl1hlshYByLOp3CXclylPSCeBIdQ2j0tHH+59
+ AbF/Yhyoj/GhCO9jpwOUzNqZazMa4y0rin5Jbcvq/g6CO4k+g4QvnJUOo6lWte/50C4B
+ pJXVGeah41YsiJ2M2IV6qdpJHpvp3SlBLgchLmMPOhkJqU+5K5UmRaAacIP3GGaxWfUe
+ Knlw==
+X-Gm-Message-State: AOAM533rsVTx5BCuB5+JD2odTVwkwi584t6PcxQhwR/UEGf5SjZkPkbZ
+ EjM7xrV+UJVSFDRZKJ3pic5EHBzg62DRPg==
+X-Google-Smtp-Source: ABdhPJwSkiDXcvtL0c22HwsP8Oa16FdUdQ5N/mFFyBQhNmk5JQxUQKRxd0otTfEbCeHx6g2zhZqDuQ==
+X-Received: by 2002:a65:428b:: with SMTP id j11mr10774429pgp.301.1629317979135; 
+ Wed, 18 Aug 2021 13:19:39 -0700 (PDT)
 Received: from localhost.localdomain ([173.197.107.15])
- by smtp.gmail.com with ESMTPSA id x13sm619621pjh.30.2021.08.18.13.19.37
+ by smtp.gmail.com with ESMTPSA id x13sm619621pjh.30.2021.08.18.13.19.38
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 13:19:37 -0700 (PDT)
+ Wed, 18 Aug 2021 13:19:38 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/16] tcg/mips: Move TCG_AREG0 to S8
-Date: Wed, 18 Aug 2021 10:19:19 -1000
-Message-Id: <20210818201931.393394-5-richard.henderson@linaro.org>
+Subject: [PATCH v3 05/16] tcg/mips: Move TCG_GUEST_BASE_REG to S7
+Date: Wed, 18 Aug 2021 10:19:20 -1000
+Message-Id: <20210818201931.393394-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210818201931.393394-1-richard.henderson@linaro.org>
 References: <20210818201931.393394-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,45 +90,22 @@ No functional change; just moving the saved reserved regs to the end.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/mips/tcg-target.h     | 2 +-
- tcg/mips/tcg-target.c.inc | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ tcg/mips/tcg-target.c.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
-index 3afbb31918..c34cccebd3 100644
---- a/tcg/mips/tcg-target.h
-+++ b/tcg/mips/tcg-target.h
-@@ -80,7 +80,7 @@ typedef enum {
-     TCG_REG_RA,
- 
-     TCG_REG_CALL_STACK = TCG_REG_SP,
--    TCG_AREG0 = TCG_REG_S0,
-+    TCG_AREG0 = TCG_REG_S8,
- } TCGReg;
- 
- /* used for function call generation */
 diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index 94f1bebdba..92bde50704 100644
+index 92bde50704..b3a2cc88ab 100644
 --- a/tcg/mips/tcg-target.c.inc
 +++ b/tcg/mips/tcg-target.c.inc
-@@ -2542,7 +2542,7 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
- }
+@@ -86,7 +86,7 @@ static const char * const tcg_target_reg_names[TCG_TARGET_NB_REGS] = {
+ #define TCG_TMP3  TCG_REG_T7
  
- static const int tcg_target_callee_save_regs[] = {
--    TCG_REG_S0,       /* used for the global env (TCG_AREG0) */
-+    TCG_REG_S0,
-     TCG_REG_S1,
-     TCG_REG_S2,
-     TCG_REG_S3,
-@@ -2550,7 +2550,7 @@ static const int tcg_target_callee_save_regs[] = {
-     TCG_REG_S5,
-     TCG_REG_S6,
-     TCG_REG_S7,
--    TCG_REG_S8,
-+    TCG_REG_S8,       /* used for the global env (TCG_AREG0) */
-     TCG_REG_RA,       /* should be last for ABI compliance */
- };
+ #ifndef CONFIG_SOFTMMU
+-#define TCG_GUEST_BASE_REG TCG_REG_S1
++#define TCG_GUEST_BASE_REG TCG_REG_S7
+ #endif
  
+ /* check if we really need so many registers :P */
 -- 
 2.25.1
 
