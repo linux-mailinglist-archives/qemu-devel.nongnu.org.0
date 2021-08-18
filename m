@@ -2,70 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 208343F04EE
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 15:37:15 +0200 (CEST)
-Received: from localhost ([::1]:48884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C1AF3F0511
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 15:43:19 +0200 (CEST)
+Received: from localhost ([::1]:55240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGLkn-0000ZU-Tl
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 09:37:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46584)
+	id 1mGLqg-0004wm-GS
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 09:43:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mGLjh-0008HR-S5
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 09:36:05 -0400
-Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:47000)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mGLjg-00036j-8G
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 09:36:05 -0400
-Received: by mail-yb1-xb2d.google.com with SMTP id k65so5244154yba.13
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 06:36:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/sBLUueQQF3HmFxioJ+hiOxSZIVhgAU2Yu4hBlsFcyk=;
- b=fsOB+NtF+DAb3Pz3q4ojTJXJBCNq8hyoe8l9/O8kzO4Iv9ymqSpHrbycEkN1+QnCeh
- CW8n6PmM+ZQzUfLQ2SdTDC8TzvufnTMuUoe7u8FUmTavsovUhm/60nhFNRR4+bScLjpV
- RPJA7vFOMUDNlQ7RzQjCMEpQqAazXFpntCoolA6MZBEKDn6rVmd53AB2sLEurDh4bwsK
- 6JU3JFyoAahx1v6slZno+SQNtN540ugRqVUa6J2fqu8/oSyBrSSENHLc30uBz+8va8BY
- STr7gfwguS9r7T3//AM+WKXz/uIaAtRobvUXqhysYAMauH8hNaPDNJUg0Od4SUcB93KS
- 8AXg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mGLpw-0004Gw-2C
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 09:42:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34481)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mGLpu-0006UG-7u
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 09:42:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629294149;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=E2Ub71o4yZrPgy3nsoIvNqW2cIYuHOehfVQiDB114Yg=;
+ b=hUWNXOuHIl4mAU9RWEdVUf4FWkywjhRlQ99HASrlGw+DcMhb+KLDnaPL5SBmWtmPag/5Pm
+ rtjTXOcjRC8GjO+f6F4xEtVc0SPd+hhNTveFTEh5pbkNfgV4Ag3aYQjK10tt7FhPOfV976
+ CI9+D9vRs0lNY7pLa5Qz++zlAHuww3E=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-325-W9zpf4MfPCe-LG-iov69iQ-1; Wed, 18 Aug 2021 09:42:26 -0400
+X-MC-Unique: W9zpf4MfPCe-LG-iov69iQ-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ v19-20020a170906b013b02905b2f1bbf8f3so882018ejy.6
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 06:42:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/sBLUueQQF3HmFxioJ+hiOxSZIVhgAU2Yu4hBlsFcyk=;
- b=MPMYf7l/XcItth0TW19BSS6NFx+gPkl9cJWBqn+CuCt+r0JXeVfZ7UgJu96t0qCbPH
- fxJF1DdIr7TdlpanxritXKFNPjUB4Z4VfaaThzT9T0wzyDu/LIbJWmqeD1eIcJitB/0a
- H2C2y5xtU20WUbtoWBi4LVoQy2a9xK2/vuvwlw5bhxZs4XidAxzTz2RrYNyTA+6w6406
- E0d9yjrJuua9DZCigKrAOPKBHAIUfR3Bgtbo74KSK7uUxtt37VU5zvtTXTx8Ae7tDppJ
- FAUGnIahQKMxi/Lw9+EaFRFXl/JBfGgTXAfiFlh5mExqb2ZPZnlltRhn+hAuOp0OFEVl
- EwYg==
-X-Gm-Message-State: AOAM530mx6hT0OIop/DhY9InnmwH0Tv6KjW9C0uFBK6IU3Gc8leMkuE+
- l+rZZ1GZIr011sewzypYpVAWBp91XvcYvy7Ysr8=
-X-Google-Smtp-Source: ABdhPJwu67GCz33sHTHOjy8vbmEhhswC3qafSoMFQ0BT7qamiUr6nOYbg8Gxav81ZXGwBpLFhi9nStkabrmLutjYri8=
-X-Received: by 2002:a25:2646:: with SMTP id m67mr11231195ybm.122.1629293763150; 
- Wed, 18 Aug 2021 06:36:03 -0700 (PDT)
+ h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=E2Ub71o4yZrPgy3nsoIvNqW2cIYuHOehfVQiDB114Yg=;
+ b=WLRFjmCYFWx3VgFrW6Hn3ZFIWDvNu0WrUNynR+326PpkCwIkGfgOB6yEKw9Fh9uC2T
+ trbcsTfZFkqIm3Ysj6sU4an6QWw9+wNXi/YyHOJ4EVGB91QEK9m+rk+m6OnMV55bc0Zk
+ vTgub+fctRdnEdqMX3s1yfIPDvfq3+LLCW2MSYMn4eCAt83hy2iRACxyO0MiH/rU2lFe
+ m1270F4U5f3vKDel2OULrmYEJ0iSm83tHXZNvh3H5fy/kGGFzfzp0SPhp8P6DVs29Pe7
+ DsEvHof7Bt0O/XDvi9CwKDXHyysPVhPFVDUtJHhjyyk7hivG7f0QMKwCMLqYf8O2nTK8
+ YsEw==
+X-Gm-Message-State: AOAM531JgqvIhWhqXHsqylkRx/AclRsQHJF982T8xiLJTl5peL9xbb1j
+ t0J970OkbdgE49Z7lc+HbQOpC2VK+x/h0oU4DsF+sHb1MovRrOqJ6mvGcUTeXSLIPt90Pt4NcGm
+ c4QuMIFR9RVF46rk=
+X-Received: by 2002:aa7:cc08:: with SMTP id q8mr10317392edt.225.1629294145409; 
+ Wed, 18 Aug 2021 06:42:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwkTS0b3/xVeZA+J4kbb9bXooUneZEECXUR5+olGSrhPaH+Rk76YJxsbd0FBtsTyVFMjT90ug==
+X-Received: by 2002:aa7:cc08:: with SMTP id q8mr10317374edt.225.1629294145248; 
+ Wed, 18 Aug 2021 06:42:25 -0700 (PDT)
+Received: from thuth.remote.csb (pd9e83070.dip0.t-ipconnect.de.
+ [217.232.48.112])
+ by smtp.gmail.com with ESMTPSA id p3sm2158286ejy.20.2021.08.18.06.42.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Aug 2021 06:42:24 -0700 (PDT)
+To: QEMU Developers <qemu-devel@nongnu.org>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Is QEMU's vmxnet3 still being used?
+Message-ID: <7ec1626e-3c4b-c9e8-1a29-f576163712f5@redhat.com>
+Date: Wed, 18 Aug 2021 15:42:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-References: <162928715931.357603.15628842472925815718.stgit@pc-System-Product-Name>
- <162928727089.357603.8471789223247950118.stgit@pc-System-Product-Name>
- <CAEUhbmXwr0wvabJ8e2=VBbf6OgFehuOGH78XZGBaukDgOfPiQA@mail.gmail.com>
- <CAFEAcA9xucqeJK5t-He8p8sMGA4dStCHy_y+ZxNtuF1EcHx50Q@mail.gmail.com>
-In-Reply-To: <CAFEAcA9xucqeJK5t-He8p8sMGA4dStCHy_y+ZxNtuF1EcHx50Q@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 18 Aug 2021 21:35:51 +0800
-Message-ID: <CAEUhbmU2LohqBOPTjEP0iRBxn5pgpjHLVSoZp76G4jQrp_COPA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/2] arm/monitor: Add support for 'info tlb' command
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2d.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,106 +94,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: NDNF <arkaisp2021@gmail.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Pavel Dovgaluk <pavel.dovgaluk@ispras.ru>, Changbin Du <changbin.du@gmail.com>
+Cc: Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Andrew Melnychenko <andrew@daynix.com>, Leonid Bloch <leonid@daynix.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 18, 2021 at 8:54 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Wed, 18 Aug 2021 at 13:00, Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > On Wed, Aug 18, 2021 at 7:48 PM NDNF <arkaisp2021@gmail.com> wrote:
-> > >
-> > > This adds hmp 'info tlb' command support for the arm platform.
-> > > The limitation is that this only implements a page walker for
-> > > ARMv8-A AArch64 Long Descriptor format, 32bit addressing is
-> > > not supported yet.
-> > >
-> > > Signed-off-by: Changbin Du <changbin.du@gmail.com>
-> > > Signed-off-by: Ivanov Arkady <arkaisp2021@gmail.com>
-> > > ---
-> > >  hmp-commands-info.hx |    3 +
-> > >  target/arm/monitor.c |  170 ++++++++++++++++++++++++++++++++++++++++++++++++++
-> > >  2 files changed, 172 insertions(+), 1 deletion(-)
-> > >
-> >
-> > I believe this is not TLB on ARM, but PTE?
-> >
-> > RISC-V implemented a "info mem" for page table walk.
->
-> We call our "give page table walk" monitor command "info tlb"
-> for some reason (probably historical). From the docs:
-> https://qemu-project.gitlab.io/qemu/system/monitor.html
->   info tlb
->       Show virtual to physical memory mappings
->   info mem
->       Show the active virtual memory mappings.
->
-> Looking at x86's output, "info tlb" gives lines like this:
 
-I don't know why x86 provides 2 almost the same things.
+  Hi all,
 
->
-> ffffffffc04f6000: 00000000b2576000 -G-DA----
-> ffffffffc04f7000: 00000000b2579000 -G-DA----
-> ffffffffc04f8000: 00000000bac74000 XG-DA----
-> ffffffffc04f9000: 00000000b258b000 XG-DA----
-> ffffffffc04fa000: 00000000b248b000 XG-DA---W
-> ffffffffc04fb000: 00000000b2431000 XG-DA---W
-> ffffffffc0502000: 00000000bb69c000 -G-DA----
-> ffffffffc0503000: 00000000b27d3000 XG-DA----
->
+I recently noticed that we have quite a bunch of tickets against the vmxnet3 
+device in our bug trackers, which indicate that this device could be used to 
+crash QEMU in various ways:
 
-Naming it to "tlb" really confuses people. On ppce500, "info tlb"
-gives the real processor TLBs, not the PTEs.
+  https://gitlab.com/qemu-project/qemu/-/issues?state=opened&search=vmxnet3
 
-(qemu) info tlb
+  https://bugs.launchpad.net/qemu?field.searchtext=vmxnet3
 
-TLB0:
-Effective          Physical           Size TID   TS SRWX URWX WIMGE U0123
+Having hardly any knowledge about this device and its usage at all, I wonder 
+how much it is still used out there in the wild? If there are still many 
+users of this device, is there anybody interested here in helping to get 
+these crashes fixed in the near future? Otherwise, should we maybe rather 
+mark this device as deprecated and remove it in a couple of releases? What 
+do you think?
 
-TLB1:
-Effective          Physical           Size TID   TS SRWX URWX WIMGE U0123
-0x00000000e0000000 0x0000000fe0000000   1M 0     0  SRW-U--- -I-G- U----
-0x0000000000000000 0x0000000000000000  64M 0     0  SRWXU--- --M-- U----
-0x0000000004000000 0x0000000004000000  64M 0     0  SRWXU--- --M-- U----
-0x00000000f0000000 0x0000000f00000000  64M 0     0  SRW-U--- -I-G- U----
-0x0000000080000000 0x0000000c00000000 256M 0     0  SRW-U--- -I-G- U----
-0x0000000090000000 0x0000000c10000000 256M 0     0  SRW-U--- -I-G- U----
-0x00000000a0000000 0x0000000fe1000000  64K 0     0  SRW-U--- -I-G- U----
-0x00000000f4000000 0x0000000f04000000  64M 0     0  SRW-U--- -I-G- U----
+  Thomas
 
-So we are unfortunately inconsistent among these arches that support "info tlb".
-
-> which is a dump of the page table, with one line per page,
-> giving the vaddr, the physaddr and associated flag information.
->
-> "info mem" gives lines like this:
->
-> ffffffffc04f6000-ffffffffc04fa000 0000000000004000 -r-
-> ffffffffc04fa000-ffffffffc04fc000 0000000000002000 -rw
-> ffffffffc0502000-ffffffffc0504000 0000000000002000 -r-
->
-> which just give "this range of virtual addresses of this
-> length have these permissions". You can see that it
-> coalesces multiple adjacent pages with the same permissions
-> into a single line.
->
-> The only architectures which implement "info mem"
-> are i386 and riscv. If riscv has given the command
-> different semantics to i386 that would be unfortunate.
->
-> "info tlb" is implemented by i386, m68k, nios2, ppc, sh4,
-> sparc, xtensa.
->
-> It's not clear to me that "info mem" is all that useful -- you
-> can figure out the same info from "info tlb".
-
-Yes. But I feel "info mem" is more a suitable name than "info tlb"
-unless we are really printing the TLB.
-
-Regards,
-Bin
 
