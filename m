@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33B763F0DC6
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 23:57:54 +0200 (CEST)
-Received: from localhost ([::1]:34718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62BBA3F0DCB
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 23:59:25 +0200 (CEST)
+Received: from localhost ([::1]:41086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGTZJ-0006an-6s
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 17:57:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40308)
+	id 1mGTam-0002TD-FK
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 17:59:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mGTX8-0003tf-Mn
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:55:38 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:33571)
+ id 1mGTXE-00040T-9d
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:55:44 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:37848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mGTX7-0008UV-5U
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:55:38 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- a201-20020a1c7fd2000000b002e6d33447f9so4267822wmd.0
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 14:55:35 -0700 (PDT)
+ id 1mGTXA-000085-VQ
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:55:44 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id l11so5777152wrx.4
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 14:55:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZmWEqvwx0LhQMZDXdcBKLnuhYde6vFm0XnmKyuDjCoU=;
- b=DWMli3VEvnBi6VaFE5hLbw/IiMXgajQrL5+H+8gai2BTnmshKv48paNEusptWHIWMs
- gbqo5e1p6OCHYKoioYsqMODmoQNScf+chhPUvJgevusjNAHwiavtpDDarGSSuiRX7pAL
- EyblyVOxkbJwhzV9PP0izbs4Ks2fKSbx6AsLRcjZcqLkKnz089MnSFoOaLHi+JvSb833
- KvTGpl9o+PChyvlZcwokIDTkLC9va6RBXBAQx4mImTb/rmOSpu8kp56JgpMhB70sh3TL
- eVfsv2CmGkkYNNpkU6Zes5FjTVDK6edSFI4wuTVW0IKe8g62LnWdQNS0oibTzHH3UTEw
- Iufg==
+ bh=U7gIJvBW4JKvt2ZTXiAxofETRvBakvpm4JnJyObeScc=;
+ b=P1kAivs+7ir06Kz/gh/nRf5VDSF+kxIYM1hN6DlCeZZdIb/t+31ZtWn3iDg2I0hXDG
+ NfxA65Knhg50FJvWCHkbo3f+RclzkIsOA1fG8huw3acXDnPjJIKH9G6ja2cK78M36a+X
+ MSa2S0dRx4A/cB/e85QVjC1elss1UPspA5DO9wgR+9s6R3zAapuJkpqRMOPhGzlWZhK9
+ 1rKutbMxj3gUpso+0bfJYyXgEHXcBYZcKG70phVVNjJ+/JHOntgSr0jpTHo6SpUdpfjx
+ AHdD0COcy7lKahjlvzNzD09doyAuUcHFCHJp+pHnIF0iTPiT6M3z8VYPaj5Ps4HLqXv5
+ eZUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ZmWEqvwx0LhQMZDXdcBKLnuhYde6vFm0XnmKyuDjCoU=;
- b=hY7Imyf1VJ/HJsb3AIssMTW0AfVJOCr+zpBOEyzbCTNJfFvVCKXLcn7SBiGM5WJ1Rs
- FbhBVASObT4yvArSxaLdE/eqz1HeF7KATQ8z/NxGA3K8cUY68wbDne6foYAuvZQCsf7t
- 4VDIFoGHl1bFXnOn7GDyz4SZ1wu/dlbULB6syzw0xLRgqjmji1tp/JgzY8RI55vld9Wp
- upwA3vbYGXRDTO1ZFPVKQl98j+tUe3Zojv2xJGUYIWYVlDYvGQOvrbqBpLC4rj/eRVKj
- 1pcrN7WFT1QSVFsgI1tBBPCJBEufx5L/ZDnQd6QHz9URnaZ61E/ctt3K8qdDsGSlstLs
- Vnyw==
-X-Gm-Message-State: AOAM5318nRisdMUpaHUNTcTfGUQCr8bJrq7gGhA/oNEyEr6Qf5nLVqj2
- Qd92VXmNQiCg5+P65xQgik0wToUYkX4=
-X-Google-Smtp-Source: ABdhPJylhRbZ7LLJhvngu3RAVvK4L1CzhRz/fUY3XnazIRfdNR/j4W0LIVE0FAna8xQJRbX3r1LcuQ==
-X-Received: by 2002:a7b:cdfa:: with SMTP id p26mr10545411wmj.45.1629323734565; 
- Wed, 18 Aug 2021 14:55:34 -0700 (PDT)
+ bh=U7gIJvBW4JKvt2ZTXiAxofETRvBakvpm4JnJyObeScc=;
+ b=FYRhCM1IE+flf78kialLwzLfNyeVOYER/hpMTDGt8+YHtRcZCQ4DAzdC+jT9aMYnLE
+ 5eV2ox1z3/9R8gpPCURHyQLDxLV4RSl5b1DjZBW0VIxS9tA0+0IOQO51KRQhKDT6vNd8
+ afkicQMZn7PeALBrazcvFXfstd8e7pnSUz2uDee6RZ28mhOkTPo8UA2Fz5Er8ed1GJlF
+ OQJnp7ldGSjScoW6h9v8jrvtYBW2SHh40cvgro8QgBN/Fm7RKnHsavNqG5Otv2IMmCNz
+ MtOTvYd5Ll4UBtDagIe1kYcgglZi3Fi7IaSDlHysDCD64yTNqJoweB0HkV0YPBxgRdeA
+ 1yPw==
+X-Gm-Message-State: AOAM5332UX4L7PeG1u7ebNaKCoS1ZiJcj93vKwVvGXmDyJzFSL/A7Afv
+ aww7WFOsBSaFUMMdXjtA+y1rD4aiF6Q=
+X-Google-Smtp-Source: ABdhPJysBoUvLQx7LsiwCay9XbpezvBeCUWBfwDPbdROkMiId90Ckf6M9xeDS58toxAN7flIu9J/gg==
+X-Received: by 2002:adf:e6cc:: with SMTP id y12mr13669457wrm.200.1629323739485; 
+ Wed, 18 Aug 2021 14:55:39 -0700 (PDT)
 Received: from x1w.redhat.com (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id b10sm1267282wrn.9.2021.08.18.14.55.33
+ by smtp.gmail.com with ESMTPSA id s13sm6153148wmc.47.2021.08.18.14.55.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 14:55:34 -0700 (PDT)
+ Wed, 18 Aug 2021 14:55:39 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/5] target/mips: Replace GET_LMASK64() macro by
- get_lmask(64) function
-Date: Wed, 18 Aug 2021 23:55:15 +0200
-Message-Id: <20210818215517.2560994-4-f4bug@amsat.org>
+Subject: [PATCH v2 4/5] target/mips: Store CP0_Config0 in DisasContext
+Date: Wed, 18 Aug 2021 23:55:16 +0200
+Message-Id: <20210818215517.2560994-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210818215517.2560994-1-f4bug@amsat.org>
 References: <20210818215517.2560994-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,132 +93,42 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The target endianess information is stored in the BigEndian
-bit of the Config0 register in CP0.
-
-Replace the GET_LMASK() macro by an inlined get_lmask() function,
-passing CPUMIPSState and the word size as argument.
-
-We can remove another use of the TARGET_WORDS_BIGENDIAN definition.
+Most TCG helpers only have access to a DisasContext pointer,
+not CPUMIPSState. Store a copy of CPUMIPSState::CP0_Config0
+in DisasContext so we can access it from TCG helpers.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210818164321.2474534-5-f4bug@amsat.org>
 ---
- target/mips/tcg/ldst_helper.c | 35 ++++++++++++++++-------------------
- 1 file changed, 16 insertions(+), 19 deletions(-)
+ target/mips/tcg/translate.h | 1 +
+ target/mips/tcg/translate.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/target/mips/tcg/ldst_helper.c b/target/mips/tcg/ldst_helper.c
-index c48a2818681..139f4d833bd 100644
---- a/target/mips/tcg/ldst_helper.c
-+++ b/target/mips/tcg/ldst_helper.c
-@@ -124,50 +124,46 @@ void helper_swr(CPUMIPSState *env, target_ulong arg1, target_ulong arg2,
-  * "half" load and stores.  We must do the memory access inline,
-  * or fault handling won't work.
-  */
--#ifdef TARGET_WORDS_BIGENDIAN
--#define GET_LMASK64(v) ((v) & 7)
--#else
--#define GET_LMASK64(v) (((v) & 7) ^ 7)
--#endif
- 
- void helper_sdl(CPUMIPSState *env, target_ulong arg1, target_ulong arg2,
-                 int mem_idx)
- {
-+    target_ulong lmask = get_lmask(env, arg2, 64);
-     int dir = cpu_is_bigendian(env) ? 1 : -1;
- 
-     cpu_stb_mmuidx_ra(env, arg2, (uint8_t)(arg1 >> 56), mem_idx, GETPC());
- 
--    if (GET_LMASK64(arg2) <= 6) {
-+    if (lmask <= 6) {
-         cpu_stb_mmuidx_ra(env, arg2 + 1 * dir, (uint8_t)(arg1 >> 48),
-                           mem_idx, GETPC());
-     }
- 
--    if (GET_LMASK64(arg2) <= 5) {
-+    if (lmask <= 5) {
-         cpu_stb_mmuidx_ra(env, arg2 + 2 * dir, (uint8_t)(arg1 >> 40),
-                           mem_idx, GETPC());
-     }
- 
--    if (GET_LMASK64(arg2) <= 4) {
-+    if (lmask <= 4) {
-         cpu_stb_mmuidx_ra(env, arg2 + 3 * dir, (uint8_t)(arg1 >> 32),
-                           mem_idx, GETPC());
-     }
- 
--    if (GET_LMASK64(arg2) <= 3) {
-+    if (lmask <= 3) {
-         cpu_stb_mmuidx_ra(env, arg2 + 4 * dir, (uint8_t)(arg1 >> 24),
-                           mem_idx, GETPC());
-     }
- 
--    if (GET_LMASK64(arg2) <= 2) {
-+    if (lmask <= 2) {
-         cpu_stb_mmuidx_ra(env, arg2 + 5 * dir, (uint8_t)(arg1 >> 16),
-                           mem_idx, GETPC());
-     }
- 
--    if (GET_LMASK64(arg2) <= 1) {
-+    if (lmask <= 1) {
-         cpu_stb_mmuidx_ra(env, arg2 + 6 * dir, (uint8_t)(arg1 >> 8),
-                           mem_idx, GETPC());
-     }
- 
--    if (GET_LMASK64(arg2) <= 0) {
-+    if (lmask <= 0) {
-         cpu_stb_mmuidx_ra(env, arg2 + 7 * dir, (uint8_t)arg1,
-                           mem_idx, GETPC());
-     }
-@@ -176,41 +172,42 @@ void helper_sdl(CPUMIPSState *env, target_ulong arg1, target_ulong arg2,
- void helper_sdr(CPUMIPSState *env, target_ulong arg1, target_ulong arg2,
-                 int mem_idx)
- {
-+    target_ulong lmask = get_lmask(env, arg2, 64);
-     int dir = cpu_is_bigendian(env) ? 1 : -1;
- 
-     cpu_stb_mmuidx_ra(env, arg2, (uint8_t)arg1, mem_idx, GETPC());
- 
--    if (GET_LMASK64(arg2) >= 1) {
-+    if (lmask >= 1) {
-         cpu_stb_mmuidx_ra(env, arg2 - 1 * dir, (uint8_t)(arg1 >> 8),
-                           mem_idx, GETPC());
-     }
- 
--    if (GET_LMASK64(arg2) >= 2) {
-+    if (lmask >= 2) {
-         cpu_stb_mmuidx_ra(env, arg2 - 2 * dir, (uint8_t)(arg1 >> 16),
-                           mem_idx, GETPC());
-     }
- 
--    if (GET_LMASK64(arg2) >= 3) {
-+    if (lmask >= 3) {
-         cpu_stb_mmuidx_ra(env, arg2 - 3 * dir, (uint8_t)(arg1 >> 24),
-                           mem_idx, GETPC());
-     }
- 
--    if (GET_LMASK64(arg2) >= 4) {
-+    if (lmask >= 4) {
-         cpu_stb_mmuidx_ra(env, arg2 - 4 * dir, (uint8_t)(arg1 >> 32),
-                           mem_idx, GETPC());
-     }
- 
--    if (GET_LMASK64(arg2) >= 5) {
-+    if (lmask >= 5) {
-         cpu_stb_mmuidx_ra(env, arg2 - 5 * dir, (uint8_t)(arg1 >> 40),
-                           mem_idx, GETPC());
-     }
- 
--    if (GET_LMASK64(arg2) >= 6) {
-+    if (lmask >= 6) {
-         cpu_stb_mmuidx_ra(env, arg2 - 6 * dir, (uint8_t)(arg1 >> 48),
-                           mem_idx, GETPC());
-     }
- 
--    if (GET_LMASK64(arg2) == 7) {
-+    if (lmask == 7) {
-         cpu_stb_mmuidx_ra(env, arg2 - 7 * dir, (uint8_t)(arg1 >> 56),
-                           mem_idx, GETPC());
-     }
+diff --git a/target/mips/tcg/translate.h b/target/mips/tcg/translate.h
+index bb0a6b8d74f..9d325c836aa 100644
+--- a/target/mips/tcg/translate.h
++++ b/target/mips/tcg/translate.h
+@@ -18,6 +18,7 @@ typedef struct DisasContext {
+     target_ulong page_start;
+     uint32_t opcode;
+     uint64_t insn_flags;
++    int32_t CP0_Config0;
+     int32_t CP0_Config1;
+     int32_t CP0_Config2;
+     int32_t CP0_Config3;
+diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+index a58d50e40e2..572104e2cc2 100644
+--- a/target/mips/tcg/translate.c
++++ b/target/mips/tcg/translate.c
+@@ -16034,6 +16034,7 @@ static void mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->page_start = ctx->base.pc_first & TARGET_PAGE_MASK;
+     ctx->saved_pc = -1;
+     ctx->insn_flags = env->insn_flags;
++    ctx->CP0_Config0 = env->CP0_Config0;
+     ctx->CP0_Config1 = env->CP0_Config1;
+     ctx->CP0_Config2 = env->CP0_Config2;
+     ctx->CP0_Config3 = env->CP0_Config3;
 -- 
 2.31.1
 
