@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 952BD3EFD9A
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 09:14:49 +0200 (CEST)
-Received: from localhost ([::1]:43756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C11133EFD8D
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 09:12:43 +0200 (CEST)
+Received: from localhost ([::1]:36794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGFmi-0005Mt-LC
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 03:14:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54476)
+	id 1mGFkg-0000hW-K6
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 03:12:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laramglazier@gmail.com>)
- id 1mGFhE-0006Hh-VD
+ id 1mGFhE-0006HW-Oy
  for qemu-devel@nongnu.org; Wed, 18 Aug 2021 03:09:08 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:40816)
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:51899)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <laramglazier@gmail.com>)
- id 1mGFhC-0008EA-5z
+ id 1mGFhC-0008F9-Po
  for qemu-devel@nongnu.org; Wed, 18 Aug 2021 03:09:08 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- x2-20020a1c7c02000000b002e6f1f69a1eso3637766wmc.5
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 00:09:05 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id u15so947200wmj.1
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 00:09:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l5/EnPCmrp8IsJ2zg5wZB6Xm+ZN3x7hv8UneTSh2shM=;
- b=Z9LcNtChyV3DeTeASpXfUePsrAteqioiXiqI/FtQK9LbszwM+P4/6nTr8e8DdaiYo3
- oMR/lOl7SiSPq8xw1NzH5X2V63at4kMVUtb7Lwu7qBX2axa/3zOv7KCe7mzQA4cUQFFX
- 8pLW/XHHbv/ogm96ttL5M8fRHHw5pAtelXVc55YPAO6pFfqEi4ayzeI8V60RlSfkjPCV
- ZzZ/Ek3NYsJ0M/DXhgIkmNMVwFrBFhDroe3py7Y1BfKrw+IlsUS7TH7/rXPj42HNp582
- OHt0QVKff0Qz1NxWccI0xZ6x6gc07S4GN84b6pz4JyLbYzVu1cf/Fv0nkvn8AJZnzfx0
- Y0jg==
+ bh=I4d5/jylUJng8gB+j35WYKKGet2c3NfEVZGEKd+aN0I=;
+ b=MRnQfrHccQoIjUaBUepI9Hnrl4ZsTGld5djqOmR9bmU+BqS8rkom2SH/Ocj1PieROI
+ hKS+ikA4vOCojBARyM8WuMMhC2X0tzQ5KMdGf/jqnpmmUFdx99o6w0uvqCINWF1jBxnA
+ HxI6BReVQWZmFYKlQinv6WLOJRpUbDxcCeOTA5onGaZox7N1TjqkyGIrhCfkYXplVwYO
+ ylh4CBv2c0qbBi5JrzOFj16dCHETX75e4RKoea7OjBqPkVT9K1Hxg7n2Vuz8h119derv
+ oVq3MFNFD/BO+O9pFklQydiavyizguV0JvLE49enBtu8ZLPb1bZshxXng+eVfrq4uoSi
+ hkCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l5/EnPCmrp8IsJ2zg5wZB6Xm+ZN3x7hv8UneTSh2shM=;
- b=CWO6l77rDy0S6JPMBcl7fcsvjjmPzPriNweaiet21rTacOdzKXbM7m5YBX5dV8n9yg
- 1CHKeJMmXui3RA25oSCg+johrENb70i6umIRVHJsSKQwesTGek7dYlesd5mYQQdob3zr
- o+q5zxJXvsEBe1N2VkGlS5TEkaiGT99N9rFuJ2uRL1D7aDuOCMCsvvpSAlVY9tuHhaNL
- ZgJ40SpHG7fzlMTrGyUTOVXZrXmYTc0r7rs+RSb4l+OC+WoNOvZcJZhIwShTtppCx6K2
- CEJQqrpn3ylIdftI8w1vb8pNNZblfN/Lt6/zw5dwWZHUAuMsLQHcFmPs0Zl20Inp88+3
- h3xA==
-X-Gm-Message-State: AOAM533BCHBKA/V1gTpeDGtk+uSEN3DCWWQRPtnamHKdq1Zo5pdig4bQ
- Dvoq1FpAcpajhm852UwVTGpOiei+mtM=
-X-Google-Smtp-Source: ABdhPJwXA0tn/Tj0krpgkE+A57Ebfrcj2D0iXEOSI83FuXi836ap5v9mSIeWNJ2F/XFktEcByiIfjg==
-X-Received: by 2002:a05:600c:2189:: with SMTP id
- e9mr3542760wme.125.1629270544834; 
- Wed, 18 Aug 2021 00:09:04 -0700 (PDT)
+ bh=I4d5/jylUJng8gB+j35WYKKGet2c3NfEVZGEKd+aN0I=;
+ b=FAMkMMg0NhX2neV5dz5SBmcBKkIkpd27JHKKV2M/WzUxJvzkt3MkUIk+65FFjMkbYk
+ dp1zUGgF7jvxuA//X9MbAYLwbI5yEUxx8vwY3IcJ5ilYwhwTmAZ/aCG7raAjcz7QJYZp
+ ZQwoco7ywCy5lsHAeIW7CnVcLW63POhiimJhxe3NK4x1AM8nF1N/78O/VTKksLYL8tN2
+ X9Oa7nC6RPQoM6UfRnDm+Rqsxwh6u/xIXvP2MO2gUr5mJmhZvrN+kX1q4IxWpuU5uHGw
+ WL+0yP/Wkg8IjySO8Ku/vXRvEWZPKL/56gvrXjL87FK2lsqAm8/LMl0mkIDQo44nvs/5
+ OMsA==
+X-Gm-Message-State: AOAM5307msOZhLa/iTOjQr9DdgnAwZbarbgRe0m1OnARtjCWqUV+MN3K
+ D0Z8Qw8C3aYpzsYtDawIW5Cj9f3A8vA=
+X-Google-Smtp-Source: ABdhPJyNX/cOZfNLaisoqZodvmG7V1d/EOxAia2zOO72IBQ7Jtghk/unjcK0CL0nBbH++IBvwJ8svg==
+X-Received: by 2002:a1c:2547:: with SMTP id l68mr7221296wml.23.1629270545456; 
+ Wed, 18 Aug 2021 00:09:05 -0700 (PDT)
 Received: from laral.fritz.box
  (200116b82b53c5004989ea3bb9da8dea.dip.versatel-1u1.de.
  [2001:16b8:2b53:c500:4989:ea3b:b9da:8dea])
  by smtp.gmail.com with ESMTPSA id w18sm4902609wrg.68.2021.08.18.00.09.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 00:09:04 -0700 (PDT)
+ Wed, 18 Aug 2021 00:09:05 -0700 (PDT)
 From: Lara Lazier <laramglazier@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] target/i386: Moved int_ctl into CPUX86State structure
-Date: Wed, 18 Aug 2021 09:08:35 +0200
-Message-Id: <20210818070838.44344-3-laramglazier@gmail.com>
+Subject: [PATCH 2/4] target/i386: Added VGIF V_IRQ masking capability
+Date: Wed, 18 Aug 2021 09:08:36 +0200
+Message-Id: <20210818070838.44344-4-laramglazier@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210818070838.44344-1-laramglazier@gmail.com>
 References: <20210818070838.44344-1-laramglazier@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=laramglazier@gmail.com; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=laramglazier@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,273 +88,114 @@ Cc: pbonzini@redhat.com, Lara Lazier <laramglazier@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Moved int_ctl into the CPUX86State structure to remove some
-unnecessary stores and loads.
+VGIF provides masking capability for when virtual interrupts
+are taken. (APM2)
 
 Signed-off-by: Lara Lazier <laramglazier@gmail.com>
 ---
- slirp                                |  2 +-
- target/i386/cpu.c                    |  2 +-
- target/i386/cpu.h                    |  1 +
- target/i386/machine.c                | 22 ++++++++++++-
- target/i386/tcg/seg_helper.c         |  2 +-
- target/i386/tcg/sysemu/misc_helper.c |  4 +--
- target/i386/tcg/sysemu/svm_helper.c  | 48 +++++++++-------------------
- 7 files changed, 42 insertions(+), 39 deletions(-)
+ target/i386/cpu.c                   |  7 +++++--
+ target/i386/cpu.h                   |  2 ++
+ target/i386/tcg/sysemu/svm_helper.c | 12 ++++++++++++
+ 3 files changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/slirp b/slirp
-index a88d9ace23..8f43a99191 160000
---- a/slirp
-+++ b/slirp
-@@ -1 +1 @@
--Subproject commit a88d9ace234a24ce1c17189642ef9104799425e0
-+Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index ada7b49d8e..5dcdab3b80 100644
+index 5dcdab3b80..b2094175d9 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -5647,7 +5647,7 @@ static void x86_cpu_reset(DeviceState *dev)
-     env->old_exception = -1;
- 
+@@ -5649,6 +5649,7 @@ static void x86_cpu_reset(DeviceState *dev)
      /* init to reset state */
--
-+    env->int_ctl = 0;
+     env->int_ctl = 0;
      env->hflags2 |= HF2_GIF_MASK;
++    env->hflags2 |= HF2_VGIF_MASK;
      env->hflags &= ~HF_GUEST_MASK;
  
+     cpu_x86_update_cr0(env, 0x60000010);
+@@ -6532,10 +6533,12 @@ int x86_cpu_pending_interrupt(CPUState *cs, int interrupt_request)
+                       !(env->hflags & HF_INHIBIT_IRQ_MASK))))) {
+             return CPU_INTERRUPT_HARD;
+ #if !defined(CONFIG_USER_ONLY)
+-        } else if ((interrupt_request & CPU_INTERRUPT_VIRQ) &&
++        } else if (env->hflags2 & HF2_VGIF_MASK) {
++            if((interrupt_request & CPU_INTERRUPT_VIRQ) &&
+                    (env->eflags & IF_MASK) &&
+                    !(env->hflags & HF_INHIBIT_IRQ_MASK)) {
+-            return CPU_INTERRUPT_VIRQ;
++                        return CPU_INTERRUPT_VIRQ;
++            }
+ #endif
+         }
+     }
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index c9c7350c76..e27a1aab99 100644
+index e27a1aab99..d26df6de6b 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -1577,6 +1577,7 @@ typedef struct CPUX86State {
-     uint64_t nested_cr3;
-     uint32_t nested_pg_mode;
-     uint8_t v_tpr;
-+    uint32_t int_ctl;
+@@ -203,6 +203,7 @@ typedef enum X86Seg {
+ #define HF2_MPX_PR_SHIFT         5 /* BNDCFGx.BNDPRESERVE */
+ #define HF2_NPT_SHIFT            6 /* Nested Paging enabled */
+ #define HF2_IGNNE_SHIFT          7 /* Ignore CR0.NE=0 */
++#define HF2_VGIF_SHIFT           8 /* Can take VIRQ*/
  
-     /* KVM states, automatically cleared on reset */
-     uint8_t nmi_injected;
-diff --git a/target/i386/machine.c b/target/i386/machine.c
-index f6f094f1c9..013ca6837f 100644
---- a/target/i386/machine.c
-+++ b/target/i386/machine.c
-@@ -203,7 +203,7 @@ static int cpu_pre_save(void *opaque)
-     X86CPU *cpu = opaque;
-     CPUX86State *env = &cpu->env;
-     int i;
--
-+    env->v_tpr = env->int_ctl & V_TPR_MASK;
-     /* FPU */
-     env->fpus_vmstate = (env->fpus & ~0x3800) | (env->fpstt & 0x7) << 11;
-     env->fptag_vmstate = 0;
-@@ -1356,6 +1356,25 @@ static const VMStateDescription vmstate_svm_npt = {
-     }
- };
+ #define HF2_GIF_MASK            (1 << HF2_GIF_SHIFT)
+ #define HF2_HIF_MASK            (1 << HF2_HIF_SHIFT)
+@@ -212,6 +213,7 @@ typedef enum X86Seg {
+ #define HF2_MPX_PR_MASK         (1 << HF2_MPX_PR_SHIFT)
+ #define HF2_NPT_MASK            (1 << HF2_NPT_SHIFT)
+ #define HF2_IGNNE_MASK          (1 << HF2_IGNNE_SHIFT)
++#define HF2_VGIF_MASK           (1 << HF2_VGIF_SHIFT)
  
-+static bool svm_guest_needed(void *opaque)
-+{
-+    X86CPU *cpu = opaque;
-+    CPUX86State *env = &cpu->env;
-+
-+    return !env->int_ctl;
-+}
-+
-+static const VMStateDescription vmstate_svm_guest = {
-+    .name = "cpu/svn_guest",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = svm_guest_needed,
-+    .fields = (VMStateField[]){
-+        VMSTATE_UINT32(env.int_ctl, X86CPU),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- #ifndef TARGET_X86_64
- static bool intel_efer32_needed(void *opaque)
- {
-@@ -1524,6 +1543,7 @@ const VMStateDescription vmstate_x86_cpu = {
-         &vmstate_msr_intel_pt,
-         &vmstate_msr_virt_ssbd,
-         &vmstate_svm_npt,
-+        &vmstate_svm_guest,
- #ifndef TARGET_X86_64
-         &vmstate_efer32,
- #endif
-diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
-index 3ed20ca31d..cef68b610a 100644
---- a/target/i386/tcg/seg_helper.c
-+++ b/target/i386/tcg/seg_helper.c
-@@ -1166,7 +1166,6 @@ bool x86_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-         break;
- #if !defined(CONFIG_USER_ONLY)
-     case CPU_INTERRUPT_VIRQ:
--        /* FIXME: this should respect TPR */
-         cpu_svm_check_intercept_param(env, SVM_EXIT_VINTR, 0, 0);
-         intno = x86_ldl_phys(cs, env->vm_vmcb
-                              + offsetof(struct vmcb, control.int_vector));
-@@ -1174,6 +1173,7 @@ bool x86_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-                       "Servicing virtual hardware INT=0x%02x\n", intno);
-         do_interrupt_x86_hardirq(env, intno, 1);
-         cs->interrupt_request &= ~CPU_INTERRUPT_VIRQ;
-+        env->int_ctl &= ~V_IRQ_MASK;
-         break;
- #endif
-     }
-diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
-index e7a2ebde81..91b0fc916b 100644
---- a/target/i386/tcg/sysemu/misc_helper.c
-+++ b/target/i386/tcg/sysemu/misc_helper.c
-@@ -73,7 +73,7 @@ target_ulong helper_read_crN(CPUX86State *env, int reg)
-         if (!(env->hflags2 & HF2_VINTR_MASK)) {
-             val = cpu_get_apic_tpr(env_archcpu(env)->apic_state);
-         } else {
--            val = env->v_tpr;
-+            val = env->int_ctl & V_TPR_MASK;
-         }
-         break;
-     }
-@@ -121,7 +121,7 @@ void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
-             cpu_set_apic_tpr(env_archcpu(env)->apic_state, t0);
-             qemu_mutex_unlock_iothread();
-         }
--        env->v_tpr = t0 & 0x0f;
-+        env->int_ctl = (env->int_ctl & ~V_TPR_MASK) | (t0 & V_TPR_MASK);
-         break;
-     default:
-         env->cr[reg] = t0;
+ #define CR0_PE_SHIFT 0
+ #define CR0_MP_SHIFT 1
 diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
-index 989af1b7f2..9ef2454779 100644
+index 9ef2454779..2c44bdb243 100644
 --- a/target/i386/tcg/sysemu/svm_helper.c
 +++ b/target/i386/tcg/sysemu/svm_helper.c
-@@ -76,14 +76,14 @@ static inline void svm_load_seg_cache(CPUX86State *env, hwaddr addr,
-                            sc->base, sc->limit, sc->flags);
- }
- 
--static inline bool ctl_has_irq(uint32_t int_ctl)
-+static inline bool ctl_has_irq(CPUX86State *env)
- {
-     uint32_t int_prio;
-     uint32_t tpr;
- 
--    int_prio = (int_ctl & V_INTR_PRIO_MASK) >> V_INTR_PRIO_SHIFT;
--    tpr = int_ctl & V_TPR_MASK;
--    return (int_ctl & V_IRQ_MASK) && (int_prio >= tpr);
-+    int_prio = (env->int_ctl & V_INTR_PRIO_MASK) >> V_INTR_PRIO_SHIFT;
-+    tpr = env->int_ctl & V_TPR_MASK;
-+    return (env->int_ctl & V_IRQ_MASK) && (int_prio >= tpr);
- }
- 
- static inline bool is_efer_invalid_state (CPUX86State *env)
-@@ -121,13 +121,11 @@ static inline bool is_efer_invalid_state (CPUX86State *env)
+@@ -130,6 +130,11 @@ static inline bool virtual_gif_enabled(CPUX86State *env)
      return false;
  }
  
--static inline bool virtual_gif_enabled(CPUX86State *env, uint32_t *int_ctl)
-+static inline bool virtual_gif_enabled(CPUX86State *env)
++static inline bool virtual_gif_set(CPUX86State *env)
++{
++    return !virtual_gif_enabled(env) || (env->int_ctl & V_GIF_MASK);
++}
++
+ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
  {
-     if (likely(env->hflags & HF_GUEST_MASK)) {
--        *int_ctl = x86_ldl_phys(env_cpu(env),
--                       env->vm_vmcb + offsetof(struct vmcb, control.int_ctl));
-         return (env->features[FEAT_SVM] & CPUID_SVM_VGIF)
--                    && (*int_ctl & V_GIF_ENABLED_MASK);
-+                    && (env->int_ctl & V_GIF_ENABLED_MASK);
-     }
-     return false;
- }
-@@ -139,7 +137,6 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
-     target_ulong addr;
-     uint64_t nested_ctl;
-     uint32_t event_inj;
--    uint32_t int_ctl;
-     uint32_t asid;
-     uint64_t new_cr0;
-     uint64_t new_cr3;
-@@ -292,11 +289,10 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
-     cpu_x86_update_cr3(env, new_cr3);
-     env->cr[2] = x86_ldq_phys(cs,
-                           env->vm_vmcb + offsetof(struct vmcb, save.cr2));
--    int_ctl = x86_ldl_phys(cs,
-+    env->int_ctl = x86_ldl_phys(cs,
-                        env->vm_vmcb + offsetof(struct vmcb, control.int_ctl));
-     env->hflags2 &= ~(HF2_HIF_MASK | HF2_VINTR_MASK);
--    if (int_ctl & V_INTR_MASKING_MASK) {
--        env->v_tpr = int_ctl & V_TPR_MASK;
-+    if (env->int_ctl & V_INTR_MASKING_MASK) {
-         env->hflags2 |= HF2_VINTR_MASK;
-         if (env->eflags & IF_MASK) {
-             env->hflags2 |= HF2_HIF_MASK;
-@@ -362,7 +358,7 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
- 
-     env->hflags2 |= HF2_GIF_MASK;
- 
--    if (ctl_has_irq(int_ctl)) {
-+    if (ctl_has_irq(env)) {
-         CPUState *cs = env_cpu(env);
+     CPUState *cs = env_cpu(env);
+@@ -363,6 +368,10 @@ void helper_vmrun(CPUX86State *env, int aflag, int next_eip_addend)
          cs->interrupt_request |= CPU_INTERRUPT_VIRQ;
      }
-@@ -521,11 +517,8 @@ void helper_stgi(CPUX86State *env)
- {
-     cpu_svm_check_intercept_param(env, SVM_EXIT_STGI, 0, GETPC());
  
--    CPUState *cs = env_cpu(env);
--    uint32_t int_ctl;
--    if (virtual_gif_enabled(env, &int_ctl)) {
--        x86_stl_phys(cs, env->vm_vmcb + offsetof(struct vmcb, control.int_ctl),
--                        int_ctl | V_GIF_MASK);
-+    if (virtual_gif_enabled(env)) {
-+        env->int_ctl |= V_GIF_MASK;
++    if (virtual_gif_set(env)) {
++        env->hflags2 |= HF2_VGIF_MASK;
++    }
++
+     /* maybe we need to inject an event */
+     event_inj = x86_ldl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
+                                                  control.event_inj));
+@@ -519,6 +528,7 @@ void helper_stgi(CPUX86State *env)
+ 
+     if (virtual_gif_enabled(env)) {
+         env->int_ctl |= V_GIF_MASK;
++        env->hflags2 |= HF2_VGIF_MASK;
      } else {
          env->hflags2 |= HF2_GIF_MASK;
      }
-@@ -535,11 +528,8 @@ void helper_clgi(CPUX86State *env)
- {
-     cpu_svm_check_intercept_param(env, SVM_EXIT_CLGI, 0, GETPC());
+@@ -530,6 +540,7 @@ void helper_clgi(CPUX86State *env)
  
--    CPUState *cs = env_cpu(env);
--    uint32_t int_ctl;
--    if (virtual_gif_enabled(env, &int_ctl)) {
--        x86_stl_phys(cs, env->vm_vmcb + offsetof(struct vmcb, control.int_ctl),
--                        int_ctl & ~V_GIF_MASK);
-+    if (virtual_gif_enabled(env)) {
-+        env->int_ctl &= ~V_GIF_MASK;
+     if (virtual_gif_enabled(env)) {
+         env->int_ctl &= ~V_GIF_MASK;
++        env->hflags2 &= ~HF2_VGIF_MASK;
      } else {
          env->hflags2 &= ~HF2_GIF_MASK;
      }
-@@ -687,7 +677,6 @@ void cpu_vmexit(CPUX86State *env, uint32_t exit_code, uint64_t exit_info_1,
- void do_vmexit(CPUX86State *env)
- {
-     CPUState *cs = env_cpu(env);
--    uint32_t int_ctl;
+@@ -811,6 +822,7 @@ void do_vmexit(CPUX86State *env)
+              env->vm_vmcb + offsetof(struct vmcb, control.event_inj), 0);
  
-     if (env->hflags & HF_INHIBIT_IRQ_MASK) {
-         x86_stl_phys(cs,
-@@ -730,16 +719,8 @@ void do_vmexit(CPUX86State *env)
-              env->vm_vmcb + offsetof(struct vmcb, save.cr3), env->cr[3]);
-     x86_stq_phys(cs,
-              env->vm_vmcb + offsetof(struct vmcb, save.cr4), env->cr[4]);
--
--    int_ctl = x86_ldl_phys(cs,
--                       env->vm_vmcb + offsetof(struct vmcb, control.int_ctl));
--    int_ctl &= ~(V_TPR_MASK | V_IRQ_MASK);
--    int_ctl |= env->v_tpr & V_TPR_MASK;
--    if (cs->interrupt_request & CPU_INTERRUPT_VIRQ) {
--        int_ctl |= V_IRQ_MASK;
--    }
-     x86_stl_phys(cs,
--             env->vm_vmcb + offsetof(struct vmcb, control.int_ctl), int_ctl);
-+             env->vm_vmcb + offsetof(struct vmcb, control.int_ctl), env->int_ctl);
+     env->hflags2 &= ~HF2_GIF_MASK;
++    env->hflags2 &= ~HF2_VGIF_MASK;
+     /* FIXME: Resets the current ASID register to zero (host ASID). */
  
-     x86_stq_phys(cs, env->vm_vmcb + offsetof(struct vmcb, save.rflags),
-              cpu_compute_eflags(env));
-@@ -762,6 +743,7 @@ void do_vmexit(CPUX86State *env)
-     env->intercept = 0;
-     env->intercept_exceptions = 0;
-     cs->interrupt_request &= ~CPU_INTERRUPT_VIRQ;
-+    env->int_ctl = 0;
-     env->tsc_offset = 0;
- 
-     env->gdt.base  = x86_ldq_phys(cs, env->vm_hsave + offsetof(struct vmcb,
+     /* Clears the V_IRQ and V_INTR_MASKING bits inside the processor. */
 -- 
 2.25.1
 
