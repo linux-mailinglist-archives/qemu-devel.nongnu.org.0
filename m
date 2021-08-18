@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C353EF93F
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 06:27:21 +0200 (CEST)
-Received: from localhost ([::1]:42864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE3B3EF9C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 07:03:10 +0200 (CEST)
+Received: from localhost ([::1]:47918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGDAe-0004Zt-Gr
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 00:27:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53356)
+	id 1mGDjI-0002l5-TW
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 01:03:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mGD9D-0003Br-B0
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 00:25:51 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:50582)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1mGDiU-0001ht-1V
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 01:02:18 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2288)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mGD96-0000HQ-PK
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 00:25:51 -0400
-Received: from loganberry.canonical.com (loganberry.canonical.com
- [91.189.90.37])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 53DCF3F6B9
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 04:25:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1629260741;
- bh=VYl2uWrt8fYjhCRry88rnxB4rIYQsyRuhkiMzbXqSmo=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=o5G3DheSPlZrq6bzYGh62LrmOIdPS9fwzsiqhIcbYz3fm6C+hxbopIYotluFsWLyQ
- FImF71o5swBe8JOAaaQl7ggmb9TxwnYpkv0B6I61ymmilh541JdTMwG5P/Kl/OAHFe
- b6tiE5xyK8vVv3Vreo9g8B3hlzCFZf9684empdDMCmawBDNlMYluExxB7lVlGVv0cI
- OZnAldXpDKQN2XmnbvH8Z2VUwyjEi8sZvOvI4CSHHoReb6Dtkf+w0xNlmWZ/Dyxzbz
- /rNtLYsfsFAVnyzOfaoBqmM2I/Mb2F6M/EgD2irmXyBCsgaJxZEK2+v7CO2smYmtIE
- xAJwagjlDcwUg==
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2741F2E8181
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 04:25:40 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1mGDiP-0007DM-KY
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 01:02:17 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GqG2s3ZXWz1CWps;
+ Wed, 18 Aug 2021 13:01:41 +0800 (CST)
+Received: from dggpeml500016.china.huawei.com (7.185.36.70) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 18 Aug 2021 13:02:05 +0800
+Received: from [10.174.148.223] (10.174.148.223) by
+ dggpeml500016.china.huawei.com (7.185.36.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 18 Aug 2021 13:02:04 +0800
+Subject: Re: [RFC] vfio/migration: reduce the msix virq setup cost in resume
+ phase
+From: "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <20210813040614.1764-1-longpeng2@huawei.com>
+ <20210817142624.6b31c2da.alex.williamson@redhat.com>
+ <132e65ee-5a82-0a1e-84aa-fe6c82a17bfd@huawei.com>
+Message-ID: <11678837-f43f-c869-904b-736f463acfee@huawei.com>
+Date: Wed, 18 Aug 2021 13:02:03 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 18 Aug 2021 04:17:21 -0000
-From: Launchpad Bug Tracker <1880763@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ahmedkrmn janitor th-huth
-X-Launchpad-Bug-Reporter: Ahmed Karaman (ahmedkrmn)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <159052842235.20182.6565477896254015468.malonedeb@soybean.canonical.com>
-Message-Id: <162926024162.26802.4461837372332181503.malone@loganberry.canonical.com>
-Subject: [Bug 1880763] Re: Missing page crossing check in use_goto_tb() for rx
- target
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b08a7ac7ee9dae6cca70a44dbdbee2a2b52e9053"; Instance="production"
-X-Launchpad-Hash: 0f0d01452ad88016f19857b374fe60736dd52b24
-Received-SPF: pass client-ip=185.125.188.251;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <132e65ee-5a82-0a1e-84aa-fe6c82a17bfd@huawei.com>
+Content-Type: text/plain; charset="gbk"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.148.223]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpeml500016.china.huawei.com (7.185.36.70)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255; envelope-from=longpeng2@huawei.com;
+ helo=szxga08-in.huawei.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
+ NICE_REPLY_A=-1.961, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,33 +70,233 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1880763 <1880763@bugs.launchpad.net>
+Cc: kwankhede@nvidia.com, arei.gonglei@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1880763
+在 2021/8/18 11:50, Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
+写道:
+> 
+> 
+> 在 2021/8/18 4:26, Alex Williamson 写道:
+>> On Fri, 13 Aug 2021 12:06:14 +0800
+>> "Longpeng(Mike)" <longpeng2@huawei.com> wrote:
+>>
+>>> In migration resume phase, all unmasked msix vectors need to be
+>>> setup when load the VF state. However, the setup operation would
+>>> takes longer if the VF has more unmasked vectors.
+>>>
+>>> In our case, the VF has 65 vectors and each one spend 0.8ms on
+>>> setup operation (vfio_add_kvm_msi_virq -> kvm_irqchip_commit_routes),
+>>> the total cost of the VF is more than 40ms. Even worse, the VM has
+>>> 8 VFs, so the downtime increase more than 320ms.
+>>>
+>>> vfio_pci_load_config
+>>>   vfio_msix_enable
+>>>     msix_set_vector_notifiers
+>>>       for (vector = 0; vector < dev->msix_entries_nr; vector++) {
+>>>         vfio_msix_vector_do_use
+>>>           vfio_add_kvm_msi_virq
+>>>             kvm_irqchip_commit_routes <-- 0.8ms
+>>>       }
+>>>
+>>> Originaly, We tried to batch all routes and just commit once
+>>> outside the loop, but it's not easy to fallback to qemu interrupt
+>>> if someone fails.
+>>
+>> I'm not sure I follow here, once we setup the virq, what's the failure
+>> path?  kvm_irqchip_commit_routes() returns void.  Were you looking at
+>> adding a "defer" arg to kvm_irqchip_add_msi_route() that skips the
+>> commit, which vfio_add_kvm_msi_virq() might set based on the migration
+>> state and vfio_pci_load_config() could then trigger the commit?
+> 
+> Yes, my implementation is almost exactly the same as you said here and it works,
+> but there's a semantic problem makes me suspect.
+> 
+> The calltrace in vfio_add_kvm_msi_virq is:
+> vfio_add_kvm_msi_virq
+>   kvm_irqchip_add_msi_route
+>     kvm_irqchip_commit_routes
+>       kvm_vm_ioctl(KVM_SET_GSI_ROUTING)
+>   kvm_irqchip_add_irqfd_notifier_gsi
+>     kvm_irqchip_assign_irqfd
+>       kvm_vm_ioctl(KVM_IRQFD)
+> 
+> I referred to some other places where need to assign irqfds, the asignment is
+> always after the virq is committed.
+> The KVM API doc does not declare the dependencies of them, but the existent code
+> seem implys the order. The "defer" makes them out of order, it can work at the
+> moment,  but not sure if KVM would change in the future.
+> 
+> I perfer "defer" too if we can make sure it's OK if the asigment and commit are
+> not in order. I hope we could reach agreement on this point first, and then I'll
+> continue to reply the comments below if still necessary.
+> 
+> So do you think we should keep the order of asignment and commit ?
+> 
+>> There's more overhead that can be removed if VFIO_DEVICE_SET_IRQS could
+>> be called once rather than per vector.
+> 
+> Yes, I've already optimized these overhead in our production before. I
+> saw the upstream also did ( commit ecebe53fe ) in this year, I'll backport
+> the upstream's soluation in order to keep pace with the community.
+> 
 
-Title:
-  Missing page crossing check in use_goto_tb() for rx target
+Oh, the commit ecebe53fe can not save the VFIO_DEVICE_SET_IRQS operations, it
+still need to be called ( in vfio_set_irq_signaling ) for each unmasked vector
+during the resume phase.
 
-Status in QEMU:
-  Expired
+In my implementation, the VFIO_DEVICE_SET_IRQS is skipped totally and call
+vfio_enable_vectors only once outside the loop. I'll send this optimization
+together in the next version.
 
-Bug description:
-  Currently the rx target doesn't have the page crossing check in its=20
-  use_goto_tb() function.=20
-  This is a required feature for stable system mode emulations that all=20
-  other targets implement.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1880763/+subscriptions
-
+> [ stop here ]
+> 
+>>
+>>> So this patch trys to defer the KVM interrupt setup, the unmasked
+>>> vector will use qemu interrupt as default and switch to kvm interrupt
+>>> once it fires.
+>>>
+>>> Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
+>>> ---
+>>>  hw/vfio/pci.c | 39 ++++++++++++++++++++++++++++++++++++++-
+>>>  hw/vfio/pci.h |  2 ++
+>>>  2 files changed, 40 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+>>> index e1ea1d8..dd35170 100644
+>>> --- a/hw/vfio/pci.c
+>>> +++ b/hw/vfio/pci.c
+>>> @@ -47,6 +47,8 @@
+>>>  
+>>>  static void vfio_disable_interrupts(VFIOPCIDevice *vdev);
+>>>  static void vfio_mmap_set_enabled(VFIOPCIDevice *vdev, bool enabled);
+>>> +static void vfio_add_kvm_msix_virq(VFIOPCIDevice *vdev,
+>>> +                                   VFIOMSIVector *vector, int nr);
+>>>  
+>>>  /*
+>>>   * Disabling BAR mmaping can be slow, but toggling it around INTx can
+>>> @@ -347,6 +349,11 @@ static void vfio_msi_interrupt(void *opaque)
+>>>          get_msg = msix_get_message;
+>>>          notify = msix_notify;
+>>>  
+>>> +        if (unlikely(vector->need_switch)) {
+>>> +            vfio_add_kvm_msix_virq(vdev, vector, nr);
+>>> +            vector->need_switch = false;
+>>> +        }
+>>> +
+>>
+>> A better name might be "vector->kvm_routing_deferred".  Essentially this
+>> is just a lazy setup of KVM routes, we could always do this, or we could
+>> do this based on a device options.  I wonder if there are any affinity
+>> benefits in the VM to defer the KVM route.
+>>
+>>>          /* A masked vector firing needs to use the PBA, enable it */
+>>>          if (msix_is_masked(&vdev->pdev, nr)) {
+>>>              set_bit(nr, vdev->msix->pending);
+>>> @@ -438,6 +445,25 @@ static void vfio_add_kvm_msi_virq(VFIOPCIDevice *vdev, VFIOMSIVector *vector,
+>>>      vector->virq = virq;
+>>>  }
+>>>  
+>>> +static void
+>>> +vfio_add_kvm_msix_virq(VFIOPCIDevice *vdev, VFIOMSIVector *vector, int nr)
+>>> +{
+>>> +    Error *err = NULL;
+>>> +    int fd;
+>>> +
+>>> +    vfio_add_kvm_msi_virq(vdev, vector, nr, true);
+>>> +    if (vector->virq < 0) {
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    fd = event_notifier_get_fd(&vector->kvm_interrupt);
+>>> +    if (vfio_set_irq_signaling(&vdev->vbasedev,
+>>> +                               VFIO_PCI_MSIX_IRQ_INDEX, nr,
+>>> +                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, &err)) {
+>>> +        error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
+>>> +    }
+>>> +}
+>>> +
+>>>  static void vfio_remove_kvm_msi_virq(VFIOMSIVector *vector)
+>>>  {
+>>>      kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state, &vector->kvm_interrupt,
+>>> @@ -490,7 +516,11 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
+>>>          }
+>>>      } else {
+>>>          if (msg) {
+>>> -            vfio_add_kvm_msi_virq(vdev, vector, nr, true);
+>>> +            if (unlikely(vdev->defer_set_virq)) {
+>>
+>> Likewise this could be "vdev->defer_kvm_irq_routing" and we could apply
+>> it to all IRQ types.
+>>
+>>> +                vector->need_switch = true;
+>>> +            } else {
+>>> +                vfio_add_kvm_msi_virq(vdev, vector, nr, true);
+>>> +            }
+>>>          }
+>>>      }
+>>>  
+>>> @@ -566,6 +596,11 @@ static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
+>>>      }
+>>>  }
+>>>  
+>>> +static void inline vfio_msix_defer_set_virq(VFIOPCIDevice *vdev, bool defer)
+>>> +{
+>>> +    vdev->defer_set_virq = defer;
+>>> +}
+>>
+>> A helper function seems excessive.
+>>
+>>> +
+>>>  static void vfio_msix_enable(VFIOPCIDevice *vdev)
+>>>  {
+>>>      PCIDevice *pdev = &vdev->pdev;
+>>> @@ -2466,7 +2501,9 @@ static int vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
+>>>      if (msi_enabled(pdev)) {
+>>>          vfio_msi_enable(vdev);
+>>>      } else if (msix_enabled(pdev)) {
+>>> +        vfio_msix_defer_set_virq(vdev, true);
+>>>          vfio_msix_enable(vdev);
+>>> +        vfio_msix_defer_set_virq(vdev, false);
+>>
+>> This is the algorithm you want for 65+ vectors, but is this the
+>> algorithm we want for 2 vectors?  Who should define that policy?
+>> We should at least make lazy KVM routing setup a device option to be
+>> able to test it outside of a migration, but should it be enabled by
+>> default?  Would anyone mind too much if there was some additional
+>> latency of each initial vector triggering?  Thanks,
+>>> Alex
+>>
+>>>      }
+>>>  
+>>>      return ret;
+>>> diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+>>> index 6477751..846ae85 100644
+>>> --- a/hw/vfio/pci.h
+>>> +++ b/hw/vfio/pci.h
+>>> @@ -95,6 +95,7 @@ typedef struct VFIOMSIVector {
+>>>      struct VFIOPCIDevice *vdev; /* back pointer to device */
+>>>      int virq;
+>>>      bool use;
+>>> +    bool need_switch; /* switch to kvm interrupt ? */
+>>>  } VFIOMSIVector;
+>>>  
+>>>  enum {
+>>> @@ -171,6 +172,7 @@ struct VFIOPCIDevice {
+>>>      bool no_kvm_ioeventfd;
+>>>      bool no_vfio_ioeventfd;
+>>>      bool enable_ramfb;
+>>> +    bool defer_set_virq;
+>>>      VFIODisplay *dpy;
+>>>      Notifier irqchip_change_notifier;
+>>>  };
+>>
+>> .
+>>
+> 
+> .
+> 
 
