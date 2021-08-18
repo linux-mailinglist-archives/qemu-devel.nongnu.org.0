@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B3823F0309
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 13:50:54 +0200 (CEST)
-Received: from localhost ([::1]:54378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30FB23F0304
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 13:49:17 +0200 (CEST)
+Received: from localhost ([::1]:50746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGK5t-0005PS-2t
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 07:50:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34814)
+	id 1mGK4K-000306-7D
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 07:49:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <arkaisp2021@gmail.com>)
- id 1mGK2v-0001QS-Gs
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 07:47:49 -0400
-Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e]:41496)
+ id 1mGK35-0001dN-3O
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 07:47:59 -0400
+Received: from mail-lj1-x229.google.com ([2a00:1450:4864:20::229]:37420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <arkaisp2021@gmail.com>)
- id 1mGK2t-0007By-Pp
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 07:47:49 -0400
-Received: by mail-lj1-x22e.google.com with SMTP id h9so4564823ljq.8
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 04:47:47 -0700 (PDT)
+ id 1mGK33-0007Gw-7A
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 07:47:58 -0400
+Received: by mail-lj1-x229.google.com with SMTP id d16so4587360ljq.4
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 04:47:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :user-agent:mime-version:content-transfer-encoding;
- bh=LuuZ+O7bYnJbqZCBNNilzA6rVhI+JNmbz8F49R8mBrM=;
- b=n/MvGbUXrrnL6IgYcKVa2vjU0IDH5Bq4Bufy66lU3goyDKG4/m1tV9zSjlMRX8138K
- V7kVT2J8hX2LLJdrgoPA46HfJVtPvlaMw1+Ge/2ahfausIzRz3M6LYmjFNKoeCKARGiA
- 6jhjaD7nT3u5MzZgCckTwUsNhxKamlF35C9sOxsrR//iIwpWZXAq5X+UkZd4yy4ZlVmH
- UX6NpV9Sn+E8y25phT+geCuHpOiOdT//oOD16C9PKKl8LGEKkjxTgpH3gsv0TvoB4z/c
- eJ7Cr4tWLNwp3wXIqh/W2JTYQS1NVklIML22+Dz446INK6btzFmUz81yHrHVHJbWFo0O
- C5Fg==
+ bh=9bUKcqmaY+VJPu/KUdLudS3Ki5h/E3oq0AmGCByz2gA=;
+ b=DEL9RuonGyuVnDLCbfIDdJHStxeS1OP2Yzb78EvR0GCH7XJw8D/ihshF2QZfxmVvIc
+ qja6YBXHw9wWFNBwQVgzRA0B3iS8dvw2NWIYuysn5l+yXyYB5615pyq+HsyzOn6QwL/Y
+ gHZk2noAHp8E2zlbOCRSFuKcEuYLKZZbw0D2pCeGh1iCFK51wMbUgi4wlxsYzgJpzz36
+ hSBWHX33W2ZsLABIzL5ZBK/YZetWPTW2XGjO33I8SPz3cxfOMQ72wWLnctEysVulcsTE
+ EyaAuDmg5NlNanoWaKEJcE3Amf3HGpirPzZhfORcG3cI3HIu21+6Q2n/2IcKl+ENYzzg
+ v0rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:user-agent:mime-version:content-transfer-encoding;
- bh=LuuZ+O7bYnJbqZCBNNilzA6rVhI+JNmbz8F49R8mBrM=;
- b=oh3eW4atEzvWWJPg4MJo1UkaUYSEvTn6agtDZV1EPofZ3lG4UnQSo7RNUCs20znBRQ
- IGfPQEpYjIBjMPiha/0W6yT4RQd1YEak24j1Pu3hmm/jITc4y4EkMrH3mbv+pgjW2BIX
- tbD5bUa/wGkVOWu3D5/3JKDSMqqqLhxSmhO4Yeo/BmBEwTQdHVbpBogIeNyFt62MphgI
- raaWb2/TKXQRS6QMrT5nt3f0mOnJodoq6xM3DTaK5mfDIAt/QELhYz1DLCF8DhOBdQme
- WkkkHSnvP4AHABX+GPphBqgvtI3K0NLD7VIKeogW8Pnn6gogyJFwsbq6gXpmPjJgi4Pk
- PZ+w==
-X-Gm-Message-State: AOAM531wyXticlTA6AlpK3AQH/cV7D3GBO9CiwDmc14+Gc1mSgAJrUjD
- blQcicmT4oCyZ8Vizz/ClOvwIpVOkNA=
-X-Google-Smtp-Source: ABdhPJzWrVnCG3QpvpHZ5H0R0CZ3dl40F+guF39+CXm93LqF9yqxM07Zty+7sBbqwhfx5f2C3V8b/A==
-X-Received: by 2002:a2e:9615:: with SMTP id v21mr2042487ljh.22.1629287265783; 
- Wed, 18 Aug 2021 04:47:45 -0700 (PDT)
+ bh=9bUKcqmaY+VJPu/KUdLudS3Ki5h/E3oq0AmGCByz2gA=;
+ b=RJI75aaIfZ0PFTzIdRhfKo0tiz9g4E/axzg8L8Vkwql2DZOlsiwhhNbxEeKZ4rKBX/
+ MULhBe4zsk9YaVyLCBk5scbBJN3UiuUpQw2kOA3Q+A1KZmH2r+dE8IHDn0rdAVal2lMK
+ VrGZNDlILcmZUpD7RQTp+gju2uniX7rrjaBLSqLuhVE462hV5P1g8PtEXYCfJ6g7uUty
+ Q9cMreq6IAMshWjbZxfuTx/UutwLLUvOz6XFjgji+4jTOoauCSlxMDSTFsSIRSqN/das
+ f6QslvEDyu8Iqb3+cfF3Ik0xJeUMHMx6p7IaE3fI3IDpvl0izYLtdQu238dfIk4mDpGD
+ lQXg==
+X-Gm-Message-State: AOAM533U41FJW0SrWDFQ4Q8gbIFqW11w+jj1SrK+EBdZdr/f8GoHwl7/
+ xyZ5bFIaYlIcU0CW2HTQMeUIjzRwDhw=
+X-Google-Smtp-Source: ABdhPJz4Y6qtcMd+gJtpSgzZRSS3mF+BR+iyoX7zK0ltgMyCoV+fufgsu99n1oNPM3E3eDGS8n7yNw==
+X-Received: by 2002:a2e:84c7:: with SMTP id q7mr7433326ljh.61.1629287275497;
+ Wed, 18 Aug 2021 04:47:55 -0700 (PDT)
 Received: from localhost.localdomain ([85.142.117.226])
- by smtp.gmail.com with ESMTPSA id a24sm593793ljk.63.2021.08.18.04.47.45
+ by smtp.gmail.com with ESMTPSA id u2sm473876lfr.79.2021.08.18.04.47.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 04:47:45 -0700 (PDT)
+ Wed, 18 Aug 2021 04:47:55 -0700 (PDT)
 From: NDNF <arkaisp2021@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/2] target/arm: Refactoring MMU helper function
-Date: Wed, 18 Aug 2021 14:47:41 +0300
-Message-Id: <162928726129.357603.13067010407123784733.stgit@pc-System-Product-Name>
+Subject: [PATCH v4 2/2] arm/monitor: Add support for 'info tlb' command
+Date: Wed, 18 Aug 2021 14:47:51 +0300
+Message-Id: <162928727089.357603.8471789223247950118.stgit@pc-System-Product-Name>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <162928715931.357603.15628842472925815718.stgit@pc-System-Product-Name>
 References: <162928715931.357603.15628842472925815718.stgit@pc-System-Product-Name>
@@ -63,8 +63,8 @@ User-Agent: StGit/0.19
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::22e;
- envelope-from=arkaisp2021@gmail.com; helo=mail-lj1-x22e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::229;
+ envelope-from=arkaisp2021@gmail.com; helo=mail-lj1-x229.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -89,148 +89,216 @@ Cc: peter.maydell@linaro.org, pavel.dovgaluk@ispras.ru, changbin.du@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To reuse existing code for "tlb info", this patch also extracts
-some of the APIs from helper.c including
-mode_translation_disabled (), pt_start_level_stage1 (),
-mode_ttbr (), arm_ldq_ptw ().
+This adds hmp 'info tlb' command support for the arm platform.
+The limitation is that this only implements a page walker for
+ARMv8-A AArch64 Long Descriptor format, 32bit addressing is
+not supported yet.
 
-Signed-off-by: Ivanov Arkady <arkaisp2021@gmail.com>
 Signed-off-by: Changbin Du <changbin.du@gmail.com>
+Signed-off-by: Ivanov Arkady <arkaisp2021@gmail.com>
 ---
- target/arm/helper.c    |   35 +++--------------------------------
- target/arm/internals.h |   39 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 42 insertions(+), 32 deletions(-)
+ hmp-commands-info.hx |    3 +
+ target/arm/monitor.c |  170 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 172 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 0e1a3b9421..513b2a9105 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -10101,8 +10101,7 @@ static inline uint64_t regime_sctlr(CPUARMState *env, ARMMMUIdx mmu_idx)
- #ifndef CONFIG_USER_ONLY
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index 117ba25f91..1b5b3f2616 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -222,7 +222,8 @@ SRST
+ ERST
  
- /* Return true if the specified stage of address translation is disabled */
--static inline bool regime_translation_disabled(CPUARMState *env,
--                                               ARMMMUIdx mmu_idx)
-+bool regime_translation_disabled(CPUARMState *env, ARMMMUIdx mmu_idx)
+ #if defined(TARGET_I386) || defined(TARGET_SH4) || defined(TARGET_SPARC) || \
+-    defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_M68K)
++    defined(TARGET_PPC) || defined(TARGET_XTENSA) || defined(TARGET_M68K) || \
++    defined(TARGET_ARM)
+     {
+         .name       = "tlb",
+         .args_type  = "",
+diff --git a/target/arm/monitor.c b/target/arm/monitor.c
+index 80c64fa355..4f14834148 100644
+--- a/target/arm/monitor.c
++++ b/target/arm/monitor.c
+@@ -31,6 +31,10 @@
+ #include "qapi/qmp/qerror.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qom/qom-qobject.h"
++#include "monitor/monitor.h"
++#include "monitor/hmp-target.h"
++#include "internals.h"
++#include "qemu/qemu-print.h"
+ 
+ static GICCapability *gic_cap_new(int version)
  {
-     uint64_t hcr_el2;
+@@ -228,3 +232,169 @@ CpuModelExpansionInfo *qmp_query_cpu_model_expansion(CpuModelExpansionType type,
  
-@@ -10152,23 +10151,6 @@ static inline bool regime_translation_big_endian(CPUARMState *env,
-     return (regime_sctlr(env, mmu_idx) & SCTLR_EE) != 0;
+     return expansion_info;
  }
- 
--/* Return the TTBR associated with this translation regime */
--static inline uint64_t regime_ttbr(CPUARMState *env, ARMMMUIdx mmu_idx,
--                                   int ttbrn)
--{
--    if (mmu_idx == ARMMMUIdx_Stage2) {
--        return env->cp15.vttbr_el2;
--    }
--    if (mmu_idx == ARMMMUIdx_Stage2_S) {
--        return env->cp15.vsttbr_el2;
--    }
--    if (ttbrn == 0) {
--        return env->cp15.ttbr0_el[regime_el(env, mmu_idx)];
--    } else {
--        return env->cp15.ttbr1_el[regime_el(env, mmu_idx)];
--    }
--}
--
- #endif /* !CONFIG_USER_ONLY */
- 
- /* Convert a possible stage1+2 MMU index into the appropriate
-@@ -10564,7 +10546,7 @@ static uint32_t arm_ldl_ptw(CPUState *cs, hwaddr addr, bool is_secure,
-     return 0;
- }
- 
--static uint64_t arm_ldq_ptw(CPUState *cs, hwaddr addr, bool is_secure,
-+uint64_t arm_ldq_ptw(CPUState *cs, hwaddr addr, bool is_secure,
-                             ARMMMUIdx mmu_idx, ARMMMUFaultInfo *fi)
- {
-     ARMCPU *cpu = ARM_CPU(cs);
-@@ -11246,18 +11228,7 @@ static bool get_phys_addr_lpae(CPUARMState *env, uint64_t address,
-     }
- 
-     if (mmu_idx != ARMMMUIdx_Stage2 && mmu_idx != ARMMMUIdx_Stage2_S) {
--        /* The starting level depends on the virtual address size (which can
--         * be up to 48 bits) and the translation granule size. It indicates
--         * the number of strides (stride bits at a time) needed to
--         * consume the bits of the input address. In the pseudocode this is:
--         *  level = 4 - RoundUp((inputsize - grainsize) / stride)
--         * where their 'inputsize' is our 'inputsize', 'grainsize' is
--         * our 'stride + 3' and 'stride' is our 'stride'.
--         * Applying the usual "rounded up m/n is (m+n-1)/n" and simplifying:
--         * = 4 - (inputsize - stride - 3 + stride - 1) / stride
--         * = 4 - (inputsize - 4) / stride;
--         */
--        level = 4 - (inputsize - 4) / stride;
-+        level = pt_start_level_stage1(inputsize, stride);
-     } else {
-         /* For stage 2 translations the starting level is specified by the
-          * VTCR_EL2.SL0 field (whose interpretation depends on the page size)
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index c38d541017..b33d0835b5 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -738,6 +738,8 @@ static inline uint32_t regime_el(CPUARMState *env, ARMMMUIdx mmu_idx)
-     }
- }
- 
-+bool regime_translation_disabled(CPUARMState *env, ARMMMUIdx mmu_idx);
 +
- /* Return the TCR controlling this translation regime */
- static inline TCR *regime_tcr(CPUARMState *env, ARMMMUIdx mmu_idx)
- {
-@@ -754,6 +756,23 @@ static inline TCR *regime_tcr(CPUARMState *env, ARMMMUIdx mmu_idx)
-     return &env->cp15.tcr_el[regime_el(env, mmu_idx)];
- }
- 
-+/* Return the TTBR associated with this translation regime */
-+static inline uint64_t regime_ttbr(CPUARMState *env, ARMMMUIdx mmu_idx,
-+                                   int ttbrn)
++#define PTE_HEADER_FIELDS       "vaddr              paddr              "\
++                                "size               attr\n"
++#define PTE_HEADER_DELIMITER    "------------------ ------------------ "\
++                                "------------------ ------------------------------\n"
++
++static void print_pte_header(void)
 +{
-+    if (mmu_idx == ARMMMUIdx_Stage2) {
-+        return env->cp15.vttbr_el2;
++    qemu_printf(PTE_HEADER_FIELDS);
++    qemu_printf(PTE_HEADER_DELIMITER);
++}
++
++static void
++print_pte_lpae(uint32_t tableattrs, uint64_t vaddr, hwaddr paddr,
++               target_ulong size, target_ulong pte)
++{
++    uint32_t ns = extract64(pte, 5, 1) | extract32(tableattrs, 4, 1);
++    uint32_t ap = extract64(pte, 6, 2) & ~extract32(tableattrs, 2, 2);
++    uint32_t af = extract64(pte, 10, 1);
++    uint32_t ng = extract64(pte, 11, 1);
++    uint32_t gp = extract64(pte, 50, 1);
++    uint32_t con = extract64(pte, 52, 1);
++    uint32_t pxn = extract64(pte, 53, 1) | extract32(tableattrs, 0, 1);
++    uint32_t uxn = extract64(pte, 54, 1) | extract32(tableattrs, 1, 1);
++
++    qemu_printf("0x%016lx 0x" TARGET_FMT_plx " 0x" TARGET_FMT_lx
++                   " %s %s %s %s %s %s %s %s %s\n",
++                   vaddr, paddr, size,
++                   ap & 0x2 ? "ro" : "RW",
++                   ap & 0x1 ? "USR" : "   ",
++                   ns ? "NS" : "  ",
++                   af ? "AF" : "  ",
++                   ng ? "nG" : "  ",
++                   gp ? "GP" : "  ",
++                   con ? "Con" : "   ",
++                   pxn ? "PXN" : "   ",
++                   uxn ? "UXN" : "   ");
++}
++
++static void
++walk_pte_lpae(uint64_t descaddrmask, uint32_t tableattrs, hwaddr base,
++              uint64_t vaddr, int level, int stride, int inputsize,
++              ARMMMUIdx mmu_idx, CPUState *cs, ARMMMUFaultInfo *fi)
++{
++    int indx;
++    for (indx = 0; indx < (1ul << stride); indx++) {
++        uint64_t descriptor, cur_IA, cur_vaddr = vaddr;
++        uint32_t cur_tableattrs = tableattrs;
++        hwaddr descaddr;
++        target_ulong pgsize;
++        bool nstable;
++
++        cur_IA = ((uint64_t)indx << ((stride * (4 - level)) + 3));
++        cur_vaddr += cur_IA;
++        descaddr = base + (indx << 3);
++        descaddr &= ~7ULL;
++        nstable = extract32(cur_tableattrs, 4, 1);
++        descriptor = arm_ldq_ptw(cs, descaddr, !nstable, mmu_idx, fi);
++        if (fi->type != ARMFault_None) {
++            continue;
++        }
++
++        if (!(descriptor & 1) ||
++            (!(descriptor & 2) && (level == 3))) {
++            /* Invalid, or the Reserved level 3 encoding */
++            continue;
++        }
++        descaddr = descriptor & descaddrmask;
++        if ((descriptor & 2) && (level < 3)) {
++            /* Table entry */
++            cur_tableattrs |= extract64(descriptor, 59, 5);
++            walk_pte_lpae(descaddrmask, cur_tableattrs, descaddr, cur_vaddr,
++                          level + 1, stride, inputsize, mmu_idx, cs, fi);
++            continue;
++        }
++        pgsize = (1ULL << ((stride * (4 - level)) + 3));
++
++        print_pte_lpae(cur_tableattrs, cur_vaddr, descaddr, pgsize, descaddr);
 +    }
-+    if (mmu_idx == ARMMMUIdx_Stage2_S) {
-+        return env->cp15.vsttbr_el2;
-+    }
-+    if (ttbrn == 0) {
-+        return env->cp15.ttbr0_el[regime_el(env, mmu_idx)];
++}
++
++/* ARMv8-A AArch64 Long Descriptor format */
++static void tlb_info_vmsav8_64(Monitor *mon, CPUArchState *env)
++{
++    ARMMMUIdx mmu_idx = arm_stage1_mmu_idx(env);
++    ARMCPU *cpu = env_archcpu(env);
++    CPUState *cs = CPU(cpu);
++    uint64_t ttbr[2];
++    uint64_t tcr, descaddrmask;
++    int tsz[2];
++    bool using16k, using64k;
++    int stride;
++    uint32_t tableattrs;
++    ARMMMUFaultInfo fi = {};
++
++    ttbr[0] = regime_ttbr(env, mmu_idx, 0);
++    ttbr[1] = regime_ttbr(env, mmu_idx, 1);
++
++    tcr = regime_tcr(env, mmu_idx)->raw_tcr;
++    using64k = extract32(tcr, 14, 1);
++    using16k = extract32(tcr, 15, 1);
++    tsz[0] = extract32(tcr, 0, 6);
++    tsz[1] = extract32(tcr, 16, 6);
++
++    if (using64k) {
++        stride = 13;
++    } else if (using16k) {
++        stride = 11;
 +    } else {
-+        return env->cp15.ttbr1_el[regime_el(env, mmu_idx)];
++        stride = 9;
++    }
++
++    hwaddr indexmask_grainsize = (1ULL << (stride + 3)) - 1;
++    descaddrmask = ((1ull << 48) - 1) &  ~indexmask_grainsize;
++
++    tableattrs = regime_is_secure(env, mmu_idx) ? 0 : (1 << 4);
++
++    /* print header */
++    print_pte_header();
++
++    for (unsigned int i = 0; i < 2; i++) {
++        if (ttbr[i]) {
++            hwaddr base, indexmask;
++            int inputsize, level;
++            uint64_t vaddr;
++            base = extract64(ttbr[i], 0, 48);
++            inputsize = 64 - tsz[i];
++            level = pt_start_level_stage1(inputsize, stride);
++            indexmask = (1ULL << (inputsize - (stride * (4 - level)))) - 1;
++            base &= ~indexmask;
++            vaddr = i == 0 ? 0 : ~((1ull << inputsize) - 1);
++
++            walk_pte_lpae(descaddrmask, tableattrs, base, vaddr, level, stride,
++                          inputsize, mmu_idx, cs, &fi);
++        }
 +    }
 +}
 +
- /* Return the FSR value for a debug exception (watchpoint, hardware
-  * breakpoint or BKPT insn) targeting the specified exception level.
-  */
-@@ -1096,6 +1115,26 @@ typedef struct ARMCacheAttrs {
-     unsigned int shareability:2; /* as in the SH field of the VMSAv8-64 PTEs */
- } ARMCacheAttrs;
- 
-+static inline int pt_start_level_stage1(int inputsize, int stride)
++void hmp_info_tlb(Monitor *mon, const QDict *qdict)
 +{
-+    /*
-+     * The starting level depends on the virtual address size (which can
-+     * be up to 48 bits) and the translation granule size. It indicates
-+     * the number of strides (stride bits at a time) needed to
-+     * consume the bits of the input address. In the pseudocode this is:
-+     *  level = 4 - RoundUp((inputsize - grainsize) / stride)
-+     * where their 'inputsize' is our 'inputsize', 'grainsize' is
-+     * our 'stride + 3' and 'stride' is our 'stride'.
-+     * Applying the usual "rounded up m/n is (m+n-1)/n" and simplifying:
-+     * = 4 - (inputsize - stride - 3 + stride - 1) / stride
-+     * = 4 - (inputsize - 4) / stride;
-+     */
-+    return 4 - (inputsize - 4) / stride;
++    CPUArchState *env;
++    env = mon_get_cpu_env(mon);
++    if (!env) {
++        monitor_printf(mon, "No CPU available\n");
++        return;
++    }
++
++    if (arm_feature(env, ARM_FEATURE_PMSA)) {
++        monitor_printf(mon, "No MMU\n");
++        return;
++    }
++
++    ARMMMUIdx mmu_idx = arm_stage1_mmu_idx(env);
++
++    if (regime_translation_disabled(env, mmu_idx)) {
++        monitor_printf(mon, "MMU disabled\n");
++        return;
++    }
++
++    if (!arm_s1_regime_using_lpae_format(env, mmu_idx)) {
++        monitor_printf(mon, "Only AArch64 Long Descriptor is supported\n");
++        return;
++    }
++
++    tlb_info_vmsav8_64(mon, env);
 +}
-+
-+uint64_t arm_ldq_ptw(CPUState *cs, hwaddr addr, bool is_secure,
-+                            ARMMMUIdx mmu_idx, ARMMMUFaultInfo *fi);
-+
- bool get_phys_addr(CPUARMState *env, target_ulong address,
-                    MMUAccessType access_type, ARMMMUIdx mmu_idx,
-                    hwaddr *phys_ptr, MemTxAttrs *attrs, int *prot,
 
 
