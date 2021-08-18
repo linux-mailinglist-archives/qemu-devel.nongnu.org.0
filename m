@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2DBE3F0D36
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 23:18:02 +0200 (CEST)
-Received: from localhost ([::1]:57858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F1AC3F0D40
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 23:22:59 +0200 (CEST)
+Received: from localhost ([::1]:60552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGSwj-0005Hi-NI
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 17:18:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50738)
+	id 1mGT1W-0007NJ-IH
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 17:22:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mGSvv-0004d7-0t
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:17:11 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42723)
+ id 1mGSzw-0006UP-4x
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:21:20 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:51172)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mGSvt-0004Un-QB
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:17:10 -0400
-Received: by mail-wr1-x435.google.com with SMTP id q11so5606320wrr.9
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 14:17:09 -0700 (PDT)
+ id 1mGSzu-0007tO-S2
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:21:19 -0400
+Received: by mail-wm1-x329.google.com with SMTP id u1so2502244wmm.0
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 14:21:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=e4OQABjXoAEU4wRin8trrN/kcww5m2RiAN7nqi5hEm0=;
- b=Bw4skPxQVnnkcb2RIdbOIASfFEa32zCy78FTxwxAWKwBoUmgh4oRZZy4v8gowQIk//
- ScvHjBnNyZDDsUsM+cZ53dH3PqJTlkvvzgpnJEH7VFweecBZa8OfsBeBekl9ALyT+Xgi
- OcG8+l+36eVPNPznjYnYHD2czqSUgpMwv0Fzeel8H1g7h7VmdXTUCmTATSVu5IUyL0N1
- oRyBH6/MdPimEo4gJgZSWN4Z26bMeckjjecRi/g4Y2m98++3KqEwe4jiwSJIr1lUTcbw
- G0V9Cmq4WBPmwJrGwCCwdn7pJSj7OLhDPkYbCk9M1+vaiCVrYP2AhlnfxTCDjgzFep41
- pc2g==
+ bh=NPGd0hFt5WBt+Z7OoG6N5cGgP/9GIBypR+vlhDM6sbk=;
+ b=ozon/+XjEYtZ2ZLN/ubNxo0Jw5PnNTbw90GEV/dlFhwlAr2FnA+9xxDyXjFuQ2OdW+
+ jJkVD1PdKR3bGUHZk1Nk0sc+07OK9FN48IyXOgtw7KOvlCbeh1GYeGKsEyPk6sny2Fy1
+ hyONlRw6vdilO+nIoyT8i0K9LSab8J4Q69Ch0TI+wvgvHq392l8PKHR8xHSAK8nfvaum
+ kmKkwWw9nroNfKxliLTxi6FqS0I7XLNxmEKUKOVzG3pJYM9XnaelgQfLOXHHM0Z92d4w
+ ybj4xdfSqvDE4AthaMz43pgO8mKOAocVNgMQRJWs8KxSDLBrvKSoP8AoL/nX8voMWUN1
+ LDsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=e4OQABjXoAEU4wRin8trrN/kcww5m2RiAN7nqi5hEm0=;
- b=T9eYJUlsAJuXSHFYJ/6qtdf0yfx2v3arMqCxVueQUYIZREN+wXXD44Gk6vndlf6TO/
- 9t++NQjso11a5sMb9B38R8nK9gyJvWwo7rNZmq0SroUUBw3S/w9/nxytobkMv8DxFhKF
- H5mn0uaVPuZEYiteA/Amtn+7D9M9UYU1Xwe7yvfYYjL0lYEl8A7pViOad2Q1mSJLRtxx
- BDFydvihOMPiWqiJsYVFm5/htt1vgxFxBBrDNbyqxYVz99s6ubAZFiBIfJo9gqAMK+j3
- o2siGjhTXsqnKOqCDIItklR2jyzSXK5Y/fIWgh8POqBpu+CfqajUD7DppcaMPWlsEFZ4
- RlRg==
-X-Gm-Message-State: AOAM531m0gJL4U4tCVKV1pUmWOpmaCh5Yau9Bhk4CXFg18d+s3CPw7hO
- uyLhIP6A4bShy+IrKPvuPbvbBYit/7A=
-X-Google-Smtp-Source: ABdhPJxSr7dRASuM9EvkoIFUV0tC+CjpkqpB1i780XfKmdUtTU6+YWqSVsSP1CC3QWmvc2uSpLD8qg==
-X-Received: by 2002:adf:f40d:: with SMTP id g13mr12766383wro.69.1629321427877; 
- Wed, 18 Aug 2021 14:17:07 -0700 (PDT)
+ bh=NPGd0hFt5WBt+Z7OoG6N5cGgP/9GIBypR+vlhDM6sbk=;
+ b=ubTaoO90HzYbrDD80pR4+2vkzjYzlBVGanNNf9nJgWiCuz2xddEOhpopj3dbPByL/H
+ snkLCyjWAq5HL6NFq/IHUsEqMN0sHnQeyDbEdtmPQFmIVbrDQAwXqjScnLKLmmZDDCQU
+ oVQ69wYVP6kns5KNVJtsHkcrT0SSAhFlKTLpsZfGux9QUM5tSUXODbuCRLzZ0h6Q0C1q
+ NxFWe0pBbhkDCHkITKDdsbSp+5F//KyR0PQTW6OkNAWHhCycxf3aBWvt/5UxQr/elB/J
+ jUKae/h/oD1osbCCqtmQBYidPbjn1h/JLbgBrqBHa9tZWBsixn70YiO6qJ62B768w+Gi
+ 1PCQ==
+X-Gm-Message-State: AOAM530aq3GRoiLZ1JdnRJYzRILOSsA1LFCsElDsj8O4QXxzgsGxGUQC
+ dyW91gVQd5rkyhtZb5JJojnfLqLxuk8=
+X-Google-Smtp-Source: ABdhPJxCnEP60l+HLlRq5SDRUDSeHLEgBRWtoeyrmL/9BZy5K+EAK8/0tyhpsapc4fO/Ca/PlnGadQ==
+X-Received: by 2002:a7b:c206:: with SMTP id x6mr10221405wmi.57.1629321677273; 
+ Wed, 18 Aug 2021 14:21:17 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id s10sm1075456wrv.54.2021.08.18.14.17.06
+ by smtp.gmail.com with ESMTPSA id 19sm965860wmj.23.2021.08.18.14.21.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Aug 2021 14:17:07 -0700 (PDT)
-Subject: Re: [PATCH v3 48/66] hw/core/cpu: Re-sort the non-pointers to the end
- of CPUClass
+ Wed, 18 Aug 2021 14:21:16 -0700 (PDT)
+Subject: Re: [PATCH v3 52/66] target/alpha: Reorg fp memory operations
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210818191920.390759-1-richard.henderson@linaro.org>
- <20210818191920.390759-49-richard.henderson@linaro.org>
+ <20210818191920.390759-53-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <7dca4884-94c7-260a-0ce3-9eb1d9e80142@amsat.org>
-Date: Wed, 18 Aug 2021 23:17:05 +0200
+Message-ID: <2dde19d7-5aa6-446f-f463-d0dc7ac30faf@amsat.org>
+Date: Wed, 18 Aug 2021 23:21:15 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210818191920.390759-49-richard.henderson@linaro.org>
+In-Reply-To: <20210818191920.390759-53-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -94,12 +93,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/18/21 9:19 PM, Richard Henderson wrote:
-> Despite the comment, the members were not kept at the end.
+> Pass in the context to each mini-helper, instead of an
+> incorrectly named "flags".  Separate gen_load_fp and
+> gen_store_fp, away from the integer helpers.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  include/hw/core/cpu.h | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
+>  target/alpha/translate.c | 83 +++++++++++++++++++++++++++-------------
+>  1 file changed, 57 insertions(+), 26 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
