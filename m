@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943553F0DA1
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 23:44:46 +0200 (CEST)
-Received: from localhost ([::1]:49430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFC643F0D5E
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 23:33:16 +0200 (CEST)
+Received: from localhost ([::1]:48394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGTMb-0005Uh-Kc
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 17:44:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57350)
+	id 1mGTBT-0002RW-S8
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 17:33:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGT7r-0006Gs-LB
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:29:31 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:34306)
+ id 1mGT7q-0006DE-Qu
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:29:30 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:43000)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGT7o-0005od-3i
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:29:31 -0400
-Received: by mail-pg1-x534.google.com with SMTP id x4so3709116pgh.1
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 14:29:27 -0700 (PDT)
+ id 1mGT7o-0005pQ-SW
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:29:30 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id w6so2648453plg.9
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 14:29:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=lPzInzzVO/z+oKSuWjc2o6V9Y5FWRuoifTPh6+wBc3g=;
- b=uie7nLFF8q9mum9Q/8HR+29AiBZw3HuUBRKO2IfLHCgY4gEa+MD0ecfxOFiyX7wdy4
- 3sZNoilEnzVRoS2WIW0N7QlTmFmEb3cur82EiHlDwR3vl6NffAFcPewpigD6sl/4ghYJ
- SXAlWRy9XhefFgdfUyNMhRMSfDmB/26fDCyan09cN6YPvUlsImTS3LaN6oyytRQK2IeN
- SjTatlRPalCC2Kx1nAWbaVDv10YjI6LxvS1RgyrPW3WDTw+rGuAmkHtEXFAQ+oGX8Ziq
- 8X/7F8swMmIlA7M7tD9MQTC92+8D0IZjlswG7WzesDTP4fhlzjmSA2xt/3VTJEbtA5US
- dpAA==
+ bh=s5r7qpgniveSM3WnTFZrHgwHVXy2cCAVB+CqYnFl+i0=;
+ b=fk1Wn10sX9NfJfmq/7NwvLCRzkhW0M1EIIPKwPaKAnCM1r9Gk7yg/CI7Ro1/tkxT8O
+ SBlHg7zlaR2Qr1hOEe7cOkTiL43jDgtncqNIas0MfgEj0h9A//zq4y5gw+qrgRhFFVuT
+ af1tl0jeC3maK1qC0NFPWCFBiH7nXpHBkDl2VyGJOTxqq0BZU1s2Wv6gMuSqY6XiaB5g
+ 8+oZfSySIj5UBs4BJs8zv+fZJtu9pdhz00rRjUWBCvKpCPKnDXefaFLIUxfZpuC9JMLx
+ 0ayk0Mhnkr9SgQz9vAOQqdYpE0sRNy33PdOl89xfPrM3Dw2nhoNJV4MwsBcBCD99wKRQ
+ 5gFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lPzInzzVO/z+oKSuWjc2o6V9Y5FWRuoifTPh6+wBc3g=;
- b=Q8joX/5USLPh3EbeSgbNo04mtLKw3Wh9ffkGVXiuvmk0xwKreTjT+LJXIuiyZhDMOz
- uhvGox6RQQxG8Xk3lDNXzNXNEN0czmcVAclhXDzbXNqWbj+nO88yLcRCMqwKc8ung8zS
- FC3ARdSH2YUCcLSo95jbXL02IYCCh70n+ldSfU5pqcVbjZClKofltsCMA9bzrN3E7L/Q
- NrgQm9p/ejJNVq/KBhGI5ISVdTNnnTqe3iwUzhrFjAUqPB2SAOTyLK8tOrEVfra4eSgM
- h3UiCFjX3bu+6JpfOl+sfXrOuhJMLKNnZ2XZdSU8drlArqIuuXOuC5tdcksXx7DIVJ7v
- fD0g==
-X-Gm-Message-State: AOAM531c8LHXo561BIERDnUqaFYg0wPbIpJUDyJALrRKvwsRNM7/h8W4
- G4HThIVDOUpajGzJIp+Um/1zy20mlGECEw==
-X-Google-Smtp-Source: ABdhPJx1A6maJ4ErAfEwmyQu/EUrYxuUhs4Ny9BbjPa+UHdJW+0tTyFLkqtcvZk/CMVcVRpIUql3mw==
-X-Received: by 2002:a63:1056:: with SMTP id 22mr10766490pgq.178.1629322166769; 
- Wed, 18 Aug 2021 14:29:26 -0700 (PDT)
+ bh=s5r7qpgniveSM3WnTFZrHgwHVXy2cCAVB+CqYnFl+i0=;
+ b=VtDpNPQPc6dV6SndF60Ama+NkBbtcpKZuaLteczDxxiG/dACxGpTZxbm05eN1ohuZ1
+ f0+ySnEGQCcleDcuu48UxmS870BRGZTdTipixq15Sx3agZnoB4w5T+lHgXAnSBl5zQtU
+ lM5HPU6AFjFx4o9p3NLWVpOEWspEl/voNrhnGAAVnCRYZGnWnzgLUm+JAfa9vHjI7Yy4
+ dVQy7c3dOcTt8IF0AasSc1BVcMg/HJSIxCweIh0QQrqmtkGsqlL++SFBnPBr65pZhslz
+ cKhegdYCnsLCan/oqTc7gEh2P2q5nMIOFfRkr7cTdi//sOoWVwFNZOpcizYEatsEXX6N
+ a0SA==
+X-Gm-Message-State: AOAM533LlkLVHd7BD0ZSLeeWh9JUOKzvC+vNFV+sZK+oikA4An7o5+ky
+ 8WWAv7+DDf8kUwb5kmxVzLm1exYQCNHRrw==
+X-Google-Smtp-Source: ABdhPJz3UPwcuUAuPG+hOaUt3FQPc2FYot3nCejkI5j2Gs6KxmE8S/w+jRGnKDN3vjjdfr5ojae7aw==
+X-Received: by 2002:a17:90b:4b4d:: with SMTP id
+ mi13mr11877540pjb.20.1629322167640; 
+ Wed, 18 Aug 2021 14:29:27 -0700 (PDT)
 Received: from localhost.localdomain ([173.197.107.15])
- by smtp.gmail.com with ESMTPSA id y19sm751965pfe.71.2021.08.18.14.29.26
+ by smtp.gmail.com with ESMTPSA id y19sm751965pfe.71.2021.08.18.14.29.27
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 14:29:26 -0700 (PDT)
+ Wed, 18 Aug 2021 14:29:27 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/14] tcg/arm: More use of the TCGReg enum
-Date: Wed, 18 Aug 2021 11:29:10 -1000
-Message-Id: <20210818212912.396794-13-richard.henderson@linaro.org>
+Subject: [PATCH v3 13/14] tcg/arm: Reserve a register for guest_base
+Date: Wed, 18 Aug 2021 11:29:11 -1000
+Message-Id: <20210818212912.396794-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210818212912.396794-1-richard.henderson@linaro.org>
 References: <20210818212912.396794-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,247 +87,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Reserve a register for the guest_base using aarch64 for reference.
+By doing so, we do not have to recompute it for every memory load.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/arm/tcg-target.c.inc | 65 +++++++++++++++++++++-------------------
- 1 file changed, 35 insertions(+), 30 deletions(-)
+ tcg/arm/tcg-target.c.inc | 39 ++++++++++++++++++++++++++++-----------
+ 1 file changed, 28 insertions(+), 11 deletions(-)
 
 diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-index 2f55b94ada..35bd4c68d6 100644
+index 35bd4c68d6..2728035177 100644
 --- a/tcg/arm/tcg-target.c.inc
 +++ b/tcg/arm/tcg-target.c.inc
-@@ -552,7 +552,7 @@ static void tcg_out_bl_imm(TCGContext *s, ARMCond cond, int32_t offset)
-                     (((offset - 8) >> 2) & 0x00ffffff));
- }
+@@ -84,6 +84,9 @@ static const int tcg_target_call_oarg_regs[2] = {
  
--static void tcg_out_blx_reg(TCGContext *s, ARMCond cond, int rn)
-+static void tcg_out_blx_reg(TCGContext *s, ARMCond cond, TCGReg rn)
- {
-     tcg_out32(s, (cond << 28) | 0x012fff30 | rn);
- }
-@@ -563,14 +563,14 @@ static void tcg_out_blx_imm(TCGContext *s, int32_t offset)
-                 (((offset - 8) >> 2) & 0x00ffffff));
- }
+ #define TCG_REG_TMP  TCG_REG_R12
+ #define TCG_VEC_TMP  TCG_REG_Q15
++#ifndef CONFIG_SOFTMMU
++#define TCG_REG_GUEST_BASE  TCG_REG_R11
++#endif
  
--static void tcg_out_dat_reg(TCGContext *s, ARMCond cond, ARMInsn opc, int rd,
--                            int rn, int rm, int shift)
-+static void tcg_out_dat_reg(TCGContext *s, ARMCond cond, ARMInsn opc,
-+                            TCGReg rd, TCGReg rn, TCGReg rm, int shift)
- {
-     tcg_out32(s, (cond << 28) | (0 << 25) | opc |
-                     (rn << 16) | (rd << 12) | shift | rm);
- }
+ typedef enum {
+     COND_EQ = 0x0,
+@@ -1763,7 +1766,8 @@ static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *lb)
  
--static void tcg_out_mov_reg(TCGContext *s, ARMCond cond, int rd, int rm)
-+static void tcg_out_mov_reg(TCGContext *s, ARMCond cond, TCGReg rd, TCGReg rm)
+ static void tcg_out_qemu_ld_index(TCGContext *s, MemOp opc,
+                                   TCGReg datalo, TCGReg datahi,
+-                                  TCGReg addrlo, TCGReg addend)
++                                  TCGReg addrlo, TCGReg addend,
++                                  bool scratch_addend)
  {
-     /* Simple reg-reg move, optimising out the 'do nothing' case */
-     if (rd != rm) {
-@@ -597,7 +597,7 @@ static void tcg_out_b_reg(TCGContext *s, ARMCond cond, TCGReg rn)
- }
+     /* Byte swapping is left to middle-end expansion. */
+     tcg_debug_assert((opc & MO_BSWAP) == 0);
+@@ -1790,7 +1794,7 @@ static void tcg_out_qemu_ld_index(TCGContext *s, MemOp opc,
+             && get_alignment_bits(opc) >= MO_64
+             && (datalo & 1) == 0 && datahi == datalo + 1) {
+             tcg_out_ldrd_r(s, COND_AL, datalo, addrlo, addend);
+-        } else if (datalo != addend) {
++        } else if (scratch_addend) {
+             tcg_out_ld32_rwb(s, COND_AL, datalo, addend, addrlo);
+             tcg_out_ld32_12(s, COND_AL, datahi, addend, 4);
+         } else {
+@@ -1875,14 +1879,14 @@ static void tcg_out_qemu_ld(TCGContext *s, const TCGArg *args, bool is64)
+     label_ptr = s->code_ptr;
+     tcg_out_bl_imm(s, COND_NE, 0);
  
- static void tcg_out_dat_imm(TCGContext *s, ARMCond cond, ARMInsn opc,
--                            int rd, int rn, int im)
-+                            TCGReg rd, TCGReg rn, int im)
- {
-     tcg_out32(s, (cond << 28) | (1 << 25) | opc |
-                     (rn << 16) | (rd << 12) | im);
-@@ -781,13 +781,15 @@ static void tcg_out_ld8s_r(TCGContext *s, ARMCond cond, TCGReg rt,
-     tcg_out_memop_r(s, cond, INSN_LDRSB_REG, rt, rn, rm, 1, 1, 0);
- }
+-    tcg_out_qemu_ld_index(s, opc, datalo, datahi, addrlo, addend);
++    tcg_out_qemu_ld_index(s, opc, datalo, datahi, addrlo, addend, true);
  
--static void tcg_out_movi_pool(TCGContext *s, ARMCond cond, int rd, uint32_t arg)
-+static void tcg_out_movi_pool(TCGContext *s, ARMCond cond,
-+                              TCGReg rd, uint32_t arg)
- {
-     new_pool_label(s, arg, R_ARM_PC13, s->code_ptr, 0);
-     tcg_out_ld32_12(s, cond, rd, TCG_REG_PC, 0);
- }
- 
--static void tcg_out_movi32(TCGContext *s, ARMCond cond, int rd, uint32_t arg)
-+static void tcg_out_movi32(TCGContext *s, ARMCond cond,
-+                           TCGReg rd, uint32_t arg)
- {
-     int imm12, diff, opc, sh1, sh2;
-     uint32_t tt0, tt1, tt2;
-@@ -866,8 +868,8 @@ static void tcg_out_movi32(TCGContext *s, ARMCond cond, int rd, uint32_t arg)
-  * Emit either the reg,imm or reg,reg form of a data-processing insn.
-  * rhs must satisfy the "rI" constraint.
-  */
--static void tcg_out_dat_rI(TCGContext *s, ARMCond cond, ARMInsn opc, TCGArg dst,
--                           TCGArg lhs, TCGArg rhs, int rhs_is_const)
-+static void tcg_out_dat_rI(TCGContext *s, ARMCond cond, ARMInsn opc,
-+                           TCGReg dst, TCGReg lhs, TCGArg rhs, int rhs_is_const)
- {
-     if (rhs_is_const) {
-         tcg_out_dat_imm(s, cond, opc, dst, lhs, encode_imm_nofail(rhs));
-@@ -897,7 +899,7 @@ static void tcg_out_dat_rIK(TCGContext *s, ARMCond cond, ARMInsn opc,
- }
- 
- static void tcg_out_dat_rIN(TCGContext *s, ARMCond cond, ARMInsn opc,
--                            ARMInsn opneg, TCGArg dst, TCGArg lhs, TCGArg rhs,
-+                            ARMInsn opneg, TCGReg dst, TCGReg lhs, TCGArg rhs,
-                             bool rhs_is_const)
- {
-     /* Emit either the reg,imm or reg,reg form of a data-processing insn.
-@@ -971,17 +973,19 @@ static void tcg_out_smull32(TCGContext *s, ARMCond cond, TCGReg rd0,
-               (rd1 << 16) | (rd0 << 12) | (rm << 8) | rn);
- }
- 
--static void tcg_out_sdiv(TCGContext *s, ARMCond cond, int rd, int rn, int rm)
-+static void tcg_out_sdiv(TCGContext *s, ARMCond cond,
-+                         TCGReg rd, TCGReg rn, TCGReg rm)
- {
-     tcg_out32(s, 0x0710f010 | (cond << 28) | (rd << 16) | rn | (rm << 8));
- }
- 
--static void tcg_out_udiv(TCGContext *s, ARMCond cond, int rd, int rn, int rm)
-+static void tcg_out_udiv(TCGContext *s, ARMCond cond,
-+                         TCGReg rd, TCGReg rn, TCGReg rm)
- {
-     tcg_out32(s, 0x0730f010 | (cond << 28) | (rd << 16) | rn | (rm << 8));
- }
- 
--static void tcg_out_ext8s(TCGContext *s, ARMCond cond, int rd, int rn)
-+static void tcg_out_ext8s(TCGContext *s, ARMCond cond, TCGReg rd, TCGReg rn)
- {
-     if (use_armv6_instructions) {
-         /* sxtb */
-@@ -995,12 +999,12 @@ static void tcg_out_ext8s(TCGContext *s, ARMCond cond, int rd, int rn)
- }
- 
- static void __attribute__((unused))
--tcg_out_ext8u(TCGContext *s, ARMCond cond, int rd, int rn)
-+tcg_out_ext8u(TCGContext *s, ARMCond cond, TCGReg rd, TCGReg rn)
- {
-     tcg_out_dat_imm(s, cond, ARITH_AND, rd, rn, 0xff);
- }
- 
--static void tcg_out_ext16s(TCGContext *s, ARMCond cond, int rd, int rn)
-+static void tcg_out_ext16s(TCGContext *s, ARMCond cond, TCGReg rd, TCGReg rn)
- {
-     if (use_armv6_instructions) {
-         /* sxth */
-@@ -1013,7 +1017,7 @@ static void tcg_out_ext16s(TCGContext *s, ARMCond cond, int rd, int rn)
+     add_qemu_ldst_label(s, true, oi, datalo, datahi, addrlo, addrhi,
+                         s->code_ptr, label_ptr);
+ #else /* !CONFIG_SOFTMMU */
+     if (guest_base) {
+-        tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_TMP, guest_base);
+-        tcg_out_qemu_ld_index(s, opc, datalo, datahi, addrlo, TCG_REG_TMP);
++        tcg_out_qemu_ld_index(s, opc, datalo, datahi,
++                              addrlo, TCG_REG_GUEST_BASE, false);
+     } else {
+         tcg_out_qemu_ld_direct(s, opc, datalo, datahi, addrlo);
      }
- }
+@@ -1891,7 +1895,8 @@ static void tcg_out_qemu_ld(TCGContext *s, const TCGArg *args, bool is64)
  
--static void tcg_out_ext16u(TCGContext *s, ARMCond cond, int rd, int rn)
-+static void tcg_out_ext16u(TCGContext *s, ARMCond cond, TCGReg rd, TCGReg rn)
+ static void tcg_out_qemu_st_index(TCGContext *s, ARMCond cond, MemOp opc,
+                                   TCGReg datalo, TCGReg datahi,
+-                                  TCGReg addrlo, TCGReg addend)
++                                  TCGReg addrlo, TCGReg addend,
++                                  bool scratch_addend)
  {
-     if (use_armv6_instructions) {
-         /* uxth */
-@@ -1026,7 +1030,8 @@ static void tcg_out_ext16u(TCGContext *s, ARMCond cond, int rd, int rn)
+     /* Byte swapping is left to middle-end expansion. */
+     tcg_debug_assert((opc & MO_BSWAP) == 0);
+@@ -1912,9 +1917,14 @@ static void tcg_out_qemu_st_index(TCGContext *s, ARMCond cond, MemOp opc,
+             && get_alignment_bits(opc) >= MO_64
+             && (datalo & 1) == 0 && datahi == datalo + 1) {
+             tcg_out_strd_r(s, cond, datalo, addrlo, addend);
+-        } else {
++        } else if (scratch_addend) {
+             tcg_out_st32_rwb(s, cond, datalo, addend, addrlo);
+             tcg_out_st32_12(s, cond, datahi, addend, 4);
++        } else {
++            tcg_out_dat_reg(s, cond, ARITH_ADD, TCG_REG_TMP,
++                            addend, addrlo, SHIFT_IMM_LSL(0));
++            tcg_out_st32_12(s, cond, datalo, TCG_REG_TMP, 0);
++            tcg_out_st32_12(s, cond, datahi, TCG_REG_TMP, 4);
+         }
+         break;
+     default:
+@@ -1978,7 +1988,8 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is64)
+     mem_index = get_mmuidx(oi);
+     addend = tcg_out_tlb_read(s, addrlo, addrhi, opc, mem_index, 0);
+ 
+-    tcg_out_qemu_st_index(s, COND_EQ, opc, datalo, datahi, addrlo, addend);
++    tcg_out_qemu_st_index(s, COND_EQ, opc, datalo, datahi,
++                          addrlo, addend, true);
+ 
+     /* The conditional call must come last, as we're going to return here.  */
+     label_ptr = s->code_ptr;
+@@ -1988,9 +1999,8 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is64)
+                         s->code_ptr, label_ptr);
+ #else /* !CONFIG_SOFTMMU */
+     if (guest_base) {
+-        tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_TMP, guest_base);
+-        tcg_out_qemu_st_index(s, COND_AL, opc, datalo,
+-                              datahi, addrlo, TCG_REG_TMP);
++        tcg_out_qemu_st_index(s, COND_AL, opc, datalo, datahi,
++                              addrlo, TCG_REG_GUEST_BASE, false);
+     } else {
+         tcg_out_qemu_st_direct(s, opc, datalo, datahi, addrlo);
      }
- }
+@@ -3153,6 +3163,13 @@ static void tcg_target_qemu_prologue(TCGContext *s)
  
--static void tcg_out_bswap16(TCGContext *s, ARMCond cond, int rd, int rn, int flags)
-+static void tcg_out_bswap16(TCGContext *s, ARMCond cond,
-+                            TCGReg rd, TCGReg rn, int flags)
- {
-     if (use_armv6_instructions) {
-         if (flags & TCG_BSWAP_OS) {
-@@ -1093,7 +1098,7 @@ static void tcg_out_bswap16(TCGContext *s, ARMCond cond, int rd, int rn, int fla
-                      ? SHIFT_IMM_ASR(8) : SHIFT_IMM_LSR(8)));
- }
+     tcg_out_mov(s, TCG_TYPE_PTR, TCG_AREG0, tcg_target_call_iarg_regs[0]);
  
--static void tcg_out_bswap32(TCGContext *s, ARMCond cond, int rd, int rn)
-+static void tcg_out_bswap32(TCGContext *s, ARMCond cond, TCGReg rd, TCGReg rn)
- {
-     if (use_armv6_instructions) {
-         /* rev */
-@@ -1123,23 +1128,23 @@ static void tcg_out_deposit(TCGContext *s, ARMCond cond, TCGReg rd,
- }
++#ifndef CONFIG_SOFTMMU
++    if (guest_base) {
++        tcg_out_movi(s, TCG_TYPE_PTR, TCG_REG_GUEST_BASE, guest_base);
++        tcg_regset_set_reg(s->reserved_regs, TCG_REG_GUEST_BASE);
++    }
++#endif
++
+     tcg_out_b_reg(s, COND_AL, tcg_target_call_iarg_regs[1]);
  
- static void tcg_out_extract(TCGContext *s, ARMCond cond, TCGReg rd,
--                            TCGArg a1, int ofs, int len)
-+                            TCGReg rn, int ofs, int len)
- {
-     /* ubfx */
--    tcg_out32(s, 0x07e00050 | (cond << 28) | (rd << 12) | a1
-+    tcg_out32(s, 0x07e00050 | (cond << 28) | (rd << 12) | rn
-               | (ofs << 7) | ((len - 1) << 16));
- }
- 
- static void tcg_out_sextract(TCGContext *s, ARMCond cond, TCGReg rd,
--                             TCGArg a1, int ofs, int len)
-+                             TCGReg rn, int ofs, int len)
- {
-     /* sbfx */
--    tcg_out32(s, 0x07a00050 | (cond << 28) | (rd << 12) | a1
-+    tcg_out32(s, 0x07a00050 | (cond << 28) | (rd << 12) | rn
-               | (ofs << 7) | ((len - 1) << 16));
- }
- 
- static void tcg_out_ld32u(TCGContext *s, ARMCond cond,
--                          int rd, int rn, int32_t offset)
-+                          TCGReg rd, TCGReg rn, int32_t offset)
- {
-     if (offset > 0xfff || offset < -0xfff) {
-         tcg_out_movi32(s, cond, TCG_REG_TMP, offset);
-@@ -1149,7 +1154,7 @@ static void tcg_out_ld32u(TCGContext *s, ARMCond cond,
- }
- 
- static void tcg_out_st32(TCGContext *s, ARMCond cond,
--                         int rd, int rn, int32_t offset)
-+                         TCGReg rd, TCGReg rn, int32_t offset)
- {
-     if (offset > 0xfff || offset < -0xfff) {
-         tcg_out_movi32(s, cond, TCG_REG_TMP, offset);
-@@ -1159,7 +1164,7 @@ static void tcg_out_st32(TCGContext *s, ARMCond cond,
- }
- 
- static void tcg_out_ld16u(TCGContext *s, ARMCond cond,
--                          int rd, int rn, int32_t offset)
-+                          TCGReg rd, TCGReg rn, int32_t offset)
- {
-     if (offset > 0xff || offset < -0xff) {
-         tcg_out_movi32(s, cond, TCG_REG_TMP, offset);
-@@ -1169,7 +1174,7 @@ static void tcg_out_ld16u(TCGContext *s, ARMCond cond,
- }
- 
- static void tcg_out_ld16s(TCGContext *s, ARMCond cond,
--                          int rd, int rn, int32_t offset)
-+                          TCGReg rd, TCGReg rn, int32_t offset)
- {
-     if (offset > 0xff || offset < -0xff) {
-         tcg_out_movi32(s, cond, TCG_REG_TMP, offset);
-@@ -1179,7 +1184,7 @@ static void tcg_out_ld16s(TCGContext *s, ARMCond cond,
- }
- 
- static void tcg_out_st16(TCGContext *s, ARMCond cond,
--                         int rd, int rn, int32_t offset)
-+                         TCGReg rd, TCGReg rn, int32_t offset)
- {
-     if (offset > 0xff || offset < -0xff) {
-         tcg_out_movi32(s, cond, TCG_REG_TMP, offset);
-@@ -1189,7 +1194,7 @@ static void tcg_out_st16(TCGContext *s, ARMCond cond,
- }
- 
- static void tcg_out_ld8u(TCGContext *s, ARMCond cond,
--                         int rd, int rn, int32_t offset)
-+                         TCGReg rd, TCGReg rn, int32_t offset)
- {
-     if (offset > 0xfff || offset < -0xfff) {
-         tcg_out_movi32(s, cond, TCG_REG_TMP, offset);
-@@ -1199,7 +1204,7 @@ static void tcg_out_ld8u(TCGContext *s, ARMCond cond,
- }
- 
- static void tcg_out_ld8s(TCGContext *s, ARMCond cond,
--                         int rd, int rn, int32_t offset)
-+                         TCGReg rd, TCGReg rn, int32_t offset)
- {
-     if (offset > 0xff || offset < -0xff) {
-         tcg_out_movi32(s, cond, TCG_REG_TMP, offset);
-@@ -1209,7 +1214,7 @@ static void tcg_out_ld8s(TCGContext *s, ARMCond cond,
- }
- 
- static void tcg_out_st8(TCGContext *s, ARMCond cond,
--                        int rd, int rn, int32_t offset)
-+                        TCGReg rd, TCGReg rn, int32_t offset)
- {
-     if (offset > 0xfff || offset < -0xfff) {
-         tcg_out_movi32(s, cond, TCG_REG_TMP, offset);
+     /*
 -- 
 2.25.1
 
