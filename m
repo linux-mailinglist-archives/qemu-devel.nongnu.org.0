@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE953F0BCC
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 21:30:38 +0200 (CEST)
-Received: from localhost ([::1]:39500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F333F0BEA
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 21:40:00 +0200 (CEST)
+Received: from localhost ([::1]:43372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGRGn-0005JD-FE
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 15:30:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57926)
+	id 1mGRPr-0001oJ-SB
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 15:39:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGR6L-0000jy-1z
+ id 1mGR6M-0000k0-Dc
  for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:19:52 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:44777)
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:38867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGR6J-00008z-Fy
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:19:48 -0400
-Received: by mail-pl1-x631.google.com with SMTP id q2so2408712plr.11
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 12:19:47 -0700 (PDT)
+ id 1mGR6K-00009i-NN
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:19:50 -0400
+Received: by mail-pg1-x534.google.com with SMTP id w8so3308251pgf.5
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 12:19:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8K3PazbekoVtI1IlmCNF1igSO6s4agOQzsTD2i63oms=;
- b=xFdgjGSJhptr3CrAe46MUD8r8w0JF6ZXYLxCZtdr2cYj2EWFFOFCDxYRJC3YPE1WXU
- mGmNp/kXxPN45fRd/FyO+2Pb/lIFpOQa/FiOYNCA41VnSnshO7iDEn6i+7HeoL7bVLDM
- pMSNyJerSAOfLX2d4YN//v0Rd9uvAWDeeaqMPhwUXBCM8TC3dg9kBovA/GzkhUE1H108
- dafejDgz/bkqmi2tQlTDx+TuEbigr8SRZaRWRK+2Fy5Wlyb3kXdohRcf6iwZNVz3Eoou
- neIFoBoyKwJrKmr39QhqhyMzwBC+rcdGuu8z6KFiSyx48E8gp2duQmJkGMvB4xR17UXA
- amXA==
+ bh=LEBOVW9O1dlBltQunJCEwMsScX5fXnJ/74StUxWznz4=;
+ b=vI/33+7Cidh3tYXuQV/ey5+ZPK/20bBumvcl8dWWac+C450GeI66i/XiSH2SeiykUI
+ sOyWLIP3+EhqTntD/IwReC+ifYs8AUJPTiOHfMe/y7t4MsnO8CiERj1S3f29R//FsL8P
+ jIq4Qn0bbKYawmgny6+r1+fLAkZ5d+0xJkyZggRmZzlNZdTA5kXSbeZ6zjCkQtf4JrH2
+ s4MYWzPyziARHPZpXc06xRXFf6EAdVZq4pCEANRwhzHe36lmAlKcwJ13c5UzQGbmeLTW
+ PSXECzocOrZKpkzQdGFavaN94L6q08ld2TUY7S7tfM1uUaaSg4bH70v4qJYGStCDSh3B
+ R8ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8K3PazbekoVtI1IlmCNF1igSO6s4agOQzsTD2i63oms=;
- b=oCm2a0w7sSJdUSdLUxcEHds4zqO8IOYXLBRULL2lSp71VTlPVBPKOjrWPGQ+n3O+jC
- 3fCOuY37nE4CGJ+7ghtbWK3uwjx/6+zirr7oWPUcgQu0wGWvZ8HUVMcHGDfOdEr4SnLl
- 2lKd1I2izP7HNuIAMe5g4UotvDJnE5cWN2e4Z68cMg5gLVvow7iwsH2PMP+e9qq76wgH
- T1i2w2+ZGDHpBO03KdvxSiPaEmJOkcsoPxzaz/UCOvW22QFTaG6wa+S7IMAjZRUZ1ox5
- i/xbfcCKjPkuZfcFYDX9+XgtOj995UfBJZHCHAr+QCCxGT+zcN/YkRXCpF6Smz0OozQ/
- W36A==
-X-Gm-Message-State: AOAM530L+fQGncc/koVsMqmiIBoljRJlzXUbs4/+bmD/nPjEk88IvxDZ
- pX4ZNoHlOezfmDooGnMKanaxRcGw+/TIgw==
-X-Google-Smtp-Source: ABdhPJy3cyKEwltmQcLoZINTyMie9eX8XqIzGalaRYuBf9jW1/7poHyFqgxAJIKOdVb9m7qUCu1fUg==
-X-Received: by 2002:a17:902:7444:b029:12d:603b:dd20 with SMTP id
- e4-20020a1709027444b029012d603bdd20mr8462953plt.38.1629314386226; 
- Wed, 18 Aug 2021 12:19:46 -0700 (PDT)
+ bh=LEBOVW9O1dlBltQunJCEwMsScX5fXnJ/74StUxWznz4=;
+ b=oXc4F9VrL9WdWaboKVw8hYhMXZPduTChQc8pxRNRRXJCDpmMgVEk2g9KUxtNAqoMmw
+ lrf3u72HhZGbdnronYIAJ0MLPGzQs8v3MyXUVuHoV+JEKwG0FqwYYZDdVqLoWATxE8/7
+ WsvFPtexYayYThP9dsTBVOGzhnBRiwDh3RK2LK7Tb/dJnvw1oVP1crETC1UpGKoVkQ//
+ gvlgh7U7pDXYHSNGUFIWQAyzkirl/D+LYd58ttS+obzvWc6eJtN6NSxQ4Y5fO1hGefaY
+ qfpbo/B3XU3I1Hc2YgCgixvRwZ0WkDqjo+S90HBq//sASOcf0Ft+UM3rSeR5UrxT0QW2
+ bq6w==
+X-Gm-Message-State: AOAM533koSkN8I87xOGDTGGagWDHmCPM2ya2vfVbDQNNl8YL2C26wLxW
+ b+lWQ2wSJqxd4HpwkA1oMjkcUyfSEkf5EA==
+X-Google-Smtp-Source: ABdhPJzfPd3eZvpowHU7zJt6FvsPfvJvIBwJlQSkaN48njVv/98x4FUpD5yVCXIdN8iXamR4g2HL7w==
+X-Received: by 2002:a05:6a00:2150:b029:399:711c:826f with SMTP id
+ o16-20020a056a002150b0290399711c826fmr10792827pfk.14.1629314387467; 
+ Wed, 18 Aug 2021 12:19:47 -0700 (PDT)
 Received: from localhost.localdomain ([173.197.107.15])
- by smtp.gmail.com with ESMTPSA id a6sm524108pjs.40.2021.08.18.12.19.45
+ by smtp.gmail.com with ESMTPSA id a6sm524108pjs.40.2021.08.18.12.19.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 12:19:46 -0700 (PDT)
+ Wed, 18 Aug 2021 12:19:47 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 19/66] target/sparc: Implement do_unaligned_access for
+Subject: [PATCH v3 20/66] target/xtensa: Implement do_unaligned_access for
  user-only
-Date: Wed, 18 Aug 2021 09:18:33 -1000
-Message-Id: <20210818191920.390759-20-richard.henderson@linaro.org>
+Date: Wed, 18 Aug 2021 09:18:34 -1000
+Message-Id: <20210818191920.390759-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210818191920.390759-1-richard.henderson@linaro.org>
 References: <20210818191920.390759-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,84 +85,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Max Filippov <jcmvbkbc@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Acked-by: Max Filippov <jcmvbkbc@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/sparc/cpu_loop.c | 11 +++++++++++
- target/sparc/cpu.c          |  2 +-
- target/sparc/mmu_helper.c   |  4 +++-
- 3 files changed, 15 insertions(+), 2 deletions(-)
+ target/xtensa/cpu.c    |  2 +-
+ target/xtensa/helper.c | 30 +++++++++++++++---------------
+ 2 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
-index 02532f198d..612e77807e 100644
---- a/linux-user/sparc/cpu_loop.c
-+++ b/linux-user/sparc/cpu_loop.c
-@@ -272,6 +272,17 @@ void cpu_loop (CPUSPARCState *env)
-                 queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-             }
-             break;
-+        case TT_UNALIGNED:
-+            info.si_signo = TARGET_SIGBUS;
-+            info.si_errno = 0;
-+            info.si_code = TARGET_BUS_ADRALN;
-+#ifdef TARGET_SPARC64
-+            info._sifields._sigfault._addr = env->dmmu.sfar;
-+#else
-+            info._sifields._sigfault._addr = env->mmuregs[4];
-+#endif
-+            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            break;
-         case EXCP_DEBUG:
-             info.si_signo = TARGET_SIGTRAP;
-             info.si_errno = 0;
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index da6b30ec74..d33d41e837 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -865,11 +865,11 @@ static const struct TCGCPUOps sparc_tcg_ops = {
-     .synchronize_from_tb = sparc_cpu_synchronize_from_tb,
-     .cpu_exec_interrupt = sparc_cpu_exec_interrupt,
-     .tlb_fill = sparc_cpu_tlb_fill,
-+    .do_unaligned_access = sparc_cpu_do_unaligned_access,
+diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
+index 58ec3a0862..41816d91f6 100644
+--- a/target/xtensa/cpu.c
++++ b/target/xtensa/cpu.c
+@@ -195,11 +195,11 @@ static const struct TCGCPUOps xtensa_tcg_ops = {
+     .cpu_exec_interrupt = xtensa_cpu_exec_interrupt,
+     .tlb_fill = xtensa_cpu_tlb_fill,
+     .debug_excp_handler = xtensa_breakpoint_handler,
++    .do_unaligned_access = xtensa_cpu_do_unaligned_access,
  
  #ifndef CONFIG_USER_ONLY
-     .do_interrupt = sparc_cpu_do_interrupt,
-     .do_transaction_failed = sparc_cpu_do_transaction_failed,
--    .do_unaligned_access = sparc_cpu_do_unaligned_access,
+     .do_interrupt = xtensa_cpu_do_interrupt,
+     .do_transaction_failed = xtensa_cpu_do_transaction_failed,
+-    .do_unaligned_access = xtensa_cpu_do_unaligned_access,
  #endif /* !CONFIG_USER_ONLY */
  };
- #endif /* CONFIG_TCG */
-diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
-index 2f260b0085..6b4aa32181 100644
---- a/target/sparc/mmu_helper.c
-+++ b/target/sparc/mmu_helper.c
-@@ -946,6 +946,7 @@ hwaddr sparc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+ 
+diff --git a/target/xtensa/helper.c b/target/xtensa/helper.c
+index f18ab383fd..a5296399c5 100644
+--- a/target/xtensa/helper.c
++++ b/target/xtensa/helper.c
+@@ -242,6 +242,21 @@ void xtensa_cpu_list(void)
      }
-     return phys_addr;
  }
-+#endif /* CONFIG_USER_ONLY */
  
- void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-                                                  MMUAccessType access_type,
-@@ -956,7 +957,9 @@ void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-     CPUSPARCState *env = &cpu->env;
++void xtensa_cpu_do_unaligned_access(CPUState *cs,
++                                    vaddr addr, MMUAccessType access_type,
++                                    int mmu_idx, uintptr_t retaddr)
++{
++    XtensaCPU *cpu = XTENSA_CPU(cs);
++    CPUXtensaState *env = &cpu->env;
++
++    assert(xtensa_option_enabled(env->config,
++                                 XTENSA_OPTION_UNALIGNED_EXCEPTION));
++    cpu_restore_state(CPU(cpu), retaddr, true);
++    HELPER(exception_cause_vaddr)(env,
++                                  env->pc, LOAD_STORE_ALIGNMENT_CAUSE,
++                                  addr);
++}
++
+ #ifdef CONFIG_USER_ONLY
  
- #ifdef TARGET_SPARC64
-+#ifndef CONFIG_USER_ONLY
-     env->dmmu.sfsr = build_sfsr(env, mmu_idx, access_type);
-+#endif
-     env->dmmu.sfar = addr;
- #else
-     env->mmuregs[4] = addr;
-@@ -964,4 +967,3 @@ void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+ bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+@@ -263,21 +278,6 @@ bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
  
-     cpu_raise_exception_ra(env, TT_UNALIGNED, retaddr);
- }
--#endif /* CONFIG_USER_ONLY */
+ #else /* !CONFIG_USER_ONLY */
+ 
+-void xtensa_cpu_do_unaligned_access(CPUState *cs,
+-                                    vaddr addr, MMUAccessType access_type,
+-                                    int mmu_idx, uintptr_t retaddr)
+-{
+-    XtensaCPU *cpu = XTENSA_CPU(cs);
+-    CPUXtensaState *env = &cpu->env;
+-
+-    assert(xtensa_option_enabled(env->config,
+-                                 XTENSA_OPTION_UNALIGNED_EXCEPTION));
+-    cpu_restore_state(CPU(cpu), retaddr, true);
+-    HELPER(exception_cause_vaddr)(env,
+-                                  env->pc, LOAD_STORE_ALIGNMENT_CAUSE,
+-                                  addr);
+-}
+-
+ bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                          MMUAccessType access_type, int mmu_idx,
+                          bool probe, uintptr_t retaddr)
 -- 
 2.25.1
 
