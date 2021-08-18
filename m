@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28CB33F0C2D
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 21:57:17 +0200 (CEST)
-Received: from localhost ([::1]:39854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D4933F0BD8
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 21:33:53 +0200 (CEST)
+Received: from localhost ([::1]:48540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGRga-0004Vl-6X
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 15:57:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58180)
+	id 1mGRJw-000368-7e
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 15:33:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGR6b-0000xl-Vf
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:20:06 -0400
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:37542)
+ id 1mGR6d-000112-73
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:20:07 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:43965)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGR6Z-0000KS-Sm
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:20:05 -0400
-Received: by mail-pj1-x102e.google.com with SMTP id
- cp15-20020a17090afb8fb029017891959dcbso9626676pjb.2
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 12:20:02 -0700 (PDT)
+ id 1mGR6a-0000Ka-Fw
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:20:06 -0400
+Received: by mail-pl1-x635.google.com with SMTP id e19so2420061pla.10
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 12:20:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+nSj7OTbfA5ZP9C2nrakzWmaQ+ciQS/xl93YDyaz/3Q=;
- b=SyJnafEuvMEaDhNFVtV7MhW8H34mqBCHGEZRqLf/++Nnm7sgYRw1qiGpAgx4OcaDBV
- CHhCe+zGbDEs3fS6yc3SZ2mLQ9CJvCtX9thwzG2tvhUMxdhPe0xy69w3zFqyRkzsT+af
- FrMOCAQQXeAlsjJeRfVYvatHTx7MJNxXR/pcyTnPFm09orwK/wUJugVaecGtjljZdojh
- l3wZOp6B7c0MkJOTLpS/2yWW7pWRnWHTICFaMaRe8Wp87w6a8AKxKG2JPINDMhKb8RpF
- Zhr3JYiVoKl+1bfUsfsVZHgYoYVHGL80WSyFx5BtriS30EC8S5t5KR3uPl+JJ0voG7q9
- 5VBQ==
+ bh=K/7Y1V5oBIIfdjY20lpJpKxfET+Clwy5MMgM5y1dWLw=;
+ b=VLF9RvOz5nYCoeAyfnPn2cyjN0r4htxzCydqrOAYbvA4IoBpHn/qN44/uIXqxCMOez
+ 3cuOqInhmO/7qL2k+kSRZMfWdOmvkminywUUlIygE9Y6EVcUbrhU6cKvsVFvT1a9ky/T
+ iQNtyFN75TEFDlJbNiTnWx2rQPk8fB9mGduYh6f8AhyOTGuIjzeeaaPILDnNHiBM6ans
+ hvmdQo3N1a+xd7fo2LnWhL6lsL/NkJiXvzZm93xu1Hw/bhB7ruwfx+3L/84agwm4zNEu
+ xx3351scwBwABRXdHr3crShYcNsjZ55ayMsHKQbrPCCe/FdkBG+8cA7K0iYC6j8k9dMH
+ 9WAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+nSj7OTbfA5ZP9C2nrakzWmaQ+ciQS/xl93YDyaz/3Q=;
- b=kAYjLGf13rzpIxOPNz4wh5nBsFDp23+aqW+B7uFf0cXi8DoGILlRZAvx/c75w+KhNG
- Ynkm/pkPSt4Xp9Pzkab8N50mCKI+zW2P3ndLJVbeGG0QsaEgKonAYPtV4KSxpMP1PCrw
- INxSCwRx8WjZByTAaykRdKM45NNbFgLGDDZoaXRk2ktKKgI9HXhtLJu0UFPKwcgjHMKl
- y58z9PPkMqS1ZgOYYPg0dqofj4tUGrywxH9OjRkucV3/adBTmN2okGmyjG/gUaXl3FTS
- pVzWRPlPkCQGEOIsNv+leyTTE1WH7A0Ng3mUibbatLGnTH/9S606MfaKOkD7zpwMVI0d
- 1J6g==
-X-Gm-Message-State: AOAM531XTJnQ4pZ2sRVAmRuGN9pvuBsfCUkd+cYeRw9Ncx6DCj/uA5hd
- Utky5BGD6FPalWO/H55suhBkBhORbMzlDQ==
-X-Google-Smtp-Source: ABdhPJycTPVLt77/FwBZysVEZugpQIJBhH03SPKsObuGPJ1jTpEjzhYeNvVW8GgACOTnQeygN6f2Cg==
-X-Received: by 2002:a17:902:e291:b0:12d:9d9b:7e5b with SMTP id
- o17-20020a170902e29100b0012d9d9b7e5bmr8441690plc.4.1629314401767; 
- Wed, 18 Aug 2021 12:20:01 -0700 (PDT)
+ bh=K/7Y1V5oBIIfdjY20lpJpKxfET+Clwy5MMgM5y1dWLw=;
+ b=eiF+2U0MVR1fh2/P5vXPUCzYmXmrYSoZO8MXGFe0v9uPQCKaWdh1fUhgarZzL/nBFo
+ Tqi4slt6tq9wLzUPJ64jSh6h203DHeFafOzXUefABySy+CjOS7KAbkcCkEvmupswOq1Y
+ +REsszScDTLUHWueY5SaXAN+fvoGYpyEoh5JGTPeHWniKxBUSb61cpsI8xiBG5Ju5zG6
+ xIbz583LoNRC5SZTA3MGPxd5t2rct5ZPna6263cOym6OOv4kpVPWrsAe2z+WcIBemmQN
+ Yd+ZYEwurMsbFqHlDmnJP1b8py+0YRgI/bacbU5q3GosRLwW5c87NP/MNvDX1TvbVIBg
+ rgpg==
+X-Gm-Message-State: AOAM531QHYv6A7H3yhWc2J1lWECG0ALiy+/BmmyrlXad/14dnd574Mv9
+ KzcboWziXV6pjEwSX4XDy62xmiQOXktUxg==
+X-Google-Smtp-Source: ABdhPJwanR6+RXBuDZ26xgdCnP7ac5yE7bqLQ+j5Ah8fghGXsZAQqDJgtyslXppmaxuFJpfO9zioCQ==
+X-Received: by 2002:a17:902:d343:b029:12d:3624:d997 with SMTP id
+ l3-20020a170902d343b029012d3624d997mr8597054plk.79.1629314403233; 
+ Wed, 18 Aug 2021 12:20:03 -0700 (PDT)
 Received: from localhost.localdomain ([173.197.107.15])
- by smtp.gmail.com with ESMTPSA id a6sm524108pjs.40.2021.08.18.12.20.00
+ by smtp.gmail.com with ESMTPSA id a6sm524108pjs.40.2021.08.18.12.20.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 12:20:01 -0700 (PDT)
+ Wed, 18 Aug 2021 12:20:02 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 32/66] target/ppc: Use MO_128 for 16 byte atomics
-Date: Wed, 18 Aug 2021 09:18:46 -1000
-Message-Id: <20210818191920.390759-33-richard.henderson@linaro.org>
+Subject: [PATCH v3 33/66] target/s390x: Use MO_128 for 16 byte atomics
+Date: Wed, 18 Aug 2021 09:18:47 -1000
+Message-Id: <20210818191920.390759-34-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210818191920.390759-1-richard.henderson@linaro.org>
 References: <20210818191920.390759-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,60 +84,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: qemu-ppc@nongnu.org
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/translate.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ target/s390x/tcg/mem_helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 171b216e17..540efa858f 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -3461,10 +3461,12 @@ static void gen_std(DisasContext *ctx)
-             if (HAVE_ATOMIC128) {
-                 TCGv_i32 oi = tcg_temp_new_i32();
-                 if (ctx->le_mode) {
--                    tcg_gen_movi_i32(oi, make_memop_idx(MO_LEQ, ctx->mem_idx));
-+                    tcg_gen_movi_i32(oi, make_memop_idx(MO_LE | MO_128,
-+                                                        ctx->mem_idx));
-                     gen_helper_stq_le_parallel(cpu_env, EA, lo, hi, oi);
-                 } else {
--                    tcg_gen_movi_i32(oi, make_memop_idx(MO_BEQ, ctx->mem_idx));
-+                    tcg_gen_movi_i32(oi, make_memop_idx(MO_BE | MO_128,
-+                                                        ctx->mem_idx));
-                     gen_helper_stq_be_parallel(cpu_env, EA, lo, hi, oi);
-                 }
-                 tcg_temp_free_i32(oi);
-@@ -4066,11 +4068,11 @@ static void gen_lqarx(DisasContext *ctx)
-         if (HAVE_ATOMIC128) {
-             TCGv_i32 oi = tcg_temp_new_i32();
-             if (ctx->le_mode) {
--                tcg_gen_movi_i32(oi, make_memop_idx(MO_LEQ | MO_ALIGN_16,
-+                tcg_gen_movi_i32(oi, make_memop_idx(MO_LE | MO_128 | MO_ALIGN,
-                                                     ctx->mem_idx));
-                 gen_helper_lq_le_parallel(lo, cpu_env, EA, oi);
-             } else {
--                tcg_gen_movi_i32(oi, make_memop_idx(MO_BEQ | MO_ALIGN_16,
-+                tcg_gen_movi_i32(oi, make_memop_idx(MO_BE | MO_128 | MO_ALIGN,
-                                                     ctx->mem_idx));
-                 gen_helper_lq_be_parallel(lo, cpu_env, EA, oi);
-             }
-@@ -4121,7 +4123,7 @@ static void gen_stqcx_(DisasContext *ctx)
+diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
+index ec88f5dbb0..3782c1c098 100644
+--- a/target/s390x/tcg/mem_helper.c
++++ b/target/s390x/tcg/mem_helper.c
+@@ -1810,7 +1810,7 @@ void HELPER(cdsg_parallel)(CPUS390XState *env, uint64_t addr,
+     assert(HAVE_CMPXCHG128);
  
-     if (tb_cflags(ctx->base.tb) & CF_PARALLEL) {
-         if (HAVE_CMPXCHG128) {
--            TCGv_i32 oi = tcg_const_i32(DEF_MEMOP(MO_Q) | MO_ALIGN_16);
-+            TCGv_i32 oi = tcg_const_i32(DEF_MEMOP(MO_128) | MO_ALIGN);
-             if (ctx->le_mode) {
-                 gen_helper_stqcx_le_parallel(cpu_crf[0], cpu_env,
-                                              EA, lo, hi, oi);
+     mem_idx = cpu_mmu_index(env, false);
+-    oi = make_memop_idx(MO_TEQ | MO_ALIGN_16, mem_idx);
++    oi = make_memop_idx(MO_TE | MO_128 | MO_ALIGN, mem_idx);
+     oldv = cpu_atomic_cmpxchgo_be_mmu(env, addr, cmpv, newv, oi, ra);
+     fail = !int128_eq(oldv, cmpv);
+ 
+@@ -1939,7 +1939,7 @@ static uint32_t do_csst(CPUS390XState *env, uint32_t r3, uint64_t a1,
+                 cpu_stq_data_ra(env, a1 + 0, int128_gethi(nv), ra);
+                 cpu_stq_data_ra(env, a1 + 8, int128_getlo(nv), ra);
+             } else if (HAVE_CMPXCHG128) {
+-                MemOpIdx oi = make_memop_idx(MO_TEQ | MO_ALIGN_16, mem_idx);
++                MemOpIdx oi = make_memop_idx(MO_TE | MO_128 | MO_ALIGN, mem_idx);
+                 ov = cpu_atomic_cmpxchgo_be_mmu(env, a1, cv, nv, oi, ra);
+                 cc = !int128_eq(ov, cv);
+             } else {
 -- 
 2.25.1
 
