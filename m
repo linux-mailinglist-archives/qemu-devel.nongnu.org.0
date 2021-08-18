@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92C193F0AA7
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 19:56:20 +0200 (CEST)
-Received: from localhost ([::1]:49314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B1F23F0ADF
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 20:12:24 +0200 (CEST)
+Received: from localhost ([::1]:55424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGPnW-0008QJ-Qt
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 13:56:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40760)
+	id 1mGQ34-0005Wd-DO
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 14:12:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGPmM-0006y8-5P
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 13:55:06 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:41812)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1mGQ0z-0004kl-Cw
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 14:10:16 -0400
+Received: from mail-lj1-x236.google.com ([2a00:1450:4864:20::236]:36823)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGPmK-0007wT-Ki
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 13:55:05 -0400
-Received: by mail-pg1-x530.google.com with SMTP id k24so3037709pgh.8
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 10:55:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=/prZZlXt2aDcasmszjiTrA2wYTmBvu4EkgwZ3zHxzUY=;
- b=qD5cubI0PoiUZu6CUPQep/tEcqRghSi4hI6g51KTvq+OfMOOgRAaAJzrPj5pKkIml6
- 7r3jaV9w03uvgI2aKiCiaPDnwviu5AjtQU44lHg+QP4HERXOO3tpAPEYP2Lnr0L9yYF8
- QGxQqEfTU+JqA6x5S+50WNrvohqQxY9g1L0LoqFaOStXtpHD3IEBS+a1VEJPmzzgono/
- 1vkjo6Frqz1F8TG8ZJ8y6RNNo/ORAn8XrPh4iw8pXDxyT1nyYQ0WvHel/mjM8TJXo8Mc
- rDh+rceKiFOkx1HOuE/7+yn5pJf5urMihWAlv5Std1havpAjPYGJ1gqqoakvV9bHmmkQ
- oaSg==
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1mGQ0r-0001uU-Kl
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 14:10:09 -0400
+Received: by mail-lj1-x236.google.com with SMTP id y7so6715830ljp.3
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 11:10:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KmkbHrGwaje1cT1DuaFe3Bbut008EeTgvkTy6j5bl6E=;
+ b=y7WsaqSCwymDIHrmTnLQ75UN/q3EvusbhGcWEpjvllzRBA16fjGDyhj/4l1lmCllSv
+ VRt1mQbXi/Xo4Y5HSVkJGMlJwY30TGXb0tfEuiVTVSY/koW1nCT+CTwyPKeAwo8ypQcc
+ CoWlTKPxuoo3/UwMj7YjCUz8CNnxHEYmbH5npfjPOoiWM9tS7dmB2XaG0MCopBp+UPEg
+ U1GnsStxFxC6CEiF+0yTSwjASYVgxVzSWGHgBbs2/cqv5x2s19tvfw/ODCPkwUWADrL5
+ MdP0SS2ItTbRze0lncZUQiHV+x7jROby1TNTr0QjLM7sybPvXmLzqobr5B46Js33qIRT
+ KR6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=/prZZlXt2aDcasmszjiTrA2wYTmBvu4EkgwZ3zHxzUY=;
- b=YEsdjG1i+7vJPwVsx8D48GLRj6wv5gBhYHwtUQ+spF2d6wYi/+gF0RYN7ZfbXFP3AW
- pEfI5N+ir0567DQtD10XLtUpQtsZ5bRIGuxxkS7eOtQDZgt+vgbKaiUQTNidC5xJOiOn
- MzbA3ZF1Tnmky9b5KFYEy5wWGnDmLeAZ3otzruvuO92qeVAFj9I7Nlsb2USASWeznSLV
- Qq8X5IGltJGW3QfySm9TZAuSR56U6I67z8AA+zP51GY3Zxtq/pR7NhH2NKFhUGeK/LcM
- 2GLe7ybdwBj+TIDn+pzQ+xHfCZYivyngJSKj3itAC+24K+fVjbddvxPKLGELQlkJxOi+
- BVCQ==
-X-Gm-Message-State: AOAM532Y0mvA10m9czBXTL2mJIu4i4h7Ap4kjfCISDN11QJ+vRC4rDAc
- mVkqzuhPqZ2xiiUjxaL41yLU56ZZXZwfMw==
-X-Google-Smtp-Source: ABdhPJyFKoa9anALvWl26OkWhkJCXg3nAZ6HPmQaTXLwauv0flMnrUi9/D3vwBaHnFpy3xUThvWfjQ==
-X-Received: by 2002:a62:3342:0:b029:3b7:6395:a93 with SMTP id
- z63-20020a6233420000b02903b763950a93mr10437369pfz.71.1629309303004; 
- Wed, 18 Aug 2021 10:55:03 -0700 (PDT)
-Received: from [192.168.3.43] ([173.197.107.15])
- by smtp.gmail.com with ESMTPSA id i11sm431000pfo.29.2021.08.18.10.55.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Aug 2021 10:55:02 -0700 (PDT)
-Subject: Re: [PATCH v2 37/55] target/mips: Use 8-byte memory ops for msa
- load/store
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210803041443.55452-1-richard.henderson@linaro.org>
- <20210803041443.55452-38-richard.henderson@linaro.org>
- <e346410a-3257-d9a4-b320-c3f4b1765a4e@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9585531e-9cc3-9779-2052-32ce633d5a32@linaro.org>
-Date: Wed, 18 Aug 2021 07:55:00 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=KmkbHrGwaje1cT1DuaFe3Bbut008EeTgvkTy6j5bl6E=;
+ b=D7xXd8Z5ABpBugHefEMDXI8hUeTyLyKxuv2+AGSMyAM9uM+PEIfHAf1C+Gl42n7ZlD
+ X8yIL5gjqA/y8VrW3qbG8T1zYTgv0o4UyNieRClKky8NhiSboGf2+ivNilwoZgfaIbxQ
+ PkK08JBwWw5goUq+1nteZKm3fKBMzhTXhv0i07OtOGtHh90armeSMVyE77T+ZVi4qUpC
+ /jsX4TTq12KdwEk1PSmQBWXd30UzO3ddi9ym5cXkUIV7sXRHc0PG1ZO1KrkTR1ANZsGF
+ EI7M6UYPatqUZGgvqi0gk4ckNGeTvTwq7Sllg1cEJGCxKdIvw6k6R/3G7M+lbQvUhO12
+ Z+yA==
+X-Gm-Message-State: AOAM533haGTuh3zfgNEem8Kw8Qy3f1nRwyzW6YTvXxz7WuT89lAySI/J
+ cFULmDtblRBZmPvN98K0fR+NTg==
+X-Google-Smtp-Source: ABdhPJydc0O6Ye5tYSGwexM6v0DwuztlbamcuXhDBp8hHkgxKf01MxRR40hB+vZkCipdvCH2H2b0nw==
+X-Received: by 2002:a2e:300a:: with SMTP id w10mr9065875ljw.510.1629310201857; 
+ Wed, 18 Aug 2021 11:10:01 -0700 (PDT)
+Received: from navi.cosmonova.net.ua ([95.67.24.131])
+ by smtp.gmail.com with ESMTPSA id h17sm35249lfr.287.2021.08.18.11.10.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Aug 2021 11:10:01 -0700 (PDT)
+From: Andrew Melnychenko <andrew@daynix.com>
+To: dmitry.fleytman@gmail.com,
+	jasowang@redhat.com
+Subject: [PATCH] e1000e: Added ICR clearing by corresponding IMS bit.
+Date: Wed, 18 Aug 2021 21:09:51 +0300
+Message-Id: <20210818180951.132044-1-andrew@daynix.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <e346410a-3257-d9a4-b320-c3f4b1765a4e@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.961,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2a00:1450:4864:20::236;
+ envelope-from=andrew@daynix.com; helo=mail-lj1-x236.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,85 +79,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/17/21 11:21 PM, Philippe Mathieu-Daudé wrote:
->> +#ifdef TARGET_WORDS_BIGENDIAN
->> +static inline uint64_t bswap16x4(uint64_t x)
->> +{
->> +    uint64_t m = 0x00ff00ff00ff00ffull;
->> +    return ((x & m) << 8) | ((x >> 8) & m);
->> +}
->> +
->> +static inline uint64_t bswap32x2(uint64_t x)
->> +{
->> +    return ror64(bswap64(x), 32);
->> +}
->> +#endif
-> 
-> I'm trying to remove TARGET_WORDS_BIGENDIAN uses,
-> so this would become:
-> 
-> static inline bool is_cpu_bigendian(CPUMIPSState *)
-> {
->      return extract32(env->CP0_Config0, CP0C0_BE, 1);
-> }
-> 
-> static inline uint64_t bswap16x4(CPUMIPSState *env, uint64_t x)
-> {
->      if (is_cpu_bigendian(env)) {
->          uint64_t m = 0x00ff00ff00ff00ffull;
->          return ((x & m) << 8) | ((x >> 8) & m);
->      } else {
->          return x;
->      }
-> }
-> 
-> static inline uint64_t bswap32x2(CPUMIPSState *env, uint64_t x)
-> {
->      if (is_cpu_bigendian(env)) {
->          return ror64(bswap64(x), 32);
->      } else {
->          return x;
->      }
-> }
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1707441
 
-I would not put the bigendian test in here...
+The issue is in LSC clearing. So, after "link up"(during initialization),
+the next LSC event is masked and can't be processed.
+Technically, the event should be 'cleared' during ICR read.
+On Windows guest, everything works well, mostly because of
+different interrupt routines(ICR clears during register write).
+So, added ICR clearing during reading, according to the note by
+section 13.3.27 of the 8257X developers manual.
 
-> 
-> And we can remove the other TARGET_WORDS_BIGENDIAN uses:
-> 
->>   void helper_msa_ld_w(CPUMIPSState *env, uint32_t wd,
->> @@ -8293,18 +8271,20 @@ void helper_msa_ld_w(CPUMIPSState *env, uint32_t wd,
->>   {
->>       wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
->>       uintptr_t ra = GETPC();
->> +    uint64_t d0, d1;
->>   
->> -#if !defined(HOST_WORDS_BIGENDIAN)
->> -    pwd->w[0] = cpu_ldl_data_ra(env, addr + (0 << DF_WORD), ra);
->> -    pwd->w[1] = cpu_ldl_data_ra(env, addr + (1 << DF_WORD), ra);
->> -    pwd->w[2] = cpu_ldl_data_ra(env, addr + (2 << DF_WORD), ra);
->> -    pwd->w[3] = cpu_ldl_data_ra(env, addr + (3 << DF_WORD), ra);
->> -#else
->> -    pwd->w[0] = cpu_ldl_data_ra(env, addr + (1 << DF_WORD), ra);
->> -    pwd->w[1] = cpu_ldl_data_ra(env, addr + (0 << DF_WORD), ra);
->> -    pwd->w[2] = cpu_ldl_data_ra(env, addr + (3 << DF_WORD), ra);
->> -    pwd->w[3] = cpu_ldl_data_ra(env, addr + (2 << DF_WORD), ra);
->> +    /*
->> +     * Load 8 bytes at a time.  Use little-endian load, then for
->> +     * big-endian target, we must then bswap the two words.
->> +     */
->> +    d0 = cpu_ldq_le_data_ra(env, addr + 0, ra);
->> +    d1 = cpu_ldq_le_data_ra(env, addr + 8, ra);
->> +#ifdef TARGET_WORDS_BIGENDIAN
->> +    d0 = bswap32x2(d0);
->> +    d1 = bswap32x2(d1);
->>   #endif
+Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+---
+ hw/net/e1000e_core.c | 10 ++++++++++
+ hw/net/trace-events  |  1 +
+ 2 files changed, 11 insertions(+)
 
-... I would leave it here.
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index b75f2ab8fc..288897a975 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -2617,6 +2617,16 @@ e1000e_mac_icr_read(E1000ECore *core, int index)
+         e1000e_clear_ims_bits(core, core->mac[IAM]);
+     }
+ 
++    /*
++     * PCIe* GbE Controllers Open Source Software Developer's Manual
++     * 13.3.27 Interrupt Cause Read Register
++     */
++    if ((core->mac[ICR] & E1000_ICR_ASSERTED) &&
++        (core->mac[ICR] & core->mac[IMS])) {
++        trace_e1000e_irq_icr_clear_icr_bit_ims(core->mac[ICR], core->mac[IMS]);
++        core->mac[ICR] = 0;
++    }
++
+     trace_e1000e_irq_icr_read_exit(core->mac[ICR]);
+     e1000e_update_interrupt_state(core);
+     return ret;
+diff --git a/hw/net/trace-events b/hw/net/trace-events
+index c28b91ee1a..15fd09aa1c 100644
+--- a/hw/net/trace-events
++++ b/hw/net/trace-events
+@@ -225,6 +225,7 @@ e1000e_irq_icr_read_entry(uint32_t icr) "Starting ICR read. Current ICR: 0x%x"
+ e1000e_irq_icr_read_exit(uint32_t icr) "Ending ICR read. Current ICR: 0x%x"
+ e1000e_irq_icr_clear_zero_ims(void) "Clearing ICR on read due to zero IMS"
+ e1000e_irq_icr_clear_iame(void) "Clearing ICR on read due to IAME"
++e1000e_irq_icr_clear_icr_bit_ims(uint32_t icr, uint32_t ims) "Clearing ICR on read due corresponding IMS bit: 0x%x & 0x%x"
+ e1000e_irq_iam_clear_eiame(uint32_t iam, uint32_t cause) "Clearing IMS due to EIAME, IAM: 0x%X, cause: 0x%X"
+ e1000e_irq_icr_clear_eiac(uint32_t icr, uint32_t eiac) "Clearing ICR bits due to EIAC, ICR: 0x%X, EIAC: 0x%X"
+ e1000e_irq_ims_clear_set_imc(uint32_t val) "Clearing IMS bits due to IMC write 0x%x"
+-- 
+2.31.1
 
-
-r~
 
