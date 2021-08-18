@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F78D3F0A80
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 19:49:13 +0200 (CEST)
-Received: from localhost ([::1]:39596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5439C3F0A91
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 19:52:49 +0200 (CEST)
+Received: from localhost ([::1]:44284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGPgd-0001Zm-U1
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 13:49:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37624)
+	id 1mGPk8-0004rU-6W
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 13:52:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGPf5-0000Wu-91
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 13:47:35 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:45883)
+ id 1mGPiM-0003be-Hf
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 13:50:58 -0400
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:45853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGPf0-0002Ke-Pn
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 13:47:34 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id t42so330111pfg.12
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 10:47:30 -0700 (PDT)
+ id 1mGPiK-0005AI-Vc
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 13:50:58 -0400
+Received: by mail-pj1-x102d.google.com with SMTP id
+ m24-20020a17090a7f98b0290178b1a81700so2832127pjl.4
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 10:50:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:references:from:message-id:date:user-agent:mime-version
  :in-reply-to:content-language:content-transfer-encoding;
- bh=SWFb8lXcvxeR+Bkb/tbN+II76Lr3L0/87zgptJzCpDg=;
- b=tws6Sud94iKmAmtoT9ovfATdk+0HbiFBAzjI5IWrFxZ3FT6xOoWy4AGHeLHvP7zAIh
- FVv+FekyHjF+0qRXqWVw3wfnOrF93GWbh0dEIE57rzZpALRcND5r2R9ak4XjAOTPNVeo
- 9UZCwuP5j952PrJVVp7j6eM/t/yeoseTGPB9ykekF47Kc6hnry0EmW7B3+q53vSwoujq
- PbTk7aZl6Db1TM67AN4YzzLAd2zetjcnqcNngIDX9Hw0WFt5d1V52XYkpA/g2M9tkFrS
- MFtUAIGqJlk5UXZj4ycThVPCkk/n0QrSqq8HIXMsl+u2Ud3FEZvDVXrSBT3LwrnQnn3p
- QmDw==
+ bh=e2dEKzJjd60JqHgGn3ZQ1mAybS4Z2O2NWzRTaDlxn+E=;
+ b=F9e+QVCq6DD8JK2EaNlp/69bUqcKQLPl4nQWP2W9HTc3ljzwQMS5vmj1z5NbdNXZV4
+ 9G5ndVsFAoDzvWSNgAQZlCzOphmGARXPUxlcwDNLMxEnrdlArnE+7iekdGuwtyd7LSz3
+ pe6/I+SFQYYwSUYqiD15Jr2i82BV90Uz8n+gYvtmJVPUdSkreXEVN7CFb3BVQf2x/A2h
+ vqrTsa0WetwenxLHFpZWpm+QXXDChtJdPRNxuodZ+d+6jv7ikPQR97wOSftuL81iay2A
+ iQGEQTXutlT8DV5QLAX1Cx7MsIxKrZx66FlzXd/E5aK0YGfjaDyHbYqgHMGXiEOIBMfH
+ bQLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=SWFb8lXcvxeR+Bkb/tbN+II76Lr3L0/87zgptJzCpDg=;
- b=qn0On37pfiOOtQQ3F5PhDziWYLN/deBtIxuRBPZ9lClv7I2RRx1lrLxnVh7qmVuHSI
- afj/AMk94hlZklld04RhnONGQ3pAFwiFrUJTkLOo70UxspBPfHDkWgCjr4lH8R1tB6VV
- lrIIjQnN2ctrzemZ7L+d4OZzUKxiWmDbPLQFiLoGbK9hGpG6q6IcA8al8W0gxeh57gbG
- vNrpuxb9/AZPILY0FWEfc+gKWfiAOBdSEdN25Pf/5e4X6sjo/atv4mwFlXeF7jH43cUE
- efknZXhxBEZI9fggfD26hFgrZuJ/N8ywABvufFXxsx3rUs43Ikmfjl1/IpFZftQHrRQn
- gTYg==
-X-Gm-Message-State: AOAM5316NTyTGTlIc8tT/UBw+KWrhiMq/UBMtaLTmTJe61Da+SfAhp6d
- FwX2XNFVJPK7l0/i459cugpzop7TLktmkQ==
-X-Google-Smtp-Source: ABdhPJwCNYAfVnoV6nHZ9LNnPmqYwMH11VYfGvYRnqEe3VAu1ONLkV74I71cC1djtgDxkaOTTTlCGQ==
-X-Received: by 2002:aa7:8206:0:b029:3c6:2846:3f9f with SMTP id
- k6-20020aa782060000b02903c628463f9fmr10888873pfi.30.1629308849124; 
- Wed, 18 Aug 2021 10:47:29 -0700 (PDT)
+ bh=e2dEKzJjd60JqHgGn3ZQ1mAybS4Z2O2NWzRTaDlxn+E=;
+ b=hNgDwByJtYsyuu+OxOh6KmFlmwYSyWlG0sKILdS+w5sH03J8SJyKwUeI5uYctGOup1
+ STWP0T7twISZtJewG9uETrWWaX5TajTytibDc+0vssgIS1QtZd5qtAQee762p7ZW00JU
+ aQ0lSaKIda//Cby/3m40TNX7m+/K5xU/hsyVzk/YJGAJkOyJmVn6OCVscWOWI7uxmtoo
+ EHDD5iKfW2jQxeaMZ0M06wdMSRHZP3gSltTc8Ml4jGthyN+2es3GJRQp5CotRp4zG3Ie
+ LP2aFcGOsmr3ShhIW1MFcewOGbiJFjGxyIm1KZ3zzfAL615QcGc2JFZTTQd0qugwUoyc
+ 5Cbw==
+X-Gm-Message-State: AOAM530FJU8a2dJ78ASQXxZxhOeFBBXWaheAoWjOSlidrjtIbf7AU/tS
+ a8hgSm6Av0Hz/yX/dphO+uDIpg==
+X-Google-Smtp-Source: ABdhPJyUXAHyrJKPun6XjnVRnwB4a9B99HD04ClmQHL6bu+D4xqsL6mcnQ9xPykpYS3jg8s4PNdsxg==
+X-Received: by 2002:a17:903:2441:b0:12d:c574:e654 with SMTP id
+ l1-20020a170903244100b0012dc574e654mr8193621pls.43.1629309055166; 
+ Wed, 18 Aug 2021 10:50:55 -0700 (PDT)
 Received: from [192.168.3.43] ([173.197.107.15])
- by smtp.gmail.com with ESMTPSA id b5sm442161pjq.2.2021.08.18.10.47.28
+ by smtp.gmail.com with ESMTPSA id q26sm384894pff.174.2021.08.18.10.50.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Aug 2021 10:47:28 -0700 (PDT)
-Subject: Re: [PATCH v2 20/55] accel/tcg: Report unaligned atomics for user-only
+ Wed, 18 Aug 2021 10:50:54 -0700 (PDT)
+Subject: Re: [PATCH v2 34/55] accel/tcg: Add cpu_{ld,st}*_mmu interfaces
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
 References: <20210803041443.55452-1-richard.henderson@linaro.org>
- <20210803041443.55452-21-richard.henderson@linaro.org>
- <d6cdd362-016a-cf05-e444-ce5cd813957c@amsat.org>
+ <20210803041443.55452-35-richard.henderson@linaro.org>
+ <8feb6f2d-1c20-8f2f-d387-5e1d77be007e@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <516c8bb6-3ed3-0ccf-9c02-366bdc018d88@linaro.org>
-Date: Wed, 18 Aug 2021 07:47:25 -1000
+Message-ID: <2eb3c5a7-01b1-eb03-1800-20a01d48fa94@linaro.org>
+Date: Wed, 18 Aug 2021 07:50:51 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <d6cdd362-016a-cf05-e444-ce5cd813957c@amsat.org>
+In-Reply-To: <8feb6f2d-1c20-8f2f-d387-5e1d77be007e@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
@@ -93,23 +94,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/17/21 10:51 PM, Philippe Mathieu-Daudé wrote:
->> -    void *ret = g2h(env_cpu(env), addr);
+On 8/17/21 11:01 PM, Philippe Mathieu-Daudé wrote:
+> On 8/3/21 6:14 AM, Richard Henderson wrote:
+>> These functions are much closer to the softmmu helper
+>> functions, in that they take the complete MemOpIdx,
+>> and from that they may enforce required alignment.
+>>
+>> The previous cpu_ldst.h functions did not have alignment info,
+>> and so did not enforce it.  Retain this by adding MO_UNALN to
+>> the MemOp that we create in calling the new functions.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>   docs/devel/loads-stores.rst |  52 ++++-
+>>   include/exec/cpu_ldst.h     | 245 ++++++++--------------
+>>   accel/tcg/cputlb.c          | 392 ++++++++++++------------------------
+>>   accel/tcg/user-exec.c       | 390 +++++++++++++++--------------------
+>>   accel/tcg/ldst_common.c.inc | 307 ++++++++++++++++++++++++++++
+>>   5 files changed, 722 insertions(+), 664 deletions(-)
+>>   create mode 100644 accel/tcg/ldst_common.c.inc
+> 
+>>   Function names follow the pattern:
+>>   
+>> +load: ``cpu_ld{size}{end}_mmu(env, ptr, oi, retaddr)``
 >> +
->> +    ret = g2h(env_cpu(env), addr);
->>       set_helper_retaddr(retaddr);
->>       return ret;
+>> +store: ``cpu_st{size}{end}_mmu(env, ptr, val, oi, retaddr)``
+>> +
+>> +``size``
+>> + - ``b`` : 8 bits
+>> + - ``w`` : 16 bits
+>> + - ``l`` : 32 bits
+>> + - ``q`` : 64 bits
 > 
-> Can't we simply do:
-> 
->         return g2h(env_cpu(env), addr);
-> 
-> ?
+> kinda unrelated to this patch, but what would be the pattern
+> for 128 bits? ``o`` for octoword?
 
-I think the idea was to narrow the range of instructions in which helper_retaddr is set, 
-because {set,clear}_helper_retaddr contain barriers.  I didn't give it more thought this 
-time around, just kept the ordering.
+Yeah, that's what we've done for the 128-bit atomics.
 
 r~
-
 
