@@ -2,57 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6ABD63EFF81
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 10:48:44 +0200 (CEST)
-Received: from localhost ([::1]:37456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F400D3EFF89
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 10:50:04 +0200 (CEST)
+Received: from localhost ([::1]:41398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGHFb-0001u2-F9
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 04:48:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48412)
+	id 1mGHGu-0004V1-0q
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 04:50:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mGHEB-0000Rc-P6
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 04:47:15 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38568
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mGHE9-0000iC-V0
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 04:47:15 -0400
-Received: from host86-179-247-14.range86-179.btcentralplus.com
- ([86.179.247.14] helo=[192.168.50.176])
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mGHDo-000CML-0X; Wed, 18 Aug 2021 09:46:57 +0100
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mGHEw-0001gj-0Z
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 04:48:02 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35759)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mGHEu-0001LP-JF
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 04:48:01 -0400
+Received: by mail-wr1-x431.google.com with SMTP id q10so2285353wro.2
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 01:48:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=BZnf8WnecQy+K41nGHsWH+o5JHHbAOIDethQldJWp8w=;
+ b=IfWZmvdLg+ZTjt0HzpT5qAAb0rEm3fG0r3MIlMuGcPEFgEst9v/61FZORHhbpyLyjg
+ 9T2MedqoQuGosoqYQeVOryRJGUGyc4CMGCrz+BNN1R5e22ZvwRT1M9EoaGV6Q2RI2wKD
+ RxzLi2Y8FMCdyaaUdAFnrNeDZsIh9LsZnkf2RsRLRxwRUvgJNmX6FIvcUUj5IbOfTkDq
+ jixJURD2durktpEj+THJc96icuq0BTMe6puxEliyyhYepsXl5ucBnn/eoKpBn5MnEj/y
+ S+7Y/NOegCJ/gi6ZYh7x+WvuvSg7w4ETO8Ur1E/1cKcj6GoZqyhAd0BhlnnPe0Y0m7Nv
+ RhUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BZnf8WnecQy+K41nGHsWH+o5JHHbAOIDethQldJWp8w=;
+ b=Hn6m8VzNKjvi8uZBDVvpkaWQDzYohjwwft2CHha0E+Jt/xHJdXjAfl33IAYz8fvF8y
+ cwx57CSjwhYGl6XCINHwtkoe5aeLmTyAmZdIRS1KNLu+f2zWrOnhBc0gX0EUDexg7PEb
+ cJlq4LyBZOlPVVxqKaXcxm0OhEkSlIJu1PoyHyQsvb5R+5M0/ElnK+tR3Lk2ztsDilKJ
+ fg2Y+pipUKTn8ZIP/R4C7/hvUniMOld8ZneWg9UBTvtAysE04fUZTRKUtTg9khbmdar0
+ /Kb7+SGDdUSncdoQb64NtnyukbSSjfLRLFePNzcmv0qA/ESg6iFaMOG0fh9SRqpjck64
+ IM8w==
+X-Gm-Message-State: AOAM530ax9CdRsCUQ8mTZDysfQND6YSZfqBPxzJXib3Cs1mTaPeukwBA
+ kyZ5nwASqENWwrv4NUhrMxI=
+X-Google-Smtp-Source: ABdhPJxcpOUOGArdGGhtbyb/XgoodriTSpRqtKTRi3fjJb5MsHQY0FVXvrYTWG4Xcl8JoXoHi/57uw==
+X-Received: by 2002:adf:b357:: with SMTP id k23mr9284703wrd.94.1629276479044; 
+ Wed, 18 Aug 2021 01:47:59 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id g11sm5244264wrd.97.2021.08.18.01.47.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Aug 2021 01:47:58 -0700 (PDT)
+Subject: Re: [PATCH v2 12/55] target/s390x: Implement do_unaligned_access for
+ user-only
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210803041443.55452-1-richard.henderson@linaro.org>
- <20210803041443.55452-18-richard.henderson@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <300951db-bc99-a3bb-f2af-af8451c7d4d0@ilande.co.uk>
-Date: Wed, 18 Aug 2021 09:47:06 +0100
+ <20210803041443.55452-13-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <576bfe41-241e-3fa7-d03c-d9a06df8c197@amsat.org>
+Date: Wed, 18 Aug 2021 10:47:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210803041443.55452-18-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210803041443.55452-13-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 86.179.247.14
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 17/55] target/sparc: Set fault address in
- sparc_cpu_do_unaligned_access
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -38
-X-Spam_score: -3.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.961,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.961,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,75 +90,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/08/2021 05:14, Richard Henderson wrote:
-
-> We ought to have been recording the virtual address for reporting
-> to the guest trap handler.  Move the function to mmu_helper.c, so
-> that we can re-use code shared with get_physical_address_data.
-> 
-> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+On 8/3/21 6:14 AM, Richard Henderson wrote:
+> Reviewed-by: David Hildenbrand <david@redhat.com>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   target/sparc/ldst_helper.c | 13 -------------
->   target/sparc/mmu_helper.c  | 18 ++++++++++++++++++
->   2 files changed, 18 insertions(+), 13 deletions(-)
-> 
-> diff --git a/target/sparc/ldst_helper.c b/target/sparc/ldst_helper.c
-> index 974afea041..ea163200a4 100644
-> --- a/target/sparc/ldst_helper.c
-> +++ b/target/sparc/ldst_helper.c
-> @@ -1953,16 +1953,3 @@ void sparc_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
->                             is_asi, size, retaddr);
->   }
->   #endif
-> -
-> -#if !defined(CONFIG_USER_ONLY)
-> -void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-> -                                                 MMUAccessType access_type,
-> -                                                 int mmu_idx,
-> -                                                 uintptr_t retaddr)
-> -{
-> -    SPARCCPU *cpu = SPARC_CPU(cs);
-> -    CPUSPARCState *env = &cpu->env;
-> -
-> -    cpu_raise_exception_ra(env, TT_UNALIGNED, retaddr);
-> -}
-> -#endif
-> diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
-> index 5b2fda534a..2f260b0085 100644
-> --- a/target/sparc/mmu_helper.c
-> +++ b/target/sparc/mmu_helper.c
-> @@ -946,4 +946,22 @@ hwaddr sparc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
->       }
->       return phys_addr;
->   }
-> +
-> +void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-> +                                                 MMUAccessType access_type,
-> +                                                 int mmu_idx,
-> +                                                 uintptr_t retaddr)
-> +{
-> +    SPARCCPU *cpu = SPARC_CPU(cs);
-> +    CPUSPARCState *env = &cpu->env;
-> +
-> +#ifdef TARGET_SPARC64
-> +    env->dmmu.sfsr = build_sfsr(env, mmu_idx, access_type);
-> +    env->dmmu.sfar = addr;
-> +#else
-> +    env->mmuregs[4] = addr;
->   #endif
-> +
-> +    cpu_raise_exception_ra(env, TT_UNALIGNED, retaddr);
-> +}
-> +#endif /* CONFIG_USER_ONLY */
+>  target/s390x/cpu.c             |  2 +-
+>  target/s390x/tcg/excp_helper.c | 28 +++++++++++++++-------------
+>  2 files changed, 16 insertions(+), 14 deletions(-)
 
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-
-
-ATB,
-
-Mark.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
