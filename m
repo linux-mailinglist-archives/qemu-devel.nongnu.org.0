@@ -2,92 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FC103F0B40
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 20:49:09 +0200 (CEST)
-Received: from localhost ([::1]:46260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 211F63F0B4F
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 20:53:29 +0200 (CEST)
+Received: from localhost ([::1]:48576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGQcd-0003gg-NN
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 14:49:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52052)
+	id 1mGQgq-0005SE-6z
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 14:53:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1mGQbH-00030b-I0
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 14:47:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32273)
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1mGQfT-0004iu-V7
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 14:52:05 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15502
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1mGQbD-0002st-ND
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 14:47:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629312458;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OVNioJaOKPWVJ7c7+1D/LBLnpm63OprbvZqC7b3Xz44=;
- b=PWPFDi2Up2r0ouYs+fm2rZBUTvspyKU7Ui95PYOyUTT/OqOGIGMUhOvbcCNXTtg7BlAgl8
- VHinD3RE9J/w1glQr3Xk29IAQs3BB1JLTlIPlLGU68GvDY4xEymt84XzYdPmgMD2jjz9IL
- dV3D7BbceM3mNRkBUp4E6+q66ElDQc8=
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
- [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-8aViOUAkO-ikTtqaIvKvgQ-1; Wed, 18 Aug 2021 14:47:35 -0400
-X-MC-Unique: 8aViOUAkO-ikTtqaIvKvgQ-1
-Received: by mail-oi1-f199.google.com with SMTP id
- s10-20020a056808008a00b00268c82cc7a0so980808oic.14
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 11:47:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=OVNioJaOKPWVJ7c7+1D/LBLnpm63OprbvZqC7b3Xz44=;
- b=JJRAp4Vnp7KejqNxzxC/ff40EQKSFrw6/P9I2p3fVpG1SDfYa+mhKfIsNG6FF9nhnS
- v/sQ0h1nbxl/EYsChvvWhtpp9fkqrlGZGSllfkNgqPYyXl9ra6NNIpyhIGLqPAQjxzOu
- YR2z1tkUeB0W9kz6fl+GTbk6W1N0Wrphh+dj4yo1CJK4u61ib+dGxPcrE16oSqdcbvU6
- 2FNAVso+N7jCEWIfCbQfgL9IlafyKRuTK7vzAGJ1d9jK6q6ngrqf2LorSgLH9EijPl3D
- LkV31dLb4PWjG0nLngxCpJljhThr4q+vE7JbOg2OfGWEcwMI8d+cmqtCuqOpcOyPr0ZF
- oX9g==
-X-Gm-Message-State: AOAM532T/k/fLs7rqtfRlygO1gYRXdixS6Zx8Ml9W4az8LnSrCQPbRUP
- NplLxufWafENHqZjFsLU78vZmvz8Tc59rq4JcuGEyfSE1MaBlJxICsQu/iFKTk5I/qogs8j/4m4
- cSCAYEpQGbtcUvcY=
-X-Received: by 2002:a05:6830:214c:: with SMTP id
- r12mr7109201otd.200.1629312454446; 
- Wed, 18 Aug 2021 11:47:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz0M19Zpp2UQXQUfOyBx2TYWszgiysxG81+zFhJU+ILUiPBBc0AE/s8MqPwbAkTwU0WtHFgpQ==
-X-Received: by 2002:a05:6830:214c:: with SMTP id
- r12mr7109189otd.200.1629312454215; 
- Wed, 18 Aug 2021 11:47:34 -0700 (PDT)
-Received: from redhat.com ([198.99.80.109])
- by smtp.gmail.com with ESMTPSA id d11sm113134ooh.8.2021.08.18.11.47.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 11:47:33 -0700 (PDT)
-Date: Wed, 18 Aug 2021 12:47:32 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Subject: Re: [PATCH RFC v2 04/16] vfio-user: connect vfio proxy to remote
- server
-Message-ID: <20210818124732.2fcc6180.alex.williamson@redhat.com>
-In-Reply-To: <e9fa92081e0faf49089f4afb9a45187e49ea4bad.1629131628.git.elena.ufimtseva@oracle.com>
-References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
- <e9fa92081e0faf49089f4afb9a45187e49ea4bad.1629131628.git.elena.ufimtseva@oracle.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1mGQfP-0006DO-LM
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 14:52:02 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 17IIZOjj097790; Wed, 18 Aug 2021 14:51:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : reply-to : to : cc : date : in-reply-to : references : content-type
+ : mime-version : content-transfer-encoding; s=pp1;
+ bh=bhlerqPzxKDsl5WHelFKWWyiLBMMmsCeRU/M1mVJyH0=;
+ b=h1WI4H21SdXczB1KHk3NbOahHjdAscSjQGsKYXXawrfYsWL0By3EkV/etAgOWdZ/WD7U
+ RHauODwyO/zKGMo6A0lZPA+UIag2I6nuMOelPh8jntzOWi+lQHyccWfLdyoYvD2J99ya
+ hf9AFOOqdABFJfN8Lz0SJ1q16DWv/MFRIoGoLSz/nHnqHiHGEgc49yF1E2VVXw/AIvae
+ XGC029oGESOnhHu20Te6od6j5egTPuezGSiE5f/63/sVRUOoaXjxT8SEU5aDdgwLtM1U
+ BnMoToRnszWpdPd/5DSsd2wspUe9np7xje/L8AsAHgsLPHynxrAOkaN1jssIXaY+bnTm 3A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3agp1ywqae-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Aug 2021 14:51:57 -0400
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 17IIa4Q7104833;
+ Wed, 18 Aug 2021 14:51:56 -0400
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3agp1ywqa5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Aug 2021 14:51:56 -0400
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 17IIWHRR027267;
+ Wed, 18 Aug 2021 18:51:56 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma01wdc.us.ibm.com with ESMTP id 3ae5fdhdbd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Aug 2021 18:51:55 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 17IIpskK53477640
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 18 Aug 2021 18:51:54 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 945977807E;
+ Wed, 18 Aug 2021 18:51:54 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D398C7805C;
+ Wed, 18 Aug 2021 18:51:51 +0000 (GMT)
+Received: from [10.50.3.223] (unknown [9.160.128.138])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed, 18 Aug 2021 18:51:51 +0000 (GMT)
+Message-ID: <bc11c76e083784537a8ceaf8d3d2f74b5ca9e655.camel@linux.ibm.com>
+Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
+From: James Bottomley <jejb@linux.ibm.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Date: Wed, 18 Aug 2021 14:51:50 -0400
+In-Reply-To: <YR1Dnl6kDjsz+gWI@work-vm>
+References: <20210816144413.GA29881@ashkalra_ubuntu_server>
+ <b25a1cf9-5675-99da-7dd6-302b04cc7bbc@redhat.com>
+ <20210816151349.GA29903@ashkalra_ubuntu_server>
+ <f7cf142b-02e4-5c87-3102-f3acd8b07288@redhat.com>
+ <20210818103147.GB31834@ashkalra_ubuntu_server>
+ <f0b5b725fc879d72c702f88a6ed90e956ec32865.camel@linux.ibm.com>
+ <YR0nwVPKymrAeIzV@work-vm>
+ <8ae11fca26e8d7f96ffc7ec6353c87353cadc63a.camel@linux.ibm.com>
+ <YR0qoV6tDuVxddL5@work-vm>
+ <8a94ce57b4aa28df1504dcf08aace88d594ffb32.camel@linux.ibm.com>
+ <YR1Dnl6kDjsz+gWI@work-vm>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.34.4 
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: x-45Xgu6qoWXHlQTR3NofZmC10lFf2er
+X-Proofpoint-GUID: c7KHo02ECctrgq7sFpC_LzDmd3sKXJ0m
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-08-18_07:2021-08-17,
+ 2021-08-18 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 clxscore=1015
+ priorityscore=1501 lowpriorityscore=0 phishscore=0 malwarescore=0
+ mlxscore=0 bulkscore=0 impostorscore=0 suspectscore=0 spamscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108180116
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=jejb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: 0
+X-Spam_score: -0.1
+X-Spam_bar: /
+X-Spam_report: (-0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,35 +121,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: john.g.johnson@oracle.com, jag.raman@oracle.com, swapnil.ingle@nutanix.com,
- john.levon@nutanix.com, qemu-devel@nongnu.org, stefanha@redhat.com,
- thanos.makatos@nutanix.com
+Reply-To: jejb@linux.ibm.com
+Cc: thomas.lendacky@amd.com, Ashish Kalra <ashish.kalra@amd.com>,
+ brijesh.singh@amd.com, ehabkost@redhat.com, kvm@vger.kernel.org,
+ mst@redhat.com, tobin@ibm.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, frankeh@us.ibm.com, dovmurik@linux.vnet.ibm.com,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 16 Aug 2021 09:42:37 -0700
-Elena Ufimtseva <elena.ufimtseva@oracle.com> wrote:
+On Wed, 2021-08-18 at 18:30 +0100, Dr. David Alan Gilbert wrote:
+> * James Bottomley (jejb@linux.ibm.com) wrote:
+> > On Wed, 2021-08-18 at 16:43 +0100, Dr. David Alan Gilbert wrote:
+> > > * James Bottomley (jejb@linux.ibm.com) wrote:
+> > [...]
+> > > > Given the lack of SMI, we can't guarantee that with plain SEV
+> > > > and -ES. Once we move to -SNP, we can use VMPLs to achieve
+> > > > this.
+> > > 
+> > > Doesn't the MH have access to different slots and running on
+> > > separate vCPUs; so it's still got some separation?
+> > 
+> > Remember that the OVMF code is provided by the host, but its
+> > attested to and run by the guest.  Once the guest takes control
+> > (i.e. after OVMF boots the next thing), we can't guarantee that it
+> > wont overwrite the MH code, so the host must treat the MH as
+> > untrusted.
+> 
+> Yeh; if it's in a romimage I guess we could write protect it?
+> (Not that I'd trust it still)
 
-> diff --git a/hw/vfio/meson.build b/hw/vfio/meson.build
-> index da9af297a0..739b30be73 100644
-> --- a/hw/vfio/meson.build
-> +++ b/hw/vfio/meson.build
-> @@ -8,6 +8,7 @@ vfio_ss.add(when: 'CONFIG_VFIO_PCI', if_true: files(
->    'display.c',
->    'pci-quirks.c',
->    'pci.c',
-> +  'user.c',
->  ))
->  vfio_ss.add(when: 'CONFIG_VFIO_CCW', if_true: files('ccw.c'))
->  vfio_ss.add(when: 'CONFIG_VFIO_PLATFORM', if_true: files('platform.c'))
+Yes, but unfortunately OVMF (and edk2 in general) has another pitfall
+for you: the initial pflash may be a read only ROM image, but it
+uncompresses itself to low RAM and executes itself out of there. 
+Anything in either PEI or DXE (which is where the migration handler
+lies) is RAM based after decompression.
 
-Wouldn't it make sense to be able to configure QEMU with any
-combination of vfio-pci and/or vfio-user-pci support rather than
-statically tying vfio-user-pci to vfio-pci?  Not to mention that doing
-so would help to more formally define the interface operations between
-kernel and user options, for example fewer tests of vbasedev->proxy and
-perhaps more abstraction through ops structures.  Thanks,
+> > > > But realistically, given the above API, even if the guest is
+> > > > malicious, what can it do?  I think it's simply return bogus
+> > > > pages that cause a crash on start after migration, which
+> > > > doesn't look like a huge risk to the cloud to me (it's more a
+> > > > self destructive act on behalf of the guest).
+> > > 
+> > > I'm a bit worried about the data structures that are shared
+> > > between the migration code in qemu and the MH; the code in qemu
+> > > is going to have to be paranoid about not trusting anything
+> > > coming from the MH.
+> > 
+> > Given that we have to treat the host MH structure as untrusted,
+> > this is definitely something we have to do.  Although the primary
+> > API is simply "here's a buffer, please fill it", so there's not
+> > much checking to do, we just have to be careful that we don't
+> > expose any more of the buffer than the guest needs to write to ...
+> > and, obviously, clean it before exposing it to the guest.
+> 
+> I was assuming life got a bit more complicated than that; and we had
+> to have lists of pages we were requesting, and a list of pages that
+> were cooked and the qemu thread and the helper thread all had to work
+> in parallel.  So I'm guessing some list or bookkeeeping that we need
+> to be very careful of.
 
-Alex
+I was more or less imagining a GPA address and length, so range based,
+but it could be we need something more sophisticated ... Tobin will
+look after that part.  However, either way, we just need to be careful.
+
+Regards,
+
+James
+
 
 
