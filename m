@@ -2,76 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F50B3F0074
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 11:30:40 +0200 (CEST)
-Received: from localhost ([::1]:54228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED4853F00DF
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 11:46:55 +0200 (CEST)
+Received: from localhost ([::1]:57440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGHuB-0000HD-Fz
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 05:30:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58172)
+	id 1mGI9u-0003WA-KX
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 05:46:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mGHsy-0007xm-JF
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 05:29:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32603)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mGI8s-0002qg-EC
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 05:45:50 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38678
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mGHsu-0003pC-Eu
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 05:29:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629278958;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7ld7mx8oAFHiYzesY5U0tVdzuhgsa0IU1Cjz/hNVWXo=;
- b=ap/8CCxDGy9d9s9hRxnHgQo2+yFuXdJg1+vK3Qtd9X+fIrcOPKbwtxBJ+WlVkdBNYdPk8g
- lnOF2bpDNaaD87uZoaWauu/pXudAKr1B3nl2Jr4HT+BTMmYXqEHZk3nqoBEDqajxRRbL6U
- 6Oa2VrkEVV+3MMp5j6BiXQGX4Ng0Ths=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-sZNI_D4KMT2g0ybCDyYQgA-1; Wed, 18 Aug 2021 05:29:13 -0400
-X-MC-Unique: sZNI_D4KMT2g0ybCDyYQgA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29AD118C89CC;
- Wed, 18 Aug 2021 09:29:12 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.93])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 881D86F97F;
- Wed, 18 Aug 2021 09:29:03 +0000 (UTC)
-Date: Wed, 18 Aug 2021 10:29:00 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH 1/2] gitlab: exclude sparc-softmmu and riscv32-softmmu
- from cross builds
-Message-ID: <YRzS3F766na8QeJm@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mGI8q-0001jZ-GY
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 05:45:50 -0400
+Received: from host86-179-247-14.range86-179.btcentralplus.com
+ ([86.179.247.14] helo=[192.168.50.176])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mGI8R-000Ci5-Hf; Wed, 18 Aug 2021 10:45:29 +0100
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 References: <20210810140653.3969823-1-berrange@redhat.com>
  <20210810140653.3969823-2-berrange@redhat.com>
  <11174538-e2fb-cd99-de92-3153fa56d017@ilande.co.uk>
+ <YRzS3F766na8QeJm@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <16bd9721-a296-9cc7-0a94-dd76e2696b81@ilande.co.uk>
+Date: Wed, 18 Aug 2021 10:45:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <11174538-e2fb-cd99-de92-3153fa56d017@ilande.co.uk>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <YRzS3F766na8QeJm@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
+X-SA-Exim-Connect-IP: 86.179.247.14
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 1/2] gitlab: exclude sparc-softmmu and riscv32-softmmu
+ from cross builds
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -38
+X-Spam_score: -3.9
 X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.961,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,72 +67,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  Willian Rampazzo <willianr@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 18, 2021 at 10:15:47AM +0100, Mark Cave-Ayland wrote:
-> On 10/08/2021 15:06, Daniel P. Berrangé wrote:
+On 18/08/2021 10:29, Daniel P. Berrangé wrote:
+
+> On Wed, Aug 18, 2021 at 10:15:47AM +0100, Mark Cave-Ayland wrote:
+>> On 10/08/2021 15:06, Daniel P. Berrangé wrote:
+>>
+>>> We need to cut down compile time by excluding more targets. Both these
+>>> targets still have their 64-bit variant enabled, so the loss of coverage
+>>> is mitigated to some degree.
+>>>
+>>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+>>> ---
+>>>    .gitlab-ci.d/crossbuild-template.yml | 3 ++-
+>>>    1 file changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
+>>> index 7d3ad00a1e..cfb576b54c 100644
+>>> --- a/.gitlab-ci.d/crossbuild-template.yml
+>>> +++ b/.gitlab-ci.d/crossbuild-template.yml
+>>> @@ -9,7 +9,8 @@
+>>>          ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
+>>>            --disable-user --target-list-exclude="arm-softmmu cris-softmmu
+>>>              i386-softmmu microblaze-softmmu mips-softmmu mipsel-softmmu
+>>> -          mips64-softmmu ppc-softmmu sh4-softmmu xtensa-softmmu"
+>>> +          mips64-softmmu ppc-softmmu riscv32-softmmu sh4-softmmu
+>>> +          sparc-softmmu xtensa-softmmu"
+>>>        - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
+>>>        - if grep -q "EXESUF=.exe" config-host.mak;
+>>>          then make installer;
+>>
+>> I'd prefer to keep sparc-softmmu if possible, simply because my everyday
+>> platform is Linux and so having a cross-build for Windows will catch things
+>> that I may miss on a day-to-day basis. Is sparc-softmmu currently enabled as
+>> part of the native MINGW64 build?
 > 
-> > We need to cut down compile time by excluding more targets. Both these
-> > targets still have their 64-bit variant enabled, so the loss of coverage
-> > is mitigated to some degree.
-> > 
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> > ---
-> >   .gitlab-ci.d/crossbuild-template.yml | 3 ++-
-> >   1 file changed, 2 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
-> > index 7d3ad00a1e..cfb576b54c 100644
-> > --- a/.gitlab-ci.d/crossbuild-template.yml
-> > +++ b/.gitlab-ci.d/crossbuild-template.yml
-> > @@ -9,7 +9,8 @@
-> >         ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
-> >           --disable-user --target-list-exclude="arm-softmmu cris-softmmu
-> >             i386-softmmu microblaze-softmmu mips-softmmu mipsel-softmmu
-> > -          mips64-softmmu ppc-softmmu sh4-softmmu xtensa-softmmu"
-> > +          mips64-softmmu ppc-softmmu riscv32-softmmu sh4-softmmu
-> > +          sparc-softmmu xtensa-softmmu"
-> >       - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
-> >       - if grep -q "EXESUF=.exe" config-host.mak;
-> >         then make installer;
+> Note the builds still include  'sparc64-softmmu', so we're only loosing
+> cover in places where it diverges fromthe 64-bit build, but this will
+> sstil get coverage in native builds.
+
+Okay I see. From my perspective sparc-softmmu covers more corner cases simply because 
+everything is wired up as cMMIO peripherals on a custum bus compared with 
+sparc64-softmmu which is a PCI machine and so there is already a lot of overlap 
+there. However...
+
+>> If I go to my Gitlab QEMU fork Settings -> CI/CD -> Variables there is an
+>> option to set variables that can be used in job scripts. Perhaps this could
+>> be used so that I can configure my personal QEMU fork to always run
+>> sparc-softmmu builds when preparing PRs even if they aren't enabled for
+>> everyone by default? At least this would then allow me to spot any breakage
+>> before sending a final PR to Peter.
 > 
-> I'd prefer to keep sparc-softmmu if possible, simply because my everyday
-> platform is Linux and so having a cross-build for Windows will catch things
-> that I may miss on a day-to-day basis. Is sparc-softmmu currently enabled as
-> part of the native MINGW64 build?
+> Separately from this I'm doing some work to make things more configurable
+> 
+>    https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg02102.html
+> 
+> but not on this level of granularity.
+> 
+> Rather than globally excluding from all cross builds, I think we ought to
+> split it up more equitably acrss the different builds in some way.
 
-Note the builds still include  'sparc64-softmmu', so we're only loosing
-cover in places where it diverges fromthe 64-bit build, but this will
-sstil get coverage in native builds.
+ From my perspective as long as I have something in Gitlab that I can push and then 
+get a green CI build that covers both sparc platforms on Linux/Windows then I'm not 
+too concerned about the implementation details. As long as the combination is covered 
+in a job somewhere in your latest set of build changes then that's okay with me.
 
-> If I go to my Gitlab QEMU fork Settings -> CI/CD -> Variables there is an
-> option to set variables that can be used in job scripts. Perhaps this could
-> be used so that I can configure my personal QEMU fork to always run
-> sparc-softmmu builds when preparing PRs even if they aren't enabled for
-> everyone by default? At least this would then allow me to spot any breakage
-> before sending a final PR to Peter.
 
-Separately from this I'm doing some work to make things more configurable
+ATB,
 
-  https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg02102.html
-
-but not on this level of granularity.
-
-Rather than globally excluding from all cross builds, I think we ought to
-split it up more equitably acrss the different builds in some way.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Mark.
 
