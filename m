@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 782C93EFFC2
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 10:59:49 +0200 (CEST)
-Received: from localhost ([::1]:57604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DECF3EFFCB
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 11:00:37 +0200 (CEST)
+Received: from localhost ([::1]:59754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGHQK-0007F8-IY
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 04:59:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52146)
+	id 1mGHR6-0000Sx-8g
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 05:00:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mGHPJ-00064y-Jf
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 04:58:46 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40554)
+ id 1mGHPx-0007JI-U4
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 04:59:25 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:36365)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mGHPH-0002ks-Vv
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 04:58:45 -0400
-Received: by mail-wr1-x430.google.com with SMTP id k29so2294625wrd.7
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 01:58:43 -0700 (PDT)
+ id 1mGHPw-0003IC-H2
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 04:59:25 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ 79-20020a1c0452000000b002e6cf79e572so3866074wme.1
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 01:59:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=np5LKPJlC/7PbwF9/7zmDZt6NcO/yaCqF3lJQM6d3eI=;
- b=gLPH1lt14+Oeg2OjdXsVBmS4Jlx1xBYBcEWbeu62pK4d8AoQ74gSHWIeZu7cIJgf5m
- b+fNmk2cRqMCGP9ltTzxjM9N71vhDG6QFudq8Kx/aO7D6RCEyVSgfwj599skeM6/shPI
- R69MPtlJoEJDvrQ3i+gcuHV/Fsbtkq5TrSsrzYObTeMONTioTlA+/LlmZrBuzz+imx0v
- afmfMg5FTOj/fPCRp+pcN4LwNG8sfrj2OFSJnCs+sWsGuAFJvp2px9XONYlfXKmlTc/I
- BbtD7obaHd03NA8WkurbdPV1tGwIqMvysuGyVf3zIEk8/xGA8AHVkS/GX1A9B/JunavC
- 3EgA==
+ bh=zw6APIHLF/JzZDpXKUaJ8WNHYHwQhmomu1Fkh8mCjas=;
+ b=efdYZHG3ZpWqEBq/g0wFzbJstJBVqo/ZRsm8mDjsKD5wZ/OvVi1dEQV2tpxpXxHSBe
+ ybYNj2PM7g5aJeMlYOkLF+GK0AB0tZXaFpIik1+ykJv7nyMd/MZl6lxVwXz3cSgfrM3R
+ 9a7mdQYVkiZvXNFZsHqJwpVsH7Y/OjsF93blV8o1o7aFFfJ60xltJM46C9KQG5mkc9m7
+ x4QXIebXZ2cWD8482f+MMB5Wu6TV1CAs5mUKqh3i21M7trxhd0I3jcs5FZ4J6Xb7LdUC
+ DqBye1VjpR9nyprkHd2mZpJMFsDwjsqGghTSXWiL9+7b5BOnhUj7e4JHoeamHLu4jfxa
+ 6TfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=np5LKPJlC/7PbwF9/7zmDZt6NcO/yaCqF3lJQM6d3eI=;
- b=GT0jUG0+JepVMzOgKn7G9MzUCmSnTvgUcyr3dGyDHpZXYt1Y741pdqSvPrB4Yo+shZ
- 6R2RdVPRamflEfIDhmNZbsnnc4+UyClRdTi3QpNWqyy0+9tx5HXvfb9bkl4XLhA+0DXW
- MnVXzJSVI6+brlVO9MuWS6KYXWwk0+CmYlc1+HTtab+eHuJUKRE0yJt+VUcAQe5ONGjm
- acqzpXubNvq8k9X3rDXIU3Lkrq4bR95RhGXrVv4yi2juLTHH2Uq7H4sb7R1rr6GtLYt+
- EeMIp5sybWW10P5TbkJw0VQTzgyPkafLiM4zfGVRnV2KMdNhi0zJWppknWALEgFE6otN
- PlLQ==
-X-Gm-Message-State: AOAM530wn9tR7IcGJyCt/1VEHTQAbLEZak9mxkBHcAYfwRRVZBdjchGe
- pbCOFCYd/rLT/UCK5h1rkzaZf106ik0=
-X-Google-Smtp-Source: ABdhPJxdAr4b0B9A5QoidrBNgEVjtoWxT8LRWG2LsXz1M85kT3Th/iqqvmABlI/uVZ6rWFQnDwEzXw==
-X-Received: by 2002:a05:6000:18c8:: with SMTP id
- w8mr9135707wrq.90.1629277122103; 
- Wed, 18 Aug 2021 01:58:42 -0700 (PDT)
+ bh=zw6APIHLF/JzZDpXKUaJ8WNHYHwQhmomu1Fkh8mCjas=;
+ b=YT1oxRpMxxZq7P8Qv7t6oLtv52UiWmvt4P70I+E2g+SMvKQ8gGjYm45TFsXFSA9doe
+ ibzYnoudjURF2KtIFWYtG0Fr1OMCubBqUmdJHFXRZCN4t5c1zQNy/MD94HfLzIz8ks5T
+ V378yoJvuSOGp7j7SwcWNfU4HkdDEesiRDUThbikxU0mAp+wTfMkjG+s46uszVA6Gk2p
+ HeZzl/RK90PQdzyfj+saavk5dSo6ZGosyKQ31LZL0PpXa8busq6ZyxNJURH2OOETPiqT
+ 8n1MTb6gaV91i615jGsJqYWekIygqip3htLtv4sPzvQiy4aarRHgKNYMl3GUc0JUbCKl
+ qEeg==
+X-Gm-Message-State: AOAM530X5tWVctVhxn5l/w7MUjHiQ11L2CdsfaJpCNRWssX+XDr0TFro
+ 0y0dP576Cv8mL1hzKQHAMfW6qrfvVJc=
+X-Google-Smtp-Source: ABdhPJwbLlozkuSPqz1j9DLcAO3xaiJ0qc1T+m3HueGeqyQf4ryzIe0ZtRK24QrmZ0DeR9jop3Fcqw==
+X-Received: by 2002:a1c:2904:: with SMTP id p4mr7302596wmp.178.1629277163036; 
+ Wed, 18 Aug 2021 01:59:23 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id g35sm4993591wmp.9.2021.08.18.01.58.41
+ by smtp.gmail.com with ESMTPSA id b20sm4796602wmj.48.2021.08.18.01.59.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Aug 2021 01:58:41 -0700 (PDT)
-Subject: Re: [PATCH v2 28/55] trace: Split guest_mem_before
+ Wed, 18 Aug 2021 01:59:22 -0700 (PDT)
+Subject: Re: [PATCH v2 30/55] target/i386: Use MO_128 for 16 byte atomics
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210803041443.55452-1-richard.henderson@linaro.org>
- <20210803041443.55452-29-richard.henderson@linaro.org>
+ <20210803041443.55452-31-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <c12e7af5-5f20-a270-5dcd-68cf0de154b0@amsat.org>
-Date: Wed, 18 Aug 2021 10:58:40 +0200
+Message-ID: <9d303a4f-4a5c-d928-34d2-9fef0abfd44c@amsat.org>
+Date: Wed, 18 Aug 2021 10:59:21 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210803041443.55452-29-richard.henderson@linaro.org>
+In-Reply-To: <20210803041443.55452-31-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -94,133 +94,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/3/21 6:14 AM, Richard Henderson wrote:
-> There is no point in encoding load/store within a bit of
-> the memory trace info operand.  Represent atomic operations
-> as a single read-modify-write tracepoint.  Use MemOpIdx
-> instead of inventing a form specifically for traces.
-> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  accel/tcg/atomic_template.h   |  1 -
->  trace/mem.h                   | 51 -----------------------------------
->  accel/tcg/cputlb.c            |  7 ++---
->  accel/tcg/user-exec.c         | 43 ++++++++++-------------------
->  tcg/tcg-op.c                  | 17 +++---------
->  accel/tcg/atomic_common.c.inc | 12 +++------
->  trace-events                  | 18 +++----------
->  7 files changed, 27 insertions(+), 122 deletions(-)
->  delete mode 100644 trace/mem.h
-> 
-> diff --git a/accel/tcg/atomic_template.h b/accel/tcg/atomic_template.h
-> index c08d859a8a..2d917b6b1f 100644
-> --- a/accel/tcg/atomic_template.h
-> +++ b/accel/tcg/atomic_template.h
-> @@ -19,7 +19,6 @@
->   */
->  
->  #include "qemu/plugin.h"
-> -#include "trace/mem.h"
->  
->  #if DATA_SIZE == 16
->  # define SUFFIX     o
-> diff --git a/trace/mem.h b/trace/mem.h
-> deleted file mode 100644
-> index 699566c661..0000000000
-> --- a/trace/mem.h
-> +++ /dev/null
-> @@ -1,51 +0,0 @@
-> -/*
-> - * Helper functions for guest memory tracing
-> - *
-> - * Copyright (C) 2016 Lluís Vilanova <vilanova@ac.upc.edu>
-> - *
-> - * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> - * See the COPYING file in the top-level directory.
-> - */
-> -
-> -#ifndef TRACE__MEM_H
-> -#define TRACE__MEM_H
-> -
-> -#include "exec/memopidx.h"
-> -
-> -#define TRACE_MEM_SZ_SHIFT_MASK 0xf /* size shift mask */
-> -#define TRACE_MEM_SE (1ULL << 4)    /* sign extended (y/n) */
-> -#define TRACE_MEM_BE (1ULL << 5)    /* big endian (y/n) */
-> -#define TRACE_MEM_ST (1ULL << 6)    /* store (y/n) */
-> -#define TRACE_MEM_MMU_SHIFT 8       /* mmu idx */
-> -
-> -/**
-> - * trace_mem_get_info:
-> - *
-> - * Return a value for the 'info' argument in guest memory access traces.
-> - */
-> -static inline uint16_t trace_mem_get_info(MemOpIdx oi, bool store)
-> -{
-> -    MemOp op = get_memop(oi);
-> -    uint32_t size_shift = op & MO_SIZE;
-> -    bool sign_extend = op & MO_SIGN;
-> -    bool big_endian = (op & MO_BSWAP) == MO_BE;
-> -    uint16_t res;
-> -
-> -    res = size_shift & TRACE_MEM_SZ_SHIFT_MASK;
-> -    if (sign_extend) {
-> -        res |= TRACE_MEM_SE;
-> -    }
-> -    if (big_endian) {
-> -        res |= TRACE_MEM_BE;
-> -    }
-> -    if (store) {
-> -        res |= TRACE_MEM_ST;
-> -    }
-> -#ifdef CONFIG_SOFTMMU
-> -    res |= get_mmuidx(oi) << TRACE_MEM_MMU_SHIFT;
-> -#endif
-> -
-> -    return res;
-> -}
-
-> diff --git a/trace-events b/trace-events
-> index c4cca29939..a637a61eba 100644
-> --- a/trace-events
-> +++ b/trace-events
-> @@ -120,26 +120,16 @@ vcpu guest_cpu_reset(void)
->  # tcg/tcg-op.c
->  
->  # @vaddr: Access' virtual address.
-> -# @info : Access' information (see below).
-> +# @memopidx: Access' information (see below).
->  #
->  # Start virtual memory access (before any potential access violation).
-> -#
->  # Does not include memory accesses performed by devices.
->  #
-> -# Access information can be parsed as:
-> -#
-> -# struct mem_info {
-> -#     uint8_t size_shift : 4; /* interpreted as "1 << size_shift" bytes */
-> -#     bool    sign_extend: 1; /* sign-extended */
-> -#     uint8_t endianness : 1; /* 0: little, 1: big */
-> -#     bool    store      : 1; /* whether it is a store operation */
-> -#             pad        : 1;
-> -#     uint8_t mmuidx     : 4; /* mmuidx (softmmu only)  */
-> -# };
-> -#
->  # Mode: user, softmmu
->  # Targets: TCG(all)
-> -vcpu tcg guest_mem_before(TCGv vaddr, uint16_t info) "info=%d", "vaddr=0x%016"PRIx64" info=%d"
-> +vcpu tcg guest_ld_before(TCGv vaddr, uint32_t memopidx) "info=%d", "vaddr=0x%016"PRIx64" memopidx=0x%x"
-> +vcpu tcg guest_st_before(TCGv vaddr, uint32_t memopidx) "info=%d", "vaddr=0x%016"PRIx64" memopidx=0x%x"
-> +vcpu tcg guest_rmw_before(TCGv vaddr, uint32_t memopidx) "info=%d", "vaddr=0x%016"PRIx64" memopidx=0x%x"
-
-Alternatively we can implement:
-
-const char *memopidx_name(MemOpIdx oi);
-
-and have the trace events display the MemOpIdx name.
-
-Anyway,
+>  target/i386/tcg/mem_helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-(also, maybe "trace/mem:" in subject).
 
