@@ -2,62 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE3B3EF9C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 07:03:10 +0200 (CEST)
-Received: from localhost ([::1]:47918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9F4D3EFD39
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 08:57:15 +0200 (CEST)
+Received: from localhost ([::1]:49702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGDjI-0002l5-TW
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 01:03:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60000)
+	id 1mGFVi-0005VJ-9K
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 02:57:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1mGDiU-0001ht-1V
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 01:02:18 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2288)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mGFS4-0004aW-TT; Wed, 18 Aug 2021 02:53:29 -0400
+Received: from ozlabs.org ([203.11.71.1]:37811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1mGDiP-0007DM-KY
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 01:02:17 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GqG2s3ZXWz1CWps;
- Wed, 18 Aug 2021 13:01:41 +0800 (CST)
-Received: from dggpeml500016.china.huawei.com (7.185.36.70) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 18 Aug 2021 13:02:05 +0800
-Received: from [10.174.148.223] (10.174.148.223) by
- dggpeml500016.china.huawei.com (7.185.36.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 18 Aug 2021 13:02:04 +0800
-Subject: Re: [RFC] vfio/migration: reduce the msix virq setup cost in resume
- phase
-From: "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
- <longpeng2@huawei.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-References: <20210813040614.1764-1-longpeng2@huawei.com>
- <20210817142624.6b31c2da.alex.williamson@redhat.com>
- <132e65ee-5a82-0a1e-84aa-fe6c82a17bfd@huawei.com>
-Message-ID: <11678837-f43f-c869-904b-736f463acfee@huawei.com>
-Date: Wed, 18 Aug 2021 13:02:03 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mGFS1-0002mZ-Ji; Wed, 18 Aug 2021 02:53:28 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4GqJWX23JVz9sWq; Wed, 18 Aug 2021 16:53:12 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1629269592;
+ bh=70q13497A2d0j+IXM1QMCpJczlqGQa6rHrg5vVX4boE=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=p74I9uzndcb7GY4lAW4Cwge71zOyfip0yPEISeXEQ7u8zwA9ff5zKYYGYD0RS+j2B
+ WMfgL0GO5Q6rUjtbMNtCX/kcez+xZn3b6CdG4fC089OUUIoQduKKr/9MaE6JGu/3Be
+ PF8gOh0PhVwuhnUHDJSyLh47KL+hKUv3ZwZWNKdQ=
+Date: Wed, 18 Aug 2021 15:48:03 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH 04/19] target/ppc: PMU Book3s basic insns count for
+ pseries TCG
+Message-ID: <YRyfE6tjnZADd9A8@yekko>
+References: <20210809131057.1694145-1-danielhb413@gmail.com>
+ <20210809131057.1694145-5-danielhb413@gmail.com>
+ <YRH05uCNwvjS5Nws@yekko>
+ <7937bc84-b516-ee7b-296d-2a38191dc056@gmail.com>
+ <YRsmEN2C3LDInZyS@yekko>
+ <729ff025-ca1e-21ce-0683-5bac9d138292@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <132e65ee-5a82-0a1e-84aa-fe6c82a17bfd@huawei.com>
-Content-Type: text/plain; charset="gbk"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.148.223]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpeml500016.china.huawei.com (7.185.36.70)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255; envelope-from=longpeng2@huawei.com;
- helo=szxga08-in.huawei.com
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
- NICE_REPLY_A=-1.961, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="1e8y9qjUNQbtNQ5c"
+Content-Disposition: inline
+In-Reply-To: <729ff025-ca1e-21ce-0683-5bac9d138292@gmail.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,233 +64,237 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwankhede@nvidia.com, arei.gonglei@huawei.com, qemu-devel@nongnu.org
+Cc: gustavo.romero@linaro.org, clg@kaod.org, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+--1e8y9qjUNQbtNQ5c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-在 2021/8/18 11:50, Longpeng (Mike, Cloud Infrastructure Service Product Dept.)
-写道:
-> 
-> 
-> 在 2021/8/18 4:26, Alex Williamson 写道:
->> On Fri, 13 Aug 2021 12:06:14 +0800
->> "Longpeng(Mike)" <longpeng2@huawei.com> wrote:
->>
->>> In migration resume phase, all unmasked msix vectors need to be
->>> setup when load the VF state. However, the setup operation would
->>> takes longer if the VF has more unmasked vectors.
->>>
->>> In our case, the VF has 65 vectors and each one spend 0.8ms on
->>> setup operation (vfio_add_kvm_msi_virq -> kvm_irqchip_commit_routes),
->>> the total cost of the VF is more than 40ms. Even worse, the VM has
->>> 8 VFs, so the downtime increase more than 320ms.
->>>
->>> vfio_pci_load_config
->>>   vfio_msix_enable
->>>     msix_set_vector_notifiers
->>>       for (vector = 0; vector < dev->msix_entries_nr; vector++) {
->>>         vfio_msix_vector_do_use
->>>           vfio_add_kvm_msi_virq
->>>             kvm_irqchip_commit_routes <-- 0.8ms
->>>       }
->>>
->>> Originaly, We tried to batch all routes and just commit once
->>> outside the loop, but it's not easy to fallback to qemu interrupt
->>> if someone fails.
->>
->> I'm not sure I follow here, once we setup the virq, what's the failure
->> path?  kvm_irqchip_commit_routes() returns void.  Were you looking at
->> adding a "defer" arg to kvm_irqchip_add_msi_route() that skips the
->> commit, which vfio_add_kvm_msi_virq() might set based on the migration
->> state and vfio_pci_load_config() could then trigger the commit?
-> 
-> Yes, my implementation is almost exactly the same as you said here and it works,
-> but there's a semantic problem makes me suspect.
-> 
-> The calltrace in vfio_add_kvm_msi_virq is:
-> vfio_add_kvm_msi_virq
->   kvm_irqchip_add_msi_route
->     kvm_irqchip_commit_routes
->       kvm_vm_ioctl(KVM_SET_GSI_ROUTING)
->   kvm_irqchip_add_irqfd_notifier_gsi
->     kvm_irqchip_assign_irqfd
->       kvm_vm_ioctl(KVM_IRQFD)
-> 
-> I referred to some other places where need to assign irqfds, the asignment is
-> always after the virq is committed.
-> The KVM API doc does not declare the dependencies of them, but the existent code
-> seem implys the order. The "defer" makes them out of order, it can work at the
-> moment,  but not sure if KVM would change in the future.
-> 
-> I perfer "defer" too if we can make sure it's OK if the asigment and commit are
-> not in order. I hope we could reach agreement on this point first, and then I'll
-> continue to reply the comments below if still necessary.
-> 
-> So do you think we should keep the order of asignment and commit ?
-> 
->> There's more overhead that can be removed if VFIO_DEVICE_SET_IRQS could
->> be called once rather than per vector.
-> 
-> Yes, I've already optimized these overhead in our production before. I
-> saw the upstream also did ( commit ecebe53fe ) in this year, I'll backport
-> the upstream's soluation in order to keep pace with the community.
-> 
+On Tue, Aug 17, 2021 at 06:30:37AM -0300, Daniel Henrique Barboza wrote:
+>=20
+>=20
+> On 8/16/21 11:59 PM, David Gibson wrote:
+> > On Mon, Aug 16, 2021 at 02:53:13PM -0300, Daniel Henrique Barboza wrote:
+> > >=20
+> > >=20
+> > > On 8/10/21 12:39 AM, David Gibson wrote:
+> > > > On Mon, Aug 09, 2021 at 10:10:42AM -0300, Daniel Henrique Barboza w=
+rote:
+> > > > > The PMCC (PMC Control) bit in the MMCR0 register controls whether=
+ the
+> > > > > counters PMC5 and PMC6 are being part of the performance monitor
+> > > > > facility in a specific time. If PMCC allows it, PMC5 and PMC6 will
+> > > > > always be used to measure instructions completed and cycles,
+> > > > > respectively.
+> > > > >=20
+> > > > > This patch adds the barebones of the Book3s PMU logic by enabling
+> > > > > instruction counting, using the icount framework, using the perfo=
+rmance
+> > > > > monitor counters 5 and 6. The overall logic goes as follows:
+> > > > >=20
+> > > > > - a helper is added to control the PMU state on each MMCR0 write.=
+ This
+> > > > > allows for the PMU to start/stop as quick as possible;
+> > > >=20
+> > > > Um.. why does a helper accomplish that goal?
+> > > >=20
+> > > > >=20
+> > > > > - only PMC5 and PMC6 are being set. PMC6 (cycles) is default to 4=
+*insns
+> > > > > (for cycles per instruction) for now;
+> > > >=20
+> > > > What's the justification for that value?  With a superscalar core, =
+I'd
+> > > > expect average (median) cycles per instruction to be < 1 a lot of t=
+he
+> > > > time.  Mean cycles per instruction could be higher since certain
+> > > > instructions could take a lot.
+> > > >=20
+> > > > > - the intended usage is to freeze the counters by setting MMCR0_F=
+C, do
+> > > > > any additional setting via MMCR1 (not implemented yet) and setting
+> > > > > initial counter values,  and enable the PMU by zeroing MMCR0_FC. =
+Software
+> > > > > must freeze counters to read the results - on the fly reading of =
+the PMCs
+> > > > > will return the starting value of each one.
+> > > >=20
+> > > > Is that the way hardware behaves?  Or is it just a limitation of th=
+is
+> > > > software implementation?  Either is fine, we should just be clear on
+> > > > what it is.
+> > > >=20
+> > > > >=20
+> > > > > Since there will be more PMU exclusive code to be added next, let=
+'s also
+> > > > > put the PMU logic in its own helper to keep all in the same place=
+=2E The
+> > > > > code is also repetitive and not really extensible to add more PMC=
+s, but
+> > > > > we'll handle this in the next patches.
+> > > > >=20
+> > > > > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> > > > > ---
+> > > > >    target/ppc/cpu.h               |  4 ++
+> > > > >    target/ppc/cpu_init.c          |  4 +-
+> > > > >    target/ppc/helper.h            |  1 +
+> > > > >    target/ppc/meson.build         |  1 +
+> > > > >    target/ppc/pmu_book3s_helper.c | 78 ++++++++++++++++++++++++++=
+++++++++
+> > > > >    target/ppc/translate.c         | 14 ++++--
+> > > > >    6 files changed, 97 insertions(+), 5 deletions(-)
+> > > > >    create mode 100644 target/ppc/pmu_book3s_helper.c
+> > > > >=20
+> > > > > diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> > > > > index 4d96015f81..229abfe7ee 100644
+> > > > > --- a/target/ppc/cpu.h
+> > > > > +++ b/target/ppc/cpu.h
+> > > > > @@ -1175,6 +1175,10 @@ struct CPUPPCState {
+> > > > >        uint32_t tm_vscr;
+> > > > >        uint64_t tm_dscr;
+> > > > >        uint64_t tm_tar;
+> > > > > +
+> > > > > +    /* PMU registers icount state */
+> > > > > +    uint64_t pmc5_base_icount;
+> > > > > +    uint64_t pmc6_base_icount;
+> > > > >    };
+> > > > >    #define SET_FIT_PERIOD(a_, b_, c_, d_)          \
+> > > > > diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+> > > > > index 71062809c8..fce89ee994 100644
+> > > > > --- a/target/ppc/cpu_init.c
+> > > > > +++ b/target/ppc/cpu_init.c
+> > > > > @@ -6822,7 +6822,7 @@ static void register_book3s_pmu_sup_sprs(CP=
+UPPCState *env)
+> > > > >        spr_register_kvm(env, SPR_POWER_MMCR0, "MMCR0",
+> > > > >                         SPR_NOACCESS, SPR_NOACCESS,
+> > > > >                         &spr_read_pmu_generic, &spr_write_pmu_gen=
+eric,
+> > > > > -                     KVM_REG_PPC_MMCR0, 0x00000000);
+> > > > > +                     KVM_REG_PPC_MMCR0, 0x80000000);
+> > > > >        spr_register_kvm(env, SPR_POWER_MMCR1, "MMCR1",
+> > > > >                         SPR_NOACCESS, SPR_NOACCESS,
+> > > > >                         &spr_read_pmu_generic, &spr_write_pmu_gen=
+eric,
+> > > > > @@ -6870,7 +6870,7 @@ static void register_book3s_pmu_user_sprs(C=
+PUPPCState *env)
+> > > > >        spr_register(env, SPR_POWER_UMMCR0, "UMMCR0",
+> > > > >                     &spr_read_pmu_ureg, &spr_write_pmu_ureg,
+> > > > >                     &spr_read_ureg, &spr_write_ureg,
+> > > > > -                 0x00000000);
+> > > > > +                 0x80000000);
+> > > > >        spr_register(env, SPR_POWER_UMMCR1, "UMMCR1",
+> > > > >                     &spr_read_pmu_ureg, &spr_write_pmu_ureg,
+> > > > >                     &spr_read_ureg, &spr_write_ureg,
+> > > > > diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+> > > > > index 4076aa281e..5122632784 100644
+> > > > > --- a/target/ppc/helper.h
+> > > > > +++ b/target/ppc/helper.h
+> > > > > @@ -20,6 +20,7 @@ DEF_HELPER_1(rfscv, void, env)
+> > > > >    DEF_HELPER_1(hrfid, void, env)
+> > > > >    DEF_HELPER_2(store_lpcr, void, env, tl)
+> > > > >    DEF_HELPER_2(store_pcr, void, env, tl)
+> > > > > +DEF_HELPER_2(store_mmcr0, void, env, tl)
+> > > > >    #endif
+> > > > >    DEF_HELPER_1(check_tlb_flush_local, void, env)
+> > > > >    DEF_HELPER_1(check_tlb_flush_global, void, env)
+> > > > > diff --git a/target/ppc/meson.build b/target/ppc/meson.build
+> > > > > index b85f295703..bf252ca3ac 100644
+> > > > > --- a/target/ppc/meson.build
+> > > > > +++ b/target/ppc/meson.build
+> > > > > @@ -14,6 +14,7 @@ ppc_ss.add(when: 'CONFIG_TCG', if_true: files(
+> > > > >      'int_helper.c',
+> > > > >      'mem_helper.c',
+> > > > >      'misc_helper.c',
+> > > > > +  'pmu_book3s_helper.c',
+> > > > >      'timebase_helper.c',
+> > > > >      'translate.c',
+> > > > >    ))
+> > > > > diff --git a/target/ppc/pmu_book3s_helper.c b/target/ppc/pmu_book=
+3s_helper.c
+> > > > > new file mode 100644
+> > > > > index 0000000000..fe16fcfce0
+> > > > > --- /dev/null
+> > > > > +++ b/target/ppc/pmu_book3s_helper.c
+> > > >=20
+> > > > I'd prefer to call this just book3s_pmu.c.  Or better yet
+> > > > "powerX_pmu.c", where X is the specific PMU model you're implementi=
+ng
+> > > > since IIRC the particulars of the PMU vary quite a lot from POWER7
+> > > > through to POWER10.
+> > >=20
+> > > I'll go with book3s_pmu.c because this PMU implementation will not go
+> > > deep enough to touch the differences between POWER processors.
+> >=20
+> > I think you are mistaken.
+> >=20
+> > > The only aspects that will be implementation specific will be 2 perf
+> > > events (0x2 and 0x1E) that the kernel has been using for a long time
+> > > and only recently migrated to architected events. We'll support all
+> > > architected events that are related to those events so that newer
+> > > kernels - and other non-IBM processors - will use the PMU without
+> > > the need of having to know about 0x2 and 0x1E.
+> >=20
+> > So, possibly in the last few POWER chips, the only differences are the
+> > table of event keys.  That is definitely not the case for the whole
+> > POWER line though.  I remember from my time at IBM, the PMU underwent
+> > huge changes much deeper than the event table.  Some had different
+> > numbers of PMCs, different bit fields in the MMCRs, different methods
+> > of event selection (in some cases through insanely compplex chains of
+> > multiplexers).  And everything from POWER4 onwards could reasonably be
+> > described as "book3s".  So we definitely need a different
+> > name... working out what it should be is harder though.
+> >=20
+> > If the modern core structure of the PMU got codified in a particular
+> > BookS architecture version we could name it after that version, maybe?
+>=20
+>=20
+> What about just 'pmu_helper.c'? That way we can have a file with most of
+> the PMU logic contained in it, without implying nothing about the support
+> with the filename alone. If time goes by and more specialized coded starts
+> to being added in there (code like "this helper implements something that
+> is only valid in PPC chip X") then we can split into more specific files.
+>=20
+> Yet another alternative in line with what you suggested could be
+> "power9_pmu.c", perhaps even "power8_pmu.c". The chip version would mean
+> "the oldest IBM TCG PPC64 chip that we tested with this PMU code". I'm
+> testing with POWER9 most of the time, POWER10 works fine, so 'power9_pmu.=
+c'
+> is viable. I can do some tests with POWER8 to see how it goes. I'm not
+> sure if it's worth the trouble testing with anything older than P8
+> though.
 
-Oh, the commit ecebe53fe can not save the VFIO_DEVICE_SET_IRQS operations, it
-still need to be called ( in vfio_set_irq_signaling ) for each unmasked vector
-during the resume phase.
+Right.  I much prefer either of these to pmu_helper.c
 
-In my implementation, the VFIO_DEVICE_SET_IRQS is skipped totally and call
-vfio_enable_vectors only once outside the loop. I'll send this optimization
-together in the next version.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-> [ stop here ]
-> 
->>
->>> So this patch trys to defer the KVM interrupt setup, the unmasked
->>> vector will use qemu interrupt as default and switch to kvm interrupt
->>> once it fires.
->>>
->>> Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
->>> ---
->>>  hw/vfio/pci.c | 39 ++++++++++++++++++++++++++++++++++++++-
->>>  hw/vfio/pci.h |  2 ++
->>>  2 files changed, 40 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
->>> index e1ea1d8..dd35170 100644
->>> --- a/hw/vfio/pci.c
->>> +++ b/hw/vfio/pci.c
->>> @@ -47,6 +47,8 @@
->>>  
->>>  static void vfio_disable_interrupts(VFIOPCIDevice *vdev);
->>>  static void vfio_mmap_set_enabled(VFIOPCIDevice *vdev, bool enabled);
->>> +static void vfio_add_kvm_msix_virq(VFIOPCIDevice *vdev,
->>> +                                   VFIOMSIVector *vector, int nr);
->>>  
->>>  /*
->>>   * Disabling BAR mmaping can be slow, but toggling it around INTx can
->>> @@ -347,6 +349,11 @@ static void vfio_msi_interrupt(void *opaque)
->>>          get_msg = msix_get_message;
->>>          notify = msix_notify;
->>>  
->>> +        if (unlikely(vector->need_switch)) {
->>> +            vfio_add_kvm_msix_virq(vdev, vector, nr);
->>> +            vector->need_switch = false;
->>> +        }
->>> +
->>
->> A better name might be "vector->kvm_routing_deferred".  Essentially this
->> is just a lazy setup of KVM routes, we could always do this, or we could
->> do this based on a device options.  I wonder if there are any affinity
->> benefits in the VM to defer the KVM route.
->>
->>>          /* A masked vector firing needs to use the PBA, enable it */
->>>          if (msix_is_masked(&vdev->pdev, nr)) {
->>>              set_bit(nr, vdev->msix->pending);
->>> @@ -438,6 +445,25 @@ static void vfio_add_kvm_msi_virq(VFIOPCIDevice *vdev, VFIOMSIVector *vector,
->>>      vector->virq = virq;
->>>  }
->>>  
->>> +static void
->>> +vfio_add_kvm_msix_virq(VFIOPCIDevice *vdev, VFIOMSIVector *vector, int nr)
->>> +{
->>> +    Error *err = NULL;
->>> +    int fd;
->>> +
->>> +    vfio_add_kvm_msi_virq(vdev, vector, nr, true);
->>> +    if (vector->virq < 0) {
->>> +        return;
->>> +    }
->>> +
->>> +    fd = event_notifier_get_fd(&vector->kvm_interrupt);
->>> +    if (vfio_set_irq_signaling(&vdev->vbasedev,
->>> +                               VFIO_PCI_MSIX_IRQ_INDEX, nr,
->>> +                               VFIO_IRQ_SET_ACTION_TRIGGER, fd, &err)) {
->>> +        error_reportf_err(err, VFIO_MSG_PREFIX, vdev->vbasedev.name);
->>> +    }
->>> +}
->>> +
->>>  static void vfio_remove_kvm_msi_virq(VFIOMSIVector *vector)
->>>  {
->>>      kvm_irqchip_remove_irqfd_notifier_gsi(kvm_state, &vector->kvm_interrupt,
->>> @@ -490,7 +516,11 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
->>>          }
->>>      } else {
->>>          if (msg) {
->>> -            vfio_add_kvm_msi_virq(vdev, vector, nr, true);
->>> +            if (unlikely(vdev->defer_set_virq)) {
->>
->> Likewise this could be "vdev->defer_kvm_irq_routing" and we could apply
->> it to all IRQ types.
->>
->>> +                vector->need_switch = true;
->>> +            } else {
->>> +                vfio_add_kvm_msi_virq(vdev, vector, nr, true);
->>> +            }
->>>          }
->>>      }
->>>  
->>> @@ -566,6 +596,11 @@ static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
->>>      }
->>>  }
->>>  
->>> +static void inline vfio_msix_defer_set_virq(VFIOPCIDevice *vdev, bool defer)
->>> +{
->>> +    vdev->defer_set_virq = defer;
->>> +}
->>
->> A helper function seems excessive.
->>
->>> +
->>>  static void vfio_msix_enable(VFIOPCIDevice *vdev)
->>>  {
->>>      PCIDevice *pdev = &vdev->pdev;
->>> @@ -2466,7 +2501,9 @@ static int vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
->>>      if (msi_enabled(pdev)) {
->>>          vfio_msi_enable(vdev);
->>>      } else if (msix_enabled(pdev)) {
->>> +        vfio_msix_defer_set_virq(vdev, true);
->>>          vfio_msix_enable(vdev);
->>> +        vfio_msix_defer_set_virq(vdev, false);
->>
->> This is the algorithm you want for 65+ vectors, but is this the
->> algorithm we want for 2 vectors?  Who should define that policy?
->> We should at least make lazy KVM routing setup a device option to be
->> able to test it outside of a migration, but should it be enabled by
->> default?  Would anyone mind too much if there was some additional
->> latency of each initial vector triggering?  Thanks,
->>> Alex
->>
->>>      }
->>>  
->>>      return ret;
->>> diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
->>> index 6477751..846ae85 100644
->>> --- a/hw/vfio/pci.h
->>> +++ b/hw/vfio/pci.h
->>> @@ -95,6 +95,7 @@ typedef struct VFIOMSIVector {
->>>      struct VFIOPCIDevice *vdev; /* back pointer to device */
->>>      int virq;
->>>      bool use;
->>> +    bool need_switch; /* switch to kvm interrupt ? */
->>>  } VFIOMSIVector;
->>>  
->>>  enum {
->>> @@ -171,6 +172,7 @@ struct VFIOPCIDevice {
->>>      bool no_kvm_ioeventfd;
->>>      bool no_vfio_ioeventfd;
->>>      bool enable_ramfb;
->>> +    bool defer_set_virq;
->>>      VFIODisplay *dpy;
->>>      Notifier irqchip_change_notifier;
->>>  };
->>
->> .
->>
-> 
-> .
-> 
+--1e8y9qjUNQbtNQ5c
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEcnxEACgkQbDjKyiDZ
+s5J58RAA2k6j7eRVDnlvmBFhxcbK4Cmhl+F02J4wlJ72dX4vmv7P7ITQpoOsnBBc
+Emy5VTplZyW3ewPtTtCEjQL7+4LXWl0BvxukE/OFEvtjcUuTNBUCyVuRCJniGjih
+8DkIhxUOR3z+ErT9DH6GwSPgixnzZiHEu+l6EnMTIVdfAbxVCqK792USCorzxsmQ
+jWTsm17wRd2Rz6I6O2UYdJczezdjn1DbDaEsuVHM2mhda12i2F8dr9EsZeyItFNt
+hzqlgVv1hNt5vm6YgahOOHOgazz/dGZIH8uW8rYglK+T/sBJ+UQSw3qFI+RXOpnk
++aCuUjQGRVCyVgr8C+saG4zsABhSuQAmW9lE4dvBQTHOO7JKhJvru8zFQ1AKGrMB
+A6sY2mWuMGOO8OhorD9I9Kqpa/rPHYK73GYIB7KeAzeGh5N83mx0ePxS/8MP/T9M
++eUX6fC9kE0VFVB6agay4cX0nrdSBM8IWbx+6zug1eKgVuLekUrAHH08v/mKR9P4
+JJ4i07+RKKH7WmmS8dKAaMUgApdv850WEVTrV1yIeGDusQ9rcMq5rBDWZqhExp0B
+mm058RIVIqIzdohtc/4WyFJXJOcw2sObteEs8n6tPxMMGcXjRm4jMKgec+hnJYuV
+8e7cszKvVwWpRF8iVthxM4PDzJEL68E+ull3IHI4qiaH5B464Rc=
+=VUOh
+-----END PGP SIGNATURE-----
+
+--1e8y9qjUNQbtNQ5c--
 
