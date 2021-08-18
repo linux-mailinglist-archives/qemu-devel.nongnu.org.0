@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED4853F00DF
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 11:46:55 +0200 (CEST)
-Received: from localhost ([::1]:57440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E929C3F016D
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 12:18:14 +0200 (CEST)
+Received: from localhost ([::1]:35444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGI9u-0003WA-KX
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 05:46:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33240)
+	id 1mGIeD-000171-H8
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 06:18:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mGI8s-0002qg-EC
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 05:45:50 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38678
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mGI8q-0001jZ-GY
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 05:45:50 -0400
-Received: from host86-179-247-14.range86-179.btcentralplus.com
- ([86.179.247.14] helo=[192.168.50.176])
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mGI8R-000Ci5-Hf; Wed, 18 Aug 2021 10:45:29 +0100
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210810140653.3969823-1-berrange@redhat.com>
- <20210810140653.3969823-2-berrange@redhat.com>
- <11174538-e2fb-cd99-de92-3153fa56d017@ilande.co.uk>
- <YRzS3F766na8QeJm@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <16bd9721-a296-9cc7-0a94-dd76e2696b81@ilande.co.uk>
-Date: Wed, 18 Aug 2021 10:45:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <Jianxian.Wen@verisilicon.com>)
+ id 1mGIdN-0000EQ-LF; Wed, 18 Aug 2021 06:17:21 -0400
+Received: from shasxm06.verisilicon.com ([101.89.135.45]:38681
+ helo=shasxm03.verisilicon.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <Jianxian.Wen@verisilicon.com>)
+ id 1mGIdK-0003gV-Ay; Wed, 18 Aug 2021 06:17:21 -0400
+Content-Language: zh-CN
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; d=Verisilicon.com; s=default;
+ c=simple/simple; t=1629281822; h=from:subject:to:date:message-id;
+ bh=II84cgnFyR2+0tUn4WXFPeMG63ntBcPxWbWKpExN8s8=;
+ b=EioZd/ldnRra7PA2V++0zlycbbsfQH4De6ZZvY7BQAvAMW3sIO4yoA6Qrg8r3REy/syhM0WF2Lx
+ Rt/G0P34+Q6p13CJlh5sj6ayM1r5Kpx0TieBN5gnfgtdf2BRawOmA6orHzuMt4WyogzqGc5HDJSGp
+ og6+FSB1YDuWD04HsXo=
+Received: from SHASXM03.verisilicon.com ([fe80::938:4dda:a2f9:38aa]) by
+ SHASXM06.verisilicon.com ([fe80::59a8:ce34:dc14:ddda%16]) with mapi id
+ 14.03.0408.000; Wed, 18 Aug 2021 18:17:00 +0800
+From: "Wen, Jianxian" <Jianxian.Wen@verisilicon.com>
+To: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "i.mitsyanko@gmail.com" <i.mitsyanko@gmail.com>, "edgar.iglesias@gmail.com"
+ <edgar.iglesias@gmail.com>, "alistair@alistair23.me" <alistair@alistair23.me>
+Subject: [PATCH v5] hw/dma/pl330: Add memory region to replace default
+Thread-Topic: [PATCH v5] hw/dma/pl330: Add memory region to replace default
+Thread-Index: AdeUGi5e/tTfHVLLRNOJikIHWQLmWA==
+Date: Wed, 18 Aug 2021 10:17:00 +0000
+Message-ID: <4C23C17B8E87E74E906A25A3254A03F4FA1FEC31@SHASXM03.verisilicon.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.10.46.204]
+x-tm-as-product-ver: SMEX-11.0.0.4179-8.100.1062-25628.004
+x-tm-as-result: No--6.194600-0.000000-31
+x-tm-as-user-approved-sender: Yes
+x-tm-as-user-blocked-sender: No
 MIME-Version: 1.0
-In-Reply-To: <YRzS3F766na8QeJm@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.179.247.14
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 1/2] gitlab: exclude sparc-softmmu and riscv32-softmmu
- from cross builds
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.961,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=101.89.135.45;
+ envelope-from=Jianxian.Wen@verisilicon.com; helo=shasxm03.verisilicon.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,80 +68,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Liu,
+ Renwei" <Renwei.Liu@verisilicon.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Li,
+ Chunming" <Chunming.Li@verisilicon.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/08/2021 10:29, Daniel P. Berrangé wrote:
+Add property memory region which can connect with IOMMU region to support S=
+MMU translate.
 
-> On Wed, Aug 18, 2021 at 10:15:47AM +0100, Mark Cave-Ayland wrote:
->> On 10/08/2021 15:06, Daniel P. Berrangé wrote:
->>
->>> We need to cut down compile time by excluding more targets. Both these
->>> targets still have their 64-bit variant enabled, so the loss of coverage
->>> is mitigated to some degree.
->>>
->>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
->>> ---
->>>    .gitlab-ci.d/crossbuild-template.yml | 3 ++-
->>>    1 file changed, 2 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
->>> index 7d3ad00a1e..cfb576b54c 100644
->>> --- a/.gitlab-ci.d/crossbuild-template.yml
->>> +++ b/.gitlab-ci.d/crossbuild-template.yml
->>> @@ -9,7 +9,8 @@
->>>          ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
->>>            --disable-user --target-list-exclude="arm-softmmu cris-softmmu
->>>              i386-softmmu microblaze-softmmu mips-softmmu mipsel-softmmu
->>> -          mips64-softmmu ppc-softmmu sh4-softmmu xtensa-softmmu"
->>> +          mips64-softmmu ppc-softmmu riscv32-softmmu sh4-softmmu
->>> +          sparc-softmmu xtensa-softmmu"
->>>        - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
->>>        - if grep -q "EXESUF=.exe" config-host.mak;
->>>          then make installer;
->>
->> I'd prefer to keep sparc-softmmu if possible, simply because my everyday
->> platform is Linux and so having a cross-build for Windows will catch things
->> that I may miss on a day-to-day basis. Is sparc-softmmu currently enabled as
->> part of the native MINGW64 build?
-> 
-> Note the builds still include  'sparc64-softmmu', so we're only loosing
-> cover in places where it diverges fromthe 64-bit build, but this will
-> sstil get coverage in native builds.
+Signed-off-by: Jianxian Wen <jianxian.wen@verisilicon.com>
+---
+v5 (after review of Philippe Mathieu-Daud=E9):
+ - Refine code and use memory_region_name() to get MR name.
+v4 (after review of Philippe Mathieu-Daud=E9):
+ - Avoid creating new AS for system memory, add AS if we connect with IOMMU=
+ region.
+v3 (after review of Philippe Mathieu-Daud=E9):
+ - Refine code to comply with code style, update error message if memory li=
+nk is not set.
+v2 (after review of Peter Maydell):
+ - Use dma_memory_read/write functions to do data access, update function A=
+ddressSpace* parameter.
 
-Okay I see. From my perspective sparc-softmmu covers more corner cases simply because 
-everything is wired up as cMMIO peripherals on a custum bus compared with 
-sparc64-softmmu which is a PCI machine and so there is already a lot of overlap 
-there. However...
+ hw/arm/exynos4210.c  |  3 +++
+ hw/arm/xilinx_zynq.c |  3 +++
+ hw/dma/pl330.c       | 26 ++++++++++++++++++++++----
+ 3 files changed, 28 insertions(+), 4 deletions(-)
 
->> If I go to my Gitlab QEMU fork Settings -> CI/CD -> Variables there is an
->> option to set variables that can be used in job scripts. Perhaps this could
->> be used so that I can configure my personal QEMU fork to always run
->> sparc-softmmu builds when preparing PRs even if they aren't enabled for
->> everyone by default? At least this would then allow me to spot any breakage
->> before sending a final PR to Peter.
-> 
-> Separately from this I'm doing some work to make things more configurable
-> 
->    https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg02102.html
-> 
-> but not on this level of granularity.
-> 
-> Rather than globally excluding from all cross builds, I think we ought to
-> split it up more equitably acrss the different builds in some way.
-
- From my perspective as long as I have something in Gitlab that I can push and then 
-get a green CI build that covers both sparc platforms on Linux/Windows then I'm not 
-too concerned about the implementation details. As long as the combination is covered 
-in a job somewhere in your latest set of build changes then that's okay with me.
-
-
-ATB,
-
-Mark.
+diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
+index 5c7a51b..0299e81 100644
+--- a/hw/arm/exynos4210.c
++++ b/hw/arm/exynos4210.c
+@@ -173,6 +173,9 @@ static DeviceState *pl330_create(uint32_t base, qemu_or=
+_irq *orgate,
+     int i;
+=20
+     dev =3D qdev_new("pl330");
++    object_property_set_link(OBJECT(dev), "memory",
++                             OBJECT(get_system_memory()),
++                             &error_fatal);
+     qdev_prop_set_uint8(dev, "num_events", nevents);
+     qdev_prop_set_uint8(dev, "num_chnls",  8);
+     qdev_prop_set_uint8(dev, "num_periph_req",  nreq);
+diff --git a/hw/arm/xilinx_zynq.c b/hw/arm/xilinx_zynq.c
+index 245af81..69c333e 100644
+--- a/hw/arm/xilinx_zynq.c
++++ b/hw/arm/xilinx_zynq.c
+@@ -312,6 +312,9 @@ static void zynq_init(MachineState *machine)
+     sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[39-IRQ_OFFSET]);
+=20
+     dev =3D qdev_new("pl330");
++    object_property_set_link(OBJECT(dev), "memory",
++                             OBJECT(address_space_mem),
++                             &error_fatal);
+     qdev_prop_set_uint8(dev, "num_chnls",  8);
+     qdev_prop_set_uint8(dev, "num_periph_req",  4);
+     qdev_prop_set_uint8(dev, "num_events",  16);
+diff --git a/hw/dma/pl330.c b/hw/dma/pl330.c
+index 944ba29..0cb4619 100644
+--- a/hw/dma/pl330.c
++++ b/hw/dma/pl330.c
+@@ -269,6 +269,9 @@ struct PL330State {
+     uint8_t num_faulting;
+     uint8_t periph_busy[PL330_PERIPH_NUM];
+=20
++    /* Memory region that DMA operation access */
++    MemoryRegion *mem_mr;
++    AddressSpace *mem_as;
+ };
+=20
+ #define TYPE_PL330 "pl330"
+@@ -1108,7 +1111,7 @@ static inline const PL330InsnDesc *pl330_fetch_insn(P=
+L330Chan *ch)
+     uint8_t opcode;
+     int i;
+=20
+-    dma_memory_read(&address_space_memory, ch->pc, &opcode, 1);
++    dma_memory_read(ch->parent->mem_as, ch->pc, &opcode, 1);
+     for (i =3D 0; insn_desc[i].size; i++) {
+         if ((opcode & insn_desc[i].opmask) =3D=3D insn_desc[i].opcode) {
+             return &insn_desc[i];
+@@ -1122,7 +1125,7 @@ static inline void pl330_exec_insn(PL330Chan *ch, con=
+st PL330InsnDesc *insn)
+     uint8_t buf[PL330_INSN_MAXSIZE];
+=20
+     assert(insn->size <=3D PL330_INSN_MAXSIZE);
+-    dma_memory_read(&address_space_memory, ch->pc, buf, insn->size);
++    dma_memory_read(ch->parent->mem_as, ch->pc, buf, insn->size);
+     insn->exec(ch, buf[0], &buf[1], insn->size - 1);
+ }
+=20
+@@ -1186,7 +1189,7 @@ static int pl330_exec_cycle(PL330Chan *channel)
+     if (q !=3D NULL && q->len <=3D pl330_fifo_num_free(&s->fifo)) {
+         int len =3D q->len - (q->addr & (q->len - 1));
+=20
+-        dma_memory_read(&address_space_memory, q->addr, buf, len);
++        dma_memory_read(s->mem_as, q->addr, buf, len);
+         trace_pl330_exec_cycle(q->addr, len);
+         if (trace_event_get_state_backends(TRACE_PL330_HEXDUMP)) {
+             pl330_hexdump(buf, len);
+@@ -1217,7 +1220,7 @@ static int pl330_exec_cycle(PL330Chan *channel)
+             fifo_res =3D pl330_fifo_get(&s->fifo, buf, len, q->tag);
+         }
+         if (fifo_res =3D=3D PL330_FIFO_OK || q->z) {
+-            dma_memory_write(&address_space_memory, q->addr, buf, len);
++            dma_memory_write(s->mem_as, q->addr, buf, len);
+             trace_pl330_exec_cycle(q->addr, len);
+             if (trace_event_get_state_backends(TRACE_PL330_HEXDUMP)) {
+                 pl330_hexdump(buf, len);
+@@ -1562,6 +1565,18 @@ static void pl330_realize(DeviceState *dev, Error **=
+errp)
+                           "dma", PL330_IOMEM_SIZE);
+     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
+=20
++    if (!s->mem_mr) {
++        error_setg(errp, "'memory' link is not set");
++        return;
++    } else if (s->mem_mr =3D=3D get_system_memory()) {
++        /* Avoid creating new AS for system memory. */
++        s->mem_as =3D &address_space_memory;
++    } else {
++        s->mem_as =3D g_new0(AddressSpace, 1);
++        address_space_init(s->mem_as, s->mem_mr,
++                           memory_region_name(s->mem_mr));
++    }
++
+     s->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, pl330_exec_cycle_timer, =
+s);
+=20
+     s->cfg[0] =3D (s->mgr_ns_at_rst ? 0x4 : 0) |
+@@ -1656,6 +1671,9 @@ static Property pl330_properties[] =3D {
+     DEFINE_PROP_UINT8("rd_q_dep", PL330State, rd_q_dep, 16),
+     DEFINE_PROP_UINT16("data_buffer_dep", PL330State, data_buffer_dep, 256=
+),
+=20
++    DEFINE_PROP_LINK("memory", PL330State, mem_mr,
++                     TYPE_MEMORY_REGION, MemoryRegion *),
++
+     DEFINE_PROP_END_OF_LIST(),
+ };
+=20
+--=20
+2.7.4
 
