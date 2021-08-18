@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E4F83F02BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 13:30:31 +0200 (CEST)
-Received: from localhost ([::1]:40098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D343F0301
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 13:48:02 +0200 (CEST)
+Received: from localhost ([::1]:47950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGJmA-0002wS-DT
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 07:30:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58866)
+	id 1mGK36-00015y-NX
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 07:48:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mGJl5-00024o-Nq
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 07:29:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49344)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mGJl2-0005op-Cb
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 07:29:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629286159;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=kqRYvlEJzFexAHHfD88+SXVkezxYieOn0iYqvz7Cc7w=;
- b=d8FVxyYmhm6dSINGUgnCXFrWj47JNS2nuEk+fNoVItNhVC1q3RXamXmHGcPMN7AYj19PUn
- FQUMgu7sE8okji/nGk5WAk2OwZ1Vzusosiv6Y636WPH0i1M/1UDPb398hW+/8kCo+f7gfL
- 4H/TL72KC5xezMxh87TbPaAkG90KiFI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-sEvWfv0wNd6QU-cUlycLVQ-1; Wed, 18 Aug 2021 07:29:17 -0400
-X-MC-Unique: sEvWfv0wNd6QU-cUlycLVQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A8971082921;
- Wed, 18 Aug 2021 11:29:17 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.132])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F14AF19D9B;
- Wed, 18 Aug 2021 11:29:15 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-6.2] docs/about/removed-features: Move some CLI options to
- the right location
-Date: Wed, 18 Aug 2021 13:29:08 +0200
-Message-Id: <20210818112908.102205-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mGK1R-0000Mm-7L
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 07:46:17 -0400
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:53116)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mGK1O-0006Lc-UT
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 07:46:17 -0400
+Received: by mail-pj1-x1031.google.com with SMTP id nt11so2453083pjb.2
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 04:46:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=L4QemT9AB7VNAoGKLifpw0O7j6lM86PHv11SHgl9CCE=;
+ b=vJ7pgtmu3NHEvrEMMGBfhT3V4A7k1U3jOxgMx3kHm/kMlmSh5lNzkQyfBQdNQRicnc
+ BXC3wm/dRragYHCqRx5G5OoTDjyUUud2bJDaH3D5GMwn7w0WaqOyfiuiwLFLSfRRFO0a
+ HbtDqZyFLr0t4cBp+Udglr9h914q1mGpv6NsSBSVMaca+xjcroPEZkitkCfYfi1wk/wD
+ lDy+shtIYL3u+m6SqIVLeOVqipNjSrFB9mRMCryxpN5OxLK00p7OylKYyY/sLtYcWwlK
+ ORzyfqmEQq9nz6ufjn/chTNY5Y1wQ12l6w9ufTs8ewC2ZVmaczEVy/28Tw0yNiXF3J/l
+ M/gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=L4QemT9AB7VNAoGKLifpw0O7j6lM86PHv11SHgl9CCE=;
+ b=nWO+k3gLXxcmcuwrjqv4bJGNY+YaRfW+UZVwHZ9cKHL+jl7magCcsMXUKNpKY+q6BV
+ Xa84HhyOf+Y3Dm/cUF4CkLWglUVyk+QXwlVDxrtsOdIi3NrruCGmWRYF8jmvQnP5v11J
+ OeY3IJEXlbDwAhBc3jfztDwl5zRVCVIMlNrFuI1VZeZOn/rgwIsziXvXUWTjOz9LHgVG
+ 6KRySfJgBUhCcqkPu3M5dBvD/qfdAGgH7HrTuVUdwnMj0pl5ayk8mAqqzEsEXIiFd6ff
+ 7zMzr+O67V7ukniSTwZ6t5RnWUWUXIAOimK7q6DBmRPEFBvSSE/uC+igSj+eav4vPNs0
+ 1AIA==
+X-Gm-Message-State: AOAM530yeRUxDvTNug5qZ9CCB+ags9GSr4dciK8RbDz41Me/DHctK7+6
+ PXWSG0Skmtny3zcVehKX+rwU2A==
+X-Google-Smtp-Source: ABdhPJxW8ggJe4MNp9jhYIk5Wa0sy326ZrPm+x/mwFAQx0Zv+/b0tnMs40rga4IYGnQuCaBq07O9PA==
+X-Received: by 2002:a17:90a:d245:: with SMTP id
+ o5mr8984069pjw.57.1629287171145; 
+ Wed, 18 Aug 2021 04:46:11 -0700 (PDT)
+Received: from anisinha-lenovo ([115.96.159.175])
+ by smtp.googlemail.com with ESMTPSA id i1sm5166156pjs.31.2021.08.18.04.46.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Aug 2021 04:46:10 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Wed, 18 Aug 2021 17:16:04 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH] hw/acpi: refactor acpi hp modules so that targets can
+ just use what they need
+In-Reply-To: <20210812071409.492299-1-ani@anisinha.ca>
+Message-ID: <alpine.DEB.2.22.394.2108181716001.48434@anisinha-lenovo>
+References: <20210812071409.492299-1-ani@anisinha.ca>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,182 +84,302 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Igor Mammedov <imammedo@redhat.com>, philmd@redhat.com,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some of the removed CLI options have been added to the wrong section
-in the "Removed features" chapter - they've been put into the
-"Related binaries" section instead. Move them now into the correct
-"System emulator command line arguments" section.
+Ping ...
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- docs/about/removed-features.rst | 137 ++++++++++++++------------------
- 1 file changed, 61 insertions(+), 76 deletions(-)
+On Thu, 12 Aug 2021, Ani Sinha wrote:
 
-diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-index cbfa1a8e31..032d68d141 100644
---- a/docs/about/removed-features.rst
-+++ b/docs/about/removed-features.rst
-@@ -146,12 +146,73 @@ Replaced by ``-rtc base=date``.
- The "tls-creds" option should be used instead to point to a "tls-creds-x509"
- object created using "-object".
- 
-+``-mem-path`` fallback to RAM (removed in 5.0)
-+''''''''''''''''''''''''''''''''''''''''''''''
-+
-+If guest RAM allocation from file pointed by ``mem-path`` failed,
-+QEMU was falling back to allocating from RAM, which might have resulted
-+in unpredictable behavior since the backing file specified by the user
-+as ignored. Currently, users are responsible for making sure the backing storage
-+specified with ``-mem-path`` can actually provide the guest RAM configured with
-+``-m`` and QEMU fails to start up if RAM allocation is unsuccessful.
-+
- ``-net ...,name=...`` (removed in 5.1)
- ''''''''''''''''''''''''''''''''''''''
- 
- The ``name`` parameter of the ``-net`` option was a synonym
- for the ``id`` parameter, which should now be used instead.
- 
-+``-numa node,mem=...`` (removed in 5.1)
-+'''''''''''''''''''''''''''''''''''''''
-+
-+The parameter ``mem`` of ``-numa node`` was used to assign a part of guest RAM
-+to a NUMA node. But when using it, it's impossible to manage a specified RAM
-+chunk on the host side (like bind it to a host node, setting bind policy, ...),
-+so the guest ends up with the fake NUMA configuration with suboptiomal
-+performance.
-+However since 2014 there is an alternative way to assign RAM to a NUMA node
-+using parameter ``memdev``, which does the same as ``mem`` and adds
-+means to actually manage node RAM on the host side. Use parameter ``memdev``
-+with *memory-backend-ram* backend as replacement for parameter ``mem``
-+to achieve the same fake NUMA effect or a properly configured
-+*memory-backend-file* backend to actually benefit from NUMA configuration.
-+New machine versions (since 5.1) will not accept the option but it will still
-+work with old machine types. User can check the QAPI schema to see if the legacy
-+option is supported by looking at MachineInfo::numa-mem-supported property.
-+
-+``-numa`` node (without memory specified) (removed 5.2)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+Splitting RAM by default between NUMA nodes had the same issues as ``mem``
-+parameter with the difference that the role of the user plays QEMU using
-+implicit generic or board specific splitting rule.
-+Use ``memdev`` with *memory-backend-ram* backend or ``mem`` (if
-+it's supported by used machine type) to define mapping explicitly instead.
-+Users of existing VMs, wishing to preserve the same RAM distribution, should
-+configure it explicitly using ``-numa node,memdev`` options. Current RAM
-+distribution can be retrieved using HMP command ``info numa`` and if separate
-+memory devices (pc|nv-dimm) are present use ``info memory-device`` and subtract
-+device memory from output of ``info numa``.
-+
-+``-smp`` (invalid topologies) (removed 5.2)
-+'''''''''''''''''''''''''''''''''''''''''''
-+
-+CPU topology properties should describe whole machine topology including
-+possible CPUs.
-+
-+However, historically it was possible to start QEMU with an incorrect topology
-+where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
-+which could lead to an incorrect topology enumeration by the guest.
-+Support for invalid topologies is removed, the user must ensure
-+topologies described with -smp include all possible cpus, i.e.
-+*sockets* * *cores* * *threads* = *maxcpus*.
-+
-+``-machine enforce-config-section=on|off`` (removed 5.2)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+The ``enforce-config-section`` property was replaced by the
-+``-global migration.send-configuration={on|off}`` option.
-+
- ``-no-kvm`` (removed in 5.2)
- ''''''''''''''''''''''''''''
- 
-@@ -590,82 +651,6 @@ enforce that any failure to open the backing image (including if the
- backing file is missing or an incorrect format was specified) is an
- error when ``-u`` is not used.
- 
--Command line options
----------------------
--
--``-smp`` (invalid topologies) (removed 5.2)
--'''''''''''''''''''''''''''''''''''''''''''
--
--CPU topology properties should describe whole machine topology including
--possible CPUs.
--
--However, historically it was possible to start QEMU with an incorrect topology
--where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
--which could lead to an incorrect topology enumeration by the guest.
--Support for invalid topologies is removed, the user must ensure
--topologies described with -smp include all possible cpus, i.e.
--*sockets* * *cores* * *threads* = *maxcpus*.
--
--``-numa`` node (without memory specified) (removed 5.2)
--'''''''''''''''''''''''''''''''''''''''''''''''''''''''
--
--Splitting RAM by default between NUMA nodes had the same issues as ``mem``
--parameter with the difference that the role of the user plays QEMU using
--implicit generic or board specific splitting rule.
--Use ``memdev`` with *memory-backend-ram* backend or ``mem`` (if
--it's supported by used machine type) to define mapping explicitly instead.
--Users of existing VMs, wishing to preserve the same RAM distribution, should
--configure it explicitly using ``-numa node,memdev`` options. Current RAM
--distribution can be retrieved using HMP command ``info numa`` and if separate
--memory devices (pc|nv-dimm) are present use ``info memory-device`` and subtract
--device memory from output of ``info numa``.
--
--``-numa node,mem=``\ *size* (removed in 5.1)
--''''''''''''''''''''''''''''''''''''''''''''
--
--The parameter ``mem`` of ``-numa node`` was used to assign a part of
--guest RAM to a NUMA node. But when using it, it's impossible to manage a specified
--RAM chunk on the host side (like bind it to a host node, setting bind policy, ...),
--so the guest ends up with the fake NUMA configuration with suboptiomal performance.
--However since 2014 there is an alternative way to assign RAM to a NUMA node
--using parameter ``memdev``, which does the same as ``mem`` and adds
--means to actually manage node RAM on the host side. Use parameter ``memdev``
--with *memory-backend-ram* backend as replacement for parameter ``mem``
--to achieve the same fake NUMA effect or a properly configured
--*memory-backend-file* backend to actually benefit from NUMA configuration.
--New machine versions (since 5.1) will not accept the option but it will still
--work with old machine types. User can check the QAPI schema to see if the legacy
--option is supported by looking at MachineInfo::numa-mem-supported property.
--
--``-mem-path`` fallback to RAM (removed in 5.0)
--''''''''''''''''''''''''''''''''''''''''''''''
--
--If guest RAM allocation from file pointed by ``mem-path`` failed,
--QEMU was falling back to allocating from RAM, which might have resulted
--in unpredictable behavior since the backing file specified by the user
--as ignored. Currently, users are responsible for making sure the backing storage
--specified with ``-mem-path`` can actually provide the guest RAM configured with
--``-m`` and QEMU fails to start up if RAM allocation is unsuccessful.
--
--``-smp`` (invalid topologies) (removed 5.2)
--'''''''''''''''''''''''''''''''''''''''''''
--
--CPU topology properties should describe whole machine topology including
--possible CPUs.
--
--However, historically it was possible to start QEMU with an incorrect topology
--where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
--which could lead to an incorrect topology enumeration by the guest.
--Support for invalid topologies is removed, the user must ensure
--topologies described with -smp include all possible cpus, i.e.
--*sockets* * *cores* * *threads* = *maxcpus*.
--
--``-machine enforce-config-section=on|off`` (removed 5.2)
--''''''''''''''''''''''''''''''''''''''''''''''''''''''''
--
--The ``enforce-config-section`` property was replaced by the
--``-global migration.send-configuration={on|off}`` option.
--
- qemu-img amend to adjust backing file (removed in 6.1)
- ''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
--- 
-2.27.0
-
+> Currently various acpi hotplug modules like cpu hotplug, memory hotplug, pci
+> hotplug, nvdimm hotplug are all pulled in when CONFIG_ACPI_X86 is turned on.
+> This brings in support for whole lot of subsystems that some targets like
+> mips does not need. They are added just to satisfy symbol dependencies. This
+> is ugly and should be avoided. Targets should be able to pull in just what they
+> need and no more. For example, mips only needs support for PIIX4 and does not
+> need acpi pci hotplug support or cpu hotplug support or memory hotplug support
+> etc. This change is an effort to clean this up.
+> In this change, new config variables are added for various acpi hotplug
+> subsystems. Targets like mips can only enable PIIX4 support and not the rest
+> of all the other modules which were being previously pulled in as a part of
+> CONFIG_ACPI_X86. Function stubs make sure that symbols which piix4 needs but
+> are not required by mips (for example, symbols specific to pci hotplug etc)
+> are available to satisfy the dependencies.
+>
+> Currently, this change only addresses issues with mips malta targets. In future
+> we might be able to clean up other targets which are similarly pulling in lot
+> of unnecessary hotplug modules by enabling ACPI_X86.
+>
+> This change should also address issues such as the following:
+> https://gitlab.com/qemu-project/qemu/-/issues/221
+> https://gitlab.com/qemu-project/qemu/-/issues/193
+>
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> ---
+>  configs/devices/mips-softmmu/common.mak |  5 +--
+>  hw/acpi/Kconfig                         | 10 +++++
+>  hw/acpi/acpi-cpu-hotplug-stub.c         | 50 +++++++++++++++++++++++++
+>  hw/acpi/acpi-mem-hotplug-stub.c         | 35 +++++++++++++++++
+>  hw/acpi/acpi-nvdimm-stub.c              |  8 ++++
+>  hw/acpi/acpi-pci-hotplug-stub.c         | 47 +++++++++++++++++++++++
+>  hw/acpi/meson.build                     | 14 +++++--
+>  7 files changed, 161 insertions(+), 8 deletions(-)
+>  create mode 100644 hw/acpi/acpi-cpu-hotplug-stub.c
+>  create mode 100644 hw/acpi/acpi-mem-hotplug-stub.c
+>  create mode 100644 hw/acpi/acpi-nvdimm-stub.c
+>  create mode 100644 hw/acpi/acpi-pci-hotplug-stub.c
+>
+> diff --git a/configs/devices/mips-softmmu/common.mak b/configs/devices/mips-softmmu/common.mak
+> index ea78fe7275..752b62b1e6 100644
+> --- a/configs/devices/mips-softmmu/common.mak
+> +++ b/configs/devices/mips-softmmu/common.mak
+> @@ -18,10 +18,7 @@ CONFIG_PCSPK=y
+>  CONFIG_PCKBD=y
+>  CONFIG_FDC=y
+>  CONFIG_ACPI=y
+> -CONFIG_ACPI_X86=y
+> -CONFIG_ACPI_MEMORY_HOTPLUG=y
+> -CONFIG_ACPI_NVDIMM=y
+> -CONFIG_ACPI_CPU_HOTPLUG=y
+> +CONFIG_ACPI_PIIX4=y
+>  CONFIG_APM=y
+>  CONFIG_I8257=y
+>  CONFIG_PIIX4=y
+> diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
+> index cfc4ede8d9..3b5e118c54 100644
+> --- a/hw/acpi/Kconfig
+> +++ b/hw/acpi/Kconfig
+> @@ -8,6 +8,8 @@ config ACPI_X86
+>      select ACPI_CPU_HOTPLUG
+>      select ACPI_MEMORY_HOTPLUG
+>      select ACPI_HMAT
+> +    select ACPI_PIIX4
+> +    select ACPI_PCIHP
+>
+>  config ACPI_X86_ICH
+>      bool
+> @@ -24,6 +26,14 @@ config ACPI_NVDIMM
+>      bool
+>      depends on ACPI
+>
+> +config ACPI_PIIX4
+> +    bool
+> +    depends on ACPI
+> +
+> +config ACPI_PCIHP
+> +    bool
+> +    depends on ACPI
+> +
+>  config ACPI_HMAT
+>      bool
+>      depends on ACPI
+> diff --git a/hw/acpi/acpi-cpu-hotplug-stub.c b/hw/acpi/acpi-cpu-hotplug-stub.c
+> new file mode 100644
+> index 0000000000..3fc4b14c26
+> --- /dev/null
+> +++ b/hw/acpi/acpi-cpu-hotplug-stub.c
+> @@ -0,0 +1,50 @@
+> +#include "qemu/osdep.h"
+> +#include "hw/acpi/cpu_hotplug.h"
+> +#include "migration/vmstate.h"
+> +
+> +
+> +/* Following stubs are all related to ACPI cpu hotplug */
+> +const VMStateDescription vmstate_cpu_hotplug;
+> +
+> +void acpi_switch_to_modern_cphp(AcpiCpuHotplug *gpe_cpu,
+> +                                CPUHotplugState *cpuhp_state,
+> +                                uint16_t io_port)
+> +{
+> +    return;
+> +}
+> +
+> +void legacy_acpi_cpu_hotplug_init(MemoryRegion *parent, Object *owner,
+> +                                  AcpiCpuHotplug *gpe_cpu, uint16_t base)
+> +{
+> +    return;
+> +}
+> +
+> +void acpi_cpu_ospm_status(CPUHotplugState *cpu_st, ACPIOSTInfoList ***list)
+> +{
+> +    return;
+> +}
+> +
+> +void acpi_cpu_plug_cb(HotplugHandler *hotplug_dev,
+> +                      CPUHotplugState *cpu_st, DeviceState *dev, Error **errp)
+> +{
+> +    return;
+> +}
+> +
+> +void legacy_acpi_cpu_plug_cb(HotplugHandler *hotplug_dev,
+> +                             AcpiCpuHotplug *g, DeviceState *dev, Error **errp)
+> +{
+> +    return;
+> +}
+> +
+> +void acpi_cpu_unplug_cb(CPUHotplugState *cpu_st,
+> +                        DeviceState *dev, Error **errp)
+> +{
+> +    return;
+> +}
+> +
+> +void acpi_cpu_unplug_request_cb(HotplugHandler *hotplug_dev,
+> +                                CPUHotplugState *cpu_st,
+> +                                DeviceState *dev, Error **errp)
+> +{
+> +    return;
+> +}
+> diff --git a/hw/acpi/acpi-mem-hotplug-stub.c b/hw/acpi/acpi-mem-hotplug-stub.c
+> new file mode 100644
+> index 0000000000..73a076a265
+> --- /dev/null
+> +++ b/hw/acpi/acpi-mem-hotplug-stub.c
+> @@ -0,0 +1,35 @@
+> +#include "qemu/osdep.h"
+> +#include "hw/acpi/memory_hotplug.h"
+> +#include "migration/vmstate.h"
+> +
+> +const VMStateDescription vmstate_memory_hotplug;
+> +
+> +void acpi_memory_hotplug_init(MemoryRegion *as, Object *owner,
+> +                              MemHotplugState *state, hwaddr io_base)
+> +{
+> +    return;
+> +}
+> +
+> +void acpi_memory_ospm_status(MemHotplugState *mem_st, ACPIOSTInfoList ***list)
+> +{
+> +    return;
+> +}
+> +
+> +void acpi_memory_plug_cb(HotplugHandler *hotplug_dev, MemHotplugState *mem_st,
+> +                         DeviceState *dev, Error **errp)
+> +{
+> +    return;
+> +}
+> +
+> +void acpi_memory_unplug_cb(MemHotplugState *mem_st,
+> +                           DeviceState *dev, Error **errp)
+> +{
+> +    return;
+> +}
+> +
+> +void acpi_memory_unplug_request_cb(HotplugHandler *hotplug_dev,
+> +                                   MemHotplugState *mem_st,
+> +                                   DeviceState *dev, Error **errp)
+> +{
+> +    return;
+> +}
+> diff --git a/hw/acpi/acpi-nvdimm-stub.c b/hw/acpi/acpi-nvdimm-stub.c
+> new file mode 100644
+> index 0000000000..8baff9be6f
+> --- /dev/null
+> +++ b/hw/acpi/acpi-nvdimm-stub.c
+> @@ -0,0 +1,8 @@
+> +#include "qemu/osdep.h"
+> +#include "hw/mem/nvdimm.h"
+> +#include "hw/hotplug.h"
+> +
+> +void nvdimm_acpi_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev)
+> +{
+> +    return;
+> +}
+> diff --git a/hw/acpi/acpi-pci-hotplug-stub.c b/hw/acpi/acpi-pci-hotplug-stub.c
+> new file mode 100644
+> index 0000000000..734e4c5986
+> --- /dev/null
+> +++ b/hw/acpi/acpi-pci-hotplug-stub.c
+> @@ -0,0 +1,47 @@
+> +#include "qemu/osdep.h"
+> +#include "hw/acpi/pcihp.h"
+> +#include "migration/vmstate.h"
+> +
+> +const VMStateDescription vmstate_acpi_pcihp_pci_status;
+> +
+> +void acpi_pcihp_init(Object *owner, AcpiPciHpState *s, PCIBus *root_bus,
+> +                     MemoryRegion *address_space_io, bool bridges_enabled,
+> +                     uint16_t io_base)
+> +{
+> +    return;
+> +}
+> +
+> +void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
+> +                               DeviceState *dev, Error **errp)
+> +{
+> +    return;
+> +}
+> +
+> +void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+> +                                   DeviceState *dev, Error **errp)
+> +{
+> +    return;
+> +}
+> +
+> +void acpi_pcihp_device_unplug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
+> +                                 DeviceState *dev, Error **errp)
+> +{
+> +    return;
+> +}
+> +
+> +void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
+> +                                         AcpiPciHpState *s, DeviceState *dev,
+> +                                         Error **errp)
+> +{
+> +    return;
+> +}
+> +
+> +void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off)
+> +{
+> +    return;
+> +}
+> +
+> +bool vmstate_acpi_pcihp_use_acpi_index(void *opaque, int version_id)
+> +{
+> +    return false;
+> +}
+> diff --git a/hw/acpi/meson.build b/hw/acpi/meson.build
+> index 29f804d13e..7d8c0eb43e 100644
+> --- a/hw/acpi/meson.build
+> +++ b/hw/acpi/meson.build
+> @@ -6,16 +6,20 @@ acpi_ss.add(files(
+>    'core.c',
+>    'utils.c',
+>  ))
+> -acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu.c'))
+> -acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu_hotplug.c'))
+> +acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_true: files('cpu.c', 'cpu_hotplug.c'))
+> +acpi_ss.add(when: 'CONFIG_ACPI_CPU_HOTPLUG', if_false: files('acpi-cpu-hotplug-stub.c'))
+>  acpi_ss.add(when: 'CONFIG_ACPI_MEMORY_HOTPLUG', if_true: files('memory_hotplug.c'))
+> +acpi_ss.add(when: 'CONFIG_ACPI_MEMORY_HOTPLUG', if_false: files('acpi-mem-hotplug-stub.c'))
+>  acpi_ss.add(when: 'CONFIG_ACPI_NVDIMM', if_true: files('nvdimm.c'))
+> +acpi_ss.add(when: 'CONFIG_ACPI_NVDIMM', if_false: files('acpi-nvdimm-stub.c'))
+>  acpi_ss.add(when: 'CONFIG_ACPI_PCI', if_true: files('pci.c'))
+>  acpi_ss.add(when: 'CONFIG_ACPI_VMGENID', if_true: files('vmgenid.c'))
+>  acpi_ss.add(when: 'CONFIG_ACPI_HW_REDUCED', if_true: files('generic_event_device.c'))
+>  acpi_ss.add(when: 'CONFIG_ACPI_HMAT', if_true: files('hmat.c'))
+>  acpi_ss.add(when: 'CONFIG_ACPI_APEI', if_true: files('ghes.c'), if_false: files('ghes-stub.c'))
+> -acpi_ss.add(when: 'CONFIG_ACPI_X86', if_true: files('piix4.c', 'pcihp.c'))
+> +acpi_ss.add(when: 'CONFIG_ACPI_PIIX4', if_true: files('piix4.c'))
+> +acpi_ss.add(when: 'CONFIG_ACPI_PCIHP', if_true: files('pcihp.c'))
+> +acpi_ss.add(when: 'CONFIG_ACPI_PCIHP', if_false: files('acpi-pci-hotplug-stub.c'))
+>  acpi_ss.add(when: 'CONFIG_ACPI_X86_ICH', if_true: files('ich9.c', 'tco.c'))
+>  acpi_ss.add(when: 'CONFIG_IPMI', if_true: files('ipmi.c'), if_false: files('ipmi-stub.c'))
+>  acpi_ss.add(when: 'CONFIG_PC', if_false: files('acpi-x86-stub.c'))
+> @@ -23,4 +27,6 @@ acpi_ss.add(when: 'CONFIG_TPM', if_true: files('tpm.c'))
+>  softmmu_ss.add(when: 'CONFIG_ACPI', if_false: files('acpi-stub.c', 'aml-build-stub.c', 'ghes-stub.c'))
+>  softmmu_ss.add_all(when: 'CONFIG_ACPI', if_true: acpi_ss)
+>  softmmu_ss.add(when: 'CONFIG_ALL', if_true: files('acpi-stub.c', 'aml-build-stub.c',
+> -                                                  'acpi-x86-stub.c', 'ipmi-stub.c', 'ghes-stub.c'))
+> +                                                  'acpi-x86-stub.c', 'ipmi-stub.c', 'ghes-stub.c',
+> +                                                  'acpi-mem-hotplug-stub.c', 'acpi-cpu-hotplug-stub.c',
+> +                                                  'acpi-pci-hotplug-stub.c', 'acpi-nvdimm-stub.c'))
+> --
+> 2.25.1
+>
+>
 
