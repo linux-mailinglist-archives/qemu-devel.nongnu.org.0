@@ -2,58 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 813C83F002F
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 11:17:13 +0200 (CEST)
-Received: from localhost ([::1]:40198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 165423F0055
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 11:22:49 +0200 (CEST)
+Received: from localhost ([::1]:45634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGHhA-0007Ff-2A
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 05:17:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55418)
+	id 1mGHmY-0002fW-VM
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 05:22:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mGHft-0006VM-W7
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 05:15:54 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38626
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mGHfs-0000Ey-92
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 05:15:53 -0400
-Received: from host86-179-247-14.range86-179.btcentralplus.com
- ([86.179.247.14] helo=[192.168.50.176])
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mGHfY-000CUh-F4; Wed, 18 Aug 2021 10:15:32 +0100
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210810140653.3969823-1-berrange@redhat.com>
- <20210810140653.3969823-2-berrange@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <11174538-e2fb-cd99-de92-3153fa56d017@ilande.co.uk>
-Date: Wed, 18 Aug 2021 10:15:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mGHke-00018U-6i; Wed, 18 Aug 2021 05:20:50 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:37385)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mGHkZ-0004ge-Uq; Wed, 18 Aug 2021 05:20:46 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id r4so3990216ybp.4;
+ Wed, 18 Aug 2021 02:20:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=L1a2mUr+2+vXGNVMSDyiVOqdkopDA4VKv2Hc9wCdceM=;
+ b=OTQzRlNsi6cda+Eq2fbPgp3gXmcZ7ZGrAuPakvRKhm6TU5ALPH29D7xBp2+nkq6sTX
+ /4eCNGfObMUzxZCB7od9YZNUubT57OrR/BDIab7KtLSmChaAGh0FOhcR7FTIcr7HTNS1
+ RpW4y+0YXRGVahN35s3dbUE9E4hw57Alr0Sf7lRgt1zersiceX7KQlvqIuT2ozrrglXc
+ UMkt78qm2KCeexnKexWmw4U2tDQu6M1RPKFmdYpJwFL5xOMp+4LcVcCbNW8RSrnJP7pR
+ jsX7CTwhs4I2EX055PtREU2CrthPhi/ph5WUJ9CfkDlmfijrrSRuruP2DmZaSMZKxYl1
+ PrYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=L1a2mUr+2+vXGNVMSDyiVOqdkopDA4VKv2Hc9wCdceM=;
+ b=OdkdVz/ghKBpDQ99SlkiDUakwgm2wMvjfkFdONsvMM4w1AaAeyX48+SnAIefXWbDqj
+ PLlIEENmoX+qZgSnwTXAXQqC5ANR4Uy2bsGUa8lF5NAkXu2lZUU1PtXlBfvxvIKLggZK
+ dy/rPomzJcOPglkmSgNbazjXGT+eQfbWul4cwvMpU5eIW0Egh+6KfXNGDqYF+cVLBy+H
+ dYHtYAmC7spBQT/vesSuPtvwiHYIvJzfEed93eoV6umtzLSZHOEbZh0nGeMdRIXOoAOl
+ xsRaxhz+dyRXPIhSBJgSD0o5R2/cD0Zq0TPqnrzbaL2oZgJpSMDhkFd145ZDOq1Pex2m
+ Ulng==
+X-Gm-Message-State: AOAM531FvFXA3NcNMEra2NXxhkCEeSsSQuf/j6Sww/UHP/5VsTEvNMus
+ KerFANgtURLsDXnkotfeTLvj8x8CqUsT/tLu4bI=
+X-Google-Smtp-Source: ABdhPJyyCYuaF2nfhn1HYl3z41njq/g7AO9ezjCdUjs2Svy6lBEplycq7jUOe8tMAa5ulOCG7l7eKsLLc0gw0Wn3uCA=
+X-Received: by 2002:a25:bb08:: with SMTP id z8mr10568042ybg.306.1629278442696; 
+ Wed, 18 Aug 2021 02:20:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210810140653.3969823-2-berrange@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.179.247.14
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 1/2] gitlab: exclude sparc-softmmu and riscv32-softmmu
- from cross builds
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.961,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210817211803.283639-1-richard.henderson@linaro.org>
+ <20210817211803.283639-3-richard.henderson@linaro.org>
+In-Reply-To: <20210817211803.283639-3-richard.henderson@linaro.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 18 Aug 2021 17:20:31 +0800
+Message-ID: <CAEUhbmWJL5Vs73bZRLuR3SxTYSQJzaQj0fLaimmh+8dHa8rbTw@mail.gmail.com>
+Subject: Re: [PATCH v2 02/21] target/riscv: Clean up division helpers
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,51 +75,228 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ liuzhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/08/2021 15:06, Daniel P. Berrangé wrote:
-
-> We need to cut down compile time by excluding more targets. Both these
-> targets still have their 64-bit variant enabled, so the loss of coverage
-> is mitigated to some degree.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+On Wed, Aug 18, 2021 at 5:18 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Utilize the condition in the movcond more; this allows some of
+> the setcond that were feeding into movcond to be removed.
+> Do not write into source1 and source2.  Re-name "condN" to "tempN"
+> and use the temporaries for more than holding conditions.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   .gitlab-ci.d/crossbuild-template.yml | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
-> index 7d3ad00a1e..cfb576b54c 100644
-> --- a/.gitlab-ci.d/crossbuild-template.yml
-> +++ b/.gitlab-ci.d/crossbuild-template.yml
-> @@ -9,7 +9,8 @@
->         ../configure --enable-werror --disable-docs $QEMU_CONFIGURE_OPTS
->           --disable-user --target-list-exclude="arm-softmmu cris-softmmu
->             i386-softmmu microblaze-softmmu mips-softmmu mipsel-softmmu
-> -          mips64-softmmu ppc-softmmu sh4-softmmu xtensa-softmmu"
-> +          mips64-softmmu ppc-softmmu riscv32-softmmu sh4-softmmu
-> +          sparc-softmmu xtensa-softmmu"
->       - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
->       - if grep -q "EXESUF=.exe" config-host.mak;
->         then make installer;
+>  target/riscv/translate.c | 137 +++++++++++++++++++--------------------
+>  1 file changed, 65 insertions(+), 72 deletions(-)
+>
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 20a55c92fb..6ae7e140d0 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -213,106 +213,99 @@ static void gen_mulhsu(TCGv ret, TCGv arg1, TCGv arg2)
+>
+>  static void gen_div(TCGv ret, TCGv source1, TCGv source2)
+>  {
+> -    TCGv cond1, cond2, zeroreg, resultopt1;
+> +    TCGv temp1, temp2, zero, one, mone, min;
+> +
+>      /*
+>       * Handle by altering args to tcg_gen_div to produce req'd results:
+> -     * For overflow: want source1 in source1 and 1 in source2
+> -     * For div by zero: want -1 in source1 and 1 in source2 -> -1 result
+> +     * For overflow: want source1 in temp1 and 1 in temp2
+> +     * For div by zero: want -1 in temp1 and 1 in temp2 -> -1 result
+>       */
+> -    cond1 = tcg_temp_new();
+> -    cond2 = tcg_temp_new();
+> -    zeroreg = tcg_constant_tl(0);
+> -    resultopt1 = tcg_temp_new();
+> +    temp1 = tcg_temp_new();
+> +    temp2 = tcg_temp_new();
+> +    zero = tcg_constant_tl(0);
+> +    one = tcg_constant_tl(1);
+> +    mone = tcg_constant_tl(-1);
+> +    min = tcg_constant_tl(1ull << (TARGET_LONG_BITS - 1));
+> +
+> +    tcg_gen_setcond_tl(TCG_COND_EQ, temp2, source2, mone);
+> +    tcg_gen_setcond_tl(TCG_COND_EQ, temp1, source1, min);
 
-I'd prefer to keep sparc-softmmu if possible, simply because my everyday platform is 
-Linux and so having a cross-build for Windows will catch things that I may miss on a 
-day-to-day basis. Is sparc-softmmu currently enabled as part of the native MINGW64 build?
+nits: I would put temp1 before temp2
 
-If I go to my Gitlab QEMU fork Settings -> CI/CD -> Variables there is an option to 
-set variables that can be used in job scripts. Perhaps this could be used so that I 
-can configure my personal QEMU fork to always run sparc-softmmu builds when preparing 
-PRs even if they aren't enabled for everyone by default? At least this would then 
-allow me to spot any breakage before sending a final PR to Peter.
+> +    tcg_gen_and_tl(temp1, temp1, temp2); /* temp1 = overflow */
+> +    tcg_gen_setcond_tl(TCG_COND_EQ, temp2, source2, zero); /* temp2 = div0 */
+> +    tcg_gen_or_tl(temp2, temp2, temp1);  /* temp2 = overflow | div0 */
+>
+> -    tcg_gen_movi_tl(resultopt1, (target_ulong)-1);
+> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond2, source2, (target_ulong)(~0L));
+> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond1, source1,
+> -                        ((target_ulong)1) << (TARGET_LONG_BITS - 1));
+> -    tcg_gen_and_tl(cond1, cond1, cond2); /* cond1 = overflow */
+> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond2, source2, 0); /* cond2 = div 0 */
+>      /* if div by zero, set source1 to -1, otherwise don't change */
 
+%s/source1/temp1
 
-ATB,
+> -    tcg_gen_movcond_tl(TCG_COND_EQ, source1, cond2, zeroreg, source1,
+> -            resultopt1);
+> -    /* if overflow or div by zero, set source2 to 1, else don't change */
+> -    tcg_gen_or_tl(cond1, cond1, cond2);
+> -    tcg_gen_movi_tl(resultopt1, (target_ulong)1);
+> -    tcg_gen_movcond_tl(TCG_COND_EQ, source2, cond1, zeroreg, source2,
+> -            resultopt1);
+> -    tcg_gen_div_tl(ret, source1, source2);
+> +    tcg_gen_movcond_tl(TCG_COND_NE, temp1, source2, zero, source1, mone);
+>
+> -    tcg_temp_free(cond1);
+> -    tcg_temp_free(cond2);
+> -    tcg_temp_free(resultopt1);
+> +    /* if overflow or div by zero, set source2 to 1, else don't change */
 
-Mark.
+%s/source2/temp2
+
+> +    tcg_gen_movcond_tl(TCG_COND_EQ, temp2, temp2, zero, source2, one);
+> +
+> +    tcg_gen_div_tl(ret, temp1, temp2);
+> +
+> +    tcg_temp_free(temp1);
+> +    tcg_temp_free(temp2);
+>  }
+>
+>  static void gen_divu(TCGv ret, TCGv source1, TCGv source2)
+>  {
+> -    TCGv cond1, zeroreg, resultopt1;
+> -    cond1 = tcg_temp_new();
+> +    TCGv temp1, temp2, zero, one, mone;
+>
+> -    zeroreg = tcg_constant_tl(0);
+> -    resultopt1 = tcg_temp_new();
+> +    temp1 = tcg_temp_new();
+> +    temp2 = tcg_temp_new();
+> +    zero = tcg_constant_tl(0);
+> +    one = tcg_constant_tl(1);
+> +    mone = tcg_constant_tl(-1);
+
+-1 is not a possible return value of divu. This should be ULONG_MAX.
+
+>
+> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond1, source2, 0);
+> -    tcg_gen_movi_tl(resultopt1, (target_ulong)-1);
+> -    tcg_gen_movcond_tl(TCG_COND_EQ, source1, cond1, zeroreg, source1,
+> -            resultopt1);
+> -    tcg_gen_movi_tl(resultopt1, (target_ulong)1);
+> -    tcg_gen_movcond_tl(TCG_COND_EQ, source2, cond1, zeroreg, source2,
+> -            resultopt1);
+> -    tcg_gen_divu_tl(ret, source1, source2);
+> +    tcg_gen_movcond_tl(TCG_COND_NE, temp1, source2, zero, source1, mone);
+
+not "mone" here
+
+> +    tcg_gen_movcond_tl(TCG_COND_NE, temp2, source2, zero, source2, one);
+> +    tcg_gen_divu_tl(ret, temp1, temp2);
+>
+> -    tcg_temp_free(cond1);
+> -    tcg_temp_free(resultopt1);
+> +    tcg_temp_free(temp1);
+> +    tcg_temp_free(temp2);
+>  }
+>
+>  static void gen_rem(TCGv ret, TCGv source1, TCGv source2)
+>  {
+> -    TCGv cond1, cond2, zeroreg, resultopt1;
+> +    TCGv temp1, temp2, zero, one, mone, min;
+>
+> -    cond1 = tcg_temp_new();
+> -    cond2 = tcg_temp_new();
+> -    zeroreg = tcg_constant_tl(0);
+> -    resultopt1 = tcg_temp_new();
+> +    temp1 = tcg_temp_new();
+> +    temp2 = tcg_temp_new();
+> +    zero = tcg_constant_tl(0);
+> +    one = tcg_constant_tl(1);
+> +    mone = tcg_constant_tl(-1);
+> +    min = tcg_constant_tl(1ull << (TARGET_LONG_BITS - 1));
+> +
+> +    tcg_gen_setcond_tl(TCG_COND_EQ, temp2, source2, mone);
+> +    tcg_gen_setcond_tl(TCG_COND_EQ, temp1, source1, min);
+> +    tcg_gen_and_tl(temp1, temp1, temp2); /* temp1 = overflow */
+> +    tcg_gen_setcondi_tl(TCG_COND_EQ, temp2, source2, 0); /* temp2 = div0 */
+
+Is there any difference here if using zero/setcond instead of
+0/setcondi? If not, I would prefer using zero/setcond for consistency.
+
+> +    tcg_gen_or_tl(temp2, temp2, temp1);  /* temp2 = overflow | div0 */
+>
+> -    tcg_gen_movi_tl(resultopt1, 1L);
+> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond2, source2, (target_ulong)-1);
+> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond1, source1,
+> -                        (target_ulong)1 << (TARGET_LONG_BITS - 1));
+> -    tcg_gen_and_tl(cond2, cond1, cond2); /* cond1 = overflow */
+> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond1, source2, 0); /* cond2 = div 0 */
+>      /* if overflow or div by zero, set source2 to 1, else don't change */
+> -    tcg_gen_or_tl(cond2, cond1, cond2);
+> -    tcg_gen_movcond_tl(TCG_COND_EQ, source2, cond2, zeroreg, source2,
+> -            resultopt1);
+> -    tcg_gen_rem_tl(resultopt1, source1, source2);
+> -    /* if div by zero, just return the original dividend */
+> -    tcg_gen_movcond_tl(TCG_COND_EQ, ret, cond1, zeroreg, resultopt1,
+> -            source1);
+> +    tcg_gen_movcond_tl(TCG_COND_EQ, temp2, temp2, zero, source2, one);
+> +    tcg_gen_rem_tl(temp1, temp1, temp2);
+
+This is wrong as temp1 is not the dividend.
+
+>
+> -    tcg_temp_free(cond1);
+> -    tcg_temp_free(cond2);
+> -    tcg_temp_free(resultopt1);
+> +    /* if div by zero, just return the original dividend */
+> +    tcg_gen_movcond_tl(TCG_COND_NE, ret, source2, zero, temp1, source1);
+> +
+> +    tcg_temp_free(temp1);
+> +    tcg_temp_free(temp2);
+>  }
+>
+>  static void gen_remu(TCGv ret, TCGv source1, TCGv source2)
+>  {
+> -    TCGv cond1, zeroreg, resultopt1;
+> -    cond1 = tcg_temp_new();
+> -    zeroreg = tcg_constant_tl(0);
+> -    resultopt1 = tcg_temp_new();
+> +    TCGv temp2, zero, one;
+> +
+> +    temp2 = tcg_temp_new();
+> +    zero = tcg_constant_tl(0);
+> +    one = tcg_constant_tl(1);
+> +
+> +    tcg_gen_movcond_tl(TCG_COND_EQ, temp2, source2, zero, source2, one);
+
+This should be TCG_COND_NE.
+
+> +    tcg_gen_remu_tl(temp2, source1, temp2);
+>
+> -    tcg_gen_movi_tl(resultopt1, (target_ulong)1);
+> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond1, source2, 0);
+> -    tcg_gen_movcond_tl(TCG_COND_EQ, source2, cond1, zeroreg, source2,
+> -            resultopt1);
+> -    tcg_gen_remu_tl(resultopt1, source1, source2);
+>      /* if div by zero, just return the original dividend */
+> -    tcg_gen_movcond_tl(TCG_COND_EQ, ret, cond1, zeroreg, resultopt1,
+> -            source1);
+> +    tcg_gen_movcond_tl(TCG_COND_NE, ret, source2, zero, temp2, source1);
+>
+> -    tcg_temp_free(cond1);
+> -    tcg_temp_free(resultopt1);
+> +    tcg_temp_free(temp2);
+>  }
+>
+>  static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
+
+Regards,
+Bin
 
