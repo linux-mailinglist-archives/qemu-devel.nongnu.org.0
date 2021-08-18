@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FEC43EFF54
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 10:37:48 +0200 (CEST)
-Received: from localhost ([::1]:55600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D16FF3EFF5D
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 10:39:28 +0200 (CEST)
+Received: from localhost ([::1]:57736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGH51-0003BW-5v
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 04:37:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45900)
+	id 1mGH6d-0004ct-U8
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 04:39:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mGH4C-0002XE-VG
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 04:36:56 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38540
+ id 1mGH5a-0003xL-Tx
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 04:38:23 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38552
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mGH49-0000Ea-Fq
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 04:36:56 -0400
+ id 1mGH5Y-0001OO-VS
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 04:38:22 -0400
 Received: from host86-179-247-14.range86-179.btcentralplus.com
  ([86.179.247.14] helo=[192.168.50.176])
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mGH3l-000CJ6-QZ; Wed, 18 Aug 2021 09:36:34 +0100
+ id 1mGH5D-000CJd-GN; Wed, 18 Aug 2021 09:38:04 +0100
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210803041443.55452-1-richard.henderson@linaro.org>
- <20210803041443.55452-16-richard.henderson@linaro.org>
+ <20210803041443.55452-17-richard.henderson@linaro.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <2ae7e44e-a458-3c64-eca6-6076b75ee65d@ilande.co.uk>
-Date: Wed, 18 Aug 2021 09:36:44 +0100
+Message-ID: <14f3edd3-04c7-6c91-d37e-7f229026b855@ilande.co.uk>
+Date: Wed, 18 Aug 2021 09:38:14 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210803041443.55452-16-richard.henderson@linaro.org>
+In-Reply-To: <20210803041443.55452-17-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 86.179.247.14
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 15/55] target/sparc: Remove DEBUG_UNALIGNED
+Subject: Re: [PATCH v2 16/55] target/sparc: Split out build_sfsr
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,63 +64,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 03/08/2021 05:14, Richard Henderson wrote:
 
-> The printf should have been qemu_log_mask, the parameters
-> themselves no longer compile, and because this is placed
-> before unwinding the PC is actively wrong.
-> 
-> We get better (and correct) logging on the other side of
-> raising the exception, in sparc_cpu_do_interrupt.
-> 
-> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   target/sparc/ldst_helper.c | 9 ---------
->   1 file changed, 9 deletions(-)
+>   target/sparc/mmu_helper.c | 72 +++++++++++++++++++++++++--------------
+>   1 file changed, 46 insertions(+), 26 deletions(-)
 > 
-> diff --git a/target/sparc/ldst_helper.c b/target/sparc/ldst_helper.c
-> index 22327d7d72..974afea041 100644
-> --- a/target/sparc/ldst_helper.c
-> +++ b/target/sparc/ldst_helper.c
-> @@ -27,7 +27,6 @@
+> diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
+> index a44473a1c7..5b2fda534a 100644
+> --- a/target/sparc/mmu_helper.c
+> +++ b/target/sparc/mmu_helper.c
+> @@ -526,16 +526,60 @@ static inline int ultrasparc_tag_match(SparcTLBEntry *tlb,
+>       return 0;
+>   }
 >   
->   //#define DEBUG_MMU
->   //#define DEBUG_MXCC
-> -//#define DEBUG_UNALIGNED
->   //#define DEBUG_UNASSIGNED
->   //#define DEBUG_ASI
->   //#define DEBUG_CACHE_CONTROL
-> @@ -364,10 +363,6 @@ static void do_check_align(CPUSPARCState *env, target_ulong addr,
->                              uint32_t align, uintptr_t ra)
+> +static uint64_t build_sfsr(CPUSPARCState *env, int mmu_idx, int rw)
+> +{
+> +    uint64_t sfsr = SFSR_VALID_BIT;
+> +
+> +    switch (mmu_idx) {
+> +    case MMU_PHYS_IDX:
+> +        sfsr |= SFSR_CT_NOTRANS;
+> +        break;
+> +    case MMU_USER_IDX:
+> +    case MMU_KERNEL_IDX:
+> +        sfsr |= SFSR_CT_PRIMARY;
+> +        break;
+> +    case MMU_USER_SECONDARY_IDX:
+> +    case MMU_KERNEL_SECONDARY_IDX:
+> +        sfsr |= SFSR_CT_SECONDARY;
+> +        break;
+> +    case MMU_NUCLEUS_IDX:
+> +        sfsr |= SFSR_CT_NUCLEUS;
+> +        break;
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +
+> +    if (rw == 1) {
+> +        sfsr |= SFSR_WRITE_BIT;
+> +    } else if (rw == 4) {
+> +        sfsr |= SFSR_NF_BIT;
+> +    }
+> +
+> +    if (env->pstate & PS_PRIV) {
+> +        sfsr |= SFSR_PR_BIT;
+> +    }
+> +
+> +    if (env->dmmu.sfsr & SFSR_VALID_BIT) { /* Fault status register */
+> +        sfsr |= SFSR_OW_BIT; /* overflow (not read before another fault) */
+> +    }
+> +
+> +    /* FIXME: ASI field in SFSR must be set */
+> +
+> +    return sfsr;
+> +}
+> +
+>   static int get_physical_address_data(CPUSPARCState *env, hwaddr *physical,
+>                                        int *prot, MemTxAttrs *attrs,
+>                                        target_ulong address, int rw, int mmu_idx)
 >   {
->       if (addr & align) {
-> -#ifdef DEBUG_UNALIGNED
-> -        printf("Unaligned access to 0x" TARGET_FMT_lx " from 0x" TARGET_FMT_lx
-> -               "\n", addr, env->pc);
-> -#endif
->           cpu_raise_exception_ra(env, TT_UNALIGNED, ra);
->       }
->   }
-> @@ -1968,10 +1963,6 @@ void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
->       SPARCCPU *cpu = SPARC_CPU(cs);
->       CPUSPARCState *env = &cpu->env;
+>       CPUState *cs = env_cpu(env);
+>       unsigned int i;
+> +    uint64_t sfsr;
+>       uint64_t context;
+> -    uint64_t sfsr = 0;
+>       bool is_user = false;
 >   
-> -#ifdef DEBUG_UNALIGNED
-> -    printf("Unaligned access to 0x" TARGET_FMT_lx " from 0x" TARGET_FMT_lx
-> -           "\n", addr, env->pc);
-> -#endif
->       cpu_raise_exception_ra(env, TT_UNALIGNED, retaddr);
->   }
->   #endif
-
-Indeed. I suspect that this was originally intended for developers to capture that an 
-unaligned access occurred rather than processing it correctly.
+> +    sfsr = build_sfsr(env, mmu_idx, rw);
+> +
+>       switch (mmu_idx) {
+>       case MMU_PHYS_IDX:
+>           g_assert_not_reached();
+> @@ -544,29 +588,18 @@ static int get_physical_address_data(CPUSPARCState *env, hwaddr *physical,
+>           /* fallthru */
+>       case MMU_KERNEL_IDX:
+>           context = env->dmmu.mmu_primary_context & 0x1fff;
+> -        sfsr |= SFSR_CT_PRIMARY;
+>           break;
+>       case MMU_USER_SECONDARY_IDX:
+>           is_user = true;
+>           /* fallthru */
+>       case MMU_KERNEL_SECONDARY_IDX:
+>           context = env->dmmu.mmu_secondary_context & 0x1fff;
+> -        sfsr |= SFSR_CT_SECONDARY;
+>           break;
+> -    case MMU_NUCLEUS_IDX:
+> -        sfsr |= SFSR_CT_NUCLEUS;
+> -        /* FALLTHRU */
+>       default:
+>           context = 0;
+>           break;
+>       }
+>   
+> -    if (rw == 1) {
+> -        sfsr |= SFSR_WRITE_BIT;
+> -    } else if (rw == 4) {
+> -        sfsr |= SFSR_NF_BIT;
+> -    }
+> -
+>       for (i = 0; i < 64; i++) {
+>           /* ctx match, vaddr match, valid? */
+>           if (ultrasparc_tag_match(&env->dtlb[i], address, context, physical)) {
+> @@ -616,22 +649,9 @@ static int get_physical_address_data(CPUSPARCState *env, hwaddr *physical,
+>                   return 0;
+>               }
+>   
+> -            if (env->dmmu.sfsr & SFSR_VALID_BIT) { /* Fault status register */
+> -                sfsr |= SFSR_OW_BIT; /* overflow (not read before
+> -                                        another fault) */
+> -            }
+> -
+> -            if (env->pstate & PS_PRIV) {
+> -                sfsr |= SFSR_PR_BIT;
+> -            }
+> -
+> -            /* FIXME: ASI field in SFSR must be set */
+> -            env->dmmu.sfsr = sfsr | SFSR_VALID_BIT;
+> -
+> +            env->dmmu.sfsr = sfsr;
+>               env->dmmu.sfar = address; /* Fault address register */
+> -
+>               env->dmmu.tag_access = (address & ~0x1fffULL) | context;
+> -
+>               return 1;
+>           }
+>       }
 
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
