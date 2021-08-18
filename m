@@ -2,75 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A5693EFF66
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 10:41:04 +0200 (CEST)
-Received: from localhost ([::1]:59890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C3323EFF76
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 10:47:08 +0200 (CEST)
+Received: from localhost ([::1]:34060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGH8B-00067N-G0
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 04:41:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46324)
+	id 1mGHE3-00082U-EH
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 04:47:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mGH6W-0004wJ-5g
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 04:39:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43934)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGHCz-0007K6-6F
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 04:46:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25321)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mGH6T-00026r-Pw
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 04:39:19 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGHCx-00084i-Da
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 04:46:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629275956;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1629276358;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DegyRNp/URLsoZwr7RD3DXrKr4CCOJXz5usuQvongB0=;
- b=AequHLilLTIF+yiVNKJMucvie+fkGsl1viSBlo6xvJ1Jf9WedgX1EQQuNyGr2T6J1seM1v
- AWG2kT2qp12sRiadVa2+KwMj+BmwS8dxAsUFXLra7MOfxi15qtwaARJx4Pktj5Rnzk0DHm
- ryac4NQrJTprFe6zSiyx84WPv8Wf6vA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-65-FOw7qm9BMQe0PBEZckubhg-1; Wed, 18 Aug 2021 04:39:12 -0400
-X-MC-Unique: FOw7qm9BMQe0PBEZckubhg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75FDC871827
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 08:39:11 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.93])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5CE8A1ACBB;
- Wed, 18 Aug 2021 08:39:06 +0000 (UTC)
-Date: Wed, 18 Aug 2021 09:39:03 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH 2/2] monitor: Report EBADFD if fdset contains invalid FD
-Message-ID: <YRzHJ3qpdNkHfBHi@redhat.com>
-References: <cover.1629190206.git.mprivozn@redhat.com>
- <c0fa7920817020ae2744313ab631e7d76f4c1898.1629190206.git.mprivozn@redhat.com>
- <CAMxuvaxeHOrexy6sTBU=1PBBUThi60A2aJ7CWvE+DytR9q_Cuw@mail.gmail.com>
+ bh=85TXiaRRX8neoe2KTAThgjX2uNwq2gvqvpsMSjIf5tM=;
+ b=KgbF6opnri0CTNYuJ1rqfjUizcQMd2dY4em6ekmjNKaDG8OEQLgWIvSmd0D7gycYCK5OLB
+ GHvrLKpsQCFKW0dxOVWYkMcrJ2f5la9Z2ME0XTwChIX0vHjiwpATrUa58XHsOpDNcOG+F6
+ o37pRftvR+bDXBwRpTHnKi55lFC335I=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-165-vNClPhnBNaClAY_AeWUgxA-1; Wed, 18 Aug 2021 04:45:57 -0400
+X-MC-Unique: vNClPhnBNaClAY_AeWUgxA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ n18-20020adfe792000000b00156ae576abdso348754wrm.9
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 01:45:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=85TXiaRRX8neoe2KTAThgjX2uNwq2gvqvpsMSjIf5tM=;
+ b=k42wQQXmFwcBq9sCUrHlayh1VbuOrT4htE8TFRnIeDj/9A2R0Y7ZzAiMQtEkdY43sb
+ cKD7Tq+AMaFNH8v81cKGwAZ5RX/mpMAdQ6lfaRM2uRc4+Ga1aEmzXwaZg43njjdtquB8
+ 2xhjOrW8erP7AkFvQbBKLDnPQc2lrUN7Yc1z6sI68MOYAb02l9xU1So0pE8uTWS5aPKH
+ qx+sKAYpQ8OCB75plvV5XNU6vowcujGaUZEDX0wvXLt4ZPbL5fuZYSo36XbaDR6ALsmJ
+ prK4oo4efl5YCLwpFNuzMvG0ai2W5Eto8I2D2PZp1AHZlRbBhehgIr3GqPaqPItP59V3
+ XX8g==
+X-Gm-Message-State: AOAM5332c1nFqs8yTzzFx+RDZWQtM+w07vKencmqlzTyL77xjXF0tEYj
+ aweumkCDqi8Np5+BaeDPsZ3T94p6i8suHKbYfTl/NLak+jS7y0eqbrhbEfiK0F3AtIDmDTsNPZF
+ 0yvgaNhUqBefaKHs=
+X-Received: by 2002:adf:e887:: with SMTP id d7mr8785746wrm.79.1629276356457;
+ Wed, 18 Aug 2021 01:45:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyMP8MUbwNLwhGn+RuCCGcDO7zfQPuW0nkBJLBlheoF0wmJOaSZGMwqXy//OQkxpINqDvWn3A==
+X-Received: by 2002:adf:e887:: with SMTP id d7mr8785730wrm.79.1629276356251;
+ Wed, 18 Aug 2021 01:45:56 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id p3sm5258672wrr.21.2021.08.18.01.45.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Aug 2021 01:45:55 -0700 (PDT)
+Subject: Re: [PATCH v2 03/55] target/alpha: Implement do_unaligned_access for
+ user-only
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210803041443.55452-1-richard.henderson@linaro.org>
+ <20210803041443.55452-4-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <7ab83b4c-b917-64e9-3c04-8113b9749539@redhat.com>
+Date: Wed, 18 Aug 2021 10:45:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAMxuvaxeHOrexy6sTBU=1PBBUThi60A2aJ7CWvE+DytR9q_Cuw@mail.gmail.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210803041443.55452-4-richard.henderson@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.961, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,76 +99,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Michal Privoznik <mprivozn@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 17, 2021 at 01:59:22PM +0400, Marc-André Lureau wrote:
-> Hi
-> 
-> On Tue, Aug 17, 2021 at 12:56 PM Michal Privoznik <mprivozn@redhat.com>
-> wrote:
-> 
-> > When opening a path that starts with "/dev/fdset/" the control
-> > jumps into qemu_parse_fdset() and then into
-> > monitor_fdset_dup_fd_add(). In here, corresponding fdset is found
-> > and then all FDs from the set are iterated over trying to find an
-> > FD that matches expected access mode. For instance, if caller
-> > wants O_WRONLY then the FD set has to contain an O_WRONLY FD.
-> >
-> > If no such FD is found then errno is set to EACCES which results
-> > in very misleading error messages, for instance:
-> >
-> >   Could not dup FD for /dev/fdset/3 flags 441: Permission denied
-> >
-> > There is no permission issue, the problem is that there was no FD
-> > within given fdset that was in expected access mode. Therefore,
-> > let's set errno to EBADFD, which gives us somewhat better
-> > error messages:
-> >
-> >   Could not dup FD for /dev/fdset/3 flags 441: File descriptor in bad state
-> >
-> > Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
-> >
-> 
-> I am not sure this is any better. If you try to open a read-only file, the
-> system also reports EACCES (Permission denied). This is what the current
-> code models, I believe.
+On 8/3/21 6:13 AM, Richard Henderson wrote:
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/alpha/cpu.c        | 2 +-
+>  target/alpha/mem_helper.c | 8 +++-----
+>  2 files changed, 4 insertions(+), 6 deletions(-)
 
-If we want better error reporting quality for this method we ought
-to just stop using errno and wire up a Error **errp parameter.
-
-> 
-> 
-> > ---
-> >  monitor/misc.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/monitor/misc.c b/monitor/misc.c
-> > index ffe7966870..a0eda0d574 100644
-> > --- a/monitor/misc.c
-> > +++ b/monitor/misc.c
-> > @@ -1347,7 +1347,7 @@ int monitor_fdset_dup_fd_add(int64_t fdset_id, int
-> > flags)
-> >          }
-> >
-> >          if (fd == -1) {
-> > -            errno = EACCES;
-> > +            errno = EBADFD;
-> >              return -1;
-> >          }
-> >
-> > --
-> > 2.31.1
-> >
-> >
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 
