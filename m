@@ -2,109 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EAA03F02B1
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 13:26:58 +0200 (CEST)
-Received: from localhost ([::1]:37092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E4F83F02BC
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 13:30:31 +0200 (CEST)
+Received: from localhost ([::1]:40098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGJij-0000kv-9Q
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 07:26:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58002)
+	id 1mGJmA-0002wS-DT
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 07:30:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1mGJhd-0008TV-99
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 07:25:49 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:45532
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mGJl5-00024o-Nq
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 07:29:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1mGJhb-0003zk-3x
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 07:25:49 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 17IB3nin134429; Wed, 18 Aug 2021 07:25:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : mime-version : content-transfer-encoding; s=pp1;
- bh=P7qCOzC7cYxFlSmUITbBnvVVMR8JjFm+CaNpp8qgtro=;
- b=C3coVfce7h36YSOwYqkwoowhw3Zyl5yApXQf7ZbM3RBqSatDSgtf4C0zPSy0RtMjGanq
- 3uwwT01FedEd1E9TRiZE1fFt2z3ZXJPtctjRIRB5tjxWHGJHS7wy1dOPMxTMBSluF3UT
- mDas+ALMu/XtfM6XxaPY2Hr8gH1/I9S874ut+IL2NTBIIPYz/4ORas6JeYvi0j/xp0nZ
- 39WVpaVg8GR7L9xC6z2vT5OxlHBejq9LlAUE84tGY/4mtHzl2/jYUAd5bNy9bnPBwt2x
- oI0mKQ2WFL9mOAlq6+01uD1N8A1XZiD/zFdR8klvj/Y0M6542mNgouBr1rgUDLujxTGP dQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3agf0enw2u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Aug 2021 07:25:44 -0400
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 17IB3mK3134304;
- Wed, 18 Aug 2021 07:25:43 -0400
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3agf0enw2d-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Aug 2021 07:25:43 -0400
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 17IBIawJ029238;
- Wed, 18 Aug 2021 11:25:42 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma02wdc.us.ibm.com with ESMTP id 3ae5fdjak3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 18 Aug 2021 11:25:42 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 17IBPecT33292674
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 18 Aug 2021 11:25:40 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0E1A77805E;
- Wed, 18 Aug 2021 11:25:40 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B38E678067;
- Wed, 18 Aug 2021 11:25:36 +0000 (GMT)
-Received: from jarvis.lan (unknown [9.160.128.138])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 18 Aug 2021 11:25:36 +0000 (GMT)
-Message-ID: <f0b5b725fc879d72c702f88a6ed90e956ec32865.camel@linux.ibm.com>
-Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
-From: James Bottomley <jejb@linux.ibm.com>
-To: Ashish Kalra <ashish.kalra@amd.com>, Paolo Bonzini <pbonzini@redhat.com>
-Date: Wed, 18 Aug 2021 07:25:35 -0400
-In-Reply-To: <20210818103147.GB31834@ashkalra_ubuntu_server>
-References: <cover.1629118207.git.ashish.kalra@amd.com>
- <fb737cf0-3d96-173f-333b-876dfd59d32b@redhat.com>
- <20210816144413.GA29881@ashkalra_ubuntu_server>
- <b25a1cf9-5675-99da-7dd6-302b04cc7bbc@redhat.com>
- <20210816151349.GA29903@ashkalra_ubuntu_server>
- <f7cf142b-02e4-5c87-3102-f3acd8b07288@redhat.com>
- <20210818103147.GB31834@ashkalra_ubuntu_server>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mGJl2-0005op-Cb
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 07:29:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629286159;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kqRYvlEJzFexAHHfD88+SXVkezxYieOn0iYqvz7Cc7w=;
+ b=d8FVxyYmhm6dSINGUgnCXFrWj47JNS2nuEk+fNoVItNhVC1q3RXamXmHGcPMN7AYj19PUn
+ FQUMgu7sE8okji/nGk5WAk2OwZ1Vzusosiv6Y636WPH0i1M/1UDPb398hW+/8kCo+f7gfL
+ 4H/TL72KC5xezMxh87TbPaAkG90KiFI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-584-sEvWfv0wNd6QU-cUlycLVQ-1; Wed, 18 Aug 2021 07:29:17 -0400
+X-MC-Unique: sEvWfv0wNd6QU-cUlycLVQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A8971082921;
+ Wed, 18 Aug 2021 11:29:17 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.132])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F14AF19D9B;
+ Wed, 18 Aug 2021 11:29:15 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-6.2] docs/about/removed-features: Move some CLI options to
+ the right location
+Date: Wed, 18 Aug 2021 13:29:08 +0200
+Message-Id: <20210818112908.102205-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: sxB68EdZTSEFyRFTC0u06_31RkLCQs2r
-X-Proofpoint-GUID: NGe-QrKJ7NMu9dqRWw9a0JEuL-eC1eP2
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-08-18_03:2021-08-17,
- 2021-08-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- lowpriorityscore=0 bulkscore=0 mlxlogscore=999 priorityscore=1501
- malwarescore=0 mlxscore=0 impostorscore=0 clxscore=1015 suspectscore=0
- adultscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2108180069
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=jejb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,80 +74,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jejb@linux.ibm.com
-Cc: thomas.lendacky@amd.com, brijesh.singh@amd.com, ehabkost@redhat.com,
- kvm@vger.kernel.org, mst@redhat.com, tobin@ibm.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, dgilbert@redhat.com,
- frankeh@us.ibm.com, dovmurik@linux.vnet.ibm.com
+Cc: qemu-trivial@nongnu.org, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 2021-08-18 at 10:31 +0000, Ashish Kalra wrote:
-> Hello Paolo,
-> 
-> On Mon, Aug 16, 2021 at 05:38:55PM +0200, Paolo Bonzini wrote:
-> > On 16/08/21 17:13, Ashish Kalra wrote:
-> > > > > I think that once the mirror VM starts booting and running
-> > > > > the UEFI code, it might be only during the PEI or DXE phase
-> > > > > where it will start actually running the MH code, so mirror
-> > > > > VM probably still need to handles KVM_EXIT_IO when SEC phase
-> > > > > does I/O, I can see PIC accesses and Debug Agent
-> > > > > initialization stuff in SEC startup code.
-> > > > That may be a design of the migration helper code that you were
-> > > > working with, but it's not necessary.
-> > > > 
-> > > Actually my comments are about a more generic MH code.
-> > 
-> > I don't think that would be a good idea; designing QEMU's migration
-> > helper interface to be as constrained as possible is a good
-> > thing.  The migration helper is extremely security sensitive code,
-> > so it should not expose itself to the attack surface of the whole
-> > of QEMU.
+Some of the removed CLI options have been added to the wrong section
+in the "Removed features" chapter - they've been put into the
+"Related binaries" section instead. Move them now into the correct
+"System emulator command line arguments" section.
 
-The attack surface of the MH in the guest is simply the API.  The API
-needs to do two things:
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ docs/about/removed-features.rst | 137 ++++++++++++++------------------
+ 1 file changed, 61 insertions(+), 76 deletions(-)
 
-   1. validate a correct endpoint and negotiate a wrapping key
-   2. When requested by QEMU, wrap a section of guest encrypted memory
-      with the wrapping key and return it.
-
-The big security risk is in 1. if the MH can be tricked into
-communicating with the wrong endpoint it will leak the entire guest. 
-If we can lock that down, I don't see any particular security problem
-with 2. So, provided we get the security properties of the API correct,
-I think we won't have to worry over much about exposure of the API.
-
-> > One question i have here, is that where exactly will the MH code
-> exist in QEMU ?
-
-I assume it will be only x86 platform specific code, we probably will
-never support it on other platforms ?
-
-So it will probably exist in hw/i386, something similar to "microvm"
-support and using the same TYPE_X86_MACHINE ?
-
-I don't think it should be x86 only.  The migration handler receiver
-should be completely CPU agnostic.  It's possible other CPUs will grow
-an encrypted memory confidential computing capability (Power already
-has one and ARM is "thinking" about it, but even if it doesn't, there's
-a similar problem if you want to use trustzone isolation in VMs).  I
-would envisage migration working substantially similarly on all of them
-(need to ask an agent in the guest to wrap an encrypted page for
-transport) so I think we should add this capability to the generic QEMU
-migration code and let other architectures take advantage of it as they
-grow the facility.
-
-> Also if we are not going to use the existing KVM support code and
-> adding some duplicate KVM interface code, do we need to interface
-> with this added KVM code via the QEMU accelerator framework, or
-> simply invoke this KVM code statically ?
-
-I think we need to design the interface as cleanly as possible, so it
-just depends what's easiest.  We certainly need some KVM support for
-the mirror CPUs, I think but it's not clear to me yet what the simplest
-way to do the interface is.
-
-James
-
+diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
+index cbfa1a8e31..032d68d141 100644
+--- a/docs/about/removed-features.rst
++++ b/docs/about/removed-features.rst
+@@ -146,12 +146,73 @@ Replaced by ``-rtc base=date``.
+ The "tls-creds" option should be used instead to point to a "tls-creds-x509"
+ object created using "-object".
+ 
++``-mem-path`` fallback to RAM (removed in 5.0)
++''''''''''''''''''''''''''''''''''''''''''''''
++
++If guest RAM allocation from file pointed by ``mem-path`` failed,
++QEMU was falling back to allocating from RAM, which might have resulted
++in unpredictable behavior since the backing file specified by the user
++as ignored. Currently, users are responsible for making sure the backing storage
++specified with ``-mem-path`` can actually provide the guest RAM configured with
++``-m`` and QEMU fails to start up if RAM allocation is unsuccessful.
++
+ ``-net ...,name=...`` (removed in 5.1)
+ ''''''''''''''''''''''''''''''''''''''
+ 
+ The ``name`` parameter of the ``-net`` option was a synonym
+ for the ``id`` parameter, which should now be used instead.
+ 
++``-numa node,mem=...`` (removed in 5.1)
++'''''''''''''''''''''''''''''''''''''''
++
++The parameter ``mem`` of ``-numa node`` was used to assign a part of guest RAM
++to a NUMA node. But when using it, it's impossible to manage a specified RAM
++chunk on the host side (like bind it to a host node, setting bind policy, ...),
++so the guest ends up with the fake NUMA configuration with suboptiomal
++performance.
++However since 2014 there is an alternative way to assign RAM to a NUMA node
++using parameter ``memdev``, which does the same as ``mem`` and adds
++means to actually manage node RAM on the host side. Use parameter ``memdev``
++with *memory-backend-ram* backend as replacement for parameter ``mem``
++to achieve the same fake NUMA effect or a properly configured
++*memory-backend-file* backend to actually benefit from NUMA configuration.
++New machine versions (since 5.1) will not accept the option but it will still
++work with old machine types. User can check the QAPI schema to see if the legacy
++option is supported by looking at MachineInfo::numa-mem-supported property.
++
++``-numa`` node (without memory specified) (removed 5.2)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Splitting RAM by default between NUMA nodes had the same issues as ``mem``
++parameter with the difference that the role of the user plays QEMU using
++implicit generic or board specific splitting rule.
++Use ``memdev`` with *memory-backend-ram* backend or ``mem`` (if
++it's supported by used machine type) to define mapping explicitly instead.
++Users of existing VMs, wishing to preserve the same RAM distribution, should
++configure it explicitly using ``-numa node,memdev`` options. Current RAM
++distribution can be retrieved using HMP command ``info numa`` and if separate
++memory devices (pc|nv-dimm) are present use ``info memory-device`` and subtract
++device memory from output of ``info numa``.
++
++``-smp`` (invalid topologies) (removed 5.2)
++'''''''''''''''''''''''''''''''''''''''''''
++
++CPU topology properties should describe whole machine topology including
++possible CPUs.
++
++However, historically it was possible to start QEMU with an incorrect topology
++where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
++which could lead to an incorrect topology enumeration by the guest.
++Support for invalid topologies is removed, the user must ensure
++topologies described with -smp include all possible cpus, i.e.
++*sockets* * *cores* * *threads* = *maxcpus*.
++
++``-machine enforce-config-section=on|off`` (removed 5.2)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++The ``enforce-config-section`` property was replaced by the
++``-global migration.send-configuration={on|off}`` option.
++
+ ``-no-kvm`` (removed in 5.2)
+ ''''''''''''''''''''''''''''
+ 
+@@ -590,82 +651,6 @@ enforce that any failure to open the backing image (including if the
+ backing file is missing or an incorrect format was specified) is an
+ error when ``-u`` is not used.
+ 
+-Command line options
+---------------------
+-
+-``-smp`` (invalid topologies) (removed 5.2)
+-'''''''''''''''''''''''''''''''''''''''''''
+-
+-CPU topology properties should describe whole machine topology including
+-possible CPUs.
+-
+-However, historically it was possible to start QEMU with an incorrect topology
+-where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
+-which could lead to an incorrect topology enumeration by the guest.
+-Support for invalid topologies is removed, the user must ensure
+-topologies described with -smp include all possible cpus, i.e.
+-*sockets* * *cores* * *threads* = *maxcpus*.
+-
+-``-numa`` node (without memory specified) (removed 5.2)
+-'''''''''''''''''''''''''''''''''''''''''''''''''''''''
+-
+-Splitting RAM by default between NUMA nodes had the same issues as ``mem``
+-parameter with the difference that the role of the user plays QEMU using
+-implicit generic or board specific splitting rule.
+-Use ``memdev`` with *memory-backend-ram* backend or ``mem`` (if
+-it's supported by used machine type) to define mapping explicitly instead.
+-Users of existing VMs, wishing to preserve the same RAM distribution, should
+-configure it explicitly using ``-numa node,memdev`` options. Current RAM
+-distribution can be retrieved using HMP command ``info numa`` and if separate
+-memory devices (pc|nv-dimm) are present use ``info memory-device`` and subtract
+-device memory from output of ``info numa``.
+-
+-``-numa node,mem=``\ *size* (removed in 5.1)
+-''''''''''''''''''''''''''''''''''''''''''''
+-
+-The parameter ``mem`` of ``-numa node`` was used to assign a part of
+-guest RAM to a NUMA node. But when using it, it's impossible to manage a specified
+-RAM chunk on the host side (like bind it to a host node, setting bind policy, ...),
+-so the guest ends up with the fake NUMA configuration with suboptiomal performance.
+-However since 2014 there is an alternative way to assign RAM to a NUMA node
+-using parameter ``memdev``, which does the same as ``mem`` and adds
+-means to actually manage node RAM on the host side. Use parameter ``memdev``
+-with *memory-backend-ram* backend as replacement for parameter ``mem``
+-to achieve the same fake NUMA effect or a properly configured
+-*memory-backend-file* backend to actually benefit from NUMA configuration.
+-New machine versions (since 5.1) will not accept the option but it will still
+-work with old machine types. User can check the QAPI schema to see if the legacy
+-option is supported by looking at MachineInfo::numa-mem-supported property.
+-
+-``-mem-path`` fallback to RAM (removed in 5.0)
+-''''''''''''''''''''''''''''''''''''''''''''''
+-
+-If guest RAM allocation from file pointed by ``mem-path`` failed,
+-QEMU was falling back to allocating from RAM, which might have resulted
+-in unpredictable behavior since the backing file specified by the user
+-as ignored. Currently, users are responsible for making sure the backing storage
+-specified with ``-mem-path`` can actually provide the guest RAM configured with
+-``-m`` and QEMU fails to start up if RAM allocation is unsuccessful.
+-
+-``-smp`` (invalid topologies) (removed 5.2)
+-'''''''''''''''''''''''''''''''''''''''''''
+-
+-CPU topology properties should describe whole machine topology including
+-possible CPUs.
+-
+-However, historically it was possible to start QEMU with an incorrect topology
+-where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
+-which could lead to an incorrect topology enumeration by the guest.
+-Support for invalid topologies is removed, the user must ensure
+-topologies described with -smp include all possible cpus, i.e.
+-*sockets* * *cores* * *threads* = *maxcpus*.
+-
+-``-machine enforce-config-section=on|off`` (removed 5.2)
+-''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+-
+-The ``enforce-config-section`` property was replaced by the
+-``-global migration.send-configuration={on|off}`` option.
+-
+ qemu-img amend to adjust backing file (removed in 6.1)
+ ''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ 
+-- 
+2.27.0
 
 
