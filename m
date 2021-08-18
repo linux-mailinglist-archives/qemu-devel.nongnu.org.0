@@ -2,82 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A28653F0DA9
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 23:48:26 +0200 (CEST)
-Received: from localhost ([::1]:55964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 587933F0DA0
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 23:44:30 +0200 (CEST)
+Received: from localhost ([::1]:48322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGTQ9-0001Wv-Dr
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 17:48:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58584)
+	id 1mGTML-0004kF-Cs
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 17:44:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mGT9q-0001ju-P1
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:31:35 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:53216)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mGT9p-0007Na-7m
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:31:34 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id f10so2498975wml.2
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 14:31:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=XetYpCU5uTQx1aMWCfxWWbdU81YqeB4V1kUnBWlM/xs=;
- b=c4Oo3vLjoPbj/48tn5Vkl917o12lK3bx3DeaA4sf5Xzs05I4CTgoMKMjHyTm0uNnP5
- Md879X7oeaUpfS7CXmySuQcXosEq6ldzVP0FaPQjm4AgHO+H9olFvGu+h4HioW00GlL0
- RVf6QMXcGXKBQHdNBZo2Hsa9AS08IXr9goBOvyLAkAgIpUIMO7bwMi9NvxF0+YPbNXVy
- xHZurCtBozSXM25VNo8nH0fEZULb/Op2pAEYngb+5H5qplLHfp37VASD+t2C3eDW/Lyz
- ZD4Pj9c5JQq8K6G4FqADWyI6flARWYDyv19Yna+SKz3yWI2JH/UY7nlttMVIlqE06YlY
- oX0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XetYpCU5uTQx1aMWCfxWWbdU81YqeB4V1kUnBWlM/xs=;
- b=DGpdGSYx+QHtCTBi1yOKTFnjAi+RWavEpC90dcvu5g13RcgGC/0zv/jqEX2GN2VcsQ
- I2JIihmzbQRqFKuywwKuCjtsPSDmVzcUqzlErNR6kFe2ROoyhH5/XYb5IsJAUk6lP4aS
- uG2YiH8c+RJ7aYGiBkziu8qkdEPylqKrZ97+pRzh5jhUKSQgzApTS2PsumLh1/+u3hJ/
- QPo9RHviZGWgxgaCLbBq6PlK78VRu475ACeKZaiwmj5nNyN0bANmmBXSh1xsLGov8hx7
- fLZ/Ur6d3F+++12knEpWE/ijKmKVb09IRQ3BUzOvvAR4mdOOUQOfjDDHqffvojC/vWL2
- o2XQ==
-X-Gm-Message-State: AOAM5331gdFIUSnp1u/qLxe0sgN5VPe2ToGJwdbKvCBe2Q7IS5hlTzH6
- SvfhPhnd4/jj0nUUKHhi6rw=
-X-Google-Smtp-Source: ABdhPJxyQhI6bqsi5Bm2GMCIiQ2cfSSVct+ZAjITcrHEI40OdXJR2H+uNJ+KKgTLH0yZwwJrVZDfsg==
-X-Received: by 2002:a1c:10e:: with SMTP id 14mr10338651wmb.93.1629322291336;
- Wed, 18 Aug 2021 14:31:31 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id g12sm993912wru.85.2021.08.18.14.31.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Aug 2021 14:31:30 -0700 (PDT)
-Subject: Re: [PATCH 1/5] target/mips: Replace GET_OFFSET() macro by
- get_offset() function
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210818164321.2474534-1-f4bug@amsat.org>
- <20210818164321.2474534-2-f4bug@amsat.org>
- <eb7b7211-def7-b2fb-e843-57d0266ea20a@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d50fcef1-c2c3-e68a-7ae1-96ba566a4a64@amsat.org>
-Date: Wed, 18 Aug 2021 23:31:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <tobin@linux.ibm.com>)
+ id 1mGTKP-0002i9-Fc
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:42:29 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:2570)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <tobin@linux.ibm.com>)
+ id 1mGTKN-000745-0O
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 17:42:28 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 17ILXQv3127870; Wed, 18 Aug 2021 17:42:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=X/ZVamOOUM56zqGVXqXhKtm9nuRDiqFsLspvE+SmSLo=;
+ b=Fvj1hqL2lX7upR5AKfgOxrK5khFyoj7tgvK5eayO5RO/p+KTsWI4b6x4NesYPKNm3N+A
+ URI+oGD7GOKl59wIxAqQlDVaDpjg2aAcHe+JBVkAhElx+1p0Ulv4XckKKPu8kpwu3W95
+ 1nDtBvZFb9ut851FY4wAOxancWRI6DH2yfhnN2Dxec+YgHDSavkSCbKJF1U3KMphzUKq
+ m6NWsRLWUUwJ+1Dret7m4WmnRasCZX7mUQKIL6KhJ6s15++/dkbNYeJ9WD36XpXAGNyb
+ KFOcnaO5VEq9ygvgefhMfuO8Mq5MtTreEM/4HZK/qicBCanJnaj+yHfcvNkxXBO4tpUP Dg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3agcf6uq2f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Aug 2021 17:42:21 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 17ILXXVR128249;
+ Wed, 18 Aug 2021 17:42:20 -0400
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3agcf6uq1y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Aug 2021 17:42:20 -0400
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 17ILaRXd000505;
+ Wed, 18 Aug 2021 21:42:19 GMT
+Received: from b01cxnp22036.gho.pok.ibm.com (b01cxnp22036.gho.pok.ibm.com
+ [9.57.198.26]) by ppma02wdc.us.ibm.com with ESMTP id 3ae5fe5nwm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 18 Aug 2021 21:42:19 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp22036.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 17ILgHhn8389206
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 18 Aug 2021 21:42:18 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id E3E6CAE07D;
+ Wed, 18 Aug 2021 21:42:17 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 76D89AE06D;
+ Wed, 18 Aug 2021 21:42:17 +0000 (GMT)
+Received: from Tobins-MacBook-Pro-2.local (unknown [9.77.128.89])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+ Wed, 18 Aug 2021 21:42:17 +0000 (GMT)
+Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <cover.1629118207.git.ashish.kalra@amd.com>
+ <CABayD+fyrcyPGg5TdXLr95AFkPFY+EeeNvY=NvQw_j3_igOd6Q@mail.gmail.com>
+ <0fcfafde-a690-f53a-01fc-542054948bb2@redhat.com>
+ <37796fd1-bbc2-f22c-b786-eb44f4d473b9@linux.ibm.com>
+ <CABayD+evf56U4yT2V1TmEzaJjvV8gutUG5t8Ob2ifamruw5Qrg@mail.gmail.com>
+ <458ba932-5150-8706-3958-caa4cc67c8e3@linux.ibm.com>
+ <YR1ZvArdq4sKVyTJ@work-vm>
+From: Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
+Message-ID: <c1d8dbca-c6a9-58da-6f95-b33b74e0485a@linux.ibm.com>
+Date: Wed, 18 Aug 2021 17:42:16 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <eb7b7211-def7-b2fb-e843-57d0266ea20a@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <YR1ZvArdq4sKVyTJ@work-vm>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.961,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: O_1Qqnfk-yDoDkmanszpGR48sMJ1efjy
+X-Proofpoint-GUID: lczFpwtEUJtXdyY0Y1zatQYDEk_mM86E
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-08-18_07:2021-08-17,
+ 2021-08-18 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0
+ mlxscore=0 suspectscore=0 phishscore=0 adultscore=0 priorityscore=1501
+ bulkscore=0 clxscore=1015 mlxlogscore=999 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108180132
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=tobin@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.961,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,90 +118,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: thomas.lendacky@amd.com, Ashish Kalra <Ashish.Kalra@amd.com>,
+ brijesh.singh@amd.com, ehabkost@redhat.com, kvm@vger.kernel.org,
+ mst@redhat.com, Steve Rutherford <srutherford@google.com>,
+ richard.henderson@linaro.org, jejb@linux.ibm.com, tobin@ibm.com,
+ qemu-devel@nongnu.org, frankeh@us.ibm.com, Paolo Bonzini <pbonzini@redhat.com>,
+ dovmurik@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/18/21 6:56 PM, Richard Henderson wrote:
-> On 8/18/21 6:43 AM, Philippe Mathieu-Daudé wrote:
->> The target endianess information is stored in the BigEndian
->> bit of the Config0 register in CP0.
->>
->> As a first step, replace the GET_OFFSET() macro by an inlined
->> get_offset() function, passing CPUMIPSState as argument.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   target/mips/tcg/ldst_helper.c | 57 +++++++++++++++++++++--------------
->>   1 file changed, 35 insertions(+), 22 deletions(-)
->>
->> diff --git a/target/mips/tcg/ldst_helper.c
->> b/target/mips/tcg/ldst_helper.c
->> index d42812b8a6a..97e7ad7d7a4 100644
->> --- a/target/mips/tcg/ldst_helper.c
->> +++ b/target/mips/tcg/ldst_helper.c
->> @@ -52,31 +52,44 @@ HELPER_LD_ATOMIC(lld, ldq, 0x7, (target_ulong))
->>     #endif /* !CONFIG_USER_ONLY */
->>   +static inline bool cpu_is_bigendian(CPUMIPSState *env)
->> +{
->> +    return extract32(env->CP0_Config0, CP0C0_BE, 1);
->> +}
->> +
->>   #ifdef TARGET_WORDS_BIGENDIAN
->>   #define GET_LMASK(v) ((v) & 3)
->> -#define GET_OFFSET(addr, offset) (addr + (offset))
->>   #else
->>   #define GET_LMASK(v) (((v) & 3) ^ 3)
->> -#define GET_OFFSET(addr, offset) (addr - (offset))
->>   #endif
->>   +static inline target_ulong get_offset(CPUMIPSState *env,
->> +                                      target_ulong addr, int offset)
->> +{
->> +    if (cpu_is_bigendian(env)) {
->> +        return addr + offset;
->> +    } else {
->> +        return addr - offset;
->> +    }
->> +}
->> +
->>   void helper_swl(CPUMIPSState *env, target_ulong arg1, target_ulong
->> arg2,
->>                   int mem_idx)
->>   {
->>       cpu_stb_mmuidx_ra(env, arg2, (uint8_t)(arg1 >> 24), mem_idx,
->> GETPC());
->>         if (GET_LMASK(arg2) <= 2) {
->> -        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, 1), (uint8_t)(arg1 >>
->> 16),
->> +        cpu_stb_mmuidx_ra(env, get_offset(env, arg2, 1),
->> (uint8_t)(arg1 >> 16),
->>                             mem_idx, GETPC());
->>       }
->>         if (GET_LMASK(arg2) <= 1) {
->> -        cpu_stb_mmuidx_ra(env, GET_OFFSET(arg2, 2), (uint8_t)(arg1 >>
->> 8),
->> +        cpu_stb_mmuidx_ra(env, get_offset(env, arg2, 2),
->> (uint8_t)(arg1 >> 8),
->>                             mem_idx, GETPC());
-> 
-> So... yes, this is an improvement, but it's now substituting a constant
-> for a runtime variable many times over.
+On 8/18/21 3:04 PM, Dr. David Alan Gilbert wrote:
+> * Tobin Feldman-Fitzthum (tobin@linux.ibm.com) wrote:
+>> On 8/17/21 6:04 PM, Steve Rutherford wrote:
+>>> Ahh, It sounds like you are looking into sidestepping the existing
+>>> AMD-SP flows for migration. I assume the idea is to spin up a VM on
+>>> the target side, and have the two VMs attest to each other. How do the
+>>> two sides know if the other is legitimate? I take it that the source
+>>> is directing the LAUNCH flows?
+>> Yeah we don't use PSP migration flows at all. We don't need to send the MH
+>> code from the source to the target because the MH lives in firmware, which
+>> is common between the two.
+> Are you relying on the target firmware to be *identical* or purely for
+> it to be *compatible* ?  It's normal for a migration to be the result of
+> wanting to do an upgrade; and that means the destination build of OVMF
+> might be newer (or older, or ...).
+>
+> Dave
 
-Oops indeed.
+This is a good point. The migration handler on the source and target 
+must have the same memory footprint or bad things will happen. Using the 
+same firmware on the source and target is an easy way to guarantee this. 
+Since the MH in OVMF is not a contiguous region of memory, but a group 
+of functions scattered around OVMF, it is a bit difficult to guarantee 
+that the memory footprint is the same if the build is different.
 
->  I think you should drop
-> get_offset() entirely and replace it with
-> 
->     int dir = cpu_is_bigendian(env) ? 1 : -1;
-> 
->     stb(env, arg2 + 1 * dir, data);
-> 
->     stb(env, arg2 + 2 * dir, data);
-> 
-> Alternately, bite the bullet and split the function(s) into two,
-> explicitly endian versions: helper_swl_be, helper_swl_le, etc.
+-Tobin
 
-I'll go for the easier path ;)
+>
+>
+>> We start the target like a normal VM rather than
+>> waiting for an incoming migration. The plan is to treat the target like a
+>> normal VM for attestation as well. The guest owner will attest the target VM
+>> just like they would any other VM that is started on their behalf. Secret
+>> injection can be used to establish a shared key for the source and target.
+>>
+>> -Tobin
+>>
+>>> --Steve
+>>>
 
