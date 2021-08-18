@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E68E63F0CC0
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 22:29:41 +0200 (CEST)
-Received: from localhost ([::1]:40766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 406A73F0CCF
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 22:33:24 +0200 (CEST)
+Received: from localhost ([::1]:48692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGSBw-0003Fc-Ue
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 16:29:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40396)
+	id 1mGSFS-0000T0-8w
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 16:33:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGS2U-0008HI-0z
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 16:19:54 -0400
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:40608)
+ id 1mGS2V-0008MK-CF
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 16:19:55 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:38882)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGS2Q-0006Lu-3O
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 16:19:51 -0400
-Received: by mail-pg1-x536.google.com with SMTP id y23so3481434pgi.7
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 13:19:49 -0700 (PDT)
+ id 1mGS2T-0006Mv-RG
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 16:19:55 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ om1-20020a17090b3a8100b0017941c44ce4so9699313pjb.3
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 13:19:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=HpQSpkjMY/HVPNmupFN14WCJnZd0Eg9bjbOHuKK4v+k=;
- b=jtVxb4cfisbRGFNexDMxEdL9ceTblFTBKFJkL7HxT6/5rdDnZPJ0WO4r4jrPCaWhKn
- qdNdwPL0oOB221mKImSJHwxnCVEtlZiY6jOUp7nwSN8YDrn/zWHNhSQFmHSYfw0mFn5R
- d99AVgoLVVEmsp+EvObCmyUmkOGTqqAHLcPBFoFS29qJo0YuP6Irpxo5FPGn4XhbgNvp
- d4kZWQFmG0chD8WhYsp/VCvMaVDKXBLzKb4h/oukOWpv3XaE9ahLdUKOQyDw1FGqJLN/
- GPaBZoZHrqHWqJi3drj4b+sLyln1qMBce6yrskGIP0vOAw4qplp+ho8o3n4GeIBRLf4z
- 1aLg==
+ bh=lfVt0eT0nNOIPktjRSBpSBNPqCJhivS9a0zJZSVFgMw=;
+ b=Y5xGaA4u+HiyvL1PijjTBEdlG0pTzle5/n4SM0DT04SHj36F5dbfSbVt3z4XwMAYZV
+ E3xAEwmUEKo5lY9Xk5l3hPjW3DJs+mV2OmWCzMx6LW6eAfSHjEvs0/IoJDXWsEJjCxRO
+ K3/UtRJyp9JmSf9EWsjANqifUcLwKiAPWB0Wvb5mcUI59dYOCOq/VgMGxZ3U9XT0CwpV
+ tCPV10H8e8S6jEHXnlMBSef5KUT2qz543lxOadlNAHHSgl3uyWZhCoHlRzW8KyW5vWnN
+ QREfarZLoh+5muZbamy8UBgBIOBcV2pOsfig6zXEn1UcsnANMG5odDFtytS6nr+NxOrc
+ 8HHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HpQSpkjMY/HVPNmupFN14WCJnZd0Eg9bjbOHuKK4v+k=;
- b=MTqsQtlcLM7hG3CQSfuPgIW2sZh3cGWlRlFLa8xfmDO/Os1AY/YRe7cG4C2IorkDfx
- rbw1Nq+yfo9FWZ/3sjF62GNFk7qYwosCa1YE+ufG8aJK2oZHaWgetdPPazktuL/EQxFZ
- 0VoW92pd3DsR3bj/NwAi9NCdDYEfE6yk5MwKU9wWOHWM4RUvOeFBto/kzR2SjS49D9B4
- 0auDjTq3BUVZcDhsGapPi/2g+IoDYh/G+meKC4wo2llf0tZB13G21LWL3tkqgHaLluOn
- vyIN6tW1+MsIDAc8EM8xV/HiRqTghitIdyf4RB3LFXzNu/EP6hqVduCIxXG2rNG4tVxd
- ygJQ==
-X-Gm-Message-State: AOAM53126osvbKK6sdCOti1DZzbNjic98RwtS+2E8UChSmM7+KSQsaNe
- JC6FEIIZjJmSZq1pCvzHm/jG9P6RsJKj6g==
-X-Google-Smtp-Source: ABdhPJxhazTC2IhgOg08zuiMzNyhopn9ELxiH8qv27SFEmnFU2pExikZYmTKzR9d6L5YRIkpeznU9Q==
-X-Received: by 2002:a65:494e:: with SMTP id q14mr10504923pgs.314.1629317988807; 
- Wed, 18 Aug 2021 13:19:48 -0700 (PDT)
+ bh=lfVt0eT0nNOIPktjRSBpSBNPqCJhivS9a0zJZSVFgMw=;
+ b=URLLEg51JHKEch7tQgamb2vvLpLbuQm54QNUkwI8yWUQxRd6hU6VRFcqqOkDJjYrP4
+ VpMP3revybYNtxM4E3/DHY07CPGdCn0lswVt04SVi4U/Ei2PC6d3dtzbnK4xmSA4KK+V
+ F3ONMg9k6M1pYV2N1gkc3gLLANgXwUMp9X0sv3YHkaaKpH53hLtTDxDmOpFzmErFpSFJ
+ d/Oz6ZpntYEaCEW0eAynk/Zq5IavTx+9n6Tp7kUUtiUlSihGLwKWpwauhth/AJbW7b46
+ M0HmoAA4Ud0I5KTQxiBGEbEWmjMwgGmds/ZeqlTn9ki51PxBfburNtxgPRj05K2K9BlZ
+ qmOw==
+X-Gm-Message-State: AOAM532daZAMW6dYaxY0ObM38fXsMKCK+bE+m85+KaZwyYNL6gM2sn1o
+ epW0ihWa0IIrkeWMHR5UKrkjA0LCw3RSow==
+X-Google-Smtp-Source: ABdhPJz395EwXSvZ+gc8julrEw6gELfbsDRlrwBfa3ULcQtd5NqZP0DJwDw/uDfgsK1qzXoi83Xn3A==
+X-Received: by 2002:a17:902:d890:b029:12d:f2:e8d6 with SMTP id
+ b16-20020a170902d890b029012d00f2e8d6mr8661525plz.42.1629317989902; 
+ Wed, 18 Aug 2021 13:19:49 -0700 (PDT)
 Received: from localhost.localdomain ([173.197.107.15])
- by smtp.gmail.com with ESMTPSA id x13sm619621pjh.30.2021.08.18.13.19.48
+ by smtp.gmail.com with ESMTPSA id x13sm619621pjh.30.2021.08.18.13.19.49
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 13:19:48 -0700 (PDT)
+ Wed, 18 Aug 2021 13:19:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 15/16] tcg/mips: Try tb-relative addresses in tcg_out_movi
-Date: Wed, 18 Aug 2021 10:19:30 -1000
-Message-Id: <20210818201931.393394-16-richard.henderson@linaro.org>
+Subject: [PATCH v3 16/16] tcg/mips: Try three insns with shift and add in
+ tcg_out_movi
+Date: Wed, 18 Aug 2021 10:19:31 -1000
+Message-Id: <20210818201931.393394-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210818201931.393394-1-richard.henderson@linaro.org>
 References: <20210818201931.393394-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,40 +89,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These addresses are often loaded by the qemu_ld/st slow path,
-for loading the retaddr value.
+These sequences are inexpensive to test.  Maxing out at three insns
+results in the same space as a load plus the constant pool entry.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/mips/tcg-target.c.inc | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ tcg/mips/tcg-target.c.inc | 44 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
 diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index f641d86561..27a23662c8 100644
+index 27a23662c8..92f324de68 100644
 --- a/tcg/mips/tcg-target.c.inc
 +++ b/tcg/mips/tcg-target.c.inc
-@@ -582,6 +582,8 @@ static void tcg_out_movi_pool(TCGContext *s, TCGReg ret,
- static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
+@@ -583,6 +583,7 @@ static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
                               tcg_target_long arg, TCGReg tbreg)
  {
-+    tcg_target_long tmp;
-+
+     tcg_target_long tmp;
++    int sh, lo;
+ 
      if (TCG_TARGET_REG_BITS == 64 && type == TCG_TYPE_I32) {
          arg = (int32_t)arg;
+@@ -605,6 +606,49 @@ static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
+         return;
      }
-@@ -592,6 +594,17 @@ static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
-     }
-     assert(TCG_TARGET_REG_BITS == 64);
  
-+    /* Load addresses within 2GB of TB with 1 or 3 insns. */
-+    tmp = tcg_tbrel_diff(s, (void *)arg);
-+    if (tmp == (int16_t)tmp) {
-+        tcg_out_opc_imm(s, OPC_DADDIU, ret, tbreg, tmp);
++    /*
++     * Load bitmasks with a right-shift.  This is good for things
++     * like 0x0fff_ffff_ffff_fff0: ADDUI r,0xff00 + DSRL r,r,4.
++     * or similarly using LUI.  For this to work, bit 31 must be set.
++     */
++    if (arg > 0 && (int32_t)arg < 0) {
++        sh = clz64(arg);
++        if (tcg_out_movi_one(s, ret, arg << sh)) {
++            tcg_out_dsrl(s, ret, ret, sh);
++            return;
++        }
++    }
++
++    /*
++     * Load slightly larger constants using left-shift.
++     * Limit this sequence to 3 insns to avoid too much expansion.
++     */
++    sh = ctz64(arg);
++    if (sh && tcg_out_movi_two(s, ret, arg >> sh)) {
++        tcg_out_dsll(s, ret, ret, sh);
 +        return;
 +    }
-+    if (tcg_out_movi_two(s, ret, tmp)) {
-+        tcg_out_opc_reg(s, OPC_DADDU, ret, ret, tbreg);
-+        return;
++
++    /*
++     * Load slightly larger constants using left-shift and add/or.
++     * Prefer addi with a negative immediate when that would produce
++     * a larger shift.  For this to work, bits 15 and 16 must be set.
++     */
++    lo = arg & 0xffff;
++    if (lo) {
++        if ((arg & 0x18000) == 0x18000) {
++            lo = (int16_t)arg;
++        }
++        tmp = arg - lo;
++        sh = ctz64(tmp);
++        tmp >>= sh;
++        if (tcg_out_movi_one(s, ret, tmp)) {
++            tcg_out_dsll(s, ret, ret, sh);
++            tcg_out_opc_imm(s, lo < 0 ? OPC_DADDIU : OPC_ORI, ret, ret, lo);
++            return;
++        }
 +    }
 +
      /* Otherwise, put 64-bit constants into the constant pool. */
