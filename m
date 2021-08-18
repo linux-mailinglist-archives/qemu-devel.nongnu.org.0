@@ -2,82 +2,135 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53CE43F0191
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 12:26:23 +0200 (CEST)
-Received: from localhost ([::1]:43184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC943F01B7
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 12:33:20 +0200 (CEST)
+Received: from localhost ([::1]:46534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGIm6-0006WM-Bs
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 06:26:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41334)
+	id 1mGIsp-000161-VP
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 06:33:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mGIk5-0004hj-0F; Wed, 18 Aug 2021 06:24:17 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:46869)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mGIk3-000196-Lz; Wed, 18 Aug 2021 06:24:16 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- h24-20020a1ccc180000b029022e0571d1a0so1429052wmb.5; 
- Wed, 18 Aug 2021 03:24:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=giQ8mSMhuFPGoovLdha6G+J/bDJyUq+OOhgtz2p2MSo=;
- b=AU1SiIbuqfNF6SNfg3B9DxcM+HjV+JfyFgMgyrB/F6sQd059tt2BFClfPuGVpT9UQF
- PCvwQk4nLhQ/wkFysmBq+3HN2scdcjeY60NOdJsIEGN0IYj0K/mMjGuSXj4ezVeDoRRE
- 7jdcs18ZjmtVB6oeH+zZ2KxPBp38TT0ekfm2e+m4ou1MwFjYscvBtp7lI4xswOszHeY5
- OOmJQP27LA50oyJwVkhP6wjt2kMkEPGI43eRDQ76l5vFKytymNE/K4N2yasFYqB+K5Bc
- AgYJWExPPisEWuO3rR57dBibmHxVw4EF+V0DNtYE4lra9nTgW4dC9A4QhA/ZMdnYMD4K
- Gnfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=giQ8mSMhuFPGoovLdha6G+J/bDJyUq+OOhgtz2p2MSo=;
- b=KVO8B6jNk5UdQfir3YEht5nhdCEjImlbG9vZnY2o0M92axRsnTYzExGu8qgPhY1ROj
- 2iStSCLyE5qYZ+Wby7LKfKnAmwrT739bA63QRumWR2I4VdOIvR9YWu7lBQmn+rzMIshY
- lGFw8nSLqzcsylSRDDYe/gUAa8cH5ke07tezgokgZ4FmCumkDCdtAZv7iRX4hfTztKaI
- IY0dhQEWuWOPlD6/6FM3r/JjtcHCziMTTIXPPSjskGpKk/N82E03DWgNdtk/mRBS2MNt
- wD8u9VkZ+RRgK7/y/1uuaG8PlS5mr2NnRHg/gdcwJfOOc9xs/jq1aOdiZ7X5Ci830fg7
- ngfw==
-X-Gm-Message-State: AOAM5314+wcS2MCt5R2IK6WhOCEJKNqcnqAwicgmMn2YqyYO926vFaCx
- DI5A+PmzwTJ1FIJSpJV1jxk=
-X-Google-Smtp-Source: ABdhPJxWn6GaJrKCN2pzJb6hkRfvsw78HRIKShqvM2j26KvHX8oFdI9K0kXfwxS+m0/lBvtSz2TpDA==
-X-Received: by 2002:a1c:115:: with SMTP id 21mr7744808wmb.95.1629282253868;
- Wed, 18 Aug 2021 03:24:13 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id d8sm5663070wrv.20.2021.08.18.03.24.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Aug 2021 03:24:13 -0700 (PDT)
-Subject: Re: [PATCH v5] hw/dma/pl330: Add memory region to replace default
-To: "Wen, Jianxian" <Jianxian.Wen@verisilicon.com>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "i.mitsyanko@gmail.com" <i.mitsyanko@gmail.com>,
- "edgar.iglesias@gmail.com" <edgar.iglesias@gmail.com>,
- "alistair@alistair23.me" <alistair@alistair23.me>
-References: <4C23C17B8E87E74E906A25A3254A03F4FA1FEC31@SHASXM03.verisilicon.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <f52d6ea0-8003-7343-79d8-4c38a6a4c62b@amsat.org>
-Date: Wed, 18 Aug 2021 12:24:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
+ id 1mGIrU-00085f-Rc
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 06:31:56 -0400
+Received: from mail-bn1nam07on2055.outbound.protection.outlook.com
+ ([40.107.212.55]:14198 helo=NAM02-BN1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
+ id 1mGIrS-0008CL-6Q
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 06:31:56 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Jy6bBU/5mbayZMtme04mMQSb6pGt7qON/ua7B/xALMML0EiFZDSFuoYS8dfFiI0Ov3m0+od3Hy1mR9fB0R9zlA7NU92ZuzcJjY2qNEOUPzseqwvCyEGLGoWQiha7E5osuTSNkYQHXj8X6Mq4rNKfPD5ulU+h4eksSmYIvVTU/GpXhYVgPXke8LMtxa1e4BsceFO9xcY+I5V6//s4quDJxkIV/A623jgJxQjZL0XN6srNwx5hcxLE7N9iODXcdLyyPsvCCsvBV4by/LCH+0uMOVqAxZt1g7V7nBkohaXwdaJnEQ/5QMa7uNduBpak7VJpxLv0sa8uqFOkCZ2DAyl3kw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n/G19iFaEWOoaqlznXhU0x/LsP1wXT/T0iifTOKlgNY=;
+ b=i2i6oJfPn+QK1YPNN4jTPs//GchmiQdAjoKPR0tvQy0s2Dm/Y2KKjjG/h05DXNgw65S6lsMAAf9XCGWl/C06BTBQ6VpPO0U3y/TY+dGk9nTMKKsTWwWy2/6UhkmfnHCAnGt5zdpg+DWlnfY13MCMIXs7e3zvedJboLW5CznsI2UNbo1RVAZ1Zy9OgfuqTW1M9/eAfxrW0T9cxJ0Ne+UqLaQugWfEeZJjkRwA6+Y7w90n2eNZsaWDJYfnzIKTbATY1vB0o63lWB9pAfr18x4VSqHxxZXcndZM1WlBcckAUgTYHP6x8gWbwbxAezIEH+weuz1/lF9Ps8BslR8HyYmXyA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n/G19iFaEWOoaqlznXhU0x/LsP1wXT/T0iifTOKlgNY=;
+ b=nyvqVh6BnXzaJmxJ9qOPWdWEqkHa/nw/7PEQ3FuI/xxk1z1ZDLWsjefCrOX31yt3Y5Tk9de/RgCe5UW57UKOQFCE+EslDPQIqjAEYv81JEREiWrw+6dm3dUflyQWJqvDtAZE0gXSmnFWkOb+N3syjlP72qBhGW2r0iZuJxEdl9Y=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com (2603:10b6:805:75::23)
+ by SA0PR12MB4429.namprd12.prod.outlook.com (2603:10b6:806:73::20)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.16; Wed, 18 Aug
+ 2021 10:31:49 +0000
+Received: from SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::491e:2642:bae2:8b73]) by SN6PR12MB2767.namprd12.prod.outlook.com
+ ([fe80::491e:2642:bae2:8b73%7]) with mapi id 15.20.4415.024; Wed, 18 Aug 2021
+ 10:31:49 +0000
+Date: Wed, 18 Aug 2021 10:31:47 +0000
+From: Ashish Kalra <ashish.kalra@amd.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, thomas.lendacky@amd.com, brijesh.singh@amd.com,
+ ehabkost@redhat.com, mst@redhat.com, richard.henderson@linaro.org,
+ jejb@linux.ibm.com, tobin@ibm.com, dovmurik@linux.vnet.ibm.com,
+ frankeh@us.ibm.com, dgilbert@redhat.com, kvm@vger.kernel.org
+Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
+Message-ID: <20210818103147.GB31834@ashkalra_ubuntu_server>
+References: <cover.1629118207.git.ashish.kalra@amd.com>
+ <fb737cf0-3d96-173f-333b-876dfd59d32b@redhat.com>
+ <20210816144413.GA29881@ashkalra_ubuntu_server>
+ <b25a1cf9-5675-99da-7dd6-302b04cc7bbc@redhat.com>
+ <20210816151349.GA29903@ashkalra_ubuntu_server>
+ <f7cf142b-02e4-5c87-3102-f3acd8b07288@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f7cf142b-02e4-5c87-3102-f3acd8b07288@redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-ClientProxiedBy: SN6PR04CA0077.namprd04.prod.outlook.com
+ (2603:10b6:805:f2::18) To SN6PR12MB2767.namprd12.prod.outlook.com
+ (2603:10b6:805:75::23)
 MIME-Version: 1.0
-In-Reply-To: <4C23C17B8E87E74E906A25A3254A03F4FA1FEC31@SHASXM03.verisilicon.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.961,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ashkalra_ubuntu_server (165.204.77.1) by
+ SN6PR04CA0077.namprd04.prod.outlook.com (2603:10b6:805:f2::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4436.19 via Frontend Transport; Wed, 18 Aug 2021 10:31:48 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 609ffaba-679e-494c-4096-08d9623362c2
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4429:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SA0PR12MB4429DEAC5F58C4CB2B70CE678EFF9@SA0PR12MB4429.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8JmlOPiC89HN7HHZden0cjFACwIiWY328Tx72wEbmhpldCPrwfCHi6tZha+FHiuShqd7q9wG00V+kU3MjASvgg6+5qxePSHe/OKNnKSxgUG4pa5NEeAloIW9XGApXTQVrl50xBWB6+hNqBr5Ye9uSXwz2Wii922+ZNOQWmURYaDXmekq5JBlxbADINd626wafpON0cpRcxOnAQjvCll4IDS0BONfXJjRh2sCJ6JWRo9PahNM48d3ydrNBjBZrHZcx9w5qhAOQYnyCISpCQrbzJoa+swskGbkRQExVofPAoE/DdXCATx/HVfuIfSjPLV5POMi09ZuiPfbHv6pfsISSsE0T8m/GykQ71R/XNFU45+96uMoRP4Qu2z4NGEjMsz4co8k7AK6kLdlvm7bOQ0ccWDUSJUI5tJX18pcK/mCshNLbIp2zFYJvWk68XCMywVgILBxBNi+gCEu585TFcQR1xW/gcPLkoK3scmK71vVCQtDj9PIH3JZx69cnoBCexsP3Lhdyyd1Hhfh7P3BoU7U+iZMvNPN3vNsA6p3oCfwAOvKdEB/eLom0aLGY2+ntIvecx1P5ywg4cxL/VZeX27Um3H/Bc01XTqXBMAty90BWcIH962X0n2fD4EVIC4z5TSphrt671SWjbCeavd9C9H8fuFKYbMvd+B22tKyJoq2epDh7g0cHkGlWU/saH+4blo3m2g3FIzb+XUexITmaoGhCw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR12MB2767.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(136003)(39860400002)(366004)(376002)(346002)(478600001)(33656002)(33716001)(8676002)(956004)(4326008)(38350700002)(38100700002)(1076003)(52116002)(8936002)(6496006)(44832011)(7416002)(9686003)(55016002)(53546011)(5660300002)(6916009)(186003)(26005)(86362001)(2906002)(66946007)(83380400001)(66476007)(66556008)(316002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Sh8olur/OEsiSUlpKJ9BH1UIhW1VlW52XErVqx8hnj092Zj/aHSsQaGTqO/l?=
+ =?us-ascii?Q?RutmD3fjEo311gJmJwPH9mBjNhH5OaxyL4bTl6XrMbm7zuT9kW6BiRKZJ+8p?=
+ =?us-ascii?Q?A6e+knZFjnsCPOyiToqRI/dIe7YSvxYL/ZRxYJfSqxRcOsSJEu8NBFCk3NZB?=
+ =?us-ascii?Q?InW2UmkmiL649LSylqbvGiQb/0gXK2qchwbvusgdVidFSKlcHXpQgBVOwiRn?=
+ =?us-ascii?Q?nxDd591xFpBpDX6261xmpfb1lmYvYpPjyFxOJxOCJ9gtHqS2wTmK4E/7aJ06?=
+ =?us-ascii?Q?d3QJ4oXMZbm4C+7VrjNJ7nTrwq/oTVqXIghZqNMeZKN8tZtNo8wLgZDzl436?=
+ =?us-ascii?Q?i7+LzNsSWXgFxpwkVLiYj9eRQtEsQMgBzjOyoUyG/xWOvshOAfljECOMMbrW?=
+ =?us-ascii?Q?X/Jo0dalmWqbIgflUIaa0HaCCk1S7HVZdx83bOhiAZnTXAm6Ad1T0D2ziz82?=
+ =?us-ascii?Q?Q1pnOdnZhVzEjFTUIg3ZFv4u4GoHV/iqDzjVNgQH169gF+gZGEg2XXkfHl6Z?=
+ =?us-ascii?Q?It4Q8M7yJ/AuL7bbDJfVrPLLepxI1YgudTb47JPaSirnUKeDv3j2xNXUAMdn?=
+ =?us-ascii?Q?eS2iAo70wU6aYdlDRX+TYFm0+moEVcDhQOKY8upbBfIPAyBbujXTfz5547sT?=
+ =?us-ascii?Q?KHYZViLglaeQoSUp1NlwKa3xCFvBV0IwgcRstoL6TfpUsNawuuyyDQWfbp5r?=
+ =?us-ascii?Q?++u1D5d8YY/z/18k/MPjbPvHvhJvBIL4GqgIqP6jOM0AZBKT1SHXicmeq+mU?=
+ =?us-ascii?Q?Mn9KN3k6Wz5dfYky1t9UAFFFEh1qJOPrsIPIuRklyguqGL+yNk6sB5wsyDzB?=
+ =?us-ascii?Q?AzWwtF12bYQfkT8HgWTHHshc6yb/U8v0nblKQlOwg/6o6X/KzxVib8GXGKaL?=
+ =?us-ascii?Q?appLoQaUwvHMNHBINcBIlhMeMPZ9LS++fOhxpIYuQ01iciy4NSmdJEfD7tvv?=
+ =?us-ascii?Q?nAv3AYZpS1hRQUNt7FMyoHfSsdzQcmN4E34Tt2DdkZpKBmndsWgdArwyt1RV?=
+ =?us-ascii?Q?tmTCo8zAj7yhcoJYskYxHcxQlOezHQNFGHcyqVZwfffGUQFGmIewitFiTiRp?=
+ =?us-ascii?Q?Lpa6aSsBgDlcr+bCtyeH9pnoXOjZpjTBp9XzxXwiOZ+vKumMzIYEmfKbSIDn?=
+ =?us-ascii?Q?q68RgFRHKD72GhT44psWc4FkqAWfeCQF6KJ/Z/N8H5sJ0fK+jfY/4rQL5cP/?=
+ =?us-ascii?Q?9BpUkzZieHa8lISLXbqvFpTV1i+YJlnBaic3UvxXQdj8lZAUzWeENMgiH3Lt?=
+ =?us-ascii?Q?Bn6+icU5HrcJ7uqEtB1phgzBDzLsy8l/kJCwnohottryfp2591/85pd9gzpa?=
+ =?us-ascii?Q?puXeoiobCKBhHux7Ply1EGje?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 609ffaba-679e-494c-4096-08d9623362c2
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2767.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2021 10:31:49.1296 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0sGrD9ITQPbCLEePUplC2rSBA6/nPc/apSj1GD/xTo7OcY88MLGeEYNANSpKrS5B4TnMyYvhh6DZD1A+MPk7Sg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4429
+Received-SPF: softfail client-ip=40.107.212.55;
+ envelope-from=Ashish.Kalra@amd.com;
+ helo=NAM02-BN1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,31 +144,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Liu,
- Renwei" <Renwei.Liu@verisilicon.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Li,
- Chunming" <Chunming.Li@verisilicon.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/18/21 12:17 PM, Wen, Jianxian wrote:
-> Add property memory region which can connect with IOMMU region to support SMMU translate.
-> 
-> Signed-off-by: Jianxian Wen <jianxian.wen@verisilicon.com>
-> ---
-> v5 (after review of Philippe Mathieu-Daudé):
->  - Refine code and use memory_region_name() to get MR name.
-> v4 (after review of Philippe Mathieu-Daudé):
->  - Avoid creating new AS for system memory, add AS if we connect with IOMMU region.
-> v3 (after review of Philippe Mathieu-Daudé):
->  - Refine code to comply with code style, update error message if memory link is not set.
-> v2 (after review of Peter Maydell):
->  - Use dma_memory_read/write functions to do data access, update function AddressSpace* parameter.
-> 
->  hw/arm/exynos4210.c  |  3 +++
->  hw/arm/xilinx_zynq.c |  3 +++
->  hw/dma/pl330.c       | 26 ++++++++++++++++++++++----
->  3 files changed, 28 insertions(+), 4 deletions(-)
+Hello Paolo,
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Mon, Aug 16, 2021 at 05:38:55PM +0200, Paolo Bonzini wrote:
+> On 16/08/21 17:13, Ashish Kalra wrote:
+> > > > I think that once the mirror VM starts booting and running the UEFI
+> > > > code, it might be only during the PEI or DXE phase where it will
+> > > > start actually running the MH code, so mirror VM probably still need
+> > > > to handles KVM_EXIT_IO when SEC phase does I/O, I can see PIC
+> > > > accesses and Debug Agent initialization stuff in SEC startup code.
+> > > That may be a design of the migration helper code that you were working
+> > > with, but it's not necessary.
+> > > 
+> > Actually my comments are about a more generic MH code.
+> 
+> I don't think that would be a good idea; designing QEMU's migration helper
+> interface to be as constrained as possible is a good thing.  The migration
+> helper is extremely security sensitive code, so it should not expose itself
+> to the attack surface of the whole of QEMU.
+> 
+> 
+One question i have here, is that where exactly will the MH code exist
+in QEMU ?
+
+I assume it will be only x86 platform specific code, we probably will
+never support it on other platforms ?
+
+So it will probably exist in hw/i386, something similar to "microvm"
+support and using the same TYPE_X86_MACHINE ?
+
+Also if we are not going to use the existing KVM support code and
+adding some duplicate KVM interface code, do we need to interface with
+this added KVM code via the QEMU accelerator framework, or simply invoke
+this KVM code statically ?
+
+Thanks,
+Ashish
 
