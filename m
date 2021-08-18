@@ -2,65 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 165423F0055
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 11:22:49 +0200 (CEST)
-Received: from localhost ([::1]:45634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5582E3F005A
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 11:23:17 +0200 (CEST)
+Received: from localhost ([::1]:47158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGHmY-0002fW-VM
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 05:22:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56516)
+	id 1mGHn2-0003fL-Di
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 05:23:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mGHke-00018U-6i; Wed, 18 Aug 2021 05:20:50 -0400
-Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:37385)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mGHlO-0001fD-8a
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 05:21:34 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:45001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mGHkZ-0004ge-Uq; Wed, 18 Aug 2021 05:20:46 -0400
-Received: by mail-yb1-xb2a.google.com with SMTP id r4so3990216ybp.4;
- Wed, 18 Aug 2021 02:20:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mGHlM-0005Nw-7I
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 05:21:34 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ l7-20020a1c2507000000b002e6be5d86b3so1329674wml.3
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 02:21:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=L1a2mUr+2+vXGNVMSDyiVOqdkopDA4VKv2Hc9wCdceM=;
- b=OTQzRlNsi6cda+Eq2fbPgp3gXmcZ7ZGrAuPakvRKhm6TU5ALPH29D7xBp2+nkq6sTX
- /4eCNGfObMUzxZCB7od9YZNUubT57OrR/BDIab7KtLSmChaAGh0FOhcR7FTIcr7HTNS1
- RpW4y+0YXRGVahN35s3dbUE9E4hw57Alr0Sf7lRgt1zersiceX7KQlvqIuT2ozrrglXc
- UMkt78qm2KCeexnKexWmw4U2tDQu6M1RPKFmdYpJwFL5xOMp+4LcVcCbNW8RSrnJP7pR
- jsX7CTwhs4I2EX055PtREU2CrthPhi/ph5WUJ9CfkDlmfijrrSRuruP2DmZaSMZKxYl1
- PrYg==
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=38jauFOST4ZVyHVGJE+ro1HgZRaSu+He00z4fjeTxiI=;
+ b=AFrDRHLpjHVh7CR/TWFvrP17RlTKJku70yNE3JqBWrZctDoFs4r2095G/TcrxW4mEI
+ v9Osg9gsg3RQr3ZTijrmCeRM1UL0tjzqovCw/92GXphCj4CcVivaCieLB26RLFNzUWUj
+ 2N/8JaDvr+/bt3W5WbvnrA1EgYSKBgEwAuPn0Wr5qaFXl0864GFzEdUsZgaW6DhaU/VW
+ dexWUmOY8AUPOYgaEPzp4IoyU73ubR+7XQVfcVsljl3uOYcgxHYqyUstOZxXeGEqzcUa
+ 0HKERIjT/q6F/8SfLfniqPkwXFf7M/uBkD/l2VjGSy91i0yS1/xqDkp9Oxob2lD2ZLOT
+ rnLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=L1a2mUr+2+vXGNVMSDyiVOqdkopDA4VKv2Hc9wCdceM=;
- b=OdkdVz/ghKBpDQ99SlkiDUakwgm2wMvjfkFdONsvMM4w1AaAeyX48+SnAIefXWbDqj
- PLlIEENmoX+qZgSnwTXAXQqC5ANR4Uy2bsGUa8lF5NAkXu2lZUU1PtXlBfvxvIKLggZK
- dy/rPomzJcOPglkmSgNbazjXGT+eQfbWul4cwvMpU5eIW0Egh+6KfXNGDqYF+cVLBy+H
- dYHtYAmC7spBQT/vesSuPtvwiHYIvJzfEed93eoV6umtzLSZHOEbZh0nGeMdRIXOoAOl
- xsRaxhz+dyRXPIhSBJgSD0o5R2/cD0Zq0TPqnrzbaL2oZgJpSMDhkFd145ZDOq1Pex2m
- Ulng==
-X-Gm-Message-State: AOAM531FvFXA3NcNMEra2NXxhkCEeSsSQuf/j6Sww/UHP/5VsTEvNMus
- KerFANgtURLsDXnkotfeTLvj8x8CqUsT/tLu4bI=
-X-Google-Smtp-Source: ABdhPJyyCYuaF2nfhn1HYl3z41njq/g7AO9ezjCdUjs2Svy6lBEplycq7jUOe8tMAa5ulOCG7l7eKsLLc0gw0Wn3uCA=
-X-Received: by 2002:a25:bb08:: with SMTP id z8mr10568042ybg.306.1629278442696; 
- Wed, 18 Aug 2021 02:20:42 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=38jauFOST4ZVyHVGJE+ro1HgZRaSu+He00z4fjeTxiI=;
+ b=Eq8nptXr/NRLKYki9V/KJaC6sLhPLCk3qMXBuFSO3aIOMICpRIPSPdK8J31x7xIGpq
+ dmBqrfuNd4bkXu2LUtuJ9h+SS1YSmxki+mcZIl9OvZL/WmPcLZO8BynkhH5Cc0FwaEO0
+ dAA3wmtG+tU5nzsOBj14hpZ2/73NzarFbSTYQwRveXXKXYlFenOYd0D38TTgsv+9LqyF
+ UonKceCchqe0iYHpguSbWA3ymiLL4gBzbVFQOmI0XLkthg8n/scLw561KsC9abgwmcun
+ 9+P3KEII4af5HLhJZ5vExvANkAANQiojrIhHve3V/CIvl6uoUT79oM4pclktT/OAzYIa
+ Y51g==
+X-Gm-Message-State: AOAM530Pg+u7Dlv6ECw7LfOSO6wKMsSGV8zoyx2Bb/qZHL0KeMRK9yBS
+ DiZgNts+B+a9j5T93KjHGYalFcSPHeI=
+X-Google-Smtp-Source: ABdhPJwZ//X92Q38XC2nLvCsrlgQ1vzjZiIM/tT8HVGVigftanmn/33BA2SMiwmAcGUGrxBuxtg2NA==
+X-Received: by 2002:a05:600c:286:: with SMTP id
+ 6mr7480800wmk.164.1629278490354; 
+ Wed, 18 Aug 2021 02:21:30 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id g11sm5333801wrd.97.2021.08.18.02.21.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Aug 2021 02:21:29 -0700 (PDT)
+Subject: Re: [PATCH v2 37/55] target/mips: Use 8-byte memory ops for msa
+ load/store
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210803041443.55452-1-richard.henderson@linaro.org>
+ <20210803041443.55452-38-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <e346410a-3257-d9a4-b320-c3f4b1765a4e@amsat.org>
+Date: Wed, 18 Aug 2021 11:21:28 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210817211803.283639-1-richard.henderson@linaro.org>
- <20210817211803.283639-3-richard.henderson@linaro.org>
-In-Reply-To: <20210817211803.283639-3-richard.henderson@linaro.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 18 Aug 2021 17:20:31 +0800
-Message-ID: <CAEUhbmWJL5Vs73bZRLuR3SxTYSQJzaQj0fLaimmh+8dHa8rbTw@mail.gmail.com>
-Subject: Re: [PATCH v2 02/21] target/riscv: Clean up division helpers
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+In-Reply-To: <20210803041443.55452-38-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.961,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -75,228 +92,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- liuzhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 18, 2021 at 5:18 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Utilize the condition in the movcond more; this allows some of
-> the setcond that were feeding into movcond to be removed.
-> Do not write into source1 and source2.  Re-name "condN" to "tempN"
-> and use the temporaries for more than holding conditions.
->
+On 8/3/21 6:14 AM, Richard Henderson wrote:
+> Rather than use 4-16 separate operations, use 2 operations
+> plus some byte reordering as necessary.
+> 
+> Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/riscv/translate.c | 137 +++++++++++++++++++--------------------
->  1 file changed, 65 insertions(+), 72 deletions(-)
->
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index 20a55c92fb..6ae7e140d0 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -213,106 +213,99 @@ static void gen_mulhsu(TCGv ret, TCGv arg1, TCGv arg2)
->
->  static void gen_div(TCGv ret, TCGv source1, TCGv source2)
+>  target/mips/tcg/msa_helper.c | 201 +++++++++++++----------------------
+>  1 file changed, 71 insertions(+), 130 deletions(-)
+> 
+> diff --git a/target/mips/tcg/msa_helper.c b/target/mips/tcg/msa_helper.c
+> index a8880ce81c..e40c1b7057 100644
+> --- a/target/mips/tcg/msa_helper.c
+> +++ b/target/mips/tcg/msa_helper.c
+> @@ -8218,47 +8218,31 @@ void helper_msa_ffint_u_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
+>  #define MEMOP_IDX(DF)
+>  #endif
+>  
+> +#ifdef TARGET_WORDS_BIGENDIAN
+> +static inline uint64_t bswap16x4(uint64_t x)
+> +{
+> +    uint64_t m = 0x00ff00ff00ff00ffull;
+> +    return ((x & m) << 8) | ((x >> 8) & m);
+> +}
+> +
+> +static inline uint64_t bswap32x2(uint64_t x)
+> +{
+> +    return ror64(bswap64(x), 32);
+> +}
+> +#endif
+
+I'm trying to remove TARGET_WORDS_BIGENDIAN uses,
+so this would become:
+
+static inline bool is_cpu_bigendian(CPUMIPSState *)
+{
+    return extract32(env->CP0_Config0, CP0C0_BE, 1);
+}
+
+static inline uint64_t bswap16x4(CPUMIPSState *env, uint64_t x)
+{
+    if (is_cpu_bigendian(env)) {
+        uint64_t m = 0x00ff00ff00ff00ffull;
+        return ((x & m) << 8) | ((x >> 8) & m);
+    } else {
+        return x;
+    }
+}
+
+static inline uint64_t bswap32x2(CPUMIPSState *env, uint64_t x)
+{
+    if (is_cpu_bigendian(env)) {
+        return ror64(bswap64(x), 32);
+    } else {
+        return x;
+    }
+}
+
+And we can remove the other TARGET_WORDS_BIGENDIAN uses:
+
+>  void helper_msa_ld_w(CPUMIPSState *env, uint32_t wd,
+> @@ -8293,18 +8271,20 @@ void helper_msa_ld_w(CPUMIPSState *env, uint32_t wd,
 >  {
-> -    TCGv cond1, cond2, zeroreg, resultopt1;
-> +    TCGv temp1, temp2, zero, one, mone, min;
-> +
->      /*
->       * Handle by altering args to tcg_gen_div to produce req'd results:
-> -     * For overflow: want source1 in source1 and 1 in source2
-> -     * For div by zero: want -1 in source1 and 1 in source2 -> -1 result
-> +     * For overflow: want source1 in temp1 and 1 in temp2
-> +     * For div by zero: want -1 in temp1 and 1 in temp2 -> -1 result
->       */
-> -    cond1 = tcg_temp_new();
-> -    cond2 = tcg_temp_new();
-> -    zeroreg = tcg_constant_tl(0);
-> -    resultopt1 = tcg_temp_new();
-> +    temp1 = tcg_temp_new();
-> +    temp2 = tcg_temp_new();
-> +    zero = tcg_constant_tl(0);
-> +    one = tcg_constant_tl(1);
-> +    mone = tcg_constant_tl(-1);
-> +    min = tcg_constant_tl(1ull << (TARGET_LONG_BITS - 1));
-> +
-> +    tcg_gen_setcond_tl(TCG_COND_EQ, temp2, source2, mone);
-> +    tcg_gen_setcond_tl(TCG_COND_EQ, temp1, source1, min);
-
-nits: I would put temp1 before temp2
-
-> +    tcg_gen_and_tl(temp1, temp1, temp2); /* temp1 = overflow */
-> +    tcg_gen_setcond_tl(TCG_COND_EQ, temp2, source2, zero); /* temp2 = div0 */
-> +    tcg_gen_or_tl(temp2, temp2, temp1);  /* temp2 = overflow | div0 */
->
-> -    tcg_gen_movi_tl(resultopt1, (target_ulong)-1);
-> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond2, source2, (target_ulong)(~0L));
-> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond1, source1,
-> -                        ((target_ulong)1) << (TARGET_LONG_BITS - 1));
-> -    tcg_gen_and_tl(cond1, cond1, cond2); /* cond1 = overflow */
-> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond2, source2, 0); /* cond2 = div 0 */
->      /* if div by zero, set source1 to -1, otherwise don't change */
-
-%s/source1/temp1
-
-> -    tcg_gen_movcond_tl(TCG_COND_EQ, source1, cond2, zeroreg, source1,
-> -            resultopt1);
-> -    /* if overflow or div by zero, set source2 to 1, else don't change */
-> -    tcg_gen_or_tl(cond1, cond1, cond2);
-> -    tcg_gen_movi_tl(resultopt1, (target_ulong)1);
-> -    tcg_gen_movcond_tl(TCG_COND_EQ, source2, cond1, zeroreg, source2,
-> -            resultopt1);
-> -    tcg_gen_div_tl(ret, source1, source2);
-> +    tcg_gen_movcond_tl(TCG_COND_NE, temp1, source2, zero, source1, mone);
->
-> -    tcg_temp_free(cond1);
-> -    tcg_temp_free(cond2);
-> -    tcg_temp_free(resultopt1);
-> +    /* if overflow or div by zero, set source2 to 1, else don't change */
-
-%s/source2/temp2
-
-> +    tcg_gen_movcond_tl(TCG_COND_EQ, temp2, temp2, zero, source2, one);
-> +
-> +    tcg_gen_div_tl(ret, temp1, temp2);
-> +
-> +    tcg_temp_free(temp1);
-> +    tcg_temp_free(temp2);
+>      wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
+>      uintptr_t ra = GETPC();
+> +    uint64_t d0, d1;
+>  
+> -#if !defined(HOST_WORDS_BIGENDIAN)
+> -    pwd->w[0] = cpu_ldl_data_ra(env, addr + (0 << DF_WORD), ra);
+> -    pwd->w[1] = cpu_ldl_data_ra(env, addr + (1 << DF_WORD), ra);
+> -    pwd->w[2] = cpu_ldl_data_ra(env, addr + (2 << DF_WORD), ra);
+> -    pwd->w[3] = cpu_ldl_data_ra(env, addr + (3 << DF_WORD), ra);
+> -#else
+> -    pwd->w[0] = cpu_ldl_data_ra(env, addr + (1 << DF_WORD), ra);
+> -    pwd->w[1] = cpu_ldl_data_ra(env, addr + (0 << DF_WORD), ra);
+> -    pwd->w[2] = cpu_ldl_data_ra(env, addr + (3 << DF_WORD), ra);
+> -    pwd->w[3] = cpu_ldl_data_ra(env, addr + (2 << DF_WORD), ra);
+> +    /*
+> +     * Load 8 bytes at a time.  Use little-endian load, then for
+> +     * big-endian target, we must then bswap the two words.
+> +     */
+> +    d0 = cpu_ldq_le_data_ra(env, addr + 0, ra);
+> +    d1 = cpu_ldq_le_data_ra(env, addr + 8, ra);
+> +#ifdef TARGET_WORDS_BIGENDIAN
+> +    d0 = bswap32x2(d0);
+> +    d1 = bswap32x2(d1);
+>  #endif
+> +    pwd->d[0] = d0;
+> +    pwd->d[1] = d1;
 >  }
->
->  static void gen_divu(TCGv ret, TCGv source1, TCGv source2)
->  {
-> -    TCGv cond1, zeroreg, resultopt1;
-> -    cond1 = tcg_temp_new();
-> +    TCGv temp1, temp2, zero, one, mone;
->
-> -    zeroreg = tcg_constant_tl(0);
-> -    resultopt1 = tcg_temp_new();
-> +    temp1 = tcg_temp_new();
-> +    temp2 = tcg_temp_new();
-> +    zero = tcg_constant_tl(0);
-> +    one = tcg_constant_tl(1);
-> +    mone = tcg_constant_tl(-1);
 
--1 is not a possible return value of divu. This should be ULONG_MAX.
+But can be done later, so:
 
->
-> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond1, source2, 0);
-> -    tcg_gen_movi_tl(resultopt1, (target_ulong)-1);
-> -    tcg_gen_movcond_tl(TCG_COND_EQ, source1, cond1, zeroreg, source1,
-> -            resultopt1);
-> -    tcg_gen_movi_tl(resultopt1, (target_ulong)1);
-> -    tcg_gen_movcond_tl(TCG_COND_EQ, source2, cond1, zeroreg, source2,
-> -            resultopt1);
-> -    tcg_gen_divu_tl(ret, source1, source2);
-> +    tcg_gen_movcond_tl(TCG_COND_NE, temp1, source2, zero, source1, mone);
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-not "mone" here
-
-> +    tcg_gen_movcond_tl(TCG_COND_NE, temp2, source2, zero, source2, one);
-> +    tcg_gen_divu_tl(ret, temp1, temp2);
->
-> -    tcg_temp_free(cond1);
-> -    tcg_temp_free(resultopt1);
-> +    tcg_temp_free(temp1);
-> +    tcg_temp_free(temp2);
->  }
->
->  static void gen_rem(TCGv ret, TCGv source1, TCGv source2)
->  {
-> -    TCGv cond1, cond2, zeroreg, resultopt1;
-> +    TCGv temp1, temp2, zero, one, mone, min;
->
-> -    cond1 = tcg_temp_new();
-> -    cond2 = tcg_temp_new();
-> -    zeroreg = tcg_constant_tl(0);
-> -    resultopt1 = tcg_temp_new();
-> +    temp1 = tcg_temp_new();
-> +    temp2 = tcg_temp_new();
-> +    zero = tcg_constant_tl(0);
-> +    one = tcg_constant_tl(1);
-> +    mone = tcg_constant_tl(-1);
-> +    min = tcg_constant_tl(1ull << (TARGET_LONG_BITS - 1));
-> +
-> +    tcg_gen_setcond_tl(TCG_COND_EQ, temp2, source2, mone);
-> +    tcg_gen_setcond_tl(TCG_COND_EQ, temp1, source1, min);
-> +    tcg_gen_and_tl(temp1, temp1, temp2); /* temp1 = overflow */
-> +    tcg_gen_setcondi_tl(TCG_COND_EQ, temp2, source2, 0); /* temp2 = div0 */
-
-Is there any difference here if using zero/setcond instead of
-0/setcondi? If not, I would prefer using zero/setcond for consistency.
-
-> +    tcg_gen_or_tl(temp2, temp2, temp1);  /* temp2 = overflow | div0 */
->
-> -    tcg_gen_movi_tl(resultopt1, 1L);
-> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond2, source2, (target_ulong)-1);
-> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond1, source1,
-> -                        (target_ulong)1 << (TARGET_LONG_BITS - 1));
-> -    tcg_gen_and_tl(cond2, cond1, cond2); /* cond1 = overflow */
-> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond1, source2, 0); /* cond2 = div 0 */
->      /* if overflow or div by zero, set source2 to 1, else don't change */
-> -    tcg_gen_or_tl(cond2, cond1, cond2);
-> -    tcg_gen_movcond_tl(TCG_COND_EQ, source2, cond2, zeroreg, source2,
-> -            resultopt1);
-> -    tcg_gen_rem_tl(resultopt1, source1, source2);
-> -    /* if div by zero, just return the original dividend */
-> -    tcg_gen_movcond_tl(TCG_COND_EQ, ret, cond1, zeroreg, resultopt1,
-> -            source1);
-> +    tcg_gen_movcond_tl(TCG_COND_EQ, temp2, temp2, zero, source2, one);
-> +    tcg_gen_rem_tl(temp1, temp1, temp2);
-
-This is wrong as temp1 is not the dividend.
-
->
-> -    tcg_temp_free(cond1);
-> -    tcg_temp_free(cond2);
-> -    tcg_temp_free(resultopt1);
-> +    /* if div by zero, just return the original dividend */
-> +    tcg_gen_movcond_tl(TCG_COND_NE, ret, source2, zero, temp1, source1);
-> +
-> +    tcg_temp_free(temp1);
-> +    tcg_temp_free(temp2);
->  }
->
->  static void gen_remu(TCGv ret, TCGv source1, TCGv source2)
->  {
-> -    TCGv cond1, zeroreg, resultopt1;
-> -    cond1 = tcg_temp_new();
-> -    zeroreg = tcg_constant_tl(0);
-> -    resultopt1 = tcg_temp_new();
-> +    TCGv temp2, zero, one;
-> +
-> +    temp2 = tcg_temp_new();
-> +    zero = tcg_constant_tl(0);
-> +    one = tcg_constant_tl(1);
-> +
-> +    tcg_gen_movcond_tl(TCG_COND_EQ, temp2, source2, zero, source2, one);
-
-This should be TCG_COND_NE.
-
-> +    tcg_gen_remu_tl(temp2, source1, temp2);
->
-> -    tcg_gen_movi_tl(resultopt1, (target_ulong)1);
-> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond1, source2, 0);
-> -    tcg_gen_movcond_tl(TCG_COND_EQ, source2, cond1, zeroreg, source2,
-> -            resultopt1);
-> -    tcg_gen_remu_tl(resultopt1, source1, source2);
->      /* if div by zero, just return the original dividend */
-> -    tcg_gen_movcond_tl(TCG_COND_EQ, ret, cond1, zeroreg, resultopt1,
-> -            source1);
-> +    tcg_gen_movcond_tl(TCG_COND_NE, ret, source2, zero, temp2, source1);
->
-> -    tcg_temp_free(cond1);
-> -    tcg_temp_free(resultopt1);
-> +    tcg_temp_free(temp2);
->  }
->
->  static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
-
-Regards,
-Bin
+(nice simplification BTW!).
 
