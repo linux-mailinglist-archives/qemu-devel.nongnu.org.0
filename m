@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C85A3F0BAF
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 21:22:27 +0200 (CEST)
-Received: from localhost ([::1]:39198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C57103F0BBF
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 21:27:23 +0200 (CEST)
+Received: from localhost ([::1]:59230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGR8s-0003BC-AM
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 15:22:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57708)
+	id 1mGRDe-00085l-Ka
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 15:27:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGR69-0000AH-1l
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:19:37 -0400
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:41915)
+ id 1mGR6A-0000DK-Be
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:19:38 -0400
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:55278)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGR64-0008MX-Ee
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:19:36 -0400
-Received: by mail-pg1-x52c.google.com with SMTP id k24so3304236pgh.8
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 12:19:32 -0700 (PDT)
+ id 1mGR68-0008Nl-OZ
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:19:38 -0400
+Received: by mail-pj1-x102b.google.com with SMTP id n5so3276835pjt.4
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 12:19:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=GrnFfe3XZWQ/v3xZFNHfdt/tJ293p7Ty8+O34eyaj8M=;
- b=zXIA/w/+TcC+kT2E1E8PsDbkB0DPRlcWiISwuoBSMkWT66Ag86iE66+JOwRYnnogGa
- RO6kBbF7ksJ2Eq2Zo/bvFYX5k5rlhcibfz+A1M+KZgOZ/UVj67YTZnHFMngamtmoswxp
- j7ykjnIoh8n9fxD7LRcOnRZaNocWHz1ya5le/pqXkBEjQl0lVUDiZ7N/L+Q6B8k5ewdZ
- BNXc/5npxAvSul3tKtb+NX207da1KR5jEbStKR9j9ui0GGPZ8H9JDriAqgFwY0ZIkq4e
- t/BB3D+F/Xq075AV6Vikcr37E81PkK8x/aBdO3XLUGOLJYN2C67N4qFtQiKvjdcrxqNt
- ncTQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=6inZETYo7qpmjRK6t8YVcWmKQsxE4jryCUSCrlDOgJc=;
+ b=lyJdnz/Am7qYBegT8WVZck0EdQipgxsKMBTlrj+cytpROYYxADrScGSB8v7pGiX+73
+ 3fur537d7fWa8XWdTBOo4QKScVsjKUHTzw3K78eoEyFzPz1PDxXrsCgtd9y50gg0eoCb
+ W5m7tDbtfmUKEAxUnVfDQMvigNboUmAMrEzPXQtNaTCQcguCARQ3/NyLEuVzPF5Xp7k2
+ PuJ3DJcpd8iPbcwBICkr/QQa2pLLk74yVW2ZmX/j24rHs5tPwvGgyQU8E95cm2SFlsaH
+ 3mtX1XS1C1uFB/H6UcY+vC2T3QAQp+0hfJopNog1SbyTluuptk+Vop61ghXad6UuOC6n
+ nAMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=GrnFfe3XZWQ/v3xZFNHfdt/tJ293p7Ty8+O34eyaj8M=;
- b=FITugldXNZXWZnvMyMXZU+kg0+b+voEx94Qtspcz1R8mYBAN4oTPYXxgTsSvVrdKlJ
- r3FRWjcbyX4aZXkt0TNvKs3CHjT9Tv4g5mun//EuIugFsX/E5aZQP9UpBuyCC4gCYUzS
- VsyvmvK2Yw5OpUrzpWA1xqxpS6bncq5r7irQp+RL2Tn9jWXtLdIaN+wgftLNdGFOavEJ
- WmUV7Ws+dlBXnu+HbJAGCQGSXfAXCbH7VZgk4dA9wne6G1RBx/1aMGX9F9e5Hz/PPxzH
- PdBUr9isN/xDsxSKP8HhJKO7d7vVAXC5ne7PQ4c8/VLnEFZrjNLRj3+ha5gNGzAMnyj8
- JOVQ==
-X-Gm-Message-State: AOAM532SPcMNGhb2FEwA+FYocsjODNdg7W4zrGIen6cEukEe3lkERp6M
- wbtkABpLAV/OpdWYh279kPcp6lYdJiQdSA==
-X-Google-Smtp-Source: ABdhPJz9no5QRJW1mdSvvGTWsLBEMCyLmPiLgpl5HE4W/KAFcdmBTqSbMpSUnht/HOCzrPl6WUJQDQ==
-X-Received: by 2002:a63:4e65:: with SMTP id o37mr10304345pgl.202.1629314371119; 
- Wed, 18 Aug 2021 12:19:31 -0700 (PDT)
+ bh=6inZETYo7qpmjRK6t8YVcWmKQsxE4jryCUSCrlDOgJc=;
+ b=PqINHmpfEmijNRPZjj4kYUUL2nq/rHGnfPmt1gEr/ccrOjDKoj+reoazxswTPKyA/b
+ 4I8ThYFR9dG7R7x842fWkSfbZzkkIhGZjGU5BC5Nc7VFYEorDHDEWehSyc4pHO2h7QqV
+ yIZmArEiRqYEsEEG2G3q8xJHCgPExQmkuCX2CHLt+XYylRfn7oiWQhRP46OOyzajqO0h
+ mHuCJ1NfpCyvVI6I8dhe9fJvs3u4dhVxDq7v2Thl8I9LYW7rQk0CJMix/4IuwlbqNsiO
+ ilfAIWaYE1z3fqwuwsw5+oZ02O0a4aVZcFIOgOx8Deadd/wlaKcJlwcub6tzcfinpLMu
+ yYtg==
+X-Gm-Message-State: AOAM5307V5/Y/SN5qEBM/ul/D/wJlx+4n6j4+zLu4xyCYfCsiSH8AsQR
+ rl0LE4ntrsQUDjTfVQvPgY0RBmSfPFdoUA==
+X-Google-Smtp-Source: ABdhPJzIFa0Di+GgZOTckvW0Vpgz3SK5XCmNWMMRxUVZJy/3K21Fq5J+T0MrSG5WwkoLbEM+f1FtTw==
+X-Received: by 2002:a17:902:e354:b0:12d:d04c:f92c with SMTP id
+ p20-20020a170902e35400b0012dd04cf92cmr8487825plc.27.1629314372277; 
+ Wed, 18 Aug 2021 12:19:32 -0700 (PDT)
 Received: from localhost.localdomain ([173.197.107.15])
- by smtp.gmail.com with ESMTPSA id a6sm524108pjs.40.2021.08.18.12.19.30
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id a6sm524108pjs.40.2021.08.18.12.19.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 12:19:30 -0700 (PDT)
+ Wed, 18 Aug 2021 12:19:31 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/66] target/hppa: Implement do_unaligned_access for
- user-only
-Date: Wed, 18 Aug 2021 09:18:20 -1000
-Message-Id: <20210818191920.390759-7-richard.henderson@linaro.org>
+Subject: [PATCH v3 07/66] target/microblaze: Do not set MO_ALIGN for user-only
+Date: Wed, 18 Aug 2021 09:18:21 -1000
+Message-Id: <20210818191920.390759-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210818191920.390759-1-richard.henderson@linaro.org>
 References: <20210818191920.390759-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,72 +83,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The kernel will fix up unaligned accesses, so emulate that
+by allowing unaligned accesses to succeed.
+
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/hppa/cpu_loop.c | 2 +-
- target/hppa/cpu.c          | 9 ++++++---
- 2 files changed, 7 insertions(+), 4 deletions(-)
+ target/microblaze/translate.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
-index 82d8183821..5ce30fec8b 100644
---- a/linux-user/hppa/cpu_loop.c
-+++ b/linux-user/hppa/cpu_loop.c
-@@ -161,7 +161,7 @@ void cpu_loop(CPUHPPAState *env)
-         case EXCP_UNALIGN:
-             info.si_signo = TARGET_SIGBUS;
-             info.si_errno = 0;
--            info.si_code = 0;
-+            info.si_code = TARGET_BUS_ADRALN;
-             info._sifields._sigfault._addr = env->cr[CR_IOR];
-             queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-             break;
-diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
-index c2c56e7635..91f149ed77 100644
---- a/target/hppa/cpu.c
-+++ b/target/hppa/cpu.c
-@@ -71,7 +71,6 @@ static void hppa_cpu_disas_set_info(CPUState *cs, disassemble_info *info)
-     info->print_insn = print_insn_hppa;
+diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
+index a14ffed784..ef44bca2fd 100644
+--- a/target/microblaze/translate.c
++++ b/target/microblaze/translate.c
+@@ -727,6 +727,7 @@ static TCGv compute_ldst_addr_ea(DisasContext *dc, int ra, int rb)
  }
+ #endif
  
--#ifndef CONFIG_USER_ONLY
- static void QEMU_NORETURN
- hppa_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-                              MMUAccessType access_type, int mmu_idx,
-@@ -81,15 +80,19 @@ hppa_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-     CPUHPPAState *env = &cpu->env;
++#ifndef CONFIG_USER_ONLY
+ static void record_unaligned_ess(DisasContext *dc, int rd,
+                                  MemOp size, bool store)
+ {
+@@ -739,6 +740,7 @@ static void record_unaligned_ess(DisasContext *dc, int rd,
  
-     cs->exception_index = EXCP_UNALIGN;
-+#ifdef CONFIG_USER_ONLY
-+    /* Recall that user-only always uses address space 0. */
-+    env->cr[CR_IOR] = addr;
-+#else
-     if (env->psw & PSW_Q) {
-         /* ??? Needs tweaking for hppa64.  */
-         env->cr[CR_IOR] = addr;
-         env->cr[CR_ISR] = addr >> 32;
+     tcg_set_insn_start_param(dc->insn_start, 1, iflags);
+ }
++#endif
+ 
+ static bool do_load(DisasContext *dc, int rd, TCGv addr, MemOp mop,
+                     int mem_index, bool rev)
+@@ -760,12 +762,19 @@ static bool do_load(DisasContext *dc, int rd, TCGv addr, MemOp mop,
+         }
+     }
+ 
++    /*
++     * For system mode, enforce alignment if the cpu configuration
++     * requires it.  For user-mode, the Linux kernel will have fixed up
++     * any unaligned access, so emulate that by *not* setting MO_ALIGN.
++     */
++#ifndef CONFIG_USER_ONLY
+     if (size > MO_8 &&
+         (dc->tb_flags & MSR_EE) &&
+         dc->cfg->unaligned_exceptions) {
+         record_unaligned_ess(dc, rd, size, false);
+         mop |= MO_ALIGN;
      }
 +#endif
  
-     cpu_loop_exit_restore(cs, retaddr);
- }
--#endif /* CONFIG_USER_ONLY */
+     tcg_gen_qemu_ld_i32(reg_for_write(dc, rd), addr, mem_index, mop);
  
- static void hppa_cpu_realizefn(DeviceState *dev, Error **errp)
- {
-@@ -147,10 +150,10 @@ static const struct TCGCPUOps hppa_tcg_ops = {
-     .synchronize_from_tb = hppa_cpu_synchronize_from_tb,
-     .cpu_exec_interrupt = hppa_cpu_exec_interrupt,
-     .tlb_fill = hppa_cpu_tlb_fill,
-+    .do_unaligned_access = hppa_cpu_do_unaligned_access,
+@@ -906,12 +915,19 @@ static bool do_store(DisasContext *dc, int rd, TCGv addr, MemOp mop,
+         }
+     }
  
- #ifndef CONFIG_USER_ONLY
-     .do_interrupt = hppa_cpu_do_interrupt,
--    .do_unaligned_access = hppa_cpu_do_unaligned_access,
- #endif /* !CONFIG_USER_ONLY */
- };
++    /*
++     * For system mode, enforce alignment if the cpu configuration
++     * requires it.  For user-mode, the Linux kernel will have fixed up
++     * any unaligned access, so emulate that by *not* setting MO_ALIGN.
++     */
++#ifndef CONFIG_USER_ONLY
+     if (size > MO_8 &&
+         (dc->tb_flags & MSR_EE) &&
+         dc->cfg->unaligned_exceptions) {
+         record_unaligned_ess(dc, rd, size, true);
+         mop |= MO_ALIGN;
+     }
++#endif
+ 
+     tcg_gen_qemu_st_i32(reg_for_read(dc, rd), addr, mem_index, mop);
  
 -- 
 2.25.1
