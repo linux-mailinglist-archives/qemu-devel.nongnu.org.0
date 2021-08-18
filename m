@@ -2,135 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCC943F01B7
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 12:33:20 +0200 (CEST)
-Received: from localhost ([::1]:46534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EC163F0222
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 12:59:19 +0200 (CEST)
+Received: from localhost ([::1]:54448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGIsp-000161-VP
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 06:33:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43680)
+	id 1mGJHy-0007mP-0S
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 06:59:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
- id 1mGIrU-00085f-Rc
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 06:31:56 -0400
-Received: from mail-bn1nam07on2055.outbound.protection.outlook.com
- ([40.107.212.55]:14198 helo=NAM02-BN1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Ashish.Kalra@amd.com>)
- id 1mGIrS-0008CL-6Q
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 06:31:56 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Jy6bBU/5mbayZMtme04mMQSb6pGt7qON/ua7B/xALMML0EiFZDSFuoYS8dfFiI0Ov3m0+od3Hy1mR9fB0R9zlA7NU92ZuzcJjY2qNEOUPzseqwvCyEGLGoWQiha7E5osuTSNkYQHXj8X6Mq4rNKfPD5ulU+h4eksSmYIvVTU/GpXhYVgPXke8LMtxa1e4BsceFO9xcY+I5V6//s4quDJxkIV/A623jgJxQjZL0XN6srNwx5hcxLE7N9iODXcdLyyPsvCCsvBV4by/LCH+0uMOVqAxZt1g7V7nBkohaXwdaJnEQ/5QMa7uNduBpak7VJpxLv0sa8uqFOkCZ2DAyl3kw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n/G19iFaEWOoaqlznXhU0x/LsP1wXT/T0iifTOKlgNY=;
- b=i2i6oJfPn+QK1YPNN4jTPs//GchmiQdAjoKPR0tvQy0s2Dm/Y2KKjjG/h05DXNgw65S6lsMAAf9XCGWl/C06BTBQ6VpPO0U3y/TY+dGk9nTMKKsTWwWy2/6UhkmfnHCAnGt5zdpg+DWlnfY13MCMIXs7e3zvedJboLW5CznsI2UNbo1RVAZ1Zy9OgfuqTW1M9/eAfxrW0T9cxJ0Ne+UqLaQugWfEeZJjkRwA6+Y7w90n2eNZsaWDJYfnzIKTbATY1vB0o63lWB9pAfr18x4VSqHxxZXcndZM1WlBcckAUgTYHP6x8gWbwbxAezIEH+weuz1/lF9Ps8BslR8HyYmXyA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=n/G19iFaEWOoaqlznXhU0x/LsP1wXT/T0iifTOKlgNY=;
- b=nyvqVh6BnXzaJmxJ9qOPWdWEqkHa/nw/7PEQ3FuI/xxk1z1ZDLWsjefCrOX31yt3Y5Tk9de/RgCe5UW57UKOQFCE+EslDPQIqjAEYv81JEREiWrw+6dm3dUflyQWJqvDtAZE0gXSmnFWkOb+N3syjlP72qBhGW2r0iZuJxEdl9Y=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from SN6PR12MB2767.namprd12.prod.outlook.com (2603:10b6:805:75::23)
- by SA0PR12MB4429.namprd12.prod.outlook.com (2603:10b6:806:73::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4415.16; Wed, 18 Aug
- 2021 10:31:49 +0000
-Received: from SN6PR12MB2767.namprd12.prod.outlook.com
- ([fe80::491e:2642:bae2:8b73]) by SN6PR12MB2767.namprd12.prod.outlook.com
- ([fe80::491e:2642:bae2:8b73%7]) with mapi id 15.20.4415.024; Wed, 18 Aug 2021
- 10:31:49 +0000
-Date: Wed, 18 Aug 2021 10:31:47 +0000
-From: Ashish Kalra <ashish.kalra@amd.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: qemu-devel@nongnu.org, thomas.lendacky@amd.com, brijesh.singh@amd.com,
- ehabkost@redhat.com, mst@redhat.com, richard.henderson@linaro.org,
- jejb@linux.ibm.com, tobin@ibm.com, dovmurik@linux.vnet.ibm.com,
- frankeh@us.ibm.com, dgilbert@redhat.com, kvm@vger.kernel.org
-Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
-Message-ID: <20210818103147.GB31834@ashkalra_ubuntu_server>
-References: <cover.1629118207.git.ashish.kalra@amd.com>
- <fb737cf0-3d96-173f-333b-876dfd59d32b@redhat.com>
- <20210816144413.GA29881@ashkalra_ubuntu_server>
- <b25a1cf9-5675-99da-7dd6-302b04cc7bbc@redhat.com>
- <20210816151349.GA29903@ashkalra_ubuntu_server>
- <f7cf142b-02e4-5c87-3102-f3acd8b07288@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f7cf142b-02e4-5c87-3102-f3acd8b07288@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-ClientProxiedBy: SN6PR04CA0077.namprd04.prod.outlook.com
- (2603:10b6:805:f2::18) To SN6PR12MB2767.namprd12.prod.outlook.com
- (2603:10b6:805:75::23)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mGJH6-0006sj-SM; Wed, 18 Aug 2021 06:58:24 -0400
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:39723)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mGJH5-00043Q-3m; Wed, 18 Aug 2021 06:58:24 -0400
+Received: by mail-yb1-xb2b.google.com with SMTP id a126so4424678ybg.6;
+ Wed, 18 Aug 2021 03:58:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=wfmfof+qnReF7WXHkIFgkUJvCuJ2TJ1yMk1x7q4WkKY=;
+ b=jx4fxHIw4bA9aDdOCaE8trQKjZ9tm5M1lhgsG2osHxsOqXQIkO+1QK9A7JKrvGqb7X
+ bUI7fOm3OFolLrWb10GA4M0GiYXCPeiAgixsRXl4i6qR6/Pofb4fSdncmRdUaiBdBhNR
+ 7ksQb9WU8Ta/+MUkG8gMLLnP/1Op9dgT6d9fOKVPN2PWC1OvMnI35f+hrrcxXtU5HtL8
+ b2YflrTnLo13NBWm57o/e3u5rD1XROw5b2rQRjvwRukOMmuq0mfsFGsanXnvkPL00uee
+ 1zG/SFCB02iMODkPEXwe85MM89tQ+T3oL8mJdMpRBc/HXeJAsN2mzE0rHf3SKvs7fwmg
+ qUZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=wfmfof+qnReF7WXHkIFgkUJvCuJ2TJ1yMk1x7q4WkKY=;
+ b=VIk5lestShB6KZjBAJ2aF1C06EyKPlTxNoR7vLWnUj/BgkOwKzSAB1ria4kOoUVfXb
+ WXB2TKhuJnzJPorLIWdICA4KvjCb42myviGgZtSXMU9Gv/D2LcFEXR2Ab7U3m6ustQXF
+ BF0kNtMbdOn3q+1ZJuZDalw1Xjxamm9XkDf6GeEPFqX6iwIqiGr15Wwv1b3yl/V3fAWX
+ KPWj2iBdhJjQTyb5YZdOWVUqXaaeyzmqiMoedx4hBGypWzcgIeNBDw/KK5AZjUDMKLQ0
+ 2w3Mu1YWesU9tbyeZJNFwBL9kZy2SMJFftCNQSj7MXtiQ0sTkG0VzfEy4a3Aak7AwAxh
+ ipqg==
+X-Gm-Message-State: AOAM533BZEUMppR5NDIiDwPge60T4FRNWIEQDAvHeVs4rm0xV6l5vgqc
+ mkuYIJGbcOO5WPhwW58VALTPEbZUCyoX9R2w2/Y=
+X-Google-Smtp-Source: ABdhPJwaQl++QUMbyUEKnTH/uAWpFf6x/CsO+QWE/Zkw/owqMJkeCAj1Q88M4ZTMjK34hkil6TD4Mru4IfF+pr7AEgk=
+X-Received: by 2002:a25:be09:: with SMTP id h9mr11236489ybk.239.1629284301809; 
+ Wed, 18 Aug 2021 03:58:21 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ashkalra_ubuntu_server (165.204.77.1) by
- SN6PR04CA0077.namprd04.prod.outlook.com (2603:10b6:805:f2::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4436.19 via Frontend Transport; Wed, 18 Aug 2021 10:31:48 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 609ffaba-679e-494c-4096-08d9623362c2
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4429:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR12MB4429DEAC5F58C4CB2B70CE678EFF9@SA0PR12MB4429.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 8JmlOPiC89HN7HHZden0cjFACwIiWY328Tx72wEbmhpldCPrwfCHi6tZha+FHiuShqd7q9wG00V+kU3MjASvgg6+5qxePSHe/OKNnKSxgUG4pa5NEeAloIW9XGApXTQVrl50xBWB6+hNqBr5Ye9uSXwz2Wii922+ZNOQWmURYaDXmekq5JBlxbADINd626wafpON0cpRcxOnAQjvCll4IDS0BONfXJjRh2sCJ6JWRo9PahNM48d3ydrNBjBZrHZcx9w5qhAOQYnyCISpCQrbzJoa+swskGbkRQExVofPAoE/DdXCATx/HVfuIfSjPLV5POMi09ZuiPfbHv6pfsISSsE0T8m/GykQ71R/XNFU45+96uMoRP4Qu2z4NGEjMsz4co8k7AK6kLdlvm7bOQ0ccWDUSJUI5tJX18pcK/mCshNLbIp2zFYJvWk68XCMywVgILBxBNi+gCEu585TFcQR1xW/gcPLkoK3scmK71vVCQtDj9PIH3JZx69cnoBCexsP3Lhdyyd1Hhfh7P3BoU7U+iZMvNPN3vNsA6p3oCfwAOvKdEB/eLom0aLGY2+ntIvecx1P5ywg4cxL/VZeX27Um3H/Bc01XTqXBMAty90BWcIH962X0n2fD4EVIC4z5TSphrt671SWjbCeavd9C9H8fuFKYbMvd+B22tKyJoq2epDh7g0cHkGlWU/saH+4blo3m2g3FIzb+XUexITmaoGhCw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR12MB2767.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(136003)(39860400002)(366004)(376002)(346002)(478600001)(33656002)(33716001)(8676002)(956004)(4326008)(38350700002)(38100700002)(1076003)(52116002)(8936002)(6496006)(44832011)(7416002)(9686003)(55016002)(53546011)(5660300002)(6916009)(186003)(26005)(86362001)(2906002)(66946007)(83380400001)(66476007)(66556008)(316002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Sh8olur/OEsiSUlpKJ9BH1UIhW1VlW52XErVqx8hnj092Zj/aHSsQaGTqO/l?=
- =?us-ascii?Q?RutmD3fjEo311gJmJwPH9mBjNhH5OaxyL4bTl6XrMbm7zuT9kW6BiRKZJ+8p?=
- =?us-ascii?Q?A6e+knZFjnsCPOyiToqRI/dIe7YSvxYL/ZRxYJfSqxRcOsSJEu8NBFCk3NZB?=
- =?us-ascii?Q?InW2UmkmiL649LSylqbvGiQb/0gXK2qchwbvusgdVidFSKlcHXpQgBVOwiRn?=
- =?us-ascii?Q?nxDd591xFpBpDX6261xmpfb1lmYvYpPjyFxOJxOCJ9gtHqS2wTmK4E/7aJ06?=
- =?us-ascii?Q?d3QJ4oXMZbm4C+7VrjNJ7nTrwq/oTVqXIghZqNMeZKN8tZtNo8wLgZDzl436?=
- =?us-ascii?Q?i7+LzNsSWXgFxpwkVLiYj9eRQtEsQMgBzjOyoUyG/xWOvshOAfljECOMMbrW?=
- =?us-ascii?Q?X/Jo0dalmWqbIgflUIaa0HaCCk1S7HVZdx83bOhiAZnTXAm6Ad1T0D2ziz82?=
- =?us-ascii?Q?Q1pnOdnZhVzEjFTUIg3ZFv4u4GoHV/iqDzjVNgQH169gF+gZGEg2XXkfHl6Z?=
- =?us-ascii?Q?It4Q8M7yJ/AuL7bbDJfVrPLLepxI1YgudTb47JPaSirnUKeDv3j2xNXUAMdn?=
- =?us-ascii?Q?eS2iAo70wU6aYdlDRX+TYFm0+moEVcDhQOKY8upbBfIPAyBbujXTfz5547sT?=
- =?us-ascii?Q?KHYZViLglaeQoSUp1NlwKa3xCFvBV0IwgcRstoL6TfpUsNawuuyyDQWfbp5r?=
- =?us-ascii?Q?++u1D5d8YY/z/18k/MPjbPvHvhJvBIL4GqgIqP6jOM0AZBKT1SHXicmeq+mU?=
- =?us-ascii?Q?Mn9KN3k6Wz5dfYky1t9UAFFFEh1qJOPrsIPIuRklyguqGL+yNk6sB5wsyDzB?=
- =?us-ascii?Q?AzWwtF12bYQfkT8HgWTHHshc6yb/U8v0nblKQlOwg/6o6X/KzxVib8GXGKaL?=
- =?us-ascii?Q?appLoQaUwvHMNHBINcBIlhMeMPZ9LS++fOhxpIYuQ01iciy4NSmdJEfD7tvv?=
- =?us-ascii?Q?nAv3AYZpS1hRQUNt7FMyoHfSsdzQcmN4E34Tt2DdkZpKBmndsWgdArwyt1RV?=
- =?us-ascii?Q?tmTCo8zAj7yhcoJYskYxHcxQlOezHQNFGHcyqVZwfffGUQFGmIewitFiTiRp?=
- =?us-ascii?Q?Lpa6aSsBgDlcr+bCtyeH9pnoXOjZpjTBp9XzxXwiOZ+vKumMzIYEmfKbSIDn?=
- =?us-ascii?Q?q68RgFRHKD72GhT44psWc4FkqAWfeCQF6KJ/Z/N8H5sJ0fK+jfY/4rQL5cP/?=
- =?us-ascii?Q?9BpUkzZieHa8lISLXbqvFpTV1i+YJlnBaic3UvxXQdj8lZAUzWeENMgiH3Lt?=
- =?us-ascii?Q?Bn6+icU5HrcJ7uqEtB1phgzBDzLsy8l/kJCwnohottryfp2591/85pd9gzpa?=
- =?us-ascii?Q?puXeoiobCKBhHux7Ply1EGje?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 609ffaba-679e-494c-4096-08d9623362c2
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR12MB2767.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Aug 2021 10:31:49.1296 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0sGrD9ITQPbCLEePUplC2rSBA6/nPc/apSj1GD/xTo7OcY88MLGeEYNANSpKrS5B4TnMyYvhh6DZD1A+MPk7Sg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4429
-Received-SPF: softfail client-ip=40.107.212.55;
- envelope-from=Ashish.Kalra@amd.com;
- helo=NAM02-BN1-obe.outbound.protection.outlook.com
+References: <20210817211803.283639-1-richard.henderson@linaro.org>
+ <20210817211803.283639-5-richard.henderson@linaro.org>
+In-Reply-To: <20210817211803.283639-5-richard.henderson@linaro.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 18 Aug 2021 18:58:10 +0800
+Message-ID: <CAEUhbmXT-Hbrm6YJMuyBtuQrB3D0wt3pkQHNpPCqB8m0Ek3PFg@mail.gmail.com>
+Subject: Re: [PATCH v2 04/21] target/riscv: Introduce DisasExtend and new
+ helpers
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -144,43 +76,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ liuzhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Paolo,
+On Wed, Aug 18, 2021 at 5:22 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Introduce get_gpr, dest_gpr, temp_new -- new helpers that do not force
+> tcg globals into temps, returning a constant 0 for $zero as source and
+> a new temp for $zero as destination.
+>
+> Introduce ctx->w for simplifying word operations, such as addw.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/riscv/translate.c | 102 +++++++++++++++++++++++++++++++--------
+>  1 file changed, 82 insertions(+), 20 deletions(-)
+>
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index d540c85a1a..d5cf5e5826 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -39,15 +39,25 @@ static TCGv load_val;
+>
+>  #include "exec/gen-icount.h"
+>
+> +/*
+> + * If an operation is being performed on less than TARGET_LONG_BITS,
+> + * it may require the inputs to be sign- or zero-extended; which will
+> + * depend on the exact operation being performed.
+> + */
+> +typedef enum {
+> +    EXT_NONE,
+> +    EXT_SIGN,
+> +    EXT_ZERO,
+> +} DisasExtend;
+> +
+>  typedef struct DisasContext {
+>      DisasContextBase base;
+>      /* pc_succ_insn points to the instruction following base.pc_next */
+>      target_ulong pc_succ_insn;
+>      target_ulong priv_ver;
+> -    bool virt_enabled;
+> +    target_ulong misa;
+>      uint32_t opcode;
+>      uint32_t mstatus_fs;
+> -    target_ulong misa;
+>      uint32_t mem_idx;
+>      /* Remember the rounding mode encoded in the previous fp instruction,
+>         which we have already installed into env->fp_status.  Or -1 for
+> @@ -55,6 +65,8 @@ typedef struct DisasContext {
+>         to any system register, which includes CSR_FRM, so we do not have
+>         to reset this known value.  */
+>      int frm;
+> +    bool w;
+> +    bool virt_enabled;
+>      bool ext_ifencei;
+>      bool hlsx;
+>      /* vector extension */
+> @@ -64,7 +76,10 @@ typedef struct DisasContext {
+>      uint16_t vlen;
+>      uint16_t mlen;
+>      bool vl_eq_vlmax;
+> +    uint8_t ntemp;
+>      CPUState *cs;
+> +    TCGv zero;
+> +    TCGv temp[4];
 
-On Mon, Aug 16, 2021 at 05:38:55PM +0200, Paolo Bonzini wrote:
-> On 16/08/21 17:13, Ashish Kalra wrote:
-> > > > I think that once the mirror VM starts booting and running the UEFI
-> > > > code, it might be only during the PEI or DXE phase where it will
-> > > > start actually running the MH code, so mirror VM probably still need
-> > > > to handles KVM_EXIT_IO when SEC phase does I/O, I can see PIC
-> > > > accesses and Debug Agent initialization stuff in SEC startup code.
-> > > That may be a design of the migration helper code that you were working
-> > > with, but it's not necessary.
-> > > 
-> > Actually my comments are about a more generic MH code.
-> 
-> I don't think that would be a good idea; designing QEMU's migration helper
-> interface to be as constrained as possible is a good thing.  The migration
-> helper is extremely security sensitive code, so it should not expose itself
-> to the attack surface of the whole of QEMU.
-> 
-> 
-One question i have here, is that where exactly will the MH code exist
-in QEMU ?
+Why is 4? Is it enough? Perhaps a comment here is needed here?
 
-I assume it will be only x86 platform specific code, we probably will
-never support it on other platforms ?
+>  } DisasContext;
+>
+>  static inline bool has_ext(DisasContext *ctx, uint32_t ext)
+> @@ -172,27 +187,64 @@ static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
+>      }
+>  }
+>
+> -/* Wrapper for getting reg values - need to check of reg is zero since
+> - * cpu_gpr[0] is not actually allocated
+> +/*
+> + * Wrappers for getting reg values.
+> + *
+> + * The $zero register does not have cpu_gpr[0] allocated -- we supply the
+> + * constant zero as a source, and an uninitialized sink as destination.
+> + *
+> + * Further, we may provide an extension for word operations.
+>   */
+> -static void gen_get_gpr(DisasContext *ctx, TCGv t, int reg_num)
+> +static TCGv temp_new(DisasContext *ctx)
+>  {
+> -    if (reg_num == 0) {
+> -        tcg_gen_movi_tl(t, 0);
+> -    } else {
+> -        tcg_gen_mov_tl(t, cpu_gpr[reg_num]);
+> -    }
+> +    assert(ctx->ntemp < ARRAY_SIZE(ctx->temp));
+> +    return ctx->temp[ctx->ntemp++] = tcg_temp_new();
+>  }
+>
+> -/* Wrapper for setting reg values - need to check of reg is zero since
+> - * cpu_gpr[0] is not actually allocated. this is more for safety purposes,
+> - * since we usually avoid calling the OP_TYPE_gen function if we see a write to
+> - * $zero
+> - */
+> -static void gen_set_gpr(DisasContext *ctx, int reg_num_dst, TCGv t)
+> +static TCGv get_gpr(DisasContext *ctx, int reg_num, DisasExtend ext)
+>  {
+> -    if (reg_num_dst != 0) {
+> -        tcg_gen_mov_tl(cpu_gpr[reg_num_dst], t);
+> +    TCGv t;
+> +
+> +    if (reg_num == 0) {
+> +        return ctx->zero;
+> +    }
+> +
+> +    switch (ctx->w ? ext : EXT_NONE) {
+> +    case EXT_NONE:
+> +        return cpu_gpr[reg_num];
+> +    case EXT_SIGN:
+> +        t = temp_new(ctx);
+> +        tcg_gen_ext32s_tl(t, cpu_gpr[reg_num]);
+> +        return t;
+> +    case EXT_ZERO:
+> +        t = temp_new(ctx);
+> +        tcg_gen_ext32u_tl(t, cpu_gpr[reg_num]);
+> +        return t;
+> +    }
+> +    g_assert_not_reached();
+> +}
+> +
+> +static void gen_get_gpr(DisasContext *ctx, TCGv t, int reg_num)
+> +{
+> +    tcg_gen_mov_tl(t, get_gpr(ctx, reg_num, EXT_NONE));
+> +}
+> +
+> +static TCGv __attribute__((unused)) dest_gpr(DisasContext *ctx, int reg_num)
+> +{
+> +    if (reg_num == 0 || ctx->w) {
+> +        return temp_new(ctx);
+> +    }
+> +    return cpu_gpr[reg_num];
+> +}
+> +
+> +static void gen_set_gpr(DisasContext *ctx, int reg_num, TCGv t)
+> +{
+> +    if (reg_num != 0) {
+> +        if (ctx->w) {
+> +            tcg_gen_ext32s_tl(cpu_gpr[reg_num], t);
 
-So it will probably exist in hw/i386, something similar to "microvm"
-support and using the same TYPE_X86_MACHINE ?
+What about zero extension?
 
-Also if we are not going to use the existing KVM support code and
-adding some duplicate KVM interface code, do we need to interface with
-this added KVM code via the QEMU accelerator framework, or simply invoke
-this KVM code statically ?
+> +        } else {
+> +            tcg_gen_mov_tl(cpu_gpr[reg_num], t);
+> +        }
+>      }
+>  }
+>
+> @@ -927,8 +979,11 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>      ctx->cs = cs;
+>  }
+>
+> -static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
+> +static void riscv_tr_tb_start(DisasContextBase *dcbase, CPUState *cpu)
+>  {
+> +    DisasContext *ctx = container_of(dcbase, DisasContext, base);
+> +
+> +    ctx->zero = tcg_constant_tl(0);
 
-Thanks,
-Ashish
+This is better to be done in riscv_tr_init_disas_context() where ctx
+members are initialized.
+
+>  }
+>
+>  static void riscv_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
+> @@ -946,6 +1001,13 @@ static void riscv_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+>
+>      decode_opc(env, ctx, opcode16);
+>      ctx->base.pc_next = ctx->pc_succ_insn;
+> +    ctx->w = false;
+> +
+> +    for (int i = ctx->ntemp - 1; i >= 0; --i) {
+> +        tcg_temp_free(ctx->temp[i]);
+> +        ctx->temp[i] = NULL;
+> +    }
+> +    ctx->ntemp = 0;
+>
+>      if (ctx->base.is_jmp == DISAS_NEXT) {
+>          target_ulong page_start;
+> @@ -997,7 +1059,7 @@ static const TranslatorOps riscv_tr_ops = {
+>
+>  void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+>  {
+> -    DisasContext ctx;
+> +    DisasContext ctx = { };
+
+Why is this change? I believe we should explicitly initialize the ctx
+in riscv_tr_init_disas_context()
+
+>
+>      translator_loop(&riscv_tr_ops, &ctx.base, cs, tb, max_insns);
+>  }
+> --
+
+Regards,
+Bin
 
