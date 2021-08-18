@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55EEB3F0C61
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 22:04:20 +0200 (CEST)
-Received: from localhost ([::1]:57202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 603923F0CAB
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 22:24:09 +0200 (CEST)
+Received: from localhost ([::1]:49190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGRnK-0007oh-Hh
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 16:04:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33726)
+	id 1mGS6a-0006nn-Bw
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 16:24:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mGRSE-0007tO-N8
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:42:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33976)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mGRTA-0002Fh-3I
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:43:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58242)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mGRSD-00073Y-4M
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:42:26 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mGRT8-0007Zt-JW
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:43:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629315744;
+ s=mimecast20190719; t=1629315802;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=56KQolnKGhiF1X+C5PY8YNpm/K8e5udbyrIkFGZ9ayw=;
- b=SzQVXgKgO00UAqe0RGf+WkY6f44WjAyln89nWnjFRbH5Zz7o8usGV9kIlW78AisLee0Eoi
- 0yZ6RphWdyHzROLSVNFtF//jXogQZ7CrCJUQRweGUsrUkVnnJ0L7JfXbjBV1LFveQG+L9z
- r5MTH42ike2E7F6gTz/wJ5WLsOIjQuk=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-8RJVJO5aMxe1MKU3GM7lkA-1; Wed, 18 Aug 2021 15:42:23 -0400
-X-MC-Unique: 8RJVJO5aMxe1MKU3GM7lkA-1
-Received: by mail-qv1-f71.google.com with SMTP id
- f10-20020a0ccc8a0000b02903521ac3b9d7so2915403qvl.15
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 12:42:23 -0700 (PDT)
+ bh=WTxYsdQgG6JOcUELqB0QiB8wIJX8I+i741hrNBaimoA=;
+ b=OQHH9TEusDTT5M2lxJDCsBVdnTc37AcPEZt6wZfOqayOWQ22Xoh37x+9RSIH0OaswIcV7v
+ 3xjQPtcxEBSbH+r2AIhEy1fOqiR3yFN/wxZ4+i7nV6+MQxzCj6DgX5z3Y3SjjTcTC0MD/T
+ U/9E/tA+xP0yyZnx6X/eT1P7HPyRLAE=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-157-mBkiJzPoPnWIW1TQdLHOBA-1; Wed, 18 Aug 2021 15:43:21 -0400
+X-MC-Unique: mBkiJzPoPnWIW1TQdLHOBA-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ o22-20020ac872d60000b029029817302575so1467008qtp.10
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 12:43:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=56KQolnKGhiF1X+C5PY8YNpm/K8e5udbyrIkFGZ9ayw=;
- b=Vha984P9L9oidjJlwZPjsNMTFSW7phAvgIxvih+gaGTaLUAf5+aYLqEcvSseNpLuiP
- ziCtvxOUSdH2UlUHFJIMQmMTOGKQbLsTObHOkcVN3lh4x8KYcajK96kDi9PNvcivkTLu
- 2pQX/2MT2OVz/baDlmlhVQpkoDXvmok0xC/Z6p+VC886Zxf8XS+GpAu8nMK2XYy9ibWW
- o4GWlhIfjMUoVYVmlsH33yF3CsaojyEL/UTcKaoZNAUoLENOBx3hFmpq8VnwYsY4N/vM
- nxqNyJzvpPRqqo6VbkfkEjWHno13JZR15UUrLRdz2LA8o5w7+fSeyDrVy+VDsjmoA0hv
- UZxw==
-X-Gm-Message-State: AOAM531EqhAccziamVAhCnfe190RCCUQTfCoH7v/E15iYStmIRIZKZB7
- zJmjzdgut89+HJtfb1iNeQLEgvOH8ICxcn+Iim9CVv+akSkcKX7hi8nV6PF7BdtS2vaWCAejZm0
- 5RU2Q3XGHv9j60XsChoM8DhYmcPYmdI6f74Se+SXvir5qdDeFG2ApqdY2qJiepda0
-X-Received: by 2002:a0c:be8e:: with SMTP id n14mr10562051qvi.16.1629315741667; 
- Wed, 18 Aug 2021 12:42:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyhde8yPF6N71nrn82egvrOCufhMvZbHj+IR6201SHmIb+NlLdoyv6vLTOdgPsefjNrx/GUXA==
-X-Received: by 2002:a0c:be8e:: with SMTP id n14mr10562023qvi.16.1629315741430; 
- Wed, 18 Aug 2021 12:42:21 -0700 (PDT)
+ bh=WTxYsdQgG6JOcUELqB0QiB8wIJX8I+i741hrNBaimoA=;
+ b=TSU4YgURfCP58P+P1swfjHxtjtLLiRu7JDA1o0h4ErG7f41qQD8dUuuSlP+tlY+rqd
+ WkRYrwC9SKzo5lEl+Fsq03Ifs5THPk50XmgeHQ+/gRBvBjRBgXasrIl+xr63IKv0mU4Y
+ yX16H614UKiw+nMXiddjIjeE8R5N7tfPuGPIDfH5b8f/GsF0bYa29BzKwVL9fLacyGOO
+ Ck2RyYYRltHFk69kqHWPbqsmX7KifO1fVYkkKWttrKh5jSUqGkuZMBWgdNui0j8Xn6sM
+ qocaP79zl2u3Ca2nWFDxvmbd4c7JxKLr4r6B/wLeHnT3P2OcXJHo9mlOUaU/xffsAfAJ
+ KBNA==
+X-Gm-Message-State: AOAM5314dk5gEWo34rZxNSzG20NivXQf6oZ0Y8NptyUpedV+kncx8YPU
+ m+1FV5RjiXc8apbXZdRSJRMCGDaGmZFBLDJLZRd9E+7SiZZVs6HGHax5iXgr7G4qyuLiB95qZ9M
+ PaQpFr5e83EwFYKM5TrMavYHUfX4zIgqQXtS0ihPoEb/h5ZrWa/LP1wnY2oFbkrOG
+X-Received: by 2002:a37:66d1:: with SMTP id
+ a200mr10855110qkc.440.1629315798442; 
+ Wed, 18 Aug 2021 12:43:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwxp8XMlxzVOA3srZ9ILhBA6rFUw144C7qTzgaztk9fowyn+G8to8fbq+sjebZzoF25LSXL8w==
+X-Received: by 2002:a37:66d1:: with SMTP id
+ a200mr10855082qkc.440.1629315798209; 
+ Wed, 18 Aug 2021 12:43:18 -0700 (PDT)
 Received: from t490s.redhat.com ([2607:fea8:56a3:500::d413])
- by smtp.gmail.com with ESMTPSA id y185sm419779qkb.36.2021.08.18.12.42.19
+ by smtp.gmail.com with ESMTPSA id j185sm437905qkf.28.2021.08.18.12.43.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 12:42:20 -0700 (PDT)
+ Wed, 18 Aug 2021 12:43:17 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] qdev-monitor: Trace qdev creation
-Date: Wed, 18 Aug 2021 15:42:14 -0400
-Message-Id: <20210818194217.110451-2-peterx@redhat.com>
+Subject: [PATCH 3/4] qdev: Export qdev_get_device_class()
+Date: Wed, 18 Aug 2021 15:43:16 -0400
+Message-Id: <20210818194316.110942-1-peterx@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210818194217.110451-1-peterx@redhat.com>
 References: <20210818194217.110451-1-peterx@redhat.com>
@@ -103,46 +105,46 @@ Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a tracepoint for creations of qdev.  This can be used to see what devices
-are created under the hood, along with the ordering of their creation.
+It'll be used outside the current source file.
 
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- softmmu/qdev-monitor.c | 2 ++
- softmmu/trace-events   | 3 +++
- 2 files changed, 5 insertions(+)
+ include/monitor/qdev.h | 2 ++
+ softmmu/qdev-monitor.c | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/include/monitor/qdev.h b/include/monitor/qdev.h
+index eaa947d73a..a783ad35b9 100644
+--- a/include/monitor/qdev.h
++++ b/include/monitor/qdev.h
+@@ -2,12 +2,14 @@
+ #define MONITOR_QDEV_H
+ 
+ /*** monitor commands ***/
++#include "hw/qdev-core.h"
+ 
+ void hmp_info_qtree(Monitor *mon, const QDict *qdict);
+ void hmp_info_qdm(Monitor *mon, const QDict *qdict);
+ void qmp_device_add(QDict *qdict, QObject **ret_data, Error **errp);
+ 
+ int qdev_device_help(QemuOpts *opts);
++DeviceClass *qdev_get_device_class(const char **driver, Error **errp);
+ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp);
+ void qdev_set_id(DeviceState *dev, const char *id);
+ 
 diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 721dec2d82..8602164082 100644
+index 8602164082..610745467c 100644
 --- a/softmmu/qdev-monitor.c
 +++ b/softmmu/qdev-monitor.c
-@@ -40,6 +40,7 @@
- #include "qemu/cutils.h"
- #include "hw/qdev-properties.h"
- #include "hw/clock.h"
-+#include "trace.h"
+@@ -220,7 +220,7 @@ static const char *find_typename_by_alias(const char *alias)
+     return NULL;
+ }
  
- /*
-  * Aliases were a bad idea from the start.  Let's keep them
-@@ -674,6 +675,7 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
-         dev->opts = NULL;
-         goto err_del_dev;
-     }
-+    trace_qdev_device_add(driver, qemu_opts_id(opts));
-     return dev;
- 
- err_del_dev:
-diff --git a/softmmu/trace-events b/softmmu/trace-events
-index 7b278590a0..fad85e9d5c 100644
---- a/softmmu/trace-events
-+++ b/softmmu/trace-events
-@@ -29,3 +29,6 @@ runstate_set(int current_state, const char *current_state_str, int new_state, co
- system_wakeup_request(int reason) "reason=%d"
- qemu_system_shutdown_request(int reason) "reason=%d"
- qemu_system_powerdown_request(void) ""
-+
-+# qdev-monitor.c
-+qdev_device_add(const char *driver, const char *id) "driver '%s' id '%s'"
+-static DeviceClass *qdev_get_device_class(const char **driver, Error **errp)
++DeviceClass *qdev_get_device_class(const char **driver, Error **errp)
+ {
+     ObjectClass *oc;
+     DeviceClass *dc;
 -- 
 2.31.1
 
