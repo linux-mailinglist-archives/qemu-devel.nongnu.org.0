@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DECF3EFFCB
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 11:00:37 +0200 (CEST)
-Received: from localhost ([::1]:59754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 217A23EFFDB
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 11:04:00 +0200 (CEST)
+Received: from localhost ([::1]:33726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGHR6-0000Sx-8g
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 05:00:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52250)
+	id 1mGHUM-0002GZ-NX
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 05:03:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mGHPx-0007JI-U4
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 04:59:25 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:36365)
+ id 1mGHSP-0001Wy-CV
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 05:01:58 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:50697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mGHPw-0003IC-H2
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 04:59:25 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- 79-20020a1c0452000000b002e6cf79e572so3866074wme.1
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 01:59:24 -0700 (PDT)
+ id 1mGHSI-0005Kw-Sp
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 05:01:53 -0400
+Received: by mail-wm1-x332.google.com with SMTP id u1so1163746wmm.0
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 02:01:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zw6APIHLF/JzZDpXKUaJ8WNHYHwQhmomu1Fkh8mCjas=;
- b=efdYZHG3ZpWqEBq/g0wFzbJstJBVqo/ZRsm8mDjsKD5wZ/OvVi1dEQV2tpxpXxHSBe
- ybYNj2PM7g5aJeMlYOkLF+GK0AB0tZXaFpIik1+ykJv7nyMd/MZl6lxVwXz3cSgfrM3R
- 9a7mdQYVkiZvXNFZsHqJwpVsH7Y/OjsF93blV8o1o7aFFfJ60xltJM46C9KQG5mkc9m7
- x4QXIebXZ2cWD8482f+MMB5Wu6TV1CAs5mUKqh3i21M7trxhd0I3jcs5FZ4J6Xb7LdUC
- DqBye1VjpR9nyprkHd2mZpJMFsDwjsqGghTSXWiL9+7b5BOnhUj7e4JHoeamHLu4jfxa
- 6TfQ==
+ bh=wemKHuxJehp7H3Q+ne0HF7UiqSMXcdsad78Ol718BYo=;
+ b=QFoafkygnjJSKBS6NV0QZ9nhRAkY5UaRruWXfAstL3B+ndGFZfR3Tqe19OCPBvIb81
+ Qg85mSrOeSVK1+AYcT/etE6VFn4R2J3vGrCxyFtXdFG2GRbR/YkblaF77NlKWRGjKMLY
+ LeKckgDrtMDgCOoeHGzUG+yhsyROLOIxJOmE1FOkU+CV9BVJOU3wod2zzCMlf+PT7Jxa
+ SSSUZSLzIvKIRH8yNZ5ajJFkGJZJ1n9cXSKk4FNUebW0mmVeCUjBBrPUzwqd+7nfbOzH
+ WFt6hO1mBlfh+V1iKGu0GkiBxVzwJ62AJA2wCoHd1YuE+42PFXv+uND4fCC7NzzMUODh
+ XoCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zw6APIHLF/JzZDpXKUaJ8WNHYHwQhmomu1Fkh8mCjas=;
- b=YT1oxRpMxxZq7P8Qv7t6oLtv52UiWmvt4P70I+E2g+SMvKQ8gGjYm45TFsXFSA9doe
- ibzYnoudjURF2KtIFWYtG0Fr1OMCubBqUmdJHFXRZCN4t5c1zQNy/MD94HfLzIz8ks5T
- V378yoJvuSOGp7j7SwcWNfU4HkdDEesiRDUThbikxU0mAp+wTfMkjG+s46uszVA6Gk2p
- HeZzl/RK90PQdzyfj+saavk5dSo6ZGosyKQ31LZL0PpXa8busq6ZyxNJURH2OOETPiqT
- 8n1MTb6gaV91i615jGsJqYWekIygqip3htLtv4sPzvQiy4aarRHgKNYMl3GUc0JUbCKl
- qEeg==
-X-Gm-Message-State: AOAM530X5tWVctVhxn5l/w7MUjHiQ11L2CdsfaJpCNRWssX+XDr0TFro
- 0y0dP576Cv8mL1hzKQHAMfW6qrfvVJc=
-X-Google-Smtp-Source: ABdhPJwbLlozkuSPqz1j9DLcAO3xaiJ0qc1T+m3HueGeqyQf4ryzIe0ZtRK24QrmZ0DeR9jop3Fcqw==
-X-Received: by 2002:a1c:2904:: with SMTP id p4mr7302596wmp.178.1629277163036; 
- Wed, 18 Aug 2021 01:59:23 -0700 (PDT)
+ bh=wemKHuxJehp7H3Q+ne0HF7UiqSMXcdsad78Ol718BYo=;
+ b=qsZEbbMSKnQvHlmMR1ML4+zTG6byQtLIjhJsIFLqLh23JSdK3iL09RS56uXq6A4W6s
+ 24S51IlgdU2SgMHXdraVRLWv+0I8VsPXMq30bLk4IcbRlpQH1BKBnlIWZMO+LrfDCpVe
+ 3QsXMGTIuIC2B64EMCN2kAmeIz3tvt9GLzBQkdW9GF0L8WfWYKaIHNJc5UY3tES2lOU/
+ oVGcWTsUUDNjD63qoUiBGFRAhuDJV1xUydwBqlXRlA8GaFMy/2L9lwrU+oqyFbkOHXkr
+ Tu7YhqbqXA4AqkwTEd9ENl0HetuXQT81Oiw6fWI2XRVmSypa9/60GKjwA2DedoEY0xs0
+ fptA==
+X-Gm-Message-State: AOAM533EkP2Yhz4aNemjs4v2b+LKvFH39mp4g3nB2U09gb/XZNwxvL0e
+ /SwWGrwQO2YQf8SRl/S4yp8=
+X-Google-Smtp-Source: ABdhPJznrOgpAOlxCrFdTehwX6izYhCxjGjUKGtiIZGnWZ7L4dJmr/92YnaUkyvDlqYlZ1JFJakOfg==
+X-Received: by 2002:a1c:4d01:: with SMTP id o1mr7453553wmh.91.1629277309483;
+ Wed, 18 Aug 2021 02:01:49 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id b20sm4796602wmj.48.2021.08.18.01.59.22
+ by smtp.gmail.com with ESMTPSA id d4sm5219931wrp.57.2021.08.18.02.01.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Aug 2021 01:59:22 -0700 (PDT)
-Subject: Re: [PATCH v2 30/55] target/i386: Use MO_128 for 16 byte atomics
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+ Wed, 18 Aug 2021 02:01:48 -0700 (PDT)
+Subject: Re: [PATCH v2 34/55] accel/tcg: Add cpu_{ld,st}*_mmu interfaces
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
 References: <20210803041443.55452-1-richard.henderson@linaro.org>
- <20210803041443.55452-31-richard.henderson@linaro.org>
+ <20210803041443.55452-35-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9d303a4f-4a5c-d928-34d2-9fef0abfd44c@amsat.org>
-Date: Wed, 18 Aug 2021 10:59:21 +0200
+Message-ID: <8feb6f2d-1c20-8f2f-d387-5e1d77be007e@amsat.org>
+Date: Wed, 18 Aug 2021 11:01:47 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210803041443.55452-31-richard.henderson@linaro.org>
+In-Reply-To: <20210803041443.55452-35-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -94,11 +94,46 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/3/21 6:14 AM, Richard Henderson wrote:
+> These functions are much closer to the softmmu helper
+> functions, in that they take the complete MemOpIdx,
+> and from that they may enforce required alignment.
+> 
+> The previous cpu_ldst.h functions did not have alignment info,
+> and so did not enforce it.  Retain this by adding MO_UNALN to
+> the MemOp that we create in calling the new functions.
+> 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/i386/tcg/mem_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  docs/devel/loads-stores.rst |  52 ++++-
+>  include/exec/cpu_ldst.h     | 245 ++++++++--------------
+>  accel/tcg/cputlb.c          | 392 ++++++++++++------------------------
+>  accel/tcg/user-exec.c       | 390 +++++++++++++++--------------------
+>  accel/tcg/ldst_common.c.inc | 307 ++++++++++++++++++++++++++++
+>  5 files changed, 722 insertions(+), 664 deletions(-)
+>  create mode 100644 accel/tcg/ldst_common.c.inc
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>  Function names follow the pattern:
+>  
+> +load: ``cpu_ld{size}{end}_mmu(env, ptr, oi, retaddr)``
+> +
+> +store: ``cpu_st{size}{end}_mmu(env, ptr, val, oi, retaddr)``
+> +
+> +``size``
+> + - ``b`` : 8 bits
+> + - ``w`` : 16 bits
+> + - ``l`` : 32 bits
+> + - ``q`` : 64 bits
 
+kinda unrelated to this patch, but what would be the pattern
+for 128 bits? ``o`` for octoword?
+
+> +
+> +``end``
+> + - (empty) : for target endian, or 8 bit sizes
+> + - ``_be`` : big endian
+> + - ``_le`` : little endian
+> +
+> +Regexes for git grep:
+> + - ``\<cpu_ld[bwlq](_[bl]e)\?_mmu\>``
+> + - ``\<cpu_st[bwlq](_[bl]e)\?_mmu\>``
 
