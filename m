@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF14D3F0CB9
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 22:27:36 +0200 (CEST)
-Received: from localhost ([::1]:60232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FE93F0CDE
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 22:37:19 +0200 (CEST)
+Received: from localhost ([::1]:58478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGS9v-0005oq-U6
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 16:27:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40346)
+	id 1mGSJK-0007KF-1B
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 16:37:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGS2O-0008Cc-RY
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 16:19:48 -0400
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:42770)
+ id 1mGS2P-0008Fe-RK
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 16:19:49 -0400
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:46802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGS2N-0006Jk-9P
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 16:19:48 -0400
-Received: by mail-pl1-x62f.google.com with SMTP id w6so2527179plg.9
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 13:19:46 -0700 (PDT)
+ id 1mGS2O-0006K4-6N
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 16:19:49 -0400
+Received: by mail-pf1-x42e.google.com with SMTP id y11so3334806pfl.13
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 13:19:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=WMobBd21hxhBtnfxmCHTdmsDMrlUXdir7Qqr9MLBdJc=;
- b=FzLfKJcXPtz5DzBZ6cwBKUWM6Eh9YID/+rWBWrjxtGHmcDeTrickWj+m8dck6L3BQA
- n1GMg0OUrT42qI2t49dTzsvr3dfoi6wMy6S+iGIkcuyEzn41g3ks/7G00m1yLL8YtpYd
- gwimOa4IpSDTXXq1bxiA9X2gzjTth7Ju1NvpVaBv2WN+pyX7Bf3Pkw2wcwXmTujfI0/k
- 3C6BRJ3bzjXXSM2ZZDko+2T/PUcb3enWkSa6GIWjwIl/FgCdZ8g8emrqR5qy1KYJhGHW
- 5lj8SFWcHx1qYkh9DfmKEWgtX6qgNrvl3KHZF2Wazr6hPKFNFBGQytrOt7ulc5lVeXcb
- J2RA==
+ bh=dmNHD8oMVOw6IiwNX8BcqXva18N9be8xhmnHYKvCR/4=;
+ b=v7UUHDILwNguMjgH5Y6T4vKpTdcoX3i47kNCxlhhpWSeOpDelrxdW2+lz+tYfgt7ys
+ DkEW9IZ48AY0Xwpgs9WVa4RjiTskw+AqmQd5axVAk/G7zZFW/MKxIvgcU2OBjUPPpPji
+ mutlI8zBrNuIV5t34QONuY21d8obm0olGOSqxUwZnbX70kDuTRtdk6yikl/a0zAcAVUn
+ tJ0oFsM6qVuNemUuH2I00EtsDJfU+mppOmZ7pV9cpP0+Z+jLaLIcSUlnM+oi5rOdpeRw
+ qgQr7Y0dGrXFOhrpBHmdHeWDrUyPI5OpTZZfNF2rGxUhxPlQGKjR7UvHt4cXIsczw4vI
+ EdZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WMobBd21hxhBtnfxmCHTdmsDMrlUXdir7Qqr9MLBdJc=;
- b=Jj2Uzqv+JhzDjDWDXNeoaVgLCj+OiL9ukT4XAdbI45DPMqOtdIXdFlak5LRblFWB+b
- 3cGdAl3CQnzqC+G/gZ+bAmFMzetg7fmY3CZI8cshLDZATseQRN9bmRYY1DDg1Os1qobJ
- 0F3lmabqyUJTxQVVLk2F70mvC91eEc1rCpOjUqA5YXw0ZRvjVLpnwXm/V507zv3CrJNF
- 3SU1ax834nWwFKIeZp3WLn1pZfJk8rxiZ4xsAbx3/dePIlPt1s6pulGCO9UfbeFi9K/l
- nrlw1o+d2ebr86SN3E9sPO1fqsR41+/yu04NRMohyig/MB9JU4oKbesS8R8Zb1+cnCdp
- yRfA==
-X-Gm-Message-State: AOAM530l1xsB0Ao2P9U56xjXIV4tcoGjqNTqsm7+E7bXd/qOIYE+O8mU
- KRqDIiaYctZGwjAlfo4mdSjEiMbheAK8qA==
-X-Google-Smtp-Source: ABdhPJxfYDfaWj5q0qFw7A7IeYD0AZB4yQh7fIwNuz7RNQDXuCNqIxAmT/HKtoXJAS8AWKWiT3hIBA==
-X-Received: by 2002:a17:902:bcc6:b0:12d:bd30:bc4d with SMTP id
- o6-20020a170902bcc600b0012dbd30bc4dmr8575902pls.18.1629317985921; 
- Wed, 18 Aug 2021 13:19:45 -0700 (PDT)
+ bh=dmNHD8oMVOw6IiwNX8BcqXva18N9be8xhmnHYKvCR/4=;
+ b=HSy1/8fYuIYJoSBhkoRqKVG0woDVXHqpiQPD3C3WmhOR1wkUJ145aSwYsjAuQSrGtA
+ yW3zyEiqin3tOd1/uskrpsipfgZU/4qVB8x2t+8NB5/7RDm+aYbcL+4Naqgnk2t/I/OA
+ w9ZD/qE/XHq+44i1vmCnmRTaY9k1ikcGjbL1+OFK7H1VeUYeecDP2ave1FNv6xf7nnpa
+ ZwFpQiG9xerPM4sq+xEcSrKKLNrBKARglqWXjXCI3nPbb1B27POiWQcF/eHi7SBOg4SP
+ zUSla+/+2pZ5Y3vQT+9XVWoaRtye3Saoorv4VTkCgXT3h/JfhHcylUCcLoQZ2yhQilaD
+ +YvA==
+X-Gm-Message-State: AOAM5312Dmwk8N+FQM2WYK+a/d8vxBVcl4pMGU/4chrVBtaPEDAHFckZ
+ TV8loJEp1NUDlettsLTT9HHtLP7rT2sbZA==
+X-Google-Smtp-Source: ABdhPJwnMZf5WTQWC2g7if8Fn44KFIj7v+GlFqmpLBtLSEid4yLAaVRIWCf0rSlFkcXaXnkzxasqtg==
+X-Received: by 2002:a62:dd83:0:b029:30f:d69:895f with SMTP id
+ w125-20020a62dd830000b029030f0d69895fmr11175081pff.17.1629317986868; 
+ Wed, 18 Aug 2021 13:19:46 -0700 (PDT)
 Received: from localhost.localdomain ([173.197.107.15])
- by smtp.gmail.com with ESMTPSA id x13sm619621pjh.30.2021.08.18.13.19.45
+ by smtp.gmail.com with ESMTPSA id x13sm619621pjh.30.2021.08.18.13.19.46
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 13:19:45 -0700 (PDT)
+ Wed, 18 Aug 2021 13:19:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 12/16] tcg/mips: Split out tcg_out_movi_two
-Date: Wed, 18 Aug 2021 10:19:27 -1000
-Message-Id: <20210818201931.393394-13-richard.henderson@linaro.org>
+Subject: [PATCH v3 13/16] tcg/mips: Use the constant pool for 64-bit constants
+Date: Wed, 18 Aug 2021 10:19:28 -1000
+Message-Id: <20210818201931.393394-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210818201931.393394-1-richard.henderson@linaro.org>
 References: <20210818201931.393394-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,70 +87,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Emit all 32-bit signed constants, which can be loaded in two insns.
+During normal processing, the constant pool is accessible via
+TCG_REG_TB.  During the prologue, it is accessible via TCG_REG_T9.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/mips/tcg-target.c.inc | 35 ++++++++++++++++++++++++-----------
- 1 file changed, 24 insertions(+), 11 deletions(-)
+ tcg/mips/tcg-target.h     |  1 +
+ tcg/mips/tcg-target.c.inc | 65 +++++++++++++++++++++++++++++----------
+ 2 files changed, 49 insertions(+), 17 deletions(-)
 
+diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
+index 28c42e23e1..839364b493 100644
+--- a/tcg/mips/tcg-target.h
++++ b/tcg/mips/tcg-target.h
+@@ -208,5 +208,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t)
+     QEMU_ERROR("code path is reachable");
+ 
+ #define TCG_TARGET_NEED_LDST_LABELS
++#define TCG_TARGET_NEED_POOL_LABELS
+ 
+ #endif
 diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index b32edd5a7a..d351d53a7b 100644
+index d351d53a7b..2ab37ac7c0 100644
 --- a/tcg/mips/tcg-target.c.inc
 +++ b/tcg/mips/tcg-target.c.inc
-@@ -541,6 +541,22 @@ static bool tcg_out_movi_one(TCGContext *s, TCGReg ret, tcg_target_long arg)
+@@ -25,6 +25,7 @@
+  */
+ 
+ #include "../tcg-ldst.c.inc"
++#include "../tcg-pool.c.inc"
+ 
+ #ifdef HOST_WORDS_BIGENDIAN
+ # define MIPS_BE  1
+@@ -166,9 +167,18 @@ static bool reloc_pc16(tcg_insn_unit *src_rw, const tcg_insn_unit *target)
+ static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
+                         intptr_t value, intptr_t addend)
+ {
+-    tcg_debug_assert(type == R_MIPS_PC16);
+-    tcg_debug_assert(addend == 0);
+-    return reloc_pc16(code_ptr, (const tcg_insn_unit *)value);
++    value += addend;
++    switch (type) {
++    case R_MIPS_PC16:
++        return reloc_pc16(code_ptr, (const tcg_insn_unit *)value);
++    case R_MIPS_16:
++        if (value != (int16_t)value) {
++            return false;
++        }
++        *code_ptr = deposit32(*code_ptr, 0, 16, value);
++        return true;
++    }
++    g_assert_not_reached();
+ }
+ 
+ #define TCG_CT_CONST_ZERO 0x100
+@@ -500,6 +510,11 @@ static void tcg_out_nop(TCGContext *s)
+     tcg_out32(s, 0);
+ }
+ 
++static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
++{
++    memset(p, 0, count * sizeof(tcg_insn_unit));
++}
++
+ static void tcg_out_dsll(TCGContext *s, TCGReg rd, TCGReg rt, TCGArg sa)
+ {
+     tcg_out_opc_sa64(s, OPC_DSLL, OPC_DSLL32, rd, rt, sa);
+@@ -557,8 +572,15 @@ static bool tcg_out_movi_two(TCGContext *s, TCGReg ret, tcg_target_long arg)
      return false;
  }
  
-+static bool tcg_out_movi_two(TCGContext *s, TCGReg ret, tcg_target_long arg)
+-static void tcg_out_movi(TCGContext *s, TCGType type,
+-                         TCGReg ret, tcg_target_long arg)
++static void tcg_out_movi_pool(TCGContext *s, TCGReg ret,
++                              tcg_target_long arg, TCGReg tbreg)
 +{
-+    /*
-+     * All signed 32-bit constants are loadable with two immediates,
-+     * and everything else requires more work.
-+     */
-+    if (arg == (int32_t)arg) {
-+        if (!tcg_out_movi_one(s, ret, arg)) {
-+            tcg_out_opc_imm(s, OPC_LUI, ret, TCG_REG_ZERO, arg >> 16);
-+            tcg_out_opc_imm(s, OPC_ORI, ret, ret, arg & 0xffff);
-+        }
-+        return true;
-+    }
-+    return false;
++    new_pool_label(s, arg, R_MIPS_16, s->code_ptr, tcg_tbrel_diff(s, NULL));
++    tcg_out_opc_imm(s, OPC_LD, ret, tbreg, 0);
 +}
 +
- static void tcg_out_movi(TCGContext *s, TCGType type,
-                          TCGReg ret, tcg_target_long arg)
++static void tcg_out_movi_int(TCGContext *s, TCGType type, TCGReg ret,
++                             tcg_target_long arg, TCGReg tbreg)
  {
-@@ -548,21 +564,18 @@ static void tcg_out_movi(TCGContext *s, TCGType type,
+     if (TCG_TARGET_REG_BITS == 64 && type == TCG_TYPE_I32) {
          arg = (int32_t)arg;
-     }
- 
--    if (tcg_out_movi_one(s, ret, arg)) {
-+    /* Load all 32-bit constants. */
-+    if (tcg_out_movi_two(s, ret, arg)) {
+@@ -568,18 +590,17 @@ static void tcg_out_movi(TCGContext *s, TCGType type,
+     if (tcg_out_movi_two(s, ret, arg)) {
          return;
      }
++    assert(TCG_TARGET_REG_BITS == 64);
  
--    if (TCG_TARGET_REG_BITS == 32 || arg == (int32_t)arg) {
--        tcg_out_opc_imm(s, OPC_LUI, ret, TCG_REG_ZERO, arg >> 16);
-+    tcg_out_movi(s, TCG_TYPE_I32, ret, arg >> 31 >> 1);
-+    if (arg & 0xffff0000ull) {
-+        tcg_out_dsll(s, ret, ret, 16);
-+        tcg_out_opc_imm(s, OPC_ORI, ret, ret, arg >> 16);
-+        tcg_out_dsll(s, ret, ret, 16);
-     } else {
--        tcg_out_movi(s, TCG_TYPE_I32, ret, arg >> 31 >> 1);
--        if (arg & 0xffff0000ull) {
--            tcg_out_dsll(s, ret, ret, 16);
--            tcg_out_opc_imm(s, OPC_ORI, ret, ret, arg >> 16);
--            tcg_out_dsll(s, ret, ret, 16);
--        } else {
--            tcg_out_dsll(s, ret, ret, 32);
--        }
-+        tcg_out_dsll(s, ret, ret, 32);
+-    tcg_out_movi(s, TCG_TYPE_I32, ret, arg >> 31 >> 1);
+-    if (arg & 0xffff0000ull) {
+-        tcg_out_dsll(s, ret, ret, 16);
+-        tcg_out_opc_imm(s, OPC_ORI, ret, ret, arg >> 16);
+-        tcg_out_dsll(s, ret, ret, 16);
+-    } else {
+-        tcg_out_dsll(s, ret, ret, 32);
+-    }
+-    if (arg & 0xffff) {
+-        tcg_out_opc_imm(s, OPC_ORI, ret, ret, arg & 0xffff);
+-    }
++    /* Otherwise, put 64-bit constants into the constant pool. */
++    tcg_out_movi_pool(s, ret, arg, tbreg);
++}
++
++static void tcg_out_movi(TCGContext *s, TCGType type,
++                         TCGReg ret, tcg_target_long arg)
++{
++    TCGReg tbreg = TCG_TARGET_REG_BITS == 64 ? TCG_REG_TB : 0;
++    tcg_out_movi_int(s, type, ret, arg, tbreg);
+ }
+ 
+ static void tcg_out_bswap16(TCGContext *s, TCGReg ret, TCGReg arg, int flags)
+@@ -2738,10 +2759,20 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+ 
+ #ifndef CONFIG_SOFTMMU
+     if (guest_base != (int16_t)guest_base) {
+-        tcg_out_movi(s, TCG_TYPE_PTR, TCG_GUEST_BASE_REG, guest_base);
++        /*
++         * The function call abi for n32 and n64 will have loaded $25 (t9)
++         * with the address of the prologue, so we can use that instead
++         * of TCG_REG_TB.
++         */
++#if TCG_TARGET_REG_BITS == 64 && !defined(__mips_abicalls)
++# error "Unknown mips abi"
++#endif
++        tcg_out_movi_int(s, TCG_TYPE_PTR, TCG_GUEST_BASE_REG, guest_base,
++                         TCG_TARGET_REG_BITS == 64 ? TCG_REG_T9 : 0);
+         tcg_regset_set_reg(s->reserved_regs, TCG_GUEST_BASE_REG);
      }
-     if (arg & 0xffff) {
-         tcg_out_opc_imm(s, OPC_ORI, ret, ret, arg & 0xffff);
+ #endif
++
+     if (TCG_TARGET_REG_BITS == 64) {
+         tcg_out_mov(s, TCG_TYPE_PTR, TCG_REG_TB, tcg_target_call_iarg_regs[1]);
+     }
 -- 
 2.25.1
 
