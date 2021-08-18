@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F1C3F0BE3
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 21:37:57 +0200 (CEST)
-Received: from localhost ([::1]:35052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E00DE3F0BD6
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 21:33:14 +0200 (CEST)
+Received: from localhost ([::1]:46368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGRNs-0004cC-11
-	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 15:37:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57894)
+	id 1mGRJK-0001bF-04
+	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 15:33:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGR6I-0000cp-HT
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:19:46 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:44774)
+ id 1mGR6J-0000hz-TF
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:19:47 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:35397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mGR6G-00006y-Ta
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:19:46 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id q2so2408617plr.11
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 12:19:44 -0700 (PDT)
+ id 1mGR6I-00008I-E4
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 15:19:47 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ j12-20020a17090aeb0c00b00179530520b3so9670376pjz.0
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 12:19:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=58UQKC3posC0m4R67J23FYTFiRPtzZJmRmPtZTSaHcw=;
- b=IFKomIg6VUpf9Qs1sL+aRCfAVBQSNsnXyc6auOE1y8skpmFn4I5sK+ID0G70NDEZen
- i4Pl4od4hFEneiQRU4ok+FfNq+Ejk9SEFevof2oMAYdVsKm6znz1AgeMe4qVUnck7Alv
- 9yauopF4gIG0Di6yuBEFYkbGlgBT+q3gu9Ru509t89wWqbc9vA8Rx5bMpNBRTbh+owpo
- Axbm9Sn2S0AvMNAKl66kp+ccYufwJUys5BsZrguBmnlUSbTcsHZCQu1sDEFEHW7QsHu6
- d3BL2KHdUKwhlV8mUaLUHoI5DlhLn7a23oVZ448J2A/PLMSgNPmfeUZ9DlfbqS/W7sZa
- YgeQ==
+ bh=N407o9bpjpNHrFay9c2qe28goaY9qdIgGMVcmRi8tog=;
+ b=RPHK+IX9gl3c3x7h0A+Xfr4qi3wwFpUvEJRdTHKRf5Ogmg4QoEvPVeJEcUFD4xEdo0
+ 2g7xIDSWEMTpZ2hczR+VvdNbqMrwwohibfGAW+I/7xWkOHbxFNwNrHgOlpKu2tk29Yff
+ fphDJeNmsjbeB0/Gm3oAc1+u7xppA0Mp5S/8AZA+BOKXM9eOqt14JErGfl989SgLDta4
+ 3MQXCSW3UlGB40oCEfuxkH8VBwz70s66UZcgyiTGat9IM+71FuQVdLnGJIlNz7YQB5wi
+ tAFF4BVcAsUXbvPMnEMncFKMIRt6DCICkYW6CEqchIC6oYjbqtuqjcCmXhbwpfusu+Qg
+ Sdhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=58UQKC3posC0m4R67J23FYTFiRPtzZJmRmPtZTSaHcw=;
- b=CyVq2R9IwCUhUTejS/BWHj0oqWfrLsWIYhu46dqA5nEMjeqdOrMJETWZRSXIhNM2i9
- 4oACMFmPXNddktnEGPHHZ1wTru+rtt0mxaFcGXKioaaytcMm8qoICGSllkjhb8V/6gxe
- aFelNiXMET6c9633vZodR0frNkA7wWXagGf/mzjK+Ytj6ryHhAMIEcMhKwZO7DXAH4fa
- E5d1zjox6t4UUqhWuT8q82OiXoQIFvHOHIrljsnCYOsrHoabnwPaTwJ6PXLD4TXAZqNJ
- TBD9twY+53vzZ3XVMlaCiYmSd9Klt/+NX5/Kcvt1oev+5dLbcdVfRAel8OYVzLWwFdgv
- yiVQ==
-X-Gm-Message-State: AOAM5308xjDNhUQg7TNTDhGVsXCiSwJ5ezpZMbX2zL+RT5yGMhBG2xPt
- zx/taHcWrEHgciCWdXvCIVsSDgkxSMFbug==
-X-Google-Smtp-Source: ABdhPJy4xFCHZA2RNcNfju2uWJ90NKObePg4TCbMAQg87pJXNRjLzh/rc7reOBnUzeZYd4C3DgVTdw==
-X-Received: by 2002:a17:902:f242:b029:12d:1fbb:aa12 with SMTP id
- j2-20020a170902f242b029012d1fbbaa12mr8619370plc.3.1629314383578; 
- Wed, 18 Aug 2021 12:19:43 -0700 (PDT)
+ bh=N407o9bpjpNHrFay9c2qe28goaY9qdIgGMVcmRi8tog=;
+ b=SZtBJZHvR4v0Q0v9TasiqFI4FrEmApIXkmNkr3dUdP9fRVdsEJTfjFgaQ6i/MrNvZY
+ 4oonTeaCzX4PtxW/4GF4FEPjm+KIqN8IVT9ZYa3Gcp1g8qsD/mMLoufGMBJ/hiCEepFE
+ A4pag3AmxJq43rUNsdbSrKfTs+95AsY6lZ2ojYdQIxnyLKGdChLjmuSHGPI1KzA8fUjb
+ S/k7nCRcghXawuGNSZdjYnC4be7TqA9DN90kWAJy6Dd1NI9uxCNXVkuevlZXwbiZZAQL
+ MIDVlmpdR6xDeYIAHbODXhNh5pZ7enW+6/UNVg/wcSXYYmSz/DlGa4pj3YkukUYmhc6m
+ CQxA==
+X-Gm-Message-State: AOAM532eHJNxZ67mw2ZMzTndQzNPJ3u/SZ7Cmv/s790M7jsCOqgOMVC9
+ ujw8CgVNcgQGDK/vWLjJZdiwr8dqboB0xA==
+X-Google-Smtp-Source: ABdhPJwTvvchV5EB/ElGMytqiPrwX1w0SWcT05WvDhh8ydachjAEDHASDwMkOMheuEXIw8BAa+1GRw==
+X-Received: by 2002:a17:903:32c2:b0:12d:ac12:6e5e with SMTP id
+ i2-20020a17090332c200b0012dac126e5emr8366371plr.44.1629314385167; 
+ Wed, 18 Aug 2021 12:19:45 -0700 (PDT)
 Received: from localhost.localdomain ([173.197.107.15])
- by smtp.gmail.com with ESMTPSA id a6sm524108pjs.40.2021.08.18.12.19.42
+ by smtp.gmail.com with ESMTPSA id a6sm524108pjs.40.2021.08.18.12.19.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Aug 2021 12:19:43 -0700 (PDT)
+ Wed, 18 Aug 2021 12:19:44 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 17/66] target/sparc: Split out build_sfsr
-Date: Wed, 18 Aug 2021 09:18:31 -1000
-Message-Id: <20210818191920.390759-18-richard.henderson@linaro.org>
+Subject: [PATCH v3 18/66] target/sparc: Set fault address in
+ sparc_cpu_do_unaligned_access
+Date: Wed, 18 Aug 2021 09:18:32 -1000
+Message-Id: <20210818191920.390759-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210818191920.390759-1-richard.henderson@linaro.org>
 References: <20210818191920.390759-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,132 +89,65 @@ Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We ought to have been recording the virtual address for reporting
+to the guest trap handler.  Move the function to mmu_helper.c, so
+that we can re-use code shared with get_physical_address_data.
+
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/sparc/mmu_helper.c | 72 +++++++++++++++++++++++++--------------
- 1 file changed, 46 insertions(+), 26 deletions(-)
+ target/sparc/ldst_helper.c | 13 -------------
+ target/sparc/mmu_helper.c  | 18 ++++++++++++++++++
+ 2 files changed, 18 insertions(+), 13 deletions(-)
 
+diff --git a/target/sparc/ldst_helper.c b/target/sparc/ldst_helper.c
+index 974afea041..ea163200a4 100644
+--- a/target/sparc/ldst_helper.c
++++ b/target/sparc/ldst_helper.c
+@@ -1953,16 +1953,3 @@ void sparc_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+                           is_asi, size, retaddr);
+ }
+ #endif
+-
+-#if !defined(CONFIG_USER_ONLY)
+-void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+-                                                 MMUAccessType access_type,
+-                                                 int mmu_idx,
+-                                                 uintptr_t retaddr)
+-{
+-    SPARCCPU *cpu = SPARC_CPU(cs);
+-    CPUSPARCState *env = &cpu->env;
+-
+-    cpu_raise_exception_ra(env, TT_UNALIGNED, retaddr);
+-}
+-#endif
 diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
-index a44473a1c7..5b2fda534a 100644
+index 5b2fda534a..2f260b0085 100644
 --- a/target/sparc/mmu_helper.c
 +++ b/target/sparc/mmu_helper.c
-@@ -526,16 +526,60 @@ static inline int ultrasparc_tag_match(SparcTLBEntry *tlb,
-     return 0;
+@@ -946,4 +946,22 @@ hwaddr sparc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+     }
+     return phys_addr;
  }
- 
-+static uint64_t build_sfsr(CPUSPARCState *env, int mmu_idx, int rw)
++
++void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
++                                                 MMUAccessType access_type,
++                                                 int mmu_idx,
++                                                 uintptr_t retaddr)
 +{
-+    uint64_t sfsr = SFSR_VALID_BIT;
++    SPARCCPU *cpu = SPARC_CPU(cs);
++    CPUSPARCState *env = &cpu->env;
 +
-+    switch (mmu_idx) {
-+    case MMU_PHYS_IDX:
-+        sfsr |= SFSR_CT_NOTRANS;
-+        break;
-+    case MMU_USER_IDX:
-+    case MMU_KERNEL_IDX:
-+        sfsr |= SFSR_CT_PRIMARY;
-+        break;
-+    case MMU_USER_SECONDARY_IDX:
-+    case MMU_KERNEL_SECONDARY_IDX:
-+        sfsr |= SFSR_CT_SECONDARY;
-+        break;
-+    case MMU_NUCLEUS_IDX:
-+        sfsr |= SFSR_CT_NUCLEUS;
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
++#ifdef TARGET_SPARC64
++    env->dmmu.sfsr = build_sfsr(env, mmu_idx, access_type);
++    env->dmmu.sfar = addr;
++#else
++    env->mmuregs[4] = addr;
+ #endif
 +
-+    if (rw == 1) {
-+        sfsr |= SFSR_WRITE_BIT;
-+    } else if (rw == 4) {
-+        sfsr |= SFSR_NF_BIT;
-+    }
-+
-+    if (env->pstate & PS_PRIV) {
-+        sfsr |= SFSR_PR_BIT;
-+    }
-+
-+    if (env->dmmu.sfsr & SFSR_VALID_BIT) { /* Fault status register */
-+        sfsr |= SFSR_OW_BIT; /* overflow (not read before another fault) */
-+    }
-+
-+    /* FIXME: ASI field in SFSR must be set */
-+
-+    return sfsr;
++    cpu_raise_exception_ra(env, TT_UNALIGNED, retaddr);
 +}
-+
- static int get_physical_address_data(CPUSPARCState *env, hwaddr *physical,
-                                      int *prot, MemTxAttrs *attrs,
-                                      target_ulong address, int rw, int mmu_idx)
- {
-     CPUState *cs = env_cpu(env);
-     unsigned int i;
-+    uint64_t sfsr;
-     uint64_t context;
--    uint64_t sfsr = 0;
-     bool is_user = false;
- 
-+    sfsr = build_sfsr(env, mmu_idx, rw);
-+
-     switch (mmu_idx) {
-     case MMU_PHYS_IDX:
-         g_assert_not_reached();
-@@ -544,29 +588,18 @@ static int get_physical_address_data(CPUSPARCState *env, hwaddr *physical,
-         /* fallthru */
-     case MMU_KERNEL_IDX:
-         context = env->dmmu.mmu_primary_context & 0x1fff;
--        sfsr |= SFSR_CT_PRIMARY;
-         break;
-     case MMU_USER_SECONDARY_IDX:
-         is_user = true;
-         /* fallthru */
-     case MMU_KERNEL_SECONDARY_IDX:
-         context = env->dmmu.mmu_secondary_context & 0x1fff;
--        sfsr |= SFSR_CT_SECONDARY;
-         break;
--    case MMU_NUCLEUS_IDX:
--        sfsr |= SFSR_CT_NUCLEUS;
--        /* FALLTHRU */
-     default:
-         context = 0;
-         break;
-     }
- 
--    if (rw == 1) {
--        sfsr |= SFSR_WRITE_BIT;
--    } else if (rw == 4) {
--        sfsr |= SFSR_NF_BIT;
--    }
--
-     for (i = 0; i < 64; i++) {
-         /* ctx match, vaddr match, valid? */
-         if (ultrasparc_tag_match(&env->dtlb[i], address, context, physical)) {
-@@ -616,22 +649,9 @@ static int get_physical_address_data(CPUSPARCState *env, hwaddr *physical,
-                 return 0;
-             }
- 
--            if (env->dmmu.sfsr & SFSR_VALID_BIT) { /* Fault status register */
--                sfsr |= SFSR_OW_BIT; /* overflow (not read before
--                                        another fault) */
--            }
--
--            if (env->pstate & PS_PRIV) {
--                sfsr |= SFSR_PR_BIT;
--            }
--
--            /* FIXME: ASI field in SFSR must be set */
--            env->dmmu.sfsr = sfsr | SFSR_VALID_BIT;
--
-+            env->dmmu.sfsr = sfsr;
-             env->dmmu.sfar = address; /* Fault address register */
--
-             env->dmmu.tag_access = (address & ~0x1fffULL) | context;
--
-             return 1;
-         }
-     }
++#endif /* CONFIG_USER_ONLY */
 -- 
 2.25.1
 
