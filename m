@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A85323EF6CB
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 02:16:25 +0200 (CEST)
-Received: from localhost ([::1]:34292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC7F3EF71F
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Aug 2021 03:03:39 +0200 (CEST)
+Received: from localhost ([::1]:49592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mG9Fo-0001vi-8i
-	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 20:16:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45750)
+	id 1mG9zV-0007GF-Me
+	for lists+qemu-devel@lfdr.de; Tue, 17 Aug 2021 21:03:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mG9EX-0000ts-Rc
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 20:15:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59876)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mG9ET-0003uU-Q3
- for qemu-devel@nongnu.org; Tue, 17 Aug 2021 20:15:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629245700;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HnYLoqpnmZ362aewDL8AcyzunV5sfld3esn1gl55rFc=;
- b=AQQtmpM/cpDvvY6X2X0Qua+qFAkyv8ydJysyMxzhafShT4Qf/MpJrZYb6eU5bgrKb5hkYK
- e9b+c5+hX46SElXEUOuc/JLcdDq+yxFAhyGUD1C/EtsTILT7+yAt9Jm1oTsWjcuGaOWBOq
- lDWzdk3bKs8u4jpKZbUTb3EyzQDenmQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-324-L_h0vfZNNqK6yj7z8ZmJxw-1; Tue, 17 Aug 2021 20:14:58 -0400
-X-MC-Unique: L_h0vfZNNqK6yj7z8ZmJxw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF3601008060;
- Wed, 18 Aug 2021 00:14:57 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.10.24])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F29535D9CA;
- Wed, 18 Aug 2021 00:14:46 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 77AB7220637; Tue, 17 Aug 2021 20:14:46 -0400 (EDT)
-Date: Tue, 17 Aug 2021 20:14:46 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [PATCH v3 09/10] virtiofsd: Optionally fill lo_inode.fhandle
-Message-ID: <YRxQ9rClxWux/UHs@redhat.com>
-References: <20210730150134.216126-10-mreitz@redhat.com>
- <YRF2xjwSKOiqB/Al@redhat.com>
- <df64553c-c03d-076a-bcef-bec8554977a4@redhat.com>
- <YRKZ415xrDtcYaQR@redhat.com>
- <4a74bbbd-92f6-a7d1-0c8d-fa8b121b9643@redhat.com>
- <YRKh/fbBntF+GfS8@redhat.com>
- <6e943ee0-dcb3-6812-3a0b-eb2b72b503ad@redhat.com>
- <YRrALRGy2cROwsP9@redhat.com>
- <89b416e7-c0ca-7831-da13-683e8a74b7ae@redhat.com>
- <YRwRz8aZGq6QLpx/@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mG9wp-00047j-7N
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 21:00:52 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:33433)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mG9wk-0001KV-RJ
+ for qemu-devel@nongnu.org; Tue, 17 Aug 2021 21:00:50 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ 28-20020a17090a031cb0290178dcd8a4d1so4253475pje.0
+ for <qemu-devel@nongnu.org>; Tue, 17 Aug 2021 18:00:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oK94JCVp49MDHMvJof12YEKJDZETbAsJG4e9KZDNxVw=;
+ b=ih06Cs5hdvhFxCs4E3aTxS40EF/HFSqyyDNh/qj79ApK/9jDlvuqY7gBw7ktYesf17
+ Phsg3lOpBnGO405yQgO66Q1DqXcsEerNAWEo6hq9qRYLHd161btYYuWOtsRCSuvuZS7f
+ Z7kRQGP1r7jf5AgtBrDZi/zMeD5GvDjM9th6wYz9y0xJhoYlowMYfBIpJL6aXkMSwP8T
+ pDj3vK7V4xCLqPYomLgalnJ3K/NBflv/Z+xL91X70HzivzWBwBT04zbeAqinbiFomYYM
+ +SdC0gp4t4fvD4NIePo7pOE6ip8h5fOdT51553R8EMAyTVhMmE8TZqhWt30QqUVzr0pa
+ hh7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oK94JCVp49MDHMvJof12YEKJDZETbAsJG4e9KZDNxVw=;
+ b=YhBQRoxb76Wvbviy+9h0H2+MENyDKN4B0xKCZT6orXVZho7XU7rfGtbQRUOC8uxGmj
+ yI2HBUA6CiSPhEYqtvKgWaseFjSWHORpkhThBMgrdj/eeHzo1IZi10Zouy4wUqX1H/hk
+ TLwV7joHnLuEi7rypJ3gpTquvBn51hofgCczBF2ViKpsBZvt+srwQiGhmu7MQagrjSWd
+ reTE/j+WCgjMGYOiyAN/N9T6r/5UCj0rqTFCtnoJ82GcfxcsXS/CplYc6SNKBYjw64LD
+ gBikKpKkS8nqrgRCsn/t6Um/cx/mxQOHGztlLeiR7Al8wBtUCtCKQVnj4YWEQTYtNvah
+ 1Ymg==
+X-Gm-Message-State: AOAM530Y4UZ9DP/uRB9gLj0qztkpFlmQsGTagzz3I/fDuPcdFvBBhnft
+ HqBRN7KeGn9OHcvR6Cfdoe/VdpxdadX63A==
+X-Google-Smtp-Source: ABdhPJyLwnjvGAtjvFiX4kXO2mmY0X6mLZ8Za8dj1T2bl654Jv+wJDeW6I20CkmOhxDR92IO+B3v4g==
+X-Received: by 2002:a17:902:748c:b029:12d:3f9a:d3a with SMTP id
+ h12-20020a170902748cb029012d3f9a0d3amr4937652pll.74.1629248444599; 
+ Tue, 17 Aug 2021 18:00:44 -0700 (PDT)
+Received: from localhost.localdomain ([173.197.107.15])
+ by smtp.gmail.com with ESMTPSA id r13sm4567422pgl.90.2021.08.17.18.00.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Aug 2021 18:00:44 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] target/arm: Fix insn exception priorities
+Date: Tue, 17 Aug 2021 15:00:37 -1000
+Message-Id: <20210818010041.337010-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <YRwRz8aZGq6QLpx/@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,71 +82,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, virtio-fs@redhat.com,
- Ioannis Angelakopoulos <jaggel@bu.edu>, Max Reitz <mreitz@redhat.com>
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 17, 2021 at 03:45:19PM -0400, Vivek Goyal wrote:
-> On Tue, Aug 17, 2021 at 10:27:16AM +0200, Hanna Reitz wrote:
-> > On 16.08.21 21:44, Vivek Goyal wrote:
-> > > On Wed, Aug 11, 2021 at 08:41:18AM +0200, Hanna Reitz wrote:
-> > > 
-> > > [..]
-> > > > > > But given the inotify complications, there’s really a good reason we should
-> > > > > > use mountinfo.
-> > > > > > 
-> > > > > > > > It’s a bit tricky because our sandboxing prevents easy access to mountinfo,
-> > > > > > > > but if that’s the only way...
-> > > > > > > yes. We already have lo->proc_self_fd. Maybe we need to keep
-> > > > > > > /proc/self/mountinfo open in lo->proc_self_mountinfo. I am assuming
-> > > > > > > that any mount table changes will still be visible despite the fact
-> > > > > > > I have fd open (and don't have to open new fd to notice new mount/unmount
-> > > > > > > changes).
-> > > > > > Well, yes, that was my idea.  Unfortunately, I wasn’t quite successful yet;
-> > > > > > when I tried keeping the fd open, reading from it would just return 0
-> > > > > > bytes.  Perhaps that’s because we bind-mount /proc/self/fd to /proc so that
-> > > > > > nothing else in /proc is visible. Perhaps we need to bind-mount
-> > > > > > /proc/self/mountinfo into /proc/self/fd before that...
-> > > > > Or perhaps open /proc/self/mountinfo and save fd in lo->proc_mountinfo
-> > > > > before /proc/self/fd is bind mounted on /proc?
-> > > > Yes, I tried that, and then reading would just return 0 bytes.
-> > > Hi Hanna,
-> > > 
-> > > I tried this simple patch and I can read /proc/self/mountinfo before
-> > > bind mounting /proc/self/fd and after bind mounting /proc/self/fd. Am
-> > > I missing something.
-> > 
-> > Yes, but I tried reading it in the main loop (where we’d actually need it). 
-> > It looks like the umount2(".", MNT_DETACH) in setup_mounts() breaks it.
-> 
-> Good point. I modified my code and notice too that after umoutn2() it
-> always reads 0 bytes. I can understand that all the other mount points
-> could go away but new rootfs mount point of virtiofsd should still be
-> visible, IIUC. I don't understand why.
-> 
-> Anyway, I tried re-opening /proc/self/mountinfo file after umount2(".",
-> MNT_DETACH), and that seems to work and it shows root mount point. I 
-> created a bind mount and it shows that too.
-> 
-> So looks like quick fix can be that we re-open /proc/self/mountinfo. But
-> that means we can't bind /proc/self/fd on /proc/. We could bind mount
-> /proc/self on /proc. Not sure is it safe enough.
+As discussed earlier today at
+https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg02686.html
 
-Or may be I can do this.
+Raise pc alignment faults.
+Fix single-step and pc-align priority over breakpoints.
+Not yet fixing insn abort priority over breakpoints.
 
-- Open O_PATH fd for /proc/self
-  proc_self = open("/proc/self");
-- Bind mount /proc/self/fd on /proc
-- pivot_root() and umount() stuff
-- Openat(proc_self, "mountinfo")
-- close(proc_self)
 
-If this works, then we don't have the security issue and we managed
-to open mountinfo after pivot_root() and umount(). Will give it a
-try and see if it works tomorrow.
+r~
 
-Vivek
+
+Peter Maydell (1):
+  target/arm: Take an exception if PSTATE.IL is set
+
+Richard Henderson (3):
+  target/arm: Merge disas_a64_insn into aarch64_tr_translate_insn
+  target/arm: Take an exception if PC is misaligned
+  target/arm: Suppress bp for exceptions with more priority
+
+ target/arm/cpu.h           |   1 +
+ target/arm/syndrome.h      |  10 ++
+ target/arm/translate.h     |   2 +
+ target/arm/debug_helper.c  |  23 ++++
+ target/arm/helper-a64.c    |   1 +
+ target/arm/helper.c        |   8 ++
+ target/arm/translate-a64.c | 267 ++++++++++++++++++++-----------------
+ target/arm/translate.c     |  71 ++++++++--
+ 8 files changed, 244 insertions(+), 139 deletions(-)
+
+-- 
+2.25.1
 
 
