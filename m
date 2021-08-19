@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F35A3F19EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 15:03:45 +0200 (CEST)
-Received: from localhost ([::1]:58562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0C193F19FC
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 15:07:26 +0200 (CEST)
+Received: from localhost ([::1]:34920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGhhw-0004WL-Gk
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 09:03:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36686)
+	id 1mGhlV-0007lJ-QB
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 09:07:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mGhgf-0003dg-AK
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:02:25 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:38594)
+ id 1mGhkl-00076S-5a
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:06:39 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:44781)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mGhgd-0001iP-Ux
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:02:25 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id z20so12761553ejf.5
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 06:02:23 -0700 (PDT)
+ id 1mGhkj-0004Fy-0e
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:06:38 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id i22so8728581edq.11
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 06:06:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1X7vAtwHmXMO/cjy8YKmYQZzOURPdwo0B19yYrS6zKQ=;
- b=CdaeBxOEzZBQOoiIDb4WNdQVbztfGUcbT9SVC/Rpiwrbe1vF/+YcDGr4HjmZ7VEJ66
- WD47idVHany/tM+56G43EvhhWA14SE0NAnNjOQYCzxzIQn1ZvbEbWFrcCr1J2VF3txxg
- smh+dHIp6Z14goxL1oCwFDdDVyDq4erB0PsNn/fDTrVRNOE8ivt27Nneg6qoqyUA1pM0
- hAdYNJp17TAf3enyqVSrX4B31+i9keyZO37TPTcsi4080Tn5HEGp2bngsCkCt6eM6BTQ
- BIdW7qKwuWJRtO6X+Sjh2plGoW7Ig/vDkpLzI1J//9s7bAb7KXClpRiNy16Ajy8etjUO
- pRZQ==
+ :cc; bh=uBnGDBh4azrac8CAYImJW72cMASuziAYlzdQdF1PwiU=;
+ b=gdWrfdAtF3D0lrem2jpVrV+SpqhiH2zgK3glKQsaznvxPzO9VR8MmFvAu3vDDgJHw6
+ mIvVkIm1WPlyeSucEUhANz/SNjE2aPBwlzriOBHsSC8EQaSu/c2wFt7Y2eK8TlaaXYcN
+ VBmEQT4XXXSl2snWEyse1RmuTtX6cccu9lQSrC2pPrQabWmbWfJ5yZd1pMxRlQpZ7U2+
+ UDMWkffWOSB+UMahL8L0kmCCxj9Te+7eD7UlyG9ePp+7HdSDoj++8edDQFb55J9mey8y
+ I3tnvxAZ34zCHcGgluH4+qRso45N73rAr6qJdUgm/GzpGyeNj1TLot0Z6BSs5FN/dU7S
+ Z2Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=1X7vAtwHmXMO/cjy8YKmYQZzOURPdwo0B19yYrS6zKQ=;
- b=DA11oi3cj9WvC5tZ0OPI9fi8qC+ksD1TifyToLS2dgl6mhoXSNaCCHLJbapC+eQ0ZB
- YqBeiRs2TWwOmPSKstHMuHYBDBKq4UZTy1lgjo4/1W3DmA+KF3W9a777MwFdFpOatasT
- jb9rrWKVtkFBKb5P5oWXpZ09d3X2y1CQaAh3Jlv11LwCIPeP4SjJFKYprpFmbg7qskxO
- qlsl9krSsTdzDu0nbfs3PanmiSP2q9xLpGtSu64qA0wCSPUsmt/67tVKamv/XX8Aim5e
- 35Y5jwsLeEljAEY7Fyi0N49aQY/B45SbbsmVvangOgqNdRwe9RzpSMSoZ59f3F0zd/yE
- Jwjw==
-X-Gm-Message-State: AOAM533qdGzZQkydZSuhnyfC8g2dnVmRUbFoDi2A86O8HKj/9abRZgUg
- j3GO2dfXBd6f1bV/A9Vd8BXzd8oZj4N4aU+h7LJGoWT9STY=
-X-Google-Smtp-Source: ABdhPJzeP8pBFDOJotGlof66rc684kc7e6Pk1Opt/foD9L9aBViAWarnxd3+2OtVBFhxXK+W5yinUwj9Q5feYF3bsQk=
-X-Received: by 2002:a17:907:1048:: with SMTP id
- oy8mr15235350ejb.382.1629378141544; 
- Thu, 19 Aug 2021 06:02:21 -0700 (PDT)
+ bh=uBnGDBh4azrac8CAYImJW72cMASuziAYlzdQdF1PwiU=;
+ b=B2Rme0cQMtA2x9/f+XCFrXY5mRSSh8eFpl4CUKH6ql3njj0v2NGkMb6CP4zYKuMypU
+ 7PXRWZB75xlFmZwP2wsf92bFnP6pxTHn8wfrP6wXAMiYxJVw8ay1Zdei7AFKcCQFRfy5
+ 2qiz8wGW7DBEgD7mP2n73yzJhVsAAIZ7lnavd0M6XESH69IIsGnLyrpfUcMX3i1qN5a+
+ t3/s1rgbHW1xfnAh/ZrH+UJZm5Jw7gy8ye/G0lJ2NYMNkraJeZxXEIA2CTsHv091fkPy
+ wAQvWo+pv/xGw/TJLgXG8LStW8q+vPmdvpR/gd2hIKp6QXRO4JqOMxUT+f/ElEdpp/FZ
+ iQxA==
+X-Gm-Message-State: AOAM532DoVpHh1gwH/WvyAcDs4CGr0biAewGFEGRvRBcowQYeLv+ZrN/
+ e3I/zpQCSnxL89gA5V3ndhbWlvu0YanqhCJFJ5UVNA==
+X-Google-Smtp-Source: ABdhPJxmpPeadDnN0oaY0DZb2/vArV67Leadf5F/5+Rnyn7RsezPkXmTBP0dHNet9dIalX2tHsTcAGcJmc4T2b2tjhM=
+X-Received: by 2002:aa7:dd48:: with SMTP id o8mr12938264edw.44.1629378395596; 
+ Thu, 19 Aug 2021 06:06:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210806023119.431680-1-ehabkost@redhat.com>
-In-Reply-To: <20210806023119.431680-1-ehabkost@redhat.com>
+References: <20210812033405.362985-1-ani@anisinha.ca>
+ <alpine.DEB.2.22.394.2108171014500.202364@anisinha-lenovo>
+In-Reply-To: <alpine.DEB.2.22.394.2108171014500.202364@anisinha-lenovo>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Aug 2021 14:01:35 +0100
-Message-ID: <CAFEAcA89zK6pET09ZuDAmOB8O0PHrycmKcWWmTfVK1Tm5wQ=LQ@mail.gmail.com>
-Subject: Re: [PATCH for-6.2] sbsa-ref: Rename SBSA_GWDT enum value
-To: Eduardo Habkost <ehabkost@redhat.com>
+Date: Thu, 19 Aug 2021 14:05:49 +0100
+Message-ID: <CAFEAcA8Fu+mkzFi9JdTtbqMcnnV74Swk04xx2a1G4L_oATY2eQ@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/Kconfig: no need to enable ACPI_MEMORY_HOTPLUG
+ explicitly
+To: Ani Sinha <ani@anisinha.ca>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,28 +78,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shashi Mallela <shashi.mallela@linaro.org>,
- Leif Lindholm <leif@nuviainc.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Radoslaw Biernacki <rad@semihalf.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 6 Aug 2021 at 03:31, Eduardo Habkost <ehabkost@redhat.com> wrote:
+On Tue, 17 Aug 2021 at 05:45, Ani Sinha <ani@anisinha.ca> wrote:
 >
-> The SBSA_GWDT enum value conflicts with the SBSA_GWDT() QOM type
-> checking helper, preventing us from using a OBJECT_DEFINE* or
-> DEFINE_INSTANCE_CHECKER macro for the SBSA_GWDT() wrapper.
+> ping ...
+
+You didn't cc any of the ACPI maintainers; I have done so.
+
+Is it intended that ACPI_HW_REDUCED must always imply
+ACPI_MEMORY_HOTPLUG, or is it just a coincidence that the
+virt board happens to want both, and so we select both ?
+
+> On Thu, 12 Aug 2021, Ani Sinha wrote:
 >
-> If I understand the SBSA 6.0 specification correctly, the signal
-> being connected to IRQ 16 is the WS0 output signal from the
-> Generic Watchdog.  Rename the enum value to SBSA_GWDT_WS0 to be
-> more explicit and avoid the name conflict.
->
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> > ACPI_MEMORY_HOTPLUG is implicitly turned on when ACPI_HW_REDUCED is selected.
+> > ACPI_HW_REDUCED is already enabled. No need to turn on ACPI_MEMORY_HOTPLUG
+> > explicitly. This is a minor cleanup.
+> >
+> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > ---
+> >  hw/arm/Kconfig | 1 -
+> >  1 file changed, 1 deletion(-)
+> >
+> > diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> > index 4ba0aca067..38cf9f44e2 100644
+> > --- a/hw/arm/Kconfig
+> > +++ b/hw/arm/Kconfig
+> > @@ -25,7 +25,6 @@ config ARM_VIRT
+> >      select ACPI_PCI
+> >      select MEM_DEVICE
+> >      select DIMM
+> > -    select ACPI_MEMORY_HOTPLUG
+> >      select ACPI_HW_REDUCED
+> >      select ACPI_NVDIMM
+> >      select ACPI_APEI
+> > --
+> > 2.25.1
+> >
+> >
 
-
-
-Applied to target-arm.next for 6.2, thanks.
 
 -- PMM
 
