@@ -2,112 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE9B03F22CF
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 00:11:39 +0200 (CEST)
-Received: from localhost ([::1]:35450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33F133F2362
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 00:52:32 +0200 (CEST)
+Received: from localhost ([::1]:41284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGqGA-00069u-D4
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 18:11:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51600)
+	id 1mGqti-0003SR-Qx
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 18:52:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1mGqF9-0005PV-Un
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 18:10:35 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40388)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
- id 1mGqF8-0004bA-5L
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 18:10:35 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 17JM3UMq073374; Thu, 19 Aug 2021 18:10:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : mime-version : content-transfer-encoding; s=pp1;
- bh=s9oQOAi1oMeLWbk2SGSqnGs5buytPLYhHtKMOaBIb6A=;
- b=aM14whoIUSVhsMuqIdU5/2qLydGj9CPyPAK8w6xAZDsQ5OaRDPa4wMqll3fcLI2UJiQu
- 64WyMSA3LGRpcWrurZbKkPMJNT8wb2tzl2ldhFOgIJRAiTBh6/n33Re5HAKYPyxz6Osx
- XeHG2HdHkZwiMmNpCJeqMg5J29fIEiBNw9MamP5NQoETjSQLxk3UGrjVT4zhpoDKAGHJ
- GCSxHEPtr4VksPfcTOjwMjNEWEPqPG/4+yHTvOuy9qqGeFcnpGb7QpXAZ55MaI0VqhZc
- RWOWYDzYTRmvhYDw0zaD3K6YwvjdSV3hKwBbaN33lZWJsmTXxnLUeecL7f3vuGP9nsjq Bg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ahk0yr6j4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Aug 2021 18:10:29 -0400
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 17JM5UAk086447;
- Thu, 19 Aug 2021 18:10:28 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3ahk0yr6hu-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Aug 2021 18:10:28 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 17JM3T03021949;
- Thu, 19 Aug 2021 22:10:27 GMT
-Received: from b03cxnp07027.gho.boulder.ibm.com
- (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
- by ppma01dal.us.ibm.com with ESMTP id 3ahu0ta8yy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Aug 2021 22:10:27 +0000
-Received: from b03ledav004.gho.boulder.ibm.com
- (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
- by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 17JMAPCL34865546
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 19 Aug 2021 22:10:25 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7474878063;
- Thu, 19 Aug 2021 22:10:25 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A97567805E;
- Thu, 19 Aug 2021 22:10:22 +0000 (GMT)
-Received: from jarvis.int.hansenpartnership.com (unknown [9.160.128.138])
- by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 19 Aug 2021 22:10:22 +0000 (GMT)
-Message-ID: <d6eb8f7ff2d78296b5ba3a20d1dc9640f4bb8fa5.camel@linux.ibm.com>
-Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
-From: James Bottomley <jejb@linux.ibm.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Date: Thu, 19 Aug 2021 15:10:21 -0700
-In-Reply-To: <YR5qka5aoJqlouhO@work-vm>
-References: <cover.1629118207.git.ashish.kalra@amd.com>
- <CABayD+fyrcyPGg5TdXLr95AFkPFY+EeeNvY=NvQw_j3_igOd6Q@mail.gmail.com>
- <0fcfafde-a690-f53a-01fc-542054948bb2@redhat.com>
- <37796fd1-bbc2-f22c-b786-eb44f4d473b9@linux.ibm.com>
- <CABayD+evf56U4yT2V1TmEzaJjvV8gutUG5t8Ob2ifamruw5Qrg@mail.gmail.com>
- <458ba932-5150-8706-3958-caa4cc67c8e3@linux.ibm.com>
- <YR1ZvArdq4sKVyTJ@work-vm>
- <c1d8dbca-c6a9-58da-6f95-b33b74e0485a@linux.ibm.com>
- <YR4U11ssVUztsPyx@work-vm>
- <538733190532643cc19b6e30f0eda4dd1bc2a767.camel@linux.ibm.com>
- <YR5qka5aoJqlouhO@work-vm>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mGqsG-0002Qq-Lg; Thu, 19 Aug 2021 18:51:00 -0400
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:44547)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mGqsE-0007It-CW; Thu, 19 Aug 2021 18:51:00 -0400
+Received: by mail-io1-xd2e.google.com with SMTP id g9so9773567ioq.11;
+ Thu, 19 Aug 2021 15:50:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=LOftkpDKk6mQohXTsd7ZQ8wmGXsKNS5uiJKFMfnXOSw=;
+ b=Y7P0vhzAlSZYQaPbEgUsQe4NGSD3SodzaPROtQNWf4J0NjWRbcRtkNpYTG6dtOrqcm
+ Eufs54Qa3028TTonK5ulXGmqf2JiGuAFQhi7wjBzciXrghKsEZNCZYxtFkvKQTt0cZj1
+ XIm6vNXEhHYbTldGCC3N+MyGCfidn1QTjWTt7eDJPS+MPvbicf5pht9QorThbSdOfjo9
+ /2113G48fvW5P7Lxmd9M5L/S2FA+UGGMTvpFM19W+oWUp5zXDAx/AV07x1mwhGOC02nD
+ oUnNaqv8xBS/logv8zpf8WC7oZzBi/KOx3dNMMf1XnB07h3p2N4mutx2+YIO9B5yfRlZ
+ Kzzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=LOftkpDKk6mQohXTsd7ZQ8wmGXsKNS5uiJKFMfnXOSw=;
+ b=YxUEDsutVYZ9OPTfdtbqEckghPZ1VSNfTR6Re4pdCb9obNLxAo70fXHPbcio7rWXqE
+ BhqCyWxreTHMn+23h82FWxQCqsxdPIuzydoVRdoXpZjnX4gP8IkWvbtUR0RCuapVgEsg
+ YRKIf0xetKo0nc868FXTsDTbN4qvs7yLa2TTZxBN9bl9m1zJVGRwXSKArY6OqADpyGlq
+ HPZPDCjt0/sFbDMKYK555D+4pkkqlG7g5UTSZxPxKM2wuGgBRMGvVU4ae130FzRJ1qjA
+ cpFdK0DpMNbFOupzvH8CJ/TwpBZHz4AARj2Byv6DRcSrF59apkgzW5KOe3uM9svMaFde
+ yn5g==
+X-Gm-Message-State: AOAM5300H8mm5MebCxOk/e94NKFpDo10thBcB9W08YG99wMe6BXcKMbJ
+ SzPmScuGuc6RvTtuOuG9MWlPtqkmhBDlKzSuHNc=
+X-Google-Smtp-Source: ABdhPJxbxmTeV19i0+RNextvBpmE2qN/CvfyYnT/Ww6WtTJpfI9NaV3GeTg3pXpyV7vDll2dqU1Y8SU/Mmc6u2GgyVQ=
+X-Received: by 2002:a6b:610d:: with SMTP id v13mr13145030iob.42.1629413455982; 
+ Thu, 19 Aug 2021 15:50:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: KeEQZ4f5mgVctXjPAxt3LZpPoLy6mHZn
-X-Proofpoint-ORIG-GUID: 22mbp_qpwaXsEiVgdQPm2zFx57CDAg1s
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-08-19_07:2021-08-17,
- 2021-08-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999 phishscore=0
- impostorscore=0 suspectscore=0 clxscore=1015 malwarescore=0 adultscore=0
- spamscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
- definitions=main-2108190126
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=jejb@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210819163422.2863447-1-philmd@redhat.com>
+ <20210819163422.2863447-2-philmd@redhat.com>
+In-Reply-To: <20210819163422.2863447-2-philmd@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 20 Aug 2021 08:50:30 +1000
+Message-ID: <CAKmqyKNvEKT=C04brWRgS4K2bcE642_ZdTutDfeJtpQrEEcMsA@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] hw/arm/xlnx-zynqmp: Realize qspi controller
+ *after* qspi_dma
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2e.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -121,54 +79,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jejb@linux.ibm.com
-Cc: thomas.lendacky@amd.com, Ashish Kalra <Ashish.Kalra@amd.com>,
- brijesh.singh@amd.com, ehabkost@redhat.com, kvm@vger.kernel.org,
- mst@redhat.com, Steve Rutherford <srutherford@google.com>,
- richard.henderson@linaro.org, tobin@ibm.com, qemu-devel@nongnu.org,
- frankeh@us.ibm.com, Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, dovmurik@linux.vnet.ibm.com
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2021-08-19 at 15:28 +0100, Dr. David Alan Gilbert wrote:
-> * James Bottomley (jejb@linux.ibm.com) wrote:
-> > On Thu, 2021-08-19 at 09:22 +0100, Dr. David Alan Gilbert wrote:
-[...]
-> > > I think it really does have to cope with migration to a new
-> > > version of host.
-> > 
-> > Well, you're thinking of OVMF as belonging to the host because of
-> > the way it is supplied, but think about the way it works in
-> > practice now, forgetting about confidential computing: OVMF is RAM
-> > resident in ordinary guests, so when you migrate them, the whole of
-> > OVMF (or at least what's left at runtime) goes with the migration,
-> > thus it's not possible to change the guest OVMF by migration.  The
-> > above is really just an extension of that principle, the only
-> > difference for confidential computing being you have to have an
-> > image of the current OVMF ROM in the target to seed migration.
-> > 
-> > Technically, the problem is we can't overwrite running code and
-> > once the guest is re-sited to the target, the OVMF there has to
-> > match exactly what was on the source for the RT to still
-> > function.   Once the migration has run, the OVMF on the target must
-> > be identical to what was on the source (including internally
-> > allocated OVMF memory), and if we can't copy the MH code, we have
-> > to rely on the target image providing this identical code and we
-> > copy the rest.
-> 
-> I'm OK with the OVMF now being part of the guest image, and having to
-> exist on both; it's a bit delicate though unless we have a way to
-> check it (is there an attest of the destination happening here?)
+On Fri, Aug 20, 2021 at 2:35 AM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> If we link QOM object (a) as a property of QOM object (b),
+> we must set the property *before* (b) is realized.
+>
+> Move QSPI realization *after* QSPI DMA.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-There will be in the final version.  The attestations of the source and
-target, being the hash of the OVMF (with the registers in the -ES
-case), should be the same (modulo any firmware updates to the PSP,
-whose firmware version is also hashed) to guarantee the OVMF is the
-same on both sides.  We'll definitely take an action to get QEMU to
-verify this ... made a lot easier now we have signed attestations ...
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-James
+Alistair
 
-
+> ---
+>  hw/arm/xlnx-zynqmp.c | 42 ++++++++++++++++++++----------------------
+>  1 file changed, 20 insertions(+), 22 deletions(-)
+>
+> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+> index 3597e8db4de..9724978761b 100644
+> --- a/hw/arm/xlnx-zynqmp.c
+> +++ b/hw/arm/xlnx-zynqmp.c
+> @@ -570,26 +570,6 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Er=
+ror **errp)
+>          g_free(bus_name);
+>      }
+>
+> -    if (!sysbus_realize(SYS_BUS_DEVICE(&s->qspi), errp)) {
+> -        return;
+> -    }
+> -    sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi), 0, QSPI_ADDR);
+> -    sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi), 1, LQSPI_ADDR);
+> -    sysbus_connect_irq(SYS_BUS_DEVICE(&s->qspi), 0, gic_spi[QSPI_IRQ]);
+> -
+> -    for (i =3D 0; i < XLNX_ZYNQMP_NUM_QSPI_BUS; i++) {
+> -        gchar *bus_name;
+> -        gchar *target_bus;
+> -
+> -        /* Alias controller SPI bus to the SoC itself */
+> -        bus_name =3D g_strdup_printf("qspi%d", i);
+> -        target_bus =3D g_strdup_printf("spi%d", i);
+> -        object_property_add_alias(OBJECT(s), bus_name,
+> -                                  OBJECT(&s->qspi), target_bus);
+> -        g_free(bus_name);
+> -        g_free(target_bus);
+> -    }
+> -
+>      if (!sysbus_realize(SYS_BUS_DEVICE(&s->dp), errp)) {
+>          return;
+>      }
+> @@ -646,8 +626,26 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Er=
+ror **errp)
+>
+>      sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi_dma), 0, QSPI_DMA_ADDR);
+>      sysbus_connect_irq(SYS_BUS_DEVICE(&s->qspi_dma), 0, gic_spi[QSPI_IRQ=
+]);
+> -    object_property_set_link(OBJECT(&s->qspi), "stream-connected-dma",
+> -                             OBJECT(&s->qspi_dma), errp);
+> +
+> +    if (!object_property_set_link(OBJECT(&s->qspi), "stream-connected-dm=
+a",
+> +                                  OBJECT(&s->qspi_dma), errp)) {
+> +         return;
+> +    }
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->qspi), errp)) {
+> +        return;
+> +    }
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi), 0, QSPI_ADDR);
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi), 1, LQSPI_ADDR);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->qspi), 0, gic_spi[QSPI_IRQ]);
+> +
+> +    for (i =3D 0; i < XLNX_ZYNQMP_NUM_QSPI_BUS; i++) {
+> +        g_autofree gchar *bus_name =3D g_strdup_printf("qspi%d", i);
+> +        g_autofree gchar *target_bus =3D g_strdup_printf("spi%d", i);
+> +
+> +        /* Alias controller SPI bus to the SoC itself */
+> +        object_property_add_alias(OBJECT(s), bus_name,
+> +                                  OBJECT(&s->qspi), target_bus);
+> +    }
+>  }
+>
+>  static Property xlnx_zynqmp_props[] =3D {
+> --
+> 2.31.1
+>
+>
 
