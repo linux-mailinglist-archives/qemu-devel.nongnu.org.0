@@ -2,79 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 465603F1A90
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 15:38:27 +0200 (CEST)
-Received: from localhost ([::1]:44696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A6D3F1AC6
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 15:41:01 +0200 (CEST)
+Received: from localhost ([::1]:52062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGiFV-0001TQ-VU
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 09:38:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44072)
+	id 1mGiI0-0006Ng-Nr
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 09:41:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mGiED-0000RC-Au
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:37:05 -0400
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:34382)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mGiEu-0001gc-PG
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:37:49 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:43741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mGiEB-0001bc-6a
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:37:04 -0400
-Received: by mail-pl1-x629.google.com with SMTP id u1so3957184plr.1
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 06:37:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=zFkPTLhOTVMiBxExd2gI4Tu83dQ81rLzOJz37KGA9Jc=;
- b=dLcM/Ij4GtAlphtiZ4MjdkXcAj/FYvfqbNM9hghLFD/7g7OT3lMXwIqKz0Jeg7IvtQ
- QhcSxcd24S7vMZSbwnbC9+1hCuKmRu1fVjj3idCeg+ZRo12f0A6ugfDpe87xS+3yE5i0
- tSKfyD3CGI9RtuQQtTLZYYAg7uzCIIaYxxDNj3p8pzEDjNzyCnlIwkKzJnZNOoLu9sfB
- o7Kvv+nMFWHu7sUWbM1Y7Y0+wGDWUV3WSpct/TegPq/J2r9a3q5ouCxMTL4iYRpoiv1B
- 3rpCe8PaQGRRc+KSGSnThCGHcLNzl2jz8DlZtEZqnG80qFGlWp/onjH7sXdBQnO2O95X
- BR7w==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mGiEs-0002Sj-6k
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:37:48 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id b15so12952867ejg.10
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 06:37:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MfJCObmEGkvFyp2DjbtgejYNsDF6rAIfOCms2Hq3mKY=;
+ b=m2mlo+nGzeC9Z7UEhl6Dp2UUIeD7jpEvmXF/4yLCz7/BTROjpGDe3kqni2b5bmjKHh
+ y/w3gOZNeShjA85DPjA3QPeWzuB81FiCtjizfH+uFP7GfQxfhKWzRpDr+TbqtZsRQUrU
+ LcHNH+lWTxjiuUx4zZgVLifp89LORjJf3o8z7gtRpqQ5iPpqJli2YUi0UUPyM9YDiAp/
+ VMDrnzlfiaxCB+zxnSXUdP6zF1DbrnJd3B07yHRLtI4L44ekVS3NibsxwkxAXqmnNgxq
+ i6bwC0P9P9E3f1nQLSU2F3LMA85Pk08MlCo3KzmCfnZ0zOPjqXUIJzcNC5mvSBq12hx+
+ A+NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=zFkPTLhOTVMiBxExd2gI4Tu83dQ81rLzOJz37KGA9Jc=;
- b=hgWMKkbg0XA3SLc6i25UfXlpozdSLnxNiBEl0T02mDtQCWj3QpRYtSvZ2DWMKJzm8O
- 1S6oRfTl28HByIHHtvFSLu3HM7x90hSSQzHRo6dmH+3ajwINQY5YTG9aWZTfnIGlOeiC
- zmj8zUSVgwJEFf1kFRypWfhOhy/Mw3XXFO1Y1TAn/aE/ZfJeBfbEX5I9UXR/a0wEbLSM
- rIxAb7bmdfkjj0fQDvI85L/1rBvxQYbXHt2zeEOumzHeevaRWAdxKz6DMhbEmPqAtxft
- xqWuWYgPl/LI3aWugtIlfHdeAJz3hDgGouapTHi4tXqAgPAyYK9aQ0hkPzJ3qRNPtArl
- HKUQ==
-X-Gm-Message-State: AOAM5312xVVRDjvWHlRbqz/nn1q4I9b+DssC1uumgicCEnu0lXdgcdSg
- wpI7a4skTapo/cqZxi8UurgHHA==
-X-Google-Smtp-Source: ABdhPJw/ZvsMi6cgi7ChcWsdDfEgh82HD8lWxWFLTb8Rx1Itl1xJh1C2KKF8ZTgolsBXSeAHw19goQ==
-X-Received: by 2002:a17:902:e804:b0:12d:b49f:bf1e with SMTP id
- u4-20020a170902e80400b0012db49fbf1emr11977601plg.75.1629380221272; 
- Thu, 19 Aug 2021 06:37:01 -0700 (PDT)
-Received: from anisinha-lenovo ([203.163.234.32])
- by smtp.googlemail.com with ESMTPSA id l185sm3530550pfd.62.2021.08.19.06.36.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 06:37:00 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Thu, 19 Aug 2021 19:06:44 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH] hw/arm/Kconfig: no need to enable ACPI_MEMORY_HOTPLUG
- explicitly
-In-Reply-To: <alpine.DEB.2.22.394.2108191849260.417749@anisinha-lenovo>
-Message-ID: <alpine.DEB.2.22.394.2108191905100.418214@anisinha-lenovo>
-References: <20210812033405.362985-1-ani@anisinha.ca>
- <alpine.DEB.2.22.394.2108171014500.202364@anisinha-lenovo>
- <CAFEAcA8Fu+mkzFi9JdTtbqMcnnV74Swk04xx2a1G4L_oATY2eQ@mail.gmail.com>
- <alpine.DEB.2.22.394.2108191849260.417749@anisinha-lenovo>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MfJCObmEGkvFyp2DjbtgejYNsDF6rAIfOCms2Hq3mKY=;
+ b=OvoMo9hvSoSyIUfgNkylO/g2lpxFSdDqg6ZAKH1kPG4hmpsKUezHasBV9eA55BVYet
+ yOIGaC4z+bDH6F8qQadOWHYxgvlNWxZ3YUELnZbZDy1ZWiwmcU9tnPFsYz+roj8EiSBp
+ Y1PynXmi+XhthV8KbHYwhMQkmlDo/C2N06wUFB82ycuZF2f6nL7HVCL6FT9UMFwVZECe
+ dDxD3aeJkvHcgO6bUhJ8nU4pemSs8Imab1wSVbulHeEfHy8ts9q7wm9yCZ7KWXL7/psm
+ VnkLjwk1GIB8E20PsCr8Ato/1CPUDWB5R/0vC1h/hDfl+WUmFvQGPo+NuM26NUdPCrDg
+ rsxg==
+X-Gm-Message-State: AOAM530zh6jeNTQnIRm6Fd4QnpcSYJ9iqF/gxDP3uCWD4sguabdupSaT
+ A8wVbJgyxDCWPvItFeC5EVD3YC0paGbW2ECk2vyjcg==
+X-Google-Smtp-Source: ABdhPJwZl6y5/b0ptjkA0V8nkEJSehTMJZ/1l4IR3vPeRbJn27jq23Ns0hMvWIzxkTgvw4vFX4astajysF4WRvhzbiA=
+X-Received: by 2002:a17:906:e8d:: with SMTP id
+ p13mr15965084ejf.85.1629380264709; 
+ Thu, 19 Aug 2021 06:37:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::629;
- envelope-from=ani@anisinha.ca; helo=mail-pl1-x629.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210818010041.337010-1-richard.henderson@linaro.org>
+ <20210818010041.337010-3-richard.henderson@linaro.org>
+In-Reply-To: <20210818010041.337010-3-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 19 Aug 2021 14:36:58 +0100
+Message-ID: <CAFEAcA9XR8MebdL7+GXLjeHvyayvGL+u__e6Go7wq-wiDfFS_w@mail.gmail.com>
+Subject: Re: [PATCH 2/4] target/arm: Merge disas_a64_insn into
+ aarch64_tr_translate_insn
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,82 +79,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, 18 Aug 2021 at 02:01, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> It is confusing to have different exits from translation
+> for various conditions in separate functions.
+>
+> Merge disas_a64_insn into its only caller.  Standardize
+> on the "s" name for the DisasContext, as the code from
+> disas_a64_insn had more instances.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-On Thu, 19 Aug 2021, Ani Sinha wrote:
-
->
->
-> On Thu, 19 Aug 2021, Peter Maydell wrote:
->
-> > On Tue, 17 Aug 2021 at 05:45, Ani Sinha <ani@anisinha.ca> wrote:
-> > >
-> > > ping ...
-> >
-> > You didn't cc any of the ACPI maintainers; I have done so.
-> >
->
-> oops! my bad. I used checkpatch and did not verify if Igor/Michael was
-> cc'd.
->
-> > Is it intended that ACPI_HW_REDUCED must always imply
-> > ACPI_MEMORY_HOTPLUG, or is it just a coincidence that the
-> > virt board happens to want both, and so we select both ?
-> >
->
-> From a purely code inspection point of view, I noticed that
-> generic_event_device.c depends on CONFIG_ACPI_HW_REDUCED. The GED does use
-> memory hotplug apis - for example acpi_ged_device_plug_cb() uses
-> acpi_memory_plug_cb() etc.
->
-> Hence, as it stands today, CONFIG_ACPI_HW_REDUCED will need to select ACPI
-> memory hotplug. Unless we remove the GED device's dependence on
-> ACPI_HW_REDUCED that is. I cannot comment whether that would be wise or if
-> we should reorg the code in some other way.
-
-The other question we should ask is whether arm platform requires
-ACPI_MEMORY_HOTPLUG independent of ACPI_HW_REDUCED/GED device? If that is
-the case, then maybe we should keep that config option as is.
-Maybe @qemu-arm can answer that?
-
->
-> > > On Thu, 12 Aug 2021, Ani Sinha wrote:
-> > >
-> > > > ACPI_MEMORY_HOTPLUG is implicitly turned on when ACPI_HW_REDUCED is selected.
-> > > > ACPI_HW_REDUCED is already enabled. No need to turn on ACPI_MEMORY_HOTPLUG
-> > > > explicitly. This is a minor cleanup.
-> > > >
-> > > > Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> > > > ---
-> > > >  hw/arm/Kconfig | 1 -
-> > > >  1 file changed, 1 deletion(-)
-> > > >
-> > > > diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> > > > index 4ba0aca067..38cf9f44e2 100644
-> > > > --- a/hw/arm/Kconfig
-> > > > +++ b/hw/arm/Kconfig
-> > > > @@ -25,7 +25,6 @@ config ARM_VIRT
-> > > >      select ACPI_PCI
-> > > >      select MEM_DEVICE
-> > > >      select DIMM
-> > > > -    select ACPI_MEMORY_HOTPLUG
-> > > >      select ACPI_HW_REDUCED
-> > > >      select ACPI_NVDIMM
-> > > >      select ACPI_APEI
-> > > > --
-> > > > 2.25.1
-> > > >
-> > > >
-> >
-> >
-> > -- PMM
-> >
->
+thanks
+-- PMM
 
