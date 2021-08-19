@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF5A33F1D52
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 17:51:09 +0200 (CEST)
-Received: from localhost ([::1]:47688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05D6E3F1D63
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 17:59:32 +0200 (CEST)
+Received: from localhost ([::1]:53850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGkJx-0006Gy-2e
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 11:51:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46992)
+	id 1mGkS2-0002Gr-TX
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 11:59:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mGkIw-0004tB-4D
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 11:50:06 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:45823)
+ id 1mGkR1-0001as-6R
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 11:58:27 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:40473)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mGkIu-0007lq-Io
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 11:50:05 -0400
-Received: by mail-ej1-x633.google.com with SMTP id qk33so13800891ejc.12
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 08:50:04 -0700 (PDT)
+ id 1mGkQy-0006I3-C2
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 11:58:26 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id d6so9583193edt.7
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 08:58:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=d5I0zrfj8GUgu8d8PpuwQI/q1pwsOjpyrWK0zwiRjo8=;
- b=fdRpdJlhUaHGXHSbwBFkh/2RPp5jVrIdq9Q0dML02s36kuw0DGmnrdqUik46YsP8wv
- jbJ48OfqMC1yPr8kg5zW9M1UNmzzXoKVUNdRdGuGU4wqcSx3Oqd93O5nM+Y+6YvaI4JJ
- kGxJyNrJWr08Y7eb9xRF+6UXqFiynXsnxBjqokuJoJkovJbWB8Tewu2SkGPNJAHfvdBr
- AThvwIEJ8oo6oyQ2Js3fwlN9oFErYLQP7CrTqEylT5iwX+G8+vUsW6T7/A6Lgc4DiSOG
- yCbBX2vOUjAGMOZm2QoHyc1959WchLZRz1qbJWiDGKKErNu/wlJxep/wFOT2pAsUtHAs
- dNYQ==
+ :cc; bh=hXsU7l2tRYoHyrnvlU9Akr+jDhBlo5eoxpnVnjLP0pU=;
+ b=LwH01fuGLwPoMfMVOWWp3+1MLJvb0pxL4a0Juj5fG0AjxmBEcG5IVSx7Uyb5UW2aEk
+ Gt0Nq8s79FkCcg1oS0FbdVLCZ3YNXnW+ZVaaGfjXtiFZyyDZUUDGV/jiiK2piJ6mGUpZ
+ ajvMKUFN0IIPTQaR8xzOBVqmtVg40GgEpC0p6Q0z3l+s6Vs++2+/KfNO7jcOFFfzKLgV
+ XPDY8XIOTzMjmTHkHKstBsa1/oGhaxU/ZkzBQPzufZQ1Lz8pRVZKpHM7IhfkUhvP2lYq
+ GCXjO5yLfsm/buFCJM2SYKr4lVQepFCk9JIX14ng0Lyfn5HIFsfe+D/1oRE6n9R/nRwI
+ Jq3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=d5I0zrfj8GUgu8d8PpuwQI/q1pwsOjpyrWK0zwiRjo8=;
- b=oejqUM150+oTrT0ZkckucgpHB9kgh18juk9eke+wx9atqJB1dZLUYhoo7lxzrOsxHC
- s1zEqnitI0OveTIhMBgJlAbVlJWpZLwkoWQfTyyhZ/u7k3ENCv3tGpIFVBAeyhH6RzAe
- U5BOJKZzT+mHM1Msb60QLVCux3QtitXIt2gM5gyNSP9DzqTUss9C8//MKyKmgZsH7UMC
- 0JS7FofWElZ1Dz0G25XAsRbIXlVt5vMJHd+PoWCsQ3V/BrtMSUwdQfUZ7Lsb8QLPSsfE
- 04Z4aDtJvTffaPN41x7qbmEkNiL99+kHJlbHX4C1yZUEq/HlOnd0O5+KEybNIV6QrJgf
- rcvg==
-X-Gm-Message-State: AOAM5306kvXU0i7Vq3o7u0mQbchvAfuu1lZ/VzFczIT63t2SDlF9HcqY
- qmyytbtZeOdJjVIPZkYXt04XTSUyhky3d0dwGYafqeoTNgM=
-X-Google-Smtp-Source: ABdhPJzUmlUAfpphXjGdEaaRnTqIcMcRRku3Ad2ENtIhF/D8NlO+jlWNBYVo8F3E3MV0RhLhwPOivrdPNqYHJL8hkeM=
-X-Received: by 2002:a17:906:e8d:: with SMTP id
- p13mr16592736ejf.85.1629388203144; 
- Thu, 19 Aug 2021 08:50:03 -0700 (PDT)
+ bh=hXsU7l2tRYoHyrnvlU9Akr+jDhBlo5eoxpnVnjLP0pU=;
+ b=oSkEb63p+9/yfrR0n1xhdBXyfvjQe/ytYsor9uvcMp36zEl1sNISKJ8/Xqwq7mC/i4
+ KfJzF64gFBaHlE2IH0woI+sOJRbbAxCLpYVALHco4uOhOt0x6GhC3caGIWaJWIHvaWN3
+ DmPiPL7syQ1JgrW9LULMeKJz+NhaKIdgWQpdyykEZ3TKocv+vBlfg/4GOqPaqO4fHbxV
+ rW1bpNcA7U/smneOE0NSz24v7lZHxLdQzu7e/BjQq2Pc/kRfBrwSA8zqVuBhkjqe6oxH
+ 6EdbOMdFIojZNHw+nEJLDR31A2VbHqGZwlwZc+ptBZE9P3xORSsJ0rJWkmcBqCaiBzIB
+ XKJQ==
+X-Gm-Message-State: AOAM533PIMneUgpNAwt6dA+E/GOqSKgs9kII476VIyMtYOPblp9pccN9
+ 1sIrEivY1pf96NBCxzDi/crefJ5ucPu0W16NeiTHlQ==
+X-Google-Smtp-Source: ABdhPJxQNEJxhOFYNzXfygfNVX4hhqBBr0tlsPt0GRb29e/23BOJ0OinmrUqGn4aw6DeF/6cqRqTmVJccy7Frh4hXmU=
+X-Received: by 2002:aa7:c0c6:: with SMTP id j6mr5852175edp.146.1629388702544; 
+ Thu, 19 Aug 2021 08:58:22 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210818191920.390759-1-richard.henderson@linaro.org>
- <20210818191920.390759-27-richard.henderson@linaro.org>
-In-Reply-To: <20210818191920.390759-27-richard.henderson@linaro.org>
+ <20210818191920.390759-36-richard.henderson@linaro.org>
+In-Reply-To: <20210818191920.390759-36-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Aug 2021 16:49:17 +0100
-Message-ID: <CAFEAcA9zto133FEz_pWuYUH2z1obhtoyizwN_T2Z0nj1EfwqEQ@mail.gmail.com>
-Subject: Re: [PATCH v3 26/66] trace/mem: Pass MemOpIdx to trace_mem_get_info
+Date: Thu, 19 Aug 2021 16:57:36 +0100
+Message-ID: <CAFEAcA_5f5kYjEzLm1Ov1MxE_dQtDrzopnynya1uwC70+tCJjA@mail.gmail.com>
+Subject: Re: [PATCH v3 35/66] accel/tcg: Add cpu_{ld,st}*_mmu interfaces
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,12 +81,19 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Aug 2021 at 20:51, Richard Henderson
+On Wed, 18 Aug 2021 at 21:06, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> We (will) often have the complete MemOpIdx handy, so use that.
+> These functions are much closer to the softmmu helper
+> functions, in that they take the complete MemOpIdx,
+> and from that they may enforce required alignment.
+>
+> The previous cpu_ldst.h functions did not have alignment info,
+> and so did not enforce it.  Retain this by adding MO_UNALN to
+> the MemOp that we create in calling the new functions.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
