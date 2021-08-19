@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C36053F1333
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 08:18:36 +0200 (CEST)
-Received: from localhost ([::1]:53410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE5D73F1337
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 08:19:39 +0200 (CEST)
+Received: from localhost ([::1]:55542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGbNr-0000Ph-S0
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 02:18:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36934)
+	id 1mGbOs-0001rH-RD
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 02:19:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mGbMv-0007mZ-2s
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 02:17:38 -0400
-Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:35748)
+ id 1mGbNh-0000lD-77
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 02:18:25 -0400
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:36480)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mGbMs-0004sp-Lv
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 02:17:36 -0400
-Received: by mail-io1-xd2f.google.com with SMTP id a15so6262178iot.2
- for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 23:17:34 -0700 (PDT)
+ id 1mGbNc-0005Uu-Kg
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 02:18:24 -0400
+Received: by mail-io1-xd32.google.com with SMTP id f11so6262689ioj.3
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 23:18:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=vveqHgx3m6sNBg8F4aGHmOtrJF84u2Z5JOWW6NUK0qE=;
- b=ZPxo9LlsowIJR+0P8cdGMUFfzv0/+2hZ7vp7s6LbZhsT8kiDQd2LkQE9IS3dEvM+Hw
- EUjpdBXB3HKdViJMrxCq1ofV0UZ8Y1iLSWY83QzkqRbBQlNjjxOKugwqKqaSVkRFOgGO
- 4Xx8dND25JB7hGZvVzmoG0UOeW4XXO0WALrZQx0hQYVn4NiNxlRI6R/r9Ru7aZ31olUq
- wz31rcwj76mmXor7+Frw1v6cTNS6GKcy3DFHWlOHz7UhwFFCilNs0/46iK+Xz3Qqwl8o
- YkEeMQqb4OUASo3mzla1kou+kK6Jl1j+wk5+fT7EZrbz9yRUiSaU/arF61jbrOmDQsSI
- tUeA==
+ bh=858klbDfw2KCSXaj80YQkKtJJ/gnwoVsrpOsCQoTcNA=;
+ b=dpuIkJnDYlsg6Ah+bg+hsRzTotO1vIgrIqX26/BMCxFvoe4VNXtuv3trWJrel29EQp
+ b6s7nm7gr9+qX1FqD4WFI+N7rDeyFZoPP0+mpSuC8dR3oEoHlHSnupO/aA7RiIhADGAh
+ SaVJuhJbAOkd6GOddXhSQdbEra1XDOnDT73JqQ81DxrcRfVcfONjUl2HD2COoyjoqjsr
+ 9P0BAyywWTQFIZQQrTniyFl6pHXfr9DPmx2vDg3mh/z8Oo2tfrQP6gXOcTQsmtDXE4Cf
+ TbfwwzcSEDvCnOAW1RRBnWTdBnPTk3HfuC973PQ6NAszduBzAAMfksHJ+9l2+cLZHLT6
+ YLFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=vveqHgx3m6sNBg8F4aGHmOtrJF84u2Z5JOWW6NUK0qE=;
- b=WKTMwRsMtI9HP/KvopwYZF5CtgX+ST7dHlOYlD+IpPWfNKrj6qjtg3Z1YvOTIIDVvk
- 56HEKgTsYHSfU7rg989uc5h0TemTU1wzLvxaLbcBZJbBhRu4n2UhZbmOepRYMotOS607
- VcOOe2ORxR0ze+sLzwVEF7WFzUlIvg22KgiRWQfRZVd9XnP8xx7vPt0xmJvJcJU5KAsG
- SJDe+JoWImnKYs8I1T7l4OZGPfFSpi7vCisFzPed0oiO9Dk/B4FaZLHQCPwFDHkfx41U
- aInw0BjGUtD38uLFj4HKbvEEAWJWilCY2sjg1Ft4k5AbgWH5rWUcUdFvlx/5EapUwpnv
- nodQ==
-X-Gm-Message-State: AOAM533TODva4pH/BqFe/S9mb8DzUk/+orSLJrjDNhUbtXG94pArsGxU
- i6Hmh4mG+XVkk0sEe6WapWGBPKPyOqoBcwmgnYM=
-X-Google-Smtp-Source: ABdhPJx3X5uWQ1TTKlyB2CdL2EbLM7WQRGCItW81X5wZa62nAAggVaPrr1T8zjLA/o7bFFg2SVA8GabR3IOwTIHcjds=
-X-Received: by 2002:a02:c502:: with SMTP id s2mr11597834jam.135.1629353853588; 
- Wed, 18 Aug 2021 23:17:33 -0700 (PDT)
+ bh=858klbDfw2KCSXaj80YQkKtJJ/gnwoVsrpOsCQoTcNA=;
+ b=KrjIfI6MBRuc6yVVK4iy8QGZj2uv7PRqdA2AxCii7QteOhwYc82Jjs/Pa+3g6lDGpZ
+ raJSxvAMbDSt7ZNBFI/ccQXBL9X00fsz1jsRq0+d4/buFwkZdoDWLqjmmzbMkkzEC1Sp
+ 2jqR/LKar0dSWGZki+HjF+Ge8IZ8u6rANNNh/50BNNvQster0OFI9vCKfV5mU/NjVgkr
+ PHeKeP0IsHjjTteAjTAI24VbOpkGGOby9RC444SabYVRdw5JKJF61z+Io31SuHdVbitP
+ y9Z/LWWCkIv1cwahf0SazSldIsVF6DfijgtdC3Rz3A9vrQWG6xBdjAQNj5Lot55KdiFW
+ nnCg==
+X-Gm-Message-State: AOAM5328qcJGxAEgUeIfDENAkS+eC6HUSN/hbL216nwZQhLjZt7ljvkQ
+ DUiK/PHt3XRLDezM+ULZRq+reaxQcov08HR8XDE=
+X-Google-Smtp-Source: ABdhPJwt7q42kRJlewmgkX8ip1g0LoK3yHeZpE+MrYzgm8xamAZfN4iiZ6Nm/rvFyTccmVutT7gMgZMnaXsktCp4j3M=
+X-Received: by 2002:a5d:850f:: with SMTP id q15mr10404024ion.118.1629353898816; 
+ Wed, 18 Aug 2021 23:18:18 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210818191920.390759-1-richard.henderson@linaro.org>
- <20210818191920.390759-24-richard.henderson@linaro.org>
-In-Reply-To: <20210818191920.390759-24-richard.henderson@linaro.org>
+ <20210818191920.390759-25-richard.henderson@linaro.org>
+In-Reply-To: <20210818191920.390759-25-richard.henderson@linaro.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 19 Aug 2021 16:17:07 +1000
-Message-ID: <CAKmqyKN1OeCuTmG+EC8U4GuBTX2h+=LnOZ1P8T0vAV4MVQFfiQ@mail.gmail.com>
-Subject: Re: [PATCH v3 23/66] tcg: Expand MO_SIZE to 3 bits
+Date: Thu, 19 Aug 2021 16:17:51 +1000
+Message-ID: <CAKmqyKM7b7UsRvaSbX0Ho4WiFihEBR2MgBz=sA-oLbXdzjqYuw@mail.gmail.com>
+Subject: Re: [PATCH v3 24/66] tcg: Rename TCGMemOpIdx to MemOpIdx
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -85,13 +85,11 @@ Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 19, 2021 at 5:41 AM Richard Henderson
+On Thu, Aug 19, 2021 at 5:45 AM Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> We have lacked expressive support for memory sizes larger
-> than 64-bits for a while.  Fixing that requires adjustment
-> to several points where we used this for array indexing,
-> and two places that develop -Wswitch warnings after the change.
+> We're about to move this out of tcg.h, so rename it
+> as we did when moving MemOp.
 >
 > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
@@ -101,385 +99,1709 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  include/exec/memop.h                | 14 +++++++++-----
->  target/arm/translate-a64.c          |  2 +-
->  tcg/tcg-op.c                        | 13 ++++++++-----
->  target/s390x/tcg/translate_vx.c.inc |  2 +-
->  tcg/aarch64/tcg-target.c.inc        |  4 ++--
->  tcg/arm/tcg-target.c.inc            |  4 ++--
->  tcg/i386/tcg-target.c.inc           |  4 ++--
->  tcg/mips/tcg-target.c.inc           |  4 ++--
->  tcg/ppc/tcg-target.c.inc            |  8 ++++----
->  tcg/riscv/tcg-target.c.inc          |  4 ++--
->  tcg/s390/tcg-target.c.inc           |  4 ++--
->  tcg/sparc/tcg-target.c.inc          | 16 ++++++++--------
->  12 files changed, 43 insertions(+), 36 deletions(-)
+>  accel/tcg/atomic_template.h   | 24 +++++------
+>  include/tcg/tcg.h             | 74 ++++++++++++++++-----------------
+>  accel/tcg/cputlb.c            | 78 +++++++++++++++++------------------
+>  accel/tcg/user-exec.c         |  2 +-
+>  target/arm/helper-a64.c       | 16 +++----
+>  target/arm/m_helper.c         |  2 +-
+>  target/i386/tcg/mem_helper.c  |  4 +-
+>  target/m68k/op_helper.c       |  2 +-
+>  target/mips/tcg/msa_helper.c  |  6 +--
+>  target/s390x/tcg/mem_helper.c | 20 ++++-----
+>  target/sparc/ldst_helper.c    |  2 +-
+>  tcg/optimize.c                |  2 +-
+>  tcg/tcg-op.c                  | 12 +++---
+>  tcg/tcg.c                     |  2 +-
+>  tcg/tci.c                     | 14 +++----
+>  accel/tcg/atomic_common.c.inc |  6 +--
+>  tcg/aarch64/tcg-target.c.inc  | 14 +++----
+>  tcg/arm/tcg-target.c.inc      | 10 ++---
+>  tcg/i386/tcg-target.c.inc     | 10 ++---
+>  tcg/mips/tcg-target.c.inc     | 12 +++---
+>  tcg/ppc/tcg-target.c.inc      | 10 ++---
+>  tcg/riscv/tcg-target.c.inc    | 16 +++----
+>  tcg/s390/tcg-target.c.inc     | 10 ++---
+>  tcg/sparc/tcg-target.c.inc    |  4 +-
+>  tcg/tcg-ldst.c.inc            |  2 +-
+>  25 files changed, 177 insertions(+), 177 deletions(-)
 >
-> diff --git a/include/exec/memop.h b/include/exec/memop.h
-> index 529d07b02d..04264ffd6b 100644
-> --- a/include/exec/memop.h
-> +++ b/include/exec/memop.h
-> @@ -19,11 +19,15 @@ typedef enum MemOp {
->      MO_16    =3D 1,
->      MO_32    =3D 2,
->      MO_64    =3D 3,
-> -    MO_SIZE  =3D 3,   /* Mask for the above.  */
-> +    MO_128   =3D 4,
-> +    MO_256   =3D 5,
-> +    MO_512   =3D 6,
-> +    MO_1024  =3D 7,
-> +    MO_SIZE  =3D 0x07,   /* Mask for the above.  */
+> diff --git a/accel/tcg/atomic_template.h b/accel/tcg/atomic_template.h
+> index 8098a1be31..4230ff2957 100644
+> --- a/accel/tcg/atomic_template.h
+> +++ b/accel/tcg/atomic_template.h
+> @@ -72,7 +72,7 @@
 >
-> -    MO_SIGN  =3D 4,   /* Sign-extended, otherwise zero-extended.  */
-> +    MO_SIGN  =3D 0x08,   /* Sign-extended, otherwise zero-extended.  */
->
-> -    MO_BSWAP =3D 8,   /* Host reverse endian.  */
-> +    MO_BSWAP =3D 0x10,   /* Host reverse endian.  */
->  #ifdef HOST_WORDS_BIGENDIAN
->      MO_LE    =3D MO_BSWAP,
->      MO_BE    =3D 0,
-> @@ -59,8 +63,8 @@ typedef enum MemOp {
->       * - an alignment to a specified size, which may be more or less tha=
-n
->       *   the access size (MO_ALIGN_x where 'x' is a size in bytes);
->       */
-> -    MO_ASHIFT =3D 4,
-> -    MO_AMASK =3D 7 << MO_ASHIFT,
-> +    MO_ASHIFT =3D 5,
-> +    MO_AMASK =3D 0x7 << MO_ASHIFT,
->  #ifdef NEED_CPU_H
->  #ifdef TARGET_ALIGNED_ONLY
->      MO_ALIGN =3D 0,
-> diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-> index 422e2ac0c9..247c9672be 100644
-> --- a/target/arm/translate-a64.c
-> +++ b/target/arm/translate-a64.c
-> @@ -1045,7 +1045,7 @@ static void read_vec_element(DisasContext *s, TCGv_=
-i64 tcg_dest, int srcidx,
->                               int element, MemOp memop)
+>  ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
+>                                ABI_TYPE cmpv, ABI_TYPE newv,
+> -                              TCGMemOpIdx oi, uintptr_t retaddr)
+> +                              MemOpIdx oi, uintptr_t retaddr)
 >  {
->      int vect_off =3D vec_reg_offset(s, srcidx, element, memop & MO_SIZE)=
+>      DATA_TYPE *haddr =3D atomic_mmu_lookup(env, addr, oi, DATA_SIZE,
+>                                           PAGE_READ | PAGE_WRITE, retaddr=
+);
+> @@ -92,7 +92,7 @@ ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target=
+_ulong addr,
+>  #if DATA_SIZE >=3D 16
+>  #if HAVE_ATOMIC128
+>  ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr,
+> -                         TCGMemOpIdx oi, uintptr_t retaddr)
+> +                         MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      DATA_TYPE *haddr =3D atomic_mmu_lookup(env, addr, oi, DATA_SIZE,
+>                                           PAGE_READ, retaddr);
+> @@ -106,7 +106,7 @@ ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ul=
+ong addr,
+>  }
+>
+>  void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr, ABI_TYPE val,
+> -                     TCGMemOpIdx oi, uintptr_t retaddr)
+> +                     MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      DATA_TYPE *haddr =3D atomic_mmu_lookup(env, addr, oi, DATA_SIZE,
+>                                           PAGE_WRITE, retaddr);
+> @@ -119,7 +119,7 @@ void ATOMIC_NAME(st)(CPUArchState *env, target_ulong =
+addr, ABI_TYPE val,
+>  #endif
+>  #else
+>  ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr, ABI_TYP=
+E val,
+> -                           TCGMemOpIdx oi, uintptr_t retaddr)
+> +                           MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      DATA_TYPE *haddr =3D atomic_mmu_lookup(env, addr, oi, DATA_SIZE,
+>                                           PAGE_READ | PAGE_WRITE, retaddr=
+);
+> @@ -134,7 +134,7 @@ ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_=
+ulong addr, ABI_TYPE val,
+>
+>  #define GEN_ATOMIC_HELPER(X)                                        \
+>  ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+> -                        ABI_TYPE val, TCGMemOpIdx oi, uintptr_t retaddr)=
+ \
+> +                        ABI_TYPE val, MemOpIdx oi, uintptr_t retaddr) \
+>  {                                                                   \
+>      DATA_TYPE *haddr =3D atomic_mmu_lookup(env, addr, oi, DATA_SIZE,  \
+>                                           PAGE_READ | PAGE_WRITE, retaddr=
+); \
+> @@ -167,7 +167,7 @@ GEN_ATOMIC_HELPER(xor_fetch)
+>   */
+>  #define GEN_ATOMIC_HELPER_FN(X, FN, XDATA_TYPE, RET)                \
+>  ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+> -                        ABI_TYPE xval, TCGMemOpIdx oi, uintptr_t retaddr=
+) \
+> +                        ABI_TYPE xval, MemOpIdx oi, uintptr_t retaddr) \
+>  {                                                                   \
+>      XDATA_TYPE *haddr =3D atomic_mmu_lookup(env, addr, oi, DATA_SIZE, \
+>                                            PAGE_READ | PAGE_WRITE, retadd=
+r); \
+> @@ -211,7 +211,7 @@ GEN_ATOMIC_HELPER_FN(umax_fetch, MAX,  DATA_TYPE, new=
+)
+>
+>  ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, target_ulong addr,
+>                                ABI_TYPE cmpv, ABI_TYPE newv,
+> -                              TCGMemOpIdx oi, uintptr_t retaddr)
+> +                              MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      DATA_TYPE *haddr =3D atomic_mmu_lookup(env, addr, oi, DATA_SIZE,
+>                                           PAGE_READ | PAGE_WRITE, retaddr=
+);
+> @@ -231,7 +231,7 @@ ABI_TYPE ATOMIC_NAME(cmpxchg)(CPUArchState *env, targ=
+et_ulong addr,
+>  #if DATA_SIZE >=3D 16
+>  #if HAVE_ATOMIC128
+>  ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ulong addr,
+> -                         TCGMemOpIdx oi, uintptr_t retaddr)
+> +                         MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      DATA_TYPE *haddr =3D atomic_mmu_lookup(env, addr, oi, DATA_SIZE,
+>                                           PAGE_READ, retaddr);
+> @@ -245,7 +245,7 @@ ABI_TYPE ATOMIC_NAME(ld)(CPUArchState *env, target_ul=
+ong addr,
+>  }
+>
+>  void ATOMIC_NAME(st)(CPUArchState *env, target_ulong addr, ABI_TYPE val,
+> -                     TCGMemOpIdx oi, uintptr_t retaddr)
+> +                     MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      DATA_TYPE *haddr =3D atomic_mmu_lookup(env, addr, oi, DATA_SIZE,
+>                                           PAGE_WRITE, retaddr);
+> @@ -259,7 +259,7 @@ void ATOMIC_NAME(st)(CPUArchState *env, target_ulong =
+addr, ABI_TYPE val,
+>  #endif
+>  #else
+>  ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_ulong addr, ABI_TYP=
+E val,
+> -                           TCGMemOpIdx oi, uintptr_t retaddr)
+> +                           MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      DATA_TYPE *haddr =3D atomic_mmu_lookup(env, addr, oi, DATA_SIZE,
+>                                           PAGE_READ | PAGE_WRITE, retaddr=
+);
+> @@ -274,7 +274,7 @@ ABI_TYPE ATOMIC_NAME(xchg)(CPUArchState *env, target_=
+ulong addr, ABI_TYPE val,
+>
+>  #define GEN_ATOMIC_HELPER(X)                                        \
+>  ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+> -                        ABI_TYPE val, TCGMemOpIdx oi, uintptr_t retaddr)=
+ \
+> +                        ABI_TYPE val, MemOpIdx oi, uintptr_t retaddr) \
+>  {                                                                   \
+>      DATA_TYPE *haddr =3D atomic_mmu_lookup(env, addr, oi, DATA_SIZE,  \
+>                                           PAGE_READ | PAGE_WRITE, retaddr=
+); \
+> @@ -304,7 +304,7 @@ GEN_ATOMIC_HELPER(xor_fetch)
+>   */
+>  #define GEN_ATOMIC_HELPER_FN(X, FN, XDATA_TYPE, RET)                \
+>  ABI_TYPE ATOMIC_NAME(X)(CPUArchState *env, target_ulong addr,       \
+> -                        ABI_TYPE xval, TCGMemOpIdx oi, uintptr_t retaddr=
+) \
+> +                        ABI_TYPE xval, MemOpIdx oi, uintptr_t retaddr) \
+>  {                                                                   \
+>      XDATA_TYPE *haddr =3D atomic_mmu_lookup(env, addr, oi, DATA_SIZE, \
+>                                            PAGE_READ | PAGE_WRITE, retadd=
+r); \
+> diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+> index 44ccd86f3e..f91ebd0743 100644
+> --- a/include/tcg/tcg.h
+> +++ b/include/tcg/tcg.h
+> @@ -1148,7 +1148,7 @@ static inline size_t tcg_current_code_size(TCGConte=
+xt *s)
+>  }
+>
+>  /* Combine the MemOp and mmu_idx parameters into a single value.  */
+> -typedef uint32_t TCGMemOpIdx;
+> +typedef uint32_t MemOpIdx;
+>
+>  /**
+>   * make_memop_idx
+> @@ -1157,7 +1157,7 @@ typedef uint32_t TCGMemOpIdx;
+>   *
+>   * Encode these values into a single parameter.
+>   */
+> -static inline TCGMemOpIdx make_memop_idx(MemOp op, unsigned idx)
+> +static inline MemOpIdx make_memop_idx(MemOp op, unsigned idx)
+>  {
+>      tcg_debug_assert(idx <=3D 15);
+>      return (op << 4) | idx;
+> @@ -1169,7 +1169,7 @@ static inline TCGMemOpIdx make_memop_idx(MemOp op, =
+unsigned idx)
+>   *
+>   * Extract the memory operation from the combined value.
+>   */
+> -static inline MemOp get_memop(TCGMemOpIdx oi)
+> +static inline MemOp get_memop(MemOpIdx oi)
+>  {
+>      return oi >> 4;
+>  }
+> @@ -1180,7 +1180,7 @@ static inline MemOp get_memop(TCGMemOpIdx oi)
+>   *
+>   * Extract the mmu index from the combined value.
+>   */
+> -static inline unsigned get_mmuidx(TCGMemOpIdx oi)
+> +static inline unsigned get_mmuidx(MemOpIdx oi)
+>  {
+>      return oi & 15;
+>  }
+> @@ -1278,46 +1278,46 @@ uint64_t dup_const(unsigned vece, uint64_t c);
+>  #ifdef CONFIG_SOFTMMU
+>  /* Value zero-extended to tcg register size.  */
+>  tcg_target_ulong helper_ret_ldub_mmu(CPUArchState *env, target_ulong add=
+r,
+> -                                     TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                     MemOpIdx oi, uintptr_t retaddr);
+>  tcg_target_ulong helper_le_lduw_mmu(CPUArchState *env, target_ulong addr=
+,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                    MemOpIdx oi, uintptr_t retaddr);
+>  tcg_target_ulong helper_le_ldul_mmu(CPUArchState *env, target_ulong addr=
+,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                    MemOpIdx oi, uintptr_t retaddr);
+>  uint64_t helper_le_ldq_mmu(CPUArchState *env, target_ulong addr,
+> -                           TCGMemOpIdx oi, uintptr_t retaddr);
+> +                           MemOpIdx oi, uintptr_t retaddr);
+>  tcg_target_ulong helper_be_lduw_mmu(CPUArchState *env, target_ulong addr=
+,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                    MemOpIdx oi, uintptr_t retaddr);
+>  tcg_target_ulong helper_be_ldul_mmu(CPUArchState *env, target_ulong addr=
+,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                    MemOpIdx oi, uintptr_t retaddr);
+>  uint64_t helper_be_ldq_mmu(CPUArchState *env, target_ulong addr,
+> -                           TCGMemOpIdx oi, uintptr_t retaddr);
+> +                           MemOpIdx oi, uintptr_t retaddr);
+>
+>  /* Value sign-extended to tcg register size.  */
+>  tcg_target_ulong helper_ret_ldsb_mmu(CPUArchState *env, target_ulong add=
+r,
+> -                                     TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                     MemOpIdx oi, uintptr_t retaddr);
+>  tcg_target_ulong helper_le_ldsw_mmu(CPUArchState *env, target_ulong addr=
+,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                    MemOpIdx oi, uintptr_t retaddr);
+>  tcg_target_ulong helper_le_ldsl_mmu(CPUArchState *env, target_ulong addr=
+,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                    MemOpIdx oi, uintptr_t retaddr);
+>  tcg_target_ulong helper_be_ldsw_mmu(CPUArchState *env, target_ulong addr=
+,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                    MemOpIdx oi, uintptr_t retaddr);
+>  tcg_target_ulong helper_be_ldsl_mmu(CPUArchState *env, target_ulong addr=
+,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                    MemOpIdx oi, uintptr_t retaddr);
+>
+>  void helper_ret_stb_mmu(CPUArchState *env, target_ulong addr, uint8_t va=
+l,
+> -                        TCGMemOpIdx oi, uintptr_t retaddr);
+> +                        MemOpIdx oi, uintptr_t retaddr);
+>  void helper_le_stw_mmu(CPUArchState *env, target_ulong addr, uint16_t va=
+l,
+> -                       TCGMemOpIdx oi, uintptr_t retaddr);
+> +                       MemOpIdx oi, uintptr_t retaddr);
+>  void helper_le_stl_mmu(CPUArchState *env, target_ulong addr, uint32_t va=
+l,
+> -                       TCGMemOpIdx oi, uintptr_t retaddr);
+> +                       MemOpIdx oi, uintptr_t retaddr);
+>  void helper_le_stq_mmu(CPUArchState *env, target_ulong addr, uint64_t va=
+l,
+> -                       TCGMemOpIdx oi, uintptr_t retaddr);
+> +                       MemOpIdx oi, uintptr_t retaddr);
+>  void helper_be_stw_mmu(CPUArchState *env, target_ulong addr, uint16_t va=
+l,
+> -                       TCGMemOpIdx oi, uintptr_t retaddr);
+> +                       MemOpIdx oi, uintptr_t retaddr);
+>  void helper_be_stl_mmu(CPUArchState *env, target_ulong addr, uint32_t va=
+l,
+> -                       TCGMemOpIdx oi, uintptr_t retaddr);
+> +                       MemOpIdx oi, uintptr_t retaddr);
+>  void helper_be_stq_mmu(CPUArchState *env, target_ulong addr, uint64_t va=
+l,
+> -                       TCGMemOpIdx oi, uintptr_t retaddr);
+> +                       MemOpIdx oi, uintptr_t retaddr);
+>
+>  /* Temporary aliases until backends are converted.  */
+>  #ifdef TARGET_WORDS_BIGENDIAN
+> @@ -1345,30 +1345,30 @@ void helper_be_stq_mmu(CPUArchState *env, target_=
+ulong addr, uint64_t val,
+>
+>  uint32_t cpu_atomic_cmpxchgb_mmu(CPUArchState *env, target_ulong addr,
+>                                   uint32_t cmpv, uint32_t newv,
+> -                                 TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                 MemOpIdx oi, uintptr_t retaddr);
+>  uint32_t cpu_atomic_cmpxchgw_le_mmu(CPUArchState *env, target_ulong addr=
+,
+>                                      uint32_t cmpv, uint32_t newv,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                    MemOpIdx oi, uintptr_t retaddr);
+>  uint32_t cpu_atomic_cmpxchgl_le_mmu(CPUArchState *env, target_ulong addr=
+,
+>                                      uint32_t cmpv, uint32_t newv,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                    MemOpIdx oi, uintptr_t retaddr);
+>  uint64_t cpu_atomic_cmpxchgq_le_mmu(CPUArchState *env, target_ulong addr=
+,
+>                                      uint64_t cmpv, uint64_t newv,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                    MemOpIdx oi, uintptr_t retaddr);
+>  uint32_t cpu_atomic_cmpxchgw_be_mmu(CPUArchState *env, target_ulong addr=
+,
+>                                      uint32_t cmpv, uint32_t newv,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                    MemOpIdx oi, uintptr_t retaddr);
+>  uint32_t cpu_atomic_cmpxchgl_be_mmu(CPUArchState *env, target_ulong addr=
+,
+>                                      uint32_t cmpv, uint32_t newv,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                    MemOpIdx oi, uintptr_t retaddr);
+>  uint64_t cpu_atomic_cmpxchgq_be_mmu(CPUArchState *env, target_ulong addr=
+,
+>                                      uint64_t cmpv, uint64_t newv,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                    MemOpIdx oi, uintptr_t retaddr);
+>
+>  #define GEN_ATOMIC_HELPER(NAME, TYPE, SUFFIX)         \
+>  TYPE cpu_atomic_ ## NAME ## SUFFIX ## _mmu            \
+>      (CPUArchState *env, target_ulong addr, TYPE val,  \
+> -     TCGMemOpIdx oi, uintptr_t retaddr);
+> +     MemOpIdx oi, uintptr_t retaddr);
+>
+>  #ifdef CONFIG_ATOMIC64
+>  #define GEN_ATOMIC_HELPER_ALL(NAME)          \
+> @@ -1415,19 +1415,19 @@ GEN_ATOMIC_HELPER_ALL(xchg)
+>
+>  Int128 cpu_atomic_cmpxchgo_le_mmu(CPUArchState *env, target_ulong addr,
+>                                    Int128 cmpv, Int128 newv,
+> -                                  TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                  MemOpIdx oi, uintptr_t retaddr);
+>  Int128 cpu_atomic_cmpxchgo_be_mmu(CPUArchState *env, target_ulong addr,
+>                                    Int128 cmpv, Int128 newv,
+> -                                  TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                  MemOpIdx oi, uintptr_t retaddr);
+>
+>  Int128 cpu_atomic_ldo_le_mmu(CPUArchState *env, target_ulong addr,
+> -                             TCGMemOpIdx oi, uintptr_t retaddr);
+> +                             MemOpIdx oi, uintptr_t retaddr);
+>  Int128 cpu_atomic_ldo_be_mmu(CPUArchState *env, target_ulong addr,
+> -                             TCGMemOpIdx oi, uintptr_t retaddr);
+> +                             MemOpIdx oi, uintptr_t retaddr);
+>  void cpu_atomic_sto_le_mmu(CPUArchState *env, target_ulong addr, Int128 =
+val,
+> -                           TCGMemOpIdx oi, uintptr_t retaddr);
+> +                           MemOpIdx oi, uintptr_t retaddr);
+>  void cpu_atomic_sto_be_mmu(CPUArchState *env, target_ulong addr, Int128 =
+val,
+> -                           TCGMemOpIdx oi, uintptr_t retaddr);
+> +                           MemOpIdx oi, uintptr_t retaddr);
+>
+>  #ifdef CONFIG_DEBUG_TCG
+>  void tcg_assert_listed_vecop(TCGOpcode);
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index acdd20b1bc..2dfbc29a0c 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -1740,7 +1740,7 @@ bool tlb_plugin_lookup(CPUState *cpu, target_ulong =
+addr, int mmu_idx,
+>   * @prot may be PAGE_READ, PAGE_WRITE, or PAGE_READ|PAGE_WRITE.
+>   */
+>  static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+> -                               TCGMemOpIdx oi, int size, int prot,
+> +                               MemOpIdx oi, int size, int prot,
+>                                 uintptr_t retaddr)
+>  {
+>      size_t mmu_idx =3D get_mmuidx(oi);
+> @@ -1841,7 +1841,7 @@ static void *atomic_mmu_lookup(CPUArchState *env, t=
+arget_ulong addr,
+>   */
+>
+>  typedef uint64_t FullLoadHelper(CPUArchState *env, target_ulong addr,
+> -                                TCGMemOpIdx oi, uintptr_t retaddr);
+> +                                MemOpIdx oi, uintptr_t retaddr);
+>
+>  static inline uint64_t QEMU_ALWAYS_INLINE
+>  load_memop(const void *haddr, MemOp op)
+> @@ -1867,7 +1867,7 @@ load_memop(const void *haddr, MemOp op)
+>  }
+>
+>  static inline uint64_t QEMU_ALWAYS_INLINE
+> -load_helper(CPUArchState *env, target_ulong addr, TCGMemOpIdx oi,
+> +load_helper(CPUArchState *env, target_ulong addr, MemOpIdx oi,
+>              uintptr_t retaddr, MemOp op, bool code_read,
+>              FullLoadHelper *full_load)
+>  {
+> @@ -1982,78 +1982,78 @@ load_helper(CPUArchState *env, target_ulong addr,=
+ TCGMemOpIdx oi,
+>   */
+>
+>  static uint64_t full_ldub_mmu(CPUArchState *env, target_ulong addr,
+> -                              TCGMemOpIdx oi, uintptr_t retaddr)
+> +                              MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return load_helper(env, addr, oi, retaddr, MO_UB, false, full_ldub_m=
+mu);
+>  }
+>
+>  tcg_target_ulong helper_ret_ldub_mmu(CPUArchState *env, target_ulong add=
+r,
+> -                                     TCGMemOpIdx oi, uintptr_t retaddr)
+> +                                     MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return full_ldub_mmu(env, addr, oi, retaddr);
+>  }
+>
+>  static uint64_t full_le_lduw_mmu(CPUArchState *env, target_ulong addr,
+> -                                 TCGMemOpIdx oi, uintptr_t retaddr)
+> +                                 MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return load_helper(env, addr, oi, retaddr, MO_LEUW, false,
+>                         full_le_lduw_mmu);
+>  }
+>
+>  tcg_target_ulong helper_le_lduw_mmu(CPUArchState *env, target_ulong addr=
+,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr)
+> +                                    MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return full_le_lduw_mmu(env, addr, oi, retaddr);
+>  }
+>
+>  static uint64_t full_be_lduw_mmu(CPUArchState *env, target_ulong addr,
+> -                                 TCGMemOpIdx oi, uintptr_t retaddr)
+> +                                 MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return load_helper(env, addr, oi, retaddr, MO_BEUW, false,
+>                         full_be_lduw_mmu);
+>  }
+>
+>  tcg_target_ulong helper_be_lduw_mmu(CPUArchState *env, target_ulong addr=
+,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr)
+> +                                    MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return full_be_lduw_mmu(env, addr, oi, retaddr);
+>  }
+>
+>  static uint64_t full_le_ldul_mmu(CPUArchState *env, target_ulong addr,
+> -                                 TCGMemOpIdx oi, uintptr_t retaddr)
+> +                                 MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return load_helper(env, addr, oi, retaddr, MO_LEUL, false,
+>                         full_le_ldul_mmu);
+>  }
+>
+>  tcg_target_ulong helper_le_ldul_mmu(CPUArchState *env, target_ulong addr=
+,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr)
+> +                                    MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return full_le_ldul_mmu(env, addr, oi, retaddr);
+>  }
+>
+>  static uint64_t full_be_ldul_mmu(CPUArchState *env, target_ulong addr,
+> -                                 TCGMemOpIdx oi, uintptr_t retaddr)
+> +                                 MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return load_helper(env, addr, oi, retaddr, MO_BEUL, false,
+>                         full_be_ldul_mmu);
+>  }
+>
+>  tcg_target_ulong helper_be_ldul_mmu(CPUArchState *env, target_ulong addr=
+,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr)
+> +                                    MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return full_be_ldul_mmu(env, addr, oi, retaddr);
+>  }
+>
+>  uint64_t helper_le_ldq_mmu(CPUArchState *env, target_ulong addr,
+> -                           TCGMemOpIdx oi, uintptr_t retaddr)
+> +                           MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return load_helper(env, addr, oi, retaddr, MO_LEQ, false,
+>                         helper_le_ldq_mmu);
+>  }
+>
+>  uint64_t helper_be_ldq_mmu(CPUArchState *env, target_ulong addr,
+> -                           TCGMemOpIdx oi, uintptr_t retaddr)
+> +                           MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return load_helper(env, addr, oi, retaddr, MO_BEQ, false,
+>                         helper_be_ldq_mmu);
+> @@ -2066,31 +2066,31 @@ uint64_t helper_be_ldq_mmu(CPUArchState *env, tar=
+get_ulong addr,
+>
+>
+>  tcg_target_ulong helper_ret_ldsb_mmu(CPUArchState *env, target_ulong add=
+r,
+> -                                     TCGMemOpIdx oi, uintptr_t retaddr)
+> +                                     MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return (int8_t)helper_ret_ldub_mmu(env, addr, oi, retaddr);
+>  }
+>
+>  tcg_target_ulong helper_le_ldsw_mmu(CPUArchState *env, target_ulong addr=
+,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr)
+> +                                    MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return (int16_t)helper_le_lduw_mmu(env, addr, oi, retaddr);
+>  }
+>
+>  tcg_target_ulong helper_be_ldsw_mmu(CPUArchState *env, target_ulong addr=
+,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr)
+> +                                    MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return (int16_t)helper_be_lduw_mmu(env, addr, oi, retaddr);
+>  }
+>
+>  tcg_target_ulong helper_le_ldsl_mmu(CPUArchState *env, target_ulong addr=
+,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr)
+> +                                    MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return (int32_t)helper_le_ldul_mmu(env, addr, oi, retaddr);
+>  }
+>
+>  tcg_target_ulong helper_be_ldsl_mmu(CPUArchState *env, target_ulong addr=
+,
+> -                                    TCGMemOpIdx oi, uintptr_t retaddr)
+> +                                    MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return (int32_t)helper_be_ldul_mmu(env, addr, oi, retaddr);
+>  }
+> @@ -2104,7 +2104,7 @@ static inline uint64_t cpu_load_helper(CPUArchState=
+ *env, abi_ptr addr,
+>                                         MemOp op, FullLoadHelper *full_lo=
+ad)
+>  {
+>      uint16_t meminfo;
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>      uint64_t ret;
+>
+>      meminfo =3D trace_mem_get_info(op, mmu_idx, false);
+> @@ -2328,7 +2328,7 @@ store_helper_unaligned(CPUArchState *env, target_ul=
+ong addr, uint64_t val,
+>      uintptr_t index, index2;
+>      CPUTLBEntry *entry, *entry2;
+>      target_ulong page2, tlb_addr, tlb_addr2;
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>      size_t size2;
+>      int i;
+>
+> @@ -2395,7 +2395,7 @@ store_helper_unaligned(CPUArchState *env, target_ul=
+ong addr, uint64_t val,
+>
+>  static inline void QEMU_ALWAYS_INLINE
+>  store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+> -             TCGMemOpIdx oi, uintptr_t retaddr, MemOp op)
+> +             MemOpIdx oi, uintptr_t retaddr, MemOp op)
+>  {
+>      uintptr_t mmu_idx =3D get_mmuidx(oi);
+>      uintptr_t index =3D tlb_index(env, mmu_idx, addr);
+> @@ -2493,43 +2493,43 @@ store_helper(CPUArchState *env, target_ulong addr=
+, uint64_t val,
+>
+>  void __attribute__((noinline))
+>  helper_ret_stb_mmu(CPUArchState *env, target_ulong addr, uint8_t val,
+> -                   TCGMemOpIdx oi, uintptr_t retaddr)
+> +                   MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      store_helper(env, addr, val, oi, retaddr, MO_UB);
+>  }
+>
+>  void helper_le_stw_mmu(CPUArchState *env, target_ulong addr, uint16_t va=
+l,
+> -                       TCGMemOpIdx oi, uintptr_t retaddr)
+> +                       MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      store_helper(env, addr, val, oi, retaddr, MO_LEUW);
+>  }
+>
+>  void helper_be_stw_mmu(CPUArchState *env, target_ulong addr, uint16_t va=
+l,
+> -                       TCGMemOpIdx oi, uintptr_t retaddr)
+> +                       MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      store_helper(env, addr, val, oi, retaddr, MO_BEUW);
+>  }
+>
+>  void helper_le_stl_mmu(CPUArchState *env, target_ulong addr, uint32_t va=
+l,
+> -                       TCGMemOpIdx oi, uintptr_t retaddr)
+> +                       MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      store_helper(env, addr, val, oi, retaddr, MO_LEUL);
+>  }
+>
+>  void helper_be_stl_mmu(CPUArchState *env, target_ulong addr, uint32_t va=
+l,
+> -                       TCGMemOpIdx oi, uintptr_t retaddr)
+> +                       MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      store_helper(env, addr, val, oi, retaddr, MO_BEUL);
+>  }
+>
+>  void helper_le_stq_mmu(CPUArchState *env, target_ulong addr, uint64_t va=
+l,
+> -                       TCGMemOpIdx oi, uintptr_t retaddr)
+> +                       MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      store_helper(env, addr, val, oi, retaddr, MO_LEQ);
+>  }
+>
+>  void helper_be_stq_mmu(CPUArchState *env, target_ulong addr, uint64_t va=
+l,
+> -                       TCGMemOpIdx oi, uintptr_t retaddr)
+> +                       MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      store_helper(env, addr, val, oi, retaddr, MO_BEQ);
+>  }
+> @@ -2542,7 +2542,7 @@ static inline void QEMU_ALWAYS_INLINE
+>  cpu_store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
+>                   int mmu_idx, uintptr_t retaddr, MemOp op)
+>  {
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>      uint16_t meminfo;
+>
+>      meminfo =3D trace_mem_get_info(op, mmu_idx, true);
+> @@ -2708,49 +2708,49 @@ void cpu_stq_le_data(CPUArchState *env, target_ul=
+ong ptr, uint64_t val)
+>  /* Code access functions.  */
+>
+>  static uint64_t full_ldub_code(CPUArchState *env, target_ulong addr,
+> -                               TCGMemOpIdx oi, uintptr_t retaddr)
+> +                               MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return load_helper(env, addr, oi, retaddr, MO_8, true, full_ldub_cod=
+e);
+>  }
+>
+>  uint32_t cpu_ldub_code(CPUArchState *env, abi_ptr addr)
+>  {
+> -    TCGMemOpIdx oi =3D make_memop_idx(MO_UB, cpu_mmu_index(env, true));
+> +    MemOpIdx oi =3D make_memop_idx(MO_UB, cpu_mmu_index(env, true));
+>      return full_ldub_code(env, addr, oi, 0);
+>  }
+>
+>  static uint64_t full_lduw_code(CPUArchState *env, target_ulong addr,
+> -                               TCGMemOpIdx oi, uintptr_t retaddr)
+> +                               MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return load_helper(env, addr, oi, retaddr, MO_TEUW, true, full_lduw_=
+code);
+>  }
+>
+>  uint32_t cpu_lduw_code(CPUArchState *env, abi_ptr addr)
+>  {
+> -    TCGMemOpIdx oi =3D make_memop_idx(MO_TEUW, cpu_mmu_index(env, true))=
 ;
-> -    switch (memop) {
-> +    switch ((unsigned)memop) {
->      case MO_8:
->          tcg_gen_ld8u_i64(tcg_dest, cpu_env, vect_off);
->          break;
+> +    MemOpIdx oi =3D make_memop_idx(MO_TEUW, cpu_mmu_index(env, true));
+>      return full_lduw_code(env, addr, oi, 0);
+>  }
+>
+>  static uint64_t full_ldl_code(CPUArchState *env, target_ulong addr,
+> -                              TCGMemOpIdx oi, uintptr_t retaddr)
+> +                              MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return load_helper(env, addr, oi, retaddr, MO_TEUL, true, full_ldl_c=
+ode);
+>  }
+>
+>  uint32_t cpu_ldl_code(CPUArchState *env, abi_ptr addr)
+>  {
+> -    TCGMemOpIdx oi =3D make_memop_idx(MO_TEUL, cpu_mmu_index(env, true))=
+;
+> +    MemOpIdx oi =3D make_memop_idx(MO_TEUL, cpu_mmu_index(env, true));
+>      return full_ldl_code(env, addr, oi, 0);
+>  }
+>
+>  static uint64_t full_ldq_code(CPUArchState *env, target_ulong addr,
+> -                              TCGMemOpIdx oi, uintptr_t retaddr)
+> +                              MemOpIdx oi, uintptr_t retaddr)
+>  {
+>      return load_helper(env, addr, oi, retaddr, MO_TEQ, true, full_ldq_co=
+de);
+>  }
+>
+>  uint64_t cpu_ldq_code(CPUArchState *env, abi_ptr addr)
+>  {
+> -    TCGMemOpIdx oi =3D make_memop_idx(MO_TEQ, cpu_mmu_index(env, true));
+> +    MemOpIdx oi =3D make_memop_idx(MO_TEQ, cpu_mmu_index(env, true));
+>      return full_ldq_code(env, addr, oi, 0);
+>  }
+> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+> index e687b9652e..eab2b9804d 100644
+> --- a/accel/tcg/user-exec.c
+> +++ b/accel/tcg/user-exec.c
+> @@ -1195,7 +1195,7 @@ uint64_t cpu_ldq_code(CPUArchState *env, abi_ptr pt=
+r)
+>   * @prot may be PAGE_READ, PAGE_WRITE, or PAGE_READ|PAGE_WRITE.
+>   */
+>  static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+> -                               TCGMemOpIdx oi, int size, int prot,
+> +                               MemOpIdx oi, int size, int prot,
+>                                 uintptr_t retaddr)
+>  {
+>      MemOp mop =3D get_memop(oi);
+> diff --git a/target/arm/helper-a64.c b/target/arm/helper-a64.c
+> index 26f79f9141..13d1e3f808 100644
+> --- a/target/arm/helper-a64.c
+> +++ b/target/arm/helper-a64.c
+> @@ -531,8 +531,8 @@ uint64_t HELPER(paired_cmpxchg64_le)(CPUARMState *env=
+, uint64_t addr,
+>      clear_helper_retaddr();
+>  #else
+>      int mem_idx =3D cpu_mmu_index(env, false);
+> -    TCGMemOpIdx oi0 =3D make_memop_idx(MO_LEQ | MO_ALIGN_16, mem_idx);
+> -    TCGMemOpIdx oi1 =3D make_memop_idx(MO_LEQ, mem_idx);
+> +    MemOpIdx oi0 =3D make_memop_idx(MO_LEQ | MO_ALIGN_16, mem_idx);
+> +    MemOpIdx oi1 =3D make_memop_idx(MO_LEQ, mem_idx);
+>
+>      o0 =3D helper_le_ldq_mmu(env, addr + 0, oi0, ra);
+>      o1 =3D helper_le_ldq_mmu(env, addr + 8, oi1, ra);
+> @@ -555,7 +555,7 @@ uint64_t HELPER(paired_cmpxchg64_le_parallel)(CPUARMS=
+tate *env, uint64_t addr,
+>      uintptr_t ra =3D GETPC();
+>      bool success;
+>      int mem_idx;
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>
+>      assert(HAVE_CMPXCHG128);
+>
+> @@ -601,8 +601,8 @@ uint64_t HELPER(paired_cmpxchg64_be)(CPUARMState *env=
+, uint64_t addr,
+>      clear_helper_retaddr();
+>  #else
+>      int mem_idx =3D cpu_mmu_index(env, false);
+> -    TCGMemOpIdx oi0 =3D make_memop_idx(MO_BEQ | MO_ALIGN_16, mem_idx);
+> -    TCGMemOpIdx oi1 =3D make_memop_idx(MO_BEQ, mem_idx);
+> +    MemOpIdx oi0 =3D make_memop_idx(MO_BEQ | MO_ALIGN_16, mem_idx);
+> +    MemOpIdx oi1 =3D make_memop_idx(MO_BEQ, mem_idx);
+>
+>      o1 =3D helper_be_ldq_mmu(env, addr + 0, oi0, ra);
+>      o0 =3D helper_be_ldq_mmu(env, addr + 8, oi1, ra);
+> @@ -625,7 +625,7 @@ uint64_t HELPER(paired_cmpxchg64_be_parallel)(CPUARMS=
+tate *env, uint64_t addr,
+>      uintptr_t ra =3D GETPC();
+>      bool success;
+>      int mem_idx;
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>
+>      assert(HAVE_CMPXCHG128);
+>
+> @@ -651,7 +651,7 @@ void HELPER(casp_le_parallel)(CPUARMState *env, uint3=
+2_t rs, uint64_t addr,
+>      Int128 oldv, cmpv, newv;
+>      uintptr_t ra =3D GETPC();
+>      int mem_idx;
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>
+>      assert(HAVE_CMPXCHG128);
+>
+> @@ -672,7 +672,7 @@ void HELPER(casp_be_parallel)(CPUARMState *env, uint3=
+2_t rs, uint64_t addr,
+>      Int128 oldv, cmpv, newv;
+>      uintptr_t ra =3D GETPC();
+>      int mem_idx;
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>
+>      assert(HAVE_CMPXCHG128);
+>
+> diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+> index 20761c9487..efb522dc44 100644
+> --- a/target/arm/m_helper.c
+> +++ b/target/arm/m_helper.c
+> @@ -1930,7 +1930,7 @@ static bool do_v7m_function_return(ARMCPU *cpu)
+>
+>      {
+>          bool threadmode, spsel;
+> -        TCGMemOpIdx oi;
+> +        MemOpIdx oi;
+>          ARMMMUIdx mmu_idx;
+>          uint32_t *frame_sp_p;
+>          uint32_t frameptr;
+> diff --git a/target/i386/tcg/mem_helper.c b/target/i386/tcg/mem_helper.c
+> index 2da3cd14b6..0fd696f9c1 100644
+> --- a/target/i386/tcg/mem_helper.c
+> +++ b/target/i386/tcg/mem_helper.c
+> @@ -67,7 +67,7 @@ void helper_cmpxchg8b(CPUX86State *env, target_ulong a0=
+)
+>      {
+>          uintptr_t ra =3D GETPC();
+>          int mem_idx =3D cpu_mmu_index(env, false);
+> -        TCGMemOpIdx oi =3D make_memop_idx(MO_TEQ, mem_idx);
+> +        MemOpIdx oi =3D make_memop_idx(MO_TEQ, mem_idx);
+>          oldv =3D cpu_atomic_cmpxchgq_le_mmu(env, a0, cmpv, newv, oi, ra)=
+;
+>      }
+>
+> @@ -136,7 +136,7 @@ void helper_cmpxchg16b(CPUX86State *env, target_ulong=
+ a0)
+>          Int128 newv =3D int128_make128(env->regs[R_EBX], env->regs[R_ECX=
+]);
+>
+>          int mem_idx =3D cpu_mmu_index(env, false);
+> -        TCGMemOpIdx oi =3D make_memop_idx(MO_TEQ | MO_ALIGN_16, mem_idx)=
+;
+> +        MemOpIdx oi =3D make_memop_idx(MO_TEQ | MO_ALIGN_16, mem_idx);
+>          Int128 oldv =3D cpu_atomic_cmpxchgo_le_mmu(env, a0, cmpv, newv, =
+oi, ra);
+>
+>          if (int128_eq(oldv, cmpv)) {
+> diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
+> index d006d1cb3e..5918a29516 100644
+> --- a/target/m68k/op_helper.c
+> +++ b/target/m68k/op_helper.c
+> @@ -785,7 +785,7 @@ static void do_cas2l(CPUM68KState *env, uint32_t regs=
+, uint32_t a1, uint32_t a2,
+>      uintptr_t ra =3D GETPC();
+>  #if defined(CONFIG_ATOMIC64)
+>      int mmu_idx =3D cpu_mmu_index(env, 0);
+> -    TCGMemOpIdx oi =3D make_memop_idx(MO_BEQ, mmu_idx);
+> +    MemOpIdx oi =3D make_memop_idx(MO_BEQ, mmu_idx);
+>  #endif
+>
+>      if (parallel) {
+> diff --git a/target/mips/tcg/msa_helper.c b/target/mips/tcg/msa_helper.c
+> index 04af54f66d..167d9a591c 100644
+> --- a/target/mips/tcg/msa_helper.c
+> +++ b/target/mips/tcg/msa_helper.c
+> @@ -8211,9 +8211,9 @@ void helper_msa_ffint_u_df(CPUMIPSState *env, uint3=
+2_t df, uint32_t wd,
+>  #define DF_ELEMENTS(df) (MSA_WRLEN / DF_BITS(df))
+>
+>  #if !defined(CONFIG_USER_ONLY)
+> -#define MEMOP_IDX(DF)                                           \
+> -        TCGMemOpIdx oi =3D make_memop_idx(MO_TE | DF | MO_UNALN,  \
+> -                                        cpu_mmu_index(env, false));
+> +#define MEMOP_IDX(DF)                                                   =
+\
+> +    MemOpIdx oi =3D make_memop_idx(MO_TE | DF | MO_UNALN,               =
+  \
+> +                                 cpu_mmu_index(env, false));
+>  #else
+>  #define MEMOP_IDX(DF)
+>  #endif
+> diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.=
+c
+> index 21a4de4067..ec88f5dbb0 100644
+> --- a/target/s390x/tcg/mem_helper.c
+> +++ b/target/s390x/tcg/mem_helper.c
+> @@ -238,7 +238,7 @@ static void do_access_memset(CPUS390XState *env, vadd=
+r vaddr, char *haddr,
+>      g_assert(haddr);
+>      memset(haddr, byte, size);
+>  #else
+> -    TCGMemOpIdx oi =3D make_memop_idx(MO_UB, mmu_idx);
+> +    MemOpIdx oi =3D make_memop_idx(MO_UB, mmu_idx);
+>      int i;
+>
+>      if (likely(haddr)) {
+> @@ -281,7 +281,7 @@ static uint8_t do_access_get_byte(CPUS390XState *env,=
+ vaddr vaddr, char **haddr,
+>  #ifdef CONFIG_USER_ONLY
+>      return ldub_p(*haddr + offset);
+>  #else
+> -    TCGMemOpIdx oi =3D make_memop_idx(MO_UB, mmu_idx);
+> +    MemOpIdx oi =3D make_memop_idx(MO_UB, mmu_idx);
+>      uint8_t byte;
+>
+>      if (likely(*haddr)) {
+> @@ -315,7 +315,7 @@ static void do_access_set_byte(CPUS390XState *env, va=
+ddr vaddr, char **haddr,
+>  #ifdef CONFIG_USER_ONLY
+>      stb_p(*haddr + offset, byte);
+>  #else
+> -    TCGMemOpIdx oi =3D make_memop_idx(MO_UB, mmu_idx);
+> +    MemOpIdx oi =3D make_memop_idx(MO_UB, mmu_idx);
+>
+>      if (likely(*haddr)) {
+>          stb_p(*haddr + offset, byte);
+> @@ -1803,7 +1803,7 @@ void HELPER(cdsg_parallel)(CPUS390XState *env, uint=
+64_t addr,
+>      Int128 cmpv =3D int128_make128(env->regs[r1 + 1], env->regs[r1]);
+>      Int128 newv =3D int128_make128(env->regs[r3 + 1], env->regs[r3]);
+>      int mem_idx;
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>      Int128 oldv;
+>      bool fail;
+>
+> @@ -1883,7 +1883,7 @@ static uint32_t do_csst(CPUS390XState *env, uint32_=
+t r3, uint64_t a1,
+>                  uint32_t *haddr =3D g2h(env_cpu(env), a1);
+>                  ov =3D qatomic_cmpxchg__nocheck(haddr, cv, nv);
+>  #else
+> -                TCGMemOpIdx oi =3D make_memop_idx(MO_TEUL | MO_ALIGN, me=
+m_idx);
+> +                MemOpIdx oi =3D make_memop_idx(MO_TEUL | MO_ALIGN, mem_i=
+dx);
+>                  ov =3D cpu_atomic_cmpxchgl_be_mmu(env, a1, cv, nv, oi, r=
+a);
+>  #endif
+>              } else {
+> @@ -1903,7 +1903,7 @@ static uint32_t do_csst(CPUS390XState *env, uint32_=
+t r3, uint64_t a1,
+>
+>              if (parallel) {
+>  #ifdef CONFIG_ATOMIC64
+> -                TCGMemOpIdx oi =3D make_memop_idx(MO_TEQ | MO_ALIGN, mem=
+_idx);
+> +                MemOpIdx oi =3D make_memop_idx(MO_TEQ | MO_ALIGN, mem_id=
+x);
+>                  ov =3D cpu_atomic_cmpxchgq_be_mmu(env, a1, cv, nv, oi, r=
+a);
+>  #else
+>                  /* Note that we asserted !parallel above.  */
+> @@ -1939,7 +1939,7 @@ static uint32_t do_csst(CPUS390XState *env, uint32_=
+t r3, uint64_t a1,
+>                  cpu_stq_data_ra(env, a1 + 0, int128_gethi(nv), ra);
+>                  cpu_stq_data_ra(env, a1 + 8, int128_getlo(nv), ra);
+>              } else if (HAVE_CMPXCHG128) {
+> -                TCGMemOpIdx oi =3D make_memop_idx(MO_TEQ | MO_ALIGN_16, =
+mem_idx);
+> +                MemOpIdx oi =3D make_memop_idx(MO_TEQ | MO_ALIGN_16, mem=
+_idx);
+>                  ov =3D cpu_atomic_cmpxchgo_be_mmu(env, a1, cv, nv, oi, r=
+a);
+>                  cc =3D !int128_eq(ov, cv);
+>              } else {
+> @@ -1978,7 +1978,7 @@ static uint32_t do_csst(CPUS390XState *env, uint32_=
+t r3, uint64_t a1,
+>                  cpu_stq_data_ra(env, a2 + 0, svh, ra);
+>                  cpu_stq_data_ra(env, a2 + 8, svl, ra);
+>              } else if (HAVE_ATOMIC128) {
+> -                TCGMemOpIdx oi =3D make_memop_idx(MO_TEQ | MO_ALIGN_16, =
+mem_idx);
+> +                MemOpIdx oi =3D make_memop_idx(MO_TEQ | MO_ALIGN_16, mem=
+_idx);
+>                  Int128 sv =3D int128_make128(svl, svh);
+>                  cpu_atomic_sto_be_mmu(env, a2, sv, oi, ra);
+>              } else {
+> @@ -2474,7 +2474,7 @@ uint64_t HELPER(lpq_parallel)(CPUS390XState *env, u=
+int64_t addr)
+>      uintptr_t ra =3D GETPC();
+>      uint64_t hi, lo;
+>      int mem_idx;
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>      Int128 v;
+>
+>      assert(HAVE_ATOMIC128);
+> @@ -2505,7 +2505,7 @@ void HELPER(stpq_parallel)(CPUS390XState *env, uint=
+64_t addr,
+>  {
+>      uintptr_t ra =3D GETPC();
+>      int mem_idx;
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>      Int128 v;
+>
+>      assert(HAVE_ATOMIC128);
+> diff --git a/target/sparc/ldst_helper.c b/target/sparc/ldst_helper.c
+> index ea163200a4..299fc386ea 100644
+> --- a/target/sparc/ldst_helper.c
+> +++ b/target/sparc/ldst_helper.c
+> @@ -1313,7 +1313,7 @@ uint64_t helper_ld_asi(CPUSPARCState *env, target_u=
+long addr,
+>      case ASI_SNF:
+>      case ASI_SNFL:
+>          {
+> -            TCGMemOpIdx oi;
+> +            MemOpIdx oi;
+>              int idx =3D (env->pstate & PS_PRIV
+>                         ? (asi & 1 ? MMU_KERNEL_SECONDARY_IDX : MMU_KERNE=
+L_IDX)
+>                         : (asi & 1 ? MMU_USER_SECONDARY_IDX : MMU_USER_ID=
+X));
+> diff --git a/tcg/optimize.c b/tcg/optimize.c
+> index 9876ac52a8..c239c3bd07 100644
+> --- a/tcg/optimize.c
+> +++ b/tcg/optimize.c
+> @@ -1023,7 +1023,7 @@ void tcg_optimize(TCGContext *s)
+>
+>          CASE_OP_32_64(qemu_ld):
+>              {
+> -                TCGMemOpIdx oi =3D op->args[nb_oargs + nb_iargs];
+> +                MemOpIdx oi =3D op->args[nb_oargs + nb_iargs];
+>                  MemOp mop =3D get_memop(oi);
+>                  if (!(mop & MO_SIGN)) {
+>                      mask =3D (2ULL << ((8 << (mop & MO_SIZE)) - 1)) - 1;
 > diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-> index c754396575..e01f68f44d 100644
+> index e01f68f44d..e1490c372e 100644
 > --- a/tcg/tcg-op.c
 > +++ b/tcg/tcg-op.c
-> @@ -2780,10 +2780,13 @@ static inline MemOp tcg_canonicalize_memop(MemOp =
-op, bool is64, bool st)
->          }
->          break;
->      case MO_64:
-> -        if (!is64) {
-> -            tcg_abort();
-> +        if (is64) {
-> +            op &=3D ~MO_SIGN;
-> +            break;
->          }
-> -        break;
-> +        /* fall through */
-> +    default:
-> +        g_assert_not_reached();
->      }
->      if (st) {
->          op &=3D ~MO_SIGN;
-> @@ -3095,7 +3098,7 @@ typedef void (*gen_atomic_op_i64)(TCGv_i64, TCGv_en=
-v, TCGv,
->  # define WITH_ATOMIC64(X)
->  #endif
+> @@ -2797,7 +2797,7 @@ static inline MemOp tcg_canonicalize_memop(MemOp op=
+, bool is64, bool st)
+>  static void gen_ldst_i32(TCGOpcode opc, TCGv_i32 val, TCGv addr,
+>                           MemOp memop, TCGArg idx)
+>  {
+> -    TCGMemOpIdx oi =3D make_memop_idx(memop, idx);
+> +    MemOpIdx oi =3D make_memop_idx(memop, idx);
+>  #if TARGET_LONG_BITS =3D=3D 32
+>      tcg_gen_op3i_i32(opc, val, addr, oi);
+>  #else
+> @@ -2812,7 +2812,7 @@ static void gen_ldst_i32(TCGOpcode opc, TCGv_i32 va=
+l, TCGv addr,
+>  static void gen_ldst_i64(TCGOpcode opc, TCGv_i64 val, TCGv addr,
+>                           MemOp memop, TCGArg idx)
+>  {
+> -    TCGMemOpIdx oi =3D make_memop_idx(memop, idx);
+> +    MemOpIdx oi =3D make_memop_idx(memop, idx);
+>  #if TARGET_LONG_BITS =3D=3D 32
+>      if (TCG_TARGET_REG_BITS =3D=3D 32) {
+>          tcg_gen_op4i_i32(opc, TCGV_LOW(val), TCGV_HIGH(val), addr, oi);
+> @@ -3132,7 +3132,7 @@ void tcg_gen_atomic_cmpxchg_i32(TCGv_i32 retv, TCGv=
+ addr, TCGv_i32 cmpv,
+>          tcg_temp_free_i32(t1);
+>      } else {
+>          gen_atomic_cx_i32 gen;
+> -        TCGMemOpIdx oi;
+> +        MemOpIdx oi;
 >
-> -static void * const table_cmpxchg[16] =3D {
-> +static void * const table_cmpxchg[(MO_SIZE | MO_BSWAP) + 1] =3D {
->      [MO_8] =3D gen_helper_atomic_cmpxchgb,
->      [MO_16 | MO_LE] =3D gen_helper_atomic_cmpxchgw_le,
->      [MO_16 | MO_BE] =3D gen_helper_atomic_cmpxchgw_be,
-> @@ -3297,7 +3300,7 @@ static void do_atomic_op_i64(TCGv_i64 ret, TCGv add=
+>          gen =3D table_cmpxchg[memop & (MO_SIZE | MO_BSWAP)];
+>          tcg_debug_assert(gen !=3D NULL);
+> @@ -3171,7 +3171,7 @@ void tcg_gen_atomic_cmpxchg_i64(TCGv_i64 retv, TCGv=
+ addr, TCGv_i64 cmpv,
+>      } else if ((memop & MO_SIZE) =3D=3D MO_64) {
+>  #ifdef CONFIG_ATOMIC64
+>          gen_atomic_cx_i64 gen;
+> -        TCGMemOpIdx oi;
+> +        MemOpIdx oi;
+>
+>          gen =3D table_cmpxchg[memop & (MO_SIZE | MO_BSWAP)];
+>          tcg_debug_assert(gen !=3D NULL);
+> @@ -3227,7 +3227,7 @@ static void do_atomic_op_i32(TCGv_i32 ret, TCGv add=
+r, TCGv_i32 val,
+>                               TCGArg idx, MemOp memop, void * const table=
+[])
+>  {
+>      gen_atomic_op_i32 gen;
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>
+>      memop =3D tcg_canonicalize_memop(memop, 0, 0);
+>
+> @@ -3269,7 +3269,7 @@ static void do_atomic_op_i64(TCGv_i64 ret, TCGv add=
 r, TCGv_i64 val,
+>      if ((memop & MO_SIZE) =3D=3D MO_64) {
+>  #ifdef CONFIG_ATOMIC64
+>          gen_atomic_op_i64 gen;
+> -        TCGMemOpIdx oi;
+> +        MemOpIdx oi;
+>
+>          gen =3D table[memop & (MO_SIZE | MO_BSWAP)];
+>          tcg_debug_assert(gen !=3D NULL);
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index 4142d42d77..658be0c6b6 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -1910,7 +1910,7 @@ static void tcg_dump_ops(TCGContext *s, bool have_p=
+refs)
+>              case INDEX_op_qemu_ld_i64:
+>              case INDEX_op_qemu_st_i64:
+>                  {
+> -                    TCGMemOpIdx oi =3D op->args[k++];
+> +                    MemOpIdx oi =3D op->args[k++];
+>                      MemOp op =3D get_memop(oi);
+>                      unsigned ix =3D get_mmuidx(oi);
+>
+> diff --git a/tcg/tci.c b/tcg/tci.c
+> index b672c7cae5..5c08dc0a9a 100644
+> --- a/tcg/tci.c
+> +++ b/tcg/tci.c
+> @@ -61,7 +61,7 @@ static uint64_t tci_uint64(uint32_t high, uint32_t low)
+>   *   i =3D immediate (uint32_t)
+>   *   I =3D immediate (tcg_target_ulong)
+>   *   l =3D label or pointer
+> - *   m =3D immediate (TCGMemOpIdx)
+> + *   m =3D immediate (MemOpIdx)
+>   *   n =3D immediate (call return length)
+>   *   r =3D register
+>   *   s =3D signed ldst offset
+> @@ -105,7 +105,7 @@ static void tci_args_ri(uint32_t insn, TCGReg *r0, tc=
+g_target_ulong *i1)
 >  }
 >
->  #define GEN_ATOMIC_HELPER(NAME, OP, NEW)                                =
-\
-> -static void * const table_##NAME[16] =3D {                              =
-  \
-> +static void * const table_##NAME[(MO_SIZE | MO_BSWAP) + 1] =3D {        =
-  \
->      [MO_8] =3D gen_helper_atomic_##NAME##b,                             =
-  \
->      [MO_16 | MO_LE] =3D gen_helper_atomic_##NAME##w_le,                 =
-  \
->      [MO_16 | MO_BE] =3D gen_helper_atomic_##NAME##w_be,                 =
-  \
-> diff --git a/target/s390x/tcg/translate_vx.c.inc b/target/s390x/tcg/trans=
-late_vx.c.inc
-> index 0afa46e463..28bf5a23b6 100644
-> --- a/target/s390x/tcg/translate_vx.c.inc
-> +++ b/target/s390x/tcg/translate_vx.c.inc
-> @@ -67,7 +67,7 @@ static void read_vec_element_i64(TCGv_i64 dst, uint8_t =
-reg, uint8_t enr,
+>  static void tci_args_rrm(uint32_t insn, TCGReg *r0,
+> -                         TCGReg *r1, TCGMemOpIdx *m2)
+> +                         TCGReg *r1, MemOpIdx *m2)
 >  {
->      const int offs =3D vec_reg_offset(reg, enr, memop & MO_SIZE);
+>      *r0 =3D extract32(insn, 8, 4);
+>      *r1 =3D extract32(insn, 12, 4);
+> @@ -145,7 +145,7 @@ static void tci_args_rrrc(uint32_t insn,
+>  }
 >
-> -    switch (memop) {
-> +    switch ((unsigned)memop) {
->      case ES_8:
->          tcg_gen_ld8u_i64(dst, cpu_env, offs);
->          break;
+>  static void tci_args_rrrm(uint32_t insn,
+> -                          TCGReg *r0, TCGReg *r1, TCGReg *r2, TCGMemOpId=
+x *m3)
+> +                          TCGReg *r0, TCGReg *r1, TCGReg *r2, MemOpIdx *=
+m3)
+>  {
+>      *r0 =3D extract32(insn, 8, 4);
+>      *r1 =3D extract32(insn, 12, 4);
+> @@ -289,7 +289,7 @@ static bool tci_compare64(uint64_t u0, uint64_t u1, T=
+CGCond condition)
+>  }
+>
+>  static uint64_t tci_qemu_ld(CPUArchState *env, target_ulong taddr,
+> -                            TCGMemOpIdx oi, const void *tb_ptr)
+> +                            MemOpIdx oi, const void *tb_ptr)
+>  {
+>      MemOp mop =3D get_memop(oi) & (MO_BSWAP | MO_SSIZE);
+>      uintptr_t ra =3D (uintptr_t)tb_ptr;
+> @@ -374,7 +374,7 @@ static uint64_t tci_qemu_ld(CPUArchState *env, target=
+_ulong taddr,
+>  }
+>
+>  static void tci_qemu_st(CPUArchState *env, target_ulong taddr, uint64_t =
+val,
+> -                        TCGMemOpIdx oi, const void *tb_ptr)
+> +                        MemOpIdx oi, const void *tb_ptr)
+>  {
+>      MemOp mop =3D get_memop(oi) & (MO_BSWAP | MO_SSIZE);
+>      uintptr_t ra =3D (uintptr_t)tb_ptr;
+> @@ -482,7 +482,7 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchSt=
+ate *env,
+>          uint32_t tmp32;
+>          uint64_t tmp64;
+>          uint64_t T1, T2;
+> -        TCGMemOpIdx oi;
+> +        MemOpIdx oi;
+>          int32_t ofs;
+>          void *ptr;
+>
+> @@ -1148,7 +1148,7 @@ int print_insn_tci(bfd_vma addr, disassemble_info *=
+info)
+>      tcg_target_ulong i1;
+>      int32_t s2;
+>      TCGCond c;
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>      uint8_t pos, len;
+>      void *ptr;
+>
+> diff --git a/accel/tcg/atomic_common.c.inc b/accel/tcg/atomic_common.c.in=
+c
+> index 6c0339f610..ebaa793464 100644
+> --- a/accel/tcg/atomic_common.c.inc
+> +++ b/accel/tcg/atomic_common.c.inc
+> @@ -14,7 +14,7 @@
+>   */
+>
+>  static uint16_t atomic_trace_rmw_pre(CPUArchState *env, target_ulong add=
+r,
+> -                                     TCGMemOpIdx oi)
+> +                                     MemOpIdx oi)
+>  {
+>      CPUState *cpu =3D env_cpu(env);
+>      uint16_t info =3D trace_mem_get_info(get_memop(oi), get_mmuidx(oi), =
+false);
+> @@ -34,7 +34,7 @@ static void atomic_trace_rmw_post(CPUArchState *env, ta=
+rget_ulong addr,
+>
+>  #if HAVE_ATOMIC128
+>  static uint16_t atomic_trace_ld_pre(CPUArchState *env, target_ulong addr=
+,
+> -                                    TCGMemOpIdx oi)
+> +                                    MemOpIdx oi)
+>  {
+>      uint16_t info =3D trace_mem_get_info(get_memop(oi), get_mmuidx(oi), =
+false);
+>
+> @@ -50,7 +50,7 @@ static void atomic_trace_ld_post(CPUArchState *env, tar=
+get_ulong addr,
+>  }
+>
+>  static uint16_t atomic_trace_st_pre(CPUArchState *env, target_ulong addr=
+,
+> -                                    TCGMemOpIdx oi)
+> +                                    MemOpIdx oi)
+>  {
+>      uint16_t info =3D trace_mem_get_info(get_memop(oi), get_mmuidx(oi), =
+true);
+>
 > diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-> index 5924977b42..6f43c048a5 100644
+> index 6f43c048a5..5edca8d44d 100644
 > --- a/tcg/aarch64/tcg-target.c.inc
 > +++ b/tcg/aarch64/tcg-target.c.inc
-> @@ -1547,7 +1547,7 @@ static void tcg_out_cltz(TCGContext *s, TCGType ext=
+> @@ -1545,7 +1545,7 @@ static void tcg_out_cltz(TCGContext *s, TCGType ext=
 , TCGReg d,
->  /* helper signature: helper_ret_ld_mmu(CPUState *env, target_ulong addr,
->   *                                     TCGMemOpIdx oi, uintptr_t ra)
->   */
-> -static void * const qemu_ld_helpers[4] =3D {
-> +static void * const qemu_ld_helpers[MO_SIZE + 1] =3D {
->      [MO_8]  =3D helper_ret_ldub_mmu,
->  #ifdef HOST_WORDS_BIGENDIAN
->      [MO_16] =3D helper_be_lduw_mmu,
-> @@ -1564,7 +1564,7 @@ static void * const qemu_ld_helpers[4] =3D {
->   *                                     uintxx_t val, TCGMemOpIdx oi,
->   *                                     uintptr_t ra)
->   */
-> -static void * const qemu_st_helpers[4] =3D {
-> +static void * const qemu_st_helpers[MO_SIZE + 1] =3D {
->      [MO_8]  =3D helper_ret_stb_mmu,
->  #ifdef HOST_WORDS_BIGENDIAN
->      [MO_16] =3D helper_be_stw_mmu,
-> diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-> index 007ceee68e..8939b2c2da 100644
-> --- a/tcg/arm/tcg-target.c.inc
-> +++ b/tcg/arm/tcg-target.c.inc
-> @@ -1393,7 +1393,7 @@ static void tcg_out_vldst(TCGContext *s, ARMInsn in=
-sn,
->  /* helper signature: helper_ret_ld_mmu(CPUState *env, target_ulong addr,
->   *                                     int mmu_idx, uintptr_t ra)
->   */
-> -static void * const qemu_ld_helpers[8] =3D {
-> +static void * const qemu_ld_helpers[MO_SSIZE + 1] =3D {
->      [MO_UB]   =3D helper_ret_ldub_mmu,
->      [MO_SB]   =3D helper_ret_ldsb_mmu,
->  #ifdef HOST_WORDS_BIGENDIAN
-> @@ -1414,7 +1414,7 @@ static void * const qemu_ld_helpers[8] =3D {
->  /* helper signature: helper_ret_st_mmu(CPUState *env, target_ulong addr,
->   *                                     uintxx_t val, int mmu_idx, uintpt=
-r_t ra)
->   */
-> -static void * const qemu_st_helpers[4] =3D {
-> +static void * const qemu_st_helpers[MO_SIZE + 1] =3D {
->      [MO_8]   =3D helper_ret_stb_mmu,
->  #ifdef HOST_WORDS_BIGENDIAN
->      [MO_16] =3D helper_be_stw_mmu,
-> diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-> index 98d924b91a..5fd4e4392f 100644
-> --- a/tcg/i386/tcg-target.c.inc
-> +++ b/tcg/i386/tcg-target.c.inc
-> @@ -1610,7 +1610,7 @@ static void tcg_out_nopn(TCGContext *s, int n)
->  /* helper signature: helper_ret_ld_mmu(CPUState *env, target_ulong addr,
->   *                                     int mmu_idx, uintptr_t ra)
->   */
-> -static void * const qemu_ld_helpers[16] =3D {
-> +static void * const qemu_ld_helpers[(MO_SIZE | MO_BSWAP) + 1] =3D {
->      [MO_UB]   =3D helper_ret_ldub_mmu,
->      [MO_LEUW] =3D helper_le_lduw_mmu,
->      [MO_LEUL] =3D helper_le_ldul_mmu,
-> @@ -1623,7 +1623,7 @@ static void * const qemu_ld_helpers[16] =3D {
->  /* helper signature: helper_ret_st_mmu(CPUState *env, target_ulong addr,
->   *                                     uintxx_t val, int mmu_idx, uintpt=
-r_t ra)
->   */
-> -static void * const qemu_st_helpers[16] =3D {
-> +static void * const qemu_st_helpers[(MO_SIZE | MO_BSWAP) + 1] =3D {
->      [MO_UB]   =3D helper_ret_stb_mmu,
->      [MO_LEUW] =3D helper_le_stw_mmu,
->      [MO_LEUL] =3D helper_le_stl_mmu,
-> diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-> index bf0eb84e2d..cc279205d6 100644
-> --- a/tcg/mips/tcg-target.c.inc
-> +++ b/tcg/mips/tcg-target.c.inc
-> @@ -1037,7 +1037,7 @@ static void tcg_out_call(TCGContext *s, const tcg_i=
-nsn_unit *arg)
->  #if defined(CONFIG_SOFTMMU)
 >  #include "../tcg-ldst.c.inc"
 >
-> -static void * const qemu_ld_helpers[16] =3D {
-> +static void * const qemu_ld_helpers[(MO_SSIZE | MO_BSWAP) + 1] =3D {
->      [MO_UB]   =3D helper_ret_ldub_mmu,
->      [MO_SB]   =3D helper_ret_ldsb_mmu,
->      [MO_LEUW] =3D helper_le_lduw_mmu,
-> @@ -1054,7 +1054,7 @@ static void * const qemu_ld_helpers[16] =3D {
->  #endif
->  };
->
-> -static void * const qemu_st_helpers[16] =3D {
-> +static void * const qemu_st_helpers[(MO_SIZE | MO_BSWAP) + 1] =3D {
->      [MO_UB]   =3D helper_ret_stb_mmu,
->      [MO_LEUW] =3D helper_le_stw_mmu,
->      [MO_LEUL] =3D helper_le_stl_mmu,
-> diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-> index e0f4665213..3fef2aa6b2 100644
-> --- a/tcg/ppc/tcg-target.c.inc
-> +++ b/tcg/ppc/tcg-target.c.inc
-> @@ -1916,7 +1916,7 @@ static void tcg_out_call(TCGContext *s, const tcg_i=
-nsn_unit *target)
->  #endif
->  }
->
-> -static const uint32_t qemu_ldx_opc[16] =3D {
-> +static const uint32_t qemu_ldx_opc[(MO_SSIZE + MO_BSWAP) + 1] =3D {
->      [MO_UB] =3D LBZX,
->      [MO_UW] =3D LHZX,
->      [MO_UL] =3D LWZX,
-> @@ -1929,7 +1929,7 @@ static const uint32_t qemu_ldx_opc[16] =3D {
->      [MO_BSWAP | MO_Q]  =3D LDBRX,
->  };
->
-> -static const uint32_t qemu_stx_opc[16] =3D {
-> +static const uint32_t qemu_stx_opc[(MO_SIZE + MO_BSWAP) + 1] =3D {
->      [MO_UB] =3D STBX,
->      [MO_UW] =3D STHX,
->      [MO_UL] =3D STWX,
-> @@ -1950,7 +1950,7 @@ static const uint32_t qemu_exts_opc[4] =3D {
->  /* helper signature: helper_ld_mmu(CPUState *env, target_ulong addr,
->   *                                 int mmu_idx, uintptr_t ra)
->   */
-> -static void * const qemu_ld_helpers[16] =3D {
-> +static void * const qemu_ld_helpers[(MO_SIZE | MO_BSWAP) + 1] =3D {
->      [MO_UB]   =3D helper_ret_ldub_mmu,
->      [MO_LEUW] =3D helper_le_lduw_mmu,
->      [MO_LEUL] =3D helper_le_ldul_mmu,
-> @@ -1963,7 +1963,7 @@ static void * const qemu_ld_helpers[16] =3D {
->  /* helper signature: helper_st_mmu(CPUState *env, target_ulong addr,
->   *                                 uintxx_t val, int mmu_idx, uintptr_t =
-ra)
->   */
-> -static void * const qemu_st_helpers[16] =3D {
-> +static void * const qemu_st_helpers[(MO_SIZE | MO_BSWAP) + 1] =3D {
->      [MO_UB]   =3D helper_ret_stb_mmu,
->      [MO_LEUW] =3D helper_le_stw_mmu,
->      [MO_LEUL] =3D helper_le_stl_mmu,
-> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-> index c16f96b401..6264e58b3a 100644
-> --- a/tcg/riscv/tcg-target.c.inc
-> +++ b/tcg/riscv/tcg-target.c.inc
-> @@ -852,7 +852,7 @@ static void tcg_out_mb(TCGContext *s, TCGArg a0)
 >  /* helper signature: helper_ret_ld_mmu(CPUState *env, target_ulong addr,
->   *                                     TCGMemOpIdx oi, uintptr_t ra)
+> - *                                     TCGMemOpIdx oi, uintptr_t ra)
+> + *                                     MemOpIdx oi, uintptr_t ra)
 >   */
-> -static void * const qemu_ld_helpers[8] =3D {
-> +static void * const qemu_ld_helpers[MO_SSIZE + 1] =3D {
->      [MO_UB] =3D helper_ret_ldub_mmu,
->      [MO_SB] =3D helper_ret_ldsb_mmu,
->  #ifdef HOST_WORDS_BIGENDIAN
-> @@ -878,7 +878,7 @@ static void * const qemu_ld_helpers[8] =3D {
->   *                                     uintxx_t val, TCGMemOpIdx oi,
+>  static void * const qemu_ld_helpers[MO_SIZE + 1] =3D {
+>      [MO_8]  =3D helper_ret_ldub_mmu,
+> @@ -1561,7 +1561,7 @@ static void * const qemu_ld_helpers[MO_SIZE + 1] =
+=3D {
+>  };
+>
+>  /* helper signature: helper_ret_st_mmu(CPUState *env, target_ulong addr,
+> - *                                     uintxx_t val, TCGMemOpIdx oi,
+> + *                                     uintxx_t val, MemOpIdx oi,
 >   *                                     uintptr_t ra)
 >   */
-> -static void * const qemu_st_helpers[4] =3D {
-> +static void * const qemu_st_helpers[MO_SIZE + 1] =3D {
->      [MO_8]   =3D helper_ret_stb_mmu,
->  #ifdef HOST_WORDS_BIGENDIAN
->      [MO_16] =3D helper_be_stw_mmu,
+>  static void * const qemu_st_helpers[MO_SIZE + 1] =3D {
+> @@ -1586,7 +1586,7 @@ static inline void tcg_out_adr(TCGContext *s, TCGRe=
+g rd, const void *target)
+>
+>  static bool tcg_out_qemu_ld_slow_path(TCGContext *s, TCGLabelQemuLdst *l=
+b)
+>  {
+> -    TCGMemOpIdx oi =3D lb->oi;
+> +    MemOpIdx oi =3D lb->oi;
+>      MemOp opc =3D get_memop(oi);
+>      MemOp size =3D opc & MO_SIZE;
+>
+> @@ -1611,7 +1611,7 @@ static bool tcg_out_qemu_ld_slow_path(TCGContext *s=
+, TCGLabelQemuLdst *lb)
+>
+>  static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *l=
+b)
+>  {
+> -    TCGMemOpIdx oi =3D lb->oi;
+> +    MemOpIdx oi =3D lb->oi;
+>      MemOp opc =3D get_memop(oi);
+>      MemOp size =3D opc & MO_SIZE;
+>
+> @@ -1629,7 +1629,7 @@ static bool tcg_out_qemu_st_slow_path(TCGContext *s=
+, TCGLabelQemuLdst *lb)
+>      return true;
+>  }
+>
+> -static void add_qemu_ldst_label(TCGContext *s, bool is_ld, TCGMemOpIdx o=
+i,
+> +static void add_qemu_ldst_label(TCGContext *s, bool is_ld, MemOpIdx oi,
+>                                  TCGType ext, TCGReg data_reg, TCGReg add=
+r_reg,
+>                                  tcg_insn_unit *raddr, tcg_insn_unit *lab=
+el_ptr)
+>  {
+> @@ -1778,7 +1778,7 @@ static void tcg_out_qemu_st_direct(TCGContext *s, M=
+emOp memop,
+>  }
+>
+>  static void tcg_out_qemu_ld(TCGContext *s, TCGReg data_reg, TCGReg addr_=
+reg,
+> -                            TCGMemOpIdx oi, TCGType ext)
+> +                            MemOpIdx oi, TCGType ext)
+>  {
+>      MemOp memop =3D get_memop(oi);
+>      const TCGType otype =3D TARGET_LONG_BITS =3D=3D 64 ? TCG_TYPE_I64 : =
+TCG_TYPE_I32;
+> @@ -1803,7 +1803,7 @@ static void tcg_out_qemu_ld(TCGContext *s, TCGReg d=
+ata_reg, TCGReg addr_reg,
+>  }
+>
+>  static void tcg_out_qemu_st(TCGContext *s, TCGReg data_reg, TCGReg addr_=
+reg,
+> -                            TCGMemOpIdx oi)
+> +                            MemOpIdx oi)
+>  {
+>      MemOp memop =3D get_memop(oi);
+>      const TCGType otype =3D TARGET_LONG_BITS =3D=3D 64 ? TCG_TYPE_I64 : =
+TCG_TYPE_I32;
+> diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
+> index 8939b2c2da..cbe3057a9d 100644
+> --- a/tcg/arm/tcg-target.c.inc
+> +++ b/tcg/arm/tcg-target.c.inc
+> @@ -1588,7 +1588,7 @@ static TCGReg tcg_out_tlb_read(TCGContext *s, TCGRe=
+g addrlo, TCGReg addrhi,
+>  /* Record the context of a call to the out of line helper code for the s=
+low
+>     path for a load or store, so that we can later generate the correct
+>     helper code.  */
+> -static void add_qemu_ldst_label(TCGContext *s, bool is_ld, TCGMemOpIdx o=
+i,
+> +static void add_qemu_ldst_label(TCGContext *s, bool is_ld, MemOpIdx oi,
+>                                  TCGReg datalo, TCGReg datahi, TCGReg add=
+rlo,
+>                                  TCGReg addrhi, tcg_insn_unit *raddr,
+>                                  tcg_insn_unit *label_ptr)
+> @@ -1608,7 +1608,7 @@ static void add_qemu_ldst_label(TCGContext *s, bool=
+ is_ld, TCGMemOpIdx oi,
+>  static bool tcg_out_qemu_ld_slow_path(TCGContext *s, TCGLabelQemuLdst *l=
+b)
+>  {
+>      TCGReg argreg, datalo, datahi;
+> -    TCGMemOpIdx oi =3D lb->oi;
+> +    MemOpIdx oi =3D lb->oi;
+>      MemOp opc =3D get_memop(oi);
+>      void *func;
+>
+> @@ -1672,7 +1672,7 @@ static bool tcg_out_qemu_ld_slow_path(TCGContext *s=
+, TCGLabelQemuLdst *lb)
+>  static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *l=
+b)
+>  {
+>      TCGReg argreg, datalo, datahi;
+> -    TCGMemOpIdx oi =3D lb->oi;
+> +    MemOpIdx oi =3D lb->oi;
+>      MemOp opc =3D get_memop(oi);
+>
+>      if (!reloc_pc24(lb->label_ptr[0], tcg_splitwx_to_rx(s->code_ptr))) {
+> @@ -1801,7 +1801,7 @@ static inline void tcg_out_qemu_ld_direct(TCGContex=
+t *s, MemOp opc,
+>  static void tcg_out_qemu_ld(TCGContext *s, const TCGArg *args, bool is64=
+)
+>  {
+>      TCGReg addrlo, datalo, datahi, addrhi __attribute__((unused));
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>      MemOp opc;
+>  #ifdef CONFIG_SOFTMMU
+>      int mem_index;
+> @@ -1906,7 +1906,7 @@ static inline void tcg_out_qemu_st_direct(TCGContex=
+t *s, MemOp opc,
+>  static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is64=
+)
+>  {
+>      TCGReg addrlo, datalo, datahi, addrhi __attribute__((unused));
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>      MemOp opc;
+>  #ifdef CONFIG_SOFTMMU
+>      int mem_index;
+> diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+> index 5fd4e4392f..1e42a877fb 100644
+> --- a/tcg/i386/tcg-target.c.inc
+> +++ b/tcg/i386/tcg-target.c.inc
+> @@ -1740,7 +1740,7 @@ static inline void tcg_out_tlb_load(TCGContext *s, =
+TCGReg addrlo, TCGReg addrhi,
+>   * for a load or store, so that we can later generate the correct helper=
+ code
+>   */
+>  static void add_qemu_ldst_label(TCGContext *s, bool is_ld, bool is_64,
+> -                                TCGMemOpIdx oi,
+> +                                MemOpIdx oi,
+>                                  TCGReg datalo, TCGReg datahi,
+>                                  TCGReg addrlo, TCGReg addrhi,
+>                                  tcg_insn_unit *raddr,
+> @@ -1767,7 +1767,7 @@ static void add_qemu_ldst_label(TCGContext *s, bool=
+ is_ld, bool is_64,
+>   */
+>  static bool tcg_out_qemu_ld_slow_path(TCGContext *s, TCGLabelQemuLdst *l=
+)
+>  {
+> -    TCGMemOpIdx oi =3D l->oi;
+> +    MemOpIdx oi =3D l->oi;
+>      MemOp opc =3D get_memop(oi);
+>      TCGReg data_reg;
+>      tcg_insn_unit **label_ptr =3D &l->label_ptr[0];
+> @@ -1852,7 +1852,7 @@ static bool tcg_out_qemu_ld_slow_path(TCGContext *s=
+, TCGLabelQemuLdst *l)
+>   */
+>  static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *l=
+)
+>  {
+> -    TCGMemOpIdx oi =3D l->oi;
+> +    MemOpIdx oi =3D l->oi;
+>      MemOp opc =3D get_memop(oi);
+>      MemOp s_bits =3D opc & MO_SIZE;
+>      tcg_insn_unit **label_ptr =3D &l->label_ptr[0];
+> @@ -2053,7 +2053,7 @@ static void tcg_out_qemu_ld(TCGContext *s, const TC=
+GArg *args, bool is64)
+>  {
+>      TCGReg datalo, datahi, addrlo;
+>      TCGReg addrhi __attribute__((unused));
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>      MemOp opc;
+>  #if defined(CONFIG_SOFTMMU)
+>      int mem_index;
+> @@ -2142,7 +2142,7 @@ static void tcg_out_qemu_st(TCGContext *s, const TC=
+GArg *args, bool is64)
+>  {
+>      TCGReg datalo, datahi, addrlo;
+>      TCGReg addrhi __attribute__((unused));
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>      MemOp opc;
+>  #if defined(CONFIG_SOFTMMU)
+>      int mem_index;
+> diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
+> index cc279205d6..02dc4b63ae 100644
+> --- a/tcg/mips/tcg-target.c.inc
+> +++ b/tcg/mips/tcg-target.c.inc
+> @@ -1140,7 +1140,7 @@ QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) < -32768);
+>   * Clobbers TMP0, TMP1, TMP2, TMP3.
+>   */
+>  static void tcg_out_tlb_load(TCGContext *s, TCGReg base, TCGReg addrl,
+> -                             TCGReg addrh, TCGMemOpIdx oi,
+> +                             TCGReg addrh, MemOpIdx oi,
+>                               tcg_insn_unit *label_ptr[2], bool is_load)
+>  {
+>      MemOp opc =3D get_memop(oi);
+> @@ -1216,7 +1216,7 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg =
+base, TCGReg addrl,
+>      tcg_out_opc_reg(s, ALIAS_PADD, base, TCG_TMP2, addrl);
+>  }
+>
+> -static void add_qemu_ldst_label(TCGContext *s, int is_ld, TCGMemOpIdx oi=
+,
+> +static void add_qemu_ldst_label(TCGContext *s, int is_ld, MemOpIdx oi,
+>                                  TCGType ext,
+>                                  TCGReg datalo, TCGReg datahi,
+>                                  TCGReg addrlo, TCGReg addrhi,
+> @@ -1241,7 +1241,7 @@ static void add_qemu_ldst_label(TCGContext *s, int =
+is_ld, TCGMemOpIdx oi,
+>  static bool tcg_out_qemu_ld_slow_path(TCGContext *s, TCGLabelQemuLdst *l=
+)
+>  {
+>      const tcg_insn_unit *tgt_rx =3D tcg_splitwx_to_rx(s->code_ptr);
+> -    TCGMemOpIdx oi =3D l->oi;
+> +    MemOpIdx oi =3D l->oi;
+>      MemOp opc =3D get_memop(oi);
+>      TCGReg v0;
+>      int i;
+> @@ -1295,7 +1295,7 @@ static bool tcg_out_qemu_ld_slow_path(TCGContext *s=
+, TCGLabelQemuLdst *l)
+>  static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *l=
+)
+>  {
+>      const tcg_insn_unit *tgt_rx =3D tcg_splitwx_to_rx(s->code_ptr);
+> -    TCGMemOpIdx oi =3D l->oi;
+> +    MemOpIdx oi =3D l->oi;
+>      MemOp opc =3D get_memop(oi);
+>      MemOp s_bits =3D opc & MO_SIZE;
+>      int i;
+> @@ -1454,7 +1454,7 @@ static void tcg_out_qemu_ld(TCGContext *s, const TC=
+GArg *args, bool is_64)
+>  {
+>      TCGReg addr_regl, addr_regh __attribute__((unused));
+>      TCGReg data_regl, data_regh;
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>      MemOp opc;
+>  #if defined(CONFIG_SOFTMMU)
+>      tcg_insn_unit *label_ptr[2];
+> @@ -1556,7 +1556,7 @@ static void tcg_out_qemu_st(TCGContext *s, const TC=
+GArg *args, bool is_64)
+>  {
+>      TCGReg addr_regl, addr_regh __attribute__((unused));
+>      TCGReg data_regl, data_regh;
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>      MemOp opc;
+>  #if defined(CONFIG_SOFTMMU)
+>      tcg_insn_unit *label_ptr[2];
+> diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+> index 3fef2aa6b2..2d4ca1f445 100644
+> --- a/tcg/ppc/tcg-target.c.inc
+> +++ b/tcg/ppc/tcg-target.c.inc
+> @@ -2088,7 +2088,7 @@ static TCGReg tcg_out_tlb_read(TCGContext *s, MemOp=
+ opc,
+>  /* Record the context of a call to the out of line helper code for the s=
+low
+>     path for a load or store, so that we can later generate the correct
+>     helper code.  */
+> -static void add_qemu_ldst_label(TCGContext *s, bool is_ld, TCGMemOpIdx o=
+i,
+> +static void add_qemu_ldst_label(TCGContext *s, bool is_ld, MemOpIdx oi,
+>                                  TCGReg datalo_reg, TCGReg datahi_reg,
+>                                  TCGReg addrlo_reg, TCGReg addrhi_reg,
+>                                  tcg_insn_unit *raddr, tcg_insn_unit *lpt=
+r)
+> @@ -2107,7 +2107,7 @@ static void add_qemu_ldst_label(TCGContext *s, bool=
+ is_ld, TCGMemOpIdx oi,
+>
+>  static bool tcg_out_qemu_ld_slow_path(TCGContext *s, TCGLabelQemuLdst *l=
+b)
+>  {
+> -    TCGMemOpIdx oi =3D lb->oi;
+> +    MemOpIdx oi =3D lb->oi;
+>      MemOp opc =3D get_memop(oi);
+>      TCGReg hi, lo, arg =3D TCG_REG_R3;
+>
+> @@ -2154,7 +2154,7 @@ static bool tcg_out_qemu_ld_slow_path(TCGContext *s=
+, TCGLabelQemuLdst *lb)
+>
+>  static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *l=
+b)
+>  {
+> -    TCGMemOpIdx oi =3D lb->oi;
+> +    MemOpIdx oi =3D lb->oi;
+>      MemOp opc =3D get_memop(oi);
+>      MemOp s_bits =3D opc & MO_SIZE;
+>      TCGReg hi, lo, arg =3D TCG_REG_R3;
+> @@ -2218,7 +2218,7 @@ static void tcg_out_qemu_ld(TCGContext *s, const TC=
+GArg *args, bool is_64)
+>  {
+>      TCGReg datalo, datahi, addrlo, rbase;
+>      TCGReg addrhi __attribute__((unused));
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>      MemOp opc, s_bits;
+>  #ifdef CONFIG_SOFTMMU
+>      int mem_index;
+> @@ -2293,7 +2293,7 @@ static void tcg_out_qemu_st(TCGContext *s, const TC=
+GArg *args, bool is_64)
+>  {
+>      TCGReg datalo, datahi, addrlo, rbase;
+>      TCGReg addrhi __attribute__((unused));
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>      MemOp opc, s_bits;
+>  #ifdef CONFIG_SOFTMMU
+>      int mem_index;
+> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+> index 6264e58b3a..c1b0c3764d 100644
+> --- a/tcg/riscv/tcg-target.c.inc
+> +++ b/tcg/riscv/tcg-target.c.inc
+> @@ -850,7 +850,7 @@ static void tcg_out_mb(TCGContext *s, TCGArg a0)
+>  #include "../tcg-ldst.c.inc"
+>
+>  /* helper signature: helper_ret_ld_mmu(CPUState *env, target_ulong addr,
+> - *                                     TCGMemOpIdx oi, uintptr_t ra)
+> + *                                     MemOpIdx oi, uintptr_t ra)
+>   */
+>  static void * const qemu_ld_helpers[MO_SSIZE + 1] =3D {
+>      [MO_UB] =3D helper_ret_ldub_mmu,
+> @@ -875,7 +875,7 @@ static void * const qemu_ld_helpers[MO_SSIZE + 1] =3D=
+ {
+>  };
+>
+>  /* helper signature: helper_ret_st_mmu(CPUState *env, target_ulong addr,
+> - *                                     uintxx_t val, TCGMemOpIdx oi,
+> + *                                     uintxx_t val, MemOpIdx oi,
+>   *                                     uintptr_t ra)
+>   */
+>  static void * const qemu_st_helpers[MO_SIZE + 1] =3D {
+> @@ -906,7 +906,7 @@ static void tcg_out_goto(TCGContext *s, const tcg_ins=
+n_unit *target)
+>  }
+>
+>  static void tcg_out_tlb_load(TCGContext *s, TCGReg addrl,
+> -                             TCGReg addrh, TCGMemOpIdx oi,
+> +                             TCGReg addrh, MemOpIdx oi,
+>                               tcg_insn_unit **label_ptr, bool is_load)
+>  {
+>      MemOp opc =3D get_memop(oi);
+> @@ -959,7 +959,7 @@ static void tcg_out_tlb_load(TCGContext *s, TCGReg ad=
+drl,
+>      tcg_out_opc_reg(s, OPC_ADD, TCG_REG_TMP0, TCG_REG_TMP2, addrl);
+>  }
+>
+> -static void add_qemu_ldst_label(TCGContext *s, int is_ld, TCGMemOpIdx oi=
+,
+> +static void add_qemu_ldst_label(TCGContext *s, int is_ld, MemOpIdx oi,
+>                                  TCGType ext,
+>                                  TCGReg datalo, TCGReg datahi,
+>                                  TCGReg addrlo, TCGReg addrhi,
+> @@ -980,7 +980,7 @@ static void add_qemu_ldst_label(TCGContext *s, int is=
+_ld, TCGMemOpIdx oi,
+>
+>  static bool tcg_out_qemu_ld_slow_path(TCGContext *s, TCGLabelQemuLdst *l=
+)
+>  {
+> -    TCGMemOpIdx oi =3D l->oi;
+> +    MemOpIdx oi =3D l->oi;
+>      MemOp opc =3D get_memop(oi);
+>      TCGReg a0 =3D tcg_target_call_iarg_regs[0];
+>      TCGReg a1 =3D tcg_target_call_iarg_regs[1];
+> @@ -1012,7 +1012,7 @@ static bool tcg_out_qemu_ld_slow_path(TCGContext *s=
+, TCGLabelQemuLdst *l)
+>
+>  static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *l=
+)
+>  {
+> -    TCGMemOpIdx oi =3D l->oi;
+> +    MemOpIdx oi =3D l->oi;
+>      MemOp opc =3D get_memop(oi);
+>      MemOp s_bits =3D opc & MO_SIZE;
+>      TCGReg a0 =3D tcg_target_call_iarg_regs[0];
+> @@ -1104,7 +1104,7 @@ static void tcg_out_qemu_ld(TCGContext *s, const TC=
+GArg *args, bool is_64)
+>  {
+>      TCGReg addr_regl, addr_regh __attribute__((unused));
+>      TCGReg data_regl, data_regh;
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>      MemOp opc;
+>  #if defined(CONFIG_SOFTMMU)
+>      tcg_insn_unit *label_ptr[1];
+> @@ -1173,7 +1173,7 @@ static void tcg_out_qemu_st(TCGContext *s, const TC=
+GArg *args, bool is_64)
+>  {
+>      TCGReg addr_regl, addr_regh __attribute__((unused));
+>      TCGReg data_regl, data_regh;
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>      MemOp opc;
+>  #if defined(CONFIG_SOFTMMU)
+>      tcg_insn_unit *label_ptr[1];
 > diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
-> index b82cf19f09..67a2ba5ff3 100644
+> index 67a2ba5ff3..fd0b3316d2 100644
 > --- a/tcg/s390/tcg-target.c.inc
 > +++ b/tcg/s390/tcg-target.c.inc
-> @@ -350,7 +350,7 @@ static const uint8_t tcg_cond_to_ltr_cond[] =3D {
->  };
->
->  #ifdef CONFIG_SOFTMMU
-> -static void * const qemu_ld_helpers[16] =3D {
-> +static void * const qemu_ld_helpers[(MO_SSIZE | MO_BSWAP) + 1] =3D {
->      [MO_UB]   =3D helper_ret_ldub_mmu,
->      [MO_SB]   =3D helper_ret_ldsb_mmu,
->      [MO_LEUW] =3D helper_le_lduw_mmu,
-> @@ -365,7 +365,7 @@ static void * const qemu_ld_helpers[16] =3D {
->      [MO_BEQ]  =3D helper_be_ldq_mmu,
->  };
->
-> -static void * const qemu_st_helpers[16] =3D {
-> +static void * const qemu_st_helpers[(MO_SIZE | MO_BSWAP) + 1] =3D {
->      [MO_UB]   =3D helper_ret_stb_mmu,
->      [MO_LEUW] =3D helper_le_stw_mmu,
->      [MO_LEUL] =3D helper_le_stl_mmu,
-> diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
-> index 688827968b..b9bce29282 100644
-> --- a/tcg/sparc/tcg-target.c.inc
-> +++ b/tcg/sparc/tcg-target.c.inc
-> @@ -847,8 +847,8 @@ static void tcg_out_mb(TCGContext *s, TCGArg a0)
+> @@ -1547,7 +1547,7 @@ static TCGReg tcg_out_tlb_read(TCGContext *s, TCGRe=
+g addr_reg, MemOp opc,
+>      return addr_reg;
 >  }
 >
->  #ifdef CONFIG_SOFTMMU
-> -static const tcg_insn_unit *qemu_ld_trampoline[16];
-> -static const tcg_insn_unit *qemu_st_trampoline[16];
-> +static const tcg_insn_unit *qemu_ld_trampoline[(MO_SSIZE | MO_BSWAP) + 1=
-];
-> +static const tcg_insn_unit *qemu_st_trampoline[(MO_SIZE | MO_BSWAP) + 1]=
-;
->
->  static void emit_extend(TCGContext *s, TCGReg r, int op)
+> -static void add_qemu_ldst_label(TCGContext *s, bool is_ld, TCGMemOpIdx o=
+i,
+> +static void add_qemu_ldst_label(TCGContext *s, bool is_ld, MemOpIdx oi,
+>                                  TCGReg data, TCGReg addr,
+>                                  tcg_insn_unit *raddr, tcg_insn_unit *lab=
+el_ptr)
 >  {
-> @@ -875,7 +875,7 @@ static void emit_extend(TCGContext *s, TCGReg r, int =
-op)
->
->  static void build_trampolines(TCGContext *s)
+> @@ -1565,7 +1565,7 @@ static bool tcg_out_qemu_ld_slow_path(TCGContext *s=
+, TCGLabelQemuLdst *lb)
 >  {
-> -    static void * const qemu_ld_helpers[16] =3D {
-> +    static void * const qemu_ld_helpers[] =3D {
->          [MO_UB]   =3D helper_ret_ldub_mmu,
->          [MO_SB]   =3D helper_ret_ldsb_mmu,
->          [MO_LEUW] =3D helper_le_lduw_mmu,
-> @@ -887,7 +887,7 @@ static void build_trampolines(TCGContext *s)
->          [MO_BEUL] =3D helper_be_ldul_mmu,
->          [MO_BEQ]  =3D helper_be_ldq_mmu,
->      };
-> -    static void * const qemu_st_helpers[16] =3D {
-> +    static void * const qemu_st_helpers[] =3D {
->          [MO_UB]   =3D helper_ret_stb_mmu,
->          [MO_LEUW] =3D helper_le_stw_mmu,
->          [MO_LEUL] =3D helper_le_stl_mmu,
-> @@ -900,7 +900,7 @@ static void build_trampolines(TCGContext *s)
->      int i;
->      TCGReg ra;
+>      TCGReg addr_reg =3D lb->addrlo_reg;
+>      TCGReg data_reg =3D lb->datalo_reg;
+> -    TCGMemOpIdx oi =3D lb->oi;
+> +    MemOpIdx oi =3D lb->oi;
+>      MemOp opc =3D get_memop(oi);
 >
-> -    for (i =3D 0; i < 16; ++i) {
-> +    for (i =3D 0; i < ARRAY_SIZE(qemu_ld_helpers); ++i) {
->          if (qemu_ld_helpers[i] =3D=3D NULL) {
->              continue;
->          }
-> @@ -928,7 +928,7 @@ static void build_trampolines(TCGContext *s)
->          tcg_out_mov(s, TCG_TYPE_PTR, TCG_REG_O7, ra);
->      }
+>      if (!patch_reloc(lb->label_ptr[0], R_390_PC16DBL,
+> @@ -1590,7 +1590,7 @@ static bool tcg_out_qemu_st_slow_path(TCGContext *s=
+, TCGLabelQemuLdst *lb)
+>  {
+>      TCGReg addr_reg =3D lb->addrlo_reg;
+>      TCGReg data_reg =3D lb->datalo_reg;
+> -    TCGMemOpIdx oi =3D lb->oi;
+> +    MemOpIdx oi =3D lb->oi;
+>      MemOp opc =3D get_memop(oi);
 >
-> -    for (i =3D 0; i < 16; ++i) {
-> +    for (i =3D 0; i < ARRAY_SIZE(qemu_st_helpers); ++i) {
->          if (qemu_st_helpers[i] =3D=3D NULL) {
->              continue;
->          }
-> @@ -1110,7 +1110,7 @@ static TCGReg tcg_out_tlb_load(TCGContext *s, TCGRe=
-g addr, int mem_index,
->  }
+>      if (!patch_reloc(lb->label_ptr[0], R_390_PC16DBL,
+> @@ -1644,7 +1644,7 @@ static void tcg_prepare_user_ldst(TCGContext *s, TC=
+GReg *addr_reg,
 >  #endif /* CONFIG_SOFTMMU */
 >
-> -static const int qemu_ld_opc[16] =3D {
-> +static const int qemu_ld_opc[(MO_SSIZE | MO_BSWAP) + 1] =3D {
->      [MO_UB]   =3D LDUB,
->      [MO_SB]   =3D LDSB,
+>  static void tcg_out_qemu_ld(TCGContext* s, TCGReg data_reg, TCGReg addr_=
+reg,
+> -                            TCGMemOpIdx oi)
+> +                            MemOpIdx oi)
+>  {
+>      MemOp opc =3D get_memop(oi);
+>  #ifdef CONFIG_SOFTMMU
+> @@ -1671,7 +1671,7 @@ static void tcg_out_qemu_ld(TCGContext* s, TCGReg d=
+ata_reg, TCGReg addr_reg,
+>  }
 >
-> @@ -1127,7 +1127,7 @@ static const int qemu_ld_opc[16] =3D {
->      [MO_LEQ]  =3D LDX_LE,
+>  static void tcg_out_qemu_st(TCGContext* s, TCGReg data_reg, TCGReg addr_=
+reg,
+> -                            TCGMemOpIdx oi)
+> +                            MemOpIdx oi)
+>  {
+>      MemOp opc =3D get_memop(oi);
+>  #ifdef CONFIG_SOFTMMU
+> diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
+> index b9bce29282..0e3f460584 100644
+> --- a/tcg/sparc/tcg-target.c.inc
+> +++ b/tcg/sparc/tcg-target.c.inc
+> @@ -1140,7 +1140,7 @@ static const int qemu_st_opc[(MO_SIZE | MO_BSWAP) +=
+ 1] =3D {
 >  };
 >
-> -static const int qemu_st_opc[16] =3D {
-> +static const int qemu_st_opc[(MO_SIZE | MO_BSWAP) + 1] =3D {
->      [MO_UB]   =3D STB,
+>  static void tcg_out_qemu_ld(TCGContext *s, TCGReg data, TCGReg addr,
+> -                            TCGMemOpIdx oi, bool is_64)
+> +                            MemOpIdx oi, bool is_64)
+>  {
+>      MemOp memop =3D get_memop(oi);
+>  #ifdef CONFIG_SOFTMMU
+> @@ -1222,7 +1222,7 @@ static void tcg_out_qemu_ld(TCGContext *s, TCGReg d=
+ata, TCGReg addr,
+>  }
 >
->      [MO_BEUW] =3D STH,
+>  static void tcg_out_qemu_st(TCGContext *s, TCGReg data, TCGReg addr,
+> -                            TCGMemOpIdx oi)
+> +                            MemOpIdx oi)
+>  {
+>      MemOp memop =3D get_memop(oi);
+>  #ifdef CONFIG_SOFTMMU
+> diff --git a/tcg/tcg-ldst.c.inc b/tcg/tcg-ldst.c.inc
+> index c3ce88e69d..6c6848d034 100644
+> --- a/tcg/tcg-ldst.c.inc
+> +++ b/tcg/tcg-ldst.c.inc
+> @@ -22,7 +22,7 @@
+>
+>  typedef struct TCGLabelQemuLdst {
+>      bool is_ld;             /* qemu_ld: true, qemu_st: false */
+> -    TCGMemOpIdx oi;
+> +    MemOpIdx oi;
+>      TCGType type;           /* result type of a load */
+>      TCGReg addrlo_reg;      /* reg index for low word of guest virtual a=
+ddr */
+>      TCGReg addrhi_reg;      /* reg index for high word of guest virtual =
+addr */
 > --
 > 2.25.1
 >
