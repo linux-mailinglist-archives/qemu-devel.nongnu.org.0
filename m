@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF0AE3F1C8C
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 17:22:50 +0200 (CEST)
-Received: from localhost ([::1]:40226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1046E3F1CB6
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 17:27:56 +0200 (CEST)
+Received: from localhost ([::1]:43910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGjsX-0006PD-LI
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 11:22:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40976)
+	id 1mGjxT-0000di-5Z
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 11:27:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1mGjre-0005X7-RN; Thu, 19 Aug 2021 11:21:54 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2149)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1mGjrb-0000HE-OT; Thu, 19 Aug 2021 11:21:54 -0400
-Received: from fraeml710-chm.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Gr7kY2D9Xz6DKlv;
- Thu, 19 Aug 2021 23:20:37 +0800 (CST)
-Received: from lhreml715-chm.china.huawei.com (10.201.108.66) by
- fraeml710-chm.china.huawei.com (10.206.15.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Thu, 19 Aug 2021 17:21:37 +0200
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- lhreml715-chm.china.huawei.com (10.201.108.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Thu, 19 Aug 2021 16:21:37 +0100
-Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
- lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
- 15.01.2308.008; Thu, 19 Aug 2021 16:21:37 +0100
-From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>, "Ani
- Sinha" <ani@anisinha.ca>
-Subject: RE: [PATCH] hw/arm/Kconfig: no need to enable ACPI_MEMORY_HOTPLUG
- explicitly
-Thread-Topic: [PATCH] hw/arm/Kconfig: no need to enable ACPI_MEMORY_HOTPLUG
- explicitly
-Thread-Index: AQHXjyshD1ecXEbjmUeOqcPoduSk96t3FiQAgAOwnoCAAAWCAIAAAyEAgAAUcgCAABem0A==
-Date: Thu, 19 Aug 2021 15:21:37 +0000
-Message-ID: <2ce72c03d5864522a3e886287c2c6fa7@huawei.com>
-References: <20210812033405.362985-1-ani@anisinha.ca>
- <alpine.DEB.2.22.394.2108171014500.202364@anisinha-lenovo>
- <CAFEAcA8Fu+mkzFi9JdTtbqMcnnV74Swk04xx2a1G4L_oATY2eQ@mail.gmail.com>
- <alpine.DEB.2.22.394.2108191849260.417749@anisinha-lenovo>
- <alpine.DEB.2.22.394.2108191905100.418214@anisinha-lenovo>
- <16b11751-7ab2-8d68-0bf2-5453bc2938fc@redhat.com>
-In-Reply-To: <16b11751-7ab2-8d68-0bf2-5453bc2938fc@redhat.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.47.94.122]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mGjwb-0008Nc-Mk
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 11:27:01 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:37590)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mGjwY-00056G-Nm
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 11:27:01 -0400
+Received: by mail-ed1-x536.google.com with SMTP id g21so9439547edw.4
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 08:26:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=M51Tng5ob8Rcm1Rew5cYwD08IZVVNAUPJe+VHuOFxLA=;
+ b=HklsIKLvNhPac0Ua+kx2X0kXFH4M3zRnPKfq1H1rRp48jl+dajGnwiMVFf6hqMYhWn
+ fLES8kSkvj3aneaFTzZCMS3DU+t4nWsd5bKTYOFgxNg3OHqsMu5oFF1pW6iwPX86+38m
+ PAvOt15oMrA5jItSkv1ilU+iZ0ajTfV4/ZwhDu3YfoQ+zPSesW9bwe2aggIM2Qw/nIsJ
+ KlQNJNroZjmWANJ7aembA/QgC24qP89n1UDgfNcayT+Ns8PBSpv2t++xMQkFDaWw4J2Z
+ EDduXFN9dH3tSmqVpmBb/0lyw4GF+aQEIIdXj5H3OsoggaT2g9s+tlrT00TO9ItiWHtH
+ Pvhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=M51Tng5ob8Rcm1Rew5cYwD08IZVVNAUPJe+VHuOFxLA=;
+ b=JQsLQNpTNSpzB4H6OeiSXoPM5OtNE6qcKuzr+o0VkG1yrf2ySKqvlM2inht3x4LcNG
+ C33Ava+slDWFzyGbdLZ++NmyUxqZ2McJryaVau4cx6FmVF+CR+dxGRKbHXLxOmRmCiba
+ EpPKdd5sT54OuXwWtS6Q0kPn/1ZkWfvbOwmllm4mKQFAbklFpl9CTIn8kQI2HbiRtW2/
+ toUS/P65H8iLNnWPbrJnn2gz9WW/ASH4msbfWOftdIUDy7AUfE9GcW/Zi/eDCUcg1sXT
+ uid1zbDSFe+c6T7c1zKyTmgv6sNkh6IDLJm8poFoqtPUWCU7lSwqvniOGu2IFZqypD1W
+ /39A==
+X-Gm-Message-State: AOAM531WP6C01dB3NXQN7PLGr8PRmmOTP/yLTiWsvybH0xW+nLSZ2Epl
+ KCT9toM6Hq4eTosK1SL/XuCwADGVmGGoD5mZizkHrg==
+X-Google-Smtp-Source: ABdhPJxWgWBFWaFYGOqbjt/c+BbpMmcDju1kk454jFMrn94KFXoCVPZVUESFbfWrxU0BEPZSAS4BFBDwsNK/V3k2/Ro=
+X-Received: by 2002:a05:6402:220e:: with SMTP id
+ cq14mr16926578edb.52.1629386816822; 
+ Thu, 19 Aug 2021 08:26:56 -0700 (PDT)
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=shameerali.kolothum.thodi@huawei.com;
- helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210818191920.390759-1-richard.henderson@linaro.org>
+ <20210818191920.390759-51-richard.henderson@linaro.org>
+In-Reply-To: <20210818191920.390759-51-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 19 Aug 2021 16:26:10 +0100
+Message-ID: <CAFEAcA9Wdriiz-8Km2s9c3cZCVnov3Z2OY6wpP6o3e6cA2qRxw@mail.gmail.com>
+Subject: Re: [PATCH v3 50/66] hw/core/cpu: Move cpu properties to cpu-sysemu.c
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,75 +78,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGhpbGlwcGUgTWF0aGll
-dS1EYXVkw6kgW21haWx0bzpwaGlsbWRAcmVkaGF0LmNvbV0NCj4gU2VudDogMTkgQXVndXN0IDIw
-MjEgMTU6NTANCj4gVG86IEFuaSBTaW5oYSA8YW5pQGFuaXNpbmhhLmNhPg0KPiBDYzogUGV0ZXIg
-TWF5ZGVsbCA8cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnPjsgUUVNVSBEZXZlbG9wZXJzDQo+IDxx
-ZW11LWRldmVsQG5vbmdudS5vcmc+OyBxZW11LWFybSA8cWVtdS1hcm1Abm9uZ251Lm9yZz47IE1p
-Y2hhZWwgUy4NCj4gVHNpcmtpbiA8bXN0QHJlZGhhdC5jb20+OyBJZ29yIE1hbW1lZG92IDxpbWFt
-bWVkb0ByZWRoYXQuY29tPjsNCj4gU2hhbWVlcmFsaSBLb2xvdGh1bSBUaG9kaSA8c2hhbWVlcmFs
-aS5rb2xvdGh1bS50aG9kaUBodWF3ZWkuY29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIXSBody9h
-cm0vS2NvbmZpZzogbm8gbmVlZCB0byBlbmFibGUNCj4gQUNQSV9NRU1PUllfSE9UUExVRyBleHBs
-aWNpdGx5DQo+IA0KPiBDYydpbmcgU2hhbWVlciBLb2xvdGh1bS4NCj4gDQo+IE9uIDgvMTkvMjEg
-MzozNiBQTSwgQW5pIFNpbmhhIHdyb3RlOg0KPiA+IE9uIFRodSwgMTkgQXVnIDIwMjEsIEFuaSBT
-aW5oYSB3cm90ZToNCj4gPj4gT24gVGh1LCAxOSBBdWcgMjAyMSwgUGV0ZXIgTWF5ZGVsbCB3cm90
-ZToNCj4gPj4+IE9uIFR1ZSwgMTcgQXVnIDIwMjEgYXQgMDU6NDUsIEFuaSBTaW5oYSA8YW5pQGFu
-aXNpbmhhLmNhPiB3cm90ZToNCj4gDQo+ID4+PiBJcyBpdCBpbnRlbmRlZCB0aGF0IEFDUElfSFdf
-UkVEVUNFRCBtdXN0IGFsd2F5cyBpbXBseQ0KPiA+Pj4gQUNQSV9NRU1PUllfSE9UUExVRywgb3Ig
-aXMgaXQganVzdCBhIGNvaW5jaWRlbmNlIHRoYXQgdGhlIHZpcnQgYm9hcmQNCj4gPj4+IGhhcHBl
-bnMgdG8gd2FudCBib3RoLCBhbmQgc28gd2Ugc2VsZWN0IGJvdGggPw0KPiANCj4gVGhlIEFDUEkg
-ZGVwZW5kZW5jeSB3YXMgbWlzc2luZyAoc2VlIGNvbW1pdCAzNmI3OWUzMjE5ZCwNCj4gImh3L2Fj
-cGkvS2NvbmZpZzogQWRkIG1pc3NpbmcgS2NvbmZpZyBkZXBlbmRlbmNpZXMgKGJ1aWxkIGVycm9y
-KSIsIG5vdyB3ZQ0KPiBkb24ndCBuZWVkIGl0IGV4cGxpY2l0bHkuDQoNClllcy4gQW5kIGl0IGxv
-b2tzIGxpa2UgQUNQSV9OVkRJTU0gYWxzbyBjYW4gYmUgcmVtb3ZlZCBub3cuDQoNClJlZ2FyZHMs
-DQpTaGFtZWVyDQoNCj4gPj4gRnJvbSBhIHB1cmVseSBjb2RlIGluc3BlY3Rpb24gcG9pbnQgb2Yg
-dmlldywgSSBub3RpY2VkIHRoYXQNCj4gPj4gZ2VuZXJpY19ldmVudF9kZXZpY2UuYyBkZXBlbmRz
-IG9uIENPTkZJR19BQ1BJX0hXX1JFRFVDRUQuIFRoZSBHRUQNCj4gPj4gZG9lcyB1c2UgbWVtb3J5
-IGhvdHBsdWcgYXBpcyAtIGZvciBleGFtcGxlIGFjcGlfZ2VkX2RldmljZV9wbHVnX2NiKCkNCj4g
-Pj4gdXNlcw0KPiA+PiBhY3BpX21lbW9yeV9wbHVnX2NiKCkgZXRjLg0KPiA+Pg0KPiA+PiBIZW5j
-ZSwgYXMgaXQgc3RhbmRzIHRvZGF5LCBDT05GSUdfQUNQSV9IV19SRURVQ0VEIHdpbGwgbmVlZCB0
-byBzZWxlY3QNCj4gPj4gQUNQSSBtZW1vcnkgaG90cGx1Zy4gVW5sZXNzIHdlIHJlbW92ZSB0aGUg
-R0VEIGRldmljZSdzIGRlcGVuZGVuY2Ugb24NCj4gPj4gQUNQSV9IV19SRURVQ0VEIHRoYXQgaXMu
-IEkgY2Fubm90IGNvbW1lbnQgd2hldGhlciB0aGF0IHdvdWxkIGJlIHdpc2UNCj4gPj4gb3IgaWYg
-d2Ugc2hvdWxkIHJlb3JnIHRoZSBjb2RlIGluIHNvbWUgb3RoZXIgd2F5Lg0KPiA+DQo+ID4gVGhl
-IG90aGVyIHF1ZXN0aW9uIHdlIHNob3VsZCBhc2sgaXMgd2hldGhlciBhcm0gcGxhdGZvcm0gcmVx
-dWlyZXMNCj4gPiBBQ1BJX01FTU9SWV9IT1RQTFVHIGluZGVwZW5kZW50IG9mIEFDUElfSFdfUkVE
-VUNFRC9HRUQgZGV2aWNlPw0KPiBJZiB0aGF0DQo+ID4gaXMgdGhlIGNhc2UsIHRoZW4gbWF5YmUg
-d2Ugc2hvdWxkIGtlZXAgdGhhdCBjb25maWcgb3B0aW9uIGFzIGlzLg0KPiA+IE1heWJlIEBxZW11
-LWFybSBjYW4gYW5zd2VyIHRoYXQ/DQo+IA0KPiBPciBnaXQtbG9nOg0KPiANCj4gY29tbWl0IGNm
-ZjUxYWM5NzhjNGZhMGIzZDBkZTBmZDYyZDc3MmQ5MDAzZjEyM2UNCj4gQXV0aG9yOiBTaGFtZWVy
-IEtvbG90aHVtIDxzaGFtZWVyYWxpLmtvbG90aHVtLnRob2RpQGh1YXdlaS5jb20+DQo+IERhdGU6
-ICAgV2VkIFNlcCAxOCAxNDowNjoyNyAyMDE5ICswMTAwDQo+IA0KPiAgICAgaHcvYXJtL3ZpcnQ6
-IEVuYWJsZSBkZXZpY2UgbWVtb3J5IGNvbGQvaG90IHBsdWcgd2l0aCBBQ1BJIGJvb3QNCj4gDQo+
-ICAgICBUaGlzIGluaXRpYWxpemVzIHRoZSBHRUQgZGV2aWNlIHdpdGggYmFzZSBtZW1vcnkgYW5k
-IGlycSwgY29uZmlndXJlcw0KPiAgICAgZ2VkIG1lbW9yeSBob3RwbHVnIGV2ZW50IGFuZCBidWls
-ZHMgdGhlIGNvcnJlc3BvbmRpbmcgYW1sIGNvZGUuIFdpdGgNCj4gICAgIHRoaXMsIGJvdGggaG90
-IGFuZCBjb2xkIHBsdWcgb2YgZGV2aWNlIG1lbW9yeSBpcyBlbmFibGVkIG5vdyBmb3INCj4gICAg
-IEd1ZXN0IHdpdGggQUNQSSBib290LiBNZW1vcnkgY29sZCBwbHVnIHN1cHBvcnQgd2l0aCBHdWVz
-dCBEVCBib290IGlzDQo+ICAgICBub3QgeWV0IHN1cHBvcnRlZC4NCj4gDQo+ID4+Pj4gT24gVGh1
-LCAxMiBBdWcgMjAyMSwgQW5pIFNpbmhhIHdyb3RlOg0KPiA+Pj4+DQo+IA0KPiBQbGVhc2UgcHJl
-cGVuZCBoZXJlICdTaW5jZSBjb21taXQgMzZiNzllMzIxOWQgKCJody9hY3BpL0tjb25maWc6IEFk
-ZA0KPiBtaXNzaW5nIEtjb25maWcgZGVwZW5kZW5jaWVzIiksJw0KPiANCj4gV2l0aCBpdDoNCj4g
-UmV2aWV3ZWQtYnk6IFBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIDxwaGlsbWRAcmVkaGF0LmNvbT4N
-Cj4gDQo+ID4+Pj4+IEFDUElfTUVNT1JZX0hPVFBMVUcgaXMgaW1wbGljaXRseSB0dXJuZWQgb24g
-d2hlbg0KPiBBQ1BJX0hXX1JFRFVDRUQgaXMgc2VsZWN0ZWQuDQo+ID4+Pj4+IEFDUElfSFdfUkVE
-VUNFRCBpcyBhbHJlYWR5IGVuYWJsZWQuIE5vIG5lZWQgdG8gdHVybiBvbg0KPiA+Pj4+PiBBQ1BJ
-X01FTU9SWV9IT1RQTFVHIGV4cGxpY2l0bHkuIFRoaXMgaXMgYSBtaW5vciBjbGVhbnVwLg0KPiA+
-Pj4+Pg0KPiA+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBBbmkgU2luaGEgPGFuaUBhbmlzaW5oYS5jYT4N
-Cj4gPj4+Pj4gLS0tDQo+ID4+Pj4+ICBody9hcm0vS2NvbmZpZyB8IDEgLQ0KPiA+Pj4+PiAgMSBm
-aWxlIGNoYW5nZWQsIDEgZGVsZXRpb24oLSkNCj4gPj4+Pj4NCj4gPj4+Pj4gZGlmZiAtLWdpdCBh
-L2h3L2FybS9LY29uZmlnIGIvaHcvYXJtL0tjb25maWcgaW5kZXgNCj4gPj4+Pj4gNGJhMGFjYTA2
-Ny4uMzhjZjlmNDRlMiAxMDA2NDQNCj4gPj4+Pj4gLS0tIGEvaHcvYXJtL0tjb25maWcNCj4gPj4+
-Pj4gKysrIGIvaHcvYXJtL0tjb25maWcNCj4gPj4+Pj4gQEAgLTI1LDcgKzI1LDYgQEAgY29uZmln
-IEFSTV9WSVJUDQo+ID4+Pj4+ICAgICAgc2VsZWN0IEFDUElfUENJDQo+ID4+Pj4+ICAgICAgc2Vs
-ZWN0IE1FTV9ERVZJQ0UNCj4gPj4+Pj4gICAgICBzZWxlY3QgRElNTQ0KPiA+Pj4+PiAtICAgIHNl
-bGVjdCBBQ1BJX01FTU9SWV9IT1RQTFVHDQo+ID4+Pj4+ICAgICAgc2VsZWN0IEFDUElfSFdfUkVE
-VUNFRA0KPiA+Pj4+PiAgICAgIHNlbGVjdCBBQ1BJX05WRElNTQ0KPiA+Pj4+PiAgICAgIHNlbGVj
-dCBBQ1BJX0FQRUkNCj4gPj4+Pj4gLS0NCj4gPj4+Pj4gMi4yNS4xDQoNCg==
+On Wed, 18 Aug 2021 at 21:09, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> The comment in cpu-common.c is absolutely correct, we can't
+> rely on the ifdef in a file built once.  This was only "working"
+> because we used ifndef.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Fixes: 1b36e4f5a5de585
+
+which moved the properties out of cpu.c and into cpu-common.c
+with the remark "There's no reason to keep the property list
+separate from the CPU class code" despite there being a big
+fat warning comment saying why it can't go in a compiled-once
+source file !
+
+Is there a reason to prefer this patch over just reverting
+1b36e4f5a5de585 ?
+
+thanks
+-- PMM
+
+(patch below for context)
+
+> ---
+>  hw/core/cpu-common.h | 17 +++++++++++++++++
+>  hw/core/cpu-common.c | 18 ++----------------
+>  hw/core/cpu-sysemu.c | 24 ++++++++++++++++++++++++
+>  hw/core/cpu-user.c   | 22 ++++++++++++++++++++++
+>  hw/core/meson.build  |  4 ++++
+>  5 files changed, 69 insertions(+), 16 deletions(-)
+>  create mode 100644 hw/core/cpu-common.h
+>  create mode 100644 hw/core/cpu-user.c
+>
+> diff --git a/hw/core/cpu-common.h b/hw/core/cpu-common.h
+> new file mode 100644
+> index 0000000000..9049f74e67
+> --- /dev/null
+> +++ b/hw/core/cpu-common.h
+> @@ -0,0 +1,17 @@
+> +/*
+> + * QEMU CPU model
+> + *
+> + * Copyright (c) 2014 SUSE LINUX Products GmbH
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#ifndef HW_CORE_CPU_COMMON_H
+> +#define HW_CORE_CPU_COMMON_H
+> +
+> +void cpu_class_init_props(DeviceClass *dc);
+> +
+> +#endif
+> diff --git a/hw/core/cpu-common.c b/hw/core/cpu-common.c
+> index e2f5a64604..6406ea79f0 100644
+> --- a/hw/core/cpu-common.c
+> +++ b/hw/core/cpu-common.c
+> @@ -34,6 +34,7 @@
+>  #include "hw/qdev-properties.h"
+>  #include "trace/trace-root.h"
+>  #include "qemu/plugin.h"
+> +#include "cpu-common.h"
+>
+>  CPUState *cpu_by_arch_id(int64_t id)
+>  {
+> @@ -257,21 +258,6 @@ static int64_t cpu_common_get_arch_id(CPUState *cpu)
+>      return cpu->cpu_index;
+>  }
+>
+> -static Property cpu_common_props[] = {
+> -#ifndef CONFIG_USER_ONLY
+> -    /* Create a memory property for softmmu CPU object,
+> -     * so users can wire up its memory. (This can't go in hw/core/cpu.c
+> -     * because that file is compiled only once for both user-mode
+> -     * and system builds.) The default if no link is set up is to use
+> -     * the system address space.
+> -     */
+> -    DEFINE_PROP_LINK("memory", CPUState, memory, TYPE_MEMORY_REGION,
+> -                     MemoryRegion *),
+> -#endif
+> -    DEFINE_PROP_BOOL("start-powered-off", CPUState, start_powered_off, false),
+> -    DEFINE_PROP_END_OF_LIST(),
+> -};
+> -
+>  static void cpu_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -286,7 +272,7 @@ static void cpu_class_init(ObjectClass *klass, void *data)
+>      dc->realize = cpu_common_realizefn;
+>      dc->unrealize = cpu_common_unrealizefn;
+>      dc->reset = cpu_common_reset;
+> -    device_class_set_props(dc, cpu_common_props);
+> +    cpu_class_init_props(dc);
+>      /*
+>       * Reason: CPUs still need special care by board code: wiring up
+>       * IRQs, adding reset handlers, halting non-first CPUs, ...
+> diff --git a/hw/core/cpu-sysemu.c b/hw/core/cpu-sysemu.c
+> index 00253f8929..5a62960f3c 100644
+> --- a/hw/core/cpu-sysemu.c
+> +++ b/hw/core/cpu-sysemu.c
+> @@ -20,8 +20,11 @@
+>
+>  #include "qemu/osdep.h"
+>  #include "qapi/error.h"
+> +#include "exec/memory.h"
+>  #include "hw/core/cpu.h"
+>  #include "hw/core/sysemu-cpu-ops.h"
+> +#include "hw/qdev-properties.h"
+> +#include "cpu-common.h"
+>
+>  bool cpu_paging_enabled(const CPUState *cpu)
+>  {
+> @@ -143,3 +146,24 @@ GuestPanicInformation *cpu_get_crash_info(CPUState *cpu)
+>      }
+>      return res;
+>  }
+> +
+> +/*
+> + * This can't go in hw/core/cpu-common.c because that file is compiled only
+> + * once for both user-mode and system builds.
+> + */
+> +static Property cpu_sysemu_props[] = {
+> +    /*
+> +     * Create a memory property for softmmu CPU object, so users can wire
+> +     * up its memory. The default if no link is set up is to use the
+> +     * system address space.
+> +     */
+> +    DEFINE_PROP_LINK("memory", CPUState, memory, TYPE_MEMORY_REGION,
+> +                     MemoryRegion *),
+> +    DEFINE_PROP_BOOL("start-powered-off", CPUState, start_powered_off, false),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +void cpu_class_init_props(DeviceClass *dc)
+> +{
+> +    device_class_set_props(dc, cpu_sysemu_props);
+> +}
+> diff --git a/hw/core/cpu-user.c b/hw/core/cpu-user.c
+> new file mode 100644
+> index 0000000000..62037e8669
+> --- /dev/null
+> +++ b/hw/core/cpu-user.c
+> @@ -0,0 +1,22 @@
+> +/*
+> + * QEMU CPU model (user-only emulation specific)
+> + *
+> + * Copyright (c) 2021 Linaro, Ltd.
+> + *
+> + * SPDX-License-Identifier: GPL-2.0-or-later
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/core/cpu.h"
+> +#include "cpu-common.h"
+> +
+> +/*
+> + * This can't go in hw/core/cpu-common.c because that file is compiled only
+> + * once for both user-mode and system builds.
+> + */
+> +void cpu_class_init_props(DeviceClass *dc)
+> +{
+> +}
+> diff --git a/hw/core/meson.build b/hw/core/meson.build
+> index 18f44fb7c2..4b3de4e247 100644
+> --- a/hw/core/meson.build
+> +++ b/hw/core/meson.build
+> @@ -43,3 +43,7 @@ specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files(
+>    'machine-qmp-cmds.c',
+>    'numa.c',
+>  ))
+> +
+> +specific_ss.add(when: 'CONFIG_USER_ONLY', if_true: files(
+> +  'cpu-user.c'
+> +))
+> --
 
