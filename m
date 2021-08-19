@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E43E73F14D3
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 10:08:02 +0200 (CEST)
-Received: from localhost ([::1]:56408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84E803F1519
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 10:23:14 +0200 (CEST)
+Received: from localhost ([::1]:34608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGd5m-0006Ax-1L
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 04:08:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60210)
+	id 1mGdKT-0002h9-4P
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 04:23:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mGd2L-00014t-NC; Thu, 19 Aug 2021 04:04:29 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:46998)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mGd2F-0005u0-K2; Thu, 19 Aug 2021 04:04:26 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id k65so10646384yba.13;
- Thu, 19 Aug 2021 01:04:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EDglccKS3oYSgWtld6iRjPjTvFZbU9bmDrPkx1gqxJU=;
- b=jUY+ZoigydXG8zdBMEtiRwFfz+s0ElPYos1c/H6BpW9Ggd4T68UO46xdEQ0hGz5wrz
- FjYyrZI24AO8GAssmFDdlzzM6UIX2dcK6qul9VfsSVmOCah3e8HAEj+RbpLsqa3L0DX5
- kUHWJTzmXBBPmVrQF/mvOZgzjeRafLYeDFPrFKdvsWRPqlJZq4lTNwjLcbA86VE3oqjC
- UFNn6GKpGhE638mjGMpTjaNSx8tX03Owk5MhHcM8auYksjwuI2H6c10I1MNcXDbD4czU
- 8Ibxbej8W1ZgTK/zETNLwgWaPZeL+m0m6vRBVjIZRr/0dJ2SAQyf3hRBCtmM3JThFjtj
- 9/cg==
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mGdJT-0001P7-KF
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 04:22:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30500)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mGdJO-0004Yb-3j
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 04:22:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629361324;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cuL2Mpl0d5SUxzrq9bvkOQlwBgRZ+tMpJmn+DXpZmak=;
+ b=BSbcotqJhnjcypVkLln/g2LrCnUZR50uZvCp9lFaPnm9RhCN3D8OOnqzl8QL8pM/8UjoXR
+ z5dyHojGQ2A2ggAdElUlXatHe60nmSkB0gmEFcErQWTfpKfDK9glnryw5mcdP4Y1tHr/PL
+ esUb5DgwxtOJmLvUqmq/kYRvsQb0B1w=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-316-ymh5PLuBOOSrbvNC68QDkQ-1; Thu, 19 Aug 2021 04:22:01 -0400
+X-MC-Unique: ymh5PLuBOOSrbvNC68QDkQ-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ e17-20020a2ea551000000b001ba24d10343so1900846ljn.0
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 01:22:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=EDglccKS3oYSgWtld6iRjPjTvFZbU9bmDrPkx1gqxJU=;
- b=PJt6GARMX/M0Cuhgx20KjbcR5A2O+wW7q/HOxXj6oVD6h+jUb8a92v87jabOffyj5E
- oDMXeRx5It+uF8uNWYd9sQBLB5FQan+8PVlAOtHWqqFOX24y9NPHJICVmFncs9tVuSrK
- ykM0DniG7fb0tc9dVC21ybDzjWTBXBVxIzb24QlQ3J2RmOuaRUqGpb65IAnCDDQJZHlU
- p0GTPc1fSw0Sf5Ao1lHXE/5fnzQrN6/OPudFaZ0RI++s08E0rfieLEG7XkuDULVmggvh
- +azlpyX7fpT+eOI0JCnbbPXtHgKe0LR2P45F/0MwfljDqYb76viOslhimbNKIMfHKewR
- EieA==
-X-Gm-Message-State: AOAM532D4Z3wLntEPs80arCK6+rA7ekceqknLmBx/gDX+BYAmW5KVImp
- HNO/txDEqh2oMPDaExTu7ObRrGVFb201sGWcot4=
-X-Google-Smtp-Source: ABdhPJykugWU3ImgnPfOnoIvn/xZFGH2eZ8UdLTyqfErc26YtU1I25KITWGpcMbdjZSwRVC287nbjF5dfL05Ww5tcqA=
-X-Received: by 2002:a25:2646:: with SMTP id m67mr16602797ybm.122.1629360260610; 
- Thu, 19 Aug 2021 01:04:20 -0700 (PDT)
+ bh=cuL2Mpl0d5SUxzrq9bvkOQlwBgRZ+tMpJmn+DXpZmak=;
+ b=VI84Rcp0h5b/OOyU8/emJsr1Xd5tvVCGS2IyX/77NoPQqkx+M8rRnS3wUHZpiKJiab
+ MabfkstwRCQFrFdKq4sf8u7+0V/vhwQA1KTxTxAYVGeBlryY4US+W1eECug3TIlNe4Dc
+ STw9m0GuioGISi8nAx+b5xGmV+8uegfyUklzRnTXWb1/0cRd166c0DDsCJNyft0SGb3Y
+ i2GkAvvMwtKXF8+muGNYEbBJTyJcJSdRl+oXs3Ub/px4KXdcD4zSLOOT6HG/XJXrCtbE
+ 0uUDjgPDCU+QVZxPVTsJmtAC70cNS4s7Cu5DOig7L44aIUT8F09N1RPoPniqZQW+/iJc
+ eaQQ==
+X-Gm-Message-State: AOAM53012lbEGe8MjsyKiuGqGH58c4m+NQMHfUG2v/h7bSvUOJ11pHYw
+ NYJZYLSc4zzIp3vbeO9LhiRtoI4gk9tli+xhemqwueVJ1F6IlLP+eIfL9AIXwKjR8gYzjEToTIs
+ 1UFbhJBRKIjGehE4OefLWbBdWvCRo6Mg=
+X-Received: by 2002:a2e:2414:: with SMTP id k20mr11155979ljk.482.1629361320103; 
+ Thu, 19 Aug 2021 01:22:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw205j7PuwDrqV1gW9y1ZKoOOedhnxgPBtLh9Fv+3Mb61uyL/dAnSzLmbRzaNh87s3pPKvbhvFY/CLrmMFn+U4=
+X-Received: by 2002:a2e:2414:: with SMTP id k20mr11155954ljk.482.1629361319825; 
+ Thu, 19 Aug 2021 01:21:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210817211803.283639-1-richard.henderson@linaro.org>
- <20210817211803.283639-20-richard.henderson@linaro.org>
-In-Reply-To: <20210817211803.283639-20-richard.henderson@linaro.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 19 Aug 2021 16:04:09 +0800
-Message-ID: <CAEUhbmVXkHrrA7se0AYvzR=4jp+V2OCA707ajm4+Garj+cx0Eg@mail.gmail.com>
-Subject: Re: [PATCH v2 19/21] target/riscv: Use {get,dest}_gpr for RVD
-To: Richard Henderson <richard.henderson@linaro.org>
+References: <7ec1626e-3c4b-c9e8-1a29-f576163712f5@redhat.com>
+In-Reply-To: <7ec1626e-3c4b-c9e8-1a29-f576163712f5@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Date: Thu, 19 Aug 2021 16:21:48 +0800
+Message-ID: <CACGkMEsfHNX4nO6y2a8wRZF42Pus8UpCk6+TNhbqTp-ecFKhpw@mail.gmail.com>
+Subject: Re: Is QEMU's vmxnet3 still being used?
+To: Thomas Huth <thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,21 +88,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- liuzhiwei <zhiwei_liu@c-sky.com>
+Cc: Andrew Melnychenko <andrew@daynix.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Leonid Bloch <leonid@daynix.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 18, 2021 at 5:30 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Wed, Aug 18, 2021 at 9:42 PM Thomas Huth <thuth@redhat.com> wrote:
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/riscv/insn_trans/trans_rvd.c.inc | 125 ++++++++++++------------
->  1 file changed, 60 insertions(+), 65 deletions(-)
+>
+>   Hi all,
+>
+> I recently noticed that we have quite a bunch of tickets against the vmxnet3
+> device in our bug trackers, which indicate that this device could be used to
+> crash QEMU in various ways:
+>
+>   https://gitlab.com/qemu-project/qemu/-/issues?state=opened&search=vmxnet3
+>
+>   https://bugs.launchpad.net/qemu?field.searchtext=vmxnet3
+>
+> Having hardly any knowledge about this device and its usage at all, I wonder
+> how much it is still used out there in the wild?
+
+I guess it might have been used for virt-v2v in the past.
+
+But I'm not sure what's the status now.
+
+Thanks
+
+> If there are still many
+> users of this device, is there anybody interested here in helping to get
+> these crashes fixed in the near future? Otherwise, should we maybe rather
+> mark this device as deprecated and remove it in a couple of releases? What
+> do you think?
+>
+>   Thomas
 >
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
