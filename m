@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88BF03F182D
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 13:28:14 +0200 (CEST)
-Received: from localhost ([::1]:58546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D053F186D
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 13:44:19 +0200 (CEST)
+Received: from localhost ([::1]:42010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGgDV-0002a0-7M
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 07:28:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47652)
+	id 1mGgT3-0002hN-VA
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 07:44:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mGgBo-0000tZ-5Z
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 07:26:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27716)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mGgRC-0001dG-Tj
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 07:42:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44601)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mGgBk-00009l-WA
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 07:26:26 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mGgR9-0000SQ-C8
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 07:42:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629372381;
+ s=mimecast20190719; t=1629373336;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=27MTJK/9v1dWgBqVggxJRRzy7bRk7/PVj1YgfTNF8iM=;
- b=BUv81tOGpAK28xyhXVVddaeFSv6ueZb5gxlARl4ZeFBoBfqP01LTivM2LCrTHQ+LkN428Z
- 0pwdTaQldrQaGzfiA09XjyRHBiKVfE2mdB9ZTGrTy9YO2hwHpakKW1zmI/IwcQKD3VWGMm
- GJRHt4V0CljyiQ0uflJQi078nWsoJY8=
+ bh=MZJHGyFLvm2zDEtbwtJH15qYj71owf9ebjWX0aiUsKk=;
+ b=dvE69dJdwDOgvQsBHERAd1UNs1xcM8DCwMnUhMUjYa3PLBLd6NtBbVu5igzhDHdeGzyJcD
+ ow1S7YXYAdyRVSSz8hSKlgQvghh7nFcWTQ4nNZocuOfq8L8B3JXn7tZRtJ3tw2+qa3j48N
+ 7QSRJ5KaBNsc9scf+z7NJlluulp0kb0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-601-V3iXttiNNJ-JC31mo4e5QA-1; Thu, 19 Aug 2021 07:26:18 -0400
-X-MC-Unique: V3iXttiNNJ-JC31mo4e5QA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-433-9iPo_ZP-Mrasmj0AQjjLIQ-1; Thu, 19 Aug 2021 07:42:15 -0400
+X-MC-Unique: 9iPo_ZP-Mrasmj0AQjjLIQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38C3A8799E0;
- Thu, 19 Aug 2021 11:26:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 891A9100A608;
+ Thu, 19 Aug 2021 11:42:13 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.140])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7021F60916;
- Thu, 19 Aug 2021 11:26:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6327510016FB;
+ Thu, 19 Aug 2021 11:42:07 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v6 01/16] docs/about/removed-features: Remove duplicated
- doc about -smp
-In-Reply-To: <20210819031027.41104-2-wangyanan55@huawei.com>
+Subject: Re: [PATCH v6 02/16] machine: Deprecate "parameter=0" SMP
+ configurations
+In-Reply-To: <20210819031027.41104-3-wangyanan55@huawei.com>
 Organization: Red Hat GmbH
 References: <20210819031027.41104-1-wangyanan55@huawei.com>
- <20210819031027.41104-2-wangyanan55@huawei.com>
+ <20210819031027.41104-3-wangyanan55@huawei.com>
 User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Thu, 19 Aug 2021 13:26:08 +0200
-Message-ID: <87czq9smjz.fsf@redhat.com>
+Date: Thu, 19 Aug 2021 13:42:06 +0200
+Message-ID: <878s0xsltd.fsf@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -93,74 +93,24 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, Aug 19 2021, Yanan Wang <wangyanan55@huawei.com> wrote:
 
-> There are two places describing the same thing about deprecation
-> of invalid topologies of -smp CLI, so remove the duplicated one.
+> In the SMP configuration, we should either provide a topology
+> parameter with a reasonable value (greater than zero) or just
+> omit it and QEMU will compute the missing value.
+>
+> The users shouldn't provide a configuration with any parameter
+> of it specified as zero (e.g. -smp 8,sockets=0) which could
+> possibly cause unexpected results in the -smp parsing. So we
+> deprecate this kind of configurations since 6.2 by adding the
+> explicit sanity check.
 >
 > Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 > ---
->  docs/about/removed-features.rst | 21 ++++-----------------
->  1 file changed, 4 insertions(+), 17 deletions(-)
->
-> diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-> index cbfa1a8e31..f5d6e2ea9c 100644
-> --- a/docs/about/removed-features.rst
-> +++ b/docs/about/removed-features.rst
-> @@ -194,7 +194,7 @@ by the ``tls-authz`` and ``sasl-authz`` options.
->  The ``pretty=on|off`` switch has no effect for HMP monitors and
->  its use is rejected.
->  
-> -``-drive file=json:{...{'driver':'file'}}`` (removed 6.0)
-> +``-drive file=json:{...{'driver':'file'}}`` (removed in 6.0)
+>  docs/about/deprecated.rst | 15 +++++++++++++++
+>  hw/core/machine.c         | 14 ++++++++++++++
+>  qapi/machine.json         |  2 +-
+>  qemu-options.hx           | 12 +++++++-----
+>  4 files changed, 37 insertions(+), 6 deletions(-)
 
-I would not change this in this patch; while the cleanup looks fine,
-there are some more instances and also e.g. things like x.y.z being used
-sometimes, and it's probably better to clean that up via a separated patch.
-
->  '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
->  
->  The 'file' driver for drives is no longer appropriate for character or host
-> @@ -593,7 +593,7 @@ error when ``-u`` is not used.
->  Command line options
->  --------------------
->  
-> -``-smp`` (invalid topologies) (removed 5.2)
-> +``-smp`` (invalid topologies) (removed in 5.2)
->  '''''''''''''''''''''''''''''''''''''''''''
->  
->  CPU topology properties should describe whole machine topology including
-> @@ -606,7 +606,7 @@ Support for invalid topologies is removed, the user must ensure
->  topologies described with -smp include all possible cpus, i.e.
->  *sockets* * *cores* * *threads* = *maxcpus*.
->  
-> -``-numa`` node (without memory specified) (removed 5.2)
-> +``-numa`` node (without memory specified) (removed in 5.2)
->  '''''''''''''''''''''''''''''''''''''''''''''''''''''''
->  
->  Splitting RAM by default between NUMA nodes had the same issues as ``mem``
-> @@ -647,20 +647,7 @@ as ignored. Currently, users are responsible for making sure the backing storage
->  specified with ``-mem-path`` can actually provide the guest RAM configured with
->  ``-m`` and QEMU fails to start up if RAM allocation is unsuccessful.
->  
-> -``-smp`` (invalid topologies) (removed 5.2)
-> -'''''''''''''''''''''''''''''''''''''''''''
-> -
-> -CPU topology properties should describe whole machine topology including
-> -possible CPUs.
-> -
-> -However, historically it was possible to start QEMU with an incorrect topology
-> -where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
-> -which could lead to an incorrect topology enumeration by the guest.
-> -Support for invalid topologies is removed, the user must ensure
-> -topologies described with -smp include all possible cpus, i.e.
-> -*sockets* * *cores* * *threads* = *maxcpus*.
-
-Actually removing the duplicated section looks fine.
-
-> -
-> -``-machine enforce-config-section=on|off`` (removed 5.2)
-> +``-machine enforce-config-section=on|off`` (removed in 5.2)
->  ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
->  
->  The ``enforce-config-section`` property was replaced by the
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
