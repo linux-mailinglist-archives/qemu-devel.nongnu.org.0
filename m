@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FA203F1DB9
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 18:23:18 +0200 (CEST)
-Received: from localhost ([::1]:49674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ED533F1DBF
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 18:24:31 +0200 (CEST)
+Received: from localhost ([::1]:51820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGkp3-0002nG-7X
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 12:23:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54114)
+	id 1mGkqE-0004EH-DA
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 12:24:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mGko8-0001vP-Q6
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:22:20 -0400
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:42511)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mGko6-0006Fn-Tl
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:22:20 -0400
-Received: by mail-pj1-x1033.google.com with SMTP id
- mq2-20020a17090b3802b0290178911d298bso5162781pjb.1
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 09:22:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=p44jCeYKdrpA7KiWVnFT5WLCgnHA26AOQy7zDNCARlM=;
- b=Bg6a5swKB3Gi+XauMZ5TataNQDj7q6CfoHP1Ajynri3ysO+3v+LVNv1bUSDDrY5aDL
- pSa30jLrq4nEO9LBvhO3ah6pt94DSRXp9/BWYEi+XTgfOUAN2guE1vu4t5LGaMmXKHTm
- rin5eElcU1SqvDyXPtZ3bfIst+2DuVBc6cHTjmg1IRL0bcb6+3o2PZbp1Bh8Js74p8wp
- 3+rdbwaNqk9wgO0V/dmEuekOlFzNbwCKis/JgcscCzENzmhXnaur53D0ks3dvUSS3c3C
- ScZVaPuc0kd+HDhss7W18gyjglpD6Tn3HDZ+viGELzghw8xYiyDvufhVZE7q2VmodY66
- UZrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=p44jCeYKdrpA7KiWVnFT5WLCgnHA26AOQy7zDNCARlM=;
- b=mxs2IQdbyhNVGujbajwaPiVIwJKRjw7Wkl8RmTGs0bHTe/tuB9zJIqtJVd3LKkZJNu
- K/JvV8Jap3guPKiQnWMOXfJZOUPt3hNONF29fLt1B64A9A22cztcnDH1mCpG9V/F00Rc
- /KO/fBqLHraMj7PoBlzybsIVfEbhqfR60w3idBqM5W0FxjnvFy3zwumLAb4tIzcdlLPS
- SaZhNCyk4cKlIkbIMy73xX0y0STlKhepyZwjUCysZ6jinL1t6ASqzGpmdr4t5o0vjJnT
- TOXvCWaRraBdimJWG4H9+ROsVC3+yFjh6OTzGvdzhhnNOVCsBm44aieB+mC3WYiiBS5D
- 82aQ==
-X-Gm-Message-State: AOAM530/bLCt4wktd2yY8O0uIgQ0Q0s7+BqVue2R6/wCt90izIRriEJ2
- TfqtLkeJEz8EuaE1PYNIHfXoHLmC8FIxIg==
-X-Google-Smtp-Source: ABdhPJzmMwoNG4GwahWFNH3Bh1kV4HbBHUq6VzK3rxExR6LVcbzCF/p8Cie0/jV2HeqxRVcM48K8vQ==
-X-Received: by 2002:a17:902:d343:b029:12d:3624:d997 with SMTP id
- l3-20020a170902d343b029012d3624d997mr12599682plk.79.1629390137161; 
- Thu, 19 Aug 2021 09:22:17 -0700 (PDT)
-Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.110.72])
- by smtp.googlemail.com with ESMTPSA id a6sm3445595pjs.40.2021.08.19.09.22.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 09:22:16 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] hw/arm/Kconfig: no need to enable
- ACPI_MEMORY_HOTPLUG/ACPI_NVDIMM explicitly
-Date: Thu, 19 Aug 2021 21:51:57 +0530
-Message-Id: <20210819162157.518203-1-ani@anisinha.ca>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mGkp7-0003LW-IJ
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:23:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:21360)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mGkp3-0006pT-EM
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:23:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629390196;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=URZxcOpSU0q03czY2VT3//55huAVzhbBs42cBq3Uqyc=;
+ b=ZT0cVDTThwnSuMEv5CR7VXA3qi5F+2wCn/TCwCDQ6R+nXa+CjqTkFC/timEtTMhX58H+bO
+ H3HCGikmNv6Q4aX60W5EjL7X+kPjclTbk+PBw22jCVABNLiZrdvpSMIDu+WQ2Qm1zKzsJO
+ i8T4hxWKFYeTjx30kU/9vJXuMHXv/fE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-5-VzxX0QVwOAyUXpdfu5Rg2A-1; Thu, 19 Aug 2021 12:23:14 -0400
+X-MC-Unique: VzxX0QVwOAyUXpdfu5Rg2A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3565A1082921
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 16:23:13 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BE74A1017CE6;
+ Thu, 19 Aug 2021 16:23:12 +0000 (UTC)
+Date: Thu, 19 Aug 2021 17:23:06 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [qemu-web PATCH] Add a blog post about FUSE block exports
+Message-ID: <YR6FauCbECxehubc@stefanha-x1.localdomain>
+References: <20210819102501.69638-1-hreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1033;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210819102501.69638-1-hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="PST/LGVDfqwT3I5M"
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,43 +78,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, mst@redhat.com,
- shameerali.kolothum.thodi@huawei.com, qemu-arm@nongnu.org,
- Ani Sinha <ani@anisinha.ca>, imammedo@redhat.com, philmd@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit
-36b79e3219d ("hw/acpi/Kconfig: Add missing Kconfig dependencies (build error)",
-ACPI_MEMORY_HOTPLUG and ACPI_NVDIMM is implicitly turned on when
-ACPI_HW_REDUCED is selected. ACPI_HW_REDUCED is already enabled. No need to
-turn on ACPI_MEMORY_HOTPLUG or ACPI_NVDIMM explicitly. This is a minor cleanup.
+--PST/LGVDfqwT3I5M
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- hw/arm/Kconfig | 2 --
- 1 file changed, 2 deletions(-)
+On Thu, Aug 19, 2021 at 12:25:01PM +0200, Hanna Reitz wrote:
+> This post explains when FUSE block exports are useful, how they work,
+> and that it is fun to export an image file on its own path so it looks
+> like your image file (in whatever format it was) is a raw image now.
+>=20
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> ---
+> You can also find this patch here:
+> https://gitlab.com/hreitz/qemu-web fuse-blkexport-v1
+>=20
+> My first patch to qemu-web, so I hope I am not doing anything overly
+> stupid here (adding SVGs with extremely long lines comes to mind)...
+> ---
+>  _posts/2021-08-18-fuse-blkexport.md       | 488 ++++++++++++++++++++++
+>  screenshots/2021-08-18-block-graph-a.svg  |   2 +
+>  screenshots/2021-08-18-block-graph-b.svg  |   2 +
+>  screenshots/2021-08-18-block-graph-c.svg  |   2 +
+>  screenshots/2021-08-18-block-graph-d.svg  |   2 +
+>  screenshots/2021-08-18-block-graph-e.svg  |   2 +
+>  screenshots/2021-08-18-root-directory.svg |   2 +
+>  screenshots/2021-08-18-root-file.svg      |   2 +
+>  8 files changed, 502 insertions(+)
+>  create mode 100644 _posts/2021-08-18-fuse-blkexport.md
+>  create mode 100644 screenshots/2021-08-18-block-graph-a.svg
+>  create mode 100644 screenshots/2021-08-18-block-graph-b.svg
+>  create mode 100644 screenshots/2021-08-18-block-graph-c.svg
+>  create mode 100644 screenshots/2021-08-18-block-graph-d.svg
+>  create mode 100644 screenshots/2021-08-18-block-graph-e.svg
+>  create mode 100644 screenshots/2021-08-18-root-directory.svg
+>  create mode 100644 screenshots/2021-08-18-root-file.svg
 
-changelog:
-v1: initial patch
-v2: commit log updated and ACPI_NVDIMM also removed from config.
+Great! Two ideas:
 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 4ba0aca067..dc050b5c37 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -25,9 +25,7 @@ config ARM_VIRT
-     select ACPI_PCI
-     select MEM_DEVICE
-     select DIMM
--    select ACPI_MEMORY_HOTPLUG
-     select ACPI_HW_REDUCED
--    select ACPI_NVDIMM
-     select ACPI_APEI
- 
- config CHEETAH
--- 
-2.25.1
+It would be nice to include a shoutout to libguestfs and mention that
+libguestfs avoids exposing the host kernel's file systems and partion
+code to untrusted disk images. If you don't mount the image then the
+FUSE export has similar security properties.
+
+This is a long blog post. One idea is to show a quickstart
+qemu-storage-daemon FUSE export command-line in the beginning before
+explaining all the details. That way people who just want to see what
+this is about can get an idea without learning all the background first.
+
+--PST/LGVDfqwT3I5M
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmEehWoACgkQnKSrs4Gr
+c8gQsQgAgSZbsz09KyMKfv81nV1mwfrTkoWRaZSDgsPyQ4oEUl+YRdQT8IFsVdgw
+r/vnZBXsb7MOqo4pmCBzmC/PnSxPtDG+lwbTHV/L2zPyZxEZY/KpqmjHEKodXQ/b
+G5YL2Ews/VhiTn1xFBPABsB/JOHMjlcfTP9x2VNXZvwXtyhhGW6dPg4vg3cORsVf
+9JF/m/cqdhgIWb2pf+MidIGIbwLdGSF7zw5pDDRQaNka7nP9tz9CLjmwZUw3/Wep
+7Cdas4kXzmHbDYfa9CNJz24N4046MXtF3KimzbvIRyalwCQATIcJ8iqeKAhSGmhi
+HakCroxsxmLeAX8ZfQ3gR2pTHQLzzQ==
+=5dVK
+-----END PGP SIGNATURE-----
+
+--PST/LGVDfqwT3I5M--
 
 
