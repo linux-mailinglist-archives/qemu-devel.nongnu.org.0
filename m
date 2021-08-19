@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0CA63F13A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 08:34:58 +0200 (CEST)
-Received: from localhost ([::1]:57766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 867673F140D
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 09:10:06 +0200 (CEST)
+Received: from localhost ([::1]:41328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGbdi-00068s-0y
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 02:34:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40058)
+	id 1mGcBh-0007Nk-1U
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 03:10:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mGbc5-0003g9-0l; Thu, 19 Aug 2021 02:33:17 -0400
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:42621)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mGcAA-0006bh-IU; Thu, 19 Aug 2021 03:08:30 -0400
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:34311)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mGbc3-0001K6-9I; Thu, 19 Aug 2021 02:33:16 -0400
-Received: by mail-io1-xd31.google.com with SMTP id d11so6251547ioo.9;
- Wed, 18 Aug 2021 23:33:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mGcA4-0006rN-Tl; Thu, 19 Aug 2021 03:08:29 -0400
+Received: by mail-yb1-xb2e.google.com with SMTP id a93so10510393ybi.1;
+ Thu, 19 Aug 2021 00:08:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ssgLirzoqmiGO+jXtYOAlXHNVbgmhaBEXyHwDW6MJTk=;
- b=aeISrSCKlCIgywtme0ONP+qcRXyYVmTjWM9T38jFEoPmqSZNGLjIEjoiFEnF6YemV3
- GDGBEG34ivbkNEWw1y6f2UFSAOeenCsKZ70C8Wbpl1c2cLLp4Eklxkh2WdBoXSIlkwoW
- GW8LvDwRZN02k8Sf3+P3/s8g9OpdAMdi8u1EgPHaAyHf4vJAF5QXeQNRshAfo9MBwe3W
- PBo5VcphMddy1dET6sck53uBRH7pw5MftoUu/leiM0oq2FuE02vAOFNsbZQ7RXoN+Y+U
- 9GFqs+j87anc0+TC5BLQlDJUN+glee6JaQuHNgQB/RUP+cCkEzqoq+diCpivtn68EWkn
- MNfA==
+ :cc; bh=0aE9iU6gcKim13qwuiiAHv7mg820huTePzmOy8nziVA=;
+ b=CJTIV/8+3etuDaRhjcshjdhFtfPokrnMy/RC+uf54djkubODmzK3a8Svpstq8biTmb
+ ClANcB/DcXN59qMxeQzYmtkm6eENmmMKtvs1KoAds4kF2UR7WGIA8vedSrwSz5bNWwIM
+ Si7hTJN6Wq8mVaF8w6nlrKbagFQwDdq0p4QBupUjfrSYMDODT7yOdoPR1DhZRunNYRAe
+ h40flMWVNiGT6ad3Uk5O1mZU/1WDdFK4DAQ1IG+TfSZCljydLIV9eatplx0KjABQrEGl
+ FpYE3CmdNsofePincYHJQ4HZYV0qwhhitdz1cyseLBrtxVaJENjAm7bhXUs/6DVK08gG
+ jw+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ssgLirzoqmiGO+jXtYOAlXHNVbgmhaBEXyHwDW6MJTk=;
- b=G3RHuMZlwOeRXaV8mnD+mHOCqpqmAB+j6LvpbH8+YK3wDwblQRHk+M53FSQY9bkooO
- BRCw7BhfcDxulCf7+o2+orXg9aoq3FmoJLYn0421GEY3jQLtRtKwyNOH6WPdKWQIlAqg
- WFMEpCDhDMBCmDvpWlEJfFCVA3hMWGB5f4PoHsX9OMDQt87N+5an57tm9YP8exe8u4pX
- wfr57lhafvEpsexEmBcNHb3+xqwEWA+gHAUQCdwlSbu5eXRGvla9IdgAeM+7cG+v1sNz
- GOuXjQYEm4cnuKQecpEx4KNNYr0DB1jqohDcqy6NjMtPyG0/yBxqGKW3qDooBLQvMUcR
- l4MA==
-X-Gm-Message-State: AOAM533fat3Nsua5cG1q0ne9u/a6e2Q/oEJA8LNUSAodRHxB7reFqm5o
- fmYeV5bj3GkaDnPhj0IFZYZ2/qLBY2c0b6sBtt0=
-X-Google-Smtp-Source: ABdhPJzWdixmJMXxrb/2yW+TZtTYWv//YvESo0ChGhmmg7MXdxfrv1i3krBCH2Zz1ftl/6fa0Vt/1IIj546HX5Xz0So=
-X-Received: by 2002:a02:c80e:: with SMTP id p14mr11826079jao.8.1629354793708; 
- Wed, 18 Aug 2021 23:33:13 -0700 (PDT)
+ bh=0aE9iU6gcKim13qwuiiAHv7mg820huTePzmOy8nziVA=;
+ b=TU1D5UWKt+oMHD9fQEWS6SPUfHLl5kteYgetHhwiQ5sbHCSeWmKXDZauvoEvrV98TZ
+ kQrcUTO9c2W/H8O25ntMJG5M2vEcGLlgxTGrmTIoHEYvlSfp6MQEnr8tPO/QeD7JrgBh
+ r/cv/pkYigGksQpiWA4ozBqZ8hGyF10N0oIuK4uosAMDHPTCuyYW2NHacvhlO/lNuuyV
+ KoY6UEbY4wXXm7WL+iV3swkdKvyZKFOyeTarQWSVwMi9kxoFxTRqTIevla/VYoB86wxv
+ IJOWVYFEgWd6uw5CSNpaEUi7TeHDg5MqXGZAT9MnkDUj/ErsedxYc9im/nADaJRGuG0b
+ nU2w==
+X-Gm-Message-State: AOAM531Hz2ueR4kBrK2gzzp4NqYFTLl/HtpNxuXMVANv0CF0cq/Hzt35
+ lSrKvOUNuWBeN9n+r7xj1A0Y22LTbngzgAj4t7c=
+X-Google-Smtp-Source: ABdhPJzjbSl13j0hqiUD4lM34YOY5/RFea3rtyUs/2gRVet0jJQ+08WzErSwxXkEIfTcHkriRal4PGGLA2rvnjgiRcw=
+X-Received: by 2002:a25:2646:: with SMTP id m67mr16368473ybm.122.1629356903659; 
+ Thu, 19 Aug 2021 00:08:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210819031525.653995-1-tong.ho@xilinx.com>
- <20210819031525.653995-3-tong.ho@xilinx.com>
-In-Reply-To: <20210819031525.653995-3-tong.ho@xilinx.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 19 Aug 2021 16:32:47 +1000
-Message-ID: <CAKmqyKOy_64vEeanV5Wk-XprF83QN3=k_ZBS8AJ+KbOgSGcgxA@mail.gmail.com>
-Subject: Re: [Patch 2/2] hw/arm/xlnx-zynqmp: Add unimplemented APU mmio
-To: Tong Ho <tong.ho@xilinx.com>
+References: <20210817211803.283639-1-richard.henderson@linaro.org>
+ <20210817211803.283639-16-richard.henderson@linaro.org>
+In-Reply-To: <20210817211803.283639-16-richard.henderson@linaro.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 19 Aug 2021 15:08:12 +0800
+Message-ID: <CAEUhbmU3+54eu-pOo=sU6nmECziV3ZmauRRnLb3CQLWwmEQHDw@mail.gmail.com>
+Subject: Re: [PATCH v2 15/21] target/riscv: Reorg csr instructions
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd31.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -76,121 +75,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Edgar Iglesias <edgar.iglesias@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>,
- Peter Maydell <peter.maydell@linaro.org>
+ liuzhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 19, 2021 at 1:22 PM Tong Ho <tong.ho@xilinx.com> wrote:
+On Wed, Aug 18, 2021 at 5:27 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Add unimplemented APU mmio region to xlnx-zynqmp for booting
-> bare-metal guests built with standalone bsp published at:
->   https://github.com/Xilinx/embeddedsw/tree/master/lib/bsp/standalone/src/arm/ARMv8/64bit
+> Introduce csrr and csrw helpers, for read-only and write-only insns.
 >
-> Signed-off-by: Tong Ho <tong.ho@xilinx.com>
-
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+> Note that we do not properly implement this in riscv_csrrw, in that
+> we cannot distinguish true read-only (rs1 == 0) from any other zero
+> write_mask another source register -- this should still raise an
+> exception for read-only registers.
+>
+> Only issue gen_io_start for CF_USE_ICOUNT.
+> Use ctx->zero for csrrc.
+> Use get_gpr and dest_gpr.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  hw/arm/xlnx-zynqmp.c         | 32 ++++++++++++++++++++++++++++++++
->  include/hw/arm/xlnx-zynqmp.h |  7 +++++++
->  2 files changed, 39 insertions(+)
+>  target/riscv/helper.h                   |   6 +-
+>  target/riscv/op_helper.c                |  18 +--
+>  target/riscv/insn_trans/trans_rvi.c.inc | 172 +++++++++++++++++-------
+>  3 files changed, 131 insertions(+), 65 deletions(-)
 >
-> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-> index 3597e8db4d..790df2b6f1 100644
-> --- a/hw/arm/xlnx-zynqmp.c
-> +++ b/hw/arm/xlnx-zynqmp.c
-> @@ -20,6 +20,7 @@
->  #include "qemu/module.h"
->  #include "hw/arm/xlnx-zynqmp.h"
->  #include "hw/intc/arm_gic_common.h"
-> +#include "hw/misc/unimp.h"
->  #include "hw/boards.h"
->  #include "sysemu/kvm.h"
->  #include "sysemu/sysemu.h"
-> @@ -56,6 +57,9 @@
->  #define DPDMA_ADDR          0xfd4c0000
->  #define DPDMA_IRQ           116
->
-> +#define APU_ADDR            0xfd5c0000
-> +#define APU_SIZE            0x100
-> +
->  #define IPI_ADDR            0xFF300000
->  #define IPI_IRQ             64
->
-> @@ -222,6 +226,32 @@ static void xlnx_zynqmp_create_rpu(MachineState *ms, XlnxZynqMPState *s,
->      qdev_realize(DEVICE(&s->rpu_cluster), NULL, &error_fatal);
->  }
->
-> +static void xlnx_zynqmp_create_unimp_mmio(XlnxZynqMPState *s)
-> +{
-> +    static const struct UnimpInfo {
-> +        const char *name;
-> +        hwaddr base;
-> +        hwaddr size;
-> +    } unimp_areas[ARRAY_SIZE(s->mr_unimp)] = {
-> +        { .name = "apu", APU_ADDR, APU_SIZE },
-> +    };
-> +
-> +    unsigned nr;
-> +
-> +    for (nr = 0; nr < ARRAY_SIZE(unimp_areas); nr++) {
-> +        const struct UnimpInfo *info = &unimp_areas[nr];
-> +        DeviceState *dev = qdev_new(TYPE_UNIMPLEMENTED_DEVICE);
-> +        SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-> +
-> +        qdev_prop_set_string(dev, "name", info->name);
-> +        qdev_prop_set_uint64(dev, "size", info->size);
-> +        object_property_add_child(OBJECT(s), info->name, OBJECT(dev));
-> +
-> +        sysbus_realize_and_unref(sbd, &error_fatal);
-> +        sysbus_mmio_map(sbd, 0, info->base);
-> +    }
-> +}
-> +
->  static void xlnx_zynqmp_init(Object *obj)
->  {
->      MachineState *ms = MACHINE(qdev_get_machine());
-> @@ -616,6 +646,8 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->rtc), 0, RTC_ADDR);
->      sysbus_connect_irq(SYS_BUS_DEVICE(&s->rtc), 0, gic_spi[RTC_IRQ]);
->
-> +    xlnx_zynqmp_create_unimp_mmio(s);
-> +
->      for (i = 0; i < XLNX_ZYNQMP_NUM_GDMA_CH; i++) {
->          if (!object_property_set_uint(OBJECT(&s->gdma[i]), "bus-width", 128,
->                                        errp)) {
-> diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
-> index d3e2ef97f6..c84fe15996 100644
-> --- a/include/hw/arm/xlnx-zynqmp.h
-> +++ b/include/hw/arm/xlnx-zynqmp.h
-> @@ -79,6 +79,11 @@ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
->  #define XLNX_ZYNQMP_MAX_RAM_SIZE (XLNX_ZYNQMP_MAX_LOW_RAM_SIZE + \
->                                    XLNX_ZYNQMP_MAX_HIGH_RAM_SIZE)
->
-> +/*
-> + * Unimplemented mmio regions needed to boot some images.
-> + */
-> +#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 1
-> +
->  struct XlnxZynqMPState {
->      /*< private >*/
->      DeviceState parent_obj;
-> @@ -96,6 +101,8 @@ struct XlnxZynqMPState {
->      MemoryRegion *ddr_ram;
->      MemoryRegion ddr_ram_low, ddr_ram_high;
->
-> +    MemoryRegion mr_unimp[XLNX_ZYNQMP_NUM_UNIMP_AREAS];
-> +
->      CadenceGEMState gem[XLNX_ZYNQMP_NUM_GEMS];
->      CadenceUARTState uart[XLNX_ZYNQMP_NUM_UARTS];
->      XlnxZynqMPCANState can[XLNX_ZYNQMP_NUM_CAN];
-> --
-> 2.25.1
->
->
+
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
