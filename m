@@ -2,89 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7DA73F175C
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 12:38:25 +0200 (CEST)
-Received: from localhost ([::1]:55442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F9E3F17A4
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 13:03:55 +0200 (CEST)
+Received: from localhost ([::1]:35348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGfRI-0003sX-AQ
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 06:38:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39920)
+	id 1mGfpy-00029K-22
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 07:03:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGfQP-0002oa-Rx
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 06:37:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46718)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGfQM-0005UV-TO
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 06:37:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629369445;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6ZYHtutFm/6i8eXTUU8Jd7aIA1PaxF/Cfof39gC29Yw=;
- b=DCLIojGu6r+7GzgophKch3KvW+vO0eE1g0PvhLcBEQakCNsfYBkma/PfJvuVHynNRYtA2m
- QvK/vvYFJBGhSlcOLoMLGaP/Lbpr1tpY/B4gtJh7xKZ/lxfKAht4L8YPWw656Evnb3u1zz
- CXlvyNgdAAyxlmrQbIXrGeK7Zm3H9c4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-447-rish6tdbP5Gp94fyvb1fTA-1; Thu, 19 Aug 2021 06:37:21 -0400
-X-MC-Unique: rish6tdbP5Gp94fyvb1fTA-1
-Received: by mail-wr1-f71.google.com with SMTP id
- v18-20020adfe2920000b029013bbfb19640so1541074wri.17
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 03:37:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mGfmj-0000j2-9c; Thu, 19 Aug 2021 07:00:33 -0400
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:35534)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mGfmh-0000F9-7V; Thu, 19 Aug 2021 07:00:33 -0400
+Received: by mail-yb1-xb36.google.com with SMTP id z5so11610171ybj.2;
+ Thu, 19 Aug 2021 04:00:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=shFDHgEAdyuweNRhkAluPzL6Q8hVknP5wyNYB4uc3dY=;
+ b=OLfSqFaUHlnULj8atOElBlq2KhFbk+bEZMdy5vqrPJbL1+1IfyT0xcsgyy3EC5yHLt
+ ergjWGEFv+Fud1NndKLsMgrkWKrOkIfUiELMuMw0hwCsE11kUpyGVXHI2msEeSLcJ0dO
+ 1Lq8bXnO8FW9n6mbqvsOYZci8qvqzeMmK31XYToqzQX0TMp84PRyvrU86cmd+OLonjLq
+ viEEnQALrKPRl47EmKFgG3p/DA4v47QIdw/xGjsDijAMoa5ygginMikft3BktWyhwjFr
+ 0b/va1gVQjqfSWmZwPv8RSa9CLRdN0sPI9DKBectTgKPiePPkDJuLfBioMxiL7VSFwTC
+ +PhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6ZYHtutFm/6i8eXTUU8Jd7aIA1PaxF/Cfof39gC29Yw=;
- b=Fgt+iQqZR1Iz72xttRaVTN1w/aVAkgBLE4knn+uJPZ5RJET3XJpAbNaHxi13CynhlA
- vuAYssQRZ/GF4puKDSwCV4yRmpIaH5kT1Lu8qixkNd6ijoviUWYUIc/BQcSDsoHtL10Y
- Y/ABeTCjOUf1Y9wem8TIm0Am0hB43vS0TLywVtCx0Gl9PoczNck6YUzVJ7sksZRA86nq
- 3Z3+bmZCZY9tafHLiG5iA9G3wo/h7YeBIRuCXsYmRbgyawVnUmwf3JVnaqZvSEgmEnRu
- y2vcIZAU7oT87BwRwrh1q7bxcO4gv91mL+vlQBghXTWXDDv5TFavK7Hek7cVVOA19ckR
- 0rBQ==
-X-Gm-Message-State: AOAM530LnhO3k04kUImmmkov0aJwlzPgZTQF4th31wjEG/rqzh6+FfNv
- iZeX0zoePtmG6OC35qCDxW51u8fvDFLQB3g5yNO5S37xpWs3S11pbhJgk9TxGy1YgynfNv0Cv4A
- VHUV2HcQ52dfmba4=
-X-Received: by 2002:a5d:4389:: with SMTP id i9mr2969233wrq.74.1629369440810;
- Thu, 19 Aug 2021 03:37:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxhWpryeA1+3kmgp3KxTgbyFkuZT8YsBdQplVk9T2jZFz2uJQuhzGOdS+PfZuHf5r0GWqbGMg==
-X-Received: by 2002:a5d:4389:: with SMTP id i9mr2969208wrq.74.1629369440622;
- Thu, 19 Aug 2021 03:37:20 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id u5sm2438946wrr.94.2021.08.19.03.37.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Aug 2021 03:37:20 -0700 (PDT)
-Subject: Re: [qemu-web PATCH] Add a blog post about FUSE block exports
-To: Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org
-References: <20210819102501.69638-1-hreitz@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <155c4025-cac0-b4e2-ac4c-f0f36dff2398@redhat.com>
-Date: Thu, 19 Aug 2021 12:37:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=shFDHgEAdyuweNRhkAluPzL6Q8hVknP5wyNYB4uc3dY=;
+ b=DdrXlbVATkKhhJWn4EAVLIwNLqIzS2Gm8utv0cBp+NnDFKotwld+dwgXO6xbIrxeV7
+ 1oUjzwR5IksSMjKlcNlrDTTsZ6Dyt10yX2Xmr/9cZCA1RrAhAUc40+2IhwVYxn9A8S6d
+ O+78o9I2FbuIYkcPKorc57CpGPmox+PSy/lX0Rw3OKG+ElBFzhRV54Wjj9KIodB4xR7/
+ sGJYZmKj/ES1IpQTol6y6L0nRuGOPOdrquulXkCIwpCG23mKnjJ/r8qOnuab9pBziH2C
+ jNwoleO935+q7oAJyjxQ1xFmNxRQFefKNCkkOWwln07oTG2i5WWeTioQbifeNmuD6rm3
+ RDBw==
+X-Gm-Message-State: AOAM532+o2m8ELFjMVdejlx7RjooFpRIeJhEPRbmCHveaLJBEHmLzhVY
+ fMtrcSNIq8Sv+e9Mk1fVVn7Bvv1n2prO5moccTQ=
+X-Google-Smtp-Source: ABdhPJwJYydXofkFRbtOvNkuofhmmroNZsOM88UgQ9c35TOocYRD2WwMthhF/GbWMYaB/6/+a9zJ/IghAd5Pygc75AY=
+X-Received: by 2002:a25:d20b:: with SMTP id j11mr18123715ybg.332.1629370827988; 
+ Thu, 19 Aug 2021 04:00:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210819102501.69638-1-hreitz@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.961, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210819090502.428068-1-richard.henderson@linaro.org>
+ <20210819090502.428068-3-richard.henderson@linaro.org>
+In-Reply-To: <20210819090502.428068-3-richard.henderson@linaro.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 19 Aug 2021 19:00:16 +0800
+Message-ID: <CAEUhbmV7mHc_MWPvhNG0Lh_vtjU-zOAABXGPkOm0YJUT5epSKQ@mail.gmail.com>
+Subject: Re: [PATCH v3 02/21] target/riscv: Clean up division helpers
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb36.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,52 +75,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- John Snow <jsnow@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/19/21 12:25 PM, Hanna Reitz wrote:
-> This post explains when FUSE block exports are useful, how they work,
-> and that it is fun to export an image file on its own path so it looks
-> like your image file (in whatever format it was) is a raw image now.
-> 
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+On Thu, Aug 19, 2021 at 5:07 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Utilize the condition in the movcond more; this allows some of
+> the setcond that were feeding into movcond to be removed.
+> Do not write into source1 and source2.  Re-name "condN" to "tempN"
+> and use the temporaries for more than holding conditions.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> You can also find this patch here:
-> https://gitlab.com/hreitz/qemu-web fuse-blkexport-v1
-> 
-> My first patch to qemu-web, so I hope I am not doing anything overly
-> stupid here (adding SVGs with extremely long lines comes to mind)...
+>  target/riscv/translate.c | 146 +++++++++++++++++++--------------------
+>  1 file changed, 71 insertions(+), 75 deletions(-)
+>
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 20a55c92fb..b52181538f 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -213,106 +213,102 @@ static void gen_mulhsu(TCGv ret, TCGv arg1, TCGv arg2)
+>
+>  static void gen_div(TCGv ret, TCGv source1, TCGv source2)
+>  {
+> -    TCGv cond1, cond2, zeroreg, resultopt1;
+> +    TCGv temp1, temp2, zero, one, mone, min;
+> +
+>      /*
+>       * Handle by altering args to tcg_gen_div to produce req'd results:
+> -     * For overflow: want source1 in source1 and 1 in source2
+> -     * For div by zero: want -1 in source1 and 1 in source2 -> -1 result
+> +     * For overflow: want source1 in temp1 and 1 in temp2
+> +     * For div by zero: want -1 in temp1 and 1 in temp2 -> -1 result
+>       */
+> -    cond1 = tcg_temp_new();
+> -    cond2 = tcg_temp_new();
+> -    zeroreg = tcg_constant_tl(0);
+> -    resultopt1 = tcg_temp_new();
+> +    temp1 = tcg_temp_new();
+> +    temp2 = tcg_temp_new();
+> +    zero = tcg_constant_tl(0);
+> +    one = tcg_constant_tl(1);
+> +    mone = tcg_constant_tl(-1);
+> +    min = tcg_constant_tl(1ull << (TARGET_LONG_BITS - 1));
+>
+> -    tcg_gen_movi_tl(resultopt1, (target_ulong)-1);
+> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond2, source2, (target_ulong)(~0L));
+> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond1, source1,
+> -                        ((target_ulong)1) << (TARGET_LONG_BITS - 1));
+> -    tcg_gen_and_tl(cond1, cond1, cond2); /* cond1 = overflow */
+> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond2, source2, 0); /* cond2 = div 0 */
+> -    /* if div by zero, set source1 to -1, otherwise don't change */
+> -    tcg_gen_movcond_tl(TCG_COND_EQ, source1, cond2, zeroreg, source1,
+> -            resultopt1);
+> -    /* if overflow or div by zero, set source2 to 1, else don't change */
+> -    tcg_gen_or_tl(cond1, cond1, cond2);
+> -    tcg_gen_movi_tl(resultopt1, (target_ulong)1);
+> -    tcg_gen_movcond_tl(TCG_COND_EQ, source2, cond1, zeroreg, source2,
+> -            resultopt1);
+> -    tcg_gen_div_tl(ret, source1, source2);
+> +    tcg_gen_setcond_tl(TCG_COND_EQ, temp1, source1, min);
+> +    tcg_gen_setcond_tl(TCG_COND_EQ, temp2, source2, mone);
+> +    tcg_gen_and_tl(temp1, temp1, temp2); /* temp1 = overflow */
+> +    tcg_gen_setcond_tl(TCG_COND_EQ, temp2, source2, zero); /* temp2 = div0 */
+> +    tcg_gen_or_tl(temp2, temp2, temp1);  /* temp2 = overflow | div0 */
+>
+> -    tcg_temp_free(cond1);
+> -    tcg_temp_free(cond2);
+> -    tcg_temp_free(resultopt1);
+> +    /* if div by zero, set temp1 to -1, else source1. */
+> +    tcg_gen_movcond_tl(TCG_COND_EQ, temp1, source2, zero, mone, source1);
+> +
+> +    /* if overflow or div by zero, set temp2 to 1, else source2 */
+> +    tcg_gen_movcond_tl(TCG_COND_NE, temp2, temp2, zero, one, source2);
+> +
+> +    tcg_gen_div_tl(ret, temp1, temp2);
+> +
+> +    tcg_temp_free(temp1);
+> +    tcg_temp_free(temp2);
+>  }
+>
+>  static void gen_divu(TCGv ret, TCGv source1, TCGv source2)
+>  {
+> -    TCGv cond1, zeroreg, resultopt1;
+> -    cond1 = tcg_temp_new();
+> +    TCGv temp1, temp2, zero, one, max;
+>
+> -    zeroreg = tcg_constant_tl(0);
+> -    resultopt1 = tcg_temp_new();
+> +    temp1 = tcg_temp_new();
+> +    temp2 = tcg_temp_new();
+> +    zero = tcg_constant_tl(0);
+> +    one = tcg_constant_tl(1);
+> +    max = tcg_constant_tl(~0);
+>
+> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond1, source2, 0);
+> -    tcg_gen_movi_tl(resultopt1, (target_ulong)-1);
+> -    tcg_gen_movcond_tl(TCG_COND_EQ, source1, cond1, zeroreg, source1,
+> -            resultopt1);
+> -    tcg_gen_movi_tl(resultopt1, (target_ulong)1);
+> -    tcg_gen_movcond_tl(TCG_COND_EQ, source2, cond1, zeroreg, source2,
+> -            resultopt1);
+> -    tcg_gen_divu_tl(ret, source1, source2);
+> +    tcg_gen_movcond_tl(TCG_COND_EQ, temp1, source2, zero, max, source1);
+> +    tcg_gen_movcond_tl(TCG_COND_EQ, temp2, source2, zero, one, source2);
+> +    tcg_gen_divu_tl(ret, temp1, temp2);
+>
+> -    tcg_temp_free(cond1);
+> -    tcg_temp_free(resultopt1);
+> +    tcg_temp_free(temp1);
+> +    tcg_temp_free(temp2);
+>  }
+>
+>  static void gen_rem(TCGv ret, TCGv source1, TCGv source2)
+>  {
+> -    TCGv cond1, cond2, zeroreg, resultopt1;
+> +    TCGv temp1, temp2, zero, one, mone, min;
+>
+> -    cond1 = tcg_temp_new();
+> -    cond2 = tcg_temp_new();
+> -    zeroreg = tcg_constant_tl(0);
+> -    resultopt1 = tcg_temp_new();
+> +    temp1 = tcg_temp_new();
+> +    temp2 = tcg_temp_new();
+> +    zero = tcg_constant_tl(0);
+> +    one = tcg_constant_tl(1);
+> +    mone = tcg_constant_tl(-1);
+> +    min = tcg_constant_tl(1ull << (TARGET_LONG_BITS - 1));
+>
+> -    tcg_gen_movi_tl(resultopt1, 1L);
+> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond2, source2, (target_ulong)-1);
+> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond1, source1,
+> -                        (target_ulong)1 << (TARGET_LONG_BITS - 1));
+> -    tcg_gen_and_tl(cond2, cond1, cond2); /* cond1 = overflow */
+> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond1, source2, 0); /* cond2 = div 0 */
+> -    /* if overflow or div by zero, set source2 to 1, else don't change */
+> -    tcg_gen_or_tl(cond2, cond1, cond2);
+> -    tcg_gen_movcond_tl(TCG_COND_EQ, source2, cond2, zeroreg, source2,
+> -            resultopt1);
+> -    tcg_gen_rem_tl(resultopt1, source1, source2);
+> -    /* if div by zero, just return the original dividend */
+> -    tcg_gen_movcond_tl(TCG_COND_EQ, ret, cond1, zeroreg, resultopt1,
+> -            source1);
+> +    tcg_gen_setcond_tl(TCG_COND_EQ, temp1, source1, min);
+> +    tcg_gen_setcond_tl(TCG_COND_EQ, temp2, source2, mone);
+> +    tcg_gen_and_tl(temp1, temp1, temp2); /* temp1 = overflow */
+> +    tcg_gen_setcond_tl(TCG_COND_EQ, temp2, source2, zero); /* temp2 = div0 */
+> +    tcg_gen_or_tl(temp2, temp2, temp1);  /* temp2 = overflow | div0 */
+>
+> -    tcg_temp_free(cond1);
+> -    tcg_temp_free(cond2);
+> -    tcg_temp_free(resultopt1);
+> +    /*
+> +     * if overflow or div by zero, set temp2 to 1, else source2
+> +     * this automatically takes care of returning the original
+> +     * dividend for div by zero.
+> +     */
+> +    tcg_gen_movcond_tl(TCG_COND_NE, temp2, temp2, zero, one, source2);
 
-GitLab allows Mermaid and PlantUML diagrams in all tiers products:
+What about the overflow case? The return value should be 0.
 
-https://docs.gitlab.com/ee/user/markdown.html#diagrams-and-flowcharts
-https://about.gitlab.com/handbook/markdown-guide/#diagrams
+> +
+> +    tcg_gen_rem_tl(ret, source1, temp2);
+> +
+> +    tcg_temp_free(temp1);
+> +    tcg_temp_free(temp2);
+>  }
+>
+>  static void gen_remu(TCGv ret, TCGv source1, TCGv source2)
+>  {
+> -    TCGv cond1, zeroreg, resultopt1;
+> -    cond1 = tcg_temp_new();
+> -    zeroreg = tcg_constant_tl(0);
+> -    resultopt1 = tcg_temp_new();
+> +    TCGv temp2, zero, one;
+>
+> -    tcg_gen_movi_tl(resultopt1, (target_ulong)1);
+> -    tcg_gen_setcondi_tl(TCG_COND_EQ, cond1, source2, 0);
+> -    tcg_gen_movcond_tl(TCG_COND_EQ, source2, cond1, zeroreg, source2,
+> -            resultopt1);
+> -    tcg_gen_remu_tl(resultopt1, source1, source2);
+> -    /* if div by zero, just return the original dividend */
+> -    tcg_gen_movcond_tl(TCG_COND_EQ, ret, cond1, zeroreg, resultopt1,
+> -            source1);
+> +    temp2 = tcg_temp_new();
+> +    zero = tcg_constant_tl(0);
+> +    one = tcg_constant_tl(1);
+>
+> -    tcg_temp_free(cond1);
+> -    tcg_temp_free(resultopt1);
+> +    /*
+> +     * if div by zero, set temp2 to 1, else source2
+> +     * this automatically takes care of returning the original dividend.
+> +     */
+> +    tcg_gen_movcond_tl(TCG_COND_EQ, temp2, source2, zero, one, source2);
+> +    tcg_gen_remu_tl(ret, source1, temp2);
+> +
+> +    tcg_temp_free(temp2);
+>  }
+>
+>  static void gen_jal(DisasContext *ctx, int rd, target_ulong imm)
 
-I find the mermaid live editor easy to use:
-https://mermaid-js.github.io/mermaid-live-editor/
-
-(I looked at that recently because I'd like the pages job to
- generate QOM dependencies tree).
-
-> ---
->  _posts/2021-08-18-fuse-blkexport.md       | 488 ++++++++++++++++++++++
->  screenshots/2021-08-18-block-graph-a.svg  |   2 +
->  screenshots/2021-08-18-block-graph-b.svg  |   2 +
->  screenshots/2021-08-18-block-graph-c.svg  |   2 +
->  screenshots/2021-08-18-block-graph-d.svg  |   2 +
->  screenshots/2021-08-18-block-graph-e.svg  |   2 +
->  screenshots/2021-08-18-root-directory.svg |   2 +
->  screenshots/2021-08-18-root-file.svg      |   2 +
->  8 files changed, 502 insertions(+)
->  create mode 100644 _posts/2021-08-18-fuse-blkexport.md
->  create mode 100644 screenshots/2021-08-18-block-graph-a.svg
->  create mode 100644 screenshots/2021-08-18-block-graph-b.svg
->  create mode 100644 screenshots/2021-08-18-block-graph-c.svg
->  create mode 100644 screenshots/2021-08-18-block-graph-d.svg
->  create mode 100644 screenshots/2021-08-18-block-graph-e.svg
->  create mode 100644 screenshots/2021-08-18-root-directory.svg
->  create mode 100644 screenshots/2021-08-18-root-file.svg
-
+Regards,
+Bin
 
