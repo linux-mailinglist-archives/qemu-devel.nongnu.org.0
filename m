@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 964BF3F20BA
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 21:39:44 +0200 (CEST)
-Received: from localhost ([::1]:48876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F2063F20BB
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 21:39:46 +0200 (CEST)
+Received: from localhost ([::1]:48992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGnt9-00038K-LX
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 15:39:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50440)
+	id 1mGntB-0003D4-BF
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 15:39:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mGnrb-0000nc-Eh
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 15:38:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20866)
+ id 1mGnrd-0000os-Ip
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 15:38:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mGnrY-0008UK-Ov
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 15:38:06 -0400
+ id 1mGnrc-00005b-0T
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 15:38:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629401883;
+ s=mimecast20190719; t=1629401887;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=rpuC6Xjmm4QF0ooJ2UtZemFh01a3Pg6isfx6cE/aTRw=;
- b=H9b7Y33l0VjxKNWcLjtOBppY2v2Y/2B0PNcNIC/OA2YCqtmzjfipUgUGj7AuOpGaGSafD3
- +Up0JkL3TJGDI5CX2JIilgLcnzDKkff8M9uSwrpKJ4ic5OamCNy1ItybF7Slw/6qZU2Ec8
- 69A5Qz180XRsspj37mRnBXcg6z6kv8o=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9Rk7/xTGZ7djunwLJc/15OTqO11oRSr01FC8jEET9V8=;
+ b=Aam7zYTII+yYDac8reo2i8IsZnZ+dknCS6l6YBFnp+9oxQQ6iuNcl2O8opJD7EcpnNcHRH
+ X1TOJ0I8x+NhWUEDPFe1oCPEf7UrSqepgBDEbGdtPBjHwBLhonFI9iPNfkj/sxPs/gT4nq
+ JBSvritN6wmwHeT9Ovm/GSRV+y9xgSg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-514-o0h-9jRYNFuhgX8DrhevcA-1; Thu, 19 Aug 2021 15:38:02 -0400
-X-MC-Unique: o0h-9jRYNFuhgX8DrhevcA-1
+ us-mta-264-fFVEGjUGOgG0q2LqVLSORg-1; Thu, 19 Aug 2021 15:38:04 -0400
+X-MC-Unique: fFVEGjUGOgG0q2LqVLSORg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FE2518C8C0C;
- Thu, 19 Aug 2021 19:38:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10963107ACF5;
+ Thu, 19 Aug 2021 19:38:03 +0000 (UTC)
 Received: from gator.home (unknown [10.40.192.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 202ED1970F;
- Thu, 19 Aug 2021 19:37:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8CDEE1970F;
+ Thu, 19 Aug 2021 19:38:01 +0000 (UTC)
 From: Andrew Jones <drjones@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH 0/4] target/arm/cpu: Introduce sve_vq_supported bitmap
-Date: Thu, 19 Aug 2021 21:37:54 +0200
-Message-Id: <20210819193758.149660-1-drjones@redhat.com>
+Subject: [PATCH 1/4] target/arm/cpu: Introduce sve_vq_supported bitmap
+Date: Thu, 19 Aug 2021 21:37:55 +0200
+Message-Id: <20210819193758.149660-2-drjones@redhat.com>
+In-Reply-To: <20210819193758.149660-1-drjones@redhat.com>
+References: <20210819193758.149660-1-drjones@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
@@ -63,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,36 +84,51 @@ Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While reviewing the new A64FX CPU type it became clear that CPU
-types should be able to specify which SVE vector lengths are
-supported. This series adds a new bitmap member to ARMCPU and
-modifies arm_cpu_sve_finalize() to validate inputs against it.
-So far we only need to set the bitmap for the 'max' CPU type
-though and, since it supports all vector lengths, we just fill
-the whole thing.
+Allow CPUs that support SVE to specify which SVE vector lengths they
+support by setting them in this bitmap. Currently only the 'max' and
+'host' CPU types supports SVE and 'host' requires KVM which obtains
+its supported bitmap from the host. So, we only need to initialize the
+bitmap for 'max' with TCG. And, since 'max' should support all SVE
+vector lengths we simply fill the bitmap. Future CPU types may have
+less trivial maps though.
 
-This series was inspired by Richard Henderson's suggestion to
-replace arm_cpu_sve_finalize's kvm_supported bitmap with something
-that could be shared with TCG.
+Signed-off-by: Andrew Jones <drjones@redhat.com>
+---
+ target/arm/cpu.h   | 4 ++++
+ target/arm/cpu64.c | 2 ++
+ 2 files changed, 6 insertions(+)
 
-So far I've only lightly tested this. I'll do more testing and
-report back later. I'd also be happy to get test results from
-others.
-
-Thanks,
-drew
-
-Andrew Jones (4):
-  target/arm/cpu: Introduce sve_vq_supported bitmap
-  target/arm/kvm64: Ensure sve vls map is completely clear
-  target/arm/cpu64: Replace kvm_supported with sve_vq_supported
-  target/arm/cpu64: Validate sve vector lengths are supported
-
- target/arm/cpu.h   |   4 ++
- target/arm/cpu64.c | 118 +++++++++++++++++++++------------------------
- target/arm/kvm64.c |   2 +-
- 3 files changed, 61 insertions(+), 63 deletions(-)
-
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 9f0a5f84d503..cc645b57421f 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1019,9 +1019,13 @@ struct ARMCPU {
+      * While processing properties during initialization, corresponding
+      * sve_vq_init bits are set for bits in sve_vq_map that have been
+      * set by properties.
++     *
++     * Bits set in sve_vq_supported represent valid vector lengths for
++     * the CPU type.
+      */
+     DECLARE_BITMAP(sve_vq_map, ARM_MAX_VQ);
+     DECLARE_BITMAP(sve_vq_init, ARM_MAX_VQ);
++    DECLARE_BITMAP(sve_vq_supported, ARM_MAX_VQ);
+ 
+     /* Generic timer counter frequency, in Hz */
+     uint64_t gt_cntfrq_hz;
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index c690318a9b63..eb9318c83b74 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -840,6 +840,8 @@ static void aarch64_max_initfn(Object *obj)
+         /* Default to PAUTH on, with the architected algorithm. */
+         qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_property);
+         qdev_property_add_static(DEVICE(obj), &arm_cpu_pauth_impdef_property);
++
++        bitmap_fill(cpu->sve_vq_supported, ARM_MAX_VQ);
+     }
+ 
+     aarch64_add_sve_properties(obj);
 -- 
 2.31.1
 
