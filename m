@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC5B53F1F4C
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 19:43:09 +0200 (CEST)
-Received: from localhost ([::1]:55040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1D013F1F53
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 19:45:56 +0200 (CEST)
+Received: from localhost ([::1]:34246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGm4L-0005om-17
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 13:43:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42376)
+	id 1mGm72-0002Ut-07
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 13:45:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1mGm0f-00039m-Nx
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 13:39:21 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:40575)
+ id 1mGm0j-0003Fy-C5
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 13:39:25 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:44755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1mGm0e-0000cx-4A
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 13:39:21 -0400
-Received: by mail-pl1-x636.google.com with SMTP id c4so4327539plh.7
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 10:39:19 -0700 (PDT)
+ id 1mGm0h-0000f9-Mx
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 13:39:25 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id q2so4312912plr.11
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 10:39:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=YsaEKAl33eCFR1bSTiVOxhOZ86zefKNazCSX24D4aT0=;
- b=jpKFGSqLcNqUWyCfAcwkZibJ0JsdxdE2CifIUuV2m6Sg2QZOrCOVdPCvgeJM5eytCe
- qYTiuamAw3bBMsLDgWye/R/abgk5o4XZAliOytWIOiJlltjtRRgVV38WgdpILgY3nVYQ
- gGxnYD+eXs544BKV2L4tQLU4jihW6mhHDcR7jB2ahEf9dFptLhj5X6CPKddyLobSdLti
- aDlHb0scD+/oAGdyENfDy+TaKLiG4IlgACUnnr5z7ayGScrYhNSNBZzxZ23Q01GDEcTd
- tZeD6iFnV9kkDTgyf0zgXuX12liX9WoryEAWMh0MtkUF4Zq8v3W0ASQ8ZYfBMzcmYIkW
- mclA==
+ bh=uKACz5OqsekNHFIwRU3Lz9Hd8OaVdD7SYAY+WghaoVk=;
+ b=S2M1JaH8zOkD4j0IADktN2iLoxFbumRZIB8v5zFUXlrghQZSx5Jtz+Idp/CZ6LhNDr
+ oSlrLPsafGvZ4pM6vrdEo+9SASh+3Qnsbe6vBdODY+tBPzkxXBlqqjHPWsEwsRDmI6wd
+ sb4Uvq8P0IjedzzM0yvsm5IuZaHRgm91jyLsBrwcTUH/l7B51ln+p/qeI7zUi2KDPimS
+ Ost4fZNUPphx4pD5Bz8ab4Xd/HG/7MWf8Z1uqZmhCrgm4ahFM4JXn5ikb1V9xdcSjbsE
+ 55UZUA4qJ7EvTHwcCWIUmmF4P83O0v9seulvu+DJl1ewS7aDzh+OEwDr2FQmzBte7xu/
+ 02xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=YsaEKAl33eCFR1bSTiVOxhOZ86zefKNazCSX24D4aT0=;
- b=sW0LSdupG2gQNAXbMzfl0U0/ArOAPk7x1qhoiz5DqP3pwkuARkcCH2jpF3bBDhCfqG
- KV+wR6DrjAPWB0Rwn0ajXFIXXfrfwOmsMyD0mfG7xAdRDF0SJ7pp1hRyKS6dpmmwz4xH
- 64S+OOFnM1RpkLoohkeZchQxY1qHbTtAE/k5EqkODpW6MMr7cPTIC77BhR78cCw6i1/L
- XQYyQpmvaIHDvuGAJ7mfFL0HWbcK/fhauLq/aDU6XsPw361UarnjsxWijnMalo9DImHf
- HpgvI9H+lrjGmqv+Lo7O0tk67iYCIFtLrFshCOUhShkgk6bSLY3HFlv2srobzNj1xacj
- OZqA==
-X-Gm-Message-State: AOAM532PdCFgbE9ucOhYDv45ODvfMkc1iZ5zok+SoE2mT4QHhyhBiK9K
- tdNSQ3x0lW2fwE+M/yjA31J+alJ7rxE=
-X-Google-Smtp-Source: ABdhPJxFqQ5webvTCUrCazdICjuRvPWkf4vh0qYPWsbh1CTVWfxy88yiMX4AJbW8oBvIW/SXdOtogw==
-X-Received: by 2002:a17:90a:de16:: with SMTP id
- m22mr16127271pjv.38.1629394758660; 
- Thu, 19 Aug 2021 10:39:18 -0700 (PDT)
+ bh=uKACz5OqsekNHFIwRU3Lz9Hd8OaVdD7SYAY+WghaoVk=;
+ b=ECngsYQSbeUiqd/9Mv6oNlFQPiBtryVs4+NWQdiVCCNTKo+RC+LLbjCRfjU2Uc8yPC
+ B5zvpKv7Ga3gsZm0eDY42hP3mOesc2L0qbhzDBY3NpH2FP5q+Ps8P7B3/KYSnMrkOts6
+ axLHNNudzvKgxBpLx0SW3hb+RHWLxjbbDnhxNipJf0FdZ0KtaVtp6BbuZcwcJcKHtlhN
+ jjX3jvehxv+M4aF6EsWGlwZVFU1z0G1bXyFXGemX/Yzoiq+AbtvmJc+RsgzkFlAvKIij
+ u274G9vo2Yy9aTjvEzdZmUbC/lNvjxDh97u7sLmAGh4+3Qapfs3o8+dM8GK/xLMZBIQc
+ y9ZQ==
+X-Gm-Message-State: AOAM533Ohi0EeBNu9zaHAD1yu30Scj5lsF+RDvtAhwEKhe5IhGAJlZNl
+ svhPlciwnPGRAnwOWdAy1gbxOCIx39w=
+X-Google-Smtp-Source: ABdhPJx5+4KosVBQXq8lskonCj4a/0OTTyTFThUXnjmv6U0jWWazyjEL+n/Obfyrd7NhxHDi5xz8Dw==
+X-Received: by 2002:a17:90a:7061:: with SMTP id
+ f88mr8521205pjk.121.1629394762227; 
+ Thu, 19 Aug 2021 10:39:22 -0700 (PDT)
 Received: from localhost.localdomain ([120.138.12.8])
- by smtp.gmail.com with ESMTPSA id s2sm4061090pfw.193.2021.08.19.10.39.14
+ by smtp.gmail.com with ESMTPSA id s2sm4061090pfw.193.2021.08.19.10.39.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 10:39:18 -0700 (PDT)
+ Thu, 19 Aug 2021 10:39:22 -0700 (PDT)
 From: G S Niteesh Babu <niteesh.gs@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/7] python: disable pylint errors for aqmp-tui
-Date: Thu, 19 Aug 2021 23:08:25 +0530
-Message-Id: <20210819173831.23515-2-niteesh.gs@gmail.com>
+Subject: [PATCH v4 2/7] python: Add dependencies for AQMP TUI
+Date: Thu, 19 Aug 2021 23:08:26 +0530
+Message-Id: <20210819173831.23515-3-niteesh.gs@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210819173831.23515-1-niteesh.gs@gmail.com>
 References: <20210819173831.23515-1-niteesh.gs@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=niteesh.gs@gmail.com; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=niteesh.gs@gmail.com; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,29 +87,72 @@ Cc: ehabkost@redhat.com, kchamart@redhat.com, jsnow@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Disable missing-docstring and fixme pylint warnings.
-This is because since the AQMP is just a prototype
-it is currently not documented properly and lot
-of todo and fixme's are still in place.
+Added dependencies for the upcoming AQMP TUI under the optional
+'tui' group.
+
+The same dependencies have also been added under the devel group
+since no work around has been found for optional groups to imply
+other optional groups.
 
 Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
 ---
- python/setup.cfg | 2 ++
- 1 file changed, 2 insertions(+)
+ python/Pipfile.lock | 12 ++++++++++++
+ python/setup.cfg    |  8 ++++++++
+ 2 files changed, 20 insertions(+)
 
+diff --git a/python/Pipfile.lock b/python/Pipfile.lock
+index 457f5c3fe8..da7a4ee164 100644
+--- a/python/Pipfile.lock
++++ b/python/Pipfile.lock
+@@ -289,6 +289,18 @@
+             "markers": "python_version < '3.8'",
+             "version": "==3.10.0.0"
+         },
++        "urwid": {
++            "hashes": [
++                "sha256:588bee9c1cb208d0906a9f73c613d2bd32c3ed3702012f51efe318a3f2127eae"
++            ],
++            "version": "==2.1.2"
++        },
++        "urwid-readline": {
++            "hashes": [
++                "sha256:018020cbc864bb5ed87be17dc26b069eae2755cb29f3a9c569aac3bded1efaf4"
++            ],
++            "version": "==0.13"
++        },
+         "virtualenv": {
+             "hashes": [
+                 "sha256:14fdf849f80dbb29a4eb6caa9875d476ee2a5cf76a5f5415fa2f1606010ab467",
 diff --git a/python/setup.cfg b/python/setup.cfg
-index 077395f96e..e83c88db2c 100644
+index e83c88db2c..a0ed3279d8 100644
 --- a/python/setup.cfg
 +++ b/python/setup.cfg
-@@ -90,6 +90,8 @@ ignore_missing_imports = True
- # --disable=W".
- disable=too-many-function-args,  # mypy handles this with less false positives.
-         no-member,  # mypy also handles this better.
-+        missing-docstring, # FIXME
-+        fixme, # FIXME
+@@ -44,11 +44,18 @@ devel =
+     mypy >= 0.770
+     pylint >= 2.8.0
+     tox >= 3.18.0
++    urwid >= 2.1.2
++    urwid-readline >= 0.13
  
- [pylint.basic]
- # Good variable names which should always be accepted, separated by a comma.
+ # Provides qom-fuse functionality
+ fuse =
+     fusepy >= 2.0.4
+ 
++# AQMP TUI dependencies
++tui =
++    urwid >= 2.1.2
++    urwid-readline >= 0.13
++
+ [options.entry_points]
+ console_scripts =
+     qom = qemu.qmp.qom:main
+@@ -133,5 +140,6 @@ allowlist_externals = make
+ deps =
+     .[devel]
+     .[fuse]  # Workaround to trigger tox venv rebuild
++    .[tui]   # Workaround to trigger tox venv rebuild
+ commands =
+     make check
 -- 
 2.17.1
 
