@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D693F1B00
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 15:57:33 +0200 (CEST)
-Received: from localhost ([::1]:40580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE6F43F1B1D
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 16:02:18 +0200 (CEST)
+Received: from localhost ([::1]:50568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGiY0-0001ZU-NS
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 09:57:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47908)
+	id 1mGicZ-0008K5-9m
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 10:02:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mGiXE-0000id-WB
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:56:45 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:44655)
+ id 1mGiaK-0007KS-E6
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:59:56 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:43624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mGiXB-000266-36
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:56:43 -0400
-Received: by mail-ej1-x636.google.com with SMTP id bq25so13072924ejb.11
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 06:56:39 -0700 (PDT)
+ id 1mGiaH-0004ks-T2
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:59:56 -0400
+Received: by mail-ed1-x532.google.com with SMTP id v2so9006986edq.10
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 06:59:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JkTN3cANiCoT96mDR4Bg4jj2nYUDJmAAiM1fkolr8Wk=;
- b=kB2wvWHw5k9+ZmybXgQOglnNQsXdknib7twOdre5sMDhWV31g1RGepKJI/Cjxuw2CV
- XGoFvawy6wCUTi85y3CzJHaFKJc3+zw4cTPNYpyq20SL3defQX1kdiLnljp3xZ0NvQQs
- r+lDeZgyHCzzUZydQgC932LDkwLX+k3iQkakeZT/dhrbkbjtUrKJSJT/DDqO8FHeMpCW
- +0HKh8ENRZYv2EobmqDI3/vz/6TRWF/yhbeIJ8zV1holbnxzAzLAMDdB6T2NQbTkOrlP
- nuNBSOICIK293khljxf8uiUTAmLdt7HhOsXoLwhfeaubE53IxHgy4lVreKG52hzaKCwt
- mKTQ==
+ :cc; bh=TwDEZgaQc82JrulneqmC+0pTbPGGhVY44dmXIVB3um0=;
+ b=F+D6cT5taEDm4hJ/28N9uKKOfwSZXlqXn9g8WmTZXQDPdlYaekdVJcWk/HUKAexTyI
+ w/SM7rTtlcV26AgtyjHq451ndBFMph6+coHyj65B0aRfZOvoR45CKgMOVVBzeouL0Ty2
+ BHgUoNCL6IiJFQ482+KQif8CzRNai1GeJXnWwvIc4w+/40ko835dxLIjGbOMRc0kx0X3
+ LEnQdOG9qBqV+5E0OfbhHB41Q2dNek0AFVc9lwcpSmaDLJT44VeH0htdZjRgUZquN7XI
+ BK3E6hpN5OVEhWbBIdnP7dLGyRA5yQkqtoQtxkmeAw0mjcpwcxZf+uhtwpTepGU4s/px
+ ERBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=JkTN3cANiCoT96mDR4Bg4jj2nYUDJmAAiM1fkolr8Wk=;
- b=pMUel9Dwkhi65nz/Sh0p8eGsyYPB8+OvFfqZxXfnKQKzBF46YRw31acW7sPnC9oZt4
- iNwEpN6+ZW2nGp15j13r+Mh8cXq+ZBtPt7AZza1BahxQCaIYS7LGSwA647QeiqzhlGIw
- XnToU+JGhEVpkvEWS97mPir8q00/K19GenMeh/yRlpqlxHJfTFxq16xhQNBF22Rm/NvK
- J3zHM+54svWACaZKn3i6VvNlrzuM7f0jswIWPC4w4eZY7/UUpHzkX0Bu6PGdV6SlLuPj
- z/X6TcAWAY8gl1DFUUWZziz0xjzPKEG2s/8aW1SgFxHNbJUDCGGxCizkUelwYnelOzYR
- AArg==
-X-Gm-Message-State: AOAM5304HaL+WPHN6aexid+lS/MYrW/iJSUfBo2MDnZA9qpdGOJz/TJl
- LQVxsoI5BAThAKlhecRvbl3rYkz4jmoZa4wGeRThKQ==
-X-Google-Smtp-Source: ABdhPJz1aQq8vYo5Y4u3IgkpmW7C2jOexFJZCHlKs+xONdtaoTs8E8SMKCPfdEmE8JMAk3x/dTM4hX3YmAn62+9K/Jw=
-X-Received: by 2002:a17:906:584:: with SMTP id 4mr16315931ejn.56.1629381398493; 
- Thu, 19 Aug 2021 06:56:38 -0700 (PDT)
+ bh=TwDEZgaQc82JrulneqmC+0pTbPGGhVY44dmXIVB3um0=;
+ b=SyeHQMWJrtPiYZJ+UziO1GPhfqJXoFBGkg591ysOdo56aNkD/SiR33+vpv5KVOh/tl
+ tNPVObf5VkqIDxvq+1ya3iblhtvKCdhwmhLo1DDjxWYhAKBP+V8shyZQxrpj/3m4RWZw
+ 82fBGCsFOe5bNy05i0n7zSnngQiwIWvH3HuJBECodbRYTdmCR96FCWBPHkzajdoDs2sd
+ rbSk/y31xcJxMJy/lXaixdOANEX8mOqrBk/WqvNCF7gmp3/GSSzSe1CHfhtOrmX47qI6
+ zl+5RP0DTwVteLNkx6VYmQ0ne7qqylMv6/i6ycDL0y/PgtA0rzrRUVQacoqV+rsYJxCP
+ Sulw==
+X-Gm-Message-State: AOAM533fl8rkK9AOQqp3jGysuPgacMLQwBjK3saftmaxNvy5F1X/lOt3
+ xNYJ8kWjPIRE+fU+Y/nFxFZktNLFN95i8k5kBaQqnQ==
+X-Google-Smtp-Source: ABdhPJw1+ZEFUw6Hk1kG0+Is6i/nR1OzXobbndbEi+dkJdQvr1mW4NeoolALNthS8iB4NRigSTX+fQoT7lw64Uudc5U=
+X-Received: by 2002:aa7:c4cd:: with SMTP id p13mr16314984edr.251.1629381592059; 
+ Thu, 19 Aug 2021 06:59:52 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210813233353.2099459-1-wuhaotsh@google.com>
- <20210813233353.2099459-7-wuhaotsh@google.com>
-In-Reply-To: <20210813233353.2099459-7-wuhaotsh@google.com>
+ <20210813233353.2099459-6-wuhaotsh@google.com>
+In-Reply-To: <20210813233353.2099459-6-wuhaotsh@google.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Aug 2021 14:55:52 +0100
-Message-ID: <CAFEAcA8s4dW3rh+-5Cd9k4tTNRhUqvTaLpprenermJSFUM0mKQ@mail.gmail.com>
-Subject: Re: [PATCH 6/7] hw/arm: quanta-gbs-bmc add i2c devices
+Date: Thu, 19 Aug 2021 14:59:06 +0100
+Message-ID: <CAFEAcA8ZiY59x6=Pg=ZOZxRGq-HyBPt9=rXCWvFSg7032bWP=Q@mail.gmail.com>
+Subject: Re: [PATCH 5/7] hw/nvram: Add a new auxiliary function to init at24c
+ eeprom
 To: Hao Wu <wuhaotsh@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,39 +87,71 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Sat, 14 Aug 2021 at 00:34, Hao Wu <wuhaotsh@google.com> wrote:
 >
-> From: Patrick Venture <venture@google.com>
+> In NPCM7xx boards, at24c eeproms are backed by drives. However,
+> these drives use unit number as unique identifier. So if we
+> specify two drives with the same unit number, error will occured:
+> `Device with id 'none85' exists`.
 >
-> Adds supported i2c devices to the quanta-gbc-bmc board.
+> Instead of using i2c address as unit number, we now assign unique
+> unit numbers for each eeproms in each board. This avoids conflict
+> in providing multiple eeprom contents with the same address.
 >
-> Signed-off-by: Patrick Venture <venture@google.com>
-> Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> We add an auxiliary function in the at24c eeprom module for this.
+> This allows it to easily add at24c eeprom to non-nuvoton boards
+> like aspeed as well.
+>
+> Signed-off-by: Hao Wu <wuhaotsh@google.com>
+> Reviewed-by: Patrick Venture<venture@google.com>
 > ---
->  hw/arm/npcm7xx_boards.c | 79 +++++++++++++++++++++++------------------
->  1 file changed, 45 insertions(+), 34 deletions(-)
+>  hw/nvram/eeprom_at24c.c         | 18 ++++++++++++++++++
+>  include/hw/nvram/eeprom_at24c.h | 13 +++++++++++++
+>  2 files changed, 31 insertions(+)
+>  create mode 100644 include/hw/nvram/eeprom_at24c.h
 >
-
-Does the documentation need updating to mention these newly supported devices ?
-
->  static void quanta_gbs_i2c_init(NPCM7xxState *soc)
->  {
-> -    /*
-> -     * i2c-0:
-> -     *     pca9546@71
-> -     *
-> -     * i2c-1:
-> +    I2CSlave *i2c_mux;
+> diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
+> index af6f5dbb99..a9e3702b00 100644
+> --- a/hw/nvram/eeprom_at24c.c
+> +++ b/hw/nvram/eeprom_at24c.c
+> @@ -12,9 +12,11 @@
+>  #include "qapi/error.h"
+>  #include "qemu/module.h"
+>  #include "hw/i2c/i2c.h"
+> +#include "hw/nvram/eeprom_at24c.h"
+>  #include "hw/qdev-properties.h"
+>  #include "hw/qdev-properties-system.h"
+>  #include "sysemu/block-backend.h"
+> +#include "sysemu/blockdev.h"
+>  #include "qom/object.h"
+>
+>  /* #define DEBUG_AT24C */
+> @@ -205,3 +207,19 @@ static void at24c_eeprom_register(void)
+>  }
+>
+>  type_init(at24c_eeprom_register)
 > +
-> +    /* i2c-0: */
-> +    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 0), TYPE_PCA9546, 0x71);
+> +void at24c_eeprom_init_one(I2CBus *i2c_bus, int bus, uint8_t addr,
+> +                           uint32_t rsize, int unit_number)
+> +{
+> +    I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
+> +    DeviceState *dev = DEVICE(i2c_dev);
+> +    BlockInterfaceType type = IF_NONE;
+> +    DriveInfo *dinfo;
 > +
-> +    /* i2c-1:
->       *     pca9535@24
->       *     pca9535@20
->       *     pca9535@21
+> +    dinfo = drive_get(type, bus, unit_number);
+> +    if (dinfo) {
+> +        qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
+> +    }
+> +    qdev_prop_set_uint32(dev, "rom-size", rsize);
+> +    i2c_slave_realize_and_unref(i2c_dev, i2c_bus, &error_abort);
+> +}
 
-This leaves this multiline block comment with the wrong format: QEMU's
-coding style wants the leading "/*" on a line of its own. Similarly
-for some others in this patch.
+This is just creating a device and configuring it, right?
+We tend to prefer that this is just done directly in the
+board or SoC code these days, rather than providing helper functions
+for it.
+
+If you don't like what hw/arm/npcm7xx_boards.c:at24c_eeprom_init()
+is currently doing, you should just patch it to do something different.
 
 thanks
 -- PMM
