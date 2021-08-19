@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B373F2364
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 00:54:05 +0200 (CEST)
-Received: from localhost ([::1]:46768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D223F236B
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 00:54:34 +0200 (CEST)
+Received: from localhost ([::1]:49258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGqvE-000753-4c
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 18:54:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57552)
+	id 1mGqvh-0000GL-Ll
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 18:54:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGqtQ-00045T-Vk
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 18:52:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48632)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGquq-00077P-U4
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 18:53:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48128)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGqtN-00088K-MR
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 18:52:11 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGqup-0000oH-Ec
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 18:53:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629413528;
+ s=mimecast20190719; t=1629413618;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g4oHSq3D3/aszrGiK5fX4TKEs3uTF+2UfVH/knIwM/w=;
- b=Iqab8j5OJyFmJri9YS2k69dq47v2JPaikaJcsUawgP4BOLSBqki54QiMjaHwvNe6P9tDF9
- qdOCdk1w3qyMhcLjgjgHJ1yhBCimgzVkV+NiglEk+VgMFB4Ze7LJ0Gqu67H8F0fld89nlx
- kp0M3llUhWW7RO4DQmvDdY+A4dvRImM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-n1_hu6pcOh2VfJxkfdENhw-1; Thu, 19 Aug 2021 18:52:06 -0400
-X-MC-Unique: n1_hu6pcOh2VfJxkfdENhw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 11-20020a05600c024bb02902e679d663d1so1588585wmj.1
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 15:52:06 -0700 (PDT)
+ bh=PTrO1Od3fdTfn0dsb8godx4zsH/11REcDlmLtDNCZZw=;
+ b=XRsABalU8C61BL8w2IhY5C5tLu7Y+vNg7NO1WmnfQSj2D5Gy1sBT58Xinrpev9M4DmjBMw
+ d8UiJGLRhrD+MuKG3//sHNCjhEDb4UUqKXQb/JV26CRXetConqjeZh3cdUKgHQu/Dp5aNf
+ 0s2H4fcpIWTZK5w5j1zc9zJfrPJ4VEg=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-568-yO4OHX35MmmFcSg97fV_cw-1; Thu, 19 Aug 2021 18:53:37 -0400
+X-MC-Unique: yO4OHX35MmmFcSg97fV_cw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ j19-20020a1c2313000000b002e7012b83e9so2767385wmj.2
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 15:53:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=g4oHSq3D3/aszrGiK5fX4TKEs3uTF+2UfVH/knIwM/w=;
- b=JJIS9D4JtXMaNDx9LBuDYEZdfhmHdcooQDs4GScvtPolhYUqc0L8kusHnntuyjsfaN
- Rq36iy+XDUPbZ8k3LvuVjya0ZUs37DaPLiNVbBq0MnbSiiox7Mignsj5taMkOeRwUULL
- cKcq7a5QEspSlLKh7awoKnP44x1Mj8EpIi1PqwbAmu0K35jtZV3mezyHBQydZM8s95b7
- lb0MC7NkUVQiFTsQKsJOwj7rWyzC/hVixMHBOIauC9WCHW2uCh2ZBvV8fD7GPZj35TNa
- Xb/iv9LUMskz33SOAHAuVP5rcZPyZ2N252G2DYGgGJW/M2ye0gHyeMqkwNuuXYyqMBoe
- cx+A==
-X-Gm-Message-State: AOAM531lfXYoUdWfngocT95C++BDSoFhxmQAANx43psw5HbmxtpoDi+/
- EEddfhyh4LIq2GDhyIyla2bBgNbruNXwruwMv9EzESSTbm3xzUxa4pAWnc4agNYllDMI7oNpFVH
- TkHnR1uB396WiI4M=
-X-Received: by 2002:a05:600c:a44:: with SMTP id c4mr789530wmq.83.1629413525834; 
- Thu, 19 Aug 2021 15:52:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwfQ1FoBO/3tQ06k6DnKq/FTCrB/20zsqM+DFiZr5TCNF3QQ1eu0mlvssUc7bLNgvC+1Rc5WQ==
-X-Received: by 2002:a05:600c:a44:: with SMTP id c4mr789516wmq.83.1629413525620; 
- Thu, 19 Aug 2021 15:52:05 -0700 (PDT)
+ bh=PTrO1Od3fdTfn0dsb8godx4zsH/11REcDlmLtDNCZZw=;
+ b=c0dqLlB4O9nsxptNQWlQN8fp3f2ZoPRF87Hk27CcGCoHbjRmzL+nSc52gDKvHI+Ej+
+ kQoa7P+CCmnSb9aYCNNzU19XtuKP15Z6VqVh+mA5gsIs1nr3+TwevZ21aio3VlViJq4f
+ oBms/Mmul3FNLDEXI//3IHSAUHI3sOntsXJfiw74dUERatDOOyj4j5uLycXjW8HY8KJw
+ LF+PVwquQ/G7D5Fytt5tR9ludFR9sPYDlS54UL/TiOHf5R2ipSSTA3gZAKn8/lz0p0yI
+ u2RbiMvi9tJu6CQT4dOACpM+tunrzLW8s4v9UvGGVycPjIX0ph0rrWcPWfsgNfcKKGEZ
+ wUbw==
+X-Gm-Message-State: AOAM532JrLi+JissauSmzB4ruJROjDSDW9hVHrh2fK4n6ZOgD38s/bUf
+ c2/CqLez4hL31hArl5mz0WmPZr2QUeXbABjDu1+Bmo4i4hIr2e4ApdW1yxhGxCVdhwG75xBxxF7
+ rh5ffyMXFYcTRrgM=
+X-Received: by 2002:a1c:1b4b:: with SMTP id b72mr833031wmb.168.1629413616427; 
+ Thu, 19 Aug 2021 15:53:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxKgjGqVqxM2gBksoK5qi4co9rldFdwtljDbPo85knouciW2jtVHC754I7jZS6nlbQmQ1V87A==
+X-Received: by 2002:a1c:1b4b:: with SMTP id b72mr833012wmb.168.1629413616228; 
+ Thu, 19 Aug 2021 15:53:36 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id g6sm3856358wmq.14.2021.08.19.15.52.04
+ by smtp.gmail.com with ESMTPSA id c7sm3429159wmq.13.2021.08.19.15.53.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Aug 2021 15:52:05 -0700 (PDT)
-Subject: Re: [PATCH 2/4] target/arm/kvm64: Ensure sve vls map is completely
- clear
+ Thu, 19 Aug 2021 15:53:35 -0700 (PDT)
+Subject: Re: [PATCH 1/4] target/arm/cpu: Introduce sve_vq_supported bitmap
 To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org
 References: <20210819193758.149660-1-drjones@redhat.com>
- <20210819193758.149660-3-drjones@redhat.com>
+ <20210819193758.149660-2-drjones@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <7a864706-6445-760b-efd8-0026892c00f8@redhat.com>
-Date: Fri, 20 Aug 2021 00:52:04 +0200
+Message-ID: <0a13b4ce-d869-d3cc-820f-eeb36171cf25@redhat.com>
+Date: Fri, 20 Aug 2021 00:53:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210819193758.149660-3-drjones@redhat.com>
+In-Reply-To: <20210819193758.149660-2-drjones@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -106,14 +105,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/19/21 9:37 PM, Andrew Jones wrote:
-> bitmap_clear() only clears the given range. While the given
-> range should be sufficient in this case we might as well be
-> 100% sure all bits are zeroed by using bitmap_zero().
+> Allow CPUs that support SVE to specify which SVE vector lengths they
+> support by setting them in this bitmap. Currently only the 'max' and
+> 'host' CPU types supports SVE and 'host' requires KVM which obtains
+> its supported bitmap from the host. So, we only need to initialize the
+> bitmap for 'max' with TCG. And, since 'max' should support all SVE
+> vector lengths we simply fill the bitmap. Future CPU types may have
+> less trivial maps though.
 > 
 > Signed-off-by: Andrew Jones <drjones@redhat.com>
 > ---
->  target/arm/kvm64.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  target/arm/cpu.h   | 4 ++++
+>  target/arm/cpu64.c | 2 ++
+>  2 files changed, 6 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
