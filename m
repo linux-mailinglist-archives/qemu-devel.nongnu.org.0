@@ -2,56 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DB093F1AC9
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 15:42:15 +0200 (CEST)
-Received: from localhost ([::1]:55356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3913F1AD1
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 15:43:45 +0200 (CEST)
+Received: from localhost ([::1]:59868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGiJC-00009k-7m
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 09:42:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44756)
+	id 1mGiKe-0003FE-Re
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 09:43:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mGiHE-000638-Ku
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:40:13 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:3115)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mGiHB-0004RD-7Q
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:40:12 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Gr5Pp4DzWz8sbc;
- Thu, 19 Aug 2021 21:35:58 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 19 Aug 2021 21:40:02 +0800
-Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 19 Aug 2021 21:40:01 +0800
-From: Yanan Wang <wangyanan55@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH,updated 2/2] docs/about: Unify the subject format
-Date: Thu, 19 Aug 2021 21:39:59 +0800
-Message-ID: <20210819133959.179868-1-wangyanan55@huawei.com>
-X-Mailer: git-send-email 2.8.4.windows.1
-In-Reply-To: <20210819031027.41104-2-wangyanan55@huawei.com>
-References: <20210819031027.41104-2-wangyanan55@huawei.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mGiIg-00010u-Ok
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:41:42 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:39807)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mGiIf-0005t1-20
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:41:42 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id gr13so13040733ejb.6
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 06:41:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7Zfur643o1ACOiDICbxUWdVXA/wTCxhPbgbWj4h2t6s=;
+ b=NrjiztVOwaWnsRk+3qbVKFClGIyGBJJC8brT1msO3rM7A43DRViEIsaBr6t3F28gaW
+ J55ftSR3BCxxeddADnewTvpG4bVMinxGtsBawY5R8zXuNqigA0tdadJKQJ67XSx9qcJU
+ vWh4cEwZRxczyZedn++aDX/auURNPS0fLNJxW3/mw6egjbRvyPqQ+wxoyGeTB1y1n8gq
+ yF3OQ1Nt9A0aMpeUDghe+EjcS9n/YhLhxqY2haWRSsKGMJ+LWSfyfv2GvSxGKorztqWr
+ NBhdu75N+iPXjboW5uOjuRjLsVXs+7MmAfQMZ3rUYaFcHdkWTpKgUf7v1mlN3hnhMPuG
+ DR8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7Zfur643o1ACOiDICbxUWdVXA/wTCxhPbgbWj4h2t6s=;
+ b=YKBhy+QFeX5k1xfojNzRKT1hCv+lhCWTxEo6VTnS2RPT2aLEp/vfVqpKLwGfmkKjUn
+ YsoQMW+Cc2rWwkHe1FyRJds64ulbCjf2qjtPDWrxQE/iPivukXrHIPUD6XHL+jNL0uKp
+ iCVfhfpfp7gT4lT0obJVmskXawj9jzLgD4XV+0MHOyUkRL+Ek336XKdAziZNKo8QXWSP
+ QaQrMEmPUgK622T/5eehVg+ufIV/cb4lXslLVCtprbDNwlSEfkTRRQM8RkIipnUDRzmF
+ JCZY0BxUhyGekJFV+1J0BTpD255E4/P8qmRid7es3ZRYO3jSae0d6rdOUJ3qpakpf4Cb
+ yRbw==
+X-Gm-Message-State: AOAM530dYm848uMPNw5LMuIucy0bHuDdNtwqgZMtSdZPiP0hZWAx5ibN
+ dIRb3G6wRMKBfQjZk0nhGxGiasJCe0D5bCj6OueSjd5au/Y=
+X-Google-Smtp-Source: ABdhPJzczUZOeUsGYuc3bh5f4UipnixjAlEFHfmm1XU9kKpo4VQBiZMKC4BowS8+LCb61JxRZUn8egrM7GyURGSTwwU=
+X-Received: by 2002:a17:906:aac7:: with SMTP id
+ kt7mr15835594ejb.4.1629380499314; 
+ Thu, 19 Aug 2021 06:41:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210818010041.337010-1-richard.henderson@linaro.org>
+ <20210818010041.337010-4-richard.henderson@linaro.org>
+In-Reply-To: <20210818010041.337010-4-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 19 Aug 2021 14:40:53 +0100
+Message-ID: <CAFEAcA-v6z9UTbmdHqMugbtqv1n92SJ7EFGM8Gnk+_90FMyoBg@mail.gmail.com>
+Subject: Re: [PATCH 3/4] target/arm: Take an exception if PC is misaligned
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,245 +78,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter
- Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- Halil Pasic <pasic@linux.ibm.com>, wanghaibin.wang@huawei.com,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Yanan Wang <wangyanan55@huawei.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unify the subject format in deprecated.rst to "since X.Y".
-Unify the subject format in removed-features.rst to "removed in X.Y".
+On Wed, 18 Aug 2021 at 02:04, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> For A64, any input to an indirect branch can cause this.
+>
+> For A32, many indirect branch paths force the branch to be aligned,
+> but BXWritePC does not.  This includes the BX instruction but also
+> other interworking changes to PC.  Prior to v8, this case is UNDEFINED.
+> With v8, this is CONSTRAINED UNDEFINED and may either raise an
+> exception or force align the PC.
+>
+> We choose to raise an exception because we have the infrastructure,
+> it makes the generated code for gen_bx simpler, and it has the
+> possibility of catching more guest bugs.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>  static void arm_post_translate_insn(DisasContext *dc)
+>  {
+>      if (dc->condjmp && !dc->base.is_jmp) {
+> @@ -9500,7 +9504,25 @@ static void arm_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+>      CPUARMState *env = cpu->env_ptr;
+>      unsigned int insn;
+>
+> -    if (arm_pre_translate_insn(dc)) {
+> +    /* Singlestep exceptions have the highest priority. */
+> +    if (arm_check_ss_active(dc)) {
+> +        dc->base.pc_next += 4;
+> +        return;
+> +    }
+> +
+> +    if (dc->base.pc_next & 3) {
+> +        /*
+> +         * PC alignment fault.  This has priority over the instruction abort
+> +         * that we would receive from a translation fault via arm_ldl_code
+> +         * (or the execution of the kernelpage entrypoint).
+> +         */
+> +        gen_exception_insn(dc, dc->base.pc_next, EXCP_UDEF,
+> +                           syn_pcalignment(), default_exception_el(dc));
+> +        dc->base.pc_next = QEMU_ALIGN_UP(dc->base.pc_next, 4);
+> +        return;
+> +    }
+> +
+> +    if (arm_check_kernelpage(dc)) {
+>          dc->base.pc_next += 4;
+>          return;
+>      }
+> @@ -9570,7 +9592,7 @@ static void thumb_tr_translate_insn(DisasContextBase *dcbase, CPUState *cpu)
+>      uint32_t insn;
+>      bool is_16bit;
+>
+> -    if (arm_pre_translate_insn(dc)) {
+> +    if (arm_check_ss_active(dc) || arm_check_kernelpage(dc)) {
 
-Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
----
- docs/about/deprecated.rst       | 56 ++++++++++++++++-----------------
- docs/about/removed-features.rst | 28 ++++++++---------
- 2 files changed, 42 insertions(+), 42 deletions(-)
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index 6d438f1c8d..8d4fd384a5 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -107,8 +107,8 @@ the process listing. This is replaced by the new ``password-secret``
- option which lets the password be securely provided on the command
- line using a ``secret`` object instance.
- 
--``opened`` property of ``rng-*`` objects (since 6.0.0)
--''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+``opened`` property of ``rng-*`` objects (since 6.0)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
- The only effect of specifying ``opened=on`` in the command line or QMP
- ``object-add`` is that the device is opened immediately, possibly before all
-@@ -116,8 +116,8 @@ other options have been processed.  This will either have no effect (if
- ``opened`` was the last option) or cause errors.  The property is therefore
- useless and should not be specified.
- 
--``loaded`` property of ``secret`` and ``secret_keyring`` objects (since 6.0.0)
--''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+``loaded`` property of ``secret`` and ``secret_keyring`` objects (since 6.0)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
- The only effect of specifying ``loaded=on`` in the command line or QMP
- ``object-add`` is that the secret is loaded immediately, possibly before all
-@@ -142,33 +142,33 @@ should be used instead.
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
- 
--``blockdev-open-tray``, ``blockdev-close-tray`` argument ``device`` (since 2.8.0)
--'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+``blockdev-open-tray``, ``blockdev-close-tray`` argument ``device`` (since 2.8)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
- Use argument ``id`` instead.
- 
--``eject`` argument ``device`` (since 2.8.0)
--'''''''''''''''''''''''''''''''''''''''''''
-+``eject`` argument ``device`` (since 2.8)
-+'''''''''''''''''''''''''''''''''''''''''
- 
- Use argument ``id`` instead.
- 
--``blockdev-change-medium`` argument ``device`` (since 2.8.0)
--''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+``blockdev-change-medium`` argument ``device`` (since 2.8)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
- Use argument ``id`` instead.
- 
--``block_set_io_throttle`` argument ``device`` (since 2.8.0)
--'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+``block_set_io_throttle`` argument ``device`` (since 2.8)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
- Use argument ``id`` instead.
- 
--``blockdev-add`` empty string argument ``backing`` (since 2.10.0)
--'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+``blockdev-add`` empty string argument ``backing`` (since 2.10)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
- Use argument value ``null`` instead.
- 
--``block-commit`` arguments ``base`` and ``top`` (since 3.1.0)
--'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+``block-commit`` arguments ``base`` and ``top`` (since 3.1)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
- Use arguments ``base-node`` and ``top-node`` instead.
- 
-@@ -191,8 +191,8 @@ from Linux upstream kernel, declare it deprecated.
- System emulator CPUS
- --------------------
- 
--``Icelake-Client`` CPU Model (since 5.2.0)
--''''''''''''''''''''''''''''''''''''''''''
-+``Icelake-Client`` CPU Model (since 5.2)
-+''''''''''''''''''''''''''''''''''''''''
- 
- ``Icelake-Client`` CPU Models are deprecated. Use ``Icelake-Server`` CPU
- Models instead.
-@@ -245,8 +245,8 @@ Device options
- Emulated device options
- '''''''''''''''''''''''
- 
--``-device virtio-blk,scsi=on|off`` (since 5.0.0)
--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+``-device virtio-blk,scsi=on|off`` (since 5.0)
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
- The virtio-blk SCSI passthrough feature is a legacy VIRTIO feature.  VIRTIO 1.0
- and later do not support it because the virtio-scsi device was introduced for
-@@ -258,14 +258,14 @@ alias.
- Block device options
- ''''''''''''''''''''
- 
--``"backing": ""`` (since 2.12.0)
--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+``"backing": ""`` (since 2.12)
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
- In order to prevent QEMU from automatically opening an image's backing
- chain, use ``"backing": null`` instead.
- 
--``rbd`` keyvalue pair encoded filenames: ``""`` (since 3.1.0)
--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+``rbd`` keyvalue pair encoded filenames: ``""`` (since 3.1)
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 
- Options for ``rbd`` should be specified according to its runtime options,
- like other block drivers.  Legacy parsing of keyvalue pair encoded
-@@ -283,8 +283,8 @@ The above, converted to the current supported format::
- linux-user mode CPUs
- --------------------
- 
--``ppc64abi32`` CPUs (since 5.2.0)
--'''''''''''''''''''''''''''''''''
-+``ppc64abi32`` CPUs (since 5.2)
-+'''''''''''''''''''''''''''''''
- 
- The ``ppc64abi32`` architecture has a number of issues which regularly
- trip up our CI testing and is suspected to be quite broken. For that
-@@ -303,8 +303,8 @@ Related binaries
- Backwards compatibility
- -----------------------
- 
--Runnability guarantee of CPU models (since 4.1.0)
--'''''''''''''''''''''''''''''''''''''''''''''''''
-+Runnability guarantee of CPU models (since 4.1)
-+'''''''''''''''''''''''''''''''''''''''''''''''
- 
- Previous versions of QEMU never changed existing CPU models in
- ways that introduced additional host software or hardware
-diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-index 6a9c5bb484..1c926a8bc1 100644
---- a/docs/about/removed-features.rst
-+++ b/docs/about/removed-features.rst
-@@ -194,8 +194,8 @@ by the ``tls-authz`` and ``sasl-authz`` options.
- The ``pretty=on|off`` switch has no effect for HMP monitors and
- its use is rejected.
- 
--``-drive file=json:{...{'driver':'file'}}`` (removed 6.0)
--'''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+``-drive file=json:{...{'driver':'file'}}`` (removed in 6.0)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
- The 'file' driver for drives is no longer appropriate for character or host
- devices and will only accept regular files (S_IFREG). The correct driver
-@@ -272,8 +272,8 @@ for the RISC-V ``virt`` machine and ``sifive_u`` machine.
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
- 
--``block-dirty-bitmap-add`` "autoload" parameter (removed in 4.2.0)
--''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+``block-dirty-bitmap-add`` "autoload" parameter (removed in 4.2)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
- The "autoload" parameter has been ignored since 2.12.0. All bitmaps
- are automatically loaded from qcow2 images.
-@@ -456,15 +456,15 @@ Nobody was using this CPU emulation in QEMU, and there were no test images
- available to make sure that the code is still working, so it has been removed
- without replacement.
- 
--``lm32`` CPUs (removed in 6.1.0)
--''''''''''''''''''''''''''''''''
-+``lm32`` CPUs (removed in 6.1)
-+''''''''''''''''''''''''''''''
- 
- The only public user of this architecture was the milkymist project,
- which has been dead for years; there was never an upstream Linux
- port.  Removed without replacement.
- 
--``unicore32`` CPUs (since 6.1.0)
--''''''''''''''''''''''''''''''''
-+``unicore32`` CPUs (removed in 6.1)
-+'''''''''''''''''''''''''''''''''''
- 
- Support for this CPU was removed from the upstream Linux kernel, and
- there is no available upstream toolchain to build binaries for it.
-@@ -593,8 +593,8 @@ error when ``-u`` is not used.
- Command line options
- --------------------
- 
--``-smp`` (invalid topologies) (removed 5.2)
--'''''''''''''''''''''''''''''''''''''''''''
-+``-smp`` (invalid topologies) (removed in 5.2)
-+''''''''''''''''''''''''''''''''''''''''''''''
- 
- CPU topology properties should describe whole machine topology including
- possible CPUs.
-@@ -606,8 +606,8 @@ Support for invalid topologies is removed, the user must ensure
- topologies described with -smp include all possible cpus, i.e.
- *sockets* * *cores* * *threads* = *maxcpus*.
- 
--``-numa`` node (without memory specified) (removed 5.2)
--'''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+``-numa`` node (without memory specified) (removed in 5.2)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
- Splitting RAM by default between NUMA nodes had the same issues as ``mem``
- parameter with the difference that the role of the user plays QEMU using
-@@ -647,8 +647,8 @@ as ignored. Currently, users are responsible for making sure the backing storage
- specified with ``-mem-path`` can actually provide the guest RAM configured with
- ``-m`` and QEMU fails to start up if RAM allocation is unsuccessful.
- 
--``-machine enforce-config-section=on|off`` (removed 5.2)
--''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+``-machine enforce-config-section=on|off`` (removed in 5.2)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
- The ``enforce-config-section`` property was replaced by the
- ``-global migration.send-configuration={on|off}`` option.
--- 
-2.19.1
+Is it not possible to get a misaligned PC in the Thumb case ?
 
+>          dc->base.pc_next += 2;
+>          return;
+>      }
+
+-- PMM
 
