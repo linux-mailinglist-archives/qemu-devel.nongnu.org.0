@@ -2,60 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 164BD3F1914
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 14:22:01 +0200 (CEST)
-Received: from localhost ([::1]:54208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BCF43F1981
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 14:35:15 +0200 (CEST)
+Received: from localhost ([::1]:60760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGh3X-0005Io-NS
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 08:21:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58340)
+	id 1mGhGL-0002Xw-RP
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 08:35:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mGh2B-0004MZ-SP
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 08:20:35 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:3114)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mGh29-0004Zc-3b
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 08:20:35 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Gr3dx0HR7z8sXC;
- Thu, 19 Aug 2021 20:16:21 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 19 Aug 2021 20:20:24 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Thu, 19 Aug 2021 20:20:23 +0800
-Subject: Re: [PATCH v6 01/16] docs/about/removed-features: Remove duplicated
- doc about -smp
-To: Cornelia Huck <cohuck@redhat.com>, <qemu-devel@nongnu.org>
-References: <20210819031027.41104-1-wangyanan55@huawei.com>
- <20210819031027.41104-2-wangyanan55@huawei.com> <87czq9smjz.fsf@redhat.com>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <03e5979f-5524-01ff-461b-a13697b662c7@huawei.com>
-Date: Thu, 19 Aug 2021 20:20:23 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mGhE0-0001Ys-Cp
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 08:32:48 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:41650)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mGhDy-0003El-Od
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 08:32:48 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id d11so12552938eja.8
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 05:32:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PdEqVwiOUrR2OxTB7UVLjUUjHayH7DXX5FSPQbzbmk0=;
+ b=Hqm5nt/Av0YMgRwQbj/nC3b/U3CwjvWgnJ621IxW03oUPt5gw14Q6o8Ou4wbwZcLHR
+ zy3UN/GKxCn12ttOyInzrfFiUKN7Ltw2vdTRlRaTxkDAu53oSxxRUeZ3/RqysBfIiHYL
+ Os51MWVbhAQU2yvzqGAZNkLKPVUpQozsh9RQtEJy2AwfVEh6fKXJOj9A9oMWWc++/ySJ
+ hRpQfUBg1CXXd4ZclTSHgEUnFJ/NN+XC89defBGpTwXetF8G1koAq14KWhaqKSrXKI+K
+ 5iuQUWXqfb+m08u6M4jq9ejCrzsWjZREFWMfdnItd0JIYdnIpaNGOJeBEFNWpbn/7wSv
+ 5HFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PdEqVwiOUrR2OxTB7UVLjUUjHayH7DXX5FSPQbzbmk0=;
+ b=YGB7EpYJ4H4Sh+SbPralo3cjd2q0BTX7Jw8jUIxRvrgFJzycUrW+YsZiJfSNXYGUm5
+ 0FTuHj8tQAauZ43v+XyLdT9fo0PV1REJiM8bl/czrV0A9kyK1wfGEqDzJkOzknfRAVEM
+ fnt1f3mqUbGW6QA9GRv9FRGg7RMkQHX35/3hCUv6IATUpWu8DjmOWCA0Vjm+1TUchiLp
+ l/6YFl+juhaGPf392utt4l0rtuUbZmSkv1SjKtf6BYZIOzlEmu3uy293sCTINGtc8c8B
+ 465a8speL6BintoYDLi42yagjoyss4hKJgJeMxUhIuVxIOsXnaXgb6+31JS4JUIMb3l7
+ 4dbA==
+X-Gm-Message-State: AOAM532SZZmAORr0MjIe19F8VQS/PaQUpm+7wWVuhKlYecGl3v50saVJ
+ d6Gd/44I611MrSk5K6JE1mNrE7TzLDfd2348NJsF+Q==
+X-Google-Smtp-Source: ABdhPJw8hZdWw22rX9D5fbfAy2jr5g7ix3cbpq4fL7SwFatbBnCf2cyldidnH/8WVIjn9k5So3JTX80rFrNSqie5wzA=
+X-Received: by 2002:a17:906:a108:: with SMTP id
+ t8mr15420135ejy.407.1629376365013; 
+ Thu, 19 Aug 2021 05:32:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87czq9smjz.fsf@redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme711-chm.china.huawei.com (10.1.199.107) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -67
-X-Spam_score: -6.8
-X-Spam_bar: ------
-X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.591,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <4C23C17B8E87E74E906A25A3254A03F4FA1FEC31@SHASXM03.verisilicon.com>
+In-Reply-To: <4C23C17B8E87E74E906A25A3254A03F4FA1FEC31@SHASXM03.verisilicon.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 19 Aug 2021 13:31:58 +0100
+Message-ID: <CAFEAcA8pWb4v-ZhaY27k3vGmMnUZ_o1eEHpvQDSMBq=JUGZ0xQ@mail.gmail.com>
+Subject: Re: [PATCH v5] hw/dma/pl330: Add memory region to replace default
+To: "Wen, Jianxian" <Jianxian.Wen@verisilicon.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,93 +77,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- Halil Pasic <pasic@linux.ibm.com>, wanghaibin.wang@huawei.com,
- Thomas Huth <thuth@redhat.com>, Paolo
- Bonzini <pbonzini@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
+Cc: "Liu, Renwei" <Renwei.Liu@verisilicon.com>, "Li,
+ Chunming" <Chunming.Li@verisilicon.com>,
+ "i.mitsyanko@gmail.com" <i.mitsyanko@gmail.com>,
+ "alistair@alistair23.me" <alistair@alistair23.me>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "edgar.iglesias@gmail.com" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2021/8/19 19:26, Cornelia Huck wrote:
-> On Thu, Aug 19 2021, Yanan Wang <wangyanan55@huawei.com> wrote:
+On Wed, 18 Aug 2021 at 11:17, Wen, Jianxian
+<Jianxian.Wen@verisilicon.com> wrote:
 >
->> There are two places describing the same thing about deprecation
->> of invalid topologies of -smp CLI, so remove the duplicated one.
->>
->> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
->> ---
->>   docs/about/removed-features.rst | 21 ++++-----------------
->>   1 file changed, 4 insertions(+), 17 deletions(-)
->>
->> diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
->> index cbfa1a8e31..f5d6e2ea9c 100644
->> --- a/docs/about/removed-features.rst
->> +++ b/docs/about/removed-features.rst
->> @@ -194,7 +194,7 @@ by the ``tls-authz`` and ``sasl-authz`` options.
->>   The ``pretty=on|off`` switch has no effect for HMP monitors and
->>   its use is rejected.
->>   
->> -``-drive file=json:{...{'driver':'file'}}`` (removed 6.0)
->> +``-drive file=json:{...{'driver':'file'}}`` (removed in 6.0)
-> I would not change this in this patch; while the cleanup looks fine,
-> there are some more instances and also e.g. things like x.y.z being used
-> sometimes, and it's probably better to clean that up via a separated patch.
-Yes, I did notice that format (x.y,z) but didn't modify them...
-I will make a separate patch only for subject format clean-up and
-keep the duplicated text removal in another one.
->>   '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
->>   
->>   The 'file' driver for drives is no longer appropriate for character or host
->> @@ -593,7 +593,7 @@ error when ``-u`` is not used.
->>   Command line options
->>   --------------------
->>   
->> -``-smp`` (invalid topologies) (removed 5.2)
->> +``-smp`` (invalid topologies) (removed in 5.2)
->>   '''''''''''''''''''''''''''''''''''''''''''
->>   
->>   CPU topology properties should describe whole machine topology including
->> @@ -606,7 +606,7 @@ Support for invalid topologies is removed, the user must ensure
->>   topologies described with -smp include all possible cpus, i.e.
->>   *sockets* * *cores* * *threads* = *maxcpus*.
->>   
->> -``-numa`` node (without memory specified) (removed 5.2)
->> +``-numa`` node (without memory specified) (removed in 5.2)
->>   '''''''''''''''''''''''''''''''''''''''''''''''''''''''
->>   
->>   Splitting RAM by default between NUMA nodes had the same issues as ``mem``
->> @@ -647,20 +647,7 @@ as ignored. Currently, users are responsible for making sure the backing storage
->>   specified with ``-mem-path`` can actually provide the guest RAM configured with
->>   ``-m`` and QEMU fails to start up if RAM allocation is unsuccessful.
->>   
->> -``-smp`` (invalid topologies) (removed 5.2)
->> -'''''''''''''''''''''''''''''''''''''''''''
->> -
->> -CPU topology properties should describe whole machine topology including
->> -possible CPUs.
->> -
->> -However, historically it was possible to start QEMU with an incorrect topology
->> -where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
->> -which could lead to an incorrect topology enumeration by the guest.
->> -Support for invalid topologies is removed, the user must ensure
->> -topologies described with -smp include all possible cpus, i.e.
->> -*sockets* * *cores* * *threads* = *maxcpus*.
-> Actually removing the duplicated section looks fine.
-Thanks,
-Yanan
-.
->> -
->> -``-machine enforce-config-section=on|off`` (removed 5.2)
->> +``-machine enforce-config-section=on|off`` (removed in 5.2)
->>   ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
->>   
->>   The ``enforce-config-section`` property was replaced by the
-> .
+> Add property memory region which can connect with IOMMU region to support SMMU translate.
+>
+> Signed-off-by: Jianxian Wen <jianxian.wen@verisilicon.com>
+> ---
 
+
+
+Applied to target-arm.next for 6.2, thanks.
+
+-- PMM
 
