@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD6AB3F1AE9
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 15:50:20 +0200 (CEST)
-Received: from localhost ([::1]:34846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 760523F1AEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 15:52:24 +0200 (CEST)
+Received: from localhost ([::1]:37178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGiR2-0005hb-0T
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 09:50:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46102)
+	id 1mGiT1-0007NC-Ix
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 09:52:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mGiPu-0004oF-Jj
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:49:12 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:43999)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mGiPs-0003XG-7i
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:49:10 -0400
-Received: by mail-ed1-x529.google.com with SMTP id v2so8955052edq.10
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 06:49:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dMZLYIOfpnKXXXNu876DaFZq6/F+WJ79ngg4WXo5gsw=;
- b=CSVuo4A7GU4n5I8gHHaFYibOt9JbsR65IBBFNlsWC4p+vONjkOd/uM7mD1XuAVWIS7
- HiE40/ToaUghjIZF06e5RaSes/m/RwunVfhyiJg+Hu4uMk+QRHGZDfVAPUr/66tq/MIY
- JYxJcF1/5mtGUIvb8UU+0SQiIHqwDUN2ltq5WwwQrCOt9C8yuTBXTFapFEmpn3Pp7kqC
- O2ypLMIBsImIWNtyV6IM/VBuCjZSjnMvf6Oh6aT6K98bOnA7dHgn6yD9oHPC53YBSZQN
- ORX9H3uXtNN7IYdyEjdDR2nvz14fDWCIdI7hAyBjBXhHrZ+CkbyicgoYUoHNtYQl9ezQ
- 9jng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dMZLYIOfpnKXXXNu876DaFZq6/F+WJ79ngg4WXo5gsw=;
- b=HcjRu66sLSbZCM/K+8Fw0ghAakz/t2bC6M7wySHn8pGnY+s/FfIDIFty37hpqP6JGZ
- dr3ONowTJatIaCoIwKXyBvyz5K5bTFpZguRqYC/UsJEPw/1j+bXI0doeqZemho+1WSO7
- 9fbhQoUYJSRfPNyWpWs0FF/5pd6NnG38HkxCV6Sd+MRQFzA4Gpq03Usfur1ZgrmoOWbJ
- +cDl4X7VvNlPl9Ol8tpZQInYFMgGZDGeXTfacWdLP5ZFlzxy3A5pDFr4fCke0/ba/leN
- V1RMbcuL+ePcRVuJJJ/n964T6cUL9P+uk7rfe//mqXbR3+4BGvh5egY3gLJAmJ3T6OlQ
- X6/A==
-X-Gm-Message-State: AOAM530LQL4Xgx/HnBdsOgznJYA6AQmF9I9nnyL8eFEao2eJnWXCa+BU
- Mb3drmUT/b71EpyAGWbQ08n8FkDQLVLJVJnCMI/mtw==
-X-Google-Smtp-Source: ABdhPJzij5sJasaawMXv2Tny/FIx12Kq+PXdjeNGyLp9Y00W8WgVWRTle3gpg0a4XcSVixakvxYJyvSvo6gMZ7w2skQ=
-X-Received: by 2002:aa7:c0c6:: with SMTP id j6mr5217640edp.146.1629380942565; 
- Thu, 19 Aug 2021 06:49:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mGiRJ-0006cP-Gq
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:50:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48437)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mGiRG-0004tZ-MA
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:50:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629381032;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LIpi9Y77nNfaDyv+BVh4TqnotHBEYZmRf5dLJBUrE6Y=;
+ b=GKIbkDq6xzDNOOeqoVa9bhR7LReKsNf4PDftYHZ4wVHtd1FqUD76iP5W/Ta6RLwvhZkAtZ
+ ZtgIL1Vc+7Zyu1zbjKGKb6mq+ryK6sTNMQFvKw3PaW7yqfEJ9cMrqoPqygVGtHuHu2CO6E
+ lnZmmpc3KH7ZALv/hx3+hdlkg0nszy4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-49-cF5fd92SPsae4jr_L8Rl5A-1; Thu, 19 Aug 2021 09:50:29 -0400
+X-MC-Unique: cF5fd92SPsae4jr_L8Rl5A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A770C73A4;
+ Thu, 19 Aug 2021 13:50:27 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.140])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0403E60938;
+ Thu, 19 Aug 2021 13:50:22 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH,updated 1/2] docs/about/removed-features: Remove
+ duplicated doc about -smp
+In-Reply-To: <20210819133927.45540-1-wangyanan55@huawei.com>
+Organization: Red Hat GmbH
+References: <20210819031027.41104-2-wangyanan55@huawei.com>
+ <20210819133927.45540-1-wangyanan55@huawei.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Thu, 19 Aug 2021 15:50:21 +0200
+Message-ID: <875yw1sfvm.fsf@redhat.com>
 MIME-Version: 1.0
-References: <20210818010041.337010-1-richard.henderson@linaro.org>
- <20210818010041.337010-5-richard.henderson@linaro.org>
-In-Reply-To: <20210818010041.337010-5-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Aug 2021 14:48:16 +0100
-Message-ID: <CAFEAcA_fSTRTxDaU21HySQk7MoQjKZTRdE=Sqg6KZb86FQf2=Q@mail.gmail.com>
-Subject: Re: [PATCH 4/4] target/arm: Suppress bp for exceptions with more
- priority
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,34 +78,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>, wanghaibin.wang@huawei.com,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Aug 2021 at 02:01, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Thu, Aug 19 2021, Yanan Wang <wangyanan55@huawei.com> wrote:
+
+> There are two places describing the same thing about deprecation
+> of invalid topologies of -smp CLI, so remove the duplicated one.
 >
-> Both single-step and pc alignment faults have priority over
-> breakpoint exceptions.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 > ---
->  target/arm/debug_helper.c | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
-> +
-> +    /*
-> +     * PC alignment faults have priority over breakpoint exceptions.
-> +     */
-> +    pc = is_a64(env) ? env->pc : env->regs[15];
-> +    if ((is_a64(env) || !env->thumb) && (pc & 3) != 0) {
-> +        return false;
-> +    }
+>  docs/about/removed-features.rst | 13 -------------
+>  1 file changed, 13 deletions(-)
 
-Other than the obvious adjustment if we need to handle
-env->thumb && (pc & 1)
+I think we can merge this independently of the main series.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
-thanks
--- PMM
 
