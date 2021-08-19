@@ -2,60 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A7C93F1323
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 08:15:19 +0200 (CEST)
-Received: from localhost ([::1]:47752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 076953F1332
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 08:17:51 +0200 (CEST)
+Received: from localhost ([::1]:51244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGbKg-0004xG-Ek
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 02:15:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35844)
+	id 1mGbN8-0007PA-4e
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 02:17:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mGbJR-00031C-Eo; Thu, 19 Aug 2021 02:14:01 -0400
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:36449)
+ id 1mGbLY-0006hc-Aa
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 02:16:12 -0400
+Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:45819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mGbJP-0001n5-HQ; Thu, 19 Aug 2021 02:14:01 -0400
-Received: by mail-io1-xd35.google.com with SMTP id f11so6251981ioj.3;
- Wed, 18 Aug 2021 23:13:58 -0700 (PDT)
+ id 1mGbLW-0003hr-8k
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 02:16:12 -0400
+Received: by mail-io1-xd2f.google.com with SMTP id e186so6194850iof.12
+ for <qemu-devel@nongnu.org>; Wed, 18 Aug 2021 23:16:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hau+lDTq9Vb9TyOnVnIceEZbFlNptP4zxXLpB8kHO3I=;
- b=C+xA5UmbGF4UtYT3zBcOIEN2SxMWjm/PKCnqnMt2g+S6dDR6uuWG9uETKBgQrThB03
- VQCBaexJU5bdNSyq1AxaM/tFvpTfWDOUOXMWkKe9vcj2g0siw36JBnQhfYNzQ3LLtBEK
- Wl5gpFXmFjTzLq867CO9XI/hthER86dl6n+vohILItMg7VNp9fGEejljpjcynaamST91
- NpAATLV4B9SqzFzFKG9agtlZxHfXRAABYSGkrb3NKgcHi/lgZIIDOvISD6xpvKoTC17P
- 8mdmFeJxYvJsUUBlqQrCUOOqLl0I5epfnIgzD/Nv917qeSLR26xmig7AgwNkqwieV+hS
- z5Lw==
+ :cc:content-transfer-encoding;
+ bh=qNlWzCplYVP7mP6Dd8mUFyxtUExhgdSfM/5bYxM7i+Q=;
+ b=eLS6bsZBh2puYoSrJHtar+ZYohIWWe3R5svEoy5yNhyxDKkGm6Mvuz+lyFwIC+07YB
+ xbu+MCgsvhJw5uXLCGLRA9yKTbKDibW0+4MRhCNn8a/3eXIbJCE2/IIQb64+4NqSMg9g
+ LvMVHVII9bJfsLxd56MTZD2OPX0JMFkwmkyVGEQNSwEwB6hOUiVCTQA69GRtn+t9Qtuz
+ HuHRQWXn8MHcyKoZDOmJMwEjdMzccQtSXGO9CFHfRKpBMO57WHK+fKLZ/kRDfWM0uCIJ
+ +WFQRO/awkXP1rSHXRgGJ5JailI2fD1811Y92p0xFxjjyeUn2Eg7aCOtS7aHVn+fHLfc
+ LOlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hau+lDTq9Vb9TyOnVnIceEZbFlNptP4zxXLpB8kHO3I=;
- b=Hrq14b7UIWjycHi6xLu5j9kqP1rIa1TUx9mQvAGt5gU/2jCVG/OHselBv6soDfCxlj
- W9xno+w7evLfczVlNP/G3Vf78cwKn0pXOOHdBUf36haXkbn4Uiva8WZs2iTA+f1RJfIR
- HdscYrY5TwauGLywoEAcZG1cFpPzDSb9uQsIRedPlDTikVnvzlrHKOpoAUCjpVS1X/EH
- dKruZu1Zn+lGJ1ugkjdr9z6M6UDtHGW95K9sZBRyN60LHTXB6L/DgJpdLkohBYiwl6OT
- HAwG+P2vTLf4gn8+HUX+W7ZqmG9Pacx9XUdw57oZ+hbVm6Chgnan86//Ggq4fz0Z+oDY
- Bs6A==
-X-Gm-Message-State: AOAM531oqC9kEP8tinbQFV5F6CCOggmq/jyjCETba7uSxG5LxczOLg9r
- nudniu09vsn/wOzMC/X+pIlSeX5A3j7nn0ZeRtw=
-X-Google-Smtp-Source: ABdhPJziOzMst9AmuYG2afBE04QJKvczKncxVwPpgTJJdW1cCQh7eLl9vKVNIMOJb56juc54WB/Knn+YTqv9vc88xAc=
-X-Received: by 2002:a5d:8541:: with SMTP id b1mr10193893ios.105.1629353637845; 
- Wed, 18 Aug 2021 23:13:57 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=qNlWzCplYVP7mP6Dd8mUFyxtUExhgdSfM/5bYxM7i+Q=;
+ b=gKNJn2Om4YaDmgOrzApXOVg03KmUhLOzMJAlzd7YQ24zu1olQn2iqQovEsX/1twHkB
+ PlWL0xEmH7R3bA2v5FIJYG+NHoEJHCqSIPMhTuVBGfADU72ViBcAzGz29pbFHv1LENhp
+ ONl5CRThzFOqi/ZX7siTsC3O7CAtCgsyOZjOAuOLW898zADBgD0pjhsxH+YoMzZxqITC
+ t5IGqawgwN1cWihTUzVIRknGrm5Dos9nyLh6xU/+0T9BijD7edEjugkilSgk3MUFewtX
+ YcGUDWS0QC92lJww1Ek/J2IsI/ojSGZ94p2HZIPyQ2oGYAzrdtKTy3uA6K1OJIVM65qD
+ 5lYQ==
+X-Gm-Message-State: AOAM531+O+WOdwNUGdUx/trZHITeNAi0qpZkfvWCOhAMhiLk5Bo5s9O8
+ ooOs67uu2BwE/zqx/SHAPDjiFEBEuvZ9x6f4giM=
+X-Google-Smtp-Source: ABdhPJws/uakHFNfbkrUidxVey5mo2g0Qf970HWtPtjfz1JeEHqIfQEbq3jIOAkAQ4P61kCW4Z0afmcnySBnPt9bvi8=
+X-Received: by 2002:a6b:490d:: with SMTP id u13mr10385239iob.176.1629353768986; 
+ Wed, 18 Aug 2021 23:16:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210817032447.2055-1-jiangyifei@huawei.com>
- <20210817032447.2055-9-jiangyifei@huawei.com>
-In-Reply-To: <20210817032447.2055-9-jiangyifei@huawei.com>
+References: <20210818191920.390759-1-richard.henderson@linaro.org>
+ <20210818191920.390759-3-richard.henderson@linaro.org>
+In-Reply-To: <20210818191920.390759-3-richard.henderson@linaro.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 19 Aug 2021 16:13:31 +1000
-Message-ID: <CAKmqyKOm6fxqzScq74hS1NS2=K786MX-oCEA8fG+xOrQi+LQOQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v6 08/12] target/riscv: Handle KVM_EXIT_RISCV_SBI exit
-To: Yifei Jiang <jiangyifei@huawei.com>
+Date: Thu, 19 Aug 2021 16:15:42 +1000
+Message-ID: <CAKmqyKNEVf84gV1ryrSVDaMuGZZCXTNq6pGszDuQkQ3y9o74SQ@mail.gmail.com>
+Subject: Re: [PATCH v3 02/66] hw/core: Make do_unaligned_access noreturn
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2f.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -76,177 +80,251 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anup Patel <anup.patel@wdc.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "open list:Overall" <kvm@vger.kernel.org>,
- "limingwang \(A\)" <limingwang@huawei.com>, libvir-list@redhat.com,
- Bin Meng <bin.meng@windriver.com>,
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>, kvm-riscv@lists.infradead.org,
- wanghaibin.wang@huawei.com, fanliang@huawei.com,
- Palmer Dabbelt <palmer@dabbelt.com>, "Wubin \(H\)" <wu.wubin@huawei.com>
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 17, 2021 at 1:25 PM Yifei Jiang <jiangyifei@huawei.com> wrote:
+On Thu, Aug 19, 2021 at 5:23 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Use char-fe to handle console sbi call, which implement early
-> console io while apply 'earlycon=sbi' into kernel parameters.
+> While we may have had some thought of allowing system-mode
+> to return from this hook, we have no guests that require this.
 >
-> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-> Signed-off-by: Mingwang Li <limingwang@huawei.com>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->  target/riscv/kvm.c                 | 42 ++++++++++++++++-
->  target/riscv/sbi_ecall_interface.h | 72 ++++++++++++++++++++++++++++++
->  2 files changed, 113 insertions(+), 1 deletion(-)
->  create mode 100644 target/riscv/sbi_ecall_interface.h
+>  include/hw/core/tcg-cpu-ops.h  | 3 ++-
+>  target/alpha/cpu.h             | 4 ++--
+>  target/arm/internals.h         | 2 +-
+>  target/microblaze/cpu.h        | 2 +-
+>  target/mips/tcg/tcg-internal.h | 4 ++--
+>  target/nios2/cpu.h             | 4 ++--
+>  target/ppc/internal.h          | 4 ++--
+>  target/riscv/cpu.h             | 2 +-
+>  target/s390x/s390x-internal.h  | 4 ++--
+>  target/sh4/cpu.h               | 4 ++--
+>  target/xtensa/cpu.h            | 4 ++--
+>  target/hppa/cpu.c              | 7 ++++---
+>  12 files changed, 23 insertions(+), 21 deletions(-)
 >
-> diff --git a/target/riscv/kvm.c b/target/riscv/kvm.c
-> index bc9cb5d8f9..a68f31c2f3 100644
-> --- a/target/riscv/kvm.c
-> +++ b/target/riscv/kvm.c
-> @@ -38,6 +38,8 @@
->  #include "qemu/log.h"
->  #include "hw/loader.h"
->  #include "kvm_riscv.h"
-> +#include "sbi_ecall_interface.h"
-> +#include "chardev/char-fe.h"
+> diff --git a/include/hw/core/tcg-cpu-ops.h b/include/hw/core/tcg-cpu-ops.=
+h
+> index eab27d0c03..ee0795def4 100644
+> --- a/include/hw/core/tcg-cpu-ops.h
+> +++ b/include/hw/core/tcg-cpu-ops.h
+> @@ -72,10 +72,11 @@ struct TCGCPUOps {
+>                                    MemTxResult response, uintptr_t retadd=
+r);
+>      /**
+>       * @do_unaligned_access: Callback for unaligned access handling
+> +     * The callback must exit via raising an exception.
+>       */
+>      void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
+>                                  MMUAccessType access_type,
+> -                                int mmu_idx, uintptr_t retaddr);
+> +                                int mmu_idx, uintptr_t retaddr) QEMU_NOR=
+ETURN;
 >
->  static uint64_t kvm_riscv_reg_id(CPURISCVState *env, uint64_t type, uint64_t idx)
->  {
-> @@ -435,9 +437,47 @@ bool kvm_arch_stop_on_emulation_error(CPUState *cs)
->      return true;
+>      /**
+>       * @adjust_watchpoint_address: hack for cpu_check_watchpoint used by=
+ ARM
+> diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
+> index 82df108967..6eb3fcc63e 100644
+> --- a/target/alpha/cpu.h
+> +++ b/target/alpha/cpu.h
+> @@ -283,8 +283,8 @@ hwaddr alpha_cpu_get_phys_page_debug(CPUState *cpu, v=
+addr addr);
+>  int alpha_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg)=
+;
+>  int alpha_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+>  void alpha_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+> -                                   MMUAccessType access_type,
+> -                                   int mmu_idx, uintptr_t retaddr);
+> +                                   MMUAccessType access_type, int mmu_id=
+x,
+> +                                   uintptr_t retaddr) QEMU_NORETURN;
+>
+>  #define cpu_list alpha_cpu_list
+>  #define cpu_signal_handler cpu_alpha_signal_handler
+> diff --git a/target/arm/internals.h b/target/arm/internals.h
+> index cd2ea8a388..8a77929793 100644
+> --- a/target/arm/internals.h
+> +++ b/target/arm/internals.h
+> @@ -594,7 +594,7 @@ bool arm_s1_regime_using_lpae_format(CPUARMState *env=
+, ARMMMUIdx mmu_idx);
+>  /* Raise a data fault alignment exception for the specified virtual addr=
+ess */
+>  void arm_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+>                                   MMUAccessType access_type,
+> -                                 int mmu_idx, uintptr_t retaddr);
+> +                                 int mmu_idx, uintptr_t retaddr) QEMU_NO=
+RETURN;
+>
+>  /* arm_cpu_do_transaction_failed: handle a memory system error response
+>   * (eg "no device/memory present at address") by raising an external abo=
+rt
+> diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
+> index e4bba8a755..620c3742e1 100644
+> --- a/target/microblaze/cpu.h
+> +++ b/target/microblaze/cpu.h
+> @@ -359,7 +359,7 @@ void mb_cpu_do_interrupt(CPUState *cs);
+>  bool mb_cpu_exec_interrupt(CPUState *cs, int int_req);
+>  void mb_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
+>                                  MMUAccessType access_type,
+> -                                int mmu_idx, uintptr_t retaddr);
+> +                                int mmu_idx, uintptr_t retaddr) QEMU_NOR=
+ETURN;
+>  void mb_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+>  hwaddr mb_cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
+>                                          MemTxAttrs *attrs);
+> diff --git a/target/mips/tcg/tcg-internal.h b/target/mips/tcg/tcg-interna=
+l.h
+> index 81b14eb219..7ac1e578d1 100644
+> --- a/target/mips/tcg/tcg-internal.h
+> +++ b/target/mips/tcg/tcg-internal.h
+> @@ -24,8 +24,8 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int=
+ size,
+>                         MMUAccessType access_type, int mmu_idx,
+>                         bool probe, uintptr_t retaddr);
+>  void mips_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+> -                                  MMUAccessType access_type,
+> -                                  int mmu_idx, uintptr_t retaddr);
+> +                                  MMUAccessType access_type, int mmu_idx=
+,
+> +                                  uintptr_t retaddr) QEMU_NORETURN;
+>
+>  const char *mips_exception_name(int32_t exception);
+>
+> diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+> index 2ab82fdc71..27227b1e88 100644
+> --- a/target/nios2/cpu.h
+> +++ b/target/nios2/cpu.h
+> @@ -198,8 +198,8 @@ void dump_mmu(CPUNios2State *env);
+>  void nios2_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+>  hwaddr nios2_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+>  void nios2_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+> -                                   MMUAccessType access_type,
+> -                                   int mmu_idx, uintptr_t retaddr);
+> +                                   MMUAccessType access_type, int mmu_id=
+x,
+> +                                   uintptr_t retaddr) QEMU_NORETURN;
+>
+>  void do_nios2_semihosting(CPUNios2State *env);
+>
+> diff --git a/target/ppc/internal.h b/target/ppc/internal.h
+> index f1fd3c8d04..d2163bf5a2 100644
+> --- a/target/ppc/internal.h
+> +++ b/target/ppc/internal.h
+> @@ -213,8 +213,8 @@ void helper_compute_fprf_float128(CPUPPCState *env, f=
+loat128 arg);
+>
+>  /* Raise a data fault alignment exception for the specified virtual addr=
+ess */
+>  void ppc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+> -                                 MMUAccessType access_type,
+> -                                 int mmu_idx, uintptr_t retaddr);
+> +                                 MMUAccessType access_type, int mmu_idx,
+> +                                 uintptr_t retaddr) QEMU_NORETURN;
+>
+>  /* translate.c */
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index bf1c899c00..a5b0047bfd 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -345,7 +345,7 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifet=
+ch);
+>  hwaddr riscv_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+>  void  riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+>                                      MMUAccessType access_type, int mmu_i=
+dx,
+> -                                    uintptr_t retaddr);
+> +                                    uintptr_t retaddr) QEMU_NORETURN;
+>  bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>                          MMUAccessType access_type, int mmu_idx,
+>                          bool probe, uintptr_t retaddr);
+> diff --git a/target/s390x/s390x-internal.h b/target/s390x/s390x-internal.=
+h
+> index 5506f185e8..96133ac2b6 100644
+> --- a/target/s390x/s390x-internal.h
+> +++ b/target/s390x/s390x-internal.h
+> @@ -274,8 +274,8 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, i=
+nt size,
+>                         MMUAccessType access_type, int mmu_idx,
+>                         bool probe, uintptr_t retaddr);
+>  void s390x_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+> -                                   MMUAccessType access_type,
+> -                                   int mmu_idx, uintptr_t retaddr);
+> +                                   MMUAccessType access_type, int mmu_id=
+x,
+> +                                   uintptr_t retaddr) QEMU_NORETURN;
+>
+>
+>  /* fpu_helper.c */
+> diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
+> index 01c4344082..a9191951f8 100644
+> --- a/target/sh4/cpu.h
+> +++ b/target/sh4/cpu.h
+> @@ -211,8 +211,8 @@ hwaddr superh_cpu_get_phys_page_debug(CPUState *cpu, =
+vaddr addr);
+>  int superh_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg=
+);
+>  int superh_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+>  void superh_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+> -                                    MMUAccessType access_type,
+> -                                    int mmu_idx, uintptr_t retaddr);
+> +                                    MMUAccessType access_type, int mmu_i=
+dx,
+> +                                    uintptr_t retaddr) QEMU_NORETURN;
+>
+>  void sh4_translate_init(void);
+>  int cpu_sh4_signal_handler(int host_signum, void *pinfo,
+> diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
+> index 2345cb59c7..aa9c77d719 100644
+> --- a/target/xtensa/cpu.h
+> +++ b/target/xtensa/cpu.h
+> @@ -579,8 +579,8 @@ void xtensa_count_regs(const XtensaConfig *config,
+>  int xtensa_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg=
+);
+>  int xtensa_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+>  void xtensa_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
+> -                                    MMUAccessType access_type,
+> -                                    int mmu_idx, uintptr_t retaddr);
+> +                                    MMUAccessType access_type, int mmu_i=
+dx,
+> +                                    uintptr_t retaddr) QEMU_NORETURN;
+>
+>  #define cpu_signal_handler cpu_xtensa_signal_handler
+>  #define cpu_list xtensa_cpu_list
+> diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
+> index 2eace4ee12..c2c56e7635 100644
+> --- a/target/hppa/cpu.c
+> +++ b/target/hppa/cpu.c
+> @@ -72,9 +72,10 @@ static void hppa_cpu_disas_set_info(CPUState *cs, disa=
+ssemble_info *info)
 >  }
 >
-> +static int kvm_riscv_handle_sbi(struct kvm_run *run)
-> +{
-> +    int ret = 0;
-> +    unsigned char ch;
-> +    switch (run->riscv_sbi.extension_id) {
-> +    case SBI_EXT_0_1_CONSOLE_PUTCHAR:
-> +        ch = run->riscv_sbi.args[0];
-> +        qemu_chr_fe_write(serial_hd(0)->be, &ch, sizeof(ch));
-> +        break;
-> +    case SBI_EXT_0_1_CONSOLE_GETCHAR:
-> +        ret = qemu_chr_fe_read_all(serial_hd(0)->be, &ch, sizeof(ch));
-> +        if (ret == sizeof(ch)) {
-> +            run->riscv_sbi.args[0] = ch;
-> +        } else {
-> +            run->riscv_sbi.args[0] = -1;
-> +        }
-> +        break;
-
-These have been deprecated (see
-https://github.com/riscv/riscv-sbi-doc/blob/master/riscv-sbi.adoc#4-legacy-extensions-eids-0x00---0x0f),
-is it even worth supporting them?
-
-> +    default:
-> +        qemu_log_mask(LOG_UNIMP,
-> +                      "%s: un-handled SBI EXIT, specific reasons is %lu\n",
-> +                      __func__, run->riscv_sbi.extension_id);
-> +        ret = -1;
-> +        break;
-> +    }
-> +    return ret;
-> +}
-> +
->  int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>  #ifndef CONFIG_USER_ONLY
+> -static void hppa_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+> -                                         MMUAccessType access_type,
+> -                                         int mmu_idx, uintptr_t retaddr)
+> +static void QEMU_NORETURN
+> +hppa_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+> +                             MMUAccessType access_type, int mmu_idx,
+> +                             uintptr_t retaddr)
 >  {
-> -    return 0;
-> +    int ret = 0;
-> +    switch (run->exit_reason) {
-> +    case KVM_EXIT_RISCV_SBI:
-> +        ret = kvm_riscv_handle_sbi(run);
-> +        break;
-> +    default:
-> +        qemu_log_mask(LOG_UNIMP, "%s: un-handled exit reason %d\n",
-> +                      __func__, run->exit_reason);
-> +        ret = -1;
-> +        break;
-> +    }
-> +    return ret;
->  }
->
->  void kvm_riscv_reset_vcpu(RISCVCPU *cpu)
-> diff --git a/target/riscv/sbi_ecall_interface.h b/target/riscv/sbi_ecall_interface.h
-> new file mode 100644
-> index 0000000000..fb1a3fa8f2
-> --- /dev/null
-> +++ b/target/riscv/sbi_ecall_interface.h
-> @@ -0,0 +1,72 @@
-> +/*
-> + * SPDX-License-Identifier: BSD-2-Clause
-> + *
-> + * Copyright (c) 2019 Western Digital Corporation or its affiliates.
-> + *
-> + * Authors:
-> + *   Anup Patel <anup.patel@wdc.com>
-> + */
-> +
-> +#ifndef __SBI_ECALL_INTERFACE_H__
-> +#define __SBI_ECALL_INTERFACE_H__
-> +
-> +/* clang-format off */
-> +
-> +/* SBI Extension IDs */
-> +#define SBI_EXT_0_1_SET_TIMER           0x0
-> +#define SBI_EXT_0_1_CONSOLE_PUTCHAR     0x1
-> +#define SBI_EXT_0_1_CONSOLE_GETCHAR     0x2
-> +#define SBI_EXT_0_1_CLEAR_IPI           0x3
-> +#define SBI_EXT_0_1_SEND_IPI            0x4
-> +#define SBI_EXT_0_1_REMOTE_FENCE_I      0x5
-> +#define SBI_EXT_0_1_REMOTE_SFENCE_VMA   0x6
-> +#define SBI_EXT_0_1_REMOTE_SFENCE_VMA_ASID 0x7
-> +#define SBI_EXT_0_1_SHUTDOWN            0x8
-> +#define SBI_EXT_BASE                    0x10
-> +#define SBI_EXT_TIME                    0x54494D45
-> +#define SBI_EXT_IPI                     0x735049
-> +#define SBI_EXT_RFENCE                  0x52464E43
-> +#define SBI_EXT_HSM                     0x48534D
-> +
-> +/* SBI function IDs for BASE extension*/
-> +#define SBI_EXT_BASE_GET_SPEC_VERSION   0x0
-> +#define SBI_EXT_BASE_GET_IMP_ID         0x1
-> +#define SBI_EXT_BASE_GET_IMP_VERSION    0x2
-> +#define SBI_EXT_BASE_PROBE_EXT          0x3
-> +#define SBI_EXT_BASE_GET_MVENDORID      0x4
-> +#define SBI_EXT_BASE_GET_MARCHID        0x5
-> +#define SBI_EXT_BASE_GET_MIMPID         0x6
-> +
-> +/* SBI function IDs for TIME extension*/
-> +#define SBI_EXT_TIME_SET_TIMER          0x0
-> +
-> +/* SBI function IDs for IPI extension*/
-> +#define SBI_EXT_IPI_SEND_IPI            0x0
-> +
-> +/* SBI function IDs for RFENCE extension*/
-> +#define SBI_EXT_RFENCE_REMOTE_FENCE_I       0x0
-> +#define SBI_EXT_RFENCE_REMOTE_SFENCE_VMA    0x1
-> +#define SBI_EXT_RFENCE_REMOTE_SFENCE_VMA_ASID  0x2
-> +#define SBI_EXT_RFENCE_REMOTE_HFENCE_GVMA   0x3
-> +#define SBI_EXT_RFENCE_REMOTE_HFENCE_GVMA_VMID 0x4
-> +#define SBI_EXT_RFENCE_REMOTE_HFENCE_VVMA   0x5
-> +#define SBI_EXT_RFENCE_REMOTE_HFENCE_VVMA_ASID 0x6
-> +
-> +/* SBI function IDs for HSM extension */
-> +#define SBI_EXT_HSM_HART_START          0x0
-> +#define SBI_EXT_HSM_HART_STOP           0x1
-> +#define SBI_EXT_HSM_HART_GET_STATUS     0x2
-> +
-> +#define SBI_HSM_HART_STATUS_STARTED     0x0
-> +#define SBI_HSM_HART_STATUS_STOPPED     0x1
-> +#define SBI_HSM_HART_STATUS_START_PENDING   0x2
-> +#define SBI_HSM_HART_STATUS_STOP_PENDING    0x3
-> +
-> +#define SBI_SPEC_VERSION_MAJOR_OFFSET   24
-> +#define SBI_SPEC_VERSION_MAJOR_MASK     0x7f
-> +#define SBI_SPEC_VERSION_MINOR_MASK     0xffffff
-> +#define SBI_EXT_VENDOR_START            0x09000000
-> +#define SBI_EXT_VENDOR_END              0x09FFFFFF
-> +/* clang-format on */
-> +
-> +#endif
+>      HPPACPU *cpu =3D HPPA_CPU(cs);
+>      CPUHPPAState *env =3D &cpu->env;
 > --
-> 2.19.1
+> 2.25.1
 >
 >
 
