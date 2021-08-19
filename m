@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C2AE3F1D72
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 18:06:45 +0200 (CEST)
-Received: from localhost ([::1]:41786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E0AF3F1D7C
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 18:08:51 +0200 (CEST)
+Received: from localhost ([::1]:44046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGkZ2-0005As-La
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 12:06:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50410)
+	id 1mGkb4-0006iX-HQ
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 12:08:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mGkXZ-000384-Ds
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:05:13 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:39681)
+ id 1mGkZp-0005zd-9g
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:07:33 -0400
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:42620)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mGkXX-0002HA-Tr
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:05:13 -0400
-Received: by mail-ed1-x535.google.com with SMTP id cn28so9613620edb.6
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 09:05:11 -0700 (PDT)
+ id 1mGkZn-0004C1-Sm
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:07:33 -0400
+Received: by mail-ed1-x52d.google.com with SMTP id bo19so9589530edb.9
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 09:07:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6nK9jXUxJES7UgMbFUvTYiSdh03y4FG2IrZ+s7Hkn50=;
- b=n1s+xFZkzeol0IhYLbwLbFzoigp2xVwvwLOypPWszL9GTPuLFipCPGxb/+Wqk1RJ6f
- kD7GhBtkdCikq0HKkXroZmWCtFItIVp4JbqGMeIvYUhrOITtNgdWSnfqwkt4f+pQVxPp
- vIcV26ahgECcg0MbJcEg7yTDJ9KiY8GgQvg27i2TjDjjMPHdSve4HyOq/LzhPYpv0nju
- WmcKM8oTdISEwVt3DOAk66YdOSXrUqDkVQbfCQ73DSVDNXGX/nd9t/Gatt3+2Cvi92Ks
- I6qdEyBhgxiHQk5aKsBTPvC4z+3q4bFzLWYxX2omi5arb3yDFyElD4UskU7GXyyP1JnV
- ndKg==
+ :cc; bh=YQd6Th7QL/orpb6uwYI/OkWcUXltL/16l+rXkyej9Yo=;
+ b=LJe1ZAncB782w6DiOpCvfir5GZHn1P+RKEQGlkszVbhhgNWSVi6UUIzgk/CodL5U3w
+ YzkDy4FZaeGbnfWT5VEVokhEPi0vjQNGwfkMfmdOaWOKWc1PnS3958J6rONy/gVNhTYZ
+ VpRgHvVHppSMTsQKAVKXCsKgurVMjbRlHbsw3tdA1IKI4GK705dF61sY5pLaDufaPyb3
+ uf4gymuidZI+UHDVzbT02ELTLlJhakgTTyVsU7/hamWaqYDHvsi4gYFpyPRgl5uVOOcE
+ cAmbw7Hdbkv4vV43/diaU8lElMA7VC3UX1zMTkXXek3Rc4H1CQdMyhttPT/zBPwFBYyq
+ 48ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=6nK9jXUxJES7UgMbFUvTYiSdh03y4FG2IrZ+s7Hkn50=;
- b=TieoOSq/Aqp0NIrF68ikZKbsoL0g5RdauY01qnGS4QbqfKN3lKExFKVrytsZWqRBaW
- mXE7evcBkfsiVTXBHHMAsS3M5DRlhquY3jRHMQKS52h4m/6Wl1i2geo/Rm71Twhzfj9e
- Na+MbMeuA1iIKQ/4vHJYKpMzGy+mdsoK0kXcsO/Y/ozC/w06Bux9Iy22fCMSv3zqy1Qm
- WNO9RZ3gkNO3wrPFjaCx7RLV1fOssSsu8TlQdRqpUCWRxQWdWeXHEtYLu+If9fTm0vBJ
- CQxgk2+nClVzzJpIysOxQ8LkrJxzPSfjcvNvWVXdhRq73T344Y6L079HvwkXz6k/2usV
- fCMA==
-X-Gm-Message-State: AOAM530QxjHoLqm4ngIF9Muz7PHbu2BWqChWqZPI3cihY3aca++Msa4Q
- WaPrnaeHHPdr2a4/tkS5MCS/TTsFabq33Bf0AWSkVw==
-X-Google-Smtp-Source: ABdhPJziJF5uM9PNTbrSilWnreoX3Vlx3qN+A6mCqQDhiAPpPbSGIj+ExX7DDi0M5EPWaMyG/Jqb4FVGTa75pYmno+w=
-X-Received: by 2002:aa7:c4cd:: with SMTP id p13mr16923849edr.251.1629389110229; 
- Thu, 19 Aug 2021 09:05:10 -0700 (PDT)
+ bh=YQd6Th7QL/orpb6uwYI/OkWcUXltL/16l+rXkyej9Yo=;
+ b=Z0Vk3Yz8RLnovt8eAXaJnRY+7TvnCssKjxj+Z780yCEv8y1NFiNUYKiJsunNhKg+2X
+ MXnlwWFlPnRW7TST80W8QMArjBTsCuf7lT1zwPBzOUBCkmQiMJE12vCqVH7sdUmw2E7u
+ HqMItNCssiN11wYeFunR3Kr3Npa08vyq9Ee0sqNVRUGERrPt3F4+bvPM8TSyLDtZO0lN
+ TMzT4CmVSpX5q+Ih7zCUvtD0ALbdiAtGxoi8H/+6mKHfaz8j/qCRWFeMKY5XyVE+Iwrq
+ axY6eojQeqG+9l+QIw7knW+/CykTWn4CRd6eZ6H3ZY0dHEnCJHyy6BUdLWhmTA+sEZVL
+ wv1A==
+X-Gm-Message-State: AOAM533DM47lhPVnlYaYpUIU6u8DkEyiWLrb6baMGFiJ7RQCr90YuqrT
+ /U5X+YFssHSZXQeD+RvqLGnWlFStfNO9CtkdxYLRAstrqgw=
+X-Google-Smtp-Source: ABdhPJx9l5GHX1nV49XEP8AMl0VdkPPVwbg+7LzUhuW/D126hsvSq5r04Wbo4ZKVH6k0ZKEbqlzPd1blutioitMn6Os=
+X-Received: by 2002:aa7:c0c6:: with SMTP id j6mr5898732edp.146.1629389250379; 
+ Thu, 19 Aug 2021 09:07:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210818191920.390759-1-richard.henderson@linaro.org>
- <20210818191920.390759-46-richard.henderson@linaro.org>
-In-Reply-To: <20210818191920.390759-46-richard.henderson@linaro.org>
+ <20210818191920.390759-47-richard.henderson@linaro.org>
+In-Reply-To: <20210818191920.390759-47-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Aug 2021 17:04:23 +0100
-Message-ID: <CAFEAcA8jLg2evvD3dubA6KsAuvUZEWHLeZdmuC1eoMT7Rd--YQ@mail.gmail.com>
-Subject: Re: [PATCH v3 45/66] tests/tcg/multiarch: Add sigbus.c
+Date: Thu, 19 Aug 2021 17:06:44 +0100
+Message-ID: <CAFEAcA-FxaRGCzjDTJG7rUX1-LHs6_BB0DkDtqfo0cn6X3JXnw@mail.gmail.com>
+Subject: Re: [PATCH v3 46/66] linux-user: Split out do_prctl and subroutines
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,17 +81,45 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Aug 2021 at 20:38, Richard Henderson
+On Wed, 18 Aug 2021 at 20:39, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> A mostly generic test for unaligned access raising SIGBUS.
+> Since the prctl constants are supposed to be generic, supply
+> any that are not provided by the host.
+>
+> Split out subroutines for PR_GET_FP_MODE, PR_SET_FP_MODE,
+> PR_GET_VL, PR_SET_VL, PR_RESET_KEYS, PR_SET_TAGGED_ADDR_CTRL,
+> PR_GET_TAGGED_ADDR_CTRL.  Return EINVAL for guests that do
+> not support these options rather than pass them on to the host.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tests/tcg/multiarch/sigbus.c | 68 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 68 insertions(+)
+>  linux-user/aarch64/target_syscall.h |  23 -
+>  linux-user/mips/target_syscall.h    |   6 -
+>  linux-user/mips64/target_syscall.h  |   6 -
+>  linux-user/syscall.c                | 644 ++++++++++++++++------------
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> +static abi_long do_prctl_get_fp_mode(CPUArchState *env)
+> +{
+> +#ifdef TARGET_MIPS
+> +    abi_long ret = 0;
+> +
+> +    if (env->CP0_Status & (1 << CP0St_FR)) {
+> +        ret |= PR_FP_MODE_FR;
+> +    }
+> +    if (env->CP0_Config5 & (1 << CP0C5_FRE)) {
+> +        ret |= PR_FP_MODE_FRE;
+> +    }
+> +    return ret;
+> +#else
+> +    return -TARGET_EINVAL;
+> +#endif
+> +}
+
+If we're going to refactor the prctl code, I think it would be
+better to have architecture-specific prctl handling in
+linux-user/$ARCH/prctl.c files rather than lots of target ifdefs
+in syscall.c...
 
 thanks
 -- PMM
