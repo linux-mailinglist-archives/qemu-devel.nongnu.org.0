@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E2B73F14D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 10:06:46 +0200 (CEST)
-Received: from localhost ([::1]:52670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05EC03F14CF
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 10:06:43 +0200 (CEST)
+Received: from localhost ([::1]:52246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGd4X-0003gT-MQ
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 04:06:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60150)
+	id 1mGd4T-0003PA-Fp
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 04:06:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mGd2F-00010e-Gg; Thu, 19 Aug 2021 04:04:23 -0400
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:40567)
+ id 1mGd2F-00011Z-TP; Thu, 19 Aug 2021 04:04:23 -0400
+Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:35520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mGd2B-0005pa-IL; Thu, 19 Aug 2021 04:04:23 -0400
-Received: by mail-yb1-xb2c.google.com with SMTP id i8so10728494ybt.7;
- Thu, 19 Aug 2021 01:04:15 -0700 (PDT)
+ id 1mGd2B-0005qs-IG; Thu, 19 Aug 2021 04:04:23 -0400
+Received: by mail-yb1-xb30.google.com with SMTP id z5so10769321ybj.2;
+ Thu, 19 Aug 2021 01:04:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Oq3LlyhCJEenOkDLDUxOo0rr4CwO8euEAhjIYHK1iQ0=;
- b=V43n2lUfCPLqSBdI1lxFbm0JJQZJaBqwrdQxrE1kzYkB/4Ws6dUOLPcVJ4+vFkWM1K
- 1885x1BYuYngIEfEa3XoDKitnwQyfn8eO5hDxV1q5O5IYmG55TbZravvJCd652T3Y6gf
- 5lvRxqI8edEgtMaxVS7HH0gk3jCZgVoyayBBzK3v5q5ZC2TH6CEhIY/Ut4yueUkVl0gS
- 8II1Zneq3gmd/IRA2w0jqMuc9tUpFsDJYNuQS37BNJciLeo06BM7B/dTT0kPk+9oiWQi
- jMX2qmBSpQtWbqfzVtVwT7fr+b7uZM8HmrNHG6BJRAae6J5yAPuKSd3+k5jOfAA3su2B
- O4jA==
+ :cc; bh=X2MCy1g6WkhgmXOsDpFItF8xEp90wf+i2LE2ySsUOqI=;
+ b=AD0kZL1uZSQyZEJbWCbT7mCck22Kpb66XQdbErLwu6RMsk47rUBOm8/2xiAQ1hDRVh
+ s9e/PxJulU0cyxC8SjyFZ6I9eRkidl2aQNfEXv8Iqhw+jITV3JJVNUKKsUKwCUH5hrx8
+ 4mN8ZMC2FzbDl7FiNtpLVa59JpWZXYo3pQRCPkBXiyALl/apTYmOvIS61h4W4NfJeVci
+ wl3RJ3qEOs9M6rsiCD3K1JNcnG0yAzJShArC+1kM/0weDQAzeLXQfrzaY7M74XQpUQWv
+ knSnquhtNKr6rCNBCyq5Fndd8Va53JzGr8WChnwcAQXLty5XKLEmiAnAGAWdJyoq/SkM
+ gGpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Oq3LlyhCJEenOkDLDUxOo0rr4CwO8euEAhjIYHK1iQ0=;
- b=DlxXOksEc6g/itkJmstZxxAz0AFsF7F5iGvnKGAs+iPPe1fNWEYK+EyGFqxuf5Iu7y
- m/onjtQb6u8bZKB0Mxd8oDOynyq1bumHyiAvFp4duuz+zfQvYZF7VePoHzR9MPAF39Xk
- qSlrlYwT7nWp2Hyaz8Xdbs+GBpMVbqnQyksiwedT2w20pV7O87aLkGoM+aXYPztxD/Fk
- 3sBih+pTYBCUJu/MMYRk7mYkJaTySW7zufT+EYF7kkQ3t9WeSCSnXNCyEOE1IH+QwDPP
- yxDd3HzjJLIU3pZkWlCOsckJ/vR+ZwCt2pNpb/8X1FX0AkXJHq+oY481QesmuPzc0FmF
- Hxww==
-X-Gm-Message-State: AOAM530q/4y4Z2GKzuhqC2Uiv5N7XQ6PI6bsOuUu77UbNwrgl+m4tNqf
- QzjpOTYtvUKjJdfwkszLtBGKTkaqM+I0+mi4850=
-X-Google-Smtp-Source: ABdhPJyYO6XE6iNOJniwimJrk6x8KTdMlcJxJob8dD0sKsX+me/VMGmLnJf6wwJM7bz07uRWymc7AgpAu6WVNOo2xE8=
-X-Received: by 2002:a25:cf8a:: with SMTP id
- f132mr17703187ybg.387.1629360255068; 
- Thu, 19 Aug 2021 01:04:15 -0700 (PDT)
+ bh=X2MCy1g6WkhgmXOsDpFItF8xEp90wf+i2LE2ySsUOqI=;
+ b=rrclXmdb0TpxX6IoT8jrKmW4yNAG/Z2KgALYqU/e0HyaemCrKNTlKhsM0lf0hExFKA
+ 47l88jwq7siN+pRR16j5Ho+4VuL9HJGzsspzQquJAPkRwMZG7xg0IRF74Igq1tjXoq/t
+ u6dr12yhH9Wl2nmmUpA8Co5li6E9HJVY5WezqJXO1cr6xY+ffo4/QiAgvOelNMWyBkqq
+ /x27XsJJIBMhDCpLZOOyL5AdEbqTgjBNOn7YNEobKvc/GsYe0HunoxsJ5NdDNFHbE8Ze
+ pVMOnRhYdf4drwCqtqrzEkByFX5TsAnAvcP5qX47DFCnbEbm6uPRS08BXs/vVynktQVQ
+ buNA==
+X-Gm-Message-State: AOAM531Pm23/WVo+TpKRb+A24/tlcFoDSvpiDhuBSZXJj7fYR0XZ3jTL
+ U0YNXSOTZxEAO65idzBsf29s24ffCPkR05CnTYU=
+X-Google-Smtp-Source: ABdhPJy+vivPfuH6dAMwM4Q3SbJMyBtjUU3JhBA/81bgsIbug7ye/BxNaMeOOPON/EMgbx8Vj0cacCcY6YuaG9CHwHo=
+X-Received: by 2002:a5b:304:: with SMTP id j4mr16628929ybp.314.1629360257325; 
+ Thu, 19 Aug 2021 01:04:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210817211803.283639-1-richard.henderson@linaro.org>
- <20210817211803.283639-17-richard.henderson@linaro.org>
-In-Reply-To: <20210817211803.283639-17-richard.henderson@linaro.org>
+ <20210817211803.283639-19-richard.henderson@linaro.org>
+In-Reply-To: <20210817211803.283639-19-richard.henderson@linaro.org>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 19 Aug 2021 16:04:03 +0800
-Message-ID: <CAEUhbmWUkur7nKxAGLew4m529jAkLiyEcTdaQXKYvMkchrTXJA@mail.gmail.com>
-Subject: Re: [PATCH v2 16/21] target/riscv: Use {get,dest}_gpr for RVA
+Date: Thu, 19 Aug 2021 16:04:06 +0800
+Message-ID: <CAEUhbmW6OnJaJivkG13uNJnGJk67HE9rgtELcY6ukoDg3DZykg@mail.gmail.com>
+Subject: Re: [PATCH v2 18/21] target/riscv: Use {get,dest}_gpr for RVF
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb30.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,13 +82,13 @@ Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 18, 2021 at 5:24 AM Richard Henderson
+On Wed, Aug 18, 2021 at 5:30 AM Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/riscv/insn_trans/trans_rva.c.inc | 47 ++++++++++---------------
->  1 file changed, 19 insertions(+), 28 deletions(-)
+>  target/riscv/insn_trans/trans_rvf.c.inc | 146 ++++++++++++------------
+>  1 file changed, 70 insertions(+), 76 deletions(-)
 >
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
