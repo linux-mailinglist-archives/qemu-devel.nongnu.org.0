@@ -2,90 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A73663F1AA4
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 15:40:02 +0200 (CEST)
-Received: from localhost ([::1]:48672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A07AC3F1AC8
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 15:41:34 +0200 (CEST)
+Received: from localhost ([::1]:53874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGiH3-00047X-GK
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 09:40:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44376)
+	id 1mGiIX-0007a0-M2
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 09:41:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mGiFC-0001sj-3r
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:38:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59754)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mGiGj-00052L-3W
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:39:42 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mGiF8-0002iY-Vv
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:38:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629380281;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=v/dszuUgOj5jt7VGTEyIWgtbC2C68KXARWi/Izqn1JY=;
- b=cd+JgBTl78pLuL5s2UIvV/9Kl2DahBX7qhIb1WB0TM5+AbTSOMenvmC3BGEb7B5fZs58yl
- q+6QrrAP8FEMuMyirD1SSlmWO+/AGrqiS2qMIa9kO+VXpD0l8jFG3npYvjBKuJBlGdcXdD
- kbPx+Y5k3lkrFx5AhGahvFvAAQCr/Qs=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-jD76m9ECN6iytR4mxJAB8g-1; Thu, 19 Aug 2021 09:37:59 -0400
-X-MC-Unique: jD76m9ECN6iytR4mxJAB8g-1
-Received: by mail-wr1-f70.google.com with SMTP id
- n18-20020adfe792000000b00156ae576abdso1689667wrm.9
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 06:37:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=v/dszuUgOj5jt7VGTEyIWgtbC2C68KXARWi/Izqn1JY=;
- b=nu3YvMRay922XTo8YOGwctGJ/4dMoaOR5uEJ9dgl3/06B1RallM71dFj6r+il2pq+L
- wPc8JMaS9SWGqCH7kh/rzeiCsV0nn5FRDqYpy4ROflDX9Q9MOrmL/A4ETldQr4S1le2E
- lFstrWukLy+UIhO3dcWGwu9rADwo1PAbkNsRozMAR6A19e7w/Fli0F7iUcPqEWXBF7EI
- g3rO1QDDZcLBmQP41UnAzLld7i5ukydbd5xG+jTtGdfFf/uZvPOUWFTvxriSF+xYBhF8
- CHJqt0+XvP9the6U4P9Ku4/06Rq0EGi6aRVcGr2ehuHM8M3uDCP31Kr86QPGfyGGbdAk
- 7pKg==
-X-Gm-Message-State: AOAM532KX88xn+JiNgA+uO2O3ZA8DJkrUnud63ti2vVJo4oPXjjvU4P/
- 9nF1ckuk/+ORjVJs7nld+Vh5cHmi9zQk9qkJbt3QmqqnsYldCSIA8IGui0tQTi0mWwJKvl96d8Y
- VKTkIsMLteIBF8C8=
-X-Received: by 2002:adf:90b1:: with SMTP id i46mr4071910wri.159.1629380277954; 
- Thu, 19 Aug 2021 06:37:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwEW7DE1ko6GEaegjju86DjFZRrK85/A9aOk18+J83F7Ws/UsaCPPgWzRbcnF3HaqQOuNaoVw==
-X-Received: by 2002:adf:90b1:: with SMTP id i46mr4071875wri.159.1629380277735; 
- Thu, 19 Aug 2021 06:37:57 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- f17sm2499238wmq.17.2021.08.19.06.37.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Aug 2021 06:37:57 -0700 (PDT)
-Subject: Re: [PATCH] raw-format: drop WRITE and RESIZE child perms when
- possible
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20210726122839.822900-1-stefanha@redhat.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <c4ad5127-1c4c-7c92-3098-c36002d99f6f@redhat.com>
-Date: Thu, 19 Aug 2021 15:37:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mGiGf-0003xS-Jo
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 09:39:40 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Gr5PY2hZ1zbfxb;
+ Thu, 19 Aug 2021 21:35:45 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 19 Aug 2021 21:39:30 +0800
+Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 19 Aug 2021 21:39:29 +0800
+From: Yanan Wang <wangyanan55@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH,
+ updated 1/2] docs/about/removed-features: Remove duplicated doc about
+ -smp
+Date: Thu, 19 Aug 2021 21:39:27 +0800
+Message-ID: <20210819133927.45540-1-wangyanan55@huawei.com>
+X-Mailer: git-send-email 2.8.4.windows.1
+In-Reply-To: <20210819031027.41104-2-wangyanan55@huawei.com>
+References: <20210819031027.41104-2-wangyanan55@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20210726122839.822900-1-stefanha@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -60
-X-Spam_score: -6.1
-X-Spam_bar: ------
-X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.591, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,53 +66,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, afrosi@redhat.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Peter
+ Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>, wanghaibin.wang@huawei.com,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Yanan Wang <wangyanan55@huawei.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26.07.21 14:28, Stefan Hajnoczi wrote:
-> The following command-line fails due to a permissions conflict:
->
->    $ qemu-storage-daemon \
->        --blockdev driver=nvme,node-name=nvme0,device=0000:08:00.0,namespace=1 \
->        --blockdev driver=raw,node-name=l1-1,file=nvme0,offset=0,size=1073741824 \
->        --blockdev driver=raw,node-name=l1-2,file=nvme0,offset=1073741824,size=1073741824 \
->        --nbd-server addr.type=unix,addr.path=/tmp/nbd.sock,max-connections=2 \
->        --export type=nbd,id=nbd-l1-1,node-name=l1-1,name=l1-1,writable=on \
->        --export type=nbd,id=nbd-l1-2,node-name=l1-2,name=l1-2,writable=on
->
->    qemu-storage-daemon: --export type=nbd,id=nbd-l1-1,node-name=l1-1,name=l1-1,writable=on: Permission conflict on node 'nvme0': permissions 'resize' are both required by node 'l1-1' (uses node 'nvme0' as 'file' child) and unshared by node 'l1-2' (uses node 'nvme0' as 'file' child).
->
-> The problem is that block/raw-format.c relies on bdrv_default_perms() to
-> set permissions on the nvme node. The default permissions add RESIZE in
-> anticipation of a format driver like qcow2 that needs to grow the image
-> file. This fails because RESIZE is unshared, so we cannot get the RESIZE
-> permission.
->
-> Max Reitz pointed out that block/crypto.c already handles this case by
-> implementing a custom ->bdrv_child_perm() function that adjusts the
-> result of bdrv_default_perms().
->
-> This patch takes the same approach in block/raw-format.c so that RESIZE
-> is only required if it's actually necessary (e.g. the parent is qcow2).
->
-> Cc: Max Reitz <mreitz@redhat.com>
-> Cc: Kevin Wolf <kwolf@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
-> This is not a bug fix, so I didn't mark it for QEMU 6.1. It's new
-> behavior that hasn't been supported before. I want to split an NVMe
-> drive using the raw format's offset=/size= feature.
-> ---
->   block/raw-format.c | 21 ++++++++++++++++++++-
->   1 file changed, 20 insertions(+), 1 deletion(-)
+There are two places describing the same thing about deprecation
+of invalid topologies of -smp CLI, so remove the duplicated one.
 
-Thanks, applied to my block-next branch:
+Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+---
+ docs/about/removed-features.rst | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-https://github.com/XanClic/qemu/commits/block-next
-
-Hanna
+diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
+index cbfa1a8e31..6a9c5bb484 100644
+--- a/docs/about/removed-features.rst
++++ b/docs/about/removed-features.rst
+@@ -647,19 +647,6 @@ as ignored. Currently, users are responsible for making sure the backing storage
+ specified with ``-mem-path`` can actually provide the guest RAM configured with
+ ``-m`` and QEMU fails to start up if RAM allocation is unsuccessful.
+ 
+-``-smp`` (invalid topologies) (removed 5.2)
+-'''''''''''''''''''''''''''''''''''''''''''
+-
+-CPU topology properties should describe whole machine topology including
+-possible CPUs.
+-
+-However, historically it was possible to start QEMU with an incorrect topology
+-where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
+-which could lead to an incorrect topology enumeration by the guest.
+-Support for invalid topologies is removed, the user must ensure
+-topologies described with -smp include all possible cpus, i.e.
+-*sockets* * *cores* * *threads* = *maxcpus*.
+-
+ ``-machine enforce-config-section=on|off`` (removed 5.2)
+ ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ 
+-- 
+2.19.1
 
 
