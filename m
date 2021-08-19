@@ -2,91 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E0253F19CA
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 14:53:04 +0200 (CEST)
-Received: from localhost ([::1]:45394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBAB63F19D4
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 14:55:59 +0200 (CEST)
+Received: from localhost ([::1]:52348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGhXb-0003VL-L4
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 08:53:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34958)
+	id 1mGhaQ-0008IY-UM
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 08:55:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mGhVq-0001vN-4g
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 08:51:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26485)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mGhVm-0004Pt-Sl
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 08:51:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629377469;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=f9YBM1PnnjXcvsxKKwo4Gt5OJhhcwSmt9c/VM/CkwQI=;
- b=UIL+QhkI29LsDsELjjIA9vpPi51kg+Z7YglZHtwBbxuL24eZ5nSovsT2/S9OLWo9wVsKVA
- pOqyJC5BmLSgPlIDc9VdMFY+PGMbaJPobHI8dJCzI6HDEwiKHgEAKuJkNPv4DywsV6UJHF
- 0uuTfR3/xwwAyak4hh41UyS11FTco9Q=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-489-pkbo96mTNjy46O1NZdQjcA-1; Thu, 19 Aug 2021 08:51:08 -0400
-X-MC-Unique: pkbo96mTNjy46O1NZdQjcA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- z186-20020a1c7ec30000b02902e6a27a9962so3461196wmc.3
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 05:51:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mGhXO-0004Ne-TF
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 08:52:50 -0400
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:34458)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mGhXM-0005Ad-OP
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 08:52:50 -0400
+Received: by mail-pf1-x429.google.com with SMTP id g14so5409112pfm.1
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 05:52:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=L+qaitpqcXmyDQFIX2Z6qWpJ4emK2fGNq20VhNoHod8=;
+ b=TFLu9gkRxISDYtaMYNIKRqIJ1E7L3DxiAFEyEhP0GxW130mx9jFsgCqtvrBS8mYfq0
+ xdN0JJRBxrmdkVT2RSz6zLucE2ENeJbBv+fDUnO08BIur99lvK/Mmw78Wie0Zwu16B1e
+ lVWfbeuCSPe5AnUISjNmtuzx1FGIHYm6AWwwGgaziDYwkZVw9Qn4lCud3mTm2UxQTpu2
+ QyQ9fm2gyiQNl1lxVsZ7d2UBVqGhi5Ry/osHT0J9C0jZCxGMAfW7Gr5Mfsqi5qy7isOm
+ g09Lsp/AwW2e7/qH95EO4SHolLxeshXPCtGS0KVwiUibiEvoel11d0TXbizn/OP+XlV7
+ vTqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=f9YBM1PnnjXcvsxKKwo4Gt5OJhhcwSmt9c/VM/CkwQI=;
- b=oOSESMl9L0MIoNXUtCanipXvAGuYSkc6REQvyWwJz2UlX9gZQ0msSsqU9iDsAJufvQ
- Mgp4MU8cFm8kSMJ/L7Lodvf/49qIg608+jgy/5KPzoN566nCuCuXhovSh7uk7TQ1FDMV
- eNz+8utSuTwsbY/Twx2plytL20S0KZEXLdjRAkvunj5PBhDjLxT0bXn41BSkz2gI5FVo
- /LcjE5nyAwh5i1gnyzNIxakjj2HmtZRxBcCYusn9Gu+Kr7Lv5y+6WqK+wnf8xJx/CPCF
- 5ZH8lONCi85KrMqGMtky28D3mYGGg6APlbjqF11itl4e9Vo+VCGeVNOMUhMqe0mC370Q
- iloA==
-X-Gm-Message-State: AOAM531y5oUhUO/aPw6h86s8aKQu51tEmunk/Kh6t5mI3u9553GPAYCr
- ryb2K+5tuY6Ykyuqmvib0fZ7h7Q2Xaf3TE6ooec9dKuuOS9nE8o9Zb1Elc5NyAoDO8jEDUzJteP
- TsfS2tNMSI/cjaIKU2xt+lWjuv65GWhKL5QCfH0uhPZ9Q+uftRxkpc2c+QBiCLVKy
-X-Received: by 2002:adf:f704:: with SMTP id r4mr3799403wrp.389.1629377467546; 
- Thu, 19 Aug 2021 05:51:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwu8oOa5mPZQcC2Cmn7/+e+kUMlLDlvZUmpNMlGQzUZa+mIvz0IKnGtqzedKVTzPx8ZInJvuw==
-X-Received: by 2002:adf:f704:: with SMTP id r4mr3799346wrp.389.1629377467060; 
- Thu, 19 Aug 2021 05:51:07 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- e11sm2851552wrm.80.2021.08.19.05.51.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Aug 2021 05:51:06 -0700 (PDT)
-Subject: Re: [PATCH v3] block/file-win32: add reopen handlers
-To: Viktor Prutyanov <viktor.prutyanov@phystech.edu>, philmd@redhat.com,
- kwolf@redhat.com, sw@weilnetz.de, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210817202115.16771-1-viktor.prutyanov@phystech.edu>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <829993e6-0718-f54c-f480-9566477b907f@redhat.com>
-Date: Thu, 19 Aug 2021 14:51:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=L+qaitpqcXmyDQFIX2Z6qWpJ4emK2fGNq20VhNoHod8=;
+ b=X8ASCQrq+0GlfSSMeynGaTFgq3zr4XBiCwcpWUczhMWJHBTp4r2135ZOhqCf3eaGkr
+ Rb2KREFk7zqMB2ei3gBIQx0f1rWGss9W3N1qsHARyf3NMfLt2SFHlgZFM4vbzJOJjlTo
+ zZl4AohDMzSd6SksVR/LR5S2FeglFWTX4Bjn1JcndEMYCEaqQ5PcQMC1AEjP0AfvwQbp
+ vnjOhlifLWP2gXDWqpmw9U9RN6UMI+OvQPoXpzMO3NIOSTnmI8WXaB/YJnXwPNboY1yz
+ tS+YXSWFhHsPKi8FsXUQG4moOWvsLPL9TQYK23KseWk7pfwfPJ9U8Ek/CNCfe9eIj0nA
+ t+Iw==
+X-Gm-Message-State: AOAM531neB6RTdgDkCHZF529ESQaNYE6AoAJYYNwiQiTG9gUxetDgsIT
+ lRm2GlYDWUjKvyHreOi98V9HjQ==
+X-Google-Smtp-Source: ABdhPJz0j6JXecA4/eh+uUkYpgglmMuLcIqZNjw/J/IbGTnNBoD9RxaS3LWPPqQ7d6X1Qb020F2mzg==
+X-Received: by 2002:a65:6908:: with SMTP id s8mr14004371pgq.263.1629377566415; 
+ Thu, 19 Aug 2021 05:52:46 -0700 (PDT)
+Received: from anisinha-lenovo ([203.163.234.32])
+ by smtp.googlemail.com with ESMTPSA id c14sm7749022pjr.3.2021.08.19.05.52.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Aug 2021 05:52:45 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Thu, 19 Aug 2021 18:22:34 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH] hw/acpi: refactor acpi hp modules so that targets can
+ just use what they need
+In-Reply-To: <26cc841b-792a-305a-2708-b1ed11de8151@redhat.com>
+Message-ID: <alpine.DEB.2.22.394.2108191819340.273833@anisinha-lenovo>
+References: <20210812071409.492299-1-ani@anisinha.ca>
+ <26cc841b-792a-305a-2708-b1ed11de8151@redhat.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-In-Reply-To: <20210817202115.16771-1-viktor.prutyanov@phystech.edu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -60
-X-Spam_score: -6.1
-X-Spam_bar: ------
-X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.591, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="2088271309-1967759509-1629377565=:273833"
+Received-SPF: none client-ip=2607:f8b0:4864:20::429;
+ envelope-from=ani@anisinha.ca; helo=mail-pf1-x429.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,162 +85,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17.08.21 22:21, Viktor Prutyanov wrote:
-> Make 'qemu-img commit' work on Windows.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--2088271309-1967759509-1629377565=:273833
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+
+
+
+On Thu, 19 Aug 2021, Philippe Mathieu-Daudé wrote:
+
+> On 8/12/21 9:14 AM, Ani Sinha wrote:
+> > Currently various acpi hotplug modules like cpu hotplug, memory hotplug, pci
+> > hotplug, nvdimm hotplug are all pulled in when CONFIG_ACPI_X86 is turned on.
+> > This brings in support for whole lot of subsystems that some targets like
+> > mips does not need. They are added just to satisfy symbol dependencies. This
+> > is ugly and should be avoided. Targets should be able to pull in just what they
+> > need and no more. For example, mips only needs support for PIIX4 and does not
+> > need acpi pci hotplug support or cpu hotplug support or memory hotplug support
+> > etc. This change is an effort to clean this up.
+> > In this change, new config variables are added for various acpi hotplug
+> > subsystems. Targets like mips can only enable PIIX4 support and not the rest
+> > of all the other modules which were being previously pulled in as a part of
+> > CONFIG_ACPI_X86. Function stubs make sure that symbols which piix4 needs but
+> > are not required by mips (for example, symbols specific to pci hotplug etc)
+> > are available to satisfy the dependencies.
+> >
+> > Currently, this change only addresses issues with mips malta targets. In future
+> > we might be able to clean up other targets which are similarly pulling in lot
+> > of unnecessary hotplug modules by enabling ACPI_X86.
+> >
+> > This change should also address issues such as the following:
+> > https://gitlab.com/qemu-project/qemu/-/issues/221
+> > https://gitlab.com/qemu-project/qemu/-/issues/193
+> >
+> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > ---
+> >  configs/devices/mips-softmmu/common.mak |  5 +--
+> >  hw/acpi/Kconfig                         | 10 +++++
+> >  hw/acpi/acpi-cpu-hotplug-stub.c         | 50 +++++++++++++++++++++++++
+> >  hw/acpi/acpi-mem-hotplug-stub.c         | 35 +++++++++++++++++
+> >  hw/acpi/acpi-nvdimm-stub.c              |  8 ++++
+> >  hw/acpi/acpi-pci-hotplug-stub.c         | 47 +++++++++++++++++++++++
+> >  hw/acpi/meson.build                     | 14 +++++--
+> >  7 files changed, 161 insertions(+), 8 deletions(-)
+> >  create mode 100644 hw/acpi/acpi-cpu-hotplug-stub.c
+> >  create mode 100644 hw/acpi/acpi-mem-hotplug-stub.c
+> >  create mode 100644 hw/acpi/acpi-nvdimm-stub.c
+> >  create mode 100644 hw/acpi/acpi-pci-hotplug-stub.c
+> >
+> > diff --git a/configs/devices/mips-softmmu/common.mak b/configs/devices/mips-softmmu/common.mak
+> > index ea78fe7275..752b62b1e6 100644
+> > --- a/configs/devices/mips-softmmu/common.mak
+> > +++ b/configs/devices/mips-softmmu/common.mak
+> > @@ -18,10 +18,7 @@ CONFIG_PCSPK=y
+> >  CONFIG_PCKBD=y
+> >  CONFIG_FDC=y
+> >  CONFIG_ACPI=y
+> > -CONFIG_ACPI_X86=y
+> > -CONFIG_ACPI_MEMORY_HOTPLUG=y
+> > -CONFIG_ACPI_NVDIMM=y
+> > -CONFIG_ACPI_CPU_HOTPLUG=y
+> > +CONFIG_ACPI_PIIX4=y
+> >  CONFIG_APM=y
+> >  CONFIG_I8257=y
+> >  CONFIG_PIIX4=y
+> > diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
+> > index cfc4ede8d9..3b5e118c54 100644
+> > --- a/hw/acpi/Kconfig
+> > +++ b/hw/acpi/Kconfig
+> > @@ -8,6 +8,8 @@ config ACPI_X86
+> >      select ACPI_CPU_HOTPLUG
+> >      select ACPI_MEMORY_HOTPLUG
+> >      select ACPI_HMAT
+> > +    select ACPI_PIIX4
+> > +    select ACPI_PCIHP
+> >
+> >  config ACPI_X86_ICH
+> >      bool
+> > @@ -24,6 +26,14 @@ config ACPI_NVDIMM
+> >      bool
+> >      depends on ACPI
+> >
+> > +config ACPI_PIIX4
+> > +    bool
+> > +    depends on ACPI
+> > +
+> > +config ACPI_PCIHP
+> > +    bool
+> > +    depends on ACPI
+> > +
+> >  config ACPI_HMAT
+> >      bool
+> >      depends on ACPI
+> > diff --git a/hw/acpi/acpi-cpu-hotplug-stub.c b/hw/acpi/acpi-cpu-hotplug-stub.c
+> > new file mode 100644
+> > index 0000000000..3fc4b14c26
+> > --- /dev/null
+> > +++ b/hw/acpi/acpi-cpu-hotplug-stub.c
+> > @@ -0,0 +1,50 @@
+> > +#include "qemu/osdep.h"
+> > +#include "hw/acpi/cpu_hotplug.h"
+> > +#include "migration/vmstate.h"
+> > +
+> > +
+> > +/* Following stubs are all related to ACPI cpu hotplug */
+> > +const VMStateDescription vmstate_cpu_hotplug;
+> > +
+> > +void acpi_switch_to_modern_cphp(AcpiCpuHotplug *gpe_cpu,
+> > +                                CPUHotplugState *cpuhp_state,
+> > +                                uint16_t io_port)
+> > +{
+> > +    return;
 >
-> Command 'commit' requires reopening backing file in RW mode. So,
-> add reopen prepare/commit/abort handlers and change dwShareMode
-> for CreateFile call in order to allow further read/write reopening.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/418
-> Suggested-by: Hanna Reitz <hreitz@redhat.com>
-> Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-> ---
->   v2:
->      - fix indentation in raw_reopen_prepare
->      - free rs if raw_reopen_prepare fails
->   v3:
->      - restore suggested-by field missed in v2
->
->   block/file-win32.c | 90 +++++++++++++++++++++++++++++++++++++++++++++-
->   1 file changed, 89 insertions(+), 1 deletion(-)
+> I suppose if you replace all 'return' by 'g_assert_not_reached()'
+> both issues reproducers crash?
 
-Overall, looks good to me, thanks!
+yes, I presume so. For example, with the following change :
 
-I just have some questions/suggestions on places where this patch 
-deviates from my draft:
+diff --git a/hw/acpi/acpi-cpu-hotplug-stub.c b/hw/acpi/acpi-cpu-hotplug-stub.c
+index 3fc4b14c26..9725e4a81b 100644
+--- a/hw/acpi/acpi-cpu-hotplug-stub.c
++++ b/hw/acpi/acpi-cpu-hotplug-stub.c
+@@ -16,7 +16,7 @@ void acpi_switch_to_modern_cphp(AcpiCpuHotplug *gpe_cpu,
+ void legacy_acpi_cpu_hotplug_init(MemoryRegion *parent, Object *owner,
+                                   AcpiCpuHotplug *gpe_cpu, uint16_t base)
+ {
+-    return;
++    g_assert_not_reached();
+ }
 
-> diff --git a/block/file-win32.c b/block/file-win32.c
-> index 2642088bd6..9dcbb2b53b 100644
-> --- a/block/file-win32.c
-> +++ b/block/file-win32.c
-> @@ -58,6 +58,10 @@ typedef struct BDRVRawState {
->       QEMUWin32AIOState *aio;
->   } BDRVRawState;
->   
-> +typedef struct BDRVRawReopenState {
-> +    HANDLE hfile;
-> +} BDRVRawReopenState;
-> +
->   /*
->    * Read/writes the data to/from a given linear buffer.
->    *
-> @@ -392,7 +396,7 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
->       }
->   
->       s->hfile = CreateFile(filename, access_flags,
-> -                          FILE_SHARE_READ, NULL,
-> +                          FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
->                             OPEN_EXISTING, overlapped, NULL);
->       if (s->hfile == INVALID_HANDLE_VALUE) {
->           int err = GetLastError();
-> @@ -634,6 +638,86 @@ static int coroutine_fn raw_co_create_opts(BlockDriver *drv,
->       return raw_co_create(&options, errp);
->   }
->   
-> +static int raw_reopen_prepare(BDRVReopenState *state,
-> +                              BlockReopenQueue *queue, Error **errp)
-> +{
-> +    BDRVRawState *s = state->bs->opaque;
-> +    BDRVRawReopenState *rs;
-> +    int access_flags;
-> +    DWORD overlapped;
-> +    int ret = 0;
+ void acpi_cpu_ospm_status(CPUHotplugState *cpu_st, ACPIOSTInfoList ***list)
 
-Comparing with my original draft 
-(https://gitlab.com/hreitz/qemu/-/commit/433ee9a6559dad253e7553692f942dc1824132f0), 
-I prevented reopening any node that is not of type FTYPE_FILE (i.e. host 
-devices), just to be sure (and because I thought we wouldn’t really need 
-other cases).
 
-I don’t strongly lean either way, so perhaps we should indeed just allow 
-reopening host devices, but if we do, I think the CreateFile() call in 
-hdev_open() should be changed to pass FILE_SHARE_READ | 
-FILE_SHARED_WRITE, too (instead of just FILE_SHARE_READ).
+I get the following crash :
 
-> +
-> +    rs = g_new0(BDRVRawReopenState, 1);
-> +
+./qemu-system-mips -machine malta -bios /dev/null -nodefaults -monitor stdio -S
+QEMU 6.0.93 monitor - type 'help' for more information
+(qemu) **
+ERROR:../hw/acpi/acpi-cpu-hotplug-stub.c:19:legacy_acpi_cpu_hotplug_init:
+code should not be reached
+Bail out!
+ERROR:../hw/acpi/acpi-cpu-hotplug-stub.c:19:legacy_acpi_cpu_hotplug_init:
+code should not be reached
+Aborted (core dumped)
 
-I had this comment here:
-
-> /*
->  * We do not support changing any options (only flags). By leaving
->  * all options in state->options, we tell the generic reopen code
->  * that we do not support changing any of them, so it will verify
->  * that their values did not change.
->  */
-
-Is there a reason you chose to not include it?  (I think it’s quite nice 
-to have this comment, because otherwise it may not be clear why it’s 
-“fine” that we don’t look into state->options at all – it’s fine because 
-leaving it untouched will make the generic block code verify that 
-nothing was changed.)
-
-> +    raw_parse_flags(state->flags, s->aio != NULL, &access_flags, &overlapped);
-> +    rs->hfile = CreateFile(state->bs->filename, access_flags,
-> +                           FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
-> +                           OPEN_EXISTING, overlapped, NULL);
-> +
-> +    if (rs->hfile == INVALID_HANDLE_VALUE) {
-> +        int err = GetLastError();
-> +
-> +        error_setg_win32(errp, err, "Could not reopen '%s'",
-> +                         state->bs->filename);
-> +        if (err == ERROR_ACCESS_DENIED) {
-> +            ret = -EACCES;
-> +        } else {
-> +            ret = -EINVAL;
-> +        }
-> +        goto fail;
-> +    }
-> +
-> +    if (s->aio) {
-> +        ret = win32_aio_attach(s->aio, rs->hfile);
-> +        if (ret < 0) {
-> +            error_setg_errno(errp, -ret, "Could not enable AIO");
-> +            goto fail;
-> +        }
-> +    }
-> +
-> +    state->opaque = rs;
-> +
-> +    return 0;
-> +
-> +fail:
-> +    g_free(rs);
-> +    state->opaque = NULL;
-> +
-> +    return ret;
-> +}
-> +
-> +static void raw_reopen_commit(BDRVReopenState *state)
-> +{
-> +    BDRVRawState *s = state->bs->opaque;
-> +    BDRVRawReopenState *rs = state->opaque;
-> +
-> +    if (!rs) {
-> +        return;
-> +    }
-
-I hope this can’t happen (and I believe it’d be a bug if it did), so I’d 
-prefer an
-
-assert(rs != NULL);
-
-instead.
-
-Hanna
-
-> +
-> +    CloseHandle(s->hfile);
-> +    s->hfile = rs->hfile;
-> +
-> +    g_free(rs);
-> +    state->opaque = NULL;
-> +}
-
+--2088271309-1967759509-1629377565=:273833--
 
