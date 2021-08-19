@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBAB63F19D4
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 14:55:59 +0200 (CEST)
-Received: from localhost ([::1]:52348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19EFE3F19E6
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 15:00:33 +0200 (CEST)
+Received: from localhost ([::1]:55986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGhaQ-0008IY-UM
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 08:55:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35232)
+	id 1mGhep-0002ZT-Oo
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 09:00:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mGhXO-0004Ne-TF
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 08:52:50 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:34458)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mGhct-00016S-Fk
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 08:58:32 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:41542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mGhXM-0005Ad-OP
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 08:52:50 -0400
-Received: by mail-pf1-x429.google.com with SMTP id g14so5409112pfm.1
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 05:52:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=L+qaitpqcXmyDQFIX2Z6qWpJ4emK2fGNq20VhNoHod8=;
- b=TFLu9gkRxISDYtaMYNIKRqIJ1E7L3DxiAFEyEhP0GxW130mx9jFsgCqtvrBS8mYfq0
- xdN0JJRBxrmdkVT2RSz6zLucE2ENeJbBv+fDUnO08BIur99lvK/Mmw78Wie0Zwu16B1e
- lVWfbeuCSPe5AnUISjNmtuzx1FGIHYm6AWwwGgaziDYwkZVw9Qn4lCud3mTm2UxQTpu2
- QyQ9fm2gyiQNl1lxVsZ7d2UBVqGhi5Ry/osHT0J9C0jZCxGMAfW7Gr5Mfsqi5qy7isOm
- g09Lsp/AwW2e7/qH95EO4SHolLxeshXPCtGS0KVwiUibiEvoel11d0TXbizn/OP+XlV7
- vTqA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mGhcp-0007xy-BX
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 08:58:30 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id d11so12712197eja.8
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 05:58:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sgN6QoWpvl48+eWDoOmLvd4WKRgOvBUvBqF/staf0bQ=;
+ b=E6vqQySUEBJtPnFJbLtWdoc8zKtHDRsvNBPEpN6SODltgwUCdRpVDf53fB2nkQBJwO
+ 98OOpjbPzUOwLJf2MIlTeIWeC1Vf/h3rNarufUKrganALZKZ/ebyrRpy+2UVOAKprG7M
+ LQ3p0xxNf1oNha1OowMmaqiMjFwk7HHF/HNgT9StrpOuxygPGSW18a+ink15+oBfsCLg
+ P2H+Nczl31B+LRHI6OGJR2WojucDDskSOrHrw2iwZKoMcbXKyAVsYOB23R9EspsUfbC6
+ r5JYB4HqDkTL2+niyBZGZXP01p/zeYPS9cnOyWBNm51s6rjT6Ibzvo1p8Jd8zZU/h+J1
+ z+0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=L+qaitpqcXmyDQFIX2Z6qWpJ4emK2fGNq20VhNoHod8=;
- b=X8ASCQrq+0GlfSSMeynGaTFgq3zr4XBiCwcpWUczhMWJHBTp4r2135ZOhqCf3eaGkr
- Rb2KREFk7zqMB2ei3gBIQx0f1rWGss9W3N1qsHARyf3NMfLt2SFHlgZFM4vbzJOJjlTo
- zZl4AohDMzSd6SksVR/LR5S2FeglFWTX4Bjn1JcndEMYCEaqQ5PcQMC1AEjP0AfvwQbp
- vnjOhlifLWP2gXDWqpmw9U9RN6UMI+OvQPoXpzMO3NIOSTnmI8WXaB/YJnXwPNboY1yz
- tS+YXSWFhHsPKi8FsXUQG4moOWvsLPL9TQYK23KseWk7pfwfPJ9U8Ek/CNCfe9eIj0nA
- t+Iw==
-X-Gm-Message-State: AOAM531neB6RTdgDkCHZF529ESQaNYE6AoAJYYNwiQiTG9gUxetDgsIT
- lRm2GlYDWUjKvyHreOi98V9HjQ==
-X-Google-Smtp-Source: ABdhPJz0j6JXecA4/eh+uUkYpgglmMuLcIqZNjw/J/IbGTnNBoD9RxaS3LWPPqQ7d6X1Qb020F2mzg==
-X-Received: by 2002:a65:6908:: with SMTP id s8mr14004371pgq.263.1629377566415; 
- Thu, 19 Aug 2021 05:52:46 -0700 (PDT)
-Received: from anisinha-lenovo ([203.163.234.32])
- by smtp.googlemail.com with ESMTPSA id c14sm7749022pjr.3.2021.08.19.05.52.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 05:52:45 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Thu, 19 Aug 2021 18:22:34 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH] hw/acpi: refactor acpi hp modules so that targets can
- just use what they need
-In-Reply-To: <26cc841b-792a-305a-2708-b1ed11de8151@redhat.com>
-Message-ID: <alpine.DEB.2.22.394.2108191819340.273833@anisinha-lenovo>
-References: <20210812071409.492299-1-ani@anisinha.ca>
- <26cc841b-792a-305a-2708-b1ed11de8151@redhat.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sgN6QoWpvl48+eWDoOmLvd4WKRgOvBUvBqF/staf0bQ=;
+ b=Zq8niG8cV8H3rPHGnc45An1J7ENNLyzbaAambNBPtFAI/pWhdCfWoxb1YQlZVAHWeb
+ zDBL5znYbCUlmXjh8Wt5RQF83Fb1j49ZZp8X+TrYpDld3YgVLmSAk8Gg4eae2ZleNAbU
+ SmCN8nDkxAGGvrit4QiLqiEiZb9RJK5mhsWD3egItiqur1/WE3ulpLZd32jkrtLg9cyy
+ +Ig7XUUcPiXowjbSXs81sX1I15lRhrfTkZ6/Crm3vekNLQh3mEPGQ6ArlzX87zq4ATqY
+ w3JMHHZ85V4kg1AjlgZ2GQC/n5S6MbTgYFw8XKaC03MjzM87yVaEYDERq44Erfgqp5qu
+ N3aw==
+X-Gm-Message-State: AOAM530MaHU25V767PZKOr6+EdWQVx4F+k3ES9eZnEAY1kfM2wl0fVEB
+ ztLxov8MYHDaFyQFOt5XxjT2ocEoOT/apz55qHevBw==
+X-Google-Smtp-Source: ABdhPJyZekOenNOSzrUJfO6MlaJl53QS+hPw6ogAn3ux3cdVyC0coW3NDg3gCuYxo8dUDWZAf1WGM4prigJ6y/0PtcU=
+X-Received: by 2002:a17:906:a108:: with SMTP id
+ t8mr15530917ejy.407.1629377904687; 
+ Thu, 19 Aug 2021 05:58:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="2088271309-1967759509-1629377565=:273833"
-Received-SPF: none client-ip=2607:f8b0:4864:20::429;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210818110656.1993090-1-matheus.ferst@eldorado.org.br>
+ <20210818110656.1993090-3-matheus.ferst@eldorado.org.br>
+In-Reply-To: <20210818110656.1993090-3-matheus.ferst@eldorado.org.br>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 19 Aug 2021 13:57:38 +0100
+Message-ID: <CAFEAcA9pKx5zxmF6iN1hqLr9mMhjEHfrOS=oqeJbySKdZ+aoKQ@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 v2 2/2] target/ppc: fix vector registers access in
+ gdbstub for little-endian
+To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,159 +79,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Greg Kurz <groug@kaod.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---2088271309-1967759509-1629377565=:273833
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
-
-
-
-On Thu, 19 Aug 2021, Philippe Mathieu-Daudé wrote:
-
-> On 8/12/21 9:14 AM, Ani Sinha wrote:
-> > Currently various acpi hotplug modules like cpu hotplug, memory hotplug, pci
-> > hotplug, nvdimm hotplug are all pulled in when CONFIG_ACPI_X86 is turned on.
-> > This brings in support for whole lot of subsystems that some targets like
-> > mips does not need. They are added just to satisfy symbol dependencies. This
-> > is ugly and should be avoided. Targets should be able to pull in just what they
-> > need and no more. For example, mips only needs support for PIIX4 and does not
-> > need acpi pci hotplug support or cpu hotplug support or memory hotplug support
-> > etc. This change is an effort to clean this up.
-> > In this change, new config variables are added for various acpi hotplug
-> > subsystems. Targets like mips can only enable PIIX4 support and not the rest
-> > of all the other modules which were being previously pulled in as a part of
-> > CONFIG_ACPI_X86. Function stubs make sure that symbols which piix4 needs but
-> > are not required by mips (for example, symbols specific to pci hotplug etc)
-> > are available to satisfy the dependencies.
-> >
-> > Currently, this change only addresses issues with mips malta targets. In future
-> > we might be able to clean up other targets which are similarly pulling in lot
-> > of unnecessary hotplug modules by enabling ACPI_X86.
-> >
-> > This change should also address issues such as the following:
-> > https://gitlab.com/qemu-project/qemu/-/issues/221
-> > https://gitlab.com/qemu-project/qemu/-/issues/193
-> >
-> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> > ---
-> >  configs/devices/mips-softmmu/common.mak |  5 +--
-> >  hw/acpi/Kconfig                         | 10 +++++
-> >  hw/acpi/acpi-cpu-hotplug-stub.c         | 50 +++++++++++++++++++++++++
-> >  hw/acpi/acpi-mem-hotplug-stub.c         | 35 +++++++++++++++++
-> >  hw/acpi/acpi-nvdimm-stub.c              |  8 ++++
-> >  hw/acpi/acpi-pci-hotplug-stub.c         | 47 +++++++++++++++++++++++
-> >  hw/acpi/meson.build                     | 14 +++++--
-> >  7 files changed, 161 insertions(+), 8 deletions(-)
-> >  create mode 100644 hw/acpi/acpi-cpu-hotplug-stub.c
-> >  create mode 100644 hw/acpi/acpi-mem-hotplug-stub.c
-> >  create mode 100644 hw/acpi/acpi-nvdimm-stub.c
-> >  create mode 100644 hw/acpi/acpi-pci-hotplug-stub.c
-> >
-> > diff --git a/configs/devices/mips-softmmu/common.mak b/configs/devices/mips-softmmu/common.mak
-> > index ea78fe7275..752b62b1e6 100644
-> > --- a/configs/devices/mips-softmmu/common.mak
-> > +++ b/configs/devices/mips-softmmu/common.mak
-> > @@ -18,10 +18,7 @@ CONFIG_PCSPK=y
-> >  CONFIG_PCKBD=y
-> >  CONFIG_FDC=y
-> >  CONFIG_ACPI=y
-> > -CONFIG_ACPI_X86=y
-> > -CONFIG_ACPI_MEMORY_HOTPLUG=y
-> > -CONFIG_ACPI_NVDIMM=y
-> > -CONFIG_ACPI_CPU_HOTPLUG=y
-> > +CONFIG_ACPI_PIIX4=y
-> >  CONFIG_APM=y
-> >  CONFIG_I8257=y
-> >  CONFIG_PIIX4=y
-> > diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
-> > index cfc4ede8d9..3b5e118c54 100644
-> > --- a/hw/acpi/Kconfig
-> > +++ b/hw/acpi/Kconfig
-> > @@ -8,6 +8,8 @@ config ACPI_X86
-> >      select ACPI_CPU_HOTPLUG
-> >      select ACPI_MEMORY_HOTPLUG
-> >      select ACPI_HMAT
-> > +    select ACPI_PIIX4
-> > +    select ACPI_PCIHP
-> >
-> >  config ACPI_X86_ICH
-> >      bool
-> > @@ -24,6 +26,14 @@ config ACPI_NVDIMM
-> >      bool
-> >      depends on ACPI
-> >
-> > +config ACPI_PIIX4
-> > +    bool
-> > +    depends on ACPI
-> > +
-> > +config ACPI_PCIHP
-> > +    bool
-> > +    depends on ACPI
-> > +
-> >  config ACPI_HMAT
-> >      bool
-> >      depends on ACPI
-> > diff --git a/hw/acpi/acpi-cpu-hotplug-stub.c b/hw/acpi/acpi-cpu-hotplug-stub.c
-> > new file mode 100644
-> > index 0000000000..3fc4b14c26
-> > --- /dev/null
-> > +++ b/hw/acpi/acpi-cpu-hotplug-stub.c
-> > @@ -0,0 +1,50 @@
-> > +#include "qemu/osdep.h"
-> > +#include "hw/acpi/cpu_hotplug.h"
-> > +#include "migration/vmstate.h"
-> > +
-> > +
-> > +/* Following stubs are all related to ACPI cpu hotplug */
-> > +const VMStateDescription vmstate_cpu_hotplug;
-> > +
-> > +void acpi_switch_to_modern_cphp(AcpiCpuHotplug *gpe_cpu,
-> > +                                CPUHotplugState *cpuhp_state,
-> > +                                uint16_t io_port)
-> > +{
-> > +    return;
+On Wed, 18 Aug 2021 at 12:11, <matheus.ferst@eldorado.org.br> wrote:
 >
-> I suppose if you replace all 'return' by 'g_assert_not_reached()'
-> both issues reproducers crash?
+> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>
+> As vector registers are stored in host endianness, we shouldn't swap its
+> 64-bit elements in user mode. Add a 16-byte case in
+> ppc_maybe_bswap_register to handle the reordering of elements in softmmu
+> and remove avr_need_swap which is now unused.
+>
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> ---
+>  target/ppc/gdbstub.c | 32 +++++++-------------------------
+>  1 file changed, 7 insertions(+), 25 deletions(-)
+> @@ -486,14 +479,9 @@ static int gdb_get_avr_reg(CPUPPCState *env, GByteArray *buf, int n)
+>
+>      if (n < 32) {
+>          ppc_avr_t *avr = cpu_avr_ptr(env, n);
+> -        if (!avr_need_swap(env)) {
+> -            gdb_get_reg128(buf, avr->u64[0] , avr->u64[1]);
+> -        } else {
+> -            gdb_get_reg128(buf, avr->u64[1] , avr->u64[0]);
+> -        }
+> +        gdb_get_reg128(buf, avr->VsrD(0) , avr->VsrD(1));
 
-yes, I presume so. For example, with the following change :
+Stray space before comma.
 
-diff --git a/hw/acpi/acpi-cpu-hotplug-stub.c b/hw/acpi/acpi-cpu-hotplug-stub.c
-index 3fc4b14c26..9725e4a81b 100644
---- a/hw/acpi/acpi-cpu-hotplug-stub.c
-+++ b/hw/acpi/acpi-cpu-hotplug-stub.c
-@@ -16,7 +16,7 @@ void acpi_switch_to_modern_cphp(AcpiCpuHotplug *gpe_cpu,
- void legacy_acpi_cpu_hotplug_init(MemoryRegion *parent, Object *owner,
-                                   AcpiCpuHotplug *gpe_cpu, uint16_t base)
- {
--    return;
-+    g_assert_not_reached();
- }
+Otherwise if we first fix up the Int128 field order then:
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
- void acpi_cpu_ospm_status(CPUHotplugState *cpu_st, ACPIOSTInfoList ***list)
-
-
-I get the following crash :
-
-./qemu-system-mips -machine malta -bios /dev/null -nodefaults -monitor stdio -S
-QEMU 6.0.93 monitor - type 'help' for more information
-(qemu) **
-ERROR:../hw/acpi/acpi-cpu-hotplug-stub.c:19:legacy_acpi_cpu_hotplug_init:
-code should not be reached
-Bail out!
-ERROR:../hw/acpi/acpi-cpu-hotplug-stub.c:19:legacy_acpi_cpu_hotplug_init:
-code should not be reached
-Aborted (core dumped)
-
---2088271309-1967759509-1629377565=:273833--
+thanks
+-- PMM
 
