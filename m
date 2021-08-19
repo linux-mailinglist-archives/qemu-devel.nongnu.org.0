@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47DEA3F1B95
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 16:28:33 +0200 (CEST)
-Received: from localhost ([::1]:48824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C05B3F1B93
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 16:28:05 +0200 (CEST)
+Received: from localhost ([::1]:46444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGj20-0003nM-AW
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 10:28:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55288)
+	id 1mGj1Y-0002El-2H
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 10:28:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mGixM-0001A7-6e
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 10:23:44 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:39474)
+ id 1mGiyF-000464-5V
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 10:24:39 -0400
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:45996)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mGixK-0000JP-Hj
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 10:23:43 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id gr13so13319846ejb.6
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 07:23:42 -0700 (PDT)
+ id 1mGiyC-00011i-9e
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 10:24:38 -0400
+Received: by mail-ej1-x634.google.com with SMTP id qk33so13250650ejc.12
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 07:24:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=mIGQ8U8i786FR1zep7CevtxmuInig+PDTXfDMPlOvEA=;
- b=gtyWdHMS7VtWCek66GvmBq4t6sHLW05ECmFn4aTzmxCOF+sC+ofphuEaDCtmHXJ1Mr
- tu5JtVWiIqdbeu1j/dAj2XCx+T/0zZ6Nk14hJg1xSSxv+YTpw0TOaCQLjq5/nplztA26
- ahX5fXLEuellvujHWzJCUC32QLpRF2lc3Ubo0Nsng9qjnlxiYbtxxtWlOQIC8uTKPGuN
- 7rDyvV8FmIQKvRilSHC9GJXbLCAq8v5H01JYDeFpmSaQt5ZD3A/xBka8BaxRbqxoFX0d
- Tz/qVxp4RXitkjjY2t7bEr9D+FcZYuCflL00YXHgHg/RhBclf4pghJlv5c7NXAzxD9ZN
- tv6Q==
+ bh=MxJZAmiRBKVITWDVgn/EujcjGVmHLC2dZigGtYB1+XU=;
+ b=iIiWpPQ6kV+71NimJKhX72o86BcdaxxR3UcGIlcD/396QWTeZD8AGFTRhIfmt7quhP
+ 7ya3X41p+q1IKKHzE9NR/6Mh3oS9AQAbKjIyGm9UrMlEb1AMisR3s5bKyzY/20PsP7fH
+ 6OpnADAMTCRb+DUSrFpd+uZcHi4QwCTEn0UlqLYDBrDFU53M7LwMH/OHzYrLBQq/OTkK
+ mwHopJ/Z5PyJMaLK1XYiBTnCVvWbgc9IgWPFWAi1z+8ZV+BLDY5mINytP/igcd0IwGA3
+ rppwucyt0qEFm7OtsLvOInKHol6Y27QhdjQf+jlWWEd6cUWgA44GRzPl0cMUb3qnE1nk
+ m0iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=mIGQ8U8i786FR1zep7CevtxmuInig+PDTXfDMPlOvEA=;
- b=Gsnmc1nUYjxSMFwMwzIhMPYqxXw4GROwLZirQP8RL4ehXGiNir4sQsy3QbwZMCNjZM
- 2C8fBGvnliDffl/j2q120NpZD9fO3pG3b3w73ByxJaWeASmWnhHrdQYtZLqfZ5jCaMUe
- PYpzOgE/AYc5NRTOywMwx6Ci6N8ppmQn44E6dkmEqQY/i6hEd4wkNGRn0352xouuS8a7
- 7LIQPrpaJG0KBkD747VTrY3JAM+vTxLRfTXAWFB0pUB95xxRITsPyixt1Zjz5+KEwG3Q
- KzBIkFWvqyUQr43trl1mEpT0v0uzjs+WhlJhWGRYSYON4OrTQLLrpwm+bRjLLsfHqDY7
- k+0A==
-X-Gm-Message-State: AOAM530s8ANl5mJC0Xiaxn08f5CL+XjbBxFEOQWHcJ2kAQ/HzaCLHPBf
- QEniodDtctGUgWq4Q4RFdgIkWbxLLIH2d3V8BFcgjQ==
-X-Google-Smtp-Source: ABdhPJw0Dz6lipZ39p2BDlWkryGQXesCzAay+G3XBqDjPumFIIFs0dts+0GtR8QtqV9JaZ4NbqZcZIl2F8U508d9q2c=
-X-Received: by 2002:a17:906:c085:: with SMTP id
- f5mr16276572ejz.250.1629383021060; 
- Thu, 19 Aug 2021 07:23:41 -0700 (PDT)
+ bh=MxJZAmiRBKVITWDVgn/EujcjGVmHLC2dZigGtYB1+XU=;
+ b=V+1fRM857T6fOFCFNsKhaZvL5zq275mCist6dheeUMS+DrmGPaOO4ib7EWxLyy1bCI
+ wO8SnfplluC7Mvj9fIWN7uuB+KnD47m4iRV8wLwQMOk9lIPr9XAEq94Fq8K8erxJ983n
+ BPnIgOnbQeXG5Klz0ZjPNOAqzDSazlIoJChS5ASAAlUcIqlCPL5nDoKdqyVm6pS+lmKp
+ VpqTX4bJqSytp30mgPgujH605xVHJ7HxhFPY06JdVPNAO6gNWejU3G2wB3fDYWRJdem1
+ eSBF4Xkc9aJFq+Z9GVbHkiP8f/vrSI4P9U1/+xXM4TWeBt1zgMoZDgBj7bLWLiMvLQNz
+ q6dQ==
+X-Gm-Message-State: AOAM530f/DRxQW7f90/dXRhSgfoK9XmIzSQ+TYmev7gbbOBRYG2EWFTY
+ yFXCqFXqxhWFzt5f1eB2I1p1hw9/3LOkac83wfjiaQ==
+X-Google-Smtp-Source: ABdhPJxwJkySlOBzI8AvqPf4F0fRaqYuu9d0WcvzELrFm4s6VZ8WU3LEE/aPkPrUai5gly6ByQST4Y57xepPc2BPjKQ=
+X-Received: by 2002:a17:906:e8d:: with SMTP id
+ p13mr16187591ejf.85.1629383074850; 
+ Thu, 19 Aug 2021 07:24:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210819142039.2825366-1-philmd@redhat.com>
- <20210819142039.2825366-5-philmd@redhat.com>
-In-Reply-To: <20210819142039.2825366-5-philmd@redhat.com>
+ <20210819142039.2825366-2-philmd@redhat.com>
+In-Reply-To: <20210819142039.2825366-2-philmd@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Aug 2021 15:22:54 +0100
-Message-ID: <CAFEAcA_MrsapWF9K4_HW7FNGcT8PHUJRer7FH_fMU4yf1wz4tw@mail.gmail.com>
-Subject: Re: [PATCH 4/6] hw/dma: Replace alloc() + address_space_init() by
- address_space_create()
+Date: Thu, 19 Aug 2021 15:23:48 +0100
+Message-ID: <CAFEAcA96oX2__WnRe7Fa02sSVgRNn7UsZy8_VxGAZc9cZ9e45w@mail.gmail.com>
+Subject: Re: [PATCH 1/6] memory: Do not increase refcount on global
+ system_memory region
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,41 +92,45 @@ Cc: David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 19 Aug 2021 at 15:21, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+On Thu, 19 Aug 2021 at 15:20, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
 m> wrote:
 >
-> Replace g_malloc0() + address_space_init() by address_space_create().
-> Release the resource in DeviceUnrealize().
+> system_memory is statically allocated in memory_map_init()
+> (softmmu/physmem.c) and is never destroyed. No need to
+> increment its refcount.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  hw/dma/xlnx-zdma.c    | 15 +++++++++------
->  hw/dma/xlnx_csu_dma.c |  9 ++-------
->  2 files changed, 11 insertions(+), 13 deletions(-)
+>  softmmu/memory.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 >
-> diff --git a/hw/dma/xlnx-zdma.c b/hw/dma/xlnx-zdma.c
-> index fa38a556341..9f6b3fa47c6 100644
-> --- a/hw/dma/xlnx-zdma.c
-> +++ b/hw/dma/xlnx-zdma.c
-> @@ -777,15 +777,17 @@ static void zdma_realize(DeviceState *dev, Error **=
-errp)
->          };
->      }
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index bfedaf9c4df..185f978c925 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -24,7 +24,7 @@
+>  #include "qemu/qemu-print.h"
+>  #include "qom/object.h"
+>  #include "trace.h"
+> -
+> +#include "exec/address-spaces.h"
+>  #include "exec/memory-internal.h"
+>  #include "exec/ram_addr.h"
+>  #include "sysemu/kvm.h"
+> @@ -2923,7 +2923,9 @@ void address_space_remove_listeners(AddressSpace *a=
+s)
 >
-> -    if (s->dma_mr) {
-> -        s->dma_as =3D g_malloc0(sizeof(AddressSpace));
-> -        address_space_init(s->dma_as, s->dma_mr, NULL);
-> -    } else {
-> -        s->dma_as =3D &address_space_memory;
-> -    }
-> +    s->dma_as =3D address_space_create(s->dma_mr ?: get_system_memory(),=
- NULL);
->      s->attr =3D MEMTXATTRS_UNSPECIFIED;
->  }
+>  void address_space_init(AddressSpace *as, MemoryRegion *root, const char=
+ *name)
+>  {
+> -    memory_region_ref(root);
+> +    if (root !=3D get_system_memory()) {
+> +        memory_region_ref(root);
+> +    }
 
-Why are these devices doing a heap allocation rather than
-having an AddressSpace whatever field in their device struct ?
+...but there's no need to have an odd special in this code either,
+is there? What harm does it do if the system memory MR has a lot of
+references ?
 
-thanks
 -- PMM
 
