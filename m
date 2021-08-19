@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEBC23F1EE1
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 19:18:08 +0200 (CEST)
-Received: from localhost ([::1]:42068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D003F1EE9
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 19:19:32 +0200 (CEST)
+Received: from localhost ([::1]:46544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGlg7-0004OH-Hn
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 13:18:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35814)
+	id 1mGlhT-0007Ns-KK
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 13:19:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGle0-0002LK-SZ
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 13:15:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22982)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGle2-0002MG-Rc
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 13:16:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49366)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGldx-0000gi-QZ
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 13:15:55 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGle1-0000jp-4o
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 13:15:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629393351;
+ s=mimecast20190719; t=1629393356;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=J7wr6m9xtwIzgByfa+MntP8DbSP81IC+NL8umwC96aU=;
- b=IUTVP3iyb1hn+4hCZthFSUJ/HEh00XDChJtgs3fOBLY/Nf6Vg+GI1nwtn5DVRauiC+yF0d
- 5eNDPFqbl91X9HoJYyAMXqxfhmdgKq7XR9wY6mS6EWnMjfCVLvwy50n9RH9sxDBwt+C0wa
- 2nuWLyocaX4Oqvw0rTQS/SESccc49ts=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iFdJgmZSFDi0T3tz5j4VdZ4mFoLbPu805prh7+ofjFQ=;
+ b=innYlTYEtJ4zW0FRraaS0DCyI8f8q0V5qn21GGWJjzugVZbBJAeahjwbBFRc5OMFfu0wrD
+ 8cpjOegj5te7uVAT3rYvYMLr327fpJ9wcya89kJvzCva4T66hOyjVivPLDhE3vil2X+WQ3
+ L/2yF/16T76tq2OrTz3u77G76VezfXw=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-2WUtuGtTOSuAyUCkqBx6PQ-1; Thu, 19 Aug 2021 13:15:50 -0400
-X-MC-Unique: 2WUtuGtTOSuAyUCkqBx6PQ-1
+ us-mta-261-oCLU2c7UM5ijvJm-4yBNzQ-1; Thu, 19 Aug 2021 13:15:55 -0400
+X-MC-Unique: oCLU2c7UM5ijvJm-4yBNzQ-1
 Received: by mail-wr1-f72.google.com with SMTP id
- d12-20020a056000186cb02901548bff164dso1915448wri.18
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 10:15:50 -0700 (PDT)
+ z1-20020adfdf810000b0290154f7f8c412so1919916wrl.21
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 10:15:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=mGq+uQ+l389hvpJSZEGyjdIEcpqyU00oM2WS3Spc/4M=;
- b=o5784P0Tiu/qxqE8VgrZfeeXLrU1Ui+HR/oDJEfABs2dULh7EQSmsmzEgjevTfhHNt
- DsJgwtoVio1PngmRNnkgUteb5/lll9FkkR7BYaHbwJ+Q12E+1Wov03YRWky7e6Z7Ji1p
- qzzsommypHYbw03GobHH3CyI8gyCR4zKtJ2ifAw1xwpJI67WTFgkgL8oOrkprQWCbDIE
- 4bRvtJVgvFKgm5xf9KJvRkv2WfRbddn+UKGVIAiXdRwYEzNcPdrYhumoK6Rj/vmdpcsZ
- 12N72RIgIuo5bIJvn3bisaSdwNe64oVoM8tbZ9sq9/zQbJuhhPuyz666+31QD6zRCsjM
- OPrw==
-X-Gm-Message-State: AOAM533usEQIE5E6KDlvZbLHaRHok40O76x28Gz07XySRpMgRmGwt/LE
- HnsUQBOigWFsFg12dmWHzp6d2L5RCRD0PvbYp0qOVQ0qtMbjBNT4b6CsCo1Q1STXtX9v8j4hoee
- gDNCnkd+QokUIrcVEal2zbNm77uCNjyGut9MbkPilMjJEkHdUI8AD1tqqj8xpDT0o
-X-Received: by 2002:a7b:c935:: with SMTP id h21mr14792404wml.143.1629393349012; 
- Thu, 19 Aug 2021 10:15:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwvmKpG8e51kIX/2UoLpMkmBzwtA5PVq3kz9Tmo0fPlPBoCVwxMxGErqW0q8xwKNAkLUA47KA==
-X-Received: by 2002:a7b:c935:: with SMTP id h21mr14792382wml.143.1629393348828; 
- Thu, 19 Aug 2021 10:15:48 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=iFdJgmZSFDi0T3tz5j4VdZ4mFoLbPu805prh7+ofjFQ=;
+ b=ZfndgGRn3RGEkGUtzo3TrOBLCMfBgj+dGFr96Dhj6JdJI0x87B4V6ipnT0uMdEVTAv
+ EOJoqWOCONSuxwkyjaLWUuw2ltIU2EIYizhmCQeBp2SWUQQGz+BqlVkDZsMI+lbIbeZp
+ EGetd6JsbWIgmAUpEbunP9dOKs0ElC/4Z63g+o2O07PfNhYrEkJkgi/rN1CjmDmTibRM
+ oSoRfihJb6ngaOdJMR+KyJYI5+mU0VAE1aNI53wtBd6tblAilQOTBHVsLGMRtEZYwmS5
+ G2Hu1TpRH4AjACRNRZOIjWLFU3tTb+1DHgiRM7jB6tPqUB930B+C35gjg+HPanbwZWHq
+ w+gg==
+X-Gm-Message-State: AOAM5314hS9uykFdMWJJpBtqH/u7OpBDmT+sIg3vM9qii2xfJtIajTIf
+ 22JzDeXLakI6GfwX3S6SdpNCxXXSi7FwX9u7Oa7vEfDKOmm/2KtuTLwdcdBWn+6nLhQ57s3gwlG
+ DEgm0l0E2NCx2kd1w5nTMHlRSkr4Qa3LGZOYrGTe3Ja2V7jP4kMOJa4JeWGBUxkLy
+X-Received: by 2002:a5d:5228:: with SMTP id i8mr5170475wra.391.1629393353733; 
+ Thu, 19 Aug 2021 10:15:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw21UpmnBmnx5p6noRHd2CHy1aSY69OdHAmHOK2vmdBbgqOMTNSGSOdNTXiMW7C3A5HvLZ7eA==
+X-Received: by 2002:a5d:5228:: with SMTP id i8mr5170452wra.391.1629393353542; 
+ Thu, 19 Aug 2021 10:15:53 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- e6sm3482790wrx.87.2021.08.19.10.15.47
+ p8sm7846501wme.22.2021.08.19.10.15.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 10:15:48 -0700 (PDT)
+ Thu, 19 Aug 2021 10:15:53 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] hw/usb: Always expect 'dma' link property to be set to
- simplify
-Date: Thu, 19 Aug 2021 19:15:44 +0200
-Message-Id: <20210819171547.2879725-1-philmd@redhat.com>
+Subject: [PATCH v2 1/3] hw/pci: Introduce pci_dma_memory_region() helper
+Date: Thu, 19 Aug 2021 19:15:45 +0200
+Message-Id: <20210819171547.2879725-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210819171547.2879725-1-philmd@redhat.com>
+References: <20210819171547.2879725-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -101,25 +103,32 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simplify the XHCI based devices by always passing a MemoryRegion=0D
-property to the device.  Doing so we can move the AddressSpace=0D
-field to the device struct, removing need for heap allocation.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (3):=0D
-  hw/pci: Introduce pci_dma_memory_region() helper=0D
-  hw/usb/hcd-xhci-pci: Abort if setting link property failed=0D
-  hw/usb/xhci: Always expect 'dma' link property to be set=0D
-=0D
- hw/usb/hcd-xhci.h        |  2 +-=0D
- include/hw/pci/pci.h     |  5 +++++=0D
- hw/i386/microvm.c        |  2 ++=0D
- hw/usb/hcd-xhci-pci.c    |  5 +++--=0D
- hw/usb/hcd-xhci-sysbus.c | 13 ++++++-------=0D
- hw/usb/hcd-xhci.c        | 20 ++++++++++----------=0D
- 6 files changed, 27 insertions(+), 20 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+pci_get_address_space() returns an AddressSpace. In some
+cases we want a MemoryRegion. Add the pci_dma_memory_region()
+equivalent helper.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ include/hw/pci/pci.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index d0f4266e372..5860f42e400 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -786,6 +786,11 @@ static inline AddressSpace *pci_get_address_space(PCIDevice *dev)
+     return &dev->bus_master_as;
+ }
+ 
++static inline MemoryRegion *pci_dma_memory_region(PCIDevice *dev)
++{
++    return &dev->bus_master_container_region;
++}
++
+ /**
+  * pci_dma_rw: Read from or write to an address space from PCI device.
+  *
+-- 
+2.31.1
 
 
