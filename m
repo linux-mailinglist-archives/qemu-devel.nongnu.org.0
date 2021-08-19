@@ -2,71 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D6773F20C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 21:41:25 +0200 (CEST)
-Received: from localhost ([::1]:54920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 923393F20E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 21:43:04 +0200 (CEST)
+Received: from localhost ([::1]:56638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGnum-000786-FV
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 15:41:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50522)
+	id 1mGnwN-0008IQ-LK
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 15:43:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mGnri-00014j-DT
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 15:38:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28368)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mGnrg-00009H-Hf
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 15:38:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629401892;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yO45+nK1BQOei6ySYl1qpyoEZ9mNjHXHcDF8uJJJvDo=;
- b=bAIJhRHPr4LYT9/Nl4Oy2TdesFVqIwUXXVLzsRq2IeJogbdym8t0sUwr0jc11Q2WQuAlRH
- FlV9A8UYrAgwm7mmJt6XoA7gZhzuXHPUX3XkoWkRpZjqmO1cIpEPKO2t/yZ1AwTEPoo0F/
- ZJPuyMuQKZrGceNtxhekV05S7KD+EQM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-fabAQ6_sMPCk4trnXJ0gBA-1; Thu, 19 Aug 2021 15:38:10 -0400
-X-MC-Unique: fabAQ6_sMPCk4trnXJ0gBA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 256DB18C8C00;
- Thu, 19 Aug 2021 19:38:09 +0000 (UTC)
-Received: from gator.home (unknown [10.40.192.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D9A71971B;
- Thu, 19 Aug 2021 19:38:07 +0000 (UTC)
-From: Andrew Jones <drjones@redhat.com>
-To: qemu-devel@nongnu.org,
-	qemu-arm@nongnu.org
-Subject: [PATCH 4/4] target/arm/cpu64: Validate sve vector lengths are
- supported
-Date: Thu, 19 Aug 2021 21:37:58 +0200
-Message-Id: <20210819193758.149660-5-drjones@redhat.com>
-In-Reply-To: <20210819193758.149660-1-drjones@redhat.com>
-References: <20210819193758.149660-1-drjones@redhat.com>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1mGntG-00052j-Fv; Thu, 19 Aug 2021 15:39:50 -0400
+Received: from [201.28.113.2] (port=4611 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1mGntE-0001E8-DQ; Thu, 19 Aug 2021 15:39:50 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 19 Aug 2021 16:39:43 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id 7267580101D;
+ Thu, 19 Aug 2021 16:39:43 -0300 (-03)
+Subject: Re: [PATCH for-6.2 v2 2/2] target/ppc: fix vector registers access in
+ gdbstub for little-endian
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210818110656.1993090-1-matheus.ferst@eldorado.org.br>
+ <20210818110656.1993090-3-matheus.ferst@eldorado.org.br>
+ <CAFEAcA89aPw5chrrzaV155Why0vjhN+BUQ7nfhz1_4EgcziBZw@mail.gmail.com>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+Message-ID: <f46a900b-c10c-b142-243c-58b0e0f22671@eldorado.org.br>
+Date: Thu, 19 Aug 2021 16:39:43 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CAFEAcA89aPw5chrrzaV155Why0vjhN+BUQ7nfhz1_4EgcziBZw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-OriginalArrivalTime: 19 Aug 2021 19:39:43.0856 (UTC)
+ FILETIME=[F5AF4700:01D79531]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.591,
+ PDS_HP_HELO_NORDNS=0.826, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,158 +61,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- ishii.shuuichir@fujitsu.com
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Greg Kurz <groug@kaod.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Future CPU types may specify which vector lengths are supported.
-We can apply nearly the same logic to validate those lengths
-as we do for KVM's supported vector lengths. We merge the code
-where we can, but unfortunately can't completely merge it because
-KVM requires all vector lengths, power-of-two or not, smaller than
-the maximum enabled length to also be enabled. The architecture
-only requires all the power-of-two lengths, though, so TCG will
-only enforce that.
+On 19/08/2021 09:42, Peter Maydell wrote:
+> [E-MAIL EXTERNO] Não clique em links ou abra anexos, a menos que você possa confirmar o remetente e saber que o conteúdo é seguro. Em caso de e-mail suspeito entre imediatamente em contato com o DTI.
+> 
+> On Wed, 18 Aug 2021 at 12:11, <matheus.ferst@eldorado.org.br> wrote:
+>>
+>> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>>
+>> As vector registers are stored in host endianness, we shouldn't swap its
+>> 64-bit elements in user mode. Add a 16-byte case in
+>> ppc_maybe_bswap_register to handle the reordering of elements in softmmu
+>> and remove avr_need_swap which is now unused.
+>>
+>> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>> ---
+>>   target/ppc/gdbstub.c | 32 +++++++-------------------------
+>>   1 file changed, 7 insertions(+), 25 deletions(-)
+>>
+>> diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
+>> index 09ff1328d4..011016edfa 100644
+>> --- a/target/ppc/gdbstub.c
+>> +++ b/target/ppc/gdbstub.c
+>> @@ -101,6 +101,8 @@ void ppc_maybe_bswap_register(CPUPPCState *env, uint8_t *mem_buf, int len)
+>>           bswap32s((uint32_t *)mem_buf);
+>>       } else if (len == 8) {
+>>           bswap64s((uint64_t *)mem_buf);
+>> +    } else if (len == 16) {
+>> +        bswap128s((Int128 *)mem_buf);
+> 
+> This cast looks dubious. Int128 is not necessarily a 128-bit value
+> in host byte order: if !CONFIG_INT128 then an Int128 is defined as:
+> struct Int128 {
+>      uint64_t lo;
+>      int64_t hi;
+> };
+> > with the low half always first.
+> 
+> So you can't cast your mem_buf* into an (Int128*) and then treat it
+> like an Int128, I'm afraid.
+> 
 
-Signed-off-by: Andrew Jones <drjones@redhat.com>
----
- target/arm/cpu64.c | 101 ++++++++++++++++++++-------------------------
- 1 file changed, 45 insertions(+), 56 deletions(-)
+That's a good point. I think that it's not a problem in practice for 
+this particular case because bswap128 will swap the struct members. Even 
+if we get the high part in Int128.lo, it should give the correct result.
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 557fd4757740..9cb41c442600 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -329,35 +329,26 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-                     break;
-                 }
-             }
--            max_vq = vq <= ARM_MAX_VQ ? vq - 1 : ARM_MAX_VQ;
--            bitmap_andnot(cpu->sve_vq_map, cpu->sve_vq_supported,
--                          cpu->sve_vq_init, max_vq);
--            if (max_vq == 0 || bitmap_empty(cpu->sve_vq_map, max_vq)) {
--                error_setg(errp, "cannot disable sve%d", vq * 128);
--                error_append_hint(errp, "Disabling sve%d results in all "
--                                  "vector lengths being disabled.\n",
--                                  vq * 128);
--                error_append_hint(errp, "With SVE enabled, at least one "
--                                  "vector length must be enabled.\n");
--                return;
--            }
-         } else {
-             /* Disabling a power-of-two disables all larger lengths. */
--            if (test_bit(0, cpu->sve_vq_init)) {
--                error_setg(errp, "cannot disable sve128");
--                error_append_hint(errp, "Disabling sve128 results in all "
--                                  "vector lengths being disabled.\n");
--                error_append_hint(errp, "With SVE enabled, at least one "
--                                  "vector length must be enabled.\n");
--                return;
--            }
--            for (vq = 2; vq <= ARM_MAX_VQ; vq <<= 1) {
-+            for (vq = 1; vq <= ARM_MAX_VQ; vq <<= 1) {
-                 if (test_bit(vq - 1, cpu->sve_vq_init)) {
-                     break;
-                 }
-             }
--            max_vq = vq <= ARM_MAX_VQ ? vq - 1 : ARM_MAX_VQ;
--            bitmap_complement(cpu->sve_vq_map, cpu->sve_vq_init, max_vq);
-+        }
-+
-+        max_vq = vq <= ARM_MAX_VQ ? vq - 1 : ARM_MAX_VQ;
-+        bitmap_andnot(cpu->sve_vq_map, cpu->sve_vq_supported,
-+                      cpu->sve_vq_init, max_vq);
-+        if (max_vq == 0 || bitmap_empty(cpu->sve_vq_map, max_vq)) {
-+            error_setg(errp, "cannot disable sve%d", vq * 128);
-+            error_append_hint(errp, "Disabling sve%d results in all "
-+                              "vector lengths being disabled.\n",
-+                              vq * 128);
-+            error_append_hint(errp, "With SVE enabled, at least one "
-+                              "vector length must be enabled.\n");
-+            return;
-         }
- 
-         max_vq = find_last_bit(cpu->sve_vq_map, max_vq) + 1;
-@@ -393,46 +384,44 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-     assert(max_vq != 0);
-     bitmap_clear(cpu->sve_vq_map, max_vq, ARM_MAX_VQ - max_vq);
- 
--    if (kvm_enabled()) {
--        /* Ensure the set of lengths matches what KVM supports. */
--        bitmap_xor(tmp, cpu->sve_vq_map, cpu->sve_vq_supported, max_vq);
--        if (!bitmap_empty(tmp, max_vq)) {
--            vq = find_last_bit(tmp, max_vq) + 1;
--            if (test_bit(vq - 1, cpu->sve_vq_map)) {
--                if (cpu->sve_max_vq) {
--                    error_setg(errp, "cannot set sve-max-vq=%d",
--                               cpu->sve_max_vq);
--                    error_append_hint(errp, "This KVM host does not support "
--                                      "the vector length %d-bits.\n",
--                                      vq * 128);
--                    error_append_hint(errp, "It may not be possible to use "
--                                      "sve-max-vq with this KVM host. Try "
--                                      "using only sve<N> properties.\n");
--                } else {
--                    error_setg(errp, "cannot enable sve%d", vq * 128);
--                    error_append_hint(errp, "This KVM host does not support "
--                                      "the vector length %d-bits.\n",
--                                      vq * 128);
--                }
-+    /* Ensure the set of lengths matches what is supported. */
-+    bitmap_xor(tmp, cpu->sve_vq_map, cpu->sve_vq_supported, max_vq);
-+    if (!bitmap_empty(tmp, max_vq)) {
-+        vq = find_last_bit(tmp, max_vq) + 1;
-+        if (test_bit(vq - 1, cpu->sve_vq_map)) {
-+            if (cpu->sve_max_vq) {
-+                error_setg(errp, "cannot set sve-max-vq=%d", cpu->sve_max_vq);
-+                error_append_hint(errp, "This CPU does not support "
-+                                  "the vector length %d-bits.\n", vq * 128);
-+                error_append_hint(errp, "It may not be possible to use "
-+                                  "sve-max-vq with this CPU. Try "
-+                                  "using only sve<N> properties.\n");
-             } else {
-+                error_setg(errp, "cannot enable sve%d", vq * 128);
-+                error_append_hint(errp, "This CPU does not support "
-+                                  "the vector length %d-bits.\n", vq * 128);
-+            }
-+            return;
-+        } else {
-+            if (kvm_enabled()) {
-                 error_setg(errp, "cannot disable sve%d", vq * 128);
-                 error_append_hint(errp, "The KVM host requires all "
-                                   "supported vector lengths smaller "
-                                   "than %d bits to also be enabled.\n",
-                                   max_vq * 128);
--            }
--            return;
--        }
--    } else {
--        /* Ensure all required powers-of-two are enabled. */
--        for (vq = pow2floor(max_vq); vq >= 1; vq >>= 1) {
--            if (!test_bit(vq - 1, cpu->sve_vq_map)) {
--                error_setg(errp, "cannot disable sve%d", vq * 128);
--                error_append_hint(errp, "sve%d is required as it "
--                                  "is a power-of-two length smaller than "
--                                  "the maximum, sve%d\n",
--                                  vq * 128, max_vq * 128);
-                 return;
-+            } else {
-+                /* Ensure all required powers-of-two are enabled. */
-+                for (vq = pow2floor(max_vq); vq >= 1; vq >>= 1) {
-+                    if (!test_bit(vq - 1, cpu->sve_vq_map)) {
-+                        error_setg(errp, "cannot disable sve%d", vq * 128);
-+                        error_append_hint(errp, "sve%d is required as it "
-+                                          "is a power-of-two length smaller "
-+                                          " than the maximum, sve%d\n",
-+                                          vq * 128, max_vq * 128);
-+                        return;
-+                    }
-+                }
-             }
-         }
-     }
+However, the code may be conceptually wrong. I'm probably breaking the 
+intended API of int128.h by relying on how the struct is defined, 
+instead of sticking to the provided int128_* methods. If someone 
+reproduces this in another context, it'll likely give the wrong answer.
+
+Maybe I should use int128_{make128,getlo,gethi} inside a #ifdef 
+HOST_WORDS_BIGENDIAN. Not so brief, but probably less wrong.
+
+> This also means that the "Int128 s128" field in the ppc_vsr_t union
+> seems dubious -- how is that intended to work ?
+> 
+
+I'll look further into that. There are currently two uses of this 
+member, one is just zeroing it, and the other is implementing the 
+vextu[bhw][lr]x instructions.
+
+> Maybe we should fix this by making the 'struct Int128' field order
+> depend on HOST_WORDS_BIGENDIAN...
+> 
+> -- PMM
+> 
+
+I can make this change if you prefer, but I think I should change 
+ppc_maybe_bswap_register to use int128_* methods anyway.
+
 -- 
-2.31.1
-
+Matheus K. Ferst
+Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+Analista de Software Júnior
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
