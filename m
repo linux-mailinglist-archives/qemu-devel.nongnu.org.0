@@ -2,71 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E003F1BC9
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 16:42:29 +0200 (CEST)
-Received: from localhost ([::1]:52410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D0C3F1BCD
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 16:43:05 +0200 (CEST)
+Received: from localhost ([::1]:55270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGjFU-0000L1-QY
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 10:42:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59184)
+	id 1mGjG3-0002HL-QT
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 10:43:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mGjCz-00062X-Nw
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 10:39:53 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:34539)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mGjCx-0005jo-FS
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 10:39:53 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id i6so9259677edu.1
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 07:39:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=rVC8tfYhipmemYFmjRtRhdi68uher+bWuQLN9CUoqW8=;
- b=NweIJOjvpsIbnLG97Qd+47zOtT41W+NbWQsFkqBH6TBWhhj5i88F6bEykAtvgBso/x
- pmV2PxpVQRK4bXF2c8o0sCq9IOSIwQHrr5uij6TNn0BnVmf/fb0nF3I3whVaeIUO7g4X
- DBBq+BmL2DxTD8siPo/b+TEa+gyle9b6wsZrq1SWbF92SOZPpuKCE6TOXsNNmP0DlZ/b
- P8YNArCQ+mqJnqOemc/od1kDlhpip22muPMhLDpa5D5L7HVhf/An+QW1rWrjeX2yn+BE
- +kRJF6wGD8vwzpaIiXlUPBNnN7gd8SYnQgdBMkXqL5GlMryKO7mVsdPXNqEAQ954X2SS
- w4gA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGjDH-0006vK-AG
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 10:40:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23234)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGjDF-0005zm-ME
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 10:40:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629384008;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SWbeGguC7Ob9phMGUDirs5P50yvjW99TPaeSAz9nMbc=;
+ b=MiwW6h+L8d5MDxSKpYfC74Br9WRleaSYl5y3Ytg982MPZL2nYUkVn5SboYJqfJEA9h8BYj
+ hm+/0Qyd4ABSUgd0VH+/x2bNW+jg6F3npUjwGURHdNzE3e+TIWtg9buPsVeNxz0KHPz8Ax
+ t51kDEa87DRsbFtj1ct3Psx88Oco1J4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-107-AMzNjvGvOBuZUMEiBAhTyA-1; Thu, 19 Aug 2021 10:40:03 -0400
+X-MC-Unique: AMzNjvGvOBuZUMEiBAhTyA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r17-20020adfda510000b02901526f76d738so1785479wrl.0
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 07:40:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=rVC8tfYhipmemYFmjRtRhdi68uher+bWuQLN9CUoqW8=;
- b=dsoNw+barWtUIhVY32+n08ZIthb0cdki+SjduvWNYW1vbCBqK8Ium/zhB9ntTuwlRs
- xb+DvYxsoX7Clo82YMdP6ZmjW3sQflB62UEIVw6NCkZudM9xVQdjPRkWYW1j+6/IUg9w
- kNQ+JByKk5RDLrkjz73uEVFd2jCyOU9evWFXLhOmF4dAMyPVexFPJyULT8Qr3Oa1Kmwo
- UUfvPaDKa+y04ppfutcx7NdYQccsEAVW39x5pLDjAwOoqZDcDJVAB7hMLk136VnmiVK1
- 3Dt12VznoIiNr7nPaJbkZxfwgaFYyGlcFI4ABEIFKc0P7CSzylj8l74Wx7kICzbLpXcD
- J53w==
-X-Gm-Message-State: AOAM531Ebd3LxbV1WYkL6YtowtEuUcDw3JTnWzl85kEFjvgkyX/aP94H
- Z121zLh/huqTBfYB/l/J+US6LZv2T/gCMDeaSPf1rQ==
-X-Google-Smtp-Source: ABdhPJxPy1Tbwa0IrIjEOnUhL73R/0RC4se0mZNxmttHkMVtLwjpHEhm0O7MW+tpAHWwjImV+aUDph4Mq6VuQ9Sji5Q=
-X-Received: by 2002:a05:6402:4387:: with SMTP id
- o7mr16746117edc.204.1629383989466; 
- Thu, 19 Aug 2021 07:39:49 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=SWbeGguC7Ob9phMGUDirs5P50yvjW99TPaeSAz9nMbc=;
+ b=tFJoRAc9YbS6eW3JV3A97XSif8kfXeGVHE9rgynayP6HFygFeVAPUYNsb7rR9JfH+7
+ cZy+QFSCyff3m3j8JwuRDJfjyDNE6HiC4gSzkk25aLOqHq7y+ew4OHEPF4BiX1ewC7Wa
+ 4gnbp7GbSoaxGk7mAoslrmL7BlLKdEP+notr8JoZK4PSH8vH6hKrHG0CI6qj8l70zNPY
+ Ajwtcx0X04JxFSuXuzqqm32Ro19CH3Nv3gckROl6LlL652VPQwZWDF9oBGNpQki00eEy
+ TSZSokHwxP0t4eI5gNKvAvM/GmpVeDcoL4ivUxVRPYyyBdydz0rzR284gf+F4ZzUGMdC
+ aGJw==
+X-Gm-Message-State: AOAM533Y+SDFlDWQ8ppPUTCguJfUQxeg/+qPc8674aJd5+geSHjge/U4
+ U9K1pFNCKtU/GuM0JQDzYazCUjI3gkZmJT/g8GITmeMjDTIYHv4KM1DP3zjqO6kiZMALa7bwi25
+ OjVXg9B3ytlJogDs=
+X-Received: by 2002:a1c:7f90:: with SMTP id a138mr13495288wmd.33.1629384002350; 
+ Thu, 19 Aug 2021 07:40:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxC8o0wqlDREGQoMLCvINCdadI9h/9W7YyYV47kdvSXGaM1Ccj53NCfeUpYfWzpiQ1pc4KnVQ==
+X-Received: by 2002:a1c:7f90:: with SMTP id a138mr13495276wmd.33.1629384002225; 
+ Thu, 19 Aug 2021 07:40:02 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id m7sm7536938wmq.29.2021.08.19.07.39.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Aug 2021 07:40:01 -0700 (PDT)
+Subject: Re: [PATCH] hw/dma/xlnx_csu_dma: Fix ptimer resource leak
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210819141527.2821842-1-philmd@redhat.com>
+ <CAFEAcA-1aDG_DZDbWGy=uXDjPGdkcMaN8SRF9_i7KnbQes-_NQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <055214e9-a809-7ad5-f2b6-7ef1b0ccb229@redhat.com>
+Date: Thu, 19 Aug 2021 16:39:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210819142731.2827912-1-philmd@redhat.com>
-In-Reply-To: <20210819142731.2827912-1-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Aug 2021 15:39:03 +0100
-Message-ID: <CAFEAcA90OerVT659PRwss_OKG24n=zx_X_w2nT3KPsKtVXyB8A@mail.gmail.com>
-Subject: Re: [PATCH] qdev: Complete qdev_init_gpio_out() documentation
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA-1aDG_DZDbWGy=uXDjPGdkcMaN8SRF9_i7KnbQes-_NQ@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -60
+X-Spam_score: -6.1
+X-Spam_bar: ------
+X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.591, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,46 +98,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Xuzhou Cheng <xuzhou.cheng@windriver.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 19 Aug 2021 at 15:27, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> qdev_init_gpio_out() states it "creates an array of anonymous
-> output GPIO lines" but doesn't document how this array is
-> released. Add a note that it is automatically free'd in qdev
-> instance_finalize().
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  include/hw/qdev-core.h | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index bafc311bfa1..555d4e444a5 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -597,6 +597,10 @@ void qdev_init_gpio_in(DeviceState *dev, qemu_irq_ha=
-ndler handler, int n);
->   *
->   * See qdev_connect_gpio_out() for how code that uses such a device
->   * can connect to one of its output GPIO lines.
-> + *
-> + * There is no need to release the @pins allocated array because it
-> + * will be automatically released when @dev calls its instance_finalize(=
-)
-> + * handler.
->   */
->  void qdev_init_gpio_out(DeviceState *dev, qemu_irq *pins, int n);
->  /**
+On 8/19/21 4:21 PM, Peter Maydell wrote:
+> On Thu, 19 Aug 2021 at 15:15, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+>>
+>> Fixes: 35593573b25 ("hw/dma: Implement a Xilinx CSU DMA model")
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  hw/dma/xlnx_csu_dma.c | 8 ++++++++
+>>  1 file changed, 8 insertions(+)
+>>
+>> diff --git a/hw/dma/xlnx_csu_dma.c b/hw/dma/xlnx_csu_dma.c
+>> index 797b4fed8f5..0c1c19cab5a 100644
+>> --- a/hw/dma/xlnx_csu_dma.c
+>> +++ b/hw/dma/xlnx_csu_dma.c
+>> @@ -660,6 +660,13 @@ static void xlnx_csu_dma_realize(DeviceState *dev, Error **errp)
+>>      s->r_size_last_word = 0;
+>>  }
+> 
+> This is a sysbus device -- when can it ever get unrealized ?
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Alright. Then we should add an assertion if a SysBusDevice has a
+non-NULL unrealize() handler.
 
-thanks
--- PMM
 
