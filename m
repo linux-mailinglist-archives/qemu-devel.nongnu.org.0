@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA0BC3F115A
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE0F3F1159
 	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 05:15:42 +0200 (CEST)
-Received: from localhost ([::1]:46204 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:46084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGYWr-0006EQ-OI
+	id 1mGYWr-0006A2-KT
 	for lists+qemu-devel@lfdr.de; Wed, 18 Aug 2021 23:15:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56626)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mGYSD-0006D1-9H
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 23:10:53 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2467)
+ id 1mGYSA-0006Ca-O8
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 23:10:50 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2086)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mGYS5-0003Oi-Pu
- for qemu-devel@nongnu.org; Wed, 18 Aug 2021 23:10:52 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.54])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GqqRv2yzczbf5P;
- Thu, 19 Aug 2021 11:06:51 +0800 (CST)
+ id 1mGYS5-0003PJ-Pi
+ for qemu-devel@nongnu.org; Wed, 18 Aug 2021 23:10:50 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GqqRw0YmXzdZVc;
+ Thu, 19 Aug 2021 11:06:52 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 19 Aug 2021 11:10:36 +0800
+ 15.1.2176.2; Thu, 19 Aug 2021 11:10:37 +0800
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 19 Aug 2021 11:10:35 +0800
+ 15.1.2176.2; Thu, 19 Aug 2021 11:10:36 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v6 01/16] docs/about/removed-features: Remove duplicated doc
- about -smp
-Date: Thu, 19 Aug 2021 11:10:12 +0800
-Message-ID: <20210819031027.41104-2-wangyanan55@huawei.com>
+Subject: [PATCH v6 02/16] machine: Deprecate "parameter=0" SMP configurations
+Date: Thu, 19 Aug 2021 11:10:13 +0800
+Message-ID: <20210819031027.41104-3-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210819031027.41104-1-wangyanan55@huawei.com>
 References: <20210819031027.41104-1-wangyanan55@huawei.com>
@@ -45,8 +44,8 @@ X-Originating-IP: [10.174.187.128]
 X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -80,67 +79,111 @@ Cc: Peter
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are two places describing the same thing about deprecation
-of invalid topologies of -smp CLI, so remove the duplicated one.
+In the SMP configuration, we should either provide a topology
+parameter with a reasonable value (greater than zero) or just
+omit it and QEMU will compute the missing value.
+
+The users shouldn't provide a configuration with any parameter
+of it specified as zero (e.g. -smp 8,sockets=0) which could
+possibly cause unexpected results in the -smp parsing. So we
+deprecate this kind of configurations since 6.2 by adding the
+explicit sanity check.
 
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 ---
- docs/about/removed-features.rst | 21 ++++-----------------
- 1 file changed, 4 insertions(+), 17 deletions(-)
+ docs/about/deprecated.rst | 15 +++++++++++++++
+ hw/core/machine.c         | 14 ++++++++++++++
+ qapi/machine.json         |  2 +-
+ qemu-options.hx           | 12 +++++++-----
+ 4 files changed, 37 insertions(+), 6 deletions(-)
 
-diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-index cbfa1a8e31..f5d6e2ea9c 100644
---- a/docs/about/removed-features.rst
-+++ b/docs/about/removed-features.rst
-@@ -194,7 +194,7 @@ by the ``tls-authz`` and ``sasl-authz`` options.
- The ``pretty=on|off`` switch has no effect for HMP monitors and
- its use is rejected.
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 6d438f1c8d..8dbb027dbb 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -138,6 +138,21 @@ an underscore between "window" and "close").
+ The ``-no-quit`` is a synonym for ``-display ...,window-close=off`` which
+ should be used instead.
  
--``-drive file=json:{...{'driver':'file'}}`` (removed 6.0)
-+``-drive file=json:{...{'driver':'file'}}`` (removed in 6.0)
- '''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++``-smp`` ("parameter=0" SMP configurations) (since 6.2)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Specified CPU topology parameters must be greater than zero.
++
++In the SMP configuration, users should either provide a CPU topology
++parameter with a reasonable value (greater than zero) or just omit it
++and QEMU will compute the missing value.
++
++However, historically it was implicitly allowed for users to provide
++a parameter with zero value, which is meaningless and could also possibly
++cause unexpected results in the -smp parsing. So support for this kind of
++configurations (e.g. -smp 8,sockets=0) is deprecated since 6.2 and will
++be removed in the near future, users have to ensure that all the topology
++members described with -smp are greater than zero.
  
- The 'file' driver for drives is no longer appropriate for character or host
-@@ -593,7 +593,7 @@ error when ``-u`` is not used.
- Command line options
- --------------------
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 54e040587d..3b5df9b002 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -832,6 +832,20 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
+         return;
+     }
  
--``-smp`` (invalid topologies) (removed 5.2)
-+``-smp`` (invalid topologies) (removed in 5.2)
- '''''''''''''''''''''''''''''''''''''''''''
++    /*
++     * Specified CPU topology parameters must be greater than zero,
++     * explicit configuration like "cpus=0" is not allowed.
++     */
++    if ((config->has_cpus && config->cpus == 0) ||
++        (config->has_sockets && config->sockets == 0) ||
++        (config->has_dies && config->dies == 0) ||
++        (config->has_cores && config->cores == 0) ||
++        (config->has_threads && config->threads == 0) ||
++        (config->has_maxcpus && config->maxcpus == 0)) {
++        warn_report("Invalid CPU topology deprecated: "
++                    "CPU topology parameters must be greater than zero");
++    }
++
+     mc->smp_parse(ms, config, errp);
+     if (*errp) {
+         goto out_free;
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 157712f006..10a97837d3 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1297,7 +1297,7 @@
+ #
+ # @dies: number of dies per socket in the CPU topology
+ #
+-# @cores: number of cores per thread in the CPU topology
++# @cores: number of cores per die in the CPU topology
+ #
+ # @threads: number of threads per core in the CPU topology
+ #
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 83aa59a920..aee622f577 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -227,11 +227,13 @@ SRST
+     of computing the CPU maximum count.
  
- CPU topology properties should describe whole machine topology including
-@@ -606,7 +606,7 @@ Support for invalid topologies is removed, the user must ensure
- topologies described with -smp include all possible cpus, i.e.
- *sockets* * *cores* * *threads* = *maxcpus*.
+     Either the initial CPU count, or at least one of the topology parameters
+-    must be specified. Values for any omitted parameters will be computed
+-    from those which are given. Historically preference was given to the
+-    coarsest topology parameters when computing missing values (ie sockets
+-    preferred over cores, which were preferred over threads), however, this
+-    behaviour is considered liable to change.
++    must be specified. The specified parameters must be greater than zero,
++    explicit configuration like "cpus=0" is not allowed. Values for any
++    omitted parameters will be computed from those which are given.
++    Historically preference was given to the coarsest topology parameters
++    when computing missing values (ie sockets preferred over cores, which
++    were preferred over threads), however, this behaviour is considered
++    liable to change.
+ ERST
  
--``-numa`` node (without memory specified) (removed 5.2)
-+``-numa`` node (without memory specified) (removed in 5.2)
- '''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
- Splitting RAM by default between NUMA nodes had the same issues as ``mem``
-@@ -647,20 +647,7 @@ as ignored. Currently, users are responsible for making sure the backing storage
- specified with ``-mem-path`` can actually provide the guest RAM configured with
- ``-m`` and QEMU fails to start up if RAM allocation is unsuccessful.
- 
--``-smp`` (invalid topologies) (removed 5.2)
--'''''''''''''''''''''''''''''''''''''''''''
--
--CPU topology properties should describe whole machine topology including
--possible CPUs.
--
--However, historically it was possible to start QEMU with an incorrect topology
--where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
--which could lead to an incorrect topology enumeration by the guest.
--Support for invalid topologies is removed, the user must ensure
--topologies described with -smp include all possible cpus, i.e.
--*sockets* * *cores* * *threads* = *maxcpus*.
--
--``-machine enforce-config-section=on|off`` (removed 5.2)
-+``-machine enforce-config-section=on|off`` (removed in 5.2)
- ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
- The ``enforce-config-section`` property was replaced by the
+ DEF("numa", HAS_ARG, QEMU_OPTION_numa,
 -- 
 2.19.1
 
