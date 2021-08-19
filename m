@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302373F1D70
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 18:05:53 +0200 (CEST)
-Received: from localhost ([::1]:38772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2AE3F1D72
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 18:06:45 +0200 (CEST)
+Received: from localhost ([::1]:41786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGkYB-00034r-OL
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 12:05:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49988)
+	id 1mGkZ2-0005As-La
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 12:06:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mGkWB-0000DX-Ev
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:03:47 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:33289)
+ id 1mGkXZ-000384-Ds
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:05:13 -0400
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:39681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mGkW9-0001NH-Ju
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:03:46 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id x11so14086066ejv.0
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 09:03:45 -0700 (PDT)
+ id 1mGkXX-0002HA-Tr
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:05:13 -0400
+Received: by mail-ed1-x535.google.com with SMTP id cn28so9613620edb.6
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 09:05:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PwZohkxOEkXxR0Ql+j9TWPNP+YsLVeysDP0tbUl+mag=;
- b=xcbfnMvITBaW7zkme4KSh0gnYZfM3SllH7AJ4shWm4sLvEVd1ZshqH/4Ma2o/tqTFV
- it+7tePwPIO7Hf1OPfEdP9FxQHefzmVXFFNFgmjeZ0qEkdGZkj0vG9LCF2iUh8gTsQUP
- qmHMQh/juPARmDSRp5iaQSGrvTFD+qHsrZ0ZLSSL6zSww5thaEkYviClOpnAEck9kDto
- e42C+lC9Xih+9OIF7km+zFugyZXY5Sx1TMTwxOLsHGRG9seWGXNu4djipVka2sjcbnYW
- BGax4Ac6w+hbSRjC7fMxH/49LeeTQ4EJtvnnHn81YQOMYWH4YF63aGe/+vnqzV5jTPIp
- 7Nwg==
+ :cc; bh=6nK9jXUxJES7UgMbFUvTYiSdh03y4FG2IrZ+s7Hkn50=;
+ b=n1s+xFZkzeol0IhYLbwLbFzoigp2xVwvwLOypPWszL9GTPuLFipCPGxb/+Wqk1RJ6f
+ kD7GhBtkdCikq0HKkXroZmWCtFItIVp4JbqGMeIvYUhrOITtNgdWSnfqwkt4f+pQVxPp
+ vIcV26ahgECcg0MbJcEg7yTDJ9KiY8GgQvg27i2TjDjjMPHdSve4HyOq/LzhPYpv0nju
+ WmcKM8oTdISEwVt3DOAk66YdOSXrUqDkVQbfCQ73DSVDNXGX/nd9t/Gatt3+2Cvi92Ks
+ I6qdEyBhgxiHQk5aKsBTPvC4z+3q4bFzLWYxX2omi5arb3yDFyElD4UskU7GXyyP1JnV
+ ndKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=PwZohkxOEkXxR0Ql+j9TWPNP+YsLVeysDP0tbUl+mag=;
- b=qTsJQWLGGBc6eTF1C+kqxVMsp4658r4P2pe+pfGIOpzLK75G+epWRGBVGwQg0t++CS
- Ryj2t9jTK4jW463M2kn7PNrQtgw0Ob1UsPbC2fnZyV2RMgq0sstQ2xrvWO9EN8TM8mj0
- O9JS6N03OYs83N8+yLKy2pmF+ZKpJHf7sWTWEsGl/snoTXr+spNUwCz5vZGT9nBO93lG
- 7XBMT1tEdwBPpbk4XatJOIGpNNcDBnUQAXjmiodtibgixvsAQvuR43A1S18VVPc1H1/z
- ZA1WqqnU6/XCXluv7virlGh7dq3kQ8oWxGGRD4tMSfcmZhHWVRgeQhWR3NAitaAy0uby
- r+vA==
-X-Gm-Message-State: AOAM5314Gr4QHMGJ46VIzuHs/YDO6EFMiR4YTOJBcsixFwOYAXQklx7w
- Awr/9jUMs86uGMeEScEba1YYJGpxsUTgWL3cm0D9sw==
-X-Google-Smtp-Source: ABdhPJzYXmWQa1wrtDReSWJkJgLGxpxQJZeG/ncBh7YaPLIkeM0YW/pKtw1cs+Jytav3DKI3egPrPsQbg3Yl4METZsA=
-X-Received: by 2002:a17:906:c085:: with SMTP id
- f5mr16751489ejz.250.1629389023948; 
- Thu, 19 Aug 2021 09:03:43 -0700 (PDT)
+ bh=6nK9jXUxJES7UgMbFUvTYiSdh03y4FG2IrZ+s7Hkn50=;
+ b=TieoOSq/Aqp0NIrF68ikZKbsoL0g5RdauY01qnGS4QbqfKN3lKExFKVrytsZWqRBaW
+ mXE7evcBkfsiVTXBHHMAsS3M5DRlhquY3jRHMQKS52h4m/6Wl1i2geo/Rm71Twhzfj9e
+ Na+MbMeuA1iIKQ/4vHJYKpMzGy+mdsoK0kXcsO/Y/ozC/w06Bux9Iy22fCMSv3zqy1Qm
+ WNO9RZ3gkNO3wrPFjaCx7RLV1fOssSsu8TlQdRqpUCWRxQWdWeXHEtYLu+If9fTm0vBJ
+ CQxgk2+nClVzzJpIysOxQ8LkrJxzPSfjcvNvWVXdhRq73T344Y6L079HvwkXz6k/2usV
+ fCMA==
+X-Gm-Message-State: AOAM530QxjHoLqm4ngIF9Muz7PHbu2BWqChWqZPI3cihY3aca++Msa4Q
+ WaPrnaeHHPdr2a4/tkS5MCS/TTsFabq33Bf0AWSkVw==
+X-Google-Smtp-Source: ABdhPJziJF5uM9PNTbrSilWnreoX3Vlx3qN+A6mCqQDhiAPpPbSGIj+ExX7DDi0M5EPWaMyG/Jqb4FVGTa75pYmno+w=
+X-Received: by 2002:aa7:c4cd:: with SMTP id p13mr16923849edr.251.1629389110229; 
+ Thu, 19 Aug 2021 09:05:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210818191920.390759-1-richard.henderson@linaro.org>
- <20210818191920.390759-45-richard.henderson@linaro.org>
-In-Reply-To: <20210818191920.390759-45-richard.henderson@linaro.org>
+ <20210818191920.390759-46-richard.henderson@linaro.org>
+In-Reply-To: <20210818191920.390759-46-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Aug 2021 17:02:57 +0100
-Message-ID: <CAFEAcA9qGExH0Vur9SVcfu3hsfcaRPhi4qDOjdQ+XS31G3u3yw@mail.gmail.com>
-Subject: Re: [PATCH v3 44/66] tcg/i386: Support raising sigbus for user-only
+Date: Thu, 19 Aug 2021 17:04:23 +0100
+Message-ID: <CAFEAcA8jLg2evvD3dubA6KsAuvUZEWHLeZdmuC1eoMT7Rd--YQ@mail.gmail.com>
+Subject: Re: [PATCH v3 45/66] tests/tcg/multiarch: Add sigbus.c
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,14 +81,15 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Aug 2021 at 21:11, Richard Henderson
+On Wed, 18 Aug 2021 at 20:38, Richard Henderson
 <richard.henderson@linaro.org> wrote:
+>
+> A mostly generic test for unaligned access raising SIGBUS.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tcg/i386/tcg-target.h     |   2 -
->  tcg/i386/tcg-target.c.inc | 107 ++++++++++++++++++++++++++++++++++++--
->  2 files changed, 102 insertions(+), 7 deletions(-)
+>  tests/tcg/multiarch/sigbus.c | 68 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 68 insertions(+)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
