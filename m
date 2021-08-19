@@ -2,91 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85D223F236B
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 00:54:34 +0200 (CEST)
-Received: from localhost ([::1]:49258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 534D63F2381
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 01:05:01 +0200 (CEST)
+Received: from localhost ([::1]:55182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGqvh-0000GL-Ll
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 18:54:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57774)
+	id 1mGr5o-0004fu-0I
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 19:05:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGquq-00077P-U4
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 18:53:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48128)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGqup-0000oH-Ec
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 18:53:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629413618;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PTrO1Od3fdTfn0dsb8godx4zsH/11REcDlmLtDNCZZw=;
- b=XRsABalU8C61BL8w2IhY5C5tLu7Y+vNg7NO1WmnfQSj2D5Gy1sBT58Xinrpev9M4DmjBMw
- d8UiJGLRhrD+MuKG3//sHNCjhEDb4UUqKXQb/JV26CRXetConqjeZh3cdUKgHQu/Dp5aNf
- 0s2H4fcpIWTZK5w5j1zc9zJfrPJ4VEg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-568-yO4OHX35MmmFcSg97fV_cw-1; Thu, 19 Aug 2021 18:53:37 -0400
-X-MC-Unique: yO4OHX35MmmFcSg97fV_cw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j19-20020a1c2313000000b002e7012b83e9so2767385wmj.2
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 15:53:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mGr4m-0003M4-4N
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 19:03:56 -0400
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:39688)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mGr4k-0007gl-KK
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 19:03:55 -0400
+Received: by mail-pl1-x635.google.com with SMTP id l11so4865230plk.6
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 16:03:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=VR/EjdGFtOAtpnd0HVtuH2yRMjBWjUh8ro0PJdb1Ilc=;
+ b=sqQmcR3tzwE1wG3ME1uoWXG7p93EehTE/fAHyMo3IMgG2oX3mWLCTabx5Y9SJiDsLx
+ 3Qm/+yIovlPEBfjf8VhXL9QFTWKA4hRzeX9QT1NWxlEL8emacgkLTfxgqd8pskG9LNjx
+ zDTbbu6E0RjIZTuugF9O4MlCOwYf/rOczD0013q5/L1m2Kzgh4hlnoslo5KoG8saDLcF
+ 7QLh6AuWUi5t38B0C6Wz9KGtrbNp7ciKBfj37i42j4fYzXD1XIcsL2j0oySHaSJ7q3UG
+ S1PTBvrW3W3cTa24fa83Rs5kJL6VS4Wx5TSmwZ3L0ckl9qAN7vS0UBlVwcff8PQLXIxP
+ SjYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=PTrO1Od3fdTfn0dsb8godx4zsH/11REcDlmLtDNCZZw=;
- b=c0dqLlB4O9nsxptNQWlQN8fp3f2ZoPRF87Hk27CcGCoHbjRmzL+nSc52gDKvHI+Ej+
- kQoa7P+CCmnSb9aYCNNzU19XtuKP15Z6VqVh+mA5gsIs1nr3+TwevZ21aio3VlViJq4f
- oBms/Mmul3FNLDEXI//3IHSAUHI3sOntsXJfiw74dUERatDOOyj4j5uLycXjW8HY8KJw
- LF+PVwquQ/G7D5Fytt5tR9ludFR9sPYDlS54UL/TiOHf5R2ipSSTA3gZAKn8/lz0p0yI
- u2RbiMvi9tJu6CQT4dOACpM+tunrzLW8s4v9UvGGVycPjIX0ph0rrWcPWfsgNfcKKGEZ
- wUbw==
-X-Gm-Message-State: AOAM532JrLi+JissauSmzB4ruJROjDSDW9hVHrh2fK4n6ZOgD38s/bUf
- c2/CqLez4hL31hArl5mz0WmPZr2QUeXbABjDu1+Bmo4i4hIr2e4ApdW1yxhGxCVdhwG75xBxxF7
- rh5ffyMXFYcTRrgM=
-X-Received: by 2002:a1c:1b4b:: with SMTP id b72mr833031wmb.168.1629413616427; 
- Thu, 19 Aug 2021 15:53:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxKgjGqVqxM2gBksoK5qi4co9rldFdwtljDbPo85knouciW2jtVHC754I7jZS6nlbQmQ1V87A==
-X-Received: by 2002:a1c:1b4b:: with SMTP id b72mr833012wmb.168.1629413616228; 
- Thu, 19 Aug 2021 15:53:36 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id c7sm3429159wmq.13.2021.08.19.15.53.34
+ bh=VR/EjdGFtOAtpnd0HVtuH2yRMjBWjUh8ro0PJdb1Ilc=;
+ b=pneALeffTAgu5WgbcVgPQv6hJbIqhDNo/2ityMTPcMBe3jABFNBwucoymvzvW0ikEC
+ 2Arg425a0MRF8uvIU3t2M9o8QngroqQkAqFs0vKJnVEB7z4/HqHxfZFKZzIa7lGWLs/J
+ befZiz7vcOB5OxihU6p3fcOqLDqwunu5a/oy5ZUmmagP6ndo4N9cNwPc+AgH3LtFNFJa
+ HtDxi/IKx2jsJwWbIFDDxhqeI9jlLezj16YLjGdq0a48EwBvQ9tRoP8E7/LGGS2z8dRE
+ 7u1rojikG67Aq5DYgWQunna9Ms44u9IDpQUNbJJHJXGG55DWxyj3Pf9vgUM0wWulRdqA
+ T8wA==
+X-Gm-Message-State: AOAM530JLt8b4np43HfxwAh6gA6pzcKiywUWeFj+oCRZNGKTvfmNh6AE
+ jnHP0zdI5qYgDJm6RJynBie2sQ==
+X-Google-Smtp-Source: ABdhPJwfXZD6Uu8TxQQ4dhoJ2ycC8xbkVo/21EUA74AjWNgv+iRvg8/aLIqmFW9GyaKX4lvAKjvdJA==
+X-Received: by 2002:a17:902:8d84:b0:12d:da0a:6970 with SMTP id
+ v4-20020a1709028d8400b0012dda0a6970mr11817008plo.54.1629414232743; 
+ Thu, 19 Aug 2021 16:03:52 -0700 (PDT)
+Received: from [192.168.3.43] ([173.197.107.15])
+ by smtp.gmail.com with ESMTPSA id y13sm4797877pfq.147.2021.08.19.16.03.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Aug 2021 15:53:35 -0700 (PDT)
-Subject: Re: [PATCH 1/4] target/arm/cpu: Introduce sve_vq_supported bitmap
-To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-References: <20210819193758.149660-1-drjones@redhat.com>
- <20210819193758.149660-2-drjones@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0a13b4ce-d869-d3cc-820f-eeb36171cf25@redhat.com>
-Date: Fri, 20 Aug 2021 00:53:33 +0200
+ Thu, 19 Aug 2021 16:03:52 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 v2 2/2] target/ppc: fix vector registers access in
+ gdbstub for little-endian
+To: Peter Maydell <peter.maydell@linaro.org>,
+ "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+References: <20210818110656.1993090-1-matheus.ferst@eldorado.org.br>
+ <20210818110656.1993090-3-matheus.ferst@eldorado.org.br>
+ <CAFEAcA89aPw5chrrzaV155Why0vjhN+BUQ7nfhz1_4EgcziBZw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <270f1d40-f377-1f89-4a93-fb5774edb967@linaro.org>
+Date: Thu, 19 Aug 2021 13:03:48 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210819193758.149660-2-drjones@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAFEAcA89aPw5chrrzaV155Why0vjhN+BUQ7nfhz1_4EgcziBZw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -60
-X-Spam_score: -6.1
-X-Spam_bar: ------
-X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.591, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -46
+X-Spam_score: -4.7
+X-Spam_bar: ----
+X-Spam_report: (-4.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.591,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,26 +91,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- ishii.shuuichir@fujitsu.com
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Greg Kurz <groug@kaod.org>, qemu-ppc <qemu-ppc@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/19/21 9:37 PM, Andrew Jones wrote:
-> Allow CPUs that support SVE to specify which SVE vector lengths they
-> support by setting them in this bitmap. Currently only the 'max' and
-> 'host' CPU types supports SVE and 'host' requires KVM which obtains
-> its supported bitmap from the host. So, we only need to initialize the
-> bitmap for 'max' with TCG. And, since 'max' should support all SVE
-> vector lengths we simply fill the bitmap. Future CPU types may have
-> less trivial maps though.
-> 
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
-> ---
->  target/arm/cpu.h   | 4 ++++
->  target/arm/cpu64.c | 2 ++
->  2 files changed, 6 insertions(+)
+On 8/19/21 2:42 AM, Peter Maydell wrote:
+> Maybe we should fix this by making the 'struct Int128' field order
+> depend on HOST_WORDS_BIGENDIAN...
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Yes, I think so.
 
+At some point I had a notion of supporting Int128 natively in TCG, at least as far as data 
+movement and the host function call abi.
+
+
+r~
 
