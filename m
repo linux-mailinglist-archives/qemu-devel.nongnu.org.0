@@ -2,87 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E893C3F1E1B
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 18:38:58 +0200 (CEST)
-Received: from localhost ([::1]:44916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A980F3F1E2A
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 18:39:54 +0200 (CEST)
+Received: from localhost ([::1]:48336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGl4E-0002Cf-1n
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 12:38:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56418)
+	id 1mGl57-0004TY-PH
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 12:39:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGl0D-0002sP-ES
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:34:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29713)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mGl2o-0000XZ-A5
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:37:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGl0B-00063w-Dk
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:34:49 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mGl2k-0008Em-Sj
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:37:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629390885;
+ s=mimecast20190719; t=1629391046;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UUbBguyXCVYJjhJZ+w9myvvn9hfolADVgWzdBMV8UY0=;
- b=KWNfi7kioYTuFjci9olhb9aLIm7ytT2zkS9mhWXBmM3kaqIey7T1sjem5H7HHizwkL7qsi
- 4brTMFTzcteDfJhFVIDy+Nbwt0FzqwYmptcIS2dC8WZrtNrEhV3tISWgLrQGINe9OlP7Uh
- TVwvCzDY5dO8cCS1jVXm5/2ICRkpNL4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-359-AGiR8G4JOBisG9rUcdHbZg-1; Thu, 19 Aug 2021 12:34:44 -0400
-X-MC-Unique: AGiR8G4JOBisG9rUcdHbZg-1
-Received: by mail-wr1-f71.google.com with SMTP id
- n18-20020adfe792000000b00156ae576abdso1860476wrm.9
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 09:34:44 -0700 (PDT)
+ bh=RJXVlVh3PEbm/tKm2zuoUraOq6sI0ExwGw4Hd8knJCk=;
+ b=PHSzHA2jcI241lVrima3QCisjxoYD/oQFVIH4LEVNZpop08ZeOpoItLq+J79jEsM8seudO
+ NgTKMxgp9K6L9RRUzrFOikSipy0HguKUPlyHLJsArBe/wwZKUYnFjqNMIxzXvbnLiN4IvK
+ /Kv9w0ZnnkDdgbEImMcXB+asU8PUwhE=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-188-dvBo__PvN4OwMFUCR1iqVQ-1; Thu, 19 Aug 2021 12:37:23 -0400
+X-MC-Unique: dvBo__PvN4OwMFUCR1iqVQ-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ m5-20020a5d6a050000b0290154e83dce73so1861444wru.19
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 09:37:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=UUbBguyXCVYJjhJZ+w9myvvn9hfolADVgWzdBMV8UY0=;
- b=IJDKYayIyDqAvF4tmj0ozkdfpZ0Xl87lsQSRnYVGjZIFrKMWxqnHpwZUehNdNOwcla
- h2aOdYiPP+aeUCfpThzGM7M3e4eu24ReICcKVU4MMEX2yvMdXoWzaySPvnp9btSFme6A
- aVBl+/JOc1ZJT7sNSLWWGTJVGs0zcvL0qcXrQJ2n/T5e+Y0davpW2EsN97F9iz189KvG
- MekTCT/HohYPVNqmnjtjGL/lTbNiTCXDiW/7TQw3wyAbDk/WvJYU4FoGTfYOplO51StU
- vPnem2m734YSJR2Bwjbyeb9nqPVkZGR128bKgWVjVtDEJUl4xfSyvQsDGX5rrBSLjy7+
- Ii+A==
-X-Gm-Message-State: AOAM531E1Py+JDSIPsVAnV0Xh7DjsuFEwwd1P/Ty3zf560Zr6ziQuLX5
- xueto8qen5p7CslYZ/v8zsnkiBl5gTL0MQgDrLbFV+UqQ65HxO40xw4h0+Gx1Nys5tX8JqCT9vj
- LGEFOHAYPrKRCtutzEcPgeI46vf1FEdu2bExsRbTRrkO5JmZXvNaBgrXlN7bqA2/j
-X-Received: by 2002:a5d:610d:: with SMTP id v13mr4999052wrt.199.1629390882979; 
- Thu, 19 Aug 2021 09:34:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwmaEtnCEXhfyBtiG7sklsRZFxJHkJPBiuZL3RTfmR91Y7klbwLTOR6Lg0tS+Od/Q+PGWTGyg==
-X-Received: by 2002:a5d:610d:: with SMTP id v13mr4999028wrt.199.1629390882797; 
- Thu, 19 Aug 2021 09:34:42 -0700 (PDT)
-Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=RJXVlVh3PEbm/tKm2zuoUraOq6sI0ExwGw4Hd8knJCk=;
+ b=bISrkpqH8RJACeSqNgOdiiBkGAhMeuG5Qb7VI/7a2lQi0TLXnv2qDqyErKWOXgQY/a
+ ruIfpqVebJRd6R5gGHW9wwNXG7Xb+2GjxRWtb7olaLD4ggA191DC8O8rjMkeuy/u2RwN
+ M4qGM/vTytgmVualJ99X/E8bi2itlBGFssRe9iQuP22NvWpkmURYvcMv5x0SJAIDeUzS
+ 2GiAe4DaP57bdmIJMr/TzOHrdiJw0R8Tv5zseK+xiCoB7vvv0ycHqD1GwXE9Y/RUobVs
+ WFzT0tPkLpqgY/ZCJS4N83CsjW7qImecdJU1U1Ni41WE7zP/rOKdHJHHrHIu3Fg5nxV2
+ eUOg==
+X-Gm-Message-State: AOAM531D2QVsD8qv4l0t2gNT8waPICGJZf5ea9kIWarGGNTbm6hV7ErU
+ rxfIxJx6r/rT5106WvQ6mvxKaRLmJ0b89a43KADignu+2ADXBcq5VdaSVwVHBk35CGrzLfBwdpu
+ mCjum8TxEPQKsJP8=
+X-Received: by 2002:a5d:65cd:: with SMTP id e13mr4993976wrw.368.1629391042075; 
+ Thu, 19 Aug 2021 09:37:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx9fgqV2pD522aHq9ixVdQk79tUp/s+iGAExLalE44PgE5Twe4RfQ2S8aFc0nwR8Cm2G+TQfA==
+X-Received: by 2002:a5d:65cd:: with SMTP id e13mr4993950wrw.368.1629391041814; 
+ Thu, 19 Aug 2021 09:37:21 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
  by smtp.gmail.com with ESMTPSA id
- b20sm3035140wmj.48.2021.08.19.09.34.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 09:34:42 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/4] hw/dma/xlnx-zdma Always expect 'dma' link property to
- be set
-Date: Thu, 19 Aug 2021 18:34:22 +0200
-Message-Id: <20210819163422.2863447-5-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210819163422.2863447-1-philmd@redhat.com>
-References: <20210819163422.2863447-1-philmd@redhat.com>
+ p14sm8063850wmi.42.2021.08.19.09.37.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Aug 2021 09:37:21 -0700 (PDT)
+Subject: Re: [PATCH 1/3] simplebench: add img_bench_templater.py
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210724133846.64614-1-vsementsov@virtuozzo.com>
+ <20210724133846.64614-2-vsementsov@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <784f21b4-f990-f0af-1f24-caa2c66144bf@redhat.com>
+Date: Thu, 19 Aug 2021 18:37:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210724133846.64614-2-vsementsov@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -60
+X-Spam_score: -6.1
+X-Spam_bar: ------
+X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-2.591, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,152 +99,248 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Simplify by always passing a MemoryRegion property to the device.
-Doing so we can move the AddressSpace field to the device struct,
-removing need for heap allocation.
+On 24.07.21 15:38, Vladimir Sementsov-Ogievskiy wrote:
+> Add simple grammar-parsing template benchmark.
 
-Update the Xilinx ZynqMP / Versal SoC models to pass the default
-system memory instead of a NULL value.
+This doesn’t really say much, and FWIW, for like ten minutes I thought 
+this would do something completely different than it did (while I was 
+trying to parse the help text).
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/hw/dma/xlnx-zdma.h |  2 +-
- hw/arm/xlnx-versal.c       |  2 ++
- hw/arm/xlnx-zynqmp.c       |  8 ++++++++
- hw/dma/xlnx-zdma.c         | 24 ++++++++++++------------
- 4 files changed, 23 insertions(+), 13 deletions(-)
+(I thought this was about formatting an existing test’s output, and that 
+“template” were kind of the wrong word, but then it turned out it’s 
+exactly the right word, only that this is not about using a test’s 
+output as a template, but actually using a template of a test (i.e. a 
+test template, not a template test) to generate test instances to 
+run...  Which of course is much cooler.)
 
-diff --git a/include/hw/dma/xlnx-zdma.h b/include/hw/dma/xlnx-zdma.h
-index 6602e7ffa72..efc75217d59 100644
---- a/include/hw/dma/xlnx-zdma.h
-+++ b/include/hw/dma/xlnx-zdma.h
-@@ -56,7 +56,7 @@ struct XlnxZDMA {
-     MemoryRegion iomem;
-     MemTxAttrs attr;
-     MemoryRegion *dma_mr;
--    AddressSpace *dma_as;
-+    AddressSpace dma_as;
-     qemu_irq irq_zdma_ch_imr;
- 
-     struct {
-diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-index fb776834f7e..d60eb4fb184 100644
---- a/hw/arm/xlnx-versal.c
-+++ b/hw/arm/xlnx-versal.c
-@@ -218,6 +218,8 @@ static void versal_create_admas(Versal *s, qemu_irq *pic)
-                                 TYPE_XLNX_ZDMA);
-         dev = DEVICE(&s->lpd.iou.adma[i]);
-         object_property_set_int(OBJECT(dev), "bus-width", 128, &error_abort);
-+        object_property_set_link(OBJECT(dev), "dma",
-+                                 OBJECT(get_system_memory()), &error_fatal);
-         sysbus_realize(SYS_BUS_DEVICE(dev), &error_fatal);
- 
-         mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
-diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-index 4344e223f2d..6cfce26210d 100644
---- a/hw/arm/xlnx-zynqmp.c
-+++ b/hw/arm/xlnx-zynqmp.c
-@@ -601,6 +601,10 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
-                                       errp)) {
-             return;
-         }
-+        if (!object_property_set_link(OBJECT(&s->gdma[i]), "dma",
-+                                      OBJECT(system_memory), errp)) {
-+            return;
-+        }
-         if (!sysbus_realize(SYS_BUS_DEVICE(&s->gdma[i]), errp)) {
-             return;
-         }
-@@ -611,6 +615,10 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
-     }
- 
-     for (i = 0; i < XLNX_ZYNQMP_NUM_ADMA_CH; i++) {
-+        if (!object_property_set_link(OBJECT(&s->adma[i]), "dma",
-+                                      OBJECT(system_memory), errp)) {
-+            return;
-+        }
-         if (!sysbus_realize(SYS_BUS_DEVICE(&s->adma[i]), errp)) {
-             return;
-         }
-diff --git a/hw/dma/xlnx-zdma.c b/hw/dma/xlnx-zdma.c
-index fa38a556341..a5a92b4ff8c 100644
---- a/hw/dma/xlnx-zdma.c
-+++ b/hw/dma/xlnx-zdma.c
-@@ -320,9 +320,9 @@ static bool zdma_load_descriptor(XlnxZDMA *s, uint64_t addr,
-         return false;
-     }
- 
--    descr->addr = address_space_ldq_le(s->dma_as, addr, s->attr, NULL);
--    descr->size = address_space_ldl_le(s->dma_as, addr + 8, s->attr, NULL);
--    descr->attr = address_space_ldl_le(s->dma_as, addr + 12, s->attr, NULL);
-+    descr->addr = address_space_ldq_le(&s->dma_as, addr, s->attr, NULL);
-+    descr->size = address_space_ldl_le(&s->dma_as, addr + 8, s->attr, NULL);
-+    descr->attr = address_space_ldl_le(&s->dma_as, addr + 12, s->attr, NULL);
-     return true;
- }
- 
-@@ -354,7 +354,7 @@ static void zdma_update_descr_addr(XlnxZDMA *s, bool type,
-     } else {
-         addr = zdma_get_regaddr64(s, basereg);
-         addr += sizeof(s->dsc_dst);
--        next = address_space_ldq_le(s->dma_as, addr, s->attr, NULL);
-+        next = address_space_ldq_le(&s->dma_as, addr, s->attr, NULL);
-     }
- 
-     zdma_put_regaddr64(s, basereg, next);
-@@ -421,7 +421,7 @@ static void zdma_write_dst(XlnxZDMA *s, uint8_t *buf, uint32_t len)
-             }
-         }
- 
--        address_space_write(s->dma_as, s->dsc_dst.addr, s->attr, buf, dlen);
-+        address_space_write(&s->dma_as, s->dsc_dst.addr, s->attr, buf, dlen);
-         if (burst_type == AXI_BURST_INCR) {
-             s->dsc_dst.addr += dlen;
-         }
-@@ -497,7 +497,7 @@ static void zdma_process_descr(XlnxZDMA *s)
-                 len = s->cfg.bus_width / 8;
-             }
-         } else {
--            address_space_read(s->dma_as, src_addr, s->attr, s->buf, len);
-+            address_space_read(&s->dma_as, src_addr, s->attr, s->buf, len);
-             if (burst_type == AXI_BURST_INCR) {
-                 src_addr += len;
-             }
-@@ -765,6 +765,12 @@ static void zdma_realize(DeviceState *dev, Error **errp)
-     XlnxZDMA *s = XLNX_ZDMA(dev);
-     unsigned int i;
- 
-+    if (!s->dma_mr) {
-+        error_setg(errp, TYPE_XLNX_ZDMA " 'dma' link not set");
-+        return;
-+    }
-+    address_space_init(&s->dma_as, s->dma_mr, "zdma-dma");
-+
-     for (i = 0; i < ARRAY_SIZE(zdma_regs_info); ++i) {
-         RegisterInfo *r = &s->regs_info[zdma_regs_info[i].addr / 4];
- 
-@@ -777,12 +783,6 @@ static void zdma_realize(DeviceState *dev, Error **errp)
-         };
-     }
- 
--    if (s->dma_mr) {
--        s->dma_as = g_malloc0(sizeof(AddressSpace));
--        address_space_init(s->dma_as, s->dma_mr, NULL);
--    } else {
--        s->dma_as = &address_space_memory;
--    }
-     s->attr = MEMTXATTRS_UNSPECIFIED;
- }
- 
--- 
-2.31.1
+Functionality-wise, as far as I understand (of course I have no 
+knowledge of lark), this looks good to me.  And it’s really quite cool.
+
+I just found the documentation confusing, so I have some suggestions for 
+it below.
+
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   scripts/simplebench/img_bench_templater.py | 85 ++++++++++++++++++++++
+>   scripts/simplebench/table_templater.py     | 62 ++++++++++++++++
+>   2 files changed, 147 insertions(+)
+>   create mode 100755 scripts/simplebench/img_bench_templater.py
+>   create mode 100644 scripts/simplebench/table_templater.py
+>
+> diff --git a/scripts/simplebench/img_bench_templater.py b/scripts/simplebench/img_bench_templater.py
+> new file mode 100755
+> index 0000000000..d18a243d35
+> --- /dev/null
+> +++ b/scripts/simplebench/img_bench_templater.py
+> @@ -0,0 +1,85 @@
+> +#!/usr/bin/env python3
+> +#
+> +# Run img-bench template tests
+> +#
+> +# Copyright (c) 2021 Virtuozzo International GmbH.
+> +#
+> +# This program is free software; you can redistribute it and/or modify
+> +# it under the terms of the GNU General Public License as published by
+> +# the Free Software Foundation; either version 2 of the License, or
+> +# (at your option) any later version.
+> +#
+> +# This program is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +# GNU General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU General Public License
+> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+> +#
+> +
+> +
+> +import sys
+> +import subprocess
+> +import re
+> +import json
+> +
+> +import simplebench
+> +from results_to_text import results_to_text
+> +from table_templater import Templater
+> +
+> +
+> +def bench_func(env, case):
+> +    test = templater.gen(env['data'], case['data'])
+> +
+> +    p = subprocess.run(test, shell=True, stdout=subprocess.PIPE,
+> +                       stderr=subprocess.STDOUT, universal_newlines=True)
+> +
+> +    if p.returncode == 0:
+> +        try:
+> +            m = re.search(r'Run completed in (\d+.\d+) seconds.', p.stdout)
+> +            return {'seconds': float(m.group(1))}
+> +        except Exception:
+> +            return {'error': f'failed to parse qemu-img output: {p.stdout}'}
+> +    else:
+> +        return {'error': f'qemu-img failed: {p.returncode}: {p.stdout}'}
+> +
+> +
+> +if __name__ == '__main__':
+> +    if len(sys.argv) > 1:
+> +        print("""
+> +Usage: no arguments. Just pass template test to stdin. Template test is
+
+FWIW, I completely misunderstood this.
+
+At first, this sounded really ambiguous to me; then I thought that 
+clearly this must mean that one should pipe the test’s output to this 
+script, i.e.
+
+$ path/to/test.sh | scripts/simplebench/img_bench_templater.py
+
+But now after reading more, I finally understand that this is not what 
+is meant, but actually literally passing some template of a test script 
+to this script, i.e.
+
+$ scripts/simplebench/img_bench_templater.py < path/to/test-template.sh
+
+So, two things; first, I believe it should be a “test template”, not a 
+“template test”, because this is about templates for a test, not about a 
+test that has something to do with templates.
+
+Second, perhaps we should start with what this does.
+
+Perhaps:
+
+“This script generates performance tests from a test template (example 
+below), runs them, and displays the results in a table. The template is 
+read from stdin.  It must be written in bash and end with a `qemu-img 
+bench` invocation (whose result is parsed to get the test instance’s 
+result).”?
+
+> +a bash script, last command should be qemu-img bench (it's output is parsed
+> +to get a result). For templating use the following synax:
+
+“Use the following syntax in the template to create the various 
+different test instances:”?
+
+> +
+> +  column templating: {var1|var2|...} - test will use different values in
+> +  different columns. You may use several {} constructions in the test, in this
+> +  case product of all choice-sets will be used.
+> +
+> +  row templating: [var1|var2|...] - similar thing to define rows (test-cases)
+> +
+> +Test tempalate example:
+
+*template
+
+> +
+> +Assume you want to compare two qemu-img binaries, called qemu-img-old and
+> +qemu-img-new in your build directory in two test-cases with 4K writes and 64K
+> +writes. Test may look like this:
+
+I’d prefer s/Test/The template/.
+
+> +
+> +qemu_img=/path/to/qemu/build/qemu-img-{old|new}
+> +$qemu_img create -f qcow2 /ssd/x.qcow2 1G
+> +$qemu_img bench -c 100 -d 8 [-s 4K|-s 64K] -w -t none -n /ssd/x.qcow2
+> +
+> +If pass it to stdin of img_bench_templater.py, the resulting comparison table
+
+s/If pass it/When passing this/
+
+> +will contain two columns (for two binaries) and two rows (for two test-cases).
+> +""")
+> +        sys.exit()
+> +
+> +    templater = Templater(sys.stdin.read())
+> +
+> +    envs = [{'id': ' / '.join(x), 'data': x} for x in templater.columns]
+> +    cases = [{'id': ' / '.join(x), 'data': x} for x in templater.rows]
+> +
+> +    result = simplebench.bench(bench_func, envs, cases, count=5,
+> +                               initial_run=False)
+> +    print(results_to_text(result))
+> +    with open('results.json', 'w') as f:
+> +        json.dump(result, f, indent=4)
+
+Is this worth documenting?
+
+> diff --git a/scripts/simplebench/table_templater.py b/scripts/simplebench/table_templater.py
+> new file mode 100644
+> index 0000000000..950f3b3024
+> --- /dev/null
+> +++ b/scripts/simplebench/table_templater.py
+> @@ -0,0 +1,62 @@
+> +# Parser for test templates
+> +#
+> +# Copyright (c) 2021 Virtuozzo International GmbH.
+> +#
+> +# This program is free software; you can redistribute it and/or modify
+> +# it under the terms of the GNU General Public License as published by
+> +# the Free Software Foundation; either version 2 of the License, or
+> +# (at your option) any later version.
+> +#
+> +# This program is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +# GNU General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU General Public License
+> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+> +#
+> +
+> +import itertools
+> +from lark import Lark
+> +
+> +grammar = """
+> +start: ( text | column_switch | row_switch )+
+> +
+> +column_switch: "{" text ["|" text]+ "}"
+> +row_switch: "[" text ["|" text]+ "]"
+> +text: /[^|{}\[\]]+/
+
+So I have no idea how this really works, of course, but does this mean 
+that the `text` pattern cannot contain pipe symbols?  I.e. that you 
+cannot use pipes in the test template?
+
+Hanna
+
+> +"""
+> +
+> +parser = Lark(grammar)
+> +
+> +class Templater:
+> +    def __init__(self, template):
+> +        self.tree = parser.parse(template)
+> +
+> +        c_switches = []
+> +        r_switches = []
+> +        for x in self.tree.children:
+> +            if x.data == 'column_switch':
+> +                c_switches.append([el.children[0].value for el in x.children])
+> +            elif x.data == 'row_switch':
+> +                r_switches.append([el.children[0].value for el in x.children])
+> +
+> +        self.columns = list(itertools.product(*c_switches))
+> +        self.rows = list(itertools.product(*r_switches))
+> +
+> +    def gen(self, column, row):
+> +        i = 0
+> +        j = 0
+> +        result = []
+> +
+> +        for x in self.tree.children:
+> +            if x.data == 'text':
+> +                result.append(x.children[0].value)
+> +            elif x.data == 'column_switch':
+> +                result.append(column[i])
+> +                i += 1
+> +            elif x.data == 'row_switch':
+> +                result.append(row[j])
+> +                j += 1
+> +
+> +        return ''.join(result)
 
 
