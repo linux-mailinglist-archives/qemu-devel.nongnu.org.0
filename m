@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F133F2362
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 00:52:32 +0200 (CEST)
-Received: from localhost ([::1]:41284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7FA93F2363
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 00:53:10 +0200 (CEST)
+Received: from localhost ([::1]:43124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGqti-0003SR-Qx
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 18:52:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57362)
+	id 1mGquL-0004ex-Vk
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 18:53:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mGqsG-0002Qq-Lg; Thu, 19 Aug 2021 18:51:00 -0400
-Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:44547)
+ id 1mGqsr-0003JP-KG; Thu, 19 Aug 2021 18:51:37 -0400
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:37796)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mGqsE-0007It-CW; Thu, 19 Aug 2021 18:51:00 -0400
-Received: by mail-io1-xd2e.google.com with SMTP id g9so9773567ioq.11;
- Thu, 19 Aug 2021 15:50:56 -0700 (PDT)
+ id 1mGqsp-0007hz-Tg; Thu, 19 Aug 2021 18:51:37 -0400
+Received: by mail-io1-xd33.google.com with SMTP id b7so9788935iob.4;
+ Thu, 19 Aug 2021 15:51:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=LOftkpDKk6mQohXTsd7ZQ8wmGXsKNS5uiJKFMfnXOSw=;
- b=Y7P0vhzAlSZYQaPbEgUsQe4NGSD3SodzaPROtQNWf4J0NjWRbcRtkNpYTG6dtOrqcm
- Eufs54Qa3028TTonK5ulXGmqf2JiGuAFQhi7wjBzciXrghKsEZNCZYxtFkvKQTt0cZj1
- XIm6vNXEhHYbTldGCC3N+MyGCfidn1QTjWTt7eDJPS+MPvbicf5pht9QorThbSdOfjo9
- /2113G48fvW5P7Lxmd9M5L/S2FA+UGGMTvpFM19W+oWUp5zXDAx/AV07x1mwhGOC02nD
- oUnNaqv8xBS/logv8zpf8WC7oZzBi/KOx3dNMMf1XnB07h3p2N4mutx2+YIO9B5yfRlZ
- Kzzw==
+ bh=AEizeeqCVH0wImSsTsJ0Jf6ckHx+EP1nXgT1ff0qgB8=;
+ b=KoEhbfkDrNb83tNpxhXji5yt3UzY7ZBl875QVj0kRS1p25fPIGTG/LxcIaaWrq5V45
+ yWKe1x6Vwgm7dSUFnpIoq504IbjIXQaJUHw5PJDu/IaiOMtuxgsgsBuGlAyTaBQU6ura
+ nADwyTR9HLq6VUhPwaBkLLgZja4IRew9hRoI2tgkmATWwhbDvP7TJHixOCYyRi4n16cW
+ mg/9M9au5wkBJs7VRBqJwhrBkdTEh6F8mXB4bsdYoKP5M+ln6u1blbdcF3dMzIc6U6ra
+ N0w8DiaZ4vh7xYdGrXZa2oPi9UB9nratSLN+Gh9/0flaDaJOWpMK8WVnzAnjPyAFup7U
+ Ekeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=LOftkpDKk6mQohXTsd7ZQ8wmGXsKNS5uiJKFMfnXOSw=;
- b=YxUEDsutVYZ9OPTfdtbqEckghPZ1VSNfTR6Re4pdCb9obNLxAo70fXHPbcio7rWXqE
- BhqCyWxreTHMn+23h82FWxQCqsxdPIuzydoVRdoXpZjnX4gP8IkWvbtUR0RCuapVgEsg
- YRKIf0xetKo0nc868FXTsDTbN4qvs7yLa2TTZxBN9bl9m1zJVGRwXSKArY6OqADpyGlq
- HPZPDCjt0/sFbDMKYK555D+4pkkqlG7g5UTSZxPxKM2wuGgBRMGvVU4ae130FzRJ1qjA
- cpFdK0DpMNbFOupzvH8CJ/TwpBZHz4AARj2Byv6DRcSrF59apkgzW5KOe3uM9svMaFde
- yn5g==
-X-Gm-Message-State: AOAM5300H8mm5MebCxOk/e94NKFpDo10thBcB9W08YG99wMe6BXcKMbJ
- SzPmScuGuc6RvTtuOuG9MWlPtqkmhBDlKzSuHNc=
-X-Google-Smtp-Source: ABdhPJxbxmTeV19i0+RNextvBpmE2qN/CvfyYnT/Ww6WtTJpfI9NaV3GeTg3pXpyV7vDll2dqU1Y8SU/Mmc6u2GgyVQ=
-X-Received: by 2002:a6b:610d:: with SMTP id v13mr13145030iob.42.1629413455982; 
- Thu, 19 Aug 2021 15:50:55 -0700 (PDT)
+ bh=AEizeeqCVH0wImSsTsJ0Jf6ckHx+EP1nXgT1ff0qgB8=;
+ b=cD6Sml1kHYSWMzLTJvjcM/q94G7KuXrRY1m0wyCYZpq6lgB6UicjO8nHyG2q2Sf+iw
+ pRZ2jMOCgzibEj2qQNwDJOkSMsXu3uUVs0NabEZzOrW9kcNHSoXO9ppdFlu7myVEVezw
+ rRlGTS9sNYbFaM6gGybgxzlgB6bevqte45PwZU/4zI13LIM06nCBmtOC7DUC0BIHkwxq
+ XO9q8TaIy5htCGEpoeygCnoUoRGXMbCgNcOOKSCFfGTB265t4tZqi+MHRiOwvEdHlhZC
+ OeqOZlp6d5YvUYX8bCcCNhyXuI2of63uCoipCTeILKlwGrdjN0sAtkHzZppL4be4uajZ
+ tX8g==
+X-Gm-Message-State: AOAM533d22vmm8ZbnMsXjZmaSTGXtK7WC6a5ZDK3V7c7Ew0NwRdzHlPK
+ 69wSh1CPJhYvjMYAprCHsTyHk90OocZnUWtbe+I=
+X-Google-Smtp-Source: ABdhPJxbZ3xF9F8bAzgxnGGw2TYSZ1pc6fOMUy/4sgkypv8mgo+wr3g03rEQDlTITgjNbn5YFSZYj7fdObIdLnXqP9Y=
+X-Received: by 2002:a6b:490d:: with SMTP id u13mr13629780iob.176.1629413494610; 
+ Thu, 19 Aug 2021 15:51:34 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210819163422.2863447-1-philmd@redhat.com>
- <20210819163422.2863447-2-philmd@redhat.com>
-In-Reply-To: <20210819163422.2863447-2-philmd@redhat.com>
+ <20210819163422.2863447-3-philmd@redhat.com>
+In-Reply-To: <20210819163422.2863447-3-philmd@redhat.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 20 Aug 2021 08:50:30 +1000
-Message-ID: <CAKmqyKNvEKT=C04brWRgS4K2bcE642_ZdTutDfeJtpQrEEcMsA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] hw/arm/xlnx-zynqmp: Realize qspi controller
- *after* qspi_dma
+Date: Fri, 20 Aug 2021 08:51:08 +1000
+Message-ID: <CAKmqyKMp2Fs4pc2_bRyY9BUZ+Kn7LAeMYn128rZw8QwC1W8CLQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] hw/dma/xlnx_csu_dma: Run trivial checks early in
+ realize()
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -90,10 +90,9 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Fri, Aug 20, 2021 at 2:35 AM Philippe Mathieu-Daud=C3=A9
 <philmd@redhat.com> wrote:
 >
-> If we link QOM object (a) as a property of QOM object (b),
-> we must set the property *before* (b) is realized.
->
-> Move QSPI realization *after* QSPI DMA.
+> If some property are not set, we'll return indicating a failure,
+> so it is pointless to allocate / initialize some fields too early.
+> Move the trivial checks earlier in realize().
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
@@ -102,73 +101,39 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/arm/xlnx-zynqmp.c | 42 ++++++++++++++++++++----------------------
->  1 file changed, 20 insertions(+), 22 deletions(-)
+>  hw/dma/xlnx_csu_dma.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 >
-> diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-> index 3597e8db4de..9724978761b 100644
-> --- a/hw/arm/xlnx-zynqmp.c
-> +++ b/hw/arm/xlnx-zynqmp.c
-> @@ -570,26 +570,6 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Er=
-ror **errp)
->          g_free(bus_name);
->      }
+> diff --git a/hw/dma/xlnx_csu_dma.c b/hw/dma/xlnx_csu_dma.c
+> index 797b4fed8f5..2d19f415ef3 100644
+> --- a/hw/dma/xlnx_csu_dma.c
+> +++ b/hw/dma/xlnx_csu_dma.c
+> @@ -626,6 +626,11 @@ static void xlnx_csu_dma_realize(DeviceState *dev, E=
+rror **errp)
+>      XlnxCSUDMA *s =3D XLNX_CSU_DMA(dev);
+>      RegisterInfoArray *reg_array;
 >
-> -    if (!sysbus_realize(SYS_BUS_DEVICE(&s->qspi), errp)) {
-> -        return;
-> -    }
-> -    sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi), 0, QSPI_ADDR);
-> -    sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi), 1, LQSPI_ADDR);
-> -    sysbus_connect_irq(SYS_BUS_DEVICE(&s->qspi), 0, gic_spi[QSPI_IRQ]);
-> -
-> -    for (i =3D 0; i < XLNX_ZYNQMP_NUM_QSPI_BUS; i++) {
-> -        gchar *bus_name;
-> -        gchar *target_bus;
-> -
-> -        /* Alias controller SPI bus to the SoC itself */
-> -        bus_name =3D g_strdup_printf("qspi%d", i);
-> -        target_bus =3D g_strdup_printf("spi%d", i);
-> -        object_property_add_alias(OBJECT(s), bus_name,
-> -                                  OBJECT(&s->qspi), target_bus);
-> -        g_free(bus_name);
-> -        g_free(target_bus);
-> -    }
-> -
->      if (!sysbus_realize(SYS_BUS_DEVICE(&s->dp), errp)) {
->          return;
->      }
-> @@ -646,8 +626,26 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Er=
-ror **errp)
->
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi_dma), 0, QSPI_DMA_ADDR);
->      sysbus_connect_irq(SYS_BUS_DEVICE(&s->qspi_dma), 0, gic_spi[QSPI_IRQ=
-]);
-> -    object_property_set_link(OBJECT(&s->qspi), "stream-connected-dma",
-> -                             OBJECT(&s->qspi_dma), errp);
-> +
-> +    if (!object_property_set_link(OBJECT(&s->qspi), "stream-connected-dm=
-a",
-> +                                  OBJECT(&s->qspi_dma), errp)) {
-> +         return;
-> +    }
-> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->qspi), errp)) {
+> +    if (!s->is_dst && !s->tx_dev) {
+> +        error_setg(errp, "zynqmp.csu-dma: Stream not connected");
 > +        return;
 > +    }
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi), 0, QSPI_ADDR);
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->qspi), 1, LQSPI_ADDR);
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->qspi), 0, gic_spi[QSPI_IRQ]);
 > +
-> +    for (i =3D 0; i < XLNX_ZYNQMP_NUM_QSPI_BUS; i++) {
-> +        g_autofree gchar *bus_name =3D g_strdup_printf("qspi%d", i);
-> +        g_autofree gchar *target_bus =3D g_strdup_printf("spi%d", i);
-> +
-> +        /* Alias controller SPI bus to the SoC itself */
-> +        object_property_add_alias(OBJECT(s), bus_name,
-> +                                  OBJECT(&s->qspi), target_bus);
-> +    }
->  }
+>      reg_array =3D
+>          register_init_block32(dev, xlnx_csu_dma_regs_info[!!s->is_dst],
+>                                XLNX_CSU_DMA_R_MAX,
+> @@ -640,11 +645,6 @@ static void xlnx_csu_dma_realize(DeviceState *dev, E=
+rror **errp)
+>      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->iomem);
+>      sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->irq);
 >
->  static Property xlnx_zynqmp_props[] =3D {
+> -    if (!s->is_dst && !s->tx_dev) {
+> -        error_setg(errp, "zynqmp.csu-dma: Stream not connected");
+> -        return;
+> -    }
+> -
+>      s->src_timer =3D ptimer_init(xlnx_csu_dma_src_timeout_hit,
+>                                 s, PTIMER_POLICY_DEFAULT);
+>
 > --
 > 2.31.1
 >
