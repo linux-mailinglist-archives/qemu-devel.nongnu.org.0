@@ -2,89 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32BFB3F1C79
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 17:17:07 +0200 (CEST)
-Received: from localhost ([::1]:34188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF0AE3F1C8C
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 17:22:50 +0200 (CEST)
+Received: from localhost ([::1]:40226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGjn0-0002Aj-8E
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 11:17:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38828)
+	id 1mGjsX-0006PD-LI
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 11:22:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mGjkd-0008Rz-Mi
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 11:14:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51593)
+ (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1mGjre-0005X7-RN; Thu, 19 Aug 2021 11:21:54 -0400
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2149)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mGjka-0002QD-Ir
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 11:14:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629386074;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bn+XgnDAn1rfbbaMWYJL5Nn6zeKRtsy5TjWJMdobqcg=;
- b=Q1xeKgQ0wS9Dvu/+dlgGfCSWjjR6r9Xs5pj58Xy48MjJ9ra7Gij3Ls5/nvBtDXBiUuMI2K
- J7usUBYfRdDS2WT2ZOFCeicop6jEF3Z7PeDijDHsjZN2zk7XGn9h0gAV0ZqI4YcrXUqBCP
- QzdZTdMfjrq2CxDdR9I4xUwrY6bGssA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-557-EKRrJblbNSWbb0FLvhSK7A-1; Thu, 19 Aug 2021 11:14:33 -0400
-X-MC-Unique: EKRrJblbNSWbb0FLvhSK7A-1
-Received: by mail-wr1-f69.google.com with SMTP id
- p10-20020a5d68ca000000b001552bf8b9daso1792162wrw.22
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 08:14:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=bn+XgnDAn1rfbbaMWYJL5Nn6zeKRtsy5TjWJMdobqcg=;
- b=kn50UnLTG96Yr83xfGknB0sWkZ3uRWL3MVFMIX1AZ6wqy92Ce2G+hC2yKiJtf+CCg/
- 6A5+2d2pDxHNLw8aaTOHVpghcv1UBdV+Pnbs3NkgJ90OiMPRGnhN6FlzHvREQwf0z09/
- fy5yv1OlMs9FB+kPHVqEfJqDe2J2cM/LJqRomPXxjgUfle0oK4sQ0kvl/Iy0i7g3XgaK
- BGIGLqxN8pv9xkM6W8B7U2iz3zAbwpt35Fp/ORRdm5rghR9dWav5ZTxgqrzcsU4Mwdze
- +vRqFPaXHeb0TE11sth3zyzvktn0ZSqbK9s5KU6ZWHGBzcXNCC9oWS2KyiadSQovTYXx
- aaQA==
-X-Gm-Message-State: AOAM530gvdzBmGU8vJ4dELuL/fko4TK4nLi+aB0xcv1pCPEhZEbV+tHs
- ikPljcBCzY02tTLCMG4dSc187rA4yTAOelr0LYETj9EsS9Rv0jXMMsSVlyo8VbWZJgOk84STwdT
- uDNyOP+Chk53mpV4=
-X-Received: by 2002:adf:db07:: with SMTP id s7mr4674217wri.106.1629386071945; 
- Thu, 19 Aug 2021 08:14:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwteHj+Y5rKUvJATY86qBydd17UtZXQGc2+VVO4kkqVlCJW4UHmUHAEjwEE8nzwaz1K7QY5xA==
-X-Received: by 2002:adf:db07:: with SMTP id s7mr4674188wri.106.1629386071691; 
- Thu, 19 Aug 2021 08:14:31 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- h11sm9265809wmc.23.2021.08.19.08.14.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Aug 2021 08:14:31 -0700 (PDT)
-Subject: Re: [PATCH] qemu-img: Allow target be aligned to sector size
-To: "Jose R. Ziviani" <jziviani@suse.de>
-References: <20210819101200.64235-1-hreitz@redhat.com> <YR5rWv4h+8QuyQGI@pizza>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <15930d90-ef66-103a-5ed5-549a08d7a559@redhat.com>
-Date: Thu, 19 Aug 2021 17:14:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <YR5rWv4h+8QuyQGI@pizza>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1mGjrb-0000HE-OT; Thu, 19 Aug 2021 11:21:54 -0400
+Received: from fraeml710-chm.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Gr7kY2D9Xz6DKlv;
+ Thu, 19 Aug 2021 23:20:37 +0800 (CST)
+Received: from lhreml715-chm.china.huawei.com (10.201.108.66) by
+ fraeml710-chm.china.huawei.com (10.206.15.59) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Thu, 19 Aug 2021 17:21:37 +0200
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ lhreml715-chm.china.huawei.com (10.201.108.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Thu, 19 Aug 2021 16:21:37 +0100
+Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
+ lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
+ 15.01.2308.008; Thu, 19 Aug 2021 16:21:37 +0100
+From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>, "Ani
+ Sinha" <ani@anisinha.ca>
+Subject: RE: [PATCH] hw/arm/Kconfig: no need to enable ACPI_MEMORY_HOTPLUG
+ explicitly
+Thread-Topic: [PATCH] hw/arm/Kconfig: no need to enable ACPI_MEMORY_HOTPLUG
+ explicitly
+Thread-Index: AQHXjyshD1ecXEbjmUeOqcPoduSk96t3FiQAgAOwnoCAAAWCAIAAAyEAgAAUcgCAABem0A==
+Date: Thu, 19 Aug 2021 15:21:37 +0000
+Message-ID: <2ce72c03d5864522a3e886287c2c6fa7@huawei.com>
+References: <20210812033405.362985-1-ani@anisinha.ca>
+ <alpine.DEB.2.22.394.2108171014500.202364@anisinha-lenovo>
+ <CAFEAcA8Fu+mkzFi9JdTtbqMcnnV74Swk04xx2a1G4L_oATY2eQ@mail.gmail.com>
+ <alpine.DEB.2.22.394.2108191849260.417749@anisinha-lenovo>
+ <alpine.DEB.2.22.394.2108191905100.418214@anisinha-lenovo>
+ <16b11751-7ab2-8d68-0bf2-5453bc2938fc@redhat.com>
+In-Reply-To: <16b11751-7ab2-8d68-0bf2-5453bc2938fc@redhat.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -60
-X-Spam_score: -6.1
-X-Spam_bar: ------
-X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.591, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.47.94.122]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=shameerali.kolothum.thodi@huawei.com;
+ helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,130 +78,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19.08.21 16:31, Jose R. Ziviani wrote:
-> Hello Hanna,
->
-> On Thu, Aug 19, 2021 at 12:12:00PM +0200, Hanna Reitz wrote:
->> We cannot write to images opened with O_DIRECT unless we allow them to
->> be resized so they are aligned to the sector size: Since 9c60a5d1978,
->> bdrv_node_refresh_perm() ensures that for nodes whose length is not
->> aligned to the request alignment and where someone has taken a WRITE
->> permission, the RESIZE permission is taken, too).
->>
->> Let qemu-img convert pass the BDRV_O_RESIZE flag (which causes
->> blk_new_open() to take the RESIZE permission) when using cache=none for
->> the target, so that when writing to it, it can be aligned to the target
->> sector size.
->>
->> Without this patch, an error is returned:
->>
->> $ qemu-img convert -f raw -O raw -t none foo.img /mnt/tmp/foo.img
->> qemu-img: Could not open '/mnt/tmp/foo.img': Cannot get 'write'
->> permission without 'resize': Image size is not a multiple of request
->> alignment
->>
->> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1994266
->> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
->> ---
->> As I have written in the BZ linked above, I am not sure what behavior we
->> want.  It can be argued that the current behavior is perfectly OK
->> because we want the target to have the same size as the source, so if
->> this cannot be done, we should just print the above error (which I think
->> explains the problem well enough that users can figure out they need to
->> resize the source image).
->>
->> OTOH, it is difficult for me to imagine a case where the user would
->> prefer the above error to just having qemu-img align the target image's
->> length.
-> This is timely convenient because I'm currently investigating an issue detected
-> by a libvirt-tck test:
->
-> https://gitlab.com/libvirt/libvirt-tck/-/blob/master/scripts/qemu/200-qcow2-single-backing-file.t
->
-> It fails with the same message:
-> qemu-system-x86_64: -device virtio-blk-pci,bus=pci.0,addr=0x3,drive=libvirt-1-format,id=virtio-disk1,write-cache=on: Cannot get 'write' permission without 'resize': Image size is not a multiple of request alignment
->
-> Libvirt-tck basically wants to make sure that libvirt won't pass a 'backing'
-> argument if we force a QCOW2 image to be interpreted as a RAW image. But, the
-> actual size of a (not preallocated) QCOW2 is usually unaligned so we ended up
-> failing at that requirement.
->
-> I crafted a reproducer (tck-main is a QCOW2 image):
->   $ ./qemu-system-x86_64 \
->    -machine pc-i440fx-6.0,accel=kvm -m 1024 -display none -no-user-config -nodefaults \
->    -kernel vmlinuz -initrd initrd \
->    -blockdev driver=file,filename=/var/cache/libvirt-tck/storage-fs/tck/tck-main,node-name=a,cache.direct=on \
->    -blockdev node-name=name,driver=raw,file=a \
->    -device virtio-blk-pci,drive=name
->
-> And if I remove 'cache.direct=on' OR if I remove the device virtio-blk-pci I
-> don't hit the failure.
->
-> In order to fix the libvirt-tck test case, I think that creating a preallocated
-> QCOW2 image is the best approach, considering their test case goal. But, if you
-> don't mind, could you explain why cache.direct=on doesn't set resize permission
-> with virtio-blk-pci?
-
-Well, users only take the permissions they need.  Because the device 
-doesn’t actively want to resize the disk, it doesn’t take the permission 
-(because other simultaneous users might not share that permission, and 
-so taking more permissions than you need may cause problems).
-
-So the decision whether to take the permission or not is a tradeoff.  I 
-mean, there’s always a work-around: The error message tells you that the 
-image is not aligned to the request alignment, so you can align the 
-image size manually.  The question is whether taking the permissions may 
-be problematic, and whether the user can be expected to align the image 
-size.
-
-(And we also need to keep in mind that this case is extremely rare. I 
-don’t think that users in practice will ever have images that are not 
-4k-aligned.  What the test is doing is of course something that would 
-never happen in a practical set-up, in fact, I believe attaching a qcow2 
-image as a raw image to a VM is something that would usually be 
-considered dangerous from a security perspective.[1])
-
-For qemu-img convert (i.e. for this patch), I decided that it is 
-extremely unlikely there are concurrent users for the target, so I can’t 
-imagine taking more permissions would cause problems.  The only downside 
-I could see is that the target image would be larger than the source 
-image, but I think that is still the outcome that users want.
-
-On the other side, applying the work-around may be problematic for 
-users: The source image of qemu-img convert shouldn’t have to be 
-writable.  So resizing it (just so it can be converted to be stored on a 
-medium with 4k sector size) may actually be impossible for the user.
-
-Now, for the virtio-blk case, that is different.  If you’re willing to 
-apply the work-around, then you don’t have to do so on an “innocent 
-bystander” image.  You have to resize the very image you want to use, 
-i.e. one that must be writable anyway.  So resizing the image outside of 
-qemu to match the alignment is feasible.
-
-OTOH, because this is a live and complete image, it’s entirely possible 
-that there are concurrent users that would block virtio-blk from taking 
-the RESIZE permission, so I don’t think we should take it lightly.
-
-So I think for the virtio-blk case the weight of pro and contra is very 
-different than for qemu-img.  I’m not sure we should take the RESIZE 
-permission in that case, especially considering that the example is not 
-a real-world one.
-
-I think if we really want to improve something for the virtio-blk case, 
-it would be to have the error message tell what the request alignment 
-is, and to add an error hint like
-
-“Try resizing the image using `qemu-img resize -f {bs->drv->format_name} 
-+{ROUND_UP(length, aligment) - length}`.”
-
-Hanna
-
-[1] Just to have it mentioned: Attaching a qcow2 image as a qcow2 image 
-should work perfectly fine, because the qcow2 driver takes the RESIZE 
-permission.
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGhpbGlwcGUgTWF0aGll
+dS1EYXVkw6kgW21haWx0bzpwaGlsbWRAcmVkaGF0LmNvbV0NCj4gU2VudDogMTkgQXVndXN0IDIw
+MjEgMTU6NTANCj4gVG86IEFuaSBTaW5oYSA8YW5pQGFuaXNpbmhhLmNhPg0KPiBDYzogUGV0ZXIg
+TWF5ZGVsbCA8cGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnPjsgUUVNVSBEZXZlbG9wZXJzDQo+IDxx
+ZW11LWRldmVsQG5vbmdudS5vcmc+OyBxZW11LWFybSA8cWVtdS1hcm1Abm9uZ251Lm9yZz47IE1p
+Y2hhZWwgUy4NCj4gVHNpcmtpbiA8bXN0QHJlZGhhdC5jb20+OyBJZ29yIE1hbW1lZG92IDxpbWFt
+bWVkb0ByZWRoYXQuY29tPjsNCj4gU2hhbWVlcmFsaSBLb2xvdGh1bSBUaG9kaSA8c2hhbWVlcmFs
+aS5rb2xvdGh1bS50aG9kaUBodWF3ZWkuY29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIXSBody9h
+cm0vS2NvbmZpZzogbm8gbmVlZCB0byBlbmFibGUNCj4gQUNQSV9NRU1PUllfSE9UUExVRyBleHBs
+aWNpdGx5DQo+IA0KPiBDYydpbmcgU2hhbWVlciBLb2xvdGh1bS4NCj4gDQo+IE9uIDgvMTkvMjEg
+MzozNiBQTSwgQW5pIFNpbmhhIHdyb3RlOg0KPiA+IE9uIFRodSwgMTkgQXVnIDIwMjEsIEFuaSBT
+aW5oYSB3cm90ZToNCj4gPj4gT24gVGh1LCAxOSBBdWcgMjAyMSwgUGV0ZXIgTWF5ZGVsbCB3cm90
+ZToNCj4gPj4+IE9uIFR1ZSwgMTcgQXVnIDIwMjEgYXQgMDU6NDUsIEFuaSBTaW5oYSA8YW5pQGFu
+aXNpbmhhLmNhPiB3cm90ZToNCj4gDQo+ID4+PiBJcyBpdCBpbnRlbmRlZCB0aGF0IEFDUElfSFdf
+UkVEVUNFRCBtdXN0IGFsd2F5cyBpbXBseQ0KPiA+Pj4gQUNQSV9NRU1PUllfSE9UUExVRywgb3Ig
+aXMgaXQganVzdCBhIGNvaW5jaWRlbmNlIHRoYXQgdGhlIHZpcnQgYm9hcmQNCj4gPj4+IGhhcHBl
+bnMgdG8gd2FudCBib3RoLCBhbmQgc28gd2Ugc2VsZWN0IGJvdGggPw0KPiANCj4gVGhlIEFDUEkg
+ZGVwZW5kZW5jeSB3YXMgbWlzc2luZyAoc2VlIGNvbW1pdCAzNmI3OWUzMjE5ZCwNCj4gImh3L2Fj
+cGkvS2NvbmZpZzogQWRkIG1pc3NpbmcgS2NvbmZpZyBkZXBlbmRlbmNpZXMgKGJ1aWxkIGVycm9y
+KSIsIG5vdyB3ZQ0KPiBkb24ndCBuZWVkIGl0IGV4cGxpY2l0bHkuDQoNClllcy4gQW5kIGl0IGxv
+b2tzIGxpa2UgQUNQSV9OVkRJTU0gYWxzbyBjYW4gYmUgcmVtb3ZlZCBub3cuDQoNClJlZ2FyZHMs
+DQpTaGFtZWVyDQoNCj4gPj4gRnJvbSBhIHB1cmVseSBjb2RlIGluc3BlY3Rpb24gcG9pbnQgb2Yg
+dmlldywgSSBub3RpY2VkIHRoYXQNCj4gPj4gZ2VuZXJpY19ldmVudF9kZXZpY2UuYyBkZXBlbmRz
+IG9uIENPTkZJR19BQ1BJX0hXX1JFRFVDRUQuIFRoZSBHRUQNCj4gPj4gZG9lcyB1c2UgbWVtb3J5
+IGhvdHBsdWcgYXBpcyAtIGZvciBleGFtcGxlIGFjcGlfZ2VkX2RldmljZV9wbHVnX2NiKCkNCj4g
+Pj4gdXNlcw0KPiA+PiBhY3BpX21lbW9yeV9wbHVnX2NiKCkgZXRjLg0KPiA+Pg0KPiA+PiBIZW5j
+ZSwgYXMgaXQgc3RhbmRzIHRvZGF5LCBDT05GSUdfQUNQSV9IV19SRURVQ0VEIHdpbGwgbmVlZCB0
+byBzZWxlY3QNCj4gPj4gQUNQSSBtZW1vcnkgaG90cGx1Zy4gVW5sZXNzIHdlIHJlbW92ZSB0aGUg
+R0VEIGRldmljZSdzIGRlcGVuZGVuY2Ugb24NCj4gPj4gQUNQSV9IV19SRURVQ0VEIHRoYXQgaXMu
+IEkgY2Fubm90IGNvbW1lbnQgd2hldGhlciB0aGF0IHdvdWxkIGJlIHdpc2UNCj4gPj4gb3IgaWYg
+d2Ugc2hvdWxkIHJlb3JnIHRoZSBjb2RlIGluIHNvbWUgb3RoZXIgd2F5Lg0KPiA+DQo+ID4gVGhl
+IG90aGVyIHF1ZXN0aW9uIHdlIHNob3VsZCBhc2sgaXMgd2hldGhlciBhcm0gcGxhdGZvcm0gcmVx
+dWlyZXMNCj4gPiBBQ1BJX01FTU9SWV9IT1RQTFVHIGluZGVwZW5kZW50IG9mIEFDUElfSFdfUkVE
+VUNFRC9HRUQgZGV2aWNlPw0KPiBJZiB0aGF0DQo+ID4gaXMgdGhlIGNhc2UsIHRoZW4gbWF5YmUg
+d2Ugc2hvdWxkIGtlZXAgdGhhdCBjb25maWcgb3B0aW9uIGFzIGlzLg0KPiA+IE1heWJlIEBxZW11
+LWFybSBjYW4gYW5zd2VyIHRoYXQ/DQo+IA0KPiBPciBnaXQtbG9nOg0KPiANCj4gY29tbWl0IGNm
+ZjUxYWM5NzhjNGZhMGIzZDBkZTBmZDYyZDc3MmQ5MDAzZjEyM2UNCj4gQXV0aG9yOiBTaGFtZWVy
+IEtvbG90aHVtIDxzaGFtZWVyYWxpLmtvbG90aHVtLnRob2RpQGh1YXdlaS5jb20+DQo+IERhdGU6
+ICAgV2VkIFNlcCAxOCAxNDowNjoyNyAyMDE5ICswMTAwDQo+IA0KPiAgICAgaHcvYXJtL3ZpcnQ6
+IEVuYWJsZSBkZXZpY2UgbWVtb3J5IGNvbGQvaG90IHBsdWcgd2l0aCBBQ1BJIGJvb3QNCj4gDQo+
+ICAgICBUaGlzIGluaXRpYWxpemVzIHRoZSBHRUQgZGV2aWNlIHdpdGggYmFzZSBtZW1vcnkgYW5k
+IGlycSwgY29uZmlndXJlcw0KPiAgICAgZ2VkIG1lbW9yeSBob3RwbHVnIGV2ZW50IGFuZCBidWls
+ZHMgdGhlIGNvcnJlc3BvbmRpbmcgYW1sIGNvZGUuIFdpdGgNCj4gICAgIHRoaXMsIGJvdGggaG90
+IGFuZCBjb2xkIHBsdWcgb2YgZGV2aWNlIG1lbW9yeSBpcyBlbmFibGVkIG5vdyBmb3INCj4gICAg
+IEd1ZXN0IHdpdGggQUNQSSBib290LiBNZW1vcnkgY29sZCBwbHVnIHN1cHBvcnQgd2l0aCBHdWVz
+dCBEVCBib290IGlzDQo+ICAgICBub3QgeWV0IHN1cHBvcnRlZC4NCj4gDQo+ID4+Pj4gT24gVGh1
+LCAxMiBBdWcgMjAyMSwgQW5pIFNpbmhhIHdyb3RlOg0KPiA+Pj4+DQo+IA0KPiBQbGVhc2UgcHJl
+cGVuZCBoZXJlICdTaW5jZSBjb21taXQgMzZiNzllMzIxOWQgKCJody9hY3BpL0tjb25maWc6IEFk
+ZA0KPiBtaXNzaW5nIEtjb25maWcgZGVwZW5kZW5jaWVzIiksJw0KPiANCj4gV2l0aCBpdDoNCj4g
+UmV2aWV3ZWQtYnk6IFBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIDxwaGlsbWRAcmVkaGF0LmNvbT4N
+Cj4gDQo+ID4+Pj4+IEFDUElfTUVNT1JZX0hPVFBMVUcgaXMgaW1wbGljaXRseSB0dXJuZWQgb24g
+d2hlbg0KPiBBQ1BJX0hXX1JFRFVDRUQgaXMgc2VsZWN0ZWQuDQo+ID4+Pj4+IEFDUElfSFdfUkVE
+VUNFRCBpcyBhbHJlYWR5IGVuYWJsZWQuIE5vIG5lZWQgdG8gdHVybiBvbg0KPiA+Pj4+PiBBQ1BJ
+X01FTU9SWV9IT1RQTFVHIGV4cGxpY2l0bHkuIFRoaXMgaXMgYSBtaW5vciBjbGVhbnVwLg0KPiA+
+Pj4+Pg0KPiA+Pj4+PiBTaWduZWQtb2ZmLWJ5OiBBbmkgU2luaGEgPGFuaUBhbmlzaW5oYS5jYT4N
+Cj4gPj4+Pj4gLS0tDQo+ID4+Pj4+ICBody9hcm0vS2NvbmZpZyB8IDEgLQ0KPiA+Pj4+PiAgMSBm
+aWxlIGNoYW5nZWQsIDEgZGVsZXRpb24oLSkNCj4gPj4+Pj4NCj4gPj4+Pj4gZGlmZiAtLWdpdCBh
+L2h3L2FybS9LY29uZmlnIGIvaHcvYXJtL0tjb25maWcgaW5kZXgNCj4gPj4+Pj4gNGJhMGFjYTA2
+Ny4uMzhjZjlmNDRlMiAxMDA2NDQNCj4gPj4+Pj4gLS0tIGEvaHcvYXJtL0tjb25maWcNCj4gPj4+
+Pj4gKysrIGIvaHcvYXJtL0tjb25maWcNCj4gPj4+Pj4gQEAgLTI1LDcgKzI1LDYgQEAgY29uZmln
+IEFSTV9WSVJUDQo+ID4+Pj4+ICAgICAgc2VsZWN0IEFDUElfUENJDQo+ID4+Pj4+ICAgICAgc2Vs
+ZWN0IE1FTV9ERVZJQ0UNCj4gPj4+Pj4gICAgICBzZWxlY3QgRElNTQ0KPiA+Pj4+PiAtICAgIHNl
+bGVjdCBBQ1BJX01FTU9SWV9IT1RQTFVHDQo+ID4+Pj4+ICAgICAgc2VsZWN0IEFDUElfSFdfUkVE
+VUNFRA0KPiA+Pj4+PiAgICAgIHNlbGVjdCBBQ1BJX05WRElNTQ0KPiA+Pj4+PiAgICAgIHNlbGVj
+dCBBQ1BJX0FQRUkNCj4gPj4+Pj4gLS0NCj4gPj4+Pj4gMi4yNS4xDQoNCg==
 
