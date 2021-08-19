@@ -2,94 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED0743F1DCD
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 18:27:45 +0200 (CEST)
-Received: from localhost ([::1]:54504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E7923F1DCE
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 18:28:12 +0200 (CEST)
+Received: from localhost ([::1]:56082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGktN-0006Bd-1V
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 12:27:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54842)
+	id 1mGktn-0007Et-Kd
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 12:28:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1mGks3-00059n-G6
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:26:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46068)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1mGks1-0000Q1-RW
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:26:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629390379;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rhNPASckNZvnpFIiG6lVchMBaWRjor5dePWYvzcMItM=;
- b=ayh2JPmL1G0486pX+RBAt20ZowZNZ/rX9wa8QZJed+6jWTE997C+ysZeXHTJ/B5LW3caNI
- KgpXriWDo4EaiYp7SP/Lqh7VMy9CyWCGhk0dlsRuCm8K01s2z6zbVRcuJQDsp20+nmOcnm
- PcmfsCcQ7aIe5JrTN7qL3Q4MqbxNqs0=
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
- [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-25-mnPkoRq6NPipV9GlgIWGhA-1; Thu, 19 Aug 2021 12:26:18 -0400
-X-MC-Unique: mnPkoRq6NPipV9GlgIWGhA-1
-Received: by mail-ot1-f71.google.com with SMTP id
- v42-20020a056830092a00b0051827b113ecso3022437ott.22
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 09:26:18 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mGksW-0005Vt-EF
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:26:52 -0400
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:34618)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mGksU-0000oB-C9
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 12:26:52 -0400
+Received: by mail-pj1-x1035.google.com with SMTP id
+ gz13-20020a17090b0ecdb0290178c0e0ce8bso7534411pjb.1
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 09:26:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zw05ZFdqHjgGhtKrtox9DSnlZFeRGCATj1DKecGTSRI=;
+ b=l6cB0Y9+YDGQnzNBJiYDqR0Qdbxq72BTLyvXeBZ5gSKMSCxLtLe9QiHLUDn3jRAfi8
+ KY+zH1dQ8gpPWP6qQfYvUhkH6HyhfICtBA7v2MXSYlOnuBAJtTyQHyYhozbTWf6o8ILK
+ sryTj6e0Kcz+CM4FMH8EgdciKlLNBs6RmcanZKROO0pJGiHrCXMRVX9kECr7iuKb1AxD
+ +ND90aUbJ4MSR6cv4Z9VKBewVI+p9/kvxdsTcb4B+nWdMqKyhq8rXQCo90tR7xy6b6ok
+ DXa53UjBgIv1scjBkIThH6iOs7ZKxrAtP1Y/AXw9drw/aV5bYv8RaA6ELdomFqbBnPRo
+ BIsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=69ALGd1yxKTzvnMbtojToEMrZyLhp6EJw4gjewGE2AQ=;
- b=RNJB2Xuo7bZgW+9/nFD9ah/bZfLRaqfL+uEHLD/9kpg8QKX4c2WOtAXf47agIzxuBx
- U7MDfdwow0mG2VB+exavJt2qDeMURuLxZF2tOLFYJtzp1Xb5pimlzHpzPIVFdCQYfeva
- KIVS7vsOhySEnK89J7+Gn4DPceRUuaxhwx9pp7mbKo6AM2qqVEJsDmdrlhqmVPAdYc7C
- ISlHpAuYAI0TLwl55WojGb2cteygzm0xGGVRrlNBiMs4Grw2NQ7A5Xh6w402lyi8JpB9
- R+BTYhtMCFz1sMBnr7PhTEVuUEIa6rFro13MsZj/Ys49ByP5ecEUw/I3gN1jlVXtkJP5
- ghug==
-X-Gm-Message-State: AOAM5311AsPiHHP5xUffD9UUaqIbNvBygKwnzgUFpy52qlO3x+kikYvl
- 06NjQUmwo589MhDaKgmyX4g35szato6SyrzUeC9EfvTweBH6/vSW1lPdFfPIkr7nXDjG3susV4L
- JyvN8Lx/Ul2udKWk=
-X-Received: by 2002:a05:6830:9c7:: with SMTP id
- y7mr12674048ott.111.1629390377785; 
- Thu, 19 Aug 2021 09:26:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxsqvv1qtxa/VBqew3KeXEHmMwUxeFcKJBf/lnz5zx74uBEk6pXc3oxlh8Nl+GJSyvhRRJjmw==
-X-Received: by 2002:a05:6830:9c7:: with SMTP id
- y7mr12674028ott.111.1629390377517; 
- Thu, 19 Aug 2021 09:26:17 -0700 (PDT)
-Received: from redhat.com ([198.99.80.109])
- by smtp.gmail.com with ESMTPSA id x12sm747091oie.56.2021.08.19.09.26.16
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zw05ZFdqHjgGhtKrtox9DSnlZFeRGCATj1DKecGTSRI=;
+ b=P7RCA6VAPpxUmOZT/9eza5Ulmx9dMQnHt+/wgcsZ5K8JIrkC6pSmrGzZSHIWbVrxLH
+ FaOKWt/FJHv2UrZn7vmYYC654QTCtXbelVAjRyj86mUpuSPu8DOKFjA+0n5oBIPd7hhH
+ 2jy/3/oo5egSR03ZX16vmioAehUFXT30RoRhDd+NrKHMQQ4Z0UJ2gZaXfAgdBvijj6Vd
+ wY1FK+Y3Sr0X5cenx5zmJSp9mdVO4piccOgrZS2aejsst6RgIAeGGMQAA6RXBZHg4wD5
+ DjHeLvJO7Ed+tv0K11ktyDyGVobsAfr1o46MEsOlcqIdX9o3K1OXHMz1H5AndRJHhNSd
+ wc2Q==
+X-Gm-Message-State: AOAM5310HdEgsxTNBxt4JZ0Fyj0KuVNOgzAJBJR7H8eQiCLr3r0hWm3T
+ afYquRPuZHnnrFOtKRfif+EKN4tPVH37Bw==
+X-Google-Smtp-Source: ABdhPJy7/2IEDSUTuVKbcn2bJGhKDPltVjQN2qiAwOCLSN/93hn/u8V52/SbKo9jniiEc1qf7G5ChQ==
+X-Received: by 2002:a17:90b:4d8d:: with SMTP id
+ oj13mr15814470pjb.74.1629390408576; 
+ Thu, 19 Aug 2021 09:26:48 -0700 (PDT)
+Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.110.72])
+ by smtp.googlemail.com with ESMTPSA id u20sm4703800pgm.4.2021.08.19.09.26.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Aug 2021 09:26:16 -0700 (PDT)
-Date: Thu, 19 Aug 2021 10:26:15 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: John Johnson <john.g.johnson@oracle.com>
-Subject: Re: [PATCH RFC v2 01/16] vfio-user: introduce vfio-user protocol
- specification
-Message-ID: <20210819102615.0c5ac7fd.alex.williamson@redhat.com>
-In-Reply-To: <D15CA27E-B5F8-4ADA-B4F6-94F6C1CA3DFA@oracle.com>
-References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
- <a928987fdb794e44784186c4aa5135bc6c88d0fc.1629131628.git.elena.ufimtseva@oracle.com>
- <20210817170408.78be6ac7.alex.williamson@redhat.com>
- <D15CA27E-B5F8-4ADA-B4F6-94F6C1CA3DFA@oracle.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ Thu, 19 Aug 2021 09:26:48 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3] hw/arm/Kconfig: no need to enable
+ ACPI_MEMORY_HOTPLUG/ACPI_NVDIMM explicitly
+Date: Thu, 19 Aug 2021 21:56:37 +0530
+Message-Id: <20210819162637.518507-1-ani@anisinha.ca>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,62 +82,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Jag Raman <jag.raman@oracle.com>, Swapnil Ingle <swapnil.ingle@nutanix.com>,
- John Levon <john.levon@nutanix.com>,
- QEMU Devel Mailing List <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "thanos.makatos@nutanix.com" <thanos.makatos@nutanix.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, mst@redhat.com,
+ shameerali.kolothum.thodi@huawei.com, qemu-arm@nongnu.org,
+ Ani Sinha <ani@anisinha.ca>, imammedo@redhat.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 19 Aug 2021 15:32:16 +0000
-John Johnson <john.g.johnson@oracle.com> wrote:
+Since commit
+36b79e3219d ("hw/acpi/Kconfig: Add missing Kconfig dependencies (build error)"),
+ACPI_MEMORY_HOTPLUG and ACPI_NVDIMM is implicitly turned on when
+ACPI_HW_REDUCED is selected. ACPI_HW_REDUCED is already enabled. No need to
+turn on ACPI_MEMORY_HOTPLUG or ACPI_NVDIMM explicitly. This is a minor cleanup.
 
-> > On Aug 17, 2021, at 7:04 PM, Alex Williamson <alex.williamson@redhat.co=
-m> wrote:
-> >=20
-> >=20
-> > The address/size paradigm falls into the same issues as the vfio kernel
-> > interface where we can't map or unmap the entire 64-bit address space,
-> > ie. size is limited to 2^64 - 1.  The kernel interface also requires
-> > PAGE_SIZE granularity for the DMA, which means the practical limit is
-> > 2^64 - PAGE_SIZE.  If we had a redo on the kernel interface we'd use
-> > start/end so we can express a size of (end - start + 1).
-> >=20
-> > Is following the vfio kernel interface sufficiently worthwhile for
-> > compatibility to incur this same limitation?  I don't recall if we've
-> > already discussed this, but perhaps worth a note in this design doc if
-> > similarity to the kernel interface is being favored here.  See for
-> > example QEMU commit 1b296c3def4b ("vfio: Don't issue full 2^64 unmap").
-> > Thanks,
-> >  =20
->=20
->=20
-> =09I=E2=80=99d prefer to stay as close to the kernel i/f as we can.
-> An earlier version of the spec used a vhost-user derived structure
-> for MAP & UNMAP.  This made it more difficult to add the bitmap
-> field when vfio added migration capability, so we switched to the
-> ioctl() structure.
->=20
-> =09It looks like vfio_dma_unmap() takes a 64b =E2=80=98size=E2=80=99 arg
-> (ram_addr_t)  How did you unmap an entire 64b address space?
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ hw/arm/Kconfig | 2 --
+ 1 file changed, 2 deletions(-)
 
-It's called from the MemoryListener which operates on
-MemoryRegionSections, which uses Int128 that get's chunked to
-ram_addr_t for vfio_dma_unmap().  We do now have
-VFIO_DMA_UNMAP_FLAG_ALL in the kernel API which gives us an option to
-clear the whole 64bit address space in one ioctl, but it's not a high
-priority to make use of in QEMU since it still needs to handle older
-kernels.
+changelog:
+v1: initial patch
+v2: commit log updated and ACPI_NVDIMM also removed from config.
+v3: added missing parenthesis in commit message.
 
-> The comment there mentions a bug where iova+size wraps the end of the
-> 64b space.
-
-Right, that's a separate issue that's just a bug in the kernel.  That's
-been fixed, but the QEMU code exists for now as a workaround for any
-broken kernels in the wild.  Thanks,
-
-Alex
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 4ba0aca067..dc050b5c37 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -25,9 +25,7 @@ config ARM_VIRT
+     select ACPI_PCI
+     select MEM_DEVICE
+     select DIMM
+-    select ACPI_MEMORY_HOTPLUG
+     select ACPI_HW_REDUCED
+-    select ACPI_NVDIMM
+     select ACPI_APEI
+ 
+ config CHEETAH
+-- 
+2.25.1
 
 
