@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E3A3F20E9
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 21:43:08 +0200 (CEST)
-Received: from localhost ([::1]:58758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6773F20C4
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Aug 2021 21:41:25 +0200 (CEST)
+Received: from localhost ([::1]:54920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGnwS-0001MS-2w
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 15:43:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50550)
+	id 1mGnum-000786-FV
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 15:41:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mGnrj-00019W-HK
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 15:38:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30661)
+ id 1mGnri-00014j-DT
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 15:38:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mGnrh-0000Ac-JB
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 15:38:15 -0400
+ id 1mGnrg-00009H-Hf
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 15:38:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629401893;
+ s=mimecast20190719; t=1629401892;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kMS3MmvHJATpnU9OCesaNF9ryXpBjG2wuo9K9+YbnyE=;
- b=hC8kPWC4KVxzmKsgSb5f8TeDQk2vbJxoHdUwGCCEe4yEXSvVXpm2yXNhy837LhiUJk7bfS
- /uCEuWDcv/p15VmzEoh0LfG5tm3VUNBGGmWTWS+3pmvUDGnN3v8oeflw3IuMxlkXvtQ1VS
- dcFrlLVeS7wuqzEUKska+Ir2vbGt5ZU=
+ bh=yO45+nK1BQOei6ySYl1qpyoEZ9mNjHXHcDF8uJJJvDo=;
+ b=bAIJhRHPr4LYT9/Nl4Oy2TdesFVqIwUXXVLzsRq2IeJogbdym8t0sUwr0jc11Q2WQuAlRH
+ FlV9A8UYrAgwm7mmJt6XoA7gZhzuXHPUX3XkoWkRpZjqmO1cIpEPKO2t/yZ1AwTEPoo0F/
+ ZJPuyMuQKZrGceNtxhekV05S7KD+EQM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-FInNp3ebPl-UDK2v9nKI9g-1; Thu, 19 Aug 2021 15:38:08 -0400
-X-MC-Unique: FInNp3ebPl-UDK2v9nKI9g-1
+ us-mta-380-fabAQ6_sMPCk4trnXJ0gBA-1; Thu, 19 Aug 2021 15:38:10 -0400
+X-MC-Unique: fabAQ6_sMPCk4trnXJ0gBA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20F9F1015189;
- Thu, 19 Aug 2021 19:38:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 256DB18C8C00;
+ Thu, 19 Aug 2021 19:38:09 +0000 (UTC)
 Received: from gator.home (unknown [10.40.192.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8B4F01970F;
- Thu, 19 Aug 2021 19:38:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7D9A71971B;
+ Thu, 19 Aug 2021 19:38:07 +0000 (UTC)
 From: Andrew Jones <drjones@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-arm@nongnu.org
-Subject: [PATCH 3/4] target/arm/cpu64: Replace kvm_supported with
- sve_vq_supported
-Date: Thu, 19 Aug 2021 21:37:57 +0200
-Message-Id: <20210819193758.149660-4-drjones@redhat.com>
+Subject: [PATCH 4/4] target/arm/cpu64: Validate sve vector lengths are
+ supported
+Date: Thu, 19 Aug 2021 21:37:58 +0200
+Message-Id: <20210819193758.149660-5-drjones@redhat.com>
 In-Reply-To: <20210819193758.149660-1-drjones@redhat.com>
 References: <20210819193758.149660-1-drjones@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -85,74 +85,152 @@ Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we have an ARMCPU member sve_vq_supported we no longer
-need the local kvm_supported bitmap for KVM's supported vector
-lengths.
+Future CPU types may specify which vector lengths are supported.
+We can apply nearly the same logic to validate those lengths
+as we do for KVM's supported vector lengths. We merge the code
+where we can, but unfortunately can't completely merge it because
+KVM requires all vector lengths, power-of-two or not, smaller than
+the maximum enabled length to also be enabled. The architecture
+only requires all the power-of-two lengths, though, so TCG will
+only enforce that.
 
 Signed-off-by: Andrew Jones <drjones@redhat.com>
 ---
- target/arm/cpu64.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+ target/arm/cpu64.c | 101 ++++++++++++++++++++-------------------------
+ 1 file changed, 45 insertions(+), 56 deletions(-)
 
 diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index eb9318c83b74..557fd4757740 100644
+index 557fd4757740..9cb41c442600 100644
 --- a/target/arm/cpu64.c
 +++ b/target/arm/cpu64.c
-@@ -265,14 +265,17 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-      * any of the above.  Finally, if SVE is not disabled, then at least one
-      * vector length must be enabled.
-      */
--    DECLARE_BITMAP(kvm_supported, ARM_MAX_VQ);
-     DECLARE_BITMAP(tmp, ARM_MAX_VQ);
-     uint32_t vq, max_vq = 0;
- 
--    /* Collect the set of vector lengths supported by KVM. */
--    bitmap_zero(kvm_supported, ARM_MAX_VQ);
-+    /*
-+     * CPU models specify a set of supported vector lengths which are
-+     * enabled by default.  Attempting to enable any vector length not set
-+     * in the supported bitmap results in an error.  When KVM is enabled we
-+     * fetch the supported bitmap from the host.
-+     */
-     if (kvm_enabled() && kvm_arm_sve_supported()) {
--        kvm_arm_sve_get_vls(CPU(cpu), kvm_supported);
-+        kvm_arm_sve_get_vls(CPU(cpu), cpu->sve_vq_supported);
-     } else if (kvm_enabled()) {
-         assert(!cpu_isar_feature(aa64_sve, cpu));
-     }
-@@ -299,7 +302,7 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-              * For KVM we have to automatically enable all supported unitialized
-              * lengths, even when the smaller lengths are not all powers-of-two.
-              */
--            bitmap_andnot(tmp, kvm_supported, cpu->sve_vq_init, max_vq);
-+            bitmap_andnot(tmp, cpu->sve_vq_supported, cpu->sve_vq_init, max_vq);
-             bitmap_or(cpu->sve_vq_map, cpu->sve_vq_map, tmp, max_vq);
-         } else {
-             /* Propagate enabled bits down through required powers-of-two. */
-@@ -322,12 +325,12 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-             /* Disabling a supported length disables all larger lengths. */
-             for (vq = 1; vq <= ARM_MAX_VQ; ++vq) {
-                 if (test_bit(vq - 1, cpu->sve_vq_init) &&
--                    test_bit(vq - 1, kvm_supported)) {
-+                    test_bit(vq - 1, cpu->sve_vq_supported)) {
+@@ -329,35 +329,26 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
                      break;
                  }
              }
-             max_vq = vq <= ARM_MAX_VQ ? vq - 1 : ARM_MAX_VQ;
--            bitmap_andnot(cpu->sve_vq_map, kvm_supported,
-+            bitmap_andnot(cpu->sve_vq_map, cpu->sve_vq_supported,
-                           cpu->sve_vq_init, max_vq);
-             if (max_vq == 0 || bitmap_empty(cpu->sve_vq_map, max_vq)) {
-                 error_setg(errp, "cannot disable sve%d", vq * 128);
-@@ -392,7 +395,7 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
+-            max_vq = vq <= ARM_MAX_VQ ? vq - 1 : ARM_MAX_VQ;
+-            bitmap_andnot(cpu->sve_vq_map, cpu->sve_vq_supported,
+-                          cpu->sve_vq_init, max_vq);
+-            if (max_vq == 0 || bitmap_empty(cpu->sve_vq_map, max_vq)) {
+-                error_setg(errp, "cannot disable sve%d", vq * 128);
+-                error_append_hint(errp, "Disabling sve%d results in all "
+-                                  "vector lengths being disabled.\n",
+-                                  vq * 128);
+-                error_append_hint(errp, "With SVE enabled, at least one "
+-                                  "vector length must be enabled.\n");
+-                return;
+-            }
+         } else {
+             /* Disabling a power-of-two disables all larger lengths. */
+-            if (test_bit(0, cpu->sve_vq_init)) {
+-                error_setg(errp, "cannot disable sve128");
+-                error_append_hint(errp, "Disabling sve128 results in all "
+-                                  "vector lengths being disabled.\n");
+-                error_append_hint(errp, "With SVE enabled, at least one "
+-                                  "vector length must be enabled.\n");
+-                return;
+-            }
+-            for (vq = 2; vq <= ARM_MAX_VQ; vq <<= 1) {
++            for (vq = 1; vq <= ARM_MAX_VQ; vq <<= 1) {
+                 if (test_bit(vq - 1, cpu->sve_vq_init)) {
+                     break;
+                 }
+             }
+-            max_vq = vq <= ARM_MAX_VQ ? vq - 1 : ARM_MAX_VQ;
+-            bitmap_complement(cpu->sve_vq_map, cpu->sve_vq_init, max_vq);
++        }
++
++        max_vq = vq <= ARM_MAX_VQ ? vq - 1 : ARM_MAX_VQ;
++        bitmap_andnot(cpu->sve_vq_map, cpu->sve_vq_supported,
++                      cpu->sve_vq_init, max_vq);
++        if (max_vq == 0 || bitmap_empty(cpu->sve_vq_map, max_vq)) {
++            error_setg(errp, "cannot disable sve%d", vq * 128);
++            error_append_hint(errp, "Disabling sve%d results in all "
++                              "vector lengths being disabled.\n",
++                              vq * 128);
++            error_append_hint(errp, "With SVE enabled, at least one "
++                              "vector length must be enabled.\n");
++            return;
+         }
  
-     if (kvm_enabled()) {
-         /* Ensure the set of lengths matches what KVM supports. */
--        bitmap_xor(tmp, cpu->sve_vq_map, kvm_supported, max_vq);
-+        bitmap_xor(tmp, cpu->sve_vq_map, cpu->sve_vq_supported, max_vq);
-         if (!bitmap_empty(tmp, max_vq)) {
-             vq = find_last_bit(tmp, max_vq) + 1;
-             if (test_bit(vq - 1, cpu->sve_vq_map)) {
+         max_vq = find_last_bit(cpu->sve_vq_map, max_vq) + 1;
+@@ -393,46 +384,44 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
+     assert(max_vq != 0);
+     bitmap_clear(cpu->sve_vq_map, max_vq, ARM_MAX_VQ - max_vq);
+ 
+-    if (kvm_enabled()) {
+-        /* Ensure the set of lengths matches what KVM supports. */
+-        bitmap_xor(tmp, cpu->sve_vq_map, cpu->sve_vq_supported, max_vq);
+-        if (!bitmap_empty(tmp, max_vq)) {
+-            vq = find_last_bit(tmp, max_vq) + 1;
+-            if (test_bit(vq - 1, cpu->sve_vq_map)) {
+-                if (cpu->sve_max_vq) {
+-                    error_setg(errp, "cannot set sve-max-vq=%d",
+-                               cpu->sve_max_vq);
+-                    error_append_hint(errp, "This KVM host does not support "
+-                                      "the vector length %d-bits.\n",
+-                                      vq * 128);
+-                    error_append_hint(errp, "It may not be possible to use "
+-                                      "sve-max-vq with this KVM host. Try "
+-                                      "using only sve<N> properties.\n");
+-                } else {
+-                    error_setg(errp, "cannot enable sve%d", vq * 128);
+-                    error_append_hint(errp, "This KVM host does not support "
+-                                      "the vector length %d-bits.\n",
+-                                      vq * 128);
+-                }
++    /* Ensure the set of lengths matches what is supported. */
++    bitmap_xor(tmp, cpu->sve_vq_map, cpu->sve_vq_supported, max_vq);
++    if (!bitmap_empty(tmp, max_vq)) {
++        vq = find_last_bit(tmp, max_vq) + 1;
++        if (test_bit(vq - 1, cpu->sve_vq_map)) {
++            if (cpu->sve_max_vq) {
++                error_setg(errp, "cannot set sve-max-vq=%d", cpu->sve_max_vq);
++                error_append_hint(errp, "This CPU does not support "
++                                  "the vector length %d-bits.\n", vq * 128);
++                error_append_hint(errp, "It may not be possible to use "
++                                  "sve-max-vq with this CPU. Try "
++                                  "using only sve<N> properties.\n");
+             } else {
++                error_setg(errp, "cannot enable sve%d", vq * 128);
++                error_append_hint(errp, "This CPU does not support "
++                                  "the vector length %d-bits.\n", vq * 128);
++            }
++            return;
++        } else {
++            if (kvm_enabled()) {
+                 error_setg(errp, "cannot disable sve%d", vq * 128);
+                 error_append_hint(errp, "The KVM host requires all "
+                                   "supported vector lengths smaller "
+                                   "than %d bits to also be enabled.\n",
+                                   max_vq * 128);
+-            }
+-            return;
+-        }
+-    } else {
+-        /* Ensure all required powers-of-two are enabled. */
+-        for (vq = pow2floor(max_vq); vq >= 1; vq >>= 1) {
+-            if (!test_bit(vq - 1, cpu->sve_vq_map)) {
+-                error_setg(errp, "cannot disable sve%d", vq * 128);
+-                error_append_hint(errp, "sve%d is required as it "
+-                                  "is a power-of-two length smaller than "
+-                                  "the maximum, sve%d\n",
+-                                  vq * 128, max_vq * 128);
+                 return;
++            } else {
++                /* Ensure all required powers-of-two are enabled. */
++                for (vq = pow2floor(max_vq); vq >= 1; vq >>= 1) {
++                    if (!test_bit(vq - 1, cpu->sve_vq_map)) {
++                        error_setg(errp, "cannot disable sve%d", vq * 128);
++                        error_append_hint(errp, "sve%d is required as it "
++                                          "is a power-of-two length smaller "
++                                          " than the maximum, sve%d\n",
++                                          vq * 128, max_vq * 128);
++                        return;
++                    }
++                }
+             }
+         }
+     }
 -- 
 2.31.1
 
