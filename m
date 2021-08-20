@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC4B3F28B8
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 10:54:23 +0200 (CEST)
-Received: from localhost ([::1]:49718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFEE23F28C0
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 10:58:47 +0200 (CEST)
+Received: from localhost ([::1]:52140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH0IA-0005b7-57
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 04:54:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56878)
+	id 1mH0MQ-0007NE-Tl
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 04:58:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mH0H0-0004eA-0M
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 04:53:10 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:40548)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mH0LV-0006iP-Bu
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 04:57:49 -0400
+Received: from mail-ot1-f48.google.com ([209.85.210.48]:40458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mH0Gx-0006uM-HH
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 04:53:09 -0400
-Received: by mail-ej1-x634.google.com with SMTP id lo4so18659005ejb.7
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 01:53:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fOfjJl9UR+NsoS8tEvtVVkjolcJkT2AxrxuOF5cKDPE=;
- b=SFnvmTy+CuZvHry64qeYCe/E5/wvJ2OOlBhSQjx0dO6QsP9DWVmZMQMo+Peqsybo3b
- j902+Ilg3PM+qwp4f3LARUN3/6ufFtm3mM9CT7S/vTVpwna8bv9IzgIB0Bq3mDovVNzw
- ebH1WiEayENEE+iR5su03Aqx9sJ8w5U9N6bnDpugXzcAX3sLiA3i9LLLD6b9IEMl2JMI
- gUGZj6MOELGC8kjx17nMVavBszksu08AGFrkY17LHI6X2wNHAL3URBAnoXqYpdetk9RV
- l7IPY8a1bJ8jCrsDE/BgNsb81DS0LL/x+UWXGbAT9PI6VZQIJTT/d7+TkIoxf4TAzhE7
- 7b/Q==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mH0LT-0002R9-PL
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 04:57:49 -0400
+Received: by mail-ot1-f48.google.com with SMTP id
+ h63-20020a9d14450000b02904ce97efee36so12147124oth.7
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 01:57:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fOfjJl9UR+NsoS8tEvtVVkjolcJkT2AxrxuOF5cKDPE=;
- b=BA2UPPjCo/9Y9/MuzorZ7YxlUAsXaPiIxB27Q4aRsnIWwcSDVgZujO7iaCXD+h1Nyv
- 3WoF1d9ZbxwSpaBKm4h7U/UhepoQ3/pTmhlHHpuUih8J95qdlaBt1npVeCtiCBQABxf6
- oXh8p1GioqV6jcvxlNPW04Au3Qw1wQ0oG3eoz9u4eWcuRFtHNCdIStAuuS4jAEjQiZ0o
- G9agFeyPf9Uf2XHeSvAMzKADjTlOH8SKXi8lB0kD002mijOZjX0nzxmWxglELCPlxKfc
- wOs2cGPp+LKLR8gDaBYKfk9W+mynzBMgD0fY3EYV9YXCuzYHlDHlIveLXFzSCQ7AOhsK
- EyIw==
-X-Gm-Message-State: AOAM531iIeVz/hRMEHVAQx6u4pDNjRpnQpK3isWZSizDygY3p0VWN9ES
- FICiRHNddpS3H3XbTVLC1D5LBPrv5N4dLQj0sFyoiw==
-X-Google-Smtp-Source: ABdhPJzQmbdxYNBY7qevbHgjelxIVx5A/G/jZSGLQ5DLk3xyzD5n8wPBzOtyon/C7DkUIUJ2goNDMDDAM++qfB8sOqk=
-X-Received: by 2002:a17:906:e8d:: with SMTP id
- p13mr20739015ejf.85.1629449585905; 
- Fri, 20 Aug 2021 01:53:05 -0700 (PDT)
+ :message-id:subject:to:content-transfer-encoding;
+ bh=2eicVX+l0Spqyia6n01+tHgoLFOFfIMouEZm2vxLtqI=;
+ b=rrcxZuMSDWyiUbYy2n/umzOt4s4LXEm4nSS51onObi2GUYNz2aadYAJUP0IiUZPCjk
+ Dne+gXvkLTvce6pHEsc+OHPBjYrM65dWVVIFtXpyt+EYdvMNSzxM86e2V2LFKfWbmYQo
+ HelY2DgdKOv5z6FWyhhKUpWTQIUb9Gy7/6Rjf040Fc1yIXonxOaeNdeclibWYfF3JFX+
+ EfgkcbTPnqV6mUvYnvL60sG9Q5r6Dg7E1zH/XQvc7iAPjKefEvuocBqlFoXZqR8cd3AX
+ KJvoHo4pFuZzyYCt7YOAXNRdvoumzGgr1GfcKp8Wh+qT8TTCjl2vBbZU0aqPzBLOKf4O
+ nvaw==
+X-Gm-Message-State: AOAM5314yBg3AMZ23SevMnS1fT1LA322MGCGdgWHpgEGLuxJWt5VfE7n
+ jC8RBlYX7FKNR7EaoX0kdnPkfKP5uQtpuo9nj88=
+X-Google-Smtp-Source: ABdhPJx6CBwfpgTOeGM7S9fG8RMlizCpO3QYYq1+bhI2AqPbHNXXDu0oo6fM9SHu53yOyYvApenIihNH1YBFLecxdko=
+X-Received: by 2002:a9d:5e0b:: with SMTP id d11mr16195037oti.371.1629449866600; 
+ Fri, 20 Aug 2021 01:57:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <49C79B700B5D8F45B8EF0861B4EF3B3B01142F5748@SHASXM03.verisilicon.com>
-In-Reply-To: <49C79B700B5D8F45B8EF0861B4EF3B3B01142F5748@SHASXM03.verisilicon.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 Aug 2021 09:52:19 +0100
-Message-ID: <CAFEAcA-L-9AjGGLCynbDbF=apQe4J_CrWE7RFKddHiD1L1qKHg@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/smmuv3: Support non-PCI/PCIe devices connection
-To: "Li, Chunming" <Chunming.Li@verisilicon.com>
+References: <20210820080437.2972139-1-f4bug@amsat.org>
+ <94fb14aa-fa01-195f-15c8-db536c6fb74a@chinatelecom.cn>
+In-Reply-To: <94fb14aa-fa01-195f-15c8-db536c6fb74a@chinatelecom.cn>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Fri, 20 Aug 2021 10:57:35 +0200
+Message-ID: <CAAdtpL5Uv4a-NqfChhEX8-=hVJs9VtRtkt1xckDvxUwGf8Ejnw@mail.gmail.com>
+Subject: Re: [PATCH] .mailmap: Fix more contributor entries
+To: Hyman Huang <huangy81@chinatelecom.cn>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.210.48;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ot1-f48.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.248, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,44 +72,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "eric.auger@redhat.com" <eric.auger@redhat.com>, "Liu,
- Renwei" <Renwei.Liu@verisilicon.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Wen,
- Jianxian" <Jianxian.Wen@verisilicon.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 20 Aug 2021 at 03:36, Li, Chunming <Chunming.Li@verisilicon.com> wrote:
+On Fri, Aug 20, 2021 at 10:25 AM Hyman Huang <huangy81@chinatelecom.cn> wro=
+te:
+> =E5=9C=A8 2021/8/20 16:04, Philippe Mathieu-Daud=C3=A9 =E5=86=99=E9=81=93=
+:
+> > These authors have some incorrect author email field.
+> > For each of them, there is one commit with the replaced
+> > entry.
+> >
+> > Cc: Alex Chen <alex.chen@huawei.com>
+> > Cc: Bibo Mao <maobibo@loongson.cn>
+> > Cc: Guoyi Tu <tu.guoyi@h3c.com>
+> > Cc: Haibin Zhang <haibinzhang@tencent.com>
+> > Cc: Hyman Huang <huangy81@chinatelecom.cn>
+> > Cc: Lichang Zhao <zhaolichang@huawei.com>
+> > Cc: Yuanjun Gong <ruc_gongyuanjun@163.com>
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> > ---
+> > If you are Cc'ed and agree with this change, please reply with a
+> > "Reviewed-by: Name <email>" line. I'll wait 2 weeks and consider
+> > no reply as a disagreement and will remove your entry from this
+> > patch.
+> > ---
+> Reviewed-by: Hyman Huang <huangy81@chinatelecom.cn>
+
+Thanks!
+
+> >   .mailmap | 7 +++++++
+> >   1 file changed, 7 insertions(+)
+> >
+> > diff --git a/.mailmap b/.mailmap
+> > index f029d1c21fe..11b259e7d07 100644
+> > --- a/.mailmap
+> > +++ b/.mailmap
+> > @@ -69,6 +69,7 @@ Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgte=
+c.com>
+> >   # git author config, or had utf8/latin1 encoding issues.
+> >   Aaron Lindsay <aaron@os.amperecomputing.com>
+> >   Alexey Gerasimenko <x1917x@gmail.com>
+> > +Alex Chen <alex.chen@huawei.com>
+> >   Alex Ivanov <void@aleksoft.net>
+> >   Andreas F=C3=A4rber <afaerber@suse.de>
+> >   Bandan Das <bsd@redhat.com>
+> > @@ -76,6 +77,7 @@ Benjamin MARSILI <mlspirat42@gmail.com>
+> >   Beno=C3=AEt Canet <benoit.canet@gmail.com>
+> >   Beno=C3=AEt Canet <benoit.canet@irqsave.net>
+> >   Beno=C3=AEt Canet <benoit.canet@nodalink.com>
+> > +Bibo Mao <maobibo@loongson.cn>
+> >   Boqun Feng <boqun.feng@gmail.com>
+> >   Boqun Feng <boqun.feng@intel.com>
+> >   Brad Smith <brad@comstyle.com>
+> > @@ -99,9 +101,12 @@ Gautham R. Shenoy <ego@in.ibm.com>
+> >   Gautham R. Shenoy <ego@linux.vnet.ibm.com>
+> >   Gonglei (Arei) <arei.gonglei@huawei.com>
+> >   Guang Wang <wang.guang55@zte.com.cn>
+> > +Guoyi Tu <tu.guoyi@h3c.com>
+> > +Haibin Zhang <haibinzhang@tencent.com>
+> >   Hailiang Zhang <zhang.zhanghailiang@huawei.com>
+> >   Hanna Reitz <hreitz@redhat.com> <mreitz@redhat.com>
+> >   Herv=C3=A9 Poussineau <hpoussin@reactos.org>
+> > +Hyman Huang <huangy81@chinatelecom.cn>
+> >   Jakub Jerm=C3=A1=C5=99 <jakub@jermar.eu>
+> >   Jakub Jerm=C3=A1=C5=99 <jakub.jermar@kernkonzept.com>
+> >   Jean-Christophe Dubois <jcd@tribudubois.net>
+> > @@ -113,6 +118,7 @@ Jun Li <junmuzi@gmail.com>
+> >   Laurent Vivier <Laurent@lvivier.info>
+> >   Leandro Lupori <leandro.lupori@gmail.com>
+> >   Li Guang <lig.fnst@cn.fujitsu.com>
+> > +Lichang Zhao <zhaolichang@huawei.com>
+> >   Liming Wang <walimisdev@gmail.com>
+> >   linzhecheng <linzc@zju.edu.cn>
+> >   Liran Schour <lirans@il.ibm.com>
+> > @@ -171,6 +177,7 @@ Xiong Zhang <xiong.y.zhang@intel.com>
+> >   Yin Yin <yin.yin@cs2c.com.cn>
+> >   Yu-Chen Lin <npes87184@gmail.com>
+> >   Yu-Chen Lin <npes87184@gmail.com> <yuchenlin@synology.com>
+> > +Yuanjun Gong <ruc_gongyuanjun@163.com>
+> >   YunQiang Su <syq@debian.org>
+> >   YunQiang Su <ysu@wavecomp.com>
+> >   Yuri Pudgorodskiy <yur@virtuozzo.com>
+> >
 >
-> The current SMMU V3 device model only support PCI/PCIe devices,
-> so we update it to support non-PCI/PCIe devices.
->
->     hw/arm/smmuv3:
->         . Create IOMMU memory regions for non-PCI/PCIe devices based on their SID
->         . Add sid-map property to store non-PCI/PCIe devices SID
->         . Update implementation of CFGI commands based on device SID
->     hw/arm/smmu-common:
->         . Differentiate PCI/PCIe and non-PCI/PCIe devices SID getting strategy
->     hw/arm/virt:
->         . Add PL330 DMA controller and connect with SMMUv3 for testing
->         . Add smmuv3_sidmap for non-PCI/PCIe devices SID setting
-
-Please don't try to do all these things in one big patch --
-put together a patchseries with several smaller patches,
-each of which does one self-contained thing.
-
-
-> Signed-off-by: Chunming Li <chunming.li@verisilicon.com>
-> Signed-off-by: Renwei Liu <renwei.liu@verisilicon.com>
-> ---
-> This patch depends on PL330 memory region connection patch:
-> https://patchew.org/QEMU/4C23C17B8E87E74E906A25A3254A03F4FA1FEC31@SHASXM03.verisilicon.com/
-
-If you have a patch that depends on another, it's usually better to
-send them as a patchseries. I was wondering what the reason for
-that PL330 patch was...
-
-thanks
--- PMM
+> --
 
