@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E9103F31D1
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 18:59:53 +0200 (CEST)
-Received: from localhost ([::1]:57464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 381C53F31F0
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 19:03:48 +0200 (CEST)
+Received: from localhost ([::1]:59678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH7s0-0005Nh-6h
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 12:59:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40446)
+	id 1mH7vn-00073J-BM
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 13:03:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mH7rG-0004if-Nl
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 12:59:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31734)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mH7uj-0006Md-4V
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 13:02:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mH7rF-0007Sn-66
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 12:59:06 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mH7uh-0001RY-AU
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 13:02:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629478744;
+ s=mimecast20190719; t=1629478958;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IwTBMSxaydWX0sJXnm5xoq8mMLPzIuJyzjpqS+ZscIU=;
- b=EOZQs30Fl2Dg5n2BkVcOzMwpAMHCkOxtjcnb8G4DT6K7T/fGygoSiUM3uAm54r/97WiOPg
- Kxoy4/0C98WQjXrfRwsP/2s0U8Co4/GWGL/frAwJlDZef+DmsRVkp6GcVf2QRGYCo0HrwU
- ho119Icw4UUKFlzfBqK5iIMqYMtRZF4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-VhgF-4d1M7-7Qi8Gw1o-SA-1; Fri, 20 Aug 2021 12:59:03 -0400
-X-MC-Unique: VhgF-4d1M7-7Qi8Gw1o-SA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- e12-20020a05600c218cb02902e6bbacdcd1so2581498wme.4
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 09:59:02 -0700 (PDT)
+ bh=LagweM/QaYmv6EljGDuyPEUbFvyQQYAoqF5e6TYtpSs=;
+ b=CZJJ01AeL6qZFwnwxzrHLZYQrYrqo8I55vy4zq48WEg7GVcRmJ39Pc87fOljFrlarAD+aY
+ R3RLP8x14GC6BVLf6EROdvtkiDfXFGHBL6DiJlmdM6lbSFEvbZNmWqmvdUh1RIOFxmAh9K
+ fjiOxXbwgKJn2j8T9kmAljIegkMsVto=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-288-q2-z02RiNxGPtU3ZeXrJzQ-1; Fri, 20 Aug 2021 13:02:37 -0400
+X-MC-Unique: q2-z02RiNxGPtU3ZeXrJzQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ p10-20020adfce0a000000b001572d05c970so869183wrn.21
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 10:02:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=IwTBMSxaydWX0sJXnm5xoq8mMLPzIuJyzjpqS+ZscIU=;
- b=pivO1YIZFbHzrif6nyoU8p0vdh4xn2o3TYjUB8AdDhC5jTIicg/wJj1JndTIQscEWg
- Ruq+FywowTRJawvHnYAgPMDdC8v+ESHTvcvSLTSSc7apUeu9kKJ+9QdChAgjlXIs+1Pw
- eFpE0NqikY7KDuRvklP86BIzaH3eAe2jEd1A8omkBkiqMLPDYnyiBH8vyqPWOhvsAd0I
- aHzAdWnW4K+tEoXr8woRRNu5FCV1dNAN5PHC5FHh4oRmp58krla3JqVa+hLvAAmpNlC9
- 18vC6c/2msit/LIDRlAYk7/xtMVqlKLQsCZ48cUkryfdVuf5J21oYpzpNjxho6Jt+l0l
- APoA==
-X-Gm-Message-State: AOAM533+p/V74TMkKQx3OpW0n9aOspS691kwS75YXCMDv4TAJCjdNmHi
- gCWDtnrViSjFjX7DRQFAr8+NQivSZL4EAT2ghKXyoevEa4vTSLloA78wxnvbQX8YTNMK8adAFBI
- z2LzFtmlVhWlua+g=
-X-Received: by 2002:a05:600c:1ca7:: with SMTP id
- k39mr4971582wms.162.1629478742021; 
- Fri, 20 Aug 2021 09:59:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwsuMwu+83nfkA3jA/iDiaBx+kXebYM5x+S8fTi7DbR6QF2E1VmzLblzbzo312kp8HOA6KHIQ==
-X-Received: by 2002:a05:600c:1ca7:: with SMTP id
- k39mr4971557wms.162.1629478741753; 
- Fri, 20 Aug 2021 09:59:01 -0700 (PDT)
+ bh=LagweM/QaYmv6EljGDuyPEUbFvyQQYAoqF5e6TYtpSs=;
+ b=a25pZNj5EnHx9iguNGgPHBhcfefDS7J24lfIFKUGAaSWLYZ6DVibdrRH5pqHFuqqgP
+ d+IdUnpjDY11Gk/Ux8Vg3H1bzmjzsRG18cgWu9tGxrTty2j2tbarY5+nmfGHOTJiVKfe
+ rJO7/FhRqmFW6nxhLvT/EzxJt7L7lLS1QWkhLD3yc8GdevX6HPuJOHRyHcf1T9lqn063
+ llrBEu4zItNcyDxyvZl7u0uYalQ6Ou315iDYsJ8Obd30bHyCh1OrVWpQaQJqgGesr4fl
+ T+6m516gQ1hGct7epKnd75IAsRuWkLvGN020R2mQ7R8YRLkG2h6sUi6adWW9w3Ip+L1z
+ vruw==
+X-Gm-Message-State: AOAM532rRsclNghMGpqpAoqkyXfPZmj7Rc85PiQ/yPdSSGe0QLo2DFsx
+ YGVM8OhUuBEtDPLXOf0Nu1alKSuT3keIgvK8vmm9j4VTDet8/EhGuBLo2qK2WdErbGrun5NcohR
+ xWycnKYi6Uti2sYs=
+X-Received: by 2002:a1c:9884:: with SMTP id a126mr5087824wme.153.1629478955371; 
+ Fri, 20 Aug 2021 10:02:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxD9XNlCPseDUYfT3/omi1tMs+MswGr/wt1FeA6+HaEirdQnam+F1Qwp5PFHl7CRkiAdJznBA==
+X-Received: by 2002:a1c:9884:: with SMTP id a126mr5087715wme.153.1629478954298; 
+ Fri, 20 Aug 2021 10:02:34 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id d4sm6849790wrc.34.2021.08.20.09.59.00
+ by smtp.gmail.com with ESMTPSA id e17sm6493760wru.7.2021.08.20.10.02.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Aug 2021 09:59:01 -0700 (PDT)
-Subject: Re: [PATCH] softmmu/physmem: Improve guest memory allocation failure
- error message
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20210820155211.3153137-1-philmd@redhat.com>
- <20a53e29-ba23-fe0d-f961-63d0b5ca9a89@redhat.com>
- <d68297ca-7be3-48ab-e25c-4f55dc735670@redhat.com>
- <20210820184048.4a5294c4@redhat.com>
+ Fri, 20 Aug 2021 10:02:33 -0700 (PDT)
+Subject: Re: [PULL 03/33] i386: split cpu accelerators from cpu.c, using
+ AccelCPUClass
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20210511081350.419428-1-pbonzini@redhat.com>
+ <20210511081350.419428-4-pbonzini@redhat.com>
+ <CAFEAcA867BUEpCYrXuMTqt55f+18D+ROMuU=h6MzubNrmp=D=g@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <5699e784-f120-25e8-d0c6-b3e53ed0b883@redhat.com>
-Date: Fri, 20 Aug 2021 18:59:00 +0200
+Message-ID: <54fae2d9-db1e-fbd0-e58a-0c2b5ab0f046@redhat.com>
+Date: Fri, 20 Aug 2021 19:02:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210820184048.4a5294c4@redhat.com>
+In-Reply-To: <CAFEAcA867BUEpCYrXuMTqt55f+18D+ROMuU=h6MzubNrmp=D=g@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,7 +81,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -49
 X-Spam_score: -5.0
@@ -103,95 +102,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/20/21 6:40 PM, Igor Mammedov wrote:
-> On Fri, 20 Aug 2021 18:00:26 +0200
-> Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
-> 
->> On 8/20/21 5:53 PM, David Hildenbrand wrote:
->>> On 20.08.21 17:52, Philippe Mathieu-Daudé wrote:  
->>>> When Linux refuses to overcommit a seriously wild allocation we get:
->>>>
->>>>    $ qemu-system-i386 -m 40000000
->>>>    qemu-system-i386: cannot set up guest memory 'pc.ram': Cannot
->>>> allocate memory
->>>>
->>>> Slighly improve the error message, displaying the memory size
->>>> requested (in case the user didn't expect unspecified memory size
->>>> unit is in MiB):
->>>>
->>>>    $ qemu-system-i386 -m 40000000
->>>>    qemu-system-i386: Cannot set up 38.1 TiB of guest memory 'pc.ram':
->>>> Cannot allocate memory
->>>>
->>>> Reported-by: Bin Meng <bmeng.cn@gmail.com>
->>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>> ---
->>>>   softmmu/physmem.c | 4 +++-
->>>>   1 file changed, 3 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
->>>> index 2e18947598e..2f300a9e79b 100644
->>>> --- a/softmmu/physmem.c
->>>> +++ b/softmmu/physmem.c
->>>> @@ -1982,8 +1982,10 @@ static void ram_block_add(RAMBlock *new_block,
->>>> Error **errp)
->>>>                                                    
->>>> &new_block->mr->align,
->>>>                                                     shared, noreserve);
->>>>               if (!new_block->host) {
->>>> +                g_autofree char *size_s =
->>>> size_to_str(new_block->max_length);
->>>>                   error_setg_errno(errp, errno,
->>>> -                                 "cannot set up guest memory '%s'",
->>>> +                                 "Cannot set up %s of guest memory
->>>> '%s'",
->>>> +                                 size_s,
->>>>                                    memory_region_name(new_block->mr));
->>>>                   qemu_mutex_unlock_ramlist();
->>>>                   return;
->>>>  
->>>
->>> IIRC, ram blocks might not necessarily be used for guest memory ... or
->>> is my memory wrong?  
+On 8/20/21 6:55 PM, Peter Maydell wrote:
+> On Tue, 11 May 2021 at 09:22, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >>
->> No clue, this error message was already here.
-> 
-> it's not only guest RAM, adding size here is marginal improvement,
-> (it won't help much since it's not exact match to CLI which may use suffixes for sizes)
-
-The suffixed size is already converted at this point:
-
-  qemu-system-i386 -m 2T
-  qemu-system-i386: Cannot set up 2 TiB of guest memory 'pc.ram': Cannot
-allocate memory
-
-I agree however the size displayed might be less than the size passed
-to the '-m' argument.
-
-Anyhow I still see the size displayed in the error message as an
-useful hint:
-
-$ qemu-system-i386 -m 64000
-qemu-system-i386: cannot set up guest memory 'pc.ram': Cannot allocate
-memory
-
-VS:
-
-$ qemu-system-i386 -m 64000
-qemu-system-i386: Cannot set up 62.5 GiB of guest memory 'pc.ram':
-Cannot allocate memory
-
-> 
+>> From: Claudio Fontana <cfontana@suse.de>
 >>
->> No problem to change s/guest/block/ although.
+>> i386 is the first user of AccelCPUClass, allowing to split
+>> cpu.c into:
 >>
+>> cpu.c            cpuid and common x86 cpu functionality
+>> host-cpu.c       host x86 cpu functions and "host" cpu type
+>> kvm/kvm-cpu.c    KVM x86 AccelCPUClass
+>> hvf/hvf-cpu.c    HVF x86 AccelCPUClass
+>> tcg/tcg-cpu.c    TCG x86 AccelCPUClass
+>>
+>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>
+>> [claudio]:
+>> Rebased on commit b8184135 ("target/i386: allow modifying TCG phys-addr-bits")
+>>
+>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>> Message-Id: <20210322132800.7470-5-cfontana@suse.de>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>> ---
 > 
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index b692c8fbee..c2723b32cb 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -351,7 +351,7 @@ M: Paolo Bonzini <pbonzini@redhat.com>
+>>  M: Richard Henderson <richard.henderson@linaro.org>
+>>  M: Eduardo Habkost <ehabkost@redhat.com>
+>>  S: Maintained
+>> -F: target/i386/
+>> +F: target/i386/tcg/
+>>  F: tests/tcg/i386/
+>>  F: tests/tcg/x86_64/
+>>  F: hw/i386/
+> 
+> This change to MAINTAINERS has left all the .c files
+> in target/i386 that are not in one of the tcg, hvf, whpx,
+> kvm, hax, nvmm subdirectories orphaned -- they are no
+> longer covered by any MAINTAINERS section.
+> 
+> Where should those files be listed ?
+> 
+> (I just discovered this when get_maintainers.pl said it couldn't
+> find a maintainer for a change I made to target/i386/sev.c.)
+
+This patch maybe got lost:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg816326.html
 
 
