@@ -2,65 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4D1A3F277D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 09:18:06 +0200 (CEST)
-Received: from localhost ([::1]:56516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 942313F278D
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 09:19:08 +0200 (CEST)
+Received: from localhost ([::1]:58942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGymz-0001Lj-EJ
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 03:18:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42352)
+	id 1mGynz-0002xa-MH
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 03:19:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1mGyll-0000gn-TP
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 03:16:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56892)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGymS-0001N9-OK
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 03:17:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
- id 1mGylj-00084z-ET
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 03:16:49 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 930756108F
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 07:16:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1629443804;
- bh=aIoierq1qWA4P6prqhbsvCAl0lPF1wQ36v7Ma9fWAIw=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=CzEyUS74yiVEBxVUf23wn5tK9AYL6I0UwHOV2Z1DbwuvkCN0xlQigb/xmEjqutDJN
- S8PGuuvhhNgl3wxhUSvyZxm+yJ/6cnrRT5QSPksu8+7sSCPo3zqvQHCqQmXednuh5/
- JGo6xdovjfhq9JKvPWfsaGbU9pR8lnc8XzIFsZECBOqd1OL223zdW5LZZlaIiI3BDV
- VCLFpFZbMPVavFSEvbjMHB3JeKQkXt1RMKY/dBgH7hQmyrv4WU3Zr9CmKWGM74pZuB
- BWQaGQDccjqzBGXKfs7hUgVSZ1sUMwC+2inyV5P2QqosR6pfxrSFrE5+0K042c8/B7
- zCZKwVcfXLrFQ==
-Received: by mail-io1-f42.google.com with SMTP id z1so10995745ioh.7
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 00:16:44 -0700 (PDT)
-X-Gm-Message-State: AOAM533hS5RuvGZDbovQ05APYwKG3oQtr5Xaf9bNd8ogbUOQ/BpAx+Ne
- 5HYY4wskkN+f8EuqjORtiYYuNySnZ5Xegv/K+Ek=
-X-Google-Smtp-Source: ABdhPJzwa+QeNif4RjLFpCab/2io8AoxI0DZqA7j+A2dooRhC97dwJbuYVRA9knxuYdWUR55EAGbuE/gl/a5q7S0inc=
-X-Received: by 2002:a05:6602:1210:: with SMTP id
- y16mr14518905iot.159.1629443804001; 
- Fri, 20 Aug 2021 00:16:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGymP-0000BJ-Lh
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 03:17:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629443848;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GAMEqdq8B6pmYdjgqp0YvXF+7ChCTa9KkwfN9YjcrZ4=;
+ b=gKGcvrPPpYvtSmV92lsrn0Zagtlq0OUoGIQTdxB8Fcty9hkRJdw0cOm0zNQ9h6HtU5RMsZ
+ aI+KWa1KeqMHY7dcxSUK+1xPJcx9JVXkrzn6hS+rBRYK8mjCF+JvRLtBtVZLfUyA6fMm8y
+ jZuw+Vni7FIhw/YvrBmFbts5VHJAEUk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-272-8M8ldu0NMW2IItmDEHgCYg-1; Fri, 20 Aug 2021 03:17:25 -0400
+X-MC-Unique: 8M8ldu0NMW2IItmDEHgCYg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v2-20020a7bcb420000b02902e6b108fcf1so4441620wmj.8
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 00:17:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=GAMEqdq8B6pmYdjgqp0YvXF+7ChCTa9KkwfN9YjcrZ4=;
+ b=RGBsSLf7Y1tO68CyXHxIdpRnGK3h2i1N1woHzMLj8IvOcRlcwY28GYnJubuCkuFACY
+ 6qur/GqEJS0IdcPjRU2VQGHIjwoVgohkMX3t8lYaIhcMv+B4QlVAi2cmAS2RZ1RRf+4b
+ tZVnw+eNxblvGMjpyO/yojKq/Sp1mrplHoZpxpWEmdwC1ZznJeVWMoLzrBKYqOeW7751
+ tRdUOhwWhacsT1Yyj9chfX7vQfbWF6pipB6SOawTXqVT5GlIrIxWA2XY88sLdypkLwlr
+ QA7UPGC8dCXKsHQgzaYllBGNLxO4O19rJF0p8g6ZrcyR2qR+3u1OmmYj/AiKu34J72Rv
+ DZyQ==
+X-Gm-Message-State: AOAM530AzuY/KeJuddIIDY5OsW1Xgq7Tu/lQdre+p33iLBLHIc0IT4Yo
+ jr3S9axDT0LD8RyK9QVev3FnzNWDtHGyJ1A62k8XNx/nFbUaePN4lM5iUj/oYeJuSXzUcCdzj4q
+ RsfihZtyfg8+ToPo=
+X-Received: by 2002:adf:feca:: with SMTP id q10mr8156432wrs.420.1629443844093; 
+ Fri, 20 Aug 2021 00:17:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxw8zrJwPVk30r9Oz+qrys23qa9kQrc9MAdqxb32QjqDIpgriY9r5uGzCPc4EMIzQ2j/Ce2Ww==
+X-Received: by 2002:adf:feca:: with SMTP id q10mr8156402wrs.420.1629443843828; 
+ Fri, 20 Aug 2021 00:17:23 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id p5sm5560295wrd.25.2021.08.20.00.17.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Aug 2021 00:17:23 -0700 (PDT)
+Subject: Re: [RFC PATCH 6/6] memory: Have address_space_create() re-use global
+ &address_space_memory
+To: Gerd Hoffmann <kraxel@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <20210819142039.2825366-1-philmd@redhat.com>
+ <20210819142039.2825366-7-philmd@redhat.com>
+ <CAFEAcA_7t-9TpamdbAsyzYT7CFuQSjQt9YFj-1xG9fX_iMv5xA@mail.gmail.com>
+ <20210820060703.njdj5pfa3lz66zjb@sirius.home.kraxel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <ccdaacfb-4c3c-33c9-77b7-782a0be4fa58@redhat.com>
+Date: Fri, 20 Aug 2021 09:17:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210818201931.393394-1-richard.henderson@linaro.org>
- <c6341c27-f656-da64-271d-487eea49d931@amsat.org>
- <CAAdtpL4Rbc5iVi27xOjwzycUcPKZcPM3PqYjZVnm-4Wgvmhbhg@mail.gmail.com>
-In-Reply-To: <CAAdtpL4Rbc5iVi27xOjwzycUcPKZcPM3PqYjZVnm-4Wgvmhbhg@mail.gmail.com>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Fri, 20 Aug 2021 15:16:32 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H6yAN3+YvCRutNAm1z4QNUrJgQAPw_jcc28CtJSrNGGmA@mail.gmail.com>
-Message-ID: <CAAhV-H6yAN3+YvCRutNAm1z4QNUrJgQAPw_jcc28CtJSrNGGmA@mail.gmail.com>
-Subject: Re: [PATCH v3 00/16] tcg/mips: Unaligned access and other cleanup
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=chenhuacai@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -77
-X-Spam_score: -7.8
-X-Spam_bar: -------
-X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+In-Reply-To: <20210820060703.njdj5pfa3lz66zjb@sirius.home.kraxel.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -60
+X-Spam_score: -6.1
+X-Spam_bar: ------
+X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.591, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,67 +101,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: David Hildenbrand <david@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Alistair Francis <alistair@alistair23.me>,
+ Jianxian Wen <jianxian.wen@verisilicon.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, Jiaxun,
+On 8/20/21 8:07 AM, Gerd Hoffmann wrote:
+>   Hi,
+> 
+>> This also seems to me to be the tail wagging the dog. If we think
+>> 'info mtree' has too much duplicate information (which it certainly
+>> does) then we should make mtree_info() smarter about reducing that
+>> duplication. Off the top of my head, we could change the code that
+>> prints ASes to do something like:
+> 
+>>            qemu_printf("...same as address-space %s\n", name);
+> 
+> Neat idea.
+> 
+> Having 'info mtree' accept an (optional) 'name' parameter to pick an
+> address space to be printed would be useful too.
 
-I'm not familiar with TCG, please review, thanks.
+Yeah, for now I am thinking of a match string (for my use cases):
 
-Huacai
+  (qemu) info mtree -a dma # all address spaces matching *dma*
 
-On Thu, Aug 19, 2021 at 6:09 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> Sorry, use Huacai's newer email .
->
-> On Thu, Aug 19, 2021 at 12:07 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=
-.org> wrote:
-> >
-> > Cc'ing Jiaxun & Huacai.
-> >
-> > On 8/18/21 10:19 PM, Richard Henderson wrote:
-> > > Based-on: <20210818191920.390759-1-richard.henderson@linaro.org>
-> > > ("[PATCH v3 00/66] Unaligned access for user-only")
-> > >
-> > > Important points:
-> > >   * Support unaligned accesses.
-> > >   * Drop requirement for 256MB alignment of code_gen_buffer.
-> > >   * Improvements to tcg_out_movi:
-> > >     - Have a tb-relative register for mips64, reducing the
-> > >       code size for most pointers,
-> > >     - Try a few 3-insn sequences,
-> > >     - Drop everything else into a constant pool.
-> > >
-> > >
-> > > r~
-> > >
-> > >
-> > > Richard Henderson (16):
-> > >   tcg/mips: Support unaligned access for user-only
-> > >   tcg/mips: Support unaligned access for softmmu
-> > >   tcg/mips: Drop inline markers
-> > >   tcg/mips: Move TCG_AREG0 to S8
-> > >   tcg/mips: Move TCG_GUEST_BASE_REG to S7
-> > >   tcg/mips: Unify TCG_GUEST_BASE_REG tests
-> > >   tcg/mips: Allow JAL to be out of range in tcg_out_bswap_subr
-> > >   tcg/mips: Unset TCG_TARGET_HAS_direct_jump
-> > >   tcg/mips: Drop special alignment for code_gen_buffer
-> > >   tcg/mips: Create and use TCG_REG_TB
-> > >   tcg/mips: Split out tcg_out_movi_one
-> > >   tcg/mips: Split out tcg_out_movi_two
-> > >   tcg/mips: Use the constant pool for 64-bit constants
-> > >   tcg/mips: Aggressively use the constant pool for n64 calls
-> > >   tcg/mips: Try tb-relative addresses in tcg_out_movi
-> > >   tcg/mips: Try three insns with shift and add in tcg_out_movi
-> > >
-> > >  tcg/mips/tcg-target.h     |  17 +-
-> > >  tcg/region.c              |  91 -----
-> > >  tcg/mips/tcg-target.c.inc | 730 +++++++++++++++++++++++++++++++-----=
---
-> > >  3 files changed, 604 insertions(+), 234 deletions(-)
-> > >
-> >
 
