@@ -2,92 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AAC83F2CD6
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 15:08:55 +0200 (CEST)
-Received: from localhost ([::1]:44102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D671A3F2CF3
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 15:13:47 +0200 (CEST)
+Received: from localhost ([::1]:47202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH4GU-0002gC-6V
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 09:08:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49152)
+	id 1mH4LA-0004wG-Ip
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 09:13:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mH4Ep-0000j3-7B
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 09:07:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60643)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mH4Em-0007Sc-Jv
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 09:07:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629464827;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jJqm+pEuD8Q2NSc5IJcGSIVSRU/r4d1/O5cZTk6RQgo=;
- b=NZ+PDI9a9CCT38SEmqLawrxm1fFDyyff2eWayCT2+LwnmADYlIy8vbXu3YFnBUAmFge4k+
- 6vgSImJJgo0V+5awyf8PGiASwp3W0ncqNz1WTQFgEQTn8oCK+q5A8XMXm4u6Ca64VAlWos
- P1SQp5tgtwWI9Tki1fWsDZon17P10Fk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-zo_Fgp_hNiOZmGe-zwdHLQ-1; Fri, 20 Aug 2021 09:07:06 -0400
-X-MC-Unique: zo_Fgp_hNiOZmGe-zwdHLQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- u14-20020a7bcb0e0000b0290248831d46e4so2402078wmj.6
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 06:07:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mH4Jw-00044m-5X; Fri, 20 Aug 2021 09:12:28 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45992)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mH4Ju-0003ox-GG; Fri, 20 Aug 2021 09:12:27 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id n5so1874639wro.12;
+ Fri, 20 Aug 2021 06:12:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=iOMtO4oQp0FcdnDBTcSbIq7I4YzdXwMkXhfYk9DQs90=;
+ b=FcdMeTRYLEbrQWSEbvFMMHBA9nlPR3/LqMbETnHojPqzW4oNY1galf1y8hGrWJqYgs
+ 3xhFp8TYFEdMDqoqurDibdigvTGMUVEnQaOkdzmiGUJZHCeq/foU2yN2sEgwHFPNeMkn
+ brcBy126G5GvOHh8yX7tVyVQkzGc2Td+LL0MukHSbOilFaY59Vw9fVVHTWWgiVh5dW6r
+ 2306FAAyZvioNwQUAT1j6BRtqqCn5U+ozOUleA3GbuAZh5pqAvkeuXvRwpHUa9cbfRO1
+ 6Muprtz+bqX57r95lmh7UVK82A/n/Cs3Neh+xu65hOnSftckVHxeEE+d9mb0qed+PVnF
+ iz4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=jJqm+pEuD8Q2NSc5IJcGSIVSRU/r4d1/O5cZTk6RQgo=;
- b=g3yAxKTGdjP3RmqNDgIVL59o1W6cPSXLDtzqWkJVSj5xU1tolSODW6+TwAaUVzLKkC
- kd0heQzNstZ2cL6Nxj7uwII7XqCuhSrHZv6kGV6NGWdw57UPPR31zKb+KmcCCcCXIYzb
- A4UZOUB09wM9GXDulbruCE7WaYLOJEuJiwLUv+b9uJsCQzJXYl67mBfL8ei6WBH57Je6
- AeiaJCt1Y2aniki2+FruGn147nxHFuWDw2DgrpTNuIp50XGiWNX9v0FvZZkhuLPfzgCE
- AByMzfb1yax6kmYPDn28qtWCgJe0Ie0l5C1krvWlrEIIGovOgQjzTYEgJ6oDeYV5Vpcx
- 7LlA==
-X-Gm-Message-State: AOAM532uNujYsA8XxKouwpOOJKaAJ0nHwOPkVZpQJV5N18PP8nEWre28
- Kb7X36T2lNWUyUnrGVsQouPO3YDKfkt0zcQT1n8R8hfLUDLptctbHxhMPBKJsLi/R1cslRCeBzE
- wQn0NG3f/1QX398iPGbgKZZiH2QXBFu92Ztc80sBjlSMXBLKI5439YuVrgVubRvEO
-X-Received: by 2002:a5d:62cb:: with SMTP id o11mr1702682wrv.216.1629464825290; 
- Fri, 20 Aug 2021 06:07:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyVaWbEarGnFVrJZXOGkHID5+D30ayZvTI7wRqBe82PpqL3rUt6QyuGPKagmHlQuqFf5s13cw==
-X-Received: by 2002:a5d:62cb:: with SMTP id o11mr1702645wrv.216.1629464824973; 
- Fri, 20 Aug 2021 06:07:04 -0700 (PDT)
+ bh=iOMtO4oQp0FcdnDBTcSbIq7I4YzdXwMkXhfYk9DQs90=;
+ b=l+OZZQZ+Gl5r4llSac5M7Bh1SEPy8WKEzq0HTJ5HhdMAkasrlD8UijeVCNhp1mA/IL
+ +C+skrjzJnxnxksrLPHvVMSsTEOmnv7poLQBnPMGfFppDh6bMPMWbrP+kxhF/WsVOUuY
+ Ku3/uGkUlVv99FUO40s2f3CDaUdzHdJyzMYpf7mg3IzODgB8jCDOMyniOsz2K/aVLn8M
+ tmtru05ap0gA04lx4uB3/LWsHHXYQkpr1hVyVyH7DPlTShE3VpQNYoZCvPm3nOBojRob
+ ABVWXWP5Xqo628I+i2jrnWYP2OqzT8z3DdjsXoy+gu6MjKN5BX6MVlGD09JrLTmKZlcJ
+ Vuxg==
+X-Gm-Message-State: AOAM531qQhZbw4IhTuv0j4sNPuD2j5iYuZqDmXomUAmj2+KCP0tlim8U
+ VEjoVsLKuvdFdtkq3Zcv0LQ=
+X-Google-Smtp-Source: ABdhPJwrMRSVK7S4O/zbs5Zub06TJRvoKyMA4404KH/ERIXNNCrCxy7e7kg1VHuasVm/hBCd0NY8UQ==
+X-Received: by 2002:adf:dd4d:: with SMTP id u13mr9660777wrm.324.1629465144743; 
+ Fri, 20 Aug 2021 06:12:24 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id g6sm5604513wmq.14.2021.08.20.06.07.03
+ by smtp.gmail.com with ESMTPSA id n13sm5136069wmc.18.2021.08.20.06.12.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Aug 2021 06:07:04 -0700 (PDT)
-Subject: Re: [PATCH 0/1] uas: add stream number sanity checks (maybe 6.1)
-To: Peter Maydell <peter.maydell@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Mauro Matteo Cascella <mcascell@redhat.com>
-References: <20210818120505.1258262-1-kraxel@redhat.com>
- <CAFEAcA_-wCZQv8bSpUoROzJCz5ND6_5DG-FKOXDSOhEcptqF0Q@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <de938d0f-7de6-d34e-5f48-c4b6346545f4@redhat.com>
-Date: Fri, 20 Aug 2021 15:07:03 +0200
+ Fri, 20 Aug 2021 06:12:23 -0700 (PDT)
+Subject: Re: [Patch 1/2] hw/arm/xlnx-versal: Add unimplemented APU mmio
+To: Tong Ho <tong.ho@xilinx.com>, qemu-arm@nongnu.org
+References: <20210819031525.653995-1-tong.ho@xilinx.com>
+ <20210819031525.653995-2-tong.ho@xilinx.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <ed761e82-0fc7-b311-bf34-94dbe215e5c4@amsat.org>
+Date: Fri, 20 Aug 2021 15:12:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_-wCZQv8bSpUoROzJCz5ND6_5DG-FKOXDSOhEcptqF0Q@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210819031525.653995-2-tong.ho@xilinx.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.49, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.49,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,28 +87,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: edgar.iglesias@gmail.com, alistair@alistair23.me, qemu-devel@nongnu.org,
+ peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Mauro to double-check.
+On 8/19/21 5:15 AM, Tong Ho wrote:
+> Add unimplemented APU mmio region to xlnx-versal for booting
+> bare-metal guests built with standalone bsp published at:
+>   https://github.com/Xilinx/embeddedsw/tree/master/lib/bsp/standalone/src/arm/ARMv8/64bit
 
-On 8/20/21 2:12 PM, Peter Maydell wrote:
-> On Wed, 18 Aug 2021 at 13:10, Gerd Hoffmann <kraxel@redhat.com> wrote:
->>
->> Security fix.  Sorry for the last-minute patch, I had completely
->> forgotten this one until the CVE number for it arrived today.
->>
->> Given that the classic usb storage device is way more popular than
->> the uas (usb attached scsi) device the impact should be pretty low
->> and we might consider to not screw up our release schedule for this.
+This link is not very useful.
+
+This one is:
+https://github.com/Xilinx/embeddedsw/blob/master-rel-2020.2/lib/sw_apps/versal_psmfw/src/fpd_apu.h
+
 > 
-> What's the impact if the bug is exploited ?
-
-Bug class: "guest-triggered user-after-free".
-
-Being privileged (root) in the guest, you can leak some data from
-the host process then DoS the host or potentially exploit the
-use-after-free to execute code on the host.
+> Signed-off-by: Tong Ho <tong.ho@xilinx.com>
+> ---
+>  hw/arm/xlnx-versal.c         | 2 ++
+>  include/hw/arm/xlnx-versal.h | 2 ++
+>  2 files changed, 4 insertions(+)
+> 
+> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+> index fb776834f7..cb6ec0a4a0 100644
+> --- a/hw/arm/xlnx-versal.c
+> +++ b/hw/arm/xlnx-versal.c
+> @@ -376,6 +376,8 @@ static void versal_unimp(Versal *s)
+>                          MM_CRL, MM_CRL_SIZE);
+>      versal_unimp_area(s, "crf", &s->mr_ps,
+>                          MM_FPD_CRF, MM_FPD_CRF_SIZE);
+> +    versal_unimp_area(s, "apu", &s->mr_ps,
+> +                        MM_FPD_FPD_APU, MM_FPD_FPD_APU_SIZE);
+>      versal_unimp_area(s, "crp", &s->mr_ps,
+>                          MM_PMC_CRP, MM_PMC_CRP_SIZE);
+>      versal_unimp_area(s, "iou-scntr", &s->mr_ps,
+> diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
+> index 22a8fa5d11..9b79051747 100644
+> --- a/include/hw/arm/xlnx-versal.h
+> +++ b/include/hw/arm/xlnx-versal.h
+> @@ -167,6 +167,8 @@ struct Versal {
+>  #define MM_IOU_SCNTRS_SIZE          0x10000
+>  #define MM_FPD_CRF                  0xfd1a0000U
+>  #define MM_FPD_CRF_SIZE             0x140000
+> +#define MM_FPD_FPD_APU              0xfd5c0000
+> +#define MM_FPD_FPD_APU_SIZE         0x100
+>  
+>  #define MM_PMC_SD0                  0xf1040000U
+>  #define MM_PMC_SD0_SIZE             0x10000
+> 
 
 
