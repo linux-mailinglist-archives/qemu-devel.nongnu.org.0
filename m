@@ -2,79 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 126D53F3553
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 22:33:29 +0200 (CEST)
-Received: from localhost ([::1]:41226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0CC3F35DD
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 23:06:06 +0200 (CEST)
+Received: from localhost ([::1]:50894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHBCh-00061d-LY
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 16:33:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48832)
+	id 1mHBiH-0005j7-HM
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 17:06:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mHBB9-0005LL-TD
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 16:31:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30255)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mHBfv-0004RS-0H
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 17:03:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mHBB6-0000QI-LG
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 16:31:50 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mHBfs-0004on-Fu
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 17:03:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629491507;
+ s=mimecast20190719; t=1629493414;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XaR3Kya71jdBdzscAhxpuw60SJZHv+qtDvIRYnjqsoQ=;
- b=bhA0d6PFNSzff4GWswpph1MJVSX9yC+HkdZPl6F/aRX/0q0djTtiIbjDW0ccdpwSbsaxZi
- FWG9AN6//KszyxVhSeZGsJ85dTEw+ZQ60MV0neDeG1PZ57f9tlaRzkXIYsXIxWAWaPN2wz
- uK9DGpMQjwBL5YgShcpOgqS+xm01K9s=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-76-Z5xYP9aIOh-8fuO3sjRPCw-1; Fri, 20 Aug 2021 16:31:45 -0400
-X-MC-Unique: Z5xYP9aIOh-8fuO3sjRPCw-1
-Received: by mail-qt1-f198.google.com with SMTP id
- z18-20020a05622a029200b0029c338949c1so1973177qtw.8
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 13:31:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=XaR3Kya71jdBdzscAhxpuw60SJZHv+qtDvIRYnjqsoQ=;
- b=GfdONqWA+9dwEj0ZOC5G/S1mVyhxZeBknzpofenwr3RqxFEE4874Z9wI3agOw7Fgp4
- J4ADCE90SYvtZ/Kj68VQRSt3JupAGIczkSQBkm4CGBX1xxo2rba3PR38kGrfJXDtJ3Jv
- UMUypM6YeW/zRyAAEWPfHButJr0LM+vUFu6/XUckYlzZJKS7M7AHnvS31uy41G80ijix
- f/xqMj7NYZI1QzsNkcKA+hqnBG8KLAB/kjFxD5ok+4aQ38iLjssWdGRcPo+pWDWSvFnt
- PfbfOowIT+h6djlQ1/kuesPLZN+wnMc708zOnug5FhdzXGqqsMWmMcLFGhVM0JiqlvtI
- yG0A==
-X-Gm-Message-State: AOAM533UkhQfy026Ya4COThZkrKiN3st/mueYL3AO6fpUDXtjdxmrVBB
- BePPVhrK3GiNkIwrEaqNi/zDg/APFyQODvejot5yXq4lAwA2OKrs1jkeGM8EBXTlO6B65ZMspjP
- KzLrl6vYm+fzA2mo=
-X-Received: by 2002:ad4:438e:: with SMTP id s14mr22035921qvr.26.1629491505473; 
- Fri, 20 Aug 2021 13:31:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzUPPMXeGOwWNOpR6MYn40W44pQTIlC8ObqqGUXVNZ/shDD330ve2yCD+rqdYR3n90zfZIeMg==
-X-Received: by 2002:ad4:438e:: with SMTP id s14mr22035898qvr.26.1629491505313; 
- Fri, 20 Aug 2021 13:31:45 -0700 (PDT)
-Received: from t490s ([2607:fea8:56a3:500::d413])
- by smtp.gmail.com with ESMTPSA id q14sm3576496qkl.44.2021.08.20.13.31.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Aug 2021 13:31:44 -0700 (PDT)
-Date: Fri, 20 Aug 2021 16:31:43 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] softmmu/physmem: Improve guest memory allocation failure
- error message
-Message-ID: <YSARLwcmNZ4vgjB1@t490s>
-References: <20210820155211.3153137-1-philmd@redhat.com>
+ bh=7acQRFUwRgEcDT7oFM8uvMfQnchISSu6mi0xswNEtv8=;
+ b=FYErWhQXtzKuDkzhrsUCXnWKKrHiZAhZzrIcTGkIHRrrUx7Ifijr0OvAPMZzD5wX9EL7p/
+ LioOyv1RI2HhKnsYus+UQx+gHWDbxb6hy4fgIT9bh+eOn0caN+m3Wf6I6d/qtxBn7cZqeq
+ qPmyZgoiYOY67QThTnkuy7osi0I+6wc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-238-qsLHZW3OOaq3sR6LgQCQlg-1; Fri, 20 Aug 2021 17:03:33 -0400
+X-MC-Unique: qsLHZW3OOaq3sR6LgQCQlg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C73718C8C02;
+ Fri, 20 Aug 2021 21:03:32 +0000 (UTC)
+Received: from localhost (unknown [10.22.32.130])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 458DDBA6F;
+ Fri, 20 Aug 2021 21:03:32 +0000 (UTC)
+Date: Fri, 20 Aug 2021 17:03:31 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Yang Zhong <yang.zhong@intel.com>
+Subject: Re: [PATCH] i386/cpu: Remove AVX_VNNI feature from Cooperlake cpu
+ model
+Message-ID: <20210820210331.umqfdmojncgrx572@habkost.net>
+References: <20210820054611.84303-1-yang.zhong@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210820155211.3153137-1-philmd@redhat.com>
+In-Reply-To: <20210820054611.84303-1-yang.zhong@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -95,31 +78,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bmeng.cn@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- David Hildenbrand <david@redhat.com>
+Cc: chayang@redhat.com, qemu-devel@nongnu.org, plai@redhat.com,
+ pbonzini@redhat.com, ailan@redhat.com, nanliu@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 20, 2021 at 05:52:11PM +0200, Philippe Mathieu-Daudé wrote:
-> When Linux refuses to overcommit a seriously wild allocation we get:
+On Fri, Aug 20, 2021 at 01:46:11PM +0800, Yang Zhong wrote:
+> The AVX_VNNI feature is not in Cooperlake platform, remove it
+> from cpu model.
 > 
->   $ qemu-system-i386 -m 40000000
->   qemu-system-i386: cannot set up guest memory 'pc.ram': Cannot allocate memory
-> 
-> Slighly improve the error message, displaying the memory size
-> requested (in case the user didn't expect unspecified memory size
-> unit is in MiB):
-> 
->   $ qemu-system-i386 -m 40000000
->   qemu-system-i386: Cannot set up 38.1 TiB of guest memory 'pc.ram': Cannot allocate memory
-> 
-> Reported-by: Bin Meng <bmeng.cn@gmail.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Yang Zhong <yang.zhong@intel.com>
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Fixes: c1826ea6a052 ("i386/cpu: Expose AVX_VNNI instruction to guest")
+
+Queued, thanks!
 
 -- 
-Peter Xu
+Eduardo
 
 
