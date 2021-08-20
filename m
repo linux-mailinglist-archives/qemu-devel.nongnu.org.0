@@ -2,93 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE18C3F256D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 05:44:22 +0200 (CEST)
-Received: from localhost ([::1]:52926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 026123F2570
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 05:49:34 +0200 (CEST)
+Received: from localhost ([::1]:55266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGvSA-0003Zq-0R
-	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 23:44:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43750)
+	id 1mGvXB-0005P8-Vs
+	for lists+qemu-devel@lfdr.de; Thu, 19 Aug 2021 23:49:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mGvRD-0002tk-8t
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 23:43:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52082)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mGvRB-00010U-Nq
- for qemu-devel@nongnu.org; Thu, 19 Aug 2021 23:43:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629431001;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3OYLW+U4L9SnCfufToOHyviyU0e6OBHl74xCNqyRbkg=;
- b=ffeyHNxxGsBr8NiQ+vwh0fn9QeXoNUSjnwSkTQ7wOE2gtHWESVo6xam/g9SVQ22mcmz4xC
- auTH4lZaBeC7UG3gq/aDZpAvYFTxgAglsAh5mEbjgmYciwtpZfwPNHT4p93lHIdy6uKcvu
- 72VUvm4z//LV9RW8dqY6MmWV8jcdN+s=
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com
- [209.85.214.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-eZTQkhg7NmaKdLTA35dLSg-1; Thu, 19 Aug 2021 23:43:19 -0400
-X-MC-Unique: eZTQkhg7NmaKdLTA35dLSg-1
-Received: by mail-pl1-f198.google.com with SMTP id
- p7-20020a170902b087b029012c2879a885so2442755plr.6
- for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 20:43:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mGvW8-0004hI-6c
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 23:48:28 -0400
+Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:45805)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mGvW5-0005H0-Q9
+ for qemu-devel@nongnu.org; Thu, 19 Aug 2021 23:48:27 -0400
+Received: by mail-qt1-x82a.google.com with SMTP id d9so6437915qty.12
+ for <qemu-devel@nongnu.org>; Thu, 19 Aug 2021 20:48:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xhI2YvQT5wLGA0IkdSwcaec1NS9RnQ7kzpI7wDS9pQA=;
+ b=TTsCDk+n12wbErWyfACbUHmoQLxUShHRGr2m18EKDN3BnrkCo08PLyYr0xehSx13mh
+ kwu7NJzZCh6MDECitoDXocbtP0EMEc6iGZm3MBqxbEhfD8V/yJxPVAzN/BPucjlLgOHJ
+ V8Ygc59m9aIOFs1C5U5Jv6E9ZsQ0ZRr5/wmwr+NRZgWtDCqQhwQaTW5J9vnPoyRVBrtI
+ 1uTbEmfPWu5XQWKaOTG4PzubL+qhaAJk8nOlkay4mPn8DiMrrh9CEYeSRDcEqagQrWfn
+ ITu+uS4+j3aikWpkgN4Xv+zktCC6IXDsacRQoFLPAx/q/jCKE9PP63euRHfYxEPOJskf
+ Ho8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=3OYLW+U4L9SnCfufToOHyviyU0e6OBHl74xCNqyRbkg=;
- b=eywQMHRjGYYeI14mWfYe7MRs5ZET/Z1eeiD2mzMgOFG0mW5FlEHCqqIAIXYJdw9Slu
- aP6GCfKij862J07JQijLQ57uPsYvHmb9GxOe8qG0kxoJmIgcGV08BQyzSZdNJkcWUJij
- 2YZy+UCCfkKgIJpOatgeiBwOr7UfhS1cPaHcurKOYB/dsSihfT0iZD+ap9HOnezPS82N
- u3CzGVbLEAqu2wSRzU5n7R0GENoXgfhOFsp2l2V2+SBPwLTnuUrBOnW3zgDD5WBrXkyb
- /lb9ljfc5ocpx63x3JXAZIdbEjS3oR7lyR7ceelQWhx06KRC/BcrAripju1F/BOBwAM3
- ZucQ==
-X-Gm-Message-State: AOAM531cEJYgqyMbTXpoBUtSV9maGAkuWmpmkaNOODrLxm4FTZh7zNlh
- ycMY5WfGLOKGz57UZGilQsH26vcrxTd2knwpPJh1UqSvdjt3ROreqFCS+IZtxEdfmDGXTHBzscA
- by1gE5hKSHpaAkxU=
-X-Received: by 2002:a63:1952:: with SMTP id 18mr16778861pgz.15.1629430998704; 
- Thu, 19 Aug 2021 20:43:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxpPIlFuwL2VsUVI9XusAQRJBp1Fkyp5OKHhiGK+Gb0DXgLjbM+r0BGaAabgcPAz9+bXp5/QQ==
-X-Received: by 2002:a63:1952:: with SMTP id 18mr16778846pgz.15.1629430998480; 
- Thu, 19 Aug 2021 20:43:18 -0700 (PDT)
-Received: from wangxiaodeMacBook-Air.local ([209.132.188.80])
- by smtp.gmail.com with ESMTPSA id c23sm5975510pgb.74.2021.08.19.20.43.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Aug 2021 20:43:17 -0700 (PDT)
-Subject: Re: [PATCH 0/5] ebpf: Added ebpf helper for libvirtd.
-To: Andrew Melnychenko <andrew@daynix.com>, mst@redhat.com,
- yuri.benditovich@daynix.com, armbru@redhat.com, eblake@redhat.com,
- berrange@redhat.com
-References: <20210713153758.323614-1-andrew@daynix.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <2fb03875-28b4-7689-8c69-b71c6052908d@redhat.com>
-Date: Fri, 20 Aug 2021 11:43:13 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xhI2YvQT5wLGA0IkdSwcaec1NS9RnQ7kzpI7wDS9pQA=;
+ b=MiVGzLQlddad70oTYw5FT311R0R6EOSSpRYtlpTxzSjEXwQtdJ5kGFVvLExU/xM3FP
+ MqTfWlsV+OJDxXc/hxOqU26oLHFQzRGNvYwqvcEWg5DHxjPZRYd6yAqi8RTMDky/BMbm
+ +peWMcN1YH0ZzIcf72/Hn63UQpXSDJgrkuusDkx2qLjh1dpJBMH1PWKbDUF7kN5f5qf/
+ T36U63EuWtRbNLCqwNVFxwE92oJyGlEUnMb+m2xrN8QNsJgw7Mmli3Ply/cJlLO6Z9D5
+ IAeFr5b7eD60Ke4ZyF+O5TQh5NuaeJnJ4iuilqXPrOosqd3Enl8OzhruF2vAi0hPf9eY
+ Li/g==
+X-Gm-Message-State: AOAM531PdsORProm+1WRq30NU2lQkbsWnLuivNR/PW9Wee0QzcYNgrF5
+ B9+f1P6WBxXuhDxFojG6gCSEGfdXg0km94FAgYPWSQ==
+X-Google-Smtp-Source: ABdhPJyUV+KKz3XTZFLGPpZPvwrpcH2jTUyTYnUqyEhT02GpSnlhuA0b0SJRkR1boLZVF+bOWM6btAD/6EqjOF088CU=
+X-Received: by 2002:ac8:777a:: with SMTP id h26mr15709961qtu.235.1629431304499; 
+ Thu, 19 Aug 2021 20:48:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210713153758.323614-1-andrew@daynix.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_CHARSET_FARAWAY=2.45, NICE_REPLY_A=-2.591, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210807214242.82385-1-imp@bsdimp.com>
+ <20210807214242.82385-29-imp@bsdimp.com>
+ <5ac9c3db-b7e0-9439-b2b5-a6ff3ed38b18@linaro.org>
+In-Reply-To: <5ac9c3db-b7e0-9439-b2b5-a6ff3ed38b18@linaro.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Thu, 19 Aug 2021 21:48:14 -0600
+Message-ID: <CANCZdfrQQhXqvbZh1APdTp8PnjVnf_F+gDBpZi_+SftLUWz9GQ@mail.gmail.com>
+Subject: Re: [PATCH for 6.2 28/49] bsd-user: Move stack initializtion into a
+ per-os file.
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: multipart/alternative; boundary="00000000000017517b05c9f58ac9"
+Received-SPF: none client-ip=2607:f8b0:4864:20::82a;
+ envelope-from=wlosh@bsdimp.com; helo=mail-qt1-x82a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,96 +77,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com, qemu-devel@nongnu.org
+Cc: Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@freebsd.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Stacey Son <sson@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--00000000000017517b05c9f58ac9
+Content-Type: text/plain; charset="UTF-8"
 
-ÔÚ 2021/7/13 ÏÂÎç11:37, Andrew Melnychenko Ð´µÀ:
-> Libvirt usually launches qemu with strict permissions.
-> To enable eBPF RSS steering, qemu-ebpf-rss-helper was added.
->
-> Added property "ebpf_rss_fds" for "virtio-net" that allows to
-> initialize eBPF RSS context with passed program & maps fds.
->
-> Added qemu-ebpf-rss-helper - simple helper that loads eBPF
-> context and passes fds through unix socket.
-> Libvirt should call the helper and pass fds to qemu through
-> "ebpf_rss_fds" property.
->
-> Added explicit target OS check for libbpf dependency in meson.
-> eBPF RSS works only with Linux TAP, so there is no reason to
-> build eBPF loader/helper for non-Linux.
->
-> Changed Qemu updates eBPF maps to array mmaping. Mmaping allows
-> bypassing unprivileged BPF map update. Also, instead of 3 maps
-> (config, key and indirection table) there is one map that
-> combines everything.
->
-> Added helper stamp. To check that helper was build with qemu,
-> qemu would check helper symbols that should contain the stamp.
-> It was done similar to qemu modules, but checking was performed
-> by the helper's ELF parsing.
->
-> Overall, libvirt process should not be aware of the "interface"
-> of eBPF RSS, it will not be aware of eBPF maps/program "type" and
-> their quantity. That's why qemu and the helper should be from
-> the same build and be "synchronized". Technically each qemu may
-> have its own helper. That's why "query-helper-paths" qmp command
-> was added. Qemu should return the path to the helper that suits
-> and libvirt should use "that" helper for "that" emulator.
->
-> qmp sample:
-> C: { "execute": "query-helper-paths" }
-> S: { "return": [
->       {
->         "name": "qemu-ebpf-rss-helper",
->         "path": "/usr/local/libexec/qemu-ebpf-rss-helper"
->       }
->      ]
->     }
->
-> Changes since v1:
-> * Mmap() used instead if bpf_map_update_elem().
+On Mon, Aug 9, 2021 at 3:00 PM Richard Henderson <
+richard.henderson@linaro.org> wrote:
 
-
-Some questions:
-
-1) Is the mmap() part a stable ABI?
-2) Is there a change that we may use other kinds of bpf map that can be 
-mmaped?
-3) What's the advantages of using bpf mmap() over the rx-filter-event?
-
-Thanks
-
-
-> * Added helper stamp.
+> On 8/7/21 11:42 AM, Warner Losh wrote:
+> > +static inline int setup_initial_stack(struct bsd_binprm *bprm,
+> > +        abi_ulong *ret_addr, abi_ulong *stringp)
+> > +{
+> > +    int i;
+> > +    abi_ulong stack_hi_addr;
+> > +    size_t execpath_len, stringspace;
+> > +    abi_ulong destp, argvp, envp, p;
+> > +    struct target_ps_strings ps_strs;
+> > +    char canary[sizeof(abi_long) * 8];
+> > +
+> > +    stack_hi_addr = p = target_stkbas + target_stksiz;
+> > +
+> > +    /* Save some space for ps_strings. */
+> > +    p -= sizeof(struct target_ps_strings);
+> > +
+> > +#ifdef TARGET_SZSIGCODE
+> > +    /* Add machine depedent sigcode. */
+> > +    p -= TARGET_SZSIGCODE;
+> > +    if (setup_sigtramp(p, (unsigned)offsetof(struct target_sigframe,
+> sf_uc),
+> > +            TARGET_FREEBSD_NR_sigreturn)) {
+> > +        errno = EFAULT;
+> > +        return -1;
+> > +    }
+> > +#endif
 >
-> Andrew Melnychenko (5):
->    ebpf: Added eBPF initialization by fds and map update.
->    virtio-net: Added property to load eBPF RSS with fds.
->    qmp: Added the helper stamp check.
->    ebpf_rss_helper: Added helper for eBPF RSS.
->    qmp: Added qemu-ebpf-rss-path command.
+> Hmm.  The x86 version you just added always returns -EOPNOTSUPP.
+> Therefore I conclude
+> that TARGET_SZSIGCODE is unset.
 >
->   ebpf/ebpf_rss-stub.c              |   6 +
->   ebpf/ebpf_rss.c                   | 120 ++++---
->   ebpf/ebpf_rss.h                   |   8 +-
->   ebpf/qemu-ebpf-rss-helper.c       | 130 +++++++
->   ebpf/rss.bpf.skeleton.h           | 557 +++++++++++++++---------------
->   hw/net/virtio-net.c               |  77 ++++-
->   include/hw/virtio/virtio-net.h    |   1 +
->   meson.build                       |  47 ++-
->   monitor/meson.build               |   1 +
->   monitor/qemu-helper-stamp-utils.c | 297 ++++++++++++++++
->   monitor/qemu-helper-stamp-utils.h |  24 ++
->   monitor/qmp-cmds.c                |  32 ++
->   qapi/misc.json                    |  33 ++
->   tools/ebpf/rss.bpf.c              |  67 ++--
->   14 files changed, 990 insertions(+), 410 deletions(-)
->   create mode 100644 ebpf/qemu-ebpf-rss-helper.c
->   create mode 100644 monitor/qemu-helper-stamp-utils.c
->   create mode 100644 monitor/qemu-helper-stamp-utils.h
+> Perhaps a better interface would be
+>
+>    p = setup_sigtramp(p, ...);
+>    if (p == 0) {
+>      // fail
+>    }
+>
+> then you don't need to expose TARGET_SZSIGCODE or have conditional
+> compilation here.
+>
+> Perhaps for the to-do list...
 >
 
+I'll add it to the todo...
+
+
+> > +    /* Add canary for SSP. */
+> > +    arc4random_buf(canary, sizeof(canary));
+>
+> You should use qemu_guest_getrandom_nofail here.
+>
+
+OK.
+
+
+> > +    /*
+> > +     * Deviate from FreeBSD stack layout: force stack to new page here
+> > +     * so that signal trampoline is not sharing the page with user stack
+> > +     * frames. This is actively harmful in qemu as it marks pages with
+> > +     * code it translated as read-only, which is somewhat problematic
+> > +     * for user trying to use the stack as intended.
+> > +     */
+>
+> A decent short-term solution.
+>
+> I'll draw your attention to my vdso patch set for linux-user:
+>
+> https://patchew.org/QEMU/20210706234932.356913-1-richard.henderson@linaro.org/
+>
+
+I'll look at that as well...
+
+Warner
+
+
+> Modulo randomness,
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
+>
+> r~
+>
+
+--00000000000017517b05c9f58ac9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 9, 2021 at 3:00 PM Richar=
+d Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hen=
+derson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">On 8/7/21 11:42 AM, Warner Losh wrote:<br>
+&gt; +static inline int setup_initial_stack(struct bsd_binprm *bprm,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 abi_ulong *ret_addr, abi_ulong *stringp)<=
+br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 int i;<br>
+&gt; +=C2=A0 =C2=A0 abi_ulong stack_hi_addr;<br>
+&gt; +=C2=A0 =C2=A0 size_t execpath_len, stringspace;<br>
+&gt; +=C2=A0 =C2=A0 abi_ulong destp, argvp, envp, p;<br>
+&gt; +=C2=A0 =C2=A0 struct target_ps_strings ps_strs;<br>
+&gt; +=C2=A0 =C2=A0 char canary[sizeof(abi_long) * 8];<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 stack_hi_addr =3D p =3D target_stkbas + target_stksiz;<=
+br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 /* Save some space for ps_strings. */<br>
+&gt; +=C2=A0 =C2=A0 p -=3D sizeof(struct target_ps_strings);<br>
+&gt; +<br>
+&gt; +#ifdef TARGET_SZSIGCODE<br>
+&gt; +=C2=A0 =C2=A0 /* Add machine depedent sigcode. */<br>
+&gt; +=C2=A0 =C2=A0 p -=3D TARGET_SZSIGCODE;<br>
+&gt; +=C2=A0 =C2=A0 if (setup_sigtramp(p, (unsigned)offsetof(struct target_=
+sigframe, sf_uc),<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 TARGET_FREEBSD_NR_sigreturn=
+)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 errno =3D EFAULT;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +#endif<br>
+<br>
+Hmm.=C2=A0 The x86 version you just added always returns -EOPNOTSUPP.=C2=A0=
+ Therefore I conclude <br>
+that TARGET_SZSIGCODE is unset.<br>
+<br>
+Perhaps a better interface would be<br>
+<br>
+=C2=A0 =C2=A0p =3D setup_sigtramp(p, ...);<br>
+=C2=A0 =C2=A0if (p =3D=3D 0) {<br>
+=C2=A0 =C2=A0 =C2=A0// fail<br>
+=C2=A0 =C2=A0}<br>
+<br>
+then you don&#39;t need to expose TARGET_SZSIGCODE or have conditional comp=
+ilation here.<br>
+<br>
+Perhaps for the to-do list...<br></blockquote><div><br></div><div>I&#39;ll =
+add it to the todo...<br></div><div>=C2=A0</div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">
+&gt; +=C2=A0 =C2=A0 /* Add canary for SSP. */<br>
+&gt; +=C2=A0 =C2=A0 arc4random_buf(canary, sizeof(canary));<br>
+<br>
+You should use qemu_guest_getrandom_nofail here.<br></blockquote><div><br><=
+/div><div>OK.<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">
+&gt; +=C2=A0 =C2=A0 /*<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* Deviate from FreeBSD stack layout: force stack =
+to new page here<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* so that signal trampoline is not sharing the pa=
+ge with user stack<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* frames. This is actively harmful in qemu as it =
+marks pages with<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* code it translated as read-only, which is somew=
+hat problematic<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0* for user trying to use the stack as intended.<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
+<br>
+A decent short-term solution.<br>
+<br>
+I&#39;ll draw your attention to my vdso patch set for linux-user:<br>
+<a href=3D"https://patchew.org/QEMU/20210706234932.356913-1-richard.henders=
+on@linaro.org/" rel=3D"noreferrer" target=3D"_blank">https://patchew.org/QE=
+MU/20210706234932.356913-1-richard.henderson@linaro.org/</a><br></blockquot=
+e><div><br></div><div>I&#39;ll look at that as well...</div><div><br></div>=
+<div>Warner<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">
+Modulo randomness,<br>
+Reviewed-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
+ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
+<br>
+<br>
+r~<br>
+</blockquote></div></div>
+
+--00000000000017517b05c9f58ac9--
 
