@@ -2,72 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95CEF3F3192
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 18:39:12 +0200 (CEST)
-Received: from localhost ([::1]:34798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 480C53F31AA
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 18:42:48 +0200 (CEST)
+Received: from localhost ([::1]:38216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH7Xz-0005zy-MP
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 12:39:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35660)
+	id 1mH7bT-0008UK-D6
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 12:42:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mH7Wm-00052e-DN
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 12:37:56 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:34397)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mH7Wk-0001Ow-3e
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 12:37:56 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id
- v20-20020a1cf714000000b002e71f4d2026so1646970wmh.1
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 09:37:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gHSKMIr3DXymHcQf23ga3m0DhtBqLhGv0jmkwxAjHpM=;
- b=OyGfJlD6YTKM3WOPFo2hCwT0tPbOdzvhkxF12dBT3+qmlQoPUETSQPGNCcNCx1tm4E
- Svf4nswRe1Q/MLVCYtFBueInxZeEzKqPyKn9PfkWE2mzf718YA0QPizjwonAW1pTSX8W
- Fsw7LltQ4eZPOF3NQdJGkFV2he9TRGKk6OT2zgdps9rq8BP6EDdwOo7EF31toyGhZxz7
- nNrZO4BxQ/wRTvd//PimAOAZgKTIYNgJXHnY90/fANAbFL+3jOO24ciTZetY4CKE24qn
- dknE5L5hoDhyc8UnQfYFIch3ug1o4LWmE98wCFjvxwx6b98n7Ot2xcS9Op1bmDFTscQi
- OEvw==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mH7Zf-0007ga-PQ
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 12:40:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58695)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mH7Zd-0003KD-VP
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 12:40:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629477652;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8xh+ntQxj9IUrDNj9obPqtNPU9qBbzyC2tKWdfFVxLo=;
+ b=IOsKt7bnM6Ua6d8CgDxcnThWTFWOJ2bozJR/betcXVgGoKHLizi2jcYFMjbdt+26m4uZDb
+ NjCrybcTAVqf735APk0FRlW5NK6o7TkEFEDBSh6yE86CBctU1ncpairZxm9qh0eESvf05w
+ V4IWNapNownaUQ9AbL8wHwNVNSG5Rpg=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-374-dFWuzbdJO22dh4dpbF5WLg-1; Fri, 20 Aug 2021 12:40:51 -0400
+X-MC-Unique: dFWuzbdJO22dh4dpbF5WLg-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ t8-20020aa7db08000000b003c0e65039baso486246eds.4
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 09:40:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gHSKMIr3DXymHcQf23ga3m0DhtBqLhGv0jmkwxAjHpM=;
- b=OCYgNCCPz3DMPUDVOVzeQxuRcZawzFGhJXgaXjpgf6TUO0IlM0UaLHNLrtC6i26AR4
- wpUN8aFDKfxF00H2KLlARfQmsKtnJ4W6lKPOQw84q28dNtHatBmmWXF1DDWOSopFXVEQ
- 9JS7dwtMTeRYohGqQCiFGb4r0e/4Cy6xnoEKw3t88KXzKfehKFwkEClUKvcdFClhcSEU
- 4sWikvJulZ9DsT4yXOL0eWkvyAmQGoMsJMSn67dck0NH29NJJuQHxoQUXiEudbgP4deI
- /q/XCsBSuvkZwarQGrJdES0ODyAPLn/cqP3Zr40EBQJTrM+bMTk6LMYESchwJ3ccyEBn
- t0zg==
-X-Gm-Message-State: AOAM530mN8WIpCPQh9Yl/M/ebLmRHXgYOoXe+5Dro8CNwW6TxHPzfCOd
- bRn7NwQvJqJS62njyaPNCNdPQwdp05m+fQ==
-X-Google-Smtp-Source: ABdhPJwgFhVwWXryUmz1HU3qlCHWOiDA5yW0QAdcf1/xcfoRg3zVxr02Af2RSEd20S1pClBA1YCwaA==
-X-Received: by 2002:a1c:40c:: with SMTP id 12mr4820683wme.158.1629477472209;
- Fri, 20 Aug 2021 09:37:52 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id r1sm6586232wrt.24.2021.08.20.09.37.51
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=8xh+ntQxj9IUrDNj9obPqtNPU9qBbzyC2tKWdfFVxLo=;
+ b=CU5Rnl6uFG1O8001gwNKgvmqb6S14Ed1N9Ujx/PWU/TCRAtZEr43aDxxvTKzWYceMi
+ LXW1qFIfFxJoUHTH+HkcTro4gAQf7bLbDMS39k4h1s2++nhEo9zidCAvEqTEl4k3D8Bs
+ jUQp2Ct1q2/hCSOPeltxQyaYU5276NsmAJST72dibfI56FoUqHxWVldVdRiMKJpvYfZ/
+ xSPGHmA5PjQFhtKWJXJNqnbkRg8AczxGCgW4RaieBdXxkzLZBZUG+dWnDjtQ0K+ZM5Vg
+ M5eeGINNDlY24g0sS9vV2D/ZY204EZxsDcmVoIS1/WaRKR45SNamyj7OfyQ2n3KAOCzc
+ tMXw==
+X-Gm-Message-State: AOAM533Mfqx6F44RPH8f3zptpa9//CbVsHm3Ex8LYiG2NsIIQN8SR2v7
+ +jea2bqCRS/EHsuC/r1JJ2bEUMYC60vO1E2ySZFcCPd4FrGnmAxyqljZjuSMlGsgw1drsjkfv3R
+ +nH8m2H/vPHjFj3Y=
+X-Received: by 2002:a17:907:76a1:: with SMTP id
+ jw1mr22570853ejc.238.1629477649804; 
+ Fri, 20 Aug 2021 09:40:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJysW1CNXI4yrXf1KV7zaaazWQzFaidzYfdk21vXIa39GOU9HPgIl92HYkwdsDBWhTLOtTZS9w==
+X-Received: by 2002:a17:907:76a1:: with SMTP id
+ jw1mr22570828ejc.238.1629477649660; 
+ Fri, 20 Aug 2021 09:40:49 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id cn16sm3847148edb.9.2021.08.20.09.40.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Aug 2021 09:37:51 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] libqtest: check for g_setenv() failure
-Date: Fri, 20 Aug 2021 17:37:50 +0100
-Message-Id: <20210820163750.9106-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ Fri, 20 Aug 2021 09:40:49 -0700 (PDT)
+Date: Fri, 20 Aug 2021 18:40:48 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PATCH] softmmu/physmem: Improve guest memory allocation
+ failure error message
+Message-ID: <20210820184048.4a5294c4@redhat.com>
+In-Reply-To: <d68297ca-7be3-48ab-e25c-4f55dc735670@redhat.com>
+References: <20210820155211.3153137-1-philmd@redhat.com>
+ <20a53e29-ba23-fe0d-f961-63d0b5ca9a89@redhat.com>
+ <d68297ca-7be3-48ab-e25c-4f55dc735670@redhat.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,40 +100,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>
+Cc: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-g_setenv() can fail; check for it when starting a QEMU process
-when we set the QEMU_AUDIO_DRV environment variable.
+On Fri, 20 Aug 2021 18:00:26 +0200
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-Because this happens after fork() reporting an exact message
-via printf() is a bad idea; just exit(1), as we already do
-for the case of execlp() failure.
+> On 8/20/21 5:53 PM, David Hildenbrand wrote:
+> > On 20.08.21 17:52, Philippe Mathieu-Daud=C3=A9 wrote: =20
+> >> When Linux refuses to overcommit a seriously wild allocation we get:
+> >>
+> >> =C2=A0=C2=A0 $ qemu-system-i386 -m 40000000
+> >> =C2=A0=C2=A0 qemu-system-i386: cannot set up guest memory 'pc.ram': Ca=
+nnot
+> >> allocate memory
+> >>
+> >> Slighly improve the error message, displaying the memory size
+> >> requested (in case the user didn't expect unspecified memory size
+> >> unit is in MiB):
+> >>
+> >> =C2=A0=C2=A0 $ qemu-system-i386 -m 40000000
+> >> =C2=A0=C2=A0 qemu-system-i386: Cannot set up 38.1 TiB of guest memory =
+'pc.ram':
+> >> Cannot allocate memory
+> >>
+> >> Reported-by: Bin Meng <bmeng.cn@gmail.com>
+> >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> >> ---
+> >> =C2=A0 softmmu/physmem.c | 4 +++-
+> >> =C2=A0 1 file changed, 3 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> >> index 2e18947598e..2f300a9e79b 100644
+> >> --- a/softmmu/physmem.c
+> >> +++ b/softmmu/physmem.c
+> >> @@ -1982,8 +1982,10 @@ static void ram_block_add(RAMBlock *new_block,
+> >> Error **errp)
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0
+> >> &new_block->mr->align,
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 shared, noreserve);
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 if (!new_block->host) {
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 g_autofree char *size_s =3D
+> >> size_to_str(new_block->max_length);
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 error_setg_errno(errp, errno,
+> >> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "cannot set up guest memor=
+y '%s'",
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "Cannot set up %s of guest=
+ memory
+> >> '%s'",
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size_s,
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memory_region_=
+name(new_block->mr));
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 qemu_mutex_unlock_ramlist();
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
+> >> =20
+> >=20
+> > IIRC, ram blocks might not necessarily be used for guest memory ... or
+> > is my memory wrong? =20
+>=20
+> No clue, this error message was already here.
 
-Fixes: Coverity CID 1460117
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- tests/qtest/libqtest.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+it's not only guest RAM, adding size here is marginal improvement,
+(it won't help much since it's not exact match to CLI which may use suffixe=
+s for sizes)
 
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 825b13a44c7..73f6b977a66 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -301,7 +301,9 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
-     s->expected_status = 0;
-     s->qemu_pid = fork();
-     if (s->qemu_pid == 0) {
--        g_setenv("QEMU_AUDIO_DRV", "none", true);
-+        if (!g_setenv("QEMU_AUDIO_DRV", "none", true)) {
-+            exit(1);
-+        }
-         execlp("/bin/sh", "sh", "-c", command, NULL);
-         exit(1);
-     }
--- 
-2.20.1
+>=20
+> No problem to change s/guest/block/ although.
+>=20
 
 
