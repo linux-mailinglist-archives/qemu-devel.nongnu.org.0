@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBF673F373B
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 01:17:48 +0200 (CEST)
-Received: from localhost ([::1]:53592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 041C53F3755
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 01:37:29 +0200 (CEST)
+Received: from localhost ([::1]:60890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHDlj-0000vn-Hh
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 19:17:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45912)
+	id 1mHE4l-0006oB-G0
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 19:37:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mHDk5-0008HK-Gs
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 19:16:05 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:57050)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mHDk1-0000QC-S8
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 19:16:05 -0400
-Received: from loganberry.canonical.com (loganberry.canonical.com
- [91.189.90.37])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 171733F875
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 23:15:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1629501342;
- bh=s3GC1G0mz6f1A/JwmYK7dJi+vcaLlwd+OiKqNjMv7IA=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=ApO3S85HgTQrZKu695m9VKUOcxfgdh3CLrECrG4RTZwgIYwAgr8Zdst5DKNausPDX
- /zxI3QZDYikh4Hd4Dv30qiZbVKf3dvVI50LLuxiQ1HaPNlvlXWLynLYG1MMLGa+U+r
- V00RQVADdMY8NOh1o7OFt67UdLTLeTQwSW6ocGTqwdibDAfL8CE9Yk//gK0bTjm7WZ
- cePefgTCBo4t4J6vycZGPTLZg92gZwgmZmdXv0ZhONVoqcFrtLakg4I5h9eF8z2PtB
- pC+bSO4HiUCJg8/K3BOlGWCFzIXEgIyISMj3tq4H2NttrTlfllfA8Jok4R2lTGxDOY
- MnGvDtoIE0jiw==
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 435C82E8167
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 23:15:41 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 20 Aug 2021 23:08:42 -0000
-From: Alexander Bulekov <1911839@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Duplicate: 1878034
-References: <161067831357.23424.6214603959170254372.malonedeb@soybean.canonical.com>
-Message-Id: <162950092257.23578.11805213414088627276.launchpad@wampee.canonical.com>
-Subject: [Bug 1911839] Re: [OSS-Fuzz] Issue 29586 e1000e: Memcpy-param-overlap
- in flatview_write_continue
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="25edfd4b3e79d9ee9d9c3a750eb93e4d41d56c9e"; Instance="production"
-X-Launchpad-Hash: f43207f0084596c40e000f930055a8f3f24923ca
-Received-SPF: pass client-ip=185.125.188.251;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mHE3l-000693-Hf
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 19:36:25 -0400
+Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:35358)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mHE3j-0005wp-D7
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 19:36:25 -0400
+Received: by mail-il1-x12a.google.com with SMTP id h29so11113070ila.2
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 16:36:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
+ :references; bh=vLIrpu+FUpUHJJDsbtRmiEtMmlYpYZ4gxHdIAbIeWiw=;
+ b=TP4SD4FQYRIkCHqaQCbFaV/WeGDMY+NWphaonWe5dKKdae4nZu9N+HeM/2rSSYj+QV
+ drZSw8SMO8VnAGNecn63oQvDx0klZKtB+UKCO5ChvQSLlklaxW38Ps0YdtkEtC+4Rj+5
+ GwgAlt04oNXKIBnUOnHWth7Mu+uUdFUcyf9a5Jh2oO+SruAY67RqldElvLFhZ5khpiqv
+ FqGBXV+FaEI+1t6OZYyQx3h6wumiYaN3zLN7g0sS4y3p7vdZrr1Z7gVaxxuvn3WFcBMQ
+ k1EZeRXpq6a20HxFYEHRb0jxlG2dK8SwJMtg/YlL2uNDDw6N6KcEB65f2pfpi5WQ3v+7
+ PZdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:message-id:mime-version:subject:date
+ :in-reply-to:cc:to:references;
+ bh=vLIrpu+FUpUHJJDsbtRmiEtMmlYpYZ4gxHdIAbIeWiw=;
+ b=TSmxH7ptRXMpWpLAB36KWiHKKhXN5SwB+TytAWLt/yPn6BnfAxXuHh5SPzRVAEhcJA
+ +70qOys+RMUQpBNIUdRch3pKZx4ASgLo+bUq03FUl+yAQKsE+G7NhzU+pkGGOQGlW1Af
+ NEVOE4JqmSf5KxnOZ1RVy6Ax6mDuxqTAEvLH7dDD+8tIdzd0VGqZYVQlG1kM8kL+ukJd
+ N8E7UkcfduJ7S+s5IQFyKdy4we/8UKcos7xx9qO3fy4nQIU50nsfB8/5pvmv2+PCtYhg
+ ovsFxjsThwLItH9/VzxS0m2hjWHEKvh9b6lbhNb5YNrbPKfCE/eoV/LDNXeMtTTAWQwv
+ 6X+A==
+X-Gm-Message-State: AOAM530E3/tPwvGRY1olRYuih/sCerbMuyjT8goSGTnxacDo4/E3db+a
+ xoe1j/AT9U5ybE91W+5hrM1Ysg==
+X-Google-Smtp-Source: ABdhPJw1Wy9zNqYZacn5dDMVQXqIcd7D1xIRPg4SphMiiowizR5goPXu26kHv26AcVEfFjGlsC/uPA==
+X-Received: by 2002:a05:6e02:cc3:: with SMTP id
+ c3mr15619719ilj.207.1629502581645; 
+ Fri, 20 Aug 2021 16:36:21 -0700 (PDT)
+Received: from ?IPv6:2603:300b:6:5100:984:1ce3:3c49:4a9e?
+ ([2603:300b:6:5100:984:1ce3:3c49:4a9e])
+ by smtp.gmail.com with ESMTPSA id p12sm4025130ilp.87.2021.08.20.16.36.20
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 20 Aug 2021 16:36:20 -0700 (PDT)
+From: Warner Losh <wlosh@bsdimp.com>
+Message-Id: <791ED535-5AB2-49F1-9496-AF661DE849C1@bsdimp.com>
+Content-Type: multipart/signed;
+ boundary="Apple-Mail=_B26D2F17-D856-489A-901A-B04AEC79087C";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.7\))
+Subject: Re: [PATCH for 6.2 40/49] bsd-user: Add target_arch_reg to describe a
+ target's register set
+Date: Fri, 20 Aug 2021 17:36:19 -0600
+In-Reply-To: <755a1305-a022-5ffa-3623-d1c965adeca4@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+References: <20210807214242.82385-1-imp@bsdimp.com>
+ <20210807214242.82385-41-imp@bsdimp.com>
+ <755a1305-a022-5ffa-3623-d1c965adeca4@linaro.org>
+X-Mailer: Apple Mail (2.3608.120.23.2.7)
+Received-SPF: none client-ip=2607:f8b0:4864:20::12a;
+ envelope-from=wlosh@bsdimp.com; helo=mail-il1-x12a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,103 +86,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1911839 <1911839@bugs.launchpad.net>
+Cc: kevans@freebsd.org, Warner Losh <imp@FreeBSD.org>, qemu-devel@nongnu.org,
+ Warner Losh <imp@bsdimp.com>, Stacey Son <sson@FreeBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-*** This bug is a duplicate of bug 1878034 ***
-    https://bugs.launchpad.net/bugs/1878034
 
-** This bug has been marked a duplicate of bug 1878034
-   memcpy param-overlap through e1000e_write_to_rx_buffers
+--Apple-Mail=_B26D2F17-D856-489A-901A-B04AEC79087C
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1911839
 
-Title:
-  [OSS-Fuzz] Issue 29586 e1000e: Memcpy-param-overlap in
-  flatview_write_continue
 
-Status in QEMU:
-  Confirmed
+> On Aug 10, 2021, at 10:44 AM, Richard Henderson =
+<richard.henderson@linaro.org> wrote:
+>=20
+> On 8/7/21 11:42 AM, Warner Losh wrote:
+>> From: Warner Losh<imp@FreeBSD.org>
+>> target_reg_t is the normal register. target_fpreg_t is the floating
+>> point registers. target_copy_regs copies the registers out of CPU
+>> context for things like core dumps.
+>> Signed-off-by: Stacey Son<sson@FreeBSD.org>
+>> Signed-off-by: Warner Losh<imp@bsdimp.com>
+>> ---
+>>  bsd-user/i386/target_arch_reg.h   | 82 +++++++++++++++++++++++++++
+>>  bsd-user/x86_64/target_arch_reg.h | 92 =
++++++++++++++++++++++++++++++++
+>>  2 files changed, 174 insertions(+)
+>>  create mode 100644 bsd-user/i386/target_arch_reg.h
+>>  create mode 100644 bsd-user/x86_64/target_arch_reg.h
+>=20
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>=20
+> While this mirrors what linux-user does, I've wondered if this wasn't =
+just pointless copying.  If a bit of code knows enough about a target to =
+fill in its core dump, why wouldn't it just copy the data straight from =
+CPUArchState instead of using these intermediaries?
 
-Bug description:
-  =3D=3D=3D Reproducer =3D=3D=3D
-  cat << EOF | ./qemu-system-i386 -M q35 -accel qtest \
-  -qtest stdio -nographic -nodefaults -device \
-  e1000e,netdev=3Dnet0 -netdev user,id=3Dnet0=20
-  outl 0xcf8 0x80000811
-  outl 0xcfc 0x5ac600
-  outl 0xcf8 0x80000801
-  outl 0xcfc 0x26000000
-  write 0x5ac60100 0x4 0x56000302
-  write 0x5ac6011a 0x2 0x1006
-  write 0x5ac60120 0x1 0x25
-  write 0x5ac6042a 0x2 0x4048
-  write 0x5ac60431 0x1 0x04
-  write 0x4240 0x1 0xff
-  write 0x4241 0x1 0x01
-  write 0x4249 0x1 0xf5
-  write 0x1ff 0x1 0x11
-  write 0x5ac60401 0x1 0x12
-  write 0x5ac6043a 0x2 0x3000
-  write 0x5ac60112 0x2 0xf090
-  write 0x5ac60430 0x1 0x0
-  write 0x239 0x1 0xff
-  write 0x2bb 0x1 0x41
-  write 0x9531 0x1 0xff
-  write 0x9532 0x1 0xff
-  write 0x9533 0x1 0xff
-  write 0x9534 0x1 0xff
-  write 0x9535 0x1 0xff
-  write 0x9536 0x1 0xff
-  write 0x9537 0x1 0xff
-  write 0x5ac60403 0x1 0x12
-  EOF
+I believe the forthcoming core dump code copies this opaque structure =
+into the core dump=E2=80=A6.
 
-  =3D=3D=3D Stack Trace =3D=3D=3D
-  =3D=3D1364=3D=3DERROR: AddressSanitizer: memcpy-param-overlap: memory ran=
-ges [0x7f90b7e00025,0x7f90b7e00604) and [0x7f90b7e00225, 0x7f90b7e00804) ov=
-erlap
-  #0 __asan_memcpy /src/llvm-project/compiler-rt/lib/asan/asan_interceptors=
-_memintrinsics.cpp:22:3
-  #1 flatview_write_continue /src/qemu/softmmu/physmem.c:2764:13
-  #2 flatview_write /src/qemu/softmmu/physmem.c:2799:14
-  #3 address_space_write /src/qemu/softmmu/physmem.c:2891:18
-  #4 address_space_rw /src/qemu/softmmu/physmem.c:2901:16
-  #5 dma_memory_rw_relaxed /src/qemu/include/sysemu/dma.h:88:12
-  #6 dma_memory_rw /src/qemu/include/sysemu/dma.h:127:12
-  #7 pci_dma_rw /src/qemu/include/hw/pci/pci.h:801:12
-  #8 pci_dma_write /src/qemu/include/hw/pci/pci.h:837:12
-  #9 e1000e_write_to_rx_buffers /src/qemu/hw/net/e1000e_core.c:1405:9
-  #10 e1000e_write_packet_to_guest /src/qemu/hw/net/e1000e_core.c:1575:21
-  #11 e1000e_receive_iov /src/qemu/hw/net/e1000e_core.c:1702:9
-  #12 e1000e_nc_receive_iov /src/qemu/hw/net/e1000e.c:214:12
-  #13 net_tx_pkt_sendv /src/qemu/hw/net/net_tx_pkt.c:556:9
-  #14 net_tx_pkt_send /src/qemu/hw/net/net_tx_pkt.c:633:9
-  #15 net_tx_pkt_send_loopback /src/qemu/hw/net/net_tx_pkt.c:646:11
-  #16 e1000e_tx_pkt_send /src/qemu/hw/net/e1000e_core.c:657:16
-  #17 e1000e_process_tx_desc /src/qemu/hw/net/e1000e_core.c:736:17
-  #18 e1000e_start_xmit /src/qemu/hw/net/e1000e_core.c:927:9
-  #19 e1000e_set_tctl /src/qemu/hw/net/e1000e_core.c:2424:9
-  #20 e1000e_core_write /src/qemu/hw/net/e1000e_core.c:3256:9
-  #21 e1000e_mmio_write /src/qemu/hw/net/e1000e.c:110:5
-  #22 memory_region_write_accessor /src/qemu/softmmu/memory.c:491:5
-  #23 access_with_adjusted_size /src/qemu/softmmu/memory.c:552:18
-  #24 memory_region_dispatch_write /src/qemu/softmmu/memory.c:0:13
-  #25 flatview_write_continue /src/qemu/softmmu/physmem.c:2759:23
-  #26 flatview_write /src/qemu/softmmu/physmem.c:2799:14
-  #27 address_space_write /src/qemu/softmmu/physmem.c:2891:18
-  #28 __wrap_qtest_writeq /src/qemu/tests/qtest/fuzz/qtest_wrappers.c:187:9
-  #29 op_write /src/qemu/tests/qtest/fuzz/generic_fuzz.c:479:13
-  #30 generic_fuzz /src/qemu/tests/qtest/fuzz/generic_fuzz.c:681:17
+However, this is an excellent todo item to see if there=E2=80=99s =
+something that can be refined.
 
-  OSS-Fuzz Report: https://bugs.chromium.org/p/oss-
-  fuzz/issues/detail?id=3D29586
+Warner
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1911839/+subscriptions
 
+--Apple-Mail=_B26D2F17-D856-489A-901A-B04AEC79087C
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iQIzBAEBCgAdFiEEIDX4lLAKo898zeG3bBzRKH2wEQAFAmEgPHMACgkQbBzRKH2w
+EQB9VA//a1WnP4tbTtbLQey3xG+R8tX9MAecPCJraZcGl63T97p3F9xmsM5QJktd
+iX8EV99kDKBcbZnVR1lepw/ractMp2tIDq/YfkbMA/2EFXJ8YY52ZMWPsX52/IIx
+1Mmz8TDi2FQ2fImbz9UDqfC3aCifkagynfWY53S7DrVsvd41buWVfrFcFIHjdS3O
+88Rmh4Nn0+lfPzY6CQ9QyuKGWpHxFfyIFve5PyljEF4pWghrDWk4pTa52v8xsMOv
+KtuLRa2dhf7YOj42a8GT2sBT/t2cLtkA+z/zLbZ38XwzzXfiN7nfa2l8cKHMKS+P
+viruvjAig3n/gCUg/O1s+Ef/iDPRuAPM7DoASG1hwUGc72p2lbDZs1H8SqWbpnxw
+xFOxF2HLrSpQLcnibX0EWhA+1QnhVDpX+oOKk4EF18mHIPo9UEX++HkXeTGpkPwf
+AnGTpdPBULZ+97+GuWKSnepeND4383+iOsNinvlWrtGTl1RJ00y9AsKopPG3Q4T3
+HxHkHO0A5/fT6DvU2v+cVR1uZJB3j9nIPuQx5QSkMGbgqLxOL1e+EOXmmQC3eCaL
+f7HN9pjxWpDWacZ5wtCo8ei0Gaf6xD+xWCit3FGu5PSDy21dnmZHzKNIAamREDVX
+rOSmta1pVl7DxNtkvCxg4WqNqajaxz222ruGDbLwtqpI+4epF+E=
+=xT/o
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_B26D2F17-D856-489A-901A-B04AEC79087C--
 
