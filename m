@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F3FA3F2979
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 11:48:07 +0200 (CEST)
-Received: from localhost ([::1]:57124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19E1B3F29F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 12:12:55 +0200 (CEST)
+Received: from localhost ([::1]:39330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH189-0006MP-O7
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 05:48:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38546)
+	id 1mH1W9-00067I-Li
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 06:12:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mH173-0005hf-G4
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 05:46:57 -0400
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:40828)
+ id 1mH1VA-0005P2-4J
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 06:11:57 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:41621)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mH171-0001jD-P8
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 05:46:56 -0400
-Received: by mail-ej1-x631.google.com with SMTP id lo4so18949467ejb.7
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 02:46:54 -0700 (PDT)
+ id 1mH1V8-0006WO-5J
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 06:11:51 -0400
+Received: by mail-ej1-x629.google.com with SMTP id d11so19075317eja.8
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 03:11:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8UZXJZZTCLUPQ4+vbivQ1//7lHHf6qPon9XbJrJZb/8=;
- b=ouWXCuHxsE7FY/MZTmKJ9gVqOmIEni0j2YyLlcslgC322xROr6L/hg7D9TkM+cvRra
- 3frLLKypYZmgaW4ineXwHiSSjHxSWbQaZw0XMIGPYkvHdttOqeUU/0NHGs64ulAO/48g
- xSsIwEsEvP/flVHggQcXOsAlHcK8dWW/tUi1RkIPVjVVDgnF1gYTZ2B1HSgr+gODVkk8
- t1VFWT1vNkuxfVQt8kVul+NQ03LMPt3KBsRLSvWh/1xR1W9HzEMdCbgmR38vK5uJrTor
- FVCtC9xmGHbYYa1RjQSu33ScixJR6KvOOH5TQdOautl2zMbCkb4EZYkHfenCW1lDFVT6
- gE/w==
+ :cc; bh=b/w7mL2W3kxmmSinOnkoLRdFu6QaDuaNnt/lEW+zw4g=;
+ b=drBYBIEbsljdAQpf4Yzf0Nyiqoh8iAATEDeSU/APgcdZfznKpd/ihCa4dJKqEQ7eC0
+ 0lja6xHzV8/TZwFTISzHMrbojMXjUzwl2NDA2GWjQHZp/Rh67b/8fcS0cmv3/bNE+9yW
+ N8yXDFTVWv4Qxoy/XC9obwRGRDC46BjetOP1YvHPRgYvNLDc66QqaqHKdiK5ceY3iojW
+ oMMPfA19Sl2WmY/TwlOB6Gu3GcvfboawMKReaTNsd/8h7LlMLXagPi35Fj03AfpPR+Jt
+ GZVmeqE1f9+8H4UxUS6G3nBvi9MSmaaqqXeYCApEXMAfmg1rkt73d3N5hNuZzUndYL2L
+ i7XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=8UZXJZZTCLUPQ4+vbivQ1//7lHHf6qPon9XbJrJZb/8=;
- b=eZut0G+Ww0FJSO5BxsbjZH0ZIbnz26ngJIsGBvmhTD4RVN10A4QcYZPRqc58KAU3dn
- lP0qV5MRZFf4Q4HUJyE7mCUNmAtaDKHoW2gsnErWP5tmZA78hJdbOIZgkgvInSZ13k7k
- QJ+E6yAD6h93wHU9m9TAYEx6PbpTvXj00bMuQp7BxAY7LJcSmnyn7ZlFoGB0+O8dqgz5
- Nisc2NIKWjMpqOtjtM+gUivHOwAXsQaU4rpnPrK6Leef47HGcikQZUPO59Bt9Ngi8/O5
- 7UtuO6ilraaBL+1vyob3aASQrC9/soue675CoMmyqQJF0fjPW1y6vLEnYPC8dNZZaaE4
- ZRCQ==
-X-Gm-Message-State: AOAM531jtj2uzpx1qsyaScBvyoQpXMQFvxBMrJdBaOu7zWoYBMi/221H
- BjRf3p/QHWYOubrn2jYzUXFsarmA+t4Z4RMl1NmaMAoFM2c=
-X-Google-Smtp-Source: ABdhPJyXHmYf7AYEChLxycBy90qqzqS0bGrtxvx8YpBMSO6WxbdvV+ehSQXfIavgcRqJabGr7WzWhF5uPknwJ/2KsjI=
-X-Received: by 2002:a17:906:c085:: with SMTP id
- f5mr21047110ejz.250.1629452813886; 
- Fri, 20 Aug 2021 02:46:53 -0700 (PDT)
+ bh=b/w7mL2W3kxmmSinOnkoLRdFu6QaDuaNnt/lEW+zw4g=;
+ b=axThvS7nGRcjnnOkK5Xc6B/zNgBSV1VL/yrjIWSp9zWj/GCe644BwVFEbpgObz9Ert
+ jHNtQoevDAIxyKF8RHk4P/XWaYwB5Y0NWwnh24yap37RLRhS1UApAqqlrpAcgs6YdgNT
+ KlSg622AqICovNRDd3lPL6aDTDTuYLY08gRvw1IWy2vIeCzJokc0QsE1xU6QKzVDotmo
+ cI2YMtjsWLFrS7kIWp9q+HCuszvQ/qhwp5H22I14CEPeFkS55TQBzJUFEUBtnzXtGSXH
+ 9JxakgD7bfhPysX44/Cvb52aVAXLdG3Il8Hfhp9urt2U2RWMYomeIjcEujjUl113s75N
+ JQLg==
+X-Gm-Message-State: AOAM5300L5UKK3t4uAii9s8hGZowse3ySCIR/KcpqlJtofQXkgl+ZNWe
+ gGfPzdDUhdmSKradEfFqikCAsbsyb2pnG9MeDHDFrQ==
+X-Google-Smtp-Source: ABdhPJxd8Sf/3CzWeTvzt9rsU5h3LAoyPJ1P89xIejApz/FyLBEfJRTIUPsUJYLfCNkMc3MY/Hy4h8rIzdQy9nC2alc=
+X-Received: by 2002:a17:907:1048:: with SMTP id
+ oy8mr20328722ejb.382.1629454308208; 
+ Fri, 20 Aug 2021 03:11:48 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210818191920.390759-1-richard.henderson@linaro.org>
- <20210818191920.390759-61-richard.henderson@linaro.org>
-In-Reply-To: <20210818191920.390759-61-richard.henderson@linaro.org>
+ <20210818191920.390759-62-richard.henderson@linaro.org>
+In-Reply-To: <20210818191920.390759-62-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 Aug 2021 10:46:07 +0100
-Message-ID: <CAFEAcA9XQQEyGiwGgTSOz+2WshvT5DaUzgKxVCJvioN8jq92PA@mail.gmail.com>
-Subject: Re: [PATCH v3 60/66] tcg/aarch64: Support raising sigbus for user-only
+Date: Fri, 20 Aug 2021 11:11:01 +0100
+Message-ID: <CAFEAcA_-pq=5PSaCNyUz2MxaYNwKJhMq1JayrC3Vpg5QkvXTkg@mail.gmail.com>
+Subject: Re: [PATCH v3 61/66] tcg/ppc: Support raising sigbus for user-only
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,18 +82,17 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Aug 2021 at 20:56, Richard Henderson
+On Wed, 18 Aug 2021 at 20:46, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Use load-acquire / store-release for the normal case of
-> alignment matching the access size.  Otherwise, emit a
-> test + branch sequence invoking helper_unaligned_mmu.
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/ppc/tcg-target.h     |   2 -
+>  tcg/ppc/tcg-target.c.inc | 102 ++++++++++++++++++++++++++++++++++++---
+>  2 files changed, 94 insertions(+), 10 deletions(-)
+>
 
-I don't think this trick will work for a CPU that
-implements the FEAT_LSE2 feature -- section B2.5.2 in
-the Arm ARM DDI0487G.b says that if LSE2 is implemented
-then the CPU either must or can make them just work and do
-the unaligned access.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
