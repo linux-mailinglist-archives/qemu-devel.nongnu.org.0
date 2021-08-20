@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A4053F2E15
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 16:29:40 +0200 (CEST)
-Received: from localhost ([::1]:57546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 457E43F2E21
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 16:33:03 +0200 (CEST)
+Received: from localhost ([::1]:36826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH5Wd-0005I5-5s
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 10:29:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36376)
+	id 1mH5Zu-0001u0-Aq
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 10:33:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mH5Nl-00040q-5W
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 10:20:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23746)
+ id 1mH5O0-0004x9-Ih
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 10:20:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52244)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mH5Ni-0004Sr-RS
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 10:20:28 -0400
+ id 1mH5Ny-0004in-Kn
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 10:20:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629469226;
+ s=mimecast20190719; t=1629469242;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fcYNrRcabklWXiefBQ5jnoeP/vl7VaBO52IHwHBjbRM=;
- b=BOtQkEyuc409gtjo/uz5YFslySraWnxTXyAuEs3LfiOW2AKqPUAtdLLR3R/9z6CeeQvgDk
- pWjfPKnukMhAUzW0VEM0xZnR/AXjbBD+wb4Xh+Wg7kaVkqB3ZjTS2MpngaMA4+jlbNhCuC
- dsMKPXyhZpsbD1QuQjkaGQoo1ed7oAs=
+ bh=VDKpyxF0omOTPJyzF1Kn+LcSkX87I17Qwo22m0DJb/M=;
+ b=aJMjf+Kg/oEKasRLfVHBitMDDpijn3EifR7lh0UNPHMovSf3skEkiXHxW/DOEDCyslQgvs
+ SSO8RExcyAwBxr4Uyyzx+HhJcHaeTpVZjEcUboDz1QGekQHPJ4qbMIb4keO/izJXwmPR+A
+ tvA2RMezBQD8eHUUEXxcXRYbs5depHg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-Zcv-XJ5bPR6AiE2m_RfteA-1; Fri, 20 Aug 2021 10:20:25 -0400
-X-MC-Unique: Zcv-XJ5bPR6AiE2m_RfteA-1
+ us-mta-588-_hXFYThNOTalOGlwZC2CxA-1; Fri, 20 Aug 2021 10:20:38 -0400
+X-MC-Unique: _hXFYThNOTalOGlwZC2CxA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A66F1966320;
- Fri, 20 Aug 2021 14:20:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 21D081966320;
+ Fri, 20 Aug 2021 14:20:38 +0000 (UTC)
 Received: from thinkpad.redhat.com (unknown [10.39.192.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9C3446EF4F;
- Fri, 20 Aug 2021 14:20:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9B4C660938;
+ Fri, 20 Aug 2021 14:20:24 +0000 (UTC)
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 2/8] qdev/qbus: remove failover specific code
-Date: Fri, 20 Aug 2021 16:19:56 +0200
-Message-Id: <20210820142002.152994-3-lvivier@redhat.com>
+Subject: [RFC PATCH v2 3/8] failover: virtio-net: remove
+ failover_primary_hidden flag
+Date: Fri, 20 Aug 2021 16:19:57 +0200
+Message-Id: <20210820142002.152994-4-lvivier@redhat.com>
 In-Reply-To: <20210820142002.152994-1-lvivier@redhat.com>
 References: <20210820142002.152994-1-lvivier@redhat.com>
 MIME-Version: 1.0
@@ -87,66 +88,120 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit f3a850565693 ("qdev/qbus: add hidden device support") has
-introduced a generic way to hide a device but it has modified
-qdev_device_add() to check a specific option of the failover device,
-"failover_pair_id", before calling the generic mechanism.
+We dont't need a flag to know if the primary device must be hidden, we
+can rely on the machine state:
+Device is hidden if the machine is in prelaunch state (src) or
+in inmigrate state with migration status set to none (dst).
+We don't need to check the flag in virtio_net_handle_migration_primary()
+because this function is only registered if the failover is enabled
+and the flag also set to false. This function also sets it back to
+true after a successful unplug during the migration but we don't
+need to know it is hidden because nothing will try to plug it back
+after the migration (except in case of error but the flag is set
+back to false).
 
-It's not needed (and not generic) to do that in qdev_device_add() because
-this is also checked by the failover_hide_primary_device() function that
-uses the generic mechanism to hide the device.
-
-Cc: Jens Freimann <jfreimann@redhat.com>
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 ---
- hw/net/virtio-net.c    |  7 +++++++
- softmmu/qdev-monitor.c | 14 ++++----------
- 2 files changed, 11 insertions(+), 10 deletions(-)
+ include/hw/virtio/virtio-net.h |  2 --
+ hw/net/virtio-net.c            | 25 +++++++++++++++----------
+ 2 files changed, 15 insertions(+), 12 deletions(-)
 
+diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
+index 824a69c23f06..21d8c3aa5f3a 100644
+--- a/include/hw/virtio/virtio-net.h
++++ b/include/hw/virtio/virtio-net.h
+@@ -205,8 +205,6 @@ struct VirtIONet {
+     AnnounceTimer announce_timer;
+     bool needs_vnet_hdr_swap;
+     bool mtu_bypass_backend;
+-    /* primary failover device is hidden*/
+-    bool failover_primary_hidden;
+     bool failover;
+     DeviceListener primary_listener;
+     Notifier migration_state;
 diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 542f9e167eb4..0c5ec930356b 100644
+index 0c5ec930356b..c81466f6efb7 100644
 --- a/hw/net/virtio-net.c
 +++ b/hw/net/virtio-net.c
-@@ -3288,6 +3288,13 @@ static bool failover_hide_primary_device(DeviceListener *listener,
+@@ -36,8 +36,10 @@
+ #include "qapi/qapi-types-migration.h"
+ #include "qapi/qapi-events-migration.h"
+ #include "hw/virtio/virtio-access.h"
++#include "migration/migration.h"
+ #include "migration/misc.h"
+ #include "standard-headers/linux/ethtool.h"
++#include "sysemu/runstate.h"
+ #include "sysemu/sysemu.h"
+ #include "trace.h"
+ #include "monitor/qdev.h"
+@@ -937,7 +939,6 @@ static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
+ 
+     if (virtio_has_feature(features, VIRTIO_NET_F_STANDBY)) {
+         qapi_event_send_failover_negotiated(n->netclient_name);
+-        qatomic_set(&n->failover_primary_hidden, false);
+         failover_add_primary(n, &err);
+         if (err) {
+             warn_report_err(err);
+@@ -3225,7 +3226,6 @@ static bool failover_replug_primary(VirtIONet *n, DeviceState *dev,
          return false;
      }
-     standby_id = qemu_opt_get(device_opts, "failover_pair_id");
-+    if (standby_id == NULL) {
-+        return false;
-+    }
-+    if (device_opts->id == NULL) {
-+        error_setg(errp, "Device with failover_pair_id don't have id");
+     qdev_set_parent_bus(dev, primary_bus, &error_abort);
+-    qatomic_set(&n->failover_primary_hidden, false);
+     hotplug_ctrl = qdev_get_hotplug_handler(dev);
+     if (hotplug_ctrl) {
+         hotplug_handler_pre_plug(hotplug_ctrl, dev, &err);
+@@ -3243,7 +3243,6 @@ out:
+ 
+ static void virtio_net_handle_migration_primary(VirtIONet *n, MigrationState *s)
+ {
+-    bool should_be_hidden;
+     Error *err = NULL;
+     DeviceState *dev = failover_find_primary_device(n);
+ 
+@@ -3251,13 +3250,10 @@ static void virtio_net_handle_migration_primary(VirtIONet *n, MigrationState *s)
+         return;
+     }
+ 
+-    should_be_hidden = qatomic_read(&n->failover_primary_hidden);
+-
+-    if (migration_in_setup(s) && !should_be_hidden) {
++    if (migration_in_setup(s)) {
+         if (failover_unplug_primary(n, dev)) {
+             vmstate_unregister(VMSTATE_IF(dev), qdev_get_vmsd(dev), dev);
+             qapi_event_send_unplug_primary(dev->id);
+-            qatomic_set(&n->failover_primary_hidden, true);
+         } else {
+             warn_report("couldn't unplug primary device");
+         }
+@@ -3299,8 +3295,18 @@ static bool failover_hide_primary_device(DeviceListener *listener,
+         return false;
+     }
+ 
+-    /* failover_primary_hidden is set during feature negotiation */
+-    return qatomic_read(&n->failover_primary_hidden);
++    if (runstate_check(RUN_STATE_PRELAUNCH)) {
++        /* hide the failover primary on src on startup */
 +        return true;
 +    }
-     if (g_strcmp0(standby_id, n->netclient_name) != 0) {
-         return false;
-     }
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 7adf0d22beb1..5c92dbed3139 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -622,17 +622,11 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
-         }
-     }
++
++    if (runstate_check(RUN_STATE_INMIGRATE) &&
++        migration_incoming_get_current()->state == MIGRATION_STATUS_NONE) {
++        /* hide the failover primary on dest on startup */
++        return true;
++    }
++
++    return false;
+ }
  
--    if (qemu_opt_get(opts, "failover_pair_id")) {
--        if (!opts->id) {
--            error_setg(errp, "Device with failover_pair_id don't have id");
--            return NULL;
--        }
--        if (qdev_should_hide_device(opts, errp)) {
--            if (errp && !*errp && bus && !qbus_is_hotpluggable(bus)) {
--                error_setg(errp, QERR_BUS_NO_HOTPLUG, bus->name);
--            }
--            return NULL;
-+    if (qdev_should_hide_device(opts, errp)) {
-+        if (errp && !*errp && bus && !qbus_is_hotpluggable(bus)) {
-+            error_setg(errp, QERR_BUS_NO_HOTPLUG, bus->name);
-         }
-+        return NULL;
-     }
+ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
+@@ -3338,7 +3344,6 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
  
-     if (phase_check(PHASE_MACHINE_READY) && bus && !qbus_is_hotpluggable(bus)) {
+     if (n->failover) {
+         n->primary_listener.hide_device = failover_hide_primary_device;
+-        qatomic_set(&n->failover_primary_hidden, true);
+         device_listener_register(&n->primary_listener);
+         n->migration_state.notify = virtio_net_migration_state_notifier;
+         add_migration_state_change_notifier(&n->migration_state);
 -- 
 2.31.1
 
