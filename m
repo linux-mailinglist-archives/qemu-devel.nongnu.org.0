@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19E1B3F29F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 12:12:55 +0200 (CEST)
-Received: from localhost ([::1]:39330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2240A3F29F6
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 12:14:21 +0200 (CEST)
+Received: from localhost ([::1]:41556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH1W9-00067I-Li
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 06:12:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43408)
+	id 1mH1XY-0007cw-6Y
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 06:14:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mH1VA-0005P2-4J
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 06:11:57 -0400
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:41621)
+ id 1mH1WV-0006tt-PP
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 06:13:15 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:34501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mH1V8-0006WO-5J
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 06:11:51 -0400
-Received: by mail-ej1-x629.google.com with SMTP id d11so19075317eja.8
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 03:11:49 -0700 (PDT)
+ id 1mH1WU-0007cU-A9
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 06:13:15 -0400
+Received: by mail-ed1-x531.google.com with SMTP id i6so13266995edu.1
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 03:13:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=b/w7mL2W3kxmmSinOnkoLRdFu6QaDuaNnt/lEW+zw4g=;
- b=drBYBIEbsljdAQpf4Yzf0Nyiqoh8iAATEDeSU/APgcdZfznKpd/ihCa4dJKqEQ7eC0
- 0lja6xHzV8/TZwFTISzHMrbojMXjUzwl2NDA2GWjQHZp/Rh67b/8fcS0cmv3/bNE+9yW
- N8yXDFTVWv4Qxoy/XC9obwRGRDC46BjetOP1YvHPRgYvNLDc66QqaqHKdiK5ceY3iojW
- oMMPfA19Sl2WmY/TwlOB6Gu3GcvfboawMKReaTNsd/8h7LlMLXagPi35Fj03AfpPR+Jt
- GZVmeqE1f9+8H4UxUS6G3nBvi9MSmaaqqXeYCApEXMAfmg1rkt73d3N5hNuZzUndYL2L
- i7XQ==
+ :cc; bh=Zg7Q3fOW/IUckOX/x10YXauV5v+FTy6TynVCMYXf3FY=;
+ b=dk+hojGtyVaqqdhUk8Fjf6P3VL7og6nPkCqtTNZ5KJ/alAmsp3kdpoG8exrg8n5mZb
+ lPaZv8KvI+NhJfIip8Il5BLH0kfUdLQEnkLaTf5IefiywyZE4Hg067DzmM+3GwVpudOQ
+ Q0pQ5k6larlj/UVWnhCUEYw/6oeIIpp0LxMZZ9NNNXifIRYQJLn9q3yAWGxkbHFVADu4
+ mdhvFH705IE81BE/rrXF1C8HPpysHn8+F3bM2hNag0WgRSDmEuAFygMr1u6i0bxpviNf
+ RRzuZ3kE4Kh26PZhtsgvjb+RvfAExSSYYY/RnQ9O5E3FhXXNYV34//906CdmivxgNZ3x
+ hgYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=b/w7mL2W3kxmmSinOnkoLRdFu6QaDuaNnt/lEW+zw4g=;
- b=axThvS7nGRcjnnOkK5Xc6B/zNgBSV1VL/yrjIWSp9zWj/GCe644BwVFEbpgObz9Ert
- jHNtQoevDAIxyKF8RHk4P/XWaYwB5Y0NWwnh24yap37RLRhS1UApAqqlrpAcgs6YdgNT
- KlSg622AqICovNRDd3lPL6aDTDTuYLY08gRvw1IWy2vIeCzJokc0QsE1xU6QKzVDotmo
- cI2YMtjsWLFrS7kIWp9q+HCuszvQ/qhwp5H22I14CEPeFkS55TQBzJUFEUBtnzXtGSXH
- 9JxakgD7bfhPysX44/Cvb52aVAXLdG3Il8Hfhp9urt2U2RWMYomeIjcEujjUl113s75N
- JQLg==
-X-Gm-Message-State: AOAM5300L5UKK3t4uAii9s8hGZowse3ySCIR/KcpqlJtofQXkgl+ZNWe
- gGfPzdDUhdmSKradEfFqikCAsbsyb2pnG9MeDHDFrQ==
-X-Google-Smtp-Source: ABdhPJxd8Sf/3CzWeTvzt9rsU5h3LAoyPJ1P89xIejApz/FyLBEfJRTIUPsUJYLfCNkMc3MY/Hy4h8rIzdQy9nC2alc=
-X-Received: by 2002:a17:907:1048:: with SMTP id
- oy8mr20328722ejb.382.1629454308208; 
- Fri, 20 Aug 2021 03:11:48 -0700 (PDT)
+ bh=Zg7Q3fOW/IUckOX/x10YXauV5v+FTy6TynVCMYXf3FY=;
+ b=fgI3zvqMae1lVcRM6uukIXVZVC2cLcmB4e9wuJzB40eJjOb1JI0sxhwevMku/nbyEf
+ k45hoBypHDRfAGAK28omXwO/4Df8RzIbdH2SjLwbOf0Wq+803h24eASVjbH3KQcbln/Y
+ Hh7vA7k9GoTaOPXBfwtkpQs0vRTTPcBjOJafglyNii5z7TuOzvDbGRsLgaG5x80db4WO
+ fjv3Uk0V60Wdisxk1JpCWJthongL8aFtOlc46dsx/pDgKvWd1MfgMCUsBfcxZLMEH2XL
+ tKcvSLTJ2FyBQr3iFHPAPSOOvrMz8cFS+Mo/QZhg466GzAWNYyh+1+PyDlfUWnDEA1Kz
+ ugNw==
+X-Gm-Message-State: AOAM530LWCrqv/7ZZQAAHSyj9qZYdbAHOgNrUSyEh24rBf/Ny3p10No/
+ BPS2YIxmOnr4uWJc6cHOJiwWPCq4hXD4mZi7hPJex5zzo9I=
+X-Google-Smtp-Source: ABdhPJxQl/RrcncHZ089PqyNPAPz58qbhI6EIvTD4LeWeFkotnsNthzKa/OV16Yan7aIp3NUImRzOPdB/hgSetW6iaU=
+X-Received: by 2002:a05:6402:4387:: with SMTP id
+ o7mr21430111edc.204.1629454392433; 
+ Fri, 20 Aug 2021 03:13:12 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210818191920.390759-1-richard.henderson@linaro.org>
- <20210818191920.390759-62-richard.henderson@linaro.org>
-In-Reply-To: <20210818191920.390759-62-richard.henderson@linaro.org>
+ <20210818191920.390759-63-richard.henderson@linaro.org>
+In-Reply-To: <20210818191920.390759-63-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 Aug 2021 11:11:01 +0100
-Message-ID: <CAFEAcA_-pq=5PSaCNyUz2MxaYNwKJhMq1JayrC3Vpg5QkvXTkg@mail.gmail.com>
-Subject: Re: [PATCH v3 61/66] tcg/ppc: Support raising sigbus for user-only
+Date: Fri, 20 Aug 2021 11:12:26 +0100
+Message-ID: <CAFEAcA8mxrK=VV0KdABaRmBnQMtxGyF4MNvCp70p=BE4Cp3FFQ@mail.gmail.com>
+Subject: Re: [PATCH v3 62/66] tcg/s390: Support raising sigbus for user-only
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,15 +82,14 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Aug 2021 at 20:46, Richard Henderson
+On Wed, 18 Aug 2021 at 20:49, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tcg/ppc/tcg-target.h     |   2 -
->  tcg/ppc/tcg-target.c.inc | 102 ++++++++++++++++++++++++++++++++++++---
->  2 files changed, 94 insertions(+), 10 deletions(-)
->
+>  tcg/s390/tcg-target.h     |  2 --
+>  tcg/s390/tcg-target.c.inc | 63 +++++++++++++++++++++++++++++++++++++--
+>  2 files changed, 61 insertions(+), 4 deletions(-)
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
