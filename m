@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E1D93F35EA
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 23:13:09 +0200 (CEST)
-Received: from localhost ([::1]:57894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA0CA3F35E9
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 23:13:03 +0200 (CEST)
+Received: from localhost ([::1]:57658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHBp6-0002Jm-L6
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 17:13:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53512)
+	id 1mHBp0-000292-P3
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 17:13:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
- id 1mHBmA-0007q2-Qb
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 17:10:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23534)
+ id 1mHBmC-0007qC-IG
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 17:10:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <willianr@redhat.com>)
- id 1mHBm8-0000wq-4i
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 17:10:06 -0400
+ id 1mHBmA-0000yf-IQ
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 17:10:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629493803;
+ s=mimecast20190719; t=1629493806;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v6a14eLv9HwAW0RjLrx+l3Eb9PFyspfhx/4TGY4iq7o=;
- b=hYHSLNMKUSThyirFwygDEwpc/g3F6JbftoZEAfV+xBDE8Frx4zQDZZGZYCDHwPRQpCKybk
- DrhAKrKZyC+SidmdEulxDU7QmNztUPznnNV+YpttM8/g6zerd5WGReD316Tk1GLK5YcLaB
- pMmwObRACYc/yxTZPNUTglnVzb1QW0g=
+ bh=q93yihg/LdYHfoclaMjnd9BChXNxWidGcz5TboIIXwI=;
+ b=FF0qYwtBPahTt60wEfg3VinbmrMK0rWhD6jwFFcU6B8Cwwp8iZ8vYS/EKYEKO013qpqbHs
+ pddYHg1Ive/NYQJXEHYV3Yu4Ym1309ltU6/8EV7K/QKO63tk8MgNCCbu13hsmgAhb3qkWV
+ xLmX5oYuXK690Hjbalr9Wb2cODsGmfs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-9h-lRZK1MByqlREiMQ5Z0g-1; Fri, 20 Aug 2021 17:09:57 -0400
-X-MC-Unique: 9h-lRZK1MByqlREiMQ5Z0g-1
+ us-mta-413-MDpA4V13O3e7cUMDQl4tvw-1; Fri, 20 Aug 2021 17:10:04 -0400
+X-MC-Unique: MDpA4V13O3e7cUMDQl4tvw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C26F9180FCD2;
- Fri, 20 Aug 2021 21:09:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9ED5287D541;
+ Fri, 20 Aug 2021 21:10:03 +0000 (UTC)
 Received: from wrampazz.redhat.com (unknown [10.22.16.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED7A5610D0;
- Fri, 20 Aug 2021 21:09:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6A961610D0;
+ Fri, 20 Aug 2021 21:09:57 +0000 (UTC)
 From: Willian Rampazzo <willianr@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] docs: split the CI docs into two files
-Date: Fri, 20 Aug 2021 18:09:45 -0300
-Message-Id: <20210820210946.291335-2-willianr@redhat.com>
+Subject: [PATCH 2/2] docs: add definitions of terms for CI/testing
+Date: Fri, 20 Aug 2021 18:09:46 -0300
+Message-Id: <20210820210946.291335-3-willianr@redhat.com>
 In-Reply-To: <20210820210946.291335-1-willianr@redhat.com>
 References: <20210820210946.291335-1-willianr@redhat.com>
 MIME-Version: 1.0
@@ -87,358 +87,160 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+To understand the current state of QEMU CI/testing and have a base to
+discuss the plans for the future, it is important to define some usual
+terms. This patch defines the terms for "Automated tests", "Unit
+testing", "Functional testing", "System testing", "Flaky tests",
+"Gating", and "Continuous Integration".
 
-This splits the CI docs into one file talking about job setup and usage
-and another file describing provisioning of custom runners.
+The first patch was borrowed from
+20210812180403.4129067-1-berrange@redhat.com.
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210812180403.4129067-2-berrange@redhat.com>
+Signed-off-by: Willian Rampazzo <willianr@redhat.com>
 ---
- docs/devel/ci-jobs.rst    |  40 ++++++++++
- docs/devel/ci-runners.rst | 117 ++++++++++++++++++++++++++++
- docs/devel/ci.rst         | 159 +-------------------------------------
- 3 files changed, 159 insertions(+), 157 deletions(-)
- create mode 100644 docs/devel/ci-jobs.rst
- create mode 100644 docs/devel/ci-runners.rst
+ docs/devel/ci-definitions.rst | 121 ++++++++++++++++++++++++++++++++++
+ docs/devel/ci.rst             |   1 +
+ 2 files changed, 122 insertions(+)
+ create mode 100644 docs/devel/ci-definitions.rst
 
-diff --git a/docs/devel/ci-jobs.rst b/docs/devel/ci-jobs.rst
+diff --git a/docs/devel/ci-definitions.rst b/docs/devel/ci-definitions.rst
 new file mode 100644
-index 0000000000..9cd9819786
+index 0000000000..32e22ff468
 --- /dev/null
-+++ b/docs/devel/ci-jobs.rst
-@@ -0,0 +1,40 @@
-+Custom CI/CD variables
-+======================
++++ b/docs/devel/ci-definitions.rst
+@@ -0,0 +1,121 @@
++Definition of terms
++===================
 +
-+QEMU CI pipelines can be tuned by setting some CI environment variables.
++This section defines the terms used in this document and correlates them with
++what is currently used on QEMU.
 +
-+Set variable globally in the user's CI namespace
-+------------------------------------------------
++Automated tests
++---------------
 +
-+Variables can be set globally in the user's CI namespace setting.
++An automated test is written on a test framework using its generic test
++functions/classes. The test framework can run the tests and report their
++success or failure [1]_.
 +
-+For further information about how to set these variables, please refer to::
++An automated test has essentially three parts:
 +
-+  https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project
++1. The test initialization of the parameters, where the expected parameters,
++   like inputs and expected results, are set up;
++2. The call to the code that should be tested;
++3. An assertion, comparing the result from the previous call with the expected
++   result set during the initialization of the parameters. If the result
++   matches the expected result, the test has been successful; otherwise, it has
++   failed.
 +
-+Set variable manually when pushing a branch or tag to the user's repository
-+---------------------------------------------------------------------------
++Unit testing
++------------
 +
-+Variables can be set manually when pushing a branch or tag, using
-+git-push command line arguments.
++A unit test is responsible for exercising individual software components as a
++unit, like interfaces, data structures, and functionality, uncovering errors
++within the boundaries of a component. The verification effort is in the
++smallest software unit and focuses on the internal processing logic and data
++structures. A test case of unit tests should be designed to uncover errors due
++to erroneous computations, incorrect comparisons, or improper control flow [2]_.
 +
-+Example setting the QEMU_CI_EXAMPLE_VAR variable:
++On QEMU, unit testing is represented by the 'check-unit' target from 'make'.
 +
-+.. code::
++Functional testing
++------------------
 +
-+   git push -o ci.variable="QEMU_CI_EXAMPLE_VAR=value" myrepo mybranch
++A functional test focuses on the functional requirement of the software.
++Deriving sets of input conditions, the functional tests should fully exercise
++all the functional requirements for a program. Functional testing is
++complementary to other testing techniques, attempting to find errors like
++incorrect or missing functions, interface errors, behavior errors, and
++initialization and termination errors [3]_.
 +
-+For further information about how to set these variables, please refer to::
++On QEMU, functional testing is represented by the 'check-qtest' target from
++'make'.
 +
-+  https://docs.gitlab.com/ee/user/project/push_options.html#push-options-for-gitlab-cicd
++System testing
++--------------
 +
-+Here is a list of the most used variables:
++System tests ensure all application elements mesh properly while the overall
++functionality and performance are achieved [4]_. Some or all system components
++are integrated to create a complete system to be tested as a whole. System
++testing ensures that components are compatible, interact correctly, and
++transfer the right data at the right time across their interfaces. As system
++testing focuses on interactions, use case-based testing is a practical approach
++to system testing [5]_. Note that, in some cases, system testing may require
++interaction with third-party software, like operating system images, databases,
++networks, and so on.
 +
-+QEMU_CI_AVOCADO_TESTING
-+~~~~~~~~~~~~~~~~~~~~~~~
-+By default, tests using the Avocado framework are not run automatically in
-+the pipelines (because multiple artifacts have to be downloaded, and if
-+these artifacts are not already cached, downloading them make the jobs
-+reach the timeout limit). Set this variable to have the tests using the
-+Avocado framework run automatically.
++On QEMU, system testing is represented by the 'check-acceptance' target from
++'make'.
 +
-diff --git a/docs/devel/ci-runners.rst b/docs/devel/ci-runners.rst
-new file mode 100644
-index 0000000000..7817001fb2
---- /dev/null
-+++ b/docs/devel/ci-runners.rst
-@@ -0,0 +1,117 @@
-+Jobs on Custom Runners
-+======================
++Flaky tests
++-----------
 +
-+Besides the jobs run under the various CI systems listed before, there
-+are a number additional jobs that will run before an actual merge.
-+These use the same GitLab CI's service/framework already used for all
-+other GitLab based CI jobs, but rely on additional systems, not the
-+ones provided by GitLab as "shared runners".
++A flaky test is defined as a test that exhibits both a passing and a failing
++result with the same code on different runs. Some usual reasons for an
++intermittent/flaky test are async wait, concurrency, and test order dependency
++[6]_.
 +
-+The architecture of GitLab's CI service allows different machines to
-+be set up with GitLab's "agent", called gitlab-runner, which will take
-+care of running jobs created by events such as a push to a branch.
-+Here, the combination of a machine, properly configured with GitLab's
-+gitlab-runner, is called a "custom runner".
++Gating
++------
 +
-+The GitLab CI jobs definition for the custom runners are located under::
++A gate restricts the move of code from one stage to another on a
++test/deployment pipeline. The step move is granted with approval. The approval
++can be a manual intervention or a set of tests succeeding [7]_.
 +
-+  .gitlab-ci.d/custom-runners.yml
++On QEMU, the gating process happens during the pull request. The approval is
++done by the project leader running its own set of tests. The pull request gets
++merged when the tests succeed.
 +
-+Custom runners entail custom machines.  To see a list of the machines
-+currently deployed in the QEMU GitLab CI and their maintainers, please
-+refer to the QEMU `wiki <https://wiki.qemu.org/AdminContacts>`__.
++Continuous Integration (CI)
++---------------------------
 +
-+Machine Setup Howto
-+-------------------
++Continuous integration (CI) requires the builds of the entire application and
++the execution of a comprehensive set of automated tests every time there is a
++need to commit any set of changes [8]_. The automated tests can be composed of
++the unit, functional, system, and other tests.
 +
-+For all Linux based systems, the setup can be mostly automated by the
-+execution of two Ansible playbooks.  Create an ``inventory`` file
-+under ``scripts/ci/setup``, such as this::
++Keynotes about continuous integration (CI) [9]_:
 +
-+  fully.qualified.domain
-+  other.machine.hostname
++1. System tests may depend on external software (operating system images,
++   firmware, database, network).
++2. It may take a long time to build and test. It may be impractical to build
++   the system being developed several times per day.
++3. If the development platform is different from the target platform, it may
++   not be possible to run system tests in the developer’s private workspace.
++   There may be differences in hardware, operating system, or installed
++   software. Therefore, more time is required for testing the system.
 +
-+You may need to set some variables in the inventory file itself.  One
-+very common need is to tell Ansible to use a Python 3 interpreter on
-+those hosts.  This would look like::
++References
++----------
 +
-+  fully.qualified.domain ansible_python_interpreter=/usr/bin/python3
-+  other.machine.hostname ansible_python_interpreter=/usr/bin/python3
-+
-+Build environment
-+~~~~~~~~~~~~~~~~~
-+
-+The ``scripts/ci/setup/build-environment.yml`` Ansible playbook will
-+set up machines with the environment needed to perform builds and run
-+QEMU tests.  This playbook consists on the installation of various
-+required packages (and a general package update while at it).  It
-+currently covers a number of different Linux distributions, but it can
-+be expanded to cover other systems.
-+
-+The minimum required version of Ansible successfully tested in this
-+playbook is 2.8.0 (a version check is embedded within the playbook
-+itself).  To run the playbook, execute::
-+
-+  cd scripts/ci/setup
-+  ansible-playbook -i inventory build-environment.yml
-+
-+Please note that most of the tasks in the playbook require superuser
-+privileges, such as those from the ``root`` account or those obtained
-+by ``sudo``.  If necessary, please refer to ``ansible-playbook``
-+options such as ``--become``, ``--become-method``, ``--become-user``
-+and ``--ask-become-pass``.
-+
-+gitlab-runner setup and registration
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+The gitlab-runner agent needs to be installed on each machine that
-+will run jobs.  The association between a machine and a GitLab project
-+happens with a registration token.  To find the registration token for
-+your repository/project, navigate on GitLab's web UI to:
-+
-+ * Settings (the gears-like icon at the bottom of the left hand side
-+   vertical toolbar), then
-+ * CI/CD, then
-+ * Runners, and click on the "Expand" button, then
-+ * Under "Set up a specific Runner manually", look for the value under
-+   "And this registration token:"
-+
-+Copy the ``scripts/ci/setup/vars.yml.template`` file to
-+``scripts/ci/setup/vars.yml``.  Then, set the
-+``gitlab_runner_registration_token`` variable to the value obtained
-+earlier.
-+
-+To run the playbook, execute::
-+
-+  cd scripts/ci/setup
-+  ansible-playbook -i inventory gitlab-runner.yml
-+
-+Following the registration, it's necessary to configure the runner tags,
-+and optionally other configurations on the GitLab UI.  Navigate to:
-+
-+ * Settings (the gears like icon), then
-+ * CI/CD, then
-+ * Runners, and click on the "Expand" button, then
-+ * "Runners activated for this project", then
-+ * Click on the "Edit" icon (next to the "Lock" Icon)
-+
-+Tags are very important as they are used to route specific jobs to
-+specific types of runners, so it's a good idea to double check that
-+the automatically created tags are consistent with the OS and
-+architecture.  For instance, an Ubuntu 20.04 aarch64 system should
-+have tags set as::
-+
-+  ubuntu_20.04,aarch64
-+
-+Because the job definition at ``.gitlab-ci.d/custom-runners.yml``
-+would contain::
-+
-+  ubuntu-20.04-aarch64-all:
-+   tags:
-+   - ubuntu_20.04
-+   - aarch64
-+
-+It's also recommended to:
-+
-+ * increase the "Maximum job timeout" to something like ``2h``
-+ * give it a better Description
++.. [1] Sommerville, Ian (2016). Software Engineering. p. 233.
++.. [2] Pressman, Roger S. & Maxim, Bruce R. (2020). Software Engineering,
++       A Practitioner’s Approach. p. 48, 376, 378, 381.
++.. [3] Pressman, Roger S. & Maxim, Bruce R. (2020). Software Engineering,
++       A Practitioner’s Approach. p. 388.
++.. [4] Pressman, Roger S. & Maxim, Bruce R. (2020). Software Engineering,
++       A Practitioner’s Approach. Software Engineering, p. 377.
++.. [5] Sommerville, Ian (2016). Software Engineering. p. 59, 232, 240.
++.. [6] Luo, Qingzhou, et al. An empirical analysis of flaky tests.
++       Proceedings of the 22nd ACM SIGSOFT International Symposium on
++       Foundations of Software Engineering. 2014.
++.. [7] Humble, Jez & Farley, David (2010). Continuous Delivery:
++       Reliable Software Releases Through Build, Test, and Deployment, p. 122.
++.. [8] Humble, Jez & Farley, David (2010). Continuous Delivery:
++       Reliable Software Releases Through Build, Test, and Deployment, p. 55.
++.. [9] Sommerville, Ian (2016). Software Engineering. p. 743.
 diff --git a/docs/devel/ci.rst b/docs/devel/ci.rst
-index 205572510c..a6a650968b 100644
+index a6a650968b..8d95247188 100644
 --- a/docs/devel/ci.rst
 +++ b/docs/devel/ci.rst
-@@ -8,160 +8,5 @@ found at::
+@@ -8,5 +8,6 @@ found at::
  
     https://wiki.qemu.org/Testing/CI
  
--Custom CI/CD variables
--======================
--
--QEMU CI pipelines can be tuned by setting some CI environment variables.
--
--Set variable globally in the user's CI namespace
--------------------------------------------------
--
--Variables can be set globally in the user's CI namespace setting.
--
--For further information about how to set these variables, please refer to::
--
--  https://docs.gitlab.com/ee/ci/variables/#add-a-cicd-variable-to-a-project
--
--Set variable manually when pushing a branch or tag to the user's repository
-----------------------------------------------------------------------------
--
--Variables can be set manually when pushing a branch or tag, using
--git-push command line arguments.
--
--Example setting the QEMU_CI_EXAMPLE_VAR variable:
--
--.. code::
--
--   git push -o ci.variable="QEMU_CI_EXAMPLE_VAR=value" myrepo mybranch
--
--For further information about how to set these variables, please refer to::
--
--  https://docs.gitlab.com/ee/user/project/push_options.html#push-options-for-gitlab-cicd
--
--Here is a list of the most used variables:
--
--QEMU_CI_AVOCADO_TESTING
--~~~~~~~~~~~~~~~~~~~~~~~
--By default, tests using the Avocado framework are not run automatically in
--the pipelines (because multiple artifacts have to be downloaded, and if
--these artifacts are not already cached, downloading them make the jobs
--reach the timeout limit). Set this variable to have the tests using the
--Avocado framework run automatically.
--
--Jobs on Custom Runners
--======================
--
--Besides the jobs run under the various CI systems listed before, there
--are a number additional jobs that will run before an actual merge.
--These use the same GitLab CI's service/framework already used for all
--other GitLab based CI jobs, but rely on additional systems, not the
--ones provided by GitLab as "shared runners".
--
--The architecture of GitLab's CI service allows different machines to
--be set up with GitLab's "agent", called gitlab-runner, which will take
--care of running jobs created by events such as a push to a branch.
--Here, the combination of a machine, properly configured with GitLab's
--gitlab-runner, is called a "custom runner".
--
--The GitLab CI jobs definition for the custom runners are located under::
--
--  .gitlab-ci.d/custom-runners.yml
--
--Custom runners entail custom machines.  To see a list of the machines
--currently deployed in the QEMU GitLab CI and their maintainers, please
--refer to the QEMU `wiki <https://wiki.qemu.org/AdminContacts>`__.
--
--Machine Setup Howto
---------------------
--
--For all Linux based systems, the setup can be mostly automated by the
--execution of two Ansible playbooks.  Create an ``inventory`` file
--under ``scripts/ci/setup``, such as this::
--
--  fully.qualified.domain
--  other.machine.hostname
--
--You may need to set some variables in the inventory file itself.  One
--very common need is to tell Ansible to use a Python 3 interpreter on
--those hosts.  This would look like::
--
--  fully.qualified.domain ansible_python_interpreter=/usr/bin/python3
--  other.machine.hostname ansible_python_interpreter=/usr/bin/python3
--
--Build environment
--~~~~~~~~~~~~~~~~~
--
--The ``scripts/ci/setup/build-environment.yml`` Ansible playbook will
--set up machines with the environment needed to perform builds and run
--QEMU tests.  This playbook consists on the installation of various
--required packages (and a general package update while at it).  It
--currently covers a number of different Linux distributions, but it can
--be expanded to cover other systems.
--
--The minimum required version of Ansible successfully tested in this
--playbook is 2.8.0 (a version check is embedded within the playbook
--itself).  To run the playbook, execute::
--
--  cd scripts/ci/setup
--  ansible-playbook -i inventory build-environment.yml
--
--Please note that most of the tasks in the playbook require superuser
--privileges, such as those from the ``root`` account or those obtained
--by ``sudo``.  If necessary, please refer to ``ansible-playbook``
--options such as ``--become``, ``--become-method``, ``--become-user``
--and ``--ask-become-pass``.
--
--gitlab-runner setup and registration
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--
--The gitlab-runner agent needs to be installed on each machine that
--will run jobs.  The association between a machine and a GitLab project
--happens with a registration token.  To find the registration token for
--your repository/project, navigate on GitLab's web UI to:
--
-- * Settings (the gears-like icon at the bottom of the left hand side
--   vertical toolbar), then
-- * CI/CD, then
-- * Runners, and click on the "Expand" button, then
-- * Under "Set up a specific Runner manually", look for the value under
--   "And this registration token:"
--
--Copy the ``scripts/ci/setup/vars.yml.template`` file to
--``scripts/ci/setup/vars.yml``.  Then, set the
--``gitlab_runner_registration_token`` variable to the value obtained
--earlier.
--
--To run the playbook, execute::
--
--  cd scripts/ci/setup
--  ansible-playbook -i inventory gitlab-runner.yml
--
--Following the registration, it's necessary to configure the runner tags,
--and optionally other configurations on the GitLab UI.  Navigate to:
--
-- * Settings (the gears like icon), then
-- * CI/CD, then
-- * Runners, and click on the "Expand" button, then
-- * "Runners activated for this project", then
-- * Click on the "Edit" icon (next to the "Lock" Icon)
--
--Tags are very important as they are used to route specific jobs to
--specific types of runners, so it's a good idea to double check that
--the automatically created tags are consistent with the OS and
--architecture.  For instance, an Ubuntu 20.04 aarch64 system should
--have tags set as::
--
--  ubuntu_20.04,aarch64
--
--Because the job definition at ``.gitlab-ci.d/custom-runners.yml``
--would contain::
--
--  ubuntu-20.04-aarch64-all:
--   tags:
--   - ubuntu_20.04
--   - aarch64
--
--It's also recommended to:
--
-- * increase the "Maximum job timeout" to something like ``2h``
-- * give it a better Description
-+.. include:: ci-jobs.rst
-+.. include:: ci-runners.rst
++.. include:: ci-definitions.rst
+ .. include:: ci-jobs.rst
+ .. include:: ci-runners.rst
 -- 
 2.31.1
 
