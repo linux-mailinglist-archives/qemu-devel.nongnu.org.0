@@ -2,89 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFCB63F31C6
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 18:54:59 +0200 (CEST)
-Received: from localhost ([::1]:50918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 219B53F31CB
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 18:56:51 +0200 (CEST)
+Received: from localhost ([::1]:53138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH7nB-0000sb-9n
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 12:54:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39446)
+	id 1mH7p4-0002Tw-8Y
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 12:56:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mH7mI-0008Ro-Fx
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 12:53:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58093)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mH7mF-0003yx-Pm
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 12:53:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629478434;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RXpkbJd9Y+mkHwJxEQ3WXMfbCZl+IW915quUBeMV/Ks=;
- b=i4jzlRzIhT4POec3szIkNfW/mXke7bKrKSM9MtnxMwVWs6WRhMJ8iSoX2sw4nCcHNI/9kw
- mAjEUU+F46yFpLGJs4dtjcS1jaDrxJymOH6vG0FWiUdi6TMb3LDT0SMeYCpTbRK3GHEt+5
- R/yDNCrp0v1KwzthN+AALIi+VqLfgvs=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-516-aXLRhOCXMrOVkjpCkkcLGQ-1; Fri, 20 Aug 2021 12:53:52 -0400
-X-MC-Unique: aXLRhOCXMrOVkjpCkkcLGQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- k15-20020a5d628f0000b029015501bab520so3043800wru.16
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 09:53:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mH7oA-0001nS-Em
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 12:55:54 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:45913)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mH7o8-0005Lb-QR
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 12:55:54 -0400
+Received: by mail-ej1-x635.google.com with SMTP id e21so5578729ejz.12
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 09:55:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=DUwsMZZLFjuEK3M3s+PW35GgTPw8hLvChCCR7Wp53UA=;
+ b=oWwJVSDHSVpjx7mSHZl2Zkfxv37dPiPvk7JzXXfwchGscucclN+T/d/F0H7vysFHPu
+ T30BD+WjuksJMgnX0Q8eoqJU0ZIVnyffjKwkpUDsR9NFU/tfaWMX3Sqd0MeZyEL6oP2Z
+ tGw1NrPMZKowLXkvUiZloPPh1fe3a9d3FybSwTL6YcJfAmLv02YeLgV+47dZEkqQokSe
+ ey45ZNekdpUZe59QZ2Pa+5rm079ohI5MfQyHJ8x67Hu6xV+EEPaJoP9bC+WQug8YviTm
+ z437JbRJX3ewgAQJhQVkaYNDjdrfbFyrqMHq+9RqkMC8b57OD0QGsOoOflfDWSNYjOnn
+ 2KwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=RXpkbJd9Y+mkHwJxEQ3WXMfbCZl+IW915quUBeMV/Ks=;
- b=H6+Quykbh+KRV4QMOnrxjz5WB1H+ZG0lC1dGvRo0RbtUX82Ai43TBFIMXDPyxx09Ua
- jJeV7ZsIO+X6fqliH7/YXkXl30r8RguMgeuw/uZLucyqbDwvVxURXBr71msbbD2oTrSh
- DlQ7eX1zooOSLPuVGMoKRQJfWLACjV9/iha4kOXwQPwZ1A2GPBY+LVOrZujOTXQdly7u
- iStRXzoxGBjtTf/9XGhGzXHJFXZBEBg62Zn6Gt8BSHe7KTU7js2cwZ0V/qUnrDfbso40
- 3JukJ6LpxBF+y0Tdz8nk74OCF3HTodihzs5vEh0RDlggL871tIeBhpeELFxqoYzoPATc
- OjIg==
-X-Gm-Message-State: AOAM531R/e+QyrMrWBuGkZUQ2U9CcSsBOMHfpAjYq4NGUME887zTE3bM
- oi68N7m11XMANPd2HjxZ+T0SM6mkTbjtqEG17ATdrzEDe7z6HcphE7WIXNwqDtlllqp8G4GSV7p
- 92uNkJdXTZ9ls7bc=
-X-Received: by 2002:a1c:f002:: with SMTP id a2mr5004830wmb.79.1629478431748;
- Fri, 20 Aug 2021 09:53:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwXqK02kZ9VAKq2KTAz/VjrmlcqcID034dHExLaVhSh2Glvy81ArtdPCXfz2QRCr9n4afQSZQ==
-X-Received: by 2002:a1c:f002:: with SMTP id a2mr5004816wmb.79.1629478431549;
- Fri, 20 Aug 2021 09:53:51 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id a11sm6553341wrw.67.2021.08.20.09.53.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Aug 2021 09:53:51 -0700 (PDT)
-Subject: Re: [PATCH] libqtest: check for g_setenv() failure
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20210820163750.9106-1-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d45084c8-513a-903f-b419-0b23c97470c8@redhat.com>
-Date: Fri, 20 Aug 2021 18:53:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=DUwsMZZLFjuEK3M3s+PW35GgTPw8hLvChCCR7Wp53UA=;
+ b=Y/923FHOSC1TKbNZm4K9Ese5gm3D16928OikNLQ1o1DHpwBn/ZHDTOSeFAvxE070qb
+ UZHX5wS/a9QI64D9RSdH+H2QPPgyRlX7Jnnbfks7HYwTBAnqYGfv3STc2s72NdKbKEnt
+ 9wb4jrLxKYp0ZU/YH7m/7YxGkJf+g/NjlVzp0176vboBeRdQfVNOfsihojQxbetqZAJ2
+ 1INxG7W/rOTjzLKDrn8aGaINyhOlWWzn5p4l5Mli1CL35qL38Zk/aBr36izps3B/xI9y
+ kpshVaFWuiG2fujcb6bGaNO1aaKhN++TtpbXxXzydSBxjYY9YvxSyledcgzRVfjr+np5
+ uwIg==
+X-Gm-Message-State: AOAM530XMBoICWeFQyBV2T9kJAPF6zkuyjB15WxrNw/2tPE4HGD12Ymm
+ HIKniNtlmOf8sdhrzH2UwH0UDwVWgrHvtM7sLz6HTg==
+X-Google-Smtp-Source: ABdhPJz+QGBIcZLZMRMODqU5FWyB1M57AXrqXomVliMuVLNSmgEGA/JIEDb2UAsyM7CwGNTJt8bOY9BL7i+l2EvJZyw=
+X-Received: by 2002:a17:906:aac7:: with SMTP id
+ kt7mr22661100ejb.4.1629478550548; 
+ Fri, 20 Aug 2021 09:55:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210820163750.9106-1-peter.maydell@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.49, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210511081350.419428-1-pbonzini@redhat.com>
+ <20210511081350.419428-4-pbonzini@redhat.com>
+In-Reply-To: <20210511081350.419428-4-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 20 Aug 2021 17:55:04 +0100
+Message-ID: <CAFEAcA867BUEpCYrXuMTqt55f+18D+ROMuU=h6MzubNrmp=D=g@mail.gmail.com>
+Subject: Re: [PULL 03/33] i386: split cpu accelerators from cpu.c,
+ using AccelCPUClass
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,25 +81,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/20/21 6:37 PM, Peter Maydell wrote:
-> g_setenv() can fail; check for it when starting a QEMU process
-> when we set the QEMU_AUDIO_DRV environment variable.
-> 
-> Because this happens after fork() reporting an exact message
-> via printf() is a bad idea; just exit(1), as we already do
-> for the case of execlp() failure.
-> 
-> Fixes: Coverity CID 1460117
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+On Tue, 11 May 2021 at 09:22, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> From: Claudio Fontana <cfontana@suse.de>
+>
+> i386 is the first user of AccelCPUClass, allowing to split
+> cpu.c into:
+>
+> cpu.c            cpuid and common x86 cpu functionality
+> host-cpu.c       host x86 cpu functions and "host" cpu type
+> kvm/kvm-cpu.c    KVM x86 AccelCPUClass
+> hvf/hvf-cpu.c    HVF x86 AccelCPUClass
+> tcg/tcg-cpu.c    TCG x86 AccelCPUClass
+>
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>
+> [claudio]:
+> Rebased on commit b8184135 ("target/i386: allow modifying TCG phys-addr-b=
+its")
+>
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> Message-Id: <20210322132800.7470-5-cfontana@suse.de>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  tests/qtest/libqtest.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b692c8fbee..c2723b32cb 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -351,7 +351,7 @@ M: Paolo Bonzini <pbonzini@redhat.com>
+>  M: Richard Henderson <richard.henderson@linaro.org>
+>  M: Eduardo Habkost <ehabkost@redhat.com>
+>  S: Maintained
+> -F: target/i386/
+> +F: target/i386/tcg/
+>  F: tests/tcg/i386/
+>  F: tests/tcg/x86_64/
+>  F: hw/i386/
 
+This change to MAINTAINERS has left all the .c files
+in target/i386 that are not in one of the tcg, hvf, whpx,
+kvm, hax, nvmm subdirectories orphaned -- they are no
+longer covered by any MAINTAINERS section.
+
+Where should those files be listed ?
+
+(I just discovered this when get_maintainers.pl said it couldn't
+find a maintainer for a change I made to target/i386/sev.c.)
+
+thanks
+-- PMM
 
