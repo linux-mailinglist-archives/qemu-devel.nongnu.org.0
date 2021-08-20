@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15C1C3F3226
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 19:21:37 +0200 (CEST)
-Received: from localhost ([::1]:45698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB573F326A
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 19:46:28 +0200 (CEST)
+Received: from localhost ([::1]:56048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH8D2-0000QV-60
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 13:21:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44428)
+	id 1mH8b5-0008Rw-QR
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 13:46:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mH8BZ-00083H-Fy
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 13:20:05 -0400
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:39830)
+ id 1mH8Xp-0005HD-Ig
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 13:43:05 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:35550)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mH8BX-0004yW-PA
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 13:20:05 -0400
-Received: by mail-pf1-x433.google.com with SMTP id t13so9173107pfl.6
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 10:20:02 -0700 (PDT)
+ id 1mH8Xm-0003lZ-Ib
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 13:43:04 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ mw10-20020a17090b4d0a00b0017b59213831so2475624pjb.0
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 10:43:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=DHf1jA+gn72hWgymdRd1+97ia+17Mz9oDfyrCAsNqrQ=;
- b=dy7W59kcaRGxCRkh0CxmqculsF7BDzxwHgCwTOr4xInKXJlQaGMQMZEgFZPYW71cSl
- cYN2t41aZ+kmC0YEXfdzc31UNiSllILiwQMiyZsYHcU116mXDqTWqOMfrYlTarByfvYw
- TSExLJ6xxUe+0i/l5fG+EhVXGzDPtQXzrVJ9l/4WWowXBvqpBZ1lVZWpMonUNT1Fd2NJ
- 18rtdNT5OOCeMIKpUm6Njd8jESWqEwVbkr5mknOZ5ladM2dlieEpSh/2RiPZgI7biCR/
- X7ZC0Kg32/7KxUl4wRRFZdb1Uxf12C44xmJpQcuU+C9SzpLZD0IIjjH7M/IyeU8To2I8
- cftw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/ERGQYv45viNbqLNcyLp84MnhONr2ziQF+vDzp95nLg=;
+ b=F5TKMZfEJmdQ4Eg+uwi0ReWdBaN6scS9yA6eu8+XizKRIz1wlNMazWl9wuBDO9NlI5
+ ZAnJH5Aun1+dhsHT8MLqFX8WFGP/uVbLr1RQ/ZCxAWrRxSp2W3nLonUN/vUxyerDh+MS
+ uqyRSTUhUtVTywH6IM4nB0gTcBbAkhD8tUHKUKmZPXvzz4mG1n2zWzD+fa0yYIzidwJR
+ gv+P4Un3/4RLzJIgB4L9PmEeJ1pcJSrKtGaxtL2AcLyfrpmQdXaFt49baMlfUXewPME1
+ D4+QqQ3O4Xugu3JTBCohLdKrzIDTyyw4+nDballfpl5f6BgCqX/WJnYXYC+qZoTscKdP
+ schA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=DHf1jA+gn72hWgymdRd1+97ia+17Mz9oDfyrCAsNqrQ=;
- b=sw8i6mytXlleXNIRcH7TPBAX7u/EtBjDgKEZddIRRM1lhrWnD/J5kE2C5lKSMAzXnW
- t8rdUl5goIB6bO0baBu3nPadz/MRLprY90gtyGAHtWCT5EBCMluASXnhpwqJNJ3oVyRv
- 1WbC834WyQ+9e98LwkYaWuKETPBT2U3wtTaDnVvN9WCfLa4SivmkBlM3bijmT1ZIRV4z
- zcJyjM1ZFgCTIrt02KaXPmTK8df99a5IOFGqjs6bPh7RE5tBO7z8DXR+xe1iOHr5GY9l
- uLx77oWORH4U2GDZtaV+UCppfCjLFrYGe79QxTHN1wZfEMbAtpgJwHqMrDYhkN0nbTil
- T9LA==
-X-Gm-Message-State: AOAM530ra6drG+7UsrYjCXsNKNbebTl35oiwQ4fn3odtIjr6w9tawZyW
- Cj6CkL5dXhbHreJttlWxkU8tgUS3pxbclQ==
-X-Google-Smtp-Source: ABdhPJz6uXlOERSIwXkKuAhbHE6TRHyRej1XfXajMdODpz6fNH22TurpLyqcLpimbB1zmdBfTj8vXA==
-X-Received: by 2002:a65:67c6:: with SMTP id b6mr19438123pgs.332.1629480001633; 
- Fri, 20 Aug 2021 10:20:01 -0700 (PDT)
-Received: from [192.168.3.43] ([173.197.107.15])
- by smtp.gmail.com with ESMTPSA id s22sm7236018pfu.52.2021.08.20.10.20.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Aug 2021 10:20:01 -0700 (PDT)
-Subject: Re: [PATCH v3 06/14] tcg/arm: Support unaligned access for softmmu
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210818212912.396794-1-richard.henderson@linaro.org>
- <20210818212912.396794-7-richard.henderson@linaro.org>
- <CAFEAcA9KYVCwOR8ExCQqw-gcM=7EfEpdiRwSP+GGH3rNMh4zFQ@mail.gmail.com>
+ bh=/ERGQYv45viNbqLNcyLp84MnhONr2ziQF+vDzp95nLg=;
+ b=DLYQ/w5EgT+pq0EqrxrDgMVRpX8iewSxKixOzZTefP6ftw12qP0rFyNodpH8BIm0ck
+ ZJChxsc2WyEGxzfPmWsY/dCZ7tEorAccj+DTDsVfJerU6AnJUJh0rvzNBHEUFPYlg3K4
+ 64TMhqEII0gWPJ87qzshXx0OKx8S5UiWYnVPS/u+h4v4itasX73DAG8WixvBwtkt1FDc
+ /g0M7rOM4mMEeUVWo7xFTm1IY0QnwHb03alG5M5Mz1WPC1f9icYU/Akm0esu7FulH/H2
+ KbtJ41hD8HMMtwQRYKdNnVZ34cluWLTfp6EB0vCxM+rQnoYR26A7kudGE1jzI9ndGLIS
+ TK3A==
+X-Gm-Message-State: AOAM533lhT7oVPwjuiI6t2h0t8qMj4tM3KIEKAFowvt6xFfK9U8GvXUO
+ TqXpK1YX+JdzCC4iIbmycjOCvqueTCn/Vg==
+X-Google-Smtp-Source: ABdhPJybsPoylQvO4Im3tgREZd0jFj5wIuta07oiEogeSFFil49Q1Bd/V3Ko+nuP2OUswBYlVZlsyg==
+X-Received: by 2002:a17:903:3109:b029:12d:3160:a815 with SMTP id
+ w9-20020a1709033109b029012d3160a815mr16849492plc.45.1629481381043; 
+ Fri, 20 Aug 2021 10:43:01 -0700 (PDT)
+Received: from localhost.localdomain ([173.197.107.15])
+ by smtp.gmail.com with ESMTPSA id l2sm7304142pfc.157.2021.08.20.10.42.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Aug 2021 10:43:00 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c3d94c13-5f18-c3fd-656c-ee94117d0910@linaro.org>
-Date: Fri, 20 Aug 2021 07:19:58 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/21] target/riscv: Use tcg_constant_*
+Date: Fri, 20 Aug 2021 07:42:36 -1000
+Message-Id: <20210820174257.548286-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9KYVCwOR8ExCQqw-gcM=7EfEpdiRwSP+GGH3rNMh4zFQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
-X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.49,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,55 +83,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/20/21 3:34 AM, Peter Maydell wrote:
-> On Wed, 18 Aug 2021 at 22:32, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->>  From armv6, the architecture supports unaligned accesses.
->> All we need to do is perform the correct alignment check
->> in tcg_out_tlb_read and not use LDRD/STRD when the access
->> is not aligned.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> @@ -1578,27 +1576,32 @@ static TCGReg tcg_out_tlb_read(TCGContext *s, TCGReg addrlo, TCGReg addrhi,
->>
->>       /*
->>        * Check alignment, check comparators.
->> -     * Do this in no more than 3 insns.  Use MOVW for v7, if possible,
->> +     * Do this in 2-4 insns.  Use MOVW for v7, if possible,
->>        * to reduce the number of sequential conditional instructions.
->>        * Almost all guests have at least 4k pages, which means that we need
->>        * to clear at least 9 bits even for an 8-byte memory, which means it
->>        * isn't worth checking for an immediate operand for BIC.
->>        */
->> +    /* For unaligned accesses, test the page of the last byte. */
->> +    t_addr = addrlo;
->> +    if (a_mask < s_mask) {
->> +        t_addr = TCG_REG_R0;
->> +        tcg_out_dat_imm(s, COND_AL, ARITH_ADD, t_addr,
->> +                        addrlo, s_mask - a_mask);
->> +    }
-> 
-> I don't understand what this comment means or why we're doing the
-> addition. If we know we need to check eg whether the address is 2-aligned,
-> why aren't we just checking whether it's 2-aligned ? Could you
-> expand on the explanation a bit?
+Replace use of tcg_const_*, which makes a copy into a temp which must
+be freed, with direct use of the constant.  Reorg handling of $zero,
+with different accessors for source and destination.  Reorg handling
+of csrs, passing the actual write_mask instead of a regno.  Use more
+helpers for RVH expansion.
 
-We want to detect the page crossing case of a misaligned access.
+Patches lacking review:
+  02-tests-tcg-riscv64-Add-test-for-division.patch
+  03-target-riscv-Clean-up-division-helpers.patch
+  11-target-riscv-Add-DisasExtend-to-gen_unary.patch
+  17-target-riscv-Use-gen_shift_imm_fn-for-slli_uw.patch
+  21-target-riscv-Use-get-dest-_gpr-for-RVV.patch
 
-We began computing the softtlb data with the address of the start access (addrlo).  We 
-then compute the address of the last (aligned) portion of the access.  For a 4-byte access 
-that is 1-byte aligned, we add 3 - 0 = 3, finding the last byte; for a 2-byte aligned 
-access we add 3 - 1 = 2; for a 4-byte aligned access we (logically) add 3 - 3 = 0.
+Changes for v4:
+  * Add a test for division, primarily checking the edge cases.
+  * Dropped the greviw patch, since grev has been dropped from Zbb 1.0.0.
 
-This second quantity retains the alignment we need to test and also rolls over to the next 
-page iff the access does. When we compare against the comparator in the tlb, a bit set 
-within the alignment will cause failure as will a differing page number.
+Changes for v3:
+  * Fix an introduced remainder bug (bin meng),
+    and remove one extra movcond from rem/remu.
+  * Do not zero DisasContext on allocation (bin meng).
 
+Changes for v2:
+  * Retain the requirement to call gen_set_gpr.
+  * Add DisasExtend as an argument to get_gpr, and ctx->w as a member
+    of DisasContext.  This should help in implementing UXL, where we
+    should be able to set ctx->w for all insns, but there is certainly
+    more required for that.
 
 r~
+
+
+Richard Henderson (21):
+  target/riscv: Use tcg_constant_*
+  tests/tcg/riscv64: Add test for division
+  target/riscv: Clean up division helpers
+  target/riscv: Add DisasContext to gen_get_gpr, gen_set_gpr
+  target/riscv: Introduce DisasExtend and new helpers
+  target/riscv: Add DisasExtend to gen_arith*
+  target/riscv: Remove gen_arith_div*
+  target/riscv: Use gen_arith for mulh and mulhu
+  target/riscv: Move gen_* helpers for RVM
+  target/riscv: Move gen_* helpers for RVB
+  target/riscv: Add DisasExtend to gen_unary
+  target/riscv: Use DisasExtend in shift operations
+  target/riscv: Use get_gpr in branches
+  target/riscv: Use {get,dest}_gpr for integer load/store
+  target/riscv: Reorg csr instructions
+  target/riscv: Use {get,dest}_gpr for RVA
+  target/riscv: Use gen_shift_imm_fn for slli_uw
+  target/riscv: Use {get,dest}_gpr for RVF
+  target/riscv: Use {get,dest}_gpr for RVD
+  target/riscv: Tidy trans_rvh.c.inc
+  target/riscv: Use {get,dest}_gpr for RVV
+
+ target/riscv/helper.h                   |   6 +-
+ target/riscv/insn32.decode              |   1 +
+ target/riscv/op_helper.c                |  18 +-
+ target/riscv/translate.c                | 701 ++++++------------------
+ tests/tcg/riscv64/test-div.c            |  58 ++
+ target/riscv/insn_trans/trans_rva.c.inc |  51 +-
+ target/riscv/insn_trans/trans_rvb.c.inc | 370 ++++++++++---
+ target/riscv/insn_trans/trans_rvd.c.inc | 127 +++--
+ target/riscv/insn_trans/trans_rvf.c.inc | 149 +++--
+ target/riscv/insn_trans/trans_rvh.c.inc | 266 ++-------
+ target/riscv/insn_trans/trans_rvi.c.inc | 360 ++++++------
+ target/riscv/insn_trans/trans_rvm.c.inc | 191 +++++--
+ target/riscv/insn_trans/trans_rvv.c.inc | 151 ++---
+ tests/tcg/riscv64/Makefile.target       |   5 +
+ 14 files changed, 1125 insertions(+), 1329 deletions(-)
+ create mode 100644 tests/tcg/riscv64/test-div.c
+ create mode 100644 tests/tcg/riscv64/Makefile.target
+
+-- 
+2.25.1
+
 
