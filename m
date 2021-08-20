@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81C423F29FE
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 12:17:39 +0200 (CEST)
-Received: from localhost ([::1]:44360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 536373F2A05
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 12:19:30 +0200 (CEST)
+Received: from localhost ([::1]:46498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH1ak-0001Cz-Ej
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 06:17:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43952)
+	id 1mH1cX-0002eP-FE
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 06:19:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mH1Yj-0008TH-Of
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 06:15:34 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:42624)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mH1Yh-0001Ea-QW
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 06:15:33 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id mf2so624830ejb.9
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 03:15:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/nyo/aWGwl7DWqHeC9E3XqUbQkEKAXVje3t2gZumcB4=;
- b=Bk3BvKqY2h2/Rda9kqiwDHhw+Zd38K/PZKc5gLUvv6Go6eND/IQhBDkP6hPxdlshYq
- EXDA/QflleRpu178bJNQ2iUJbluvAMn2Pfn79zDhSRf8i8nvVxcJQJsclE45EV/qiqTr
- hordbSoprjO3Ya1F9jPIfZKLcC2UH7DCSfitsTKWai1R/jV9nz/EP/YgJ4r6oBeTUV9Y
- n5zxplEKgZvJHokf9RnrEEgaNP+do2nwAvjdy09gbGqHLoHp3dTYebovhp0S5gAQA067
- Rz2fGuDb7lYOLIbgJ2Aoy4ROmGqp84toUTe+yP+RhfQqfnxJeRbyTjD4ERLpnO9I057C
- 3WVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/nyo/aWGwl7DWqHeC9E3XqUbQkEKAXVje3t2gZumcB4=;
- b=hP6fnXQu/Y+Fp0BCgvnm5InbwGyQ6s/30WVj0pH90gtcoNVxTcXwaDQ0sq5JTtdPU6
- e1ltyW4pXyIDYaMxzniKNpZ6B1wgBYzgonxRnmEdf4d63H1xlBEoXn7XGCPid96bSjFu
- JjlNVc5NpT/F/ivegxgjX09sB/9OMMQPRbL4WRxapeS3d6qxW2W0Qp1aq0txvoYNKttX
- u26h3zrBySU19FAfgYPWBbaSLq4V2vciX9qhj6IVbZIGnyNoZeMm5SDP/QYVN+yELRiA
- z9DVzMUYR/ZxuC/cNDXM4L7Vx0OhMOE8Otrh9MgqcujMfEycPLxZ9S2fcrXdJW8xsPd5
- qG1g==
-X-Gm-Message-State: AOAM533X1urC5bHPKhsJUDQo7w6LCUc953woZCsCmVFTyXlo2T3TD121
- kldIFHeXtLvYY7ZhxctzJoOOdhALGA/O3YfZLhv3uoLdTyU=
-X-Google-Smtp-Source: ABdhPJxAxTQd0lu6x145vQVDdZeCAbxkeqtT3olNwG5yW0ksIZtlMTOadNhfLSEhAP1RF/AR5A4j4DtgoQYoVoXaHCc=
-X-Received: by 2002:a17:906:a108:: with SMTP id
- t8mr20743707ejy.407.1629454529217; 
- Fri, 20 Aug 2021 03:15:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mH1bV-0001yo-JO
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 06:18:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20558)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mH1bO-0003Tt-FB
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 06:18:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629454697;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kvDtnkpexav30VZbscEkdbZRsWagIBj1QCgg+PSIZyw=;
+ b=hMUh4gEWzqyMP+PnU+tqmVSuHccPFIx2sG0No3n97LBHfX5gwk0I+btIAxYoUSX9dKhViP
+ bFGDbsEeCDKM6YOz7mK0MDDnrLZ7q0JxyE39NFWtVITvHQdlQ2aGfA+IeYRV/uWbxXb4M0
+ wNOw0h4zI5SCBby0cUBwsuntYPQUCBs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-104-VN31zO3WO6aRy3VwKazW5w-1; Fri, 20 Aug 2021 06:18:14 -0400
+X-MC-Unique: VN31zO3WO6aRy3VwKazW5w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D87F918C89C4;
+ Fri, 20 Aug 2021 10:18:12 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.58])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 753605D9FC;
+ Fri, 20 Aug 2021 10:18:07 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org,
+ libvir-list@redhat.com
+Subject: Re: [PATCH 2/2] docs/about: Unify the subject format
+In-Reply-To: <20210820015628.173532-3-wangyanan55@huawei.com>
+Organization: Red Hat GmbH
+References: <20210820015628.173532-1-wangyanan55@huawei.com>
+ <20210820015628.173532-3-wangyanan55@huawei.com>
+User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
+Date: Fri, 20 Aug 2021 12:18:06 +0200
+Message-ID: <87zgtcqv1d.fsf@redhat.com>
 MIME-Version: 1.0
-References: <20210818191920.390759-1-richard.henderson@linaro.org>
- <20210818191920.390759-64-richard.henderson@linaro.org>
-In-Reply-To: <20210818191920.390759-64-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 Aug 2021 11:14:43 +0100
-Message-ID: <CAFEAcA9Ze3zzQ_O1rRJKaP-681RDJf288uQJx83GEduHetAegQ@mail.gmail.com>
-Subject: Re: [PATCH v3 63/66] tcg/tci: Support raising sigbus for user-only
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,57 +78,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
+ wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Aug 2021 at 21:15, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Fri, Aug 20 2021, Yanan Wang <wangyanan55@huawei.com> wrote:
+
+> Unify the subject format in deprecated.rst to "since X.Y".
+> Unify the subject format in removed-features.rst to "removed in X.Y".
+
+It seems unlikely that we will ever deprecate something in a stable
+release, and even more unlikely that we'll remove something in one, so
+the short versions look like the thing we want to standardize on.
+
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 > ---
->  tcg/tci.c | 18 +++++++++++++-----
->  1 file changed, 13 insertions(+), 5 deletions(-)
->
-> diff --git a/tcg/tci.c b/tcg/tci.c
-> index e76087ccac..985c8a91cb 100644
-> --- a/tcg/tci.c
-> +++ b/tcg/tci.c
-> @@ -296,7 +296,7 @@ static uint64_t tci_qemu_ld(CPUArchState *env, target_ulong taddr,
->      uintptr_t ra = (uintptr_t)tb_ptr;
->
->  #ifdef CONFIG_SOFTMMU
-> -    switch (mop) {
-> +    switch (mop & (MO_BSWAP | MO_SSIZE)) {
->      case MO_UB:
->          return helper_ret_ldub_mmu(env, taddr, oi, ra);
->      case MO_SB:
-> @@ -326,10 +326,14 @@ static uint64_t tci_qemu_ld(CPUArchState *env, target_ulong taddr,
->      }
->  #else
->      void *haddr = g2h(env_cpu(env), taddr);
-> +    unsigned a_mask = (1u << get_alignment_bits(mop)) - 1;
->      uint64_t ret;
->
->      set_helper_retaddr(ra);
-> -    switch (mop) {
-> +    if (taddr & a_mask) {
-> +        helper_unaligned_ld(env, taddr);
-> +    }
-> +    switch (mop & (MO_BSWAP | MO_SSIZE)) {
->      case MO_UB:
->          ret = ldub_p(haddr);
->          break;
-> @@ -377,11 +381,11 @@ static uint64_t tci_qemu_ld(CPUArchState *env, target_ulong taddr,
->  static void tci_qemu_st(CPUArchState *env, target_ulong taddr, uint64_t val,
->                          MemOpIdx oi, const void *tb_ptr)
->  {
-> -    MemOp mop = get_memop(oi) & (MO_BSWAP | MO_SSIZE);
-> +    MemOp mop = get_memop(oi);
->      uintptr_t ra = (uintptr_t)tb_ptr;
+>  docs/about/deprecated.rst       | 56 ++++++++++++++++-----------------
+>  docs/about/removed-features.rst | 28 ++++++++---------
+>  2 files changed, 42 insertions(+), 42 deletions(-)
 
-Don't you need this bit in tci_qemu_st() as well ?
+Unrelated to your patch, line 143 in removed-features.rst reads
 
+``-vnc ...,tls=...``, ``-vnc ...,x509=...`` & ``-vnc ...,x509verify=...``
 
--- PMM
+and is missing the release it was removed in (presumably 3.1?)
+
+Anyway,
+
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+
 
