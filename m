@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF4A3F2B93
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 13:53:01 +0200 (CEST)
-Received: from localhost ([::1]:46024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 637753F2BB1
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 14:05:24 +0200 (CEST)
+Received: from localhost ([::1]:49874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH352-00040U-Br
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 07:53:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33734)
+	id 1mH3H0-0007Kn-Hw
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 08:05:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mH33W-0002h1-CO
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 07:51:26 -0400
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:36804)
+ id 1mH3Fm-0006XR-Lo
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 08:04:06 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:34634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mH33U-0001fP-RL
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 07:51:25 -0400
-Received: by mail-ej1-x636.google.com with SMTP id bt14so19723133ejb.3
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 04:51:24 -0700 (PDT)
+ id 1mH3Fk-0004CV-6K
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 08:04:06 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id i6so13708223edu.1
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 05:04:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cp4N0zQRGFf9fUH1YfxOEa4d9atF8Gd1sjwJMf9AmSc=;
- b=AEroXsCB+GWQuLrqUptOqa8ctDnjXIIwFKm3MRQkuRwin5ngra76ESG4fe5XWxmqaw
- 2Znnh63EUTWXc7DLQQ3zmgPB7PIjOfhEvfmPTOUHejOigLYWl7EoTKE/0RdOot/AOQi2
- wys8obKCp5JUXSADWQ3UMSu4kGZGdHIEpxPZUwPDkCJe1Aw1M3inTTdYZceAmfGRKso2
- bTtzjohEn/MzVsQsHZIoM6X50yV8XUhdK8bSz3TMtaGlHiYf64snXMrxLFlNBycRbYuC
- dNZLGrh1zsFLOgqSwfg6z8Om3amkpk+Z3IDp2Rcp+iKDDJP0d6Ex6EThUYz64uzIJ/Xz
- vN7g==
+ :cc; bh=g8dan8T67fWtuX17B9y/L+N6XILYKuDwOawnfg7lC84=;
+ b=xZEGHz3gkdxms67Whg7OhfWwgH77SajJv6/qNO5oWPoIX0/Ew5ew6QbRMNrFaxxTRK
+ zzOSdLRuh2V30O3R3XJz3dRSvijzGjm2al8hQjf97VYiKyUCe4H2lBr9+PApRvOp/WQT
+ fEzMDrzqshoH0DH6rDSyZjhhbvaJaQIxtc3kjk1kvHvxQ8slIzzBmEVkIWPM/X6ZgsMW
+ vbVeAFFZrsxdJ78k8BUloARUBVy6oB4NSBJzIfOfIM9XbFDS3X2IDnjUBAzOtWB4agKy
+ ejJ9F6PIDR8S+6ieHopbpnFefKzvDU1RKW8JnJF/AXm0AL44uXJDAlHuGOt3YpJdgQbJ
+ UtFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=cp4N0zQRGFf9fUH1YfxOEa4d9atF8Gd1sjwJMf9AmSc=;
- b=Cr50Tq3y5MZHW48rVirafpwdM0WxpjKV9df7QX+TxwvUEBXdq3FGLbNfyB0fGeWH3V
- JacAjQb9QbSStVEk8S9rgxEMcI8FaLDJ+IFlGtQCNFlXE8KLxrK40ssSjAgqDPeDQU0K
- 2G12vfcWxHY6S8LXyM3rXqj22abUl2gTMG6vFhj2P0SboJmtV9Bhzjmy4pMmpURQItyN
- wZ1saX/Ijhh22vb0khHZXy2ZNAl9xu85Bzq/aB6hqZelf+3sUdyUfX+Oc1wuXACY5v6f
- vlMQX/kVl2nAoJZQVlnO2uNi14LXqMdaztWkCPyHOqYXlLe0mdexfmKW0tXmwjg9UF6a
- ZMZw==
-X-Gm-Message-State: AOAM533STSTzxqF4s8nbE1xborvC/ZgSVNV+KNpEtwa86BB93ShHgbQ9
- Yu1vN54UxzOhCPDjQTTL62WNS+mGmkf8PIiT9B+F4g==
-X-Google-Smtp-Source: ABdhPJzs5c2dX45PcocM1ClsVz7c6cTN1adF0Aztj2kQ72z3cilz8QzkKFStqJHgo3afqvobwpAYQ07mA8WIKgKCCHw=
-X-Received: by 2002:a17:906:584:: with SMTP id 4mr21906676ejn.56.1629460283358; 
- Fri, 20 Aug 2021 04:51:23 -0700 (PDT)
+ bh=g8dan8T67fWtuX17B9y/L+N6XILYKuDwOawnfg7lC84=;
+ b=rGLMq/5yJcRcCRoEiH2ncqGZhvZHyYABUzLjKABK8A4XCFzQm8Etlus+1xqRpyHyJ/
+ uHLMZzMvNFslr9AwmOW8R663kLKu5JkMfkcnR7N9l97A3VaTUPb20PNbmT0h77ha09P7
+ q4nhWX/JMYdhoih1Rf+YXcpXp1gkSmPtx/Rdt6J2rRuQEJ2ueoUnMiFLAJnHPBC8rhtb
+ XTTA2hgiPieBszwzIqTpL3UjCxmANpQc1rKZXPBGYlsYLxi+AqBSPsDZitohy93Bs3wP
+ +I+LhadFYfjEUpqMnw190f/zGjGrXHXSxEAYlhLjcWdj7PPkeXn/4yrAG9fpM62L7EkJ
+ DZyw==
+X-Gm-Message-State: AOAM533WxlbEBkL2v/eaO7g5eIQeNiMwFyyxIDOtdUHEdKZWt7GYUYcF
+ ANNqhQ+vBnbJdAlpq3rYOAJyP9ai/UTUXuj8D2Wvyw==
+X-Google-Smtp-Source: ABdhPJx5BkdKrYAVtIppVWdBKm+E+C9SGuQ2bkZpCF8KrD2PI4LZhuy0yTe8/9VZ/IxalU3VRQG1L9EkniNukzVdNoo=
+X-Received: by 2002:a05:6402:220e:: with SMTP id
+ cq14mr21921648edb.52.1629461041978; 
+ Fri, 20 Aug 2021 05:04:01 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210818212912.396794-1-richard.henderson@linaro.org>
- <20210818212912.396794-9-richard.henderson@linaro.org>
-In-Reply-To: <20210818212912.396794-9-richard.henderson@linaro.org>
+ <20210818212912.396794-14-richard.henderson@linaro.org>
+In-Reply-To: <20210818212912.396794-14-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 Aug 2021 12:50:37 +0100
-Message-ID: <CAFEAcA-2pXVqR+fBJhqBJTtgRGyCaJSLdG-UwDFzt8j0mv=z9Q@mail.gmail.com>
-Subject: Re: [PATCH v3 08/14] tcg/arm: Simplify usage of encode_imm
+Date: Fri, 20 Aug 2021 13:03:15 +0100
+Message-ID: <CAFEAcA81XmmHFtVfA9U307y5D41NzuHZNTFXgHe2-1Y+ZEhjSg@mail.gmail.com>
+Subject: Re: [PATCH v3 13/14] tcg/arm: Reserve a register for guest_base
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,25 +82,56 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Aug 2021 at 22:38, Richard Henderson
+On Wed, 18 Aug 2021 at 22:33, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> We have already computed the rotated value of the imm8
-> portion of the complete imm12 encoding.  No sense leaving
-> the combination of rot + rotation to the caller.
->
-> Create an encode_imm12_nofail helper that performs an assert.
->
-> This removes the final use of the local "rotl" function,
-> which duplicated our generic "rol32" function.
+> Reserve a register for the guest_base using aarch64 for reference.
+> By doing so, we do not have to recompute it for every memory load.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tcg/arm/tcg-target.c.inc | 141 +++++++++++++++++++++------------------
->  1 file changed, 77 insertions(+), 64 deletions(-)
+>  tcg/arm/tcg-target.c.inc | 39 ++++++++++++++++++++++++++++-----------
+>  1 file changed, 28 insertions(+), 11 deletions(-)
+>
+> diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
+> index 35bd4c68d6..2728035177 100644
+> --- a/tcg/arm/tcg-target.c.inc
+> +++ b/tcg/arm/tcg-target.c.inc
+> @@ -84,6 +84,9 @@ static const int tcg_target_call_oarg_regs[2] = {
+>
+>  #define TCG_REG_TMP  TCG_REG_R12
+>  #define TCG_VEC_TMP  TCG_REG_Q15
+> +#ifndef CONFIG_SOFTMMU
+> +#define TCG_REG_GUEST_BASE  TCG_REG_R11
+> +#endif
+>
+>  typedef enum {
+>      COND_EQ = 0x0,
+> @@ -1763,7 +1766,8 @@ static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *lb)
+>
+>  static void tcg_out_qemu_ld_index(TCGContext *s, MemOp opc,
+>                                    TCGReg datalo, TCGReg datahi,
+> -                                  TCGReg addrlo, TCGReg addend)
+> +                                  TCGReg addrlo, TCGReg addend,
+> +                                  bool scratch_addend)
+>  {
+>      /* Byte swapping is left to middle-end expansion. */
+>      tcg_debug_assert((opc & MO_BSWAP) == 0);
+> @@ -1790,7 +1794,7 @@ static void tcg_out_qemu_ld_index(TCGContext *s, MemOp opc,
+>              && get_alignment_bits(opc) >= MO_64
+>              && (datalo & 1) == 0 && datahi == datalo + 1) {
+>              tcg_out_ldrd_r(s, COND_AL, datalo, addrlo, addend);
+> -        } else if (datalo != addend) {
+> +        } else if (scratch_addend) {
+>              tcg_out_ld32_rwb(s, COND_AL, datalo, addend, addrlo);
+>              tcg_out_ld32_12(s, COND_AL, datahi, addend, 4);
+>          } else {
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+I don't understand this change. Yes, we can trash the addend
+register, but if it's the same as 'datalo' then the second load
+is not going to DTRT... Shouldn't this be
+  if (scratch_addend && datalo != addend)
+?
 
-thanks
 -- PMM
 
