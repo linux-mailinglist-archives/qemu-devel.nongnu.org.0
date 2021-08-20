@@ -2,70 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 536373F2A05
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 12:19:30 +0200 (CEST)
-Received: from localhost ([::1]:46498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB1B3F2A2C
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 12:37:18 +0200 (CEST)
+Received: from localhost ([::1]:54784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH1cX-0002eP-FE
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 06:19:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44268)
+	id 1mH1tl-0000pq-2N
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 06:37:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mH1bV-0001yo-JO
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 06:18:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20558)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mH1sg-0008IN-18
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 06:36:10 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:60868)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1mH1bO-0003Tt-FB
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 06:18:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629454697;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kvDtnkpexav30VZbscEkdbZRsWagIBj1QCgg+PSIZyw=;
- b=hMUh4gEWzqyMP+PnU+tqmVSuHccPFIx2sG0No3n97LBHfX5gwk0I+btIAxYoUSX9dKhViP
- bFGDbsEeCDKM6YOz7mK0MDDnrLZ7q0JxyE39NFWtVITvHQdlQ2aGfA+IeYRV/uWbxXb4M0
- wNOw0h4zI5SCBby0cUBwsuntYPQUCBs=
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mH1sb-00026a-Dt
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 06:36:09 -0400
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-VN31zO3WO6aRy3VwKazW5w-1; Fri, 20 Aug 2021 06:18:14 -0400
-X-MC-Unique: VN31zO3WO6aRy3VwKazW5w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-395-uPtbzTmqN0SEyMtuT4Alqg-1; Fri, 20 Aug 2021 06:35:53 -0400
+X-MC-Unique: uPtbzTmqN0SEyMtuT4Alqg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D87F918C89C4;
- Fri, 20 Aug 2021 10:18:12 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.58])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 753605D9FC;
- Fri, 20 Aug 2021 10:18:07 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org,
- libvir-list@redhat.com
-Subject: Re: [PATCH 2/2] docs/about: Unify the subject format
-In-Reply-To: <20210820015628.173532-3-wangyanan55@huawei.com>
-Organization: Red Hat GmbH
-References: <20210820015628.173532-1-wangyanan55@huawei.com>
- <20210820015628.173532-3-wangyanan55@huawei.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Fri, 20 Aug 2021 12:18:06 +0200
-Message-ID: <87zgtcqv1d.fsf@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F223B107ACF5;
+ Fri, 20 Aug 2021 10:35:51 +0000 (UTC)
+Received: from bahia.lan (unknown [10.39.192.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3AEA35278E;
+ Fri, 20 Aug 2021 10:35:50 +0000 (UTC)
+Date: Fri, 20 Aug 2021 12:35:49 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH 1/2] hw/9pfs: avoid 'path' copy in v9fs_walk()
+Message-ID: <20210820123549.4d5b353f@bahia.lan>
+In-Reply-To: <7dacbecf25b2c9b4a0ce12d689a8a535f09a31e3.1629208359.git.qemu_oss@crudebyte.com>
+References: <cover.1629208359.git.qemu_oss@crudebyte.com>
+ <7dacbecf25b2c9b4a0ce12d689a8a535f09a31e3.1629208359.git.qemu_oss@crudebyte.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,37 +63,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
- wanghaibin.wang@huawei.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 20 2021, Yanan Wang <wangyanan55@huawei.com> wrote:
+On Tue, 17 Aug 2021 14:38:24 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-> Unify the subject format in deprecated.rst to "since X.Y".
-> Unify the subject format in removed-features.rst to "removed in X.Y".
-
-It seems unlikely that we will ever deprecate something in a stable
-release, and even more unlikely that we'll remove something in one, so
-the short versions look like the thing we want to standardize on.
-
->
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> The v9fs_walk() function resolves all client submitted path nodes to the
+> local 'pathes' array. Using a separate string scalar variable 'path'
+> inside the background worker thread loop and copying that local 'path'
+> string scalar variable subsequently to the 'pathes' array (at the end of
+> each loop iteration) is not necessary.
+>=20
+> Instead simply resolve each path directly to the 'pathes' array and
+> don't use the string scalar variable 'path' inside the fs worker thread
+> loop at all.
+>=20
+> The only advantage of the 'path' scalar was that in case of an error
+> the respective 'pathes' element would not be filled. Right now this is
+> not an issue as the v9fs_walk() function returns as soon as any error
+> occurs.
+>=20
+> Suggested-by: Greg Kurz <groug@kaod.org>
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 > ---
->  docs/about/deprecated.rst       | 56 ++++++++++++++++-----------------
->  docs/about/removed-features.rst | 28 ++++++++---------
->  2 files changed, 42 insertions(+), 42 deletions(-)
 
-Unrelated to your patch, line 143 in removed-features.rst reads
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-``-vnc ...,tls=...``, ``-vnc ...,x509=...`` & ``-vnc ...,x509verify=...``
+With this change, the path variable is no longer used at all in the
+first loop. I see at least an extra possible cleanup : don't set
+path before the first loop since it gets reset before the second
+one. Maybe we can even get rid of path all the way ? I'll have
+a look.
 
-and is missing the release it was removed in (presumably 3.1?)
-
-Anyway,
-
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+>  hw/9pfs/9p.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index 2815257f42..4d642ab12a 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -1787,7 +1787,8 @@ static void coroutine_fn v9fs_walk(void *opaque)
+>                  strcmp("..", wnames[name_idx].data))
+>              {
+>                  err =3D s->ops->name_to_path(&s->ctx, &dpath,
+> -                                        wnames[name_idx].data, &path);
+> +                                           wnames[name_idx].data,
+> +                                           &pathes[name_idx]);
+>                  if (err < 0) {
+>                      err =3D -errno;
+>                      break;
+> @@ -1796,14 +1797,13 @@ static void coroutine_fn v9fs_walk(void *opaque)
+>                      err =3D -EINTR;
+>                      break;
+>                  }
+> -                err =3D s->ops->lstat(&s->ctx, &path, &stbuf);
+> +                err =3D s->ops->lstat(&s->ctx, &pathes[name_idx], &stbuf=
+);
+>                  if (err < 0) {
+>                      err =3D -errno;
+>                      break;
+>                  }
+>                  stbufs[name_idx] =3D stbuf;
+> -                v9fs_path_copy(&dpath, &path);
+> -                v9fs_path_copy(&pathes[name_idx], &path);
+> +                v9fs_path_copy(&dpath, &pathes[name_idx]);
+>              }
+>          }
+>      });
 
 
