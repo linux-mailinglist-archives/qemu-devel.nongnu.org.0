@@ -2,78 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 668C43F2FF5
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 17:46:34 +0200 (CEST)
-Received: from localhost ([::1]:38446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FCB83F2FF0
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 17:46:04 +0200 (CEST)
+Received: from localhost ([::1]:35922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH6j3-0001r4-Ek
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 11:46:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54474)
+	id 1mH6iZ-0008Um-5u
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 11:46:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mH6g6-0006Ec-Qb
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 11:43:30 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:33305)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mH6g4-0008GF-1A
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 11:43:30 -0400
-Received: by mail-pl1-x634.google.com with SMTP id o10so6232281plg.0
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 08:43:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=91iZU8ovsk6Gnn6nhVeDDkzIrVkANR5vegj8hJFFcsU=;
- b=kQbml57BwCL2DgO5Na8yh9reepD5aV3kjvMgML/TrCdptulv44BqhHyJ7VfqtiAijz
- H4QdYY3jC0QEgZ1PZS+vjcn89448TOfbxMJ53kJoz/gt1FQ9sCV142Oufvq6SYibGcy0
- 9bD461dqURK+q6p0MTP5AHkq0lMt1bwhOo4e12NGXAuFRmMzxAyfeZcRI0lTdxxkgDOZ
- 6YWeDGRZ3+q3OxKJEuU1A/xcsVU+WBTHy/1TACMqn4P1JdJTwL9b+c6IP3ZVaYHf/Gn2
- ftrwy7sv8Q6WdeqmB/7b/fxxqhpZU2dsQI8kwfKRBG+p9WxpxPPkt5ecLS61Or5rdQ1L
- mhhw==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mH6gm-00073T-MX
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 11:44:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27037)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mH6gj-0000Mf-0Y
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 11:44:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629474247;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qPs+5XRzR//7CLL5+d+83u+qSd7ZPJjPahmYwzHw8V8=;
+ b=c+k+F6/5fiKyzxIIrSkOMLD0wyzieJfDT3rAVykqulO2dYtUI4Kl1aacUCv0JSW1nk4JwV
+ 0GFAwCMgv5ZQ/q6yJ126QtPBhrKqWSCUjdTX8ikP79y0FND4AnQboWvM5ChBiajq4CHk36
+ 2jvM1+FaGzAECjg4cm89qouocAOX998=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-326-5P-OXfrsNpaxPt5kbYEszw-1; Fri, 20 Aug 2021 11:44:06 -0400
+X-MC-Unique: 5P-OXfrsNpaxPt5kbYEszw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ e3-20020a50ec830000b02903be5be2fc73so4714492edr.16
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 08:44:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=91iZU8ovsk6Gnn6nhVeDDkzIrVkANR5vegj8hJFFcsU=;
- b=SbAU1rlvlZ3tpfWUScYFz0B1PUJIRZSWn7sSaOenpMG1l3mlsIjvtvOyQzG46jz/Dn
- 1NAeRUyE9kGggmV4uzRQjYpGq57I8X2xQ+1CWl62Q/HPo5mK1sucGZo0QoC5bCNCgpGc
- zpBWp0NwU89RJpF+oBQx0VTndHu/Z/QgH1uquP07g2AE3Owep+i3RXEuCu57XwO+Ixc6
- QZe4porVxYPh43POex7FBE2kRbucNSyP/2WmeTCcgtTxIIVLqMqB8ITOVx+jjuwf6nIp
- wMSnxXJO5WsQD4W/i9Dk7r1lP3jR7y1/wEtISsgDXpOwh/7WjVlfVfbiOfRI90sV00bu
- ThFA==
-X-Gm-Message-State: AOAM530s7jdaf+fqLpwZbiuruwA7fD+v+UzaVPYMd+1YdWR/+XkHJlRw
- dwma8Jd19ei8AMhs6DIN4Undow==
-X-Google-Smtp-Source: ABdhPJzyZjU/Nges752iQg+Bwcwb1fk8mSEqNP8/wGgsdrvfZ3WM4BqkkkLeRi8GM4n/D8SAjCRygw==
-X-Received: by 2002:a17:90a:f195:: with SMTP id
- bv21mr5264647pjb.218.1629474205926; 
- Fri, 20 Aug 2021 08:43:25 -0700 (PDT)
-Received: from anisinha-lenovo ([115.96.156.44])
- by smtp.googlemail.com with ESMTPSA id y5sm12253705pjy.37.2021.08.20.08.43.22
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=LjVAgdspACEk/M/9kucGCJPhavjrT1MmieV9qL/h00s=;
+ b=E1iH/vlqhA2GiMMDtttC67USm8QeTXsp7z4jEtblziu8RwCvFEfH9B2+SnINrZSDOk
+ meOSSSTB89of//Ts7KijmCmKJluup+/OS6IzS7IAqT5gAN82Kbdw3r8SIoqaNhmt0yOX
+ x7Aa9lgCydYXrFVFSELUrMfJUXJqzDbXX40Zr2FkYLJOsh86u7l1Bj3weHQ6bPkUkv3X
+ bz5RqPNn++TVmacid7cD+OHcVJokq8Q7T+tK4hGM/5RDJSQS8ToT3m9J+aO4JDPwQDL1
+ TkrUS4tGVNoruDCEKv295w4csYoZHHSnyxpPYf7kdKlEteblHqdmC8QmRfW2QcEsbKAH
+ 1zsg==
+X-Gm-Message-State: AOAM532g+JgkM5tCDZGnEmr7v/HrRA+tZhLbW9TsAt4WUgfZhFtm3Dse
+ pG+1DKtHF+mRgVyvt6+xNpsozoxBNldNOJQvF7FQ5lO/81xP8xNSziU6xZrmMwPG7MfNACUhGfg
+ tEXeqETYsqyihujI=
+X-Received: by 2002:a17:906:1f8e:: with SMTP id
+ t14mr22224809ejr.313.1629474244949; 
+ Fri, 20 Aug 2021 08:44:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz5V4q4p4hSWMVJdd0SU1Hwz5E6WPfUBUFF/OR8dx3em9AdgrSmw8k7gAoF7oZz1K5kNwOg0A==
+X-Received: by 2002:a17:906:1f8e:: with SMTP id
+ t14mr22224767ejr.313.1629474244628; 
+ Fri, 20 Aug 2021 08:44:04 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id cq12sm3728868edb.43.2021.08.20.08.44.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Aug 2021 08:43:25 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Fri, 20 Aug 2021 21:13:18 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH] hw/acpi: refactor acpi hp modules so that targets can
- just use what they need
-In-Reply-To: <26cc841b-792a-305a-2708-b1ed11de8151@redhat.com>
-Message-ID: <alpine.DEB.2.22.394.2108202110430.624345@anisinha-lenovo>
-References: <20210812071409.492299-1-ani@anisinha.ca>
- <26cc841b-792a-305a-2708-b1ed11de8151@redhat.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ Fri, 20 Aug 2021 08:44:04 -0700 (PDT)
+Date: Fri, 20 Aug 2021 17:44:02 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: xilinx-zynq-a9: cannot set up guest memory 'zynq.ext_ram'
+Message-ID: <20210820174402.47a14625@redhat.com>
+In-Reply-To: <CAFEAcA8MqYQiTJkKyWGkcKR=J2FD9SDWvHm9vxZq3g2HJ8ch3w@mail.gmail.com>
+References: <CAEUhbmUhKFFxSspve+t2BeppCGPegpb_Z5g-w8M5t-JMLy3Zsg@mail.gmail.com>
+ <869f8be9-b76f-e315-9591-9c452bedf922@redhat.com>
+ <CAEUhbmUE4fb2NewE+Cze3Le5xOeH53NDbwdnKH==dnZeKGPQeQ@mail.gmail.com>
+ <e833a774-d3bf-62d5-91d8-b24cbee0bfc4@redhat.com>
+ <CAFEAcA8MqYQiTJkKyWGkcKR=J2FD9SDWvHm9vxZq3g2HJ8ch3w@mail.gmail.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="2088271309-1382508667-1629474205=:624345"
-Received-SPF: none client-ip=2607:f8b0:4864:20::634;
- envelope-from=ani@anisinha.ca; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,42 +101,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: David Hildenbrand <david@redhat.com>, "Richard W.M.
+ Jones" <rjones@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Fri, 20 Aug 2021 15:39:27 +0100
+Peter Maydell <peter.maydell@linaro.org> wrote:
 
---2088271309-1382508667-1629474205=:624345
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+> On Fri, 20 Aug 2021 at 15:34, David Hildenbrand <david@redhat.com> wrote:
+> >
+> > On 20.08.21 16:22, Bin Meng wrote: =20
+> > > Hi Philippe,
+> > >
+> > > On Fri, Aug 20, 2021 at 10:10 PM Philippe Mathieu-Daud=C3=A9
+> > > <philmd@redhat.com> wrote: =20
+> > >>
+> > >> Hi Bin,
+> > >>
+> > >> On 8/20/21 4:04 PM, Bin Meng wrote: =20
+> > >>> Hi,
+> > >>>
+> > >>> The following command used to work on QEMU 4.2.0, but is now broken
+> > >>> with QEMU head.
+> > >>>
+> > >>> $ qemu-system-arm -M xilinx-zynq-a9 -display none -m 40000000
+> > >>> -nographic -serial /dev/null -serial mon:stdio -monitor null -devic=
+e
+> > >>> loader,file=3Du-boot-dtb.bin,addr=3D0x4000000,cpu-num=3D0
+> > >>> qemu-system-arm: cannot set up guest memory 'zynq.ext_ram': Cannot
+> > >>> allocate memory =20
+>=20
+> > -m 40000000
+> >
+> > corresponds to 38 TB if I am not wrong. Is that really what you want? =
+=20
+>=20
+> Probably not, because the zynq board's init function does:
+>=20
+>     if (machine->ram_size > 2 * GiB) {
+>         error_report("RAM size more than 2 GiB is not supported");
+>         exit(EXIT_FAILURE);
+>     }
+>=20
+> It seems a bit daft that we allocate the memory before we do
+> the size check. This didn't use to be this way around...
+>=20
+> Anyway, I think the cause of this change is commit c9800965c1be6c39
+> from Igor. We used to silently cap the RAM size to 2GB; now we
+> complain. Or at least we would complain if we hadn't already
+> tried to allocate the memory and fallen over...
 
+That's because RAM (as host resource) is now separated
+from device model (machine limits) and is allocated as
+part of memory backend initialization (in this case
+'create_default_memdev') before machine_run_board_init()
+is run.
 
+Maybe we can consolidate max limit checks in
+create_default_memdev() by adding MachineClass::max_ram_size
+but that can work only in default usecase (only '-m' is used).
 
-On Thu, 19 Aug 2021, Philippe Mathieu-Daudé wrote:
+However if user creates backend explicitly, there aren't any
+clue about machine limits. We basically don't know what
+backend is created for at the time it's initialized
+(which includes RAM allocation, it might be created for VM's
+RAM or ram/storage for some other device).
 
-> On 8/12/21 9:14 AM, Ani Sinha wrote:
+>=20
+> -- PMM
+>=20
 
-> > +    return;
->
-> I suppose if you replace all 'return' by 'g_assert_not_reached()'
-> both issues reproducers crash?
->
-> Your patch is not incorrect, and indeed fixes the issues, but
-> I feel we are going backward now allowing call which should
-> never be there in the first place.
->
-
-Linux kernel does something like this all over the place. They simply
-replace functions with NOOPS when they are not allowed for a
-configuration. They do this relying on preprocessor macros ofcourse!
-
-It will be hard to do anythiung better without rearchitecting the modules.
-That would have significant impact particularly on x86.
---2088271309-1382508667-1629474205=:624345--
 
