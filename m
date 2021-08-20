@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6F883F26A8
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 08:09:14 +0200 (CEST)
-Received: from localhost ([::1]:43722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4D1A3F277D
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 09:18:06 +0200 (CEST)
+Received: from localhost ([::1]:56516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGxiL-0006Ro-C9
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 02:09:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34224)
+	id 1mGymz-0001Lj-EJ
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 03:18:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mGxgg-0005Yp-Qq
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 02:07:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54977)
+ (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
+ id 1mGyll-0000gn-TP
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 03:16:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mGxgb-0007v5-Gc
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 02:07:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629439637;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=xsLMEBc/3vvxc/MLHz3cVFR0qb6gpoJ9PareRakC5ZA=;
- b=Ld09w0uzIpiKUB+gvj1mExJoBWjDODAg19gfS/Qqzy9t5o+g+qsdg+9I6fNm9eXxo8KsRp
- utPg8MSmlrFnFBNP2VJha7ublkLeloiHZNTgJ8j+gpGu+s1CY6T4TGJeAEVd2CIDDuKSIo
- qx+xj6+BCjeyaIwtgI+M4zFN4QycLt4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-IN5f6ztTP86XtOpEnEqBng-1; Fri, 20 Aug 2021 02:07:16 -0400
-X-MC-Unique: IN5f6ztTP86XtOpEnEqBng-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B85341082921;
- Fri, 20 Aug 2021 06:07:14 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.216])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 255DF60C13;
- Fri, 20 Aug 2021 06:07:04 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 494B218007A6; Fri, 20 Aug 2021 08:07:03 +0200 (CEST)
-Date: Fri, 20 Aug 2021 08:07:03 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [RFC PATCH 6/6] memory: Have address_space_create() re-use
- global &address_space_memory
-Message-ID: <20210820060703.njdj5pfa3lz66zjb@sirius.home.kraxel.org>
-References: <20210819142039.2825366-1-philmd@redhat.com>
- <20210819142039.2825366-7-philmd@redhat.com>
- <CAFEAcA_7t-9TpamdbAsyzYT7CFuQSjQt9YFj-1xG9fX_iMv5xA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
+ id 1mGylj-00084z-ET
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 03:16:49 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 930756108F
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 07:16:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1629443804;
+ bh=aIoierq1qWA4P6prqhbsvCAl0lPF1wQ36v7Ma9fWAIw=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=CzEyUS74yiVEBxVUf23wn5tK9AYL6I0UwHOV2Z1DbwuvkCN0xlQigb/xmEjqutDJN
+ S8PGuuvhhNgl3wxhUSvyZxm+yJ/6cnrRT5QSPksu8+7sSCPo3zqvQHCqQmXednuh5/
+ JGo6xdovjfhq9JKvPWfsaGbU9pR8lnc8XzIFsZECBOqd1OL223zdW5LZZlaIiI3BDV
+ VCLFpFZbMPVavFSEvbjMHB3JeKQkXt1RMKY/dBgH7hQmyrv4WU3Zr9CmKWGM74pZuB
+ BWQaGQDccjqzBGXKfs7hUgVSZ1sUMwC+2inyV5P2QqosR6pfxrSFrE5+0K042c8/B7
+ zCZKwVcfXLrFQ==
+Received: by mail-io1-f42.google.com with SMTP id z1so10995745ioh.7
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 00:16:44 -0700 (PDT)
+X-Gm-Message-State: AOAM533hS5RuvGZDbovQ05APYwKG3oQtr5Xaf9bNd8ogbUOQ/BpAx+Ne
+ 5HYY4wskkN+f8EuqjORtiYYuNySnZ5Xegv/K+Ek=
+X-Google-Smtp-Source: ABdhPJzwa+QeNif4RjLFpCab/2io8AoxI0DZqA7j+A2dooRhC97dwJbuYVRA9knxuYdWUR55EAGbuE/gl/a5q7S0inc=
+X-Received: by 2002:a05:6602:1210:: with SMTP id
+ y16mr14518905iot.159.1629443804001; 
+ Fri, 20 Aug 2021 00:16:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_7t-9TpamdbAsyzYT7CFuQSjQt9YFj-1xG9fX_iMv5xA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+References: <20210818201931.393394-1-richard.henderson@linaro.org>
+ <c6341c27-f656-da64-271d-487eea49d931@amsat.org>
+ <CAAdtpL4Rbc5iVi27xOjwzycUcPKZcPM3PqYjZVnm-4Wgvmhbhg@mail.gmail.com>
+In-Reply-To: <CAAdtpL4Rbc5iVi27xOjwzycUcPKZcPM3PqYjZVnm-4Wgvmhbhg@mail.gmail.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Fri, 20 Aug 2021 15:16:32 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H6yAN3+YvCRutNAm1z4QNUrJgQAPw_jcc28CtJSrNGGmA@mail.gmail.com>
+Message-ID: <CAAhV-H6yAN3+YvCRutNAm1z4QNUrJgQAPw_jcc28CtJSrNGGmA@mail.gmail.com>
+Subject: Re: [PATCH v3 00/16] tcg/mips: Unaligned access and other cleanup
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=chenhuacai@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -77
+X-Spam_score: -7.8
+X-Spam_bar: -------
+X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,33 +73,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Alistair Francis <alistair@alistair23.me>,
- Jianxian Wen <jianxian.wen@verisilicon.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+Hi, Jiaxun,
 
-> This also seems to me to be the tail wagging the dog. If we think
-> 'info mtree' has too much duplicate information (which it certainly
-> does) then we should make mtree_info() smarter about reducing that
-> duplication. Off the top of my head, we could change the code that
-> prints ASes to do something like:
+I'm not familiar with TCG, please review, thanks.
 
->            qemu_printf("...same as address-space %s\n", name);
+Huacai
 
-Neat idea.
-
-Having 'info mtree' accept an (optional) 'name' parameter to pick an
-address space to be printed would be useful too.
-
-take care,
-  Gerd
-
+On Thu, Aug 19, 2021 at 6:09 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Sorry, use Huacai's newer email .
+>
+> On Thu, Aug 19, 2021 at 12:07 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat=
+.org> wrote:
+> >
+> > Cc'ing Jiaxun & Huacai.
+> >
+> > On 8/18/21 10:19 PM, Richard Henderson wrote:
+> > > Based-on: <20210818191920.390759-1-richard.henderson@linaro.org>
+> > > ("[PATCH v3 00/66] Unaligned access for user-only")
+> > >
+> > > Important points:
+> > >   * Support unaligned accesses.
+> > >   * Drop requirement for 256MB alignment of code_gen_buffer.
+> > >   * Improvements to tcg_out_movi:
+> > >     - Have a tb-relative register for mips64, reducing the
+> > >       code size for most pointers,
+> > >     - Try a few 3-insn sequences,
+> > >     - Drop everything else into a constant pool.
+> > >
+> > >
+> > > r~
+> > >
+> > >
+> > > Richard Henderson (16):
+> > >   tcg/mips: Support unaligned access for user-only
+> > >   tcg/mips: Support unaligned access for softmmu
+> > >   tcg/mips: Drop inline markers
+> > >   tcg/mips: Move TCG_AREG0 to S8
+> > >   tcg/mips: Move TCG_GUEST_BASE_REG to S7
+> > >   tcg/mips: Unify TCG_GUEST_BASE_REG tests
+> > >   tcg/mips: Allow JAL to be out of range in tcg_out_bswap_subr
+> > >   tcg/mips: Unset TCG_TARGET_HAS_direct_jump
+> > >   tcg/mips: Drop special alignment for code_gen_buffer
+> > >   tcg/mips: Create and use TCG_REG_TB
+> > >   tcg/mips: Split out tcg_out_movi_one
+> > >   tcg/mips: Split out tcg_out_movi_two
+> > >   tcg/mips: Use the constant pool for 64-bit constants
+> > >   tcg/mips: Aggressively use the constant pool for n64 calls
+> > >   tcg/mips: Try tb-relative addresses in tcg_out_movi
+> > >   tcg/mips: Try three insns with shift and add in tcg_out_movi
+> > >
+> > >  tcg/mips/tcg-target.h     |  17 +-
+> > >  tcg/region.c              |  91 -----
+> > >  tcg/mips/tcg-target.c.inc | 730 +++++++++++++++++++++++++++++++-----=
+--
+> > >  3 files changed, 604 insertions(+), 234 deletions(-)
+> > >
+> >
 
