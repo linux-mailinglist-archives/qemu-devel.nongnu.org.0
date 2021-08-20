@@ -2,92 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F175E3F30C0
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 18:03:56 +0200 (CEST)
-Received: from localhost ([::1]:33254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACE2D3F3114
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 18:07:12 +0200 (CEST)
+Received: from localhost ([::1]:41726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH6zm-0001HQ-Qb
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 12:03:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57530)
+	id 1mH731-0006vO-3O
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 12:07:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mH6wd-0005zc-FH
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 12:00:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56608)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mH6zT-0001s6-9Z
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 12:03:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36330)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mH6wb-0005qo-Ot
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 12:00:35 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1mH6zR-00088l-Ck
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 12:03:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629475232;
+ s=mimecast20190719; t=1629475407;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=j5dSjhlNUq6u7o7NicB0F+lvfhsc3TR9zM+HrOXIAM8=;
- b=LXb/MP/c1koK5uQZrRFedm4SetcImIXOZy9Mr3zDGBgHAqLpmNs1QFSsqgN7YXIJagiNSu
- uF3OWPPR3OigcGn1Au1SRLJY/beQ7LA+lbEeYFiFvWcvr+Y+GsoqtqZZYgolLZxaC18GF4
- eRJcjTx7+TEWgoZ1N796akMv1KvPq6s=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-difx53MOOnKR5DQXyCztOQ-1; Fri, 20 Aug 2021 12:00:28 -0400
-X-MC-Unique: difx53MOOnKR5DQXyCztOQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- c2-20020a7bc8420000b0290238db573ab7so4979545wml.5
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 09:00:28 -0700 (PDT)
+ bh=XHe66gXNq+ap9l8IJOAoHstXF/Hcfk422KpynzkNAx8=;
+ b=D3FFodJXgkQ2XTuxxqF02BnUCeOxnN71RynHM7WIy5g5q/CuWAjorX4JuS604qLY32OPk0
+ ZmRDS2OytsUj4A8aRP3FqHZyL5NVXitEoi5s9ARJ4355elxhWi8t+mAssNCnHyc2cBs9eY
+ 7NAAYgmGYWd/VoFlSQ17y99YFQFlW5s=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-542-eAwCcC2tMdSWhshjv1dD5g-1; Fri, 20 Aug 2021 12:03:26 -0400
+X-MC-Unique: eAwCcC2tMdSWhshjv1dD5g-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ eg56-20020a05640228b8b02903be79801f9aso4737244edb.21
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 09:03:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=j5dSjhlNUq6u7o7NicB0F+lvfhsc3TR9zM+HrOXIAM8=;
- b=NRsmlFYuUH+w/pOrmxbqUDfoqIOpqrHefRYYlyQaKCWZsYYjGneDdK/WIIVfmPmVOP
- YVpfB68G+V0ZwkZtV6Zl5txlKYjE7gfeEWN1DLez8mgB3nT0ypmlC3kTeNy0OXDF+4ul
- 5VHEpw7FOCDTbTNjgpYocsg/2ESm1oZ3Zu97UwQZB8lkaJhna94RJTmDwoxiyPIyW3WA
- StStvXI8vbmtlhmPP/nvaO3ysXyEIVsAjoprSIPja5OvRM9imRWgDLVEzZ41Rqw4TEOb
- vHiABpC+6ZYW4dWnAXo16SUKuIzJwQueR1Svp/oQTP6++TZb4MGI2dQuYzTrQbPxBKpJ
- 46uw==
-X-Gm-Message-State: AOAM531ADfJDZraO4m9rbf7Ms5/wNMIY4nOVyC96qyDR3NspJU4hyPqd
- oQ6cGS+pk9mnTd4WX/lwCjTMCJtZ8Y85eXSaCV3efZ3JKZFmDwWOr7FIyjmKvvqqHTKIEHpFO1B
- 14OOHscHc19O0Ja4=
-X-Received: by 2002:adf:e10c:: with SMTP id t12mr11016482wrz.36.1629475227519; 
- Fri, 20 Aug 2021 09:00:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCOP0PqlKVauRQCwETx1mf27IS9+3Gha50vLreXaf5LPqfr3FyPO6/oo3q3pVWJIeDfuEgLw==
-X-Received: by 2002:adf:e10c:: with SMTP id t12mr11016467wrz.36.1629475227401; 
- Fri, 20 Aug 2021 09:00:27 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id e4sm6365082wrw.74.2021.08.20.09.00.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Aug 2021 09:00:26 -0700 (PDT)
-Subject: Re: [PATCH] softmmu/physmem: Improve guest memory allocation failure
- error message
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20210820155211.3153137-1-philmd@redhat.com>
- <20a53e29-ba23-fe0d-f961-63d0b5ca9a89@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d68297ca-7be3-48ab-e25c-4f55dc735670@redhat.com>
-Date: Fri, 20 Aug 2021 18:00:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Rv/NoGLl01sXJCJTv2lBx8ZMh6/K4n2hKUQtbvN/xss=;
+ b=JVpW8YcEag+OfXkHStEX1OFli6VfUloVcsy83zzbvJdcbAejLUzK6hzrdvRAK02U3G
+ bGhvvyOLx+tlV28U/kjZg1gjGPsW+w15vpmVpXVaqRZRXJhidw7Q+HXMNFhRdk4/8yzJ
+ n+9hsSXsIaQ+GGg+AMBaD4z1ERV0jV2M28A8ldb4cXYPw1U63dTbfOE3YAkL8BCnJ8sj
+ 3B+Jzgv2YGZQsfx2Am5ZM9OmZXTTvBl6x88bOoJSbxAkVvGJR1/dAsjEXHneL/VuBGDL
+ qOCYFhKdj+z4303Tj8Tu5Twg4fmJW9fWP8Qy+qqqc2rtJw+5l1ko3lctsRXl5aIVEsjM
+ Mjcg==
+X-Gm-Message-State: AOAM5325hysGYLHRNvmgOxIGbxK3jHLy6eeBb7pjNfFo3rFTK0MFIfnh
+ iTVsew03ia4OyEncrhRQ7THta4yqxgkI0r6ZrJrS6dVLNEdBdbo4jTTejujJcJaeyU1zy0mZX36
+ IzNKDylKC80NY/24=
+X-Received: by 2002:aa7:d787:: with SMTP id s7mr23256404edq.336.1629475405307; 
+ Fri, 20 Aug 2021 09:03:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz+35EFI+cgBR2dUS3EsNJMgkMRGwOKo5WFfiuBYgrsTzMYnG7juG6sIozNUygAEer87RDjkA==
+X-Received: by 2002:aa7:d787:: with SMTP id s7mr23256358edq.336.1629475404951; 
+ Fri, 20 Aug 2021 09:03:24 -0700 (PDT)
+Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ by smtp.gmail.com with ESMTPSA id b10sm3787780edd.33.2021.08.20.09.03.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Aug 2021 09:03:24 -0700 (PDT)
+Date: Fri, 20 Aug 2021 18:03:23 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: xilinx-zynq-a9: cannot set up guest memory 'zynq.ext_ram'
+Message-ID: <20210820180323.7df8751d@redhat.com>
+In-Reply-To: <199dc732-1876-d6f9-4569-1802ba7ebf93@redhat.com>
+References: <CAEUhbmUhKFFxSspve+t2BeppCGPegpb_Z5g-w8M5t-JMLy3Zsg@mail.gmail.com>
+ <869f8be9-b76f-e315-9591-9c452bedf922@redhat.com>
+ <CAEUhbmUE4fb2NewE+Cze3Le5xOeH53NDbwdnKH==dnZeKGPQeQ@mail.gmail.com>
+ <e833a774-d3bf-62d5-91d8-b24cbee0bfc4@redhat.com>
+ <CAFEAcA8MqYQiTJkKyWGkcKR=J2FD9SDWvHm9vxZq3g2HJ8ch3w@mail.gmail.com>
+ <20210820174402.47a14625@redhat.com>
+ <199dc732-1876-d6f9-4569-1802ba7ebf93@redhat.com>
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20a53e29-ba23-fe0d-f961-63d0b5ca9a89@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.49, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,60 +101,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Bin Meng <bmeng.cn@gmail.com>,
- Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>, "Richard W.M.
+ Jones" <rjones@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/20/21 5:53 PM, David Hildenbrand wrote:
-> On 20.08.21 17:52, Philippe Mathieu-Daudé wrote:
->> When Linux refuses to overcommit a seriously wild allocation we get:
->>
->>    $ qemu-system-i386 -m 40000000
->>    qemu-system-i386: cannot set up guest memory 'pc.ram': Cannot
->> allocate memory
->>
->> Slighly improve the error message, displaying the memory size
->> requested (in case the user didn't expect unspecified memory size
->> unit is in MiB):
->>
->>    $ qemu-system-i386 -m 40000000
->>    qemu-system-i386: Cannot set up 38.1 TiB of guest memory 'pc.ram':
->> Cannot allocate memory
->>
->> Reported-by: Bin Meng <bmeng.cn@gmail.com>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>   softmmu/physmem.c | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
->> index 2e18947598e..2f300a9e79b 100644
->> --- a/softmmu/physmem.c
->> +++ b/softmmu/physmem.c
->> @@ -1982,8 +1982,10 @@ static void ram_block_add(RAMBlock *new_block,
->> Error **errp)
->>                                                    
->> &new_block->mr->align,
->>                                                     shared, noreserve);
->>               if (!new_block->host) {
->> +                g_autofree char *size_s =
->> size_to_str(new_block->max_length);
->>                   error_setg_errno(errp, errno,
->> -                                 "cannot set up guest memory '%s'",
->> +                                 "Cannot set up %s of guest memory
->> '%s'",
->> +                                 size_s,
->>                                    memory_region_name(new_block->mr));
->>                   qemu_mutex_unlock_ramlist();
->>                   return;
->>
-> 
-> IIRC, ram blocks might not necessarily be used for guest memory ... or
-> is my memory wrong?
+On Fri, 20 Aug 2021 17:47:01 +0200
+David Hildenbrand <david@redhat.com> wrote:
 
-No clue, this error message was already here.
+> On 20.08.21 17:44, Igor Mammedov wrote:
+> > On Fri, 20 Aug 2021 15:39:27 +0100
+> > Peter Maydell <peter.maydell@linaro.org> wrote:
+> >  =20
+> >> On Fri, 20 Aug 2021 at 15:34, David Hildenbrand <david@redhat.com> wro=
+te: =20
+> >>>
+> >>> On 20.08.21 16:22, Bin Meng wrote: =20
+> >>>> Hi Philippe,
+> >>>>
+> >>>> On Fri, Aug 20, 2021 at 10:10 PM Philippe Mathieu-Daud=C3=A9
+> >>>> <philmd@redhat.com> wrote: =20
+> >>>>>
+> >>>>> Hi Bin,
+> >>>>>
+> >>>>> On 8/20/21 4:04 PM, Bin Meng wrote: =20
+> >>>>>> Hi,
+> >>>>>>
+> >>>>>> The following command used to work on QEMU 4.2.0, but is now broke=
+n
+> >>>>>> with QEMU head.
+> >>>>>>
+> >>>>>> $ qemu-system-arm -M xilinx-zynq-a9 -display none -m 40000000
+> >>>>>> -nographic -serial /dev/null -serial mon:stdio -monitor null -devi=
+ce
+> >>>>>> loader,file=3Du-boot-dtb.bin,addr=3D0x4000000,cpu-num=3D0
+> >>>>>> qemu-system-arm: cannot set up guest memory 'zynq.ext_ram': Cannot
+> >>>>>> allocate memory =20
+> >> =20
+> >>> -m 40000000
+> >>>
+> >>> corresponds to 38 TB if I am not wrong. Is that really what you want?=
+ =20
+> >>
+> >> Probably not, because the zynq board's init function does:
+> >>
+> >>      if (machine->ram_size > 2 * GiB) {
+> >>          error_report("RAM size more than 2 GiB is not supported");
+> >>          exit(EXIT_FAILURE);
+> >>      }
+> >>
+> >> It seems a bit daft that we allocate the memory before we do
+> >> the size check. This didn't use to be this way around...
+> >>
+> >> Anyway, I think the cause of this change is commit c9800965c1be6c39
+> >> from Igor. We used to silently cap the RAM size to 2GB; now we
+> >> complain. Or at least we would complain if we hadn't already
+> >> tried to allocate the memory and fallen over... =20
+> >=20
+> > That's because RAM (as host resource) is now separated
+> > from device model (machine limits) and is allocated as
+> > part of memory backend initialization (in this case
+> > 'create_default_memdev') before machine_run_board_init()
+> > is run.
+> >=20
+> > Maybe we can consolidate max limit checks in
+> > create_default_memdev() by adding MachineClass::max_ram_size
+> > but that can work only in default usecase (only '-m' is used). =20
+>=20
+> We do have a workaround for s390x already: mc->fixup_ram_size
+>=20
+> That should be called before the memory backend is created and seems to=
+=20
+> do just what we want, no?
 
-No problem to change s/guest/block/ although.
+it's there for compat sake only if I recall correctly,
+there should be no fixups ever.
+If user asks for nonsence, QEMU should error out and force
+user to correct CLI (fixups were one of items that were in
+the way of splitting guest RAM into backend/frontend model)
+
+=20
 
 
