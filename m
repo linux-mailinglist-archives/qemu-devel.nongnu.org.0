@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 219B53F31CB
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 18:56:51 +0200 (CEST)
-Received: from localhost ([::1]:53138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF063F31CD
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 18:58:12 +0200 (CEST)
+Received: from localhost ([::1]:55304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH7p4-0002Tw-8Y
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 12:56:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39768)
+	id 1mH7qN-0003uv-UL
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 12:58:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mH7oA-0001nS-Em
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 12:55:54 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:45913)
+ id 1mH7p9-000387-7D
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 12:56:55 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:37431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mH7o8-0005Lb-QR
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 12:55:54 -0400
-Received: by mail-ej1-x635.google.com with SMTP id e21so5578729ejz.12
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 09:55:52 -0700 (PDT)
+ id 1mH7p7-000658-Qq
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 12:56:54 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id
+ c8-20020a7bc008000000b002e6e462e95fso9552411wmb.2
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 09:56:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=DUwsMZZLFjuEK3M3s+PW35GgTPw8hLvChCCR7Wp53UA=;
- b=oWwJVSDHSVpjx7mSHZl2Zkfxv37dPiPvk7JzXXfwchGscucclN+T/d/F0H7vysFHPu
- T30BD+WjuksJMgnX0Q8eoqJU0ZIVnyffjKwkpUDsR9NFU/tfaWMX3Sqd0MeZyEL6oP2Z
- tGw1NrPMZKowLXkvUiZloPPh1fe3a9d3FybSwTL6YcJfAmLv02YeLgV+47dZEkqQokSe
- ey45ZNekdpUZe59QZ2Pa+5rm079ohI5MfQyHJ8x67Hu6xV+EEPaJoP9bC+WQug8YviTm
- z437JbRJX3ewgAQJhQVkaYNDjdrfbFyrqMHq+9RqkMC8b57OD0QGsOoOflfDWSNYjOnn
- 2KwQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=k4AC4Vt9oQOmy/po9eQS7Sswa1i/5OmXFCiyRgmnd9Y=;
+ b=jpvfhL3L9ZTvqG4kB1u4qSrxirCxf7DhAe15TNyOEwTQHptPv0H4mKS+Y645c6YrPr
+ 02C95omLbdhXxR0oF81obV7NrU28mb1lHdPUvkOKrVCnGD/4X3pjI3G5V7y2RRAptVts
+ VMRC5wW6qxqkJXVK4ezqjdGGcYJkm7/jPGlbwtEwzvVhZv4UFP5CpZ6hJaj4CFNaI0Xa
+ GcitnXs0c0CrJPd+0c0BLy/CnUpV8eknEr0EaQsF32rwojjGcpEj9FlzoG643SQalYOd
+ 7eqFqulaziOzW2a/7tK4RpwCVYwvPW91dg3WXq48zOqq3+JH5q2OKXr20cMCa2ld6Qi3
+ P+gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=DUwsMZZLFjuEK3M3s+PW35GgTPw8hLvChCCR7Wp53UA=;
- b=Y/923FHOSC1TKbNZm4K9Ese5gm3D16928OikNLQ1o1DHpwBn/ZHDTOSeFAvxE070qb
- UZHX5wS/a9QI64D9RSdH+H2QPPgyRlX7Jnnbfks7HYwTBAnqYGfv3STc2s72NdKbKEnt
- 9wb4jrLxKYp0ZU/YH7m/7YxGkJf+g/NjlVzp0176vboBeRdQfVNOfsihojQxbetqZAJ2
- 1INxG7W/rOTjzLKDrn8aGaINyhOlWWzn5p4l5Mli1CL35qL38Zk/aBr36izps3B/xI9y
- kpshVaFWuiG2fujcb6bGaNO1aaKhN++TtpbXxXzydSBxjYY9YvxSyledcgzRVfjr+np5
- uwIg==
-X-Gm-Message-State: AOAM530XMBoICWeFQyBV2T9kJAPF6zkuyjB15WxrNw/2tPE4HGD12Ymm
- HIKniNtlmOf8sdhrzH2UwH0UDwVWgrHvtM7sLz6HTg==
-X-Google-Smtp-Source: ABdhPJz+QGBIcZLZMRMODqU5FWyB1M57AXrqXomVliMuVLNSmgEGA/JIEDb2UAsyM7CwGNTJt8bOY9BL7i+l2EvJZyw=
-X-Received: by 2002:a17:906:aac7:: with SMTP id
- kt7mr22661100ejb.4.1629478550548; 
- Fri, 20 Aug 2021 09:55:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210511081350.419428-1-pbonzini@redhat.com>
- <20210511081350.419428-4-pbonzini@redhat.com>
-In-Reply-To: <20210511081350.419428-4-pbonzini@redhat.com>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=k4AC4Vt9oQOmy/po9eQS7Sswa1i/5OmXFCiyRgmnd9Y=;
+ b=jXknwG/A9bgy1W26NxZK8aIUv7yDfo4euCUeujw5gmqNLs8w1xBn65aWe+xINh7zgN
+ TMrY0It+UTPkkhaaQG0dXJpcL2Xlq6yDKoikBlriRgUV9mV4+1qCRy1W7cNU/h25eNAr
+ qgxKnAa/RlnPhgNYJ4aTU5TDUGrEGAbyI9PnBAMk2CZg/ogP2I79Gulu4fs7/rhN9Ip8
+ s/nphUXSprxwHOZunl/Jh/Whf3lF+0ptZ5sIMlglPYWAcZqv3lwqztomuZuFfyRiUpI6
+ qmDosC1wBOgkMc+cCHPqbKxqxlVTY8OiWFkf9ZEyxjGTPhlB6vO1o9A1BBKBMpl1CfAg
+ ItIQ==
+X-Gm-Message-State: AOAM53363RdPjADSqRz0+1LRLtdLQE3FfggMFbYnMC8xELNWpdli0uht
+ dSaxRmP9VeMc4MhhzVxbAb9lMMWRARsZlg==
+X-Google-Smtp-Source: ABdhPJxf38Rb/uIWZdNJK5giYy5+7tQf9bMFw2TEnM/MRDlS4t/IC3b7YiO0Dpf3ip2DlAiiNOuBMw==
+X-Received: by 2002:a1c:a90d:: with SMTP id s13mr4966656wme.132.1629478612412; 
+ Fri, 20 Aug 2021 09:56:52 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id l7sm5651713wmj.9.2021.08.20.09.56.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Aug 2021 09:56:51 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 Aug 2021 17:55:04 +0100
-Message-ID: <CAFEAcA867BUEpCYrXuMTqt55f+18D+ROMuU=h6MzubNrmp=D=g@mail.gmail.com>
-Subject: Re: [PULL 03/33] i386: split cpu accelerators from cpu.c,
- using AccelCPUClass
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/i386: Fix memory leak in sev_read_file_base64()
+Date: Fri, 20 Aug 2021 17:56:50 +0100
+Message-Id: <20210820165650.2839-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,62 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Claudio Fontana <cfontana@suse.de>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 11 May 2021 at 09:22, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> From: Claudio Fontana <cfontana@suse.de>
->
-> i386 is the first user of AccelCPUClass, allowing to split
-> cpu.c into:
->
-> cpu.c            cpuid and common x86 cpu functionality
-> host-cpu.c       host x86 cpu functions and "host" cpu type
-> kvm/kvm-cpu.c    KVM x86 AccelCPUClass
-> hvf/hvf-cpu.c    HVF x86 AccelCPUClass
-> tcg/tcg-cpu.c    TCG x86 AccelCPUClass
->
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
-> [claudio]:
-> Rebased on commit b8184135 ("target/i386: allow modifying TCG phys-addr-b=
-its")
->
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Message-Id: <20210322132800.7470-5-cfontana@suse.de>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
+In sev_read_file_base64() we call g_file_get_contents(), which
+allocates memory for the file contents.  We then base64-decode the
+contents (which allocates another buffer for the decoded data), but
+forgot to free the memory for the original file data.
 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b692c8fbee..c2723b32cb 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -351,7 +351,7 @@ M: Paolo Bonzini <pbonzini@redhat.com>
->  M: Richard Henderson <richard.henderson@linaro.org>
->  M: Eduardo Habkost <ehabkost@redhat.com>
->  S: Maintained
-> -F: target/i386/
-> +F: target/i386/tcg/
->  F: tests/tcg/i386/
->  F: tests/tcg/x86_64/
->  F: hw/i386/
+Use g_autofree to ensure that the file data is freed.
 
-This change to MAINTAINERS has left all the .c files
-in target/i386 that are not in one of the tcg, hvf, whpx,
-kvm, hax, nvmm subdirectories orphaned -- they are no
-longer covered by any MAINTAINERS section.
+Fixes: Coverity CID 1459997
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+Tested with 'make/make check' only...
 
-Where should those files be listed ?
+ target/i386/sev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-(I just discovered this when get_maintainers.pl said it couldn't
-find a maintainer for a change I made to target/i386/sev.c.)
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index 83df8c09f6a..1e7833da1ab 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -565,7 +565,7 @@ static int
+ sev_read_file_base64(const char *filename, guchar **data, gsize *len)
+ {
+     gsize sz;
+-    gchar *base64;
++    g_autofree gchar *base64 = NULL;
+     GError *error = NULL;
+ 
+     if (!g_file_get_contents(filename, &base64, &sz, &error)) {
+-- 
+2.20.1
 
-thanks
--- PMM
 
