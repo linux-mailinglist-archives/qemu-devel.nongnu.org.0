@@ -2,92 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FCA33F2795
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 09:24:32 +0200 (CEST)
-Received: from localhost ([::1]:35282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18AEE3F27A4
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 09:29:37 +0200 (CEST)
+Received: from localhost ([::1]:38020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mGytD-0006R2-Nb
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 03:24:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43018)
+	id 1mGyy8-0008Vg-64
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 03:29:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGysN-0005WI-GK
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 03:23:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50672)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mGysL-0005Ra-ID
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 03:23:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629444216;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=50sGrbJd6XGQVO0HKh6bMdHGz64TX+P+faGhdL6ZRQQ=;
- b=iuFAxhdk9MQZCGcOXS58oYD1l8CsSZ2RtJTvNsLUU3QEpUERhTLBhF52xwwWbTmdwItEJK
- Tv1crYx7FPBOwVv7fTAJvlf06tZbRWB3Yhoz0/ktBIXg5YkUekuHC4LMKzFaPgfvY2/rai
- bRhu+YkUSFpIJ4/w6Y53ntajEpGoW/k=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-GjxY9RQ3MyShg7mRX40gXQ-1; Fri, 20 Aug 2021 03:23:35 -0400
-X-MC-Unique: GjxY9RQ3MyShg7mRX40gXQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- u14-20020a7bcb0e0000b0290248831d46e4so2165106wmj.6
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 00:23:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mGyxK-0007f9-3d; Fri, 20 Aug 2021 03:28:46 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:43689)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mGyxI-0001Ig-Iy; Fri, 20 Aug 2021 03:28:45 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ k5-20020a05600c1c85b02902e699a4d20cso5465022wms.2; 
+ Fri, 20 Aug 2021 00:28:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=lug1M/grON218hbYjGNPH3zNQCPUIKS7vf+GlBmNk5I=;
+ b=JbB/e6E+3igeE23Fc1A3ZbBllfrLIALtTYWYM94styQnZXUS1tL/Ownsvdi5A+Pt8C
+ ubEatINMmiT8uYW+8YdDuxzh6v3bcmJrl4rk9yNcFxMWGJ+Lr3iA606ajUg5FmZU8zNj
+ 94TxI065id3EnM3QVPORQr+RB4pd7I35a7MMlFie6AT3D4CyaaJBRgx01ABH/ImmkkHX
+ xkyC6peTRr+PQ+AsECPp3wHitluhS3T3ynBW342+priQ9pAE2v90odA50NGI8rCww6eE
+ 7pGsAagMHNBnhyadA4n8h71Nv5sg5nUPWpZQoTlGpVOfWMTE8jHOpwUQbR+hM7L8wMjn
+ dpUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=50sGrbJd6XGQVO0HKh6bMdHGz64TX+P+faGhdL6ZRQQ=;
- b=CWhG47QeHXIijW4wXjdJaSni5Mp91O3Y50fhObIAvVW8PLv8HEUdNCs1UuTePj8nAO
- v2h6mtnKHFrq/6LOT4CLLmkjzJZGGFUkIM2Hn1TNHzHlS8Yxw4DemAB6fJ7CcrdMR0za
- jq9NrU07fsjIjuhya1Dy3AiIBv2thdKyJW7a+VNRj5imIYiaq6DSf+Tob5c6408Ov7rD
- HwJSC3a7QD5Hp9JPx7g/MIb+SRTMulveRiRexlFQCVZPYICWPWtvnz65JZleia4ZUaAw
- 6Rh4DAb/1pJIxRt6p0OmhSASbJzACLQYwafAa5vxjPOhG1tvW6G+uM3YfmBO+lUo4soz
- X1Dg==
-X-Gm-Message-State: AOAM532HBYDSqqYgo7cc6dYHyfIkRwzCJrYEfRxgOy/LQYspofVSaMgZ
- 0QwogoL6Q0lubeXg5/eGM0VkPtTRIPW5ovNwagNYMJJ0QO0fZBTudY+QH9/ReOguQ5eO6CXHS+O
- 9hGOj91gP5PZeC4U=
-X-Received: by 2002:a5d:4043:: with SMTP id w3mr1013093wrp.15.1629444214219;
- Fri, 20 Aug 2021 00:23:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJydq0p4i2jG42fl0PmvDuI0ibvKEJJ3KqH+PLhPU6+LKFcDiNZ5lXMQ+ZZtSCRT6Fjo5TIwmA==
-X-Received: by 2002:a5d:4043:: with SMTP id w3mr1013074wrp.15.1629444214011;
- Fri, 20 Aug 2021 00:23:34 -0700 (PDT)
+ bh=lug1M/grON218hbYjGNPH3zNQCPUIKS7vf+GlBmNk5I=;
+ b=VOJOF6xVfYYobELkPSHsFiKOH3L8W/+LXikAE3vPZylEQZP4Iq+PDJKAJo/EeH0Iut
+ C38AAga0U/bgERmPqtQ8EMPyxDJhuF4ktS5mmrDp8Pa7SRNyqp6z2ZyEgZpz6Vu9hWwd
+ 6D3wnmo6LUgRaJkXiHvzw5VP7181p/HbPxZ+lsqqqMCAO6tK6oPa6cdiTe97ytupmx2r
+ VdDe1p/+Hoztv1WluGw0whD6tT8aftMT2yzq6iiKkUJVt8kXu3s22IW3XWQzqYNoYYKf
+ 7/OC8X49blNnzqeWp8DihbA+8KkY/EZF5JAWxXDW82cv9g+ZsKQrX0dpuDAfjr/+oomC
+ BaeA==
+X-Gm-Message-State: AOAM531rFAzwiPvVhhjoYkP1ne3mwRqRw40+628cGNoc4CkVbMbu4ZMD
+ 7PiMh5pwJTysL/CfOVmZvck=
+X-Google-Smtp-Source: ABdhPJy3SMbBtSLTDBBUr9jACyTVQHwsp8wvK1qLSqY1ErVbLRjZcC4KmaEhO3zTCXySgyPL2ltHWA==
+X-Received: by 2002:a05:600c:4f42:: with SMTP id
+ m2mr2433810wmq.47.1629444522284; 
+ Fri, 20 Aug 2021 00:28:42 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id k20sm878166wrc.33.2021.08.20.00.23.33
+ by smtp.gmail.com with ESMTPSA id l18sm11223119wmc.30.2021.08.20.00.28.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Aug 2021 00:23:33 -0700 (PDT)
-Subject: Re: [PATCH 3/4] target/arm/cpu64: Replace kvm_supported with
- sve_vq_supported
-To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-References: <20210819193758.149660-1-drjones@redhat.com>
- <20210819193758.149660-4-drjones@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <018e12b5-ac0b-3f13-fc10-9f90191db106@redhat.com>
-Date: Fri, 20 Aug 2021 09:23:32 +0200
+ Fri, 20 Aug 2021 00:28:40 -0700 (PDT)
+Subject: Re: [PATCH 4/7] hw/adc: Make adci[*] R/W in NPCM7XX ADC
+To: Hao Wu <wuhaotsh@google.com>, peter.maydell@linaro.org,
+ Thomas Huth <thuth@redhat.com>
+References: <20210813233353.2099459-1-wuhaotsh@google.com>
+ <20210813233353.2099459-5-wuhaotsh@google.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <6c188624-ea14-b85c-65af-83a36e2f83d7@amsat.org>
+Date: Fri, 20 Aug 2021 09:28:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210819193758.149660-4-drjones@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210813233353.2099459-5-wuhaotsh@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -60
-X-Spam_score: -6.1
-X-Spam_bar: ------
-X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.591, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.591,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,21 +90,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- ishii.shuuichir@fujitsu.com
+Cc: minyard@acm.org, titusr@google.com, venture@google.com,
+ qemu-devel@nongnu.org, hskinnemoen@google.com, kfting@nuvoton.com,
+ qemu-arm@nongnu.org, Avi.Fishman@nuvoton.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/19/21 9:37 PM, Andrew Jones wrote:
-> Now that we have an ARMCPU member sve_vq_supported we no longer
-> need the local kvm_supported bitmap for KVM's supported vector
-> lengths.
+On 8/14/21 1:33 AM, Hao Wu wrote:
+> Our sensor test requires both reading and writing from a sensor's
+> QOM property. So we need to make the input of ADC module R/W instead
+> of read only for that to work.
 > 
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> Signed-off-by: Hao Wu <wuhaotsh@google.com>
+> Reviewed-by: Titus Rwantare <titusr@google.com>
 > ---
->  target/arm/cpu64.c | 19 +++++++++++--------
->  1 file changed, 11 insertions(+), 8 deletions(-)
+>  hw/adc/npcm7xx_adc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/adc/npcm7xx_adc.c b/hw/adc/npcm7xx_adc.c
+> index 47fb9e5f74..bc6f3f55e6 100644
+> --- a/hw/adc/npcm7xx_adc.c
+> +++ b/hw/adc/npcm7xx_adc.c
+> @@ -242,7 +242,7 @@ static void npcm7xx_adc_init(Object *obj)
+>  
+>      for (i = 0; i < NPCM7XX_ADC_NUM_INPUTS; ++i) {
+>          object_property_add_uint32_ptr(obj, "adci[*]",
+> -                &s->adci[i], OBJ_PROP_FLAG_WRITE);
+> +                &s->adci[i], OBJ_PROP_FLAG_READWRITE);
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+What about:
+
+  qtest_enabled() ? OBJ_PROP_FLAG_READWRITE : OBJ_PROP_FLAG_WRITE
+
+>      }
+>      object_property_add_uint32_ptr(obj, "vref",
+>              &s->vref, OBJ_PROP_FLAG_WRITE);
+> 
 
 
