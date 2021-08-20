@@ -2,74 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B3153F290D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 11:23:39 +0200 (CEST)
-Received: from localhost ([::1]:39578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADA713F290E
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 11:24:52 +0200 (CEST)
+Received: from localhost ([::1]:42096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH0kU-00020u-59
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 05:23:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33446)
+	id 1mH0lf-0003k2-On
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 05:24:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mH0iz-0001KP-T1
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 05:22:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22931)
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1mH0kI-0002Qt-AX; Fri, 20 Aug 2021 05:23:26 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2213)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mH0it-0005Pe-6B
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 05:22:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629451316;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cir5oSRgW2bfvVerudJt7wmHlnf7fJEuciOiIQszryw=;
- b=hUEgR/S07HlVL/BRm3U1E+rMs2J/yVM5dS+iXLceIbub2WYlfrqERwe6616SWYGPbAznSN
- SByvM88is5pnJ50K0ejCosYCFeAPNB27Fhy2Z+xp+0whKuZzuh/KfWoy/UqG7Y9Zi8ZrCp
- mAF/7YaQmCK/S6B/cc2IR501/bJp7Eo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-Nj78eOYDPQit8Lr1dmru6Q-1; Fri, 20 Aug 2021 05:21:51 -0400
-X-MC-Unique: Nj78eOYDPQit8Lr1dmru6Q-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DE2F94EE0
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 09:21:51 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.176])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C86F60C13;
- Fri, 20 Aug 2021 09:21:45 +0000 (UTC)
-Date: Fri, 20 Aug 2021 10:21:42 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Subject: Re: [qemu-web PATCH] Add a blog post about FUSE block exports
-Message-ID: <YR90Jm6jne6gzDA6@redhat.com>
-References: <20210819102501.69638-1-hreitz@redhat.com>
- <YR6FauCbECxehubc@stefanha-x1.localdomain>
- <46a68d5c-cfc1-e521-8c6b-90eb74c85ede@redhat.com>
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1mH0kE-0006g3-0Q; Fri, 20 Aug 2021 05:23:25 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.53])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4GrblV2vMCz88JM;
+ Fri, 20 Aug 2021 17:23:02 +0800 (CST)
+Received: from dggpeml500021.china.huawei.com (7.185.36.21) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 20 Aug 2021 17:23:10 +0800
+Received: from dggpemm000001.china.huawei.com (7.185.36.245) by
+ dggpeml500021.china.huawei.com (7.185.36.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Fri, 20 Aug 2021 17:23:10 +0800
+Received: from dggpemm000001.china.huawei.com ([7.185.36.245]) by
+ dggpemm000001.china.huawei.com ([7.185.36.245]) with mapi id 15.01.2176.012;
+ Fri, 20 Aug 2021 17:23:10 +0800
+From: Jiangyifei <jiangyifei@huawei.com>
+To: Alistair Francis <alistair23@gmail.com>
+Subject: RE: [PATCH RFC v6 08/12] target/riscv: Handle KVM_EXIT_RISCV_SBI exit
+Thread-Topic: [PATCH RFC v6 08/12] target/riscv: Handle KVM_EXIT_RISCV_SBI exit
+Thread-Index: AQHXkxd7rvTqNYlfVkymRP72l6WPZ6t51l+AgAJMmQA=
+Date: Fri, 20 Aug 2021 09:23:09 +0000
+Message-ID: <cae5cd805ce844d7b9401a03f90aae4a@huawei.com>
+References: <20210817032447.2055-1-jiangyifei@huawei.com>
+ <20210817032447.2055-9-jiangyifei@huawei.com>
+ <CAKmqyKOm6fxqzScq74hS1NS2=K786MX-oCEA8fG+xOrQi+LQOQ@mail.gmail.com>
+In-Reply-To: <CAKmqyKOm6fxqzScq74hS1NS2=K786MX-oCEA8fG+xOrQi+LQOQ@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.186.236]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <46a68d5c-cfc1-e521-8c6b-90eb74c85ede@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=jiangyifei@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,69 +71,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Anup Patel <anup.patel@wdc.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "open list:Overall" <kvm@vger.kernel.org>,
+ "limingwang \(A\)" <limingwang@huawei.com>,
+ "libvir-list@redhat.com" <libvir-list@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "kvm-riscv@lists.infradead.org" <kvm-riscv@lists.infradead.org>,
+ "Wanghaibin \(D\)" <wanghaibin.wang@huawei.com>,
+ "Fanliang \(EulerOS\)" <fanliang@huawei.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, "Wubin \(H\)" <wu.wubin@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 20, 2021 at 09:56:54AM +0200, Hanna Reitz wrote:
-> On 19.08.21 18:23, Stefan Hajnoczi wrote:
-> > On Thu, Aug 19, 2021 at 12:25:01PM +0200, Hanna Reitz wrote:
-> > > This post explains when FUSE block exports are useful, how they work,
-> > > and that it is fun to export an image file on its own path so it looks
-> > > like your image file (in whatever format it was) is a raw image now.
-> > > 
-> > > Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-> > > ---
-> > > You can also find this patch here:
-> > > https://gitlab.com/hreitz/qemu-web fuse-blkexport-v1
-> > > 
-> > > My first patch to qemu-web, so I hope I am not doing anything overly
-> > > stupid here (adding SVGs with extremely long lines comes to mind)...
-> > > ---
-> > >   _posts/2021-08-18-fuse-blkexport.md       | 488 ++++++++++++++++++++++
-> > >   screenshots/2021-08-18-block-graph-a.svg  |   2 +
-> > >   screenshots/2021-08-18-block-graph-b.svg  |   2 +
-> > >   screenshots/2021-08-18-block-graph-c.svg  |   2 +
-> > >   screenshots/2021-08-18-block-graph-d.svg  |   2 +
-> > >   screenshots/2021-08-18-block-graph-e.svg  |   2 +
-> > >   screenshots/2021-08-18-root-directory.svg |   2 +
-> > >   screenshots/2021-08-18-root-file.svg      |   2 +
-> > >   8 files changed, 502 insertions(+)
-> > >   create mode 100644 _posts/2021-08-18-fuse-blkexport.md
-> > >   create mode 100644 screenshots/2021-08-18-block-graph-a.svg
-> > >   create mode 100644 screenshots/2021-08-18-block-graph-b.svg
-> > >   create mode 100644 screenshots/2021-08-18-block-graph-c.svg
-> > >   create mode 100644 screenshots/2021-08-18-block-graph-d.svg
-> > >   create mode 100644 screenshots/2021-08-18-block-graph-e.svg
-> > >   create mode 100644 screenshots/2021-08-18-root-directory.svg
-> > >   create mode 100644 screenshots/2021-08-18-root-file.svg
-> > Great! Two ideas:
-> > 
-> > It would be nice to include a shoutout to libguestfs and mention that
-> > libguestfs avoids exposing the host kernel's file systems and partion
-> > code to untrusted disk images. If you don't mount the image then the
-> > FUSE export has similar security properties.
-> 
-> Oh, right!  Absolutely.
-> 
-> Though now I do wonder why one would actually want to use QEMU’s FUSE
-> exports then...
-
-If you can't use KVM for libguestfs, then performance likely to
-suffer significantly. This could be either if your disk image
-is non-native architecture, or if your running inside a VM and
-don't have nested KVM avaialble. You do still need to bear in
-mind the security implications of course, but QEMU FUSE might
-be your only viable option to achieve the performance needed.
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFFlbXUtcmlzY3YNCj4gW21h
+aWx0bzpxZW11LXJpc2N2LWJvdW5jZXMramlhbmd5aWZlaT1odWF3ZWkuY29tQG5vbmdudS5vcmdd
+IE9uIEJlaGFsZiBPZg0KPiBBbGlzdGFpciBGcmFuY2lzDQo+IFNlbnQ6IFRodXJzZGF5LCBBdWd1
+c3QgMTksIDIwMjEgMjoxNCBQTQ0KPiBUbzogSmlhbmd5aWZlaSA8amlhbmd5aWZlaUBodWF3ZWku
+Y29tPg0KPiBDYzogQW51cCBQYXRlbCA8YW51cC5wYXRlbEB3ZGMuY29tPjsgb3BlbiBsaXN0OlJJ
+U0MtVg0KPiA8cWVtdS1yaXNjdkBub25nbnUub3JnPjsgb3BlbiBsaXN0Ok92ZXJhbGwgPGt2bUB2
+Z2VyLmtlcm5lbC5vcmc+Ow0KPiBsaW1pbmd3YW5nIChBKSA8bGltaW5nd2FuZ0BodWF3ZWkuY29t
+PjsgbGlidmlyLWxpc3RAcmVkaGF0LmNvbTsgQmluIE1lbmcNCj4gPGJpbi5tZW5nQHdpbmRyaXZl
+ci5jb20+OyBxZW11LWRldmVsQG5vbmdudS5vcmcgRGV2ZWxvcGVycw0KPiA8cWVtdS1kZXZlbEBu
+b25nbnUub3JnPjsgQWxpc3RhaXIgRnJhbmNpcyA8QWxpc3RhaXIuRnJhbmNpc0B3ZGMuY29tPjsN
+Cj4ga3ZtLXJpc2N2QGxpc3RzLmluZnJhZGVhZC5vcmc7IFdhbmdoYWliaW4gKEQpDQo+IDx3YW5n
+aGFpYmluLndhbmdAaHVhd2VpLmNvbT47IEZhbmxpYW5nIChFdWxlck9TKSA8ZmFubGlhbmdAaHVh
+d2VpLmNvbT47DQo+IFBhbG1lciBEYWJiZWx0IDxwYWxtZXJAZGFiYmVsdC5jb20+OyBXdWJpbiAo
+SCkgPHd1Lnd1YmluQGh1YXdlaS5jb20+DQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggUkZDIHY2IDA4
+LzEyXSB0YXJnZXQvcmlzY3Y6IEhhbmRsZSBLVk1fRVhJVF9SSVNDVl9TQkkNCj4gZXhpdA0KPiAN
+Cj4gT24gVHVlLCBBdWcgMTcsIDIwMjEgYXQgMToyNSBQTSBZaWZlaSBKaWFuZyA8amlhbmd5aWZl
+aUBodWF3ZWkuY29tPiB3cm90ZToNCj4gPg0KPiA+IFVzZSBjaGFyLWZlIHRvIGhhbmRsZSBjb25z
+b2xlIHNiaSBjYWxsLCB3aGljaCBpbXBsZW1lbnQgZWFybHkgY29uc29sZQ0KPiA+IGlvIHdoaWxl
+IGFwcGx5ICdlYXJseWNvbj1zYmknIGludG8ga2VybmVsIHBhcmFtZXRlcnMuDQo+ID4NCj4gPiBT
+aWduZWQtb2ZmLWJ5OiBZaWZlaSBKaWFuZyA8amlhbmd5aWZlaUBodWF3ZWkuY29tPg0KPiA+IFNp
+Z25lZC1vZmYtYnk6IE1pbmd3YW5nIExpIDxsaW1pbmd3YW5nQGh1YXdlaS5jb20+DQo+ID4gLS0t
+DQo+ID4gIHRhcmdldC9yaXNjdi9rdm0uYyAgICAgICAgICAgICAgICAgfCA0MiArKysrKysrKysr
+KysrKysrLQ0KPiA+ICB0YXJnZXQvcmlzY3Yvc2JpX2VjYWxsX2ludGVyZmFjZS5oIHwgNzINCj4g
+PiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAx
+MTMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKSAgY3JlYXRlIG1vZGUgMTAwNjQ0DQo+ID4g
+dGFyZ2V0L3Jpc2N2L3NiaV9lY2FsbF9pbnRlcmZhY2UuaA0KPiA+DQo+ID4gZGlmZiAtLWdpdCBh
+L3RhcmdldC9yaXNjdi9rdm0uYyBiL3RhcmdldC9yaXNjdi9rdm0uYyBpbmRleA0KPiA+IGJjOWNi
+NWQ4ZjkuLmE2OGYzMWMyZjMgMTAwNjQ0DQo+ID4gLS0tIGEvdGFyZ2V0L3Jpc2N2L2t2bS5jDQo+
+ID4gKysrIGIvdGFyZ2V0L3Jpc2N2L2t2bS5jDQo+ID4gQEAgLTM4LDYgKzM4LDggQEANCj4gPiAg
+I2luY2x1ZGUgInFlbXUvbG9nLmgiDQo+ID4gICNpbmNsdWRlICJody9sb2FkZXIuaCINCj4gPiAg
+I2luY2x1ZGUgImt2bV9yaXNjdi5oIg0KPiA+ICsjaW5jbHVkZSAic2JpX2VjYWxsX2ludGVyZmFj
+ZS5oIg0KPiA+ICsjaW5jbHVkZSAiY2hhcmRldi9jaGFyLWZlLmgiDQo+ID4NCj4gPiAgc3RhdGlj
+IHVpbnQ2NF90IGt2bV9yaXNjdl9yZWdfaWQoQ1BVUklTQ1ZTdGF0ZSAqZW52LCB1aW50NjRfdCB0
+eXBlLA0KPiA+IHVpbnQ2NF90IGlkeCkgIHsgQEAgLTQzNSw5ICs0MzcsNDcgQEAgYm9vbA0KPiA+
+IGt2bV9hcmNoX3N0b3Bfb25fZW11bGF0aW9uX2Vycm9yKENQVVN0YXRlICpjcykNCj4gPiAgICAg
+IHJldHVybiB0cnVlOw0KPiA+ICB9DQo+ID4NCj4gPiArc3RhdGljIGludCBrdm1fcmlzY3ZfaGFu
+ZGxlX3NiaShzdHJ1Y3Qga3ZtX3J1biAqcnVuKSB7DQo+ID4gKyAgICBpbnQgcmV0ID0gMDsNCj4g
+PiArICAgIHVuc2lnbmVkIGNoYXIgY2g7DQo+ID4gKyAgICBzd2l0Y2ggKHJ1bi0+cmlzY3Zfc2Jp
+LmV4dGVuc2lvbl9pZCkgew0KPiA+ICsgICAgY2FzZSBTQklfRVhUXzBfMV9DT05TT0xFX1BVVENI
+QVI6DQo+ID4gKyAgICAgICAgY2ggPSBydW4tPnJpc2N2X3NiaS5hcmdzWzBdOw0KPiA+ICsgICAg
+ICAgIHFlbXVfY2hyX2ZlX3dyaXRlKHNlcmlhbF9oZCgwKS0+YmUsICZjaCwgc2l6ZW9mKGNoKSk7
+DQo+ID4gKyAgICAgICAgYnJlYWs7DQo+ID4gKyAgICBjYXNlIFNCSV9FWFRfMF8xX0NPTlNPTEVf
+R0VUQ0hBUjoNCj4gPiArICAgICAgICByZXQgPSBxZW11X2Nocl9mZV9yZWFkX2FsbChzZXJpYWxf
+aGQoMCktPmJlLCAmY2gsIHNpemVvZihjaCkpOw0KPiA+ICsgICAgICAgIGlmIChyZXQgPT0gc2l6
+ZW9mKGNoKSkgew0KPiA+ICsgICAgICAgICAgICBydW4tPnJpc2N2X3NiaS5hcmdzWzBdID0gY2g7
+DQo+ID4gKyAgICAgICAgfSBlbHNlIHsNCj4gPiArICAgICAgICAgICAgcnVuLT5yaXNjdl9zYmku
+YXJnc1swXSA9IC0xOw0KPiA+ICsgICAgICAgIH0NCj4gPiArICAgICAgICBicmVhazsNCj4gDQo+
+IFRoZXNlIGhhdmUgYmVlbiBkZXByZWNhdGVkIChzZWUNCj4gaHR0cHM6Ly9naXRodWIuY29tL3Jp
+c2N2L3Jpc2N2LXNiaS1kb2MvYmxvYi9tYXN0ZXIvcmlzY3Ytc2JpLmFkb2MjNC1sZWdhY3ktZXh0
+DQo+IGVuc2lvbnMtZWlkcy0weDAwLS0tMHgwZiksDQo+IGlzIGl0IGV2ZW4gd29ydGggc3VwcG9y
+dGluZyB0aGVtPw0KPiANCg0KWWVzLiBUaGUgbGVnYWN5IGNvbnNvbGUgU0JJIGZ1bmN0aW9ucyAo
+c2JpX2NvbnNvbGVfZ2V0Y2hhcigpIGFuZCBzYmlfY29uc29sZV9wdXRjaGFyKCkpDQphcmUgZXhw
+ZWN0ZWQgdG8gYmUgZGVwcmVjYXRlZC4NCg0KSG93ZXZlciwgdGhlIGxpbnV4IGtlcm5lbCBzdGls
+bCB1c2VzIHRoZXNlIHNiaSBjYWxsIGludGVyZmFjZXMsIHNvIHRoZXkgYXJlIHJldGFpbmVkIGhl
+cmUuDQpJZiB0aGUgbGludXgga2VybmVsIGRvZXNuJ3QgdXNlIHRoZXNlIGludGVyZmFjZXMsIHdl
+IHdpbGwgcmVtb3ZlIHRoZW0uDQoNCllpZmVpDQoNCj4gPiArICAgIGRlZmF1bHQ6DQo+ID4gKyAg
+ICAgICAgcWVtdV9sb2dfbWFzayhMT0dfVU5JTVAsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAg
+ICAiJXM6IHVuLWhhbmRsZWQgU0JJIEVYSVQsIHNwZWNpZmljIHJlYXNvbnMNCj4gaXMgJWx1XG4i
+LA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgX19mdW5jX18sIHJ1bi0+cmlzY3Zfc2JpLmV4
+dGVuc2lvbl9pZCk7DQo+ID4gKyAgICAgICAgcmV0ID0gLTE7DQo+ID4gKyAgICAgICAgYnJlYWs7
+DQo+ID4gKyAgICB9DQo+ID4gKyAgICByZXR1cm4gcmV0Ow0KPiA+ICt9DQo+ID4gKw0KPiA+ICBp
+bnQga3ZtX2FyY2hfaGFuZGxlX2V4aXQoQ1BVU3RhdGUgKmNzLCBzdHJ1Y3Qga3ZtX3J1biAqcnVu
+KSAgew0KPiA+IC0gICAgcmV0dXJuIDA7DQo+ID4gKyAgICBpbnQgcmV0ID0gMDsNCj4gPiArICAg
+IHN3aXRjaCAocnVuLT5leGl0X3JlYXNvbikgew0KPiA+ICsgICAgY2FzZSBLVk1fRVhJVF9SSVND
+Vl9TQkk6DQo+ID4gKyAgICAgICAgcmV0ID0ga3ZtX3Jpc2N2X2hhbmRsZV9zYmkocnVuKTsNCj4g
+PiArICAgICAgICBicmVhazsNCj4gPiArICAgIGRlZmF1bHQ6DQo+ID4gKyAgICAgICAgcWVtdV9s
+b2dfbWFzayhMT0dfVU5JTVAsICIlczogdW4taGFuZGxlZCBleGl0IHJlYXNvbiAlZFxuIiwNCj4g
+PiArICAgICAgICAgICAgICAgICAgICAgIF9fZnVuY19fLCBydW4tPmV4aXRfcmVhc29uKTsNCj4g
+PiArICAgICAgICByZXQgPSAtMTsNCj4gPiArICAgICAgICBicmVhazsNCj4gPiArICAgIH0NCj4g
+PiArICAgIHJldHVybiByZXQ7DQo+ID4gIH0NCj4gPg0KPiA+ICB2b2lkIGt2bV9yaXNjdl9yZXNl
+dF92Y3B1KFJJU0NWQ1BVICpjcHUpIGRpZmYgLS1naXQNCj4gPiBhL3RhcmdldC9yaXNjdi9zYmlf
+ZWNhbGxfaW50ZXJmYWNlLmgNCj4gPiBiL3RhcmdldC9yaXNjdi9zYmlfZWNhbGxfaW50ZXJmYWNl
+LmgNCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAwMDAuLmZiMWEz
+ZmE4ZjINCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIvdGFyZ2V0L3Jpc2N2L3NiaV9lY2Fs
+bF9pbnRlcmZhY2UuaA0KPiA+IEBAIC0wLDAgKzEsNzIgQEANCj4gPiArLyoNCj4gPiArICogU1BE
+WC1MaWNlbnNlLUlkZW50aWZpZXI6IEJTRC0yLUNsYXVzZQ0KPiA+ICsgKg0KPiA+ICsgKiBDb3B5
+cmlnaHQgKGMpIDIwMTkgV2VzdGVybiBEaWdpdGFsIENvcnBvcmF0aW9uIG9yIGl0cyBhZmZpbGlh
+dGVzLg0KPiA+ICsgKg0KPiA+ICsgKiBBdXRob3JzOg0KPiA+ICsgKiAgIEFudXAgUGF0ZWwgPGFu
+dXAucGF0ZWxAd2RjLmNvbT4NCj4gPiArICovDQo+ID4gKw0KPiA+ICsjaWZuZGVmIF9fU0JJX0VD
+QUxMX0lOVEVSRkFDRV9IX18NCj4gPiArI2RlZmluZSBfX1NCSV9FQ0FMTF9JTlRFUkZBQ0VfSF9f
+DQo+ID4gKw0KPiA+ICsvKiBjbGFuZy1mb3JtYXQgb2ZmICovDQo+ID4gKw0KPiA+ICsvKiBTQkkg
+RXh0ZW5zaW9uIElEcyAqLw0KPiA+ICsjZGVmaW5lIFNCSV9FWFRfMF8xX1NFVF9USU1FUiAgICAg
+ICAgICAgMHgwDQo+ID4gKyNkZWZpbmUgU0JJX0VYVF8wXzFfQ09OU09MRV9QVVRDSEFSICAgICAw
+eDENCj4gPiArI2RlZmluZSBTQklfRVhUXzBfMV9DT05TT0xFX0dFVENIQVIgICAgIDB4Mg0KPiA+
+ICsjZGVmaW5lIFNCSV9FWFRfMF8xX0NMRUFSX0lQSSAgICAgICAgICAgMHgzDQo+ID4gKyNkZWZp
+bmUgU0JJX0VYVF8wXzFfU0VORF9JUEkgICAgICAgICAgICAweDQNCj4gPiArI2RlZmluZSBTQklf
+RVhUXzBfMV9SRU1PVEVfRkVOQ0VfSSAgICAgIDB4NQ0KPiA+ICsjZGVmaW5lIFNCSV9FWFRfMF8x
+X1JFTU9URV9TRkVOQ0VfVk1BICAgMHg2DQo+ID4gKyNkZWZpbmUgU0JJX0VYVF8wXzFfUkVNT1RF
+X1NGRU5DRV9WTUFfQVNJRCAweDcNCj4gPiArI2RlZmluZSBTQklfRVhUXzBfMV9TSFVURE9XTiAg
+ICAgICAgICAgIDB4OA0KPiA+ICsjZGVmaW5lIFNCSV9FWFRfQkFTRSAgICAgICAgICAgICAgICAg
+ICAgMHgxMA0KPiA+ICsjZGVmaW5lIFNCSV9FWFRfVElNRSAgICAgICAgICAgICAgICAgICAgMHg1
+NDQ5NEQ0NQ0KPiA+ICsjZGVmaW5lIFNCSV9FWFRfSVBJICAgICAgICAgICAgICAgICAgICAgMHg3
+MzUwNDkNCj4gPiArI2RlZmluZSBTQklfRVhUX1JGRU5DRSAgICAgICAgICAgICAgICAgIDB4NTI0
+NjRFNDMNCj4gPiArI2RlZmluZSBTQklfRVhUX0hTTSAgICAgICAgICAgICAgICAgICAgIDB4NDg1
+MzREDQo+ID4gKw0KPiA+ICsvKiBTQkkgZnVuY3Rpb24gSURzIGZvciBCQVNFIGV4dGVuc2lvbiov
+DQo+ID4gKyNkZWZpbmUgU0JJX0VYVF9CQVNFX0dFVF9TUEVDX1ZFUlNJT04gICAweDANCj4gPiAr
+I2RlZmluZSBTQklfRVhUX0JBU0VfR0VUX0lNUF9JRCAgICAgICAgIDB4MQ0KPiA+ICsjZGVmaW5l
+IFNCSV9FWFRfQkFTRV9HRVRfSU1QX1ZFUlNJT04gICAgMHgyDQo+ID4gKyNkZWZpbmUgU0JJX0VY
+VF9CQVNFX1BST0JFX0VYVCAgICAgICAgICAweDMNCj4gPiArI2RlZmluZSBTQklfRVhUX0JBU0Vf
+R0VUX01WRU5ET1JJRCAgICAgIDB4NA0KPiA+ICsjZGVmaW5lIFNCSV9FWFRfQkFTRV9HRVRfTUFS
+Q0hJRCAgICAgICAgMHg1DQo+ID4gKyNkZWZpbmUgU0JJX0VYVF9CQVNFX0dFVF9NSU1QSUQgICAg
+ICAgICAweDYNCj4gPiArDQo+ID4gKy8qIFNCSSBmdW5jdGlvbiBJRHMgZm9yIFRJTUUgZXh0ZW5z
+aW9uKi8NCj4gPiArI2RlZmluZSBTQklfRVhUX1RJTUVfU0VUX1RJTUVSICAgICAgICAgIDB4MA0K
+PiA+ICsNCj4gPiArLyogU0JJIGZ1bmN0aW9uIElEcyBmb3IgSVBJIGV4dGVuc2lvbiovDQo+ID4g
+KyNkZWZpbmUgU0JJX0VYVF9JUElfU0VORF9JUEkgICAgICAgICAgICAweDANCj4gPiArDQo+ID4g
+Ky8qIFNCSSBmdW5jdGlvbiBJRHMgZm9yIFJGRU5DRSBleHRlbnNpb24qLw0KPiA+ICsjZGVmaW5l
+IFNCSV9FWFRfUkZFTkNFX1JFTU9URV9GRU5DRV9JICAgICAgIDB4MA0KPiA+ICsjZGVmaW5lIFNC
+SV9FWFRfUkZFTkNFX1JFTU9URV9TRkVOQ0VfVk1BICAgIDB4MQ0KPiA+ICsjZGVmaW5lIFNCSV9F
+WFRfUkZFTkNFX1JFTU9URV9TRkVOQ0VfVk1BX0FTSUQgIDB4Mg0KPiA+ICsjZGVmaW5lIFNCSV9F
+WFRfUkZFTkNFX1JFTU9URV9IRkVOQ0VfR1ZNQSAgIDB4Mw0KPiA+ICsjZGVmaW5lIFNCSV9FWFRf
+UkZFTkNFX1JFTU9URV9IRkVOQ0VfR1ZNQV9WTUlEIDB4NA0KPiA+ICsjZGVmaW5lIFNCSV9FWFRf
+UkZFTkNFX1JFTU9URV9IRkVOQ0VfVlZNQSAgIDB4NQ0KPiA+ICsjZGVmaW5lIFNCSV9FWFRfUkZF
+TkNFX1JFTU9URV9IRkVOQ0VfVlZNQV9BU0lEIDB4Ng0KPiA+ICsNCj4gPiArLyogU0JJIGZ1bmN0
+aW9uIElEcyBmb3IgSFNNIGV4dGVuc2lvbiAqLw0KPiA+ICsjZGVmaW5lIFNCSV9FWFRfSFNNX0hB
+UlRfU1RBUlQgICAgICAgICAgMHgwDQo+ID4gKyNkZWZpbmUgU0JJX0VYVF9IU01fSEFSVF9TVE9Q
+ICAgICAgICAgICAweDENCj4gPiArI2RlZmluZSBTQklfRVhUX0hTTV9IQVJUX0dFVF9TVEFUVVMg
+ICAgIDB4Mg0KPiA+ICsNCj4gPiArI2RlZmluZSBTQklfSFNNX0hBUlRfU1RBVFVTX1NUQVJURUQg
+ICAgIDB4MA0KPiA+ICsjZGVmaW5lIFNCSV9IU01fSEFSVF9TVEFUVVNfU1RPUFBFRCAgICAgMHgx
+DQo+ID4gKyNkZWZpbmUgU0JJX0hTTV9IQVJUX1NUQVRVU19TVEFSVF9QRU5ESU5HICAgMHgyDQo+
+ID4gKyNkZWZpbmUgU0JJX0hTTV9IQVJUX1NUQVRVU19TVE9QX1BFTkRJTkcgICAgMHgzDQo+ID4g
+Kw0KPiA+ICsjZGVmaW5lIFNCSV9TUEVDX1ZFUlNJT05fTUFKT1JfT0ZGU0VUICAgMjQNCj4gPiAr
+I2RlZmluZSBTQklfU1BFQ19WRVJTSU9OX01BSk9SX01BU0sgICAgIDB4N2YNCj4gPiArI2RlZmlu
+ZSBTQklfU1BFQ19WRVJTSU9OX01JTk9SX01BU0sgICAgIDB4ZmZmZmZmDQo+ID4gKyNkZWZpbmUg
+U0JJX0VYVF9WRU5ET1JfU1RBUlQgICAgICAgICAgICAweDA5MDAwMDAwDQo+ID4gKyNkZWZpbmUg
+U0JJX0VYVF9WRU5ET1JfRU5EICAgICAgICAgICAgICAweDA5RkZGRkZGDQo+ID4gKy8qIGNsYW5n
+LWZvcm1hdCBvbiAqLw0KPiA+ICsNCj4gPiArI2VuZGlmDQo+ID4gLS0NCj4gPiAyLjE5LjENCj4g
+Pg0KPiA+DQoNCg==
 
