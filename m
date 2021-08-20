@@ -2,96 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E10883F2F86
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 17:34:00 +0200 (CEST)
-Received: from localhost ([::1]:49742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 668C43F2FF5
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 17:46:34 +0200 (CEST)
+Received: from localhost ([::1]:38446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH6Wt-0006xY-8O
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 11:33:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51398)
+	id 1mH6j3-0001r4-Ek
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 11:46:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mH6UP-0005WY-Gg
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 11:31:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56569)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mH6UN-0005uL-4i
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 11:31:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629473481;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FILXXiWO5cOUkVJ9TND798eiI9oYRMJLevesj8EVdyk=;
- b=Zx+/koFwhszWGhedRaCp/vx06rR8vVfzTEAnHC6+vrJIi+VYpNsQrmgghui6P/7LxWSsQD
- 5bORYlF6k03vo7ojOktnJSDlrvi6W9He2L+JmtaB1VXhdSylhsxkx6EF10AMnUcJKI/SxS
- son93JbtpxJbk+CTaKXPVPN3f8ObSvU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-121-1keBa4A1OReHuJqOmJ8xJA-1; Fri, 20 Aug 2021 11:31:20 -0400
-X-MC-Unique: 1keBa4A1OReHuJqOmJ8xJA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- u14-20020a7bcb0e0000b0290248831d46e4so2512142wmj.6
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 08:31:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mH6g6-0006Ec-Qb
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 11:43:30 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:33305)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mH6g4-0008GF-1A
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 11:43:30 -0400
+Received: by mail-pl1-x634.google.com with SMTP id o10so6232281plg.0
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 08:43:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=91iZU8ovsk6Gnn6nhVeDDkzIrVkANR5vegj8hJFFcsU=;
+ b=kQbml57BwCL2DgO5Na8yh9reepD5aV3kjvMgML/TrCdptulv44BqhHyJ7VfqtiAijz
+ H4QdYY3jC0QEgZ1PZS+vjcn89448TOfbxMJ53kJoz/gt1FQ9sCV142Oufvq6SYibGcy0
+ 9bD461dqURK+q6p0MTP5AHkq0lMt1bwhOo4e12NGXAuFRmMzxAyfeZcRI0lTdxxkgDOZ
+ 6YWeDGRZ3+q3OxKJEuU1A/xcsVU+WBTHy/1TACMqn4P1JdJTwL9b+c6IP3ZVaYHf/Gn2
+ ftrwy7sv8Q6WdeqmB/7b/fxxqhpZU2dsQI8kwfKRBG+p9WxpxPPkt5ecLS61Or5rdQ1L
+ mhhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FILXXiWO5cOUkVJ9TND798eiI9oYRMJLevesj8EVdyk=;
- b=QQoRbZZLjYsGc0UYM/1rnfiHNzeyKoA5TX8jS13CLrPwkeU0KRHagUBzY+JSxh3gwj
- jWBGbrLt81Kkt/8RvJf8DTR49gWYRZ5ELWw0YC9RtHceaELC3FOCEjzjRovmhRrN9u/P
- +mfkct6CK0BJj1+O16/LFMtzGKSgB8ZiZ4PcY9MIVoTSp2pbV2/GeYj+3UiXARuSxM/r
- ByCd6FFVQ/LjcELqZCMTv/HmzfWUloJEATUsfF3cmKHYEKeZ8SADmZw178S7EfuaKnlb
- bsO3yUfUaKAVmPDHj0aQbiVnLiJgNcf9NKQPtYxRjD35rKeOjw030wwT2lBjRIDZumS9
- Fhyg==
-X-Gm-Message-State: AOAM531heGLzFy/jX9EwqdMpvwjlVnWvt2NX8OM9Mpoh3HZBCucXvVvU
- ed2oYoXKnNo9RkTPq8UNFVfsxgqqhcMB3HmaDJ1PZ26sLFSwOSq7+iXcIntBRTSBlq+hXY3z/gO
- PL0L8Hojgrn9aXWo=
-X-Received: by 2002:a05:6000:18b:: with SMTP id
- p11mr10837395wrx.366.1629473479093; 
- Fri, 20 Aug 2021 08:31:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw2XEOqVMY4nhaHaf5od3565dlnwzpXilDixCN4EyutJ4htxcEWLTnxg+4ZfiC1mjdrpUBKXg==
-X-Received: by 2002:a05:6000:18b:: with SMTP id
- p11mr10837352wrx.366.1629473478761; 
- Fri, 20 Aug 2021 08:31:18 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id z137sm11001824wmc.14.2021.08.20.08.31.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Aug 2021 08:31:17 -0700 (PDT)
-Subject: Re: xilinx-zynq-a9: cannot set up guest memory 'zynq.ext_ram'
-To: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>
-References: <CAEUhbmUhKFFxSspve+t2BeppCGPegpb_Z5g-w8M5t-JMLy3Zsg@mail.gmail.com>
- <869f8be9-b76f-e315-9591-9c452bedf922@redhat.com>
- <CAEUhbmUE4fb2NewE+Cze3Le5xOeH53NDbwdnKH==dnZeKGPQeQ@mail.gmail.com>
- <e833a774-d3bf-62d5-91d8-b24cbee0bfc4@redhat.com>
- <CAFEAcA8MqYQiTJkKyWGkcKR=J2FD9SDWvHm9vxZq3g2HJ8ch3w@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d0ce3c23-d1b3-0853-ef5f-defb55b441fb@redhat.com>
-Date: Fri, 20 Aug 2021 17:31:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=91iZU8ovsk6Gnn6nhVeDDkzIrVkANR5vegj8hJFFcsU=;
+ b=SbAU1rlvlZ3tpfWUScYFz0B1PUJIRZSWn7sSaOenpMG1l3mlsIjvtvOyQzG46jz/Dn
+ 1NAeRUyE9kGggmV4uzRQjYpGq57I8X2xQ+1CWl62Q/HPo5mK1sucGZo0QoC5bCNCgpGc
+ zpBWp0NwU89RJpF+oBQx0VTndHu/Z/QgH1uquP07g2AE3Owep+i3RXEuCu57XwO+Ixc6
+ QZe4porVxYPh43POex7FBE2kRbucNSyP/2WmeTCcgtTxIIVLqMqB8ITOVx+jjuwf6nIp
+ wMSnxXJO5WsQD4W/i9Dk7r1lP3jR7y1/wEtISsgDXpOwh/7WjVlfVfbiOfRI90sV00bu
+ ThFA==
+X-Gm-Message-State: AOAM530s7jdaf+fqLpwZbiuruwA7fD+v+UzaVPYMd+1YdWR/+XkHJlRw
+ dwma8Jd19ei8AMhs6DIN4Undow==
+X-Google-Smtp-Source: ABdhPJzyZjU/Nges752iQg+Bwcwb1fk8mSEqNP8/wGgsdrvfZ3WM4BqkkkLeRi8GM4n/D8SAjCRygw==
+X-Received: by 2002:a17:90a:f195:: with SMTP id
+ bv21mr5264647pjb.218.1629474205926; 
+ Fri, 20 Aug 2021 08:43:25 -0700 (PDT)
+Received: from anisinha-lenovo ([115.96.156.44])
+ by smtp.googlemail.com with ESMTPSA id y5sm12253705pjy.37.2021.08.20.08.43.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Aug 2021 08:43:25 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Fri, 20 Aug 2021 21:13:18 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH] hw/acpi: refactor acpi hp modules so that targets can
+ just use what they need
+In-Reply-To: <26cc841b-792a-305a-2708-b1ed11de8151@redhat.com>
+Message-ID: <alpine.DEB.2.22.394.2108202110430.624345@anisinha-lenovo>
+References: <20210812071409.492299-1-ani@anisinha.ca>
+ <26cc841b-792a-305a-2708-b1ed11de8151@redhat.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8MqYQiTJkKyWGkcKR=J2FD9SDWvHm9vxZq3g2HJ8ch3w@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -49
-X-Spam_score: -5.0
-X-Spam_bar: -----
-X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.49, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="2088271309-1382508667-1629474205=:624345"
+Received-SPF: none client-ip=2607:f8b0:4864:20::634;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,79 +86,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "Richard W.M. Jones" <rjones@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Igor Mammedov <imammedo@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Bin Meng <bmeng.cn@gmail.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/20/21 4:39 PM, Peter Maydell wrote:
-> On Fri, 20 Aug 2021 at 15:34, David Hildenbrand <david@redhat.com> wrote:
->>
->> On 20.08.21 16:22, Bin Meng wrote:
->>> Hi Philippe,
->>>
->>> On Fri, Aug 20, 2021 at 10:10 PM Philippe Mathieu-Daudé
->>> <philmd@redhat.com> wrote:
->>>>
->>>> Hi Bin,
->>>>
->>>> On 8/20/21 4:04 PM, Bin Meng wrote:
->>>>> Hi,
->>>>>
->>>>> The following command used to work on QEMU 4.2.0, but is now broken
->>>>> with QEMU head.
->>>>>
->>>>> $ qemu-system-arm -M xilinx-zynq-a9 -display none -m 40000000
->>>>> -nographic -serial /dev/null -serial mon:stdio -monitor null -device
->>>>> loader,file=u-boot-dtb.bin,addr=0x4000000,cpu-num=0
->>>>> qemu-system-arm: cannot set up guest memory 'zynq.ext_ram': Cannot
->>>>> allocate memory
-> 
->> -m 40000000
->>
->> corresponds to 38 TB if I am not wrong. Is that really what you want?
-> 
-> Probably not, because the zynq board's init function does:
-> 
->     if (machine->ram_size > 2 * GiB) {
->         error_report("RAM size more than 2 GiB is not supported");
->         exit(EXIT_FAILURE);
->     }
-> 
-> It seems a bit daft that we allocate the memory before we do
-> the size check. This didn't use to be this way around...
-> 
-> Anyway, I think the cause of this change is commit c9800965c1be6c39
-> from Igor. We used to silently cap the RAM size to 2GB; now we
-> complain. Or at least we would complain if we hadn't already
-> tried to allocate the memory and fallen over...
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Ouch... I remember having tested -M raspi2 -m 8G etc... to verify
-the error messages, but didn't noticed the memory was allocated.
+--2088271309-1382508667-1629474205=:624345
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 
-static void qemu_init_board(void)
-{
-    MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
 
-    if (machine_class->default_ram_id && current_machine->ram_size &&
-        numa_uses_legacy_mem() && !current_machine->ram_memdev_id) {
-        create_default_memdev(current_machine, mem_path); // <- alloc
-    }
 
-    /* process plugin before CPUs are created ... */
-    qemu_plugin_load_list(&plugin_list, &error_fatal);
+On Thu, 19 Aug 2021, Philippe Mathieu-Daudé wrote:
 
-    /* From here on we enter MACHINE_PHASE_INITIALIZED.  */
-    machine_run_board_init(current_machine); // <- Machine::init()
-                                             //    checks RAM size
+> On 8/12/21 9:14 AM, Ani Sinha wrote:
 
-    ...
+> > +    return;
+>
+> I suppose if you replace all 'return' by 'g_assert_not_reached()'
+> both issues reproducers crash?
+>
+> Your patch is not incorrect, and indeed fixes the issues, but
+> I feel we are going backward now allowing call which should
+> never be there in the first place.
+>
 
-$ qemu-system-x86_64 -m 1T
-qemu-system-x86_64: cannot set up guest memory 'pc.ram': Cannot allocate
-memory
+Linux kernel does something like this all over the place. They simply
+replace functions with NOOPS when they are not allowed for a
+configuration. They do this relying on preprocessor macros ofcourse!
 
+It will be hard to do anythiung better without rearchitecting the modules.
+That would have significant impact particularly on x86.
+--2088271309-1382508667-1629474205=:624345--
 
