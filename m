@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 923143F3415
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 20:48:24 +0200 (CEST)
-Received: from localhost ([::1]:34862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 542D83F34AE
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 21:33:36 +0200 (CEST)
+Received: from localhost ([::1]:49776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH9Z1-0002Xr-7v
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 14:48:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33068)
+	id 1mHAGk-0006Wj-Sv
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 15:33:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mH9Xu-0001sN-QS
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 14:47:14 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:44863)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mH9Xt-0005KR-80
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 14:47:14 -0400
-Received: by mail-pg1-x534.google.com with SMTP id s11so10064344pgr.11
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 11:47:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Gd5FWMD1UgmnnMX1OdePraI582nSBgKpwig7agQqpf0=;
- b=ceb4DL5IhaUItYRD2XpBZIt+BzjDPLsgS2VyIQceWc9+D+8uFtoeDk/zoK6FhNRCZZ
- 6WuroOz2RKl2f72IsHSog4Fv1MpUG499AjHby7TaMPo5a5IZx2t4XNv/qnVhbMHbOk1A
- Sf0Rb/cor6kRT2GBENiHux26s2ipV4cY4JsKckNZ/PGWIoiUx7skMnGPniELrJUoIXYM
- Fz8bLT56Qo4xtqmo6tu5kmYwGg+VjbJqoFhP7LBImanjtgzZB0UYOwscyP+5xhBOrNPQ
- ZoQFmjKYegSM8z2AovTsR6XsDb0ql66MUCH76o4V4R5xOwSWWmom28VJbgZiK3ZeixsQ
- lyFg==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mHAEc-0005Ew-Qh
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 15:31:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23656)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mHAEY-0001dW-98
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 15:31:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629487875;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KO2Beb/1oYcAadl45wTArgVgODcVAUSsJ7N+u1XfN7w=;
+ b=KMeiH53ps1u4NFXlTUrt0tOcZdrUszxLLbhmPcuIGewVPI/EGT0sr6EfjrhrAH3gY7CUb1
+ MoaP5jA+bTuum+yuUhUwMxb01KJCZEFzjwESm85NYOw1FghImddELbX6S9958pWcJ+6WXt
+ /ies5sCDdHqIhTS2nXfTmHgqqiLsExs=
+Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com
+ [209.85.210.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-545-io-X3i2POI-l78_aAFQLpg-1; Fri, 20 Aug 2021 15:31:14 -0400
+X-MC-Unique: io-X3i2POI-l78_aAFQLpg-1
+Received: by mail-ot1-f71.google.com with SMTP id
+ b25-20020a9d60d9000000b00519be3bdc04so5214893otk.7
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 12:31:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Gd5FWMD1UgmnnMX1OdePraI582nSBgKpwig7agQqpf0=;
- b=bPl0Htr3VQZ8oJH+cYM2k5sqLoiPOf30tGdFK4ms44XC4yJp0HcuUwnR/M7OrgQ+kv
- 6iRu94nK+1o1UhMcmk1WlmXac5f9idEyUhVz3WYaulB2fSYa5MbdV3j8jDu104FhIAMv
- YtdoypGVDGY/qdMixppV/2u4o4ZESmabESspye7LqPgla/X1RQaw/5b3zsa+OpVyvKan
- Ev8axKHg0ndYtqqtblmcsBhFWBE5sTWOcyF8bvgOQ4EWDUJJbFcvIOJeM8dGyMTROO9J
- T4eFtKt2R39Pxno6M1B3YODss4gA0JRXXoOM9REhIMS8LMek3drPikCtQZcCCqEKh2x8
- dm8Q==
-X-Gm-Message-State: AOAM531ziTlVIwCbqMl25FHPkNdqc8CD9I7Yv6tWGhunwn8LRkMdteG7
- qRQLwPtAf8FYxazWpHNIQbezFvGJ4jy95Q==
-X-Google-Smtp-Source: ABdhPJzKBobUxf0ISz31BvtQq6KO0s5Bd7jIeWvapQ25/deMAP50WDkEhYSONlB++DL8UBD3co3jhQ==
-X-Received: by 2002:a65:494e:: with SMTP id q14mr19902100pgs.314.1629485231592; 
- Fri, 20 Aug 2021 11:47:11 -0700 (PDT)
-Received: from [192.168.3.43] ([173.197.107.15])
- by smtp.gmail.com with ESMTPSA id n41sm7946086pfv.43.2021.08.20.11.47.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Aug 2021 11:47:11 -0700 (PDT)
-Subject: Re: [PATCH v3 13/14] tcg/arm: Reserve a register for guest_base
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210818212912.396794-1-richard.henderson@linaro.org>
- <20210818212912.396794-14-richard.henderson@linaro.org>
- <CAFEAcA81XmmHFtVfA9U307y5D41NzuHZNTFXgHe2-1Y+ZEhjSg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <47d219b3-72fb-f9bf-d420-cd08bc781119@linaro.org>
-Date: Fri, 20 Aug 2021 08:47:08 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KO2Beb/1oYcAadl45wTArgVgODcVAUSsJ7N+u1XfN7w=;
+ b=n9v8a/IVFPTMSCFxL1ucSO4ar3cG0DePOVsxne0SJqIB5h+L/lfgG4CgH7W4pTx5se
+ x0fRiLpgpXKoFWovF2m8HjFlsOkkp8LzaWHgkCFjW1doxWRtq+JwpAxHJxnrQSmB1+ES
+ cx5XbGZ26pF/F/yx1OtNZFGmuWHUdk5M4XT5YRxAefMOgrPGLLXrJCT6ZBcqdpDQ85TL
+ vlaZ6MpEDJsEjeP9SECsEG5sEW/B43RWY8hY4QXxCUmbsfOLcuzgGJDOAitkq9+wwwz2
+ 8PwcV8wouIGqJlimvo0QdidpGiTmywIdCii6wKyrfOFgp8FDZHz7bmHHgGszdVYYtcxq
+ MWPw==
+X-Gm-Message-State: AOAM531yDXNNqmeZ/HCqtANf0gPtriNgQTLUtGi9wTuR/RffEMweh71v
+ ixdDRPZ3HLdW0GCHuRXyo9GBw8LRNKbPNcWH9RYXTJnV26gGsZCGaD8LakNgBBlBv0n0A5WaIYK
+ b0RaCaumsuAxSPjQU5MZfuyZnWfZkAQI=
+X-Received: by 2002:a05:6808:a01:: with SMTP id
+ n1mr4004711oij.52.1629487873521; 
+ Fri, 20 Aug 2021 12:31:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxXHAKXeYg9lK7RJ8DhbglNu9hKHA2kofTMajqMP+VYKOblXmvpGIEdj29A8Lavi0vwv4Q+6MFjdmFbqJCQRlQ=
+X-Received: by 2002:a05:6808:a01:: with SMTP id
+ n1mr4004695oij.52.1629487873349; 
+ Fri, 20 Aug 2021 12:31:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA81XmmHFtVfA9U307y5D41NzuHZNTFXgHe2-1Y+ZEhjSg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
-X-Spam_score_int: -35
-X-Spam_score: -3.6
+References: <20210730201846.5147-1-niteesh.gs@gmail.com>
+ <20210730201846.5147-10-niteesh.gs@gmail.com>
+ <CAFn=p-bBXyDQDa7-sD2_zOwU-QVdYJLEJ+LwH2t8472LHgvHyA@mail.gmail.com>
+ <CAN6ztm--n7FuOm2DMj8nbpMr=-_LyiFM-7J0gZymqKddrZ6rOg@mail.gmail.com>
+ <CAFn=p-boj5GurWmTQEnNSRZtaLPWvbLbqx_bh-JRmxSj_ZM1QQ@mail.gmail.com>
+In-Reply-To: <CAFn=p-boj5GurWmTQEnNSRZtaLPWvbLbqx_bh-JRmxSj_ZM1QQ@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Date: Fri, 20 Aug 2021 15:31:02 -0400
+Message-ID: <CAFn=p-YEeB6dm6sHAQ7bER-NGEwuFLE8FQxyr1OCFcENsaow+w@mail.gmail.com>
+Subject: Re: [PATCH v3 09/13] python/aqmp-tui: Add QMP connection manager
+To: "Niteesh G. S." <niteesh.gs@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000db724605ca02b5ce"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
 X-Spam_bar: ---
-X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.49,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,26 +92,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Wainer Moschetta <wainersm@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/20/21 2:03 AM, Peter Maydell wrote:
->> -        } else if (datalo != addend) {
->> +        } else if (scratch_addend) {
->>               tcg_out_ld32_rwb(s, COND_AL, datalo, addend, addrlo);
->>               tcg_out_ld32_12(s, COND_AL, datahi, addend, 4);
->>           } else {
-> 
-> I don't understand this change. Yes, we can trash the addend
-> register, but if it's the same as 'datalo' then the second load
-> is not going to DTRT... Shouldn't this be
->    if (scratch_addend && datalo != addend)
-> ?
+--000000000000db724605ca02b5ce
+Content-Type: text/plain; charset="UTF-8"
 
-Previously, addend was *always* a scratch register, TCG_REG_TMP or such.
-Afterward, addend may be TCG_REG_GUEST_BASE, which should not be modified.
-At no point is there overlap between addend and data{hi,lo}.
+On Wed, Aug 18, 2021 at 3:36 PM John Snow <jsnow@redhat.com> wrote:
 
-r~
+> On Tue, Aug 17, 2021 at 3:07 PM Niteesh G. S. <niteesh.gs@gmail.com>
+> wrote:
+>
+>> On Tue, Aug 17, 2021 at 10:21 AM John Snow <jsnow@redhat.com> wrote:
+>>
+>>> On Fri, Jul 30, 2021 at 4:19 PM G S Niteesh Babu <niteesh.gs@gmail.com>
+>>> wrote:
+>>>
+>>
+> Is this required? I would have hoped that after calling disconnect that
+>>> the state would have again changed to IDLE and you wouldn't need this
+>>> clause here.
+>>>
+>> After you mentioned it I too felt it was redundant. But on removing it
+>> the whole app freezes when trying to exit.
+>> I logged the state after the call to disconnect, instead of being in the
+>> IDLE state, it is still in DISCONNECTING state.
+>> I suspect this results in the constant infinite looping which doesn't
+>> give other coroutines a chance to run and blocks
+>> the event loop thus resulting in the freezing of the app. But I am not
+>> sure why the state isn't changing to IDLE.
+>>
+>
+> Hmm ... That may well be a bug in AQMP then. I will investigate.
+>
+
+No, it's not -- It's just tricky. The "problem" is that the
+runstate_changed() event only returns once the runstate has changed *after*
+you await it. So this code is perfectly correct and I am just bad at
+reading.
+
+--js
+
+--000000000000db724605ca02b5ce
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><br></div><div class=3D"=
+gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 18, 2021 at =
+3:36 PM John Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><=
+div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_=
+attr">On Tue, Aug 17, 2021 at 3:07 PM Niteesh G. S. &lt;<a href=3D"mailto:n=
+iteesh.gs@gmail.com" target=3D"_blank">niteesh.gs@gmail.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"=
+><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, A=
+ug 17, 2021 at 10:21 AM John Snow &lt;<a href=3D"mailto:jsnow@redhat.com" t=
+arget=3D"_blank">jsnow@redhat.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jul 30, 2021 at 4:19 PM G S=
+ Niteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com" target=3D"_blank"=
+>niteesh.gs@gmail.com</a>&gt; wrote:<br></div></div></div></blockquote></di=
+v></div></blockquote><div><br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><=
+div>Is this required? I would have hoped that after calling disconnect that=
+ the state would have again changed to IDLE and you wouldn&#39;t need this =
+clause here.<br></div></div></div></blockquote><div><div style=3D"font-size=
+:small">After you mentioned it I too felt it was redundant. But on removing=
+ it the whole app freezes when trying to exit.</div></div><div style=3D"fon=
+t-size:small">I logged the state after the call to disconnect, instead of b=
+eing in the IDLE state, it is still in DISCONNECTING state.</div><div style=
+=3D"font-size:small">I suspect this results in the constant infinite loopin=
+g which doesn&#39;t give other coroutines a chance to run and blocks</div><=
+div style=3D"font-size:small">the event loop thus resulting in the freezing=
+ of the app. But I am not sure why the state isn&#39;t changing to IDLE.</d=
+iv></div></div></blockquote><div><br></div><div>Hmm ... That may well be a =
+bug in AQMP then. I will investigate.<br></div></div></div></blockquote><di=
+v><br></div><div>No, it&#39;s not -- It&#39;s just tricky. The &quot;proble=
+m&quot; is that the runstate_changed() event only returns once the runstate=
+ has changed *after* you await it. So this code is perfectly correct and I =
+am just bad at reading.</div><div><br></div><div>--js<br></div></div></div>=
+</div>
+
+--000000000000db724605ca02b5ce--
+
 
