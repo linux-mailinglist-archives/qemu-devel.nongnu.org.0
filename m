@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72FB63F2D93
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 15:59:03 +0200 (CEST)
-Received: from localhost ([::1]:57256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FCAE3F2DA5
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 16:05:56 +0200 (CEST)
+Received: from localhost ([::1]:34636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH530-0007rN-6n
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 09:59:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57810)
+	id 1mH59e-0003eo-TT
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 10:05:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mH51f-0005ke-ED
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 09:57:39 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:46819)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mH58E-0002ft-Os; Fri, 20 Aug 2021 10:04:26 -0400
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:38434)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mH51d-00015j-Qd
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 09:57:39 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id r19so14119047eds.13
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 06:57:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Lm2acVW719P3Yd7VVUoOWfkFsjCNFWXSqZc0M/4RuuA=;
- b=g1U9NcBrDp45tDBNWa7HMj14IwfKKqptRHocC0zUjLKptnFQsTx9Z0tEWnxNf1Uw0u
- 1TkTt4Cq94rA29k2GUdIlPIZgLw7H/yylqZ9/VagErvaTvtkOw5AlsmZKKPIRutdt5vX
- HZCLfUb6Z0Vyi1H9dLeOJ4mEMEQQWiIzCFP3p7tnqWHg2H3OkoN61QV42lErF/2xUZ7b
- VQ87tBiat7KVxYdc8Tw36EUPh6L3w1sHrR/vb46i6IwXOA/tq6zFrNLcN4UCaQToYN5c
- /93X4YZmCesaXWDh2fFz9tvK1On7sPLHbdHZ4S1spxgL7tu7AscsLArRssd127puaLUT
- SAhg==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mH58A-0007F3-QF; Fri, 20 Aug 2021 10:04:26 -0400
+Received: by mail-yb1-xb29.google.com with SMTP id a9so15580049ybr.5;
+ Fri, 20 Aug 2021 07:04:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=8h7JjufK+JwrWnYaRBwZ+TfeavZ1tBzQ1buhLmNQFGM=;
+ b=u2j2gXQbiWi+gg4UCU+mkqt1tWfi+BsM2PmZrv8xgV+qRG+wDgr/x6tih5UVV+Y08/
+ /caeoduaEGv6cdj1KSjFwUdmPXrCFB5gaLqDGoxI/zZsF/Gk8WJOU6zfn+3ZnZOCEZuj
+ xxiLrIwepa+FyTwXK1JdiOUzJqZVO+DAw1VlxUK9kFNTNdr0xFUkkaqMJMD8jWW0kqG/
+ /TN5EV7nsicahSM4FBwS1J5vfeEtgrMinyx64jBMGAnYYKZBfu2bLclT6PY0SdE7jxtw
+ fsCAg2+nJ+j/V1loMJ/u4bTJnOvqUm+4KqcPfqSmSKunHcPSpLZENBIBHhOnlnBqK7Hs
+ 1VZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Lm2acVW719P3Yd7VVUoOWfkFsjCNFWXSqZc0M/4RuuA=;
- b=CAtkgncI7R1EmqcbhyxzFTU9bLLrZWoWQ6SdxfWxGd6T8J0N6US4ix+61gHuXOGrcE
- jrp+W0h8TeFMZI3lhDVCNmkqTmbCOANPQbGmyuKpK4P2shoXuivJhGHgxpKHyanDnOsB
- 2L5D6LP5AFluUJC8dTitmySP7YxQ/a2Tdx5BUdCjdZWRJTY722wicuUP6qKI+qMRTjZw
- uhZJvFbyXoAwR5lcYOnc5hyxIGdhcjWSrDxLpbf4ZEfAP0dYSf51ebPLgJZR3B2/mWpi
- lOljjIrB35SSWQdBq6TJLLC0qUS4N58U1pXpLWAfwy/PFFGyK+Jp1mS8UtXSRaRuUVqb
- 1E0g==
-X-Gm-Message-State: AOAM533ypVQuto0HmcslIS0UMH20y8MZPvVYtgySAoNDTLgzbS7KsRyL
- N/TW3nzxrQE1hjhh+fss+oUdJLuG8Np0c6DHjA0TKg==
-X-Google-Smtp-Source: ABdhPJwsfWXLK2PmGWr6iDA1aunhpYn1xEIiqUWvqpgCbkNfDjQdQAE29kgOUwEzKEtnxqy+IEQSyCoC946n1oVBxA4=
-X-Received: by 2002:aa7:cc0b:: with SMTP id q11mr1583491edt.251.1629467855755; 
- Fri, 20 Aug 2021 06:57:35 -0700 (PDT)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=8h7JjufK+JwrWnYaRBwZ+TfeavZ1tBzQ1buhLmNQFGM=;
+ b=tx85fHJlkhDFEWTW5g94xL9YGHSuIIbbI3Tzca8hfS2RRjd5/xk4F+GVpzQbbCyjn5
+ wmC3RVIF4fQ4U0Okl8IgKB2KNVS3TwJsL8BYYXpgvLrm2p6vhkHrIEjoYP7RN9r+Srvl
+ QpyvFmr2z2PZfCEEo7HvNYXkQAkss8Wk2DeuP2UGA/LZMActv5CwZR5xQ32hzUwLIqfh
+ iaXGelCBLFG4jr5RicWfIXEJOgH3HyJ2Dm9u0Ka0oqUtau782BUk0cjcCueDQaJkkmVZ
+ /YYl3mFx+dYLcqg8hDde8K/enb0TehhZEBlplvWa8ncQTJAnu/oQnLiRdQaa0fVWoJDr
+ toeA==
+X-Gm-Message-State: AOAM532ZDVDQlMZyfHlyPAtCTC319eLqGQ/okFQISBw0ybwbPD2uNbSF
+ rIYiCvfLgbW3wAm9fpbCLr2uJ1/PnwXEQQNSe5E=
+X-Google-Smtp-Source: ABdhPJxMp0fI8YNX4TkkJDapk2akz3kg2Rg2Ix/fQdzvrP6+9pa/7kSOZPKN+drIGecFHBJxchxS1ZZ7zSacTESxW/M=
+X-Received: by 2002:a5b:304:: with SMTP id j4mr25132060ybp.314.1629468260261; 
+ Fri, 20 Aug 2021 07:04:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210818212912.396794-1-richard.henderson@linaro.org>
- <20210818212912.396794-15-richard.henderson@linaro.org>
-In-Reply-To: <20210818212912.396794-15-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 Aug 2021 14:56:49 +0100
-Message-ID: <CAFEAcA_LPZOP=hgnDXsWBHsxn3_GS9x==D0GBtOB6oRwG15KPg@mail.gmail.com>
-Subject: Re: [PATCH v3 14/14] tcg/arm: Support raising sigbus for user-only
-To: Richard Henderson <richard.henderson@linaro.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 20 Aug 2021 22:04:09 +0800
+Message-ID: <CAEUhbmUhKFFxSspve+t2BeppCGPegpb_Z5g-w8M5t-JMLy3Zsg@mail.gmail.com>
+Subject: xilinx-zynq-a9: cannot set up guest memory 'zynq.ext_ram'
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb29.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,23 +74,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Aug 2021 at 22:43, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> For v6+, use ldm/stm, ldrd/strd for the normal case of alignment
-> matching the access size.  Otherwise, emit a test + branch sequence
-> invoking helper_unaligned_{ld,st}.
->
-> For v4+v5, use piecewise load and stores to implement misalignment.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Hi,
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+The following command used to work on QEMU 4.2.0, but is now broken
+with QEMU head.
 
-thanks
--- PMM
+$ qemu-system-arm -M xilinx-zynq-a9 -display none -m 40000000
+-nographic -serial /dev/null -serial mon:stdio -monitor null -device
+loader,file=u-boot-dtb.bin,addr=0x4000000,cpu-num=0
+qemu-system-arm: cannot set up guest memory 'zynq.ext_ram': Cannot
+allocate memory
+
+Any ideas?
+
+Regards,
+Bin
 
