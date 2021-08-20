@@ -2,55 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A18FD3F2DB8
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 16:10:41 +0200 (CEST)
-Received: from localhost ([::1]:37656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA0213F2DC6
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 16:13:00 +0200 (CEST)
+Received: from localhost ([::1]:40786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH5EG-0005xR-OV
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 10:10:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33760)
+	id 1mH5GV-0008Dh-Tn
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 10:12:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mH5Ce-00052j-Sd
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 10:09:00 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:40098)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mH5Df-0006Ed-JA
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 10:10:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mH5Cc-0002ya-En
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 10:09:00 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-WJOWdI12OBGWmifbhxbeXQ-1; Fri, 20 Aug 2021 10:08:53 -0400
-X-MC-Unique: WJOWdI12OBGWmifbhxbeXQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4A49801AC0;
- Fri, 20 Aug 2021 14:08:51 +0000 (UTC)
-Received: from bahia.lan (unknown [10.39.192.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A37CC226E9;
- Fri, 20 Aug 2021 14:08:50 +0000 (UTC)
-Date: Fri, 20 Aug 2021 16:08:49 +0200
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 05/26] ppc/pnv: Distribute RAM among the chips
-Message-ID: <20210820160849.4ad703b1@bahia.lan>
-In-Reply-To: <20210809134547.689560-6-clg@kaod.org>
-References: <20210809134547.689560-1-clg@kaod.org>
- <20210809134547.689560-6-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mH5Dd-0003tr-4u
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 10:10:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629468600;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gQT9ONiHLk7yAa0p4Nj0sMa/6pcEWW5lpPdVTij6UtQ=;
+ b=c7ei18ySLAfbXsYYlIKFgTsL3iuTJ2ZeLjQG1HSPgSj6ddDJOXrezLrnnS8dbqOrjg998Z
+ KzTG8Pt0uXryi8qaZa1O2BpAvdY9OmKSktlpo85o01cFxFpP8ccyLj6h+po6mn3JFozhx6
+ MbRGAEaIVyGfy8wuqVafaqy23RdJMXE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-tWydL36gNCeowc9-Cs9OCA-1; Fri, 20 Aug 2021 10:09:59 -0400
+X-MC-Unique: tWydL36gNCeowc9-Cs9OCA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ p2-20020a05600c358200b002e6dc6adcecso2909096wmq.0
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 07:09:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=gQT9ONiHLk7yAa0p4Nj0sMa/6pcEWW5lpPdVTij6UtQ=;
+ b=PCVIJcdx12+jxOO+9K5s3qJBgLfV+Gvr6YyK3kJdN2mkIWl7yFAMAqeVzr9v81xpph
+ i4FlYj2BMC/dkpxNm5XKk0dAQ0WU0NlzwYgJ0biHvXFw3dsgqImRjRONTa6j7PDOWQqT
+ CQI/hIjg2O6PFVXUzkEyBgsFz//9hfvlc+hGYeqSkHeBWosGPuGemekZbFsXRhAVtaHN
+ i1KRElTa/B7goC8YtHFANfP38aD6XP6Hftqg4rWcxRb18iKE091Oyuy5z7PrnK4gGhCL
+ RRRvPdYrXVrLX0JCb4+myU6XULhq9F/ov5Yw1Bf4EbMMDFf+9yNNmyFzEeEh8uG0AI7w
+ SYGQ==
+X-Gm-Message-State: AOAM531XkRLm2PhciOx9CKon2NmZhJHysHK+FPld+fhSZGRtuPg0bsuw
+ UFYxIpDxqAReO1gdu00niYwHZ/n2hRBmzssFbGHJLGY06/cMV4qOI04cBVjtKJ5ZQwJ/lF8oicI
+ 8O2xVzk+4eCThX+o=
+X-Received: by 2002:a1c:7904:: with SMTP id l4mr4240444wme.42.1629468598012;
+ Fri, 20 Aug 2021 07:09:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy6T90jMdObTgYNP/soCYc6Mw9aCu4AshkGpExi/3Hnf0WzpY49iXSBDAggZOP7T2F2HwJADg==
+X-Received: by 2002:a1c:7904:: with SMTP id l4mr4240413wme.42.1629468597800;
+ Fri, 20 Aug 2021 07:09:57 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id w14sm5951136wrt.23.2021.08.20.07.09.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Aug 2021 07:09:57 -0700 (PDT)
+Subject: Re: xilinx-zynq-a9: cannot set up guest memory 'zynq.ext_ram'
+To: Bin Meng <bmeng.cn@gmail.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ David Hildenbrand <david@redhat.com>, "Richard W.M. Jones"
+ <rjones@redhat.com>
+References: <CAEUhbmUhKFFxSspve+t2BeppCGPegpb_Z5g-w8M5t-JMLy3Zsg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <869f8be9-b76f-e315-9591-9c452bedf922@redhat.com>
+Date: Fri, 20 Aug 2021 16:09:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <CAEUhbmUhKFFxSspve+t2BeppCGPegpb_Z5g-w8M5t-JMLy3Zsg@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.49, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,104 +100,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 9 Aug 2021 15:45:26 +0200
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+Hi Bin,
 
-> But always give the first 1GB to chip 0 as skiboot requires it.
->=20
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> ---
->  hw/ppc/pnv.c | 33 +++++++++++++++++++++++++--------
->  1 file changed, 25 insertions(+), 8 deletions(-)
->=20
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 025f01c55744..2f5358b70c95 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -710,6 +710,23 @@ static void pnv_chip_power10_pic_print_info(PnvChip =
-*chip, Monitor *mon)
->      pnv_psi_pic_print_info(&chip10->psi, mon);
->  }
-> =20
-> +/* Always give the first 1GB to chip 0 else we won't boot */
-> +static uint64_t pnv_chip_get_ram_size(PnvMachineState *pnv, int chip_id)
-> +{
-> +    MachineState *machine =3D MACHINE(pnv);
-> +    uint64_t ram_per_chip;
-> +
-> +    assert(machine->ram_size >=3D 1 * GiB);
-> +
-> +    ram_per_chip =3D machine->ram_size / pnv->num_chips;
-> +    if (ram_per_chip >=3D 1 * GiB) {
-> +        return QEMU_ALIGN_DOWN(ram_per_chip, 1 * MiB);
-> +    }
-> +
+On 8/20/21 4:04 PM, Bin Meng wrote:
+> Hi,
+> 
+> The following command used to work on QEMU 4.2.0, but is now broken
+> with QEMU head.
+> 
+> $ qemu-system-arm -M xilinx-zynq-a9 -display none -m 40000000
+> -nographic -serial /dev/null -serial mon:stdio -monitor null -device
+> loader,file=u-boot-dtb.bin,addr=0x4000000,cpu-num=0
+> qemu-system-arm: cannot set up guest memory 'zynq.ext_ram': Cannot
+> allocate memory
+> 
+> Any ideas?
 
-So this is only reached if pnv->num_chips is >=3D 2, since
-a single chip would have ram_per_chip =3D=3D machine->ram_size
-and thus take the return branch above.
+Richard hit that recently too.
 
-Maybe worth making it clear with an assert() ?
+Can you provide:
 
-> +    ram_per_chip =3D (machine->ram_size - 1 * GiB) / (pnv->num_chips - 1=
-);
+cat /proc/sys/vm/overcommit_kbytes
+cat /proc/sys/vm/overcommit_memory
+cat /proc/sys/vm/overcommit_ratio
 
-Suggesting that because I was looking for a potential divide by zero ^^
+and
 
-> +    return chip_id =3D=3D 0 ? 1 * GiB : QEMU_ALIGN_DOWN(ram_per_chip, 1 =
-* MiB);
-> +}
-> +
->  static void pnv_init(MachineState *machine)
->  {
->      const char *bios_name =3D machine->firmware ?: FW_FILE_NAME;
-> @@ -717,6 +734,7 @@ static void pnv_init(MachineState *machine)
->      MachineClass *mc =3D MACHINE_GET_CLASS(machine);
->      char *fw_filename;
->      long fw_size;
-> +    uint64_t chip_ram_start =3D 0;
->      int i;
->      char *chip_typename;
->      DriveInfo *pnor =3D drive_get(IF_MTD, 0, 0);
-> @@ -821,17 +839,16 @@ static void pnv_init(MachineState *machine)
->          char chip_name[32];
->          Object *chip =3D OBJECT(qdev_new(chip_typename));
->          int chip_id =3D i;
-> +        uint64_t chip_ram_size =3D  pnv_chip_get_ram_size(pnv, chip_id);
-> =20
->          pnv->chips[i] =3D PNV_CHIP(chip);
-> =20
-> -        /*
-> -         * TODO: put all the memory in one node on chip 0 until we find =
-a
-> -         * way to specify different ranges for each chip
-> -         */
-> -        if (i =3D=3D 0) {
-> -            object_property_set_int(chip, "ram-size", machine->ram_size,
-> -                                    &error_fatal);
-> -        }
-> +        /* Distribute RAM among the chips  */
-> +        object_property_set_int(chip, "ram-start", chip_ram_start,
-> +                                &error_fatal);
-> +        object_property_set_int(chip, "ram-size", chip_ram_size,
-> +                                &error_fatal);
+cat /proc/meminfo
 
-Not really related but failing to set either of these looks
-like it should never happen so I'd rather pass &error_abort
-for debugging purpose.
+(CommitLimit, Committed_AS)
 
-Anyway,
+and OOM messages.
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
-> +        chip_ram_start +=3D chip_ram_size;
-> =20
->          snprintf(chip_name, sizeof(chip_name), "chip[%d]", chip_id);
->          object_property_add_child(OBJECT(pnv), chip_name, chip);
+Per David, 'you can trick QEMU in trying to work around
+that issue, specifying a memory-backend-ram with "reserve=off"
+as guest RAM.'
 
 
