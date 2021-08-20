@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D13713F3509
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 22:18:21 +0200 (CEST)
-Received: from localhost ([::1]:36000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 126D53F3553
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 22:33:29 +0200 (CEST)
+Received: from localhost ([::1]:41226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHAy4-0001mw-Fw
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 16:18:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47196)
+	id 1mHBCh-00061d-LY
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 16:33:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mHAws-00016h-3E
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 16:17:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28895)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mHBB9-0005LL-TD
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 16:31:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30255)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mHAwp-0007P1-AX
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 16:17:04 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mHBB6-0000QI-LG
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 16:31:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629490620;
+ s=mimecast20190719; t=1629491507;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZXafrXKpsXL52RHRAnRO7PfHTpvEa9W/ps6B2Qf9VIY=;
- b=gVyJODfNDmwuu6vk3UpKktY0jykcwvqp3tX22QkhCUfYqG9AmBKLIHzz4faeZ1R8VXoibz
- h5xE919b61luqyC9XcKKXJV+9H/e0TSEUjZYKHBmMdL30Vxhds6Lww57xkEgM2uevpKVDO
- ePVUW78lggrhI7AxCV3kJ93U4WfMNjw=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-180-Ya4BLkdANcCTNZ9PDCeFSg-1; Fri, 20 Aug 2021 16:16:57 -0400
-X-MC-Unique: Ya4BLkdANcCTNZ9PDCeFSg-1
-Received: by mail-qt1-f199.google.com with SMTP id
- m22-20020a05622a1196b029026549e62339so5451970qtk.1
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 13:16:57 -0700 (PDT)
+ bh=XaR3Kya71jdBdzscAhxpuw60SJZHv+qtDvIRYnjqsoQ=;
+ b=bhA0d6PFNSzff4GWswpph1MJVSX9yC+HkdZPl6F/aRX/0q0djTtiIbjDW0ccdpwSbsaxZi
+ FWG9AN6//KszyxVhSeZGsJ85dTEw+ZQ60MV0neDeG1PZ57f9tlaRzkXIYsXIxWAWaPN2wz
+ uK9DGpMQjwBL5YgShcpOgqS+xm01K9s=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-76-Z5xYP9aIOh-8fuO3sjRPCw-1; Fri, 20 Aug 2021 16:31:45 -0400
+X-MC-Unique: Z5xYP9aIOh-8fuO3sjRPCw-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ z18-20020a05622a029200b0029c338949c1so1973177qtw.8
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 13:31:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=ZXafrXKpsXL52RHRAnRO7PfHTpvEa9W/ps6B2Qf9VIY=;
- b=DxWnq2aLIdQoFuQd2SWDqfR46R5iMnS/aGOv/EUQ+ZoYHdhgxcsu6NfxRr7owDbixG
- HYrSWDOFayURqwNAsga0nVPFyzhmd2nQaobWARKblg+vMVuTKARob/j+8aZD2MfbFX5H
- xR5I49JL/gl32etH3FU18vWOBIvZEY5oLgjhHT3Tj5q3ECP2cWZxWz1EcI7O/lQVqESs
- EItA/rqtPJYUebmNi8/YLFeo2KNBHqXEsihlPmuonU1tWOF2BEu27Wu4dRveiXVRGe/w
- hSeWuD3YVXvexx9B6neEwrBnCom7n6KneZuzPJVw4czzsv5pBBF1gyMHTE/l1ZKhqOZL
- +arw==
-X-Gm-Message-State: AOAM533deWKp34m3mkDTYme4qik0qz3arSmS51fJLY2qLijox1UUF363
- Rj8BtouJp9MFBG/AsvNrEwrJLIvTpaLoYgRMBVexFESa4w9Gp79Y1GQNfrjn3vegj2ExFSvZswV
- wg0C0Prp047nZrzA=
-X-Received: by 2002:ac8:12c5:: with SMTP id b5mr8730619qtj.215.1629490617269; 
- Fri, 20 Aug 2021 13:16:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxz0QANn9Q/JPkpPGsYKZJW9yK4KT8J9U+lNs5QRk3NljKhXM/MP1Sn/V46kHkDshvWJTRA0w==
-X-Received: by 2002:ac8:12c5:: with SMTP id b5mr8730588qtj.215.1629490616981; 
- Fri, 20 Aug 2021 13:16:56 -0700 (PDT)
+ bh=XaR3Kya71jdBdzscAhxpuw60SJZHv+qtDvIRYnjqsoQ=;
+ b=GfdONqWA+9dwEj0ZOC5G/S1mVyhxZeBknzpofenwr3RqxFEE4874Z9wI3agOw7Fgp4
+ J4ADCE90SYvtZ/Kj68VQRSt3JupAGIczkSQBkm4CGBX1xxo2rba3PR38kGrfJXDtJ3Jv
+ UMUypM6YeW/zRyAAEWPfHButJr0LM+vUFu6/XUckYlzZJKS7M7AHnvS31uy41G80ijix
+ f/xqMj7NYZI1QzsNkcKA+hqnBG8KLAB/kjFxD5ok+4aQ38iLjssWdGRcPo+pWDWSvFnt
+ PfbfOowIT+h6djlQ1/kuesPLZN+wnMc708zOnug5FhdzXGqqsMWmMcLFGhVM0JiqlvtI
+ yG0A==
+X-Gm-Message-State: AOAM533UkhQfy026Ya4COThZkrKiN3st/mueYL3AO6fpUDXtjdxmrVBB
+ BePPVhrK3GiNkIwrEaqNi/zDg/APFyQODvejot5yXq4lAwA2OKrs1jkeGM8EBXTlO6B65ZMspjP
+ KzLrl6vYm+fzA2mo=
+X-Received: by 2002:ad4:438e:: with SMTP id s14mr22035921qvr.26.1629491505473; 
+ Fri, 20 Aug 2021 13:31:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzUPPMXeGOwWNOpR6MYn40W44pQTIlC8ObqqGUXVNZ/shDD330ve2yCD+rqdYR3n90zfZIeMg==
+X-Received: by 2002:ad4:438e:: with SMTP id s14mr22035898qvr.26.1629491505313; 
+ Fri, 20 Aug 2021 13:31:45 -0700 (PDT)
 Received: from t490s ([2607:fea8:56a3:500::d413])
- by smtp.gmail.com with ESMTPSA id x83sm3736610qkb.118.2021.08.20.13.16.55
+ by smtp.gmail.com with ESMTPSA id q14sm3576496qkl.44.2021.08.20.13.31.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Aug 2021 13:16:56 -0700 (PDT)
-Date: Fri, 20 Aug 2021 16:16:54 -0400
+ Fri, 20 Aug 2021 13:31:44 -0700 (PDT)
+Date: Fri, 20 Aug 2021 16:31:43 -0400
 From: Peter Xu <peterx@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] memory: Have 'info mtree' remove duplicated Address
- Space information
-Message-ID: <YSANtgAah4THaxub@t490s>
-References: <20210820105435.3034561-1-philmd@redhat.com>
- <73fa7b2f-fba2-6af0-5cf4-2066d7f625e5@redhat.com>
+Subject: Re: [PATCH] softmmu/physmem: Improve guest memory allocation failure
+ error message
+Message-ID: <YSARLwcmNZ4vgjB1@t490s>
+References: <20210820155211.3153137-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <73fa7b2f-fba2-6af0-5cf4-2066d7f625e5@redhat.com>
+In-Reply-To: <20210820155211.3153137-1-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -96,67 +95,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Bin Meng <bmeng.cn@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Phil,
-
-On Fri, Aug 20, 2021 at 12:58:05PM +0200, Philippe Mathieu-Daudé wrote:
-> >   (qemu) info mtree
-> >   address-space: I/O
-> >     0000000000000000-000000000000ffff (prio 0, i/o): io
-> > 
-> >   address-space shared 9 times:
-> >     - cpu-memory-0
-> >     - cpu-memory-1
-> >     - cpu-memory-2
-> >     - cpu-memory-3
-> >     - cpu-secure-memory-0
-> >     - cpu-secure-memory-1
-> >     - cpu-secure-memory-2
-> >     - cpu-secure-memory-3
-> >     - memory
-
-Do you think below would look better?
-
-   address-space cpu-memory-0:
-   address-space cpu-memory-1:
-   address-space cpu-memory-3:
-   ...
-   address-space memory:
-     [memory ranges]
-
-"info mtree -f" has something similar:
-
-FlatView #2
- AS "ich9-ahci", root: bus master container
- AS "vtd-root", root: vtd-00.0
- AS "virtio-blk-pci", root: bus master container
- AS "vtd-root", root: vtd-01.0
- AS "vtd-root", root: vtd-02.0
- AS "vtd-root", root: vtd-03.0
- AS "vtd-root", root: vtd-04.0
- AS "vtd-root", root: vtd-1f.0
- AS "vtd-root", root: vtd-1f.2
- AS "vtd-root", root: vtd-1f.3
- Root memory region: vtd-nodmar
-   [memory ranges]
-
-[...]
-
-> > +struct AddressSpaceInfo {
-> > +    MemoryRegionListHead *ml_head;
-> > +    int counter;
+On Fri, Aug 20, 2021 at 05:52:11PM +0200, Philippe Mathieu-Daudé wrote:
+> When Linux refuses to overcommit a seriously wild allocation we get:
 > 
-> Doh this field is unused :/
+>   $ qemu-system-i386 -m 40000000
+>   qemu-system-i386: cannot set up guest memory 'pc.ram': Cannot allocate memory
+> 
+> Slighly improve the error message, displaying the memory size
+> requested (in case the user didn't expect unspecified memory size
+> unit is in MiB):
+> 
+>   $ qemu-system-i386 -m 40000000
+>   qemu-system-i386: Cannot set up 38.1 TiB of guest memory 'pc.ram': Cannot allocate memory
+> 
+> Reported-by: Bin Meng <bmeng.cn@gmail.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Looks good to me otherwise.
-
-Thanks,
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
 -- 
 Peter Xu
