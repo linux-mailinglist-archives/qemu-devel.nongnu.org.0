@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 750683F2934
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 11:32:26 +0200 (CEST)
-Received: from localhost ([::1]:48346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1DFD3F2948
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 11:36:16 +0200 (CEST)
+Received: from localhost ([::1]:51494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH0sz-0008IS-0r
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 05:32:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36284)
+	id 1mH0wh-0002E2-TB
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 05:36:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mH0rN-0007PD-V9
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 05:30:45 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:42662)
+ id 1mH0vM-0001QH-Mh
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 05:34:52 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:39576)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mH0rM-0004yx-EA
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 05:30:45 -0400
-Received: by mail-ed1-x531.google.com with SMTP id bo19so13033736edb.9
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 02:30:43 -0700 (PDT)
+ id 1mH0vK-0008GE-Tr
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 05:34:52 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id gr13so18943890ejb.6
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 02:34:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LgjudgAGewSEWQTx1KnXh/IIg1LLSqi3dNFjPXcoTM0=;
- b=GRngY1pTODIc7gFxy1ZpbLHGnpLR+M7OvErKnbiXoDakaI9i4lcaqiO5dEnxInpYgH
- VsyPmYAgVc3WphlslvJrZccSuu9T+g4xNhSSeMEa6v43SY+BCjx2RdP1iUl2OM6hbn3/
- 9J76xaf82YJ2Zc+PWzwfB0/BxDnMrja6YiCqa2spVHMSriS0XJJ0MFEwQweXLaJAFMMD
- 8vwv1MT0HY3dtiByEIXsfOJ00DEG86Yt3VX6ExopRlq8OCH55deZ66ZTP8NgzFx1wUfP
- AQ/PF9SLN0hPjeXFeu1d/6+EWbIE05N8EHp3/aZgy48QQPG9sk23wcmPCn15Fui1z6zd
- BZTA==
+ :cc; bh=81vRd7z3FXbh6DTFbrouJbyTo6bDKK1+aEaGwJIZHgY=;
+ b=o/AA5J2qt+2dblrhCEdemQ4xLkWYUrHs7ynw4XSDWqs4aA0X6WUZP7Bq7Rs1McXOJV
+ KLiBbRVOEUS07sRxtOn7KJbdPVLFtwt8sdLZLGbQkELUb8lvBr1TQsiIvq+LlBJUsgIA
+ 5REbJs9YH4ld3tIlwY4TSByPN47cB3gS/lzQCwSZ6YamEN4K2Y9KNRJfXPht6zxe1qWE
+ FQgUO16kXxSrzOIy4VcyXjrN148MkUEsypAHfxQZXjPvvAuWMbd+1zfvGGQUgOQJm9Gl
+ wLgPL869hV6F7J9dAQb139OhxTTJ549vx66EEF90aai0RLvZ8kA4b+LSIHeHtvNPje1b
+ RSbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=LgjudgAGewSEWQTx1KnXh/IIg1LLSqi3dNFjPXcoTM0=;
- b=H+ll8l4B4ERciLOphPq0SQfmrT0PaBEr6919d/2kRRJ08x2Lf9NYjulaoTVTftYYcA
- Bix0pHyQ4/7CCC+W5LY/DzefuAwZcXkHVLdN8Kg3J6hx3Xzz35VEJ77XzMM3Yuyn3nfR
- zq41jsErCi9l7x1QI8lVj5PxrpjfGrGNT0O+lm0lepQWL0/I7ZLCRBahriT8rTfVuxif
- u+S5FP7VftC5JqYk6qeB6NHDvd8Tv/wuSwfPJyfVYN6vTen2klsP5XVOFJqM5Kb+NZ/G
- KMkSF2IkTeXPe69JtsplXumjWqtRkqYh2FRTzBqUWpvJE+xaMmUvWtl7MacFypNVRYLN
- ZvFg==
-X-Gm-Message-State: AOAM531x+imzKdIYDy5TdbBg9W2Nafj7G64dZqbiJ5PzU5ufu6J/IMo3
- bojCfynHgc9Ut+f2C8BVPt/nBoqiSzDGrczPPmFCQg==
-X-Google-Smtp-Source: ABdhPJyyoFMZqYIpYYLBRxmKCMpRHTiI2xyRiBnGZKoj24D8RP+5qTdQomMITBAZS6UfY8YDRhKHwbv4gJ2H6cJqNFw=
-X-Received: by 2002:a05:6402:220e:: with SMTP id
- cq14mr21213985edb.52.1629451842187; 
- Fri, 20 Aug 2021 02:30:42 -0700 (PDT)
+ bh=81vRd7z3FXbh6DTFbrouJbyTo6bDKK1+aEaGwJIZHgY=;
+ b=f48QoU3dq8uTQ2aSm5YuzATQvO+3xTxrD3SxIA+YVR+7xa5MRuPHXeRcP//5bkgkAP
+ plcYfchBPX2ovPjzsbu+gbv8W5kZ1ZGtO9fnpHqYtl9e3uBlJ+YGmdyTaIR26tVMLEVG
+ w5tcJvIYVnpLeoYay2dXiN2OGGwEkrde9X59tFw/jkDVRcXrFoL8ukFNOAXISZPqyPMM
+ YYWEqL6pREKHT5UCfyE3jimskHxZZVcIexv8RPMZLMgi1OtRZGbK+cM/vVMR/0h1i9DG
+ XVg/AM/aUaPVFOqrWykWXeo7v6PVuyW4TN/lEVoz3vIQy8b3cZtsYJGE+BHIYtFhNT0C
+ /Wkg==
+X-Gm-Message-State: AOAM533EYYh8RCOkjCDIP7YgCUIsYE+Ok9PLJ7XZ+Qs+ezzGQuFF0sP4
+ q6AkdL54/IkPykrp2LcpZmnddQfycegx79Saa3Gtbg==
+X-Google-Smtp-Source: ABdhPJyxElR/zmDxJB5HT94YqSJNJpIpRi9SAebfi8iG5r9V40osUnuRvjqt1v70/d4ITA0ddxjpA/Y3iSTlrI8KqRo=
+X-Received: by 2002:a17:907:1048:: with SMTP id
+ oy8mr20176237ejb.382.1629452089344; 
+ Fri, 20 Aug 2021 02:34:49 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210818191920.390759-1-richard.henderson@linaro.org>
- <20210818191920.390759-54-richard.henderson@linaro.org>
-In-Reply-To: <20210818191920.390759-54-richard.henderson@linaro.org>
+ <20210818191920.390759-60-richard.henderson@linaro.org>
+In-Reply-To: <20210818191920.390759-60-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 Aug 2021 10:29:56 +0100
-Message-ID: <CAFEAcA-kU_P+zKieWGznVfio7-3h-8Mzv2nQw0jhk+=ZYtjaTw@mail.gmail.com>
-Subject: Re: [PATCH v3 53/66] target/alpha: Reorg integer memory operations
+Date: Fri, 20 Aug 2021 10:34:03 +0100
+Message-ID: <CAFEAcA-dFoksfoZ0Ngr9xjyAsTyHq+NzaRjiY-2LTZBs9QMSsQ@mail.gmail.com>
+Subject: Re: [PATCH v3 59/66] accel/tcg: Handle SIGBUS in handle_cpu_signal
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,23 +82,20 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 18 Aug 2021 at 21:11, Richard Henderson
+On Wed, 18 Aug 2021 at 21:13, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Pass in the MemOp instead of a callback.
-> Drop the fp argument; add a locked argument.
+> We've been registering host SIGBUS, but then treating it
+> exactly like SIGSEGV.
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/alpha/translate.c | 104 +++++++++++++++------------------------
->  1 file changed, 40 insertions(+), 64 deletions(-)
+> Handle BUS_ADRALN via cpu_unaligned_access, but allow other
+> SIGBUS si_codes to continue into the host-to-guest signal
+> coversion code in host_signal_handler.  Unwind the guest
+> state so that we report the correct guest PC for the fault.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+You can't rely on alignment faults being marked by BUS_ADRALN:
+eg MIPS doesn't give you that si_code. How much does that matter
+for our use of it here ?
 
-(One of those patches where diff has made an incomprehensible mess
-of the change and it's easier to look separately at the "before"
-and "after" files, at least for the first half of the patch...)
-
-thanks
 -- PMM
 
