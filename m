@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C10A3F2DFD
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 16:24:01 +0200 (CEST)
-Received: from localhost ([::1]:38038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4053F2E15
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 16:29:40 +0200 (CEST)
+Received: from localhost ([::1]:57546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH5RA-0000b6-E1
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 10:24:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36364)
+	id 1mH5Wd-0005I5-5s
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 10:29:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mH5Nj-0003w2-Q5
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 10:20:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60828)
+ id 1mH5Nl-00040q-5W
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 10:20:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mH5Ni-0004SN-30
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 10:20:27 -0400
+ id 1mH5Ni-0004Sr-RS
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 10:20:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629469225;
+ s=mimecast20190719; t=1629469226;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4lBP7OItPj97GmmCHX07BUF4/qvGLs2zCDqDf3BibLU=;
- b=S3UeuG2T1+ZBrREbz5mohAMOvRlniX0SRkm2yBOmu593cs4vbphQw52hQxAdmW7uzQRmqZ
- mmvLMOsHA6OZpo3me+mnkB3mxovZak98rsFG6+yGUwY9rW0Sivt6KJfEg5P6NGmIkVmgie
- +08Cbf4u/9mmJPCjqalfHiM0q5Yj6ls=
+ bh=fcYNrRcabklWXiefBQ5jnoeP/vl7VaBO52IHwHBjbRM=;
+ b=BOtQkEyuc409gtjo/uz5YFslySraWnxTXyAuEs3LfiOW2AKqPUAtdLLR3R/9z6CeeQvgDk
+ pWjfPKnukMhAUzW0VEM0xZnR/AXjbBD+wb4Xh+Wg7kaVkqB3ZjTS2MpngaMA4+jlbNhCuC
+ dsMKPXyhZpsbD1QuQjkaGQoo1ed7oAs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-564-67GaRT4nPFWQI1sx3FbLiw-1; Fri, 20 Aug 2021 10:20:22 -0400
-X-MC-Unique: 67GaRT4nPFWQI1sx3FbLiw-1
+ us-mta-306-Zcv-XJ5bPR6AiE2m_RfteA-1; Fri, 20 Aug 2021 10:20:25 -0400
+X-MC-Unique: Zcv-XJ5bPR6AiE2m_RfteA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 430711966320;
- Fri, 20 Aug 2021 14:20:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A66F1966320;
+ Fri, 20 Aug 2021 14:20:24 +0000 (UTC)
 Received: from thinkpad.redhat.com (unknown [10.39.192.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D589960938;
- Fri, 20 Aug 2021 14:20:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9C3446EF4F;
+ Fri, 20 Aug 2021 14:20:21 +0000 (UTC)
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 1/8] qdev: add an Error parameter to the DeviceListener
- hide_device() function
-Date: Fri, 20 Aug 2021 16:19:55 +0200
-Message-Id: <20210820142002.152994-2-lvivier@redhat.com>
+Subject: [RFC PATCH v2 2/8] qdev/qbus: remove failover specific code
+Date: Fri, 20 Aug 2021 16:19:56 +0200
+Message-Id: <20210820142002.152994-3-lvivier@redhat.com>
 In-Reply-To: <20210820142002.152994-1-lvivier@redhat.com>
 References: <20210820142002.152994-1-lvivier@redhat.com>
 MIME-Version: 1.0
@@ -88,93 +87,66 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows an error to be reported to the caller of qdev_device_add()
+Commit f3a850565693 ("qdev/qbus: add hidden device support") has
+introduced a generic way to hide a device but it has modified
+qdev_device_add() to check a specific option of the failover device,
+"failover_pair_id", before calling the generic mechanism.
 
+It's not needed (and not generic) to do that in qdev_device_add() because
+this is also checked by the failover_hide_primary_device() function that
+uses the generic mechanism to hide the device.
+
+Cc: Jens Freimann <jfreimann@redhat.com>
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 ---
- include/hw/qdev-core.h | 6 ++++--
- hw/core/qdev.c         | 4 ++--
- hw/net/virtio-net.c    | 2 +-
- softmmu/qdev-monitor.c | 4 ++--
- 4 files changed, 9 insertions(+), 7 deletions(-)
+ hw/net/virtio-net.c    |  7 +++++++
+ softmmu/qdev-monitor.c | 14 ++++----------
+ 2 files changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index bafc311bfa1b..e23b23a2f8d6 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -202,7 +202,8 @@ struct DeviceListener {
-      * hide a failover device depending for example on the device
-      * opts.
-      */
--    bool (*hide_device)(DeviceListener *listener, QemuOpts *device_opts);
-+    bool (*hide_device)(DeviceListener *listener, QemuOpts *device_opts,
-+                        Error **errp);
-     QTAILQ_ENTRY(DeviceListener) link;
- };
- 
-@@ -804,12 +805,13 @@ void device_listener_unregister(DeviceListener *listener);
- /**
-  * @qdev_should_hide_device:
-  * @opts: QemuOpts as passed on cmdline.
-+ * @errp: pointer to error object
-  *
-  * Check if a device should be added.
-  * When a device is added via qdev_device_add() this will be called,
-  * and return if the device should be added now or not.
-  */
--bool qdev_should_hide_device(QemuOpts *opts);
-+bool qdev_should_hide_device(QemuOpts *opts, Error **errp);
- 
- typedef enum MachineInitPhase {
-     /* current_machine is NULL.  */
-diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-index cefc5eaa0a92..13f4c1e696bf 100644
---- a/hw/core/qdev.c
-+++ b/hw/core/qdev.c
-@@ -211,13 +211,13 @@ void device_listener_unregister(DeviceListener *listener)
-     QTAILQ_REMOVE(&device_listeners, listener, link);
- }
- 
--bool qdev_should_hide_device(QemuOpts *opts)
-+bool qdev_should_hide_device(QemuOpts *opts, Error **errp)
- {
-     DeviceListener *listener;
- 
-     QTAILQ_FOREACH(listener, &device_listeners, link) {
-         if (listener->hide_device) {
--            if (listener->hide_device(listener, opts)) {
-+            if (listener->hide_device(listener, opts, errp)) {
-                 return true;
-             }
-         }
 diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 16d20cdee52a..542f9e167eb4 100644
+index 542f9e167eb4..0c5ec930356b 100644
 --- a/hw/net/virtio-net.c
 +++ b/hw/net/virtio-net.c
-@@ -3279,7 +3279,7 @@ static void virtio_net_migration_state_notifier(Notifier *notifier, void *data)
- }
- 
- static bool failover_hide_primary_device(DeviceListener *listener,
--                                         QemuOpts *device_opts)
-+                                         QemuOpts *device_opts, Error **errp)
- {
-     VirtIONet *n = container_of(listener, VirtIONet, primary_listener);
-     const char *standby_id;
+@@ -3288,6 +3288,13 @@ static bool failover_hide_primary_device(DeviceListener *listener,
+         return false;
+     }
+     standby_id = qemu_opt_get(device_opts, "failover_pair_id");
++    if (standby_id == NULL) {
++        return false;
++    }
++    if (device_opts->id == NULL) {
++        error_setg(errp, "Device with failover_pair_id don't have id");
++        return true;
++    }
+     if (g_strcmp0(standby_id, n->netclient_name) != 0) {
+         return false;
+     }
 diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index 721dec2d8200..7adf0d22beb1 100644
+index 7adf0d22beb1..5c92dbed3139 100644
 --- a/softmmu/qdev-monitor.c
 +++ b/softmmu/qdev-monitor.c
-@@ -627,8 +627,8 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
-             error_setg(errp, "Device with failover_pair_id don't have id");
-             return NULL;
+@@ -622,17 +622,11 @@ DeviceState *qdev_device_add(QemuOpts *opts, Error **errp)
          }
--        if (qdev_should_hide_device(opts)) {
--            if (bus && !qbus_is_hotpluggable(bus)) {
-+        if (qdev_should_hide_device(opts, errp)) {
-+            if (errp && !*errp && bus && !qbus_is_hotpluggable(bus)) {
-                 error_setg(errp, QERR_BUS_NO_HOTPLUG, bus->name);
-             }
-             return NULL;
+     }
+ 
+-    if (qemu_opt_get(opts, "failover_pair_id")) {
+-        if (!opts->id) {
+-            error_setg(errp, "Device with failover_pair_id don't have id");
+-            return NULL;
+-        }
+-        if (qdev_should_hide_device(opts, errp)) {
+-            if (errp && !*errp && bus && !qbus_is_hotpluggable(bus)) {
+-                error_setg(errp, QERR_BUS_NO_HOTPLUG, bus->name);
+-            }
+-            return NULL;
++    if (qdev_should_hide_device(opts, errp)) {
++        if (errp && !*errp && bus && !qbus_is_hotpluggable(bus)) {
++            error_setg(errp, QERR_BUS_NO_HOTPLUG, bus->name);
+         }
++        return NULL;
+     }
+ 
+     if (phase_check(PHASE_MACHINE_READY) && bus && !qbus_is_hotpluggable(bus)) {
 -- 
 2.31.1
 
