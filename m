@@ -2,66 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FCAE3F2DA5
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 16:05:56 +0200 (CEST)
-Received: from localhost ([::1]:34636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A18FD3F2DB8
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 16:10:41 +0200 (CEST)
+Received: from localhost ([::1]:37656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH59e-0003eo-TT
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 10:05:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60478)
+	id 1mH5EG-0005xR-OV
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 10:10:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mH58E-0002ft-Os; Fri, 20 Aug 2021 10:04:26 -0400
-Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:38434)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mH58A-0007F3-QF; Fri, 20 Aug 2021 10:04:26 -0400
-Received: by mail-yb1-xb29.google.com with SMTP id a9so15580049ybr.5;
- Fri, 20 Aug 2021 07:04:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=8h7JjufK+JwrWnYaRBwZ+TfeavZ1tBzQ1buhLmNQFGM=;
- b=u2j2gXQbiWi+gg4UCU+mkqt1tWfi+BsM2PmZrv8xgV+qRG+wDgr/x6tih5UVV+Y08/
- /caeoduaEGv6cdj1KSjFwUdmPXrCFB5gaLqDGoxI/zZsF/Gk8WJOU6zfn+3ZnZOCEZuj
- xxiLrIwepa+FyTwXK1JdiOUzJqZVO+DAw1VlxUK9kFNTNdr0xFUkkaqMJMD8jWW0kqG/
- /TN5EV7nsicahSM4FBwS1J5vfeEtgrMinyx64jBMGAnYYKZBfu2bLclT6PY0SdE7jxtw
- fsCAg2+nJ+j/V1loMJ/u4bTJnOvqUm+4KqcPfqSmSKunHcPSpLZENBIBHhOnlnBqK7Hs
- 1VZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=8h7JjufK+JwrWnYaRBwZ+TfeavZ1tBzQ1buhLmNQFGM=;
- b=tx85fHJlkhDFEWTW5g94xL9YGHSuIIbbI3Tzca8hfS2RRjd5/xk4F+GVpzQbbCyjn5
- wmC3RVIF4fQ4U0Okl8IgKB2KNVS3TwJsL8BYYXpgvLrm2p6vhkHrIEjoYP7RN9r+Srvl
- QpyvFmr2z2PZfCEEo7HvNYXkQAkss8Wk2DeuP2UGA/LZMActv5CwZR5xQ32hzUwLIqfh
- iaXGelCBLFG4jr5RicWfIXEJOgH3HyJ2Dm9u0Ka0oqUtau782BUk0cjcCueDQaJkkmVZ
- /YYl3mFx+dYLcqg8hDde8K/enb0TehhZEBlplvWa8ncQTJAnu/oQnLiRdQaa0fVWoJDr
- toeA==
-X-Gm-Message-State: AOAM532ZDVDQlMZyfHlyPAtCTC319eLqGQ/okFQISBw0ybwbPD2uNbSF
- rIYiCvfLgbW3wAm9fpbCLr2uJ1/PnwXEQQNSe5E=
-X-Google-Smtp-Source: ABdhPJxMp0fI8YNX4TkkJDapk2akz3kg2Rg2Ix/fQdzvrP6+9pa/7kSOZPKN+drIGecFHBJxchxS1ZZ7zSacTESxW/M=
-X-Received: by 2002:a5b:304:: with SMTP id j4mr25132060ybp.314.1629468260261; 
- Fri, 20 Aug 2021 07:04:20 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mH5Ce-00052j-Sd
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 10:09:00 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:40098)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mH5Cc-0002ya-En
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 10:09:00 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-559-WJOWdI12OBGWmifbhxbeXQ-1; Fri, 20 Aug 2021 10:08:53 -0400
+X-MC-Unique: WJOWdI12OBGWmifbhxbeXQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4A49801AC0;
+ Fri, 20 Aug 2021 14:08:51 +0000 (UTC)
+Received: from bahia.lan (unknown [10.39.192.156])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A37CC226E9;
+ Fri, 20 Aug 2021 14:08:50 +0000 (UTC)
+Date: Fri, 20 Aug 2021 16:08:49 +0200
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH 05/26] ppc/pnv: Distribute RAM among the chips
+Message-ID: <20210820160849.4ad703b1@bahia.lan>
+In-Reply-To: <20210809134547.689560-6-clg@kaod.org>
+References: <20210809134547.689560-1-clg@kaod.org>
+ <20210809134547.689560-6-clg@kaod.org>
 MIME-Version: 1.0
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 20 Aug 2021 22:04:09 +0800
-Message-ID: <CAEUhbmUhKFFxSspve+t2BeppCGPegpb_Z5g-w8M5t-JMLy3Zsg@mail.gmail.com>
-Subject: xilinx-zynq-a9: cannot set up guest memory 'zynq.ext_ram'
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, 
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, 
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb29.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,22 +63,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Mon, 9 Aug 2021 15:45:26 +0200
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-The following command used to work on QEMU 4.2.0, but is now broken
-with QEMU head.
+> But always give the first 1GB to chip 0 as skiboot requires it.
+>=20
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+>  hw/ppc/pnv.c | 33 +++++++++++++++++++++++++--------
+>  1 file changed, 25 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 025f01c55744..2f5358b70c95 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -710,6 +710,23 @@ static void pnv_chip_power10_pic_print_info(PnvChip =
+*chip, Monitor *mon)
+>      pnv_psi_pic_print_info(&chip10->psi, mon);
+>  }
+> =20
+> +/* Always give the first 1GB to chip 0 else we won't boot */
+> +static uint64_t pnv_chip_get_ram_size(PnvMachineState *pnv, int chip_id)
+> +{
+> +    MachineState *machine =3D MACHINE(pnv);
+> +    uint64_t ram_per_chip;
+> +
+> +    assert(machine->ram_size >=3D 1 * GiB);
+> +
+> +    ram_per_chip =3D machine->ram_size / pnv->num_chips;
+> +    if (ram_per_chip >=3D 1 * GiB) {
+> +        return QEMU_ALIGN_DOWN(ram_per_chip, 1 * MiB);
+> +    }
+> +
 
-$ qemu-system-arm -M xilinx-zynq-a9 -display none -m 40000000
--nographic -serial /dev/null -serial mon:stdio -monitor null -device
-loader,file=u-boot-dtb.bin,addr=0x4000000,cpu-num=0
-qemu-system-arm: cannot set up guest memory 'zynq.ext_ram': Cannot
-allocate memory
+So this is only reached if pnv->num_chips is >=3D 2, since
+a single chip would have ram_per_chip =3D=3D machine->ram_size
+and thus take the return branch above.
 
-Any ideas?
+Maybe worth making it clear with an assert() ?
 
-Regards,
-Bin
+> +    ram_per_chip =3D (machine->ram_size - 1 * GiB) / (pnv->num_chips - 1=
+);
+
+Suggesting that because I was looking for a potential divide by zero ^^
+
+> +    return chip_id =3D=3D 0 ? 1 * GiB : QEMU_ALIGN_DOWN(ram_per_chip, 1 =
+* MiB);
+> +}
+> +
+>  static void pnv_init(MachineState *machine)
+>  {
+>      const char *bios_name =3D machine->firmware ?: FW_FILE_NAME;
+> @@ -717,6 +734,7 @@ static void pnv_init(MachineState *machine)
+>      MachineClass *mc =3D MACHINE_GET_CLASS(machine);
+>      char *fw_filename;
+>      long fw_size;
+> +    uint64_t chip_ram_start =3D 0;
+>      int i;
+>      char *chip_typename;
+>      DriveInfo *pnor =3D drive_get(IF_MTD, 0, 0);
+> @@ -821,17 +839,16 @@ static void pnv_init(MachineState *machine)
+>          char chip_name[32];
+>          Object *chip =3D OBJECT(qdev_new(chip_typename));
+>          int chip_id =3D i;
+> +        uint64_t chip_ram_size =3D  pnv_chip_get_ram_size(pnv, chip_id);
+> =20
+>          pnv->chips[i] =3D PNV_CHIP(chip);
+> =20
+> -        /*
+> -         * TODO: put all the memory in one node on chip 0 until we find =
+a
+> -         * way to specify different ranges for each chip
+> -         */
+> -        if (i =3D=3D 0) {
+> -            object_property_set_int(chip, "ram-size", machine->ram_size,
+> -                                    &error_fatal);
+> -        }
+> +        /* Distribute RAM among the chips  */
+> +        object_property_set_int(chip, "ram-start", chip_ram_start,
+> +                                &error_fatal);
+> +        object_property_set_int(chip, "ram-size", chip_ram_size,
+> +                                &error_fatal);
+
+Not really related but failing to set either of these looks
+like it should never happen so I'd rather pass &error_abort
+for debugging purpose.
+
+Anyway,
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+> +        chip_ram_start +=3D chip_ram_size;
+> =20
+>          snprintf(chip_name, sizeof(chip_name), "chip[%d]", chip_id);
+>          object_property_add_child(OBJECT(pnv), chip_name, chip);
+
 
