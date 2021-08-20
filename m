@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB1423F2DF9
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 16:23:35 +0200 (CEST)
-Received: from localhost ([::1]:37034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C3013F2E11
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 16:27:58 +0200 (CEST)
+Received: from localhost ([::1]:52136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH5Qk-0008L6-Sb
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 10:23:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36736)
+	id 1mH5Uz-0001gF-A1
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 10:27:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mH5OM-0005T1-9n
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 10:21:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38509)
+ id 1mH5OO-0005Xn-I6
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 10:21:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40149)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1mH5OK-00052Y-H2
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 10:21:06 -0400
+ id 1mH5OM-00055M-Nw
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 10:21:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629469264;
+ s=mimecast20190719; t=1629469266;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z8Biwj0ckiaoUJd/XxZCS/uYDPlrMGpGdraN038VP90=;
- b=T3GVMTf5mOshmxj1jqRTPMJlnA1pmxlcpRjR87RsApzUjzdp5Z84P/l5zvCuonukzWu1Cy
- qOKABOug4Gm0bM8b88drXW8Zv+bNPY40Shrz7bvspnZ0OZPcBKq+2qeKDlKAtzta8UWr83
- tc3/F3+Ltj0mrQAJXAuRVoEJ3Xh1nUI=
+ bh=S5CskrLd77eeKr4+xXrKL0C9POYBhZR7shpz6e+wIjQ=;
+ b=D1g1/pqqzisOHQyGRmMSfmHOtN4NWWF0es+6e9Pp8JQ/y0xKDljiwXTbWKdtmCL1vsTBDr
+ zVIp07iJ5ujOV3atgoHYUc+N+F/PlZXmLirdQAALSSlhi6+7128uX6aq2FAVrjTb5Zie/2
+ C22Uxt0bYqp/umzvKPUgN8TtO3Gw+hM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-283-6HJd5RJgM2-bGYgS0A_7tQ-1; Fri, 20 Aug 2021 10:21:02 -0400
-X-MC-Unique: 6HJd5RJgM2-bGYgS0A_7tQ-1
+ us-mta-536-IB8vn10OM1-Fvc1stfATRg-1; Fri, 20 Aug 2021 10:21:04 -0400
+X-MC-Unique: IB8vn10OM1-Fvc1stfATRg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BE068799ED;
- Fri, 20 Aug 2021 14:21:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0CA9107ACF5;
+ Fri, 20 Aug 2021 14:21:03 +0000 (UTC)
 Received: from thinkpad.redhat.com (unknown [10.39.192.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A492560938;
- Fri, 20 Aug 2021 14:20:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 80D786EF4F;
+ Fri, 20 Aug 2021 14:21:01 +0000 (UTC)
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 7/8] pci: automatically unplug a PCI card before
- migration
-Date: Fri, 20 Aug 2021 16:20:01 +0200
-Message-Id: <20210820142002.152994-8-lvivier@redhat.com>
+Subject: [RFC PATCH v2 8/8] failover: qemu-opts: manage hidden device list
+Date: Fri, 20 Aug 2021 16:20:02 +0200
+Message-Id: <20210820142002.152994-9-lvivier@redhat.com>
 In-Reply-To: <20210820142002.152994-1-lvivier@redhat.com>
 References: <20210820142002.152994-1-lvivier@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lvivier@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -88,198 +87,190 @@ Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have moved all the functions needed by failover to unplug a card to the
-PCI subsystem.
+failover relies on the command line parameters to store and detect
+failover devices because while the device is hidden it doesn't appears
+in qdev objects and so we don't have the list anywhere else.
 
-A side effect of this change is we can implement automatic hotplug/unplug
-of any PCI card during migration without using a failover virtio-net card.
-For that, we need to introduce a new PCI device property,
-"unplug-on-migration", we can set to "true" or "on" if we want QEMU unplugs
-the card before the migration and plugs it back on the destination side
-after the migration.
+But this doesn't work if the the device is hotplugged because it is
+not added to the qemu opts list (and the opts list memory is released
+after the qdev_device_add() if the device object is not created as it is
+the case when it is hidden).
 
-We modify the pci_dev_hide_device() function to check for the
-"unplug-on-migration" property on the command line.
-If it is present, the device is hidden on startup only on the destination
-side and it will be unplugged before the migration.
+It seems cleaner to manage our own list of hidden devices.
 
-To implement the "unplug-on-migration" property, we add a post_load
-function in vmstate_pcibus to hotplug the card after the migration
-(bus_post_load() and pci_dev_replug_on_migration()). This is not
-needed with virtio-net failover because the device is plugged back
-by the virtio-net device during the features migration
-(VIRTIO_NET_F_STANDBY)
+To do that, this patch adds some qemu_opts functions to store the opts
+list of the device when it is hidden. This list will be used to actually
+plug the device when it will be enabled for the guest.
 
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 ---
- include/hw/pci/pci.h |  1 +
- hw/pci/pci.c         | 76 ++++++++++++++++++++++++++++++++++++++------
- hw/vfio/pci.c        |  2 +-
- 3 files changed, 69 insertions(+), 10 deletions(-)
+ include/qemu/option.h |  4 +++
+ hw/core/qdev.c        |  1 +
+ hw/net/virtio-net.c   |  5 ++-
+ hw/pci/pci.c          |  4 +--
+ util/qemu-option.c    | 82 +++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 91 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index d35214144d1b..e02d965c064f 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -362,6 +362,7 @@ struct PCIDevice {
+diff --git a/include/qemu/option.h b/include/qemu/option.h
+index 306bf0757509..d44550f02542 100644
+--- a/include/qemu/option.h
++++ b/include/qemu/option.h
+@@ -150,4 +150,8 @@ QDict *keyval_parse(const char *params, const char *implied_key,
+                     bool *help, Error **errp);
+ void keyval_merge(QDict *old, const QDict *new, Error **errp);
  
-     /* ID of standby device in net_failover pair */
-     char *failover_pair_id;
-+    bool unplug_on_migration;
-     Notifier migration_state;
-     uint32_t acpi_index;
- };
++int qemu_opts_hidden_device_foreach(qemu_opts_loopfunc func,
++                                    void *opaque, Error **errp);
++QemuOpts *qemu_opts_hidden_device_find(const char *id);
++void qemu_opts_store_hidden_device(QemuOpts *opts);
+ #endif
+diff --git a/hw/core/qdev.c b/hw/core/qdev.c
+index 13f4c1e696bf..f402309a3af9 100644
+--- a/hw/core/qdev.c
++++ b/hw/core/qdev.c
+@@ -218,6 +218,7 @@ bool qdev_should_hide_device(QemuOpts *opts, Error **errp)
+     QTAILQ_FOREACH(listener, &device_listeners, link) {
+         if (listener->hide_device) {
+             if (listener->hide_device(listener, opts, errp)) {
++                qemu_opts_store_hidden_device(opts);
+                 return true;
+             }
+         }
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 35e3d024f8d6..dc971bc9885b 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -831,8 +831,7 @@ static char *failover_find_primary_device_id(VirtIONet *n)
+     FailoverId fid;
+ 
+     fid.n = n;
+-    if (!qemu_opts_foreach(qemu_find_opts("device"),
+-                           failover_set_primary, &fid, &err)) {
++    if (!qemu_opts_hidden_device_foreach(failover_set_primary, &fid, &err)) {
+         return NULL;
+     }
+     return fid.id;
+@@ -874,7 +873,7 @@ static void failover_add_primary(VirtIONet *n, Error **errp)
+                           " failover_pair_id=%s\n", n->netclient_name);
+         return;
+     }
+-    opts = qemu_opts_find(qemu_find_opts("device"), id);
++    opts = qemu_opts_hidden_device_find(id);
+     g_assert(opts); /* cannot be NULL because id was found using opts list */
+     dev = qdev_device_add(opts, &err);
+     if (err) {
 diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 10b875fdfad1..31ab80b81b6b 100644
+index 31ab80b81b6b..d222623a68b2 100644
 --- a/hw/pci/pci.c
 +++ b/hw/pci/pci.c
-@@ -82,6 +82,8 @@ static Property pci_props[] = {
-                     QEMU_PCIE_LNKSTA_DLLLA_BITNR, true),
-     DEFINE_PROP_BIT("x-pcie-extcap-init", PCIDevice, cap_present,
-                     QEMU_PCIE_EXTCAP_INIT_BITNR, true),
-+    DEFINE_PROP_BOOL("unplug-on-migration", PCIDevice,
-+                     unplug_on_migration, false),
-     DEFINE_PROP_STRING("failover_pair_id", PCIDevice,
-                        failover_pair_id),
-     DEFINE_PROP_UINT32("acpi-index",  PCIDevice, acpi_index, 0),
-@@ -110,6 +112,45 @@ static bool bus_unplug_pending(void *opaque)
-     return false;
- }
+@@ -142,8 +142,8 @@ static int bus_post_load(void *opaque, int version_id)
+     Error *err = NULL;
+     PCIBus *bus = opaque;
  
-+static int pci_dev_replug_on_migration(void *opaque, QemuOpts *opts,
-+                                       Error **errp)
+-    if (qemu_opts_foreach(qemu_find_opts("device"),
+-                          pci_dev_replug_on_migration, bus->qbus.name, &err)) {
++    if (qemu_opts_hidden_device_foreach(pci_dev_replug_on_migration,
++                                        bus->qbus.name, &err)) {
+         error_report_err(err);
+         return -EINVAL;
+     }
+diff --git a/util/qemu-option.c b/util/qemu-option.c
+index 61cb4a97bdb6..90bdec030624 100644
+--- a/util/qemu-option.c
++++ b/util/qemu-option.c
+@@ -37,6 +37,8 @@
+ #include "qemu/id.h"
+ #include "qemu/help_option.h"
+ 
++static QTAILQ_HEAD(, QemuOpts) hidden_devices =
++                               QTAILQ_HEAD_INITIALIZER(hidden_devices);
+ /*
+  * Extracts the name of an option from the parameter string (@p points at the
+  * first byte of the option name)
+@@ -1224,3 +1226,83 @@ QemuOptsList *qemu_opts_append(QemuOptsList *dst,
+ 
+     return dst;
+ }
++
++/* create a copy of an opts */
++static QemuOpts *qemu_opts_duplicate(QemuOpts *opts)
 +{
-+    Error *err = NULL;
-+    const char *bus_name = opaque;
-+    const char *opt;
-+    DeviceState *dev;
++    QemuOpts *new;
++    QemuOpt *opt;
 +
-+    if (g_strcmp0(qemu_opt_get(opts, "bus"), bus_name)) {
-+        return 0;
++    new = g_malloc0(sizeof(*new));
++    new->id = g_strdup(opts->id);
++    new->list = opts->list;
++
++    QTAILQ_INIT(&new->head);
++
++    QTAILQ_FOREACH_REVERSE(opt, &opts->head, next) {
++        QemuOpt *new_opt = g_malloc0(sizeof(*new_opt));
++
++        new_opt->name = g_strdup(opt->name);
++        new_opt->str = g_strdup(opt->str);
++        new_opt->opts = new;
++        QTAILQ_INSERT_TAIL(&new->head, new_opt, next);
 +    }
 +
-+    opt = qemu_opt_get(opts, "unplug-on-migration");
-+    if (g_strcmp0(opt, "on") && g_strcmp0(opt, "true")) {
-+        return 0;
-+    }
-+    dev = qdev_device_add(opts, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return 1;
-+    }
-+    object_unref(OBJECT(dev));
-+    return 0;
++    QTAILQ_INSERT_TAIL(&new->list->head, new, next);
++
++    return new;
 +}
 +
-+static int bus_post_load(void *opaque, int version_id)
++/*
++ * For each member of the hidded device list,
++ * call @func(@opaque, name, value, @errp).
++ * @func() may store an Error through @errp, but must return non-zero then.
++ * When @func() returns non-zero, break the loop and return that value.
++ * Return zero when the loop completes.
++ */
++int qemu_opts_hidden_device_foreach(qemu_opts_loopfunc func,
++                                    void *opaque, Error **errp)
 +{
-+    Error *err = NULL;
-+    PCIBus *bus = opaque;
++    QemuOpts *hidden;
++    int rc = 0;
 +
-+    if (qemu_opts_foreach(qemu_find_opts("device"),
-+                          pci_dev_replug_on_migration, bus->qbus.name, &err)) {
-+        error_report_err(err);
-+        return -EINVAL;
++    QTAILQ_FOREACH(hidden, &hidden_devices, next) {
++        rc = func(opaque, hidden, errp);
++        if (rc) {
++            break;
++        }
 +    }
-+
-+    return 0;
++    return rc;
 +}
 +
- static const VMStateDescription vmstate_pcibus = {
-     .name = "PCIBUS",
-     .version_id = 1,
-@@ -122,6 +163,7 @@ static const VMStateDescription vmstate_pcibus = {
-         VMSTATE_END_OF_LIST()
-     },
-     .dev_unplug_pending = bus_unplug_pending,
-+    .post_load = bus_post_load,
- };
- 
- static void pci_init_bus_master(PCIDevice *pci_dev)
-@@ -1200,7 +1242,7 @@ static void pci_qdev_unrealize(DeviceState *dev)
-     PCIDevice *pci_dev = PCI_DEVICE(dev);
-     PCIDeviceClass *pc = PCI_DEVICE_GET_CLASS(pci_dev);
- 
--    if (pci_dev->failover_pair_id) {
-+    if (pci_dev->unplug_on_migration) {
-         remove_migration_state_change_notifier(&pci_dev->migration_state);
-     }
- 
-@@ -2265,6 +2307,15 @@ static bool pci_dev_hide_device(DeviceListener *listener,
-         return false;
-     }
- 
-+    opt = qemu_opt_get(device_opts, "unplug-on-migration");
-+    if (g_strcmp0(opt, "on") == 0 || g_strcmp0(opt, "true") == 0) {
-+        if (runstate_check(RUN_STATE_INMIGRATE)) {
-+            return migration_incoming_get_current()->state !=
-+                   MIGRATION_STATUS_ACTIVE;
++/* scan the list of hidden devices to find opts for the one with id @id */
++QemuOpts *qemu_opts_hidden_device_find(const char *id)
++{
++    QemuOpts *hidden;
++
++    QTAILQ_FOREACH(hidden, &hidden_devices, next) {
++        if (g_strcmp0(id, hidden->id) == 0) {
++            return hidden;
 +        }
-+        return false;
 +    }
 +
-     return false;
- }
- 
-@@ -2290,6 +2341,10 @@ static void pci_qdev_realize(DeviceState *qdev, Error **errp)
-         pci_dev->cap_present |= QEMU_PCI_CAP_EXPRESS;
-     }
- 
-+    if (pci_dev->failover_pair_id) {
-+        pci_dev->unplug_on_migration = true;
++    return NULL;
++}
++
++/* add the @opts to the list of hidden devices */
++void qemu_opts_store_hidden_device(QemuOpts *opts)
++{
++    QemuOpts *copy;
++
++    if (qemu_opts_hidden_device_find(opts->id)) {
++        return;
 +    }
 +
-     pci_dev = do_pci_register_device(pci_dev,
-                                      object_get_typename(OBJECT(qdev)),
-                                      pci_dev->devfn, errp);
-@@ -2306,12 +2361,6 @@ static void pci_qdev_realize(DeviceState *qdev, Error **errp)
-     }
- 
-     if (pci_dev->failover_pair_id) {
--        if (!pci_bus_is_express(pci_get_bus(pci_dev))) {
--            error_setg(errp, "failover primary device must be on "
--                             "PCIExpress bus");
--            pci_qdev_unrealize(DEVICE(pci_dev));
--            return;
--        }
-         class_id = pci_get_word(pci_dev->config + PCI_CLASS_DEVICE);
-         if (class_id != PCI_CLASS_NETWORK_ETHERNET) {
-             error_setg(errp, "failover primary device is not an "
-@@ -2319,10 +2368,19 @@ static void pci_qdev_realize(DeviceState *qdev, Error **errp)
-             pci_qdev_unrealize(DEVICE(pci_dev));
-             return;
-         }
-+    }
-+
-+    if (pci_dev->unplug_on_migration) {
-+        if (!pci_bus_is_express(pci_get_bus(pci_dev))) {
-+            error_setg(errp, "Unplugged device on migration must be on "
-+                             "PCIExpress bus");
-+            pci_qdev_unrealize(DEVICE(pci_dev));
-+            return;
-+        }
-         if ((pci_dev->cap_present & QEMU_PCI_CAP_MULTIFUNCTION)
-             || (PCI_FUNC(pci_dev->devfn) != 0)) {
--            error_setg(errp, "failover: primary device must be in its own "
--                              "PCI slot");
-+            error_setg(errp, "Unplugged device on migration must be in its "
-+                              "own PCI slot");
-             pci_qdev_unrealize(DEVICE(pci_dev));
-             return;
-         }
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index e1ea1d8a23b5..187e1b58a4d9 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -3080,7 +3080,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-         }
-     }
- 
--    if (!pdev->failover_pair_id) {
-+    if (!pdev->unplug_on_migration) {
-         ret = vfio_migration_probe(&vdev->vbasedev, errp);
-         if (ret) {
-             error_report("%s: Migration disabled", vdev->vbasedev.name);
++    /*
++     * we need to duplicate opts because qmp_device_add() calls
++     * qemu_opts_del(opts) if the device is not added,
++     * and this is what happens when it is hidden
++     */
++    copy = qemu_opts_duplicate(opts);
++    QTAILQ_INSERT_TAIL(&hidden_devices, copy, next);
++}
 -- 
 2.31.1
 
