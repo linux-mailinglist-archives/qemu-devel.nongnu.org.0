@@ -2,93 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FCB83F2FF0
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 17:46:04 +0200 (CEST)
-Received: from localhost ([::1]:35922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13F533F3007
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Aug 2021 17:48:11 +0200 (CEST)
+Received: from localhost ([::1]:41164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mH6iZ-0008Um-5u
-	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 11:46:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54700)
+	id 1mH6kc-0003fp-5v
+	for lists+qemu-devel@lfdr.de; Fri, 20 Aug 2021 11:48:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mH6gm-00073T-MX
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 11:44:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27037)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mH6jb-0002lN-0i
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 11:47:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60022)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mH6gj-0000Mf-0Y
- for qemu-devel@nongnu.org; Fri, 20 Aug 2021 11:44:11 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mH6jZ-0002vJ-JJ
+ for qemu-devel@nongnu.org; Fri, 20 Aug 2021 11:47:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629474247;
+ s=mimecast20190719; t=1629474425;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qPs+5XRzR//7CLL5+d+83u+qSd7ZPJjPahmYwzHw8V8=;
- b=c+k+F6/5fiKyzxIIrSkOMLD0wyzieJfDT3rAVykqulO2dYtUI4Kl1aacUCv0JSW1nk4JwV
- 0GFAwCMgv5ZQ/q6yJ126QtPBhrKqWSCUjdTX8ikP79y0FND4AnQboWvM5ChBiajq4CHk36
- 2jvM1+FaGzAECjg4cm89qouocAOX998=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-326-5P-OXfrsNpaxPt5kbYEszw-1; Fri, 20 Aug 2021 11:44:06 -0400
-X-MC-Unique: 5P-OXfrsNpaxPt5kbYEszw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- e3-20020a50ec830000b02903be5be2fc73so4714492edr.16
- for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 08:44:05 -0700 (PDT)
+ bh=4WlcJXE7AYcsMiyRDv7a/mDSfhXNDS3YYokGDRbiSsA=;
+ b=AFmz89U4WqFWDeGZDUsqJRQECntuzc68NRN72pIfYkJkJPQb0kHcPsRIuxXAIgb7gCGkyE
+ TXlDrCZcnxWaMm5jkhYPxLrPG30J20ZD1gBZbihSbD2J/RtQqfmLwhAgGuJGV0ob9vK5u+
+ E9B9oiYJmlqkAWR7as12R7D90zgYO84=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-444-Xc4S0YMvPAuaY3FNtkhgbA-1; Fri, 20 Aug 2021 11:47:03 -0400
+X-MC-Unique: Xc4S0YMvPAuaY3FNtkhgbA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ m2-20020a0560000082b0290154f6e2e51fso2972799wrx.12
+ for <qemu-devel@nongnu.org>; Fri, 20 Aug 2021 08:47:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=LjVAgdspACEk/M/9kucGCJPhavjrT1MmieV9qL/h00s=;
- b=E1iH/vlqhA2GiMMDtttC67USm8QeTXsp7z4jEtblziu8RwCvFEfH9B2+SnINrZSDOk
- meOSSSTB89of//Ts7KijmCmKJluup+/OS6IzS7IAqT5gAN82Kbdw3r8SIoqaNhmt0yOX
- x7Aa9lgCydYXrFVFSELUrMfJUXJqzDbXX40Zr2FkYLJOsh86u7l1Bj3weHQ6bPkUkv3X
- bz5RqPNn++TVmacid7cD+OHcVJokq8Q7T+tK4hGM/5RDJSQS8ToT3m9J+aO4JDPwQDL1
- TkrUS4tGVNoruDCEKv295w4csYoZHHSnyxpPYf7kdKlEteblHqdmC8QmRfW2QcEsbKAH
- 1zsg==
-X-Gm-Message-State: AOAM532g+JgkM5tCDZGnEmr7v/HrRA+tZhLbW9TsAt4WUgfZhFtm3Dse
- pG+1DKtHF+mRgVyvt6+xNpsozoxBNldNOJQvF7FQ5lO/81xP8xNSziU6xZrmMwPG7MfNACUhGfg
- tEXeqETYsqyihujI=
-X-Received: by 2002:a17:906:1f8e:: with SMTP id
- t14mr22224809ejr.313.1629474244949; 
- Fri, 20 Aug 2021 08:44:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz5V4q4p4hSWMVJdd0SU1Hwz5E6WPfUBUFF/OR8dx3em9AdgrSmw8k7gAoF7oZz1K5kNwOg0A==
-X-Received: by 2002:a17:906:1f8e:: with SMTP id
- t14mr22224767ejr.313.1629474244628; 
- Fri, 20 Aug 2021 08:44:04 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id cq12sm3728868edb.43.2021.08.20.08.44.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Aug 2021 08:44:04 -0700 (PDT)
-Date: Fri, 20 Aug 2021 17:44:02 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=4WlcJXE7AYcsMiyRDv7a/mDSfhXNDS3YYokGDRbiSsA=;
+ b=AqXxHe46o8bN0zDpzScVRvGiVOWWF7CcUAsUVTlECeXIGdBKU5uTVPxwsab7i9/lvf
+ +TStLBNcoGlyw0WMg9kRLBZzttFxpJnwZ82YqrhLRb3FhG0/s5rw/wdMtbxyfQ7JSKbw
+ gjGEkBIOH2Ex8GhH+22Y6JDovxGOzYz4mTi/9ZjhvcQqa1xi+RwkxgsNuCXz2xiZWlM9
+ plxgUHtgl6o7vob2+B0tpPO2iLnpgp0Bahg36zGmcwNC22ph/QZj7Djo0YJfFTRSvota
+ QEszUp5gtEKtDY1pLoYy/4KY+UdgW3owcpfohRxn5nHXiu61mHvwXQVT2v9++3pSiPQE
+ ieqw==
+X-Gm-Message-State: AOAM533wAQn8d4iPzjE38CCbnnhNQwSo7Zkewa4pGrorgf1K2YVlp8WB
+ i3PUfABJcjBC18pojzX9s46CjGB2mtOTptKbeIo5IwtMpY69BxqhGgqr3O8/UWkExOi1wI9pkZw
+ Cmqb38XIFSc5oUAE=
+X-Received: by 2002:a1c:2202:: with SMTP id i2mr4672357wmi.78.1629474422561;
+ Fri, 20 Aug 2021 08:47:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyyKYsvyKTvb4pSRkMGSeFDuHYqHXOXZK8P9lEXRKbW3LxOZ7DHpufVX3Tk4G6Qw5fk6tyLsg==
+X-Received: by 2002:a1c:2202:: with SMTP id i2mr4672329wmi.78.1629474422290;
+ Fri, 20 Aug 2021 08:47:02 -0700 (PDT)
+Received: from ?IPv6:2003:d8:2f0a:7f00:fad7:3bc9:69d:31f?
+ (p200300d82f0a7f00fad73bc9069d031f.dip0.t-ipconnect.de.
+ [2003:d8:2f0a:7f00:fad7:3bc9:69d:31f])
+ by smtp.gmail.com with ESMTPSA id h11sm12374713wmc.23.2021.08.20.08.47.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Aug 2021 08:47:01 -0700 (PDT)
 Subject: Re: xilinx-zynq-a9: cannot set up guest memory 'zynq.ext_ram'
-Message-ID: <20210820174402.47a14625@redhat.com>
-In-Reply-To: <CAFEAcA8MqYQiTJkKyWGkcKR=J2FD9SDWvHm9vxZq3g2HJ8ch3w@mail.gmail.com>
+To: Igor Mammedov <imammedo@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 References: <CAEUhbmUhKFFxSspve+t2BeppCGPegpb_Z5g-w8M5t-JMLy3Zsg@mail.gmail.com>
  <869f8be9-b76f-e315-9591-9c452bedf922@redhat.com>
  <CAEUhbmUE4fb2NewE+Cze3Le5xOeH53NDbwdnKH==dnZeKGPQeQ@mail.gmail.com>
  <e833a774-d3bf-62d5-91d8-b24cbee0bfc4@redhat.com>
  <CAFEAcA8MqYQiTJkKyWGkcKR=J2FD9SDWvHm9vxZq3g2HJ8ch3w@mail.gmail.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ <20210820174402.47a14625@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <199dc732-1876-d6f9-4569-1802ba7ebf93@redhat.com>
+Date: Fri, 20 Aug 2021 17:47:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210820174402.47a14625@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.49, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,79 +105,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, "Richard W.M.
- Jones" <rjones@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <Alistair.Francis@wdc.com>,
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "Richard W.M. Jones" <rjones@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Bin Meng <bmeng.cn@gmail.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 20 Aug 2021 15:39:27 +0100
-Peter Maydell <peter.maydell@linaro.org> wrote:
+On 20.08.21 17:44, Igor Mammedov wrote:
+> On Fri, 20 Aug 2021 15:39:27 +0100
+> Peter Maydell <peter.maydell@linaro.org> wrote:
+> 
+>> On Fri, 20 Aug 2021 at 15:34, David Hildenbrand <david@redhat.com> wrote:
+>>>
+>>> On 20.08.21 16:22, Bin Meng wrote:
+>>>> Hi Philippe,
+>>>>
+>>>> On Fri, Aug 20, 2021 at 10:10 PM Philippe Mathieu-Daudé
+>>>> <philmd@redhat.com> wrote:
+>>>>>
+>>>>> Hi Bin,
+>>>>>
+>>>>> On 8/20/21 4:04 PM, Bin Meng wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> The following command used to work on QEMU 4.2.0, but is now broken
+>>>>>> with QEMU head.
+>>>>>>
+>>>>>> $ qemu-system-arm -M xilinx-zynq-a9 -display none -m 40000000
+>>>>>> -nographic -serial /dev/null -serial mon:stdio -monitor null -device
+>>>>>> loader,file=u-boot-dtb.bin,addr=0x4000000,cpu-num=0
+>>>>>> qemu-system-arm: cannot set up guest memory 'zynq.ext_ram': Cannot
+>>>>>> allocate memory
+>>
+>>> -m 40000000
+>>>
+>>> corresponds to 38 TB if I am not wrong. Is that really what you want?
+>>
+>> Probably not, because the zynq board's init function does:
+>>
+>>      if (machine->ram_size > 2 * GiB) {
+>>          error_report("RAM size more than 2 GiB is not supported");
+>>          exit(EXIT_FAILURE);
+>>      }
+>>
+>> It seems a bit daft that we allocate the memory before we do
+>> the size check. This didn't use to be this way around...
+>>
+>> Anyway, I think the cause of this change is commit c9800965c1be6c39
+>> from Igor. We used to silently cap the RAM size to 2GB; now we
+>> complain. Or at least we would complain if we hadn't already
+>> tried to allocate the memory and fallen over...
+> 
+> That's because RAM (as host resource) is now separated
+> from device model (machine limits) and is allocated as
+> part of memory backend initialization (in this case
+> 'create_default_memdev') before machine_run_board_init()
+> is run.
+> 
+> Maybe we can consolidate max limit checks in
+> create_default_memdev() by adding MachineClass::max_ram_size
+> but that can work only in default usecase (only '-m' is used).
 
-> On Fri, 20 Aug 2021 at 15:34, David Hildenbrand <david@redhat.com> wrote:
-> >
-> > On 20.08.21 16:22, Bin Meng wrote: =20
-> > > Hi Philippe,
-> > >
-> > > On Fri, Aug 20, 2021 at 10:10 PM Philippe Mathieu-Daud=C3=A9
-> > > <philmd@redhat.com> wrote: =20
-> > >>
-> > >> Hi Bin,
-> > >>
-> > >> On 8/20/21 4:04 PM, Bin Meng wrote: =20
-> > >>> Hi,
-> > >>>
-> > >>> The following command used to work on QEMU 4.2.0, but is now broken
-> > >>> with QEMU head.
-> > >>>
-> > >>> $ qemu-system-arm -M xilinx-zynq-a9 -display none -m 40000000
-> > >>> -nographic -serial /dev/null -serial mon:stdio -monitor null -devic=
-e
-> > >>> loader,file=3Du-boot-dtb.bin,addr=3D0x4000000,cpu-num=3D0
-> > >>> qemu-system-arm: cannot set up guest memory 'zynq.ext_ram': Cannot
-> > >>> allocate memory =20
->=20
-> > -m 40000000
-> >
-> > corresponds to 38 TB if I am not wrong. Is that really what you want? =
-=20
->=20
-> Probably not, because the zynq board's init function does:
->=20
->     if (machine->ram_size > 2 * GiB) {
->         error_report("RAM size more than 2 GiB is not supported");
->         exit(EXIT_FAILURE);
->     }
->=20
-> It seems a bit daft that we allocate the memory before we do
-> the size check. This didn't use to be this way around...
->=20
-> Anyway, I think the cause of this change is commit c9800965c1be6c39
-> from Igor. We used to silently cap the RAM size to 2GB; now we
-> complain. Or at least we would complain if we hadn't already
-> tried to allocate the memory and fallen over...
+We do have a workaround for s390x already: mc->fixup_ram_size
 
-That's because RAM (as host resource) is now separated
-from device model (machine limits) and is allocated as
-part of memory backend initialization (in this case
-'create_default_memdev') before machine_run_board_init()
-is run.
+That should be called before the memory backend is created and seems to 
+do just what we want, no?
 
-Maybe we can consolidate max limit checks in
-create_default_memdev() by adding MachineClass::max_ram_size
-but that can work only in default usecase (only '-m' is used).
+-- 
+Thanks,
 
-However if user creates backend explicitly, there aren't any
-clue about machine limits. We basically don't know what
-backend is created for at the time it's initialized
-(which includes RAM allocation, it might be created for VM's
-RAM or ram/storage for some other device).
-
->=20
-> -- PMM
->=20
+David / dhildenb
 
 
