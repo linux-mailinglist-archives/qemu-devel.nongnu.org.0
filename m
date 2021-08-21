@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE5223F38FD
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 08:28:45 +0200 (CEST)
-Received: from localhost ([::1]:49032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C868C3F38FF
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 08:29:43 +0200 (CEST)
+Received: from localhost ([::1]:52302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHKUm-00037C-VF
-	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 02:28:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53946)
+	id 1mHKVi-0005I6-SB
+	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 02:29:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mHKRx-0005w6-PI
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:25:49 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:37028)
+ id 1mHKRu-0005j7-4Z
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:25:46 -0400
+Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:52144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mHKRv-0006uw-Sx
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:25:49 -0400
+ id 1mHKRr-0006rY-1H
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:25:45 -0400
 Received: from loganberry.canonical.com (loganberry.canonical.com
  [91.189.90.37])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id D93DF3F80F
- for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:25:42 +0000 (UTC)
+ by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 8A2323F82E
+ for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:25:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1629527142;
- bh=dj8QL1qgwqFLIsrBEoTKLgrhkLefQgdTh6Y3m4mI+Z8=;
+ s=20210803; t=1629527141;
+ bh=47fwi8eau0GpavyZVB2nvvHYJ+YtLetljNYw1wL8Fkc=;
  h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
  Message-Id:Subject;
- b=HOtXKDT6Da6AKDfSqirSBqYurTx3jHmNePdP3Wlwqmwjp6ulKMfnDTjA47aMAOs8J
- LXcFoRUrzavZOKfCfFjUHGnn/HZ5oZtIbz9beTwge8i/eRfZFENYd8I27F80k/fc39
- t92DZFCFT56Gq9QbD1XfrWPTy/Bw3Sx6ckw0PlUBM8osJciTamVFM7afhgOeWMcpKq
- 9dC4pnocCO1xw9uneY7OMKO501EbCl/HvKXifSR1uLrfKeu+SPjOJ6kLqQQDCoR2IH
- 0dnIDlpgGZisZmLkXBhktoigGj2AxWPNHcmOs1X/ri+Y4BjI7nh+DKwlkbc/JQa+gN
- pHkVN0gWxzi8Q==
+ b=JhyuVVVbQA432LU5qSMpfC9fn+qPsdWOJKlhjEFtiJeF+nXZiOYPqq88sckcljwNq
+ euXb0WkBVWA4347hllpm1IztFvsG8ZWXgXGYwmkGkLNeMIBG698kr/pDepz02SRHFS
+ sd5ixCVZ9BxMF8VhJI4+UJIcSBuAB+SzlS5tLr2vrVCrIKVX3Fy3G5nEBDm8SGoeKS
+ uJ25jFVojfXdWN+mdTXD5hMPV/XzmUjmeWuzSmSM3NbP0b6FaqJ54j39uNtgyoH4uY
+ C2TXcGOk87ntXR/6fyOwbh8Cs9OTECyX8mbvJ+jdorXVg9w3QvllC/em4IeOnIbaTl
+ uK0wn4vfbvw5g==
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D47D32E8135
- for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:25:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7C1162E813A
+ for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:25:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 21 Aug 2021 06:16:01 -0000
-From: Thomas Huth <1890155@bugs.launchpad.net>
+Date: Sat, 21 Aug 2021 06:16:48 -0000
+From: Thomas Huth <1891354@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
  assignee=None; 
+X-Launchpad-Bug-Tags: dma-reentrancy fuzzer usb
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: a1xndr th-huth
 X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159646459931.15346.8925027856621311713.malonedeb@wampee.canonical.com>
-Message-Id: <162952656132.28223.1272314272986287048.malone@soybean.canonical.com>
-Subject: [Bug 1890155] Re: Abort in vmxnet3_validate_interrupt_idx
+References: <159724841583.21381.1589855553145708820.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162952660900.2321.17817174996302899148.malone@chaenomeles.canonical.com>
+Subject: [Bug 1891354] Re: Heap-use-after-free in usb_packet_unmap
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="25edfd4b3e79d9ee9d9c3a750eb93e4d41d56c9e"; Instance="production"
-X-Launchpad-Hash: 3290860f99301a4ca4bbce5e004d42cea6d19337
-Received-SPF: pass client-ip=185.125.188.251;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
+X-Launchpad-Hash: ce8129e1e0ab8c0abce900e26ae1a716ee994369
+Received-SPF: pass client-ip=185.125.188.250;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -82,7 +83,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1890155 <1890155@bugs.launchpad.net>
+Reply-To: Bug 1891354 <1891354@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -96,10 +97,10 @@ now.
 --=20
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1890155
+https://bugs.launchpad.net/bugs/1891354
 
 Title:
-  Abort in vmxnet3_validate_interrupt_idx
+  Heap-use-after-free in usb_packet_unmap
 
 Status in QEMU:
   Invalid
@@ -108,54 +109,127 @@ Bug description:
   Hello,
   Reproducer:
 
-  cat << EOF | ./i386-softmmu/qemu-system-i386 \
-  -device vmxnet3 -m 64 -nodefaults -qtest stdio -nographic
-  outl 0xcf8 0x80001014
-  outl 0xcfc 0xe0001000
-  outl 0xcf8 0x80001018
+  cat << EOF | ./i386-softmmu/qemu-system-i386 -device nec-usb-xhci \
+  -trace usb\* -device usb-audio -device usb-storage,drive=3Dmydrive \
+  -drive id=3Dmydrive,file=3Dnull-co://,size=3D2M,format=3Draw,if=3Dnone \
+  -nodefaults -nographic -qtest stdio
+  outl 0xcf8 0x80001010
+  outl 0xcfc 0xc0202
   outl 0xcf8 0x80001004
-  outw 0xcfc 0x7
-  write 0x0 0x1 0xe1
-  write 0x1 0x1 0xfe
-  write 0x2 0x1 0xbe
-  write 0x3 0x1 0xba
-  write 0x52 0x1 0x61
-  writeq 0xe0001020 0xef0bff5ecafe0000
+  outl 0xcfc 0x1c77695e
+  writel 0xc0040 0xffffd855
+  writeq 0xc2000 0xff05140100000000
+  write 0x1d 0x1 0x27
+  write 0x2d 0x1 0x2e
+  write 0x17232 0x1 0x03
+  write 0x17254 0x1 0x05
+  write 0x17276 0x1 0x72
+  write 0x17278 0x1 0x02
+  write 0x3d 0x1 0x27
+  write 0x40 0x1 0x2e
+  write 0x41 0x1 0x72
+  write 0x42 0x1 0x01
+  write 0x4d 0x1 0x2e
+  write 0x4f 0x1 0x01
+  write 0x2007c 0x1 0xc7
+  writeq 0xc2000 0x5c05140100000000
+  write 0x20070 0x1 0x80
+  write 0x20078 0x1 0x08
+  write 0x2007c 0x1 0xfe
+  write 0x2007d 0x1 0x08
+  write 0x20081 0x1 0xff
+  write 0x20082 0x1 0x0b
+  write 0x20089 0x1 0x8c
+  write 0x2008d 0x1 0x04
+  write 0x2009d 0x1 0x10
+  writeq 0xc2000 0x2505ef019e092f00
   EOF
 
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-   #7 0x55b271a89b67 in hw_error /home/alxndr/Development/qemu/general-fuzz=
-/softmmu/cpus.c:927:5
-   #8 0x55b272fc6433 in vmxnet3_validate_interrupt_idx /home/alxndr/Develop=
-ment/qemu/general-fuzz/hw/net/vmxnet3.c:1355:9
-   #9 0x55b272fc4e6d in vmxnet3_validate_interrupts /home/alxndr/Developmen=
-t/qemu/general-fuzz/hw/net/vmxnet3.c:1364:5
-   #10 0x55b272fbe723 in vmxnet3_activate_device /home/alxndr/Development/q=
-emu/general-fuzz/hw/net/vmxnet3.c:1546:5
-   #11 0x55b272fb6fba in vmxnet3_handle_command /home/alxndr/Development/qe=
-mu/general-fuzz/hw/net/vmxnet3.c:1576:9
-   #12 0x55b272fb410f in vmxnet3_io_bar1_write /home/alxndr/Development/qem=
-u/general-fuzz/hw/net/vmxnet3.c:1772:9
-   #13 0x55b271ac4193 in memory_region_write_accessor /home/alxndr/Developm=
-ent/qemu/general-fuzz/softmmu/memory.c:483:5
-   #14 0x55b271ac3637 in access_with_adjusted_size /home/alxndr/Development=
-/qemu/general-fuzz/softmmu/memory.c:544:18
-   #15 0x55b271ac1256 in memory_region_dispatch_write /home/alxndr/Developm=
-ent/qemu/general-fuzz/softmmu/memory.c:1466:16
-   #16 0x55b270e724a6 in flatview_write_continue /home/alxndr/Development/q=
-emu/general-fuzz/exec.c:3176:23
-   #17 0x55b270e5acc6 in flatview_write /home/alxndr/Development/qemu/gener=
-al-fuzz/exec.c:3216:14
+  20091=3D=3DERROR: AddressSanitizer: heap-use-after-free on address 0x6110=
+00045030 at pc 0x55db79edeef2 bp 0x7ffc4020b2b0 sp 0x7ffc4020b2a8
+  READ of size 4 at 0x611000045030 thread T0
+      #0 0x55db79edeef1 in usb_packet_unmap hw/usb/libhw.c:64:28
+      #1 0x55db79ede66f in usb_packet_map hw/usb/libhw.c:54:5
+      #2 0x55db79f6d5f1 in xhci_setup_packet hw/usb/hcd-xhci.c:1618:5
+      #3 0x55db79f67143 in xhci_fire_ctl_transfer hw/usb/hcd-xhci.c:1722:9
+      #4 0x55db79f67143 in xhci_kick_epctx hw/usb/hcd-xhci.c:1991:13
+      #5 0x55db79f8837d in xhci_doorbell_write hw/usb/hcd-xhci.c:3162:13
+      #6 0x55db792c6b8e in memory_region_write_accessor softmmu/memory.c:48=
+3:5
+      #7 0x55db792c658b in access_with_adjusted_size softmmu/memory.c:544:18
+      #8 0x55db792c5d9b in memory_region_dispatch_write softmmu/memory.c
+      #9 0x55db78d094d2 in flatview_write_continue exec.c:3176:23
+      #10 0x55db78cfee6b in flatview_write exec.c:3216:14
+      #11 0x55db78cfee6b in address_space_write exec.c:3308:18
+      #12 0x55db793072a9 in qtest_process_command softmmu/qtest.c:452:13
+      #13 0x55db79304087 in qtest_process_inbuf softmmu/qtest.c:710:9
+      #14 0x55db7a7d7293 in fd_chr_read chardev/char-fd.c:68:9
+      #15 0x7fc5d7f1a897 in g_main_context_dispatch
+      #16 0x55db7aa571b3 in glib_pollfds_poll util/main-loop.c:217:9
+      #17 0x55db7aa571b3 in os_host_main_loop_wait util/main-loop.c:240:5
+      #18 0x55db7aa571b3 in main_loop_wait util/main-loop.c:516:11
+      #19 0x55db79315008 in qemu_main_loop softmmu/vl.c:1676:9
+      #20 0x55db7a8860fd in main softmmu/main.c:49:5
 
- =20
-  qemu: hardware error: Bad interrupt index: 97
-  Aborted
+  0x611000045030 is located 48 bytes inside of 256-byte region [0x611000045=
+000,0x611000045100)
+  freed by thread T0 here:
+      #0 0x55db78cac16d in free (build/i386-softmmu/qemu-system-i386+0x250e=
+16d)
+      #1 0x55db79f7c0e8 in xhci_ep_nuke_xfers hw/usb/hcd-xhci.c:1252:9
+      #2 0x55db79f7b454 in xhci_disable_ep hw/usb/hcd-xhci.c:1279:5
+      #3 0x55db79f79af7 in xhci_disable_slot hw/usb/hcd-xhci.c:2048:13
+      #4 0x55db79f5aea3 in xhci_reset hw/usb/hcd-xhci.c:2706:9
+      #5 0x55db79f82f49 in xhci_oper_write hw/usb/hcd-xhci.c:2966:13
+      #6 0x55db792c6b8e in memory_region_write_accessor softmmu/memory.c:48=
+3:5
+      #7 0x55db792c658b in access_with_adjusted_size softmmu/memory.c:544:18
+      #8 0x55db792c5d9b in memory_region_dispatch_write softmmu/memory.c
+      #9 0x55db78d094d2 in flatview_write_continue exec.c:3176:23
+      #10 0x55db78cfee6b in flatview_write exec.c:3216:14
+      #11 0x55db78cfee6b in address_space_write exec.c:3308:18
+      #12 0x55db78d01fe7 in address_space_unmap exec.c:3634:9
+      #13 0x55db79edebbb in dma_memory_unmap include/sysemu/dma.h:145:5
+      #14 0x55db79edebbb in usb_packet_unmap hw/usb/libhw.c:65:9
+      #15 0x55db79ede66f in usb_packet_map hw/usb/libhw.c:54:5
+      #16 0x55db79f6d5f1 in xhci_setup_packet hw/usb/hcd-xhci.c:1618:5
+      #17 0x55db79f67143 in xhci_fire_ctl_transfer hw/usb/hcd-xhci.c:1722:9
+      #18 0x55db79f67143 in xhci_kick_epctx hw/usb/hcd-xhci.c:1991:13
+      #19 0x55db79f8837d in xhci_doorbell_write hw/usb/hcd-xhci.c:3162:13
+      #20 0x55db792c6b8e in memory_region_write_accessor softmmu/memory.c:4=
+83:5
+      #21 0x55db792c658b in access_with_adjusted_size softmmu/memory.c:544:=
+18
+      #22 0x55db792c5d9b in memory_region_dispatch_write softmmu/memory.c
+      #23 0x55db78d094d2 in flatview_write_continue exec.c:3176:23
+      #24 0x55db78cfee6b in flatview_write exec.c:3216:14
+      #25 0x55db78cfee6b in address_space_write exec.c:3308:18
+      #26 0x55db793072a9 in qtest_process_command softmmu/qtest.c:452:13
+      #27 0x55db79304087 in qtest_process_inbuf softmmu/qtest.c:710:9
+      #28 0x55db7a7d7293 in fd_chr_read chardev/char-fd.c:68:9
+      #29 0x7fc5d7f1a897 in g_main_context_dispatch
+
+  previously allocated by thread T0 here:
+      #0 0x55db78cac562 in calloc (build/i386-softmmu/qemu-system-i386+0x25=
+0e562)
+      #1 0x7fc5d7f20548 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2.0=
+.so.0+0x54548)
+      #2 0x55db79f8837d in xhci_doorbell_write hw/usb/hcd-xhci.c:3162:13
+      #3 0x55db792c6b8e in memory_region_write_accessor softmmu/memory.c:48=
+3:5
+      #4 0x55db792c658b in access_with_adjusted_size softmmu/memory.c:544:18
+      #5 0x55db792c5d9b in memory_region_dispatch_write softmmu/memory.c
+      #6 0x55db78d094d2 in flatview_write_continue exec.c:3176:23
+      #7 0x55db78cfee6b in flatview_write exec.c:3216:14
+      #8 0x55db78cfee6b in address_space_write exec.c:3308:18
+      #9 0x55db793072a9 in qtest_process_command softmmu/qtest.c:452:13
+      #10 0x55db79304087 in qtest_process_inbuf softmmu/qtest.c:710:9
+      #11 0x55db7a7d7293 in fd_chr_read chardev/char-fd.c:68:9
+      #12 0x7fc5d7f1a897 in g_main_context_dispatch
 
   -Alex
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1890155/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1891354/+subscriptions
 
 
