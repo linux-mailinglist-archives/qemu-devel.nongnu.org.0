@@ -2,92 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 366A43F391C
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 08:42:25 +0200 (CEST)
-Received: from localhost ([::1]:34880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C0123F3938
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 08:52:23 +0200 (CEST)
+Received: from localhost ([::1]:55578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHKi0-0004VK-7r
-	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 02:42:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55328)
+	id 1mHKre-0001pK-C3
+	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 02:52:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1mHKfL-0003Fy-EU
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:39:39 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:36421)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mHKq5-0008HR-NA
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:50:46 -0400
+Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:54448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1mHKfG-0001eY-FY
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:39:39 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.nyi.internal (Postfix) with ESMTP id 7A76E5C00E2
- for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 02:39:32 -0400 (EDT)
-Received: from imap44 ([10.202.2.94])
- by compute2.internal (MEProxy); Sat, 21 Aug 2021 02:39:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- mime-version:message-id:in-reply-to:references:date:from:to
- :subject:content-type:content-transfer-encoding; s=fm3; bh=wgSpP
- NBlSuBKHWlc5W3ep4Vet7ZKOBLxGTI5shPXHsk=; b=P57lP5+vDpmhwpnWKBrmp
- gV34VhLs0Mj0/J3vG/ZtFfwbdBVYZ9NOh+4q2MOiBxtlQnti1vOyRGQJCKj8MceB
- 9on516wk6SKSOMmsZbEyWzEpgz5xD57jxQtynHwOtDaqiandM4+eCppfWIjY2PhV
- bU2P1o0kN29YNa8rELRivknA4hPutcKq9ToKOKQiHXQNa3v5EBWSBavDApUMCZdY
- Wi6uBjG44jm+vvwnldofA1wdYeJgEOi9QH/Jvgyb9Ul1PnX0rFq48q7SCqRwHnrn
- J+bgGpsXXninMhEHdVyS8FQtnZAM8BCoVGY31xOMMx9uvl7qnnKevoQBIT5sV/fK
- A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=wgSpPNBlSuBKHWlc5W3ep4Vet7ZKOBLxGTI5shPXH
- sk=; b=wf8c9+EJuCtdDDuTQ3TMSvQVArbxqB3BA+8TQ9tdm3e/wrF6ko4FisXEU
- chCgGiHHcahym5E7gCu8uR91wWQ7TBYbwUaXNaNzkPNK1oTrIpWqJ9buPDFrzlt+
- 3SwpblBZKajBZldDIE5K85ded+Rr+uSt98rIwgF/nKCXFqP96J7oNxXQX87K5pYP
- FsgDNDus1MyTnAbU4Yg/2iL1NawbOqBZTjGOtLyN3ccu2wWvNUkFJA0eXoMSyiPs
- QD9kKFRBkIMURK6rEv7jSGm3gmnvFKFQEmKizeLorSUSWyApKENP2fxHzmikNYq4
- U7xbtyTBe1/Z5evGBJXFjau5olQYQ==
-X-ME-Sender: <xms:pJ8gYetXDVWNtacUhhBq3VzDnpRuM0jL7UmWu_e2Da-MRiB4dUWr5g>
- <xme:pJ8gYTetRVICC862QYmDh4FGGJUVuz-T-qxhqrWfE0W1hAPZF9ir4Vb4cghGcf4Gk
- viNB7bqatqfBDHowjs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddttddguddtjecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhepofgfggfkjghffffhvffutgfgse
- htqhertderreejnecuhfhrohhmpedflfhirgiguhhnucgjrghnghdfuceojhhirgiguhhn
- rdihrghnghesfhhlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhepfeetgeekve
- eftefhgfduheegvdeuuddvieefvddvlefhfeehkeetfeeukedtfeejnecuvehluhhsthgv
- rhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghngh
- esfhhlhihgohgrthdrtghomh
-X-ME-Proxy: <xmx:pJ8gYZyCXvnA5ElzxU7Z_U79QVW4qoa5_FOaIxVRy6vWLp6pI2iFig>
- <xmx:pJ8gYZMwSQsIEkhXOcCsKUAUdckhd1X51xuHZbtYJtS-3zrIq3z9WA>
- <xmx:pJ8gYe-ElQ0xT2M7dYi5X6BbHpdKmPWeqxgA7lkh6stiYvZ8-AMY7w>
- <xmx:pJ8gYRK1mnaFo12WlSfWiWQnVcpaPFf0UcTd01zpLsUytk1z5SRURA>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 0E1B5FA0AA4; Sat, 21 Aug 2021 02:39:32 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-1118-g75eff666e5-fm-20210816.002-g75eff666
-Mime-Version: 1.0
-Message-Id: <60c40cde-ba97-4623-bdf3-dfd0c2dbd0d2@www.fastmail.com>
-In-Reply-To: <20210818201931.393394-3-richard.henderson@linaro.org>
-References: <20210818201931.393394-1-richard.henderson@linaro.org>
- <20210818201931.393394-3-richard.henderson@linaro.org>
-Date: Sat, 21 Aug 2021 14:39:10 +0800
-From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
-To: "BALATON Zoltan via" <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v3 02/16] tcg/mips: Support unaligned access for softmmu
-Content-Type: text/plain;charset=utf-8
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mHKq3-0002lg-Mo
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:50:45 -0400
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 7E5B33F861
+ for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:50:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1629528640;
+ bh=N2sgtUdcTQKyWHS9RgN9Dv5KIN2vn09Y6yPlM7sOdDE=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=lDt22Z4BYb1c/i1/oXdh130JbWgc1W9ldGrRrBqibIOjNeTtoeXT7rp0K6qDcjIme
+ hHEN1Ndbwral0hdzQUPBJpVwnbH+im8ncPuyvOIAF9499i3JUuiJj2JlyRZnaBrD1g
+ Hytg3v9y9HFput4U4O7Vwj5ND4exSY/rUaAZ5fgTdDyz4UhTM/tY7LOpXmyT5NecMY
+ iQHASf+S6fVjeW5VoFG8RP8WdwHKdwd1H90BrBAsapCvTTpF0lcbyD1tLXFY9yDJju
+ MQPFWxLayFCDqjRk3QFqsVWj9AjdX3vdwGf1OBDI2h1U0wgyH4OLWt1ISW/XvVx2DU
+ QZwskmuvqAnbg==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 5FFC42E817A
+ for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:50:40 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=66.111.4.26; envelope-from=jiaxun.yang@flygoat.com;
- helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Sat, 21 Aug 2021 06:41:54 -0000
+From: Thomas Huth <1921664@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Incomplete; importance=Low; assignee=None; 
+X-Launchpad-Bug-Tags: apport-bug arm64 hirsute uec-images
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: paelzer th-huth tommy-ubuntuone
+X-Launchpad-Bug-Reporter: Tommy Thorn (tommy-ubuntuone)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <161698578843.25105.11508850027610231738.malonedeb@wampee.canonical.com>
+Message-Id: <162952811416.3996.5031980664441464337.malone@gac.canonical.com>
+Subject: [Bug 1921664] Re: Coroutines are racy for risc64 emu on arm64 - crash
+ on Assertion
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="25edfd4b3e79d9ee9d9c3a750eb93e4d41d56c9e"; Instance="production"
+X-Launchpad-Hash: 0fa183567db480b4810a440f8550c1f4c81b35f5
+Received-SPF: pass client-ip=185.125.188.250;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -96,270 +86,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1921664 <1921664@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+@Christian & Tommy : Could you please check whether the problematic
+binaries were built with link-time optimization, i.e. with -flto ? If
+so, does the problem go away when you rebuild the package without LTO?
 
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-=E5=9C=A82021=E5=B9=B48=E6=9C=8819=E6=97=A5=E5=85=AB=E6=9C=88 =E4=B8=8A=E5=
-=8D=884:19=EF=BC=8CRichard Henderson=E5=86=99=E9=81=93=EF=BC=9A
-> We can use the routines just added for user-only to emit
-> unaligned accesses in softmmu mode too.
->=20
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-
-Thanks!
-
-> ---
->  tcg/mips/tcg-target.c.inc | 91 ++++++++++++++++++++++-----------------
->  1 file changed, 51 insertions(+), 40 deletions(-)
->=20
-> diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-> index 7ed0de9dae..3d6a0ba39e 100644
-> --- a/tcg/mips/tcg-target.c.inc
-> +++ b/tcg/mips/tcg-target.c.inc
-> @@ -1154,8 +1154,10 @@ static void tcg_out_tlb_load(TCGContext *s,=20
-> TCGReg base, TCGReg addrl,
->                               tcg_insn_unit *label_ptr[2], bool is_loa=
-d)
->  {
->      MemOp opc =3D get_memop(oi);
-> -    unsigned s_bits =3D opc & MO_SIZE;
->      unsigned a_bits =3D get_alignment_bits(opc);
-> +    unsigned s_bits =3D opc & MO_SIZE;
-> +    unsigned a_mask =3D (1 << a_bits) - 1;
-> +    unsigned s_mask =3D (1 << s_bits) - 1;
->      int mem_index =3D get_mmuidx(oi);
->      int fast_off =3D TLB_MASK_TABLE_OFS(mem_index);
->      int mask_off =3D fast_off + offsetof(CPUTLBDescFast, mask);
-> @@ -1163,7 +1165,7 @@ static void tcg_out_tlb_load(TCGContext *s,=20
-> TCGReg base, TCGReg addrl,
->      int add_off =3D offsetof(CPUTLBEntry, addend);
->      int cmp_off =3D (is_load ? offsetof(CPUTLBEntry, addr_read)
->                     : offsetof(CPUTLBEntry, addr_write));
-> -    target_ulong mask;
-> +    target_ulong tlb_mask;
-> =20
->      /* Load tlb_mask[mmu_idx] and tlb_table[mmu_idx].  */
->      tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP0, TCG_AREG0, mask_off);
-> @@ -1177,27 +1179,13 @@ static void tcg_out_tlb_load(TCGContext *s,=20
-> TCGReg base, TCGReg addrl,
->      /* Add the tlb_table pointer, creating the CPUTLBEntry address in=20
-> TMP3.  */
->      tcg_out_opc_reg(s, ALIAS_PADD, TCG_TMP3, TCG_TMP3, TCG_TMP1);
-> =20
-> -    /* We don't currently support unaligned accesses.
-> -       We could do so with mips32r6.  */
-> -    if (a_bits < s_bits) {
-> -        a_bits =3D s_bits;
-> -    }
-> -
-> -    /* Mask the page bits, keeping the alignment bits to compare agai=
-nst.  */
-> -    mask =3D (target_ulong)TARGET_PAGE_MASK | ((1 << a_bits) - 1);
-> -
->      /* Load the (low-half) tlb comparator.  */
->      if (TCG_TARGET_REG_BITS < TARGET_LONG_BITS) {
-> -        tcg_out_ld(s, TCG_TYPE_I32, TCG_TMP0, TCG_TMP3, cmp_off + LO_=
-OFF);
-> -        tcg_out_movi(s, TCG_TYPE_I32, TCG_TMP1, mask);
-> +        tcg_out_ldst(s, OPC_LW, TCG_TMP0, TCG_TMP3, cmp_off + LO_OFF);
->      } else {
->          tcg_out_ldst(s, (TARGET_LONG_BITS =3D=3D 64 ? OPC_LD
->                           : TCG_TARGET_REG_BITS =3D=3D 64 ? OPC_LWU : =
-OPC_LW),
->                       TCG_TMP0, TCG_TMP3, cmp_off);
-> -        tcg_out_movi(s, TCG_TYPE_TL, TCG_TMP1, mask);
-> -        /* No second compare is required here;
-> -           load the tlb addend for the fast path.  */
-> -        tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP2, TCG_TMP3, add_off);
->      }
-> =20
->      /* Zero extend a 32-bit guest address for a 64-bit host. */
-> @@ -1205,7 +1193,25 @@ static void tcg_out_tlb_load(TCGContext *s,=20
-> TCGReg base, TCGReg addrl,
->          tcg_out_ext32u(s, base, addrl);
->          addrl =3D base;
->      }
-> -    tcg_out_opc_reg(s, OPC_AND, TCG_TMP1, TCG_TMP1, addrl);
-> +
-> +    /*
-> +     * Mask the page bits, keeping the alignment bits to compare=20
-> against.
-> +     * For unaligned accesses, compare against the end of the access =
-to
-> +     * verify that it does not cross a page boundary.
-> +     */
-> +    tlb_mask =3D (target_ulong)TARGET_PAGE_MASK | a_mask;
-> +    tcg_out_movi(s, TCG_TYPE_I32, TCG_TMP1, tlb_mask);
-> +    if (a_mask >=3D s_mask) {
-> +        tcg_out_opc_reg(s, OPC_AND, TCG_TMP1, TCG_TMP1, addrl);
-> +    } else {
-> +        tcg_out_opc_imm(s, ALIAS_PADDI, TCG_TMP2, addrl, s_mask -=20
-> a_mask);
-> +        tcg_out_opc_reg(s, OPC_AND, TCG_TMP1, TCG_TMP1, TCG_TMP2);
-> +    }
-> +
-> +    if (TCG_TARGET_REG_BITS >=3D TARGET_LONG_BITS) {
-> +        /* Load the tlb addend for the fast path.  */
-> +        tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP2, TCG_TMP3, add_off);
-> +    }
-> =20
->      label_ptr[0] =3D s->code_ptr;
->      tcg_out_opc_br(s, OPC_BNE, TCG_TMP1, TCG_TMP0);
-> @@ -1213,7 +1219,7 @@ static void tcg_out_tlb_load(TCGContext *s,=20
-> TCGReg base, TCGReg addrl,
->      /* Load and test the high half tlb comparator.  */
->      if (TCG_TARGET_REG_BITS < TARGET_LONG_BITS) {
->          /* delay slot */
-> -        tcg_out_ld(s, TCG_TYPE_I32, TCG_TMP0, TCG_TMP3, cmp_off +=20
-> HI_OFF);
-> +        tcg_out_ldst(s, OPC_LW, TCG_TMP0, TCG_TMP3, cmp_off + HI_OFF);
-> =20
->          /* Load the tlb addend for the fast path.  */
->          tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP2, TCG_TMP3, add_off);
-> @@ -1535,8 +1541,7 @@ static void tcg_out_qemu_ld_direct(TCGContext *s=
-,=20
-> TCGReg lo, TCGReg hi,
->      }
->  }
-> =20
-> -static void __attribute__((unused))
-> -tcg_out_qemu_ld_unalign(TCGContext *s, TCGReg lo, TCGReg hi,
-> +static void tcg_out_qemu_ld_unalign(TCGContext *s, TCGReg lo, TCGReg=20
-> hi,
->                                      TCGReg base, MemOp opc, bool is_6=
-4)
->  {
->      const MIPSInsn lw1 =3D MIPS_BE ? OPC_LWL : OPC_LWR;
-> @@ -1655,8 +1660,8 @@ static void tcg_out_qemu_ld(TCGContext *s, const=20
-> TCGArg *args, bool is_64)
->  #if defined(CONFIG_SOFTMMU)
->      tcg_insn_unit *label_ptr[2];
->  #else
-> -    unsigned a_bits, s_bits;
->  #endif
-> +    unsigned a_bits, s_bits;
->      TCGReg base =3D TCG_REG_A0;
-> =20
->      data_regl =3D *args++;
-> @@ -1665,10 +1670,20 @@ static void tcg_out_qemu_ld(TCGContext *s,=20
-> const TCGArg *args, bool is_64)
->      addr_regh =3D (TCG_TARGET_REG_BITS < TARGET_LONG_BITS ? *args++ :=
- 0);
->      oi =3D *args++;
->      opc =3D get_memop(oi);
-> +    a_bits =3D get_alignment_bits(opc);
-> +    s_bits =3D opc & MO_SIZE;
-> =20
-> +    /*
-> +     * R6 removes the left/right instructions but requires the
-> +     * system to support misaligned memory accesses.
-> +     */
->  #if defined(CONFIG_SOFTMMU)
->      tcg_out_tlb_load(s, base, addr_regl, addr_regh, oi, label_ptr, 1);
-> -    tcg_out_qemu_ld_direct(s, data_regl, data_regh, base, opc, is_64);
-> +    if (use_mips32r6_instructions || a_bits >=3D s_bits) {
-> +        tcg_out_qemu_ld_direct(s, data_regl, data_regh, base, opc,=20
-> is_64);
-> +    } else {
-> +        tcg_out_qemu_ld_unalign(s, data_regl, data_regh, base, opc,=20
-> is_64);
-> +    }
->      add_qemu_ldst_label(s, 1, oi,
->                          (is_64 ? TCG_TYPE_I64 : TCG_TYPE_I32),
->                          data_regl, data_regh, addr_regl, addr_regh,
-> @@ -1685,12 +1700,6 @@ static void tcg_out_qemu_ld(TCGContext *s, cons=
-t=20
-> TCGArg *args, bool is_64)
->      } else {
->          tcg_out_opc_reg(s, ALIAS_PADD, base, TCG_GUEST_BASE_REG,=20
-> addr_regl);
->      }
-> -    a_bits =3D get_alignment_bits(opc);
-> -    s_bits =3D opc & MO_SIZE;
-> -    /*
-> -     * R6 removes the left/right instructions but requires the
-> -     * system to support misaligned memory accesses.
-> -     */
->      if (use_mips32r6_instructions) {
->          if (a_bits) {
->              tcg_out_test_alignment(s, true, addr_regl, addr_regh,=20
-> a_bits);
-> @@ -1770,8 +1779,7 @@ static void tcg_out_qemu_st_direct(TCGContext *s=
-,=20
-> TCGReg lo, TCGReg hi,
->      }
->  }
-> =20
-> -static void __attribute__((unused))
-> -tcg_out_qemu_st_unalign(TCGContext *s, TCGReg lo, TCGReg hi,
-> +static void tcg_out_qemu_st_unalign(TCGContext *s, TCGReg lo, TCGReg=20
-> hi,
->                                      TCGReg base, MemOp opc)
->  {
->      const MIPSInsn sw1 =3D MIPS_BE ? OPC_SWL : OPC_SWR;
-> @@ -1851,9 +1859,8 @@ static void tcg_out_qemu_st(TCGContext *s, const=20
-> TCGArg *args, bool is_64)
->      MemOp opc;
->  #if defined(CONFIG_SOFTMMU)
->      tcg_insn_unit *label_ptr[2];
-> -#else
-> -    unsigned a_bits, s_bits;
->  #endif
-> +    unsigned a_bits, s_bits;
->      TCGReg base =3D TCG_REG_A0;
-> =20
->      data_regl =3D *args++;
-> @@ -1862,10 +1869,20 @@ static void tcg_out_qemu_st(TCGContext *s,=20
-> const TCGArg *args, bool is_64)
->      addr_regh =3D (TCG_TARGET_REG_BITS < TARGET_LONG_BITS ? *args++ :=
- 0);
->      oi =3D *args++;
->      opc =3D get_memop(oi);
-> +    a_bits =3D get_alignment_bits(opc);
-> +    s_bits =3D opc & MO_SIZE;
-> =20
-> +    /*
-> +     * R6 removes the left/right instructions but requires the
-> +     * system to support misaligned memory accesses.
-> +     */
->  #if defined(CONFIG_SOFTMMU)
->      tcg_out_tlb_load(s, base, addr_regl, addr_regh, oi, label_ptr, 0);
-> -    tcg_out_qemu_st_direct(s, data_regl, data_regh, base, opc);
-> +    if (use_mips32r6_instructions || a_bits >=3D s_bits) {
-> +        tcg_out_qemu_st_direct(s, data_regl, data_regh, base, opc);
-> +    } else {
-> +        tcg_out_qemu_st_unalign(s, data_regl, data_regh, base, opc);
-> +    }
->      add_qemu_ldst_label(s, 0, oi,
->                          (is_64 ? TCG_TYPE_I64 : TCG_TYPE_I32),
->                          data_regl, data_regh, addr_regl, addr_regh,
-> @@ -1882,12 +1899,6 @@ static void tcg_out_qemu_st(TCGContext *s, cons=
-t=20
-> TCGArg *args, bool is_64)
->      } else {
->          tcg_out_opc_reg(s, ALIAS_PADD, base, TCG_GUEST_BASE_REG,=20
-> addr_regl);
->      }
-> -    a_bits =3D get_alignment_bits(opc);
-> -    s_bits =3D opc & MO_SIZE;
-> -    /*
-> -     * R6 removes the left/right instructions but requires the
-> -     * system to support misaligned memory accesses.
-> -     */
->      if (use_mips32r6_instructions) {
->          if (a_bits) {
->              tcg_out_test_alignment(s, true, addr_regl, addr_regh,=20
-> a_bits);
-> --=20
-> 2.25.1
->=20
->=20
->=20
-
+** Changed in: qemu (Ubuntu)
+       Status: Confirmed =3D> Incomplete
 
 --=20
-- Jiaxun
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1921664
+
+Title:
+  Coroutines are racy for risc64 emu on arm64 - crash on Assertion
+
+Status in QEMU:
+  Incomplete
+Status in qemu package in Ubuntu:
+  Incomplete
+
+Bug description:
+  Note: this could as well be "riscv64 on arm64" for being slow@slow and af=
+fect
+  other architectures as well.
+
+  The following case triggers on a Raspberry Pi4 running with arm64 on
+  Ubuntu 21.04 [1][2]. It might trigger on other environments as well,
+  but that is what we have seen it so far.
+
+     $ wget https://github.com/carlosedp/riscv-bringup/releases/download/v1=
+.0/UbuntuFocal-riscv64-QemuVM.tar.gz
+     $ tar xzf UbuntuFocal-riscv64-QemuVM.tar.gz
+     $ ./run_riscvVM.sh
+  (wait ~2 minutes)
+     [ OK ] Reached target Local File Systems (Pre).
+     [ OK ] Reached target Local File Systems.
+              Starting udev Kernel Device Manager...
+  qemu-system-riscv64: ../../util/qemu-coroutine-lock.c:57: qemu_co_queue_w=
+ait_impl: Assertion `qemu_in_coroutine()' failed.
+
+  This is often, but not 100% reproducible and the cases differ slightly we
+  see either of:
+  - qemu-system-riscv64: ../../util/qemu-coroutine-lock.c:57: qemu_co_queue=
+_wait_impl: Assertion `qemu_in_coroutine()' failed.
+  - qemu-system-riscv64: ../../block/aio_task.c:64: aio_task_pool_wait_one:=
+ Assertion `qemu_coroutine_self() =3D=3D pool->main_co' failed.
+
+  Rebuilding working cases has shown to make them fail, as well as rebulding
+  (or even reinstalling) bad cases has made them work. Also the same builds=
+ on
+  different arm64 CPUs behave differently. TL;DR: The full list of conditio=
+ns
+  influencing good/bad case here are not yet known.
+
+  [1]: https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry=
+-pi#1-overview
+  [2]: http://cdimage.ubuntu.com/daily-preinstalled/pending/hirsute-preinst=
+alled-desktop-arm64+raspi.img.xz
+
+ =20
+  --- --- original report --- ---
+
+  I regularly run a RISC-V (RV64GC) QEMU VM, but an update a few days
+  ago broke it.  Now when I launch it, it hits an assertion:
+
+  OpenSBI v0.6
+  =C2=A0=C2=A0=C2=A0____                    _____ ____ _____
+  =C2=A0=C2=A0/ __ \                  / ____|  _ \_   _|
+  =C2=A0| |  | |_ __   ___ _ __ | (___ | |_) || |
+  =C2=A0| |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
+  =C2=A0| |__| | |_) |  __/ | | |____) | |_) || |_
+  =C2=A0=C2=A0\____/| .__/ \___|_| |_|_____/|____/_____|
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| |
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|_|
+
+  ...
+  Found /boot/extlinux/extlinux.conf
+  Retrieving file: /boot/extlinux/extlinux.conf
+  618 bytes read in 2 ms (301.8 KiB/s)
+  RISC-V Qemu Boot Options
+  1:      Linux kernel-5.5.0-dirty
+  2:      Linux kernel-5.5.0-dirty (recovery mode)
+  Enter choice: 1:        Linux kernel-5.5.0-dirty
+  Retrieving file: /boot/initrd.img-5.5.0-dirty
+  qemu-system-riscv64: ../../block/aio_task.c:64: aio_task_pool_wait_one: A=
+ssertion `qemu_coroutine_self() =3D=3D pool->main_co' failed.
+  ./run.sh: line 31:  1604 Aborted                 (core dumped) qemu-syste=
+m-riscv64 -machine virt -nographic -smp 8 -m 8G -bios fw_payload.bin -devic=
+e virtio-blk-devi
+  ce,drive=3Dhd0 -object rng-random,filename=3D/dev/urandom,id=3Drng0 -devi=
+ce virtio-rng-device,rng=3Drng0 -drive file=3Driscv64-UbuntuFocal-qemu.qcow=
+2,format=3Dqcow2,id=3Dhd0 -devi
+  ce virtio-net-device,netdev=3Dusernet -netdev user,id=3Dusernet,$ports
+
+  Interestingly this doesn't happen on the AMD64 version of Ubuntu 21.04
+  (fully updated).
+
+  Think you have everything already, but just in case:
+
+  $ lsb_release -rd
+  Description:    Ubuntu Hirsute Hippo (development branch)
+  Release:        21.04
+
+  $ uname -a
+  Linux minimacvm 5.11.0-11-generic #12-Ubuntu SMP Mon Mar 1 19:27:36 UTC 2=
+021 aarch64 aarch64 aarch64 GNU/Linux
+  (note this is a VM running on macOS/M1)
+
+  $ apt-cache policy qemu
+  qemu:
+  =C2=A0=C2=A0Installed: 1:5.2+dfsg-9ubuntu1
+  =C2=A0=C2=A0Candidate: 1:5.2+dfsg-9ubuntu1
+  =C2=A0=C2=A0Version table:
+  =C2=A0*** 1:5.2+dfsg-9ubuntu1 500
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0500 http://ports.ubuntu.c=
+om/ubuntu-ports hirsute/universe arm64 Packages
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0100 /var/lib/dpkg/status
+
+  ProblemType: Bug
+  DistroRelease: Ubuntu 21.04
+  Package: qemu 1:5.2+dfsg-9ubuntu1
+  ProcVersionSignature: Ubuntu 5.11.0-11.12-generic 5.11.0
+  Uname: Linux 5.11.0-11-generic aarch64
+  ApportVersion: 2.20.11-0ubuntu61
+  Architecture: arm64
+  CasperMD5CheckResult: unknown
+  CurrentDmesg:
+  =C2=A0Error: command ['pkexec', 'dmesg'] failed with exit code 127: polki=
+t-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freed=
+esktop.PolicyKit1.Error.Failed: No session for cookie
+  =C2=A0Error executing command as another user: Not authorized
+
+  =C2=A0This incident has been reported.
+  Date: Mon Mar 29 02:33:25 2021
+  Dependencies:
+
+  KvmCmdLine: COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
+  Lspci-vt:
+  =C2=A0-[0000:00]-+-00.0  Apple Inc. Device f020
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
+-01.0  Red Hat, Inc. Virtio network device
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
+-05.0  Red Hat, Inc. Virtio console
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
+-06.0  Red Hat, Inc. Virtio block device
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0\=
+-07.0  Red Hat, Inc. Virtio RNG
+  Lsusb: Error: command ['lsusb'] failed with exit code 1:
+  Lsusb-t:
+
+  Lsusb-v: Error: command ['lsusb', '-v'] failed with exit code 1:
+  ProcEnviron:
+  =C2=A0TERM=3Dscreen
+  =C2=A0PATH=3D(custom, no user)
+  =C2=A0XDG_RUNTIME_DIR=3D<set>
+  =C2=A0LANG=3DC.UTF-8
+  =C2=A0SHELL=3D/bin/bash
+  ProcKernelCmdLine: console=3Dhvc0 root=3D/dev/vda
+  SourcePackage: qemu
+  UpgradeStatus: Upgraded to hirsute on 2020-12-30 (88 days ago)
+  acpidump:
+  =C2=A0Error: command ['pkexec', '/usr/share/apport/dump_acpi_tables.py'] =
+failed with exit code 127: polkit-agent-helper-1: error response to PolicyK=
+it daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session =
+for cookie
+  =C2=A0Error executing command as another user: Not authorized
+
+  =C2=A0This incident has been reported.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1921664/+subscriptions
+
 
