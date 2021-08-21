@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD013F3891
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 06:25:05 +0200 (CEST)
-Received: from localhost ([::1]:45224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B7013F38A4
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 06:25:22 +0200 (CEST)
+Received: from localhost ([::1]:46676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHIZ6-0007wI-Ec
-	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 00:25:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43864)
+	id 1mHIZN-0000Su-Ax
+	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 00:25:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mHIUr-00084J-8P
+ id 1mHIUr-00085U-Lp
  for qemu-devel@nongnu.org; Sat, 21 Aug 2021 00:20:41 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:56318)
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:56270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mHIUp-0002EI-Cn
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 00:20:40 -0400
+ id 1mHIUn-0002Cp-Ll
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 00:20:41 -0400
 Received: from loganberry.canonical.com (loganberry.canonical.com
  [91.189.90.37])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 5C7C23F810
- for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 04:20:38 +0000 (UTC)
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 81C833F79C
+ for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 04:20:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1629519638;
- bh=6yEXtDBI8lzQxyyS5nCw0A958zzqsws0whOuKr9Zi84=;
+ s=20210803; t=1629519636;
+ bh=gR2zXnjqXuPHeKxXQe+zklimWPdlGSAl1YXBsID63T0=;
  h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
  Message-Id:Subject;
- b=wKyG/tm0fEzh1jIx3yVJBYKNGj0kadtQ7aMKkEkrC1AEVTFCc51nRltX/eSk2Vts1
- YR8eANdiqWGzC53zMq189wU7ObZyUdHIrIdwmsNuHwYR0dTxeOUtZl6m1A8gotWurm
- M5hWT9lklzMG2/sK51Eyz08pA01nY3R4Q0rYN8U8jHyLEhwSxEl7+ISOZx95A3Mi5q
- OVAUGKsEm8ovVd/qSfOSOJiCL44OusnTDCh9aMOLOcSrAD86Na8QUNJOIq9nsZKyGY
- u8Pe/Hnp/HTeY7XO7bcjzI1tOnSqcD9yKZgPLoTrsoLPcHhB/W03k5a7Wb5OsDbH4J
- nBKftDJ0qSuLg==
+ b=QCzi/G5lcpcbfC39FLjATrZLVjxAWi5AmghpGQQZqfsJAIkEakq+EdvTsGTNk2BwK
+ CUHilNE0mgUsuV6w5dqs0yEzNpIvvtbXujUhCfWKhIBe6FKj1LCnJd2LghVEdBDTGt
+ EGJdQdjm1a7aq9b958PfqmKMe5IkMo9xP7xZxo1fvguIkr5IPkC/S8vTYGN5CVgJSP
+ cNmypCk+ER5HuNSkksTFMjecNMEZqDkf3946XbTA0KNqmST27Bv8kCixQRQT/HMZUt
+ SjL6FedVx8VOqwcegttjlzbZzNsbS1JTY7bE5pB3ZzLo1DdH1rua6M1jbNeVmZalzz
+ xI4oBr1ZOkkDQ==
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 467D42E8169
- for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 04:20:38 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7A25F2E80F9
+ for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 04:20:36 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 21 Aug 2021 04:13:03 -0000
-From: Alexander Bulekov <1911216@bugs.launchpad.net>
+Date: Sat, 21 Aug 2021 04:13:40 -0000
+From: Alexander Bulekov <1914638@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
@@ -52,19 +52,19 @@ X-Launchpad-Bug-Tags: fuzzer
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr hades0506 th-huth
-X-Launchpad-Bug-Reporter: Gaoning Pan (hades0506)
+X-Launchpad-Bug-Commenters: a1xndr philmd th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-References: <161046678346.29947.74345360490259273.malonedeb@chaenomeles.canonical.com>
-Message-Id: <162951918372.5563.6333093270974117464.malone@soybean.canonical.com>
-Subject: [Bug 1911216] Re: abort issue locates in
- hw/usb/hcd-ohci.c:1297:ohci_frame_boundary
+References: <161245973905.12681.5626615334396289850.malonedeb@soybean.canonical.com>
+Message-Id: <162951922052.10104.13812043074990502472.malone@chaenomeles.canonical.com>
+Subject: [Bug 1914638] Re: [OSS-Fuzz] Issue 30219: Global-buffer-overflow in
+ mode_sense_page
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="25edfd4b3e79d9ee9d9c3a750eb93e4d41d56c9e"; Instance="production"
-X-Launchpad-Hash: 9088325c0d71f470cd40615f0d13a1b44bb87e72
+X-Launchpad-Hash: 8ed36ded8d407fae0bcceb51a15b49ad4bdc4276
 Received-SPF: pass client-ip=185.125.188.251;
  envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
 X-Spam_score_int: -42
@@ -84,75 +84,226 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1911216 <1911216@bugs.launchpad.net>
+Reply-To: Bug 1914638 <1914638@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 I moved this report over to QEMU's new bug tracker on gitlab.com.
 Please continue with the discussion here:
 
-https://gitlab.com/qemu-project/qemu/-/issues/545
+https://gitlab.com/qemu-project/qemu/-/issues/546
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #545
-   https://gitlab.com/qemu-project/qemu/-/issues/545
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #546
+   https://gitlab.com/qemu-project/qemu/-/issues/546
 
 --=20
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1911216
+https://bugs.launchpad.net/bugs/1914638
 
 Title:
-  abort issue locates in hw/usb/hcd-ohci.c:1297:ohci_frame_boundary
+  [OSS-Fuzz] Issue 30219: Global-buffer-overflow in mode_sense_page
 
 Status in QEMU:
   Confirmed
 
 Bug description:
-  Hello,
+  =3D=3D Reproducer (build with --enable-sanitizers) =3D=3D
 
-  I found an assertion failure in hw/usb/hcd-ohci.c:1297
+  cat << EOF | ./qemu-system-i386 -machine q35 -nodefaults \
+  -device megasas -device scsi-cd,drive=3Dnull0 \
+  -blockdev driver=3Dnull-co,read-zeroes=3Don,node-name=3Dnull0 \
+  -nographic -qtest stdio
+  outl 0xcf8 0x80000818
+  outl 0xcfc 0xc000
+  outl 0xcf8 0x80000804
+  outw 0xcfc 0x7
+  write 0x0 0x1 0x03
+  write 0x7 0x1 0x3f
+  write 0x10 0x1 0x03
+  write 0x20 0x1 0x55
+  write 0x21 0x1 0x10
+  write 0x28 0x1 0x10
+  write 0x30 0x1 0xff
+  write 0x31 0x1 0xff
+  write 0x32 0x1 0xff
+  write 0x33 0x1 0xff
+  write 0x34 0x1 0xff
+  write 0x35 0x1 0xff
+  write 0x36 0x1 0xff
+  write 0x37 0x1 0xff
+  write 0x3b 0x1 0x10
+  write 0x43 0x1 0x10
+  write 0x44 0x1 0x10
+  write 0x4f 0x1 0x10
+  write 0x53 0x1 0x10
+  write 0x5b 0x1 0x10
+  write 0x5f 0x1 0x10
+  write 0x67 0x1 0x10
+  write 0x6b 0x1 0x10
+  write 0x73 0x1 0x10
+  write 0x75 0x1 0x10
+  write 0x7d 0x1 0x10
+  write 0x83 0x1 0x10
+  write 0x8b 0x1 0x10
+  write 0x8f 0x1 0x10
+  write 0x97 0x1 0x10
+  write 0x9b 0x1 0x10
+  write 0xa3 0x1 0x03
+  write 0xa6 0x1 0x10
+  write 0xae 0x1 0x10
+  write 0xb3 0x1 0x10
+  write 0xbb 0x1 0x10
+  write 0xbf 0x1 0x10
+  write 0xc7 0x1 0x10
+  write 0xca 0x1 0x10
+  write 0xd3 0x1 0x06
+  write 0xd7 0x1 0x10
+  write 0xdf 0x1 0x10
+  write 0xe3 0x1 0x06
+  write 0xeb 0x1 0x01
+  write 0xef 0x1 0x10
+  write 0xf7 0x1 0x10
+  write 0xfb 0x1 0x10
+  write 0x103 0x1 0x20
+  write 0x107 0x1 0x10
+  write 0x10f 0x1 0x10
+  write 0x113 0x1 0x10
+  write 0x11b 0x1 0x10
+  write 0x11f 0x1 0x10
+  write 0x127 0x1 0x10
+  write 0x12b 0x1 0x10
+  write 0x130 0x1 0x10
+  write 0x137 0x1 0x10
+  write 0x13f 0x1 0x40
+  write 0x141 0x1 0x10
+  write 0x14b 0x1 0x10
+  write 0x14f 0x1 0x10
+  write 0x157 0x1 0x10
+  write 0x15b 0x1 0x10
+  write 0x161 0x1 0x10
+  write 0x167 0x1 0x03
+  write 0x16f 0x1 0x06
+  write 0x172 0x1 0x10
+  write 0x17b 0x1 0x10
+  write 0x17f 0x1 0x10
+  write 0x187 0x1 0x10
+  write 0x18b 0x1 0x10
+  write 0x192 0x1 0x10
+  write 0x197 0x1 0x06
+  write 0x19f 0x1 0x20
+  write 0x1a3 0x1 0x10
+  write 0x1ab 0x1 0x40
+  write 0x1af 0x1 0x01
+  write 0x1b7 0x1 0x10
+  write 0x1bb 0x1 0x20
+  write 0x1c3 0x1 0x10
+  write 0x1c7 0x1 0x20
+  write 0x1cc 0x1 0x10
+  write 0x1d3 0x1 0x10
+  write 0x1db 0x1 0x10
+  write 0x1df 0x1 0x10
+  write 0x1e7 0x1 0x10
+  write 0x1eb 0x1 0x10
+  write 0x1f3 0x1 0x10
+  write 0x1f4 0x1 0x10
+  write 0x1fd 0x1 0x10
+  write 0x203 0x1 0x40
+  write 0x20b 0x1 0x10
+  write 0x20f 0x1 0x10
+  write 0x217 0x1 0x10
+  write 0x21b 0x1 0x10
+  write 0x223 0x1 0x10
+  write 0x225 0x1 0x10
+  write 0x22e 0x1 0x10
+  write 0x233 0x1 0x06
+  write 0x23b 0x1 0x10
+  write 0x23f 0x1 0x10
+  write 0x247 0x1 0x10
+  write 0x24b 0x1 0x10
+  write 0x252 0x1 0x10
+  write 0x256 0x1 0x10
+  write 0x25f 0x1 0x10
+  write 0x263 0x1 0x20
+  write 0x26b 0x1 0x06
+  write 0x26f 0x1 0x40
+  write 0x277 0x1 0x10
+  write 0x27b 0x1 0x10
+  write 0x283 0x1 0x10
+  write 0x287 0x1 0x10
+  write 0x28f 0x1 0x10
+  write 0x290 0x1 0x10
+  write 0x29b 0x1 0x10
+  write 0x29f 0x1 0x10
+  write 0x2a7 0x1 0x10
+  write 0x2ab 0x1 0x10
+  write 0x2b3 0x1 0x10
+  write 0x2b7 0x1 0x10
+  write 0x2bf 0x1 0x10
+  write 0x2c1 0x1 0x10
+  write 0x2c9 0x1 0x10
+  write 0x2cf 0x1 0x10
+  write 0x2d7 0x1 0x10
+  write 0x2db 0x1 0x10
+  write 0x2e3 0x1 0x10
+  write 0x2e7 0x1 0x10
+  write 0x2ef 0x1 0x03
+  write 0x2f2 0x1 0x10
+  write 0x2fa 0x1 0x10
+  write 0x2ff 0x1 0x10
+  write 0x307 0x1 0x10
+  write 0x30b 0x1 0x10
+  write 0x313 0x1 0x10
+  write 0x316 0x1 0x10
+  write 0x31f 0x1 0x06
+  write 0x323 0x1 0x10
+  outb 0xc040 0x0
+  EOF
 
-  This was found in latest version 5.2.0.
-
-  my reproduced environment is as follows:
-      Host: ubuntu 18.04
-      Guest: ubuntu 18.04
-
-  QEMU boot command line:
-  qemu-system-x86_64 -enable-kvm -boot c -m 4G -drive format=3Dqcow2,file=
-=3D./ubuntu.img -nic user,hostfwd=3Dtcp:0.0.0.0:5555-:22 -display none -dev=
-ice pci-ohci,id=3Dohci -device usb-tablet,bus=3Dohci.0,port=3D1,id=3Dusbdev1
-
- =20
-  backtrace is as follows=20
-  pwndbg> bt
-  #0  0x00007fdf392aa438 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/=
-unix/sysv/linux/raise.c:54
-  #1  0x00007fdf392ac03a in __GI_abort () at abort.c:89
-  #2  0x000055c613721118 in ohci_frame_boundary (opaque=3D0x6270000191f0) a=
-t hw/usb/hcd-ohci.c:1297
-  #3  0x000055c6140bdf0e in timerlist_run_timers (timer_list=3D0x60b00005bc=
-c0) at util/qemu-timer.c:572
-  #4  0x000055c6140be15a in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
-L) at util/qemu-timer.c:586
-  #5  0x000055c6140beac7 in qemu_clock_run_all_timers () at util/qemu-timer=
-.c:672
-  #6  0x000055c6140a1938 in main_loop_wait (nonblocking=3D0) at util/main-l=
-oop.c:523
-  #7  0x000055c6125d87e9 in qemu_main_loop () at /home/dell/qemu5-hyperviso=
-r/vm/fuzz-seedpool/hcd-ohci/qemu-5.1.0/softmmu/vl.c:1676
-  #8  0x000055c613f216ea in main (argc=3D7, argv=3D0x7fff174cdd28, envp=3D0=
-x7fff174cdd68) at /home/dell/qemu5-hypervisor/vm/fuzz-seedpool/hcd-ohci/qem=
-u-5.1.0/softmmu/main.c:49
-  #9  0x00007fdf39295840 in __libc_start_main (main=3D0x55c613f21699 <main>=
-, argc=3D7, argv=3D0x7fff174cdd28, init=3D<optimized out>, fini=3D<optimize=
-d out>, rtld_fini=3D<optimized out>, stack_end=3D0x7fff174cdd18) at ../csu/=
-libc-start.c:291
-  #10 0x000055c6120a4349 in _start ()
-
-  The poc is attached.
+  =3D=3D=3D Stack Trace =3D=3D=3D
+  =3D=3D1025760=3D=3DERROR: AddressSanitizer: global-buffer-overflow on add=
+ress 0x558f557253fc at pc 0x558f549ab376 bp
+  0x7ffd436e9770 sp 0x7ffd436e9768
+  READ of size 4 at 0x558f557253fc thread T0
+  SCARINESS: 17 (4-byte-read-global-buffer-overflow)
+  #0 0x558f549ab375 in mode_sense_page /src/qemu/hw/scsi/scsi-disk.c:1104:10
+  #1 0x558f549afd86 in scsi_disk_check_mode_select /src/qemu/hw/scsi/scsi-d=
+isk.c:1447:11
+  #2 0x558f549af9a6 in mode_select_pages /src/qemu/hw/scsi/scsi-disk.c:1515=
+:17
+  #3 0x558f549ae593 in scsi_disk_emulate_mode_select /src/qemu/hw/scsi/scsi=
+-disk.c:1570:13
+  #4 0x558f549a56e9 in scsi_disk_emulate_write_data /src/qemu/hw/scsi/scsi-=
+disk.c:1861:9
+  #5 0x558f548b9b49 in scsi_req_continue /src/qemu/hw/scsi/scsi-bus.c:0
+  #6 0x558f548b9fc4 in scsi_req_data /src/qemu/hw/scsi/scsi-bus.c:1427:5
+  #7 0x558f549a5554 in scsi_disk_emulate_write_data /src/qemu/hw/scsi/scsi-=
+disk.c:1853:9
+  #8 0x558f548b9b49 in scsi_req_continue /src/qemu/hw/scsi/scsi-bus.c:0
+  #9 0x558f54ac7cf6 in megasas_enqueue_req /src/qemu/hw/scsi/megasas.c:1660=
+:9
+  #10 0x558f54ab6e09 in megasas_handle_scsi /src/qemu/hw/scsi/megasas.c:173=
+5:5
+  #11 0x558f54ab3083 in megasas_handle_frame /src/qemu/hw/scsi/megasas.c:19=
+74:24
+  #12 0x558f54ab1c8b in megasas_mmio_write /src/qemu/hw/scsi/megasas.c:2131=
+:9
+  #13 0x558f54acc784 in megasas_port_write /src/qemu/hw/scsi/megasas.c:2182=
+:5
+  #14 0x558f54f78d57 in memory_region_write_accessor /src/qemu/softmmu/memo=
+ry.c:491:5
+  #15 0x558f54f78be2 in access_with_adjusted_size /src/qemu/softmmu/memory.=
+c:552:18
+  #16 0x558f54f78441 in memory_region_dispatch_write /src/qemu/softmmu/memo=
+ry.c:0:13
+  #17 0x558f550d5627 in flatview_write_continue /src/qemu/softmmu/physmem.c=
+:2763:23
+  #18 0x558f550d02ac in flatview_write /src/qemu/softmmu/physmem.c:2803:14
+  #19 0x558f550d00c7 in address_space_write /src/qemu/softmmu/physmem.c:289=
+5:18
+  #20 0x558f5506c4ff in cpu_outb /src/qemu/softmmu/ioport.c:60:5
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1911216/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1914638/+subscriptions
 
 
