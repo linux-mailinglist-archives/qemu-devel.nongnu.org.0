@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9441B3F3909
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 08:36:52 +0200 (CEST)
-Received: from localhost ([::1]:60032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F6723F391E
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 08:43:02 +0200 (CEST)
+Received: from localhost ([::1]:38506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHKcd-0002Jk-Mo
-	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 02:36:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54852)
+	id 1mHKib-00070U-7y
+	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 02:43:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mHKbP-0001Hd-HH
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:35:35 -0400
-Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:52904)
+ id 1mHKgT-0004VQ-Ha
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:40:49 -0400
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:37984)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mHKbM-0006X1-FP
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:35:35 -0400
+ id 1mHKgQ-0002jc-J7
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:40:49 -0400
 Received: from loganberry.canonical.com (loganberry.canonical.com
  [91.189.90.37])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 234F13F84B
- for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:35:28 +0000 (UTC)
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 026F63F728
+ for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:40:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1629527728;
- bh=caPgGksLh4iGeX3HPsuPnPP0dnM7RuTcRZV8c5qMgak=;
+ s=20210803; t=1629528044;
+ bh=Jwb8PzcyfT4KYEr10gf6ooVlzqrlo7RSkLLj17lkXFY=;
  h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
  Message-Id:Subject;
- b=FU2DVBvcS+xOmvPYk5E/+YRx37FuEamt+PYRMsUlAXoil2Xpf2QNB28T7sI2Wduy1
- ODH4QP2g+Hf7N7SXEnZKl7US9m+eH+wNraidgwMaxEo40wg8UViEvV63NzkrJkgFOs
- cGFukEqRRHKSF4HJYX5RJW1ZrcX5N80/PTJVTFN9liKLlCP5PX/qVtUR5W33tigWqx
- nKUbONkKPTldtIxJG9XmJOliCXTOAOIrJsaziePBzPuDPATkUNTJw/tEpvW/5ckQyZ
- BVzGKiO1EYzWYtlAc360Cbdsk33f82IVGrPiokEHkdquPCHlR6yGEr4O6rZAnCSsTT
- RMZJMXuokSh2w==
+ b=MTAhGvHRWESdw4RJnxhSht2GvgSMcAMZ9fJpJhG7UU+Bex++3tvl4LKeWi+Gu+isD
+ BM0sU7mNEM2AAntizqq6ug8nb75qc5lJeF45fHFBuor8HwLu7hDPeVWFBcRjnkm/KN
+ q6Lh1gWHTVNDjtxAKATztW7KeP3iZoDXATui9B9YoUW46TvlcbNL+MqqTeyWD1F6Ew
+ DU8pLOjLdoqAIMylU+HYW2P8l7ckhHlO3U5OAbj9Kb1ClDpsF8BpUksBW7W6Dcydd2
+ 5AgWlpYAzZWR2FC6rE81gWgt/7hpHIR0dzFBYEJNjPUqRRg+SzsgBduWNBne61Msc9
+ ilkNWAm+Wqi2w==
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A5AC72E8180
- for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:35:27 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 89EC12E817D
+ for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:40:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 21 Aug 2021 06:29:33 -0000
-From: Thomas Huth <1917082@bugs.launchpad.net>
+Date: Sat, 21 Aug 2021 06:30:40 -0000
+From: Thomas Huth <1918321@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: fuzzer net
+X-Launchpad-Bug-Tags: block fuzzer
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: a1xndr th-huth
 X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161436793911.24762.6802305911122378058.malonedeb@gac.canonical.com>
-Message-Id: <162952737342.11446.7009459024568275732.malone@wampee.canonical.com>
-Subject: [Bug 1917082] Re: [OSS-Fuzz] Issue 27574 e1000: Loopback-related
- stack-overflow
+References: <161531961935.11554.15835639895023157218.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162952744023.478.17532864826638972390.malone@gac.canonical.com>
+Subject: [Bug 1918321] Re: [OSS-Fuzz] Issue 31875 megasas: Null-ptr
+ dereference in megasas_finish_dcmd
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="25edfd4b3e79d9ee9d9c3a750eb93e4d41d56c9e"; Instance="production"
-X-Launchpad-Hash: 40a7a735469914d9becb16117d0cbc5edbdb8c67
-Received-SPF: pass client-ip=185.125.188.250;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
+X-Launchpad-Hash: 4d0fa6243a44869c7c5e92f8f4e2f87e62c5f500
+Received-SPF: pass client-ip=185.125.188.251;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -84,7 +84,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1917082 <1917082@bugs.launchpad.net>
+Reply-To: Bug 1918321 <1918321@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,173 +98,114 @@ now.
 --=20
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1917082
+https://bugs.launchpad.net/bugs/1918321
 
 Title:
-  [OSS-Fuzz] Issue 27574 e1000: Loopback-related stack-overflow
+  [OSS-Fuzz] Issue 31875 megasas: Null-ptr dereference in
+  megasas_finish_dcmd
 
 Status in QEMU:
   Invalid
 
 Bug description:
-  =3D=3D=3D Reproducer =3D=3D=3D
-  cat << EOF | ./qemu-system-i386 -display none -machine accel=3Dqtest, -m \
-  512M -M q35 -nodefaults -device e1000,netdev=3Dnet0 -netdev user,id=3Dnet=
-0 \
-  -qtest /dev/null -qtest stdio
-  outl 0xcf8 0x80000813
-  outl 0xcfc 0xfe
-  outl 0xcf8 0x80000803
-  outw 0xcfc 0x0600
-  write 0xfe000102 0x1 0x0a
-  writel 0xfe000020 0x420ff00
-  write 0xfe00280a 0x2 0x0828
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  write 0xfe00281b 0x1 0x08
-  write 0xf9b 0x1 0x01
-  write 0x2170 0x1 0x14
-  write 0x2171 0x1 0x38
-  write 0x2173 0x1 0xfe
-  write 0xfe000402 0x1 0x02
-  write 0xfe00380a 0x2 0x0210
-  write 0xfe003818 0x1 0xfa
-  EOF
+  Hello,
 
-  =3D=3D=3D Stack-trace =3D=3D=3D
-  =3D=3D288216=3D=3DERROR: AddressSanitizer: stack-overflow on address 0x7f=
-ff51c96f48 (pc 0x56247061af36 bp 0x7fff51c97790 sp 0x7fff51c96f50 T0)
-  #0 0x56247061af36 in __asan_memcpy (/home/alxndr/Development/qemu/build/q=
-emu-system-i386+0x2baff36)
-  #1 0x5624718eb70d in flatview_read_continue /home/alxndr/Development/qemu=
-/build/../softmmu/physmem.c:2846:13
-  #2 0x5624718ecd1b in flatview_read /home/alxndr/Development/qemu/build/..=
-/softmmu/physmem.c:2879:12
-  #3 0x5624718ecd1b in address_space_read_full /home/alxndr/Development/qem=
-u/build/../softmmu/physmem.c:2892:18
-  #4 0x562470bcb75b in dma_memory_rw_relaxed /home/alxndr/Development/qemu/=
-include/sysemu/dma.h:88:12
-  #5 0x562470bcb75b in dma_memory_rw /home/alxndr/Development/qemu/include/=
-sysemu/dma.h:127:12
-  #6 0x562470bcb75b in pci_dma_rw /home/alxndr/Development/qemu/include/hw/=
-pci/pci.h:803:12
-  #7 0x562470bcb75b in pci_dma_read /home/alxndr/Development/qemu/include/h=
-w/pci/pci.h:821:12
-  #8 0x562470bcb75b in e1000_receive_iov /home/alxndr/Development/qemu/buil=
-d/../hw/net/e1000.c:954:9
-  #9 0x562470bca465 in e1000_receive /home/alxndr/Development/qemu/build/..=
-/hw/net/e1000.c:1025:12
-  #10 0x562470bc9671 in e1000_send_packet /home/alxndr/Development/qemu/bui=
-ld/../hw/net/e1000.c:549:9
-  #11 0x562470bc7dd8 in xmit_seg /home/alxndr/Development/qemu/build/../hw/=
-net/e1000.c
-  #12 0x562470bc4dfe in process_tx_desc /home/alxndr/Development/qemu/build=
-/../hw/net/e1000.c:701:9
-  #13 0x562470bc4dfe in start_xmit /home/alxndr/Development/qemu/build/../h=
-w/net/e1000.c:756:9
-  #14 0x562470bc4dfe in set_tctl /home/alxndr/Development/qemu/build/../hw/=
-net/e1000.c:1127:5
-  #15 0x5624719ef2f6 in memory_region_write_accessor /home/alxndr/Developme=
-nt/qemu/build/../softmmu/memory.c:491:5
-  #16 0x5624719eed63 in access_with_adjusted_size /home/alxndr/Development/=
-qemu/build/../softmmu/memory.c:552:18
-  #17 0x5624719ee5c0 in memory_region_dispatch_write /home/alxndr/Developme=
-nt/qemu/build/../softmmu/memory.c
-  #18 0x5624718f7776 in flatview_write_continue /home/alxndr/Development/qe=
-mu/build/../softmmu/physmem.c:2776:23
-  #19 0x5624718ed13b in flatview_write /home/alxndr/Development/qemu/build/=
-../softmmu/physmem.c:2816:14
-  #20 0x5624718ed13b in address_space_write /home/alxndr/Development/qemu/b=
-uild/../softmmu/physmem.c:2908:18
-  #21 0x562470bcba6b in dma_memory_rw_relaxed /home/alxndr/Development/qemu=
-/include/sysemu/dma.h:88:12
-  #22 0x562470bcba6b in dma_memory_rw /home/alxndr/Development/qemu/include=
-/sysemu/dma.h:127:12
-  #23 0x562470bcba6b in pci_dma_rw /home/alxndr/Development/qemu/include/hw=
-/pci/pci.h:803:12
-  #24 0x562470bcba6b in pci_dma_write /home/alxndr/Development/qemu/include=
-/hw/pci/pci.h:839:12
-  #25 0x562470bcba6b in e1000_receive_iov /home/alxndr/Development/qemu/bui=
-ld/../hw/net/e1000.c:967:21
-  #26 0x562470bca465 in e1000_receive /home/alxndr/Development/qemu/build/.=
-./hw/net/e1000.c:1025:12
-  #27 0x562470bc9671 in e1000_send_packet /home/alxndr/Development/qemu/bui=
-ld/../hw/net/e1000.c:549:9
-  ...
+  =3D=3D QTest Reproducer =3D=3D
+  /*=20
+   * cat << EOF | ./qemu-system-i386 -display none -machine accel=3Dqtest, =
+-m \
+   * 512M -machine q35 -nodefaults -device megasas -device \
+   * scsi-cd,drive=3Dnull0 -blockdev \
+   * driver=3Dnull-co,read-zeroes=3Don,node-name=3Dnull0 -qtest stdio
+   * outl 0xcf8 0x80000801
+   * outl 0xcfc 0x05000000
+   * outl 0xcf8 0x80000816
+   * outl 0xcfc 0x19000000
+   * write 0x1e1ed300 0x1 0x01
+   * write 0x1e1ed307 0x1 0x01
+   * write 0x1e1ed316 0x1 0x01
+   * write 0x1e1ed328 0x1 0x01
+   * write 0x1e1ed32f 0x1 0x01
+   * outl 0x1940 0x1e1ed300
+   * outl 0x19c0 0x00
+   * EOF
+   */
+  static void null_deref_megasas_finish_dcmd(void)
+  {
+      QTestState *s =3D qtest_init(
+          "-display none , -m 512M -machine q35 -nodefaults -device megasas=
+ -device "
+          "scsi-cd,drive=3Dnull0 -blockdev driver=3Dnull-co,read-zeroes=3Do=
+n,node-name=3Dnull0 ");
+      qtest_outl(s, 0xcf8, 0x80000801);
+      qtest_outl(s, 0xcfc, 0x05000000);
+      qtest_outl(s, 0xcf8, 0x80000816);
+      qtest_outl(s, 0xcfc, 0x19000000);
+      qtest_bufwrite(s, 0x1e1ed300, "\x01", 0x1);
+      qtest_bufwrite(s, 0x1e1ed307, "\x01", 0x1);
+      qtest_bufwrite(s, 0x1e1ed316, "\x01", 0x1);
+      qtest_bufwrite(s, 0x1e1ed328, "\x01", 0x1);
+      qtest_bufwrite(s, 0x1e1ed32f, "\x01", 0x1);
+      qtest_outl(s, 0x1940, 0x1e1ed300);
+      qtest_outl(s, 0x19c0, 0x00);
+      qtest_quit(s);
+  }
+  int main(int argc, char **argv)
+  {
+      const char *arch =3D qtest_get_arch();
+
+      g_test_init(&argc, &argv, NULL);
+
+      if (strcmp(arch, "i386") =3D=3D 0) {
+          qtest_add_func("fuzz/null_deref_megasas_finish_dcmd",
+                         null_deref_megasas_finish_dcmd);
+      }
+
+      return g_test_run();
+  }
+
+  =3D=3D Stack Trace =3D=3D
+  ../hw/scsi/megasas.c:1884:21: runtime error: member access within null po=
+inter of type 'union mfi_frame'
+  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/scsi/megasa=
+s.c:1884:21 in
+  ../hw/scsi/megasas.c:1884:21: runtime error: member access within null po=
+inter of type 'struct mfi_frame_header'
+  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/scsi/megasa=
+s.c:1884:21 in
+  AddressSanitizer:DEADLYSIGNAL
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  =3D=3D314546=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0000=
+00000003 (pc 0x55b1b4f4de73 bp 0x7ffcfc5a8bb0 sp 0x7ffcfc5a8900 T0)
+  =3D=3D314546=3D=3DThe signal is caused by a WRITE memory access.
+  =3D=3D314546=3D=3DHint: address points to the zero page.
+  #0 0x55b1b4f4de73 in megasas_command_complete build/../hw/scsi/megasas.c:=
+1884:40
+  #1 0x55b1b5613914 in scsi_req_complete build/../hw/scsi/scsi-bus.c:1515:5
+  #2 0x55b1b5448aeb in scsi_dma_complete_noio build/../hw/scsi/scsi-disk.c:=
+345:9
+  #3 0x55b1b5446fc7 in scsi_dma_complete build/../hw/scsi/scsi-disk.c:366:5
+  #4 0x55b1b4fffc56 in dma_complete build/../softmmu/dma-helpers.c:121:9
+  #5 0x55b1b4fffc56 in dma_blk_cb build/../softmmu/dma-helpers.c:139:9
+  #6 0x55b1b6856016 in blk_aio_complete build/../block/block-backend.c:1412=
+:9
+  #7 0x55b1b6f48b06 in aio_bh_poll build/../util/async.c:164:13
+  #8 0x55b1b6f08cec in aio_dispatch build/../util/aio-posix.c:381:5
+  #9 0x55b1b6f4d59c in aio_ctx_dispatch build/../util/async.c:306:5
+  #10 0x7fd88c098baa in g_main_context_dispatch (/usr/lib/x86_64-linux-gnu/=
+libglib-2.0.so.0+0x51baa)
+  #11 0x55b1b6f59a3c in glib_pollfds_poll build/../util/main-loop.c:232:9
+  #12 0x55b1b6f59a3c in os_host_main_loop_wait build/../util/main-loop.c:25=
+5:5
+  #13 0x55b1b6f59a3c in main_loop_wait build/../util/main-loop.c:531:11
+  #14 0x55b1b61a78a9 in qemu_main_loop build/../softmmu/runstate.c:725:9
+  #15 0x55b1b4c751e5 in main build/../softmmu/main.c:50:5
+  #16 0x7fd88aec6d09 in __libc_start_main csu/../csu/libc-start.c:308:16
+  #17 0x55b1b4bc8bb9 in _start (system-i386+0x2b5fbb9)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1917082/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1918321/+subscriptions
 
 
