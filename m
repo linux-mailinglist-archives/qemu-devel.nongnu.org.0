@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE4803F3C53
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 21:56:54 +0200 (CEST)
-Received: from localhost ([::1]:37116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51F423F3C55
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 22:02:31 +0200 (CEST)
+Received: from localhost ([::1]:44044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHX6X-00080n-9w
-	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 15:56:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49116)
+	id 1mHXCH-0004Sp-L4
+	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 16:02:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mHX4u-0006ej-MP
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 15:54:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32278)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mHX4r-00010K-8c
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 15:54:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629575687;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZVG97vXDLBAiuYorE7Lx7KklCWfi/sU5Oecj8wD2Z54=;
- b=F6pEqGHNywr9oHCCOEEdDRhiELyIJgP+DExsSVejdhem38gC9oU7qjWtyujvtMmxlqp+P+
- urGNm6D+bG2RRIJkcXDaeAUuRepTBN8LuPYWZzKXWM7fnd6CCknhiP10gvFRQFZrviUlAL
- nfqy+hP20Npw0kh1HHq4++3iPu0IK/E=
-Received: from mail-ot1-f69.google.com (mail-ot1-f69.google.com
- [209.85.210.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-utctTrwON9STYdR64YA3CQ-1; Sat, 21 Aug 2021 15:54:45 -0400
-X-MC-Unique: utctTrwON9STYdR64YA3CQ-1
-Received: by mail-ot1-f69.google.com with SMTP id
- c88-20020a9d27e1000000b0051abe1bcbb9so5749510otb.1
- for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 12:54:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mHX9w-00026j-6C
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 16:00:04 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:39506)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mHX9u-0004RS-7p
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 16:00:03 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ oc2-20020a17090b1c0200b00179e56772d6so6174078pjb.4
+ for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 13:00:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lIQ/OA4yaudhj2NJw5BECafH1Pa0q9uSWP5z0glX674=;
+ b=D9c4zemE/yVCBktpg4kfxd04yG2+bItSnO7oJlyzleREfL44wEfLSLR+7yRV/vWwbP
+ +5vkMgH+y0dol2Sz5/O4xJxQH1HfFEJOG0Rs1zf9zdSwwdy33IqkhwxakmatdUFzb+qJ
+ ogQS7sB0VEkWYl7x39W20ipUjlEQmuPlOekjuAUj3LS6KMPU9Vzu1QYxRF4S4Lj/O6T4
+ d585NUUoMJt33J+Xg/G9+1wxzs9BQbeJ+bUb6QCNBkkS81I55DPeRY3a8Nv8E4GtqpRU
+ qHxPLqLiSfVW0O3cnFrarJQCdfDPcyhkXq6pekic777pYIJ/M7bByRcTzBJTZgSiDZMF
+ 3CZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZVG97vXDLBAiuYorE7Lx7KklCWfi/sU5Oecj8wD2Z54=;
- b=avbdCpJAzEQU/Hva0KULcmhNmnnS+r6ehwZgp+64xquDHPzfISVpMuvt80PAupWm20
- XZPj87d8RPKVlbRcNFw9IKgLDgUYk9Y7KXFXAuTF2Z6dANS+2AEg3LMAA1EDIuM7pUH8
- JeVWfA6LvOUHXjVO+kneDnFro7CnYPZA+mwfW99ciouSecZSP6dndX8hLnXg7dditM2k
- h3Z35GdNBi5b6cHAZd/RsISk6PCPQT1UeDlZGDJuXBnKBZXnaNGoLklMKHT5ABOZHkc9
- +1bBNgTuO0jVNbJFHP51lQ0912iYkbIrkb6ux73gSsZaV2/FYfjf39maHVxi8xKtMHLP
- Xo9w==
-X-Gm-Message-State: AOAM533EEDhVAM4/cX3surl4cFfxVeCkNa0aq6ktvDoFT/LzBsp9o8D8
- oaiiR9QX6pheUeTFkjiHSZhq0jvbvpRIZp1/1cyS8KO7/MwadKmwPXK22xeFMZ6ln4FnpgRLMbC
- VU120UmDPeOP7svaFm97vhG/SXk7SHUc=
-X-Received: by 2002:a9d:5d01:: with SMTP id b1mr4411662oti.263.1629575684951; 
- Sat, 21 Aug 2021 12:54:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwkI5CjlWKI++ZSvnnadlP1ZDo4aDzGmh743nF+Mt4Getn4gJxb32UU4yxdYHKTAoMFEmH5snI2WrxbrqjAHEk=
-X-Received: by 2002:a9d:5d01:: with SMTP id b1mr4411648oti.263.1629575684786; 
- Sat, 21 Aug 2021 12:54:44 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lIQ/OA4yaudhj2NJw5BECafH1Pa0q9uSWP5z0glX674=;
+ b=BOgBrce1ftL8NdYAcSTO6YybmWfjHAOFtK9MPDFu1lryexfjQR74doI+h05TIeAATP
+ 1l1Di0ZVo+5eI2yppVJUxD7h2dd86qJhZzgKyIc0Hwoo3EmlMwxPSLqEfKnuWseabjw8
+ +RL9wwlnMgOlI+EwtxTvZOhlAyertAGl47JlLtEUA9bdqBFnbZ5UPRUVBLOgu36YGAca
+ l+U1jh/UAm3UAQ6oiuzsjX0SXVOL/07+ZEoappojemZ46Ex/bVjKS06jeh8MQTI7lQir
+ lNgwLJFOSo7oPM8rEOpyLDUy2m1FG1sHPTpFLR/KGVCHqO1Qs6gH+0CDh636gIJDjoAd
+ 9V7g==
+X-Gm-Message-State: AOAM531YFfXO1hHBZnB8q2s3f1Tcw4ID0meKwT9OzcvNMWMZ1BF7mtYp
+ PDDGyeE34iDhG/Xhe7Obo/eJL3ySgYjGsg==
+X-Google-Smtp-Source: ABdhPJy05R13rG1Y6ffOzLz2jhn4MetMzg/Qv6dbJuhdco2pzlRo9eiNH8qkZ55Eo17NYCH+v1Gwpg==
+X-Received: by 2002:a17:90a:a406:: with SMTP id
+ y6mr10996064pjp.221.1629575999990; 
+ Sat, 21 Aug 2021 12:59:59 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id h13sm12562257pgh.93.2021.08.21.12.59.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 21 Aug 2021 12:59:59 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/8] target/arm: Fix insn exception priorities
+Date: Sat, 21 Aug 2021 12:59:50 -0700
+Message-Id: <20210821195958.41312-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210819173831.23515-1-niteesh.gs@gmail.com>
- <20210819173831.23515-3-niteesh.gs@gmail.com>
-In-Reply-To: <20210819173831.23515-3-niteesh.gs@gmail.com>
-From: John Snow <jsnow@redhat.com>
-Date: Sat, 21 Aug 2021 15:54:34 -0400
-Message-ID: <CAFn=p-aOwoF78aiM4XMt4cCCaYQi+f75SC=9N1izN9KCKOgUxA@mail.gmail.com>
-Subject: Re: [PATCH v4 2/7] python: Add dependencies for AQMP TUI
-To: G S Niteesh Babu <niteesh.gs@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000d39df005ca17270a"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,53 +82,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Kashyap Chamarthy <kchamart@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Wainer Moschetta <wainersm@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Eric Blake <eblake@redhat.com>
+Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d39df005ca17270a
-Content-Type: text/plain; charset="UTF-8"
+Raise pc alignment faults.
+Fix single-step and pc-align priority over breakpoints.
+Not yet fixing insn abort priority over breakpoints.
 
-On Thu, Aug 19, 2021 at 1:39 PM G S Niteesh Babu <niteesh.gs@gmail.com>
-wrote:
+Based-on: 20210813131809.28655-1-peter.maydell@linaro.org
+("linux-user: Clean up siginfo_t handling for arm, aarch64")
 
-> Added dependencies for the upcoming AQMP TUI under the optional
-> 'tui' group.
->
-> The same dependencies have also been added under the devel group
-> since no work around has been found for optional groups to imply
-> other optional groups.
->
-> Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
->
+Changes for v2:
+  * Handle the exceptions in cpu_loop.
+  * Fix how the instruction is raised for aa32 el1.
+  * Add pc alignment test cases.
 
-Reviewed-by: John Snow <jsnow@redhat.com>
 
---000000000000d39df005ca17270a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+r~
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 19, 2021 at 1:39 PM G S N=
-iteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com">niteesh.gs@gmail.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->Added dependencies for the upcoming AQMP TUI under the optional<br>
-&#39;tui&#39; group.<br>
-<br>
-The same dependencies have also been added under the devel group<br>
-since no work around has been found for optional groups to imply<br>
-other optional groups.<br>
-<br>
-Signed-off-by: G S Niteesh Babu &lt;<a href=3D"mailto:niteesh.gs@gmail.com"=
- target=3D"_blank">niteesh.gs@gmail.com</a>&gt;<br></blockquote><div><br></=
-div><div>Reviewed-by: John Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsn=
-ow@redhat.com</a>&gt;<br></div><div>=C2=A0</div></div></div>
 
---000000000000d39df005ca17270a--
+Peter Maydell (1):
+  target/arm: Take an exception if PSTATE.IL is set
+
+Richard Henderson (7):
+  target/arm: Merge disas_a64_insn into aarch64_tr_translate_insn
+  linux-user/aarch64: Handle EC_PCALIGNMENT
+  linux-user/arm: Report SIGBUS and SIGSEGV correctly
+  target/arm: Take an exception if PC is misaligned
+  target/arm: Assert thumb pc is aligned
+  target/arm: Suppress bp for exceptions with more priority
+  tests/tcg: Add arm and aarch64 pc alignment tests
+
+ target/arm/cpu.h                  |   1 +
+ target/arm/helper.h               |   1 +
+ target/arm/syndrome.h             |  10 ++
+ target/arm/translate.h            |   2 +
+ linux-user/aarch64/cpu_loop.c     |  44 +++--
+ linux-user/arm/cpu_loop.c         |  39 ++++-
+ target/arm/debug_helper.c         |  23 +++
+ target/arm/gdbstub.c              |   9 +-
+ target/arm/helper-a64.c           |   1 +
+ target/arm/helper.c               |   8 +
+ target/arm/machine.c              |   9 +
+ target/arm/tlb_helper.c           |  24 +++
+ target/arm/translate-a64.c        | 276 ++++++++++++++++--------------
+ target/arm/translate.c            |  63 ++++++-
+ tests/tcg/aarch64/pcalign-a64.c   |  37 ++++
+ tests/tcg/arm/pcalign-a32.c       |  46 +++++
+ tests/tcg/aarch64/Makefile.target |   4 +-
+ tests/tcg/arm/Makefile.target     |   4 +
+ 18 files changed, 441 insertions(+), 160 deletions(-)
+ create mode 100644 tests/tcg/aarch64/pcalign-a64.c
+ create mode 100644 tests/tcg/arm/pcalign-a32.c
+
+-- 
+2.25.1
 
 
