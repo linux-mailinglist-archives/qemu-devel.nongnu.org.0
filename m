@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B583F3C59
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 22:03:22 +0200 (CEST)
-Received: from localhost ([::1]:45434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72CF03F3C60
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 22:05:49 +0200 (CEST)
+Received: from localhost ([::1]:52730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHXD7-0005OR-6Q
-	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 16:03:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49762)
+	id 1mHXFU-0001kf-Hi
+	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 16:05:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mHX9y-00028E-U8
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 16:00:06 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:36780)
+ id 1mHXA0-0002Es-WC
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 16:00:09 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:42861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mHX9v-0004Te-4P
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 16:00:06 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id m26so11717912pff.3
- for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 13:00:02 -0700 (PDT)
+ id 1mHX9v-0004UM-Lk
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 16:00:08 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ mq2-20020a17090b3802b0290178911d298bso9504990pjb.1
+ for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 13:00:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=S3Ic6iGbb2NTPoozAwoc6s7WItVnl35pmUzWVFyhl0M=;
- b=v16q45jbY0Bm/F9kON0YGyVoryrkJwCvBW2A/deLNRcp1d22BKL4IYCTzBd59Xn7zJ
- 0AaQXu87hv6aB67MJRVJNdf+kBpZtgsvMSvgMfPPuH6d6YPFYhfFtV0flPWgwFPDDV7x
- bBtiz8GWUCoL9f+xRTCPqe54KD5ln6LJn8JQBYTS8dIj30lJfoM2r3dB9mgn43WDgtmK
- Tl78iBelCV5fGKRwU5F76zie1xjwfEjqfCUxYu2lPXxpNabf6qt3wutqO1Z6lMmOf0sw
- /yPQ/87BXX8mM4vRM8Xjk0ENLTCGH2ezQVvK0Uog+dW8MnamJcFH2Al31pCl0KpNjShj
- bBbg==
+ bh=nW9fMChnRBXVS7c8vZgjblWrAXidwfTLKIZtt2ybyaE=;
+ b=N/A6BnybYHaEQ0iErEI5N9lHcQCR1qT0aUkfWVo35cgh9mNImUZNbfE6yQYSN3mL5X
+ N2c97P5BfN4DqnKC+5ZKMcldTVoNDQaHLP6b/TFu9SDHZ2T7JxId4thCzOS/jPX8juwN
+ P529i7ge1OTyybd2JThNWAz76YlmwIi5NTByU+gq/e9cvDdoXO4pxwvirHSj8FNJrnW0
+ nJ7hkTrlhC0EW9zbiId+rEkmt7aGHu8M1eQRVzaPntCLbN1VKwFOV8B2nRU6r3ascUjr
+ c7/GihWKYXGnB2P8Q6vsPzOChhtMA//pyfRkqMIqHnteeL/susz8Oi1EaGR6cmyJb7NP
+ 5ZMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=S3Ic6iGbb2NTPoozAwoc6s7WItVnl35pmUzWVFyhl0M=;
- b=LDHWHgvW+fEg7OWRCJxNIcDlhZF/2s2xQqRdzeM9UF3YY83LnUzGvDnDm2U1N3uJZx
- EvzPBoysX0RaUUx+8MI1lY1cz3boMgwSmhAr5ez/xUwnYTtz+6yIG557X/Isueqp91DW
- sFhY9jzL3LH2xsQAE7ZH6hi5msxMUgvBHN3PqRbE6I5PHoxNEcg9DJm+UM41I0kOBnSI
- yqFmv5oAM5Of674WNTeLqXIP6qDMe2Q2I1fwN8guqoCSni6U7qe+CD0vbkd8HblMj0BK
- jChXkUTZqHMyUy01/BZcxPBeBF8Dh/srqm691ndWtYgllyasOsQ7umBG4YYKeDgLg+L7
- 1aXA==
-X-Gm-Message-State: AOAM533JH/Ff92+nMCLWuJGVw5kGG2xVHzWFhCXHBy3h+aSleCZcJ228
- TtMX+STSo4Ksmd4M8H9IrMz0CFLTKUkPeg==
-X-Google-Smtp-Source: ABdhPJwvnXMK9yBp4jpMpVYpJNyX5WHVxyfXJ+703E2OWhiqJcp+nPIh7kDYkioLodDhJ8SacAE1PQ==
-X-Received: by 2002:a62:9288:0:b0:3e1:c44f:a1b7 with SMTP id
- o130-20020a629288000000b003e1c44fa1b7mr26538632pfd.63.1629576001839; 
- Sat, 21 Aug 2021 13:00:01 -0700 (PDT)
+ bh=nW9fMChnRBXVS7c8vZgjblWrAXidwfTLKIZtt2ybyaE=;
+ b=RWPNLDgn50a3+SJNbxv+rhtCxkf0mfxXVuMzqyPO5sWEk6kFrBBQ2BhZHpLZJ/yEvh
+ fn0n0KwV9uJKoXVYG3kmlwx+3fWYjUCzncKy/vK59sp1APY1n6OkPZcZ/pZBDmii0CJt
+ fQhaf2GJALvFte4l8gAmGEiLwrO9+IBl1iY+1P2HR8FC5pXADyUGzZzzuJcELt+pgjgb
+ IA6YZSmHUMnbixSsHeZGBtCsRrqe/pxFdCOnPu0F72dW43XUG0yH+j9tiDvOz982vbiP
+ AJzOJqJU3PmxQGuffdUfYup+l0BmwYr/IycIDf7PeNxfCkJ5U0jzv3zLv5uPBCRW2KPP
+ 4WcQ==
+X-Gm-Message-State: AOAM5337EL38UkbeQJCRNEOfMkzOxADn9cd/m6ug4WUg7CDgNKUyki9z
+ OC0Brp6Cs75RV6tLXElMv/x/RCcF4sdGFw==
+X-Google-Smtp-Source: ABdhPJzY1Vt5SIVoFMAbxxJCNHikIMXVUTkZYTvUj61PV6BWsxz/1Xm0fUc30Wr6NDW5E5Qv/XuWAA==
+X-Received: by 2002:a17:90a:d814:: with SMTP id
+ a20mr7933793pjv.130.1629576002369; 
+ Sat, 21 Aug 2021 13:00:02 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
  by smtp.gmail.com with ESMTPSA id h13sm12562257pgh.93.2021.08.21.13.00.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Aug 2021 13:00:01 -0700 (PDT)
+ Sat, 21 Aug 2021 13:00:02 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/8] linux-user/aarch64: Handle EC_PCALIGNMENT
-Date: Sat, 21 Aug 2021 12:59:53 -0700
-Message-Id: <20210821195958.41312-4-richard.henderson@linaro.org>
+Subject: [PATCH v2 4/8] linux-user/arm: Report SIGBUS and SIGSEGV correctly
+Date: Sat, 21 Aug 2021 12:59:54 -0700
+Message-Id: <20210821195958.41312-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210821195958.41312-1-richard.henderson@linaro.org>
 References: <20210821195958.41312-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,78 +87,78 @@ Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will shortly be raised for execution with a misaligned pc.
+Pull the fault information from where we placed it, in
+arm_cpu_tlb_fill and arm_cpu_do_unaligned_access.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/aarch64/cpu_loop.c | 44 +++++++++++++++++++++--------------
- 1 file changed, 27 insertions(+), 17 deletions(-)
+Pulled out from the larger unaligned data patch set.
+For short-form FSC, pc misalignment is reported in the same way.
+---
+ linux-user/arm/cpu_loop.c | 39 ++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 34 insertions(+), 5 deletions(-)
 
-diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
-index 11e34cb100..6e03afb2bd 100644
---- a/linux-user/aarch64/cpu_loop.c
-+++ b/linux-user/aarch64/cpu_loop.c
-@@ -78,7 +78,7 @@
+diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
+index d4b4f0c71f..5731d3c937 100644
+--- a/linux-user/arm/cpu_loop.c
++++ b/linux-user/arm/cpu_loop.c
+@@ -24,6 +24,7 @@
+ #include "cpu_loop-common.h"
+ #include "signal-common.h"
+ #include "semihosting/common-semi.h"
++#include "target/arm/syndrome.h"
+ 
+ #define get_user_code_u32(x, gaddr, env)                \
+     ({ abi_long __r = get_user_u32((x), (gaddr));       \
+@@ -279,8 +280,8 @@ static bool emulate_arm_fpa11(CPUARMState *env, uint32_t opcode)
  void cpu_loop(CPUARMState *env)
  {
      CPUState *cs = env_cpu(env);
--    int trapnr, ec, fsc, si_code;
-+    int trapnr, ec, fsc, si_sig, si_code;
-     abi_long ret;
+-    int trapnr;
+-    unsigned int n, insn;
++    int trapnr, si_signo, si_code;
++    unsigned int n, insn, ec, fsc;
+     abi_ulong ret;
  
-     for (;;) {
-@@ -112,28 +112,38 @@ void cpu_loop(CPUARMState *env)
+     for(;;) {
+@@ -422,9 +423,37 @@ void cpu_loop(CPUARMState *env)
              break;
          case EXCP_PREFETCH_ABORT:
          case EXCP_DATA_ABORT:
--            /* We should only arrive here with EC in {DATAABORT, INSNABORT}. */
-             ec = syn_get_ec(env->exception.syndrome);
--            assert(ec == EC_DATAABORT || ec == EC_INSNABORT);
--
--            /* Both EC have the same format for FSC, or close enough. */
--            fsc = extract32(env->exception.syndrome, 0, 6);
--            switch (fsc) {
--            case 0x04 ... 0x07: /* Translation fault, level {0-3} */
--                si_code = TARGET_SEGV_MAPERR;
-+            switch (ec) {
-+            case EC_DATAABORT:
-+            case EC_INSNABORT:
-+                /* Both EC have the same format for FSC, or close enough. */
-+                fsc = extract32(env->exception.syndrome, 0, 6);
-+                switch (fsc) {
-+                case 0x04 ... 0x07: /* Translation fault, level {0-3} */
-+                    si_sig = TARGET_SIGSEGV;
-+                    si_code = TARGET_SEGV_MAPERR;
-+                    break;
-+                case 0x09 ... 0x0b: /* Access flag fault, level {1-3} */
-+                case 0x0d ... 0x0f: /* Permission fault, level {1-3} */
-+                    si_sig = TARGET_SIGSEGV;
-+                    si_code = TARGET_SEGV_ACCERR;
-+                    break;
-+                case 0x11: /* Synchronous Tag Check Fault */
-+                    si_sig = TARGET_SIGSEGV;
-+                    si_code = TARGET_SEGV_MTESERR;
-+                    break;
-+                default:
-+                    g_assert_not_reached();
-+                }
-                 break;
--            case 0x09 ... 0x0b: /* Access flag fault, level {1-3} */
--            case 0x0d ... 0x0f: /* Permission fault, level {1-3} */
--                si_code = TARGET_SEGV_ACCERR;
--                break;
--            case 0x11: /* Synchronous Tag Check Fault */
--                si_code = TARGET_SEGV_MTESERR;
-+            case EC_PCALIGNMENT:
-+                si_sig = TARGET_SIGBUS;
+-            /* XXX: check env->error_code */
+-            force_sig_fault(TARGET_SIGSEGV, TARGET_SEGV_MAPERR,
+-                            env->exception.vaddress);
++            /*
++             * For user-only we don't set TTBCR_EAE, so we always get
++             * short-form FSC, which then tells us to look at the FSR.
++             */
++            ec = syn_get_ec(env->exception.syndrome);
++            assert(ec == EC_DATAABORT || ec == EC_INSNABORT);
++            fsc = extract32(env->exception.syndrome, 0, 6);
++            assert(fsc == 0x3f);
++            switch (env->exception.fsr & 0x1f) {
++            case 0x1: /* Alignment */
++                si_signo = TARGET_SIGBUS;
 +                si_code = TARGET_BUS_ADRALN;
-                 break;
-             default:
-                 g_assert_not_reached();
-             }
--
--            force_sig_fault(TARGET_SIGSEGV, si_code, env->exception.vaddress);
-+            force_sig_fault(si_sig, si_code, env->exception.vaddress);
++                break;
++            case 0x3: /* Access flag fault, level 1 */
++            case 0x6: /* Access flag fault, level 2 */
++            case 0x9: /* Domain fault, level 1 */
++            case 0xb: /* Domain fault, level 2 */
++            case 0xd: /* Permision fault, level 1 */
++            case 0xf: /* Permision fault, level 2 */
++                si_signo = TARGET_SIGSEGV;
++                si_code = TARGET_SEGV_ACCERR;
++                break;
++            case 0x5: /* Translation fault, level 1 */
++            case 0x7: /* Translation fault, level 2 */
++                si_signo = TARGET_SIGSEGV;
++                si_code = TARGET_SEGV_MAPERR;
++                break;
++            default:
++                g_assert_not_reached();
++            }
++            force_sig_fault(si_signo, si_code, env->exception.vaddress);
              break;
          case EXCP_DEBUG:
          case EXCP_BKPT:
