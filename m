@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C0123F3938
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 08:52:23 +0200 (CEST)
-Received: from localhost ([::1]:55578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B2E33F3939
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 08:57:10 +0200 (CEST)
+Received: from localhost ([::1]:34050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHKre-0001pK-C3
-	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 02:52:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56766)
+	id 1mHKwH-0006ZK-FP
+	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 02:57:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mHKq5-0008HR-NA
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:50:46 -0400
-Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:54448)
+ id 1mHKul-00057f-9g
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:55:35 -0400
+Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:54610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mHKq3-0002lg-Mo
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:50:45 -0400
+ id 1mHKuj-0006pz-J0
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:55:34 -0400
 Received: from loganberry.canonical.com (loganberry.canonical.com
  [91.189.90.37])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 7E5B33F861
- for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:50:40 +0000 (UTC)
+ by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 6B84E3F65F
+ for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:55:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1629528640;
- bh=N2sgtUdcTQKyWHS9RgN9Dv5KIN2vn09Y6yPlM7sOdDE=;
+ s=20210803; t=1629528932;
+ bh=39brd4Lw28shM97+qzANDVSHKZgVkdiYVR3Q3W9m6zY=;
  h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
  Message-Id:Subject;
- b=lDt22Z4BYb1c/i1/oXdh130JbWgc1W9ldGrRrBqibIOjNeTtoeXT7rp0K6qDcjIme
- hHEN1Ndbwral0hdzQUPBJpVwnbH+im8ncPuyvOIAF9499i3JUuiJj2JlyRZnaBrD1g
- Hytg3v9y9HFput4U4O7Vwj5ND4exSY/rUaAZ5fgTdDyz4UhTM/tY7LOpXmyT5NecMY
- iQHASf+S6fVjeW5VoFG8RP8WdwHKdwd1H90BrBAsapCvTTpF0lcbyD1tLXFY9yDJju
- MQPFWxLayFCDqjRk3QFqsVWj9AjdX3vdwGf1OBDI2h1U0wgyH4OLWt1ISW/XvVx2DU
- QZwskmuvqAnbg==
+ b=iqN24rBi/ck2NbyG2AcayXcPGAVisS3Hlnqx84a0R0H2YAkljcrVb9J9ePfT88Z9+
+ nsaUYZy5JdFVTtEsxsW2bv4SRt+GOZ6541On/lq9MCSGct3Q4/RJcyKGH5grCeO2R5
+ VJBAdTM8V4VnfVg+WlNrQHhXY6NreR7mYwQtpifkALqll+CI7sa7rBPgE655QWRnNw
+ AhobOlmRZP0kaKHBr3NXSglyFX17oCmtkNLTNsPX3UgVbFR/Q36JFpOahWxqY0UHmA
+ l5MrRWmbok+H454D39vgHEPMuNa3Hsc7sdktAhgIsmLSKJG6UL0WlavKVkrRsZDOWi
+ lwuqPYa8I72jQ==
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5FFC42E817A
- for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:50:40 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 311BE2E816A
+ for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:55:32 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 21 Aug 2021 06:41:54 -0000
-From: Thomas Huth <1921664@bugs.launchpad.net>
+Date: Sat, 21 Aug 2021 06:48:00 -0000
+From: Thomas Huth <1914117@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Incomplete; importance=Low; assignee=None; 
-X-Launchpad-Bug-Tags: apport-bug arm64 hirsute uec-images
+X-Launchpad-Bug-Tags: arm
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: paelzer th-huth tommy-ubuntuone
-X-Launchpad-Bug-Reporter: Tommy Thorn (tommy-ubuntuone)
+X-Launchpad-Bug-Commenters: chrispinnock th-huth
+X-Launchpad-Bug-Reporter: Chris Pinnock (chrispinnock)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161698578843.25105.11508850027610231738.malonedeb@wampee.canonical.com>
-Message-Id: <162952811416.3996.5031980664441464337.malone@gac.canonical.com>
-Subject: [Bug 1921664] Re: Coroutines are racy for risc64 emu on arm64 - crash
- on Assertion
+References: <161221293549.4659.2173832767419505412.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162952848096.6881.16241167721288852811.malone@gac.canonical.com>
+Subject: [Bug 1914117] Re: Short files returned via FTP on Qemu with various
+ architectures and OSes
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="25edfd4b3e79d9ee9d9c3a750eb93e4d41d56c9e"; Instance="production"
-X-Launchpad-Hash: 0fa183567db480b4810a440f8550c1f4c81b35f5
+X-Launchpad-Hash: 93d6a11434483ade55f7cdc9f38d7613410f46e4
 Received-SPF: pass client-ip=185.125.188.250;
  envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
 X-Spam_score_int: -42
@@ -86,183 +84,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1921664 <1921664@bugs.launchpad.net>
+Reply-To: Bug 1914117 <1914117@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-@Christian & Tommy : Could you please check whether the problematic
-binaries were built with link-time optimization, i.e. with -flto ? If
-so, does the problem go away when you rebuild the package without LTO?
+slirp has been updated for QEMU 6.1-rc2, so this should be fixed in the
+latest 6.1 release candidate. If you've got some spare minutes, could
+you please check whether it's working for you now in 6.1-rc4 ?
 
 ** Changed in: qemu
-       Status: New =3D> Incomplete
-
-** Changed in: qemu (Ubuntu)
-       Status: Confirmed =3D> Incomplete
+       Status: In Progress =3D> Fix Committed
 
 --=20
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1921664
+https://bugs.launchpad.net/bugs/1914117
 
 Title:
-  Coroutines are racy for risc64 emu on arm64 - crash on Assertion
+  Short files returned via FTP on Qemu with various architectures and
+  OSes
 
 Status in QEMU:
-  Incomplete
-Status in qemu package in Ubuntu:
-  Incomplete
+  Fix Committed
 
 Bug description:
-  Note: this could as well be "riscv64 on arm64" for being slow@slow and af=
-fect
-  other architectures as well.
-
-  The following case triggers on a Raspberry Pi4 running with arm64 on
-  Ubuntu 21.04 [1][2]. It might trigger on other environments as well,
-  but that is what we have seen it so far.
-
-     $ wget https://github.com/carlosedp/riscv-bringup/releases/download/v1=
-.0/UbuntuFocal-riscv64-QemuVM.tar.gz
-     $ tar xzf UbuntuFocal-riscv64-QemuVM.tar.gz
-     $ ./run_riscvVM.sh
-  (wait ~2 minutes)
-     [ OK ] Reached target Local File Systems (Pre).
-     [ OK ] Reached target Local File Systems.
-              Starting udev Kernel Device Manager...
-  qemu-system-riscv64: ../../util/qemu-coroutine-lock.c:57: qemu_co_queue_w=
-ait_impl: Assertion `qemu_in_coroutine()' failed.
-
-  This is often, but not 100% reproducible and the cases differ slightly we
-  see either of:
-  - qemu-system-riscv64: ../../util/qemu-coroutine-lock.c:57: qemu_co_queue=
-_wait_impl: Assertion `qemu_in_coroutine()' failed.
-  - qemu-system-riscv64: ../../block/aio_task.c:64: aio_task_pool_wait_one:=
- Assertion `qemu_coroutine_self() =3D=3D pool->main_co' failed.
-
-  Rebuilding working cases has shown to make them fail, as well as rebulding
-  (or even reinstalling) bad cases has made them work. Also the same builds=
- on
-  different arm64 CPUs behave differently. TL;DR: The full list of conditio=
-ns
-  influencing good/bad case here are not yet known.
-
-  [1]: https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry=
--pi#1-overview
-  [2]: http://cdimage.ubuntu.com/daily-preinstalled/pending/hirsute-preinst=
-alled-desktop-arm64+raspi.img.xz
-
  =20
-  --- --- original report --- ---
+  Qemu 5.2 on Mac OS X Big Sur.
 
-  I regularly run a RISC-V (RV64GC) QEMU VM, but an update a few days
-  ago broke it.  Now when I launch it, it hits an assertion:
+  I originally thought that it might be caused by the home-brew version of =
+Qemu, but this evening I have removed the brew edition and compiled from sc=
+ratch (using Ninja & Xcode compiler).=20
+  Still getting the same problem,.
 
-  OpenSBI v0.6
-  =C2=A0=C2=A0=C2=A0____                    _____ ____ _____
-  =C2=A0=C2=A0/ __ \                  / ____|  _ \_   _|
-  =C2=A0| |  | |_ __   ___ _ __ | (___ | |_) || |
-  =C2=A0| |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
-  =C2=A0| |__| | |_) |  __/ | | |____) | |_) || |_
-  =C2=A0=C2=A0\____/| .__/ \___|_| |_|_____/|____/_____|
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| |
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|_|
+  On the following architectures:=20
+  arm64, amd64 and sometimes i386 running NetBSD host OS;=20
+  i386 running OpenBSD host OS:
 
-  ...
-  Found /boot/extlinux/extlinux.conf
-  Retrieving file: /boot/extlinux/extlinux.conf
-  618 bytes read in 2 ms (301.8 KiB/s)
-  RISC-V Qemu Boot Options
-  1:      Linux kernel-5.5.0-dirty
-  2:      Linux kernel-5.5.0-dirty (recovery mode)
-  Enter choice: 1:        Linux kernel-5.5.0-dirty
-  Retrieving file: /boot/initrd.img-5.5.0-dirty
-  qemu-system-riscv64: ../../block/aio_task.c:64: aio_task_pool_wait_one: A=
-ssertion `qemu_coroutine_self() =3D=3D pool->main_co' failed.
-  ./run.sh: line 31:  1604 Aborted                 (core dumped) qemu-syste=
-m-riscv64 -machine virt -nographic -smp 8 -m 8G -bios fw_payload.bin -devic=
-e virtio-blk-devi
-  ce,drive=3Dhd0 -object rng-random,filename=3D/dev/urandom,id=3Drng0 -devi=
-ce virtio-rng-device,rng=3Drng0 -drive file=3Driscv64-UbuntuFocal-qemu.qcow=
-2,format=3Dqcow2,id=3Dhd0 -devi
-  ce virtio-net-device,netdev=3Dusernet -netdev user,id=3Dusernet,$ports
+  I have seen a consistent problem with FTP returning short files. The
+  file will be a couple of bytes too short. I do not believe this is a
+  problem with the OS. Downloading the perl source code from CPAN does
+  not work properly, nor does downloading bind from isc. I've tried this
+  on different architectures as above.
 
-  Interestingly this doesn't happen on the AMD64 version of Ubuntu 21.04
-  (fully updated).
-
-  Think you have everything already, but just in case:
-
-  $ lsb_release -rd
-  Description:    Ubuntu Hirsute Hippo (development branch)
-  Release:        21.04
-
-  $ uname -a
-  Linux minimacvm 5.11.0-11-generic #12-Ubuntu SMP Mon Mar 1 19:27:36 UTC 2=
-021 aarch64 aarch64 aarch64 GNU/Linux
-  (note this is a VM running on macOS/M1)
-
-  $ apt-cache policy qemu
-  qemu:
-  =C2=A0=C2=A0Installed: 1:5.2+dfsg-9ubuntu1
-  =C2=A0=C2=A0Candidate: 1:5.2+dfsg-9ubuntu1
-  =C2=A0=C2=A0Version table:
-  =C2=A0*** 1:5.2+dfsg-9ubuntu1 500
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0500 http://ports.ubuntu.c=
-om/ubuntu-ports hirsute/universe arm64 Packages
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0100 /var/lib/dpkg/status
-
-  ProblemType: Bug
-  DistroRelease: Ubuntu 21.04
-  Package: qemu 1:5.2+dfsg-9ubuntu1
-  ProcVersionSignature: Ubuntu 5.11.0-11.12-generic 5.11.0
-  Uname: Linux 5.11.0-11-generic aarch64
-  ApportVersion: 2.20.11-0ubuntu61
-  Architecture: arm64
-  CasperMD5CheckResult: unknown
-  CurrentDmesg:
-  =C2=A0Error: command ['pkexec', 'dmesg'] failed with exit code 127: polki=
-t-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freed=
-esktop.PolicyKit1.Error.Failed: No session for cookie
-  =C2=A0Error executing command as another user: Not authorized
-
-  =C2=A0This incident has been reported.
-  Date: Mon Mar 29 02:33:25 2021
-  Dependencies:
-
-  KvmCmdLine: COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
-  Lspci-vt:
-  =C2=A0-[0000:00]-+-00.0  Apple Inc. Device f020
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
--01.0  Red Hat, Inc. Virtio network device
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
--05.0  Red Hat, Inc. Virtio console
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
--06.0  Red Hat, Inc. Virtio block device
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0\=
--07.0  Red Hat, Inc. Virtio RNG
-  Lsusb: Error: command ['lsusb'] failed with exit code 1:
-  Lsusb-t:
-
-  Lsusb-v: Error: command ['lsusb', '-v'] failed with exit code 1:
-  ProcEnviron:
-  =C2=A0TERM=3Dscreen
-  =C2=A0PATH=3D(custom, no user)
-  =C2=A0XDG_RUNTIME_DIR=3D<set>
-  =C2=A0LANG=3DC.UTF-8
-  =C2=A0SHELL=3D/bin/bash
-  ProcKernelCmdLine: console=3Dhvc0 root=3D/dev/vda
-  SourcePackage: qemu
-  UpgradeStatus: Upgraded to hirsute on 2020-12-30 (88 days ago)
-  acpidump:
-  =C2=A0Error: command ['pkexec', '/usr/share/apport/dump_acpi_tables.py'] =
-failed with exit code 127: polkit-agent-helper-1: error response to PolicyK=
-it daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session =
-for cookie
-  =C2=A0Error executing command as another user: Not authorized
-
-  =C2=A0This incident has been reported.
+  (Qemu 4.2 on Ubuntu/x86_64 with NetBSD/i386 seems to function fine. My
+  gut feel is there is something not right on the Mac OS version of Qemu
+  or a bug in 5.2 - obviously in the network layer somewhere. If you
+  have anything you want me to try, please let me know - happy to help
+  get a resolution.)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1921664/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1914117/+subscriptions
 
 
