@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DDA73F38B7
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 06:27:26 +0200 (CEST)
-Received: from localhost ([::1]:52990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FD013F3891
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 06:25:05 +0200 (CEST)
+Received: from localhost ([::1]:45224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHIbI-0004iv-1H
-	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 00:27:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43910)
+	id 1mHIZ6-0007wI-Ec
+	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 00:25:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mHIUs-00087n-Iu
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 00:20:42 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:56348)
+ id 1mHIUr-00084J-8P
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 00:20:41 -0400
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:56318)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mHIUq-0002Eh-66
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 00:20:42 -0400
+ id 1mHIUp-0002EI-Cn
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 00:20:40 -0400
 Received: from loganberry.canonical.com (loganberry.canonical.com
  [91.189.90.37])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id A27ED3F83D
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 5C7C23F810
  for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 04:20:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
  s=20210803; t=1629519638;
- bh=CkpfVN5Rp/yosMmcomY7f0shLnKwT3kQiQ+AEQA9Dko=;
+ bh=6yEXtDBI8lzQxyyS5nCw0A958zzqsws0whOuKr9Zi84=;
  h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
  Message-Id:Subject;
- b=W/e552QTQVoT9FULfzj86lIUVQaWPc4PLZswmPhbnYgLXF0ikBThhHxvRdMy7dOJc
- onh3kzZSY5yQEAK9ZpXdpcfro4MVwYKEgPfW7xuo7N2t3z3Sn5cSBLQXSDWvpd8Bvr
- z5wC8vGJCzdrd7iE6SLJweYYSQT21er0yhqgI6f/bCqg9yYqwfoZHXOzSdZPO4ldVt
- O0KSRYbYq3mDf9yWEZrqdzUwq1fXra5+8QcMNfBW1fyvG+nq/uIeXAiYJFde3XYsWN
- JHze2TKpvpeESLQOwbTIGNzVa3KD78RK1So+s624eiN8B6Gx247xDuSN8M/AUvvgz0
- IZHdD2KByIfbw==
+ b=wKyG/tm0fEzh1jIx3yVJBYKNGj0kadtQ7aMKkEkrC1AEVTFCc51nRltX/eSk2Vts1
+ YR8eANdiqWGzC53zMq189wU7ObZyUdHIrIdwmsNuHwYR0dTxeOUtZl6m1A8gotWurm
+ M5hWT9lklzMG2/sK51Eyz08pA01nY3R4Q0rYN8U8jHyLEhwSxEl7+ISOZx95A3Mi5q
+ OVAUGKsEm8ovVd/qSfOSOJiCL44OusnTDCh9aMOLOcSrAD86Na8QUNJOIq9nsZKyGY
+ u8Pe/Hnp/HTeY7XO7bcjzI1tOnSqcD9yKZgPLoTrsoLPcHhB/W03k5a7Wb5OsDbH4J
+ nBKftDJ0qSuLg==
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 97ABC2E8167
+ by loganberry.canonical.com (Postfix) with ESMTP id 467D42E8169
  for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 04:20:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 21 Aug 2021 04:12:34 -0000
-From: Alexander Bulekov <1909261@bugs.launchpad.net>
+Date: Sat, 21 Aug 2021 04:13:03 -0000
+From: Alexander Bulekov <1911216@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: fuzzer usb
+X-Launchpad-Bug-Tags: fuzzer
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Commenters: a1xndr hades0506 th-huth
+X-Launchpad-Bug-Reporter: Gaoning Pan (hades0506)
 X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-References: <160885503385.2425.14204282087842438729.malonedeb@soybean.canonical.com>
-Message-Id: <162951915468.5289.13502563173292063278.malone@soybean.canonical.com>
-Subject: [Bug 1909261] Re: [OSS-Fuzz] Issue 28929 xhci: ASSERT:
- xfer->packet.status != USB_RET_NAK
+References: <161046678346.29947.74345360490259273.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162951918372.5563.6333093270974117464.malone@soybean.canonical.com>
+Subject: [Bug 1911216] Re: abort issue locates in
+ hw/usb/hcd-ohci.c:1297:ohci_frame_boundary
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="25edfd4b3e79d9ee9d9c3a750eb93e4d41d56c9e"; Instance="production"
-X-Launchpad-Hash: 64bfcb4788c8118de89fd44649016b462be6eeef
+X-Launchpad-Hash: 9088325c0d71f470cd40615f0d13a1b44bb87e72
 Received-SPF: pass client-ip=185.125.188.251;
  envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,66 +84,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1909261 <1909261@bugs.launchpad.net>
+Reply-To: Bug 1911216 <1911216@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 I moved this report over to QEMU's new bug tracker on gitlab.com.
 Please continue with the discussion here:
 
-https://gitlab.com/qemu-project/qemu/-/issues/544
+https://gitlab.com/qemu-project/qemu/-/issues/545
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #544
-   https://gitlab.com/qemu-project/qemu/-/issues/544
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #545
+   https://gitlab.com/qemu-project/qemu/-/issues/545
 
 --=20
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1909261
+https://bugs.launchpad.net/bugs/1911216
 
 Title:
-  [OSS-Fuzz]  Issue 28929 xhci: ASSERT: xfer->packet.status !=3D
-  USB_RET_NAK
+  abort issue locates in hw/usb/hcd-ohci.c:1297:ohci_frame_boundary
 
 Status in QEMU:
   Confirmed
 
 Bug description:
-  =3D=3D=3D Reproducer =3D=3D=3D
+  Hello,
 
-  ./qemu-system-i386 -m 512M -machine q35,accel=3Dqtest \
-   -drive file=3Dnull-co://,if=3Dnone,format=3Draw,id=3Ddisk0 \
-  -device qemu-xhci,id=3Dxhci -device usb-tablet,bus=3Dxhci.0 \
-  -device usb-bot -device usb-storage,drive=3Ddisk0 \
-  -chardev null,id=3Dcd0 -chardev null,id=3Dcd1 \
-  -device usb-braille,chardev=3Dcd0 -device usb-ccid \
-  -device usb-ccid -device usb-kbd -device usb-mouse \
-  -device usb-serial,chardev=3Dcd1 -device usb-tablet \
-  -device usb-wacom-tablet -device usb-audio \
-  -qtest stdio -nographic -nodefaults < attachment
+  I found an assertion failure in hw/usb/hcd-ohci.c:1297
 
-  =3D=3D=3D Stack Trace =3D=3D=3D
-  #0 raise
-  #1 abort
-  #2 libc.so.6
-  #3 __assert_fail
-  #4 xhci_kick_epctx /src/qemu/hw/usb/hcd-xhci.c:1865:13
-  #5 xhci_ep_kick_timer /src/qemu/hw/usb/hcd-xhci.c:1034:5
-  #6 timerlist_run_timers /src/qemu/util/qemu-timer.c:574:9
-  #7 qemu_clock_run_timers /src/qemu/util/qemu-timer.c:588:12
-  #8 qtest_clock_warp /src/qemu/softmmu/qtest.c:356:9
-  #9 qtest_process_command /src/qemu/softmmu/qtest.c:752:9
-  #10 qtest_process_inbuf /src/qemu/softmmu/qtest.c:797:9
-  #11 qtest_server_inproc_recv /src/qemu/softmmu/qtest.c:904:9
-  #12 send_wrapper /src/qemu/tests/qtest/libqtest.c:1390:5
-  #13 qtest_sendf /src/qemu/tests/qtest/libqtest.c:438:5
-  #14 qtest_clock_step_next /src/qemu/tests/qtest/libqtest.c:912:5
-  #15 op_clock_step /src/qemu/tests/qtest/fuzz/generic_fuzz.c:574:5
+  This was found in latest version 5.2.0.
 
-  OSS-Fuzz Report:
-  https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D28929
+  my reproduced environment is as follows:
+      Host: ubuntu 18.04
+      Guest: ubuntu 18.04
+
+  QEMU boot command line:
+  qemu-system-x86_64 -enable-kvm -boot c -m 4G -drive format=3Dqcow2,file=
+=3D./ubuntu.img -nic user,hostfwd=3Dtcp:0.0.0.0:5555-:22 -display none -dev=
+ice pci-ohci,id=3Dohci -device usb-tablet,bus=3Dohci.0,port=3D1,id=3Dusbdev1
+
+ =20
+  backtrace is as follows=20
+  pwndbg> bt
+  #0  0x00007fdf392aa438 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/=
+unix/sysv/linux/raise.c:54
+  #1  0x00007fdf392ac03a in __GI_abort () at abort.c:89
+  #2  0x000055c613721118 in ohci_frame_boundary (opaque=3D0x6270000191f0) a=
+t hw/usb/hcd-ohci.c:1297
+  #3  0x000055c6140bdf0e in timerlist_run_timers (timer_list=3D0x60b00005bc=
+c0) at util/qemu-timer.c:572
+  #4  0x000055c6140be15a in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
+L) at util/qemu-timer.c:586
+  #5  0x000055c6140beac7 in qemu_clock_run_all_timers () at util/qemu-timer=
+.c:672
+  #6  0x000055c6140a1938 in main_loop_wait (nonblocking=3D0) at util/main-l=
+oop.c:523
+  #7  0x000055c6125d87e9 in qemu_main_loop () at /home/dell/qemu5-hyperviso=
+r/vm/fuzz-seedpool/hcd-ohci/qemu-5.1.0/softmmu/vl.c:1676
+  #8  0x000055c613f216ea in main (argc=3D7, argv=3D0x7fff174cdd28, envp=3D0=
+x7fff174cdd68) at /home/dell/qemu5-hypervisor/vm/fuzz-seedpool/hcd-ohci/qem=
+u-5.1.0/softmmu/main.c:49
+  #9  0x00007fdf39295840 in __libc_start_main (main=3D0x55c613f21699 <main>=
+, argc=3D7, argv=3D0x7fff174cdd28, init=3D<optimized out>, fini=3D<optimize=
+d out>, rtld_fini=3D<optimized out>, stack_end=3D0x7fff174cdd18) at ../csu/=
+libc-start.c:291
+  #10 0x000055c6120a4349 in _start ()
+
+  The poc is attached.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1909261/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1911216/+subscriptions
 
 
