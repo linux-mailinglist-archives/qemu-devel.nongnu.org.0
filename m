@@ -2,78 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BE213F3931
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 08:47:45 +0200 (CEST)
-Received: from localhost ([::1]:47190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 366A43F391C
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 08:42:25 +0200 (CEST)
+Received: from localhost ([::1]:34880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHKnA-0004Vq-Av
-	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 02:47:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56140)
+	id 1mHKi0-0004VK-7r
+	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 02:42:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mHKl8-00039l-Q0
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:45:39 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:38468)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1mHKfL-0003Fy-EU
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:39:39 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:36421)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mHKl6-0006kt-Fj
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:45:38 -0400
-Received: from loganberry.canonical.com (loganberry.canonical.com
- [91.189.90.37])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 7478B3F778
- for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:45:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1629528334;
- bh=gY9Vvp+SxSVOZCndI6H+6/x/A7h5t6V0gxhWH+Zo2qw=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=Efym+8qJp7O3nVA2Z1iSBxWyCp/fnvGh/HGv1paLCCCk6TXRUK5G8XiTbZ0zqHTeR
- xF1hD0j0a3Ur8C7Gu8SnvgJtoZH6zs/QAlGOaFSMRcfVmuQhmqNPBP9WowXIXeQ9bK
- tPCHZ04ekjl1PYOISDWkrxFcRJy+Mpk/VX19AnoRAzRo7Q8sVm/BqjMHKGwuqV3ERR
- PKW57fIpF5zfP8ArAV8xf7yY6boTf/e/h2wUVHJhk58i1f9i6Hm01IXlOTJN83UKyw
- 8rWcWi/MLBymDXW7d70yZSAaNTbeyssctvJ6jluDER11zSeAC9w5xg8z0e0qAl7Tvz
- cuYlpUD4+Olng==
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 120BA2E817C
- for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:45:34 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1mHKfG-0001eY-FY
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:39:39 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.nyi.internal (Postfix) with ESMTP id 7A76E5C00E2
+ for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 02:39:32 -0400 (EDT)
+Received: from imap44 ([10.202.2.94])
+ by compute2.internal (MEProxy); Sat, 21 Aug 2021 02:39:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ mime-version:message-id:in-reply-to:references:date:from:to
+ :subject:content-type:content-transfer-encoding; s=fm3; bh=wgSpP
+ NBlSuBKHWlc5W3ep4Vet7ZKOBLxGTI5shPXHsk=; b=P57lP5+vDpmhwpnWKBrmp
+ gV34VhLs0Mj0/J3vG/ZtFfwbdBVYZ9NOh+4q2MOiBxtlQnti1vOyRGQJCKj8MceB
+ 9on516wk6SKSOMmsZbEyWzEpgz5xD57jxQtynHwOtDaqiandM4+eCppfWIjY2PhV
+ bU2P1o0kN29YNa8rELRivknA4hPutcKq9ToKOKQiHXQNa3v5EBWSBavDApUMCZdY
+ Wi6uBjG44jm+vvwnldofA1wdYeJgEOi9QH/Jvgyb9Ul1PnX0rFq48q7SCqRwHnrn
+ J+bgGpsXXninMhEHdVyS8FQtnZAM8BCoVGY31xOMMx9uvl7qnnKevoQBIT5sV/fK
+ A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; bh=wgSpPNBlSuBKHWlc5W3ep4Vet7ZKOBLxGTI5shPXH
+ sk=; b=wf8c9+EJuCtdDDuTQ3TMSvQVArbxqB3BA+8TQ9tdm3e/wrF6ko4FisXEU
+ chCgGiHHcahym5E7gCu8uR91wWQ7TBYbwUaXNaNzkPNK1oTrIpWqJ9buPDFrzlt+
+ 3SwpblBZKajBZldDIE5K85ded+Rr+uSt98rIwgF/nKCXFqP96J7oNxXQX87K5pYP
+ FsgDNDus1MyTnAbU4Yg/2iL1NawbOqBZTjGOtLyN3ccu2wWvNUkFJA0eXoMSyiPs
+ QD9kKFRBkIMURK6rEv7jSGm3gmnvFKFQEmKizeLorSUSWyApKENP2fxHzmikNYq4
+ U7xbtyTBe1/Z5evGBJXFjau5olQYQ==
+X-ME-Sender: <xms:pJ8gYetXDVWNtacUhhBq3VzDnpRuM0jL7UmWu_e2Da-MRiB4dUWr5g>
+ <xme:pJ8gYTetRVICC862QYmDh4FGGJUVuz-T-qxhqrWfE0W1hAPZF9ir4Vb4cghGcf4Gk
+ viNB7bqatqfBDHowjs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddttddguddtjecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhepofgfggfkjghffffhvffutgfgse
+ htqhertderreejnecuhfhrohhmpedflfhirgiguhhnucgjrghnghdfuceojhhirgiguhhn
+ rdihrghnghesfhhlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhepfeetgeekve
+ eftefhgfduheegvdeuuddvieefvddvlefhfeehkeetfeeukedtfeejnecuvehluhhsthgv
+ rhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghngh
+ esfhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:pJ8gYZyCXvnA5ElzxU7Z_U79QVW4qoa5_FOaIxVRy6vWLp6pI2iFig>
+ <xmx:pJ8gYZMwSQsIEkhXOcCsKUAUdckhd1X51xuHZbtYJtS-3zrIq3z9WA>
+ <xmx:pJ8gYe-ElQ0xT2M7dYi5X6BbHpdKmPWeqxgA7lkh6stiYvZ8-AMY7w>
+ <xmx:pJ8gYRK1mnaFo12WlSfWiWQnVcpaPFf0UcTd01zpLsUytk1z5SRURA>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 0E1B5FA0AA4; Sat, 21 Aug 2021 02:39:32 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-1118-g75eff666e5-fm-20210816.002-g75eff666
+Mime-Version: 1.0
+Message-Id: <60c40cde-ba97-4623-bdf3-dfd0c2dbd0d2@www.fastmail.com>
+In-Reply-To: <20210818201931.393394-3-richard.henderson@linaro.org>
+References: <20210818201931.393394-1-richard.henderson@linaro.org>
+ <20210818201931.393394-3-richard.henderson@linaro.org>
+Date: Sat, 21 Aug 2021 14:39:10 +0800
+From: "Jiaxun Yang" <jiaxun.yang@flygoat.com>
+To: "BALATON Zoltan via" <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v3 02/16] tcg/mips: Support unaligned access for softmmu
+Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 21 Aug 2021 06:36:04 -0000
-From: Thomas Huth <1878057@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr philmd th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <158921834595.12757.16112597546001644574.malonedeb@wampee.canonical.com>
-Message-Id: <162952776503.6620.17399942964839578468.malone@chaenomeles.canonical.com>
-Subject: [Bug 1878057] Re: null-ptr dereference in megasas_command_complete
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="25edfd4b3e79d9ee9d9c3a750eb93e4d41d56c9e"; Instance="production"
-X-Launchpad-Hash: 39184820071d6313f04b670fc73dc6f803255208
-Received-SPF: pass client-ip=185.125.188.251;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=jiaxun.yang@flygoat.com;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,106 +96,270 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1878057 <1878057@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for moving it over! ... let's close this one here on Launchpad
-now.
 
 
-** Changed in: qemu
-       Status: Incomplete =3D> Invalid
+=E5=9C=A82021=E5=B9=B48=E6=9C=8819=E6=97=A5=E5=85=AB=E6=9C=88 =E4=B8=8A=E5=
+=8D=884:19=EF=BC=8CRichard Henderson=E5=86=99=E9=81=93=EF=BC=9A
+> We can use the routines just added for user-only to emit
+> unaligned accesses in softmmu mode too.
+>=20
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+
+Thanks!
+
+> ---
+>  tcg/mips/tcg-target.c.inc | 91 ++++++++++++++++++++++-----------------
+>  1 file changed, 51 insertions(+), 40 deletions(-)
+>=20
+> diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
+> index 7ed0de9dae..3d6a0ba39e 100644
+> --- a/tcg/mips/tcg-target.c.inc
+> +++ b/tcg/mips/tcg-target.c.inc
+> @@ -1154,8 +1154,10 @@ static void tcg_out_tlb_load(TCGContext *s,=20
+> TCGReg base, TCGReg addrl,
+>                               tcg_insn_unit *label_ptr[2], bool is_loa=
+d)
+>  {
+>      MemOp opc =3D get_memop(oi);
+> -    unsigned s_bits =3D opc & MO_SIZE;
+>      unsigned a_bits =3D get_alignment_bits(opc);
+> +    unsigned s_bits =3D opc & MO_SIZE;
+> +    unsigned a_mask =3D (1 << a_bits) - 1;
+> +    unsigned s_mask =3D (1 << s_bits) - 1;
+>      int mem_index =3D get_mmuidx(oi);
+>      int fast_off =3D TLB_MASK_TABLE_OFS(mem_index);
+>      int mask_off =3D fast_off + offsetof(CPUTLBDescFast, mask);
+> @@ -1163,7 +1165,7 @@ static void tcg_out_tlb_load(TCGContext *s,=20
+> TCGReg base, TCGReg addrl,
+>      int add_off =3D offsetof(CPUTLBEntry, addend);
+>      int cmp_off =3D (is_load ? offsetof(CPUTLBEntry, addr_read)
+>                     : offsetof(CPUTLBEntry, addr_write));
+> -    target_ulong mask;
+> +    target_ulong tlb_mask;
+> =20
+>      /* Load tlb_mask[mmu_idx] and tlb_table[mmu_idx].  */
+>      tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP0, TCG_AREG0, mask_off);
+> @@ -1177,27 +1179,13 @@ static void tcg_out_tlb_load(TCGContext *s,=20
+> TCGReg base, TCGReg addrl,
+>      /* Add the tlb_table pointer, creating the CPUTLBEntry address in=20
+> TMP3.  */
+>      tcg_out_opc_reg(s, ALIAS_PADD, TCG_TMP3, TCG_TMP3, TCG_TMP1);
+> =20
+> -    /* We don't currently support unaligned accesses.
+> -       We could do so with mips32r6.  */
+> -    if (a_bits < s_bits) {
+> -        a_bits =3D s_bits;
+> -    }
+> -
+> -    /* Mask the page bits, keeping the alignment bits to compare agai=
+nst.  */
+> -    mask =3D (target_ulong)TARGET_PAGE_MASK | ((1 << a_bits) - 1);
+> -
+>      /* Load the (low-half) tlb comparator.  */
+>      if (TCG_TARGET_REG_BITS < TARGET_LONG_BITS) {
+> -        tcg_out_ld(s, TCG_TYPE_I32, TCG_TMP0, TCG_TMP3, cmp_off + LO_=
+OFF);
+> -        tcg_out_movi(s, TCG_TYPE_I32, TCG_TMP1, mask);
+> +        tcg_out_ldst(s, OPC_LW, TCG_TMP0, TCG_TMP3, cmp_off + LO_OFF);
+>      } else {
+>          tcg_out_ldst(s, (TARGET_LONG_BITS =3D=3D 64 ? OPC_LD
+>                           : TCG_TARGET_REG_BITS =3D=3D 64 ? OPC_LWU : =
+OPC_LW),
+>                       TCG_TMP0, TCG_TMP3, cmp_off);
+> -        tcg_out_movi(s, TCG_TYPE_TL, TCG_TMP1, mask);
+> -        /* No second compare is required here;
+> -           load the tlb addend for the fast path.  */
+> -        tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP2, TCG_TMP3, add_off);
+>      }
+> =20
+>      /* Zero extend a 32-bit guest address for a 64-bit host. */
+> @@ -1205,7 +1193,25 @@ static void tcg_out_tlb_load(TCGContext *s,=20
+> TCGReg base, TCGReg addrl,
+>          tcg_out_ext32u(s, base, addrl);
+>          addrl =3D base;
+>      }
+> -    tcg_out_opc_reg(s, OPC_AND, TCG_TMP1, TCG_TMP1, addrl);
+> +
+> +    /*
+> +     * Mask the page bits, keeping the alignment bits to compare=20
+> against.
+> +     * For unaligned accesses, compare against the end of the access =
+to
+> +     * verify that it does not cross a page boundary.
+> +     */
+> +    tlb_mask =3D (target_ulong)TARGET_PAGE_MASK | a_mask;
+> +    tcg_out_movi(s, TCG_TYPE_I32, TCG_TMP1, tlb_mask);
+> +    if (a_mask >=3D s_mask) {
+> +        tcg_out_opc_reg(s, OPC_AND, TCG_TMP1, TCG_TMP1, addrl);
+> +    } else {
+> +        tcg_out_opc_imm(s, ALIAS_PADDI, TCG_TMP2, addrl, s_mask -=20
+> a_mask);
+> +        tcg_out_opc_reg(s, OPC_AND, TCG_TMP1, TCG_TMP1, TCG_TMP2);
+> +    }
+> +
+> +    if (TCG_TARGET_REG_BITS >=3D TARGET_LONG_BITS) {
+> +        /* Load the tlb addend for the fast path.  */
+> +        tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP2, TCG_TMP3, add_off);
+> +    }
+> =20
+>      label_ptr[0] =3D s->code_ptr;
+>      tcg_out_opc_br(s, OPC_BNE, TCG_TMP1, TCG_TMP0);
+> @@ -1213,7 +1219,7 @@ static void tcg_out_tlb_load(TCGContext *s,=20
+> TCGReg base, TCGReg addrl,
+>      /* Load and test the high half tlb comparator.  */
+>      if (TCG_TARGET_REG_BITS < TARGET_LONG_BITS) {
+>          /* delay slot */
+> -        tcg_out_ld(s, TCG_TYPE_I32, TCG_TMP0, TCG_TMP3, cmp_off +=20
+> HI_OFF);
+> +        tcg_out_ldst(s, OPC_LW, TCG_TMP0, TCG_TMP3, cmp_off + HI_OFF);
+> =20
+>          /* Load the tlb addend for the fast path.  */
+>          tcg_out_ld(s, TCG_TYPE_PTR, TCG_TMP2, TCG_TMP3, add_off);
+> @@ -1535,8 +1541,7 @@ static void tcg_out_qemu_ld_direct(TCGContext *s=
+,=20
+> TCGReg lo, TCGReg hi,
+>      }
+>  }
+> =20
+> -static void __attribute__((unused))
+> -tcg_out_qemu_ld_unalign(TCGContext *s, TCGReg lo, TCGReg hi,
+> +static void tcg_out_qemu_ld_unalign(TCGContext *s, TCGReg lo, TCGReg=20
+> hi,
+>                                      TCGReg base, MemOp opc, bool is_6=
+4)
+>  {
+>      const MIPSInsn lw1 =3D MIPS_BE ? OPC_LWL : OPC_LWR;
+> @@ -1655,8 +1660,8 @@ static void tcg_out_qemu_ld(TCGContext *s, const=20
+> TCGArg *args, bool is_64)
+>  #if defined(CONFIG_SOFTMMU)
+>      tcg_insn_unit *label_ptr[2];
+>  #else
+> -    unsigned a_bits, s_bits;
+>  #endif
+> +    unsigned a_bits, s_bits;
+>      TCGReg base =3D TCG_REG_A0;
+> =20
+>      data_regl =3D *args++;
+> @@ -1665,10 +1670,20 @@ static void tcg_out_qemu_ld(TCGContext *s,=20
+> const TCGArg *args, bool is_64)
+>      addr_regh =3D (TCG_TARGET_REG_BITS < TARGET_LONG_BITS ? *args++ :=
+ 0);
+>      oi =3D *args++;
+>      opc =3D get_memop(oi);
+> +    a_bits =3D get_alignment_bits(opc);
+> +    s_bits =3D opc & MO_SIZE;
+> =20
+> +    /*
+> +     * R6 removes the left/right instructions but requires the
+> +     * system to support misaligned memory accesses.
+> +     */
+>  #if defined(CONFIG_SOFTMMU)
+>      tcg_out_tlb_load(s, base, addr_regl, addr_regh, oi, label_ptr, 1);
+> -    tcg_out_qemu_ld_direct(s, data_regl, data_regh, base, opc, is_64);
+> +    if (use_mips32r6_instructions || a_bits >=3D s_bits) {
+> +        tcg_out_qemu_ld_direct(s, data_regl, data_regh, base, opc,=20
+> is_64);
+> +    } else {
+> +        tcg_out_qemu_ld_unalign(s, data_regl, data_regh, base, opc,=20
+> is_64);
+> +    }
+>      add_qemu_ldst_label(s, 1, oi,
+>                          (is_64 ? TCG_TYPE_I64 : TCG_TYPE_I32),
+>                          data_regl, data_regh, addr_regl, addr_regh,
+> @@ -1685,12 +1700,6 @@ static void tcg_out_qemu_ld(TCGContext *s, cons=
+t=20
+> TCGArg *args, bool is_64)
+>      } else {
+>          tcg_out_opc_reg(s, ALIAS_PADD, base, TCG_GUEST_BASE_REG,=20
+> addr_regl);
+>      }
+> -    a_bits =3D get_alignment_bits(opc);
+> -    s_bits =3D opc & MO_SIZE;
+> -    /*
+> -     * R6 removes the left/right instructions but requires the
+> -     * system to support misaligned memory accesses.
+> -     */
+>      if (use_mips32r6_instructions) {
+>          if (a_bits) {
+>              tcg_out_test_alignment(s, true, addr_regl, addr_regh,=20
+> a_bits);
+> @@ -1770,8 +1779,7 @@ static void tcg_out_qemu_st_direct(TCGContext *s=
+,=20
+> TCGReg lo, TCGReg hi,
+>      }
+>  }
+> =20
+> -static void __attribute__((unused))
+> -tcg_out_qemu_st_unalign(TCGContext *s, TCGReg lo, TCGReg hi,
+> +static void tcg_out_qemu_st_unalign(TCGContext *s, TCGReg lo, TCGReg=20
+> hi,
+>                                      TCGReg base, MemOp opc)
+>  {
+>      const MIPSInsn sw1 =3D MIPS_BE ? OPC_SWL : OPC_SWR;
+> @@ -1851,9 +1859,8 @@ static void tcg_out_qemu_st(TCGContext *s, const=20
+> TCGArg *args, bool is_64)
+>      MemOp opc;
+>  #if defined(CONFIG_SOFTMMU)
+>      tcg_insn_unit *label_ptr[2];
+> -#else
+> -    unsigned a_bits, s_bits;
+>  #endif
+> +    unsigned a_bits, s_bits;
+>      TCGReg base =3D TCG_REG_A0;
+> =20
+>      data_regl =3D *args++;
+> @@ -1862,10 +1869,20 @@ static void tcg_out_qemu_st(TCGContext *s,=20
+> const TCGArg *args, bool is_64)
+>      addr_regh =3D (TCG_TARGET_REG_BITS < TARGET_LONG_BITS ? *args++ :=
+ 0);
+>      oi =3D *args++;
+>      opc =3D get_memop(oi);
+> +    a_bits =3D get_alignment_bits(opc);
+> +    s_bits =3D opc & MO_SIZE;
+> =20
+> +    /*
+> +     * R6 removes the left/right instructions but requires the
+> +     * system to support misaligned memory accesses.
+> +     */
+>  #if defined(CONFIG_SOFTMMU)
+>      tcg_out_tlb_load(s, base, addr_regl, addr_regh, oi, label_ptr, 0);
+> -    tcg_out_qemu_st_direct(s, data_regl, data_regh, base, opc);
+> +    if (use_mips32r6_instructions || a_bits >=3D s_bits) {
+> +        tcg_out_qemu_st_direct(s, data_regl, data_regh, base, opc);
+> +    } else {
+> +        tcg_out_qemu_st_unalign(s, data_regl, data_regh, base, opc);
+> +    }
+>      add_qemu_ldst_label(s, 0, oi,
+>                          (is_64 ? TCG_TYPE_I64 : TCG_TYPE_I32),
+>                          data_regl, data_regh, addr_regl, addr_regh,
+> @@ -1882,12 +1899,6 @@ static void tcg_out_qemu_st(TCGContext *s, cons=
+t=20
+> TCGArg *args, bool is_64)
+>      } else {
+>          tcg_out_opc_reg(s, ALIAS_PADD, base, TCG_GUEST_BASE_REG,=20
+> addr_regl);
+>      }
+> -    a_bits =3D get_alignment_bits(opc);
+> -    s_bits =3D opc & MO_SIZE;
+> -    /*
+> -     * R6 removes the left/right instructions but requires the
+> -     * system to support misaligned memory accesses.
+> -     */
+>      if (use_mips32r6_instructions) {
+>          if (a_bits) {
+>              tcg_out_test_alignment(s, true, addr_regl, addr_regh,=20
+> a_bits);
+> --=20
+> 2.25.1
+>=20
+>=20
+>=20
+
 
 --=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1878057
-
-Title:
-  null-ptr dereference in megasas_command_complete
-
-Status in QEMU:
-  Invalid
-
-Bug description:
-  Hello,
-  While fuzzing, I found an input that triggers a null-pointer dereference =
-in
-  megasas_command_complete:
-
-  =3D=3D14959=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x00000=
-0000003 (pc 0x55b1d11b4df1 bp 0x7ffeb55ca450 sp 0x7ffeb55ca1e0 T0)
-  =3D=3D14959=3D=3DThe signal is caused by a WRITE memory access.
-  =3D=3D14959=3D=3DHint: address points to the zero page.
-      #0 0x55b1d11b4df1 in megasas_command_complete /home/alxndr/Developmen=
-t/qemu/hw/scsi/megasas.c:1877:40
-      #1 0x55b1d11759ec in scsi_req_complete /home/alxndr/Development/qemu/=
-hw/scsi/scsi-bus.c:1430:5
-      #2 0x55b1d115c98f in scsi_aio_complete /home/alxndr/Development/qemu/=
-hw/scsi/scsi-disk.c:216:5
-      #3 0x55b1d151c638 in blk_aio_complete /home/alxndr/Development/qemu/b=
-lock/block-backend.c:1375:9
-      #4 0x55b1d151c638 in blk_aio_complete_bh /home/alxndr/Development/qem=
-u/block/block-backend.c:1385:5
-      #5 0x55b1d16f3a5b in aio_bh_call /home/alxndr/Development/qemu/util/a=
-sync.c:136:5
-      #6 0x55b1d16f3a5b in aio_bh_poll /home/alxndr/Development/qemu/util/a=
-sync.c:164:13
-      #7 0x55b1d16fe43e in aio_dispatch /home/alxndr/Development/qemu/util/=
-aio-posix.c:380:5
-      #8 0x55b1d16f54fa in aio_ctx_dispatch /home/alxndr/Development/qemu/u=
-til/async.c:306:5
-      #9 0x7f47937c89ed in g_main_context_dispatch (/usr/lib/x86_64-linux-g=
-nu/libglib-2.0.so.0+0x4e9ed)
-      #10 0x55b1d16fbef4 in glib_pollfds_poll /home/alxndr/Development/qemu=
-/util/main-loop.c:219:9
-      #11 0x55b1d16fbef4 in os_host_main_loop_wait /home/alxndr/Development=
-/qemu/util/main-loop.c:242:5
-      #12 0x55b1d16fbef4 in main_loop_wait /home/alxndr/Development/qemu/ut=
-il/main-loop.c:518:11
-      #13 0x55b1d0cd16a6 in qemu_main_loop /home/alxndr/Development/qemu/so=
-ftmmu/vl.c:1664:9
-      #14 0x55b1d1608dca in main /home/alxndr/Development/qemu/softmmu/main=
-.c:49:5
-      #15 0x7f4792378e0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.3=
-0/csu/../csu/libc-start.c:308:16
-      #16 0x55b1d091d7b9 in _start (/home/alxndr/Development/qemu/build/i38=
-6-softmmu/qemu-system-i386+0x8f47b9)
-
-  I can reproduce it in qemu 5.0 built with using:
-  cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc=
--q35-5.0 -no-shutdown -M q35 -device megasas -device scsi-cd,drive=3Dnull0 =
--blockdev driver=3Dnull-co,read-zeroes=3Don,node-name=3Dnull0 -nographic -q=
-test stdio -monitor none -serial none
-  outl 0xcf8 0x80001814
-  outl 0xcfc 0xc021
-  outl 0xcf8 0x80001818
-  outl 0xcf8 0x80001804
-  outw 0xcfc 0x7
-  outl 0xcf8 0x80001810
-  outl 0xcfc 0xe10c0000
-  outl 0xcf8 0x8000f810
-  write 0x44b20 0x1 0x35
-  write 0x44b00 0x1 0x03
-  write 0xc021e10c0040 0x81 0x014b04000131000000014b04000138000000014b04000=
-13f000000014b04000146000000014b0400014d000000014b04000154000000014b0400015b=
-000000014b04000162000000014b04000169000000014b04000170000000014b04000177000=
-000014b0400017e000000014b04000185000000014b0400018c000000014b04
-  EOF
-
-  I also attached the trace to this launchpad report, in case the
-  formatting is broken:
-
-  qemu-system-i386 -qtest stdio -monitor none -serial none -M pc-q35-5.0
-  -no-shutdown -M q35 -device megasas -device scsi-cd,drive=3Dnull0
-  -blockdev driver=3Dnull-co,read-zeroes=3Don,node-name=3Dnull0 -nographic <
-  attachment
-
-  Please let me know if I can provide any further info.
-  -Alex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1878057/+subscriptions
-
+- Jiaxun
 
