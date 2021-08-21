@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4A13F3A14
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 12:03:23 +0200 (CEST)
-Received: from localhost ([::1]:40604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 528813F3A3F
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 12:40:57 +0200 (CEST)
+Received: from localhost ([::1]:52786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHNqU-00078C-A1
-	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 06:03:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38634)
+	id 1mHOQp-0008Ta-T9
+	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 06:40:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mHNos-0005xJ-PB
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 06:01:42 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:36752)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mHOPY-00079H-Nw
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 06:39:36 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:39527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mHNop-0007aT-Jd
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 06:01:41 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id p4so23657103yba.3
- for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 03:01:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mHOPX-0005Ih-3U
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 06:39:36 -0400
+Received: by mail-ej1-x635.google.com with SMTP id gr13so25490929ejb.6
+ for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 03:39:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=9LZNW0KZy+PppSJ6GyhFzHBTGIE3XXfz5BX5KzzxRWU=;
- b=dPfwsmPrEWmfVpipMQ8tRUAFTrqm3gMYqEEvM4othFfXma2f9dIs8XLbAS3vv0crvs
- orYV71dxF8YSMd2GWbt9zOdSirml/ZnbYQH9SMiIes1iazUMuSh9cvektgj2T7orGbxt
- CUSpe3xlWM6PIooqtJ4/LRV46cme+quN0HxVoZ4arWWxV9hIY7/2EgE0OnraIbRa+uZp
- aLo3sbbltnBR5GSSnqPbC5O2FfhcWsRTl4LQn+yGwPRR7KFTzewmeHx7HB8oJ1lWyR0J
- mW8Ns3mZdYCRUwKpn+lJzlmp5fh9doVI0fOkZGBMVH8xZUMvfEKAhCGcTEitz9396DmB
- 0kSw==
+ :cc; bh=e+EFPTql9m4mx5Kzri8EsI2edhXh4GndoB43QSSm7o0=;
+ b=iXRO2C+y8lYu0SBa/V4tPiwmITKRv+aWrpSQG0H9vlTubVjaH1VV+9Vql582smQhEQ
+ roBk7uW/VFyyeUhAhA3txNP77gXIR3FJpW1ghDk4hdTMqsM/va5x3MVFBxxCmhk/QQDZ
+ IHzO0z44jKFCsYbTrKnzTtYKCbdQ0eLWvuADqi9C+HY3r4jjVa0HoudYpGFAc/jERjUa
+ iTvbBcGs+dgL0EOLkXhmUvPjyJ+qiVFy5PF9LTidIGF5G9yjBDwTbQN/eSpb8JU15bTw
+ 9HhhZNLqlOKbidHTAfjYdzQFdZvrjtExWjqqLE1Z0JETTLNKEdIWyCvLOy47Am9JYPJV
+ IS9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9LZNW0KZy+PppSJ6GyhFzHBTGIE3XXfz5BX5KzzxRWU=;
- b=L18htIJSLJOwF3p2VleXZzWz36yk0l/J4AByEMeoDVBWzs7fIwQibMi0J7OdJS0KTQ
- fjnQ53l+ymXEZ6yPI1fy0VkjSsNh4eDJ9fDD8W7+2Yl7BAo6IMEqocaAkD0P+jgdrpID
- v5RyT/yu4BD4dDrN27ip7Ajk0Pcmr9hfFZKb7PWpRxWibdBzVabKAGomv7wjCXmq0Ksd
- 2THs1GCqEGKW56dqurU1Ojjh2W71W6mVyo3X7zZUBZkSrsbRPN2lflWZQL52XJJ7Phxg
- cUIeDH+98SUhEi5ENqMR02u47MJWAv9iVYV7v+G4CvvDbLkr2o0mtqkRiOa4pSFMVYoP
- KGQQ==
-X-Gm-Message-State: AOAM532ij/bt0ba7zMTY1nwL8iUgt2in4e3ocuw/GExmQqp4lFh0FuyG
- Nbpe59m6QGDJaLWmf1fOH0KQfyn3TvYVCEDNzkc=
-X-Google-Smtp-Source: ABdhPJyIXcjF+gXuIbm8/hH2dQwASIjEml/JcG7mABH7JsHd+Qyx4LdSLAR69EeYsyksIIR5fet2TR3oG2oLBF29P8I=
-X-Received: by 2002:a5b:304:: with SMTP id j4mr30439638ybp.314.1629540098135; 
- Sat, 21 Aug 2021 03:01:38 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=e+EFPTql9m4mx5Kzri8EsI2edhXh4GndoB43QSSm7o0=;
+ b=kCh3gFFbZAp51uCkL2xwU/pcwSne55VsB6Spb92TNuIsxX23uKxfh+QCu6q6JhZoWY
+ /izn9uMRAWeGhnp3gkKOi1L/7gGznmM+IQzPr5svGycByMXJKnEtgbKUrgK9QNAexFCR
+ u7FrcufNedDUZDl1GkOEdw2z0U9sQi+JvkRZSMbQytMoCe+p6llyGfpKCWON6qngS21n
+ wBfvH2Jg+b7A+9ZQ4mqpQcA4WdYR+ExEGrOj015mSjjFpNZsvzxRV0fDbXJH8qQi9T2R
+ TPGk5ibU29VGzGMbq29knnO+6d3F5GlBzyQGHMLRC/M4vAHZ/NjthzP/e3qs8D905Lfw
+ QzZg==
+X-Gm-Message-State: AOAM532kABi5Fp+8ulO31UYcAHW9lp+EqbWih3CdU0enCf6ba0tr9MFi
+ Qz0pOxTQaT968jY2M3/BjO3sJFVsfGtoyTuR35ovFA==
+X-Google-Smtp-Source: ABdhPJw70L00P5N9YJCyjTuywHljNNoylq0rfhRT3NpaRRHTew9Du8kq7rbur7Hv8kKwaDYbYYr1QVrmViUnLjeTpyY=
+X-Received: by 2002:a17:906:c085:: with SMTP id
+ f5mr26559898ejz.250.1629542373574; 
+ Sat, 21 Aug 2021 03:39:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210820155211.3153137-1-philmd@redhat.com>
-In-Reply-To: <20210820155211.3153137-1-philmd@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 21 Aug 2021 18:01:26 +0800
-Message-ID: <CAEUhbmXP7=0j10Kf3w1DsPb-ByCTv+dSGbF=0ARQXd44soyv6A@mail.gmail.com>
-Subject: Re: [PATCH] softmmu/physmem: Improve guest memory allocation failure
- error message
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+References: <20210818212912.396794-1-richard.henderson@linaro.org>
+ <20210818212912.396794-14-richard.henderson@linaro.org>
+ <CAFEAcA81XmmHFtVfA9U307y5D41NzuHZNTFXgHe2-1Y+ZEhjSg@mail.gmail.com>
+ <47d219b3-72fb-f9bf-d420-cd08bc781119@linaro.org>
+In-Reply-To: <47d219b3-72fb-f9bf-d420-cd08bc781119@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 21 Aug 2021 11:38:47 +0100
+Message-ID: <CAFEAcA-GM2B_bTj8a=xTwPLrXQNft=Vm0F-cHRhBJ8vYUGccmA@mail.gmail.com>
+Subject: Re: [PATCH v3 13/14] tcg/arm: Reserve a register for guest_base
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -79,66 +80,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 20, 2021 at 11:52 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
+On Fri, 20 Aug 2021 at 19:47, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> When Linux refuses to overcommit a seriously wild allocation we get:
+> On 8/20/21 2:03 AM, Peter Maydell wrote:
+> >> -        } else if (datalo != addend) {
+> >> +        } else if (scratch_addend) {
+> >>               tcg_out_ld32_rwb(s, COND_AL, datalo, addend, addrlo);
+> >>               tcg_out_ld32_12(s, COND_AL, datahi, addend, 4);
+> >>           } else {
+> >
+> > I don't understand this change. Yes, we can trash the addend
+> > register, but if it's the same as 'datalo' then the second load
+> > is not going to DTRT... Shouldn't this be
+> >    if (scratch_addend && datalo != addend)
+> > ?
 >
->   $ qemu-system-i386 -m 40000000
->   qemu-system-i386: cannot set up guest memory 'pc.ram': Cannot allocate =
-memory
->
-> Slighly improve the error message, displaying the memory size
+> Previously, addend was *always* a scratch register, TCG_REG_TMP or such.
+> Afterward, addend may be TCG_REG_GUEST_BASE, which should not be modified.
+> At no point is there overlap between addend and data{hi,lo}.
 
-typo: Slightly
+So the old "datalo == addend" code path was dead code ?
 
-> requested (in case the user didn't expect unspecified memory size
-> unit is in MiB):
->
->   $ qemu-system-i386 -m 40000000
->   qemu-system-i386: Cannot set up 38.1 TiB of guest memory 'pc.ram': Cann=
-ot allocate memory
->
-> Reported-by: Bin Meng <bmeng.cn@gmail.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  softmmu/physmem.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 2e18947598e..2f300a9e79b 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -1982,8 +1982,10 @@ static void ram_block_add(RAMBlock *new_block, Err=
-or **errp)
->                                                    &new_block->mr->align,
->                                                    shared, noreserve);
->              if (!new_block->host) {
-> +                g_autofree char *size_s =3D size_to_str(new_block->max_l=
-ength);
+Perhaps if the function now assumes that scratch_addend implies
+that datalo != addend it would be worth assert()ing that, in case
+some future callsite doesn't realize the restriction ?
 
-Does g_autofree work with every compiler we support?
-
-Looks it only applies to GCC and clang?
-https://www.gitmemory.com/issue/linuxwacom/libwacom/142/518787578
-
->                  error_setg_errno(errp, errno,
-> -                                 "cannot set up guest memory '%s'",
-> +                                 "Cannot set up %s of guest memory '%s'"=
-,
-> +                                 size_s,
-
-Nice improvement!
-
->                                   memory_region_name(new_block->mr));
->                  qemu_mutex_unlock_ramlist();
->                  return;
-
-Tested-by: Bin Meng <bmeng.cn@gmail.com>
+thanks
+-- PMM
 
