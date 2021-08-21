@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6731F3F3A4A
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 12:44:01 +0200 (CEST)
-Received: from localhost ([::1]:55514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECDAF3F3A4B
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 12:44:31 +0200 (CEST)
+Received: from localhost ([::1]:57196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHOTo-00021b-GQ
-	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 06:44:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42854)
+	id 1mHOUJ-00037t-2R
+	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 06:44:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mHOSR-0001EI-80
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 06:42:35 -0400
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:35813)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mHOSN-00081U-7C
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 06:42:35 -0400
-Received: by mail-ed1-x529.google.com with SMTP id dj8so17872652edb.2
- for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 03:42:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FnuqrSSGd3SJXZR1WIeCXki/GoQyPQzWDF4vkjbT9HM=;
- b=rA2tBHbyeoweRtjoes1cB8O7REIjebPXf7p855Bh/ypCg7mY3KCvtBwVpHUAhDEEpI
- +qNisdjA9+9fllKu7YZYnBjXmlrchOPNLmTShEEEzfY1J/IILScQW0EvWAxvnX4rDhcC
- ihaQksStwqMUnWoh0IqWACuADbrZiryxl1vXs9wHsNcrp/Vz/5NMmeWD26n5WirPIsBT
- fron30Wv3rgW3DdQl38ZPnSell4Zk1rGJYAD3yZB52toSQ60uifr0Thsl0tLePSO5oBU
- ki+rSOKWzVSyF6ze983tztQZZSAt2WeLa3ORythiaCj1dYHMXNSCGHGnpTW/pP94moAI
- NrLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FnuqrSSGd3SJXZR1WIeCXki/GoQyPQzWDF4vkjbT9HM=;
- b=Fwl3t3uxPcLIakqgAEXWznrpM+RXhJAobKtGf5KuivMq9g3WzrYAXpVS3HWVJUQsDO
- kceUY6clpO6f8k/zkfWOA3OrCZK8XR/QQtrpszaoVVp4/ExVuw3/7pv4JhEZBK3VABKu
- NaGRl3zJHC1hN4VH4LGbTTWdr7Z7Q2IJA7920wDAoYBxzizpQhgNrsRHywKIvHD+0skt
- bTj0xCnflOMfOipfMz0LI4tsviYP00UXXSkPEp1B1bWsTiV6p5vFfMZi8dFgtV5QSn08
- 7Mtw/mepyy18EzBSQkAv9k1JHokPx5gMFyn8zp7e/uY05DUnW5TI5hCTXqsGz0MXLTT7
- siRA==
-X-Gm-Message-State: AOAM533lP+P/faz2+vnerfU8PeXFLsnqKxiQEsmfaEAqHdhZGdNUOgEw
- unFSe1LYSeRsR3eVat6kdhOUEYOPuylUfGwUoXCwHw==
-X-Google-Smtp-Source: ABdhPJy07Il9WXIYlPpvnLsWWrAPf7ZuCVx2qUHg4KPaiZ6Tx0tj95ffVaV2iwChApeoG5/3eg6HyEchRgS57m0fG+w=
-X-Received: by 2002:a05:6402:4387:: with SMTP id
- o7mr27059438edc.204.1629542549205; 
- Sat, 21 Aug 2021 03:42:29 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>) id 1mHOSp-0001mA-G3
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 06:43:00 -0400
+Received: from redisdead.crans.org ([185.230.79.39]:48132)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <erdnaxe@crans.org>) id 1mHOSk-0008GC-ET
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 06:42:58 -0400
+Received: from [IPv6:2a02:8428:4db:b001:1574:dec0:2234:7168]
+ (2a02-8428-04db-b001-1574-dec0-2234-7168.rev.sfr.net
+ [IPv6:2a02:8428:4db:b001:1574:dec0:2234:7168])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+ (No client certificate requested)
+ by redisdead.crans.org (Postfix) with ESMTPSA id 326E828E;
+ Sat, 21 Aug 2021 12:42:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=crans.org; s=mail;
+ t=1629542565; bh=VTmsTDYkg8vCHQ9zrAr1xgMB59x4o5/1zYOEjO+AcA4=;
+ h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+ b=LuMg4qbUaf2b52VUeZubAOpG1T/SLjvVY3XQLtmpbErBgpxG8uKox1FPUucOYGk8R
+ RiEccw+bdLNlB7lSPMNE8ldTRG0qizBMBVZTCqwU64643egyE0VoZE8qtkjQoq1948
+ jDg/Lq/MlRTuzB6npNvcDTHAw4Jo87KCn1Mj6EbRgL7kCQt6nLewXtjtEi22cPLHOe
+ q32S/D0igvm/QslkKVMCl8krqYyeweYK35hQ0WoDLD/NmIiaOuHeIOH4NdIYNwcDDF
+ Z7EXXQuWG+McUOYNSxkPM71lAK+K4luIPU6R1BvIFbDoWV+I/sAyxfjwsys8A+dMnA
+ 6E6+v/axl5f575eaN5bLnnuI26fGkpXoydrsLb6j3vB1WmH0sAn7BRh2UWijJLPmbi
+ 0ybRCK5t48/QkPekIMqeu61mdNLmIQnfzogR53CpBILpFbW6GMOqlkv/W2PyRBZtuc
+ pb6lxQSzergBQemETfkrTxl8o/GeOKPndLXl6CFHjsOZNJ/nqmjNFV8jLaE746kmOZ
+ sICuqkg4RIr4lMeSQI8Z9MzvTA8EFkMb3OspQMZ9lIkVTpYPfmTp6/TFZvcNL/oh4f
+ lTUPt3QwtynVV3lTsCMswzX2gETiUzsOT25XFq9r6PNWOeic0FKa5r2fMujvYSkVUs
+ 68py30rv5SrKm6lX7OY9S+qo=
+To: Florian Hauschild <florian.hauschild@fs.ei.tum.de>, qemu-devel@nongnu.org
+References: <20210821094527.491232-1-florian.hauschild@fs.ei.tum.de>
+From: Alexandre IOOSS <erdnaxe@crans.org>
+Organization: Crans
+Subject: Re: [RFC PATCH 0/1] QEMU TCG plugin interface extensions
+Message-ID: <9f946305-f5a7-71b9-8435-4f72b2df7478@crans.org>
+Date: Sat, 21 Aug 2021 12:42:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210820155211.3153137-1-philmd@redhat.com>
- <CAEUhbmXP7=0j10Kf3w1DsPb-ByCTv+dSGbF=0ARQXd44soyv6A@mail.gmail.com>
-In-Reply-To: <CAEUhbmXP7=0j10Kf3w1DsPb-ByCTv+dSGbF=0ARQXd44soyv6A@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 21 Aug 2021 11:41:42 +0100
-Message-ID: <CAFEAcA8KbXsBKXm6FVJH2jd1NsRcn+hrSPxGYDdoWgum0Vi8HQ@mail.gmail.com>
-Subject: Re: [PATCH] softmmu/physmem: Improve guest memory allocation failure
- error message
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210821094527.491232-1-florian.hauschild@fs.ei.tum.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="XpYAT79hUc6sFKOuOo8IPtc4YOrU3hW0O"
+Received-SPF: pass client-ip=185.230.79.39; envelope-from=erdnaxe@crans.org;
+ helo=redisdead.crans.org
+X-Spam_score_int: -35
+X-Spam_score: -3.6
+X-Spam_bar: ---
+X-Spam_report: (-3.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.49,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,25 +73,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Mahmoud Mandour <ma.mandourr@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 21 Aug 2021 at 11:03, Bin Meng <bmeng.cn@gmail.com> wrote:
-> Does g_autofree work with every compiler we support?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--XpYAT79hUc6sFKOuOo8IPtc4YOrU3hW0O
+Content-Type: multipart/mixed; boundary="AnAvf6LFmGpJTRvXZVgow1Zft4oJKOONO";
+ protected-headers="v1"
+From: Alexandre IOOSS <erdnaxe@crans.org>
+To: Florian Hauschild <florian.hauschild@fs.ei.tum.de>, qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>
+Message-ID: <9f946305-f5a7-71b9-8435-4f72b2df7478@crans.org>
+Subject: Re: [RFC PATCH 0/1] QEMU TCG plugin interface extensions
+References: <20210821094527.491232-1-florian.hauschild@fs.ei.tum.de>
+In-Reply-To: <20210821094527.491232-1-florian.hauschild@fs.ei.tum.de>
 
-Yes. We use it extensively:
-  $ git grep g_autofree |wc -l
-  329
+--AnAvf6LFmGpJTRvXZVgow1Zft4oJKOONO
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-> Looks it only applies to GCC and clang?
-> https://www.gitmemory.com/issue/linuxwacom/libwacom/142/518787578
+On 8/21/21 11:45 AM, Florian Hauschild wrote:
+> Hi all,
+>=20
+> I extended the plugin interface with additional functionalities.
+> I wrote the extensions for fault injection/exploration reasearch using
+> QEMU. The additional functionalities for a plugin are:
+>    * Read and write guest memory
+>    * Read and write guest registers
+>    * Allow plugin to force QEMU into single step mode
+>    * Flush TB cache from plugin
 
-Those are the only two compilers we support :-)
+If something is added to read a register from a plugin, then execlog=20
+plugin could print the operands value of each instruction. This would=20
+definitely be helpful for side-channel analysis: the Hamming weight (sum =
 
--- PMM
+of bits) of the last operand roughly models the power consumption=20
+side-channel leakage.
+
+If I recall correctly, there are some concerns about allowing to access=20
+registers inside plugins. Past threads about reading/writing registers:
+https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg08741.html
+https://lists.gnu.org/archive/html/qemu-devel/2021-04/msg04588.html
+
+Thanks,
+-- Alexandre
+
+
+--AnAvf6LFmGpJTRvXZVgow1Zft4oJKOONO--
+
+--XpYAT79hUc6sFKOuOo8IPtc4YOrU3hW0O
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEELTca0n4rvHeX4bdZbHknjz/NzAIFAmEg2KQFAwAAAAAACgkQbHknjz/NzAIl
+DRAAnvLyiWtDVyXh38+f3PRsEyyihrG/Zvuf9vy/KTwPvMn1Mm/oVsEvWXVHct7mIBC975C3/7ls
+VFMA69cK+QuGLL3IndKOylp+wGgpkX5mYxsadR3Er9oUy28WGaR5WAyUfcxpCgddtL8Wu3xKsluj
+5lBQ8zUacHRFIyjdn5aftTB5m2OkJwoEJbqVWu/B9NJ0MeN4JJdg4gBqSpXVHR35QzeUHsb3tPDe
+IHABiblOGMjzH4B9Izgn//WbB6z2l4XvUynew6cBEaxDgyhrojd7soceUE3RXe3j7rcB1cdHIsgb
+8q6urJJapPuETlxf50n4nkg0oMgqvFZMbkZyOp0H7ktG/bqQGEPrAccWsqEO/INfsFezgUqEFW6w
+7TocW4t+6NvQiQwlBGaJ94mSt5wKtA6EVMsXG8dcVdDzZv2OaTC5q2AYEuA3w4Wt0hcwgl1+8MiY
+/8wf2i5nfhcHVhANwwKIn6ck6Op/8TGLrXvdah0hwiVEYtEOLnMv/xvGyoGTWc98ms9W/sX3YWb+
+0pzlL+8oz3/OZI/W2tXO1NtD/YbWZpnIhN9d+S5m9VSOI/Ta7KhZXCB/suMCF6MBW8EJsBz546bk
+kKADcJ/+hq3PzO6SK+LaNJl7c1MoLi4+rMP1pz+LdSNO3SSX33x7X+ht+avJsfJ6+RAmjWmIJK1g
+MoU=
+=Z6KV
+-----END PGP SIGNATURE-----
+
+--XpYAT79hUc6sFKOuOo8IPtc4YOrU3hW0O--
 
