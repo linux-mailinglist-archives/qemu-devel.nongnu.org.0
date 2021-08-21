@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40DB63F3BAA
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 19:23:38 +0200 (CEST)
-Received: from localhost ([::1]:50004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 053483F3BBA
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 19:28:29 +0200 (CEST)
+Received: from localhost ([::1]:53694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHUiR-0003Wt-R1
-	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 13:23:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60296)
+	id 1mHUnD-0006Ci-TO
+	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 13:28:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mHUhV-0002qH-1a
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 13:22:33 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:42867)
+ id 1mHUmI-0005XN-N7
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 13:27:30 -0400
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:39791)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mHUhT-00081Q-Ik
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 13:22:32 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- w21-20020a7bc1150000b02902e69ba66ce6so7948403wmi.1
- for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 10:22:30 -0700 (PDT)
+ id 1mHUmH-0002oV-5S
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 13:27:30 -0400
+Received: by mail-wm1-x331.google.com with SMTP id
+ f9-20020a05600c1549b029025b0f5d8c6cso11105723wmg.4
+ for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 10:27:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xWM9ULs7TdjSzGaNoBdkyWNh0NV8m2s1osSxZ4wrX/0=;
- b=A4LkFlDrajamxNtZUO2pdMQ3CmsBm0fcqBzwNN25qnEWVNda3Q79+bcP13f3tT7ghH
- lyvV/LLcprcog/DKFEKkBxBn7A6Ddn8f6gbQzQlnT2N7DpAcijNPCr1b+vNQUcWbHzlq
- nMqDQm0nxCEi9pN5fqKt0UBZJKaPb1Np3mpDTmdiABeZ9LqIosGMqUwS1OfpVGaNhj2H
- h1GXspp2iH2LDNfs8cBCcyGJiuMulkU9s9YZGEMva1NFy3/jlXgFnv3iMwLe7niUUdeN
- 6cah+L0Yo97gsyRy9IF/LWuGaHSvfvkkuWe/0gNzRfnM0uDSq+qlhAoF6wwNB3GSMZfN
- BDTA==
+ bh=AZkeJtvwpwuNqgWZdnVQ60HhXACzmkXEOYg09K7kF/o=;
+ b=Mb0BhYzn9rafarvGVk0jECww7U7zloUXbCF+UJ3iQ83Ge3SUflkUyBZqJAU3bT6Rmc
+ VhDuTBSJeht61dDhMps2USmt9KqnAent1u9uXI4hurgXUuC8MVERcLv0dYD2ndYCEaRW
+ I0QE3yNIi9XmG+fLkhhe1iuY0+mvVwbsvcXPAvyvkYZrx+C6DHZVoZc0c4xKq4d2/O36
+ LXXhbVaVrRHuImv+bwAvbST3T4xDg+aUm09euEDt7XWZMx/qxxYCm5qKrdLhq60p82+U
+ uDELxFj5cbsyul8fBv0Hnmsl9jM1R4gSNLtDQMUxLi1E/tLvG1ayH2D4MIdZlHCC6sOk
+ ezxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=xWM9ULs7TdjSzGaNoBdkyWNh0NV8m2s1osSxZ4wrX/0=;
- b=ovl6irQPDKR4jpk5BnH8eU1rp549EohGHo67wBxAbfjGimS073Z0TeLeaz3sbxBUyE
- KHbp5cpF9lnK5LQMueXAMj99vXf1txKUGYeeG4SKYgErhoU3Xsmf6zIA/MoFLPN8QVxU
- zSgDkA3BT7hdpsFI+ab6TsRieKFVWvqH+BLhxBGyaZ6fvQx/oQ8In5QBngEHaYIo7psn
- bell8tP2e4U0d34+gV/yLEzqgObx0oGObjCToSk8pFEYHgMI5pOrGvWfqxoFSmFpHsDG
- Fg7qwLF+mutIKDpoUhOFpFCSnJvTIM5L38EV85+UUQIv9yPQrgpAG66li05COlXuK6Xp
- r5ow==
-X-Gm-Message-State: AOAM530Tck4How6Yic9kfooTaDGBO1nww2cE+yGvLsO2Y0o2L/WsqHST
- rvJs1LjoOiXHxSWL+SeDNT0=
-X-Google-Smtp-Source: ABdhPJzE43dX+AYNufvKPN+8H/wmnMfRX4hG15RTInz/zb2Sx+tezSxdTqagCg4ThcnIaltPLLp+mQ==
-X-Received: by 2002:a1c:1f8e:: with SMTP id f136mr2636660wmf.132.1629566549351; 
- Sat, 21 Aug 2021 10:22:29 -0700 (PDT)
+ bh=AZkeJtvwpwuNqgWZdnVQ60HhXACzmkXEOYg09K7kF/o=;
+ b=a3bTrDWSSINmpnKWtpmOTBCwOJSErdar9fxLFvfphSOay8RktTXgZuNu2cbdAQZNDw
+ VqcidW3GOnpzOU4Y7n5mNLUvLgn3MUD/UEpT3uhrh8MdemPieQyLX+E/2dQqxPTSFkf6
+ e/PYAV53ytETft8Nx6fWJgU2vymENzRkAGaDOCpoLkGUj+RfV4aeYsb7DkrPPZDHBVH8
+ TN361w4BiEOZGLJC+CwNaJ/NEuL6Bkr8W0U/RQw8h1LdPZgxBUeiITkoHJ3LLuYIyT65
+ YKBrf8fgFXGAanlUJBDAHTKFvKaoViG6sUmn60JbOTC1t3O7BIodw29u4z6/3m4RuS8k
+ 22Ag==
+X-Gm-Message-State: AOAM531npiftBGk7sHWz1N1kte+5+vFhvkoJosvUyoQ26GCWUcU2zFws
+ Xmk4iuT2z8uIaRp8fUspnKc=
+X-Google-Smtp-Source: ABdhPJwQia6OKcc1Gw96zy/FkZ+Evyx7ck/iVO7rOljLFfPFepNUwze6hAzs+Uj31NgWOjGrOXPVaQ==
+X-Received: by 2002:a7b:c3d8:: with SMTP id t24mr8970086wmj.88.1629566847467; 
+ Sat, 21 Aug 2021 10:27:27 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id o6sm9516068wru.92.2021.08.21.10.22.27
+ by smtp.gmail.com with ESMTPSA id b4sm9039588wro.97.2021.08.21.10.27.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 21 Aug 2021 10:22:28 -0700 (PDT)
-Subject: Re: [PATCH 0/8] target/mips: Housekeeping in gen_helper() macros
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210816205107.2051495-1-f4bug@amsat.org>
- <95d3f194-1042-6cf6-08e6-cffd1fd87620@linaro.org>
+ Sat, 21 Aug 2021 10:27:26 -0700 (PDT)
+Subject: Re: [PATCH v2 0/5] target/mips: Replace TARGET_WORDS_BIGENDIAN by
+ cpu_is_bigendian()
+To: qemu-devel@nongnu.org
+References: <20210818215517.2560994-1-f4bug@amsat.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <35ec8d79-712f-af74-a215-7b0fb3cfaf8d@amsat.org>
-Date: Sat, 21 Aug 2021 19:22:26 +0200
+Message-ID: <bf0956bc-26be-f3e6-0067-4f39824ff2e1@amsat.org>
+Date: Sat, 21 Aug 2021 19:27:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <95d3f194-1042-6cf6-08e6-cffd1fd87620@linaro.org>
+In-Reply-To: <20210818215517.2560994-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -90,30 +90,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+Cc: Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/17/21 4:52 PM, Richard Henderson wrote:
-> On 8/16/21 10:50 AM, Philippe Mathieu-Daudé wrote:
->> Trivial patches:
->> - Remove unused macros
->> - Use tcg_constant_i32()
->> - Inline the macros when few uses
->> - Move macro definitions in translate.h
->>
->> Philippe Mathieu-Daudé (8):
->>    target/mips: Remove gen_helper_0e3i()
->>    target/mips: Remove gen_helper_1e2i()
->>    target/mips: Use tcg_constant_i32() in gen_helper_0e2i()
->>    target/mips: Simplify gen_helper() macros by using tcg_constant_i32()
->>    target/mips: Inline gen_helper_1e1i() call in op_ld_INSN() macros
->>    target/mips: Inline gen_helper_0e0i()
->>    target/mips: Use tcg_constant_i32() in generate_exception_err()
->>    target/mips: Define gen_helper() macros in translate.h
+On 8/18/21 11:55 PM, Philippe Mathieu-Daudé wrote:
+> MIPS CPU store its endianess in the CP0 Config0 register.
+> Use that runtime information instead of #ifdef'ry checking
+> TARGET_WORDS_BIGENDIAN by introducing the cpu_is_bigendian()
+> helper.
 > 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Philippe Mathieu-Daudé (5):
+>   target/mips: Call cpu_is_bigendian & inline GET_OFFSET in ld/st
+>     helpers
+>   target/mips: Replace GET_LMASK() macro by get_lmask(32) function
+>   target/mips: Replace GET_LMASK64() macro by get_lmask(64) function
+>   target/mips: Store CP0_Config0 in DisasContext
+>   target/mips: Replace TARGET_WORDS_BIGENDIAN by cpu_is_bigendian()
 
-Thanks, series applied to mips-next.
+Thanks, applied to mips-next.
+
 
