@@ -2,74 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 897BA3F3C32
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 21:01:14 +0200 (CEST)
-Received: from localhost ([::1]:50300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D8093F3C37
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 21:06:38 +0200 (CEST)
+Received: from localhost ([::1]:53650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHWEy-0002KC-Vc
-	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 15:01:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42770)
+	id 1mHWKD-0004lc-6a
+	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 15:06:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mHWD7-0001Kt-L8
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 14:59:17 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:42683)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mHWD6-00060D-6f
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 14:59:17 -0400
-Received: by mail-pg1-x533.google.com with SMTP id o2so12558064pgr.9
- for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 11:59:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=2lhDdN5OWxXKQkydRBX45zZZ7+QIWI9EFkLa58BWgVE=;
- b=CXLO1AwG6RCgC22wKhpQ9e/qB5uket20GcUTRadkZfGL6fgpcqSXLnQdIfmqWSxvxs
- P/adXX+IJydf0OugwSb3etAAN22Ru6gWc1pVe8R4wRATk9dsqbK6eUAoODnSGROw8rBF
- Jnyfv8X5FWVhkhIUI/6rbtB3+1O2e/lma5T8pYCL4jH5+oHifNC9aRkcgitkuWAYbPHW
- PGU59fOdf0ghDgAI2+tXWaU+QiSCDCaBQy8ARvg0eyz+0x0m9IVCnI/m38tmY9nD0B54
- 04nLbWTdKyHdJfqvwREGYrjXCOpWpSMdfNoAWPCc4I/Bz68lWjkNHSoZHTbGWtAIgQhH
- BeTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2lhDdN5OWxXKQkydRBX45zZZ7+QIWI9EFkLa58BWgVE=;
- b=cigAVsjUkAgC37yQka0rtK4AzWf9DsEM9aYj1Pii1Zs1P1WHDqNL5JoQ+GOiFWD1dH
- VWIziuVxe5V7jhwCLj3dCSumZXGODHZ0inkK3ybVnEGBiubmOsmFTKjOanysSaYrCVgN
- KNUYoPVvTuBcXkRh/IWs36+am7pdGN0Ro+dyaZQDZ+M0MznTGxOX9PEmo3CfSMJViSM+
- fKScLNQ+Iz42uutmFCj2c/lSYMb1UgWaA1U8S/X5ZYxujAMfB9RgMwbRZWPF8vAgYqZi
- +R6+P2A/ippO9b3COzhOG465+QOJjrkDkSCQXx1uWLGswsOtQbtCkXInVBMYfsMjh+TA
- pfYA==
-X-Gm-Message-State: AOAM532coVCIeKc1+HkrKJVeV03rBu44xWR1M/J17xfxuWKLKFX/G4CM
- yRoeFuYcu20W4JC1HHuYwxUWHw==
-X-Google-Smtp-Source: ABdhPJyYByhSKMw+e3rZp97vdXSYpkp9C2s9p3lCLc7fLJT1JdU+09yCUeTElxDrmPD7WAYoo74vtw==
-X-Received: by 2002:a63:6983:: with SMTP id
- e125mr24483545pgc.389.1629572354386; 
- Sat, 21 Aug 2021 11:59:14 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id e12sm11096513pfv.146.2021.08.21.11.59.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 21 Aug 2021 11:59:13 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: peter.maydell@linaro.org
-Subject: Re: [PATCH] target/arm: Take an exception if PSTATE.IL is set
-Date: Sat, 21 Aug 2021 11:59:12 -0700
-Message-Id: <20210821185912.22401-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210817162118.24319-1-peter.maydell@linaro.org>
-References: <20210817162118.24319-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mHWIi-0003Ko-7y
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 15:05:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47199)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1mHWId-0001Rp-UZ
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 15:05:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629572697;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Mn41FdOMZAIsatqa6fzeqQEJ6zKdo3OIhFp61Mj50aM=;
+ b=C/Cb0r3MTgY17suNf2hr0x/F5Z1WQdMFl34dOmSy7FW97lnlPiJGAZCGlWbJ9B2TWKRYRB
+ dPBaaVk8vDFgEhgPGSAKH27zQC2UYGDuJqLqWzGM9OWNyRfhFkudb4IYubxtm/V94VqHzU
+ PX2qYbliTYYs7HkqH2UZLidFNthJxOQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-66-EARSHBNcO5C0uLpDPjgzsA-1; Sat, 21 Aug 2021 15:04:56 -0400
+X-MC-Unique: EARSHBNcO5C0uLpDPjgzsA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F83C1082925;
+ Sat, 21 Aug 2021 19:04:55 +0000 (UTC)
+Received: from scv.redhat.com (unknown [10.22.19.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9A4FB17010;
+ Sat, 21 Aug 2021 19:04:52 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/1] Update check-python-tox test for pylint 2.10
+Date: Sat, 21 Aug 2021 15:04:50 -0400
+Message-Id: <20210821190451.3039867-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.7,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,17 +73,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: John Snow <jsnow@redhat.com>, G S Niteesh Babu <niteesh.gs@gmail.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> +static inline uint32_t syn_illegalstate(void)
-> +{
-> +    return EC_ILLEGALSTATE << ARM_EL_EC_SHIFT;
-> +}
+The 'check-python-tox' CI test will probably start showing warnings=0D
+without this. This can go into the next release, just ignore the CI=0D
+warning until the tree opens.=0D
+=0D
+John Snow (1):=0D
+  python: Update for pylint 2.10=0D
+=0D
+ python/qemu/machine/machine.py | 6 ++++--=0D
+ python/setup.cfg               | 1 +=0D
+ 2 files changed, 5 insertions(+), 2 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
-I just noticed this should have the IL bit set.
-
-
-r~
 
