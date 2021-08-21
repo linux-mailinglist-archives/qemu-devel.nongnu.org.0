@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 557003F38F4
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 08:22:22 +0200 (CEST)
-Received: from localhost ([::1]:58136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE5223F38FD
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Aug 2021 08:28:45 +0200 (CEST)
+Received: from localhost ([::1]:49032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHKOa-0007Dl-Sm
-	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 02:22:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53374)
+	id 1mHKUm-00037C-VF
+	for lists+qemu-devel@lfdr.de; Sat, 21 Aug 2021 02:28:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mHKN5-0005G1-Lq
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:20:47 -0400
-Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:51478)
+ id 1mHKRx-0005w6-PI
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:25:49 -0400
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:37028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mHKN2-0002dV-Nq
- for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:20:47 -0400
+ id 1mHKRv-0006uw-Sx
+ for qemu-devel@nongnu.org; Sat, 21 Aug 2021 02:25:49 -0400
 Received: from loganberry.canonical.com (loganberry.canonical.com
  [91.189.90.37])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 7FC333F829
- for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:20:41 +0000 (UTC)
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id D93DF3F80F
+ for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:25:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1629526841;
- bh=BE44+IBtqsrvTBHuP/mprdQNLoX6ChgVwlQAng64TXE=;
+ s=20210803; t=1629527142;
+ bh=dj8QL1qgwqFLIsrBEoTKLgrhkLefQgdTh6Y3m4mI+Z8=;
  h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
  Message-Id:Subject;
- b=uV6URsXwIYn6aUGbqXXm9DUTf+pmajSKYGsddcOBQLuTkskCw100W9eGmWOcuv6Zh
- /5BQMeDB1lV2D+qBfmYViuT2YDF7txLi33iY3QOlhuWANbUvs+QR0R4Og9wSgELdh4
- DHC1cGmEE/24iI9FaMVw22Qvu4BV1YcyNrSbEAJiWTi/n6ZxjiUeidCiyHrDexGN0I
- O359zvHG9PKRxA0ZXBt8P/iddDRrcECLRbLX8DzQVWfi0XSKmr335F46xb6HENQMPZ
- UYJcca1tGcR7oIc/keW9vHJAg1hyAaz5pVryU11P5fZJNw0guSDEgAVkkaisMO41tT
- XBMl/MsQ2tmLg==
+ b=HOtXKDT6Da6AKDfSqirSBqYurTx3jHmNePdP3Wlwqmwjp6ulKMfnDTjA47aMAOs8J
+ LXcFoRUrzavZOKfCfFjUHGnn/HZ5oZtIbz9beTwge8i/eRfZFENYd8I27F80k/fc39
+ t92DZFCFT56Gq9QbD1XfrWPTy/Bw3Sx6ckw0PlUBM8osJciTamVFM7afhgOeWMcpKq
+ 9dC4pnocCO1xw9uneY7OMKO501EbCl/HvKXifSR1uLrfKeu+SPjOJ6kLqQQDCoR2IH
+ 0dnIDlpgGZisZmLkXBhktoigGj2AxWPNHcmOs1X/ri+Y4BjI7nh+DKwlkbc/JQa+gN
+ pHkVN0gWxzi8Q==
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 777482E813A
- for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:20:41 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id D47D32E8135
+ for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 06:25:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 21 Aug 2021 06:15:27 -0000
-From: Thomas Huth <1888714@bugs.launchpad.net>
+Date: Sat, 21 Aug 2021 06:16:01 -0000
+From: Thomas Huth <1890155@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: fuzzer test
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: a1xndr th-huth
 X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159552501514.3414.9224287999042731513.malonedeb@gac.canonical.com>
-Message-Id: <162952652782.32031.7250919962497129854.malone@gac.canonical.com>
-Subject: [Bug 1888714] Re: Memory Leak in hpet_timer results in unusable
- machine
+References: <159646459931.15346.8925027856621311713.malonedeb@wampee.canonical.com>
+Message-Id: <162952656132.28223.1272314272986287048.malone@soybean.canonical.com>
+Subject: [Bug 1890155] Re: Abort in vmxnet3_validate_interrupt_idx
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="25edfd4b3e79d9ee9d9c3a750eb93e4d41d56c9e"; Instance="production"
-X-Launchpad-Hash: 84f6fb7cc97d24a675e625c96d8f62b21afbf70e
-Received-SPF: pass client-ip=185.125.188.250;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
+X-Launchpad-Hash: 3290860f99301a4ca4bbce5e004d42cea6d19337
+Received-SPF: pass client-ip=185.125.188.251;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -84,7 +82,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1888714 <1888714@bugs.launchpad.net>
+Reply-To: Bug 1890155 <1890155@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -98,108 +96,66 @@ now.
 --=20
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1888714
+https://bugs.launchpad.net/bugs/1890155
 
 Title:
-  Memory Leak in hpet_timer results in unusable machine
+  Abort in vmxnet3_validate_interrupt_idx
 
 Status in QEMU:
   Invalid
 
 Bug description:
-  Fair warning: this might be specific to QTest (specifically its
-  clock_step) command. This reproducer only works with -accel qtest.
-  Build with --enable-sanitizers to exit once we hit 1G RSS.
+  Hello,
+  Reproducer:
 
-  export ASAN_OPTIONS=3Dhard_rss_limit_mb=3D1000=20
-  cat << EOF | ./i386-softmmu/qemu-system-i386 -nographic \
-  -nodefaults -qtest stdio -accel qtest
-  writeq 0xfed0000e 0x15151515151515f1
-  clock_step
-  clock_step
-  clock_step
-  clock_step
-  writeq 0xfed00100 0x5e90c5be00ff5e9e
-  writeq 0xfed00109 0xffffe0ff5cfec0ff
-  clock_step
+  cat << EOF | ./i386-softmmu/qemu-system-i386 \
+  -device vmxnet3 -m 64 -nodefaults -qtest stdio -nographic
+  outl 0xcf8 0x80001014
+  outl 0xcfc 0xe0001000
+  outl 0xcf8 0x80001018
+  outl 0xcf8 0x80001004
+  outw 0xcfc 0x7
+  write 0x0 0x1 0xe1
+  write 0x1 0x1 0xfe
+  write 0x2 0x1 0xbe
+  write 0x3 0x1 0xba
+  write 0x52 0x1 0x61
+  writeq 0xe0001020 0xef0bff5ecafe0000
   EOF
 
-  On my machine it takes around 10 seconds to reach the RSS limit.
-
-  Unfortunately, I can't find a way to tell ASAN to log each malloc to
-  figure out whats going on, but running the original fuzzing test case
-  with the libfuzzer -trace_malloc=3D2 flag, I found that the allocations
-  happen here:
-
-  MALLOC[130968] 0x60300069ac90 32
-      #0 0x55fa3f615851 in __sanitizer_print_stack_trace (/home/alxndr/Deve=
-lopment/qemu/build/i386-softmmu/qemu-fuzz-i386+0x2683851)
-      #1 0x55fa3f55fe88 in fuzzer::PrintStackTrace() (/home/alxndr/Developm=
-ent/qemu/build/i386-softmmu/qemu-fuzz-i386+0x25cde88)
-      #2 0x55fa3f5447d6 in fuzzer::MallocHook(void const volatile*, unsigne=
-d long) (/home/alxndr/Development/qemu/build/i386-softmmu/qemu-fuzz-i386+0x=
-25b27d6)
-      #3 0x55fa3f61bbb7 in __sanitizer::RunMallocHooks(void const*, unsigne=
-d long) (/home/alxndr/Development/qemu/build/i386-softmmu/qemu-fuzz-i386+0x=
-2689bb7)
-      #4 0x55fa3f596d75 in __asan::Allocator::Allocate(unsigned long, unsig=
-ned long, __sanitizer::BufferedStackTrace*, __asan::AllocType, bool) (/home=
-/alxndr/Development/qemu/build/i386-softmmu/qemu-fuzz-i386+0x2604d75)
-      #5 0x55fa3f596f7a in __asan::asan_calloc(unsigned long, unsigned long=
-, __sanitizer::BufferedStackTrace*) (/home/alxndr/Development/qemu/build/i3=
-86-softmmu/qemu-fuzz-i386+0x2604f7a)
-      #6 0x55fa3f60d173 in calloc (/home/alxndr/Development/qemu/build/i386=
--softmmu/qemu-fuzz-i386+0x267b173)
-      #7 0x7fb300737548 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2.0=
-.so.0+0x54548)
-      #8 0x55fa40157689 in async_run_on_cpu /home/alxndr/Development/qemu/c=
-pus-common.c:163:10
-      #9 0x55fa409fab83 in hpet_timer /home/alxndr/Development/qemu/hw/time=
-r/hpet.c:376:9
-      #10 0x55fa416a5751 in timerlist_run_timers /home/alxndr/Development/q=
-emu/util/qemu-timer.c:572:9
-      #11 0x55fa3fcfdac4 in qtest_clock_warp /home/alxndr/Development/qemu/=
-softmmu/cpus.c:507:9
-      #12 0x55fa3fd65c35 in qtest_process_command /home/alxndr/Development/=
-qemu/softmmu/qtest.c:665:9
-      #13 0x55fa3fd5e128 in qtest_process_inbuf /home/alxndr/Development/qe=
-mu/softmmu/qtest.c:710:9
-      #14 0x55fa3fd5de67 in qtest_server_inproc_recv /home/alxndr/Developme=
-nt/qemu/softmmu/qtest.c:817:9
-      #15 0x55fa4142b64b in qtest_sendf /home/alxndr/Development/qemu/tests=
-/qtest/libqtest.c:424:5
-      #16 0x55fa4142c482 in qtest_clock_step_next /home/alxndr/Development/=
-qemu/tests/qtest/libqtest.c:864:5
-      #17 0x55fa414b12d1 in general_fuzz /home/alxndr/Development/qemu/test=
-s/qtest/fuzz/general_fuzz.c:581:17
-
-  It doesn't look like we ever exit out of the loop in
-  timerlist_run_timers, ie timer_list->active_timers is always True.
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+   #7 0x55b271a89b67 in hw_error /home/alxndr/Development/qemu/general-fuzz=
+/softmmu/cpus.c:927:5
+   #8 0x55b272fc6433 in vmxnet3_validate_interrupt_idx /home/alxndr/Develop=
+ment/qemu/general-fuzz/hw/net/vmxnet3.c:1355:9
+   #9 0x55b272fc4e6d in vmxnet3_validate_interrupts /home/alxndr/Developmen=
+t/qemu/general-fuzz/hw/net/vmxnet3.c:1364:5
+   #10 0x55b272fbe723 in vmxnet3_activate_device /home/alxndr/Development/q=
+emu/general-fuzz/hw/net/vmxnet3.c:1546:5
+   #11 0x55b272fb6fba in vmxnet3_handle_command /home/alxndr/Development/qe=
+mu/general-fuzz/hw/net/vmxnet3.c:1576:9
+   #12 0x55b272fb410f in vmxnet3_io_bar1_write /home/alxndr/Development/qem=
+u/general-fuzz/hw/net/vmxnet3.c:1772:9
+   #13 0x55b271ac4193 in memory_region_write_accessor /home/alxndr/Developm=
+ent/qemu/general-fuzz/softmmu/memory.c:483:5
+   #14 0x55b271ac3637 in access_with_adjusted_size /home/alxndr/Development=
+/qemu/general-fuzz/softmmu/memory.c:544:18
+   #15 0x55b271ac1256 in memory_region_dispatch_write /home/alxndr/Developm=
+ent/qemu/general-fuzz/softmmu/memory.c:1466:16
+   #16 0x55b270e724a6 in flatview_write_continue /home/alxndr/Development/q=
+emu/general-fuzz/exec.c:3176:23
+   #17 0x55b270e5acc6 in flatview_write /home/alxndr/Development/qemu/gener=
+al-fuzz/exec.c:3216:14
 
  =20
-  Info From GDB:
-  #0  0x0000555558070d31 in address_space_stl_internal (as=3D0x55555f0e8f20=
- <address_space_memory>, addr=3D0x0, val=3D0x0, attrs=3D..., result=3D0x0, =
-endian=3DDEVICE_LITTLE_ENDIAN) at /home/alxndr/Development/qemu/memory_ldst=
-.inc.c:323
-  #1  0x0000555558071339 in address_space_stl_le (as=3D0x55555f0e8f20 <addr=
-ess_space_memory>, addr=3D0x0, val=3D0x0, attrs=3D..., result=3D0x0) at /ho=
-me/alxndr/Development/qemu/memory_ldst.inc.c:357
-  #2  0x000055555a6a6f95 in update_irq (timer=3D0x61f0000005b8, set=3D0x1) =
-at /home/alxndr/Development/qemu/hw/timer/hpet.c:210
-  #3  0x000055555a6ae55f in hpet_timer (opaque=3D0x61f0000005b8) at /home/a=
-lxndr/Development/qemu/hw/timer/hpet.c:386
-  #4  0x000055555c03d178 in timerlist_run_timers (timer_list=3D0x60b0000528=
-f0) at /home/alxndr/Development/qemu/util/qemu-timer.c:572
-  #5  0x000055555c03d6b5 in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
-L) at /home/alxndr/Development/qemu/util/qemu-timer.c:586
-  #6  0x0000555558c3d0c4 in qtest_clock_warp (dest=3D0x3461864) at /home/al=
-xndr/Development/qemu/softmmu/cpus.c:507
+  qemu: hardware error: Bad interrupt index: 97
+  Aborted
 
- =20
   -Alex
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1888714/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1890155/+subscriptions
 
 
