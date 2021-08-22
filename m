@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D75D3F3E56
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Aug 2021 09:49:26 +0200 (CEST)
-Received: from localhost ([::1]:53194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A283F3E91
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Aug 2021 10:01:44 +0200 (CEST)
+Received: from localhost ([::1]:57774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHiEJ-0000lN-NO
-	for lists+qemu-devel@lfdr.de; Sun, 22 Aug 2021 03:49:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60178)
+	id 1mHiQJ-0004Jl-3Y
+	for lists+qemu-devel@lfdr.de; Sun, 22 Aug 2021 04:01:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mHiDL-0007xx-8m
- for qemu-devel@nongnu.org; Sun, 22 Aug 2021 03:48:19 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:38834)
+ id 1mHiOf-0003XE-UA
+ for qemu-devel@nongnu.org; Sun, 22 Aug 2021 04:00:01 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:43537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mHiDJ-0001YB-N0
- for qemu-devel@nongnu.org; Sun, 22 Aug 2021 03:48:18 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id a5so8378868plh.5
- for <qemu-devel@nongnu.org>; Sun, 22 Aug 2021 00:48:16 -0700 (PDT)
+ id 1mHiOe-0002qd-6w
+ for qemu-devel@nongnu.org; Sun, 22 Aug 2021 04:00:01 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ qe12-20020a17090b4f8c00b00179321cbae7so10090026pjb.2
+ for <qemu-devel@nongnu.org>; Sun, 22 Aug 2021 00:59:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=jTL3j0fLXA7I7vrj5M9WawQ//nJatagWVWQEKK7Vb+8=;
- b=oiS0ZZ9LTP4rR2CodQlvcZs15+qTLAo7GC4e7cseoUbhD/5Q/uAkV/ODSsADxlTSCf
- IRA7XOD/iNZdquBAidJjXnk1Pm3ke8EZ8DRPY7YR5J3oF5It16iHSfAB7uJwmEButZzI
- ILtg3HzRc9Tw+Px5zzspJAG8uEwdIZSFM+ek7CBEzmTXGVgOcOH1SdzhQmSCuEH95lAM
- rxSL5xvDHH15mgyGk5WD72grf+25nQ0gja9QDmM7lJqPlr2FIgFsSb8lLv31XrrXhlYV
- Vo11FpXOGXKhuZkjbLIzDGu1O7uOHb/JKa/TBlQj5vZ8Uq1Q9tjszNBIepHWmdV4qXej
- R5Ow==
+ bh=BzLb69KE3sI/qoFBeyJQ0nZw96fiXAf1o+2CZS2ZIHY=;
+ b=GslRPnb3H/QxF+waTz1lubnsGSyrMvE7ehziXrIPbisb+UQckeZ+YK9djkzaQFGV47
+ SG9vBsxUW3L/H5NH9EWyIqHiEg5YTinvV0qNFpI6H2SPWoleuQ4NsBM4HQmjLNMOI05A
+ mCIU+vnEx+4hOi8KIK7XRWuy+9rCOY8lbY7dXexasZ99PCQGzQZ6jfutfu66b4eciwFo
+ ap1cMo41iFDYzl/zfKWny/QQcYMC5BHCSldVuUZGqgLpYKOY+BZiP/AuYBsgOTv3sMsC
+ wbb5KzQpA+X+9pIEGrEtH2y7iG3qf1T0HWuXKqxOroUXPXvtyEde97jy+f3f0oPYythL
+ sLjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=jTL3j0fLXA7I7vrj5M9WawQ//nJatagWVWQEKK7Vb+8=;
- b=VrgTcH68vpXcmxtcrp9TyXCCxe2iOoxmHgcTD600Z7OMjCPHrApSuL/UubxYIZhkbE
- fd8m6BFUERbHX3SFrE+cSAkJHW9kyXJVNBO6lhm+nDZN/3dAqeOy5WQu81ZaVjoFdaUT
- QUkOBnjqXQeC41M8DZxdAOCOabpFeWFJMrpnEYl3NuFdG0J/1lpNW4J4d2nFitGHz154
- cy/QQtzZ8TKODAb1sCG1QvfsRTGsQdyR8N31mPJRaO/YChftPKHTAMPh4LYWBcAnn37C
- xnXjVtMUAb/wjKMj867mC2dux61ZfKuDTM7qBbfEH2vVvHC5NkRR+ut/+0PS6dYNG/no
- umoQ==
-X-Gm-Message-State: AOAM533atdKH5uXos4lMa69XQ+7QFXQuuKRzCNGbIYg9cXrnyVjiPT0R
- WKHoQnVt3d0PgNo3291bdQR2MgnbpLl+xg==
-X-Google-Smtp-Source: ABdhPJyXBJtSjLmXNvCf2hjTBCxTC2xsYI3sZGpzZD6gfzEt4ujd6E2m/K0sQwJx2seVqb/M4GSV9A==
-X-Received: by 2002:a17:90a:940e:: with SMTP id
- r14mr13668453pjo.41.1629618495752; 
- Sun, 22 Aug 2021 00:48:15 -0700 (PDT)
+ bh=BzLb69KE3sI/qoFBeyJQ0nZw96fiXAf1o+2CZS2ZIHY=;
+ b=jV5FpXyX5lzgeIEcNmMAhe7ZLOxR/7aetUI37lnph7rzJ6D3bkxOoBsG9/031wedCb
+ FdIwsvxO6kH5m5Fmz3+ClP2ysHtMhCaKNrwLoszGtWtBCY03U5Y1b+j5HB4dfnY6HB7w
+ 4qzGgdvXHTl6j+czgghdFsHcuxVMCRcOxs5y6hcsi8SLGVSbkGN3Souy9iplZep30Rf+
+ MY6odlT+/jkRV6JPLotDrxYLX+sIKYoSFyLiZwXVyawYkU0FqBoiYUtwhXZ6/74EydTX
+ 0sEa/creO8JJ9GaLyYCRqkEpw+tvkrtk08k6ChurlN/1Y7L4ny0FOuXL9tDzg00hws6D
+ kzsQ==
+X-Gm-Message-State: AOAM531kawFza05YE1jIMw//m46Q/ccuKBMmDCelfVPgFkfj6d/hKR5J
+ Aeg+NZCS/oKpqNi9uv6CE94tOZ8b6RwQbA==
+X-Google-Smtp-Source: ABdhPJwma2dOQX1H5OZf11vcPcERWKmOJOkDgiy2+IMLpXaGbEngO0gnGWhiixzOWpb24jnblhcvFw==
+X-Received: by 2002:a17:90b:1c92:: with SMTP id
+ oo18mr13919779pjb.56.1629619198285; 
+ Sun, 22 Aug 2021 00:59:58 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id s5sm14646527pgp.81.2021.08.22.00.48.15
+ by smtp.gmail.com with ESMTPSA id x1sm11858811pfn.64.2021.08.22.00.59.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 Aug 2021 00:48:15 -0700 (PDT)
-Subject: Re: [PATCH v3 59/66] accel/tcg: Handle SIGBUS in handle_cpu_signal
+ Sun, 22 Aug 2021 00:59:58 -0700 (PDT)
+Subject: Re: [PATCH v3 63/66] tcg/tci: Support raising sigbus for user-only
 To: Peter Maydell <peter.maydell@linaro.org>
 References: <20210818191920.390759-1-richard.henderson@linaro.org>
- <20210818191920.390759-60-richard.henderson@linaro.org>
- <CAFEAcA-dFoksfoZ0Ngr9xjyAsTyHq+NzaRjiY-2LTZBs9QMSsQ@mail.gmail.com>
+ <20210818191920.390759-64-richard.henderson@linaro.org>
+ <CAFEAcA9Ze3zzQ_O1rRJKaP-681RDJf288uQJx83GEduHetAegQ@mail.gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <85cba917-3b5b-8a8d-088a-1dfeb8787ef0@linaro.org>
-Date: Sun, 22 Aug 2021 00:48:13 -0700
+Message-ID: <490decb4-1cb1-b1b4-8d4b-a72de60d51b7@linaro.org>
+Date: Sun, 22 Aug 2021 00:59:56 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-dFoksfoZ0Ngr9xjyAsTyHq+NzaRjiY-2LTZBs9QMSsQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA9Ze3zzQ_O1rRJKaP-681RDJf288uQJx83GEduHetAegQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -35
 X-Spam_score: -3.6
 X-Spam_bar: ---
@@ -93,28 +94,44 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/20/21 2:34 AM, Peter Maydell wrote:
-> On Wed, 18 Aug 2021 at 21:13, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
+On 8/20/21 3:14 AM, Peter Maydell wrote:
+>> @@ -296,7 +296,7 @@ static uint64_t tci_qemu_ld(CPUArchState *env, target_ulong taddr,
+>>       uintptr_t ra = (uintptr_t)tb_ptr;
 >>
->> We've been registering host SIGBUS, but then treating it
->> exactly like SIGSEGV.
+>>   #ifdef CONFIG_SOFTMMU
+>> -    switch (mop) {
+>> +    switch (mop & (MO_BSWAP | MO_SSIZE)) {
+>>       case MO_UB:
+>>           return helper_ret_ldub_mmu(env, taddr, oi, ra);
+>>       case MO_SB:
+>> @@ -326,10 +326,14 @@ static uint64_t tci_qemu_ld(CPUArchState *env, target_ulong taddr,
+>>       }
+>>   #else
+>>       void *haddr = g2h(env_cpu(env), taddr);
+>> +    unsigned a_mask = (1u << get_alignment_bits(mop)) - 1;
+>>       uint64_t ret;
 >>
->> Handle BUS_ADRALN via cpu_unaligned_access, but allow other
->> SIGBUS si_codes to continue into the host-to-guest signal
->> coversion code in host_signal_handler.  Unwind the guest
->> state so that we report the correct guest PC for the fault.
+>>       set_helper_retaddr(ra);
+>> -    switch (mop) {
+>> +    if (taddr & a_mask) {
+>> +        helper_unaligned_ld(env, taddr);
+>> +    }
+>> +    switch (mop & (MO_BSWAP | MO_SSIZE)) {
+>>       case MO_UB:
+>>           ret = ldub_p(haddr);
+>>           break;
+>> @@ -377,11 +381,11 @@ static uint64_t tci_qemu_ld(CPUArchState *env, target_ulong taddr,
+>>   static void tci_qemu_st(CPUArchState *env, target_ulong taddr, uint64_t val,
+>>                           MemOpIdx oi, const void *tb_ptr)
+>>   {
+>> -    MemOp mop = get_memop(oi) & (MO_BSWAP | MO_SSIZE);
+>> +    MemOp mop = get_memop(oi);
+>>       uintptr_t ra = (uintptr_t)tb_ptr;
 > 
-> You can't rely on alignment faults being marked by BUS_ADRALN:
-> eg MIPS doesn't give you that si_code. How much does that matter
-> for our use of it here ?
+> Don't you need this bit in tci_qemu_st() as well ?
 
-Aside from whatever tcg/foo relies upon, it doesn't matter.
-
-But: silly mips. I was going to rely on it there -- oh well, I'll undo that section of the 
-follow-on tcg/mips patch set.  And it's got a different syscall for disabling the 
-unaligned fixup.
-
+Which bit isn't present in st as well?
+There's missing hunks in your reply, but afaics they're the same.
 
 r~
 
