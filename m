@@ -2,66 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 920433F4008
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Aug 2021 16:37:46 +0200 (CEST)
-Received: from localhost ([::1]:49152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AE183F4027
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Aug 2021 16:48:56 +0200 (CEST)
+Received: from localhost ([::1]:58372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHobP-0004Dl-1O
-	for lists+qemu-devel@lfdr.de; Sun, 22 Aug 2021 10:37:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53400)
+	id 1mHomN-0002OO-7B
+	for lists+qemu-devel@lfdr.de; Sun, 22 Aug 2021 10:48:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mindentropy@gmail.com>)
- id 1mHoaQ-0003Xj-1M
- for qemu-devel@nongnu.org; Sun, 22 Aug 2021 10:36:34 -0400
-Received: from mail-ua1-x92b.google.com ([2607:f8b0:4864:20::92b]:36438)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mindentropy@gmail.com>)
- id 1mHoaO-0005Kd-KB
- for qemu-devel@nongnu.org; Sun, 22 Aug 2021 10:36:33 -0400
-Received: by mail-ua1-x92b.google.com with SMTP id ay4so6606420uab.3
- for <qemu-devel@nongnu.org>; Sun, 22 Aug 2021 07:36:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=CqA1GoVC6pVPpU4dfQYk+o0yaiOBgEFSKMTzB0m24LQ=;
- b=L6zPnmNd7OLC47iRUXox3JrP8mLS/htd4Btu7elenCIPn40GgzxCnKzIkfyI8hUtPg
- kVO6glKGVXKr7HEUSN3f1qxBQfYKkq24P0TPppGDyGkfHUE85dh35j1Hzlb0ui1acddC
- M5oMkr4fH9m0bx4t+Djc+Yx5vk9tpR789aZdLmaomID6oDzRSDzS2xCAQ+LbN3a02onu
- WVHLoJ+wipvMmtFY3C9M/lWHsxpBPNo3WJ+4alZW5CYYloVUEVlvAAmr/aSsnVjHYtZh
- rmNYmrNe4cGFrEQANXZE7ljk/SxpvZAlRYkI3qG8Bp5qeVE+qYkrV8mQa02jF5awQvSS
- JojQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=CqA1GoVC6pVPpU4dfQYk+o0yaiOBgEFSKMTzB0m24LQ=;
- b=E+byW96IeVVOyLu+zYydqBDSsNNJHNKblzdPXPU1475TXVp7Uei70UZKtdgELpRoUl
- g/sbLYBVT3z1+WJl2Ir/5xm3WBoahmsIEnsPcQ8lD5F1QGnrI0bU4YADljbszx8Qkqag
- WyHW73rF6P5tsQcJDFO5m4dcsVF6SMVzuq8mwHoZGkonXhN0D0fYeFqv52aVvqwNvq/q
- y4emEk855FKc6HwnLP9Tp4hPqKfJe4ItybjOliOMBvvbkzL6rBwtfSvPWWSBJeRih5xo
- b1NR6ueBvapAv4KBkUFDDrbagrBgTLnt5tD19GusiwO83kjwgtrgUhzxVxsC/JlIt5hR
- uqFA==
-X-Gm-Message-State: AOAM530JNkc8O79bItB1V86VlSQ/znj5Mnu6BFp6G7S7bpx/4fA5Le2j
- npWJcx7WfQGwHGcOuAMlJNy2tsJvPkxNMdgmeLSuUfWL
-X-Google-Smtp-Source: ABdhPJy96MMZLGxR/t0BKV3ll1VFiEwdRO31B0v6y5TF+XOojT6rb9/MSCUUr0+Sv/C1ya6N7gPTG1Wq52EIC1e0lmE=
-X-Received: by 2002:a9f:3e42:: with SMTP id c2mr4645017uaj.120.1629642990661; 
- Sun, 22 Aug 2021 07:36:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1mHoih-0005RB-Rs
+ for qemu-devel@nongnu.org; Sun, 22 Aug 2021 10:45:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50794)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1mHoid-0002Ia-UM
+ for qemu-devel@nongnu.org; Sun, 22 Aug 2021 10:45:07 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
+ [51.254.78.96])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 6BEAA61246;
+ Sun, 22 Aug 2021 14:45:01 +0000 (UTC)
+Received: from sofa.misterjones.org ([185.219.108.64] helo=hot-poop.lan)
+ by disco-boy.misterjones.org with esmtpsa (TLS1.3) tls
+ TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.94.2)
+ (envelope-from <maz@kernel.org>)
+ id 1mHoiZ-006VES-9H; Sun, 22 Aug 2021 15:44:59 +0100
+From: Marc Zyngier <maz@kernel.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] target/arm: Reduced-IPA space and highmem=off fixes
+Date: Sun, 22 Aug 2021 15:44:38 +0100
+Message-Id: <20210822144441.1290891-1-maz@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-From: Gautam Bhat <mindentropy@gmail.com>
-Date: Sun, 22 Aug 2021 20:06:19 +0530
-Message-ID: <CAM2a4uwQ0M=TmFdWaaO-E_2J06fpH1ghXhYJJKBP6s5j90ASLg@mail.gmail.com>
-Subject: Testing a microcontroller emulation by loading the binary on
- incomplete Flash emulation
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::92b;
- envelope-from=mindentropy@gmail.com; helo=mail-ua1-x92b.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_05=-0.5, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: qemu-devel@nongnu.org, drjones@redhat.com,
+ eric.auger@redhat.com, peter.maydell@linaro.org, kvmarm@lists.cs.columbia.edu,
+ kvm@vger.kernel.org, kernel-team@android.com
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
+ SAEximRunCond expanded to false
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,18 +62,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ kvm@vger.kernel.org, Eric Auger <eric.auger@redhat.com>,
+ kernel-team@android.com, kvmarm@lists.cs.columbia.edu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+With the availability of a fruity range of arm64 systems, it becomes
+obvious that QEMU doesn't deal very well with limited IPA ranges when
+used as a front-end for KVM.
 
-I am to implement a very simple microcontroller for my understanding
-of Qemu development. This microcontroller runs its code from
-programmable flash which is bit-, byte- and word addressable. To do
-some initial tests of my nascent microcontroller implementation I
-would like to load a very simple program binary. Is there a way to
-load this binary and start execution without emulating Flash
-controller and memory?
+This short series aims at making usable on such systems:
+- the first patch makes the creation of a scratch VM IPA-limit aware
+- the second one actually removes the highmem devices from the
+computed IPA range when highmem=off
+- the last one addresses an imprecision in the documentation for the
+highmem option
 
-Thanks.
+This has been tested on an M1-based Mac-mini running Linux v5.14-rc6.
+
+Marc Zyngier (3):
+  hw/arm/virt: KVM: Probe for KVM_CAP_ARM_VM_IPA_SIZE when creating
+    scratch VM
+  hw/arm/virt: Honor highmem setting when computing highest_gpa
+  docs/system/arm/virt: Fix documentation for the 'highmem' option
+
+ docs/system/arm/virt.rst |  6 +++---
+ hw/arm/virt.c            | 10 +++++++---
+ target/arm/kvm.c         |  7 ++++++-
+ 3 files changed, 16 insertions(+), 7 deletions(-)
+
+-- 
+2.30.2
+
 
