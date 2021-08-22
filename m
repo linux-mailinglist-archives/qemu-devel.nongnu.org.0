@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 011B13F3D8E
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Aug 2021 06:22:59 +0200 (CEST)
-Received: from localhost ([::1]:49264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6A8E3F3D76
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Aug 2021 06:09:32 +0200 (CEST)
+Received: from localhost ([::1]:47806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHf0X-00032A-2R
-	for lists+qemu-devel@lfdr.de; Sun, 22 Aug 2021 00:22:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42620)
+	id 1mHenb-0008Hk-Va
+	for lists+qemu-devel@lfdr.de; Sun, 22 Aug 2021 00:09:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mHeaV-0007vN-HB
+ id 1mHeaV-0007vO-QZ
  for qemu-devel@nongnu.org; Sat, 21 Aug 2021 23:56:01 -0400
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:37703)
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:43582)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mHeaT-0000ms-Qg
+ id 1mHeaU-0000od-BS
  for qemu-devel@nongnu.org; Sat, 21 Aug 2021 23:55:59 -0400
-Received: by mail-pf1-x429.google.com with SMTP id j187so12285048pfg.4
+Received: by mail-pl1-x630.google.com with SMTP id x1so5651601plg.10
  for <qemu-devel@nongnu.org>; Sat, 21 Aug 2021 20:55:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3QatqUyjS7CHgCtyFONtgHEY/7FxQllE+nDg9ups7ko=;
- b=iz8vs1+PcWM8L1AkElUcu+f1PNDJWq2iaAi+VwNiRvK5JNUUyFhQ7M1Dp8lZ0l5NdK
- lqZxN+jbc/h7x69ASlur86PmgiCJZRSEXtrAytkYR9oNtO8UvNZd1VZy6C7Q8wfjC1t6
- deor9HdXZww/KRGt0o7PcaFs/rV2SWgCee2XGHWEW57YeJuc2MKilJXd8edUc8DhPXeJ
- GEv5r8aMaWjv3dMrmaPyMUDfQNwlESSNUAXEPXNOCciCDJB0fWudNZ6oqcn53RMtRYGY
- kk4gIy6bkd6syoLZF0m60b9R2oqjqv06o7P6T7B6lZvSw1RTMvVen5UzMTnYvtl5lJsO
- ME8g==
+ bh=XrQegvQ52g51iXxP1ir/2vDYcsxCC4+2/9p/CuuRamw=;
+ b=eYaXYCpdmhTQzkbqpVAqtILN5KqU1JrfJYNZhTfR1lk9TQlIBqoPAslWSuyiavJQwD
+ HjYO7bMXTiUVJzkfWyKeR6iWQPTwrj/PxEpjDHxjrmsA8tLRFUQv8VcAmEV98jjW0cue
+ oMucg5rVDTGejNoIfBETnrtYiCOi/GfS4xO4U4syCUbkbwEWcZ8P2aKGsaaTRkDYl/RK
+ W36Vo4q58MOJN3ZfyUmDiM1rjmbfSX4i9N4VrxgIBLN7SvHRxDgiW8SB70WjQ4uLhfOQ
+ kSzqaw8EFbRbO8X9I5u4K05PFZexE5QjyDYTvSnRop61EOBEriLvLXH2APFx6NUxhoWn
+ h/Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3QatqUyjS7CHgCtyFONtgHEY/7FxQllE+nDg9ups7ko=;
- b=DVEK7TbLsqOV3Aqp4sV/ftEo9Th7K66Sm+w64lvN5KlfrnuWlBwvJK3fkvd5Q/HVCm
- 9qvQQs1j3uZGiPlEYYL35WtavFY1wNlKPTCmKvN8DrQ3qt5asbW1YavdcUzgJYENEWVE
- wNd5aJXf/epE3dQxGUVUoFdLpOzmzcNuYz751ccDw58TKqXLkOBKVxRlt2qs6beNUMMI
- wimx38vpFkEhY3kR8SM+ztHmj5l3IfulkKjrW4m3WQ2Kzc4mhqau5Cn+E1AmlACjFfbC
- /SnwGozJw9upAzoJFyKa4mLvg/xqO1pDdDysv6ROouVwuXMzpwRRB9P1tPHpwHwfZjMQ
- 0+BA==
-X-Gm-Message-State: AOAM5337mm1NvLLMeND9EzFpfvDk6QMZWSNtsmoUul57xkPf30OULfJz
- 3FgRAlLylpGAEJdjmXDr2FCmYZ0ubLZshA==
-X-Google-Smtp-Source: ABdhPJyS8imLASxHg9LuMcsvv5g+ukGPl0sEQNyPNZMf8Wixo4RzUgCtn4Ro9pvdK/6Gk4qog46UXw==
-X-Received: by 2002:a63:6705:: with SMTP id b5mr26238575pgc.69.1629604556350; 
- Sat, 21 Aug 2021 20:55:56 -0700 (PDT)
+ bh=XrQegvQ52g51iXxP1ir/2vDYcsxCC4+2/9p/CuuRamw=;
+ b=Ux0vsZVa3ZyZvJGjzTZzAe4Mvq4yquzpEPn60ekZ434nrc9B/NQGY6DXd+wyYpX4CA
+ bjT6Zzd+YNFc4wXBKM0UKh9QUiSFmPBYqEKiKjp2I1Sk/vwLC/FOCKMoRr8gDwb+kJAn
+ +5LdEipVdDdmhYPR9Nhu6/059ooqiQaL21NrOcdyQd1//533zQ2BhXnCAc2vk7W2Q8r5
+ NJS8ocEjMVWikWWhHuo/xWUbaj6Ym73gbzNMnVKkea4e0gyPGGs2liuVJrlptgycS7dS
+ dseGjALGamKiFDqgRCoNGCIy4+0PaiMT5R6nzABLItuTBy9lRNEgft9G7CMaKrdgogkO
+ +41g==
+X-Gm-Message-State: AOAM533AJXOTBxyn9CpXu8aKFIfLhLKK0PvBEOd1kR619pArvhWQaZdo
+ s0ETKhen8lzAGHxnX8GuS9P1Wq4/y9LqFA==
+X-Google-Smtp-Source: ABdhPJzSM2rtYEgNxQSWcCX/CvlTwJtUKE6OGyxbi8I4oywTQBZ2RfE4kQmwIGhg5e0CIeRn79rTpg==
+X-Received: by 2002:a17:90a:8005:: with SMTP id
+ b5mr637562pjn.190.1629604557070; 
+ Sat, 21 Aug 2021 20:55:57 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id x12sm11560533pfu.21.2021.08.21.20.55.55
+ by smtp.gmail.com with ESMTPSA id x12sm11560533pfu.21.2021.08.21.20.55.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Sat, 21 Aug 2021 20:55:56 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 27/30] linux-user/s390x: Use force_sig_fault,
+Subject: [PATCH v2 28/30] linux-user/sh4: Use force_sig_fault,
  force_sigsegv_for_addr
-Date: Sat, 21 Aug 2021 20:55:34 -0700
-Message-Id: <20210822035537.283193-28-richard.henderson@linaro.org>
+Date: Sat, 21 Aug 2021 20:55:35 -0700
+Message-Id: <20210822035537.283193-29-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210822035537.283193-1-richard.henderson@linaro.org>
 References: <20210822035537.283193-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,57 +93,49 @@ and calling queue_signal.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/s390x/cpu_loop.c | 16 +++++-----------
- 1 file changed, 5 insertions(+), 11 deletions(-)
+ linux-user/sh4/cpu_loop.c | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/linux-user/s390x/cpu_loop.c b/linux-user/s390x/cpu_loop.c
-index 6a69a6dd26..8287d3dfe8 100644
---- a/linux-user/s390x/cpu_loop.c
-+++ b/linux-user/s390x/cpu_loop.c
-@@ -21,6 +21,8 @@
+diff --git a/linux-user/sh4/cpu_loop.c b/linux-user/sh4/cpu_loop.c
+index 222ed1c670..0c3ec908e7 100644
+--- a/linux-user/sh4/cpu_loop.c
++++ b/linux-user/sh4/cpu_loop.c
+@@ -21,12 +21,13 @@
  #include "qemu-common.h"
  #include "qemu.h"
  #include "cpu_loop-common.h"
 +#include "signal-common.h"
 +
  
- /* s390x masks the fault address it reports in si_addr for SIGSEGV and SIGBUS */
- #define S390X_FAIL_ADDR_MASK -4096LL
-@@ -58,7 +60,6 @@ void cpu_loop(CPUS390XState *env)
+ void cpu_loop(CPUSH4State *env)
  {
      CPUState *cs = env_cpu(env);
-     int trapnr, n, sig;
+     int trapnr, ret;
 -    target_siginfo_t info;
-     target_ulong addr;
-     abi_long ret;
  
-@@ -110,11 +111,8 @@ void cpu_loop(CPUS390XState *env)
-                 goto do_signal_pc;
-             case PGM_PROTECTION:
-             case PGM_ADDRESSING:
--                sig = TARGET_SIGSEGV;
--                /* XXX: check env->error_code */
--                n = TARGET_SEGV_MAPERR;
--                addr = env->__excp_addr & S390X_FAIL_ADDR_MASK;
--                goto do_signal;
-+                force_sigsegv_for_addr(env->__excp_addr & S390X_FAIL_ADDR_MASK);
-+                break;
-             case PGM_EXECUTE:
-             case PGM_SPECIFICATION:
-             case PGM_SPECIAL_OP:
-@@ -157,11 +155,7 @@ void cpu_loop(CPUS390XState *env)
-              */
-             env->psw.addr += env->int_pgm_ilen;
-         do_signal:
--            info.si_signo = sig;
--            info.si_errno = 0;
--            info.si_code = n;
--            info._sifields._sigfault._addr = addr;
--            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-+            force_sig_fault(sig, n, addr);
+     while (1) {
+         bool arch_interrupt = true;
+@@ -58,18 +59,11 @@ void cpu_loop(CPUSH4State *env)
+             /* just indicate that signals should be handled asap */
              break;
- 
+         case EXCP_DEBUG:
+-            info.si_signo = TARGET_SIGTRAP;
+-            info.si_errno = 0;
+-            info.si_code = TARGET_TRAP_BRKPT;
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            force_sig_fault(TARGET_SIGTRAP, TARGET_TRAP_BRKPT, env->pc);
+             break;
+         case 0xa0:
+         case 0xc0:
+-            info.si_signo = TARGET_SIGSEGV;
+-            info.si_errno = 0;
+-            info.si_code = TARGET_SEGV_MAPERR;
+-            info._sifields._sigfault._addr = env->tea;
+-            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
++            force_sigsegv_for_addr(env->tea);
+             break;
          case EXCP_ATOMIC:
+             cpu_exec_step_atomic(cs);
 -- 
 2.25.1
 
