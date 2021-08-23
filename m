@@ -2,94 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F0A3F4859
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 12:12:31 +0200 (CEST)
-Received: from localhost ([::1]:45716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C6193F485A
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 12:13:14 +0200 (CEST)
+Received: from localhost ([::1]:47608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mI6wQ-00016r-Cj
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 06:12:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47306)
+	id 1mI6x7-0002SK-7E
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 06:13:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mI6v5-0000Nc-6l
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 06:11:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31865)
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1mI6vm-00013C-Hu
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 06:11:50 -0400
+Received: from proxmox-new.maurer-it.com ([94.136.29.106]:39968)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mI6v3-0001cg-Jq
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 06:11:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629713464;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ofd4z7iGVEftewma8eRQYs1rowRGm69RFE6moW5YvMs=;
- b=DTTzNJV0+pj3M+fCBx3/QPSPpcmK/BHDkaAIA0F/cURQ22GlU/Eod8FH7lZuPEI0Z/BPUa
- v7JtZVe5wMfQzckgWUXQ0jpzqHdUlwViWkKvPmrxuiWou6YUc1dFryLjrbwLMSylirjcRI
- +fcw7nbkOc2/a6h5csDC7z28ukS2bGk=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-543-KSJSTgRSMRiLH_yEyOvXCQ-1; Mon, 23 Aug 2021 06:11:03 -0400
-X-MC-Unique: KSJSTgRSMRiLH_yEyOvXCQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- u1-20020a05600c210100b002e74fc5af71so269386wml.1
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 03:11:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ofd4z7iGVEftewma8eRQYs1rowRGm69RFE6moW5YvMs=;
- b=DCqptpUp1iUlEAkCBb7DcsNpxlJXQRpr7a+c+BhGYUE0UY9Zs7Xv5GPKSo3JlfKqYo
- Q82QAXYyezRaZkQKpkAnd1UzTq2YmfHmIUIo5iQKde5LXI1y5uBtqT59ea1xRl+vFUAI
- W3kodeRV5xkzxO1/6sP5pc0mYpky2HN0vCYTHBUmSZS285AXR04MiGq6Wup07kXhYHBo
- au9nsX2itjOMBEeJFz6phtTcbik/fnTsXLSpfRhwng/MOHcmfLyaPPzdqWkFWdyJM4UT
- oZ0fJ/JjXI/2G1O/g4eyUhS5CxWf1rlL199AprO2SWeFQa1wPbeoPve0tEkdKVPzHecy
- ajGg==
-X-Gm-Message-State: AOAM531LUDXw7wQRk7W8h1JWAvf4STg25Xnx4zLqaQ1miC7QD4uoWrV6
- /uAcHcXMZsjDvpx9GokgyLg0hjkTVvW+TsPCGgsVyCI4Tr5BvbiBIz0mQSgCc34PA1aJkx9bZRo
- /HzGTgv1obKKzQ7g=
-X-Received: by 2002:a7b:c3d6:: with SMTP id t22mr15631679wmj.117.1629713462319; 
- Mon, 23 Aug 2021 03:11:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw33A1u1BVEV/5DZUH/6tQoZqbOWfgpguXBUj0s8eb018LrBnICZq95CZfUGvKjvFtUOqdLYw==
-X-Received: by 2002:a7b:c3d6:: with SMTP id t22mr15631653wmj.117.1629713462063; 
- Mon, 23 Aug 2021 03:11:02 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id l9sm14438253wrt.95.2021.08.23.03.11.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Aug 2021 03:11:01 -0700 (PDT)
-Subject: Re: [PATCH v3] memory: Have 'info mtree' remove duplicated Address
- Space information
-To: David Hildenbrand <david@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210823085429.597873-1-philmd@redhat.com>
- <8743192d-225d-c091-ab53-c747daa86f46@redhat.com>
- <CAFEAcA8ok3RL41upiYt3mUeuFc8Nr_HPsQ7h4HvEPM9VH3jmiw@mail.gmail.com>
- <499a2d67-9234-30ec-2645-4e0f77dc336b@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4b9f0f52-248c-c418-1df9-48ac4857a245@redhat.com>
-Date: Mon, 23 Aug 2021 12:11:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1mI6vj-0002DW-Py
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 06:11:50 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id AACDB43697;
+ Mon, 23 Aug 2021 12:11:36 +0200 (CEST)
+From: Stefan Reiter <s.reiter@proxmox.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Wolfgang Bumiller <w.bumiller@proxmox.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
+Subject: [PATCH] monitor/qmp: fix race with clients disconnecting early
+Date: Mon, 23 Aug 2021 12:11:15 +0200
+Message-Id: <20210823101115.2015354-1-s.reiter@proxmox.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <499a2d67-9234-30ec-2645-4e0f77dc336b@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.746,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.959, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=s.reiter@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,40 +53,245 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/23/21 11:35 AM, David Hildenbrand wrote:
-> On 23.08.21 11:28, Peter Maydell wrote:
->> On Mon, 23 Aug 2021 at 10:20, David Hildenbrand <david@redhat.com> wrote:
->>>
->>> On 23.08.21 10:54, Philippe Mathieu-Daudé wrote:
->>>> +static void mtree_print_as(gpointer key, gpointer value, gpointer
->>>> user_data)
->>>> +{
->>>> +    MemoryRegion *mr = key;
->>>> +    GSList *as_same_root_mr_list = value;
->>>> +    struct AddressSpaceInfo *asi = user_data;
->>>
->>> Reverse Christmas tree?
+From: Stefan Reiter <stefan@pimaker.at>
 
-I simply followed to order of the arguments as a no-brainer ;)
+The following sequence can produce a race condition that results in
+responses meant for different clients being sent to the wrong one:
 
->> This has never been part of the QEMU style guidelines
->> and I would oppose our adding it. It would gain us very little,
->> the codebase doesn't consistently follow that rule today so
->> it wouldn't be preserving an existing consistency of style,
->> and it would be yet another weird stylistic issue that trips
->> people up and requires patch repins.
+(QMP, no OOB)
+1) client A connects
+2) client A sends 'qmp_capabilities'
+3) 'qmp_dispatch' runs in coroutine, schedules out to
+   'do_qmp_dispatch_bh' and yields
+4) client A disconnects (i.e. aborts, crashes, etc...)
+5) client B connects
+6) 'do_qmp_dispatch_bh' runs 'qmp_capabilities' and wakes calling coroutine
+7) capabilities are now set and 'mon->commands' is set to '&qmp_commands'
+8) 'qmp_dispatch' returns to 'monitor_qmp_dispatch'
+9) success message is sent to client B *without it ever having sent
+   'qmp_capabilities' itself*
+9a) even if client B ignores it, it will now presumably send it's own
+   greeting, which will error because caps are already set
 
-(in this particular case I've to respin for a typo).
+The fix proposed here uses an atomic, sequential connection number
+stored in the MonitorQMP struct, which is incremented every time a new
+client connects. Since it is not changed on CHR_EVENT_CLOSED, the
+behaviour of allowing a client to disconnect only one side of the
+connection is retained.
 
-> Ah right, it used very inconsistently in the QEMU codebase and even in
-> this file (I spotted it's the case in the entry of mtree_info() and
-> wondered if it's the case for this file -- turns out it's absolutely not).
+The connection_nr needs to be exposed outside of the monitor subsystem,
+since qmp_dispatch lives in qapi code. It needs to be checked twice,
+once for actually running the command in the BH (fixes 7/9a), and once for
+sending back a response (fixes 9).
+
+This satisfies my local reproducer - using multiple clients constantly
+looping to open a connection, send the greeting, then exiting no longer
+crashes other, normally behaving clients with unrelated responses.
+
+Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+---
+
+This is another patch in the apparently never-ending series of fixes to
+QMP-related race conditions. Our PVE users really seem to have a knack for
+triggering these ;)
+
+Here's one of the (several) forum threads where we tried to diagnose the issue:
+https://forum.proxmox.com/threads/error-with-backup-when-backing-up-qmp-command-query-backup-failed-got-wrong-command-id.88017/
+
+It manifested itself under load, where sometimes our monitor code (which uses
+the 'id' system of QMP to track commands) would receive bogus responses, showing
+up as "got wrong command id" errors in our logs.
+
+I'm not sure this approach is the best fix, it seems a lot like a band-aid to
+me, but it's the best I could come up with for now - open for different ideas of
+course.
+
+Note that with this patch, we're no longer running a command that was scheduled
+after a client has disconnected early. This seems like a slight behaviour change
+to me... On the other hand, I didn't want to drag the connection number into
+qmp_capabilities() and special case that even further.
+
+I didn't look to deeply into 'QMP in iothread' yet, if that does what I think it
+does there might be two more potential races here:
+* between 'do_qmp_dispatch_bh' running 'aio_co_wake' and 'qmp_dispatch' actually
+  yielding (very unlikely though)
+* plus a TOCTOU in 'do_qmp_dispatch_bh' with the atomic read of the
+  connection_nr and actually running cmd->fn()
+
+Thanks!
+
+
+ include/monitor/monitor.h  |  1 +
+ monitor/monitor-internal.h |  7 +++++++
+ monitor/monitor.c          | 15 +++++++++++++++
+ monitor/qmp.c              | 15 ++++++++++++++-
+ qapi/qmp-dispatch.c        | 21 +++++++++++++++++----
+ stubs/monitor-core.c       |  5 +++++
+ 6 files changed, 59 insertions(+), 5 deletions(-)
+
+diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
+index af3887bb71..ff6db1448b 100644
+--- a/include/monitor/monitor.h
++++ b/include/monitor/monitor.h
+@@ -16,6 +16,7 @@ extern QemuOptsList qemu_mon_opts;
+ Monitor *monitor_cur(void);
+ Monitor *monitor_set_cur(Coroutine *co, Monitor *mon);
+ bool monitor_cur_is_qmp(void);
++int monitor_get_connection_nr(const Monitor *mon);
+ 
+ void monitor_init_globals(void);
+ void monitor_init_globals_core(void);
+diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
+index 9c3a09cb01..a92be8c3f7 100644
+--- a/monitor/monitor-internal.h
++++ b/monitor/monitor-internal.h
+@@ -144,6 +144,13 @@ typedef struct {
+     QemuMutex qmp_queue_lock;
+     /* Input queue that holds all the parsed QMP requests */
+     GQueue *qmp_requests;
++
++    /*
++     * A sequential number that gets incremented on every new CHR_EVENT_OPENED.
++     * Used to avoid leftover responses in BHs from being sent to the wrong
++     * client. Access with atomics.
++     */
++    int connection_nr;
+ } MonitorQMP;
+ 
+ /**
+diff --git a/monitor/monitor.c b/monitor/monitor.c
+index 636bcc81c5..ee5ac26c37 100644
+--- a/monitor/monitor.c
++++ b/monitor/monitor.c
+@@ -136,6 +136,21 @@ bool monitor_cur_is_qmp(void)
+     return cur_mon && monitor_is_qmp(cur_mon);
+ }
+ 
++/**
++ * If @mon is a QMP monitor, return the connection_nr, otherwise -1.
++ */
++int monitor_get_connection_nr(const Monitor *mon)
++{
++    MonitorQMP *qmp_mon;
++
++    if (!monitor_is_qmp(mon)) {
++        return -1;
++    }
++
++    qmp_mon = container_of(mon, MonitorQMP, common);
++    return qatomic_read(&qmp_mon->connection_nr);
++}
++
+ /**
+  * Is @mon is using readline?
+  * Note: not all HMP monitors use readline, e.g., gdbserver has a
+diff --git a/monitor/qmp.c b/monitor/qmp.c
+index 0ef7cebb78..3ec67e32d3 100644
+--- a/monitor/qmp.c
++++ b/monitor/qmp.c
+@@ -141,6 +141,8 @@ static void monitor_qmp_dispatch(MonitorQMP *mon, QObject *req)
+     QDict *rsp;
+     QDict *error;
+ 
++    int conn_nr_before = qatomic_read(&mon->connection_nr);
++
+     rsp = qmp_dispatch(mon->commands, req, qmp_oob_enabled(mon),
+                        &mon->common);
+ 
+@@ -156,7 +158,17 @@ static void monitor_qmp_dispatch(MonitorQMP *mon, QObject *req)
+         }
+     }
+ 
+-    monitor_qmp_respond(mon, rsp);
++    /*
++     * qmp_dispatch might have yielded and waited for a BH, in which case there
++     * is a chance a new client connected in the meantime - if this happened,
++     * the command will not have been executed, but we also need to ensure that
++     * we don't send back a corresponding response on a line that no longer
++     * belongs to this request.
++     */
++    if (conn_nr_before == qatomic_read(&mon->connection_nr)) {
++        monitor_qmp_respond(mon, rsp);
++    }
++
+     qobject_unref(rsp);
+ }
+ 
+@@ -444,6 +456,7 @@ static void monitor_qmp_event(void *opaque, QEMUChrEvent event)
+ 
+     switch (event) {
+     case CHR_EVENT_OPENED:
++        qatomic_inc_fetch(&mon->connection_nr);
+         mon->commands = &qmp_cap_negotiation_commands;
+         monitor_qmp_caps_reset(mon);
+         data = qmp_greeting(mon);
+diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+index 59600210ce..95602446eb 100644
+--- a/qapi/qmp-dispatch.c
++++ b/qapi/qmp-dispatch.c
+@@ -120,16 +120,28 @@ typedef struct QmpDispatchBH {
+     QObject **ret;
+     Error **errp;
+     Coroutine *co;
++    int conn_nr;
+ } QmpDispatchBH;
+ 
+ static void do_qmp_dispatch_bh(void *opaque)
+ {
+     QmpDispatchBH *data = opaque;
+ 
+-    assert(monitor_cur() == NULL);
+-    monitor_set_cur(qemu_coroutine_self(), data->cur_mon);
+-    data->cmd->fn(data->args, data->ret, data->errp);
+-    monitor_set_cur(qemu_coroutine_self(), NULL);
++    /*
++     * A QMP monitor tracks it's client with a connection number, if this
++     * changes during the scheduling delay of this BH, we must not execute the
++     * command. Otherwise a badly placed 'qmp_capabilities' might affect the
++     * connection state of a client it was never meant for.
++     */
++    if (data->conn_nr == monitor_get_connection_nr(data->cur_mon)) {
++        assert(monitor_cur() == NULL);
++        monitor_set_cur(qemu_coroutine_self(), data->cur_mon);
++        data->cmd->fn(data->args, data->ret, data->errp);
++        monitor_set_cur(qemu_coroutine_self(), NULL);
++    } else {
++        error_setg(data->errp, "active monitor connection changed");
++    }
++
+     aio_co_wake(data->co);
+ }
+ 
+@@ -243,6 +255,7 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+             .ret        = &ret,
+             .errp       = &err,
+             .co         = qemu_coroutine_self(),
++            .conn_nr    = monitor_get_connection_nr(cur_mon),
+         };
+         aio_bh_schedule_oneshot(qemu_get_aio_context(), do_qmp_dispatch_bh,
+                                 &data);
+diff --git a/stubs/monitor-core.c b/stubs/monitor-core.c
+index d058a2a00d..3290b58120 100644
+--- a/stubs/monitor-core.c
++++ b/stubs/monitor-core.c
+@@ -13,6 +13,11 @@ Monitor *monitor_set_cur(Coroutine *co, Monitor *mon)
+     return NULL;
+ }
+ 
++int monitor_get_connection_nr(const Monitor *mon)
++{
++    return -1;
++}
++
+ void monitor_init_qmp(Chardev *chr, bool pretty, Error **errp)
+ {
+ }
+-- 
+2.30.2
+
 
 
