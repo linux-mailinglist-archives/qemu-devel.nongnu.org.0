@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A433F4FC0
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 19:44:13 +0200 (CEST)
-Received: from localhost ([::1]:45082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 606EA3F4FB8
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 19:41:39 +0200 (CEST)
+Received: from localhost ([::1]:38642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIDzY-00050I-BF
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 13:44:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59656)
+	id 1mIDwz-0000Ji-Dc
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 13:41:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tongh@xilinx.com>)
- id 1mIDu4-0006SA-Pu; Mon, 23 Aug 2021 13:38:32 -0400
-Received: from mail-dm6nam12on2061.outbound.protection.outlook.com
- ([40.107.243.61]:60762 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ id 1mIDu4-0006Ro-66; Mon, 23 Aug 2021 13:38:32 -0400
+Received: from mail-bn8nam11on2076.outbound.protection.outlook.com
+ ([40.107.236.76]:9761 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <tongh@xilinx.com>)
- id 1mIDu1-0001yC-6M; Mon, 23 Aug 2021 13:38:32 -0400
+ id 1mIDu1-0001yE-5z; Mon, 23 Aug 2021 13:38:31 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lNPtx46kvh8ZgGgM0bqV6fVJnXpE3mfUDQOIKSeWRPVyaXc6ksFBvCsZgAbUxs3S+XdFn2VGINwSwXm0byylTsHsaNcjc/ada+sI3V2ccEMizs6aHTbSjVsXhjQZlSXxWL7MO5V7XrLyOppmSwvhtXOK3DqVPVIitQH4/4A6ye6COqzRPAXs1ZnxdSI5zE59LSX+syGb+2rpok9jKhnKn0f/2tJ5D6ZsomwnEzBYiCoz2Owg9FaO54XMmvjEBCic0mIdiz7Gt/pwKOlmYSdsWa0/Y4qFzs/4uI4kPPsfM5vJ73rn8Q81+RSwZVQZJZIN6DWEscn9tuk5L/TIMh5SgQ==
+ b=kSUzzWoqTC1QLfcmuvLtf419JjxIEzVF9gUgFi5ZTFDI+Fvkfk4yFo1ZW7eo1rVtKvlyKsvV1sfLhSiesNhl+a3My5tyGpmUXILMSFQ6VmTNHgADGynib/ca7N7ps5F9UZ1ixx8R+srpbMUEFWxR1nXNWIWF4a5y7slkdMXUdfiH6TOuyk/cSSSUpu8aRTQXwj/4e0qTAYtWPHIzSZ6K3oACYuXOv37Ssv58870yBiT5MkmGXDycy9RtgWbdLbqy6sUDTyy0K4dOzPdeGdr64p5FzI7IQXCxRCw9DprQJG/ekS6oeJPSU09poZ+73554IlsGbEdP7TWikxn4T8Zhyg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IxZm/70W0ZxyXNAnNhiHgcnZbZJug/5O730cof//fQc=;
- b=OOjKq3ixqGsNHrvEvwUSOW/MITRFhZycuwZxKCAahczYxi+slXFMbOrxdaUhgqMIIbpr+IuDZASEWKGfg+zSB5XainvQO4FdPr4bn3BmkSCNGZSx078UAETlQrQiKuDUIglfZK19gwwvZlTSyF16LnfeoMpd7FMFl8k6Oi4wq3DlNegVHlHN4mGf3QnJxu5CT06+1i7KGPyiTrhadD4jFYtsZFiEpP/GdyPtxQVWD7dHk3gAUdNcAkXOalJbMTss2V8MiqglDnOmG2LgoMFpr1DddzAjuR8O7EHYEfu4otRmGd5Ou+3/Yms036I27tcbCBY/xZRbUPwCpC3VRw+faQ==
+ bh=72ivKOLNd+udtGEHNOqwnEyegz8NasPXRnfXRh6aeN4=;
+ b=I+cuxQm5m7i4lnan77qWSsEG+6FddkOGr4hQIOhIU/67ZWUg8A+weoyWznFHq7oeqo4cyygpazbYLOi4kQqfTZRNmAlAynUVJhae1o9YLdcjyhZGX3WWfShlPTdwzyo01aGasVJVpcfF/cVmOhV9GM95y2abTUC3m+eoE1BPKt6NrQUbSUQPRkUfTZEL8JBqFhUpsZDz2aOUsPgEvu1RYaoDX+WEDuM/xLyU7eHoLldOrNIfPVM5wftySyQyvr7cB8zSrF6YjSYbOwt/jm//1bEsZ8smfLBsPi9PO9SbYQHMOjJIr7TZ2aHNmg8yXSgKMBoSnaNZuh7gC5sLZNFa/Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
@@ -32,16 +32,15 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IxZm/70W0ZxyXNAnNhiHgcnZbZJug/5O730cof//fQc=;
- b=jbwl51jppVN/rS2cWGZV7sXJEdbUD5HW84i6ii7mfRk6c1Qb9/TY2Rdz1ovyzjuf/3OHTJ49lfNDriMqwm08nS97dXRdZWUCynG0Lhklg+5fjICdDdGqiD7PXtZX7Tb/gTQZEGpqVuAi5zKztyiHL5gv8LeeS0f7jLvLcpy2z0g=
-Received: from SN6PR08CA0002.namprd08.prod.outlook.com (2603:10b6:805:66::15)
- by DM6PR02MB6668.namprd02.prod.outlook.com (2603:10b6:5:21f::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Mon, 23 Aug
- 2021 17:38:21 +0000
-Received: from SN1NAM02FT0019.eop-nam02.prod.protection.outlook.com
- (2603:10b6:805:66:cafe::12) by SN6PR08CA0002.outlook.office365.com
- (2603:10b6:805:66::15) with Microsoft SMTP Server (version=TLS1_2,
+ bh=72ivKOLNd+udtGEHNOqwnEyegz8NasPXRnfXRh6aeN4=;
+ b=OpDyaj7li3bhUWglruQsYEp0bBKoEMCLFec7bXkJDrChfteGSl7FMKMFxN4TAoODXqUedb7H3qDmSGhTal+TYDA9ZQn4Wia0p8X71dkyMvdGFPjHqqQoek+8jFlkXBI1L86d3pa3kHV+TBx5bpi478nGFheI4+1xwznI/lKgUmU=
+Received: from SN2PR01CA0056.prod.exchangelabs.com (2603:10b6:800::24) by
+ SN1PR02MB3822.namprd02.prod.outlook.com (2603:10b6:802:31::32) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4436.19; Mon, 23 Aug 2021 17:38:21 +0000
+Received: from SN1NAM02FT0052.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:800:0:cafe::55) by SN2PR01CA0056.outlook.office365.com
+ (2603:10b6:800::24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend
  Transport; Mon, 23 Aug 2021 17:38:21 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
@@ -49,13 +48,13 @@ X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
  header.d=none;nongnu.org; dmarc=pass action=none header.from=xilinx.com;
 Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- SN1NAM02FT0019.mail.protection.outlook.com (10.97.4.209) with Microsoft SMTP
+ client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
+Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
+ SN1NAM02FT0052.mail.protection.outlook.com (10.97.5.70) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.20.4436.19 via Frontend Transport; Mon, 23 Aug 2021 17:38:21 +0000
 Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.1.2176.14; Mon, 23 Aug 2021 10:38:19 -0700
 Received: from smtp.xilinx.com (172.19.127.95) by
@@ -64,12 +63,12 @@ Received: from smtp.xilinx.com (172.19.127.95) by
 Received: from [172.19.2.40] (port=46968 helo=xsjtongh40.xilinx.com)
  by smtp.xilinx.com with esmtp (Exim 4.90)
  (envelope-from <tong.ho@xilinx.com>)
- id 1mIDtq-0006Cc-VI; Mon, 23 Aug 2021 10:38:18 -0700
+ id 1mIDtq-0006Cc-W2; Mon, 23 Aug 2021 10:38:19 -0700
 From: Tong Ho <tong.ho@xilinx.com>
 To: <qemu-arm@nongnu.org>
-Subject: [Patch v2 1/2] hw/arm/xlnx-versal: Add unimplemented APU mmio
-Date: Mon, 23 Aug 2021 10:38:17 -0700
-Message-ID: <20210823173818.201259-2-tong.ho@xilinx.com>
+Subject: [Patch v2 2/2] hw/arm/xlnx-zynqmp: Add unimplemented APU mmio
+Date: Mon, 23 Aug 2021 10:38:18 -0700
+Message-ID: <20210823173818.201259-3-tong.ho@xilinx.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210823173818.201259-1-tong.ho@xilinx.com>
 References: <20210823173818.201259-1-tong.ho@xilinx.com>
@@ -78,32 +77,32 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d5f95393-53a4-4b17-065a-08d9665ccd08
-X-MS-TrafficTypeDiagnostic: DM6PR02MB6668:
-X-Microsoft-Antispam-PRVS: <DM6PR02MB6668C842F4062E46D12C809CCDC49@DM6PR02MB6668.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 2e98570d-68a1-4dcf-dae3-08d9665cccef
+X-MS-TrafficTypeDiagnostic: SN1PR02MB3822:
+X-Microsoft-Antispam-PRVS: <SN1PR02MB3822D4442A46E59986565F65CDC49@SN1PR02MB3822.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:494;
+X-MS-Oob-TLC-OOBClassifiers: OLM:229;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kykgiwQSZ2Y7qT586EtECzPypJVztv3nAkgob/vsUHr7N3CyPJvE4TpCFwnv3d/LXkOEABacjvstcARBbDwx2lwEgVyuv3/t4odUejHiyYn2FsnTdAmzCA38A36BOwhgqH47nnyNt0Maw19mkdc4/LM5d1p2yDR44RNAh3Mq7DusIF5gww+dugbVHPF4SgN9xWnr1NfipVmhHn2H+iLGmD4d+JHhnDxdcZa0DOm3vZaW51Ez3fFxIPQY9fauuqC3od2mOT28SJAtNnvBk/bqsR556E1xZZfiCumluuP+o0ZCLtHEIPwqIJ6AIY4mSJUUxYCMQehtIJWsId0MZm9t5g5JhTGjKY6pZssRQOqwq88eOgKt4pqA/mUaRDkkvPhYCOIHAEvJfuhdk59EzDmHNuDUMtaKfMoSQQM72FvLm1axIPnZwCFDsmPzZ4ugJgZVt1xZ+3Ye8dxVCoaaEO1NjPI0E/VcC46h41pL8rYzPtR1ECOuD6ATAqIm1McqgxuV6DZkm7oNYgRCdt+TsMJg/D93ptvTN1bdFMTAiNPjuUrp4ItP0tQlT4O+hg/Ejfu851ifshWQX4A79gMQCgkr6SOMhTndtRxAe0qhRVKopdWXT7qcPARVzArVB8P5hksCEdtPp1vYG1cYBmUy/VTvblKjqS6+KSAuBOpBXZNsCR1I0WeD1Yro+YlIaKPlQ97s/+MzR1iQhlNZiTShyubaDpN6hzjylga4sUIPrXnMZVMnkkjbhFVRJ4Vi/oDlxe6p3CQaXMTkFnvLZ8y5nK9WB8obskxQtDyUl5ikLTNhxHB7PiPEd0I5ocgrmAUG2IsIUSTHJe7tm3WM408s6nO4eurC58bAW3CvkTAh3PexP4Q=
+X-Microsoft-Antispam-Message-Info: +fI80m8t7JdlXL7tEJXy4yNjxAUjR0EgJXpodvkhlQvZ4OrFpgxxDC4ESeVe3x1vIbbHULK/RoxPgwNmqd83LZsrKI0m4E18rvtJ1JtxLbcbQt6Ew4WrlCQyQTMlEh6vJsQ4RkeNmZgqDM9spdb44vpg8eY1JWVjKEOwfqEI++W7WQ59/lbKL1awF0Cn3Vj+QtMgYP8y/2qPtd0BOTgV2SiMYAcItJIN70hlvdp0bzL1PSikPxlDO5UN116AKR/NZQulhhqVJ56/lLoPh2SoUaRSf3IvZpCiOoZAMhsQs3tVWGSAS2t+jclKueX4zyiebKoP0I2YUnx2HMGSL0i6BzBki8VVYSm5mkSF0qrn6ynLy4r22BV3clDbjw+81r+P2WcaLKuthQi3+gRUq/9idE+kK4GqlmmUINLVzpCGOnOoHlpOvSxc7X3y1p9p7PdOnELrbKDp0Sv5pxMtgRiFOremqphjUgD4gyosiq9JYHsO4eD/Eq44aoKFToMWgd7X7JDgSlRWDMM/f8Os99VjT1JhlQSZsirhNVMgiFe0LkqWzI1S2aLkuzTbqnqGrSw4IgAp3QjoWaMHuPZqqVWptZymwI85wU/2k49cfflquVS7ThC5S6065nrgBNtrFsyNxYKIvwO46zsCRY1S0qpy+5fpuOV2+csXdUWq/6A9VUho16MmlthVKisrKBgyhJsuKEkrj3JL9osbEUgwJ6vFKqrVnbh42VJWEQUrXYGXkMwzOlEe/j3OfVx/Ajn1SzpHha9Nz1beqdN+pIQDPYcQ+zJGGekyjdB55aCmFswdnxNTPNGSI4VM5/yO4kY67geEnIz9Fi/Z/HeHTpeqInn8T/WYrUv2JcmNB2mGn7Ptt34=
 X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
  PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(136003)(376002)(346002)(39860400002)(396003)(46966006)(36840700001)(26005)(36860700001)(1076003)(54906003)(426003)(336012)(70586007)(4326008)(6916009)(8676002)(7636003)(83380400001)(7696005)(9786002)(8936002)(36906005)(70206006)(966005)(356005)(478600001)(2906002)(44832011)(186003)(82310400003)(2616005)(5660300002)(316002)(82740400003)(47076005)(36756003)(102446001);
+ SFS:(4636009)(36840700001)(46966006)(6916009)(70206006)(36860700001)(82310400003)(966005)(2906002)(316002)(186003)(70586007)(356005)(54906003)(36906005)(8936002)(36756003)(7636003)(8676002)(7696005)(44832011)(5660300002)(508600001)(2616005)(1076003)(336012)(83380400001)(47076005)(26005)(4326008)(9786002)(426003)(102446001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2021 17:38:21.1705 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5f95393-53a4-4b17-065a-08d9665ccd08
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2021 17:38:21.0121 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e98570d-68a1-4dcf-dae3-08d9665cccef
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT0019.eop-nam02.prod.protection.outlook.com
+ Helo=[xsj-pvapexch02.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT0052.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB6668
-Received-SPF: pass client-ip=40.107.243.61; envelope-from=tongh@xilinx.com;
- helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR02MB3822
+Received-SPF: pass client-ip=40.107.236.76; envelope-from=tongh@xilinx.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -127,7 +126,7 @@ Cc: peter.maydell@linaro.org, alistair@alistair23.me, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add unimplemented APU mmio region to xlnx-versal for booting
+Add unimplemented APU mmio region to xlnx-zynqmp for booting
 bare-metal guests built with standalone bsp, which access the
 region from one of the following places:
   https://github.com/Xilinx/embeddedsw/blob/release-2020.2/lib/bsp/standalone/src/arm/ARMv8/64bit/armclang/boot.S#L139
@@ -137,36 +136,99 @@ Acked-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Tong Ho <tong.ho@xilinx.com>
 ---
- hw/arm/xlnx-versal.c         | 2 ++
- include/hw/arm/xlnx-versal.h | 2 ++
- 2 files changed, 4 insertions(+)
+ hw/arm/xlnx-zynqmp.c         | 32 ++++++++++++++++++++++++++++++++
+ include/hw/arm/xlnx-zynqmp.h |  7 +++++++
+ 2 files changed, 39 insertions(+)
 
-diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-index fb776834f7..cb6ec0a4a0 100644
---- a/hw/arm/xlnx-versal.c
-+++ b/hw/arm/xlnx-versal.c
-@@ -376,6 +376,8 @@ static void versal_unimp(Versal *s)
-                         MM_CRL, MM_CRL_SIZE);
-     versal_unimp_area(s, "crf", &s->mr_ps,
-                         MM_FPD_CRF, MM_FPD_CRF_SIZE);
-+    versal_unimp_area(s, "apu", &s->mr_ps,
-+                        MM_FPD_FPD_APU, MM_FPD_FPD_APU_SIZE);
-     versal_unimp_area(s, "crp", &s->mr_ps,
-                         MM_PMC_CRP, MM_PMC_CRP_SIZE);
-     versal_unimp_area(s, "iou-scntr", &s->mr_ps,
-diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
-index 22a8fa5d11..9b79051747 100644
---- a/include/hw/arm/xlnx-versal.h
-+++ b/include/hw/arm/xlnx-versal.h
-@@ -167,6 +167,8 @@ struct Versal {
- #define MM_IOU_SCNTRS_SIZE          0x10000
- #define MM_FPD_CRF                  0xfd1a0000U
- #define MM_FPD_CRF_SIZE             0x140000
-+#define MM_FPD_FPD_APU              0xfd5c0000
-+#define MM_FPD_FPD_APU_SIZE         0x100
+diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
+index 3597e8db4d..fb70204662 100644
+--- a/hw/arm/xlnx-zynqmp.c
++++ b/hw/arm/xlnx-zynqmp.c
+@@ -20,6 +20,7 @@
+ #include "qemu/module.h"
+ #include "hw/arm/xlnx-zynqmp.h"
+ #include "hw/intc/arm_gic_common.h"
++#include "hw/misc/unimp.h"
+ #include "hw/boards.h"
+ #include "sysemu/kvm.h"
+ #include "sysemu/sysemu.h"
+@@ -56,6 +57,9 @@
+ #define DPDMA_ADDR          0xfd4c0000
+ #define DPDMA_IRQ           116
  
- #define MM_PMC_SD0                  0xf1040000U
- #define MM_PMC_SD0_SIZE             0x10000
++#define APU_ADDR            0xfd5c0000
++#define APU_SIZE            0x100
++
+ #define IPI_ADDR            0xFF300000
+ #define IPI_IRQ             64
+ 
+@@ -222,6 +226,32 @@ static void xlnx_zynqmp_create_rpu(MachineState *ms, XlnxZynqMPState *s,
+     qdev_realize(DEVICE(&s->rpu_cluster), NULL, &error_fatal);
+ }
+ 
++static void xlnx_zynqmp_create_unimp_mmio(XlnxZynqMPState *s)
++{
++    static const struct UnimpInfo {
++        const char *name;
++        hwaddr base;
++        hwaddr size;
++    } unimp_areas[ARRAY_SIZE(s->mr_unimp)] = {
++        { .name = "apu", APU_ADDR, APU_SIZE },
++    };
++    unsigned int nr;
++
++    for (nr = 0; nr < ARRAY_SIZE(unimp_areas); nr++) {
++        const struct UnimpInfo *info = &unimp_areas[nr];
++        DeviceState *dev = qdev_new(TYPE_UNIMPLEMENTED_DEVICE);
++        SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
++
++        assert(info->name && info->base && info->size > 0);
++        qdev_prop_set_string(dev, "name", info->name);
++        qdev_prop_set_uint64(dev, "size", info->size);
++        object_property_add_child(OBJECT(s), info->name, OBJECT(dev));
++
++        sysbus_realize_and_unref(sbd, &error_fatal);
++        sysbus_mmio_map(sbd, 0, info->base);
++    }
++}
++
+ static void xlnx_zynqmp_init(Object *obj)
+ {
+     MachineState *ms = MACHINE(qdev_get_machine());
+@@ -616,6 +646,8 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->rtc), 0, RTC_ADDR);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->rtc), 0, gic_spi[RTC_IRQ]);
+ 
++    xlnx_zynqmp_create_unimp_mmio(s);
++
+     for (i = 0; i < XLNX_ZYNQMP_NUM_GDMA_CH; i++) {
+         if (!object_property_set_uint(OBJECT(&s->gdma[i]), "bus-width", 128,
+                                       errp)) {
+diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
+index d3e2ef97f6..c84fe15996 100644
+--- a/include/hw/arm/xlnx-zynqmp.h
++++ b/include/hw/arm/xlnx-zynqmp.h
+@@ -79,6 +79,11 @@ OBJECT_DECLARE_SIMPLE_TYPE(XlnxZynqMPState, XLNX_ZYNQMP)
+ #define XLNX_ZYNQMP_MAX_RAM_SIZE (XLNX_ZYNQMP_MAX_LOW_RAM_SIZE + \
+                                   XLNX_ZYNQMP_MAX_HIGH_RAM_SIZE)
+ 
++/*
++ * Unimplemented mmio regions needed to boot some images.
++ */
++#define XLNX_ZYNQMP_NUM_UNIMP_AREAS 1
++
+ struct XlnxZynqMPState {
+     /*< private >*/
+     DeviceState parent_obj;
+@@ -96,6 +101,8 @@ struct XlnxZynqMPState {
+     MemoryRegion *ddr_ram;
+     MemoryRegion ddr_ram_low, ddr_ram_high;
+ 
++    MemoryRegion mr_unimp[XLNX_ZYNQMP_NUM_UNIMP_AREAS];
++
+     CadenceGEMState gem[XLNX_ZYNQMP_NUM_GEMS];
+     CadenceUARTState uart[XLNX_ZYNQMP_NUM_UARTS];
+     XlnxZynqMPCANState can[XLNX_ZYNQMP_NUM_CAN];
 -- 
 2.25.1
 
