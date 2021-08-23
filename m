@@ -2,72 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 716503F5367
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 00:36:19 +0200 (CEST)
-Received: from localhost ([::1]:34164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFF313F5361
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 00:28:32 +0200 (CEST)
+Received: from localhost ([::1]:57944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIIYD-0007jY-OX
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 18:36:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42692)
+	id 1mIIQg-0004CF-VA
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 18:28:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1mIIXL-0006y1-77
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 18:35:23 -0400
-Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b]:39666)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1mIIXJ-0005D7-J3
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 18:35:22 -0400
-Received: by mail-ot1-x32b.google.com with SMTP id
- m7-20020a9d4c87000000b0051875f56b95so40624715otf.6
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 15:35:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=R7ktUvg5r97nqSMVHOdi3lwmVaZWSTvCueL6N3SYN8o=;
- b=kqCnqin+6I/mh/JGuUuzbVUBFlLr4wnpzHKRzNFIK2glFr3STJzQpf+t3GPsymjWhs
- iT/d+SKe7G7MIumMzG9M+7FrOTiw56riZFEVMxgcoybvIAe/+D1ebCvrCAH3FSFMb4yo
- dZKR4qKTxXQddBsuR6O2VEPqUvRV11BdVyOm3ssBVx7Lngdj0xMhUslNz3ywkJpGGYbc
- Cdz2jmowDYnyTDx7kUmmSHymqtvyaTndNpwFRzFMFxKoYWwx6SuMBGhk/P1a0C7oI0sg
- SPo7jhlY9WokSjcWrpYV+S3Ykk6jcv0Idfx8YyUzPUSJSjLnWUeqly3Pu7kap1bdc1Jc
- Vgyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=R7ktUvg5r97nqSMVHOdi3lwmVaZWSTvCueL6N3SYN8o=;
- b=DhjHPFig1ze4kJjkburP8IWZwYKBBmfXje/Pp62Q5Onqrt35OUmWqKIgBIoaxEx0A+
- Yw2YW0gGDSUMYQADAoVwwBUiIY745Xiiu371zMay8v9RysW86xfuFK10DSqhNbTymD35
- aUToMxebcA10nH2SbZ0Ksu2LLJNzGuDicJmeYpothVwnY2tRCxwg1Snh+xTYADOwTxe4
- 9u4Um7UltAl9B1pLXmHjUTgPwkEei9SBNcfkoH/wI8P+pymci7MZZYEqDcKSO3dC6zZe
- PCYMz0KPfKVAfzUesL863qgVXwG2/rSk3NMHKOc+nFAKbFUcjZEiEH9Z+/YbJ2WHmpiz
- P5RQ==
-X-Gm-Message-State: AOAM533lKlgx8hJOcMbYDoyW5MErD2ShswVHKFgeXHJ5VGsL7lBTLwcX
- NvDCHA+8GUMDYWfbNUjmoDg5hNz9C9o=
-X-Google-Smtp-Source: ABdhPJwUXhfrKbrZLsPCF/5BXM7e40qGoZSYEm91Kj681cvQJ/I+6Tej1kGtfRNm/b0nixS+8nV1ww==
-X-Received: by 2002:a17:90a:bc47:: with SMTP id t7mr757067pjv.19.1629756496989; 
- Mon, 23 Aug 2021 15:08:16 -0700 (PDT)
-Received: from localhost.localdomain ([120.138.13.180])
- by smtp.gmail.com with ESMTPSA id j21sm16217454pfj.66.2021.08.23.15.08.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Aug 2021 15:08:16 -0700 (PDT)
-From: G S Niteesh Babu <niteesh.gs@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 5/5] python/aqmp-tui: Add syntax highlighting
-Date: Tue, 24 Aug 2021 03:37:46 +0530
-Message-Id: <20210823220746.28295-6-niteesh.gs@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210823220746.28295-1-niteesh.gs@gmail.com>
-References: <20210823220746.28295-1-niteesh.gs@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
- envelope-from=niteesh.gs@gmail.com; helo=mail-ot1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1mIIPp-0003A5-1e; Mon, 23 Aug 2021 18:27:39 -0400
+Received: from relay68.bu.edu ([128.197.228.73]:35162)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1mIIPn-0008Rb-0B; Mon, 23 Aug 2021 18:27:36 -0400
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 17NMQs1m018627
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Mon, 23 Aug 2021 18:26:58 -0400
+Date: Mon, 23 Aug 2021 18:26:54 -0400
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [RFC PATCH v2 0/5] physmem: Have flaview API check bus
+ permission from MemTxAttrs argument
+Message-ID: <20210823222654.4q5prjmqqnukywem@mozz.bu.edu>
+References: <20210823164157.751807-1-philmd@redhat.com>
+ <CAFEAcA9_=6n4w86gD3MHhiLeCiui9_+ePT7E2sSHdSRufUJdyA@mail.gmail.com>
+ <YSQKHaGiJZE5OAk2@t490s>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YSQKHaGiJZE5OAk2@t490s>
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.885,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,113 +58,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, kchamart@redhat.com, jsnow@redhat.com,
- armbru@redhat.com, wainersm@redhat.com,
- G S Niteesh Babu <niteesh.gs@gmail.com>, stefanha@redhat.com, crosa@redhat.com,
- eblake@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add syntax highlighting for the incoming and outgoing QMP messages.
-This is achieved using the pygments module which was added in a
-previous commit.
+On 210823 1650, Peter Xu wrote:
+> On Mon, Aug 23, 2021 at 08:10:50PM +0100, Peter Maydell wrote:
+> > On Mon, 23 Aug 2021 at 17:42, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+> > >
+> > > This series aim to kill a recent class of bug, the infamous
+> > > "DMA reentrancy" issues found by Alexander while fuzzing.
+> > >
+> > > Introduce the 'bus_perm' field in MemTxAttrs, defining 3 bits:
+> > >
+> > > - MEMTXPERM_UNSPECIFIED (current default, unchanged behavior)
+> > > - MEMTXPERM_UNRESTRICTED (allow list approach)
+> > > - MEMTXPERM_RAM_DEVICE (example of deny list approach)
+> > >
+> > > If a transaction permission is not allowed (for example access
+> > > to non-RAM device), we return the specific MEMTX_BUS_ERROR.
+> > >
+> > > Permissions are checked in after the flatview is resolved, and
+> > > before the access is done, in a new function: flatview_access_allowed().
+> > 
+> > So I'm not going to say 'no' to this, because we have a real
+> > recursive-device-handling problem and I don't have a better
+> > idea to hand, but the thing about this is that we end up with
+> > behaviour which is not what the real hardware does. I'm not
+> > aware of any DMA device which has this kind of "can only DMA
+> > to/from RAM, and aborts on access to a device" behaviour...
+> 
+> Sorry for not being familiar with the context - is there more info regarding
+> the problem to fix?  I'm looking at the links mentioned in the old series:
+> 
+> https://lore.kernel.org/qemu-devel/20200903110831.353476-12-philmd@redhat.com/
+> https://bugs.launchpad.net/qemu/+bug/1886362
+> https://bugs.launchpad.net/qemu/+bug/1888606
+> 
+> They seem all marked as fixed now.
 
-The current implementation is a really simple one which doesn't
-allow for any configuration. In future this has to be improved
-to allow for easier theme config using an external config of
-some sort.
+Here are some that should still reproduce:
+https://gitlab.com/qemu-project/qemu/-/issues/542
+https://gitlab.com/qemu-project/qemu/-/issues/540
+https://gitlab.com/qemu-project/qemu/-/issues/541
+https://gitlab.com/qemu-project/qemu/-/issues/62
+https://lore.kernel.org/qemu-devel/20210218140629.373646-1-ppandit@redhat.com/ (CVE-2021-20255)
 
-Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
----
- python/qemu/aqmp/aqmp_tui.py | 36 ++++++++++++++++++++++++++++++++++--
- 1 file changed, 34 insertions(+), 2 deletions(-)
+There's also this one, that I don't think I ever created a bug report
+for (working on it now):
+https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=33247
+-Alex
 
-diff --git a/python/qemu/aqmp/aqmp_tui.py b/python/qemu/aqmp/aqmp_tui.py
-index ac533541d2..a2929f771c 100644
---- a/python/qemu/aqmp/aqmp_tui.py
-+++ b/python/qemu/aqmp/aqmp_tui.py
-@@ -30,6 +30,8 @@
-     cast,
- )
- 
-+from pygments import lexers
-+from pygments import token as Token
- import urwid
- import urwid_readline
- 
-@@ -45,6 +47,22 @@
- UPDATE_MSG: str = 'UPDATE_MSG'
- 
- 
-+palette = [
-+    (Token.Punctuation, '', '', '', 'h15,bold', 'g7'),
-+    (Token.Text, '', '', '', '', 'g7'),
-+    (Token.Name.Tag, '', '', '', 'bold,#f88', 'g7'),
-+    (Token.Literal.Number.Integer, '', '', '', '#fa0', 'g7'),
-+    (Token.Literal.String.Double, '', '', '', '#6f6', 'g7'),
-+    (Token.Keyword.Constant, '', '', '', '#6af', 'g7'),
-+    ('DEBUG', '', '', '', '#ddf', 'g7'),
-+    ('INFO', '', '', '', 'g100', 'g7'),
-+    ('WARNING', '', '', '', '#ff6', 'g7'),
-+    ('ERROR', '', '', '', '#a00', 'g7'),
-+    ('CRITICAL', '', '', '', '#a00', 'g7'),
-+    ('background', '', 'black', '', '', 'g7'),
-+]
-+
-+
- def format_json(msg: str) -> str:
-     """
-     Formats valid/invalid multi-line JSON message into a single-line message.
-@@ -353,6 +371,9 @@ def run(self, debug: bool = False) -> None:
-         :param debug:
-             Enables/Disables asyncio event loop debugging
-         """
-+        screen = urwid.raw_display.Screen()
-+        screen.set_terminal_properties(256)
-+
-         self.aloop = asyncio.get_event_loop()
-         self.aloop.set_debug(debug)
- 
-@@ -364,6 +385,8 @@ def run(self, debug: bool = False) -> None:
-         event_loop = urwid.AsyncioEventLoop(loop=self.aloop)
-         main_loop = urwid.MainLoop(urwid.AttrMap(self.window, 'background'),
-                                    unhandled_input=self.unhandled_input,
-+                                   screen=screen,
-+                                   palette=palette,
-                                    handle_mouse=True,
-                                    event_loop=event_loop)
- 
-@@ -487,7 +510,8 @@ def __init__(self, parent: App) -> None:
-         self.history = urwid.SimpleFocusListWalker([])
-         super().__init__(self.history)
- 
--    def add_to_history(self, history: str) -> None:
-+    def add_to_history(self,
-+                       history: Union[str, List[Tuple[str, str]]]) -> None:
-         """
-         Appends a message to the list and set the focus to the last appended
-         message.
-@@ -531,10 +555,18 @@ def cb_add_to_history(self, msg: str, level: Optional[str] = None) -> None:
- 
-         :param msg:
-             The message to be appended to the history box.
-+        :param level:
-+            The log level of the message, if it is a log message.
-         """
-+        formatted = []
-         if level:
-             msg = f'[{level}]: {msg}'
--        self.history.add_to_history(msg)
-+            formatted.append((level, msg))
-+        else:
-+            lexer = lexers.JsonLexer()  # pylint: disable=no-member
-+            for token in lexer.get_tokens(msg):
-+                formatted.append(token)
-+        self.history.add_to_history(formatted)
- 
- 
- class Window(urwid.Frame):
--- 
-2.17.1
-
+> 
+> Thanks,
+> 
+> -- 
+> Peter Xu
+> 
 
