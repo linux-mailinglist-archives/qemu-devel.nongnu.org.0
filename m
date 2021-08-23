@@ -2,86 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04CF3F536A
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 00:38:18 +0200 (CEST)
-Received: from localhost ([::1]:38086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BD593F5380
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 00:49:39 +0200 (CEST)
+Received: from localhost ([::1]:53044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIIa9-00021D-La
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 18:38:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42926)
+	id 1mIIl8-0004Ck-Cm
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 18:49:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIIYx-0000X4-Qq
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 18:37:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33049)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIIYt-0006K3-7A
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 18:37:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629758217;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QL2dwMT5DHRBybljZ/MyV/EV83bDoCUkhA6FkHKWVps=;
- b=Fieu/7nX2WnjHH+HVmjWz0SG/hWceHyRG1cnweLeuiJyyrOgNV4046tfoLwPs5OlcouioP
- uU/+I5cYPd911AugBGX+izHqDXLiBCgxC0zg1wAcVKe9p7v7YSnTl987aBWlBGHv+xAvo8
- PBDZasFplx3TcOCfROCuouOfoBnhB50=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-178-N0YEJG8gMYafgO4sc-SRoQ-1; Mon, 23 Aug 2021 18:36:56 -0400
-X-MC-Unique: N0YEJG8gMYafgO4sc-SRoQ-1
-Received: by mail-qv1-f69.google.com with SMTP id
- ib9-20020a0562141c8900b003671c3a1243so7793875qvb.21
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 15:36:56 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <changbin.du@gmail.com>)
+ id 1mIIjl-0002QW-5m; Mon, 23 Aug 2021 18:48:13 -0400
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:38662)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <changbin.du@gmail.com>)
+ id 1mIIjj-0005II-K1; Mon, 23 Aug 2021 18:48:12 -0400
+Received: by mail-pj1-x1029.google.com with SMTP id
+ om1-20020a17090b3a8100b0017941c44ce4so487728pjb.3; 
+ Mon, 23 Aug 2021 15:48:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=C9Ryswg6b8sFnt1nqfjsT9/BG4Qszs4WL1eSmKn8BGk=;
+ b=hQF36mRUoPPLg/tVE9p/1n8wI/vt1rliafW9EgAA7qpLuOI9cMUjhIYbA/uL77qrlm
+ d58a1e70nkf+vTExq2cPnvkLxoCDyb3nVUdGQmpDXSomqsXLl1fUIegdF6laTb13q0nI
+ 4uLp9k8eNufcUymp/hi/Cm6PeRut1l6xAYJACgKzqwsETmXtNEKQSgpZxagrIF/0PiD5
+ zWxsxL+LTkzeDKwj7e3eX7VfcDIN5f5EI9OQITILsMyedE7dEVmjdAN3ua+FA2pljahY
+ MR46ZC765EhRQFnhEGoFbyLCGYkJoK/L60o2YumDRkP0gQ6hSngeeUlYEV8NmTgbkp93
+ FPRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=QL2dwMT5DHRBybljZ/MyV/EV83bDoCUkhA6FkHKWVps=;
- b=jYjuFzj7KFEgQas6Xlv8K8Fq6jN39Hgw4k045n8N/ovY9JIn1eKYLiM5R0e0QeXVle
- FwoHnGIpZ7jSUru63e3fq3qHZzfEjTT/LxeJO08CQQW4T9qKDpsJm/+DDzroD5rambYR
- CfZOQasST5aRlWSq1b9daAwV1PP6cR+szEwdiQKmttVGF3BbbhWXOKBw0wQmpbVq6zFk
- d7ZEWdykxsxzjAxBw7zjEvNqfRyKfwF2C8xuV0ALH8lnsCnQNDhY1ZrG4HXNhCaJfZUP
- j/bWQWjyyUPbQL3Jp+nO1j0/X5UsN1TVYgiptSPfyKuYJQpIa8bQ29ZgynY9ZlwV8TAM
- evoQ==
-X-Gm-Message-State: AOAM533+fyJC3xFOdmBqNZcSTDk3+4pnL4aW7Z7bz0hzEecOfxel3Rmu
- +lxDH7yV3JQGI2jybgusZTlT26wwY2TwZGg+EC/SKDFCUprI/NjDm/4yqk0e37214R0da8TLx6z
- lWdKWhUrocEiWfmY=
-X-Received: by 2002:ac8:682:: with SMTP id f2mr31080561qth.55.1629758216104;
- Mon, 23 Aug 2021 15:36:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxdwiB6O0kCn5ma317eigbh5UNzuxdKD9RQUQhdkUqMHDnKjF7vKb1fdgr4081KnA6j/pB5PQ==
-X-Received: by 2002:ac8:682:: with SMTP id f2mr31080539qth.55.1629758215888;
- Mon, 23 Aug 2021 15:36:55 -0700 (PDT)
-Received: from t490s ([2607:fea8:56a3:500::d413])
- by smtp.gmail.com with ESMTPSA id h13sm9257734qkk.67.2021.08.23.15.36.54
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=C9Ryswg6b8sFnt1nqfjsT9/BG4Qszs4WL1eSmKn8BGk=;
+ b=MylmKtwaCVgQW9S81PIVyKMJuw4X1G9uU+2qchHtrW27eprvXVLLrPO3EU4uMjrlzV
+ I9YU+PoMroISQVOF9lf3Oo5mmxNY2EUKZZmIOVlEW04MTWoxYGH6QqTwq6d814L05DYY
+ JSvUwwzIqH8nVvv5CniHIbHTblMzIAxGXGtgnGnuTsKqG5YpofdPeqd6dSqXeQcO2Ipq
+ k2KNanswAwZIZVdBLrUk5ThudatFBSGDyu3EspN0GFum1NLMyvM0cSZnFkOcFs5xrKwm
+ 2KDDawuJ1yBb4P6aliaVShzoFDnfWNQXDUdh+l5QuLOiiI11WbBYG+d52rJGyW3kWCgj
+ qOGQ==
+X-Gm-Message-State: AOAM5337ylUhQFpNsenZrZ38dCmSmlbLrziB900OiUiOgbE+BYkQ0Aln
+ FHihnYicJJhzR0wOvPXjysk=
+X-Google-Smtp-Source: ABdhPJwZNYqPWGPEiCe3cfhdG05XtrnEYeejz/6koxB3pN+agS7KjdTetnOkfN30F5PAdCuS+9SjKA==
+X-Received: by 2002:a17:90b:3ec5:: with SMTP id
+ rm5mr902251pjb.110.1629758889338; 
+ Mon, 23 Aug 2021 15:48:09 -0700 (PDT)
+Received: from mail.google.com ([141.164.41.4])
+ by smtp.gmail.com with ESMTPSA id k4sm17048334pff.12.2021.08.23.15.48.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Aug 2021 15:36:55 -0700 (PDT)
-Date: Mon, 23 Aug 2021 18:36:53 -0400
-From: Peter Xu <peterx@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH 4/4] vl: Prioritize realizations of devices
-Message-ID: <YSQjBX9SwzgNGiag@t490s>
-References: <20210818194217.110451-1-peterx@redhat.com>
- <20210818194318.110993-1-peterx@redhat.com>
- <20210823184912.mazqfn7gurntj7ld@habkost.net>
- <YSP0m83roQytqvDr@t490s>
- <20210823175457-mutt-send-email-mst@kernel.org>
+ Mon, 23 Aug 2021 15:48:08 -0700 (PDT)
+Date: Tue, 24 Aug 2021 06:47:56 +0800
+From: Changbin Du <changbin.du@gmail.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 0/3] gdbstub: add support for switchable endianness
+Message-ID: <20210823224756.p7qtttv675gumtri@mail.google.com>
+References: <20210823142004.17935-1-changbin.du@gmail.com>
+ <7523c6ad-52cd-0b20-b09d-01bd537edbb3@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210823175457-mutt-send-email-mst@kernel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7523c6ad-52cd-0b20-b09d-01bd537edbb3@redhat.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=changbin.du@gmail.com; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,121 +85,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Alistair Francis <alistair.francis@wdc.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Changbin Du <changbin.du@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 23, 2021 at 06:05:07PM -0400, Michael S. Tsirkin wrote:
-> On Mon, Aug 23, 2021 at 03:18:51PM -0400, Peter Xu wrote:
-> > On Mon, Aug 23, 2021 at 02:49:12PM -0400, Eduardo Habkost wrote:
-> > > On Wed, Aug 18, 2021 at 03:43:18PM -0400, Peter Xu wrote:
-> > > > QEMU creates -device objects in order as specified by the user's cmdline.
-> > > > However that ordering may not be the ideal order.  For example, some platform
-> > > > devices (vIOMMUs) may want to be created earlier than most of the rest
-> > > > devices (e.g., vfio-pci, virtio).
-> > > > 
-> > > > This patch orders the QemuOptsList of '-device's so they'll be sorted first
-> > > > before kicking off the device realizations.  This will allow the device
-> > > > realization code to be able to use APIs like pci_device_iommu_address_space()
-> > > > correctly, because those functions rely on the platfrom devices being realized.
-> > > > 
-> > > > Now we rely on vmsd->priority which is defined as MigrationPriority to provide
-> > > > the ordering, as either VM init and migration completes will need such an
-> > > > ordering.  In the future we can move that priority information out of vmsd.
-> > > > 
-> > > > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > > 
-> > > Can we be 100% sure that changing the ordering of every single
-> > > device being created won't affect guest ABI?  (I don't think we can)
+On Mon, Aug 23, 2021 at 05:21:07PM +0200, Philippe Mathieu-Daudé wrote:
+> On 8/23/21 4:20 PM, Changbin Du wrote:
+> > To resolve the issue to debug switchable targets, this serias introduces
+> > basic infrastructure for gdbstub and enable support for ARM and RISC-V
+> > targets.
 > > 
-> > That's a good question, however I doubt whether there's any real-world guest
-> > ABI for that.  As a developer, I normally specify cmdline parameter in an adhoc
-> > way, so that I assume most parameters are not sensitive to ordering and I can
-> > tune the ordering as wish.  I'm not sure whether that's common for qemu users,
-> > I would expect so, but I may have missed something that I'm not aware of.
+> > For example, now there is no problem to debug an big-enadian aarch64 target
+> > on x86 host.
 > > 
-> > Per my knowledge the only "guest ABI" change is e.g. when we specify "vfio-pci"
-> > to be before "intel-iommu": it'll be constantly broken before this patchset,
-> > while after this series it'll be working.  It's just that I don't think those
-> > "guest ABI" is necessary to be kept, and that's exactly what I want to fix with
-> > the patchset..
-> > 
-> > > 
-> > > How many device types in QEMU have non-default vmsd priority?
-> > 
-> > Not so much; here's the list of priorities and the devices using it:
-> > 
-> >        |--------------------+---------|
-> >        | priority           | devices |
-> >        |--------------------+---------|
-> >        | MIG_PRI_IOMMU      |       3 |
-> >        | MIG_PRI_PCI_BUS    |       7 |
-> >        | MIG_PRI_VIRTIO_MEM |       1 |
-> >        | MIG_PRI_GICV3_ITS  |       1 |
-> >        | MIG_PRI_GICV3      |       1 |
-> >        |--------------------+---------|
+> >   $ qemu-system-aarch64 -gdb tcp::1234,endianness=big ...
 > 
-> iommu is probably ok. I think virtio mem is ok too,
-> in that it is normally created by virtio-mem-pci ...
+> I don't understand why you need all that.
+> Maybe you aren't using gdb-multiarch?
+>
+Nope, my gdb support all architectures.
 
-Hmm this reminded me whether virtio-mem-pci could have another devfn allocated
-after being moved..
-
-But frankly I still doubt whether we should guarantee that guest ABI on user
-not specifying addr=XXX in pci device parameters - I feel like it's a burden
-that we don't need to carry.
-
-(Btw, trying to keep the order is one thing; declare it guest ABI would be
- another thing to me)
-
+> You can install it or start it via QEMU Debian Docker image:
 > 
-> 
-> 
-> > All the rest devices are using the default (0) priority.
-> > 
-> > > 
-> > > Can we at least ensure devices with the same priority won't be
-> > > reordered, just to be safe?  (qsort() doesn't guarantee that)
-> > > 
-> > > If very few device types have non-default vmsd priority and
-> > > devices with the same priority aren't reordered, the risk of
-> > > compatibility breakage would be much smaller.
-> > 
-> > I'm also wondering whether it's a good thing to break some guest ABI due to
-> > this change, if possible.
-> > 
-> > Let's imagine something breaks after applied, then the only reason should be
-> > that qsort() changed the order of some same-priority devices and it's not the
-> > same as user specified any more.  Then, does it also means there's yet another
-> > ordering requirement that we didn't even notice?
-> > 
-> > I doubt whether that'll even happen (or I think there'll be report already, as
-> > in qemu man page there's no requirement on parameter ordering).  In all cases,
-> > instead of "keeping the same priority devices in the same order as the user has
-> > specified", IMHO we should make the broken devices to have different priorities
-> > so the ordering will be guaranteed by qemu internal, rather than how user
-> > specified it.
-> 
-> Well giving user control of guest ABI is a reasonable thing to do,
-> it is realize order that users do not really care about.
+> $ docker run -it --rm -v /tmp:/tmp -u $UID --network=host \
+>   registry.gitlab.com/qemu-project/qemu/qemu/debian10 \
+>   gdb-multiarch -q \
+>     --ex 'set architecture aarch64' \
+>     --ex 'set endian big'
+> The target architecture is assumed to be aarch64
+> The target is assumed to be big endian
+> (gdb) target remote 172.17.0.1:1234
+> (gdb)
+>
+The gdb has no problem to read endianness and arch info from elf. The problem
+is how qemu gdbstub handles the byte order it received.
 
-Makes sense.
+Now let's try to debug a big-enadian aarch64 linux kernel.
 
-> 
-> I guess we could move pci slot allocation out of realize
-> so it does not depend on realize order?
+1) start qemu with '-gdb tcp::1234'
 
-Yes that sounds like another approach, but it seems to require more changes.
+$ gdb-multiarch vmlinux
+(gdb) target remote :1234
+Remote debugging using :1234
+0x0000004000000000 in ?? ()
+=> 0x0000004000000000:	Cannot access memory at address 0x4000000000
+(gdb) ni
+Cannot access memory at address 0x4000000000
+(gdb) show architecture 
+The target architecture is set to "auto" (currently "aarch64").
+(gdb) show endian 
+The target endianness is set automatically (currently big endian).
 
-Thanks,
+You see it an't work, not to mention adding breakpoints.
+
+2) start qemu with '-gdb tcp::1234,endianness=big'
+
+$ gdb-multiarch vmlinux
+(gdb) target remote :1234
+Remote debugging using :1234
+0x0000000040000000 in ?? ()
+=> 0x0000000040000000:	c0 00 00 58	ldr	x0, 0x40000018
+(gdb) ni
+0x0000000040000004 in ?? ()
+=> 0x0000000040000004:	e1 03 1f aa	mov	x1, xzr
+(gdb) b start_kernel
+Breakpoint 1 at 0xffff800011130ee8 (2 locations)
+(gdb) c
+Continuing.
+
+Thread 1 hit Breakpoint 1, 0xffff800011130ee8 in start_kernel ()
+=> 0xffff800011130ee8 <start_kernel+0>:	5f 24 03 d5	bti	c
+(gdb) bt
+#0  0xffff800011130ee8 in start_kernel ()
+#1  0xffff8000111303c8 in __primary_switched () at arch/arm64/kernel/head.S:467
+Backtrace stopped: previous frame identical to this frame (corrupt stack?)
+
+okay, now it works fine.
 
 -- 
-Peter Xu
-
+Cheers,
+Changbin Du
 
