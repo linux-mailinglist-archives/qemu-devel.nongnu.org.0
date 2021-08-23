@@ -2,89 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F4B33F4C52
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 16:27:41 +0200 (CEST)
-Received: from localhost ([::1]:45614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78AA13F4C44
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 16:21:19 +0200 (CEST)
+Received: from localhost ([::1]:52752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIAvM-0004Ha-KK
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 10:27:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41214)
+	id 1mIApC-0006yH-Gs
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 10:21:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mIAl4-0006kc-AD
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 10:17:03 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37080)
+ id 1mIAmG-0000Zl-Sz
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 10:18:17 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45442)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mIAky-0000vB-7m
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 10:17:02 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ id 1mIAmE-0001ky-Pj
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 10:18:16 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 17NE3Iuo063392; Mon, 23 Aug 2021 10:16:49 -0400
+ 17NE3hVg121939; Mon, 23 Aug 2021 10:18:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
- : date : message-id : content-transfer-encoding : mime-version; s=pp1;
- bh=rQUffuddF5ZIvqDo3Aits4xe29D1wjhP3VeaTx9V+UA=;
- b=YdYuwV2S6EfBqvas6O4EK+phQjoi/j/Ec17K3D1F2+rH7Bigwb6GAK/hH5s5kGek9UGZ
- FpiSmtsgejWILotIaAp6KlOE6QIH7nuzn4EOCzsUNC7ytnMwu6Usmp8IUKsqwoslpIrA
- qR/xFMTTgSaR0NQd62fFAVdn+RosNMeK/H1/j/M4lrTNq/N3FrmqMwdOVnV23Ue6D5Jy
- FRaxS3wB7mU/TesnzeIAjFW7TdC6vB5AX0rftZi4CPpF+Jwp0xgFxywqr9RPTVW8OuAT
- KtwBT8AyJq1to27Aml4jGd+zLRzYthMEGszMfspqBVxTOUlFQ3kNmAdSLkXcuff0Vcdp 5Q== 
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=+WDovjiY/NOTRnrC1TbX+SwWuPgPSM5HkRu5XduuT/k=;
+ b=hUHGzyBcvqz+KUmDsiDILwYtx/rvpss2mWVZ1GPIil8rOBVcXlYp6xprdqS1BnQQQEig
+ gjzGps4xh2ivXOnEVUMigoNy+5RKwDPqkZa400LBaIDCNqAB/lQ2tOg1DuOHw6aUA8y1
+ m/yxVNnO5f5yNNAnks4tC3YRv4YD4o/zYgGWrbCgJ9AjtnQRWxFe6DnKiXXEVEhfGcAE
+ JMBGsAYm6OtnSI/Es6mD6JV+5C6B1oowyyYxqCQfw//JOKTmemIVx1YU/gRWemDArbBJ
+ qYODP84GCMBmCTtiuZmNhyT2QHzLHXMCycve4rqQAzJQ5MelLxrDz96nHPx7lI7f7+1T uw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3akehva1vr-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3akeg0268g-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 23 Aug 2021 10:16:49 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 17NE40eJ069212;
- Mon, 23 Aug 2021 10:16:48 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3akehva1vc-1
+ Mon, 23 Aug 2021 10:18:11 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 17NE4MqH126096;
+ Mon, 23 Aug 2021 10:18:11 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3akeg0267v-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 23 Aug 2021 10:16:48 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 17NEDDfe021214;
- Mon, 23 Aug 2021 14:16:48 GMT
+ Mon, 23 Aug 2021 10:18:11 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 17NEDMv9016512;
+ Mon, 23 Aug 2021 14:18:09 GMT
 Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
- [9.57.198.25]) by ppma04dal.us.ibm.com with ESMTP id 3ajs4bknsf-1
+ [9.57.198.25]) by ppma01dal.us.ibm.com with ESMTP id 3ajs4c3ntd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 23 Aug 2021 14:16:47 +0000
+ Mon, 23 Aug 2021 14:17:53 +0000
 Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
  [9.57.199.109])
  by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 17NEGk3d36241910
+ 17NEGkbb30146964
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Mon, 23 Aug 2021 14:16:46 GMT
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5C94C112069;
+ by IMSVA (Postfix) with ESMTP id B1A06112065;
  Mon, 23 Aug 2021 14:16:46 +0000 (GMT)
 Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 28DCE112065;
+ by IMSVA (Postfix) with ESMTP id 6FE86112067;
  Mon, 23 Aug 2021 14:16:46 +0000 (GMT)
 Received: from amdrome1.watson.ibm.com (unknown [9.2.130.16])
  by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
  Mon, 23 Aug 2021 14:16:46 +0000 (GMT)
 From: Dov Murik <dovmurik@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 00/12] Confidential guest-assisted live migration
-Date: Mon, 23 Aug 2021 10:16:24 -0400
-Message-Id: <20210823141636.65975-1-dovmurik@linux.ibm.com>
+Subject: [RFC PATCH v2 01/12] migration: Add helpers to save confidential RAM
+Date: Mon, 23 Aug 2021 10:16:25 -0400
+Message-Id: <20210823141636.65975-2-dovmurik@linux.ibm.com>
 X-Mailer: git-send-email 2.20.1
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: lYiA_9tG2fesG8BMxV-qVcA2MyplAxss
-X-Proofpoint-GUID: l-hA3mSpPPoACRoCgfZs05RFIEIlpDAl
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+In-Reply-To: <20210823141636.65975-1-dovmurik@linux.ibm.com>
+References: <20210823141636.65975-1-dovmurik@linux.ibm.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: 5_t-pyuLWHlxuI2pUSxT9B1wJ41Y0D-9
+X-Proofpoint-GUID: hULpaUsxnuU82D5VsYBd2crAOV3OFARx
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
  definitions=2021-08-23_03:2021-08-23,
  2021-08-23 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 malwarescore=0
- mlxlogscore=999 lowpriorityscore=0 clxscore=1015 phishscore=0
- suspectscore=0 spamscore=0 impostorscore=0 priorityscore=1501 bulkscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ adultscore=0
+ priorityscore=1501 clxscore=1015 phishscore=0 mlxscore=0 malwarescore=0
+ bulkscore=0 spamscore=0 impostorscore=0 mlxlogscore=999 lowpriorityscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2107140000 definitions=main-2108230098
 Received-SPF: pass client-ip=148.163.156.1;
  envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
@@ -118,136 +120,261 @@ Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an RFC series for fast migration of confidential guests using an
-in-guest migration helper that lives in OVMF.  QEMU VM live migration
-needs to read source VM's RAM and write it in the target VM; this
-mechanism doesn't work when the guest memory is encrypted or QEMU is
-prevented from reading it in another way.  In order to support live
-migration in such scenarios, we introduce an in-guest migration helper
-which can securely extract RAM content from the guest in order to send
-it to the target.  The migration helper is implemented as part of the
-VM's firmware in OVMF.
+QEMU cannot read the memory of memory-encrypted guests, which is
+required for sending RAM to the migration target.  Instead, QEMU asks a
+migration helper running on an auxiliary vcpu in the guest to extract
+pages from memory; these pages are encrypted with a transfer key that is
+known to the source and target guests, but not to both QEMUs.
 
-We've implemented and tested this on AMD SEV, but expect most of the
-processes can be used with other technologies that prevent direct access
-of hypervisor to the guest's memory.  Specifically, we don't use SEV's
-PSP migration commands (SEV_SEND_START, SEV_RECEIVE_START, etc) at all;
-but note that the mirror VM relies on KVM_CAP_VM_COPY_ENC_CONTEXT_FROM
-to shared the SEV ASID with the main VM.
+The interaction with the guest migration helper is performed using two
+shared (unencrypted) pages which both QEMU and guest can read from and
+write to.  The details of the mailbox protocol are described in
+migration/confidential-ram.c.
 
-Corresponding RFC patches for OVMF have been posted by Tobin
-Feldman-Fitzthum on edk2-devel [1].  Those include the crux of the
-migration helper: a mailbox protocol over a shared memory page which
-allows communication between QEMU and the migration helper.  In the
-source VM this is used to read a page and encrypt it for transport; in
-the target it is used to decrypt the incoming page and storing the
-content in the correct address in the guest memory.  All encryption and
-decryption operations occur inside the trusted context in the VM, and
-therefore the VM's memory plaintext content is never accessible to the
-hosts participating in the migration.
-
-In order to allow OVMF to run the migration helper in parallel to the
-guest OS, we use a mirror VM [3], which shares the same memory mapping
-and SEV ASID as the main VM but has its own run loop.  To start the
-mirror vcpu and the migration handler, we added a temporary
-start-migration-handler QMP command; this will be removed in a future
-version to run as part of the migrate QMP command.
-
-In the target VM we need the migration handler running to receive
-incoming RAM pages; to achieve that, we boot the VM into OVMF with a
-special fw_cfg value that causes OVMF to not boot the guest OS; we then
-allow QEMU to receive an incoming migration by issuing a new
-start-migrate-incoming QMP command.
-
-The confidential RAM migration requires checking whether a given guest
-RAM page is encrypted or not.  This is achieved using SEV shared regions
-list tracking, which is implemented as part the SEV live migration patch
-series [2].  This feature tracks hypercalls from OVMF and guest Linux to
-report changes of page encryption status so that QEMU has an up-to-date
-view of which memory regions are shared and which are encrypted.
-
-We left a few unfinished edges in this RFC but decided to publish it to
-start the commmunity discussion.  TODOs:
-
-1. QMP commands start-migration-handler and start-migrate-incoming are
-   developer tools and should be performed automatically.
-2. The entry point address of the in-guest migration handler and its GDT
-   are currently hard-coded in QEMU (patch 8); instead they should be
-   discovered using pc_system_ovmf_table_find.  Same applies for the
-   mailbox address (patch 1).
-3. For simplicity, this patch series forces the use of the 
-   guest-assisted migration instead of the SEV PSP-based migration. 
-   Ideally we might want the user to choose the desired mode using
-   migrate-set-parameters or a similar mechanism.
-4. There is currently no discovery protocol between QEMU and OVMF to
-   verify that OVMF indeed supports in-guest migration handler.
-
-
-List of patches in this series:
-
-1-3: introduce new confidtial RAM migration functions which communicate
-     with the migration helper.
-4-6: use the new MH communication functions when migrating encrypted RAM
-     pages
-7-9: allow starting migration handler on mirror vcpu with QMP command 
-     start-migration-handler
-10:  introduce the start-migrate-incoming QMP command to switch the
-     target into accepting the incoming migration.
-11:  fix devices issues when loading state into a live VM
-12:  add documentation
-
-
-This patch series is based on top of:
-
-1. Add SEV guest live migration support, from Ashish Kalra [2]
-2. Support for mirror VM, from Ashish Kalra [3]
-
-[1] https://edk2.groups.io/g/devel/message/79517
-[2] https://lore.kernel.org/qemu-devel/cover.1628076205.git.ashish.kalra@amd.com/
-[3] https://lore.kernel.org/qemu-devel/cover.1629118207.git.ashish.kalra@amd.com/
-
-
-Changes from RFC v1:
- - Use the an SEV mirror VM for the migation handler (instead of
-   auxilliary vcpus)
-
-RFC v1:
-https://lore.kernel.org/qemu-devel/20210302204822.81901-1-dovmurik@linux.vnet.ibm.com/
-
-
-Dov Murik (12):
-  migration: Add helpers to save confidential RAM
-  migration: Add helpers to load confidential RAM
-  migration: Introduce gpa_inside_migration_helper_shared_area
-  migration: Save confidential guest RAM using migration helper
-  migration: Load confidential guest RAM using migration helper
-  migration: Skip ROM, non-RAM, and vga.vram memory region during RAM
-    migration
-  i386/kvm: Exclude mirror vcpu in kvm_synchronize_all_tsc
-  migration: Allow resetting the mirror vcpu to the MH entry point
-  migration: Add QMP command start-migration-handler
-  migration: Add start-migrate-incoming QMP command
-  hw/isa/lpc_ich9: Allow updating an already-running VM
-  docs: Add confidential guest live migration documentation
-
- docs/confidential-guest-live-migration.rst | 145 +++++++++
- docs/confidential-guest-support.txt        |   5 +
- docs/index.rst                             |   1 +
- qapi/migration.json                        |  38 +++
- include/sysemu/sev.h                       |   1 +
- migration/confidential-ram.h               |  23 ++
- hw/isa/lpc_ich9.c                          |   3 +-
- migration/confidential-ram.c               | 339 +++++++++++++++++++++
- migration/migration.c                      |  29 ++
- migration/ram.c                            | 133 +++++++-
- target/i386/kvm/kvm.c                      |   4 +-
- migration/meson.build                      |   2 +-
- migration/trace-events                     |   4 +
- 13 files changed, 714 insertions(+), 13 deletions(-)
- create mode 100644 docs/confidential-guest-live-migration.rst
+Signed-off-by: Dov Murik <dovmurik@linux.ibm.com>
+---
+ migration/confidential-ram.h |  17 ++++
+ migration/confidential-ram.c | 184 +++++++++++++++++++++++++++++++++++
+ migration/meson.build        |   2 +-
+ migration/trace-events       |   3 +
+ 4 files changed, 205 insertions(+), 1 deletion(-)
  create mode 100644 migration/confidential-ram.h
  create mode 100644 migration/confidential-ram.c
 
+diff --git a/migration/confidential-ram.h b/migration/confidential-ram.h
+new file mode 100644
+index 0000000000..0d49718d31
+--- /dev/null
++++ b/migration/confidential-ram.h
+@@ -0,0 +1,17 @@
++/*
++ * QEMU migration for confidential guest's RAM
++ */
++
++#ifndef QEMU_CONFIDENTIAL_RAM_H
++#define QEMU_CONFIDENTIAL_RAM_H
++
++#include "exec/cpu-common.h"
++#include "qemu-file.h"
++
++void cgs_mh_init(void);
++void cgs_mh_cleanup(void);
++
++int cgs_mh_save_encrypted_page(QEMUFile *f, ram_addr_t src_gpa, uint32_t size,
++                               uint64_t *bytes_sent);
++
++#endif
+diff --git a/migration/confidential-ram.c b/migration/confidential-ram.c
+new file mode 100644
+index 0000000000..65a588e7f6
+--- /dev/null
++++ b/migration/confidential-ram.c
+@@ -0,0 +1,184 @@
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "qemu/osdep.h"
++#include "qemu/error-report.h"
++#include "qemu/rcu.h"
++#include "qemu/coroutine.h"
++#include "qemu/timer.h"
++#include "io/channel.h"
++#include "qapi/error.h"
++#include "exec/memory.h"
++#include "trace.h"
++#include "confidential-ram.h"
++
++enum cgs_mig_helper_cmd {
++    /* Initialize migration helper in guest */
++    CGS_MIG_HELPER_CMD_INIT = 0,
++
++    /*
++     * Fetch a page from gpa, encrypt it, and save result into the shared page
++     */
++    CGS_MIG_HELPER_CMD_ENCRYPT,
++
++    /* Read the shared page, decrypt it, and save result into gpa */
++    CGS_MIG_HELPER_CMD_DECRYPT,
++
++    /* Reset migration helper in guest */
++    CGS_MIG_HELPER_CMD_RESET,
++
++    CGS_MIG_HELPER_CMD_MAX
++};
++
++struct QEMU_PACKED CGSMigHelperCmdParams {
++    uint64_t cmd_type;
++    uint64_t gpa;
++    int32_t prefetch;
++    int32_t ret;
++    int32_t go;
++    int32_t done;
++};
++typedef struct CGSMigHelperCmdParams CGSMigHelperCmdParams;
++
++struct QEMU_PACKED CGSMigHelperPageHeader {
++    uint32_t len;
++    uint8_t data[0];
++};
++typedef struct CGSMigHelperPageHeader CGSMigHelperPageHeader;
++
++struct CGSMigHelperState {
++    CGSMigHelperCmdParams *cmd_params;
++    CGSMigHelperPageHeader *io_page_hdr;
++    uint8_t *io_page;
++    bool initialized;
++};
++typedef struct CGSMigHelperState CGSMigHelperState;
++
++static CGSMigHelperState cmhs = {0};
++
++#define MH_BUSYLOOP_TIMEOUT       100000000LL
++#define MH_REQUEST_TIMEOUT_MS     100
++#define MH_REQUEST_TIMEOUT_NS     (MH_REQUEST_TIMEOUT_MS * 1000 * 1000)
++
++/*
++ * The migration helper shared area is hard-coded at gpa 0x820000 with size of
++ * 2 pages (0x2000 bytes).  Instead of hard-coding, the address and size may be
++ * fetched from OVMF itself using a pc_system_ovmf_table_find call to query
++ * OVMF's GUIDed structure for a migration helper GUID.
++ */
++#define MH_SHARED_CMD_PARAMS_ADDR    0x820000
++#define MH_SHARED_IO_PAGE_HDR_ADDR   (MH_SHARED_CMD_PARAMS_ADDR + 0x800)
++#define MH_SHARED_IO_PAGE_ADDR       (MH_SHARED_CMD_PARAMS_ADDR + 0x1000)
++
++void cgs_mh_init(void)
++{
++    RCU_READ_LOCK_GUARD();
++    cmhs.cmd_params = qemu_map_ram_ptr(NULL, MH_SHARED_CMD_PARAMS_ADDR);
++    cmhs.io_page_hdr = qemu_map_ram_ptr(NULL, MH_SHARED_IO_PAGE_HDR_ADDR);
++    cmhs.io_page = qemu_map_ram_ptr(NULL, MH_SHARED_IO_PAGE_ADDR);
++}
++
++static int send_command_to_cgs_mig_helper(uint64_t cmd_type, uint64_t gpa)
++{
++    /*
++     * The cmd_params struct is on a page shared with the guest migration
++     * helper.  We use a volatile struct to force writes to memory so that the
++     * guest can see them.
++     */
++    volatile CGSMigHelperCmdParams *params = cmhs.cmd_params;
++    int64_t counter, request_timeout_at;
++
++    /*
++     * At this point io_page and io_page_hdr should be already filled according
++     * to the requested cmd_type.
++     */
++
++    params->cmd_type = cmd_type;
++    params->gpa = gpa;
++    params->prefetch = 0;
++    params->ret = -1;
++    params->done = 0;
++
++    /*
++     * Force writes of all command parameters before writing the 'go' flag.
++     * The guest migration handler waits for the go flag and then reads the
++     * command parameters.
++     */
++    smp_wmb();
++
++    /* Tell the migration helper to start working on this command */
++    params->go = 1;
++
++    /*
++     * Wait for the guest migration helper to process the command and mark the
++     * done flag
++     */
++    request_timeout_at = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) +
++                         MH_REQUEST_TIMEOUT_NS;
++    do {
++        counter = 0;
++        while (!params->done && (counter < MH_BUSYLOOP_TIMEOUT)) {
++            counter++;
++        }
++    } while (!params->done &&
++             qemu_clock_get_ns(QEMU_CLOCK_REALTIME) < request_timeout_at);
++
++    if (!params->done) {
++        error_report("Migration helper command %" PRIu64 " timed-out for "
++                     "gpa 0x%" PRIx64, cmd_type, gpa);
++        return -EIO;
++    }
++
++    return params->ret;
++}
++
++static void init_cgs_mig_helper_if_needed(void)
++{
++    int ret;
++
++    if (cmhs.initialized) {
++        return;
++    }
++
++    ret = send_command_to_cgs_mig_helper(CGS_MIG_HELPER_CMD_INIT, 0);
++    if (ret == 0) {
++        cmhs.initialized = true;
++    }
++}
++
++void cgs_mh_cleanup(void)
++{
++    send_command_to_cgs_mig_helper(CGS_MIG_HELPER_CMD_RESET, 0);
++}
++
++int cgs_mh_save_encrypted_page(QEMUFile *f, ram_addr_t src_gpa, uint32_t size,
++                               uint64_t *bytes_sent)
++{
++    int ret;
++
++    init_cgs_mig_helper_if_needed();
++
++    /* Ask the migration helper to encrypt the page at src_gpa */
++    trace_encrypted_ram_save_page(size, src_gpa);
++    ret = send_command_to_cgs_mig_helper(CGS_MIG_HELPER_CMD_ENCRYPT, src_gpa);
++    if (ret) {
++        error_report("Error cgs_mh_save_encrypted_page ret=%d", ret);
++        return -1;
++    }
++
++    /* Sanity check for response header */
++    if (cmhs.io_page_hdr->len > 1024) {
++        error_report("confidential-ram: migration helper response is too large "
++                     "(len=%u)", cmhs.io_page_hdr->len);
++        return -EINVAL;
++    }
++
++    qemu_put_be32(f, cmhs.io_page_hdr->len);
++    qemu_put_buffer(f, cmhs.io_page_hdr->data, cmhs.io_page_hdr->len);
++    *bytes_sent = 4 + cmhs.io_page_hdr->len;
++
++    qemu_put_be32(f, size);
++    qemu_put_buffer(f, cmhs.io_page, size);
++    *bytes_sent += 4 + size;
++
++    return ret;
++}
+diff --git a/migration/meson.build b/migration/meson.build
+index f8714dcb15..774223c1a3 100644
+--- a/migration/meson.build
++++ b/migration/meson.build
+@@ -32,4 +32,4 @@ softmmu_ss.add(when: 'CONFIG_LIVE_BLOCK_MIGRATION', if_true: files('block.c'))
+ softmmu_ss.add(when: zstd, if_true: files('multifd-zstd.c'))
+ 
+ specific_ss.add(when: 'CONFIG_SOFTMMU',
+-                if_true: files('dirtyrate.c', 'ram.c', 'target.c'))
++                if_true: files('dirtyrate.c', 'ram.c', 'target.c', 'confidential-ram.c'))
+diff --git a/migration/trace-events b/migration/trace-events
+index a1c0f034ab..3d442a767f 100644
+--- a/migration/trace-events
++++ b/migration/trace-events
+@@ -344,3 +344,6 @@ migration_block_save_pending(uint64_t pending) "Enter save live pending  %" PRIu
+ # page_cache.c
+ migration_pagecache_init(int64_t max_num_items) "Setting cache buckets to %" PRId64
+ migration_pagecache_insert(void) "Error allocating page"
++
++# confidential-ram.c
++encrypted_ram_save_page(uint32_t size, uint64_t gpa) "size: %u, gpa: 0x%" PRIx64
 -- 
 2.20.1
 
