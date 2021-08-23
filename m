@@ -2,89 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD503F4723
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 11:09:12 +0200 (CEST)
-Received: from localhost ([::1]:47548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 650403F4744
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 11:19:46 +0200 (CEST)
+Received: from localhost ([::1]:53780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mI5x9-0003vA-4y
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 05:09:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33154)
+	id 1mI67I-0000Ht-24
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 05:19:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mI5w1-0003E9-3V
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 05:08:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54037)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mI5vy-0006ZV-1w
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 05:08:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629709676;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=aISp5M1izx4NH4v0Hn06V3ODxv34YeYXayvZgVqi7XI=;
- b=VVC0xQ88CHPih/Hasxu6hGx0QckDyJoNwYwMGrvYnFDEy5DtbU3KQ7PeM1oJuW+GnzhcI1
- 5IIBpbZ9sBPsSlyEE0iAteqBgUr3Cd9tblZCM9U/gBwGw6qdR2R1R8w3/IJBfonqCpMeGY
- zW5FCYvq3kvwQwR/VP9mBF0NzDoYzUg=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-61-rGhnkSxPO42hDHRNOEa_Cg-1; Mon, 23 Aug 2021 05:07:55 -0400
-X-MC-Unique: rGhnkSxPO42hDHRNOEa_Cg-1
-Received: by mail-ej1-f69.google.com with SMTP id
- bx10-20020a170906a1ca00b005c341820edeso2474938ejb.10
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 02:07:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=aISp5M1izx4NH4v0Hn06V3ODxv34YeYXayvZgVqi7XI=;
- b=WCbrko3VdaYpJ1mNxmWwYgrhnyw9aAL9QZMMT8QpEU6Z4qJlSr942B24hAbA6DADQ2
- r4fyh847oLReJzgcSQyYqvSnR0IXsrLi2I9xRnwySUa/vsNl86+nI4yGqqIRkc7ITb4h
- EH9nSbdhiI19hDCEihJfNkskdebGnBW/5khthRZHBmfQ/j+UtFcLjzWVN3Mw5KkSKLGM
- DowGtx0U/ABCwCQksGS5LkXguzR0V+gXFQkXPcZ4UoQ1+v6iN9pSKJttuxngMQJzkCp2
- k/6/pwNKm2uS2v+ggcf4b34JuWqg3CM8S2q40rROngEqsLof1Wd5Pvy8b4cWDNjn/lTb
- 3ApA==
-X-Gm-Message-State: AOAM532Y3Yh2kzhx8H4xHJ5EiSm/KAIVijMYSiIvKzYAcAZMeTkDhHcV
- /PXcYUOdl82D5BbPkJ/OhL5Lg9izV2m4VsfFrxaOHcPHJZD0ELn3kuS59t+YoheS57iJobRZjoo
- zB+X39jOCkT/Kavg=
-X-Received: by 2002:a05:6402:1907:: with SMTP id
- e7mr8322344edz.201.1629709674331; 
- Mon, 23 Aug 2021 02:07:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxB8djTuJSNghEDmXQfwZUrFrUJ+XhpXaA6T6sK1VZ2LMR5UNf4tuXRgxUvxp5oivYQUoq5rg==
-X-Received: by 2002:a05:6402:1907:: with SMTP id
- e7mr8322319edz.201.1629709674115; 
- Mon, 23 Aug 2021 02:07:54 -0700 (PDT)
-Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
- by smtp.gmail.com with ESMTPSA id ks20sm6977968ejb.101.2021.08.23.02.07.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Aug 2021 02:07:53 -0700 (PDT)
-Date: Mon, 23 Aug 2021 11:07:52 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Marc Zyngier <maz@kernel.org>
-Subject: Re: [PATCH 1/3] hw/arm/virt: KVM: Probe for KVM_CAP_ARM_VM_IPA_SIZE
- when creating scratch VM
-Message-ID: <20210823090752.nanm4wttyefg3txh@gator.home>
-References: <20210822144441.1290891-1-maz@kernel.org>
- <20210822144441.1290891-2-maz@kernel.org>
+ (Exim 4.90_1) (envelope-from <Chunming.Li@verisilicon.com>)
+ id 1mI65W-0006my-6S; Mon, 23 Aug 2021 05:17:50 -0400
+Received: from [101.89.135.45] (port=44451 helo=shasxm03.verisilicon.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <Chunming.Li@verisilicon.com>)
+ id 1mI65Q-0004AC-Fx; Mon, 23 Aug 2021 05:17:49 -0400
+Content-Language: zh-CN
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; d=Verisilicon.com; s=default;
+ c=simple/simple; t=1629710102; h=from:subject:to:date:message-id;
+ bh=8uv6waHRcI0bnycZTrYtIglsrUAN9CGAvGZy+61uXco=;
+ b=eD0Q1DYINW/xmKH0G+uwg5t60RccZ1ftfNgvWys80JXRjRpu9DiD0nYh/b+Rk5v03VcMrCkPR5G
+ qLR5XZW/S8YvKoJRMg+KIhA8ajFxIVlFDtbl9K6WSaeFmXsnocRLqx1m9BtRi/6uziNUAYqLEmo+E
+ eIa30ywQvQRLLvsVSpw=
+Received: from SHASXM03.verisilicon.com ([fe80::938:4dda:a2f9:38aa]) by
+ SHASXM06.verisilicon.com ([fe80::59a8:ce34:dc14:ddda%16]) with mapi id
+ 14.03.0408.000; Mon, 23 Aug 2021 17:15:00 +0800
+From: "Li, Chunming" <Chunming.Li@verisilicon.com>
+To: "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>, Peter Maydell
+ <peter.maydell@linaro.org>
+Subject: [PATCH v3 0/4] hw/arm/smmuv3: Support non PCI/PCIe devices
+Thread-Topic: [PATCH v3 0/4] hw/arm/smmuv3: Support non PCI/PCIe devices
+Thread-Index: AQHXl/03JZ8T3FCsZ0CNQ+atIxw77auAzKWA
+Date: Mon, 23 Aug 2021 09:14:59 +0000
+Message-ID: <49C79B700B5D8F45B8EF0861B4EF3B3B01142F972E@SHASXM03.verisilicon.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [182.148.13.223]
+x-tm-as-product-ver: SMEX-11.0.0.4179-8.100.1062-25628.004
+x-tm-as-result: No--2.776100-0.000000-31
+x-tm-as-user-approved-sender: Yes
+x-tm-as-user-blocked-sender: No
 MIME-Version: 1.0
-In-Reply-To: <20210822144441.1290891-2-maz@kernel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.746,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 101.89.135.45 (deferred)
+Received-SPF: pass client-ip=101.89.135.45;
+ envelope-from=Chunming.Li@verisilicon.com; helo=shasxm03.verisilicon.com
+X-Spam_score_int: 6
+X-Spam_score: 0.6
+X-Spam_bar: /
+X-Spam_report: (0.6 / 5.0 requ) BAYES_20=-0.001, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,59 +68,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
- qemu-devel@nongnu.org, Eric Auger <eric.auger@redhat.com>,
- kernel-team@android.com, kvmarm@lists.cs.columbia.edu
+Cc: "Liu, Renwei" <Renwei.Liu@verisilicon.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Wen,
+ Jianxian" <Jianxian.Wen@verisilicon.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Aug 22, 2021 at 03:44:39PM +0100, Marc Zyngier wrote:
-> Although we probe for the IPA limits imposed by KVM (and the hardware)
-> when computing the memory map, we still use the old style '0' when
-> creating a scratch VM in kvm_arm_create_scratch_host_vcpu().
-> 
-> On systems that are severely IPA challenged (such as the Apple M1),
-> this results in a failure as KVM cannot use the default 40bit that
-> '0' represents.
-> 
-> Instead, probe for the extension and use the reported IPA limit
-> if available.
-> 
-> Cc: Andrew Jones <drjones@redhat.com>
-> Cc: Eric Auger <eric.auger@redhat.com>
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Marc Zyngier <maz@kernel.org>
-> ---
->  target/arm/kvm.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-> index d8381ba224..cc3371a99b 100644
-> --- a/target/arm/kvm.c
-> +++ b/target/arm/kvm.c
-> @@ -70,12 +70,17 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
->                                        struct kvm_vcpu_init *init)
->  {
->      int ret = 0, kvmfd = -1, vmfd = -1, cpufd = -1;
-> +    int max_vm_pa_size;
->  
->      kvmfd = qemu_open_old("/dev/kvm", O_RDWR);
->      if (kvmfd < 0) {
->          goto err;
->      }
-> -    vmfd = ioctl(kvmfd, KVM_CREATE_VM, 0);
-> +    max_vm_pa_size = ioctl(kvmfd, KVM_CHECK_EXTENSION, KVM_CAP_ARM_VM_IPA_SIZE);
-> +    if (max_vm_pa_size < 0) {
-> +        max_vm_pa_size = 0;
-> +    }
-> +    vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
->      if (vmfd < 0) {
->          goto err;
->      }
-> -- 
-> 2.30.2
->
+The current SMMU v3 model only support PCI/PCIe devices, so we update it fo=
+r=20
+non-PCI/PCIe devices.
+  . Add independent IOMMU memory regions for non-PCI/PCIe devices
+  . Add SID value property setting for non-PCI/PCIe devices
+  . Add PL330 DMA controller into "virt" machine and connect with SMMU v3
+  . Test PL330 DMA controller and PCIe e1000 network with SMMU v3 enabled
 
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+Notes:
+  You need apply PL330 memory region patch before compile "virt" machine:
+  https://patchew.org/QEMU/4C23C17B8E87E74E906A25A3254A03F4FA1FEC31@SHASXM0=
+3.verisilicon.com/
+
+  The old PL330 model cannot configure its memory region manually.=20
+  So we update it and provide path.
+  The patch was reviewed and will be merged in target-arm.next for 6.2.
+
+Chunming Li (4):
+  hw/arm/smmuv3: Support non PCI/PCIe device connect with SMMU v3
+  hw/arm/smmuv3: Update implementation of CFGI commands based on device
+    SID
+  hw/arm/virt: Update SMMU v3 creation to support non PCI/PCIe device
+    connection
+  hw/arm/virt: Add PL330 DMA controller and connect with SMMU v3
+
+ hw/arm/smmuv3.c              |  81 ++++++++++++++++++--------
+ hw/arm/virt.c                | 108 ++++++++++++++++++++++++++++++++++-
+ include/hw/arm/smmu-common.h |  12 +++-
+ include/hw/arm/smmuv3.h      |   2 +
+ include/hw/arm/virt.h        |   3 +
+ 5 files changed, 178 insertions(+), 28 deletions(-)
+
+--=20
+
 
 
