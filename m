@@ -2,49 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E4F63F4681
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 10:17:06 +0200 (CEST)
-Received: from localhost ([::1]:60178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5AE93F4682
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 10:17:16 +0200 (CEST)
+Received: from localhost ([::1]:60284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mI58i-0006G1-Tj
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 04:17:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50048)
+	id 1mI58o-0006K5-H6
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 04:17:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1mI56k-0004dO-Vm
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 04:15:03 -0400
-Received: from relay68.bu.edu ([128.197.228.73]:42451)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1mI56j-0003tA-5K
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 04:15:02 -0400
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 17N8E37N007446
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 23 Aug 2021 04:14:11 -0400
-Date: Mon, 23 Aug 2021 04:14:03 -0400
-From: Alexander Bulekov <alxndr@bu.edu>
-To: QEMU / QEMU <incoming+76b541d3da83db84dd2a5b0ba3bba9ff@incoming.gitlab.com>
-Subject: Re: QEMU | Heap-use-after-free through ehci_flush_qh (#541)
-Message-ID: <20210823081403.l74lp7gay5tjy2m5@mozz.bu.edu>
-References: <reply-76b541d3da83db84dd2a5b0ba3bba9ff@gitlab.com>
- <issue_92358130@gitlab.com> <note_656820217@gitlab.com>
- <note_657261050@gitlab.com> <note_657305687@gitlab.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mI56f-0004aJ-B1; Mon, 23 Aug 2021 04:14:57 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:33729)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mI56d-0003nX-OC; Mon, 23 Aug 2021 04:14:57 -0400
+Received: by mail-wr1-x431.google.com with SMTP id d26so4629704wrc.0;
+ Mon, 23 Aug 2021 01:14:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Rp12FW45nIspOLay8wQfl4Zclw/0iR2DP8wCqptWEA8=;
+ b=aAz8oI8KJ904Sp+i6dO3Beb7AH8L0f1geLE8SLz+xS5hEUcCfshcxSnHWI48V9ZN9b
+ RyQ41WCYCwk83uXSHi6K6SrmouyjLJBDt4+qpicygw7fkzf87ieetntJO8mpi2Yokr5y
+ oPjbYjcpO2JpZv4MQf0swx2la5Qy9TG6NRF2A1MkWzhbYm1XGwsjijv2yHoqrSR7wnmv
+ 7G8et8+nhejZ2+ObhH7e1wqN3Q76ZFuc/MU0w+draX9dphOV0FD9e/TlBThYBM2z1sg4
+ 90ziqKiUNkcXRaoQ/oGffxgoruWjQjYvbSHlgccst74ZVRyt85hEOy+OR2xVMy/VZmDY
+ 9hTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Rp12FW45nIspOLay8wQfl4Zclw/0iR2DP8wCqptWEA8=;
+ b=LZqvMYFbtefSsoj8Ymq8aFAESOstO7xWzlYO3HLtJs1rgTCmYUrf5QmwPZabDsYgWq
+ c/TBzG5cpp4jHlldvh+YQwjGvGy08mengqIa+UKiriw94UBTx4B7xuj7IQAda+CxwAXG
+ KbFJZzVlSr5zbCSHd917s9EqHX2cYjujOsv6L6crTwztYfwPsCMy2ovRMmeBGjTq2+pj
+ /uF9NwjdLlykNZCc8asMmOj3Qi2nNyoXR0dcMt3sHK65el7fjH18SFFctJh5oMWSkorg
+ qvnEazcO9qaoh3pcm4zade/YNAgebO+Z/W06PUC4JoqVKydoUbe9S/tiZa+qa0Iqtmc+
+ gT7A==
+X-Gm-Message-State: AOAM532UHoTveE0kYeVyeJeIoCOfyh3dg/qCv4nm5O8QbHaX/PE/o6zr
+ xGQ2brdQrgo3ExcCgulq2KuR0B6LerM=
+X-Google-Smtp-Source: ABdhPJwdroVP+UXffKguerUSu88RdGaQeVP2pq0qr/mmKxu3gk0ZbczvrGnCgu3h57Ni2E2dvFE3/Q==
+X-Received: by 2002:adf:f0c2:: with SMTP id x2mr11938079wro.107.1629706491624; 
+ Mon, 23 Aug 2021 01:14:51 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id a133sm17591232wme.5.2021.08.23.01.14.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Aug 2021 01:14:50 -0700 (PDT)
+Subject: Re: [PATCH 2/3] hw/char: cadence_uart: Disable transmit when input
+ clock is disabled
+To: Bin Meng <bmeng.cn@gmail.com>, Damien Hedde <damien.hedde@greensocs.com>, 
+ "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210823020813.25192-1-bmeng.cn@gmail.com>
+ <20210823020813.25192-3-bmeng.cn@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <7997927e-3a66-aa0e-6099-f1efe3cbb9ee@amsat.org>
+Date: Mon, 23 Aug 2021 10:14:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210823020813.25192-3-bmeng.cn@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <note_657305687@gitlab.com>
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-Spam_score_int: -7
-X-Spam_score: -0.8
-X-Spam_bar: /
-X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.833,
- HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.959,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,34 +91,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Qiuhao Li <Qiuhao.Li@outlook.com>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm not sure I understand. We try to avoid writing to MMIO regions in
-fuzz_dma_read_cb to avoid such false-positives. E.g. that's why we have
-code to do address_space_translate and manually walk the AddressSpace
-and verify that we are writing to RAM, before doing the actual
-qtest_memwrite. There is a fix to that code that need to be applied, but
-those have to wait for the 6.1 release. BTW, since this is about the
-generic-fuzzer rather than this bug, I cc-ed qemu-devel. Let's continue
-the discussion there.
+On 8/23/21 4:08 AM, Bin Meng wrote:
+> At present when input clock is disabled, any character transmitted
+> to tx fifo can still show on the serial line, which is wrong.
+> 
+> Fixes: b636db306e06 ("hw/char/cadence_uart: add clock support")
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> ---
+> 
+>  hw/char/cadence_uart.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
+> index b4b5e8a3ee..154be34992 100644
+> --- a/hw/char/cadence_uart.c
+> +++ b/hw/char/cadence_uart.c
+> @@ -327,6 +327,11 @@ static gboolean cadence_uart_xmit(void *do_not_use, GIOCondition cond,
+>  static void uart_write_tx_fifo(CadenceUARTState *s, const uint8_t *buf,
+>                                 int size)
+>  {
+> +    /* ignore characters when unclocked or in reset */
+> +    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
+> +        return;
+> +    }
 
--Alex
+Incorrect handler?
 
-On 210823 0132, 李秋豪 (@QiuhaoLi) wrote:
-> 
-> 
-> 
-> 李秋豪 commented on a discussion: https://gitlab.com/qemu-project/qemu/-/issues/541#note_657305687
-> 
-> Ok, I add a reply to my report about #540 and #541.
-> 
-> Btw, it suddenly occurred to me that our generic-fuzzer can also make reentry issues. For example, a device tries to read from a mmio region while being fuzzed, but the fuzz_dma_read_cb() will write to that region, thus leading to positive-false reentry issues. In short, we change a read action to write. Should we add checks?
-> 
-> -- 
-> Reply to this email directly or view it on GitLab: https://gitlab.com/qemu-project/qemu/-/issues/541#note_657305687
-> You're receiving this email because of your account on gitlab.com.
-> 
-> 
+-- >8 --
+diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
+index b4b5e8a3ee0..4f096222f52 100644
+--- a/hw/char/cadence_uart.c
++++ b/hw/char/cadence_uart.c
+@@ -235,8 +235,16 @@ static void uart_parameters_setup(CadenceUARTState *s)
+ static int uart_can_receive(void *opaque)
+ {
+     CadenceUARTState *s = opaque;
+-    int ret = MAX(CADENCE_UART_RX_FIFO_SIZE, CADENCE_UART_TX_FIFO_SIZE);
+-    uint32_t ch_mode = s->r[R_MR] & UART_MR_CHMODE;
++    int ret;
++    uint32_t ch_mode;
++
++    /* ignore characters when unclocked or in reset */
++    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
++        return 0;
++    }
++
++    ret = MAX(CADENCE_UART_RX_FIFO_SIZE, CADENCE_UART_TX_FIFO_SIZE);
++    ch_mode = s->r[R_MR] & UART_MR_CHMODE;
+
+     if (ch_mode == NORMAL_MODE || ch_mode == ECHO_MODE) {
+         ret = MIN(ret, CADENCE_UART_RX_FIFO_SIZE - s->rx_count);
+---
 
