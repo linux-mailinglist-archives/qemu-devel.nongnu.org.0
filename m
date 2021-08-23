@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638E03F43F5
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 05:32:37 +0200 (CEST)
-Received: from localhost ([::1]:36066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C5C83F43F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 05:31:20 +0200 (CEST)
+Received: from localhost ([::1]:33616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mI0hL-0006Ak-FQ
-	for lists+qemu-devel@lfdr.de; Sun, 22 Aug 2021 23:32:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38898)
+	id 1mI0g6-0004YA-CA
+	for lists+qemu-devel@lfdr.de; Sun, 22 Aug 2021 23:31:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lizhijian@fujitsu.com>)
- id 1mI0eN-0002LS-Cp
- for qemu-devel@nongnu.org; Sun, 22 Aug 2021 23:29:27 -0400
-Received: from mail.cn.fujitsu.com ([183.91.158.132]:39460
+ id 1mI0eU-0002dR-8S
+ for qemu-devel@nongnu.org; Sun, 22 Aug 2021 23:29:34 -0400
+Received: from mail.cn.fujitsu.com ([183.91.158.132]:33624
  helo=heian.cn.fujitsu.com) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <lizhijian@fujitsu.com>) id 1mI0eL-0000VC-89
- for qemu-devel@nongnu.org; Sun, 22 Aug 2021 23:29:27 -0400
-IronPort-HdrOrdr: =?us-ascii?q?A9a23=3AHtpvA6/FpeqK1U1P6/Ruk+DkI+orL9Y04lQ7?=
- =?us-ascii?q?vn2ZKCYlFvBw8vrCoB1173HJYUkqMk3I9ergBEDiewK4yXcW2/hzAV7KZmCP11?=
- =?us-ascii?q?dAR7sSj7cKrQeBJwTOssZZ1YpFN5N1EcDMCzFB5vrS0U2VFMkBzbC8nJyVuQ?=
+ (envelope-from <lizhijian@fujitsu.com>) id 1mI0eR-0000aQ-ET
+ for qemu-devel@nongnu.org; Sun, 22 Aug 2021 23:29:34 -0400
+IronPort-HdrOrdr: =?us-ascii?q?A9a23=3A75HwBqgu/0VGKV7KBpTqQkuKiHBQXj4ji2hC?=
+ =?us-ascii?q?6mlwRA09TySZ//rBoB19726TtN9xYgBYpTnuAsm9qB/nmaKdpLNhWItKPzOW31?=
+ =?us-ascii?q?dATrsSjrcKqgeIc0aVm9K1l50QF5SWY+eQMbEVt6nHCXGDYrQdKce8gd2VrNab?=
+ =?us-ascii?q?33FwVhtrdq0lyw94DzyQGkpwSBIuP+tDKLOsotpAuyG7eWkaKuCyBnw+VeDFoN?=
+ =?us-ascii?q?HR0L38ZxpuPW9c1CC+ySOv9KXhEwWVmjMXUzZ0y78k9mTf1yzVj5/Ty82G9g?=
  =?us-ascii?q?=3D=3D?=
-X-IronPort-AV: E=Sophos;i="5.84,343,1620662400"; d="scan'208";a="113303523"
+X-IronPort-AV: E=Sophos;i="5.84,343,1620662400"; d="scan'208";a="113303536"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
- by heian.cn.fujitsu.com with ESMTP; 23 Aug 2021 11:29:22 +0800
+ by heian.cn.fujitsu.com with ESMTP; 23 Aug 2021 11:29:28 +0800
 Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
- by cn.fujitsu.com (Postfix) with ESMTP id 2F0A74D0D9BB;
- Mon, 23 Aug 2021 11:29:17 +0800 (CST)
+ by cn.fujitsu.com (Postfix) with ESMTP id 54D7E4D0D9D1;
+ Mon, 23 Aug 2021 11:29:28 +0800 (CST)
 Received: from G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.85) by
  G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1497.23; Mon, 23 Aug 2021 11:29:08 +0800
+ (TLS) id 15.0.1497.23; Mon, 23 Aug 2021 11:29:19 +0800
 Received: from localhost.localdomain (10.167.225.141) by
  G08CNEXCHPEKD09.g08.fujitsu.local (10.167.33.209) with Microsoft SMTP Server
- id 15.0.1497.23 via Frontend Transport; Mon, 23 Aug 2021 11:29:05 +0800
+ id 15.0.1497.23 via Frontend Transport; Mon, 23 Aug 2021 11:29:17 +0800
 From: Li Zhijian <lizhijian@cn.fujitsu.com>
 To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [PATCH v2 1/2] migration/rdma: Try to register On-Demand Paging
- memory region
-Date: Mon, 23 Aug 2021 11:33:57 +0800
-Message-ID: <20210823033358.3002-2-lizhijian@cn.fujitsu.com>
+Subject: [PATCH v2 2/2] migration/rdma: advise prefetch write for ODP region
+Date: Mon, 23 Aug 2021 11:33:58 +0800
+Message-ID: <20210823033358.3002-3-lizhijian@cn.fujitsu.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210823033358.3002-1-lizhijian@cn.fujitsu.com>
 References: <20210823033358.3002-1-lizhijian@cn.fujitsu.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-yoursite-MailScanner-ID: 2F0A74D0D9BB.A0FF6
+X-yoursite-MailScanner-ID: 54D7E4D0D9D1.A1274
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: lizhijian@fujitsu.com
 Received-SPF: neutral client-ip=183.91.158.132;
@@ -72,138 +73,100 @@ Cc: qemu-devel@nongnu.org, Li Zhijian <lizhijian@cn.fujitsu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previously, for the fsdax mem-backend-file, it will register failed with
-Operation not supported. In this case, we can try to register it with
-On-Demand Paging[1] like what rpma_mr_reg() does on rpma[2].
+The responder mr registering with ODP will sent RNR NAK back to
+the requester in the face of the page fault.
+---------
+ibv_poll_cq wc.status=13 RNR retry counter exceeded!
+ibv_poll_cq wrid=WRITE RDMA!
+---------
+ibv_advise_mr(3) helps to make pages present before the actual IO is
+conducted so that the responder does page fault as little as possible.
 
-[1]: https://community.mellanox.com/s/article/understanding-on-demand-paging--odp-x
-[2]: http://pmem.io/rpma/manpages/v0.9.0/rpma_mr_reg.3
-
-CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Signed-off-by: Li Zhijian <lizhijian@cn.fujitsu.com>
+Reviewed-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 
 ---
-V2: add ODP sanity check and remove goto
+V2: use IBV_ADVISE_MR_FLAG_FLUSH instead of IB_UVERBS_ADVISE_MR_FLAG_FLUSH
+    and add Reviewed-by tag. # Marcel
 ---
- migration/rdma.c       | 73 ++++++++++++++++++++++++++++++------------
+ migration/rdma.c       | 40 ++++++++++++++++++++++++++++++++++++++++
  migration/trace-events |  1 +
- 2 files changed, 54 insertions(+), 20 deletions(-)
+ 2 files changed, 41 insertions(+)
 
 diff --git a/migration/rdma.c b/migration/rdma.c
-index 5c2d113aa94..eb80431aae2 100644
+index eb80431aae2..6c2cc3f617c 100644
 --- a/migration/rdma.c
 +++ b/migration/rdma.c
-@@ -1117,19 +1117,47 @@ static int qemu_rdma_alloc_qp(RDMAContext *rdma)
-     return 0;
+@@ -1133,6 +1133,30 @@ static bool rdma_support_odp(struct ibv_context *dev)
+     return false;
  }
  
-+/* Check whether On-Demand Paging is supported by RDAM device */
-+static bool rdma_support_odp(struct ibv_context *dev)
++/*
++ * ibv_advise_mr to avoid RNR NAK error as far as possible.
++ * The responder mr registering with ODP will sent RNR NAK back to
++ * the requester in the face of the page fault.
++ */
++static void qemu_rdma_advise_prefetch_mr(struct ibv_pd *pd, uint64_t addr,
++                                         uint32_t len,  uint32_t lkey,
++                                         const char *name, bool wr)
 +{
-+    struct ibv_device_attr_ex attr = {0};
-+    int ret = ibv_query_device_ex(dev, NULL, &attr);
++    int ret;
++    int advice = wr ? IBV_ADVISE_MR_ADVICE_PREFETCH_WRITE :
++                 IBV_ADVISE_MR_ADVICE_PREFETCH;
++    struct ibv_sge sg_list = {.lkey = lkey, .addr = addr, .length = len};
++
++    ret = ibv_advise_mr(pd, advice,
++                        IBV_ADVISE_MR_FLAG_FLUSH, &sg_list, 1);
++    /* ignore the error */
 +    if (ret) {
-+        return false;
++        trace_qemu_rdma_advise_mr(name, len, addr, strerror(errno));
++    } else {
++        trace_qemu_rdma_advise_mr(name, len, addr, "successed");
 +    }
-+
-+    if (attr.odp_caps.general_caps & IBV_ODP_SUPPORT) {
-+        return true;
-+    }
-+
-+    return false;
 +}
 +
  static int qemu_rdma_reg_whole_ram_blocks(RDMAContext *rdma)
  {
      int i;
-     RDMALocalBlocks *local = &rdma->local_ram_blocks;
- 
-     for (i = 0; i < local->nb_blocks; i++) {
-+        int access = IBV_ACCESS_LOCAL_WRITE | IBV_ACCESS_REMOTE_WRITE;
+@@ -1156,6 +1180,15 @@ static int qemu_rdma_reg_whole_ram_blocks(RDMAContext *rdma)
+                                local->block[i].local_host_addr,
+                                local->block[i].length, access);
+                 trace_qemu_rdma_register_odp_mr(local->block[i].block_name);
 +
-         local->block[i].mr =
-             ibv_reg_mr(rdma->pd,
-                     local->block[i].local_host_addr,
--                    local->block[i].length,
--                    IBV_ACCESS_LOCAL_WRITE |
--                    IBV_ACCESS_REMOTE_WRITE
-+                    local->block[i].length, access
-                     );
-+
-+        if (!local->block[i].mr &&
-+            errno == ENOTSUP && rdma_support_odp(rdma->verbs)) {
-+                access |= IBV_ACCESS_ON_DEMAND;
-+                /* register ODP mr */
-+                local->block[i].mr =
-+                    ibv_reg_mr(rdma->pd,
-+                               local->block[i].local_host_addr,
-+                               local->block[i].length, access);
-+                trace_qemu_rdma_register_odp_mr(local->block[i].block_name);
-+        }
-+
-         if (!local->block[i].mr) {
-             perror("Failed to register local dest ram block!");
-             break;
-@@ -1215,28 +1243,33 @@ static int qemu_rdma_register_and_get_keys(RDMAContext *rdma,
-      */
-     if (!block->pmr[chunk]) {
-         uint64_t len = chunk_end - chunk_start;
-+        int access = rkey ? IBV_ACCESS_LOCAL_WRITE | IBV_ACCESS_REMOTE_WRITE :
-+                     0;
- 
-         trace_qemu_rdma_register_and_get_keys(len, chunk_start);
- 
--        block->pmr[chunk] = ibv_reg_mr(rdma->pd,
--                chunk_start, len,
--                (rkey ? (IBV_ACCESS_LOCAL_WRITE |
--                        IBV_ACCESS_REMOTE_WRITE) : 0));
--
--        if (!block->pmr[chunk]) {
--            perror("Failed to register chunk!");
--            fprintf(stderr, "Chunk details: block: %d chunk index %d"
--                            " start %" PRIuPTR " end %" PRIuPTR
--                            " host %" PRIuPTR
--                            " local %" PRIuPTR " registrations: %d\n",
--                            block->index, chunk, (uintptr_t)chunk_start,
--                            (uintptr_t)chunk_end, host_addr,
--                            (uintptr_t)block->local_host_addr,
--                            rdma->total_registrations);
--            return -1;
-+        block->pmr[chunk] = ibv_reg_mr(rdma->pd, chunk_start, len, access);
-+        if (!block->pmr[chunk] &&
-+            errno == ENOTSUP && rdma_support_odp(rdma->verbs)) {
-+            access |= IBV_ACCESS_ON_DEMAND;
-+            /* register ODP mr */
-+            block->pmr[chunk] = ibv_reg_mr(rdma->pd, chunk_start, len, access);
-+            trace_qemu_rdma_register_odp_mr(block->block_name);
++                if (local->block[i].mr) {
++                    qemu_rdma_advise_prefetch_mr(rdma->pd,
++                                    (uintptr_t)local->block[i].local_host_addr,
++                                    local->block[i].length,
++                                    local->block[i].mr->lkey,
++                                    local->block[i].block_name,
++                                    true);
++                }
          }
--        rdma->total_registrations++;
-     }
-+    if (!block->pmr[chunk]) {
-+        perror("Failed to register chunk!");
-+        fprintf(stderr, "Chunk details: block: %d chunk index %d"
-+                        " start %" PRIuPTR " end %" PRIuPTR
-+                        " host %" PRIuPTR
-+                        " local %" PRIuPTR " registrations: %d\n",
-+                        block->index, chunk, (uintptr_t)chunk_start,
-+                        (uintptr_t)chunk_end, host_addr,
-+                        (uintptr_t)block->local_host_addr,
-+                        rdma->total_registrations);
-+        return -1;
-+    }
-+    rdma->total_registrations++;
  
-     if (lkey) {
-         *lkey = block->pmr[chunk]->lkey;
+         if (!local->block[i].mr) {
+@@ -1255,6 +1288,13 @@ static int qemu_rdma_register_and_get_keys(RDMAContext *rdma,
+             /* register ODP mr */
+             block->pmr[chunk] = ibv_reg_mr(rdma->pd, chunk_start, len, access);
+             trace_qemu_rdma_register_odp_mr(block->block_name);
++
++            if (block->pmr[chunk]) {
++                qemu_rdma_advise_prefetch_mr(rdma->pd, (uintptr_t)chunk_start,
++                                            len, block->pmr[chunk]->lkey,
++                                            block->block_name, rkey);
++
++            }
+         }
+     }
+     if (!block->pmr[chunk]) {
 diff --git a/migration/trace-events b/migration/trace-events
-index a1c0f034ab8..5f6aa580def 100644
+index 5f6aa580def..a8ae163707c 100644
 --- a/migration/trace-events
 +++ b/migration/trace-events
-@@ -212,6 +212,7 @@ qemu_rdma_poll_write(const char *compstr, int64_t comp, int left, uint64_t block
- qemu_rdma_poll_other(const char *compstr, int64_t comp, int left) "other completion %s (%" PRId64 ") received left %d"
+@@ -213,6 +213,7 @@ qemu_rdma_poll_other(const char *compstr, int64_t comp, int left) "other complet
  qemu_rdma_post_send_control(const char *desc) "CONTROL: sending %s.."
  qemu_rdma_register_and_get_keys(uint64_t len, void *start) "Registering %" PRIu64 " bytes @ %p"
-+qemu_rdma_register_odp_mr(const char *name) "Try to register On-Demand Paging memory region: %s"
+ qemu_rdma_register_odp_mr(const char *name) "Try to register On-Demand Paging memory region: %s"
++qemu_rdma_advise_mr(const char *name, uint32_t len, uint64_t addr, const char *res) "Try to advise block %s prefetch at %" PRIu32 "@0x%" PRIx64 ": %s"
  qemu_rdma_registration_handle_compress(int64_t length, int index, int64_t offset) "Zapping zero chunk: %" PRId64 " bytes, index %d, offset %" PRId64
  qemu_rdma_registration_handle_finished(void) ""
  qemu_rdma_registration_handle_ram_blocks(void) ""
