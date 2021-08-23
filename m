@@ -2,71 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C103F4810
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 11:59:32 +0200 (CEST)
-Received: from localhost ([::1]:34258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50A683F481B
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 12:01:47 +0200 (CEST)
+Received: from localhost ([::1]:36510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mI6jl-0001FY-Hi
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 05:59:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44628)
+	id 1mI6m2-000310-EQ
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 06:01:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mI6iT-00008M-2g; Mon, 23 Aug 2021 05:58:05 -0400
-Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:46631)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mI6iQ-0007ZK-Ek; Mon, 23 Aug 2021 05:58:04 -0400
-Received: by mail-yb1-xb33.google.com with SMTP id k65so32908453yba.13;
- Mon, 23 Aug 2021 02:58:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=dSJP7vqY8fmMiEeFaZtbmFc3zOocAmOBfsrWlU+3TIw=;
- b=W6rBFuUVChzOisojXaufHPd9Fx8UoJDzu3XkKwJnT3IeJQ0xTO41Mrw+rQg0a6lvWt
- ANVrCnJbSdNHK9SEfxw32Mom87o2wTVt+cks5KKeaAI3KEYxlf61flDPyGIvVac2U3RX
- AtgSinczoqf6tzx3IwqMHuqoQai0tanC6bI7hPzhzLTRgLQ5C6Yj2R6VJnCZ6snBOk9A
- lBNuGq/H5ObxTatOl4q9iDujKjFEL9ZiHo4Uy6AQGJhlJINGN7tKsrR63uIcJwENzZ3j
- tFSyZVyHe15F/QO4/LeuT/8tQPxKeKDFfuERDoFesqsWTALsLCoH4Kq3vD3GfsrzlIqz
- piWQ==
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1mI6jl-0001qf-1c
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 05:59:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31238)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1mI6jh-0000DK-Ka
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 05:59:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629712760;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zYZBzX1W/bVZOxenehJUAlFfxU2B/H4ByJg9uUgV3MQ=;
+ b=aYIp1ZPTINRtPWq7PgsqWNDdnrn+xxAnEPsACPMcposHEt/rE76KfRXNuDg3/yuLjbcDIZ
+ YRbTTH0oJQEqnwpw9j714GKQmaTfdCsxj68pZdMlP3/Iqm5trO463vlHSvsvsh+sGDyYiO
+ 9P2MqfzVEau5RSSNzZILeZG6pviiuY4=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-562-H9m7NaqdNAe7PZDw4nX8rg-1; Mon, 23 Aug 2021 05:59:19 -0400
+X-MC-Unique: H9m7NaqdNAe7PZDw4nX8rg-1
+Received: by mail-pl1-f197.google.com with SMTP id
+ p21-20020a1709028a95b029012c31764588so4095186plo.12
+ for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 02:59:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=dSJP7vqY8fmMiEeFaZtbmFc3zOocAmOBfsrWlU+3TIw=;
- b=Du9poJaJ8yP2dpaQvUjKlOi83DLnvqnAxBOeSz98P6Ng20BXWp00tUlg3z0RoNS5K2
- ubjSZWRVAP79oFocLVM2faWqFotXC6MGEcI1MTZPlp+PxB5jbjbrjrah8Zl3MG7/x04f
- IYjsb/5fzw4I1ht159eKODPvviXP38r28BMKJayN+Xqgo4240EelBziqr2ewy+T0oZbX
- ojSp5fFi5QIhd6Mi77Sn/f6Vo4rL2lCpUC120q7BtCQYhd/rwIoWofLo5YK7KFDMtg4j
- /LNO5dKacGC7dr9TlgS6Kw/NF4vDgt7eeYnmtDAK4KRImqIFvS8Xm+IpvMGEau1CSk1c
- XHXQ==
-X-Gm-Message-State: AOAM531+r6LbYaW4hLdkRjH6GAOVTbj7EbeZBzNlwKU+f1bJxGAbWrcm
- pLMwp83dahebLGi7elJAhgu7C14EcVJRjIF00pM=
-X-Google-Smtp-Source: ABdhPJxcDbdivu+2/BBnn6rWEn46PHl4PXy+ebJJ1+Jk0R7O+8OWF9T8yTuL0696d+nRg5dzRVDWC9Ngv7YD+WWJqrg=
-X-Received: by 2002:a25:cf8a:: with SMTP id
- f132mr44621723ybg.387.1629712681084; 
- Mon, 23 Aug 2021 02:58:01 -0700 (PDT)
+ bh=zYZBzX1W/bVZOxenehJUAlFfxU2B/H4ByJg9uUgV3MQ=;
+ b=W+nb7RzwOgz2bErGTVvL+WjeLU0KOinBuzMI/9HSaXFsboNFSZ81Y1F3qjS0BFSYlc
+ 4uN2iiJSDFts6sQp2M/siT/0xX/gBzE4WKt+Fg+PufE+1Uz4a2kszVrkMXSGQ6iR5Mh4
+ 2tHtw/8y9BuSSd/T0sOxGRgmR/G7xRdKOXN91G9drV0hID/B+l9uTEoP6EP1XF7Xfljg
+ uFeu10rYGQ9KNXLoYz7EhLAeYKwSJYd8r/M9jyVE0znIevKq4BSv7cBpvlrbIsCK01cD
+ RayfBZxjCrs3zezkD+8zuNLjXcH21v4wmN4YFjRdox/q8EurUx4xrq2eWlmk6hQnKCi8
+ Ta0Q==
+X-Gm-Message-State: AOAM531rp+UX/sIAUVkG5fWObiMoEM7a3pgBA4N6+yfw/If6EGLnBpgW
+ ZWqS/hOPoMmm2mXiAqw420FruIbczaH96TmCoQ9H45UcSwYFAHZyJUlH4QE+SStTIH8sVhrHIAY
+ 8w9GleuTNdRbhfjjOP55PHjKMPmdy6a4=
+X-Received: by 2002:a17:902:ecca:b029:12d:1a3b:571f with SMTP id
+ a10-20020a170902eccab029012d1a3b571fmr27572833plh.37.1629712758307; 
+ Mon, 23 Aug 2021 02:59:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzsyd+9TZ1+PriaZnqHT9WSyOIZOgsmsj8EnI8QdmAx8qofmfn2WtinQiLJ169TyzhYesfk5NoeRZDEztoBUNw=
+X-Received: by 2002:a17:902:ecca:b029:12d:1a3b:571f with SMTP id
+ a10-20020a170902eccab029012d1a3b571fmr27572823plh.37.1629712758043; Mon, 23
+ Aug 2021 02:59:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210823020813.25192-1-bmeng.cn@gmail.com>
- <20210823020813.25192-3-bmeng.cn@gmail.com>
- <7997927e-3a66-aa0e-6099-f1efe3cbb9ee@amsat.org>
-In-Reply-To: <7997927e-3a66-aa0e-6099-f1efe3cbb9ee@amsat.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 23 Aug 2021 17:57:49 +0800
-Message-ID: <CAEUhbmVVRKebU-=k0WaxpaRe-E_UsLy_82K0PzRE=7xNHp9hGQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] hw/char: cadence_uart: Disable transmit when input
- clock is disabled
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+References: <20210818120505.1258262-1-kraxel@redhat.com>
+ <CAFEAcA_-wCZQv8bSpUoROzJCz5ND6_5DG-FKOXDSOhEcptqF0Q@mail.gmail.com>
+ <de938d0f-7de6-d34e-5f48-c4b6346545f4@redhat.com>
+In-Reply-To: <de938d0f-7de6-d34e-5f48-c4b6346545f4@redhat.com>
+From: Mauro Matteo Cascella <mcascell@redhat.com>
+Date: Mon, 23 Aug 2021 11:59:07 +0200
+Message-ID: <CAA8xKjXQOKGAQ3Lkrw4TDWd1wPyUOCZ9PzPc_fdw2uC6S62eRg@mail.gmail.com>
+Subject: Re: [PATCH 0/1] uas: add stream number sanity checks (maybe 6.1)
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb33.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mcascell@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.746,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,77 +94,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 23, 2021 at 4:14 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
+Hi,
+
+On Fri, Aug 20, 2021 at 3:07 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
 >
-> On 8/23/21 4:08 AM, Bin Meng wrote:
-> > At present when input clock is disabled, any character transmitted
-> > to tx fifo can still show on the serial line, which is wrong.
-> >
-> > Fixes: b636db306e06 ("hw/char/cadence_uart: add clock support")
-> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> > ---
-> >
-> >  hw/char/cadence_uart.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
-> > index b4b5e8a3ee..154be34992 100644
-> > --- a/hw/char/cadence_uart.c
-> > +++ b/hw/char/cadence_uart.c
-> > @@ -327,6 +327,11 @@ static gboolean cadence_uart_xmit(void *do_not_use=
-, GIOCondition cond,
-> >  static void uart_write_tx_fifo(CadenceUARTState *s, const uint8_t *buf=
-,
-> >                                 int size)
-> >  {
-> > +    /* ignore characters when unclocked or in reset */
-> > +    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s)))=
- {
-> > +        return;
-> > +    }
+> Cc'ing Mauro to double-check.
 >
-> Incorrect handler?
+> On 8/20/21 2:12 PM, Peter Maydell wrote:
+> > On Wed, 18 Aug 2021 at 13:10, Gerd Hoffmann <kraxel@redhat.com> wrote:
+> >>
+> >> Security fix.  Sorry for the last-minute patch, I had completely
+> >> forgotten this one until the CVE number for it arrived today.
+> >>
+> >> Given that the classic usb storage device is way more popular than
+> >> the uas (usb attached scsi) device the impact should be pretty low
+> >> and we might consider to not screw up our release schedule for this.
+> >
+> > What's the impact if the bug is exploited ?
+>
+> Bug class: "guest-triggered user-after-free".
+>
+> Being privileged (root) in the guest, you can leak some data from
+> the host process then DoS the host or potentially exploit the
+> use-after-free to execute code on the host.
 >
 
-Sorry I don't get it. This patch is for the Tx path, while patch #3 is
-for the Rx path.
+This is actually an out-of-bounds access issue (not UAF). It's still
+potentially bad, but I agree with Gerd the impact is low. Plus there's
+an assert right before [1] that makes it a DoS if the accessed memory
+is not NULL.
 
-> -- >8 --
-> diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
-> index b4b5e8a3ee0..4f096222f52 100644
-> --- a/hw/char/cadence_uart.c
-> +++ b/hw/char/cadence_uart.c
-> @@ -235,8 +235,16 @@ static void uart_parameters_setup(CadenceUARTState *=
-s)
->  static int uart_can_receive(void *opaque)
->  {
->      CadenceUARTState *s =3D opaque;
-> -    int ret =3D MAX(CADENCE_UART_RX_FIFO_SIZE, CADENCE_UART_TX_FIFO_SIZE=
-);
-> -    uint32_t ch_mode =3D s->r[R_MR] & UART_MR_CHMODE;
-> +    int ret;
-> +    uint32_t ch_mode;
-> +
-> +    /* ignore characters when unclocked or in reset */
-> +    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
-> +        return 0;
-> +    }
-> +
-> +    ret =3D MAX(CADENCE_UART_RX_FIFO_SIZE, CADENCE_UART_TX_FIFO_SIZE);
-> +    ch_mode =3D s->r[R_MR] & UART_MR_CHMODE;
->
->      if (ch_mode =3D=3D NORMAL_MODE || ch_mode =3D=3D ECHO_MODE) {
->          ret =3D MIN(ret, CADENCE_UART_RX_FIFO_SIZE - s->rx_count);
+[1] https://gitlab.com/qemu-project/qemu/-/blob/master/hw/usb/dev-uas.c#L85=
+0
 
-Regards,
-Bin
+Regards.
+--
+Mauro Matteo Cascella
+Red Hat Product Security
+PGP-Key ID: BB3410B0
+
 
