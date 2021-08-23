@@ -2,65 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10E643F4199
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Aug 2021 23:04:21 +0200 (CEST)
-Received: from localhost ([::1]:35982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9945A3F4310
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 03:28:15 +0200 (CEST)
+Received: from localhost ([::1]:48410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mHudf-0004NL-I3
-	for lists+qemu-devel@lfdr.de; Sun, 22 Aug 2021 17:04:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49562)
+	id 1mHyl4-0004nS-F6
+	for lists+qemu-devel@lfdr.de; Sun, 22 Aug 2021 21:28:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1mHucD-0003QG-9g; Sun, 22 Aug 2021 17:02:49 -0400
-Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:37415)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
- id 1mHucB-0003SM-GM; Sun, 22 Aug 2021 17:02:49 -0400
-Received: by mail-il1-x12a.google.com with SMTP id i13so3997107ilm.4;
- Sun, 22 Aug 2021 14:02:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ba3Fi3Jp94PiX96EttZFFvmqfhrGpPeO6jLV7FENRWs=;
- b=lpWMyZQCFYysRQZ3RUTVwSCXHOInZf++lZat9fuloI0F2TH10/z+vJqGhZbDbesVEz
- ZUS1qUtfjH0KFaPizYj9uv8hHXQ2LW846pywvE5JsNLZu56IE1ZHi3YuThYeGjkm3zOh
- 5ksANzlJPjxS+Vaen7I0EDKGjz7DKe6YmoKqJvs4VANoN2pQrldl75X8W3oU43Lkzgig
- 6Ri+tKDSM/zzh2kD3oA7vJIt6/xgl7FLmN6x3Z6VvGdUYR6DU3rno3aLvDuRl4cNUDHd
- 3w53bUaRtrZ5xZqlxLOewe7xrs/M9wlYKTh8gj+H6ozzatnylbaOjEuYaJqJLzv82iyu
- dxeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ba3Fi3Jp94PiX96EttZFFvmqfhrGpPeO6jLV7FENRWs=;
- b=LZjnMW+WnjeVxTvgCPDNxcawsmh0AGDg1fJ+GYyZ0//0Kqyhsm5sYdJ0rF0YnuinKE
- jczMphroPXsfulqdxAoRArio2Rw72ECUWl4jf8q00PTPV8RjCdgK4IZeqJrhfLlT37zd
- uDaU3kxiiXxSNpD/KHjgBcjiOlm6pcrAKv+p301ZQoZxPPMhml2KuoT6FJBNuYm5fI9B
- alOMr3x+8UM+BSq4nOAERRVvo2r1Hfkpah+nCC1Pfgcol+7NHU/GGOj8QLRocCM3bCFy
- QL4cFEqyzbGjMXgdrjWkwo03edbHqKTkP/BPH1Or/JNt76aSSnBrfkIuRnSDQvXo4w32
- ThgA==
-X-Gm-Message-State: AOAM531ZYIs3jOf1oqOA/N1z5fA92ZOP1iGbAOmvocHq+UBVrpQk65T4
- JFDyNPyqquY7ziJ6dLKjkjYsULOq/DWpcj7aM4o=
-X-Google-Smtp-Source: ABdhPJwNtRP7BmxIS7WS6qdPfWxOIENWSfMYrX8agFQGZ6JjpzksGodSKN5+KjIxgLAWXaCUjSLwQWeqKzjaZyZwkec=
-X-Received: by 2002:a92:cac8:: with SMTP id m8mr11653400ilq.100.1629666165398; 
- Sun, 22 Aug 2021 14:02:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jingqi.liu@intel.com>)
+ id 1mHykH-000496-CX
+ for qemu-devel@nongnu.org; Sun, 22 Aug 2021 21:27:25 -0400
+Received: from mga09.intel.com ([134.134.136.24]:55464)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jingqi.liu@intel.com>)
+ id 1mHykE-0003bB-6t
+ for qemu-devel@nongnu.org; Sun, 22 Aug 2021 21:27:25 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10084"; a="217017009"
+X-IronPort-AV: E=Sophos;i="5.84,343,1620716400"; d="scan'208";a="217017009"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Aug 2021 18:27:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.84,343,1620716400"; d="scan'208";a="492386053"
+Received: from icx-hcc-jingqi.sh.intel.com ([10.239.48.6])
+ by fmsmga008.fm.intel.com with ESMTP; 22 Aug 2021 18:27:15 -0700
+From: Jingqi Liu <jingqi.liu@intel.com>
+To: imammedo@redhat.com, mst@redhat.com, marcel.apfelbaum@gmail.com,
+ pbonzini@redhat.com, ehabkost@redhat.com, richard.henderson@linaro.org
+Subject: [PATCH v3] hw/i386/acpi-build: Get NUMA information from struct
+ NumaState
+Date: Mon, 23 Aug 2021 09:12:54 +0800
+Message-Id: <20210823011254.28506-1-jingqi.liu@intel.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-References: <20210810134124.18523-1-pl@kamp.de>
-In-Reply-To: <20210810134124.18523-1-pl@kamp.de>
-From: Ilya Dryomov <idryomov@gmail.com>
-Date: Sun, 22 Aug 2021 23:02:30 +0200
-Message-ID: <CAOi1vP_vu3sRSp1nV8EfvNvkJMWg26iGJWtXqPnT9yUS6Zh36g@mail.gmail.com>
-Subject: Re: [PATCH V2] block/rbd: implement bdrv_co_block_status
-To: Peter Lieven <pl@kamp.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
- envelope-from=idryomov@gmail.com; helo=mail-il1-x12a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=134.134.136.24; envelope-from=jingqi.liu@intel.com;
+ helo=mga09.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,225 +59,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Ilya Dryomov <idryomov@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, ct@flyingcircus.io, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Jason Dillaman <dillaman@redhat.com>
+Cc: Jingqi Liu <jingqi.liu@intel.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 10, 2021 at 3:41 PM Peter Lieven <pl@kamp.de> wrote:
->
-> the qemu rbd driver currently lacks support for bdrv_co_block_status.
-> This results mainly in incorrect progress during block operations (e.g.
-> qemu-img convert with an rbd image as source).
->
-> This patch utilizes the rbd_diff_iterate2 call from librbd to detect
-> allocated and unallocated (all zero areas).
->
-> To avoid querying the ceph OSDs for the answer this is only done if
-> the image has the fast-diff features which depends on the object-map
+Since commits aa57020774b ("numa: move numa global variable
+nb_numa_nodes into MachineState") and 7e721e7b10e ("numa: move
+numa global variable numa_info into MachineState"), we can get
+NUMA information completely from MachineState::numa_state.
 
-Hi Peter,
+Remove PCMachineState::numa_nodes and PCMachineState::node_mem,
+since they are just copied from MachineState::numa_state.
 
-Nit: "has the fast-diff feature which depends on the object-map and
-exclusive-lock features"
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
+---
+ hw/i386/acpi-build.c | 12 +++++++-----
+ hw/i386/pc.c         |  9 ---------
+ include/hw/i386/pc.h |  4 ----
+ 3 files changed, 7 insertions(+), 18 deletions(-)
 
-> and exclusive-lock. In this case it is guaranteed that the information
-> is present in memory in the librbd client and thus very fast.
->
-> If fast-diff is not available all areas are reported to be allocated
-> which is the current behaviour if bdrv_co_block_status is not implemented.
->
-> Signed-off-by: Peter Lieven <pl@kamp.de>
-> ---
-> V1->V2:
-> - add commit comment [Stefano]
-> - use failed_post_open [Stefano]
-> - remove redundant assert [Stefano]
-> - add macro+comment for the magic -9000 value [Stefano]
-> - always set *file if its non NULL [Stefano]
->
->  block/rbd.c | 125 ++++++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 125 insertions(+)
->
-> diff --git a/block/rbd.c b/block/rbd.c
-> index dcf82b15b8..8692e76f40 100644
-> --- a/block/rbd.c
-> +++ b/block/rbd.c
-> @@ -88,6 +88,7 @@ typedef struct BDRVRBDState {
->      char *namespace;
->      uint64_t image_size;
->      uint64_t object_size;
-> +    uint64_t features;
->  } BDRVRBDState;
->
->  typedef struct RBDTask {
-> @@ -983,6 +984,13 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
->      s->image_size = info.size;
->      s->object_size = info.obj_size;
->
-> +    r = rbd_get_features(s->image, &s->features);
-> +    if (r < 0) {
-> +        error_setg_errno(errp, -r, "error getting image features from %s",
-> +                         s->image_name);
-> +        goto failed_post_open;
-> +    }
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 17836149fe..e3c9ad011e 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -1902,6 +1902,8 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+     X86MachineState *x86ms = X86_MACHINE(machine);
+     const CPUArchIdList *apic_ids = mc->possible_cpu_arch_ids(machine);
+     PCMachineState *pcms = PC_MACHINE(machine);
++    int nb_numa_nodes = machine->numa_state->num_nodes;
++    NodeInfo *numa_info = machine->numa_state->nodes;
+     ram_addr_t hotplugabble_address_space_size =
+         object_property_get_int(OBJECT(pcms), PC_MACHINE_DEVMEM_REGION_SIZE,
+                                 NULL);
+@@ -1945,9 +1947,9 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+     next_base = 0;
+     numa_start = table_data->len;
+ 
+-    for (i = 1; i < pcms->numa_nodes + 1; ++i) {
++    for (i = 1; i < nb_numa_nodes + 1; ++i) {
+         mem_base = next_base;
+-        mem_len = pcms->node_mem[i - 1];
++        mem_len = numa_info[i - 1].node_mem;
+         next_base = mem_base + mem_len;
+ 
+         /* Cut out the 640K hole */
+@@ -1995,7 +1997,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+     }
+ 
+     slots = (table_data->len - numa_start) / sizeof *numamem;
+-    for (; slots < pcms->numa_nodes + 2; slots++) {
++    for (; slots < nb_numa_nodes + 2; slots++) {
+         numamem = acpi_data_push(table_data, sizeof *numamem);
+         build_srat_memory(numamem, 0, 0, 0, MEM_AFFINITY_NOFLAGS);
+     }
+@@ -2011,7 +2013,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+     if (hotplugabble_address_space_size) {
+         numamem = acpi_data_push(table_data, sizeof *numamem);
+         build_srat_memory(numamem, machine->device_memory->base,
+-                          hotplugabble_address_space_size, pcms->numa_nodes - 1,
++                          hotplugabble_address_space_size, nb_numa_nodes - 1,
+                           MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
+     }
+ 
+@@ -2513,7 +2515,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+         }
+     }
+ #endif
+-    if (pcms->numa_nodes) {
++    if (machine->numa_state->num_nodes) {
+         acpi_add_table(table_offsets, tables_blob);
+         build_srat(tables_blob, tables->linker, machine);
+         if (machine->numa_state->have_numa_distance) {
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index c2b9d62a35..adbc348488 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -800,18 +800,9 @@ void pc_machine_done(Notifier *notifier, void *data)
+ 
+ void pc_guest_info_init(PCMachineState *pcms)
+ {
+-    int i;
+-    MachineState *ms = MACHINE(pcms);
+     X86MachineState *x86ms = X86_MACHINE(pcms);
+ 
+     x86ms->apic_xrupt_override = true;
+-    pcms->numa_nodes = ms->numa_state->num_nodes;
+-    pcms->node_mem = g_malloc0(pcms->numa_nodes *
+-                                    sizeof *pcms->node_mem);
+-    for (i = 0; i < ms->numa_state->num_nodes; i++) {
+-        pcms->node_mem[i] = ms->numa_state->nodes[i].node_mem;
+-    }
+-
+     pcms->machine_done.notify = pc_machine_done;
+     qemu_add_machine_init_done_notifier(&pcms->machine_done);
+ }
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 88dffe7517..31b334e0a4 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -47,10 +47,6 @@ typedef struct PCMachineState {
+     bool default_bus_bypass_iommu;
+     uint64_t max_fw_size;
+ 
+-    /* NUMA information: */
+-    uint64_t numa_nodes;
+-    uint64_t *node_mem;
+-
+     /* ACPI Memory hotplug IO base address */
+     hwaddr memhp_io_base;
+ } PCMachineState;
+-- 
+2.21.3
 
-The object-map and fast-diff features can be enabled/disabled while the
-image is open so this should probably go to qemu_rbd_co_block_status().
-
-> +
->      /* If we are using an rbd snapshot, we must be r/o, otherwise
->       * leave as-is */
->      if (s->snap != NULL) {
-> @@ -1259,6 +1267,122 @@ static ImageInfoSpecific *qemu_rbd_get_specific_info(BlockDriverState *bs,
->      return spec_info;
->  }
->
-> +typedef struct rbd_diff_req {
-> +    uint64_t offs;
-> +    uint64_t bytes;
-> +    int exists;
-> +} rbd_diff_req;
-> +
-> +/*
-> + * rbd_diff_iterate2 allows to interrupt the exection by returning a negative
-> + * value in the callback routine. Choose a value that does not conflict with
-> + * an existing exitcode and return it if we want to prematurely stop the
-> + * execution because we detected a change in the allocation status.
-> + */
-> +#define QEMU_RBD_EXIT_DIFF_ITERATE2 -9000
-> +
-> +static int qemu_rbd_co_block_status_cb(uint64_t offs, size_t len,
-> +                                       int exists, void *opaque)
-> +{
-> +    struct rbd_diff_req *req = opaque;
-> +
-> +    assert(req->offs + req->bytes <= offs);
-> +
-> +    if (req->exists && offs > req->offs + req->bytes) {
-> +        /*
-> +         * we started in an allocated area and jumped over an unallocated area,
-> +         * req->bytes contains the length of the allocated area before the
-> +         * unallocated area. stop further processing.
-> +         */
-> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
-> +    }
-> +    if (req->exists && !exists) {
-> +        /*
-> +         * we started in an allocated area and reached a hole. req->bytes
-> +         * contains the length of the allocated area before the hole.
-> +         * stop further processing.
-> +         */
-> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
-> +    }
-> +    if (!req->exists && exists && offs > req->offs) {
-> +        /*
-> +         * we started in an unallocated area and hit the first allocated
-> +         * block. req->bytes must be set to the length of the unallocated area
-> +         * before the allocated area. stop further processing.
-> +         */
-> +        req->bytes = offs - req->offs;
-> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
-> +    }
-> +
-> +    /*
-> +     * assert that we catched all cases above and allocation state has not
-
-catched -> caught
-
-> +     * changed during callbacks.
-> +     */
-> +    assert(exists == req->exists || !req->bytes);
-> +    req->exists = exists;
-> +
-> +    /*
-> +     * assert that we either return an unallocated block or have got callbacks
-> +     * for all allocated blocks present.
-> +     */
-> +    assert(!req->exists || offs == req->offs + req->bytes);
-> +    req->bytes = offs + len - req->offs;
-> +
-> +    return 0;
-> +}
-> +
-> +static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
-> +                                                 bool want_zero, int64_t offset,
-> +                                                 int64_t bytes, int64_t *pnum,
-> +                                                 int64_t *map,
-> +                                                 BlockDriverState **file)
-> +{
-> +    BDRVRBDState *s = bs->opaque;
-> +    int ret, r;
-> +    struct rbd_diff_req req = { .offs = offset };
-> +
-> +    assert(offset + bytes <= s->image_size);
-> +
-> +    /* default to all sectors allocated */
-> +    ret = BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID;
-
-I'm a little confused by the meaning of these flags (but I haven't
-looked at the other drivers yet).  Looks like this patch always sets
-BDRV_BLOCK_OFFSET_VALID (makes sense since the "host" offset is always
-known for rbd) and returns either BDRV_BLOCK_DATA or BDRV_BLOCK_ZERO.
-
-DATA ZERO OFFSET_VALID
- t    t        t       sectors read as zero, returned file is zero at offset
- t    f        t       sectors read as valid from file at offset
- f    t        t       sectors preallocated, read as zero, returned file not
-                       necessarily zero at offset
- f    f        t       sectors preallocated but read from backing_hd,
-                       returned file contains garbage at offset
-
-What about the first case (BDRV_BLOCK_DATA | BDRV_BLOCK_ZERO)?
-What is the practical difference to just BDRV_BLOCK_ZERO?
-
-> +    if (map) {
-> +        *map = offset;
-> +    }
-> +    if (file) {
-> +        *file = bs;
-> +    }
-
-A comment in block_int.h says that map and file are guaranteed to be
-non-NULL so these tests seem redundant?
-
-> +    *pnum = bytes;
-> +
-> +    /* RBD image does not support fast-diff */
-> +    if (!(s->features & RBD_FEATURE_FAST_DIFF)) {
-> +        goto out;
-> +    }
-
-Need to make sure that fast-diff is valid here: call rbd_get_flags()
-on the image and test for !RBD_FLAG_FAST_DIFF_INVALID.
-
-> +
-> +    r = rbd_diff_iterate2(s->image, NULL, offset, bytes, true, true,
-> +                          qemu_rbd_co_block_status_cb, &req);
-> +    if (r < 0 && r != QEMU_RBD_EXIT_DIFF_ITERATE2) {
-> +        goto out;
-> +    }
-> +    assert(req.bytes <= bytes);
-> +    if (!req.exists) {
-> +        if (r == 0 && !req.bytes) {
-> +            /*
-> +             * rbd_diff_iterate2 does not invoke callbacks for unallocated areas
-> +             * except for the case where an overlay has a hole where the parent
-> +             * has not. This here catches the case where no callback was
-> +             * invoked at all.
-> +             */
-> +            req.bytes = bytes;
-> +        }
-> +        ret &= ~BDRV_BLOCK_DATA;
-> +        ret |= BDRV_BLOCK_ZERO;
-
-Is this equivalent to ret = BDRV_BLOCK_ZERO | BDRV_BLOCK_OFFSET_VALID?
-If so, that would be clearer IMO.
-
-Thanks,
-
-                Ilya
 
