@@ -2,93 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5F9A3F511C
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 21:16:45 +0200 (CEST)
-Received: from localhost ([::1]:48514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D04E3F5129
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 21:19:53 +0200 (CEST)
+Received: from localhost ([::1]:54458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIFMj-0005Vp-RX
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 15:12:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51004)
+	id 1mIFU8-0001Um-O1
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 15:19:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mIFLf-0004b8-Gh
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 15:11:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42061)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIFTF-0000pd-Sw
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 15:18:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mIFLc-0006Zt-TP
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 15:11:06 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIFTE-0003QQ-8b
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 15:18:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629745863;
+ s=mimecast20190719; t=1629746335;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k2esEdtQnTaK+l/Fvb9no/v+45uWIgsWevH5o9WjEHk=;
- b=Wy1INmljXPCh+DLorcdvCOY6QG92PrL9BnM5+b6Vpnd5TEXtjriTINZZgQ+c1lUbaSU8an
- SyhH8nL8ecIsL75CfAE3DLmMqAxByCi2WMjLOKF8FR/vWnseegWGYlgEGfS876LdEPkGQl
- p4Au4Zi2aSDfkAN8pI/pLF2kcYbYXYI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-85tEif2aNMuOwJIC34BZ8Q-1; Mon, 23 Aug 2021 15:11:01 -0400
-X-MC-Unique: 85tEif2aNMuOwJIC34BZ8Q-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v2-20020a7bcb420000b02902e6b108fcf1so81873wmj.8
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 12:11:01 -0700 (PDT)
+ bh=ZKDwHP84wYq1GC85TmRwIoZJl4iup2LMZhFFMdlvpqo=;
+ b=GqHE9wE0umv8pY76GPD5JFUIVAoB7rJam9R0LPxnpyMmD80WiegmuCvETFbchzm2AEGfUJ
+ RZXiZNFXs8EjREtXWyOHvXAphOAlNJSRBqKs0anxeEnU7WGa3gU2RMNUZRpIVWKRAG67t6
+ pCCaqnRl/Q2YY4xKneiZeeoORZCmYbQ=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-145-BNKeFjAPM3K7OyLGlZDatw-1; Mon, 23 Aug 2021 15:18:54 -0400
+X-MC-Unique: BNKeFjAPM3K7OyLGlZDatw-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ l3-20020a056214104300b00366988901acso7617004qvr.2
+ for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 12:18:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:organization:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=k2esEdtQnTaK+l/Fvb9no/v+45uWIgsWevH5o9WjEHk=;
- b=V1YXFbQsNA3DQQXnvlB3pDBKrLt3gs5Z2No6rFZT3vOq7I8or7l8rsRmy/5RblaGhC
- btvLQo8QuKsSQ6Qnt+qpHjHBUIe3WkKORKv41Lj1Skc42P9HNUhWhrfapEU8qCWELU/N
- 57vqK0/jpO4Lgf26l8W+GEPLH4kcFmYnt4WjsqqeI4TIu7q21+NryX8C5HOZEcqgJU1d
- ZrNiQXBkW2FBn0BcXSloBjMwIhZkxriZbc9JwCcRm5P7ZCi1q5l4BL3cPlbz35OoeUZe
- 1LdcGLnPGg8sHdDcYzBkE6Ns/8NWl6E+ys/H/PdKtsUEJDDjzX/7xEbnT5kVlfpqskSk
- wt8Q==
-X-Gm-Message-State: AOAM531EOLo0/Fyr3TqwpumdT1a7FvPDKNKljnEIwZbpcSLzd6hZ6PsB
- X1dhRWC6zRgFNI7WA2+nlkKvs2mpvylKkfO/9W5RADsCOsUde1rLnk+mxSa52LivYEP8TE4U3wR
- n2WMw3G0POM3yODk=
-X-Received: by 2002:a7b:c8ca:: with SMTP id f10mr96572wml.140.1629745860126;
- Mon, 23 Aug 2021 12:11:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyEPjcSyjcyMaPJGkUxjiOQM5i5fhU9K8qw58OfPI7QIaaYZOIVaEeHmpOeogJ60DrKZskqFw==
-X-Received: by 2002:a7b:c8ca:: with SMTP id f10mr96545wml.140.1629745859873;
- Mon, 23 Aug 2021 12:10:59 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c60c6.dip0.t-ipconnect.de. [91.12.96.198])
- by smtp.gmail.com with ESMTPSA id
- c25sm57100wmr.15.2021.08.23.12.10.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Aug 2021 12:10:59 -0700 (PDT)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210823164157.751807-1-philmd@redhat.com>
- <20210823164157.751807-6-philmd@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [RFC PATCH v2 5/5] softmmu/physmem: Have flaview API check
- MemTxAttrs::bus_perm field
-Message-ID: <dc7e8e9b-6891-5c33-0ecf-e4065335e4f4@redhat.com>
-Date: Mon, 23 Aug 2021 21:10:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ZKDwHP84wYq1GC85TmRwIoZJl4iup2LMZhFFMdlvpqo=;
+ b=JaxoOQR0ynGBT4taZkNvZKP9S/Z7ijfprYqRv5jLouQ3WAD/xG+4ydTWWT09rdd5em
+ JIeYSyZa7sEWMhTe20NIbiOXvA6UZFx8RMFY2i2cIwoiZDbSVP7tgKNWzYwSe34PP9/K
+ bxrhPJfSQHu+rtXxxXr03kABsdFT0mPMn6TuE5jj345lJXmtao2/rTjX3Mhit7y0CrNp
+ MYx+1xX3PUUayD1tI9/yDpAupnBz301uBl9qnXEWOGVym3+0QTITiI0HcwXwwZF3yZfM
+ zwt+2AzEOKak1o809HJeeplW4aRgezYOIl61qPc5PPsf6F4B9zbwTVY7czpo8/lG0w8g
+ Mh0Q==
+X-Gm-Message-State: AOAM532sKBQVyKSFbXjWfENn7nQdvXDL+FBnVH5NpfPT90f3nHkl9GTn
+ HbYjG+JxmWFbgMkhHA9pLCwDiejmVgbGBAIbkC69bk4eBIDC99zLBFEaK+ZPxWdwIY8cKRcEHIO
+ fB+9cRRPRWMJ37ng=
+X-Received: by 2002:a05:6214:2385:: with SMTP id
+ fw5mr12375004qvb.56.1629746333947; 
+ Mon, 23 Aug 2021 12:18:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwoVDwb5Dy90aUGOvZIM6e7az8LxiVayuoEpf2az5ztiBj3Vrq+ZuhKTA9gyxdqMCUpV/XVyA==
+X-Received: by 2002:a05:6214:2385:: with SMTP id
+ fw5mr12374980qvb.56.1629746333729; 
+ Mon, 23 Aug 2021 12:18:53 -0700 (PDT)
+Received: from t490s ([2607:fea8:56a3:500::d413])
+ by smtp.gmail.com with ESMTPSA id e10sm9375594qkg.18.2021.08.23.12.18.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Aug 2021 12:18:53 -0700 (PDT)
+Date: Mon, 23 Aug 2021 15:18:51 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH 4/4] vl: Prioritize realizations of devices
+Message-ID: <YSP0m83roQytqvDr@t490s>
+References: <20210818194217.110451-1-peterx@redhat.com>
+ <20210818194318.110993-1-peterx@redhat.com>
+ <20210823184912.mazqfn7gurntj7ld@habkost.net>
 MIME-Version: 1.0
-In-Reply-To: <20210823164157.751807-6-philmd@redhat.com>
+In-Reply-To: <20210823184912.mazqfn7gurntj7ld@habkost.net>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.023, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,91 +95,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Peter Xu <peterx@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- qemu-arm@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
+Cc: Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.08.21 18:41, Philippe Mathieu-Daudé wrote:
-> Check bus permission in flatview_access_allowed() before
-> running any bus transaction.
+On Mon, Aug 23, 2021 at 02:49:12PM -0400, Eduardo Habkost wrote:
+> On Wed, Aug 18, 2021 at 03:43:18PM -0400, Peter Xu wrote:
+> > QEMU creates -device objects in order as specified by the user's cmdline.
+> > However that ordering may not be the ideal order.  For example, some platform
+> > devices (vIOMMUs) may want to be created earlier than most of the rest
+> > devices (e.g., vfio-pci, virtio).
+> > 
+> > This patch orders the QemuOptsList of '-device's so they'll be sorted first
+> > before kicking off the device realizations.  This will allow the device
+> > realization code to be able to use APIs like pci_device_iommu_address_space()
+> > correctly, because those functions rely on the platfrom devices being realized.
+> > 
+> > Now we rely on vmsd->priority which is defined as MigrationPriority to provide
+> > the ordering, as either VM init and migration completes will need such an
+> > ordering.  In the future we can move that priority information out of vmsd.
+> > 
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
 > 
-> There is not change for the default case (MEMTXPERM_UNSPECIFIED).
+> Can we be 100% sure that changing the ordering of every single
+> device being created won't affect guest ABI?  (I don't think we can)
 
-s/not/no/
+That's a good question, however I doubt whether there's any real-world guest
+ABI for that.  As a developer, I normally specify cmdline parameter in an adhoc
+way, so that I assume most parameters are not sensitive to ordering and I can
+tune the ordering as wish.  I'm not sure whether that's common for qemu users,
+I would expect so, but I may have missed something that I'm not aware of.
+
+Per my knowledge the only "guest ABI" change is e.g. when we specify "vfio-pci"
+to be before "intel-iommu": it'll be constantly broken before this patchset,
+while after this series it'll be working.  It's just that I don't think those
+"guest ABI" is necessary to be kept, and that's exactly what I want to fix with
+the patchset..
 
 > 
-> The MEMTXPERM_UNRESTRICTED case works as an allow list. Devices
-> using it won't be checked by flatview_access_allowed().
+> How many device types in QEMU have non-default vmsd priority?
 
-Well, and MEMTXPERM_UNSPECIFIED. Another indication that the split 
-should better be avoided.
+Not so much; here's the list of priorities and the devices using it:
+
+       |--------------------+---------|
+       | priority           | devices |
+       |--------------------+---------|
+       | MIG_PRI_IOMMU      |       3 |
+       | MIG_PRI_PCI_BUS    |       7 |
+       | MIG_PRI_VIRTIO_MEM |       1 |
+       | MIG_PRI_GICV3_ITS  |       1 |
+       | MIG_PRI_GICV3      |       1 |
+       |--------------------+---------|
+
+All the rest devices are using the default (0) priority.
 
 > 
-> The only deny list equivalent is MEMTXPERM_RAM_DEVICE: devices
-> using this flag will reject transactions and set the optional
-> MemTxResult to MEMTX_BUS_ERROR.
+> Can we at least ensure devices with the same priority won't be
+> reordered, just to be safe?  (qsort() doesn't guarantee that)
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->   softmmu/physmem.c | 17 ++++++++++++++++-
->   1 file changed, 16 insertions(+), 1 deletion(-)
-> 
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 0d31a2f4199..329542dba75 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -2772,7 +2772,22 @@ static inline bool flatview_access_allowed(MemoryRegion *mr, MemTxAttrs attrs,
->                                              hwaddr addr, hwaddr len,
->                                              MemTxResult *result)
->   {
-> -    return true;
-> +    if (unlikely(attrs.bus_perm == MEMTXPERM_RAM_DEVICE)) {
-> +        if (memory_region_is_ram(mr) || memory_region_is_ram_device(mr)) {
-> +            return true;
-> +        }
+> If very few device types have non-default vmsd priority and
+> devices with the same priority aren't reordered, the risk of
+> compatibility breakage would be much smaller.
 
-I'm a bit confused why it's called MEMTXPERM_RAM_DEVICE, yet we also 
-allow access to !memory_region_is_ram_device(mr).
+I'm also wondering whether it's a good thing to break some guest ABI due to
+this change, if possible.
 
-Can we find a more expressive name?
+Let's imagine something breaks after applied, then the only reason should be
+that qsort() changed the order of some same-priority devices and it's not the
+same as user specified any more.  Then, does it also means there's yet another
+ordering requirement that we didn't even notice?
 
-Also, I wonder if we'd actually want to have "flags" instead of pure 
-values. Like having
+I doubt whether that'll even happen (or I think there'll be report already, as
+in qemu man page there's no requirement on parameter ordering).  In all cases,
+instead of "keeping the same priority devices in the same order as the user has
+specified", IMHO we should make the broken devices to have different priorities
+so the ordering will be guaranteed by qemu internal, rather than how user
+specified it.
 
-#define MEMTXPERM_RAM 	        1
-#define MEMTXPERM_RAM_DEVICE    2
+From that pov, maybe this patchset would be great if it can be accepted and
+applied in early stage of a release? So we can figure out what's missing and
+fix them within the same release.  However again I still doubt whether there's
+any user that will break in a bad way.
 
-and map them cleanly to the two similar, but different types of memory 
-backends.
-
-
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "Invalid access to non-RAM device at "
-> +                      "addr 0x%" HWADDR_PRIX ", size %" HWADDR_PRIu ", "
-> +                      "region '%s'\n", addr, len, memory_region_name(mr));
-> +        if (result) {
-> +            *result |= MEMTX_BUS_ERROR;
-> +        }
-> +        return false;
-> +    } else {
-> +        /* MEMTXPERM_UNRESTRICTED and MEMTXPERM_UNSPECIFIED cases */
-> +        return true;
-> +    }
->   }
->   
->   /* Called within RCU critical section.  */
-> 
-
-Do we have any target user examples / prototypes?
-
--- 
 Thanks,
 
-David / dhildenb
+-- 
+Peter Xu
 
 
