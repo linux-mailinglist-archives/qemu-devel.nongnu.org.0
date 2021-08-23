@@ -2,74 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EE503F504A
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 20:21:40 +0200 (CEST)
-Received: from localhost ([::1]:34404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 685B93F5061
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 20:31:05 +0200 (CEST)
+Received: from localhost ([::1]:51210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIEZn-0004t4-HZ
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 14:21:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38748)
+	id 1mIEiu-0007vo-Gx
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 14:31:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mIEQN-0006Z4-KY
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 14:11:55 -0400
-Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134]:37585)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mIEhl-0007GO-Qp
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 14:29:54 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:39592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mIEQH-0008Qo-7p
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 14:11:55 -0400
-Received: by mail-lf1-x134.google.com with SMTP id k5so39708113lfu.4
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 11:11:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=vrull-eu.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=6gA6AgzFN/LynHfv17xwUKOcMNg7N+0ObrNPFIAHP2Q=;
- b=lneuIS6F/cBrFZZwjDNLGCdlrG+Jrao2KpzfFG3lrndkooUVrHc4w4p5siKOmGoF5C
- RhkI+tZi7aXAA9Ak7brDVT2u302ArMow6QKiOoa5rUO5lh5f5R0zSYyhxH5pAgeg+UEQ
- KcX2W3p+6R3zCjHC5VKqtCF+0XmNA0iF38XKfQkJhvzg01PQseJLq9RjZkjrqco25zdT
- BBSHcgAGYdoxbXcKrpf/SXQa0YN5dUmUNIaKvDanzOS0hRomKz9mWLpM5ThSw6K8fPRu
- rrDjPiwj0HwPTdaFKdPS7OZWTf+NEaWnreWUgLkR0/G6J19Dfyy0pBQUFedTRqoPW/Cm
- fjjg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mIEhk-0003q5-9m
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 14:29:53 -0400
+Received: by mail-pl1-x631.google.com with SMTP id m17so3628518plc.6
+ for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 11:29:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=d22e1bjhc4t4JfysSvBySPhkl0sAlx+esyQuZ3Rgvzw=;
+ b=CpttS7su7WKF4+xfE6to4A3lx0YrBiD1TZf4ZORLY/YoXYSUrhXM96QleQvj4F85eK
+ 27P2/U3fVl7SEpWzXMKoqqQZkwmRS7VPtkFr9/0OGF4CChZ5qse7kBf/0PHvjIbzDOSk
+ CLOiAy4KYWnhksp0M6g1Eftbwo/n4jQCuew8wGakdoYBHcew3ozXdxXxxr3ohooMq1ip
+ UrS7PShn+XSYEGlFiCXYKGvhgmJ6eCOLzhy/tdPK43BaQt/bB9QioCsnLhSo7p7RXAYM
+ tfUN+amxBdIqcszqljhRRQpkPa7V3s+iN83QXAs4L0XPlD1laCfbnd3Koyl1QLYJ+Xqj
+ m9Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=6gA6AgzFN/LynHfv17xwUKOcMNg7N+0ObrNPFIAHP2Q=;
- b=aW1NDnd367CREC9a7+C5q7L+fMD6v38p6Cuu8C53fH/GkZugcojNaoqB4yPIU2Jn+1
- Hx86WNP9E9ciCIRTIxHNhV/JNyDqGcXxtMHCs9TEQrFLH7TaFtx4UJ7ofubjXaYDrEAy
- A5d+fXKou50ddBR9ykeo0CdhvTnIufjH343rdK4j2i4mJ8rIpwW6JgZm5bjcrLwAzRam
- WZ48jeqTCSRSkYQU2ZJJDdJz9mDMotsPdIob5OcEGkmxhWBiBaynecroNattU3S5DWkH
- 9he19E5B28/K8aTHhcvhalXx3n1NXf9jHWToD83X5ykGTtZa6k16eUMT4re9vpEJyabQ
- nIwA==
-X-Gm-Message-State: AOAM531L5KzHsgfTM5jnSrANgLUbiuX+HhpdlEWQmHlL1pyiCXFchzs9
- ypjQOTi2zhvMPkLPnHj+tUEMxn6ksEJ9NXzU
-X-Google-Smtp-Source: ABdhPJyQ0otN/3jGQPDOQoJga9s1mq0Qba22pfIcWGBJ1D9/eZmzi/qRJZacBoanf53Gb1tyqilD4w==
-X-Received: by 2002:a05:6512:951:: with SMTP id
- u17mr25589937lft.392.1629742306355; 
- Mon, 23 Aug 2021 11:11:46 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
- by smtp.gmail.com with ESMTPSA id w26sm1511739lfk.223.2021.08.23.11.11.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Aug 2021 11:11:46 -0700 (PDT)
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 14/14] disas/riscv: Add Zb[abcs] instructions
-Date: Mon, 23 Aug 2021 20:11:32 +0200
-Message-Id: <20210823181132.2205367-15-philipp.tomsich@vrull.eu>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210823181132.2205367-1-philipp.tomsich@vrull.eu>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=d22e1bjhc4t4JfysSvBySPhkl0sAlx+esyQuZ3Rgvzw=;
+ b=lwIkDGqzmzGK20fllZy6+AyIrMd/GGmZLdE+ui5BC2JCrv+bkMvfkmmjCT+nN0+BE4
+ eiUS70KvSE7at/Em1zpye/XsemJ16GNe264sHN1mmdvpy1Qxdi8o0wluj2a6yzucsoVZ
+ kSrChWx2Ur8+IMSR4eu1r1bwfDUR67giC0YWFjpfvEwFwkUTcyKbCGGeckdQgWoPQX0d
+ B5bKrRXcRNY1FqFwRvKp138g9P3S5IYiqlmi0cMCYQLuYMfvXGDaqEeivug2Tks03QqP
+ jot8//50wk2e4tc7MG9xRvftEuxJPB2vtmxZJ01IkWeIKikOzbmPZnb9PuwJhPQS6qJn
+ 9Eog==
+X-Gm-Message-State: AOAM531/U/Tv5bQ9naUyxIGT3CNDIiUr+/FGXaNYp/MxqdNRNC2896ck
+ LGc/r1J41YbFMvuUzCHJpXNqNw==
+X-Google-Smtp-Source: ABdhPJxawARpSrpx4f4d0UiwlNyrFPMcIUOOSngTiBDZ1cPTDgJlc3NTT9UrXtR7HBuOlH3LRgALiw==
+X-Received: by 2002:a17:902:a70e:b0:12d:9eff:23be with SMTP id
+ w14-20020a170902a70e00b0012d9eff23bemr29408644plq.34.1629743390390; 
+ Mon, 23 Aug 2021 11:29:50 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.149.176])
+ by smtp.gmail.com with ESMTPSA id j16sm12178018pfc.70.2021.08.23.11.29.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Aug 2021 11:29:50 -0700 (PDT)
+Subject: Re: [PATCH v4 07/14] target/riscv: Add instructions of the
+ Zbc-extension
+To: Philipp Tomsich <philipp.tomsich@vrull.eu>, qemu-devel@nongnu.org
 References: <20210823181132.2205367-1-philipp.tomsich@vrull.eu>
+ <20210823181132.2205367-8-philipp.tomsich@vrull.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <0c31d427-77fc-d2a2-6571-4e083880fbfb@linaro.org>
+Date: Mon, 23 Aug 2021 11:29:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::134;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x134.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210823181132.2205367-8-philipp.tomsich@vrull.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.023,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,249 +89,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Kito Cheng <kito.cheng@sifive.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>
+Cc: Kito Cheng <kito.cheng@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the addition of Zb[abcs], we also need to add disassembler
-support for these new instructions.
+On 8/23/21 11:11 AM, Philipp Tomsich wrote:
+> +    /* ... then shift the result 1 bit to the right. */
+> +    TCGv dst = tcg_temp_new();
+> +    gen_get_gpr(dst, a->rd);
+> +    tcg_gen_shri_tl(dst, dst, 1);
+> +    gen_set_gpr(a->rd, dst);
+> +    tcg_temp_free(dst);
 
-Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Missed review changes from v3:
 
----
+static void gen_clmulh(TCGv dst, TCGv src1, TCGv src2)
+{
+     gen_helper_clmulr(dst, src1, src2);
+     tcg_gen_shri_tl(dst, dst, 1);
+}
 
-(no changes since v2)
 
-Changes in v2:
-- Fix missing ';' from last-minute whitespace cleanups.
-
- disas/riscv.c | 157 +++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 154 insertions(+), 3 deletions(-)
-
-diff --git a/disas/riscv.c b/disas/riscv.c
-index 278d9be924..793ad14c27 100644
---- a/disas/riscv.c
-+++ b/disas/riscv.c
-@@ -478,6 +478,49 @@ typedef enum {
-     rv_op_fsflags = 316,
-     rv_op_fsrmi = 317,
-     rv_op_fsflagsi = 318,
-+    rv_op_bseti = 319,
-+    rv_op_bclri = 320,
-+    rv_op_binvi = 321,
-+    rv_op_bexti = 322,
-+    rv_op_rori = 323,
-+    rv_op_clz = 324,
-+    rv_op_ctz = 325,
-+    rv_op_cpop = 326,
-+    rv_op_sext_h = 327,
-+    rv_op_sext_b = 328,
-+    rv_op_xnor = 329,
-+    rv_op_orn = 330,
-+    rv_op_andn = 331,
-+    rv_op_rol = 332,
-+    rv_op_ror = 333,
-+    rv_op_sh1add = 334,
-+    rv_op_sh2add = 335,
-+    rv_op_sh3add = 336,
-+    rv_op_sh1add_uw = 337,
-+    rv_op_sh2add_uw = 338,
-+    rv_op_sh3add_uw = 339,
-+    rv_op_clmul = 340,
-+    rv_op_clmulr = 341,
-+    rv_op_clmulh = 342,
-+    rv_op_min = 343,
-+    rv_op_minu = 344,
-+    rv_op_max = 345,
-+    rv_op_maxu = 346,
-+    rv_op_clzw = 347,
-+    rv_op_ctzw = 348,
-+    rv_op_cpopw = 349,
-+    rv_op_slli_uw = 350,
-+    rv_op_add_uw = 351,
-+    rv_op_rolw = 352,
-+    rv_op_rorw = 353,
-+    rv_op_rev8 = 354,
-+    rv_op_zext_h = 355,
-+    rv_op_roriw = 356,
-+    rv_op_orc_b = 357,
-+    rv_op_bset = 358,
-+    rv_op_bclr = 359,
-+    rv_op_binv = 360,
-+    rv_op_bext = 361,
- } rv_op;
- 
- /* structures */
-@@ -1117,6 +1160,49 @@ const rv_opcode_data opcode_data[] = {
-     { "fsflags", rv_codec_i_csr, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-     { "fsrmi", rv_codec_i_csr, rv_fmt_rd_zimm, NULL, 0, 0, 0 },
-     { "fsflagsi", rv_codec_i_csr, rv_fmt_rd_zimm, NULL, 0, 0, 0 },
-+    { "bseti", rv_codec_i_sh7, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
-+    { "bclri", rv_codec_i_sh7, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
-+    { "binvi", rv_codec_i_sh7, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
-+    { "bexti", rv_codec_i_sh7, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
-+    { "rori", rv_codec_i_sh7, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
-+    { "clz", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "ctz", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "cpop", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "sext.h", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "sext.b", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "xnor", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "orn", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "andn", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "rol", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "ror", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "sh1add", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "sh2add", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "sh3add", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "sh1add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "sh2add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "sh3add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "clmul", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "clmulr", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "clmulh", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "min", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "minu", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "max", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "maxu", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "cpopw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "slli.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "rolw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "rorw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "rev8", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "zext.h", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "roriw", rv_codec_i_sh5, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
-+    { "orc.b", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
-+    { "bset", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "bclr", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "binv", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
-+    { "bext", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
- };
- 
- /* CSR names */
-@@ -1507,7 +1593,20 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
-             case 0: op = rv_op_addi; break;
-             case 1:
-                 switch (((inst >> 27) & 0b11111)) {
--                case 0: op = rv_op_slli; break;
-+                case 0b00000: op = rv_op_slli; break;
-+                case 0b00101: op = rv_op_bseti; break;
-+                case 0b01001: op = rv_op_bclri; break;
-+                case 0b01101: op = rv_op_binvi; break;
-+                case 0b01100:
-+                    switch (((inst >> 20) & 0b1111111)) {
-+                    case 0b0000000: op = rv_op_clz; break;
-+                    case 0b0000001: op = rv_op_ctz; break;
-+                    case 0b0000010: op = rv_op_cpop; break;
-+                      /* 0b0000011 */
-+                    case 0b0000100: op = rv_op_sext_b; break;
-+                    case 0b0000101: op = rv_op_sext_h; break;
-+                    }
-+                    break;
-                 }
-                 break;
-             case 2: op = rv_op_slti; break;
-@@ -1515,8 +1614,16 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
-             case 4: op = rv_op_xori; break;
-             case 5:
-                 switch (((inst >> 27) & 0b11111)) {
--                case 0: op = rv_op_srli; break;
--                case 8: op = rv_op_srai; break;
-+                case 0b00000: op = rv_op_srli; break;
-+                case 0b00101: op = rv_op_orc_b; break;
-+                case 0b01000: op = rv_op_srai; break;
-+                case 0b01001: op = rv_op_bexti; break;
-+                case 0b01100: op = rv_op_rori; break;
-+                case 0b01101:
-+                    switch ((inst >> 20) & 0b1111111) {
-+                    case 0b0111000: op = rv_op_rev8; break;
-+                    }
-+                    break;
-                 }
-                 break;
-             case 6: op = rv_op_ori; break;
-@@ -1530,12 +1637,21 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
-             case 1:
-                 switch (((inst >> 25) & 0b1111111)) {
-                 case 0: op = rv_op_slliw; break;
-+                case 4: op = rv_op_slli_uw; break;
-+                case 48:
-+                    switch ((inst >> 20) & 0b11111) {
-+                    case 0b00000: op = rv_op_clzw; break;
-+                    case 0b00001: op = rv_op_ctzw; break;
-+                    case 0b00010: op = rv_op_cpopw; break;
-+                    }
-+                    break;
-                 }
-                 break;
-             case 5:
-                 switch (((inst >> 25) & 0b1111111)) {
-                 case 0: op = rv_op_srliw; break;
-                 case 32: op = rv_op_sraiw; break;
-+                case 48: op = rv_op_roriw; break;
-                 }
-                 break;
-             }
-@@ -1623,8 +1739,32 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
-             case 13: op = rv_op_divu; break;
-             case 14: op = rv_op_rem; break;
-             case 15: op = rv_op_remu; break;
-+            case 36:
-+                switch ((inst >> 20) & 0b11111) {
-+                case 0: op = rv_op_zext_h; break;
-+                }
-+                break;
-+            case 41: op = rv_op_clmul; break;
-+            case 42: op = rv_op_clmulr; break;
-+            case 43: op = rv_op_clmulh; break;
-+            case 44: op = rv_op_min; break;
-+            case 45: op = rv_op_minu; break;
-+            case 46: op = rv_op_max; break;
-+            case 47: op = rv_op_maxu; break;
-+            case 130: op = rv_op_sh1add; break;
-+            case 132: op = rv_op_sh2add; break;
-+            case 134: op = rv_op_sh3add; break;
-+            case 161: op = rv_op_bset; break;
-             case 256: op = rv_op_sub; break;
-+            case 260: op = rv_op_xnor; break;
-             case 261: op = rv_op_sra; break;
-+            case 262: op = rv_op_orn; break;
-+            case 263: op = rv_op_andn; break;
-+            case 289: op = rv_op_bclr; break;
-+            case 293: op = rv_op_bext; break;
-+            case 385: op = rv_op_rol; break;
-+            case 386: op = rv_op_ror; break;
-+            case 417: op = rv_op_binv; break;
-             }
-             break;
-         case 13: op = rv_op_lui; break;
-@@ -1638,8 +1778,19 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
-             case 13: op = rv_op_divuw; break;
-             case 14: op = rv_op_remw; break;
-             case 15: op = rv_op_remuw; break;
-+            case 32: op = rv_op_add_uw; break;
-+            case 36:
-+                switch ((inst >> 20) & 0b11111) {
-+                case 0: op = rv_op_zext_h; break;
-+                }
-+                break;
-+            case 130: op = rv_op_sh1add_uw; break;
-+            case 132: op = rv_op_sh2add_uw; break;
-+            case 134: op = rv_op_sh3add_uw; break;
-             case 256: op = rv_op_subw; break;
-             case 261: op = rv_op_sraw; break;
-+            case 385: op = rv_op_rolw; break;
-+            case 389: op = rv_op_rorw; break;
-             }
-             break;
-         case 16:
--- 
-2.25.1
-
+r~
 
