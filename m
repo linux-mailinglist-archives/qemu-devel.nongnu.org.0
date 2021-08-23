@@ -2,117 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C6413F4C01
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 15:59:56 +0200 (CEST)
-Received: from localhost ([::1]:34518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D703F4C49
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 16:24:15 +0200 (CEST)
+Received: from localhost ([::1]:33164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIAUV-00022I-6k
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 09:59:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36646)
+	id 1mIAs2-0004Ov-2P
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 10:24:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>)
- id 1mIATL-000181-ND; Mon, 23 Aug 2021 09:58:43 -0400
-Received: from mail-bn8nam12on2040.outbound.protection.outlook.com
- ([40.107.237.40]:35520 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <naveen.n1@samsung.com>)
+ id 1mIAnp-00065o-Lq
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 10:19:53 -0400
+Received: from mailout3.samsung.com ([203.254.224.33]:26960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>)
- id 1mIATG-0004if-Ty; Mon, 23 Aug 2021 09:58:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jzJ0xtCxyWQIkHkPg+lt1TJJv+7dxLDUvi2SgxmuIqX50QjyDBo14X/p9IObaVjzpJPk3vcyq5o83ZdlCLCJQywBVrrFBg+0eyzdoTEktcO4e3HvB9v7hVAGy1eMOAE1wlgjLiRyH1JWK7ersCCTV/7GwLu9NHQAirXzPCObdMVThU9DyEmCfa73OxpdSlrohmWHPfLT1TbooQIA04zFMX/NznQfo6ohZ/hg9rTN5WbEmMpMBS4g9TRX7hGajoz8yCTuyXlqVNLkzftBbzeBIC964GekA91ZmNhjBBrm1U27wNOTGK2XPw/I8QN55Ze4OKCuNSvbbI7J/O2K7zqWwQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3ccxWfg2wKZNbZqoEVKdVGQ/e62J5Mt2O8yA5x9PMk4=;
- b=OEqqcO7wtFbXYe0c5EEaxkBJrUZNDpWIerBlmL4T5vPsBJYH1R25nvSic9+ZUL2t1Dph7eH+D7akj8XdSegpjYySOOWGbbY8gqV8UxRrJK5ta0DNxwa6UHsSX3tRzClIDvw7rR2rxoHFFriQMbOf7x2qCgdYgU8ueS40hS65GItEVfYADgvMTPkU0s9fx7ZNwrbfnZx/C64XON83juzA1XI/qAqlJuvi46F/bnwQuO4n9+ITajK6754kr0l0rYrlKC5Ao/VU4OOlgrPRUeC2i9DNGNPobt3KUmw1TZ3K3eDfZyVptLJ2xg4d2JMaFDMksCoxahWl7lcbiM62848nNA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=gmail.com smtp.mailfrom=xilinx.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3ccxWfg2wKZNbZqoEVKdVGQ/e62J5Mt2O8yA5x9PMk4=;
- b=Io8edpLsgRZvUqoMH27R1HmZXdgDhwWGRSWnE8ibLqzl4E4jMan3/zJHovmzVzYOLMxX5MCCiRqOvADLQBFdW/eWTEFTEzYlUjRn7zbsawK/RsNgRcqjMZi1kPPJHLHDVVVD9jPsGdBt2OESuCIz43xcPQIfUIHTGMrRJxZ/r+8=
-Received: from DM5PR06CA0070.namprd06.prod.outlook.com (2603:10b6:3:37::32) by
- DM5PR02MB2827.namprd02.prod.outlook.com (2603:10b6:3:109::18) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4436.24; Mon, 23 Aug 2021 13:58:33 +0000
-Received: from DM3NAM02FT063.eop-nam02.prod.protection.outlook.com
- (2603:10b6:3:37:cafe::83) by DM5PR06CA0070.outlook.office365.com
- (2603:10b6:3:37::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend
- Transport; Mon, 23 Aug 2021 13:58:33 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=pass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
-Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- DM3NAM02FT063.mail.protection.outlook.com (10.13.5.71) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4436.19 via Frontend Transport; Mon, 23 Aug 2021 13:58:33 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Mon, 23 Aug 2021 06:58:33 -0700
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Mon, 23 Aug 2021 06:58:33 -0700
-Received: from [10.71.116.242] (port=52116 helo=localhost)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <edgar@xilinx.com>)
- id 1mIATA-0005PZ-Im; Mon, 23 Aug 2021 06:58:33 -0700
-Date: Mon, 23 Aug 2021 15:58:31 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-To: Alistair Francis <alistair23@gmail.com>
-Subject: Re: [PATCH 2/3] hw/char: cadence_uart: Disable transmit when input
- clock is disabled
-Message-ID: <20210823135831.GB24187@toto>
-References: <20210823020813.25192-1-bmeng.cn@gmail.com>
- <20210823020813.25192-3-bmeng.cn@gmail.com>
- <CAKmqyKMzq-F=MYMA=_7MeLTodxY7Eo91Nta4nKuncvAZ=bQUOQ@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CAKmqyKMzq-F=MYMA=_7MeLTodxY7Eo91Nta4nKuncvAZ=bQUOQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 42ce9a2f-061d-4e0e-d3bd-08d9663e18b7
-X-MS-TrafficTypeDiagnostic: DM5PR02MB2827:
-X-Microsoft-Antispam-PRVS: <DM5PR02MB2827BB0A8F0AB1C8DCB65CDDC2C49@DM5PR02MB2827.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: QLUQK3cdC9cCg3wlDGZJ5iP3kf4DdtkkxcSTBYsMxXv1q+rvJVTkjlkKnPq4VtfH62uhw5/KbRDjOih0YIa10Ltguz9f1rdwXNEqgFnzBJ+60ot1EEXOzeYJbKYD2otwH0JrBav7g8X/+gY7Ku0/9OzUQN4c+kvpADwg+4xl8KTRZ16MpgdqcWAeHzp9HFPwUZR0fLlzp8uvEWdEjxcKaIwGrR7xRut6T/oIB6yj4F0ZgrTRQi2LB1Dcy4he3ur6N0ld7kZ5AAXpVayQxZC4bY10w17a7J13XK0x7u8GEU08GnN7URO57pCQoV/m+289tTgEIDyVIork+AL7Q+qluQyXprmu+cPX03VqPAStOtBl+AG4azzJ3qxIDiBBbdUiIcef15fcqkBO8j2yKoh19aILIUdHf0jhhzdSi4/ExZ/4kn2P+PImJfRMjZBQri2A6uRkpsRc+mLbKKVSfxkyqsZf4apLz1HwFEHFcvkjkZwdeHCA+OhE0hr3Pxn6hmNFaOJxnrLgh9H9h7P32ymUU5kP7BArggqQG3MZsbDwvBlxnQS2iuaoVSDbe/Ybwt4j9j1PPxaXrCsefJ7z2XCV4XTm+fWWGbg4OKIxt5SDV1jDsmydJK5ur5OhrLak/C+cT7BNd7+1rLf02mv/PUO3XdVNRPhz2EkECyXXUWacDt50lmUbS7+qNsFydUIVxAdltvqD5s0lcyVoEFr8MipCGg==
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(7916004)(4636009)(346002)(396003)(376002)(136003)(39860400002)(46966006)(36840700001)(186003)(356005)(36860700001)(7636003)(36906005)(426003)(478600001)(316002)(83380400001)(4326008)(47076005)(336012)(6916009)(33656002)(9786002)(26005)(8676002)(33716001)(9686003)(8936002)(5660300002)(82740400003)(54906003)(82310400003)(1076003)(53546011)(70206006)(70586007)(2906002);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2021 13:58:33.7412 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42ce9a2f-061d-4e0e-d3bd-08d9663e18b7
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM3NAM02FT063.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB2827
-Received-SPF: pass client-ip=40.107.237.40; envelope-from=edgar@xilinx.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <naveen.n1@samsung.com>)
+ id 1mIAnm-0002gC-Td
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 10:19:53 -0400
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+ by mailout3.samsung.com (KnoxPortal) with ESMTP id
+ 20210823141940epoutp03c0849f760a228ead0eb67d624f98df61~d9VPey9YY2009020090epoutp03g
+ for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 14:19:40 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
+ 20210823141940epoutp03c0849f760a228ead0eb67d624f98df61~d9VPey9YY2009020090epoutp03g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1629728380;
+ bh=QAHVTLZ8g8KvXznLSvN7uHM8n49XD+k22bv7xuekTkw=;
+ h=From:To:Cc:Subject:Date:References:From;
+ b=abkUopyIOjPD2aD8Dw1lFbmVYv2YyMvlM9r7nuG0NcgQtR9yfF3cK2Q0qCiSvOVQB
+ keA9rfgC2uW1/pvpJlSXJtV+yqBFaA6usZpDJfEDGrz759FVTREKH7L5/QR5p4KQRS
+ L6p08xxtWO2tlF6AQgwhQposCyV/r90fwKIDKF74=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
+ epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+ 20210823141939epcas5p267fd55256cbf94755b7e4c8e542df95d~d9VN6hau51518415184epcas5p2R;
+ Mon, 23 Aug 2021 14:19:39 +0000 (GMT)
+Received: from epsmges5p3new.samsung.com (unknown [182.195.38.174]) by
+ epsnrtp1.localdomain (Postfix) with ESMTP id 4GtZBH11wYz4x9Pv; Mon, 23 Aug
+ 2021 14:19:35 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+ epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
+ BD.10.09778.67EA3216; Mon, 23 Aug 2021 23:19:35 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+ epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20210823114601epcas5p17b488aeeae3dd41d32ab3df4fd235256~d7PFpX-Aj0870508705epcas5p1l;
+ Mon, 23 Aug 2021 11:46:01 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+ epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20210823114601epsmtrp124bc09c3ecbf36247017cbe5705ee0e1~d7PFoH7wH0414804148epsmtrp1_;
+ Mon, 23 Aug 2021 11:46:01 +0000 (GMT)
+X-AuditID: b6c32a4b-395ff70000002632-bc-6123ae768a85
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+ epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+ 2E.5E.08750.97A83216; Mon, 23 Aug 2021 20:46:01 +0900 (KST)
+Received: from test.sa.corp.samsungelectronics.net (unknown [107.108.56.58])
+ by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210823114559epsmtip2b89ae1ed17fc58a588fe024fef5ec691~d7PDYYGZ61421314213epsmtip2M;
+ Mon, 23 Aug 2021 11:45:59 +0000 (GMT)
+From: Naveen <naveen.n1@samsung.com>
+To: qemu-devel@nongnu.org
+Subject: hw/nvme: fix verification of select field in namespace attachment
+Date: Mon, 23 Aug 2021 16:33:33 +0530
+Message-Id: <1629716613-26819-1-git-send-email-naveen.n1@samsung.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpnk+LIzCtJLcpLzFFi42LZdlhTQ7d8nXKiwd0fjBYf/55ltHj79QGb
+ xZX95xkt9h/8xmqxdL6+xcnGPawWkw5dY7RYcjHV4lcnt8W8W8oWjU92s1tcmbKI2WLWu3Y2
+ i+O9O1gs9nzZyGrxetJ/VgcBjx/n2tk8ds66y+5xbsd5do9NqzrZPJ5c28zk8X7fVTaPvi2r
+ GAPYo7JtMlITU1KLFFLzkvNTMvPSbZW8g+Od403NDAx1DS0tzJUU8hJzU22VXHwCdN0yc4BO
+ V1IoS8wpBQoFJBYXK+nb2RTll5akKmTkF5fYKqUWpOQUmBToFSfmFpfmpevlpZZYGRoYGJkC
+ FSZkZ1xuci+YLlIxe8c+1gbGm3xdjJwcEgImEgt3HWXpYuTiEBLYzSjx58kFZgjnE6PEmuVT
+ oDKfGSU2Tz7DAtNyavEqNojELkaJ9dP2MkI4jUwSFw/OZQWpYhNQkZi+9wQbiC0iICnxu+s0
+ 2FxmgcdMEvfaJzGBJIQFvCR2HzsP1sAioCqx4cAasBW8Aq4Sr5vfskOsU5CY8vA9WLOEwE92
+ ibeHP0Hd4SLxZt8nNghbWOLV8S1QDVISL/vboOxiiQu9/SwQzQ2MEo++bYBqtpe4uOcv0BUc
+ QCdpSqzfpQ8RlpWYemod2HHMAnwSvb+fMEHEeSV2zHsCVi4hoCxxfjU3hCkpcW56MkSFh8T7
+ eTeYQWwhgViJKSvOsExglJ2FMH8BI+MqRsnUguLc9NRi0wLjvNRyeEQl5+duYgSnSC3vHYyP
+ HnzQO8TIxMF4iFGCg1lJhPcvk3KiEG9KYmVValF+fFFpTmrxIUZTYJBNZJYSTc4HJum8knhD
+ E0sDEzMzMxNLYzNDJXFe3VcyiUIC6YklqdmpqQWpRTB9TBycUg1MsiIaU17IzVu/Zdu2R/+8
+ rl+PlW84uzdz23v1RedtXzBt+HzxnN0jTX9li98x1hIVWdsMxZR1lz0IuimqbvR3VkMJv9HV
+ 1SXv6pZOKWyVvtmZL1UtryFtea5gDq+c7qGbtlvedksmBDdVpfA7zOSZU3jLdvda9eMNvSfv
+ /Gp82zE5VfyyVpLly3kB2vw6e+dq2pjc/HnEuuSaVce1c3aH/AX7TXf2hRs+NTxlxhifLb9C
+ 4Nahmt2eYnn+bCcv3deasUgveV1ZxOonv2Ju7O2613Rany/Afhbjh6UNTcs/KhUseqy1P2fP
+ kgNzeKrPsbzUSugskppsuU6ggTM/n8lggYP2Fp9Jx5sCVCaJuGsrsRRnJBpqMRcVJwIAFq/a
+ HRoEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMLMWRmVeSWpSXmKPExsWy7bCSvG5ll3KiwdFWTYuPf88yWrz9+oDN
+ 4sr+84wW+w9+Y7VYOl/f4mTjHlaLSYeuMVosuZhq8auT22LeLWWLxie72S2uTFnEbDHrXTub
+ xfHeHSwWe75sZLV4Pek/q4OAx49z7WweO2fdZfc4t+M8u8emVZ1sHk+ubWbyeL/vKptH35ZV
+ jAHsUVw2Kak5mWWpRfp2CVwZl5vcC6aLVMzesY+1gfEmXxcjJ4eEgInEqcWr2LoYuTiEBHYw
+ Slw51coKkZCU2PB3KxOELSyx8t9zdoii/4wSa2adAytiE1CRmL73BBuILQLU8LvrNDNIEbPA
+ dyaJrW8egyWEBbwkdh87D9bAIqAqseHAGhYQm1fAVeJ181t2iA0KElMevmeewMizgJFhFaNk
+ akFxbnpusWGBUV5quV5xYm5xaV66XnJ+7iZGcLhqae1g3LPqg94hRiYOxkOMEhzMSiK8f5mU
+ E4V4UxIrq1KL8uOLSnNSiw8xSnOwKInzXug6GS8kkJ5YkpqdmlqQWgSTZeLglGpgWq558RjL
+ /pvJ++5HXt274SlXouOybrFuifj0Nn/28FvG5ouDK+X9uHvyPblbps0IXPl8SvGMPRx7FlV4
+ XRW2tonOkBXZvCzvyvq1i9Q/cU/ftHiuVGHUPO0pR667FP/f9vpJ75XmL0//yjrUqs0r99VZ
+ 9mmmYaP9zQ9uIsGf1n33V2bb+uBistbzlp87trjyHljPLtAQryayk1E6zP1q2+OmC35W39LS
+ jmwxufo9Y1VdT6lfjPY6Pdm0XCaGiefmt5dMWJDz9mqdZ6nngyWGzWUmL6fxMHw7t//bxbue
+ MyekOxXvSk99pmffHLrrtcuqEK/DhvlnVY7saBeTCuQ5fmv1Ft/iw07GX6rsNDy7lViKMxIN
+ tZiLihMBohC1QcYCAAA=
+X-CMS-MailID: 20210823114601epcas5p17b488aeeae3dd41d32ab3df4fd235256
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20210823114601epcas5p17b488aeeae3dd41d32ab3df4fd235256
+References: <CGME20210823114601epcas5p17b488aeeae3dd41d32ab3df4fd235256@epcas5p1.samsung.com>
+Received-SPF: pass client-ip=203.254.224.33;
+ envelope-from=naveen.n1@samsung.com; helo=mailout3.samsung.com
+X-Spam_score_int: -77
+X-Spam_score: -7.8
+X-Spam_bar: -------
+X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -125,57 +127,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: fam@euphon.net, kwolf@redhat.com, anuj.singh@samsung.com,
+ jg123.choi@samsung.com, qemu-block@nongnu.org, k.jensen@samsung.com,
+ Naveen <naveen.n1@samsung.com>, d.palani@samsung.com, mreitz@redhat.com,
+ its@irrelevant.dk, Minwoo Im <minwoo.im.dev@gmail.com>, stefanha@redhat.com,
+ kbusch@kernel.org, prakash.v@samsung.com, raphel.david@samsung.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 23, 2021 at 02:43:26PM +1000, Alistair Francis wrote:
-> On Mon, Aug 23, 2021 at 12:11 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > At present when input clock is disabled, any character transmitted
-> > to tx fifo can still show on the serial line, which is wrong.
-> >
-> > Fixes: b636db306e06 ("hw/char/cadence_uart: add clock support")
-> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> > ---
-> >
-> >  hw/char/cadence_uart.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
-> > index b4b5e8a3ee..154be34992 100644
-> > --- a/hw/char/cadence_uart.c
-> > +++ b/hw/char/cadence_uart.c
-> > @@ -327,6 +327,11 @@ static gboolean cadence_uart_xmit(void *do_not_use, GIOCondition cond,
-> >  static void uart_write_tx_fifo(CadenceUARTState *s, const uint8_t *buf,
-> >                                 int size)
-> >  {
-> > +    /* ignore characters when unclocked or in reset */
-> > +    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
-> > +        return;
-> > +    }
-> 
-> Should we log a guest error here?
-> 
+Fix is added to check for reserved value in select field for 
+namespace attachment
 
+Signed-off-by: Naveen Nagar <naveen.n1@samsung.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+cc: Minwoo Im <minwoo.im.dev@gmail.com>
 
-I think it's a good idea to log a guest error on the TX path.
+---
+ hw/nvme/ctrl.c       | 13 +++++++++----
+ include/block/nvme.h |  5 +++++
+ 2 files changed, 14 insertions(+), 4 deletions(-)
 
-It's not uncommon for bare-metal applications to rely on FSBL/Bootloaders
-setting up clocks/resets. On QEMU, it's convenient to run applications
-directly without boot-loaders, particularly FSBL since it requires Xilinx tools
-to generate it. It's going to be hard for users to figure out what's going on
-with no console output and no guest error.
-
-I also wonder how Linux handles this when CCF is not active?
-Do we need to use TYPE_ARM_LINUX_BOOT_IF?
-
-Best regards,
-Edgar
-
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index 6baf9e0..2c59c74 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -5191,7 +5191,7 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
+     uint16_t list[NVME_CONTROLLER_LIST_SIZE] = {};
+     uint32_t nsid = le32_to_cpu(req->cmd.nsid);
+     uint32_t dw10 = le32_to_cpu(req->cmd.cdw10);
+-    bool attach = !(dw10 & 0xf);
++    uint8_t sel = dw10 & 0xf;
+     uint16_t *nr_ids = &list[0];
+     uint16_t *ids = &list[1];
+     uint16_t ret;
+@@ -5224,7 +5224,8 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
+             return NVME_NS_CTRL_LIST_INVALID | NVME_DNR;
+         }
+ 
+-        if (attach) {
++        switch (sel) {
++        case NVME_NS_ATTACHMENT_ATTACH:
+             if (nvme_ns(ctrl, nsid)) {
+                 return NVME_NS_ALREADY_ATTACHED | NVME_DNR;
+             }
+@@ -5235,7 +5236,8 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
+ 
+             nvme_attach_ns(ctrl, ns);
+             nvme_select_iocs_ns(ctrl, ns);
+-        } else {
++            break;
++        case NVME_NS_ATTACHMENT_DETACH:
+             if (!nvme_ns(ctrl, nsid)) {
+                 return NVME_NS_NOT_ATTACHED | NVME_DNR;
+             }
+@@ -5244,8 +5246,11 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
+             ns->attached--;
+ 
+             nvme_update_dmrsl(ctrl);
++            break;
++        default:
++            return NVME_INVALID_FIELD | NVME_DNR;
+         }
+-
++        
+         /*
+          * Add namespace id to the changed namespace id list for event clearing
+          * via Get Log Page command.
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 77aae01..e3bd47b 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -1154,6 +1154,11 @@ enum NvmeIdCtrlCmic {
+     NVME_CMIC_MULTI_CTRL    = 1 << 1,
+ };
+ 
++enum NvmeNsAttachmentOperation {
++    NVME_NS_ATTACHMENT_ATTACH = 0x0,
++    NVME_NS_ATTACHMENT_DETACH = 0x1,
++};
++
+ #define NVME_CTRL_SQES_MIN(sqes) ((sqes) & 0xf)
+ #define NVME_CTRL_SQES_MAX(sqes) (((sqes) >> 4) & 0xf)
+ #define NVME_CTRL_CQES_MIN(cqes) ((cqes) & 0xf)
+-- 
+1.8.3.1
 
 
