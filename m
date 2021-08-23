@@ -2,90 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B6A63F4D65
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 17:22:47 +0200 (CEST)
-Received: from localhost ([::1]:52916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E0D93F4D71
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 17:25:56 +0200 (CEST)
+Received: from localhost ([::1]:57220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIBmf-00066n-SL
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 11:22:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57722)
+	id 1mIBpj-0000dm-7D
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 11:25:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mIBlG-0004Wj-6L
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 11:21:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27687)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mIBlC-0002ch-Jm
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 11:21:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629732073;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cpJihCXUzgpi+3OL+/LebXO+XMRlBWHGbhTpOkTFKxg=;
- b=BNcBmOSjL4Ens10IpI74nMoEwpkKKZ1XALnC9QeDHwV7Phu0oly5jswCVUXVE/1DV0pHIA
- VDIWRDdsziWqDR/Kb/J3DPqoW4uwsK7Pt5RPESdyOWwTMB8TYuuY63XFSTJ8ZnHt+iUlt0
- agPWKkcIqaC+L5GRTaGUEzF9PqkAvpc=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-119-qBJBP-mjP7yf8vMbJ9TbeQ-1; Mon, 23 Aug 2021 11:21:09 -0400
-X-MC-Unique: qBJBP-mjP7yf8vMbJ9TbeQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- z186-20020a1c7ec30000b02902e6a27a9962so8616458wmc.3
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 08:21:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mIBoQ-0007rn-GL
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 11:24:34 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:45840)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mIBoK-0004pc-Fg
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 11:24:34 -0400
+Received: by mail-ed1-x531.google.com with SMTP id cq23so26705668edb.12
+ for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 08:24:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iyAYC9RN+9lBQIAbfVLcSBds/G54lZ6rxoaMkQ0DVAM=;
+ b=IP3ggqsukFsyQvd085tX264U9mGoseI2K3ztdclDisPK/y1dCDdNCRIMktFymacNDN
+ Z8u8IxrTQLs1maMEgCW32UGsx0nxVim0ZuegYhn/qlaw9k2Wo1GU7gUFOE5ZXPOkX0W2
+ mscquJi1y9NOPeOw3f64+xkhCSWCSY4zk+IyNK5BUuDkSs6Wb192FONl3oZRvPpwHmDc
+ XM5G2fwh/JQbF+nUf9cl3q6G4GN+PqMZURAg7YeO+P3Jwewg2m8P5nbr8+IwTLX3BNjg
+ XRW7w5AcJP2taTVPfbLXmRNF8dzFoRuQzx11iBwNWqkPInNOTI+40FVrytylT2CmKiAS
+ Veag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cpJihCXUzgpi+3OL+/LebXO+XMRlBWHGbhTpOkTFKxg=;
- b=s+5Q5nU7pNvo4TWYph20fZZF8OWBMF9oJdF3zXAvWyU74Yl8hUvD1xi6xRyV8i9DwV
- jTH6HFROtwmdxQ/Eo+c0C2YLyMyH86SA9TRREeXirTC+CX1ba2d7KAtkeEUDFA12AGX5
- gcId1m1hTB/XQEMr7lV2/1FzfHV8JVFEO7oqshFfh/nuHhN+UtnFAFp/mnOmVms72GPS
- zDns8tFBZHg85yh/XzubKdKXuriQ6vWif3kIzZKTuUGstJSLcgAz84OlntRrppUThq0A
- G/dtgnYZedr5wCR4bOHD4ME+w7f2VAvCCrHTt8OGusl7/b247HUHazeDP2xzvZWHuou+
- ccxQ==
-X-Gm-Message-State: AOAM531yYfghLrH00zEycsinypsugtXHv9vZxcpho05S4CoZ+slv+cJD
- N7bqtUzpSFAyCxsU6OSzf1RnWjHmkP6K3Cckq/betBaFDorBxR6lqlQtSwZQahRkYzAZ3nyLZU0
- 4tn3p7Rfhze3+gtI=
-X-Received: by 2002:a7b:c04b:: with SMTP id u11mr16828910wmc.41.1629732068754; 
- Mon, 23 Aug 2021 08:21:08 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyBwDeP4M+7EFA4baaz9ImETe8Ln71jNQE/wsj9Q80a1drPkKy5pEICXfi8ZQ2OnjEt2LoJaA==
-X-Received: by 2002:a7b:c04b:: with SMTP id u11mr16828884wmc.41.1629732068569; 
- Mon, 23 Aug 2021 08:21:08 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id n15sm7575253wmq.7.2021.08.23.08.21.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Aug 2021 08:21:08 -0700 (PDT)
-Subject: Re: [PATCH 0/3] gdbstub: add support for switchable endianness
-To: Changbin Du <changbin.du@gmail.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20210823142004.17935-1-changbin.du@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <7523c6ad-52cd-0b20-b09d-01bd537edbb3@redhat.com>
-Date: Mon, 23 Aug 2021 17:21:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iyAYC9RN+9lBQIAbfVLcSBds/G54lZ6rxoaMkQ0DVAM=;
+ b=NqWmd2z+VEZR6tuyIiDKnVB5tbmOwAwLino/H3pimR5dFDLa6mvO4k5s/1qprvGHW+
+ PFr+jiHKgwJgtI9gXPTVfnYG+YST1gdU602jZI/9E6l+wcUvb8GMJFYpzIiqvIVgvMJn
+ 1Ht5MbOKpQWuBB9CzS+1sbVZQ1TN7gyrcA8Ym4CZ4poWuEOYfuU+My+xNTMHQCmDWHDk
+ MdZsnirRWhgfl8kJBZt0sfbVkR60wifHIEKKhFM6h19dIzEWGA5yXS3PJ/kfXe4U4O+m
+ hLGqJJCwvA83zwvupML03jJA8ghH/xcpIwsHtNxHmRRvGIQTipaLIj+0k+rPqWrYqFdY
+ A1Dw==
+X-Gm-Message-State: AOAM532IPW2nOLysVf1uEaXxEAm8zA4UhfLFQUBSvumliGpPlk32Nys2
+ eezzfLjtal0tEom+OUwtwyRHHIAsx+hPNZ5fYLSZjg==
+X-Google-Smtp-Source: ABdhPJzoPcoBK6IWJsYo0rLSA1C7+N2f/kE6l+HTOp1I3fcflrxGhX1ji1SbTaA5swHpI6Ub+NKugw44ut1cHOyMx2Q=
+X-Received: by 2002:aa7:c0c6:: with SMTP id j6mr26770811edp.146.1629732266936; 
+ Mon, 23 Aug 2021 08:24:26 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210823142004.17935-1-changbin.du@gmail.com>
 In-Reply-To: <20210823142004.17935-1-changbin.du@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.023, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 23 Aug 2021 16:23:40 +0100
+Message-ID: <CAFEAcA9AqV7BoyPVwuMUdcX2uHOCahPK2wZobOLpLqD3WM5FPQ@mail.gmail.com>
+Subject: Re: [PATCH 0/3] gdbstub: add support for switchable endianness
+To: Changbin Du <changbin.du@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,36 +76,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-riscv@nongnu.org,
- Bin Meng <bin.meng@windriver.com>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/23/21 4:20 PM, Changbin Du wrote:
+On Mon, 23 Aug 2021 at 15:20, Changbin Du <changbin.du@gmail.com> wrote:
+>
 > To resolve the issue to debug switchable targets, this serias introduces
 > basic infrastructure for gdbstub and enable support for ARM and RISC-V
 > targets.
-> 
+
+As I understand it, fixing this problem requires support
+from gdb, not merely changes to QEMU. You would need to be
+able to have QEMU tell gdb "the guest's endianness is now
+little/big" and have gdb cope with that change.
+
 > For example, now there is no problem to debug an big-enadian aarch64 target
 > on x86 host.
-> 
+>
 >   $ qemu-system-aarch64 -gdb tcp::1234,endianness=big ...
 
-I don't understand why you need all that.
-Maybe you aren't using gdb-multiarch?
+I don't feel like this is the right approach. QEMU already
+knows the endianness of the guest at any point.
 
-You can install it or start it via QEMU Debian Docker image:
-
-$ docker run -it --rm -v /tmp:/tmp -u $UID --network=host \
-  registry.gitlab.com/qemu-project/qemu/qemu/debian10 \
-  gdb-multiarch -q \
-    --ex 'set architecture aarch64' \
-    --ex 'set endian big'
-The target architecture is assumed to be aarch64
-The target is assumed to be big endian
-(gdb) target remote 172.17.0.1:1234
-(gdb)
-
+thanks
+-- PMM
 
