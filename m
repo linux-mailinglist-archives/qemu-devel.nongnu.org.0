@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F19C3F4746
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 11:20:11 +0200 (CEST)
-Received: from localhost ([::1]:55410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 371B63F4745
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 11:19:59 +0200 (CEST)
+Received: from localhost ([::1]:54368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mI67m-0001MO-IB
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 05:20:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34684)
+	id 1mI67a-0000gw-7f
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 05:19:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Chunming.Li@verisilicon.com>)
- id 1mI65c-0006vH-F2; Mon, 23 Aug 2021 05:17:56 -0400
+ id 1mI65f-000718-0T; Mon, 23 Aug 2021 05:17:59 -0400
 Received: from [101.89.135.45] (port=44451 helo=shasxm03.verisilicon.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <Chunming.Li@verisilicon.com>)
- id 1mI65X-0004AC-1O; Mon, 23 Aug 2021 05:17:56 -0400
+ id 1mI65d-0004AC-B5; Mon, 23 Aug 2021 05:17:58 -0400
 Content-Language: zh-CN
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 DKIM-Signature: v=1; a=rsa-sha256; d=Verisilicon.com; s=default;
- c=simple/simple; t=1629710110; h=from:subject:to:date:message-id;
- bh=6UAmz2kYquCw/b3fNkh1ufLCDjhPxD7eFSv9F9u/+YI=;
- b=LAJEgVLU1HeN+cxCXwXWs3gH8XscRxuv2SIXoxnzTTn4l8+wcClKVXjbQ9fkkuxS7mYXx5axgkn
- 9avMfeNweu+JUDea52X1X/XyKM9r2uW1+mxcVWcgXC4e0I1rPHA/nCBIAJz1XWl+vQ3s18YyXRP/f
- bkuX/WUOsliExYnZtmo=
+ c=simple/simple; t=1629710120; h=from:subject:to:date:message-id;
+ bh=C8wfuEOayUrlBwhdXRUOHviYrogGVzcMvdCwzZz7XDQ=;
+ b=fLfNUDaiLRcz2u6g1nwytzYWGVi7krrFU++LG6eivSxega+u8nAUWKBOxLWbYPP1iMH3yp8CqQw
+ 9LKt64GtLv69u0QXupM9Nv9u4oFPxSgLYBg9n4jHML4maqBGlayFpCyyTT0eQBIID1EAKvSYekzZG
+ 3h+h4Sovdpserau30lA=
 Received: from SHASXM03.verisilicon.com ([fe80::938:4dda:a2f9:38aa]) by
  SHASXM06.verisilicon.com ([fe80::59a8:ce34:dc14:ddda%16]) with mapi id
- 14.03.0408.000; Mon, 23 Aug 2021 17:15:10 +0800
+ 14.03.0408.000; Mon, 23 Aug 2021 17:15:19 +0800
 From: "Li, Chunming" <Chunming.Li@verisilicon.com>
 To: "eric.auger@redhat.com" <eric.auger@redhat.com>,
  "peter.maydell@linaro.org" <peter.maydell@linaro.org>, Peter Maydell
  <peter.maydell@linaro.org>
-Subject: [PATCH v3 1/4] hw/arm/smmuv3: Support non PCI/PCIe device connect
- with SMMU v3
-Thread-Topic: [PATCH v3 1/4] hw/arm/smmuv3: Support non PCI/PCIe device
- connect with SMMU v3
-Thread-Index: AQHXl/0zC10rqLzMj0qwW/R/oV8UbKuAzZXQ
-Date: Mon, 23 Aug 2021 09:15:09 +0000
-Message-ID: <49C79B700B5D8F45B8EF0861B4EF3B3B01142F9735@SHASXM03.verisilicon.com>
+Subject: [PATCH v3 2/4] hw/arm/smmuv3: Update implementation of CFGI
+ commands based on device SID
+Thread-Topic: [PATCH v3 2/4] hw/arm/smmuv3: Update implementation of CFGI
+ commands based on device SID
+Thread-Index: AQHXl/03bqvwHdcsykmwzokCpspQpquAzdPQ
+Date: Mon, 23 Aug 2021 09:15:18 +0000
+Message-ID: <49C79B700B5D8F45B8EF0861B4EF3B3B01142F973C@SHASXM03.verisilicon.com>
 Accept-Language: zh-CN, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [182.148.13.223]
 x-tm-as-product-ver: SMEX-11.0.0.4179-8.100.1062-25628.004
-x-tm-as-result: No--6.628200-0.000000-31
+x-tm-as-result: No--3.041300-0.000000-31
 x-tm-as-user-approved-sender: Yes
 x-tm-as-user-blocked-sender: No
 MIME-Version: 1.0
@@ -77,154 +77,113 @@ Cc: "Liu, Renwei" <Renwei.Liu@verisilicon.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  . Add sid-map property to store non PCI/PCIe devices SID
-  . Create IOMMU memory regions for non PCI/PCIe devices based on their SID
-  . Update SID getting strategy for PCI/PCIe and non PCI/PCIe devices
+"smmu_iommu_mr" function can't get MR according to SID for non PCI/PCIe dev=
+ices.
+So we replace "smmuv3_flush_config" with "g_hash_table_foreach_remove" base=
+d on devices SID.
 
 Signed-off-by: Chunming Li <chunming.li@verisilicon.com>
 Signed-off-by: Renwei Liu <renwei.liu@verisilicon.com>
 ---
- hw/arm/smmuv3.c              | 46 ++++++++++++++++++++++++++++++++++++
- include/hw/arm/smmu-common.h |  7 +++++-
- include/hw/arm/smmuv3.h      |  2 ++
- 3 files changed, 54 insertions(+), 1 deletion(-)
+ hw/arm/smmuv3.c              | 35 ++++++++++-------------------------
+ include/hw/arm/smmu-common.h |  5 ++++-
+ 2 files changed, 14 insertions(+), 26 deletions(-)
 
 diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 01b60bee4..11d7fe842 100644
+index 11d7fe842..9f3f13fb8 100644
 --- a/hw/arm/smmuv3.c
 +++ b/hw/arm/smmuv3.c
-@@ -32,6 +32,7 @@
- #include "hw/arm/smmuv3.h"
- #include "smmuv3-internal.h"
- #include "smmu-internal.h"
-+#include "hw/qdev-properties.h"
-=20
- /**
-  * smmuv3_trigger_irq - pulse @irq if enabled and update
-@@ -1430,6 +1431,19 @@ static void smmu_reset(DeviceState *dev)
-     smmuv3_init_regs(s);
+@@ -613,14 +613,6 @@ static SMMUTransCfg *smmuv3_get_config(SMMUDevice *sde=
+v, SMMUEventInfo *event)
+     return cfg;
  }
 =20
-+static SMMUDevice *smmu_find_peri_sdev(SMMUState *s, uint16_t sid)
-+{
-+    SMMUDevice *sdev;
-+
-+    QLIST_FOREACH(sdev, &s->peri_sdev_list, next) {
-+        if (smmu_get_sid(sdev) =3D=3D sid) {
-+            return sdev;
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
- static void smmu_realize(DeviceState *d, Error **errp)
- {
-     SMMUState *sys =3D ARM_SMMU(d);
-@@ -1437,6 +1451,9 @@ static void smmu_realize(DeviceState *d, Error **errp=
+-static void smmuv3_flush_config(SMMUDevice *sdev)
+-{
+-    SMMUv3State *s =3D sdev->smmu;
+-    SMMUState *bc =3D &s->smmu_state;
+-
+-    trace_smmuv3_config_cache_inv(smmu_get_sid(sdev));
+-    g_hash_table_remove(bc->configs, sdev);
+-}
+=20
+ static IOMMUTLBEntry smmuv3_translate(IOMMUMemoryRegion *mr, hwaddr addr,
+                                       IOMMUAccessFlags flag, int iommu_idx=
 )
-     SMMUv3Class *c =3D ARM_SMMUV3_GET_CLASS(s);
-     SysBusDevice *dev =3D SYS_BUS_DEVICE(d);
-     Error *local_err =3D NULL;
-+    SMMUDevice *sdev;
-+    char *name =3D NULL;
-+    uint16_t sid =3D 0;
+@@ -964,22 +956,18 @@ static int smmuv3_cmdq_consume(SMMUv3State *s)
+         case SMMU_CMD_CFGI_STE:
+         {
+             uint32_t sid =3D CMD_SID(&cmd);
+-            IOMMUMemoryRegion *mr =3D smmu_iommu_mr(bs, sid);
+-            SMMUDevice *sdev;
++            SMMUSIDRange sid_range;
 =20
-     c->parent_realize(d, &local_err);
-     if (local_err) {
-@@ -1454,6 +1471,28 @@ static void smmu_realize(DeviceState *d, Error **err=
-p)
-     sysbus_init_mmio(dev, &sys->iomem);
+             if (CMD_SSEC(&cmd)) {
+                 cmd_error =3D SMMU_CERROR_ILL;
+                 break;
+             }
 =20
-     smmu_init_irq(s, dev);
-+
-+    /* Create IOMMU memory region for peripheral devices based on their SI=
-D */
-+    for (int i =3D 0; i < s->num_sid; i++) {
-+        sid =3D s->sid_map[i];
-+        sdev =3D smmu_find_peri_sdev(sys, sid);
-+        if (sdev) {
-+            continue;
-+        }
-+
-+        sdev =3D g_new0(SMMUDevice, 1);
-+        sdev->smmu =3D sys;
-+        sdev->bus =3D NULL;
-+        sdev->devfn =3D sid;
-+
-+        name =3D g_strdup_printf("%s-peri-%d", sys->mrtypename, sid);
-+        memory_region_init_iommu(&sdev->iommu, sizeof(sdev->iommu),
-+                                 sys->mrtypename,
-+                                 OBJECT(sys), name, 1ULL << SMMU_MAX_VA_BI=
-TS);
-+
-+        QLIST_INSERT_HEAD(&sys->peri_sdev_list, sdev, next);
-+        g_free(name);
-+    }
- }
+-            if (!mr) {
+-                break;
+-            }
+-
++            sid_range.start =3D sid;
++            sid_range.end =3D sid;
+             trace_smmuv3_cmdq_cfgi_ste(sid);
+-            sdev =3D container_of(mr, SMMUDevice, iommu);
+-            smmuv3_flush_config(sdev);
+-
++            g_hash_table_foreach_remove(bs->configs, smmuv3_invalidate_ste=
+,
++                                        &sid_range);
+             break;
+         }
+         case SMMU_CMD_CFGI_STE_RANGE: /* same as SMMU_CMD_CFGI_ALL */
+@@ -1006,21 +994,18 @@ static int smmuv3_cmdq_consume(SMMUv3State *s)
+         case SMMU_CMD_CFGI_CD_ALL:
+         {
+             uint32_t sid =3D CMD_SID(&cmd);
+-            IOMMUMemoryRegion *mr =3D smmu_iommu_mr(bs, sid);
+-            SMMUDevice *sdev;
++            SMMUSIDRange sid_range;
 =20
- static const VMStateDescription vmstate_smmuv3_queue =3D {
-@@ -1506,6 +1545,12 @@ static void smmuv3_instance_init(Object *obj)
-     /* Nothing much to do here as of now */
- }
+             if (CMD_SSEC(&cmd)) {
+                 cmd_error =3D SMMU_CERROR_ILL;
+                 break;
+             }
 =20
-+static Property smmuv3_properties[] =3D {
-+    DEFINE_PROP_ARRAY("sid-map", SMMUv3State, num_sid, sid_map,
-+                      qdev_prop_uint16, uint16_t),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void smmuv3_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc =3D DEVICE_CLASS(klass);
-@@ -1515,6 +1560,7 @@ static void smmuv3_class_init(ObjectClass *klass, voi=
-d *data)
-     device_class_set_parent_reset(dc, smmu_reset, &c->parent_reset);
-     c->parent_realize =3D dc->realize;
-     dc->realize =3D smmu_realize;
-+    device_class_set_props(dc, smmuv3_properties);
- }
-=20
- static int smmuv3_notify_flag_changed(IOMMUMemoryRegion *iommu,
+-            if (!mr) {
+-                break;
+-            }
+-
++            sid_range.start =3D sid;
++            sid_range.end =3D sid;
+             trace_smmuv3_cmdq_cfgi_cd(sid);
+-            sdev =3D container_of(mr, SMMUDevice, iommu);
+-            smmuv3_flush_config(sdev);
++            g_hash_table_foreach_remove(bs->configs, smmuv3_invalidate_ste=
+,
++                                        &sid_range);
+             break;
+         }
+         case SMMU_CMD_TLBI_NH_ASID:
 diff --git a/include/hw/arm/smmu-common.h b/include/hw/arm/smmu-common.h
-index 706be3c6d..95cd12a4b 100644
+index 95cd12a4b..d016455d8 100644
 --- a/include/hw/arm/smmu-common.h
 +++ b/include/hw/arm/smmu-common.h
-@@ -117,6 +117,7 @@ struct SMMUState {
-     QLIST_HEAD(, SMMUDevice) devices_with_notifiers;
-     uint8_t bus_num;
-     PCIBus *primary_bus;
-+    QLIST_HEAD(, SMMUDevice) peri_sdev_list;
- };
+@@ -159,7 +159,10 @@ int smmu_ptw(SMMUTransCfg *cfg, dma_addr_t iova, IOMMU=
+AccessFlags perm,
+  */
+ SMMUTransTableInfo *select_tt(SMMUTransCfg *cfg, dma_addr_t iova);
 =20
- struct SMMUBaseClass {
-@@ -138,7 +139,11 @@ SMMUPciBus *smmu_find_smmu_pcibus(SMMUState *s, uint8_=
-t bus_num);
- /* Return the stream ID of an SMMU device */
- static inline uint16_t smmu_get_sid(SMMUDevice *sdev)
- {
--    return PCI_BUILD_BDF(pci_bus_num(sdev->bus), sdev->devfn);
-+    if (sdev->bus =3D=3D NULL) {
-+        return sdev->devfn;
-+    } else {
-+        return PCI_BUILD_BDF(pci_bus_num(sdev->bus), sdev->devfn);
-+    }
- }
+-/* Return the iommu mr associated to @sid, or NULL if none */
++/**
++ * Return the iommu mr associated to @sid, or NULL if none
++ * Only for PCI device, check smmu_find_peri_sdev for non PCI/PCIe device
++ */
+ IOMMUMemoryRegion *smmu_iommu_mr(SMMUState *s, uint32_t sid);
 =20
- /**
-diff --git a/include/hw/arm/smmuv3.h b/include/hw/arm/smmuv3.h
-index c641e6073..32ba84990 100644
---- a/include/hw/arm/smmuv3.h
-+++ b/include/hw/arm/smmuv3.h
-@@ -39,6 +39,8 @@ struct SMMUv3State {
-     uint32_t features;
-     uint8_t sid_size;
-     uint8_t sid_split;
-+    uint32_t num_sid;
-+    uint16_t *sid_map;
-=20
-     uint32_t idr[6];
-     uint32_t iidr;
+ #define SMMU_IOTLB_MAX_SIZE 256
 --=20
 
 
