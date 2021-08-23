@@ -2,94 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DE1A3F44A4
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 07:32:29 +0200 (CEST)
-Received: from localhost ([::1]:41910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAC833F44C5
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 08:06:34 +0200 (CEST)
+Received: from localhost ([::1]:45936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mI2ZL-0000xn-6u
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 01:32:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54276)
+	id 1mI36I-0005OU-N7
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 02:06:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mI2Xc-00080R-Vx
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 01:30:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56847)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mI2Xb-0000Fg-7m
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 01:30:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629696634;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KUcv38KmgHNqoIM37xueVJ/C/z0dJ+GC5w5bwRoT2VY=;
- b=bRM9Vrmc87DRrloPQC0UETr2KW4Cb7e/WOYJvwLPpsKX3UFfsZ/F8M+rqrBlOIsApngSrI
- difGnLnnERtCgPW25Z3gBTBdhzz/oCQ0+jF4g5XxCYas4n7ZrncT0Lzb4WO6Xd074LnPxU
- 0Mhu/EgOD+0M64WNKIWHpsSiOjmEeUk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-jo-c5bPONXCgGZLF5wWI8A-1; Mon, 23 Aug 2021 01:30:33 -0400
-X-MC-Unique: jo-c5bPONXCgGZLF5wWI8A-1
-Received: by mail-wr1-f69.google.com with SMTP id
- z2-20020adff1c20000b0290154f60e3d2aso4718264wro.23
- for <qemu-devel@nongnu.org>; Sun, 22 Aug 2021 22:30:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mI35K-0004ZO-85; Mon, 23 Aug 2021 02:05:26 -0400
+Received: from mail-il1-x12e.google.com ([2607:f8b0:4864:20::12e]:36508)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mI35H-00047g-8F; Mon, 23 Aug 2021 02:05:25 -0400
+Received: by mail-il1-x12e.google.com with SMTP id x5so16029312ill.3;
+ Sun, 22 Aug 2021 23:05:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=G1TRZe5QiWOJs2Wmo0bQfrNOrUm8K0tWPeWR5v6rYfQ=;
+ b=Fhh3kQFA2UOZxs5K/gh5t7G3B2s8MZY1h6zAjK96VU8hXzavJkoTMDBeXF/zJU8ejc
+ /J2KDi4l92cehEmMILQ6YG6B4gWBmQ3Y+YFvN3wKGkXz9Di8n8bfk0zRedqWCiVhz7iD
+ PelVD+3VLPJ/UsK/Pjn1Mw1MlQAJQRI0YcQaDwi8s9RKhGQaHb1nFapMBtSk7PcuJ5Gb
+ x9SKsVPD7VcHktLWxX1h1tg1Z0MEws/T/RLz45n04RDMIEgWC5TUHp8/+KFlL5vDyBPE
+ YnDkqOxfip6r4L4Tme6Wh8IMyN0PM15MPWaMS1VM7qDigUPKUo3jRJC5Wewl7+IGofyd
+ vLWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=KUcv38KmgHNqoIM37xueVJ/C/z0dJ+GC5w5bwRoT2VY=;
- b=AMGDmLQHl3aq6sA/54xrlSn3oRHWyH28tnQLO2h3FHPUNRC2GXrUcN51sDtA6nCqkm
- 5stwwT2ozUyizLOKvtMvwAxx0ovTm1+dAw7J9RMjscnzD5+D19lyswCEZo2g3RCK1Fbi
- Ip9CYHW02hcx/2EDzsc6BBosYMKFPXJSOX3whB6QMeEWUQpRUT9bKo6Mx1ujflBU9Pv3
- EgiM72MT3YNejbQn0F+c40d4xRmpNgOBMFfwxTl2JTHQqvmihOVIwiQdnUsvg09BCu/C
- tP7t3elb+2qAmm+xn98FYAvgU6TD9oufcdsB/vQk6PRtKONcRXCsks516MASuAvjjfgV
- f1nQ==
-X-Gm-Message-State: AOAM531ZHs9srfU5oUQPvmYkRlAtJlSzyQ0zd5sBe+aQ1MsrQE9wmuPk
- 94YVtbZinKQ65dfHO4id1ZWkFect+GmmPDKTgjyQcQzaSbjR+6lvDag78dHA9hD5FYRFl6oWihu
- TwYNz6ihh6wIZsaE=
-X-Received: by 2002:a05:600c:198a:: with SMTP id
- t10mr14439848wmq.181.1629696632078; 
- Sun, 22 Aug 2021 22:30:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwZ8Hi576z03A1f3jgvU7EiM4XOxQwPO18GG6ES+pE+2TjyAGs0jnnl0zfmFvanYDebRSi3MA==
-X-Received: by 2002:a05:600c:198a:: with SMTP id
- t10mr14439825wmq.181.1629696631848; 
- Sun, 22 Aug 2021 22:30:31 -0700 (PDT)
-Received: from thuth.remote.csb (p5791d4fd.dip0.t-ipconnect.de.
- [87.145.212.253])
- by smtp.gmail.com with ESMTPSA id s2sm742846wrp.81.2021.08.22.22.30.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 Aug 2021 22:30:31 -0700 (PDT)
-Subject: Re: [PATCH v2 3/3] docs/about: Add the missing release record in the
- subject
-To: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org,
- libvir-list@redhat.com
-References: <20210823030005.165668-1-wangyanan55@huawei.com>
- <20210823030005.165668-4-wangyanan55@huawei.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <5995f025-70bc-7c69-d4df-e75ed1816806@redhat.com>
-Date: Mon, 23 Aug 2021 07:30:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=G1TRZe5QiWOJs2Wmo0bQfrNOrUm8K0tWPeWR5v6rYfQ=;
+ b=LRpDZL08gz2gruTneWjsTm0K2OfIGGTEdISHx4ghU/2h7QTw3SJUnkrqXgpyJ3LzCJ
+ YVmqY8duWANZN8km+odZmVE0zBv+KfRfwu12nY/Mhf75hkpOleO4Z8Y2jan/Ep7m6gRx
+ U7PmK0Y2CgubTWk0GBNxArqjx/aj9psHKB9B8F+Ua/di7T6htWwyyQQhe30A7v81EhkU
+ CjD6M8dkAGWMre/pT2FZzqPRhPeCsn5ejTC4A8N3AJByQOPdB68KaWQMP5n589uLTJk6
+ QAGXmo6OQ3u83rrA6QgNPG6IpzOAZPmRqwM5kiNd1BsY6rbrSrHBxJ6uy5A4lSusynzM
+ IS4g==
+X-Gm-Message-State: AOAM532SFfgsTaCZ1AGOSpoYqzW0TBoxco1wBiLI54gE/w7nYzBu6aS9
+ YYMMdzaRETFj9AS+wlf7LHRjBb+kT9mJ58FOALA=
+X-Google-Smtp-Source: ABdhPJxFXZNnAF7dWmhlyT5t4O6YyiS7KyrVgChirEJ2cuelhBTDRxnxEBfgiiqdordPBm/yClCJ1WIdNngSohsB5sY=
+X-Received: by 2002:a92:ce03:: with SMTP id b3mr21821263ilo.267.1629698721831; 
+ Sun, 22 Aug 2021 23:05:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210823030005.165668-4-wangyanan55@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -44
-X-Spam_score: -4.5
-X-Spam_bar: ----
-X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.746,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.959, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210820174257.548286-1-richard.henderson@linaro.org>
+ <20210820174257.548286-3-richard.henderson@linaro.org>
+ <CAEUhbmXzz5ptCzNit9hQtUkyJgb77wATN=5CSCcYMBnwLieSVQ@mail.gmail.com>
+In-Reply-To: <CAEUhbmXzz5ptCzNit9hQtUkyJgb77wATN=5CSCcYMBnwLieSVQ@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 23 Aug 2021 16:04:55 +1000
+Message-ID: <CAKmqyKNzJxzJLFxEwxXViyv09WdzWGA2-d9V9A30xvJGAZgipA@mail.gmail.com>
+Subject: Re: [PATCH v4 02/21] tests/tcg/riscv64: Add test for division
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12e;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12e.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,38 +77,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- wanghaibin.wang@huawei.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/08/2021 05.00, Yanan Wang wrote:
-> Commit 29e0447551
-> (docs/about/removed-features: Document removed CLI options from QEMU v3.1)
-> has recorded some CLI options as replaced/removed from QEMU v3.1, but one
-> of the subjects has missed the release record. Let's fix it.
-> 
-> Reported-by: Cornelia Huck <cohuck@redhat.com>
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> ---
->   docs/about/removed-features.rst | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-> index 1c926a8bc1..8feeead449 100644
-> --- a/docs/about/removed-features.rst
-> +++ b/docs/about/removed-features.rst
-> @@ -140,8 +140,8 @@ Use ``-rtc driftfix=slew`` instead.
->   
->   Replaced by ``-rtc base=date``.
->   
-> -``-vnc ...,tls=...``, ``-vnc ...,x509=...`` & ``-vnc ...,x509verify=...``
-> -'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-> +``-vnc ...,tls=...``, ``-vnc ...,x509=...`` & ``-vnc ...,x509verify=...`` (removed in 3.1)
-> +''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+On Mon, Aug 23, 2021 at 1:19 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Sat, Aug 21, 2021 at 1:43 AM Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+> >
+> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
+Alistair
+
+> > ---
+> >  tests/tcg/riscv64/test-div.c      | 58 +++++++++++++++++++++++++++++++
+> >  tests/tcg/riscv64/Makefile.target |  5 +++
+> >  2 files changed, 63 insertions(+)
+> >  create mode 100644 tests/tcg/riscv64/test-div.c
+> >  create mode 100644 tests/tcg/riscv64/Makefile.target
+> >
+>
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> Tested-by: Bin Meng <bmeng.cn@gmail.com>
+>
 
