@@ -1,73 +1,75 @@
 Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
-Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C74E3F511A
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 21:15:21 +0200 (CEST)
-Received: from localhost ([::1]:47354 helo=lists1p.gnu.org)
+Received: from lists.gnu.org (unknown [209.51.188.17])
+	by mail.lfdr.de (Postfix) with ESMTPS id 283423F50CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 20:54:41 +0200 (CEST)
+Received: from localhost ([::1]:41208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIF7L-000254-0C
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 14:56:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45366)
+	id 1mIF5Q-0006OI-69
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 14:54:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIEwx-0005rT-RW
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 14:45:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32566)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIExN-0006Hk-Ce
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 14:46:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27884)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIEwt-00068o-TV
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 14:45:34 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIExL-0006VE-3S
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 14:46:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629744330;
+ s=mimecast20190719; t=1629744358;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MAROJlFzkpPQxERojoPsRCol2qZQwDCzIiD0nkCUsm8=;
- b=bIP3d1Sr4SSGJQQzUhG2o5+VXrAQwn/TFuHhN94hDEsRvN/FmhzT2lQiVi4bUIrbWa08w9
- aXZckfRIEuVC24sG2YzTuUKRfAcnQzx5WeSKdN9SxhckvRtzKDNYq0L3RdCgL5mArswsC1
- bsO3fx4soEAyFfA39eKB5WY6ada90/k=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-OIgHJc1ONNmXqFbkEZZFig-1; Mon, 23 Aug 2021 14:45:28 -0400
-X-MC-Unique: OIgHJc1ONNmXqFbkEZZFig-1
-Received: by mail-qk1-f197.google.com with SMTP id
- c27-20020a05620a165b00b003d3817c7c23so12441795qko.16
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 11:45:28 -0700 (PDT)
+ bh=oK0CkQ7Bxe1UqG2Sum95+Ae0794dbAK2OESs5gCjHOA=;
+ b=fucPEg78iiqm8JHNbwlgqHLzfGYCQPTh3Y5+kld2knL7/IUZNuxgG8e1SfsLqBwXk4ko9F
+ IhoAFYhXfqH1rAM8mPJcHXXsAlNIwMwPTU+fp76WtbfROqwuInP36GgHV7gKzWLnGfapU2
+ Bd9uSzsrVFIjfyXK3ZNd7awtCAtFC5o=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-185-OpQn7ZpVM3ulcrr-Ex7aZg-1; Mon, 23 Aug 2021 14:45:57 -0400
+X-MC-Unique: OpQn7ZpVM3ulcrr-Ex7aZg-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ m10-20020a056214158ab029035a6c1e5f3eso13026715qvw.7
+ for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 11:45:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=MAROJlFzkpPQxERojoPsRCol2qZQwDCzIiD0nkCUsm8=;
- b=XhXMamTA+MI9pZo/9y4u1fSYnos9SDvAhCREbhNqlFUrXRCRe0ouONBRW1+TMkhtPt
- Sotg70axXIWGX5/FcNbWJ5Qfg+lLlvTc3D039mvBAtntl4rKULraU6VGh0lAN2y+YLpA
- ZmsVMpk2Z9lJUu6lxr2iFH15KOikef4M4aYZeDassWVEPv31EUqE/FL0dOvujtMpbBVv
- w60X1Ybz0FftBu8fZ3Gn2Pu3ovI+mp8StHOBMcIhqkugbUeUN9YE8L2v7NEKSwqlBBM2
- MSAFSjEbwUrK5rlh1/poYDVYEgUi/C9HJYVW9h/F2IzwYdrSXBElqtYW8iTTIdY+ovew
- 4JYQ==
-X-Gm-Message-State: AOAM531vU7quNEYHfxmPxrR6CpLcM24h7KTJ0KiFswVVVyq13FQtOEdX
- oq508FitHU7xGddAZ2Dtiucn6vOHMeb7nQrw25Xyx7eTmIN/qDkrgFqLyisxrq/yH3M3nBrpfpL
- 8z/nPkmxMMVHwCOg=
-X-Received: by 2002:ac8:5901:: with SMTP id 1mr9512099qty.40.1629744327784;
- Mon, 23 Aug 2021 11:45:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwm4oJxcqc/FSZOkiUSoCE/EIcsYbLg7ofWaLhz3qGasisj2ElbWSj0cactKa/gmiqUtuuH8Q==
-X-Received: by 2002:ac8:5901:: with SMTP id 1mr9512077qty.40.1629744327561;
- Mon, 23 Aug 2021 11:45:27 -0700 (PDT)
+ bh=oK0CkQ7Bxe1UqG2Sum95+Ae0794dbAK2OESs5gCjHOA=;
+ b=sAxUbrJDJrh2+KGLNow13FavlNW9ycf9JAC60XqJm5juoAFfvu+CN5GY7xFGCv84Bw
+ 10UqgRk1o7nHfTK6vpEtHI0e/7+AQS7Qf272A4JaETwnB73feZ2+4mL8YHavuYgILuNM
+ R/e7Wh6NjD68qj9O9Vd0nemjydAUDr/RK0zXMem9Ih9r4ZEFRGxGNUBcEEl5cEEIgRiq
+ kv4yG0hmHpT+xZovbGrQ4qfRcz1Is77k1cjZtVGuyaYZERKSIlBkUYVizLGLAYbOCTIm
+ nXSTnD3svIRHHyX5VQCTPv5HGE+eCPwXlcm+69V7pS4WVr/ejchEd10cL4Ket3KM6L1D
+ c/gg==
+X-Gm-Message-State: AOAM530TUoXITPINU2oIZ1iVNdjbeA0NUgCZT8kJYZHzGCuv9S+KjzZL
+ rUM753PDj6on4LQ6s/PXdOu1GFcQZuLDuKWns5WaG+ikznU0kCVfQqfQ8fEOQv/pRnLzVm/baui
+ wgqJk6754TEz4kfw=
+X-Received: by 2002:a05:620a:4106:: with SMTP id
+ j6mr22761814qko.392.1629744357065; 
+ Mon, 23 Aug 2021 11:45:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxtca3i8NC/b+Wofbk14yqFOTemFJJ2xRCP3iFzejOxJJyfJsjtSFaFjdL/7k4I1i9kppbxbg==
+X-Received: by 2002:a05:620a:4106:: with SMTP id
+ j6mr22761804qko.392.1629744356871; 
+ Mon, 23 Aug 2021 11:45:56 -0700 (PDT)
 Received: from t490s ([2607:fea8:56a3:500::d413])
- by smtp.gmail.com with ESMTPSA id g1sm9040689qkd.89.2021.08.23.11.45.26
+ by smtp.gmail.com with ESMTPSA id w6sm5556034qkw.91.2021.08.23.11.45.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Aug 2021 11:45:27 -0700 (PDT)
-Date: Mon, 23 Aug 2021 14:45:25 -0400
+ Mon, 23 Aug 2021 11:45:56 -0700 (PDT)
+Date: Mon, 23 Aug 2021 14:45:54 -0400
 From: Peter Xu <peterx@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [RFC PATCH v2 5/5] softmmu/physmem: Have flaview API check
- MemTxAttrs::bus_perm field
-Message-ID: <YSPsxWCQjiC4w+IE@t490s>
+Subject: Re: [RFC PATCH v2 1/5] softmmu/physmem: Simplify flatview_write and
+ address_space_access_valid
+Message-ID: <YSPs4uVQ9HXNOzdj@t490s>
 References: <20210823164157.751807-1-philmd@redhat.com>
- <20210823164157.751807-6-philmd@redhat.com>
+ <20210823164157.751807-2-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210823164157.751807-6-philmd@redhat.com>
+In-Reply-To: <20210823164157.751807-2-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -75,7 +77,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -106,17 +108,12 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 23, 2021 at 06:41:57PM +0200, Philippe Mathieu-Daudé wrote:
-> @@ -2772,7 +2772,22 @@ static inline bool flatview_access_allowed(MemoryRegion *mr, MemTxAttrs attrs,
->                                             hwaddr addr, hwaddr len,
->                                             MemTxResult *result)
->  {
-> -    return true;
-> +    if (unlikely(attrs.bus_perm == MEMTXPERM_RAM_DEVICE)) {
-> +        if (memory_region_is_ram(mr) || memory_region_is_ram_device(mr)) {
+On Mon, Aug 23, 2021 at 06:41:53PM +0200, Philippe Mathieu-Daudé wrote:
+> Remove unuseful local 'result' variables.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-memory_region_is_ram() should be enough ("ram_device" is only set if "ram" is
-set)?  Thanks,
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
 -- 
 Peter Xu
