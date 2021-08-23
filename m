@@ -2,67 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E35D13F5315
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 23:55:53 +0200 (CEST)
-Received: from localhost ([::1]:48340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBAE53F5319
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 23:57:48 +0200 (CEST)
+Received: from localhost ([::1]:50498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIHv6-0004eu-HS
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 17:55:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34392)
+	id 1mIHwx-0006Cr-QI
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 17:57:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mIHuG-00040B-04
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 17:55:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48521)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mIHwF-0005YT-JT
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 17:57:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56131)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mIHuC-0001T4-5h
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 17:54:59 -0400
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mIHwE-0002ux-2l
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 17:57:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629755693;
+ s=mimecast20190719; t=1629755821;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=4Brp3HiA8GtflGOKL3e39J61gdu9cZALCOrlLefQdcY=;
- b=ECkgPXry88p0NYfTSK6wp+961lpsfmM15+ZdrMj+clF646y+u+HYXkvEtbAQSEV14n1BaG
- 83FRHk/lUbYZ1en0fjdF1ctqD4xCvmmxbeB2oDdd5SFZj4XxZCDsXpd/hEdDz1fQ8zEbpR
- 8npGJjieuOpEqhvQlTgb7gezHpTlhqo=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-551-v4KH25fnNs2Y9pXbPPaBBw-1; Mon, 23 Aug 2021 17:54:50 -0400
-X-MC-Unique: v4KH25fnNs2Y9pXbPPaBBw-1
-Received: by mail-ed1-f69.google.com with SMTP id
- d12-20020a50fe8c0000b02903a4b519b413so756464edt.9
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 14:54:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=4Brp3HiA8GtflGOKL3e39J61gdu9cZALCOrlLefQdcY=;
- b=MhPrd+X0UzHQWShfS42wKq75nFbprsA2bTR3AOJon0DhTemMrp1cSQMpbYqSieR8EN
- ZepJ8ZbF1Q/EzTXsV5w9yOun27GjxHbICKb2iEz3oeKxyIOtJDwkSaTbgoDzIEWL26D2
- sXs+KToccoFuLrMS31ZPscVkOzGgSAmbSW6Zn3Sj/3PuuFHmZYqwq2jUp/YWG47Sm3fW
- hHQQDmDHIwwN6h0ZUgQK2/UJ4piypnJDVoFtP/BcUU+0adMiw56xzueiqrsDqhXJet2i
- Ru8Ib+pMT7sOudv79pOEze+/cdJp2g3uyIJmLF9IvBDush6jgCAgknSocKg50ArDeEFT
- NVNw==
-X-Gm-Message-State: AOAM533QB3kn4ByNZZ0abMM4WdSih8DIx8PwEaB2Ujxr6V8JDzn3NH3F
- she4HDIvBaifj+dTM0lEqodv9dlSpbJKhth1i6a+ya8RmXJw4nOf3fkkPzgJc490M3FLKTmWAU2
- d497ACQV38ORjchM=
-X-Received: by 2002:a17:907:9152:: with SMTP id
- l18mr37647461ejs.190.1629755689081; 
- Mon, 23 Aug 2021 14:54:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwr3znEKsifwwTWD68mvod3ikQ4fkZ2zxmfXvpjtObRkxKO8vHqyFTdkXw0FxxCS00ULNdNzA==
-X-Received: by 2002:a17:907:9152:: with SMTP id
- l18mr37647431ejs.190.1629755688758; 
- Mon, 23 Aug 2021 14:54:48 -0700 (PDT)
-Received: from redhat.com ([2.55.137.225])
- by smtp.gmail.com with ESMTPSA id x15sm7943554ejv.95.2021.08.23.14.54.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Aug 2021 14:54:48 -0700 (PDT)
-Date: Mon, 23 Aug 2021 17:54:44 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
+ bh=NUMDRcpQBFc9zVlWLALkhn88+VbIC6BLOhglU+lFK5A=;
+ b=GoKfxsprlE8xa/BvJSWlipq5ezXArW+t3Fr7uzI5sqPApCQMhJuS/7pamCIofHMum8payk
+ TiRV+JmOG8hRtelYu3roe9UgBMRFQQmhJN9Vjis6sMMv1lIeuciWnQvett9qJPnCFmRoiD
+ 9S7eLJ3lwM9xcOm3W73zrd5RKqlVCd0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-220-9039II9tMfOsIggoeBA1kg-1; Mon, 23 Aug 2021 17:56:59 -0400
+X-MC-Unique: 9039II9tMfOsIggoeBA1kg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AC3E8799EC
+ for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 21:56:59 +0000 (UTC)
+Received: from localhost (unknown [10.22.32.130])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC55A60854;
+ Mon, 23 Aug 2021 21:56:23 +0000 (UTC)
+Date: Mon, 23 Aug 2021 17:56:23 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Xu <peterx@redhat.com>
 Subject: Re: [PATCH 4/4] vl: Prioritize realizations of devices
-Message-ID: <20210823175247-mutt-send-email-mst@kernel.org>
+Message-ID: <20210823215623.bagyo3oojdpk3byj@habkost.net>
 References: <20210818194217.110451-1-peterx@redhat.com>
  <20210818194318.110993-1-peterx@redhat.com>
  <20210823184912.mazqfn7gurntj7ld@habkost.net>
@@ -71,13 +54,14 @@ References: <20210818194217.110451-1-peterx@redhat.com>
  <YSQTwth0elaz4T8W@t490s>
 MIME-Version: 1.0
 In-Reply-To: <YSQTwth0elaz4T8W@t490s>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -98,9 +82,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+Cc: Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
  Eric Auger <eric.auger@redhat.com>,
  Alex Williamson <alex.williamson@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -168,18 +152,19 @@ On Mon, Aug 23, 2021 at 05:31:46PM -0400, Peter Xu wrote:
 > indeed..
 > 
 > I can use a custom sort to replace qsort() to guarantee that.
-
-
-You don't have to do that. Simply use the device position on the command
-line for comparisons when priority is the same.
-
-
+> 
 > Do you have other examples in mind that I may have overlooked, especially I may
 > not be able to fix by a custom sort with only moving priority>=1 devices?
-> 
-> Thanks,
 
-> -- 
-> Peter Xu
+I don't have any other example, but I assume address assignment
+based on ordering is a common pattern in device code.
+
+I would take a very close and careful look at the devices with
+non-default vmsd priority.  If you can prove that the 13 device
+types with non-default priority are all order-insensitive, a
+custom sort function as you describe might be safe.
+
+-- 
+Eduardo
 
 
