@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 220AE3F516C
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 21:41:06 +0200 (CEST)
-Received: from localhost ([::1]:39674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C673F516D
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 21:41:07 +0200 (CEST)
+Received: from localhost ([::1]:42104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIFFG-0007eQ-Oh
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 15:04:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49192)
+	id 1mIFH7-0000qc-78
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 15:06:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mIFER-0006lY-DH
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 15:03:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57367)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mIFFC-00084Q-H5
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 15:04:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mIFEM-0001Ib-Vu
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 15:03:39 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mIFF9-0001ok-U3
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 15:04:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629745414;
+ s=mimecast20190719; t=1629745463;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EPSnTnUbDrQeN3FhSK/QZa4Xmec0PAXj74jCIRoq5WE=;
- b=VqXAFVgcwlaG9OitPApuTYj/hI4pb6l3ZhhuEjjGBaSUewseLdIosmz9ZIUS5BJJFbT0av
- 9BuH6RrJ3tOn82bBgTcJwGgzZJiSLKP9rGw3yPiZXpFFX22088LKSK9E23Ahs+cZkkEkSn
- UAB8sl3Sto6Mxy4UEFgLFEcEq5/DFNk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-67-wD-_Gf6aPMmSnaEECNFFtQ-1; Mon, 23 Aug 2021 15:03:32 -0400
-X-MC-Unique: wD-_Gf6aPMmSnaEECNFFtQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- b8-20020a5d5508000000b001574e8e9237so1299098wrv.16
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 12:03:32 -0700 (PDT)
+ bh=s6azossO70ZeKGdG3ddTZqMsgn9VE+bvA2VK/PPLQXg=;
+ b=gaE74BzMQjnbgJp87JKPoQfwO4x5J1+xjZo+ouk1ofUWF5mAJSJ5hm8EEWCXhWNabz7mUz
+ 07F601Vckr1ZCgy62PU5Oidz847gtc5kvlXcBxQOwPMeV85RsHQPFbE9z8fvLPScqaOwFV
+ TnIQhSGW/bM+dPP+nxjL18dBc7Gepi0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-463-A2W9QPyiNxecHyfKmASGjw-1; Mon, 23 Aug 2021 15:04:22 -0400
+X-MC-Unique: A2W9QPyiNxecHyfKmASGjw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ i204-20020a1c22d5000000b002e74466ad9bso82524wmi.4
+ for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 12:04:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:organization
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-language:content-transfer-encoding;
- bh=EPSnTnUbDrQeN3FhSK/QZa4Xmec0PAXj74jCIRoq5WE=;
- b=AxlJUxPv18SDDtxAGf2krgSu6Gt3O+vff14XaHdgpxWbyLHGGbHn1+57Oun1fShXI2
- 79IG15wLFm2LAUDGK6PAJ/Us8xdvRyjbbYhdpDybkCW0n9V9qge/kFBQXlh22DgnJJW+
- cndUfAcoYArPRRXDCx16uONW2cZvk8rW8iH+5r3pvVy89muzNVVviaCy2CkrIH0WshkU
- nKi+JcZM7lf+huUybysVZw+H4vCQEBsLxbGSTsPvHSIsZpsLccylMAq+JoYjOHzs/0Ki
- 4XfFeL7K+xU2zHr0uuftKJ/eAmtKSAZNylL97FLvvfy2c4HX8gR9Dc/Edz6OiFDYRVVj
- /aZA==
-X-Gm-Message-State: AOAM5307dSDKFvgK1D81JqAyIS1dZl6P1Rzsnpt2OU3uffasKa1XseIf
- l3QhgibREV1dzDGQiQ2T1CAA82/54dRbmlq9AKCNQwU5kY6lsTIbgNtSooq4bbxlxPyzyuwjXpx
- 4Yr2vDLtPXbePfHA=
-X-Received: by 2002:adf:e30c:: with SMTP id b12mr14977743wrj.347.1629745411781; 
- Mon, 23 Aug 2021 12:03:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwcHhm+IFAHwRh3yYDH9NQ69R9wMUWlSQ5bs6Nkk4L0jasiK68+h9M37dC0EXvzPq+IyxHYhQ==
-X-Received: by 2002:adf:e30c:: with SMTP id b12mr14977727wrj.347.1629745411658; 
- Mon, 23 Aug 2021 12:03:31 -0700 (PDT)
+ bh=s6azossO70ZeKGdG3ddTZqMsgn9VE+bvA2VK/PPLQXg=;
+ b=nPnD2y+zkCGnbDgdOfZgeMvJNEm67BUPFWAe53HBQc2nN/OniUG2QSx3zqm1RVvdc/
+ FmePIn67iKgvvXH9lHXGuZI8h3OHgNIC7V3q7tr5DIvFLin8RmnfU2btbTXSF+TdrBDE
+ 0badFtZGNN3N14E+YOAUEkGm0nvvYQxrVj5FQQhE2uVx/x3Tr6wmMwwPjzhQ7nRgsS2L
+ CFicJtbErmXNDYM/2+l/kcUG4tafqKxanXVkNOO20jJCmiHTo/DzXHBOwBlgncOc1dZc
+ gTTP0SSJsUQTMjUybf3yj1V+fW8270lhjZiQRkO51Qlk1RAAuDzFBu/Jm9Z3XtiUv/YK
+ jvjw==
+X-Gm-Message-State: AOAM533LVMLF/92YMWXg2si4Rc2woKRO84VCO+7T2oac2uy3KL0xRqbf
+ boG469SlEQmL3Hn13w4P72TH0ebH05/CwyzTRNMN+NMhOiHXzb1TmRpgugjoK2skz/+cA3DCA/U
+ YDvh3x9jFskm6oGc=
+X-Received: by 2002:adf:fbc9:: with SMTP id d9mr15188508wrs.152.1629745460852; 
+ Mon, 23 Aug 2021 12:04:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwDvPPMwkRhzZDEh2IJyo9sYy/vQfXCNCS8BQBZU8cPsOs4PL2sAAI6c/emzQWANfvKy/SCvw==
+X-Received: by 2002:adf:fbc9:: with SMTP id d9mr15188484wrs.152.1629745460711; 
+ Mon, 23 Aug 2021 12:04:20 -0700 (PDT)
 Received: from [192.168.3.132] (p5b0c60c6.dip0.t-ipconnect.de. [91.12.96.198])
- by smtp.gmail.com with ESMTPSA id f7sm35822wmh.20.2021.08.23.12.03.30
+ by smtp.gmail.com with ESMTPSA id
+ z13sm15969870wrs.71.2021.08.23.12.04.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Aug 2021 12:03:31 -0700 (PDT)
-Subject: Re: [RFC PATCH v2 4/5] softmmu/physmem: Introduce
- flatview_access_allowed() to check bus perms
+ Mon, 23 Aug 2021 12:04:20 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 3/5] exec/memattrs: Introduce MemTxAttrs::bus_perm
+ field
 To: Peter Xu <peterx@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
  <philmd@redhat.com>
 References: <20210823164157.751807-1-philmd@redhat.com>
- <20210823164157.751807-5-philmd@redhat.com> <YSPsNA2WW8Sa0LCE@t490s>
+ <20210823164157.751807-4-philmd@redhat.com> <YSPr6dN+iKKFlCxy@t490s>
 From: David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-Message-ID: <2160a13d-211d-5e3a-3a07-9d412a257eba@redhat.com>
-Date: Mon, 23 Aug 2021 21:03:30 +0200
+Message-ID: <922195af-f70d-eaf6-2aa4-b924f8196076@redhat.com>
+Date: Mon, 23 Aug 2021 21:04:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YSPsNA2WW8Sa0LCE@t490s>
+In-Reply-To: <YSPr6dN+iKKFlCxy@t490s>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -109,19 +110,22 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.08.21 20:43, Peter Xu wrote:
-> On Mon, Aug 23, 2021 at 06:41:56PM +0200, Philippe Mathieu-Daudé wrote:
->> Introduce flatview_access_allowed() to check bus permission
->> before running any bus transaction. For now this is a simple
->> stub.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On 23.08.21 20:41, Peter Xu wrote:
+> On Mon, Aug 23, 2021 at 06:41:55PM +0200, Philippe Mathieu-Daudé wrote:
+>> +/* Permission to restrict bus memory accesses. See MemTxAttrs::bus_perm */
+>> +enum {
+>> +    MEMTXPERM_UNSPECIFIED   = 0,
+>> +    MEMTXPERM_UNRESTRICTED  = 1,
+>> +    MEMTXPERM_RAM_DEVICE    = 2,
+>> +};
 > 
-> Shall we squash this patch into the next one?  It helps explain better on why
-> it's needed.  Thanks,
+> Is there a difference between UNSPECIFIED and UNRESTRICTED?
+> 
+> If no, should we merge them?
 > 
 
-I'd even go one step further and squash 3-5 into a single one.
+I'd assume MEMTXPERM_UNSPECIFIED has to be treated like 
+MEMTXPERM_UNRESTRICTED, so I'd also think we should just squash them.
 
 -- 
 Thanks,
