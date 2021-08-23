@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2A53F511B
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 21:16:19 +0200 (CEST)
-Received: from localhost ([::1]:45212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B453F515F
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 21:39:52 +0200 (CEST)
+Received: from localhost ([::1]:50702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIFK6-00039k-Uj
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 15:09:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50532)
+	id 1mIFNc-0006zr-2W
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 15:13:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIFJJ-0002Hv-5v
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 15:08:41 -0400
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:35665)
+ id 1mIFMC-0005Yx-88
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 15:11:40 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:41736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIFJH-0004xp-MQ
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 15:08:40 -0400
-Received: by mail-ed1-x52c.google.com with SMTP id q17so5888333edv.2
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 12:08:39 -0700 (PDT)
+ id 1mIFMA-00073D-Mb
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 15:11:39 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id d11so39049405eja.8
+ for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 12:11:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=J1TME3EzdCtiUqCg9EdHYhY8loGQM5BWIi5JacZCBBk=;
- b=OfbLWr4bujh7IDarkoqg0CUUpIBeyr1ECgxbfJMAWPKTOnvLNex9tfG8ZWNQWkOP3h
- lU571eIbk0i8uczIQwcvJ4+IVX4/FAlh8/s7k5+qK3LSzZMkkXAZnWneerqd+fR14/bw
- rv8yYO9eFnK/gxdZRY1ruXqbG2p9KeFaUyXDl5uVdbeJhkuCMv0fbmDdZKUHC8FbyWTh
- 29ak8/357AXkv37ybj+3gi199EaDdfB5s4jo+RlqilSwgA1CyZ7EORMBkAGbFGMeQK6s
- FchJjlUm07+/Psl7MNTqLEkB3qoWZD/w1c9f2aLIMOGOWsfPJySbsGoBZzEeCaeQt9cz
- kSHg==
+ bh=KntA0y1r7+ryrvDp6zq59PJfKZmonmKW4Vo+BnEu4OA=;
+ b=i/+9IlsUQbHWakuLd05NU0MVYuctN+B3n8pMBRmHZvpaRL3G2WtS8qYKko7pwxVhqB
+ E7QZ/jhLwVBXHcDf4PM5jnAuh8jtMMlpyEMMWCRqGBPTm1hA7kMVaBQvQmWVumSah1BC
+ HJe/8e1kdBxDb4Vd2+5ffJ8R+muwSfKuTsFK1TlRzDoGG14h8UTMI8ELKp93hUom8Wu8
+ UmIHOXVGP4SPiVAW3x2CiiIWo+fCLAxmhgGvcWpwapeMjJuVe8oF27gMOjYmRAsEAZ/b
+ UKX8wfRyzBlXAkrMcR4PlME6eEtJCd0tzhRmy7COqCLaMkOOKHLfy+16HQi1OuWIh1PE
+ i9Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=J1TME3EzdCtiUqCg9EdHYhY8loGQM5BWIi5JacZCBBk=;
- b=CUU1mAsLxknO4J+SZ+XxRbHUiW1aLEdTcnT3kitB4/RxBJ9I1By03Pk7B490K2Qcz/
- XUeUz1t6dyq54n92qh5wDEOUcvnnlba35y0ubDxjT+h/ZWGHtSslUxiNY/QXfMpKrrQR
- Iw8M+7NgnTC4SdKrLX0CU5LsKOR+hVniDFrxpvR/j5/T5bHgJE052V2mEjA1gXEBOadR
- nR40U6f8L3qAtJHxlud26KNNd/g2b2psEaFfJKSjnvJ8DYZvGykTigQZHiR8lG1wwqxc
- XFlTxljSO+h1psW7dzz6MZpoJxzemXFVbAoyGXk5CEuCAMF2TK+EB1ytRn6rta1ym5Oj
- FJsQ==
-X-Gm-Message-State: AOAM533g3Vrp/YvyX8EDQxuTX7CFhCytSKMRkQ72TnQDJGflwCfFjLJd
- TBJNd/lPM/r33HVqzR4+ilqyAFNfBVqEco/15ANghQ==
-X-Google-Smtp-Source: ABdhPJy38TjwH4YGTmPlP69LNaP0SP5jRgvgSZeZuYkygjjRS9shuv2MiaPYy7PtGtp/utTvMCdKsU2zgKYrk/UWRxs=
-X-Received: by 2002:a50:ff03:: with SMTP id a3mr38370162edu.100.1629745717818; 
- Mon, 23 Aug 2021 12:08:37 -0700 (PDT)
+ bh=KntA0y1r7+ryrvDp6zq59PJfKZmonmKW4Vo+BnEu4OA=;
+ b=QYdSvw7z3Y6912fgsGKTWi9G5EweZRkC6IPsxLd0NcFyTwjxr0CoXZs1pfTjYAci6Q
+ rYngIQoLnFZz1l0RJSq40D8nT/7MtXAA4NDwFXTHpwuHw8PpammEsmDg6wFlQMQxtInX
+ BUb5XXOPCvfK+WQbSIRgD62yXVU99vIbOaEvXSH/Dss8BIDjw9O/PmAUvLoihn3/8TWT
+ QUL4sqUUI8uNztBQB0W9/51uQiLBpCjS1P5UEGhDn5qv8CqtUTnrUXovhLIpf9c62h8V
+ uSlVwu9SE9cJmu8BPmskW5HmSd6rI9O/RUR4DR3r5dBu1W7EwEItc4cy7fjW42EyzlsJ
+ I4Dw==
+X-Gm-Message-State: AOAM530U9TAeByGwckY4moH/zdbu45x0JQocDoW9HW106I0Zu9AzkhSt
+ 7pfKVCVB5i5b7lKIFbcpP0/uL0DvxzNkHrZ4UOxIxFah63M=
+X-Google-Smtp-Source: ABdhPJxx6W7ZGXAy9+EPKGst+dK8B4z/qQ0peg9BB4iS8lAPu1CaPH88rNIhv4Ks3Gk79Bgyn+idn1anLgg4BukvmmM=
+X-Received: by 2002:a17:906:584:: with SMTP id 4mr37960090ejn.56.1629745897255; 
+ Mon, 23 Aug 2021 12:11:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210823164157.751807-1-philmd@redhat.com>
- <20210823164157.751807-3-philmd@redhat.com>
-In-Reply-To: <20210823164157.751807-3-philmd@redhat.com>
+In-Reply-To: <20210823164157.751807-1-philmd@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 23 Aug 2021 20:07:51 +0100
-Message-ID: <CAFEAcA_KjiBySwKUvL_Rit5VAdvTU6JExHPOAapz=h5vS1jQbw@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/5] hw/intc/arm_gicv3: Check for !MEMTX_OK instead
- of MEMTX_ERROR
+Date: Mon, 23 Aug 2021 20:10:50 +0100
+Message-ID: <CAFEAcA9_=6n4w86gD3MHhiLeCiui9_+ePT7E2sSHdSRufUJdyA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 0/5] physmem: Have flaview API check bus permission
+ from MemTxAttrs argument
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,21 +92,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Mon, 23 Aug 2021 at 17:42, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
 m> wrote:
 >
-> We are going to introduce more MemTxResult bits, so it is
-> safer to check for !MEMTX_OK rather than MEMTX_ERROR.
+> This series aim to kill a recent class of bug, the infamous
+> "DMA reentrancy" issues found by Alexander while fuzzing.
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Introduce the 'bus_perm' field in MemTxAttrs, defining 3 bits:
+>
+> - MEMTXPERM_UNSPECIFIED (current default, unchanged behavior)
+> - MEMTXPERM_UNRESTRICTED (allow list approach)
+> - MEMTXPERM_RAM_DEVICE (example of deny list approach)
+>
+> If a transaction permission is not allowed (for example access
+> to non-RAM device), we return the specific MEMTX_BUS_ERROR.
+>
+> Permissions are checked in after the flatview is resolved, and
+> before the access is done, in a new function: flatview_access_allowed().
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+So I'm not going to say 'no' to this, because we have a real
+recursive-device-handling problem and I don't have a better
+idea to hand, but the thing about this is that we end up with
+behaviour which is not what the real hardware does. I'm not
+aware of any DMA device which has this kind of "can only DMA
+to/from RAM, and aborts on access to a device" behaviour...
 
-but note that these MEMTX_* aren't from the memory transaction
-API functions; they're just being used by gicd_readl() and
-friends as a way to indicate a success/failure so that the
-actual MemoryRegionOps read/write fns like gicv3_dist_read()
-can log a guest error. Arguably this is a bit of a misuse of
-the MEMTX_* constants and perhaps we should have gicd_readl etc
-return a bool instead.
-
-thanks
 -- PMM
 
