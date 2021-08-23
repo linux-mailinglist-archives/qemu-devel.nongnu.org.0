@@ -2,119 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D703F4C49
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 16:24:15 +0200 (CEST)
-Received: from localhost ([::1]:33164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F4B33F4C52
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 16:27:41 +0200 (CEST)
+Received: from localhost ([::1]:45614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIAs2-0004Ov-2P
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 10:24:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41722)
+	id 1mIAvM-0004Ha-KK
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 10:27:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <naveen.n1@samsung.com>)
- id 1mIAnp-00065o-Lq
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 10:19:53 -0400
-Received: from mailout3.samsung.com ([203.254.224.33]:26960)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mIAl4-0006kc-AD
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 10:17:03 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37080)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <naveen.n1@samsung.com>)
- id 1mIAnm-0002gC-Td
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 10:19:53 -0400
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
- by mailout3.samsung.com (KnoxPortal) with ESMTP id
- 20210823141940epoutp03c0849f760a228ead0eb67d624f98df61~d9VPey9YY2009020090epoutp03g
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 14:19:40 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com
- 20210823141940epoutp03c0849f760a228ead0eb67d624f98df61~d9VPey9YY2009020090epoutp03g
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1629728380;
- bh=QAHVTLZ8g8KvXznLSvN7uHM8n49XD+k22bv7xuekTkw=;
- h=From:To:Cc:Subject:Date:References:From;
- b=abkUopyIOjPD2aD8Dw1lFbmVYv2YyMvlM9r7nuG0NcgQtR9yfF3cK2Q0qCiSvOVQB
- keA9rfgC2uW1/pvpJlSXJtV+yqBFaA6usZpDJfEDGrz759FVTREKH7L5/QR5p4KQRS
- L6p08xxtWO2tlF6AQgwhQposCyV/r90fwKIDKF74=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
- epcas5p2.samsung.com (KnoxPortal) with ESMTP id
- 20210823141939epcas5p267fd55256cbf94755b7e4c8e542df95d~d9VN6hau51518415184epcas5p2R;
- Mon, 23 Aug 2021 14:19:39 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.174]) by
- epsnrtp1.localdomain (Postfix) with ESMTP id 4GtZBH11wYz4x9Pv; Mon, 23 Aug
- 2021 14:19:35 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
- epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
- BD.10.09778.67EA3216; Mon, 23 Aug 2021 23:19:35 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
- epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
- 20210823114601epcas5p17b488aeeae3dd41d32ab3df4fd235256~d7PFpX-Aj0870508705epcas5p1l;
- Mon, 23 Aug 2021 11:46:01 +0000 (GMT)
-Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
- epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20210823114601epsmtrp124bc09c3ecbf36247017cbe5705ee0e1~d7PFoH7wH0414804148epsmtrp1_;
- Mon, 23 Aug 2021 11:46:01 +0000 (GMT)
-X-AuditID: b6c32a4b-395ff70000002632-bc-6123ae768a85
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
- epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
- 2E.5E.08750.97A83216; Mon, 23 Aug 2021 20:46:01 +0900 (KST)
-Received: from test.sa.corp.samsungelectronics.net (unknown [107.108.56.58])
- by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20210823114559epsmtip2b89ae1ed17fc58a588fe024fef5ec691~d7PDYYGZ61421314213epsmtip2M;
- Mon, 23 Aug 2021 11:45:59 +0000 (GMT)
-From: Naveen <naveen.n1@samsung.com>
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mIAky-0000vB-7m
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 10:17:02 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 17NE3Iuo063392; Mon, 23 Aug 2021 10:16:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=rQUffuddF5ZIvqDo3Aits4xe29D1wjhP3VeaTx9V+UA=;
+ b=YdYuwV2S6EfBqvas6O4EK+phQjoi/j/Ec17K3D1F2+rH7Bigwb6GAK/hH5s5kGek9UGZ
+ FpiSmtsgejWILotIaAp6KlOE6QIH7nuzn4EOCzsUNC7ytnMwu6Usmp8IUKsqwoslpIrA
+ qR/xFMTTgSaR0NQd62fFAVdn+RosNMeK/H1/j/M4lrTNq/N3FrmqMwdOVnV23Ue6D5Jy
+ FRaxS3wB7mU/TesnzeIAjFW7TdC6vB5AX0rftZi4CPpF+Jwp0xgFxywqr9RPTVW8OuAT
+ KtwBT8AyJq1to27Aml4jGd+zLRzYthMEGszMfspqBVxTOUlFQ3kNmAdSLkXcuff0Vcdp 5Q== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3akehva1vr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 23 Aug 2021 10:16:49 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 17NE40eJ069212;
+ Mon, 23 Aug 2021 10:16:48 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3akehva1vc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 23 Aug 2021 10:16:48 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 17NEDDfe021214;
+ Mon, 23 Aug 2021 14:16:48 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
+ [9.57.198.25]) by ppma04dal.us.ibm.com with ESMTP id 3ajs4bknsf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 23 Aug 2021 14:16:47 +0000
+Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
+ [9.57.199.109])
+ by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 17NEGk3d36241910
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 23 Aug 2021 14:16:46 GMT
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5C94C112069;
+ Mon, 23 Aug 2021 14:16:46 +0000 (GMT)
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 28DCE112065;
+ Mon, 23 Aug 2021 14:16:46 +0000 (GMT)
+Received: from amdrome1.watson.ibm.com (unknown [9.2.130.16])
+ by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
+ Mon, 23 Aug 2021 14:16:46 +0000 (GMT)
+From: Dov Murik <dovmurik@linux.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: hw/nvme: fix verification of select field in namespace attachment
-Date: Mon, 23 Aug 2021 16:33:33 +0530
-Message-Id: <1629716613-26819-1-git-send-email-naveen.n1@samsung.com>
-X-Mailer: git-send-email 1.8.3.1
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpnk+LIzCtJLcpLzFFi42LZdlhTQ7d8nXKiwd0fjBYf/55ltHj79QGb
- xZX95xkt9h/8xmqxdL6+xcnGPawWkw5dY7RYcjHV4lcnt8W8W8oWjU92s1tcmbKI2WLWu3Y2
- i+O9O1gs9nzZyGrxetJ/VgcBjx/n2tk8ds66y+5xbsd5do9NqzrZPJ5c28zk8X7fVTaPvi2r
- GAPYo7JtMlITU1KLFFLzkvNTMvPSbZW8g+Od403NDAx1DS0tzJUU8hJzU22VXHwCdN0yc4BO
- V1IoS8wpBQoFJBYXK+nb2RTll5akKmTkF5fYKqUWpOQUmBToFSfmFpfmpevlpZZYGRoYGJkC
- FSZkZ1xuci+YLlIxe8c+1gbGm3xdjJwcEgImEgt3HWXpYuTiEBLYzSjx58kFZgjnE6PEmuVT
- oDKfGSU2Tz7DAtNyavEqNojELkaJ9dP2MkI4jUwSFw/OZQWpYhNQkZi+9wQbiC0iICnxu+s0
- 2FxmgcdMEvfaJzGBJIQFvCR2HzsP1sAioCqx4cAasBW8Aq4Sr5vfskOsU5CY8vA9WLOEwE92
- ibeHP0Hd4SLxZt8nNghbWOLV8S1QDVISL/vboOxiiQu9/SwQzQ2MEo++bYBqtpe4uOcv0BUc
- QCdpSqzfpQ8RlpWYemod2HHMAnwSvb+fMEHEeSV2zHsCVi4hoCxxfjU3hCkpcW56MkSFh8T7
- eTeYQWwhgViJKSvOsExglJ2FMH8BI+MqRsnUguLc9NRi0wLjvNRyeEQl5+duYgSnSC3vHYyP
- HnzQO8TIxMF4iFGCg1lJhPcvk3KiEG9KYmVValF+fFFpTmrxIUZTYJBNZJYSTc4HJum8knhD
- E0sDEzMzMxNLYzNDJXFe3VcyiUIC6YklqdmpqQWpRTB9TBycUg1MsiIaU17IzVu/Zdu2R/+8
- rl+PlW84uzdz23v1RedtXzBt+HzxnN0jTX9li98x1hIVWdsMxZR1lz0IuimqbvR3VkMJv9HV
- 1SXv6pZOKWyVvtmZL1UtryFtea5gDq+c7qGbtlvedksmBDdVpfA7zOSZU3jLdvda9eMNvSfv
- /Gp82zE5VfyyVpLly3kB2vw6e+dq2pjc/HnEuuSaVce1c3aH/AX7TXf2hRs+NTxlxhifLb9C
- 4Nahmt2eYnn+bCcv3deasUgveV1ZxOonv2Ju7O2613Rany/Afhbjh6UNTcs/KhUseqy1P2fP
- kgNzeKrPsbzUSugskppsuU6ggTM/n8lggYP2Fp9Jx5sCVCaJuGsrsRRnJBpqMRcVJwIAFq/a
- HRoEAAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrMLMWRmVeSWpSXmKPExsWy7bCSvG5ll3KiwdFWTYuPf88yWrz9+oDN
- 4sr+84wW+w9+Y7VYOl/f4mTjHlaLSYeuMVosuZhq8auT22LeLWWLxie72S2uTFnEbDHrXTub
- xfHeHSwWe75sZLV4Pek/q4OAx49z7WweO2fdZfc4t+M8u8emVZ1sHk+ubWbyeL/vKptH35ZV
- jAHsUVw2Kak5mWWpRfp2CVwZl5vcC6aLVMzesY+1gfEmXxcjJ4eEgInEqcWr2LoYuTiEBHYw
- Slw51coKkZCU2PB3KxOELSyx8t9zdoii/4wSa2adAytiE1CRmL73BBuILQLU8LvrNDNIEbPA
- dyaJrW8egyWEBbwkdh87D9bAIqAqseHAGhYQm1fAVeJ181t2iA0KElMevmeewMizgJFhFaNk
- akFxbnpusWGBUV5quV5xYm5xaV66XnJ+7iZGcLhqae1g3LPqg94hRiYOxkOMEhzMSiK8f5mU
- E4V4UxIrq1KL8uOLSnNSiw8xSnOwKInzXug6GS8kkJ5YkpqdmlqQWgSTZeLglGpgWq558RjL
- /pvJ++5HXt274SlXouOybrFuifj0Nn/28FvG5ouDK+X9uHvyPblbps0IXPl8SvGMPRx7FlV4
- XRW2tonOkBXZvCzvyvq1i9Q/cU/ftHiuVGHUPO0pR667FP/f9vpJ75XmL0//yjrUqs0r99VZ
- 9mmmYaP9zQ9uIsGf1n33V2bb+uBistbzlp87trjyHljPLtAQryayk1E6zP1q2+OmC35W39LS
- jmwxufo9Y1VdT6lfjPY6Pdm0XCaGiefmt5dMWJDz9mqdZ6nngyWGzWUmL6fxMHw7t//bxbue
- MyekOxXvSk99pmffHLrrtcuqEK/DhvlnVY7saBeTCuQ5fmv1Ft/iw07GX6rsNDy7lViKMxIN
- tZiLihMBohC1QcYCAAA=
-X-CMS-MailID: 20210823114601epcas5p17b488aeeae3dd41d32ab3df4fd235256
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20210823114601epcas5p17b488aeeae3dd41d32ab3df4fd235256
-References: <CGME20210823114601epcas5p17b488aeeae3dd41d32ab3df4fd235256@epcas5p1.samsung.com>
-Received-SPF: pass client-ip=203.254.224.33;
- envelope-from=naveen.n1@samsung.com; helo=mailout3.samsung.com
-X-Spam_score_int: -77
-X-Spam_score: -7.8
-X-Spam_bar: -------
-X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Subject: [RFC PATCH v2 00/12] Confidential guest-assisted live migration
+Date: Mon, 23 Aug 2021 10:16:24 -0400
+Message-Id: <20210823141636.65975-1-dovmurik@linux.ibm.com>
+X-Mailer: git-send-email 2.20.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: lYiA_9tG2fesG8BMxV-qVcA2MyplAxss
+X-Proofpoint-GUID: l-hA3mSpPPoACRoCgfZs05RFIEIlpDAl
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-08-23_03:2021-08-23,
+ 2021-08-23 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 malwarescore=0
+ mlxlogscore=999 lowpriorityscore=0 clxscore=1015 phishscore=0
+ suspectscore=0 spamscore=0 impostorscore=0 priorityscore=1501 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108230098
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -127,89 +107,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, anuj.singh@samsung.com,
- jg123.choi@samsung.com, qemu-block@nongnu.org, k.jensen@samsung.com,
- Naveen <naveen.n1@samsung.com>, d.palani@samsung.com, mreitz@redhat.com,
- its@irrelevant.dk, Minwoo Im <minwoo.im.dev@gmail.com>, stefanha@redhat.com,
- kbusch@kernel.org, prakash.v@samsung.com, raphel.david@samsung.com
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Steve Rutherford <srutherford@google.com>,
+ James Bottomley <jejb@linux.ibm.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>, Hubertus Franke <frankeh@us.ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix is added to check for reserved value in select field for 
-namespace attachment
+This is an RFC series for fast migration of confidential guests using an
+in-guest migration helper that lives in OVMF.  QEMU VM live migration
+needs to read source VM's RAM and write it in the target VM; this
+mechanism doesn't work when the guest memory is encrypted or QEMU is
+prevented from reading it in another way.  In order to support live
+migration in such scenarios, we introduce an in-guest migration helper
+which can securely extract RAM content from the guest in order to send
+it to the target.  The migration helper is implemented as part of the
+VM's firmware in OVMF.
 
-Signed-off-by: Naveen Nagar <naveen.n1@samsung.com>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-cc: Minwoo Im <minwoo.im.dev@gmail.com>
+We've implemented and tested this on AMD SEV, but expect most of the
+processes can be used with other technologies that prevent direct access
+of hypervisor to the guest's memory.  Specifically, we don't use SEV's
+PSP migration commands (SEV_SEND_START, SEV_RECEIVE_START, etc) at all;
+but note that the mirror VM relies on KVM_CAP_VM_COPY_ENC_CONTEXT_FROM
+to shared the SEV ASID with the main VM.
 
----
- hw/nvme/ctrl.c       | 13 +++++++++----
- include/block/nvme.h |  5 +++++
- 2 files changed, 14 insertions(+), 4 deletions(-)
+Corresponding RFC patches for OVMF have been posted by Tobin
+Feldman-Fitzthum on edk2-devel [1].  Those include the crux of the
+migration helper: a mailbox protocol over a shared memory page which
+allows communication between QEMU and the migration helper.  In the
+source VM this is used to read a page and encrypt it for transport; in
+the target it is used to decrypt the incoming page and storing the
+content in the correct address in the guest memory.  All encryption and
+decryption operations occur inside the trusted context in the VM, and
+therefore the VM's memory plaintext content is never accessible to the
+hosts participating in the migration.
 
-diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
-index 6baf9e0..2c59c74 100644
---- a/hw/nvme/ctrl.c
-+++ b/hw/nvme/ctrl.c
-@@ -5191,7 +5191,7 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
-     uint16_t list[NVME_CONTROLLER_LIST_SIZE] = {};
-     uint32_t nsid = le32_to_cpu(req->cmd.nsid);
-     uint32_t dw10 = le32_to_cpu(req->cmd.cdw10);
--    bool attach = !(dw10 & 0xf);
-+    uint8_t sel = dw10 & 0xf;
-     uint16_t *nr_ids = &list[0];
-     uint16_t *ids = &list[1];
-     uint16_t ret;
-@@ -5224,7 +5224,8 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
-             return NVME_NS_CTRL_LIST_INVALID | NVME_DNR;
-         }
- 
--        if (attach) {
-+        switch (sel) {
-+        case NVME_NS_ATTACHMENT_ATTACH:
-             if (nvme_ns(ctrl, nsid)) {
-                 return NVME_NS_ALREADY_ATTACHED | NVME_DNR;
-             }
-@@ -5235,7 +5236,8 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
- 
-             nvme_attach_ns(ctrl, ns);
-             nvme_select_iocs_ns(ctrl, ns);
--        } else {
-+            break;
-+        case NVME_NS_ATTACHMENT_DETACH:
-             if (!nvme_ns(ctrl, nsid)) {
-                 return NVME_NS_NOT_ATTACHED | NVME_DNR;
-             }
-@@ -5244,8 +5246,11 @@ static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
-             ns->attached--;
- 
-             nvme_update_dmrsl(ctrl);
-+            break;
-+        default:
-+            return NVME_INVALID_FIELD | NVME_DNR;
-         }
--
-+        
-         /*
-          * Add namespace id to the changed namespace id list for event clearing
-          * via Get Log Page command.
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 77aae01..e3bd47b 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -1154,6 +1154,11 @@ enum NvmeIdCtrlCmic {
-     NVME_CMIC_MULTI_CTRL    = 1 << 1,
- };
- 
-+enum NvmeNsAttachmentOperation {
-+    NVME_NS_ATTACHMENT_ATTACH = 0x0,
-+    NVME_NS_ATTACHMENT_DETACH = 0x1,
-+};
-+
- #define NVME_CTRL_SQES_MIN(sqes) ((sqes) & 0xf)
- #define NVME_CTRL_SQES_MAX(sqes) (((sqes) >> 4) & 0xf)
- #define NVME_CTRL_CQES_MIN(cqes) ((cqes) & 0xf)
+In order to allow OVMF to run the migration helper in parallel to the
+guest OS, we use a mirror VM [3], which shares the same memory mapping
+and SEV ASID as the main VM but has its own run loop.  To start the
+mirror vcpu and the migration handler, we added a temporary
+start-migration-handler QMP command; this will be removed in a future
+version to run as part of the migrate QMP command.
+
+In the target VM we need the migration handler running to receive
+incoming RAM pages; to achieve that, we boot the VM into OVMF with a
+special fw_cfg value that causes OVMF to not boot the guest OS; we then
+allow QEMU to receive an incoming migration by issuing a new
+start-migrate-incoming QMP command.
+
+The confidential RAM migration requires checking whether a given guest
+RAM page is encrypted or not.  This is achieved using SEV shared regions
+list tracking, which is implemented as part the SEV live migration patch
+series [2].  This feature tracks hypercalls from OVMF and guest Linux to
+report changes of page encryption status so that QEMU has an up-to-date
+view of which memory regions are shared and which are encrypted.
+
+We left a few unfinished edges in this RFC but decided to publish it to
+start the commmunity discussion.  TODOs:
+
+1. QMP commands start-migration-handler and start-migrate-incoming are
+   developer tools and should be performed automatically.
+2. The entry point address of the in-guest migration handler and its GDT
+   are currently hard-coded in QEMU (patch 8); instead they should be
+   discovered using pc_system_ovmf_table_find.  Same applies for the
+   mailbox address (patch 1).
+3. For simplicity, this patch series forces the use of the 
+   guest-assisted migration instead of the SEV PSP-based migration. 
+   Ideally we might want the user to choose the desired mode using
+   migrate-set-parameters or a similar mechanism.
+4. There is currently no discovery protocol between QEMU and OVMF to
+   verify that OVMF indeed supports in-guest migration handler.
+
+
+List of patches in this series:
+
+1-3: introduce new confidtial RAM migration functions which communicate
+     with the migration helper.
+4-6: use the new MH communication functions when migrating encrypted RAM
+     pages
+7-9: allow starting migration handler on mirror vcpu with QMP command 
+     start-migration-handler
+10:  introduce the start-migrate-incoming QMP command to switch the
+     target into accepting the incoming migration.
+11:  fix devices issues when loading state into a live VM
+12:  add documentation
+
+
+This patch series is based on top of:
+
+1. Add SEV guest live migration support, from Ashish Kalra [2]
+2. Support for mirror VM, from Ashish Kalra [3]
+
+[1] https://edk2.groups.io/g/devel/message/79517
+[2] https://lore.kernel.org/qemu-devel/cover.1628076205.git.ashish.kalra@amd.com/
+[3] https://lore.kernel.org/qemu-devel/cover.1629118207.git.ashish.kalra@amd.com/
+
+
+Changes from RFC v1:
+ - Use the an SEV mirror VM for the migation handler (instead of
+   auxilliary vcpus)
+
+RFC v1:
+https://lore.kernel.org/qemu-devel/20210302204822.81901-1-dovmurik@linux.vnet.ibm.com/
+
+
+Dov Murik (12):
+  migration: Add helpers to save confidential RAM
+  migration: Add helpers to load confidential RAM
+  migration: Introduce gpa_inside_migration_helper_shared_area
+  migration: Save confidential guest RAM using migration helper
+  migration: Load confidential guest RAM using migration helper
+  migration: Skip ROM, non-RAM, and vga.vram memory region during RAM
+    migration
+  i386/kvm: Exclude mirror vcpu in kvm_synchronize_all_tsc
+  migration: Allow resetting the mirror vcpu to the MH entry point
+  migration: Add QMP command start-migration-handler
+  migration: Add start-migrate-incoming QMP command
+  hw/isa/lpc_ich9: Allow updating an already-running VM
+  docs: Add confidential guest live migration documentation
+
+ docs/confidential-guest-live-migration.rst | 145 +++++++++
+ docs/confidential-guest-support.txt        |   5 +
+ docs/index.rst                             |   1 +
+ qapi/migration.json                        |  38 +++
+ include/sysemu/sev.h                       |   1 +
+ migration/confidential-ram.h               |  23 ++
+ hw/isa/lpc_ich9.c                          |   3 +-
+ migration/confidential-ram.c               | 339 +++++++++++++++++++++
+ migration/migration.c                      |  29 ++
+ migration/ram.c                            | 133 +++++++-
+ target/i386/kvm/kvm.c                      |   4 +-
+ migration/meson.build                      |   2 +-
+ migration/trace-events                     |   4 +
+ 13 files changed, 714 insertions(+), 13 deletions(-)
+ create mode 100644 docs/confidential-guest-live-migration.rst
+ create mode 100644 migration/confidential-ram.h
+ create mode 100644 migration/confidential-ram.c
+
 -- 
-1.8.3.1
+2.20.1
 
 
