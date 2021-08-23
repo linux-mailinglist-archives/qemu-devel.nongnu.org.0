@@ -2,55 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 101B73F4B03
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 14:45:20 +0200 (CEST)
-Received: from localhost ([::1]:38672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E412F3F4AF6
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 14:43:52 +0200 (CEST)
+Received: from localhost ([::1]:33814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mI9KJ-0005Ad-2p
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 08:45:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46122)
+	id 1mI9It-0001se-Vt
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 08:43:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mI949-0005CF-JT
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 08:28:38 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2293)
+ (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
+ id 1mI99l-0005gR-VJ
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 08:34:26 -0400
+Received: from mail-ma1ind01olkn0169.outbound.protection.outlook.com
+ ([104.47.100.169]:33328 helo=IND01-MA1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mI944-00054k-C9
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 08:28:37 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4GtWjV6gjNz1CZqb;
- Mon, 23 Aug 2021 20:27:58 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 23 Aug 2021 20:28:29 +0800
-Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 23 Aug 2021 20:28:28 +0800
-From: Yanan Wang <wangyanan55@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v7 15/15] tests/unit: Add a unit test for smp parsing
-Date: Mon, 23 Aug 2021 20:28:04 +0800
-Message-ID: <20210823122804.7692-16-wangyanan55@huawei.com>
-X-Mailer: git-send-email 2.8.4.windows.1
-In-Reply-To: <20210823122804.7692-1-wangyanan55@huawei.com>
-References: <20210823122804.7692-1-wangyanan55@huawei.com>
+ (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
+ id 1mI99i-0000Bi-3X
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 08:34:25 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MA0HH7LvMu+ZtheVmdziJXBMLAbR/nwAQ4Rd9BqQUfZPZNLdE2ywm0KnD84BK4aNFDuN2Pxb/EdqGjQlK28W9mnoIbFg/wFLp32O/G5drdJ29X86ho5/QuHS0YBfWWtOtlk//+xvVe5vwrrd7O0zSajqLz1+LNVO1PM7lfbbRpsyD6WDayosv3iRhL6O6V6Sqduw5wYL3dYLYuBaGy3vKDlFtp6gNV4x8fyxAd/jseZ2mQrXcaaVD9mylIV2iFGm7ZQ1YRjcEBKh+MkxaZqpF/058XvcWiQeNyy9CxZLwAcNgAyIRRfrQyEcs8iLyNH8BYjKP7IPwuSpZfQn8N/AwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VGvO3K7ZAhEgy1gD9xoYpehtwPOmM41dt9aM9E/J8Jw=;
+ b=OU5votlLG57KLWTXqqu9VZY8rvTLcNxoCdzXb5OAjmSheBrDplBVbbFnSXDkIEVUrkQh2T4K2ibtwniBtzVZvUFRi6FITjsqsZFlQ7w2skbKctKo3tiP4XcTZQCOjLFkmjT+v/ilqnfycpzZ3D6ZpaANXbhbEO4nOXUdCjLa9mb57j0OmRzb6DioWFh60KHQc9mhpgUDH1Uved3EAS+n8ffwAo2bUOD6VOZTTRVqa79XvAlhHiTdaik4qHLYPPEr6FZBwpxTizM8W6tR6vdSJU909OIWKH0RWKpBboobGRoYAi6xta3YTlhRzrcZEJWkedDA+Lv1IIm7rzzJpbudMw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=VGvO3K7ZAhEgy1gD9xoYpehtwPOmM41dt9aM9E/J8Jw=;
+ b=tXcsHncgk0C6rdenQ54nAayF96UoWdcWSd8IYWEmIbio8+PRtolh5ywRPznVFdcvRERCkh1OOzcVKAQpH6fe7y9tDqe1WwAFT1ZhbZe4763p3ZT5T+Jwq7ite6Fn/vqLLL0SXdp9Ec3UndUgMrsloveFPecJe5TGmpVtCFdjcU/ZM86WkdvdT8f9hPXBXpMJz2hezWyUAeojcb2ns2VNmGJgmFhKDxeObye2Yo1nRob0rdI7Vwq2dfzMu7/1juaCf1TaUQ0vmfkd4fcatlTP4iBX/TZgSx+T6azuca0O1mXMzpyUZgiFuZC59281UQ1BdJ3BpqgJv7IPrfcRq8VHOg==
+Received: from PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:72::9)
+ by PN0PR01MB5496.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:63::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.23; Mon, 23 Aug
+ 2021 12:34:14 +0000
+Received: from PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::41ec:5dc2:fd60:e64c]) by PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::41ec:5dc2:fd60:e64c%6]) with mapi id 15.20.4436.024; Mon, 23 Aug 2021
+ 12:34:14 +0000
+Message-ID: <PN0PR01MB6352A955D162E07966CC03B7FCC49@PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM>
+Subject: fuzz: fuzz_dma_read_cb() may overlap with MMIO regions
+From: Qiuhao Li <Qiuhao.Li@outlook.com>
+To: Alexander Bulekov <alxndr@bu.edu>
+Date: Mon, 23 Aug 2021 20:34:04 +0800
+In-Reply-To: <20210823081403.l74lp7gay5tjy2m5@mozz.bu.edu>
+References: <reply-76b541d3da83db84dd2a5b0ba3bba9ff@gitlab.com>
+ <issue_92358130@gitlab.com> <note_656820217@gitlab.com>
+ <note_657261050@gitlab.com> <note_657305687@gitlab.com>
+ <20210823081403.l74lp7gay5tjy2m5@mozz.bu.edu>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0-1 
+Content-Transfer-Encoding: 8bit
+X-TMN: [ftzuqBmS5rF3huA4gwQYlBM+6LQ2su7y]
+X-ClientProxiedBy: HKAPR03CA0024.apcprd03.prod.outlook.com
+ (2603:1096:203:c9::11) To PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:72::9)
+X-Microsoft-Original-Message-ID: <e4a13631eb10f95df6b83e54bb8d6bf5c9c84b3a.camel@outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.93.209] (104.192.108.9) by
+ HKAPR03CA0024.apcprd03.prod.outlook.com (2603:1096:203:c9::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4457.9 via Frontend Transport; Mon, 23 Aug 2021 12:34:12 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 375594ab-14fd-4cb3-616b-08d9663250f5
+X-MS-TrafficTypeDiagnostic: PN0PR01MB5496:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: hIQzUraD7+/pfw4YYcqbSujrHmVd0mjOcyQ9+MuProa6C5g7z+PbQ+GxD7uUmAsCdNFFKby+4ZtErckC0jG/Sw2lPcQcF+fndQMUl9cyWcJfKw3+/xdK+LPkS78pIY6h/bMCVuG+J5HR73D7lT/mzkHqbiTADqjC6+HrQZ9G3SmGxudIWedV7Ir613OaLPoo/ofATCnIksnjSWp/iLkFZZru2xzVve+2kYh0+vs3pKC/7KRAfm+MgFn+d2vRFAH1xYqzli/UvkMWOcXJLiDEhDLaUS3jFZ4qgDYGtKQ9XBhh8Hkxl5dV7JvsF9TEOmhdpJHy2LGWw3ppNL01gjr3brHPHrlyHj6i8IfKQ9i0EBz/i2jC9qLui1JpJQGO6PDR1MZm+fGtY1F+Xicg4oBdDMo9nNJvrJ7N8GPgGwf2SApIW5sEoJv/W/xPUpp5DwV6gqF7eFzxogodgTHYmQehUTPiyx/v/lsE97kVy3nzdy8=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: l9wTShh8E+3nckTlOBSI/EMSEm5LqqH2uQpGTK8e2lfN9zYaHx7c7F5B0RmSPizHgAviM9xVH/FUQTRpc4ZAhrfwJ4I+7R8HZ88TzoPDuMtHJo4pTkKbKaK2YnOAMgAoIetBymw3eYbe4mR2wJ6/UQ==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 375594ab-14fd-4cb3-616b-08d9663250f5
+X-MS-Exchange-CrossTenant-AuthSource: PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Aug 2021 12:34:14.7509 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB5496
+Received-SPF: pass client-ip=104.47.100.169;
+ envelope-from=Qiuhao.Li@outlook.com;
+ helo=IND01-MA1-obe.outbound.protection.outlook.com
+X-Spam_score_int: 6
+X-Spam_score: 0.6
+X-Spam_bar: /
+X-Spam_report: (0.6 / 5.0 requ) BAYES_50=0.8, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,939 +105,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter
- Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Pierre Morel <pmorel@linux.ibm.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- Halil Pasic <pasic@linux.ibm.com>, wanghaibin.wang@huawei.com,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Yanan Wang <wangyanan55@huawei.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a QEMU unit test for the parsing of given SMP configuration.
-Since all the parsing logic is in generic function smp_parse(),
-this test passes different SMP configurations to the function
-and compare the parsing result with what is expected.
+I think the check in fuzz_dma_read_cb() is buggy because it doesn't
+consider when the write address is not in the mmio region but can
+overlap. For example, the mmio region is 0xe0000000 to 0xe0001000, and
+the write address is 0xdffff000 (not ram) and length is 0x2000. In this
+case, the address_space_translate() will return the sparse_mem_mr we
+created, thus bypassing the check and call qtest_memwrite().
 
-In the test, all possible collections of the topology parameters
-and the corresponding expected results are listed, including the
-valid and invalid ones.
+Perhaps we need more detailed checks to ensure that the entire write
+operation occurs in the ram or won't overlap with mmio regions. What do
+you think?
 
-The preference of sockets over cores and the preference of cores
-over sockets, and the support of multi-dies are also considered.
 
-Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
----
- MAINTAINERS                 |   1 +
- tests/unit/meson.build      |   1 +
- tests/unit/test-smp-parse.c | 866 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 868 insertions(+)
- create mode 100644 tests/unit/test-smp-parse.c
+mr1 = address_space_translate(first_cpu->as,
+                              addr, &addr1, &l, true,
+                              MEMTXATTRS_UNSPECIFIED);
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 1e03352501..64255fecd4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1639,6 +1639,7 @@ F: include/hw/boards.h
- F: include/hw/core/cpu.h
- F: include/hw/cpu/cluster.h
- F: include/sysemu/numa.h
-+F: tests/unit/test-smp-parse.c
- T: git https://gitlab.com/ehabkost/qemu.git machine-next
- 
- Xtensa Machines
-diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-index 5736d285b2..e208173970 100644
---- a/tests/unit/meson.build
-+++ b/tests/unit/meson.build
-@@ -45,6 +45,7 @@ tests = {
-   'test-uuid': [],
-   'ptimer-test': ['ptimer-test-stubs.c', meson.source_root() / 'hw/core/ptimer.c'],
-   'test-qapi-util': [],
-+  'test-smp-parse': [qom, meson.source_root() / 'hw/core/machine-smp.c'],
- }
- 
- if have_system or have_tools
-diff --git a/tests/unit/test-smp-parse.c b/tests/unit/test-smp-parse.c
-new file mode 100644
-index 0000000000..836dfd320f
---- /dev/null
-+++ b/tests/unit/test-smp-parse.c
-@@ -0,0 +1,866 @@
-+/*
-+ * SMP parsing unit-tests
-+ *
-+ * Copyright (c) 2021 Huawei Technologies Co., Ltd
-+ *
-+ * Authors:
-+ *  Yanan Wang <wangyanan55@huawei.com>
-+ *
-+ * This work is licensed under the terms of the GNU LGPL, version 2.1 or later.
-+ * See the COPYING.LIB file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qom/object.h"
-+#include "qemu/module.h"
-+#include "qapi/error.h"
-+
-+#include "hw/boards.h"
-+
-+#define T true
-+#define F false
-+
-+#define MIN_CPUS 1
-+#define MAX_CPUS 512
-+
-+/* define a CPU topology hierarchy of sockets/cores/threads */
-+#define SMP_CONFIG_GENERIC(ha, a, hb, b, hc, c, hd, d, he, e) \
-+        {                                                     \
-+            .has_cpus    = ha, .cpus    = a,                  \
-+            .has_sockets = hb, .sockets = b,                  \
-+            .has_cores   = hc, .cores   = c,                  \
-+            .has_threads = hd, .threads = d,                  \
-+            .has_maxcpus = he, .maxcpus = e,                  \
-+        }
-+
-+#define CPU_TOPOLOGY_GENERIC(a, b, c, d, e)                   \
-+        {                                                     \
-+            .cpus     = a,                                    \
-+            .sockets  = b,                                    \
-+            .cores    = c,                                    \
-+            .threads  = d,                                    \
-+            .max_cpus = e,                                    \
-+        }
-+
-+/* define a CPU topology hierarchy of sockets/dies/cores/threads */
-+#define SMP_CONFIG_WITH_DIES(ha, a, hb, b, hc, c, hd, d, he, e, hf, f) \
-+        {                                                     \
-+            .has_cpus    = ha, .cpus    = a,                  \
-+            .has_sockets = hb, .sockets = b,                  \
-+            .has_dies    = hc, .dies    = c,                  \
-+            .has_cores   = hd, .cores   = d,                  \
-+            .has_threads = he, .threads = e,                  \
-+            .has_maxcpus = hf, .maxcpus = f,                  \
-+        }
-+
-+#define CPU_TOPOLOGY_WITH_DIES(a, b, c, d, e, f)              \
-+        {                                                     \
-+            .cpus     = a,                                    \
-+            .sockets  = b,                                    \
-+            .dies     = c,                                    \
-+            .cores    = d,                                    \
-+            .threads  = e,                                    \
-+            .max_cpus = f,                                    \
-+        }
-+
-+/**
-+ * SMPTestData:
-+ * @config - the given SMP configuration
-+ * @expect_prefer_sockets - expected topology result for the valid
-+ * configuration, when sockets are preferred over cores in parsing
-+ * @expect_prefer_cores - expected topology result for the valid
-+ * configuration, when cores are preferred over sockets in parsing
-+ * @expect_error - expected error report for the invalid configuration
-+ */
-+typedef struct SMPTestData {
-+    SMPConfiguration config;
-+    CpuTopology expect_prefer_sockets;
-+    CpuTopology expect_prefer_cores;
-+    const char *expect_error;
-+} SMPTestData;
-+
-+/* specific machine type info for testing */
-+static const TypeInfo smp_machine_info = {
-+    .name = TYPE_MACHINE,
-+    .parent = TYPE_OBJECT,
-+    .class_size = sizeof(MachineClass),
-+    .instance_size = sizeof(MachineState),
-+};
-+
-+/*
-+ * all possible valid collections of generic topology parameters
-+ * and the corresponding expected outputs are listed.
-+ */
-+static struct SMPTestData data_generic[] = {
-+    {
-+        /* config: no configuration provided
-+         * expect: cpus=1,sockets=1,cores=1,threads=1,maxcpus=1 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, F, 0, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(1, 1, 1, 1, 1),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(1, 1, 1, 1, 1),
-+    }, {
-+        /* config: -smp 8
-+         * prefer_sockets: cpus=8,sockets=8,cores=1,threads=1,maxcpus=8
-+         * prefer_cores: cpus=8,sockets=1,cores=8,threads=1,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, F, 0, F, 0, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 8, 1, 1, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 1, 8, 1, 8),
-+    }, {
-+        /* config: -smp sockets=2
-+         * expect: cpus=2,sockets=2,cores=1,threads=1,maxcpus=2 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, T, 2, F, 0, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(2, 2, 1, 1, 2),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(2, 2, 1, 1, 2),
-+    }, {
-+        /* config: -smp cores=4
-+         * expect: cpus=4,sockets=1,cores=4,threads=1,maxcpus=4 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, T, 4, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(4, 1, 4, 1, 4),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(4, 1, 4, 1, 4),
-+    }, {
-+        /* config: -smp threads=2
-+         * expect: cpus=2,sockets=1,cores=1,threads=2,maxcpus=2 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, F, 0, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(2, 1, 1, 2, 2),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(2, 1, 1, 2, 2),
-+    }, {
-+        /* config: -smp maxcpus=16
-+         * prefer_sockets: cpus=16,sockets=16,cores=1,threads=1,maxcpus=16
-+         * prefer_cores: cpus=16,sockets=1,cores=16,threads=1,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, F, 0, F, 0, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(16, 16, 1, 1, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(16, 1, 16, 1, 16),
-+    }, {
-+        /* config: -smp 8,sockets=2
-+         * expect: cpus=8,sockets=2,cores=4,threads=1,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, T, 2, F, 0, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+    }, {
-+        /* config: -smp 8,cores=4
-+         * expect: cpus=8,sockets=2,cores=4,threads=1,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, F, 0, T, 4, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+    }, {
-+        /* config: -smp 8,threads=2
-+         * prefer_sockets: cpus=8,sockets=4,cores=1,threads=2,maxcpus=8
-+         * prefer_cores: cpus=8,sockets=1,cores=4,threads=2,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, F, 0, F, 0, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 4, 1, 2, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 1, 4, 2, 8),
-+    }, {
-+        /* config: -smp 8,maxcpus=16
-+         * prefer_sockets: cpus=8,sockets=16,cores=1,threads=1,maxcpus=16
-+         * prefer_cores: cpus=8,sockets=1,cores=16,threads=1,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, F, 0, F, 0, F, 0, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 16, 1, 1, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 1, 16, 1, 16),
-+    }, {
-+        /* config: -smp sockets=2,cores=4
-+         * expect: cpus=8,sockets=2,cores=4,threads=1,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, T, 2, T, 4, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+    }, {
-+        /* config: -smp sockets=2,threads=2
-+         * expect: cpus=4,sockets=2,cores=1,threads=2,maxcpus=4 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, T, 2, F, 0, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(4, 2, 1, 2, 4),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(4, 2, 1, 2, 4),
-+    }, {
-+        /* config: -smp sockets=2,maxcpus=16
-+         * expect: cpus=16,sockets=2,cores=8,threads=1,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, T, 2, F, 0, F, 0, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(16, 2, 8, 1, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(16, 2, 8, 1, 16),
-+    }, {
-+        /* config: -smp cores=4,threads=2
-+         * expect: cpus=8,sockets=1,cores=4,threads=2,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, T, 4, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 1, 4, 2, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 1, 4, 2, 8),
-+    }, {
-+        /* config: -smp cores=4,maxcpus=16
-+         * expect: cpus=16,sockets=4,cores=4,threads=1,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, T, 4, F, 0, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(16, 4, 4, 1, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(16, 4, 4, 1, 16),
-+    }, {
-+        /* config: -smp threads=2,maxcpus=16
-+         * prefer_sockets: cpus=16,sockets=8,cores=1,threads=2,maxcpus=16
-+         * prefer_cores: cpus=16,sockets=1,cores=8,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, F, 0, T, 2, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(16, 8, 1, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(16, 1, 8, 2, 16),
-+    }, {
-+        /* config: -smp 8,sockets=2,cores=4
-+         * expect: cpus=8,sockets=2,cores=4,threads=1,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, T, 2, T, 4, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+    }, {
-+        /* config: -smp 8,sockets=2,threads=2
-+         * expect: cpus=8,sockets=2,cores=2,threads=2,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, T, 2, F, 0, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 2, 2, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 2, 2, 8),
-+    }, {
-+        /* config: -smp 8,sockets=2,maxcpus=16
-+         * expect: cpus=8,sockets=2,cores=8,threads=1,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, T, 2, F, 0, F, 0, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 8, 1, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 8, 1, 16),
-+    }, {
-+        /* config: -smp 8,cores=4,threads=2
-+         * expect: cpus=8,sockets=1,cores=4,threads=2,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, F, 0, T, 4, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 1, 4, 2, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 1, 4, 2, 8),
-+    }, {
-+        /* config: -smp 8,cores=4,maxcpus=16
-+         * expect: cpus=8,sockets=4,cores=4,threads=1,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, F, 0, T, 4, F, 0, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 4, 4, 1, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 4, 4, 1, 16),
-+    }, {
-+        /* config: -smp 8,threads=2,maxcpus=16
-+         * prefer_sockets: cpus=8,sockets=8,cores=1,threads=2,maxcpus=16
-+         * prefer_cores: cpus=8,sockets=1,cores=8,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, F, 0, F, 0, T, 2, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 8, 1, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 1, 8, 2, 16),
-+    }, {
-+        /* config: -smp sockets=2,cores=4,threads=2
-+         * expect: cpus=16,sockets=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, T, 2, T, 4, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+    }, {
-+        /* config: -smp sockets=2,cores=4,maxcpus=16
-+         * expect: cpus=16,sockets=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, T, 2, T, 4, F, 0, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+    }, {
-+        /* config: -smp sockets=2,threads=2,maxcpus=16
-+         * expect: cpus=16,sockets=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, T, 2, F, 0, T, 2, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+    }, {
-+        /* config: -smp cores=4,threads=2,maxcpus=16
-+         * expect: cpus=16,sockets=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, F, 0, T, 4, T, 2, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+    }, {
-+        /* config: -smp 8,sockets=2,cores=4,threads=1
-+         * expect: cpus=8,sockets=2,cores=4,threads=1,maxcpus=8 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, T, 2, T, 4, T, 1, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 4, 1, 8),
-+    }, {
-+        /* config: -smp 8,sockets=2,cores=4,maxcpus=16
-+         * expect: cpus=8,sockets=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, T, 2, T, 4, F, 0, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 4, 2, 16),
-+    }, {
-+        /* config: -smp 8,sockets=2,threads=2,maxcpus=16
-+         * expect: cpus=8,sockets=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, T, 2, F, 0, T, 2, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 4, 2, 16),
-+    }, {
-+        /* config: -smp 8,cores=4,threads=2,maxcpus=16
-+         * expect: cpus=8,sockets=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, F, 0, T, 4, T, 2, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 4, 2, 16),
-+    }, {
-+        /* config: -smp sockets=2,cores=4,threads=2,maxcpus=16
-+         * expect: cpus=16,sockets=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(F, 0, T, 2, T, 4, T, 2, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(16, 2, 4, 2, 16),
-+    }, {
-+        /* config: -smp 8,sockets=2,cores=4,threads=2,maxcpus=16
-+         * expect: cpus=8,sockets=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_GENERIC(T, 8, T, 2, T, 4, T, 2, T, 16),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_GENERIC(8, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_GENERIC(8, 2, 4, 2, 16),
-+    },
-+};
-+
-+/*
-+ * all possible valid collections of topology parameters (with dies)
-+ * and the corresponding expected outputs are listed.
-+ */
-+static SMPTestData data_with_dies[] = {
-+    {
-+        /* config: -smp dies=2
-+         * expect: cpus=2,sockets=1,dies=2,cores=1,threads=1,maxcpus=2 */
-+        .config = SMP_CONFIG_WITH_DIES(F, 0, F, 0, T, 2, F, 0, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(2, 1, 2, 1, 1, 2),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(2, 1, 2, 1, 1, 2),
-+    }, {
-+        /* config: -smp 16,dies=2
-+         * prefer_sockets: cpus=16,sockets=8,dies=2,cores=1,threads=1,maxcpus=16
-+         * prefer_cores: cpus=16,sockets=1,dies=2,cores=8,threads=1,maxcpus=16 */
-+        .config = SMP_CONFIG_WITH_DIES(T, 16, F, 0, T, 2, F, 0, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(16, 8, 2, 1, 1, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(16, 1, 2, 8, 1, 16),
-+    }, {
-+        /* config: -smp sockets=2,dies=2
-+         * expect: cpus=4,sockets=2,dies=2,cores=1,threads=1,maxcpus=4 */
-+        .config = SMP_CONFIG_WITH_DIES(F, 0, T, 2, T, 2, F, 0, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(4, 2, 2, 1, 1, 4),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(4, 2, 2, 1, 1, 4),
-+    }, {
-+        /* config: -smp dies=2,cores=4
-+         * expect: cpus=8,sockets=1,dies=2,cores=4,threads=1,maxcpus=8 */
-+        .config = SMP_CONFIG_WITH_DIES(F, 0, F, 0, T, 2, T, 4, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(8, 1, 2, 4, 1, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(8, 1, 2, 4, 1, 8),
-+    }, {
-+        /* config: -smp dies=2,threads=2
-+         * expect: cpus=4,sockets=1,dies=2,cores=1,threads=2,maxcpus=4 */
-+        .config = SMP_CONFIG_WITH_DIES(F, 0, F, 0, T, 2, F, 0, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(4, 1, 2, 1, 2, 4),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(4, 1, 2, 1, 2, 4),
-+    }, {
-+        /* config: -smp dies=2,maxcpus=32
-+         * prefer_sockets: cpus=32,sockets=16,dies=2,cores=1,threads=1,maxcpus=32
-+         * prefer_cores: cpus=32,sockets=1,dies=2,cores=16,threads=1,maxcpus=32 */
-+        .config = SMP_CONFIG_WITH_DIES(F, 0, F, 0, T, 2, F, 0, F, 0, T, 32),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(32, 16, 2, 1, 1, 32),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(32, 1, 2, 16, 1, 32),
-+    }, {
-+        /* config: -smp 16,sockets=2,dies=2
-+         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=1,maxcpus=16 */
-+        .config = SMP_CONFIG_WITH_DIES(T, 16, T, 2, T, 2, F, 0, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 4, 1, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 4, 1, 16),
-+    }, {
-+        /* config: -smp 16,dies=2,cores=4
-+         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=1,maxcpus=16 */
-+        .config = SMP_CONFIG_WITH_DIES(T, 16, F, 0, T, 2, T, 4, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 4, 1, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 4, 1, 16),
-+    }, {
-+        /* config: -smp 16,dies=2,threads=2
-+         * prefer_sockets: cpus=16,sockets=4,dies=2,cores=1,threads=2,maxcpus=16
-+         * prefer_cores: cpus=16,sockets=1,dies=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_WITH_DIES(T, 16, F, 0, T, 2, F, 0, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(16, 4, 2, 1, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(16, 1, 2, 4, 2, 16),
-+    }, {
-+        /* config: -smp 16,dies=2,maxcpus=32
-+         * prefer_sockets: cpus=16,sockets=16,dies=2,cores=1,threads=1,maxcpus=32
-+         * prefer_cores: cpus=16,sockets=1,dies=2,cores=16,threads=1,maxcpus=32 */
-+        .config = SMP_CONFIG_WITH_DIES(T, 16, F, 0, T, 2, F, 0, F, 0, T, 32),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(16, 16, 2, 1, 1, 32),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(16, 1, 2, 16, 1, 32),
-+    }, {
-+        /* config: -smp sockets=2,dies=2,cores=4
-+         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=1,maxcpus=16 */
-+        .config = SMP_CONFIG_WITH_DIES(F, 0, T, 2, T, 2, T, 4, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 4, 1, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 4, 1, 16),
-+    }, {
-+        /* config: -smp sockets=2,dies=2,threads=2
-+         * expect: cpus=8,sockets=2,dies=2,cores=1,threads=2,maxcpus=8 */
-+        .config = SMP_CONFIG_WITH_DIES(F, 0, T, 2, T, 2, F, 0, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(8, 2, 2, 1, 2, 8),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(8, 2, 2, 1, 2, 8),
-+    }, {
-+        /* config: -smp sockets=2,dies=2,maxcpus=32
-+         * expect: cpus=32,sockets=2,dies=2,cores=8,threads=1,maxcpus=32 */
-+        .config = SMP_CONFIG_WITH_DIES(F, 0, T, 2, T, 2, F, 0, F, 0, T, 32),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(32, 2, 2, 8, 1, 32),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(32, 2, 2, 8, 1, 32),
-+    }, {
-+        /* config: -smp dies=2,cores=4,threads=2
-+         * expect: cpus=16,sockets=1,dies=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_WITH_DIES(F, 0, F, 0, T, 2, T, 4, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(16, 1, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(16, 1, 2, 4, 2, 16),
-+    }, {
-+        /* config: -smp dies=2,cores=4,maxcpus=32
-+         * expect: cpus=32,sockets=4,dies=2,cores=4,threads=1,maxcpus=32 */
-+        .config = SMP_CONFIG_WITH_DIES(F, 0, F, 0, T, 2, T, 4, F, 0, T, 32),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(32, 4, 2, 4, 1, 32),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(32, 4, 2, 4, 1, 32),
-+    }, {
-+        /* config: -smp dies=2,threads=2,maxcpus=32
-+         * prefer_sockets: cpus=32,sockets=8,dies=2,cores=1,threads=2,maxcpus=32
-+         * prefer_cores: cpus=32,sockets=1,dies=2,cores=8,threads=2,maxcpus=32 */
-+        .config = SMP_CONFIG_WITH_DIES(F, 0, F, 0, T, 2, F, 0, T, 2, T, 32),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(32, 8, 2, 1, 2, 32),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(32, 1, 2, 8, 2, 32),
-+    }, {
-+        /* config: -smp 16,sockets=2,dies=2,cores=4
-+         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=1,maxcpus=16 */
-+        .config = SMP_CONFIG_WITH_DIES(T, 16, T, 2, T, 2, T, 4, F, 0, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 4, 1, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 4, 1, 16),
-+    }, {
-+        /* config: -smp 16,sockets=2,dies=2,threads=2
-+         * expect: cpus=16,sockets=2,dies=2,cores=2,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_WITH_DIES(T, 16, T, 2, T, 2, F, 0, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 2, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 2, 2, 16),
-+    }, {
-+        /* config: -smp 16,sockets=2,dies=2,maxcpus=32
-+         * expect: cpus=16,sockets=2,dies=2,cores=8,threads=1,maxcpus=32 */
-+        .config = SMP_CONFIG_WITH_DIES(T, 16, T, 2, T, 2, F, 0, F, 0, T, 32),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 8, 1, 32),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 8, 1, 32),
-+    }, {
-+        /* config: -smp 16,dies=2,cores=4,threads=2
-+         * expect: cpus=16,sockets=1,dies=2,cores=4,threads=2,maxcpus=16 */
-+        .config = SMP_CONFIG_WITH_DIES(T, 16, F, 0, T, 2, T, 4, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(16, 1, 2, 4, 2, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(16, 1, 2, 4, 2, 16),
-+    }, {
-+        /* config: -smp 16,dies=2,cores=4,maxcpus=32
-+         * expect: cpus=16,sockets=4,dies=2,cores=4,threads=1,maxcpus=32 */
-+        .config = SMP_CONFIG_WITH_DIES(T, 16, F, 0, T, 2, T, 4, F, 0, T, 32),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(16, 4, 2, 4, 1, 32),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(16, 4, 2, 4, 1, 32),
-+    }, {
-+        /* config: -smp 16,dies=2,threads=2,maxcpus=32
-+         * prefer_sockets: cpus=16,sockets=8,dies=2,cores=1,threads=2,maxcpus=32
-+         * prefer_cores: cpus=16,sockets=1,dies=2,cores=8,threads=2,maxcpus=32 */
-+        .config = SMP_CONFIG_WITH_DIES(T, 16, F, 0, T, 2, F, 0, T, 2, T, 32),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(16, 8, 2, 1, 2, 32),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(16, 1, 2, 8, 2, 32),
-+    }, {
-+        /* config: -smp sockets=2,dies=2,cores=4,threads=2
-+         * expect: cpus=32,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
-+        .config = SMP_CONFIG_WITH_DIES(F, 0, T, 2, T, 2, T, 4, T, 2, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(32, 2, 2, 4, 2, 32),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(32, 2, 2, 4, 2, 32),
-+    }, {
-+        /* config: -smp sockets=2,dies=2,cores=4,maxcpus=32
-+         * expect: cpus=32,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
-+        .config = SMP_CONFIG_WITH_DIES(F, 0, T, 2, T, 2, T, 4, F, 0, T, 32),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(32, 2, 2, 4, 2, 32),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(32, 2, 2, 4, 2, 32),
-+    }, {
-+        /* config: -smp sockets=2,dies=2,threads=2,maxcpus=32
-+         * expect: cpus=32,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
-+        .config = SMP_CONFIG_WITH_DIES(F, 0, T, 2, T, 2, F, 0, T, 2, T, 32),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(32, 2, 2, 4, 2, 32),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(32, 2, 2, 4, 2, 32),
-+    }, {
-+        /* config: -smp dies=2,cores=4,threads=2,maxcpus=32
-+         * expect: cpus=32,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
-+        .config = SMP_CONFIG_WITH_DIES(F, 0, F, 0, T, 2, T, 4, T, 2, T, 32),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(32, 2, 2, 4, 2, 32),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(32, 2, 2, 4, 2, 32),
-+    }, {
-+        /* config: -smp 16,sockets=2,dies=2,cores=4,threads=1
-+         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=1,maxcpus=16 */
-+        .config = SMP_CONFIG_WITH_DIES(T, 16, T, 2, T, 2, T, 4, T, 1, F, 0),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 4, 1, 16),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 4, 1, 16),
-+    }, {
-+        /* config: -smp 16,sockets=2,dies=2,cores=4,maxcpus=32
-+         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
-+        .config = SMP_CONFIG_WITH_DIES(T, 16, T, 2, T, 2, T, 4, F, 0, T, 32),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 4, 2, 32),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 4, 2, 32),
-+    }, {
-+        /* config: -smp 16,sockets=2,dies=2,threads=2,maxcpus=32
-+         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
-+        .config = SMP_CONFIG_WITH_DIES(T, 16, T, 2, T, 2, F, 0, T, 2, T, 32),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 4, 2, 32),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 4, 2, 32),
-+    }, {
-+        /* config: -smp 16,dies=2,cores=4,threads=2,maxcpus=32
-+         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
-+        .config = SMP_CONFIG_WITH_DIES(T, 16, F, 0, T, 2, T, 4, T, 2, T, 32),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 4, 2, 32),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 4, 2, 32),
-+    }, {
-+        /* config: -smp sockets=2,dies=2,cores=4,threads=2,maxcpus=32
-+         * expect: cpus=32,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
-+        .config = SMP_CONFIG_WITH_DIES(F, 0, T, 2, T, 2, T, 4, T, 2, T, 32),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(32, 2, 2, 4, 2, 32),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(32, 2, 2, 4, 2, 32),
-+    }, {
-+        /* config: -smp 16,sockets=2,dies=2,cores=4,threads=2,maxcpus=32
-+         * expect: cpus=16,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
-+        .config = SMP_CONFIG_WITH_DIES(T, 16, T, 2, T, 2, T, 4, T, 2, T, 32),
-+        .expect_prefer_sockets = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 4, 2, 32),
-+        .expect_prefer_cores   = CPU_TOPOLOGY_WITH_DIES(16, 2, 2, 4, 2, 32),
-+    },
-+};
-+
-+/*
-+ * generic invalid configurations
-+ * specified smp CPUs can't be less than supported min CPUs.
-+ * specified max CPUs can't be more than supported max CPUs.
-+ */
-+
-+static SMPTestData data_generic_invalid[] = {
-+    {
-+        /* config: -smp MIN_CPUS
-+         * reset the machine supported min CPUs to "MIN_CPUS + 1" */
-+        .config = SMP_CONFIG_GENERIC(T, MIN_CPUS, F, 0, F, 0, F, 0, F, 0),
-+        .expect_error = "Invalid SMP CPUs 1. The min CPUs supported "
-+                        "by machine '(null)' is 2",
-+    }, {
-+        /* config: -smp MAX_CPUS
-+         * reset the machine supported max CPUs to "MAX_CPUS - 1" */
-+        .config = SMP_CONFIG_GENERIC(T, MAX_CPUS, F, 0, F, 0, F, 0, F, 0),
-+        .expect_error = "Invalid SMP CPUs 512. The max CPUs supported "
-+                        "by machine '(null)' is 511",
-+    },
-+};
-+
-+static char *get_config_info(SMPConfiguration *config)
-+{
-+    return g_strdup_printf(
-+        "(SMPConfiguration) {\n"
-+        "    .has_cpus    = %5s, cpus    = %ld,\n"
-+        "    .has_sockets = %5s, sockets = %ld,\n"
-+        "    .has_dies    = %5s, dies    = %ld,\n"
-+        "    .has_cores   = %5s, cores   = %ld,\n"
-+        "    .has_threads = %5s, threads = %ld,\n"
-+        "    .has_maxcpus = %5s, maxcpus = %ld,\n"
-+        "}",
-+        config->has_cpus ? "true" : "false", config->cpus,
-+        config->has_sockets ? "true" : "false", config->sockets,
-+        config->has_dies ? "true" : "false", config->dies,
-+        config->has_cores ? "true" : "false", config->cores,
-+        config->has_threads ? "true" : "false", config->threads,
-+        config->has_maxcpus ? "true" : "false", config->maxcpus);
-+}
-+
-+static char *get_topo_info(CpuTopology *topo)
-+{
-+    return g_strdup_printf(
-+        "(CpuTopology) {\n"
-+        "    .cpus     = %u,\n"
-+        "    .sockets  = %u,\n"
-+        "    .dies     = %u,\n"
-+        "    .cores    = %u,\n"
-+        "    .threads  = %u,\n"
-+        "    .max_cpus = %u,\n"
-+        "}",
-+        topo->cpus, topo->sockets, topo->dies,
-+        topo->cores, topo->threads, topo->max_cpus);
-+}
-+
-+static void check_smp_parse(MachineState *ms, SMPConfiguration *config,
-+                            CpuTopology *expect_topo, const char *expect_err,
-+                            bool valid)
-+{
-+    g_autofree char *config_info = NULL;
-+    g_autofree char *expect_topo_info = NULL;
-+    g_autofree char *result_topo_info = NULL;
-+    const char *result_err;
-+    Error *err = NULL;
-+
-+    /* call the generic parser smp_parse() in hw/core/machine-smp.c */
-+    smp_parse(ms, config, &err);
-+
-+    if (valid) {
-+        if ((err == NULL) &&
-+            (ms->smp.cpus == expect_topo->cpus) &&
-+            (ms->smp.sockets == expect_topo->sockets) &&
-+            (ms->smp.dies == expect_topo->dies) &&
-+            (ms->smp.cores == expect_topo->cores) &&
-+            (ms->smp.threads == expect_topo->threads) &&
-+            (ms->smp.max_cpus == expect_topo->max_cpus)) {
-+            return;
-+        }
-+
-+        config_info = get_config_info(config);
-+        expect_topo_info = get_topo_info(expect_topo);
-+
-+        if (err != NULL) {
-+            g_printerr("Check smp_parse failed:\n"
-+                       "config: %s\n"
-+                       "expect_topo: %s\n"
-+                       "should_be_valid: yes\n\n"
-+                       "result_is_valid: no\n"
-+                       "result_error: %s\n",
-+                       config_info, expect_topo_info,
-+                       error_get_pretty(err));
-+            error_free(err);
-+        } else {
-+            result_topo_info = get_topo_info(&ms->smp);
-+            g_printerr("Check smp_parse failed:\n"
-+                       "config: %s\n"
-+                       "expect_topo: %s\n"
-+                       "should_be_valid: yes\n\n"
-+                       "result_is_valid: yes\n"
-+                       "result_topo: %s\n",
-+                       config_info, expect_topo_info,
-+                       result_topo_info);
-+        }
-+    } else {
-+        if (err != NULL) {
-+            result_err = error_get_pretty(err);
-+
-+            if (expect_err == NULL || (expect_err != NULL &&
-+                g_str_equal(expect_err, result_err))) {
-+                error_free(err);
-+                return;
-+            }
-+
-+            config_info = get_config_info(config);
-+            g_printerr("Check smp_parse failed:\n"
-+                       "config: %s\n"
-+                       "expect_error: %s\n"
-+                       "should_be_valid: no\n\n"
-+                       "result_is_valid: no\n"
-+                       "result_error: %s\n",
-+                       config_info, expect_err, result_err);
-+            error_free(err);
-+        } else {
-+            config_info = get_config_info(config);
-+            result_topo_info = get_topo_info(&ms->smp);
-+
-+            g_printerr("Check smp_parse failed:\n"
-+                       "config: %s\n"
-+                       "should_be_valid: no\n\n"
-+                       "result_is_valid: yes\n"
-+                       "result_topo: %s\n",
-+                       config_info, result_topo_info);
-+        }
-+    }
-+
-+    abort();
-+}
-+
-+static void smp_test_data_init(SMPTestData *targ, SMPTestData *src)
-+{
-+    targ->config = src->config;
-+    targ->expect_prefer_sockets = src->expect_prefer_sockets;
-+    targ->expect_prefer_cores = src->expect_prefer_cores;
-+    targ->expect_error = src->expect_error;
-+}
-+
-+static void smp_machine_class_reinit(MachineClass *mc)
-+{
-+    mc->min_cpus = MIN_CPUS;
-+    mc->max_cpus = MAX_CPUS;
-+
-+    mc->smp_props.prefer_sockets = true;
-+    mc->smp_props.dies_supported = false;
-+}
-+
-+static void smp_generic_test(void)
-+{
-+    Object *obj = object_new(TYPE_MACHINE);
-+    MachineState *ms = MACHINE(obj);
-+    MachineClass *mc = MACHINE_GET_CLASS(obj);
-+    SMPTestData data;
-+    int i;
-+
-+    /* make sure that we have created the object */
-+    g_assert_nonnull(ms);
-+    g_assert_nonnull(mc);
-+
-+    /* reinitialize related machine properties before each subtest */
-+    smp_machine_class_reinit(mc);
-+
-+    for (i = 0; i < ARRAY_SIZE(data_generic); i++) {
-+        smp_test_data_init(&data, &data_generic[i]);
-+
-+        /* parsed values of unsupported parameters should be 1 */
-+        data.expect_prefer_sockets.dies = 1;
-+        data.expect_prefer_cores.dies = 1;
-+
-+        mc->smp_props.prefer_sockets = true;
-+        check_smp_parse(ms, &data.config,
-+                        &data.expect_prefer_sockets, NULL, true);
-+
-+        mc->smp_props.prefer_sockets = false;
-+        check_smp_parse(ms, &data.config,
-+                        &data.expect_prefer_cores, NULL, true);
-+
-+        /*
-+         * it's now allowed that unsupported dies can be set equal to 1
-+         * in the SMP configuration.
-+         */
-+        data.config.has_dies = true;
-+        data.config.dies = 1;
-+
-+        mc->smp_props.prefer_sockets = true;
-+        check_smp_parse(ms, &data.config,
-+                        &data.expect_prefer_sockets, NULL, true);
-+
-+        mc->smp_props.prefer_sockets = false;
-+        check_smp_parse(ms, &data.config,
-+                        &data.expect_prefer_cores, NULL, true);
-+    }
-+
-+    object_unref(obj);
-+}
-+
-+static void smp_with_dies_test(void)
-+{
-+    Object *obj = object_new(TYPE_MACHINE);
-+    MachineState *ms = MACHINE(obj);
-+    MachineClass *mc = MACHINE_GET_CLASS(obj);
-+    SMPTestData data;
-+    int i;
-+
-+    /* make sure that we have created the object */
-+    g_assert_nonnull(ms);
-+    g_assert_nonnull(mc);
-+
-+    /* reinitialize related machine properties before each subtest */
-+    smp_machine_class_reinit(mc);
-+
-+    mc->smp_props.dies_supported = true;
-+
-+    for (i = 0; i < ARRAY_SIZE(data_generic); i++) {
-+        smp_test_data_init(&data, &data_generic[i]);
-+
-+        /* omitted arch-specific dies should directly default to 1 */
-+        data.expect_prefer_sockets.dies = 1;
-+        data.expect_prefer_cores.dies = 1;
-+
-+        mc->smp_props.prefer_sockets = true;
-+        check_smp_parse(ms, &data.config,
-+                        &data.expect_prefer_sockets, NULL, true);
-+
-+        mc->smp_props.prefer_sockets = false;
-+        check_smp_parse(ms, &data.config,
-+                        &data.expect_prefer_cores, NULL, true);
-+    }
-+
-+    /* when dies is provided in the configuration */
-+    for (i = 0; i < ARRAY_SIZE(data_with_dies); i++) {
-+        smp_test_data_init(&data, &data_with_dies[i]);
-+
-+        mc->smp_props.prefer_sockets = true;
-+        check_smp_parse(ms, &data.config,
-+                        &data.expect_prefer_sockets, NULL, true);
-+
-+        mc->smp_props.prefer_sockets = false;
-+        check_smp_parse(ms, &data.config,
-+                        &data.expect_prefer_cores, NULL, true);
-+    }
-+
-+    object_unref(obj);
-+}
-+
-+static void acceptance_generic_test(void)
-+{
-+    Object *obj = object_new(TYPE_MACHINE);
-+    MachineState *ms = MACHINE(obj);
-+    MachineClass *mc = MACHINE_GET_CLASS(obj);
-+    SMPTestData *datap;
-+    int i;
-+
-+    /* make sure that we have created the object */
-+    g_assert_nonnull(ms);
-+    g_assert_nonnull(mc);
-+
-+    /* reinitialize related machine properties before each subtest */
-+    smp_machine_class_reinit(mc);
-+
-+    /* reset the machine supported min CPUs and max CPUs */
-+    mc->min_cpus = MIN_CPUS + 1;
-+    mc->max_cpus = MAX_CPUS - 1;
-+
-+    for (i = 0; i < ARRAY_SIZE(data_generic_invalid); i++) {
-+        datap = &data_generic_invalid[i];
-+        check_smp_parse(ms, &datap->config, NULL, datap->expect_error, false);
-+    }
-+
-+    /* config: -smp 8,sockets=2,cores=4,threads=2,maxcpus=8 */
-+    datap = &(SMPTestData){
-+        .config = SMP_CONFIG_GENERIC(T, 8, T, 2, T, 4, T, 2, T, 8),
-+        .expect_error = "Invalid CPU topology: "
-+                        "product of the hierarchy must match maxcpus: "
-+                        "sockets (2) * cores (4) * threads (2) "
-+                        "!= maxcpus (8)",
-+    };
-+    check_smp_parse(ms, &datap->config, NULL, datap->expect_error, false);
-+
-+    /* config: -smp 18,sockets=2,cores=4,threads=2,maxcpus=16 */
-+    datap = &(SMPTestData){
-+        .config = SMP_CONFIG_GENERIC(T, 18, T, 2, T, 4, T, 2, T, 16),
-+        .expect_error = "Invalid CPU topology: "
-+                        "maxcpus must be equal to or greater than smp: "
-+                        "sockets (2) * cores (4) * threads (2) "
-+                        "== maxcpus (16) < smp_cpus (18)",
-+    };
-+    check_smp_parse(ms, &datap->config, NULL, datap->expect_error, false);
-+
-+    /* config: -smp 8,dies=2 */
-+    datap = &(SMPTestData){
-+        .config = SMP_CONFIG_WITH_DIES(T, 8, F, 0, T, 2, F, 0, F, 0, F, 0),
-+        .expect_error = "dies not supported by this machine's CPU topology",
-+    };
-+    check_smp_parse(ms, &datap->config, NULL, datap->expect_error, false);
-+
-+    object_unref(obj);
-+}
-+
-+static void acceptance_with_dies_test(void)
-+{
-+    Object *obj = object_new(TYPE_MACHINE);
-+    MachineState *ms = MACHINE(obj);
-+    MachineClass *mc = MACHINE_GET_CLASS(obj);
-+    SMPTestData *datap;
-+
-+    /* make sure that we have created the object */
-+    g_assert_nonnull(ms);
-+    g_assert_nonnull(mc);
-+
-+    /* reinitialize related machine properties before each subtest */
-+    smp_machine_class_reinit(mc);
-+
-+    mc->smp_props.dies_supported = true;
-+
-+    /* config: -smp 16,sockets=2,dies=2,cores=4,threads=2,maxcpus=16 */
-+    datap = &(SMPTestData){
-+        .config = SMP_CONFIG_WITH_DIES(T, 16, T, 2, T, 2, T, 4, T, 2, T, 16),
-+        .expect_error = "Invalid CPU topology: "
-+                        "product of the hierarchy must match maxcpus: "
-+                        "sockets (2) * dies (2) * cores (4) * threads (2) "
-+                        "!= maxcpus (16)",
-+    };
-+    check_smp_parse(ms, &datap->config, NULL, datap->expect_error, false);
-+
-+    /* config: -smp 34,sockets=2,dies=2,cores=4,threads=2,maxcpus=32 */
-+    datap = &(SMPTestData){
-+        .config = SMP_CONFIG_WITH_DIES(T, 34, T, 2, T, 2, T, 4, T, 2, T, 32),
-+        .expect_error = "Invalid CPU topology: "
-+                        "maxcpus must be equal to or greater than smp: "
-+                        "sockets (2) * dies (2) * cores (4) * threads (2) "
-+                        "== maxcpus (32) < smp_cpus (34)",
-+    };
-+    check_smp_parse(ms, &datap->config, NULL, datap->expect_error, false);
-+
-+    object_unref(obj);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+    g_test_init(&argc, &argv, NULL);
-+
-+    module_call_init(MODULE_INIT_QOM);
-+    type_register_static(&smp_machine_info);
-+
-+    g_test_add_func("/test-smp-parse/smp-generic", smp_generic_test);
-+    g_test_add_func("/test-smp-parse/smp-with-dies", smp_with_dies_test);
-+    g_test_add_func("/test-smp-parse/acceptance-generic",
-+                    acceptance_generic_test);
-+    g_test_add_func("/test-smp-parse/acceptance-with-dies",
-+                    acceptance_with_dies_test);
-+
-+    g_test_run();
-+
-+    return 0;
-+}
--- 
-2.19.1
+if (!(memory_region_is_ram(mr1) ||
+      memory_region_is_romd(mr1)) && mr1 != sparse_mem_mr) {
+    l = memory_access_size(mr1, l, addr1);
+} else {
+    /* ROM/RAM case */
+    // mr1 == sparse_mem_mr but it's not RAM or ROM <--
+    // May overlap with mmio regions                <--
+    ...
+    qtest_memwrite(qts_global, addr, buf, l);
+
+
+Thanks.
+  Qiuhao Li
+
+On Mon, 2021-08-23 at 04:14 -0400, Alexander Bulekov wrote:
+> I'm not sure I understand. We try to avoid writing to MMIO regions in
+> fuzz_dma_read_cb to avoid such false-positives. E.g. that's why we have
+> code to do address_space_translate and manually walk the AddressSpace
+> and verify that we are writing to RAM, before doing the actual
+> qtest_memwrite. There is a fix to that code that need to be applied,
+> but
+> those have to wait for the 6.1 release. BTW, since this is about the
+> generic-fuzzer rather than this bug, I cc-ed qemu-devel. Let's continue
+> the discussion there.
+> 
+> -Alex
+> 
+> On 210823 0132, 李秋豪 (@QiuhaoLi) wrote:
+> > 
+> > 
+> > 
+> > 李秋豪 commented on a discussion:
+> > https://gitlab.com/qemu-project/qemu/-/issues/541#note_657305687
+> > 
+> > Ok, I add a reply to my report about #540 and #541.
+> > 
+> > Btw, it suddenly occurred to me that our generic-fuzzer can also make
+> > reentry issues. For example, a device tries to read from a mmio
+> > region while being fuzzed, but the fuzz_dma_read_cb() will write to
+> > that region, thus leading to positive-false reentry issues. In short,
+> > we change a read action to write. Should we add checks?
+> > 
+> > -- 
+> > Reply to this email directly or view it on GitLab:
+> > https://gitlab.com/qemu-project/qemu/-/issues/541#note_657305687
+> > You're receiving this email because of your account on gitlab.com.
+> > 
+> > 
+> 
+
 
 
