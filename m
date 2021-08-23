@@ -2,75 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC92E3F51D2
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 22:14:19 +0200 (CEST)
-Received: from localhost ([::1]:46168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F22A3F5277
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 22:53:28 +0200 (CEST)
+Received: from localhost ([::1]:60724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIGKo-0003we-UF
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 16:14:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59764)
+	id 1mIGwb-0007dL-R7
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 16:53:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mIG36-0006vw-Ng
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 15:56:00 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:47061)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mIG2w-0003GW-Bs
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 15:56:00 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- u11-20020a17090adb4b00b00181668a56d6so716574pjx.5
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 12:55:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=pDZariy0iIfddULLdRqhpSRL42jFJPN9KfRe1+PxB8k=;
- b=oSh/Ety7DQvfewkH28eAuYRzCSK49m1cqT+qi/4/b/+NIEPNPVFCZTgl8aF3WCpxcY
- FFiO9d5xmPIL937Bka8uHqko5L1banTeLeeUS5EoP033Psa67/4YW94+LyzpXTgHLEvv
- e5rvOptLL1Z6N1Y8FNEgz/ZIQmIfTZJ6kYqzd1MiKYorbpO0ZA3ZNGKMbXSZWntIg7jJ
- b5AWBZuAHBG0k3/NoJqyak6VrbyT9WheRk4Y2rAwWtPslG/fYnnANNkHtXo62Fe9U9HW
- HtRQmFSBUil/BY71oBTQCNOtUBd3STxlN2xdQ7tDIYoHOVwoP9+8LwKG1L/kACWvJbuJ
- 3dYQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIGuA-00066O-8U
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 16:50:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44987)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIGu7-0007wN-Ed
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 16:50:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629751846;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tMKWHAY0g+Ovw69d+ugZWjuqMJHlTDavDyGGFqeiX68=;
+ b=TatJS7DXVpP3ILw2WF1zo+OifdRrqtEVdJUv1+iRXZWDGG0PcClkaCSUwMqwyFCYmvnzCR
+ jXhjVrQyZscV5ubzBAMEgHZkolF+Dm8OYOqpkZ0wD80Mti833mOKRy25FPpwgyY4AoUteC
+ tOc9NHtqfdB1UIU6PzQtXWdqlZmGDDI=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-258-vTmwzHBDPxWa4vTOFtRd5g-1; Mon, 23 Aug 2021 16:50:40 -0400
+X-MC-Unique: vTmwzHBDPxWa4vTOFtRd5g-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ x19-20020a05620a099300b003f64d79cbbaso7037940qkx.7
+ for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 13:50:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=pDZariy0iIfddULLdRqhpSRL42jFJPN9KfRe1+PxB8k=;
- b=iR4vPX/Vcz4nBsYPkeO/mVxFcrLQS9aPAbasr+S1ub4g/qULlSuismTzRCYEcv4FK+
- 1NxHEA0wd8IT6tN8ZA36x+D43Oul2FjD5PUoysGAjDqEB8oH9LDqjBg5ZcbMBJK3D86h
- GU5cT6lZbr6r46vnxDbhTaFH9zdUlittjxXezedJBU0zaYMIi2KewKoR7wVHSCWb8YNn
- NbEtGVQpvbLSfvH1R71IF7EvGuWhoadnfnYrHQjUEqlaWcJN/usS7YI/ABoQGcbl6tG2
- BCY8oMRmtRldokw94EqS/M4X5chKmSlS3CQkEnpk8ZtbijYY9ucoyB4aStth+ThqEeFv
- v21g==
-X-Gm-Message-State: AOAM533BobOlN9//QWP2VWvXEpCtCOhTaiaFb0cu1PhCtw39WgifN+8j
- dk88KcqkDEdK+zP5qNVRfxoNDJKoBWYzpg==
-X-Google-Smtp-Source: ABdhPJzq6v9tba643ZIGfGPXguhZmoBWL2uEMF6JoDQkR9YAgs53Jv9c7jDZdxri2s1xDU/+X2U4HQ==
-X-Received: by 2002:a17:90a:2c01:: with SMTP id
- m1mr257106pjd.134.1629748547495; 
- Mon, 23 Aug 2021 12:55:47 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id v15sm16685078pff.105.2021.08.23.12.55.47
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=tMKWHAY0g+Ovw69d+ugZWjuqMJHlTDavDyGGFqeiX68=;
+ b=I4Qm88NuEUNqTw4yv3eGMBK6vXyuk0UybUclHAimoKPqEck+RtbeUfdfgstasr2Elq
+ thySWuuir1FCXNrwT0n2n8oQbmGIVpXxHZ6Mh8/r3yykoEvJcsMFG5G6DsDPTU4x7z2s
+ /CVwFUgQmcc25fLs4dwNsv0DhKVhp8UUGBOwp67FeaoOZpIFBaZ7zV8HxwQ0Fa6i6L/a
+ OuYC0y2Zhn7xtSoOPQ3LGAMz5BbK87/AeOTXtYkSlPfMvqC0a9E5b81oyjXtz8jbzPLE
+ 7YMLH/7DsX1Y6rCKqNMYIllr03skNViJqR+Dipw+Nr8c1/4L99EjVp1LzOSPpE+jXy67
+ leAQ==
+X-Gm-Message-State: AOAM530bt9iTUQ1mlHmjNLwA237OI5REcYvBWHOApgUSWm6uIM04s5zL
+ ZB2cZUHkYsJp++Eog015ymDZl7GPQsIB6Yv/SG9s1sy9wUA9nRPtioQHwCWTAaHRyW3ck+neqfJ
+ Wiw0W3RfU0zdlSaQ=
+X-Received: by 2002:a05:620a:145c:: with SMTP id
+ i28mr22382915qkl.118.1629751840188; 
+ Mon, 23 Aug 2021 13:50:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzhyVcVkpmyZgkTPA+0jCq2D298F6fzKsklx/HK+Q07ExAs+quAzJ9URsMBcLWytZOFCqs7Dw==
+X-Received: by 2002:a05:620a:145c:: with SMTP id
+ i28mr22382898qkl.118.1629751839972; 
+ Mon, 23 Aug 2021 13:50:39 -0700 (PDT)
+Received: from t490s ([2607:fea8:56a3:500::d413])
+ by smtp.gmail.com with ESMTPSA id m8sm9119026qkk.130.2021.08.23.13.50.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Aug 2021 12:55:47 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v5 24/24] target/riscv: Use {get,dest}_gpr for RVV
-Date: Mon, 23 Aug 2021 12:55:29 -0700
-Message-Id: <20210823195529.560295-25-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210823195529.560295-1-richard.henderson@linaro.org>
-References: <20210823195529.560295-1-richard.henderson@linaro.org>
+ Mon, 23 Aug 2021 13:50:39 -0700 (PDT)
+Date: Mon, 23 Aug 2021 16:50:37 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [RFC PATCH v2 0/5] physmem: Have flaview API check bus
+ permission from MemTxAttrs argument
+Message-ID: <YSQKHaGiJZE5OAk2@t490s>
+References: <20210823164157.751807-1-philmd@redhat.com>
+ <CAFEAcA9_=6n4w86gD3MHhiLeCiui9_+ePT7E2sSHdSRufUJdyA@mail.gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <CAFEAcA9_=6n4w86gD3MHhiLeCiui9_+ePT7E2sSHdSRufUJdyA@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,348 +98,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, bin.meng@windriver.com, qemu-riscv@nongnu.org
+Cc: David Hildenbrand <david@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Alexander Bulekov <alxndr@bu.edu>,
+ qemu-arm <qemu-arm@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove gen_get_gpr, as the function becomes unused.
+On Mon, Aug 23, 2021 at 08:10:50PM +0100, Peter Maydell wrote:
+> On Mon, 23 Aug 2021 at 17:42, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+> >
+> > This series aim to kill a recent class of bug, the infamous
+> > "DMA reentrancy" issues found by Alexander while fuzzing.
+> >
+> > Introduce the 'bus_perm' field in MemTxAttrs, defining 3 bits:
+> >
+> > - MEMTXPERM_UNSPECIFIED (current default, unchanged behavior)
+> > - MEMTXPERM_UNRESTRICTED (allow list approach)
+> > - MEMTXPERM_RAM_DEVICE (example of deny list approach)
+> >
+> > If a transaction permission is not allowed (for example access
+> > to non-RAM device), we return the specific MEMTX_BUS_ERROR.
+> >
+> > Permissions are checked in after the flatview is resolved, and
+> > before the access is done, in a new function: flatview_access_allowed().
+> 
+> So I'm not going to say 'no' to this, because we have a real
+> recursive-device-handling problem and I don't have a better
+> idea to hand, but the thing about this is that we end up with
+> behaviour which is not what the real hardware does. I'm not
+> aware of any DMA device which has this kind of "can only DMA
+> to/from RAM, and aborts on access to a device" behaviour...
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/riscv/translate.c                | 13 ++---
- target/riscv/insn_trans/trans_rvv.c.inc | 74 +++++++------------------
- 2 files changed, 26 insertions(+), 61 deletions(-)
+Sorry for not being familiar with the context - is there more info regarding
+the problem to fix?  I'm looking at the links mentioned in the old series:
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index e44254e878..e356fc6c46 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -232,11 +232,6 @@ static TCGv get_gpr(DisasContext *ctx, int reg_num, DisasExtend ext)
-     g_assert_not_reached();
- }
- 
--static void gen_get_gpr(DisasContext *ctx, TCGv t, int reg_num)
--{
--    tcg_gen_mov_tl(t, get_gpr(ctx, reg_num, EXT_NONE));
--}
--
- static TCGv dest_gpr(DisasContext *ctx, int reg_num)
- {
-     if (reg_num == 0 || ctx->w) {
-@@ -637,9 +632,11 @@ void riscv_translate_init(void)
- {
-     int i;
- 
--    /* cpu_gpr[0] is a placeholder for the zero register. Do not use it. */
--    /* Use the gen_set_gpr and gen_get_gpr helper functions when accessing */
--    /* registers, unless you specifically block reads/writes to reg 0 */
-+    /*
-+     * cpu_gpr[0] is a placeholder for the zero register. Do not use it.
-+     * Use the gen_set_gpr and get_gpr helper functions when accessing regs,
-+     * unless you specifically block reads/writes to reg 0.
-+     */
-     cpu_gpr[0] = NULL;
- 
-     for (i = 1; i < 32; i++) {
-diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index de580c493c..fa451938f1 100644
---- a/target/riscv/insn_trans/trans_rvv.c.inc
-+++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -27,27 +27,22 @@ static bool trans_vsetvl(DisasContext *ctx, arg_vsetvl *a)
-         return false;
-     }
- 
--    s2 = tcg_temp_new();
--    dst = tcg_temp_new();
-+    s2 = get_gpr(ctx, a->rs2, EXT_ZERO);
-+    dst = dest_gpr(ctx, a->rd);
- 
-     /* Using x0 as the rs1 register specifier, encodes an infinite AVL */
-     if (a->rs1 == 0) {
-         /* As the mask is at least one bit, RV_VLEN_MAX is >= VLMAX */
-         s1 = tcg_constant_tl(RV_VLEN_MAX);
-     } else {
--        s1 = tcg_temp_new();
--        gen_get_gpr(ctx, s1, a->rs1);
-+        s1 = get_gpr(ctx, a->rs1, EXT_ZERO);
-     }
--    gen_get_gpr(ctx, s2, a->rs2);
-     gen_helper_vsetvl(dst, cpu_env, s1, s2);
-     gen_set_gpr(ctx, a->rd, dst);
-+
-     tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
-     lookup_and_goto_ptr(ctx);
-     ctx->base.is_jmp = DISAS_NORETURN;
--
--    tcg_temp_free(s1);
--    tcg_temp_free(s2);
--    tcg_temp_free(dst);
-     return true;
- }
- 
-@@ -60,23 +55,20 @@ static bool trans_vsetvli(DisasContext *ctx, arg_vsetvli *a)
-     }
- 
-     s2 = tcg_constant_tl(a->zimm);
--    dst = tcg_temp_new();
-+    dst = dest_gpr(ctx, a->rd);
- 
-     /* Using x0 as the rs1 register specifier, encodes an infinite AVL */
-     if (a->rs1 == 0) {
-         /* As the mask is at least one bit, RV_VLEN_MAX is >= VLMAX */
-         s1 = tcg_constant_tl(RV_VLEN_MAX);
-     } else {
--        s1 = tcg_temp_new();
--        gen_get_gpr(ctx, s1, a->rs1);
-+        s1 = get_gpr(ctx, a->rs1, EXT_ZERO);
-     }
-     gen_helper_vsetvl(dst, cpu_env, s1, s2);
-     gen_set_gpr(ctx, a->rd, dst);
-+
-     gen_goto_tb(ctx, 0, ctx->pc_succ_insn);
-     ctx->base.is_jmp = DISAS_NORETURN;
--
--    tcg_temp_free(s1);
--    tcg_temp_free(dst);
-     return true;
- }
- 
-@@ -173,7 +165,7 @@ static bool ldst_us_trans(uint32_t vd, uint32_t rs1, uint32_t data,
- 
-     dest = tcg_temp_new_ptr();
-     mask = tcg_temp_new_ptr();
--    base = tcg_temp_new();
-+    base = get_gpr(s, rs1, EXT_NONE);
- 
-     /*
-      * As simd_desc supports at most 256 bytes, and in this implementation,
-@@ -184,7 +176,6 @@ static bool ldst_us_trans(uint32_t vd, uint32_t rs1, uint32_t data,
-      */
-     desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
- 
--    gen_get_gpr(s, base, rs1);
-     tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
-     tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
- 
-@@ -192,7 +183,6 @@ static bool ldst_us_trans(uint32_t vd, uint32_t rs1, uint32_t data,
- 
-     tcg_temp_free_ptr(dest);
-     tcg_temp_free_ptr(mask);
--    tcg_temp_free(base);
-     gen_set_label(over);
-     return true;
- }
-@@ -330,12 +320,10 @@ static bool ldst_stride_trans(uint32_t vd, uint32_t rs1, uint32_t rs2,
- 
-     dest = tcg_temp_new_ptr();
-     mask = tcg_temp_new_ptr();
--    base = tcg_temp_new();
--    stride = tcg_temp_new();
-+    base = get_gpr(s, rs1, EXT_NONE);
-+    stride = get_gpr(s, rs2, EXT_NONE);
-     desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
- 
--    gen_get_gpr(s, base, rs1);
--    gen_get_gpr(s, stride, rs2);
-     tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
-     tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
- 
-@@ -343,8 +331,6 @@ static bool ldst_stride_trans(uint32_t vd, uint32_t rs1, uint32_t rs2,
- 
-     tcg_temp_free_ptr(dest);
-     tcg_temp_free_ptr(mask);
--    tcg_temp_free(base);
--    tcg_temp_free(stride);
-     gen_set_label(over);
-     return true;
- }
-@@ -458,10 +444,9 @@ static bool ldst_index_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
-     dest = tcg_temp_new_ptr();
-     mask = tcg_temp_new_ptr();
-     index = tcg_temp_new_ptr();
--    base = tcg_temp_new();
-+    base = get_gpr(s, rs1, EXT_NONE);
-     desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
- 
--    gen_get_gpr(s, base, rs1);
-     tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
-     tcg_gen_addi_ptr(index, cpu_env, vreg_ofs(s, vs2));
-     tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
-@@ -471,7 +456,6 @@ static bool ldst_index_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
-     tcg_temp_free_ptr(dest);
-     tcg_temp_free_ptr(mask);
-     tcg_temp_free_ptr(index);
--    tcg_temp_free(base);
-     gen_set_label(over);
-     return true;
- }
-@@ -589,10 +573,9 @@ static bool ldff_trans(uint32_t vd, uint32_t rs1, uint32_t data,
- 
-     dest = tcg_temp_new_ptr();
-     mask = tcg_temp_new_ptr();
--    base = tcg_temp_new();
-+    base = get_gpr(s, rs1, EXT_NONE);
-     desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
- 
--    gen_get_gpr(s, base, rs1);
-     tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
-     tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
- 
-@@ -600,7 +583,6 @@ static bool ldff_trans(uint32_t vd, uint32_t rs1, uint32_t data,
- 
-     tcg_temp_free_ptr(dest);
-     tcg_temp_free_ptr(mask);
--    tcg_temp_free(base);
-     gen_set_label(over);
-     return true;
- }
-@@ -665,10 +647,9 @@ static bool amo_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
-     dest = tcg_temp_new_ptr();
-     mask = tcg_temp_new_ptr();
-     index = tcg_temp_new_ptr();
--    base = tcg_temp_new();
-+    base = get_gpr(s, rs1, EXT_NONE);
-     desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
- 
--    gen_get_gpr(s, base, rs1);
-     tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
-     tcg_gen_addi_ptr(index, cpu_env, vreg_ofs(s, vs2));
-     tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
-@@ -678,7 +659,6 @@ static bool amo_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
-     tcg_temp_free_ptr(dest);
-     tcg_temp_free_ptr(mask);
-     tcg_temp_free_ptr(index);
--    tcg_temp_free(base);
-     gen_set_label(over);
-     return true;
- }
-@@ -862,8 +842,7 @@ static bool opivx_trans(uint32_t vd, uint32_t rs1, uint32_t vs2, uint32_t vm,
-     dest = tcg_temp_new_ptr();
-     mask = tcg_temp_new_ptr();
-     src2 = tcg_temp_new_ptr();
--    src1 = tcg_temp_new();
--    gen_get_gpr(s, src1, rs1);
-+    src1 = get_gpr(s, rs1, EXT_NONE);
- 
-     data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-     data = FIELD_DP32(data, VDATA, VM, vm);
-@@ -879,7 +858,6 @@ static bool opivx_trans(uint32_t vd, uint32_t rs1, uint32_t vs2, uint32_t vm,
-     tcg_temp_free_ptr(dest);
-     tcg_temp_free_ptr(mask);
-     tcg_temp_free_ptr(src2);
--    tcg_temp_free(src1);
-     gen_set_label(over);
-     return true;
- }
-@@ -905,15 +883,12 @@ do_opivx_gvec(DisasContext *s, arg_rmrr *a, GVecGen2sFn *gvec_fn,
- 
-     if (a->vm && s->vl_eq_vlmax) {
-         TCGv_i64 src1 = tcg_temp_new_i64();
--        TCGv tmp = tcg_temp_new();
- 
--        gen_get_gpr(s, tmp, a->rs1);
--        tcg_gen_ext_tl_i64(src1, tmp);
-+        tcg_gen_ext_tl_i64(src1, get_gpr(s, a->rs1, EXT_SIGN));
-         gvec_fn(s->sew, vreg_ofs(s, a->rd), vreg_ofs(s, a->rs2),
-                 src1, MAXSZ(s), MAXSZ(s));
- 
-         tcg_temp_free_i64(src1);
--        tcg_temp_free(tmp);
-         return true;
-     }
-     return opivx_trans(a->rd, a->rs1, a->rs2, a->vm, fn, s);
-@@ -1398,16 +1373,13 @@ do_opivx_gvec_shift(DisasContext *s, arg_rmrr *a, GVecGen2sFn32 *gvec_fn,
- 
-     if (a->vm && s->vl_eq_vlmax) {
-         TCGv_i32 src1 = tcg_temp_new_i32();
--        TCGv tmp = tcg_temp_new();
- 
--        gen_get_gpr(s, tmp, a->rs1);
--        tcg_gen_trunc_tl_i32(src1, tmp);
-+        tcg_gen_trunc_tl_i32(src1, get_gpr(s, a->rs1, EXT_NONE));
-         tcg_gen_extract_i32(src1, src1, 0, s->sew + 3);
-         gvec_fn(s->sew, vreg_ofs(s, a->rd), vreg_ofs(s, a->rs2),
-                 src1, MAXSZ(s), MAXSZ(s));
- 
-         tcg_temp_free_i32(src1);
--        tcg_temp_free(tmp);
-         return true;
-     }
-     return opivx_trans(a->rd, a->rs1, a->rs2, a->vm, fn, s);
-@@ -1665,8 +1637,7 @@ static bool trans_vmv_v_x(DisasContext *s, arg_vmv_v_x *a)
-         TCGLabel *over = gen_new_label();
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
- 
--        s1 = tcg_temp_new();
--        gen_get_gpr(s, s1, a->rs1);
-+        s1 = get_gpr(s, a->rs1, EXT_SIGN);
- 
-         if (s->vl_eq_vlmax) {
-             tcg_gen_gvec_dup_tl(s->sew, vreg_ofs(s, a->rd),
-@@ -1690,7 +1661,6 @@ static bool trans_vmv_v_x(DisasContext *s, arg_vmv_v_x *a)
-             tcg_temp_free_i64(s1_i64);
-         }
- 
--        tcg_temp_free(s1);
-         gen_set_label(over);
-         return true;
-     }
-@@ -2412,7 +2382,7 @@ static bool trans_vmpopc_m(DisasContext *s, arg_rmr *a)
- 
-         mask = tcg_temp_new_ptr();
-         src2 = tcg_temp_new_ptr();
--        dst = tcg_temp_new();
-+        dst = dest_gpr(s, a->rd);
-         desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
- 
-         tcg_gen_addi_ptr(src2, cpu_env, vreg_ofs(s, a->rs2));
-@@ -2423,7 +2393,6 @@ static bool trans_vmpopc_m(DisasContext *s, arg_rmr *a)
- 
-         tcg_temp_free_ptr(mask);
-         tcg_temp_free_ptr(src2);
--        tcg_temp_free(dst);
-         return true;
-     }
-     return false;
-@@ -2443,7 +2412,7 @@ static bool trans_vmfirst_m(DisasContext *s, arg_rmr *a)
- 
-         mask = tcg_temp_new_ptr();
-         src2 = tcg_temp_new_ptr();
--        dst = tcg_temp_new();
-+        dst = dest_gpr(s, a->rd);
-         desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
- 
-         tcg_gen_addi_ptr(src2, cpu_env, vreg_ofs(s, a->rs2));
-@@ -2454,7 +2423,6 @@ static bool trans_vmfirst_m(DisasContext *s, arg_rmr *a)
- 
-         tcg_temp_free_ptr(mask);
-         tcg_temp_free_ptr(src2);
--        tcg_temp_free(dst);
-         return true;
-     }
-     return false;
-@@ -2638,7 +2606,7 @@ static void vec_element_loadi(DisasContext *s, TCGv_i64 dest,
- static bool trans_vext_x_v(DisasContext *s, arg_r *a)
- {
-     TCGv_i64 tmp = tcg_temp_new_i64();
--    TCGv dest = tcg_temp_new();
-+    TCGv dest = dest_gpr(s, a->rd);
- 
-     if (a->rs1 == 0) {
-         /* Special case vmv.x.s rd, vs2. */
-@@ -2648,10 +2616,10 @@ static bool trans_vext_x_v(DisasContext *s, arg_r *a)
-         int vlmax = s->vlen >> (3 + s->sew);
-         vec_element_loadx(s, tmp, a->rs2, cpu_gpr[a->rs1], vlmax);
-     }
-+
-     tcg_gen_trunc_i64_tl(dest, tmp);
-     gen_set_gpr(s, a->rd, dest);
- 
--    tcg_temp_free(dest);
-     tcg_temp_free_i64(tmp);
-     return true;
- }
+https://lore.kernel.org/qemu-devel/20200903110831.353476-12-philmd@redhat.com/
+https://bugs.launchpad.net/qemu/+bug/1886362
+https://bugs.launchpad.net/qemu/+bug/1888606
+
+They seem all marked as fixed now.
+
+Thanks,
+
 -- 
-2.25.1
+Peter Xu
 
 
