@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 928DA3F53A3
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 01:27:27 +0200 (CEST)
-Received: from localhost ([::1]:47936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 432D73F53D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 01:55:04 +0200 (CEST)
+Received: from localhost ([::1]:55132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIJLh-0004DK-AC
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 19:27:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51682)
+	id 1mIJmQ-0001wO-SC
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 19:55:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mIJKF-0003Qw-Do
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 19:25:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60307)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mIJkC-0000Nd-Ui
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 19:52:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53729)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mIJKB-0001H2-Ot
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 19:25:54 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mIJk9-00022k-Nu
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 19:52:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629761149;
+ s=mimecast20190719; t=1629762760;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=RQsxcHMgMgVSP88O+3GbQMmdXsjiS0nHEiHsVlwGbpA=;
- b=AAkUgGaxuLtYZhL92HhoqRtGHWBW+i5LzP/nZctsDZENUaa2DJDHaydUdiDk4/OseCblt0
- XBXc8wcP8zlxu7H6H4ZUMKjCgxCrf76fsYh6QLahCdolMoqcvysdXgUA6dyqiTZT/Nmadk
- U3bb8aenfZRqDADP5FpPFNVdTIpIF08=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-sqcAdmBqNj6xmzGV9G9LVA-1; Mon, 23 Aug 2021 19:25:48 -0400
-X-MC-Unique: sqcAdmBqNj6xmzGV9G9LVA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- p2-20020a50c9420000b02903a12bbba1ebso9526787edh.6
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 16:25:48 -0700 (PDT)
+ bh=mSzsrUAgzzweme1fvECttoFybv5inhhDg6A3JRNW0pc=;
+ b=Hsk73qJAhILDJva1HDuLcQ7nr6G5oMH8tmQNE9czBS14f0OVKlC9qDiuaDrV3NIBSihSWX
+ RukkfzaYz7KS0y1TedBDlIng/kO90RLxHC9XeQJStyfyJ6HPIlAl9ELmfE6ToQ2D/5ZUVU
+ 5qcdyGccQhwxp9925U3/ogCQWU6JC54=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-323-spBy9xT8NgynVEhrH1bBNg-1; Mon, 23 Aug 2021 19:52:39 -0400
+X-MC-Unique: spBy9xT8NgynVEhrH1bBNg-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ gb24-20020a170907961800b005c158d37301so5320281ejc.17
+ for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 16:52:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=RQsxcHMgMgVSP88O+3GbQMmdXsjiS0nHEiHsVlwGbpA=;
- b=lQ9XUUYq/9PGz39Ru2xb/9ua3T7OZ6Cs4N8N40Z5l/tfjTzwYsXIpOQIV8ElbrPyqk
- KPaah6uzKDXZSs8sWE+MQsTDrn4KVP/Ub13G6UcgdeFXP+QznuPF10ifgKNed5z07rfR
- RmTwrDqjqOHoRA+MDMsxTiApMQgAMfc/LFVDX1Xh7obfwdtiN2w6+QSWqUwoARNdhv+w
- ald9qT6m0egW3InwH0mdfSj8CJRZHULyAsKQd7kWTYk+v6990LtgBfM2qsg+8f7q6NE8
- wiQ/p3pZgF63h1Sb0l7kD17KJ0psI/zFXnc9/J40Q3/qn9c3Ljb34fvWZmxAAQ9VSzzF
- LRUg==
-X-Gm-Message-State: AOAM530AOkidGuxlIG7KwXKsCMDPnUG4gFT6BuxDHKM9mTHqD6utzxpt
- M9TgOmc7LNGcMrZk507a8cvmRd0Rj9xD7ugUsIx7OrPwQHXQg9ZS3R/ygNaknQqiy1cyXhy0oon
- KQ1G8QeBxFvzfiyg=
-X-Received: by 2002:a17:906:30d8:: with SMTP id
- b24mr37653155ejb.358.1629761147330; 
- Mon, 23 Aug 2021 16:25:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzEp/JdLlDDdugWv2yVxed8gVRyDWiyieoWIW1ovzJiSHPGOfg7h+v/x/O8mKX0Dk5eXe+F0w==
-X-Received: by 2002:a17:906:30d8:: with SMTP id
- b24mr37653135ejb.358.1629761147040; 
- Mon, 23 Aug 2021 16:25:47 -0700 (PDT)
+ bh=mSzsrUAgzzweme1fvECttoFybv5inhhDg6A3JRNW0pc=;
+ b=f+eTUrg6DW0Aes+shauLLGuap+iuUP8QmaXzxzP/Zy3GduG+q2x7mjc3Ux+1E1F6ZA
+ sHFRILHXakcZOeAcZ+8xTWt5TyQ8J9Uo60/eheMTPMaL21rSc68WhDOKBlTg4GZuyyfb
+ 7wB80CX/+Nmd7s9kTCiURWfsJ9t40OoXiM7nHW/EZe91PsMHFfusvObJY05XEtLGxPV2
+ PeMt2U2aNYHRSP3T25p6Zv+u/Z0WnCUpzy0Bh5DTqPddSZX1J1X+5sBtyVRNKjvZcfvZ
+ ruexbAIW0EXF9TXqEme/y/V92Pw+EYjXsTmM1iApWaaoBaVKbDAwZfGPOy6MfADlb9K9
+ jTTQ==
+X-Gm-Message-State: AOAM531MlgrhH2IID9Yh+E5v4AGGm/fHeOnLglsyhlf4FRDAaojyJUGF
+ Hq9HBgUJabEvKVbr8VH3PeRbkUf8o6PgQThWtxSNXqDPnqy1BdxS+LYMmOBSOcLzaIBzmP4XAHT
+ 9QdWquDyTsDuK0FI=
+X-Received: by 2002:a05:6402:d4f:: with SMTP id
+ ec15mr40849435edb.353.1629762757848; 
+ Mon, 23 Aug 2021 16:52:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyX89OcCjO3ZNCngRsj0o3X3mnmA3Rd52ogt/3B0v5YDLQz3ALKqMZt7xPzBRc0slN3F6WMbg==
+X-Received: by 2002:a05:6402:d4f:: with SMTP id
+ ec15mr40849409edb.353.1629762757610; 
+ Mon, 23 Aug 2021 16:52:37 -0700 (PDT)
 Received: from redhat.com ([2.55.137.225])
- by smtp.gmail.com with ESMTPSA id x9sm8082829edj.95.2021.08.23.16.25.45
+ by smtp.gmail.com with ESMTPSA id v8sm8313735ejy.79.2021.08.23.16.52.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Aug 2021 16:25:46 -0700 (PDT)
-Date: Mon, 23 Aug 2021 19:25:43 -0400
+ Mon, 23 Aug 2021 16:52:36 -0700 (PDT)
+Date: Mon, 23 Aug 2021 19:52:31 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [PATCH v2 1/1] virtio: failover: define the default device to
- use in case of error
-Message-ID: <20210823192119-mutt-send-email-mst@kernel.org>
-References: <20210809171342.18146-1-lvivier@redhat.com>
- <20210809171342.18146-2-lvivier@redhat.com>
+To: Yanan Wang <wangyanan55@huawei.com>
+Subject: Re: [PATCH for-6.2 v5 5/5] hw/acpi/aml-build: Generate PPTT table
+Message-ID: <20210823194718-mutt-send-email-mst@kernel.org>
+References: <20210805123921.62540-1-wangyanan55@huawei.com>
+ <20210805123921.62540-6-wangyanan55@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20210809171342.18146-2-lvivier@redhat.com>
+In-Reply-To: <20210805123921.62540-6-wangyanan55@huawei.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,7 +81,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,152 +94,197 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Jens Freimann <jfreimann@redhat.com>,
- qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ qemu-devel@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ wanghaibin.wang@huawei.com, Igor Mammedov <imammedo@redhat.com>,
+ Salil Mehta <salil.mehta@huawei.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 09, 2021 at 07:13:42PM +0200, Laurent Vivier wrote:
-> If the guest driver doesn't support the STANDBY feature, by default
-> we keep the virtio-net device and don't hotplug the VFIO device,
-> but in some cases, user can prefer to use the VFIO device rather
-> than the virtio-net one. We can't unplug the virtio-net device
-> (because on migration it is expected on the destination side)
-> but we can force the guest driver to be disabled. Then, we can
-> hotplug the VFIO device that will be unplugged before the migration
-> like in the normal failover migration but without the failover device.
+On Thu, Aug 05, 2021 at 08:39:21PM +0800, Yanan Wang wrote:
+> From: Andrew Jones <drjones@redhat.com>
 > 
-> This patch adds a new property to virtio-net device: "failover-default".
+> Add the Processor Properties Topology Table (PPTT) to expose
+> CPU topology information defined by users to ACPI guests.
 > 
-> By default, "failover-default" is set to true and thus the default NIC
-> to use if the failover cannot be enabled is the virtio-net device
-> (this is what is done until now with the virtio-net failover).
+> Note, a DT-boot Linux guest with a non-flat CPU topology will
+> see socket and core IDs being sequential integers starting
+> from zero, which is different from ACPI-boot Linux guest,
+> e.g. with -smp 4,sockets=2,cores=2,threads=1
 > 
-> If "failover-default" is set to false, in case of error, the virtio-net
-> device is not the default anymore and the failover primary device
-> is used instead.
+> a DT boot produces:
 > 
-> If the STANDBY feature is supported by guest and host, the virtio-net
-> failover acts as usual.
+>  cpu:  0 package_id:  0 core_id:  0
+>  cpu:  1 package_id:  0 core_id:  1
+>  cpu:  2 package_id:  1 core_id:  0
+>  cpu:  3 package_id:  1 core_id:  1
 > 
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> an ACPI boot produces:
+> 
+>  cpu:  0 package_id: 36 core_id:  0
+>  cpu:  1 package_id: 36 core_id:  1
+>  cpu:  2 package_id: 96 core_id:  2
+>  cpu:  3 package_id: 96 core_id:  3
+> 
+> This is due to several reasons:
+> 
+>  1) DT cpu nodes do not have an equivalent field to what the PPTT
+>     ACPI Processor ID must be, i.e. something equal to the MADT CPU
+>     UID or equal to the UID of an ACPI processor container. In both
+>     ACPI cases those are platform dependant IDs assigned by the
+>     vendor.
+> 
+>  2) While QEMU is the vendor for a guest, if the topology specifies
+>     SMT (> 1 thread), then, with ACPI, it is impossible to assign a
+>     core-id the same value as a package-id, thus it is not possible
+>     to have package-id=0 and core-id=0. This is because package and
+>     core containers must be in the same ACPI namespace and therefore
+>     must have unique UIDs.
+> 
+>  3) ACPI processor containers are not mandatorily required for PPTT
+>     tables to be used and, due to the limitations of which IDs are
+>     selected described above in (2), they are not helpful for QEMU,
+>     so we don't build them with this patch. In the absence of them,
+>     Linux assigns its own unique IDs. The maintainers have chosen not
+>     to use counters from zero, but rather ACPI table offsets, which
+>     explains why the numbers are so much larger than with DT.
+> 
+>  4) When there is no SMT (threads=1) the core IDs for ACPI boot guests
+>     match the logical CPU IDs, because these IDs must be equal to the
+>     MADT CPU UID (as no processor containers are present), and QEMU
+>     uses the logical CPU ID for these MADT IDs.
+> 
+> So in summary, with QEMU as vender for the guest, we use sequential
 
-Three things I dislike here. First this is limited to 1.0.
-OTOH this is all about legacy guests without STANDBY,
-would be nicer to support legacy.
-Second: the reason we don't want both
-virtio and VFIO is because their mac addresses match.
-This tends to confuse guest tools.
-I don't see this solved here.
+vendor?
 
-Proposal: management supplies an extra dummy mac.
-This mac is used with virtio and its link it down.
-Link state reporting is also optional but
-it has been there for many years.
-If link state reporting is disabled then maybe do not
-expose VFIO after all.
-
-Third thing is option name. Does not hint at the fact that
-for legacy guests we do not get failover at all.
-Let's try to be more explicit please.
-
-
-
+> integers starting from zero for non-leaf nodes without valid ID flag,
+> so that guest will ignore them and use table offsets as unique IDs.
+> And we use logical CPU IDs for leaf nodes to be consistent with MADT.
+> 
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> Co-developed-by: Yanan Wang <wangyanan55@huawei.com>
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 > ---
->  include/hw/virtio/virtio-net.h |  1 +
->  hw/net/virtio-net.c            | 49 +++++++++++++++++++++++++++++-----
->  2 files changed, 44 insertions(+), 6 deletions(-)
+>  hw/acpi/aml-build.c         | 50 +++++++++++++++++++++++++++++++++++++
+>  hw/arm/virt-acpi-build.c    |  8 +++++-
+>  include/hw/acpi/aml-build.h |  3 +++
+>  3 files changed, 60 insertions(+), 1 deletion(-)
 > 
-> diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
-> index 824a69c23f06..ab77930a327e 100644
-> --- a/include/hw/virtio/virtio-net.h
-> +++ b/include/hw/virtio/virtio-net.h
-> @@ -208,6 +208,7 @@ struct VirtIONet {
->      /* primary failover device is hidden*/
->      bool failover_primary_hidden;
->      bool failover;
-> +    bool failover_default;
->      DeviceListener primary_listener;
->      Notifier migration_state;
->      VirtioNetRssData rss_data;
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 16d20cdee52a..972c03232a96 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -935,12 +935,23 @@ static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
->          memset(n->vlans, 0xff, MAX_VLAN >> 3);
->      }
->  
-> -    if (virtio_has_feature(features, VIRTIO_NET_F_STANDBY)) {
-> -        qapi_event_send_failover_negotiated(n->netclient_name);
-> -        qatomic_set(&n->failover_primary_hidden, false);
-> -        failover_add_primary(n, &err);
-> -        if (err) {
-> -            warn_report_err(err);
-> +    /*
-> +     * if the virtio-net driver has the STANDBY feature, we can plug the primary
-> +     * if not but is not the default failover device,
-> +     * we need to plug the primary alone and the virtio-net driver will
-> +     * be disabled in the validate_features() function but validate_features()
-> +     * is only available with virtio 1.0 spec
-> +     */
-> +    if (n->failover) {
-> +        if (virtio_has_feature(features, VIRTIO_NET_F_STANDBY) ||
-> +           (virtio_has_feature(features, VIRTIO_F_VERSION_1) &&
-> +            !n->failover_default)) {
-> +            qapi_event_send_failover_negotiated(n->netclient_name);
-> +            qatomic_set(&n->failover_primary_hidden, false);
-> +            failover_add_primary(n, &err);
-> +            if (err) {
-> +                warn_report_err(err);
-> +            }
->          }
+> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> index 9fa5024414..aa61c9651e 100644
+> --- a/hw/acpi/aml-build.c
+> +++ b/hw/acpi/aml-build.c
+> @@ -1946,6 +1946,56 @@ void build_processor_hierarchy_node(GArray *tbl, uint32_t flags,
 >      }
 >  }
-> @@ -3625,9 +3636,34 @@ static Property virtio_net_properties[] = {
->      DEFINE_PROP_INT32("speed", VirtIONet, net_conf.speed, SPEED_UNKNOWN),
->      DEFINE_PROP_STRING("duplex", VirtIONet, net_conf.duplex_str),
->      DEFINE_PROP_BOOL("failover", VirtIONet, failover, false),
-> +    DEFINE_PROP_BOOL("failover-default", VirtIONet, failover_default, true),
->      DEFINE_PROP_END_OF_LIST(),
->  };
 >  
-> +/* validate_features() is only available with VIRTIO_F_VERSION_1 */
-> +static int failover_validate_features(VirtIODevice *vdev)
+> +/* ACPI 6.2: 5.2.29 Processor Properties Topology Table (PPTT) */
+> +void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+> +                const char *oem_id, const char *oem_table_id)
 > +{
-> +    VirtIONet *n = VIRTIO_NET(vdev);
+> +    int pptt_start = table_data->len;
+> +    int uid = 0;
+> +    int socket;
 > +
-> +    /*
-> +     * If the guest driver doesn't support the STANDBY feature, by default
-> +     * we keep the virtio-net device and don't hotplug the VFIO device,
-> +     * but in some cases, user can prefer to use the VFIO device rather
-> +     * than the virtio-net one. We can't unplug the virtio-net device
-> +     * (because on migration it is expected on the destination side)
-> +     * but we can force the guest driver to be disabled. In this case, We can
-> +     * hotplug the VFIO device that will be unplugged before the migration
-> +     * like in the normal failover migration but without the failover device.
-> +     */
-> +    if (n->failover && !n->failover_default &&
-> +        !virtio_vdev_has_feature(vdev, VIRTIO_NET_F_STANDBY)) {
-> +        /* disable virtio-net */
-> +        return -ENODEV;
+> +    acpi_data_push(table_data, sizeof(AcpiTableHeader));
+> +
+> +    for (socket = 0; socket < ms->smp.sockets; socket++) {
+> +        uint32_t socket_offset = table_data->len - pptt_start;
+> +        int core;
+> +
+> +        build_processor_hierarchy_node(
+> +            table_data,
+> +            (1 << 0), /* ACPI 6.2 - Physical package */
+
+A bit better to be detailed:
+
+/* Physical package - represents the boundary of a physical package */
+
+
+> +            0, socket, NULL, 0);
+> +
+> +        for (core = 0; core < ms->smp.cores; core++) {
+> +            uint32_t core_offset = table_data->len - pptt_start;
+> +            int thread;
+> +
+> +            if (ms->smp.threads > 1) {
+> +                build_processor_hierarchy_node(table_data, 0, socket_offset,
+
+and here:
+/* Physical package - does not represent the boundary of a physical package */
+
+
+> +                                               core, NULL, 0);
+> +
+> +                for (thread = 0; thread < ms->smp.threads; thread++) {
+> +                    build_processor_hierarchy_node(
+> +                        table_data,
+> +                        (1 << 1) | /* ACPI 6.2 - ACPI Processor ID valid */
+> +                        (1 << 2) | /* ACPI 6.3 - Processor is a Thread */
+> +                        (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
+> +                        core_offset, uid++, NULL, 0);
+> +                }
+> +            } else {
+> +                build_processor_hierarchy_node(
+> +                    table_data,
+> +                    (1 << 1) | /* ACPI 6.2 - ACPI Processor ID valid */
+> +                    (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
+> +                    socket_offset, uid++, NULL, 0);
+> +            }
+> +        }
 > +    }
 > +
-> +    return 0;
+> +    build_header(linker, table_data,
+> +                 (void *)(table_data->data + pptt_start), "PPTT",
+> +                 table_data->len - pptt_start, 2, oem_id, oem_table_id);
 > +}
 > +
->  static void virtio_net_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(klass);
-> @@ -3651,6 +3687,7 @@ static void virtio_net_class_init(ObjectClass *klass, void *data)
->      vdc->post_load = virtio_net_post_load_virtio;
->      vdc->vmsd = &vmstate_virtio_net_device;
->      vdc->primary_unplug_pending = primary_unplug_pending;
-> +    vdc->validate_features = failover_validate_features;
->  }
+>  /* build rev1/rev3/rev5.1 FADT */
+>  void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+>                  const char *oem_id, const char *oem_table_id)
+> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+> index 037cc1fd82..db23306a06 100644
+> --- a/hw/arm/virt-acpi-build.c
+> +++ b/hw/arm/virt-acpi-build.c
+> @@ -790,13 +790,19 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+>      dsdt = tables_blob->len;
+>      build_dsdt(tables_blob, tables->linker, vms);
 >  
->  static const TypeInfo virtio_net_info = {
+> -    /* FADT MADT GTDT MCFG SPCR pointed to by RSDT */
+> +    /* FADT MADT PPTT GTDT MCFG SPCR pointed to by RSDT */
+>      acpi_add_table(table_offsets, tables_blob);
+>      build_fadt_rev5(tables_blob, tables->linker, vms, dsdt);
+>  
+>      acpi_add_table(table_offsets, tables_blob);
+>      build_madt(tables_blob, tables->linker, vms);
+>  
+> +    if (!vmc->no_cpu_topology) {
+> +        acpi_add_table(table_offsets, tables_blob);
+> +        build_pptt(tables_blob, tables->linker, ms,
+> +                   vms->oem_id, vms->oem_table_id);
+> +    }
+> +
+>      acpi_add_table(table_offsets, tables_blob);
+>      build_gtdt(tables_blob, tables->linker, vms);
+>  
+> diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
+> index ea74b8f6ed..6c29f853cd 100644
+> --- a/include/hw/acpi/aml-build.h
+> +++ b/include/hw/acpi/aml-build.h
+> @@ -466,6 +466,9 @@ void build_processor_hierarchy_node(GArray *tbl, uint32_t flags,
+>                                      uint32_t parent, uint32_t id,
+>                                      uint32_t *priv_rsrc, uint32_t priv_num);
+>  
+> +void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+> +                const char *oem_id, const char *oem_table_id);
+> +
+>  void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+>                  const char *oem_id, const char *oem_table_id);
+>  
 > -- 
-> 2.31.1
+> 2.19.1
 
 
