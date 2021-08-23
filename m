@@ -2,73 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A2A73F4B90
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 15:19:50 +0200 (CEST)
-Received: from localhost ([::1]:59860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38B613F4B8E
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 15:19:23 +0200 (CEST)
+Received: from localhost ([::1]:59026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mI9rh-0004Mp-BK
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 09:19:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55124)
+	id 1mI9rF-0003p0-TQ
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 09:19:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mI9n6-0008LP-Fv; Mon, 23 Aug 2021 09:15:04 -0400
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:36625)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mI9n4-00027s-QU; Mon, 23 Aug 2021 09:15:04 -0400
-Received: by mail-yb1-xb2e.google.com with SMTP id f15so5694094ybg.3;
- Mon, 23 Aug 2021 06:15:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=spKdm9geKtE/E5yhEuEPimYw92h9jyC8g4zAbiYi/Xc=;
- b=DY86dlZqQPXDGKsl9c20bhgOKqHvcQXr8wbpP1BJge1vHTOJMnyKdFnhpszq8Mutsw
- Xa1gEeJYKJT45/7lVZ4OrlkqxXAkMZfleXpn7uanAj6J9wHe7+wD3mPMp2dECKo8ydWX
- rlB+IjQDvSw8ANm2re+jHBXDKUxd6i/+A5XJnZqEac/ZKQgaImO32oqOLK21etJI68DS
- WSYc1OvisvL4EowX5Y4voqJQKMNx8nf27v01f5QkbGV3yzbFQmA5PfbLrobPUGRt+KGN
- OCTRSe/k3uUVMGUa8IrWljDlG3qVcaC20lVeBgvkwDGMa2syxJkAj1Sz6FPOWWZQUrbh
- Au3Q==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mI9pr-0002Oz-8b
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 09:17:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34747)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mI9pl-000421-W5
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 09:17:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629724668;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5YaOf3HB14YM6CCnYxXqbgkxIksp59+XJqdWJTA3Zco=;
+ b=h7p95nU68BAq5kZBcyAXdis8w/Wz9D6Pu07F8rokmJi5AVThBGQr6IbNq2Zkr8luW2JNMJ
+ CNG4XGS0JvbwIPgOXwqHM+W5DHcjKpzKlHSeSK9PnOTRJjzDgpef4Qz5/7KhNjNKi/s1Hw
+ N9AAwd6q4UMcXCQ+fHCc7GK7WTWsbcU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-UmDubWbLOJykHzK70rX_vg-1; Mon, 23 Aug 2021 09:17:47 -0400
+X-MC-Unique: UmDubWbLOJykHzK70rX_vg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ a9-20020a0560000509b029015485b95d0cso5069213wrf.5
+ for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 06:17:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=spKdm9geKtE/E5yhEuEPimYw92h9jyC8g4zAbiYi/Xc=;
- b=ZB0J01vFcuODCuhZoFTv0+SnvYmFV1whaykl8Rlp8jakiekrv7lOhpk1lq8lR8SXE1
- e91mmSmzJOGw4DWgV9knJB/LrtfqZZbHMWMvRFuPRqcz0YWUI6CagoT87uIdccnF9jT/
- 21dtcqK/WPMOCotvRrCEQGODTS005HnLS4PsihupcEJALijdi/1wIKwEUXu166dIpsYs
- GuQG1nxTtNo9o6xnvGbmC2IY8DkudepF/296IKhfxaSgMr6j3/lfp4AZyikVkEsx95Of
- fql0w1bdV7lx5rFHyFELARA2reB7zEt1JooOmoOpjvt0GOlUJqS89La1bhULY02uiXry
- vYSw==
-X-Gm-Message-State: AOAM533IemDNooXIQ17G6thtC0H1ts5IhKE4+zOGX8b4ZxoMdmA0s+zW
- 9nPjJeB6vCRny4QyIZ0V5cdI7YXGA0gMxhWkXMQ=
-X-Google-Smtp-Source: ABdhPJzkb27hVEvYlQA33ZKvEC3WMQ+8RrfOZ7Cie01evw2oP3yJgxF8I67P0jtI6vpoViZJ4+SNrH/xnMzLB75tj/8=
-X-Received: by 2002:a5b:304:: with SMTP id j4mr42814204ybp.314.1629724501331; 
- Mon, 23 Aug 2021 06:15:01 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5YaOf3HB14YM6CCnYxXqbgkxIksp59+XJqdWJTA3Zco=;
+ b=BuIYoa8KNS06aaFkZ/H8bRPvaeiYsNrLW/FEksEVY9zIyKQY4KOypEtx8sArNMJkbN
+ /9PyVb17Pm0BKvuE/gfyaR+1d6yGL73gtGCSUw8YD70c39LmvZZXFAEGSJ4u/VzC68ve
+ SkqP3cf3hGWXVbhgdEYJuYiWIOEN+sxvNpoZxGp8bH4phFZGa3Upff00Dqwq6M1ds40U
+ I3Jw6wXMqgSXJlfrio4+dsFR6Gck3P6o4l9RDkyWPL6B5PWRX+KTYv2Ls4tSTMZWdxXR
+ Yet35aixiK+WqkkIq5G8CTeqe0ij0Dj+XsnwwHPLrrqrdX0zg58QxPG1yfleN+wbkUM6
+ ixjQ==
+X-Gm-Message-State: AOAM531wBzN1/4r0TSrtXMYcyqt1xAWJAEFCGWyiFQCj9XD0EiLtkAqm
+ nlL7XZhE6Ds3DfR25Ps00vA+fN/N9FjjpqKwise1/f7Uu8NJ/44qdnDvZonVcipU37fT/I5HOeQ
+ 45zuHUSO+w5TYhTM=
+X-Received: by 2002:a05:600c:350c:: with SMTP id
+ h12mr15821280wmq.88.1629724666310; 
+ Mon, 23 Aug 2021 06:17:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzf7QIUe+D5kX+xQrjkgAoYHR+XJJ1gb+PHRwgANtZg2KIbN8ONJy/MdPDN+dCr2Au/RROIDA==
+X-Received: by 2002:a05:600c:350c:: with SMTP id
+ h12mr15821236wmq.88.1629724666064; 
+ Mon, 23 Aug 2021 06:17:46 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id y14sm15215320wrs.29.2021.08.23.06.17.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Aug 2021 06:17:45 -0700 (PDT)
+Subject: Re: [PATCH v7 05/15] machine: Improve the error reporting of smp
+ parsing
+To: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+References: <20210823122804.7692-1-wangyanan55@huawei.com>
+ <20210823122804.7692-6-wangyanan55@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <c5a2bacc-ea23-6de7-2dd5-f0451034d2a8@redhat.com>
+Date: Mon, 23 Aug 2021 15:17:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210823020813.25192-1-bmeng.cn@gmail.com>
- <20210823020813.25192-3-bmeng.cn@gmail.com>
- <7997927e-3a66-aa0e-6099-f1efe3cbb9ee@amsat.org>
- <CAEUhbmVVRKebU-=k0WaxpaRe-E_UsLy_82K0PzRE=7xNHp9hGQ@mail.gmail.com>
- <abf7ac8e-c5bc-e239-ab9b-a9d868b477dc@amsat.org>
-In-Reply-To: <abf7ac8e-c5bc-e239-ab9b-a9d868b477dc@amsat.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 23 Aug 2021 21:14:50 +0800
-Message-ID: <CAEUhbmUbeYzbO0dnj2d6A58_Yb=Z9bWFd=1U=iP4GZTqDuz6xQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] hw/char: cadence_uart: Disable transmit when input
- clock is disabled
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210823122804.7692-6-wangyanan55@huawei.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -55
+X-Spam_score: -5.6
+X-Spam_bar: -----
+X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.023, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,135 +102,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ wanghaibin.wang@huawei.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 23, 2021 at 6:43 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> On 8/23/21 11:57 AM, Bin Meng wrote:
-> > On Mon, Aug 23, 2021 at 4:14 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsa=
-t.org> wrote:
-> >>
-> >> On 8/23/21 4:08 AM, Bin Meng wrote:
-> >>> At present when input clock is disabled, any character transmitted
-> >>> to tx fifo can still show on the serial line, which is wrong.
-> >>>
-> >>> Fixes: b636db306e06 ("hw/char/cadence_uart: add clock support")
-> >>> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> >>> ---
-> >>>
-> >>>  hw/char/cadence_uart.c | 5 +++++
-> >>>  1 file changed, 5 insertions(+)
-> >>>
-> >>> diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
-> >>> index b4b5e8a3ee..154be34992 100644
-> >>> --- a/hw/char/cadence_uart.c
-> >>> +++ b/hw/char/cadence_uart.c
-> >>> @@ -327,6 +327,11 @@ static gboolean cadence_uart_xmit(void *do_not_u=
-se, GIOCondition cond,
-> >>>  static void uart_write_tx_fifo(CadenceUARTState *s, const uint8_t *b=
-uf,
-> >>>                                 int size)
-> >>>  {
-> >>> +    /* ignore characters when unclocked or in reset */
-> >>> +    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s)=
-)) {
-> >>> +        return;
-> >>> +    }
-> >>
-> >> Incorrect handler?
-> >>
-> >
-> > Sorry I don't get it. This patch is for the Tx path, while patch #3 is
-> > for the Rx path.
->
-> Sorry, I was not totally awake o_O
->
-> -- >8 --
-> diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
-> index b4b5e8a3ee0..78990ea79dc 100644
-> --- a/hw/char/cadence_uart.c
-> +++ b/hw/char/cadence_uart.c
-> @@ -403,15 +403,20 @@ static void uart_read_rx_fifo(CadenceUARTState *s,
-> uint32_t *c)
->      uart_update_status(s);
->  }
->
-> -static void uart_write(void *opaque, hwaddr offset,
-> -                          uint64_t value, unsigned size)
-> +static MemTxResult uart_write(void *opaque, hwaddr offset, uint64_t valu=
-e,
-> +                              unsigned size, MemTxAttrs attrs)
->  {
->      CadenceUARTState *s =3D opaque;
->
-> +    /* ignore characters when unclocked or in reset */
-> +    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
-> +        return MEMTX_DECODE_ERROR;
-> +    }
-> +
->      DB_PRINT(" offset:%x data:%08x\n", (unsigned)offset, (unsigned)value=
-);
->      offset >>=3D 2;
->      if (offset >=3D CADENCE_UART_R_MAX) {
-> -        return;
-> +        return MEMTX_OK;
+On 8/23/21 2:27 PM, Yanan Wang wrote:
+> We have two requirements for a valid SMP configuration:
+> the product of "sockets * cores * threads" must represent all the
+> possible cpus, i.e., max_cpus, and then must include the initially
+> present cpus, i.e., smp_cpus.
+> 
+> So we only need to ensure 1) "sockets * cores * threads == maxcpus"
+> at first and then ensure 2) "maxcpus >= cpus". With a reasonable
+> order of the sanity check, we can simplify the error reporting code.
+> When reporting an error message we also report the exact value of
+> each topology member to make users easily see what's going on.
+> 
+> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+> Reviewed-by: Andrew Jones <drjones@redhat.com>
+> Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+> ---
+>  hw/core/machine.c | 22 +++++++++-------------
+>  hw/i386/pc.c      | 24 ++++++++++--------------
+>  2 files changed, 19 insertions(+), 27 deletions(-)
+> 
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 85908abc77..093c0d382d 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -779,25 +779,21 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>      maxcpus = maxcpus > 0 ? maxcpus : sockets * cores * threads;
+>      cpus = cpus > 0 ? cpus : maxcpus;
+>  
+> -    if (sockets * cores * threads < cpus) {
+> -        error_setg(errp, "cpu topology: "
+> -                   "sockets (%u) * cores (%u) * threads (%u) < "
+> -                   "smp_cpus (%u)",
+> -                   sockets, cores, threads, cpus);
+> +    if (sockets * cores * threads != maxcpus) {
+> +        error_setg(errp, "Invalid CPU topology: "
+> +                   "product of the hierarchy must match maxcpus: "
+> +                   "sockets (%u) * cores (%u) * threads (%u) "
+> +                   "!= maxcpus (%u)",
+> +                   sockets, cores, threads, maxcpus);
+>          return;
 >      }
->      switch (offset) {
->      case R_IER: /* ier (wts imr) */
-> @@ -458,14 +463,21 @@ static void uart_write(void *opaque, hwaddr offset,
->          break;
->      }
->      uart_update_status(s);
-> +
-> +    return MEMTX_OK;
->  }
->
-> -static uint64_t uart_read(void *opaque, hwaddr offset,
-> -        unsigned size)
-> +static MemTxResult uart_read(void *opaque, hwaddr offset, uint64_t *data=
-,
-> +                             unsigned size, MemTxAttrs attrs)
->  {
->      CadenceUARTState *s =3D opaque;
->      uint32_t c =3D 0;
->
-> +    /* ignore characters when unclocked or in reset */
-> +    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
-> +        return MEMTX_DECODE_ERROR;
-> +    }
-> +
->      offset >>=3D 2;
->      if (offset >=3D CADENCE_UART_R_MAX) {
->          c =3D 0;
-> @@ -476,12 +488,14 @@ static uint64_t uart_read(void *opaque, hwaddr offs=
-et,
->      }
->
->      DB_PRINT(" offset:%x data:%08x\n", (unsigned)(offset << 2),
-> (unsigned)c);
-> -    return c;
-> +    *data =3D c;
-> +
-> +    return MEMTX_OK;
->  }
->
->  static const MemoryRegionOps uart_ops =3D {
-> -    .read =3D uart_read,
-> -    .write =3D uart_write,
-> +    .read_with_attrs =3D uart_read,
-> +    .write_with_attrs =3D uart_write,
->      .endianness =3D DEVICE_NATIVE_ENDIAN,
->  };
 
-Thanks, but I think the above change should be a totally separate patch.
+Thinking about scalability, MachineClass could have a
+parse_cpu_topology() handler, and this would be the
+generic one. Principally because architectures don't
+use the same terms, and die/socket/core/thread arrangement
+is machine specific (besides being arch-spec).
+Not a problem as of today, but the way we try to handle
+this generically seems over-engineered to me.
 
-Regards,
-Bin
+[unrelated to this particular patch]
+
 
