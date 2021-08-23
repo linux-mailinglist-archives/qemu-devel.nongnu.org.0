@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F029A3F4713
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 11:03:25 +0200 (CEST)
-Received: from localhost ([::1]:40126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ED963F4717
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 11:05:14 +0200 (CEST)
+Received: from localhost ([::1]:43472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mI5rT-00074Y-AN
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 05:03:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58684)
+	id 1mI5t9-0000zy-7d
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 05:05:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mI5oz-0006JU-FH
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 05:00:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45016)
+ id 1mI5r7-0007oK-Go
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 05:02:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57443)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mI5ot-0000H1-QK
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 05:00:44 -0400
+ id 1mI5r5-0002Eq-RY
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 05:02:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629709238;
+ s=mimecast20190719; t=1629709375;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=vhF2pJaRmzUvp6i/qKuTKfFlUrAyN5aAJStLoZuRGCk=;
- b=gUWyJ+TCb3TRaZESJ+9C4j90WD/eToOTnKLlxgE4cvcTNXI9QqfC7Uu8Bdm+5p1rc7qRqj
- mAXR+WQolvcRLBOGFmzCihhZIDGiz8H4V00kQ58qptDz5oHHuu3ngbS7fHV01AYZhshq8h
- Vtrf+zVJMPttBz7mDrlD8uRjlW9Becs=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-318-oEHvfCkWNjqUcDJeHLRnng-1; Mon, 23 Aug 2021 05:00:37 -0400
-X-MC-Unique: oEHvfCkWNjqUcDJeHLRnng-1
-Received: by mail-ed1-f72.google.com with SMTP id
- v13-20020a056402174d00b003c25d6b2f13so1680846edx.4
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 02:00:37 -0700 (PDT)
+ bh=pXbxD27RNJn6Zb7UmsWDzEYVociFGo5aey7QVDOayio=;
+ b=EwDhrSkncjXdCsspgwRs+/RQl+y/D+Yr6htMrif1bVOGg3LRFwn9+dv5v7IlBxERhLpNco
+ gZ6NTIeAxeuyyZzXT44+mFkmJAA6zphYCzmrLbS5fvRZhuBbHRgasl3fPaH6H0mXgISCRl
+ Ds0CLZqPpBOm83QEOYqmxXgtobRXUlg=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-476-FoFPjh1NMIG1ZUbZbXKOPw-1; Mon, 23 Aug 2021 05:02:50 -0400
+X-MC-Unique: FoFPjh1NMIG1ZUbZbXKOPw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ d12-20020a50fe8c0000b02903a4b519b413so8414619edt.9
+ for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 02:02:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=vhF2pJaRmzUvp6i/qKuTKfFlUrAyN5aAJStLoZuRGCk=;
- b=jrzZNm8ywElfA9CduAHmfDmfp+j68IFdbX3+/zdqqmFsl+NiB8USV4kHExp2SZVbyg
- DXUD0TBxADF7QlDdrTL8hferXBooxjjsLXyHszN2bmvm++56zA8iow42PKlHeeosyD3+
- C7cfHG4cdo0VZEznv2hc9doartPwYZg371m7UwhdmVBpaG6RBc491pO0xGmC9R65752t
- eULGmLyXGos9KOfODTwsg9YVGjPWTs2SxfT81vAXBMknTZs8Ja5t4KA6Q2YyRiCM7JQo
- qqkkU6jyln5v+/KpwsROSFFLKERtiQrVvkE4EW39X2Y0pvNoUDDEIceWCYJji9oFiFuY
- 15/w==
-X-Gm-Message-State: AOAM530UJDvUtY2+MtT9rx6y3TluT55DnjPe94zMZ0JuGH0RSsRTscNP
- v4ioWR1cqiuTjjykPxQ6kiOsocrkKwubKEnBfnDRzQAhlDXCIr7MP7GUw9o34Sgj97NqGk0imKN
- s1KIe+2NP/pTx0EY=
-X-Received: by 2002:a17:906:25d7:: with SMTP id
- n23mr13068338ejb.322.1629709236468; 
- Mon, 23 Aug 2021 02:00:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJydLD5tW1yHXKGfU5qB5b7sdRyvkUBpSu4c1ijDl4OrO16w08oyG8kaYfmPJRp7Sa70GM2a/Q==
-X-Received: by 2002:a17:906:25d7:: with SMTP id
- n23mr13068315ejb.322.1629709236280; 
- Mon, 23 Aug 2021 02:00:36 -0700 (PDT)
+ bh=pXbxD27RNJn6Zb7UmsWDzEYVociFGo5aey7QVDOayio=;
+ b=Z9sCY5aKwC3BrbLSmDhdd3T+CyTGenMBovNjzGIvyBHk+TZjiDgP11U6WL1nexo2DC
+ Dax3NCHXXbbNDtnyySN90N0z0gqMgS04cP87CEXrIstdbGikxl53Iydph4OuO5pyscZX
+ gjKs8awYGUPtMGYqqpP1LFExLdR7FPkp6buqVJ9l9W9nbbOWfAI/sOvg6ztDsZ1KxBRk
+ ALi4Tx72EJSKmKYtPw5Kjh9sAChxcZd0+qctpDEJXoHJn8WulcL16lA2B2UWZyszK8Hs
+ EPdS01fBUqolVWKawmzVIkLVLT1bGFu4OpMLkrWnH8ETMmZet9kqqjR/bgEd2tEkyQSm
+ ndog==
+X-Gm-Message-State: AOAM531hSUSRXuEPJ/rSYV144vtCmPfJMhIElVsGgWTrC7Cs1HQz/mt7
+ RSLwb6q9vNc1ShNUrE8MR9rMDDtnH7eRPrbnMaBWqXjvgtLeYgBFja91+QAoiTLEIDNHnpM36xE
+ MTwTC9JLctTk5L78=
+X-Received: by 2002:aa7:dc56:: with SMTP id g22mr2634586edu.187.1629709368962; 
+ Mon, 23 Aug 2021 02:02:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxmurMyS2s8JNb0yKxqTP/h8V90oObbwEiU2Zyv51PsNr5gdeRM3IotGV2SID3bNAN4WXXYow==
+X-Received: by 2002:aa7:dc56:: with SMTP id g22mr2634570edu.187.1629709368801; 
+ Mon, 23 Aug 2021 02:02:48 -0700 (PDT)
 Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
- by smtp.gmail.com with ESMTPSA id e7sm9224967edk.3.2021.08.23.02.00.35
+ by smtp.gmail.com with ESMTPSA id l16sm2522764ejg.42.2021.08.23.02.02.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Aug 2021 02:00:35 -0700 (PDT)
-Date: Mon, 23 Aug 2021 11:00:34 +0200
+ Mon, 23 Aug 2021 02:02:48 -0700 (PDT)
+Date: Mon, 23 Aug 2021 11:02:46 +0200
 From: Andrew Jones <drjones@redhat.com>
 To: Yanan Wang <wangyanan55@huawei.com>
-Subject: Re: [PATCH v2 1/3] docs/about: Remove the duplicated doc
-Message-ID: <20210823090034.mz64vzpxvxgd2nbv@gator.home>
+Subject: Re: [PATCH v2 2/3] docs/about: Unify the subject format
+Message-ID: <20210823090246.oih65hbl7y63253d@gator.home>
 References: <20210823030005.165668-1-wangyanan55@huawei.com>
- <20210823030005.165668-2-wangyanan55@huawei.com>
+ <20210823030005.165668-3-wangyanan55@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20210823030005.165668-2-wangyanan55@huawei.com>
+In-Reply-To: <20210823030005.165668-3-wangyanan55@huawei.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -103,45 +101,25 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 23, 2021 at 11:00:03AM +0800, Yanan Wang wrote:
-> There are two places describing the same thing about deprecation
-> of invalid topologies of -smp CLI, so remove the duplicated one.
+On Mon, Aug 23, 2021 at 11:00:04AM +0800, Yanan Wang wrote:
+> There is a mixture of "since/removed in X.Y" vs "since/removed in X.Y.Z"
+> in the subjects in deprecated.rst/removed-features.rst. It will be better
+> to use an unified format. It seems unlikely that we will ever deprecate
+> something in a stable release, and even more unlikely that we'll remove
+> something in one, so the short versions look like the thing we want to
+> standardize on.
+> 
+> So here we unify the subject format in deprecated.rst to "since X.Y", and
+> unify the subject format in removed-features.rst to "removed in X.Y".
 > 
 > Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
 > Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 > ---
->  docs/about/removed-features.rst | 13 -------------
->  1 file changed, 13 deletions(-)
-> 
-> diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
-> index cbfa1a8e31..6a9c5bb484 100644
-> --- a/docs/about/removed-features.rst
-> +++ b/docs/about/removed-features.rst
-> @@ -647,19 +647,6 @@ as ignored. Currently, users are responsible for making sure the backing storage
->  specified with ``-mem-path`` can actually provide the guest RAM configured with
->  ``-m`` and QEMU fails to start up if RAM allocation is unsuccessful.
->  
-> -``-smp`` (invalid topologies) (removed 5.2)
-> -'''''''''''''''''''''''''''''''''''''''''''
-> -
-> -CPU topology properties should describe whole machine topology including
-> -possible CPUs.
-> -
-> -However, historically it was possible to start QEMU with an incorrect topology
-> -where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
-> -which could lead to an incorrect topology enumeration by the guest.
-> -Support for invalid topologies is removed, the user must ensure
-> -topologies described with -smp include all possible cpus, i.e.
-> -*sockets* * *cores* * *threads* = *maxcpus*.
-> -
->  ``-machine enforce-config-section=on|off`` (removed 5.2)
->  ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
->  
-> -- 
-> 2.19.1
+>  docs/about/deprecated.rst       | 56 ++++++++++++++++-----------------
+>  docs/about/removed-features.rst | 28 ++++++++---------
+>  2 files changed, 42 insertions(+), 42 deletions(-)
 >
 
- 
 Reviewed-by: Andrew Jones <drjones@redhat.com>
 
 
