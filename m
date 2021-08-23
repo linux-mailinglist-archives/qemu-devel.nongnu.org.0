@@ -2,93 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351E63F4DC4
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 17:52:51 +0200 (CEST)
-Received: from localhost ([::1]:40658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F5233F4DC5
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 17:53:45 +0200 (CEST)
+Received: from localhost ([::1]:43714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mICFl-0001k0-Lt
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 11:52:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37732)
+	id 1mICGe-0003l6-CF
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 11:53:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mICEC-0000h6-Pi
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 11:51:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24624)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1mICFK-0001y0-GF
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 11:52:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mICE9-0006c3-WD
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 11:51:12 -0400
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1mICFG-0007Od-DS
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 11:52:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629733868;
+ s=mimecast20190719; t=1629733937;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9k1+eWH0kEJTfXrHrl8p0s7qDWtHOQN5iFONKEi66tE=;
- b=FZSBON84IVLSvhOMREnfzTzh8JtdMwTRd9t3gnJUmsLt1DR5EIJ15yhdZ0bisLaXbMu5rF
- +CDlK1td55SoAvnuE797maJUYMOi7E42+Scpr4I7h+IOhgs0HpYVBU9BV87CR53FWcGeka
- Xp6gaKXcN0IR0el0et4keTkxluI7T5A=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-9fP-X8HLO9CwNEVrEypgOA-1; Mon, 23 Aug 2021 11:51:06 -0400
-X-MC-Unique: 9fP-X8HLO9CwNEVrEypgOA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- v2-20020a7bcb420000b02902e6b108fcf1so8639741wmj.8
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 08:51:05 -0700 (PDT)
+ bh=LOInOSBq4SiKKZCxvVVpGjb1G22K+1MTnUPNDc6hgls=;
+ b=Tob9nFMyt8UOl53DPVMKhhWqT5n0b/h/Pu1WlQPFcY0iy9jN+ZrDE3pt2PxQw0ejSUiMGu
+ lfmXuQS2QyOcOKcBpytUz9b1QRrzfPoVq5dRLVRpxfUYo+iOIWlEEspdwnVJrS2yBbYjIo
+ +EwGY9rDfL5PiXmiWYllrNu9j+SX+L8=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-24-tmOnoUv2Ngijzh80zAhubA-1; Mon, 23 Aug 2021 11:52:16 -0400
+X-MC-Unique: tmOnoUv2Ngijzh80zAhubA-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ b6-20020aa7c6c6000000b003c2b5b2ddf8so1912466eds.0
+ for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 08:52:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=9k1+eWH0kEJTfXrHrl8p0s7qDWtHOQN5iFONKEi66tE=;
- b=jquKmSP7TePIieihsQmsaTFVTDob02feZacuc+TtAT3BnguryVp9MfD+kzBPTn77ob
- q/cRoAKt+4hnL6nTUjThtcsNccw5HIzRYbUsYC8DnbOYN6YIJAIb3dr96+NDvs0SKUao
- 6bz8WhP5+j2kStOockTRASNv0rrrV6tf055jnwi5XANncSKnUubCMDBsckbeXf3xbiNp
- VG5Y9AVj+o+jXzIuUDWUH0eakxZ4p4Uj9AvwkQgtIKjij2d85HI+EdFkaQsTsXRg39V8
- VSGu+r5Ojqgr934QnWzbuNMumAzBV0ePh/UxKQxBg2GEEpGb5H2D0/jvw85QYDMpZdJv
- j/jg==
-X-Gm-Message-State: AOAM530nYcqVHr+VFrFppzzU9ITT234t4s/M8lZMY9PuCC+J74gHcrFt
- c4YBgY61lGoqfq39rmo0GAYwIAfLuWk+iKO9JuBCvPtvY/o//5uHBOVaYzRAs8feGOXmPhkQDaa
- nH/pgC1MVjXXfUOM=
-X-Received: by 2002:a05:600c:a41:: with SMTP id
- c1mr16698426wmq.109.1629733864908; 
- Mon, 23 Aug 2021 08:51:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwE0EEzEO971L/ZnRulC4pBBzmlb3FE/w+LFYi5ykwru+BhRZQeMeudNzH3/kP4/oAiVi1X4g==
-X-Received: by 2002:a05:600c:a41:: with SMTP id
- c1mr16698398wmq.109.1629733864705; 
- Mon, 23 Aug 2021 08:51:04 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id c25sm13628323wmr.15.2021.08.23.08.51.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Aug 2021 08:51:04 -0700 (PDT)
-Subject: Re: [PATCH 0/3] gdbstub: add support for switchable endianness
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210823142004.17935-1-changbin.du@gmail.com>
- <7523c6ad-52cd-0b20-b09d-01bd537edbb3@redhat.com>
- <CAFEAcA8WKdZiuzjXgwj_9T7ewDbkLky+_NKaXw6WQ95V8x=0Tw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <565f9ab6-7571-3c26-5e57-8b2a49a9e7b1@redhat.com>
-Date: Mon, 23 Aug 2021 17:51:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=LOInOSBq4SiKKZCxvVVpGjb1G22K+1MTnUPNDc6hgls=;
+ b=IGUqXjZqxOVoLthtSSKLguAs5sVyFgM8zlo7uQDW7EQfabYshBIEZJKglwl/KSaOwc
+ YLlsPvoyQMhVKTsRJSuSiGoKrhKykXOl9iU6Bi1793QZlT79SPky7VTrzx6mpeayJfPv
+ MxnXgVfZB6HrBYD2R/YqTPn8sNydhg5+SORsoUg1hMXyRoFp3JSkHnV5kL9xf4mFq+Rf
+ HthdYgV9Lguhz9PlQbaFx5PZcYGwK8bZ7cNX01V/0gbyfA+Zylnj/FWOxfspncdLrrco
+ 97Sr2GQ8t3YOtkXghltsyeDsjr6ihC0wALSB/GwUr8pisbnl6AB8DDSjLtF+f6UFB4ND
+ TuUg==
+X-Gm-Message-State: AOAM531gfiKw5b6RWwNw8SnEQg5u9GwvQ1/REke4Rb0Pn8Tux7uhSzue
+ Azjp3EE+J9iWosWdczgvQD5NMdvEGHLWDi9boNa8h+4zV9lmdlEmHpGvFFmqcD5wCYqv3QaMr4e
+ 7U02KnZC5hed0O5XyJrDQlD9TsiJ3uAy5x27Y9gXIJQsgyLhzfL6QiuLPZc6sGeMgEQ==
+X-Received: by 2002:a17:906:1b08:: with SMTP id
+ o8mr3814942ejg.21.1629733935444; 
+ Mon, 23 Aug 2021 08:52:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwzvhz7U2FEkVywIeUOnOZGclLWc9t9KrUTgl+XjzTeAdP7lojkNC2gQo3h/0wb6eA1CnCw8g==
+X-Received: by 2002:a17:906:1b08:: with SMTP id
+ o8mr3814920ejg.21.1629733935161; 
+ Mon, 23 Aug 2021 08:52:15 -0700 (PDT)
+Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
+ by smtp.gmail.com with ESMTPSA id dv8sm7619316ejb.93.2021.08.23.08.52.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Aug 2021 08:52:14 -0700 (PDT)
+Date: Mon, 23 Aug 2021 17:52:13 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Subject: Re: [PATCH 4/4] target/arm/cpu64: Validate sve vector lengths are
+ supported
+Message-ID: <20210823155213.hygmnnw2kv4vppxj@gator.home>
+References: <20210819193758.149660-1-drjones@redhat.com>
+ <20210819193758.149660-5-drjones@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8WKdZiuzjXgwj_9T7ewDbkLky+_NKaXw6WQ95V8x=0Tw@mail.gmail.com>
+In-Reply-To: <20210819193758.149660-5-drjones@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.023, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,64 +97,168 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Changbin Du <changbin.du@gmail.com>
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+ ishii.shuuichir@fujitsu.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/23/21 5:30 PM, Peter Maydell wrote:
-> On Mon, 23 Aug 2021 at 16:21, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>
->> On 8/23/21 4:20 PM, Changbin Du wrote:
->>> To resolve the issue to debug switchable targets, this serias introduces
->>> basic infrastructure for gdbstub and enable support for ARM and RISC-V
->>> targets.
->>>
->>> For example, now there is no problem to debug an big-enadian aarch64 target
->>> on x86 host.
->>>
->>>   $ qemu-system-aarch64 -gdb tcp::1234,endianness=big ...
->>
->> I don't understand why you need all that.
->> Maybe you aren't using gdb-multiarch?
->>
->> You can install it or start it via QEMU Debian Docker image:
->>
->> $ docker run -it --rm -v /tmp:/tmp -u $UID --network=host \
->>   registry.gitlab.com/qemu-project/qemu/qemu/debian10 \
->>   gdb-multiarch -q \
->>     --ex 'set architecture aarch64' \
->>     --ex 'set endian big'
->> The target architecture is assumed to be aarch64
->> The target is assumed to be big endian
->> (gdb) target remote 172.17.0.1:1234
+On Thu, Aug 19, 2021 at 09:37:58PM +0200, Andrew Jones wrote:
+> Future CPU types may specify which vector lengths are supported.
+> We can apply nearly the same logic to validate those lengths
+> as we do for KVM's supported vector lengths. We merge the code
+> where we can, but unfortunately can't completely merge it because
+> KVM requires all vector lengths, power-of-two or not, smaller than
+> the maximum enabled length to also be enabled. The architecture
+> only requires all the power-of-two lengths, though, so TCG will
+> only enforce that.
 > 
-> I don't think that will help, because an AArch64 CPU (at least
-> in the boards we model) will always start up in little-endian,
-> and our gdbstub will always transfer register data etc in
-> little-endian order, because gdb cannot cope with a target that
-> isn't always the same endianness. Fixing this requires gdb
-> changes to be more capable of handling dynamic target changes
-> (this would also help with eg debugging across 32<->64 bit switches);
-> as I understand it that gdb work would be pretty significant,
-> and at least for aarch64 pretty much nobody cares about
-> big-endian, so nobody's got round to doing it yet.
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> ---
+>  target/arm/cpu64.c | 101 ++++++++++++++++++++-------------------------
+>  1 file changed, 45 insertions(+), 56 deletions(-)
 > 
-> Our target/ppc/gdbstub.c code takes a different tack: it
-> always sends register data in the same order the CPU is
-> currently in, which has a different set of cases when it
-> goes wrong.
+> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+> index 557fd4757740..9cb41c442600 100644
+> --- a/target/arm/cpu64.c
+> +++ b/target/arm/cpu64.c
+> @@ -329,35 +329,26 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
+>                      break;
+>                  }
+>              }
+> -            max_vq = vq <= ARM_MAX_VQ ? vq - 1 : ARM_MAX_VQ;
+> -            bitmap_andnot(cpu->sve_vq_map, cpu->sve_vq_supported,
+> -                          cpu->sve_vq_init, max_vq);
+> -            if (max_vq == 0 || bitmap_empty(cpu->sve_vq_map, max_vq)) {
+> -                error_setg(errp, "cannot disable sve%d", vq * 128);
+> -                error_append_hint(errp, "Disabling sve%d results in all "
+> -                                  "vector lengths being disabled.\n",
+> -                                  vq * 128);
+> -                error_append_hint(errp, "With SVE enabled, at least one "
+> -                                  "vector length must be enabled.\n");
+> -                return;
+> -            }
+>          } else {
+>              /* Disabling a power-of-two disables all larger lengths. */
+> -            if (test_bit(0, cpu->sve_vq_init)) {
+> -                error_setg(errp, "cannot disable sve128");
+> -                error_append_hint(errp, "Disabling sve128 results in all "
+> -                                  "vector lengths being disabled.\n");
+> -                error_append_hint(errp, "With SVE enabled, at least one "
+> -                                  "vector length must be enabled.\n");
+> -                return;
+> -            }
+> -            for (vq = 2; vq <= ARM_MAX_VQ; vq <<= 1) {
+> +            for (vq = 1; vq <= ARM_MAX_VQ; vq <<= 1) {
+>                  if (test_bit(vq - 1, cpu->sve_vq_init)) {
+>                      break;
+>                  }
+>              }
+> -            max_vq = vq <= ARM_MAX_VQ ? vq - 1 : ARM_MAX_VQ;
+> -            bitmap_complement(cpu->sve_vq_map, cpu->sve_vq_init, max_vq);
+> +        }
+> +
+> +        max_vq = vq <= ARM_MAX_VQ ? vq - 1 : ARM_MAX_VQ;
+> +        bitmap_andnot(cpu->sve_vq_map, cpu->sve_vq_supported,
+> +                      cpu->sve_vq_init, max_vq);
+> +        if (max_vq == 0 || bitmap_empty(cpu->sve_vq_map, max_vq)) {
+> +            error_setg(errp, "cannot disable sve%d", vq * 128);
+> +            error_append_hint(errp, "Disabling sve%d results in all "
+> +                              "vector lengths being disabled.\n",
+> +                              vq * 128);
+> +            error_append_hint(errp, "With SVE enabled, at least one "
+> +                              "vector length must be enabled.\n");
+> +            return;
+>          }
+>  
+>          max_vq = find_last_bit(cpu->sve_vq_map, max_vq) + 1;
+> @@ -393,46 +384,44 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
+>      assert(max_vq != 0);
+>      bitmap_clear(cpu->sve_vq_map, max_vq, ARM_MAX_VQ - max_vq);
+>  
+> -    if (kvm_enabled()) {
+> -        /* Ensure the set of lengths matches what KVM supports. */
+> -        bitmap_xor(tmp, cpu->sve_vq_map, cpu->sve_vq_supported, max_vq);
+> -        if (!bitmap_empty(tmp, max_vq)) {
+> -            vq = find_last_bit(tmp, max_vq) + 1;
+> -            if (test_bit(vq - 1, cpu->sve_vq_map)) {
+> -                if (cpu->sve_max_vq) {
+> -                    error_setg(errp, "cannot set sve-max-vq=%d",
+> -                               cpu->sve_max_vq);
+> -                    error_append_hint(errp, "This KVM host does not support "
+> -                                      "the vector length %d-bits.\n",
+> -                                      vq * 128);
+> -                    error_append_hint(errp, "It may not be possible to use "
+> -                                      "sve-max-vq with this KVM host. Try "
+> -                                      "using only sve<N> properties.\n");
+> -                } else {
+> -                    error_setg(errp, "cannot enable sve%d", vq * 128);
+> -                    error_append_hint(errp, "This KVM host does not support "
+> -                                      "the vector length %d-bits.\n",
+> -                                      vq * 128);
+> -                }
+> +    /* Ensure the set of lengths matches what is supported. */
+> +    bitmap_xor(tmp, cpu->sve_vq_map, cpu->sve_vq_supported, max_vq);
+> +    if (!bitmap_empty(tmp, max_vq)) {
+> +        vq = find_last_bit(tmp, max_vq) + 1;
+> +        if (test_bit(vq - 1, cpu->sve_vq_map)) {
+> +            if (cpu->sve_max_vq) {
+> +                error_setg(errp, "cannot set sve-max-vq=%d", cpu->sve_max_vq);
+> +                error_append_hint(errp, "This CPU does not support "
+> +                                  "the vector length %d-bits.\n", vq * 128);
+> +                error_append_hint(errp, "It may not be possible to use "
+> +                                  "sve-max-vq with this CPU. Try "
+> +                                  "using only sve<N> properties.\n");
+>              } else {
+> +                error_setg(errp, "cannot enable sve%d", vq * 128);
+> +                error_append_hint(errp, "This CPU does not support "
+> +                                  "the vector length %d-bits.\n", vq * 128);
+> +            }
+> +            return;
+> +        } else {
+> +            if (kvm_enabled()) {
+>                  error_setg(errp, "cannot disable sve%d", vq * 128);
+>                  error_append_hint(errp, "The KVM host requires all "
+>                                    "supported vector lengths smaller "
+>                                    "than %d bits to also be enabled.\n",
+>                                    max_vq * 128);
+> -            }
+> -            return;
+> -        }
+> -    } else {
+> -        /* Ensure all required powers-of-two are enabled. */
+> -        for (vq = pow2floor(max_vq); vq >= 1; vq >>= 1) {
+> -            if (!test_bit(vq - 1, cpu->sve_vq_map)) {
+> -                error_setg(errp, "cannot disable sve%d", vq * 128);
+> -                error_append_hint(errp, "sve%d is required as it "
+> -                                  "is a power-of-two length smaller than "
+> -                                  "the maximum, sve%d\n",
+> -                                  vq * 128, max_vq * 128);
+>                  return;
+> +            } else {
+> +                /* Ensure all required powers-of-two are enabled. */
+> +                for (vq = pow2floor(max_vq); vq >= 1; vq >>= 1) {
+> +                    if (!test_bit(vq - 1, cpu->sve_vq_map)) {
+> +                        error_setg(errp, "cannot disable sve%d", vq * 128);
+> +                        error_append_hint(errp, "sve%d is required as it "
+> +                                          "is a power-of-two length smaller "
+> +                                          " than the maximum, sve%d\n",
 
-I remember having tested the 'setend be' instruction (from
-https://github.com/pcrost/arm-be-test) 3 years ago using
-it. Connected as little endian, set breakpoint, on BP hit
-disconnect, set big-endian, reconnect, keep single-stepping
-(in the same gdb session).
+When moving 'than' down to avoid going over 80 characters I somehow added
+a leading space, making two spaces between 'smaller' and 'than'. I'll send
+a v2 to remove it.
 
-I doubt anything changed since.
+Thanks,
+drew
+
+> +                                          vq * 128, max_vq * 128);
+> +                        return;
+> +                    }
+> +                }
+>              }
+>          }
+>      }
+> -- 
+> 2.31.1
+>
 
 
