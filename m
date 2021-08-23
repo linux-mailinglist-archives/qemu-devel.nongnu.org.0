@@ -2,69 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2159A3F48A8
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 12:29:35 +0200 (CEST)
-Received: from localhost ([::1]:60276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5F2F3F48C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 12:35:27 +0200 (CEST)
+Received: from localhost ([::1]:37912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mI7Cw-0003J2-6S
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 06:29:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50958)
+	id 1mI7Ib-0007P4-Q4
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 06:35:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mI7BY-0001wg-JG
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 06:28:08 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:37430)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mI7BW-0007zO-Rq
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 06:28:08 -0400
-Received: by mail-ej1-x632.google.com with SMTP id h9so35979275ejs.4
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 03:28:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KxUwvMUQza1G/oaJ3Rf9E/eCNuvUnPBz2ARZVrani5Y=;
- b=pfgNfemjGu0HlsRj3xti0bGxVA2wMrKheNnnU2pO/bUpDCVcY9xONJXOvfLC5uNgBT
- DGNKOrqWMBi3soCydVEUm22dzdvOdfLq9sVe5EHy5pgNfISMdE/E1KsTAR7k5WnxobhB
- ctUDsBaA2WvLi9ezEUiF8PdlSuWY+wOnQK6TQW3DbtohMI8EX+c5QrynkcZkNUc5C1GO
- 8+qpsK65pOb9+I+u9hb4yG5ZEtq+03wxkKpdy3nbXvhBRcbUOfVgSgKJqc8Jr8pc8c6X
- e1HK/+v3pl/b/PWRAtCoLzULUIG+zhKvDNoD/PmgmRz28lW62h99V+zTjbFiEs908yQ6
- hIcw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mI7HT-00061r-KV
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 06:34:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52527)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mI7HQ-0004bL-4J
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 06:34:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629714850;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HgDlsPR7E6wDSuQkKvJtqiANX5xHQaG9OKseRImxNg8=;
+ b=TkVvmmnUFteSVD0FPIR7V2Gml+Eqqo1PuHoHIP9HSDnOYVraxGNZcyCpQa8SHKAf0KU6PP
+ 5C+T6zxLxjRviSfVD5qX1C2HV+Kcv45MWuHX+nob4SSSQ9xdLZJHIdgLSR13i71dxnXj0k
+ NdwdIWZpyTio6KbRm6Oqz3AIKNbm2FE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-490-tMQUMvrqOuiz3ieB6WKAQQ-1; Mon, 23 Aug 2021 06:34:08 -0400
+X-MC-Unique: tMQUMvrqOuiz3ieB6WKAQQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ b3-20020a1c80030000b02902e6a7296cb3so2827749wmd.5
+ for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 03:34:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KxUwvMUQza1G/oaJ3Rf9E/eCNuvUnPBz2ARZVrani5Y=;
- b=H0HikD5E10Polu+SlD1CunQCiKYkLzzUx5/4JMPbQll8enM0HGEoSBgEN8N/UEyctL
- vFym4Yo517GRE7uPvU0lcLVd5kuo05at6onFVAMPmEWoVKOyNwfmcdYXrep8HX3IaPus
- H5le205zF3DdOGMZ/PUcc1spVskUBKC8VlcMid/twFCe/TJWUzzLU+auw57l2NDH+wSq
- fi+lDE9+Ac+2xTM1uvHLOfchthZhnw9Ko61fRvWnAsLB6kJS5xKFNDVEOldaxjKYT3SH
- 2eEyGZRadSjDOs2lXH0cduiFEK4oZo9xUDdq3BjcLbtpiV9u6nfymnla9dSTnQp6psho
- dg3Q==
-X-Gm-Message-State: AOAM532Fqbc3MfuL0Ocgsl1pKcPDCMYJIG98rEvDOi6sTYi06n2YN8ti
- HQmINR0SgTKeX/FWAog3V9EZSqmQ1D32S4vde3exSxmluDg=
-X-Google-Smtp-Source: ABdhPJxyYZBRfZopZX/UT7t0Qx/SUhsjjS4ENmDmjHPjVW31Enn8488B/yNYhnoETtAFJn/NzkazPm2Mcz8eGDTpDHA=
-X-Received: by 2002:a17:907:1048:: with SMTP id
- oy8mr34066903ejb.382.1629714485366; 
- Mon, 23 Aug 2021 03:28:05 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=HgDlsPR7E6wDSuQkKvJtqiANX5xHQaG9OKseRImxNg8=;
+ b=rZwAiDYvnZZk+3Yt1g17CdZdWBppfepxzQdrhCD0+/Beq/JMYUsPsjGEflml1+/qXx
+ BrD1aupwkkUb7B3Nu0Qj35vloxtNLYC/EEvbxajvY9RR/kCZcmXN+KAOOaEEVb9VrIC3
+ Ju5eZpzq/6hldjDq5eonVTVTY0fOhDKB7jFW6xF+RvY1PCiq4vVRMWyEh0OLiyus/dVB
+ fBjW2SjvVAGJ2U7px4wwyUFR6RtqbpQheyC7MwXvvHedOkT2dfyo/tx3uKMAoll6/iKK
+ edWAftAPpNEe90Y1IcAlS2RrEAii8l+JYA2NgRgTnQd9yarIIwBCVsUXWUStz9W6TTEJ
+ IeBw==
+X-Gm-Message-State: AOAM533ALX7hBP27AWr+k2dKiENFrb7JIYENOtAAqFVWvFabWb5qOJm3
+ G1vT8gqqQBfTAxeFjyeWaqjpjH+n3S/bBZo9uhe5eexjnONa/tUTH9Oq6mB3Z33NiPSuIv3VQ+Y
+ +pxzliJTkUhX0cmE=
+X-Received: by 2002:adf:d4ce:: with SMTP id w14mr12860936wrk.407.1629714847795; 
+ Mon, 23 Aug 2021 03:34:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx/LfjEw5eeeC4Izq+sD4++17/XIo3HqZe/xesJ+ByBcFxKit86oWoqd8IxFWIsS6GkqA5HkA==
+X-Received: by 2002:adf:d4ce:: with SMTP id w14mr12860915wrk.407.1629714847585; 
+ Mon, 23 Aug 2021 03:34:07 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id k17sm18218481wmj.0.2021.08.23.03.34.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Aug 2021 03:34:07 -0700 (PDT)
+Subject: Re: [PATCH] softmmu/physmem: Improve guest memory allocation failure
+ error message
+To: David Hildenbrand <david@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210820155211.3153137-1-philmd@redhat.com>
+ <20a53e29-ba23-fe0d-f961-63d0b5ca9a89@redhat.com>
+ <d68297ca-7be3-48ab-e25c-4f55dc735670@redhat.com>
+ <d3cdb3bb-e05f-f909-1a98-ba45ff9b2b28@redhat.com>
+ <CAFEAcA8V6gaGZeWeXOwdts771Ni11Eo8vYR2nXNy-w8dEsxdpg@mail.gmail.com>
+ <6165f86e-1ce7-d178-1f5c-4b3c5110f0c1@redhat.com>
+ <1a63c2d2-7420-5fc1-1023-0504a67dc40b@redhat.com>
+ <628a7ee5-b88d-c043-2e67-67e791532c18@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e6245d98-173c-2d25-8587-b6690c5f9037@redhat.com>
+Date: Mon, 23 Aug 2021 12:34:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210820171220.15089-1-peter.maydell@linaro.org>
-In-Reply-To: <20210820171220.15089-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 23 Aug 2021 11:27:18 +0100
-Message-ID: <CAFEAcA-vG4DJY7Xm8zhs9ZdMspzSrVC53nUwzNRm8ZepM1UaAA@mail.gmail.com>
-Subject: Re: [PATCH] target/i386: Remove unnecessary checks of b2 in SSE decode
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <628a7ee5-b88d-c043-2e67-67e791532c18@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.746,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.959, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,51 +106,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 20 Aug 2021 at 18:12, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> In the SSE decode function gen_sse(), we combine a byte
-> 'b' and a value 'b1' which can be [0..3], and switch on them:
->    b |= (b1 << 8);
->    switch (b) {
->    ...
->    default:
->    unknown_op:
->        gen_unknown_opcode(env, s);
->        return;
->    }
->
-> In three cases inside this switch, we were then also checking for
->  "if (b1 >= 2) { goto unknown_op; }".
-> However, this can never happen, because the 'case' values in each place
-> are 0x0nn or 0x1nn and the switch will have directed the b1 == (2, 3)
-> cases to the default already.
->
-> Delete the dead code.
->
-> This check was added in commit c045af25a52e9 in 2010; the added code
-> was unnecessary then as well.  this commit amounts to a revert of
-> c045af25a52e9.
->
-> Fixes: Coverity CID 1460207
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> Somebody should double-check this, because one assumes Andi
-> added the code for a reason...
+On 8/23/21 12:24 PM, David Hildenbrand wrote:
+> On 23.08.21 12:12, Philippe Mathieu-Daudé wrote:
+>> On 8/23/21 11:29 AM, David Hildenbrand wrote:
+>>> On 23.08.21 11:23, Peter Maydell wrote:
+>>>> On Mon, 23 Aug 2021 at 09:40, David Hildenbrand <david@redhat.com>
+>>>> wrote:
+>>>>> Not opposed to printing the size, although I doubt that it will really
+>>>>> stop similar questions/problems getting raised.
+>>>>
+>>>> The case that triggered this was somebody thinking
+>>>> -m took a byte count, so very likely that an error message
+>>>> saying "you tried to allocate 38TB" would have made their
+>>>> mistake clear in a way that just "allocation failed" did not.
+>>>> It also means that if a future user asks us for help then
+>>>> we can look at the error message and immediately tell them
+>>>> the problem, rather than going "hmm, what are all the possible
+>>>> ways that allocation might have failed" and going off down
+>>>> rabbitholes like VM overcommit settings...
+>>>
+>>> We've had similar issues recently where Linux memory overcommit handling
+>>> rejected the allocation -- and the user was well aware about the actual
+>>> size. You won't be able to catch such reports, because people don't
+>>> understand how Linux memory overcommit handling works or was configured.
+>>>
+>>> "I have 3 GiB of free memory, why can't I create a 3 GiB VM". "I have 3
+>>> GiB of RAM, why can't I create a 3 GiB VM even if it won't make use of
+>>> all 3 GiB of memory".
+>>>
+>>> Thus my comment, it will only stop very basic usage issues. And I agree
+>>> that looking at the error *might* help. It didn't help for the cases I
+>>> just described, because we need much more system information to make a
+>>> guess what the user error actually is.
+>>
+>> Is it possible to get the maximal overcommitable amount on Linux?
+> 
+> Not reliably I think.
+> 
+> In the "always" mode, there is none.
+> 
+> In the "guess"/"estimate" mode, the kernel takes a guess (currently
+> implemented as checking if the mmap size <= total RAM + total SWAP).
+>     Committable = MemTotal + SwapTotal
+> 
+> In the "never" mode:
+>     Committable = CommitLimit - Committed_AS
+> However, the value gets further reduced for !root applications by
+> /proc/sys/vm/admin_reserve_kbytes.
+> 
+> Replicating these calculations in user space would be suboptimal IMHO.
 
-It occurred to me that maybe we'd be better just changing
-these into
-  assert(b1 < 2);
+What about simply giving a hint about memory overcommit and display
+a link to documentation with longer description about how to check
+and figure out this issue?
 
-These are guarding all the places where we do a dereference
-of an sse_op_table*[x][b1] and the inner table only has 2
-elements. So asserting would be a sensible guard. I'll send out
-a v2 patch that does that.
-
--- PMM
 
