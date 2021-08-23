@@ -2,72 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890EC3F4E14
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 18:14:14 +0200 (CEST)
-Received: from localhost ([::1]:48424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF4B13F4E5B
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 18:29:26 +0200 (CEST)
+Received: from localhost ([::1]:56684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mICaO-0001Le-DS
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 12:14:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41920)
+	id 1mICpB-0007gF-DB
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 12:29:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mICTd-0007o6-1j
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 12:07:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54698)
+ (Exim 4.90_1) (envelope-from <tobin@linux.ibm.com>)
+ id 1mICoN-0006xc-RE
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 12:28:35 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:52748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mICTb-0000M2-BC
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 12:07:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629734826;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=T1X9/1+/2b9e9bKrOVFRBolcoPKcB32213cUj9YFLRg=;
- b=g+7Mb8qnfxrZKHmtlzpTVz7ckkeAmfgBtSTPVEE1jl9TSvNoJjQxc7hOb+iiM3vHtYGwPj
- +83taCu+P33CzeHa1n+D4lnHVevWmW1sIBgMs+YXe6jApr5J/MA2Jy9JnlbFm/UEVZdCdS
- 3jKM585C4qXOqnT8J4DkUn4Zdq4Qa+c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-wB1VN-8NNU2JIIILM1sMng-1; Mon, 23 Aug 2021 12:07:03 -0400
-X-MC-Unique: wB1VN-8NNU2JIIILM1sMng-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11B443E741;
- Mon, 23 Aug 2021 16:07:02 +0000 (UTC)
-Received: from gator.redhat.com (unknown [10.40.194.250])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3215560CC9;
- Mon, 23 Aug 2021 16:07:00 +0000 (UTC)
-From: Andrew Jones <drjones@redhat.com>
-To: qemu-devel@nongnu.org,
-	qemu-arm@nongnu.org
-Subject: [PATCH v2 4/4] target/arm/cpu64: Validate sve vector lengths are
- supported
-Date: Mon, 23 Aug 2021 18:06:47 +0200
-Message-Id: <20210823160647.34028-5-drjones@redhat.com>
-In-Reply-To: <20210823160647.34028-1-drjones@redhat.com>
-References: <20210823160647.34028-1-drjones@redhat.com>
+ (Exim 4.90_1) (envelope-from <tobin@linux.ibm.com>)
+ id 1mICoL-0006Gj-OX
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 12:28:35 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 17NG2nc8177166; Mon, 23 Aug 2021 12:28:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : subject : to : cc
+ : references : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=Envgh1shC26UgCJP6Bb9m3IzkLDdYHPU0eAN6NLyMXk=;
+ b=rR9EH1OCt4KsbePIHN3yImmfmOr7s4C/rbS9lcvl8/6KYypzFlL9U/G94v/u6EfeL68J
+ 31LNuIHDnpXKB8w75Tg23HEQ0ZRgb9ozZFFcfC6Mupnq7eIrVv+iLBWL+hFlkFkWK15t
+ 5iaOWeiujiTtvQMArlBkW8Bu4OCo7pOVz+80jUWBbNK1zaJXMGR933vKq+GytqbCBu6P
+ 0SjUBa7WwL/GfewvGd/p9QAwnawKp12iQ4kDh9lrkv55b9ng1Oj9eXMYNJgKgHAa8zhv
+ cJepmhNn5fCA/TLYfKFvixsyWbb1q7AgoEdotbR1I1sr50475R7t1Nt6HdP8fx5Npeip tQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3akf28wqsj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 23 Aug 2021 12:28:29 -0400
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 17NG3Sqm180006;
+ Mon, 23 Aug 2021 12:28:29 -0400
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3akf28wqs6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 23 Aug 2021 12:28:29 -0400
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 17NGNDQm007687;
+ Mon, 23 Aug 2021 16:28:28 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
+ [9.57.198.25]) by ppma04dal.us.ibm.com with ESMTP id 3ajs4btgqd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 23 Aug 2021 16:28:28 +0000
+Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
+ [9.57.199.107])
+ by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 17NGSQN325362818
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 23 Aug 2021 16:28:26 GMT
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C86C9124060;
+ Mon, 23 Aug 2021 16:28:26 +0000 (GMT)
+Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 5BB3712406C;
+ Mon, 23 Aug 2021 16:28:26 +0000 (GMT)
+Received: from Tobins-MacBook-Pro-2.local (unknown [9.160.190.1])
+ by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
+ Mon, 23 Aug 2021 16:28:26 +0000 (GMT)
+From: Tobin Feldman-Fitzthum <tobin@linux.ibm.com>
+Subject: Re: [RFC PATCH 00/13] Add support for Mirror VM.
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>
+References: <0fcfafde-a690-f53a-01fc-542054948bb2@redhat.com>
+ <37796fd1-bbc2-f22c-b786-eb44f4d473b9@linux.ibm.com>
+ <CABayD+evf56U4yT2V1TmEzaJjvV8gutUG5t8Ob2ifamruw5Qrg@mail.gmail.com>
+ <458ba932-5150-8706-3958-caa4cc67c8e3@linux.ibm.com>
+ <YR1ZvArdq4sKVyTJ@work-vm>
+ <c1d8dbca-c6a9-58da-6f95-b33b74e0485a@linux.ibm.com>
+ <YR4U11ssVUztsPyx@work-vm>
+ <538733190532643cc19b6e30f0eda4dd1bc2a767.camel@linux.ibm.com>
+ <YR5qka5aoJqlouhO@work-vm>
+ <d6eb8f7ff2d78296b5ba3a20d1dc9640f4bb8fa5.camel@linux.ibm.com>
+ <YSOT87eg4UjCG+jG@work-vm>
+Message-ID: <3d141f28-1abe-32ed-1f72-2cbec707a669@linux.ibm.com>
+Date: Mon, 23 Aug 2021 12:28:25 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.12.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <YSOT87eg4UjCG+jG@work-vm>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 75ZlngP1WPAGLebF7lPS-dLpTQCgIgN-
+X-Proofpoint-ORIG-GUID: IoOD8nALGipGQT9Pea8zgRt_HVwacQQ0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-08-23_03:2021-08-23,
+ 2021-08-23 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 clxscore=1015
+ lowpriorityscore=0 priorityscore=1501 phishscore=0 spamscore=0
+ adultscore=0 bulkscore=0 suspectscore=0 impostorscore=0 malwarescore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2108230110
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=tobin@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.023,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,158 +123,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
- ishii.shuuichir@fujitsu.com, philmd@redhat.com
+Cc: thomas.lendacky@amd.com, Ashish Kalra <Ashish.Kalra@amd.com>,
+ brijesh.singh@amd.com, ehabkost@redhat.com, kvm@vger.kernel.org,
+ mst@redhat.com, Steve Rutherford <srutherford@google.com>, tobin@ibm.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, frankeh@us.ibm.com,
+ Paolo Bonzini <pbonzini@redhat.com>, dovmurik@linux.vnet.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Future CPU types may specify which vector lengths are supported.
-We can apply nearly the same logic to validate those lengths
-as we do for KVM's supported vector lengths. We merge the code
-where we can, but unfortunately can't completely merge it because
-KVM requires all vector lengths, power-of-two or not, smaller than
-the maximum enabled length to also be enabled. The architecture
-only requires all the power-of-two lengths, though, so TCG will
-only enforce that.
+On 8/23/21 8:26 AM, Dr. David Alan Gilbert wrote:
 
-Signed-off-by: Andrew Jones <drjones@redhat.com>
----
- target/arm/cpu64.c | 101 ++++++++++++++++++++-------------------------
- 1 file changed, 45 insertions(+), 56 deletions(-)
+> * James Bottomley (jejb@linux.ibm.com) wrote:
+>
+>> (is there an attest of the destination happening here?)
+>> There will be in the final version.  The attestations of the source and
+>> target, being the hash of the OVMF (with the registers in the -ES
+>> case), should be the same (modulo any firmware updates to the PSP,
+>> whose firmware version is also hashed) to guarantee the OVMF is the
+>> same on both sides.  We'll definitely take an action to get QEMU to
+>> verify this ... made a lot easier now we have signed attestations ...
+> Hmm; I'm not sure you're allowed to have QEMU verify that - we don't
+> trust it; you need to have either the firmware say it's OK to migrate
+> to the destination (using the existing PSP mechanism) or get the source
+> MH to verify a quote from the destination.
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 557fd4757740..2f0cbddab568 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -329,35 +329,26 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-                     break;
-                 }
-             }
--            max_vq = vq <= ARM_MAX_VQ ? vq - 1 : ARM_MAX_VQ;
--            bitmap_andnot(cpu->sve_vq_map, cpu->sve_vq_supported,
--                          cpu->sve_vq_init, max_vq);
--            if (max_vq == 0 || bitmap_empty(cpu->sve_vq_map, max_vq)) {
--                error_setg(errp, "cannot disable sve%d", vq * 128);
--                error_append_hint(errp, "Disabling sve%d results in all "
--                                  "vector lengths being disabled.\n",
--                                  vq * 128);
--                error_append_hint(errp, "With SVE enabled, at least one "
--                                  "vector length must be enabled.\n");
--                return;
--            }
-         } else {
-             /* Disabling a power-of-two disables all larger lengths. */
--            if (test_bit(0, cpu->sve_vq_init)) {
--                error_setg(errp, "cannot disable sve128");
--                error_append_hint(errp, "Disabling sve128 results in all "
--                                  "vector lengths being disabled.\n");
--                error_append_hint(errp, "With SVE enabled, at least one "
--                                  "vector length must be enabled.\n");
--                return;
--            }
--            for (vq = 2; vq <= ARM_MAX_VQ; vq <<= 1) {
-+            for (vq = 1; vq <= ARM_MAX_VQ; vq <<= 1) {
-                 if (test_bit(vq - 1, cpu->sve_vq_init)) {
-                     break;
-                 }
-             }
--            max_vq = vq <= ARM_MAX_VQ ? vq - 1 : ARM_MAX_VQ;
--            bitmap_complement(cpu->sve_vq_map, cpu->sve_vq_init, max_vq);
-+        }
-+
-+        max_vq = vq <= ARM_MAX_VQ ? vq - 1 : ARM_MAX_VQ;
-+        bitmap_andnot(cpu->sve_vq_map, cpu->sve_vq_supported,
-+                      cpu->sve_vq_init, max_vq);
-+        if (max_vq == 0 || bitmap_empty(cpu->sve_vq_map, max_vq)) {
-+            error_setg(errp, "cannot disable sve%d", vq * 128);
-+            error_append_hint(errp, "Disabling sve%d results in all "
-+                              "vector lengths being disabled.\n",
-+                              vq * 128);
-+            error_append_hint(errp, "With SVE enabled, at least one "
-+                              "vector length must be enabled.\n");
-+            return;
-         }
- 
-         max_vq = find_last_bit(cpu->sve_vq_map, max_vq) + 1;
-@@ -393,46 +384,44 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-     assert(max_vq != 0);
-     bitmap_clear(cpu->sve_vq_map, max_vq, ARM_MAX_VQ - max_vq);
- 
--    if (kvm_enabled()) {
--        /* Ensure the set of lengths matches what KVM supports. */
--        bitmap_xor(tmp, cpu->sve_vq_map, cpu->sve_vq_supported, max_vq);
--        if (!bitmap_empty(tmp, max_vq)) {
--            vq = find_last_bit(tmp, max_vq) + 1;
--            if (test_bit(vq - 1, cpu->sve_vq_map)) {
--                if (cpu->sve_max_vq) {
--                    error_setg(errp, "cannot set sve-max-vq=%d",
--                               cpu->sve_max_vq);
--                    error_append_hint(errp, "This KVM host does not support "
--                                      "the vector length %d-bits.\n",
--                                      vq * 128);
--                    error_append_hint(errp, "It may not be possible to use "
--                                      "sve-max-vq with this KVM host. Try "
--                                      "using only sve<N> properties.\n");
--                } else {
--                    error_setg(errp, "cannot enable sve%d", vq * 128);
--                    error_append_hint(errp, "This KVM host does not support "
--                                      "the vector length %d-bits.\n",
--                                      vq * 128);
--                }
-+    /* Ensure the set of lengths matches what is supported. */
-+    bitmap_xor(tmp, cpu->sve_vq_map, cpu->sve_vq_supported, max_vq);
-+    if (!bitmap_empty(tmp, max_vq)) {
-+        vq = find_last_bit(tmp, max_vq) + 1;
-+        if (test_bit(vq - 1, cpu->sve_vq_map)) {
-+            if (cpu->sve_max_vq) {
-+                error_setg(errp, "cannot set sve-max-vq=%d", cpu->sve_max_vq);
-+                error_append_hint(errp, "This CPU does not support "
-+                                  "the vector length %d-bits.\n", vq * 128);
-+                error_append_hint(errp, "It may not be possible to use "
-+                                  "sve-max-vq with this CPU. Try "
-+                                  "using only sve<N> properties.\n");
-             } else {
-+                error_setg(errp, "cannot enable sve%d", vq * 128);
-+                error_append_hint(errp, "This CPU does not support "
-+                                  "the vector length %d-bits.\n", vq * 128);
-+            }
-+            return;
-+        } else {
-+            if (kvm_enabled()) {
-                 error_setg(errp, "cannot disable sve%d", vq * 128);
-                 error_append_hint(errp, "The KVM host requires all "
-                                   "supported vector lengths smaller "
-                                   "than %d bits to also be enabled.\n",
-                                   max_vq * 128);
--            }
--            return;
--        }
--    } else {
--        /* Ensure all required powers-of-two are enabled. */
--        for (vq = pow2floor(max_vq); vq >= 1; vq >>= 1) {
--            if (!test_bit(vq - 1, cpu->sve_vq_map)) {
--                error_setg(errp, "cannot disable sve%d", vq * 128);
--                error_append_hint(errp, "sve%d is required as it "
--                                  "is a power-of-two length smaller than "
--                                  "the maximum, sve%d\n",
--                                  vq * 128, max_vq * 128);
-                 return;
-+            } else {
-+                /* Ensure all required powers-of-two are enabled. */
-+                for (vq = pow2floor(max_vq); vq >= 1; vq >>= 1) {
-+                    if (!test_bit(vq - 1, cpu->sve_vq_map)) {
-+                        error_setg(errp, "cannot disable sve%d", vq * 128);
-+                        error_append_hint(errp, "sve%d is required as it "
-+                                          "is a power-of-two length smaller "
-+                                          "than the maximum, sve%d\n",
-+                                          vq * 128, max_vq * 128);
-+                        return;
-+                    }
-+                }
-             }
-         }
-     }
--- 
-2.31.1
+I think the check in QEMU would only be a convenience. The launch 
+measurement of the target (verified by the guest owner) is what 
+guarantees that the firmware, as well as the policy, of the target is 
+what is expected. In PSP-assisted migration the source verifies the 
+target, but our plan is to have the guest owner verify both the source 
+and the target. The target will only be provisioned with the transport 
+key if the measurement checks out. We will have some more details about 
+this key agreement scheme soon.
 
+> [Somewhere along the line, if you're not using the PSP, I think you also
+> need to check the guest policy to check it is allowed to migrate].
+
+Sources that aren't allowed to migrate won't be provisioned with 
+transport key to encrypt pages. A non-migrateable guest could also be 
+booted with OvmfPkg firmware, which does not contain the migration handler.
+
+-Tobin
+
+> Dave
+>
+>> James
+>>
+>>
 
