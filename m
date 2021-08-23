@@ -2,47 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C4E73F47C0
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 11:39:31 +0200 (CEST)
-Received: from localhost ([::1]:50348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06C103F4810
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 11:59:32 +0200 (CEST)
+Received: from localhost ([::1]:34258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mI6QU-0000Ud-HK
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 05:39:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38502)
+	id 1mI6jl-0001FY-Hi
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 05:59:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1mI6Pa-00088U-AO; Mon, 23 Aug 2021 05:38:34 -0400
-Received: from kerio.kamp.de ([195.62.97.192]:60254)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1mI6PY-00072E-A3; Mon, 23 Aug 2021 05:38:34 -0400
-X-Footer: a2FtcC5kZQ==
-Received: from [172.21.12.60] ([172.21.12.60]) (authenticated user pl@kamp.de)
- by kerio.kamp.de with ESMTPSA
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits));
- Mon, 23 Aug 2021 11:38:17 +0200
-Subject: Re: [PATCH V2] block/rbd: implement bdrv_co_block_status
-To: Ilya Dryomov <idryomov@gmail.com>
-References: <20210810134124.18523-1-pl@kamp.de>
- <CAOi1vP_vu3sRSp1nV8EfvNvkJMWg26iGJWtXqPnT9yUS6Zh36g@mail.gmail.com>
-From: Peter Lieven <pl@kamp.de>
-Message-ID: <83955263-3d55-7fe8-709a-7729edf48573@kamp.de>
-Date: Mon, 23 Aug 2021 11:38:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mI6iT-00008M-2g; Mon, 23 Aug 2021 05:58:05 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:46631)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mI6iQ-0007ZK-Ek; Mon, 23 Aug 2021 05:58:04 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id k65so32908453yba.13;
+ Mon, 23 Aug 2021 02:58:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=dSJP7vqY8fmMiEeFaZtbmFc3zOocAmOBfsrWlU+3TIw=;
+ b=W6rBFuUVChzOisojXaufHPd9Fx8UoJDzu3XkKwJnT3IeJQ0xTO41Mrw+rQg0a6lvWt
+ ANVrCnJbSdNHK9SEfxw32Mom87o2wTVt+cks5KKeaAI3KEYxlf61flDPyGIvVac2U3RX
+ AtgSinczoqf6tzx3IwqMHuqoQai0tanC6bI7hPzhzLTRgLQ5C6Yj2R6VJnCZ6snBOk9A
+ lBNuGq/H5ObxTatOl4q9iDujKjFEL9ZiHo4Uy6AQGJhlJINGN7tKsrR63uIcJwENzZ3j
+ tFSyZVyHe15F/QO4/LeuT/8tQPxKeKDFfuERDoFesqsWTALsLCoH4Kq3vD3GfsrzlIqz
+ piWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=dSJP7vqY8fmMiEeFaZtbmFc3zOocAmOBfsrWlU+3TIw=;
+ b=Du9poJaJ8yP2dpaQvUjKlOi83DLnvqnAxBOeSz98P6Ng20BXWp00tUlg3z0RoNS5K2
+ ubjSZWRVAP79oFocLVM2faWqFotXC6MGEcI1MTZPlp+PxB5jbjbrjrah8Zl3MG7/x04f
+ IYjsb/5fzw4I1ht159eKODPvviXP38r28BMKJayN+Xqgo4240EelBziqr2ewy+T0oZbX
+ ojSp5fFi5QIhd6Mi77Sn/f6Vo4rL2lCpUC120q7BtCQYhd/rwIoWofLo5YK7KFDMtg4j
+ /LNO5dKacGC7dr9TlgS6Kw/NF4vDgt7eeYnmtDAK4KRImqIFvS8Xm+IpvMGEau1CSk1c
+ XHXQ==
+X-Gm-Message-State: AOAM531+r6LbYaW4hLdkRjH6GAOVTbj7EbeZBzNlwKU+f1bJxGAbWrcm
+ pLMwp83dahebLGi7elJAhgu7C14EcVJRjIF00pM=
+X-Google-Smtp-Source: ABdhPJxcDbdivu+2/BBnn6rWEn46PHl4PXy+ebJJ1+Jk0R7O+8OWF9T8yTuL0696d+nRg5dzRVDWC9Ngv7YD+WWJqrg=
+X-Received: by 2002:a25:cf8a:: with SMTP id
+ f132mr44621723ybg.387.1629712681084; 
+ Mon, 23 Aug 2021 02:58:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAOi1vP_vu3sRSp1nV8EfvNvkJMWg26iGJWtXqPnT9yUS6Zh36g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.959,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210823020813.25192-1-bmeng.cn@gmail.com>
+ <20210823020813.25192-3-bmeng.cn@gmail.com>
+ <7997927e-3a66-aa0e-6099-f1efe3cbb9ee@amsat.org>
+In-Reply-To: <7997927e-3a66-aa0e-6099-f1efe3cbb9ee@amsat.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 23 Aug 2021 17:57:49 +0800
+Message-ID: <CAEUhbmVVRKebU-=k0WaxpaRe-E_UsLy_82K0PzRE=7xNHp9hGQ@mail.gmail.com>
+Subject: Re: [PATCH 2/3] hw/char: cadence_uart: Disable transmit when input
+ clock is disabled
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb33.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,252 +80,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Ilya Dryomov <idryomov@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, ct@flyingcircus.io, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Jason Dillaman <dillaman@redhat.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 22.08.21 um 23:02 schrieb Ilya Dryomov:
-> On Tue, Aug 10, 2021 at 3:41 PM Peter Lieven <pl@kamp.de> wrote:
->> the qemu rbd driver currently lacks support for bdrv_co_block_status.
->> This results mainly in incorrect progress during block operations (e.g.
->> qemu-img convert with an rbd image as source).
->>
->> This patch utilizes the rbd_diff_iterate2 call from librbd to detect
->> allocated and unallocated (all zero areas).
->>
->> To avoid querying the ceph OSDs for the answer this is only done if
->> the image has the fast-diff features which depends on the object-map
-> Hi Peter,
+On Mon, Aug 23, 2021 at 4:14 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
 >
-> Nit: "has the fast-diff feature which depends on the object-map and
-> exclusive-lock features"
-
-
-will reword in V3.
-
-
+> On 8/23/21 4:08 AM, Bin Meng wrote:
+> > At present when input clock is disabled, any character transmitted
+> > to tx fifo can still show on the serial line, which is wrong.
+> >
+> > Fixes: b636db306e06 ("hw/char/cadence_uart: add clock support")
+> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> > ---
+> >
+> >  hw/char/cadence_uart.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+> > diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
+> > index b4b5e8a3ee..154be34992 100644
+> > --- a/hw/char/cadence_uart.c
+> > +++ b/hw/char/cadence_uart.c
+> > @@ -327,6 +327,11 @@ static gboolean cadence_uart_xmit(void *do_not_use=
+, GIOCondition cond,
+> >  static void uart_write_tx_fifo(CadenceUARTState *s, const uint8_t *buf=
+,
+> >                                 int size)
+> >  {
+> > +    /* ignore characters when unclocked or in reset */
+> > +    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s)))=
+ {
+> > +        return;
+> > +    }
 >
->> and exclusive-lock. In this case it is guaranteed that the information
->> is present in memory in the librbd client and thus very fast.
->>
->> If fast-diff is not available all areas are reported to be allocated
->> which is the current behaviour if bdrv_co_block_status is not implemented.
->>
->> Signed-off-by: Peter Lieven <pl@kamp.de>
->> ---
->> V1->V2:
->> - add commit comment [Stefano]
->> - use failed_post_open [Stefano]
->> - remove redundant assert [Stefano]
->> - add macro+comment for the magic -9000 value [Stefano]
->> - always set *file if its non NULL [Stefano]
->>
->>   block/rbd.c | 125 ++++++++++++++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 125 insertions(+)
->>
->> diff --git a/block/rbd.c b/block/rbd.c
->> index dcf82b15b8..8692e76f40 100644
->> --- a/block/rbd.c
->> +++ b/block/rbd.c
->> @@ -88,6 +88,7 @@ typedef struct BDRVRBDState {
->>       char *namespace;
->>       uint64_t image_size;
->>       uint64_t object_size;
->> +    uint64_t features;
->>   } BDRVRBDState;
->>
->>   typedef struct RBDTask {
->> @@ -983,6 +984,13 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
->>       s->image_size = info.size;
->>       s->object_size = info.obj_size;
->>
->> +    r = rbd_get_features(s->image, &s->features);
->> +    if (r < 0) {
->> +        error_setg_errno(errp, -r, "error getting image features from %s",
->> +                         s->image_name);
->> +        goto failed_post_open;
->> +    }
-> The object-map and fast-diff features can be enabled/disabled while the
-> image is open so this should probably go to qemu_rbd_co_block_status().
+> Incorrect handler?
 >
->> +
->>       /* If we are using an rbd snapshot, we must be r/o, otherwise
->>        * leave as-is */
->>       if (s->snap != NULL) {
->> @@ -1259,6 +1267,122 @@ static ImageInfoSpecific *qemu_rbd_get_specific_info(BlockDriverState *bs,
->>       return spec_info;
->>   }
->>
->> +typedef struct rbd_diff_req {
->> +    uint64_t offs;
->> +    uint64_t bytes;
->> +    int exists;
->> +} rbd_diff_req;
->> +
->> +/*
->> + * rbd_diff_iterate2 allows to interrupt the exection by returning a negative
->> + * value in the callback routine. Choose a value that does not conflict with
->> + * an existing exitcode and return it if we want to prematurely stop the
->> + * execution because we detected a change in the allocation status.
->> + */
->> +#define QEMU_RBD_EXIT_DIFF_ITERATE2 -9000
->> +
->> +static int qemu_rbd_co_block_status_cb(uint64_t offs, size_t len,
->> +                                       int exists, void *opaque)
->> +{
->> +    struct rbd_diff_req *req = opaque;
->> +
->> +    assert(req->offs + req->bytes <= offs);
->> +
->> +    if (req->exists && offs > req->offs + req->bytes) {
->> +        /*
->> +         * we started in an allocated area and jumped over an unallocated area,
->> +         * req->bytes contains the length of the allocated area before the
->> +         * unallocated area. stop further processing.
->> +         */
->> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
->> +    }
->> +    if (req->exists && !exists) {
->> +        /*
->> +         * we started in an allocated area and reached a hole. req->bytes
->> +         * contains the length of the allocated area before the hole.
->> +         * stop further processing.
->> +         */
->> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
->> +    }
->> +    if (!req->exists && exists && offs > req->offs) {
->> +        /*
->> +         * we started in an unallocated area and hit the first allocated
->> +         * block. req->bytes must be set to the length of the unallocated area
->> +         * before the allocated area. stop further processing.
->> +         */
->> +        req->bytes = offs - req->offs;
->> +        return QEMU_RBD_EXIT_DIFF_ITERATE2;
->> +    }
->> +
->> +    /*
->> +     * assert that we catched all cases above and allocation state has not
-> catched -> caught
+
+Sorry I don't get it. This patch is for the Tx path, while patch #3 is
+for the Rx path.
+
+> -- >8 --
+> diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
+> index b4b5e8a3ee0..4f096222f52 100644
+> --- a/hw/char/cadence_uart.c
+> +++ b/hw/char/cadence_uart.c
+> @@ -235,8 +235,16 @@ static void uart_parameters_setup(CadenceUARTState *=
+s)
+>  static int uart_can_receive(void *opaque)
+>  {
+>      CadenceUARTState *s =3D opaque;
+> -    int ret =3D MAX(CADENCE_UART_RX_FIFO_SIZE, CADENCE_UART_TX_FIFO_SIZE=
+);
+> -    uint32_t ch_mode =3D s->r[R_MR] & UART_MR_CHMODE;
+> +    int ret;
+> +    uint32_t ch_mode;
+> +
+> +    /* ignore characters when unclocked or in reset */
+> +    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
+> +        return 0;
+> +    }
+> +
+> +    ret =3D MAX(CADENCE_UART_RX_FIFO_SIZE, CADENCE_UART_TX_FIFO_SIZE);
+> +    ch_mode =3D s->r[R_MR] & UART_MR_CHMODE;
 >
->> +     * changed during callbacks.
->> +     */
->> +    assert(exists == req->exists || !req->bytes);
->> +    req->exists = exists;
->> +
->> +    /*
->> +     * assert that we either return an unallocated block or have got callbacks
->> +     * for all allocated blocks present.
->> +     */
->> +    assert(!req->exists || offs == req->offs + req->bytes);
->> +    req->bytes = offs + len - req->offs;
->> +
->> +    return 0;
->> +}
->> +
->> +static int coroutine_fn qemu_rbd_co_block_status(BlockDriverState *bs,
->> +                                                 bool want_zero, int64_t offset,
->> +                                                 int64_t bytes, int64_t *pnum,
->> +                                                 int64_t *map,
->> +                                                 BlockDriverState **file)
->> +{
->> +    BDRVRBDState *s = bs->opaque;
->> +    int ret, r;
->> +    struct rbd_diff_req req = { .offs = offset };
->> +
->> +    assert(offset + bytes <= s->image_size);
->> +
->> +    /* default to all sectors allocated */
->> +    ret = BDRV_BLOCK_DATA | BDRV_BLOCK_OFFSET_VALID;
-> I'm a little confused by the meaning of these flags (but I haven't
-> looked at the other drivers yet).  Looks like this patch always sets
-> BDRV_BLOCK_OFFSET_VALID (makes sense since the "host" offset is always
-> known for rbd) and returns either BDRV_BLOCK_DATA or BDRV_BLOCK_ZERO.
->
-> DATA ZERO OFFSET_VALID
->   t    t        t       sectors read as zero, returned file is zero at offset
->   t    f        t       sectors read as valid from file at offset
->   f    t        t       sectors preallocated, read as zero, returned file not
->                         necessarily zero at offset
->   f    f        t       sectors preallocated but read from backing_hd,
->                         returned file contains garbage at offset
->
-> What about the first case (BDRV_BLOCK_DATA | BDRV_BLOCK_ZERO)?
-> What is the practical difference to just BDRV_BLOCK_ZERO?
+>      if (ch_mode =3D=3D NORMAL_MODE || ch_mode =3D=3D ECHO_MODE) {
+>          ret =3D MIN(ret, CADENCE_UART_RX_FIFO_SIZE - s->rx_count);
 
-
-Actually I don't know, I adapted the flags from other drivers. Looking at your
-
-table it seems that DATA + ZERO would be more appropriate for rbd, right?
-
-We do not preallocate in qem/rbd yet.
-
-
->
->> +    if (map) {
->> +        *map = offset;
->> +    }
->> +    if (file) {
->> +        *file = bs;
->> +    }
-> A comment in block_int.h says that map and file are guaranteed to be
-> non-NULL so these tests seem redundant?
-
-
-This is also Copy&Paste from other drivers, will change it (and maybe
-
-in other drivers as well).
-
-
-
->
->> +    *pnum = bytes;
->> +
->> +    /* RBD image does not support fast-diff */
->> +    if (!(s->features & RBD_FEATURE_FAST_DIFF)) {
->> +        goto out;
->> +    }
-> Need to make sure that fast-diff is valid here: call rbd_get_flags()
-> on the image and test for !RBD_FLAG_FAST_DIFF_INVALID.
-
-
-Do I have to check for feature FAST_DIFF + flag !FAST_DIFF_INVALID or
-
-is the second enough? Is this call fast?
-
-
->
->> +
->> +    r = rbd_diff_iterate2(s->image, NULL, offset, bytes, true, true,
->> +                          qemu_rbd_co_block_status_cb, &req);
->> +    if (r < 0 && r != QEMU_RBD_EXIT_DIFF_ITERATE2) {
->> +        goto out;
->> +    }
->> +    assert(req.bytes <= bytes);
->> +    if (!req.exists) {
->> +        if (r == 0 && !req.bytes) {
->> +            /*
->> +             * rbd_diff_iterate2 does not invoke callbacks for unallocated areas
->> +             * except for the case where an overlay has a hole where the parent
->> +             * has not. This here catches the case where no callback was
->> +             * invoked at all.
->> +             */
->> +            req.bytes = bytes;
->> +        }
->> +        ret &= ~BDRV_BLOCK_DATA;
->> +        ret |= BDRV_BLOCK_ZERO;
-> Is this equivalent to ret = BDRV_BLOCK_ZERO | BDRV_BLOCK_OFFSET_VALID?
-> If so, that would be clearer IMO.
-
-
-Right. I will change this.
-
-
-Peter
-
-
-
+Regards,
+Bin
 
