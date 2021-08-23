@@ -2,40 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36EF23F4AB0
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 14:31:49 +0200 (CEST)
-Received: from localhost ([::1]:33146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B57CA3F4AAD
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 14:31:26 +0200 (CEST)
+Received: from localhost ([::1]:33046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mI97C-0007h0-8Y
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 08:31:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45962)
+	id 1mI96r-0007a9-Pn
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 08:31:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mI93r-0004qO-NG
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 08:28:21 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2097)
+ id 1mI93p-0004oG-RE
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 08:28:17 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:3118)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mI93p-0004sk-Fv
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 08:28:19 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GtWdK1QpnzbdKs;
- Mon, 23 Aug 2021 20:24:21 +0800 (CST)
+ id 1mI93m-0004t3-Tt
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 08:28:17 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4GtWd00CJYz8tQW;
+ Mon, 23 Aug 2021 20:24:04 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 23 Aug 2021 20:28:09 +0800
+ 15.1.2176.2; Mon, 23 Aug 2021 20:28:11 +0800
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Mon, 23 Aug 2021 20:28:08 +0800
+ 15.1.2176.2; Mon, 23 Aug 2021 20:28:10 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v7 00/15] machine: smp parsing fixes and improvement
-Date: Mon, 23 Aug 2021 20:27:49 +0800
-Message-ID: <20210823122804.7692-1-wangyanan55@huawei.com>
+Subject: [PATCH v7 01/15] machine: Deprecate "parameter=0" SMP configurations
+Date: Mon, 23 Aug 2021 20:27:50 +0800
+Message-ID: <20210823122804.7692-2-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
+In-Reply-To: <20210823122804.7692-1-wangyanan55@huawei.com>
+References: <20210823122804.7692-1-wangyanan55@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.174.187.128]
@@ -77,113 +79,113 @@ Cc: Peter
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This new version is based on upstream v6.1.0-rc4.
-Now all patches in the series have been reviewed (tagged with R-b/A-b).
+In the SMP configuration, we should either provide a topology
+parameter with a reasonable value (greater than zero) or just
+omit it and QEMU will compute the missing value.
 
-Description:
-This series introduces some fixes and improvement for the SMP parsing.
-Behavior of specifying a CPU topology parameter as zero was implicitly
-allowed but undocumented before, while now it's explicitly deprecated.
-maxcpus is now uniformly used to calculate the omitted topology members.
-It's also suggested that we should start to prefer cores over sockets
-over threads on the newer machine types, which will make the computed
-virtual topology more reflective of the real hardware.
+The users shouldn't provide a configuration with any parameter
+of it specified as zero (e.g. -smp 8,sockets=0) which could
+possibly cause unexpected results in the -smp parsing. So we
+deprecate this kind of configurations since 6.2 by adding the
+explicit sanity check.
 
-In order to reduce code duplication and ease the code maintenance,
-smp_parse() is converted into a generic enough parser for all arches,
-so that the arch-specific ones (e.g. pc_smp_parse) can be removed.
-It's also convenient to introduce more topology members to the generic
-parser in the future.
-
-A unit test for the SMP parsing is added. In the test, all possible
-collections of the topology parameters and the corresponding expected
-results are listed, including the valid and invalid ones. The preference
-of sockets over cores and the preference of cores over sockets, and the
-support of dies are also taken into consideration.
-
+Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
+ docs/about/deprecated.rst | 15 +++++++++++++++
+ hw/core/machine.c         | 14 ++++++++++++++
+ qapi/machine.json         |  2 +-
+ qemu-options.hx           | 12 +++++++-----
+ 4 files changed, 37 insertions(+), 6 deletions(-)
 
-Changelogs:
-
-v6->v7:
-- drop the two docs/about clean-up patches and they have been resent separately
-- v7: https://lore.kernel.org/qemu-devel/20210819031027.41104-1-wangyanan55@huawei.com/
-
-v5->v6:
-- deprecate "parameter=0" SMP configurations (patch #1 and #2 added)
-- rebased on upstream v6.1.0-rc4
-- v6: https://lore.kernel.org/qemu-devel/20210813023912.105880-1-wangyanan55@huawei.com/
-
-v4->v5:
-- refactor out the duplicated "threads == 0" case in patch #6 (Pankaj)
-- pick up more R-b tags from v4 (thanks very much for the review!)
-- v4: https://lore.kernel.org/qemu-devel/20210803080527.156556-1-wangyanan55@huawei.com/
-
-v3->v4:
-- put all the sanity check into the parser
-- refine the unit test and add it back to the series
-- add the R-b/A-b tags for the reviewed/acked patches
-- v3: https://lore.kernel.org/qemu-devel/20210728034848.75228-1-wangyanan55@huawei.com/
-
-v2->v3:
-- apply the calculation improvement to smp_parse and pc_smp_parse
-  separately and then convert the finally improved parsers into a
-  generic one, so that patches can be reviewed separately.
-- to ease review, drop the unit test part for a while until we have
-  a good enough generic parser.
-- send the patch "machine: Disallow specifying topology parameters as zero"
-  for 6.1 separately.
-- v2: https://lore.kernel.org/qemu-devel/20210719032043.25416-1-wangyanan55@huawei.com/
-
-v1->v2:
-- disallow "anything=0" in the smp configuration (Andrew)
-- make function smp_parse() a generic helper for all arches
-- improve the error reporting in the parser
-- start to prefer cores over sockets since 6.2 (Daniel)
-- add a unit test for the smp parsing (Daniel)
-- v1: https://lore.kernel.org/qemu-devel/20210702100739.13672-1-wangyanan55@huawei.com/
-
----
-
-Yanan Wang (15):
-  machine: Deprecate "parameter=0" SMP configurations
-  machine: Minor refactor/fix for the smp parsers
-  machine: Uniformly use maxcpus to calculate the omitted parameters
-  machine: Set the value of cpus to match maxcpus if it's omitted
-  machine: Improve the error reporting of smp parsing
-  hw: Add compat machines for 6.2
-  machine: Prefer cores over sockets in smp parsing since 6.2
-  machine: Use ms instead of global current_machine in sanity-check
-  machine: Tweak the order of topology members in struct CpuTopology
-  machine: Make smp_parse generic enough for all arches
-  machine: Remove smp_parse callback from MachineClass
-  machine: Move smp_prefer_sockets to struct SMPCompatProps
-  machine: Put all sanity-check in the generic SMP parser
-  machine: Split out the smp parsing code
-  tests/unit: Add a unit test for smp parsing
-
- MAINTAINERS                 |   2 +
- docs/about/deprecated.rst   |  15 +
- hw/arm/virt.c               |  10 +-
- hw/core/machine-smp.c       | 200 +++++++++
- hw/core/machine.c           |  93 +---
- hw/core/meson.build         |   1 +
- hw/i386/pc.c                |  66 +--
- hw/i386/pc_piix.c           |  15 +-
- hw/i386/pc_q35.c            |  14 +-
- hw/ppc/spapr.c              |  16 +-
- hw/s390x/s390-virtio-ccw.c  |  15 +-
- include/hw/boards.h         |  27 +-
- include/hw/i386/pc.h        |   3 +
- qapi/machine.json           |   2 +-
- qemu-options.hx             |  24 +-
- tests/unit/meson.build      |   1 +
- tests/unit/test-smp-parse.c | 866 ++++++++++++++++++++++++++++++++++++
- 17 files changed, 1201 insertions(+), 169 deletions(-)
- create mode 100644 hw/core/machine-smp.c
- create mode 100644 tests/unit/test-smp-parse.c
-
---
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 8d4fd384a5..ae49e9fdba 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -138,6 +138,21 @@ an underscore between "window" and "close").
+ The ``-no-quit`` is a synonym for ``-display ...,window-close=off`` which
+ should be used instead.
+ 
++``-smp`` ("parameter=0" SMP configurations) (since 6.2)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Specified CPU topology parameters must be greater than zero.
++
++In the SMP configuration, users should either provide a CPU topology
++parameter with a reasonable value (greater than zero) or just omit it
++and QEMU will compute the missing value.
++
++However, historically it was implicitly allowed for users to provide
++a parameter with zero value, which is meaningless and could also possibly
++cause unexpected results in the -smp parsing. So support for this kind of
++configurations (e.g. -smp 8,sockets=0) is deprecated since 6.2 and will
++be removed in the near future, users have to ensure that all the topology
++members described with -smp are greater than zero.
+ 
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 54e040587d..3b5df9b002 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -832,6 +832,20 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
+         return;
+     }
+ 
++    /*
++     * Specified CPU topology parameters must be greater than zero,
++     * explicit configuration like "cpus=0" is not allowed.
++     */
++    if ((config->has_cpus && config->cpus == 0) ||
++        (config->has_sockets && config->sockets == 0) ||
++        (config->has_dies && config->dies == 0) ||
++        (config->has_cores && config->cores == 0) ||
++        (config->has_threads && config->threads == 0) ||
++        (config->has_maxcpus && config->maxcpus == 0)) {
++        warn_report("Invalid CPU topology deprecated: "
++                    "CPU topology parameters must be greater than zero");
++    }
++
+     mc->smp_parse(ms, config, errp);
+     if (*errp) {
+         goto out_free;
+diff --git a/qapi/machine.json b/qapi/machine.json
+index 157712f006..10a97837d3 100644
+--- a/qapi/machine.json
++++ b/qapi/machine.json
+@@ -1297,7 +1297,7 @@
+ #
+ # @dies: number of dies per socket in the CPU topology
+ #
+-# @cores: number of cores per thread in the CPU topology
++# @cores: number of cores per die in the CPU topology
+ #
+ # @threads: number of threads per core in the CPU topology
+ #
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 83aa59a920..aee622f577 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -227,11 +227,13 @@ SRST
+     of computing the CPU maximum count.
+ 
+     Either the initial CPU count, or at least one of the topology parameters
+-    must be specified. Values for any omitted parameters will be computed
+-    from those which are given. Historically preference was given to the
+-    coarsest topology parameters when computing missing values (ie sockets
+-    preferred over cores, which were preferred over threads), however, this
+-    behaviour is considered liable to change.
++    must be specified. The specified parameters must be greater than zero,
++    explicit configuration like "cpus=0" is not allowed. Values for any
++    omitted parameters will be computed from those which are given.
++    Historically preference was given to the coarsest topology parameters
++    when computing missing values (ie sockets preferred over cores, which
++    were preferred over threads), however, this behaviour is considered
++    liable to change.
+ ERST
+ 
+ DEF("numa", HAS_ARG, QEMU_OPTION_numa,
+-- 
 2.19.1
 
 
