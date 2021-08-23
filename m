@@ -2,62 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F14B3F447D
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 06:54:34 +0200 (CEST)
-Received: from localhost ([::1]:54486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC2503F447F
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 06:55:53 +0200 (CEST)
+Received: from localhost ([::1]:56808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mI1yj-0005ZM-5G
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 00:54:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49642)
+	id 1mI200-000798-OH
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 00:55:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mI1xL-0004hf-PI; Mon, 23 Aug 2021 00:53:07 -0400
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:34514)
+ id 1mI1yj-00066U-6t; Mon, 23 Aug 2021 00:54:33 -0400
+Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:36862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mI1xK-0002dq-EI; Mon, 23 Aug 2021 00:53:07 -0400
-Received: by mail-yb1-xb35.google.com with SMTP id a93so31763782ybi.1;
- Sun, 22 Aug 2021 21:53:05 -0700 (PDT)
+ id 1mI1yh-0003lv-Op; Mon, 23 Aug 2021 00:54:32 -0400
+Received: by mail-yb1-xb2c.google.com with SMTP id f15so3424744ybg.3;
+ Sun, 22 Aug 2021 21:54:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=7Sg7F41rWj5fWwWwi1SiKJUBZlkf99+Sqr6Yl2j0wgM=;
- b=PaQH/SyrHvXVZ/GZ/jUsaKwEOPq9Dwn3lkwRTVPZa7hzA2HFtBBxY5wLSwC2bE7JCp
- W/diaLqCZZvFRTty2W8HyTpjQA+e7e+sLrB1gm2fg1oct4PUljoIdiDWW/t8qxy/QZgM
- n4Kt+3o9ejamzzP0rJfAO7GxzvS7p0U4yuQl3Q0bkhXWhyvQuKhg47G0CEY7SUtibZaJ
- pjbBOX/2+zZEp+of4801cclADwxf6GVIL0m2JsXyrroZ4WXZKtRUJ6CkNo48lfO7LZ1J
- czLCn1DUivccIDnxtleoPKztA24ttR3im7H6g/7GtIEuRty62t7nBUnNLnhjdwIPlP0V
- 2Emw==
+ :cc; bh=espU41oB8nx3yBQ5vRolREFGFqDcY/FQVwWvkbWSHnc=;
+ b=J54avKt17Iqs75MAXF0T46qgWE8zgBW5808nQYwMX/n+blbl8tnpq3RwUJdcPu3DKF
+ dQZWzFc9ue0hdGcZw0KX9XwRyHHGrYQx6oUgcxRUIoRUvQU0tYhDUAsQ2Z/p/MwsDX9G
+ feH02SHkqmopk+jEhCuzwud8nrF4YOA3p9E+lbtx5bXg3BGENwxEJW9dGMZXZQiqt+zs
+ pd1QnN0Q4dFgofUuPn3gKpwBsRcsnf2I2tx5h1kwzEMP5E1M0KDN6mlwVXuAE70VN/Wn
+ f2Hf5GKj0MD1o0KsRHbRcfV4pqjJnS0sJipXoQxXi71LGvoLbzi02Lq9yl6r+/r6Q+cl
+ lH0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=7Sg7F41rWj5fWwWwi1SiKJUBZlkf99+Sqr6Yl2j0wgM=;
- b=bzzTuVpSLGNyjE4O17MMECfX3CoFfO96pq1Q64CzbG/zrmxcbGPTYej6M+GvKz5xLm
- dwATro54yKDLBxTvOAFqHucXJ1u5ucBz0wHP78VT5CyIu9NdSuwEtSIZI7mEIfpJZF0S
- KVkOs4lO/zIYN0QtUqnuaCSQz3aATiTO61IMT/ARV1n9dnkpRP2igIiJXZaui1dGrR2e
- H7k8BupeKb7m4eN5tdF/Q4ifDRFjoiK8Un61JKUFIOk1QVHAEmO+vR3ZUWJ5cmzA+XPx
- SP+wnDDwZX4wUD2z0Y5y5JQkI264wfxoE5jvCTbYMmVkmXFAOb66Z5LjjDivsAsHBime
- 35vw==
-X-Gm-Message-State: AOAM533/oDLpB65q13xfeRRDXZxXiO8tCVNdmYJXMXTex9yvW5AqD1Q8
- 2xABej2UMEm61ONIFZoXU4nL1JYcW61VFSyTvdY=
-X-Google-Smtp-Source: ABdhPJzBl0x5P90RBH1gu+fbpqGjhFDsh/wxEfROPQ7b6BcqZPkCPmE/Wr9vRL3K/kiyisZCC3ZmK41bw05dyp3cygc=
-X-Received: by 2002:a25:be09:: with SMTP id h9mr43557708ybk.239.1629694385258; 
- Sun, 22 Aug 2021 21:53:05 -0700 (PDT)
+ bh=espU41oB8nx3yBQ5vRolREFGFqDcY/FQVwWvkbWSHnc=;
+ b=mY7mG7ZsYJS8pJi8yg1B2dkaw0o+y1YReTXHc3Tos5ix5BE/ZPkHdXJYU9EHUSeqZ5
+ GuIbWgSup1HKWv50jc0AoM/p8hD3OSTryXCd6l46OUW+nDiEatX92d6q2EGDVc0G2H3I
+ p48rFJj6eWh2PVXvhMDBAtPJxjcp8Sa2YhhVKzytAOz/u1E9cvMawJP2x0W5KdN/BErU
+ x4Ve/xYOyiZlLy/SSC5ZeQ+EGhMuBemcyAnX2LMc8oa/biDFRl+FYkS4QMWyJPQcYDIn
+ TGzbrILQAHQG4XJCHpldzAiZqE4YE1/Fr/AVICbdSHaUOzjoNLuvqChbRf4WJTkg2osG
+ BLLw==
+X-Gm-Message-State: AOAM5317XoQQuRtDmqgxifmDFYrX7ZniKQ+veeGNb+RvMR7yfHJFLW+/
+ sqqeCV1tWCI40ZN9tWe/MpcNmI99xCpam+o+Hk8=
+X-Google-Smtp-Source: ABdhPJwdbDKOpNzS4OlAfLrNq5ZYjsF7dyO9f3/SQZ/GvvqsuWODvhpis9z1CdwIYPaVuYhQqA/UaonRRHg6ZofxJ/0=
+X-Received: by 2002:a25:d712:: with SMTP id o18mr2117316ybg.122.1629694470284; 
+ Sun, 22 Aug 2021 21:54:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210823020813.25192-1-bmeng.cn@gmail.com>
- <20210823020813.25192-3-bmeng.cn@gmail.com>
- <CAKmqyKMzq-F=MYMA=_7MeLTodxY7Eo91Nta4nKuncvAZ=bQUOQ@mail.gmail.com>
-In-Reply-To: <CAKmqyKMzq-F=MYMA=_7MeLTodxY7Eo91Nta4nKuncvAZ=bQUOQ@mail.gmail.com>
+References: <20210820174257.548286-1-richard.henderson@linaro.org>
+ <20210820174257.548286-16-richard.henderson@linaro.org>
+In-Reply-To: <20210820174257.548286-16-richard.henderson@linaro.org>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 23 Aug 2021 12:52:54 +0800
-Message-ID: <CAEUhbmUscqN-8fe2BwJ3dRN63fJd5qVPQnnM+ifm5qjt1pPdhw@mail.gmail.com>
-Subject: Re: [PATCH 2/3] hw/char: cadence_uart: Disable transmit when input
- clock is disabled
-To: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 23 Aug 2021 12:54:19 +0800
+Message-ID: <CAEUhbmXw1yHj42wubAg0zA5WO_3mXg2dYudD7G8ofLPgQ33JWQ@mail.gmail.com>
+Subject: Re: [PATCH v4 15/21] target/riscv: Reorg csr instructions
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,49 +75,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 23, 2021 at 12:43 PM Alistair Francis <alistair23@gmail.com> wrote:
+On Sat, Aug 21, 2021 at 1:43 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> On Mon, Aug 23, 2021 at 12:11 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > At present when input clock is disabled, any character transmitted
-> > to tx fifo can still show on the serial line, which is wrong.
-> >
-> > Fixes: b636db306e06 ("hw/char/cadence_uart: add clock support")
-> > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-> > ---
-> >
-> >  hw/char/cadence_uart.c | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
-> > index b4b5e8a3ee..154be34992 100644
-> > --- a/hw/char/cadence_uart.c
-> > +++ b/hw/char/cadence_uart.c
-> > @@ -327,6 +327,11 @@ static gboolean cadence_uart_xmit(void *do_not_use, GIOCondition cond,
-> >  static void uart_write_tx_fifo(CadenceUARTState *s, const uint8_t *buf,
-> >                                 int size)
-> >  {
-> > +    /* ignore characters when unclocked or in reset */
-> > +    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
-> > +        return;
-> > +    }
+> Introduce csrr and csrw helpers, for read-only and write-only insns.
 >
-> Should we log a guest error here?
+> Note that we do not properly implement this in riscv_csrrw, in that
+> we cannot distinguish true read-only (rs1 == 0) from any other zero
+> write_mask another source register -- this should still raise an
+> exception for read-only registers.
+>
+> Only issue gen_io_start for CF_USE_ICOUNT.
+> Use ctx->zero for csrrc.
+> Use get_gpr and dest_gpr.
+>
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/riscv/helper.h                   |   6 +-
+>  target/riscv/op_helper.c                |  18 +--
+>  target/riscv/insn_trans/trans_rvi.c.inc | 172 +++++++++++++++++-------
+>  3 files changed, 131 insertions(+), 65 deletions(-)
 >
 
-Not sure. Based on my past experience of many hardware, if the input
-clock is disabled, accessing the whole register block might cause a
-bus fault. But I believe such bus fault is not modeled in QEMU.
-
-This change just mirrors the same check on the Rx side.
+When testing Linux kernel boot, there was a segment fault in the
+helper_csrw() path where ret_value pointer is now NULL, and some CSR
+write op does not test ret_value.
 
 Regards,
 Bin
