@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C9FC3F4EFD
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 19:07:43 +0200 (CEST)
-Received: from localhost ([::1]:34828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EA9D3F4EFF
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 19:08:33 +0200 (CEST)
+Received: from localhost ([::1]:36996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIDQ4-0002R1-91
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 13:07:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53722)
+	id 1mIDR2-0003s5-Hs
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 13:08:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mIDNd-0007eJ-2L
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 13:05:01 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:44818)
+ id 1mIDPw-0002nI-Tw
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 13:07:24 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:44570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mIDNY-0004Lf-Kl
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 13:05:00 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id v123so1212251pfb.11
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 10:04:56 -0700 (PDT)
+ id 1mIDPv-00066v-II
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 13:07:24 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ j4-20020a17090a734400b0018f6dd1ec97so410925pjs.3
+ for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 10:07:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=YHSsmsYQyf+ucYa2TOTYZ2vYZt9ZT6LWFOIMO9fDwKQ=;
- b=UM50+lpweodBxJn1QWrzAVNWQfUTsx0DnhM1mHCowpl3NDHcMU72SzRYsdjtbtnTFd
- v9W7YiSas9HedREcRWV0SD8P0G2PRPAfDtWht0AkF24vI3s1M3K1BnEcU9UXnTZpMeP8
- YfMiXRM63Og8Ut1E5kknuo6hPCdf2vSkGTXAPknxotkVF9vEC6vrUBXLYM3WFY7vC1Kj
- ROuoFl6QKht3oQGjzT7MhLgvZoGUSvTBhd5k2+aJN6vnea1NhvVmKBjZkt4oEHwnmtoR
- 1+gMyEM0OL53X44mchZG+dgBEyz3LowG0q5a9GcM1Ghoi8najWppLf1aN09Yfs7KdaNN
- JI2g==
+ bh=wpJqkdVCVsuKeGfFobn/6P2m/jcYpMZZWCPhf1kBp1o=;
+ b=B6Pm4H3qsD35eLi2DiEhKoFKzFtuUe1MO8gAmsUE9yscDoPOrnOgCxjpgA27G01Z62
+ LMKO8NtyHDNOF6y6VXqfzoDRZg9TN4P6FTPxPKcf/Pi5OLsi7w2HZEstTupgHZiZRy6R
+ qOPHwXdven1mKjKlltiLTm6A5KIr7l4URJtsKsWa5BtLg7S9Mqfheuc/EegZ4ZpKoLJe
+ Tu2NmI2Z9aHvMHNzL734Qc6nA9YW5p/78tPs1ns3CtN5Jq3T+JbxXCrZSudTuyvrTyLg
+ 0aVTWi3np0yldi46/JEUqr96+XhyfIDjBIhlG8FQz72JQEqxnEwjqaOPD/nOzveXH5h2
+ HhWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=YHSsmsYQyf+ucYa2TOTYZ2vYZt9ZT6LWFOIMO9fDwKQ=;
- b=VlwzM7dsLZdNpRcZjpb+2GANVALBJtT/jf/mC/WH5YQYtudMZI012ZWXWAYIjncNgH
- OYUknI3hT4AEQiQSYJ+ltfemDAIfSdHjWUaEi6599kVrM3Xx4LEaQiK+CFldc1r3X7BC
- Yl/T/ppjwoVNdwa4OUahB+XbplrTQF5g/RcXsxFyLrF63WLkIA//Qyyk8MpNZ9c6qiyz
- XIn24+y5kcuPkU/oJubkLuhOYK+b1o0arxxxahF5PsFHPxteRSKTCsItwDdBBfd1mvQs
- Kvsalc3GXDZxzDn4HlR3wI7o94RRwuf2g6Be/RzAZ4rdIJoay760dUQmOYUtad+Qk4V1
- cV4w==
-X-Gm-Message-State: AOAM530R4iltL3VcPS8YB6qdUTlPSE9T0mpLZTAd2R+n805Ztwixv1Lc
- VaQhmsjRm+eDfXFKrF4C9MPKFQ==
-X-Google-Smtp-Source: ABdhPJxqXyCQNEHVRJTFC2GFM6eCaXLBGPGIKy9JTdxg2NlVQalSPe5tf/osPyBN7ZJqXqnHdA7a5Q==
-X-Received: by 2002:a63:58d:: with SMTP id 135mr33173530pgf.441.1629738295219; 
- Mon, 23 Aug 2021 10:04:55 -0700 (PDT)
+ bh=wpJqkdVCVsuKeGfFobn/6P2m/jcYpMZZWCPhf1kBp1o=;
+ b=bHYyz0A6+wi4QQf3FcA+md06sICGsZ/yCJGuFeS4xMClx83i/pWH0rN+HwTHIb33KG
+ slvTYkY6azBZJBOmt+XcVOrKTPJL8nrEsftqwTT4kHMLfsJoyibKNxUkuRS21Pm2f4jo
+ YOl8opZBALahX8qNna8Xyam6E5EiAXZVUnmi+s1mcswMi2LVIp+E2ApDAo8IgQ6s7Clr
+ 30oJ3crXTLno4n/jlPYTie7yrM+64GtssVR+t95wAJxeZDgc20PtJ1K0fHJyrDC+2uTq
+ T+iJ2mWjs0h64G4jNYTPcKTHS55AiDzuX9kgg4Z/P7137rlHr2ljBViLqCJ0F5Cnu0st
+ 0lqg==
+X-Gm-Message-State: AOAM531PW3ELKm4C0Vteu70BjaaPs1fhj/+esDCiTdUg+xvLVMbD2KhT
+ 8IPnfKxdFaypo+G9jJg5OcIjGr7GhqUc0Q==
+X-Google-Smtp-Source: ABdhPJzAHhZfPWFIoVhHKG+WOxKiCpQefVPpUNj+LwBv4aWZN0IgB/82kzyZ6tPk4naZliKzDrwtMA==
+X-Received: by 2002:a17:90a:708c:: with SMTP id
+ g12mr21447630pjk.13.1629738441791; 
+ Mon, 23 Aug 2021 10:07:21 -0700 (PDT)
 Received: from [192.168.1.11] ([71.212.149.176])
- by smtp.gmail.com with ESMTPSA id s2sm16412585pfw.193.2021.08.23.10.04.54
+ by smtp.gmail.com with ESMTPSA id p3sm20152755pjt.0.2021.08.23.10.07.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Aug 2021 10:04:54 -0700 (PDT)
-Subject: Re: [PATCH v3 05/15] target/riscv: Remove shift-one instructions
- (proposed Zbo in pre-0.93 draft-B)
+ Mon, 23 Aug 2021 10:07:21 -0700 (PDT)
+Subject: Re: [PATCH v3 06/15] target/riscv: Reassign instructions to the
+ Zbs-extension
 To: Philipp Tomsich <philipp.tomsich@vrull.eu>, qemu-devel@nongnu.org
 References: <20210823164038.2195113-1-philipp.tomsich@vrull.eu>
- <20210823164038.2195113-6-philipp.tomsich@vrull.eu>
+ <20210823164038.2195113-7-philipp.tomsich@vrull.eu>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <92cece3e-43e3-b213-9034-dcf3e01d796f@linaro.org>
-Date: Mon, 23 Aug 2021 10:04:53 -0700
+Message-ID: <57193833-c447-03bf-11b4-e55642d8d776@linaro.org>
+Date: Mon, 23 Aug 2021 10:07:20 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210823164038.2195113-6-philipp.tomsich@vrull.eu>
+In-Reply-To: <20210823164038.2195113-7-philipp.tomsich@vrull.eu>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
@@ -94,21 +96,21 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/23/21 9:40 AM, Philipp Tomsich wrote:
-> The Zb[abcs] ratification package does not include the proposed
-> shift-one instructions. There currently is no clear plan to whether
-> these (or variants of them) will be ratified as Zbo (or a different
-> extension) or what the timeframe for such a decision could be.
+> The following instructions are part of Zbs:
+>   - b{set,clr,ext,inv}
+>   - b{set,clr,ext,inv}i
 > 
 > Signed-off-by: Philipp Tomsich<philipp.tomsich@vrull.eu>
 > ---
 > 
 > Changes in v3:
-> - Remove shift-one instructions in a separate commit.
+> - The changes to the Zbs instructions (i.e. the REQUIRE_ZBS macro) and
+>    its use for qualifying the Zba instructions) are moved into a
+>    separate commit.
 > 
->   target/riscv/insn32.decode              |  8 ----
->   target/riscv/insn_trans/trans_rvb.c.inc | 52 -------------------------
->   target/riscv/translate.c                | 14 -------
->   3 files changed, 74 deletions(-)
+>   target/riscv/insn32.decode              | 17 +++++++++--------
+>   target/riscv/insn_trans/trans_rvb.c.inc | 24 +++++++++++++++---------
+>   2 files changed, 24 insertions(+), 17 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
