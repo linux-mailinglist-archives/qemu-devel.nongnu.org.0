@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA853F4E71
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 18:35:30 +0200 (CEST)
-Received: from localhost ([::1]:38856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84FA23F4E79
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Aug 2021 18:37:23 +0200 (CEST)
+Received: from localhost ([::1]:43282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mICv3-0006SU-GU
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 12:35:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46772)
+	id 1mICws-00019m-7q
+	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 12:37:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1mICr6-0000sU-So
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 12:31:24 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:55227)
+ id 1mICrA-000137-Vv
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 12:31:29 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:38810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <niteesh.gs@gmail.com>)
- id 1mICr5-0008He-7Y
- for qemu-devel@nongnu.org; Mon, 23 Aug 2021 12:31:24 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id n5so12314157pjt.4
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 09:31:22 -0700 (PDT)
+ id 1mICr9-0008Nc-42
+ for qemu-devel@nongnu.org; Mon, 23 Aug 2021 12:31:28 -0400
+Received: by mail-pl1-x634.google.com with SMTP id a5so10486256plh.5
+ for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 09:31:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=e+vmUdU/giGsSkSIQo4m0qZs9uEO4d8YRre5I3lw2nc=;
- b=WHmXeDGd8ghdmSFkPpjE9IgjznWDk0bGKgzdllBM6cNnPnymq/E4A062EgQ+7HsJJH
- 4u4XX/0E43nNg2tSujso71i399EtZPszPk4YQcewq80WuRevc9FrTAwuf2fxqK0Mi0uo
- 67RuI4/gtJsjOA8zsBZJbMlZm2At0z0FhCTZmER4J7oJMpcfsIgQhzO8AE4WlYe8+D42
- AXI40AIZf4tvnt09InUcYrl5aXtNAdiE2wF8n/FRVtspA/xFGNkC09BXhbmETkPBk4+l
- OcEvQYfReQUIHOONKlqN072C5ZFM1OJ3vyWF7ONLxk9/a2eBEeCobmoKwwRgIIb1Zhdt
- 67fw==
+ bh=blFucbeqswjEJGA2DwljHA8w43+SFZPeBTr6pc869JU=;
+ b=iFi5ApxHqbNCAE1zkuguQj7GTwvTZ4C5nuw4DFl9Q9oKFCWhtouvFJP3WJsGpoYW/a
+ QZFg8N5AtzZJews6KoUG02wYHpoaTrBZE+5tF9FArXD6Nsq1Bc5/Kho93CqF1duiR4jM
+ arr/3WcOWe8VHCzA/qWR1uM55DjHPTq/aEb125ez7C8KpQtLbJHd/1XCgFw3ohFeQvGB
+ ivE0UNv7DG9O8IuVtkraHFq5p+cklZdYcfMYK9N6yEI0eAoB2eElfST2cz9gtHDIAesw
+ ERxKR+jeNXeJhTKQ9vio109tLnQD/mSVkyZeCR+cfP5eUspum+sSIl9MIXMPAiV+yscg
+ p8kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=e+vmUdU/giGsSkSIQo4m0qZs9uEO4d8YRre5I3lw2nc=;
- b=U2YbZRkKi9cpReggTf+dsSNTbrIC0e9HMsqlmUvVrhxizd2RyfzsAPFPle1i+La6zO
- zbjVIt+VRrs4LNOpvN9yQMYwflji9BHfaya0n3U9TRuUrFib5lM9JkjSyCCGB+hfoXm7
- 6gq9u3w9f0GusRnSel22Y5lIZN846sG45GyqawU90Px+Yy45TRLKt7sb5XWolwUbjKvm
- 5hMSIC6CXRHIeK07JQJiavezR0CLaeRAQasdo4zGa9NRmRsCHGNf4HO90RkH0HPd8NSm
- qzHMG7U8azqqVANB1ViMUUV9AZbKNxovadmBcp15p1MeDUd4CeblI7XPSfDAHkAV9TK2
- kNLA==
-X-Gm-Message-State: AOAM533z/0x3CwTT4g4CjZ+Zg938WE0Q28QHAjfYaHPBddtBAMor230t
- ZSjGuxm842yoIcpdEOngw93RsYWpmP8=
-X-Google-Smtp-Source: ABdhPJwvDstq4xqqKMo35m6MDbfAQ3+mwf6F4KAIfwvbFQLDBOj1I/F+0+1XuC/OHsC0jpZ9niHUQw==
-X-Received: by 2002:a17:902:7203:b0:133:ec6b:6c16 with SMTP id
- ba3-20020a170902720300b00133ec6b6c16mr6544368plb.67.1629736281724; 
- Mon, 23 Aug 2021 09:31:21 -0700 (PDT)
+ bh=blFucbeqswjEJGA2DwljHA8w43+SFZPeBTr6pc869JU=;
+ b=Er/QLZq4tPDTcGrcxV2iY2nVDxZEfusiVcfWbA0PTlqoui3oN0n57zQLjPCq1QvL6w
+ kzsd6OkuF/p6ehi1rmmbePatit+/IIx+G4e4N/ecAO71Ln3DMD99mJcuFnadfqhGIUNx
+ Ryayo7pnmekixWSd1H8Cbqw6VB49sru76AXeqJ+C/mOMtrUg5SZTJzlXv1mxClofDqn5
+ UFlbq2x4FSKba+C1/7Th4kySa9v2kzbvJHcU+Hnx8dyuuYM0CBRSX1p/J6q2JX8o2uPK
+ fKCS7E/nBseRr1FEskKNtpUwyAW3MtsZxu4qRCFykam1pfU4wSC9bbSTumUcaNul0VkE
+ 8XjQ==
+X-Gm-Message-State: AOAM530wMeT4duMyRvmL5VsePgX86FBwRoAwsydjF2YiDams5AFDhElv
+ 5m345ocNTXPq6iV8q18SHbG29rPrchY=
+X-Google-Smtp-Source: ABdhPJwXKghFjp5OgwShXKw6bDFkcdqzCTJ7HCLxOZNrUmNxI6b+/h2OTI5Mzp8NPDfDc3gC6D0g1Q==
+X-Received: by 2002:a17:902:fe81:b0:133:851e:5923 with SMTP id
+ x1-20020a170902fe8100b00133851e5923mr7591743plm.25.1629736285521; 
+ Mon, 23 Aug 2021 09:31:25 -0700 (PDT)
 Received: from localhost.localdomain ([120.138.13.180])
- by smtp.gmail.com with ESMTPSA id x19sm16371243pfa.104.2021.08.23.09.31.17
+ by smtp.gmail.com with ESMTPSA id x19sm16371243pfa.104.2021.08.23.09.31.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Aug 2021 09:31:21 -0700 (PDT)
+ Mon, 23 Aug 2021 09:31:25 -0700 (PDT)
 From: G S Niteesh Babu <niteesh.gs@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 4/5] python: add optional pygments dependency
-Date: Mon, 23 Aug 2021 21:59:37 +0530
-Message-Id: <20210823162938.32757-5-niteesh.gs@gmail.com>
+Subject: [PATCH v5 5/5] python/aqmp-tui: Add syntax highlighting
+Date: Mon, 23 Aug 2021 21:59:38 +0530
+Message-Id: <20210823162938.32757-6-niteesh.gs@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210823162938.32757-1-niteesh.gs@gmail.com>
 References: <20210823162938.32757-1-niteesh.gs@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=niteesh.gs@gmail.com; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=niteesh.gs@gmail.com; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,69 +87,105 @@ Cc: ehabkost@redhat.com, kchamart@redhat.com, jsnow@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added pygments as optional dependency for AQMP TUI.
-This is required for the upcoming syntax highlighting feature
-in AQMP TUI.
-The dependency has also been added in the devel optional group.
+Add syntax highlighting for the incoming and outgoing QMP messages.
+This is achieved using the pygments module which was added in a
+previous commit.
 
-Added mypy 'ignore_missing_imports' for pygments since it does
-not have any type stubs.
+The current implementation is a really simple one which doesn't
+allow for any configuration. In future this has to be improved
+to allow for easier theme config using an external config of
+some sort.
 
 Signed-off-by: G S Niteesh Babu <niteesh.gs@gmail.com>
 ---
- python/Pipfile.lock | 8 ++++++++
- python/setup.cfg    | 5 +++++
- 2 files changed, 13 insertions(+)
+ python/qemu/aqmp/aqmp_tui.py | 36 ++++++++++++++++++++++++++++++++++--
+ 1 file changed, 34 insertions(+), 2 deletions(-)
 
-diff --git a/python/Pipfile.lock b/python/Pipfile.lock
-index da7a4ee164..d2a7dbd88b 100644
---- a/python/Pipfile.lock
-+++ b/python/Pipfile.lock
-@@ -200,6 +200,14 @@
-             ],
-             "version": "==2.0.0"
-         },
-+        "pygments": {
-+            "hashes": [
-+                "sha256:a18f47b506a429f6f4b9df81bb02beab9ca21d0a5fee38ed15aef65f0545519f",
-+                "sha256:d66e804411278594d764fc69ec36ec13d9ae9147193a1740cd34d272ca383b8e"
-+            ],
-+            "markers": "python_version >= '3.5'",
-+            "version": "==2.9.0"
-+        },
-         "pylint": {
-             "hashes": [
-                 "sha256:082a6d461b54f90eea49ca90fff4ee8b6e45e8029e5dbd72f6107ef84f3779c0",
-diff --git a/python/setup.cfg b/python/setup.cfg
-index 0850c7a10f..435f86384a 100644
---- a/python/setup.cfg
-+++ b/python/setup.cfg
-@@ -46,6 +46,7 @@ devel =
-     tox >= 3.18.0
-     urwid >= 2.1.2
-     urwid-readline >= 0.13
-+    Pygments >= 2.9.0
+diff --git a/python/qemu/aqmp/aqmp_tui.py b/python/qemu/aqmp/aqmp_tui.py
+index d3180e38bf..9b28eebb90 100644
+--- a/python/qemu/aqmp/aqmp_tui.py
++++ b/python/qemu/aqmp/aqmp_tui.py
+@@ -29,6 +29,8 @@
+     cast,
+ )
  
- # Provides qom-fuse functionality
- fuse =
-@@ -55,6 +56,7 @@ fuse =
- tui =
-     urwid >= 2.1.2
-     urwid-readline >= 0.13
-+    Pygments >= 2.9.0
++from pygments import lexers
++from pygments import token as Token
+ import urwid
+ import urwid_readline
  
- [options.entry_points]
- console_scripts =
-@@ -97,6 +99,9 @@ ignore_missing_imports = True
- [mypy-urwid_readline]
- ignore_missing_imports = True
+@@ -44,6 +46,22 @@
+ UPDATE_MSG: str = 'UPDATE_MSG'
  
-+[mypy-pygments]
-+ignore_missing_imports = True
+ 
++palette = [
++    (Token.Punctuation, '', '', '', 'h15,bold', 'g7'),
++    (Token.Text, '', '', '', '', 'g7'),
++    (Token.Name.Tag, '', '', '', 'bold,#f88', 'g7'),
++    (Token.Literal.Number.Integer, '', '', '', '#fa0', 'g7'),
++    (Token.Literal.String.Double, '', '', '', '#6f6', 'g7'),
++    (Token.Keyword.Constant, '', '', '', '#6af', 'g7'),
++    ('DEBUG', '', '', '', '#ddf', 'g7'),
++    ('INFO', '', '', '', 'g100', 'g7'),
++    ('WARNING', '', '', '', '#ff6', 'g7'),
++    ('ERROR', '', '', '', '#a00', 'g7'),
++    ('CRITICAL', '', '', '', '#a00', 'g7'),
++    ('background', '', 'black', '', '', 'g7'),
++]
 +
- [pylint.messages control]
- # Disable the message, report, category or checker with the given id(s). You
- # can either give multiple identifiers separated by comma (,) or put this
++
+ def format_json(msg: str) -> str:
+     """
+     Formats given multi-line JSON message into a single-line message.
+@@ -359,6 +377,9 @@ def run(self, debug: bool = False) -> None:
+         :param debug:
+             Enables/Disables asyncio event loop debugging
+         """
++        screen = urwid.raw_display.Screen()
++        screen.set_terminal_properties(256)
++
+         self.aloop = asyncio.get_event_loop()
+         self.aloop.set_debug(debug)
+ 
+@@ -370,6 +391,8 @@ def run(self, debug: bool = False) -> None:
+         event_loop = urwid.AsyncioEventLoop(loop=self.aloop)
+         main_loop = urwid.MainLoop(urwid.AttrMap(self.window, 'background'),
+                                    unhandled_input=self.unhandled_input,
++                                   screen=screen,
++                                   palette=palette,
+                                    handle_mouse=True,
+                                    event_loop=event_loop)
+ 
+@@ -493,7 +516,8 @@ def __init__(self, parent: App) -> None:
+         self.history = urwid.SimpleFocusListWalker([])
+         super().__init__(self.history)
+ 
+-    def add_to_history(self, history: str) -> None:
++    def add_to_history(self,
++                       history: Union[str, List[Tuple[str, str]]]) -> None:
+         """
+         Appends a message to the list and set the focus to the last appended
+         message.
+@@ -541,10 +565,18 @@ def cb_add_to_history(self, msg: str, level: Optional[str] = None) -> None:
+ 
+         :param msg:
+             The message to be appended to the history box.
++        :param level:
++            The log level of the message, if it is a log message.
+         """
++        formatted = []
+         if level:
+             msg = f'[{level}]: {msg}'
+-        self.history.add_to_history(msg)
++            formatted.append((level, msg))
++        else:
++            lexer = lexers.JsonLexer()  # pylint: disable=no-member
++            for token in lexer.get_tokens(msg):
++                formatted.append(token)
++        self.history.add_to_history(formatted)
+ 
+ 
+ class Window(urwid.Frame):
 -- 
 2.17.1
 
