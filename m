@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DD783F5ECF
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 15:17:13 +0200 (CEST)
-Received: from localhost ([::1]:59034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36FA33F5F26
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 15:27:35 +0200 (CEST)
+Received: from localhost ([::1]:35794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIWId-0001ax-A5
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 09:17:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37654)
+	id 1mIWSd-0005nY-V4
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 09:27:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mIWHS-0000QF-GW
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 09:15:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42674)
+ id 1mIWRl-0004w5-OD
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 09:26:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42779)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mIWHQ-00005q-Mo
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 09:15:54 -0400
+ id 1mIWRi-0007Hj-8A
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 09:26:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629810951;
+ s=mimecast20190719; t=1629811588;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=iAVOjM0auXQe0XQPJwMjgEyB5yByPFtMCiPLhl1DI4s=;
- b=i3a8a+Egw/0wFE27WruLTybx2C+8rn/vkfNANACijbYxXcjhGifJ/BcYyVTNkuSZbLV0ko
- 0IX5yQTCrjrBAmCN+uWGNmKTuVriYAvCe8/b9oC5G04Z1n73xAhFhn5/neDwNj/P/PPIfm
- /PyppGxnbl3GbxNJCnH8p9oj6gqJ2Lw=
+ bh=69FTIuPOz3bcduqd9RNtUiDlBnmr7FEoMJmCHTIVecA=;
+ b=XFZStGwlbxII6zsNA77AIqtaoTHK/jFJj5uoMOo+CZHnLZ/9fD+DApDe5tftYBDux1xCXp
+ VJiiCz7wWCvB2lf6DXrfLvIW0GN1Vr8/Q+2L2VDquXJ64EvFhjlXbtEgWVK27YRDm30zFx
+ Ky/gnHEbaEUNJyVbY9nRLruy8iIihm4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-436-Bu8-Y6wnNdqMMZd4lpyIYQ-1; Tue, 24 Aug 2021 09:15:49 -0400
-X-MC-Unique: Bu8-Y6wnNdqMMZd4lpyIYQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-555-UufE8c1jPbi7dIfmpZpq6w-1; Tue, 24 Aug 2021 09:26:26 -0400
+X-MC-Unique: UufE8c1jPbi7dIfmpZpq6w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BA0D760C4;
- Tue, 24 Aug 2021 13:15:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F9F98799E0;
+ Tue, 24 Aug 2021 13:26:25 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 672F85DA61;
- Tue, 24 Aug 2021 13:15:34 +0000 (UTC)
-Date: Tue, 24 Aug 2021 14:15:33 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E9E960854;
+ Tue, 24 Aug 2021 13:26:13 +0000 (UTC)
+Date: Tue, 24 Aug 2021 14:26:12 +0100
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [RFC PATCH v2 5/5] softmmu/physmem: Have flaview API check
- MemTxAttrs::bus_perm field
-Message-ID: <YSTw9VPd44uIZ55L@stefanha-x1.localdomain>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [RFC PATCH v2 0/5] physmem: Have flaview API check bus
+ permission from MemTxAttrs argument
+Message-ID: <YSTzdP19h08bamT+@stefanha-x1.localdomain>
 References: <20210823164157.751807-1-philmd@redhat.com>
- <20210823164157.751807-6-philmd@redhat.com>
+ <CAFEAcA9_=6n4w86gD3MHhiLeCiui9_+ePT7E2sSHdSRufUJdyA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210823164157.751807-6-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <CAFEAcA9_=6n4w86gD3MHhiLeCiui9_+ePT7E2sSHdSRufUJdyA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="41nAj7jRFH3UlYKe"
+ protocol="application/pgp-signature"; boundary="pXjqXqLeBadI5u8Q"
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -80,92 +80,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, qemu-devel@nongnu.org,
+Cc: David Hildenbrand <david@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
  Peter Xu <peterx@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Alexander Bulekov <alxndr@bu.edu>, qemu-arm@nongnu.org,
+ Alexander Bulekov <alxndr@bu.edu>, qemu-arm <qemu-arm@nongnu.org>,
  Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---41nAj7jRFH3UlYKe
+--pXjqXqLeBadI5u8Q
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 23, 2021 at 06:41:57PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> Check bus permission in flatview_access_allowed() before
-> running any bus transaction.
+On Mon, Aug 23, 2021 at 08:10:50PM +0100, Peter Maydell wrote:
+> On Mon, 23 Aug 2021 at 17:42, Philippe Mathieu-Daud=E9 <philmd@redhat.com=
+> wrote:
+> >
+> > This series aim to kill a recent class of bug, the infamous
+> > "DMA reentrancy" issues found by Alexander while fuzzing.
+> >
+> > Introduce the 'bus_perm' field in MemTxAttrs, defining 3 bits:
+> >
+> > - MEMTXPERM_UNSPECIFIED (current default, unchanged behavior)
+> > - MEMTXPERM_UNRESTRICTED (allow list approach)
+> > - MEMTXPERM_RAM_DEVICE (example of deny list approach)
+> >
+> > If a transaction permission is not allowed (for example access
+> > to non-RAM device), we return the specific MEMTX_BUS_ERROR.
+> >
+> > Permissions are checked in after the flatview is resolved, and
+> > before the access is done, in a new function: flatview_access_allowed()=
+.
 >=20
-> There is not change for the default case (MEMTXPERM_UNSPECIFIED).
->=20
-> The MEMTXPERM_UNRESTRICTED case works as an allow list. Devices
-> using it won't be checked by flatview_access_allowed().
->=20
-> The only deny list equivalent is MEMTXPERM_RAM_DEVICE: devices
-> using this flag will reject transactions and set the optional
-> MemTxResult to MEMTX_BUS_ERROR.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> ---
->  softmmu/physmem.c | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
->=20
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 0d31a2f4199..329542dba75 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -2772,7 +2772,22 @@ static inline bool flatview_access_allowed(MemoryR=
-egion *mr, MemTxAttrs attrs,
->                                             hwaddr addr, hwaddr len,
->                                             MemTxResult *result)
->  {
-> -    return true;
-> +    if (unlikely(attrs.bus_perm =3D=3D MEMTXPERM_RAM_DEVICE)) {
-> +        if (memory_region_is_ram(mr) || memory_region_is_ram_device(mr))=
- {
-> +            return true;
-> +        }
-> +        qemu_log_mask(LOG_GUEST_ERROR,
-> +                      "Invalid access to non-RAM device at "
-> +                      "addr 0x%" HWADDR_PRIX ", size %" HWADDR_PRIu ", "
-> +                      "region '%s'\n", addr, len, memory_region_name(mr)=
-);
-> +        if (result) {
-> +            *result |=3D MEMTX_BUS_ERROR;
+> So I'm not going to say 'no' to this, because we have a real
+> recursive-device-handling problem and I don't have a better
+> idea to hand, but the thing about this is that we end up with
+> behaviour which is not what the real hardware does. I'm not
+> aware of any DMA device which has this kind of "can only DMA
+> to/from RAM, and aborts on access to a device" behaviour...
 
-Why bitwise OR?
+Points that have come up in previous discussions on this topic:
 
-> +        }
-> +        return false;
-> +    } else {
-> +        /* MEMTXPERM_UNRESTRICTED and MEMTXPERM_UNSPECIFIED cases */
-> +        return true;
-> +    }
->  }
-> =20
->  /* Called within RCU critical section.  */
-> --=20
-> 2.31.1
->=20
+- We probably won't be able to find out the actual hardware behavior for
+  all device models in QEMU. Strict RAM-only DMA restrictions can be
+  merged early in the QEMU 6.2 development cycle so there's plenty of
+  time to identify regressions. The benefit of a strict policy is that
+  we eliminate this class of bugs for most devices now and in the
+  future.
 
---41nAj7jRFH3UlYKe
+- If the risk of regressions is too high, then this API can be used on a
+  case-by-case basis to fix bugs such as those identified by Alexander's
+  fuzzer. We'll be plagued with this class of bugs in the future though,
+  so I prefer a strict policy.
+
+- DMA capabilities depend on the host bus adapter/controller. In order
+  to faithfully emulate real hardware we need to know how it behaves.
+  That needs to be done for each host bus adapter (e.g. PCI
+  controllers).
+
+- SysBus devices each have their own behavior wrt device-to-device DMA.
+
+Stefan
+
+--pXjqXqLeBadI5u8Q
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmEk8PUACgkQnKSrs4Gr
-c8gOrQgAnUd/jiEbrPHMv7Wcq9dhEnQS6MRRvw5WR+DXDb5dWlb0Jshi13LVHMrv
-SW752fJhNR6HHaAy+gZ+Zz9v5llGSO4Tjxx5WCt8J4PE+iApC9rQ8rjQHQWzrzI5
-/8F1/D/05pMfJtUUiM1R3aUYWEEIMahKaVrIKAcVV66pjZLU3PCtNTLlvUU6Fc1d
-g/QgODCr/n2frlCsy17lpnLVDvpQDRMkPSMQ/VohOe9V1zRhVE4UK7mwP7y5+kh9
-832s+AT2TUDgZoLb2gHH2E8ZEyQgq6EGrLcJGzEWMnSHlwr7dXz7I6eguCx6KHXC
-bsRSxwf55/XRil91xewOEmtGfs13ng==
-=y7yh
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmEk83QACgkQnKSrs4Gr
+c8hd7Af9F81o80rbVdusZu81LGkcxEOeyDWM1B89uLqZwVSyTbRnLsFnrDK9U54A
+z8kxAUey0AKLdGorw4fqgOMVmQnCnzWKqbQ3XwDog/QafD0bnJkj1hx1v2nynRAU
+svCLRvNwQCnGROVZKzI+nZXKb0uHUStxXmaM8uyyV88IqI65bFNGh0NdBDErGHv0
+rjxYIqiqP219Fluy4GzDLBI7/QpPMuTEVPcYkN3+OrHppLyO0pUhpx22AuEZQBoI
+yVB3UECkGl4F4VaEQijgl99prz3cUEeGMGiunoKUSZ9YUwRPofpBRDmWdkdVdXB3
+toNVmjshLD64LfOMXl8KMg9lvwI8yw==
+=Il8t
 -----END PGP SIGNATURE-----
 
---41nAj7jRFH3UlYKe--
+--pXjqXqLeBadI5u8Q--
 
 
