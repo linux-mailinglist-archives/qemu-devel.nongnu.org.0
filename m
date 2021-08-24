@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 334EE3F61C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 17:37:13 +0200 (CEST)
-Received: from localhost ([::1]:48160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B71773F61CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 17:37:20 +0200 (CEST)
+Received: from localhost ([::1]:48730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIYUC-0007tq-85
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 11:37:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42850)
+	id 1mIYUJ-0008HI-Eb
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 11:37:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mIYSr-0005sk-Un
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:35:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23405)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mIYSs-0005t9-S2
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:35:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36089)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mIYSo-0004AX-WA
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:35:48 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mIYSr-0004CO-99
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:35:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629819346;
+ s=mimecast20190719; t=1629819348;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vrMv4AwL9rE9R0cBQ6Kbg/vmNzPTsIApau/32pg7Bh4=;
- b=S7B3HHAPVtfdwXFVqMqAG4Zd1DWO5L/KNosF1o38G49GWSDUcgtH7MFRxbyihclj7u+KOK
- jhAZKStQEPuxFbmZlQXujDS+m58oXYnAf7vu9gCLgM6JtQQvn+XZyfkZvM2HfyKIF6XlcO
- bSt86knaqw7NLeDa0syR2TeLFIxsJB0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PdkYt9HKesmkc3YpAwfw+wua9WnAJLmtEvhQeo4CKbE=;
+ b=Mp6GtoYrbQT36fcPxvlUTQNDReOtHXLBltCU9MqAHxxTn/ktngTnSOzk9em4QMIPogo2eu
+ 2D2SkhfK/AkQIQosL0NqhLqSSBeX5h67rUWmMbgn+IfMDYcHAVVGc2BOYcdOzxwho9jxpm
+ WSS84xfWsTLWQw8JIn52KlO1hcbdlKE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-So1km0y5PlS7x0NfMSpN7Q-1; Tue, 24 Aug 2021 11:35:43 -0400
-X-MC-Unique: So1km0y5PlS7x0NfMSpN7Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-171-5u42YjvENJeV3WHg09IURA-1; Tue, 24 Aug 2021 11:35:45 -0400
+X-MC-Unique: 5u42YjvENJeV3WHg09IURA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 544BC87180F;
- Tue, 24 Aug 2021 15:35:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5C270760C4;
+ Tue, 24 Aug 2021 15:35:44 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id ED3CA19C44;
- Tue, 24 Aug 2021 15:35:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F36C55D9C6;
+ Tue, 24 Aug 2021 15:35:43 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 0/2] iotests: Fix pylint warnings
-Date: Tue, 24 Aug 2021 17:35:38 +0200
-Message-Id: <20210824153540.177128-1-hreitz@redhat.com>
+Subject: [PATCH 1/2] iotests: Fix unspecified-encoding pylint warnings
+Date: Tue, 24 Aug 2021 17:35:39 +0200
+Message-Id: <20210824153540.177128-2-hreitz@redhat.com>
+In-Reply-To: <20210824153540.177128-1-hreitz@redhat.com>
+References: <20210824153540.177128-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -60,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,23 +81,62 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+As of recently, pylint complains when `open()` calls are missing an
+`encoding=` specified.  Everything we have should be UTF-8 (and in fact,
+everything should be UTF-8, period (exceptions apply)), so use that.
 
-I’ve updated my pylint to 2.10.2 and was greeted with some new warnings.
-Some are fixed by John’s “Run iotest linters during Python CI” series
-(https://lists.nongnu.org/archive/html/qemu-block/2021-07/msg00611.html),
-but some are not (namely unspecified-encoding, use-list-literal, and
-use-dict-literal).  This series cleans up that rest.
+Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+---
+ tests/qemu-iotests/297        | 2 +-
+ tests/qemu-iotests/iotests.py | 8 +++++---
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-
-Hanna Reitz (2):
-  iotests: Fix unspecified-encoding pylint warnings
-  iotests: Fix use-{list,dict}-literal warnings
-
- tests/qemu-iotests/297        |  2 +-
- tests/qemu-iotests/iotests.py | 12 +++++++-----
- 2 files changed, 8 insertions(+), 6 deletions(-)
-
+diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
+index 433b732336..0a49953d27 100755
+--- a/tests/qemu-iotests/297
++++ b/tests/qemu-iotests/297
+@@ -46,7 +46,7 @@ def is_python_file(filename):
+     if filename.endswith('.py'):
+         return True
+ 
+-    with open(filename) as f:
++    with open(filename, encoding='utf-8') as f:
+         try:
+             first_line = f.readline()
+             return re.match('^#!.*python', first_line) is not None
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 4c8971d946..c05c16494b 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -610,7 +610,7 @@ def _post_shutdown(self) -> None:
+             return
+         valgrind_filename =  f"{test_dir}/{self._popen.pid}.valgrind"
+         if self.exitcode() == 99:
+-            with open(valgrind_filename) as f:
++            with open(valgrind_filename, encoding='utf-8') as f:
+                 print(f.read())
+         else:
+             os.remove(valgrind_filename)
+@@ -1120,7 +1120,8 @@ def notrun(reason):
+     # Each test in qemu-iotests has a number ("seq")
+     seq = os.path.basename(sys.argv[0])
+ 
+-    with open('%s/%s.notrun' % (output_dir, seq), 'w') as outfile:
++    with open('%s/%s.notrun' % (output_dir, seq), 'w', encoding='utf-8') \
++            as outfile:
+         outfile.write(reason + '\n')
+     logger.warning("%s not run: %s", seq, reason)
+     sys.exit(0)
+@@ -1134,7 +1135,8 @@ def case_notrun(reason):
+     # Each test in qemu-iotests has a number ("seq")
+     seq = os.path.basename(sys.argv[0])
+ 
+-    with open('%s/%s.casenotrun' % (output_dir, seq), 'a') as outfile:
++    with open('%s/%s.casenotrun' % (output_dir, seq), 'a', encoding='utf-8') \
++            as outfile:
+         outfile.write('    [case not run] ' + reason + '\n')
+ 
+ def _verify_image_format(supported_fmts: Sequence[str] = (),
 -- 
 2.31.1
 
