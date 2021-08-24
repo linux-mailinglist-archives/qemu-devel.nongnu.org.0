@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638973F62C0
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 18:35:37 +0200 (CEST)
-Received: from localhost ([::1]:35028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA613F62C7
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 18:37:09 +0200 (CEST)
+Received: from localhost ([::1]:43526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIZOi-0007hx-Fm
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 12:35:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55786)
+	id 1mIZQ7-00051Q-Ow
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 12:37:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mIZKA-0007Qr-0p; Tue, 24 Aug 2021 12:30:54 -0400
-Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:40468)
+ id 1mIZKC-0007ZO-Mk; Tue, 24 Aug 2021 12:30:56 -0400
+Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:36610)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mIZK7-0008K4-SD; Tue, 24 Aug 2021 12:30:53 -0400
-Received: by mail-qk1-x72e.google.com with SMTP id t190so23822513qke.7;
- Tue, 24 Aug 2021 09:30:51 -0700 (PDT)
+ id 1mIZKA-0008M8-Rx; Tue, 24 Aug 2021 12:30:56 -0400
+Received: by mail-qk1-x731.google.com with SMTP id e14so23812155qkg.3;
+ Tue, 24 Aug 2021 09:30:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+LXy/XCHdL2jsCuzUMs/ntEZhhjEjRiWSdYrrOVWX9g=;
- b=C3G9ItNmuEooHWboHUwzPSzN+O3SzrsAiWNA3pdihIm0ej/5pJKx2F7l8/oioaxGG1
- xa5MEatkooL3RyBdme3Ag0kkBNjqvjFiSTn0NVtwjGxOGn75TrJos5mqXutkwPvpz7+i
- UabhADRDRPtqkUdnHZ4xXz5OiqOpDqpjDZprhk0FK5iasGz1AX/d1q+VQH3tyvVcNFig
- As/HkuUocd1nMHGoi2ajbzLGq70M9DI9HZFiElchrP+j0si0W7yZ2kfdiOt9r5vfMO6X
- 4lPmYgjuKo4uIetrsNZPmbbyouefwDNCUYTvQ+Qu6hmTSxNc1gINN6o0BKS+dO5zOZXO
- B8oA==
+ bh=zqlITwEG+nQaBpubf/bz76C7EtM3eawDjbWHbyrEmHo=;
+ b=bshbEA8c/w83KEYYWX1M3P2uLBEby8xlWGHKmTCio8qRJ6XanAvoAOrvqA/f6aIGA7
+ L77B1WElSknAih70AyX3g6k2NXBbfXYXdcfbcvN89sRZQMRZ2VkLAbGkqdZgjfwi30oE
+ I5adDLhE7U95pHg18AF2ACHWGlVdCYFoccPPBr/DK19oqNLCEXKLAVJdjWgPx66bXT1W
+ Qz0jyv1FMmvHM/GWTANL3b0jGBUw8XZ/8+FexEYvNpN/RPF6HFJWYB/LwXapvZSTuwK7
+ sRgTLuPMeUXRVr4ep9bHxMjR0nrJxARWXkGiEEC6R04TholDqNF+JYyfQsSUAF7t4JWX
+ 5Q/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+LXy/XCHdL2jsCuzUMs/ntEZhhjEjRiWSdYrrOVWX9g=;
- b=npmGYxDYFtvU1sR4zxxBgQ9VuRhkT7WodKggf1Y4MIFXCUp+kK3AJ4beg62AyBUxNq
- F0um1M4T/lq2EcLPgRdF1MJxZdTbh31zGyEK9Dn7Jr6ykhz/0ec1SBtF/w6tBi3he0ta
- Xn9sZdDWaraad/xnLY+bSUtcHo1pEcV5eZ+ZbIMnvUPxJGOm+8FlBlhW7LAlcgMPTmSW
- FjNL6TkfHqtldtUieW7a7hAvVCbrk/xrNTAThocBIz3bbIfaYWCJy5yJ1L50FCf9jq2F
- x83EallRV/33/BwVxYnc8vfocBwG5Vx1Gr3pLQ8nDewfbUB0wpN1QDfKi7LGV7dpr4dv
- dTDg==
-X-Gm-Message-State: AOAM5317A4X+H402kpIgC3wOsEjmIulmq5viS7repQSNhhgMuKbwMJg9
- Rh7KC/490X0c4njPXRBMLurdoaGF8zI=
-X-Google-Smtp-Source: ABdhPJyZD57y7Rg5tD5XFIFnOttJs628KoWKjGuVVqDaqFQjD+ZEatlLXZqzfpAtBzwcKGti8hfx0g==
-X-Received: by 2002:a05:620a:214f:: with SMTP id
- m15mr26751869qkm.59.1629822650336; 
- Tue, 24 Aug 2021 09:30:50 -0700 (PDT)
+ bh=zqlITwEG+nQaBpubf/bz76C7EtM3eawDjbWHbyrEmHo=;
+ b=DHQX6DAwcOf/7oTzgfE4wClkZmzg+iOtlFNcb0aPO6wxRbe31Gav/uUtJedLmC02UB
+ XszhqcveipiwQEBwp7Q32lr5l6eJxXPD9DOrulkuUAhekr8cXiqOLuM3VewdCxrWctv+
+ 1mQgYkJZcp6kFC9h+Vlj03qF7jCsq2HX9VM3sDcfLxaPzZ2VAFNV5XeU4iYwtyyOIn70
+ dF9AjwrHCzhMJxmR6KEYYorvZKrbt7/bEY5KNehK4+WWJpOC6JVjfNJsumaeNb4gu8Hf
+ dQhdm0DLj4XVxjbONLmjoDkTYHAUyz4vKYO9UPBjLXfaVTdKcZ01kLH4WTDL4qs7qnLh
+ RYJQ==
+X-Gm-Message-State: AOAM532kjz0YoRf1YdjARZuumYJ0kg8lO8VJBy1JKldBRoD+9aujvAfL
+ xf8+ZZDKVrJYkcD6PpsJavfMM0sa7CY=
+X-Google-Smtp-Source: ABdhPJxSQhukTOyuxqmZwXPuejM5cmAGfiRcIw6ABPYCVt/n+2NHb7j2MHDP4k7xfOu6HqZx3mggfA==
+X-Received: by 2002:a05:620a:9c9:: with SMTP id
+ y9mr27849705qky.207.1629822653320; 
+ Tue, 24 Aug 2021 09:30:53 -0700 (PDT)
 Received: from rekt.ihost.com ([179.247.162.205])
- by smtp.gmail.com with ESMTPSA id 75sm10951474qko.100.2021.08.24.09.30.47
+ by smtp.gmail.com with ESMTPSA id 75sm10951474qko.100.2021.08.24.09.30.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Aug 2021 09:30:49 -0700 (PDT)
+ Tue, 24 Aug 2021 09:30:53 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/16] target/ppc: add user read functions for MMCR0 and
- MMCR2
-Date: Tue, 24 Aug 2021 13:30:18 -0300
-Message-Id: <20210824163032.394099-3-danielhb413@gmail.com>
+Subject: [PATCH v2 03/16] target/ppc: add exclusive user write function for
+ MMCR0
+Date: Tue, 24 Aug 2021 13:30:19 -0300
+Message-Id: <20210824163032.394099-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210824163032.394099-1-danielhb413@gmail.com>
 References: <20210824163032.394099-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x731.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -91,119 +91,98 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gustavo Romero <gromero@linux.ibm.com>
 
-This patch adds handling of UMMCR0 and UMMCR2 user read which,
-according to PowerISA 3.1, has some bits ommited to the
-userspace.
+Similar to the previous patch, user write on some PowerPC
+PMU regs, in this case, MMCR0, is limited. Create a new
+function to handle that.
 
 CC: Gustavo Romero <gustavo.romero@linaro.org>
 Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu.h       |  5 +++++
- target/ppc/cpu_init.c  |  4 ++--
- target/ppc/spr_tcg.h   |  2 ++
- target/ppc/translate.c | 37 +++++++++++++++++++++++++++++++++++++
- 4 files changed, 46 insertions(+), 2 deletions(-)
+ target/ppc/cpu_init.c  |  2 +-
+ target/ppc/spr_tcg.h   |  1 +
+ target/ppc/translate.c | 38 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 40 insertions(+), 1 deletion(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 627fc8d732..739005ba29 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -343,6 +343,11 @@ typedef struct ppc_v3_pate_t {
- #define MSR_LE   0  /* Little-endian mode                           1 hflags */
- 
- /* PMU bits */
-+#define MMCR0_FC    PPC_BIT(32)         /* Freeze Counters  */
-+#define MMCR0_PMAO  PPC_BIT(56)         /* Perf Monitor Alert Ocurred */
-+#define MMCR0_PMAE  PPC_BIT(37)         /* Perf Monitor Alert Enable */
-+#define MMCR0_EBE   PPC_BIT(43)         /* Perf Monitor EBB Enable */
-+#define MMCR0_FCECE PPC_BIT(38)         /* FC on Enabled Cond or Event */
- #define MMCR0_PMCC  PPC_BITMASK(44, 45) /* PMC Control */
- 
- /* LPCR bits */
 diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index c72c7fabea..5510c3799f 100644
+index 5510c3799f..860716da18 100644
 --- a/target/ppc/cpu_init.c
 +++ b/target/ppc/cpu_init.c
 @@ -6868,7 +6868,7 @@ static void register_book3s_pmu_sup_sprs(CPUPPCState *env)
  static void register_book3s_pmu_user_sprs(CPUPPCState *env)
  {
      spr_register(env, SPR_POWER_UMMCR0, "UMMCR0",
--                 &spr_read_ureg, &spr_write_PMU_groupA_ureg,
-+                 &spr_read_MMCR0_ureg, &spr_write_PMU_groupA_ureg,
+-                 &spr_read_MMCR0_ureg, &spr_write_PMU_groupA_ureg,
++                 &spr_read_MMCR0_ureg, &spr_write_MMCR0_ureg,
                   &spr_read_ureg, &spr_write_ureg,
                   0x00000000);
      spr_register(env, SPR_POWER_UMMCR1, "UMMCR1",
-@@ -6976,7 +6976,7 @@ static void register_power8_pmu_sup_sprs(CPUPPCState *env)
- static void register_power8_pmu_user_sprs(CPUPPCState *env)
- {
-     spr_register(env, SPR_POWER_UMMCR2, "UMMCR2",
--                 &spr_read_ureg, &spr_write_PMU_groupA_ureg,
-+                 &spr_read_MMCR2_ureg, &spr_write_PMU_groupA_ureg,
-                  &spr_read_ureg, &spr_write_ureg,
-                  0x00000000);
-     spr_register(env, SPR_POWER_USIER, "USIER",
 diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
-index 027ec4c3f7..64ef2cd089 100644
+index 64ef2cd089..5c383dae3d 100644
 --- a/target/ppc/spr_tcg.h
 +++ b/target/ppc/spr_tcg.h
-@@ -32,6 +32,8 @@ void spr_write_lr(DisasContext *ctx, int sprn, int gprn);
- void spr_read_ctr(DisasContext *ctx, int gprn, int sprn);
- void spr_write_ctr(DisasContext *ctx, int sprn, int gprn);
- void spr_read_ureg(DisasContext *ctx, int gprn, int sprn);
-+void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn);
-+void spr_read_MMCR2_ureg(DisasContext *ctx, int gprn, int sprn);
- void spr_read_tbl(DisasContext *ctx, int gprn, int sprn);
- void spr_read_tbu(DisasContext *ctx, int gprn, int sprn);
- void spr_read_atbl(DisasContext *ctx, int gprn, int sprn);
+@@ -43,6 +43,7 @@ void spr_read_601_rtcu(DisasContext *ctx, int gprn, int sprn);
+ void spr_read_spefscr(DisasContext *ctx, int gprn, int sprn);
+ void spr_write_spefscr(DisasContext *ctx, int sprn, int gprn);
+ void spr_write_PMU_groupA_ureg(DisasContext *ctx, int sprn, int gprn);
++void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn);
+ 
+ #ifndef CONFIG_USER_ONLY
+ void spr_write_generic32(DisasContext *ctx, int sprn, int gprn);
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 3a1eafbba8..ec4160378d 100644
+index ec4160378d..b48eec83e3 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -520,6 +520,43 @@ void spr_read_ureg(DisasContext *ctx, int gprn, int sprn)
-     gen_load_spr(cpu_gpr[gprn], sprn + 0x10);
+@@ -592,11 +592,49 @@ void spr_write_PMU_groupA_ureg(DisasContext *ctx, int sprn, int gprn)
+     }
+     spr_write_ureg(ctx, sprn, gprn);
  }
- 
-+void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn)
++
++void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
 +{
-+    TCGv t0 = tcg_temp_new();
++    TCGv t0, t1;
++
++    /*
++     * MMCR0 is a Group A SPR. The same write access control
++     * done in spr_write_PMU_groupA_ureg() applies.
++     */
++    if (ctx->pmcc_clear) {
++        gen_hvpriv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
++        return;
++    }
++
++    t0 = tcg_temp_new();
++    t1 = tcg_temp_new();
 +
 +    /*
 +     * Filter out all bits but FC, PMAO, and PMAE, according
 +     * to ISA v3.1, in 10.4.4 Monitor Mode Control Register 0,
 +     * fourth paragraph.
 +     */
-+    gen_load_spr(t0, SPR_POWER_MMCR0);
-+    tcg_gen_andi_tl(t0, t0, MMCR0_FC | MMCR0_PMAO | MMCR0_PMAE);
-+    tcg_gen_mov_tl(cpu_gpr[gprn], t0);
++    tcg_gen_andi_tl(t0, cpu_gpr[gprn],
++                    MMCR0_FC | MMCR0_PMAO | MMCR0_PMAE);
++    gen_load_spr(t1, SPR_POWER_MMCR0);
++    tcg_gen_andi_tl(t1, t1, ~(MMCR0_FC | MMCR0_PMAO | MMCR0_PMAE));
++    /* Keep all other bits intact */
++    tcg_gen_or_tl(t1, t1, t0);
++    gen_store_spr(SPR_POWER_MMCR0, t1);
 +
 +    tcg_temp_free(t0);
++    tcg_temp_free(t1);
 +}
-+
-+void spr_read_MMCR2_ureg(DisasContext *ctx, int gprn, int sprn)
-+{
-+    TCGv t0 = tcg_temp_new();
-+
-+    /*
-+     * On read, filter out all bits that are not FCnP0 bits.
-+     * When MMCR0[PMCC] is set to 0b10 or 0b11, providing
-+     * problem state programs read/write access to MMCR2,
-+     * only the FCnP0 bits can be accessed. All other bits are
-+     * not changed when mtspr is executed in problem state, and
-+     * all other bits return 0s when mfspr is executed in problem
-+     * state, according to ISA v3.1, section 10.4.6 Monitor Mode
-+     * Control Register 2, p. 1316, third paragraph.
-+     */
-+    gen_load_spr(t0, SPR_POWER_MMCR2);
-+    tcg_gen_andi_tl(t0, t0, 0x4020100804020000UL);
-+    tcg_gen_mov_tl(cpu_gpr[gprn], t0);
-+
-+    tcg_temp_free(t0);
-+}
-+
- #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
- void spr_write_ureg(DisasContext *ctx, int sprn, int gprn)
+ #else
+ void spr_write_PMU_groupA_ureg(DisasContext *ctx, int sprn, int gprn)
  {
+     spr_noaccess(ctx, gprn, sprn);
+ }
++
++void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
++{
++    spr_noaccess(ctx, gprn, sprn);
++}
+ #endif
+ 
+ /* SPR common to all non-embedded PowerPC */
 -- 
 2.31.1
 
