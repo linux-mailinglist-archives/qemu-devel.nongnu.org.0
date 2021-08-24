@@ -2,77 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD0CE3F6054
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 16:26:20 +0200 (CEST)
-Received: from localhost ([::1]:34100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07AB63F6068
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 16:30:07 +0200 (CEST)
+Received: from localhost ([::1]:40558 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIXNb-0004Ma-9p
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 10:26:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53756)
+	id 1mIXRF-0000NO-7y
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 10:30:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIXMe-0003Yv-45
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 10:25:20 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:38742)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIXMc-0005tC-Mm
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 10:25:19 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id n27so12805232eja.5
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 07:25:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FES3aYK4d8ZW9c+FrBZLjt0EhJlOil05dW0QsimcFb8=;
- b=tmJ/20LQ7KpLP7Tw+/r+QGLrG89lXSTh/xgARlGww/R8RH7Rhcsq94XOhdP34AWFAN
- XiwsI9TM0vWC+FhM05HR7v6e/Lc04UxtQb2JAZT9C/IqYvQugqSTeNicpZfAH3YJ/LsP
- YJPxy7jpGa87evBV5MbA1zZMEmBHO3JhyHoI9BYBi9V2pOhaYha0zARLB2BR4+FQh/WU
- mKprYs9FTpzNRuB4/C3syT3nKKzAlmEgeCG76OwCTsprAQN84t1Zr9T9096d+Ukxlo2+
- xMBd4A/H2cylTH+QiRtwza2fXHBrJW/IGlg6xk0HTBtDhZEvHDds0x5myhQ4paVCx7A/
- 4W4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FES3aYK4d8ZW9c+FrBZLjt0EhJlOil05dW0QsimcFb8=;
- b=thkL7gbmwVZBhyH1IM36aOpn1e/DDM1Wg9f3q3B0l0zhvhvGDD3rql+5l15rFzRrSY
- 45kpH3TukC7SOji0wyLe3sLSMBRs99S7wVs5ZrLOCRqWshY0HT3fERGtlvprNHiBO5Vu
- JMYAo+b1zyiIv9LALu92H+hTt6u3fmtxHM67q0dRyp5qeK8np8pJtlUS4wCaovB4gYwq
- 0pTfCDYd+7VVolVij27TqKPx7C9xM9kxl8+gn45UErcQYrS8NSWz520ED/i1aWICQPD6
- CS68+r37B3tr3El7y2j/lAerQpRKW89jsgWdgI3vzjB9vR8xIRX/tXDONT7shKPcpprT
- pk/w==
-X-Gm-Message-State: AOAM531BwdCRydJjOLzBMDVzDcb0gYVcpGjBetGtbENhdqpI/WE7zsxm
- DwFIlTrs+f1hxSVkv+XCZ63gaZ5agntALziSTK3/bw==
-X-Google-Smtp-Source: ABdhPJw2Y8mSLwv6GDn+gZBrXbhC7CPp2SXAAvkMBZV1qV5/SuBFb20UbsXXTqUmy4AFdm+k+NjTVNb0Eh0x7zTtpdE=
-X-Received: by 2002:a17:906:a108:: with SMTP id
- t8mr41027642ejy.407.1629815116980; 
- Tue, 24 Aug 2021 07:25:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
+ id 1mIXOv-0005bO-W7; Tue, 24 Aug 2021 10:27:42 -0400
+Received: from [201.28.113.2] (port=31455 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <luis.pires@eldorado.org.br>)
+ id 1mIXOt-0007Yt-VJ; Tue, 24 Aug 2021 10:27:41 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 24 Aug 2021 11:27:36 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id D9E328010FC;
+ Tue, 24 Aug 2021 11:27:35 -0300 (-03)
+From: Luis Pires <luis.pires@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH 00/19] target/ppc: DFP instructions using decodetree
+Date: Tue, 24 Aug 2021 11:27:11 -0300
+Message-Id: <20210824142730.102421-1-luis.pires@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210819171547.2879725-1-philmd@redhat.com>
- <20210819171547.2879725-3-philmd@redhat.com>
- <20210823183414.hmu4ly2y5zkbw3mg@habkost.net>
- <87ilzvntu1.fsf@dusky.pond.sub.org>
- <CAFEAcA-2ShxjS6YAb_xBk=v5YJ5nLaaKtOLVEn7Vjfe6rkpp2A@mail.gmail.com>
- <87tujfdp4c.fsf@dusky.pond.sub.org>
- <CAFEAcA9_HGCVYX8smuAWhUDJ8NbfQ76XgJjOLd2EoyiS2gKC0A@mail.gmail.com>
- <20210824135742.auvxsilpjtlruwyc@habkost.net>
-In-Reply-To: <20210824135742.auvxsilpjtlruwyc@habkost.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 24 Aug 2021 15:24:29 +0100
-Message-ID: <CAFEAcA__JxVBDtChgY9FMC5zPM9ytv_BtQP_8SxVCqs+f9HOtw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] hw/usb/hcd-xhci-pci: Abort if setting link
- property failed
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 24 Aug 2021 14:27:36.0073 (UTC)
+ FILETIME=[2F1F1F90:01D798F4]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,43 +54,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sergio Lopez <slp@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Luis Pires <luis.pires@eldorado.org.br>, richard.henderson@linaro.org,
+ groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Aug 2021 at 14:58, Eduardo Habkost <ehabkost@redhat.com> wrote:
->
-> On Tue, Aug 24, 2021 at 01:16:40PM +0100, Peter Maydell wrote:
-> > On Tue, 24 Aug 2021 at 13:05, Markus Armbruster <armbru@redhat.com> wrote:
-> > > When you know that all callers handle errors like &error_fatal does, use
-> > > of &error_fatal doesn't produce wrong behavior.  It's still kind of
-> > > wrong, because relying on such a non-local argument without a genuine
-> > > need is.
-> >
-> > Not using error_fatal results in quite a bit of extra boilerplate
-> > for all those extra explicit "check for failure, print the error
-> > message and exit" points.
->
-> I don't get it.  There's no need for extra boilerplate if the
-> caller is using &error_fatal.
+This series moves all existing DFP instructions to decodetree and
+implements the 2 new instructions (dcffixqq and dctfixqq) from
+Power ISA 3.1.
 
-Yes, that is what I mean: if you do not use error_fatal,
-then there is extra boilerplate. Markus is suggesting that
-we should avoid using error_fatal, and my response is "the
-cost of that would be that we add boilerplate".
+In order to implement dcffixqq, divu128/divs128 were modified to
+support 128-bit quotients (previously, they were limited to 64-bit
+quotients), along with adjustments being made to its existing callers.
+libdecnumber was also expanded to allow creating decimal numbers from
+128-bit integers.
 
-> > Right now we have nearly a thousand instances of error_fatal
-> > in the codebase, incidentally.
->
-> It looks like 73 of them are in functions that take an Error**
-> argument.
+Similarly, for dctfixqq, mulu128 (host-utils) and decNumberIntegralToInt128
+(libdecnumber) were introduced to support 128-bit integers.
 
-Those could probably be fairly easily adjusted to pass the error
-back instead. Still leaves nearly 900 to go :-)
+The remaining patches of this series move all of the already existing
+DFP instructions to decodetree, and end up removing dfp-ops.c.inc, which
+is no longer needed.
 
--- PMM
+NOTE 1: The previous, non-decodetree code, was updating ctx->nip for all the
+DFP instructions. I've removed that, but it would be great if someone could
+confirm that updating nip really wasn't necessary.
+
+NOTE 2: Some arithmetic function support for 128-bit integers was added,
+for now, still using 64-bit pairs. In the near future, I think we should
+modify all of them to use Int128 (and introduce UInt128). But that
+should be done in another patch series.
+
+Based-on: 20210823150235.35759-1-luis.pires@eldorado.org.br
+(target/ppc: fix setting of CR flags in bcdcfsq)
+
+--
+Luis Pires
+Instituto de Pesquisas ELDORADO
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+
+
+Bruno Larsen (1):
+  target/ppc: Move REQUIRE_ALTIVEC/VECTOR to translate.c
+
+Fernando Valle (1):
+  target/ppc: Introduce REQUIRE_FPU
+
+Luis Pires (17):
+  host-utils: Fix overflow detection in divu128()
+  host-utils: move abs64() to host-utils
+  host-utils: move checks out of divu128/divs128
+  host-utils: add 128-bit quotient support to divu128/divs128
+  host-utils: add unit tests for divu128/divs128
+  libdecnumber: introduce decNumberFrom[U]Int128
+  target/ppc: Implement DCFFIXQQ
+  host-utils: Introduce mulu128
+  libdecnumber: Introduce decNumberIntegralToInt128
+  target/ppc: Implement DCTFIXQQ
+  target/ppc: Move dtstdc[q]/dtstdg[q] to decodetree
+  target/ppc: Move d{add,sub,mul,div,iex}[q] to decodetree
+  target/ppc: Move dcmp{u,o}[q],dts{tex,tsf,tsfi}[q] to decodetree
+  target/ppc: Move dquai[q], drint{x,n}[q] to decodetree
+  target/ppc: Move dqua[q], drrnd[q] to decodetree
+  target/ppc: Move dct{dp,qpq},dr{sp,dpq},dc{f,t}fix[q],dxex[q] to
+    decodetree
+  target/ppc: Move ddedpd[q],denbcd[q],dscli[q],dscri[q] to decodetree
+
+ hw/i386/kvm/i8254.c                    |   5 -
+ include/hw/clock.h                     |   7 +-
+ include/libdecnumber/decNumber.h       |   4 +
+ include/libdecnumber/decNumberLocal.h  |   2 +-
+ include/qemu/host-utils.h              |  86 +++--
+ libdecnumber/decContext.c              |   7 +-
+ libdecnumber/decNumber.c               | 130 ++++++++
+ target/ppc/dfp_helper.c                | 168 +++++++---
+ target/ppc/helper.h                    | 106 ++++---
+ target/ppc/insn32.decode               | 171 ++++++++++
+ target/ppc/int_helper.c                |  23 +-
+ target/ppc/translate.c                 |  25 +-
+ target/ppc/translate/dfp-impl.c.inc    | 419 ++++++++++++-------------
+ target/ppc/translate/dfp-ops.c.inc     | 165 ----------
+ target/ppc/translate/vector-impl.c.inc |  10 +-
+ tests/unit/meson.build                 |   1 +
+ tests/unit/test-div128.c               | 185 +++++++++++
+ util/host-utils.c                      | 137 +++++---
+ 18 files changed, 1072 insertions(+), 579 deletions(-)
+ delete mode 100644 target/ppc/translate/dfp-ops.c.inc
+ create mode 100644 tests/unit/test-div128.c
+
+-- 
+2.25.1
+
 
