@@ -2,69 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 083AD3F597B
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 09:55:33 +0200 (CEST)
-Received: from localhost ([::1]:58534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8212F3F59A5
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 10:07:39 +0200 (CEST)
+Received: from localhost ([::1]:39628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIRHP-0002Ip-KQ
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 03:55:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40214)
+	id 1mIRT7-0000vV-VX
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 04:07:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIRGW-0001Ma-9w
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 03:54:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34161)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIRFM-0006x6-2l
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 03:54:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629791602;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7n8PzS6+2XZC5KrO8XsLKKkwXKhWd79WFspJr36T6Eo=;
- b=esA1WwlCYRCNUrvD8v0PlYpJYxau4tfzQ3n1WqnOvjBqH/KSOSmUptsb1UdPJ14M4FvRuq
- EtELKVo/eZKnip/wIiEmUoI2ofAonnXLlEjiniBl5CG8wpMl45vGKYgkxzD3Uzx+GmWrqH
- IFjH3nVX+L3nj0r7av9KauuS5wUrkHc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-561-lbwBmLzbMU2A510WcJrT6g-1; Tue, 24 Aug 2021 03:53:20 -0400
-X-MC-Unique: lbwBmLzbMU2A510WcJrT6g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC25D94EE5;
- Tue, 24 Aug 2021 07:53:19 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-4.ams2.redhat.com [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9324B5C1A3;
- Tue, 24 Aug 2021 07:53:19 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 29CF211380A9; Tue, 24 Aug 2021 09:53:18 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH 1/2] hw/arm/virt: Rename default_bus_bypass_iommu
-References: <20210811085842.2511545-1-jean-philippe@linaro.org>
-Date: Tue, 24 Aug 2021 09:53:18 +0200
-In-Reply-To: <20210811085842.2511545-1-jean-philippe@linaro.org>
- (Jean-Philippe Brucker's message of "Wed, 11 Aug 2021 10:58:42 +0200")
-Message-ID: <87o89nnus1.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <Chunming.Li@verisilicon.com>)
+ id 1mIRR9-0007FW-SW; Tue, 24 Aug 2021 04:05:36 -0400
+Received: from shasxm06.verisilicon.com ([101.89.135.45]:30393
+ helo=shasxm03.verisilicon.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <Chunming.Li@verisilicon.com>)
+ id 1mIRR5-00005A-FV; Tue, 24 Aug 2021 04:05:35 -0400
+Content-Language: zh-CN
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; d=Verisilicon.com; s=default;
+ c=simple/simple; t=1629792318; h=from:subject:to:date:message-id;
+ bh=/jKFh4xM7AYLLLE/KZ+AbLDnIMG2QCxHop0vcn6YZUs=;
+ b=F3mVWi7Xaakdqo8D7/oUNiE43Bktf0qncHJSwzYdDJGaDyrQdqjZfPEQBIagWigsZa+5PWsx54t
+ kU4ULedH7rOAzXB5O0gudrsw8p+kQMMB33nxh+JqzvNyT1OTDi4dYegLW5/BmI4THIAm5lA0ry86C
+ IOpfbbARW1kEczdiCtE=
+Received: from SHASXM03.verisilicon.com ([fe80::938:4dda:a2f9:38aa]) by
+ SHASXM06.verisilicon.com ([fe80::59a8:ce34:dc14:ddda%16]) with mapi id
+ 14.03.0408.000; Tue, 24 Aug 2021 16:05:17 +0800
+From: "Li, Chunming" <Chunming.Li@verisilicon.com>
+To: "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>
+Subject: [PATCH v4 0/4] hw/arm/smmuv3: Support non PCI/PCIe devices
+Thread-Topic: [PATCH v4 0/4] hw/arm/smmuv3: Support non PCI/PCIe devices
+Thread-Index: AdeYvsYv7RS1QEwxTvW4Y3dsOYnBaw==
+Date: Tue, 24 Aug 2021 08:05:16 +0000
+Message-ID: <49C79B700B5D8F45B8EF0861B4EF3B3B01142FABD6@SHASXM03.verisilicon.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [182.148.13.182]
+x-tm-as-product-ver: SMEX-11.0.0.4179-8.100.1062-25628.004
+x-tm-as-result: No--2.776100-0.000000-31
+x-tm-as-user-approved-sender: Yes
+x-tm-as-user-blocked-sender: No
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=101.89.135.45;
+ envelope-from=Chunming.Li@verisilicon.com; helo=shasxm03.verisilicon.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,49 +67,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org
+Cc: "Liu, Renwei" <Renwei.Liu@verisilicon.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Wen,
+ Jianxian" <Jianxian.Wen@verisilicon.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Did this series fall through the cracks for 6.1?
+The current SMMU v3 model only support PCI/PCIe devices, so we update it fo=
+r=20
+non-PCI/PCIe devices.
+  . Add independent IOMMU memory regions for non-PCI/PCIe devices
+  . Add SID value property setting for non-PCI/PCIe devices
+  . Add PL330 DMA controller into "virt" machine and connect with SMMU v3
+  . Test PL330 DMA controller and PCIe e1000 network with SMMU v3 enabled
 
-Jean-Philippe Brucker <jean-philippe@linaro.org> writes:
+Notes:
+  You need apply PL330 memory region patch before compile "virt" machine:
+  https://patchew.org/QEMU/4C23C17B8E87E74E906A25A3254A03F4FA1FEC31@SHASXM0=
+3.verisilicon.com/
 
-> Since commit d8fb7d0969d5 ("vl: switch -M parsing to keyval"), machine
-> parameter definitions cannot use underscores, because keyval_dashify()
-> transforms them to dashes and the parser doesn't find the parameter.
->
-> This affects option default_bus_bypass_iommu which was introduced in the
-> same release:
->
-> $ qemu-system-aarch64 -M virt,default_bus_bypass_iommu=on
-> qemu-system-aarch64: Property 'virt-6.1-machine.default-bus-bypass-iommu' not found
->
-> Rename the parameter to "default-bus-bypass-iommu". Passing
-> "default_bus_bypass_iommu" is still valid since the underscore are
-> transformed automatically.
->
-> Fixes: 6d7a85483a06 ("hw/arm/virt: Add default_bus_bypass_iommu machine option")
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
->  hw/arm/virt.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index b4598d3fe6..7075cdc15e 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -2671,10 +2671,10 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
->                                            "Set the IOMMU type. "
->                                            "Valid values are none and smmuv3");
->  
-> -    object_class_property_add_bool(oc, "default_bus_bypass_iommu",
-> +    object_class_property_add_bool(oc, "default-bus-bypass-iommu",
->                                     virt_get_default_bus_bypass_iommu,
->                                     virt_set_default_bus_bypass_iommu);
-> -    object_class_property_set_description(oc, "default_bus_bypass_iommu",
-> +    object_class_property_set_description(oc, "default-bus-bypass-iommu",
->                                            "Set on/off to enable/disable "
->                                            "bypass_iommu for default root bus");
+  The old PL330 model cannot configure its memory region manually.=20
+  So we update it and provide path.
+  The patch was reviewed and will be merged in target-arm.next for 6.2.
+
+Li, Chunming (4):
+  hw/arm/smmuv3: Support non PCI/PCIe device connect with SMMU v3
+  hw/arm/smmuv3: Update implementation of CFGI commands based on device
+    SID
+  hw/arm/virt: Update SMMU v3 creation to support non PCI/PCIe device
+    connection
+  hw/arm/virt: Add PL330 DMA controller and connect with SMMU v3
+
+ hw/arm/smmuv3.c              |  81 ++++++++++++++++++--------
+ hw/arm/virt.c                | 108 ++++++++++++++++++++++++++++++++++-
+ include/hw/arm/smmu-common.h |  12 +++-
+ include/hw/arm/smmuv3.h      |   2 +
+ include/hw/arm/virt.h        |   3 +
+ 5 files changed, 178 insertions(+), 28 deletions(-)
+
+--=20
 
 
