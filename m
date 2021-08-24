@@ -2,81 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C2283F68C3
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 20:06:02 +0200 (CEST)
-Received: from localhost ([::1]:51602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F7E33F6A15
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 21:47:01 +0200 (CEST)
+Received: from localhost ([::1]:51204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIaoD-0003Ma-EX
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 14:06:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43026)
+	id 1mIcNw-0001jA-19
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 15:47:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1mIan9-0001vf-6E
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 14:04:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39216)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIcN8-00011R-JL
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 15:46:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41823)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1mIan7-0004CQ-5I
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 14:04:54 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIcN2-00045C-3n
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 15:46:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629828291;
+ s=mimecast20190719; t=1629834362;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Lnl4pErgHUzfQUH9HtNdKjgxOQLnPcC3wkFkQUPTZ9E=;
- b=Dm3s+viRp+qPWd5l1w+NFsCcnlZ6EKp0lUfL50nRQNjZ/WBUj/KGSpPPxQwP4XiBgBOlDn
- IZBP/xws2rLDcjcOKUoQtCWvXiSdjICRl7ylJYo1YuCYkwbwD+1HVDHcDKPcsTuolyybir
- 3wuaEFkQHgCwV1gOyxcA9LUZnngMG+8=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-603-Nj7OwYDmO52ENgsETR6iWg-1; Tue, 24 Aug 2021 14:04:49 -0400
-X-MC-Unique: Nj7OwYDmO52ENgsETR6iWg-1
-Received: by mail-pj1-f72.google.com with SMTP id
- ob1-20020a17090b390100b001793bdcc41eso10561pjb.0
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 11:04:49 -0700 (PDT)
+ bh=5zD4QlhRM6Lo31cWQWvm/7PEflQtifZyIKIe0LDHdR4=;
+ b=dodooZXqEJOqKNRtgjzGaAhkrDQgLg29L18JwVUy20848xPAkWoPPH81OWVOwAIfzQoIky
+ 7OAclkmRGqTOCZE53R2OqoSXt6twHohcFJv29VnI/Lnn/rPrLz2dPb/IVL60L+amUqYb7o
+ RwE8VRydbe5XTScc1mTLcMTOtQ143z8=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-417-1fowIPGePi2h1H5pEOEVXQ-1; Tue, 24 Aug 2021 15:34:36 -0400
+X-MC-Unique: 1fowIPGePi2h1H5pEOEVXQ-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ 70-20020a370b49000000b003d2f5f0dcc6so15101069qkl.9
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 12:34:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Lnl4pErgHUzfQUH9HtNdKjgxOQLnPcC3wkFkQUPTZ9E=;
- b=fD0PUf2k9jsYGsibaJcmbFmQO/TAC4i4o5mUK4VwMwk8E0GyIbwcx4tHuSWqyIYVyt
- v27r7l239lRElfEKYTTfZHJpEREpYauV8AkPzxyVlqv9QMgaCx1yr0Rl2ytVrwwp46Oj
- 7P2AxCU/uUpCqG95RKW0Auy7l9zlnoiw365jRjF6merLnlprpABwjW9kzJJqXNqweJLD
- vDL5ntT/gzPe6QMkcCj3sBiqmeBh0dKAIkt8pAZkjqSrbOD/L1Bc5FECfWn1yp+KcywY
- wSL5AbjI6IlKRIud3nr/NL2/4CHlmzfgOVWKz/HMKpfFt5FGD4rjxnJTw5zl1yaNlDa4
- w4Ng==
-X-Gm-Message-State: AOAM5337gixwSzbcLV0siqHVssaIDNdDml9H5XuQJSthvuTAqwFkEtnM
- nDj7vbkZ8SaxOVLVSmCPgFNC5YdPnGYKPoEkvTY3qRF8K+oN8lIhvHcPMflIFxrpVj+vZfgupuU
- IdZJ6yx9X3xdxofOFSVTWdlfu/n76jx8=
-X-Received: by 2002:a63:1155:: with SMTP id 21mr37975690pgr.346.1629828288964; 
- Tue, 24 Aug 2021 11:04:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxZcMus0KP4RJSGeIApX/KBTN/xebMoloa7bzKcOHgfowEruLB83okNrmSeFG4DntQp86XdNZKwxu1OJSCrOO0=
-X-Received: by 2002:a63:1155:: with SMTP id 21mr37975671pgr.346.1629828288774; 
- Tue, 24 Aug 2021 11:04:48 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=5zD4QlhRM6Lo31cWQWvm/7PEflQtifZyIKIe0LDHdR4=;
+ b=FdMQkASagOvSBtiUixM5SsxW5gxmOXxND5kuJS62VbojeQCVkQXUMErbCWAKv5Nxuq
+ enJlhD8cb8dllXXrjuH01KM4kWRbMl0P+ZwkrO4NVoxZqsKJNLdj8aYfs2D7la1/7hax
+ Q1bqnMh6yTVA2cMa5E5UCfMJQvcyArWzvhk/GEzkfDYIemudbs3l3ZyDe6V79fRkQQNF
+ U58ZIeJrkbLQ4O8Z4EryOrn4EIH6PKvsYfg4/TJwlBHOAcz7TB4xhaoZSAsn8h925vB4
+ TvmSa1AISAgneZ11jdi0S5xBxo5HkTRtudTh2hxhFsqg8h5DnN5LJjtK2i0AP9Ecj5vQ
+ 3Zxw==
+X-Gm-Message-State: AOAM531e9vaI7FSq+GhqrtrQJL9vCOseSLSAadQRyrmid8H9n4DLIVeJ
+ q4LHruMNJaC0LIHoDQDecDEA7Syil8LU9GRGlr6ebeypr+qB9FaaBQZ2VyYhScd/k7zeenW3+Qu
+ c9bwrSGIIHJW17V4=
+X-Received: by 2002:a05:6214:21ac:: with SMTP id
+ t12mr2741140qvc.53.1629833676207; 
+ Tue, 24 Aug 2021 12:34:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzEfzVq4AdaI2dCKQ45+iBx3Pk1FK17J8+OhWAt3bio8j/d18KmLkI+hbXmXNqkdEO6hOMLAw==
+X-Received: by 2002:a05:6214:21ac:: with SMTP id
+ t12mr2741108qvc.53.1629833675999; 
+ Tue, 24 Aug 2021 12:34:35 -0700 (PDT)
+Received: from t490s ([2607:fea8:56a3:500::d413])
+ by smtp.gmail.com with ESMTPSA id n11sm1279203qkk.17.2021.08.24.12.34.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Aug 2021 12:34:35 -0700 (PDT)
+Date: Tue, 24 Aug 2021 15:34:33 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [RFC PATCH v2 0/5] physmem: Have flaview API check bus
+ permission from MemTxAttrs argument
+Message-ID: <YSVJyYn5lBM4+XZ8@t490s>
+References: <20210823164157.751807-1-philmd@redhat.com>
+ <CAFEAcA9_=6n4w86gD3MHhiLeCiui9_+ePT7E2sSHdSRufUJdyA@mail.gmail.com>
+ <YSQKHaGiJZE5OAk2@t490s>
+ <CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5KcknhPRD5fPBZA@mail.gmail.com>
+ <20210824120153.altqys6jjiuxh35p@sirius.home.kraxel.org>
 MIME-Version: 1.0
-References: <20210824152721.79747-1-peterx@redhat.com>
- <20210824152721.79747-2-peterx@redhat.com>
-In-Reply-To: <20210824152721.79747-2-peterx@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 24 Aug 2021 22:04:37 +0400
-Message-ID: <CAMxuvawYhvO13Ue+_FhO6Qofk8hjuViO3sFHjV_QbMfvi-ASnA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] migration: Add migrate_add_blocker_internal()
-To: Peter Xu <peterx@redhat.com>
+In-Reply-To: <20210824120153.altqys6jjiuxh35p@sirius.home.kraxel.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000003298a905ca51f826"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,229 +98,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>, Alexander Bulekov <alxndr@bu.edu>,
+ qemu-arm <qemu-arm@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003298a905ca51f826
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi, Peter, Gerd,
 
-On Tue, Aug 24, 2021 at 7:27 PM Peter Xu <peterx@redhat.com> wrote:
+On Tue, Aug 24, 2021 at 02:01:53PM +0200, Gerd Hoffmann wrote:
+>   Hi,
+> 
+> > I was vaguely tossing an idea around in the back of my mind
+> > about whether you could have a flag on devices that marked
+> > them as "this device is currently involved in IO", such that
+> > you could then just fail the last DMA (or qemu_irq_set, or
+> > whatever) that would complete the loop back to a device that
+> > was already doing IO. But that would need a lot of thinking
+> > through to figure out if it's feasible, and it's probably
+> > a lot of code change.
 
-> An internal version that removes -only-migratable implications.  It can b=
-e
-> used
-> for temporary migration blockers like dump-guest-memory.
->
-> Signed-off-by: Peter Xu <peterx@redhat.com>
->
+(Thanks for the write-up, Peter; it helps a lot)
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
----
->  include/migration/blocker.h | 16 ++++++++++++++++
->  migration/migration.c       | 21 +++++++++++++--------
->  2 files changed, 29 insertions(+), 8 deletions(-)
->
-> diff --git a/include/migration/blocker.h b/include/migration/blocker.h
-> index acd27018e9..9cebe2ba06 100644
-> --- a/include/migration/blocker.h
-> +++ b/include/migration/blocker.h
-> @@ -25,6 +25,22 @@
->   */
->  int migrate_add_blocker(Error *reason, Error **errp);
->
-> +/**
-> + * @migrate_add_blocker_internal - prevent migration from proceeding
-> without
-> + *                                 only-migrate implications
-> + *
-> + * @reason - an error to be returned whenever migration is attempted
-> + *
-> + * @errp - [out] The reason (if any) we cannot block migration right now=
-.
-> + *
-> + * @returns - 0 on success, -EBUSY on failure, with errp set.
-> + *
-> + * Some of the migration blockers can be temporary (e.g., for a few
-> seconds),
-> + * so it shouldn't need to conflict with "-only-migratable".  For those
-> cases,
-> + * we can call this function rather than @migrate_add_blocker().
-> + */
-> +int migrate_add_blocker_internal(Error *reason, Error **errp);
-> +
->  /**
->   * @migrate_del_blocker - remove a blocking error from migration
->   *
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 041b8451a6..41429680c2 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -2053,15 +2053,8 @@ void migrate_init(MigrationState *s)
->      s->threshold_size =3D 0;
->  }
->
-> -int migrate_add_blocker(Error *reason, Error **errp)
-> +int migrate_add_blocker_internal(Error *reason, Error **errp)
+> 
+> Quick & dirty hack trying the above.  Not much code, it is opt-in per
+> MemoryRegion (so less overhead for devices which already handle all DMA
+> in a BH), tracks state in DeviceState.  Adds a check to a rather hot
+> code path though.  Not tested yet (stopped investigating when I noticed
+> Philippe tries to fix the same thing with another approach).  Not
+> benchmarked.
+> 
+> Maybe it helps ...
+> 
+> take care,
+>   Gerd
+> 
+> From 80e58a2cd2c630f0bddd9d0eaee71abb7eeb9440 Mon Sep 17 00:00:00 2001
+> From: Gerd Hoffmann <kraxel@redhat.com>
+> Date: Tue, 17 Aug 2021 07:35:37 +0200
+> Subject: [PATCH] allow track active mmio handlers
+> 
+> ---
+>  include/exec/memory.h  |  1 +
+>  include/hw/qdev-core.h |  1 +
+>  softmmu/memory.c       | 24 ++++++++++++++++++++++--
+>  3 files changed, 24 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index c3d417d317f0..b1883d45e817 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -265,6 +265,7 @@ struct MemoryRegionOps {
+>           */
+>          bool unaligned;
+>      } impl;
+> +    bool block_reenter;
+>  };
+>  
+>  typedef struct MemoryRegionClass {
+> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+> index bafc311bfa1b..4cf281a81fa9 100644
+> --- a/include/hw/qdev-core.h
+> +++ b/include/hw/qdev-core.h
+> @@ -191,6 +191,7 @@ struct DeviceState {
+>      int instance_id_alias;
+>      int alias_required_for_version;
+>      ResettableState reset;
+> +    bool io_handler_active;
+>  };
+>  
+>  struct DeviceListener {
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index bfedaf9c4dfc..5eb5dd465dd2 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -437,7 +437,18 @@ static MemTxResult  memory_region_read_accessor(MemoryRegion *mr,
 >  {
-> -    if (only_migratable) {
-> -        error_propagate_prepend(errp, error_copy(reason),
-> -                                "disallowing migration blocker "
-> -                                "(--only-migratable) for: ");
-> -        return -EACCES;
-> -    }
-> -
->      if (migration_is_idle()) {
->          migration_blockers =3D g_slist_prepend(migration_blockers, reaso=
-n);
->          return 0;
-> @@ -2073,6 +2066,18 @@ int migrate_add_blocker(Error *reason, Error **err=
-p)
->      return -EBUSY;
->  }
->
-> +int migrate_add_blocker(Error *reason, Error **errp)
-> +{
-> +    if (only_migratable) {
-> +        error_propagate_prepend(errp, error_copy(reason),
-> +                                "disallowing migration blocker "
-> +                                "(--only-migratable) for: ");
-> +        return -EACCES;
+>      uint64_t tmp;
+>  
+> -    tmp = mr->ops->read(mr->opaque, addr, size);
+> +    if (mr->ops->block_reenter) {
+> +        DeviceState *dev = DEVICE(mr->owner);
+> +        if (!dev->io_handler_active) {
+> +            dev->io_handler_active = true;
+> +            tmp = mr->ops->read(mr->opaque, addr, size);
+> +            dev->io_handler_active = false;
+> +        } else {
+> +            tmp = MEMTX_OK;
+> +        }
+> +    } else {
+> +        tmp = mr->ops->read(mr->opaque, addr, size);
 > +    }
-> +
-> +    return migrate_add_blocker_internal(reason, errp);
-> +}
-> +
->  void migrate_del_blocker(Error *reason)
->  {
->      migration_blockers =3D g_slist_remove(migration_blockers, reason);
-> --
-> 2.31.1
->
->
+>      if (mr->subpage) {
+>          trace_memory_region_subpage_read(get_cpu_index(), mr, addr, tmp, size);
+>      } else if (trace_event_get_state_backends(TRACE_MEMORY_REGION_OPS_READ)) {
+> @@ -489,7 +500,16 @@ static MemTxResult memory_region_write_accessor(MemoryRegion *mr,
+>          trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, tmp, size,
+>                                        memory_region_name(mr));
+>      }
+> -    mr->ops->write(mr->opaque, addr, tmp, size);
+> +    if (mr->ops->block_reenter) {
+> +        DeviceState *dev = DEVICE(mr->owner);
+> +        if (!dev->io_handler_active) {
+> +            dev->io_handler_active = true;
+> +            mr->ops->write(mr->opaque, addr, tmp, size);
+> +            dev->io_handler_active = false;
+> +        }
+> +    } else {
+> +        mr->ops->write(mr->opaque, addr, tmp, size);
+> +    }
+>      return MEMTX_OK;
+>  }
 
---0000000000003298a905ca51f826
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Can I read this as a better approach if it still allows P2P so things that
+Paolo and Qiang used to mention will still work?
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><div dir=3D"ltr"><br></div><br>=
-<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Au=
-g 24, 2021 at 7:27 PM Peter Xu &lt;<a href=3D"mailto:peterx@redhat.com" tar=
-get=3D"_blank">peterx@redhat.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">An internal version that removes -only-mig=
-ratable implications.=C2=A0 It can be used<br>
-for temporary migration blockers like dump-guest-memory.<br>
-<br>
-Signed-off-by: Peter Xu &lt;<a href=3D"mailto:peterx@redhat.com" target=3D"=
-_blank">peterx@redhat.com</a>&gt;<br></blockquote><div><br></div><div>Revie=
-wed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redha=
-t.com">marcandre.lureau@redhat.com</a>&gt;</div><div> <br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0include/migration/blocker.h | 16 ++++++++++++++++<br>
-=C2=A0migration/migration.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 21 +++++++++++++---=
------<br>
-=C2=A02 files changed, 29 insertions(+), 8 deletions(-)<br>
-<br>
-diff --git a/include/migration/blocker.h b/include/migration/blocker.h<br>
-index acd27018e9..9cebe2ba06 100644<br>
---- a/include/migration/blocker.h<br>
-+++ b/include/migration/blocker.h<br>
-@@ -25,6 +25,22 @@<br>
-=C2=A0 */<br>
-=C2=A0int migrate_add_blocker(Error *reason, Error **errp);<br>
-<br>
-+/**<br>
-+ * @migrate_add_blocker_internal - prevent migration from proceeding witho=
-ut<br>
-+ *=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0only-migrate implications<b=
-r>
-+ *<br>
-+ * @reason - an error to be returned whenever migration is attempted<br>
-+ *<br>
-+ * @errp - [out] The reason (if any) we cannot block migration right now.<=
-br>
-+ *<br>
-+ * @returns - 0 on success, -EBUSY on failure, with errp set.<br>
-+ *<br>
-+ * Some of the migration blockers can be temporary (e.g., for a few second=
-s),<br>
-+ * so it shouldn&#39;t need to conflict with &quot;-only-migratable&quot;.=
-=C2=A0 For those cases,<br>
-+ * we can call this function rather than @migrate_add_blocker().<br>
-+ */<br>
-+int migrate_add_blocker_internal(Error *reason, Error **errp);<br>
-+<br>
-=C2=A0/**<br>
-=C2=A0 * @migrate_del_blocker - remove a blocking error from migration<br>
-=C2=A0 *<br>
-diff --git a/migration/migration.c b/migration/migration.c<br>
-index 041b8451a6..41429680c2 100644<br>
---- a/migration/migration.c<br>
-+++ b/migration/migration.c<br>
-@@ -2053,15 +2053,8 @@ void migrate_init(MigrationState *s)<br>
-=C2=A0 =C2=A0 =C2=A0s-&gt;threshold_size =3D 0;<br>
-=C2=A0}<br>
-<br>
--int migrate_add_blocker(Error *reason, Error **errp)<br>
-+int migrate_add_blocker_internal(Error *reason, Error **errp)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 if (only_migratable) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate_prepend(errp, error_copy(reaso=
-n),<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;disallowing migration blocker =
-&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;(--only-migratable) for: &quot=
-;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EACCES;<br>
--=C2=A0 =C2=A0 }<br>
--<br>
-=C2=A0 =C2=A0 =C2=A0if (migration_is_idle()) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0migration_blockers =3D g_slist_prepend(mi=
-gration_blockers, reason);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-@@ -2073,6 +2066,18 @@ int migrate_add_blocker(Error *reason, Error **errp)=
-<br>
-=C2=A0 =C2=A0 =C2=A0return -EBUSY;<br>
-=C2=A0}<br>
-<br>
-+int migrate_add_blocker(Error *reason, Error **errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 if (only_migratable) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate_prepend(errp, error_copy(reaso=
-n),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;disallowing migration blocker =
-&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;(--only-migratable) for: &quot=
-;);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EACCES;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 return migrate_add_blocker_internal(reason, errp);<br>
-+}<br>
-+<br>
-=C2=A0void migrate_del_blocker(Error *reason)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0migration_blockers =3D g_slist_remove(migration_blocker=
-s, reason);<br>
--- <br>
-2.31.1<br>
-<br>
-</blockquote></div>
-</div>
+https://lore.kernel.org/qemu-devel/7e4fd726-07e9-dc09-d66b-5692dd51820f@redhat.com/
+https://lore.kernel.org/qemu-devel/CAKXe6S+v4z_PYbZ6MMzEZk7Q0Qc+q9tzL+a8918U_-XR=aj7RA@mail.gmail.com/
 
---0000000000003298a905ca51f826--
+Can we do that similarly for qemu_set_irq() and friends but based on IRQState?
+
+Thanks,
+
+-- 
+Peter Xu
 
 
