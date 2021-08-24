@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F08B23F6A4D
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 22:15:12 +0200 (CEST)
-Received: from localhost ([::1]:35144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED6493F6A51
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 22:18:55 +0200 (CEST)
+Received: from localhost ([::1]:39496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIcpE-0002c3-1l
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 16:15:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41356)
+	id 1mIcsp-0005iD-0F
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 16:18:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mIcnK-0000yA-UU; Tue, 24 Aug 2021 16:13:14 -0400
+ id 1mIcnN-00012T-K0; Tue, 24 Aug 2021 16:13:17 -0400
 Received: from [201.28.113.2] (port=17263 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mIcnJ-00064l-KH; Tue, 24 Aug 2021 16:13:14 -0400
+ id 1mIcnM-00064l-68; Tue, 24 Aug 2021 16:13:17 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Tue, 24 Aug 2021 17:12:20 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 24 Aug 2021 17:12:21 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 976048010FC;
- Tue, 24 Aug 2021 17:12:20 -0300 (-03)
+ by power9a (Postfix) with ESMTP id 994438010FC;
+ Tue, 24 Aug 2021 17:12:21 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH 1/2] include/qemu/int128.h: define struct Int128 according to
- the host endianness
-Date: Tue, 24 Aug 2021 17:11:04 -0300
-Message-Id: <20210824201105.2303789-2-matheus.ferst@eldorado.org.br>
+Subject: [PATCH 2/2] target/ppc: fix vextu[bhw][lr]x helpers
+Date: Tue, 24 Aug 2021 17:11:05 -0300
+Message-Id: <20210824201105.2303789-3-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210824201105.2303789-1-matheus.ferst@eldorado.org.br>
 References: <20210824201105.2303789-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 24 Aug 2021 20:12:20.0973 (UTC)
- FILETIME=[584861D0:01D79924]
+X-OriginalArrivalTime: 24 Aug 2021 20:12:21.0995 (UTC)
+ FILETIME=[58E453B0:01D79924]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -64,75 +63,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+These helpers shouldn't depend on the host endianness, as they only use
+shifts, &s, and int128_* methods.
+
+Fixes: 60caf2216bf0 ("target-ppc: add vextu[bhw][lr]x instructions")
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- include/qemu/int128.h | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+ target/ppc/int_helper.c | 38 ++++++++++----------------------------
+ 1 file changed, 10 insertions(+), 28 deletions(-)
 
-diff --git a/include/qemu/int128.h b/include/qemu/int128.h
-index 64500385e3..e36c6e6db5 100644
---- a/include/qemu/int128.h
-+++ b/include/qemu/int128.h
-@@ -163,23 +163,28 @@ static inline Int128 bswap128(Int128 a)
- typedef struct Int128 Int128;
- 
- struct Int128 {
-+#ifdef HOST_WORDS_BIGENDIAN
-+    int64_t hi;
-+    uint64_t lo;
-+#else
-     uint64_t lo;
-     int64_t hi;
-+#endif
- };
- 
- static inline Int128 int128_make64(uint64_t a)
- {
--    return (Int128) { a, 0 };
-+    return (Int128) { .lo = a, .hi = 0 };
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index efa833ef64..c2d3248d1e 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -1492,34 +1492,16 @@ void helper_vlogefp(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *b)
+     }
  }
  
- static inline Int128 int128_makes64(int64_t a)
- {
--    return (Int128) { a, a >> 63 };
-+    return (Int128) { .lo = a, .hi = a >> 63 };
- }
- 
- static inline Int128 int128_make128(uint64_t lo, uint64_t hi)
- {
--    return (Int128) { lo, hi };
-+    return (Int128) { .lo = lo, .hi = hi };
- }
- 
- static inline uint64_t int128_get64(Int128 a)
-@@ -210,22 +215,22 @@ static inline Int128 int128_one(void)
- 
- static inline Int128 int128_2_64(void)
- {
--    return (Int128) { 0, 1 };
-+    return int128_make128(0, 1);
- }
- 
- static inline Int128 int128_exts64(int64_t a)
- {
--    return (Int128) { .lo = a, .hi = (a < 0) ? -1 : 0 };
-+    return int128_make128(a, (a < 0) ? -1 : 0);
- }
- 
- static inline Int128 int128_and(Int128 a, Int128 b)
- {
--    return (Int128) { a.lo & b.lo, a.hi & b.hi };
-+    return int128_make128(a.lo & b.lo, a.hi & b.hi);
- }
- 
- static inline Int128 int128_or(Int128 a, Int128 b)
- {
--    return (Int128) { a.lo | b.lo, a.hi | b.hi };
-+    return int128_make128(a.lo | b.lo, a.hi | b.hi);
- }
- 
- static inline Int128 int128_rshift(Int128 a, int n)
+-#if defined(HOST_WORDS_BIGENDIAN)
+-#define VEXTU_X_DO(name, size, left)                                \
+-    target_ulong glue(helper_, name)(target_ulong a, ppc_avr_t *b)  \
+-    {                                                               \
+-        int index;                                                  \
+-        if (left) {                                                 \
+-            index = (a & 0xf) * 8;                                  \
+-        } else {                                                    \
+-            index = ((15 - (a & 0xf) + 1) * 8) - size;              \
+-        }                                                           \
+-        return int128_getlo(int128_rshift(b->s128, index)) &        \
+-            MAKE_64BIT_MASK(0, size);                               \
+-    }
+-#else
+-#define VEXTU_X_DO(name, size, left)                                \
+-    target_ulong glue(helper_, name)(target_ulong a, ppc_avr_t *b)  \
+-    {                                                               \
+-        int index;                                                  \
+-        if (left) {                                                 \
+-            index = ((15 - (a & 0xf) + 1) * 8) - size;              \
+-        } else {                                                    \
+-            index = (a & 0xf) * 8;                                  \
+-        }                                                           \
+-        return int128_getlo(int128_rshift(b->s128, index)) &        \
+-            MAKE_64BIT_MASK(0, size);                               \
+-    }
+-#endif
+-
++#define VEXTU_X_DO(name, size, left)                            \
++target_ulong glue(helper_, name)(target_ulong a, ppc_avr_t *b)  \
++{                                                               \
++    int index = (a & 0xf) * 8;                                  \
++    if (left) {                                                 \
++        index = 128 - index - size;                             \
++    }                                                           \
++    return int128_getlo(int128_rshift(b->s128, index)) &        \
++        MAKE_64BIT_MASK(0, size);                               \
++}
+ VEXTU_X_DO(vextublx,  8, 1)
+ VEXTU_X_DO(vextuhlx, 16, 1)
+ VEXTU_X_DO(vextuwlx, 32, 1)
 -- 
 2.25.1
 
