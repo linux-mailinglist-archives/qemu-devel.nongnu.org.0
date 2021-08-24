@@ -2,49 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F45D3F60F2
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 16:50:52 +0200 (CEST)
-Received: from localhost ([::1]:38978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02AFD3F60F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 16:53:00 +0200 (CEST)
+Received: from localhost ([::1]:45724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIXlL-0004Sw-AG
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 10:50:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55048)
+	id 1mIXnO-0000lW-Hy
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 10:52:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1mIXR9-0002Mk-Ei; Tue, 24 Aug 2021 10:29:59 -0400
-Received: from [201.28.113.2] (port=63451 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <luis.pires@eldorado.org.br>)
- id 1mIXR7-0000NT-F5; Tue, 24 Aug 2021 10:29:59 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Tue, 24 Aug 2021 11:28:10 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 94ABF8012CD;
- Tue, 24 Aug 2021 11:28:10 -0300 (-03)
-From: Luis Pires <luis.pires@eldorado.org.br>
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH 19/19] target/ppc: Move ddedpd[q], denbcd[q], dscli[q],
- dscri[q] to decodetree
-Date: Tue, 24 Aug 2021 11:27:30 -0300
-Message-Id: <20210824142730.102421-20-luis.pires@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210824142730.102421-1-luis.pires@eldorado.org.br>
-References: <20210824142730.102421-1-luis.pires@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIXRK-0002mY-3z
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 10:30:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39495)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIXRI-0000lC-HK
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 10:30:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629815408;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=p/aZb5zj/inYlyLVHfucZevwoiQvZx6Ze0FbqpUKOBg=;
+ b=Re+2iif1U5/Y0GvGxIOiHXxdE8vEiHTWNGh4HQLK+ex8qw+lVW6j+2gSXXoEQSn2tUqnCV
+ zfdQU5ErL8VV9nyWSQ/Zfa1ynFo6b+q+jrMp1forTe+6Jiiovn9jZtvTvJf7zt5b7LVFyj
+ zM/LOh/Svk5P2GSUNF00PHrTsvP3aWM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-590-SnalWyMqMrSI5mhDEBMmNQ-1; Tue, 24 Aug 2021 10:30:04 -0400
+X-MC-Unique: SnalWyMqMrSI5mhDEBMmNQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86CE318C8C15;
+ Tue, 24 Aug 2021 14:30:03 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-4.ams2.redhat.com [10.36.112.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4FAF15D6CF;
+ Tue, 24 Aug 2021 14:29:48 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id DC46711380A9; Tue, 24 Aug 2021 16:29:46 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v2 2/3] hw/usb/hcd-xhci-pci: Abort if setting link
+ property failed
+References: <20210819171547.2879725-1-philmd@redhat.com>
+ <20210819171547.2879725-3-philmd@redhat.com>
+ <20210823183414.hmu4ly2y5zkbw3mg@habkost.net>
+ <87ilzvntu1.fsf@dusky.pond.sub.org>
+ <CAFEAcA-2ShxjS6YAb_xBk=v5YJ5nLaaKtOLVEn7Vjfe6rkpp2A@mail.gmail.com>
+ <87tujfdp4c.fsf@dusky.pond.sub.org>
+ <CAFEAcA9_HGCVYX8smuAWhUDJ8NbfQ76XgJjOLd2EoyiS2gKC0A@mail.gmail.com>
+ <20210824135742.auvxsilpjtlruwyc@habkost.net>
+Date: Tue, 24 Aug 2021 16:29:46 +0200
+In-Reply-To: <20210824135742.auvxsilpjtlruwyc@habkost.net> (Eduardo Habkost's
+ message of "Tue, 24 Aug 2021 09:57:42 -0400")
+Message-ID: <877dgadig5.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 24 Aug 2021 14:28:10.0781 (UTC)
- FILETIME=[43CF24D0:01D798F4]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,299 +86,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luis Pires <luis.pires@eldorado.org.br>, richard.henderson@linaro.org,
- groug@kaod.org, david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>, Sergio Lopez <slp@redhat.com>,
+ "Michael
+ S. Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-?= =?utf-8?Q?Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the following instructions to decodetree:
-ddedpd:  DFP Decode DPD To BCD
-ddedpdq: DFP Decode DPD To BCD Quad
-denbcd:  DFP Encode BCD To DPD
-denbcdq: DFP Encode BCD To DPD Quad
-dscli:   DFP Shift Significand Left Immediate
-dscliq:  DFP Shift Significand Left Immediate Quad
-dscri:   DFP Shift Significand Right Immediate
-dscriq:  DFP Shift Significand Right Immediate Quad
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-Also deleted dfp-ops.c.inc, now that all PPC DFP instructions were
-moved to decodetree.
+> On Tue, Aug 24, 2021 at 01:16:40PM +0100, Peter Maydell wrote:
+>> On Tue, 24 Aug 2021 at 13:05, Markus Armbruster <armbru@redhat.com> wrote:
+>> > When you know that all callers handle errors like &error_fatal does, use
+>> > of &error_fatal doesn't produce wrong behavior.  It's still kind of
+>> > wrong, because relying on such a non-local argument without a genuine
+>> > need is.
+>> 
+>> Not using error_fatal results in quite a bit of extra boilerplate
+>> for all those extra explicit "check for failure, print the error
+>> message and exit" points.
+>
+> I don't get it.  There's no need for extra boilerplate if the
+> caller is using &error_fatal.
+>
+>> If the MachineState init function took
+>> an Error** that might be a mild encouragement to "pass an Error
+>> upward rather than exiting"; but it doesn't.
+>
+> Agreed.
+>
+>> 
+>> Right now we have nearly a thousand instances of error_fatal
+>> in the codebase, incidentally.
+>
+> It looks like 73 of them are in functions that take an Error**
+> argument.
+>
+> Coccinelle patch for finding them:
+>
+> @@
+> typedef Error;
+> type T;
+> identifier errp, fn;
+> @@
+>  T fn(..., Error **errp)
+>  {
+>  ...
+> *&error_fatal
+>  ...
+>  }
+>
+>
+> Coccinelle output:
 
-Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
----
- target/ppc/dfp_helper.c             | 16 ++++-----
- target/ppc/helper.h                 | 16 ++++-----
- target/ppc/insn32.decode            | 28 +++++++++++++++
- target/ppc/translate.c              |  2 --
- target/ppc/translate/dfp-impl.c.inc | 54 +++++++++++++----------------
- target/ppc/translate/dfp-ops.c.inc  | 40 ---------------------
- 6 files changed, 68 insertions(+), 88 deletions(-)
- delete mode 100644 target/ppc/translate/dfp-ops.c.inc
+[...]
 
-diff --git a/target/ppc/dfp_helper.c b/target/ppc/dfp_helper.c
-index 7bb394c02b..0dcb1249f7 100644
---- a/target/ppc/dfp_helper.c
-+++ b/target/ppc/dfp_helper.c
-@@ -1131,8 +1131,8 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b,          \
-     set_dfp##size(t, &dfp.vt);                                            \
- }
- 
--DFP_HELPER_DEDPD(ddedpd, 64)
--DFP_HELPER_DEDPD(ddedpdq, 128)
-+DFP_HELPER_DEDPD(DDEDPD, 64)
-+DFP_HELPER_DEDPD(DDEDPDQ, 128)
- 
- static inline uint8_t dfp_get_bcd_digit_64(ppc_vsr_t *t, unsigned n)
- {
-@@ -1199,8 +1199,8 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b,             \
-     set_dfp##size(t, &dfp.vt);                                               \
- }
- 
--DFP_HELPER_ENBCD(denbcd, 64)
--DFP_HELPER_ENBCD(denbcdq, 128)
-+DFP_HELPER_ENBCD(DENBCD, 64)
-+DFP_HELPER_ENBCD(DENBCDQ, 128)
- 
- #define DFP_HELPER_XEX(op, size)                               \
- void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *b) \
-@@ -1387,7 +1387,7 @@ void helper_##op(CPUPPCState *env, ppc_fprp_t *t, ppc_fprp_t *a,    \
-     set_dfp##size(t, &dfp.vt);                                      \
- }
- 
--DFP_HELPER_SHIFT(dscli, 64, 1)
--DFP_HELPER_SHIFT(dscliq, 128, 1)
--DFP_HELPER_SHIFT(dscri, 64, 0)
--DFP_HELPER_SHIFT(dscriq, 128, 0)
-+DFP_HELPER_SHIFT(DSCLI, 64, 1)
-+DFP_HELPER_SHIFT(DSCLIQ, 128, 1)
-+DFP_HELPER_SHIFT(DSCRI, 64, 0)
-+DFP_HELPER_SHIFT(DSCRIQ, 128, 0)
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 4c2a349ce6..6fa3e15fe9 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -738,18 +738,18 @@ DEF_HELPER_3(DCFFIXQQ, void, env, fprp, avr)
- DEF_HELPER_3(DCTFIX, void, env, fprp, fprp)
- DEF_HELPER_3(DCTFIXQ, void, env, fprp, fprp)
- DEF_HELPER_3(DCTFIXQQ, void, env, avr, fprp)
--DEF_HELPER_4(ddedpd, void, env, fprp, fprp, i32)
--DEF_HELPER_4(ddedpdq, void, env, fprp, fprp, i32)
--DEF_HELPER_4(denbcd, void, env, fprp, fprp, i32)
--DEF_HELPER_4(denbcdq, void, env, fprp, fprp, i32)
-+DEF_HELPER_4(DDEDPD, void, env, fprp, fprp, i32)
-+DEF_HELPER_4(DDEDPDQ, void, env, fprp, fprp, i32)
-+DEF_HELPER_4(DENBCD, void, env, fprp, fprp, i32)
-+DEF_HELPER_4(DENBCDQ, void, env, fprp, fprp, i32)
- DEF_HELPER_3(DXEX, void, env, fprp, fprp)
- DEF_HELPER_3(DXEXQ, void, env, fprp, fprp)
- DEF_HELPER_4(DIEX, void, env, fprp, fprp, fprp)
- DEF_HELPER_4(DIEXQ, void, env, fprp, fprp, fprp)
--DEF_HELPER_4(dscri, void, env, fprp, fprp, i32)
--DEF_HELPER_4(dscriq, void, env, fprp, fprp, i32)
--DEF_HELPER_4(dscli, void, env, fprp, fprp, i32)
--DEF_HELPER_4(dscliq, void, env, fprp, fprp, i32)
-+DEF_HELPER_4(DSCRI, void, env, fprp, fprp, i32)
-+DEF_HELPER_4(DSCRIQ, void, env, fprp, fprp, i32)
-+DEF_HELPER_4(DSCLI, void, env, fprp, fprp, i32)
-+DEF_HELPER_4(DSCLIQ, void, env, fprp, fprp, i32)
- 
- DEF_HELPER_1(tbegin, void, env)
- DEF_HELPER_FLAGS_1(fixup_thrm, TCG_CALL_NO_RWG, void, env)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 2ce8b0ab95..6aec1c0728 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -74,6 +74,16 @@
- &X_bfl          bf l:bool ra rb
- @X_bfl          ...... bf:3 - l:1 ra:5 rb:5 ..........- &X_bfl
- 
-+&X_tb_sp_rc     rt rb sp rc:bool
-+@X_tb_sp_rc     ...... rt:5 sp:2 ... rb:5 .......... rc:1       &X_tb_sp_rc
-+
-+@X_tbp_sp_rc    ...... ....0 sp:2 ... ....0 .......... rc:1     &X_tb_sp_rc rt=%x_frtp rb=%x_frbp
-+
-+&X_tb_s_rc      rt rb s:bool rc:bool
-+@X_tb_s_rc      ...... rt:5 s:1 .... rb:5 .......... rc:1       &X_tb_s_rc
-+
-+@X_tbp_s_rc     ...... ....0 s:1 .... ....0 .......... rc:1     &X_tb_s_rc rt=%x_frtp rb=%x_frbp
-+
- &X_frtp_vrb     frtp vrb
- @X_frtp_vrb     ...... ....0 ..... vrb:5 .......... .           &X_frtp_vrb frtp=%x_frtp
- 
-@@ -86,6 +96,12 @@
- %z22_frap       17:4 !function=times_2
- @Z22_bf_frap    ...... bf:3 .. ....0 dm:6 ......... .           &Z22_bf_fra fra=%z22_frap
- 
-+&Z22_ta_sh_rc   rt ra sh rc:bool
-+@Z22_ta_sh_rc   ...... rt:5 ra:5 sh:6 ......... rc:1            &Z22_ta_sh_rc
-+
-+%z22_frtp       22:4 !function=times_2
-+@Z22_tap_sh_rc  ...... ....0 ....0 sh:6 ......... rc:1          &Z22_ta_sh_rc rt=%z22_frtp ra=%z22_frap
-+
- &Z23_tab        frt fra frb rmc rc:bool
- @Z23_tab        ...... frt:5 fra:5 frb:5 rmc:2 ........ rc:1    &Z23_tab
- 
-@@ -258,12 +274,24 @@ DCTFIXQQ        111111 ..... 00001 ..... 1111100010 -   @X_vrt_frbp
- 
- ### Decimal Floating-Point Format Instructions
- 
-+DDEDPD          111011 ..... .. --- ..... 0101000010 .  @X_tb_sp_rc
-+DDEDPDQ         111111 ..... .. --- ..... 0101000010 .  @X_tbp_sp_rc
-+
-+DENBCD          111011 ..... . ---- ..... 1101000010 .  @X_tb_s_rc
-+DENBCDQ         111111 ..... . ---- ..... 1101000010 .  @X_tbp_s_rc
-+
- DXEX            111011 ..... ----- ..... 0101100010 .   @X_tb_rc
- DXEXQ           111111 ..... ----- ..... 0101100010 .   @X_t_bp_rc
- 
- DIEX            111011 ..... ..... ..... 1101100010 .   @X_rc
- DIEXQ           111111 ..... ..... ..... 1101100010 .   @X_tp_a_bp_rc
- 
-+DSCLI           111011 ..... ..... ...... 001000010 .   @Z22_ta_sh_rc
-+DSCLIQ          111111 ..... ..... ...... 001000010 .   @Z22_tap_sh_rc
-+
-+DSCRI           111011 ..... ..... ...... 001100010 .   @Z22_ta_sh_rc
-+DSCRIQ          111111 ..... ..... ...... 001100010 .   @Z22_tap_sh_rc
-+
- ## Vector Bit Manipulation Instruction
- 
- VCFUGED         000100 ..... ..... ..... 10101001101    @VX
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index c3739f7370..0127f9c18d 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -8176,8 +8176,6 @@ GEN_HANDLER2_E(trechkpt, "trechkpt", 0x1F, 0x0E, 0x1F, 0x03FFF800, \
- 
- #include "translate/vsx-ops.c.inc"
- 
--#include "translate/dfp-ops.c.inc"
--
- #include "translate/spe-ops.c.inc"
- };
- 
-diff --git a/target/ppc/translate/dfp-impl.c.inc b/target/ppc/translate/dfp-impl.c.inc
-index 408769efb6..f9f1d58d44 100644
---- a/target/ppc/translate/dfp-impl.c.inc
-+++ b/target/ppc/translate/dfp-impl.c.inc
-@@ -123,26 +123,22 @@ static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a)   \
-     return true;                                             \
- }
- 
--#define GEN_DFP_T_FPR_I32_Rc(name, fprfld, i32fld) \
--static void gen_##name(DisasContext *ctx)          \
--{                                                  \
--    TCGv_ptr rt, rs;                               \
--    TCGv_i32 i32;                                  \
--    if (unlikely(!ctx->fpu_enabled)) {             \
--        gen_exception(ctx, POWERPC_EXCP_FPU);      \
--        return;                                    \
--    }                                              \
--    gen_update_nip(ctx, ctx->base.pc_next - 4);    \
--    rt = gen_fprp_ptr(rD(ctx->opcode));            \
--    rs = gen_fprp_ptr(fprfld(ctx->opcode));        \
--    i32 = tcg_const_i32(i32fld(ctx->opcode));      \
--    gen_helper_##name(cpu_env, rt, rs, i32);       \
--    if (unlikely(Rc(ctx->opcode) != 0)) {          \
--        gen_set_cr1_from_fpscr(ctx);               \
--    }                                              \
--    tcg_temp_free_ptr(rt);                         \
--    tcg_temp_free_ptr(rs);                         \
--    tcg_temp_free_i32(i32);                        \
-+#define TRANS_DFP_T_FPR_I32_Rc(NAME, FPRFLD, I32FLD)         \
-+static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a)   \
-+{                                                            \
-+    TCGv_ptr rt, rx;                                         \
-+    REQUIRE_INSNS_FLAGS2(ctx, DFP);                          \
-+    REQUIRE_FPU(ctx);                                        \
-+    rt = gen_fprp_ptr(a->rt);                                \
-+    rx = gen_fprp_ptr(a->FPRFLD);                            \
-+    gen_helper_##NAME(cpu_env, rt, rx,                       \
-+                      tcg_constant_i32(a->I32FLD));          \
-+    if (unlikely(a->rc)) {                                   \
-+        gen_set_cr1_from_fpscr(ctx);                         \
-+    }                                                        \
-+    tcg_temp_free_ptr(rt);                                   \
-+    tcg_temp_free_ptr(rx);                                   \
-+    return true;                                             \
- }
- 
- TRANS_DFP_T_A_B_Rc(DADD)
-@@ -185,20 +181,18 @@ TRANS_DFP_T_B_Rc(DCFFIX)
- TRANS_DFP_T_B_Rc(DCFFIXQ)
- TRANS_DFP_T_B_Rc(DCTFIX)
- TRANS_DFP_T_B_Rc(DCTFIXQ)
--GEN_DFP_T_FPR_I32_Rc(ddedpd, rB, SP)
--GEN_DFP_T_FPR_I32_Rc(ddedpdq, rB, SP)
--GEN_DFP_T_FPR_I32_Rc(denbcd, rB, SP)
--GEN_DFP_T_FPR_I32_Rc(denbcdq, rB, SP)
-+TRANS_DFP_T_FPR_I32_Rc(DDEDPD, rb, sp)
-+TRANS_DFP_T_FPR_I32_Rc(DDEDPDQ, rb, sp)
-+TRANS_DFP_T_FPR_I32_Rc(DENBCD, rb, s)
-+TRANS_DFP_T_FPR_I32_Rc(DENBCDQ, rb, s)
- TRANS_DFP_T_B_Rc(DXEX)
- TRANS_DFP_T_B_Rc(DXEXQ)
- TRANS_DFP_T_A_B_Rc(DIEX)
- TRANS_DFP_T_A_B_Rc(DIEXQ)
--GEN_DFP_T_FPR_I32_Rc(dscli, rA, DCM)
--GEN_DFP_T_FPR_I32_Rc(dscliq, rA, DCM)
--GEN_DFP_T_FPR_I32_Rc(dscri, rA, DCM)
--GEN_DFP_T_FPR_I32_Rc(dscriq, rA, DCM)
--
--#undef GEN_DFP_T_FPR_I32_Rc
-+TRANS_DFP_T_FPR_I32_Rc(DSCLI, ra, sh)
-+TRANS_DFP_T_FPR_I32_Rc(DSCLIQ, ra, sh)
-+TRANS_DFP_T_FPR_I32_Rc(DSCRI, ra, sh)
-+TRANS_DFP_T_FPR_I32_Rc(DSCRIQ, ra, sh)
- 
- static bool trans_DCFFIXQQ(DisasContext *ctx, arg_DCFFIXQQ *a)
- {
-diff --git a/target/ppc/translate/dfp-ops.c.inc b/target/ppc/translate/dfp-ops.c.inc
-deleted file mode 100644
-index e29c4b2194..0000000000
---- a/target/ppc/translate/dfp-ops.c.inc
-+++ /dev/null
-@@ -1,40 +0,0 @@
--#define _GEN_DFP_LONG(name, op1, op2, mask) \
--GEN_HANDLER_E(name, 0x3B, op1, op2, mask, PPC_NONE, PPC2_DFP)
--
--#define _GEN_DFP_LONGx2(name, op1, op2, mask) \
--GEN_HANDLER_E(name, 0x3B, op1, 0x00 | op2, mask, PPC_NONE, PPC2_DFP), \
--GEN_HANDLER_E(name, 0x3B, op1, 0x10 | op2, mask, PPC_NONE, PPC2_DFP)
--
--#define _GEN_DFP_QUAD(name, op1, op2, mask) \
--GEN_HANDLER_E(name, 0x3F, op1, op2, mask, PPC_NONE, PPC2_DFP)
--
--#define _GEN_DFP_QUADx2(name, op1, op2, mask) \
--GEN_HANDLER_E(name, 0x3F, op1, 0x00 | op2, mask, PPC_NONE, PPC2_DFP), \
--GEN_HANDLER_E(name, 0x3F, op1, 0x10 | op2, mask, PPC_NONE, PPC2_DFP)
--
--#define GEN_DFP_SP_T_B_Rc(name, op1, op2) \
--_GEN_DFP_LONG(name, op1, op2, 0x00070000)
--
--#define GEN_DFP_SP_Tp_Bp_Rc(name, op1, op2) \
--_GEN_DFP_QUAD(name, op1, op2, 0x00270800)
--
--#define GEN_DFP_S_T_B_Rc(name, op1, op2) \
--_GEN_DFP_LONG(name, op1, op2, 0x000F0000)
--
--#define GEN_DFP_S_Tp_Bp_Rc(name, op1, op2) \
--_GEN_DFP_QUAD(name, op1, op2, 0x002F0800)
--
--#define GEN_DFP_T_A_SH_Rc(name, op1, op2) \
--_GEN_DFP_LONGx2(name, op1, op2, 0x00000000)
--
--#define GEN_DFP_Tp_Ap_SH_Rc(name, op1, op2) \
--_GEN_DFP_QUADx2(name, op1, op2, 0x00210000)
--
--GEN_DFP_SP_T_B_Rc(ddedpd, 0x02, 0x0a),
--GEN_DFP_SP_Tp_Bp_Rc(ddedpdq, 0x02, 0x0a),
--GEN_DFP_S_T_B_Rc(denbcd, 0x02, 0x1a),
--GEN_DFP_S_Tp_Bp_Rc(denbcdq, 0x02, 0x1a),
--GEN_DFP_T_A_SH_Rc(dscli, 0x02, 0x02),
--GEN_DFP_Tp_Ap_SH_Rc(dscliq, 0x02, 0x02),
--GEN_DFP_T_A_SH_Rc(dscri, 0x02, 0x03),
--GEN_DFP_Tp_Ap_SH_Rc(dscriq, 0x02, 0x03),
--- 
-2.25.1
+These do look suspicious to me.
 
 
