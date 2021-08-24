@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5CFA3F68C2
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 20:05:45 +0200 (CEST)
-Received: from localhost ([::1]:50530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C2283F68C3
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 20:06:02 +0200 (CEST)
+Received: from localhost ([::1]:51602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIanw-0002aX-CJ
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 14:05:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42960)
+	id 1mIaoD-0003Ma-EX
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 14:06:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1mIamu-0001ak-ET
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 14:04:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35355)
+ id 1mIan9-0001vf-6E
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 14:04:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39216)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1mIamp-000404-5i
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 14:04:38 -0400
+ id 1mIan7-0004CQ-5I
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 14:04:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629828273;
+ s=mimecast20190719; t=1629828291;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=C9DGrcfDBxK7vodQirvwN49q89w0JOideJt03/7alFI=;
- b=fqiJRiGLxBS/aLDAe7up/uMA1sBllho65zTpF7fp5/S7SCZYbDIi18FQxQnE3m1BAuG+My
- O1ZGT320CV2rqYe2rO9blKEVCQYXE+8UasH9xwZwk4tdBtO7axiYv9ZB8Ebz6j6/5Iq0Mx
- navYrbSNniHySMbmj451Cifjnzz7O8w=
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-2v7e2eMaNYu5sScpcPWWiQ-1; Tue, 24 Aug 2021 14:04:31 -0400
-X-MC-Unique: 2v7e2eMaNYu5sScpcPWWiQ-1
-Received: by mail-pg1-f200.google.com with SMTP id
- h10-20020a65404a000000b00253122e62a0so1480365pgp.0
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 11:04:31 -0700 (PDT)
+ bh=Lnl4pErgHUzfQUH9HtNdKjgxOQLnPcC3wkFkQUPTZ9E=;
+ b=Dm3s+viRp+qPWd5l1w+NFsCcnlZ6EKp0lUfL50nRQNjZ/WBUj/KGSpPPxQwP4XiBgBOlDn
+ IZBP/xws2rLDcjcOKUoQtCWvXiSdjICRl7ylJYo1YuCYkwbwD+1HVDHcDKPcsTuolyybir
+ 3wuaEFkQHgCwV1gOyxcA9LUZnngMG+8=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-603-Nj7OwYDmO52ENgsETR6iWg-1; Tue, 24 Aug 2021 14:04:49 -0400
+X-MC-Unique: Nj7OwYDmO52ENgsETR6iWg-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ ob1-20020a17090b390100b001793bdcc41eso10561pjb.0
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 11:04:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=C9DGrcfDBxK7vodQirvwN49q89w0JOideJt03/7alFI=;
- b=aaiGDXe5zwkGkd62kDx3n0DrfYquxpnw769PKc6hBouhzbcC1bgNxFca7SYOjOXwKk
- ZFhSLpovycsmJwktGeIO0Z73Bh7JjeMyolxN+px48J/60PJ7CeSARH87zEOX8G/migQm
- CS7KDXNhJC2ax+nmxlScWBdH0Q5HZb33gRPD8bTzHmekpEmMIU6oYKmpvicQAltEIIiD
- Sui9A0bVhaP6+35OODhGolaEVBAF9A2YlCPEeDqBSs5qBHzZJRedmclxpS1xHq50WmNI
- 9qdOt4d+lWvZY/G2KjYMO1ideySq200kUP4+aYJ2wqTkd5erQFiqGJ9XjbYNeXk8jUDk
- Z3Zw==
-X-Gm-Message-State: AOAM533H1D7mw3I7pwtvyl2895S6qNLMD6ld+KuAGI4o1MFZk4rVbI1z
- +m3fwXl2TJTLH3d1ZH3UfXnpr/tRvAQefSdl51+Gx5VGQrCv52wKZBiW8TrfSoMxD2AHJqVQL6m
- sAK8S6JRD8dAKcrRz9vObdonWivI4Jx8=
-X-Received: by 2002:a17:90b:46c3:: with SMTP id
- jx3mr5709308pjb.137.1629828270449; 
- Tue, 24 Aug 2021 11:04:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwqhk/LAwLwhuhLtYOgxk+vBkpjiXC7CXzSxVtUahx7ji42dQp3h4X3JaXTvSCSh8fIsDLQEVBPx8X8iqgkiQc=
-X-Received: by 2002:a17:90b:46c3:: with SMTP id
- jx3mr5709286pjb.137.1629828270215; 
- Tue, 24 Aug 2021 11:04:30 -0700 (PDT)
+ bh=Lnl4pErgHUzfQUH9HtNdKjgxOQLnPcC3wkFkQUPTZ9E=;
+ b=fD0PUf2k9jsYGsibaJcmbFmQO/TAC4i4o5mUK4VwMwk8E0GyIbwcx4tHuSWqyIYVyt
+ v27r7l239lRElfEKYTTfZHJpEREpYauV8AkPzxyVlqv9QMgaCx1yr0Rl2ytVrwwp46Oj
+ 7P2AxCU/uUpCqG95RKW0Auy7l9zlnoiw365jRjF6merLnlprpABwjW9kzJJqXNqweJLD
+ vDL5ntT/gzPe6QMkcCj3sBiqmeBh0dKAIkt8pAZkjqSrbOD/L1Bc5FECfWn1yp+KcywY
+ wSL5AbjI6IlKRIud3nr/NL2/4CHlmzfgOVWKz/HMKpfFt5FGD4rjxnJTw5zl1yaNlDa4
+ w4Ng==
+X-Gm-Message-State: AOAM5337gixwSzbcLV0siqHVssaIDNdDml9H5XuQJSthvuTAqwFkEtnM
+ nDj7vbkZ8SaxOVLVSmCPgFNC5YdPnGYKPoEkvTY3qRF8K+oN8lIhvHcPMflIFxrpVj+vZfgupuU
+ IdZJ6yx9X3xdxofOFSVTWdlfu/n76jx8=
+X-Received: by 2002:a63:1155:: with SMTP id 21mr37975690pgr.346.1629828288964; 
+ Tue, 24 Aug 2021 11:04:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxZcMus0KP4RJSGeIApX/KBTN/xebMoloa7bzKcOHgfowEruLB83okNrmSeFG4DntQp86XdNZKwxu1OJSCrOO0=
+X-Received: by 2002:a63:1155:: with SMTP id 21mr37975671pgr.346.1629828288774; 
+ Tue, 24 Aug 2021 11:04:48 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210824152721.79747-1-peterx@redhat.com>
- <20210824152721.79747-3-peterx@redhat.com>
-In-Reply-To: <20210824152721.79747-3-peterx@redhat.com>
+ <20210824152721.79747-2-peterx@redhat.com>
+In-Reply-To: <20210824152721.79747-2-peterx@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 24 Aug 2021 22:04:19 +0400
-Message-ID: <CAMxuvawNsaL66nTiWaQa72D_kDzRPj_-AWnof4att6ghcBSZkQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] dump-guest-memory: Block live migration
+Date: Tue, 24 Aug 2021 22:04:37 +0400
+Message-ID: <CAMxuvawYhvO13Ue+_FhO6Qofk8hjuViO3sFHjV_QbMfvi-ASnA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] migration: Add migrate_add_blocker_internal()
 To: Peter Xu <peterx@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000176bf905ca51f749"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+Content-Type: multipart/alternative; boundary="0000000000003298a905ca51f826"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -98,234 +96,222 @@ Cc: Andrew Jones <drjones@redhat.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000176bf905ca51f749
+--0000000000003298a905ca51f826
 Content-Type: text/plain; charset="UTF-8"
-
-Hi
+Content-Transfer-Encoding: quoted-printable
 
 On Tue, Aug 24, 2021 at 7:27 PM Peter Xu <peterx@redhat.com> wrote:
 
-> Both dump-guest-memory and live migration caches vm state at the beginning.
-> Either of them entering the other one will cause race on the vm state, and
-> even
-> more severe on that (please refer to the crash report in the bug link).
+> An internal version that removes -only-migratable implications.  It can b=
+e
+> used
+> for temporary migration blockers like dump-guest-memory.
 >
-> Let's block live migration in dump-guest-memory, and that'll also block
-> dump-guest-memory if it detected that we're during a live migration.
->
-
-How does it detect that migration is in progress?
-
-Otherwise, it looks reasonable to me.
-
-
-> Side note: migrate_del_blocker() can be called even if the blocker is not
-> inserted yet, so it's safe to unconditionally delete that blocker in
-> dump_cleanup (g_slist_remove allows no-entry-found case).
->
-> Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1996609
 > Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->  dump/dump.c           | 20 +++++++++++++++-----
->  include/sysemu/dump.h |  1 +
->  2 files changed, 16 insertions(+), 5 deletions(-)
 >
-> diff --git a/dump/dump.c b/dump/dump.c
-> index ab625909f3..7996d7a6c5 100644
-> --- a/dump/dump.c
-> +++ b/dump/dump.c
-> @@ -29,6 +29,7 @@
->  #include "qemu/error-report.h"
->  #include "qemu/main-loop.h"
->  #include "hw/misc/vmcoreinfo.h"
-> +#include "migration/blocker.h"
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+---
+>  include/migration/blocker.h | 16 ++++++++++++++++
+>  migration/migration.c       | 21 +++++++++++++--------
+>  2 files changed, 29 insertions(+), 8 deletions(-)
 >
->  #ifdef TARGET_X86_64
->  #include "win_dump.h"
-> @@ -101,6 +102,7 @@ static int dump_cleanup(DumpState *s)
->              qemu_mutex_unlock_iothread();
->          }
->      }
-> +    migrate_del_blocker(s->dump_migration_blocker);
+> diff --git a/include/migration/blocker.h b/include/migration/blocker.h
+> index acd27018e9..9cebe2ba06 100644
+> --- a/include/migration/blocker.h
+> +++ b/include/migration/blocker.h
+> @@ -25,6 +25,22 @@
+>   */
+>  int migrate_add_blocker(Error *reason, Error **errp);
 >
->      return 0;
+> +/**
+> + * @migrate_add_blocker_internal - prevent migration from proceeding
+> without
+> + *                                 only-migrate implications
+> + *
+> + * @reason - an error to be returned whenever migration is attempted
+> + *
+> + * @errp - [out] The reason (if any) we cannot block migration right now=
+.
+> + *
+> + * @returns - 0 on success, -EBUSY on failure, with errp set.
+> + *
+> + * Some of the migration blockers can be temporary (e.g., for a few
+> seconds),
+> + * so it shouldn't need to conflict with "-only-migratable".  For those
+> cases,
+> + * we can call this function rather than @migrate_add_blocker().
+> + */
+> +int migrate_add_blocker_internal(Error *reason, Error **errp);
+> +
+>  /**
+>   * @migrate_del_blocker - remove a blocking error from migration
+>   *
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 041b8451a6..41429680c2 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -2053,15 +2053,8 @@ void migrate_init(MigrationState *s)
+>      s->threshold_size =3D 0;
 >  }
-> @@ -1857,6 +1859,19 @@ static void dump_init(DumpState *s, int fd, bool
-> has_format,
->          }
->      }
 >
-> +    if (!s->dump_migration_blocker) {
-> +        error_setg(&s->dump_migration_blocker,
-> +                   "Live migration disabled: dump-guest-memory in
-> progress");
-> +    }
-> +
-> +    /*
-> +     * Allows even for -only-migratable, but forbid migration during the
-> +     * process of dump guest memory.
-> +     */
-> +    if (migrate_add_blocker_internal(s->dump_migration_blocker, errp)) {
-> +        goto cleanup;
-> +    }
-> +
->      return;
->
->  cleanup:
-> @@ -1927,11 +1942,6 @@ void qmp_dump_guest_memory(bool paging, const char
-> *file,
->      Error *local_err = NULL;
->      bool detach_p = false;
->
-> -    if (runstate_check(RUN_STATE_INMIGRATE)) {
-> -        error_setg(errp, "Dump not allowed during incoming migration.");
-> -        return;
+> -int migrate_add_blocker(Error *reason, Error **errp)
+> +int migrate_add_blocker_internal(Error *reason, Error **errp)
+>  {
+> -    if (only_migratable) {
+> -        error_propagate_prepend(errp, error_copy(reason),
+> -                                "disallowing migration blocker "
+> -                                "(--only-migratable) for: ");
+> -        return -EACCES;
 > -    }
 > -
->      /* if there is a dump in background, we should wait until the dump
->       * finished */
->      if (dump_in_progress()) {
-> diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
-> index 250143cb5a..7b619c2a43 100644
-> --- a/include/sysemu/dump.h
-> +++ b/include/sysemu/dump.h
-> @@ -195,6 +195,7 @@ typedef struct DumpState {
->                                    * finished. */
->      uint8_t *guest_note;         /* ELF note content */
->      size_t guest_note_size;
-> +    Error *dump_migration_blocker; /* Blocker for live migration */
->  } DumpState;
+>      if (migration_is_idle()) {
+>          migration_blockers =3D g_slist_prepend(migration_blockers, reaso=
+n);
+>          return 0;
+> @@ -2073,6 +2066,18 @@ int migrate_add_blocker(Error *reason, Error **err=
+p)
+>      return -EBUSY;
+>  }
 >
->  uint16_t cpu_to_dump16(DumpState *s, uint16_t val);
+> +int migrate_add_blocker(Error *reason, Error **errp)
+> +{
+> +    if (only_migratable) {
+> +        error_propagate_prepend(errp, error_copy(reason),
+> +                                "disallowing migration blocker "
+> +                                "(--only-migratable) for: ");
+> +        return -EACCES;
+> +    }
+> +
+> +    return migrate_add_blocker_internal(reason, errp);
+> +}
+> +
+>  void migrate_del_blocker(Error *reason)
+>  {
+>      migration_blockers =3D g_slist_remove(migration_blockers, reason);
 > --
 > 2.31.1
 >
 >
 
---000000000000176bf905ca51f749
+--0000000000003298a905ca51f826
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 24, 2021 at 7:27 PM Pet=
-er Xu &lt;<a href=3D"mailto:peterx@redhat.com">peterx@redhat.com</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Both dump-g=
-uest-memory and live migration caches vm state at the beginning.<br>
-Either of them entering the other one will cause race on the vm state, and =
-even<br>
-more severe on that (please refer to the crash report in the bug link).<br>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><div dir=3D"ltr"><br></div><br>=
+<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Au=
+g 24, 2021 at 7:27 PM Peter Xu &lt;<a href=3D"mailto:peterx@redhat.com" tar=
+get=3D"_blank">peterx@redhat.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">An internal version that removes -only-mig=
+ratable implications.=C2=A0 It can be used<br>
+for temporary migration blockers like dump-guest-memory.<br>
 <br>
-Let&#39;s block live migration in dump-guest-memory, and that&#39;ll also b=
-lock<br>
-dump-guest-memory if it detected that we&#39;re during a live migration.<br=
-></blockquote><div><br></div><div>How does it detect that migration is in p=
-rogress? <br></div><div><br></div><div>Otherwise, it looks reasonable to me=
-.<br></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->
-<br>
-Side note: migrate_del_blocker() can be called even if the blocker is not<b=
-r>
-inserted yet, so it&#39;s safe to unconditionally delete that blocker in<br=
->
-dump_cleanup (g_slist_remove allows no-entry-found case).<br>
-<br>
-Suggested-by: Dr. David Alan Gilbert &lt;<a href=3D"mailto:dgilbert@redhat.=
-com" target=3D"_blank">dgilbert@redhat.com</a>&gt;<br>
-Bugzilla: <a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D1996609"=
- rel=3D"noreferrer" target=3D"_blank">https://bugzilla.redhat.com/show_bug.=
-cgi?id=3D1996609</a><br>
 Signed-off-by: Peter Xu &lt;<a href=3D"mailto:peterx@redhat.com" target=3D"=
-_blank">peterx@redhat.com</a>&gt;<br>
+_blank">peterx@redhat.com</a>&gt;<br></blockquote><div><br></div><div>Revie=
+wed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redha=
+t.com">marcandre.lureau@redhat.com</a>&gt;</div><div> <br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex">
 ---<br>
-=C2=A0dump/dump.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 20 ++++++++++++=
-+++-----<br>
-=C2=A0include/sysemu/dump.h |=C2=A0 1 +<br>
-=C2=A02 files changed, 16 insertions(+), 5 deletions(-)<br>
+=C2=A0include/migration/blocker.h | 16 ++++++++++++++++<br>
+=C2=A0migration/migration.c=C2=A0 =C2=A0 =C2=A0 =C2=A0| 21 +++++++++++++---=
+-----<br>
+=C2=A02 files changed, 29 insertions(+), 8 deletions(-)<br>
 <br>
-diff --git a/dump/dump.c b/dump/dump.c<br>
-index ab625909f3..7996d7a6c5 100644<br>
---- a/dump/dump.c<br>
-+++ b/dump/dump.c<br>
-@@ -29,6 +29,7 @@<br>
-=C2=A0#include &quot;qemu/error-report.h&quot;<br>
-=C2=A0#include &quot;qemu/main-loop.h&quot;<br>
-=C2=A0#include &quot;hw/misc/vmcoreinfo.h&quot;<br>
-+#include &quot;migration/blocker.h&quot;<br>
+diff --git a/include/migration/blocker.h b/include/migration/blocker.h<br>
+index acd27018e9..9cebe2ba06 100644<br>
+--- a/include/migration/blocker.h<br>
++++ b/include/migration/blocker.h<br>
+@@ -25,6 +25,22 @@<br>
+=C2=A0 */<br>
+=C2=A0int migrate_add_blocker(Error *reason, Error **errp);<br>
 <br>
-=C2=A0#ifdef TARGET_X86_64<br>
-=C2=A0#include &quot;win_dump.h&quot;<br>
-@@ -101,6 +102,7 @@ static int dump_cleanup(DumpState *s)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_mutex_unlock_iothread(=
-);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 migrate_del_blocker(s-&gt;dump_migration_blocker);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0return 0;<br>
-=C2=A0}<br>
-@@ -1857,6 +1859,19 @@ static void dump_init(DumpState *s, int fd, bool has=
-_format,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-+=C2=A0 =C2=A0 if (!s-&gt;dump_migration_blocker) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(&amp;s-&gt;dump_migration_blocker,<=
++/**<br>
++ * @migrate_add_blocker_internal - prevent migration from proceeding witho=
+ut<br>
++ *=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0only-migrate implications<b=
+r>
++ *<br>
++ * @reason - an error to be returned whenever migration is attempted<br>
++ *<br>
++ * @errp - [out] The reason (if any) we cannot block migration right now.<=
 br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot=
-;Live migration disabled: dump-guest-memory in progress&quot;);<br>
-+=C2=A0 =C2=A0 }<br>
++ *<br>
++ * @returns - 0 on success, -EBUSY on failure, with errp set.<br>
++ *<br>
++ * Some of the migration blockers can be temporary (e.g., for a few second=
+s),<br>
++ * so it shouldn&#39;t need to conflict with &quot;-only-migratable&quot;.=
+=C2=A0 For those cases,<br>
++ * we can call this function rather than @migrate_add_blocker().<br>
++ */<br>
++int migrate_add_blocker_internal(Error *reason, Error **errp);<br>
 +<br>
-+=C2=A0 =C2=A0 /*<br>
-+=C2=A0 =C2=A0 =C2=A0* Allows even for -only-migratable, but forbid migrati=
-on during the<br>
-+=C2=A0 =C2=A0 =C2=A0* process of dump guest memory.<br>
-+=C2=A0 =C2=A0 =C2=A0*/<br>
-+=C2=A0 =C2=A0 if (migrate_add_blocker_internal(s-&gt;dump_migration_blocke=
-r, errp)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 goto cleanup;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0return;<br>
+=C2=A0/**<br>
+=C2=A0 * @migrate_del_blocker - remove a blocking error from migration<br>
+=C2=A0 *<br>
+diff --git a/migration/migration.c b/migration/migration.c<br>
+index 041b8451a6..41429680c2 100644<br>
+--- a/migration/migration.c<br>
++++ b/migration/migration.c<br>
+@@ -2053,15 +2053,8 @@ void migrate_init(MigrationState *s)<br>
+=C2=A0 =C2=A0 =C2=A0s-&gt;threshold_size =3D 0;<br>
+=C2=A0}<br>
 <br>
-=C2=A0cleanup:<br>
-@@ -1927,11 +1942,6 @@ void qmp_dump_guest_memory(bool paging, const char *=
-file,<br>
-=C2=A0 =C2=A0 =C2=A0Error *local_err =3D NULL;<br>
-=C2=A0 =C2=A0 =C2=A0bool detach_p =3D false;<br>
-<br>
--=C2=A0 =C2=A0 if (runstate_check(RUN_STATE_INMIGRATE)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;Dump not allowed during=
- incoming migration.&quot;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+-int migrate_add_blocker(Error *reason, Error **errp)<br>
++int migrate_add_blocker_internal(Error *reason, Error **errp)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 if (only_migratable) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate_prepend(errp, error_copy(reaso=
+n),<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;disallowing migration blocker =
+&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;(--only-migratable) for: &quot=
+;);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EACCES;<br>
 -=C2=A0 =C2=A0 }<br>
 -<br>
-=C2=A0 =C2=A0 =C2=A0/* if there is a dump in background, we should wait unt=
-il the dump<br>
-=C2=A0 =C2=A0 =C2=A0 * finished */<br>
-=C2=A0 =C2=A0 =C2=A0if (dump_in_progress()) {<br>
-diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h<br>
-index 250143cb5a..7b619c2a43 100644<br>
---- a/include/sysemu/dump.h<br>
-+++ b/include/sysemu/dump.h<br>
-@@ -195,6 +195,7 @@ typedef struct DumpState {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* finished. */<br>
-=C2=A0 =C2=A0 =C2=A0uint8_t *guest_note;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/=
-* ELF note content */<br>
-=C2=A0 =C2=A0 =C2=A0size_t guest_note_size;<br>
-+=C2=A0 =C2=A0 Error *dump_migration_blocker; /* Blocker for live migration=
- */<br>
-=C2=A0} DumpState;<br>
+=C2=A0 =C2=A0 =C2=A0if (migration_is_idle()) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0migration_blockers =3D g_slist_prepend(mi=
+gration_blockers, reason);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
+@@ -2073,6 +2066,18 @@ int migrate_add_blocker(Error *reason, Error **errp)=
 <br>
-=C2=A0uint16_t cpu_to_dump16(DumpState *s, uint16_t val);<br>
+=C2=A0 =C2=A0 =C2=A0return -EBUSY;<br>
+=C2=A0}<br>
+<br>
++int migrate_add_blocker(Error *reason, Error **errp)<br>
++{<br>
++=C2=A0 =C2=A0 if (only_migratable) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_propagate_prepend(errp, error_copy(reaso=
+n),<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;disallowing migration blocker =
+&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;(--only-migratable) for: &quot=
+;);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return -EACCES;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 return migrate_add_blocker_internal(reason, errp);<br>
++}<br>
++<br>
+=C2=A0void migrate_del_blocker(Error *reason)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0migration_blockers =3D g_slist_remove(migration_blocker=
+s, reason);<br>
 -- <br>
 2.31.1<br>
 <br>
-</blockquote></div></div>
+</blockquote></div>
+</div>
 
---000000000000176bf905ca51f749--
+--0000000000003298a905ca51f826--
 
 
