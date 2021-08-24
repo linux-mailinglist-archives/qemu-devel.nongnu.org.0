@@ -2,68 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE0E93F61D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 17:39:03 +0200 (CEST)
-Received: from localhost ([::1]:53274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 965583F61FD
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 17:48:50 +0200 (CEST)
+Received: from localhost ([::1]:56602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIYVy-0002vE-Vb
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 11:39:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43290)
+	id 1mIYfR-0005hP-75
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 11:48:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mIYV0-00027v-Vn
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:38:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38097)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mIYeI-0004kL-3n
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:47:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mIYUz-0005gg-JI
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:38:02 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mIYeF-0003ZX-Q9
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:47:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629819480;
+ s=mimecast20190719; t=1629820055;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6JfRZp7+4iDWqXYzu/J3+zBKraFtOmvMRPWPk+mlZOw=;
- b=MwLipXQbdvZqD3fYekmiaLprkCOXfiAaCUwmEMxfgP3GKs2Hfl3Dz1w1oCHRpzp1U8w1dC
- O6Xxu+Vs3S//6tXw+qJiP+4VlzjX8MndB9D6rPny8pVz2tWLOIQG5XkOWZM9NHv+68OKBM
- UZP1RbqKvKkmNuF5srmjLSjxj43u+lI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-114-S0L-MH36MjSPOnh7D7vXPw-1; Tue, 24 Aug 2021 11:37:57 -0400
-X-MC-Unique: S0L-MH36MjSPOnh7D7vXPw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A1C58799ED;
- Tue, 24 Aug 2021 15:37:56 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.114])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8C8835D9C6;
- Tue, 24 Aug 2021 15:37:55 +0000 (UTC)
-Date: Tue, 24 Aug 2021 17:37:53 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Christopher Pereira <kripper@imatronix.cl>
-Subject: Re: qcow2 perfomance: read-only IO on the guest generates high write
- IO on the host
-Message-ID: <YSUSNCR6kZVnCBKF@redhat.com>
-References: <55980bc8-97ad-77a4-1bb7-a086f2712ea1@imatronix.cl>
+ bh=MrPh40+dTEhUvWwLJERGScSq0psY9MzF6ReeJVy0u1s=;
+ b=IZAPOeVkLd+HvA/9Cn5qe3QtbHAFz8Wc5FZOApPf9L4z1AthFkAjraynqIANdqN4tPPgU2
+ WTQd+keAO/170Hfe2CJ39ktyoGCvzi42etKd+vnNn1S9REBArU4PumulVazKnoNEuLy1yr
+ Lg2v4eilayEd51BfrKAPrMNw0U30m9Q=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-236-horkMO90MfGLQRYvEZfkKg-1; Tue, 24 Aug 2021 11:47:33 -0400
+X-MC-Unique: horkMO90MfGLQRYvEZfkKg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ b8-20020a5d5508000000b001574e8e9237so1952499wrv.16
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 08:47:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=MrPh40+dTEhUvWwLJERGScSq0psY9MzF6ReeJVy0u1s=;
+ b=F+gz8/o4Qi/WlAjg9qTZ7xAhHUhQSBnQb1zDcy1MBygr1lCUg2kKifr5S4xRhG8L09
+ +1/dEM/2+dhTOhvsBy3z2A4YAk6Kv1HtbKsitH66XmZWISb6wQxhzpr5coZ8B+OZtgNd
+ 0gyTE7q84yW70NRuA0XbKn226PszsQGC7HhGsmxcIKwnuQnM3ibVQGJshu3CzGawCoh6
+ d2a6OadApiqnrV/OptDSctV6is8dfE8+EXTWY7mjRr/xyX4R5MzUJ1A1Q70WvaveOeIt
+ 30RY4vCX5c+oTDkKSoS5Aw4u8dFlEEu5rsmoF8orQQeVUJA103ljTeoEeSaez2bwsipf
+ ryNw==
+X-Gm-Message-State: AOAM530PDYcFRSZViCRSc8upV8oFy3V8t4jamfY5FLvUDsy78mZJIKW6
+ teRS7ohSkLyA0GxQdVeUANPmgVpULg3DpeBBO5p3RqU9DVkZ/gjrnpszjY1dwWbV1jmEj2rt80u
+ L8CMNmtoKUlx/sursCoWTXRLw452E9FdECBA7FTepGQFx5d7SHCeqcPlumLwnf4Wl
+X-Received: by 2002:a5d:4f02:: with SMTP id c2mr20634189wru.311.1629820052070; 
+ Tue, 24 Aug 2021 08:47:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxSmOjea4Aq8/G0ZvRK+ZzY43LuES8CcwLChwkap++8yvgr07fGFzAgDO08Ir4fO+gM4FYO+g==
+X-Received: by 2002:a5d:4f02:: with SMTP id c2mr20634164wru.311.1629820051891; 
+ Tue, 24 Aug 2021 08:47:31 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id d24sm2640092wmb.35.2021.08.24.08.47.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Aug 2021 08:47:31 -0700 (PDT)
+Subject: Re: [PATCH 1/2] iotests: Fix unspecified-encoding pylint warnings
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+References: <20210824153540.177128-1-hreitz@redhat.com>
+ <20210824153540.177128-2-hreitz@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <2404b821-78bf-bfcd-417e-0f4bb9eb911c@redhat.com>
+Date: Tue, 24 Aug 2021 17:47:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <55980bc8-97ad-77a4-1bb7-a086f2712ea1@imatronix.cl>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210824153540.177128-2-hreitz@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-1.305, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,61 +98,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[ Cc: qemu-block ]
-
-Am 11.08.2021 um 13:36 hat Christopher Pereira geschrieben:
-> Hi,
+On 8/24/21 5:35 PM, Hanna Reitz wrote:
+> As of recently, pylint complains when `open()` calls are missing an
+> `encoding=` specified.  Everything we have should be UTF-8 (and in fact,
+> everything should be UTF-8, period (exceptions apply)), so use that.
 > 
-> I'm reading a directory with 5.000.000 files (2,4 GB) inside a guest using
-> "find | grep -c".
-> 
-> On the host I saw high write IO (40 MB/s !) during over 1 hour using
-> virt-top.
-> 
-> I later repeated the read-only operation inside the guest and no additional
-> data was written on the host. The operation took only some seconds.
-> 
-> I believe QEMU was creating some kind of cache or metadata map the first
-> time I accessed the inodes.
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+> ---
+>  tests/qemu-iotests/297        | 2 +-
+>  tests/qemu-iotests/iotests.py | 8 +++++---
+>  2 files changed, 6 insertions(+), 4 deletions(-)
 
-No, at least in theory, QEMU shouldn't allocate anything when you're
-just reading.
-
-Are you sure that this isn't activity coming from your guest OS?
-
-> But I wonder why the cache or metadata map wasn't available the first time
-> and why QEMU had to recreate it?
-> 
-> The VM has "compressed base <- snap 1" and base was converted without
-> prealloc.
-> 
-> Is it because we created the base using convert without metadata prealloc
-> and so the metadata map got lost?
-> 
-> I will do some experiments soon using convert + metadata prealloc and
-> probably find out myself, but I will happy to read your comments and gain
-> some additional insights.
-> If it the problem persists, I would try again without compression.
-
-What were the results of your experiments? Is the behaviour related to
-any of these options?
-
-> Additional info:
-> 
->  * Guest fs is xfs.
->  * (I believe the snapshot didn't significantly increase in size, but I
->    would need to double check)
->  * This is a production host with old QEMU emulator version 2.3.0
->    (qemu-kvm-ev-2.3.0-31.el7_2.10.1)
-
-Discussing the most recent version is generally easier, but the expected
-behaviour has always been the same, so it probably doesn't matter much
-in this case.
-
-Kevin
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
