@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C4A3F61BB
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 17:33:41 +0200 (CEST)
-Received: from localhost ([::1]:41604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFFD33F619C
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 17:29:05 +0200 (CEST)
+Received: from localhost ([::1]:58580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIYQl-0003Qi-TY
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 11:33:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41066)
+	id 1mIYMK-0004F2-Pj
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 11:29:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIYKp-0001ze-8T
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:27:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26540)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIYKq-00022h-GA
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:27:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57151)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIYKn-0006hF-KK
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:27:31 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIYKo-0006ib-OW
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:27:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629818848;
+ s=mimecast20190719; t=1629818849;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FYappjBljsHSEUsiRztHl2pb1k57oy0/NHXVscrkE4o=;
- b=RUYqpT+tohGhWIguYABsepQtfGC7Xlz+lJX4NKtXsauDr0jfpVPQGzbO8gu4BT0UKX5/er
- h6ARhSneaxht5De42hDW7WrFJS7QE8mbf4gDflaFAk6EKIB0RO+MDp46zIf7kLXodRVZOV
- iYCMGo26+Pzl+gO7mmtOJVNYd9AzHes=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-186-aVoLCHyONMe8pOYdQakG-A-1; Tue, 24 Aug 2021 11:27:27 -0400
-X-MC-Unique: aVoLCHyONMe8pOYdQakG-A-1
-Received: by mail-qv1-f71.google.com with SMTP id
- u6-20020ad448660000b02903500bf28866so15069961qvy.23
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 08:27:27 -0700 (PDT)
+ bh=05wrd8rIW6nKro+F8yobZZdRrJtDZVauslriY61c9Ag=;
+ b=bBMzZV36TkyojbRdNbylyPEVOzFSsF5UFdjV+yJzQFdoJHs9j5XWnT72h1wDHVUixZMAej
+ Juy1G2kjVqlHnHuEPG6e6peo+o9PDRZpeR5GmSeWhQFEd5b62nQFc0nx8Vk0QDHZ4aJEl3
+ Rx7iU1I9mrqAEbhcj0ez8txYXOXwu9A=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-137-nKy1tGyMMKe4pbneJdmaLA-1; Tue, 24 Aug 2021 11:27:28 -0400
+X-MC-Unique: nKy1tGyMMKe4pbneJdmaLA-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ b8-20020a0562141148b02902f1474ce8b7so15084001qvt.20
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 08:27:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FYappjBljsHSEUsiRztHl2pb1k57oy0/NHXVscrkE4o=;
- b=DwvMQBVqYmKdmTX8NaiwdvTWLuOgFQLNClQQFv7k5/1GGxt56yK0xxt2oT/XkzEIXp
- OwiqOfIa71MnVlQlWJqairT8Vhcfyn8SuZnYf44lF9FnQMk3fxBkO8D4QM4iPpKPRYPe
- lnKPXwz85xIYpEngdOlZ97ZIgCv2xw7lSeAhlxlTSIsRXnCwZPZhAXa4DQ6nxru1Gw1p
- f6CG4N4wszBmfVl5D6cykbtnhc1lx5eeZKvNXQ2TkznEmXThenHd0BWbJIOiLJdKaL1v
- klAAAADxfLlasLx4RSpyDChjtUJbZi3h0UFOxvyiPoaDQEne/yJiOCGssQIPLGoUKAJV
- yS+w==
-X-Gm-Message-State: AOAM5333Zezs26DDvovg/3c/6UYEFfapaU6fbkOHzjL3CBtIoAib+7pg
- CBpN3XfQhCeYCXx6I3RwWFGBtDH6oiakY6uObApkUTSfa9uaUbu7Qetk0wOqJb0kTp/i+UQP8iO
- Phg+jhO2JDswdmr1IHc9QaKYjbOUxl2tewb66SNpM98Ew3y1wKZ+tx+tJS0oeooQC
-X-Received: by 2002:a05:6214:94c:: with SMTP id
- dn12mr12723463qvb.60.1629818846377; 
- Tue, 24 Aug 2021 08:27:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz5IFW/rBMzanayCbhkyCOGM3zNQUAfkwgWfWSUeF51V3JounmG+82dlVJS6ue/bp2stEbV6w==
-X-Received: by 2002:a05:6214:94c:: with SMTP id
- dn12mr12723433qvb.60.1629818846193; 
- Tue, 24 Aug 2021 08:27:26 -0700 (PDT)
+ bh=05wrd8rIW6nKro+F8yobZZdRrJtDZVauslriY61c9Ag=;
+ b=fotJqoxXEYgKU70e0N6wDoupIMuLivO5OoGvJBpzhqYQhi17o0JwUrfeTb+tZQwv8H
+ D9jmhUiUUOKZ/7ke4ixCi2uqjb7JRHphBJt1PLlgaemcHUybVE2aUsE62S9UyUcejcbK
+ 4ocvB2rAsefPTNvo5w8G+25FbMrdp81M00eDOIXFbDjOK7F1nmrTCzAlCRCUlyknWqQf
+ 9Vl3dvAnf6TVJCZRIgrBeM0udlgPggMWvF5tQIzxYvxJR80XaRDLc9Rwr/8hvxSnG5vm
+ Ewy9EsYzbdYpo/3l2BjQa8RHkrW7LbgEUf1oWKBhwvBbHx51YsJuotADrUvTRGLCHdmL
+ e9iQ==
+X-Gm-Message-State: AOAM531cOsIYkDO4zyHl/YkknlENoKyV2UHgelBdoHZdgpaIDqUDVls4
+ yKf/4CILcXln1pVBqhyaF0Lkc8WYVTbKLLzWsKOpV1Oc96ESzwPlGsTqs7vRyQg+Puz23f01A0z
+ /Vha1XMdfKnwvWESo1KXa6EgRCoq6qTzvBUYSUssjQ1reGYyqM8Egx/id5eIVk+LO
+X-Received: by 2002:a0c:aac3:: with SMTP id g3mr22418149qvb.14.1629818847985; 
+ Tue, 24 Aug 2021 08:27:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyc008iARgjQeS7QDBo0t7U0ZYYqu7hQjvwpfxLauOWl14/X2xYU12K9WVBWYVBQX2Up7C15g==
+X-Received: by 2002:a0c:aac3:: with SMTP id g3mr22418112qvb.14.1629818847684; 
+ Tue, 24 Aug 2021 08:27:27 -0700 (PDT)
 Received: from t490s.phub.net.cable.rogers.com ([2607:fea8:56a3:500::d413])
- by smtp.gmail.com with ESMTPSA id j127sm10939754qkf.20.2021.08.24.08.27.24
+ by smtp.gmail.com with ESMTPSA id j127sm10939754qkf.20.2021.08.24.08.27.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Aug 2021 08:27:25 -0700 (PDT)
+ Tue, 24 Aug 2021 08:27:27 -0700 (PDT)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] migration: Add migrate_add_blocker_internal()
-Date: Tue, 24 Aug 2021 11:27:20 -0400
-Message-Id: <20210824152721.79747-2-peterx@redhat.com>
+Subject: [PATCH 2/2] dump-guest-memory: Block live migration
+Date: Tue, 24 Aug 2021 11:27:21 -0400
+Message-Id: <20210824152721.79747-3-peterx@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210824152721.79747-1-peterx@redhat.com>
 References: <20210824152721.79747-1-peterx@redhat.com>
@@ -74,7 +72,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -102,82 +100,89 @@ Cc: Andrew Jones <drjones@redhat.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-An internal version that removes -only-migratable implications.  It can be used
-for temporary migration blockers like dump-guest-memory.
+Both dump-guest-memory and live migration caches vm state at the beginning.
+Either of them entering the other one will cause race on the vm state, and even
+more severe on that (please refer to the crash report in the bug link).
 
+Let's block live migration in dump-guest-memory, and that'll also block
+dump-guest-memory if it detected that we're during a live migration.
+
+Side note: migrate_del_blocker() can be called even if the blocker is not
+inserted yet, so it's safe to unconditionally delete that blocker in
+dump_cleanup (g_slist_remove allows no-entry-found case).
+
+Suggested-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Bugzilla: https://bugzilla.redhat.com/show_bug.cgi?id=1996609
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- include/migration/blocker.h | 16 ++++++++++++++++
- migration/migration.c       | 21 +++++++++++++--------
- 2 files changed, 29 insertions(+), 8 deletions(-)
+ dump/dump.c           | 20 +++++++++++++++-----
+ include/sysemu/dump.h |  1 +
+ 2 files changed, 16 insertions(+), 5 deletions(-)
 
-diff --git a/include/migration/blocker.h b/include/migration/blocker.h
-index acd27018e9..9cebe2ba06 100644
---- a/include/migration/blocker.h
-+++ b/include/migration/blocker.h
-@@ -25,6 +25,22 @@
-  */
- int migrate_add_blocker(Error *reason, Error **errp);
+diff --git a/dump/dump.c b/dump/dump.c
+index ab625909f3..7996d7a6c5 100644
+--- a/dump/dump.c
++++ b/dump/dump.c
+@@ -29,6 +29,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/main-loop.h"
+ #include "hw/misc/vmcoreinfo.h"
++#include "migration/blocker.h"
  
-+/**
-+ * @migrate_add_blocker_internal - prevent migration from proceeding without
-+ *                                 only-migrate implications
-+ *
-+ * @reason - an error to be returned whenever migration is attempted
-+ *
-+ * @errp - [out] The reason (if any) we cannot block migration right now.
-+ *
-+ * @returns - 0 on success, -EBUSY on failure, with errp set.
-+ *
-+ * Some of the migration blockers can be temporary (e.g., for a few seconds),
-+ * so it shouldn't need to conflict with "-only-migratable".  For those cases,
-+ * we can call this function rather than @migrate_add_blocker().
-+ */
-+int migrate_add_blocker_internal(Error *reason, Error **errp);
-+
- /**
-  * @migrate_del_blocker - remove a blocking error from migration
-  *
-diff --git a/migration/migration.c b/migration/migration.c
-index 041b8451a6..41429680c2 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2053,15 +2053,8 @@ void migrate_init(MigrationState *s)
-     s->threshold_size = 0;
+ #ifdef TARGET_X86_64
+ #include "win_dump.h"
+@@ -101,6 +102,7 @@ static int dump_cleanup(DumpState *s)
+             qemu_mutex_unlock_iothread();
+         }
+     }
++    migrate_del_blocker(s->dump_migration_blocker);
+ 
+     return 0;
  }
+@@ -1857,6 +1859,19 @@ static void dump_init(DumpState *s, int fd, bool has_format,
+         }
+     }
  
--int migrate_add_blocker(Error *reason, Error **errp)
-+int migrate_add_blocker_internal(Error *reason, Error **errp)
- {
--    if (only_migratable) {
--        error_propagate_prepend(errp, error_copy(reason),
--                                "disallowing migration blocker "
--                                "(--only-migratable) for: ");
--        return -EACCES;
--    }
--
-     if (migration_is_idle()) {
-         migration_blockers = g_slist_prepend(migration_blockers, reason);
-         return 0;
-@@ -2073,6 +2066,18 @@ int migrate_add_blocker(Error *reason, Error **errp)
-     return -EBUSY;
- }
- 
-+int migrate_add_blocker(Error *reason, Error **errp)
-+{
-+    if (only_migratable) {
-+        error_propagate_prepend(errp, error_copy(reason),
-+                                "disallowing migration blocker "
-+                                "(--only-migratable) for: ");
-+        return -EACCES;
++    if (!s->dump_migration_blocker) {
++        error_setg(&s->dump_migration_blocker,
++                   "Live migration disabled: dump-guest-memory in progress");
 +    }
 +
-+    return migrate_add_blocker_internal(reason, errp);
-+}
++    /*
++     * Allows even for -only-migratable, but forbid migration during the
++     * process of dump guest memory.
++     */
++    if (migrate_add_blocker_internal(s->dump_migration_blocker, errp)) {
++        goto cleanup;
++    }
 +
- void migrate_del_blocker(Error *reason)
- {
-     migration_blockers = g_slist_remove(migration_blockers, reason);
+     return;
+ 
+ cleanup:
+@@ -1927,11 +1942,6 @@ void qmp_dump_guest_memory(bool paging, const char *file,
+     Error *local_err = NULL;
+     bool detach_p = false;
+ 
+-    if (runstate_check(RUN_STATE_INMIGRATE)) {
+-        error_setg(errp, "Dump not allowed during incoming migration.");
+-        return;
+-    }
+-
+     /* if there is a dump in background, we should wait until the dump
+      * finished */
+     if (dump_in_progress()) {
+diff --git a/include/sysemu/dump.h b/include/sysemu/dump.h
+index 250143cb5a..7b619c2a43 100644
+--- a/include/sysemu/dump.h
++++ b/include/sysemu/dump.h
+@@ -195,6 +195,7 @@ typedef struct DumpState {
+                                   * finished. */
+     uint8_t *guest_note;         /* ELF note content */
+     size_t guest_note_size;
++    Error *dump_migration_blocker; /* Blocker for live migration */
+ } DumpState;
+ 
+ uint16_t cpu_to_dump16(DumpState *s, uint16_t val);
 -- 
 2.31.1
 
