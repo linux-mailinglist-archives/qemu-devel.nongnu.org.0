@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F36AA3F5C3B
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 12:39:46 +0200 (CEST)
-Received: from localhost ([::1]:36734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BB953F5C53
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 12:45:03 +0200 (CEST)
+Received: from localhost ([::1]:40710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mITqL-00070c-S8
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 06:39:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58532)
+	id 1mITvR-0001Xe-Cl
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 06:45:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mITpb-0006Lx-W2
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 06:39:00 -0400
-Received: from mail-ot1-f47.google.com ([209.85.210.47]:38805)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mITpa-00050r-IK
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 06:38:59 -0400
-Received: by mail-ot1-f47.google.com with SMTP id
- i8-20020a056830402800b0051afc3e373aso33432848ots.5
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 03:38:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=ntVOPchcRWX1SC4mpsy6Q0RfRCWJUPtx6mQIqYhsyS0=;
- b=f+OwGC6Ott+9ubirBVUb82KjUELRwef2n+Mab3ZaoZEXU8QUwa16fx+205qpKuc+Xo
- JkYF4clfko34r5kLcObq2CdLsGHH2WkfYqdsuGJSgD7+g+4eGs0wBe3YqcrEn/6Atm65
- xqIJiAg341tJmQ+Po8XsTT3O+8kMIi4e49ufMEkFvUGVERZ/hkbkyQCkG3HOhJvzq+pH
- wBHGG+G+Cq/KvL8drbOPZ/DjhCQvmPJXp2rxbkO+a4C9JGT0BUXPKpQmcVZ4Pc95cMzb
- wO+8oIR2NKtsex6Jm57NHMYfwxl6GpvT2an0jGAOD3Zr5WeXrGfZwSu5Kun4ojCVAy+p
- PB3A==
-X-Gm-Message-State: AOAM532lae6UJwvUD+8JcAbyr72pluk4FQAZLy270jK5nZ4u48GBj6H2
- gmL8i2HA/7SQ/GxExSGqlIs668nXc3nQGKd7YbM=
-X-Google-Smtp-Source: ABdhPJwPaWV0/ygvrDzz7CemLnvyxVds9yEgGtTo3f1pwg3fzNSBsC0bjyKEfMRQdbYFAJbKuNs3aP30A0vYXi9T8eg=
-X-Received: by 2002:a05:6830:2815:: with SMTP id
- w21mr9758948otu.37.1629801537307; 
- Tue, 24 Aug 2021 03:38:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@ens-lyon.org>)
+ id 1mITuT-0000ii-0w; Tue, 24 Aug 2021 06:44:01 -0400
+Received: from hera.aquilenet.fr ([185.233.100.1]:42490)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@ens-lyon.org>)
+ id 1mITuQ-0008Et-R7; Tue, 24 Aug 2021 06:44:00 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by hera.aquilenet.fr (Postfix) with ESMTP id 4AED511A;
+ Tue, 24 Aug 2021 12:43:55 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+ by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id AEnFLMtb_X7f; Tue, 24 Aug 2021 12:43:50 +0200 (CEST)
+Received: from begin (unknown [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id 6B86C85;
+ Tue, 24 Aug 2021 12:43:50 +0200 (CEST)
+Received: from samy by begin with local (Exim 4.94.2)
+ (envelope-from <samuel.thibault@ens-lyon.org>)
+ id 1mITuH-00GH4r-7i; Tue, 24 Aug 2021 12:43:49 +0200
+From: Samuel Thibault <samuel.thibault@ens-lyon.org>
+To: qemu-devel@nongnu.org,
+	John Snow <jsnow@redhat.com>
+Subject: [PATCH] ide: Cap LBA28 capacity announcement to 2^28-1
+Date: Tue, 24 Aug 2021 12:43:44 +0200
+Message-Id: <20210824104344.3878849-1-samuel.thibault@ens-lyon.org>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <CAM2a4uwQ0M=TmFdWaaO-E_2J06fpH1ghXhYJJKBP6s5j90ASLg@mail.gmail.com>
- <CAFEAcA9SeTTcU_p+-KwGJPyYG7pKzSJGGb287tXYOvN13E6-iQ@mail.gmail.com>
- <CAM2a4uxO=DaspSeT0LPHTvKuH6crzzQC4_syAf=J+FOE_C_sbw@mail.gmail.com>
- <9984de93-0b83-ef88-8301-a8b74f3f6247@amsat.org>
- <CAFEAcA8c6T124Yg+tCWsXr_bmFyCpUy8kjpaLsP=0A1G4GEzNw@mail.gmail.com>
-In-Reply-To: <CAFEAcA8c6T124Yg+tCWsXr_bmFyCpUy8kjpaLsP=0A1G4GEzNw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Tue, 24 Aug 2021 12:38:46 +0200
-Message-ID: <CAAdtpL5zUcMQ=te7WgQVn+vaYu1cprwMaDq0R=Sn+rZkfy-DSg@mail.gmail.com>
-Subject: Re: Testing a microcontroller emulation by loading the binary on
- incomplete Flash emulation
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.210.47;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ot1-f47.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
+Content-Transfer-Encoding: 8bit
+X-Spamd-Bar: ++
+X-Rspamd-Server: hera
+Authentication-Results: hera.aquilenet.fr
+X-Rspamd-Queue-Id: 4AED511A
+X-Spamd-Result: default: False [2.90 / 15.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; TO_MATCH_ENVRCPT_ALL(0.00)[];
+ R_MISSING_CHARSET(2.50)[]; MIME_GOOD(-0.10)[text/plain];
+ BROKEN_CONTENT_TYPE(1.50)[]; RCPT_COUNT_FIVE(0.00)[5];
+ RCVD_COUNT_THREE(0.00)[3]; MID_CONTAINS_FROM(1.00)[];
+ RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
+ BAYES_HAM(-2.10)[95.62%]
+Received-SPF: neutral client-ip=185.233.100.1;
+ envelope-from=samuel.thibault@ens-lyon.org; helo=hera.aquilenet.fr
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_NEUTRAL=0.779 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,38 +70,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gautam Bhat <mindentropy@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, damien@zamaudio.com,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 24, 2021 at 11:19 AM Peter Maydell <peter.maydell@linaro.org> w=
-rote:
-> On Tue, 24 Aug 2021 at 09:22, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
-> > On 8/23/21 9:46 PM, Gautam Bhat wrote:
-> > > On Sun, Aug 22, 2021 at 10:18 PM Peter Maydell <peter.maydell@linaro.=
-org> wrote:
-> > >> On Sun, 22 Aug 2021 at 15:37, Gautam Bhat <mindentropy@gmail.com> wr=
-ote:
-> > >>>
-> > >>> Hi,
-> > >>>
-> > >>> I am to implement a very simple microcontroller for my understandin=
-g
-> > >>> of Qemu development. This microcontroller runs its code from
-> > >>> programmable flash which is bit-, byte- and word addressable. To do
-> > >>> some initial tests of my nascent microcontroller implementation I
-> >
-> > Aren't Nascent uC based on 8051? Because AFAIK QEMU doesn't emulate
-> > this architecture.
->
-> I assumed Gautam was using 'nascent' in the usual English sense
-> of the word (ie as an adjective meaning "just coming into existence").
+The LBA28 capacity (at offsets 60/61 of identification) is supposed to
+express the maximum size supported by LBA28 commands. If the device is
+larger than this, we have to cap it to 2^28-1.
 
-TIL 'nascent' is an English word =3D)
+At least NetBSD happens to be using this value to determine whether to use
+LBA28 or LBA48 for its commands, using LBA28 for sectors that don't need
+LBA48. This commit thus fixes NetBSD access to disks larger than 128GiB.
 
-Thanks,
+Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+---
+ hw/ide/core.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-Phil.
+diff --git a/hw/ide/core.c b/hw/ide/core.c
+index fd69ca3167..e28f8aad61 100644
+--- a/hw/ide/core.c
++++ b/hw/ide/core.c
+@@ -98,8 +98,12 @@ static void put_le16(uint16_t *p, unsigned int v)
+ static void ide_identify_size(IDEState *s)
+ {
+     uint16_t *p = (uint16_t *)s->identify_data;
+-    put_le16(p + 60, s->nb_sectors);
+-    put_le16(p + 61, s->nb_sectors >> 16);
++    int64_t nb_sectors_lba28 = s->nb_sectors;
++    if (nb_sectors_lba28 >= 1 << 28) {
++        nb_sectors_lba28 = (1 << 28) - 1;
++    }
++    put_le16(p + 60, nb_sectors_lba28);
++    put_le16(p + 61, nb_sectors_lba28 >> 16);
+     put_le16(p + 100, s->nb_sectors);
+     put_le16(p + 101, s->nb_sectors >> 16);
+     put_le16(p + 102, s->nb_sectors >> 32);
+-- 
+2.32.0
+
 
