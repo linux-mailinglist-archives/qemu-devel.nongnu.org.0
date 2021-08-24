@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34B5E3F5BC8
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 12:15:46 +0200 (CEST)
-Received: from localhost ([::1]:34590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DA403F5BE7
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 12:20:28 +0200 (CEST)
+Received: from localhost ([::1]:55134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mITSz-0000ae-L9
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 06:15:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51792)
+	id 1mITXf-0005u9-14
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 06:20:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1mITRa-0006iA-4q; Tue, 24 Aug 2021 06:14:10 -0400
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:35823)
+ id 1mITSd-0001Yp-QE; Tue, 24 Aug 2021 06:15:15 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:46347)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1mITRY-00045u-Jq; Tue, 24 Aug 2021 06:14:09 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id C371B3200A90;
- Tue, 24 Aug 2021 06:14:06 -0400 (EDT)
+ id 1mITSc-0004ok-7i; Tue, 24 Aug 2021 06:15:15 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 85BD33200B40;
+ Tue, 24 Aug 2021 06:15:12 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Tue, 24 Aug 2021 06:14:07 -0400
+ by compute4.internal (MEProxy); Tue, 24 Aug 2021 06:15:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:date:from:in-reply-to:message-id
  :references:subject:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm3; bh=GOyQvIBmoqlEWKUC1L3vnBey+rGNz
- lW1F/+LDP21SMU=; b=GW0kkZ7IfcXNLIuhoIXwGLAEh2cksnqyihBNn8wXm9p0i
- Ys1Q8xZLAqGzCqHZVdlPS+PXZVqP/sMitzeOeJb2YkoTqum9zXoLoohIzcdzX2JY
- ARkF9VS6U/+cnenuerBu3FwfjWhzogcex84zLWnx5z8G2GyWIskEpH4y4DOCwU56
- 5pGK1CxI/4X/2ZL9C5PjIVIyB+IZIQM811Lc5rZTBN2zWxLFNFf4kwcCmcpHKeSK
- Rn03ctiFRTsL6gWlTi4/CQ4Ow1KnYkmRJKoT0uWIH0wnbHPS4e45L4wRSG+BXuA0
- hKbVTiCu5mYVD4MNWNtgqxAFD4uxNT3MjMDwwmgVw==
-X-ME-Sender: <xms:bcYkYcTqgOQ0ywEMnF_T0nMb-GboM8JnU9C5ZRHLeTqWKFsJT9z87Q>
- <xme:bcYkYZwpdsr60jpOQpMRhlqxG3tNWvtFeLZProRr196I9rHnJT0TAR00uYsGL_3A7
- 73j3YOgYYzICLggxuI>
-X-ME-Received: <xmr:bcYkYZ034viejgzece9SqztIDklhSJYBZ4HmIs-8HnVR52hdcLRIgV1znIRl_2ldTB5RWKKqf9IOu9tDYOBzfXm8DDrz1RfgOsyW6w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddtjedgvdehucetufdoteggodetrfdotf
+ :x-me-sender:x-sasl-enc; s=fm3; bh=GM5HFK0butEDA0VWBBv4WFBZjaN4r
+ kb9SNHTzrKjDB0=; b=lF3wsPfXwj/7mPHuhPhqV8UjWZAjv3aOZSX1N7UGn2LIc
+ vC/tn1p/MoKlkGA90uLy9iaEAEs4g/SJiiygj3mSUWXGgHuyJBCHSwmLfwY23u0D
+ GTReu8i0sbAgiHkhslGGYEfTP46vCX7wT68nzMyPcQGxZdz8XdBlprUPg730OuDX
+ rmjboLV9gye0LlvZYncqjU410jh4eKV7LsTlAIwBS98swGc7QNA3hkpMoXCU53tY
+ i7m8GoUctPBRvC/O9WaEPHgjj6a9G9pI0rbGa8ku09CUqmHAt3d4qLil1mHDn+kN
+ IP3tN3YUWKDUcO8JwgyK9qfShWXUOFbU7dlSptz3w==
+X-ME-Sender: <xms:r8YkYc6wpxmYCamrnspujJBaTu2pTEAHm52vCt2ynDsz2LoLWHhqgw>
+ <xme:r8YkYd53HX-pG8At5Ei3lXWUJSdKuG3ctAMEVugU-yuiU5jjPVA_ojq_QPXUicxu7
+ TUYIPuh_Pd63ipZp8Y>
+X-ME-Received: <xmr:r8YkYbfVRZV5rIRU9jTgBDprqvDQNsqpWmKNz24WDCZWxBu_sRup6dsOlga2Iliz-1fj2obj8sCJVtGdXYt_Crx_aa3z8k5u6gJ3yg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddtjedgvdeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepvffkjghfhffuffestddtredttddttdenucfhrhhomhephfhinhhnucfvhhgr
  ihhnuceofhhthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgheqnecuggftrfgrthhtvg
  hrnhephfetledtgeffuedujedvteevgfdtudeufeekvdfhveekkefhgfevtdfhveeuueet
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfhhthh
+ necuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepfhhthh
  grihhnsehlihhnuhigqdhmieekkhdrohhrgh
-X-ME-Proxy: <xmx:bcYkYQAo6OV9hItQtu0zU-PhCw0E3ofhiDQdoJKVslNBwx_MdYANqg>
- <xmx:bcYkYVjMDJRTsJGwORdv86fIGW5NXRBdSiFRjzWKNDYS3mODcs4dDw>
- <xmx:bcYkYcqtELubkNhf3EO9hy0Oa9IuoM3uWDBj4giQPrXeiuVDOJI2IA>
- <xmx:bsYkYatC8fLzS_bWlm5Il45Wg9UuCheg4Rwn6dLr97sIE1ygUYfuaw>
+X-ME-Proxy: <xmx:r8YkYRLVVUh4N3BgzAL4-awl1gc-yIy8y_nEChcR4enxxsGHGmJj_A>
+ <xmx:r8YkYQKp1S5NbAH-bQQxjBz9DcbZdLZxoZtfTE-p0PUoXhdHYd7Aug>
+ <xmx:r8YkYSxej_FRRz3S3CDsEX7KKZKuKxU8b_3uuQbVb0jzEuxpMM3utA>
+ <xmx:sMYkYU3d_ATiQNjMOIjKATEpK_qQhk-W5C4hHU73y8VhR4RYmY5hEw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 24 Aug 2021 06:14:03 -0400 (EDT)
+ 24 Aug 2021 06:15:09 -0400 (EDT)
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-Message-Id: <9b78e8c6e453feab6275d04bf503051645770d85.1629799776.git.fthain@linux-m68k.org>
+Message-Id: <c886cdc2911f250c3e8e15ceb717124c7044b50b.1629799776.git.fthain@linux-m68k.org>
 In-Reply-To: <cover.1629799776.git.fthain@linux-m68k.org>
 References: <cover.1629799776.git.fthain@linux-m68k.org>
 From: Finn Thain <fthain@linux-m68k.org>
-Subject: [RFC 01/10] hw/mos6522: Remove get_load_time() methods and functions
+Subject: [RFC 08/10] hw/mos6522: Call mos6522_update_irq() when appropriate
 Date: Tue, 24 Aug 2021 20:09:36 +1000
 Received-SPF: none client-ip=64.147.123.25; envelope-from=fthain@linux-m68k.org;
  helo=wout2-smtp.messagingengine.com
@@ -83,67 +83,40 @@ Cc: qemu-ppc@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This code appears to be unnecessary.
+It necessary to call mos6522_update_irq() when the interrupt flags
+change and unnecessary when they haven't.
 
 Signed-off-by: Finn Thain <fthain@linux-m68k.org>
 ---
- hw/misc/mos6522.c | 22 +---------------------
- 1 file changed, 1 insertion(+), 21 deletions(-)
+ hw/misc/mos6522.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-index 1c57332b40..a478c1ca43 100644
+index 0a241fe9f8..0dd3ccf945 100644
 --- a/hw/misc/mos6522.c
 +++ b/hw/misc/mos6522.c
-@@ -63,17 +63,6 @@ static uint64_t get_counter_value(MOS6522State *s, MOS6522Timer *ti)
+@@ -208,11 +208,13 @@ uint64_t mos6522_read(void *opaque, hwaddr addr, unsigned size)
+         s->timers[0].oneshot_fired = true;
+         mos6522_timer1_update(s, &s->timers[0], now);
+         s->ifr |= T1_INT;
++        mos6522_update_irq(s);
      }
- }
- 
--static uint64_t get_load_time(MOS6522State *s, MOS6522Timer *ti)
--{
--    MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(s);
--
--    if (ti->index == 0) {
--        return mdc->get_timer1_load_time(s, ti);
--    } else {
--        return mdc->get_timer2_load_time(s, ti);
--    }
--}
--
- static unsigned int get_counter(MOS6522State *s, MOS6522Timer *ti)
- {
-     int64_t d;
-@@ -98,7 +87,7 @@ static unsigned int get_counter(MOS6522State *s, MOS6522Timer *ti)
- static void set_counter(MOS6522State *s, MOS6522Timer *ti, unsigned int val)
- {
-     trace_mos6522_set_counter(1 + ti->index, val);
--    ti->load_time = get_load_time(s, ti);
-+    ti->load_time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-     ti->counter_value = val;
-     if (ti->index == 0) {
-         mos6522_timer1_update(s, ti, ti->load_time);
-@@ -208,13 +197,6 @@ static uint64_t mos6522_get_counter_value(MOS6522State *s, MOS6522Timer *ti)
-                     ti->frequency, NANOSECONDS_PER_SECOND);
- }
- 
--static uint64_t mos6522_get_load_time(MOS6522State *s, MOS6522Timer *ti)
--{
--    uint64_t load_time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
--
--    return load_time;
--}
--
- static void mos6522_portA_write(MOS6522State *s)
- {
-     qemu_log_mask(LOG_UNIMP, "portA_write unimplemented\n");
-@@ -518,8 +500,6 @@ static void mos6522_class_init(ObjectClass *oc, void *data)
-     mdc->update_irq = mos6522_update_irq;
-     mdc->get_timer1_counter_value = mos6522_get_counter_value;
-     mdc->get_timer2_counter_value = mos6522_get_counter_value;
--    mdc->get_timer1_load_time = mos6522_get_load_time;
--    mdc->get_timer2_load_time = mos6522_get_load_time;
- }
- 
- static const TypeInfo mos6522_type_info = {
+     if (now >= s->timers[1].next_irq_time) {
+         s->timers[1].oneshot_fired = true;
+         mos6522_timer2_update(s, &s->timers[1], now);
+         s->ifr |= T2_INT;
++        mos6522_update_irq(s);
+     }
+     switch (addr) {
+     case VIA_REG_B:
+@@ -237,7 +239,6 @@ uint64_t mos6522_read(void *opaque, hwaddr addr, unsigned size)
+         break;
+     case VIA_REG_T1CH:
+         val = get_counter(s, &s->timers[0]) >> 8;
+-        mos6522_update_irq(s);
+         break;
+     case VIA_REG_T1LL:
+         val = s->timers[0].latch & 0xff;
 -- 
 2.26.3
 
