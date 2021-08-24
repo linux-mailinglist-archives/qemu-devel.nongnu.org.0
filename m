@@ -2,74 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5ACE3F5DC7
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 14:18:46 +0200 (CEST)
-Received: from localhost ([::1]:36964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A20033F5DF6
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 14:26:16 +0200 (CEST)
+Received: from localhost ([::1]:51798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIVO4-0005Vh-3v
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 08:18:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54670)
+	id 1mIVVK-0008Na-Au
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 08:26:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIVMx-0004jG-OO
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 08:17:31 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:36441)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIVMv-000200-VW
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 08:17:31 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id bt14so43977302ejb.3
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 05:17:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iLrqxLBq0flPKjlUuIGujKKKFTj9uvnbSbbhC+nNu1I=;
- b=jQkeWSUUkFXOVDn8E0oiLxvu/iiSK5uVsr4NtojJWc1i5e7DVfk2WwIZy14Ywgqnk2
- YrPP6ouyoxahO3orUJ2N7JJOI6s8lHSdy5YGppS8LyG99pcUPCYAFlNEt1T9wfzH/R8M
- e1jHs1ttvV2ntlG07AaNXzpQ7mOIq6N/wmFcEA2DPSp2SF7KlnAvGiNet1C+srsubaoZ
- fX5MpTB3u4Nuj7dfb9zVO0UaiGJeFeGZHxQVlIdB4bAWi0f/zD1Xwadsba/EwqpnUl9z
- +InG4WRHUKwMvKnvYE84+Bxkxa7ji5Gx9ZJyo8aja1hhNS7tvxMutf2yfqI9Km3mW605
- C2wQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iLrqxLBq0flPKjlUuIGujKKKFTj9uvnbSbbhC+nNu1I=;
- b=BUoAtCUruAPV1i49Bpdq8kr6GyD7N6knr3ruA8Bc7gZ2acKEm/KWJf6y/1VXr7Pi67
- ByDY8FzJLUVwTjik34pJ7TsjTFNKLGzWCC/YLnYmgtsTm58wI8nxU03ZV5R+9LF0cqYb
- SIuxKQJYR5udN+0n5cs9nIPIB8ziPOrgPhY+tC3Xd3YeRRfi3DqKQ0wBual/U7Xw+w/0
- eQdbF4CO7fppvJnNnYgYO8vsneOZSSI9loNN748BzFO08B+JmHowQ0gHWNR2adx/N1hD
- fyB2M8Q0gP4eE9XMsJL3JKeoDDOeoLv2sHMqIlpwPs/W9VaMaLbHXjuhKZMjVYSJiDBE
- BfxQ==
-X-Gm-Message-State: AOAM532yC8GRdFioO3HagX/s5eqA34JrZlZMHxpWT6S27EFB5aC/I3K1
- rVeX6LNw9y20j4RKx4SKeoZZ+73Z0C2/L3XA/4PMmQ==
-X-Google-Smtp-Source: ABdhPJySheqPwV4Z6fqg6fmNerTg2diTd4G7igrzv4CK1xuNmRDkM+LculMnwHg9Qgc/g6Olstq70YkVsZHQTImRVpw=
-X-Received: by 2002:a17:906:c085:: with SMTP id
- f5mr41361051ejz.250.1629807447972; 
- Tue, 24 Aug 2021 05:17:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mIVPv-0007RQ-FP; Tue, 24 Aug 2021 08:20:35 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2221)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mIVPs-0003ZC-D4; Tue, 24 Aug 2021 08:20:35 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Gv7Ty37Qlz89gs;
+ Tue, 24 Aug 2021 20:20:06 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 24 Aug 2021 20:20:20 +0800
+Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 24 Aug 2021 20:20:19 +0800
+From: Yanan Wang <wangyanan55@huawei.com>
+To: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
+ <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
+ <imammedo@redhat.com>
+Subject: [PATCH v6 0/5] hw/arm/virt: Introduce cpu topology support
+Date: Tue, 24 Aug 2021 20:20:11 +0800
+Message-ID: <20210824122016.144364-1-wangyanan55@huawei.com>
+X-Mailer: git-send-email 2.8.4.windows.1
 MIME-Version: 1.0
-References: <20210819171547.2879725-1-philmd@redhat.com>
- <20210819171547.2879725-3-philmd@redhat.com>
- <20210823183414.hmu4ly2y5zkbw3mg@habkost.net>
- <87ilzvntu1.fsf@dusky.pond.sub.org>
- <CAFEAcA-2ShxjS6YAb_xBk=v5YJ5nLaaKtOLVEn7Vjfe6rkpp2A@mail.gmail.com>
- <87tujfdp4c.fsf@dusky.pond.sub.org>
-In-Reply-To: <87tujfdp4c.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 24 Aug 2021 13:16:40 +0100
-Message-ID: <CAFEAcA9_HGCVYX8smuAWhUDJ8NbfQ76XgJjOLd2EoyiS2gKC0A@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] hw/usb/hcd-xhci-pci: Abort if setting link
- property failed
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,29 +62,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Salil Mehta <salil.mehta@huawei.com>, qemu-devel@nongnu.org,
+ Yanan Wang <wangyanan55@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ wanghaibin.wang@huawei.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Aug 2021 at 13:05, Markus Armbruster <armbru@redhat.com> wrote:
-> When you know that all callers handle errors like &error_fatal does, use
-> of &error_fatal doesn't produce wrong behavior.  It's still kind of
-> wrong, because relying on such a non-local argument without a genuine
-> need is.
+This new version is based on patch series [1] which introduces some
+fix and improvement for smp parsing.
 
-Not using error_fatal results in quite a bit of extra boilerplate
-for all those extra explicit "check for failure, print the error
-message and exit" points. If the MachineState init function took
-an Error** that might be a mild encouragement to "pass an Error
-upward rather than exiting"; but it doesn't.
+Description:
+Once the view of an accurate virtual cpu topology is provided to guest,
+with a well-designed vCPU pinning to the pCPU we may get a huge benefit,
+e.g., the scheduling performance improvement. See Dario Faggioli's
+research and the related performance tests in [2] for reference.
 
-Right now we have nearly a thousand instances of error_fatal
-in the codebase, incidentally.
+This patch series introduces cpu topology support for ARM platform.
+Both cpu-map in DT and ACPI PPTT table are introduced to store the
+topology information. And we only describe the topology information
+to 6.2 and newer virt machines, considering compatibility.
 
--- PMM
+patches not yet reviewed: #1 and #3.
+
+[1] https://lore.kernel.org/qemu-devel/20210823122804.7692-1-wangyanan55@huawei.com/
+[2] https://kvmforum2020.sched.com/event/eE1y/virtual-topology-for-virtual-machines
+-friend-or-foe-dario-faggioli-suse
+
+---
+
+Changelogs:
+
+v5->v6:
+- update the comment in DT cpu-map generation
+- update the comment in ACPI PPTT table generation
+- add R-b tags from Michael for ACPI patches
+- v5: https://lore.kernel.org/qemu-devel/20210805123921.62540-1-wangyanan55@huawei.com/
+
+v4->v5:
+- drop the added -smp "expose=on|off" parameter and only describe topology
+  for 6.2 and newer machines
+- v4: https://lore.kernel.org/qemu-devel/20210622093413.13360-1-wangyanan55@huawei.com/
+
+v3->v4:
+- add new -smp parameter "expose=on|off" for users to enable/disable the feature
+- add stricter -smp cmdline parsing rules on "expose=on" case
+- move build_pptt to generic aml-build.c
+- add default cluster node in the cpu-map
+- rebase on top of latest upstream master
+- v3: https://lore.kernel.org/qemu-devel/20210516102900.28036-1-wangyanan55@huawei.com/
+
+v2->v3:
+- address comments from David, Philippe, and Andrew. Thanks!
+- split some change into separate commits for ease of review
+- adjust parsing rules of virt_smp_parse to be more strict
+  (after discussion with Andrew)
+- adjust author credit for the patches
+- v2: https://lore.kernel.org/qemu-devel/20210413080745.33004-1-wangyanan55@huawei.com/
+
+v1->v2:
+- Address Andrew Jones's comments
+- Address Michael S. Tsirkin's comments
+- v1: https://lore.kernel.org/qemu-devel/20210225085627.2263-1-fangying1@huawei.com/
+
+---
+
+Andrew Jones (2):
+  hw/arm/virt: Add cpu-map to device tree
+  hw/acpi/aml-build: Generate PPTT table
+
+Yanan Wang (3):
+  hw/arm/virt: Only describe cpu topology since virt-6.2
+  device_tree: Add qemu_fdt_add_path
+  hw/acpi/aml-build: Add Processor hierarchy node structure
+
+ hw/acpi/aml-build.c          | 86 ++++++++++++++++++++++++++++++++++++
+ hw/arm/virt-acpi-build.c     |  8 +++-
+ hw/arm/virt.c                | 73 +++++++++++++++++++++++++-----
+ include/hw/acpi/aml-build.h  |  7 +++
+ include/hw/arm/virt.h        |  4 +-
+ include/sysemu/device_tree.h |  1 +
+ softmmu/device_tree.c        | 44 +++++++++++++++++-
+ 7 files changed, 209 insertions(+), 14 deletions(-)
+
+--
+2.19.1
+
 
