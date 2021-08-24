@@ -2,49 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADCE03F6162
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 17:17:04 +0200 (CEST)
-Received: from localhost ([::1]:41304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C85423F6175
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 17:21:22 +0200 (CEST)
+Received: from localhost ([::1]:43702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIYAc-0000h3-Of
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 11:16:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38034)
+	id 1mIYEr-0002Sg-TX
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 11:21:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIY9O-0007nA-Ab
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:15:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53123)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIY9M-00079V-Q3
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:15:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629818140;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=V0VBbtjJK/onCFso8YDctN7X1dO/cR97/nqIXJL/Ue8=;
- b=K+mrFpcF1LCBm61irBn9LcuDgluVWV1URHdW2ZjyvxmELUeyrNkt7oELG8ZUSfcVqz0bDQ
- SStm07Hv6D+72ncTTeyben7OVNqd/JXbBkDlnPyJyFmmrYECNqyGCJLa7L8NPxGaQBsJz3
- //PC5p3nb3hiofqyvNUN+Di68cjZqDc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-3y8tzbWtO-WQvTT6L7Tjfg-1; Tue, 24 Aug 2021 11:15:36 -0400
-X-MC-Unique: 3y8tzbWtO-WQvTT6L7Tjfg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 97D7D875047;
- Tue, 24 Aug 2021 15:15:35 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-4.ams2.redhat.com [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5268A17D4E;
- Tue, 24 Aug 2021 15:15:26 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id DEB1F11380A9; Tue, 24 Aug 2021 17:15:24 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 2/3] hw/usb/hcd-xhci-pci: Abort if setting link
- property failed
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mIYDi-0001gZ-AX
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:20:10 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:34584)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mIYDg-0001cj-Mt
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:20:09 -0400
+Received: by mail-ej1-x635.google.com with SMTP id u3so45159456ejz.1
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 08:20:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pMD60j/EfzbarC817usLCRFMlaAufPSMKLVo4Jb8R3w=;
+ b=DbHHgHWC4ckPMrnS6sGwITTP2EpY1jcrGKEP7mgk4mTgGbUxVKbTAKg9X7FRLP9hqW
+ mFF/1r/RvDHLX+vlx50ZUZWJovVa0rulomfLzSZt/BLVT5SK/yqq+qjsxZNUR1SS+YwK
+ UgXsRTUo4L49mfuhjZ3KBbt92zyCtT4dlq7IShlH+sChbLhbA9tSiuXKEjFe6oOcXWsf
+ sxzPQMbhdnZf1gWeCFxFJ14V8TZPMhP6C6wHGaTkvxSQFtbQ5DwrmsJuIO4sNrbbqCfT
+ eHrSYIBH2edY0Ov//l1UJw87IoRyUjnNq6zclGlj9w4wp9b3qs0LQb2Ik8y7FVvv7bFO
+ 9Kzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pMD60j/EfzbarC817usLCRFMlaAufPSMKLVo4Jb8R3w=;
+ b=syylO9U9IdiqgDErAGts1k1defDPFLl3yDpXFf+ENSfPbLNOdI7ZyOU+Z6vx+J2bQW
+ dsK//jBMz0wS+8WcVa5U9MKJWjBtEAQNrK0DlSYC1aSOLHRqEJ60sdvKFRgHjoMvIOw7
+ kK1ImlOOLjCwtAT3sQ1abcS+Q91CwI73BY9Ff4pVA+HuJS3iDMnae+I70aTzKoX+qc5q
+ TkWEdwqbyfcKxfYeKWDzX4YRqfH08T+TjfbLzPO0/BnTs0BawtjAXadxrptPPKRKmD3a
+ cJ/oa1X3gpMTnjb3S84UKOsY6m4rKvaGUnmvWhN3UdR/hCbBVD9l4axlem/KrYxuMCpA
+ 55yg==
+X-Gm-Message-State: AOAM531GjML+Vjla+5ZGOYPVGXpjdlbeJ8aTypQXRbN1vGapeEcOivnJ
+ bw0lIg32Z2O6bDluaWHLGxxcP4OtzbZKk/lQO8Vizw==
+X-Google-Smtp-Source: ABdhPJzEUuNgLEFm3gpFsLp2GQMKx2K8yYTcZIMM3A1KxODNtlS/frreCscEpnmU885x/0ZaaLZ3sv0aNJrdAtg7rL0=
+X-Received: by 2002:a17:906:a108:: with SMTP id
+ t8mr41242042ejy.407.1629818406916; 
+ Tue, 24 Aug 2021 08:20:06 -0700 (PDT)
+MIME-Version: 1.0
 References: <20210819171547.2879725-1-philmd@redhat.com>
  <20210819171547.2879725-3-philmd@redhat.com>
  <20210823183414.hmu4ly2y5zkbw3mg@habkost.net>
@@ -54,27 +57,23 @@ References: <20210819171547.2879725-1-philmd@redhat.com>
  <CAFEAcA9_HGCVYX8smuAWhUDJ8NbfQ76XgJjOLd2EoyiS2gKC0A@mail.gmail.com>
  <87bl5mdik9.fsf@dusky.pond.sub.org>
  <CAFEAcA_8yQu2nbyjhCXKPROP=LLr6iKw2bTg0sHCM0uamwGz5w@mail.gmail.com>
-Date: Tue, 24 Aug 2021 17:15:24 +0200
-In-Reply-To: <CAFEAcA_8yQu2nbyjhCXKPROP=LLr6iKw2bTg0sHCM0uamwGz5w@mail.gmail.com>
- (Peter Maydell's message of "Tue, 24 Aug 2021 15:30:12 +0100")
-Message-ID: <87o89man77.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <87o89man77.fsf@dusky.pond.sub.org>
+In-Reply-To: <87o89man77.fsf@dusky.pond.sub.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 24 Aug 2021 16:19:19 +0100
+Message-ID: <CAFEAcA-=TJm=0WFKbAc27NtL2VJroMHAURpzJRdYkg8LLKBagQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] hw/usb/hcd-xhci-pci: Abort if setting link
+ property failed
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,50 +87,24 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael
- S. Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Dau?= =?utf-8?Q?d=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+On Tue, 24 Aug 2021 at 16:15, Markus Armbruster <armbru@redhat.com> wrote:
+> True, except when I called it "kind of wrong", I was still talking about
+> functions with an Error **errp parameter.
 
-> On Tue, 24 Aug 2021 at 15:27, Markus Armbruster <armbru@redhat.com> wrote:
->>
->> Peter Maydell <peter.maydell@linaro.org> writes:
->>
->> > On Tue, 24 Aug 2021 at 13:05, Markus Armbruster <armbru@redhat.com> wrote:
->> >> When you know that all callers handle errors like &error_fatal does, use
->> >> of &error_fatal doesn't produce wrong behavior.  It's still kind of
->> >> wrong, because relying on such a non-local argument without a genuine
->> >> need is.
->> >
->> > Not using error_fatal results in quite a bit of extra boilerplate
->> > for all those extra explicit "check for failure, print the error
->> > message and exit" points. If the MachineState init function took
->> > an Error** that might be a mild encouragement to "pass an Error
->> > upward rather than exiting"; but it doesn't.
->> >
->> > Right now we have nearly a thousand instances of error_fatal
->> > in the codebase, incidentally.
->>
->> Use of &error_fatal is clearly superior to accomplishing the same
->> behavior the way you describe.
->>
->> My point was this behavior is usually wrong in functions with an Error
->> **errp parameter.
->
-> Right, but as Eduardo has noted, only about 8% of our use of
-> error_fatal is like that. The vast bulk is other cases, so
-> if you want to call it "kind of wrong" we ought to have a view
-> of how it could be done otherwise.
+Oh yes, so you were. I even quoted your sentence starting
+"In functions with an Error **errp parameter ...".
+I must have been half-asleep still this morning.
 
-True, except when I called it "kind of wrong", I was still talking about
-functions with an Error **errp parameter.
+Apologies for starting an unnecessary thread after which we all
+turn out to be in complete agreement :-)
 
-Many (most?) existing uses of &error_fatal are just fine.  Which pleases
-me, having created it in commit a29a37b994c.
-
+-- PMM
 
