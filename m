@@ -2,99 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 711453F5A5F
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 11:02:37 +0200 (CEST)
-Received: from localhost ([::1]:44398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E823F5AA9
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 11:13:13 +0200 (CEST)
+Received: from localhost ([::1]:47874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mISKK-0006UT-25
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 05:02:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60018)
+	id 1mISUa-0002mL-6I
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 05:13:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mIS4k-00026P-Ef
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 04:46:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38672)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mISDv-0008Kz-Pv
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 04:56:00 -0400
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:35188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mIS4h-0003Xv-C4
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 04:46:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629794785;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=45BePwngXZYErL6CRubm7YDG3Rf1bEEBpDuelAhtexo=;
- b=T/RJVeALZpYEBvkBP0stUTcxo6/350mnKRwxkuvQNbssl1qg5i9t/O8P/H6vDWoG/uv5Ou
- 32HmsnqwOb+jniYzhyOQ/Jx4aWq5GVTH4Is9DkVxSZAnP/6FCmsyLNJRY6hSTISXYYHaoM
- li719OIAgtXS1Haz3U5i7lnJmWT6Bws=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-33DiVJW-PJKSqrONkYS0Zg-1; Tue, 24 Aug 2021 04:46:24 -0400
-X-MC-Unique: 33DiVJW-PJKSqrONkYS0Zg-1
-Received: by mail-wr1-f72.google.com with SMTP id
- d12-20020a056000186cb02901548bff164dso5549131wri.18
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 01:46:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=45BePwngXZYErL6CRubm7YDG3Rf1bEEBpDuelAhtexo=;
- b=aN1fRiVrSL/tEaRVaD2B6yjQcroutus/PDQcdBqkd7nlxGMdIX2yKUlRFjke4lsvju
- VQRrP762R1RQvCvW/LvFo63OELYGtTvH9XFxagwAyFxqyrcAsNpjsfiBHpYRReshDJR1
- UaCidmx+S92Thn2nCLVJRjTXaMIQPj7bS96Ezq0Tl2/dbeWv1VrxDi8Y/enIkRa1mcIf
- 1/gCFmjIicR0UJcJNqkVFmZ5kyQAqc+MiHcuLhpexJENzZDJUj4/bdN9RuFOVBmfK7YC
- icOFeG7R7eZ/BVQAtfadeovvMJ5S2kh/kNwGALfVOIQr5hq1FTJZLOjMGfb1nIY54AsM
- gNgA==
-X-Gm-Message-State: AOAM531laN7BbGJptap2f5d26MENvUH/UMQ7dUkPLK8hncZcVEvhZbzM
- giAkBJ4ruXcs2DTVp2RuXbRPP/oCNZHocSV3uiRao3/YzNbaixbWbKZZjB8U8zwj7J5utjLj8WY
- JLPojm4YOxRN0Kx4=
-X-Received: by 2002:a5d:500d:: with SMTP id e13mr13040429wrt.413.1629794783163; 
- Tue, 24 Aug 2021 01:46:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwwXQ0PaiudQZr2de2GZZBb49h5HGM/Waoj88pUZpFHQYbZ1dFN6TULjc/XhLoNrftQdQxIkg==
-X-Received: by 2002:a5d:500d:: with SMTP id e13mr13040403wrt.413.1629794782930; 
- Tue, 24 Aug 2021 01:46:22 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id v1sm16949275wrt.93.2021.08.24.01.46.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Aug 2021 01:46:22 -0700 (PDT)
-Subject: Re: [PATCH v2 2/3] hw/usb/hcd-xhci-pci: Abort if setting link
- property failed
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
-References: <20210819171547.2879725-1-philmd@redhat.com>
- <20210819171547.2879725-3-philmd@redhat.com>
- <20210823183414.hmu4ly2y5zkbw3mg@habkost.net>
- <87ilzvntu1.fsf@dusky.pond.sub.org>
- <eb59236e-bd14-5916-0ffc-ea0fce0db00b@redhat.com>
-Message-ID: <04d64e04-b1cc-0035-c9f4-13b843826c93@redhat.com>
-Date: Tue, 24 Aug 2021 10:46:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mISDr-0001DN-OX
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 04:55:59 -0400
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id DF6603F65B
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 08:55:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1629795342;
+ bh=e64kP7tq/KynU1jTaJDYANQmMuSweI8HylLv50OIgf0=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=rkzEJppImMx4VAhQqM6ELj5TH2MY2dfY7cRXt8wtNB5O66qaDTUTadjeQzc6Klxxb
+ zQgDjg9wVqVomqmJ3WxO/CkUTduWT8CmGUfI/SY+jFptSx+qdZc4E1CYYrc+F0VSFA
+ kqO0XqRYbklUL1WySXhWj7L0StceFm/J3cO3BJIHhZif3oJowWHgtOhK87yCM5GB0W
+ AayBd/ElnV8gWNkaui3rVRvBArCONEXcP2ZHSWv1bQ+svrR9ZqWmSt4l32xD9jeiyo
+ WtfpA4jFuWcSbpnIbR1P4v6GexTr0JOVvyCRip1eswSd3ilPGQfl1ijO3SSDVkyk0S
+ qJdl9SWX6JieA==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C591C2E816D
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 08:55:42 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <eb59236e-bd14-5916-0ffc-ea0fce0db00b@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.023, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 24 Aug 2021 08:50:02 -0000
+From: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF?= <1921664@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Incomplete; importance=Low; assignee=None; 
+X-Launchpad-Bug-Tags: apport-bug arm64 hirsute uec-images
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: paelzer th-huth tommy-ubuntuone
+X-Launchpad-Bug-Reporter: Tommy Thorn (tommy-ubuntuone)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Christian_Ehrhardt_=EE=83=BF_=28paelzer=29?=
+References: <161698578843.25105.11508850027610231738.malonedeb@wampee.canonical.com>
+Message-Id: <162979500221.15580.12179129462565059546.malone@wampee.canonical.com>
+Subject: [Bug 1921664] Re: Coroutines are racy for risc64 emu on arm64 - crash
+ on Assertion
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="7edb2d45353e030166106ae05838b77ab406edcd"; Instance="production"
+X-Launchpad-Hash: 778df74e42fbb674a0ee2bf2b6719510ac349125
+Received-SPF: pass client-ip=185.125.188.251;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -103,48 +86,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1921664 <1921664@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/24/21 10:35 AM, Philippe Mathieu-Daudé wrote:
-> On 8/24/21 10:13 AM, Markus Armbruster wrote:
->> Eduardo Habkost <ehabkost@redhat.com> writes:
->>
->>> +Markus
->>>
->>> On Thu, Aug 19, 2021 at 07:15:46PM +0200, Philippe Mathieu-Daudé wrote:
->>>> Do not ignore eventual error if we failed at setting the 'host'
->>>> property of the TYPE_XHCI model.
->>>>
->>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>> ---
->>>>  hw/usb/hcd-xhci-pci.c | 2 +-
->>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/hw/usb/hcd-xhci-pci.c b/hw/usb/hcd-xhci-pci.c
->>>> index e934b1a5b1f..71f6629ccde 100644
->>>> --- a/hw/usb/hcd-xhci-pci.c
->>>> +++ b/hw/usb/hcd-xhci-pci.c
->>>> @@ -115,7 +115,7 @@ static void usb_xhci_pci_realize(struct PCIDevice *dev, Error **errp)
->>>>      dev->config[PCI_CACHE_LINE_SIZE] = 0x10;
->>>>      dev->config[0x60] = 0x30; /* release number */
->>>>  
->>>> -    object_property_set_link(OBJECT(&s->xhci), "host", OBJECT(s), NULL);
->>>> +    object_property_set_link(OBJECT(&s->xhci), "host", OBJECT(s), &error_fatal);
->>>
->>> If this fails, it's due to programmer error, isn't?  Shouldn't we
->>> use &error_abort on that case?
->>
->> I think so.
->>
->> In functions with an Error **errp parameter, use of &error_fatal is
->> almost always wrong.
+Hmm, thanks for the hint Thomas.
 
-Having used 'abort' in the subject, no clue why I used &error_fatal
-then...
+Of the two formerly referenced same-source different result builds:
+
+[1] =3D> built 2021-03-23 in Hirsute =3D> works
+[2] =3D> built 2021-04-12 in Hirsute =3D> fails
+
+[1]: https://launchpad.net/ubuntu/+source/qemu/1:5.2+dfsg-9ubuntu1/+build/2=
+1196422
+[2]: https://launchpad.net/~paelzer/+archive/ubuntu/lp-1921664-testbuilds-r=
+ebuildold/+build/21392458
+
+The default flags changed in
+  https://launchpad.net/ubuntu/+source/dpkg/1.20.7.1ubuntu4
+and according to the build logs both ran with that.
+Copy-Pasta from the log:
+  dpkg (=3D 1.20.7.1ubuntu4),
+=3D> In between those we did not switch the LTO default flags
+
+
+For clarification LTO is the default nowadays and we are not disabling it g=
+enerally in qemu. So - yes the builds are with LTO, but both the good and t=
+he bad one are.
+
+Although looking at versions I see we have:
+- good case 10.2.1-23ubuntu2
+- bad case  10.3.0-1ubuntu1
+
+So maybe - while it wasn't LTO - something in 10.3 maybe even LTO-
+since-10.3 is what is broken?
+
+@Tommy - I don't have any of the test systems around anymore, if I'd
+build you a no-LTO qemu for testing what would you these days need -
+Hirsute, Impish, ... ?
+
+--=20
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1921664
+
+Title:
+  Coroutines are racy for risc64 emu on arm64 - crash on Assertion
+
+Status in QEMU:
+  Incomplete
+Status in qemu package in Ubuntu:
+  Incomplete
+
+Bug description:
+  Note: this could as well be "riscv64 on arm64" for being slow@slow and af=
+fect
+  other architectures as well.
+
+  The following case triggers on a Raspberry Pi4 running with arm64 on
+  Ubuntu 21.04 [1][2]. It might trigger on other environments as well,
+  but that is what we have seen it so far.
+
+     $ wget https://github.com/carlosedp/riscv-bringup/releases/download/v1=
+.0/UbuntuFocal-riscv64-QemuVM.tar.gz
+     $ tar xzf UbuntuFocal-riscv64-QemuVM.tar.gz
+     $ ./run_riscvVM.sh
+  (wait ~2 minutes)
+     [ OK ] Reached target Local File Systems (Pre).
+     [ OK ] Reached target Local File Systems.
+              Starting udev Kernel Device Manager...
+  qemu-system-riscv64: ../../util/qemu-coroutine-lock.c:57: qemu_co_queue_w=
+ait_impl: Assertion `qemu_in_coroutine()' failed.
+
+  This is often, but not 100% reproducible and the cases differ slightly we
+  see either of:
+  - qemu-system-riscv64: ../../util/qemu-coroutine-lock.c:57: qemu_co_queue=
+_wait_impl: Assertion `qemu_in_coroutine()' failed.
+  - qemu-system-riscv64: ../../block/aio_task.c:64: aio_task_pool_wait_one:=
+ Assertion `qemu_coroutine_self() =3D=3D pool->main_co' failed.
+
+  Rebuilding working cases has shown to make them fail, as well as rebulding
+  (or even reinstalling) bad cases has made them work. Also the same builds=
+ on
+  different arm64 CPUs behave differently. TL;DR: The full list of conditio=
+ns
+  influencing good/bad case here are not yet known.
+
+  [1]: https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry=
+-pi#1-overview
+  [2]: http://cdimage.ubuntu.com/daily-preinstalled/pending/hirsute-preinst=
+alled-desktop-arm64+raspi.img.xz
+
+ =20
+  --- --- original report --- ---
+
+  I regularly run a RISC-V (RV64GC) QEMU VM, but an update a few days
+  ago broke it.  Now when I launch it, it hits an assertion:
+
+  OpenSBI v0.6
+  =C2=A0=C2=A0=C2=A0____                    _____ ____ _____
+  =C2=A0=C2=A0/ __ \                  / ____|  _ \_   _|
+  =C2=A0| |  | |_ __   ___ _ __ | (___ | |_) || |
+  =C2=A0| |  | | '_ \ / _ \ '_ \ \___ \|  _ < | |
+  =C2=A0| |__| | |_) |  __/ | | |____) | |_) || |_
+  =C2=A0=C2=A0\____/| .__/ \___|_| |_|_____/|____/_____|
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| |
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|_|
+
+  ...
+  Found /boot/extlinux/extlinux.conf
+  Retrieving file: /boot/extlinux/extlinux.conf
+  618 bytes read in 2 ms (301.8 KiB/s)
+  RISC-V Qemu Boot Options
+  1:      Linux kernel-5.5.0-dirty
+  2:      Linux kernel-5.5.0-dirty (recovery mode)
+  Enter choice: 1:        Linux kernel-5.5.0-dirty
+  Retrieving file: /boot/initrd.img-5.5.0-dirty
+  qemu-system-riscv64: ../../block/aio_task.c:64: aio_task_pool_wait_one: A=
+ssertion `qemu_coroutine_self() =3D=3D pool->main_co' failed.
+  ./run.sh: line 31:  1604 Aborted                 (core dumped) qemu-syste=
+m-riscv64 -machine virt -nographic -smp 8 -m 8G -bios fw_payload.bin -devic=
+e virtio-blk-devi
+  ce,drive=3Dhd0 -object rng-random,filename=3D/dev/urandom,id=3Drng0 -devi=
+ce virtio-rng-device,rng=3Drng0 -drive file=3Driscv64-UbuntuFocal-qemu.qcow=
+2,format=3Dqcow2,id=3Dhd0 -devi
+  ce virtio-net-device,netdev=3Dusernet -netdev user,id=3Dusernet,$ports
+
+  Interestingly this doesn't happen on the AMD64 version of Ubuntu 21.04
+  (fully updated).
+
+  Think you have everything already, but just in case:
+
+  $ lsb_release -rd
+  Description:    Ubuntu Hirsute Hippo (development branch)
+  Release:        21.04
+
+  $ uname -a
+  Linux minimacvm 5.11.0-11-generic #12-Ubuntu SMP Mon Mar 1 19:27:36 UTC 2=
+021 aarch64 aarch64 aarch64 GNU/Linux
+  (note this is a VM running on macOS/M1)
+
+  $ apt-cache policy qemu
+  qemu:
+  =C2=A0=C2=A0Installed: 1:5.2+dfsg-9ubuntu1
+  =C2=A0=C2=A0Candidate: 1:5.2+dfsg-9ubuntu1
+  =C2=A0=C2=A0Version table:
+  =C2=A0*** 1:5.2+dfsg-9ubuntu1 500
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0500 http://ports.ubuntu.c=
+om/ubuntu-ports hirsute/universe arm64 Packages
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0100 /var/lib/dpkg/status
+
+  ProblemType: Bug
+  DistroRelease: Ubuntu 21.04
+  Package: qemu 1:5.2+dfsg-9ubuntu1
+  ProcVersionSignature: Ubuntu 5.11.0-11.12-generic 5.11.0
+  Uname: Linux 5.11.0-11-generic aarch64
+  ApportVersion: 2.20.11-0ubuntu61
+  Architecture: arm64
+  CasperMD5CheckResult: unknown
+  CurrentDmesg:
+  =C2=A0Error: command ['pkexec', 'dmesg'] failed with exit code 127: polki=
+t-agent-helper-1: error response to PolicyKit daemon: GDBus.Error:org.freed=
+esktop.PolicyKit1.Error.Failed: No session for cookie
+  =C2=A0Error executing command as another user: Not authorized
+
+  =C2=A0This incident has been reported.
+  Date: Mon Mar 29 02:33:25 2021
+  Dependencies:
+
+  KvmCmdLine: COMMAND         STAT  EUID  RUID     PID    PPID %CPU COMMAND
+  Lspci-vt:
+  =C2=A0-[0000:00]-+-00.0  Apple Inc. Device f020
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
+-01.0  Red Hat, Inc. Virtio network device
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
+-05.0  Red Hat, Inc. Virtio console
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0+=
+-06.0  Red Hat, Inc. Virtio block device
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0\=
+-07.0  Red Hat, Inc. Virtio RNG
+  Lsusb: Error: command ['lsusb'] failed with exit code 1:
+  Lsusb-t:
+
+  Lsusb-v: Error: command ['lsusb', '-v'] failed with exit code 1:
+  ProcEnviron:
+  =C2=A0TERM=3Dscreen
+  =C2=A0PATH=3D(custom, no user)
+  =C2=A0XDG_RUNTIME_DIR=3D<set>
+  =C2=A0LANG=3DC.UTF-8
+  =C2=A0SHELL=3D/bin/bash
+  ProcKernelCmdLine: console=3Dhvc0 root=3D/dev/vda
+  SourcePackage: qemu
+  UpgradeStatus: Upgraded to hirsute on 2020-12-30 (88 days ago)
+  acpidump:
+  =C2=A0Error: command ['pkexec', '/usr/share/apport/dump_acpi_tables.py'] =
+failed with exit code 127: polkit-agent-helper-1: error response to PolicyK=
+it daemon: GDBus.Error:org.freedesktop.PolicyKit1.Error.Failed: No session =
+for cookie
+  =C2=A0Error executing command as another user: Not authorized
+
+  =C2=A0This incident has been reported.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1921664/+subscriptions
 
 
