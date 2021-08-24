@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB603F5C27
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 12:31:03 +0200 (CEST)
-Received: from localhost ([::1]:49426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E16333F5C32
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 12:36:07 +0200 (CEST)
+Received: from localhost ([::1]:60712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIThu-0004TT-Iu
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 06:31:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55320)
+	id 1mITme-0003zn-0c
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 06:35:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mITgG-00029W-67; Tue, 24 Aug 2021 06:29:20 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:33394)
+ id 1mITlS-000398-LS; Tue, 24 Aug 2021 06:34:42 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:46829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mITgE-0005yY-Ql; Tue, 24 Aug 2021 06:29:19 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id
- j14-20020a1c230e000000b002e748b9a48bso1544302wmj.0; 
- Tue, 24 Aug 2021 03:29:18 -0700 (PDT)
+ id 1mITlQ-0001vF-3T; Tue, 24 Aug 2021 06:34:42 -0400
+Received: by mail-wr1-x432.google.com with SMTP id f5so30494597wrm.13;
+ Tue, 24 Aug 2021 03:34:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=o8FkZtJ5MtYHYuML9kl6+WUmizJOZYKccq19D9/Z24o=;
- b=LotD1cc4Cn32Yn1nGwdsY5PWcYPyjeNN1V/qN0H0jWTQQLGw6pzv7cZC8eX+tqYgic
- co6sOaG3zccr4gUKTXIOZVuFfFfQ72MS9ocpyhQX9JxDjnln4rlIeWtSW2FargmMvZux
- DI4kpFv0PfyBs0oF+K3XKa9usxgLwx3E1JG+S5sDeQFQFDdVAk54VBhK0BhzVn1C352S
- h/evgOIyx+x2UDH3NtN2T6CcueD3EUp4upPe+hzfgl70Xwn6MIm30gaWFh2jEZMZGEAh
- IfK5APbIF22sgHgpE1y/x5/XMF0AG3WX+bicCI7fdgsI1toQ9JNXg9sdIXdr/fupzjad
- 5foA==
+ bh=MlPlqG+B6YbpAgiI9iab73mBI9Te+WxloTZ91xTi7Yo=;
+ b=oRmb/Q1aS2e1px/WaxunNFPwEaCH0je0QSke3HEJm4RvFp407wke2vXYydK7WN7/N6
+ d55SB4j1cjinbbbO8jVsORXG3NfJJp6Hnd/LFETH3hKOs1wku0u+jqjP+DJ8BsYlE6RX
+ oxFJHbKreJT7WaefAfgbiEV/cU27FBJYUqHWS1zbvvUpPZpy/VlVhDYitLvNpoJ0V42d
+ r4E9EWBIDWFxOZopNCn4p7QXNaNF3Oc9X6r577LDxTKylw6Ri4BwOSyR6YF83aNZOka3
+ aIHXyIyFfN/mly7TI1bOUAHHr0S+V/ZPkfI9NqmiqyBfdPPw9i7yxrI+w5fz4vzm0JFK
+ atnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=o8FkZtJ5MtYHYuML9kl6+WUmizJOZYKccq19D9/Z24o=;
- b=UVP27felzisVv1hc2sWEGvVKIYRDipPl3r/6JIVdcG68F3ncXkZ8x2dGfEwFUdd9Wt
- 9+CGLmiIyIFWx9+OuT+RAx63fN4ANeD+vdr5KSfromeZDpHeFyLV5OKr748gwIvA/CPl
- QQdAdaQfXgTLsSfeJIZ37YIHLN2aY3fqEce0bpyaz64CHNMPwvdWibSqr4gXnVDLYcTE
- GU2vKb55BD0G/m+exxxNl/hYpQL67ZuJMjVChbIfXcm8o2uxK+r7pn3IwXvko7ZU5MbS
- O751z7Eh5k2wl1dXd6ppJuDEIWspHorwPSwoKcez6cKJlwwDOQ/FgwcfZuBNo1FMX64D
- zJYA==
-X-Gm-Message-State: AOAM5331qVGZ1dd9ocPG+z+MhGVAxMAPe3WXQsm8fz2HNO/C3+4SBM2y
- S6zR1jQcXHHYkdH0s/OO4UHO0gBBqFM=
-X-Google-Smtp-Source: ABdhPJwXEAFMjULUTM30fmM30VGEiJufttzOm36iy+uNI1+On/mBYTBgUFKvYmOcNdO7KoMsbE2dCw==
-X-Received: by 2002:a1c:6a04:: with SMTP id f4mr3394748wmc.54.1629800957001;
- Tue, 24 Aug 2021 03:29:17 -0700 (PDT)
+ bh=MlPlqG+B6YbpAgiI9iab73mBI9Te+WxloTZ91xTi7Yo=;
+ b=BRubwTDAR8PEdSJQ/2mHWQuvGJiZdkJN438NkJJXBrvuCtbE+d8BPThu0uOe3j1Cu5
+ qemgq+DeFoorAvrlPd4Vb+9SXhJR1I54nGTf4nazJ7ccFNnHFAoxvy3OhXkn9e6Rfg+1
+ XnmRvC1ODoSRW43K1klz9jXeVpMssLx2gwtE3AatO/L8WF5AkZ3rEHTMwoGBlkPExM+y
+ RL9z1cYqRTuwDenKv7HS99Z3OXVlmlqTeh8XVKsg3V0zP+qq9FQ5kYtzTFQxxa2tWHwU
+ SiVmqPPR/se3fhiXPW2ahTJ2riQHBSVZpb0WlH/rBG3xB7MgHIDqJBoU9UKf/Mk5sr41
+ /m/Q==
+X-Gm-Message-State: AOAM532TVRJ5d+C4bWSESw6q7+A00fBmmtIX8kaddOmiD7pZ9daRdV5H
+ weKUlJ0M5scDl6rSXC9gDUE=
+X-Google-Smtp-Source: ABdhPJycvmpiA9Pbrp8XdAAvCp46CPA/nT0+1Ncp82mn1saQ8GOjKMoh52SiTZvSMxGjWjsehpbayg==
+X-Received: by 2002:adf:ba08:: with SMTP id o8mr15188566wrg.234.1629801277555; 
+ Tue, 24 Aug 2021 03:34:37 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id r4sm1740567wmq.10.2021.08.24.03.29.16
+ by smtp.gmail.com with ESMTPSA id k16sm1796009wms.17.2021.08.24.03.34.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Aug 2021 03:29:16 -0700 (PDT)
-Subject: Re: [RFC 01/10] hw/mos6522: Remove get_load_time() methods and
- functions
+ Tue, 24 Aug 2021 03:34:37 -0700 (PDT)
+Subject: Re: [RFC 00/10] hw/mos6522: VIA timer emulation fixes and improvements
 To: Finn Thain <fthain@linux-m68k.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 References: <cover.1629799776.git.fthain@linux-m68k.org>
- <9b78e8c6e453feab6275d04bf503051645770d85.1629799776.git.fthain@linux-m68k.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <f3fe703f-106e-041d-fc13-22825b3b612a@amsat.org>
-Date: Tue, 24 Aug 2021 12:29:15 +0200
+Message-ID: <283af572-2157-77c6-2594-8e9e92497346@amsat.org>
+Date: Tue, 24 Aug 2021 12:34:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <9b78e8c6e453feab6275d04bf503051645770d85.1629799776.git.fthain@linux-m68k.org>
+In-Reply-To: <cover.1629799776.git.fthain@linux-m68k.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
@@ -91,18 +88,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-ppc@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/24/21 12:09 PM, Finn Thain wrote:
-> This code appears to be unnecessary.
-> 
-> Signed-off-by: Finn Thain <fthain@linux-m68k.org>
-> ---
->  hw/misc/mos6522.c | 22 +---------------------
->  1 file changed, 1 insertion(+), 21 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> On a real Quadra, accesses to the SY6522 chips are slow because they are 
+> synchronous with the 783360 Hz "phase 2" clock. In QEMU, they are slow 
+> only because of the division operation in the timer count calculation.
+> 
+> This patch series improves the fidelity of the emulated chip, but the 
+> price is more division ops. I haven't tried to measure this yet.
+> 
+> The emulated 6522 still deviates from the behaviour of the real thing, 
+> however. For example, two consecutive accesses to a real 6522 timer 
+> counter can never yield the same value. This is not true of the 6522 in 
+> QEMU 6 wherein two consecutive accesses to a timer count register have 
+> been observed to yield the same value.
+> 
+> Linux is not particularly robust in the face of a 6522 that deviates 
+> from the usual behaviour. The problem presently affecting a Linux guest 
+> is that its 'via' clocksource is prone to monotonicity failure. That is, 
+> the clocksource counter can jump backwards. This can be observed by 
+> patching Linux like so:
+> 
+> diff --git a/arch/m68k/mac/via.c b/arch/m68k/mac/via.c
+> --- a/arch/m68k/mac/via.c
+> +++ b/arch/m68k/mac/via.c
+> @@ -606,6 +606,8 @@ void __init via_init_clock(void)
+>  	clocksource_register_hz(&mac_clk, VIA_CLOCK_FREQ);
+>  }
+>  
+> +static u32 prev_ticks;
+> +
+>  static u64 mac_read_clk(struct clocksource *cs)
+>  {
+>  	unsigned long flags;
+> @@ -631,6 +633,8 @@ static u64 mac_read_clk(struct clocksource *cs)
+>  	count = count_high << 8;
+>  	ticks = VIA_TIMER_CYCLES - count;
+>  	ticks += clk_offset + clk_total;
+> +if (ticks < prev_ticks) pr_warn("%s: %u < %u\n", __func__, ticks, prev_ticks);
+> +prev_ticks = ticks;
+>  	local_irq_restore(flags);
+>  
+>  	return ticks;
+> 
+> This problem can be partly blamed on a 6522 design limitation, which is 
+> that the timer counter has no overflow register. Hence, if a timer 
+> counter wraps around and the kernel is late to handle the subsequent 
+> interrupt, the kernel can't account for any missed ticks.
+> 
+> On a real Quadra, the kernel mitigates this limitation by minimizing 
+> interrupt latency. But on QEMU, interrupt latency is unbounded. This 
+> can't be mitigated by the guest kernel at all and leads to clock drift. 
+> This can be observed by patching QEMU like so:
+> 
+> diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
+> --- a/hw/misc/mos6522.c
+> +++ b/hw/misc/mos6522.c
+> @@ -379,6 +379,12 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
+>          s->pcr = val;
+>          break;
+>      case VIA_REG_IFR:
+> +        if (val & T1_INT) {
+> +            static int64_t last_t1_int_cleared;
+> +            int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> +            if (now - last_t1_int_cleared > 20000000) printf("\t%s: t1 int clear is late\n", __func__);
+> +            last_t1_int_cleared = now;
+> +        }
+>          /* reset bits */
+>          s->ifr &= ~val;
+>          mos6522_update_irq(s);
+> 
+> This logic asserts that, given that Linux/m68k sets CONFIG_HZ to 100, 
+> the emulator will theoretically see each timer 1 interrupt cleared 
+> within 20 ms of the previous one. But that deadline is often missed on 
+> my QEMU host [4].
+
+I wonder if using QEMU ptimer wouldn't help here, instead of
+calling qemu_clock_get_ns() and doing the math by hand:
+
+/* Starting to run with/setting counter to "0" won't trigger immediately,
+ * but after a one period for both oneshot and periodic modes.  */
+#define PTIMER_POLICY_NO_IMMEDIATE_TRIGGER  (1 << 2)
+
+/* Starting to run with/setting counter to "0" won't re-load counter
+ * immediately, but after a one period.  */
+#define PTIMER_POLICY_NO_IMMEDIATE_RELOAD   (1 << 3)
+
+/* Make counter value of the running timer represent the actual value and
+ * not the one less.  */
+#define PTIMER_POLICY_NO_COUNTER_ROUND_DOWN (1 << 4)
+
+> On real Mac hardware you could observe the same scenario if a high 
+> priority interrupt were to sufficiently delay the timer interrupt 
+> handler. (This is the reason why the VIA1 interrupt priority gets 
+> increased from level 1 to level 5 when running on Quadras.)
+> 
+> Anyway, for now, the clocksource monotonicity problem in Linux/mac68k 
+> guests is still unresolved. Nonetheless, I think this patch series does 
+> improve the situation.
 
