@@ -2,89 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF1123F59E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 10:37:10 +0200 (CEST)
-Received: from localhost ([::1]:45136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 836DB3F59ED
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 10:39:25 +0200 (CEST)
+Received: from localhost ([::1]:48036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIRvh-0008CH-PJ
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 04:37:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57678)
+	id 1mIRxs-0001lI-JN
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 04:39:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mIRup-0006xn-U8
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 04:36:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21568)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mIRwY-0000Yi-RO
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 04:38:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mIRuo-0005GL-4a
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 04:36:15 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1mIRwW-0006Pt-Ig
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 04:38:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629794173;
+ s=mimecast20190719; t=1629794280;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KHY8wSQQE4TDUcCbCEESY9A3fGpksl7FnxS4YoVxf0s=;
- b=EvmAIsN4ew28GC7mA0NA5lqgDPLH7uPejQjmq8uDo/3KPGqUKKTz7ik0uNBY4MWrzW/8pm
- QL+lT9dBC747xsAPALllGZPCmUrH9zqjdARX+c/N5CPKF6QQEcpxpo+JdbBEhp5JF6rS1x
- V+vrcZbIqc8yQrmOAANmTYhNiK+D0Ng=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-67-6d_YRn1kNzWovSZ4eJcOJg-1; Tue, 24 Aug 2021 04:36:10 -0400
-X-MC-Unique: 6d_YRn1kNzWovSZ4eJcOJg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- h6-20020a5d4fc6000000b00157503046afso1489196wrw.3
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 01:36:10 -0700 (PDT)
+ bh=U+2YhZtTNYm7a99FhYzDlU+yX8HOqEsK1H8FZhjOEWA=;
+ b=CnhgrqYhU6JIPfCy5nhJY4RCMCcZ/QKcY/7SY+zeC0dJRSdyBibXxN1h/6JJk4FKbKzbVB
+ WN+lTzaf87VxkZooDONr2CcjIEwUbesZKEvMWSQIu8iLo4UxbYt6vTQqWIV8mWZiT4WItD
+ nHWON8oZts1GR3qsF2zlgv0D8QEhnkk=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-173-eu2nR7TUOCquuYePOCqxUg-1; Tue, 24 Aug 2021 04:37:58 -0400
+X-MC-Unique: eu2nR7TUOCquuYePOCqxUg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ z186-20020a1c7ec30000b02902e6a27a9962so937580wmc.3
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 01:37:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=KHY8wSQQE4TDUcCbCEESY9A3fGpksl7FnxS4YoVxf0s=;
- b=WkBFjKJtyY+/Y2ok+E1QQWi8Yf3ZlznxQA4frfIG1WTJ8jp6+VX/bOLk4CIvOFiGHu
- k2UOc8Y6eFU3ZwYkcZqc4iC9Yg1XLaDnGfj5ifW5f4f218wxXLyCelZEUGeWiOjLqAaF
- LWLeAJf4vLKacLItIY9ScqiFqSdE5IlRqvhFgvCRinHW34NZ87pRhnUykCxvyesgi9LV
- KPAVWWHQPCE89KJikwnq3pBr380RTcsjSlIupQnTj7TQLPE5YQy+XuwZ5cYMJU6DdDXo
- WtCJkF7BpmpBer0hem1cnwB4896Awe1tphj3bQqQgIa1JzC8yG4kwUJX1n3hB/tvkKgV
- sYjg==
-X-Gm-Message-State: AOAM532oAr+cnIxTCazvQY4fXmB0Zv/c5cGp+tsAdkA1dULJ4//Fs33P
- y4jx8Ak9Il6K73KFZrTlGTsGGuqCYPiJud78vwpd6PNwfbHRv4uwQMJaQtbA2DusejNiu41heFN
- yKTLYe4cXmw2J3iM=
-X-Received: by 2002:adf:f84d:: with SMTP id d13mr16608171wrq.292.1629794169797; 
- Tue, 24 Aug 2021 01:36:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwiybfAvbOCbTXAKFrjZbd3+C0rSDGK85C2pJIp2zAv1/yfp26zkOlSus5Du6y82nBzaiT6LQ==
-X-Received: by 2002:adf:f84d:: with SMTP id d13mr16608160wrq.292.1629794169682; 
- Tue, 24 Aug 2021 01:36:09 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id l2sm1628008wme.28.2021.08.24.01.36.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Aug 2021 01:36:09 -0700 (PDT)
-Subject: Re: [PATCH] MAINTAINERS: add fuzzing reviewer
-To: Qiuhao Li <Qiuhao.Li@outlook.com>, qemu-devel@nongnu.org
-References: <PN0PR01MB63528E3A58EA06BD1B242486FCC59@PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <5856378b-84f7-a191-cb9d-f89f17acfb28@redhat.com>
-Date: Tue, 24 Aug 2021 10:36:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=U+2YhZtTNYm7a99FhYzDlU+yX8HOqEsK1H8FZhjOEWA=;
+ b=c1rDM+x0nyele5Xj6Ac5OitXMrvQ7kztUqXKdR3bUpBXkbtPP78z0HBX/ff1PS8eJs
+ wSRk5z6nG0Mp4pe48Mx9pQDMJ5HSXD9lJAl3sYcEyIwN/A9cmmpSEi92PiwbVItazNx0
+ ja6Kt3hWio5pDKlsjt2FvLdAO1JkN2asT933zvvv+Pg55nxJS3sX2KhOaOHY4zDcPjGk
+ mNh0By0FWTBoyAU5IIakKTajKtycjrwnPag/ICjqMEFyaPtmsmly7b/VGD9lJdAj3/sp
+ iRwngn/Tdt6tYtVMvIzxq+m4iR3OQTd4m/3Egq1ivBrUGFu7ovZ1qkChSFYPA+OzYPVd
+ iCzA==
+X-Gm-Message-State: AOAM532nJyTO/2V4iNgWkDbWpCBapSTLU3kdVa6nmBfUYokgMcl8qZFv
+ 62ym+QerSubRiAaXJQQ0F4XMvreWIFfPX9le16mgxVjz9XfrFhzm8HVU9HgSc2FDVXBIatkZDO9
+ 8tLkUAUcGVXM0vuY=
+X-Received: by 2002:a5d:5919:: with SMTP id v25mr17744233wrd.32.1629794277508; 
+ Tue, 24 Aug 2021 01:37:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyxbw031tIM8P5pQYaOmCF1Y+zhGAMV3MfroosU4JM4lOada3XI0g/ViyvovsvcFmU93+DmYw==
+X-Received: by 2002:a5d:5919:: with SMTP id v25mr17744218wrd.32.1629794277324; 
+ Tue, 24 Aug 2021 01:37:57 -0700 (PDT)
+Received: from work-vm (cpc109021-salf6-2-0-cust453.10-2.cable.virginm.net.
+ [82.29.237.198])
+ by smtp.gmail.com with ESMTPSA id g12sm21752109wri.18.2021.08.24.01.37.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Aug 2021 01:37:56 -0700 (PDT)
+Date: Tue, 24 Aug 2021 09:37:54 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH] softmmu/physmem: Improve guest memory allocation failure
+ error message
+Message-ID: <YSSv4vwfqDbwNWQI@work-vm>
+References: <20210820155211.3153137-1-philmd@redhat.com>
+ <20a53e29-ba23-fe0d-f961-63d0b5ca9a89@redhat.com>
+ <d68297ca-7be3-48ab-e25c-4f55dc735670@redhat.com>
+ <d3cdb3bb-e05f-f909-1a98-ba45ff9b2b28@redhat.com>
+ <CAFEAcA8V6gaGZeWeXOwdts771Ni11Eo8vYR2nXNy-w8dEsxdpg@mail.gmail.com>
+ <6165f86e-1ce7-d178-1f5c-4b3c5110f0c1@redhat.com>
+ <1a63c2d2-7420-5fc1-1023-0504a67dc40b@redhat.com>
+ <628a7ee5-b88d-c043-2e67-67e791532c18@redhat.com>
+ <e6245d98-173c-2d25-8587-b6690c5f9037@redhat.com>
+ <c0bbadf8-d834-168e-9aa5-b3cf1373aa91@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <PN0PR01MB63528E3A58EA06BD1B242486FCC59@PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM>
+In-Reply-To: <c0bbadf8-d834-168e-9aa5-b3cf1373aa91@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -55
-X-Spam_score: -5.6
-X-Spam_bar: -----
-X-Spam_report: (-5.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.023, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,21 +108,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alxndr@bu.edu, thuth@redhat.com, bsd@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Bin Meng <bmeng.cn@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/24/21 8:26 AM, Qiuhao Li wrote:
-> To keep me cc-ed when something changes. Suggested by Alexander.
+* David Hildenbrand (david@redhat.com) wrote:
+> On 23.08.21 12:34, Philippe Mathieu-DaudÈ wrote:
+> > On 8/23/21 12:24 PM, David Hildenbrand wrote:
+> > > On 23.08.21 12:12, Philippe Mathieu-DaudÈ wrote:
+> > > > On 8/23/21 11:29 AM, David Hildenbrand wrote:
+> > > > > On 23.08.21 11:23, Peter Maydell wrote:
+> > > > > > On Mon, 23 Aug 2021 at 09:40, David Hildenbrand <david@redhat.com>
+> > > > > > wrote:
+> > > > > > > Not opposed to printing the size, although I doubt that it will really
+> > > > > > > stop similar questions/problems getting raised.
+> > > > > > 
+> > > > > > The case that triggered this was somebody thinking
+> > > > > > -m took a byte count, so very likely that an error message
+> > > > > > saying "you tried to allocate 38TB" would have made their
+> > > > > > mistake clear in a way that just "allocation failed" did not.
+> > > > > > It also means that if a future user asks us for help then
+> > > > > > we can look at the error message and immediately tell them
+> > > > > > the problem, rather than going "hmm, what are all the possible
+> > > > > > ways that allocation might have failed" and going off down
+> > > > > > rabbitholes like VM overcommit settings...
+> > > > > 
+> > > > > We've had similar issues recently where Linux memory overcommit handling
+> > > > > rejected the allocation -- and the user was well aware about the actual
+> > > > > size. You won't be able to catch such reports, because people don't
+> > > > > understand how Linux memory overcommit handling works or was configured.
+> > > > > 
+> > > > > "I have 3 GiB of free memory, why can't I create a 3 GiB VM". "I have 3
+> > > > > GiB of RAM, why can't I create a 3 GiB VM even if it won't make use of
+> > > > > all 3 GiB of memory".
+> > > > > 
+> > > > > Thus my comment, it will only stop very basic usage issues. And I agree
+> > > > > that looking at the error *might* help. It didn't help for the cases I
+> > > > > just described, because we need much more system information to make a
+> > > > > guess what the user error actually is.
+> > > > 
+> > > > Is it possible to get the maximal overcommitable amount on Linux?
+> > > 
+> > > Not reliably I think.
+> > > 
+> > > In the "always" mode, there is none.
+> > > 
+> > > In the "guess"/"estimate" mode, the kernel takes a guess (currently
+> > > implemented as checking if the mmap size <= total RAM + total SWAP).
+> > >  ††††Committable = MemTotal + SwapTotal
+> > > 
+> > > In the "never" mode:
+> > >  ††††Committable = CommitLimit - Committed_AS
+> > > However, the value gets further reduced for !root applications by
+> > > /proc/sys/vm/admin_reserve_kbytes.
+> > > 
+> > > Replicating these calculations in user space would be suboptimal IMHO.
+> > 
+> > What about simply giving a hint about memory overcommit and display
+> > a link to documentation with longer description about how to check
+> > and figure out this issue?
 > 
-> https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg03631.html
+> That would be highly OS-specific -- for example, there is no memory
+> overcommit under Windows. Sure, we could add a Linux specific hint,
+> indication documentation. But I'm not sure if most end users stumbling into
+> such an error+hint would be able to make sense of memory overcommit details
+> (not to mention that they know what it even is) :)
 > 
-> Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
+> You can run into memory allocation issues with many applications. Let me
+> give you a simple example
+> 
+> t480s: ~  $ dd if=/dev/zero of=/dev/null ibs=100G
+> dd: memory exhausted by input buffer of size 107374182400 bytes (100 GiB)
+> 
+> So indicating the size of the failing allocation might be just good enough.
+> For the other parts it's usually just "the way the OS was configured, it
+> does not think it can allow this allocation".
 
-Reviewed-by: Philippe Mathieu-Daud√© <philmd@redhat.com>
+Does it also get complicated by the use of CGroup?
+
+Dave
+
+> -- 
+> Thanks,
+> 
+> David / dhildenb
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
