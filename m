@@ -2,116 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 326753F6BB7
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 00:30:33 +0200 (CEST)
-Received: from localhost ([::1]:53154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A273F6C55
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 01:49:47 +0200 (CEST)
+Received: from localhost ([::1]:43900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIewC-0005uw-1Z
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 18:30:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38624)
+	id 1mIgAr-0005Y0-Lm
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 19:49:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eugeneh@nvidia.com>)
- id 1mIetf-0003j8-M9
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 18:27:55 -0400
-Received: from mail-dm3nam07on20603.outbound.protection.outlook.com
- ([2a01:111:f400:7e83::603]:55616
- helo=NAM02-DM3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eugeneh@nvidia.com>)
- id 1mIetd-00055H-Da
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 18:27:55 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dD0ilhVG3eq44Paio5CFnQf8skmiQK0oWmGM++T3gjDNGtpz4j4ukCQlG16iAbiEqN3562RwHWvGaFNajqVMPNYDXEyTC+L/1zkrviKb8euSdvZGpIHZtNlnQ/zBt03wtu1Bu58DIlZnZ5AB6PCCq43BCVA6M56RRppilahpHG/d9l9EgXKTX70JJ+Clps6wDBV73gJDKeLOjcbm6WOGWf9u1XWN/0Yd4Cqx3d0AERBc6jtWxTFwiBEi/h4Ojs5OoKdh+chpHBU3vflgr3YwftuVdCB40PYZ8XOWBDoMvKt2LE1dBATYMeA4FH8pgTPIB96Qscmsk7Jbl2URqclakw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ejQ8tt1hx+AE5oUDMIa5dpyuzC9q2S2t2EqLK0EcvX8=;
- b=Dv1A5W+XFtUyKDA/cL4+wYcIJOJp6VcRNdXrH5/Hw7yXeBUtkrnCFQRjyszDcyMZgruS8crbAalRv4/Ycb4BX95oOcQG5F8VoXxX1fZ756Fro31BNnT0QEaJFNlqjVS0ZI1d1O+UblnFxwjpct382YfC050LtvYwoys/wMlAlWhJyChvr1f9i9O5GR6Z0sb2S6RgodBS0OPylL/jThr8iHbFyfDlAJS55Myx6eFssGmmEsntGRCMplIQ06ruTcee0zR/tOoVFlqeceQYytJRzZd2jAC4BCs3VR1OdP9V61oL56aYyvUWaZXvYI5hJnkOgzteWHZvJ4zTGAihOf4n0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=nvidia.com; 
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ejQ8tt1hx+AE5oUDMIa5dpyuzC9q2S2t2EqLK0EcvX8=;
- b=cI+kXXdy+/wpSK+xDgE5UDmFpJJf6ZUT7ZmWe+uQKch2Qlp7HK7MqykBKPiZgUhAAdEy28uDWQXj6nm8zp5g5MWdxuqT0Gsw/BqHO4paxO83sK+G6Wk1E/IS7F0VHKQo8390hrX7BWE+2vGgYUnzcdr8nP7L3iM2WxUBnKvKp1ztGoTidMfHMkgNMKC8AG7fN+sGZIN5mJXIN/GBi/DtY9wJU5wOggIgFk2C5K6Sf2M7frzlOZoioXQJZ/+aJ43xXdajyhq+d2g6tJUvzSQ/YyCmWZk64Mdk5feDP44o6/R4Y37F4VmsY54jcIm9g3jy5eNTJcSAcmJJ5lqhGga4kA==
-Received: from BN9PR03CA0632.namprd03.prod.outlook.com (2603:10b6:408:13b::7)
- by MN2PR12MB3933.namprd12.prod.outlook.com (2603:10b6:208:162::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17; Tue, 24 Aug
- 2021 22:22:45 +0000
-Received: from BN8NAM11FT055.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:13b:cafe::1e) by BN9PR03CA0632.outlook.office365.com
- (2603:10b6:408:13b::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend
- Transport; Tue, 24 Aug 2021 22:22:45 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- BN8NAM11FT055.mail.protection.outlook.com (10.13.177.62) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.4436.19 via Frontend Transport; Tue, 24 Aug 2021 22:22:44 +0000
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 24 Aug
- 2021 22:22:44 +0000
-Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 24 Aug
- 2021 22:22:44 +0000
-Received: from eugeneh-X299-A.nvidia.com (172.20.187.6) by mail.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 24 Aug 2021 22:22:44 +0000
-From: Eugene Huang <eugeneh@nvidia.com>
-To: <qemu-devel@nongnu.org>
-CC: <marcandre.lureau@gmail.com>, Eugene Huang <eugeneh@nvidia.com>
-Subject: [PATCH 2/2] Add comment for qemu_egl_get_display
-Date: Tue, 24 Aug 2021 15:22:26 -0700
-Message-ID: <20210824222226.22528-2-eugeneh@nvidia.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210824222226.22528-1-eugeneh@nvidia.com>
-References: <20210824222226.22528-1-eugeneh@nvidia.com>
-X-NVConfidentiality: public
+ (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
+ id 1mIgA1-0004lV-P8
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 19:48:53 -0400
+Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f]:46782)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
+ id 1mIg9y-0008S7-9O
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 19:48:52 -0400
+Received: by mail-lf1-x12f.google.com with SMTP id b4so4922493lfo.13
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 16:48:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=phystech-edu.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QowVcic0+G/xBgEoPE5tSP4/we07HatiCI2qz1J+jTE=;
+ b=vzdJ0ffSTIxuoqrBmaFcFgfZe7VBD5Ptyi9r7j2x9uLR5FxNO0jEhtXCrv/f0QL1HQ
+ UYdH2RsL+/u+wvF8xuOknatq6Y3nX8IZMQQpU1Ing1cLCqpkNc/yzNYjJ5HmW4AeN/ad
+ bbEZDcn2V/QxazR5xESTx7Kv88O62+EDQO9u8I3AzDIXdISO/M6OY/49YuEYhQhctcZJ
+ N2IINB/xCKeO3zf2uszGdDKbMVvY/+AuGLVOpV5g+S3Ndmxoq0PdiSBKwSvuZneweZpL
+ D/gnrvZq4srKIUDA/Z3pJWkL3JvAMFKHbuxAGhYt8GS39QInPxtnZr/RIzq3fTwqQJz3
+ qGRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QowVcic0+G/xBgEoPE5tSP4/we07HatiCI2qz1J+jTE=;
+ b=r0+dHsNvccZ0nD8t8pFDie1PFmBuFRWV3b22BCSqdqXPHZARm741p5mf6+sPtOxZoC
+ PG3TcGgi+EYIUFiLgZpFb5Vzpnz4+zfyw3udCjJgZ/qnY59oFSbkf8sdyXuHrNq8bWcD
+ 3DtcnKWtA0Hw67WIDJbsFBban8BIcdIdw1KCqIvv0zdZDu/12igHqck9PpM7N3HR+ad2
+ YgglDgNihFqhvcL7U3NUEuUf1VhWE1HftTApgQha+4fO2uYyaaamWGhyd6aKxGmXpwWM
+ iF8ZMq6vKLtJcbapcYH02jgPASiggVXsm9VpkfqlkDfSF0oOZdt6geT3SQHCvB2SHo7E
+ 7FyA==
+X-Gm-Message-State: AOAM530VR2EBVZ40RPpWT9b+5wMBcTIAXogIKIJtPD4vxsC3qiggdLBM
+ ykbZ73ygFzWeWZXr0mmXkjxkiQ==
+X-Google-Smtp-Source: ABdhPJxFSdF7mr9laLCN4NpF/O7EzN4w1ceGXnutE4kAH8fPgcO5c79hgo+dz0s4AjOmPM0/JOgi+g==
+X-Received: by 2002:a05:6512:132a:: with SMTP id
+ x42mr29693057lfu.210.1629848927126; 
+ Tue, 24 Aug 2021 16:48:47 -0700 (PDT)
+Received: from 192.168.1.2 ([2a00:1370:810e:b7ea:7e3d:4f4b:921e:b1ff])
+ by smtp.gmail.com with ESMTPSA id a9sm1897948ljq.51.2021.08.24.16.48.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Aug 2021 16:48:46 -0700 (PDT)
+From: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+To: philmd@redhat.com, kwolf@redhat.com, hreitz@redhat.com, sw@weilnetz.de,
+ yan@daynix.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v4] block/file-win32: add reopen handlers
+Date: Wed, 25 Aug 2021 02:48:17 +0300
+Message-Id: <20210824234817.13343-1-viktor.prutyanov@phystech.edu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5f0b21e8-fc64-4628-bad4-08d9674db256
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3933:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB39335AE295601E29C9861E16D9C59@MN2PR12MB3933.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XY09n7VngZuH4GyhIzWteX5rurVbmhYorqCvlfJZ39xfnah7Bez9aO82BOOoQ431O4b2uH/wRnncbe6UGYc39oJDfiOeSZglNtMUvVJLnkj+5zw4a+J3iPW1bXj/0B0A7RM/KHbFK4asuaas/yLMHmL/+wA1VPeN311N5s+IEY0/3U5kK48xaBmPNoicau/JujfmXM7RdkDBfEIXjNJA8afaoxo3dZ4AYzlXyFXXIndG3hwZpscGshnB4wkbL2leebfWBOC2saP0GOtubIhrvBFY9mxxXY/3f11FSvsiej68NBhgwA6Zsfmfsu/6HyzdsndWr5EggxrFufIXhOcCOAeSfXxNNFwoMLVIi4BQjF5tSSYVuZ4fBMmGnq6CjG8+azzsTrOclbfUg4w79MutRSoTRMIXxxy1p63OS/m9Yo5h3LRqYm0aetbYHH8WEatR6uUObiOMkfz+p/2oSH9gxJnBj5cpGk+OCXNFPRpOw+BKpr109puMNvwlUqFu09W4TWeExd0V8k/SsYbmEzOrfgprK2TaJLr/EUHCXHsvQjF7zoy6blEe2CyRcvfj4CJyEpeiYsoCr2kogZOnm2MZWb55PnY3dvIF4BHyfl9H26Lm2NpVl61+Yx7vZnKDuC+V5Ker6/daqO8yu1gcWusqF3++nYYB3vsrwKz1sIuF5jiezuEUEbXVGktYFXu87zo4CqduP9EXTSdOnXEuHZHWvg==
-X-Forefront-Antispam-Report: CIP:216.228.112.34; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:schybrid03.nvidia.com; CAT:NONE;
- SFS:(4636009)(136003)(346002)(376002)(39860400002)(396003)(46966006)(36840700001)(356005)(2616005)(6666004)(4326008)(47076005)(107886003)(36860700001)(4744005)(82740400003)(2906002)(70206006)(316002)(5660300002)(7636003)(82310400003)(6916009)(54906003)(70586007)(8676002)(36906005)(26005)(86362001)(186003)(336012)(478600001)(426003)(8936002)(1076003)(36756003)(7696005);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 22:22:44.8738 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5f0b21e8-fc64-4628-bad4-08d9674db256
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.112.34];
- Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT055.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3933
-Received-SPF: softfail client-ip=2a01:111:f400:7e83::603;
- envelope-from=eugeneh@nvidia.com;
- helo=NAM02-DM3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_PASS=-0.001,
- T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
+ envelope-from=viktor.prutyanov@phystech.edu; helo=mail-lf1-x12f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,30 +82,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Helge Konetzka <hk@zapateado.de>,
+ Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Eugene Huang <eugeneh@nvidia.com>
----
- ui/egl-helpers.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Make 'qemu-img commit' work on Windows.
 
-diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
-index ce0971422b..dee31c6fbb 100644
---- a/ui/egl-helpers.c
-+++ b/ui/egl-helpers.c
-@@ -346,6 +346,10 @@ EGLSurface qemu_egl_init_surface_x11(EGLContext ectx, EGLNativeWindowType win)
-  * We can workaround this (circular dependency) by probing for the EGL 1.5
-  * platform extensions (EGL_KHR_platform_gbm and friends) yet it doesn't seem
-  * like mesa will be able to advertise these (even though it can do EGL 1.5).
-+ *
-+ * 5. It is worth adding an EGL_EXT_platform_device && (EGL_EXT_device_base ||
-+ * EGL_EXT_device_enumeration) extension check with the EGL_EXT_platform_base
-+ * check before using the EGLDevice functionality.
-  */
- static EGLDisplay qemu_egl_get_display(EGLNativeDisplayType native,
-                                        EGLenum platform)
+Command 'commit' requires reopening backing file in RW mode. So,
+add reopen prepare/commit/abort handlers and change dwShareMode
+for CreateFile call in order to allow further read/write reopening.
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/418
+
+Suggested-by: Hanna Reitz <hreitz@redhat.com>
+Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+Tested-by: Helge Konetzka <hk@zapateado.de>
+---
+ v2:
+    - fix indentation in raw_reopen_prepare
+    - free rs if raw_reopen_prepare fails
+ v3:
+    - restore suggested-by field missed in v2
+ v4:
+    - add file type check
+    - add comment about options
+    - replace rs check with assert in raw_reopen_commit
+
+ block/file-win32.c | 100 ++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 99 insertions(+), 1 deletion(-)
+
+diff --git a/block/file-win32.c b/block/file-win32.c
+index 2642088bd6..8320495f2b 100644
+--- a/block/file-win32.c
++++ b/block/file-win32.c
+@@ -58,6 +58,10 @@ typedef struct BDRVRawState {
+     QEMUWin32AIOState *aio;
+ } BDRVRawState;
+ 
++typedef struct BDRVRawReopenState {
++    HANDLE hfile;
++} BDRVRawReopenState;
++
+ /*
+  * Read/writes the data to/from a given linear buffer.
+  *
+@@ -392,7 +396,7 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
+     }
+ 
+     s->hfile = CreateFile(filename, access_flags,
+-                          FILE_SHARE_READ, NULL,
++                          FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
+                           OPEN_EXISTING, overlapped, NULL);
+     if (s->hfile == INVALID_HANDLE_VALUE) {
+         int err = GetLastError();
+@@ -634,6 +638,96 @@ static int coroutine_fn raw_co_create_opts(BlockDriver *drv,
+     return raw_co_create(&options, errp);
+ }
+ 
++static int raw_reopen_prepare(BDRVReopenState *state,
++                              BlockReopenQueue *queue, Error **errp)
++{
++    BDRVRawState *s = state->bs->opaque;
++    BDRVRawReopenState *rs;
++    int access_flags;
++    DWORD overlapped;
++    int ret = 0;
++
++    if (s->type != FTYPE_FILE) {
++        error_setg(errp, "Can only reopen files");
++        return -EINVAL;
++    }
++
++    rs = g_new0(BDRVRawReopenState, 1);
++
++    /*
++     * We do not support changing any options (only flags). By leaving
++     * all options in state->options, we tell the generic reopen code
++     * that we do not support changing any of them, so it will verify
++     * that their values did not change.
++     */
++
++    raw_parse_flags(state->flags, s->aio != NULL, &access_flags, &overlapped);
++    rs->hfile = CreateFile(state->bs->filename, access_flags,
++                           FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
++                           OPEN_EXISTING, overlapped, NULL);
++
++    if (rs->hfile == INVALID_HANDLE_VALUE) {
++        int err = GetLastError();
++
++        error_setg_win32(errp, err, "Could not reopen '%s'",
++                         state->bs->filename);
++        if (err == ERROR_ACCESS_DENIED) {
++            ret = -EACCES;
++        } else {
++            ret = -EINVAL;
++        }
++        goto fail;
++    }
++
++    if (s->aio) {
++        ret = win32_aio_attach(s->aio, rs->hfile);
++        if (ret < 0) {
++            error_setg_errno(errp, -ret, "Could not enable AIO");
++            goto fail;
++        }
++    }
++
++    state->opaque = rs;
++
++    return 0;
++
++fail:
++    g_free(rs);
++    state->opaque = NULL;
++
++    return ret;
++}
++
++static void raw_reopen_commit(BDRVReopenState *state)
++{
++    BDRVRawState *s = state->bs->opaque;
++    BDRVRawReopenState *rs = state->opaque;
++
++    assert(rs != NULL);
++
++    CloseHandle(s->hfile);
++    s->hfile = rs->hfile;
++
++    g_free(rs);
++    state->opaque = NULL;
++}
++
++static void raw_reopen_abort(BDRVReopenState *state)
++{
++    BDRVRawReopenState *rs = state->opaque;
++
++    if (!rs) {
++        return;
++    }
++
++    if (rs->hfile != INVALID_HANDLE_VALUE) {
++        CloseHandle(rs->hfile);
++    }
++
++    g_free(rs);
++    state->opaque = NULL;
++}
++
+ static QemuOptsList raw_create_opts = {
+     .name = "raw-create-opts",
+     .head = QTAILQ_HEAD_INITIALIZER(raw_create_opts.head),
+@@ -659,6 +753,10 @@ BlockDriver bdrv_file = {
+     .bdrv_co_create_opts = raw_co_create_opts,
+     .bdrv_has_zero_init = bdrv_has_zero_init_1,
+ 
++    .bdrv_reopen_prepare = raw_reopen_prepare,
++    .bdrv_reopen_commit  = raw_reopen_commit,
++    .bdrv_reopen_abort   = raw_reopen_abort,
++
+     .bdrv_aio_preadv    = raw_aio_preadv,
+     .bdrv_aio_pwritev   = raw_aio_pwritev,
+     .bdrv_aio_flush     = raw_aio_flush,
 -- 
-2.17.1
+2.21.0
 
 
