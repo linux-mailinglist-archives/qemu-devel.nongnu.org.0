@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8656F3F5D98
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 14:04:01 +0200 (CEST)
-Received: from localhost ([::1]:52672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48C423F5DA1
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 14:06:56 +0200 (CEST)
+Received: from localhost ([::1]:55312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIV9s-0003Gc-E0
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 08:04:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50726)
+	id 1mIVCg-0005Qr-V4
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 08:06:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mIV8k-0002Ke-3U
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 08:02:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39907)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIVBq-0004iD-2O
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 08:06:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36078)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mIV8h-0001y9-8e
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 08:02:48 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIVBo-00041O-FM
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 08:06:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629806566;
+ s=mimecast20190719; t=1629806759;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=bog25Znfsn8fcygf1zPfXMNHSWtPJczSj6FpWmZTEWg=;
- b=AMCzCeYwvGsZZgxvr5J6RpWdQlBpu7A78jssWckTQSB8ih2M+BsnThUCDNzGOvey7mDXhV
- BGFXCgyZLhDmmwT03LhpBgVmHl+8pt9yKQmmzcK7pdhItT3DNbk7+vxQdDxpHDPrS3uesE
- 8hlnQKlE61KQxlV5n2ZTOstYqWjuYOg=
+ bh=w41Da4IwHa5f1PBJzJ2+zhh7jnFzPPWEoZBnjdlrTME=;
+ b=HHH7bFH4GdDbdlOTo0bbYE4XRvvonkj2zUPB/eT28MtRnuHJ2VDn/DZXVjIi+/PmwYOg7x
+ iS3XmZGnwF4k/w3DxvUmh+y3qBM8GuPxqrEVXECm1rnePlHarPJlZtLbcLWALMu1oSboCd
+ 9NWajvkpfpV7CxaIS/jFJQ/eO8k1Q9Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-82-2YVIRZKEOYK-yOdtmcDQpg-1; Tue, 24 Aug 2021 08:02:45 -0400
-X-MC-Unique: 2YVIRZKEOYK-yOdtmcDQpg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-61-YlRkXpBbM3Gk2J0FuR8ctg-1; Tue, 24 Aug 2021 08:05:54 -0400
+X-MC-Unique: YlRkXpBbM3Gk2J0FuR8ctg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B7D6106F714;
- Tue, 24 Aug 2021 12:02:33 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.193.216])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B5F81036D28;
- Tue, 24 Aug 2021 12:01:56 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id D2CBE18000A3; Tue, 24 Aug 2021 14:01:53 +0200 (CEST)
-Date: Tue, 24 Aug 2021 14:01:53 +0200
-From: Gerd Hoffmann <kraxel@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88485801E72;
+ Tue, 24 Aug 2021 12:05:53 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-4.ams2.redhat.com [10.36.112.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7FF1F69CBC;
+ Tue, 24 Aug 2021 12:05:40 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 19B9211380A9; Tue, 24 Aug 2021 14:05:39 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [RFC PATCH v2 0/5] physmem: Have flaview API check bus
- permission from MemTxAttrs argument
-Message-ID: <20210824120153.altqys6jjiuxh35p@sirius.home.kraxel.org>
-References: <20210823164157.751807-1-philmd@redhat.com>
- <CAFEAcA9_=6n4w86gD3MHhiLeCiui9_+ePT7E2sSHdSRufUJdyA@mail.gmail.com>
- <YSQKHaGiJZE5OAk2@t490s>
- <CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5KcknhPRD5fPBZA@mail.gmail.com>
+Subject: Re: [PATCH v2 2/3] hw/usb/hcd-xhci-pci: Abort if setting link
+ property failed
+References: <20210819171547.2879725-1-philmd@redhat.com>
+ <20210819171547.2879725-3-philmd@redhat.com>
+ <20210823183414.hmu4ly2y5zkbw3mg@habkost.net>
+ <87ilzvntu1.fsf@dusky.pond.sub.org>
+ <CAFEAcA-2ShxjS6YAb_xBk=v5YJ5nLaaKtOLVEn7Vjfe6rkpp2A@mail.gmail.com>
+Date: Tue, 24 Aug 2021 14:05:39 +0200
+In-Reply-To: <CAFEAcA-2ShxjS6YAb_xBk=v5YJ5nLaaKtOLVEn7Vjfe6rkpp2A@mail.gmail.com>
+ (Peter Maydell's message of "Tue, 24 Aug 2021 10:19:44 +0100")
+Message-ID: <87tujfdp4c.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5KcknhPRD5fPBZA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -81,117 +83,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Alexander Bulekov <alxndr@bu.edu>, qemu-arm <qemu-arm@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael
+ S. Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Dau?= =?utf-8?Q?d=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-> I was vaguely tossing an idea around in the back of my mind
-> about whether you could have a flag on devices that marked
-> them as "this device is currently involved in IO", such that
-> you could then just fail the last DMA (or qemu_irq_set, or
-> whatever) that would complete the loop back to a device that
-> was already doing IO. But that would need a lot of thinking
-> through to figure out if it's feasible, and it's probably
-> a lot of code change.
+> On Tue, 24 Aug 2021 at 09:14, Markus Armbruster <armbru@redhat.com> wrote:
+>> In functions with an Error **errp parameter, use of &error_fatal is
+>> almost always wrong.
+>
+> What are the cases where it is not wrong?
 
-Quick & dirty hack trying the above.  Not much code, it is opt-in per
-MemoryRegion (so less overhead for devices which already handle all DMA
-in a BH), tracks state in DeviceState.  Adds a check to a rather hot
-code path though.  Not tested yet (stopped investigating when I noticed
-Philippe tries to fix the same thing with another approach).  Not
-benchmarked.
+I can't think of a use that isn't wrong.  Doesn't mean no such use could
+exist.  Most rules have exceptions...
 
-Maybe it helps ...
+>                                           My guess is "in board
+> code and other places where the error handling would have been
+> 'print a message and call exit()' anyway".
 
-take care,
-  Gerd
-
-From 80e58a2cd2c630f0bddd9d0eaee71abb7eeb9440 Mon Sep 17 00:00:00 2001
-From: Gerd Hoffmann <kraxel@redhat.com>
-Date: Tue, 17 Aug 2021 07:35:37 +0200
-Subject: [PATCH] allow track active mmio handlers
-
----
- include/exec/memory.h  |  1 +
- include/hw/qdev-core.h |  1 +
- softmmu/memory.c       | 24 ++++++++++++++++++++++--
- 3 files changed, 24 insertions(+), 2 deletions(-)
-
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index c3d417d317f0..b1883d45e817 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -265,6 +265,7 @@ struct MemoryRegionOps {
-          */
-         bool unaligned;
-     } impl;
-+    bool block_reenter;
- };
- 
- typedef struct MemoryRegionClass {
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index bafc311bfa1b..4cf281a81fa9 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -191,6 +191,7 @@ struct DeviceState {
-     int instance_id_alias;
-     int alias_required_for_version;
-     ResettableState reset;
-+    bool io_handler_active;
- };
- 
- struct DeviceListener {
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index bfedaf9c4dfc..5eb5dd465dd2 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -437,7 +437,18 @@ static MemTxResult  memory_region_read_accessor(MemoryRegion *mr,
- {
-     uint64_t tmp;
- 
--    tmp = mr->ops->read(mr->opaque, addr, size);
-+    if (mr->ops->block_reenter) {
-+        DeviceState *dev = DEVICE(mr->owner);
-+        if (!dev->io_handler_active) {
-+            dev->io_handler_active = true;
-+            tmp = mr->ops->read(mr->opaque, addr, size);
-+            dev->io_handler_active = false;
-+        } else {
-+            tmp = MEMTX_OK;
-+        }
-+    } else {
-+        tmp = mr->ops->read(mr->opaque, addr, size);
-+    }
-     if (mr->subpage) {
-         trace_memory_region_subpage_read(get_cpu_index(), mr, addr, tmp, size);
-     } else if (trace_event_get_state_backends(TRACE_MEMORY_REGION_OPS_READ)) {
-@@ -489,7 +500,16 @@ static MemTxResult memory_region_write_accessor(MemoryRegion *mr,
-         trace_memory_region_ops_write(get_cpu_index(), mr, abs_addr, tmp, size,
-                                       memory_region_name(mr));
-     }
--    mr->ops->write(mr->opaque, addr, tmp, size);
-+    if (mr->ops->block_reenter) {
-+        DeviceState *dev = DEVICE(mr->owner);
-+        if (!dev->io_handler_active) {
-+            dev->io_handler_active = true;
-+            mr->ops->write(mr->opaque, addr, tmp, size);
-+            dev->io_handler_active = false;
-+        }
-+    } else {
-+        mr->ops->write(mr->opaque, addr, tmp, size);
-+    }
-     return MEMTX_OK;
- }
- 
--- 
-2.31.1
+When you know that all callers handle errors like &error_fatal does, use
+of &error_fatal doesn't produce wrong behavior.  It's still kind of
+wrong, because relying on such a non-local argument without a genuine
+need is.
 
 
