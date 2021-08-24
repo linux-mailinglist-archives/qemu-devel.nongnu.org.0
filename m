@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A3893F62CE
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 18:38:21 +0200 (CEST)
-Received: from localhost ([::1]:48354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 379093F6326
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 18:49:01 +0200 (CEST)
+Received: from localhost ([::1]:59670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIZRM-0008DY-Cf
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 12:38:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56270)
+	id 1mIZbg-0001VH-Ae
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 12:49:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIZMl-0004G7-R9
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:33:35 -0400
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:45868)
+ id 1mIZOe-00018g-5X
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:35:32 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:40468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIZMk-0001XQ-6m
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:33:35 -0400
-Received: by mail-ed1-x533.google.com with SMTP id g22so2168971edy.12
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 09:33:33 -0700 (PDT)
+ id 1mIZOb-0002oV-M4
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:35:31 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id d6so32680882edt.7
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 09:35:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lnxIy5t0e/L9/ZOWdqIM0TQ6TSgPw7HWu8AqiHGieLg=;
- b=FwAYcFzzLUNyVKo8vEltWuP8neikFbpJJj08/5Un4qM69p6wDKheRreDu7bSDRMKSw
- RZWgwZGcI1TTk7P1n1T/yDgIVyNQO6ETQxYTwdL2CIIduh8VzbNWfKUag8hMtVgcZ97J
- o+7O4M8K1hxpL1BDBFEZ1vwf30BarFj9xz7ZYcvl3t/uQXRptvES1E3NN4kcFFLl5lSZ
- FKeqk4tykWldkXfyQX55kJRAQeHOIcO9wT9rzV6gUQQ8zc+gJ/dou7W1Z6uTPMiW0wRU
- DfIMdjgxHzpbplLbRoqYIOYxV/c9Zawr+lAMSeO/7cMUBu6383GgoUf8Y6JbJt1Npztz
- k1dg==
+ :cc; bh=heQqNRfA1mowlX83uczh2S2Wf50LZxWLWp33sAFCSaA=;
+ b=ho7Faw5ent8Tm829A44q/oaYvq3iD67TjnfOekjOgvq8sfOxhgOyatW9fZgm9pmSxZ
+ hcPEfUg2MsOwaatBv3BemZY58eW43fHyaJFKjJ3sCyuwsvhW1OW1qgPAGU+zgJ7NP6xX
+ 9Z2rtrrEQJqjYNkrr0BROTi1B0EZIuUJL2jdRUEXXBJVaYJ+g/+FyfaB8G2AH4cS7YEv
+ /7LR9+VwOxzAyEJmjwIaR+kwThlIvAof9fUkEq/AvQdq3jheIZAsgp7RkGR4GXmxeEPe
+ tF9eCXh/Yf5ryF1LW/bwG9pjj5S7BbHI5DTKDTERspe+s3oXCkVOVVW+nm/Y3SPJROgw
+ ZLcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=lnxIy5t0e/L9/ZOWdqIM0TQ6TSgPw7HWu8AqiHGieLg=;
- b=HkQGjFacrM36SNfyw+NXpyNpMT+3KQvUZW+9CQhTL7bnzlIiusJEFFX7jBbxlFzLlP
- sVKhPU52VN9RuFmuWQ8k13Gbjmsi3LottSh4R3/H8aIQuOcYdEcDNMtWVEMAZyL3kgnF
- RGm33+kx0K6CZsr5nPzcVfhW6/rCReruOgcT1jqyu/5oobeMU2IaajzHNizTochK5HNl
- X/geuubGWTeeAxFiDuUVzK3KDyAU6YcQg7EndKTscPzW7GxlvYke6I2HZLAPF/CEOwqJ
- mgYF713rZZl5vI8wMS2tuddTUNVUPn7g6drk8AMd67fXmOCqXIPl17Hoh75ioeT+X/Q1
- AA4Q==
-X-Gm-Message-State: AOAM532Sd2UFlJntS14cxtOVIdf5IEN3AG0kZjNSAZVtsa/R0FaqBQ8f
- LJZT+bHBLg/qEI58tGDyjGzeEKJjKEACU3utJpbkPg==
-X-Google-Smtp-Source: ABdhPJx6EMyecQbUoL4uOuzudhfmM6ST04pSGq/W2jMXrQN+wuBATacMQSNZvZmHoWGGx+ams3ZvfYSIwkmR4ElMhTw=
-X-Received: by 2002:a05:6402:220e:: with SMTP id
- cq14mr43692728edb.52.1629822812645; 
- Tue, 24 Aug 2021 09:33:32 -0700 (PDT)
+ bh=heQqNRfA1mowlX83uczh2S2Wf50LZxWLWp33sAFCSaA=;
+ b=JwOG+iiJ06C/6s+CW663sQHfvakOhde6jhwJlyCG/T8xD8uKI0Iswvkz1szNMdqX1Q
+ k1RwRlGU3gUttuZ9PP43L23u5Gk4RZJMLH/8Nr7683vqTePfQNUT2WbRWHgrKqSKHf4v
+ PW0Kb752QxG29MteQr/gLIOlbJulfVnFYejvd+ZfjyyiXpP1MPTzYxzp4bVlD/1T7gQT
+ /ClIwpHWHJKNK8EvUMaxVLAGkHQchsIxypkHm/EC7P1EKdjWzYjcRNq12WDfn5UTq27z
+ LL9HHa6lcNgND1AhP8BurLO9nQaj2vKEniNk0G2jlPOGwavCycrQBw7d+5AfLYnswew2
+ gyTA==
+X-Gm-Message-State: AOAM533efOd81KvaNFSlPD7+pjqjy9Og47/PBqOHI3Gwl7Xpo+auRPob
+ OzNjqkxw02w/0GcwErvirItxYp0y2gzEyJoAcZ7AoDNsj+Q=
+X-Google-Smtp-Source: ABdhPJxOplsxGIDSxC57szBVg1YZTdHAqn2jg7HJL2aoTIok2KeAqc8ln/kwsfwFF4W7ls6TMxcJE6MEYozNC8WXrAU=
+X-Received: by 2002:aa7:cc0b:: with SMTP id q11mr22738788edt.251.1629822928111; 
+ Tue, 24 Aug 2021 09:35:28 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210822035537.283193-1-richard.henderson@linaro.org>
- <20210822035537.283193-15-richard.henderson@linaro.org>
-In-Reply-To: <20210822035537.283193-15-richard.henderson@linaro.org>
+ <20210822035537.283193-16-richard.henderson@linaro.org>
+In-Reply-To: <20210822035537.283193-16-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 24 Aug 2021 17:32:45 +0100
-Message-ID: <CAFEAcA9jPPo3dSqS0L7VNhYxOa-+1BuKwm_Htb-f4k5V4h=kmw@mail.gmail.com>
-Subject: Re: [PATCH v2 14/30] linux-user/hppa: Use force_sig_fault,
- force_sigsegv_for_addr
+Date: Tue, 24 Aug 2021 17:34:41 +0100
+Message-ID: <CAFEAcA-BT9ih71QzUcUhHDq--15rTrO-YZQZV9C_GrNfK6jCGQ@mail.gmail.com>
+Subject: Re: [PATCH v2 15/30] linux-user/hppa: Use the proper si_code for
+ PRIV_OPR, PRIV_REG, OVERFLOW
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,15 +85,10 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Sun, 22 Aug 2021 at 04:55, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Use the new functions instead of setting up a target_siginfo_t
-> and calling queue_signal.
+> These si_codes have been properly set by the kernel since the beginning.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Where this is changing behaviour to fix bugs you should mention
-it in the commit message:
- * address field for breakpoint trap
- * si_code for alignment traps
-
-Otherwise
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
