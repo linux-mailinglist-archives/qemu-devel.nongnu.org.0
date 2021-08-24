@@ -2,90 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82A903F6212
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 17:53:19 +0200 (CEST)
-Received: from localhost ([::1]:33254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 767363F627C
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 18:12:54 +0200 (CEST)
+Received: from localhost ([::1]:51608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIYjm-0000nS-L1
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 11:53:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45900)
+	id 1mIZ2e-0005PS-3U
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 12:12:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mIYi8-00081n-0g
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:51:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44790)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mIZ1E-00048u-NJ
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:11:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49426)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mIYi2-00068r-TA
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:51:35 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1mIZ1B-00036o-G8
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:11:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629820290;
+ s=mimecast20190719; t=1629821475;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ewXnhtx+roG8nGP2FTv5iOY/2ULoLva+ZiNTJC3+qek=;
- b=bdgWztEmNoMCPtqdQiMMT3H+VE8OU9VXW6XKNHJcRWBynz0lVoyGK7aXD09SllhMRZ1w3g
- QP8ncaXJTaqXc9O7sNMaypI/4v9NeHLj4T+cgHTWu9G3taXywffG2JWQ8/b1xWHzd/DMyt
- 3FP8AqLeAuBVonxTdrJiqGzelJ2JZ6s=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-515-kxfWR24aOxi5jq69QxMSrQ-1; Tue, 24 Aug 2021 11:51:27 -0400
-X-MC-Unique: kxfWR24aOxi5jq69QxMSrQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- d12-20020a056000186cb02901548bff164dso5875902wri.18
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 08:51:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=ewXnhtx+roG8nGP2FTv5iOY/2ULoLva+ZiNTJC3+qek=;
- b=UwCkg2m/HzDWBJN+RwrLAThGCDVYMSJhOL7+yCZfcRp7G4Ze+GXopEGD6CWQxzttB0
- iLtNOjAo9xxej/pYW+tqac4ypYiyyvXjUA+j2vZPL67QVGUeQahKhmtNlcApH737liNr
- rq5ZEFZ75MPWD+ytyf1fWj14fDcD/N0ohijD9nXNvydTklEFAf7L6MbnygvxjC59p9ST
- JpHX7ucPWwUzb7UiVom6LyxZ758PUB1OZwEOmRrWG8QquzEj/THdyBHaNvdsvLBNnqUC
- /jlKL1HZVw6Njoz9AjkOoLmQwVmQ7aohHdx6+hg1hkjn90L8yKzOlFCmfQJspsz+pFn0
- qzrQ==
-X-Gm-Message-State: AOAM5313ANqNs4lkM0wvxBksqqizEslfeOfPpuQq0QbLEJ0YbJFQWpIa
- EcxoYoGAvaavQX5m88+KLDJ2xJ+tpMTliiJsrKDe9MfDC/sgzjdZO3mDSRyIrjLS57KiIlq4VNs
- 6X7ZZ3vlT+rPG9Os=
-X-Received: by 2002:a1c:1904:: with SMTP id 4mr4710653wmz.93.1629820286501;
- Tue, 24 Aug 2021 08:51:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxqs+2lfPWVB8tf+Y0LN/AdMcHj+yx7umXFqPGGcxo3kkYtofzpnjvDNtQJ+LxkMV2jejGFxw==
-X-Received: by 2002:a1c:1904:: with SMTP id 4mr4710634wmz.93.1629820286295;
- Tue, 24 Aug 2021 08:51:26 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- f17sm2689054wmq.17.2021.08.24.08.51.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Aug 2021 08:51:26 -0700 (PDT)
-Subject: Re: [PATCH v8 00/34] block: publish backup-top filter
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210824083856.17408-1-vsementsov@virtuozzo.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <82985ebb-91a3-895e-7e0b-ab4fad506338@redhat.com>
-Date: Tue, 24 Aug 2021 17:51:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=ugLwqfezPrGNAWe2vbOPYMuexvJcABsNeG2WDO3zRAA=;
+ b=EwTax60N0o6w1XLXenTtU+vvARZjN7voW6PSwuTEaaXdEOGcJDs8jt8VyvmLwEv4GAHGtc
+ XKerJ/lw5H9+2A/IEbYAA466B1micFd18v9IQT+FHLtNrWnkO3hAeEPYnLSvdLGQQbNePy
+ aZE+E4ItqH9X9utGKvmMJyNq7btVn70=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-533-T7A8I6xpNSePynOZHN6EqQ-1; Tue, 24 Aug 2021 12:11:12 -0400
+X-MC-Unique: T7A8I6xpNSePynOZHN6EqQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1BA33802C91;
+ Tue, 24 Aug 2021 16:11:11 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.161])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3BB2660C05;
+ Tue, 24 Aug 2021 16:11:04 +0000 (UTC)
+Date: Tue, 24 Aug 2021 16:59:17 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Subject: Re: [PATCH RFC v2 06/16] vfio-user: negotiate version with remote
+ server
+Message-ID: <YSUXVQJwkubjpp9x@stefanha-x1.localdomain>
+References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
+ <a14c2c09f41ddda83cd710516cac8d210ec9db08.1629131628.git.elena.ufimtseva@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <20210824083856.17408-1-vsementsov@virtuozzo.com>
+In-Reply-To: <a14c2c09f41ddda83cd710516cac8d210ec9db08.1629131628.git.elena.ufimtseva@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="WGc7Clc9Kad8XPhK"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.305, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,31 +80,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
- jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com, crosa@redhat.com,
- pbonzini@redhat.com, eblake@redhat.com
+Cc: john.g.johnson@oracle.com, jag.raman@oracle.com, swapnil.ingle@nutanix.com,
+ john.levon@nutanix.com, qemu-devel@nongnu.org, alex.williamson@redhat.com,
+ thanos.makatos@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.08.21 10:38, Vladimir Sementsov-Ogievskiy wrote:
-> Hi all!
->
-> v8:
->
-> 06: add Hanna's r-b
-> 07: keep is_fleecing detection in _new() function
-> 08,17,18: add Hanna's r-b
-> 19: wording, s/6.1/6.2/, add Markus's a-b
-> 25: new
-> 29: add John's r-b
-> 34: new
->
-> Patches without r-b: 07, 25, 34
+--WGc7Clc9Kad8XPhK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!  I’ve applied the series to my block-next branch:
+On Mon, Aug 16, 2021 at 09:42:39AM -0700, Elena Ufimtseva wrote:
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index 7005d9f891..eae33e746f 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -3397,6 +3397,12 @@ static void vfio_user_pci_realize(PCIDevice *pdev,=
+ Error **errp)
+>          proxy->flags |=3D VFIO_PROXY_SECURE;
+>      }
+> =20
+> +    vfio_user_validate_version(vbasedev, &err);
+> +    if (err !=3D NULL) {
+> +        error_propagate(errp, err);
+> +        goto error;
+> +    }
+> +
+>      vbasedev->name =3D g_strdup_printf("VFIO user <%s>", udev->sock_name=
+);
+>      vbasedev->dev =3D DEVICE(vdev);
+>      vbasedev->fd =3D -1;
+> @@ -3404,6 +3410,9 @@ static void vfio_user_pci_realize(PCIDevice *pdev, =
+Error **errp)
+>      vbasedev->no_mmap =3D false;
+>      vbasedev->ops =3D &vfio_user_pci_ops;
+> =20
+> +error:
 
-https://github.com/XanClic/qemu/commits/block-next
+Missing return before error label? We shouldn't disconnect in the
+success case.
 
-Hanna
+> +    vfio_user_disconnect(proxy);
+> +    error_prepend(errp, VFIO_MSG_PREFIX, vdev->vbasedev.name);
+>  }
+> =20
+>  static void vfio_user_instance_finalize(Object *obj)
+> diff --git a/hw/vfio/user.c b/hw/vfio/user.c
+> index 2fcc77d997..e89464a571 100644
+> --- a/hw/vfio/user.c
+> +++ b/hw/vfio/user.c
+> @@ -23,9 +23,16 @@
+>  #include "io/channel-socket.h"
+>  #include "io/channel-util.h"
+>  #include "sysemu/iothread.h"
+> +#include "qapi/qmp/qdict.h"
+> +#include "qapi/qmp/qjson.h"
+> +#include "qapi/qmp/qnull.h"
+> +#include "qapi/qmp/qstring.h"
+> +#include "qapi/qmp/qnum.h"
+>  #include "user.h"
+> =20
+>  static uint64_t max_xfer_size =3D VFIO_USER_DEF_MAX_XFER;
+> +static uint64_t max_send_fds =3D VFIO_USER_DEF_MAX_FDS;
+> +static int wait_time =3D 1000;   /* wait 1 sec for replies */
+>  static IOThread *vfio_user_iothread;
+> =20
+>  static void vfio_user_shutdown(VFIOProxy *proxy);
+> @@ -34,7 +41,14 @@ static void vfio_user_send_locked(VFIOProxy *proxy, VF=
+IOUserHdr *msg,
+>                                    VFIOUserFDs *fds);
+>  static void vfio_user_send(VFIOProxy *proxy, VFIOUserHdr *msg,
+>                             VFIOUserFDs *fds);
+> +static void vfio_user_request_msg(VFIOUserHdr *hdr, uint16_t cmd,
+> +                                  uint32_t size, uint32_t flags);
+> +static void vfio_user_send_recv(VFIOProxy *proxy, VFIOUserHdr *msg,
+> +                                VFIOUserFDs *fds, int rsize, int flags);
+> =20
+> +/* vfio_user_send_recv flags */
+> +#define NOWAIT          0x1  /* do not wait for reply */
+> +#define NOIOLOCK        0x2  /* do not drop iolock */
+
+Please use "BQL", it's a widely used term while "iolock" isn't used:
+s/IOLOCK/BQL/
+
+> =20
+>  /*
+>   * Functions called by main, CPU, or iothread threads
+> @@ -333,6 +347,79 @@ static void vfio_user_cb(void *opaque)
+>   * Functions called by main or CPU threads
+>   */
+> =20
+> +static void vfio_user_send_recv(VFIOProxy *proxy, VFIOUserHdr *msg,
+> +                                VFIOUserFDs *fds, int rsize, int flags)
+> +{
+> +    VFIOUserReply *reply;
+> +    bool iolock =3D 0;
+> +
+> +    if (msg->flags & VFIO_USER_NO_REPLY) {
+> +        error_printf("vfio_user_send_recv on async message\n");
+> +        return;
+> +    }
+> +
+> +    /*
+> +     * We may block later, so use a per-proxy lock and let
+> +     * the iothreads run while we sleep unless told no to
+
+s/no/not/
+
+> +int vfio_user_validate_version(VFIODevice *vbasedev, Error **errp)
+> +{
+> +    g_autofree VFIOUserVersion *msgp;
+> +    GString *caps;
+> +    int size, caplen;
+> +
+> +    caps =3D caps_json();
+> +    caplen =3D caps->len + 1;
+> +    size =3D sizeof(*msgp) + caplen;
+> +    msgp =3D g_malloc0(size);
+> +
+> +    vfio_user_request_msg(&msgp->hdr, VFIO_USER_VERSION, size, 0);
+> +    msgp->major =3D VFIO_USER_MAJOR_VER;
+> +    msgp->minor =3D VFIO_USER_MINOR_VER;
+> +    memcpy(&msgp->capabilities, caps->str, caplen);
+> +    g_string_free(caps, true);
+> +
+> +    vfio_user_send_recv(vbasedev->proxy, &msgp->hdr, NULL, 0, 0);
+> +    if (msgp->hdr.flags & VFIO_USER_ERROR) {
+> +        error_setg_errno(errp, msgp->hdr.error_reply, "version reply");
+> +        return -1;
+> +    }
+> +
+> +    if (msgp->major !=3D VFIO_USER_MAJOR_VER ||
+> +        msgp->minor > VFIO_USER_MINOR_VER) {
+> +        error_setg(errp, "incompatible server version");
+> +        return -1;
+> +    }
+> +    if (caps_check(msgp->minor, (char *)msgp + sizeof(*msgp), errp) !=3D=
+ 0) {
+
+The reply is untrusted so we cannot treat it as a NUL-terminated string
+yet. The final byte msgp->capabilities[] needs to be checked first.
+
+Please be careful about input validation, I might miss something so it's
+best if you audit the patches too. QEMU must not trust the device
+emulation process and vice versa.
+
+> +        return -1;
+> +    }
+> +
+> +    return 0;
+> +}
+> --=20
+> 2.25.1
+>=20
+
+--WGc7Clc9Kad8XPhK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmElF1QACgkQnKSrs4Gr
+c8jtCwgAhBwk2rryBONdAXO9/lV7jsw2ov4SZtOry215p5Faj6tssF0MD9/C4uPX
+N9HWIu93x6sxsEH3WCpiybzdG8PVFFAKDDWB0iX5vSeesbU4S6Q4y0Qe0NdLRMkc
+JHyLnFiUia+WY3bDKx+NFpQZO6jx9u/vp2vco8a0NvjQUUsxFhPPwBHPqmHwTvo0
+okZDFSsVELXk4aPyYmEBeUNdqS65/SKPo8er2psIUe4ksMlqOeGR2Grf76p23hAX
+cQ341b/yEv3MMvQdS0IEATocBpkfTCjJkS9yLngrqrTTIg1l0q2nOx35S9V93uCD
+D4Nhqu49jbzvTpFsUNfX3QgQsmp+9g==
+=NXbx
+-----END PGP SIGNATURE-----
+
+--WGc7Clc9Kad8XPhK--
 
 
