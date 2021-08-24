@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5C5C3F6A1A
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 21:48:41 +0200 (CEST)
-Received: from localhost ([::1]:53660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E8873F6A21
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 21:53:34 +0200 (CEST)
+Received: from localhost ([::1]:55946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIcPT-0003O2-V0
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 15:48:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36514)
+	id 1mIcUH-00058S-Jo
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 15:53:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIcO3-0002Q6-KQ
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 15:47:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30928)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIcTX-0004T6-PA
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 15:52:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42875)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIcO2-0004qw-4V
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 15:47:07 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIcTW-0000UQ-AP
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 15:52:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629834425;
+ s=mimecast20190719; t=1629834765;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kVrJtvOB0vCipWDlLTU18X6AiMhmRSECcryFxkvjAoU=;
- b=I545vzOyM2CAx8PMtuOuqZwo4UNtBSxIHLbAjBSCeIxfIksIKQ8HZ9GGFUxWJPdsV60ytG
- R5ctVXuLxefu1xeJ6TogLGDgMMonjNdkkI7ib0TeOlSXIinQaLVfp4dOJQjG8gbYGE9IiX
- Z6eyrinZOPiJGYCZq8l+MB0S0sh4yNY=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-50-aosVZGgSNXmt_YMPiuMNaw-1; Tue, 24 Aug 2021 15:39:21 -0400
-X-MC-Unique: aosVZGgSNXmt_YMPiuMNaw-1
-Received: by mail-qv1-f69.google.com with SMTP id
- gw9-20020a0562140f0900b0035decb1dfecso15771688qvb.5
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 12:39:21 -0700 (PDT)
+ bh=un9/Mbl1zzFrm7ETPi+lNSv+BmnSoFtZvAbh94wbvKg=;
+ b=aj0BqcRAuwBWsknZOGVahiJ0ihsur2Cfir54/So5fb3ezo9tQcdg3bvvPEbQzPQr86P/f5
+ VzfyZ32pRY3O242UMSYB2678VBZJapwMLDDh09PJn0YrKN2mXvFjhp59dS9HaVdipB9jde
+ KPh+CLUyWsd6hJyng/375omoD6hyysM=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-394-8F0_Mh4RNnSAowuedUuCjA-1; Tue, 24 Aug 2021 15:52:44 -0400
+X-MC-Unique: 8F0_Mh4RNnSAowuedUuCjA-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ f34-20020a05622a1a2200b0029c338949c1so1871439qtb.8
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 12:52:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=kVrJtvOB0vCipWDlLTU18X6AiMhmRSECcryFxkvjAoU=;
- b=DD4vfglw6yTRp5GPmUUebA5pcAtaa3FfLb4UBM83LvvHTgparsUeNGJiQWEC47xwbt
- z+JqBc6ByGtmK74MMLXcYVhBznrM3nAgXjc511K9XF2ElbldpRyw8Zuv0cDCx8z1Ogf/
- xnU1JDxfQTQvAwN/czUgWnruIa3L1Mmvbs50I25wgUaQoaMipactkScR6Pjy7m6kCZrs
- a8D9BuwuKy4DZNhof6iTlMl5aO/vFya8XaYmnfjOtx4H0mCp8uFXQC+rOCkxBZJMfsE0
- MTF7lP2vFoOX0fsIvCpvaItbPttfQEwX7uDFuvutLdU7bf5q/DX1zMxt5H+V94XoP91m
- Fkmw==
-X-Gm-Message-State: AOAM531S+btv2tA/ViWj5HKgEj3rEIdWu139brKDt9MWVuXkFE7ezLXt
- r5S5s5jsQLuZFl49cORmMoombkZh0pWcJMEzq35P9mbZ6JA1E963+0OKuO3GLbGFUONS0ZAnS4C
- GQcRFSUCXMKk6LYU=
-X-Received: by 2002:ac8:7dd2:: with SMTP id c18mr8826633qte.363.1629833961171; 
- Tue, 24 Aug 2021 12:39:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwSzc5H7p9GEyc2NdxWsSzBp6rH3SQvTQVR4l7X2PQNwTSMZCtC6XuAemteRCC7jiSfKgUE3A==
-X-Received: by 2002:ac8:7dd2:: with SMTP id c18mr8826614qte.363.1629833960973; 
- Tue, 24 Aug 2021 12:39:20 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=un9/Mbl1zzFrm7ETPi+lNSv+BmnSoFtZvAbh94wbvKg=;
+ b=BWLiAOfwaosz97ka+kskAahwzyqmIbHTxPmgtuVbKoSd4evQG4lqIsxRQ1FS8kA5qO
+ htjFQ31akMR9XVMcIdIjlg5RnTBU58KL1EAfNVUKfjrDiCD7TkynFWuYQNmHZhQKS8+l
+ qfqqSyGl8hrBhy8kNI9xsNkq3i9jTXorLoh58xXO9NQMXob8C0Iw27nGNuHRer2hW5gi
+ U7cABAOH6+Jh0fqtmcf8NvJj3G2gQJdftbe2/DjKSpsuas9EpiQrU/u9XzFxUA44HvM3
+ uW/ATCDdaTEijr7Y6nodRVJMdTzG22xiczaqCMJp6t4GvAmsjoOEU2WUlUeE9cvKNK3p
+ hmMg==
+X-Gm-Message-State: AOAM532fKtPsOxJjBEpFKiyVRn7ecJwO677uN8ehiYZlqQr5Qsv0lUxO
+ Ea5KZj05T/dvPYcSTjhfSxfRH37gyQFglIz/pMeHceGH8NMewElzr4BegsD9UD5A0L6QWFZggn3
+ k6/AdtEQDxKj+V+c=
+X-Received: by 2002:a37:de02:: with SMTP id h2mr27819956qkj.411.1629834763600; 
+ Tue, 24 Aug 2021 12:52:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy+zCrYiNHGJIDVqFzXnm0ZkWzyKJaO1eCW85hXAXXaHvDFDLQOaVKps+uGE7humwx8X/MGfA==
+X-Received: by 2002:a37:de02:: with SMTP id h2mr27819932qkj.411.1629834763395; 
+ Tue, 24 Aug 2021 12:52:43 -0700 (PDT)
 Received: from t490s ([2607:fea8:56a3:500::d413])
- by smtp.gmail.com with ESMTPSA id 12sm4931274qtt.16.2021.08.24.12.39.19
+ by smtp.gmail.com with ESMTPSA id t6sm5044456qtp.31.2021.08.24.12.52.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Aug 2021 12:39:20 -0700 (PDT)
-Date: Tue, 24 Aug 2021 15:39:19 -0400
+ Tue, 24 Aug 2021 12:52:42 -0700 (PDT)
+Date: Tue, 24 Aug 2021 15:52:41 -0400
 From: Peter Xu <peterx@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH 2/2] dump-guest-memory: Block live migration
-Message-ID: <YSVK5/DR74AE0iZr@t490s>
-References: <20210824152721.79747-1-peterx@redhat.com>
- <20210824152721.79747-3-peterx@redhat.com>
- <CAMxuvawNsaL66nTiWaQa72D_kDzRPj_-AWnof4att6ghcBSZkQ@mail.gmail.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH 4/4] vl: Prioritize realizations of devices
+Message-ID: <YSVOCUREQaw+rTen@t490s>
+References: <20210818194217.110451-1-peterx@redhat.com>
+ <20210818194318.110993-1-peterx@redhat.com>
+ <20210823184912.mazqfn7gurntj7ld@habkost.net>
+ <YSP0m83roQytqvDr@t490s>
+ <20210823175457-mutt-send-email-mst@kernel.org>
+ <4246646f-dee8-c868-0439-1ba7c8fdef3e@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMxuvawNsaL66nTiWaQa72D_kDzRPj_-AWnof4att6ghcBSZkQ@mail.gmail.com>
+In-Reply-To: <4246646f-dee8-c868-0439-1ba7c8fdef3e@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -96,55 +96,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 24, 2021 at 10:04:19PM +0400, Marc-André Lureau wrote:
-> Hi
+On Tue, Aug 24, 2021 at 06:24:27PM +0200, David Hildenbrand wrote:
+> > > Not so much; here's the list of priorities and the devices using it:
+> > > 
+> > >         |--------------------+---------|
+> > >         | priority           | devices |
+> > >         |--------------------+---------|
+> > >         | MIG_PRI_IOMMU      |       3 |
+> > >         | MIG_PRI_PCI_BUS    |       7 |
+> > >         | MIG_PRI_VIRTIO_MEM |       1 |
+> > >         | MIG_PRI_GICV3_ITS  |       1 |
+> > >         | MIG_PRI_GICV3      |       1 |
+> > >         |--------------------+---------|
+> > 
+> > iommu is probably ok. I think virtio mem is ok too,
+> > in that it is normally created by virtio-mem-pci ...
+> 
+> IIRC:
+> 
+> intel-iommu has to be created on the QEMU cmdline before creating
+> virtio-mem-pci.
+> 
+> -device intel-iommu,caching-mode=on,intremap=on,device-iotlb=on \
+> ...
+> -device virtio-mem-pci,disable-legacy=on,disable-modern=off,iommu_platform=on,ats=on,id=vm0,...
+> 
+> Creating virtio-mem-pci will implicitly create virtio-mem. virtio-mem device
+> state has to be migrated before migrating intel-iommu state.
 
-Hello, Marc-Andre,
+Since we're at it.. frankly I didn't fully digest why virtio-mem needs to be
+migrated before when reading commit 0fd7616e0f1171b.  It gives me the feeling
+more like that virtio-mem has a ordering dependency with vfio-pci not
+virtio-mem, but I could be wrong.
+
+E.g., the IOMMU unit shouldn't be walking page table if without a device using
+it, then it won't fail until the device walks it in region_add() hooks when
+memory replay happens.
 
 > 
-> On Tue, Aug 24, 2021 at 7:27 PM Peter Xu <peterx@redhat.com> wrote:
-> 
-> > Both dump-guest-memory and live migration caches vm state at the beginning.
-> > Either of them entering the other one will cause race on the vm state, and
-> > even
-> > more severe on that (please refer to the crash report in the bug link).
-> >
-> > Let's block live migration in dump-guest-memory, and that'll also block
-> > dump-guest-memory if it detected that we're during a live migration.
-> >
-> 
-> How does it detect that migration is in progress?
+> I do wonder if migration priorities are really what we want to reuse here. I
+> guess it works right, but just by pure luck (because we ignore the implicit
+> dependency regarding priorities)
 
-migrate_add_blocker() (and the new migrate_add_blocker_internal()) guaranteed
-it; it will only succeed if there's no migration, and it should cover both
-sides of migration (as I think migration_is_idle() should return true on both
-src/dst when there's one):
-
-    if (migration_is_idle()) {
-        migration_blockers = g_slist_prepend(migration_blockers, reason);
-        return 0;
-    }
-
-    error_propagate_prepend(errp, error_copy(reason),
-                            "disallowing migration blocker "
-                            "(migration in progress) for: ");
-    return -EBUSY;
-
-That's why I removed the old check on incoming migration:
-
--    if (runstate_check(RUN_STATE_INMIGRATE)) {
--        error_setg(errp, "Dump not allowed during incoming migration.");
--        return;
--    }
-
-Because I think it'll cover that case too.
+Yep, that's probably not what we want.  I'll make it a new list of priorities
+as I've stated in the other thread.
 
 Thanks,
 
