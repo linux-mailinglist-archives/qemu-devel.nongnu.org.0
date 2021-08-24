@@ -2,76 +2,165 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 903033F5FA3
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 15:59:04 +0200 (CEST)
-Received: from localhost ([::1]:44750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B0723F5FD4
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 16:05:32 +0200 (CEST)
+Received: from localhost ([::1]:47238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIWxD-0006YR-I2
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 09:59:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47438)
+	id 1mIX3S-0008W3-DC
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 10:05:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mIWwG-0005tf-SV
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 09:58:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25076)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1mIX2R-0007lt-Cv
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 10:04:27 -0400
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:38844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mIWwE-0004CP-9d
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 09:58:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629813481;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bBVlcwG4z+aayIo6G69iRqgTfaPARecNS6/d5XrRYwg=;
- b=EN9UWcT9iC9O7KkHqPdgCShf4hxERwNigo8SKFH9c/V2xXOcnEpVflTqcOP1l/S24jpmEl
- WoZdssxochnYFEBxlBO1tFKGZJhnd/gCoWj2DvQpfnd2hyUMtdY5vAG4vGL5p3VtmVEBIu
- dDypaQlQKYf8Bp3DmccEEQDVuM1jed4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-TA2ufuWVPwCzf94XEtgkuw-1; Tue, 24 Aug 2021 09:57:59 -0400
-X-MC-Unique: TA2ufuWVPwCzf94XEtgkuw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D7201018F70;
- Tue, 24 Aug 2021 13:57:57 +0000 (UTC)
-Received: from localhost (unknown [10.22.32.130])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0FCB060C0F;
- Tue, 24 Aug 2021 13:57:42 +0000 (UTC)
-Date: Tue, 24 Aug 2021 09:57:42 -0400
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 2/3] hw/usb/hcd-xhci-pci: Abort if setting link
- property failed
-Message-ID: <20210824135742.auvxsilpjtlruwyc@habkost.net>
-References: <20210819171547.2879725-1-philmd@redhat.com>
- <20210819171547.2879725-3-philmd@redhat.com>
- <20210823183414.hmu4ly2y5zkbw3mg@habkost.net>
- <87ilzvntu1.fsf@dusky.pond.sub.org>
- <CAFEAcA-2ShxjS6YAb_xBk=v5YJ5nLaaKtOLVEn7Vjfe6rkpp2A@mail.gmail.com>
- <87tujfdp4c.fsf@dusky.pond.sub.org>
- <CAFEAcA9_HGCVYX8smuAWhUDJ8NbfQ76XgJjOLd2EoyiS2gKC0A@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1mIX2P-0008T6-03
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 10:04:26 -0400
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 17ODfZGP030422
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 14:04:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : mime-version;
+ s=corp-2021-07-09; bh=UyO/xmIWF4gyj5cBnKXC4kT9FViCFddWbZThkJ6ynMg=;
+ b=phEfMQnwea9kZ7iG0EhufEkxlLPPEUhEZ8gJA73byN3z+89ljPI04uGUR9UHezJbMpU7
+ u3zEgBv5PzPP0YwWmX6sVtXdeF8ACHhVrlAVYQHzJRxTWoMSVEWw7pUdDZabZ2odv5CF
+ vEbuqWfLcyDyd9JJt80R6Lnpw0Ch1JkkigqMNX7b8neCFOIeix9XwzJ4eHrKD3c9w/ga
+ wG1Xj1yQVohzyGBG7WwoxL1y30ly20i1sGixiK3vDUgk3U3QiSCQGtB4VaxkDvs/1uIB
+ bTMxTzofuQNmhWWZO1qyfUPC2EWXc/pJQq//WWtLWIhPK04P5Q2A0IXpjRVLf8Z2Inhn fA== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : mime-version;
+ s=corp-2020-01-29; bh=UyO/xmIWF4gyj5cBnKXC4kT9FViCFddWbZThkJ6ynMg=;
+ b=M+5bEut7u7+SUohSQoyGmmngow81FtspiCsCQqeZ9pSIl8u+HKLt6++deZwGb6ZoZimO
+ FAg02TOmFgA0PcrCPsMIpnGWJMQQjiyiwC063LE4odEeNtQj7adE7wMVgFVFjKNpBHek
+ Ek/ZJ473Hc7mCutjWQtNqST9nZD9wbnWOQrZbW8UFu/iW/YHkBCexdYhF2UxQk8DLhYH
+ JHz+5pCQxmsSp7WAaBx9HE327RUUgcgGdGovNxyfPrWXssUjVDEgNvuVXvtEV7OjSQWN
+ tgUnRuGNFOQzvcMMnL6SYkSXlyLw7XBimnALZI5YpbjZZXKO3sS8vwQP8hHRyh69bYPH bw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3amv678yxf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 14:04:20 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17OE1R2W022141
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 14:04:19 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2105.outbound.protection.outlook.com [104.47.58.105])
+ by userp3020.oracle.com with ESMTP id 3akb8uu4e0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 14:04:18 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Yd89VBK6CTXdGDCVY3ZEgDowvbV8mAiTxuoPII0WWog0yaoCwkcrMcBKFi6xoECuWqJiKh/Qd1m0ruJVal1ky9bqQluJ4Oe3/XU+gx/w+V6awhZMZbVp90WPwMjK6bMhetjoDkKuCEQGRgcKSwpB8E6dWeN9ZWbSXSHT5001ixbXbJ8oSWf1nqp8+5GAIjk2ul5p9ciVRTkBrIngrZlheesez52qSZr87t26X2HV9ShoVZyP7DO88Z9MIiCfLF+tM2eZgqTAdU7vFRI14GsAMM2OVE3pio5ACjxiN6biwOBXX0S40erJjOMICpl0atnqkW8SSUFoDNz1EvR32w26mg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UyO/xmIWF4gyj5cBnKXC4kT9FViCFddWbZThkJ6ynMg=;
+ b=HQQceuFS+lNlcf0QDI9bKFXALR00ARRr/uAkIKOUCaEMMZUGS8Hp5iicsYQbdVDOoezPxAqqr0G/vRG4RPY940C7vNkJrS2bCXw1Nkr6qSrxDZrmnaJ6YK/SEB6J+9VzBiRs5l3uF3uR/TjWzKXiWUoNw12sYDMC20z2tmPulyVidqD88FJlGdZaMj9QL2mxGCZ1HiDMtIYXuyhkirkedyUOt7txhMUhKMo3rQ8nqNGgg2fDzxgvhqfDMRXUm1OmA/KMoifpag9F5ftmBSR0UDQfP12U5ygP4DYn0k+fK5aUUyystZHQzqSjylyYfDUxjpwK2a35MVtkXOVH/UAGUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UyO/xmIWF4gyj5cBnKXC4kT9FViCFddWbZThkJ6ynMg=;
+ b=TtyvuM/g90TPSyY/+4BFj4ZKGJD2rsoa3RD8hUP7X0oZ3bK+GT3pkdS+56roNTUZc367Hvu9D1mnP6HFN0LRZPz358FMzJZp4I7fa2RdjK0tWvmqHS0dQsl+UEbjG8NQF1AvrFPdr3Wo11cBfG5msLvR9pcyFasNOm8hGRTcx1I=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
+Received: from BLAPR10MB5138.namprd10.prod.outlook.com (2603:10b6:208:322::8)
+ by BLAPR10MB5234.namprd10.prod.outlook.com (2603:10b6:208:30c::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Tue, 24 Aug
+ 2021 14:04:16 +0000
+Received: from BLAPR10MB5138.namprd10.prod.outlook.com
+ ([fe80::6c3b:ee48:fd8:b568]) by BLAPR10MB5138.namprd10.prod.outlook.com
+ ([fe80::6c3b:ee48:fd8:b568%9]) with mapi id 15.20.4436.024; Tue, 24 Aug 2021
+ 14:04:16 +0000
+From: Darren Kenny <darren.kenny@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] MAINTAINERS: Add myself as a reviewer for Device Fuzzing
+Date: Tue, 24 Aug 2021 14:04:01 +0000
+Message-Id: <d9df51f9a474f544e773ad6fee4fcaa6bac2f645.1629813697.git.darren.kenny@oracle.com>
+X-Mailer: git-send-email 2.18.4
+Content-Type: text/plain
+X-ClientProxiedBy: SN1PR12CA0068.namprd12.prod.outlook.com
+ (2603:10b6:802:20::39) To BLAPR10MB5138.namprd10.prod.outlook.com
+ (2603:10b6:208:322::8)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9_HGCVYX8smuAWhUDJ8NbfQ76XgJjOLd2EoyiS2gKC0A@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from darrenk-20201221-1634.osdevelopm1lhr.oraclevcn.com
+ (141.143.213.44) by SN1PR12CA0068.namprd12.prod.outlook.com
+ (2603:10b6:802:20::39) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend
+ Transport; Tue, 24 Aug 2021 14:04:15 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: dab393fb-0ba7-4b2e-fcc4-08d967080f57
+X-MS-TrafficTypeDiagnostic: BLAPR10MB5234:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BLAPR10MB52340499E74DD390D7C3E0F0F4C59@BLAPR10MB5234.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /C5M965fVa+S7AJe7dYVVuxlnxXWNtMhOuavQuc4l+ojNSWySxcMhBqTttryuu9FFchwzdN2Aj5ucxCqXNY3W3Dhg09HoDQcq0mMV2QI+3GjNoyLER77WIOyzyqJxil7BMPB9jhcmFvSrtoC7EH9bJV/gI1aGW1NRSeE2VLrRdX+SCzgJmOiYm+UmjpoIZHtXaxn3SisZP1tIXnzyeA6xAKHxBc4v39MdKRE7TW2RDz+oHZ5d3PYHl7k4bbTGc7UumZAXd4OuLgLZZBCM0HnFEPSKsbey1kyRKIyl7ZSefCSgCbMBPGPkmzUO+xVawliyrmLwcFkn9T4D56/Nz8Xesc7cMzTQr6vg6hV3JuC4ltjsbBhZtwQijhsuaCcC+bBKnahNAIuN+iX4AQ/2IE7RMYXDFAe9cqzKfbkU6+h3Hj/2Z3+0xYu+FIcDbB0xOJuwWqFU+NHlEofZxo1oBjBSJNqp5vynh6vGr1jRjikyHP+vA8k5HOGHtbTs6D7MLDT6WjyVKuJObEkZMTb9n7eGupksm+SVdW+Ocle7mSRkT+VvALUBOk7/7RA4gb56kO68sImw6Eu6+xOXV5v8vH7VVKVp/9Xh3AIOW45Mka6S8Sxgljut5Osja/+aYFK27AaYES7wewk16cuxtInfOM7ajTOlu7soFJc8JwLZ/bz3QwrWeiiE/Z2OIHFZSKYdxLxb/3t7nwm1lvxs9uqZtjQaQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BLAPR10MB5138.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(346002)(39860400002)(366004)(376002)(396003)(136003)(66946007)(36756003)(66476007)(66556008)(316002)(107886003)(8936002)(6512007)(6666004)(8676002)(956004)(2616005)(4326008)(6506007)(52116002)(6916009)(26005)(4744005)(186003)(38350700002)(44832011)(478600001)(38100700002)(6486002)(86362001)(5660300002)(2906002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dEEjfdWibZHaob8QWFSCbsV5MDvINJglgOXIB3k+Q64k7Rjm7+YnuIC89Bqm?=
+ =?us-ascii?Q?bSyja17dfosIjF9PElK9JZlzdkLvOMY5e6MpO8c26dVpX3ycj/7h1NtUawv3?=
+ =?us-ascii?Q?t0LEFBvMAF+KDa2hJybs4oi4K9M5z31fiAcXjwrsQtBhmKSuMMe/l8mIoBBY?=
+ =?us-ascii?Q?++Rs6A0Xy0VvIdj78YJqRRncUvXzuZ8FMs2bQbWVz9E2+CHbNdvGAoNHmO9W?=
+ =?us-ascii?Q?7nLDAXkKnR5YzxNefL35aautokeQAqaUqta6ihur8p4+HvE2pTwi7/pd7oSm?=
+ =?us-ascii?Q?t5zAmHi1/AvgA1x327VQFLZSmP5rn68VZ30uHBpP5Peh0wlMGjDtBBR+jKVg?=
+ =?us-ascii?Q?ZM85tJAkWEqBhqnP2qNVJnJQZa5BQ7RW06thdM9sHEYDbr0bq7y8pN6B+6w2?=
+ =?us-ascii?Q?ji53Bd/ZJb3bwUjxSFlUpJO35vNZn9Q2vnrhnj7uToNouAuKKWv+b4AjlmYl?=
+ =?us-ascii?Q?jVqvpfj+yj3EpBTVUYpoqWeMJWldTTUAkWUDLE8FIJ0wvAtvD/91HRxJuFR+?=
+ =?us-ascii?Q?9z+lThOPfX1sw6UDxVIGNwL58/QXeLT/rzjyQTYUPqX27YJZ75RZph8OfaeZ?=
+ =?us-ascii?Q?btq14xDxi+05lTNygQNwIG6w0V6Di8utZsSHw7IoQ9spmPUoR0flvaG3QmUN?=
+ =?us-ascii?Q?XGOeKm3P4HkGChVMEBDoOeNVX63+wRjMlr5RAGtbuclF8N+2Ae4Z5BuNCMxK?=
+ =?us-ascii?Q?SHu+Kal7AZ5HkycyATz7Gy+jqP+HmYXCmEPwL3eqcsrfd7gJ/9bi9stleS7Y?=
+ =?us-ascii?Q?ZNDgziBPxSIiieBVvAVDxQV9nf9FrplBWrSi9eeT2t/oGWRL7AG/bKMMXvLb?=
+ =?us-ascii?Q?NXxC8+tPANK/oUxchf5CJBdUQ3sCFv6tIgGNtVOee6FxpPx9gN8UGGoQ5PUZ?=
+ =?us-ascii?Q?lFc3tZpdlojPxqPW5212vvT5uj3+6YTnszdipW4YoVSimVA5QCY8RMydExW8?=
+ =?us-ascii?Q?0omAdn6pGepVhsmcrYaNci6gWfU4Bl1aRHDAzK2RQQLuG0Gp3ON0OSsPbG0x?=
+ =?us-ascii?Q?/dPPKtCNKjybDLjmsQbdh0oeednmKcdg82gfjMns5z5bsCUf26+h9vFmNG8R?=
+ =?us-ascii?Q?ecuVJyeoJlGLh91QdKFiygZlDyWE2xYA6fz4gOPoXL8SOY8uxwrA+2F1RS8T?=
+ =?us-ascii?Q?MeSChQ9Fg0nRB3oqa+L0CqaUMQK33dovxIeI9adwgJI5u/vSc8Aa6eYLB8u0?=
+ =?us-ascii?Q?yf2TJTJ4Yrv2aYIROposyEViz1254w/mQ9c2MI62Joh0Qh7PcOvI49NUMcBd?=
+ =?us-ascii?Q?Yi2XQVMzSQoT4QKapm/a1S4HLrE3tngDjjEy0cRDdY8hS13NtJ625j9fdwhB?=
+ =?us-ascii?Q?FgcHMCoa17aB8F9/QYeAG5or?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dab393fb-0ba7-4b2e-fcc4-08d967080f57
+X-MS-Exchange-CrossTenant-AuthSource: BLAPR10MB5138.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 14:04:16.6002 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jNYKEbg9cPRJSLpiOCIUVCWYdJEwtrkAGtC3fnjHBS7awrMAJanBsftR0wYkFENckTOKZNdeJtk1I2PfmmNvxQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5234
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10085
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ phishscore=0 spamscore=0
+ bulkscore=0 mlxlogscore=999 malwarescore=0 adultscore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
+ definitions=main-2108240094
+X-Proofpoint-ORIG-GUID: uI_2v22x5GTMl6n2yAMMaY9U0IVuO6Eg
+X-Proofpoint-GUID: uI_2v22x5GTMl6n2yAMMaY9U0IVuO6Eg
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=darren.kenny@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,474 +173,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sergio Lopez <slp@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: darren.kenny@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 24, 2021 at 01:16:40PM +0100, Peter Maydell wrote:
-> On Tue, 24 Aug 2021 at 13:05, Markus Armbruster <armbru@redhat.com> wrote:
-> > When you know that all callers handle errors like &error_fatal does, use
-> > of &error_fatal doesn't produce wrong behavior.  It's still kind of
-> > wrong, because relying on such a non-local argument without a genuine
-> > need is.
-> 
-> Not using error_fatal results in quite a bit of extra boilerplate
-> for all those extra explicit "check for failure, print the error
-> message and exit" points.
+Should have done this much sooner given the amount of reviewing I'm
+already doing in this area.
 
-I don't get it.  There's no need for extra boilerplate if the
-caller is using &error_fatal.
+Signed-off-by: Darren Kenny <darren.kenny@oracle.com>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-> If the MachineState init function took
-> an Error** that might be a mild encouragement to "pass an Error
-> upward rather than exiting"; but it doesn't.
-
-Agreed.
-
-> 
-> Right now we have nearly a thousand instances of error_fatal
-> in the codebase, incidentally.
-
-It looks like 73 of them are in functions that take an Error**
-argument.
-
-Coccinelle patch for finding them:
-
-@@
-typedef Error;
-type T;
-identifier errp, fn;
-@@
- T fn(..., Error **errp)
- {
- ...
-*&error_fatal
- ...
- }
-
-
-Coccinelle output:
-
-  diff -u -p ./hw/pci-host/pnv_phb3.c /tmp/nothing/hw/pci-host/pnv_phb3.c
-  --- ./hw/pci-host/pnv_phb3.c
-  +++ /tmp/nothing/hw/pci-host/pnv_phb3.c
-  @@ -1054,7 +1054,6 @@ static void pnv_phb3_realize(DeviceState
-       /* Add a single Root port */
-       qdev_prop_set_uint8(DEVICE(&phb->root), "chassis", phb->chip_id);
-       qdev_prop_set_uint16(DEVICE(&phb->root), "slot", phb->phb_id);
-  -    qdev_realize(DEVICE(&phb->root), BUS(pci->bus), &error_fatal);
-   }
-   
-   void pnv_phb3_update_regions(PnvPHB3 *phb)
-  diff -u -p ./hw/pci-host/q35.c /tmp/nothing/hw/pci-host/q35.c
-  --- ./hw/pci-host/q35.c
-  +++ /tmp/nothing/hw/pci-host/q35.c
-  @@ -67,7 +67,6 @@ static void q35_host_realize(DeviceState
-       PC_MACHINE(qdev_get_machine())->bus = pci->bus;
-       pci->bypass_iommu =
-           PC_MACHINE(qdev_get_machine())->default_bus_bypass_iommu;
-  -    qdev_realize(DEVICE(&s->mch), BUS(pci->bus), &error_fatal);
-   }
-   
-   static const char *q35_host_root_bus_path(PCIHostState *host_bridge,
-  diff -u -p ./hw/pci-host/mv64361.c /tmp/nothing/hw/pci-host/mv64361.c
-  --- ./hw/pci-host/mv64361.c
-  +++ /tmp/nothing/hw/pci-host/mv64361.c
-  @@ -875,7 +875,6 @@ static void mv64361_realize(DeviceState
-                                   TYPE_MV64361_PCI);
-           DeviceState *pci = DEVICE(&s->pci[i]);
-           qdev_prop_set_uint8(pci, "index", i);
-  -        sysbus_realize_and_unref(SYS_BUS_DEVICE(pci), &error_fatal);
-       }
-       sysbus_init_irq(SYS_BUS_DEVICE(dev), &s->cpu_irq);
-       qdev_init_gpio_in_named(dev, mv64361_gpp_irq, "gpp", 32);
-  diff -u -p ./hw/pci-host/designware.c /tmp/nothing/hw/pci-host/designware.c
-  --- ./hw/pci-host/designware.c
-  +++ /tmp/nothing/hw/pci-host/designware.c
-  @@ -707,7 +707,6 @@ static void designware_pcie_host_realize
-                          "pcie-bus-address-space");
-       pci_setup_iommu(pci->bus, designware_pcie_host_set_iommu, s);
-   
-  -    qdev_realize(DEVICE(&s->root), BUS(pci->bus), &error_fatal);
-   }
-   
-   static const VMStateDescription vmstate_designware_pcie_host = {
-  diff -u -p ./hw/pci-host/raven.c /tmp/nothing/hw/pci-host/raven.c
-  --- ./hw/pci-host/raven.c
-  +++ /tmp/nothing/hw/pci-host/raven.c
-  @@ -335,7 +335,6 @@ static void raven_realize(PCIDevice *d,
-       d->config[0x34] = 0x00; // capabilities_pointer
-   
-       memory_region_init_rom_nomigrate(&s->bios, OBJECT(s), "bios", BIOS_SIZE,
-  -                                     &error_fatal);
-       memory_region_add_subregion(get_system_memory(), (uint32_t)(-BIOS_SIZE),
-                                   &s->bios);
-       if (s->bios_name) {
-  diff -u -p ./hw/pci-host/gpex.c /tmp/nothing/hw/pci-host/gpex.c
-  --- ./hw/pci-host/gpex.c
-  +++ /tmp/nothing/hw/pci-host/gpex.c
-  @@ -138,7 +138,6 @@ static void gpex_host_realize(DeviceStat
-                                        &s->io_ioport, 0, 4, TYPE_PCIE_BUS);
-   
-       pci_bus_set_route_irq_fn(pci->bus, gpex_route_intx_pin_to_irq);
-  -    qdev_realize(DEVICE(&s->gpex_root), BUS(pci->bus), &error_fatal);
-   }
-   
-   static const char *gpex_host_root_bus_path(PCIHostState *host_bridge,
-  diff -u -p ./hw/pci-host/xilinx-pcie.c /tmp/nothing/hw/pci-host/xilinx-pcie.c
-  --- ./hw/pci-host/xilinx-pcie.c
-  +++ /tmp/nothing/hw/pci-host/xilinx-pcie.c
-  @@ -137,7 +137,6 @@ static void xilinx_pcie_host_realize(Dev
-                                        pci_swizzle_map_irq_fn, s, &s->mmio,
-                                        &s->io, 0, 4, TYPE_PCIE_BUS);
-   
-  -    qdev_realize(DEVICE(&s->root), BUS(pci->bus), &error_fatal);
-   }
-   
-   static const char *xilinx_pcie_host_root_bus_path(PCIHostState *host_bridge,
-  diff -u -p ./hw/ppc/spapr_irq.c /tmp/nothing/hw/ppc/spapr_irq.c
-  --- ./hw/ppc/spapr_irq.c
-  +++ /tmp/nothing/hw/ppc/spapr_irq.c
-  @@ -337,7 +337,6 @@ void spapr_irq_init(SpaprMachineState *s
-           qdev_prop_set_uint32(dev, "nr-ends", nr_servers << 3);
-           object_property_set_link(OBJECT(dev), "xive-fabric", OBJECT(spapr),
-                                    &error_abort);
-  -        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-   
-           spapr->xive = SPAPR_XIVE(dev);
-   
-  diff -u -p ./hw/ppc/pnv.c /tmp/nothing/hw/ppc/pnv.c
-  --- ./hw/ppc/pnv.c
-  +++ /tmp/nothing/hw/ppc/pnv.c
-  @@ -1144,7 +1144,6 @@ static void pnv_chip_power8_realize(Devi
-   
-       /* Processor Service Interface (PSI) Host Bridge */
-       object_property_set_int(OBJECT(&chip8->psi), "bar", PNV_PSIHB_BASE(chip),
-  -                            &error_fatal);
-       object_property_set_link(OBJECT(&chip8->psi), ICS_PROP_XICS,
-                                OBJECT(chip8->xics), &error_abort);
-       if (!qdev_realize(DEVICE(&chip8->psi), NULL, errp)) {
-  @@ -1587,7 +1586,6 @@ static void pnv_chip_power10_realize(Dev
-   
-       /* Processor Service Interface (PSI) Host Bridge */
-       object_property_set_int(OBJECT(&chip10->psi), "bar",
-  -                            PNV10_PSIHB_BASE(chip), &error_fatal);
-       if (!qdev_realize(DEVICE(&chip10->psi), NULL, errp)) {
-           return;
-       }
-  diff -u -p ./hw/intc/exynos4210_gic.c /tmp/nothing/hw/intc/exynos4210_gic.c
-  --- ./hw/intc/exynos4210_gic.c
-  +++ /tmp/nothing/hw/intc/exynos4210_gic.c
-  @@ -301,7 +301,6 @@ static void exynos4210_gic_realize(Devic
-       qdev_prop_set_uint32(s->gic, "num-cpu", s->num_cpu);
-       qdev_prop_set_uint32(s->gic, "num-irq", EXYNOS4210_GIC_NIRQ);
-       gicbusdev = SYS_BUS_DEVICE(s->gic);
-  -    sysbus_realize_and_unref(gicbusdev, &error_fatal);
-   
-       /* Pass through outbound IRQ lines from the GIC */
-       sysbus_pass_irq(sbd, gicbusdev);
-  diff -u -p ./hw/intc/spapr_xive.c /tmp/nothing/hw/intc/spapr_xive.c
-  --- ./hw/intc/spapr_xive.c
-  +++ /tmp/nothing/hw/intc/spapr_xive.c
-  @@ -311,7 +311,6 @@ static void spapr_xive_realize(DeviceSta
-        * Initialize the internal sources, for IPIs and virtual devices.
-        */
-       object_property_set_int(OBJECT(xsrc), "nr-irqs", xive->nr_irqs,
-  -                            &error_fatal);
-       object_property_set_link(OBJECT(xsrc), "xive", OBJECT(xive), &error_abort);
-       if (!qdev_realize(DEVICE(xsrc), NULL, errp)) {
-           return;
-  diff -u -p ./hw/intc/pnv_xive.c /tmp/nothing/hw/intc/pnv_xive.c
-  --- ./hw/intc/pnv_xive.c
-  +++ /tmp/nothing/hw/intc/pnv_xive.c
-  @@ -1833,7 +1833,6 @@ static void pnv_xive_realize(DeviceState
-        * to limit accesses to resources not provisioned.
-        */
-       object_property_set_int(OBJECT(xsrc), "nr-irqs", PNV_XIVE_NR_IRQS,
-  -                            &error_fatal);
-       object_property_set_link(OBJECT(xsrc), "xive", OBJECT(xive), &error_abort);
-       if (!qdev_realize(DEVICE(xsrc), NULL, errp)) {
-           return;
-  diff -u -p ./hw/riscv/shakti_c.c /tmp/nothing/hw/riscv/shakti_c.c
-  --- ./hw/riscv/shakti_c.c
-  +++ /tmp/nothing/hw/riscv/shakti_c.c
-  @@ -137,7 +137,6 @@ static void shakti_c_soc_state_realize(D
-   
-       /* ROM */
-       memory_region_init_rom(&sss->rom, OBJECT(dev), "riscv.shakti.c.rom",
-  -                           shakti_c_memmap[SHAKTI_C_ROM].size, &error_fatal);
-       memory_region_add_subregion(system_memory,
-           shakti_c_memmap[SHAKTI_C_ROM].base, &sss->rom);
-   }
-  diff -u -p ./hw/riscv/sifive_e.c /tmp/nothing/hw/riscv/sifive_e.c
-  --- ./hw/riscv/sifive_e.c
-  +++ /tmp/nothing/hw/riscv/sifive_e.c
-  @@ -192,7 +192,6 @@ static void sifive_e_soc_realize(DeviceS
-   
-       /* Mask ROM */
-       memory_region_init_rom(&s->mask_rom, OBJECT(dev), "riscv.sifive.e.mrom",
-  -                           memmap[SIFIVE_E_DEV_MROM].size, &error_fatal);
-       memory_region_add_subregion(sys_mem,
-           memmap[SIFIVE_E_DEV_MROM].base, &s->mask_rom);
-   
-  diff -u -p ./hw/display/bochs-display.c /tmp/nothing/hw/display/bochs-display.c
-  --- ./hw/display/bochs-display.c
-  +++ /tmp/nothing/hw/display/bochs-display.c
-  @@ -280,7 +280,6 @@ static void bochs_display_realize(PCIDev
-       s->con = graphic_console_init(DEVICE(dev), 0, &bochs_display_gfx_ops, s);
-   
-       memory_region_init_ram(&s->vram, obj, "bochs-display-vram", s->vgamem,
-  -                           &error_fatal);
-       memory_region_init_io(&s->vbe, obj, &bochs_display_vbe_ops, s,
-                             "bochs dispi interface", PCI_VGA_BOCHS_SIZE);
-       memory_region_init_io(&s->qext, obj, &bochs_display_qext_ops, s,
-  diff -u -p ./hw/display/tcx.c /tmp/nothing/hw/display/tcx.c
-  --- ./hw/display/tcx.c
-  +++ /tmp/nothing/hw/display/tcx.c
-  @@ -818,7 +818,6 @@ static void tcx_realizefn(DeviceState *d
-       char *fcode_filename;
-   
-       memory_region_init_ram_nomigrate(&s->vram_mem, OBJECT(s), "tcx.vram",
-  -                           s->vram_size * (1 + 4 + 4), &error_fatal);
-       vmstate_register_ram_global(&s->vram_mem);
-       memory_region_set_log(&s->vram_mem, true, DIRTY_MEMORY_VGA);
-       vram_base = memory_region_get_ram_ptr(&s->vram_mem);
-  diff -u -p ./hw/display/next-fb.c /tmp/nothing/hw/display/next-fb.c
-  --- ./hw/display/next-fb.c
-  +++ /tmp/nothing/hw/display/next-fb.c
-  @@ -108,7 +108,6 @@ static void nextfb_realize(DeviceState *
-       NeXTFbState *s = NEXTFB(dev);
-   
-       memory_region_init_ram(&s->fb_mr, OBJECT(dev), "next-video", 0x1CB100,
-  -                           &error_fatal);
-       sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->fb_mr);
-   
-       s->invalidate = 1;
-  diff -u -p ./hw/display/qxl.c /tmp/nothing/hw/display/qxl.c
-  --- ./hw/display/qxl.c
-  +++ /tmp/nothing/hw/display/qxl.c
-  @@ -2232,7 +2232,6 @@ static void qxl_realize_secondary(PCIDev
-   
-       qxl_init_ramsize(qxl);
-       memory_region_init_ram(&qxl->vga.vram, OBJECT(dev), "qxl.vgavram",
-  -                           qxl->vga.vram_size, &error_fatal);
-       qxl->vga.vram_ptr = memory_region_get_ram_ptr(&qxl->vga.vram);
-       qxl->vga.con = graphic_console_init(DEVICE(dev), 0, &qxl_ops, qxl);
-       qxl->ssd.dcl.con = qxl->vga.con;
-  diff -u -p ./hw/display/cg3.c /tmp/nothing/hw/display/cg3.c
-  --- ./hw/display/cg3.c
-  +++ /tmp/nothing/hw/display/cg3.c
-  @@ -311,7 +311,6 @@ static void cg3_realizefn(DeviceState *d
-       }
-   
-       memory_region_init_ram(&s->vram_mem, NULL, "cg3.vram", s->vram_size,
-  -                           &error_fatal);
-       memory_region_set_log(&s->vram_mem, true, DIRTY_MEMORY_VGA);
-       sysbus_init_mmio(sbd, &s->vram_mem);
-   
-  diff -u -p ./hw/dma/sparc32_dma.c /tmp/nothing/hw/dma/sparc32_dma.c
-  --- ./hw/dma/sparc32_dma.c
-  +++ /tmp/nothing/hw/dma/sparc32_dma.c
-  @@ -309,7 +309,6 @@ static void sparc32_espdma_device_realiz
-       esp->dma_opaque = SPARC32_DMA_DEVICE(dev);
-       sysbus->it_shift = 2;
-       esp->dma_enabled = 1;
-  -    sysbus_realize(SYS_BUS_DEVICE(sysbus), &error_fatal);
-   }
-   
-   static void sparc32_espdma_device_class_init(ObjectClass *klass, void *data)
-  @@ -344,7 +343,6 @@ static void sparc32_ledma_device_realize
-       SysBusPCNetState *lance = SYSBUS_PCNET(&s->lance);
-   
-       object_property_set_link(OBJECT(lance), "dma", OBJECT(dev), &error_abort);
-  -    sysbus_realize(SYS_BUS_DEVICE(lance), &error_fatal);
-   }
-   
-   static void sparc32_ledma_device_class_init(ObjectClass *klass, void *data)
-  diff -u -p ./hw/block/onenand.c /tmp/nothing/hw/block/onenand.c
-  --- ./hw/block/onenand.c
-  +++ /tmp/nothing/hw/block/onenand.c
-  @@ -812,7 +812,6 @@ static void onenand_realize(DeviceState
-       s->otp = memset(g_malloc((64 + 2) << PAGE_SHIFT),
-                       0xff, (64 + 2) << PAGE_SHIFT);
-       memory_region_init_ram_nomigrate(&s->ram, OBJECT(s), "onenand.ram",
-  -                           0xc000 << s->shift, &error_fatal);
-       vmstate_register_ram_global(&s->ram);
-       ram = memory_region_get_ram_ptr(&s->ram);
-       s->boot[0] = ram + (0x0000 << s->shift);
-  diff -u -p ./hw/isa/vt82c686.c /tmp/nothing/hw/isa/vt82c686.c
-  --- ./hw/isa/vt82c686.c
-  +++ /tmp/nothing/hw/isa/vt82c686.c
-  @@ -618,7 +618,6 @@ static void vt82c686b_realize(PCIDevice
-       qdev_init_gpio_out(dev, &s->cpu_intr, 1);
-       isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
-       isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
-  -                          &error_fatal);
-       isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
-       i8254_pit_init(isa_bus, 0x40, 0, NULL);
-       i8257_dma_init(isa_bus, 0);
-  @@ -699,7 +698,6 @@ static void vt8231_realize(PCIDevice *d,
-       qdev_init_gpio_out(dev, &s->cpu_intr, 1);
-       isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
-       isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
-  -                          &error_fatal);
-       isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
-       i8254_pit_init(isa_bus, 0x40, 0, NULL);
-       i8257_dma_init(isa_bus, 0);
-  diff -u -p ./hw/isa/isa-superio.c /tmp/nothing/hw/isa/isa-superio.c
-  --- ./hw/isa/isa-superio.c
-  +++ /tmp/nothing/hw/isa/isa-superio.c
-  @@ -141,7 +141,6 @@ static void isa_superio_realize(DeviceSt
-       /* Keyboard, mouse */
-       isa = isa_new(TYPE_I8042);
-       object_property_add_child(OBJECT(sio), TYPE_I8042, OBJECT(isa));
-  -    isa_realize_and_unref(isa, bus, &error_fatal);
-       sio->kbc = isa;
-   
-       /* IDE */
-  diff -u -p ./hw/isa/isa-bus.c /tmp/nothing/hw/isa/isa-bus.c
-  --- ./hw/isa/isa-bus.c
-  +++ /tmp/nothing/hw/isa/isa-bus.c
-  @@ -61,7 +61,6 @@ ISABus *isa_bus_new(DeviceState *dev, Me
-       }
-       if (!dev) {
-           dev = qdev_new("isabus-bridge");
-  -        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-       }
-   
-       isabus = ISA_BUS(qbus_create(TYPE_ISA_BUS, dev, NULL));
-  diff -u -p ./hw/misc/macio/macio.c /tmp/nothing/hw/misc/macio/macio.c
-  --- ./hw/misc/macio/macio.c
-  +++ /tmp/nothing/hw/misc/macio/macio.c
-  @@ -286,7 +286,6 @@ static void macio_newworld_realize(PCIDe
-       /* OpenPIC */
-       qdev_prop_set_uint32(pic_dev, "model", OPENPIC_MODEL_KEYLARGO);
-       sysbus_dev = SYS_BUS_DEVICE(&ns->pic);
-  -    sysbus_realize_and_unref(sysbus_dev, &error_fatal);
-       memory_region_add_subregion(&s->bar, 0x40000,
-                                   sysbus_mmio_get_region(sysbus_dev, 0));
-   
-  diff -u -p ./hw/misc/xlnx-versal-xramc.c /tmp/nothing/hw/misc/xlnx-versal-xramc.c
-  --- ./hw/misc/xlnx-versal-xramc.c
-  +++ /tmp/nothing/hw/misc/xlnx-versal-xramc.c
-  @@ -182,7 +182,6 @@ static void xram_ctrl_realize(DeviceStat
-   
-       memory_region_init_ram(&s->ram, OBJECT(s),
-                              object_get_canonical_path_component(OBJECT(s)),
-  -                           s->cfg.size, &error_fatal);
-       sysbus_init_mmio(sbd, &s->ram);
-   }
-   
-  diff -u -p ./hw/sparc64/sun4u.c /tmp/nothing/hw/sparc64/sun4u.c
-  --- ./hw/sparc64/sun4u.c
-  +++ /tmp/nothing/hw/sparc64/sun4u.c
-  @@ -509,7 +509,6 @@ static void ram_realize(DeviceState *dev
-       SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-   
-       memory_region_init_ram_nomigrate(&d->ram, OBJECT(d), "sun4u.ram", d->size,
-  -                           &error_fatal);
-       vmstate_register_ram_global(&d->ram);
-       sysbus_init_mmio(sbd, &d->ram);
-   }
-  diff -u -p ./hw/nvram/eeprom_at24c.c /tmp/nothing/hw/nvram/eeprom_at24c.c
-  --- ./hw/nvram/eeprom_at24c.c
-  +++ /tmp/nothing/hw/nvram/eeprom_at24c.c
-  @@ -135,7 +135,6 @@ static void at24c_eeprom_realize(DeviceS
-           }
-   
-           if (blk_set_perm(ee->blk, BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE,
-  -                         BLK_PERM_ALL, &error_fatal) < 0)
-           {
-               error_setg(errp, "%s: Backing file incorrect permission",
-                          TYPE_AT24C_EE);
-  diff -u -p ./hw/arm/xlnx-zynqmp.c /tmp/nothing/hw/arm/xlnx-zynqmp.c
-  --- ./hw/arm/xlnx-zynqmp.c
-  +++ /tmp/nothing/hw/arm/xlnx-zynqmp.c
-  @@ -219,7 +219,6 @@ static void xlnx_zynqmp_create_rpu(Machi
-           }
-       }
-   
-  -    qdev_realize(DEVICE(&s->rpu_cluster), NULL, &error_fatal);
-   }
-   
-   static void xlnx_zynqmp_init(Object *obj)
-  @@ -352,7 +351,6 @@ static void xlnx_zynqmp_realize(DeviceSt
-       qdev_prop_set_bit(DEVICE(&s->gic),
-                         "has-virtualization-extensions", s->virt);
-   
-  -    qdev_realize(DEVICE(&s->apu_cluster), NULL, &error_fatal);
-   
-       /* Realize APUs before realizing the GIC. KVM requires this.  */
-       for (i = 0; i < num_apus; i++) {
-  diff -u -p ./hw/arm/allwinner-a10.c /tmp/nothing/hw/arm/allwinner-a10.c
-  --- ./hw/arm/allwinner-a10.c
-  +++ /tmp/nothing/hw/arm/allwinner-a10.c
-  @@ -99,7 +99,6 @@ static void aw_a10_realize(DeviceState *
-       sysbus_connect_irq(sysbusdev, 5, qdev_get_gpio_in(dev, 68));
-   
-       memory_region_init_ram(&s->sram_a, OBJECT(dev), "sram A", 48 * KiB,
-  -                           &error_fatal);
-       memory_region_add_subregion(get_system_memory(), 0x00000000, &s->sram_a);
-       create_unimplemented_device("a10-sram-ctrl", 0x01c00000, 4 * KiB);
-   
-  diff -u -p ./hw/arm/xlnx-versal.c /tmp/nothing/hw/arm/xlnx-versal.c
-  --- ./hw/arm/xlnx-versal.c
-  +++ /tmp/nothing/hw/arm/xlnx-versal.c
-  @@ -403,7 +403,6 @@ static void versal_realize(DeviceState *
-   
-       /* Create the On Chip Memory (OCM).  */
-       memory_region_init_ram(&s->lpd.mr_ocm, OBJECT(s), "ocm",
-  -                           MM_OCM_SIZE, &error_fatal);
-   
-       memory_region_add_subregion_overlap(&s->mr_ps, MM_OCM, &s->lpd.mr_ocm, 0);
-       memory_region_add_subregion_overlap(&s->fpd.apu.mr, 0, &s->mr_ps, 0);
-  diff -u -p ./hw/pci/pci.c /tmp/nothing/hw/pci/pci.c
-  --- ./hw/pci/pci.c
-  +++ /tmp/nothing/hw/pci/pci.c
-  @@ -2412,7 +2412,6 @@ static void pci_add_option_rom(PCIDevice
-           snprintf(name, sizeof(name), "%s.rom", object_get_typename(OBJECT(pdev)));
-       }
-       pdev->has_rom = true;
-  -    memory_region_init_rom(&pdev->rom, OBJECT(pdev), name, pdev->romsize, &error_fatal);
-       ptr = memory_region_get_ram_ptr(&pdev->rom);
-       if (load_image_size(path, ptr, size) < 0) {
-           error_setg(errp, "failed to load romfile \"%s\"", pdev->romfile);
-  diff -u -p ./hw/pci-bridge/pci_expander_bridge.c /tmp/nothing/hw/pci-bridge/pci_expander_bridge.c
-  --- ./hw/pci-bridge/pci_expander_bridge.c
-  +++ /tmp/nothing/hw/pci-bridge/pci_expander_bridge.c
-  @@ -264,7 +264,6 @@ static void pxb_dev_realize_common(PCIDe
-           goto err_register_bus;
-       }
-   
-  -    sysbus_realize_and_unref(SYS_BUS_DEVICE(ds), &error_fatal);
-       if (bds) {
-           qdev_realize_and_unref(bds, &bus->qbus, &error_fatal);
-       }
-  diff -u -p ./softmmu/vl.c /tmp/nothing/softmmu/vl.c
-  --- ./softmmu/vl.c
-  +++ /tmp/nothing/softmmu/vl.c
-  @@ -2189,7 +2189,6 @@ static void qemu_record_config_group(con
-           assert(!from_json);
-           keyval_merge(machine_opts_dict, dict, errp);
-       } else if (g_str_equal(group, "smp-opts")) {
-  -        machine_merge_property("smp", dict, &error_fatal);
-       } else {
-           abort();
-       }
-  @@ -2309,7 +2308,6 @@ static int do_configure_accelerator(void
-       object_apply_compat_props(OBJECT(accel));
-       qemu_opt_foreach(opts, accelerator_set_property,
-                        accel,
-  -                     &error_fatal);
-   
-       ret = accel_init_machine(accel, current_machine);
-       if (ret < 0) {
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6b3697962c1b..5bef084ca173 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2706,6 +2706,7 @@ R: Paolo Bonzini <pbonzini@redhat.com>
+ R: Bandan Das <bsd@redhat.com>
+ R: Stefan Hajnoczi <stefanha@redhat.com>
+ R: Thomas Huth <thuth@redhat.com>
++R: Darren Kenny <darren.kenny@oracle.com> 
+ S: Maintained
+ F: tests/qtest/fuzz/
+ F: tests/qtest/fuzz-*test.c
 -- 
-Eduardo
+2.18.4
 
 
