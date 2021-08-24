@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACE723F6376
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 18:54:46 +0200 (CEST)
-Received: from localhost ([::1]:42728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B07053F63AA
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 18:57:38 +0200 (CEST)
+Received: from localhost ([::1]:45146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIZhF-0000ib-QS
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 12:54:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58404)
+	id 1mIZk1-0002Qt-Q5
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 12:57:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mIZZZ-0007HH-1r
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:46:50 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:42974)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mIZj6-0001jc-46
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:56:40 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:45881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mIZZV-0001px-SN
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:46:48 -0400
-Received: by mail-wr1-x430.google.com with SMTP id q11so5307594wrr.9
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 09:46:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=AfdohAMj44zzRxfM+EwqWF9t7i8KXlBop0c7k4PG08c=;
- b=U48x2R1xPQhmSZArTr8fK1wP6oSvgOGnj1o1n+F+u1dZ1yW4K5HZMoBXsjf7PX62ks
- IDNbO74OQ8MAUJ9HiVrEkTojbROb54sv7KaBdJFB3CDA60RgcxA3X15sNAg5eNT0Z4Fs
- 8EkSoWPHHxXmxXcmDC4C8ravvTLAxVy0h3CQa29buOuigAJSOpoyRxT86Cdcyq7sAnvr
- FUrH7uJJWCD0ooseh4yb+DHLi3iM/i9GkDOcZNnI/XrT2r+bNn+rgpf25oMIn5ZbB/r4
- r5iRb55UrA8mlHRRXq8YjpwkhhU5dnNvY++I1AnO6m1W0jtgkvAWPx1pB3TI1TQgFZP3
- dKeg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mIZj4-0000H5-7r
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:56:39 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id e21so29777009ejz.12
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 09:56:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5bUyq8zxbTaPyijso8rgI91HmEQJwJLBviTOSbjA9cQ=;
+ b=MZx30FdqcvbF/icI9mXrtpoke89eGqfpoLQmqAAtPJo+gbvAFsCbM8mBx7tl0QKfKF
+ RWTC14/4opEUacPuO4FmZxvuwj0nn7oRf7jh4iyxRxoLJfWayrVUe/CxRv1eErzJxiwJ
+ HB94h4zaKKUNhDK4b6rhYZMQ8iYw1h5qfMnEFIB9Idg8CUNCSwQp2C76dxiCQOcxmWq4
+ BIx2PPBqGxYTVw4xnVTtZVTN0Tk0s/hOmVKqdBFpZjaNqp892m5LHOM1+NlF83NH2K9A
+ Efa7Em0jHEyqzAgYRQfQ/9ushPcgDkMwZp94XiBmQp6OvhZybuwr8Cf6P4cM+IVMJ2xF
+ NHIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=AfdohAMj44zzRxfM+EwqWF9t7i8KXlBop0c7k4PG08c=;
- b=BaDQ53Wr+0pa5dYbt1iQQ3SqZpAHVg0QH355TUEVYJM7FLbb+d8a8csiIaQMROwTXl
- 7KobyHNw0rtklgi+gheZAW08RhsD1M5LJIlI6t5EO4WAhdJA4cBr+l5/89nSIyyhYsOL
- BFIeVsAknr/slzDTp4r9n0jJNHnu11BHefJN4vzuKh2FnseleMR/u9pOSt+gD6E68Cag
- YSoPx3xMFbu2Ian6bSj+h97EYmCcF4JsrDs49wd8cJ8Nvm9KZ8yTEkmqCnJujX8YrPIC
- Lf4Fk+2o06EFW2LzkbiaKmlfFPfqhnlX3KsNai0Q2Z8OssYyXyMSp1ATylGt4D7vIKph
- Ym/g==
-X-Gm-Message-State: AOAM532h4rmMtRoZP5Oku1MfPgQnr25f6x2XRScPbRQsSjB3qsa/tx3p
- /Rdx3jQDFc1GixStUh5Ho6M=
-X-Google-Smtp-Source: ABdhPJyEuEezkY6edFzkZyAHSJgVx2jIlyiB0OoRaeIjC1BFyNhQeRewwE4nW/ZeFflDKFaU9WyDYw==
-X-Received: by 2002:adf:ee90:: with SMTP id b16mr20000216wro.185.1629823604342; 
- Tue, 24 Aug 2021 09:46:44 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id i9sm22569601wre.36.2021.08.24.09.46.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Aug 2021 09:46:43 -0700 (PDT)
-Subject: Re: [PATCH v2 22/30] linux-user/mips: Improve do_break
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210822035537.283193-1-richard.henderson@linaro.org>
- <20210822035537.283193-23-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9875df00-0813-0509-7e8f-30789e5e1c2a@amsat.org>
-Date: Tue, 24 Aug 2021 18:46:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5bUyq8zxbTaPyijso8rgI91HmEQJwJLBviTOSbjA9cQ=;
+ b=ISGodq5Ds8ptu8Km68qcGcB98PE0vvOxWHP0RnVtWGDQzL2/J0sHfHly96ySZ6OmS3
+ LlVFylRj8cfAdKyqXnhbqPggf5y1jTzLJZ4QvIj4Y/uVyXgbtLHlZ1Q66TmoSJSEVamG
+ zUo0qmGWEJsjjRN+A9FnB5yPR6Mjvs8+v+molJUZwkJLg0rao7cIGTLKojK5QvuLl4ZK
+ 4l/7vgDvCVPtLfSxzm7EsYfOUJ25x1h+ppOLXEEgCSBs9LblsRrhRgY7ob+XTzDRaywu
+ Jvs2ERRg78q4RHRfFn7r/e83I89niktjLVJuF5NBGwaEUGEYG9w/LLNEDq7uMJxSi0jZ
+ J8xg==
+X-Gm-Message-State: AOAM532qoU2iK+aZQaPEU11ptS0D6ZAuIIMDzQJ/iY3e9ZelPZKaKaVD
+ h3Jc5UF7vHGqGw/EOSbv/JLVVG0l5uiX5MVonFQwvA==
+X-Google-Smtp-Source: ABdhPJwc5zb1kFegBxKNGwJCCbWlh/maJRVEQZF+6mqtdr6DCZq7JmhP11R4Ek/eLqqw5tbJiDL4zmIuH6pOQNW/mcw=
+X-Received: by 2002:a17:907:75d9:: with SMTP id
+ jl25mr1107146ejc.4.1629824196235; 
+ Tue, 24 Aug 2021 09:56:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210822035537.283193-23-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210822035537.283193-1-richard.henderson@linaro.org>
+ <20210822035537.283193-22-richard.henderson@linaro.org>
+In-Reply-To: <20210822035537.283193-22-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 24 Aug 2021 17:55:49 +0100
+Message-ID: <CAFEAcA9FiqbvCh1xZWdknEJV=jnoxgZqz=ky-A7zXMM+Re74AQ@mail.gmail.com>
+Subject: Re: [PATCH v2 21/30] linux-user/microblaze: Fix SIGFPE si_codes
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.305,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,25 +78,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, laurent@vivier.eu
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/22/21 5:55 AM, Richard Henderson wrote:
-> Rename to do_tr_or_bp, as per the kernel function.
-> Add a 'trap' argument, akin to the kernel's si_code, but clearer.
-> The return value is always 0, so change the return value to void.
-> Use force_sig and force_sig_fault.
-> 
+On Sun, 22 Aug 2021 at 04:55, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Fix a typo for ESR_EC_DIVZERO, which is integral not floating-point.
+> Fix the if ladder for decoding floating-point exceptions.
+>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  linux-user/mips/cpu_loop.c | 47 ++++++++++++++++++++++----------------
->  1 file changed, 27 insertions(+), 20 deletions(-)
+>  linux-user/microblaze/cpu_loop.c | 20 +++++++++++++++-----
+>  1 file changed, 15 insertions(+), 5 deletions(-)
+>
+> diff --git a/linux-user/microblaze/cpu_loop.c b/linux-user/microblaze/cpu_loop.c
+> index 9e07e52573..4a75c853b2 100644
+> --- a/linux-user/microblaze/cpu_loop.c
+> +++ b/linux-user/microblaze/cpu_loop.c
+> @@ -81,15 +81,25 @@ void cpu_loop(CPUMBState *env)
+>              env->iflags &= ~(IMM_FLAG | D_FLAG);
+>              switch (env->esr & 31) {
+>              case ESR_EC_DIVZERO:
+> -                si_code = TARGET_FPE_FLTDIV;
+> +                si_code = TARGET_FPE_INTDIV;
+>                  break;
+>              case ESR_EC_FPU:
+> -                si_code = 0;
+> -                if (env->fsr & FSR_IO) {
+> +                /*
+> +                 * Note that the kernel passes along fsr as si_code
+> +                 * if there's no recognized bit set.  Possibly this
+> +                 * implies that si_code is 0, but follow the structure.
+> +                 */
 
->      default:
-> -        info->si_signo = TARGET_SIGTRAP;
-> -        info->si_errno = 0;
-> -        queue_signal(env, info->si_signo, QEMU_SI_FAULT, &*info);
+In theory it should: the Microblaze processor reference guide
+https://www.xilinx.com/support/documentation/sw_manuals/mb_ref_guide.pdf
+defines only 5 bits in the FSR, all of which we look at here.
+However our implementation provides two loopholes by which a
+high bit might get set:
+ * our implementation of MTS rfsr, rX doesn't prevent high bits
+   being set by the guest
+ * our implementation of gdbstub writes to fsr doesn't prevent
+   high bits being set by the guest
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+I don't know whether the real h/w makes the reserved FSR high
+bits RAZ/WI or not; the spec doesn't say either way.
+
+> +                si_code = env->fsr;
+> +                if (si_code & FSR_IO) {
+>                      si_code = TARGET_FPE_FLTINV;
+> -                }
+> -                if (env->fsr & FSR_DZ) {
+> +                } else if (si_code & FSR_OF) {
+> +                    si_code = TARGET_FPE_FLTOVF;
+> +                } else if (si_code & FSR_UF) {
+> +                    si_code = TARGET_FPE_FLTUND;
+> +                } else if (si_code & FSR_DZ) {
+>                      si_code = TARGET_FPE_FLTDIV;
+> +                } else if (si_code & FSR_DO) {
+> +                    si_code = TARGET_FPE_FLTRES;
+>                  }
+>                  break;
+>              default:
+
+Side note: our implementation will never set FSR_DO; we don't
+implement the denormal number handling the FPU does, where:
+ * operations on input denormals return a QNaN and set FSR.DO
+ * output denormals are flushed to + or - zero, setting FSR.UF
+
+
+Anyway,
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
