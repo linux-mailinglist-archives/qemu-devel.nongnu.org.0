@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 423863F5AAA
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 11:13:26 +0200 (CEST)
-Received: from localhost ([::1]:49172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B99B23F5ADA
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 11:18:55 +0200 (CEST)
+Received: from localhost ([::1]:53242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mISUn-0003e6-5o
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 05:13:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37332)
+	id 1mISa1-0006VJ-Kp
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 05:18:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mISTa-0001HK-Ii
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 05:12:12 -0400
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:34809)
+ id 1mISYf-0005nC-CA
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 05:17:25 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:38783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mISTU-0003LG-Kj
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 05:12:07 -0400
-Received: by mail-ed1-x530.google.com with SMTP id i6so30550802edu.1
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 02:12:02 -0700 (PDT)
+ id 1mISYc-00072T-S7
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 05:17:25 -0400
+Received: by mail-ej1-x632.google.com with SMTP id n27so10922276eja.5
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 02:17:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=koheVDs+/OKX3JpROEujOYanfsFtXB+c/60/gWldHD0=;
- b=m/r/px+4zOS3DleHfBI4QcKuIGYWEqBnd0tPYMBxz8CjmCafbVbuotus+w1YJzUaHI
- waY/yYOwIdIoRkTuC5sZD6limfHfvfOnLN89otaEj9rtDt6s4HvJgUPeuyPqs5DViW7l
- m9DSjrWBVow9BYu/WDncw1Y73RFgKe7s5oDKE+j1rusBjsWt5OBUH99S4q+8QRbWhteh
- /5Pj2XgHn45cjKflOda0utabE7kr6XQXBmi5Ma4U5NIRvvshodN3wzlGowq06iBFp0pJ
- DmXVRAg32FwCG2UW+HiLdYRIL01E9cHsL9QrJnpSmRfmHzClR3zWqONvBZIS8NwEwJnn
- 2JSg==
+ :cc; bh=IFaD8NPVDNyBcy9iTFwL5zSRfk2GRJd+74Dpw62tpWE=;
+ b=GJaep1WXZhFCejIYJkMz3lHzhvrrmXDSYWuVHT+pj/LuwCZWkEuptYDlPU985u3yNV
+ 5tXQe9Q9AP/ihOT5raI/cTyPkUIwArvgTRaHICLGkld1pHten7/3SJFedKxkRsl7VLx8
+ Dk5qvLepDcpQ7fCa3GCl+2lX9umN+iOaVY3GX1J2FfKedLQB4YmVHr5FrDbUOsOCK3Cx
+ bsTKrz/bb83hBgpLkQP2S9bcC/TTw8x3t0eVh7fhYRwJf7kQXItWETvWn7bp6YYie416
+ IpJMsnAAldNR/3dCBHV3LmQ7lDob9oqbhd1ADfVu62ifR289L70pj9L1Mb5wq4FR1pzS
+ YjVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=koheVDs+/OKX3JpROEujOYanfsFtXB+c/60/gWldHD0=;
- b=lpP8ywUTteDzVxqK3Nn6/tX90WgCol6hQZVAKuovJnfTSL+k35XWCddV4Fo5PKN+zp
- YEjFvi+QzMQxj4BsA/D6cISAbbo9bec70FE17jVxWUNNo6xsQd6kNnwWXWm9CHAF7Ii9
- /RBPHTmUHii+f+mNf+xG8RbzE/LG6i9MsRdW76YPZP0P8utdA7PYEqE6tnsQBKKzDcnT
- I9rBBObDwi7CC19DHrgiBQ21paO20yP8YH+3u0s0uRHN393kc7GdQiF6jECko/aNVroW
- sOJEj82fArF0Q7fxX97MxpALL6ofbTvxhvQyXbppMoYN/+sO9u3GfYt4hgO/E0KiDI4m
- /J6g==
-X-Gm-Message-State: AOAM531kyJ6wz8HlCvTIVvidPMUhoG20Iz9ZAUkb33U7yE8OtfKiXGhU
- mv7QPnYodaIRFZxxTpdVX/TYbxt2MGfIdA+ag0wvhg==
-X-Google-Smtp-Source: ABdhPJwxyAMPMI9YmggIloFbTje0kuMe9QeWGteNoECe62Bv+V4cEg6Gl4BqSICH0RwGBoMPelpWUXkWjO9mn0fiJok=
-X-Received: by 2002:a05:6402:4387:: with SMTP id
- o7mr41930472edc.204.1629796321088; 
- Tue, 24 Aug 2021 02:12:01 -0700 (PDT)
+ bh=IFaD8NPVDNyBcy9iTFwL5zSRfk2GRJd+74Dpw62tpWE=;
+ b=XYP2sEO3n+uFEi0ThAih1w+AVaVYCnsviSEUO9H7tWn0i2nFEVXk9Yld7LL4kDJcGG
+ KzDE0mrx2Nbh7GUQILk21awVQeG547pUi+mtcAY+g+uVm7SfA6kbfGR8gdx4Vvt3TTEW
+ mMMnEU2xQ/pEuoBwYIZt2ZCQDtlCrnkm/kL3VT/51a0o+AR6lwJvLUwB7o/MFyvCpXH3
+ gN/emFwn4RX7G1Qrzy928kwTvX3Pbf4WmRJCsE9QgJfJwPG/x228EPabnAlK3kEw5B1T
+ 78V3G4i4KSiEQEo8WWaR6X+Lu8+Z0aikUCW88E6EDGuqzSQxHZywcA3L6mKMuO9TWhpb
+ ttng==
+X-Gm-Message-State: AOAM533+kjj1TaIZNZvfxaZbR7Dh1atHUhjeWAaCMe4m6cwb5mVZOi7+
+ dVX7uxTup3CvV1yMxt4KJtFm+kkrgmRWpgOf66iyMQ==
+X-Google-Smtp-Source: ABdhPJwbcliFObofXbQLjpw0PGrzQ44JW9UXcL1jPOf3/tWE2vyRT3o0QhczGQQwpP41tBf7EpPWaLT4CKyvgbu7Uas=
+X-Received: by 2002:a17:906:3bc3:: with SMTP id
+ v3mr39976646ejf.482.1629796641000; 
+ Tue, 24 Aug 2021 02:17:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210823142004.17935-1-changbin.du@gmail.com>
- <7523c6ad-52cd-0b20-b09d-01bd537edbb3@redhat.com>
- <CAFEAcA8WKdZiuzjXgwj_9T7ewDbkLky+_NKaXw6WQ95V8x=0Tw@mail.gmail.com>
- <20210823230535.js3gymomh2chmznc@mail.google.com>
-In-Reply-To: <20210823230535.js3gymomh2chmznc@mail.google.com>
+References: <20210824072702.520187-1-thuth@redhat.com>
+In-Reply-To: <20210824072702.520187-1-thuth@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 24 Aug 2021 10:11:14 +0100
-Message-ID: <CAFEAcA8DR4UuZi-QAqMr82tL+S3Y8bEQn7q0W7iCjQCsFRis1Q@mail.gmail.com>
-Subject: Re: [PATCH 0/3] gdbstub: add support for switchable endianness
-To: Changbin Du <changbin.du@gmail.com>
+Date: Tue, 24 Aug 2021 10:16:34 +0100
+Message-ID: <CAFEAcA90Y-+Ri42LibkptBbLy_YWi10rV5GKtU+s-m6nNEoPKw@mail.gmail.com>
+Subject: Re: [qemu-web PATCH] Update the information about the required
+ version of macOS
+To: Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,37 +78,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Aug 2021 at 00:05, Changbin Du <changbin.du@gmail.com> wrote:
+On Tue, 24 Aug 2021 at 08:27, Thomas Huth <thuth@redhat.com> wrote:
 >
-> On Mon, Aug 23, 2021 at 04:30:05PM +0100, Peter Maydell wrote:
-> > changes to be more capable of handling dynamic target changes
-> > (this would also help with eg debugging across 32<->64 bit switches);
-> > as I understand it that gdb work would be pretty significant,
-> > and at least for aarch64 pretty much nobody cares about
-> > big-endian, so nobody's got round to doing it yet.
-> >
-> Mostly we do not care dynamic target changes because nearly all OS will setup
-> endianness mode by its first instruction. And dynamic changes for gdb is hard
-> since the byte order of debugging info in elf is fixed. And currently the GDB
-> remote protocol does not support querying endianness info from remote.
+> The versions that we specify for macOS are way too old already. Let's
+> rephrase this without specific version numbers, pointing the users
+> to the latest version instead.
 >
-> So usually we needn't change byte order during a debug session, but we just want
-> the qemu gdbstub can send data in and handle data it received in right byte order.
-> This patch does this work with the help of users via the option 'endianness='.
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  _download/macos.md | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/_download/macos.md b/_download/macos.md
+> index 06aa811..6832436 100644
+> --- a/_download/macos.md
+> +++ b/_download/macos.md
+> @@ -6,5 +6,5 @@ QEMU can be installed from <strong>MacPorts</strong>:
+>
+>  <pre>sudo port install qemu</pre>
+>
+> -QEMU requires Mac OS X 10.5 or later, but it is recommended
+> -to use Mac OS X 10.7 or later.
+> +QEMU requires the latest version of macOS (or at least the previous one if
+> +it is not out of service yet).
 
-I'm not a huge fan of putting in workarounds that deal with the
-problem for specific cases and require users to tweak options settings,
-rather than solving the problem in a more general way that would
-let it all Just Work for all cases.
+This is a stronger, or at least different, commitment than
+docs/about/build-platforms.rst makes:
+
+# The project aims to support the most recent major version at all
+times. Support
+# for the previous major version will be dropped 2 years after the new major
+# version is released or when the vendor itself drops support, whichever comes
+# first.
 
 -- PMM
 
