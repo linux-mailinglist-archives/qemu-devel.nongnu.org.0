@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 239C23F62F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 18:43:35 +0200 (CEST)
-Received: from localhost ([::1]:41180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54F993F6300
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 18:45:29 +0200 (CEST)
+Received: from localhost ([::1]:48936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIZWQ-0005jv-5Y
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 12:43:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55984)
+	id 1mIZYG-0002di-Cw
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 12:45:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mIZKc-0008Rq-W4; Tue, 24 Aug 2021 12:31:23 -0400
-Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:35674)
+ id 1mIZKf-0008W8-9a; Tue, 24 Aug 2021 12:31:25 -0400
+Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:36605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mIZKa-0000Ah-QA; Tue, 24 Aug 2021 12:31:22 -0400
-Received: by mail-qk1-x736.google.com with SMTP id 22so23825903qkg.2;
- Tue, 24 Aug 2021 09:31:19 -0700 (PDT)
+ id 1mIZKd-0000CE-HG; Tue, 24 Aug 2021 12:31:25 -0400
+Received: by mail-qt1-x82c.google.com with SMTP id t32so2019451qtc.3;
+ Tue, 24 Aug 2021 09:31:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SapuqFgdb9kbWwuHo3xaSJY2yv5JykkL87vlU3CnPdo=;
- b=aGnGn0lKeWtxjZJEd1A89OQmGplIOD6xAoxXtIPCtMP1Ogp9ERjY8hQkLl+NQvkGeI
- 2RQb/LkQKyCNmX5eJxeQLY3PRczVZe3/sGwx9U5AqQv/ybY3MNQRNbuTRcEGOto+kBCD
- QuhMGb+gv2QDeNnTNiSh0LQYa3gXydIjwzA4aZFWtZe6f/OxHmIoyU+JdYzqYJmqunHJ
- dBrupOWKzfJJQTKXk1m0zaJk9JQBFn60Z5W9ajnjnT0ebiABLT4SbAsibQ4vbaWW7Vl6
- h2QSVt9GVWgmy8S97YqQmjtRyqztqUKd1MfSSFnyM+GDlodmDzROga2S20a11xWt+6+N
- Hhxw==
+ bh=4NWk4+EnvKoxo9tHhRgS9ZuD/QdWKBoMcTeB1hOFA4c=;
+ b=KhSAjk+pEzgXY20R5hd3HCm8vmXee/gtIPXHmf1su10hLUoxlZRwDbdD3bfqhiAfbb
+ i9CBOY7IHV5iliCR6vu6EiC23obQiOku8am9H99ArFw2CQFtqaAqbGyuGghDPUa9BnmS
+ yKxYP/sSd4SjHTFeBhwIqP9x+9+UKfcwgfNSsSlUoMtzs5XiMaax0n0X0jHlwKw6JnBT
+ XCRWY8Xcq8FJh7W2lVxUisp4Xd3GPDf23h7hO+lpvhPTDXKI3CNKAZe5YYq2exdJ4+Ta
+ W1gtUB6WpW21z9/XZa+3QjRUXub4mD+ZHicQIcxUT0Q//OznClSJijm8inaVEwDy+lGI
+ 80rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SapuqFgdb9kbWwuHo3xaSJY2yv5JykkL87vlU3CnPdo=;
- b=Eu/SGC7Fmb4McO4WIQZnEpOXBM7OoawYCDlmY/Kmaq2HGxwfVDUb5emqGJZHZMQCfG
- cWXl12WOpgMrUPDfckEvHYR3y3avlqH8ixkR5XduW1jIh5gSN8CwtBcmVCzKeGGFpn+r
- Kt0kYD7Qp1a/o0+DXIqEvR1PLFeOQiJelP1V/ysX92qEf7DSfFkrqS1YXhRzWt/61Iu3
- 5PioxnUZ4uYRh/tDeQw65IJUCMSg/h8A3acrTVG8ZGHkF4vj4PGUB49kjd1qs5GvAgtx
- u0555st5Z7UyZnhop6qIDRWFh/PbS5zNm9stT8prlxe7lCDKhfMullX7fZvmpEAENrHV
- 8thA==
-X-Gm-Message-State: AOAM5339VpYXvjwm+TjWb9PBJD6eM4OD2Nj+AMSFoYUIFv929D05j/8m
- BcCic9itb9rBd9CAjxeGpTNAQbMjC3I=
-X-Google-Smtp-Source: ABdhPJwjb6mN2ywtsBjcnJAfymXUZkUfQIr/JWY/zoOvQsek4NNm0/qde/hvyIAhjvZMOzgJShaVIQ==
-X-Received: by 2002:a37:a00b:: with SMTP id j11mr3239905qke.337.1629822679336; 
- Tue, 24 Aug 2021 09:31:19 -0700 (PDT)
+ bh=4NWk4+EnvKoxo9tHhRgS9ZuD/QdWKBoMcTeB1hOFA4c=;
+ b=hAB4NUXAqSag7DbGDJ0Dwq4ozASnmMwT0BbUpP10WdXYUOXcBXcLL0QVGOuiVnfWRM
+ Z7C0N+zcZ2WkqwDCIxL486uWEi11ANFmoM9VbVEuCgdq7WjKJ6dJ1GeRw8dFL8i9Lg3X
+ 7gkkwp7viiLgQv3Aewj0M1wfGEgn3qqHZx4nEZzk32GCCA3W9OkvEbWCrn9walbh0Nl0
+ efuWa11zmTcxNwsC+oK8CY/hUFylf0Aj/OM4f1igxtKZ+tooYeMRhr0d65CMNBicFay1
+ EjiGRYVeFTbgnAPhyAxpLBYBLjUfrZaMkrbv74mhaeQIyPMpO/Zgl67l6OV+b4ei87mR
+ lXQw==
+X-Gm-Message-State: AOAM533lEV6K1g7yoxxOGV/ptlboUH3EzeN09Srl3lZvoJd5dAJQ1wvT
+ HzkujQVDuPXUtI2lXzMkr+McP+0Ojy8=
+X-Google-Smtp-Source: ABdhPJwvrUXr4ti+2H8+sxgkaKEZ0yKsz+V5ebbndBoT8DJuiXlruPvRMr46OM5Tn6Fet+4M0ni/8w==
+X-Received: by 2002:ac8:7194:: with SMTP id w20mr34977406qto.217.1629822682075; 
+ Tue, 24 Aug 2021 09:31:22 -0700 (PDT)
 Received: from rekt.ihost.com ([179.247.162.205])
- by smtp.gmail.com with ESMTPSA id 75sm10951474qko.100.2021.08.24.09.31.17
+ by smtp.gmail.com with ESMTPSA id 75sm10951474qko.100.2021.08.24.09.31.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Aug 2021 09:31:19 -0700 (PDT)
+ Tue, 24 Aug 2021 09:31:21 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/16] target/ppc/power8_pmu.c: cycles overflow with all
- PMCs
-Date: Tue, 24 Aug 2021 13:30:29 -0300
-Message-Id: <20210824163032.394099-14-danielhb413@gmail.com>
+Subject: [PATCH v2 14/16] target/ppc: PMU: insns counter negative overflow
+ support
+Date: Tue, 24 Aug 2021 13:30:30 -0300
+Message-Id: <20210824163032.394099-15-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210824163032.394099-1-danielhb413@gmail.com>
 References: <20210824163032.394099-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x736.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82c.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -88,200 +88,99 @@ Cc: gustavo.romero@linaro.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All performance monitor counters can trigger a counter negative
-condition if the proper MMCR0 bits are set. This patch does that
-for all PMCs that can count cycles by doing the following:
+Enabling counter negative overflow for the PMCs that are counting
+instructions is simpler than when counting cycles. Instruction
+counting is done via helper_insns_inc(), which is called every
+time a TB ends.
 
-- pmc_counter_negative_enabled() will check whether a given PMC is
-eligible to trigger the counter negative alert;
-
-- get_counter_neg_timeout() will return the timeout for the counter
-negative condition for a given PMC, or -1 if the PMC is not able to
-trigger this alert;
-
-- the existing counter_negative_cond_enabled() now must consider the
-counter negative bit for PMCs 2-6, MMCR0_PMCjCE;
-
-- start_cycle_count_session() will start overflow timers for all eligible
-PMCs.
+Firing a performance monitor alert due to a counter negative overflow
+in this case is a matter of checking if the counter value is over
+0x80000000 each time the counters are incremented and, if counter negative
+events are enabled for that specific counter, trigger the PM alert.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu.h        |   1 +
- target/ppc/power8_pmu.c | 116 ++++++++++++++++++++++++++++++++++------
- 2 files changed, 100 insertions(+), 17 deletions(-)
+ target/ppc/power8_pmu.c | 23 +++++++++++++++++++++--
+ target/ppc/translate.c  |  8 ++++++++
+ 2 files changed, 29 insertions(+), 2 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index b9d5dca983..f4337e1621 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -353,6 +353,7 @@ typedef struct ppc_v3_pate_t {
- #define MMCR0_FC14 PPC_BIT(58)
- #define MMCR0_FC56 PPC_BIT(59)
- #define MMCR0_PMC1CE PPC_BIT(48)
-+#define MMCR0_PMCjCE PPC_BIT(49)
- 
- #define MMCR1_PMC1SEL_SHIFT (63 - 39)
- #define MMCR1_PMC1SEL PPC_BITMASK(32, 39)
 diff --git a/target/ppc/power8_pmu.c b/target/ppc/power8_pmu.c
-index d10f371b5f..690476051d 100644
+index 690476051d..28db086225 100644
 --- a/target/ppc/power8_pmu.c
 +++ b/target/ppc/power8_pmu.c
-@@ -130,9 +130,81 @@ static int64_t get_CYC_timeout(CPUPPCState *env, int sprn)
-     return remaining_cyc;
+@@ -252,9 +252,8 @@ static void start_cycle_count_session(CPUPPCState *env)
+     }
  }
  
-+static bool pmc_counter_negative_enabled(CPUPPCState *env, int sprn)
+-static void cpu_ppc_pmu_timer_cb(void *opaque)
++static void fire_PMC_interrupt(PowerPCCPU *cpu)
+ {
+-    PowerPCCPU *cpu = opaque;
+     CPUPPCState *env = &cpu->env;
+ 
+     if (!(env->spr[SPR_POWER_MMCR0] & MMCR0_EBE)) {
+@@ -284,6 +283,13 @@ static void cpu_ppc_pmu_timer_cb(void *opaque)
+     ppc_set_irq(cpu, PPC_INTERRUPT_PMC, 1);
+ }
+ 
++static void cpu_ppc_pmu_timer_cb(void *opaque)
 +{
-+    if (!pmc_is_running(env, sprn)) {
-+        return false;
-+    }
++    PowerPCCPU *cpu = opaque;
 +
-+    switch (sprn) {
-+    case SPR_POWER_PMC1:
-+        return env->spr[SPR_POWER_MMCR0] & MMCR0_PMC1CE;
-+
-+    case SPR_POWER_PMC2:
-+    case SPR_POWER_PMC3:
-+    case SPR_POWER_PMC4:
-+    case SPR_POWER_PMC5:
-+    case SPR_POWER_PMC6:
-+        return env->spr[SPR_POWER_MMCR0] & MMCR0_PMCjCE;
-+
-+    default:
-+        break;
-+    }
-+
-+    return false;
++    fire_PMC_interrupt(cpu);
 +}
 +
-+static int64_t get_counter_neg_timeout(CPUPPCState *env, int sprn)
-+{
-+    int64_t timeout = -1;
+ void cpu_ppc_pmu_timer_init(CPUPPCState *env)
+ {
+     PowerPCCPU *cpu = env_archcpu(env);
+@@ -377,6 +383,8 @@ static bool pmc_counting_insns(CPUPPCState *env, int sprn,
+ /* This helper assumes that the PMC is running. */
+ void helper_insns_inc(CPUPPCState *env, uint32_t num_insns)
+ {
++    bool overflow_triggered = false;
++    PowerPCCPU *cpu;
+     int sprn;
+ 
+     for (sprn = SPR_POWER_PMC1; sprn <= SPR_POWER_PMC5; sprn++) {
+@@ -390,8 +398,19 @@ void helper_insns_inc(CPUPPCState *env, uint32_t num_insns)
+             } else {
+                 env->spr[sprn] += num_insns;
+             }
 +
-+    if (!pmc_counter_negative_enabled(env, sprn)) {
-+        return -1;
-+    }
-+
-+    if (env->spr[sprn] >= COUNTER_NEGATIVE_VAL) {
-+        return 0;
-+    }
-+
-+    switch (sprn) {
-+    case SPR_POWER_PMC1:
-+    case SPR_POWER_PMC2:
-+    case SPR_POWER_PMC3:
-+    case SPR_POWER_PMC4:
-+        switch (get_PMC_event(env, sprn)) {
-+        case 0xF0:
-+            if (sprn == SPR_POWER_PMC1) {
-+                timeout = get_CYC_timeout(env, sprn);
++            if (env->spr[sprn] >= COUNTER_NEGATIVE_VAL &&
++                pmc_counter_negative_enabled(env, sprn)) {
++                overflow_triggered = true;
++                env->spr[sprn] = COUNTER_NEGATIVE_VAL;
 +            }
-+            break;
-+        case 0x1E:
-+            timeout = get_CYC_timeout(env, sprn);
-+            break;
-+        }
+         }
+     }
 +
-+        break;
-+    case SPR_POWER_PMC6:
-+        timeout = get_CYC_timeout(env, sprn);
-+        break;
-+    default:
-+        break;
-+    }
-+
-+    return timeout;
-+}
-+
- static bool counter_negative_cond_enabled(uint64_t mmcr0)
- {
--    return mmcr0 & MMCR0_PMC1CE;
-+    return mmcr0 & (MMCR0_PMC1CE | MMCR0_PMCjCE);
-+}
-+
-+static void pmu_delete_timers(CPUPPCState *env)
-+{
-+    int i;
-+
-+    for (i = 0; i < PMU_TIMERS_LEN; i++) {
-+        timer_del(env->pmu_intr_timers[i]);
++    if (overflow_triggered) {
++        cpu = env_archcpu(env);
++        fire_PMC_interrupt(cpu);
 +    }
  }
  
- /*
-@@ -143,7 +215,8 @@ static bool counter_negative_cond_enabled(uint64_t mmcr0)
- static void start_cycle_count_session(CPUPPCState *env)
- {
-     uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
--    uint64_t timeout;
-+    int64_t timeout;
-+    int i;
+ #endif /* defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY) */
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index d4cfc567cf..8302022852 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -4437,6 +4437,14 @@ static void pmu_count_insns(DisasContext *ctx)
+     tcg_gen_andi_tl(t0, t0, MMCR0_FC);
+     tcg_gen_brcond_tl(TCG_COND_EQ, t0, t_mmcr0FC, l_exit);
  
-     env->pmu_base_time = now;
- 
-@@ -151,30 +224,32 @@ static void start_cycle_count_session(CPUPPCState *env)
-      * Always delete existing overflow timers when starting a
-      * new cycle counting session.
-      */
--    timer_del(env->pmu_intr_timers[0]);
-+    pmu_delete_timers(env);
- 
-     if (!counter_negative_cond_enabled(env->spr[SPR_POWER_MMCR0])) {
-         return;
-     }
- 
--    if (!pmc_is_running(env, SPR_POWER_PMC1)) {
--        return;
--    }
 +    /*
-+     * Scroll through all programmable PMCs start counter overflow
-+     * timers for PM_CYC events, if needed.
++     * The PMU insns_inc() helper stops the internal PMU timer if a
++     * counter overflows happens. In that case, if the guest is
++     * running with icount and we do not handle it beforehand,
++     * the helper can trigger a 'bad icount read'.
 +     */
-+    for (i = SPR_POWER_PMC1; i < SPR_POWER_PMC5; i++) {
-+        timeout = get_counter_neg_timeout(env, i);
- 
--    if (!(env->spr[SPR_POWER_MMCR0] & MMCR0_PMC1CE)) {
--        return;
--    }
-+        if (timeout == -1) {
-+            continue;
-+        }
- 
--    switch (get_PMC_event(env, SPR_POWER_PMC1)) {
--    case 0xF0:
--    case 0x1E:
--        timeout = get_CYC_timeout(env, SPR_POWER_PMC1);
--        break;
--    default:
--        return;
-+        timer_mod(env->pmu_intr_timers[i - SPR_POWER_PMC1],
-+                                       now + timeout);
-     }
- 
--    timer_mod(env->pmu_intr_timers[0], now + timeout);
-+    /* Check for counter neg timeout in PMC6 */
-+    timeout = get_counter_neg_timeout(env, SPR_POWER_PMC6);
-+    if (timeout != -1) {
-+        timer_mod(env->pmu_intr_timers[PMU_TIMERS_LEN - 1], now + timeout);
-+    }
- }
- 
- static void cpu_ppc_pmu_timer_cb(void *opaque)
-@@ -189,6 +264,13 @@ static void cpu_ppc_pmu_timer_cb(void *opaque)
-     if (env->spr[SPR_POWER_MMCR0] & MMCR0_FCECE) {
-         env->spr[SPR_POWER_MMCR0] &= ~MMCR0_FCECE;
-         env->spr[SPR_POWER_MMCR0] |= MMCR0_FC;
++    gen_icount_io_start(ctx);
 +
-+        /*
-+         * Delete all pending timers if we need to freeze
-+         * the PMC. We'll restart them when the PMC starts
-+         * running again.
-+         */
-+        pmu_delete_timers(env);
-     }
+     gen_helper_insns_inc(cpu_env, tcg_constant_i32(ctx->base.num_insns));
  
-     update_cycles_PMCs(env);
+     gen_set_label(l_exit);
 -- 
 2.31.1
 
