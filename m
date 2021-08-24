@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3AA53F5A2A
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 10:50:42 +0200 (CEST)
-Received: from localhost ([::1]:55208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 575343F5A33
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 10:52:35 +0200 (CEST)
+Received: from localhost ([::1]:35374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIS8i-0000Yo-KG
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 04:50:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59054)
+	id 1mISAc-0006FJ-9Z
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 04:52:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mIRyX-0003Sg-4Y; Tue, 24 Aug 2021 04:40:05 -0400
+ id 1mIRya-0003dg-E0; Tue, 24 Aug 2021 04:40:08 -0400
 Received: from mail-eopbgr70137.outbound.protection.outlook.com
  ([40.107.7.137]:13025 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mIRyV-0007eD-2V; Tue, 24 Aug 2021 04:40:04 -0400
+ id 1mIRyY-0007eD-VQ; Tue, 24 Aug 2021 04:40:08 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TGj6Clrc5MplDhyBuGB5P78EpksoAQT7Cyx2+krvHSUdSwNBfU4nPwRO2GRENnlcCpJ46SNl7/rE2FnnouYn/VSJNmLdGt562y5w9oClEyucpNIT+OyZGG6AbjC2VWRkUHQ+ddRtJpcKCGgpqliExEpI35afM3v7QIz9OWyux8BjWMeBelXYHPMNWNegAjL/laECLOn/Euh54jUG4//O0SzCYparVXWCXLVIE3VqBmQf0DfNr2JqkbgCG4Dlr+M0bGDLdmM3G7u4qGzCNHqk7bYBDxM1Plz6SSno6FhT+ZrCV3y+TFjLs8RYmYbFCP+071sQg4o/KRX0UVPjt24suA==
+ b=cRkhZ3OXCmm+VS0P/lesF+2l6bl9eevRdWJt0AjKYIwAR8kQ0DzHlZJGHTdTXmLNt34hRkUBbM9/wYoZqNNZmfG3wZvguklyptX6Qe6SWOiBOoCSQs2jm4FHYOf2baACbl7cYLvSaOVZEvpjl9GRzrWaN7QvNdrP4HABku3jRs5r2ZfXd6Z1fLGEPQ2L705yLYwG43oqYiquWktNRBiE8Nklt06+K36u7GOUJYiqiECkZCXGvoahPaFPcgWbJS2J9ZXxfE3v/MEEy7FeS/k2aPpZfUSTrX6dygif3WSD9vK3L63iqPhqcN4KS3Yl2co74eD7F7M+zfMXGpI9+SZhOw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zUZIELcLM8f+XWay+whz9zP3yI/HpiDjHxOfs6j6Jxw=;
- b=KyqjLwZ8mu8vsmTp0q1vpwnx8D6CyHoUDYGESD25pvocVpz5ZHShKfpz8KXmrVInvVs4AbKxWthfcugj6DflLjYWlsQxakt6hRziNGQyqEewM3fbXsiayBYQrxAKcUa8ynZ7ep6XkopV4KEZ4/58/WnK1TmsJ4wBriHCZfbyrnD2uCcqSfEVKg3YUPIbx3N0JrMSEd/eExP51+7mAseD9tXhLdGVbMjkXssUCgVdKLIN2Pc6auaGaC/sFsp8QO+0SK+exhIE1pVlrl6qiegvEIaXZAsbJkAHmTnwe0vN8L41kmvPSuEqkuzKAc3S+a4z3OrjcPOlJbYaLtnG/9ISpw==
+ bh=pm/DX8vEH9U0U4+GCtPJAxsZlteqTAW/fTB5aMXiQYE=;
+ b=GKM/f4g7kOn2dIfCB3YsvXIGmcCJ2hxQ1/5HLsG3gjDVNWI5HsoIRDlqGKrhihPBse9ZHtIaGYvGBbj6AseNh3uRTyrS7mFmhEuv8ilyqNHllI2VT7Sd8nA3e+qws1hOfEG4icNrXDfC0rweVN5c7SZgBazL9gLhxM41mzb0H+75AoRI9kVFHTenbp+C/VHZ8VOBUIKpmBepSoqegf8a38MFFIr+/WhXJb+zOlarSUshWZGmauO22vJwyT1tKO5Qd72+JLw44hfbtYZGpcFtCB+JAIUrG052QY7CHrO3g4537D2zjTlh3NVPcCVJd+eBdVrWtMo6RlftU3ABViQYtQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zUZIELcLM8f+XWay+whz9zP3yI/HpiDjHxOfs6j6Jxw=;
- b=YO2YbqNInHOapsef4483gIhgwXckcGDBhPOW+vwnDqwBNNkuf2N+bKtMdrEsV+A5O5zbJt90ZZycBgdKnMRWfkaCtriadhs8mUn1DM9TIBsZu/hN/PhO901OlhIJ+N2QpPZ6G4sRhoy1E7RL0rHnHiRfG8hVOrSgYtunnOG2q7M=
+ bh=pm/DX8vEH9U0U4+GCtPJAxsZlteqTAW/fTB5aMXiQYE=;
+ b=sdqaqTmumBq0JLZoCEH9az+z70gnHXw53H6rxx3RXcrxOn0fkCKuCH7HrJSrdd1WRwEA8LfG4GC2YcwmYp6SJMRvb2JLOghGEQ/YkIKqJS2pJPxnduW+XEv+40AHY8AaDhDpxuZ5jB5ALcXBhKcxvixnwVuTERzi0mFIP4QETn8=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4088.eurprd08.prod.outlook.com (2603:10a6:20b:a9::10)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.24; Tue, 24 Aug
- 2021 08:39:55 +0000
+ 2021 08:39:56 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::3c5e:7829:362d:1423]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::3c5e:7829:362d:1423%2]) with mapi id 15.20.4436.025; Tue, 24 Aug 2021
- 08:39:55 +0000
+ 08:39:56 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
  crosa@redhat.com, ehabkost@redhat.com, berrange@redhat.com,
  pbonzini@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com,
  hreitz@redhat.com, kwolf@redhat.com, Max Reitz <mreitz@redhat.com>
-Subject: [PATCH v8 27/34] iotests/222: constantly use single quotes for strings
-Date: Tue, 24 Aug 2021 11:38:49 +0300
-Message-Id: <20210824083856.17408-28-vsementsov@virtuozzo.com>
+Subject: [PATCH v8 28/34] iotests: move 222 to tests/image-fleecing
+Date: Tue, 24 Aug 2021 11:38:50 +0300
+Message-Id: <20210824083856.17408-29-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210824083856.17408-1-vsementsov@virtuozzo.com>
 References: <20210824083856.17408-1-vsementsov@virtuozzo.com>
@@ -66,54 +66,54 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.249) by
  HE1PR05CA0178.eurprd05.prod.outlook.com (2603:10a6:3:f8::26) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4436.19 via Frontend Transport; Tue, 24 Aug 2021 08:39:53 +0000
+ 15.20.4436.19 via Frontend Transport; Tue, 24 Aug 2021 08:39:55 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d2f5996e-feca-41aa-19ab-08d966dabf6e
+X-MS-Office365-Filtering-Correlation-Id: 79081a19-ae63-4808-2838-08d966dac044
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4088:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4088847C0107419118A25436C1C59@AM6PR08MB4088.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:446;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4088A3480878F4C6156FC263C1C59@AM6PR08MB4088.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:497;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 798hO2uTUUVZaX3TBSOjrZpIH/3eQQ/ybXtar7tdMQSr6U36pr+Z7rpz6bYk3fYR0jt01p/OMCfnKtGitjC9J3/ZkDujLREvdVm+hYb95NiDK4VpZRM+/jZxFmNWmoNhfudzf10cQ87XIQAvtw/l64Z5KbxNncL+ZCE1cL9fOJyTrt337u+ImaavYQy3TAEVOYNhaGPprB8vBnVu0DMYzr8rOT0Jns3TQyw+oDVQaq8szV3Xbp7OoVVsNHnnkelP+MNRSuntZi9uDX1qlpF9YNy9M0HN8VZ8Gx3gCq1qBDnDn2LtM2LhEeD6nJaorBeqfC9NqfsxoHDbJ+C4c1eBKwMToB8nf/pfVv62UzZqgFq0x/+A8kwidb16LTXcQKfpLf/Ie0SUKZgydxcuB/numVddjjIJlz7s/IMgr3xxcO8naJ+M58zWvFmVg9FdHYrvelt3M59o3W+Ir0N+gdVtO0YL49IsAuV10K1SX9BPra/fdONTQooYKGp4FmcNxnaO4OtL0Gg39AC1pIjs/ZFwnQDfbF3e0q0+MnyyD7YlfRYtFM2TK5LVUKOFmXJOyATGluKoTb2LoI6bKH/EBwmwjXfe5KffawTRcdviBzUbMR/VLdUYsOLvNHM0w4fGGQ8sobhwitG3LbaXPBKpz0zOthXIP6yuGR2BsbOcDrhAm23ahAlOOXvLggBeYZtHIUpUrGKiMiuLVc7KtXNQbsWPZA==
+X-Microsoft-Antispam-Message-Info: AbuXObNz3lE9TtblFfjXcgTVCnkJvSpk34uX269gCqQz34TIk2Z3DqwDk9U3UAiiMSF1XCbCZ0hqSY0xAduza2Gi2/2BxFGtjxLHX+Lx5GUIl+MM2YjlpRJY8N8dabTys2lDAU91+PJkBNioF72KaRd1WaDPSN5+htKEoiIh0wyKWDIaHLovFnHz/+5ggQziqZdNhpc67PeSeKaRRdcIAqm2cQjFjE/xZUhFogOOrUxTlw9anXdObvBIcBfFM9r0PMtRotu8woquOlrAe3Zvi8pcJRiBIgghvqNZp6PVwZmoIurm/LCvF7g6AcDVa81fXmEEgsyw7dRhb8amUqJcjhH1Pf9Pa2jxTHAkyC8ncJKslRtHNMz2cEv0M31DMurOe/TFI42wjgWiShxp8xNqmv4ZUwm5M6WcT5CfE7L9ZtkhZXnumhfxZOiiUmq52fqSx+oaIbfjD+3DYcYBGFfsUkrLAw9lDCtqutgI19aB73J3Eo2MNNLBw9RUkprPY2zycWn89fJ4d1x3YWF/OhQQHJ7AbYY5qYA/9qTy/ahxQp0pHcLw36fe8Zw4Jpnv4q/W8Ql8Fxvh1FuqIHBQ894mI5zmX1a/jzldjN3c/ZKyI4R0Ji6voXDiM7nypRKXu7tPTl+HjTAJM55Yk3kXYROwQHxVX0boPDtYnmnmqxtl/7o5gmxw/XKfSp4fPH3PniflUudqfaN3ngKG/y6BAEyZsw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39830400003)(376002)(366004)(396003)(136003)(346002)(1076003)(7416002)(83380400001)(4326008)(956004)(6486002)(38100700002)(38350700002)(8676002)(6512007)(2906002)(478600001)(186003)(66556008)(66476007)(6666004)(6506007)(52116002)(26005)(8936002)(36756003)(2616005)(86362001)(6916009)(316002)(66946007)(5660300002);
+ SFS:(4636009)(39830400003)(376002)(366004)(396003)(136003)(346002)(1076003)(7416002)(83380400001)(4326008)(956004)(6486002)(38100700002)(38350700002)(8676002)(6512007)(2906002)(478600001)(186003)(66556008)(66476007)(6666004)(6506007)(52116002)(4744005)(26005)(8936002)(36756003)(2616005)(86362001)(6916009)(316002)(66946007)(5660300002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?atz6IJf6GqyXVg0yoWtJFLhSRFV9AcD4Mk++QAGB1IHY2aeZjvPoythlQLGV?=
- =?us-ascii?Q?l/1dAEk7jFkU6js0KqWLQ2WySsvtpiQXogjFSzzuUww/ULbkManucGRtapQL?=
- =?us-ascii?Q?oC7f5spXb0co4SQ3VXGELNZyYeXdUeM8ueHn2+CWDGa0h3GSNPtIDP+9Tm4T?=
- =?us-ascii?Q?piQhcslcG50a+m23CUJRfs84smtzc3/LdOdUswniDtAi+TRxFtPvzu1D/P39?=
- =?us-ascii?Q?SVbZdxrjSpcj+jkt9lENCMHvauvaf+3N5bxVoS8loYB0OUtbFNUwdwbx2T7B?=
- =?us-ascii?Q?mJouJtD+liUaOSeHSeAHOc97mJ5ogXW+Lzmx7HbWNuslS313EIxcBiKIjAq5?=
- =?us-ascii?Q?qVr/5MfbgPxZmLMzkyGurlMly2VFMMVLUrjmn7Hym5T5/IR/T6N1rYN1hR/c?=
- =?us-ascii?Q?Tz/7P8crZ3jX/TEBH5lVmRVquzUJyuvPEwGgiipadvPEKrtRcu5nf8sJV+MU?=
- =?us-ascii?Q?A5aJMWZ7SuLPeLZ6KabJp7sqXrcdc4W3ZFKE4ffvEDMrc0n/rhvf28PrDZ77?=
- =?us-ascii?Q?q2Gd6lBN2+as95arA7LVUPRZzTO5LFdxDmpMYou8QxFikUpQ4iYjbHq+2/8W?=
- =?us-ascii?Q?6L0HxHFO2c/Lr5q7yHyXidKJNOKV4J+YaQ/WDpG1i1udviXaXgQt4oTcKF7M?=
- =?us-ascii?Q?HRLTkq+3GHfdVLZOfpu3B2ZUAZA3a/gSic+pCwXH7dVlCExuJHwIKBBXJCSm?=
- =?us-ascii?Q?ie92MlbaMeOmzi6wdSGH5HPbdKJqCzEtY44yecB3UUuVpaAnXIK+yn7pkryt?=
- =?us-ascii?Q?SFVZn0Tr/fsD8A+XjwjEYJvoKF08opOFmpvlGNcsTkM2cT5h/RJ0CIZZjfRO?=
- =?us-ascii?Q?jAoQLe/t6asiqbdNEfKT5FL0fcvL07rDggIeEb8AcfuXB1oYUj331yakmnAA?=
- =?us-ascii?Q?0b43ms6ydqC/fwfJ4iVJYt78ekyB5ELAZRcOLPeVU46V+gdy8bwhvTGlGRvT?=
- =?us-ascii?Q?cb163tpCU4W2q6vV6ZsfKVgdZ8TwFXn7kU/gMrO7eGWc2Q9WF8HRr40HSZvs?=
- =?us-ascii?Q?tr2lYJeSp5fld+JloLK+Wzb+dqhP0cc/lTcEBOwdki91xhVUBI8bTJvkd/1v?=
- =?us-ascii?Q?BuncQg4KAliCBF7AxFPQH5qGg1S2TUJwWiioVB0gLs3kS1PTJhm5N1kUKLS8?=
- =?us-ascii?Q?R4IadBwUkBcpzn09ytNnH+FLyhutOlkhT29QrUTSye8B6TL08+IaP5cDUdyi?=
- =?us-ascii?Q?6dkM365xUfvTZg06Lgm77LBkCUHyDN0/vtTnipqC8oEloysM5w+Ga6KSSWbY?=
- =?us-ascii?Q?nwVuZfZuwOwNBxaie2fSQeioci5mIy8nVxLIcofe+m6So27YG1To+0JWqlce?=
- =?us-ascii?Q?JjIe+sQR0TJJbIYqK5AmGya8?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?IJwyqy6HC1C1oy9P2WK717ZbUTtDmaO8TJsHXmt4ixJqsHOdHVuGVdHP9Jqc?=
+ =?us-ascii?Q?XIamjgq00JQI701Fo+girdV486c8OaLzLCwI0WmaxH1OmZMwo63XKO7YBNgw?=
+ =?us-ascii?Q?icX/HpDzA5R0gvGa0BEsAgSEBfyssimbP9V/FbqZMg+dI/gzCrnbt3a0RIhB?=
+ =?us-ascii?Q?6MUWN0YkLMzM0AzZcpQk8xAJEu04Vk911Hllr0BH7RcjBFgvTxe493akMi/j?=
+ =?us-ascii?Q?K5GVIEVy1Lp2srPGsVZSGAWBW7uO8F4z90iMfkIO7AMed5DBg/ubo2FwdiP2?=
+ =?us-ascii?Q?tc5L6WYh2ySV3805yEcPlV0AnrqsmiHFvreRfr8kyHxNUenLKb7Azzw/m1FV?=
+ =?us-ascii?Q?gTbcDjijXQxyM0Lw5b1gtY3j+xsuMHacsfS0K/VYd+ruUR+V8NmQ9lvNgJKs?=
+ =?us-ascii?Q?cfwEvSsCzIkT7Mfr95wgi5JgI+Cgdx1bVzWaadOoO4cxXvyKQ623+bV5CLhY?=
+ =?us-ascii?Q?FtlHuTiUNwEvfpx7QIdjcVyLCHB6ysD2vC5g+9GaSG1bK/jTlqVWektZDGws?=
+ =?us-ascii?Q?V5rQuxV99GiQ9T+uKeaWUKF/+uIM68dEMufxqwF87mAU5eYlCKcAWdlTEJ5H?=
+ =?us-ascii?Q?0czCYoYhiCty573e97Uvz7qAXBNRdbOyBOIX8R2Hoe3itOnn71v9JsT40rV+?=
+ =?us-ascii?Q?REJVLIDuSK40QM8zPqf3J8Q3UyDk3UqTP+iLQvzEEhOw9lwcv+oLOr+JpvEb?=
+ =?us-ascii?Q?04Jvrai9s3mx9HPun+8glhP4Uraar7wwuW4TNrTqPHS82feLOz+T3knD9tEN?=
+ =?us-ascii?Q?dXKzzfDKq9QehqiylZ8Im0Z58hwjydt45z3ZxHXDBhnJvw2nBEX9G9A5xAKj?=
+ =?us-ascii?Q?zYHEpd2gS9XXmOjED8W5/0bTXnMIzjenAGbAokqf4gHXbSjtB9v2Cr1nI9by?=
+ =?us-ascii?Q?au5X8IfaMeStJl7mDMLzrnwtphFpNsjRdB0F1fR2LYR68C/pciLsSotkdd2g?=
+ =?us-ascii?Q?lMTElQcNjmTRnPeEe0ST1NmphtJHLITyIk/VsY0tbd2Wi9PzsiYpw0rNPAIb?=
+ =?us-ascii?Q?FObHWMGOqDH+SzcCLLt/1aynr9Q43PY8h03bg7O4ftkGXLDsBGmOGaQuAx4w?=
+ =?us-ascii?Q?WNFlfNgMijIPtNO6g9XKkwmdd7uBOdSu31l0sQw6YLYH48zvysRDnfGfLZdU?=
+ =?us-ascii?Q?Vv1tdfmFgCAlTpdIiV11EiZsROXNGv9zqNV+/cBZkJ79VSlVE1npwxe4y1Fc?=
+ =?us-ascii?Q?9zM5lgN+RQZSmGxemnHrPq9F7DBJTFnWGEMUJdLVjp5F9e2vOnKTxp+UvzCf?=
+ =?us-ascii?Q?FE+8XbevyVDASCzyaN4MRBA1p74xzskIadBTWT6RrupSLPs7TYOK6i+TDPOP?=
+ =?us-ascii?Q?2IF7DJuzDrTjVGY4PB3V314d?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d2f5996e-feca-41aa-19ab-08d966dabf6e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 79081a19-ae63-4808-2838-08d966dac044
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 08:39:55.1507 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 08:39:56.5765 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pMmcYc/3oyfM3MhWc3y6nkK2xps3C1AZ3EenY+QExgjH8MB7VFp0gc+f1D0P257GvlAvo8WvgBX2FxPwerAyED2UZIoowcwFo10dmnzVvSc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: CKHBUCrnMu6XUmBggOVU/MuqqU+MAMlt3qBpub/t9NfkAl1DegA+xhG8vrqRqttVVks410/MX8qkfetXBa+dcN5+18GUNBRESATw+NL8kt8=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4088
 Received-SPF: pass client-ip=40.107.7.137;
  envelope-from=vsementsov@virtuozzo.com;
@@ -141,153 +141,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The file use both single and double quotes for strings. Let's be
-consistent.
+Give a good name to test file.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/qemu-iotests/222 | 68 +++++++++++++++++++++---------------------
- 1 file changed, 34 insertions(+), 34 deletions(-)
+ tests/qemu-iotests/{222 => tests/image-fleecing}         | 0
+ tests/qemu-iotests/{222.out => tests/image-fleecing.out} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ rename tests/qemu-iotests/{222 => tests/image-fleecing} (100%)
+ rename tests/qemu-iotests/{222.out => tests/image-fleecing.out} (100%)
 
-diff --git a/tests/qemu-iotests/222 b/tests/qemu-iotests/222
-index 5e2556f8df..799369e290 100755
---- a/tests/qemu-iotests/222
-+++ b/tests/qemu-iotests/222
-@@ -30,23 +30,23 @@ iotests.script_initialize(
-     supported_platforms=['linux'],
- )
- 
--patterns = [("0x5d", "0",         "64k"),
--            ("0xd5", "1M",        "64k"),
--            ("0xdc", "32M",       "64k"),
--            ("0xcd", "0x3ff0000", "64k")]  # 64M - 64K
-+patterns = [('0x5d', '0',         '64k'),
-+            ('0xd5', '1M',        '64k'),
-+            ('0xdc', '32M',       '64k'),
-+            ('0xcd', '0x3ff0000', '64k')]  # 64M - 64K
- 
--overwrite = [("0xab", "0",         "64k"), # Full overwrite
--             ("0xad", "0x00f8000", "64k"), # Partial-left (1M-32K)
--             ("0x1d", "0x2008000", "64k"), # Partial-right (32M+32K)
--             ("0xea", "0x3fe0000", "64k")] # Adjacent-left (64M - 128K)
-+overwrite = [('0xab', '0',         '64k'), # Full overwrite
-+             ('0xad', '0x00f8000', '64k'), # Partial-left (1M-32K)
-+             ('0x1d', '0x2008000', '64k'), # Partial-right (32M+32K)
-+             ('0xea', '0x3fe0000', '64k')] # Adjacent-left (64M - 128K)
- 
--zeroes = [("0", "0x00f8000", "32k"), # Left-end of partial-left (1M-32K)
--          ("0", "0x2010000", "32k"), # Right-end of partial-right (32M+64K)
--          ("0", "0x3fe0000", "64k")] # overwrite[3]
-+zeroes = [('0', '0x00f8000', '32k'), # Left-end of partial-left (1M-32K)
-+          ('0', '0x2010000', '32k'), # Right-end of partial-right (32M+64K)
-+          ('0', '0x3fe0000', '64k')] # overwrite[3]
- 
--remainder = [("0xd5", "0x108000",  "32k"), # Right-end of partial-left [1]
--             ("0xdc", "32M",       "32k"), # Left-end of partial-right [2]
--             ("0xcd", "0x3ff0000", "64k")] # patterns[3]
-+remainder = [('0xd5', '0x108000',  '32k'), # Right-end of partial-left [1]
-+             ('0xdc', '32M',       '32k'), # Left-end of partial-right [2]
-+             ('0xcd', '0x3ff0000', '64k')] # patterns[3]
- 
- with iotests.FilePath('base.img') as base_img_path, \
-      iotests.FilePath('fleece.img') as fleece_img_path, \
-@@ -58,7 +58,7 @@ with iotests.FilePath('base.img') as base_img_path, \
-     log('')
- 
-     assert qemu_img('create', '-f', iotests.imgfmt, base_img_path, '64M') == 0
--    assert qemu_img('create', '-f', "qcow2", fleece_img_path, '64M') == 0
-+    assert qemu_img('create', '-f', 'qcow2', fleece_img_path, '64M') == 0
- 
-     for p in patterns:
-         qemu_io('-f', iotests.imgfmt,
-@@ -78,43 +78,43 @@ with iotests.FilePath('base.img') as base_img_path, \
-     log('--- Setting up Fleecing Graph ---')
-     log('')
- 
--    src_node = "drive0"
--    tgt_node = "fleeceNode"
-+    src_node = 'drive0'
-+    tgt_node = 'fleeceNode'
- 
-     # create tgt_node backed by src_node
--    log(vm.qmp("blockdev-add", {
--        "driver": "qcow2",
--        "node-name": tgt_node,
--        "file": {
--            "driver": "file",
--            "filename": fleece_img_path,
-+    log(vm.qmp('blockdev-add', {
-+        'driver': 'qcow2',
-+        'node-name': tgt_node,
-+        'file': {
-+            'driver': 'file',
-+            'filename': fleece_img_path,
-         },
--        "backing": src_node,
-+        'backing': src_node,
-     }))
- 
-     # Establish COW from source to fleecing node
--    log(vm.qmp("blockdev-backup",
-+    log(vm.qmp('blockdev-backup',
-                device=src_node,
-                target=tgt_node,
--               sync="none"))
-+               sync='none'))
- 
-     log('')
-     log('--- Setting up NBD Export ---')
-     log('')
- 
-     nbd_uri = 'nbd+unix:///%s?socket=%s' % (tgt_node, nbd_sock_path)
--    log(vm.qmp("nbd-server-start",
--               {"addr": { "type": "unix",
--                          "data": { "path": nbd_sock_path } } }))
-+    log(vm.qmp('nbd-server-start',
-+               {'addr': { 'type': 'unix',
-+                          'data': { 'path': nbd_sock_path } } }))
- 
--    log(vm.qmp("nbd-server-add", device=tgt_node))
-+    log(vm.qmp('nbd-server-add', device=tgt_node))
- 
-     log('')
-     log('--- Sanity Check ---')
-     log('')
- 
-     for p in patterns + zeroes:
--        cmd = "read -P%s %s %s" % p
-+        cmd = 'read -P%s %s %s' % p
-         log(cmd)
-         assert qemu_io_silent('-r', '-f', 'raw', '-c', cmd, nbd_uri) == 0
- 
-@@ -123,7 +123,7 @@ with iotests.FilePath('base.img') as base_img_path, \
-     log('')
- 
-     for p in overwrite:
--        cmd = "write -P%s %s %s" % p
-+        cmd = 'write -P%s %s %s' % p
-         log(cmd)
-         log(vm.hmp_qemu_io(src_node, cmd))
- 
-@@ -132,7 +132,7 @@ with iotests.FilePath('base.img') as base_img_path, \
-     log('')
- 
-     for p in patterns + zeroes:
--        cmd = "read -P%s %s %s" % p
-+        cmd = 'read -P%s %s %s' % p
-         log(cmd)
-         assert qemu_io_silent('-r', '-f', 'raw', '-c', cmd, nbd_uri) == 0
- 
-@@ -153,7 +153,7 @@ with iotests.FilePath('base.img') as base_img_path, \
-     log('')
- 
-     for p in overwrite + remainder:
--        cmd = "read -P%s %s %s" % p
-+        cmd = 'read -P%s %s %s' % p
-         log(cmd)
-         assert qemu_io_silent(base_img_path, '-c', cmd) == 0
- 
+diff --git a/tests/qemu-iotests/222 b/tests/qemu-iotests/tests/image-fleecing
+similarity index 100%
+rename from tests/qemu-iotests/222
+rename to tests/qemu-iotests/tests/image-fleecing
+diff --git a/tests/qemu-iotests/222.out b/tests/qemu-iotests/tests/image-fleecing.out
+similarity index 100%
+rename from tests/qemu-iotests/222.out
+rename to tests/qemu-iotests/tests/image-fleecing.out
 -- 
 2.29.2
 
