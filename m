@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DEA13F62E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 18:42:39 +0200 (CEST)
-Received: from localhost ([::1]:38144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 217B83F62BF
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 18:35:37 +0200 (CEST)
+Received: from localhost ([::1]:35068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIZVW-0003fB-Ic
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 12:42:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55914)
+	id 1mIZOi-0007jY-40
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 12:35:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mIZKT-0008FK-6k; Tue, 24 Aug 2021 12:31:14 -0400
-Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:35668)
+ id 1mIZKX-0008IS-LW; Tue, 24 Aug 2021 12:31:17 -0400
+Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:34575)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mIZKQ-0008W2-P8; Tue, 24 Aug 2021 12:31:12 -0400
-Received: by mail-qk1-x731.google.com with SMTP id 22so23825229qkg.2;
- Tue, 24 Aug 2021 09:31:09 -0700 (PDT)
+ id 1mIZKT-000061-Dw; Tue, 24 Aug 2021 12:31:17 -0400
+Received: by mail-qk1-x729.google.com with SMTP id a66so5045731qkc.1;
+ Tue, 24 Aug 2021 09:31:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+VhE1dALRmRsR0ovucIXjRJS8VtVL0h+ezrsS9kNGwY=;
- b=aVLHdQmaVnTYw3AzzdTU1GP2FROe1UwX+3eZMileqh6Yf050KpRviHD2Ur2ArSXBLa
- xA861UoWuUQueqQKllwwZ/wOJbmpPt8APZgJ/aoqe0AJsuuI6ldgv9S5hGAojHiaXlzy
- nxwalV1X6Pt0dt5ijnSJftmOW9gabevKHJspQAF8tjpvZnuepA42cCKIVa0UoOdaTGlp
- gbVW8wrF+6n2Z68KdlSmDNG9j5nGhMx+Tycd1WE23xehS+jyoRQeM9+Ml84O1gkNo0Wy
- UF1AQutYBMWCTywBX3otvMDIwE+Nu2pRmIHcVh9I3jE/Twv5zqa3+bRX4jkc13C1G101
- 5AVw==
+ bh=2ignNHRuSvp0k5PoyT5xcRKDFadczzDUxCmcJmkI2Is=;
+ b=BzmggeKBToUJ8sNzQe6ccFX++01AcYTnPjoU8LjwUx2Xh5ZLukaAO+F0sqdhkv1wfe
+ OnzlqXXiXNUYFSSQGbzRGIkSgRArEBqKFgOJ3vKGIOM7BA5qly7elDXje6UkuklBANW5
+ Wn7ltyjq0rd6Xun7ykB0pBNlhWKWHLvzOFZvJUxvzAy6q4rEkVSW9cm06S2gH8bYGQu0
+ IyxK7+JgQnmojV1y0xqgV6LQcinkuldeQh9AACwb9lgtdwmP3v2XdCSr9ibZUWRG4GZu
+ Llwf1BTuf72p+EFdrLFApPpFcTexHt+GYvh4evDtoSFil8tAQGwrC8/ag0+Xu8JAOV63
+ 38nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+VhE1dALRmRsR0ovucIXjRJS8VtVL0h+ezrsS9kNGwY=;
- b=f3XegUCWJr4sx9BcVMuEGINlXLHP/yTyWlZvhlDjZ5GDykYJw8FthozuCnEh2l82hf
- M/AstD26JHdP2VQB/AjmYxlldvAVgeYnKxiv0eDXiiLhS4iimigLDRfQcqMwfNOIwk1n
- KqwdwU977FW2pePnwapvNg2rFB0cE1ezRDqbzcO52BwP2ZG9khfIBw1wJltho/Hyl/Ae
- grGA8tTqcmesOkvhH2M5GayFvXkI2D6d4KvA383017UOZebHpOx9zB7WopHPA/bTuDr6
- a8estSQOYYZZTIgScS/ROqMKK4OPZI37A3KWLu6o0Kg72UHI1QL0yjZA5QDIEyWY/yUc
- 2Elg==
-X-Gm-Message-State: AOAM532FJcYK9cyY2t7z3VMJ+Sw/sHUW3GY7yY0O4yIc6dkNG6U+JKjq
- Hn7AgHOu6AHKRTUWy9u9xjEe/OAT3ZA=
-X-Google-Smtp-Source: ABdhPJxjDyBVLzKUPjaFH2uioZBNkVZDf/Qh841XBTYJZb+CjOrGEEoCn+4BE6Y+vBupfDY5zhDEeg==
-X-Received: by 2002:a05:620a:38d:: with SMTP id
- q13mr15644360qkm.87.1629822669065; 
- Tue, 24 Aug 2021 09:31:09 -0700 (PDT)
+ bh=2ignNHRuSvp0k5PoyT5xcRKDFadczzDUxCmcJmkI2Is=;
+ b=ufe8Qo7rfH6Mp+t7Dl0cNtOK1nmG9XKJb+WwNDbCAjOA5vhWHCOEnejZtE2pHtbqrs
+ qSnZNhBVXWBxuLadvBJ4L2vkT/ia6qnrHkTXsoRW0C07yV3vae7feoXDhVAvtbhphPfr
+ 8VWvjjdUnlI3wm4qqc9tQet3xo0nvCKES+uQ8OjHxJHdnWNxRBZDpzvoI7U9RwwtEt20
+ 78M4lMwGP+ZMoa+Umo2iQ8g3MRhpD/9NJjTPnW0t5eBNKeipexpFYlmkvwdJs7ijpt+X
+ zOkP4dC8ra3EK9dniQAJrLTqF8QRnbQ2AwYYgLFDctgpx++JXc/oqsr4Af8AptTt52ft
+ 4IGA==
+X-Gm-Message-State: AOAM5312rp1Mob0uGYW/P/VXEzEUy17hd4D7AcYdH1xDNbjO9pdkbJOo
+ yXcDsI2MPUSFuAW0GFNKPQAb9YYH+Iw=
+X-Google-Smtp-Source: ABdhPJyyIrVoJ97MQn3Z/mFS2yFpStacHG261Be1ByaC8KJ3R9flSGaASAkzmdoSuNajTK1SE3xs4A==
+X-Received: by 2002:a37:84c3:: with SMTP id
+ g186mr26516158qkd.276.1629822671941; 
+ Tue, 24 Aug 2021 09:31:11 -0700 (PDT)
 Received: from rekt.ihost.com ([179.247.162.205])
- by smtp.gmail.com with ESMTPSA id 75sm10951474qko.100.2021.08.24.09.31.06
+ by smtp.gmail.com with ESMTPSA id 75sm10951474qko.100.2021.08.24.09.31.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Aug 2021 09:31:08 -0700 (PDT)
+ Tue, 24 Aug 2021 09:31:11 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/16] PPC64/TCG: Implement 'rfebb' instruction
-Date: Tue, 24 Aug 2021 13:30:25 -0300
-Message-Id: <20210824163032.394099-10-danielhb413@gmail.com>
+Subject: [PATCH v2 10/16] target/ppc: PMU Event-Based exception support
+Date: Tue, 24 Aug 2021 13:30:26 -0300
+Message-Id: <20210824163032.394099-11-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210824163032.394099-1-danielhb413@gmail.com>
 References: <20210824163032.394099-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x731.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x729.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -82,154 +82,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gustavo.romero@linaro.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- richard.henderson@linaro.org, groug@kaod.org, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: gustavo.romero@linaro.org, Gustavo Romero <gromero@linux.ibm.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, richard.henderson@linaro.org,
+ groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-An Event-Based Branch (EBB) allows applications to change the NIA when a
-event-based exception occurs. Event-based exceptions are enabled by
-setting the Branch Event Status and Control Register (BESCR). If the
-event-based exception is enabled when the exception occurs, an EBB
-happens.
+From: Gustavo Romero <gromero@linux.ibm.com>
 
-The EBB will:
+Following up the rfebb implementation, this patch adds the EBB exception
+support that are triggered by Performance Monitor alerts. This exception
+occurs when an enabled PMU condition or event happens and both MMCR0_EBE
+and BESCR_PME are set.
 
-- set the Global Enable (GE) bit of BESCR to 0;
-- set bits 0-61 of the Event-Based Branch Return Register (EBBRR) to the
-  effective address of the NIA that would have executed if the EBB
-  didn't happen;
-- Instruction fetch and execution will continue in the effective address
-  contained in the Event-Based Branch Handler Register (EBBHR).
+The supported PM alerts will consist of counter negative conditions of
+the PMU counters. This will be achieved by a timer mechanism that will
+predict when a counter becomes negative. The PMU timer callback will set
+the appropriate bits in MMCR0 and fire a PMC interrupt. The EBB
+exception code will then set the appropriate BESCR bits, set the next
+instruction pointer to the address pointed by the return register
+(SPR_EBBRR), and redirect execution to the handler (pointed by
+SPR_EBBHR).
 
-The EBB Handler will process the event and then execute the Return From
-Event-Based Branch (rfebb) instruction. rfebb sets BESCR_GE and then
-redirects execution to the address pointed in EBBRR. This process is
-described in the PowerISA v3.1, Book II, Chapter 6 [1].
+This patch sets the basic structure of interrupts and timers. The
+following patches will add the counter negative logic for the registers.
 
-This patch implements the rfebb instruction. Descriptions of all
-relevant BESCR bits are also added - this patch is only using BESCR_GE,
-but the next patches will use the remaining bits.
-
-[1] https://wiki.raptorcs.com/w/images/f/f5/PowerISA_public.v3.1.pdf
-
+CC: Gustavo Romero <gustavo.romero@linaro.org>
+Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu.h                       | 13 +++++++++++
- target/ppc/excp_helper.c               | 24 +++++++++++++++++++
- target/ppc/helper.h                    |  1 +
- target/ppc/insn32.decode               |  5 ++++
- target/ppc/translate.c                 |  2 ++
- target/ppc/translate/branch-impl.c.inc | 32 ++++++++++++++++++++++++++
- 6 files changed, 77 insertions(+)
- create mode 100644 target/ppc/translate/branch-impl.c.inc
+ hw/ppc/spapr_cpu_core.c  |  6 ++++++
+ target/ppc/cpu.h         | 12 +++++++++++-
+ target/ppc/excp_helper.c | 28 +++++++++++++++++++++++++++
+ target/ppc/power8_pmu.c  | 41 ++++++++++++++++++++++++++++++++++++++++
+ target/ppc/power8_pmu.h  | 25 ++++++++++++++++++++++++
+ 5 files changed, 111 insertions(+), 1 deletion(-)
+ create mode 100644 target/ppc/power8_pmu.h
 
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index 4f316a6f9d..c7a342c4aa 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -20,6 +20,7 @@
+ #include "target/ppc/kvm_ppc.h"
+ #include "hw/ppc/ppc.h"
+ #include "target/ppc/mmu-hash64.h"
++#include "target/ppc/power8_pmu.h"
+ #include "sysemu/numa.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/hw_accel.h"
+@@ -266,6 +267,11 @@ static bool spapr_realize_vcpu(PowerPCCPU *cpu, SpaprMachineState *spapr,
+         return false;
+     }
+ 
++    /* Init PMU interrupt timer (TCG only) */
++    if (!kvm_enabled()) {
++        cpu_ppc_pmu_timer_init(env);
++    }
++
+     if (!sc->pre_3_0_migration) {
+         vmstate_register(NULL, cs->cpu_index, &vmstate_spapr_cpu_state,
+                          cpu->machine_data);
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 105ee75a01..9d5eb9ead4 100644
+index 9d5eb9ead4..535754ddff 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -363,6 +363,19 @@ typedef struct ppc_v3_pate_t {
- /* PMU uses CTRL_RUN to sample PM_RUN_INST_CMPL */
- #define CTRL_RUN PPC_BIT(63)
+@@ -129,8 +129,9 @@ enum {
+     /* ISA 3.00 additions */
+     POWERPC_EXCP_HVIRT    = 101,
+     POWERPC_EXCP_SYSCALL_VECTORED = 102, /* scv exception                     */
++    POWERPC_EXCP_EBB = 103, /* Event-based branch exception                  */
+     /* EOL                                                                   */
+-    POWERPC_EXCP_NB       = 103,
++    POWERPC_EXCP_NB       = 104,
+     /* QEMU exceptions: special cases we want to stop translation            */
+     POWERPC_EXCP_SYSCALL_USER = 0x203, /* System call in user mode only      */
+ };
+@@ -1047,6 +1048,8 @@ struct ppc_radix_page_info {
+ #define PPC_CPU_OPCODES_LEN          0x40
+ #define PPC_CPU_INDIRECT_OPCODES_LEN 0x20
  
-+/* EBB/BESCR bits */
-+/* Global Enable */
-+#define BESCR_GE PPC_BIT(0)
-+/* External Event-based Exception Enable */
-+#define BESCR_EE PPC_BIT(30)
-+/* Performance Monitor Event-based Exception Enable */
-+#define BESCR_PME PPC_BIT(31)
-+/* External Event-based Exception Occurred */
-+#define BESCR_EEO PPC_BIT(62)
-+/* Performance Monitor Event-based Exception Occurred */
-+#define BESCR_PMEO PPC_BIT(63)
-+#define BESCR_INVALID PPC_BITMASK(32, 33)
++#define PMU_TIMERS_LEN 5
 +
- /* LPCR bits */
- #define LPCR_VPM0         PPC_BIT(0)
- #define LPCR_VPM1         PPC_BIT(1)
+ struct CPUPPCState {
+     /* Most commonly used resources during translated code execution first */
+     target_ulong gpr[32];  /* general purpose registers */
+@@ -1208,6 +1211,12 @@ struct CPUPPCState {
+      * running cycles.
+      */
+     uint64_t pmu_base_time;
++
++    /*
++     * Timers used to fire performance monitor alerts and
++     * interrupts. All PMCs but PMC5 has a timer.
++     */
++    QEMUTimer *pmu_intr_timers[PMU_TIMERS_LEN];
+ };
+ 
+ #define SET_FIT_PERIOD(a_, b_, c_, d_)          \
+@@ -2424,6 +2433,7 @@ enum {
+     PPC_INTERRUPT_HMI,            /* Hypervisor Maintenance interrupt    */
+     PPC_INTERRUPT_HDOORBELL,      /* Hypervisor Doorbell interrupt        */
+     PPC_INTERRUPT_HVIRT,          /* Hypervisor virtualization interrupt  */
++    PPC_INTERRUPT_PMC,            /* Performance Monitor Counter interrupt */
+ };
+ 
+ /* Processor Compatibility mask (PCR) */
 diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 7b6ac16eef..058b063d8a 100644
+index 058b063d8a..e97898c5f4 100644
 --- a/target/ppc/excp_helper.c
 +++ b/target/ppc/excp_helper.c
-@@ -1281,6 +1281,30 @@ void helper_hrfid(CPUPPCState *env)
- }
- #endif
+@@ -821,6 +821,22 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+         cpu_abort(cs, "Non maskable external exception "
+                   "is not implemented yet !\n");
+         break;
++    case POWERPC_EXCP_EBB:       /* Event-based branch exception             */
++        if ((env->spr[SPR_BESCR] & BESCR_GE) &&
++            (env->spr[SPR_BESCR] & BESCR_PME)) {
++            target_ulong nip;
++
++            env->spr[SPR_BESCR] &= ~BESCR_GE;   /* Clear GE */
++            env->spr[SPR_BESCR] |= BESCR_PMEO;  /* Set PMEO */
++            env->spr[SPR_EBBRR] = env->nip;     /* Save NIP for rfebb insn */
++            nip = env->spr[SPR_EBBHR];          /* EBB handler */
++            powerpc_set_excp_state(cpu, nip, env->msr);
++        }
++        /*
++         * This interrupt is handled by userspace. No need
++         * to proceed.
++         */
++        return;
+     default:
+     excp_invalid:
+         cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
+@@ -1068,6 +1084,18 @@ static void ppc_hw_interrupt(CPUPPCState *env)
+             powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_THERM);
+             return;
+         }
++        /* PMC -> Event-based branch exception */
++        if (env->pending_interrupts & (1 << PPC_INTERRUPT_PMC)) {
++            /*
++             * Performance Monitor event-based exception can only
++             * occur in problem state.
++             */
++            if (msr_pr == 1) {
++                env->pending_interrupts &= ~(1 << PPC_INTERRUPT_PMC);
++                powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_EBB);
++                return;
++            }
++        }
+     }
  
-+#ifdef CONFIG_TCG
-+void helper_rfebb(CPUPPCState *env, target_ulong s)
+     if (env->resume_as_sreset) {
+diff --git a/target/ppc/power8_pmu.c b/target/ppc/power8_pmu.c
+index 4545fe7810..a57b602125 100644
+--- a/target/ppc/power8_pmu.c
++++ b/target/ppc/power8_pmu.c
+@@ -12,12 +12,14 @@
+ 
+ #include "qemu/osdep.h"
+ 
++#include "power8_pmu.h"
+ #include "cpu.h"
+ #include "helper_regs.h"
+ #include "exec/exec-all.h"
+ #include "exec/helper-proto.h"
+ #include "qemu/error-report.h"
+ #include "qemu/main-loop.h"
++#include "hw/ppc/ppc.h"
+ 
+ #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
+ 
+@@ -114,6 +116,45 @@ static void update_cycles_PMCs(CPUPPCState *env)
+     }
+ }
+ 
++static void cpu_ppc_pmu_timer_cb(void *opaque)
 +{
-+    /*
-+     * Handling of BESCR bits 32:33 according to PowerISA v3.1:
-+     *
-+     * "If BESCR 32:33 != 0b00 the instruction is treated as if
-+     *  the instruction form were invalid."
-+     */
-+    if (env->spr[SPR_BESCR] & BESCR_INVALID) {
-+        raise_exception_err(env, POWERPC_EXCP_PROGRAM,
-+                            POWERPC_EXCP_INVAL | POWERPC_EXCP_INVAL_INVAL);
-+    }
++    PowerPCCPU *cpu = opaque;
++    CPUPPCState *env = &cpu->env;
++    uint64_t mmcr0;
 +
-+    env->nip = env->spr[SPR_EBBRR];
++    mmcr0 = env->spr[SPR_POWER_MMCR0];
++    if (env->spr[SPR_POWER_MMCR0] & MMCR0_EBE) {
++        /* freeeze counters if needed */
++        if (mmcr0 & MMCR0_FCECE) {
++            mmcr0 &= ~MMCR0_FCECE;
++            mmcr0 |= MMCR0_FC;
++        }
 +
-+    if (s) {
-+        env->spr[SPR_BESCR] |= BESCR_GE;
-+    } else {
-+        env->spr[SPR_BESCR] &= ~BESCR_GE;
++        /* Clear PMAE and set PMAO */
++        if (mmcr0 & MMCR0_PMAE) {
++            mmcr0 &= ~MMCR0_PMAE;
++            mmcr0 |= MMCR0_PMAO;
++        }
++        env->spr[SPR_POWER_MMCR0] = mmcr0;
++
++        /* Fire the PMC hardware exception */
++        ppc_set_irq(cpu, PPC_INTERRUPT_PMC, 1);
 +    }
 +}
-+#endif
 +
- /*****************************************************************************/
- /* Embedded PowerPC specific helpers */
- void helper_40x_rfci(CPUPPCState *env)
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 47dbbe6da1..91a86992a5 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -18,6 +18,7 @@ DEF_HELPER_2(pminsn, void, env, i32)
- DEF_HELPER_1(rfid, void, env)
- DEF_HELPER_1(rfscv, void, env)
- DEF_HELPER_1(hrfid, void, env)
-+DEF_HELPER_2(rfebb, void, env, tl)
- DEF_HELPER_2(store_lpcr, void, env, tl)
- DEF_HELPER_2(store_pcr, void, env, tl)
- DEF_HELPER_2(store_mmcr0, void, env, tl)
-diff --git a/target/ppc/insn32.decode b/target/ppc/insn32.decode
-index 9fd8d6b817..bd0b88b0b6 100644
---- a/target/ppc/insn32.decode
-+++ b/target/ppc/insn32.decode
-@@ -124,3 +124,8 @@ SETNBCR         011111 ..... ..... ----- 0111100000 -   @X_bi
- ## Vector Bit Manipulation Instruction
- 
- VCFUGED         000100 ..... ..... ..... 10101001101    @VX
++void cpu_ppc_pmu_timer_init(CPUPPCState *env)
++{
++    PowerPCCPU *cpu = env_archcpu(env);
++    QEMUTimer *timer;
++    int i;
 +
-+### rfebb
-+&RFEBB          s:uint8_t
-+@RFEBB          ......-------------- s:1 .......... -   &RFEBB
-+RFEBB           010011-------------- .   0010010010 -   @RFEBB
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index d45ce79a3e..d4cfc567cf 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -7643,6 +7643,8 @@ static int times_4(DisasContext *ctx, int x)
- 
- #include "translate/spe-impl.c.inc"
- 
-+#include "translate/branch-impl.c.inc"
++    for (i = 0; i < PMU_TIMERS_LEN; i++) {
++        timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &cpu_ppc_pmu_timer_cb,
++                             cpu);
++        env->pmu_intr_timers[i] = timer;
++    }
++}
 +
- /* Handles lfdp, lxsd, lxssp */
- static void gen_dform39(DisasContext *ctx)
+ void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
  {
-diff --git a/target/ppc/translate/branch-impl.c.inc b/target/ppc/translate/branch-impl.c.inc
+     target_ulong curr_value = env->spr[SPR_POWER_MMCR0];
+diff --git a/target/ppc/power8_pmu.h b/target/ppc/power8_pmu.h
 new file mode 100644
-index 0000000000..2e309e9889
+index 0000000000..34a9d0e8a2
 --- /dev/null
-+++ b/target/ppc/translate/branch-impl.c.inc
-@@ -0,0 +1,32 @@
++++ b/target/ppc/power8_pmu.h
+@@ -0,0 +1,25 @@
 +/*
-+ * Power ISA decode for branch instructions
++ * PMU emulation helpers for TCG IBM POWER chips
 + *
 + *  Copyright IBM Corp. 2021
 + *
@@ -240,25 +317,18 @@ index 0000000000..2e309e9889
 + * See the COPYING file in the top-level directory.
 + */
 +
-+#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
++#ifndef PMU_BOOK3S_HELPER
++#define PMU_BOOK3S_HELPER
 +
-+static bool trans_RFEBB(DisasContext *ctx, arg_RFEBB *arg)
-+{
-+    REQUIRE_INSNS_FLAGS2(ctx, ISA207S);
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "exec/exec-all.h"
++#include "exec/helper-proto.h"
++#include "qemu/error-report.h"
++#include "qemu/main-loop.h"
 +
-+    gen_icount_io_start(ctx);
-+    gen_update_cfar(ctx, ctx->cia);
-+    gen_helper_rfebb(cpu_env, cpu_gpr[arg->s]);
++void cpu_ppc_pmu_timer_init(CPUPPCState *env);
 +
-+    ctx->base.is_jmp = DISAS_CHAIN;
-+
-+    return true;
-+}
-+#else
-+static bool trans_RFEBB(DisasContext *ctx, arg_RFEBB *arg)
-+{
-+    return true;
-+}
 +#endif
 -- 
 2.31.1
