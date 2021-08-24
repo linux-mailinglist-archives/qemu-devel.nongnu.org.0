@@ -2,48 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BDC53F569D
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 05:20:54 +0200 (CEST)
-Received: from localhost ([::1]:60322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81CEC3F576A
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 06:52:29 +0200 (CEST)
+Received: from localhost ([::1]:40414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIMza-0001AU-5f
-	for lists+qemu-devel@lfdr.de; Mon, 23 Aug 2021 23:20:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52248)
+	id 1mIOQF-0002SU-GO
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 00:52:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mIMyO-0007dg-C7; Mon, 23 Aug 2021 23:19:36 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2472)
+ id 1mIOPG-0001mo-I9
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 00:51:26 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2473)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mIMyJ-0003IZ-P8; Mon, 23 Aug 2021 23:19:36 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GtvPb2k9qzbhb1;
- Tue, 24 Aug 2021 11:15:31 +0800 (CST)
+ id 1mIOPB-00059b-Go
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 00:51:25 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GtxRc5qjRzbgqt;
+ Tue, 24 Aug 2021 12:47:24 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 24 Aug 2021 11:19:19 +0800
+ 15.1.2176.2; Tue, 24 Aug 2021 12:51:13 +0800
 Received: from [10.174.187.128] (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Tue, 24 Aug 2021 11:19:18 +0800
-Subject: Re: [PATCH for-6.2 v5 0/5] hw/arm/virt: Introduce cpu topology support
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20210805123921.62540-1-wangyanan55@huawei.com>
- <20210823195243-mutt-send-email-mst@kernel.org>
+ 15.1.2176.2; Tue, 24 Aug 2021 12:51:12 +0800
+Subject: Re: [PATCH v7 05/15] machine: Improve the error reporting of smp
+ parsing
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov
+ <imammedo@redhat.com>
+References: <20210823122804.7692-1-wangyanan55@huawei.com>
+ <20210823122804.7692-6-wangyanan55@huawei.com>
+ <c5a2bacc-ea23-6de7-2dd5-f0451034d2a8@redhat.com>
 From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <6c2cbbc1-8004-4e8c-a867-4e09efd84594@huawei.com>
-Date: Tue, 24 Aug 2021 11:19:18 +0800
+Message-ID: <4b49fb0c-ec73-d8ca-f622-cc8e21ed0140@huawei.com>
+Date: Tue, 24 Aug 2021 12:51:12 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20210823195243-mutt-send-email-mst@kernel.org>
+In-Reply-To: <c5a2bacc-ea23-6de7-2dd5-f0451034d2a8@redhat.com>
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme702-chm.china.huawei.com (10.1.199.98) To
+X-ClientProxiedBy: dggeme709-chm.china.huawei.com (10.1.199.105) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=45.249.212.187;
@@ -67,138 +73,96 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- qemu-devel@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- Igor Mammedov <imammedo@redhat.com>, wanghaibin.wang@huawei.com,
- Salil Mehta <salil.mehta@huawei.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ wanghaibin.wang@huawei.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2021/8/24 7:53, Michael S. Tsirkin wrote:
-> On Thu, Aug 05, 2021 at 08:39:16PM +0800, Yanan Wang wrote:
->> Hi,
+On 2021/8/23 21:17, Philippe Mathieu-Daudé wrote:
+> On 8/23/21 2:27 PM, Yanan Wang wrote:
+>> We have two requirements for a valid SMP configuration:
+>> the product of "sockets * cores * threads" must represent all the
+>> possible cpus, i.e., max_cpus, and then must include the initially
+>> present cpus, i.e., smp_cpus.
 >>
->> This is a new version (v5) of the series [1] that I posted to introduce
->> support for generating cpu topology descriptions to virt machine guest.
+>> So we only need to ensure 1) "sockets * cores * threads == maxcpus"
+>> at first and then ensure 2) "maxcpus >= cpus". With a reasonable
+>> order of the sanity check, we can simplify the error reporting code.
+>> When reporting an error message we also report the exact value of
+>> each topology member to make users easily see what's going on.
 >>
->> Once the view of an accurate virtual cpu topology is provided to guest,
->> with a well-designed vCPU pinning to the pCPU we may get a huge benefit,
->> e.g., the scheduling performance improvement. See Dario Faggioli's
->> research and the related performance tests in [2] for reference.
+>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+>> Reviewed-by: Andrew Jones <drjones@redhat.com>
+>> Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+>> ---
+>>   hw/core/machine.c | 22 +++++++++-------------
+>>   hw/i386/pc.c      | 24 ++++++++++--------------
+>>   2 files changed, 19 insertions(+), 27 deletions(-)
 >>
->> This patch series introduces cpu topology support for ARM platform.
->> Both cpu-map in DT and ACPI PPTT table are introduced to store the
->> topology information. And we only describe the topology information
->> to 6.2 and newer virt machines, considering compatibility.
-> ACPI things:
->
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Thanks for the reviewing.
-> pls merge through ARM tree.
-Sure, got it.
+>> diff --git a/hw/core/machine.c b/hw/core/machine.c
+>> index 85908abc77..093c0d382d 100644
+>> --- a/hw/core/machine.c
+>> +++ b/hw/core/machine.c
+>> @@ -779,25 +779,21 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
+>>       maxcpus = maxcpus > 0 ? maxcpus : sockets * cores * threads;
+>>       cpus = cpus > 0 ? cpus : maxcpus;
+>>   
+>> -    if (sockets * cores * threads < cpus) {
+>> -        error_setg(errp, "cpu topology: "
+>> -                   "sockets (%u) * cores (%u) * threads (%u) < "
+>> -                   "smp_cpus (%u)",
+>> -                   sockets, cores, threads, cpus);
+>> +    if (sockets * cores * threads != maxcpus) {
+>> +        error_setg(errp, "Invalid CPU topology: "
+>> +                   "product of the hierarchy must match maxcpus: "
+>> +                   "sockets (%u) * cores (%u) * threads (%u) "
+>> +                   "!= maxcpus (%u)",
+>> +                   sockets, cores, threads, maxcpus);
+>>           return;
+>>       }
+> Thinking about scalability, MachineClass could have a
+> parse_cpu_topology() handler, and this would be the
+> generic one. Principally because architectures don't
+> use the same terms, and die/socket/core/thread arrangement
+> is machine specific (besides being arch-spec).
+> Not a problem as of today, but the way we try to handle
+> this generically seems over-engineered to me.
+Hi Philippe,
 
+The reason for introducing a generic implementation and avoiding
+specific ones is that we thought there is little difference in parsing
+logic between the specific parsers. Most part of the parsing is the
+automatic calculation of missing values and the related error reporting,
+in which the only difference between parsers is the handling of specific
+(no matter of arch-specific or machine-specifc) parameters.
+
+So it may be better to keep the parsing logic unified if we can easily
+realize that. And actually we can use compat stuff to handle specific
+topology parameters well. See implementation in patch #10.
+
+There have been patches on list introducing new specific members
+(s390 related in [1] and ARM related in [2]), and in each of them there
+is a specific parser needed. However, based on generic one we can
+extend without the increasing code duplication.
+
+There is also some discussion about generic/specific parser in [1],
+which can be a reference.
+
+[1] 
+https://lore.kernel.org/qemu-devel/1626281596-31061-2-git-send-email-pmorel@linux.ibm.com/
+[2] 
+https://lore.kernel.org/qemu-devel/20210516103228.37792-1-wangyanan55@huawei.com/
+
+Thanks,
 Yanan
 .
->
->> [1] https://lore.kernel.org/qemu-devel/20210622093413.13360-1-wangyanan55@huawei.com/
->> [2] https://kvmforum2020.sched.com/event/eE1y/virtual-topology-for-virtual-machines
->> -friend-or-foe-dario-faggioli-suse
->>
->> Some tests:
->> 1) -smp 16,sockets=2,cores=4,threads=2,maxcpus=16
->> lscpu:
->> Architecture:        aarch64
->> Byte Order:          Little Endian
->> CPU(s):              16
->> On-line CPU(s) list: 0-15
->> Thread(s) per core:  2
->> Core(s) per socket:  4
->> Socket(s):           2
->> NUMA node(s):        1
->> Vendor ID:           ARM
->> Model:               2
->> Model name:          Cortex-A72
->> Stepping:            r0p2
->> BogoMIPS:            100.00
->> NUMA node0 CPU(s):   0-15
->>
->> cat /sys/devices/system/cpu/present  -->  0-15
->> cat /sys/devices/system/cpu/possible -->  0-15
->>
->> 2) -smp 8,sockets=2,cores=4,threads=2,maxcpus=16
->> lscpu:
->> Architecture:        aarch64
->> Byte Order:          Little Endian
->> CPU(s):              8
->> On-line CPU(s) list: 0-7
->> Thread(s) per core:  2
->> Core(s) per socket:  4
->> Socket(s):           1
->> NUMA node(s):        1
->> Vendor ID:           ARM
->> Model:               2
->> Model name:          Cortex-A72
->> Stepping:            r0p2
->> BogoMIPS:            100.00
->> NUMA node0 CPU(s):   0-7
->>
->> cat /sys/devices/system/cpu/present  -->  0-7
->> cat /sys/devices/system/cpu/possible -->  0-7
->>
->> ---
->>
->> Changelogs:
->>
->> v4->v5:
->> - drop the added -smp "expose=on|off" parameter and only describe topology
->>    for 6.2 and newer machines
->> - rebased the code on patch series [3] which has introduced some fix and
->>    improvement for smp parsing
->> - [3]: https://lore.kernel.org/qemu-devel/20210803080527.156556-1-wangyanan55@huawei.com/
->>
->> v3->v4:
->> - add new -smp parameter "expose=on|off" for users to enable/disable the feature
->> - add stricter -smp cmdline parsing rules on "expose=on" case
->> - move build_pptt to generic aml-build.c
->> - add default cluster node in the cpu-map
->> - rebase on top of latest upstream master
->> - v3: https://lore.kernel.org/qemu-devel/20210516102900.28036-1-wangyanan55@huawei.com/
->>
->> v2->v3:
->> - address comments from David, Philippe, and Andrew. Thanks!
->> - split some change into separate commits for ease of review
->> - adjust parsing rules of virt_smp_parse to be more strict
->>    (after discussion with Andrew)
->> - adjust author credit for the patches
->>
->> v1->v2:
->> - Address Andrew Jones's comments
->> - Address Michael S. Tsirkin's comments
->>
->> ---
->>
->> Andrew Jones (2):
->>    hw/arm/virt: Add cpu-map to device tree
->>    hw/acpi/aml-build: Generate PPTT table
->>
->> Yanan Wang (3):
->>    hw/arm/virt: Only describe cpu topology to guest since virt 6.2
->>    device_tree: Add qemu_fdt_add_path
->>    hw/acpi/aml-build: Add Processor hierarchy node structure
->>
->>   hw/acpi/aml-build.c          | 76 ++++++++++++++++++++++++++++++++++++
->>   hw/arm/virt-acpi-build.c     |  8 +++-
->>   hw/arm/virt.c                | 62 ++++++++++++++++++++++++-----
->>   include/hw/acpi/aml-build.h  |  7 ++++
->>   include/hw/arm/virt.h        |  4 +-
->>   include/sysemu/device_tree.h |  1 +
->>   softmmu/device_tree.c        | 44 ++++++++++++++++++++-
->>   7 files changed, 188 insertions(+), 14 deletions(-)
->>
->> -- 
->> 2.19.1
+> [unrelated to this particular patch]
 >
 > .
 
