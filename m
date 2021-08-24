@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3F443F62D5
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 18:40:53 +0200 (CEST)
-Received: from localhost ([::1]:58472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7F5A3F62B5
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 18:33:49 +0200 (CEST)
+Received: from localhost ([::1]:55614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIZTo-0006d9-NI
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 12:40:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55876)
+	id 1mIZMy-0002f0-T2
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 12:33:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mIZKN-0008Cm-53; Tue, 24 Aug 2021 12:31:08 -0400
-Received: from mail-qv1-xf35.google.com ([2607:f8b0:4864:20::f35]:35648)
+ id 1mIZKQ-0008Ec-NQ; Tue, 24 Aug 2021 12:31:12 -0400
+Received: from mail-qt1-x833.google.com ([2607:f8b0:4864:20::833]:41611)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mIZKL-0008TB-Dk; Tue, 24 Aug 2021 12:31:06 -0400
-Received: by mail-qv1-xf35.google.com with SMTP id g11so12042257qvd.2;
- Tue, 24 Aug 2021 09:31:04 -0700 (PDT)
+ id 1mIZKO-0008Ue-14; Tue, 24 Aug 2021 12:31:10 -0400
+Received: by mail-qt1-x833.google.com with SMTP id u21so14331769qtw.8;
+ Tue, 24 Aug 2021 09:31:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0B0qLh8PXxbEdnRhKaE627h9TxWvlLuXs5FwuLK5IXI=;
- b=UZLHhoIVXpeAQdCn700jHoRbgka2lyGxvzfl1KI7FNDEYPSvc+LRtGCP2rrJYlSN8m
- btzzWSRR66bZRbIoRMbsplilw1nVV+oaTZhtsKNMlo10R+OLbm2c2vA/n7Wf/NeWr7Kc
- eh2TWsEL342qJNPmRYCxhbw2yZ6V2tn1+MZ6cFGTsZ4X5MYNNqeUcGgGiGHBqxiYNw3P
- DjdFC9HFZ3I5AgYV+hzNL6aXnOXZhCKa1vzDOLa4HeJJLxyVrDutJ0INu0FUFWC3VQiF
- pVYH2GwGtjmeKuxV93cXAO/3sIHlYQpyX6u8rlJBvzYhAu3sGbKr9V5ouJsnXSSJNNnK
- vSUw==
+ bh=+9zhb5pU5UdkcMt4NXPfAYOah6MErf8DGT2ptgvitXY=;
+ b=WlKke5/DWX55QyofkZfmUdENYdJVX2BE9OA7jROcQUY0twUYoPcPi9a9AJAq7MaNr+
+ goJqhrYdJW8tmh/lJ65xjpaAGVpPzfh2t65aKeDdC/cr5jLIBQWuNtrqYu/n10TCd6k8
+ GOGmmRZKBWjMUzigA6pZw5P7++DVMvGcfE8O8sFCxFjAhm/Sm+px4++ttW+nfraH0fSH
+ AGGjZXtq7TVYulkflWKlYn3zlhqHPYXSTzjgwJBElCwIxpxpmtmZrcBhzv0Tw4kpJ+F9
+ DO5NXv92Fc9EJDe1g33Ntmo/ca+8/REmudeQ3iBgCWMf11SwrY+FyV9YN4LZjG8PuJm0
+ TpYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0B0qLh8PXxbEdnRhKaE627h9TxWvlLuXs5FwuLK5IXI=;
- b=Vohro5Hy56pJcndshaFBsHyaGMzpGpdJr8rmjKZ2AHDLle0EuDjtjsrvdueETxeDRS
- eSZXZLWdS8oXrP45GReMWsQfs9WLAlAs+unWf1HfDmIgQguBSP85Z6bFrei/wk7Y1kSl
- bW3WazbvJqo75Ti0IJzGrepif4aH9W/P/uItliMatVtPWhQXLbARgBJ3M4LodabloV5M
- ewCk634d28cKiFnpp7Aq1jCT6vd2gINFHlItSJPGFcA0K2tnvqoDmSEYlihRvOz4ntj7
- pRbAuH4vnj3hDhkmCnYvIDNpOVOTZPkwN3Mb6l/tinY5NNSnTiPXVNVhWtpvk9J719Xs
- kPQQ==
-X-Gm-Message-State: AOAM531d0by3HLi/UaAK67V0xIjo6Bgh93g/6pyz9kDLZ06mnLoiI579
- wEDlxhzZgzSOkvmNx5o3XVjMLDJE8DA=
-X-Google-Smtp-Source: ABdhPJzUdVqkCdYyR6Vd5NF9tZMVlz4x1hBwDDBuhNq6hyur5M8IrsdJIQehCojDS6ZGrcR3XKI1Fg==
-X-Received: by 2002:a05:6214:c87:: with SMTP id r7mr2403020qvr.2.1629822663907; 
- Tue, 24 Aug 2021 09:31:03 -0700 (PDT)
+ bh=+9zhb5pU5UdkcMt4NXPfAYOah6MErf8DGT2ptgvitXY=;
+ b=NY4t7w+rSPudQCCTuDlppvH7mwAj4F5Syy2GcOqCDfhFssqCKCN8cQBlZBzfOsGCH6
+ koGj92NBIJM7YBn9GHuOjGQJn8lTyjdp3+3hO322wDHrEtGPX0RGF5+s/CgbZ64yHECK
+ t/5dRhItC5GQb0fCWnwO2pKVTIYG5HrPXK1Fo5np7WHE6lh5HjQDsvO2jzR7bgJA5qVu
+ 7ZNp08NH9/0QSStv0Y4zcQouFZwRv44u6GG67Xuu4xoOzs9c+Pq7G4KNK+xOtuXh/JKM
+ ylBmmpg/kFk328DyCvnhROtyv5y6XoxwnFlMtQFoe5lE5HrUSAIsBud1RZYLGVqZUpPC
+ R2aQ==
+X-Gm-Message-State: AOAM530DhsuLj2zI7iajYVL6BqFc6paoQ237k/o8jNBbMAeG2NEfuL2S
+ mAWYwzVljxhA/8MSvH3e+XXWXG7Pjqc=
+X-Google-Smtp-Source: ABdhPJyni2q2Py38suYeXeUvSABmg/iIoQ0ch+Qju+Z5qnC7+VSqRmWzqddhhouWOaSCEVUDOA/pZA==
+X-Received: by 2002:aed:3147:: with SMTP id 65mr295823qtg.233.1629822666679;
+ Tue, 24 Aug 2021 09:31:06 -0700 (PDT)
 Received: from rekt.ihost.com ([179.247.162.205])
- by smtp.gmail.com with ESMTPSA id 75sm10951474qko.100.2021.08.24.09.31.01
+ by smtp.gmail.com with ESMTPSA id 75sm10951474qko.100.2021.08.24.09.31.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Aug 2021 09:31:03 -0700 (PDT)
+ Tue, 24 Aug 2021 09:31:06 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/16] target/ppc/power8_pmu.c: add PM_RUN_INST_CMPL (0xFA)
- event
-Date: Tue, 24 Aug 2021 13:30:23 -0300
-Message-Id: <20210824163032.394099-8-danielhb413@gmail.com>
+Subject: [PATCH v2 08/16] target/ppc/power8_pmu.c: add PMC14/PMC56 counter
+ freeze bits
+Date: Tue, 24 Aug 2021 13:30:24 -0300
+Message-Id: <20210824163032.394099-9-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210824163032.394099-1-danielhb413@gmail.com>
 References: <20210824163032.394099-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f35;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf35.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::833;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x833.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -88,85 +88,84 @@ Cc: gustavo.romero@linaro.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PM_RUN_INST_CMPL, instructions completed with the run latch set, is
-the architected PowerISA v3.1 event defined with PMC4SEL = 0xFA.
-
-Implement it by checking for the CTRL RUN bit before incrementing the
-counter.
+We're missing two counter freeze bits that are used to further control
+how the PMCs behaves: MMCR0_FC14 and MMCR0_FC56. These bits can frozen
+PMCs separately: MMCR0_FC14 freezes PMCs 1 to 4 and MMCR0_FC56 freezes
+PMCs 5 and 6.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu.h        |  3 +++
- target/ppc/power8_pmu.c | 25 ++++++++++++++++++++-----
- 2 files changed, 23 insertions(+), 5 deletions(-)
+ target/ppc/cpu.h        |  2 ++
+ target/ppc/power8_pmu.c | 25 ++++++++++++++++++++++---
+ 2 files changed, 24 insertions(+), 3 deletions(-)
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index e5df644a3c..60e5e1159a 100644
+index 60e5e1159a..105ee75a01 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -358,6 +358,9 @@ typedef struct ppc_v3_pate_t {
- #define MMCR1_PMC3SEL PPC_BITMASK(48, 55)
- #define MMCR1_PMC4SEL PPC_BITMASK(56, 63)
+@@ -349,6 +349,8 @@ typedef struct ppc_v3_pate_t {
+ #define MMCR0_EBE   PPC_BIT(43)         /* Perf Monitor EBB Enable */
+ #define MMCR0_FCECE PPC_BIT(38)         /* FC on Enabled Cond or Event */
+ #define MMCR0_PMCC  PPC_BITMASK(44, 45) /* PMC Control */
++#define MMCR0_FC14 PPC_BIT(58)
++#define MMCR0_FC56 PPC_BIT(59)
  
-+/* PMU uses CTRL_RUN to sample PM_RUN_INST_CMPL */
-+#define CTRL_RUN PPC_BIT(63)
-+
- /* LPCR bits */
- #define LPCR_VPM0         PPC_BIT(0)
- #define LPCR_VPM1         PPC_BIT(1)
+ #define MMCR1_PMC1SEL_SHIFT (63 - 39)
+ #define MMCR1_PMC1SEL PPC_BITMASK(32, 39)
 diff --git a/target/ppc/power8_pmu.c b/target/ppc/power8_pmu.c
-index 311eaa358f..9154fca5fd 100644
+index 9154fca5fd..4545fe7810 100644
 --- a/target/ppc/power8_pmu.c
 +++ b/target/ppc/power8_pmu.c
-@@ -131,10 +131,10 @@ void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
-     }
+@@ -58,6 +58,15 @@ static uint8_t get_PMC_event(CPUPPCState *env, int sprn)
+     return event;
  }
  
--static bool pmc_counting_insns(CPUPPCState *env, int sprn)
-+static bool pmc_counting_insns(CPUPPCState *env, int sprn,
-+                               uint8_t event)
++static bool pmc_is_running(CPUPPCState *env, int sprn)
++{
++    if (sprn < SPR_POWER_PMC5) {
++        return !(env->spr[SPR_POWER_MMCR0] & MMCR0_FC14);
++    }
++
++    return !(env->spr[SPR_POWER_MMCR0] & MMCR0_FC56);
++}
++
+ static void update_programmable_PMC_reg(CPUPPCState *env, int sprn,
+                                         uint64_t time_delta)
  {
-     bool ret = false;
--    uint8_t event;
- 
-     if (sprn == SPR_POWER_PMC5) {
-         return true;
-@@ -156,8 +156,15 @@ static bool pmc_counting_insns(CPUPPCState *env, int sprn)
-         return event == 0x2 || event == 0xFE;
-     case SPR_POWER_PMC2:
-     case SPR_POWER_PMC3:
--    case SPR_POWER_PMC4:
-         return event == 0x2;
-+    case SPR_POWER_PMC4:
-+        /*
-+         * Event 0xFA is the "instructions completed with run latch
-+         * set" event. Consider it as instruction counting event.
-+         * The caller is responsible for handling it separately
-+         * from PM_INST_CMPL.
-+         */
-+        return event == 0x2 || event == 0xFA;
-     default:
-         break;
-     }
-@@ -171,8 +178,16 @@ void helper_insns_inc(CPUPPCState *env, uint32_t num_insns)
+@@ -90,13 +99,19 @@ static void update_cycles_PMCs(CPUPPCState *env)
+ {
+     uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+     uint64_t time_delta = now - env->pmu_base_time;
++    bool PMC14_running = !(env->spr[SPR_POWER_MMCR0] & MMCR0_FC14);
++    bool PMC6_running = !(env->spr[SPR_POWER_MMCR0] & MMCR0_FC56);
      int sprn;
  
-     for (sprn = SPR_POWER_PMC1; sprn <= SPR_POWER_PMC5; sprn++) {
--        if (pmc_counting_insns(env, sprn)) {
--            env->spr[sprn] += num_insns;
-+        uint8_t event = get_PMC_event(env, sprn);
-+
-+        if (pmc_counting_insns(env, sprn, event)) {
-+            if (sprn == SPR_POWER_PMC4 && event == 0xFA) {
-+                if (env->spr[SPR_CTRL] & CTRL_RUN) {
-+                    env->spr[SPR_POWER_PMC4] += num_insns;
-+                }
-+            } else {
-+                env->spr[sprn] += num_insns;
-+            }
-         }
+-    for (sprn = SPR_POWER_PMC1; sprn < SPR_POWER_PMC5; sprn++) {
+-        update_programmable_PMC_reg(env, sprn, time_delta);
++    if (PMC14_running) {
++        for (sprn = SPR_POWER_PMC1; sprn < SPR_POWER_PMC5; sprn++) {
++            update_programmable_PMC_reg(env, sprn, time_delta);
++        }
      }
+ 
+-    update_PMC_PM_CYC(env, SPR_POWER_PMC6, time_delta);
++    if (PMC6_running) {
++        update_PMC_PM_CYC(env, SPR_POWER_PMC6, time_delta);
++    }
  }
+ 
+ void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
+@@ -136,6 +151,10 @@ static bool pmc_counting_insns(CPUPPCState *env, int sprn,
+ {
+     bool ret = false;
+ 
++    if (!pmc_is_running(env, sprn)) {
++        return false;
++    }
++
+     if (sprn == SPR_POWER_PMC5) {
+         return true;
+     }
 -- 
 2.31.1
 
