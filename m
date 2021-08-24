@@ -2,92 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B7C63F584D
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 08:33:28 +0200 (CEST)
-Received: from localhost ([::1]:41234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F36E33F5834
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 08:29:16 +0200 (CEST)
+Received: from localhost ([::1]:36052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIPzz-0000ym-3f
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 02:33:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50210)
+	id 1mIPvv-0005ng-FN
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 02:29:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1mIPyh-00006i-8K
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 02:32:07 -0400
-Received: from mail-ma1ind01olkn0828.outbound.protection.outlook.com
- ([2a01:111:f400:fea4::828]:62240
- helo=IND01-MA1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1mIPuv-0004rn-TP
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 02:28:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
- id 1mIPyd-00066y-J9
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 02:32:06 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Up0uzVt6xqxrtf/6d3p0zcAs8fksVZYBpAId5KClMTz3FGPGnCIwfUPpjk47VHDMLuznt6q0tfgGKOC8Z+eH4ndoo4hdHpCoephQNcTSh9jGAb8awgTFFPfHeuUag3EgWH52nKiPqURDg7vI1ei49qyJyYODi6ls+w2Tl9z+4xxDBWyBY1PP84IAwXjdwTFrj+/JP2myQGBMlbPiZriYn9lthHOzOmv/1SnO4fNmwktE2nywzKHbgmkG4gJc5crzDTpCDr8SoTcKNwcdf0QMmS7Yj/Uc08j2tyWWxyBFQgJEJc0QrEVIPsZVDxqF6ZR203DSfdbHjN7pFUsJXBwQxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4VaS+rPi2TOslQq/AX143jrFGBulInsz9AKOEr2rIH8=;
- b=K90VRJPkJtxfgl/SUhRh/4ZZxd1vbLGIjOQNnzga+QuJKoVXK55Lfp8wJe2GXY8tpqlxqfP+5IloartgMmGr9mNqJ76tsk/eayO7oTNDewy9VpwzwMKUfMjfe+jTOkHNXT6DEzLcwywEn14BfCCjMLLlGC46FmsLYGtNxjObqrIP7b26854elYepot/7oL9W6QuZrIQKZhZp6UJN0r3BiQqFZFITqagMTVmYRyiFx/hHUViK07thoDYdo56voVfbjwAIE04o/SneZm2bN1euatCt+L5SNyKMWfeAUlXP9Ec7HEjHBgM/hBNnC/6rtODwVHPMYxaHxWQpPH7cIcHKzw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4VaS+rPi2TOslQq/AX143jrFGBulInsz9AKOEr2rIH8=;
- b=Cy+eaB79Vz45p4Bu7gDxMmciDa3sfk3Vok7OJiZqoWN7jnJosIumKMn+GrP0WWR5bBVsHJqmtIJ85LNl2T/p38dKPP//Ef4uRez5pL97vSs6DIW7guzglUcLoC/h/YcZkAFa+urItynxK2nWKXeTCMTnV4Qiq3i5MsYAHNpI3XTC59BbHoZz8ZdGJczVAS5UJL0BbUnduYD3EW0CX9nenV7YwZdzAVI+Ly/WDb/3QBrmi6SEyAA20BwVhRUzkKlspliL0Fg2/OKCIwKNYIS9TzIJgaCouB0vEXpMjL5JSav+XTHoEYaDSE7TtnaE26V8UZHkOTznUS5oKwjZMC5Zbg==
-Received: from PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:72::9)
- by PN0PR01MB5468.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:63::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Tue, 24 Aug
- 2021 06:26:52 +0000
-Received: from PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::41ec:5dc2:fd60:e64c]) by PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::41ec:5dc2:fd60:e64c%6]) with mapi id 15.20.4436.025; Tue, 24 Aug 2021
- 06:26:52 +0000
-Message-ID: <PN0PR01MB63528E3A58EA06BD1B242486FCC59@PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM>
-Subject: [PATCH] MAINTAINERS: add fuzzing reviewer
-From: Qiuhao Li <Qiuhao.Li@outlook.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 24 Aug 2021 14:26:39 +0800
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.0-1 
-Content-Transfer-Encoding: 7bit
-X-TMN: [89Y13qTbDpFUNtCqUj8wFSwXS9/HTuIw]
-X-ClientProxiedBy: HKAPR04CA0005.apcprd04.prod.outlook.com
- (2603:1096:203:d0::15) To PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:72::9)
-X-Microsoft-Original-Message-ID: <2ca4ca212a1927249ed8bc36f7ac87102fe6616c.camel@outlook.com>
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1mIPut-0002sj-Bm
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 02:28:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629786489;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WjXxN7ar6YtQgntGRH+UhKS+oGpF1B2cVqu5VNaZuLM=;
+ b=gTAAmGMA2VTXYeCOfwlkL9HT6dAmIXrkMmX1287Ka5Qnsy8UMHo0lHTegnzAX8d7UXb4Gk
+ HzardUJQlcX+3BahpJQ+adAgAeMoM5QIY4DRTgXpkgxQ1Kubwn3WqolNL3b7UoJIvzSkW2
+ 8qy1tho0JUZP2LiZrrHvhq3epH5dVqM=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-588-os97PkkhM5mziZT0sjBVxQ-1; Tue, 24 Aug 2021 02:28:07 -0400
+X-MC-Unique: os97PkkhM5mziZT0sjBVxQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ gb24-20020a170907961800b005c158d37301so5632690ejc.17
+ for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 23:28:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=WjXxN7ar6YtQgntGRH+UhKS+oGpF1B2cVqu5VNaZuLM=;
+ b=dqayfatd+fgMRDaOMEn999+oAp6CHznOsXTyMgkdSUwFARzT31UuPZLzpP3HsX+5ZC
+ 712u5soeetcd2yRQpsTZjHJ8xxHt08bSU3Sz1GH9rALNaCoXhPyKpvrGZA3bWq17voGp
+ jOaedLi//ZqzFkIixisLLPRYgudjTkPoEKu6rAXcYZmPrrUbDaOR3vn4tXHYY381SD8j
+ ZzGTqQYKzpGAE+SOmWqvkAf+4mK5qxwwDuU1XpzIwmW654RGyI3gphVQh3m0/foD8LPs
+ 32zQdO3Lq68um/pdt9T9NMvdVjPf/sATNGMIk9DMM0clEnGrvTGlZSFBZZRWgS0vxtBc
+ ijRQ==
+X-Gm-Message-State: AOAM533nicvI/AAC/41w0gueQO+zVzmE+xoAaAyNA6knZjVfGxctssNb
+ WMsp9TndFW6QKt+6YFVlG+Nu75q8oMBM3kdrt6HeVLxn16MtkYN0nGhxe1WkDXxpa03EjTaNWrP
+ bzKtn6o9jygiJ6ZA=
+X-Received: by 2002:a17:906:c1d0:: with SMTP id
+ bw16mr39670593ejb.146.1629786486411; 
+ Mon, 23 Aug 2021 23:28:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzl5twL+8QAGFkC9g8lNdoWihdFv9Dt3PWiGBGfq7pKV26r/p3phIlsgUMqXtLaUD7uHYdX3A==
+X-Received: by 2002:a17:906:c1d0:: with SMTP id
+ bw16mr39670573ejb.146.1629786486184; 
+ Mon, 23 Aug 2021 23:28:06 -0700 (PDT)
+Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
+ by smtp.gmail.com with ESMTPSA id j24sm2227720edj.56.2021.08.23.23.28.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Aug 2021 23:28:05 -0700 (PDT)
+Date: Tue, 24 Aug 2021 08:28:04 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v2 4/4] target/arm/cpu64: Validate sve vector lengths are
+ supported
+Message-ID: <20210824062804.amut2hdve4x6ldsw@gator.home>
+References: <20210823160647.34028-1-drjones@redhat.com>
+ <20210823160647.34028-5-drjones@redhat.com>
+ <31e867ec-d122-d45f-3e17-ba12d7d840ae@linaro.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.250.209] (104.192.108.10) by
- HKAPR04CA0005.apcprd04.prod.outlook.com (2603:1096:203:d0::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4436.19 via Frontend Transport; Tue, 24 Aug 2021 06:26:48 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2a13516c-90d6-48e7-ef20-08d966c82938
-X-MS-TrafficTypeDiagnostic: PN0PR01MB5468:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: t057ZUN8eKz7qtBDTZrDZiDATbl+U0fYtAKhVFo1+KHSs9dPpOCiVULMon3dBgUhBRpHajq2j0Gb57lxCC2CLV/tnjGmXjKO5HV5vZTV/Yauoen74BlKAwCeLnIQSJoUSejfFaSsYoXWrzJYqy513w49E8dd0UwKVpvFTyarHSZ0aEeCf9CZdjWE3WYIOmunZnO3Ec4WB1lcqxSbDzqHren4+38YPZClt6CTZC0BoyDV8TRIhQghK4sumPN2wWIFX/n/tNETUWp6CTv6WebCkKfrCoY14t+lZKOzipKCIVQcDkjxJ51aPpnlkP7RCaEX6xAG2NWkjgk1AjAp1ia1C/l7AjBrTJdV7rkDF6A12LQoouraNHcGQmblwR9meGGek3RBjwMcnLCLIrwNjtQmKAWFU6kMzSH6XM78C06r3UvrZLYlYHWUctzX4SEYQWmuEto2Qah1CUInAxyyQjQHoHyTra66DYU3wzae7uH/XEc=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: N2KABlC6YgoFP0f5uSTkXhH52vSe9kXwN6eyIo9WNE7AQs7oyz8Zd2XN9AajBemWymmrUmcxouDdkpHuiBKiPiKMNfRANMb+KlZfjkNXZ2oagZV4W4rcSP/Ahxcl3ealJAErbOAHtVbxdx/VTrw6Ew==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a13516c-90d6-48e7-ef20-08d966c82938
-X-MS-Exchange-CrossTenant-AuthSource: PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 06:26:52.3144 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB5468
-Received-SPF: pass client-ip=2a01:111:f400:fea4::828;
- envelope-from=Qiuhao.Li@outlook.com;
- helo=IND01-MA1-obe.outbound.protection.outlook.com
-X-Spam_score_int: 6
-X-Spam_score: 0.6
-X-Spam_bar: /
-X-Spam_report: (0.6 / 5.0 requ) BAYES_50=0.8, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- MSGID_FROM_MTA_HEADER=0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <31e867ec-d122-d45f-3e17-ba12d7d840ae@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,34 +98,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alxndr@bu.edu, thuth@redhat.com, bsd@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com
+Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, philmd@redhat.com,
+ qemu-devel@nongnu.org, ishii.shuuichir@fujitsu.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To keep me cc-ed when something changes. Suggested by Alexander.
+On Mon, Aug 23, 2021 at 11:04:49AM -0700, Richard Henderson wrote:
+> On 8/23/21 9:06 AM, Andrew Jones wrote:
+> > Future CPU types may specify which vector lengths are supported.
+> > We can apply nearly the same logic to validate those lengths
+> > as we do for KVM's supported vector lengths. We merge the code
+> > where we can, but unfortunately can't completely merge it because
+> > KVM requires all vector lengths, power-of-two or not, smaller than
+> > the maximum enabled length to also be enabled. The architecture
+> > only requires all the power-of-two lengths, though, so TCG will
+> > only enforce that.
+> > 
+> > Signed-off-by: Andrew Jones <drjones@redhat.com>
+> > ---
+> >   target/arm/cpu64.c | 101 ++++++++++++++++++++-------------------------
+> >   1 file changed, 45 insertions(+), 56 deletions(-)
+> 
+> 
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> > +        } else {
+> > +            if (kvm_enabled()) {
+> 
+> Nit: better as
+> 
+>     } else if (...) {
+> 
+> if I'm reading all of the diff context correctly.
+>
 
-https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg03631.html
+Yeah, the diff is definitely not easy to read, or even the code
+after its applied for that matter... We can't use 'else if' here
+because the 'else { if' is part of a pattern like below
 
-Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+  if (...) {
+     if (...) {
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6b3697962c..3a979b1bc7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2706,6 +2706,7 @@ R: Paolo Bonzini <pbonzini@redhat.com>
- R: Bandan Das <bsd@redhat.com>
- R: Stefan Hajnoczi <stefanha@redhat.com>
- R: Thomas Huth <thuth@redhat.com>
-+R: Qiuhao Li <Qiuhao.Li@outlook.com>
- S: Maintained
- F: tests/qtest/fuzz/
- F: tests/qtest/fuzz-*test.c
--- 
-2.30.2
+     } else {
 
+     }
+  } else {
+     if (kvm_enabled()) {
+
+     } else {
+
+     }
+  }
+
+Thanks,
+drew
 
 
