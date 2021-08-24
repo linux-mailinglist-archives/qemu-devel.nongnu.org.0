@@ -2,79 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76383F5B21
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 11:32:23 +0200 (CEST)
-Received: from localhost ([::1]:39238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B8EE3F5B2A
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 11:37:48 +0200 (CEST)
+Received: from localhost ([::1]:41626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mISn8-0007zG-OJ
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 05:32:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41308)
+	id 1mISsN-0001Zz-BY
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 05:37:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mISlx-0007Ke-MD
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 05:31:09 -0400
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:37435)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mISlu-0007a7-L9
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 05:31:09 -0400
-Received: by mail-pj1-x1034.google.com with SMTP id
- j10-20020a17090a94ca00b00181f17b7ef7so1378562pjw.2
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 02:31:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=from:date:to:cc:subject:in-reply-to:message-id:references
- :user-agent:mime-version;
- bh=QkcwJeKOKVM4FA6eRhONiDarKN15RXvbCnsdj/0MNJ0=;
- b=znygjngdm9Xu8yU3c/1YuytRDMe2O+JsM3BHLSaERR67VoCa2b20dVvrQRgcVzafMz
- W0opppiI0unnMW6JZWsEGfLVyIglkyV3K0ENm5I26Y8mNQDbobz4ktoNUdrTICaHJ2hy
- LVzYGG/ztHIsm87LiSUF8vYNGhQqmP4TF9nEkw+qMwBE+xPCuRKiLrQNJwdVh9Y38bRD
- 2qkE759xOhCRjwjux6+jLuF78cWyuJp+qDxcu5Mhk4+mOqvE8J+jC9XDd3g8Csx/TT0z
- L6IpjPmw6A7K5XFDaPHTa4Lak56/YenTKd6ug2XXv+dPt+b9KJ8HnaY10k2eOHhFFA5/
- 0rAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
- :references:user-agent:mime-version;
- bh=QkcwJeKOKVM4FA6eRhONiDarKN15RXvbCnsdj/0MNJ0=;
- b=PmzNGhPSb3DsbIoetlTqc60j85D92nLPKuEHCZj6K7YFnCnOtHmffeAwhmJqg2pvgt
- V3Tcl7lnkac3t+yLk2m91N1+rmPMqAKwlF61eEt4ua9jtYB+RGJtehYaVbBEfk8v0mVP
- q4P3ROGJHd5mELAb67Q5wJIAPUflH++yStC6ilhCq+rDSqThX1Jd/pFtNnMp4wgjqgfZ
- SxuLWrMUif4tLfypDo+oxBmGtiqYUBQOcG24PJ3lHjyDFGjYCfv5cyHTUIEdcWqKoJiN
- XWgnnaQtK+P/FPqKdMeaDgR318d5QmWLp3c7aYuiPezf8aCzJSYrHpQ3crzIJL6xrLgM
- zUzw==
-X-Gm-Message-State: AOAM531C71o/j/Qq/f3J8czFbEgm/yUqamDDvq4wONpiXxZtIi/kePeN
- A9k25YR5f1aBPANJ+whBQdvhXg==
-X-Google-Smtp-Source: ABdhPJzAQS7u9uRf1/WKj7iJwSE8/v8AfbrcKjOj4cOwUHPtj8eSPgUZIf1nV5wEEgrsVg+4IMnAcQ==
-X-Received: by 2002:a17:90a:d3d0:: with SMTP id
- d16mr3460849pjw.103.1629797465197; 
- Tue, 24 Aug 2021 02:31:05 -0700 (PDT)
-Received: from anisinha-lenovo ([115.96.135.45])
- by smtp.googlemail.com with ESMTPSA id j35sm22302625pgm.55.2021.08.24.02.31.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Aug 2021 02:31:04 -0700 (PDT)
-From: Ani Sinha <ani@anisinha.ca>
-X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
-Date: Tue, 24 Aug 2021 15:00:58 +0530 (IST)
-X-X-Sender: anisinha@anisinha-lenovo
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH] hw/acpi/pcihp: validate bsel property of the bus before
- unplugging device
-In-Reply-To: <20210824105614.2762541f@redhat.com>
-Message-ID: <alpine.DEB.2.22.394.2108241500110.889504@anisinha-lenovo>
-References: <20210821150535.763541-1-ani@anisinha.ca>
- <20210823190444-mutt-send-email-mst@kernel.org>
- <20210824105614.2762541f@redhat.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1mISrL-0000o6-RA
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 05:36:43 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2294)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1mISrE-00035D-6a
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 05:36:43 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4Gv3rV33wZz1Cb5Y;
+ Tue, 24 Aug 2021 17:35:54 +0800 (CST)
+Received: from dggpeml500005.china.huawei.com (7.185.36.59) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 24 Aug 2021 17:36:26 +0800
+Received: from [10.174.186.51] (10.174.186.51) by
+ dggpeml500005.china.huawei.com (7.185.36.59) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 24 Aug 2021 17:36:25 +0800
+Subject: Re: [PATCH V6 00/27] Live Update
+To: Steven Sistare <steven.sistare@oracle.com>, <qemu-devel@nongnu.org>
+References: <1628286241-217457-1-git-send-email-steven.sistare@oracle.com>
+ <6d048286-eef4-0f6a-58da-7fc7369dccf7@huawei.com>
+ <5e5821eb-ce92-f429-0ec8-985e714a171a@oracle.com>
+From: Zheng Chuan <zhengchuan@huawei.com>
+Message-ID: <83231acb-bbb5-f590-d58b-e664880c41f8@huawei.com>
+Date: Tue, 24 Aug 2021 17:36:25 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2607:f8b0:4864:20::1034;
- envelope-from=ani@anisinha.ca; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <5e5821eb-ce92-f429-0ec8-985e714a171a@oracle.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.186.51]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpeml500005.china.huawei.com (7.185.36.59)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=zhengchuan@huawei.com; helo=szxga08-in.huawei.com
+X-Spam_score_int: -61
+X-Spam_score: -6.2
+X-Spam_bar: ------
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.023,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,32 +69,466 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, philmd@redhat.com, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>, "Michael
+ S. Tsirkin" <mst@redhat.com>, Jason Zeng <jason.zeng@linux.intel.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi, Steve.
+
+I think I have found the problem, it is because the rom_reset() during the cpr_exec will write dtb into the mach-virt.ram which cause the memory corruption.
+Also I found in x86 the memoryregion of acpi also changed during rom_rest. Maybe we should keep it consistent and skip the rom_reset() like migration does.
+Here is the patch drafted(Also fix the cpr state missing saving problem):
+
+diff --git a/hw/core/loader.c b/hw/core/loader.c
+index 5b34869a5417..1dcf0be1492f 100644
+--- a/hw/core/loader.c
++++ b/hw/core/loader.c
+@@ -50,6 +50,7 @@
+ #include "hw/hw.h"
+ #include "disas/disas.h"
+ #include "migration/vmstate.h"
++#include "migration/cpr.h"
+ #include "monitor/monitor.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/sysemu.h"
+@@ -1128,7 +1129,7 @@ static void rom_reset(void *unused)
+          * the data in during the next incoming migration in all cases.  Note
+          * that some of those RAMs can actually be modified by the guest.
+          */
+-        if (runstate_check(RUN_STATE_INMIGRATE)) {
++        if (runstate_check(RUN_STATE_INMIGRATE) || cpr_is_active()) {
+             if (rom->data && rom->isrom) {
+                 /*
+                  * Free it so that a rom_reset after migration doesn't
+diff --git a/include/migration/cpr.h b/include/migration/cpr.h
+index e9b987f54319..0b7d7e9f6bf0 100644
+--- a/include/migration/cpr.h
++++ b/include/migration/cpr.h
+@@ -20,9 +20,11 @@ void cpr_save_fd(const char *name, int id, int fd);
+ void cpr_delete_fd(const char *name, int id);
+ int cpr_find_fd(const char *name, int id);
+ int cpr_walk_fd(cpr_walk_fd_cb cb, void *handle);
+-int cpr_state_save(Error **errp);
++int cpr_state_save(CprMode mode, Error **errp);
+ int cpr_state_load(Error **errp);
+ CprMode cpr_state_mode(void);
++void cpr_state_clear(void);
++bool cpr_is_active(void);
+ void cpr_state_print(void);
+
+ int cpr_vfio_save(Error **errp);
+diff --git a/migration/cpr-state.c b/migration/cpr-state.c
+index 003b449bbcf8..4ac08539d932 100644
+--- a/migration/cpr-state.c
++++ b/migration/cpr-state.c
+@@ -19,7 +19,7 @@ typedef struct CprState {
+     CprNameList fds;            /* list of CprFd */
+ } CprState;
+
+-static CprState cpr_state;
++static CprState cpr_state = { .mode = CPR_MODE_NONE };
+
+ /*************************************************************************/
+ /* Generic list of names. */
+@@ -149,7 +149,7 @@ static const VMStateDescription vmstate_cpr_state = {
+     }
+ };
+
+-int cpr_state_save(Error **errp)
++int cpr_state_save(CprMode mode, Error **errp)
+ {
+     int ret, mfd;
+     QEMUFile *f;
+@@ -163,9 +163,11 @@ int cpr_state_save(Error **errp)
+     qemu_clear_cloexec(mfd);
+     f = qemu_fd_open(mfd, true, CPR_STATE_NAME);
+
++    cpr_state.mode = mode;
+     ret = vmstate_save_state(f, &vmstate_cpr_state, &cpr_state, 0);
+     if (ret) {
+         error_setg(errp, "vmstate_save_state error %d", ret);
++        cpr_state.mode = CPR_MODE_NONE;
+         return ret;
+     }
+
+@@ -205,6 +207,16 @@ CprMode cpr_state_mode(void)
+     return cpr_state.mode;
+ }
+
++void cpr_state_clear(void)
++{
++    cpr_state.mode = CPR_MODE_NONE;
++}
++
++bool cpr_is_active(void)
++{
++    return cpr_state.mode != CPR_MODE_NONE;
++}
++
+ void cpr_state_print(void)
+ {
+     CprName *elem;
+diff --git a/migration/cpr.c b/migration/cpr.c
+index d14bc5ad2678..97b2293c01e8 100644
+--- a/migration/cpr.c
++++ b/migration/cpr.c
+@@ -115,7 +115,7 @@ void qmp_cpr_exec(strList *args, Error **errp)
+         return;
+     }
+     cpr_walk_fd(preserve_fd, 0);
+-    if (cpr_state_save(errp)) {
++    if (cpr_state_save(cpr_active_mode, errp)) {
+         return;
+     }
+     vhost_dev_reset_all();
+@@ -173,4 +173,5 @@ void qmp_cpr_load(const char *filename, Error **errp)
+
+ out:
+     cpr_active_mode = CPR_MODE_NONE;
++    cpr_state_clear();
+ }
 
 
-On Tue, 24 Aug 2021, Igor Mammedov wrote:
+On 2021/8/24 5:36, Steven Sistare wrote:
+> Hi Zheng, testing aarch64 is on our todo list. We will run this case and try to 
+> reproduce the failure.  Thanks for the report.
+> 
+> - Steve
+> 
+> On 8/21/2021 4:54 AM, Zheng Chuan wrote:
+>> Hi, steve
+>>
+>> It seems the VM will stuck after cpr-load on AArch64 environment？
+>>
+>> My AArch64 environment and test steps:
+>> 1. linux kernel: 5.14-rc6
+>> 2. QEMU version: v6.1.0-rc2 (patch your patchset), and configure with `../configure --target-list=aarch64-softmmu --disable-werror --enable-kvm` 4. Steps to live update:
+>> # ./build/aarch64-softmmu/qemu-system-aarch64 -machine virt,accel=kvm,gic-version=3,memfd-alloc=on -nodefaults -cpu host -m 2G -smp 1 -drive file=/usr/share/edk2/aarch64/QEMU_EFI-pflash.raw,if=pflash,format=raw,readonly=on
+>> -drive file=<path/to/vm.qcow2>,format=qcow2,if=none,id=drive_image1
+>> -device virtio-blk-pci,id=image1,drive=drive_image1 -vnc :10 -device
+>> virtio-gpu,id=video0 -device piix3-usb-uhci,id=usb -device
+>> usb-tablet,id=input0,bus=usb.0,port=1 -device
+>> usb-kbd,id=input1,bus=usb.0,port=2 -monitor stdio
+>> (qemu) cpr-save /tmp/qemu.save restart
+>> (qemu) cpr-exec ./build/aarch64-softmmu/qemu-system-aarch64 -machine virt,accel=kvm,gic-version=3,memfd-alloc=on -nodefaults -cpu host -m 2G -smp 1 -drive file=/usr/share/edk2/aarch64/QEMU_EFI-pflash.raw,if=pflash,format=raw,readonly=on
+>> -drive file=<path/to/vm.qcow2>,format=qcow2,if=none,id=drive_image1
+>> -device virtio-blk-pci,id=image1,drive=drive_image1 -vnc :10 -device
+>> virtio-gpu,id=video0 -device piix3-usb-uhci,id=usb -device
+>> usb-tablet,id=input0,bus=usb.0,port=1 -device
+>> usb-kbd,id=input1,bus=usb.0,port=2 -monitor stdio -S
+>> (qemu) QEMU 6.0.92 monitor - type 'help' for more information
+>> (qemu) cpr-load /tmp/qemu.save
+>>
+>> Does I miss something?
+>>
+>> On 2021/8/7 5:43, Steve Sistare wrote:
+>>> Provide the cpr-save, cpr-exec, and cpr-load commands for live update.
+>>> These save and restore VM state, with minimal guest pause time, so that
+>>> qemu may be updated to a new version in between.
+>>>
+>>> cpr-save stops the VM and saves vmstate to an ordinary file.  It supports
+>>> any type of guest image and block device, but the caller must not modify
+>>> guest block devices between cpr-save and cpr-load.  It supports two modes:
+>>> reboot and restart.
+>>>
+>>> In reboot mode, the caller invokes cpr-save and then terminates qemu.
+>>> The caller may then update the host kernel and system software and reboot.
+>>> The caller resumes the guest by running qemu with the same arguments as the
+>>> original process and invoking cpr-load.  To use this mode, guest ram must be
+>>> mapped to a persistent shared memory file such as /dev/dax0.0, or /dev/shm
+>>> PKRAM as proposed in https://lore.kernel.org/lkml/1617140178-8773-1-git-send-email-anthony.yznaga@oracle.com.
+>>>
+>>> The reboot mode supports vfio devices if the caller first suspends the
+>>> guest, such as by issuing guest-suspend-ram to the qemu guest agent.  The
+>>> guest drivers' suspend methods flush outstanding requests and re-initialize
+>>> the devices, and thus there is no device state to save and restore.
+>>>
+>>> Restart mode preserves the guest VM across a restart of the qemu process.
+>>> After cpr-save, the caller passes qemu command-line arguments to cpr-exec,
+>>> which directly exec's the new qemu binary.  The arguments must include -S
+>>> so new qemu starts in a paused state and waits for the cpr-load command.
+>>> The restart mode supports vfio devices by preserving the vfio container,
+>>> group, device, and event descriptors across the qemu re-exec, and by
+>>> updating DMA mapping virtual addresses using VFIO_DMA_UNMAP_FLAG_VADDR and
+>>> VFIO_DMA_MAP_FLAG_VADDR as defined in https://lore.kernel.org/kvm/1611939252-7240-1-git-send-email-steven.sistare@oracle.com/
+>>> and integrated in Linux kernel 5.12.
+>>>
+>>> To use the restart mode, qemu must be started with the memfd-alloc option,
+>>> which allocates guest ram using memfd_create.  The memfd's are saved to
+>>> the environment and kept open across exec, after which they are found from
+>>> the environment and re-mmap'd.  Hence guest ram is preserved in place,
+>>> albeit with new virtual addresses in the qemu process.
+>>>
+>>> The caller resumes the guest by invoking cpr-load, which loads state from
+>>> the file. If the VM was running at cpr-save time, then VM execution resumes.
+>>> If the VM was suspended at cpr-save time (reboot mode), then the caller must
+>>> issue a system_wakeup command to resume.
+>>>
+>>> The first patches add reboot mode:
+>>>   - memory: qemu_check_ram_volatile
+>>>   - migration: fix populate_vfio_info
+>>>   - migration: qemu file wrappers
+>>>   - migration: simplify savevm
+>>>   - vl: start on wakeup request
+>>>   - cpr: reboot mode
+>>>   - cpr: reboot HMP interfaces
+>>>
+>>> The next patches add restart mode:
+>>>   - memory: flat section iterator
+>>>   - oslib: qemu_clear_cloexec
+>>>   - machine: memfd-alloc option
+>>>   - qapi: list utility functions
+>>>   - vl: helper to request re-exec
+>>>   - cpr: preserve extra state
+>>>   - cpr: restart mode
+>>>   - cpr: restart HMP interfaces
+>>>   - hostmem-memfd: cpr for memory-backend-memfd
+>>>
+>>> The next patches add vfio support for restart mode:
+>>>   - pci: export functions for cpr
+>>>   - vfio-pci: refactor for cpr
+>>>   - vfio-pci: cpr part 1 (fd and dma)
+>>>   - vfio-pci: cpr part 2 (msi)
+>>>   - vfio-pci: cpr part 3 (intx)
+>>>
+>>> The next patches preserve various descriptor-based backend devices across
+>>> cprexec:
+>>>   - vhost: reset vhost devices for cpr
+>>>   - chardev: cpr framework
+>>>   - chardev: cpr for simple devices
+>>>   - chardev: cpr for pty
+>>>   - chardev: cpr for sockets
+>>>   - cpr: only-cpr-capable option
+>>>
+>>> Here is an example of updating qemu from v4.2.0 to v4.2.1 using
+>>> restart mode.  The software update is performed while the guest is
+>>> running to minimize downtime.
+>>>
+>>> window 1                                        | window 2
+>>>                                                 |
+>>> # qemu-system-x86_64 ...                        |
+>>> QEMU 4.2.0 monitor - type 'help' ...            |
+>>> (qemu) info status                              |
+>>> VM status: running                              |
+>>>                                                 | # yum update qemu
+>>> (qemu) cpr-save /tmp/qemu.sav restart           |
+>>> (qemu) cpr-exec qemu-system-x86_64 -S ...       |
+>>> QEMU 4.2.1 monitor - type 'help' ...            |
+>>> (qemu) info status                              |
+>>> VM status: paused (prelaunch)                   |
+>>> (qemu) cpr-load /tmp/qemu.sav                   |
+>>> (qemu) info status                              |
+>>> VM status: running                              |
+>>>
+>>>
+>>> Here is an example of updating the host kernel using reboot mode.
+>>>
+>>> window 1                                        | window 2
+>>>                                                 |
+>>> # qemu-system-x86_64 ...mem-path=/dev/dax0.0 ...|
+>>> QEMU 4.2.1 monitor - type 'help' ...            |
+>>> (qemu) info status                              |
+>>> VM status: running                              |
+>>>                                                 | # yum update kernel-uek
+>>> (qemu) cpr-save /tmp/qemu.sav restart           |
+>>> (qemu) quit                                     |
+>>>                                                 |
+>>> # systemctl kexec                               |
+>>> kexec_core: Starting new kernel                 |
+>>> ...                                             |
+>>>                                                 |
+>>> # qemu-system-x86_64 -S mem-path=/dev/dax0.0 ...|
+>>> QEMU 4.2.1 monitor - type 'help' ...            |
+>>> (qemu) info status                              |
+>>> VM status: paused (prelaunch)                   |
+>>> (qemu) cpr-load /tmp/qemu.sav                   |
+>>> (qemu) info status                              |
+>>> VM status: running                              |
+>>>
+>>> Changes from V1 to V2:
+>>>   - revert vmstate infrastructure changes
+>>>   - refactor cpr functions into new files
+>>>   - delete MADV_DOEXEC and use memfd + VFIO_DMA_UNMAP_FLAG_SUSPEND to
+>>>     preserve memory.
+>>>   - add framework to filter chardev's that support cpr
+>>>   - save and restore vfio eventfd's
+>>>   - modify cprinfo QMP interface
+>>>   - incorporate misc review feedback
+>>>   - remove unrelated and unneeded patches
+>>>   - refactor all patches into a shorter and easier to review series
+>>>
+>>> Changes from V2 to V3:
+>>>   - rebase to qemu 6.0.0
+>>>   - use final definition of vfio ioctls (VFIO_DMA_UNMAP_FLAG_VADDR etc)
+>>>   - change memfd-alloc to a machine option
+>>>   - Use qio_channel_socket_new_fd instead of adding qio_channel_socket_new_fd
+>>>   - close monitor socket during cpr
+>>>   - fix a few unreported bugs
+>>>   - support memory-backend-memfd
+>>>
+>>> Changes from V3 to V4:
+>>>   - split reboot mode into separate patches
+>>>   - add cprexec command
+>>>   - delete QEMU_START_FREEZE, argv_main, and /usr/bin/qemu-exec
+>>>   - add more checks for vfio and cpr compatibility, and recover after errors
+>>>   - save vfio pci config in vmstate
+>>>   - rename {setenv,getenv}_event_fd to {save,load}_event_fd
+>>>   - use qemu_strtol
+>>>   - change 6.0 references to 6.1
+>>>   - use strerror(), use EXIT_FAILURE, remove period from error messages
+>>>   - distribute MAINTAINERS additions to each patch
+>>>
+>>> Changes from V4 to V5:
+>>>   - rebase to master
+>>>
+>>> Changes from V5 to V6:
+>>>   vfio:
+>>>   - delete redundant bus_master_enable_region in vfio_pci_post_load
+>>>   - delete unmap.size warning
+>>>   - fix phys_config memory leak
+>>>   - add INTX support
+>>>   - add vfio_named_notifier_init() helper
+>>>   Other:
+>>>   - 6.1 -> 6.2
+>>>   - rename file -> filename in qapi
+>>>   - delete cprinfo.  qapi introspection serves the same purpose.
+>>>   - rename cprsave, cprexec, cprload -> cpr-save, cpr-exec, cpr-load
+>>>   - improve documentation in qapi/cpr.json
+>>>   - rename qemu_ram_volatile -> qemu_ram_check_volatile, and use
+>>>     qemu_ram_foreach_block
+>>>   - rename handle -> opaque
+>>>   - use ERRP_GUARD
+>>>   - use g_autoptr and g_autofree, and glib allocation functions
+>>>   - conform to error conventions for bool and int function return values
+>>>     and function names.
+>>>   - remove word "error" in error messages
+>>>   - rename as_flat_walk and its callback, and add comments.
+>>>   - rename qemu_clr_cloexec -> qemu_clear_cloexec
+>>>   - rename close-on-cpr -> reopen-on-cpr
+>>>   - add strList utility functions
+>>>   - factor out start on wakeup request to a separate patch
+>>>   - deleted unnecessary layer (cprsave etc) and squashed QMP patches
+>>>   - conditionally compile for CONFIG_VFIO
+>>>
+>>> Steve Sistare (24):
+>>>   memory: qemu_check_ram_volatile
+>>>   migration: fix populate_vfio_info
+>>>   migration: qemu file wrappers
+>>>   migration: simplify savevm
+>>>   vl: start on wakeup request
+>>>   cpr: reboot mode
+>>>   memory: flat section iterator
+>>>   oslib: qemu_clear_cloexec
+>>>   machine: memfd-alloc option
+>>>   qapi: list utility functions
+>>>   vl: helper to request re-exec
+>>>   cpr: preserve extra state
+>>>   cpr: restart mode
+>>>   cpr: restart HMP interfaces
+>>>   hostmem-memfd: cpr for memory-backend-memfd
+>>>   pci: export functions for cpr
+>>>   vfio-pci: refactor for cpr
+>>>   vfio-pci: cpr part 1 (fd and dma)
+>>>   vfio-pci: cpr part 2 (msi)
+>>>   vfio-pci: cpr part 3 (intx)
+>>>   chardev: cpr framework
+>>>   chardev: cpr for simple devices
+>>>   chardev: cpr for pty
+>>>   cpr: only-cpr-capable option
+>>>
+>>> Mark Kanda, Steve Sistare (3):
+>>>   cpr: reboot HMP interfaces
+>>>   vhost: reset vhost devices for cpr
+>>>   chardev: cpr for sockets
+>>>
+>>>  MAINTAINERS                   |  12 ++
+>>>  backends/hostmem-memfd.c      |  21 +--
+>>>  chardev/char-mux.c            |   1 +
+>>>  chardev/char-null.c           |   1 +
+>>>  chardev/char-pty.c            |  14 +-
+>>>  chardev/char-serial.c         |   1 +
+>>>  chardev/char-socket.c         |  36 +++++
+>>>  chardev/char-stdio.c          |   8 ++
+>>>  chardev/char.c                |  43 +++++-
+>>>  gdbstub.c                     |   1 +
+>>>  hmp-commands.hx               |  50 +++++++
+>>>  hw/core/machine.c             |  19 +++
+>>>  hw/pci/msix.c                 |  20 ++-
+>>>  hw/pci/pci.c                  |   7 +-
+>>>  hw/vfio/common.c              |  79 +++++++++--
+>>>  hw/vfio/cpr.c                 | 160 ++++++++++++++++++++++
+>>>  hw/vfio/meson.build           |   1 +
+>>>  hw/vfio/pci.c                 | 301 +++++++++++++++++++++++++++++++++++++++---
+>>>  hw/vfio/trace-events          |   1 +
+>>>  hw/virtio/vhost.c             |  11 ++
+>>>  include/chardev/char.h        |   6 +
+>>>  include/exec/memory.h         |  39 ++++++
+>>>  include/hw/boards.h           |   1 +
+>>>  include/hw/pci/msix.h         |   5 +
+>>>  include/hw/pci/pci.h          |   2 +
+>>>  include/hw/vfio/vfio-common.h |   8 ++
+>>>  include/hw/virtio/vhost.h     |   1 +
+>>>  include/migration/cpr.h       |  31 +++++
+>>>  include/monitor/hmp.h         |   3 +
+>>>  include/qapi/util.h           |  28 ++++
+>>>  include/qemu/osdep.h          |   1 +
+>>>  include/sysemu/runstate.h     |   2 +
+>>>  include/sysemu/sysemu.h       |   1 +
+>>>  linux-headers/linux/vfio.h    |   6 +
+>>>  migration/cpr-state.c         | 215 ++++++++++++++++++++++++++++++
+>>>  migration/cpr.c               | 176 ++++++++++++++++++++++++
+>>>  migration/meson.build         |   2 +
+>>>  migration/migration.c         |   5 +
+>>>  migration/qemu-file-channel.c |  36 +++++
+>>>  migration/qemu-file-channel.h |   6 +
+>>>  migration/savevm.c            |  21 +--
+>>>  migration/target.c            |  24 +++-
+>>>  migration/trace-events        |   5 +
+>>>  monitor/hmp-cmds.c            |  68 ++++++----
+>>>  monitor/hmp.c                 |   3 +
+>>>  monitor/qmp.c                 |   3 +
+>>>  qapi/char.json                |   7 +-
+>>>  qapi/cpr.json                 |  76 +++++++++++
+>>>  qapi/meson.build              |   1 +
+>>>  qapi/qapi-schema.json         |   1 +
+>>>  qapi/qapi-util.c              |  37 ++++++
+>>>  qemu-options.hx               |  40 +++++-
+>>>  softmmu/globals.c             |   1 +
+>>>  softmmu/memory.c              |  46 +++++++
+>>>  softmmu/physmem.c             |  55 ++++++--
+>>>  softmmu/runstate.c            |  38 +++++-
+>>>  softmmu/vl.c                  |  18 ++-
+>>>  stubs/cpr-state.c             |  15 +++
+>>>  stubs/cpr.c                   |   3 +
+>>>  stubs/meson.build             |   2 +
+>>>  trace-events                  |   1 +
+>>>  util/oslib-posix.c            |   9 ++
+>>>  util/oslib-win32.c            |   4 +
+>>>  util/qemu-config.c            |   4 +
+>>>  64 files changed, 1732 insertions(+), 111 deletions(-)
+>>>  create mode 100644 hw/vfio/cpr.c
+>>>  create mode 100644 include/migration/cpr.h
+>>>  create mode 100644 migration/cpr-state.c
+>>>  create mode 100644 migration/cpr.c
+>>>  create mode 100644 qapi/cpr.json
+>>>  create mode 100644 stubs/cpr-state.c
+>>>  create mode 100644 stubs/cpr.c
+>>>
+>>
+> .
+> 
 
-> On Mon, 23 Aug 2021 19:06:47 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
->
-> > On Sat, Aug 21, 2021 at 08:35:35PM +0530, Ani Sinha wrote:
-> > > Bsel property of the pci bus indicates whether the bus supports acpi hotplug.
-> > > We need to validate the presence of this property before performing any hotplug
-> > > related callback operations. Currently validation of the existence of this
-> > > property was absent from acpi_pcihp_device_unplug_cb() function but is present
-> > > in other hotplug/unplug callback functions. Hence, this change adds the missing
-> > > check for the above function.
-> > >
-> > > Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> >
-> > I queued this but I have a general question:
-> I convinced myself that this patch is wrong, pls drop it.
-
-OK so now we have a situation where this function callback does not have
-this check whereas others does. Should we drop them from everywhere?
-
+-- 
+Regards.
+Chuan
 
