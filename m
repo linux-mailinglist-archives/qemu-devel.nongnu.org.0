@@ -2,90 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 965583F61FD
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 17:48:50 +0200 (CEST)
-Received: from localhost ([::1]:56602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 223713F620C
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 17:52:27 +0200 (CEST)
+Received: from localhost ([::1]:59394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIYfR-0005hP-75
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 11:48:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45240)
+	id 1mIYiw-0007kT-7K
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 11:52:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mIYeI-0004kL-3n
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:47:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45819)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIYh4-0006wa-D4
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:50:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26233)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mIYeF-0003ZX-Q9
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:47:37 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIYgy-0005Mx-Pu
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:50:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629820055;
+ s=mimecast20190719; t=1629820223;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MrPh40+dTEhUvWwLJERGScSq0psY9MzF6ReeJVy0u1s=;
- b=IZAPOeVkLd+HvA/9Cn5qe3QtbHAFz8Wc5FZOApPf9L4z1AthFkAjraynqIANdqN4tPPgU2
- WTQd+keAO/170Hfe2CJ39ktyoGCvzi42etKd+vnNn1S9REBArU4PumulVazKnoNEuLy1yr
- Lg2v4eilayEd51BfrKAPrMNw0U30m9Q=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-horkMO90MfGLQRYvEZfkKg-1; Tue, 24 Aug 2021 11:47:33 -0400
-X-MC-Unique: horkMO90MfGLQRYvEZfkKg-1
-Received: by mail-wr1-f70.google.com with SMTP id
- b8-20020a5d5508000000b001574e8e9237so1952499wrv.16
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 08:47:33 -0700 (PDT)
+ bh=fireB/LHgPhb+rwE7DiSE6HwznhclT0QsVIrE7ykW98=;
+ b=e0CKFeUDMxv3XtWKu+iEu+1+up5nI8m4C5XaR/+tmcSCEPc2WNmxbgmX4BbjaVkIej/GTT
+ mZy4DdH0Tnl9avhKehe6RWGmhmyowQ8ducFEASK4LYKlyVkRDncXr26VGKfdGjbZL0hLZ4
+ HZE1/4bubTOrJxNTPgM2w+VzrtwE8YU=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-254-qLIWlVocNzSdgx_X9C-OMQ-1; Tue, 24 Aug 2021 11:50:22 -0400
+X-MC-Unique: qLIWlVocNzSdgx_X9C-OMQ-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ iw1-20020a0562140f2100b0035f58985cecso15138932qvb.10
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 08:50:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MrPh40+dTEhUvWwLJERGScSq0psY9MzF6ReeJVy0u1s=;
- b=F+gz8/o4Qi/WlAjg9qTZ7xAhHUhQSBnQb1zDcy1MBygr1lCUg2kKifr5S4xRhG8L09
- +1/dEM/2+dhTOhvsBy3z2A4YAk6Kv1HtbKsitH66XmZWISb6wQxhzpr5coZ8B+OZtgNd
- 0gyTE7q84yW70NRuA0XbKn226PszsQGC7HhGsmxcIKwnuQnM3ibVQGJshu3CzGawCoh6
- d2a6OadApiqnrV/OptDSctV6is8dfE8+EXTWY7mjRr/xyX4R5MzUJ1A1Q70WvaveOeIt
- 30RY4vCX5c+oTDkKSoS5Aw4u8dFlEEu5rsmoF8orQQeVUJA103ljTeoEeSaez2bwsipf
- ryNw==
-X-Gm-Message-State: AOAM530PDYcFRSZViCRSc8upV8oFy3V8t4jamfY5FLvUDsy78mZJIKW6
- teRS7ohSkLyA0GxQdVeUANPmgVpULg3DpeBBO5p3RqU9DVkZ/gjrnpszjY1dwWbV1jmEj2rt80u
- L8CMNmtoKUlx/sursCoWTXRLw452E9FdECBA7FTepGQFx5d7SHCeqcPlumLwnf4Wl
-X-Received: by 2002:a5d:4f02:: with SMTP id c2mr20634189wru.311.1629820052070; 
- Tue, 24 Aug 2021 08:47:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxSmOjea4Aq8/G0ZvRK+ZzY43LuES8CcwLChwkap++8yvgr07fGFzAgDO08Ir4fO+gM4FYO+g==
-X-Received: by 2002:a5d:4f02:: with SMTP id c2mr20634164wru.311.1629820051891; 
- Tue, 24 Aug 2021 08:47:31 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id d24sm2640092wmb.35.2021.08.24.08.47.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Aug 2021 08:47:31 -0700 (PDT)
-Subject: Re: [PATCH 1/2] iotests: Fix unspecified-encoding pylint warnings
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-References: <20210824153540.177128-1-hreitz@redhat.com>
- <20210824153540.177128-2-hreitz@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <2404b821-78bf-bfcd-417e-0f4bb9eb911c@redhat.com>
-Date: Tue, 24 Aug 2021 17:47:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=fireB/LHgPhb+rwE7DiSE6HwznhclT0QsVIrE7ykW98=;
+ b=jz0U4mOuGHsHrOiGlTpS4li+R2yZEfdaFL2cEUQMWzC/57oAbSKb3p+S6fhD9VYVcH
+ Aems1F6ycSA/bxkZhHUw8smXTXFbDVlNlyJ/lbRiq87C963FWU/XGs8245R+vwcrR4gs
+ ZtkW83iWYevx02oiYEfkUcY0z8GapajOeQeE4bk4IJW67v+QVD8cB8ckMZJGdu0YdqMp
+ aLxpRD0V5km9cj8GXXc+/SxAFJmwSusH32OxF5BUVJC6Vl2xsKFQBgs7T2t4/sRRmd97
+ stKfNzWmn3zrr8LyiNisyMtvZURTF7qqvmRE4CepmIJAXAITBn9Pwm+fWX4f8QIqlrE2
+ lIsA==
+X-Gm-Message-State: AOAM5321zMjdVsh6TE6jXFM4aSmNWvL7wCY6uU0npcaMvyw4r1UKCWhb
+ gXIIhe621oIGsl5jE2qIIed8niiAULuU5q6w3oQLJB3hn3xCqZ5odl+l3YTsJaiuxkQW6dB8k1h
+ 1bPJfk2KGQWtB8a8=
+X-Received: by 2002:a05:622a:1910:: with SMTP id
+ w16mr34573657qtc.227.1629820221851; 
+ Tue, 24 Aug 2021 08:50:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxBj0iYM0cUGaqCs+gR9kq+Hf+DXqS01lErQEMQ01Afd9ykIBVq0QRbQb4YjTAayKPQx3hMrA==
+X-Received: by 2002:a05:622a:1910:: with SMTP id
+ w16mr34573625qtc.227.1629820221625; 
+ Tue, 24 Aug 2021 08:50:21 -0700 (PDT)
+Received: from t490s ([2607:fea8:56a3:500::d413])
+ by smtp.gmail.com with ESMTPSA id j18sm11075638qkg.31.2021.08.24.08.50.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Aug 2021 08:50:21 -0700 (PDT)
+Date: Tue, 24 Aug 2021 11:50:19 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH 4/4] vl: Prioritize realizations of devices
+Message-ID: <YSUVO7sVsgsZiCHF@t490s>
+References: <20210818194217.110451-1-peterx@redhat.com>
+ <20210818194318.110993-1-peterx@redhat.com>
+ <20210823184912.mazqfn7gurntj7ld@habkost.net>
+ <YSP0m83roQytqvDr@t490s>
+ <20210823175457-mutt-send-email-mst@kernel.org>
+ <YSQjBX9SwzgNGiag@t490s>
+ <CACGkMEttajn8xihZCw8UYVHxGu1wE8eDoEhuc7Ug7_Q_aKCyRQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210824153540.177128-2-hreitz@redhat.com>
+In-Reply-To: <CACGkMEttajn8xihZCw8UYVHxGu1wE8eDoEhuc7Ug7_Q_aKCyRQ@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.305, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,22 +99,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ David Hildenbrand <david@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/24/21 5:35 PM, Hanna Reitz wrote:
-> As of recently, pylint complains when `open()` calls are missing an
-> `encoding=` specified.  Everything we have should be UTF-8 (and in fact,
-> everything should be UTF-8, period (exceptions apply)), so use that.
-> 
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-> ---
->  tests/qemu-iotests/297        | 2 +-
->  tests/qemu-iotests/iotests.py | 8 +++++---
->  2 files changed, 6 insertions(+), 4 deletions(-)
+On Tue, Aug 24, 2021 at 10:52:24AM +0800, Jason Wang wrote:
+> It looks to me this doesn't solve the issue of using virtio-mmio with vhost?
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+No IOMMU supported for any of the MMIO devices, right?  Or am I wrong?  Thanks,
+
+-- 
+Peter Xu
 
 
