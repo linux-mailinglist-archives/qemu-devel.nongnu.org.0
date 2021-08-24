@@ -2,74 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77C8B3F59BB
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 10:15:08 +0200 (CEST)
-Received: from localhost ([::1]:50736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 832023F59CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 10:24:38 +0200 (CEST)
+Received: from localhost ([::1]:57162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIRaN-0000Bm-2i
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 04:15:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51080)
+	id 1mIRjO-00053J-3n
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 04:24:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIRZM-0007yU-N2
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 04:14:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26378)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIRZJ-0006RO-5A
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 04:14:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629792838;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8U9WFDQlGB6ECJZ8KRzTg00NZzc74wmQdkGrDTp1eKA=;
- b=Pr2TvU1AWm1EHq+ronXcvf36CL9MxCiU8rnhzI8L7T3WesP+pKWM+HfnAeTxBZD0FVGia5
- gcmrO9XKJDojbOpMqdP2n8aYR8qN8flJCrRYks1MkbZcf1cNxvpTNl1FLVP1cIidz9VrQW
- B5kS1PwZgx7xmvDXBOMNxV81wYW3vAw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-5qd62Y1TNAi1UfIRZIQRAw-1; Tue, 24 Aug 2021 04:13:55 -0400
-X-MC-Unique: 5qd62Y1TNAi1UfIRZIQRAw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83F461015186;
- Tue, 24 Aug 2021 08:13:54 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-4.ams2.redhat.com [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 167D0620DE;
- Tue, 24 Aug 2021 08:13:44 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A493911380A9; Tue, 24 Aug 2021 10:13:42 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v2 2/3] hw/usb/hcd-xhci-pci: Abort if setting link
- property failed
-References: <20210819171547.2879725-1-philmd@redhat.com>
- <20210819171547.2879725-3-philmd@redhat.com>
- <20210823183414.hmu4ly2y5zkbw3mg@habkost.net>
-Date: Tue, 24 Aug 2021 10:13:42 +0200
-In-Reply-To: <20210823183414.hmu4ly2y5zkbw3mg@habkost.net> (Eduardo Habkost's
- message of "Mon, 23 Aug 2021 14:34:14 -0400")
-Message-ID: <87ilzvntu1.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <Chunming.Li@verisilicon.com>)
+ id 1mIRgv-0003GX-UN; Tue, 24 Aug 2021 04:21:53 -0400
+Received: from shasxm06.verisilicon.com ([101.89.135.45]:52531
+ helo=shasxm03.verisilicon.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <Chunming.Li@verisilicon.com>)
+ id 1mIRgr-0003CY-Cv; Tue, 24 Aug 2021 04:21:53 -0400
+Content-Language: zh-CN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+DKIM-Signature: v=1; a=rsa-sha256; d=Verisilicon.com; s=default;
+ c=simple/simple; t=1629793295; h=from:subject:to:date:message-id;
+ bh=YA9K4KG3O0sFUXorCymJMEOzOVVGDhjZCZcto0AQm6E=;
+ b=XscW0vbvdFWty/3GQZR3p5Lh42IVCDh7FwO9SgeimrLHbwm7Tz2GpN5WJl4Jv3dU4c7t5QAELl0
+ nOZPmc/yrp0FQ2F0q9RMdACfBiCPE55Sbn0s7LWz0nC2d9yYQufUdiHu8ASnY3MqjovlhHcrWawSx
+ 4E9vus4nis/FSBsYcWE=
+Received: from SHASXM03.verisilicon.com ([fe80::938:4dda:a2f9:38aa]) by
+ SHASXM06.verisilicon.com ([fe80::59a8:ce34:dc14:ddda%16]) with mapi id
+ 14.03.0408.000; Tue, 24 Aug 2021 16:21:33 +0800
+From: "Li, Chunming" <Chunming.Li@verisilicon.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: RE: [PATCH] hw/arm/smmuv3: Support non-PCI/PCIe devices connection
+Thread-Topic: [PATCH] hw/arm/smmuv3: Support non-PCI/PCIe devices connection
+Thread-Index: AdeVbB3S+4i7nlcHTb+Dg8IlAhdEUv//4wWA//94u7CAAI29AP/5QjJA
+Date: Tue, 24 Aug 2021 08:21:33 +0000
+Message-ID: <49C79B700B5D8F45B8EF0861B4EF3B3B01142FAC4C@SHASXM03.verisilicon.com>
+References: <49C79B700B5D8F45B8EF0861B4EF3B3B01142F5748@SHASXM03.verisilicon.com>
+ <CAFEAcA-L-9AjGGLCynbDbF=apQe4J_CrWE7RFKddHiD1L1qKHg@mail.gmail.com>
+ <49C79B700B5D8F45B8EF0861B4EF3B3B01142F5A05@SHASXM03.verisilicon.com>
+ <CAFEAcA_g59GdK+X366xkWj+znz8B_TTufBMvgvND9TS+dnjEdA@mail.gmail.com>
+In-Reply-To: <CAFEAcA_g59GdK+X366xkWj+znz8B_TTufBMvgvND9TS+dnjEdA@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [182.148.13.182]
+x-tm-as-product-ver: SMEX-11.0.0.4179-8.100.1062-25628.004
+x-tm-as-result: No--25.693700-0.000000-31
+x-tm-as-user-approved-sender: Yes
+x-tm-as-user-blocked-sender: No
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=101.89.135.45;
+ envelope-from=Chunming.Li@verisilicon.com; helo=shasxm03.verisilicon.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,55 +71,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: "eric.auger@redhat.com" <eric.auger@redhat.com>, "Liu,
+ Renwei" <Renwei.Liu@verisilicon.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Wen,
+ Jianxian" <Jianxian.Wen@verisilicon.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eduardo Habkost <ehabkost@redhat.com> writes:
-
-> +Markus
->
-> On Thu, Aug 19, 2021 at 07:15:46PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
-te:
->> Do not ignore eventual error if we failed at setting the 'host'
->> property of the TYPE_XHCI model.
->>=20
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->> ---
->>  hw/usb/hcd-xhci-pci.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>=20
->> diff --git a/hw/usb/hcd-xhci-pci.c b/hw/usb/hcd-xhci-pci.c
->> index e934b1a5b1f..71f6629ccde 100644
->> --- a/hw/usb/hcd-xhci-pci.c
->> +++ b/hw/usb/hcd-xhci-pci.c
->> @@ -115,7 +115,7 @@ static void usb_xhci_pci_realize(struct PCIDevice *d=
-ev, Error **errp)
->>      dev->config[PCI_CACHE_LINE_SIZE] =3D 0x10;
->>      dev->config[0x60] =3D 0x30; /* release number */
->> =20
->> -    object_property_set_link(OBJECT(&s->xhci), "host", OBJECT(s), NULL)=
-;
->> +    object_property_set_link(OBJECT(&s->xhci), "host", OBJECT(s), &erro=
-r_fatal);
->
-> If this fails, it's due to programmer error, isn't?  Shouldn't we
-> use &error_abort on that case?
-
-I think so.
-
-In functions with an Error **errp parameter, use of &error_fatal is
-almost always wrong.
-
->>      s->xhci.intr_update =3D xhci_pci_intr_update;
->>      s->xhci.intr_raise =3D xhci_pci_intr_raise;
->>      if (!qdev_realize(DEVICE(&s->xhci), NULL, errp)) {
->> --=20
->> 2.31.1
->>=20
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGV0ZXIgTWF5ZGVsbCBb
+bWFpbHRvOnBldGVyLm1heWRlbGxAbGluYXJvLm9yZ10NCj4gU2VudDogRnJpZGF5LCBBdWd1c3Qg
+MjAsIDIwMjEgNToxNSBQTQ0KPiBUbzogTGksIENodW5taW5nDQo+IENjOiBlcmljLmF1Z2VyQHJl
+ZGhhdC5jb207IHFlbXUtYXJtQG5vbmdudS5vcmc7IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZzsNCj4g
+V2VuLCBKaWFueGlhbjsgTGl1LCBSZW53ZWkNCj4gU3ViamVjdDogUmU6IFtQQVRDSF0gaHcvYXJt
+L3NtbXV2MzogU3VwcG9ydCBub24tUENJL1BDSWUgZGV2aWNlcw0KPiBjb25uZWN0aW9uDQo+IA0K
+PiBPbiBGcmksIDIwIEF1ZyAyMDIxIGF0IDEwOjA0LCBMaSwgQ2h1bm1pbmcNCj4gPENodW5taW5n
+LkxpQHZlcmlzaWxpY29uLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiA+IE9uIEZyaSwgMjAgQXVnIDIw
+MjEgYXQgMDM6MzYsIExpLCBDaHVubWluZw0KPiA+ID4gPENodW5taW5nLkxpQHZlcmlzaWxpY29u
+LmNvbT4gd3JvdGU6DQo+ID4gPiA+DQo+ID4gPiA+IFRoZSBjdXJyZW50IFNNTVUgVjMgZGV2aWNl
+IG1vZGVsIG9ubHkgc3VwcG9ydCBQQ0kvUENJZSBkZXZpY2VzLA0KPiA+ID4gPiBzbyB3ZSB1cGRh
+dGUgaXQgdG8gc3VwcG9ydCBub24tUENJL1BDSWUgZGV2aWNlcy4NCj4gPiA+ID4NCj4gPiA+ID4g
+ICAgIGh3L2FybS9zbW11djM6DQo+ID4gPiA+ICAgICAgICAgLiBDcmVhdGUgSU9NTVUgbWVtb3J5
+IHJlZ2lvbnMgZm9yIG5vbi1QQ0kvUENJZSBkZXZpY2VzDQo+IGJhc2VkDQo+ID4gPiBvbiB0aGVp
+ciBTSUQNCj4gPiA+ID4gICAgICAgICAuIEFkZCBzaWQtbWFwIHByb3BlcnR5IHRvIHN0b3JlIG5v
+bi1QQ0kvUENJZSBkZXZpY2VzIFNJRA0KPiA+ID4gPiAgICAgICAgIC4gVXBkYXRlIGltcGxlbWVu
+dGF0aW9uIG9mIENGR0kgY29tbWFuZHMgYmFzZWQgb24gZGV2aWNlDQo+IFNJRA0KPiA+ID4gPiAg
+ICAgaHcvYXJtL3NtbXUtY29tbW9uOg0KPiA+ID4gPiAgICAgICAgIC4gRGlmZmVyZW50aWF0ZSBQ
+Q0kvUENJZSBhbmQgbm9uLVBDSS9QQ0llIGRldmljZXMgU0lEDQo+IGdldHRpbmcNCj4gPiA+IHN0
+cmF0ZWd5DQo+ID4gPiA+ICAgICBody9hcm0vdmlydDoNCj4gPiA+ID4gICAgICAgICAuIEFkZCBQ
+TDMzMCBETUEgY29udHJvbGxlciBhbmQgY29ubmVjdCB3aXRoIFNNTVV2MyBmb3INCj4gPiA+IHRl
+c3RpbmcNCj4gPiA+ID4gICAgICAgICAuIEFkZCBzbW11djNfc2lkbWFwIGZvciBub24tUENJL1BD
+SWUgZGV2aWNlcyBTSUQgc2V0dGluZw0KPiA+ID4NCj4gPiA+IFBsZWFzZSBkb24ndCB0cnkgdG8g
+ZG8gYWxsIHRoZXNlIHRoaW5ncyBpbiBvbmUgYmlnIHBhdGNoIC0tDQo+ID4gPiBwdXQgdG9nZXRo
+ZXIgYSBwYXRjaHNlcmllcyB3aXRoIHNldmVyYWwgc21hbGxlciBwYXRjaGVzLA0KPiA+ID4gZWFj
+aCBvZiB3aGljaCBkb2VzIG9uZSBzZWxmLWNvbnRhaW5lZCB0aGluZy4NCj4gPiA+DQo+ID4gICBH
+b3QgaXQuIFRoYW5rcyBmb3IgeW91ciBjb21tZW50cy4NCj4gPiAgIExldCBtZSB0cnkgdG8gc3Bs
+aXQgdGhlbSBpbnRvIHNldmVyYWwgc21hbGxlciBwYXRjaGVzLg0KPiA+ICAgQnV0IGFsbCB0aGVz
+ZSB1cGRhdGVzIHdvcmsgZm9yIDEgdGhpbmcuIFRoZXkgYXJlIGRlcGVuZCBvbiBlYWNoDQo+IG90
+aGVyLg0KPiANCj4gWWVzLCB0aGF0J3Mgd2h5IHlvdSBzZW5kIGEgc2luZ2xlIHBhdGNoICpzZXJp
+ZXMqLCB3aGljaCBoYXMNCj4gYSBjb3ZlciBsZXR0ZXIgdGhhdCBleHBsYWlucyB0aGUgb3ZlcmFs
+bCBwdXJwb3NlLiBUaGVuIGVhY2gNCj4gaW5kaXZpZHVhbCBwYXRjaCBpbiB0aGUgc2VyaWVzIGhh
+cyBhIGNvbW1pdCBtZXNzYWdlIHRoYXQNCj4gZGVzY3JpYmVzIHdoYXQgdGhhdCBzcGVjaWZpYyBw
+YXRjaCBpcyBkb2luZy4gQXMgZW1haWxzLCB0aGUNCj4gcGF0Y2hlcyBhcmUgYWxsIHNlbnQgYXMg
+Zm9sbG93LXVwcyB0byB0aGUgY292ZXJsZXR0ZXIuDQo+ICJnaXQgZm9ybWF0LXBhdGNoIiBhbmQg
+ImdpdCBzZW5kLWVtYWlsIiBzaG91bGQgaGFuZGxlIHRoaXMgZm9yIHlvdS4NCj4gDQoNClNvcnJ5
+IGZvciBpbnRlcnJ1cHQgeW91LiANCkNvdWxkIHlvdSBoZWxwIHRvIGNoZWNrIHdoeSBteSBzZXJp
+ZXMgcGF0Y2ggY2Fubm90IGJlIGxpc3RlZCBieSBodHRwczovL3BhdGNoZXcub3JnLz8NCkkgc3Bs
+aXQgdGhlIHBhdGNoIGludG8gNCBjb21taXRzIHdpdGggMSBjb3ZlcmxldHRlciBhbmQgc2VuZCB0
+aGVtIG91dCB3aXRoIHY0IHRhZy4NCkkgY2FuIHNlZSBhbGwgNSBlbWFpbHMgaW4gaHR0cHM6Ly93
+d3cubWFpbC1hcmNoaXZlLmNvbS9xZW11LWRldmVsQG5vbmdudS5vcmcvIA0KQnV0IGh0dHBzOi8v
+cGF0Y2hldy5vcmcvUUVNVS80OUM3OUI3MDBCNUQ4RjQ1QjhFRjA4NjFCNEVGM0IzQjAxMTQyRkFC
+RDZAU0hBU1hNMDMudmVyaXNpbGljb24uY29tLyMgDQpzaG93ICIgT25seSAwIHBhdGNoZXMgcmVj
+ZWl2ZWQhICIuDQpJdCBpcyBncmVhdCBoZWxwZnVsIElmIHlvdSBjYW4gaGVscCB0byBjaGVjayBh
+bmQgdGVsbCBtZSB3aGF0IG1pc3Rha2UgSSBtYWRlLg0KVGhhbmtzIHZlcnkgbXVjaCENCg0KPiBo
+dHRwczovL3dpa2kucWVtdS5vcmcvQ29udHJpYnV0ZS9TdWJtaXRBUGF0Y2gjU3BsaXRfdXBfbG9u
+Z19wYXRjaGVzDQo+IGhhcyBhIGxpdHRsZSBtb3JlIGRpc2N1c3Npb24gb2YgdGhpcy4NCj4gDQo+
+ID4gPiBJZiB5b3UgaGF2ZSBhIHBhdGNoIHRoYXQgZGVwZW5kcyBvbiBhbm90aGVyLCBpdCdzIHVz
+dWFsbHkgYmV0dGVyIHRvDQo+ID4gPiBzZW5kIHRoZW0gYXMgYSBwYXRjaHNlcmllcy4gSSB3YXMg
+d29uZGVyaW5nIHdoYXQgdGhlIHJlYXNvbiBmb3INCj4gPiA+IHRoYXQgUEwzMzAgcGF0Y2ggd2Fz
+Li4uDQo+IA0KPiA+ICAgSSBuZWVkIGEgbm9uLVBDSS9QQ0llIGRldmljZSB0byBkbyB0aGUgdmVy
+aWZpY2F0aW9uLiBUaGUgb2xkIFBMMzMwDQo+IERNQSBjb250cm9sbGVyDQo+ID4gICBjYW5ub3Qg
+Y29uZmlndXJlIGl0cyBtZW1vcnkgcmVnaW9uIG1hbnVhbGx5LiBTbyB3ZSB1cGRhdGUgaXQgYW5k
+DQo+IHByb3ZpZGUgcGF0aC4NCj4gPiAgIFBMMzMwIHBhdGNoIHdhcyByZXZpZXdlZCBhbmQgd2ls
+bCBiZSBtZXJnZWQgaW4gdGFyZ2V0LWFybS5uZXh0IGZvcg0KPiA2LjIuDQo+ID4gICBUaGUgdmly
+dC5jIGNvbXBpbGUgd2lsbCBmYWlsIGlmIHRoZXJlIGlzIG5vIFBMMzMwIGRldmljZSBwYXRjaC4N
+Cj4gDQo+IFllYWgsIEkgYWNjZXB0ZWQgaXQgYmVjYXVzZSBpdCBpcyBhIHNlbnNpYmxlIGNsZWFu
+dXAgb24gaXRzIG93bjsNCj4gYnV0IGl0IHdvdWxkIGhhdmUgYmVlbiBhIGJpdCBlYXNpZXIgZm9y
+IG1lIHRvIHVuZGVyc3RhbmQgd2h5IHlvdQ0KPiB3ZXJlIGRvaW5nIHRoYXQgaWYgSSdkIGhhZCB0
+aGUgd2lkZXIgY29udGV4dC4NCj4gDQo+IHRoYW5rcw0KPiAtLSBQTU0NCg==
 
