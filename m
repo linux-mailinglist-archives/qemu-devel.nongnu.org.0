@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AC3B3F62A1
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 18:24:57 +0200 (CEST)
-Received: from localhost ([::1]:60678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 628723F629F
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 18:23:14 +0200 (CEST)
+Received: from localhost ([::1]:57294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIZEJ-0003dW-K0
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 12:24:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53826)
+	id 1mIZCi-0001L1-UW
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 12:23:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIZAw-0008Sp-9v
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:21:22 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:33676)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIZAu-00021d-Ll
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:21:21 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id x11so45604369ejv.0
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 09:21:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=SDXumLncWHcShRu6HR1hJJBW5qh8TITewrTX1JG7gik=;
- b=tyaJrb9NpeOMyu7PEEnM2YDA7Iz1cLiT1qMGC8taZieJQzFz/FfY3kY/Be2piDt1uK
- UA9l+vqyleXVsWZ5vB3XfO6BZ6TwHTMLH6dMVwg19JrLE/SYktLF0kjQ1EMNTW2IZdc8
- YoXDxos2xozyPMILNukuPS4wLm+hv71AnZMLMBMIWv5IAyihZq00kqRo487VQ1x9rLPM
- NjE8iDWxMzi3tonKLdHclt4F4N6YPgO8ikUkhKGFLOV+/k9CrIj6kyN8AvNpNACA+D76
- /f2nLyavfE+2Refraol8NOI4cbyJVAiFyRPsk9Jz0Ez4rulP/bh7O91FPteyibGmyImw
- +Frw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=SDXumLncWHcShRu6HR1hJJBW5qh8TITewrTX1JG7gik=;
- b=PVrUC20A8/l74hQCGjf9dTmZv27V7gRq72H6o/vCvHHGWPyOVO6m+TpD2waqzvdrgI
- 0NNkAMjZxbGMphnA5suoZ06YpMuUmWVmnoWTrEzJP2iZEDmITvrKC9lpkrI7YKPtwljq
- XA9UrKl9ThZZG5tfwA61wWt9PT1Pn6jkyqbOfGEL52UPlwdi0tVJmvPPJbLBepiSRlja
- YPnaXv1Q9pKmo1e2pZLEb7waKII0ewe0Y20P2r2HEpGuNKbqL2xUgu5+HmojkoTY2JYF
- QaYwp0f2FZzcgrd+gPxQJCCiZBsh4dmypVQClye2G+fvirQFOBr9i/ZQMS+VLwbLmUDK
- io8Q==
-X-Gm-Message-State: AOAM533mPMtV0vVnRtr6o21bJu6+rs1nW0lwPeUwTw/ZQqIgrUelN2En
- 9aczJd1c9dBRZDNXpI9nLjhHiclumqQBY98sn5wYIw==
-X-Google-Smtp-Source: ABdhPJzhvKFwbXAT7a5wwaGQYw7NF1euM/Q4FRKXFc+6C4gjACFSTqGFo3gBOdVWYm8+xq2G84HLYS1g14gRcdu9314=
-X-Received: by 2002:a17:907:75d9:: with SMTP id
- jl25mr989258ejc.4.1629822079026; 
- Tue, 24 Aug 2021 09:21:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mIZAc-00086A-RT
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:21:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30094)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mIZAa-0001i8-GO
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:21:02 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629822058;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EEKe/HgE1zR8POi0NU+cwlTbhnQOB2Ht+zlnlfZxUqM=;
+ b=CgcwzNi3d5WdD7wdgA52aMr1/xYDMPuJF/yKHUkdjJp6x3wtTLVcpCXZugnMpvu3T6yQgN
+ k1HBVC3hI/hWbGX0rKY171h8jRXxS6MX4J5FSvAO73rZFaeVi2EBx/XKUEs58sX5XsjZxQ
+ NxDRR9mWSX0eQg3MZAqsNfjH+CRNgFY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-499-d27hHBMhNxWzvYCPbLgxAA-1; Tue, 24 Aug 2021 12:20:55 -0400
+X-MC-Unique: d27hHBMhNxWzvYCPbLgxAA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0EEA81853028;
+ Tue, 24 Aug 2021 16:20:54 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.192.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F1C5C5D6CF;
+ Tue, 24 Aug 2021 16:20:52 +0000 (UTC)
+Date: Tue, 24 Aug 2021 18:20:51 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: Using loadvm with snapshot
+Message-ID: <YSUcY/IQOFZzbJFn@redhat.com>
+References: <BY5PR02MB7028431FD055B48DAD3841F7F7F99@BY5PR02MB7028.namprd02.prod.outlook.com>
+ <YRvjHiZmPkSuv//z@work-vm>
+ <CAFEAcA_h_WWf=0rU1yTqOA4AH5kYfLNqdbqHokdtoBP7bmepUw@mail.gmail.com>
+ <YSUOVqyjJ4xqsMgK@redhat.com>
+ <CAFEAcA_eQp7zt8WzTee=n-F5SJ-cGKdxxQYrg1_iFQq62O+0SA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210822035537.283193-1-richard.henderson@linaro.org>
- <20210822035537.283193-7-richard.henderson@linaro.org>
-In-Reply-To: <20210822035537.283193-7-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 24 Aug 2021 17:20:31 +0100
-Message-ID: <CAFEAcA-XhRreA56JTH2w2QcDxr7uEBYuYTUEs=4LAnD7Zq=5Gw@mail.gmail.com>
-Subject: Re: [PATCH v2 06/30] linux-user: Provide new force_sigsegv_for_addr()
- function
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAFEAcA_eQp7zt8WzTee=n-F5SJ-cGKdxxQYrg1_iFQq62O+0SA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,24 +79,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Gabriel Southern <gsouther@qti.qualcomm.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 22 Aug 2021 at 04:55, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Most linux-user targets so far do not distinguish between SEGV_MAPERR
-> and SEGV_ACCERR.  This function will be used to fix that.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  linux-user/signal-common.h |  1 +
->  linux-user/signal.c        | 18 ++++++++++++++++++
->  2 files changed, 19 insertions(+)
+Am 24.08.2021 um 17:25 hat Peter Maydell geschrieben:
+> On Tue, 24 Aug 2021 at 16:21, Kevin Wolf <kwolf@redhat.com> wrote:
+> >
+> > Am 17.08.2021 um 20:48 hat Peter Maydell geschrieben:
+> > > On Tue, 17 Aug 2021 at 17:27, Dr. David Alan Gilbert
+> > > <dgilbert@redhat.com> wrote:
+> > > >
+> > > > * Gabriel Southern (gsouther@qti.qualcomm.com) wrote:
+> > > > > Hi,
+> > > > >
+> > > > > Are there plans to support using -loadvm with -snapshot?
+> > > > >
+> > > > > I saw some past discussion on mailing list including bug that was closed earlier this year but no recent activity:
+> > > > >
+> > > > > https://lore.kernel.org/qemu-devel/162424905685.11837.7303570061857383641.malone@loganberry.canonical.com/
+> > > > >
+> > > > > Testing with latest qemu it looks like -loadvm still does not work when combined with -snapshot.
+> > > > >
+> > > > > I'm curious how complex it would be to implement this feature and if it may show up on QEMU roadmap in the future. Or if there is alterative command that can be used to save the state of a running VM and then use the same qcow to run multiple QEMU instances loading this VM state running in snapshot mode.
+> > >
+> > > Do you know why -loadvm and -snapshot don't work together?
+> > > It doesn't on the face of it seem like they would be incompatible...
+> >
+> > Probably because -snapshot first adds a temporary qcow2 overlay to the
+> > image, and then -loadvm fails because the newly created temporary
+> > overlay doesn't contain the requested snapshot.
+> 
+> That sounds like the bug could be fixed by having "find the
+> snapshot" look not just in the overlay but also down into
+> the underlying image?
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+In this specific case yes, because we know that the overlay was just
+created and is still empty.
 
-thanks
--- PMM
+In the general case, loading internal snapshots on a backing file would
+be wrong because the data in the overlay would be from a different time
+than the data in the backing file, probably causing data corruption.
+
+Kevin
+
 
