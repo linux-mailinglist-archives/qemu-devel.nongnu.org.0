@@ -2,85 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D863F5799
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 07:30:45 +0200 (CEST)
-Received: from localhost ([::1]:48364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8F933F5806
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 08:16:07 +0200 (CEST)
+Received: from localhost ([::1]:55608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIP1I-0000zZ-1K
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 01:30:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39254)
+	id 1mIPjC-0007uZ-M5
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 02:16:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mIOxD-0008WJ-Rt; Tue, 24 Aug 2021 01:26:31 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:46863)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIPhp-0006Sl-DF
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 02:14:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48334)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mIOxB-0000sC-IK; Tue, 24 Aug 2021 01:26:31 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id C9AB75C00E2;
- Tue, 24 Aug 2021 01:26:27 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Tue, 24 Aug 2021 01:26:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=1B5o3MGNAmHT9V+LjIl3VdHgqFr
- j1hBKM2YldIOteTI=; b=OMhFFyFKydA4JmgFSxD5N/3jXb6+OegN7CvGVtt8mLm
- fRLwVu1IrH4nflK0Fi6OrmwkS46wFeVDyZi5FVDcXyQTjnZ6WR9pGCWSyZfN4z63
- mVvgGt1UKvKxGiZhMTxzMk7V4ZuxSVX+GFEa8cSTN3zJTlknM9hVEJ8vx42USaax
- ur+7+pHzGmbeTjEMtEiDEUpHCtyvhdtgJq17y8YmuQXs6idbAmfmkFlKjA4yvx/3
- 8cB5DAmzUAPekTPO8ovG9IpxUO5iD121spX3titmjbVv4joCxv4u0GSiQDOK95oP
- R4nFUWdgutFx+wd3URaJZfoO9cOKi0yyhu0uZB0rq7w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=1B5o3M
- GNAmHT9V+LjIl3VdHgqFrj1hBKM2YldIOteTI=; b=DXrU3K84gmaqM3VhxaGQ2o
- al0/emF/H0kqlgO3wRo3fgku2Fket4SVFaDhCZuv1hZUZ19eVYEOBWZ20VuvNc71
- Sg0/vRypt0ciRLvR7PtGVEA24S47UDKpybDtG+9yX3T17bL2zQM8vDOTQFIzj49h
- cDHzKZchQRE3c1s0yMhH6e3DK6LscQ9rv2XS3VagxrH7T7uEf9jgT0oXKxFJgDSl
- 8lyv2fjx4AB46OiK/bDNDsWEjeIZPHTcq+nBp4OavkKdBbZJfa5KhqavqnkF4qLC
- /tIMGo2SUHPyNmDIc/AnCoocAc4g5DvVlB9rENuBxV2o0SfEUqAYFWmPkn3KSxTQ
- ==
-X-ME-Sender: <xms:AoMkYaiwnNU2GfEw1fwzIWQ3IxKgG1GmA8OUvwwXN4TEkCNadu__0A>
- <xme:AoMkYbBDRI0jscmOYUZb085ayT-eZANVrrmJDm3PnUrDDVVVW4Z4_qQYErW6A-168
- XRZMy8OJPwaAgSrL1g>
-X-ME-Received: <xmr:AoMkYSFKgXiz7xrZNiG2qsWGFqS3N_hiAIgc1t1iMwVOhzMcrQ09Xmic-Ntgt7Iyrb0z5MiFrNEO-EtrURTKXu0X12VlcUQCwA3Bvsq0q2mIrf0dhg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddtiedgleegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:AoMkYTSi9bCRhnId68jAZte9jOO5TasLwdm4xEFfY6qgRYCGNbAvLA>
- <xmx:AoMkYXyMhOQnHPiRv3yZ8VaQo7NuVt-JbxQBEfTXx2GXYVLyhLmA_g>
- <xmx:AoMkYR7V3e2ilr6pHgJfPQQnhb4vOCgpqVP0j5SgnyN2RrMFIcgTCA>
- <xmx:A4MkYX-A9MWhHB0cRgVjqvIJrMKPtX_HoV4Gk1drXYbsRzHxr15hqg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 24 Aug 2021 01:26:25 -0400 (EDT)
-Date: Tue, 24 Aug 2021 07:26:24 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH] hw/nvme: fix validation of ASQ and ACQ
-Message-ID: <YSSDALW4D0lONGHd@apples.localdomain>
-References: <20210823122018.401370-1-its@irrelevant.dk>
- <20210824014748.GA64408@C02WT3WMHTD6>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIPhl-00086W-VC
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 02:14:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629785675;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BG3216AH9pIsIthJl8FP/ybEa4mLRtqo0Bn5ReEliI0=;
+ b=JxBkoUxdFUVDdl9lKvWPhNMSNCqu8b+p66+1KGVkZxB3Khv1f+SRZd2X6MeGuzyN4T5IfT
+ bw3P7G4khIR561OjqaxKwTpdMffkP5q8vYQubgoaeKJKBeeWHC/NUJaB4yqeQNm0YX+Pvn
+ WbedNwes3+W9s7nEUL8oZv3V/q4AA9g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-122-eDK5X-z-Psi0IuCAnzRDJg-1; Tue, 24 Aug 2021 02:14:32 -0400
+X-MC-Unique: eDK5X-z-Psi0IuCAnzRDJg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 433558799E0;
+ Tue, 24 Aug 2021 06:14:31 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-4.ams2.redhat.com [10.36.112.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 459FC5DA61;
+ Tue, 24 Aug 2021 06:14:27 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C3C0D11380A9; Tue, 24 Aug 2021 08:14:25 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: Is QEMU's vmxnet3 still being used?
+References: <7ec1626e-3c4b-c9e8-1a29-f576163712f5@redhat.com>
+ <YR4b9J7jlfrd84BK@redhat.com>
+Date: Tue, 24 Aug 2021 08:14:25 +0200
+In-Reply-To: <YR4b9J7jlfrd84BK@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Thu, 19 Aug 2021 09:53:08 +0100")
+Message-ID: <87h7ffpdxa.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ccHo8Ir1q8F218io"
-Content-Disposition: inline
-In-Reply-To: <20210824014748.GA64408@C02WT3WMHTD6>
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,58 +82,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Jason Wang <jasowang@redhat.com>, Leonid Bloch <leonid@daynix.com>,
+ Andrew Melnychenko <andrew@daynix.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
---ccHo8Ir1q8F218io
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Wed, Aug 18, 2021 at 03:42:23PM +0200, Thomas Huth wrote:
+>>=20
+>>  Hi all,
+>>=20
+>> I recently noticed that we have quite a bunch of tickets against the vmx=
+net3
+>> device in our bug trackers, which indicate that this device could be use=
+d to
+>> crash QEMU in various ways:
+>>=20
+>>  https://gitlab.com/qemu-project/qemu/-/issues?state=3Dopened&search=3Dv=
+mxnet3
+>>=20
+>>  https://bugs.launchpad.net/qemu?field.searchtext=3Dvmxnet3
+>
+> IIUC, all except 3 of those bugs, are issues from the device fuzzer.
+>
+> It is nice that we find those, but if we don't consider this a device
+> targetted at virtualization use cases, I don't think they're a reason
+> to remove the device.
+>
+>> Having hardly any knowledge about this device and its usage at all, I wo=
+nder
+>> how much it is still used out there in the wild? If there are still many
+>> users of this device, is there anybody interested here in helping to get
+>> these crashes fixed in the near future? Otherwise, should we maybe rathe=
+r
+>> mark this device as deprecated and remove it in a couple of releases? Wh=
+at
+>> do you think?
+>
+> We've got countless NIC models in QEMU most of which have minimal users,
+> are possibly buggy, not actively maintained, but exist to support
+> non-virtualization use cases. We've especially not had "how many users
+> are there" as a criteria for acceptance or removal of a device.
 
-On Aug 23 19:47, Keith Busch wrote:
-> On Mon, Aug 23, 2021 at 02:20:18PM +0200, Klaus Jensen wrote:
-> > From: Klaus Jensen <k.jensen@samsung.com>
-> >=20
-> > Address 0x0 is a valid address. Fix the admin submission and completion
-> > queue address validation to not error out on this.
->=20
-> Indeed, there are environments that can use that address. It's a host err=
-or if
-> the controller was enabled with invalid queue addresses anyway. The contr=
-oller
-> only needs to verify the lower bits are clear, which we do later.
->=20
-> Reviewed-by: Keith Busch <kbusch@kernel.org>
->=20
+I accept "good enough for intended use", and that certain kinds of bugs
+are much less serious in emulation use than in virtualization use.
 
-Thanks Keith,
+Still, there's a difference between "possibly buggy" and "perennially
+unmaintained / can't even be bothered to fix known bugs".  Why should we
+carry code that isn't of sufficient interest to anyone to motivate basic
+care?
 
-Yeah, I noticed this with a VFIO-based driver where the IOVAs typically
-start at 0x0.
+Moreover, having drastically different code quality requirements in the
+tree is problematic.  Compounded by them being less than obvious.  If
+people knew nobody cared for bugs in hw/mumble/mutter.c, they could save
+themselves the trouble of fuzzing or otherwise examining it.  They might
+even be dissuaded from copying (quite possibly bad) code from it.
 
-And yes, I specifically refrained from adding any other sanity checks on
-the addresses. I.e., we could add a check for ASQ !=3D ACQ, but who are we
-to judge ;)
+I do believe the way we operate promotes misallocation of (scarce)
+resources.
 
-Applied to nvme-next!
-
---ccHo8Ir1q8F218io
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmEkgvwACgkQTeGvMW1P
-DelBgQf8DZBOJpc2xuUqyGHkj9BD9cP/MF8Ge2ahCkaCh01vkI9P7HURiTiRT1zd
-Qic/wovyYwjAfpa1X/dGWlYUyiRM01MQBt9dPvGscDynaBKnLHWzoTlGraUvbRdK
-UBKNMkE6+b276hFTNICLaGpzvnZOmRd0RY5wNC3dWNys7I61aalb5Zzij3ne3dHT
-UJEyliZHlA+7/rFPZB9VDCQoqX00zXSApQ4zNYxZ+EBXcgJXMe/fziPDR1NQ2Zqa
-AMM8RlOXLXflN2xcUnGhUgR1PA7U6gkEWIISacWQvxsct5fnZwLFYWeq88YuLg+e
-pfzcKRBDuL98HUsaWlTL1Tf4cPisAw==
-=GKQD
------END PGP SIGNATURE-----
-
---ccHo8Ir1q8F218io--
 
