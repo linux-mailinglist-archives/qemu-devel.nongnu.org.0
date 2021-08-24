@@ -2,91 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223713F620C
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 17:52:27 +0200 (CEST)
-Received: from localhost ([::1]:59394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82A903F6212
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 17:53:19 +0200 (CEST)
+Received: from localhost ([::1]:33254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIYiw-0007kT-7K
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 11:52:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45712)
+	id 1mIYjm-0000nS-L1
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 11:53:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIYh4-0006wa-D4
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:50:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26233)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mIYi8-00081n-0g
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:51:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIYgy-0005Mx-Pu
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:50:30 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mIYi2-00068r-TA
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:51:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629820223;
+ s=mimecast20190719; t=1629820290;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fireB/LHgPhb+rwE7DiSE6HwznhclT0QsVIrE7ykW98=;
- b=e0CKFeUDMxv3XtWKu+iEu+1+up5nI8m4C5XaR/+tmcSCEPc2WNmxbgmX4BbjaVkIej/GTT
- mZy4DdH0Tnl9avhKehe6RWGmhmyowQ8ducFEASK4LYKlyVkRDncXr26VGKfdGjbZL0hLZ4
- HZE1/4bubTOrJxNTPgM2w+VzrtwE8YU=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-qLIWlVocNzSdgx_X9C-OMQ-1; Tue, 24 Aug 2021 11:50:22 -0400
-X-MC-Unique: qLIWlVocNzSdgx_X9C-OMQ-1
-Received: by mail-qv1-f70.google.com with SMTP id
- iw1-20020a0562140f2100b0035f58985cecso15138932qvb.10
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 08:50:22 -0700 (PDT)
+ bh=ewXnhtx+roG8nGP2FTv5iOY/2ULoLva+ZiNTJC3+qek=;
+ b=bdgWztEmNoMCPtqdQiMMT3H+VE8OU9VXW6XKNHJcRWBynz0lVoyGK7aXD09SllhMRZ1w3g
+ QP8ncaXJTaqXc9O7sNMaypI/4v9NeHLj4T+cgHTWu9G3taXywffG2JWQ8/b1xWHzd/DMyt
+ 3FP8AqLeAuBVonxTdrJiqGzelJ2JZ6s=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-515-kxfWR24aOxi5jq69QxMSrQ-1; Tue, 24 Aug 2021 11:51:27 -0400
+X-MC-Unique: kxfWR24aOxi5jq69QxMSrQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ d12-20020a056000186cb02901548bff164dso5875902wri.18
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 08:51:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=fireB/LHgPhb+rwE7DiSE6HwznhclT0QsVIrE7ykW98=;
- b=jz0U4mOuGHsHrOiGlTpS4li+R2yZEfdaFL2cEUQMWzC/57oAbSKb3p+S6fhD9VYVcH
- Aems1F6ycSA/bxkZhHUw8smXTXFbDVlNlyJ/lbRiq87C963FWU/XGs8245R+vwcrR4gs
- ZtkW83iWYevx02oiYEfkUcY0z8GapajOeQeE4bk4IJW67v+QVD8cB8ckMZJGdu0YdqMp
- aLxpRD0V5km9cj8GXXc+/SxAFJmwSusH32OxF5BUVJC6Vl2xsKFQBgs7T2t4/sRRmd97
- stKfNzWmn3zrr8LyiNisyMtvZURTF7qqvmRE4CepmIJAXAITBn9Pwm+fWX4f8QIqlrE2
- lIsA==
-X-Gm-Message-State: AOAM5321zMjdVsh6TE6jXFM4aSmNWvL7wCY6uU0npcaMvyw4r1UKCWhb
- gXIIhe621oIGsl5jE2qIIed8niiAULuU5q6w3oQLJB3hn3xCqZ5odl+l3YTsJaiuxkQW6dB8k1h
- 1bPJfk2KGQWtB8a8=
-X-Received: by 2002:a05:622a:1910:: with SMTP id
- w16mr34573657qtc.227.1629820221851; 
- Tue, 24 Aug 2021 08:50:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxBj0iYM0cUGaqCs+gR9kq+Hf+DXqS01lErQEMQ01Afd9ykIBVq0QRbQb4YjTAayKPQx3hMrA==
-X-Received: by 2002:a05:622a:1910:: with SMTP id
- w16mr34573625qtc.227.1629820221625; 
- Tue, 24 Aug 2021 08:50:21 -0700 (PDT)
-Received: from t490s ([2607:fea8:56a3:500::d413])
- by smtp.gmail.com with ESMTPSA id j18sm11075638qkg.31.2021.08.24.08.50.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Aug 2021 08:50:21 -0700 (PDT)
-Date: Tue, 24 Aug 2021 11:50:19 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 4/4] vl: Prioritize realizations of devices
-Message-ID: <YSUVO7sVsgsZiCHF@t490s>
-References: <20210818194217.110451-1-peterx@redhat.com>
- <20210818194318.110993-1-peterx@redhat.com>
- <20210823184912.mazqfn7gurntj7ld@habkost.net>
- <YSP0m83roQytqvDr@t490s>
- <20210823175457-mutt-send-email-mst@kernel.org>
- <YSQjBX9SwzgNGiag@t490s>
- <CACGkMEttajn8xihZCw8UYVHxGu1wE8eDoEhuc7Ug7_Q_aKCyRQ@mail.gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=ewXnhtx+roG8nGP2FTv5iOY/2ULoLva+ZiNTJC3+qek=;
+ b=UwCkg2m/HzDWBJN+RwrLAThGCDVYMSJhOL7+yCZfcRp7G4Ze+GXopEGD6CWQxzttB0
+ iLtNOjAo9xxej/pYW+tqac4ypYiyyvXjUA+j2vZPL67QVGUeQahKhmtNlcApH737liNr
+ rq5ZEFZ75MPWD+ytyf1fWj14fDcD/N0ohijD9nXNvydTklEFAf7L6MbnygvxjC59p9ST
+ JpHX7ucPWwUzb7UiVom6LyxZ758PUB1OZwEOmRrWG8QquzEj/THdyBHaNvdsvLBNnqUC
+ /jlKL1HZVw6Njoz9AjkOoLmQwVmQ7aohHdx6+hg1hkjn90L8yKzOlFCmfQJspsz+pFn0
+ qzrQ==
+X-Gm-Message-State: AOAM5313ANqNs4lkM0wvxBksqqizEslfeOfPpuQq0QbLEJ0YbJFQWpIa
+ EcxoYoGAvaavQX5m88+KLDJ2xJ+tpMTliiJsrKDe9MfDC/sgzjdZO3mDSRyIrjLS57KiIlq4VNs
+ 6X7ZZ3vlT+rPG9Os=
+X-Received: by 2002:a1c:1904:: with SMTP id 4mr4710653wmz.93.1629820286501;
+ Tue, 24 Aug 2021 08:51:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxqs+2lfPWVB8tf+Y0LN/AdMcHj+yx7umXFqPGGcxo3kkYtofzpnjvDNtQJ+LxkMV2jejGFxw==
+X-Received: by 2002:a1c:1904:: with SMTP id 4mr4710634wmz.93.1629820286295;
+ Tue, 24 Aug 2021 08:51:26 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ f17sm2689054wmq.17.2021.08.24.08.51.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Aug 2021 08:51:26 -0700 (PDT)
+Subject: Re: [PATCH v8 00/34] block: publish backup-top filter
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210824083856.17408-1-vsementsov@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <82985ebb-91a3-895e-7e0b-ab4fad506338@redhat.com>
+Date: Tue, 24 Aug 2021 17:51:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CACGkMEttajn8xihZCw8UYVHxGu1wE8eDoEhuc7Ug7_Q_aKCyRQ@mail.gmail.com>
+In-Reply-To: <20210824083856.17408-1-vsementsov@virtuozzo.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.305, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,22 +98,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- David Hildenbrand <david@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 24, 2021 at 10:52:24AM +0800, Jason Wang wrote:
-> It looks to me this doesn't solve the issue of using virtio-mmio with vhost?
+On 24.08.21 10:38, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
+>
+> v8:
+>
+> 06: add Hanna's r-b
+> 07: keep is_fleecing detection in _new() function
+> 08,17,18: add Hanna's r-b
+> 19: wording, s/6.1/6.2/, add Markus's a-b
+> 25: new
+> 29: add John's r-b
+> 34: new
+>
+> Patches without r-b: 07, 25, 34
 
-No IOMMU supported for any of the MMIO devices, right?  Or am I wrong?  Thanks,
+Thanks!  I’ve applied the series to my block-next branch:
 
--- 
-Peter Xu
+https://github.com/XanClic/qemu/commits/block-next
+
+Hanna
 
 
