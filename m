@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6B513F59D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 10:24:53 +0200 (CEST)
-Received: from localhost ([::1]:58994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF963F59D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 10:25:39 +0200 (CEST)
+Received: from localhost ([::1]:34270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIRji-0006I7-NO
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 04:24:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53052)
+	id 1mIRkY-0000FI-IG
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 04:25:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIRi6-00049r-Tb
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 04:23:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56994)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mIRiw-0005pH-JB
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 04:24:00 -0400
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2220)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIRi3-0004F1-DQ
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 04:23:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629793379;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Os0OaXnrhH1x+OO3QqfLUaOalcCaYJ19vp1l9bXUjoI=;
- b=JsivIJLaXmbL1qv+NzoSf+iYVmB2zMyke5S/20mP0eG6SbKsc0CwA9lqGf83fX5WAugWm1
- IZljr7m7Xy9jfGx3PiNvGWBkDG78S9MhB3FUw5ZcIQ1miQZB3x/QFiP+Nk4u7hQtwkQQUn
- NyaFWw0Amqfq1p/8JK2myQD4n+L9WdU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-NBy4z9hBPgGeKrR3law0Wg-1; Tue, 24 Aug 2021 04:22:55 -0400
-X-MC-Unique: NBy4z9hBPgGeKrR3law0Wg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 99D021853024;
- Tue, 24 Aug 2021 08:22:54 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-4.ams2.redhat.com [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 586112C00F;
- Tue, 24 Aug 2021 08:22:54 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id A795311380A9; Tue, 24 Aug 2021 10:22:52 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v2 1/5] qemu/qarray.h: introduce QArray
-References: <cover.1629638507.git.qemu_oss@crudebyte.com>
- <42e8b7fec3f03487e322be42ef5ca0e09fd9edea.1629638507.git.qemu_oss@crudebyte.com>
-Date: Tue, 24 Aug 2021 10:22:52 +0200
-In-Reply-To: <42e8b7fec3f03487e322be42ef5ca0e09fd9edea.1629638507.git.qemu_oss@crudebyte.com>
- (Christian Schoenebeck's message of "Sun, 22 Aug 2021 15:16:46 +0200")
-Message-ID: <87eeajnter.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mIRir-0004qm-TN
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 04:23:58 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Gv2F04B2Zz89SJ;
+ Tue, 24 Aug 2021 16:23:32 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 24 Aug 2021 16:23:46 +0800
+Received: from [10.174.187.128] (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Tue, 24 Aug 2021 16:23:45 +0800
+Subject: Re: [PATCH v7 05/15] machine: Improve the error reporting of smp
+ parsing
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov
+ <imammedo@redhat.com>
+References: <20210823122804.7692-1-wangyanan55@huawei.com>
+ <20210823122804.7692-6-wangyanan55@huawei.com>
+ <c5a2bacc-ea23-6de7-2dd5-f0451034d2a8@redhat.com>
+ <4b49fb0c-ec73-d8ca-f622-cc8e21ed0140@huawei.com>
+ <a9adbc4d-c111-1280-965e-0242f9f43da8@redhat.com>
+From: "wangyanan (Y)" <wangyanan55@huawei.com>
+Message-ID: <18959f11-f40e-9faf-bc27-425fa5090a20@huawei.com>
+Date: Tue, 24 Aug 2021 16:23:44 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <a9adbc4d-c111-1280-965e-0242f9f43da8@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggeme702-chm.china.huawei.com (10.1.199.98) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=wangyanan55@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -61
+X-Spam_score: -6.2
+X-Spam_bar: ------
+X-Spam_report: (-6.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.023,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,78 +74,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ wanghaibin.wang@huawei.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Christian Schoenebeck <qemu_oss@crudebyte.com> writes:
 
-> Implements deep auto free of arrays while retaining common C-style
-> squared bracket access.
+On 2021/8/24 15:29, Philippe Mathieu-Daudé wrote:
+> On 8/24/21 6:51 AM, wangyanan (Y) wrote:
+>> On 2021/8/23 21:17, Philippe Mathieu-Daudé wrote:
+>>> On 8/23/21 2:27 PM, Yanan Wang wrote:
+>>>> We have two requirements for a valid SMP configuration:
+>>>> the product of "sockets * cores * threads" must represent all the
+>>>> possible cpus, i.e., max_cpus, and then must include the initially
+>>>> present cpus, i.e., smp_cpus.
+>>>>
+>>>> So we only need to ensure 1) "sockets * cores * threads == maxcpus"
+>>>> at first and then ensure 2) "maxcpus >= cpus". With a reasonable
+>>>> order of the sanity check, we can simplify the error reporting code.
+>>>> When reporting an error message we also report the exact value of
+>>>> each topology member to make users easily see what's going on.
+>>>>
+>>>> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+>>>> Reviewed-by: Andrew Jones <drjones@redhat.com>
+>>>> Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+>>>> ---
+>>>>    hw/core/machine.c | 22 +++++++++-------------
+>>>>    hw/i386/pc.c      | 24 ++++++++++--------------
+>>>>    2 files changed, 19 insertions(+), 27 deletions(-)
+>>>>
+>>>> diff --git a/hw/core/machine.c b/hw/core/machine.c
+>>>> index 85908abc77..093c0d382d 100644
+>>>> --- a/hw/core/machine.c
+>>>> +++ b/hw/core/machine.c
+>>>> @@ -779,25 +779,21 @@ static void smp_parse(MachineState *ms,
+>>>> SMPConfiguration *config, Error **errp)
+>>>>        maxcpus = maxcpus > 0 ? maxcpus : sockets * cores * threads;
+>>>>        cpus = cpus > 0 ? cpus : maxcpus;
+>>>>    -    if (sockets * cores * threads < cpus) {
+>>>> -        error_setg(errp, "cpu topology: "
+>>>> -                   "sockets (%u) * cores (%u) * threads (%u) < "
+>>>> -                   "smp_cpus (%u)",
+>>>> -                   sockets, cores, threads, cpus);
+>>>> +    if (sockets * cores * threads != maxcpus) {
+>>>> +        error_setg(errp, "Invalid CPU topology: "
+>>>> +                   "product of the hierarchy must match maxcpus: "
+>>>> +                   "sockets (%u) * cores (%u) * threads (%u) "
+>>>> +                   "!= maxcpus (%u)",
+>>>> +                   sockets, cores, threads, maxcpus);
+>>>>            return;
+>>>>        }
+>>> Thinking about scalability, MachineClass could have a
+>>> parse_cpu_topology() handler, and this would be the
+>>> generic one. Principally because architectures don't
+>>> use the same terms, and die/socket/core/thread arrangement
+>>> is machine specific (besides being arch-spec).
+>>> Not a problem as of today, but the way we try to handle
+>>> this generically seems over-engineered to me.
+>> Hi Philippe,
+>>
+>> The reason for introducing a generic implementation and avoiding
+>> specific ones is that we thought there is little difference in parsing
+>> logic between the specific parsers. Most part of the parsing is the
+>> automatic calculation of missing values and the related error reporting,
+>> in which the only difference between parsers is the handling of specific
+>> (no matter of arch-specific or machine-specifc) parameters.
+>>
+>> So it may be better to keep the parsing logic unified if we can easily
+>> realize that. And actually we can use compat stuff to handle specific
+>> topology parameters well. See implementation in patch #10.
+>>
+>> There have been patches on list introducing new specific members
+>> (s390 related in [1] and ARM related in [2]), and in each of them there
+>> is a specific parser needed. However, based on generic one we can
+>> extend without the increasing code duplication.
+>>
+>> There is also some discussion about generic/specific parser in [1],
+>> which can be a reference.
+>>
+>> [1]
+>> https://lore.kernel.org/qemu-devel/1626281596-31061-2-git-send-email-pmorel@linux.ibm.com/
+>>
+>> [2]
+>> https://lore.kernel.org/qemu-devel/20210516103228.37792-1-wangyanan55@huawei.com/
+> OK I read Daniel's rationale here:
+> https://lore.kernel.org/qemu-devel/YPFN83pKBt7F97kW@redhat.com/
+exactly. :)
+
+Thanks,
+Yanan
+.
+> Thanks,
 >
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-
-You provide some motivation for this, but only in your cover letter:
-
-    Patches 1 and 2 introduce include/qemu/qarray.h which implements a deep auto
-    free mechanism for arrays. Unlike GArray it does not require special macros,
-    function calls or member dereferencing to access the individual array
-    elements. So existing C-style array code can be retained with only very
-    little changes.
-
-    In this initial version QArray only supports the concept of unique pointers,
-    i.e. it does not support reference counting. The array (and all dynamically
-    allocated memory of individual array elements) is auto freed once execution
-    leaves the scope of the reference variable (unique pointer) associated with
-    the array.
-
-Please put it into the commit message, so it gets committed.
-
-An example to illustrate how QArray is better than GArray (for some
-value of "better") would help make your case that QArray is worth its
-maintenance cost.
-
-> ---
->  include/qemu/qarray.h | 150 ++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 150 insertions(+)
->  create mode 100644 include/qemu/qarray.h
+> Phil.
 >
-> diff --git a/include/qemu/qarray.h b/include/qemu/qarray.h
-> new file mode 100644
-> index 0000000000..9885e5e9ed
-> --- /dev/null
-> +++ b/include/qemu/qarray.h
-> @@ -0,0 +1,150 @@
-> +/*
-> + * QArray - deep auto free C-array
-> + *
-> + * Copyright (c) 2021 Crudebyte
-> + *
-> + * Authors:
-> + *   Christian Schoenebeck <qemu_oss@crudebyte.com>
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining a copy
-> + * of this software and associated documentation files (the "Software"), to deal
-> + * in the Software without restriction, including without limitation the rights
-> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-> + * copies of the Software, and to permit persons to whom the Software is
-> + * furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice shall be included in
-> + * all copies or substantial portions of the Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-> + * THE SOFTWARE.
-> + */
-
-Please use GPLv2+ unless you have a compelling reason not to.
-
-[...]
+> .
 
 
