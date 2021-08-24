@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBC1B3F5AFD
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 11:27:05 +0200 (CEST)
-Received: from localhost ([::1]:36564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D76383F5B21
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 11:32:23 +0200 (CEST)
+Received: from localhost ([::1]:39238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mISi0-0005xS-Uy
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 05:27:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40568)
+	id 1mISn8-0007zG-OJ
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 05:32:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1mISgv-00056b-3V; Tue, 24 Aug 2021 05:25:58 -0400
-Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:46870)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mISlx-0007Ke-MD
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 05:31:09 -0400
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:37435)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1mISgq-00046y-Fz; Tue, 24 Aug 2021 05:25:56 -0400
-Received: by mail-lj1-x235.google.com with SMTP id w4so34926895ljh.13;
- Tue, 24 Aug 2021 02:25:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=qwjqmJXd8NF3e13kmo7qeA4SaK+C9QIuzEROt/j3J2Y=;
- b=q5xvh0fMMeuKy0qSt2DAZOwuWhC1YoFXUwT6M5xZkDNYBUkjzCARqltGLHiYlT7PkI
- 8eHYST71JOe8tF+A9sK7koMXl7RurQsJFVNEtZ7+bhVaI6shP7TcwB2b040jvHPu7Ajo
- 1byFT93Cw+UQzfwxY/8Pv+mUO/r8zuLYxSLZ8d4nPRfaRrQMexzIOJmKg/uKsxGtMqk0
- AjOPsrBogQ2RHX+69Gp6nIr+H9kaj0S2ahVF210s9AbpSbeR+N/CukQO+ATOEt0pp67d
- zLG7muSw+qI7tys8yr7tLAvnuznNR2S9mC37jyORTOARLn9JpYlQCgYm6RoiAdqjhTiW
- jegg==
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mISlu-0007a7-L9
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 05:31:09 -0400
+Received: by mail-pj1-x1034.google.com with SMTP id
+ j10-20020a17090a94ca00b00181f17b7ef7so1378562pjw.2
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 02:31:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=from:date:to:cc:subject:in-reply-to:message-id:references
+ :user-agent:mime-version;
+ bh=QkcwJeKOKVM4FA6eRhONiDarKN15RXvbCnsdj/0MNJ0=;
+ b=znygjngdm9Xu8yU3c/1YuytRDMe2O+JsM3BHLSaERR67VoCa2b20dVvrQRgcVzafMz
+ W0opppiI0unnMW6JZWsEGfLVyIglkyV3K0ENm5I26Y8mNQDbobz4ktoNUdrTICaHJ2hy
+ LVzYGG/ztHIsm87LiSUF8vYNGhQqmP4TF9nEkw+qMwBE+xPCuRKiLrQNJwdVh9Y38bRD
+ 2qkE759xOhCRjwjux6+jLuF78cWyuJp+qDxcu5Mhk4+mOqvE8J+jC9XDd3g8Csx/TT0z
+ L6IpjPmw6A7K5XFDaPHTa4Lak56/YenTKd6ug2XXv+dPt+b9KJ8HnaY10k2eOHhFFA5/
+ 0rAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=qwjqmJXd8NF3e13kmo7qeA4SaK+C9QIuzEROt/j3J2Y=;
- b=erBXR7+GPAHMSOvxXYb4edABx40Ei+RgTGnczLoXNPKIc8MRjr7Zi+DmxetQJNFLEL
- xZZ8/kWYnRWKbIeRqP1nvIECN8DRGNxT5XATN3wa/nHsYyX8BjeGi6MLYYX2aK5M6yVG
- XLkLZj0knKGMy85ujZiKjkTq0br5IRUQNYaynvhVqXNQe1ZyZ3T2g2l2Y9qA14ZE4/lb
- 7Go6FQ768TKc2X7FbHii8u6TbFp//arKiu1B76SfriGlZ4ZPnEFagABg/BRjqT/JPUPq
- 0oxqlh6S6ybCfuACGFSxPvn2rJnXDRAfbOzO7zBQhvM+zdwP2FUkZhU3F/nUbQFWFBCf
- d2YQ==
-X-Gm-Message-State: AOAM533RBopMB5/Go++DB3LW3JGIZQdQdQm2cyNhUegzn33b4lykPf+b
- 8CUfStHB9G+1Z4SjbglW3A8=
-X-Google-Smtp-Source: ABdhPJw4GycoB9IX97N2whZojNzngQFqVTKSKCqGEfYs8l121fYPX5IgFxRo4BZO5ZFIRVSeGSeAjw==
-X-Received: by 2002:a2e:93d0:: with SMTP id p16mr16987617ljh.348.1629797150341; 
- Tue, 24 Aug 2021 02:25:50 -0700 (PDT)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id 28sm1699742lft.154.2021.08.24.02.25.49
+ h=x-gm-message-state:from:date:to:cc:subject:in-reply-to:message-id
+ :references:user-agent:mime-version;
+ bh=QkcwJeKOKVM4FA6eRhONiDarKN15RXvbCnsdj/0MNJ0=;
+ b=PmzNGhPSb3DsbIoetlTqc60j85D92nLPKuEHCZj6K7YFnCnOtHmffeAwhmJqg2pvgt
+ V3Tcl7lnkac3t+yLk2m91N1+rmPMqAKwlF61eEt4ua9jtYB+RGJtehYaVbBEfk8v0mVP
+ q4P3ROGJHd5mELAb67Q5wJIAPUflH++yStC6ilhCq+rDSqThX1Jd/pFtNnMp4wgjqgfZ
+ SxuLWrMUif4tLfypDo+oxBmGtiqYUBQOcG24PJ3lHjyDFGjYCfv5cyHTUIEdcWqKoJiN
+ XWgnnaQtK+P/FPqKdMeaDgR318d5QmWLp3c7aYuiPezf8aCzJSYrHpQ3crzIJL6xrLgM
+ zUzw==
+X-Gm-Message-State: AOAM531C71o/j/Qq/f3J8czFbEgm/yUqamDDvq4wONpiXxZtIi/kePeN
+ A9k25YR5f1aBPANJ+whBQdvhXg==
+X-Google-Smtp-Source: ABdhPJzAQS7u9uRf1/WKj7iJwSE8/v8AfbrcKjOj4cOwUHPtj8eSPgUZIf1nV5wEEgrsVg+4IMnAcQ==
+X-Received: by 2002:a17:90a:d3d0:: with SMTP id
+ d16mr3460849pjw.103.1629797465197; 
+ Tue, 24 Aug 2021 02:31:05 -0700 (PDT)
+Received: from anisinha-lenovo ([115.96.135.45])
+ by smtp.googlemail.com with ESMTPSA id j35sm22302625pgm.55.2021.08.24.02.31.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Aug 2021 02:25:50 -0700 (PDT)
-Date: Tue, 24 Aug 2021 11:25:49 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [RFC PATCH v2 0/5] physmem: Have flaview API check bus
- permission from MemTxAttrs argument
-Message-ID: <20210824092549.GK3586016@toto>
-References: <20210823164157.751807-1-philmd@redhat.com>
- <CAFEAcA9_=6n4w86gD3MHhiLeCiui9_+ePT7E2sSHdSRufUJdyA@mail.gmail.com>
+ Tue, 24 Aug 2021 02:31:04 -0700 (PDT)
+From: Ani Sinha <ani@anisinha.ca>
+X-Google-Original-From: Ani Sinha <anisinha@anisinha.ca>
+Date: Tue, 24 Aug 2021 15:00:58 +0530 (IST)
+X-X-Sender: anisinha@anisinha-lenovo
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH] hw/acpi/pcihp: validate bsel property of the bus before
+ unplugging device
+In-Reply-To: <20210824105614.2762541f@redhat.com>
+Message-ID: <alpine.DEB.2.22.394.2108241500110.889504@anisinha-lenovo>
+References: <20210821150535.763541-1-ani@anisinha.ca>
+ <20210823190444-mutt-send-email-mst@kernel.org>
+ <20210824105614.2762541f@redhat.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFEAcA9_=6n4w86gD3MHhiLeCiui9_+ePT7E2sSHdSRufUJdyA@mail.gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::235;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lj1-x235.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: none client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=ani@anisinha.ca; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,64 +87,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Peter Xu <peterx@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Alexander Bulekov <alxndr@bu.edu>, qemu-arm <qemu-arm@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Ani Sinha <ani@anisinha.ca>, philmd@redhat.com, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 23, 2021 at 08:10:50PM +0100, Peter Maydell wrote:
-> On Mon, 23 Aug 2021 at 17:42, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
-> >
-> > This series aim to kill a recent class of bug, the infamous
-> > "DMA reentrancy" issues found by Alexander while fuzzing.
-> >
-> > Introduce the 'bus_perm' field in MemTxAttrs, defining 3 bits:
-> >
-> > - MEMTXPERM_UNSPECIFIED (current default, unchanged behavior)
-> > - MEMTXPERM_UNRESTRICTED (allow list approach)
-> > - MEMTXPERM_RAM_DEVICE (example of deny list approach)
-> >
-> > If a transaction permission is not allowed (for example access
-> > to non-RAM device), we return the specific MEMTX_BUS_ERROR.
-> >
-> > Permissions are checked in after the flatview is resolved, and
-> > before the access is done, in a new function: flatview_access_allowed().
-> 
-> So I'm not going to say 'no' to this, because we have a real
-> recursive-device-handling problem and I don't have a better
-> idea to hand, but the thing about this is that we end up with
-> behaviour which is not what the real hardware does. I'm not
-> aware of any DMA device which has this kind of "can only DMA
-> to/from RAM, and aborts on access to a device" behaviour...
+
+
+On Tue, 24 Aug 2021, Igor Mammedov wrote:
+
+> On Mon, 23 Aug 2021 19:06:47 -0400
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
 >
+> > On Sat, Aug 21, 2021 at 08:35:35PM +0530, Ani Sinha wrote:
+> > > Bsel property of the pci bus indicates whether the bus supports acpi hotplug.
+> > > We need to validate the presence of this property before performing any hotplug
+> > > related callback operations. Currently validation of the existence of this
+> > > property was absent from acpi_pcihp_device_unplug_cb() function but is present
+> > > in other hotplug/unplug callback functions. Hence, this change adds the missing
+> > > check for the above function.
+> > >
+> > > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> >
+> > I queued this but I have a general question:
+> I convinced myself that this patch is wrong, pls drop it.
 
-Yes, I agree.
-
-Having said that, There are DMA devices that do indicate to the
-interconnect and peripherals if they are targeting "normal" memory
-or device (together with cacheability, buffering and ordering
-attributes). Accessing registers of a device with "normal" memory
-and cache attributes is not a good idea and may lead to all kinds
-of weirdness on real HW.
-
-IMO, it would be better to model something like those attributes
-rather than permissions. And it's probably a good idea to not
-call it MEMTXPERM_RAM_DEVICE since in the AMBA documentation
-it's Normal Memory vs Device (calling it RAM_DEVICE is confusing
-to me at least).
-
-Adding a "memory" attribute to MemTxAttrs may be enough?
-If it's set, the access would only target memories. If targeting a device
-it could perhaps be logged and dropped rather than aborted?
-If not set (the default), accesses would target anything...
-
-Cheers,
-Edgar
-
+OK so now we have a situation where this function callback does not have
+this check whereas others does. Should we drop them from everywhere?
 
 
