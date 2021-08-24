@@ -2,55 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7347D3F5DE4
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 14:22:39 +0200 (CEST)
-Received: from localhost ([::1]:42248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 829333F5E6B
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 14:53:14 +0200 (CEST)
+Received: from localhost ([::1]:58020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIVRt-0001dR-U6
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 08:22:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55192)
+	id 1mIVvU-00062Y-RX
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 08:53:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mIVPu-0007RM-K6; Tue, 24 Aug 2021 08:20:35 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2525)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mIVPr-0003ZL-HL; Tue, 24 Aug 2021 08:20:34 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Gv7Tj4rypzYm1b;
- Tue, 24 Aug 2021 20:19:53 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 24 Aug 2021 20:20:25 +0800
-Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Tue, 24 Aug 2021 20:20:25 +0800
-From: Yanan Wang <wangyanan55@huawei.com>
-To: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones
- <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>, Igor Mammedov
- <imammedo@redhat.com>
-Subject: [PATCH v6 5/5] hw/acpi/aml-build: Generate PPTT table
-Date: Tue, 24 Aug 2021 20:20:16 +0800
-Message-ID: <20210824122016.144364-6-wangyanan55@huawei.com>
-X-Mailer: git-send-email 2.8.4.windows.1
-In-Reply-To: <20210824122016.144364-1-wangyanan55@huawei.com>
-References: <20210824122016.144364-1-wangyanan55@huawei.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1mIVuE-0004tN-5p
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 08:51:54 -0400
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:38648)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1mIVuC-0003Lo-BA
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 08:51:53 -0400
+Received: by mail-pj1-x102c.google.com with SMTP id
+ om1-20020a17090b3a8100b0017941c44ce4so1716324pjb.3
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 05:51:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=LKNenXzBsgPQsGz2UfcCg44xkWiRBSEwPxqhrkwwK7U=;
+ b=l+wDOw3EaQ7f4jNBwEt3/kb9cWTL2Qq45hY6w/WEZ01jO3f0Q+U9scrRh0bFM5fKYb
+ Cs0TPvb2gKew15zle3G/FLSB1fls3UegsUO5FQAVLfU6vBzKW4xcz72AJr7hrIacW420
+ M0eIVWQvPsUP2DXyLVkTZkAzMBAthP7nrmVRBE1CQHsT4Sf6Z1F/lnNBeHrGJvgTg79x
+ I1M2vJ8xYC3YbRObypdnjSHy4DbMm+x/H3NQ3ZOmPzLexNCekwQeTViO0xKAbC+/3Y5T
+ 568iUZfy1SCljcAEWOohsphK0tGFJX+YNLyouaBZiGPCDHol/AdM/WHT5MpTYYSovxZZ
+ NnaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=LKNenXzBsgPQsGz2UfcCg44xkWiRBSEwPxqhrkwwK7U=;
+ b=ifA7DQfPrx+AqRI7HnnRJiBzGC7nAF9oruhCIW5P1f1Ds6rcdQC7PfaaQWphrHzd0y
+ kpEMCJ3reI5vRQtFDEaSrBFfTD/N3e8yj4rVkVVR6PtifRyBch4IDY4PF/WlfODUjLdB
+ 2BwZb/lncUKMzPsL3AoCVk0L8u0TrIgDB36QMy3LJF6qOT+zYbaUBr68uoZmV6XUsRyq
+ ubESGFRPmikyVK3pAcqESZilOgT02ZZNjn4EXq7k3YVkkkTecipjGwzBata4dbIrRtaj
+ P9eb31P8ock+kFLMOFuIin8nCu2p6h/+1tA/+PtLWiQFMuwSXztdZ4gh1bc2ORz4MR6X
+ w/Kw==
+X-Gm-Message-State: AOAM5308QWcIv2veor1MiX27wNXuWQ4Q1J+yyqf1od0oxppG1xs6bH6n
+ 8RnKr7rVj5XiXlELJQZPCCjpWsvyJpm8xD4UggyaV2bpKkc=
+X-Google-Smtp-Source: ABdhPJzL1/9if2Tu/jUBDnnhY6185A/eJ2JpRMPB+j3q7HSmpZokISXOd5Mc3rByPE4DjQWTEY64T1X3TBpwzPAujiU=
+X-Received: by 2002:a17:90b:4905:: with SMTP id
+ kr5mr4132042pjb.112.1629809510212; 
+ Tue, 24 Aug 2021 05:51:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Tue, 24 Aug 2021 13:51:39 +0100
+Message-ID: <CAJSP0QWX-8ssEO8KZtigrXLk0sD--_=wyRBK6Cf=2PpXjPp+RA@mail.gmail.com>
+Subject: Outreachy Dec-Mar open source internships
+To: qemu-devel <qemu-devel@nongnu.org>, kvm <kvm@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=stefanha@gmail.com; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,193 +75,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Salil Mehta <salil.mehta@huawei.com>, qemu-devel@nongnu.org,
- Yanan Wang <wangyanan55@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- wanghaibin.wang@huawei.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew Jones <drjones@redhat.com>
+Dear QEMU & KVM community,
+QEMU will apply for the Outreachy December-March round. This
+internship program offers paid, full-time, remote work internships for
+contributing to open source. QEMU can act as an umbrella organization
+for KVM kernel projects.
 
-Add the Processor Properties Topology Table (PPTT) to expose
-CPU topology information defined by users to ACPI guests.
+If you are interested in applying for an internship, please head over
+to the Outreachy website, look at the eligibility criteria, and submit an
+Initial Application by Sept. 3, 2021 at 4pm UTC:
+https://www.outreachy.org/docs/applicant/
 
-Note, a DT-boot Linux guest with a non-flat CPU topology will
-see socket and core IDs being sequential integers starting
-from zero, which is different from ACPI-boot Linux guest,
-e.g. with -smp 4,sockets=2,cores=2,threads=1
+If you are a QEMU or KVM contributor and with a project idea you'd
+like to mentor, please reply to this email so we can discuss the idea.
 
-a DT boot produces:
+Good project ideas are suitable for a competent programmer who
+is not yet familiar with the codebase. In addition, they are:
+ * Well-defined - the scope is clear
+ * Self-contained - there are few dependencies
+ * Uncontroversial - they are acceptable to the community
+ * Incremental - they produce deliverables along the way
 
- cpu:  0 package_id:  0 core_id:  0
- cpu:  1 package_id:  0 core_id:  1
- cpu:  2 package_id:  1 core_id:  0
- cpu:  3 package_id:  1 core_id:  1
+Feel free to post ideas even if you are unable to mentor the project.
+It doesn't hurt to share the idea!
 
-an ACPI boot produces:
+I will review project ideas and keep you up-to-date on QEMU's
+acceptance into Outreachy Dec-Mar.
 
- cpu:  0 package_id: 36 core_id:  0
- cpu:  1 package_id: 36 core_id:  1
- cpu:  2 package_id: 96 core_id:  2
- cpu:  3 package_id: 96 core_id:  3
+For more background on QEMU internships, check out this video:
+https://www.youtube.com/watch?v=xNVCX7YMUL8
 
-This is due to several reasons:
-
- 1) DT cpu nodes do not have an equivalent field to what the PPTT
-    ACPI Processor ID must be, i.e. something equal to the MADT CPU
-    UID or equal to the UID of an ACPI processor container. In both
-    ACPI cases those are platform dependant IDs assigned by the
-    vendor.
-
- 2) While QEMU is the vendor for a guest, if the topology specifies
-    SMT (> 1 thread), then, with ACPI, it is impossible to assign a
-    core-id the same value as a package-id, thus it is not possible
-    to have package-id=0 and core-id=0. This is because package and
-    core containers must be in the same ACPI namespace and therefore
-    must have unique UIDs.
-
- 3) ACPI processor containers are not mandatorily required for PPTT
-    tables to be used and, due to the limitations of which IDs are
-    selected described above in (2), they are not helpful for QEMU,
-    so we don't build them with this patch. In the absence of them,
-    Linux assigns its own unique IDs. The maintainers have chosen not
-    to use counters from zero, but rather ACPI table offsets, which
-    explains why the numbers are so much larger than with DT.
-
- 4) When there is no SMT (threads=1) the core IDs for ACPI boot guests
-    match the logical CPU IDs, because these IDs must be equal to the
-    MADT CPU UID (as no processor containers are present), and QEMU
-    uses the logical CPU ID for these MADT IDs.
-
-So in summary, with QEMU as the vendor for the guests, we simply
-use sequential integers starting from zero for the non-leaf nodes
-but with ID-valid flag unset, so that guest will ignore them and
-use table offsets as unique container IDs. And we use logical CPU
-IDs for the leaf nodes with the ID-valid flag set, which will be
-consistent with MADT.
-
-Signed-off-by: Andrew Jones <drjones@redhat.com>
-Co-developed-by: Yanan Wang <wangyanan55@huawei.com>
-Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
----
- hw/acpi/aml-build.c         | 60 +++++++++++++++++++++++++++++++++++++
- hw/arm/virt-acpi-build.c    |  8 ++++-
- include/hw/acpi/aml-build.h |  3 ++
- 3 files changed, 70 insertions(+), 1 deletion(-)
-
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index 9fa5024414..bbf5526523 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -1946,6 +1946,66 @@ void build_processor_hierarchy_node(GArray *tbl, uint32_t flags,
-     }
- }
- 
-+/* ACPI 6.2: 5.2.29 Processor Properties Topology Table (PPTT) */
-+void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
-+                const char *oem_id, const char *oem_table_id)
-+{
-+    int pptt_start = table_data->len;
-+    int uid = 0;
-+    int socket;
-+
-+    acpi_data_push(table_data, sizeof(AcpiTableHeader));
-+
-+    for (socket = 0; socket < ms->smp.sockets; socket++) {
-+        uint32_t socket_offset = table_data->len - pptt_start;
-+        int core;
-+
-+        build_processor_hierarchy_node(
-+            table_data,
-+            /*
-+             * ACPI 6.2 - Physical package
-+             * represents the boundary of a physical package
-+             */
-+            (1 << 0),
-+            0, socket, NULL, 0);
-+
-+        for (core = 0; core < ms->smp.cores; core++) {
-+            uint32_t core_offset = table_data->len - pptt_start;
-+            int thread;
-+
-+            if (ms->smp.threads > 1) {
-+                build_processor_hierarchy_node(
-+                    table_data,
-+                    /*
-+                     * ACPI 6.2 - Physical package
-+                     * doesn't represent the boundary of a physical package
-+                     */
-+                    (0 << 0),
-+                    socket_offset, core, NULL, 0);
-+
-+                for (thread = 0; thread < ms->smp.threads; thread++) {
-+                    build_processor_hierarchy_node(
-+                        table_data,
-+                        (1 << 1) | /* ACPI 6.2 - ACPI Processor ID valid */
-+                        (1 << 2) | /* ACPI 6.3 - Processor is a Thread */
-+                        (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
-+                        core_offset, uid++, NULL, 0);
-+                }
-+            } else {
-+                build_processor_hierarchy_node(
-+                    table_data,
-+                    (1 << 1) | /* ACPI 6.2 - ACPI Processor ID valid */
-+                    (1 << 3),  /* ACPI 6.3 - Node is a Leaf */
-+                    socket_offset, uid++, NULL, 0);
-+            }
-+        }
-+    }
-+
-+    build_header(linker, table_data,
-+                 (void *)(table_data->data + pptt_start), "PPTT",
-+                 table_data->len - pptt_start, 2, oem_id, oem_table_id);
-+}
-+
- /* build rev1/rev3/rev5.1 FADT */
- void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
-                 const char *oem_id, const char *oem_table_id)
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 037cc1fd82..db23306a06 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -790,13 +790,19 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
-     dsdt = tables_blob->len;
-     build_dsdt(tables_blob, tables->linker, vms);
- 
--    /* FADT MADT GTDT MCFG SPCR pointed to by RSDT */
-+    /* FADT MADT PPTT GTDT MCFG SPCR pointed to by RSDT */
-     acpi_add_table(table_offsets, tables_blob);
-     build_fadt_rev5(tables_blob, tables->linker, vms, dsdt);
- 
-     acpi_add_table(table_offsets, tables_blob);
-     build_madt(tables_blob, tables->linker, vms);
- 
-+    if (!vmc->no_cpu_topology) {
-+        acpi_add_table(table_offsets, tables_blob);
-+        build_pptt(tables_blob, tables->linker, ms,
-+                   vms->oem_id, vms->oem_table_id);
-+    }
-+
-     acpi_add_table(table_offsets, tables_blob);
-     build_gtdt(tables_blob, tables->linker, vms);
- 
-diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-index ea74b8f6ed..6c29f853cd 100644
---- a/include/hw/acpi/aml-build.h
-+++ b/include/hw/acpi/aml-build.h
-@@ -466,6 +466,9 @@ void build_processor_hierarchy_node(GArray *tbl, uint32_t flags,
-                                     uint32_t parent, uint32_t id,
-                                     uint32_t *priv_rsrc, uint32_t priv_num);
- 
-+void build_pptt(GArray *table_data, BIOSLinker *linker, MachineState *ms,
-+                const char *oem_id, const char *oem_table_id);
-+
- void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
-                 const char *oem_id, const char *oem_table_id);
- 
--- 
-2.19.1
-
+Stefan
 
