@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 525583F585C
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 08:40:43 +0200 (CEST)
-Received: from localhost ([::1]:49596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9BBA3F5861
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 08:43:21 +0200 (CEST)
+Received: from localhost ([::1]:51742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIQ70-0006nT-9A
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 02:40:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51006)
+	id 1mIQ9T-0008PC-T5
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 02:43:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mIQ4s-0003vH-Hf; Tue, 24 Aug 2021 02:38:30 -0400
-Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:46948)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mIQ4q-0002xj-G0; Tue, 24 Aug 2021 02:38:30 -0400
-Received: by mail-yb1-xb2f.google.com with SMTP id k65so38869752yba.13;
- Mon, 23 Aug 2021 23:38:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rbCsTz7MMZjquuVFJNC9+dHMTBW1mBzYRLH2a8/KGfo=;
- b=KlrVTPQWzIOHv3ZuNI56g/ddSFRpzURZ+56iPneCiCcOtLsyDC9iUKm9mX0rCN09h4
- w7WvWup8hVtmmRuaduQzk9U6xc4WWR9mDaLhvtrzHBTeQKR/hqwoA91YUmL9Ko8usfNL
- 0bmjkzmGbTlVG1TGynemueQ1+ICKYfZvInnYT5pZiRR7SqlCEYTzLUy/u8Yx4IIJOcvL
- UV4vM4KRQY+adOK2GDF1BdVd9TJuLrsH9vp8H83haiIYO8znm1EDmD7g0F0uare+DGmb
- 2wnnaSikkY9gu6hJXJ7fGiPDLD6iql9mozEhIDGovTd5t+b0B+zQmyLD/jG+LrASi9Je
- IG7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rbCsTz7MMZjquuVFJNC9+dHMTBW1mBzYRLH2a8/KGfo=;
- b=JF7HMkgmzQc4CfCGNp7y9c8RJiAmP4JGj+tDEDx0ouhQEvTZM3vIyAE6p7fNf22Nix
- 6T4NkJ50qc3ML1A/6b7/GhUer69XRL4jl7U4NLraIf6fBz6ItTEJraYJmcQD/bN3oe9Q
- 9favWHT5et9VFhBlg+M6vOn7zE6xtJtZqIe2yP0TAYZBwO3DVAWTDi9iK4vb2ysZqgaA
- IfC97l1h1MWJ/cau5n/CLzIkPKJMnKJyZ2ZYkUiBIwWG4H8T5+m81ZXyKYm8mf4q0ql+
- DN6+nAHjmNk2r743mtvueabf8ruPU6UdCHtdFqWpaX2w7IT3R3a+ALRvlM9KHzakj6N0
- O+pw==
-X-Gm-Message-State: AOAM533oF9nGewD3QK9HpF8hMR6HAsq3rj1fJdiOwGI3DESl87Ad5qnu
- xw18mfPKfakn47jKvCLf7jl1MVMS4FUdX4xPQjM=
-X-Google-Smtp-Source: ABdhPJxALP/O3Mye11qrgxjloPbMoy2oJw3AWY7u2jiWS0/ldGl3ELmeWKfvubkaxM+ltZIC3eMXGVxuzRdV8O4GfEk=
-X-Received: by 2002:a25:6d44:: with SMTP id i65mr46201920ybc.517.1629787107303; 
- Mon, 23 Aug 2021 23:38:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIQ87-0007im-24
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 02:41:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22951)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIQ84-0005vZ-Fl
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 02:41:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629787306;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rahaFyUVYGoM6fJqQhnLLz/tDjqsX4OwHN0IfarHAr0=;
+ b=HMMF6jSxK/cqWJjV9XMQsUze6U+KiynAkIuljFUxjnfwEYavUi0A79Th7XfN3qEmEVvKPO
+ NSCQ+r9Jow52bWuBHF0+efKE1ZMtjDJIEMJjZt8PQtbmIdyJL4G1eIyiVlDHWqYkeItkvB
+ wXN50UXvV5yKGbUB61nbno+WLs9+sBU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-32-L9HwGp4sMyuxstSZZL9PEw-1; Tue, 24 Aug 2021 02:41:40 -0400
+X-MC-Unique: L9HwGp4sMyuxstSZZL9PEw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 962DD6409C;
+ Tue, 24 Aug 2021 06:41:39 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-4.ams2.redhat.com [10.36.112.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DE8CE5C1A3;
+ Tue, 24 Aug 2021 06:41:35 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 70BB111380A9; Tue, 24 Aug 2021 08:41:34 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Andrew Melnichenko <andrew@daynix.com>
+Subject: Re: [PATCH 5/5] qmp: Added qemu-ebpf-rss-path command.
+References: <20210713153758.323614-1-andrew@daynix.com>
+ <20210713153758.323614-6-andrew@daynix.com>
+ <87y29dct4m.fsf@dusky.pond.sub.org>
+ <CABcq3pE3vAh=Cs=VjjkioooEbbPjgNEtCEZGwtoxaCn0OCRQkg@mail.gmail.com>
+Date: Tue, 24 Aug 2021 08:41:34 +0200
+In-Reply-To: <CABcq3pE3vAh=Cs=VjjkioooEbbPjgNEtCEZGwtoxaCn0OCRQkg@mail.gmail.com>
+ (Andrew Melnichenko's message of "Tue, 10 Aug 2021 14:58:41 +0300")
+Message-ID: <877dgbpco1.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20210823195529.560295-1-richard.henderson@linaro.org>
- <20210823195529.560295-18-richard.henderson@linaro.org>
-In-Reply-To: <20210823195529.560295-18-richard.henderson@linaro.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 24 Aug 2021 14:38:16 +0800
-Message-ID: <CAEUhbmUE5EsV9092U5BAhbRpOSh0POHbKHkQMpD+MGYOeWRFPA@mail.gmail.com>
-Subject: Re: [PATCH v5 17/24] target/riscv: Fix hgeie, hgeip
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,24 +81,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Yan Vugenfirer <yan@daynix.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 24, 2021 at 4:08 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> We failed to write into *val for these read functions;
-> replace them with read_zero.  Only warn about unsupported
-> non-zero value when writing a non-zero value.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/riscv/csr.c | 26 ++++++++------------------
->  1 file changed, 8 insertions(+), 18 deletions(-)
->
+Andrew Melnichenko <andrew@daynix.com> writes:
 
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> Hi,
+>
+>> The helper may or may not be installed at the path compiled into QEMU.
+>>
+> Yes, so the helper will not be called - QEMU will try to initiate eBPF RSS
+> or use "in-qemu" RSS.
+
+My point is: the proposed command's mission is to help the management
+application run the right helper.  However, its advice is *unreliable*.
+It may point to the wrong helper, or to nothing at all.  The right
+helper may still exist elsewhere.
+
+I suspect you're trying to address the problem at the wrong level.
+
+Similar versioning issues exist with other helpers.  We've been doing
+fine without QEMU providing unreliable advice on where they might sit in
+the file system.  What makes this one different?
+
+>> What happens when you use the wrong helper?
+>>
+> UB - in most cases, eBPF program will work with wrong configurations.
+> That's why the stamp was added.
+>
+> query-helper-paths checks the stamp only for RSS helper.
+
+I have no idea what you're talking about :)
+
+My best guess is that you're trying to tell me that attempting to work
+with the wrong helper will fail cleanly due to some stamp check.  That
+would be nice.
+
 
