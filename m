@@ -2,63 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B99B23F5ADA
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 11:18:55 +0200 (CEST)
-Received: from localhost ([::1]:53242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50ACB3F5AE4
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 11:20:10 +0200 (CEST)
+Received: from localhost ([::1]:57478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mISa1-0006VJ-Kp
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 05:18:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38720)
+	id 1mISbJ-0000tc-8G
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 05:20:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mISYf-0005nC-CA
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 05:17:25 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:38783)
+ id 1mISaP-0007wF-Vj
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 05:19:14 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:34382)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mISYc-00072T-S7
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 05:17:25 -0400
-Received: by mail-ej1-x632.google.com with SMTP id n27so10922276eja.5
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 02:17:22 -0700 (PDT)
+ id 1mISaO-0008Bk-Id
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 05:19:13 -0400
+Received: by mail-ed1-x536.google.com with SMTP id i6so30581656edu.1
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 02:19:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IFaD8NPVDNyBcy9iTFwL5zSRfk2GRJd+74Dpw62tpWE=;
- b=GJaep1WXZhFCejIYJkMz3lHzhvrrmXDSYWuVHT+pj/LuwCZWkEuptYDlPU985u3yNV
- 5tXQe9Q9AP/ihOT5raI/cTyPkUIwArvgTRaHICLGkld1pHten7/3SJFedKxkRsl7VLx8
- Dk5qvLepDcpQ7fCa3GCl+2lX9umN+iOaVY3GX1J2FfKedLQB4YmVHr5FrDbUOsOCK3Cx
- bsTKrz/bb83hBgpLkQP2S9bcC/TTw8x3t0eVh7fhYRwJf7kQXItWETvWn7bp6YYie416
- IpJMsnAAldNR/3dCBHV3LmQ7lDob9oqbhd1ADfVu62ifR289L70pj9L1Mb5wq4FR1pzS
- YjVg==
+ :cc:content-transfer-encoding;
+ bh=p9oW1ECen1ZnNvjDlvaerMujlcM6XWL8DtBaGBmGaFw=;
+ b=LvDbtizcVgECCqYe5vYhxT+T2fG1JgibW6tNVhWOxa3odjaVHQleIbDgz17RGMgipH
+ UDeQB9ZOM/OvBSw7huV3PA8zxW6Yinh1/WQ7/60e2LQef9hRxGb11hSfF9b7yfzABQzr
+ uS8EVrf14w7lOGxWorKIcdBU5KPJ7VRMQdNH69c/chPS7z0r3yaYcvLW9HpZY/ZI86Zq
+ v3RZXa/o+h/CUf31WhdsI9eu7eDKc2xWmcCvIyt17OiyiN1VHRkCJ4cw42YLNJWes4XW
+ mT/ab1DjrntvxoKPtp0jIhBitivwnsSRCqpU/WNUVuFjw5moxkGDjOas/RvjD6Q0N6BX
+ 4Lxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IFaD8NPVDNyBcy9iTFwL5zSRfk2GRJd+74Dpw62tpWE=;
- b=XYP2sEO3n+uFEi0ThAih1w+AVaVYCnsviSEUO9H7tWn0i2nFEVXk9Yld7LL4kDJcGG
- KzDE0mrx2Nbh7GUQILk21awVQeG547pUi+mtcAY+g+uVm7SfA6kbfGR8gdx4Vvt3TTEW
- mMMnEU2xQ/pEuoBwYIZt2ZCQDtlCrnkm/kL3VT/51a0o+AR6lwJvLUwB7o/MFyvCpXH3
- gN/emFwn4RX7G1Qrzy928kwTvX3Pbf4WmRJCsE9QgJfJwPG/x228EPabnAlK3kEw5B1T
- 78V3G4i4KSiEQEo8WWaR6X+Lu8+Z0aikUCW88E6EDGuqzSQxHZywcA3L6mKMuO9TWhpb
- ttng==
-X-Gm-Message-State: AOAM533+kjj1TaIZNZvfxaZbR7Dh1atHUhjeWAaCMe4m6cwb5mVZOi7+
- dVX7uxTup3CvV1yMxt4KJtFm+kkrgmRWpgOf66iyMQ==
-X-Google-Smtp-Source: ABdhPJwbcliFObofXbQLjpw0PGrzQ44JW9UXcL1jPOf3/tWE2vyRT3o0QhczGQQwpP41tBf7EpPWaLT4CKyvgbu7Uas=
-X-Received: by 2002:a17:906:3bc3:: with SMTP id
- v3mr39976646ejf.482.1629796641000; 
- Tue, 24 Aug 2021 02:17:21 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=p9oW1ECen1ZnNvjDlvaerMujlcM6XWL8DtBaGBmGaFw=;
+ b=B97Aw6dxl2sA5paf93NlJV91FmisrVlL5UwrzMWpTWHgGajRNSArI3eqKN9czghqMp
+ e0ouVHwNDRmj2xOyXRtg6Sacg7zhHa3TJTz0FBjpUdJrMmyUHjVbaQklng6yblsCy7vD
+ 5gHRIs3GQ57EYjJhui6PWM4bnhxi1fbqENMeAouPEvUqKPOyFeY3+bDFqOoauZqtYdFO
+ rjMoUItPvxm0YupoosUXXDOCkV02pXHJUjjb3qHcKjyp+J62uCd9WETYRyqLGjyNu8gv
+ yjugTvN+92RTbHdq8YRwmytCZlvidrUFhH+zZcUODkSHTnAs3RLOnY0212UNhW75UXzd
+ sz/A==
+X-Gm-Message-State: AOAM530vAyLDjUqU6FEVRZ4nJm5nzCydevul9TCDQvY8ypNU2tHl2ezf
+ aozOEAvZjLfsdIPTdR7v/m+DjIRpoJQwjxUN1fWDdQ==
+X-Google-Smtp-Source: ABdhPJy7BBinurBeFlYPyUvHOLbZSp3ZXfTZwkHoY1axLeM1hYtYdAyBV08yhrYo4ykHDS6NtifxI11H33328q0ps4k=
+X-Received: by 2002:a05:6402:3099:: with SMTP id
+ de25mr41673516edb.36.1629796750968; 
+ Tue, 24 Aug 2021 02:19:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210824072702.520187-1-thuth@redhat.com>
-In-Reply-To: <20210824072702.520187-1-thuth@redhat.com>
+References: <CAM2a4uwQ0M=TmFdWaaO-E_2J06fpH1ghXhYJJKBP6s5j90ASLg@mail.gmail.com>
+ <CAFEAcA9SeTTcU_p+-KwGJPyYG7pKzSJGGb287tXYOvN13E6-iQ@mail.gmail.com>
+ <CAM2a4uxO=DaspSeT0LPHTvKuH6crzzQC4_syAf=J+FOE_C_sbw@mail.gmail.com>
+ <9984de93-0b83-ef88-8301-a8b74f3f6247@amsat.org>
+In-Reply-To: <9984de93-0b83-ef88-8301-a8b74f3f6247@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 24 Aug 2021 10:16:34 +0100
-Message-ID: <CAFEAcA90Y-+Ri42LibkptBbLy_YWi10rV5GKtU+s-m6nNEoPKw@mail.gmail.com>
-Subject: Re: [qemu-web PATCH] Update the information about the required
- version of macOS
-To: Thomas Huth <thuth@redhat.com>
+Date: Tue, 24 Aug 2021 10:18:24 +0100
+Message-ID: <CAFEAcA8c6T124Yg+tCWsXr_bmFyCpUy8kjpaLsP=0A1G4GEzNw@mail.gmail.com>
+Subject: Re: Testing a microcontroller emulation by loading the binary on
+ incomplete Flash emulation
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,44 +83,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
+Cc: Gautam Bhat <mindentropy@gmail.com>,
  QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Aug 2021 at 08:27, Thomas Huth <thuth@redhat.com> wrote:
+On Tue, 24 Aug 2021 at 09:22, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> The versions that we specify for macOS are way too old already. Let's
-> rephrase this without specific version numbers, pointing the users
-> to the latest version instead.
+> On 8/23/21 9:46 PM, Gautam Bhat wrote:
+> > On Sun, Aug 22, 2021 at 10:18 PM Peter Maydell <peter.maydell@linaro.or=
+g> wrote:
+> >> On Sun, 22 Aug 2021 at 15:37, Gautam Bhat <mindentropy@gmail.com> wrot=
+e:
+> >>>
+> >>> Hi,
+> >>>
+> >>> I am to implement a very simple microcontroller for my understanding
+> >>> of Qemu development. This microcontroller runs its code from
+> >>> programmable flash which is bit-, byte- and word addressable. To do
+> >>> some initial tests of my nascent microcontroller implementation I
 >
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  _download/macos.md | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/_download/macos.md b/_download/macos.md
-> index 06aa811..6832436 100644
-> --- a/_download/macos.md
-> +++ b/_download/macos.md
-> @@ -6,5 +6,5 @@ QEMU can be installed from <strong>MacPorts</strong>:
->
->  <pre>sudo port install qemu</pre>
->
-> -QEMU requires Mac OS X 10.5 or later, but it is recommended
-> -to use Mac OS X 10.7 or later.
-> +QEMU requires the latest version of macOS (or at least the previous one if
-> +it is not out of service yet).
+> Aren't Nascent uC based on 8051? Because AFAIK QEMU doesn't emulate
+> this architecture.
 
-This is a stronger, or at least different, commitment than
-docs/about/build-platforms.rst makes:
-
-# The project aims to support the most recent major version at all
-times. Support
-# for the previous major version will be dropped 2 years after the new major
-# version is released or when the vendor itself drops support, whichever comes
-# first.
+I assumed Gautam was using 'nascent' in the usual English sense
+of the word (ie as an adjective meaning "just coming into existence").
 
 -- PMM
 
