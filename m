@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A0A83F62AE
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 18:29:38 +0200 (CEST)
-Received: from localhost ([::1]:45864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AFB13F62B2
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 18:32:18 +0200 (CEST)
+Received: from localhost ([::1]:50738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIZIv-0004FR-5s
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 12:29:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55186)
+	id 1mIZLV-0007dU-FP
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 12:32:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIZHm-0003ZZ-2y
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:28:26 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:35688)
+ id 1mIZJO-0005yJ-5w
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:30:06 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:44011)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIZHh-0006cJ-Db
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:28:25 -0400
-Received: by mail-ej1-x634.google.com with SMTP id i21so4281611ejd.2
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 09:28:20 -0700 (PDT)
+ id 1mIZJK-0007j6-CP
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:30:05 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id ia27so23355588ejc.10
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 09:30:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aSEv9WveLS67JlFaEncIQMlc1qJGfVEw1t5rMM6HpAE=;
- b=xOfVogQHquy6XprZeVrXpiu0m0/neuyXsEYnNXtPYqsEkWn1T0PtIU7WA7PRvlh3gl
- MvpeG7yTS77MKcyzX7uEynemJPpsRTyY6cHJnDn57RLUDKBeTY9AtZBDKPwq4hbPAMK+
- rjGrwMpD9ylgc3hyKDt5EOUqACnHQjrFuD7U51Ba6vtcUoa6XTWK+DfMERKHPQoFelvH
- 4j1c0U8ZTVQn0n52xcxdswZVmOA7Q/m7cT7RB6ULN5zJwrJTyvmrht7+VJNoB1VQx1UY
- P0U4yjqyPrhGzChuWErSeSOOJ22R5IftMXzjo/s1XOPdpu0m1+qxBzTlWssgs1b0pZZr
- vONQ==
+ :cc; bh=iS6EuZ9dX7hS5hkKtCAvDqnJhi+ndbr25qX5bJySdB8=;
+ b=G/3xpmxycWlJjWpTuLMyh1SnBBCKHBUPoDPyqeDeGsVDRL/8LhOqXpBfAQQRnIqZ26
+ IKVhPh32hq0GZJmu85W2fb+mSzOwP0EsuHchrPEKu9v7RgxGxm6kNTta2C3Jt6WVi74g
+ rKXYjSsGRAaMf3Ok/EIgNOBjvr1Il84h4Niclsl9UNok5fvs/7RyqZjpXg+ny9ekvhfS
+ PoR1bZ8hVW+CKFsIZS81L/gV/PrXV9VW2gutZZhhPKfANTll304uBucoP1VbQtb7leYJ
+ uF1Rik2qXzpewOg36BC0VUxY3tCxUFFXlKcme0ejkcMxDPSCToAr5FzoTBXRn0qliwXF
+ S+Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=aSEv9WveLS67JlFaEncIQMlc1qJGfVEw1t5rMM6HpAE=;
- b=JwKKxd3l4ibjOGy+EcGSU6mrQcUwG/CTzsgMWzQJUhTadMBLBO1m3pEe5WeS+rzndk
- JJrRyGGy9eDu77qOST2LgVLSihsj8ed1Zo9NVGdhOQ4s9jehQgT5LOs2WqmafymgB9WP
- w1Ao4uWbskO4dVNx2vreJbkiJ+FYilQYNQWfO/Kx94Nt31MNxGgwJlMcvaAnMjCoZKAs
- ktA3nbBP7gRBPrhaQMD2zM/lqTaEBTgBoY+6kJRTZGPDl6L769WHnBYNqbOvynCz4X4w
- tGtJgwL1EjKJoxmGaFX2mEnXQeoD6vTFFHVeuQl8VRy2ZZbIJWI8Oa2EFGmHnefqaM8P
- X/Eg==
-X-Gm-Message-State: AOAM530q3u4VSBVEhKXTNIse/oo/8WT+oaJAHzpqqYkkh0OF+mCydsOm
- Xwx5NXbi1W0uUUJPfCb2lQZsjHd6QXf1ctKeXsV/1Q==
-X-Google-Smtp-Source: ABdhPJyPOetXZv2IPB77lzDnlcLZ7zhcsmFtd82dGIMuWMsWn9r8dfDH82dqmZ4AWQOHVTRKLV3OFbFDFME2H0ZKvwE=
-X-Received: by 2002:a17:906:3bc3:: with SMTP id
- v3mr41678415ejf.482.1629822499374; 
- Tue, 24 Aug 2021 09:28:19 -0700 (PDT)
+ bh=iS6EuZ9dX7hS5hkKtCAvDqnJhi+ndbr25qX5bJySdB8=;
+ b=ueuh6xCNXcXi+FZULmxosigh0qcxaTwrA7WesPMxFz0DnXv1btTcLQy/zyYtxilBwT
+ Hc60yOCyNebHVWji7yuipgXCeVfMJzYycsDGIpa/kYsAKh4Djje7nq1n0cTfRmp32R5s
+ nHa+gEt7BozcQHNKrEWPvdaK6AD3rVR3EleXyJkJZT4A9yl0vd+w1w1zlV+N5V/jyY0M
+ C4fxqU3KJWUwpPBueiYYKTCz6Wjt6QQN5+wNdQW9TDC0e/QmqXNbQx7Xu7EjFbKDNyDo
+ LkR6My0ygDuohzNv5qQVP6y3QjUzwskBGni9OXFtjLDqwCmJOklkMfRMqBEkrdIIE/ga
+ ZdoQ==
+X-Gm-Message-State: AOAM5333onDW6DAApey9Q6K+uO3+1mI072gQu8t4MuF2UjySNcDMSkoy
+ 2gdZb3zldYqaVKScr++HthB4Xp9+DFlMX/2IX5ECaw==
+X-Google-Smtp-Source: ABdhPJxrf0ocjUdXl8k8kV/o+/g1jOUboifFeZsTOYliPQ22aqZZw7t1DHmBK6MDXvtBjlNFCyzxgVoVTSUnfhed5gM=
+X-Received: by 2002:a17:906:a108:: with SMTP id
+ t8mr41505602ejy.407.1629822600865; 
+ Tue, 24 Aug 2021 09:30:00 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210822035537.283193-1-richard.henderson@linaro.org>
- <20210822035537.283193-13-richard.henderson@linaro.org>
-In-Reply-To: <20210822035537.283193-13-richard.henderson@linaro.org>
+ <20210822035537.283193-14-richard.henderson@linaro.org>
+In-Reply-To: <20210822035537.283193-14-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 24 Aug 2021 17:27:32 +0100
-Message-ID: <CAFEAcA9-L7BmzFcSZiv-LVrSihRe4QH+5FZBDQ3Z4687XZUkpw@mail.gmail.com>
-Subject: Re: [PATCH v2 12/30] linux-user/cris: Use force_sig_fault,
- force_sigsegv_code
+Date: Tue, 24 Aug 2021 17:29:13 +0100
+Message-ID: <CAFEAcA_y_1CVEny_JMuC1TwpFm_uN+JTtBSoPcL3BqtGbDZnhg@mail.gmail.com>
+Subject: Re: [PATCH v2 13/30] linux-user/hexagon: Use force_sigsegv_code
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,14 +85,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Sun, 22 Aug 2021 at 04:55, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Use the new functions instead of setting up a target_siginfo_t
-> and calling queue_signal.
+> Use the new function instead of setting up a target_siginfo_t
+> and calling queue_signal.  Note that we were incorrectly using
+> QEMU_SI_KILL instead of QEMU_SI_FAULT for raising SIGSEGV.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  linux-user/hexagon/cpu_loop.c | 22 ++++------------------
+>  1 file changed, 4 insertions(+), 18 deletions(-)
 
-You should mention in the commit message that this fixes two bugs:
- * SIGSEGV not distinguishing MAPERR from ACCERR
- * SIGTRAP on breakpoint not setting the address
-
-Otherwise
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
