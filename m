@@ -2,69 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F40F3F5F59
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 15:40:01 +0200 (CEST)
-Received: from localhost ([::1]:52360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFB3E3F5F7A
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 15:51:28 +0200 (CEST)
+Received: from localhost ([::1]:59594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIWem-0000MM-1b
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 09:40:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42384)
+	id 1mIWpl-0005nc-6p
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 09:51:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mIWdx-00087U-7X
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 09:39:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56848)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mIWoq-0004aQ-6i
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 09:50:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40406)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1mIWdu-0007oi-Hl
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 09:39:07 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mIWoo-0007L9-Aw
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 09:50:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629812344;
+ s=mimecast20190719; t=1629813020;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m1m/N/TG5Q7D6NtCObay3x8ZBoz8UzofDIH7bhR3EG4=;
- b=iDl/kStpC+IFc47/KQBLzdL6oZP9IRcCuB6EPGwHkNV/+nCB8LeebUBU/TqpvVHLt3eHYy
- 9pfXbcvI2qoq/MdOHnfk/JMaJ4w7eLH3oYszptBRgDYZkdQkctWeCiS8cuKJwyRTI304sh
- sZWyfMqTwY5NNvEywbYboAyO7GPLTik=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-133-TEyUagoFPQe_20nthkqQ6A-1; Tue, 24 Aug 2021 09:39:03 -0400
-X-MC-Unique: TEyUagoFPQe_20nthkqQ6A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB4BC101C8A6
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 13:39:02 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.9.146])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AC1BC100EBB0;
- Tue, 24 Aug 2021 13:38:50 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 24D33223EA7; Tue, 24 Aug 2021 09:38:50 -0400 (EDT)
-Date: Tue, 24 Aug 2021 09:38:50 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Sergio Lopez <slp@redhat.com>
-Subject: Re: [PATCH] virtiofsd: Reverse req_list before processing it
-Message-ID: <YST2agiCJVIAfE3N@redhat.com>
-References: <20210824131158.39970-1-slp@redhat.com>
+ bh=ORi6sJgyuhSGqkWkhNjoAkcPgl1sO1msL3N7qn4mvvc=;
+ b=BFqDcVFL2tvMN7WJ19euK1kE6EPiYKLz+PS/Irv7Q8Hpbt+0wA2QhAVCozJj6OaGnhCIY/
+ AHlK5y6atcaB0vjg6EsDx6M9Gep927VymZjsRyMwLzUBYHvTI6+LX6USZ1aIhf/tW6cAe0
+ x+uu05EYkraK9fB4kik/mZyPEeVmgBY=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-8-B0kI9T1AMEyRLceFsB7x5A-1; Tue, 24 Aug 2021 09:50:19 -0400
+X-MC-Unique: B0kI9T1AMEyRLceFsB7x5A-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ v2-20020a7bcb420000b02902e6b108fcf1so1266142wmj.8
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 06:50:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ORi6sJgyuhSGqkWkhNjoAkcPgl1sO1msL3N7qn4mvvc=;
+ b=X514cwsQTgR2VzfkOPXiagAc8+bkkoxSJXXWhjzQz5T1ZVU/uY1VCFiINw4n2FKQVN
+ 8CW5bj6s3QsOhPQ0MjB4VasfRscCCNTZS57wpmO+EobfGKSPl8lrO+NAxDInJ9bSO67b
+ ivJlIpD+BJHf3KMhefsrtXFXGTaU17iinq/ieDhWvSXHsQw1scrj4/u2gHyEbnQiZsqs
+ hwPqQPJKj8BMHmMaqHwXR7S0Ch5bLRGI33rFwEDOFkyGGMH3wanzxispXcVMLsWAXawm
+ /bUAZMAOYkkMxyJ5tVnGi3j41/jOe7GOqLbACGbeBGVrg1pmtzU9wqjnXet1mLz3zwmX
+ c3fQ==
+X-Gm-Message-State: AOAM532UGw4lZX6NS3X2Aocg/q42qZ/jqrfPWNOzZO5BkTWEBH9R2tPt
+ dg4ERSAIqogmBTomNXOgPveLZo6dgvw2dREjF/nfVCHi7pyeN88JmNt9Od5oDdd3XbHU9ztcP3W
+ rULqeFpHBNBrMwws=
+X-Received: by 2002:a1c:2905:: with SMTP id p5mr4268411wmp.146.1629813017967; 
+ Tue, 24 Aug 2021 06:50:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxjIHSiyzXGByMuy4DaBGoDBjp2o4wpyPyAZsct/CfYzDsxedJ3afJfMenFTeqHXO/TfxEtJQ==
+X-Received: by 2002:a1c:2905:: with SMTP id p5mr4268387wmp.146.1629813017764; 
+ Tue, 24 Aug 2021 06:50:17 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id q22sm2388386wmj.32.2021.08.24.06.50.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Aug 2021 06:50:17 -0700 (PDT)
+Subject: Re: [RFC PATCH v2 5/5] softmmu/physmem: Have flaview API check
+ MemTxAttrs::bus_perm field
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <20210823164157.751807-1-philmd@redhat.com>
+ <20210823164157.751807-6-philmd@redhat.com>
+ <YSTw9VPd44uIZ55L@stefanha-x1.localdomain>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <569b3a2f-2d05-700d-cae3-07d8b78fcd55@redhat.com>
+Date: Tue, 24 Aug 2021 15:50:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210824131158.39970-1-slp@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <YSTw9VPd44uIZ55L@stefanha-x1.localdomain>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
+X-Spam_score_int: -48
+X-Spam_score: -4.9
+X-Spam_bar: ----
+X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.305, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,74 +100,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Alexander Bulekov <alxndr@bu.edu>, qemu-arm@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 24, 2021 at 03:11:58PM +0200, Sergio Lopez wrote:
-> With the thread pool disabled, we add the requests in the queue to a
-> GList, processing by iterating over there afterwards.
+On 8/24/21 3:15 PM, Stefan Hajnoczi wrote:
+> On Mon, Aug 23, 2021 at 06:41:57PM +0200, Philippe Mathieu-Daudé wrote:
+>> Check bus permission in flatview_access_allowed() before
+>> running any bus transaction.
+>>
+>> There is not change for the default case (MEMTXPERM_UNSPECIFIED).
+>>
+>> The MEMTXPERM_UNRESTRICTED case works as an allow list. Devices
+>> using it won't be checked by flatview_access_allowed().
+>>
+>> The only deny list equivalent is MEMTXPERM_RAM_DEVICE: devices
+>> using this flag will reject transactions and set the optional
+>> MemTxResult to MEMTX_BUS_ERROR.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  softmmu/physmem.c | 17 ++++++++++++++++-
+>>  1 file changed, 16 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+>> index 0d31a2f4199..329542dba75 100644
+>> --- a/softmmu/physmem.c
+>> +++ b/softmmu/physmem.c
+>> @@ -2772,7 +2772,22 @@ static inline bool flatview_access_allowed(MemoryRegion *mr, MemTxAttrs attrs,
+>>                                             hwaddr addr, hwaddr len,
+>>                                             MemTxResult *result)
+>>  {
+>> -    return true;
+>> +    if (unlikely(attrs.bus_perm == MEMTXPERM_RAM_DEVICE)) {
+>> +        if (memory_region_is_ram(mr) || memory_region_is_ram_device(mr)) {
+>> +            return true;
+>> +        }
+>> +        qemu_log_mask(LOG_GUEST_ERROR,
+>> +                      "Invalid access to non-RAM device at "
+>> +                      "addr 0x%" HWADDR_PRIX ", size %" HWADDR_PRIu ", "
+>> +                      "region '%s'\n", addr, len, memory_region_name(mr));
+>> +        if (result) {
+>> +            *result |= MEMTX_BUS_ERROR;
 > 
-> For adding them, we're using "g_list_prepend()", which is more
-> efficient but causes the requests to be processed in reverse order,
-> breaking the read-ahead and request-merging optimizations in the host
-> for sequential operations.
-> 
-> According to the documentation, if you need to process the request
-> in-order, using "g_list_prepend()" and then reversing the list with
-> "g_list_reverse()" is more efficient than using "g_list_append()", so
-> let's do it that way.
-> 
-> Testing on a spinning disk (to boost the increase of read-ahead and
-> request-merging) shows a 4x improvement on sequential write fio test:
-> 
-> Test:
-> fio --directory=/mnt/virtio-fs --filename=fio-file1 --runtime=20
-> --iodepth=16 --size=4G --direct=1 --blocksize=4K --ioengine libaio
-> --rw write --name seqwrite-libaio
-> 
-> Without "g_list_reverse()":
-> ...
-> Jobs: 1 (f=1): [W(1)][100.0%][w=22.4MiB/s][w=5735 IOPS][eta 00m:00s]
-> seqwrite-libaio: (groupid=0, jobs=1): err= 0: pid=710: Tue Aug 24 12:58:16 2021
->   write: IOPS=5709, BW=22.3MiB/s (23.4MB/s)(446MiB/20002msec); 0 zone resets
-> ...
-> 
-> With "g_list_reverse()":
-> ...
-> Jobs: 1 (f=1): [W(1)][100.0%][w=84.0MiB/s][w=21.5k IOPS][eta 00m:00s]
-> seqwrite-libaio: (groupid=0, jobs=1): err= 0: pid=716: Tue Aug 24 13:00:15 2021
->   write: IOPS=21.3k, BW=83.1MiB/s (87.2MB/s)(1663MiB/20001msec); 0 zone resets
-> ...
-> 
+> Why bitwise OR?
 
-That's a very impressive improvememnt. Thanks Sergio for fixing this.
+MemTxResult is not an enum but used as a bitfield.
 
-Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
+See access_with_adjusted_size():
 
-Vivek
+    MemTxResult r = MEMTX_OK;
+    ...
+    if (memory_region_big_endian(mr)) {
+        for (i = 0; i < size; i += access_size) {
+            r |= access_fn(mr, addr + i, value, access_size,
+                        (size - access_size - i) * 8,
+                        access_mask, attrs);
+        }
+    } else {
+        for (i = 0; i < size; i += access_size) {
+            r |= access_fn(mr, addr + i, value, access_size, i * 8,
+                        access_mask, attrs);
+        }
+    }
+    return r;
+}
 
-> Signed-off-by: Sergio Lopez <slp@redhat.com>
-> ---
->  tools/virtiofsd/fuse_virtio.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-> index fc2564a603..8f4fd165b9 100644
-> --- a/tools/virtiofsd/fuse_virtio.c
-> +++ b/tools/virtiofsd/fuse_virtio.c
-> @@ -716,6 +716,7 @@ static void *fv_queue_thread(void *opaque)
->  
->          /* Process all the requests. */
->          if (!se->thread_pool_size && req_list != NULL) {
-> +            req_list = g_list_reverse(req_list);
->              g_list_foreach(req_list, fv_queue_worker, qi);
->              g_list_free(req_list);
->              req_list = NULL;
-> -- 
-> 2.26.2
-> 
+and flatview_read_continue() / flatview_write_continue():
+
+    for (;;) {
+        if (!memory_access_is_direct(mr, true)) {
+            release_lock |= prepare_mmio_access(mr);
+            l = memory_access_size(mr, l, addr1);
+            val = ldn_he_p(buf, l);
+            result |= memory_region_dispatch_write(mr, addr1, val,
+                                                   size_memop(l),
+                                                   attrs);
+    ...
+    return result;
+}
 
 
