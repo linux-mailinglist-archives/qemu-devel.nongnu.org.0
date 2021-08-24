@@ -2,92 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820003F583C
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 08:30:15 +0200 (CEST)
-Received: from localhost ([::1]:38230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D8BD3F5854
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 08:37:28 +0200 (CEST)
+Received: from localhost ([::1]:43106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIPwn-0007GD-03
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 02:30:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49660)
+	id 1mIQ3r-0002LG-AP
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 02:37:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mIPvi-0005xt-91
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 02:29:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55581)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mIPxr-0008LV-4Z; Tue, 24 Aug 2021 02:31:15 -0400
+Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:50371)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mIPvg-0003Zo-T6
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 02:29:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629786540;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PDGGa2E9qL8F8BChqIqrkqWEUjcngYibhPqK56EvGcU=;
- b=IYASDZxD66JowQEhySaDcnEiVDw4S3chA5FMmYQLYH8x6/qTfEZGJsrD65dOYOjx8unKgK
- naisaT5+0dhMvZe4uAM5oNz3gm03N3Kk45I8Iux9YjHkXkCqRmwnUo1yjaEXYWMCON8vr5
- KsvcfoUaWcqOuAYUqS5+JbdKn/64ws4=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-0zojscWqMiaKSjG9mJWJZQ-1; Tue, 24 Aug 2021 02:28:58 -0400
-X-MC-Unique: 0zojscWqMiaKSjG9mJWJZQ-1
-Received: by mail-ed1-f71.google.com with SMTP id
- s25-20020a50d499000000b003c1a8573042so4295480edi.11
- for <qemu-devel@nongnu.org>; Mon, 23 Aug 2021 23:28:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=PDGGa2E9qL8F8BChqIqrkqWEUjcngYibhPqK56EvGcU=;
- b=nY5Vr9KW48qixWm7PsU9rEOHurcH5G1KzS8LU9z2nApFdELUi2N1uOm9tzj7fLMLjc
- UuHTNxr7eYSyG4VG9evLgk2cge61ZfekTMKI3TkOr5A5lfI0pOHnn6OfjEc6GbjM1eky
- cGXu27UCyF/UgfHL+2KR4upxbA7T+qKJOGKJbXSlbcnp/cendCVhkTZwyV5peccjsRpZ
- CqZvwFd4dyHNQt8bHoYl1z4Xmfo2udnTnBpXVg/unst/8LyRUDZ9u3dwS8zxgdu/Emge
- sVEYh4bqa/tV5oRJCNKaSd6oFWOzGYvMtjUIOWKz1fchohxYCVeJa7QgOH3H9+N63bRg
- 2O/A==
-X-Gm-Message-State: AOAM533VWlRIC5sBkSpx9mnOYHSHhGpUKACFBtaS/Kx+KwjqMf3BSFJb
- lkdJybCsWLwR4bfW9bXj2noHNvcziAN3zCrh6wq1aLSWxr6RdoQ/zNHvrNR6cBaiEMb0KvDZ640
- pf3zxuhxbqGHCvHE=
-X-Received: by 2002:a17:906:f11:: with SMTP id
- z17mr40642932eji.385.1629786537648; 
- Mon, 23 Aug 2021 23:28:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyq1mtHWhGJg7rg6SqD758WQdocCBexq0LDm1nsz+WgdcxdtsOKrTOvqmh3UN3mDWWQOhrNvA==
-X-Received: by 2002:a17:906:f11:: with SMTP id
- z17mr40642919eji.385.1629786537463; 
- Mon, 23 Aug 2021 23:28:57 -0700 (PDT)
-Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
- by smtp.gmail.com with ESMTPSA id gw24sm8559507ejb.66.2021.08.23.23.28.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Aug 2021 23:28:57 -0700 (PDT)
-Date: Tue, 24 Aug 2021 08:28:55 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v2 3/4] target/arm/cpu64: Replace kvm_supported with
- sve_vq_supported
-Message-ID: <20210824062855.3xmc3xk5ijfrptwt@gator.home>
-References: <20210823160647.34028-1-drjones@redhat.com>
- <20210823160647.34028-4-drjones@redhat.com>
- <b06b7b44-1021-d2f6-5d22-767fc8422507@linaro.org>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mIPxo-0005NA-Ff; Tue, 24 Aug 2021 02:31:14 -0400
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id 477192B011DC;
+ Tue, 24 Aug 2021 02:31:08 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Tue, 24 Aug 2021 02:31:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=2NfbRR46ZTUMjmqEpqjnyEOtdpY
+ zIfUKgCDebA7V8U8=; b=O8hCOu/dhj8nVYZZ1Kzp4nDF7nH4wbUkEMMDfWBF6O1
+ rPsDMOlr2q3k+ZRP6lNjBfn+1ejLJQZuTexlItFSORphvn4tP/+mOkaV6lm3Avms
+ rpXExKbKS+uxKimmY0BqiZfw1QULopesaFhVtkq0BLARVcOquPhY129B06QZNLHa
+ 12ifsD0LXf1pAE34vfKzdf6RfcTXyehgdHHjLYBo4v623CHtEwhsIzBlrHZmpjIW
+ cyysVojYy18hArtkHHQ5UVFuAU9Gp5aRmhf6JNTE6xzzkiRQA+guz7KhGBG1gNY9
+ KIAkWMsIkuogkp2sDTE2Q2rRuA2cRgx8MP2sAkHPEvg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=2NfbRR
+ 46ZTUMjmqEpqjnyEOtdpYzIfUKgCDebA7V8U8=; b=Z4ZcHWr9pVGv347x+Z3eIp
+ FMLlYWOdZnnJY1QaMh839jKEglm+YPxu3VavnwL9M7V/j11Eu/T5Z/xykflbOks5
+ etG2ZYZn7s93U65eqZQbyV8dfc7iiSNaehhlp37DYuH6ZxF3V06QiaMj2srFMF8I
+ QI/KSkoZvhicbMpEUYDICnAd9qFia4ITCGxv2QxXtoy9f6WrntffzEQhnypKNNeI
+ Vc4kC3JeaqRTbHMzkVeYEHYJmIrV/jQdb4vpfwHn7I4VHOhL/WPHKAxVu25439AE
+ b4cnPychJ/aKMnQDNpnWRi5vgRKzxZlye2ncFGBvXlx+nB3lRzaLSjeuK99t513w
+ ==
+X-ME-Sender: <xms:KZIkYS9h4hitcIE1bvNu3uSrcXswcQCwwxGNcI6Uk82gc4y1iK_SHA>
+ <xme:KZIkYSu3_ZyhHHSSf-UT4OcgVP-Z_AIHdHdmQjKRbMj8v21EmdnGWTjaS2qcniLOm
+ 5LBY1-QJ2Q4KrCcYRY>
+X-ME-Received: <xmr:KZIkYYD3m-cdth91lQw93Km2lxo1PiH7MqSiRP4kMZdcQnp500mJnrxqJGvUOxXfRNxtfH3QHhC_8cfb47mxByBQuTizE0IvFUE6BqR0ezaW2vVoHg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddtiedguddtiecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehgtd
+ orredttdejnecuhfhrohhmpefmlhgruhhsucflvghnshgvnhcuoehithhssehirhhrvghl
+ vghvrghnthdrughkqeenucggtffrrghtthgvrhhnpeeuueffiefhgffgteehjeeiveelud
+ fhteffhfehiefgheetjeeitedvtdegvdehtdenucevlhhushhtvghrufhiiigvpedtnecu
+ rfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:KZIkYafNqCyPKxW3Dvkp5QM2kxNRqNC5dmGxKD6f3lpUTpoLbaIHhQ>
+ <xmx:KZIkYXNe21Du2W2-W2LkIbu01lXabKJL7lDW0azTOpaFP0E2TRzM0g>
+ <xmx:KZIkYUklLdESjxWo-6CTg7gS5EmtVLurzlpuOiQhdeebJJbCeDmzBQ>
+ <xmx:K5IkYektVQ7bYR7VIUXELgEXsjHqDAXwQMbR9pQlWOY8LzBNfaR3aEju4EI>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 24 Aug 2021 02:31:03 -0400 (EDT)
+Date: Tue, 24 Aug 2021 08:31:01 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Naveen <naveen.n1@samsung.com>
+Subject: Re: hw/nvme: fix verification of select field in namespace attachment
+Message-ID: <YSSSJZmFVAyChTJA@apples.localdomain>
+References: <CGME20210823114601epcas5p17b488aeeae3dd41d32ab3df4fd235256@epcas5p1.samsung.com>
+ <1629716613-26819-1-git-send-email-naveen.n1@samsung.com>
 MIME-Version: 1.0
-In-Reply-To: <b06b7b44-1021-d2f6-5d22-767fc8422507@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="BdNr9uM7kx4zHoPE"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <1629716613-26819-1-git-send-email-naveen.n1@samsung.com>
+Received-SPF: pass client-ip=64.147.123.17; envelope-from=its@irrelevant.dk;
+ helo=wnew3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,62 +92,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, philmd@redhat.com,
- qemu-devel@nongnu.org, ishii.shuuichir@fujitsu.com
+Cc: fam@euphon.net, kwolf@redhat.com, anuj.singh@samsung.com,
+ jg123.choi@samsung.com, qemu-block@nongnu.org, k.jensen@samsung.com,
+ d.palani@samsung.com, qemu-devel@nongnu.org, mreitz@redhat.com,
+ minwoo.im.dev@gmail.com, stefanha@redhat.com, kbusch@kernel.org,
+ prakash.v@samsung.com, raphel.david@samsung.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 23, 2021 at 10:53:48AM -0700, Richard Henderson wrote:
-> On 8/23/21 9:06 AM, Andrew Jones wrote:
-> > Now that we have an ARMCPU member sve_vq_supported we no longer
-> > need the local kvm_supported bitmap for KVM's supported vector
-> > lengths.
-> > 
-> > Signed-off-by: Andrew Jones <drjones@redhat.com>
-> > Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > ---
-> >   target/arm/cpu64.c | 19 +++++++++++--------
-> >   1 file changed, 11 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> > index eb9318c83b74..557fd4757740 100644
-> > --- a/target/arm/cpu64.c
-> > +++ b/target/arm/cpu64.c
-> > @@ -265,14 +265,17 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-> >        * any of the above.  Finally, if SVE is not disabled, then at least one
-> >        * vector length must be enabled.
-> >        */
-> > -    DECLARE_BITMAP(kvm_supported, ARM_MAX_VQ);
-> >       DECLARE_BITMAP(tmp, ARM_MAX_VQ);
-> >       uint32_t vq, max_vq = 0;
-> > -    /* Collect the set of vector lengths supported by KVM. */
-> > -    bitmap_zero(kvm_supported, ARM_MAX_VQ);
-> > +    /*
-> > +     * CPU models specify a set of supported vector lengths which are
-> > +     * enabled by default.  Attempting to enable any vector length not set
-> > +     * in the supported bitmap results in an error.  When KVM is enabled we
-> > +     * fetch the supported bitmap from the host.
-> > +     */
-> >       if (kvm_enabled() && kvm_arm_sve_supported()) {
-> > -        kvm_arm_sve_get_vls(CPU(cpu), kvm_supported);
-> > +        kvm_arm_sve_get_vls(CPU(cpu), cpu->sve_vq_supported);
-> >       } else if (kvm_enabled()) {
-> >           assert(!cpu_isar_feature(aa64_sve, cpu));
-> >       }
-> 
-> I think this whole stanza should now be moved into
-> kvm_arm_get_host_cpu_features, where we detect sve and fetch
-> ID_AA64ZFR0_EL1.
-> 
-> As a separate patch, since this one is simply the variable rename.
 
-Good idea. I'll do that for v3.
+--BdNr9uM7kx4zHoPE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->
+On Aug 23 16:33, Naveen wrote:
+> Fix is added to check for reserved value in select field for=20
+> namespace attachment
+>=20
+> Signed-off-by: Naveen Nagar <naveen.n1@samsung.com>
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> cc: Minwoo Im <minwoo.im.dev@gmail.com>
+>=20
 
-Thanks,
-drew 
+Looks like your MUA didnt pick up on the CC: tag, so:
 
++CC Minwoo
+
+--BdNr9uM7kx4zHoPE
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmEkkiMACgkQTeGvMW1P
+DemZlQf/ZAffUWVyBNAjLjJUdb0DIikIGsOEoYaqOEEe+JNJMitje+t9wXPYSrJI
+FaqjpWTszpE3z1NpTX+SnydlM5iaCD+qI90qv3aLFOm50HM1GKnlXaQOijG+Bj2G
+lP4U4eJ0jk8giOLXNjM7+2h03Ov/rz8NB4MePLeXiEiz9ALnFwngpETrCJ0rPHfU
+RfVOV6OgyksnEVSsOEr11DV1yBYO+8vlsylDdnH/sWNllL+gNs9CT31Z07nQi+mA
+ZiUSCX17oC/llIDKruJZDzueG5GxBBoIWLX7GbiBxyb6t9V/sEQWvUzXS0krMEOw
+4DscJvf+KqL+VPGNE5czFRlBJtTE/w==
+=+PGY
+-----END PGP SIGNATURE-----
+
+--BdNr9uM7kx4zHoPE--
 
