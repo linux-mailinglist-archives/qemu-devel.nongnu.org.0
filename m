@@ -2,73 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2058A3F5805
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 08:16:07 +0200 (CEST)
-Received: from localhost ([::1]:55516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7C63F584D
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 08:33:28 +0200 (CEST)
+Received: from localhost ([::1]:41234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIPjB-0007pO-G3
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 02:16:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46424)
+	id 1mIPzz-0000ym-3f
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 02:33:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIPhp-0006Sm-DR
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 02:14:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28414)
+ (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
+ id 1mIPyh-00006i-8K
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 02:32:07 -0400
+Received: from mail-ma1ind01olkn0828.outbound.protection.outlook.com
+ ([2a01:111:f400:fea4::828]:62240
+ helo=IND01-MA1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIPhl-00086X-T3
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 02:14:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629785676;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E9QgmNbr3Ni6JbKPizPffRfX1GngH1pksSQ9pyeyLpk=;
- b=VWzQUQeIfs5kd/JdC64Yt6JuZmE56SazyT+iYPbgegZv99glprl0gR8cVzYOqHyiiY1e7F
- znXEIRJDevd3ZZ+laXy0+RSs5HSIaGGRKJQ9CVmoJUYz89xLhKmAKjEQ/4vRvomkKP5HGq
- 9xeXi/HCbF1IkINx7yoqd4V8GOJAffE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-RHZk2BlsN5Oavk5wlujfkA-1; Tue, 24 Aug 2021 02:14:35 -0400
-X-MC-Unique: RHZk2BlsN5Oavk5wlujfkA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 842DD1082928;
- Tue, 24 Aug 2021 06:14:33 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-4.ams2.redhat.com [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 57D8760854;
- Tue, 24 Aug 2021 06:14:29 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E82F611380AA; Tue, 24 Aug 2021 08:14:27 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: Is QEMU's vmxnet3 still being used?
-References: <7ec1626e-3c4b-c9e8-1a29-f576163712f5@redhat.com>
- <YR4b9J7jlfrd84BK@redhat.com>
- <CAFEAcA-EQj6mxHcFJAnaMpC0yyCMvkrYG8iuTg7vxo-1-x-LEQ@mail.gmail.com>
-Date: Tue, 24 Aug 2021 08:14:27 +0200
-In-Reply-To: <CAFEAcA-EQj6mxHcFJAnaMpC0yyCMvkrYG8iuTg7vxo-1-x-LEQ@mail.gmail.com>
- (Peter Maydell's message of "Thu, 19 Aug 2021 10:37:09 +0100")
-Message-ID: <87fsuzpdx8.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <Qiuhao.Li@outlook.com>)
+ id 1mIPyd-00066y-J9
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 02:32:06 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Up0uzVt6xqxrtf/6d3p0zcAs8fksVZYBpAId5KClMTz3FGPGnCIwfUPpjk47VHDMLuznt6q0tfgGKOC8Z+eH4ndoo4hdHpCoephQNcTSh9jGAb8awgTFFPfHeuUag3EgWH52nKiPqURDg7vI1ei49qyJyYODi6ls+w2Tl9z+4xxDBWyBY1PP84IAwXjdwTFrj+/JP2myQGBMlbPiZriYn9lthHOzOmv/1SnO4fNmwktE2nywzKHbgmkG4gJc5crzDTpCDr8SoTcKNwcdf0QMmS7Yj/Uc08j2tyWWxyBFQgJEJc0QrEVIPsZVDxqF6ZR203DSfdbHjN7pFUsJXBwQxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4VaS+rPi2TOslQq/AX143jrFGBulInsz9AKOEr2rIH8=;
+ b=K90VRJPkJtxfgl/SUhRh/4ZZxd1vbLGIjOQNnzga+QuJKoVXK55Lfp8wJe2GXY8tpqlxqfP+5IloartgMmGr9mNqJ76tsk/eayO7oTNDewy9VpwzwMKUfMjfe+jTOkHNXT6DEzLcwywEn14BfCCjMLLlGC46FmsLYGtNxjObqrIP7b26854elYepot/7oL9W6QuZrIQKZhZp6UJN0r3BiQqFZFITqagMTVmYRyiFx/hHUViK07thoDYdo56voVfbjwAIE04o/SneZm2bN1euatCt+L5SNyKMWfeAUlXP9Ec7HEjHBgM/hBNnC/6rtODwVHPMYxaHxWQpPH7cIcHKzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4VaS+rPi2TOslQq/AX143jrFGBulInsz9AKOEr2rIH8=;
+ b=Cy+eaB79Vz45p4Bu7gDxMmciDa3sfk3Vok7OJiZqoWN7jnJosIumKMn+GrP0WWR5bBVsHJqmtIJ85LNl2T/p38dKPP//Ef4uRez5pL97vSs6DIW7guzglUcLoC/h/YcZkAFa+urItynxK2nWKXeTCMTnV4Qiq3i5MsYAHNpI3XTC59BbHoZz8ZdGJczVAS5UJL0BbUnduYD3EW0CX9nenV7YwZdzAVI+Ly/WDb/3QBrmi6SEyAA20BwVhRUzkKlspliL0Fg2/OKCIwKNYIS9TzIJgaCouB0vEXpMjL5JSav+XTHoEYaDSE7TtnaE26V8UZHkOTznUS5oKwjZMC5Zbg==
+Received: from PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:72::9)
+ by PN0PR01MB5468.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:63::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Tue, 24 Aug
+ 2021 06:26:52 +0000
+Received: from PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::41ec:5dc2:fd60:e64c]) by PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::41ec:5dc2:fd60:e64c%6]) with mapi id 15.20.4436.025; Tue, 24 Aug 2021
+ 06:26:52 +0000
+Message-ID: <PN0PR01MB63528E3A58EA06BD1B242486FCC59@PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM>
+Subject: [PATCH] MAINTAINERS: add fuzzing reviewer
+From: Qiuhao Li <Qiuhao.Li@outlook.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 24 Aug 2021 14:26:39 +0800
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.0-1 
+Content-Transfer-Encoding: 7bit
+X-TMN: [89Y13qTbDpFUNtCqUj8wFSwXS9/HTuIw]
+X-ClientProxiedBy: HKAPR04CA0005.apcprd04.prod.outlook.com
+ (2603:1096:203:d0::15) To PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:72::9)
+X-Microsoft-Original-Message-ID: <2ca4ca212a1927249ed8bc36f7ac87102fe6616c.camel@outlook.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.250.209] (104.192.108.10) by
+ HKAPR04CA0005.apcprd04.prod.outlook.com (2603:1096:203:d0::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4436.19 via Frontend Transport; Tue, 24 Aug 2021 06:26:48 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 2a13516c-90d6-48e7-ef20-08d966c82938
+X-MS-TrafficTypeDiagnostic: PN0PR01MB5468:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: t057ZUN8eKz7qtBDTZrDZiDATbl+U0fYtAKhVFo1+KHSs9dPpOCiVULMon3dBgUhBRpHajq2j0Gb57lxCC2CLV/tnjGmXjKO5HV5vZTV/Yauoen74BlKAwCeLnIQSJoUSejfFaSsYoXWrzJYqy513w49E8dd0UwKVpvFTyarHSZ0aEeCf9CZdjWE3WYIOmunZnO3Ec4WB1lcqxSbDzqHren4+38YPZClt6CTZC0BoyDV8TRIhQghK4sumPN2wWIFX/n/tNETUWp6CTv6WebCkKfrCoY14t+lZKOzipKCIVQcDkjxJ51aPpnlkP7RCaEX6xAG2NWkjgk1AjAp1ia1C/l7AjBrTJdV7rkDF6A12LQoouraNHcGQmblwR9meGGek3RBjwMcnLCLIrwNjtQmKAWFU6kMzSH6XM78C06r3UvrZLYlYHWUctzX4SEYQWmuEto2Qah1CUInAxyyQjQHoHyTra66DYU3wzae7uH/XEc=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: N2KABlC6YgoFP0f5uSTkXhH52vSe9kXwN6eyIo9WNE7AQs7oyz8Zd2XN9AajBemWymmrUmcxouDdkpHuiBKiPiKMNfRANMb+KlZfjkNXZ2oagZV4W4rcSP/Ahxcl3ealJAErbOAHtVbxdx/VTrw6Ew==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a13516c-90d6-48e7-ef20-08d966c82938
+X-MS-Exchange-CrossTenant-AuthSource: PN0PR01MB6352.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2021 06:26:52.3144 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB5468
+Received-SPF: pass client-ip=2a01:111:f400:fea4::828;
+ envelope-from=Qiuhao.Li@outlook.com;
+ helo=IND01-MA1-obe.outbound.protection.outlook.com
+X-Spam_score_int: 6
+X-Spam_score: 0.6
+X-Spam_bar: /
+X-Spam_report: (0.6 / 5.0 requ) BAYES_50=0.8, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,30 +101,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Jason Wang <jasowang@redhat.com>,
- Leonid Bloch <leonid@daynix.com>, Andrew Melnychenko <andrew@daynix.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: alxndr@bu.edu, thuth@redhat.com, bsd@redhat.com, stefanha@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+To keep me cc-ed when something changes. Suggested by Alexander.
 
-> On Thu, 19 Aug 2021 at 09:54, Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m> wrote:
->> We've especially not had "how many users
->> are there" as a criteria for acceptance or removal of a device.
->
-> ...not least because we have no accurate way to determine
-> the answer to that question!
+https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg03631.html
 
-I'd like to posit an approximate answer: "enough" if somebody is willing
-to provide basic care for the code, else "not enough".
+Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
+---
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-"Basic care" includes taking care of known bugs.  CLOSED/WONTFIX because
-$reasons is an option.  Not even looking is not.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6b3697962c..3a979b1bc7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2706,6 +2706,7 @@ R: Paolo Bonzini <pbonzini@redhat.com>
+ R: Bandan Das <bsd@redhat.com>
+ R: Stefan Hajnoczi <stefanha@redhat.com>
+ R: Thomas Huth <thuth@redhat.com>
++R: Qiuhao Li <Qiuhao.Li@outlook.com>
+ S: Maintained
+ F: tests/qtest/fuzz/
+ F: tests/qtest/fuzz-*test.c
+-- 
+2.30.2
+
 
 
