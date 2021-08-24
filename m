@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B70433F62C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 18:36:25 +0200 (CEST)
-Received: from localhost ([::1]:39578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A5F3F62C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 18:37:22 +0200 (CEST)
+Received: from localhost ([::1]:44108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIZPU-0002K8-P8
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 12:36:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56032)
+	id 1mIZQP-0005Oz-MP
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 12:37:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mIZKk-0000OU-Nu; Tue, 24 Aug 2021 12:31:30 -0400
-Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:39581)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mIZLR-0001GH-2B
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:32:13 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:41930)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mIZKj-0000GC-3L; Tue, 24 Aug 2021 12:31:30 -0400
-Received: by mail-qt1-x834.google.com with SMTP id d2so17311112qto.6;
- Tue, 24 Aug 2021 09:31:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mIZLP-0000jw-73
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 12:32:12 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id
+ c129-20020a1c35870000b02902e6b6135279so2758087wma.0
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 09:32:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=RNq5gFZf6kQFD87J6oxmNiO5aTVHcQtkmSd4wiJrRYY=;
- b=NKUhk0oir9wYKrxmWqjNeK2FGZD4gLuC1iu4ckQrAlam4/+a6/8be64ausrAB3N7ht
- EiPG824Z5k1/LFzVREFcTqh0vY42K55ZxQnmzucoiie8V+bSf8NhGLUqV7qoslrKtc8s
- 5hEsNmMYjLCr1plJZpyyCaWbMT4a0pIO1EGrhAmdHitKBJQMKoh8AfbQEbvb6Or2mT+Q
- c85UOLxG8F1uYa1V8Hkf2OiqlUCMn1qOUwVag+VP03vth+jl8o11BFsbelz1wmGOYHTz
- ibdaKMhR7Tgjr6n7fa4i448v7TMFJDfXmvgisL4LFKcpeQFoV+mvzT8V75ZUUKsynCiB
- Q4oA==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=V5PaqHbKEndefQFOf8cjoZPIy0nEBXcgTVtcJQi5yzA=;
+ b=hEozwYthUK9dXP8AvI+BQGPBLFGdG88/J9bhRsYugy12f/ZfIjm0XDX30KwxzjbN1f
+ n/CMuqj30VgWT7kT6I+Hy/dHbbKezTfZG5ZhJcjBLc20EJQSWYAPhmIXpCVU1/6GPX7N
+ L2c7kGTA7FfZPer4BvJQkPCrt3didxaBeYIOUfQ3o1GnCddSY/mFqoZkX7tPbqYr8nGY
+ dr9uXOrniWUk8fp1Nk9mcwEj7RraKxFFJnCXCHicxkl8ttwVqak5mS/IPnXiLYj2yDEQ
+ IQmGjxi2oYxSZlzTzjdDP3Td5b1qyI9jkwUdJv25RsJH1Svppmll1naeGkktL5hWYdMc
+ MVng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=RNq5gFZf6kQFD87J6oxmNiO5aTVHcQtkmSd4wiJrRYY=;
- b=sWsHrfqIrE4JRoMHMx41gDmmO4/vTKsUgUh4z5Y4+EVWqUTFAI2aLod9XidT8B2ci5
- CHlbV5JR3HcNNLDFYO0ts+flJdUf3uuK5aB736BeR/ZjVKayI567X6Q2qI6csaNH67dI
- mklo7HDqSd8GhHcwCwsB1eQ5yFuTCpBMe9RKZvqr4tUkpUVSXVSv8SK9i3lLPbMX69ur
- k8LF5xerQGuzucCxYCDw7P22hOcgCHTuHFavhtCNUTM9Q6MCABL8cZ/THGEK4yw8WKgo
- 13E0K/tu27f4WhQMH37LTWCWs81/u8FBRz+qSLYlDeH404ycPeHaNVOYe5yGFoiAifno
- 0NoQ==
-X-Gm-Message-State: AOAM530/aw0YQb8jCPaeBPM8iJGUNML7p330PeriTme4AwzFtRRt731O
- PQYUxW9fPyWVeNXWuFC5Kd4/ZKCjwf0=
-X-Google-Smtp-Source: ABdhPJzWQy45BqrK/CUG4VdRfx3VFv3RzUFP935ubBXiI5MZPePkYme6+Y3DySIaHv08FVuS36SsfA==
-X-Received: by 2002:ac8:7dc6:: with SMTP id c6mr35202417qte.25.1629822687569; 
- Tue, 24 Aug 2021 09:31:27 -0700 (PDT)
-Received: from rekt.ihost.com ([179.247.162.205])
- by smtp.gmail.com with ESMTPSA id 75sm10951474qko.100.2021.08.24.09.31.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Aug 2021 09:31:27 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/16] target/ppc/power8_pmu.c: handle overflow bits when
- PMU is running
-Date: Tue, 24 Aug 2021 13:30:32 -0300
-Message-Id: <20210824163032.394099-17-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210824163032.394099-1-danielhb413@gmail.com>
-References: <20210824163032.394099-1-danielhb413@gmail.com>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=V5PaqHbKEndefQFOf8cjoZPIy0nEBXcgTVtcJQi5yzA=;
+ b=VRU+ls/6Hjq6Ag0b00rgp7Ve/VI/6jKL7IUsiY1SdHbB/M+7Su6MpdCAndLLbbJr5k
+ eZDWqApwD2yY312rIxC+2ancU6OUBe35AaxathsSafu4D5kOz83DpFW+2LUfdW2slIoj
+ V4JwiOEk04rt3MTC+wpXDlRDr+nhVbMKFo7eZEKs4aFjXbqWfhVpsupssR4VZVzFJPOU
+ HfBgbRYxSTfs6lMmcpnqPZnLUsP7dFpZd+K0N4mbSnd6QS4NZq3Z9NTudxsnr5GQGOUP
+ 2yQFgsnZONgTiA3plO92qQCa0BWbiPx3/MRkxBwVdOk4gjS9WLRBASBPGPZ9jizVW8Lx
+ pePw==
+X-Gm-Message-State: AOAM532Bwg6Iwgu1NcrLJ21ki+HUxQsQbc3i+IBiCHIEC3uae0zUPyBD
+ kiRh9V5U1PSAEVPD8UoZ6eE=
+X-Google-Smtp-Source: ABdhPJzVWPUX8RBao2HY/RXgSdcX4R6xqAwO3UsYUpkW75cwL3lMxF4xufF14QRyZCL/3grDBIo1vA==
+X-Received: by 2002:a1c:a793:: with SMTP id q141mr4888490wme.157.1629822729607; 
+ Tue, 24 Aug 2021 09:32:09 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id g138sm2167869wmg.34.2021.08.24.09.32.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Aug 2021 09:32:09 -0700 (PDT)
+Subject: Re: [PATCH v2 04/30] linux-user: Zero out target_siginfo_t in
+ force_sig()
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210822035537.283193-1-richard.henderson@linaro.org>
+ <20210822035537.283193-5-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <4885bafa-47d0-5fec-433f-a09ef2cab1b4@amsat.org>
+Date: Tue, 24 Aug 2021 18:32:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210822035537.283193-5-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x834.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-1.305,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,66 +91,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gustavo.romero@linaro.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
- richard.henderson@linaro.org, groug@kaod.org, qemu-ppc@nongnu.org,
- clg@kaod.org, david@gibson.dropbear.id.au
+Cc: peter.maydell@linaro.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Up until this moment we were assuming that the counter negative
-enabled bits, PMC1CE and PMCjCE, would never be changed when the
-PMU is already started.
+On 8/22/21 5:55 AM, Richard Henderson wrote:
+> From: Peter Maydell <peter.maydell@linaro.org>
+> 
+> The target_siginfo_t we populate in force_sig() will eventually
+> get copied onto the target's stack. Zero it out so that any extra
+> padding in the sifields union is consistently zero when the guest
+> sees it.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Message-Id: <20210813131809.28655-5-peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  linux-user/signal.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Turns out that there is no such restriction in the PowerISA v3.1,
-and software can enable/disable overflow conditions of the counters
-at any time.
-
-To support this scenario, track the overflow bits state when a
-write in MMCR0 is made in which the run state of the PMU (MMCR0_FC
-bit) didn't change and, if some overflow bit were changed in the
-middle of a cycle count session, restart it.
-
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
- target/ppc/power8_pmu.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
-
-diff --git a/target/ppc/power8_pmu.c b/target/ppc/power8_pmu.c
-index d235cc2b53..e02986f18a 100644
---- a/target/ppc/power8_pmu.c
-+++ b/target/ppc/power8_pmu.c
-@@ -340,6 +340,30 @@ void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
-         } else {
-             start_cycle_count_session(env);
-         }
-+    } else {
-+        /*
-+         * No change in MMCR0_FC state, but if the PMU is running and
-+         * a change in the counter negative overflow bits is made,
-+         * we need to restart a new cycle count session to restart
-+         * the appropriate overflow timers.
-+         */
-+        if (curr_FC) {
-+            return;
-+        }
-+
-+        bool pmc1ce_curr = curr_value & MMCR0_PMC1CE;
-+        bool pmc1ce_new  = value & MMCR0_PMC1CE;
-+        bool pmcjce_curr = curr_value & MMCR0_PMCjCE;
-+        bool pmcjce_new  = value & MMCR0_PMCjCE;
-+
-+        if (pmc1ce_curr == pmc1ce_new && pmcjce_curr == pmcjce_new) {
-+            return;
-+        }
-+
-+        /* Update the counter with the events counted so far */
-+        update_cycles_PMCs(env);
-+
-+        start_cycle_count_session(env);
-     }
- }
- 
--- 
-2.31.1
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
