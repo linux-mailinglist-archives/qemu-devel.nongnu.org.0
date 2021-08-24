@@ -2,77 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AECA53F6063
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 16:28:56 +0200 (CEST)
-Received: from localhost ([::1]:37662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDDBA3F6090
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 16:38:34 +0200 (CEST)
+Received: from localhost ([::1]:60060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIXQ1-0006nC-SR
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 10:28:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54400)
+	id 1mIXZQ-0005Fu-EF
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 10:38:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIXOu-0005bG-Lp
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 10:27:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42704)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIXOq-0007YD-Q2
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 10:27:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629815255;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zAi/7lc3B9p8WOmbiNBuuC5Fle2f4ih2VfLkP2hlgMo=;
- b=GPPu1O9GQHTB000nwRci7UWugZakG3w1uZG1g1tTDEPpOBHunndBbke2A91/Yy7ewW3WIg
- mq5vDJWg2KyFhhYMHDFJ9ZgJLgLUbI51+7XMLkgfURzcWJ0Qm5QSYPgiyxQcrcorYw+4Cf
- opddpaUrd+J+myV2qoQBFNNtjdadNfs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-pNdGt7C9MR-SH_H_QKedgw-1; Tue, 24 Aug 2021 10:27:34 -0400
-X-MC-Unique: pNdGt7C9MR-SH_H_QKedgw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C57D1008062;
- Tue, 24 Aug 2021 14:27:33 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-4.ams2.redhat.com [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A56DC5D9C6;
- Tue, 24 Aug 2021 14:27:19 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3E47111380A9; Tue, 24 Aug 2021 16:27:18 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2 2/3] hw/usb/hcd-xhci-pci: Abort if setting link
- property failed
-References: <20210819171547.2879725-1-philmd@redhat.com>
- <20210819171547.2879725-3-philmd@redhat.com>
- <20210823183414.hmu4ly2y5zkbw3mg@habkost.net>
- <87ilzvntu1.fsf@dusky.pond.sub.org>
- <CAFEAcA-2ShxjS6YAb_xBk=v5YJ5nLaaKtOLVEn7Vjfe6rkpp2A@mail.gmail.com>
- <87tujfdp4c.fsf@dusky.pond.sub.org>
- <CAFEAcA9_HGCVYX8smuAWhUDJ8NbfQ76XgJjOLd2EoyiS2gKC0A@mail.gmail.com>
-Date: Tue, 24 Aug 2021 16:27:18 +0200
-In-Reply-To: <CAFEAcA9_HGCVYX8smuAWhUDJ8NbfQ76XgJjOLd2EoyiS2gKC0A@mail.gmail.com>
- (Peter Maydell's message of "Tue, 24 Aug 2021 13:16:40 +0100")
-Message-ID: <87bl5mdik9.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
+ id 1mIXPY-0007FZ-DN; Tue, 24 Aug 2021 10:28:20 -0400
+Received: from [201.28.113.2] (port=1602 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <luis.pires@eldorado.org.br>)
+ id 1mIXPW-0007tk-Ow; Tue, 24 Aug 2021 10:28:20 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 24 Aug 2021 11:28:08 -0300
+Received: from eldorado.org.br (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id 8544C8012CD;
+ Tue, 24 Aug 2021 11:28:08 -0300 (-03)
+From: Luis Pires <luis.pires@eldorado.org.br>
+To: qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org
+Subject: [PATCH 07/19] target/ppc: Move REQUIRE_ALTIVEC/VECTOR to translate.c
+Date: Tue, 24 Aug 2021 11:27:18 -0300
+Message-Id: <20210824142730.102421-8-luis.pires@eldorado.org.br>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210824142730.102421-1-luis.pires@eldorado.org.br>
+References: <20210824142730.102421-1-luis.pires@eldorado.org.br>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 24 Aug 2021 14:28:08.0775 (UTC)
+ FILETIME=[429D0D70:01D798F4]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
+ RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,41 +56,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael
- S. Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Dau?= =?utf-8?Q?d=C3=A9?= <philmd@redhat.com>
+Cc: richard.henderson@linaro.org, groug@kaod.org,
+ Luis Pires <luis.pires@eldorado.org.br>,
+ Fernando Valle <fernando.valle@eldorado.org.br>,
+ Bruno Larsen <bruno.larsen@eldorado.org.br>,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+From: Bruno Larsen <bruno.larsen@eldorado.org.br>
 
-> On Tue, 24 Aug 2021 at 13:05, Markus Armbruster <armbru@redhat.com> wrote:
->> When you know that all callers handle errors like &error_fatal does, use
->> of &error_fatal doesn't produce wrong behavior.  It's still kind of
->> wrong, because relying on such a non-local argument without a genuine
->> need is.
->
-> Not using error_fatal results in quite a bit of extra boilerplate
-> for all those extra explicit "check for failure, print the error
-> message and exit" points. If the MachineState init function took
-> an Error** that might be a mild encouragement to "pass an Error
-> upward rather than exiting"; but it doesn't.
->
-> Right now we have nearly a thousand instances of error_fatal
-> in the codebase, incidentally.
+Move REQUIRE_ALTIVEC to translate.c and rename it to REQUIRE_VECTOR.
 
-Use of &error_fatal is clearly superior to accomplishing the same
-behavior the way you describe.
+Signed-off-by: Bruno Larsen <bruno.larsen@eldorado.org.br>
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+Signed-off-by: Fernando Valle <fernando.valle@eldorado.org.br>
+Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
+---
+ target/ppc/translate.c                 |  8 ++++++++
+ target/ppc/translate/vector-impl.c.inc | 10 +---------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-My point was this behavior is usually wrong in functions with an Error
-**errp parameter.
-
-When a function is only ever used in contexts where errors are handled
-the way &error_fatal does, then you can keep things a bit more readable
-with &error_fatal and without an Error **errp parameter.  Nothing wrong
-with that.
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 171b216e17..4749ecdaa9 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -7453,6 +7453,14 @@ static int times_4(DisasContext *ctx, int x)
+ # define REQUIRE_64BIT(CTX)  REQUIRE_INSNS_FLAGS(CTX, 64B)
+ #endif
+ 
++#define REQUIRE_VECTOR(CTX)                             \
++    do {                                                \
++        if (unlikely(!(CTX)->altivec_enabled)) {        \
++            gen_exception((CTX), POWERPC_EXCP_VPU);     \
++            return true;                                \
++        }                                               \
++    } while (0)
++
+ /*
+  * Helpers for implementing sets of trans_* functions.
+  * Defer the implementation of NAME to FUNC, with optional extra arguments.
+diff --git a/target/ppc/translate/vector-impl.c.inc b/target/ppc/translate/vector-impl.c.inc
+index 117ce9b137..197e903337 100644
+--- a/target/ppc/translate/vector-impl.c.inc
++++ b/target/ppc/translate/vector-impl.c.inc
+@@ -17,20 +17,12 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#define REQUIRE_ALTIVEC(CTX) \
+-    do {                                                \
+-        if (unlikely(!(CTX)->altivec_enabled)) {        \
+-            gen_exception((CTX), POWERPC_EXCP_VPU);     \
+-            return true;                                \
+-        }                                               \
+-    } while (0)
+-
+ static bool trans_VCFUGED(DisasContext *ctx, arg_VX *a)
+ {
+     TCGv_i64 tgt, src, mask;
+ 
+     REQUIRE_INSNS_FLAGS2(ctx, ISA310);
+-    REQUIRE_ALTIVEC(ctx);
++    REQUIRE_VECTOR(ctx);
+ 
+     tgt = tcg_temp_new_i64();
+     src = tcg_temp_new_i64();
+-- 
+2.25.1
 
 
