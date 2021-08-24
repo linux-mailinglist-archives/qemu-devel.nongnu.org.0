@@ -2,68 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 381A13F6179
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 17:23:08 +0200 (CEST)
-Received: from localhost ([::1]:46418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C55993F6191
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Aug 2021 17:25:58 +0200 (CEST)
+Received: from localhost ([::1]:51706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIYGZ-0004Ha-A6
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 11:23:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39420)
+	id 1mIYJJ-0007rY-CR
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 11:25:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mIYEf-0002ri-Pb
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:21:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51434)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mIYIK-00077H-2S
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:24:56 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:46383)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1mIYEc-0002Wk-A9
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:21:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629818464;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=51fvc5N2zKiO6GQ4Cd2fp+s1ngnBsEc9Kgtln7DsqsI=;
- b=HrWbdTef824LxenyMHYl0Eg7KdL3UXbW8zfptNWmu1Boa+qv4DvAvLnHhKdi+LRlvqM2vo
- XP6S/+l1Lsb93F2msZr7cDC5h4nz+Ay1Yg98fmtsXme8b2pAIPuiSwjtcZ+gFx1WgjWyvz
- x6qF8MFMm3ZKuuyn2VXnQeIG0U4ifLg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-543-hvAgI43JOua2CnL1uy9icg-1; Tue, 24 Aug 2021 11:20:57 -0400
-X-MC-Unique: hvAgI43JOua2CnL1uy9icg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD56280292A;
- Tue, 24 Aug 2021 15:20:56 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.115])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C750718432;
- Tue, 24 Aug 2021 15:20:55 +0000 (UTC)
-Date: Tue, 24 Aug 2021 17:20:54 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: Using loadvm with snapshot
-Message-ID: <YSUOVqyjJ4xqsMgK@redhat.com>
-References: <BY5PR02MB7028431FD055B48DAD3841F7F7F99@BY5PR02MB7028.namprd02.prod.outlook.com>
- <YRvjHiZmPkSuv//z@work-vm>
- <CAFEAcA_h_WWf=0rU1yTqOA4AH5kYfLNqdbqHokdtoBP7bmepUw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mIYIH-0004xQ-U0
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 11:24:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=fzEYOT+HDe1SUo/U2Pf3HrXoqTWEEaFmlKqV6COrnXc=; b=ALJshZP2EsigYI0K/8NZcfBJAM
+ Lnb1QW84IvKFbjpW3CFJsSJyxbWX3lj/zl9HADDKD/OCLE+9V2jiRkLoARANwaTAZZ73MZEBajnfZ
+ EvEeCDnuypOY7xzpBHbXnPXJXVhMZZBTDeBy1HtUVQWzh4GUCnpt06xpr/7gMU/O64goggj4V9fNt
+ oAMn1EGnkkCO1DApFlRYigBU7QAf0b3j5qYTQqpqNf3ugfnLLdvJtgxK8vEGZbQYbKHRFXKU/0T/Q
+ xytUEy3Am3F6ftFDeHfltVFIkhYsDpsQPsImO92Ip6UFxJP9AKC+R8IZJauLVNy7YsNQ9rf+CGWVp
+ 5eI47ZkJIq1L9/V66Ch0+VRKw396a4s9cfsjEt3W92Fls508EyEt1Znvd0n3sQ9v7mEVQRer9PKUR
+ c6oerCXCpoF5BNjs85/ZCyXdyaSgtikmrU8+IpEuxshVrIxzKEWkOUyeqw0ISd/vg9GsxqqhirB2x
+ Srg+5/REaw7wEzFwrmi1L8D40oti1zsIh0yVl3MFA5+xr5Rf90J+irmfvSvtW+PkH8kOtj34VePW0
+ jsAOI8WJ6+5enG49Un9uVyq+1RwA0H+1cns7OyiTyIP9MNLownyBZZijU2l0cwbJuvwvj2p5JhDTy
+ 157ZVAoDJfxlPP9TvBWP7ONDnreWwaERh+dyWsRTI=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v2 1/5] qemu/qarray.h: introduce QArray
+Date: Tue, 24 Aug 2021 17:24:50 +0200
+Message-ID: <3111762.5NimiMBNql@silver>
+In-Reply-To: <8735qydhqf.fsf@dusky.pond.sub.org>
+References: <cover.1629638507.git.qemu_oss@crudebyte.com>
+ <15979909.kkRmxpahtA@silver> <8735qydhqf.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_h_WWf=0rU1yTqOA4AH5kYfLNqdbqHokdtoBP7bmepUw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,38 +66,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gabriel Southern <gsouther@qti.qualcomm.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 17.08.2021 um 20:48 hat Peter Maydell geschrieben:
-> On Tue, 17 Aug 2021 at 17:27, Dr. David Alan Gilbert
-> <dgilbert@redhat.com> wrote:
-> >
-> > * Gabriel Southern (gsouther@qti.qualcomm.com) wrote:
-> > > Hi,
-> > >
-> > > Are there plans to support using -loadvm with -snapshot?
-> > >
-> > > I saw some past discussion on mailing list including bug that was closed earlier this year but no recent activity:
-> > >
-> > > https://lore.kernel.org/qemu-devel/162424905685.11837.7303570061857383641.malone@loganberry.canonical.com/
-> > >
-> > > Testing with latest qemu it looks like -loadvm still does not work when combined with -snapshot.
-> > >
-> > > I'm curious how complex it would be to implement this feature and if it may show up on QEMU roadmap in the future. Or if there is alterative command that can be used to save the state of a running VM and then use the same qcow to run multiple QEMU instances loading this VM state running in snapshot mode.
+On Dienstag, 24. August 2021 16:45:12 CEST Markus Armbruster wrote:
+> Christian Schoenebeck <qemu_oss@crudebyte.com> writes:
+> > On Dienstag, 24. August 2021 10:22:52 CEST Markus Armbruster wrote:
+> [...]
 > 
-> Do you know why -loadvm and -snapshot don't work together?
-> It doesn't on the face of it seem like they would be incompatible...
+> >> Please use GPLv2+ unless you have a compelling reason not to.
+> >> 
+> >> [...]
+> > 
+> > Is that a requirement?
+> > 
+> > It is just my personal license preference. AFAICS there are numerous
+> > sources in QEMU released under MIT license as well.
+> 
+> The licensing situation is a mess.
+> 
+> The only hard requirement is "compatible with GPLv2+".  We prefer GPLv2+
+> for new code, except as detailed in ./LICENSE.  We're stuck with a
+> sizable body of existing code that is GPLv2 (no +), but decided to put
+> limits to that madness.  Again, see ./LICENSE for details.
+> 
+> I'm asking you to help with limiting the madness by sticking to GPLv2+
+> whenever possible.
 
-Probably because -snapshot first adds a temporary qcow2 overlay to the
-image, and then -loadvm fails because the newly created temporary
-overlay doesn't contain the requested snapshot.
+Okay, I see that there is quite a homogenous license structure in Qemu. 
+However the MIT license is a very permissive license, so I don't see any 
+conflicts.
 
-Internal and external snapshots don't really mix well.
+What if I release this file under public domain? That's not even copyleft at 
+all. What that be OK for you?
 
-Kevin
+My idea was that people might simply take this header file and use it in other 
+C projects as well. Putting it under GPL might cause conflicts for other 
+projects.
+
+Best regards,
+Christian Schoenebeck
+
 
 
