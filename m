@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 094A23F7CE3
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 21:56:17 +0200 (CEST)
-Received: from localhost ([::1]:54886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0CC73F7CE5
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 21:56:21 +0200 (CEST)
+Received: from localhost ([::1]:54854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIz0S-0007wD-1j
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 15:56:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49160)
+	id 1mIz0R-0007v5-RU
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 15:56:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mIyz1-0005Gh-Rx
+ id 1mIyz1-0005GX-Rw
  for qemu-devel@nongnu.org; Wed, 25 Aug 2021 15:54:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42895)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1mIyyy-0008Gn-5y
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 15:54:47 -0400
+ id 1mIyyz-0008IC-NN
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 15:54:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629921282;
+ s=mimecast20190719; t=1629921284;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=9dYKFc4OfqHw4xCNE1kenXHAOWj187sU5GEAgzwtChc=;
- b=TBVI7DCd60iCkwQJtbBngU1//kiNkHgRd+kykhRxrl3x/aER2Q3UVA3pHmYroLc7k6z+mM
- RKSBp5h98TcL+eyLJ0Zpkb2TLfmoxJlmCXIfQVEMokfOztKaEgjiCWQ3Jv8EodzNEXVVwH
- SWKfLxsjnz1w8yTRgfxh3or8UwET8o0=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3T0Ad22WESQ69XFQegL8RiJS/TUoqK8Bfj+dZLFxNH0=;
+ b=ebA4d8km1uWpmQKY3sDHszDrs/iUKjcAgJh/ZcLaIwIqUM51+Y0R2RlK7vBj2KiGnFo6n8
+ Geivk2bJZvdE+8DIfA4GLdUl29jvkWhHoFqvGWPQOflBMvfJRGFm/wyp/jn5FVj1WzTCZ2
+ pi4JkOHQvqs4XRAuU8eePejBlfZQsac=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-E5m9oPMlND6sst_n_iO5WA-1; Wed, 25 Aug 2021 15:54:40 -0400
-X-MC-Unique: E5m9oPMlND6sst_n_iO5WA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-66-YnNytg-ROZKFDIVYdUwq2Q-1; Wed, 25 Aug 2021 15:54:42 -0400
+X-MC-Unique: YnNytg-ROZKFDIVYdUwq2Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D400A760C4;
- Wed, 25 Aug 2021 19:54:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE4EE87504B;
+ Wed, 25 Aug 2021 19:54:41 +0000 (UTC)
 Received: from localhost (unknown [10.22.32.130])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 880E860C0F;
- Wed, 25 Aug 2021 19:54:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B24610372FD;
+ Wed, 25 Aug 2021 19:54:41 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 0/2] x86 queue, 2021-08-25
-Date: Wed, 25 Aug 2021 15:54:36 -0400
-Message-Id: <20210825195438.914387-1-ehabkost@redhat.com>
+Subject: [PULL 1/2] target/i386: Remove split lock detect in Snowridge CPU
+ model
+Date: Wed, 25 Aug 2021 15:54:37 -0400
+Message-Id: <20210825195438.914387-2-ehabkost@redhat.com>
+In-Reply-To: <20210825195438.914387-1-ehabkost@redhat.com>
+References: <20210825195438.914387-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) DKIMWL_WL_HIGH=-0.745, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.745,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,44 +82,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+ Eduardo Habkost <ehabkost@redhat.com>, Chenyi Qiang <chenyi.qiang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit d42685765653ec155fdf60910662f8830bdb2cef=
-:=0D
-=0D
-  Open 6.2 development tree (2021-08-25 10:25:12 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://gitlab.com/ehabkost/qemu.git tags/x86-next-pull-request=0D
-=0D
-for you to fetch changes up to f429dbf8fc526a9cacf531176b28d0c65701475a:=0D
-=0D
-  i386/cpu: Remove AVX_VNNI feature from Cooperlake cpu model (2021-08-25 1=
-2:36:49 -0400)=0D
-=0D
-----------------------------------------------------------------=0D
-x86 queue, 2021-08-25=0D
-=0D
-Bug fixes:=0D
-* Remove split lock detect in Snowridge CPU model (Chenyi Qiang)=0D
-* Remove AVX_VNNI feature from Cooperlake cpu model (Yang Zhong)=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Chenyi Qiang (1):=0D
-  target/i386: Remove split lock detect in Snowridge CPU model=0D
-=0D
-Yang Zhong (1):=0D
-  i386/cpu: Remove AVX_VNNI feature from Cooperlake cpu model=0D
-=0D
- target/i386/cpu.c | 10 +++++++++-=0D
- 1 file changed, 9 insertions(+), 1 deletion(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+From: Chenyi Qiang <chenyi.qiang@intel.com>
+
+At present, there's no mechanism intelligent enough to virtualize split
+lock detection correctly. Remove it in Snowridge CPU model to avoid the
+feature exposure.
+
+Signed-off-by: Chenyi Qiang <chenyi.qiang@intel.com>
+Message-Id: <20210630012053.10098-1-chenyi.qiang@intel.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+ target/i386/cpu.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 34a7ce865bb..aebf81d9c98 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -3682,6 +3682,14 @@ static const X86CPUDefinition builtin_x86_defs[] = {
+                     { /* end of list */ },
+                 },
+             },
++            {
++                .version = 4,
++                .note = "no split lock detect",
++                .props = (PropValue[]) {
++                    { "split-lock-detect", "off" },
++                    { /* end of list */ },
++                },
++            },
+             { /* end of list */ },
+         },
+     },
+-- 
+2.31.1
 
 
