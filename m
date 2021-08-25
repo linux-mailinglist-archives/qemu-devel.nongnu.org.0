@@ -2,61 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19BAE3F7B8D
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 19:28:11 +0200 (CEST)
-Received: from localhost ([::1]:37664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24F993F7BA0
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 19:37:41 +0200 (CEST)
+Received: from localhost ([::1]:44646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIwh2-0002Pz-Nk
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 13:28:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50606)
+	id 1mIwqJ-0007X7-Nr
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 13:37:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mIwg9-0001Z0-V5; Wed, 25 Aug 2021 13:27:09 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:50821)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1mIwg7-0001Xx-AS; Wed, 25 Aug 2021 13:27:09 -0400
-Received: from [192.168.100.1] ([82.142.22.194]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MUXlG-1mRdp616Dg-00QOu0; Wed, 25 Aug 2021 19:27:00 +0200
-Subject: Re: [PATCH] scripts: Remove the "show-fixed-bugs.sh" file
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20210825142143.142037-1-thuth@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <34fc4f09-2831-f6e8-1b70-40d39b3eb835@vivier.eu>
-Date: Wed, 25 Aug 2021 19:26:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
+ id 1mIwpP-0005tw-Av
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 13:36:43 -0400
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:38682)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <viktor.prutyanov@phystech.edu>)
+ id 1mIwpL-0007wH-Q7
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 13:36:41 -0400
+Received: by mail-lf1-x12e.google.com with SMTP id x27so598090lfu.5
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 10:36:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=phystech-edu.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EL5YgdQeNcyTK1DbujpI0X3stp39LOsZIVJaD87CSUE=;
+ b=rmS19YfyVzE/K1AJLe/90HHp7JRZ5YLJ6CdgIdyS7SFbVY7ld8cMCjVMiyqeCeoYba
+ d9ie/Y9EnqCssPaxashkDcI+RbDXV3tBqv86HMXFhaoRhUHuXTH8WtujDwLzKAY/T8UY
+ v7O9Wb17rd/6qAa2FQcCWxn+CNGOCm8QtfD4/itSm04hs0jiXd+XxTMwrvlSxvt91pDw
+ FO4Mm1naU59LxbvdnjKylYCKwbSw8FApYni65PNrF6GbgnddOl+rYzVjD/QHMDkog9im
+ CP8Dn+yU7daC1s9VSJw3OzWe1qBzo9/neYZeOht5mqlxUH8HOKBBPlXuZMTmqFfNzsOS
+ ejVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=EL5YgdQeNcyTK1DbujpI0X3stp39LOsZIVJaD87CSUE=;
+ b=TRnVI0RnosBDQA016TMq4VaFZcgCPb0qcvtEnWifzWDkMNyq4PZQEPc78P1CDU1LGv
+ Yr8RKe5SSXkycztL1/PICN8jg2kF7zrj3tdnCDqbRJGNNi9o16rAGqw4aryRhpo4bXqP
+ e8KNWEeJq9XM35xx35X0mNZ1VEd642qKwHk4Ay9VUMjH4+H8R77e8a3SKvwfNkj3kTff
+ eYmsi/dC2REgZEZd6s21ANkI3KEsMtwTRwmMOCYkpSjWIQEstm+/mP5iJejP5So5uZZ3
+ PHPlvL4d55rt3G0DsaEJpikUQAANxp7h+B2clEV7f6CMczp18rRB6bIACT4jPvOY4Wg+
+ /BuQ==
+X-Gm-Message-State: AOAM533LkfM1BGWw8VZEzpXAoRRPk2C+G4K+tewF9dGB/uofiQUuZYFD
+ cPKq7j711bYT3wb5TN3mb4PRhA==
+X-Google-Smtp-Source: ABdhPJzQ7oZfdARmcrf53GuHNrxuG1Jvk2bCdgQthgWPYMFZGZfMfvHiY7OcyjIYYbZkSlcNLQ40Iw==
+X-Received: by 2002:a19:c787:: with SMTP id
+ x129mr32870181lff.490.1629912997496; 
+ Wed, 25 Aug 2021 10:36:37 -0700 (PDT)
+Received: from 192.168.1.2 ([2a00:1370:810e:b7ea:7e3d:4f4b:921e:b1ff])
+ by smtp.gmail.com with ESMTPSA id k13sm61706lfm.168.2021.08.25.10.36.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Aug 2021 10:36:37 -0700 (PDT)
+From: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+To: philmd@redhat.com, kwolf@redhat.com, hreitz@redhat.com, sw@weilnetz.de,
+ yan@daynix.com, qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v5] block/file-win32: add reopen handlers
+Date: Wed, 25 Aug 2021 20:36:25 +0300
+Message-Id: <20210825173625.19415-1-viktor.prutyanov@phystech.edu>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20210825142143.142037-1-thuth@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:9Ef0TtPlGYDv9Dyc4AWycbXgVJXXuGN8ftQ28fjcvwKATTAiqip
- BrrPqzY+ynL13yHBy/dVZIsv5LhxKw6j3bYSfLD1mxePbKkbroj5j4bVYkoxEndgabnJtxU
- D1VrvMuu4fKqC3mbK5RdlnlIfMcq5b0KwS5xKgjPQUsxNUJhRGQ6x7aty7gKEuYc2bajz1M
- nLWx5FaGvftbXJCmXW7tw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:T6RuxkfUJDE=:tjv6JN797TnUc4tclBIDFy
- sd4kqp3xe5kpyFgS4tpoJLiVIN7hrm/01zkNR8BV1WXFx8z/qFIzwhaD8ypEM1kPJU7xITKe3
- lCcNCxprX9QO8yLAHfUSdp2j2b2fu8WrOZWU434rpcgdFogDkCLEBErnzkwpCaPy+v7jX4bpH
- 6VAe+TDbLVyXtMU6HBYuP1WnilUArMSZwECRC401CWxXvzBtCec+nkegEIZY91JcYCyuu7Xrg
- cJ3QykiAx3n+9/speufd7S3otUlX17MZzah7F0+hBYVBL3RNozWK6ctty70Uou/jY/GIvpM5c
- ZhvHUVhF5MjZzAF5sy1THHPGSlyB2nUqGy2W2qa9jOv/A7AMCKTGQoinbZ25rLMiubwgFdJjd
- Q706OMfRETg5KErtSpQj2edRZI9wafckiZvN3nBBoLnwHFqVvm3nNoPAHs0eGuh76WrSUD6ZG
- CGzE8kWRXgEwV8IYbh1D86RG9dmZtTiKeBHU2RaJbNOqU+6yT5OWyaafQ/NSXdyz1GEuTASBg
- ncfj2mykmdw2prhVHvIky19Nwp39xY6DSZP7qrmzD2duZdpkaDerJIQkeDVChZgbU/T2JWM8S
- QRBqcDfNhXwoDqoY2jhxQPVTgKH6X/WIep5BiBYlixq0QpTv0Uv+nTufkUEOl2ki0cR7pkqpI
- zsgx6hvDBfQE9QuokPn0JakRPBDx2ollOLQmfdGSX81fB8ckD8N0/Qxsd6lX9nlVEwFA2LdKY
- icjO7ynmCXOvj9oeq7k42Sm2OOhtXOCFWjtrLA==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.24,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=viktor.prutyanov@phystech.edu; helo=mail-lf1-x12e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,21 +82,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: Helge Konetzka <hk@zapateado.de>,
+ Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 25/08/2021 à 16:21, Thomas Huth a écrit :
-> Since we are not using Launchpad anymore, there is no more need for
-> this script.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  scripts/show-fixed-bugs.sh | 91 --------------------------------------
->  1 file changed, 91 deletions(-)
->  delete mode 100755 scripts/show-fixed-bugs.sh
-> 
+Make 'qemu-img commit' work on Windows.
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Command 'commit' requires reopening backing file in RW mode. So,
+add reopen prepare/commit/abort handlers and change dwShareMode
+for CreateFile call in order to allow further read/write reopening.
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/418
+
+Suggested-by: Hanna Reitz <hreitz@redhat.com>
+Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+Tested-by: Helge Konetzka <hk@zapateado.de>
+---
+ v2:
+    - fix indentation in raw_reopen_prepare
+    - free rs if raw_reopen_prepare fails
+ v3:
+    - restore suggested-by field missed in v2
+ v4:
+    - add file type check
+    - add comment about options
+    - replace rs check with assert in raw_reopen_commit
+ v5:
+    - add CloseHandle at AIO attach fail
+
+ block/file-win32.c | 101 ++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 100 insertions(+), 1 deletion(-)
+
+diff --git a/block/file-win32.c b/block/file-win32.c
+index 2642088bd6..b97c58d642 100644
+--- a/block/file-win32.c
++++ b/block/file-win32.c
+@@ -58,6 +58,10 @@ typedef struct BDRVRawState {
+     QEMUWin32AIOState *aio;
+ } BDRVRawState;
+ 
++typedef struct BDRVRawReopenState {
++    HANDLE hfile;
++} BDRVRawReopenState;
++
+ /*
+  * Read/writes the data to/from a given linear buffer.
+  *
+@@ -392,7 +396,7 @@ static int raw_open(BlockDriverState *bs, QDict *options, int flags,
+     }
+ 
+     s->hfile = CreateFile(filename, access_flags,
+-                          FILE_SHARE_READ, NULL,
++                          FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
+                           OPEN_EXISTING, overlapped, NULL);
+     if (s->hfile == INVALID_HANDLE_VALUE) {
+         int err = GetLastError();
+@@ -634,6 +638,97 @@ static int coroutine_fn raw_co_create_opts(BlockDriver *drv,
+     return raw_co_create(&options, errp);
+ }
+ 
++static int raw_reopen_prepare(BDRVReopenState *state,
++                              BlockReopenQueue *queue, Error **errp)
++{
++    BDRVRawState *s = state->bs->opaque;
++    BDRVRawReopenState *rs;
++    int access_flags;
++    DWORD overlapped;
++    int ret = 0;
++
++    if (s->type != FTYPE_FILE) {
++        error_setg(errp, "Can only reopen files");
++        return -EINVAL;
++    }
++
++    rs = g_new0(BDRVRawReopenState, 1);
++
++    /*
++     * We do not support changing any options (only flags). By leaving
++     * all options in state->options, we tell the generic reopen code
++     * that we do not support changing any of them, so it will verify
++     * that their values did not change.
++     */
++
++    raw_parse_flags(state->flags, s->aio != NULL, &access_flags, &overlapped);
++    rs->hfile = CreateFile(state->bs->filename, access_flags,
++                           FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
++                           OPEN_EXISTING, overlapped, NULL);
++
++    if (rs->hfile == INVALID_HANDLE_VALUE) {
++        int err = GetLastError();
++
++        error_setg_win32(errp, err, "Could not reopen '%s'",
++                         state->bs->filename);
++        if (err == ERROR_ACCESS_DENIED) {
++            ret = -EACCES;
++        } else {
++            ret = -EINVAL;
++        }
++        goto fail;
++    }
++
++    if (s->aio) {
++        ret = win32_aio_attach(s->aio, rs->hfile);
++        if (ret < 0) {
++            error_setg_errno(errp, -ret, "Could not enable AIO");
++            CloseHandle(rs->hfile);
++            goto fail;
++        }
++    }
++
++    state->opaque = rs;
++
++    return 0;
++
++fail:
++    g_free(rs);
++    state->opaque = NULL;
++
++    return ret;
++}
++
++static void raw_reopen_commit(BDRVReopenState *state)
++{
++    BDRVRawState *s = state->bs->opaque;
++    BDRVRawReopenState *rs = state->opaque;
++
++    assert(rs != NULL);
++
++    CloseHandle(s->hfile);
++    s->hfile = rs->hfile;
++
++    g_free(rs);
++    state->opaque = NULL;
++}
++
++static void raw_reopen_abort(BDRVReopenState *state)
++{
++    BDRVRawReopenState *rs = state->opaque;
++
++    if (!rs) {
++        return;
++    }
++
++    if (rs->hfile != INVALID_HANDLE_VALUE) {
++        CloseHandle(rs->hfile);
++    }
++
++    g_free(rs);
++    state->opaque = NULL;
++}
++
+ static QemuOptsList raw_create_opts = {
+     .name = "raw-create-opts",
+     .head = QTAILQ_HEAD_INITIALIZER(raw_create_opts.head),
+@@ -659,6 +754,10 @@ BlockDriver bdrv_file = {
+     .bdrv_co_create_opts = raw_co_create_opts,
+     .bdrv_has_zero_init = bdrv_has_zero_init_1,
+ 
++    .bdrv_reopen_prepare = raw_reopen_prepare,
++    .bdrv_reopen_commit  = raw_reopen_commit,
++    .bdrv_reopen_abort   = raw_reopen_abort,
++
+     .bdrv_aio_preadv    = raw_aio_preadv,
+     .bdrv_aio_pwritev   = raw_aio_pwritev,
+     .bdrv_aio_flush     = raw_aio_flush,
+-- 
+2.21.0
 
 
