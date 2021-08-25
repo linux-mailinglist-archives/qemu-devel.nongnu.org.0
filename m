@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA9AF3F6CBD
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 02:50:49 +0200 (CEST)
-Received: from localhost ([::1]:34552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26CDF3F6CBE
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 02:50:54 +0200 (CEST)
+Received: from localhost ([::1]:34948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIh7w-00042F-DL
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 20:50:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56832)
+	id 1mIh81-0004ID-7u
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 20:50:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mIh69-0001UR-Kf; Tue, 24 Aug 2021 20:48:57 -0400
-Received: from mail-qv1-xf31.google.com ([2607:f8b0:4864:20::f31]:45759)
+ id 1mIh6C-0001ZK-Jb; Tue, 24 Aug 2021 20:49:00 -0400
+Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a]:42829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mIh68-0006tW-1w; Tue, 24 Aug 2021 20:48:57 -0400
-Received: by mail-qv1-xf31.google.com with SMTP id l4so222737qvl.12;
- Tue, 24 Aug 2021 17:48:55 -0700 (PDT)
+ id 1mIh6B-0006vu-50; Tue, 24 Aug 2021 20:49:00 -0400
+Received: by mail-qk1-x72a.google.com with SMTP id t4so10959853qkb.9;
+ Tue, 24 Aug 2021 17:48:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dzTkCzjTdg0S0MwW5VU9khURyXbuLzk1h69LALCZle0=;
- b=IetKWTsaN8vubsevOw+xps3zaK7DJ9qJVg38W/camtZ8llW1p+J5879XplMxCqL6lH
- j9IthzoSc9MJOhaxD8jR2r7LS25dIGytatJt7CkeFwAF4+wkWNgdhqLn0DAu2bYvYYDG
- NfVjF3H2p6Z5JH2sKyVA8va+xognlg/ZAeW51dB9OJZ9bcXtO/KmT268+FMkBdoIN1es
- mhpaAp73C6RC6PBiYJd2kNkvAeg2DYaQnmJq++xeQeYyMTIxma9+63GCAcI2DZjGZcV2
- zDx2ECA2JcUe/hUyGs+XM1u7v1HRgCJAI84NgH5rFGTGrPXGG0Etwc79qPHrOWJ9VeI8
- WARw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=OYzSxiPLqYYDJju9oYHrYm0nV1on+EwDLiSYp/IyZ5w=;
+ b=roJd5tanoKsi+eP6/Und0kjWtPA/7jeaVnBxZGh+m+r98MXucKHpXewdJbYBNbdhuj
+ NtdsyU9qzNVpSO+TW7dAJPHiOpqhv711BSdXqUNDLEtO4jNBloeaSlmxjeWioAfRHXRb
+ 4B+pBmpwSk/vXwYXApVgamsQQNVhkoz0zkiazI4Xx9PjBsGN7L6yvsUh3V/OyENl2+Lv
+ qSXPtjJI2q60/8epoYNKIcRGSOCSz1lpEk9IkS+MIJnNiReg7Fby48zaUPhdx18H1w0X
+ 6JdKzjAopDKjUie7/2HCSSFEyqMna2RN0qy5FsZqKvMV8PeUeIyPnjTI+keeabfIjAQ1
+ wOCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dzTkCzjTdg0S0MwW5VU9khURyXbuLzk1h69LALCZle0=;
- b=oaBztQSaqKTmDYwI6n1BUvqIuGbtlfNqOYAnrGaQCtBebcoQ6ojm8qRKhSiC/qRIr7
- wpYzKaNDQERk85zx7NNQXW9lNvLA99mKa38jvBDtHtMrCeIv0Tsfw02rkJUmXRtlD6gt
- f2mcs1BrQHf8ktf96QlR2vXo+e7AmFt+hlUny8Pisxx8jZMnyaU1TxymnWKKWcxHOVrb
- 9gaJ1DAXKwu7QZPuj+3kRgCum9a57qkhiLmBxlfQ9cqJFS5gwXzojUCHq4KGBT6uLQ2a
- hvENqz8nyybjyGFZtyR9hRpv9URoJbtZwG8qnuqM2ycexJD1G3cFnJaaEGIcxuA7JpmE
- Z+Zg==
-X-Gm-Message-State: AOAM531tqCYsxdjbaHfNCyicvEAqtfGRgp6H7HbEeuFt85swQHTLTknm
- T8VIhoxGF7jinj6fp1TLo3HOS6OrJco=
-X-Google-Smtp-Source: ABdhPJzVGuUWxoWx9qV3L3Ps9/KhosjGldvg7mJCNOFzkGRnZuWV0+rkfK996Sn+2fClSkmAVPIOTA==
-X-Received: by 2002:a05:6214:500b:: with SMTP id
- jo11mr41542446qvb.52.1629852534506; 
- Tue, 24 Aug 2021 17:48:54 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=OYzSxiPLqYYDJju9oYHrYm0nV1on+EwDLiSYp/IyZ5w=;
+ b=d6Ukb/6F0ANUho8ihBvQxY9Z7jzL+U0A93bbzCzpGU1xvQd2CJd/6oWkNL+2Kma2aj
+ F/pi44QOEwAuR2bAjeYEADIazIoojdDDPWUb9l1o6lGE2ATQC7nA4uosEaOZ37LHvnWi
+ RFzhahv1mVg0sT+Rg9x1DWUft3ltyVKACR9wfpKZNK2H3j/6hgn7lRZnszbxThXFuTnQ
+ EahGZC6Ziezf351gVXut/KZdRz7/m8XXPFgHqhnV5BB7SJ80ERyyjkj1J5AQ+trtCh6Y
+ Hrl0GXGEXKQOZ8R/W5d0+3hiO5GFzNrGTCWk73i5qBk8OLd0f2rJnn/NC0XvkqqsPxM5
+ NuMw==
+X-Gm-Message-State: AOAM533oJTsvq+Ro1wGOW6DudDJvDjeh+BWrLmca45+oY1eH5Hg6TNt2
+ kIjd608CsyAze7YacoRApBfFGLQuT1Q=
+X-Google-Smtp-Source: ABdhPJxP6S8tgzt5ATUDexob3lCtmYDCYQoEWiyTV5fpCO9yG6dIk7iWK1d86JLxQS+e6DZ7RwLDWA==
+X-Received: by 2002:ae9:ed53:: with SMTP id c80mr29978480qkg.402.1629852537859; 
+ Tue, 24 Aug 2021 17:48:57 -0700 (PDT)
 Received: from rekt.ihost.com ([179.247.162.205])
- by smtp.gmail.com with ESMTPSA id x10sm1515266qto.41.2021.08.24.17.48.52
+ by smtp.gmail.com with ESMTPSA id x10sm1515266qto.41.2021.08.24.17.48.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Aug 2021 17:48:54 -0700 (PDT)
+ Tue, 24 Aug 2021 17:48:57 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 0/7] DEVICE_UNPLUG_GUEST_ERROR QAPI event
-Date: Tue, 24 Aug 2021 21:48:28 -0300
-Message-Id: <20210825004835.472919-1-danielhb413@gmail.com>
+Subject: [PATCH v7 1/7] memory_hotplug.c: handle dev->id = NULL in
+ acpi_memory_hotplug_write()
+Date: Tue, 24 Aug 2021 21:48:29 -0300
+Message-Id: <20210825004835.472919-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210825004835.472919-1-danielhb413@gmail.com>
+References: <20210825004835.472919-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f31;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72a.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -85,48 +87,37 @@ Cc: armbru@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+qapi_event_send_mem_unplug_error() deals with @device being NULL by
+replacing it with an empty string ("") when emitting the event. Aside
+from the fact that this behavior (qapi visitor mapping NULL pointer to
+"") can be patched/changed someday, there's also the lack of utility
+that the event brings to listeners, e.g. "a memory unplug error happened
+somewhere".
 
-In this version the event was renamed and the optional 'msg'
-attribute was removed. It also contains smaller changes based
-on Markus' comments in v6.
+In theory we should just avoit emitting this event at all if dev->id is
+NULL, but this would be an incompatible change to existing guests.
+Instead, let's make the forementioned behavior explicit: if dev->id is
+NULL, pass an empty string to qapi_event_send_mem_unplug_error().
 
-changes from v6:
-- patches 1 and 2:
-  * handle dev->id = NULL explicitly with empty string
-- patch 3:
-  * added Markus' reviewed-by
-- patch 4:
-  * reworded 'path' attribute desc as 'the device's QOM path'
-  * added Markus's reviewed-by
-- patch 5:
-  * event was renamed to 'DEVICE_UNPLUG_GUEST_ERROR'
-  * reworded 'path' attribute desc as 'the device's QOM path'
-  * removed the optional member 'msg' of the event
-- patches 6 and 7:
-  * changes due to event rename and lack of 'msg' attribute
-- v6 link: https://lists.gnu.org/archive/html/qemu-devel/2021-07/msg04923.html
+Suggested-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/acpi/memory_hotplug.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-Daniel Henrique Barboza (7):
-  memory_hotplug.c: handle dev->id = NULL in acpi_memory_hotplug_write()
-  spapr.c: handle dev->id in spapr_memory_unplug_rollback()
-  spapr_drc.c: do not error_report() when drc->dev->id == NULL
-  qapi/qdev.json: fix DEVICE_DELETED parameters doc
-  qapi/qdev.json: add DEVICE_UNPLUG_GUEST_ERROR QAPI event
-  spapr: use DEVICE_UNPLUG_GUEST_ERROR to report unplug errors
-  memory_hotplug.c: send DEVICE_UNPLUG_GUEST_ERROR in
-    acpi_memory_hotplug_write()
-
- docs/about/deprecated.rst | 10 ++++++++++
- hw/acpi/memory_hotplug.c  | 11 ++++++++++-
- hw/ppc/spapr.c            | 12 ++++++++++--
- hw/ppc/spapr_drc.c        | 16 ++++++++++------
- qapi/machine.json         |  7 ++++++-
- qapi/qdev.json            | 32 +++++++++++++++++++++++++++++---
- stubs/qdev.c              |  7 +++++++
- 7 files changed, 82 insertions(+), 13 deletions(-)
-
+diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
+index af37889423..6a71de408b 100644
+--- a/hw/acpi/memory_hotplug.c
++++ b/hw/acpi/memory_hotplug.c
+@@ -178,7 +178,7 @@ static void acpi_memory_hotplug_write(void *opaque, hwaddr addr, uint64_t data,
+             hotplug_handler_unplug(hotplug_ctrl, dev, &local_err);
+             if (local_err) {
+                 trace_mhp_acpi_pc_dimm_delete_failed(mem_st->selector);
+-                qapi_event_send_mem_unplug_error(dev->id,
++                qapi_event_send_mem_unplug_error(dev->id ? : "",
+                                                  error_get_pretty(local_err));
+                 error_free(local_err);
+                 break;
 -- 
 2.31.1
 
