@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99D673F6E2D
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 06:16:37 +0200 (CEST)
-Received: from localhost ([::1]:33094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44EC13F6E38
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 06:19:35 +0200 (CEST)
+Received: from localhost ([::1]:40944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIkL0-00039U-Nh
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 00:16:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53856)
+	id 1mIkNt-000056-8b
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 00:19:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mIkGZ-0000cC-3n; Wed, 25 Aug 2021 00:11:55 -0400
-Received: from ozlabs.org ([203.11.71.1]:60759)
+ id 1mIkGd-0000g2-N6; Wed, 25 Aug 2021 00:11:59 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:43729)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mIkGW-0007Bq-DZ; Wed, 25 Aug 2021 00:11:54 -0400
+ id 1mIkGb-0007Tf-RE; Wed, 25 Aug 2021 00:11:59 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GvXbt5b3Yz9t0Y; Wed, 25 Aug 2021 14:11:38 +1000 (AEST)
+ id 4GvXbt5yYkz9t0p; Wed, 25 Aug 2021 14:11:38 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1629864698;
- bh=WcHc/wz/4dLv4hkZT9exIfaDSpwjw+xrIsIKTrsCceA=;
+ bh=JE0uX1EDQX1P3yzlc0oseUqciSF6Qo1yhsnnVnwRkPY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iLGsmjRpxeTkjmVdym3FS6gtwUzm/XY6PWQl8qoYkQ6+vs3ZBtIX9DtW0U9n3Q2cn
- Khbgy8Qam0u2HDp2lqFlRuBLwNvfSDnF0lIbtVWdlYuxT0oystRWd251XkoZyVkqbM
- qNuz6leUGtkb+f6zIaS2Jyv35Z/S2N7s146Kl2vU=
-Date: Wed, 25 Aug 2021 13:43:10 +1000
+ b=hJ4ZzBPfGq38kV4uPDlOjybZ3KN7wH3Da9fKxvSwHteU3P9NrllpcFay0aJjQmGKR
+ s89/QGgRKp+lDc6O2U4GIYD9/972fLWcUYRr4vwcJzwGqVyyp5NZjDE9gZuBnElVU/
+ JTF2VFpbNbJkxhRu9RCHSn0RpN2/vDTfjZLIPUmg=
+Date: Wed, 25 Aug 2021 13:46:06 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Luis Pires <luis.pires@eldorado.org.br>
-Subject: Re: [PATCH 02/19] host-utils: move abs64() to host-utils
-Message-ID: <YSW8TigYwJVIrd5w@yekko>
+Subject: Re: [PATCH 07/19] target/ppc: Move REQUIRE_ALTIVEC/VECTOR to
+ translate.c
+Message-ID: <YSW8/mKnr4hQzO/f@yekko>
 References: <20210824142730.102421-1-luis.pires@eldorado.org.br>
- <20210824142730.102421-3-luis.pires@eldorado.org.br>
+ <20210824142730.102421-8-luis.pires@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="wvyAoWH/j7dFnCKK"
+ protocol="application/pgp-signature"; boundary="UzuOLugOzmFZMqvo"
 Content-Disposition: inline
-In-Reply-To: <20210824142730.102421-3-luis.pires@eldorado.org.br>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210824142730.102421-8-luis.pires@eldorado.org.br>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,72 +59,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: richard.henderson@linaro.org, qemu-devel@nongnu.org, groug@kaod.org,
+ Fernando Valle <fernando.valle@eldorado.org.br>, qemu-ppc@nongnu.org,
+ Bruno Larsen <bruno.larsen@eldorado.org.br>,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---wvyAoWH/j7dFnCKK
+--UzuOLugOzmFZMqvo
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 24, 2021 at 11:27:13AM -0300, Luis Pires wrote:
-> Move abs64 to host-utils so it can be reused elsewhere.
-> Also made it inline.
+On Tue, Aug 24, 2021 at 11:27:18AM -0300, Luis Pires wrote:
+> From: Bruno Larsen <bruno.larsen@eldorado.org.br>
 >=20
+> Move REQUIRE_ALTIVEC to translate.c and rename it to REQUIRE_VECTOR.
+>=20
+> Signed-off-by: Bruno Larsen <bruno.larsen@eldorado.org.br>
+> Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+> Signed-off-by: Fernando Valle <fernando.valle@eldorado.org.br>
 > Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
+
+
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
 > ---
->  hw/i386/kvm/i8254.c       | 5 -----
->  include/qemu/host-utils.h | 8 ++++++++
->  2 files changed, 8 insertions(+), 5 deletions(-)
+>  target/ppc/translate.c                 |  8 ++++++++
+>  target/ppc/translate/vector-impl.c.inc | 10 +---------
+>  2 files changed, 9 insertions(+), 9 deletions(-)
 >=20
-> diff --git a/hw/i386/kvm/i8254.c b/hw/i386/kvm/i8254.c
-> index fa68669e8a..761034743b 100644
-> --- a/hw/i386/kvm/i8254.c
-> +++ b/hw/i386/kvm/i8254.c
-> @@ -59,11 +59,6 @@ struct KVMPITClass {
->      DeviceRealize parent_realize;
->  };
-> =20
-> -static int64_t abs64(int64_t v)
-> -{
-> -    return v < 0 ? -v : v;
-
-Hrm..  I'm a bit concerned about mkaing this a more widespread
-function, because it has a nasty edge case... which is basically
-unavoidable in an abs64() implementation.  Specifically:
-
-abs64(0x800_0000_0000_00000) =3D=3D 0x800_0000_0000_0000 < 0
-
-At least in the most likely 2's complement implementation.
-
-> -}
-> -
->  static void kvm_pit_update_clock_offset(KVMPITState *s)
->  {
->      int64_t offset, clock_offset;
-> diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
-> index 711b221704..5fec44a9c4 100644
-> --- a/include/qemu/host-utils.h
-> +++ b/include/qemu/host-utils.h
-> @@ -357,6 +357,14 @@ static inline uint64_t revbit64(uint64_t x)
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index 171b216e17..4749ecdaa9 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -7453,6 +7453,14 @@ static int times_4(DisasContext *ctx, int x)
+>  # define REQUIRE_64BIT(CTX)  REQUIRE_INSNS_FLAGS(CTX, 64B)
 >  #endif
->  }
 > =20
-> +/**
-> + * Return the absolute value of a 64-bit integer
-> + */
-> +static inline int64_t abs64(int64_t v)
-> +{
-> +    return v < 0 ? -v : v;
-> +}
+> +#define REQUIRE_VECTOR(CTX)                             \
+> +    do {                                                \
+> +        if (unlikely(!(CTX)->altivec_enabled)) {        \
+> +            gen_exception((CTX), POWERPC_EXCP_VPU);     \
+> +            return true;                                \
+> +        }                                               \
+> +    } while (0)
 > +
->  /**
->   * sadd32_overflow - addition with overflow indication
->   * @x, @y: addends
+>  /*
+>   * Helpers for implementing sets of trans_* functions.
+>   * Defer the implementation of NAME to FUNC, with optional extra argumen=
+ts.
+> diff --git a/target/ppc/translate/vector-impl.c.inc b/target/ppc/translat=
+e/vector-impl.c.inc
+> index 117ce9b137..197e903337 100644
+> --- a/target/ppc/translate/vector-impl.c.inc
+> +++ b/target/ppc/translate/vector-impl.c.inc
+> @@ -17,20 +17,12 @@
+>   * License along with this library; if not, see <http://www.gnu.org/lice=
+nses/>.
+>   */
+> =20
+> -#define REQUIRE_ALTIVEC(CTX) \
+> -    do {                                                \
+> -        if (unlikely(!(CTX)->altivec_enabled)) {        \
+> -            gen_exception((CTX), POWERPC_EXCP_VPU);     \
+> -            return true;                                \
+> -        }                                               \
+> -    } while (0)
+> -
+>  static bool trans_VCFUGED(DisasContext *ctx, arg_VX *a)
+>  {
+>      TCGv_i64 tgt, src, mask;
+> =20
+>      REQUIRE_INSNS_FLAGS2(ctx, ISA310);
+> -    REQUIRE_ALTIVEC(ctx);
+> +    REQUIRE_VECTOR(ctx);
+> =20
+>      tgt =3D tcg_temp_new_i64();
+>      src =3D tcg_temp_new_i64();
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -132,25 +145,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---wvyAoWH/j7dFnCKK
+--UzuOLugOzmFZMqvo
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmElvE4ACgkQbDjKyiDZ
-s5K7sA/+PhfYbyXaWmk990bEnxSQZc+hOP33WQZj9DJAgOSRKnCF0uoMPJJU+PQi
-dnIYGl23HU/JuexEszPr/EYcmyjGVvlrgu4tq1wlG9N/DY1y32efMZOmouH1uevI
-ot/W9MsolsI/dfmsjXucXNxsz9r/O6ar5wnp/UuiDb510+kvdLqTWfWRGQePTE+S
-06/L5hUHUAjQriiCivRenIKQZ6FMlUr8et0GOiGK59W6FvFTqKh1vKnZvqk7KrWw
-QiSuDQIKoGX0+OLzvTnSRS4GuyKuGY86SFGwIKvGVamT4/hykIpYjSZtiHkSG3xd
-7vZQ7IB1A2pcjjE+re9Njem+oiNpab8hjU1wP4FnV2/zJ1DrpgWVQW3eKIzEIZ4H
-5du9StGFihiClsDspBzvH3yqo8aXgOH9CzI3SHjWtZyZj+boIEOIfQrKN13JIsqo
-sxx3yW0AHH0Y2Mk0wPc6wQhTq/VnLFtMI3503LHN8ektVXea1i2kEpFOlASeSHcC
-EMtAWkJtZoGKxTJYtLeuWcL/AcZHEq3ptDUu1y6J5oIh+4gYrkZPalHMxE49nxCw
-y9J7dA+xhQToa76wqhh3tWg4ZlD5FUVIT91ctfl96CQcuC3KlH4sgcmASw9oRpMG
-mXrkzgP00yMz9Ks1k3NVIs6DTBFWOOUnO0nvX2xUPf5Ut8mUZuA=
-=YiIt
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmElvP0ACgkQbDjKyiDZ
+s5KtNg/7BdvA9TZZfFra4UNd92neBbeO4AtyrQdvmP8lTjpFfuwxQWLGthPjBk4X
++MnYv/MHFLFc0xC8+Df1WrJKE++wCBGBJqAGFsDekT1W00yuqfwNvDy7XC5A1W+R
+JXAEHSP8S1TtqPrTX3ydQgvIr6Nvp7mJLsWQXZJOVVrVTs5JSIE9K2wOFNhjVDyh
+35CA6kpyjzGqEb8ywcZ3LOrlQ5UGreW0U7Hl0ftRwF/dLlMxqccBhP8iFfAm2cMv
+XOog4+IBkZwNBQ6an4+kI86fbzlf+OfAhn+aPsaymmWjv4nEnyjXB7AbynJjMHXK
+IEtQOX0WkEwYQQ3I2sBxwCCE119BZwMorGBJdChpMjrCiL4fXq6F+lmIwHBwVuHB
+JtakJ0EXkkxh9dhI0POz1Hz8QtwC/vJ+lhG4BpgOvYM5QzDKVy5rUM7LCT1MlzG4
+GJNWIr3qlQ/hut9QxkIa9OiQoWljF/l07UB1YJKjH7Tef4IYswEQ9zlg1ilYbpIT
+tueyo5ztuLlpXcF9wGwMEK1ctdTuWsWTaoJwFyS4miiGjOk6fsIUwal2xOD2gmMx
+dzEzc/NWVapTpXw4uSKidQAzns/COg7lX9uhiir67Yw8U+QIZy0LG6C5tu0bhwsF
+8ELegGNNePmMotdGk5OFcxxDXkWnK/zsRyxIVkfnf/f2QBXq8IM=
+=+b2x
 -----END PGP SIGNATURE-----
 
---wvyAoWH/j7dFnCKK--
+--UzuOLugOzmFZMqvo--
 
