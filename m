@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFEFA3F7B0B
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 19:00:11 +0200 (CEST)
-Received: from localhost ([::1]:34916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70ECE3F7B03
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 18:58:26 +0200 (CEST)
+Received: from localhost ([::1]:54736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIwG2-0003dD-Q1
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 13:00:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44600)
+	id 1mIwEL-0006WF-G9
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 12:58:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mIwCn-0003ms-Qq
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 12:56:49 -0400
-Received: from mail-lj1-x235.google.com ([2a00:1450:4864:20::235]:43883)
+ id 1mIwCq-0003qK-7G
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 12:56:52 -0400
+Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:40622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mIwCf-0007DF-A4
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 12:56:49 -0400
-Received: by mail-lj1-x235.google.com with SMTP id j12so30336515ljg.10
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 09:56:39 -0700 (PDT)
+ id 1mIwCi-0007FN-Ep
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 12:56:50 -0400
+Received: by mail-lf1-x12a.google.com with SMTP id bq28so324523lfb.7
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 09:56:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=vrull-eu.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=QthBx0S31GUuylmSYQH/l+lHXCuRpcqu5N0yv+/c2vU=;
- b=R/uI2DtPnUzFhxv8sazG1jvXHgTgBrzkTvuL1kyQVQTKbmOqXo/pXh/ZKGnzBuLhes
- JIDI7PmqSA+EWWJ0Jnajy2sM3I08mhaiXqpwYe338ihzA1OqF3rsYcPxE6nebgudoUYG
- tJNLI3usEm2eXSD3R97sRsPdcWmJKMhKdl6bJ6muKLH01Rz8GFyjOCWl7db9wBI3tnjZ
- 0h+TzdjIS04o2k4f4M8oC/PNPDDHXv5Cphl1nF2/wZS+pKvtDaezQKqugeR2TeLJdahM
- VIjXWLiTUaR5BQeu4r1XvDkx7ZDHpra9ZV9BEAxOT1rCIJqOWCc9zG6Kd44z+LLD/FBY
- beuA==
+ bh=mVDf2DTleQlmUk2v3RS7SjiR8DsZ3TaK7txh2qX01oc=;
+ b=pc9h+9WjcIIXUwyCgRMntXS/HQTaecDa+yFbwywOntbSHK0vKgmvn/Mb5oOUEcxxzN
+ dk5fQ3e0W4fxgUyqcDJgU9KWb4KfmlXQxNl+w53f/7pGoSw+kvO73mP2d61RH0ER9ihZ
+ eYP8L1WZf3wehuNJ1lMJH2MmhrzD0PODbN5rV9TVNEDl+o3/Z8F2owb0AC/T5eDChm38
+ cguRSyDgWbnL2YebZvZIgxzm6QhtMFJk229Ug6Z/QzaJa4ouc5tJElRfR3UVcVeJsMVp
+ AAvcYtrPPsYuHjIdWR0Iqn6G2ZxjxIe1TB6nAJRBE5jrhWFgQXhF2xXHOut3d8sGkRia
+ HgUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=QthBx0S31GUuylmSYQH/l+lHXCuRpcqu5N0yv+/c2vU=;
- b=dQPpOMrzb6z7lioWQOpSE0HskSVigOd+vjmngZqCeA2clnYK4gdMCP003oBfxztSuP
- M+zd/DvsIM0Zv3A+g/VQEMgvaBbXAKFBaaJymZ8FOodPBN7pquAe+eJvFrGbOX1AuB1l
- iXQdof9M6A68fm6Elqt4Kf08/RWNRTumvPfcYH1B13PjztIK0lA5Yn5xIKShS5AIQtHD
- 5Gp6OuM3bLrhFDSpayWiZZQN2712lWmnWkamrsCNujJA2I4RDExV+jWyi4yJXDbe99E5
- iA76juHb/a+veDuow8TllRbceErjjcLj4x7fr41lQblznFI/p4Bq89BNWbXAf4idCEip
- iLgA==
-X-Gm-Message-State: AOAM533gUCSuLBJaYsUcttGhuNl9r48hYJnHLrezqO1xadx1JZgPARiL
- JUmkqFXX7mmUq6Bp769B58wPu920MsClqiDu
-X-Google-Smtp-Source: ABdhPJxUMww+wHAqzr4gXSlPpmAq4GvaxH0XbVcbjX8Q9ORaDZ9oaxpk/Rf/V6sSqPvtsORekQyIDQ==
-X-Received: by 2002:a05:651c:2ca:: with SMTP id
- f10mr37139933ljo.211.1629910598588; 
- Wed, 25 Aug 2021 09:56:38 -0700 (PDT)
+ bh=mVDf2DTleQlmUk2v3RS7SjiR8DsZ3TaK7txh2qX01oc=;
+ b=OlTDgG7jcLYOjV29TkDTQX7FdQJZktlZT5DcOGwCmWHXQLMZHkPZJByPzzdpAqT4Do
+ dKPxgWSGK/vyz7FUoSuGTh/UZsHF+pANI3cKD+F5XmAZprHILO1/jx74kNScimFyKmN6
+ lP9ovm/1psqWp7/2DpFADYByYAfuS337f2FVUzbTpinZM4Iho7M75CRABpjUbO70DpYO
+ Zr7zreeM1ORKiUoLJDmPP9XKg/boSHhp8dwACAenkNpUAYtxp4cHytcvXcI+kn4xTwRH
+ 0M9h1vheqexXOXdNQhTnAwkkxn26CzaaSjQFLN41A5jzIln6cTkvsg+uX9yNkk3aWndg
+ j4EQ==
+X-Gm-Message-State: AOAM5300bulLY+ZFtLYwlnCvS5xy1sluelFm519MmJfvfu16nlhO6EGe
+ 59PkutG5w6g/OmjRlAD6AZ4OwVyRr/cawpc2
+X-Google-Smtp-Source: ABdhPJzHFiTx60pgPyo+O4fFvTyqjQbxJXqsZL9vxLf5BfM9g6bFg5noqAmm+2KNqt5EYZfmEudwdA==
+X-Received: by 2002:a05:6512:3189:: with SMTP id
+ i9mr547768lfe.419.1629910599282; 
+ Wed, 25 Aug 2021 09:56:39 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
- by smtp.gmail.com with ESMTPSA id i8sm55686lfl.280.2021.08.25.09.56.37
+ by smtp.gmail.com with ESMTPSA id i8sm55686lfl.280.2021.08.25.09.56.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 09:56:38 -0700 (PDT)
+ Wed, 25 Aug 2021 09:56:39 -0700 (PDT)
 From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 02/14] target/riscv: Reassign instructions to the
- Zba-extension
-Date: Wed, 25 Aug 2021 18:56:22 +0200
-Message-Id: <20210825165634.32935-3-philipp.tomsich@vrull.eu>
+Subject: [PATCH v5 03/14] target/riscv: slli.uw is only a valid encoding if
+ shamt first in 64 bits
+Date: Wed, 25 Aug 2021 18:56:23 +0200
+Message-Id: <20210825165634.32935-4-philipp.tomsich@vrull.eu>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210825165634.32935-1-philipp.tomsich@vrull.eu>
 References: <20210825165634.32935-1-philipp.tomsich@vrull.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::235;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lj1-x235.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x12a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,11 +91,17 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following instructions are part of Zba:
- - add.uw (RV64 only)
- - sh[123]add (RV32 and RV64)
- - sh[123]add.uw (RV64-only)
- - slli.uw (RV64-only)
+For RV64, the shamt field in slli.uw is 6 bits wide. While the encoding
+space currently reserves a wider shamt-field (for use is a future RV128
+ISA), setting the additional bit to 1 will not map to slli.uw for RV64
+and needs to be treated as an illegal instruction.
+
+Note that this encoding being reserved for a future RV128 does not imply
+that no other instructions for RV64-only could be added in this encoding
+space in the future.
+
+As the implementation is separate from the gen_shifti helpers, we keep
+it that way and add the check for the shamt-width here.
 
 Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
@@ -104,126 +110,33 @@ Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 (no changes since v3)
 
 Changes in v3:
-- The changes to the Zba instructions (i.e. the REQUIRE_ZBA macro
-  and its use for qualifying the Zba instructions) are moved into
-  a separate commit.
+- Instead of defining a new decoding format, we treat slli.uw as if it
+  had a 7bit-wide field for shamt (the 7th bit is reserved for RV128)
+  and check for validity of the encoding in C code.
 
- target/riscv/insn32.decode              | 20 ++++++++++++--------
- target/riscv/insn_trans/trans_rvb.c.inc | 17 ++++++++++++-----
- 2 files changed, 24 insertions(+), 13 deletions(-)
+ target/riscv/insn_trans/trans_rvb.c.inc | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index f09f8d5faf..68b163b72d 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -659,6 +659,18 @@ vamomaxd_v      10100 . . ..... ..... 111 ..... 0101111 @r_wdvm
- vamominud_v     11000 . . ..... ..... 111 ..... 0101111 @r_wdvm
- vamomaxud_v     11100 . . ..... ..... 111 ..... 0101111 @r_wdvm
- 
-+# *** RV32 Zba Standard Extension ***
-+sh1add     0010000 .......... 010 ..... 0110011 @r
-+sh2add     0010000 .......... 100 ..... 0110011 @r
-+sh3add     0010000 .......... 110 ..... 0110011 @r
-+
-+# *** RV64 Zba Standard Extension (in addition to RV32 Zba) ***
-+add_uw     0000100 .......... 000 ..... 0111011 @r
-+sh1add_uw  0010000 .......... 010 ..... 0111011 @r
-+sh2add_uw  0010000 .......... 100 ..... 0111011 @r
-+sh3add_uw  0010000 .......... 110 ..... 0111011 @r
-+slli_uw    00001 ............ 001 ..... 0011011 @sh
-+
- # *** RV32B Standard Extension ***
- clz        011000 000000 ..... 001 ..... 0010011 @r2
- ctz        011000 000001 ..... 001 ..... 0010011 @r2
-@@ -686,9 +698,6 @@ ror        0110000 .......... 101 ..... 0110011 @r
- rol        0110000 .......... 001 ..... 0110011 @r
- grev       0110100 .......... 101 ..... 0110011 @r
- gorc       0010100 .......... 101 ..... 0110011 @r
--sh1add     0010000 .......... 010 ..... 0110011 @r
--sh2add     0010000 .......... 100 ..... 0110011 @r
--sh3add     0010000 .......... 110 ..... 0110011 @r
- 
- bseti      00101. ........... 001 ..... 0010011 @sh
- bclri      01001. ........... 001 ..... 0010011 @sh
-@@ -717,10 +726,6 @@ rorw       0110000 .......... 101 ..... 0111011 @r
- rolw       0110000 .......... 001 ..... 0111011 @r
- grevw      0110100 .......... 101 ..... 0111011 @r
- gorcw      0010100 .......... 101 ..... 0111011 @r
--sh1add_uw  0010000 .......... 010 ..... 0111011 @r
--sh2add_uw  0010000 .......... 100 ..... 0111011 @r
--sh3add_uw  0010000 .......... 110 ..... 0111011 @r
--add_uw     0000100 .......... 000 ..... 0111011 @r
- 
- bsetiw     0010100 .......... 001 ..... 0011011 @sh5
- bclriw     0100100 .......... 001 ..... 0011011 @sh5
-@@ -731,4 +736,3 @@ roriw      0110000 .......... 101 ..... 0011011 @sh5
- greviw     0110100 .......... 101 ..... 0011011 @sh5
- gorciw     0010100 .......... 101 ..... 0011011 @sh5
- 
--slli_uw    00001. ........... 001 ..... 0011011 @sh
 diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index 9e81f6e3de..3cdd70a2b9 100644
+index 3cdd70a2b9..dcc7b6893d 100644
 --- a/target/riscv/insn_trans/trans_rvb.c.inc
 +++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -1,8 +1,9 @@
- /*
-- * RISC-V translation routines for the RVB Standard Extension.
-+ * RISC-V translation routines for the RVB draft and Zba Standard Extension.
-  *
-  * Copyright (c) 2020 Kito Cheng, kito.cheng@sifive.com
-  * Copyright (c) 2020 Frank Chang, frank.chang@sifive.com
-+ * Copyright (c) 2021 Philipp Tomsich, philipp.tomsich@vrull.eu
-  *
-  * This program is free software; you can redistribute it and/or modify it
-  * under the terms and conditions of the GNU General Public License,
-@@ -17,6 +18,12 @@
-  * this program.  If not, see <http://www.gnu.org/licenses/>.
-  */
+@@ -430,6 +430,15 @@ static bool trans_slli_uw(DisasContext *ctx, arg_slli_uw *a)
+     REQUIRE_64BIT(ctx);
+     REQUIRE_ZBA(ctx);
  
-+#define REQUIRE_ZBA(ctx) do {                    \
-+    if (!RISCV_CPU(ctx->cs)->cfg.ext_zba) {      \
-+        return false;                            \
-+    }                                            \
-+} while (0)
++    /*
++     * The shamt field is only 6 bits for RV64 (with the 7th bit
++     * remaining reserved for RV128).  If the reserved bit is set
++     * on RV64, the encoding is illegal.
++     */
++    if (a->shamt >= TARGET_LONG_BITS) {
++        return false;
++    }
 +
- static bool trans_clz(DisasContext *ctx, arg_clz *a)
- {
-     REQUIRE_EXT(ctx, RVB);
-@@ -229,7 +236,7 @@ static bool trans_gorci(DisasContext *ctx, arg_gorci *a)
- #define GEN_TRANS_SHADD(SHAMT)                                             \
- static bool trans_sh##SHAMT##add(DisasContext *ctx, arg_sh##SHAMT##add *a) \
- {                                                                          \
--    REQUIRE_EXT(ctx, RVB);                                                 \
-+    REQUIRE_ZBA(ctx);                                                      \
-     return gen_arith(ctx, a, gen_sh##SHAMT##add);                          \
- }
- 
-@@ -403,7 +410,7 @@ static bool trans_sh##SHAMT##add_uw(DisasContext *ctx,        \
-                                     arg_sh##SHAMT##add_uw *a) \
- {                                                             \
-     REQUIRE_64BIT(ctx);                                       \
--    REQUIRE_EXT(ctx, RVB);                                    \
-+    REQUIRE_ZBA(ctx);                                         \
-     return gen_arith(ctx, a, gen_sh##SHAMT##add_uw);          \
- }
- 
-@@ -414,14 +421,14 @@ GEN_TRANS_SHADD_UW(3)
- static bool trans_add_uw(DisasContext *ctx, arg_add_uw *a)
- {
-     REQUIRE_64BIT(ctx);
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBA(ctx);
-     return gen_arith(ctx, a, gen_add_uw);
- }
- 
- static bool trans_slli_uw(DisasContext *ctx, arg_slli_uw *a)
- {
-     REQUIRE_64BIT(ctx);
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBA(ctx);
- 
      TCGv source1 = tcg_temp_new();
      gen_get_gpr(source1, a->rs1);
+ 
 -- 
 2.25.1
 
