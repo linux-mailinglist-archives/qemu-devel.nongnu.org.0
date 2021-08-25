@@ -2,49 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 110763F746E
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 13:36:24 +0200 (CEST)
-Received: from localhost ([::1]:36578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 807DA3F7473
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 13:39:51 +0200 (CEST)
+Received: from localhost ([::1]:41594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIrCh-0002tn-42
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 07:36:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58402)
+	id 1mIrG2-0006G9-1q
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 07:39:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1mIr2v-0000xn-4D
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 07:26:17 -0400
-Received: from proxmox-new.maurer-it.com ([94.136.29.106]:9519)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mIrBA-0000of-7y; Wed, 25 Aug 2021 07:34:48 -0400
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:52681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1mIr2s-00061O-H5
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 07:26:16 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 22F2C4389F;
- Wed, 25 Aug 2021 13:26:11 +0200 (CEST)
-Subject: Re: [PATCH 2/2] monitor: allow VNC related QMP and HMP commands to
- take a display ID
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-References: <20210825093701.668122-1-s.reiter@proxmox.com>
- <20210825093701.668122-3-s.reiter@proxmox.com>
- <CAJ+F1CKf5icfpA4X_kHQQJGfiHj+dvct9OqEvtOQ2UD4WPCbtw@mail.gmail.com>
-From: Stefan Reiter <s.reiter@proxmox.com>
-Message-ID: <4400f41b-4ecc-9340-a20d-8acdaae033be@proxmox.com>
-Date: Wed, 25 Aug 2021 13:26:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mIrB8-0003PG-HC; Wed, 25 Aug 2021 07:34:48 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.west.internal (Postfix) with ESMTP id CAC6432009C8;
+ Wed, 25 Aug 2021 07:34:43 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Wed, 25 Aug 2021 07:34:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=XgSlKUw/SZVY0bBTCIHeIayhISu
+ PMtF7mULE0GbA/0U=; b=kNqI75WpekpnNV9wkpj3LqUeEdxjE9EhAjrZR79VEPZ
+ wnnm1xOw/gN2CSGKnW7I/+3bWmVrcdIHiwvran3zXtsLWvp9a8shuj9RkFfKc94Y
+ aQlFFgmHyywJ1SeQYG3zXQ7vUyzeqfIynOAlup5raLpA7y5pBpTJX8hYCE+mFSUr
+ uL9GyKtsKDeAMOnUNWikaYCwalTzdFTFk/mAivhBjztnfdGm1jPlrcP/Sn+jkEh0
+ FOuZ5XZBUJKVXbZbP2IBbbAvmrpC+Jb7qaOLtfexMCIX6B/D6aJRDtturB6Rr6bU
+ CV9m5Q5XB4g+4e7f6jiYY7iSW/G07H3ju8Z8Uc2eglg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=XgSlKU
+ w/SZVY0bBTCIHeIayhISuPMtF7mULE0GbA/0U=; b=Q+AxyAg6CuH9/uzOhrYU3+
+ 9v7z3mHNZRydIXe6WvTp9toArQaphYoA46jnGFvEUYQo2wPrkLBJ0aJIIJ57MFFW
+ Htk2WWozpILYVMyKlvruc7Irwk9ukOnR+8EgYLJtSmCeETYEMPwu0x6VUUbFG3+q
+ Cig8wLd5qpAV2MXQSQ78ZORCPCF0fnqCS88I1nZYDz46qhhhKDVoES0TccQTHK24
+ T/iqiVaxayqxeZ3Ib0sTrWCJWhvFQcfjeli7OZrm29/13aGsCTJ+T3jsGHY0DTAV
+ Pmijnmp3UN1nCs2H3XrHd4i7yjDeoPvIb2eDYK6aRBqOiiTo6nbKRI6v0wkdqtTw
+ ==
+X-ME-Sender: <xms:0iomYduuaxhM5Zg59lPhwWlVSgnv5Mo68kpx1n5hmYOJI0YT9rhQCA>
+ <xme:0iomYWdRzIjXKjJJ6xDXkeL_JN3wugsR-JIIGcADdi95NBHFaooAGkBRdyswjtnm2
+ YrUxNr8mMdw_pFvVtU>
+X-ME-Received: <xmr:0iomYQyLdSQhV6EmkAcTHxyQKlKm6qetW_tDBR-gGyrZKoX0g66RzFvRm2McyUKRv3afLdSxM8qRnGEdGtSoDPyz3FsC1ARrM-A9vnR43ZDKoDhteA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddtledggedvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtdorredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeeuueffiefhgffgteehjeeiveeludfhteffhfehiefgheetjeeitedvtdegvdeh
+ tdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:0iomYUNo7PzMioHGNFNP881knVqgjEn8-UYGANe9x3DxceeNITFMNA>
+ <xmx:0iomYd9aXIrcnYMfKHj_Kp0gE7x-TJ6s4lMH1j3qvV82k0DzD392Qw>
+ <xmx:0iomYUWncYvrf2yttWdy69RoHrv5ii8VBiAfmdwVYjmWZQZ7b_wtrA>
+ <xmx:0yomYWMDmcnEVoXtuYxEc39Dz7xg2Zf7GtHK-5APTZraidg13h1amg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 25 Aug 2021 07:34:40 -0400 (EDT)
+Date: Wed, 25 Aug 2021 13:34:39 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 7/9] util/vfio-helpers: Have qemu_vfio_dma_map()
+ propagate Error
+Message-ID: <YSYqzxZfZbmnVvRo@apples.localdomain>
+References: <20210824141142.1165291-1-philmd@redhat.com>
+ <20210824141142.1165291-8-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CKf5icfpA4X_kHQQJGfiHj+dvct9OqEvtOQ2UD4WPCbtw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=94.136.29.106; envelope-from=s.reiter@proxmox.com;
- helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.24,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="KtK62iw1ZbxmogmW"
+Content-Disposition: inline
+In-Reply-To: <20210824141142.1165291-8-philmd@redhat.com>
+Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
+ helo=wout4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,263 +94,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>, QEMU <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Auger Eric <eric.auger@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/25/21 12:59 PM, Marc-André Lureau wrote:
-> Hi
-> 
-> On Wed, Aug 25, 2021 at 1:39 PM Stefan Reiter <s.reiter@proxmox.com> wrote:
-> 
->> It is possible to specify more than one VNC server on the command line,
->> either with an explicit ID or the auto-generated ones à la "default",
->> "vnc2", "vnc3", ...
->>
->> It is not possible to change the password on one of these extra VNC
->> displays though. Fix this by adding a "display" parameter to the
->> 'set_password' and 'expire_password' QMP and HMP commands.
->>
->> For HMP, this is a bit trickier, since at least 'set_password' already
->> has the 'connected' parameter following the mandatory 'password' one, so
->> we need to prefix the display ID with "id=" to allow correct parsing.
->>
-> 
-> It's not something done with other commands afaik, feels a bit awkward (the
-> "connected = display"...).
->
 
-Indeed, if there is a better way I'd love to use it.
+--KtK62iw1ZbxmogmW
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-One idea I had was making the parameter 'connected' OR 'display', since
-the former only supports 'keep' for VNC anyway - but that introduces a
-weird double-meaning again.
-  
-> Is it really necessary to add support for HMP?
-> 
+On Aug 24 16:11, Philippe Mathieu-Daud=C3=A9 wrote:
+> Now that all qemu_vfio_dma_map() callers provide an Error* argument,
+> fill it with relevant / more descriptive message. Reduce 'ret'
+> (returned value) scope by returning errno directly to simplify
+> (removing the goto / 'out' label).
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  block/nvme.c        |  1 +
+>  util/vfio-helpers.c | 31 ++++++++++++++-----------------
+>  2 files changed, 15 insertions(+), 17 deletions(-)
+>=20
+> diff --git a/block/nvme.c b/block/nvme.c
+> index 663e5d918fa..80546b0babd 100644
+> --- a/block/nvme.c
+> +++ b/block/nvme.c
+> @@ -240,6 +240,7 @@ static NVMeQueuePair *nvme_create_queue_pair(BDRVNVMe=
+State *s,
+>      r =3D qemu_vfio_dma_map(s->vfio, q->prp_list_pages, bytes,
+>                            false, &prp_list_iova, errp);
+>      if (r) {
+> +        error_prepend(errp, "Cannot map buffer for DMA: ");
 
-For us it would be, as we provide an easy HMP interface to our users, but
-not a QMP one, so it ended up being a bit of a regression with 6.0.
+Ah. Here is the missing error message that I noticed in patch 2 ;)
 
->> With this prefix, no existing command or workflow should be affected.
->>
->> While rewriting the descriptions, also remove the line "Use zero to make
->> the password stay valid forever." from 'set_password', I believe this was
->> intended for 'expire_password', but would even be wrong there.
->>
->> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
->> ---
->>   hmp-commands.hx    | 28 +++++++++++++++-------------
->>   monitor/hmp-cmds.c | 20 ++++++++++++++++++--
->>   monitor/qmp-cmds.c |  9 +++++----
->>   qapi/ui.json       | 12 ++++++++++--
->>   4 files changed, 48 insertions(+), 21 deletions(-)
->>
->> diff --git a/hmp-commands.hx b/hmp-commands.hx
->> index e01ca13ca8..0b5abcfb8a 100644
->> --- a/hmp-commands.hx
->> +++ b/hmp-commands.hx
->> @@ -1541,34 +1541,36 @@ ERST
->>
->>       {
->>           .name       = "set_password",
->> -        .args_type  = "protocol:s,password:s,connected:s?",
->> -        .params     = "protocol password action-if-connected",
->> +        .args_type  = "protocol:s,password:s,display:s?,connected:s?",
->> +        .params     = "protocol password [id=display]
->> [action-if-connected]",
->>           .help       = "set spice/vnc password",
->>           .cmd        = hmp_set_password,
->>       },
->>
->>   SRST
->> -``set_password [ vnc | spice ] password [ action-if-connected ]``
->> -  Change spice/vnc password.  Use zero to make the password stay valid
->> -  forever.  *action-if-connected* specifies what should happen in
->> +``set_password [ vnc | spice ] password [ id=display ] [
->> action-if-connected ]``
->> +  Change spice/vnc password.  *display* (must be prefixed with
->> +  'id=') can be used with 'vnc' to specify which display to set the
->> +  password on.  *action-if-connected* specifies what should happen in
->>     case a connection is established: *fail* makes the password change
->> -  fail.  *disconnect* changes the password and disconnects the
->> -  client.  *keep* changes the password and keeps the connection up.
->> -  *keep* is the default.
->> +  fail.  *disconnect* changes the password and disconnects the client.
->> +  *keep* changes the password and keeps the connection up.  *keep* is
->> +  the default.
->>   ERST
->>
->>       {
->>           .name       = "expire_password",
->> -        .args_type  = "protocol:s,time:s",
->> -        .params     = "protocol time",
->> +        .args_type  = "protocol:s,time:s,display:s?",
->> +        .params     = "protocol time [id=display]",
->>           .help       = "set spice/vnc password expire-time",
->>           .cmd        = hmp_expire_password,
->>       },
->>
->>   SRST
->> -``expire_password [ vnc | spice ]`` *expire-time*
->> -  Specify when a password for spice/vnc becomes
->> -  invalid. *expire-time* accepts:
->> +``expire_password [ vnc | spice ] expire-time [ id=display ]``
->> +  Specify when a password for spice/vnc becomes invalid.
->> +  *display* behaves the same as in ``set_password``.
->> +  *expire-time* accepts:
->>
->>     ``now``
->>       Invalidate password instantly.
->> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
->> index 31366e6331..30f5b2c3e3 100644
->> --- a/monitor/hmp-cmds.c
->> +++ b/monitor/hmp-cmds.c
->> @@ -1546,10 +1546,20 @@ void hmp_set_password(Monitor *mon, const QDict
->> *qdict)
->>   {
->>       const char *protocol  = qdict_get_str(qdict, "protocol");
->>       const char *password  = qdict_get_str(qdict, "password");
->> +    const char *display = qdict_get_try_str(qdict, "display");
->>       const char *connected = qdict_get_try_str(qdict, "connected");
->>       Error *err = NULL;
->>
->> -    qmp_set_password(protocol, password, !!connected, connected, &err);
->> +    if (display && strncmp(display, "id=", 3)) {
->> +        connected = display;
->> +        display = NULL;
->> +    } else if (display) {
->> +        /* skip "id=" */
->> +        display = display + 3;
->> +    }
->> +
->> +    qmp_set_password(protocol, password, !!connected, connected,
->> !!display,
->> +                     display, &err);
->>       hmp_handle_error(mon, err);
->>   }
->>
->> @@ -1557,9 +1567,15 @@ void hmp_expire_password(Monitor *mon, const QDict
->> *qdict)
->>   {
->>       const char *protocol  = qdict_get_str(qdict, "protocol");
->>       const char *whenstr = qdict_get_str(qdict, "time");
->> +    const char *display = qdict_get_try_str(qdict, "display");
->>       Error *err = NULL;
->>
->> -    qmp_expire_password(protocol, whenstr, &err);
->> +    if (display && !strncmp(display, "id=", 3)) {
->> +        /* skip "id=" */
->> +        display = display + 3;
->> +    }
->> +
->> +    qmp_expire_password(protocol, whenstr, !!display, display, &err);
->>       hmp_handle_error(mon, err);
->>   }
->>
->> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
->> index f7d64a6457..a9ded90a41 100644
->> --- a/monitor/qmp-cmds.c
->> +++ b/monitor/qmp-cmds.c
->> @@ -165,7 +165,8 @@ void qmp_system_wakeup(Error **errp)
->>   }
->>
->>   void qmp_set_password(const char *protocol, const char *password,
->> -                      bool has_connected, const char *connected, Error
->> **errp)
->> +                      bool has_connected, const char *connected,
->> +                      bool has_display, const char *display, Error **errp)
->>   {
->>       int disconnect_if_connected = 0;
->>       int fail_if_connected = 0;
->> @@ -198,7 +199,7 @@ void qmp_set_password(const char *protocol, const char
->> *password,
->>           }
->>           /* Note that setting an empty password will not disable login
->> through
->>            * this interface. */
->> -        rc = vnc_display_password(NULL, password);
->> +        rc = vnc_display_password(has_display ? display : NULL, password);
->>       } else {
->>           error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "protocol",
->>                      "'vnc' or 'spice'");
->> @@ -211,7 +212,7 @@ void qmp_set_password(const char *protocol, const char
->> *password,
->>   }
->>
->>   void qmp_expire_password(const char *protocol, const char *whenstr,
->> -                         Error **errp)
->> +                         bool has_display, const char *display, Error
->> **errp)
->>   {
->>       time_t when;
->>       int rc;
->> @@ -232,7 +233,7 @@ void qmp_expire_password(const char *protocol, const
->> char *whenstr,
->>           }
->>           rc = qemu_spice.set_pw_expire(when);
->>       } else if (strcmp(protocol, "vnc") == 0) {
->> -        rc = vnc_display_pw_expire(NULL, when);
->> +        rc = vnc_display_pw_expire(has_display ? display : NULL, when);
->>       } else {
->>           error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "protocol",
->>                      "'vnc' or 'spice'");
->> diff --git a/qapi/ui.json b/qapi/ui.json
->> index 16bf03224f..24dca811f8 100644
->> --- a/qapi/ui.json
->> +++ b/qapi/ui.json
->> @@ -25,6 +25,9 @@
->>   #             'disconnect' to disconnect existing clients
->>   #             'keep' to maintain existing clients
->>   #
->> +# @display: In case of VNC, the id of the display where the password
->> +#           should be changed. Defaults to the first.
->> +#
->>   # Returns: - Nothing on success
->>   #          - If Spice is not enabled, DeviceNotFound
->>   #
->> @@ -38,7 +41,8 @@
->>   #
->>   ##
->>   { 'command': 'set_password',
->> -  'data': {'protocol': 'str', 'password': 'str', '*connected': 'str'} }
->> +  'data': {'protocol': 'str', 'password': 'str', '*connected': 'str',
->> +           '*display': 'str'} }
->>
->>   ##
->>   # @expire_password:
->> @@ -54,6 +58,9 @@
->>   #        - '+INT' where INT is the number of seconds from now (integer)
->>   #        - 'INT' where INT is the absolute time in seconds
->>   #
->> +# @display: In case of VNC, the id of the display where the password
->> +#           should be set to expire. Defaults to the first.
->> +#
->>   # Returns: - Nothing on success
->>   #          - If @protocol is 'spice' and Spice is not active,
->> DeviceNotFound
->>   #
->> @@ -71,7 +78,8 @@
->>   # <- { "return": {} }
->>   #
->>   ##
->> -{ 'command': 'expire_password', 'data': {'protocol': 'str', 'time':
->> 'str'} }
->> +{ 'command': 'expire_password',
->> +  'data': {'protocol': 'str', 'time': 'str', '*display': 'str'} }
->>
->>   ##
->>   # @screendump:
->> --
->> 2.30.2
->>
->>
->>
->>
-> 
+>          goto fail;
+>      }
+>      q->free_req_head =3D -1;
+> diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
+> index 3e1a49bea15..f4c16e1dae5 100644
+> --- a/util/vfio-helpers.c
+> +++ b/util/vfio-helpers.c
+> @@ -729,7 +729,6 @@ qemu_vfio_find_temp_iova(QEMUVFIOState *s, size_t siz=
+e, uint64_t *iova)
+>  int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, size_t size,
+>                        bool temporary, uint64_t *iova, Error **errp)
+>  {
+> -    int ret =3D 0;
+>      int index;
+>      IOVAMapping *mapping;
+>      uint64_t iova0;
+> @@ -742,32 +741,34 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host,=
+ size_t size,
+>      if (mapping) {
+>          iova0 =3D mapping->iova + ((uint8_t *)host - (uint8_t *)mapping-=
+>host);
+>      } else {
+> +        int ret;
+> +
+>          if (s->high_water_mark - s->low_water_mark + 1 < size) {
+> -            ret =3D -ENOMEM;
+> -            goto out;
+> +            error_setg(errp, "iova exhausted (water mark reached)");
+> +            return -ENOMEM;
+>          }
+>          if (!temporary) {
+> -            if (qemu_vfio_find_fixed_iova(s, size, &iova0)) {
+> -                ret =3D -ENOMEM;
+> -                goto out;
+> +            if (qemu_vfio_find_fixed_iova(s, size, &iova0) < 0) {
+> +                error_setg(errp, "iova range not found");
+> +                return -ENOMEM;
 
+Just curious.
+
+Previously this did error_setg_errno in out. Why don't we want to do that h=
+ere?
+
+>              }
+> =20
+>              mapping =3D qemu_vfio_add_mapping(s, host, size, index + 1, =
+iova0);
+>              assert(qemu_vfio_verify_mappings(s));
+>              ret =3D qemu_vfio_do_mapping(s, host, size, iova0);
+> -            if (ret) {
+> +            if (ret < 0) {
+>                  qemu_vfio_undo_mapping(s, mapping, NULL);
+> -                goto out;
+> +                return ret;
+>              }
+>              qemu_vfio_dump_mappings(s);
+>          } else {
+>              if (qemu_vfio_find_temp_iova(s, size, &iova0)) {
+> -                ret =3D -ENOMEM;
+> -                goto out;
+> +                error_setg(errp, "iova range not found");
+> +                return -ENOMEM;
+>              }
+>              ret =3D qemu_vfio_do_mapping(s, host, size, iova0);
+> -            if (ret) {
+> -                goto out;
+> +            if (ret < 0) {
+> +                return ret;
+>              }
+>          }
+>      }
+> @@ -775,11 +776,7 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, =
+size_t size,
+>      if (iova) {
+>          *iova =3D iova0;
+>      }
+> -out:
+> -    if (ret) {
+> -        error_setg_errno(errp, -ret, "Cannot map buffer for DMA");
+> -    }
+> -    return ret;
+> +    return 0;
+>  }
+> =20
+>  /* Reset the high watermark and free all "temporary" mappings. */
+> --=20
+> 2.31.1
+>=20
+>=20
+
+--=20
+One of us - No more doubt, silence or taboo about mental illness.
+
+--KtK62iw1ZbxmogmW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmEmKs0ACgkQTeGvMW1P
+Denh8Af/QmV5eJ+7hYGMqM3LRCYcB3f3JrPjQg+xDi1VdfWw/BVPYEwHRi4Qecxw
+WNhK72KpsfE1UA3dab6gVcKMJeoKmq/pNGOjrnR2jLhYLz9E/NZyBPdm9qAWvijn
+O/dX1jVKUI0vW1wthhjW1SouN5UWN6Xriu0K5i+WJCN5TlEFQXY5I3jVzlk8SsbJ
+7WixdjWba4b2wFA4AEuq3zO0rQ/vw7Sx6MEWN6+xFLtWV8zN1iaucIB/ntkdjaJi
+Dkk8Ami76ygyMJ+hR113tTTLC5oN2C7NJcn/JkLlS3jgLFA/JGJSb5c5GS3IqYHd
+o1HCmhqK+G7+4gRo+zY2TceZriC1vw==
+=3NKX
+-----END PGP SIGNATURE-----
+
+--KtK62iw1ZbxmogmW--
 
