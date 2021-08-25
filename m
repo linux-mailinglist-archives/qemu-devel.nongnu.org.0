@@ -2,97 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931F63F7DBC
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 23:29:26 +0200 (CEST)
-Received: from localhost ([::1]:49034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 214D23F7DC4
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 23:33:50 +0200 (CEST)
+Received: from localhost ([::1]:52170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJ0SR-0003jf-1B
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 17:29:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37646)
+	id 1mJ0Wq-00062R-Um
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 17:33:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mJ0RI-0002OX-Um
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 17:28:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32448)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mJ0W6-0005Mo-0v
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 17:33:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52329)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mJ0RG-0004Hz-C9
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 17:28:04 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mJ0W3-0007bo-GM
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 17:33:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629926880;
+ s=mimecast20190719; t=1629927178;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ns31E8TMqXqoYRXzI9Qt4OOYd1Cc+I1EIm22XWDyEGo=;
- b=Hs1WfEC7kS1DdRSTWf2Z6uBO3YAoPoF/IzetHWQ+7EkH8gDw3f4OfcK/olP5nQ4luzgMdb
- 2WjUTLQ6Btf4h6EwbZxVpASxVCjiwTJL9RvckekllyqGY9LQl/3U5Qza6O49JuP5yixdvE
- mS6TUk1bzYJyLgjTt6VQfdIPA/lguB8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-ABFEEhAINgaX95ybiiClrg-1; Wed, 25 Aug 2021 17:27:59 -0400
-X-MC-Unique: ABFEEhAINgaX95ybiiClrg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o3-20020a05600c510300b002e6dd64e896so1408801wms.1
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 14:27:59 -0700 (PDT)
+ bh=ed8p008cyMdWcpiUjZYJGYeA8qWUgjfoEQYhGE+IEz4=;
+ b=Tq58bXP7c2fxE7OFfKet8sa4/5n/5JqTJ5l5WE2T26ienn0HqRbjRNsVhumq7R5eSNH/Z0
+ eGu19l2Bzo2p/BQ+HjB/Okeo1UpL/POyGQQQteZuM3A0XE2UYeOc/VIwp3pEYEs7onvFp9
+ wGQ6+wombo4XZVTtrpFMZ9dgd8Dxzuc=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-186-z0zn8hWJOq6lDHweQgfUSQ-1; Wed, 25 Aug 2021 17:32:54 -0400
+X-MC-Unique: z0zn8hWJOq6lDHweQgfUSQ-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ j23-20020ac86657000000b0029cb70967ebso533075qtp.14
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 14:32:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ns31E8TMqXqoYRXzI9Qt4OOYd1Cc+I1EIm22XWDyEGo=;
- b=Cf6Cwn6Tbl+vGaF+syYkFX88hwZ2SvByqWq/e+RrvsDB0DyqQ5cFMz/7IiZpIrlkXH
- tWFyVQ5W6cmoKEmzhPJPgEieK9S3K2cgRN2LJ+5WuR+o4/HlQ6VWfvvlXX3p8ev0H0yr
- wRg5UT6CaDZnZzZDvkGIw8ZdntnEVRAKzB8Uj20o1+u3JNl9zWsA+Hdx8EQeukZSW33z
- NsreyjUKeuNFYHgwLyiJI9PBPOWzYKnR0pffZQtkLr7XiHyq6r5EAY7ieSPCSUtOi2QD
- zJ7pXQQkLha80EF+fH3II0PSuRMgWa8O/61+llnOGb+3VRAys8eOn/aZvDeodum9PzyV
- /k1Q==
-X-Gm-Message-State: AOAM531MLsDaKJ5etc7T/dZk0KMb3Skxt6uGzMXz3pkip2e4lWSdYoGa
- M2dtYUaLEWA/Pq95E5cN/b67cUSnBTnG8yVqFn7/W86d1a9rPfJ+tScJoQDR1rbv+9pfQOKnqXF
- akJXc3zVmsMgrsVc=
-X-Received: by 2002:a05:6000:18a:: with SMTP id
- p10mr223916wrx.40.1629926877733; 
- Wed, 25 Aug 2021 14:27:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz07zflatcaYhKt7lBs82itSfyrjKJoGv6YyCjRxxmfyNabJY8GOkzj3Ja6kSmXRFRzlQvjLQ==
-X-Received: by 2002:a05:6000:18a:: with SMTP id
- p10mr223903wrx.40.1629926877557; 
- Wed, 25 Aug 2021 14:27:57 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id n8sm1067529wra.24.2021.08.25.14.27.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Aug 2021 14:27:57 -0700 (PDT)
-Subject: Re: [PATCH 02/19] host-utils: move abs64() to host-utils
-To: Eduardo Habkost <ehabkost@redhat.com>,
- Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>
-References: <20210824142730.102421-1-luis.pires@eldorado.org.br>
- <20210824142730.102421-3-luis.pires@eldorado.org.br> <YSW8TigYwJVIrd5w@yekko>
- <CP2PR80MB36683DC7E9BEEA136FD0DD5EDAC69@CP2PR80MB3668.lamprd80.prod.outlook.com>
- <20210825202638.2vtjxcsau2cghbr3@habkost.net>
- <CP2PR80MB3668D3C0F23858EE7D4610F5DAC69@CP2PR80MB3668.lamprd80.prod.outlook.com>
- <20210825211805.cn6iodnnibn2vd6i@habkost.net>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d155f139-2ebf-df38-2fbd-432255d696be@redhat.com>
-Date: Wed, 25 Aug 2021 23:27:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ed8p008cyMdWcpiUjZYJGYeA8qWUgjfoEQYhGE+IEz4=;
+ b=OopXhVI1haRoiz90M7VzzA8+I4WDs8tM6WOi8Oq9LoSvp1DFlE/8MFA9cp53FwilVF
+ 3T97DzpwxaYHD59e1NQpsiMTjnKFSjRoB1C6XEU9mZvSQi79W1S/ExnG0cgbgiPS8yz2
+ NGXEAORrLwVeQMAxUVtAGvGjf6r5Hz8sM7FHKJMBZaWjJtZZ7NQq96FCv7yGk/tMAxic
+ qQKw7H09iQJ+eYF2fo+ZN/Lzb54T1miyAU3HfIw91M+YjhRT32gyTpwQCwm6zxRKFWoI
+ h1cTP3jC3ceyAB/3BPB8W6RKnuWsEUqX2h9bGyTs1w76Dk4x2WBn7jG9hwwQ9lF2gmBg
+ 3OHQ==
+X-Gm-Message-State: AOAM532ZXlUQEpocwG887g0Twq5nTLMZxwvC0/iggbcEV41rEoZzJ3pn
+ GAQAF2T78rfXKSXxAxmEDjdcZggxk2IzHtb340jSlA6csHqDwIvzU/TF4XbUfFzYvAtToEkMLxZ
+ 4FmvTPGupdhbOjH8=
+X-Received: by 2002:ac8:7118:: with SMTP id z24mr306016qto.281.1629927174360; 
+ Wed, 25 Aug 2021 14:32:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwRfZL7ArTaoK4MZihkFL2Ygl2EFQLIJ44E0k293vArWw9arY/2VoWxNf2Lu6SKM1O5zo2lJQ==
+X-Received: by 2002:ac8:7118:: with SMTP id z24mr305990qto.281.1629927174025; 
+ Wed, 25 Aug 2021 14:32:54 -0700 (PDT)
+Received: from t490s ([2607:fea8:56a3:500::d413])
+ by smtp.gmail.com with ESMTPSA id c27sm919590qkp.5.2021.08.25.14.32.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Aug 2021 14:32:53 -0700 (PDT)
+Date: Wed, 25 Aug 2021 17:32:52 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 0/2] dump-guest-memory: Add blocker for migration
+Message-ID: <YSa3BAyTZJ/L0Few@t490s>
+References: <20210824152721.79747-1-peterx@redhat.com>
+ <87zgt66jtn.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20210825211805.cn6iodnnibn2vd6i@habkost.net>
+In-Reply-To: <87zgt66jtn.fsf@dusky.pond.sub.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.745,
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.745,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.24, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,44 +92,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "groug@kaod.org" <groug@kaod.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Andrew Jones <drjones@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ David Gibson <dgibson@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/25/21 11:18 PM, Eduardo Habkost wrote:
-> On Wed, Aug 25, 2021 at 08:37:17PM +0000, Luis Fernando Fujita Pires wrote:
->> From: Eduardo Habkost <ehabkost@redhat.com>
->>
->>>> Right, that's true of any standard implementation of abs().
->>>> I thought about making it return uint64_t, but that could make it
->>>> weird for other uses of abs64(), where callers wouldn't expect a type
->>>> change from int64_t to uint64_t. Maybe create a separate uabs64() that
->>>> returns uint64_t? Or is that even weirder? :)
->>>
->>> Which users of abs64 would expect it to return int64_t?
->>> kvm_pit_update_clock_offset() doesn't seem to.
->>
->> Oh, I wasn't referring to any specific users. What I meant is
->> that, if we make abs64() generically available from host-utils,
->> callers could expect it to behave the same way as abs() in
->> stdlib, for example.
-> 
-> That would be surprising, but do you think there are cases where
-> that would be a bad surprise?
-> 
-> I don't think anybody who is aware of the abs(INT_MIN),
-> labs(LONG_MIN), and llabs(LLONG_MIN) edge cases actually _like_
-> that behaviour.
-> 
-> If you really want to avoid surprises, providing a saner function
-> with a different name seems better than trying to emulate the
-> edge cases of abs()/labs()/llabs().
+Markus,
 
-Agreed. See do_strtosz() for example.
+On Wed, Aug 25, 2021 at 09:54:12AM +0200, Markus Armbruster wrote:
+> Peter Xu <peterx@redhat.com> writes:
+> 
+> > Both dump-guest-memory and live migration have vm state cached internally.
+> > Allowing them to happen together means the vm state can be messed up.  Simply
+> > block live migration for dump-guest-memory.
+> >
+> > One trivial thing to mention is we should still allow dump-guest-memory even if
+> > -only-migratable is specified, because that flag should majorly be used to
+> > guarantee not adding devices that will block migration by accident.  Dump guest
+> > memory is not like that - it'll only block for the seconds when it's dumping.
+> 
+> I recently ran into a similarly unusual use of migration blockers:
+> 
+>     Subject: -only-migrate and the two different uses of migration blockers
+>      (was: spapr_events: Sure we may ignore migrate_add_blocker() failure?)
+>     Date: Mon, 19 Jul 2021 13:00:20 +0200 (5 weeks, 1 day, 20 hours ago)
+>     Message-ID: <87sg0amuuz.fsf_-_@dusky.pond.sub.org>
+> 
+>     We appear to use migration blockers in two ways:
+> 
+>     (1) Prevent migration for an indefinite time, typically due to use of
+>     some feature that isn't compatible with migration.
+> 
+>     (2) Delay migration for a short time.
+> 
+>     Option -only-migrate is designed for (1).  It interferes with (2).
+> 
+>     Example for (1): device "x-pci-proxy-dev" doesn't support migration.  It
+>     adds a migration blocker on realize, and deletes it on unrealize.  With
+>     -only-migrate, device realize fails.  Works as designed.
+> 
+>     Example for (2): spapr_mce_req_event() makes an effort to prevent
+>     migration degrate the reporting of FWNMIs.  It adds a migration blocker
+>     when it receives one, and deletes it when it's done handling it.  This
+>     is a best effort; if migration is already in progress by the time FWNMI
+>     is received, we simply carry on, and that's okay.  However, option
+>     -only-migrate sabotages the best effort entirely.
+> 
+>     While this isn't exactly terrible, it may be a weakness in our thinking
+>     and our infrastructure.  I'm bringing it up so the people in charge are
+>     aware :)
+> 
+> https://lists.nongnu.org/archive/html/qemu-devel/2021-07/msg04723.html
+> 
+> Downthread there, Dave Gilbert opined
+> 
+>     It almost feels like they need a way to temporarily hold off
+>     'completion' of migratio - i.e. the phase where we stop the CPU and
+>     write the device data;  mind you you'd also probably want it to stop
+>     cold-migrates/snapshots?
+
+Yeah, maybe spapr_mce_req_event() can be another candidate of the internal
+version of migration_add_blocker().
+
+I can add a patch to replace it if anyone likes me to.
+
+Both cold and live snapshot should have checked migration blockers, I think.
+E.g., cold snapshot has:
+
+bool save_snapshot(const char *name, bool overwrite, const char *vmstate,
+                  bool has_devices, strList *devices, Error **errp)
+{
+    [...]
+    if (migration_is_blocked(errp)) {
+        return false;
+    }
+    [...]
+}
+
+While the live snapshot shares similar code in migrate_prepare().
+
+So looks safe that nothing wrong should happen within add/del pair of blockers.
+
+However I do see that it's possible we'll allow the add_blocker to succeed even
+if during cold snapshot, because migration_is_idle() in migration_add_blocker()
+only checks migration state, not RUN_STATE_SAVE_VM.  So I'm wondering whether
+we'd like one more patch to cover that too, like:
+
+---8<---
+diff --git a/migration/migration.c b/migration/migration.c
+index 41429680c2..9c602a4ac1 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2055,15 +2055,16 @@ void migrate_init(MigrationState *s)
+ 
+ int migrate_add_blocker_internal(Error *reason, Error **errp)
+ {
+-    if (migration_is_idle()) {
+-        migration_blockers = g_slist_prepend(migration_blockers, reason);
+-        return 0;
++    /* Snapshots are similar to migrations, so check RUN_STATE_SAVE_VM too. */
++    if (runstate_check(RUN_STATE_SAVE_VM) || !migration_is_idle()) {
++        error_propagate_prepend(errp, error_copy(reason),
++                                "disallowing migration blocker "
++                                "(migration in progress) for: ");
++        return -EBUSY;
+     }
+ 
+-    error_propagate_prepend(errp, error_copy(reason),
+-                            "disallowing migration blocker "
+-                            "(migration in progress) for: ");
+-    return -EBUSY;
++    migration_blockers = g_slist_prepend(migration_blockers, reason);
++    return 0;
+ }
+ 
+ int migrate_add_blocker(Error *reason, Error **errp)
+---8<---
+
+It'll by accident also cover guest dump which also sets RUN_STATE_SAVE_VM, but
+I think that's ok.
+
+Thanks,
+
+-- 
+Peter Xu
 
 
