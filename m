@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57C313F75CE
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:22:42 +0200 (CEST)
-Received: from localhost ([::1]:57800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58FD53F75DC
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:27:53 +0200 (CEST)
+Received: from localhost ([::1]:51594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIsrZ-0008Ip-Cl
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:22:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53908)
+	id 1mIswa-0006QT-Ec
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:27:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mIspn-0005Dk-SO; Wed, 25 Aug 2021 09:20:51 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:40487)
+ id 1mIssj-000614-UO
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:23:55 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:35659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mIspm-0000gn-8O; Wed, 25 Aug 2021 09:20:51 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id h4so6248759wro.7;
- Wed, 25 Aug 2021 06:20:49 -0700 (PDT)
+ id 1mIssi-0001ma-1D
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:23:53 -0400
+Received: by mail-wr1-x434.google.com with SMTP id i6so12698999wrv.2
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 06:23:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/KdQXas9va79JOV4T3BgQ0mUfBENCmT1YqzASFi4ArE=;
- b=cf7pLArjoH4kX3Hmy/1pd0Yv2t+Ykq5wkmoPEvfjK/UhL6DNr8PwVbGho6cJpPT1U2
- xffbCTTyWCgglNqnRRp4KdqmbOF7g2zFsJslfz9A0xQCvZC35TD+6J0AV569CRU+kawx
- Oq8bmhYOoLNimEJYylA5068LxfZcxbLr+Py9XG+DmU0uoFSBeKK/lE4uO4iWuIIl+2us
- +kkXnDg0iuMyofGYcOHvcmxmlrGy51elgGQyJWiOvzqT6PUAIkgwEywfFl0mrWeNfty1
- tfW7FzXJBQYkk5xjJOuwYWk4TVQn4ksRp9VZuv2OWCsRYmU9e1esH29A6O5njbZiJak0
- G9Qw==
+ bh=nb2VvcoYaGTDo/HfJHjthVQ593NKDPkOd+oltdinJmk=;
+ b=T/cc8EGjXr1HGVRSVQBc+GoWujTIGiEaVtc9ZWCvQiWM2p0MqfVVUTj37399wlse0q
+ yn5f3gA37QlCjH3llj/Goqc3wssd/4+Asp255tUCbJ8DgUWut/O9um/BY/u6KAn5KDFL
+ 1k8ZBHaQWQLHsv34Nv+ERf+f/kl+N9vo/wh5BAka19jKmcy8fTWlAb1dMIAHxgDXVqQu
+ R0pFKec1Y8H8lOMD254FbrGr007k/rj6ImNUo6/93HX2/TFvP7ZmR685gAi0WQwbaqtD
+ YdnROPhpAiWNg7vSazTd0Sg4FAT7AwmP2rrQwR1kk9oNVnSnpCSCVJFNF7qvd8ZP+Eax
+ klfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/KdQXas9va79JOV4T3BgQ0mUfBENCmT1YqzASFi4ArE=;
- b=RECnZLjNe2hoXZ3DI7Qn9E35zb6XBMMCy1pAqNNYOq5tIg0jP+4E58BGlzlsqqkd8e
- PKXl/HJC7mx3kAyUpxBrkirNwSFOZd7ORr2HReo0O6r/auScRSGMMt9ymFV+Y3S3v/Z4
- uzPPNYxfehc/NtYxXgFiLgkWkxwP1JprPMWI3FCEJIyZm2pmMCWLrjQ0MRHUCCopzpl5
- kAhdYdcGtDRgATrmhRQZvFoHQr/oC7ECV3I4dLxhYESfoEijwvA+7RcVBe91Lag2a258
- NR1ALJSFuFsMYNsPxY3WiE7xI1UK6QNzWMHgEM6MB5ApzLc6FuM9eTY2pFCuKG7/b5my
- aAdQ==
-X-Gm-Message-State: AOAM531CV9G5TxKZa9lIccGe82xyPVvaXii15++THp6VeyXbmoQvK89X
- ifjuQZyyasEBcjD1JBZMOoA=
-X-Google-Smtp-Source: ABdhPJx1avHzX5d5aBnv1vJHpd9oEg7R9Mluu0eA9PNSeqjW1AJ3f7j8VUf1dIzbmROmk2Nb9OOFZQ==
-X-Received: by 2002:a5d:634f:: with SMTP id b15mr5179970wrw.220.1629897648468; 
- Wed, 25 Aug 2021 06:20:48 -0700 (PDT)
+ bh=nb2VvcoYaGTDo/HfJHjthVQ593NKDPkOd+oltdinJmk=;
+ b=NYrjEsvSL7bBqP9HRlLUK6Er3cdTBX+6Pd6DhvJQAHuri2fCJOQKB1f/cu8MRE1enh
+ KzrfkmRToRr17l0nyy1CrnScAWs5VaHGvj2h02dwcJIi0D0mNbQWz03tFjNWYkynyalY
+ 5kYeaaRfzlMV+tJd6QaiopprH8YPAr3DJFOlUK38+H3FN3ZsCLD3X1aI2o6v6cx/RPiW
+ +S2Hn9HqDA+aV2ZADuTXAw8pEO26Tr9xlxWijokgXrpiot3+lurU16vJeWFHqGStozm/
+ A9waAOwhm0RATlcxiCUF7FS8bbnlWDKF/qx00zcZlO7uA7LHVYtLJC0/cXHW3M0jMi5I
+ UzZQ==
+X-Gm-Message-State: AOAM533x0tLUKWOJFYWu3kDszuauW/gjn4HZyoje4bo78KtnbxJsFRaT
+ +Pu08LlXVCpKxSnv8zDi0QNCTGUReME=
+X-Google-Smtp-Source: ABdhPJy4fMR8Fy9L+iEqfMEMxNw1vose64b5cSbCjrOYmCJC6tUbCabh2i51xscEAQ29QRULFIWMvw==
+X-Received: by 2002:adf:cc92:: with SMTP id p18mr18816696wrj.98.1629897830148; 
+ Wed, 25 Aug 2021 06:23:50 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id f5sm5289572wmb.47.2021.08.25.06.20.47
+ by smtp.gmail.com with ESMTPSA id c13sm17311989wru.73.2021.08.25.06.23.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Aug 2021 06:20:47 -0700 (PDT)
-Subject: Re: [PATCH 19/19] target/ppc: Move ddedpd[q], denbcd[q], dscli[q],
- dscri[q] to decodetree
-To: Luis Pires <luis.pires@eldorado.org.br>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20210824142730.102421-1-luis.pires@eldorado.org.br>
- <20210824142730.102421-20-luis.pires@eldorado.org.br>
+ Wed, 25 Aug 2021 06:23:49 -0700 (PDT)
+Subject: Re: [PATCH] RFC: build-sys: drop dtc submodule
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20210825124309.223622-1-marcandre.lureau@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <92265fb3-dc67-c505-114a-b9926d907a44@amsat.org>
-Date: Wed, 25 Aug 2021 15:20:46 +0200
+Message-ID: <c79fb3c7-e6cc-adea-b694-ffe1f25c0d59@amsat.org>
+Date: Wed, 25 Aug 2021 15:23:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210824142730.102421-20-luis.pires@eldorado.org.br>
+In-Reply-To: <20210825124309.223622-1-marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -36
 X-Spam_score: -3.7
 X-Spam_bar: ---
@@ -89,34 +88,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, groug@kaod.org, david@gibson.dropbear.id.au
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/24/21 4:27 PM, Luis Pires wrote:
-> Move the following instructions to decodetree:
-> ddedpd:  DFP Decode DPD To BCD
-> ddedpdq: DFP Decode DPD To BCD Quad
-> denbcd:  DFP Encode BCD To DPD
-> denbcdq: DFP Encode BCD To DPD Quad
-> dscli:   DFP Shift Significand Left Immediate
-> dscliq:  DFP Shift Significand Left Immediate Quad
-> dscri:   DFP Shift Significand Right Immediate
-> dscriq:  DFP Shift Significand Right Immediate Quad
+On 8/25/21 2:43 PM, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> Also deleted dfp-ops.c.inc, now that all PPC DFP instructions were
-> moved to decodetree.
+> DTC is widely available, we could consider to stop bundling it.
 > 
-> Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
+> curl -s 'https://repology.org/api/v1/project/dtc' |  \
+>    jq -r 'group_by(.repo) | .[] | "\(.[0].repo): \(map(.version))"' | \
+>    egrep -i 'ubuntu_18|debian_old|rhel|centos|bsd|suse_leap_15_2|sles|homebrew|pkgsrc'
+> 
+> centos_8: ["1.6.0","1.6.0"]
+> debian_oldstable: ["1.4.7"]
+> freebsd: ["1.6.0"]
+> homebrew: ["1.6.1"]
+> openbsd: ["1.6.0"]
+> opensuse_leap_15_2: ["1.5.1","1.5.1"]
+> pkgsrc_current: ["1.4.7"]
+> ubuntu_18_04: ["1.4.5"]
+> 
+> MinGW package on Fedora pending review.
+> (https://bugzilla.redhat.com/show_bug.cgi?id=1997511)
+> 
+> Debian is lacking the MinGW package.
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 > ---
->  target/ppc/dfp_helper.c             | 16 ++++-----
->  target/ppc/helper.h                 | 16 ++++-----
->  target/ppc/insn32.decode            | 28 +++++++++++++++
->  target/ppc/translate.c              |  2 --
->  target/ppc/translate/dfp-impl.c.inc | 54 +++++++++++++----------------
->  target/ppc/translate/dfp-ops.c.inc  | 40 ---------------------
->  6 files changed, 68 insertions(+), 88 deletions(-)
->  delete mode 100644 target/ppc/translate/dfp-ops.c.inc
+>  configure         | 22 +-------------------
+>  meson.build       | 53 ++++++++---------------------------------------
+>  .gitmodules       |  3 ---
+>  dtc               |  1 -
+>  meson_options.txt |  3 ---
+>  5 files changed, 10 insertions(+), 72 deletions(-)
+>  delete mode 160000 dtc
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Does this fix https://gitlab.com/qemu-project/qemu/-/issues/255 ?
+"Build on sparc64 fails with "undefined reference to `fdt_check_full'"
 
