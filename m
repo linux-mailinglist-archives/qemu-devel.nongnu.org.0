@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BBFB3F7C9A
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 21:17:56 +0200 (CEST)
-Received: from localhost ([::1]:39686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28BC33F7CA3
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 21:21:24 +0200 (CEST)
+Received: from localhost ([::1]:42062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIyPL-0004SH-4H
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 15:17:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44070)
+	id 1mIySh-00065K-8T
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 15:21:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mIyOV-0003mo-FD
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 15:17:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33252)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mIyRh-0005RC-NM
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 15:20:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mIyOS-00088D-Rm
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 15:17:02 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mIyRf-0001sk-6x
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 15:20:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629919019;
+ s=mimecast20190719; t=1629919218;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IkObWBi9l8HL/AbeGFvRADINCLc5mjk9i3mtxOG9JTc=;
- b=YzXWQxks3FqePJAaHxaiAcmdBmj7bv96COYVRbyXdj95yiQYNAsI8HgQyPMxgrKt3BIoFW
- MJXKnAL8occZCwhuOkAKTep/TWFTVYpx8toc/t7J70t5Bx8MVgieQSyGjE6c88btxIgkZQ
- ujwSgl2wNfvLUSrg+WsOSZw+yNC8tpg=
+ bh=JFJRc3pEHJESuaVj3XH96GD7wDo6iJGw3btejJvZEzA=;
+ b=gsuy6ceuwx0zgyCozlQMMm1iVGjDEGF+f6tbSdrX4HOXKKPCbPTao8jgzYRLGf2Z7UXeJD
+ PJF/9NWrvFkK3nsG86LBBkNVTI4Tg2XNFeuR0OD9+wovD5s4UPqMaX6+QTWpFZq2Vw1XbJ
+ Os1p4cwiRWPtrf+9l+IMP8j8B2k3UPM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-M63kDGihPPC9WdRJLqIGeA-1; Wed, 25 Aug 2021 15:16:55 -0400
-X-MC-Unique: M63kDGihPPC9WdRJLqIGeA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-587-8e5nw9ofMxS5336VLRDipw-1; Wed, 25 Aug 2021 15:20:17 -0400
+X-MC-Unique: 8e5nw9ofMxS5336VLRDipw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BC9B107ACF5;
- Wed, 25 Aug 2021 19:16:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C3DC107ACF5;
+ Wed, 25 Aug 2021 19:20:16 +0000 (UTC)
 Received: from redhat.com (ovpn-112-96.phx2.redhat.com [10.3.112.96])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9148E5F724;
- Wed, 25 Aug 2021 19:16:45 +0000 (UTC)
-Date: Wed, 25 Aug 2021 14:16:43 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EFD126A057;
+ Wed, 25 Aug 2021 19:20:07 +0000 (UTC)
+Date: Wed, 25 Aug 2021 14:20:06 -0500
 From: Eric Blake <eblake@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+To: Stefan Reiter <s.reiter@proxmox.com>
 Subject: Re: [PATCH 2/2] monitor: allow VNC related QMP and HMP commands to
  take a display ID
-Message-ID: <20210825191643.lrgdf3t2l34vflzj@redhat.com>
+Message-ID: <20210825192006.jklsbrdc43cojctq@redhat.com>
 References: <20210825093701.668122-1-s.reiter@proxmox.com>
  <20210825093701.668122-3-s.reiter@proxmox.com>
  <CAJ+F1CKf5icfpA4X_kHQQJGfiHj+dvct9OqEvtOQ2UD4WPCbtw@mail.gmail.com>
+ <4400f41b-4ecc-9340-a20d-8acdaae033be@proxmox.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CKf5icfpA4X_kHQQJGfiHj+dvct9OqEvtOQ2UD4WPCbtw@mail.gmail.com>
+In-Reply-To: <4400f41b-4ecc-9340-a20d-8acdaae033be@proxmox.com>
 User-Agent: NeoMutt/20210205-739-420e15
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -82,62 +81,39 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>, QEMU <qemu-devel@nongnu.org>,
- Stefan Reiter <s.reiter@proxmox.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 25, 2021 at 02:59:06PM +0400, Marc-André Lureau wrote:
-> > For HMP, this is a bit trickier, since at least 'set_password' already
-> > has the 'connected' parameter following the mandatory 'password' one, so
-> > we need to prefix the display ID with "id=" to allow correct parsing.
-> >
+On Wed, Aug 25, 2021 at 01:26:09PM +0200, Stefan Reiter wrote:
+> > It's not something done with other commands afaik, feels a bit awkward (the
+> > "connected = display"...).
+> > 
 > 
-> It's not something done with other commands afaik, feels a bit awkward (the
-> "connected = display"...).
+> Indeed, if there is a better way I'd love to use it.
 > 
-> Is it really necessary to add support for HMP?
+> One idea I had was making the parameter 'connected' OR 'display', since
+> the former only supports 'keep' for VNC anyway - but that introduces a
+> weird double-meaning again.
 
-What's more, we have explicitly documented that HMP is not stable.  We
-don't need to bend over backwards to keep old HMP command lines
-working if it is saner to just rearrange the command to our new
-liking.  You could also supply the display via a flag argument
-(set_password -d vnc2 password) instead of trying to place it in a
-positional argument.
+That's not too bad.  See for example hmp_hostfwd_add, which merely
+names its two arguments arg1 and arg2. Naming your argument 'arg'
+instead of 'connected' or 'display' lets you interpret it in whatever
+context-sensitive manner is easiest for your use case.
 
-> > +++ b/hmp-commands.hx
-> > @@ -1541,34 +1541,36 @@ ERST
-> >
-> >      {
-> >          .name       = "set_password",
-> > -        .args_type  = "protocol:s,password:s,connected:s?",
-> > -        .params     = "protocol password action-if-connected",
-> > +        .args_type  = "protocol:s,password:s,display:s?,connected:s?",
-> > +        .params     = "protocol password [id=display]
-> > [action-if-connected]",
-> >          .help       = "set spice/vnc password",
-> >          .cmd        = hmp_set_password,
-> >      },
-> >
-> >  SRST
-> > -``set_password [ vnc | spice ] password [ action-if-connected ]``
-> > -  Change spice/vnc password.  Use zero to make the password stay valid
-> > -  forever.  *action-if-connected* specifies what should happen in
-> > +``set_password [ vnc | spice ] password [ id=display ] [
-> > action-if-connected ]``
-> > +  Change spice/vnc password.  *display* (must be prefixed with
-> > +  'id=') can be used with 'vnc' to specify which display to set the
-> > +  password on.  *action-if-connected* specifies what should happen in
-> >    case a connection is established: *fail* makes the password change
-> > -  fail.  *disconnect* changes the password and disconnects the
-> > -  client.  *keep* changes the password and keeps the connection up.
-> > -  *keep* is the default.
-> > +  fail.  *disconnect* changes the password and disconnects the client.
-> > +  *keep* changes the password and keeps the connection up.  *keep* is
-> > +  the default.
+> > Is it really necessary to add support for HMP?
+> > 
+> 
+> For us it would be, as we provide an easy HMP interface to our users, but
+> not a QMP one, so it ended up being a bit of a regression with 6.0.
+
+Okay, you do have a point that until users can reliably use QMP to do
+the same, then keeping pre-existing HMP commands working is
+worthwhile.  But long-term HMP stability is not an end goal.
 
 -- 
 Eric Blake, Principal Software Engineer
