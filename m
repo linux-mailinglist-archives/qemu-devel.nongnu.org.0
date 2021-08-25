@@ -2,94 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65DEE3F7401
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 13:05:34 +0200 (CEST)
-Received: from localhost ([::1]:41198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B9CA3F73C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 12:54:23 +0200 (CEST)
+Received: from localhost ([::1]:55528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIqim-0007DR-El
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 07:05:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49966)
+	id 1mIqXs-0003yV-4c
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 06:54:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mIqMm-0006wl-HK
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:42:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55176)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mIqMg-0001Uw-2R
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:42:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629888156;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VzrMdMPASI8I1Edhtl1bHZc4JooM5N1zZUUJRj9RkGM=;
- b=XjTe6/x1fGG+khdtGllYhAYiK/hPN0g8OxByj4Vzs4bIY60u/UCOGGzE1p2xgJUoCIRboK
- aZDbg0E7ikjr/avHveLvXSUB9ROmVGu4UdE47kLMsE3nmz2N2NcGBvkSiwbxKwqGJucKCB
- rLWsE7epDFYjpMrkeyGl58v4W/N4PvI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-BlUAowi7P7iS_pGb3t3uDQ-1; Wed, 25 Aug 2021 06:42:35 -0400
-X-MC-Unique: BlUAowi7P7iS_pGb3t3uDQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- p10-20020a5d68ca000000b001552bf8b9daso6467573wrw.22
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 03:42:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mIqN2-0007Ta-PU
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:43:00 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:45054)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mIqN1-0001iA-03
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:43:00 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id n11so7072870edv.11
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 03:42:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=O1QNCoZZ+JjKsLFNTuScSEkInMFGF3/4bgLFm9jv+fw=;
+ b=jKTYJkXycfDAKnVwv1YsPPNVTcG6N+2tohOzLBBycCJ3gBgIbCNi36ZYVW0MT+vOwT
+ h0uhVW4j/e2RvqLgGgojxdr4gYK1v6fd7WWUdoIfU2NPa7gjURMxy50o5WzSZndbZQ1B
+ xOjf7QwDB7XtIMVR3FUAqF2a1Owj+dDSjrEtd5/XRaMGXIWmTQ0zEiR8eNRIiLXc5lUC
+ oUmosF7onAx4xshCMogwq1Fts4Xr9RPjCHkGnMz3b9TMH0uaOD21qeuXq/Aesg5lC7Gu
+ xMxzLdo9IHQ0ZoHeOZX8S3Ilm5ni5C8svW+zO5XIwqLDqMUKOqBD9jH8JOM2X621zd7g
+ QElQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VzrMdMPASI8I1Edhtl1bHZc4JooM5N1zZUUJRj9RkGM=;
- b=CS1UUJt4ufKkI8yDRKAis58DMV8c+u1YBPXeREbCisUCr6RZT6nlLmvp5xxI48nb8J
- 3VOhlCFU83dqI17WuXnyIkylFhbc5v4WAkGVoiiU8Rn/Cl/ba85gmRqildJ2np8tr3EY
- BGyahQbgLSmE1ALkg6ZcLX3nDPwjpQvXw0sdayVt+BKOx+QUrj+ivhiQDgweunwUDbwV
- A6Fw0nhZZWephUuFOs6Llu+DUPBNTwP1Xnm/FpCY94bp8ZBeKOLjd1osynf2Ln+/aZog
- 2ACIzRaI3MJ/cnvNXlpN9MsH2xiQA7Z8Jt4+dhWP739ug98yUpeUmRUIiHAug7SXQw0V
- tZkg==
-X-Gm-Message-State: AOAM532fFYhylVkaYOlHRdHhEKhP3X9pap892Q2sPAyAbmES73BQPQ0+
- bC76lMxqzeCjB3QM14BwUTtEZPyoH36/AUGIIVmRehYkX9rzmNsy+HhcVzuQSEsiDkKSqgLFD/O
- wSmKtQysHRJ7XO8U=
-X-Received: by 2002:a05:600c:35d1:: with SMTP id
- r17mr8599674wmq.175.1629888154369; 
- Wed, 25 Aug 2021 03:42:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyNKjFFD9hP87t4f53vDapIOlxDPwuDwItoTEMh5RuAv7jL7aZhj7ulAICK0OR78tWYNycdmw==
-X-Received: by 2002:a05:600c:35d1:: with SMTP id
- r17mr8599660wmq.175.1629888154087; 
- Wed, 25 Aug 2021 03:42:34 -0700 (PDT)
-Received: from thuth.remote.csb (p5791d7bc.dip0.t-ipconnect.de.
- [87.145.215.188])
- by smtp.gmail.com with ESMTPSA id u10sm20733844wrt.14.2021.08.25.03.42.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Aug 2021 03:42:33 -0700 (PDT)
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210812180403.4129067-1-berrange@redhat.com>
- <20210812180403.4129067-3-berrange@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 2/2] gitlab: don't run CI jobs by default on push to user
- forks
-Message-ID: <627a5199-c92d-b002-e7cf-8b5258c3aac8@redhat.com>
-Date: Wed, 25 Aug 2021 12:42:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=O1QNCoZZ+JjKsLFNTuScSEkInMFGF3/4bgLFm9jv+fw=;
+ b=POfPbvgXNr2FLdSsWYTxSX7rARzPxd1gDuCG+2PPMTox1B/XsDwOA4lnpwuJOz6ILs
+ YkrpHIL68GHGU4vTHnFpOzJ01BcinZaEbibmnf1bmiQsKCiKrqpHKcnsa3tpXPbhskws
+ C9gctuXodmBfdM7lwFHBHJYPQXmKbGEK2v1xJc1Bef45HNzxZ1qUX8qnQ1XUKmTDmD4m
+ pc7pp2v/kO10d6IBQYxOk2mGRIbqN/kU0GQjmMlsk99Ve49wfI6SHED0mA3/Id5oE503
+ lqq1U8TmxI1K1f42xIVWqofrW7ig+62yGKS230t6ibMfFoO6TAMzw05vN3FVSuH2ScCJ
+ Cd7A==
+X-Gm-Message-State: AOAM5315zKYyJRcPHJ3LUdnv2pnGtNN6a4cE5G0TckMWBcymK28szhaH
+ DEa0QayU/9VF26pzz4otevdmST6yFAxSEoSwyAE=
+X-Google-Smtp-Source: ABdhPJx0/xT+1CmddDEo+3T1JU7wphojFtL+bjagCdaa1PWvSQocF1hicKdmGysd/nJ7M/eWFZ3b/GMzouFkCJKqRrQ=
+X-Received: by 2002:aa7:d9d3:: with SMTP id v19mr12460094eds.257.1629888176917; 
+ Wed, 25 Aug 2021 03:42:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210812180403.4129067-3-berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.305, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210825093701.668122-1-s.reiter@proxmox.com>
+ <20210825093701.668122-2-s.reiter@proxmox.com>
+In-Reply-To: <20210825093701.668122-2-s.reiter@proxmox.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 25 Aug 2021 14:42:45 +0400
+Message-ID: <CAJ+F1CJd5jHV9YLEchiPkQmKkp-pu9AaR_hgDgKpYUjFAK7N3g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] monitor/hmp: correctly invert password argument
+ detection again
+To: Stefan Reiter <s.reiter@proxmox.com>
+Content-Type: multipart/alternative; boundary="000000000000cf0f8005ca5fe943"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,126 +78,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>, QEMU <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--000000000000cf0f8005ca5fe943
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-(meta note: patch does not apply anymore and needs to be refreshed)
+Hi
 
-On 12/08/2021 20.04, Daniel P. Berrangé wrote:
-[...]
-> diff --git a/.gitlab-ci.d/rules.yml b/.gitlab-ci.d/rules.yml
-> new file mode 100644
-> index 0000000000..3399722ca9
-> --- /dev/null
-> +++ b/.gitlab-ci.d/rules.yml
-> @@ -0,0 +1,116 @@
-> +
-> +# This defines rules used to control individual job execution
-> +# See docs/devel/ci-jobs.rst for an explanation of the various
-> +# variables and branch naming conventions applied here.
-> +#
-> +.job_rules:
-> +  rules:
-> +    # ======================================================================
-> +    # Rules that apply regardless of whether the primary qemu repo or a fork
-> +    # ======================================================================
-> +
-> +    # Skip any cirrus job if either repo or api token are missing
-> +    # as we won't be able to talk to cirrus
-> +    - if: '$CIRRUS_VM_INSTANCE_TYPE && ($CIRRUS_GITHUB_REPO == null || $CIRRUS_API_TOKEN == null)'
-> +      when: never
-> +
-> +    # Any jobs marked as manual, never get automatically run in any scenario
-> +    # and don't contribute to pipeline status
-> +    - if: '$QEMU_JOB_MANUAL'
-> +      when: manual
-> +      allow_failure: true
-> +
-> +    # For the main repo, tags represent official releases.
-> +    # The branch associated with the release will have passed
-> +    # a CI pipeline already
-> +    #
-> +    # For user forks, tags are tyically added by tools like
+On Wed, Aug 25, 2021 at 1:38 PM Stefan Reiter <s.reiter@proxmox.com> wrote:
 
-s/tyically/typically/
+> Commit cfb5387a1d 'hmp: remove "change vnc TARGET" command' claims to
+> remove the HMP "change vnc" command, but doesn't actually do that.
+> Instead if rewires it to use 'qmp_change_vnc_password', and in the
+> process inverts the argument detection - ignoring the first issue, this
+> inversion is wrong, as this will now ask the user for a password if one
+> is already provided, and simply fail if none is given.
+>
+> Fixes: cfb5387a1d ("hmp: remove "change vnc TARGET" command")
+> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+>
 
-> +    # git-publish at the same time as pushing the branch prior
-> +    # to sending out for review
-> +    #
-> +    # In neither case do we wish to run CI pipelines for tags
-> +    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_TAG'
-> +      when: never
+Oh.. hmp, hear me please!
 
-Not sure whether I like this rule ... First, tags are very seldom compared 
-to normal pushes to branches, so this should not affect us that much. 
-Second, I think it might be good for "documentation" purposes to be able to 
-say that the CI ran properly for a certain tag. Ok, you could still look it 
-up in the push to a branch that might have happened before, but that's 
-cumbersome. Just my 0.02 €.
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-> +
-> +    # ====================================
-> +    # Rules for running jobs in user forks
-> +    # ====================================
-> +
-> +    # Part 1: gating jobs
-> +    # -------------------
-> +
-> +    # If on a branch with name prefix 'ci-acceptance-', then run
-> +    # everything, just as a gating job on 'staging' branch would
-> +    - if: '$CI_COMMIT_BRANCH =~ /^ci-gating-/'
-> +      when: on_success
-> +
-> +    # If user set QEMU_CI_GATING=1, then run everything just as
-> +    # a gating job on 'staging' branch would
-> +    - if: '$QEMU_CI_GATING'
-> +      when: on_success
-> +
-> +    # Otherwise never run jobs marked as gating, but allow manual trigger
-> +    # without affecting pipeline status
-> +    - if: '$QEMU_JOB_GATING'
-> +      when: manual
-> +      allow_failure: true
+---
+>  monitor/hmp-cmds.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> index f7a211e5a4..31366e6331 100644
+> --- a/monitor/hmp-cmds.c
+> +++ b/monitor/hmp-cmds.c
+> @@ -1591,7 +1591,7 @@ void hmp_change(Monitor *mon, const QDict *qdict)
+>          }
+>          if (strcmp(target, "passwd") =3D=3D 0 ||
+>              strcmp(target, "password") =3D=3D 0) {
+> -            if (arg) {
+> +            if (!arg) {
+>                  MonitorHMP *hmp_mon =3D container_of(mon, MonitorHMP,
+> common);
+>                  monitor_read_password(hmp_mon, hmp_change_read_arg, NULL=
+);
+>                  return;
+> --
+> 2.30.2
+>
+>
+>
+>
 
-IMHO if it's "gating", then we should not use "allow_failure: true", no 
-matter whether the job is manual or not. Otherwise this is very confusing.
+--=20
+Marc-Andr=C3=A9 Lureau
 
-I guess the problem is rather whether the "acceptance" tests should be 
-called "gating" or not. Currently they are in a rather gray area in the 
-gitlab-CI...
+--000000000000cf0f8005ca5fe943
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> +
-> +    # =============================================
-> +    # Part 2: opt-in for all CI, except gating jobs
-> +    # =============================================
-> +
-> +    # If pushing to a branch with name prefix 'ci-all', then run all jobs
-> +    - if: '$CI_COMMIT_BRANCH =~ /^ci-all/'
-> +      when: on_success
-> +
-> +    # If user QEMU_CI_ALL=1, then run all jobs
-> +    - if: '$QEMU_CI_ALL'
-> +      when: on_success
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 25, 2021 at 1:38 PM Ste=
+fan Reiter &lt;<a href=3D"mailto:s.reiter@proxmox.com">s.reiter@proxmox.com=
+</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+Commit cfb5387a1d &#39;hmp: remove &quot;change vnc TARGET&quot; command&#3=
+9; claims to<br>
+remove the HMP &quot;change vnc&quot; command, but doesn&#39;t actually do =
+that.<br>
+Instead if rewires it to use &#39;qmp_change_vnc_password&#39;, and in the<=
+br>
+process inverts the argument detection - ignoring the first issue, this<br>
+inversion is wrong, as this will now ask the user for a password if one<br>
+is already provided, and simply fail if none is given.<br>
+<br>
+Fixes: cfb5387a1d (&quot;hmp: remove &quot;change vnc TARGET&quot; command&=
+quot;)<br>
+Signed-off-by: Stefan Reiter &lt;<a href=3D"mailto:s.reiter@proxmox.com" ta=
+rget=3D"_blank">s.reiter@proxmox.com</a>&gt;<br></blockquote><div><br></div=
+><div>Oh.. hmp, hear me please!<br></div><div><br></div><div>Reviewed-by: M=
+arc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">ma=
+rcandre.lureau@redhat.com</a>&gt;<br></div><div> <br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0monitor/hmp-cmds.c | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c<br>
+index f7a211e5a4..31366e6331 100644<br>
+--- a/monitor/hmp-cmds.c<br>
++++ b/monitor/hmp-cmds.c<br>
+@@ -1591,7 +1591,7 @@ void hmp_change(Monitor *mon, const QDict *qdict)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (strcmp(target, &quot;passwd&quot;) =
+=3D=3D 0 ||<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0strcmp(target, &quot;passwo=
+rd&quot;) =3D=3D 0) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (arg) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!arg) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MonitorHMP *h=
+mp_mon =3D container_of(mon, MonitorHMP, common);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0monitor_read_=
+password(hmp_mon, hmp_change_read_arg, NULL);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
+-- <br>
+2.30.2<br>
+<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
-Uh, so "all" is not running all jobs? ... that's confusing, too. Could you 
-come up with some better naming? QEMU_CI_CORE maybe?
-
-[...]
-> +Set variable manually when pushing to git
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   
->   Variables can be set manually when pushing a branch or tag, using
-> -git-push command line arguments.
-> +git-push command line arguments. This is useful for fine tuning the
-> +jobs on an adhoc basis.
-
-s/adhoc/ad hoc/ (I think)
-
-  Thomas
-
+--000000000000cf0f8005ca5fe943--
 
