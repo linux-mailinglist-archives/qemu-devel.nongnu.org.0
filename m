@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10CDC3F75C8
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:20:21 +0200 (CEST)
-Received: from localhost ([::1]:47670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EAD63F75F5
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:35:58 +0200 (CEST)
+Received: from localhost ([::1]:42174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIspI-00016p-3W
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:20:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53442)
+	id 1mIt4P-0002GW-CO
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:35:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mIsny-0006Gd-Ga; Wed, 25 Aug 2021 09:18:58 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:35512)
+ id 1mIsot-0001aL-7V; Wed, 25 Aug 2021 09:19:55 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38648)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mIsnu-00083e-40; Wed, 25 Aug 2021 09:18:58 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- z9-20020a7bc149000000b002e8861aff59so114884wmi.0; 
- Wed, 25 Aug 2021 06:18:53 -0700 (PDT)
+ id 1mIson-0008Ns-Ox; Wed, 25 Aug 2021 09:19:54 -0400
+Received: by mail-wr1-x433.google.com with SMTP id u16so36434273wrn.5;
+ Wed, 25 Aug 2021 06:19:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BwWgqWbNzvPcesRtGEjeSEgpB0m4rdGzaJZVfpLb1+M=;
- b=VkCg8JVUUI4QIf4Yli9/L1uWyP5X8BIqXAEpPBx7m+YsUX5d6MtaId8ufUVvflDlwB
- QVhFnOwQ4z/zcWskc4dqNeXEL7GwRDEj0RUFRpq11CO8bkkND/WKWtBLzKRcuBX/7F+n
- 0XJcElM0XA340CGpAyd8fWJthEauNux7AP9dew9AW+VyNPPJTUFVEX+ofuiFgulLGI6K
- Zt8FKRmSFXxWzCyWce4Gl0oS2uF24GfoX8lbIvIUHcbxrt5kmTbDuwhxSF6UtvdRlLjn
- /hpb1Ih7H0DLj6f80nHc5J9r8Jyv7Gu3aOFClSLNx0qWbd00TXm4y1zvuOoFv9dk57Dg
- lorg==
+ bh=4V+qDAXAAShPHx6+xqOJ3S5BoNUoTbi42ucGsipfl0s=;
+ b=W3DFFN6Z9O8jSHqf2mgN/l6SUCYLpuv461NxLbO86G3O7hIoBFLlGPNi+fn9IoUOMW
+ 5uyn6KLQ9xMI3mtlgOjstKYDZhEs487Zo15Y7NcrTUvd7K4qzXb5RziWbZWRYQh2uqL6
+ tCkwGRaHDEfe82cm+BsmwZlbneoIWThsw72c+/HGyzQGOf/MfkbNsKZtYiG7NwyoU4vG
+ TpbMZqa86Gb7fa66odpHIL1ROT0fk+6Bps6tsketqq41jU5JjbCCCSRINt8c8OkgNwLZ
+ Rjq1pkI2TLWooORHYl9gyvqsCeM4hAk2IJYYUQ4K6e4ZFM3ycKaJ2W2n9tgBWFKD4TC5
+ VRfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=BwWgqWbNzvPcesRtGEjeSEgpB0m4rdGzaJZVfpLb1+M=;
- b=Nm9OT/aCL7DnoULvNjFv9/0M90XYCnII8y1jYX5ofkbdwdRL7MjAp8v8lpRBMrjbOq
- D/rexHcgiml62EePwG5rICsGqaKHWYEN4cd6uQZ1skDPNSj69X8/Hu1XadkCRqAEBArL
- Y1yPGOiVT17t3m4ra/ygdKsnLEdwfybm36f/L4p/7NDQqunhIL+xkZK35g11cCjCqeDB
- 5j/XCKmcPxlIhM63rlPp3T4q0qq+AIHeVVyx3DuIyF8zEmbxwaGiRWm/tf9BGoA5hpUV
- 4u7mcfOL6v8m+h1RjTPq1FLHaa1XAI/9NsPMAiNPtKr0+aLFL7olIeJsnYmiZVElTBkI
- EjIQ==
-X-Gm-Message-State: AOAM531v/Kkx84+mYI/AYF+iKW5IGdCWXnY5Xc2ggcPnPDHt5vNaO4k4
- jRrGuYzbbe0c+1zi2BeugVo=
-X-Google-Smtp-Source: ABdhPJycTpk3U34xIsrU2C4mC1XDMyVl1LN9rY+jSGueL1WvxTdiMn4JiYyoHLWp/EUXwYzBBxh+NA==
-X-Received: by 2002:a05:600c:4fc6:: with SMTP id
- o6mr9597127wmq.122.1629897532547; 
- Wed, 25 Aug 2021 06:18:52 -0700 (PDT)
+ bh=4V+qDAXAAShPHx6+xqOJ3S5BoNUoTbi42ucGsipfl0s=;
+ b=ZpcGzgKAP44Td0oXO4j9QZuqD7QIwjWCGDNQbh+lxep1OvvHv1GC+vij/oCSW+bS4d
+ PrcBqCeJ9SJH+1MnqpXDXbKJKml6TDsqIV5wgXRyjLxS2618kgahDPqV0/QMAKG1+48D
+ T9Rv76y9DJfaXHIgeSCyrJ35hdLh22bZYNlGY74Db3Cl+w55Lgyl13ZJyrS++OhDNar3
+ O1UYqWI8uJWzUoM9tzP0+k7+Fc4ZIf3TkgUC/ocF5IYDHzb7+I1dRXPCzHT46/5Leu9b
+ 60/d0b3No8nOwAR+GRYIL6P8wIhTEPRCX9fpPvhHHjDZBaN1KBTLE8VKRdd9dZKOvxhQ
+ kmkA==
+X-Gm-Message-State: AOAM530KVT8ylDnH6xuXY5GAz0/DBlIVD0fuJTluzjmZIXtXXL86FjZ4
+ bFVeLOTFr2wWXuahCt/n9EI=
+X-Google-Smtp-Source: ABdhPJyJNLxHz4BcDa+G1DJwu4vH/NxcLNDOBkw35ZUwxR39J8ALyVaLk+Qcujq4+Bv3+Lx/3V2iXg==
+X-Received: by 2002:adf:e901:: with SMTP id f1mr25356880wrm.13.1629897587952; 
+ Wed, 25 Aug 2021 06:19:47 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id f3sm873062wmj.28.2021.08.25.06.18.51
+ by smtp.gmail.com with ESMTPSA id p13sm3743047wro.8.2021.08.25.06.19.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Aug 2021 06:18:52 -0700 (PDT)
-Subject: Re: [PATCH 17/19] target/ppc: Move dqua[q], drrnd[q] to decodetree
+ Wed, 25 Aug 2021 06:19:47 -0700 (PDT)
+Subject: Re: [PATCH 18/19] target/ppc: Move dct{dp, qpq}, dr{sp, dpq}, dc{f,
+ t}fix[q], dxex[q] to decodetree
 To: Luis Pires <luis.pires@eldorado.org.br>, qemu-devel@nongnu.org,
  qemu-ppc@nongnu.org
 References: <20210824142730.102421-1-luis.pires@eldorado.org.br>
- <20210824142730.102421-18-luis.pires@eldorado.org.br>
+ <20210824142730.102421-19-luis.pires@eldorado.org.br>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <fb172aee-7694-d216-710c-ca449f46015a@amsat.org>
-Date: Wed, 25 Aug 2021 15:18:51 +0200
+Message-ID: <fd665092-0eec-5acc-e7fd-1c3f8b824a3a@amsat.org>
+Date: Wed, 25 Aug 2021 15:19:46 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210824142730.102421-18-luis.pires@eldorado.org.br>
+In-Reply-To: <20210824142730.102421-19-luis.pires@eldorado.org.br>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -36
 X-Spam_score: -3.7
 X-Spam_bar: ---
@@ -96,19 +95,25 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/24/21 4:27 PM, Luis Pires wrote:
 > Move the following instructions to decodetree:
-> dqua:   DFP Quantize
-> dquaq:  DFP Quantize Quad
-> drrnd:  DFP Reround
-> drrndq: DFP Reround Quad
+> dctdp:   DFP Convert To DFP Long
+> dctqpq:  DFP Convert To DFP Extended
+> drsp:    DFP Round To DFP Short
+> drdpq:   DFP Round To DFP Long
+> dcffix:  DFP Convert From Fixed
+> dcffixq: DFP Convert From Fixed Quad
+> dctfix:  DFP Convert To Fixed
+> dctfixq: DFP Convert To Fixed Quad
+> dxex:    DFP Extract Biased Exponent
+> dxexq:   DFP Extract Biased Exponent Quad
 > 
 > Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
 > ---
->  target/ppc/dfp_helper.c             |  8 ++---
->  target/ppc/helper.h                 |  8 ++---
->  target/ppc/insn32.decode            | 18 ++++++++--
->  target/ppc/translate/dfp-impl.c.inc | 51 +++++++++++++----------------
->  target/ppc/translate/dfp-ops.c.inc  | 25 --------------
->  5 files changed, 47 insertions(+), 63 deletions(-)
+>  target/ppc/dfp_helper.c             | 20 +++++------
+>  target/ppc/helper.h                 | 20 +++++------
+>  target/ppc/insn32.decode            | 23 ++++++++++++
+>  target/ppc/translate/dfp-impl.c.inc | 55 ++++++++++++++---------------
+>  target/ppc/translate/dfp-ops.c.inc  | 22 ------------
+>  5 files changed, 69 insertions(+), 71 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
