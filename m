@@ -2,85 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9265C3F7466
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 13:34:18 +0200 (CEST)
-Received: from localhost ([::1]:57122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 110763F746E
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 13:36:24 +0200 (CEST)
+Received: from localhost ([::1]:36578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIrAa-0005j7-0p
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 07:34:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58274)
+	id 1mIrCh-0002tn-42
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 07:36:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mIr1v-0000Ee-ER; Wed, 25 Aug 2021 07:25:15 -0400
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:60197)
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1mIr2v-0000xn-4D
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 07:26:17 -0400
+Received: from proxmox-new.maurer-it.com ([94.136.29.106]:9519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mIr1t-0005NX-O4; Wed, 25 Aug 2021 07:25:15 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 8CE9D3200AEE;
- Wed, 25 Aug 2021 07:25:11 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 25 Aug 2021 07:25:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=jGQUlGs6yZmufQmfIpgYz8Ik99p
- Q/yuNXns+lTO5TdQ=; b=hqc/4LBeYEFVEaZB4qfHOdI+hLmBMcYbffKWyZx9xzx
- UmTsAZnL+bzYirWj/I0+zZpQ73Yj8t7TLgYsy7Cxe7w81lVpr9/5M1MLXvwCBxQR
- IY7UjsvL21jgd6APQ/wBBE6OB7CKRmwpFIA74W1B2DY9om7mjoWHbNQy4osBvWhu
- Bses7f9iakQGQKyaOoSaFeeGml0ATUg/TJGeL2SrEVn2sPeHXDEZPkEznkcvY7us
- 5igLdsoK5H7oE6daTgcnBaZ3NA6MXzYkeAPQk5l89XYSpBc13mben6cBgnOixzvr
- StLLYDAI48XqExg8+EOGPVFYHtFO1jxgwMqAERTw/9Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=jGQUlG
- s6yZmufQmfIpgYz8Ik99pQ/yuNXns+lTO5TdQ=; b=DYnt+OpRkTOm7HFva9+cHs
- RcTJ+3S71qaDaxHPhVtm/uXQFdlTyUtl8JEqekNMVEcIGNZfOVTkNA0E6oEOAqcN
- hUsUdzg6cEM01Jv6kqnv/uENQOZRxTAMt/LT0AIeFQvMBZO1xOcPe9ZOpCkbfc9x
- JYT1bRbw90FZc/R7n/fGpMjfPkohwFMn9GfKcg0d8vmgAgCnhKbFQ5EO7kYgCYdY
- 90UIJmEoPURNQkrHptQptKVpMYRpPGCQlVQdZLD9OFHCM655lkVPwblEd3f91RUb
- uCS2G2OZLcqpfebRwAxIs6i5/LObRZpxX4yC8wTeV2qS6TicOpeQPjNwwei7EkOw
- ==
-X-ME-Sender: <xms:lSgmYeoa_EzuO7vrQ3WmhOv9VMP1fGkNNaCueH63UlQXdt7eOsMZSw>
- <xme:lSgmYcrNM0tP0wjEqW-Jv9fswf8j488CXhLRmrBoqpHYecU28BBroI_BONWl_J33x
- 3yOGh3Jzy5DXmOqG2Y>
-X-ME-Received: <xmr:lSgmYTNzimkz3cOdzymDoaZlQVW63xaoMB1C2DS9t7Hcl_vS5e_FkXOluVvhAX0_sgo9N0tSCAxjU-mJKIcxXl4anRlO8Nkpw7j5ADU3OlcEeyBrAg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddtledggedtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
- hssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:lSgmYd5KWgUmlqbr8IOWszkAeh80OeFjwYIig0N0TBh_Kfik_GBnnw>
- <xmx:lSgmYd4YoSuBRmMHyCH-AvZZX2sA0iwD-u0NoAiSi3tBxfCUsjS-3Q>
- <xmx:lSgmYdimfUFPRE4jhvB9f-WUg13cdyNOGAFNf6n_U8E1OpUd-QxGug>
- <xmx:lygmYYZetHF6TGcP0F7MWPRzwumZwytlyrgrXeNEM3ukAmK1UQPgXA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 Aug 2021 07:25:08 -0400 (EDT)
-Date: Wed, 25 Aug 2021 13:25:05 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 1/9] block/nvme: Use safer trace format string
-Message-ID: <YSYokQ/AtvPjYd4L@apples.localdomain>
-References: <20210824141142.1165291-1-philmd@redhat.com>
- <20210824141142.1165291-2-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
+ id 1mIr2s-00061O-H5
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 07:26:16 -0400
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 22F2C4389F;
+ Wed, 25 Aug 2021 13:26:11 +0200 (CEST)
+Subject: Re: [PATCH 2/2] monitor: allow VNC related QMP and HMP commands to
+ take a display ID
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+References: <20210825093701.668122-1-s.reiter@proxmox.com>
+ <20210825093701.668122-3-s.reiter@proxmox.com>
+ <CAJ+F1CKf5icfpA4X_kHQQJGfiHj+dvct9OqEvtOQ2UD4WPCbtw@mail.gmail.com>
+From: Stefan Reiter <s.reiter@proxmox.com>
+Message-ID: <4400f41b-4ecc-9340-a20d-8acdaae033be@proxmox.com>
+Date: Wed, 25 Aug 2021 13:26:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="YBbOWFarkDsQJaCN"
-Content-Disposition: inline
-In-Reply-To: <20210824141142.1165291-2-philmd@redhat.com>
-Received-SPF: pass client-ip=64.147.123.20; envelope-from=its@irrelevant.dk;
- helo=wout4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAJ+F1CKf5icfpA4X_kHQQJGfiHj+dvct9OqEvtOQ2UD4WPCbtw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=s.reiter@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.24,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,43 +57,263 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Auger Eric <eric.auger@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>, QEMU <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 8/25/21 12:59 PM, Marc-André Lureau wrote:
+> Hi
+> 
+> On Wed, Aug 25, 2021 at 1:39 PM Stefan Reiter <s.reiter@proxmox.com> wrote:
+> 
+>> It is possible to specify more than one VNC server on the command line,
+>> either with an explicit ID or the auto-generated ones à la "default",
+>> "vnc2", "vnc3", ...
+>>
+>> It is not possible to change the password on one of these extra VNC
+>> displays though. Fix this by adding a "display" parameter to the
+>> 'set_password' and 'expire_password' QMP and HMP commands.
+>>
+>> For HMP, this is a bit trickier, since at least 'set_password' already
+>> has the 'connected' parameter following the mandatory 'password' one, so
+>> we need to prefix the display ID with "id=" to allow correct parsing.
+>>
+> 
+> It's not something done with other commands afaik, feels a bit awkward (the
+> "connected = display"...).
+>
 
---YBbOWFarkDsQJaCN
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Indeed, if there is a better way I'd love to use it.
 
-On Aug 24 16:11, Philippe Mathieu-Daud=C3=A9 wrote:
-> Fix when building with -Wshorten-64-to-32:
->=20
->   warning: implicit conversion loses integer precision: 'unsigned long' t=
-o 'int' [-Wshorten-64-to-32]
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+One idea I had was making the parameter 'connected' OR 'display', since
+the former only supports 'keep' for VNC anyway - but that introduces a
+weird double-meaning again.
+  
+> Is it really necessary to add support for HMP?
+> 
 
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+For us it would be, as we provide an easy HMP interface to our users, but
+not a QMP one, so it ended up being a bit of a regression with 6.0.
 
---YBbOWFarkDsQJaCN
-Content-Type: application/pgp-signature; name="signature.asc"
+>> With this prefix, no existing command or workflow should be affected.
+>>
+>> While rewriting the descriptions, also remove the line "Use zero to make
+>> the password stay valid forever." from 'set_password', I believe this was
+>> intended for 'expire_password', but would even be wrong there.
+>>
+>> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+>> ---
+>>   hmp-commands.hx    | 28 +++++++++++++++-------------
+>>   monitor/hmp-cmds.c | 20 ++++++++++++++++++--
+>>   monitor/qmp-cmds.c |  9 +++++----
+>>   qapi/ui.json       | 12 ++++++++++--
+>>   4 files changed, 48 insertions(+), 21 deletions(-)
+>>
+>> diff --git a/hmp-commands.hx b/hmp-commands.hx
+>> index e01ca13ca8..0b5abcfb8a 100644
+>> --- a/hmp-commands.hx
+>> +++ b/hmp-commands.hx
+>> @@ -1541,34 +1541,36 @@ ERST
+>>
+>>       {
+>>           .name       = "set_password",
+>> -        .args_type  = "protocol:s,password:s,connected:s?",
+>> -        .params     = "protocol password action-if-connected",
+>> +        .args_type  = "protocol:s,password:s,display:s?,connected:s?",
+>> +        .params     = "protocol password [id=display]
+>> [action-if-connected]",
+>>           .help       = "set spice/vnc password",
+>>           .cmd        = hmp_set_password,
+>>       },
+>>
+>>   SRST
+>> -``set_password [ vnc | spice ] password [ action-if-connected ]``
+>> -  Change spice/vnc password.  Use zero to make the password stay valid
+>> -  forever.  *action-if-connected* specifies what should happen in
+>> +``set_password [ vnc | spice ] password [ id=display ] [
+>> action-if-connected ]``
+>> +  Change spice/vnc password.  *display* (must be prefixed with
+>> +  'id=') can be used with 'vnc' to specify which display to set the
+>> +  password on.  *action-if-connected* specifies what should happen in
+>>     case a connection is established: *fail* makes the password change
+>> -  fail.  *disconnect* changes the password and disconnects the
+>> -  client.  *keep* changes the password and keeps the connection up.
+>> -  *keep* is the default.
+>> +  fail.  *disconnect* changes the password and disconnects the client.
+>> +  *keep* changes the password and keeps the connection up.  *keep* is
+>> +  the default.
+>>   ERST
+>>
+>>       {
+>>           .name       = "expire_password",
+>> -        .args_type  = "protocol:s,time:s",
+>> -        .params     = "protocol time",
+>> +        .args_type  = "protocol:s,time:s,display:s?",
+>> +        .params     = "protocol time [id=display]",
+>>           .help       = "set spice/vnc password expire-time",
+>>           .cmd        = hmp_expire_password,
+>>       },
+>>
+>>   SRST
+>> -``expire_password [ vnc | spice ]`` *expire-time*
+>> -  Specify when a password for spice/vnc becomes
+>> -  invalid. *expire-time* accepts:
+>> +``expire_password [ vnc | spice ] expire-time [ id=display ]``
+>> +  Specify when a password for spice/vnc becomes invalid.
+>> +  *display* behaves the same as in ``set_password``.
+>> +  *expire-time* accepts:
+>>
+>>     ``now``
+>>       Invalidate password instantly.
+>> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+>> index 31366e6331..30f5b2c3e3 100644
+>> --- a/monitor/hmp-cmds.c
+>> +++ b/monitor/hmp-cmds.c
+>> @@ -1546,10 +1546,20 @@ void hmp_set_password(Monitor *mon, const QDict
+>> *qdict)
+>>   {
+>>       const char *protocol  = qdict_get_str(qdict, "protocol");
+>>       const char *password  = qdict_get_str(qdict, "password");
+>> +    const char *display = qdict_get_try_str(qdict, "display");
+>>       const char *connected = qdict_get_try_str(qdict, "connected");
+>>       Error *err = NULL;
+>>
+>> -    qmp_set_password(protocol, password, !!connected, connected, &err);
+>> +    if (display && strncmp(display, "id=", 3)) {
+>> +        connected = display;
+>> +        display = NULL;
+>> +    } else if (display) {
+>> +        /* skip "id=" */
+>> +        display = display + 3;
+>> +    }
+>> +
+>> +    qmp_set_password(protocol, password, !!connected, connected,
+>> !!display,
+>> +                     display, &err);
+>>       hmp_handle_error(mon, err);
+>>   }
+>>
+>> @@ -1557,9 +1567,15 @@ void hmp_expire_password(Monitor *mon, const QDict
+>> *qdict)
+>>   {
+>>       const char *protocol  = qdict_get_str(qdict, "protocol");
+>>       const char *whenstr = qdict_get_str(qdict, "time");
+>> +    const char *display = qdict_get_try_str(qdict, "display");
+>>       Error *err = NULL;
+>>
+>> -    qmp_expire_password(protocol, whenstr, &err);
+>> +    if (display && !strncmp(display, "id=", 3)) {
+>> +        /* skip "id=" */
+>> +        display = display + 3;
+>> +    }
+>> +
+>> +    qmp_expire_password(protocol, whenstr, !!display, display, &err);
+>>       hmp_handle_error(mon, err);
+>>   }
+>>
+>> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+>> index f7d64a6457..a9ded90a41 100644
+>> --- a/monitor/qmp-cmds.c
+>> +++ b/monitor/qmp-cmds.c
+>> @@ -165,7 +165,8 @@ void qmp_system_wakeup(Error **errp)
+>>   }
+>>
+>>   void qmp_set_password(const char *protocol, const char *password,
+>> -                      bool has_connected, const char *connected, Error
+>> **errp)
+>> +                      bool has_connected, const char *connected,
+>> +                      bool has_display, const char *display, Error **errp)
+>>   {
+>>       int disconnect_if_connected = 0;
+>>       int fail_if_connected = 0;
+>> @@ -198,7 +199,7 @@ void qmp_set_password(const char *protocol, const char
+>> *password,
+>>           }
+>>           /* Note that setting an empty password will not disable login
+>> through
+>>            * this interface. */
+>> -        rc = vnc_display_password(NULL, password);
+>> +        rc = vnc_display_password(has_display ? display : NULL, password);
+>>       } else {
+>>           error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "protocol",
+>>                      "'vnc' or 'spice'");
+>> @@ -211,7 +212,7 @@ void qmp_set_password(const char *protocol, const char
+>> *password,
+>>   }
+>>
+>>   void qmp_expire_password(const char *protocol, const char *whenstr,
+>> -                         Error **errp)
+>> +                         bool has_display, const char *display, Error
+>> **errp)
+>>   {
+>>       time_t when;
+>>       int rc;
+>> @@ -232,7 +233,7 @@ void qmp_expire_password(const char *protocol, const
+>> char *whenstr,
+>>           }
+>>           rc = qemu_spice.set_pw_expire(when);
+>>       } else if (strcmp(protocol, "vnc") == 0) {
+>> -        rc = vnc_display_pw_expire(NULL, when);
+>> +        rc = vnc_display_pw_expire(has_display ? display : NULL, when);
+>>       } else {
+>>           error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "protocol",
+>>                      "'vnc' or 'spice'");
+>> diff --git a/qapi/ui.json b/qapi/ui.json
+>> index 16bf03224f..24dca811f8 100644
+>> --- a/qapi/ui.json
+>> +++ b/qapi/ui.json
+>> @@ -25,6 +25,9 @@
+>>   #             'disconnect' to disconnect existing clients
+>>   #             'keep' to maintain existing clients
+>>   #
+>> +# @display: In case of VNC, the id of the display where the password
+>> +#           should be changed. Defaults to the first.
+>> +#
+>>   # Returns: - Nothing on success
+>>   #          - If Spice is not enabled, DeviceNotFound
+>>   #
+>> @@ -38,7 +41,8 @@
+>>   #
+>>   ##
+>>   { 'command': 'set_password',
+>> -  'data': {'protocol': 'str', 'password': 'str', '*connected': 'str'} }
+>> +  'data': {'protocol': 'str', 'password': 'str', '*connected': 'str',
+>> +           '*display': 'str'} }
+>>
+>>   ##
+>>   # @expire_password:
+>> @@ -54,6 +58,9 @@
+>>   #        - '+INT' where INT is the number of seconds from now (integer)
+>>   #        - 'INT' where INT is the absolute time in seconds
+>>   #
+>> +# @display: In case of VNC, the id of the display where the password
+>> +#           should be set to expire. Defaults to the first.
+>> +#
+>>   # Returns: - Nothing on success
+>>   #          - If @protocol is 'spice' and Spice is not active,
+>> DeviceNotFound
+>>   #
+>> @@ -71,7 +78,8 @@
+>>   # <- { "return": {} }
+>>   #
+>>   ##
+>> -{ 'command': 'expire_password', 'data': {'protocol': 'str', 'time':
+>> 'str'} }
+>> +{ 'command': 'expire_password',
+>> +  'data': {'protocol': 'str', 'time': 'str', '*display': 'str'} }
+>>
+>>   ##
+>>   # @screendump:
+>> --
+>> 2.30.2
+>>
+>>
+>>
+>>
+> 
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmEmKJAACgkQTeGvMW1P
-DemZ4Qf/WvKRMMFebL8cfyaIaYmSFIUTl7lBHI5dwe91XM8IdPe8MEf8Oo2HjffH
-x6Dibj8ZL7C9z9eYrwVwXsEJurh7iVrs7adlCwhccjv/Whbq1cj1YZSzxnROENiF
-omFot4EjmsQ4WJYZtlfcp8lI6/guCpCf1pUnHUji/KCNsXyt3q+HGV2ZfJyufC0M
-l09U/H6q/+Q9u9FM45735vybekcPfu9i3LbbPlN21NlzaHM4toPH1PO/4pWVA39q
-l3DXdtYz5Haa5+dcctErLJ+VMQT9Y3SvdgCCbF35CkbFemE239QFE93+WYNPzxuJ
-W32GaubzoIaPDwMR5XsehV63QTTU3w==
-=h8uO
------END PGP SIGNATURE-----
-
---YBbOWFarkDsQJaCN--
 
