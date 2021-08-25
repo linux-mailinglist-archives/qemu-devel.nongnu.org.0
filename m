@@ -2,59 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D6DE3F7584
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:03:37 +0200 (CEST)
-Received: from localhost ([::1]:37716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DCA33F74CF
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 14:08:39 +0200 (CEST)
+Received: from localhost ([::1]:44896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIsZ1-00070e-Di
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:03:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50234)
+	id 1mIrht-0003bv-9r
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 08:08:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chunming_li1234@163.com>)
- id 1mIoDL-0003wy-DE; Wed, 25 Aug 2021 04:24:51 -0400
-Received: from m12-13.163.com ([220.181.12.13]:48191)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <chunming_li1234@163.com>)
- id 1mIoDH-00042G-8b; Wed, 25 Aug 2021 04:24:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id; bh=xQDjiNNhDJEqwuElL0
- ZuUGPrmvLwmBF1vqp0UAkFOsw=; b=o0+PVsnqfiCqslEaZRMflrczFkxlmRjtQf
- ooj2gotzgrEcpPlphm0pd0nbaVMWQMHIn0BZW9avUqXWNmzjYCwZnltMz0dz/eiF
- 6fbqj5iMRSvOv11yLg2AuGuIvwwg2bWCmwF/2gmpGtz2GfrlmwABieYi9FyH6Lle
- diBhIFsyc=
-Received: from localhost.localdomain (unknown [180.169.130.89])
- by smtp9 (Coremail) with SMTP id DcCowABnCwWL+iVhtO7SAQ--.38418S7;
- Wed, 25 Aug 2021 16:08:51 +0800 (CST)
-From: chunming <chunming_li1234@163.com>
-To: eric.auger@redhat.com,
-	peter.maydell@linaro.org
-Subject: [PATCH v5 4/4] hw/arm/virt: Add PL330 DMA controller and connect with
- SMMU v3
-Date: Wed, 25 Aug 2021 16:08:42 +0800
-Message-Id: <1629878922-173270-5-git-send-email-chunming_li1234@163.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1629878922-173270-1-git-send-email-chunming_li1234@163.com>
-References: <1629878922-173270-1-git-send-email-chunming_li1234@163.com>
-X-CM-TRANSID: DcCowABnCwWL+iVhtO7SAQ--.38418S7
-X-Coremail-Antispam: 1Uf129KBjvJXoW3AFyrGw17JF47tr43Kr4rKrg_yoW7Aw1DpF
- W5CFs8WrW0qr1SqrWa9F1FkF1rAw1vk3WDGr4I93yxC3W8WryrXr48tasrKrWUW348X3Z8
- Xa1DWFyvgwn7Wr7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07b4HqcUUUUU=
-X-Originating-IP: [180.169.130.89]
-X-CM-SenderInfo: xfkx0zplqjszjlrsjki6rwjhhfrp/xtbBDRP5dlaEE6kM2AAAst
-Received-SPF: pass client-ip=220.181.12.13;
- envelope-from=chunming_li1234@163.com; helo=m12-13.163.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mIrXC-0002AO-09; Wed, 25 Aug 2021 07:57:35 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:46157)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1mIrX7-0002sM-AB; Wed, 25 Aug 2021 07:57:31 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 04F453200ADC;
+ Wed, 25 Aug 2021 07:57:26 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Wed, 25 Aug 2021 07:57:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=Z1xTbmfE/RR1d1anKDikYmkMJ0A
+ zjqksCHi6mUmro7A=; b=VqDfS+r03sLGxFTc5qyrzSZ1ZVrkB5V1nOSmfy/sKw9
+ p4CYqR3gr/1JXaFGwHaL77bGn79OE4NdMLUsAgr0bp+fUICaSKFmbAkTXYkn5cTi
+ x9hcXJMa70yoZnUEefKQjqeWl56I0ABRlrWqQHPA9yHuIKhXPJOcBJz0TyP2kp8C
+ KNovmwTUEY495OZTG+F5DtnyDr+qJYcDNxnPxmXX4K74iLFTd/UOK9+UD7WfPkce
+ tZlQmuhEjp+fX9mUWYpECoU72W0A7wu/Saq2ZNsEM6DOukiDx6eL2riWq8n5aOxV
+ YY9RdiMhyBwRWk2EzxBWGo6qWDwNA6waR7h47VmNslg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Z1xTbm
+ fE/RR1d1anKDikYmkMJ0AzjqksCHi6mUmro7A=; b=S+EvfO2NqtE7iIWuC89ye1
+ VhMcr375L0hrTUpUa2aEmRToYOO32023Zq74gkx9+63fUYMoBJVCIOQw1dQQseSD
+ ArUq+OKrV4VG4if502SpPzpPlB6VJIYNyAQUyogOx9KDykSuSSceWDS5AK6OVj6C
+ eEUDMTbNIEGlyTcvtQc1OCw3RiJU84fFIG/Y4oVG+nk9IrjmMqcbGKf0coek/9TE
+ LdF0QIgF1A3KhAK7oZ2++4M6HMs/cSaJotBr42T+unLrv+mmvrggIEjD2GCT4JQL
+ jON1G+B+e12ZgqlKnRfNfMzsrZEHq957/5OYE4s6dpnyMgxRq3gbxGAPRG4tJU9Q
+ ==
+X-ME-Sender: <xms:JTAmYfqFbZJhZ-vzCLHXcCyQ4-HeU1dzNmJnFKtiIPvqIs3tmWZmrg>
+ <xme:JTAmYZrDblVvXDr1IEspG_MrQ48X0RVxblB7Up-yo0RzonffcnGTsmFQen7nwhhIP
+ LVB2L0Cg34ykBD-lEU>
+X-ME-Received: <xmr:JTAmYcP8Pbks7mg3tadbYZytRO7bPPIYqU3OBkoRqrFoAXCyQV8NnWrnZWaDMR5NMlL8Iq5d4f4lXW9IH3_zjYv1wyFaYUKiRm8oMfStO3vpeviMoA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddtledggeeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehith
+ hssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:JTAmYS49I_MdBJ-kFToruJ4jHNrAZtRuhUYnTl_LASUCTxqO15rekg>
+ <xmx:JTAmYe4kpLVoHqkccLJ3kSBYoULQj_RZ-hcFocrYpFXMPKFT_sZcDQ>
+ <xmx:JTAmYagpYMCZUOf_47fsDPIosjnyc4iHHcV7yM9zmonzHbXVezomng>
+ <xmx:JjAmYVZo2OI3W51yTcZO7Kja1jXwJNbOgKGp1Y7dL8Sg3v3JeVOEIw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 25 Aug 2021 07:57:24 -0400 (EDT)
+Date: Wed, 25 Aug 2021 13:57:22 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 4/9] util/vfio-helpers: Replace qemu_mutex_lock() calls
+ with QEMU_LOCK_GUARD
+Message-ID: <YSYwIifdLOpKq5gI@apples.localdomain>
+References: <20210824141142.1165291-1-philmd@redhat.com>
+ <20210824141142.1165291-5-philmd@redhat.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="lbWu0WcVS0gGVYaE"
+Content-Disposition: inline
+In-Reply-To: <20210824141142.1165291-5-philmd@redhat.com>
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 25 Aug 2021 09:00:24 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -66,168 +94,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: renwei.liu@verisilicon.com, qemu-arm@nongnu.org,
- jianxian.wen@verisilicon.com, qemu-devel@nongnu.org,
- chunming <chunming.li@verisilicon.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Auger Eric <eric.auger@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: chunming <chunming.li@verisilicon.com>
 
-Add PL330 DMA controller to test SMMU v3 connection and function.
-The default SID for PL330 is 1 but we test other values, it works well.
+--lbWu0WcVS0gGVYaE
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: chunming <chunming.li@verisilicon.com>
----
- hw/arm/virt.c         | 92 ++++++++++++++++++++++++++++++++++++++++++-
- include/hw/arm/virt.h |  1 +
- 2 files changed, 92 insertions(+), 1 deletion(-)
+On Aug 24 16:11, Philippe Mathieu-Daud=C3=A9 wrote:
+> Simplify qemu_vfio_dma_[un]map() handlers by replacing a pair of
+> qemu_mutex_lock/qemu_mutex_unlock calls by the WITH_QEMU_LOCK_GUARD
+> macro.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index c3fd30e071..8180e4a331 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -143,6 +143,7 @@ static const MemMapEntry base_memmap[] = {
-     [VIRT_GIC_REDIST] =         { 0x080A0000, 0x00F60000 },
-     [VIRT_UART] =               { 0x09000000, 0x00001000 },
-     [VIRT_RTC] =                { 0x09010000, 0x00001000 },
-+    [VIRT_DMA] =                { 0x09011000, 0x00001000 },
-     [VIRT_FW_CFG] =             { 0x09020000, 0x00000018 },
-     [VIRT_GPIO] =               { 0x09030000, 0x00001000 },
-     [VIRT_SECURE_UART] =        { 0x09040000, 0x00001000 },
-@@ -188,6 +189,7 @@ static const int a15irqmap[] = {
-     [VIRT_GPIO] = 7,
-     [VIRT_SECURE_UART] = 8,
-     [VIRT_ACPI_GED] = 9,
-+    [VIRT_DMA] = 10,
-     [VIRT_MMIO] = 16, /* ...to 16 + NUM_VIRTIO_TRANSPORTS - 1 */
-     [VIRT_GIC_V2M] = 48, /* ...to 48 + NUM_GICV2M_SPIS - 1 */
-     [VIRT_SMMU] = 74,    /* ...to 74 + NUM_SMMU_IRQS - 1 */
-@@ -205,7 +207,7 @@ static const char *valid_cpus[] = {
- };
- 
- static const uint16_t smmuv3_sidmap[] = {
--
-+    [VIRT_DMA] = 1,
- };
- 
- static bool cpu_type_valid(const char *cpu)
-@@ -793,6 +795,92 @@ static void create_uart(const VirtMachineState *vms, int uart,
-     g_free(nodename);
- }
- 
-+static void create_dma(const VirtMachineState *vms)
-+{
-+    int i;
-+    char *nodename;
-+    hwaddr base = vms->memmap[VIRT_DMA].base;
-+    hwaddr size = vms->memmap[VIRT_DMA].size;
-+    int irq = vms->irqmap[VIRT_DMA];
-+    int sid = vms->sidmap[VIRT_DMA];
-+    const char compat[] = "arm,pl330\0arm,primecell";
-+    const char irq_names[] = "abort\0dma0\0dma1\0dma2\0dma3\0dma4\0dma5\0dma6\0dma7";
-+    DeviceState *dev;
-+    MachineState *ms = MACHINE(vms);
-+    SysBusDevice *busdev;
-+    DeviceState *smmuv3_dev;
-+    SMMUState *smmuv3_sys;
-+    Object *smmuv3_memory;
-+
-+    dev = qdev_new("pl330");
-+
-+    if (vms->iommu == VIRT_IOMMU_SMMUV3 && vms->iommu_phandle) {
-+        smmuv3_dev = vms->smmuv3;
-+        smmuv3_sys = ARM_SMMU(smmuv3_dev);
-+        g_autofree char *memname = g_strdup_printf("%s-peri-%d[0]",
-+                                                   smmuv3_sys->mrtypename,
-+                                                   sid);
-+
-+        smmuv3_memory = object_property_get_link(OBJECT(smmuv3_dev),
-+                                memname, &error_abort);
-+
-+        object_property_set_link(OBJECT(dev), "memory",
-+                                 OBJECT(smmuv3_memory),
-+                                 &error_fatal);
-+    } else {
-+        object_property_set_link(OBJECT(dev), "memory",
-+                                 OBJECT(get_system_memory()),
-+                                 &error_fatal);
-+    }
-+
-+    qdev_prop_set_uint8(dev, "num_chnls",  8);
-+    qdev_prop_set_uint8(dev, "num_periph_req",  4);
-+    qdev_prop_set_uint8(dev, "num_events",  16);
-+    qdev_prop_set_uint8(dev, "data_width",  64);
-+    qdev_prop_set_uint8(dev, "wr_cap",  8);
-+    qdev_prop_set_uint8(dev, "wr_q_dep",  16);
-+    qdev_prop_set_uint8(dev, "rd_cap",  8);
-+    qdev_prop_set_uint8(dev, "rd_q_dep",  16);
-+    qdev_prop_set_uint16(dev, "data_buffer_dep",  256);
-+
-+    busdev = SYS_BUS_DEVICE(dev);
-+    sysbus_realize_and_unref(busdev, &error_fatal);
-+    sysbus_mmio_map(busdev, 0, base);
-+
-+    for (i = 0; i < 9; ++i) {
-+        sysbus_connect_irq(busdev, i, qdev_get_gpio_in(vms->gic, irq + i));
-+    }
-+
-+    nodename = g_strdup_printf("/pl330@%" PRIx64, base);
-+    qemu_fdt_add_subnode(ms->fdt, nodename);
-+    qemu_fdt_setprop(ms->fdt, nodename, "compatible", compat, sizeof(compat));
-+    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
-+                                 2, base, 2, size);
-+    qemu_fdt_setprop_cells(ms->fdt, nodename, "interrupts",
-+                    GIC_FDT_IRQ_TYPE_SPI, irq, GIC_FDT_IRQ_FLAGS_LEVEL_HI,
-+                    GIC_FDT_IRQ_TYPE_SPI, irq + 1, GIC_FDT_IRQ_FLAGS_LEVEL_HI,
-+                    GIC_FDT_IRQ_TYPE_SPI, irq + 2, GIC_FDT_IRQ_FLAGS_LEVEL_HI,
-+                    GIC_FDT_IRQ_TYPE_SPI, irq + 3, GIC_FDT_IRQ_FLAGS_LEVEL_HI,
-+                    GIC_FDT_IRQ_TYPE_SPI, irq + 4, GIC_FDT_IRQ_FLAGS_LEVEL_HI,
-+                    GIC_FDT_IRQ_TYPE_SPI, irq + 5, GIC_FDT_IRQ_FLAGS_LEVEL_HI,
-+                    GIC_FDT_IRQ_TYPE_SPI, irq + 6, GIC_FDT_IRQ_FLAGS_LEVEL_HI,
-+                    GIC_FDT_IRQ_TYPE_SPI, irq + 7, GIC_FDT_IRQ_FLAGS_LEVEL_HI,
-+                    GIC_FDT_IRQ_TYPE_SPI, irq + 8, GIC_FDT_IRQ_FLAGS_LEVEL_HI);
-+
-+    qemu_fdt_setprop(ms->fdt, nodename, "interrupt-names", irq_names,
-+                     sizeof(irq_names));
-+
-+    qemu_fdt_setprop_cell(ms->fdt, nodename, "clocks", vms->clock_phandle);
-+    qemu_fdt_setprop_string(ms->fdt, nodename, "clock-names", "apb_pclk");
-+
-+    if (vms->iommu == VIRT_IOMMU_SMMUV3 && vms->iommu_phandle) {
-+        qemu_fdt_setprop_cells(ms->fdt, nodename, "iommus",
-+                               vms->iommu_phandle, sid);
-+        qemu_fdt_setprop(ms->fdt, nodename, "dma-coherent", NULL, 0);
-+    }
-+
-+    g_free(nodename);
-+}
- static void create_rtc(const VirtMachineState *vms)
- {
-     char *nodename;
-@@ -2081,6 +2169,8 @@ static void machvirt_init(MachineState *machine)
- 
-     create_pcie(vms);
- 
-+    create_dma(vms);
-+
-     if (has_ged && aarch64 && firmware_loaded && virt_is_acpi_enabled(vms)) {
-         vms->acpi_dev = create_acpi_ged(vms);
-     } else {
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index d3402a43dd..f307b26587 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -72,6 +72,7 @@ enum {
-     VIRT_UART,
-     VIRT_MMIO,
-     VIRT_RTC,
-+    VIRT_DMA,
-     VIRT_FW_CFG,
-     VIRT_PCIE,
-     VIRT_PCIE_MMIO,
--- 
-2.30.2
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 
+--lbWu0WcVS0gGVYaE
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmEmMCAACgkQTeGvMW1P
+Dem+jAf/S7KUVHBypKGkZ8gMlJk4pmw4wxWLZnRmFtxIJ8fkXSdtPTDYMUq2hGhG
+JCSQpy8NgjlKX68qhYB4iyIu+4yiSp67VdDXWPYJXGs3Si60wougthoCcx9hE9Qb
+HmdBFeJN1Ieq8DdqFiFMabe3GmZTQ7fj35UyE6Q6O5qDXMr1eOPi3L3yEO4QP7cS
+NuhbGeUDW8/i23yn7oyKmTLSnYo1NwSuU/L0Ix61EMGnUqmKYZDtOmL09kIi+FhA
+IMpu63kA/e9hfSYiQAO3Gr9tDFdfqgjlgHdJVqXgNDUxPpuEjt+ICltVlqcgCK+e
+CMgSPqnzkLxUG00g2uRgMg7Mimbjkw==
+=fLSY
+-----END PGP SIGNATURE-----
+
+--lbWu0WcVS0gGVYaE--
 
