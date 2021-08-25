@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD533F75D8
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:26:19 +0200 (CEST)
-Received: from localhost ([::1]:43904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B1ED3F75BC
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:19:00 +0200 (CEST)
+Received: from localhost ([::1]:40228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIsuu-0001Ja-FE
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:26:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50922)
+	id 1mIsnz-0004bP-8C
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:18:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mIsZK-0001ji-23
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:03:50 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38453)
+ id 1mIsZO-0001xw-AV
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:03:54 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:43783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mIsZI-0002k6-If
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:03:49 -0400
-Received: by mail-wr1-x432.google.com with SMTP id u16so36352763wrn.5
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 06:03:48 -0700 (PDT)
+ id 1mIsZM-0002mH-Mn
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:03:54 -0400
+Received: by mail-wr1-x433.google.com with SMTP id b6so889901wrh.10
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 06:03:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZkmjoDvMFjsU97UhZzTQFL9FN7lAozX9pcg/xU8suzM=;
- b=WBTd+sxBSVjqyA36jm7oYNQ6ehmSqoVhRDfHyehrayZvuNKo1WzJsyVJrstCzoZc+F
- +twB94H0NPtqrvusARYTpxzh8o+A6dTTRAVqVAeJxO8Ey9xYLY8aL3hGN3W2EmCueyq4
- U4zSh60k+A8+WQQW4OobFkfhhPey9u1NJuxKP1amOniksbfyhg434tx5mh6pu5F+qMb3
- r5SuUIcqLMpZYrEio1+ihSxig18/M9dBT6lZJm8ZZ1wMSMGbkatMT7Rs62lPojEZU8yc
- 2WAim25MRrpou40tQ8mHqoK9nOs3t3uUjgYMEsohohfwsbQc1vtIHbs9vES7x+7FRial
- 8IUQ==
+ bh=VGi0bWCeq/OP3YpAAxkkS4YY/6sTdDEW0wWYiNmbwc0=;
+ b=NHShqhkWKxeojDokfjMcOnQNrwDQj1qUbx6Fg5I0CFy20f6rb9wssebtWNKPSUpKS2
+ dqp3YoDzR+U/LQER6FldQ2/+jad6tW3t9uvaUN0evstXcFIYUG4w06410enB1su0TQDP
+ GgmHCQj4jaRwByyHG70LX4yO8hXWB9oTK6Nj+vIhRiY2hckjS2e8d1K2WPU/Yhune+R/
+ WLQOlONA8FdDTgVDqMlZs10EHXAMaVoK/Za0SbkDF7zaj5uaVEo9oYUCAU/Rz1BdvkLX
+ Wv54nQ3ZlVDE2LU0L7/CVhO3O6sl3VVs6PWybeov+Cg54bVH3daKfCLgD6qSPpGLoIj7
+ mI7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ZkmjoDvMFjsU97UhZzTQFL9FN7lAozX9pcg/xU8suzM=;
- b=uOJf3Vp/nAgKgzxK2iHh2sZN0pBcIXGQW0Uti6MsfPD/kS8hDBEj5Q6VbjBENKGU9o
- +y5ZTTLTdhraSjvo02SAUwoAEgjSxVd0xvVl3tjxyKd1HAGdPXNwEpsmnX7qnVR4DXHQ
- XLyhNo9ZCmEKzHMBh2fOVErsGORlX9p+Sfsd3Ig3YKxc0gEJ2G1Myss/+Pcjb7cBnz7/
- f+fFgj1ekQg6a4CKqpEHSP7AE1tkkDmcBSxqc8wf/55TcVZd7PW2feO6MMwcj4QAv+zE
- wUnlQ/kKoySG7ZgZkEhGtgI8AUYAoNPTiqXpIghxd5x27frY2PC7xsQl/Q1TJyoEFuBU
- JG5Q==
-X-Gm-Message-State: AOAM530V/7FBtbtaC3kB4kd8gQkuQBb8JU+PaOqHo6kp+uP+yYGy/6DG
- KCuA/tsjOsPaMleZgkz2OQYQLfffk3k=
-X-Google-Smtp-Source: ABdhPJzPoaMdnHKmU6j3Gou24Zlmmb/XW8nCOCkZREq1NWdIbT9WWw02VQCsNBUXxJNwK0LUy5VIMA==
-X-Received: by 2002:adf:9f01:: with SMTP id l1mr481332wrf.427.1629896626513;
- Wed, 25 Aug 2021 06:03:46 -0700 (PDT)
+ bh=VGi0bWCeq/OP3YpAAxkkS4YY/6sTdDEW0wWYiNmbwc0=;
+ b=jTTYEWfmp2EVfQSThHaMdzQAnS/Vy6n1u1k9XylRdpaekcYcmi0EKRVXx3KTrlYOmr
+ IWuS2PbJMAJgLPBSgJQEmd2DVIrUSaHBCkmsiWYRw0yt8M211U+6lXZj32QrEfOgaal9
+ CoGdJqxBTAIQ71fVUtbDApbt9T3qQZkDAiFZw+A5QssviILTywhxD7IhUCTDnQU6f7p0
+ shCszzymqG8JaDJoXexNRhfwyd3eAxOSJo4Ery/5stThH7RPIFfDYKthYj4MnAw+GFl0
+ G5OCjYXX0ULJTIuMoNvWR/wAyHxfxw7Ax601uxzZJkPjue9hXl8NA9ve9c3lb0ablmJr
+ v/OQ==
+X-Gm-Message-State: AOAM531n7lb0pc4fdRr5fVZyUqX/ocnej2de6mwbBKsck+cGzmgNVkam
+ LEhShA+3o43xY1ObNGmFyz3por44sYI=
+X-Google-Smtp-Source: ABdhPJyoHCAqsos/lvjrTY8qjOxpn4mGWvcZh2tqDlqkvTXX5Wl0IrVRLF3AMbDtUErPgfXprGPnXg==
+X-Received: by 2002:adf:a45b:: with SMTP id e27mr14360403wra.222.1629896631003; 
+ Wed, 25 Aug 2021 06:03:51 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- v21sm2083303wra.92.2021.08.25.06.03.45
+ e26sm8143278wrc.6.2021.08.25.06.03.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 06:03:45 -0700 (PDT)
+ Wed, 25 Aug 2021 06:03:50 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/28] target/mips: Inline gen_helper_1e1i() call in
- op_ld_INSN() macros
-Date: Wed, 25 Aug 2021 15:02:03 +0200
-Message-Id: <20210825130211.1542338-21-f4bug@amsat.org>
+Subject: [PULL 21/28] target/mips: Inline gen_helper_0e0i()
+Date: Wed, 25 Aug 2021 15:02:04 +0200
+Message-Id: <20210825130211.1542338-22-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210825130211.1542338-1-f4bug@amsat.org>
 References: <20210825130211.1542338-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,40 +92,49 @@ Cc: Aurelien Jarno <aurelien@aurel32.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-gen_helper_1e1i() is one-line long and is used in one place:
+gen_helper_0e0i() is one-line long and is only used twice:
 simply inline it.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210816205107.2051495-6-f4bug@amsat.org>
+Message-Id: <20210816205107.2051495-7-f4bug@amsat.org>
 ---
- target/mips/tcg/translate.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ target/mips/tcg/translate.c | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 3417fc433ff..db7fc75d937 100644
+index db7fc75d937..c515a337ebc 100644
 --- a/target/mips/tcg/translate.c
 +++ b/target/mips/tcg/translate.c
-@@ -1225,10 +1225,6 @@ TCGv_i64 fpu_f64[32];
-     gen_helper_##name(ret, cpu_env, tcg_constant_i32(arg1));      \
-     } while (0)
+@@ -1213,10 +1213,6 @@ TCGv_i64 fpu_f64[32];
  
--#define gen_helper_1e1i(name, ret, arg1, arg2) do {               \
--    gen_helper_##name(ret, cpu_env, arg1, tcg_constant_i32(arg2));\
+ #include "exec/gen-icount.h"
+ 
+-#define gen_helper_0e0i(name, arg) do {                           \
+-    gen_helper_##name(cpu_env, tcg_constant_i32(arg));            \
 -    } while (0)
 -
- #define gen_helper_0e2i(name, arg1, arg2, arg3) do {              \
-     gen_helper_##name(cpu_env, arg1, arg2, tcg_constant_i32(arg3));\
+ #define gen_helper_0e1i(name, arg1, arg2) do {                    \
+     gen_helper_##name(cpu_env, arg1, tcg_constant_i32(arg2));     \
      } while (0)
-@@ -1991,7 +1987,7 @@ static inline void op_ld_##insn(TCGv ret, TCGv arg1, int mem_idx,          \
- static inline void op_ld_##insn(TCGv ret, TCGv arg1, int mem_idx,          \
-                                 DisasContext *ctx)                         \
- {                                                                          \
--    gen_helper_1e1i(insn, ret, arg1, mem_idx);                             \
-+    gen_helper_##insn(ret, cpu_env, arg1, tcg_constant_i32(mem_idx));      \
+@@ -1378,7 +1374,7 @@ void generate_exception_err(DisasContext *ctx, int excp, int err)
+ 
+ void generate_exception(DisasContext *ctx, int excp)
+ {
+-    gen_helper_0e0i(raise_exception, excp);
++    gen_helper_raise_exception(cpu_env, tcg_constant_i32(excp));
  }
+ 
+ void generate_exception_end(DisasContext *ctx, int excp)
+@@ -14188,7 +14184,7 @@ static void decode_opc_special(CPUMIPSState *env, DisasContext *ctx)
+         MIPS_INVAL("PMON / selsl");
+         gen_reserved_instruction(ctx);
+ #else
+-        gen_helper_0e0i(pmon, sa);
++        gen_helper_pmon(cpu_env, tcg_constant_i32(sa));
  #endif
- OP_LD_ATOMIC(ll, ld32s);
+         break;
+     case OPC_SYSCALL:
 -- 
 2.31.1
 
