@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9573F7810
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 17:13:33 +0200 (CEST)
-Received: from localhost ([::1]:60044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 381CF3F7955
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 17:45:55 +0200 (CEST)
+Received: from localhost ([::1]:41898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIuaq-0000mj-OA
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 11:13:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49918)
+	id 1mIv65-0000l1-8O
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 11:45:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mIua5-00005A-F9
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 11:12:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56025)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1mIua3-0004Jd-7W
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 11:12:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629904362;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=p4hC1fehoFdA+Vhvcn4EbPIoYkQjRl4x9cQ2ooRpbH8=;
- b=hW3Bv112QACqLwFMTPm812qbTxq7dF5QqXZVqlD9htOHoNioPs6jXGVujc75u3W1Sr3vld
- va15qTFprF5nmxZc1jdTuXkJKaHiQHBXve0lA3I9x+UJiQm0KShUnaUfgy7JgmYSd3O2mG
- YxG52OnPrUhPU010qyIOuUgwakmrWVk=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-305-Qm5ropbFOeeZHBS9KBK_NQ-1; Wed, 25 Aug 2021 11:12:41 -0400
-X-MC-Unique: Qm5ropbFOeeZHBS9KBK_NQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- q11-20020a5d61cb0000b02901550c3fccb5so6740095wrv.14
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 08:12:40 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mIv50-0008V4-Tw
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 11:44:42 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:35464)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1mIv4z-0000qd-Ad
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 11:44:42 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id q17so15740929edv.2
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 08:44:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3AvLItPW7chstCemg3XRNy7ZF1fFLsUdmeWwrY33Kd8=;
+ b=b8XfoQjs/lLtXJIL6ibXzy77+zw0ZdGjuEJLz4AlfjUY8F+mpqqwHwvtsOrsmBg8no
+ +bmnPuSIuI5xrltl+Sc1w2UeGgx1WkrFwUVq4PtUjtIAPoWkQHWbovqqCVHb2z6ZvTyX
+ 6B1tyao/tWwu0HAcysLSawZ004y/Lm/NfYATQC2ZtMMU09oaPPcBhbKDO6OBAs5fclcO
+ J3uVmOhsmb09Vba6E6QxZbNpARSX7nzvdGZrYmN55VnqrnHGNxTBRj0ogJJuX4FcxOUy
+ fhdVb5bMqKiBoqBAPbIRuOp1JljfM69kHXJlpDbI1wR7uP2UcrxJ4edDdMNARh95pPIK
+ sOpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
- :user-agent:reply-to:date:message-id:mime-version;
- bh=p4hC1fehoFdA+Vhvcn4EbPIoYkQjRl4x9cQ2ooRpbH8=;
- b=fcXDE0pcru4jnT6nYPEBeSagKR/kcbQZTf/pQlK3Oig0g+upwQ7sLJi61700o5jnWo
- 5yHGv6ts32Exr9/szScg45zIeakFRG42djaZ5B62H3XhooqASpTkRbGTKalnlotpr7D+
- wRG43p5XPQ5wksQArtufJt8NC8Hq37VtD6vuiPSSWO9jaFN8vrw9zjIkJMYNvbJq4FL8
- fIaKSg8dIlV5exEDkADZ62vX6PIa9urwmLl/8EaxRAR40n0b8tI746Bgqr1gC4Tk0Hva
- AIuOmoeaJ4CU11w7H+zRFXZPH+oL3QnZnSuvxyz8ITEHW6XY2EKlFyL4oYZADeijGQ57
- 7Xuw==
-X-Gm-Message-State: AOAM533PdKTZS+f++ZZcUtfLBLCEfN6HmraPMlDSvjjlwkFkVk70h+q6
- fqoi3q1xxLuEi3RQc0O2iq8Fr65b7dYs8vckUrfpdyL+rnVDm2w/12fADV57q1Rrig+YzoCF7cp
- uzalNNkDQJkrv+jw=
-X-Received: by 2002:adf:eb89:: with SMTP id t9mr27115427wrn.66.1629904359915; 
- Wed, 25 Aug 2021 08:12:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwwsNgtBotUzF1wqavcy1b4jQaJx4PzRuXIcZHPtfwASB2CKLkDN0HCVeFZ6jm90x1KbXbWQA==
-X-Received: by 2002:adf:eb89:: with SMTP id t9mr27115402wrn.66.1629904359734; 
- Wed, 25 Aug 2021 08:12:39 -0700 (PDT)
-Received: from localhost (62.83.194.64.dyn.user.ono.com. [62.83.194.64])
- by smtp.gmail.com with ESMTPSA id t7sm148670wrq.90.2021.08.25.08.12.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 08:12:39 -0700 (PDT)
-From: Juan Quintela <quintela@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Subject: Re: [RFC PATCH v2 6/8] failover: pci: unregister ROM on unplug
-In-Reply-To: <20210820142002.152994-7-lvivier@redhat.com> (Laurent Vivier's
- message of "Fri, 20 Aug 2021 16:20:00 +0200")
-References: <20210820142002.152994-1-lvivier@redhat.com>
- <20210820142002.152994-7-lvivier@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-Date: Wed, 25 Aug 2021 17:12:38 +0200
-Message-ID: <87eeah4kyh.fsf@secure.mitica>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3AvLItPW7chstCemg3XRNy7ZF1fFLsUdmeWwrY33Kd8=;
+ b=pi5ZlfPmc4Gb0Ylm6jIMFzLEOrryUZubYTz+QlOxORCj20qAi3QTdjZL/WYVWYfJJ+
+ 3WuTff3zAmMk48PaMVISl0UYQNj8f7jwSNjqa7YR7ZfLjLS85sapf8wErQ3TZPrW7GrR
+ FO5/YUeO52iM4oF9RHSjb2LGX4A4FIp6j3coTfne2A+LhpixDeTeaNTpTd5lVyS/m667
+ X9okS++z5lbTMRXzlWtxWWRH3jcZ/NL5l7gLTp+1tK8JG2phqMzh5vYZP2U50/QrZZ3V
+ mHJaY3MsQqDx7RJbedAcezdlAz+yJPxWapCwa/9vKxCZLsKRfJgiOeAePqdXwEZafEMa
+ G52w==
+X-Gm-Message-State: AOAM532vw+Opq38+i0Ag386T5q6i0BZBz5QuyxQIF6xCyp9uFzSMYyn6
+ UEs99OK3qpiOaOgUJwN3jpnCNS5crWHWjhkaFA0=
+X-Google-Smtp-Source: ABdhPJztZeGwiSTSPtl57dt8+YCyGa6FMeqYJSQwwQ6Sk1GeOo59jR4XpmlMXwZgNyTvZAP7HMdE/we8QBRzIigep2A=
+X-Received: by 2002:aa7:cb8a:: with SMTP id r10mr49802953edt.237.1629906279802; 
+ Wed, 25 Aug 2021 08:44:39 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.745,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20201118082942.34167-1-marcandre.lureau@redhat.com>
+ <877dqihbiq.fsf@dusky.pond.sub.org>
+In-Reply-To: <877dqihbiq.fsf@dusky.pond.sub.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 25 Aug 2021 19:44:28 +0400
+Message-ID: <CAJ+F1CJpgpywRyKa6QjeaGdPea=_cN-Q1QqtkYRwJR4cabzL8Q@mail.gmail.com>
+Subject: Re: [PATCH] dbus-vmstate: replace g_return with error handling
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000d32a6705ca6420fa"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,53 +77,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
-Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Jens Freimann <jfreimann@redhat.com>
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Laurent Vivier <lvivier@redhat.com> wrote:
-> The intend of failover is to allow a VM with a VFIO networking card to
-> be migrated without disrupting the network operation by switching
-> to a virtio-net device during the migration.
->
-> This simple change allows a simulated device like e1000e to be tested
-> rather than a vfio device, even if it's useless in real life it can help
-> to debug failover.
->
-> This is interesting to developers that want to test failover on
-> a system with no vfio device. Moreover it simplifies host networking
-> configuration as we can use the same bridge for virtio-net and
-> the other failover networking device.
->
-> Without this change the migration of a system configured with failover
-> fails with:
->
->   ...
->   -device virtio-net-pci,id=virtionet0,failover=on,...  \
->   -device e1000,failover_pair_id=virtionet0,... \
->   ...
->
->   (qemu) migrate ...
->
->   Unknown ramblock "0000:00:01.1:00.0/e1000e.rom", cannot accept migration
->   error while loading state for instance 0x0 of device 'ram'
->   load of migration failed: Invalid argument
->
-> This happens because QEMU correctly unregisters the interface vmstate but
-> not the ROM one. This patch fixes that.
->
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+--000000000000d32a6705ca6420fa
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Hi
 
-One could even defend that unpluging the device and *NOT* unpluging the
-ROM is a bug, independently of failover, no?
+On Wed, Nov 18, 2020 at 8:33 PM Markus Armbruster <armbru@redhat.com> wrote=
+:
 
-Later, Juan.
+> marcandre.lureau@redhat.com writes:
+>
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > Since g_input_stream_read_all() may return less than requested when the
+> > stream is malformed, we should treat this condition as a runtime user
+> > error (g_return are for programming errors).
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  backends/dbus-vmstate.c | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/backends/dbus-vmstate.c b/backends/dbus-vmstate.c
+> > index bd050e8e9c..616d291cfb 100644
+> > --- a/backends/dbus-vmstate.c
+> > +++ b/backends/dbus-vmstate.c
+> > @@ -229,7 +229,10 @@ static int dbus_vmstate_post_load(void *opaque, in=
+t
+> version_id)
+> >                                       &bytes_read, NULL, &err)) {
+> >              goto error;
+> >          }
+> > -        g_return_val_if_fail(bytes_read =3D=3D len, -1);
+> > +        if (bytes_read !=3D len) {
+> > +            error_report("%s: Failed to read proxy Id", __func__);
+>
+> Error messages containing function names are code smell.  It's
+> consustent with nearby errors, i.e. this patch is not to blame.
+>
+> > +            return -1;
+> > +        }
+> >          id[len] =3D 0;
+> >
+> >          trace_dbus_vmstate_loading(id);
+>
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+>
+>
+>
+For the record, Markus sent a similar patch later "backends/dbus-vmstate:
+Fix short read error handling", which has been applied.
 
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000d32a6705ca6420fa
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 18, 2020 at 8:33 PM Mar=
+kus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com">armbru@redhat.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><a=
+ href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank">marcandre.lu=
+reau@redhat.com</a> writes:<br>
+<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt;<br>
+&gt; Since g_input_stream_read_all() may return less than requested when th=
+e<br>
+&gt; stream is malformed, we should treat this condition as a runtime user<=
+br>
+&gt; error (g_return are for programming errors).<br>
+&gt;<br>
+&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
+lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
+>
+&gt; ---<br>
+&gt;=C2=A0 backends/dbus-vmstate.c | 5 ++++-<br>
+&gt;=C2=A0 1 file changed, 4 insertions(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/backends/dbus-vmstate.c b/backends/dbus-vmstate.c<br>
+&gt; index bd050e8e9c..616d291cfb 100644<br>
+&gt; --- a/backends/dbus-vmstate.c<br>
+&gt; +++ b/backends/dbus-vmstate.c<br>
+&gt; @@ -229,7 +229,10 @@ static int dbus_vmstate_post_load(void *opaque, i=
+nt version_id)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&amp;b=
+ytes_read, NULL, &amp;err)) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto error;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_return_val_if_fail(bytes_read =3D=3D le=
+n, -1);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (bytes_read !=3D len) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_report(&quot;%s: Fail=
+ed to read proxy Id&quot;, __func__);<br>
+<br>
+Error messages containing function names are code smell.=C2=A0 It&#39;s<br>
+consustent with nearby errors, i.e. this patch is not to blame.<br>
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 id[len] =3D 0;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_dbus_vmstate_loading(id);<br>
+<br>
+Reviewed-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" tar=
+get=3D"_blank">armbru@redhat.com</a>&gt;<br>
+<br>
+<br>
+</blockquote></div><div><br></div><div>For the record, Markus sent a simila=
+r patch later &quot;backends/dbus-vmstate: Fix short read error handling&qu=
+ot;, which has been applied.<br></div><br>-- <br><div dir=3D"ltr" class=3D"=
+gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000d32a6705ca6420fa--
 
