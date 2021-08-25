@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E18FE3F7590
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:06:41 +0200 (CEST)
-Received: from localhost ([::1]:47754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE07A3F7586
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:04:11 +0200 (CEST)
+Received: from localhost ([::1]:40586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIsc4-0005Mi-Uc
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:06:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50416)
+	id 1mIsZZ-0000Wj-KT
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:04:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mIsXt-00066p-Ff
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:02:21 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:35401)
+ id 1mIsXu-00068n-U7
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:02:22 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46930)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mIsXn-0002AU-Ub
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:02:21 -0400
-Received: by mail-wm1-x332.google.com with SMTP id
- z9-20020a7bc149000000b002e8861aff59so75291wmi.0
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 06:02:15 -0700 (PDT)
+ id 1mIsXs-0002CM-OU
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:02:22 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id f5so36293661wrm.13
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 06:02:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=r4KBgbQ1ClEE4IgR/0AnxcLM9NnJ0UxDiVXSvx2Bdqg=;
- b=ifRuKxH+Yl0aZ8jDA2gN6LQgqf8MUPpkSQTfz3FKWxoA04afqvl/jFSw0NiwM9lZyJ
- YG6LMmqeV7kGYH/8Hv81yjjnYB+ndZ6kUab4Mjuj6X9Psa+c8L/dGWB8VWx+w8Ay2H7a
- zD7TU7spKWrb2K2qt9Lp9H706yvkmHIl3vl6Pgd9+f3QAU64M14uRH+cxr37wEVcmiID
- uQEg169JLe4GB5DCQ3yOj5qrpHLyVNc554Q4PG7g5hJEB43m5Sbcxort7t5p1oh/cXOZ
- jRXVdBG6ePGvoH7cUs1QwLpBMsIbPPfa6di/6NUGGRAMDtd5UsgnUlxjp8i5VD719gB4
- zxng==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ozvFF/netK8EPevDtGVOynp+B+FU28R7NPCc/yQa1nA=;
+ b=NxHrUaVBVVUyQ052hmm0+FQslu/un1A32Ei/j+4BUfM6Qjndd7UxcdRF0+hbgM1TYx
+ 37jvoKKdeeDb4QChaydDOap/9DHH8mp5bvOD5MMaK6pJwzx3H9L9nxECEbFf6yD1VzUe
+ lFQ120TYGvw9crnDm3F1/0x3uDwLpJSbC5991kigjQkXfCvLeRggPAhDlhJxsvSdr9fv
+ WQ0nkhl2cZWxcEQT6lR+RVIh1DqRcfvzce+Aj/FR0MNdf67ud46ydLGcUxwSajKyuuA4
+ i5S+KTYSf9lCqj4oD/G0ehEUI5G0+uW53g7CWZEVT1KujLWQQgKsP0B8tGg95c4WGXuS
+ HIzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=r4KBgbQ1ClEE4IgR/0AnxcLM9NnJ0UxDiVXSvx2Bdqg=;
- b=eVV+/dy+ObcV8cER6q1LHYeokIbMVYDNvYWDdRg5zu7iIsIsIUbNhAnWH1lIGuaHAX
- u3NAEJW+Xc+LJDpyu2aHqclP0CntyHpWt1SDzjWQ3DJJ8oGqBzXJBDn1SGP3++z8s/eD
- gx+7rhEzdtoB1TiDH3zW1cMR9tWV2+H2iwY0dryaPFcJw6jli36m6ST2NByjsct9y8ix
- vKIeionRf+tUH5UfXTGEtd4Sdpu3aTAf8rogF7+W2jz4EpzFT4n8R40K1Od/VMSPUjh0
- sLg9Q/wTUHfG92fbLwEE2zFQcGrjnWJvTMgJ3zmNT56fvC9v56j2ZW3n227xGz2PNSHo
- 3DfQ==
-X-Gm-Message-State: AOAM531XMXQ4hnvEmhLVI5QVtlqCDQpGu3A4Pwayi9EPtUYM4e84hKUj
- QDK+hrKtkXFI836y+Ru3/QHo68v+IzI=
-X-Google-Smtp-Source: ABdhPJzGUwvylebBih10GOLg8gIrIapHIZQX03+29E5pmuzybPOdEsNPzFg1ccPG8ZzF2aluvRxOgQ==
-X-Received: by 2002:a05:600c:4eca:: with SMTP id
- g10mr8651795wmq.89.1629896533812; 
- Wed, 25 Aug 2021 06:02:13 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=ozvFF/netK8EPevDtGVOynp+B+FU28R7NPCc/yQa1nA=;
+ b=sWd6+hYxFLQNSOUmviC2k5xccU32wu7xAOLYYKrUinZIA3gBIwdCRiCVIt3cFJqzB+
+ 5UPMa2aBazvyQR1UY3Tz4PvbAeiPhxybpuWkjJsnxO/QGWlNfcwnWquZ7fmfCTw1lbe3
+ SjfoEABIU7BaU/cyC00dPhLqGQTZTDRBc+UXLMbdXPvZwDcR2+GPAWegEJQ9Q/uC5DH7
+ IYeFtcOoE7AWSGHZ2NygZXrpDPam0evQRzFV7LPh/DcA4LzXQO3kjJjuHKNWavLUVPxV
+ 6ce/ZPFTe2Dbs0q/zCpcjMdBKFixjyK+jc5bjAthMrp3hon+oWq4EQfX6Fd3b2iv++Cd
+ w0Kw==
+X-Gm-Message-State: AOAM533EkZ/3bl38f+D0DqB0lImFI4LBaoZq2zUuyj8ubnqv/Jive8Hd
+ nom1withkzIHqq6GBz9dJYurwmcF/PQ=
+X-Google-Smtp-Source: ABdhPJyMBTrz2pEqFDfUQ4ks38YWd16JJ4eH5gzJhcIi4miqd6nzFqVDeGDHH1fWbNAOmyUCd+SDmw==
+X-Received: by 2002:a5d:590b:: with SMTP id v11mr20100295wrd.125.1629896538734; 
+ Wed, 25 Aug 2021 06:02:18 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- c7sm5050577wmq.13.2021.08.25.06.02.12
+ p12sm4769102wmq.44.2021.08.25.06.02.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 06:02:13 -0700 (PDT)
+ Wed, 25 Aug 2021 06:02:18 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/28] MIPS patches for 2021-08-25
-Date: Wed, 25 Aug 2021 15:01:43 +0200
-Message-Id: <20210825130211.1542338-1-f4bug@amsat.org>
+Subject: [PULL 01/28] target/mips: Remove JR opcode unused arguments
+Date: Wed, 25 Aug 2021 15:01:44 +0200
+Message-Id: <20210825130211.1542338-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210825130211.1542338-1-f4bug@amsat.org>
+References: <20210825130211.1542338-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,116 +87,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aurelien Jarno <aurelien@aurel32.net>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit d42685765653ec155fdf60910662f8830bdb2cef=
-:=0D
-=0D
-  Open 6.2 development tree (2021-08-25 10:25:12 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://github.com/philmd/qemu.git tags/mips-20210825=0D
-=0D
-for you to fetch changes up to bf78469cc8ddb117b6db4a353e59fb4664a96de4:=0D
-=0D
-  target/mips: Replace TARGET_WORDS_BIGENDIAN by cpu_is_bigendian() (2021-0=
-8-25 13:02:14 +0200)=0D
-=0D
-----------------------------------------------------------------=0D
-MIPS patches queue=0D
-=0D
-- minor simplifications in PREF / JR opcodes=0D
-- merge 32-bit/64-bit Release6 decodetree definitions=0D
-- converted NEC Vr54xx extension opcodes to decodetree=0D
-- housekeeping in gen_helper() macros=0D
-- replace TARGET_WORDS_BIGENDIAN #ifdef'ry by cpu_is_bigendian()=0D
-- allow Loongson 3A1000 to use up to 48-bit VAddr=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-One false positive because whole target/mips/ is coverd in MAINTAINERS:=0D
-=0D
-WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?=0D
-=0D
- MIPS TCG CPUs=0D
- F: target/mips/=0D
-=0D
-Two style warnings:=0D
-=0D
-WARNING: line over 80 characters=0D
-=0D
-Preexisting failure (fixes from John Snow available on the list):=0D
-=0D
-ERROR:   py36: commands failed=0D
-ERROR:   py37: commands failed=0D
-ERROR:   py38: commands failed=0D
-ERROR:   py39: commands failed=0D
-ERROR:   py310: commands failed=0D
-make: *** [Makefile:93: check-tox] Error 1=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (28):=0D
-  target/mips: Remove JR opcode unused arguments=0D
-  target/mips: Simplify PREF opcode=0D
-  target/mips: Decode vendor extensions before MIPS ISAs=0D
-  target/mips: Merge 32-bit/64-bit Release6 decodetree definitions=0D
-  target/mips: Rename 'rtype' as 'r'=0D
-  target/mips: Introduce generic TRANS() macro for decodetree helpers=0D
-  target/mips: Extract NEC Vr54xx helper definitions=0D
-  target/mips: Extract NEC Vr54xx helpers to vr54xx_helper.c=0D
-  target/mips: Introduce decodetree structure for NEC Vr54xx extension=0D
-  target/mips: Convert Vr54xx MACC* opcodes to decodetree=0D
-  target/mips: Convert Vr54xx MUL* opcodes to decodetree=0D
-  target/mips: Convert Vr54xx MSA* opcodes to decodetree=0D
-  target/mips: Document Loongson-3A CPU definitions=0D
-  target/mips: Allow Loongson 3A1000 to use up to 48-bit VAddr=0D
-  target/mips: Remove duplicated check_cp1_enabled() calls in Loongson=0D
-    EXT=0D
-  target/mips: Remove gen_helper_0e3i()=0D
-  target/mips: Remove gen_helper_1e2i()=0D
-  target/mips: Use tcg_constant_i32() in gen_helper_0e2i()=0D
-  target/mips: Simplify gen_helper() macros by using tcg_constant_i32()=0D
-  target/mips: Inline gen_helper_1e1i() call in op_ld_INSN() macros=0D
-  target/mips: Inline gen_helper_0e0i()=0D
-  target/mips: Use tcg_constant_i32() in generate_exception_err()=0D
-  target/mips: Define gen_helper() macros in translate.h=0D
-  target/mips: Call cpu_is_bigendian & inline GET_OFFSET in ld/st=0D
-    helpers=0D
-  target/mips: Replace GET_LMASK() macro by get_lmask(32) function=0D
-  target/mips: Replace GET_LMASK64() macro by get_lmask(64) function=0D
-  target/mips: Store CP0_Config0 in DisasContext=0D
-  target/mips: Replace TARGET_WORDS_BIGENDIAN by cpu_is_bigendian()=0D
-=0D
- target/mips/helper.h                          |  18 +-=0D
- target/mips/tcg/translate.h                   |  27 ++=0D
- target/mips/tcg/vr54xx_helper.h.inc           |  24 ++=0D
- target/mips/tcg/mips64r6.decode               |  27 --=0D
- target/mips/tcg/msa.decode                    |   4 +-=0D
- .../mips/tcg/{mips32r6.decode =3D> rel6.decode} |  17 +-=0D
- target/mips/tcg/tx79.decode                   |  14 +-=0D
- target/mips/tcg/vr54xx.decode                 |  27 ++=0D
- target/mips/tcg/ldst_helper.c                 | 122 +++++----=0D
- target/mips/tcg/msa_translate.c               |   4 +-=0D
- target/mips/tcg/op_helper.c                   | 118 --------=0D
- target/mips/tcg/rel6_translate.c              |  20 +-=0D
- target/mips/tcg/translate.c                   | 258 ++++--------------=0D
- target/mips/tcg/tx79_translate.c              |  62 ++---=0D
- target/mips/tcg/vr54xx_helper.c               | 142 ++++++++++=0D
- target/mips/tcg/vr54xx_translate.c            |  72 +++++=0D
- target/mips/cpu-defs.c.inc                    |   6 +-=0D
- target/mips/tcg/nanomips_translate.c.inc      |  20 +-=0D
- target/mips/tcg/meson.build                   |   6 +-=0D
- 19 files changed, 502 insertions(+), 486 deletions(-)=0D
- create mode 100644 target/mips/tcg/vr54xx_helper.h.inc=0D
- delete mode 100644 target/mips/tcg/mips64r6.decode=0D
- rename target/mips/tcg/{mips32r6.decode =3D> rel6.decode} (64%)=0D
- create mode 100644 target/mips/tcg/vr54xx.decode=0D
- create mode 100644 target/mips/tcg/vr54xx_helper.c=0D
- create mode 100644 target/mips/tcg/vr54xx_translate.c=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+JR opcode (Jump Register) only takes 1 argument, $rs.
+JALR (Jump And Link Register) takes 3: $rs, $rd and $hint.
+
+Commit 6af0bf9c7c3 added their processing into decode_opc() as:
+
+    case 0x08 ... 0x09: /* Jumps */
+        gen_compute_branch(ctx, op1 | EXT_SPECIAL, rs, rd, sa);
+
+having both opcodes handled in the same function: gen_compute_branch.
+
+Per JR encoding, both $rd and $hint ('sa') are decoded as zero.
+
+Later this code got extracted to decode_opc_special(),
+commit 7a387fffce5 used definitions instead of magic values:
+
+    case OPC_JR ... OPC_JALR:
+        gen_compute_branch(ctx, op1, rs, rd, sa);
+
+Finally commit 0aefa33318b moved OPC_JR out of decode_opc_special,
+to a new 'decode_opc_special_legacy' function:
+
+  @@ -15851,6 +15851,9 @@ static void decode_opc_special_legacy(CPUMIPSState *env, DisasContext *ctx)
+  +    case OPC_JR:
+  +        gen_compute_branch(ctx, op1, 4, rs, rd, sa);
+  +        break;
+
+  @@ -15933,7 +15936,7 @@ static void decode_opc_special(CPUMIPSState *env, DisasContext *ctx)
+  -    case OPC_JR ... OPC_JALR:
+  +    case OPC_JALR:
+           gen_compute_branch(ctx, op1, 4, rs, rd, sa);
+           break;
+
+Since JR is now handled individually, it is pointless to decode
+and pass it unused arguments. Replace them by simple zero value
+to avoid confusion with this opcode.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210730225507.2642827-1-f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/mips/tcg/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+index 5b03545f099..bf71724f3f0 100644
+--- a/target/mips/tcg/translate.c
++++ b/target/mips/tcg/translate.c
+@@ -14203,7 +14203,7 @@ static void decode_opc_special_legacy(CPUMIPSState *env, DisasContext *ctx)
+         break;
+ #endif
+     case OPC_JR:
+-        gen_compute_branch(ctx, op1, 4, rs, rd, sa, 4);
++        gen_compute_branch(ctx, op1, 4, rs, 0, 0, 4);
+         break;
+     case OPC_SPIM:
+ #ifdef MIPS_STRICT_STANDARD
+-- 
+2.31.1
+
 
