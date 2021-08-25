@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 140393F738E
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 12:43:10 +0200 (CEST)
-Received: from localhost ([::1]:37008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D9E93F7394
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 12:44:46 +0200 (CEST)
+Received: from localhost ([::1]:45326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIqNB-0005tT-57
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 06:43:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48966)
+	id 1mIqOj-0003Ah-54
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 06:44:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIqGL-0004Bu-Dw
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:36:05 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37739)
+ id 1mIqGM-0004EZ-3O
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:36:06 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:34422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIqGJ-0005Y3-I8
+ id 1mIqGK-0005ZE-8r
  for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:36:05 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id v10so24448456wrd.4
+Received: by mail-wr1-x42b.google.com with SMTP id h13so35716721wrp.1
  for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 03:36:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Qp88lepzk56QVkhZRSGO2VDv/JbZJtAi4P83EneyDdw=;
- b=A44bHS3ZwSAXAjBPRxcgBd6VirTPvZtoql3YQr1BVgA2scJ/JTqdfqT3kke21sWDU3
- VpPiy8v/xyZujqjztAV1nVipb1jUke0ruWFO4sPBs8gF7+en45At6ygD3qvLFORu0HsH
- VBXuXXhC92fqhNoQpPJJvxSGeh4RbvQWeFYG2ij1TpxF6KTxuRvhEMH4Tmo9JmD9x1H+
- 2d1RQ7x3Ch12n2/gzzXOJk+QfHCm3PXmLk2IPckJVFx3gXoTO2TjhpEaNyHpiYkgZ5/d
- 9z6sWC0G+qUewdds9ianjnrGCF/wYDBr/oj9CR+TB3qIAtPKJiBgWiO0U2Apab7wMbC2
- g12w==
+ bh=ZsgiYwh7qNLAcSkC7LxnVfqa/pmBeTfF8iAebdcRKSo=;
+ b=X/kaiGm0HIH+XywoUk4rRcgQ3f0n3n0ER56IIaC0O+Yw30RmquKCAYCfKDISwUJ1Fp
+ bAYfU6hkQji+zy94D47cqBTpKnQDWZ7dL5uzyQy7JbyrZJnNLWCIPFwLSD0PzHkTRs4M
+ APvfNz+8+XxuKQT8wMCAayax1VKQsCSVCRwhlera5pUN7iQKbWo+nPtTYw1uFhRez+DC
+ 0Fg3oyOVybCLEA8j+f2PjJ5Uw2Zidj7LiEviNDIO91fvptsQbHbabiC8fH9JwIVqJP9C
+ EiiuUN3yBtt4somaatkbzWKgI0LeF3CL8JA+36pJIrjWfSnmxTtmeMRvg1+sM2t1uCCr
+ qbBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Qp88lepzk56QVkhZRSGO2VDv/JbZJtAi4P83EneyDdw=;
- b=B+Ys2i8uuRl2C0e3s0kdav190N/VGDiTA3Z0ZAR+qWJT8T5rob/gBIrnI5UnmSSsls
- TtWwR5X7UvJGmPCTULKorFuQpLv/rWokkza4COCpK9ARAo2dGMCdoHB+HFDpFb1g5I/V
- tVSOZ8LN9QRBgkm1GvT+XeLnzQkoJUFBX8ahttXADMKa1/+SkeBTla1mBIfONfJsaVSr
- YGmE1jgSVQnIE9L3R6T0S0IfkH1vE9NedxZAnvscDB4orMBHsgSIVLKZ75PYIjBvVL8r
- DTUmjCRLsNkrUfJSWPMtclztjy5tPvO45NXHkBtuKFgShAEOjBy4Y2RBTXdZELLWWSJo
- d76g==
-X-Gm-Message-State: AOAM532hD98nDFGE9cumFiHBHmoxVF17PlvDoro433XFd73SEe+bkkKu
- n8xIsDaO0TWXSKnojdphMu1sX1d04VZ4KA==
-X-Google-Smtp-Source: ABdhPJxFYME5caNsWY3WFlD5HBHhmYFfRqRMEYTRWNMubK/dnCaw5l8rp/uNE+8JfhTCJuUijhVpkA==
-X-Received: by 2002:a5d:490d:: with SMTP id x13mr22972171wrq.412.1629887762075; 
+ bh=ZsgiYwh7qNLAcSkC7LxnVfqa/pmBeTfF8iAebdcRKSo=;
+ b=TSn1l7W5UGN1UDkK1sDIsQc/g7IvpiUmmABmyaEHLLaZ+Mjp4k1aKZ5H7njewMcQR/
+ ww01Ngd9jf3utypYWqVCe6L8iJ5NMxyw79k6ZrlucoSIhZfDubkL9/iJhUPfeT5JWKEh
+ WY9xJL0gQoPFOMQweO3guy23KRtkkuZ5ac+NRKJ7MItiYFDU14G/0igw4QBycg5be1iT
+ TVXGDf7YS78/xYHgyE6IWK9zWkHP5N/9Vvp3r83TRzr3h5aoRFRKWYQGspfID3Vp1lvN
+ UPaZYFfD/2YmpFAhoRviY5ijVzxkp1xILUBJZcXSFNwtpQ2mULFOxg4ezkuOsd3eJ4Pa
+ 8ttA==
+X-Gm-Message-State: AOAM532bRuAinonId+Lwnh4wUQtls1jf63jVaWWBovLD4OowFkOvWJCO
+ dZ2byOH5QiXhHgRjh74xwL7IlbzzxcKYbw==
+X-Google-Smtp-Source: ABdhPJxe735Un+W1YKjw7reM5tvea3HvvLPvjHU4z3/I9+GZCdOFBSzHv9u4wK7XLm+rjgyhO4n7jQ==
+X-Received: by 2002:a5d:4c4e:: with SMTP id n14mr23771444wrt.226.1629887762758; 
  Wed, 25 Aug 2021 03:36:02 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m4sm5075931wml.28.2021.08.25.03.36.01
+ by smtp.gmail.com with ESMTPSA id m4sm5075931wml.28.2021.08.25.03.36.02
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 03:36:01 -0700 (PDT)
+ Wed, 25 Aug 2021 03:36:02 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/44] target/arm: Implement MVE VMOV to/from 2 general-purpose
- registers
-Date: Wed, 25 Aug 2021 11:35:20 +0100
-Message-Id: <20210825103534.6936-31-peter.maydell@linaro.org>
+Subject: [PULL 31/44] target/arm: Implement MVE VPNOT
+Date: Wed, 25 Aug 2021 11:35:21 +0100
+Message-Id: <20210825103534.6936-32-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210825103534.6936-1-peter.maydell@linaro.org>
 References: <20210825103534.6936-1-peter.maydell@linaro.org>
@@ -87,151 +86,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the MVE VMOV forms that move data between 2 general-purpose
-registers and 2 32-bit lanes in a vector register.
+Implement the MVE VPNOT insn, which inverts the bits in VPR.P0
+(subject to both predication and to beatwise execution).
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-a32.h |  1 +
- target/arm/mve.decode      |  4 ++
- target/arm/translate-mve.c | 85 ++++++++++++++++++++++++++++++++++++++
- target/arm/translate-vfp.c |  2 +-
- 4 files changed, 91 insertions(+), 1 deletion(-)
+ target/arm/helper-mve.h    |  1 +
+ target/arm/mve.decode      |  1 +
+ target/arm/mve_helper.c    | 17 +++++++++++++++++
+ target/arm/translate-mve.c | 19 +++++++++++++++++++
+ 4 files changed, 38 insertions(+)
 
-diff --git a/target/arm/translate-a32.h b/target/arm/translate-a32.h
-index 6dfcafe1796..6f4d65ddb00 100644
---- a/target/arm/translate-a32.h
-+++ b/target/arm/translate-a32.h
-@@ -49,6 +49,7 @@ void gen_rev16(TCGv_i32 dest, TCGv_i32 var);
- void clear_eci_state(DisasContext *s);
- bool mve_eci_check(DisasContext *s);
- void mve_update_and_store_eci(DisasContext *s);
-+bool mve_skip_vmov(DisasContext *s, int vn, int index, int size);
+diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
+index 651020aaad8..8cb941912fc 100644
+--- a/target/arm/helper-mve.h
++++ b/target/arm/helper-mve.h
+@@ -119,6 +119,7 @@ DEF_HELPER_FLAGS_4(mve_vorn, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ DEF_HELPER_FLAGS_4(mve_veor, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
  
- static inline TCGv_i32 load_cpu_offset(int offset)
- {
+ DEF_HELPER_FLAGS_4(mve_vpsel, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_1(mve_vpnot, TCG_CALL_NO_WG, void, env)
+ 
+ DEF_HELPER_FLAGS_4(mve_vaddb, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ DEF_HELPER_FLAGS_4(mve_vaddh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
 diff --git a/target/arm/mve.decode b/target/arm/mve.decode
-index 0955ed0cc22..774ee2a1a5b 100644
+index 774ee2a1a5b..40bd0c04b59 100644
 --- a/target/arm/mve.decode
 +++ b/target/arm/mve.decode
-@@ -136,6 +136,10 @@ VLDR_VSTR        1110110 1 a:1 . w:1 . .... ... 111101 .......   @vldr_vstr \
- VLDR_VSTR        1110110 1 a:1 . w:1 . .... ... 111110 .......   @vldr_vstr \
-                  size=2 p=1
+@@ -571,6 +571,7 @@ VCMPGT            1111 1110 0 . .. ... 1 ... 1 1111 0 0 . 0 ... 1 @vcmp
+ VCMPLE            1111 1110 0 . .. ... 1 ... 1 1111 1 0 . 0 ... 1 @vcmp
  
-+# Moves between 2 32-bit vector lanes and 2 general purpose registers
-+VMOV_to_2gp      1110 1100 0 . 00 rt2:4 ... 0 1111 000 idx:1 rt:4 qd=%qd
-+VMOV_from_2gp    1110 1100 0 . 01 rt2:4 ... 0 1111 000 idx:1 rt:4 qd=%qd
+ {
++  VPNOT           1111 1110 0 0 11 000 1 000 0 1111 0100 1101
+   VPST            1111 1110 0 . 11 000 1 ... 0 1111 0100 1101 mask=%mask_22_13
+   VCMPEQ_scalar   1111 1110 0 . .. ... 1 ... 0 1111 0 1 0 0 .... @vcmp_scalar
+ }
+diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
+index d326205cbf0..c22a00c5ed6 100644
+--- a/target/arm/mve_helper.c
++++ b/target/arm/mve_helper.c
+@@ -2201,6 +2201,23 @@ void HELPER(mve_vpsel)(CPUARMState *env, void *vd, void *vn, void *vm)
+     mve_advance_vpt(env);
+ }
+ 
++void HELPER(mve_vpnot)(CPUARMState *env)
++{
++    /*
++     * P0 bits for unexecuted beats (where eci_mask is 0) are unchanged.
++     * P0 bits for predicated lanes in executed bits (where mask is 0) are 0.
++     * P0 bits otherwise are inverted.
++     * (This is the same logic as VCMP.)
++     * This insn is itself subject to predication and to beat-wise execution,
++     * and after it executes VPT state advances in the usual way.
++     */
++    uint16_t mask = mve_element_mask(env);
++    uint16_t eci_mask = mve_eci_mask(env);
++    uint16_t beatpred = ~env->v7m.vpr & mask;
++    env->v7m.vpr = (env->v7m.vpr & ~(uint32_t)eci_mask) | (beatpred & eci_mask);
++    mve_advance_vpt(env);
++}
 +
- # Vector 2-op
- VAND             1110 1111 0 . 00 ... 0 ... 0 0001 . 1 . 1 ... 0 @2op_nosz
- VBIC             1110 1111 0 . 01 ... 0 ... 0 0001 . 1 . 1 ... 0 @2op_nosz
+ #define DO_1OP_SAT(OP, ESIZE, TYPE, FN)                                 \
+     void HELPER(mve_##OP)(CPUARMState *env, void *vd, void *vm)         \
+     {                                                                   \
 diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index 02c26987a2d..93707fdd681 100644
+index 93707fdd681..cc2e58cfe2f 100644
 --- a/target/arm/translate-mve.c
 +++ b/target/arm/translate-mve.c
-@@ -1507,3 +1507,88 @@ static bool do_vabav(DisasContext *s, arg_vabav *a, MVEGenVABAVFn *fn)
- 
- DO_VABAV(VABAV_S, vabavs)
- DO_VABAV(VABAV_U, vabavu)
-+
-+static bool trans_VMOV_to_2gp(DisasContext *s, arg_VMOV_to_2gp *a)
-+{
-+    /*
-+     * VMOV two 32-bit vector lanes to two general-purpose registers.
-+     * This insn is not predicated but it is subject to beat-wise
-+     * execution if it is not in an IT block. For us this means
-+     * only that if PSR.ECI says we should not be executing the beat
-+     * corresponding to the lane of the vector register being accessed
-+     * then we should skip perfoming the move, and that we need to do
-+     * the usual check for bad ECI state and advance of ECI state.
-+     * (If PSR.ECI is non-zero then we cannot be in an IT block.)
-+     */
-+    TCGv_i32 tmp;
-+    int vd;
-+
-+    if (!dc_isar_feature(aa32_mve, s) || !mve_check_qreg_bank(s, a->qd) ||
-+        a->rt == 13 || a->rt == 15 || a->rt2 == 13 || a->rt2 == 15 ||
-+        a->rt == a->rt2) {
-+        /* Rt/Rt2 cases are UNPREDICTABLE */
-+        return false;
-+    }
-+    if (!mve_eci_check(s) || !vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    /* Convert Qreg index to Dreg for read_neon_element32() etc */
-+    vd = a->qd * 2;
-+
-+    if (!mve_skip_vmov(s, vd, a->idx, MO_32)) {
-+        tmp = tcg_temp_new_i32();
-+        read_neon_element32(tmp, vd, a->idx, MO_32);
-+        store_reg(s, a->rt, tmp);
-+    }
-+    if (!mve_skip_vmov(s, vd + 1, a->idx, MO_32)) {
-+        tmp = tcg_temp_new_i32();
-+        read_neon_element32(tmp, vd + 1, a->idx, MO_32);
-+        store_reg(s, a->rt2, tmp);
-+    }
-+
-+    mve_update_and_store_eci(s);
-+    return true;
-+}
-+
-+static bool trans_VMOV_from_2gp(DisasContext *s, arg_VMOV_to_2gp *a)
-+{
-+    /*
-+     * VMOV two general-purpose registers to two 32-bit vector lanes.
-+     * This insn is not predicated but it is subject to beat-wise
-+     * execution if it is not in an IT block. For us this means
-+     * only that if PSR.ECI says we should not be executing the beat
-+     * corresponding to the lane of the vector register being accessed
-+     * then we should skip perfoming the move, and that we need to do
-+     * the usual check for bad ECI state and advance of ECI state.
-+     * (If PSR.ECI is non-zero then we cannot be in an IT block.)
-+     */
-+    TCGv_i32 tmp;
-+    int vd;
-+
-+    if (!dc_isar_feature(aa32_mve, s) || !mve_check_qreg_bank(s, a->qd) ||
-+        a->rt == 13 || a->rt == 15 || a->rt2 == 13 || a->rt2 == 15) {
-+        /* Rt/Rt2 cases are UNPREDICTABLE */
-+        return false;
-+    }
-+    if (!mve_eci_check(s) || !vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    /* Convert Qreg idx to Dreg for read_neon_element32() etc */
-+    vd = a->qd * 2;
-+
-+    if (!mve_skip_vmov(s, vd, a->idx, MO_32)) {
-+        tmp = load_reg(s, a->rt);
-+        write_neon_element32(tmp, vd, a->idx, MO_32);
-+        tcg_temp_free_i32(tmp);
-+    }
-+    if (!mve_skip_vmov(s, vd + 1, a->idx, MO_32)) {
-+        tmp = load_reg(s, a->rt2);
-+        write_neon_element32(tmp, vd + 1, a->idx, MO_32);
-+        tcg_temp_free_i32(tmp);
-+    }
-+
-+    mve_update_and_store_eci(s);
-+    return true;
-+}
-diff --git a/target/arm/translate-vfp.c b/target/arm/translate-vfp.c
-index b2991e21ec7..e2eb797c829 100644
---- a/target/arm/translate-vfp.c
-+++ b/target/arm/translate-vfp.c
-@@ -581,7 +581,7 @@ static bool trans_VCVT(DisasContext *s, arg_VCVT *a)
+@@ -887,6 +887,25 @@ static bool trans_VPST(DisasContext *s, arg_VPST *a)
      return true;
  }
  
--static bool mve_skip_vmov(DisasContext *s, int vn, int index, int size)
-+bool mve_skip_vmov(DisasContext *s, int vn, int index, int size)
++static bool trans_VPNOT(DisasContext *s, arg_VPNOT *a)
++{
++    /*
++     * Invert the predicate in VPR.P0. We have call out to
++     * a helper because this insn itself is beatwise and can
++     * be predicated.
++     */
++    if (!dc_isar_feature(aa32_mve, s)) {
++        return false;
++    }
++    if (!mve_eci_check(s) || !vfp_access_check(s)) {
++        return true;
++    }
++
++    gen_helper_mve_vpnot(cpu_env);
++    mve_update_eci(s);
++    return true;
++}
++
+ static bool trans_VADDV(DisasContext *s, arg_VADDV *a)
  {
-     /*
-      * In a CPU with MVE, the VMOV (vector lane to general-purpose register)
+     /* VADDV: vector add across vector */
 -- 
 2.20.1
 
