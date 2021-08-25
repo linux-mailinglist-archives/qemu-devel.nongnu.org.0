@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F8A83F7053
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 09:24:43 +0200 (CEST)
-Received: from localhost ([::1]:46994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A33963F7052
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 09:24:41 +0200 (CEST)
+Received: from localhost ([::1]:46834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mInH8-0001Ef-4a
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 03:24:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33160)
+	id 1mInH6-00017P-JY
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 03:24:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mInDL-00014H-EN
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:20:47 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:43274)
+ id 1mInDK-00012E-RG
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:20:46 -0400
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:43232)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mInDJ-0008Su-O2
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:20:47 -0400
+ id 1mInDJ-0008Sn-5Q
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:20:46 -0400
 Received: from loganberry.canonical.com (loganberry.canonical.com
  [91.189.90.37])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 875B33F7AB
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 018E23F7C2
  for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 07:20:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
  s=20210803; t=1629876044;
- bh=h83YFYGskYO0tNzhi3AMo3u2Qd64t9hkK02Y0TO4vRI=;
+ bh=5J5Sgs9s1wUsUD0i1Pg9RMcEbAD+BQdXSqA7RTxof50=;
  h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
  Message-Id:Subject;
- b=PbMgzWrgkJmU5u2noglWyKfh4JtgCm34PRyEOLXSZftVxVQHKiF8zT954Z3p7ZTeo
- pApHyuK9kSQRQ+5tzmGIeJyrUmNBvAP+U9h2QhI3ATwEGqzGToESgib+Ye5p1DjUaD
- r9VGS0+qDwTBy8Ar29m1DOZeNLlq+9f5eR17AZHgZsGHVEDGc91DBtVphEz05X36H8
- tw76QpQryrXF3K5KZgQbotI1or8ATuVZWNd7DWjMF3zUNKih4xxyvBpePAeYMHeJjR
- c2cGG7HeK5+7BDpQP9J+1kL+oiqSGm/KbGiE5/SMfAz0jcVPGPG8wk0azf0q3A0isj
- FKlfugGsTMMxQ==
+ b=iU13ZP7VLVu1g+T4Ix9tgKXOAw48bOLeS/e0agKYcLFfwgI71nDOFg/vSYqzt62bR
+ ZXSn/bWjk6dNBOQswlmjaO70EtnA6Z6vIn2hFoU+5l7x/tKMRd+Uo7BloH0iMYFiD2
+ by5nQHrlZcyAV+j1nSHxHmQGj5avkqOJkNZhqqnOSL2/LCjbnsLl2LSdho+hzGpu6V
+ o8tR/SAlUbJBvIbKH6CdUxvjhgHUBiPrV+Ski0PeGjhwH19gEpoToumF1QF+n1HncA
+ zlbO75n0q6V6XmsP1yDbnCTVTbXafqpjV91mSpuHUf2fNiIJupsWLCbpLWAcimOK6K
+ z9l1Jm1JPunmw==
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 940BA2E81B9
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 07:20:43 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id E624E2E816E
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 07:20:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Aug 2021 07:12:32 -0000
-From: Thomas Huth <1910603@bugs.launchpad.net>
+Date: Wed, 25 Aug 2021 07:12:45 -0000
+From: Thomas Huth <1922887@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: audio fuzzer
+X-Launchpad-Bug-Tags: arm
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr philmd th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Commenters: muhui pmaydell th-huth
+X-Launchpad-Bug-Reporter: JIANG Muhui (muhui)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161005830186.3494.9820259593524409716.malonedeb@wampee.canonical.com>
-Message-Id: <162987555393.28913.9673958339502832429.launchpad@wampee.canonical.com>
-Subject: [Bug 1910603] Re: [OSS-Fuzz] Issue 29174 sb16: Abrt in audio_bug
+References: <161778201158.26656.2798489764705445614.malonedeb@wampee.canonical.com>
+Message-Id: <162987556669.10640.6263984381539780893.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1922887] Re: STR in Thumb 32 decode problem
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="7edb2d45353e030166106ae05838b77ab406edcd"; Instance="production"
-X-Launchpad-Hash: caf6251931f0a4aec0e7b6037b15e9ea505a5ba2
+X-Launchpad-Hash: b74c1a4696606743bd14b860bc1a9f2f0b4265b6
 Received-SPF: pass client-ip=185.125.188.251;
  envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
 X-Spam_score_int: -42
@@ -84,7 +84,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1910603 <1910603@bugs.launchpad.net>
+Reply-To: Bug 1922887 <1922887@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -94,60 +94,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 --=20
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1910603
+https://bugs.launchpad.net/bugs/1922887
 
 Title:
-  [OSS-Fuzz] Issue 29174 sb16: Abrt in audio_bug
+  STR in Thumb 32 decode problem
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  =3D=3D=3D Reproducer =3D=3D=3D
-  cat << EOF | ../build-system/qemu-system-i386 \
-  -machine q35 -device sb16,audiodev=3Dsnd0 \
-  -audiodev none,id=3Dsnd0 -nographic -nodefaults \
-  -qtest stdio
-  outw 0x22c 0x41
-  outb 0x22c 0x0
-  outw 0x22c 0x1004
-  outw 0x22c 0x1c
-  EOF
+  Hi
 
-  =3D=3D=3D Stack Trace =3D=3D=3D
-  A bug was just triggered in audio_calloc
-  Save all your work and restart without audio
-  I am sorry
-  Context:
-  Aborted
+  It seems that QEMU does not have a proper check on the STR instruction
+  in Thumb32 mode.
 
-  #0 raise
-  #1 abort
-  #2 audio_bug /src/qemu/audio/audio.c:119:9
-  #3 audio_calloc /src/qemu/audio/audio.c:154:9
-  #4 audio_pcm_sw_alloc_resources_out /src/qemu/audio/audio_template.h:116:=
-15
-  #5 audio_pcm_sw_init_out /src/qemu/audio/audio_template.h:175:11
-  #6 audio_pcm_create_voice_pair_out /src/qemu/audio/audio_template.h:410:9
-  #7 AUD_open_out /src/qemu/audio/audio_template.h:503:14
-  #8 continue_dma8 /src/qemu/hw/audio/sb16.c:216:20
-  #9 dma_cmd8 /src/qemu/hw/audio/sb16.c:276:5
-  #10 command /src/qemu/hw/audio/sb16.c:0
-  #11 dsp_write /src/qemu/hw/audio/sb16.c:949:13
-  #12 portio_write /src/qemu/softmmu/ioport.c:205:13
-  #13 memory_region_write_accessor /src/qemu/softmmu/memory.c:491:5
-  #14 access_with_adjusted_size /src/qemu/softmmu/memory.c:552:18
-  #15 memory_region_dispatch_write /src/qemu/softmmu/memory.c:0:13
-  #16 flatview_write_continue /src/qemu/softmmu/physmem.c:2759:23
-  #17 flatview_write /src/qemu/softmmu/physmem.c:2799:14
-  #18 address_space_write /src/qemu/softmmu/physmem.c:2891:18
-  #19 cpu_outw /src/qemu/softmmu/ioport.c:70:5
+  Specifically, the machine code is 0xf84f0ddd, which is 0b1111 1000 0100 1=
+111 0000 1101 1101 1101.=20
+  This is an STR (immediate, Thumb) instruction with a T4 encoding scheme.
 
- =20
-  OSS-Fuzz Report:
-  https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D29174
+  The symbols is
+
+  Rn =3D 1111
+  Rt =3D 0000
+  P =3D 1
+  U =3D 0
+  W =3D 1
+
+  The decode ASL is below:
+
+  if P =3D=3D =E2=80=981=E2=80=99 && U =3D=3D =E2=80=981=E2=80=99 && W =3D=
+=3D =E2=80=980=E2=80=99 then SEE STRT;
+  if Rn =3D=3D =E2=80=981101=E2=80=99 && P =3D=3D =E2=80=981=E2=80=99 && U =
+=3D=3D =E2=80=980=E2=80=99 && W =3D=3D =E2=80=981=E2=80=99 && imm8 =3D=3D =
+=E2=80=9800000100=E2=80=99 then SEE PUSH;
+  if Rn =3D=3D =E2=80=981111=E2=80=99 || (P =3D=3D =E2=80=980=E2=80=99 && W=
+ =3D=3D =E2=80=980=E2=80=99) then UNDEFINED;
+  t =3D UInt(Rt); n =3D UInt(Rn); imm32 =3D ZeroExtend(imm8, 32);
+  index =3D (P =3D=3D =E2=80=981=E2=80=99); add =3D (U =3D=3D =E2=80=981=E2=
+=80=99); wback =3D (W =3D=3D =E2=80=981=E2=80=99);
+  if t =3D=3D 15 || (wback && n =3D=3D t) then UNPREDICTABLE;
+
+  When Rn =3D=3D 1111, it should be an undefined instruction, which should
+  raise SEGILL signal. However, it seems that QEMU does not check this
+  constraint, which should be a bug. Many thanks
+
+  Regards
+  Muhui
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1910603/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1922887/+subscriptions
 
 
