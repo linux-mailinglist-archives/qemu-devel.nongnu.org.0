@@ -2,68 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ACAB3F6F33
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 08:11:39 +0200 (CEST)
-Received: from localhost ([::1]:52774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DD943F6F9F
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 08:35:33 +0200 (CEST)
+Received: from localhost ([::1]:37562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIm8Q-0002Kp-7J
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 02:11:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41264)
+	id 1mImVX-000445-GW
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 02:35:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mIm6s-0000nZ-3X; Wed, 25 Aug 2021 02:10:02 -0400
-Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b]:33702)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mIm6q-00064k-Fk; Wed, 25 Aug 2021 02:10:01 -0400
-Received: by mail-il1-x12b.google.com with SMTP id z2so22902056iln.0;
- Tue, 24 Aug 2021 23:09:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wwC3nlperZa07CHWCb5BlABxPSTEy+Ei+kAM18BvNkU=;
- b=HDDB8nFoS4OImMgkFWFhZsYGA33BheYtR2LtBCEMcj6UyWqBdbNf1UvXPgR4Pw9tIz
- 3tRZEvk0ESIpaKKVuFDuyEHLRF57qm0TfmhO7YZKX1bodu/AumFQQ+C+3uRoPxwjnZL9
- uIjvi5YBt8by7UgIXcwrFR66Fbj9rArC8TFHdJJ3A9yLM0/vj8rKuGg6N5na/byrqEHO
- pNSokV4qeitimO2FmmvYIvA9T+XMYXL92pAEAEGzNIZ1Fiu9DM7zexidQNb11nG2WPyQ
- F4kBjpyrsPQ1vMKaM4fPoin/OCrstUwn0OTFUVRdS4E+k33Q10iIL88RujSgP2rQSkdL
- w1Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wwC3nlperZa07CHWCb5BlABxPSTEy+Ei+kAM18BvNkU=;
- b=aQKHakle5qabo2VZhE2Jmf0uE1rmZsnOQNyZI7imGj1YwGECAW3mEf99vXtRa6N2iz
- sGIG+Q/51d7jaY7Pllt1FZ96eRO/V/crgzG22E8r+1hAbqBl9F+Rf1+i2mHZ9FjH5daI
- GYZm5tYbqhzf/2qh9MRl0WjV3wmrtJ/jxXcmsHTE7zb9Jv6KXQWQ3xeWrR1SjKdiRmSR
- n3/FpiBeyJQl6oYfNNSDXyXhvJjradBzgyhoJrjFhaoksxN4GGbfq1V3GCLZrayc+2HZ
- ygm1+UXzRRfEMK2afcR4tjJsAL9FOqHziNO5paHEKJk54oR6KTt5gpDH/kR2M+zjNXE6
- UeoA==
-X-Gm-Message-State: AOAM5318MitdjEDTEonZQLHEIGEUqXZU+RN8a6b4B4Iv5nw1ftZI1ux9
- b8DkYXV/9DORQwYBfUuua0MiWEf++4cGkmps7qY=
-X-Google-Smtp-Source: ABdhPJyiYE5nFcNdY46e3lEI8FOJTrBXyXl1WbWae4aIcz2s900t6vN5boAdlHreCW4GrnwCd3jelM+yw9/TdRdbJf8=
-X-Received: by 2002:a92:8707:: with SMTP id m7mr29785162ild.177.1629871799261; 
- Tue, 24 Aug 2021 23:09:59 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mImRu-0001fK-OR; Wed, 25 Aug 2021 02:31:46 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:59129 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mImRq-00076k-LI; Wed, 25 Aug 2021 02:31:46 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4GvbjP65PZz9sX2; Wed, 25 Aug 2021 16:31:37 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1629873097;
+ bh=2eRQDIajEvZ8Mq4KHVA5ll776UVpVnV+akqt9PvMhTg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Oa06CzDh9jJDhVyDE+qy7Iw7sunwIC+ThMvAs5WlFL7zPqHtWqE0tzvxBCekUcq5b
+ BbTr5dOwV5I+J+A5dFxYROVRCMnkn/r66cte1OQ3pgTQxdBt8kLnmdQoLH0YI2HIJz
+ lXVstioy81ZXqN19zOi/z0g/nURTmd9lxGRFcCDI=
+Date: Wed, 25 Aug 2021 16:09:40 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH 13/26] ppc/pnv: Add POWER10 quads
+Message-ID: <YSXepFEmvf9luXo0@yekko>
+References: <20210809134547.689560-1-clg@kaod.org>
+ <20210809134547.689560-14-clg@kaod.org>
 MIME-Version: 1.0
-References: <20210823195529.560295-1-richard.henderson@linaro.org>
- <20210823195529.560295-18-richard.henderson@linaro.org>
-In-Reply-To: <20210823195529.560295-18-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 25 Aug 2021 16:09:33 +1000
-Message-ID: <CAKmqyKPtYThDqY5muhFRrgTn571wfsbjui5_j2DRqdvfaj8nMw@mail.gmail.com>
-Subject: Re: [PATCH v5 17/24] target/riscv: Fix hgeie, hgeip
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12b;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12b.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="FTRx27bnTk+v2dEK"
+Content-Disposition: inline
+In-Reply-To: <20210809134547.689560-14-clg@kaod.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: 1
+X-Spam_score: 0.1
+X-Spam_bar: /
+X-Spam_report: (0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,90 +59,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 24, 2021 at 6:08 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> We failed to write into *val for these read functions;
-> replace them with read_zero.  Only warn about unsupported
-> non-zero value when writing a non-zero value.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+--FTRx27bnTk+v2dEK
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Alistair
-
+On Mon, Aug 09, 2021 at 03:45:34PM +0200, C=E9dric Le Goater wrote:
+> Still needs some refinements on the XSCOM registers.
+>=20
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 > ---
->  target/riscv/csr.c | 26 ++++++++------------------
->  1 file changed, 8 insertions(+), 18 deletions(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index d900f96dc1..905860dbb2 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1124,17 +1124,12 @@ static RISCVException write_hcounteren(CPURISCVState *env, int csrno,
->      return RISCV_EXCP_NONE;
+>  include/hw/ppc/pnv.h |  3 +++
+>  hw/ppc/pnv.c         | 34 ++++++++++++++++++++++++++++++++++
+>  2 files changed, 37 insertions(+)
+>=20
+> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+> index a299fbc7f25c..13495423283a 100644
+> --- a/include/hw/ppc/pnv.h
+> +++ b/include/hw/ppc/pnv.h
+> @@ -128,6 +128,9 @@ struct Pnv10Chip {
+>      Pnv9Psi      psi;
+>      PnvLpcController lpc;
+>      PnvOCC       occ;
+> +
+> +    uint32_t     nr_quads;
+> +    PnvQuad      *quads;
+>  };
+> =20
+>  #define PNV10_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index f75d90e61fa8..f670d97c5f91 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -1605,6 +1605,34 @@ static void pnv_chip_power10_instance_init(Object =
+*obj)
+>      object_initialize_child(obj, "occ",  &chip10->occ, TYPE_PNV10_OCC);
 >  }
->
-> -static RISCVException read_hgeie(CPURISCVState *env, int csrno,
-> -                                 target_ulong *val)
-> -{
-> -    qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
-> -    return RISCV_EXCP_NONE;
-> -}
-> -
->  static RISCVException write_hgeie(CPURISCVState *env, int csrno,
->                                    target_ulong val)
->  {
-> -    qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
-> +    if (val) {
-> +        qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
+> =20
+> +
+> +static void pnv_chip_power10_quad_realize(Pnv10Chip *chip10, Error **err=
+p)
+> +{
+> +    PnvChip *chip =3D PNV_CHIP(chip10);
+> +    int i;
+> +
+> +    chip10->nr_quads =3D DIV_ROUND_UP(chip->nr_cores, 4);
+> +    chip10->quads =3D g_new0(PnvQuad, chip10->nr_quads);
+> +
+> +    for (i =3D 0; i < chip10->nr_quads; i++) {
+> +        char eq_name[32];
+> +        PnvQuad *eq =3D &chip10->quads[i];
+> +        PnvCore *pnv_core =3D chip->cores[i * 4];
+> +        int core_id =3D CPU_CORE(pnv_core)->core_id;
+> +
+> +        snprintf(eq_name, sizeof(eq_name), "eq[%d]", core_id);
+> +        object_initialize_child_with_props(OBJECT(chip), eq_name, eq,
+> +                                           sizeof(*eq), TYPE_PNV_QUAD,
+> +                                           &error_fatal, NULL);
+> +
+> +        object_property_set_int(OBJECT(eq), "id", core_id, &error_fatal);
+
+"id" might not be a good name for this, since "id" on QOM objects is
+nearly always the (usually) user assigned name - which is a string.
+
+> +        qdev_realize(DEVICE(eq), NULL, &error_fatal);
+> +
+> +        pnv_xscom_add_subregion(chip, PNV10_XSCOM_EQ_BASE(eq->id),
+> +                                &eq->xscom_regs);
 > +    }
->      return RISCV_EXCP_NONE;
->  }
->
-> @@ -1165,17 +1160,12 @@ static RISCVException write_htinst(CPURISCVState *env, int csrno,
->      return RISCV_EXCP_NONE;
->  }
->
-> -static RISCVException read_hgeip(CPURISCVState *env, int csrno,
-> -                                 target_ulong *val)
-> -{
-> -    qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
-> -    return RISCV_EXCP_NONE;
-> -}
-> -
->  static RISCVException write_hgeip(CPURISCVState *env, int csrno,
->                                    target_ulong val)
+> +}
+> +
+>  static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
 >  {
-> -    qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
-> +    if (val) {
-> +        qemu_log_mask(LOG_UNIMP, "No support for a non-zero GEILEN.");
+>      PnvChipClass *pcc =3D PNV_CHIP_GET_CLASS(dev);
+> @@ -1626,6 +1654,12 @@ static void pnv_chip_power10_realize(DeviceState *=
+dev, Error **errp)
+>          return;
+>      }
+> =20
+> +    pnv_chip_power10_quad_realize(chip10, &local_err);
+> +    if (local_err) {
+> +        error_propagate(errp, local_err);
+> +        return;
 > +    }
->      return RISCV_EXCP_NONE;
->  }
->
-> @@ -1599,10 +1589,10 @@ riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
->      [CSR_HIP]         = { "hip",         hmode,   NULL,   NULL,     rmw_hip           },
->      [CSR_HIE]         = { "hie",         hmode,   read_hie,         write_hie         },
->      [CSR_HCOUNTEREN]  = { "hcounteren",  hmode,   read_hcounteren,  write_hcounteren  },
-> -    [CSR_HGEIE]       = { "hgeie",       hmode,   read_hgeie,       write_hgeie       },
-> +    [CSR_HGEIE]       = { "hgeie",       hmode,   read_zero,        write_hgeie       },
->      [CSR_HTVAL]       = { "htval",       hmode,   read_htval,       write_htval       },
->      [CSR_HTINST]      = { "htinst",      hmode,   read_htinst,      write_htinst      },
-> -    [CSR_HGEIP]       = { "hgeip",       hmode,   read_hgeip,       write_hgeip       },
-> +    [CSR_HGEIP]       = { "hgeip",       hmode,   read_zero,        write_hgeip       },
->      [CSR_HGATP]       = { "hgatp",       hmode,   read_hgatp,       write_hgatp       },
->      [CSR_HTIMEDELTA]  = { "htimedelta",  hmode,   read_htimedelta,  write_htimedelta  },
->      [CSR_HTIMEDELTAH] = { "htimedeltah", hmode32, read_htimedeltah, write_htimedeltah },
-> --
-> 2.25.1
->
->
+> +
+>      /* XIVE2 interrupt controller (POWER10) */
+>      object_property_set_int(OBJECT(&chip10->xive), "ic-bar",
+>                              PNV10_XIVE2_IC_BASE(chip), &error_fatal);
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--FTRx27bnTk+v2dEK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEl3qQACgkQbDjKyiDZ
+s5LpPw/+LC0L1Yo1IKn5APYYOcegKG1Pv3ChiVMxIii1JxlijldLBNsRBzmrxeEt
+rdPBbdZMHK+CCihxWrcAwt3JLLoWqxhpOtAQD36+y0A1SQq3nWyoq78+qypxjCNo
+8DRQXRqxRnADYYO0XrfiH0mgrAlj4kBC82+B0TIGXoJgJG59I10+C7HlKllcegeS
+hD+27DAFLDl/OyH2cAPn9Riu58PdRkBbeP/AjZMbbkWibWr9aYTcevpY4mwtCLdv
+kEOw64nXyLoc3TDnIu6ivb+SPbLAMUaKuyQbpknrcS3QAPpspvCTCZOWLRXNrSRE
+5jAUdn9J2PV2c3arTMFnqTqL/Gvgte6MEvJmz5ciLO4WGRQbVoDBX+cuklr13x1J
+TXyD+TMpeRQi1t5Hr15jbd7yAFXDmtXrc4S6T0O2lPAg32118vvRD0x9TD4Wn9g8
+bPUmAMQmIxKd/lY/70VS7/0ebEETK3hLyzvmAzNK4rszf9GZUAVYVO2sjkD7PPG3
+k4HImLo4qokh7Ll0dXz+nZpq3jTIYK3GIggeslGDcdUKxGN6dJv2FA2Q3FnBMqsP
+pHy9joMr1uOdKOC/T88cVkOENI1+BXVf1l5pLrx6xIiQjzMyaWsFSO6329gUjE9g
+FbL31qWhXE0yC/9SA2tzsD0N81BSXtmZITGHbDX32h1cROTcTF4=
+=e+0l
+-----END PGP SIGNATURE-----
+
+--FTRx27bnTk+v2dEK--
 
