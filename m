@@ -2,73 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0632A3F6CC6
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 02:53:26 +0200 (CEST)
-Received: from localhost ([::1]:43260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFDDE3F6D68
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 04:26:26 +0200 (CEST)
+Received: from localhost ([::1]:54780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIhAT-0001Qs-44
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 20:53:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56946)
+	id 1mIicT-0006WD-B5
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 22:26:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mIh6T-0001tm-Gw; Tue, 24 Aug 2021 20:49:18 -0400
-Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:33686)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mIh6S-00078H-4I; Tue, 24 Aug 2021 20:49:17 -0400
-Received: by mail-qv1-xf36.google.com with SMTP id a5so4711094qvq.0;
- Tue, 24 Aug 2021 17:49:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=g1UotLzQ0L5Awu7slK0NhDO1uCxic9JxflV/2rPVbk4=;
- b=bpkqJXAqKzO+WkF9dKxVUfAPF0Uprf54enT3zb1Re4BQTZZU3UEeYPWplMqZyb0T9D
- JI6C6tJd3AJeI/CV8gf5P+pL9ibbzxKAdQWDAW3Ao81GOi971+lfO0uavvnQPzkGn5CH
- MwzOwfLrkQErZAMmMZ2FT7tIFrm+ZSkhhC1JghVENeD5wcqZKQFJeG2h5047i3vS/Xmq
- oqo18YldFOAT7/4Im7hCKl4Lq7AORk5SkHPCaw4qqKvCGmH0wxqQVVkoWLd4KaULPeyR
- EzcHzDSaE9pNV2yKq3C3lQVMry/WRyAJYUpZo870LDnV6CW1nLqu0b6ACBdx2LwXN6Qy
- 03jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=g1UotLzQ0L5Awu7slK0NhDO1uCxic9JxflV/2rPVbk4=;
- b=LHnMB507VrDZqGJJs22JdmfPIwnJ5Yg7TesmFmTcoWpcH3FoI/hH/tCTzEcDhFEpVr
- hX6u5WvZ/bhy2VsDvblbJw7zrq6NaPbxGc2KST1/xQlcM+teriLIEzfQPQe4ZVlI0GwA
- mjiGWjEmxE9Dg3V9YKXZBDguX46FY2SgZlTMrj+dzVFc58teW970c5JXVTHIAQCAFx8u
- h9Zqv6FbLqT6uFbWVF4UTMQDpSZlaDvB8sqCEWdz46Zq80fKj0IY/qlIrP05AKWTrAu8
- T/1rTCQQbi1KqD9nkyLg+x+krlPc2rYRCZt5USZuGmpa4iv5zpVY7vqRiCKn/VmnkTzO
- i6MQ==
-X-Gm-Message-State: AOAM53249AXjPVp4IvLNfDcdh1SK1q5ePv1i+N/3uVj+McupY+beOgyH
- NrHrDPNFXeAUt0ySi43Bw+Z6HuwBD/4=
-X-Google-Smtp-Source: ABdhPJwdSwCHRikbPaz8VmxxXShRf+erUozmz84G0OyvzOR6tzW9GY3GZ+OYi2qqb8S5gNez24Gcow==
-X-Received: by 2002:ad4:4ab2:: with SMTP id i18mr946176qvx.44.1629852554671;
- Tue, 24 Aug 2021 17:49:14 -0700 (PDT)
-Received: from rekt.ihost.com ([179.247.162.205])
- by smtp.gmail.com with ESMTPSA id x10sm1515266qto.41.2021.08.24.17.49.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Aug 2021 17:49:11 -0700 (PDT)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 7/7] memory_hotplug.c: send DEVICE_UNPLUG_GUEST_ERROR in
- acpi_memory_hotplug_write()
-Date: Tue, 24 Aug 2021 21:48:35 -0300
-Message-Id: <20210825004835.472919-8-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210825004835.472919-1-danielhb413@gmail.com>
-References: <20210825004835.472919-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <Chunming.Li@verisilicon.com>)
+ id 1mIiau-0005cc-H6; Tue, 24 Aug 2021 22:24:48 -0400
+Received: from shasxm06.verisilicon.com ([101.89.135.45]:50240
+ helo=shasxm03.verisilicon.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <Chunming.Li@verisilicon.com>)
+ id 1mIiar-0003QC-Jd; Tue, 24 Aug 2021 22:24:47 -0400
+Content-Language: zh-CN
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; d=Verisilicon.com; s=default;
+ c=simple/simple; t=1629858265; h=from:subject:to:date:message-id;
+ bh=4uq+uDOSvvfcwwktSQYDxovYMWaoeW0V175YPMhQjJ4=;
+ b=cbbLjGNLGm9OmsGY4ASrqPJjcNaX2NLgyQebQKcazGatE5hyKkdR7wC5GajKCGz10AdGQTnEuyy
+ Aa3oXPU25GSwIHbAhqRMnjVnl5fammP6SoqyCYP0cxzcgqPK6Vi4Ha/UDpNB0V5LzosG2EdLffU/F
+ DHnl+UPTFsJahdXlwR8=
+Received: from SHASXM03.verisilicon.com ([fe80::938:4dda:a2f9:38aa]) by
+ SHASXM06.verisilicon.com ([fe80::59a8:ce34:dc14:ddda%16]) with mapi id
+ 14.03.0408.000; Wed, 25 Aug 2021 10:24:24 +0800
+From: "Li, Chunming" <Chunming.Li@verisilicon.com>
+To: "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>
+Subject: [PATCH v4 1/4] hw/arm/smmuv3: Support non PCI/PCIe device connect
+ with SMMU v3
+Thread-Topic: [PATCH v4 1/4] hw/arm/smmuv3: Support non PCI/PCIe device
+ connect with SMMU v3
+Thread-Index: AQHXmVhRWoreZ5yDzkuccUw3TNhi8Q==
+Date: Wed, 25 Aug 2021 02:24:23 +0000
+Message-ID: <49C79B700B5D8F45B8EF0861B4EF3B3B01142FB299@SHASXM03.verisilicon.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [182.148.13.182]
+x-tm-as-product-ver: SMEX-11.0.0.4179-8.100.1062-25628.004
+x-tm-as-result: No--6.815500-0.000000-31
+x-tm-as-user-approved-sender: Yes
+x-tm-as-user-blocked-sender: No
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf36.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=101.89.135.45;
+ envelope-from=Chunming.Li@verisilicon.com; helo=shasxm03.verisilicon.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,55 +69,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, armbru@redhat.com,
- groug@kaod.org, qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- david@gibson.dropbear.id.au
+Cc: "Liu, Renwei" <Renwei.Liu@verisilicon.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Wen,
+ Jianxian" <Jianxian.Wen@verisilicon.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MEM_UNPLUG_ERROR is deprecated since the introduction of
-DEVICE_UNPLUG_GUEST_ERROR. Keep emitting both while the deprecation of
-MEM_UNPLUG_ERROR is pending.
+  . Add sid-map property to store non PCI/PCIe devices SID
+  . Create IOMMU memory regions for non PCI/PCIe devices based on their SID
+  . Update SID getting strategy for PCI/PCIe and non PCI/PCIe devices
 
-CC: Michael S. Tsirkin <mst@redhat.com>
-CC: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Signed-off-by: Li, Chunming <chunming.li@verisilicon.com>
 ---
- hw/acpi/memory_hotplug.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ hw/arm/smmuv3.c              | 46 ++++++++++++++++++++++++++++++++++++
+ include/hw/arm/smmu-common.h |  7 +++++-
+ include/hw/arm/smmuv3.h      |  2 ++
+ 3 files changed, 54 insertions(+), 1 deletion(-)
 
-diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
-index 6a71de408b..d0fffcf787 100644
---- a/hw/acpi/memory_hotplug.c
-+++ b/hw/acpi/memory_hotplug.c
-@@ -8,6 +8,7 @@
- #include "qapi/error.h"
- #include "qapi/qapi-events-acpi.h"
- #include "qapi/qapi-events-machine.h"
-+#include "qapi/qapi-events-qdev.h"
- 
- #define MEMORY_SLOTS_NUMBER          "MDNR"
- #define MEMORY_HOTPLUG_IO_REGION     "HPMR"
-@@ -178,8 +179,16 @@ static void acpi_memory_hotplug_write(void *opaque, hwaddr addr, uint64_t data,
-             hotplug_handler_unplug(hotplug_ctrl, dev, &local_err);
-             if (local_err) {
-                 trace_mhp_acpi_pc_dimm_delete_failed(mem_st->selector);
+diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+index 01b60bee4..11d7fe842 100644
+--- a/hw/arm/smmuv3.c
++++ b/hw/arm/smmuv3.c
+@@ -32,6 +32,7 @@
+ #include "hw/arm/smmuv3.h"
+ #include "smmuv3-internal.h"
+ #include "smmu-internal.h"
++#include "hw/qdev-properties.h"
+=20
+ /**
+  * smmuv3_trigger_irq - pulse @irq if enabled and update
+@@ -1430,6 +1431,19 @@ static void smmu_reset(DeviceState *dev)
+     smmuv3_init_regs(s);
+ }
+=20
++static SMMUDevice *smmu_find_peri_sdev(SMMUState *s, uint16_t sid)
++{
++    SMMUDevice *sdev;
 +
-+                /*
-+                 * Send both MEM_UNPLUG_ERROR and DEVICE_UNPLUG_GUEST_ERROR
-+                 * while the deprecation of MEM_UNPLUG_ERROR is
-+                 * pending.
-+                 */
-                 qapi_event_send_mem_unplug_error(dev->id ? : "",
-                                                  error_get_pretty(local_err));
-+                qapi_event_send_device_unplug_guest_error(!!dev->id, dev->id,
-+                                                          dev->canonical_path);
-                 error_free(local_err);
-                 break;
-             }
--- 
-2.31.1
++    QLIST_FOREACH(sdev, &s->peri_sdev_list, next) {
++        if (smmu_get_sid(sdev) =3D=3D sid) {
++            return sdev;
++        }
++    }
++
++    return NULL;
++}
++
+ static void smmu_realize(DeviceState *d, Error **errp)
+ {
+     SMMUState *sys =3D ARM_SMMU(d);
+@@ -1437,6 +1451,9 @@ static void smmu_realize(DeviceState *d, Error **errp=
+)
+     SMMUv3Class *c =3D ARM_SMMUV3_GET_CLASS(s);
+     SysBusDevice *dev =3D SYS_BUS_DEVICE(d);
+     Error *local_err =3D NULL;
++    SMMUDevice *sdev;
++    char *name =3D NULL;
++    uint16_t sid =3D 0;
+=20
+     c->parent_realize(d, &local_err);
+     if (local_err) {
+@@ -1454,6 +1471,28 @@ static void smmu_realize(DeviceState *d, Error **err=
+p)
+     sysbus_init_mmio(dev, &sys->iomem);
+=20
+     smmu_init_irq(s, dev);
++
++    /* Create IOMMU memory region for peripheral devices based on their SI=
+D */
++    for (int i =3D 0; i < s->num_sid; i++) {
++        sid =3D s->sid_map[i];
++        sdev =3D smmu_find_peri_sdev(sys, sid);
++        if (sdev) {
++            continue;
++        }
++
++        sdev =3D g_new0(SMMUDevice, 1);
++        sdev->smmu =3D sys;
++        sdev->bus =3D NULL;
++        sdev->devfn =3D sid;
++
++        name =3D g_strdup_printf("%s-peri-%d", sys->mrtypename, sid);
++        memory_region_init_iommu(&sdev->iommu, sizeof(sdev->iommu),
++                                 sys->mrtypename,
++                                 OBJECT(sys), name, 1ULL << SMMU_MAX_VA_BI=
+TS);
++
++        QLIST_INSERT_HEAD(&sys->peri_sdev_list, sdev, next);
++        g_free(name);
++    }
+ }
+=20
+ static const VMStateDescription vmstate_smmuv3_queue =3D {
+@@ -1506,6 +1545,12 @@ static void smmuv3_instance_init(Object *obj)
+     /* Nothing much to do here as of now */
+ }
+=20
++static Property smmuv3_properties[] =3D {
++    DEFINE_PROP_ARRAY("sid-map", SMMUv3State, num_sid, sid_map,
++                      qdev_prop_uint16, uint16_t),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void smmuv3_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
+@@ -1515,6 +1560,7 @@ static void smmuv3_class_init(ObjectClass *klass, voi=
+d *data)
+     device_class_set_parent_reset(dc, smmu_reset, &c->parent_reset);
+     c->parent_realize =3D dc->realize;
+     dc->realize =3D smmu_realize;
++    device_class_set_props(dc, smmuv3_properties);
+ }
+=20
+ static int smmuv3_notify_flag_changed(IOMMUMemoryRegion *iommu,
+diff --git a/include/hw/arm/smmu-common.h b/include/hw/arm/smmu-common.h
+index 706be3c6d..95cd12a4b 100644
+--- a/include/hw/arm/smmu-common.h
++++ b/include/hw/arm/smmu-common.h
+@@ -117,6 +117,7 @@ struct SMMUState {
+     QLIST_HEAD(, SMMUDevice) devices_with_notifiers;
+     uint8_t bus_num;
+     PCIBus *primary_bus;
++    QLIST_HEAD(, SMMUDevice) peri_sdev_list;
+ };
+=20
+ struct SMMUBaseClass {
+@@ -138,7 +139,11 @@ SMMUPciBus *smmu_find_smmu_pcibus(SMMUState *s, uint8_=
+t bus_num);
+ /* Return the stream ID of an SMMU device */
+ static inline uint16_t smmu_get_sid(SMMUDevice *sdev)
+ {
+-    return PCI_BUILD_BDF(pci_bus_num(sdev->bus), sdev->devfn);
++    if (sdev->bus =3D=3D NULL) {
++        return sdev->devfn;
++    } else {
++        return PCI_BUILD_BDF(pci_bus_num(sdev->bus), sdev->devfn);
++    }
+ }
+=20
+ /**
+diff --git a/include/hw/arm/smmuv3.h b/include/hw/arm/smmuv3.h
+index c641e6073..32ba84990 100644
+--- a/include/hw/arm/smmuv3.h
++++ b/include/hw/arm/smmuv3.h
+@@ -39,6 +39,8 @@ struct SMMUv3State {
+     uint32_t features;
+     uint8_t sid_size;
+     uint8_t sid_split;
++    uint32_t num_sid;
++    uint16_t *sid_map;
+=20
+     uint32_t idr[6];
+     uint32_t iidr;
+--=20
 
 
