@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 654673F75F2
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:35:33 +0200 (CEST)
-Received: from localhost ([::1]:41254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 335F53F75F6
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:36:40 +0200 (CEST)
+Received: from localhost ([::1]:44202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIt40-0001d9-EZ
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:35:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56728)
+	id 1mIt55-0003a8-81
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:36:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1mIt2W-0007IR-NK
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:34:00 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1mIt2b-0007US-04
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:34:05 -0400
 Received: from mail-dm6nam10on2122.outbound.protection.outlook.com
  ([40.107.93.122]:65035 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1mIt2S-0005W2-CK
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:34:00 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1mIt2W-0005W2-Tj
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:34:04 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QFDxHcM3q8SKUNlhPX3zaI3qEPG2X2nVAH59cvHl/LyM/+VNE/mjtCYxNuheZWeiTRdGFOp47NS/QJbcrVd449aOvxKIhnd3TK+vVaWsrL1dDF+hWBPEVFcwNPQMsWOt2RG89NyMHTZOTjH6Q5SHdFGGGhwDngg3LzeFA54lUd9vsVFBXqFnkimn/klBXBKliNYdHZH2cJDT68IR7AjTvICuVWToGuQBqq6Q7zBPOiSv0sgbn/gQvPVQcq/+vFdGGZ8PpLnN+ITLQZMy+QptyWU2bDcRrIu8458prMo2AS900dBBZ9HKfOiKi/3nT39wLZPsghFbSyf0Cp9wiQnLpg==
+ b=aN/by7zCmeHBh43iY/MssnioLhMQYkQQdbmBwIzKLl6XWvM43/ujnFMFG0WplveYCU6IBRzHNonOO4XbyAkfzt7whipFgAMErD0oMDlLtIdUegpwMy5mQGo7478StKRfb45e9hhhwbK1eyfRUYDF+aNwIjGI9CMRwdnYuVYzq+jqF0WAtCvG8/ZPZlqWzprDIslamWMym9x3wHc/xfXC07S/KN/le+1CX/t7EhhydSziIt+8jQYuBDewarJp/2nlpB0ArxUjCVgd8FKw4FMAFA4FwLEUlxxGZGFyvHAmgaNrxQXFylYOPsdZGcGTrU++RBL0TSzk9eZGwtEkY7acvA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hmPJ+fD4N3a/Adp1pQJyGkU/mGVHfc5J0H8LriDEbPI=;
- b=bacgQdIvTGqODsXNpxDaNjkbI8i0gNXxmv7p+VgYtCHjQBujiMXFoX6hN1unybcHu+SS0lypQQE7dmzn0V7Fgps0XThI50uK6se+jhDeVquxaZrupnsG5aljNvdmPDHSPX8bVwWu7LmTghfLBCi8fUu5Xd12JzRRPWqRP/ekFIlMJJGCCObsxPcDXx3eG43psgPnn1sb022G5kowbIOiZhGEJpNeP2j8bkMLelcRSZH4TSTFDyiaTywymepB9CPdfxGxAx0H4oM+sHlJDShU4hLepceHwLgFrHDdOeD17fGxyVIJ1FqMOHHEhXkjh/r1rlNPtmi0aO2WQmynr3tEeA==
+ bh=0ntD0CBll2MvnNR62ARlgC7X4fKZR9uGeVPZG4F+7zU=;
+ b=Q2/IDgep7DOCaHE4IBqJ5yoU/CgIe5bAFrwJzOkW2h6RUMNFD80K+C2riyPp+SFmjWUZMIeE+gcV0VVaiUgmFsvGXQJwHR0CXObCZMFbc7pMYsHV3Xgm3N25DqHeZbDPQ1mrM0M6m4J9I5WPhsHqXHAKevDcqnJRm8Cc5KSTWGtzM2bARBOnqIfRfCVxPMFn85OMIBja4CQEEUfUVNbK0i8XLaCikIutPjSJ5Q/o91lAaxSg+dGZsUsNrzR+qgHU7AC1SsdJfgIuvh0T/KRSGh5+Fb/kkvH7E3Pt2jsSBlPbJvEY82e9hKLlTybfb/drzZJtC++Du48E3axeeMCGYw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hmPJ+fD4N3a/Adp1pQJyGkU/mGVHfc5J0H8LriDEbPI=;
- b=1Yu+NWJkj4R9RjbagsN8sK/6tcOt0/WibhYBm35Vf/pev0QYdl2xH3TIVIT9vXFpiZ5AedMe5amC868BJLoAsAWeHANXeykw50iXaVkWTs4kT7XWrnnS/Hz0aRlkqI1kZDa/fhQwuFEfbrudBcV/qTa+SnVqMew4+nKSClYStLk=
+ bh=0ntD0CBll2MvnNR62ARlgC7X4fKZR9uGeVPZG4F+7zU=;
+ b=b29HoifkBm/fdGkcodsj4aD+m7nJcCT3uB5yh5IZ676elhmfcGXjLZpHfoAr3HRp22MpoDHrLXc4iSVKtkiymA0PrMEWgUa8DHl+6nz8zj2TINideamPeI4xODnPtITrOj/GKHQcqLhF/0/oiNkfM0ChdXJT2sn5pdFfe8tpiog=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=bu.edu;
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
  by SN6PR03MB4447.namprd03.prod.outlook.com (2603:10b6:805:ff::11)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17; Wed, 25 Aug
- 2021 13:33:48 +0000
+ 2021 13:33:49 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::f6:2ec0:d576:8139]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::f6:2ec0:d576:8139%7]) with mapi id 15.20.4436.025; Wed, 25 Aug 2021
- 13:33:48 +0000
+ 13:33:49 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 2/8] fuzz: adjust timeout to allow for longer inputs
-Date: Wed, 25 Aug 2021 09:33:26 -0400
-Message-Id: <20210825133332.44378-3-alxndr@bu.edu>
+Subject: [PULL 3/8] fuzz: make object-name matching case-insensitive
+Date: Wed, 25 Aug 2021 09:33:27 -0400
+Message-Id: <20210825133332.44378-4-alxndr@bu.edu>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210825133332.44378-1-alxndr@bu.edu>
 References: <20210825133332.44378-1-alxndr@bu.edu>
@@ -62,54 +62,54 @@ Received: from stormtrooper.vrmnet (72.74.210.193) by
  BLAPR03CA0085.namprd03.prod.outlook.com (2603:10b6:208:329::30) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19 via Frontend
- Transport; Wed, 25 Aug 2021 13:33:47 +0000
+ Transport; Wed, 25 Aug 2021 13:33:48 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 686ea47a-3770-4d57-1629-08d967ccf7e9
+X-MS-Office365-Filtering-Correlation-Id: 9f377c03-c4c0-432c-2e56-08d967ccf884
 X-MS-TrafficTypeDiagnostic: SN6PR03MB4447:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB4447D32494E2F8D2325B73FEBAC69@SN6PR03MB4447.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:765;
+X-Microsoft-Antispam-PRVS: <SN6PR03MB4447364F0FF1F8A8CEC157DDBAC69@SN6PR03MB4447.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:323;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Zq3C6J786UG4vgkskqjgjSSzxZHyBcskR1l9i64WPbsmMuCp0mjroUC+OaDjceVeDpt7rYTlNTi9f5Zng1xGaKbjGrt0V5oHtvTfGnVyGVgY5R0RwEWJMt/Bk0HG/D1lAmGxH6iNhhxw6SOxktz3kaQQ98emQIAxrTyjGl08pB7RJdB3dPdn06PNUAO7lcSKPUbwe2N/o5pLYph6C3jcgNe4qiB7hXO7PBLgdxgv00TwxbbxOR1fcGFlE5g8kCaj1Ok8B7gwqgf6DimrZqNorlBjEiNvTg5SsZ1L4JlM/VpRByuBkdRS+UzuBPs7u+j6mAm0weeblYZKRFNXnflNJ9G3gQVbFjsVWOB/gLAEbUrCMjas0prtajFe4BcZWKPiMMRf4sojWMNMG11PaNS0/1YwWaVrOuyYlv0ILZEjRPr7mdMGPOVg2qiAp9m5Hz46OT1jEISYfLtv42OVHeawfqh/FG+YzkdnYNvWbZJblJq1tyDLAS8geEXan98m9ZAax9junKTMtJiDqRJMNAjFREHZudhACgxyBLnk2H6MoYlQMMQdNsSU3G3wc2DV4ie0aG8MuRm4vF6g0BWZNAtDqn4kD+fi3hB2mjYTn2WofyfikdyHRDzQ0s75A3hOOy0UPjRoTnFPZd8n9nIp495yUV7IyTZF1nRGGB0KcgWhEiuc92QM302oNTiZD9xngVGj87dtbjiuiP0K8vq0cenOxa0uxvIjOPavSeGBp1owKVA=
+X-Microsoft-Antispam-Message-Info: NeHCG9ua6IYJNw5Byg0u5iAa710GzzOhPAeoc2WA0ZAakLovZdjSfrW51AvwuO9U5VlOx9BhFQ735UWePiAebdwBw+ZYZX5YTskN708Xp3V5KMk5uwYmjt8MQv6RsD+nWeqe4cjth/Tukcp0hswNqy9m2IvGvNFs+iyvgJBCN0cYfMeQIShAf/AZAQTO6GqxhhrmJ0pjnRg4uRIgiZj610DaE161d6YeVKfLYoW8uZdwKxhpYyDgWmrP2THCBskbFMBmEEXAunjDT5xU7sg565HGfx4am/rZOg0ATDfhMXPOLNQLYKT1p+9X4GQ9OfKXkZkEw0YpWw1DgJgi3XkT5H5p74Xb9jHeNy9IIy7fP9vRmnjFmr1cgtp6V88usGoFcmyVXLbCcsK6U4Yay4O3nfffoOCCEZozMrxbAIOpW18wXHLhURqSKcZLnCDWLYXVWCO9t69tdpPt5rk4rqxqQpUn/PxWqp9u5tx/4MBbwsUDR9P83RQZHvs/DzWyplyUPpMkCkcKUE6+2HjoOWJJf/0yPrvXm1hMeZVS0g0fy2HsG91PdzsoKXzTS6JYacPQYclhYcE8Hhxpe63vXgqCVT4q2D3oB7YcJCA28WkUlH4yJlQEEO8+joG/pbAWr8YTPp7UBbjUpVeIyT3BU6nRv6JWfxWgEEVkq3Ndz8bnNj3zI878UZM8q0UV2zP/ssYvzRy1JcTqzaUlzrT8OxoJyQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(376002)(396003)(346002)(136003)(366004)(83380400001)(75432002)(186003)(1076003)(86362001)(478600001)(8936002)(36756003)(6916009)(52116002)(4326008)(6512007)(6666004)(26005)(6486002)(38100700002)(54906003)(66556008)(38350700002)(5660300002)(2906002)(66476007)(316002)(786003)(2616005)(956004)(8676002)(6506007)(66946007)(148743002);
+ SFS:(4636009)(39860400002)(376002)(396003)(346002)(136003)(366004)(83380400001)(75432002)(186003)(1076003)(86362001)(478600001)(8936002)(36756003)(6916009)(52116002)(4326008)(6512007)(6666004)(26005)(6486002)(38100700002)(54906003)(66556008)(38350700002)(5660300002)(2906002)(66476007)(316002)(786003)(2616005)(956004)(8676002)(6506007)(66946007);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?LiWx3dyrtvHmOB9xE2ehuv+TQNEo7ni5oVNzk4HfjpRYI2ZQ8rfL62qv4w6G?=
- =?us-ascii?Q?9c0Thx6Isss59CzvQd6HA3+/nRi5Tt9tP0pnlhh72Cg6m8Tpdtb9DoAufDJj?=
- =?us-ascii?Q?/UzT9+ZwVQg8n1Xe4l7y/jGFQwp4zbjBs0nIARIfCZQByIoIHl8QSIcs7Tf7?=
- =?us-ascii?Q?5M5t/WyPrkg9SywnvEajKn9ITDGLVEnye4CrO0gSDfG4WJBtnGPh3F80G1rs?=
- =?us-ascii?Q?IVEdqgaqvALDzwN790iOhiGTR2vVG9mSf2yxqQftoqZ2jM9PjmPQR35agJIf?=
- =?us-ascii?Q?uDYccgF8dEzBei3v9jo5TxdjNUDjJnAD2oRLreVBrLuBLVh4vmUvvWOrd+eN?=
- =?us-ascii?Q?NtZmFnFodnu3wRrPvoTNBnwSUwxFYLQ4QJkEOZ+q+Lo8vnB9+V3tYwi0KLlu?=
- =?us-ascii?Q?nxLKbeR8hjJY84fSCSRpbhEv5iT0EQUI6K85CUNZgGeYjffCiDFxBVGf7c6r?=
- =?us-ascii?Q?U6vMH4dhOpQsYRT281r+NEKWaeqQQCO6Gen33dYjKvUVpGxEoFCgMJGSNgiY?=
- =?us-ascii?Q?O7JAs83KG/xUPRAZNzPLcB1wRb7kaA3hbs/+7OUyhci84dXItoFlNSGUrW8J?=
- =?us-ascii?Q?vkB2juymTnGTTTzV1hZFVRMBj5ORWCY+g2AF4i0/spmK1AT3Zktj0TAekjIm?=
- =?us-ascii?Q?ibrymYY+3MiQhTqiNuH76bSRZIVNKcJiUXz8LpAFM3SywnqS8UAGPZyg/J+z?=
- =?us-ascii?Q?TZAl4MdwxcJrujsP7tBjVAKD7oggUragsyzSbdk7sjFRcw46RV8b/tA3tw3F?=
- =?us-ascii?Q?E5h00dNlO9aNSHJK/04aTs/EkbFnZrhBs6gIwSMMyfdihjJqAE70WZJBbGl6?=
- =?us-ascii?Q?F1Du8eQvTYK50hBVbUp1ftRg7dhWnjehrHQAbdZ+1OQOvk/IMZ+jlUVNBIjd?=
- =?us-ascii?Q?sxR6VKY7Gq2JVX0vGXB7ZjHAf5tsURno1kk6JydxWU7HeZbkCXsXvM/ATfmB?=
- =?us-ascii?Q?9gmgB+dhX+EznHuqXqOkyPN1PyG+NQ+EZ8i9BV+G2/P98il5ovQNJm8MrOdt?=
- =?us-ascii?Q?0En+rA0TQeDxTDaMtsUJErjXEdjPUKLug1FN3Fn4uI2vI3V+QI1jHU3mchYz?=
- =?us-ascii?Q?uQn5msHSrZ/jwsEfU1xy8rQ4W3UIfdKx/EjYpZWMC3D0lXviOq2eoPtoWi/s?=
- =?us-ascii?Q?Hfux9k/WBqkLYSauVJ3gs/1EMli12KiS6gYgKtqq7EdU+FlO3EhErcXMpjRe?=
- =?us-ascii?Q?IkGgR72lIxd9tBBNQXIxbELhfPTUZRUksbOa3aoggAH825S1Vuix6ow20i+1?=
- =?us-ascii?Q?9jjh7YIHGtqxcqHTJtCjC8vQ8n3HCYfaajMHtV8rX648xV/3t5f8ErwhJeIl?=
- =?us-ascii?Q?RG4W0/AHXDbcnRmXCMmNU7U8?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?scQizQnybw16efHEic/FANRwdrsz4Rt6gECKbDrqrjNpX7WUTce8AF28OjHu?=
+ =?us-ascii?Q?ZIWHVhrI6E/iIUDrbf964QrMQxN431PTvaeCmrMgqenQQmauQfFkErz9ytco?=
+ =?us-ascii?Q?1Ormo9N8D2U/9PCumVztoPMJ1NrHI5iqKIph/lEEEI2CYRyy/sY7bHbFrYCh?=
+ =?us-ascii?Q?TgliUa43Iu5HpXFlTAVjPocQh6Je3e8BpQXXupXJh+V55lDX6KHm+DkNQBGZ?=
+ =?us-ascii?Q?PTqre+rgSYatioCurBq5g5tcsDyOZj7e+R0sWJRS4bNOydlm0OzhqIKKAiSU?=
+ =?us-ascii?Q?GdTrHx2VtlFEE+jq35dGtnXaTnSv6DdAair5I1oUlT4BKBmcRMNXCJy3+FtT?=
+ =?us-ascii?Q?qsAMlNOkuxa0RjQWOKV8SPb52qp07dMyMNrQBgMQOko1Nk4l2/F0w787UNfm?=
+ =?us-ascii?Q?1IwIOF3ipsXx7x54mbdqu1J0t1cpECfp74SQJyKr/jx1sygcL8Cqb+I6Byir?=
+ =?us-ascii?Q?a+fHJ//MxLXENvd6rBqFt82du7t2ziOKEQ/Qq0woiAg5pSzEJoeem2DblOoz?=
+ =?us-ascii?Q?tXMoZ0wEd3MMaqDG6E2516ICaqlJyNUtdfAEj6wueVlUrLohXM5SK1tsGc1F?=
+ =?us-ascii?Q?rv9Ngt0gVn/J+XA/6hSVCGAF2WATG9Uo1PJEfGeC51ACObqmIWTdTbJEA0i+?=
+ =?us-ascii?Q?WzmjdCy6DV2EEd6apw+B165htjMBOkO3r4mftjC96TgUE83VpFHaK9VkX5+P?=
+ =?us-ascii?Q?XGU1Kk9C0gw5HKWm/Rnp32R0hp50f+rI+0/cjJhjgotxeJOGp6YtXy1fB7/b?=
+ =?us-ascii?Q?vsFS2tnudLs68momSqG5B7u95Yfpn0oPOpUwvi/Q9W9WT2Y39hKzdM2MqgRT?=
+ =?us-ascii?Q?W6p5JX67ifMNPWMKrIHV2oHYNkroTFmVxo0IxuaTtv0mgsG7NvAJtZ12NZiT?=
+ =?us-ascii?Q?Md+jCsKgZJppdM5o9TmojSEqNq4Zk/owKAv3KCZZK/kDAXp/vHbGZrxs9kNF?=
+ =?us-ascii?Q?nku/OL1m6m6Qm6tLFQMzeTrlSqbSi7ISCm3BRl0V4UC3w+2Zy7BRdxpdVKAN?=
+ =?us-ascii?Q?FPY9KwcBmFEpEYai+TmQRfVIJU2DQi8R8i3meGY5gJDP25rhi1OX987lmqSp?=
+ =?us-ascii?Q?qnqUAdaiI8Xx7ZJhYbl8AXsZBngZiqZGThaCpQnGHUcX5hHPtbruMjC+6kDq?=
+ =?us-ascii?Q?/bGTzvVZ53xDQ6xLP9Hx9k2YPCQwiAPZHzdasa4vINH0I1gHOM4w8bmIkENu?=
+ =?us-ascii?Q?2yfRum0L50yvKhTgQ+Fo0zxXnTUfFIshcyvPD+wX3UzzRnH9c9r5MZ+LFds2?=
+ =?us-ascii?Q?vi9Y3qg+8FkQOO7NiFrSrm9Ry96ZKM7nSF0XSIakzRj+SIm+DcnfD6WRY7ZK?=
+ =?us-ascii?Q?CR/mji7iaFL5cQ/jPZqeb/YE?=
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 686ea47a-3770-4d57-1629-08d967ccf7e9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f377c03-c4c0-432c-2e56-08d967ccf884
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2021 13:33:48.1202 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2021 13:33:49.1416 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: C0SVINul5zJIX3APkP8sWMRpzoJFIXlG2b67dNQfk7Pc6yAUTW5urXAcdfdm+F+k
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9oRFp1fiZk+Nj7KZ+oupKK0vKO1TTl2lwO1zV/ij5obUnyvBQk8K9skHhNSc60e2
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4447
 Received-SPF: pass client-ip=40.107.93.122; envelope-from=alxndr@bu.edu;
  helo=NAM10-DM6-obe.outbound.protection.outlook.com
@@ -141,70 +141,87 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using a custom timeout is useful to continue fuzzing complex devices,
-even after we run into some slow code-path. However, simply adding a
-fixed timeout to each input effectively caps the maximum input
-length/number of operations at some artificial value. There are two
-major problems with this:
-1. Some code might only be reachable through long IO sequences.
-2. Longer inputs can actually be _better_ for performance. While the
-   raw number of fuzzer executions decreases with larger inputs, the
-   number of MMIO/PIO/DMA operation/second actually increases, since
-   were are speding proportionately less time fork()ing.
+We have some configs for devices such as the AC97 and ES1370 that were
+not matching memory-regions correctly, because the configs provided
+lowercase names. To resolve these problems and prevent them from
+occurring again in the future, convert both the pattern and names to
+lower-case, prior to checking for a match.
 
-With this change, we keep the custom-timeout, but we renew it, prior to
-each MMIO/PIO/DMA operation. Thus, we time-out only when a specific
-operation takes a long time.
-
+Suggested-by: Darren Kenny <darren.kenny@oracle.com>
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- tests/qtest/fuzz/generic_fuzz.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ tests/qtest/fuzz/generic_fuzz.c | 24 ++++++++++++++++++++----
+ 1 file changed, 20 insertions(+), 4 deletions(-)
 
 diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-index 0ea47298b7..80eb29bd2d 100644
+index 80eb29bd2d..3e8ce29227 100644
 --- a/tests/qtest/fuzz/generic_fuzz.c
 +++ b/tests/qtest/fuzz/generic_fuzz.c
-@@ -668,15 +668,16 @@ static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
-     uint8_t op;
+@@ -758,8 +758,13 @@ static int locate_fuzz_memory_regions(Object *child, void *opaque)
  
-     if (fork() == 0) {
-+        struct sigaction sact;
-+        struct itimerval timer;
-         /*
-          * Sometimes the fuzzer will find inputs that take quite a long time to
-          * process. Often times, these inputs do not result in new coverage.
-          * Even if these inputs might be interesting, they can slow down the
--         * fuzzer, overall. Set a timeout to avoid hurting performance, too much
-+         * fuzzer, overall. Set a timeout for each command to avoid hurting
-+         * performance, too much
-          */
-         if (timeout) {
--            struct sigaction sact;
--            struct itimerval timer;
- 
-             sigemptyset(&sact.sa_mask);
-             sact.sa_flags   = SA_NODEFER;
-@@ -686,13 +687,17 @@ static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
-             memset(&timer, 0, sizeof(timer));
-             timer.it_value.tv_sec = timeout / USEC_IN_SEC;
-             timer.it_value.tv_usec = timeout % USEC_IN_SEC;
--            setitimer(ITIMER_VIRTUAL, &timer, NULL);
-         }
- 
-         op_clear_dma_patterns(s, NULL, 0);
-         pci_disabled = false;
- 
-         while (cmd && Size) {
-+            /* Reset the timeout, each time we run a new command */
-+            if (timeout) {
-+                setitimer(ITIMER_VIRTUAL, &timer, NULL);
-+            }
+ static int locate_fuzz_objects(Object *child, void *opaque)
+ {
++    GString *type_name;
++    GString *path_name;
+     char *pattern = opaque;
+-    if (g_pattern_match_simple(pattern, object_get_typename(child))) {
 +
-             /* Get the length until the next command or end of input */
-             nextcmd = memmem(cmd, Size, SEPARATOR, strlen(SEPARATOR));
-             cmd_len = nextcmd ? nextcmd - cmd : Size;
++    type_name = g_string_new(object_get_typename(child));
++    g_string_ascii_down(type_name);
++    if (g_pattern_match_simple(pattern, type_name->str)) {
+         /* Find and save ptrs to any child MemoryRegions */
+         object_child_foreach_recursive(child, locate_fuzz_memory_regions, NULL);
+ 
+@@ -776,8 +781,9 @@ static int locate_fuzz_objects(Object *child, void *opaque)
+             g_ptr_array_add(fuzzable_pci_devices, PCI_DEVICE(child));
+         }
+     } else if (object_dynamic_cast(OBJECT(child), TYPE_MEMORY_REGION)) {
+-        if (g_pattern_match_simple(pattern,
+-            object_get_canonical_path_component(child))) {
++        path_name = g_string_new(object_get_canonical_path_component(child));
++        g_string_ascii_down(path_name);
++        if (g_pattern_match_simple(pattern, path_name->str)) {
+             MemoryRegion *mr;
+             mr = MEMORY_REGION(child);
+             if ((memory_region_is_ram(mr) ||
+@@ -786,7 +792,9 @@ static int locate_fuzz_objects(Object *child, void *opaque)
+                 g_hash_table_insert(fuzzable_memoryregions, mr, (gpointer)true);
+             }
+         }
++        g_string_free(path_name, true);
+     }
++    g_string_free(type_name, true);
+     return 0;
+ }
+ 
+@@ -814,6 +822,7 @@ static void generic_pre_fuzz(QTestState *s)
+     MemoryRegion *mr;
+     QPCIBus *pcibus;
+     char **result;
++    GString *name_pattern;
+ 
+     if (!getenv("QEMU_FUZZ_OBJECTS")) {
+         usage();
+@@ -843,10 +852,17 @@ static void generic_pre_fuzz(QTestState *s)
+ 
+     result = g_strsplit(getenv("QEMU_FUZZ_OBJECTS"), " ", -1);
+     for (int i = 0; result[i] != NULL; i++) {
++        name_pattern = g_string_new(result[i]);
++        /*
++         * Make the pattern lowercase. We do the same for all the MemoryRegion
++         * and Type names so the configs are case-insensitive.
++         */
++        g_string_ascii_down(name_pattern);
+         printf("Matching objects by name %s\n", result[i]);
+         object_child_foreach_recursive(qdev_get_machine(),
+                                     locate_fuzz_objects,
+-                                    result[i]);
++                                    name_pattern->str);
++        g_string_free(name_pattern, true);
+     }
+     g_strfreev(result);
+     printf("This process will try to fuzz the following MemoryRegions:\n");
 -- 
 2.30.2
 
