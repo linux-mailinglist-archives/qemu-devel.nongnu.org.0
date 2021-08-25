@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CB4D3F742A
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 13:13:02 +0200 (CEST)
-Received: from localhost ([::1]:57094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC73F3F7431
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 13:15:50 +0200 (CEST)
+Received: from localhost ([::1]:38036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIqq5-00020t-5J
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 07:13:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53594)
+	id 1mIqsi-0008Br-Tb
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 07:15:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mIqe0-0007in-Hm
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 07:00:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53670)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mIqe1-0007ki-4i
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 07:00:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20284)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mIqdy-0004gq-HK
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mIqdz-0004iq-Gn
  for qemu-devel@nongnu.org; Wed, 25 Aug 2021 07:00:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629889229;
+ s=mimecast20190719; t=1629889230;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=j0RTV8Hh0iBDy5JnMmpyX+BUoYiQG9rI1hcFrgfzs/Y=;
- b=Or+dp8eXbvhEgDyXCQ3DpS/0nSMOLH4JiVv3N2RRO0tCCD3c7IGhieSQi4sky92M+5jr84
- lfrQVMabvZo6caU8n1hlgshh4vTZbK6P6TP+SoqEWpr8g0qQWv563QCBdzW3epq6grJcxE
- JV0wkN/PMoNDfQNwnwU9N6paGLr+u2s=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=F6GGmholXce/jmshIj3aM2wC9Cu1U7pcQ2HOug7EZ3Y=;
+ b=WqJ1EWPLWqEEcSpsblO2YJGJ7DAfvAuocyH5uQhehYaNen8mIjocjFr85ry7pPDn73OmF7
+ 1xt1mIhy/XZRaDXKP3U0LZnc6q87R20pgn+IAD+R+K212344tP818ycLboIfVclSM48aEh
+ Dt1cQdfmI0A/A4l3jHo7tDlWxb3aLZc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207-4NjA_cYzNEi-xR2vkp7nVQ-1; Wed, 25 Aug 2021 07:00:28 -0400
-X-MC-Unique: 4NjA_cYzNEi-xR2vkp7nVQ-1
+ us-mta-385-8O6manzzNUWatuuO2Nv_yg-1; Wed, 25 Aug 2021 07:00:29 -0400
+X-MC-Unique: 8O6manzzNUWatuuO2Nv_yg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02A66108292A;
- Wed, 25 Aug 2021 11:00:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BEC51018F72;
+ Wed, 25 Aug 2021 11:00:28 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.111])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 26EC83AC1;
- Wed, 25 Aug 2021 11:00:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5F6D15D741;
+ Wed, 25 Aug 2021 11:00:27 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 0/6] documentation updates
-Date: Wed, 25 Aug 2021 13:00:12 +0200
-Message-Id: <20210825110018.100913-1-thuth@redhat.com>
+Subject: [PULL 1/6] docs/about: Remove the duplicated doc
+Date: Wed, 25 Aug 2021 13:00:13 +0200
+Message-Id: <20210825110018.100913-2-thuth@redhat.com>
+In-Reply-To: <20210825110018.100913-1-thuth@redhat.com>
+References: <20210825110018.100913-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -77,44 +80,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- Hi Peter!
+From: Yanan Wang <wangyanan55@huawei.com>
 
-The following changes since commit f9baca549e44791be0dd98de15add3d8452a8af0:
+There are two places describing the same thing about deprecation
+of invalid topologies of -smp CLI, so remove the duplicated one.
 
-  Update version for v6.1.0 release (2021-08-24 17:59:52 +0100)
+Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210823030005.165668-2-wangyanan55@huawei.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ docs/about/removed-features.rst | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-are available in the Git repository at:
-
-  https://gitlab.com/thuth/qemu.git tags/pull-request-2021-08-25
-
-for you to fetch changes up to 2e8801988282bf3a45b495efa8438509ff68056d:
-
-  docs: make sphinx-build be quiet by default (2021-08-25 12:19:18 +0200)
-
-----------------------------------------------------------------
-* Various updates for the documentation
-
-----------------------------------------------------------------
-Daniel P. Berrangé (2):
-      docs: split the CI docs into two files
-      docs: make sphinx-build be quiet by default
-
-Thomas Huth (1):
-      docs/about/removed-features: Move some CLI options to the right location
-
-Yanan Wang (3):
-      docs/about: Remove the duplicated doc
-      docs/about: Unify the subject format
-      docs/about: Add the missing release record in the subject
-
- docs/about/deprecated.rst       |  56 +++++++-------
- docs/about/removed-features.rst | 157 ++++++++++++++++++---------------------
- docs/devel/ci-jobs.rst          |  40 ++++++++++
- docs/devel/ci-runners.rst       | 117 +++++++++++++++++++++++++++++
- docs/devel/ci.rst               | 159 +---------------------------------------
- docs/meson.build                |   2 +-
- 6 files changed, 259 insertions(+), 272 deletions(-)
- create mode 100644 docs/devel/ci-jobs.rst
- create mode 100644 docs/devel/ci-runners.rst
+diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
+index cbfa1a8e31..6a9c5bb484 100644
+--- a/docs/about/removed-features.rst
++++ b/docs/about/removed-features.rst
+@@ -647,19 +647,6 @@ as ignored. Currently, users are responsible for making sure the backing storage
+ specified with ``-mem-path`` can actually provide the guest RAM configured with
+ ``-m`` and QEMU fails to start up if RAM allocation is unsuccessful.
+ 
+-``-smp`` (invalid topologies) (removed 5.2)
+-'''''''''''''''''''''''''''''''''''''''''''
+-
+-CPU topology properties should describe whole machine topology including
+-possible CPUs.
+-
+-However, historically it was possible to start QEMU with an incorrect topology
+-where *n* <= *sockets* * *cores* * *threads* < *maxcpus*,
+-which could lead to an incorrect topology enumeration by the guest.
+-Support for invalid topologies is removed, the user must ensure
+-topologies described with -smp include all possible cpus, i.e.
+-*sockets* * *cores* * *threads* = *maxcpus*.
+-
+ ``-machine enforce-config-section=on|off`` (removed 5.2)
+ ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ 
+-- 
+2.27.0
 
 
