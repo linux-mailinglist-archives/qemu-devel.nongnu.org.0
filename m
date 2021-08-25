@@ -2,46 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F27E3F7150
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 10:53:41 +0200 (CEST)
-Received: from localhost ([::1]:42850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02A2A3F717E
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 11:11:45 +0200 (CEST)
+Received: from localhost ([::1]:57108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIofE-0003ra-7o
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 04:53:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56356)
+	id 1mIowh-00062X-I9
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 05:11:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mIoeH-000309-52; Wed, 25 Aug 2021 04:52:41 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:46312
+ id 1mIovm-0005BN-Sd; Wed, 25 Aug 2021 05:10:46 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:46328
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mIoeE-0001zd-1t; Wed, 25 Aug 2021 04:52:40 -0400
+ id 1mIovj-0005zb-Ef; Wed, 25 Aug 2021 05:10:46 -0400
 Received: from host86-179-186-93.range86-179.btcentralplus.com
  ([86.179.186.93] helo=[192.168.50.176])
  by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mIodn-0007x2-T6; Wed, 25 Aug 2021 09:52:17 +0100
+ id 1mIovJ-00084M-8Y; Wed, 25 Aug 2021 10:10:21 +0100
 To: Finn Thain <fthain@linux-m68k.org>,
  David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
 References: <cover.1629799776.git.fthain@linux-m68k.org>
- <cff0bcc8963e6b339716ad095a41687533cd64fd.1629799776.git.fthain@linux-m68k.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <8895ba94-2a50-8845-2744-e318fc08dd47@ilande.co.uk>
-Date: Wed, 25 Aug 2021 09:52:29 +0100
+Message-ID: <9aec7882-0690-7152-e38e-e4c683c433a2@ilande.co.uk>
+Date: Wed, 25 Aug 2021 10:10:34 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <cff0bcc8963e6b339716ad095a41687533cd64fd.1629799776.git.fthain@linux-m68k.org>
+In-Reply-To: <cover.1629799776.git.fthain@linux-m68k.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.179.186.93
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [RFC 10/10] hw/mos6522: Synchronize timer interrupt and timer
- counter
+Subject: Re: [RFC 00/10] hw/mos6522: VIA timer emulation fixes and improvements
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -71,378 +69,179 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 24/08/2021 11:09, Finn Thain wrote:
 
-> We rely on a QEMUTimer callback to set the interrupt flag, and this races
-> with counter register accesses, such that the guest might see the counter
-> reloaded but might not see the interrupt flagged.
+> This is a patch series that I started last year. The aim was to try to
+> get a monotonic clocksource for Linux/m68k guests. That aim hasn't been
+> achieved yet (for q800 machines) but I'm submitting the patch series as
+> an RFC because,
 > 
-> According to the datasheet, a real 6522 device counts down to FFFF, then
-> raises the relevant IRQ. After the FFFF count, the counter reloads from
-> the latch (for timer 1) or continues to decrement thru FFFE (for timer 2).
+>   - It does improve 6522 emulation fidelity.
 > 
-> Therefore, the guest operating system may read zero from T1CH and infer
-> that the counter has not yet wrapped (given another full count hasn't
-> yet elapsed.)
+>   - It allows Linux/m68k to make use of the additional timer that the
+>     hardware indeed offers but which QEMU omits. This has several
+>     benefits for Linux guests [1].
 > 
-> Similarly, the guest may find the timer interrupt flag to be set and
-> infer that the counter is non-zero (given another full count hasn't yet
-> elapsed).
+>   - I see that Mark has been working on timer emulation issues in his
+>     github repo [2] and it seems likely that MacOS, NetBSD or A/UX guests
+>     will also require better 6522 emulation.
 > 
-> Synchronize the timer counter and interrupt flag such that the guest will
-> observe the correct sequence of states. (It's still not right, because in
-> reality it's not possible to access the registers more than once per
-> "phase 2" clock cycle.)
+> To make collaboration easier these patches can also be fetched from
+> github [3].
 > 
-> Eliminate the duplication of logic in get_counter() and
-> get_next_irq_time() by calling the former before the latter.
+> On a real Quadra, accesses to the SY6522 chips are slow because they are
+> synchronous with the 783360 Hz "phase 2" clock. In QEMU, they are slow
+> only because of the division operation in the timer count calculation.
 > 
-> Note that get_counter() is called prior to changing the latch. This is
-> because get_counter() may need to use the old latch value in order to
-> reload the counter.
+> This patch series improves the fidelity of the emulated chip, but the
+> price is more division ops. I haven't tried to measure this yet.
 > 
-> Signed-off-by: Finn Thain <fthain@linux-m68k.org>
-> ---
->   hw/misc/mos6522.c         | 154 ++++++++++++++++++++------------------
->   hw/misc/trace-events      |   2 +-
->   include/hw/misc/mos6522.h |   8 +-
->   3 files changed, 88 insertions(+), 76 deletions(-)
+> The emulated 6522 still deviates from the behaviour of the real thing,
+> however. For example, two consecutive accesses to a real 6522 timer
+> counter can never yield the same value. This is not true of the 6522 in
+> QEMU 6 wherein two consecutive accesses to a timer count register have
+> been observed to yield the same value.
+> 
+> Linux is not particularly robust in the face of a 6522 that deviates
+> from the usual behaviour. The problem presently affecting a Linux guest
+> is that its 'via' clocksource is prone to monotonicity failure. That is,
+> the clocksource counter can jump backwards. This can be observed by
+> patching Linux like so:
+> 
+> diff --git a/arch/m68k/mac/via.c b/arch/m68k/mac/via.c
+> --- a/arch/m68k/mac/via.c
+> +++ b/arch/m68k/mac/via.c
+> @@ -606,6 +606,8 @@ void __init via_init_clock(void)
+>   	clocksource_register_hz(&mac_clk, VIA_CLOCK_FREQ);
+>   }
+>   
+> +static u32 prev_ticks;
+> +
+>   static u64 mac_read_clk(struct clocksource *cs)
+>   {
+>   	unsigned long flags;
+> @@ -631,6 +633,8 @@ static u64 mac_read_clk(struct clocksource *cs)
+>   	count = count_high << 8;
+>   	ticks = VIA_TIMER_CYCLES - count;
+>   	ticks += clk_offset + clk_total;
+> +if (ticks < prev_ticks) pr_warn("%s: %u < %u\n", __func__, ticks, prev_ticks);
+> +prev_ticks = ticks;
+>   	local_irq_restore(flags);
+>   
+>   	return ticks;
+> 
+> This problem can be partly blamed on a 6522 design limitation, which is
+> that the timer counter has no overflow register. Hence, if a timer
+> counter wraps around and the kernel is late to handle the subsequent
+> interrupt, the kernel can't account for any missed ticks.
+> 
+> On a real Quadra, the kernel mitigates this limitation by minimizing
+> interrupt latency. But on QEMU, interrupt latency is unbounded. This
+> can't be mitigated by the guest kernel at all and leads to clock drift.
+> This can be observed by patching QEMU like so:
 > 
 > diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-> index 23a440b64f..bd5df4963b 100644
 > --- a/hw/misc/mos6522.c
 > +++ b/hw/misc/mos6522.c
-> @@ -52,26 +52,58 @@ static void mos6522_update_irq(MOS6522State *s)
->       }
->   }
->   
-> +static void mos6522_timer_raise_irq(MOS6522State *s, MOS6522Timer *ti)
-> +{
-> +    if (ti->state == irq) {
-> +        return;
-> +    }
-> +    ti->state = irq;
-> +    if (ti->index == 0) {
-> +        s->ifr |= T1_INT;
-> +    } else {
-> +        s->ifr |= T2_INT;
-> +    }
-> +    mos6522_update_irq(s);
-> +}
-> +
->   static unsigned int get_counter(MOS6522State *s, MOS6522Timer *ti, int64_t now)
->   {
->       int64_t d;
->       unsigned int counter;
-> -
-> +    bool reload;
-> +
-> +    /*
-> +     * Timer 1 counts down from the latch value to -1 (period of latch + 2),
-> +     * then raises its interrupt and reloads.
-> +     * Timer 2 counts down from the latch value to -1, then raises its
-> +     * interrupt and continues to -2 and so on without any further interrupts.
-> +     * (In reality, the first count should be measured from the falling edge
-> +     * of the "phase two" clock, making its period N + 1.5. The subsequent
-> +     * counts have period N + 2. This detail has been ignored here.)
-> +     */
->       d = muldiv64(now - ti->load_time,
->                    ti->frequency, NANOSECONDS_PER_SECOND);
->   
-> -    if (ti->index == 0) {
-> -        /* the timer goes down from latch to -1 (period of latch + 2) */
-> -        if (d <= (ti->counter_value + 1)) {
-> -            counter = ti->counter_value - d;
-> -        } else {
-> -            int64_t d_post_reload = d - (ti->counter_value + 2);
-> -            /* XXX this calculation assumes that ti->latch has not changed */
-> -            counter = ti->latch - (d_post_reload % (ti->latch + 2));
-> -        }
-> -    } else {
-> -        counter = ti->counter_value - d;
-> +    reload = (d >= ti->counter_value + 2);
-> +
-> +    if (ti->index == 0 && reload) {
-> +        int64_t more_reloads;
-> +
-> +        d -= ti->counter_value + 2;
-> +        more_reloads = d / (ti->latch + 2);
-> +        d -= more_reloads * (ti->latch + 2);
-> +        ti->load_time += muldiv64(ti->counter_value + 2 +
-> +                                  more_reloads * (ti->latch + 2),
-> +                                  NANOSECONDS_PER_SECOND, ti->frequency);
-> +        ti->counter_value = ti->latch;
->       }
-> +
-> +    counter = ti->counter_value - d;
-> +
-> +    if (reload) {
-> +        mos6522_timer_raise_irq(s, ti);
-> +    }
-> +
->       return counter & 0xffff;
->   }
->   
-> @@ -80,7 +112,7 @@ static void set_counter(MOS6522State *s, MOS6522Timer *ti, unsigned int val)
->       trace_mos6522_set_counter(1 + ti->index, val);
->       ti->load_time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
->       ti->counter_value = val;
-> -    ti->oneshot_fired = false;
-> +    ti->state = decrement;
->       if (ti->index == 0) {
->           mos6522_timer1_update(s, ti, ti->load_time);
->       } else {
-> @@ -91,38 +123,15 @@ static void set_counter(MOS6522State *s, MOS6522Timer *ti, unsigned int val)
->   static int64_t get_next_irq_time(MOS6522State *s, MOS6522Timer *ti,
->                                    int64_t now)
->   {
-> -    int64_t d, next_time;
-> -    unsigned int counter;
-> +    int64_t next_time;
->   
->       if (ti->frequency == 0) {
->           return INT64_MAX;
->       }
->   
-> -    /* current counter value */
-> -    d = muldiv64(now - ti->load_time,
-> -                 ti->frequency, NANOSECONDS_PER_SECOND);
-> -
-> -    /* the timer goes down from latch to -1 (period of latch + 2) */
-> -    if (d <= (ti->counter_value + 1)) {
-> -        counter = ti->counter_value - d;
-> -    } else {
-> -        int64_t d_post_reload = d - (ti->counter_value + 2);
-> -        /* XXX this calculation assumes that ti->latch has not changed */
-> -        counter = ti->latch - (d_post_reload % (ti->latch + 2));
-> -    }
-> -    counter &= 0xffff;
-> -
-> -    /* Note: we consider the irq is raised on 0 */
-> -    if (counter == 0xffff) {
-> -        next_time = d + ti->latch + 1;
-> -    } else if (counter == 0) {
-> -        next_time = d + ti->latch + 2;
-> -    } else {
-> -        next_time = d + counter;
-> -    }
-> -    trace_mos6522_get_next_irq_time(ti->latch, d, next_time - d);
-> -    next_time = muldiv64(next_time, NANOSECONDS_PER_SECOND, ti->frequency) +
-> -                         ti->load_time;
-> +    next_time = ti->load_time + muldiv64(ti->counter_value + 2,
-> +                                         NANOSECONDS_PER_SECOND, ti->frequency);
-> +    trace_mos6522_get_next_irq_time(ti->latch, ti->load_time, next_time);
->       return next_time;
->   }
->   
-> @@ -132,12 +141,10 @@ static void mos6522_timer1_update(MOS6522State *s, MOS6522Timer *ti,
->       if (!ti->timer) {
->           return;
->       }
-> +    get_counter(s, ti, now);
->       ti->next_irq_time = get_next_irq_time(s, ti, now);
-> -    if (ti->next_irq_time <= now) {
-> -        ti->next_irq_time = now + 1;
-> -    }
->       if ((s->ier & T1_INT) == 0 ||
-> -        ((s->acr & T1MODE) == T1MODE_ONESHOT && ti->oneshot_fired)) {
-> +        ((s->acr & T1MODE) == T1MODE_ONESHOT && ti->state >= irq)) {
->           timer_del(ti->timer);
->       } else {
->           timer_mod(ti->timer, ti->next_irq_time);
-> @@ -150,11 +157,9 @@ static void mos6522_timer2_update(MOS6522State *s, MOS6522Timer *ti,
->       if (!ti->timer) {
->           return;
->       }
-> +    get_counter(s, ti, now);
->       ti->next_irq_time = get_next_irq_time(s, ti, now);
-> -    if (ti->next_irq_time <= now) {
-> -        ti->next_irq_time = now + 1;
-> -    }
-> -    if ((s->ier & T2_INT) == 0 || (s->acr & T2MODE) || ti->oneshot_fired) {
-> +    if ((s->ier & T2_INT) == 0 || (s->acr & T2MODE) || ti->state >= irq) {
->           timer_del(ti->timer);
->       } else {
->           timer_mod(ti->timer, ti->next_irq_time);
-> @@ -167,10 +172,7 @@ static void mos6522_timer1_expired(void *opaque)
->       MOS6522Timer *ti = &s->timers[0];
->       int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
->   
-> -    ti->oneshot_fired = true;
->       mos6522_timer1_update(s, ti, now);
-> -    s->ifr |= T1_INT;
-> -    mos6522_update_irq(s);
->   }
->   
->   static void mos6522_timer2_expired(void *opaque)
-> @@ -179,10 +181,7 @@ static void mos6522_timer2_expired(void *opaque)
->       MOS6522Timer *ti = &s->timers[1];
->       int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
->   
-> -    ti->oneshot_fired = true;
->       mos6522_timer2_update(s, ti, now);
-> -    s->ifr |= T2_INT;
-> -    mos6522_update_irq(s);
->   }
->   
->   static void mos6522_set_sr_int(MOS6522State *s)
-> @@ -208,18 +207,6 @@ uint64_t mos6522_read(void *opaque, hwaddr addr, unsigned size)
->       uint32_t val;
->       int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
->   
-> -    if (now >= s->timers[0].next_irq_time) {
-> -        s->timers[0].oneshot_fired = true;
-> -        mos6522_timer1_update(s, &s->timers[0], now);
-> -        s->ifr |= T1_INT;
-> -        mos6522_update_irq(s);
-> -    }
-> -    if (now >= s->timers[1].next_irq_time) {
-> -        s->timers[1].oneshot_fired = true;
-> -        mos6522_timer2_update(s, &s->timers[1], now);
-> -        s->ifr |= T2_INT;
-> -        mos6522_update_irq(s);
-> -    }
->       switch (addr) {
->       case VIA_REG_B:
->           val = s->b;
-> @@ -238,8 +225,11 @@ uint64_t mos6522_read(void *opaque, hwaddr addr, unsigned size)
->           break;
->       case VIA_REG_T1CL:
->           val = get_counter(s, &s->timers[0], now) & 0xff;
-> -        s->ifr &= ~T1_INT;
-> -        mos6522_update_irq(s);
-> +        if (s->timers[0].state >= irq) {
-> +            s->timers[0].state = irq_cleared;
-> +            s->ifr &= ~T1_INT;
-> +            mos6522_update_irq(s);
-> +        }
->           break;
->       case VIA_REG_T1CH:
->           val = get_counter(s, &s->timers[0], now) >> 8;
-> @@ -252,8 +242,11 @@ uint64_t mos6522_read(void *opaque, hwaddr addr, unsigned size)
->           break;
->       case VIA_REG_T2CL:
->           val = get_counter(s, &s->timers[1], now) & 0xff;
-> -        s->ifr &= ~T2_INT;
-> -        mos6522_update_irq(s);
-> +        if (s->timers[1].state >= irq) {
-> +            s->timers[1].state = irq_cleared;
-> +            s->ifr &= ~T2_INT;
-> +            mos6522_update_irq(s);
-> +        }
->           break;
->       case VIA_REG_T2CH:
->           val = get_counter(s, &s->timers[1], now) >> 8;
-> @@ -293,7 +286,7 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
->   {
->       MOS6522State *s = opaque;
->       MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(s);
-> -    int64_t now;
-> +    int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
->   
->       trace_mos6522_write(addr, val);
->   
-> @@ -316,6 +309,7 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
->           s->dira = val;
->           break;
->       case VIA_REG_T1CL:
-> +        get_counter(s, &s->timers[0], now);
->           s->timers[0].latch = (s->timers[0].latch & 0xff00) | val;
->           break;
->       case VIA_REG_T1CH:
-> @@ -324,12 +318,15 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
->           set_counter(s, &s->timers[0], s->timers[0].latch);
->           break;
->       case VIA_REG_T1LL:
-> +        get_counter(s, &s->timers[0], now);
->           s->timers[0].latch = (s->timers[0].latch & 0xff00) | val;
->           break;
->       case VIA_REG_T1LH:
-> +        get_counter(s, &s->timers[0], now);
->           s->timers[0].latch = (s->timers[0].latch & 0xff) | (val << 8);
->           break;
->       case VIA_REG_T2CL:
-> +        get_counter(s, &s->timers[1], now);
->           s->timers[1].latch = (s->timers[1].latch & 0xff00) | val;
->           break;
->       case VIA_REG_T2CH:
-> @@ -342,7 +339,6 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
->           break;
->       case VIA_REG_ACR:
->           s->acr = val;
-> -        now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
->           mos6522_timer1_update(s, &s->timers[0], now);
->           mos6522_timer2_update(s, &s->timers[1], now);
->           break;
-> @@ -350,7 +346,18 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
+> @@ -379,6 +379,12 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
 >           s->pcr = val;
 >           break;
 >       case VIA_REG_IFR:
-> -        /* reset bits */
 > +        if (val & T1_INT) {
-> +            get_counter(s, &s->timers[0], now);
-> +            if ((s->ifr & T1_INT) && s->timers[0].state == irq) {
-> +                s->timers[0].state = irq_cleared;
-> +            }
+> +            static int64_t last_t1_int_cleared;
+> +            int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> +            if (now - last_t1_int_cleared > 20000000) printf("\t%s: t1 int clear is late\n", __func__);
+> +            last_t1_int_cleared = now;
 > +        }
-> +        if (val & T2_INT) {
-> +            get_counter(s, &s->timers[1], now);
-> +            if ((s->ifr & T2_INT) && s->timers[1].state == irq) {
-> +                s->timers[1].state = irq_cleared;
-> +            }
-> +        }
+>           /* reset bits */
 >           s->ifr &= ~val;
 >           mos6522_update_irq(s);
->           break;
-> @@ -364,7 +371,6 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
->           }
->           mos6522_update_irq(s);
->           /* if IER is modified starts needed timers */
-> -        now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
->           mos6522_timer1_update(s, &s->timers[0], now);
->           mos6522_timer2_update(s, &s->timers[1], now);
->           break;
-> diff --git a/hw/misc/trace-events b/hw/misc/trace-events
-> index d0a89eb059..6c1bb02150 100644
-> --- a/hw/misc/trace-events
-> +++ b/hw/misc/trace-events
-> @@ -103,7 +103,7 @@ imx7_gpr_write(uint64_t offset, uint64_t value) "addr 0x%08" PRIx64 "value 0x%08
->   
->   # mos6522.c
->   mos6522_set_counter(int index, unsigned int val) "T%d.counter=%d"
-> -mos6522_get_next_irq_time(uint16_t latch, int64_t d, int64_t delta) "latch=%d counter=0x%"PRId64 " delta_next=0x%"PRId64
-> +mos6522_get_next_irq_time(uint16_t latch, int64_t load_time, int64_t next_time) "latch=%d counter=%" PRId64 " next_time=%" PRId64
->   mos6522_set_sr_int(void) "set sr_int"
->   mos6522_write(uint64_t addr, uint64_t val) "reg=0x%"PRIx64 " val=0x%"PRIx64
->   mos6522_read(uint64_t addr, unsigned val) "reg=0x%"PRIx64 " val=0x%x"
-> diff --git a/include/hw/misc/mos6522.h b/include/hw/misc/mos6522.h
-> index 94b1dc324c..4dbba6b273 100644
-> --- a/include/hw/misc/mos6522.h
-> +++ b/include/hw/misc/mos6522.h
-> @@ -73,6 +73,12 @@
->   #define VIA_REG_IER     0x0e
->   #define VIA_REG_ANH     0x0f
->   
-> +enum timer_state {
-> +    decrement,
-> +    irq,
-> +    irq_cleared,
-> +};
-> +
->   /**
->    * MOS6522Timer:
->    * @counter_value: counter value at load time
-> @@ -85,7 +91,7 @@ typedef struct MOS6522Timer {
->       int64_t next_irq_time;
->       uint64_t frequency;
->       QEMUTimer *timer;
-> -    bool oneshot_fired;
-> +    enum timer_state state;
->   } MOS6522Timer;
->   
->   /**
+> 
+> This logic asserts that, given that Linux/m68k sets CONFIG_HZ to 100,
+> the emulator will theoretically see each timer 1 interrupt cleared
+> within 20 ms of the previous one. But that deadline is often missed on
+> my QEMU host [4].
+> 
+> On real Mac hardware you could observe the same scenario if a high
+> priority interrupt were to sufficiently delay the timer interrupt
+> handler. (This is the reason why the VIA1 interrupt priority gets
+> increased from level 1 to level 5 when running on Quadras.)
+> 
+> Anyway, for now, the clocksource monotonicity problem in Linux/mac68k
+> guests is still unresolved. Nonetheless, I think this patch series does
+> improve the situation.
+> 
+> [1] I've also been working on some improvements to Linux/m68k based on
+> Arnd Bergman's clockevent RFC patch,
+> https://lore.kernel.org/linux-m68k/20201008154651.1901126-14-arnd@arndb.de/
+> The idea is to add a oneshot clockevent device by making use of the
+> second VIA1 timer. This approach should help mitigate the clock drift
+> problem as well as assist with GENERIC_CLOCKEVENTS adoption.
+> 
+> [2] https://github.com/mcayland/qemu/commits/q800.upstream
+> 
+> [3] https://github.com/fthain/qemu/commits/via-timer/
+> 
+> [4] This theoretical 20 ms deadline is not missed prior to every
+> backwards jump in the clocksource counter. AFAICT, that's because the
+> true deadline is somewhat shorter than 20 ms.
+> 
+> 
+> Finn Thain (10):
+>    hw/mos6522: Remove get_load_time() methods and functions
+>    hw/mos6522: Remove get_counter_value() methods and functions
+>    hw/mos6522: Remove redundant mos6522_timer1_update() calls
+>    hw/mos6522: Rename timer callback functions
+>    hw/mos6522: Don't clear T1 interrupt flag on latch write
+>    hw/mos6522: Implement oneshot mode
+>    hw/mos6522: Fix initial timer counter reload
+>    hw/mos6522: Call mos6522_update_irq() when appropriate
+>    hw/mos6522: Avoid using discrepant QEMU clock values
+>    hw/mos6522: Synchronize timer interrupt and timer counter
+> 
+>   hw/misc/mos6522.c         | 232 +++++++++++++++++---------------------
+>   hw/misc/trace-events      |   2 +-
+>   include/hw/misc/mos6522.h |   9 ++
+>   3 files changed, 113 insertions(+), 130 deletions(-)
 
-Unfortunately the datasheet I was using for reference doesn't appear to have the 
-relevant detail here. Have you got a reference to the datasheet you're using which 
-shows what happens to the timers at the zero crossing point?
+I just wanted to say that this patchset is obviously the result of a huge amount of 
+effort trying to figure out why the clock in Linux/m68k appears to jump backwards in 
+QEMU, and certainly references conditions in real hardware that is not explained in 
+the datasheet in sufficient detail.
+
+ From my perspective I'd suggest tackling the 2 main issues first: 1) ensuring that 
+the clock is monotonic and 2) adding the one shot timer mode. The other fixes/updates 
+can then be layered on top once we're confident that the underlying timing mechanism 
+works not just for Linux/m68k but also for cuda on PPC.
+
+I'm also slightly suspicious of the if() blocks introduced in mos6522_read() 
+introduce via commit cd8843ff25d ("mos6522: fix T1 and T2 timers").
+
+In your comments above you mention:
+
+ > On real Mac hardware you could observe the same scenario if a high
+ > priority interrupt were to sufficiently delay the timer interrupt
+ > handler. (This is the reason why the VIA1 interrupt priority gets
+ > increased from level 1 to level 5 when running on Quadras.)
+
+This isn't currently true for QEMU: if you look at hw/m68k/q800.c you can see that 
+the VIA interrupts are hard-wired to levels 1 and 2 respectively. You can change the 
+VIA1 interrupt so it is routed to level 5 instead of level 1 with the following diff:
+
+diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
+index ac0a13060b..dc8dbe5c6f 100644
+--- a/hw/m68k/q800.c
++++ b/hw/m68k/q800.c
+@@ -281,7 +281,7 @@ static void q800_init(MachineState *machine)
+      sysbus_realize_and_unref(sysbus, &error_fatal);
+      sysbus_mmio_map(sysbus, 0, VIA_BASE);
+      qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 0,
+-                                qdev_get_gpio_in(glue, 0));
++                                qdev_get_gpio_in(glue, 4));
+      qdev_connect_gpio_out_named(DEVICE(sysbus), "irq", 1,
+                                  qdev_get_gpio_in(glue, 1));
+
+The q800.upstream branch goes further and implements the dynamic interrupt routing 
+required by A/UX but the above should be a basic test to see if the increased 
+priority helps with your timing issue at all.
 
 
 ATB,
