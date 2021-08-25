@@ -2,50 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B1A63F6F9E
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 08:35:33 +0200 (CEST)
-Received: from localhost ([::1]:37512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AE8D3F6F23
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 08:04:57 +0200 (CEST)
+Received: from localhost ([::1]:43530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mImVX-00042F-1D
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 02:35:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44970)
+	id 1mIm1q-0004Ee-SJ
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 02:04:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mImRt-0001db-8D; Wed, 25 Aug 2021 02:31:45 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:42269)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mImRq-00076b-RX; Wed, 25 Aug 2021 02:31:44 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GvbjP5Ps7z9sWl; Wed, 25 Aug 2021 16:31:37 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1629873097;
- bh=n/0ToF2Jl7+8shMy8ft9RLfWx1gJPxFtZV9oBq3uH9E=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=hvqSkd6UhTpJv2dyRSu84WMFXUUSNyNo8mZOugWj4ssS/3M2r0ZGQUj21Vd4iEb2c
- VlwTApRHbcxJULTzYc/Sds0MzxjamPGP7GMoVG+2MU3epuFjWpkPzxOCIUkf/g2OtY
- cAORgLBqBiQdP9Y3B28tzuS+npOBBBu6oau9yxdA=
-Date: Wed, 25 Aug 2021 16:01:49 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 10/26] ppc/xive2: Introduce a presenter matching routine
-Message-ID: <YSXcze1dKtUWEMIl@yekko>
-References: <20210809134547.689560-1-clg@kaod.org>
- <20210809134547.689560-11-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mIm0r-0003Yv-AS; Wed, 25 Aug 2021 02:03:49 -0400
+Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:46962)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mIm0o-0000wt-UF; Wed, 25 Aug 2021 02:03:49 -0400
+Received: by mail-io1-xd2f.google.com with SMTP id b200so29389251iof.13;
+ Tue, 24 Aug 2021 23:03:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BjLxK/KJI08LOJJDTX//aAbHdmhf7rltqx9ATgNWT6I=;
+ b=IvUMqOdAQryoCDJoIFcvwfjGong/qr6cAtm+CSgGm3h8tkkkZtHJq/XEFx4fwrUhhQ
+ zW4pdOlZGgOKf0zTGQAikb7Sov5hxuO8/lf6tVV+BHebB4+F8tWu2TO2wu7H8dSMb0vF
+ kzvTpiDYBfEqdfI2y/C4rLAlHFp1zwcis5JxT+RRhHV9N0zUUPQBuy+UD5EF2XYV/u68
+ LPN3dpLJJ8qt1EpioRQmSKMXTceobK/8+A6u7FeOxWItFsA+oTBRb5rfasSOjNsDhoQp
+ XIXMOw4cP/mzXiOEMhAx3iz7xY7Eov9iTtBlqz1hCTJcHa0WvCBHxUJJrJag9RShTxZz
+ G5dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BjLxK/KJI08LOJJDTX//aAbHdmhf7rltqx9ATgNWT6I=;
+ b=hKX9jXNZGhJZQf3VPf6qX/kqbobyATpXEwNwr/69Ky/seBO4cHduFSKyQeS9JuZKvq
+ /Cwt1IRGrduXcqVuijmFwd4TuMG5erWEgcX+ODNeIQf9898dTKLjmSbbeZvuqN259kdh
+ /r6OjfAC12/eh6iRyvJvXQt9df57wEbkhIxA6BmOWu7KOAZJTMXLl3NzF8pmlu8fkUgs
+ vGwbSb/9vtPasVkbYTWdNnI2Cj19SX14YUAgWn2cuF7gEYPuzmYBvKGOPetqt6PIWNUv
+ /HsKjZvBrgFPXv5oeED7DqqKZCPrittgfRQUcR4vBNoXMYZpPBfT7f88m7kwseYwDJp+
+ 2NLw==
+X-Gm-Message-State: AOAM532S1UONkyyl+QHxUeE6MVFSeu1h5htxLI8IlOKAHG9r5CSDUR8q
+ cD7M/iNfwhF6OGdpDzXSTKnSZW1STcOycOVNvng=
+X-Google-Smtp-Source: ABdhPJxsUoCqI+Fc3nkFOUvsKH/y5a+9On3/YOSY8frYGvSeAgUcMfw0mQDfGl+7m/YeD5F5A6lJm8jZT+VyWWlkOvk=
+X-Received: by 2002:a02:c6c1:: with SMTP id r1mr32843468jan.26.1629871425409; 
+ Tue, 24 Aug 2021 23:03:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Bh1M7ayvLyJDtMR+"
-Content-Disposition: inline
-In-Reply-To: <20210809134547.689560-11-clg@kaod.org>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
+References: <20210823195529.560295-1-richard.henderson@linaro.org>
+ <20210823195529.560295-19-richard.henderson@linaro.org>
+In-Reply-To: <20210823195529.560295-19-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 25 Aug 2021 16:03:19 +1000
+Message-ID: <CAKmqyKMgde-Fpzw==oxeavXGY_23Kcm_Y3tfjEay91m5u6Aypg@mail.gmail.com>
+Subject: Re: [PATCH v5 18/24] target/riscv: Reorg csr instructions
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2f.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,196 +76,312 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Aug 24, 2021 at 6:10 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Introduce csrr and csrw helpers, for read-only and write-only insns.
+>
+> Note that we do not properly implement this in riscv_csrrw, in that
+> we cannot distinguish true read-only (rs1 == 0) from any other zero
+> write_mask another source register -- this should still raise an
+> exception for read-only registers.
+>
+> Only issue gen_io_start for CF_USE_ICOUNT.
+> Use ctx->zero for csrrc.
+> Use get_gpr and dest_gpr.
+>
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
---Bh1M7ayvLyJDtMR+
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-On Mon, Aug 09, 2021 at 03:45:31PM +0200, C=E9dric Le Goater wrote:
-> The VP space is larger in XIVE2 (P10), 24 bits instead of 19bits on
-> XIVE (P9), and the CAM line can use a 7bits or 8bits thread id.
->=20
-> For now, we only use 7bits thread ids, same as P9, but because of the
-> change of the size of the VP space, the CAM matching routine is
-> different between P9 and P10. It is easier to duplicate the whole
-> routine than to add extra handlers in xive_presenter_tctx_match() used
-> for P9.
->=20
-> We might come with a better solution later on, after we have added
-> some more support for the XIVE2 controller.
->=20
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+Alistair
+
 > ---
->  include/hw/ppc/xive2.h |  9 +++++
->  hw/intc/xive2.c        | 87 ++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 96 insertions(+)
->=20
-> diff --git a/include/hw/ppc/xive2.h b/include/hw/ppc/xive2.h
-> index a14f430a09f7..8a74fa7e4c7e 100644
-> --- a/include/hw/ppc/xive2.h
-> +++ b/include/hw/ppc/xive2.h
-> @@ -60,6 +60,15 @@ int xive2_router_write_nvp(Xive2Router *xrtr, uint8_t =
-nvp_blk, uint32_t nvp_idx,
-> =20
->  void xive2_router_notify(XiveNotifier *xn, uint32_t lisn);
-> =20
-> +/*
-> + * XIVE2 Presenter (POWER10)
-> + */
-> +
-> +int xive2_presenter_tctx_match(XivePresenter *xptr, XiveTCTX *tctx,
-> +                               uint8_t format,
-> +                               uint8_t nvt_blk, uint32_t nvt_idx,
-> +                               bool cam_ignore, uint32_t logic_serv);
-> +
->  /*
->   * XIVE2 END ESBs  (POWER10)
->   */
-> diff --git a/hw/intc/xive2.c b/hw/intc/xive2.c
-> index b1c216b10006..55400628467b 100644
-> --- a/hw/intc/xive2.c
-> +++ b/hw/intc/xive2.c
-> @@ -20,6 +20,11 @@
->  #include "hw/ppc/xive2.h"
->  #include "hw/ppc/xive2_regs.h"
-> =20
-> +static inline uint32_t xive_tctx_word2(uint8_t *ring)
-> +{
-> +    return *((uint32_t *) &ring[TM_WORD2]);
-> +}
-> +
->  static uint8_t priority_to_ipb(uint8_t priority)
->  {
->      return priority > XIVE_PRIORITY_MAX ?
-> @@ -215,6 +220,88 @@ static int xive2_router_get_block_id(Xive2Router *xr=
-tr)
->     return xrc->get_block_id(xrtr);
+>  target/riscv/helper.h                   |   6 +-
+>  target/riscv/op_helper.c                |  18 +--
+>  target/riscv/insn_trans/trans_rvi.c.inc | 172 +++++++++++++++++-------
+>  3 files changed, 131 insertions(+), 65 deletions(-)
+>
+> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+> index 415e37bc37..460eee9988 100644
+> --- a/target/riscv/helper.h
+> +++ b/target/riscv/helper.h
+> @@ -65,9 +65,9 @@ DEF_HELPER_FLAGS_2(gorc, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+>  DEF_HELPER_FLAGS_2(gorcw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+>
+>  /* Special functions */
+> -DEF_HELPER_3(csrrw, tl, env, tl, tl)
+> -DEF_HELPER_4(csrrs, tl, env, tl, tl, tl)
+> -DEF_HELPER_4(csrrc, tl, env, tl, tl, tl)
+> +DEF_HELPER_2(csrr, tl, env, int)
+> +DEF_HELPER_3(csrw, void, env, int, tl)
+> +DEF_HELPER_4(csrrw, tl, env, int, tl, tl)
+>  #ifndef CONFIG_USER_ONLY
+>  DEF_HELPER_2(sret, tl, env, tl)
+>  DEF_HELPER_2(mret, tl, env, tl)
+> diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+> index 3c48e739ac..ee7c24efe7 100644
+> --- a/target/riscv/op_helper.c
+> +++ b/target/riscv/op_helper.c
+> @@ -37,11 +37,10 @@ void helper_raise_exception(CPURISCVState *env, uint32_t exception)
+>      riscv_raise_exception(env, exception, 0);
 >  }
-> =20
-> +/*
-> + * Encode the HW CAM line with 7bit or 8bit thread id. The thread id
-> + * width and block id width is configurable at the IC level.
-> + *
-> + *    chipid << 24 | 0000 0000 0000 0000 1 threadid (7Bit)
-> + *    chipid << 24 | 0000 0000 0000 0001 threadid   (8Bit)
-> + */
-> +static uint32_t xive2_tctx_hw_cam_line(XivePresenter *xptr, XiveTCTX *tc=
-tx)
+>
+> -target_ulong helper_csrrw(CPURISCVState *env, target_ulong src,
+> -        target_ulong csr)
+> +target_ulong helper_csrr(CPURISCVState *env, int csr)
+>  {
+>      target_ulong val = 0;
+> -    RISCVException ret = riscv_csrrw(env, csr, &val, src, -1);
+> +    RISCVException ret = riscv_csrrw(env, csr, &val, 0, 0);
+>
+>      if (ret != RISCV_EXCP_NONE) {
+>          riscv_raise_exception(env, ret, GETPC());
+> @@ -49,23 +48,20 @@ target_ulong helper_csrrw(CPURISCVState *env, target_ulong src,
+>      return val;
+>  }
+>
+> -target_ulong helper_csrrs(CPURISCVState *env, target_ulong src,
+> -        target_ulong csr, target_ulong rs1_pass)
+> +void helper_csrw(CPURISCVState *env, int csr, target_ulong src)
+>  {
+> -    target_ulong val = 0;
+> -    RISCVException ret = riscv_csrrw(env, csr, &val, -1, rs1_pass ? src : 0);
+> +    RISCVException ret = riscv_csrrw(env, csr, NULL, src, -1);
+>
+>      if (ret != RISCV_EXCP_NONE) {
+>          riscv_raise_exception(env, ret, GETPC());
+>      }
+> -    return val;
+>  }
+>
+> -target_ulong helper_csrrc(CPURISCVState *env, target_ulong src,
+> -        target_ulong csr, target_ulong rs1_pass)
+> +target_ulong helper_csrrw(CPURISCVState *env, int csr,
+> +                          target_ulong src, target_ulong write_mask)
+>  {
+>      target_ulong val = 0;
+> -    RISCVException ret = riscv_csrrw(env, csr, &val, 0, rs1_pass ? src : 0);
+> +    RISCVException ret = riscv_csrrw(env, csr, &val, src, write_mask);
+>
+>      if (ret != RISCV_EXCP_NONE) {
+>          riscv_raise_exception(env, ret, GETPC());
+> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+> index 76454fb7e2..920ae0edb3 100644
+> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+> @@ -426,80 +426,150 @@ static bool trans_fence_i(DisasContext *ctx, arg_fence_i *a)
+>      return true;
+>  }
+>
+> -#define RISCV_OP_CSR_PRE do {\
+> -    source1 = tcg_temp_new(); \
+> -    csr_store = tcg_temp_new(); \
+> -    dest = tcg_temp_new(); \
+> -    rs1_pass = tcg_temp_new(); \
+> -    gen_get_gpr(ctx, source1, a->rs1); \
+> -    tcg_gen_movi_tl(cpu_pc, ctx->base.pc_next); \
+> -    tcg_gen_movi_tl(rs1_pass, a->rs1); \
+> -    tcg_gen_movi_tl(csr_store, a->csr); \
+> -    gen_io_start();\
+> -} while (0)
+> +static bool do_csr_post(DisasContext *ctx)
 > +{
-> +    Xive2Router *xrtr =3D XIVE2_ROUTER(xptr);
-> +    CPUPPCState *env =3D &POWERPC_CPU(tctx->cs)->env;
-> +    uint32_t pir =3D env->spr_cb[SPR_PIR].default_value;
-> +    uint8_t blk =3D xive2_router_get_block_id(xrtr);
-> +    uint8_t tid_shift =3D 7;
-> +    uint8_t tid_mask =3D (1 << tid_shift) - 1;
-> +
-> +    return xive2_nvp_cam_line(blk, 1 << tid_shift | (pir & tid_mask));
+> +    /* We may have changed important cpu state -- exit to main loop. */
+> +    tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
+> +    exit_tb(ctx);
+> +    ctx->base.is_jmp = DISAS_NORETURN;
+> +    return true;
+> +}
+>
+> -#define RISCV_OP_CSR_POST do {\
+> -    gen_set_gpr(ctx, a->rd, dest); \
+> -    tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn); \
+> -    exit_tb(ctx); \
+> -    ctx->base.is_jmp = DISAS_NORETURN; \
+> -    tcg_temp_free(source1); \
+> -    tcg_temp_free(csr_store); \
+> -    tcg_temp_free(dest); \
+> -    tcg_temp_free(rs1_pass); \
+> -} while (0)
+> +static bool do_csrr(DisasContext *ctx, int rd, int rc)
+> +{
+> +    TCGv dest = dest_gpr(ctx, rd);
+> +    TCGv_i32 csr = tcg_constant_i32(rc);
+>
+> +    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+> +        gen_io_start();
+> +    }
+> +    gen_helper_csrr(dest, cpu_env, csr);
+> +    gen_set_gpr(ctx, rd, dest);
+> +    return do_csr_post(ctx);
 > +}
 > +
-> +/*
-> + * The thread context register words are in big-endian format.
-> + */
-> +int xive2_presenter_tctx_match(XivePresenter *xptr, XiveTCTX *tctx,
-> +                               uint8_t format,
-> +                               uint8_t nvt_blk, uint32_t nvt_idx,
-> +                               bool cam_ignore, uint32_t logic_serv)
+> +static bool do_csrw(DisasContext *ctx, int rc, TCGv src)
 > +{
-> +    uint32_t cam =3D   xive2_nvp_cam_line(nvt_blk, nvt_idx);
-> +    uint32_t qw3w2 =3D xive_tctx_word2(&tctx->regs[TM_QW3_HV_PHYS]);
-> +    uint32_t qw2w2 =3D xive_tctx_word2(&tctx->regs[TM_QW2_HV_POOL]);
-> +    uint32_t qw1w2 =3D xive_tctx_word2(&tctx->regs[TM_QW1_OS]);
-> +    uint32_t qw0w2 =3D xive_tctx_word2(&tctx->regs[TM_QW0_USER]);
+> +    TCGv_i32 csr = tcg_constant_i32(rc);
+> +
+> +    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+> +        gen_io_start();
+> +    }
+> +    gen_helper_csrw(cpu_env, csr, src);
+> +    return do_csr_post(ctx);
+> +}
+> +
+> +static bool do_csrrw(DisasContext *ctx, int rd, int rc, TCGv src, TCGv mask)
+> +{
+> +    TCGv dest = dest_gpr(ctx, rd);
+> +    TCGv_i32 csr = tcg_constant_i32(rc);
+> +
+> +    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+> +        gen_io_start();
+> +    }
+> +    gen_helper_csrrw(dest, cpu_env, csr, src, mask);
+> +    gen_set_gpr(ctx, rd, dest);
+> +    return do_csr_post(ctx);
+> +}
+>
+>  static bool trans_csrrw(DisasContext *ctx, arg_csrrw *a)
+>  {
+> -    TCGv source1, csr_store, dest, rs1_pass;
+> -    RISCV_OP_CSR_PRE;
+> -    gen_helper_csrrw(dest, cpu_env, source1, csr_store);
+> -    RISCV_OP_CSR_POST;
+> -    return true;
+> +    TCGv src = get_gpr(ctx, a->rs1, EXT_NONE);
 > +
 > +    /*
-> +     * TODO (PowerNV): ignore mode. The low order bits of the NVT
-> +     * identifier are ignored in the "CAM" match.
+> +     * If rd == 0, the insn shall not read the csr, nor cause any of the
+> +     * side effects that might occur on a csr read.
 > +     */
-> +
-> +    if (format =3D=3D 0) {
-> +        if (cam_ignore =3D=3D true) {
-> +            /*
-> +             * F=3D0 & i=3D1: Logical server notification (bits ignored =
-at
-> +             * the end of the NVT identifier)
-> +             */
-> +            qemu_log_mask(LOG_UNIMP, "XIVE: no support for LS NVT %x/%x\=
-n",
-> +                          nvt_blk, nvt_idx);
-> +             return -1;
-
-You seem to have copied a small indentation error here from
-xive_presenter_tctx_match().
-
-> +        }
-> +
-> +        /* F=3D0 & i=3D0: Specific NVT notification */
-> +
-> +        /* PHYS ring */
-> +        if ((be32_to_cpu(qw3w2) & TM2_QW3W2_VT) &&
-> +            cam =3D=3D xive2_tctx_hw_cam_line(xptr, tctx)) {
-> +            return TM_QW3_HV_PHYS;
-> +        }
-> +
-> +        /* HV POOL ring */
-> +        if ((be32_to_cpu(qw2w2) & TM2_QW2W2_VP) &&
-> +            cam =3D=3D xive_get_field32(TM2_QW2W2_POOL_CAM, qw2w2)) {
-> +            return TM_QW2_HV_POOL;
-> +        }
-> +
-> +        /* OS ring */
-> +        if ((be32_to_cpu(qw1w2) & TM2_QW1W2_VO) &&
-> +            cam =3D=3D xive_get_field32(TM2_QW1W2_OS_CAM, qw1w2)) {
-> +            return TM_QW1_OS;
-> +        }
-> +    } else {
-> +        /* F=3D1 : User level Event-Based Branch (EBB) notification */
-> +
-> +        /* USER ring */
-> +        if  ((be32_to_cpu(qw1w2) & TM2_QW1W2_VO) &&
-> +             (cam =3D=3D xive_get_field32(TM2_QW1W2_OS_CAM, qw1w2)) &&
-> +             (be32_to_cpu(qw0w2) & TM2_QW0W2_VU) &&
-> +             (logic_serv =3D=3D xive_get_field32(TM2_QW0W2_LOGIC_SERV, q=
-w0w2))) {
-> +            return TM_QW0_USER;
-> +        }
+> +    if (a->rd == 0) {
+> +        return do_csrw(ctx, a->csr, src);
 > +    }
-> +    return -1;
-> +}
 > +
->  static void xive2_router_realize(DeviceState *dev, Error **errp)
+> +    TCGv mask = tcg_constant_tl(-1);
+> +    return do_csrrw(ctx, a->rd, a->csr, src, mask);
+>  }
+>
+>  static bool trans_csrrs(DisasContext *ctx, arg_csrrs *a)
 >  {
->      Xive2Router *xrtr =3D XIVE2_ROUTER(dev);
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---Bh1M7ayvLyJDtMR+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEl3MoACgkQbDjKyiDZ
-s5Jm1Q/+OZpPFj+lfn2ixpi7oSrMQO3iYYGOHOq7974P/zAkxeY6ECyN/Q5Ho+kG
-+kM4BQxpeNlpYLjRTA0zb7lacg/J3QvdoAhV5KlFg2cJRCf7OvFinmLPZYsllsbD
-Hwe4xbxwrYfSnyfK6womaqy2/Lvm7/PKEPKC5nerQO7/cOdPx7PldRc4rxF7d02C
-4rEESFw1J0OhWzMkodgSOVwrym6QAxEjU1FffaY4AoomCho07KogTLAeCQx5Wbma
-ZPTCGdVCCca0MHoK7Idu596husm0JKnE8IA9o3v+kyl49pSOhtW7pVL+xLNR+dSS
-E37ZIA8lJamdgxmE9pS+QvdaAHJmFX98u0SUq2coJIrV/X/8irOI8BokYCLd5NLH
-IBiLhfSs+2B2kQE6lOahJORTuaHFqu5yjn014b+sKf1mDMQxx44PA+AZ5847gpI2
-Nde4ieS55aGJ08XyQt1d0S3PXifhuTpgCsTzqSySBVKsigdy2dai2Pf0pLfvMan/
-zpNMq6esma3W4NjdJurDaJPyTnzWOdaUs+UzWTcJ/MGZR3uOUkKAvUWcIza9l5/2
-kip4kYTPHvGalDSHyoOSLcQCyEQjrPLPNgjeoR4jAN1AvC0U+fiCG2LSuJf7+Nic
-5OPKV5SSxndMCUaJ6TIiAJpkmbOCd6awXKidV0LmlW0e9C4ePMU=
-=z2In
------END PGP SIGNATURE-----
-
---Bh1M7ayvLyJDtMR+--
+> -    TCGv source1, csr_store, dest, rs1_pass;
+> -    RISCV_OP_CSR_PRE;
+> -    gen_helper_csrrs(dest, cpu_env, source1, csr_store, rs1_pass);
+> -    RISCV_OP_CSR_POST;
+> -    return true;
+> +    /*
+> +     * If rs1 == 0, the insn shall not write to the csr at all, nor
+> +     * cause any of the side effects that might occur on a csr write.
+> +     * Note that if rs1 specifies a register other than x0, holding
+> +     * a zero value, the instruction will still attempt to write the
+> +     * unmodified value back to the csr and will cause side effects.
+> +     */
+> +    if (a->rs1 == 0) {
+> +        return do_csrr(ctx, a->rd, a->csr);
+> +    }
+> +
+> +    TCGv ones = tcg_constant_tl(-1);
+> +    TCGv mask = get_gpr(ctx, a->rs1, EXT_ZERO);
+> +    return do_csrrw(ctx, a->rd, a->csr, ones, mask);
+>  }
+>
+>  static bool trans_csrrc(DisasContext *ctx, arg_csrrc *a)
+>  {
+> -    TCGv source1, csr_store, dest, rs1_pass;
+> -    RISCV_OP_CSR_PRE;
+> -    gen_helper_csrrc(dest, cpu_env, source1, csr_store, rs1_pass);
+> -    RISCV_OP_CSR_POST;
+> -    return true;
+> +    /*
+> +     * If rs1 == 0, the insn shall not write to the csr at all, nor
+> +     * cause any of the side effects that might occur on a csr write.
+> +     * Note that if rs1 specifies a register other than x0, holding
+> +     * a zero value, the instruction will still attempt to write the
+> +     * unmodified value back to the csr and will cause side effects.
+> +     */
+> +    if (a->rs1 == 0) {
+> +        return do_csrr(ctx, a->rd, a->csr);
+> +    }
+> +
+> +    TCGv mask = get_gpr(ctx, a->rs1, EXT_ZERO);
+> +    return do_csrrw(ctx, a->rd, a->csr, ctx->zero, mask);
+>  }
+>
+>  static bool trans_csrrwi(DisasContext *ctx, arg_csrrwi *a)
+>  {
+> -    TCGv source1, csr_store, dest, rs1_pass;
+> -    RISCV_OP_CSR_PRE;
+> -    gen_helper_csrrw(dest, cpu_env, rs1_pass, csr_store);
+> -    RISCV_OP_CSR_POST;
+> -    return true;
+> +    TCGv src = tcg_constant_tl(a->rs1);
+> +
+> +    /*
+> +     * If rd == 0, the insn shall not read the csr, nor cause any of the
+> +     * side effects that might occur on a csr read.
+> +     */
+> +    if (a->rd == 0) {
+> +        return do_csrw(ctx, a->csr, src);
+> +    }
+> +
+> +    TCGv mask = tcg_constant_tl(-1);
+> +    return do_csrrw(ctx, a->rd, a->csr, src, mask);
+>  }
+>
+>  static bool trans_csrrsi(DisasContext *ctx, arg_csrrsi *a)
+>  {
+> -    TCGv source1, csr_store, dest, rs1_pass;
+> -    RISCV_OP_CSR_PRE;
+> -    gen_helper_csrrs(dest, cpu_env, rs1_pass, csr_store, rs1_pass);
+> -    RISCV_OP_CSR_POST;
+> -    return true;
+> +    /*
+> +     * If rs1 == 0, the insn shall not write to the csr at all, nor
+> +     * cause any of the side effects that might occur on a csr write.
+> +     * Note that if rs1 specifies a register other than x0, holding
+> +     * a zero value, the instruction will still attempt to write the
+> +     * unmodified value back to the csr and will cause side effects.
+> +     */
+> +    if (a->rs1 == 0) {
+> +        return do_csrr(ctx, a->rd, a->csr);
+> +    }
+> +
+> +    TCGv ones = tcg_constant_tl(-1);
+> +    TCGv mask = tcg_constant_tl(a->rs1);
+> +    return do_csrrw(ctx, a->rd, a->csr, ones, mask);
+>  }
+>
+>  static bool trans_csrrci(DisasContext *ctx, arg_csrrci *a)
+>  {
+> -    TCGv source1, csr_store, dest, rs1_pass;
+> -    RISCV_OP_CSR_PRE;
+> -    gen_helper_csrrc(dest, cpu_env, rs1_pass, csr_store, rs1_pass);
+> -    RISCV_OP_CSR_POST;
+> -    return true;
+> +    /*
+> +     * If rs1 == 0, the insn shall not write to the csr at all, nor
+> +     * cause any of the side effects that might occur on a csr write.
+> +     * Note that if rs1 specifies a register other than x0, holding
+> +     * a zero value, the instruction will still attempt to write the
+> +     * unmodified value back to the csr and will cause side effects.
+> +     */
+> +    if (a->rs1 == 0) {
+> +        return do_csrr(ctx, a->rd, a->csr);
+> +    }
+> +
+> +    TCGv mask = tcg_constant_tl(a->rs1);
+> +    return do_csrrw(ctx, a->rd, a->csr, ctx->zero, mask);
+>  }
+> --
+> 2.25.1
+>
+>
 
