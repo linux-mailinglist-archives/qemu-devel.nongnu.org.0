@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB56E3F7365
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 12:37:12 +0200 (CEST)
-Received: from localhost ([::1]:39926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 097233F7366
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 12:37:13 +0200 (CEST)
+Received: from localhost ([::1]:40046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIqHP-0005Wa-D8
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 06:37:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48494)
+	id 1mIqHQ-0005az-2o
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 06:37:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIqFx-0002gp-9F
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:35:41 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:38413)
+ id 1mIqFy-0002hw-Ed
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:35:42 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIqFv-0005Dr-Og
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:35:40 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- d22-20020a1c1d16000000b002e7777970f0so3911646wmd.3
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 03:35:38 -0700 (PDT)
+ id 1mIqFw-0005Em-0Q
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:35:42 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id u16so35668817wrn.5
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 03:35:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=znndHHEoxoWMeYC4H5uF/7NDy7y5s/e+PfCtHxh/c/4=;
- b=ObpU1rLDXh5iamhOA2vqOeowcZO2Nhm6bmenwZOCIIStdF0onSnGDhpb1hJ0jKIxso
- 4b80agjk3YSo9vsiyCtlDbpRcqQjVqRy8ZUA31Nq19k5UjZpNGCdJSbB5KCICXrmWQ+f
- TmJBAJYgR99w5BuewByOsBSnKkJGEOnoLJTmHrCRCaw/40ps4xO0GKm5izvnSJ6YN6vb
- ADWKA3badzufyqV6I+22lP40rJFPZhHR620c/vnpPJd5wk4xvcVBphkPTBgxprkHiMXn
- orojj2o//JJnnehudWeOG3FNcrL4GgXGl6s6jRtAYzTKZRdrYV03sy6XxAGXsMVPg0Qp
- qnBw==
+ bh=X46IYmwDa0Vu+Tiq/N7j9UCGpxEaqTWhGbb7xdBU5TU=;
+ b=X/m7ikXAgSy7LphyiTEgZRpVREXqQNT+qXf170Jvvv6FBa8s24fJxClFTODQ+3n6Ws
+ m7siw6sYorG7xAc3ht6Q75jtOxMl4TlQmkkj8v4Cd8MghDrPOABqkEU866uJ0o+dN/Yq
+ NLmB/Z/oPAUNU6ah49EvvSBHaYmip66yuJ2xjzYmGFRcydekLAnf4F8zW0gODdpVP13W
+ MDNfsNWpN2+PuT5oaOtYtch7qu6puDUhnRgl9Nd0QJlhEoVCVcr9HQgg6DwN8e6HJTXZ
+ DMfuC8jGffCQcKmqkNRHjjn3r6nOvpTUnHSuC89bD3DKUhBFYz9PNN2olVzOtRsuLz4T
+ EJXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=znndHHEoxoWMeYC4H5uF/7NDy7y5s/e+PfCtHxh/c/4=;
- b=Ubl/EZZx/IcVtnr8raTBfa3KmOBRH2FQMlFILf+VbxVRF3N2gc3TgiJvip8PUqJs1u
- ge+oQ0tZVBB45yrTorVrcm3VTjLsDHvc7akw1yHrpOUxF+WlWoStuPYW6+almTIOqpaw
- lsAOKyYvREJD3ol0QkpBqXvSM9zT4tyWGfX99y9nhOg5TluASp05dMJ29667S2WEfzPO
- JoLA+Qljlp+5BJV9fTepiqp1yKumj4yye9B6es2FmRyS9iXgf6RzU76CSaF931pUqNOL
- 1yGFosJL5SHukp7EyIn+JMPZ04Al7/GK7gN7sICjOFZOXrMZni+cg0WFRAs8Nv3cG9lO
- ZDGg==
-X-Gm-Message-State: AOAM5320nK6pPOzXKZa1gh3XD7HjMUisT0SGT4eK7RfhqdeStse7CRb+
- FDikNmyUjSgzltKH30ErAhbWcd0QQEt+AA==
-X-Google-Smtp-Source: ABdhPJwV6yssGyO72xqWFb/6fxDbQ63XmKLUadlXQ8yup+xoBxUzbDNgU6Wx6U6bGfwNBHf67BQW/w==
-X-Received: by 2002:a1c:7f94:: with SMTP id a142mr8631887wmd.34.1629887737447; 
- Wed, 25 Aug 2021 03:35:37 -0700 (PDT)
+ bh=X46IYmwDa0Vu+Tiq/N7j9UCGpxEaqTWhGbb7xdBU5TU=;
+ b=EZHRnyYOoH3MqcA8yrOFTvJ3n4lHmSz4QlzveGHAnrwLnxGrQZfDMoEkSFZKC6tZyb
+ I638xZ+vNgV3M8GTwkdANbDwgT+B7t/IbnuazbKNztzCu+BHqZ7OllnLCNJ2RKmFv3rH
+ Ou6TskWYX6VCEoOPJ4VU5frNimvKeTxMENcY7F9wGiiNJhoWGijmoFx1oYA0qm8Zqlgx
+ /pGhMfyOghuJSS39UP8eWBoOiwLuI36EbkQs91dbbA8kFII77b2PMS63D2wvvcwsjLHC
+ 8JvnNqSMlyGCk00ChyV4D3x5A6JiYtNR/mkQyubrLppDqgra+3mRjgGpij9tut6t6aUv
+ Wddw==
+X-Gm-Message-State: AOAM5316EEwPnBLmTU8BC9+hDC1GjqFfcjg7erYLRJJnRPkHs5S7oy6K
+ Smwr+j8mPN4oZUXBo7fPQ2VweiDNAJIFoA==
+X-Google-Smtp-Source: ABdhPJxtr0eF1/m2LYk6qNiCB0t6Wl4FTl80LtV7Drl3K9NvUcxqn61QzB3H7D/DHzUhElFsK239hA==
+X-Received: by 2002:adf:b347:: with SMTP id k7mr21927125wrd.239.1629887738053; 
+ Wed, 25 Aug 2021 03:35:38 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m4sm5075931wml.28.2021.08.25.03.35.36
+ by smtp.gmail.com with ESMTPSA id m4sm5075931wml.28.2021.08.25.03.35.37
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 25 Aug 2021 03:35:37 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/44] target/arm: Note that we handle VMOVL as a special case
- of VSHLL
-Date: Wed, 25 Aug 2021 11:34:51 +0100
-Message-Id: <20210825103534.6936-2-peter.maydell@linaro.org>
+Subject: [PULL 02/44] target/arm: Print MVE VPR in CPU dumps
+Date: Wed, 25 Aug 2021 11:34:52 +0100
+Message-Id: <20210825103534.6936-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210825103534.6936-1-peter.maydell@linaro.org>
 References: <20210825103534.6936-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,29 +86,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Although the architecture doesn't define it as an alias, VMOVL
-(vector move long) is encoded as a VSHLL with a zero shift.
-Add a comment in the decode file noting that we handle VMOVL
-as part of VSHLL.
+Include the MVE VPR register value in the CPU dumps produced by
+arm_cpu_dump_state() if we are printing FPU information. This
+makes it easier to interpret debug logs when predication is
+active.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/mve.decode | 2 ++
- 1 file changed, 2 insertions(+)
+ target/arm/cpu.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/target/arm/mve.decode b/target/arm/mve.decode
-index 595d97568eb..fa9d921f933 100644
---- a/target/arm/mve.decode
-+++ b/target/arm/mve.decode
-@@ -364,6 +364,8 @@ VRSHRI_U          111 1 1111 1 . ... ... ... 0 0010 0 1 . 1 ... 0 @2_shr_h
- VRSHRI_U          111 1 1111 1 . ... ... ... 0 0010 0 1 . 1 ... 0 @2_shr_w
- 
- # VSHLL T1 encoding; the T2 VSHLL encoding is elsewhere in this file
-+# Note that VMOVL is encoded as "VSHLL with a zero shift count"; we
-+# implement it that way rather than special-casing it in the decode.
- VSHLL_BS          111 0 1110 1 . 1 .. ... ... 0 1111 0 1 . 0 ... 0 @2_shll_b
- VSHLL_BS          111 0 1110 1 . 1 .. ... ... 0 1111 0 1 . 0 ... 0 @2_shll_h
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 2866dd76588..a82e39dd97f 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1017,6 +1017,9 @@ static void arm_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+                          i, v);
+         }
+         qemu_fprintf(f, "FPSCR: %08x\n", vfp_get_fpscr(env));
++        if (cpu_isar_feature(aa32_mve, cpu)) {
++            qemu_fprintf(f, "VPR: %08x\n", env->v7m.vpr);
++        }
+     }
+ }
  
 -- 
 2.20.1
