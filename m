@@ -2,80 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6A6F3F70A4
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 09:47:03 +0200 (CEST)
-Received: from localhost ([::1]:49640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 851B83F70AE
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 09:50:46 +0200 (CEST)
+Received: from localhost ([::1]:52412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mInca-0000QL-Sy
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 03:46:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42344)
+	id 1mIngL-0002QL-L8
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 03:50:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mInbU-00083K-M3
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:45:44 -0400
-Received: from smtp-relay-services-0.canonical.com ([185.125.188.250]:42622)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIneb-0001KS-N5
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:48:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27698)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mInbS-0004by-Qe
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:45:44 -0400
-Received: from loganberry.canonical.com (loganberry.canonical.com
- [91.189.90.37])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIneZ-0007EA-CT
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:48:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629877733;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=kWriyZdgTOJGa9lKKfY6lBGzVG4Y7IGDgEKRqprDatg=;
+ b=fXZ3RWJL3L+QopQcSsUNSymEV7TTSqIdANyK8+rE4Rj+mpnIs0gtDB4dbLq3c1u2rcNRCa
+ fIqYl84OwHOnq56XSDRzS5i1HiYQQBkfI+97dA/pyEQMo9CXZe2EFRL1FRNrOVQAlnKrfH
+ GW271wVRYc2WXX2wV+WGgeq1U+wei38=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-304-1qLs6T_ONvWthbRt5bZTpQ-1; Wed, 25 Aug 2021 03:48:50 -0400
+X-MC-Unique: 1qLs6T_ONvWthbRt5bZTpQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id 0FB223F73E
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 07:45:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1629877541;
- bh=lX8ZphutMwupRV84N1ytXqbqG2mFGQ5fIrmFbhIE1Hc=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=lLJts8wLjONHvuRFG6QXhcGaveFYU77qM8j3yPrHY2MxKKrs2VlIg2DkJ3pzYA3st
- K8/wOnVW5NCN4rwR4B0VgZ6yTTPtPMTrJOeQn/XbK+EVigPcU1eG3M/YD3ElJYTsZF
- 8KtyPXRK3TS793gVQjdKRJjRvpQg/AjPlyqnkWD2hV1xwIa92XFiKhbTlyHcN750BH
- SPkug1ePPUq9oW68ybwKq4KW8Y84WBtdHuW038wmkDYrBKaNKnqgtVpJ4Hh3J4ABIk
- qe9/JjB559OODfzni+No1iGzAvtU0V9Wn3Y6908lDZz23BJFa+DJ50rs0O2kU9Lu7W
- CbJ0hdU75jo2Q==
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 823022E8135
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 07:45:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C15DF87180C;
+ Wed, 25 Aug 2021 07:48:49 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-4.ams2.redhat.com [10.36.112.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E88F85D9C6;
+ Wed, 25 Aug 2021 07:48:37 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 7FD3F11380A9; Wed, 25 Aug 2021 09:48:36 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 2/3] hw/usb/hcd-xhci-pci: Abort if setting link
+ property failed
+References: <20210819171547.2879725-1-philmd@redhat.com>
+ <20210819171547.2879725-3-philmd@redhat.com>
+ <20210823183414.hmu4ly2y5zkbw3mg@habkost.net>
+ <87ilzvntu1.fsf@dusky.pond.sub.org>
+ <CAFEAcA-2ShxjS6YAb_xBk=v5YJ5nLaaKtOLVEn7Vjfe6rkpp2A@mail.gmail.com>
+ <87tujfdp4c.fsf@dusky.pond.sub.org>
+ <CAFEAcA9_HGCVYX8smuAWhUDJ8NbfQ76XgJjOLd2EoyiS2gKC0A@mail.gmail.com>
+ <87bl5mdik9.fsf@dusky.pond.sub.org>
+ <CAFEAcA_8yQu2nbyjhCXKPROP=LLr6iKw2bTg0sHCM0uamwGz5w@mail.gmail.com>
+ <87o89man77.fsf@dusky.pond.sub.org>
+ <CAFEAcA-=TJm=0WFKbAc27NtL2VJroMHAURpzJRdYkg8LLKBagQ@mail.gmail.com>
+Date: Wed, 25 Aug 2021 09:48:36 +0200
+In-Reply-To: <CAFEAcA-=TJm=0WFKbAc27NtL2VJroMHAURpzJRdYkg8LLKBagQ@mail.gmail.com>
+ (Peter Maydell's message of "Tue, 24 Aug 2021 16:19:19 +0100")
+Message-ID: <874kbe7ynf.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Aug 2021 07:40:18 -0000
-From: Thomas Huth <1884982@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: documentation net
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: artoria2e5 pmaydell th-huth
-X-Launchpad-Bug-Reporter: Mingye Wang (artoria2e5)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159301155950.13634.250500637103712065.malonedeb@wampee.canonical.com>
-Message-Id: <162987721885.2465.12649808117155984135.malone@wampee.canonical.com>
-Subject: [Bug 1884982] Re: User-emu documentation mentions inexistent
- "runtime" downloads
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="7edb2d45353e030166106ae05838b77ab406edcd"; Instance="production"
-X-Launchpad-Hash: 0d2fcd1a4838dc1fb23554bc9ac278ef29ac51b0
-Received-SPF: pass client-ip=185.125.188.250;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,65 +89,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1884982 <1884982@bugs.launchpad.net>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael
+ S. Tsirkin" <mst@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Dau?= =?utf-8?Q?d=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an automated cleanup. This bug report has been moved to QEMU's
-new bug tracker on gitlab.com and thus gets marked as 'expired' now.
-Please continue with the discussion here:
+Peter Maydell <peter.maydell@linaro.org> writes:
 
- https://gitlab.com/qemu-project/qemu/-/issues/560
+> On Tue, 24 Aug 2021 at 16:15, Markus Armbruster <armbru@redhat.com> wrote:
+>> True, except when I called it "kind of wrong", I was still talking about
+>> functions with an Error **errp parameter.
+>
+> Oh yes, so you were. I even quoted your sentence starting
+> "In functions with an Error **errp parameter ...".
+> I must have been half-asleep still this morning.
+>
+> Apologies for starting an unnecessary thread after which we all
+> turn out to be in complete agreement :-)
 
-
-** Tags added: net
-
-** Changed in: qemu
-       Status: In Progress =3D> Expired
-
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #560
-   https://gitlab.com/qemu-project/qemu/-/issues/560
-
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1884982
-
-Title:
-  User-emu documentation mentions inexistent "runtime" downloads
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  The official documentation for the user-space emulator[1] contains
-  many references to binary blobs no longer provided by  QEMU.org for
-  download. The parts mentioning them should be rephrased to avoid
-  confusion and instructions for building these components should be
-  provided (maybe as a reference to the LFS book with some scripts,
-  or... cut a deal with some super slim Linux distros). The specific
-  parts are:
-
-  * qemu-XXX-i386-wine.tar.gz, a wine build under the prefix /wine.
-  * qemu-runtime-i386-XXX-.tar.gz, a glibc build.
-
-  =C2=A0=C2=A0[1]: https://www.qemu.org/docs/master/user/main.html
-
-  In addition, the documentation contains many other instances of
-  inexistent "tar.gz" files, such as in "Network emulation". Most of
-  these are inherited from the days of texi documentation more than 10
-  years ago, and they are so old that GitHub's blame have become
-  unreliable. Someone really should run `fgrep -r 'tar.gz' doc' on the
-  QEMU source tree.
-
-  The issue was previously reported as [2], but nobody bother enough to
-  google the filename to find out where the confused user got the idea
-  from.
-
-  =C2=A0=C2=A0[2]: https://www.mail-archive.com/qemu-
-  devel@nongnu.org/msg569174.html
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1884982/+subscriptions
+No problem at all :)
 
 
