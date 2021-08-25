@@ -2,68 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DE023F6F60
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 08:21:18 +0200 (CEST)
-Received: from localhost ([::1]:60916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FA903F6FE4
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 08:56:39 +0200 (CEST)
+Received: from localhost ([::1]:52762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mImHj-0008Kl-L1
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 02:21:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42778)
+	id 1mImpt-0007FG-2p
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 02:56:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mImGe-0007UB-52; Wed, 25 Aug 2021 02:20:08 -0400
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:34513)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mImGZ-0005fa-JJ; Wed, 25 Aug 2021 02:20:07 -0400
-Received: by mail-io1-xd30.google.com with SMTP id y18so13831851ioc.1;
- Tue, 24 Aug 2021 23:20:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0RlRkaOCUwAZ1YesW4Pk2ZB66Z+q4dMlBfpp5QTBdVg=;
- b=Hp0Ev3kjQK0wCsp721dlTNNugMu7gzeIouXvfKGewLrsYv9fk/v0UuaIV0usfpnMVt
- 91k/yRp7LbYygnQK7ulcsogdGhwOJiu5MhaWoP9K8zy+MAHqPAET0nL19jGUdE95/I/c
- aU9RIzgBUJ2eMYwkNHsaR0LvyEktb6qEih3iw+fYQuZa6/7SMh6VsUA3VQWPmDR9K6N/
- 8SmuOWN0+VDHWmxwsReNYjjwwb7poeN6DloWEx9UaW9NjSDRXKa5BY7gdMyDurnYLmdF
- lN54dAguI0jXftjfJANoHwco6rEYHl/uycMUzX/dyrwGMfM2LASlH4b+YdP7XS9vfaf0
- s9vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0RlRkaOCUwAZ1YesW4Pk2ZB66Z+q4dMlBfpp5QTBdVg=;
- b=heng0+yBqjTI1mz+UFxdaG2Clvt/F/jspHJ4ViaNbF4XgmS0huq5Rby/cOrawViK/J
- 1WydkCyckLjE9MpsI2sGGxPkjdNmONcMqe3GsUI6g54+cfPGbsvzF1ZYqq7/r2eZtZC5
- UBbQ+9WnBRPW5BqzxqpqMI/h45XgxwxtsdupMCb+DVuK7ISlwiWPdK8WElej0W7mmBwk
- 05VNWGpG8m9AH3TOoUim53OrmCPfyHP9zQ1sAxhk4U4LPVSGrSKb0014nQ5FblY4aXbv
- 6vlCi1LN4c+Cwx8tX5gfnX2yC5xdGeNgmDYUUybwXZIsRDdcL7EoBZCbXOHrSbvyELy8
- Wqxg==
-X-Gm-Message-State: AOAM531lhxoGKV8VajPLAR6fLWxENlmuKHY8qF3N8CPkEYvsEvzxGDoG
- tSBxMkVykR4jV4639X7K4lY1rpDuIRI7F7Laj00=
-X-Google-Smtp-Source: ABdhPJxgkq6jGD0HmAa2X9HL2SCyZJrUs/Nl6T+Ph3maa80yICdWJmYdYTmuRE9txxSdR7toJrM2+7qh3AFB67+iXKM=
-X-Received: by 2002:a5d:850f:: with SMTP id q15mr34803421ion.118.1629872402046; 
- Tue, 24 Aug 2021 23:20:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mImos-0006IA-Rr; Wed, 25 Aug 2021 02:55:30 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:46038
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mImoq-0002ZE-Tw; Wed, 25 Aug 2021 02:55:30 -0400
+Received: from host86-179-186-93.range86-179.btcentralplus.com
+ ([86.179.186.93] helo=[192.168.50.176])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mImoO-0006tg-Bl; Wed, 25 Aug 2021 07:55:05 +0100
+To: Finn Thain <fthain@linux-m68k.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+References: <cover.1629799776.git.fthain@linux-m68k.org>
+ <9b78e8c6e453feab6275d04bf503051645770d85.1629799776.git.fthain@linux-m68k.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <ee403f8a-2fde-56cd-789f-a2ab7f35eb00@ilande.co.uk>
+Date: Wed, 25 Aug 2021 07:55:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210823195529.560295-1-richard.henderson@linaro.org>
- <20210823195529.560295-23-richard.henderson@linaro.org>
-In-Reply-To: <20210823195529.560295-23-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 25 Aug 2021 16:19:36 +1000
-Message-ID: <CAKmqyKNq6nVWbW3HDJ_tBABcP4m4Uim9Zt6xUPF-sGh9BkC=_w@mail.gmail.com>
-Subject: Re: [PATCH v5 22/24] target/riscv: Use {get,dest}_gpr for RVD
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <9b78e8c6e453feab6275d04bf503051645770d85.1629799776.git.fthain@linux-m68k.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.179.186.93
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC 01/10] hw/mos6522: Remove get_load_time() methods and
+ functions
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.305,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,285 +64,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-ppc@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 24, 2021 at 6:12 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 24/08/2021 11:09, Finn Thain wrote:
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
+> This code appears to be unnecessary.
+> 
+> Signed-off-by: Finn Thain <fthain@linux-m68k.org>
 > ---
->  target/riscv/insn_trans/trans_rvd.c.inc | 125 ++++++++++++------------
->  1 file changed, 60 insertions(+), 65 deletions(-)
->
-> diff --git a/target/riscv/insn_trans/trans_rvd.c.inc b/target/riscv/insn_trans/trans_rvd.c.inc
-> index 11b9b3f90b..db9ae15755 100644
-> --- a/target/riscv/insn_trans/trans_rvd.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvd.c.inc
-> @@ -20,30 +20,40 @@
->
->  static bool trans_fld(DisasContext *ctx, arg_fld *a)
->  {
-> +    TCGv addr;
-> +
->      REQUIRE_FPU;
->      REQUIRE_EXT(ctx, RVD);
-> -    TCGv t0 = tcg_temp_new();
-> -    gen_get_gpr(ctx, t0, a->rs1);
-> -    tcg_gen_addi_tl(t0, t0, a->imm);
->
-> -    tcg_gen_qemu_ld_i64(cpu_fpr[a->rd], t0, ctx->mem_idx, MO_TEQ);
-> +    addr = get_gpr(ctx, a->rs1, EXT_NONE);
-> +    if (a->imm) {
-> +        TCGv temp = temp_new(ctx);
-> +        tcg_gen_addi_tl(temp, addr, a->imm);
-> +        addr = temp;
-> +    }
-> +
-> +    tcg_gen_qemu_ld_i64(cpu_fpr[a->rd], addr, ctx->mem_idx, MO_TEQ);
->
->      mark_fs_dirty(ctx);
-> -    tcg_temp_free(t0);
->      return true;
->  }
->
->  static bool trans_fsd(DisasContext *ctx, arg_fsd *a)
->  {
-> +    TCGv addr;
-> +
->      REQUIRE_FPU;
->      REQUIRE_EXT(ctx, RVD);
-> -    TCGv t0 = tcg_temp_new();
-> -    gen_get_gpr(ctx, t0, a->rs1);
-> -    tcg_gen_addi_tl(t0, t0, a->imm);
->
-> -    tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], t0, ctx->mem_idx, MO_TEQ);
-> +    addr = get_gpr(ctx, a->rs1, EXT_NONE);
-> +    if (a->imm) {
-> +        TCGv temp = temp_new(ctx);
-> +        tcg_gen_addi_tl(temp, addr, a->imm);
-> +        addr = temp;
-> +    }
-> +
-> +    tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], addr, ctx->mem_idx, MO_TEQ);
->
-> -    tcg_temp_free(t0);
->      return true;
->  }
->
-> @@ -252,11 +262,10 @@ static bool trans_feq_d(DisasContext *ctx, arg_feq_d *a)
->      REQUIRE_FPU;
->      REQUIRE_EXT(ctx, RVD);
->
-> -    TCGv t0 = tcg_temp_new();
-> -    gen_helper_feq_d(t0, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
-> -    gen_set_gpr(ctx, a->rd, t0);
-> -    tcg_temp_free(t0);
-> +    TCGv dest = dest_gpr(ctx, a->rd);
->
-> +    gen_helper_feq_d(dest, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
-> +    gen_set_gpr(ctx, a->rd, dest);
->      return true;
->  }
->
-> @@ -265,11 +274,10 @@ static bool trans_flt_d(DisasContext *ctx, arg_flt_d *a)
->      REQUIRE_FPU;
->      REQUIRE_EXT(ctx, RVD);
->
-> -    TCGv t0 = tcg_temp_new();
-> -    gen_helper_flt_d(t0, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
-> -    gen_set_gpr(ctx, a->rd, t0);
-> -    tcg_temp_free(t0);
-> +    TCGv dest = dest_gpr(ctx, a->rd);
->
-> +    gen_helper_flt_d(dest, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
-> +    gen_set_gpr(ctx, a->rd, dest);
->      return true;
->  }
->
-> @@ -278,11 +286,10 @@ static bool trans_fle_d(DisasContext *ctx, arg_fle_d *a)
->      REQUIRE_FPU;
->      REQUIRE_EXT(ctx, RVD);
->
-> -    TCGv t0 = tcg_temp_new();
-> -    gen_helper_fle_d(t0, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
-> -    gen_set_gpr(ctx, a->rd, t0);
-> -    tcg_temp_free(t0);
-> +    TCGv dest = dest_gpr(ctx, a->rd);
->
-> +    gen_helper_fle_d(dest, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
-> +    gen_set_gpr(ctx, a->rd, dest);
->      return true;
->  }
->
-> @@ -291,10 +298,10 @@ static bool trans_fclass_d(DisasContext *ctx, arg_fclass_d *a)
->      REQUIRE_FPU;
->      REQUIRE_EXT(ctx, RVD);
->
-> -    TCGv t0 = tcg_temp_new();
-> -    gen_helper_fclass_d(t0, cpu_fpr[a->rs1]);
-> -    gen_set_gpr(ctx, a->rd, t0);
-> -    tcg_temp_free(t0);
-> +    TCGv dest = dest_gpr(ctx, a->rd);
-> +
-> +    gen_helper_fclass_d(dest, cpu_fpr[a->rs1]);
-> +    gen_set_gpr(ctx, a->rd, dest);
->      return true;
->  }
->
-> @@ -303,12 +310,11 @@ static bool trans_fcvt_w_d(DisasContext *ctx, arg_fcvt_w_d *a)
->      REQUIRE_FPU;
->      REQUIRE_EXT(ctx, RVD);
->
-> -    TCGv t0 = tcg_temp_new();
-> -    gen_set_rm(ctx, a->rm);
-> -    gen_helper_fcvt_w_d(t0, cpu_env, cpu_fpr[a->rs1]);
-> -    gen_set_gpr(ctx, a->rd, t0);
-> -    tcg_temp_free(t0);
-> +    TCGv dest = dest_gpr(ctx, a->rd);
->
-> +    gen_set_rm(ctx, a->rm);
-> +    gen_helper_fcvt_w_d(dest, cpu_env, cpu_fpr[a->rs1]);
-> +    gen_set_gpr(ctx, a->rd, dest);
->      return true;
->  }
->
-> @@ -317,12 +323,11 @@ static bool trans_fcvt_wu_d(DisasContext *ctx, arg_fcvt_wu_d *a)
->      REQUIRE_FPU;
->      REQUIRE_EXT(ctx, RVD);
->
-> -    TCGv t0 = tcg_temp_new();
-> -    gen_set_rm(ctx, a->rm);
-> -    gen_helper_fcvt_wu_d(t0, cpu_env, cpu_fpr[a->rs1]);
-> -    gen_set_gpr(ctx, a->rd, t0);
-> -    tcg_temp_free(t0);
-> +    TCGv dest = dest_gpr(ctx, a->rd);
->
-> +    gen_set_rm(ctx, a->rm);
-> +    gen_helper_fcvt_wu_d(dest, cpu_env, cpu_fpr[a->rs1]);
-> +    gen_set_gpr(ctx, a->rd, dest);
->      return true;
->  }
->
-> @@ -331,12 +336,10 @@ static bool trans_fcvt_d_w(DisasContext *ctx, arg_fcvt_d_w *a)
->      REQUIRE_FPU;
->      REQUIRE_EXT(ctx, RVD);
->
-> -    TCGv t0 = tcg_temp_new();
-> -    gen_get_gpr(ctx, t0, a->rs1);
-> +    TCGv src = get_gpr(ctx, a->rs1, EXT_SIGN);
->
->      gen_set_rm(ctx, a->rm);
-> -    gen_helper_fcvt_d_w(cpu_fpr[a->rd], cpu_env, t0);
-> -    tcg_temp_free(t0);
-> +    gen_helper_fcvt_d_w(cpu_fpr[a->rd], cpu_env, src);
->
->      mark_fs_dirty(ctx);
->      return true;
-> @@ -347,12 +350,10 @@ static bool trans_fcvt_d_wu(DisasContext *ctx, arg_fcvt_d_wu *a)
->      REQUIRE_FPU;
->      REQUIRE_EXT(ctx, RVD);
->
-> -    TCGv t0 = tcg_temp_new();
-> -    gen_get_gpr(ctx, t0, a->rs1);
-> +    TCGv src = get_gpr(ctx, a->rs1, EXT_ZERO);
->
->      gen_set_rm(ctx, a->rm);
-> -    gen_helper_fcvt_d_wu(cpu_fpr[a->rd], cpu_env, t0);
-> -    tcg_temp_free(t0);
-> +    gen_helper_fcvt_d_wu(cpu_fpr[a->rd], cpu_env, src);
->
->      mark_fs_dirty(ctx);
->      return true;
-> @@ -364,11 +365,11 @@ static bool trans_fcvt_l_d(DisasContext *ctx, arg_fcvt_l_d *a)
->      REQUIRE_FPU;
->      REQUIRE_EXT(ctx, RVD);
->
-> -    TCGv t0 = tcg_temp_new();
-> +    TCGv dest = dest_gpr(ctx, a->rd);
-> +
->      gen_set_rm(ctx, a->rm);
-> -    gen_helper_fcvt_l_d(t0, cpu_env, cpu_fpr[a->rs1]);
-> -    gen_set_gpr(ctx, a->rd, t0);
-> -    tcg_temp_free(t0);
-> +    gen_helper_fcvt_l_d(dest, cpu_env, cpu_fpr[a->rs1]);
-> +    gen_set_gpr(ctx, a->rd, dest);
->      return true;
->  }
->
-> @@ -378,11 +379,11 @@ static bool trans_fcvt_lu_d(DisasContext *ctx, arg_fcvt_lu_d *a)
->      REQUIRE_FPU;
->      REQUIRE_EXT(ctx, RVD);
->
-> -    TCGv t0 = tcg_temp_new();
-> +    TCGv dest = dest_gpr(ctx, a->rd);
-> +
->      gen_set_rm(ctx, a->rm);
-> -    gen_helper_fcvt_lu_d(t0, cpu_env, cpu_fpr[a->rs1]);
-> -    gen_set_gpr(ctx, a->rd, t0);
-> -    tcg_temp_free(t0);
-> +    gen_helper_fcvt_lu_d(dest, cpu_env, cpu_fpr[a->rs1]);
-> +    gen_set_gpr(ctx, a->rd, dest);
->      return true;
->  }
->
-> @@ -406,12 +407,11 @@ static bool trans_fcvt_d_l(DisasContext *ctx, arg_fcvt_d_l *a)
->      REQUIRE_FPU;
->      REQUIRE_EXT(ctx, RVD);
->
-> -    TCGv t0 = tcg_temp_new();
-> -    gen_get_gpr(ctx, t0, a->rs1);
-> +    TCGv src = get_gpr(ctx, a->rs1, EXT_SIGN);
->
->      gen_set_rm(ctx, a->rm);
-> -    gen_helper_fcvt_d_l(cpu_fpr[a->rd], cpu_env, t0);
-> -    tcg_temp_free(t0);
-> +    gen_helper_fcvt_d_l(cpu_fpr[a->rd], cpu_env, src);
-> +
->      mark_fs_dirty(ctx);
->      return true;
->  }
-> @@ -422,12 +422,11 @@ static bool trans_fcvt_d_lu(DisasContext *ctx, arg_fcvt_d_lu *a)
->      REQUIRE_FPU;
->      REQUIRE_EXT(ctx, RVD);
->
-> -    TCGv t0 = tcg_temp_new();
-> -    gen_get_gpr(ctx, t0, a->rs1);
-> +    TCGv src = get_gpr(ctx, a->rs1, EXT_ZERO);
->
->      gen_set_rm(ctx, a->rm);
-> -    gen_helper_fcvt_d_lu(cpu_fpr[a->rd], cpu_env, t0);
-> -    tcg_temp_free(t0);
-> +    gen_helper_fcvt_d_lu(cpu_fpr[a->rd], cpu_env, src);
-> +
->      mark_fs_dirty(ctx);
->      return true;
->  }
-> @@ -439,11 +438,7 @@ static bool trans_fmv_d_x(DisasContext *ctx, arg_fmv_d_x *a)
->      REQUIRE_EXT(ctx, RVD);
->
->  #ifdef TARGET_RISCV64
-> -    TCGv t0 = tcg_temp_new();
-> -    gen_get_gpr(ctx, t0, a->rs1);
+>   hw/misc/mos6522.c | 22 +---------------------
+>   1 file changed, 1 insertion(+), 21 deletions(-)
+> 
+> diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
+> index 1c57332b40..a478c1ca43 100644
+> --- a/hw/misc/mos6522.c
+> +++ b/hw/misc/mos6522.c
+> @@ -63,17 +63,6 @@ static uint64_t get_counter_value(MOS6522State *s, MOS6522Timer *ti)
+>       }
+>   }
+>   
+> -static uint64_t get_load_time(MOS6522State *s, MOS6522Timer *ti)
+> -{
+> -    MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(s);
 > -
-> -    tcg_gen_mov_tl(cpu_fpr[a->rd], t0);
-> -    tcg_temp_free(t0);
-> +    tcg_gen_mov_tl(cpu_fpr[a->rd], get_gpr(ctx, a->rs1, EXT_NONE));
->      mark_fs_dirty(ctx);
->      return true;
->  #else
-> --
-> 2.25.1
->
->
+> -    if (ti->index == 0) {
+> -        return mdc->get_timer1_load_time(s, ti);
+> -    } else {
+> -        return mdc->get_timer2_load_time(s, ti);
+> -    }
+> -}
+> -
+>   static unsigned int get_counter(MOS6522State *s, MOS6522Timer *ti)
+>   {
+>       int64_t d;
+> @@ -98,7 +87,7 @@ static unsigned int get_counter(MOS6522State *s, MOS6522Timer *ti)
+>   static void set_counter(MOS6522State *s, MOS6522Timer *ti, unsigned int val)
+>   {
+>       trace_mos6522_set_counter(1 + ti->index, val);
+> -    ti->load_time = get_load_time(s, ti);
+> +    ti->load_time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+>       ti->counter_value = val;
+>       if (ti->index == 0) {
+>           mos6522_timer1_update(s, ti, ti->load_time);
+> @@ -208,13 +197,6 @@ static uint64_t mos6522_get_counter_value(MOS6522State *s, MOS6522Timer *ti)
+>                       ti->frequency, NANOSECONDS_PER_SECOND);
+>   }
+>   
+> -static uint64_t mos6522_get_load_time(MOS6522State *s, MOS6522Timer *ti)
+> -{
+> -    uint64_t load_time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> -
+> -    return load_time;
+> -}
+> -
+>   static void mos6522_portA_write(MOS6522State *s)
+>   {
+>       qemu_log_mask(LOG_UNIMP, "portA_write unimplemented\n");
+> @@ -518,8 +500,6 @@ static void mos6522_class_init(ObjectClass *oc, void *data)
+>       mdc->update_irq = mos6522_update_irq;
+>       mdc->get_timer1_counter_value = mos6522_get_counter_value;
+>       mdc->get_timer2_counter_value = mos6522_get_counter_value;
+> -    mdc->get_timer1_load_time = mos6522_get_load_time;
+> -    mdc->get_timer2_load_time = mos6522_get_load_time;
+>   }
+>   
+>   static const TypeInfo mos6522_type_info = {
+
+Both the get_counter_value() and get_load_time() callbacks are used as part of the 
+CUDA emulation in hw/misc/macio/cuda.c as per the comment:
+
+/* MacOS uses timer 1 for calibration on startup, so we use
+  * the timebase frequency and cuda_get_counter_value() with
+  * cuda_get_load_time() to steer MacOS to calculate calibrate its timers
+  * correctly for both TCG and KVM (see commit b981289c49 "PPC: Cuda: Use cuda
+  * timer to expose tbfreq to guest" for more information) */
+
+Certainly for the 6522 device it is worth configuring with --target-list="ppc-softmmu 
+m68k-softmmu" to make sure that you don't inadvertently break anything in the PPC world.
+
+A bit of history here: the original mos6522.c was extracted from hw/misc/macio/cuda.c 
+when Laurent presented his initial q800 patches since they also had their own 
+implementation of the 6522, and it was better to move the implementation into a 
+separate QEMU device so that the logic could be shared.
+
+The Darwin kernel timer calibration loop is quite hard to get right: see 
+https://opensource.apple.com/source/xnu/xnu-123.5/pexpert/ppc/pe_clock_speed_asm.s.auto.html 
+and 
+https://opensource.apple.com/source/xnu/xnu-123.5/pexpert/ppc/pe_clock_speed.c.auto.html. 
+Ben/Alex came up with the current mechanism to fool the calibration routine, and I 
+simply added in those callbacks to allow it to be implemented as part of the 
+now-generic 6522 device.
+
+
+ATB,
+
+Mark.
 
