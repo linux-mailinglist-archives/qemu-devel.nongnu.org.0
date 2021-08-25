@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B9CA3F73C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 12:54:23 +0200 (CEST)
-Received: from localhost ([::1]:55528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8ED93F73C0
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 12:53:57 +0200 (CEST)
+Received: from localhost ([::1]:53940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIqXs-0003yV-4c
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 06:54:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50040)
+	id 1mIqXc-0002wb-Or
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 06:53:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mIqN2-0007Ta-PU
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:43:00 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:45054)
+ (Exim 4.90_1) (envelope-from <a.tarasenko@gmail.com>)
+ id 1mIqN8-0007qo-Po
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:43:06 -0400
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:46986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mIqN1-0001iA-03
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:43:00 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id n11so7072870edv.11
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 03:42:57 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <a.tarasenko@gmail.com>)
+ id 1mIqN6-0001ko-Qh
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:43:06 -0400
+Received: by mail-pj1-x1030.google.com with SMTP id
+ u11-20020a17090adb4b00b00181668a56d6so4397079pjx.5
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 03:43:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=O1QNCoZZ+JjKsLFNTuScSEkInMFGF3/4bgLFm9jv+fw=;
- b=jKTYJkXycfDAKnVwv1YsPPNVTcG6N+2tohOzLBBycCJ3gBgIbCNi36ZYVW0MT+vOwT
- h0uhVW4j/e2RvqLgGgojxdr4gYK1v6fd7WWUdoIfU2NPa7gjURMxy50o5WzSZndbZQ1B
- xOjf7QwDB7XtIMVR3FUAqF2a1Owj+dDSjrEtd5/XRaMGXIWmTQ0zEiR8eNRIiLXc5lUC
- oUmosF7onAx4xshCMogwq1Fts4Xr9RPjCHkGnMz3b9TMH0uaOD21qeuXq/Aesg5lC7Gu
- xMxzLdo9IHQ0ZoHeOZX8S3Ilm5ni5C8svW+zO5XIwqLDqMUKOqBD9jH8JOM2X621zd7g
- QElQ==
+ :cc:content-transfer-encoding;
+ bh=CjSIkbqdA14J6haB0taRhZ1lrs6Izf0JtjiDYQD1uzs=;
+ b=PyN1WpGSxvT7IGJArT96zYhPsjOz9w4rXnm6ovoPDSj1NA7/JU6CR3jscAtSVKtocR
+ 2CzUoiHA2+LaZM0y/fqvuXyBdJe3oVS/INTfsXABRstbmLaAI0tq9V8726ztWRqPw5Fe
+ Dw0EMKcQfuP1mjsr3IahtCIo9SC54Z9VCIoYf16VPVahYAD0KI4bK0zMFuBl4M+A5cTj
+ mFIx3iJwqZ5xg+2Z1PpjzToE14LAKtOBy6lEqIXvdpcEKwlw09rwK9JNtI8I5Y2bk2wN
+ 0mlBgK6RwN/f1UEoRNyp08Rv2k6rG+YkpvB6h4osksdKoFHsR74LA6dTxsx78YPoBASx
+ wk/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=O1QNCoZZ+JjKsLFNTuScSEkInMFGF3/4bgLFm9jv+fw=;
- b=POfPbvgXNr2FLdSsWYTxSX7rARzPxd1gDuCG+2PPMTox1B/XsDwOA4lnpwuJOz6ILs
- YkrpHIL68GHGU4vTHnFpOzJ01BcinZaEbibmnf1bmiQsKCiKrqpHKcnsa3tpXPbhskws
- C9gctuXodmBfdM7lwFHBHJYPQXmKbGEK2v1xJc1Bef45HNzxZ1qUX8qnQ1XUKmTDmD4m
- pc7pp2v/kO10d6IBQYxOk2mGRIbqN/kU0GQjmMlsk99Ve49wfI6SHED0mA3/Id5oE503
- lqq1U8TmxI1K1f42xIVWqofrW7ig+62yGKS230t6ibMfFoO6TAMzw05vN3FVSuH2ScCJ
- Cd7A==
-X-Gm-Message-State: AOAM5315zKYyJRcPHJ3LUdnv2pnGtNN6a4cE5G0TckMWBcymK28szhaH
- DEa0QayU/9VF26pzz4otevdmST6yFAxSEoSwyAE=
-X-Google-Smtp-Source: ABdhPJx0/xT+1CmddDEo+3T1JU7wphojFtL+bjagCdaa1PWvSQocF1hicKdmGysd/nJ7M/eWFZ3b/GMzouFkCJKqRrQ=
-X-Received: by 2002:aa7:d9d3:: with SMTP id v19mr12460094eds.257.1629888176917; 
- Wed, 25 Aug 2021 03:42:56 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=CjSIkbqdA14J6haB0taRhZ1lrs6Izf0JtjiDYQD1uzs=;
+ b=FYBSMZtXGdowz6R+kRVdMFiQetkS9O98fJP0kD4TxRnEx8SYUEfGw9mWov+pZnkFid
+ A/WcX/44v8y4FUw3dOpBiC3eC8HJ60voqy9BblcCyu75wIEtCBD9wKNBwOx/8pJPGhjg
+ tpNuY6ejonGWn3G8od69FCW2qQfptBwFZYN2xAcVBx06k/mjAS1MUn3/aeKEVb5jPfJL
+ GuBQA9+jwGgYiDyu1zTLRiFAxCVADTixp39b52N00zH5UxufUWG9OOStgKdbHMFgaDLz
+ 67/5r0HfMLMIqV2JkKdOiDQ8cnLXWSqAkOY2YCDi/tXlmM+3pwDChNgBKdSg6YA0rCvX
+ 02AA==
+X-Gm-Message-State: AOAM533n15Vmz78wXao7THlnYfICfhkDVRZnubLLZiiXbbgRwrk7MWwq
+ yZNkOGbDjDZJVZaUNxWhT8lPL491eai2Qqt3eh4=
+X-Google-Smtp-Source: ABdhPJwBX9uqLTA139P+KNGEbTQEhGbR2YKqFDHrOiJ3Y9+55GeBxMpmReKcwqO5XqveR46Gbz1NlEpcwe1W56lojPk=
+X-Received: by 2002:a17:90a:9ef:: with SMTP id
+ 102mr9772977pjo.223.1629888182661; 
+ Wed, 25 Aug 2021 03:43:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210825093701.668122-1-s.reiter@proxmox.com>
- <20210825093701.668122-2-s.reiter@proxmox.com>
-In-Reply-To: <20210825093701.668122-2-s.reiter@proxmox.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 25 Aug 2021 14:42:45 +0400
-Message-ID: <CAJ+F1CJd5jHV9YLEchiPkQmKkp-pu9AaR_hgDgKpYUjFAK7N3g@mail.gmail.com>
-Subject: Re: [PATCH 1/2] monitor/hmp: correctly invert password argument
- detection again
-To: Stefan Reiter <s.reiter@proxmox.com>
-Content-Type: multipart/alternative; boundary="000000000000cf0f8005ca5fe943"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52f.google.com
+References: <20210825095100.20180-1-mark.cave-ayland@ilande.co.uk>
+ <74177bc7-384b-60cd-daa7-084d9a3f7c67@amsat.org>
+In-Reply-To: <74177bc7-384b-60cd-daa7-084d9a3f7c67@amsat.org>
+From: Artyom Tarasenko <atar4qemu@gmail.com>
+Date: Wed, 25 Aug 2021 12:42:51 +0200
+Message-ID: <CAAM0arMuPnrKwibEfCyGSC2_m5gycAUeyC7aOaeNFGbno9sHgQ@mail.gmail.com>
+Subject: Re: [PATCH] sun4m: fix setting CPU id when more than one CPU is
+ present
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=a.tarasenko@gmail.com; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,122 +82,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>, QEMU <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000cf0f8005ca5fe943
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-On Wed, Aug 25, 2021 at 1:38 PM Stefan Reiter <s.reiter@proxmox.com> wrote:
-
-> Commit cfb5387a1d 'hmp: remove "change vnc TARGET" command' claims to
-> remove the HMP "change vnc" command, but doesn't actually do that.
-> Instead if rewires it to use 'qmp_change_vnc_password', and in the
-> process inverts the argument detection - ignoring the first issue, this
-> inversion is wrong, as this will now ask the user for a password if one
-> is already provided, and simply fail if none is given.
+On Wed, Aug 25, 2021 at 12:29 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+rg> wrote:
 >
-> Fixes: cfb5387a1d ("hmp: remove "change vnc TARGET" command")
-> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+>     Fixes: 24f675cd3b ("sparc/sun4m: Use start-powered-off CPUState
+> property")
+>     Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>     Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 >
+> diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
+> index ff8ae73002a..78ca0925d25 100644
+> --- a/target/sparc/cpu.h
+> +++ b/target/sparc/cpu.h
+> @@ -262,6 +262,7 @@ struct sparc_def_t {
+>      uint32_t mmu_cxr_mask;
+>      uint32_t mmu_sfsr_mask;
+>      uint32_t mmu_trcr_mask;
+> +    uint8_t mxcc_cpuid;
 
-Oh.. hmp, hear me please!
+Could it be moved a little further to avoid breaking alignment of
+uint32 variables?
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Regards,
+Artyom
 
----
->  monitor/hmp-cmds.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>      uint32_t mxcc_version;
+>      uint32_t features;
+>      uint32_t nwindows;
+> @@ -583,7 +584,6 @@ void cpu_raise_exception_ra(CPUSPARCState *, int,
+> uintptr_t) QEMU_NORETURN;
 >
-> diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> index f7a211e5a4..31366e6331 100644
-> --- a/monitor/hmp-cmds.c
-> +++ b/monitor/hmp-cmds.c
-> @@ -1591,7 +1591,7 @@ void hmp_change(Monitor *mon, const QDict *qdict)
->          }
->          if (strcmp(target, "passwd") =3D=3D 0 ||
->              strcmp(target, "password") =3D=3D 0) {
-> -            if (arg) {
-> +            if (!arg) {
->                  MonitorHMP *hmp_mon =3D container_of(mon, MonitorHMP,
-> common);
->                  monitor_read_password(hmp_mon, hmp_change_read_arg, NULL=
-);
->                  return;
-> --
-> 2.30.2
+>  #ifndef NO_CPU_IO_DEFS
+>  /* cpu_init.c */
+> -void cpu_sparc_set_id(CPUSPARCState *env, unsigned int cpu);
+>  void sparc_cpu_list(void);
+>  /* mmu_helper.c */
+>  bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
+> index 7b4dec17211..8189045fdbf 100644
+> --- a/hw/sparc/leon3.c
+> +++ b/hw/sparc/leon3.c
+> @@ -238,8 +238,6 @@ static void leon3_generic_hw_init(MachineState *machi=
+ne)
+>      cpu =3D SPARC_CPU(cpu_create(machine->cpu_type));
+>      env =3D &cpu->env;
 >
+> -    cpu_sparc_set_id(env, 0);
+> -
+>      /* Reset data */
+>      reset_info        =3D g_malloc0(sizeof(ResetData));
+>      reset_info->cpu   =3D cpu;
+> diff --git a/hw/sparc/sun4m.c b/hw/sparc/sun4m.c
+> index 42e139849ed..5be2e8e73f2 100644
+> --- a/hw/sparc/sun4m.c
+> +++ b/hw/sparc/sun4m.c
+> @@ -803,10 +803,10 @@ static void cpu_devinit(const char *cpu_type,
+> unsigned int id,
+>      cpu =3D SPARC_CPU(object_new(cpu_type));
+>      env =3D &cpu->env;
 >
+> -    cpu_sparc_set_id(env, id);
+>      qemu_register_reset(sun4m_cpu_reset, cpu);
+>      object_property_set_bool(OBJECT(cpu), "start-powered-off", id !=3D 0=
+,
+>                               &error_fatal);
+> +    object_property_set_uint(OBJECT(cpu), "cpu-id", id, &error_fatal);
+>      qdev_realize_and_unref(DEVICE(cpu), NULL, &error_fatal);
+>      *cpu_irqs =3D qemu_allocate_irqs(cpu_set_irq, cpu, MAX_PILS);
+>      env->prom_addr =3D prom_addr;
+> diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
+> index da6b30ec747..d76929c68c7 100644
+> --- a/target/sparc/cpu.c
+> +++ b/target/sparc/cpu.c
+> @@ -194,13 +194,6 @@ static void sparc_cpu_parse_features(const char
+> *typename, char *features,
+>      g_list_free_full(minus_features, g_free);
+>  }
 >
+> -void cpu_sparc_set_id(CPUSPARCState *env, unsigned int cpu)
+> -{
+> -#if !defined(TARGET_SPARC64)
+> -    env->mxccregs[7] =3D ((cpu + 8) & 0xf) << 24;
+> -#endif
+> -}
+> -
+>  static const sparc_def_t sparc_defs[] =3D {
+>  #ifdef TARGET_SPARC64
+>      {
+> @@ -754,7 +747,7 @@ static void sparc_cpu_realizefn(DeviceState *dev,
+> Error **errp)
+>      env->nwindows =3D env->def.nwindows;
+>  #if !defined(TARGET_SPARC64)
+>      env->mmuregs[0] |=3D env->def.mmu_version;
+> -    cpu_sparc_set_id(env, 0);
+> +    env->mxccregs[7] =3D ((env->def.mxcc_cpuid + 8) & 0xf) << 24;
+>      env->mxccregs[7] |=3D env->def.mxcc_version;
+>  #else
+>      env->mmu_version =3D env->def.mmu_version;
+> @@ -843,6 +836,7 @@ static Property sparc_cpu_properties[] =3D {
+>                           qdev_prop_uint64, target_ulong),
+>      DEFINE_PROP_UINT32("fpu-version", SPARCCPU, env.def.fpu_version, 0),
+>      DEFINE_PROP_UINT32("mmu-version", SPARCCPU, env.def.mmu_version, 0),
+> +    DEFINE_PROP_UINT8("cpu-id", SPARCCPU, env.def.mxcc_cpuid, 0),
+>      DEFINE_PROP("nwindows", SPARCCPU, env.def.nwindows,
+>                  qdev_prop_nwindows, uint32_t),
+>      DEFINE_PROP_END_OF_LIST()
+> ---
 >
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000cf0f8005ca5fe943
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 25, 2021 at 1:38 PM Ste=
-fan Reiter &lt;<a href=3D"mailto:s.reiter@proxmox.com">s.reiter@proxmox.com=
-</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
-Commit cfb5387a1d &#39;hmp: remove &quot;change vnc TARGET&quot; command&#3=
-9; claims to<br>
-remove the HMP &quot;change vnc&quot; command, but doesn&#39;t actually do =
-that.<br>
-Instead if rewires it to use &#39;qmp_change_vnc_password&#39;, and in the<=
-br>
-process inverts the argument detection - ignoring the first issue, this<br>
-inversion is wrong, as this will now ask the user for a password if one<br>
-is already provided, and simply fail if none is given.<br>
-<br>
-Fixes: cfb5387a1d (&quot;hmp: remove &quot;change vnc TARGET&quot; command&=
-quot;)<br>
-Signed-off-by: Stefan Reiter &lt;<a href=3D"mailto:s.reiter@proxmox.com" ta=
-rget=3D"_blank">s.reiter@proxmox.com</a>&gt;<br></blockquote><div><br></div=
-><div>Oh.. hmp, hear me please!<br></div><div><br></div><div>Reviewed-by: M=
-arc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">ma=
-rcandre.lureau@redhat.com</a>&gt;<br></div><div> <br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0monitor/hmp-cmds.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c<br>
-index f7a211e5a4..31366e6331 100644<br>
---- a/monitor/hmp-cmds.c<br>
-+++ b/monitor/hmp-cmds.c<br>
-@@ -1591,7 +1591,7 @@ void hmp_change(Monitor *mon, const QDict *qdict)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (strcmp(target, &quot;passwd&quot;) =
-=3D=3D 0 ||<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0strcmp(target, &quot;passwo=
-rd&quot;) =3D=3D 0) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (arg) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!arg) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MonitorHMP *h=
-mp_mon =3D container_of(mon, MonitorHMP, common);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0monitor_read_=
-password(hmp_mon, hmp_change_read_arg, NULL);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
--- <br>
-2.30.2<br>
-<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000cf0f8005ca5fe943--
 
