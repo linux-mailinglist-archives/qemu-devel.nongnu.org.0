@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1A593F738B
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 12:43:03 +0200 (CEST)
-Received: from localhost ([::1]:36488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BC9E3F7368
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 12:37:15 +0200 (CEST)
+Received: from localhost ([::1]:40356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIqN4-0005YI-O8
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 06:43:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48594)
+	id 1mIqHS-0005nX-Ev
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 06:37:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIqG0-0002ol-L7
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:35:44 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46858)
+ id 1mIqFz-0002m1-UH
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:35:43 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37475)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIqFw-0005Fl-UG
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:35:44 -0400
-Received: by mail-wr1-x429.google.com with SMTP id f5so35618160wrm.13
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 03:35:40 -0700 (PDT)
+ id 1mIqFx-0005Ft-H9
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:35:43 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ c8-20020a7bc008000000b002e6e462e95fso3921116wmb.2
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 03:35:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=2AKLx+FAZSEHTDgotUySXrnfQs5xm57wonDC26WVk28=;
- b=fmBA4Xw6AqYFEkMqpmR+skkqbQwxJdO4/iYbpeMmwjvjzmPDRg9WJc29DmiU6qE4Sc
- KxyvZ+ig66NlNPSKW1WydpFXqg4+EgKD1tnJmE46tt+lRsxmZPA0qMgc5yQ4CxX8YxNM
- ghPFmArJ2njMDQ2P0B6Np7nvfndhKUG+Pn41jDbaVvJavxpSXKHb7gIVYVe5r80kbX8Z
- li6fQbM02RwibD1naerWqL1iLWBb4ENcGt5U1xFkVBktmtWHHd6GJ8RxjNT/JUjICiQw
- u2aSB3mLrZSkP3WYZXpCqtOljmgSP2OlR9uT3tr+59b/AdqfWbqY2UbFHTmoBO2F2CmJ
- 5rpg==
+ bh=AdQbpZh4Nsn4ZEWXMN8/5MXfv9l4tGOGQ949NSeXfXg=;
+ b=Sb2kzKedAI20nwsZqEpzaLIlrTxfpyLtft6cetmP2ACPMIcE924qu3jwL3Ix8fSCwq
+ 4kfxBJnIcaSH3V4YKAo6+5oyD5lM2OL4NxAxH8pft4IXIiFsq/gesoiOIoSAKUqVutX5
+ 4zxNYR6LgJxOzu2WPUOy9VuLYnE8ezBKYhGQqY/V4yxLxiqKEs1OF4Yz2ne/gf9QtF4F
+ mhOQj6bVpP+Ni1YDSaevAYxGfJ4y1BnTsELxtQhyvrxK7uUfB6cMfvzJxnQFJ9MKTkH/
+ m4DkjbDSPWe4ywgINIlBAu5ayXVgiI+dMMC+Z0ESS4Xhh8is2SEY1YCvEW1g7P73mP8p
+ 0B7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2AKLx+FAZSEHTDgotUySXrnfQs5xm57wonDC26WVk28=;
- b=Xext1ApqlsUGgh8F3hUlRSkYwvOExDdE3J8xwlAOB/AnpJl4bY0HABuC06KuO2+yWJ
- dl+LiC1YTwP4ElObDw4JVMGD4uy6YjJ6aphqnExyhHLuHykdFaLe+UnRDP35gE54FQ9z
- dsZpE8NEkiUh9ZagKpgPbLcaMB6fWZ4z/Mhr+guKMyZ3utWmOIn5wlI65yVz+5CUDSWo
- UQ+qYcInohTmMJ3Q0G726ZvHE0yBg4eZqBs4Llkx+wZHclWCyUkdHrm4hP1diu0Ub1zP
- 0844zwtCSRZi9ivZBB8u0vbKwSCKpIJE0+l9ilyVMI+t+g9dWEGuSQhpohORSQG1rXxP
- actQ==
-X-Gm-Message-State: AOAM533L3sWOeoXyQFQivROm2lnBnikjkjfgcKPrWWvmKmnpLuTwt9L2
- fWrxmGEBaLW7JChnTjdKjE6yg7kffG1Lyg==
-X-Google-Smtp-Source: ABdhPJy6WpeGxymio4FcUprMVAaP0eeqRT1lh/6gdlymlec/3dmZ6OXsySjG/9UP7dCYR9JMo1U64A==
-X-Received: by 2002:adf:f991:: with SMTP id f17mr11535965wrr.56.1629887739372; 
- Wed, 25 Aug 2021 03:35:39 -0700 (PDT)
+ bh=AdQbpZh4Nsn4ZEWXMN8/5MXfv9l4tGOGQ949NSeXfXg=;
+ b=SydBe0GAkgaO1ciCH8tOiyl+w40SCWjbCsacgFCI+/8cy5J7bqCM7bRLe2DcM3tP1A
+ QSMwtN9gdE79mAtaFn0QIR837Prc7r+tytat/ND2nJrBY8l2i3A3f1afUblVujeA1Cpd
+ L5emzuVKGprSYG0S3WWsEVKr4qvdJ8s8VUQafuNvgBDFcvYJwj3S4xQpnJs8qPI1zgSa
+ oTsxdMwxGmtacerjud72ynOINsLBR6MgmgWGduDMKM158H8pW8sFnL34+mhUqrWyd953
+ xyNQ3pcvEFSRuljmnEIMdYWbGaEYSGg3t8NBtCFan22BIYUaRBmzGk+Rmm4O+12CUV1n
+ vRlw==
+X-Gm-Message-State: AOAM532I88i3r9XZp6S+CqwCDU3SCwQGYI8yDQTg1pbT+flFis5crMdj
+ Pww5XRlnz4O9XyE4E0m4wZqE3SR6JZInXg==
+X-Google-Smtp-Source: ABdhPJyomkbti62gZqlzJ1sAxjLMkj1PrR+QYRz5hIYvQYw/FD0JY7Du0Q0uKWUUucK9KkDguW29jA==
+X-Received: by 2002:a1c:9d8f:: with SMTP id g137mr4155016wme.187.1629887740069; 
+ Wed, 25 Aug 2021 03:35:40 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m4sm5075931wml.28.2021.08.25.03.35.38
+ by smtp.gmail.com with ESMTPSA id m4sm5075931wml.28.2021.08.25.03.35.39
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 25 Aug 2021 03:35:39 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/44] target/arm: Fix signed VADDV
-Date: Wed, 25 Aug 2021 11:34:54 +0100
-Message-Id: <20210825103534.6936-5-peter.maydell@linaro.org>
+Subject: [PULL 05/44] target/arm: Fix mask handling for MVE narrowing
+ operations
+Date: Wed, 25 Aug 2021 11:34:55 +0100
+Message-Id: <20210825103534.6936-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210825103534.6936-1-peter.maydell@linaro.org>
 References: <20210825103534.6936-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,32 +88,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A cut-and-paste error meant we handled signed VADDV like
-unsigned VADDV; fix the type used.
+In the MVE helpers for the narrowing operations (DO_VSHRN and
+DO_VSHRN_SAT) we were using the wrong bits of the predicate mask for
+the 'top' versions of the insn.  This is because the loop works over
+the double-sized input elements and shifts the predicate mask by that
+many bits each time, but when we write out the half-sized output we
+must look at the mask bits for whichever half of the element we are
+writing to.
+
+Correct this by shifting the whole mask right by ESIZE bits for the
+'top' insns.  This allows us also to simplify the saturation bit
+checking (where we had noticed that we needed to look at a different
+mask bit for the 'top' insn.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/mve_helper.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ target/arm/mve_helper.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index f14fa914b68..82151b06200 100644
+index 82151b06200..847ef5156ad 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -1182,9 +1182,9 @@ DO_LDAVH(vrmlsldavhxsw, int32_t, int64_t, true, true)
-         return ra;                                              \
-     }                                                           \
- 
--DO_VADDV(vaddvsb, 1, uint8_t)
--DO_VADDV(vaddvsh, 2, uint16_t)
--DO_VADDV(vaddvsw, 4, uint32_t)
-+DO_VADDV(vaddvsb, 1, int8_t)
-+DO_VADDV(vaddvsh, 2, int16_t)
-+DO_VADDV(vaddvsw, 4, int32_t)
- DO_VADDV(vaddvub, 1, uint8_t)
- DO_VADDV(vaddvuh, 2, uint16_t)
- DO_VADDV(vaddvuw, 4, uint32_t)
+@@ -1358,6 +1358,7 @@ DO_VSHLL_ALL(vshllt, true)
+         TYPE *d = vd;                                           \
+         uint16_t mask = mve_element_mask(env);                  \
+         unsigned le;                                            \
++        mask >>= ESIZE * TOP;                                   \
+         for (le = 0; le < 16 / LESIZE; le++, mask >>= LESIZE) { \
+             TYPE r = FN(m[H##LESIZE(le)], shift);               \
+             mergemask(&d[H##ESIZE(le * 2 + TOP)], r, mask);     \
+@@ -1419,11 +1420,12 @@ static inline int32_t do_sat_bhs(int64_t val, int64_t min, int64_t max,
+         uint16_t mask = mve_element_mask(env);                  \
+         bool qc = false;                                        \
+         unsigned le;                                            \
++        mask >>= ESIZE * TOP;                                   \
+         for (le = 0; le < 16 / LESIZE; le++, mask >>= LESIZE) { \
+             bool sat = false;                                   \
+             TYPE r = FN(m[H##LESIZE(le)], shift, &sat);         \
+             mergemask(&d[H##ESIZE(le * 2 + TOP)], r, mask);     \
+-            qc |= sat && (mask & 1 << (TOP * ESIZE));           \
++            qc |= sat & mask & 1;                               \
+         }                                                       \
+         if (qc) {                                               \
+             env->vfp.qc[0] = qc;                                \
 -- 
 2.20.1
 
