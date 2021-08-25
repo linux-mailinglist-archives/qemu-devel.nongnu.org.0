@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 202CE3F6E95
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 06:52:18 +0200 (CEST)
-Received: from localhost ([::1]:39952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B5003F6E94
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 06:52:09 +0200 (CEST)
+Received: from localhost ([::1]:39858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIktd-0003Lk-0D
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 00:52:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58600)
+	id 1mIktT-0003HE-Ig
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 00:52:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mIkrU-0001O1-3n; Wed, 25 Aug 2021 00:50:04 -0400
-Received: from ozlabs.org ([203.11.71.1]:43481)
+ id 1mIkrS-0001NK-KU; Wed, 25 Aug 2021 00:50:02 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:36697 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mIkrO-0005id-Ri; Wed, 25 Aug 2021 00:50:03 -0400
+ id 1mIkrO-0005it-Sx; Wed, 25 Aug 2021 00:50:02 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GvYS172Vbz9sW4; Wed, 25 Aug 2021 14:49:53 +1000 (AEST)
+ id 4GvYS20JnSz9sWc; Wed, 25 Aug 2021 14:49:54 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1629866993;
- bh=moSvdt2kFbULZKzN5VBW7CCPqIGUj9Tj6v/Q/C6nKWk=;
+ d=gibson.dropbear.id.au; s=201602; t=1629866994;
+ bh=lS7JGFdDQtImTfvmo1pPn4INORBLC23MVCbDAlsTgrs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=M/EUTkgSFXVT9k3qamXV8DbHV5l+pULVezpHMMtgj8UllpDP8UFYUSPMXBAz3nO8P
- thZJAkJq+klxcx8VvW7EI3RET8thAir89cwFf198rMQ+oeL+ie1KywvNBCs7L/LJYS
- /ox5kE62TIOh5DhgG9RB1qdpT9U1D7sYO8biHh00=
-Date: Wed, 25 Aug 2021 14:30:11 +1000
+ b=LfNhb5VXHw1yzRReowvN4CpMqjPLT01O2qHW4q28PRQ+wxpfDyB5OztfNr9R8XjsN
+ fpdKtUb39u3qLwVv7HbpF96Xev93ube0uzHg44JuIUCERhi7Cw6bYka+WwSPF942zJ
+ aAB5eoKpbhKC5efdkOdNxNKbXuupKTcSbD04oqvY=
+Date: Wed, 25 Aug 2021 14:37:15 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v2 02/16] target/ppc: add user read functions for MMCR0
- and MMCR2
-Message-ID: <YSXHU2NJbJpI6spA@yekko>
+Subject: Re: [PATCH v2 03/16] target/ppc: add exclusive user write function
+ for MMCR0
+Message-ID: <YSXI+9o7T8fun0Lg@yekko>
 References: <20210824163032.394099-1-danielhb413@gmail.com>
- <20210824163032.394099-3-danielhb413@gmail.com>
+ <20210824163032.394099-4-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="MkmIZfuHR/BOP5Ox"
+ protocol="application/pgp-signature"; boundary="UBE0nj1MjsThX7N+"
 Content-Disposition: inline
-In-Reply-To: <20210824163032.394099-3-danielhb413@gmail.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210824163032.394099-4-danielhb413@gmail.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-Spam_score_int: 1
-X-Spam_score: 0.1
-X-Spam_bar: /
-X-Spam_report: (0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,50 +66,35 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---MkmIZfuHR/BOP5Ox
+--UBE0nj1MjsThX7N+
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 24, 2021 at 01:30:18PM -0300, Daniel Henrique Barboza wrote:
+On Tue, Aug 24, 2021 at 01:30:19PM -0300, Daniel Henrique Barboza wrote:
 > From: Gustavo Romero <gromero@linux.ibm.com>
 >=20
-> This patch adds handling of UMMCR0 and UMMCR2 user read which,
-> according to PowerISA 3.1, has some bits ommited to the
+> Similar to the previous patch, user write on some PowerPC
+> PMU regs, in this case, MMCR0, is limited. Create a new
+> function to handle that.
 
-Nit: One 'm' in "omited".
+Ok.. ok, this fixes my concern on the previous patch.  Best to avoid
+the confusing interim step though.  I'm not sure there's a lot of use
+adding the general "group A" helper if you're going to replace them
+with more specific functions shortly afterwards.
 
-> userspace.
 >=20
 > CC: Gustavo Romero <gustavo.romero@linaro.org>
 > Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->  target/ppc/cpu.h       |  5 +++++
->  target/ppc/cpu_init.c  |  4 ++--
->  target/ppc/spr_tcg.h   |  2 ++
->  target/ppc/translate.c | 37 +++++++++++++++++++++++++++++++++++++
->  4 files changed, 46 insertions(+), 2 deletions(-)
+>  target/ppc/cpu_init.c  |  2 +-
+>  target/ppc/spr_tcg.h   |  1 +
+>  target/ppc/translate.c | 38 ++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 40 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 627fc8d732..739005ba29 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -343,6 +343,11 @@ typedef struct ppc_v3_pate_t {
->  #define MSR_LE   0  /* Little-endian mode                           1 hf=
-lags */
-> =20
->  /* PMU bits */
-> +#define MMCR0_FC    PPC_BIT(32)         /* Freeze Counters  */
-> +#define MMCR0_PMAO  PPC_BIT(56)         /* Perf Monitor Alert Ocurred */
-> +#define MMCR0_PMAE  PPC_BIT(37)         /* Perf Monitor Alert Enable */
-> +#define MMCR0_EBE   PPC_BIT(43)         /* Perf Monitor EBB Enable */
-> +#define MMCR0_FCECE PPC_BIT(38)         /* FC on Enabled Cond or Event */
->  #define MMCR0_PMCC  PPC_BITMASK(44, 45) /* PMC Control */
-> =20
->  /* LPCR bits */
 > diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-> index c72c7fabea..5510c3799f 100644
+> index 5510c3799f..860716da18 100644
 > --- a/target/ppc/cpu_init.c
 > +++ b/target/ppc/cpu_init.c
 > @@ -6868,7 +6868,7 @@ static void register_book3s_pmu_sup_sprs(CPUPPCStat=
@@ -118,95 +102,83 @@ e *env)
 >  static void register_book3s_pmu_user_sprs(CPUPPCState *env)
 >  {
 >      spr_register(env, SPR_POWER_UMMCR0, "UMMCR0",
-> -                 &spr_read_ureg, &spr_write_PMU_groupA_ureg,
-> +                 &spr_read_MMCR0_ureg, &spr_write_PMU_groupA_ureg,
-
-Hrm.. so combined with the previous patch this means that userspace
-can write any bit in MMCR0, but only read some of them.  Is that
-really correct?
-
+> -                 &spr_read_MMCR0_ureg, &spr_write_PMU_groupA_ureg,
+> +                 &spr_read_MMCR0_ureg, &spr_write_MMCR0_ureg,
 >                   &spr_read_ureg, &spr_write_ureg,
 >                   0x00000000);
 >      spr_register(env, SPR_POWER_UMMCR1, "UMMCR1",
-> @@ -6976,7 +6976,7 @@ static void register_power8_pmu_sup_sprs(CPUPPCStat=
-e *env)
->  static void register_power8_pmu_user_sprs(CPUPPCState *env)
->  {
->      spr_register(env, SPR_POWER_UMMCR2, "UMMCR2",
-> -                 &spr_read_ureg, &spr_write_PMU_groupA_ureg,
-> +                 &spr_read_MMCR2_ureg, &spr_write_PMU_groupA_ureg,
->                   &spr_read_ureg, &spr_write_ureg,
->                   0x00000000);
->      spr_register(env, SPR_POWER_USIER, "USIER",
 > diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
-> index 027ec4c3f7..64ef2cd089 100644
+> index 64ef2cd089..5c383dae3d 100644
 > --- a/target/ppc/spr_tcg.h
 > +++ b/target/ppc/spr_tcg.h
-> @@ -32,6 +32,8 @@ void spr_write_lr(DisasContext *ctx, int sprn, int gprn=
-);
->  void spr_read_ctr(DisasContext *ctx, int gprn, int sprn);
->  void spr_write_ctr(DisasContext *ctx, int sprn, int gprn);
->  void spr_read_ureg(DisasContext *ctx, int gprn, int sprn);
-> +void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn);
-> +void spr_read_MMCR2_ureg(DisasContext *ctx, int gprn, int sprn);
->  void spr_read_tbl(DisasContext *ctx, int gprn, int sprn);
->  void spr_read_tbu(DisasContext *ctx, int gprn, int sprn);
->  void spr_read_atbl(DisasContext *ctx, int gprn, int sprn);
+> @@ -43,6 +43,7 @@ void spr_read_601_rtcu(DisasContext *ctx, int gprn, int=
+ sprn);
+>  void spr_read_spefscr(DisasContext *ctx, int gprn, int sprn);
+>  void spr_write_spefscr(DisasContext *ctx, int sprn, int gprn);
+>  void spr_write_PMU_groupA_ureg(DisasContext *ctx, int sprn, int gprn);
+> +void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn);
+> =20
+>  #ifndef CONFIG_USER_ONLY
+>  void spr_write_generic32(DisasContext *ctx, int sprn, int gprn);
 > diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 3a1eafbba8..ec4160378d 100644
+> index ec4160378d..b48eec83e3 100644
 > --- a/target/ppc/translate.c
 > +++ b/target/ppc/translate.c
-> @@ -520,6 +520,43 @@ void spr_read_ureg(DisasContext *ctx, int gprn, int =
-sprn)
->      gen_load_spr(cpu_gpr[gprn], sprn + 0x10);
+> @@ -592,11 +592,49 @@ void spr_write_PMU_groupA_ureg(DisasContext *ctx, i=
+nt sprn, int gprn)
+>      }
+>      spr_write_ureg(ctx, sprn, gprn);
 >  }
-> =20
-> +void spr_read_MMCR0_ureg(DisasContext *ctx, int gprn, int sprn)
+> +
+> +void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
 > +{
-> +    TCGv t0 =3D tcg_temp_new();
+> +    TCGv t0, t1;
+> +
+> +    /*
+> +     * MMCR0 is a Group A SPR. The same write access control
+> +     * done in spr_write_PMU_groupA_ureg() applies.
+> +     */
+> +    if (ctx->pmcc_clear) {
+> +        gen_hvpriv_exception(ctx, POWERPC_EXCP_INVAL_SPR);
+> +        return;
+> +    }
+> +
+> +    t0 =3D tcg_temp_new();
+> +    t1 =3D tcg_temp_new();
 > +
 > +    /*
 > +     * Filter out all bits but FC, PMAO, and PMAE, according
 > +     * to ISA v3.1, in 10.4.4 Monitor Mode Control Register 0,
 > +     * fourth paragraph.
 > +     */
-> +    gen_load_spr(t0, SPR_POWER_MMCR0);
-> +    tcg_gen_andi_tl(t0, t0, MMCR0_FC | MMCR0_PMAO | MMCR0_PMAE);
+> +    tcg_gen_andi_tl(t0, cpu_gpr[gprn],
+> +                    MMCR0_FC | MMCR0_PMAO | MMCR0_PMAE);
+> +    gen_load_spr(t1, SPR_POWER_MMCR0);
+> +    tcg_gen_andi_tl(t1, t1, ~(MMCR0_FC | MMCR0_PMAO | MMCR0_PMAE));
 
-I think #defining this mask somewhere would be worthwhile.
+Since you're reusing them again here, definitely want a #define for
+this mask.
 
-> +    tcg_gen_mov_tl(cpu_gpr[gprn], t0);
+> +    /* Keep all other bits intact */
+> +    tcg_gen_or_tl(t1, t1, t0);
+> +    gen_store_spr(SPR_POWER_MMCR0, t1);
 > +
 > +    tcg_temp_free(t0);
+> +    tcg_temp_free(t1);
 > +}
-> +
-> +void spr_read_MMCR2_ureg(DisasContext *ctx, int gprn, int sprn)
-> +{
-> +    TCGv t0 =3D tcg_temp_new();
-> +
-> +    /*
-> +     * On read, filter out all bits that are not FCnP0 bits.
-> +     * When MMCR0[PMCC] is set to 0b10 or 0b11, providing
-> +     * problem state programs read/write access to MMCR2,
-> +     * only the FCnP0 bits can be accessed. All other bits are
-> +     * not changed when mtspr is executed in problem state, and
-> +     * all other bits return 0s when mfspr is executed in problem
-> +     * state, according to ISA v3.1, section 10.4.6 Monitor Mode
-> +     * Control Register 2, p. 1316, third paragraph.
-> +     */
-> +    gen_load_spr(t0, SPR_POWER_MMCR2);
-> +    tcg_gen_andi_tl(t0, t0, 0x4020100804020000UL);
-
-Even more so here, where it's a big bare literal.
-
-> +    tcg_gen_mov_tl(cpu_gpr[gprn], t0);
-> +
-> +    tcg_temp_free(t0);
-> +}
-> +
->  #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
->  void spr_write_ureg(DisasContext *ctx, int sprn, int gprn)
+>  #else
+>  void spr_write_PMU_groupA_ureg(DisasContext *ctx, int sprn, int gprn)
 >  {
+>      spr_noaccess(ctx, gprn, sprn);
+>  }
+> +
+> +void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
+> +{
+> +    spr_noaccess(ctx, gprn, sprn);
+> +}
+>  #endif
+> =20
+>  /* SPR common to all non-embedded PowerPC */
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -214,25 +186,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---MkmIZfuHR/BOP5Ox
+--UBE0nj1MjsThX7N+
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmElx1MACgkQbDjKyiDZ
-s5J4vQ//WQjTgDc5kSTvkb5Wq2S3GJi6Nknhy0VuQGmrbqGGa1cUwDAEm+XkQcpy
-Bjtn7b1Hx+1KvvOuRCrs2QkpxHtYA7XLKxS5mHNMrdH3O+cEk1buo/df5ggzdS9m
-utZH53i/yD7N6fP9xRWB838QLbTvLaYxyPKFCP9+6an9N+0/4DE+TBRt34Vfssvj
-HynAB1O3Ywgwwhw4cbEHqo0K35G7HiYRe/e6A/+2Cwp04tD8oU2rM+jPB+l0fV8j
-OJ4vDgpx3PHl3/K1Pi/RMcLBGBlNyl6/heMHtHzIM3n/wMRs5pI0PBeO8+zxYaiq
-amejmLM7K2roQMsAaqzw/Bn3kwukw7+io1fbNgfQixj+lgAYRQPyvyXfO8JWZP9b
-248prBH4akxiXlUXHu2R0a9jSgd7VmUNb/V+zhw37+u/gbTXjFu8NVukWYhnXQKD
-DWVS7GRdM2e6R51Y5llW1AxdMx32IvbcfZe4dokptQXkX1URwCcHgO6ZHrqBnqBr
-4Yb00AVV/u0B9SnhMRT6nNJ+BeAk2CzttyYcVEWVylxu8DFCwVRE+FICKkS99TNS
-JxTp6F4xOMecrCD5spxfq8o46L0FKVt1lagdoj74x6/XF1sHBrlivdauHQ3UXGM/
-8YxMwUovip6MiCBzpCvd7AekrMYje2Ae5CBZKCrS0NLvpifYnz4=
-=2SAi
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmElyPsACgkQbDjKyiDZ
+s5IJHg/+I5Gvi6ylA2XB9Y0lG0BhQVD08eJ3oFzwSMVOcan/IJj9SMvqm5gXA83x
+rPyDK9NhO2Nvta6XnPt2C6AHyS8sMJ7w10BoLKX7mNfBW/LKM8wL9AUa4jHuogtl
+u+lEw8uV8lJkYvR9CLCLRK5+tOix3UmPs0dSNaQzPldonxtSXdqCKT8eiAm2V0q1
+xo7bvedra4PC6ESoF0F4vl7NDBYkdFo/n7cUgTI5WZgX+E16sA8ThL9b5D+57SOc
+DMZYQWtqf58QrunTYNFc3nj77HlVrDH65lq6ID1dMgLLxMYb0wdO9JIldN3K9pdb
+Y+C/RG0KwJmzE1G7wWBtng+Vaj5WnRDZc5HjNSvAppRLaIEnDQlhbH5w5OjaT06J
+TZszu6eLqB7cqf/Q5iwq06meNee07nhYyQqnraTp6ziUkUU/iBfj/+YQoVTxP2ry
+eDHq6lfg1PE/ml/MXF95VTpCBXh/zSzMFuyB3JB1bI4s19/Vzka0hpLMFAqYJUxP
+EtSDro72x0tQQMeVLb4MR4xiGJIxwVHKUBcI/dZ4z3fpHfD62Xe5knkICuF+JV7R
+kk2fJ2+4iImJbB/w3GFA3WSTCwug7iJ+HUbDN6moTYn0Nk0FmqEeW3Wdl0F1Q/X9
+T2Od5EN9wvGLtZNpPTOZJRQTlreiN0f5SDj4mTPUi826u1k0wk4=
+=2yx3
 -----END PGP SIGNATURE-----
 
---MkmIZfuHR/BOP5Ox--
+--UBE0nj1MjsThX7N+--
 
