@@ -2,78 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C7B63F75CB
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:20:29 +0200 (CEST)
-Received: from localhost ([::1]:48242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAA1F3F75DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:27:12 +0200 (CEST)
+Received: from localhost ([::1]:48282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIspQ-0001Uo-8v
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:20:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51204)
+	id 1mIsvv-0004DB-V8
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:27:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mIsZy-00038X-9Z
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:04:30 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:56142)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mIsZs-0002xw-JK
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:04:28 -0400
-Received: by mail-wm1-x332.google.com with SMTP id g135so5659802wme.5
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 06:04:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=oYhzaZUURzfrDTcroBAA5i/YZ8QE6/uSOX7tjzBaBZY=;
- b=rhLv9g6dKVbij5hQBlahIyC79+sFra4185bN3ZYxVi2JIJEWxDgrGg1tKZAONx1vEq
- AgCF5sM2S8tnOWh/Q7Fetq8FBrNHKYbWxnZHM0zhj7HyOEFwwltKdnqVfvaAfIlWq3RO
- SeNvDZ5opwir96k60pmDL4ZYCP1pVsuPh+tnZnw9Baffp+3S0/VBrq/qZjrBTDS20RoJ
- 7qmsdVO5oMDvcHJ5cmR4pGd/98IGjF94CcUtqgyRGPHbzXimfCLsz6CO8TjSZlaMCvlc
- ehPwPmTSQFWKZFRFuyeBXirCWHw8TpRaUpD0LhE7Op1jHPNq4ZBZqoQ8p6IEXZEUhyj2
- EgQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=oYhzaZUURzfrDTcroBAA5i/YZ8QE6/uSOX7tjzBaBZY=;
- b=inLu5wqe2kHEQfATkvTD58nvidG7S+jJ8bkdmZ62yjzc+9TxabGC48oJmJ9t6rlQaK
- YGB/TGxw9g1RKwa7N9w/t5Pyqec7qSSMnjbQwXXu72QOfMXNRxJSHPWtu5nbtxFi+7Yh
- sx0AAuWDohNTOraZFOFTx15CteWxmYFOG+5L1251PCjP1TIIrDCeYC8rYRYgkFg2+Ez5
- 2siRoaD44nT4vPnHunqRC7diSOkX10zdzYiGcCuko0/7kdXfoj0uwlLnEuWwLybGyE+/
- VE7aMF+LjS6qqBbbppiy6nreW/QjDDRYManHDtJx9rED8cTMi654L/vKbdOQ5w2RoHEE
- GbDA==
-X-Gm-Message-State: AOAM532jmnmzWNeneUJGy+bedk16wyVPqOs1PSx6o+sxTwwCdqwjVnz7
- KNuNhj+c5bTk1ucJkrV29Fq7OgYqqEM=
-X-Google-Smtp-Source: ABdhPJycEEqrDEPL9ejIRhHtZ3vn4GwkFe3DRz0393/m6c5M82qFdBfN4yygugmINGmOc0BBtkrelQ==
-X-Received: by 2002:a1c:21c3:: with SMTP id h186mr549111wmh.186.1629896663127; 
- Wed, 25 Aug 2021 06:04:23 -0700 (PDT)
-Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id
- n4sm5570793wro.81.2021.08.25.06.04.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 06:04:22 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 28/28] target/mips: Replace TARGET_WORDS_BIGENDIAN by
- cpu_is_bigendian()
-Date: Wed, 25 Aug 2021 15:02:11 +0200
-Message-Id: <20210825130211.1542338-29-f4bug@amsat.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210825130211.1542338-1-f4bug@amsat.org>
-References: <20210825130211.1542338-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mIsZU-0002Hf-EN
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:04:00 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:46668
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mIsZP-0002n5-Eg
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:04:00 -0400
+Received: from host86-179-186-93.range86-179.btcentralplus.com
+ ([86.179.186.93] helo=[192.168.50.176])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mIsYy-0009hD-3l; Wed, 25 Aug 2021 14:03:33 +0100
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20210825124309.223622-1-marcandre.lureau@redhat.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <9293a19c-0787-eaed-d84b-f0c73a7e7c8e@ilande.co.uk>
+Date: Wed, 25 Aug 2021 14:03:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210825124309.223622-1-marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-SA-Exim-Connect-IP: 86.179.186.93
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH] RFC: build-sys: drop dtc submodule
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.24,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,217 +63,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the inlined cpu_is_bigendian() function in "translate.h".
+On 25/08/2021 13:43, marcandre.lureau@redhat.com wrote:
 
-Replace the TARGET_WORDS_BIGENDIAN #ifdef'ry by calls to
-cpu_is_bigendian().
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> DTC is widely available, we could consider to stop bundling it.
+> 
+> curl -s 'https://repology.org/api/v1/project/dtc' |  \
+>     jq -r 'group_by(.repo) | .[] | "\(.[0].repo): \(map(.version))"' | \
+>     egrep -i 'ubuntu_18|debian_old|rhel|centos|bsd|suse_leap_15_2|sles|homebrew|pkgsrc'
+> 
+> centos_8: ["1.6.0","1.6.0"]
+> debian_oldstable: ["1.4.7"]
+> freebsd: ["1.6.0"]
+> homebrew: ["1.6.1"]
+> openbsd: ["1.6.0"]
+> opensuse_leap_15_2: ["1.5.1","1.5.1"]
+> pkgsrc_current: ["1.4.7"]
+> ubuntu_18_04: ["1.4.5"]
+> 
+> MinGW package on Fedora pending review.
+> (https://bugzilla.redhat.com/show_bug.cgi?id=1997511)
+> 
+> Debian is lacking the MinGW package.
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>   configure         | 22 +-------------------
+>   meson.build       | 53 ++++++++---------------------------------------
+>   .gitmodules       |  3 ---
+>   dtc               |  1 -
+>   meson_options.txt |  3 ---
+>   5 files changed, 10 insertions(+), 72 deletions(-)
+>   delete mode 160000 dtc
+> 
+> diff --git a/configure b/configure
+> index 9a79a004d7..04050c0426 100755
+> --- a/configure
+> +++ b/configure
+> @@ -296,7 +296,6 @@ curl="auto"
+>   iconv="auto"
+>   curses="auto"
+>   docs="auto"
+> -fdt="auto"
+>   netmap="no"
+>   sdl="auto"
+>   sdl_image="auto"
+> @@ -1212,14 +1211,6 @@ for opt do
+>     ;;
+>     --enable-curl) curl="enabled"
+>     ;;
+> -  --disable-fdt) fdt="disabled"
+> -  ;;
+> -  --enable-fdt) fdt="enabled"
+> -  ;;
+> -  --enable-fdt=git) fdt="internal"
+> -  ;;
+> -  --enable-fdt=system) fdt="system"
+> -  ;;
+>     --disable-linux-aio) linux_aio="no"
+>     ;;
+>     --enable-linux-aio) linux_aio="yes"
+> @@ -1890,7 +1881,6 @@ disabled with --disable-FEATURE, default is enabled if available
+>     brlapi          BrlAPI (Braile)
+>     curl            curl connectivity
+>     membarrier      membarrier system call (for Linux 4.14+ or Windows)
+> -  fdt             fdt device tree
+>     kvm             KVM acceleration support
+>     hax             HAX acceleration support
+>     hvf             Hypervisor.framework acceleration support
+> @@ -3439,16 +3429,6 @@ if compile_prog "" "" ; then
+>     iovec=yes
+>   fi
+>   
+> -##########################################
+> -# fdt probe
+> -
+> -case "$fdt" in
+> -  auto | enabled | internal)
+> -    # Simpler to always update submodule, even if not needed.
+> -    git_submodules="${git_submodules} dtc"
+> -    ;;
+> -esac
+> -
+>   ##########################################
+>   # opengl probe (for sdl2, gtk)
+>   
+> @@ -5199,7 +5179,7 @@ if test "$skip_meson" = no; then
+>           -Dlibusb=$libusb -Dsmartcard=$smartcard -Dusb_redir=$usb_redir -Dvte=$vte \
+>           -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
+>           -Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f -Dvirtiofsd=$virtiofsd \
+> -        -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt -Dbrlapi=$brlapi \
+> +        -Dcapstone=$capstone -Dslirp=$slirp -Dbrlapi=$brlapi \
+>           -Dcurl=$curl -Dglusterfs=$glusterfs -Dbzip2=$bzip2 -Dlibiscsi=$libiscsi \
+>           -Dlibnfs=$libnfs -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
+>           -Drbd=$rbd -Dlzo=$lzo -Dsnappy=$snappy -Dlzfse=$lzfse -Dlibxml2=$libxml2 \
+> diff --git a/meson.build b/meson.build
+> index b3e7ec0e92..1b30dd7bdc 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1897,50 +1897,15 @@ if get_option('cfi') and slirp_opt == 'system'
+>   endif
+>   
+>   fdt = not_found
+> -fdt_opt = get_option('fdt')
+> -if have_system
+> -  if fdt_opt in ['enabled', 'auto', 'system']
+> -    have_internal = fs.exists(meson.current_source_dir() / 'dtc/libfdt/Makefile.libfdt')
+> -    fdt = cc.find_library('fdt', kwargs: static_kwargs,
+> -                          required: fdt_opt == 'system' or
+> -                                    fdt_opt == 'enabled' and not have_internal)
+> -    if fdt.found() and cc.links('''
+> -       #include <libfdt.h>
+> -       #include <libfdt_env.h>
+> -       int main(void) { fdt_check_full(NULL, 0); return 0; }''',
+> -         dependencies: fdt)
+> -      fdt_opt = 'system'
+> -    elif have_internal
+> -      fdt_opt = 'internal'
+> -    else
+> -      fdt_opt = 'disabled'
+> +if fdt_required.length() > 0
+> +    fdt = cc.find_library('fdt', kwargs: static_kwargs)
+> +    if not fdt.found() or not cc.links('''
+> +#include <libfdt.h>
+> +#include <libfdt_env.h>
+> +int main(void) { fdt_first_subnode(NULL, 0); return 0; }''',
+> +                                       dependencies: fdt)
+> +      error('fdt >= 1.4.2 required by targets ' + ', '.join(fdt_required))
+>       endif
+> -  endif
+> -  if fdt_opt == 'internal'
+> -    fdt_files = files(
+> -      'dtc/libfdt/fdt.c',
+> -      'dtc/libfdt/fdt_ro.c',
+> -      'dtc/libfdt/fdt_wip.c',
+> -      'dtc/libfdt/fdt_sw.c',
+> -      'dtc/libfdt/fdt_rw.c',
+> -      'dtc/libfdt/fdt_strerror.c',
+> -      'dtc/libfdt/fdt_empty_tree.c',
+> -      'dtc/libfdt/fdt_addresses.c',
+> -      'dtc/libfdt/fdt_overlay.c',
+> -      'dtc/libfdt/fdt_check.c',
+> -    )
+> -
+> -    fdt_inc = include_directories('dtc/libfdt')
+> -    libfdt = static_library('fdt',
+> -                            build_by_default: false,
+> -                            sources: fdt_files,
+> -                            include_directories: fdt_inc)
+> -    fdt = declare_dependency(link_with: libfdt,
+> -                             include_directories: fdt_inc)
+> -  endif
+> -endif
+> -if not fdt.found() and fdt_required.length() > 0
+> -  error('fdt not available but required by targets ' + ', '.join(fdt_required))
+>   endif
+>   
+>   config_host_data.set('CONFIG_CAPSTONE', capstone.found())
+> @@ -3069,7 +3034,7 @@ summary_info += {'Linux io_uring support': linux_io_uring.found()}
+>   summary_info += {'ATTR/XATTR support': libattr.found()}
+>   summary_info += {'RDMA support':      config_host.has_key('CONFIG_RDMA')}
+>   summary_info += {'PVRDMA support':    config_host.has_key('CONFIG_PVRDMA')}
+> -summary_info += {'fdt support':       fdt_opt == 'disabled' ? false : fdt_opt}
+> +summary_info += {'fdt support':       fdt.found()}
+>   summary_info += {'libcap-ng support': libcap_ng.found()}
+>   summary_info += {'bpf support': libbpf.found()}
+>   # TODO: add back protocol and server version
+> diff --git a/.gitmodules b/.gitmodules
+> index 08b1b48a09..582303698b 100644
+> --- a/.gitmodules
+> +++ b/.gitmodules
+> @@ -16,9 +16,6 @@
+>   [submodule "roms/sgabios"]
+>   	path = roms/sgabios
+>   	url = https://gitlab.com/qemu-project/sgabios.git
+> -[submodule "dtc"]
+> -	path = dtc
+> -	url = https://gitlab.com/qemu-project/dtc.git
+>   [submodule "roms/u-boot"]
+>   	path = roms/u-boot
+>   	url = https://gitlab.com/qemu-project/u-boot.git
+> diff --git a/dtc b/dtc
+> deleted file mode 160000
+> index 85e5d83984..0000000000
+> --- a/dtc
+> +++ /dev/null
+> @@ -1 +0,0 @@
+> -Subproject commit 85e5d839847af54efab170f2b1331b2a6421e647
+> diff --git a/meson_options.txt b/meson_options.txt
+> index a9a9b8f4c6..8ba5433356 100644
+> --- a/meson_options.txt
+> +++ b/meson_options.txt
+> @@ -152,6 +152,3 @@ option('capstone', type: 'combo', value: 'auto',
+>   option('slirp', type: 'combo', value: 'auto',
+>          choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
+>          description: 'Whether and how to find the slirp library')
+> -option('fdt', type: 'combo', value: 'auto',
+> -       choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
+> -       description: 'Whether and how to find the libfdt library')
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210818164321.2474534-6-f4bug@amsat.org>
----
- target/mips/tcg/translate.h              |  5 ++
- target/mips/tcg/translate.c              | 70 ++++++++++++------------
- target/mips/tcg/nanomips_translate.c.inc | 20 +++----
- 3 files changed, 50 insertions(+), 45 deletions(-)
+My initial concern here was whether dtc packages are available for native Windows 
+builds, although it seems that MSYS2 does carry a dtc package: 
+https://packages.msys2.org/search?q=dtc.
 
-diff --git a/target/mips/tcg/translate.h b/target/mips/tcg/translate.h
-index 4b4fa2c207e..6111493651f 100644
---- a/target/mips/tcg/translate.h
-+++ b/target/mips/tcg/translate.h
-@@ -224,4 +224,9 @@ bool decode_ext_vr54xx(DisasContext *ctx, uint32_t insn);
-     static bool trans_##NAME(DisasContext *ctx, arg_##NAME *a) \
-     { return FUNC(ctx, a, __VA_ARGS__); }
- 
-+static inline bool cpu_is_bigendian(DisasContext *ctx)
-+{
-+    return extract32(ctx->CP0_Config0, CP0C0_BE, 1);
-+}
-+
- #endif
-diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index ac97f5f6f0f..6f4a9a839c2 100644
---- a/target/mips/tcg/translate.c
-+++ b/target/mips/tcg/translate.c
-@@ -2048,9 +2048,9 @@ static void gen_ld(DisasContext *ctx, uint32_t opc,
-          */
-         tcg_gen_qemu_ld_tl(t1, t0, mem_idx, MO_UB);
-         tcg_gen_andi_tl(t1, t0, 7);
--#ifndef TARGET_WORDS_BIGENDIAN
--        tcg_gen_xori_tl(t1, t1, 7);
--#endif
-+        if (!cpu_is_bigendian(ctx)) {
-+            tcg_gen_xori_tl(t1, t1, 7);
-+        }
-         tcg_gen_shli_tl(t1, t1, 3);
-         tcg_gen_andi_tl(t0, t0, ~7);
-         tcg_gen_qemu_ld_tl(t0, t0, mem_idx, MO_TEQ);
-@@ -2072,9 +2072,9 @@ static void gen_ld(DisasContext *ctx, uint32_t opc,
-          */
-         tcg_gen_qemu_ld_tl(t1, t0, mem_idx, MO_UB);
-         tcg_gen_andi_tl(t1, t0, 7);
--#ifdef TARGET_WORDS_BIGENDIAN
--        tcg_gen_xori_tl(t1, t1, 7);
--#endif
-+        if (cpu_is_bigendian(ctx)) {
-+            tcg_gen_xori_tl(t1, t1, 7);
-+        }
-         tcg_gen_shli_tl(t1, t1, 3);
-         tcg_gen_andi_tl(t0, t0, ~7);
-         tcg_gen_qemu_ld_tl(t0, t0, mem_idx, MO_TEQ);
-@@ -2153,9 +2153,9 @@ static void gen_ld(DisasContext *ctx, uint32_t opc,
-          */
-         tcg_gen_qemu_ld_tl(t1, t0, mem_idx, MO_UB);
-         tcg_gen_andi_tl(t1, t0, 3);
--#ifndef TARGET_WORDS_BIGENDIAN
--        tcg_gen_xori_tl(t1, t1, 3);
--#endif
-+        if (!cpu_is_bigendian(ctx)) {
-+            tcg_gen_xori_tl(t1, t1, 3);
-+        }
-         tcg_gen_shli_tl(t1, t1, 3);
-         tcg_gen_andi_tl(t0, t0, ~3);
-         tcg_gen_qemu_ld_tl(t0, t0, mem_idx, MO_TEUL);
-@@ -2181,9 +2181,9 @@ static void gen_ld(DisasContext *ctx, uint32_t opc,
-          */
-         tcg_gen_qemu_ld_tl(t1, t0, mem_idx, MO_UB);
-         tcg_gen_andi_tl(t1, t0, 3);
--#ifdef TARGET_WORDS_BIGENDIAN
--        tcg_gen_xori_tl(t1, t1, 3);
--#endif
-+        if (cpu_is_bigendian(ctx)) {
-+            tcg_gen_xori_tl(t1, t1, 3);
-+        }
-         tcg_gen_shli_tl(t1, t1, 3);
-         tcg_gen_andi_tl(t0, t0, ~3);
-         tcg_gen_qemu_ld_tl(t0, t0, mem_idx, MO_TEUL);
-@@ -4400,9 +4400,9 @@ static void gen_loongson_lswc2(DisasContext *ctx, int rt,
-             t1 = tcg_temp_new();
-             tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_UB);
-             tcg_gen_andi_tl(t1, t0, 3);
--#ifndef TARGET_WORDS_BIGENDIAN
--            tcg_gen_xori_tl(t1, t1, 3);
--#endif
-+            if (!cpu_is_bigendian(ctx)) {
-+                tcg_gen_xori_tl(t1, t1, 3);
-+            }
-             tcg_gen_shli_tl(t1, t1, 3);
-             tcg_gen_andi_tl(t0, t0, ~3);
-             tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEUL);
-@@ -4430,9 +4430,9 @@ static void gen_loongson_lswc2(DisasContext *ctx, int rt,
-             t1 = tcg_temp_new();
-             tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_UB);
-             tcg_gen_andi_tl(t1, t0, 3);
--#ifdef TARGET_WORDS_BIGENDIAN
--            tcg_gen_xori_tl(t1, t1, 3);
--#endif
-+            if (cpu_is_bigendian(ctx)) {
-+                tcg_gen_xori_tl(t1, t1, 3);
-+            }
-             tcg_gen_shli_tl(t1, t1, 3);
-             tcg_gen_andi_tl(t0, t0, ~3);
-             tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEUL);
-@@ -4462,9 +4462,9 @@ static void gen_loongson_lswc2(DisasContext *ctx, int rt,
-             t1 = tcg_temp_new();
-             tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_UB);
-             tcg_gen_andi_tl(t1, t0, 7);
--#ifndef TARGET_WORDS_BIGENDIAN
--            tcg_gen_xori_tl(t1, t1, 7);
--#endif
-+            if (!cpu_is_bigendian(ctx)) {
-+                tcg_gen_xori_tl(t1, t1, 7);
-+            }
-             tcg_gen_shli_tl(t1, t1, 3);
-             tcg_gen_andi_tl(t0, t0, ~7);
-             tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ);
-@@ -4484,9 +4484,9 @@ static void gen_loongson_lswc2(DisasContext *ctx, int rt,
-             t1 = tcg_temp_new();
-             tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx, MO_UB);
-             tcg_gen_andi_tl(t1, t0, 7);
--#ifdef TARGET_WORDS_BIGENDIAN
--            tcg_gen_xori_tl(t1, t1, 7);
--#endif
-+            if (cpu_is_bigendian(ctx)) {
-+                tcg_gen_xori_tl(t1, t1, 7);
-+            }
-             tcg_gen_shli_tl(t1, t1, 3);
-             tcg_gen_andi_tl(t0, t0, ~7);
-             tcg_gen_qemu_ld_tl(t0, t0, ctx->mem_idx, MO_TEQ);
-@@ -11409,17 +11409,17 @@ static void gen_flt3_arith(DisasContext *ctx, uint32_t opc,
-             gen_set_label(l1);
-             tcg_gen_brcondi_tl(TCG_COND_NE, t0, 4, l2);
-             tcg_temp_free(t0);
--#ifdef TARGET_WORDS_BIGENDIAN
--            gen_load_fpr32(ctx, fp, fs);
--            gen_load_fpr32h(ctx, fph, ft);
--            gen_store_fpr32h(ctx, fp, fd);
--            gen_store_fpr32(ctx, fph, fd);
--#else
--            gen_load_fpr32h(ctx, fph, fs);
--            gen_load_fpr32(ctx, fp, ft);
--            gen_store_fpr32(ctx, fph, fd);
--            gen_store_fpr32h(ctx, fp, fd);
--#endif
-+            if (cpu_is_bigendian(ctx)) {
-+                gen_load_fpr32(ctx, fp, fs);
-+                gen_load_fpr32h(ctx, fph, ft);
-+                gen_store_fpr32h(ctx, fp, fd);
-+                gen_store_fpr32(ctx, fph, fd);
-+            } else {
-+                gen_load_fpr32h(ctx, fph, fs);
-+                gen_load_fpr32(ctx, fp, ft);
-+                gen_store_fpr32(ctx, fph, fd);
-+                gen_store_fpr32h(ctx, fp, fd);
-+            }
-             gen_set_label(l2);
-             tcg_temp_free_i32(fp);
-             tcg_temp_free_i32(fph);
-diff --git a/target/mips/tcg/nanomips_translate.c.inc b/target/mips/tcg/nanomips_translate.c.inc
-index 09e64a69480..a66ae267963 100644
---- a/target/mips/tcg/nanomips_translate.c.inc
-+++ b/target/mips/tcg/nanomips_translate.c.inc
-@@ -999,11 +999,11 @@ static void gen_llwp(DisasContext *ctx, uint32_t base, int16_t offset,
- 
-     gen_base_offset_addr(ctx, taddr, base, offset);
-     tcg_gen_qemu_ld64(tval, taddr, ctx->mem_idx);
--#ifdef TARGET_WORDS_BIGENDIAN
--    tcg_gen_extr_i64_tl(tmp2, tmp1, tval);
--#else
--    tcg_gen_extr_i64_tl(tmp1, tmp2, tval);
--#endif
-+    if (cpu_is_bigendian(ctx)) {
-+        tcg_gen_extr_i64_tl(tmp2, tmp1, tval);
-+    } else {
-+        tcg_gen_extr_i64_tl(tmp1, tmp2, tval);
-+    }
-     gen_store_gpr(tmp1, reg1);
-     tcg_temp_free(tmp1);
-     gen_store_gpr(tmp2, reg2);
-@@ -1035,11 +1035,11 @@ static void gen_scwp(DisasContext *ctx, uint32_t base, int16_t offset,
-     gen_load_gpr(tmp1, reg1);
-     gen_load_gpr(tmp2, reg2);
- 
--#ifdef TARGET_WORDS_BIGENDIAN
--    tcg_gen_concat_tl_i64(tval, tmp2, tmp1);
--#else
--    tcg_gen_concat_tl_i64(tval, tmp1, tmp2);
--#endif
-+    if (cpu_is_bigendian(ctx)) {
-+        tcg_gen_concat_tl_i64(tval, tmp2, tmp1);
-+    } else {
-+        tcg_gen_concat_tl_i64(tval, tmp1, tmp2);
-+    }
- 
-     tcg_gen_ld_i64(llval, cpu_env, offsetof(CPUMIPSState, llval_wp));
-     tcg_gen_atomic_cmpxchg_i64(val, taddr, llval, tval,
--- 
-2.31.1
+Presumably this would be the last part of a larger patchset to include the dtc 
+package in the docker images used by the Gitlab CI builds?
 
+
+ATB,
+
+Mark.
 
