@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 912DB3F6E30
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 06:17:10 +0200 (CEST)
-Received: from localhost ([::1]:34598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BFCB3F6E73
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 06:27:35 +0200 (CEST)
+Received: from localhost ([::1]:60252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIkLY-0004HF-9s
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 00:17:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53944)
+	id 1mIkVi-0004rP-4n
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 00:27:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mIkGd-0000fV-Bc; Wed, 25 Aug 2021 00:11:59 -0400
-Received: from ozlabs.org ([203.11.71.1]:45057)
+ id 1mIkGg-0000kA-7H; Wed, 25 Aug 2021 00:12:02 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:42427 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mIkGb-0007Tb-DC; Wed, 25 Aug 2021 00:11:59 -0400
+ id 1mIkGd-0007UD-5O; Wed, 25 Aug 2021 00:12:01 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GvXbt6FSGz9t18; Wed, 25 Aug 2021 14:11:38 +1000 (AEST)
+ id 4GvXbt6c4Jz9t1Q; Wed, 25 Aug 2021 14:11:38 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1629864698;
- bh=6jga2dDoFxeOs4eunpZO5DN8xczZuRtl/DE6QKzmo6o=;
+ bh=QmGwFV5rej1IiZxSUPVz6SNQooghggvMESEq/3ogAlc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YzwWfPV5GxgTltttI5wjmBwobJj0XwVxnbGPaEnI0Dyd14gVVfOdY5QKDxdci8SCj
- EwWz8HFyyEDgE5HSTwZGt3gt6Whk0OWSycMIHQHM9h0UFYr4AEB1hvwtv0oenZXyZi
- wTopggM5hCI7qE7RIExQ/Ma+/dBuiEj8iHwqw5tM=
-Date: Wed, 25 Aug 2021 13:46:34 +1000
+ b=o5bGwnzSeEEhwdm23KuSiImGdUfNglrIK5LwIxzJxi8akoKmgftyTR52BdcpFsJb6
+ MFuY7Wh+tDA8TzxmY9UdgDB9nyYYUsstfUTk07JHxuIyv5/qe5PTc/P5cEGpk9W0fy
+ vJvM6DnkG0+tQGjZ7O7trm9ouqeDinzUxbDI/nm8=
+Date: Wed, 25 Aug 2021 13:49:20 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Luis Pires <luis.pires@eldorado.org.br>
-Subject: Re: [PATCH 08/19] target/ppc: Introduce REQUIRE_FPU
-Message-ID: <YSW9Gtim2F+MqaCm@yekko>
-References: <20210824142730.102421-1-luis.pires@eldorado.org.br>
- <20210824142730.102421-9-luis.pires@eldorado.org.br>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v7 1/7] memory_hotplug.c: handle dev->id = NULL in
+ acpi_memory_hotplug_write()
+Message-ID: <YSW9wD4XiA1KyQM0@yekko>
+References: <20210825004835.472919-1-danielhb413@gmail.com>
+ <20210825004835.472919-2-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Gjz4Q0XQWd+h+s2/"
+ protocol="application/pgp-signature"; boundary="5jJlbhheu9z7fQwy"
 Content-Disposition: inline
-In-Reply-To: <20210824142730.102421-9-luis.pires@eldorado.org.br>
+In-Reply-To: <20210825004835.472919-2-danielhb413@gmail.com>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -59,50 +60,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org,
- Fernando Valle <fernando.valle@eldorado.org.br>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, groug@kaod.org
+Cc: armbru@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Gjz4Q0XQWd+h+s2/
+--5jJlbhheu9z7fQwy
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Aug 24, 2021 at 11:27:19AM -0300, Luis Pires wrote:
-> From: Fernando Valle <fernando.valle@eldorado.org.br>
+On Tue, Aug 24, 2021 at 09:48:29PM -0300, Daniel Henrique Barboza wrote:
+> qapi_event_send_mem_unplug_error() deals with @device being NULL by
+> replacing it with an empty string ("") when emitting the event. Aside
+> from the fact that this behavior (qapi visitor mapping NULL pointer to
+> "") can be patched/changed someday, there's also the lack of utility
+> that the event brings to listeners, e.g. "a memory unplug error happened
+> somewhere".
 >=20
-> Signed-off-by: Fernando Valle <fernando.valle@eldorado.org.br>
-> Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
+> In theory we should just avoit emitting this event at all if dev->id is
+> NULL, but this would be an incompatible change to existing guests.
+> Instead, let's make the forementioned behavior explicit: if dev->id is
+> NULL, pass an empty string to qapi_event_send_mem_unplug_error().
+>=20
+> Suggested-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  target/ppc/translate.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  hw/acpi/memory_hotplug.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 4749ecdaa9..5489b4b6e0 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -7461,6 +7461,14 @@ static int times_4(DisasContext *ctx, int x)
->          }                                               \
->      } while (0)
-> =20
-> +#define REQUIRE_FPU(ctx)                                \
-> +    do {                                                \
-> +        if (unlikely(!(ctx)->fpu_enabled)) {            \
-> +            gen_exception((ctx), POWERPC_EXCP_FPU);     \
-> +            return true;                                \
-> +        }                                               \
-> +    } while (0)
-> +
->  /*
->   * Helpers for implementing sets of trans_* functions.
->   * Defer the implementation of NAME to FUNC, with optional extra argumen=
-ts.
+> diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
+> index af37889423..6a71de408b 100644
+> --- a/hw/acpi/memory_hotplug.c
+> +++ b/hw/acpi/memory_hotplug.c
+> @@ -178,7 +178,7 @@ static void acpi_memory_hotplug_write(void *opaque, h=
+waddr addr, uint64_t data,
+>              hotplug_handler_unplug(hotplug_ctrl, dev, &local_err);
+>              if (local_err) {
+>                  trace_mhp_acpi_pc_dimm_delete_failed(mem_st->selector);
+> -                qapi_event_send_mem_unplug_error(dev->id,
+> +                qapi_event_send_mem_unplug_error(dev->id ? : "",
+>                                                   error_get_pretty(local_=
+err));
+>                  error_free(local_err);
+>                  break;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -110,25 +115,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Gjz4Q0XQWd+h+s2/
+--5jJlbhheu9z7fQwy
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmElvRoACgkQbDjKyiDZ
-s5IR4A//dXh5la45v/DA5G71Z+qxMk2miulKqYawijiucOdEXUacd4E+E1LF0zvH
-zffBJk3OFtplLihvel/W4JHjsJWRjrft5UDTU0tCreqy9teTHbQr8uymCqdLRWCk
-U6LTqCzZ7uallEN2hBe5QlYUPToDSbrjjkmKcgJT1M9s7PB+KDH/1t/yLaQ/l0bo
-peIl2fgmomLS3XLAGpM0FyaYj1TbINOPxpAq273AldfOEeDMCiizQz8l58yOPNPT
-d4bktf8F6hVbqg6DbJcjNS1+i+klDJ+g4a0NSLduiVuvp22IwB5nzRHMT9eMFWZ5
-yJzfXJxnNkpSRer01hwjjXuOsFM+yGE5l65pX5jWR5eR/KtgMv377d9iqy8u+juj
-HuD88Aw/zIBTfbYYoXQlrq4uya6JZdnveH8ngBh/y79mnJuY0xrLsyttlAYlsPQg
-zFWuIZpXDOP/K7lXWaWWsaixEl8PfGRFsbK+c9ybhhg9WVzJ4IWzPVMYs/rFhBRS
-31073ydWNWqfGwuUUs+Dvq4RNRzWN+qws66dFLxq/zzVp1pBD/INwt/5TgnoL3cW
-9M9hUa9tEmlx8NggbLnBpWYnZW+8muYJxHUsExyQCCe4YPuE5GEDUjYEAXhV7RSx
-dUk9fL6ATbbKWabcODiHA3LHPcge1DZsTI3b/eU2jfQCQEe00h8=
-=UUgA
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmElvcAACgkQbDjKyiDZ
+s5I11BAAsZ8ri8nY3GI3zVRhRIyh9Jb64JSawBjxMbSKze6g2ravAumtzAqYXiBO
+H0aTaKHVcyAwmQVfV3VyJuiMfVD8E0Tx6OuzIZKmjr9CwnUXrasLKw/IAKTmex5M
+pq1ZC0iWDGJ/DoyBUtSYKdXjCGp7XZQcvc9nQHwRqFNbjeVrnbIxlAu4IB1x6+ie
+qXNYwPgUtTLGuGs+hXCEstWqyVF23ModCMIN6I4o/n+vUNOgL1z7eW+QvPj+mbuh
+g59zc6ufTVrNhXcUyLRjlwJO9L7JGxGkRDytrBsQpTlhb9hw3AfHJDSF0VPywKr1
+UB7fRKwEVL4mwIEKo5uKikZDVCjHAO3RdVwos+AjLTB0qX5UEYwSq7ub3YM8NbLM
+Zz8Jrr6z50z5Owo9AhwoEYV9g7vDoaf1F6ff2UvUQ2txRvEpixsNhwvuNFWiA2BJ
+lOc/ZbiSYZmC5mcxFNYozu/Z2aZe0uR8ziwdkRx/e+ykZNxecinoaEHdyn9u8o1+
+kOH2nyLVPTE1tVruznJPra24q7jXpccAglCRpgA7/SE/0vybgRJoTtsCmIhxGsb0
+GYhj8GysZxnd0iX1Irw0ZtJ1nFBJLi7t5OnOeGK2ZZX/m95+sXkIyAZH2LoUro3e
+3bt+IGt8GQURxEtw5n461BhMwpbFwTuxLQQHidCRzG3v2XW02wU=
+=/MIr
 -----END PGP SIGNATURE-----
 
---Gjz4Q0XQWd+h+s2/--
+--5jJlbhheu9z7fQwy--
 
