@@ -2,57 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5683F70CE
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 09:59:34 +0200 (CEST)
-Received: from localhost ([::1]:41848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D4473F70DF
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 10:05:52 +0200 (CEST)
+Received: from localhost ([::1]:47698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mInos-0006Bs-0Z
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 03:59:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44316)
+	id 1mInux-00025x-5d
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 04:05:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1mInmO-0007hJ-L4
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:57:00 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2474)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mInu6-0001Ml-R9
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 04:04:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22297)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
- id 1mInmI-0005eK-7J
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:57:00 -0400
-Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.56])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GvdW73xNtzbj4g;
- Wed, 25 Aug 2021 15:52:51 +0800 (CST)
-Received: from dggpeml500016.china.huawei.com (7.185.36.70) by
- dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 25 Aug 2021 15:56:41 +0800
-Received: from DESKTOP-27KDQMV.china.huawei.com (10.174.148.223) by
- dggpeml500016.china.huawei.com (7.185.36.70) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Wed, 25 Aug 2021 15:56:40 +0800
-From: "Longpeng(Mike)" <longpeng2@huawei.com>
-To: <alex.williamson@redhat.com>, <mst@redhat.com>,
- <marcel.apfelbaum@gmail.com>, <pbonzini@redhat.com>
-Subject: [PATCH 5/5] vfio: defer to commit kvm route in migraiton resume phase
-Date: Wed, 25 Aug 2021 15:56:20 +0800
-Message-ID: <20210825075620.2607-6-longpeng2@huawei.com>
-X-Mailer: git-send-email 2.25.0.windows.1
-In-Reply-To: <20210825075620.2607-1-longpeng2@huawei.com>
-References: <20210825075620.2607-1-longpeng2@huawei.com>
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1mInu2-00040F-K5
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 04:04:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629878693;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=FmNFWAKRSJUJ+txc3kt5tQrLvbdY//tRXjcFJ0dRfRc=;
+ b=Q0TPXMRO59rsMHix7JtOGvhhYQ74feFbGzb2l1NiM0fz0ICrwIZ+9KqaQ+PE6VUCc6js03
+ 5s5N1l6AuB60ASJb7b8QdTtJ1LYiGfCyiD3B4jXYFCNcpDhZonBFl+ERuihrPVeWbCKpSu
+ KYc0O2Ml+JsrsSIvXAIV8IKhZQLTEHo=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-238-_bqSVETSP169WmNQ3A7gqA-1; Wed, 25 Aug 2021 04:04:51 -0400
+X-MC-Unique: _bqSVETSP169WmNQ3A7gqA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ b7-20020a5d4d87000000b001575d1053d2so1530001wru.23
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 01:04:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references
+ :user-agent:reply-to:date:message-id:mime-version;
+ bh=FmNFWAKRSJUJ+txc3kt5tQrLvbdY//tRXjcFJ0dRfRc=;
+ b=accm+Ov0FxfZh+aDWzvRndCXlDZ+u+dBY3+PUUV8I1NJB6RZvDcxO+YOYKPcDec0TR
+ dcJHrpMwnosZ3f/ld5h7xkUJ6kgDFUP/A8bxjvnhntvqgvzRKW/xK5G9ObP46B8PtkwX
+ fl9mJ46YyGESqlcbyTeBEaupvqwhGX+JpEHX3jnaLG5ZQHy+5FWsOCq6308MQzodM6Ts
+ OGcyPJOu5oWk29SLUcj/0Nr2XKz4eF8d9fpAuPKsqa2wCY2rr/x/fq6m7C/MtaM57Quk
+ 4utuxgww7fOqJsEtwg8um7qf1WsyWrF7E2YSPTCslobszqikWoys4ewJV9Z30vz87W7i
+ dvNg==
+X-Gm-Message-State: AOAM533l8cSzT/t3rL2+WtCzoNSLs8SgHIr16gHYUq7du+Fubzw10oyD
+ rRQjwDJ4sbf0EpbXbwkoVB0nMi00KSp/rHoVgAP/Uwc4qBrnzRgDh1LzNBTxuF8QdcFp0vUa6Zq
+ 2lAcn0/SYDXo55z0=
+X-Received: by 2002:a1c:3945:: with SMTP id g66mr740070wma.49.1629878690729;
+ Wed, 25 Aug 2021 01:04:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzglmw//xtjnF9Vjpi/jOGMBatni1ODw4n7CkA3gOCtro+GZFfDmO8DCgW7LbV6/dbbsB7vbQ==
+X-Received: by 2002:a1c:3945:: with SMTP id g66mr740047wma.49.1629878690514;
+ Wed, 25 Aug 2021 01:04:50 -0700 (PDT)
+Received: from localhost (62.83.194.64.dyn.user.ono.com. [62.83.194.64])
+ by smtp.gmail.com with ESMTPSA id m16sm4444287wmq.8.2021.08.25.01.04.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Aug 2021 01:04:50 -0700 (PDT)
+From: Juan Quintela <quintela@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 1/2] migration: Add migrate_add_blocker_internal()
+In-Reply-To: <20210824152721.79747-2-peterx@redhat.com> (Peter Xu's message of
+ "Tue, 24 Aug 2021 11:27:20 -0400")
+References: <20210824152721.79747-1-peterx@redhat.com>
+ <20210824152721.79747-2-peterx@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+Date: Wed, 25 Aug 2021 10:04:49 +0200
+Message-ID: <87fsuy54ri.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=quintela@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-X-Originating-IP: [10.174.148.223]
-X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
- dggpeml500016.china.huawei.com (7.185.36.70)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187; envelope-from=longpeng2@huawei.com;
- helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) DKIMWL_WL_HIGH=-0.747, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,159 +95,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Longpeng\(Mike\)" <longpeng2@huawei.com>, arei.gonglei@huawei.com,
- huangzhichao@huawei.com, qemu-devel@nongnu.org
+Reply-To: quintela@redhat.com
+Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Andrew Jones <drjones@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In migration resume phase, all unmasked msix vectors need to be
-setup when load the VF state. However, the setup operation would
-takes longer if the VF has more unmasked vectors.
+Peter Xu <peterx@redhat.com> wrote:
+> An internal version that removes -only-migratable implications.  It can be used
+> for temporary migration blockers like dump-guest-memory.
+>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-In our case, the VF has 65 vectors and each one spend at most 0.8ms
-on setup operation the total cost of the VF is about 8-58ms. For a
-VM that has 8 VFs of this type, the total cost is more than 250ms.
-
-vfio_pci_load_config
-  vfio_msix_enable
-    msix_set_vector_notifiers
-      for (vector = 0; vector < dev->msix_entries_nr; vector++) {
-        vfio_msix_vector_do_use
-          vfio_add_kvm_msi_virq
-            kvm_irqchip_commit_routes <-- expensive
-      }
-
-We can reduce the cost by only commit once outside the loop. The
-routes is cached in kvm_state, we commit them first and then bind
-irqfd for each vector.
-
-The test VM has 128 vcpus and 8 VF (with 65 vectors enabled),
-we mesure the cost of the vfio_msix_enable for each one, and
-we can see 90+% costs can be reduce.
-
-        Origin          Apply this patch
-                        and vfio enable optimization
-1st     8               2
-2nd     15              2
-3rd     22              2
-4th     24              3
-5th     36              2
-6th     44              3
-7th     51              3
-8th     58              4
-Total   258ms           21ms
-
-The optimition can be also applied to msi type.
-
-Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
----
- hw/vfio/pci.c | 47 ++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 44 insertions(+), 3 deletions(-)
-
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 3ab67d6..50e7ec7 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -427,12 +427,17 @@ static void vfio_add_kvm_msi_virq(VFIOPCIDevice *vdev, VFIOMSIVector *vector,
-         return;
-     }
- 
--    virq = kvm_irqchip_add_msi_route(kvm_state, vector_n, &vdev->pdev, false);
-+    virq = kvm_irqchip_add_msi_route(kvm_state, vector_n, &vdev->pdev,
-+                                     vdev->defer_add_virq);
-     if (virq < 0) {
-         event_notifier_cleanup(&vector->kvm_interrupt);
-         return;
-     }
- 
-+    if (vdev->defer_add_virq) {
-+        goto out;
-+    }
-+
-     if (kvm_irqchip_add_irqfd_notifier_gsi(kvm_state, &vector->kvm_interrupt,
-                                        NULL, virq) < 0) {
-         kvm_irqchip_release_virq(kvm_state, virq);
-@@ -440,6 +445,7 @@ static void vfio_add_kvm_msi_virq(VFIOPCIDevice *vdev, VFIOMSIVector *vector,
-         return;
-     }
- 
-+out:
-     vector->virq = virq;
- }
- 
-@@ -577,6 +583,36 @@ static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
-     }
- }
- 
-+static void vfio_commit_kvm_msi_virq(VFIOPCIDevice *vdev)
-+{
-+    int i;
-+    VFIOMSIVector *vector;
-+    bool commited = false;
-+
-+    for (i = 0; i < vdev->nr_vectors; i++) {
-+        vector = &vdev->msi_vectors[i];
-+
-+        if (vector->virq < 0) {
-+            continue;
-+        }
-+
-+        /* Commit cached route entries to KVM core first if not yet */
-+        if (!commited) {
-+            kvm_irqchip_commit_routes(kvm_state);
-+            commited = true;
-+        }
-+
-+        if (kvm_irqchip_add_irqfd_notifier_gsi(kvm_state,
-+                                               &vector->kvm_interrupt,
-+                                               NULL, vector->virq) < 0) {
-+            kvm_irqchip_release_virq(kvm_state, vector->virq);
-+            event_notifier_cleanup(&vector->kvm_interrupt);
-+            vector->virq = -1;
-+            return;
-+        }
-+    }
-+}
-+
- static void vfio_msix_enable(VFIOPCIDevice *vdev)
- {
-     PCIDevice *pdev = &vdev->pdev;
-@@ -624,6 +660,7 @@ static void vfio_msix_enable(VFIOPCIDevice *vdev)
-     if (!pdev->msix_function_masked && vdev->defer_add_virq) {
-         int ret;
-         vfio_disable_irqindex(&vdev->vbasedev, VFIO_PCI_MSIX_IRQ_INDEX);
-+        vfio_commit_kvm_msi_virq(vdev);
-         ret = vfio_enable_vectors(vdev, true);
-         if (ret) {
-             error_report("vfio: failed to enable vectors, %d", ret);
-@@ -664,6 +701,10 @@ retry:
-         vfio_add_kvm_msi_virq(vdev, vector, i, false);
-     }
- 
-+    if (vdev->defer_add_virq){
-+        vfio_commit_kvm_msi_virq(vdev);
-+    }
-+
-     /* Set interrupt type prior to possible interrupts */
-     vdev->interrupt = VFIO_INT_MSI;
- 
-@@ -2473,13 +2514,13 @@ static int vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
-     vfio_pci_write_config(pdev, PCI_COMMAND,
-                           pci_get_word(pdev->config + PCI_COMMAND), 2);
- 
-+    vdev->defer_add_virq = true;
-     if (msi_enabled(pdev)) {
-         vfio_msi_enable(vdev);
-     } else if (msix_enabled(pdev)) {
--        vdev->defer_add_virq = true;
-         vfio_msix_enable(vdev);
--        vdev->defer_add_virq = false;
-     }
-+    vdev->defer_add_virq = false;
- 
-     return ret;
- }
--- 
-1.8.3.1
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
 
