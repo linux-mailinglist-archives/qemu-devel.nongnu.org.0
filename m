@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 728D83F703D
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 09:17:17 +0200 (CEST)
-Received: from localhost ([::1]:52220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41F773F7043
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 09:19:55 +0200 (CEST)
+Received: from localhost ([::1]:60278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIn9w-0002Ha-FB
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 03:17:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59340)
+	id 1mInCU-0007ol-Br
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 03:19:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mIn8a-00083e-6W
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:15:52 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:41872)
+ id 1mIn8c-00084W-Bw
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:15:54 -0400
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:41918)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mIn8X-00043O-F7
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:15:51 -0400
+ id 1mIn8X-00043u-AF
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:15:54 -0400
 Received: from loganberry.canonical.com (loganberry.canonical.com
  [91.189.90.37])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id E436E3F7C8
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 07:15:45 +0000 (UTC)
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 431953F816
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 07:15:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1629875745;
- bh=RkN5K+nS5ft00qL6u91ghTrRbdOoPRU72T1VK2N3Dqc=;
+ s=20210803; t=1629875746;
+ bh=onAJ59Ky8MtSRRp/csgtXUSXC2ukdBhvV5Lzm82TlR4=;
  h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
  Message-Id:Subject;
- b=OmDDkADSMC6BbGTaOp9UUcnHVgE5SfZP3gouNB35acVaeEHWmCRNJGkiBUfgvVvNY
- 4grv6yM2BdIU4mFpBLT4P1wBXelneImfUt7F/IeoQT0gZ2SmjPD0dDOV7ig1qYBLGd
- Eov9xh8Eh0WL1wsmXhZKgETDVoR7ST8RDedyFS4whJNKc/F8IeKcZQztHMZ3uKqMJP
- bennqkd/lTZjqJVnwmx+yrmDLUhqPbBchxBKIqfzhPobbSbUFF6GQQqG0N1S3AQ+DI
- gGPdplosO0maWJVOL1/SFq88h2930IAPSSn/qL+xaibHBq8o8le03ENUoARrG0kMeq
- YjkhZs97i8Bxg==
+ b=lu4ifVw+LHiU8hmmOJ5+wuMXnvi9I5orqI3zxFyk8P4C3gl6TUGrh+ptt7xeBN0e2
+ XHzL5lgCWzM3f4rCsThYNgsr7CTJw3C3woumFCJ5Q2ccdjJlpOgRm6Ta8BW/RXYOVS
+ x28DmGbhv4qx4rG8nkOG4TE7HCZ9BoD/DacMJYfxSznY+FTTJgOJGPjA9cAYihNUbx
+ EyeR/GIukIkT+8XvtLh2SEIiWoxKmp+hdaFUyzz155pxkYwjwhX/3sdu57onNxpuAF
+ 2SZ7P+IlmUEUm5JeBW5IDX8gkZ4fCXOD4rDD4tnJfFDFY7wAEzTbNSpe96houdNZAE
+ zd38+bbvPoA3A==
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E64C42E81A2
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 07:15:43 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 8BB3E2E81BC
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 07:15:44 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Aug 2021 07:06:45 -0000
-From: Thomas Huth <1926759@bugs.launchpad.net>
+Date: Wed, 25 Aug 2021 07:06:56 -0000
+From: Thomas Huth <1926111@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm
+ assignee=th.huth@posteo.de; 
+X-Launchpad-Bug-Tags: fuzzer
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: muhui pmaydell th-huth
-X-Launchpad-Bug-Reporter: JIANG Muhui (muhui)
+X-Launchpad-Bug-Commenters: a1xndr philmd th-huth
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <161978229375.10342.16262082750544447119.malonedeb@gac.canonical.com>
-Message-Id: <162987520671.15880.16740500274416093662.launchpad@gac.canonical.com>
-Subject: [Bug 1926759] Re: WFI instruction results in unhandled CPU exception
+References: <161940714680.11021.12941917748278413607.malonedeb@soybean.canonical.com>
+Message-Id: <162987521759.13086.16877448876318638637.launchpad@gac.canonical.com>
+Subject: [Bug 1926111] Re: Assertion `tx_queue_idx <= s->txq_num' failed in
+ vmxnet3_io_bar0_write
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="7edb2d45353e030166106ae05838b77ab406edcd"; Instance="production"
-X-Launchpad-Hash: d22860e0f07336dd25987db50a15c19ea682aa21
+X-Launchpad-Hash: 39069981ca56c56e9a25eb8b278cda7b8c99c7c8
 Received-SPF: pass client-ip=185.125.188.251;
  envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
 X-Spam_score_int: -42
@@ -84,7 +85,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1926759 <1926759@bugs.launchpad.net>
+Reply-To: Bug 1926111 <1926111@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -94,37 +95,107 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 --=20
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1926759
+https://bugs.launchpad.net/bugs/1926111
 
 Title:
-  WFI instruction results in unhandled CPU exception
+  Assertion `tx_queue_idx <=3D s->txq_num' failed in vmxnet3_io_bar0_write
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-  Hi
+  =3D=3D=3D Stacktrace =3D=3D=3D
 
-  I refer to the WFI instruction. The bytecode is 0xe320f003. After the
-  execution, qemu exit with the following  crash log.
+  qemu-fuzz-i386: ../hw/net/vmxnet3.c:1096: void vmxnet3_io_bar0_write(void=
+ *, hwaddr, uint64_t, unsigned int): Assertion `tx_queue_idx <=3D s->txq_nu=
+m' failed.
+  =3D=3D602353=3D=3D ERROR: libFuzzer: deadly signal
+  #5 0x7fe4b93a7ce0 in raise signal/../sysdeps/unix/sysv/linux/raise.c:48:3
+  #6 0x7fe4b9391536 in abort stdlib/abort.c:79:7
+  #7 0x7fe4b939140e in __assert_fail_base assert/assert.c:92:3
+  #8 0x7fe4b93a0661 in __assert_fail assert/assert.c:101:3
+  #9 0x563e6cf5ebb5 in vmxnet3_io_bar0_write  hw/net/vmxnet3.c:1096:9
+  #10 0x563e6eefdb00 in memory_region_write_accessor  softmmu/memory.c:491:5
+  #11 0x563e6eefcfdd in access_with_adjusted_size  softmmu/memory.c:552:18
+  #12 0x563e6eefac90 in memory_region_dispatch_write  softmmu/memory.c:1502=
+:16
+  #13 0x563e6e834e16 in flatview_write_continue  softmmu/physmem.c:2746:23
+  #14 0x563e6e81cd38 in flatview_write  softmmu/physmem.c:2786:14
+  #15 0x563e6e81c868 in address_space_write  softmmu/physmem.c:2878:18
 
-  qemu: unhandled CPU exception 0x10001 - aborting
-  R00=3D00000001 R01=3D40800b34 R02=3D40800b3c R03=3D000102ec
-  R04=3D00010a28 R05=3D00010158 R06=3D00087460 R07=3D00010158
-  R08=3D00000000 R09=3D00000000 R10=3D00085b7c R11=3D408009f4
-  R12=3D40800a08 R13=3D408009f0 R14=3D0001057c R15=3D000102f8
-  PSR=3D60000010 -ZC- A usr32
-  qemu:handle_cpu_signal received signal outside vCPU context @ pc=3D0x7f5c=
-21d0fa12
+  =3D=3D=3D Reproducer =3D=3D=3D
+  cat << EOF | ./qemu-system-i386  -display none -machine accel=3Dqtest, -m=
+ \
+  512M -machine q35 -nodefaults -device vmxnet3,netdev=3Dnet0 -netdev \
+  user,id=3Dnet0 -qtest stdio
+  outl 0xcf8 0x80000810
+  outl 0xcfc 0xe0000000
+  outl 0xcf8 0x80000814
+  outl 0xcf8 0x80000804
+  outw 0xcfc 0x7
+  outl 0xcf8 0x80000815
+  outl 0xcfc 0xffff00b5
+  write 0x0 0x1 0xe1
+  write 0x1 0x1 0xfe
+  write 0x2 0x1 0xbe
+  write 0x3 0x1 0xba
+  write 0xff00b020 0x4 0x0000feca
+  write 0xe0000630 0x1 0x00
+  EOF
 
-  WFI aims to enter a low-power state and wait for interrupt. The raised
-  exception seems not a right behavior. I can provide a testcase if you
-  needed. Many thanks.
+ =20
+  =3D=3D=3D Testcase =3D=3D=3D
 
-  Regards
-  Muhui
+  /*
+   * Autogenerated Fuzzer Test Case
+   *
+   * This work is licensed under the terms of the GNU GPL, version 2 or lat=
+er.
+   * See the COPYING file in the top-level directory.
+   */
+
+  #include "qemu/osdep.h"
+
+  #include "libqos/libqtest.h"
+
+  static void test_fuzz(void) {
+      QTestState *s =3D qtest_init(" -display none , -m 512M -machine q35 -=
+nodefaults "
+                                 "-device vmxnet3,netdev=3Dnet0 -netdev use=
+r,id=3Dnet0");
+      qtest_outl(s, 0xcf8, 0x80000810);
+      qtest_outl(s, 0xcfc, 0xe0000000);
+      qtest_outl(s, 0xcf8, 0x80000814);
+      qtest_outl(s, 0xcf8, 0x80000804);
+      qtest_outw(s, 0xcfc, 0x7);
+      qtest_outl(s, 0xcf8, 0x80000815);
+      qtest_outl(s, 0xcfc, 0xffff00b5);
+      qtest_bufwrite(s, 0x0, "\xe1", 0x1);
+      qtest_bufwrite(s, 0x1, "\xfe", 0x1);
+      qtest_bufwrite(s, 0x2, "\xbe", 0x1);
+      qtest_bufwrite(s, 0x3, "\xba", 0x1);
+      qtest_bufwrite(s, 0xff00b020, "\x00\x00\xfe\xca", 0x4);
+      qtest_bufwrite(s, 0xe0000630, "\x00", 0x1);
+      qtest_quit(s);
+  }
+  int main(int argc, char **argv) {
+      const char *arch =3D qtest_get_arch();
+
+      g_test_init(&argc, &argv, NULL);
+
+      if (strcmp(arch, "i386") =3D=3D 0) {
+          qtest_add_func("fuzz/test_fuzz", test_fuzz);
+      }
+
+      return g_test_run();
+  }
+
+ =20
+  =3D=3D=3D OSS-Fuzz Report =3D=3D=3D
+  https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D33603
+  https://oss-fuzz.com/testcase?key=3D6071483232288768
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1926759/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1926111/+subscriptions
 
 
