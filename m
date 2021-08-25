@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7FF23F7BC5
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 19:51:26 +0200 (CEST)
-Received: from localhost ([::1]:51380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DDC13F7C14
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 20:13:50 +0200 (CEST)
+Received: from localhost ([::1]:40058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIx3Y-0004WD-DN
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 13:51:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55686)
+	id 1mIxPJ-0008Qq-7j
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 14:13:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIx2l-0003s0-6A
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 13:50:31 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:37817)
+ id 1mIxOX-0007he-Ku
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 14:13:01 -0400
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:39485)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIx2j-0000aT-Fq
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 13:50:30 -0400
-Received: by mail-ej1-x635.google.com with SMTP id h9so206158ejs.4
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 10:50:28 -0700 (PDT)
+ id 1mIxOV-0007Hv-N1
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 14:13:01 -0400
+Received: by mail-ej1-x62b.google.com with SMTP id a25so314594ejv.6
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 11:12:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=pAisI9aQMSZmrKiudjt/KvCw0q/hrXMk1wPqFglufmQ=;
- b=ZvNOwHAcW7qiPheYLPWRH0d437e7Z/j+UNMOgdKP/frO5UNcbUdFHwuyfF6x1cVg2U
- a6F8avghLzOJa7+5gUkQXWyDPaUZIttPbS8wb1dDv/CY8+kNt+GiezKOsZJGh5tEEyhe
- l6hCVFei4tcmKfWhfI07LLj/sMOhQ/vIClS6Bvssmwh7Pl+Xpnag28B0AdYlVqVM9tf+
- oS1bEDOmAISS/lncz1cb7ZYBVy13HcNUs02FBD5uVxDTMid2B/+gSI8rhdYijgNs3+BK
- kve/FueuYhtrcoz2JdYKLyKGkkigJbxl7n9dkdiL95UfBmggW6pd3RTkyaXYMecSZpiI
- /iHQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=bOx61zj7PS7kCGQlOGuwsj2OeGbhDJW3Ytk2D2Qsgrc=;
+ b=ohe6J+GbbT8HZrc3qk+BM+EY0C/GRfIQqKPCTJj52qM0B1+i1DyxViTvvNSuhNLp9V
+ 9KbZqN/vNzcfQP8e4owrR+eM2YeHxYCHgUv7fSgYsEZL++/IpLLANxOd1NAbL+XavT4r
+ J6lJZZR9jKaB4ApbMt1WNCDMLJl6VA5wOJDWxswvXIwOu6bkBt4T5ik1/RI5aSzhcDoq
+ tQsupDDOfjkBt5aYWPbOD+5ypPxXX1jqhlVD0j56zukdO7p6LU699ziVfILXZBqomgH1
+ ah2qgF8wyKvvJsqiMjx4DDqNS7NHCVWwERDHOxN1K8O6pClPERcAZgqxSDutEMiD+jsA
+ tLKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=pAisI9aQMSZmrKiudjt/KvCw0q/hrXMk1wPqFglufmQ=;
- b=BFUIjRibu3M++HrgrorW7V5Nj16ZFl2fep4sbMN0NoZ4MY151AlSVt4/3b+DIOyT85
- sKLjzsPZXuV63GY5KBkYWjjYnhYlMQdbt2lDawX3XYn20uVGi7fKVHrqdaVvrtSHUn6Y
- z4rUi3zkwWs30l2W/EKWs6HrQgw2ergNizTJr5jOZ43BjFy+/Y9vOG3sRMu+SLxYi8Dd
- /6tKbywbieZO2XvolXwYxpZEfmeLyoNQlBNmymwKrSb+y5kfTPcrvBK9zusEnaRDU+VM
- YFlLCks7L9m1JBcW4qktN4k3xWlEBoB+T7zcnHNQtnzaAztWdHrZgwE8l2CoVkLMArl2
- b3Xw==
-X-Gm-Message-State: AOAM531ebjwkZLAF0pHIulZSt4VFaCOgdG6iw1+S2oPqRVoUsfwd94+h
- bWbpvNC6phAcxD6vu2NMZ/0so8jG0x1F+lDtogUAOMlQCFM=
-X-Google-Smtp-Source: ABdhPJxOvy5bUaJy4A1M9yahO5MqtmDSwcnO21dDMLHmbIZya6n5942ozSsChqIwYr58VYpSI756RVJwCKfKQv61IPc=
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bOx61zj7PS7kCGQlOGuwsj2OeGbhDJW3Ytk2D2Qsgrc=;
+ b=ZF+OxIL2Et1YaOD+fZkyusacfaUN62HtvxC5fEx0ZTmmm797+A7IXXRf/tr7QwgeRO
+ ZzbsgUE5mCa8d0Cm0ptQ4PPul1rAvsJuBpKsSyyrExGbzfjZbuQN2DnDjnHUlE71GgPd
+ /O65mmKHgtBnuixyeNZhUJL7WUQ7ZhgXm60ljr+C/uOytLfHP+pO0Ihd/hqJyTji5EZv
+ XAcE6beUhQrziUdsU/0mV3C4RXNYzq0CbQ5/JoTGQF4IQnIqC/3V9M1tQMqdZZkkfhPY
+ d21yrCVeX4RygtyC+fCtV3G/uED0S6y5hwpJfkCGDrRZudmpm8MjyIJ8Je9gwvX41Gt2
+ eWGw==
+X-Gm-Message-State: AOAM531IpMvtYJfTWUqgs0texEhz3pEHx+KkJBbqd8Fmd9ky0TFkw0Yb
+ CLFh8nHwVxIa+3YUfUckfCnSqUs1AJOGSaBD5ZwOIg==
+X-Google-Smtp-Source: ABdhPJwQxUY63hNGuS0m0FS19AxYI+mGDc5/Kh74e1S7lL8+7hw0GhmxJrXgyAyQrvGa47MamgSNmrM5b/YwpOuWR8A=
 X-Received: by 2002:a17:907:1048:: with SMTP id
- oy8mr46324111ejb.382.1629913827682; 
- Wed, 25 Aug 2021 10:50:27 -0700 (PDT)
+ oy8mr46414749ejb.382.1629915177338; 
+ Wed, 25 Aug 2021 11:12:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210825103534.6936-1-peter.maydell@linaro.org>
-In-Reply-To: <20210825103534.6936-1-peter.maydell@linaro.org>
+References: <20210825124309.223622-1-marcandre.lureau@redhat.com>
+ <c79fb3c7-e6cc-adea-b694-ffe1f25c0d59@amsat.org>
+In-Reply-To: <c79fb3c7-e6cc-adea-b694-ffe1f25c0d59@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 25 Aug 2021 18:49:40 +0100
-Message-ID: <CAFEAcA_KGsH7rUgALw+=9E1mEWz_46MqPwT3mmxZQBzxWf+j_g@mail.gmail.com>
-Subject: Re: [PULL 00/44] target-arm queue
-To: QEMU Developers <qemu-devel@nongnu.org>
+Date: Wed, 25 Aug 2021 19:12:10 +0100
+Message-ID: <CAFEAcA8YNwe-PCt2VuY4Fhjbyqnm2G7BpZDs6wyXNFh3pmee2Q@mail.gmail.com>
+Subject: Re: [PATCH] RFC: build-sys: drop dtc submodule
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,45 +80,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 25 Aug 2021 at 11:35, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Wed, 25 Aug 2021 at 14:28, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> First set of arm patches for 6.2. I have a lot more in my
-> to-review queue still...
+> On 8/25/21 2:43 PM, marcandre.lureau@redhat.com wrote:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > DTC is widely available, we could consider to stop bundling it.
+> >
+> > curl -s 'https://repology.org/api/v1/project/dtc' |  \
+> >    jq -r 'group_by(.repo) | .[] | "\(.[0].repo): \(map(.version))"' | \
+> >    egrep -i 'ubuntu_18|debian_old|rhel|centos|bsd|suse_leap_15_2|sles|h=
+omebrew|pkgsrc'
+> >
+> > centos_8: ["1.6.0","1.6.0"]
+> > debian_oldstable: ["1.4.7"]
+> > freebsd: ["1.6.0"]
+> > homebrew: ["1.6.1"]
+> > openbsd: ["1.6.0"]
+> > opensuse_leap_15_2: ["1.5.1","1.5.1"]
+> > pkgsrc_current: ["1.4.7"]
+> > ubuntu_18_04: ["1.4.5"]
+> >
+> > MinGW package on Fedora pending review.
+> > (https://bugzilla.redhat.com/show_bug.cgi?id=3D1997511)
+> >
+> > Debian is lacking the MinGW package.
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  configure         | 22 +-------------------
+> >  meson.build       | 53 ++++++++---------------------------------------
+> >  .gitmodules       |  3 ---
+> >  dtc               |  1 -
+> >  meson_options.txt |  3 ---
+> >  5 files changed, 10 insertions(+), 72 deletions(-)
+> >  delete mode 160000 dtc
 >
-> -- PMM
->
-> The following changes since commit d42685765653ec155fdf60910662f8830bdb2cef:
->
->   Open 6.2 development tree (2021-08-25 10:25:12 +0100)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210825
->
-> for you to fetch changes up to 24b1a6aa43615be22c7ee66bd68ec5675f6a6a9a:
->
->   docs: Document how to use gdb with unix sockets (2021-08-25 10:48:51 +0100)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * More MVE emulation work
->  * Implement M-profile trapping on division by zero
->  * kvm: use RCU_READ_LOCK_GUARD() in kvm_arch_fixup_msi_route()
->  * hw/char/pl011: add support for sending break
->  * fsl-imx6ul: Instantiate SAI1/2/3 and ASRC as unimplemented devices
->  * hw/dma/pl330: Add memory region to replace default
->  * sbsa-ref: Rename SBSA_GWDT enum value
->  * fsl-imx7: Instantiate SAI1/2/3 as unimplemented devices
->  * docs: Document how to use gdb with unix sockets
+> Does this fix https://gitlab.com/qemu-project/qemu/-/issues/255 ?
+> "Build on sparc64 fails with "undefined reference to `fdt_check_full'"
 
+That bug sounds like it indicates that we can't use this patch:
+a comment in the bug says that fdt_check_full() (which we use)
+was only added in libfdt 1.5.1. So the libfdt version we need
+is still not available in several of the distros we care about.
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
-for any user-visible changes.
+I suspect the bug you link to may have been fixed -- certainly
+meson.build appears to be specifically looking for fdt_check_full()
+so we should never try to compile with a libfdt that doesn't have it.
 
 -- PMM
 
