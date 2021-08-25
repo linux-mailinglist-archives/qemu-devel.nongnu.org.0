@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5413F75D1
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:23:06 +0200 (CEST)
-Received: from localhost ([::1]:60450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA8363F75D4
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:24:30 +0200 (CEST)
+Received: from localhost ([::1]:38514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIsrx-0001ph-JF
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:23:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50780)
+	id 1mIstJ-00062p-RB
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:24:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mIsYw-0000MO-Ha
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:03:26 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:42663)
+ id 1mIsZ3-0000oq-Vh
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:03:33 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39446)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mIsYv-0002Zq-1i
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:03:26 -0400
-Received: by mail-wm1-x335.google.com with SMTP id
- k20-20020a05600c0b5400b002e87ad6956eso2869022wmr.1
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 06:03:24 -0700 (PDT)
+ id 1mIsYz-0002aw-Dx
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:03:33 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id z4so20702142wrr.6
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 06:03:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Q2GBJLLz4fX2cAnRDxHMbQVxUbqrTMTT7pmg3XAcYZM=;
- b=ijL5G5eoKqRB5PNVm56QPbFxIa8BUfe5JeELCOJEi5WJYOA4r0a1SmR1S8DbeuDmHr
- IdqIk5ANVCksMqeyOiGvXBglmPFljnPv/jq0lG2yQ6gRtLegc5iyPHQNisUGc2pVLa0M
- +V7bvva+2aZQ7U0vZxtQSRMg7N7VL2KumnKrcuNIB17o5B8Mhn6t2mDH2/ZaHKK72MTv
- Prso1urrjKIjudIZ50MoB1pmXQNyZhM9EFtQkcL381XCAqMflcSPN9dcOFD9I5mAil0S
- mrQS8Q6a4dgXWUfwC7MofT4GPv6OHyVGJNwZSb/9ioIr1u30I7LpETFU3sHSFqyNTQ9s
- rFvg==
+ bh=lyNFAVFOZhMCCrZfvor1HjHIh8GYH8Avp+4JewVXcSk=;
+ b=b6UUL23sv2TK1gWdoJJGdWI010o35x0lfIRoERGiF6f10HalfySe0I752s/qYZhvs1
+ OGzS+/6xvcKiom9rWcjKowfk7zDgXQqWl+FJbJA+5D8MNwCm7wMIRt4uqBwzDnbkuhA/
+ BigBXefkehv2MeTGfzTXA4VexgI0oLN/DORfreTeKZIYijXTwQIGl5QB1lt+ChrEmXAy
+ 8ZHJsHb+71FQjQaTs59Tvl+Lawd3p4Csb/f4JtRuj4SzOnIE8t0JwoKYkv0n66pN12se
+ n1oe+G97VI2918kHf4tCb+rIvh8qSkUxggFsh5lJndM328vaTLLIJ+xN9gKmFe4VS7YB
+ wp3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Q2GBJLLz4fX2cAnRDxHMbQVxUbqrTMTT7pmg3XAcYZM=;
- b=Gr0kpsl1AzjztMXWWEeUnHz6oOK5+SMkB8/8TXggFhFLzSq1cemlGflSRfZ2CLXApD
- K3YDtSByJgm8rglq3OWE93Z2X0/AwhPr/IKOwAFxFOdO+kceNk4oPQkimi+DA1wsU9uk
- XeX3zTskI63cc05wXyBJSEmouiX3ETXzOdBFWnMdV4+WS7/4TDFquuPh0boJYhxKGuPu
- 1GIHc9C8HOEfh01svFr1tT5witmxLh8qt6exbQotVG4afahxcm8uhldpBrioyDTCNmSE
- lpn24agGPbkMfCT/7mHJ7jcPF3qskx584Zll2bRKR8vydqVm1DAIYjde3Vpp1PQquTlo
- tmGw==
-X-Gm-Message-State: AOAM5338F2mNZT2RQ3pkuKXjnKvYzYocJoV5rinDiYiu9tRqpmHqv7MG
- VdK8mF9i7tXycx8QB3enUOndZrthXis=
-X-Google-Smtp-Source: ABdhPJwuZzNL5vhmxunT3XVOqMa+zxIl4nnjUGsoNaz7VfEcsIbPKM+DmZ3bbmZzYmiqWF5L8mvXtQ==
-X-Received: by 2002:a1c:f606:: with SMTP id w6mr9434386wmc.42.1629896603404;
- Wed, 25 Aug 2021 06:03:23 -0700 (PDT)
+ bh=lyNFAVFOZhMCCrZfvor1HjHIh8GYH8Avp+4JewVXcSk=;
+ b=d5Y1BWd8vc6YIgQSWQ8vxkxstpNKsr7cg7rSx34OMVn4I5nhNeJKuOgj1jgvXSNrgu
+ 5DKFBN+s30Ejo4zWanwftD/9Vrb+xTi8sJSyL1UN+EGrCXeVMem0vzvKAM0GEOmB6zKl
+ 2wp2cdH/czC+VGjfpNrrpsyssFXjtIJgO+XEbjwibHB+mzYyQpFgTPQD5F71EHxm3e1q
+ fsM4TL4UnFq8NiXsbhkO7mkQuhX4Ex7XaWBvqv2w51htmerjf3vxQWWCIvURbqM9DQTp
+ VrN4tX0Cz0Xcg7NSBZKixt2ucCzzl6f8jituxszcnRtvSVT/eKc6oPXZXXs2qrJohLtz
+ 9z3A==
+X-Gm-Message-State: AOAM533x/nMd9oG0NDKyrrpc9pCFLDnCbNlqTYIdphkoxw7MbVRq+Lmq
+ GgwDyxDL3PE+fH7IALt8OdlsD9zYtdE=
+X-Google-Smtp-Source: ABdhPJzMqtO0MhVrVFxDN3/7CvW+BZ+ydEc2MWUozxVVbOEd0YKFmkmdh8m4sYnh9ad2elMlkLGm8g==
+X-Received: by 2002:adf:b318:: with SMTP id j24mr22030039wrd.84.1629896607889; 
+ Wed, 25 Aug 2021 06:03:27 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- c6sm5004545wrp.95.2021.08.25.06.03.22
+ g6sm5897562wmq.14.2021.08.25.06.03.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 06:03:22 -0700 (PDT)
+ Wed, 25 Aug 2021 06:03:27 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/28] target/mips: Remove duplicated check_cp1_enabled() calls
- in Loongson EXT
-Date: Wed, 25 Aug 2021 15:01:58 +0200
-Message-Id: <20210825130211.1542338-16-f4bug@amsat.org>
+Subject: [PULL 16/28] target/mips: Remove gen_helper_0e3i()
+Date: Wed, 25 Aug 2021 15:01:59 +0200
+Message-Id: <20210825130211.1542338-17-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210825130211.1542338-1-f4bug@amsat.org>
 References: <20210825130211.1542338-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,42 +87,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Aurelien Jarno <aurelien@aurel32.net>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Huacai Chen <chenhuacai@loongson.cn>
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already call check_cp1_enabled() earlier in the "pre-conditions"
-checks for GSLWXC1 and GSLDXC1 in gen_loongson_lsdc2() prologue.
-Remove the duplicated calls.
+gen_helper_0e3i() is unused since commit 895c2d04359
+("target-mips: switch to AREG0 free mode"), remove it.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
-Message-Id: <20210816001031.1720432-1-f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210816205107.2051495-2-f4bug@amsat.org>
 ---
- target/mips/tcg/translate.c | 2 --
- 1 file changed, 2 deletions(-)
+ target/mips/tcg/translate.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
 diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 30780deb96f..a58d50e40e2 100644
+index a58d50e40e2..c0f8a04b472 100644
 --- a/target/mips/tcg/translate.c
 +++ b/target/mips/tcg/translate.c
-@@ -4693,7 +4693,6 @@ static void gen_loongson_lsdc2(DisasContext *ctx, int rt,
-         break;
- #endif
-     case OPC_GSLWXC1:
--        check_cp1_enabled(ctx);
-         gen_base_offset_addr(ctx, t0, rs, offset);
-         if (rd) {
-             gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
-@@ -4706,7 +4705,6 @@ static void gen_loongson_lsdc2(DisasContext *ctx, int rt,
-         break;
- #if defined(TARGET_MIPS64)
-     case OPC_GSLDXC1:
--        check_cp1_enabled(ctx);
-         gen_base_offset_addr(ctx, t0, rs, offset);
-         if (rd) {
-             gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
+@@ -1249,12 +1249,6 @@ TCGv_i64 fpu_f64[32];
+     tcg_temp_free_i32(helper_tmp);                                \
+     } while (0)
+ 
+-#define gen_helper_0e3i(name, arg1, arg2, arg3, arg4) do {        \
+-    TCGv_i32 helper_tmp = tcg_const_i32(arg4);                    \
+-    gen_helper_##name(cpu_env, arg1, arg2, arg3, helper_tmp);     \
+-    tcg_temp_free_i32(helper_tmp);                                \
+-    } while (0)
+-
+ #define DISAS_STOP       DISAS_TARGET_0
+ #define DISAS_EXIT       DISAS_TARGET_1
+ 
 -- 
 2.31.1
 
