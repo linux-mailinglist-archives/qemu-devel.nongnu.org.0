@@ -2,50 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 031DB3F6EEA
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 07:45:33 +0200 (CEST)
-Received: from localhost ([::1]:59094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD1833F6F20
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 08:00:52 +0200 (CEST)
+Received: from localhost ([::1]:41120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIljA-0002pG-0k
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 01:45:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37032)
+	id 1mIlxz-0002ES-2N
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 02:00:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mIleB-0008PQ-LL; Wed, 25 Aug 2021 01:40:23 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:52403)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mIldz-0006DE-F9; Wed, 25 Aug 2021 01:40:23 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GvZYx3p7Wz9ssD; Wed, 25 Aug 2021 15:40:05 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1629870005;
- bh=NIaAOVkxo/HfVAGJVb/dTTpQOTVsd3iuTHe+uo2ubLc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mHzyM7Ki8aShbHvYMwe/iafqpHHEr0XYWtZ6BAK8X0avdWMoPZRV8dYasu2gzgEhg
- ihfP4VOy+XfP2xSP3DX57DLHBUptpHo4oR/71ZqgDTvDcNiipEvUamEDS8/1Dsyx4H
- pYLeCAmHgNVZpWChMyGRhWAazxQ3hy2Si1P9pCl0=
-Date: Wed, 25 Aug 2021 15:37:18 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v2 10/16] target/ppc: PMU Event-Based exception support
-Message-ID: <YSXXDoktzkXkd3Vv@yekko>
-References: <20210824163032.394099-1-danielhb413@gmail.com>
- <20210824163032.394099-11-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mIlwp-0001R2-B4; Wed, 25 Aug 2021 01:59:39 -0400
+Received: from mail-il1-x12e.google.com ([2607:f8b0:4864:20::12e]:44781)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mIlwm-00060w-K2; Wed, 25 Aug 2021 01:59:38 -0400
+Received: by mail-il1-x12e.google.com with SMTP id b4so13292663ilr.11;
+ Tue, 24 Aug 2021 22:59:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9GWbmXLUzi35MPysajZQJYGJ2Hyv5i9GCvQB4aaQwxM=;
+ b=ogpAW4AcgGu7ldQMGEJBzjAGdxWXs7cC/POl6gZu2HG/3U/nWujeoOBD0rOR5TKrk+
+ qaTOMN+5u3UncJ13MTxXn3lAxbEZie5Xr8bnwypP957YaIKcmxiVROZg4UzbWy/nfA4I
+ An07R84KWJCmyyFqofhizeM37DCTiMby3UF8zWOJiM1gBdbR8fdtevYbagqQYiqoZy0t
+ FWFvWulHYhmm56LF4MyZcKoebFQV94Zp64/PhlUI51fEvFsJlNr+AjU4aLjsdN+Ryda3
+ 2abFdoLzK99fl/xrpirHZoN3bjxzdZgvy8mVfmHz3KGdJpg4CLOg6/sePEYuUdrqT+39
+ PjyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9GWbmXLUzi35MPysajZQJYGJ2Hyv5i9GCvQB4aaQwxM=;
+ b=TyKbLdM0EBY+fao1lNyO2LTGfEOf9FyaLoH5UZ5FyJRQrbM5TjY16TImSYziuFLFSD
+ OlPR4XA6XnhhFQBWt8TUR/aiiUkE2rxbbf6GrSBcy2JnLALAesrsDbEbwNfk994tQI0h
+ ntdbBTYKMxwrJSGMvOKTqtP+xvGhhW+T6vKlhhdnl07UlPkGLun77hzNid2SbOyDcYFf
+ e+XcLoz0fYHOo3WGeJN+uT3WoZI7yljgx4x4/dlRro7euEnj2dwvmQg8oN3hNK8zscs7
+ tPJtYhsMP8kn/XVSlgrJDTkq9sOCmIAk7p3HgEREdtf7C+Yez5r9DYESK7IENjNmkUqb
+ RXcQ==
+X-Gm-Message-State: AOAM5303X9591948oXJqWzK/8IBOkElGxHbfQTaUr6i0PtH6QB2tJuPB
+ lwETRhaLq6bG9rWAN3IYXVD2FJU/6EZdcuTxmaA=
+X-Google-Smtp-Source: ABdhPJxq+68V+BOMh1IgcRFJs39DBGyTU5bs6wA5T2GbE70QOJTbTRF8+wpLfIscwM3esngo7jzEGCCQWYxpP1filtM=
+X-Received: by 2002:a05:6e02:1044:: with SMTP id
+ p4mr29029202ilj.227.1629871174489; 
+ Tue, 24 Aug 2021 22:59:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="6cfQJO1XpXs2LGLv"
-Content-Disposition: inline
-In-Reply-To: <20210824163032.394099-11-danielhb413@gmail.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: 1
-X-Spam_score: 0.1
-X-Spam_bar: /
-X-Spam_report: (0.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210819051209.17237-1-david@salt-inc.org>
+In-Reply-To: <20210819051209.17237-1-david@salt-inc.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 25 Aug 2021 15:59:08 +1000
+Message-ID: <CAKmqyKON3ZuDT7-FYQ7K__uGG8T3ZZ53XHONXjvBcshE+bgZPA@mail.gmail.com>
+Subject: Re: [PATCH v3] hw/intc/sifive_clint: Fix overflow in
+ sifive_clint_write_timecmp()
+To: David Hoppenbrouwers <david@salt-inc.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12e;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12e.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,309 +77,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gustavo.romero@linaro.org, Gustavo Romero <gromero@linux.ibm.com>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:SiFive Machines" <qemu-riscv@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---6cfQJO1XpXs2LGLv
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Aug 24, 2021 at 01:30:26PM -0300, Daniel Henrique Barboza wrote:
-> From: Gustavo Romero <gromero@linux.ibm.com>
->=20
-> Following up the rfebb implementation, this patch adds the EBB exception
-> support that are triggered by Performance Monitor alerts. This exception
-> occurs when an enabled PMU condition or event happens and both MMCR0_EBE
-> and BESCR_PME are set.
->=20
-> The supported PM alerts will consist of counter negative conditions of
-> the PMU counters. This will be achieved by a timer mechanism that will
-> predict when a counter becomes negative. The PMU timer callback will set
-> the appropriate bits in MMCR0 and fire a PMC interrupt. The EBB
-> exception code will then set the appropriate BESCR bits, set the next
-> instruction pointer to the address pointed by the return register
-> (SPR_EBBRR), and redirect execution to the handler (pointed by
-> SPR_EBBHR).
->=20
-> This patch sets the basic structure of interrupts and timers. The
-> following patches will add the counter negative logic for the
-> registers.
-
-A timer makes sense for tripping cycles based EBB events.  But for
-instructions based EBB events, shouldn't you instead have a test in
-the update instructions path which trips the event if you've passed
-the magic number?
-
->=20
-> CC: Gustavo Romero <gustavo.romero@linaro.org>
-> Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+On Thu, Aug 19, 2021 at 3:19 PM David Hoppenbrouwers <david@salt-inc.org> wrote:
+>
+> `muldiv64` would overflow in cases where the final 96-bit value does not
+> fit in a `uint64_t`. This would result in small values that cause an
+> interrupt to be triggered much sooner than intended.
+>
+> The overflow can be detected in most cases by checking if the new value is
+> smaller than the previous value. If the final result is larger than
+> `diff` it is either correct or it doesn't matter as it is effectively
+> infinite anyways.
+>
+> `next` is an `uint64_t` value, but `timer_mod` takes an `int64_t`. This
+> resulted in high values such as `UINT64_MAX` being converted to `-1`,
+> which caused an immediate timer interrupt.
+>
+> By limiting `next` to `INT64_MAX` no overflow will happen while the
+> timer will still be effectively set to "infinitely" far in the future.
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/493
+> Signed-off-by: David Hoppenbrouwers <david@salt-inc.org>
 > ---
->  hw/ppc/spapr_cpu_core.c  |  6 ++++++
->  target/ppc/cpu.h         | 12 +++++++++++-
->  target/ppc/excp_helper.c | 28 +++++++++++++++++++++++++++
->  target/ppc/power8_pmu.c  | 41 ++++++++++++++++++++++++++++++++++++++++
->  target/ppc/power8_pmu.h  | 25 ++++++++++++++++++++++++
->  5 files changed, 111 insertions(+), 1 deletion(-)
->  create mode 100644 target/ppc/power8_pmu.h
->=20
-> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-> index 4f316a6f9d..c7a342c4aa 100644
-> --- a/hw/ppc/spapr_cpu_core.c
-> +++ b/hw/ppc/spapr_cpu_core.c
-> @@ -20,6 +20,7 @@
->  #include "target/ppc/kvm_ppc.h"
->  #include "hw/ppc/ppc.h"
->  #include "target/ppc/mmu-hash64.h"
-> +#include "target/ppc/power8_pmu.h"
->  #include "sysemu/numa.h"
->  #include "sysemu/reset.h"
->  #include "sysemu/hw_accel.h"
-> @@ -266,6 +267,11 @@ static bool spapr_realize_vcpu(PowerPCCPU *cpu, Spap=
-rMachineState *spapr,
->          return false;
->      }
-> =20
-> +    /* Init PMU interrupt timer (TCG only) */
-> +    if (!kvm_enabled()) {
-> +        cpu_ppc_pmu_timer_init(env);
-> +    }
-> +
->      if (!sc->pre_3_0_migration) {
->          vmstate_register(NULL, cs->cpu_index, &vmstate_spapr_cpu_state,
->                           cpu->machine_data);
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 9d5eb9ead4..535754ddff 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -129,8 +129,9 @@ enum {
->      /* ISA 3.00 additions */
->      POWERPC_EXCP_HVIRT    =3D 101,
->      POWERPC_EXCP_SYSCALL_VECTORED =3D 102, /* scv exception             =
-        */
-> +    POWERPC_EXCP_EBB =3D 103, /* Event-based branch exception           =
-       */
->      /* EOL                                                              =
-     */
-> -    POWERPC_EXCP_NB       =3D 103,
-> +    POWERPC_EXCP_NB       =3D 104,
->      /* QEMU exceptions: special cases we want to stop translation       =
-     */
->      POWERPC_EXCP_SYSCALL_USER =3D 0x203, /* System call in user mode onl=
-y      */
->  };
-> @@ -1047,6 +1048,8 @@ struct ppc_radix_page_info {
->  #define PPC_CPU_OPCODES_LEN          0x40
->  #define PPC_CPU_INDIRECT_OPCODES_LEN 0x20
-> =20
-> +#define PMU_TIMERS_LEN 5
-> +
->  struct CPUPPCState {
->      /* Most commonly used resources during translated code execution fir=
-st */
->      target_ulong gpr[32];  /* general purpose registers */
-> @@ -1208,6 +1211,12 @@ struct CPUPPCState {
->       * running cycles.
->       */
->      uint64_t pmu_base_time;
+> I did not account for the multiplication overflow mentioned in the bug
+> report. I've amended the patch and I do not spot any erroneous interrupts
+> anymore.
+>
+> I see that the previous patch already got applied to
+> riscv-to-apply.next. Do I need to create a new patch?
+
+I have just removed that patch, so this is fine.
+
+>
+> David
+>
+>  hw/intc/sifive_clint.c | 19 +++++++++++++++++--
+>  1 file changed, 17 insertions(+), 2 deletions(-)
+>
+> diff --git a/hw/intc/sifive_clint.c b/hw/intc/sifive_clint.c
+> index 0f41e5ea1c..aa76e639a9 100644
+> --- a/hw/intc/sifive_clint.c
+> +++ b/hw/intc/sifive_clint.c
+> @@ -59,8 +59,23 @@ static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value,
+>      riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(0));
+>      diff = cpu->env.timecmp - rtc_r;
+>      /* back to ns (note args switched in muldiv64) */
+> -    next = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
+> -        muldiv64(diff, NANOSECONDS_PER_SECOND, timebase_freq);
+> +    uint64_t ns_diff = muldiv64(diff, NANOSECONDS_PER_SECOND, timebase_freq);
 > +
 > +    /*
-> +     * Timers used to fire performance monitor alerts and
-> +     * interrupts. All PMCs but PMC5 has a timer.
+> +     * check if ns_diff overflowed and check if the addition would potentially
+> +     * overflow
 > +     */
-> +    QEMUTimer *pmu_intr_timers[PMU_TIMERS_LEN];
->  };
-> =20
->  #define SET_FIT_PERIOD(a_, b_, c_, d_)          \
-> @@ -2424,6 +2433,7 @@ enum {
->      PPC_INTERRUPT_HMI,            /* Hypervisor Maintenance interrupt   =
- */
->      PPC_INTERRUPT_HDOORBELL,      /* Hypervisor Doorbell interrupt      =
-  */
->      PPC_INTERRUPT_HVIRT,          /* Hypervisor virtualization interrupt=
-  */
-> +    PPC_INTERRUPT_PMC,            /* Performance Monitor Counter interru=
-pt */
->  };
-> =20
->  /* Processor Compatibility mask (PCR) */
-> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-> index 058b063d8a..e97898c5f4 100644
-> --- a/target/ppc/excp_helper.c
-> +++ b/target/ppc/excp_helper.c
-> @@ -821,6 +821,22 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int=
- excp_model, int excp)
->          cpu_abort(cs, "Non maskable external exception "
->                    "is not implemented yet !\n");
->          break;
-> +    case POWERPC_EXCP_EBB:       /* Event-based branch exception        =
-     */
-> +        if ((env->spr[SPR_BESCR] & BESCR_GE) &&
-> +            (env->spr[SPR_BESCR] & BESCR_PME)) {
-> +            target_ulong nip;
-> +
-> +            env->spr[SPR_BESCR] &=3D ~BESCR_GE;   /* Clear GE */
-> +            env->spr[SPR_BESCR] |=3D BESCR_PMEO;  /* Set PMEO */
-> +            env->spr[SPR_EBBRR] =3D env->nip;     /* Save NIP for rfebb =
-insn */
-> +            nip =3D env->spr[SPR_EBBHR];          /* EBB handler */
-> +            powerpc_set_excp_state(cpu, nip, env->msr);
-> +        }
+> +    if ((NANOSECONDS_PER_SECOND > timebase_freq && ns_diff < diff) ||
+> +        ns_diff > INT64_MAX) {
+> +        next = INT64_MAX;
+> +    } else {
 > +        /*
-> +         * This interrupt is handled by userspace. No need
-> +         * to proceed.
+> +         * as it is very unlikely qemu_clock_get_ns will return a value
+> +         * greater than INT64_MAX, no additional check is needed.
 > +         */
-> +        return;
->      default:
->      excp_invalid:
->          cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
-> @@ -1068,6 +1084,18 @@ static void ppc_hw_interrupt(CPUPPCState *env)
->              powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_THERM);
->              return;
->          }
-> +        /* PMC -> Event-based branch exception */
-> +        if (env->pending_interrupts & (1 << PPC_INTERRUPT_PMC)) {
-> +            /*
-> +             * Performance Monitor event-based exception can only
-> +             * occur in problem state.
-> +             */
-> +            if (msr_pr =3D=3D 1) {
-> +                env->pending_interrupts &=3D ~(1 << PPC_INTERRUPT_PMC);
-> +                powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_EBB);
-> +                return;
-> +            }
-> +        }
->      }
-> =20
->      if (env->resume_as_sreset) {
-> diff --git a/target/ppc/power8_pmu.c b/target/ppc/power8_pmu.c
-> index 4545fe7810..a57b602125 100644
-> --- a/target/ppc/power8_pmu.c
-> +++ b/target/ppc/power8_pmu.c
-> @@ -12,12 +12,14 @@
-> =20
->  #include "qemu/osdep.h"
-> =20
-> +#include "power8_pmu.h"
->  #include "cpu.h"
->  #include "helper_regs.h"
->  #include "exec/exec-all.h"
->  #include "exec/helper-proto.h"
->  #include "qemu/error-report.h"
->  #include "qemu/main-loop.h"
-> +#include "hw/ppc/ppc.h"
-> =20
->  #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
-> =20
-> @@ -114,6 +116,45 @@ static void update_cycles_PMCs(CPUPPCState *env)
->      }
+> +        next = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + ns_diff;
+
+What if ns_diff is INT64_MAX, won't this overflow?
+
+Alistair
+
+> +    }
+> +
+>      timer_mod(cpu->env.timer, next);
 >  }
-> =20
-> +static void cpu_ppc_pmu_timer_cb(void *opaque)
-> +{
-> +    PowerPCCPU *cpu =3D opaque;
-> +    CPUPPCState *env =3D &cpu->env;
-> +    uint64_t mmcr0;
-> +
-> +    mmcr0 =3D env->spr[SPR_POWER_MMCR0];
-> +    if (env->spr[SPR_POWER_MMCR0] & MMCR0_EBE) {
-> +        /* freeeze counters if needed */
-> +        if (mmcr0 & MMCR0_FCECE) {
-> +            mmcr0 &=3D ~MMCR0_FCECE;
-> +            mmcr0 |=3D MMCR0_FC;
-> +        }
-> +
-> +        /* Clear PMAE and set PMAO */
-> +        if (mmcr0 & MMCR0_PMAE) {
-> +            mmcr0 &=3D ~MMCR0_PMAE;
-> +            mmcr0 |=3D MMCR0_PMAO;
-> +        }
-> +        env->spr[SPR_POWER_MMCR0] =3D mmcr0;
-> +
-> +        /* Fire the PMC hardware exception */
-> +        ppc_set_irq(cpu, PPC_INTERRUPT_PMC, 1);
-> +    }
-> +}
-> +
-> +void cpu_ppc_pmu_timer_init(CPUPPCState *env)
-> +{
-> +    PowerPCCPU *cpu =3D env_archcpu(env);
-> +    QEMUTimer *timer;
-> +    int i;
-> +
-> +    for (i =3D 0; i < PMU_TIMERS_LEN; i++) {
-> +        timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, &cpu_ppc_pmu_timer_cb,
-> +                             cpu);
-> +        env->pmu_intr_timers[i] =3D timer;
-> +    }
-> +}
-> +
->  void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
->  {
->      target_ulong curr_value =3D env->spr[SPR_POWER_MMCR0];
-> diff --git a/target/ppc/power8_pmu.h b/target/ppc/power8_pmu.h
-> new file mode 100644
-> index 0000000000..34a9d0e8a2
-> --- /dev/null
-> +++ b/target/ppc/power8_pmu.h
-> @@ -0,0 +1,25 @@
-> +/*
-> + * PMU emulation helpers for TCG IBM POWER chips
-> + *
-> + *  Copyright IBM Corp. 2021
-> + *
-> + * Authors:
-> + *  Daniel Henrique Barboza      <danielhb413@gmail.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-> + * See the COPYING file in the top-level directory.
-> + */
-> +
-> +#ifndef PMU_BOOK3S_HELPER
-> +#define PMU_BOOK3S_HELPER
-> +
-> +#include "qemu/osdep.h"
-> +#include "cpu.h"
-> +#include "exec/exec-all.h"
-> +#include "exec/helper-proto.h"
-> +#include "qemu/error-report.h"
-> +#include "qemu/main-loop.h"
-> +
-> +void cpu_ppc_pmu_timer_init(CPUPPCState *env);
-> +
-> +#endif
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---6cfQJO1XpXs2LGLv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEl1w4ACgkQbDjKyiDZ
-s5Jh6RAAtV03GMHUx6eC6szB/pNbEcOmoxfRub4pdMbtEr2KQArHb4pJ5bByPKpV
-3wBO6hr+U08Q0qPI/noCdbJ4A6SXu/nkYdAeFtFWpQTpa7DlVoJZvPuCx+yxBa+B
-Mp2Mf2BogwcXqLYavBwmffa+fRQCUw80VT7w4eLwt4Gks74FDXEbEF0IVLDPQ2+x
-Ra6WowBZ6t34CIBGnoMFbLZgV6m9G+b+X3D94EbltGxYp6ACCHMcDYwt7FgsnuYx
-3SQMbL/Cnkh66c7+pp2NNuCZnUI7qca7uk5RUm4tHnvmI6CPhztlrOHiBbSrBfre
-hxQ48mgFMHvsA3EXyO1yxfpaN++/YQQuaFh0JcViCGPBNfwUTpe/T1YXNwkzOa6M
-Rhk0aH1owg65CSi1JhRojgB4DiZdx9Mn3EKGtxorac9dv4CXw6N/xVqsQsefkvJk
-C7pQrvfjJrXWTpcltiQUCaHlvBX8J/7+yKMQPCYtHJ7s4svbrTya+cDa1OGP/elV
-WOCkzHoYRwEVlK8oVe2Vbh4ZBK1V3FOKI3EKUkXFlbu+aYsTig2POZBxKmC/WNcc
-RT6MSQmpdBw+0b9fBwgYqFjKHJi6WKNSY4chh0Bh9YlmM2NEfF2BxgijuknX7xmv
-S+BrxfVHsoG63Gstw90WUq0YrkFBzkt7HHDiLy/1MqXFZBwD5PM=
-=cxeG
------END PGP SIGNATURE-----
-
---6cfQJO1XpXs2LGLv--
+>
+> --
+> 2.20.1
+>
+>
 
