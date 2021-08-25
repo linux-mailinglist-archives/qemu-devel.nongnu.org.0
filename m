@@ -2,50 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B53173F6FAB
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 08:38:10 +0200 (CEST)
-Received: from localhost ([::1]:42886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6373F3F6F2C
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 08:09:54 +0200 (CEST)
+Received: from localhost ([::1]:48514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mImY5-0007lL-OJ
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 02:38:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45000)
+	id 1mIm6j-0007ot-FP
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 02:09:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mImRu-0001fN-R6; Wed, 25 Aug 2021 02:31:46 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:48361)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mImRq-00076i-MW; Wed, 25 Aug 2021 02:31:46 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GvbjP5gHLz9sWd; Wed, 25 Aug 2021 16:31:37 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1629873097;
- bh=QnMZA1gfGRdzmua2zlaKa6J0d3dyZPsKeHsCz5BmF8U=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Isjg+hGffo203VHdf5zhI8vSvdMY4KFAT0ivttf3VfSLtmcB9nySQLwuJ+ho124sf
- PuMvHPe95KfpCx8WzkVWfOV+5rW7BHRt4tqD/PQC3kVgqr8n5/3U5QdtLE1K9C4lSJ
- 0AqQG1YKKfaB3UrEuetmAbfTLd97T3ZnTnrSOWfQ=
-Date: Wed, 25 Aug 2021 16:06:48 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 12/26] ppc/pnv: Add a OCC model for POWER10
-Message-ID: <YSXd+C8IBxgbRd6L@yekko>
-References: <20210809134547.689560-1-clg@kaod.org>
- <20210809134547.689560-13-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mIm5N-0006rC-1g; Wed, 25 Aug 2021 02:08:29 -0400
+Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:39930)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mIm5K-0004sI-JL; Wed, 25 Aug 2021 02:08:28 -0400
+Received: by mail-io1-xd2d.google.com with SMTP id a21so29412192ioq.6;
+ Tue, 24 Aug 2021 23:08:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ULsfIXMbB6cyq1ZPYDmEy4P2lNn2Vn6BNcjwR6EdJws=;
+ b=tackXS4IKfi5sZ1sKYHXz3HSp8HtyGLjARatMExMuCVxn7b1ZylQ6ZDmBnu91+k6Z1
+ kXLYCvgqS3XWaITJ7ZUk1Lw7Kn/qblvOTOUumLzFETd8wfWCC0ej2+KTRGsjTW1vksNA
+ vGAtJXp4G5M0LFRdyXGwjVto2fcU9ecjfwJrp7DLlW70UeGVOlt0JIv91dG+nCoPyfcW
+ GL+w8L2hyKRiUfRqXqxQG5easZK3RKFdQHfr7TKLsBZispvLW3FOQP4BmbPgFRLCi2wL
+ LlnCY1NLaIaNAs2KHbe6YzAZ7ahc5dk6ZgV58BBPYOTH1/7coY0ZfacdMfV/qTbOVjMU
+ cAcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ULsfIXMbB6cyq1ZPYDmEy4P2lNn2Vn6BNcjwR6EdJws=;
+ b=l6s7Uzgy8BzSNtKt4OGfjZHldFkozotHfEoK+UJ30SaJqUTpzdEgyISjXQdQlbresM
+ v5yCV5wFu6whUbLr/aAhBQnrdBu7uXzSoY/0KQ9At3jkKWnrEBlL80lq+8DntEfW7Z4g
+ M056v2qWklycLv0LUtCfD/m0TpA1DAYVkAQgovF+LDssio4OfIWbax+RmJGVivFHa96u
+ FGP2BA8HV8FDx67A0ZwfdBHVMuM43WFV9q47EGGsLa3viYY8zrrkMTn8/L0LilvFyPM/
+ PyM1AtSrhAPOWkOvCcQM8Xt+PctbUbCDTulBbHxO48R47dGOVI1XGMSHSuiQS01s9vSd
+ 95ow==
+X-Gm-Message-State: AOAM532iP97z+nGcXTucnsbV9zpcjB2acds9f2UZ+tQBo4O/ma8/K+Cq
+ 1z2nwNvCrZErJ6KDSGaF2qeypKQU0ZEBSj+700I=
+X-Google-Smtp-Source: ABdhPJwZie7wDuYtAGRsbp6nxk2yF/7AjNFZHgyEnbLJQWZnfWTRv2iX4W9WEWJ2sUH3GOltEFf1bcJrwa/YF8pNSno=
+X-Received: by 2002:a5d:8e19:: with SMTP id e25mr35031855iod.175.1629871705259; 
+ Tue, 24 Aug 2021 23:08:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="inUUuPcegtpYWfgj"
-Content-Disposition: inline
-In-Reply-To: <20210809134547.689560-13-clg@kaod.org>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
+References: <20210823195529.560295-1-richard.henderson@linaro.org>
+ <20210823195529.560295-14-richard.henderson@linaro.org>
+In-Reply-To: <20210823195529.560295-14-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 25 Aug 2021 16:07:59 +1000
+Message-ID: <CAKmqyKOQh7rQ15OQGerzCSeLp2szq42RqvYN+WddCB6Whz89iA@mail.gmail.com>
+Subject: Re: [PATCH v5 13/24] target/riscv: Use extracts for sraiw and srliw
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2d.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,173 +76,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Aug 24, 2021 at 6:05 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> These operations can be done in one instruction on some hosts.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
---inUUuPcegtpYWfgj
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-On Mon, Aug 09, 2021 at 03:45:33PM +0200, C=E9dric Le Goater wrote:
-> Our OCC model is very mininal and POWER10 can simply reuse the OCC
-> model we introduced for POWER9.
->=20
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Alistair
 
 > ---
->  include/hw/ppc/pnv.h       |  1 +
->  include/hw/ppc/pnv_occ.h   |  2 ++
->  include/hw/ppc/pnv_xscom.h |  3 +++
->  hw/ppc/pnv.c               | 10 ++++++++++
->  hw/ppc/pnv_occ.c           | 16 ++++++++++++++++
->  5 files changed, 32 insertions(+)
->=20
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index b773b09f9f8e..a299fbc7f25c 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -127,6 +127,7 @@ struct Pnv10Chip {
->      PnvXive2     xive;
->      Pnv9Psi      psi;
->      PnvLpcController lpc;
-> +    PnvOCC       occ;
->  };
-> =20
->  #define PNV10_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
-> diff --git a/include/hw/ppc/pnv_occ.h b/include/hw/ppc/pnv_occ.h
-> index b78185aecaf2..f982ba002481 100644
-> --- a/include/hw/ppc/pnv_occ.h
-> +++ b/include/hw/ppc/pnv_occ.h
-> @@ -32,6 +32,8 @@ DECLARE_INSTANCE_CHECKER(PnvOCC, PNV8_OCC,
->  #define TYPE_PNV9_OCC TYPE_PNV_OCC "-POWER9"
->  DECLARE_INSTANCE_CHECKER(PnvOCC, PNV9_OCC,
->                           TYPE_PNV9_OCC)
-> +#define TYPE_PNV10_OCC TYPE_PNV_OCC "-POWER10"
-> +DECLARE_INSTANCE_CHECKER(PnvOCC, PNV10_OCC, TYPE_PNV10_OCC)
-> =20
->  #define PNV_OCC_SENSOR_DATA_BLOCK_OFFSET 0x00580000
->  #define PNV_OCC_SENSOR_DATA_BLOCK_SIZE   0x00025800
-> diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
-> index 188da874a4b0..151df15378d1 100644
-> --- a/include/hw/ppc/pnv_xscom.h
-> +++ b/include/hw/ppc/pnv_xscom.h
-> @@ -131,6 +131,9 @@ struct PnvXScomInterfaceClass {
->  #define PNV10_XSCOM_PSIHB_BASE     0x3011D00
->  #define PNV10_XSCOM_PSIHB_SIZE     0x100
-> =20
-> +#define PNV10_XSCOM_OCC_BASE       PNV9_XSCOM_OCC_BASE
-> +#define PNV10_XSCOM_OCC_SIZE       PNV9_XSCOM_OCC_SIZE
-> +
->  #define PNV10_XSCOM_XIVE2_BASE     0x2010800
->  #define PNV10_XSCOM_XIVE2_SIZE     0x400
-> =20
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 28c928b3985a..f75d90e61fa8 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -1602,6 +1602,7 @@ static void pnv_chip_power10_instance_init(Object *=
-obj)
->                                "xive-fabric");
->      object_initialize_child(obj, "psi", &chip10->psi, TYPE_PNV10_PSI);
->      object_initialize_child(obj, "lpc", &chip10->lpc, TYPE_PNV10_LPC);
-> +    object_initialize_child(obj, "occ",  &chip10->occ, TYPE_PNV10_OCC);
+>  target/riscv/insn_trans/trans_rvi.c.inc | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
+>
+> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+> index e4726e618c..9e8d99be51 100644
+> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+> @@ -347,18 +347,28 @@ static bool trans_slliw(DisasContext *ctx, arg_slliw *a)
+>      return gen_shift_imm_fn(ctx, a, EXT_NONE, tcg_gen_shli_tl);
 >  }
-> =20
->  static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
-> @@ -1667,6 +1668,15 @@ static void pnv_chip_power10_realize(DeviceState *=
-dev, Error **errp)
->      chip->fw_mr =3D &chip10->lpc.isa_fw;
->      chip->dt_isa_nodename =3D g_strdup_printf("/lpcm-opb@%" PRIx64 "/lpc=
-@0",
->                                              (uint64_t) PNV10_LPCM_BASE(c=
-hip));
-> +
-> +    /* Create the simplified OCC model */
-> +    object_property_set_link(OBJECT(&chip10->occ), "psi", OBJECT(&chip10=
-->psi),
-> +                             &error_abort);
-> +    if (!qdev_realize(DEVICE(&chip10->occ), NULL, errp)) {
-> +        return;
-> +    }
-> +    pnv_xscom_add_subregion(chip, PNV10_XSCOM_OCC_BASE,
-> +                            &chip10->occ.xscom_regs);
->  }
-> =20
->  static uint32_t pnv_chip_power10_xscom_pcba(PnvChip *chip, uint64_t addr)
-> diff --git a/hw/ppc/pnv_occ.c b/hw/ppc/pnv_occ.c
-> index 5a716c256edc..4ed66f5e1fcc 100644
-> --- a/hw/ppc/pnv_occ.c
-> +++ b/hw/ppc/pnv_occ.c
-> @@ -236,7 +236,9 @@ static const MemoryRegionOps pnv_occ_power9_xscom_ops=
- =3D {
->  static void pnv_occ_power9_class_init(ObjectClass *klass, void *data)
->  {
->      PnvOCCClass *poc =3D PNV_OCC_CLASS(klass);
-> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
-> =20
-> +    dc->desc =3D "PowerNV OCC Controller (POWER9)";
->      poc->xscom_size =3D PNV9_XSCOM_OCC_SIZE;
->      poc->xscom_ops =3D &pnv_occ_power9_xscom_ops;
->      poc->psi_irq =3D PSIHB9_IRQ_OCC;
-> @@ -249,6 +251,19 @@ static const TypeInfo pnv_occ_power9_type_info =3D {
->      .class_init    =3D pnv_occ_power9_class_init,
->  };
-> =20
-> +static void pnv_occ_power10_class_init(ObjectClass *klass, void *data)
+>
+> +static void gen_srliw(TCGv dst, TCGv src, target_long shamt)
 > +{
-> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
-> +
-> +    dc->desc =3D "PowerNV OCC Controller (POWER10)";
+> +    tcg_gen_extract_tl(dst, src, shamt, 32 - shamt);
 > +}
 > +
-> +static const TypeInfo pnv_occ_power10_type_info =3D {
-> +    .name          =3D TYPE_PNV10_OCC,
-> +    .parent        =3D TYPE_PNV9_OCC,
-> +    .class_init    =3D pnv_occ_power10_class_init,
-> +};
-> +
->  static void pnv_occ_realize(DeviceState *dev, Error **errp)
+>  static bool trans_srliw(DisasContext *ctx, arg_srliw *a)
 >  {
->      PnvOCC *occ =3D PNV_OCC(dev);
-> @@ -297,6 +312,7 @@ static void pnv_occ_register_types(void)
->      type_register_static(&pnv_occ_type_info);
->      type_register_static(&pnv_occ_power8_type_info);
->      type_register_static(&pnv_occ_power9_type_info);
-> +    type_register_static(&pnv_occ_power10_type_info);
+>      REQUIRE_64BIT(ctx);
+>      ctx->w = true;
+> -    return gen_shift_imm_fn(ctx, a, EXT_ZERO, tcg_gen_shri_tl);
+> +    return gen_shift_imm_fn(ctx, a, EXT_NONE, gen_srliw);
+> +}
+> +
+> +static void gen_sraiw(TCGv dst, TCGv src, target_long shamt)
+> +{
+> +    tcg_gen_sextract_tl(dst, src, shamt, 32 - shamt);
 >  }
-> =20
->  type_init(pnv_occ_register_types);
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---inUUuPcegtpYWfgj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEl3fgACgkQbDjKyiDZ
-s5Ke6g//RQ0cOyvNslWXro/NbweGwNZP9Qk8eYBL141J9t4cKoE4EUo5srvjNQ97
-GV6QHWkGfdXqCCs7RbQgPQS/sIsYym82DBm4WgG8i7P3v+FvTj8l0zXBSWz1sLzE
-XbBIwvNllmvai1Hjvags6kVZy015kD/jhd2nTjxK8liYaPPuQeyTkNAGPqWG3ZTu
-7dCMfKOa/smlbxo/L2wcNWwk8jUBVXWKKqlpYJBJSVl1/JKPHQEZt543khXukeam
-QKzRXZj7TxqyNBG9XmN2cme3Bmy6Xv9Uh85TuEYk2tMQpoJ3IZbaAcQ752u2qxtD
-wliUnswXor3kIj4G+Ac1mH6+JFNwPDobbizWc5DTl4qybbSPBnR3rfjRvjldvyjM
-yHsu4aqAQfkZ0QP9F+cXYDiOzqID1WyRFhEUG+CgQayFnKu6M5wTPluOuM7K3Fag
-gb148VM1AT0+3aIotyh6KSaRDo8lEjY06TSZDSBUNsA4+nbJxiLaAX/ORApbWBPL
-sAPG25AMt0gzVEzkpRGLwVRpORP65gNOixI1w1sWIqXt7DUycgJtVT0sVHWvIykD
-CbCDOKq+c0JJD54B7E/y9lKZt0LIyDcrjDL9JFEPWMao07jMTX1tzzVmBuUngvTz
-Gexp3IjK5EOSxp7IslWV68KFGqhwkzUqcKFc+NH/s8pz53xS6V0=
-=5ffP
------END PGP SIGNATURE-----
-
---inUUuPcegtpYWfgj--
+>
+>  static bool trans_sraiw(DisasContext *ctx, arg_sraiw *a)
+>  {
+>      REQUIRE_64BIT(ctx);
+>      ctx->w = true;
+> -    return gen_shift_imm_fn(ctx, a, EXT_SIGN, tcg_gen_sari_tl);
+> +    return gen_shift_imm_fn(ctx, a, EXT_NONE, gen_sraiw);
+>  }
+>
+>  static bool trans_addw(DisasContext *ctx, arg_addw *a)
+> --
+> 2.25.1
+>
+>
 
