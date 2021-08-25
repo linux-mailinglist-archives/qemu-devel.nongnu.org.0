@@ -2,65 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C357D3F7713
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 16:23:31 +0200 (CEST)
-Received: from localhost ([::1]:34850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE9383F7786
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 16:37:31 +0200 (CEST)
+Received: from localhost ([::1]:45012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mItoG-0004wV-TX
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 10:23:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38586)
+	id 1mIu1y-00043g-79
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 10:37:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mItms-0003lQ-S7
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 10:21:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33973)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mIu0r-0003EW-93
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 10:36:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mItmq-0006r8-UA
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 10:21:54 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mIu0o-0004cD-CM
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 10:36:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629901312;
+ s=mimecast20190719; t=1629902176;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=TvGnJPU5Wbb8imQqQOMANo/AZ0oxg9H9ViHFBV4SBG0=;
- b=Kt06KbCOInQA1GXmQ7vA3LFZOsDjNcCG0YHhU9nTr41wvyUZo5ABeCBZvONMNeymyZUdvU
- UdJPQ4iTuJlFLuSmoeVV3xPhm4tzmmFSv/Iw3gFNTKI07Xsn1jQ2wnW5rMMrvyXlHO0Ex6
- 7GCZsBMv8c6CDFavVdUmsdhugqLYxeE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-447-SugC2KifPgqlCIkMrqTgyg-1; Wed, 25 Aug 2021 10:21:49 -0400
-X-MC-Unique: SugC2KifPgqlCIkMrqTgyg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 249CE801E72;
- Wed, 25 Aug 2021 14:21:48 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.111])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6DB3C3CC7;
- Wed, 25 Aug 2021 14:21:47 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] scripts: Remove the "show-fixed-bugs.sh" file
-Date: Wed, 25 Aug 2021 16:21:43 +0200
-Message-Id: <20210825142143.142037-1-thuth@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EpIWdKvEv/5y1gxyhAAq/8mMwN9F1cpQqDt/RRYd+ok=;
+ b=d4liIzz4fz96BGx/dkNQxCHqqSeU5y536r5liCb+vVDqMF8YEKKgRLGMw+fwZi7BtcMD/4
+ Q9WN+tvz+uCkB1sslQFBUfCs96vTBxxUJll5S0CMHrAMhGeWh4urOiMCe86mKu/ZXSJMIE
+ t3aVOrjx4qfg2cGTQIYYKvHHI0yAvbY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-543-FRHQKOTxO9Kj82pGRj2hZQ-1; Wed, 25 Aug 2021 10:36:14 -0400
+X-MC-Unique: FRHQKOTxO9Kj82pGRj2hZQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ j33-20020a05600c48a100b002e879427915so1872770wmp.5
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 07:36:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EpIWdKvEv/5y1gxyhAAq/8mMwN9F1cpQqDt/RRYd+ok=;
+ b=crE3jI8Gh/sl0wi7HDNd5UAjvpowSjHW2VjnsnFpJwDIYiF41u5SvcezOsu7xKG8kR
+ yPBctxpAgcd+yrZjqRDQNHaoR2Ci0mN2B+vvQgIVq6dYAjLNroio1K5BFsnPbsTG/j9t
+ GWgqlvlywt2j8ZUWEImuai5w8Y+ofNdXDzeH6fHXbhWI/zJctv4Z7754B8cKrezdkzOI
+ WqufZ2QRmu1/CWvOozOxq8w4on/gsgWas90EXRl7OkNL+BdCGMpIuKnr05MDz7hEUMb6
+ 99vXtiYxbLOlQIQqpPN6a56fGQci8mcy9ZWRZ6HBALHCSphwMnIS+aXYFDSxqD3NZD0D
+ 0t3Q==
+X-Gm-Message-State: AOAM533TdUI89PgXhKTzvkPbtU7vAfYPk4Gs78xG6Yrzn5sO2zPbBiLv
+ cWVX8ZkmiowJJxjUfoOQ7AiQuZeMlIrIy81WwW0tPUdmGLe3anFtX/4efFs9jrGzi3hrzfM4JgD
+ FxxKhSOdaqC0oWdM=
+X-Received: by 2002:adf:82a8:: with SMTP id 37mr3917378wrc.123.1629902172313; 
+ Wed, 25 Aug 2021 07:36:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz1tIv6ZYNVy5MZ1Nu4o7o6He6sp1kMm9G1Rlq7nuTuqmWI7qXDR0WZ/CXMSwJOUYWC0ylkBg==
+X-Received: by 2002:adf:82a8:: with SMTP id 37mr3917343wrc.123.1629902172019; 
+ Wed, 25 Aug 2021 07:36:12 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id z17sm116941wrh.4.2021.08.25.07.36.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Aug 2021 07:36:11 -0700 (PDT)
+Subject: Re: [PATCH] scripts: Remove the "show-fixed-bugs.sh" file
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20210825142143.142037-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <0653e552-8939-f947-0fbb-1394ec61de30@redhat.com>
+Date: Wed, 25 Aug 2021 16:36:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210825142143.142037-1-thuth@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.745,
+X-Spam_score_int: -57
+X-Spam_score: -5.8
+X-Spam_bar: -----
+X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.745,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.24, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,113 +101,16 @@ Cc: qemu-trivial@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since we are not using Launchpad anymore, there is no more need for
-this script.
+On 8/25/21 4:21 PM, Thomas Huth wrote:
+> Since we are not using Launchpad anymore, there is no more need for
+> this script.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  scripts/show-fixed-bugs.sh | 91 --------------------------------------
+>  1 file changed, 91 deletions(-)
+>  delete mode 100755 scripts/show-fixed-bugs.sh
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- scripts/show-fixed-bugs.sh | 91 --------------------------------------
- 1 file changed, 91 deletions(-)
- delete mode 100755 scripts/show-fixed-bugs.sh
-
-diff --git a/scripts/show-fixed-bugs.sh b/scripts/show-fixed-bugs.sh
-deleted file mode 100755
-index a095a4d6ba..0000000000
---- a/scripts/show-fixed-bugs.sh
-+++ /dev/null
-@@ -1,91 +0,0 @@
--#!/bin/sh
--
--# This script checks the git log for URLs to the QEMU launchpad bugtracker
--# and optionally checks whether the corresponding bugs are not closed yet.
--
--show_help () {
--    echo "Usage:"
--    echo "  -s <commit>  : Start searching at this commit"
--    echo "  -e <commit>  : End searching at this commit"
--    echo "  -c           : Check if bugs are still open"
--    echo "  -b           : Open bugs in browser"
--}
--
--while getopts "s:e:cbh" opt; do
--   case "$opt" in
--    s)  start="$OPTARG" ;;
--    e)  end="$OPTARG" ;;
--    c)  check_if_open=1 ;;
--    b)  show_in_browser=1 ;;
--    h)  show_help ; exit 0 ;;
--    *)   echo "Use -h for help." ; exit 1 ;;
--   esac
--done
--
--if [ "x$start" = "x" ]; then
--    start=$(git tag -l 'v[0-9]*\.[0-9]*\.0' | tail -n 2 | head -n 1)
--fi
--if [ "x$end" = "x" ]; then
--    end=$(git tag -l  'v[0-9]*\.[0-9]*\.0' | tail -n 1)
--fi
--
--if [ "x$start" = "x" ] || [ "x$end" = "x" ]; then
--    echo "Could not determine start or end revision ... Please note that this"
--    echo "script must be run from a checked out git repository of QEMU."
--    exit 1
--fi
--
--echo "Searching git log for bugs in the range $start..$end"
--
--urlstr='https://bugs.launchpad.net/\(bugs\|qemu/+bug\)/'
--bug_urls=$(git log $start..$end \
--  | sed -n '\,'"$urlstr"', s,\(.*\)\('"$urlstr"'\)\([0-9]*\).*,\2\4,p' \
--  | sort -u)
--
--echo Found bug URLs:
--for i in $bug_urls ; do echo " $i" ; done
--
--if [ "x$check_if_open" = "x1" ]; then
--    echo
--    echo "Checking which ones are still open..."
--    for i in $bug_urls ; do
--        if ! curl -s -L "$i" | grep "value status" | grep -q "Fix Released" ; then
--            echo " $i"
--            final_bug_urls="$final_bug_urls $i"
--        fi
--    done
--else
--    final_bug_urls=$bug_urls
--fi
--
--if [ "x$final_bug_urls" = "x" ]; then
--    echo "No open bugs found."
--elif [ "x$show_in_browser" = "x1" ]; then
--    # Try to determine which browser we should use
--    if [ "x$BROWSER" != "x" ]; then
--        bugbrowser="$BROWSER"
--    elif command -v xdg-open >/dev/null 2>&1; then
--        bugbrowser=xdg-open
--    elif command -v gnome-open >/dev/null 2>&1; then
--        bugbrowser=gnome-open
--    elif [ "$(uname)" = "Darwin" ]; then
--        bugbrowser=open
--    elif command -v sensible-browser >/dev/null 2>&1; then
--        bugbrowser=sensible-browser
--    else
--        echo "Please set the BROWSER variable to the browser of your choice."
--        exit 1
--    fi
--    # Now show the bugs in the browser
--    first=1
--    for i in $final_bug_urls; do
--        "$bugbrowser" "$i"
--        if [ $first = 1 ]; then
--            # if it is the first entry, give the browser some time to start
--            # (to avoid messages like "Firefox is already running, but is
--            # not responding...")
--            sleep 4
--            first=0
--        fi
--    done
--fi
--- 
-2.27.0
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
