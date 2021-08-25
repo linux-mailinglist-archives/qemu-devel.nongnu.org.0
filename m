@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C6753F7643
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:47:10 +0200 (CEST)
-Received: from localhost ([::1]:45012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05EE73F7647
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:48:26 +0200 (CEST)
+Received: from localhost ([::1]:48320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mItFA-0006Lv-67
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:47:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58574)
+	id 1mItGJ-00006C-3k
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:48:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1mItBE-0005wl-0A
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:43:00 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1mItBF-000634-SK
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:43:01 -0400
 Received: from mail-dm6nam12on2127.outbound.protection.outlook.com
  ([40.107.243.127]:2657 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1mItBC-0000OG-6X
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:42:59 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1mItBE-0000OG-AY
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:43:01 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BEV6svc8WmtRLMHx1PBscodum4Q3wCzVdRdBBqROhpoNkEIH+5rxU02/2hktqnWrDAcdiJEmP0o3nTVY6uwnkXGwOjYUG2aHoNTsxKTDj+zrhTrOI/vYVN+4F/oOy/mGMnMOI8JThhzxP85zeSMol4fDewvOfx5yj0Ahc8QikdUodK2qfmNsreHoRxRQjFGuBFv5XIqHPo+xRCPaE5a9XNYtt0Y15gOQlSzlhnfoQ0DWHgf7fqPPQoRwBGRr9hK9YMzbhewn4zuLdcQrQoPH5tHsjg5P4NbM9jnSordUs3qnIpOERF2RNfZgcXIkTGX7esks0n/Z5stHXV3THNnt0A==
+ b=Gc/0C9pH9bE0/z6MV6P5Z07NCHYJQuNY+O0JQQpJeHLjmlJuGr/C3/lwb1i3/8GyrYWa+CFROx6qi+p3lz4YpnP6xF4pItpDZmjnMTC8UuRl9gdJWEJB0hZt28Rjag6JloTXzOmgXLSOB0SstlzBF30Vc2inezPyfdOx3/1HufRMAUotXPdba9cOYB1jc88sm23D9ifcLU+pwSvHdXuiO2oXTFVcvEpeP10x3nMtr2h6v9e/WLshDU9E5y6pTG91K3eiEZ8tpDrc8slzSO7Oqu7uIbluUW7+ra5fi1BcMykp6x4u2KBOKtEmCQO5fK/2HjCscDv5e6naeeoYiHmwKw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ViKyFqWQnUNATUV6hbSOgD+ZMIhOJoUIKxxvWtS8oG4=;
- b=IB7TeyOcpdM+rf/+g0BLnMlmm0SkjdU5nRDf344bnU256NG0Ryf9sQXFVy7/1oAv+HEqoM31Z4m74+pttXj+D0v3mTUU67v3/hppdfrSptfEER8tz0L5niwiJPfVlgFFxDjx9xrZpeHSNIiJGmea9tTSap99sNmmcnD67TvyuuOMQSe911tGZo++KzkOwCgbI05B6oM2wzOcWgmRZVxwDxp1vQwWZEqsA55phKgSUb0CQGjdBBSazTB4lSy1U32FGr7AuJnna+Ekrh4FhzF8PLrSRszKk95m9UIKpB6FQQbHMEFG9guE8K/WDjD6kSBabyThToDOmsYMVGF9xpAO2A==
+ bh=/K0LlkG26vz3DS946wlEBDOprWMRTfAlc0FJqw8l1LE=;
+ b=dG5Hg6VYGBQlsRytWv1bUs1X+q8UCAtFiuDZSGOJBejkNP5gKlQ448Bxeipx5DOAD8NkWfcje4CXg7Txypwd0a+FQCNlVU+e8Qu5fTdkLM24kxpPemc6FPjxWZnBxqj4AnZPFKIWooGUUWk2lcBnvszksKaoEWcfPShmqfgBP8MdeRQDt+5tgZJ//kDbgwROTJRZINPjT/dDlq5KQGSXW7VG7m1EGKj0p4d7Wckd+iM+YlQ02cTNRzfUVAJb4Qaz5lYnpFGll6WpPsBkL2/Nws0cALh9KG27tDvzMNxwLs4ACScKwoDJj+fnwWrzZLA0M6GI7cUEf7BXs9Q7XXMH3g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ViKyFqWQnUNATUV6hbSOgD+ZMIhOJoUIKxxvWtS8oG4=;
- b=AlZQfdiWW1+UstNTweiLOSaEZfLeXMeS9vMZL15jcjV69XI6zXIY/x3Sm/pt7pDG/09gpGwSVcZje//JQ7rmNvQIy0bjZ42NGBcIP2G9nGqX4GmaXgoOhUnsY/I9II7br0FE19wGRRUpntcwdU5Ua69pXqJDOnCmicQtxqQZUwg=
+ bh=/K0LlkG26vz3DS946wlEBDOprWMRTfAlc0FJqw8l1LE=;
+ b=o47e0ZuYlc38QJWQXAP2ZQVBbg8aOZG0mXf+6n5Wltj2+hG4/qgim7mpyfPMbSmbvEjkLhggzFSxI2O1iL/rXd9n55POrBHCBSpAdgHLyxMQ0apUGkakgbBclXT63UfurW2StsKu+liF8RzVBo6odrR4jOxb9RDlO3uYe15LC6o=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=bu.edu;
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
  by SN6PR03MB4399.namprd03.prod.outlook.com (2603:10b6:805:fe::20)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17; Wed, 25 Aug
- 2021 13:42:52 +0000
+ 2021 13:42:53 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::f6:2ec0:d576:8139]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::f6:2ec0:d576:8139%7]) with mapi id 15.20.4436.025; Wed, 25 Aug 2021
- 13:42:52 +0000
+ 13:42:53 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: Paolo Bonzini <pbonzini@redhat.com>,
 	qemu-devel@nongnu.org
-Subject: [PULL v2 6/8] fuzz: unblock SIGALRM so the timeout works
-Date: Wed, 25 Aug 2021 09:42:30 -0400
-Message-Id: <20210825134232.45074-7-alxndr@bu.edu>
+Subject: [PULL v2 7/8] MAINTAINERS: Add myself as a reviewer for Device Fuzzing
+Date: Wed, 25 Aug 2021 09:42:31 -0400
+Message-Id: <20210825134232.45074-8-alxndr@bu.edu>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210825134232.45074-1-alxndr@bu.edu>
 References: <20210825134232.45074-1-alxndr@bu.edu>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: MN2PR15CA0016.namprd15.prod.outlook.com
  (2603:10b6:208:1b4::29) To SN6PR03MB3871.namprd03.prod.outlook.com
  (2603:10b6:805:6d::32)
@@ -63,54 +63,61 @@ Received: from stormtrooper.vrmnet (72.74.210.193) by
  MN2PR15CA0016.namprd15.prod.outlook.com (2603:10b6:208:1b4::29) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.17 via Frontend
- Transport; Wed, 25 Aug 2021 13:42:51 +0000
+ Transport; Wed, 25 Aug 2021 13:42:52 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a83c9714-e89a-4974-609b-08d967ce3c0e
+X-MS-Office365-Filtering-Correlation-Id: 29b3390b-d305-48a8-af15-08d967ce3c88
 X-MS-TrafficTypeDiagnostic: SN6PR03MB4399:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB4399906B219782C6068421D7BAC69@SN6PR03MB4399.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2733;
+X-Microsoft-Antispam-PRVS: <SN6PR03MB43995A76527F5FE327414B98BAC69@SN6PR03MB4399.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: aEe7Y3yY3+bxL9AO1tl0fweetyhM7Jy8vIDwuXXBmkGPPWq5uX8iadYvkRMwnh2s1IbOHxZMc0dWlI/VB7RDpJfAythdvm904N8nlVA0s625BRBJmbIehf3QnSPDBPv5IbzK4MoQo5BK0o/ap0D6qyah879X/n2IhDjLoKMEELl1RwK2fp98h7sHH4ikWxGsate3S4fEAtxsaqUF4Lvgm2u2dyisQzzL/pPWMlCDtz8au/CfmFpFgJOnz17/c/MXG2auOrpiLdMpD2VkEtEtBSOweOZVxWm3gVWZLp0gEYQjnkphDR4qsQePCAuWq1V7fBWa/fvwc9rYJd13SsZw47odh9ZJk1urzdK9FU/+jngMJvpAlVj4OgINQHPGRXvjxGCsm9P+wGUnW6hKKjhJCFhHXd8U3iTQm6fwVxtANf9hdN+MYAenCQBCJkHnuUWD2APYPqjuzAVbYp3xucy4dy1Efvl0O4lSGM1u46mDpL5R5QHjnpTNl+hocyrtt1IJnzEwW1UC1thugnRIdncNGsqH9+vsC+jNd19xs+Hhu7zLVAM8vJfin2x3SoKOj1XIw14A2Ook//zdeXR+3dQyHwYcE1gUfrrVg6UizxryAxkrxyFy/sPOIjmD+9ZrzFbnVpX7ss4CccNR6XoV9KDXOKX0VgoG5MOOqec1TRHE9TuMt7sTEFFHp2UpMQs3/HsKrHoT8SEA5XVvw+vkDOXv8g==
+X-Microsoft-Antispam-Message-Info: bI2ZAXPROL7J4BvmH537tiTuIbnf9klnhoZKufT2d/RUMtqu7TLNp+BSAIt7/nug2+UAeQ4uWB7/bwkcmQuq2SHtKaGRx4K/TV62wm8/rY6Ra8axh3J5Fdqto/q/qMmZbfiswh3WdLmugEBvf84ssQomYWNlmJoV3UHybzYTU9uQh1+sLMO/OArVLz0625cl+IaiIc8KTJUEq6PQxadHXsM7+JijWQMgiVOfEgt0cmbCQScE81CHW8gdBXRONUgNXAg4hKP32WwrKEBVAkCTJhQkHBZ/B56FxKG/Fp8reR3csw27yNqwpLy/I843weKX1PupFX4kV993e3MAEJWSp2MVohNOfycOwSteAWba4oakctM5ZqlmGaTQFU0KKXufE3ofYt4FeQ1qdU+GiK3uRdGrOtY64YkmvBLff2mMnoFNBP1ji7zip4zKyHnk6lD95RgMJjj2IqERBPKOtRPdkss+zLWh1SjhPpTKDFd8mlRNG7JjNTqoDS02fBXEone5mwmJDfyxNRmpdgWzcXt9IIqBWjIp48Geg2QWV+8WDGUVZGP6LIwYQQKvBYLBv5CQk+UNHuWQK6ASxB0jKG2mxNNQ6+w28MhrYKUOR/j0T8Iw3uHHFMiyT1Kw3P6GJlhcqF9JigYDK+qpo7TMsTa5kxoq1ZvSA9VGKNghsjKI9ZmtzkksFIhIrloTpD36IgW6SG0hylkYuHmXc/ni/3w0gA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(376002)(396003)(346002)(366004)(39860400002)(66946007)(52116002)(66476007)(75432002)(86362001)(6486002)(2616005)(1076003)(956004)(8676002)(66556008)(8936002)(6512007)(36756003)(6666004)(83380400001)(4326008)(26005)(316002)(786003)(6506007)(54906003)(5660300002)(186003)(2906002)(38100700002)(38350700002)(478600001);
+ SFS:(4636009)(136003)(376002)(396003)(346002)(366004)(39860400002)(66946007)(52116002)(4744005)(66476007)(75432002)(86362001)(6486002)(2616005)(1076003)(956004)(8676002)(66556008)(8936002)(6512007)(36756003)(6666004)(4326008)(26005)(316002)(786003)(6506007)(54906003)(5660300002)(186003)(2906002)(38100700002)(38350700002)(478600001);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?MeW666zxAwzf1nPM0lXVmEuMaJNP6lYoBKf9r8l5bvHSrFcKYak9XK028Rpr?=
- =?us-ascii?Q?g/3sI5ACrl/ZEtIWcco3VNwh2+2wMXlPlFmSsHWW5yE5ESy5afRkvNBWeAhg?=
- =?us-ascii?Q?eCt6spfCGqNKPdBoaBiCaGNGS1F5Lj8OK9o7Mh4yLXAAsUggFiIxEhab2NHi?=
- =?us-ascii?Q?RNT4V4UTRoZ4F8t9zhHCfjpkaLQHLrCB7TB8KcLzm9L5tomzXeoDGtanJ6Ov?=
- =?us-ascii?Q?fBLQ5cGLqteHiAcMokAnayPQn9bjVQTuqEmti3miPXWeOmwZ++QjcC4vVz0s?=
- =?us-ascii?Q?/9SLP7WmN2QaG2P7SutlYs9v8NkeDhGptVJDz8Bm0zfG8XNIxTikYU/00sYQ?=
- =?us-ascii?Q?UGzMvYpjeO7py6GTrvrGKqO5bOVLFy6V/MGmy9j4wN/Quycg2qGLGrAxbATP?=
- =?us-ascii?Q?FnH2QxFHNZ1Rno3ST7PprPPN4lbcy6E4M2Ehc0hpF0prLL1vgCLSfB9t6Ttc?=
- =?us-ascii?Q?hJc4VJQtkzHW0ck/gxji4da+bIgtR3Ef+qkBvmZJTfiJPfWwfZEnEirigDsn?=
- =?us-ascii?Q?En2ksNqv46jUVgUeLXmm35SNOgRvjRoGZkojVMOxWqZvxudchqXemwa2nS3k?=
- =?us-ascii?Q?ZsaK5VdAFOA7igtOreqyqokOd9yrr7Z0mt+CTmYPeEhD1OHJMpDq3PZT87WE?=
- =?us-ascii?Q?5ohC45PgC70DIrkiwm+efjFfsUTpD09Qoj94LYE6QIfYe1rfNZW5fwn4qgqw?=
- =?us-ascii?Q?R/CSrTnWDNiNHm43qCZs6hSH72ItNQuq9gmaG6JRqCc204drI1vHmpZ2JBaJ?=
- =?us-ascii?Q?0myv0U0CeAzShRTcBwn13kfxy05CyvoZjZzNmKbC1E6X8L+FiTwUKGJxabMn?=
- =?us-ascii?Q?K70TDUTVMtQSPOR0j0OLJC3ExzqdR0yDWz/uzsa7rdsPyuH3GUqCLXSRoBP/?=
- =?us-ascii?Q?9i5diA8P9O8fBwDnGjVHLiMmPp27hLxKhk6brixQPX5WPGGFrF4bI6+Ni8ys?=
- =?us-ascii?Q?qTRV558uoBWLGcIYstLnGh8sjUSRHcjEIn9xuAwo06WgYWgCjlHq4LJbZaGL?=
- =?us-ascii?Q?SSg8HSaIdmCG97AfhZbNokj0JoV6E/WEe5BRhXCt4UMA9NW6nrbr/0RnRALE?=
- =?us-ascii?Q?Y1H9Lfy2d7dtFXwRmbJDInbxgG5aLa+3XY4n17xXkgrJn1wvHfsZze5GzbfC?=
- =?us-ascii?Q?F4bOVemfMPlAfnxf5lTMGCbKj9o9F2ezjInzmNtNzKcZBR7pfAJGOFSYLKQj?=
- =?us-ascii?Q?7KI+/yBdMYow5ETFORalmatjIkXrdP5Ti4kPjGldeNRG1jzDW4fk0IeDvRNm?=
- =?us-ascii?Q?l6ysxl6ukkYAMy1KZaESJ50iip4+CLmBYp5Dwd1+twg2nm0VV380OyhCnHRv?=
- =?us-ascii?Q?pvldG2mBDT3L09LLwJXBd1Vf?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ODJMRGs5SzBDVzBPWVZETDRUV0tFSXIraUhTOWhJRG15R3MrcTVqZmlNWjBE?=
+ =?utf-8?B?R2Z0aXQzN0VwYlpaYkUwdjNQU05BdXRKOTltOFE4UnRjWVhlY3o1Ny8vWE9G?=
+ =?utf-8?B?dUYvOGZyMHMxOTZqWTgwMmk0NzN1U2hIVkFTWWk4YldLN1oreGFxZVpSQ1p6?=
+ =?utf-8?B?ZE01bHhac3o2R1c1UVAvbkxoamJURThSend0c2FrK1ozZW9hcE54WjlLekRU?=
+ =?utf-8?B?cDJNU0hhZXhyYzZUR2Z0TzNoRTBKbXZRMHFobUZCb0I2Y1UxWTVUNkRuby95?=
+ =?utf-8?B?NXE1OGVMWmlLNEZmMjArV2YxQUIxTHV0eUtkMTF4bDAwamRablQ5MnRQajJE?=
+ =?utf-8?B?T0Nqd3lSWmVPZjlPeHd2OUFjRzE4WHNLUW1kQ1JmdmNoeWpqRTgvcFBuUFVj?=
+ =?utf-8?B?QnQ1VDMxUVlKbG40WGEvbkNwSHNRa2VhNGhEakh6eFF6RFNVOUlvUU5ZMTFH?=
+ =?utf-8?B?NnVvVkZVZ2dKaXJ1elRXNFgwMEN0ajdpL2RZYkdxaCsyTEJ6VFM4YTFqN0R1?=
+ =?utf-8?B?R3pUY1ZhVFgxeXJWZ0lObW9BU1dJUkJKeEhxMjM5b3JJZGE1a2QxanFjMnpD?=
+ =?utf-8?B?UmlPQ1k3SlBjbjJ3LzdraGl0clBZVjhIZFpFdTNBbUxEaXlRd0FrSSt3Zk0z?=
+ =?utf-8?B?aTFhMTVkay92TWpHa3dWdzhrc2xpR0krcWYwd25ZaEdPdkI2bmJGVXRiVmc1?=
+ =?utf-8?B?bytzSlBPZ2ZUREQ2TG5acUpEdjhVS0laLzJZcE40OFFxcm80a3BDdGk3d2hR?=
+ =?utf-8?B?NWtnTDg1bWlhVk51QXJwUjhubjRqY0dxWC90RFlFK0FQNXV3OEdNMUVPRjVM?=
+ =?utf-8?B?cWJVYm5Nd0N0bFFGTU5qYmVZd0ZRRW03S1ZqOWxmNHMrdHpzeTg0UWJlL1BX?=
+ =?utf-8?B?UGl4aHhBZkpUb3pxLzQrdlA2MzZ0a0h0REhPWWFYRnlFRFEveThWSFUwbzI3?=
+ =?utf-8?B?aHp0TXgwd0gyNmNVeTRsSHJEM0pCbnpkTXBnRVJhTlBrS3NiMmJ1K1hLSEZS?=
+ =?utf-8?B?Mzg0TGwxdGJCcU1yNE90amtEa2lwcW5seENuVVJkVVhPYWFuK0VOeFNFeHRa?=
+ =?utf-8?B?YS9SNzRGN0ZKQlFiaFNwZ2VFQzRMSVJmL1NpUDdrRWlRY0dGNThRN2NtZFFu?=
+ =?utf-8?B?R3QvRmpsZ3FCOVh6dkZLZWJPS2hPYmpWN01qTmc2RjEvcVZZZzRzb1FtSnA0?=
+ =?utf-8?B?RXBON2N5M3l6VXF0Ry9ETXA2NVZFQ3lkZk4wVGtlaG1tUURwZFUyaGRscXVt?=
+ =?utf-8?B?MXBDc1Z2VC9hVjlOVHhqNzJ2K0FyUjVjQzE2bmk5M3Jac3EwN0EyUWtEOGs1?=
+ =?utf-8?B?clNjY0V5MFhxbVZrb21qRUNSbFg4RjlpejVxZUZkdzhHZEwwTFNBenV0NHlE?=
+ =?utf-8?B?UUVxQng5em9nM1FBWmdSbXhlTTMzbWFhMnFjQTNsM0E2L05Xa2RQQUJHZTFJ?=
+ =?utf-8?B?RjMwc2JzZE5KcGlpUkdmSXdjRmU0RDVmY1premRJVEhQdk43NVhhckRjLzBw?=
+ =?utf-8?B?bFpMeDU3akZJWTlJUXErSXUyZndDMHk3eG1LR1VIRW1WSkxFRG4zYzhiNkdX?=
+ =?utf-8?B?cktMU0xudDd5VS9zSkRyK3kwbUZDd2JVK0c4V0FqKytBZTBPb2FOemV0ZUhX?=
+ =?utf-8?B?RFZYcGczUlhDMXlMN2NXMG9OQWQ3cFJ0ZXhwVHNnd1VYMXB3OVN0ZW1SOEpD?=
+ =?utf-8?B?ZXhVRzgrRFVnalV2cDd5Yys0b05yRytTbE1IZDIzRHpQNnF6TEJlV3doenVC?=
+ =?utf-8?Q?79FR6lPap/3HX9osqSDzwgSU6IXxSFbuV+jB53c?=
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: a83c9714-e89a-4974-609b-08d967ce3c0e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 29b3390b-d305-48a8-af15-08d967ce3c88
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2021 13:42:51.9474 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2021 13:42:52.8629 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bBzTyNafUxWB2nLjQQjR8ZqNPD1h40tVqCR0m2G0k3GxCgmyjQyz9GpL/zaRcRoV
+X-MS-Exchange-CrossTenant-UserPrincipalName: FHcjXpW/AaAJ8qHszQGSHcIQPzW5uIrBn+FCK1Yjq4Gc1GxDuPKjCHdFFLwxTbbA
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4399
 Received-SPF: pass client-ip=40.107.243.127; envelope-from=alxndr@bu.edu;
  helo=NAM12-DM6-obe.outbound.protection.outlook.com
@@ -134,47 +141,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Darren Kenny <darren.kenny@oracle.com>
+Cc: Darren Kenny <darren.kenny@oracle.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The timeout mechanism won't work if SIGALRM is blocked. This changes
-unmasks SIGALRM when the timer is installed. This doesn't completely
-solve the problem, as the fuzzer could trigger some device activity that
-re-masks SIGALRM. However, there are currently no inputs on OSS-Fuzz
-that re-mask SIGALRM and timeout. If that turns out to be a real issue,
-we could try to hook sigmask-type calls, or use a separate timer thread.
+From: Darren Kenny <darren.kenny@oracle.com>
 
-Based-on: <20210713150037.9297-1-alxndr@bu.edu>
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Should have done this much sooner given the amount of reviewing I'm
+already doing in this area.
+
+Signed-off-by: Darren Kenny <darren.kenny@oracle.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- tests/qtest/fuzz/generic_fuzz.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-index de427a3727..dd7e25851c 100644
---- a/tests/qtest/fuzz/generic_fuzz.c
-+++ b/tests/qtest/fuzz/generic_fuzz.c
-@@ -670,6 +670,7 @@ static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
-     if (fork() == 0) {
-         struct sigaction sact;
-         struct itimerval timer;
-+        sigset_t set;
-         /*
-          * Sometimes the fuzzer will find inputs that take quite a long time to
-          * process. Often times, these inputs do not result in new coverage.
-@@ -684,6 +685,10 @@ static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
-             sact.sa_handler = handle_timeout;
-             sigaction(SIGALRM, &sact, NULL);
- 
-+            sigemptyset(&set);
-+            sigaddset(&set, SIGALRM);
-+            pthread_sigmask(SIG_UNBLOCK, &set, NULL);
-+
-             memset(&timer, 0, sizeof(timer));
-             timer.it_value.tv_sec = timeout / USEC_IN_SEC;
-             timer.it_value.tv_usec = timeout % USEC_IN_SEC;
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6b3697962c..5bef084ca1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2706,6 +2706,7 @@ R: Paolo Bonzini <pbonzini@redhat.com>
+ R: Bandan Das <bsd@redhat.com>
+ R: Stefan Hajnoczi <stefanha@redhat.com>
+ R: Thomas Huth <thuth@redhat.com>
++R: Darren Kenny <darren.kenny@oracle.com> 
+ S: Maintained
+ F: tests/qtest/fuzz/
+ F: tests/qtest/fuzz-*test.c
 -- 
 2.30.2
 
