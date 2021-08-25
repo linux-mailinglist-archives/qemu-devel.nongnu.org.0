@@ -2,48 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B36C3F720D
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 11:39:58 +0200 (CEST)
-Received: from localhost ([::1]:51534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD6E3F7210
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 11:41:04 +0200 (CEST)
+Received: from localhost ([::1]:53778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIpO1-0005lL-6x
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 05:39:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37108)
+	id 1mIpP5-0007HD-Qe
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 05:41:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1mIpLe-0002C6-0e
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 05:37:30 -0400
-Received: from proxmox-new.maurer-it.com ([94.136.29.106]:46946)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIpNz-0006EZ-VV
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 05:39:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29282)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <s.reiter@proxmox.com>)
- id 1mIpLb-0007SF-P8
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 05:37:29 -0400
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id E014D4042F;
- Wed, 25 Aug 2021 11:37:15 +0200 (CEST)
-From: Stefan Reiter <s.reiter@proxmox.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Eric Blake <eblake@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Wolfgang Bumiller <w.bumiller@proxmox.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
-Subject: [PATCH 2/2] monitor: allow VNC related QMP and HMP commands to take a
- display ID
-Date: Wed, 25 Aug 2021 11:37:01 +0200
-Message-Id: <20210825093701.668122-3-s.reiter@proxmox.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210825093701.668122-1-s.reiter@proxmox.com>
-References: <20210825093701.668122-1-s.reiter@proxmox.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mIpNw-0000gb-K2
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 05:39:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629884390;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7tTmTdvAMxkrCGqlbrtvc/1jqXyYkBh/mpPSnZTYdj8=;
+ b=eGVoq76v3+AJo71H/khyJJE4m0c0SGcs3wk5KM2kSyHYW67339S1XZKDPiRXX6PnrFKnvA
+ B2LtiW/Cr9zb8pfnGgoOfhfKlCm/SruxZCuZsFSy7qkIP3T6SyXGFc6E90w8wIMde+ZD6x
+ pS88GN//EY94cDzUMhBOz/ROt2bgl2Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-440-Xa-kzSp1NZuV_Z1p7g9YGQ-1; Wed, 25 Aug 2021 05:39:49 -0400
+X-MC-Unique: Xa-kzSp1NZuV_Z1p7g9YGQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D260B8799E0
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 09:39:48 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-4.ams2.redhat.com [10.36.112.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3B6335D741;
+ Wed, 25 Aug 2021 09:39:34 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id BF32C11380A9; Wed, 25 Aug 2021 11:39:32 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 4/4] vl: Prioritize realizations of devices
+References: <20210818194217.110451-1-peterx@redhat.com>
+ <20210818194318.110993-1-peterx@redhat.com>
+ <20210823184912.mazqfn7gurntj7ld@habkost.net> <YSP0m83roQytqvDr@t490s>
+ <20210823210703.cikdkhvyeqqypaqa@habkost.net> <YSQTwth0elaz4T8W@t490s>
+ <20210823215623.bagyo3oojdpk3byj@habkost.net> <YSQp0Nh6Gs5equAG@t490s>
+Date: Wed, 25 Aug 2021 11:39:32 +0200
+In-Reply-To: <YSQp0Nh6Gs5equAG@t490s> (Peter Xu's message of "Mon, 23 Aug 2021
+ 19:05:52 -0400")
+Message-ID: <8735qxhnhn.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=94.136.29.106; envelope-from=s.reiter@proxmox.com;
- helo=proxmox-new.maurer-it.com
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.747,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,220 +82,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: "Daniel P . =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S .
+ Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is possible to specify more than one VNC server on the command line,
-either with an explicit ID or the auto-generated ones à la "default",
-"vnc2", "vnc3", ...
+Peter Xu <peterx@redhat.com> writes:
 
-It is not possible to change the password on one of these extra VNC
-displays though. Fix this by adding a "display" parameter to the
-'set_password' and 'expire_password' QMP and HMP commands.
+> On Mon, Aug 23, 2021 at 05:56:23PM -0400, Eduardo Habkost wrote:
+>> I don't have any other example, but I assume address assignment
+>> based on ordering is a common pattern in device code.
+>> 
+>> I would take a very close and careful look at the devices with
+>> non-default vmsd priority.  If you can prove that the 13 device
+>> types with non-default priority are all order-insensitive, a
+>> custom sort function as you describe might be safe.
+>
+> Besides virtio-mem-pci, there'll also similar devfn issue with all
+> MIG_PRI_PCI_BUS, as they'll be allocated just like other pci devices.  Say,
+> below two cmdlines will generate different pci topology too:
+>
+>   $ qemu-system-x86_64 -device pcie-root-port,chassis=0 \
+>                        -device pcie-root-port,chassis=1 \
+>                        -device virtio-net-pci
+>
+> And:
+>
+>   $ qemu-system-x86_64 -device pcie-root-port,chassis=0 \
+>                        -device virtio-net-pci
+>                        -device pcie-root-port,chassis=1 \
+>
+> This cannot be solved by keeping priority==0 ordering.
+>
+> After a second thought, I think I was initially wrong on seeing migration
+> priority and device realization the same problem.
+>
+> For example, for live migration we have a requirement on PCI_BUS being migrated
+> earlier than MIG_PRI_IOMMU because there's bus number information required
+> because IOMMU relies on the bus number to find address spaces.  However that's
+> definitely not a requirement for device realizations, say, realizing vIOMMU
+> after pci buses are fine (bus assigned during bios).
+>
+> I've probably messed up with the ideas (though they really look alike!).  Sorry
+> about that.
+>
+> Since the only ordering constraint so far is IOMMU vs all the rest of devices,
+> I'll introduce a new priority mechanism and only make sure vIOMMUs are realized
+> earlier.  That'll also avoid other implications on pci devfn allocations.
+>
+> Will rework a new version tomorrow.  Thanks a lot for all the comments,
 
-For HMP, this is a bit trickier, since at least 'set_password' already
-has the 'connected' parameter following the mandatory 'password' one, so
-we need to prefix the display ID with "id=" to allow correct parsing.
+Is it really a good idea to magically reorder device realization just to
+make a non-working command line work?  Why can't we just fail the
+non-working command line in a way that tells users how to get a working
+one?  We have way too much ordering magic already...
 
-With this prefix, no existing command or workflow should be affected.
-
-While rewriting the descriptions, also remove the line "Use zero to make
-the password stay valid forever." from 'set_password', I believe this was
-intended for 'expire_password', but would even be wrong there.
-
-Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
----
- hmp-commands.hx    | 28 +++++++++++++++-------------
- monitor/hmp-cmds.c | 20 ++++++++++++++++++--
- monitor/qmp-cmds.c |  9 +++++----
- qapi/ui.json       | 12 ++++++++++--
- 4 files changed, 48 insertions(+), 21 deletions(-)
-
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index e01ca13ca8..0b5abcfb8a 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1541,34 +1541,36 @@ ERST
- 
-     {
-         .name       = "set_password",
--        .args_type  = "protocol:s,password:s,connected:s?",
--        .params     = "protocol password action-if-connected",
-+        .args_type  = "protocol:s,password:s,display:s?,connected:s?",
-+        .params     = "protocol password [id=display] [action-if-connected]",
-         .help       = "set spice/vnc password",
-         .cmd        = hmp_set_password,
-     },
- 
- SRST
--``set_password [ vnc | spice ] password [ action-if-connected ]``
--  Change spice/vnc password.  Use zero to make the password stay valid
--  forever.  *action-if-connected* specifies what should happen in
-+``set_password [ vnc | spice ] password [ id=display ] [ action-if-connected ]``
-+  Change spice/vnc password.  *display* (must be prefixed with
-+  'id=') can be used with 'vnc' to specify which display to set the
-+  password on.  *action-if-connected* specifies what should happen in
-   case a connection is established: *fail* makes the password change
--  fail.  *disconnect* changes the password and disconnects the
--  client.  *keep* changes the password and keeps the connection up.
--  *keep* is the default.
-+  fail.  *disconnect* changes the password and disconnects the client.
-+  *keep* changes the password and keeps the connection up.  *keep* is
-+  the default.
- ERST
- 
-     {
-         .name       = "expire_password",
--        .args_type  = "protocol:s,time:s",
--        .params     = "protocol time",
-+        .args_type  = "protocol:s,time:s,display:s?",
-+        .params     = "protocol time [id=display]",
-         .help       = "set spice/vnc password expire-time",
-         .cmd        = hmp_expire_password,
-     },
- 
- SRST
--``expire_password [ vnc | spice ]`` *expire-time*
--  Specify when a password for spice/vnc becomes
--  invalid. *expire-time* accepts:
-+``expire_password [ vnc | spice ] expire-time [ id=display ]``
-+  Specify when a password for spice/vnc becomes invalid.
-+  *display* behaves the same as in ``set_password``.
-+  *expire-time* accepts:
- 
-   ``now``
-     Invalidate password instantly.
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 31366e6331..30f5b2c3e3 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1546,10 +1546,20 @@ void hmp_set_password(Monitor *mon, const QDict *qdict)
- {
-     const char *protocol  = qdict_get_str(qdict, "protocol");
-     const char *password  = qdict_get_str(qdict, "password");
-+    const char *display = qdict_get_try_str(qdict, "display");
-     const char *connected = qdict_get_try_str(qdict, "connected");
-     Error *err = NULL;
- 
--    qmp_set_password(protocol, password, !!connected, connected, &err);
-+    if (display && strncmp(display, "id=", 3)) {
-+        connected = display;
-+        display = NULL;
-+    } else if (display) {
-+        /* skip "id=" */
-+        display = display + 3;
-+    }
-+
-+    qmp_set_password(protocol, password, !!connected, connected, !!display,
-+                     display, &err);
-     hmp_handle_error(mon, err);
- }
- 
-@@ -1557,9 +1567,15 @@ void hmp_expire_password(Monitor *mon, const QDict *qdict)
- {
-     const char *protocol  = qdict_get_str(qdict, "protocol");
-     const char *whenstr = qdict_get_str(qdict, "time");
-+    const char *display = qdict_get_try_str(qdict, "display");
-     Error *err = NULL;
- 
--    qmp_expire_password(protocol, whenstr, &err);
-+    if (display && !strncmp(display, "id=", 3)) {
-+        /* skip "id=" */
-+        display = display + 3;
-+    }
-+
-+    qmp_expire_password(protocol, whenstr, !!display, display, &err);
-     hmp_handle_error(mon, err);
- }
- 
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index f7d64a6457..a9ded90a41 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -165,7 +165,8 @@ void qmp_system_wakeup(Error **errp)
- }
- 
- void qmp_set_password(const char *protocol, const char *password,
--                      bool has_connected, const char *connected, Error **errp)
-+                      bool has_connected, const char *connected,
-+                      bool has_display, const char *display, Error **errp)
- {
-     int disconnect_if_connected = 0;
-     int fail_if_connected = 0;
-@@ -198,7 +199,7 @@ void qmp_set_password(const char *protocol, const char *password,
-         }
-         /* Note that setting an empty password will not disable login through
-          * this interface. */
--        rc = vnc_display_password(NULL, password);
-+        rc = vnc_display_password(has_display ? display : NULL, password);
-     } else {
-         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "protocol",
-                    "'vnc' or 'spice'");
-@@ -211,7 +212,7 @@ void qmp_set_password(const char *protocol, const char *password,
- }
- 
- void qmp_expire_password(const char *protocol, const char *whenstr,
--                         Error **errp)
-+                         bool has_display, const char *display, Error **errp)
- {
-     time_t when;
-     int rc;
-@@ -232,7 +233,7 @@ void qmp_expire_password(const char *protocol, const char *whenstr,
-         }
-         rc = qemu_spice.set_pw_expire(when);
-     } else if (strcmp(protocol, "vnc") == 0) {
--        rc = vnc_display_pw_expire(NULL, when);
-+        rc = vnc_display_pw_expire(has_display ? display : NULL, when);
-     } else {
-         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "protocol",
-                    "'vnc' or 'spice'");
-diff --git a/qapi/ui.json b/qapi/ui.json
-index 16bf03224f..24dca811f8 100644
---- a/qapi/ui.json
-+++ b/qapi/ui.json
-@@ -25,6 +25,9 @@
- #             'disconnect' to disconnect existing clients
- #             'keep' to maintain existing clients
- #
-+# @display: In case of VNC, the id of the display where the password
-+#           should be changed. Defaults to the first.
-+#
- # Returns: - Nothing on success
- #          - If Spice is not enabled, DeviceNotFound
- #
-@@ -38,7 +41,8 @@
- #
- ##
- { 'command': 'set_password',
--  'data': {'protocol': 'str', 'password': 'str', '*connected': 'str'} }
-+  'data': {'protocol': 'str', 'password': 'str', '*connected': 'str',
-+           '*display': 'str'} }
- 
- ##
- # @expire_password:
-@@ -54,6 +58,9 @@
- #        - '+INT' where INT is the number of seconds from now (integer)
- #        - 'INT' where INT is the absolute time in seconds
- #
-+# @display: In case of VNC, the id of the display where the password
-+#           should be set to expire. Defaults to the first.
-+#
- # Returns: - Nothing on success
- #          - If @protocol is 'spice' and Spice is not active, DeviceNotFound
- #
-@@ -71,7 +78,8 @@
- # <- { "return": {} }
- #
- ##
--{ 'command': 'expire_password', 'data': {'protocol': 'str', 'time': 'str'} }
-+{ 'command': 'expire_password',
-+  'data': {'protocol': 'str', 'time': 'str', '*display': 'str'} }
- 
- ##
- # @screendump:
--- 
-2.30.2
-
+If we decide we want more magic, then I'd argue for *dependencies*
+instead of priorities.  Dependencies are specific and local: $this needs
+to go after $that because $reasons.  Priorities are unspecific and
+global.
 
 
