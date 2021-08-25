@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBAF83F742B
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 13:14:05 +0200 (CEST)
-Received: from localhost ([::1]:59878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37C703F73DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 12:57:53 +0200 (CEST)
+Received: from localhost ([::1]:44306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIqr6-0003tN-PN
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 07:14:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51192)
+	id 1mIqbQ-0006tB-58
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 06:57:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mIqUg-0004ip-4Z
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:50:54 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:55904)
+ id 1mIqVL-0006lW-NT
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:51:35 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:42737)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mIqUe-0006bR-OA
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:50:53 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id g135so5395087wme.5
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 03:50:52 -0700 (PDT)
+ id 1mIqVK-00075d-5A
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:51:35 -0400
+Received: by mail-wr1-x431.google.com with SMTP id q11so8778115wrr.9
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 03:51:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/66nA9DYgPawFEy9wMqrIh/UtF2fZ2WuYrhXUCDDdKQ=;
- b=OyyXynwdFLPXBLWeHKM+ABHoRXARt8LrW0gaGj+aqewDo+cQYz/e549X6UBu21adRC
- x3aT6P3iJaZcgEX5p79x/l6DafjqNyThnd+ev6TGyTMBo0mkZuq+Icq/joLZ4jziDJua
- wp0n8w8cD+0a/YIo2jzU8nBi/uL1EroV4nbu3If0LoPeWjQnrAZX6Q8A8aHl40XfPFep
- cx5wNpxz8c/l17dHKe6o7WFEtqhImw0MBqsirBNXXu4a4LxB2davWW+aA+0+7v7e3Ps/
- 3b4/q2U/ONvisaAtfPM3+JilPRMTJFEoiF2W4e2GmOH0z81uGHy1k7ql65tIH2aYd8K+
- tENw==
+ bh=L/YVpq+J77Bycj8+nBOzgX/yrWqFCZT6pOaOlDG/U0A=;
+ b=rn/lwwC4ZfcwQp/jvUpN559apPSnI6ujgKn+ejhEu9E1sFcYGtlaKbnpnvyK1CTl0c
+ s9hJGj8xpOuYFLURS9pY2oaFFH7KwSrkLJEuVZ7qB3O0VSZPxew21mutAs29s82e1C2U
+ ECEklj75YSyw9KGiMWWOWMXlEiPQSrgOtGGJiBA1ghl89VISVnM2w6WeUmSzQyBvoBez
+ NVhuEMDRBFVcfwzL1Ob4+I9offmCeMuRtQ8Hz5Ek980SO4idzZLr9EPsQ2q+ZIdoKIOt
+ KW959/0zjTlvhqgYV3nCoB0spay0BaO69Q4SZkjBKPxZC6jbZPFZM/UnN5k700JVEW60
+ dBJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/66nA9DYgPawFEy9wMqrIh/UtF2fZ2WuYrhXUCDDdKQ=;
- b=SI65R7R1lp/fEwvs/3AZfpy4rqW8+fXZ8Cg2ztKni44UKYeXO0vgBrAQI7nfW+aqiX
- UUfwtfSgSAE1oGYXQi0tDj23viNXDKQLvs7qn6HGHcR2HpA/hLZLaeiN5os4vzloIMSr
- Mt/XaYcLwPgTT57OBhYCYwndWA7idaLsmQ9QEpbtDpMGNFCxEAz+fRrXSjpJ5r64mzH/
- iaNutqVVFx2YZLZC3ziBrojZGp8RPWZempo6R0AUckDlytMI2EtjtapBlqk0uJYdKsYj
- ptxCW4h63KoP86GwUHmaSPi1+aSoW3AAVgtVabNNx0pi9Baks9vl4UuKuKqx37GToQ9n
- YkfQ==
-X-Gm-Message-State: AOAM531Tz0MTCXUtfateN1y5Wi/r53vtXfxYUUJ29amCWnlH2sOHrn3P
- L7RIdbhvbjupGcnqxYYL5Go=
-X-Google-Smtp-Source: ABdhPJx9xxJcIJ1Vot48h27mQqkDRcBdeakApR+JSdgTxshhchN82tMlhnB7YlgZcdlUv7kAtF2VMA==
-X-Received: by 2002:a05:600c:5102:: with SMTP id
- o2mr8704125wms.99.1629888651268; 
- Wed, 25 Aug 2021 03:50:51 -0700 (PDT)
+ bh=L/YVpq+J77Bycj8+nBOzgX/yrWqFCZT6pOaOlDG/U0A=;
+ b=myL3hShsbVtBgPqS9FumsWwBOC3sBxOwIwuksstsLAPE/nWy9t/dJIFopdPowWE8K6
+ oDceQ1cafQRh6sYx2AtLT3pkRMNfH5Vub01ka2mgZbRBGXakvWC25ooSW+pZkPrytovX
+ 20cBOEDL/WaNI4Ku79RUvLjRQH4+I74XP6KOlgfTx6WfYQps9AtR7qIQXjMWG4ADVBEk
+ sR4NyYOIKzxoT24m44t+0J+H+05I7lkQYrFnqD+doxE7cPnP/A7XaaH5N0fTVwAwqiFX
+ bxSG8ldMkKNSmZIfesodbOPcAnJjKEUX6cysSye87fTsNt/h3AOuqcnrzRgL8Wdgkq4E
+ i0uA==
+X-Gm-Message-State: AOAM530RMVm5bnkdC7gFsBDAC9oSxhGcPUk+y+BsA+GhP6ZRFLsT4Ez2
+ rkJol/msnf29e5eDT/PEDa0=
+X-Google-Smtp-Source: ABdhPJwVecvJ+N80bV+4AV0NSr7XQteQF0HyYGUzIvR7CyK063UkMCZ5+gvqFMzFAkhc/fWpIvFLPA==
+X-Received: by 2002:a05:6000:22d:: with SMTP id
+ l13mr24521198wrz.410.1629888692967; 
+ Wed, 25 Aug 2021 03:51:32 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id w9sm4820951wmc.19.2021.08.25.03.50.49
+ by smtp.gmail.com with ESMTPSA id e3sm21486676wrv.65.2021.08.25.03.51.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Aug 2021 03:50:50 -0700 (PDT)
-Subject: Re: [PATCH 0/2] target/mips: Allow Loongson 3A1000 to use up to
- 48-bit VAddr
+ Wed, 25 Aug 2021 03:51:32 -0700 (PDT)
+Subject: Re: [PATCH] target/mips: Remove duplicated check_cp1_enabled() calls
+ in Loongson EXT
 To: qemu-devel@nongnu.org
-References: <20210813110149.1432692-1-f4bug@amsat.org>
+References: <20210816001031.1720432-1-f4bug@amsat.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <85c58d4c-877f-07cb-50a2-7889a091afc9@amsat.org>
-Date: Wed, 25 Aug 2021 12:50:48 +0200
+Message-ID: <e5da4026-b6c1-152a-b9ea-8f56161896c1@amsat.org>
+Date: Wed, 25 Aug 2021 12:51:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210813110149.1432692-1-f4bug@amsat.org>
+In-Reply-To: <20210816001031.1720432-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -36
 X-Spam_score: -3.7
 X-Spam_bar: ---
@@ -95,13 +95,15 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/13/21 1:01 PM, Philippe Mathieu-Daudé wrote:
-> Raise Loongson-3A1000 SEGBITS from 40 to 48.
+On 8/16/21 2:10 AM, Philippe Mathieu-Daudé wrote:
+> We already call check_cp1_enabled() earlier in the "pre-conditions"
+> checks for GSLWXC1 and GSLDXC1 in gen_loongson_lsdc2() prologue.
+> Remove the duplicated calls.
 > 
-> Philippe Mathieu-Daudé (2):
->   target/mips: Document Loongson-3A CPU definitions
->   target/mips: Allow Loongson 3A1000 to use up to 48-bit VAddr
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  target/mips/tcg/translate.c | 2 --
+>  1 file changed, 2 deletions(-)
 
 Thanks, applied to mips-next.
-
 
