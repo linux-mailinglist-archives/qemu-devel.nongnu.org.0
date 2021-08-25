@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E54943F7080
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 09:36:45 +0200 (CEST)
-Received: from localhost ([::1]:56368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EEAF3F7095
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 09:42:35 +0200 (CEST)
+Received: from localhost ([::1]:46946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mInSn-00023M-0L
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 03:36:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39798)
+	id 1mInYQ-0006hi-7b
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 03:42:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41714)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mInRf-00084r-Az
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:35:35 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:45554)
+ id 1mInWu-0004ne-8d
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:41:00 -0400
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:46594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mInRd-0004WM-HU
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:35:35 -0400
+ id 1mInWs-0000ur-EE
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:40:59 -0400
 Received: from loganberry.canonical.com (loganberry.canonical.com
  [91.189.90.37])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id DC33B3F7D1
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 07:35:30 +0000 (UTC)
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 9CCDB3F824
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 07:40:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1629876930;
- bh=gBa/QUEn+x60uEmQYvwR2a3BOLMkpO+tH2n1NevqfSU=;
+ s=20210803; t=1629877254;
+ bh=YM/69qbrSmCJjHUucNCGnAvUzUXhdfW263mvIjGigfI=;
  h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
  Message-Id:Subject;
- b=Uq5MQYD9b/wKDZXHTsU7yo+73Jr75aser11ID99V6qggHirrRpW3saTHcsszr9Ndr
- DwAmnL6ubYWufeZsZkGc4pkhoScnmE+Sf/IxE5zp/snauML8tk3gNVok0dX8n36G96
- fCnvJ8A9XK8b7sx+lKMqNc/fUZDt251VVo35+h9Hizi+FtKo/s6feSlDqgCLVKfbZf
- sl50pE744puhH1d1595itxmJpXT7anZ/uBUzJgvmNZVRxWnt1xc+C2zsJfRYRCSRwF
- E771zx+Tla1UVL0d/Kle1mOoWfyFYy41ttqYqbOEGFoweEBRf9vJ2B/xL7cxAP21ql
- bn4uNd6KrVXBA==
+ b=XbnI7i71BhDwNrneqy5REUBx7WYDy2mh8ykUTUZHMNxO/4RMKfREz1TjA0SrvxO8v
+ J9SafS9nOQGQsGwUyWV++1L//EXPFhRy235yPFvu05irfx8YrzfHBSRIbv6SnajO9M
+ vGHLxC2lyvb+pa2VYbZyYLf/7WTxRxt7uYGYFi6TbpnsN2Xel1CuDhGE9ju06QuSXB
+ OfoUsUm80ouC7q18bz53I9QSinGKYgkLqU5tuvne1w7OXgkxoxb8mh0bScOtMxtrTQ
+ 1gEhPQO9h8ux3/LT3EELe9C7BRZotOCdenvpjK5ffVtNa9rQCZ/667YZ32bNypRvA5
+ lM8uCDiyuRQww==
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D61822E8167
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 07:35:30 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 794BD2E813C
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 07:40:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Aug 2021 07:28:11 -0000
-From: Thomas Huth <1761798@bugs.launchpad.net>
+Date: Wed, 25 Aug 2021 07:31:08 -0000
+From: Thomas Huth <1819182@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=nova; status=Incomplete; importance=Medium;
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: libvirt live-migration
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: balazs-gibizer cassano dgilbert-h dsutyagin
- kashyapc melwitt mriedem sean-k-mooney th-huth
-X-Launchpad-Bug-Reporter: Matt Riedemann (mriedem)
+X-Launchpad-Bug-Commenters: jnsnow smoser th-huth
+X-Launchpad-Bug-Reporter: Scott Moser (smoser)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <152303245198.3233.1033096993665779324.malonedeb@wampee.canonical.com>
-Message-Id: <162987649130.15935.6826368043866059152.malone@chaenomeles.canonical.com>
-Subject: [Bug 1761798] Re: live migration intermittently fails in CI with "VQ
- 0 size 0x80 Guest index 0x12c inconsistent with Host index 0x134: delta
- 0xfff8"
+References: <155205925919.27918.10336996226499931700.malonedeb@soybean.canonical.com>
+Message-Id: <162987666863.21562.3065058239029241911.malone@gac.canonical.com>
+Subject: [Bug 1819182] Re: info does not recognize file format of vpc with
+ subformat=fixed
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="7edb2d45353e030166106ae05838b77ab406edcd"; Instance="production"
-X-Launchpad-Hash: 5f06b464199f5149ae91be05f41619485bdff8ca
+X-Launchpad-Hash: 89e55a85a48b172bc64063aa6257750250d64da0
 Received-SPF: pass client-ip=185.125.188.251;
  envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
 X-Spam_score_int: -42
@@ -89,67 +84,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1761798 <1761798@bugs.launchpad.net>
+Reply-To: Bug 1819182 <1819182@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Is this still happening with the latest release?
+This is an automated cleanup. This bug report has been moved to QEMU's
+new bug tracker on gitlab.com and thus gets marked as 'expired' now.
+Please continue with the discussion here:
 
-** Changed in: nova
-       Status: Confirmed =3D> Incomplete
+ https://gitlab.com/qemu-project/qemu/-/issues/559
+
+
+** Changed in: qemu
+       Status: In Progress =3D> Expired
+
+** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #559
+   https://gitlab.com/qemu-project/qemu/-/issues/559
 
 --=20
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1761798
+https://bugs.launchpad.net/bugs/1819182
 
 Title:
-  live migration intermittently fails in CI with "VQ 0 size 0x80 Guest
-  index 0x12c inconsistent with Host index 0x134: delta 0xfff8"
+  info does not recognize file format of vpc with subformat=3Dfixed
 
-Status in OpenStack Compute (nova):
-  Incomplete
 Status in QEMU:
-  Incomplete
+  Expired
 
 Bug description:
-  Seen here:
+  After creating or converting an image to vpc with 'subformat=3Dfixed'
+  'qemu-img info' incorrectly identifies the image as 'raw' format.
 
-  http://logs.openstack.org/37/522537/20/check/legacy-tempest-dsvm-
-  multinode-live-
-  migration/8de6e74/logs/subnode-2/libvirt/qemu/instance-00000002.txt.gz
+  $ qemu-img --version
+  qemu-img version 2.11.1(Debian 1:2.11+dfsg-1ubuntu7.10)
+  Copyright (c) 2003-2017 Fabrice Bellard and the QEMU Project developers
 
-  2018-04-05T21:48:38.205752Z qemu-system-x86_64: -chardev pty,id=3Dcharser=
-ial0,logfile=3D/dev/fdset/1,logappend=3Don: char device redirected to /dev/=
-pts/0 (label charserial0)
-  warning: TCG doesn't support requested feature: CPUID.01H:ECX.vmx [bit 5]
-  2018-04-05T21:48:43.153268Z qemu-system-x86_64: VQ 0 size 0x80 Guest inde=
-x 0x12c inconsistent with Host index 0x134: delta 0xfff8
-  2018-04-05T21:48:43.153288Z qemu-system-x86_64: Failed to load virtio-blk=
-:virtio
-  2018-04-05T21:48:43.153292Z qemu-system-x86_64: error while loading state=
- for instance 0x0 of device '0000:00:04.0/virtio-blk'
-  2018-04-05T21:48:43.153347Z qemu-system-x86_64: load of migration failed:=
- Operation not permitted
-  2018-04-05 21:48:43.198+0000: shutting down, reason=3Dcrashed
+  $ qemu-img create -f vpc -o subformat=3Dfixed my.vpc 2G
+  Formatting 'my.vpc', fmt=3Dvpc size=3D2147483648 subformat=3Dfixed
 
-  And in the n-cpu logs on the other host:
+  $ qemu-img info my.vpc
+  image: my.vpc
+  file format: raw
+  virtual size: 2.0G (2147992064 bytes)
+  disk size: 4.0K
 
-  http://logs.openstack.org/37/522537/20/check/legacy-tempest-dsvm-
-  multinode-live-migration/8de6e74/logs/screen-n-
-  cpu.txt.gz#_Apr_05_21_48_43_257541
-
-  There is a related Red Hat bug:
-
-  https://bugzilla.redhat.com/show_bug.cgi?id=3D1450524
-
-  The CI job failures are at present using the Pike UCA:
-
-  ii  libvirt-bin                         3.6.0-1ubuntu6.2~cloud0
-
-  ii  qemu-system-x86                     1:2.10+dfsg-0ubuntu3.5~cloud0
+  $ qemu-img info -f vpc my.vpc
+  image: my.vpc
+  file format: vpc
+  virtual size: 2.0G (2147991552 bytes)
+  disk size: 4.0K
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/nova/+bug/1761798/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1819182/+subscriptions
 
 
