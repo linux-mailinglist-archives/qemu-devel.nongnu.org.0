@@ -2,80 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DB2D3F7D56
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 22:50:35 +0200 (CEST)
-Received: from localhost ([::1]:35966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 739963F7D54
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 22:49:08 +0200 (CEST)
+Received: from localhost ([::1]:33846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIzqv-0001Vp-IM
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 16:50:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59554)
+	id 1mIzpa-0008Vc-66
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 16:49:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIzoq-0007rD-Vo
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mIzoq-0007rC-VL
  for qemu-devel@nongnu.org; Wed, 25 Aug 2021 16:48:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51280)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54276)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mIzop-0002ZL-Jf
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1mIzoo-0002Yi-Mj
  for qemu-devel@nongnu.org; Wed, 25 Aug 2021 16:48:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629924498;
+ s=mimecast20190719; t=1629924497;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sxNrTtEJNTuMfz8ElIq3eSsDU7sWLpW5q3J1zQoQU3M=;
- b=cyhJQEYKSHMrA+AgQel2qJ6moIkImemX9oeR5QAG2y+YlYjBthKRm0Tfg+/llg8ihQ2G3P
- HQZvPowNJgw6IyqrPW6sbgBmDreDxCoTOnfnszm0FuE2/HS+ncyjKfFctRhsCM5rFfWOM1
- WgUtLjOTIvoHQ9MtGX33r4S22Xi8nCA=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-558-xVKFu60EMBOHeHxvx5fUeQ-1; Wed, 25 Aug 2021 16:48:14 -0400
-X-MC-Unique: xVKFu60EMBOHeHxvx5fUeQ-1
-Received: by mail-qv1-f69.google.com with SMTP id
- c4-20020a0ce7c4000000b00370a5bb605eso785091qvo.0
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 13:48:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=sxNrTtEJNTuMfz8ElIq3eSsDU7sWLpW5q3J1zQoQU3M=;
- b=U83H5D5J67TzRmDjoQByvO0GPdz8bxkKVubnGNn+ZJ/BeQ6i08fRR8qTnEgwNDtV0J
- EzcY+onsn8keivew7PziDS/8ccJm7FK/bk6LUk9gNl43l455b4Z1pjdiVCt5zHCxM4kl
- XxMIqvdif5rgnnucnSFeSVKsr3beiwxS/n5ZKdiUpQR2q1dv9pvjC5j1IcGfSbCqbs6e
- EJh0jl3QGjM6Cg55tD6K9nkcQDq7DcseHVW0Q4ZGUDfatZ4wNIp/mUnKn65jaVa6HXbd
- n3cH9BFwj8fAgUDV7Cls3AWJY0FtefVsjaSvetWtU4nyvUtRmnhID71YIt1tgc631Zgj
- gBdg==
-X-Gm-Message-State: AOAM530+gqIf0Tb22JmiWVcbNYeMQE00v5wQnaSsQ0kA7Sp19exH6jJk
- UGphCIaGOQ8Jld/7HKJgs51T2trfqF2oIB1u3q2exspTAREnKsbjZ0Vhg4gILj8i1J8pdLs5zyh
- /d0c71duL/EI93q8=
-X-Received: by 2002:ac8:7444:: with SMTP id h4mr128269qtr.337.1629924494493;
- Wed, 25 Aug 2021 13:48:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxQ8hBXw8KsFNOX9vyLqg3tnQDVGagu/B6bw2eCH/0JIJMfO3IXy2i6PcZaC8cAwq9jVIAHIQ==
-X-Received: by 2002:ac8:7444:: with SMTP id h4mr128246qtr.337.1629924494270;
- Wed, 25 Aug 2021 13:48:14 -0700 (PDT)
-Received: from t490s ([2607:fea8:56a3:500::d413])
- by smtp.gmail.com with ESMTPSA id s18sm879911qkj.87.2021.08.25.13.48.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 13:48:13 -0700 (PDT)
-Date: Wed, 25 Aug 2021 16:48:12 -0400
-From: Peter Xu <peterx@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH 2/2] dump-guest-memory: Block live migration
-Message-ID: <YSasjN1IXkWihV0j@t490s>
-References: <20210824152721.79747-1-peterx@redhat.com>
- <20210824152721.79747-3-peterx@redhat.com>
- <CAMxuvay2ftUEd7ZW3Wu-ekbkSmj-wpqy6+k2TnhBafSwpf0KPw@mail.gmail.com>
+ bh=n5HAg4qAi42vaMlzvWrsVs3pq7kNzWulEuMNzkHw1Gc=;
+ b=FA+S/ntHiNJIo3WwZwAOTulH6Lnw51+9U2t7lofdV/8krez2+C69JrCfDB7Ga5rWdQyeLV
+ DrBETPqG7MWDc0g8JaRv2JRpyMVgj4qdlqHsL/u8GZuUtqg2XgdIpY9xx77A/Tgh25FQ4+
+ a6qZj5gcDEWVMk7L4Gw8Cv+HiV175ss=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-211-342wsPM6N0Gb6jmhmtmZsw-1; Wed, 25 Aug 2021 16:48:15 -0400
+X-MC-Unique: 342wsPM6N0Gb6jmhmtmZsw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3CE51B18BC9;
+ Wed, 25 Aug 2021 20:48:14 +0000 (UTC)
+Received: from localhost (unknown [10.22.32.130])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 373951ABD2;
+ Wed, 25 Aug 2021 20:48:14 +0000 (UTC)
+Date: Wed, 25 Aug 2021 16:48:13 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Xiaoyao Li <xiaoyao.li@intel.com>
+Subject: Re: Live migration regarding Intel PT
+Message-ID: <20210825204813.tfhrj3dg2vlqxm4u@habkost.net>
+References: <e31344c9-e9e6-7d78-3a53-2c0e5e5f39d7@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMxuvay2ftUEd7ZW3Wu-ekbkSmj-wpqy6+k2TnhBafSwpf0KPw@mail.gmail.com>
+In-Reply-To: <e31344c9-e9e6-7d78-3a53-2c0e5e5f39d7@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -96,20 +77,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Juan Quintela <quintela@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 25, 2021 at 11:36:08AM +0400, Marc-André Lureau wrote:
-> Shouldn't this be placed earlier in the function, before
-> runstate_is_running() and vm_stop() ?
+On Wed, Aug 25, 2021 at 02:59:37PM +0800, Xiaoyao Li wrote:
+> Hi Eduardo,
+> 
+> I have some question regrading Intel PT live migration.
+> 
+> Commit "e37a5c7fa459 (i386: Add Intel Processor Trace feature support)"
+> expose Intel PT with a fixed capabilities of CPUID 0x14 for live migration.
+> And the fixed capabilities are the value reported on ICX(IceLake). However,
+> the upcoming SPR(Sapphire Rapids) has less capabilities of
+> INTEL_PT_CYCLE_BITMAP than ICX. It fails to enable PT in guest on SPR
+> machine.
+> 
+> If change the check on INTEL_PT_CYCLE_BITMAP to allow different value to
+> allow it work on SPR. I think it breaks live migration, right?
 
-Good point...  Will respin, thanks!
+If I understand your description correctly, I don't think that
+would break live migration.
+
+Generating different CPUID data for the same CPU model+flags
+would break live migration.
+
+However, merely allowing a wider set of configurations to work
+wouldn't break live migration, as long as the same CPU
+model+flags generates the same CPUID data on any host.
+
+
+> 
+> For me, not making each sub-function of PT as configurable in QEMU indeed
+> makes it hard for live migration. [...]
+
+Making all sub-functions of PT configurable would be welcome.
+actually.  That would allow us to support a wider range of
+configurations and keep live migration working at the same time.
+
+
+> [...] Why not make PT as unmigratable in the
+> first place when introducing the support in QEMU?
+
+I don't know, this was not my decision.  Now we support live
+migration in a few specific cases (ICX hosts), and I assume we
+don't want to stop supporting it.
+
+If you just want to support a larger set of hosts when live
+migration is not needed, you can add support to that use case
+too.  e.g.: "-cpu host,migratable=off" and/or
+"-cpu ...,intel-pt-passthrough=on" could do host passthrough of
+intel-pt sub-leaves (and block live migration).
 
 -- 
-Peter Xu
+Eduardo
 
 
