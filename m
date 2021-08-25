@@ -2,58 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73CF73F76A1
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:54:36 +0200 (CEST)
-Received: from localhost ([::1]:33204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 088AE3F76BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 16:01:07 +0200 (CEST)
+Received: from localhost ([::1]:37600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mItMR-0000ah-JH
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:54:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60556)
+	id 1mItSj-0003tj-QL
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 10:01:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mItLW-00083Q-AL
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:53:38 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:54696)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mItLU-0004Ve-Op
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:53:38 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-534-q_7uVRsMMCGXoDSv8vadng-1; Wed, 25 Aug 2021 09:53:31 -0400
-X-MC-Unique: q_7uVRsMMCGXoDSv8vadng-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9125D802C8F;
- Wed, 25 Aug 2021 13:53:30 +0000 (UTC)
-Received: from bahia.lan (unknown [10.39.194.209])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 731F92C00F;
- Wed, 25 Aug 2021 13:53:29 +0000 (UTC)
-Date: Wed, 25 Aug 2021 15:53:28 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v7 5/7] qapi/qdev.json: add DEVICE_UNPLUG_GUEST_ERROR
- QAPI event
-Message-ID: <20210825155328.2b74da91@bahia.lan>
-In-Reply-To: <20210825004835.472919-6-danielhb413@gmail.com>
-References: <20210825004835.472919-1-danielhb413@gmail.com>
- <20210825004835.472919-6-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mItRd-0002sy-PH
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:59:57 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:47101)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mItRc-0006mT-AF
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:59:57 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ m25-20020a7bcb99000000b002e751bcb5dbso4639969wmi.5
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 06:59:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Vg2k2FngYZDCnhVC4ww7pmApwL99T8Y5bOlD5NizfBs=;
+ b=cceeD24KMkS9RTzAMR1GfdH8IcIaz3WTYjyordO+0Lvx0Oqe7Vglpbjx2Q6iB6U0Am
+ PYCpo1T8OtTQfuLwzfUH1UTmhdHou09tBHTmvfyzIBb4ZbZvTXlp8Ftd+ZwGtuXEazeT
+ zQVw6UG3HCXz2o5zunofEk8WkUY9NcbVMKUT/lglECKP5zME+NGFoK5YvEkwAqZlkM/f
+ QrK3h946qd2GhqY6kmS3dMJbVwRJOJTb9cMQeUb5CbhqgPtCZ2JDAdVrKRJjs4GUJszM
+ IeJNP4HeDNWCafcGJ/yJ0YHKxQdFk3h9diN25WvLWJvx05kZjJiA38gs2lkxSEYu09io
+ grrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Vg2k2FngYZDCnhVC4ww7pmApwL99T8Y5bOlD5NizfBs=;
+ b=oG2/q+7jsKDCV8aW6FE83250Rk5+g/yOpSh3Hi4sWf02GFP3rGWTNKiJFqc7U2mFak
+ N6ygNhI7UFCfMxu/pV4+2A951TOJ6eDl0CaVYcEjMNBJe2E3LrzHU5du3sMUKiIKcJ+v
+ ViUZq7aRVKSFZxCmGAJNOWMTRZINmh+LtFJJVz+rZ3YEvmp+UlrJbl/5ZXBR4/pim6hM
+ 6frjE+zYdpGzr3yUOiciF6yQ8MiSv684b/R+y3vrT6TENd0xk+oRYh5lXXxoiN0g77el
+ aqU1nm8JeJ+0SQN+Z6942VnW2ZAWoob9QEhDFFkswXaLMfOY7YCq1YmRUZxh62qOQ2go
+ q/ew==
+X-Gm-Message-State: AOAM531m5lPkRnKqZGFubrRMhyUwFrobCkNEukFOy1GdoV9nV4F1JKu0
+ 0NT4E3XGhb3qsuzldksLzxQ=
+X-Google-Smtp-Source: ABdhPJy4/a0v3p5uVAmAkwnJBpl14gySX8jRpfpg7Lt28QHNgGTmnTa1aFPVuqA0zgsibJkn6E81NA==
+X-Received: by 2002:a7b:cbcd:: with SMTP id n13mr3223127wmi.49.1629899994592; 
+ Wed, 25 Aug 2021 06:59:54 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id 19sm5537471wmo.39.2021.08.25.06.59.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Aug 2021 06:59:54 -0700 (PDT)
+Subject: Re: [PATCH] sun4m: fix setting CPU id when more than one CPU is
+ present
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>
+References: <20210825095100.20180-1-mark.cave-ayland@ilande.co.uk>
+ <74177bc7-384b-60cd-daa7-084d9a3f7c67@amsat.org>
+ <6f07e32a-2cec-fac1-10a6-41057698f001@ilande.co.uk>
+ <CAAdtpL6Ne3YkG7H-Ha_ROmCw9o9qs24jKn+7aBMNgMQXGC2=MQ@mail.gmail.com>
+ <8c6eb54c-d786-f5f7-0fc4-bb9a6d37bb19@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <43f901c7-4a29-6186-92eb-35e3bc486d2b@amsat.org>
+Date: Wed, 25 Aug 2021 15:59:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+In-Reply-To: <8c6eb54c-d786-f5f7-0fc4-bb9a6d37bb19@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.24,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,148 +96,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 24 Aug 2021 21:48:33 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+On 8/25/21 2:27 PM, Mark Cave-Ayland wrote:
+> On 25/08/2021 11:43, Philippe Mathieu-Daudé wrote:
+> 
+>> +Leon3 maintainers
+> 
+> Note that despite its presence in CPUSPARCState MXCC isn't part of the
+> SPARC CPU but defined as part of the sun4m architecture, so I'm not sure
+> it even exists in LEON3 (which is likely another reason it was written
+> the way it was).
+> 
+> Whilst there could potentially be some tidy-up in this area from people
+> more knowledgeable about SPARC CPUs, the original patch seems the best
+> approach to me since in the absence of experts in multi-CPU SPARC
+> systems it simply restores the previous behaviour broken by the
+> referenced Fixes: patch.
 
-> At this moment we only provide one event to report a hotunplug error,
-> MEM_UNPLUG_ERROR. As of Linux kernel 5.12 and QEMU 6.0.0, the pseries
-> machine is now able to report unplug errors for other device types, such
-> as CPUs.
->=20
-> Instead of creating a (device_type)_UNPLUG_ERROR for each new device,
-> create a generic DEVICE_UNPLUG_GUEST_ERROR event that can be used by all
-> guest side unplug errors in the future. This event has a similar API as
-> the existing DEVICE_DELETED event, always providing the QOM path of the
-> device and dev->id if there's any.
->=20
-> With this new generic event, MEM_UNPLUG_ERROR is now marked as deprecated=
-.
->=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
+With that in mind:
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
->  docs/about/deprecated.rst | 10 ++++++++++
->  qapi/machine.json         |  7 ++++++-
->  qapi/qdev.json            | 28 +++++++++++++++++++++++++++-
->  stubs/qdev.c              |  7 +++++++
->  4 files changed, 50 insertions(+), 2 deletions(-)
->=20
-> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-> index 6d438f1c8d..1a8ffc9381 100644
-> --- a/docs/about/deprecated.rst
-> +++ b/docs/about/deprecated.rst
-> @@ -204,6 +204,16 @@ The ``I7200`` guest CPU relies on the nanoMIPS ISA, =
-which is deprecated
->  (the ISA has never been upstreamed to a compiler toolchain). Therefore
->  this CPU is also deprecated.
-> =20
-> +
-> +QEMU API (QAPI) events
-> +----------------------
-> +
-> +``MEM_UNPLUG_ERROR`` (since 6.2)
-> +''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-> +
-> +Use the more generic event ``DEVICE_UNPLUG_GUEST_ERROR`` instead.
-> +
-> +
->  System emulator machines
->  ------------------------
-> =20
-> diff --git a/qapi/machine.json b/qapi/machine.json
-> index 157712f006..cd397f1ee4 100644
-> --- a/qapi/machine.json
-> +++ b/qapi/machine.json
-> @@ -1271,6 +1271,10 @@
->  #
->  # @msg: Informative message
->  #
-> +# Features:
-> +# @deprecated: This event is deprecated. Use @DEVICE_UNPLUG_GUEST_ERROR
-> +#              instead.
-> +#
->  # Since: 2.4
->  #
->  # Example:
-> @@ -1283,7 +1287,8 @@
->  #
->  ##
->  { 'event': 'MEM_UNPLUG_ERROR',
-> -  'data': { 'device': 'str', 'msg': 'str' } }
-> +  'data': { 'device': 'str', 'msg': 'str' },
-> +  'features': ['deprecated'] }
-> =20
->  ##
->  # @SMPConfiguration:
-> diff --git a/qapi/qdev.json b/qapi/qdev.json
-> index 0e9cb2ae88..8b1a1dd43b 100644
-> --- a/qapi/qdev.json
-> +++ b/qapi/qdev.json
-> @@ -84,7 +84,9 @@
->  #        This command merely requests that the guest begin the hot remov=
-al
->  #        process.  Completion of the device removal process is signaled =
-with a
->  #        DEVICE_DELETED event. Guest reset will automatically complete r=
-emoval
-> -#        for all devices.
-> +#        for all devices.  If a guest-side error in the hot removal proc=
-ess is
-> +#        detected, the device will not be removed and a DEVICE_UNPLUG_GU=
-EST_ERROR
-> +#        event is sent.  Some errors cannot be detected.
->  #
->  # Since: 0.14
->  #
-> @@ -124,3 +126,27 @@
->  ##
->  { 'event': 'DEVICE_DELETED',
->    'data': { '*device': 'str', 'path': 'str' } }
-> +
-> +##
-> +# @DEVICE_UNPLUG_GUEST_ERROR:
-> +#
-> +# Emitted when a device hot unplug fails due to an internal guest
-> +# error.
-> +#
-> +# @device: the device's ID if it has one
-> +#
-> +# @path: the device's QOM path
-> +#
-> +# Since: 6.2
-> +#
-> +# Example:
-> +#
-> +# <- { "event": "DEVICE_UNPLUG_GUEST_ERROR"
-> +#      "data": { "device": "core1",
-> +#                "path": "/machine/peripheral/core1" },
-> +#      },
-> +#      "timestamp": { "seconds": 1615570772, "microseconds": 202844 } }
-> +#
-> +##
-> +{ 'event': 'DEVICE_UNPLUG_GUEST_ERROR',
-> +  'data': { '*device': 'str', 'path': 'str' } }
-> diff --git a/stubs/qdev.c b/stubs/qdev.c
-> index 92e6143134..28d6d531e6 100644
-> --- a/stubs/qdev.c
-> +++ b/stubs/qdev.c
-> @@ -21,3 +21,10 @@ void qapi_event_send_device_deleted(bool has_device,
->  {
->      /* Nothing to do. */
->  }
-> +
-> +void qapi_event_send_device_unplug_guest_error(bool has_device,
-> +                                               const char *device,
-> +                                               const char *path
-> +{
-> +    /* Nothing to do. */
-> +}
+> 
+>> On Wed, Aug 25, 2021 at 12:39 PM Mark Cave-Ayland
+>> <mark.cave-ayland@ilande.co.uk> wrote:
+>>> On 25/08/2021 11:29, Philippe Mathieu-Daudé wrote:
+>>>> On 8/25/21 11:51 AM, Mark Cave-Ayland wrote:
 
+>>> Also MXCC is specific to 32-bit SPARC: maybe it was written this way
+>>> to allow for
+>>> future multi-CPU support for 64-bit SPARC?
+>>
+>> Will this happen?
+> 
+> Hopefully one day, as my TODO list gradually gets whittled down...
+
+What is your secret?
 
