@@ -2,51 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8AA3F6FA1
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 08:35:36 +0200 (CEST)
-Received: from localhost ([::1]:37660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B60E83F6F57
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 08:19:55 +0200 (CEST)
+Received: from localhost ([::1]:58612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mImVb-00048A-CW
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 02:35:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44968)
+	id 1mImGQ-0006gX-Qd
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 02:19:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mImRt-0001da-85; Wed, 25 Aug 2021 02:31:45 -0400
-Received: from ozlabs.org ([203.11.71.1]:51439)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mImRq-00076l-C9; Wed, 25 Aug 2021 02:31:44 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GvbjP6Nyfz9sXN; Wed, 25 Aug 2021 16:31:37 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1629873097;
- bh=YlxmvZgh72hm4dpJlUvuQJmYYXRG5SbOLFaXv38j/i4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=HAi98StclEwMV/wFKiocYfUQv+AygnTgZSkbBiEPY6V9+ta4I4iMC71MVqZLfVKvz
- wBpNBMAPvy4ZN5GZRhE1uJfhpYwZmZeAm4O6GcKsCLPHHpmIJQNecIcUSaQK2idH5Y
- PEB7iktOLdyyHpmHHw7sMYdKZ22gHM17myv2f8J8=
-Date: Wed, 25 Aug 2021 16:12:27 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 15/26] ppc/pnv: Add a HOMER model to POWER10
-Message-ID: <YSXfS070ZALDWJMQ@yekko>
-References: <20210809134547.689560-1-clg@kaod.org>
- <20210809134547.689560-16-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mImEc-0005Ls-Ca; Wed, 25 Aug 2021 02:18:02 -0400
+Received: from mail-il1-x12f.google.com ([2607:f8b0:4864:20::12f]:44892)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mImEa-00048F-J7; Wed, 25 Aug 2021 02:18:02 -0400
+Received: by mail-il1-x12f.google.com with SMTP id b4so13325235ilr.11;
+ Tue, 24 Aug 2021 23:17:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=96N5tnRCvbcN1KRqaQDxjyX8yPM2aYWAc/X/RMT0qAQ=;
+ b=vRMY6TkSlYF2yezYRH9pvEybajUAOnRd32SufWg+7Nj5G/xHegq/9+pNzVMYe4ygYd
+ kalc/Ff6mt27bxNe4jPaELphe9qH96ApiBnHmS+ltd8uz81cucojZX/1amWyxhpNgVbi
+ mv8Y47EE+72lZvIvidr8mLhLQIQW6i2K2a7pJGLmvSJMfotn+pD52VQjHGnAsrkDbNcE
+ g5MnHpvEaFPNZXgDiO29utabJ/axt2NROzxQ+y+x2VmkQv50kAk2PBFPdqY6G72kOvgK
+ 4RC2RMDw/3H8KOmp4rt0uY0I1KzD0U5ZMm/LPFL5qdzMQAV2hjzrT922ApAxrrMTIF0W
+ 0ALg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=96N5tnRCvbcN1KRqaQDxjyX8yPM2aYWAc/X/RMT0qAQ=;
+ b=bYv2tnddpIabgSyUyFBqnGmGU7rYp8a1Y4uRu0lHPjVYwCWNOuzjBeBFiKtvvz8ASC
+ Jv80h6VenjsC6h2cauPD3Kv9MXzDXO5t4lnZm8TUHjrhrmfRfVzQvfYkx7Sl60+IFVQk
+ r/9sEv9rSlqxwZcmwTUKDutEGn6p5XHl1yFSfWHV/JRmfujkcH7Q/IHwtPuhLP0XnaN7
+ WGXheYT5SN5x+fn+8C1CqlZiVdWfe7fW7GpQiDBPbJvVlIzMylP5q4bkYJe7YnT2JBv7
+ JVevWOn5WcfV6xviNpNtIVFKXN9KGafCEhodCP5kuK5xPNrjnXSRxHEDF4zTKhIA57kS
+ 2yDQ==
+X-Gm-Message-State: AOAM532oZANw5CKt5WgF84TMU5Xz5MfrEExEr7LtrX4X2bxA5kQuF4dU
+ 4RmNcTPID6TR3d4wcL3gZO3tl+F5y7+8v+EpMzg=
+X-Google-Smtp-Source: ABdhPJyYR0xhPFZTHeBcaSbsdfz9ZTNjf0tWfONVf++egViCr/BNxtOiDLq7xgZm/EviAGuuIwlO8FkEYggHDA5XvbY=
+X-Received: by 2002:a92:6802:: with SMTP id d2mr28918511ilc.40.1629872279306; 
+ Tue, 24 Aug 2021 23:17:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="RQGYdWsleVmS8KR7"
-Content-Disposition: inline
-In-Reply-To: <20210809134547.689560-16-clg@kaod.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
+References: <20210823195529.560295-1-richard.henderson@linaro.org>
+ <20210823195529.560295-22-richard.henderson@linaro.org>
+In-Reply-To: <20210823195529.560295-22-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 25 Aug 2021 16:17:33 +1000
+Message-ID: <CAKmqyKPQVspVM3iBAqw8y7fAt_qi-aoTeBtMG6EXoWrTmZ-jBA@mail.gmail.com>
+Subject: Re: [PATCH v5 21/24] target/riscv: Use {get,dest}_gpr for RVF
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12f;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12f.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,238 +76,328 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, Aug 24, 2021 at 6:04 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
---RQGYdWsleVmS8KR7
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-On Mon, Aug 09, 2021 at 03:45:36PM +0200, C=E9dric Le Goater wrote:
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Alistair
 
 > ---
->  include/hw/ppc/pnv.h       | 10 ++++++
->  include/hw/ppc/pnv_homer.h |  3 ++
->  include/hw/ppc/pnv_xscom.h |  3 ++
->  hw/ppc/pnv.c               | 20 ++++++++++++
->  hw/ppc/pnv_homer.c         | 64 ++++++++++++++++++++++++++++++++++++++
->  5 files changed, 100 insertions(+)
->=20
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index f44b9947d00e..3ea2d798eed1 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -128,6 +128,7 @@ struct Pnv10Chip {
->      Pnv9Psi      psi;
->      PnvLpcController lpc;
->      PnvOCC       occ;
-> +    PnvHomer     homer;
-> =20
->      uint32_t     nr_quads;
->      PnvQuad      *quads;
-> @@ -358,4 +359,13 @@ void pnv_bmc_set_pnor(IPMIBmc *bmc, PnvPnor *pnor);
->  #define PNV10_XIVE2_END_SIZE        0x0000020000000000ull
->  #define PNV10_XIVE2_END_BASE(chip)  PNV10_CHIP_BASE(chip, 0x000606000000=
-0000ull)
-> =20
-> +#define PNV10_OCC_COMMON_AREA_SIZE  0x0000000000800000ull
-> +#define PNV10_OCC_COMMON_AREA_BASE  0x300fff800000ull
-> +#define PNV10_OCC_SENSOR_BASE(chip) (PNV10_OCC_COMMON_AREA_BASE +       \
-> +    PNV_OCC_SENSOR_DATA_BLOCK_BASE((chip)->chip_id))
-> +
-> +#define PNV10_HOMER_SIZE              0x0000000000400000ull
-> +#define PNV10_HOMER_BASE(chip)                                          =
- \
-> +    (0x300ffd800000ll + ((uint64_t)(chip)->chip_id) * PNV10_HOMER_SIZE)
-> +
->  #endif /* PPC_PNV_H */
-> diff --git a/include/hw/ppc/pnv_homer.h b/include/hw/ppc/pnv_homer.h
-> index 1889e3083c57..07e8b193116e 100644
-> --- a/include/hw/ppc/pnv_homer.h
-> +++ b/include/hw/ppc/pnv_homer.h
-> @@ -32,6 +32,9 @@ DECLARE_INSTANCE_CHECKER(PnvHomer, PNV8_HOMER,
->  #define TYPE_PNV9_HOMER TYPE_PNV_HOMER "-POWER9"
->  DECLARE_INSTANCE_CHECKER(PnvHomer, PNV9_HOMER,
->                           TYPE_PNV9_HOMER)
-> +#define TYPE_PNV10_HOMER TYPE_PNV_HOMER "-POWER10"
-> +DECLARE_INSTANCE_CHECKER(PnvHomer, PNV10_HOMER,
-> +                         TYPE_PNV10_HOMER)
-> =20
->  struct PnvHomer {
->      DeviceState parent;
-> diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
-> index 75db33d46af6..7c7440de0c40 100644
-> --- a/include/hw/ppc/pnv_xscom.h
-> +++ b/include/hw/ppc/pnv_xscom.h
-> @@ -134,6 +134,9 @@ struct PnvXScomInterfaceClass {
->  #define PNV10_XSCOM_OCC_BASE       PNV9_XSCOM_OCC_BASE
->  #define PNV10_XSCOM_OCC_SIZE       PNV9_XSCOM_OCC_SIZE
-> =20
-> +#define PNV10_XSCOM_PBA_BASE       0x01010CDA
-> +#define PNV10_XSCOM_PBA_SIZE       0x40
-> +
->  #define PNV10_XSCOM_XIVE2_BASE     0x2010800
->  #define PNV10_XSCOM_XIVE2_SIZE     0x400
-> =20
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 125466023148..2d7eade23ccc 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -1614,6 +1614,7 @@ static void pnv_chip_power10_instance_init(Object *=
-obj)
->      object_initialize_child(obj, "psi", &chip10->psi, TYPE_PNV10_PSI);
->      object_initialize_child(obj, "lpc", &chip10->lpc, TYPE_PNV10_LPC);
->      object_initialize_child(obj, "occ",  &chip10->occ, TYPE_PNV10_OCC);
-> +    object_initialize_child(obj, "homer", &chip10->homer, TYPE_PNV10_HOM=
-ER);
-> =20
->      for (i =3D 0; i < PNV10_CHIP_MAX_PEC; i++) {
->          object_initialize_child(obj, "pec[*]", &chip10->pecs[i],
-> @@ -1797,6 +1798,25 @@ static void pnv_chip_power10_realize(DeviceState *=
-dev, Error **errp)
->      pnv_xscom_add_subregion(chip, PNV10_XSCOM_OCC_BASE,
->                              &chip10->occ.xscom_regs);
-> =20
-> +    /* OCC SRAM model */
-> +    memory_region_add_subregion(get_system_memory(),
-> +                                PNV10_OCC_SENSOR_BASE(chip),
-> +                                &chip10->occ.sram_regs);
-> +
-> +    /* HOMER */
-> +    object_property_set_link(OBJECT(&chip10->homer), "chip", OBJECT(chip=
-),
-> +                             &error_abort);
-> +    if (!qdev_realize(DEVICE(&chip10->homer), NULL, errp)) {
-> +        return;
-> +    }
-> +    /* Homer Xscom region */
-> +    pnv_xscom_add_subregion(chip, PNV10_XSCOM_PBA_BASE,
-> +                            &chip10->homer.pba_regs);
-> +
-> +    /* Homer mmio region */
-> +    memory_region_add_subregion(get_system_memory(), PNV10_HOMER_BASE(ch=
-ip),
-> +                                &chip10->homer.regs);
-> +
->      /* PHBs */
->      pnv_chip_power10_phb_realize(chip, &local_err);
->      if (local_err) {
-> diff --git a/hw/ppc/pnv_homer.c b/hw/ppc/pnv_homer.c
-> index 9a262629b73a..ea73919e54ca 100644
-> --- a/hw/ppc/pnv_homer.c
-> +++ b/hw/ppc/pnv_homer.c
-> @@ -332,6 +332,69 @@ static const TypeInfo pnv_homer_power9_type_info =3D=
- {
->      .class_init    =3D pnv_homer_power9_class_init,
->  };
-> =20
-> +static uint64_t pnv_homer_power10_pba_read(void *opaque, hwaddr addr,
-> +                                          unsigned size)
-> +{
-> +    PnvHomer *homer =3D PNV_HOMER(opaque);
-> +    PnvChip *chip =3D homer->chip;
-> +    uint32_t reg =3D addr >> 3;
-> +    uint64_t val =3D 0;
-> +
-> +    switch (reg) {
-> +    case PBA_BAR0:
-> +        val =3D PNV10_HOMER_BASE(chip);
-> +        break;
-> +    case PBA_BARMASK0: /* P10 homer region mask */
-> +        val =3D (PNV10_HOMER_SIZE - 1) & 0x300000;
-> +        break;
-> +    case PBA_BAR2: /* P10 occ common area */
-> +        val =3D PNV10_OCC_COMMON_AREA_BASE;
-> +        break;
-> +    case PBA_BARMASK2: /* P10 occ common area size */
-> +        val =3D (PNV10_OCC_COMMON_AREA_SIZE - 1) & 0x700000;
-> +        break;
-> +    default:
-> +        qemu_log_mask(LOG_UNIMP, "PBA: read to unimplemented register: O=
-x%"
-> +                      HWADDR_PRIx "\n", addr >> 3);
-> +    }
-> +    return val;
-> +}
-> +
-> +static void pnv_homer_power10_pba_write(void *opaque, hwaddr addr,
-> +                                         uint64_t val, unsigned size)
-> +{
-> +    qemu_log_mask(LOG_UNIMP, "PBA: write to unimplemented register: Ox%"
-> +                  HWADDR_PRIx "\n", addr >> 3);
-> +}
-> +
-> +static const MemoryRegionOps pnv_homer_power10_pba_ops =3D {
-> +    .read =3D pnv_homer_power10_pba_read,
-> +    .write =3D pnv_homer_power10_pba_write,
-> +    .valid.min_access_size =3D 8,
-> +    .valid.max_access_size =3D 8,
-> +    .impl.min_access_size =3D 8,
-> +    .impl.max_access_size =3D 8,
-> +    .endianness =3D DEVICE_BIG_ENDIAN,
-> +};
-> +
-> +static void pnv_homer_power10_class_init(ObjectClass *klass, void *data)
-> +{
-> +    PnvHomerClass *homer =3D PNV_HOMER_CLASS(klass);
-> +
-> +    homer->pba_size =3D PNV10_XSCOM_PBA_SIZE;
-> +    homer->pba_ops =3D &pnv_homer_power10_pba_ops;
-> +    homer->homer_size =3D PNV10_HOMER_SIZE;
-> +    homer->homer_ops =3D &pnv_power9_homer_ops; /* TODO */
-> +    homer->core_max_base =3D PNV9_CORE_MAX_BASE;
-> +}
-> +
-> +static const TypeInfo pnv_homer_power10_type_info =3D {
-> +    .name          =3D TYPE_PNV10_HOMER,
-> +    .parent        =3D TYPE_PNV_HOMER,
-> +    .instance_size =3D sizeof(PnvHomer),
-> +    .class_init    =3D pnv_homer_power10_class_init,
-> +};
-> +
->  static void pnv_homer_realize(DeviceState *dev, Error **errp)
+>  target/riscv/insn_trans/trans_rvf.c.inc | 146 ++++++++++++------------
+>  1 file changed, 70 insertions(+), 76 deletions(-)
+>
+> diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_trans/trans_rvf.c.inc
+> index fb9f7f9c00..bddbd418d9 100644
+> --- a/target/riscv/insn_trans/trans_rvf.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvf.c.inc
+> @@ -25,32 +25,43 @@
+>
+>  static bool trans_flw(DisasContext *ctx, arg_flw *a)
 >  {
->      PnvHomer *homer =3D PNV_HOMER(dev);
-> @@ -377,6 +440,7 @@ static void pnv_homer_register_types(void)
->      type_register_static(&pnv_homer_type_info);
->      type_register_static(&pnv_homer_power8_type_info);
->      type_register_static(&pnv_homer_power9_type_info);
-> +    type_register_static(&pnv_homer_power10_type_info);
+> +    TCGv_i64 dest;
+> +    TCGv addr;
+> +
+>      REQUIRE_FPU;
+>      REQUIRE_EXT(ctx, RVF);
+> -    TCGv t0 = tcg_temp_new();
+> -    gen_get_gpr(ctx, t0, a->rs1);
+> -    tcg_gen_addi_tl(t0, t0, a->imm);
+>
+> -    tcg_gen_qemu_ld_i64(cpu_fpr[a->rd], t0, ctx->mem_idx, MO_TEUL);
+> -    gen_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rd]);
+> +    addr = get_gpr(ctx, a->rs1, EXT_NONE);
+> +    if (a->imm) {
+> +        TCGv temp = temp_new(ctx);
+> +        tcg_gen_addi_tl(temp, addr, a->imm);
+> +        addr = temp;
+> +    }
+> +
+> +    dest = cpu_fpr[a->rd];
+> +    tcg_gen_qemu_ld_i64(dest, addr, ctx->mem_idx, MO_TEUL);
+> +    gen_nanbox_s(dest, dest);
+>
+> -    tcg_temp_free(t0);
+>      mark_fs_dirty(ctx);
+>      return true;
 >  }
-> =20
->  type_init(pnv_homer_register_types);
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---RQGYdWsleVmS8KR7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEl30sACgkQbDjKyiDZ
-s5KXfxAAgRoJnFC2ohV+QhzdEdJg9AqhQsvk2G5QXnbun3KjxmnGBj/MtqanHlkq
-VZMrPZ0NFIfcd8txYXxUApK2k44VqQCvqdcq7wOW3ypEnE+WkiGhgM/ASDKm1Gul
-6Ug0xrZC0uR6VhbFNnY0ONF6Yj+tdTBgr4Ois+Fnoz6ljTa0Ly1ZUEfAooLWdp91
-y7EdlIMDss9Fc6rgH115wYEm+HZnu7eqlooGXBgl7QiEq1I2S+SMMKD+Q0BSI4ao
-OT+l4HQ8thaZusrfCFD5yAqdwqYeZENl0cxqj9to31i0Vazkiz7SZEVCJBMSb/tv
-n7RVo2F/9DfLCdc99Q/iOiA2Cn8z1ghKx9zYGtuQxDT0rrcQtLPK1C3exUK/AlTw
-LXj4owHDPE/UJ80+0BOksfj4Lv3AFtipKWhWxZp59Lk7/nUjHL5VowYmY9vBkyw4
-hA6XRNMbsqxBC0MiTjIC9YPAdY0XaCpEWTgh5zRPhYD8MFRP2sQGNl9nuBoon2s8
-koO/yGH+Go8UAldcVQWsupskqXpj+gdSV0re2woiSH5fgAZnHJ8zCMSbTw4aAjKp
-OtJVs628qcG7gFc8niqPbFETZj5ZMeFkZQu2jBInfa7QZ7FXsYlTR0/YV8jZX3hD
-3RWZLRsFWq2APWbYzgMAj0uE3Lo6OjF1BAAJWmheOHp8sUsNgTw=
-=B3Xw
------END PGP SIGNATURE-----
-
---RQGYdWsleVmS8KR7--
+>
+>  static bool trans_fsw(DisasContext *ctx, arg_fsw *a)
+>  {
+> +    TCGv addr;
+> +
+>      REQUIRE_FPU;
+>      REQUIRE_EXT(ctx, RVF);
+> -    TCGv t0 = tcg_temp_new();
+> -    gen_get_gpr(ctx, t0, a->rs1);
+>
+> -    tcg_gen_addi_tl(t0, t0, a->imm);
+> +    addr = get_gpr(ctx, a->rs1, EXT_NONE);
+> +    if (a->imm) {
+> +        TCGv temp = tcg_temp_new();
+> +        tcg_gen_addi_tl(temp, addr, a->imm);
+> +        addr = temp;
+> +    }
+>
+> -    tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], t0, ctx->mem_idx, MO_TEUL);
+> +    tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], addr, ctx->mem_idx, MO_TEUL);
+>
+> -    tcg_temp_free(t0);
+>      return true;
+>  }
+>
+> @@ -271,12 +282,11 @@ static bool trans_fcvt_w_s(DisasContext *ctx, arg_fcvt_w_s *a)
+>      REQUIRE_FPU;
+>      REQUIRE_EXT(ctx, RVF);
+>
+> -    TCGv t0 = tcg_temp_new();
+> -    gen_set_rm(ctx, a->rm);
+> -    gen_helper_fcvt_w_s(t0, cpu_env, cpu_fpr[a->rs1]);
+> -    gen_set_gpr(ctx, a->rd, t0);
+> -    tcg_temp_free(t0);
+> +    TCGv dest = dest_gpr(ctx, a->rd);
+>
+> +    gen_set_rm(ctx, a->rm);
+> +    gen_helper_fcvt_w_s(dest, cpu_env, cpu_fpr[a->rs1]);
+> +    gen_set_gpr(ctx, a->rd, dest);
+>      return true;
+>  }
+>
+> @@ -285,12 +295,11 @@ static bool trans_fcvt_wu_s(DisasContext *ctx, arg_fcvt_wu_s *a)
+>      REQUIRE_FPU;
+>      REQUIRE_EXT(ctx, RVF);
+>
+> -    TCGv t0 = tcg_temp_new();
+> -    gen_set_rm(ctx, a->rm);
+> -    gen_helper_fcvt_wu_s(t0, cpu_env, cpu_fpr[a->rs1]);
+> -    gen_set_gpr(ctx, a->rd, t0);
+> -    tcg_temp_free(t0);
+> +    TCGv dest = dest_gpr(ctx, a->rd);
+>
+> +    gen_set_rm(ctx, a->rm);
+> +    gen_helper_fcvt_wu_s(dest, cpu_env, cpu_fpr[a->rs1]);
+> +    gen_set_gpr(ctx, a->rd, dest);
+>      return true;
+>  }
+>
+> @@ -300,17 +309,15 @@ static bool trans_fmv_x_w(DisasContext *ctx, arg_fmv_x_w *a)
+>      REQUIRE_FPU;
+>      REQUIRE_EXT(ctx, RVF);
+>
+> -    TCGv t0 = tcg_temp_new();
+> +    TCGv dest = dest_gpr(ctx, a->rd);
+>
+>  #if defined(TARGET_RISCV64)
+> -    tcg_gen_ext32s_tl(t0, cpu_fpr[a->rs1]);
+> +    tcg_gen_ext32s_tl(dest, cpu_fpr[a->rs1]);
+>  #else
+> -    tcg_gen_extrl_i64_i32(t0, cpu_fpr[a->rs1]);
+> +    tcg_gen_extrl_i64_i32(dest, cpu_fpr[a->rs1]);
+>  #endif
+>
+> -    gen_set_gpr(ctx, a->rd, t0);
+> -    tcg_temp_free(t0);
+> -
+> +    gen_set_gpr(ctx, a->rd, dest);
+>      return true;
+>  }
+>
+> @@ -318,10 +325,11 @@ static bool trans_feq_s(DisasContext *ctx, arg_feq_s *a)
+>  {
+>      REQUIRE_FPU;
+>      REQUIRE_EXT(ctx, RVF);
+> -    TCGv t0 = tcg_temp_new();
+> -    gen_helper_feq_s(t0, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
+> -    gen_set_gpr(ctx, a->rd, t0);
+> -    tcg_temp_free(t0);
+> +
+> +    TCGv dest = dest_gpr(ctx, a->rd);
+> +
+> +    gen_helper_feq_s(dest, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
+> +    gen_set_gpr(ctx, a->rd, dest);
+>      return true;
+>  }
+>
+> @@ -329,10 +337,11 @@ static bool trans_flt_s(DisasContext *ctx, arg_flt_s *a)
+>  {
+>      REQUIRE_FPU;
+>      REQUIRE_EXT(ctx, RVF);
+> -    TCGv t0 = tcg_temp_new();
+> -    gen_helper_flt_s(t0, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
+> -    gen_set_gpr(ctx, a->rd, t0);
+> -    tcg_temp_free(t0);
+> +
+> +    TCGv dest = dest_gpr(ctx, a->rd);
+> +
+> +    gen_helper_flt_s(dest, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
+> +    gen_set_gpr(ctx, a->rd, dest);
+>      return true;
+>  }
+>
+> @@ -340,10 +349,11 @@ static bool trans_fle_s(DisasContext *ctx, arg_fle_s *a)
+>  {
+>      REQUIRE_FPU;
+>      REQUIRE_EXT(ctx, RVF);
+> -    TCGv t0 = tcg_temp_new();
+> -    gen_helper_fle_s(t0, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
+> -    gen_set_gpr(ctx, a->rd, t0);
+> -    tcg_temp_free(t0);
+> +
+> +    TCGv dest = dest_gpr(ctx, a->rd);
+> +
+> +    gen_helper_fle_s(dest, cpu_env, cpu_fpr[a->rs1], cpu_fpr[a->rs2]);
+> +    gen_set_gpr(ctx, a->rd, dest);
+>      return true;
+>  }
+>
+> @@ -352,13 +362,10 @@ static bool trans_fclass_s(DisasContext *ctx, arg_fclass_s *a)
+>      REQUIRE_FPU;
+>      REQUIRE_EXT(ctx, RVF);
+>
+> -    TCGv t0 = tcg_temp_new();
+> -
+> -    gen_helper_fclass_s(t0, cpu_fpr[a->rs1]);
+> -
+> -    gen_set_gpr(ctx, a->rd, t0);
+> -    tcg_temp_free(t0);
+> +    TCGv dest = dest_gpr(ctx, a->rd);
+>
+> +    gen_helper_fclass_s(dest, cpu_fpr[a->rs1]);
+> +    gen_set_gpr(ctx, a->rd, dest);
+>      return true;
+>  }
+>
+> @@ -367,15 +374,12 @@ static bool trans_fcvt_s_w(DisasContext *ctx, arg_fcvt_s_w *a)
+>      REQUIRE_FPU;
+>      REQUIRE_EXT(ctx, RVF);
+>
+> -    TCGv t0 = tcg_temp_new();
+> -    gen_get_gpr(ctx, t0, a->rs1);
+> +    TCGv src = get_gpr(ctx, a->rs1, EXT_SIGN);
+>
+>      gen_set_rm(ctx, a->rm);
+> -    gen_helper_fcvt_s_w(cpu_fpr[a->rd], cpu_env, t0);
+> +    gen_helper_fcvt_s_w(cpu_fpr[a->rd], cpu_env, src);
+>
+>      mark_fs_dirty(ctx);
+> -    tcg_temp_free(t0);
+> -
+>      return true;
+>  }
+>
+> @@ -384,15 +388,12 @@ static bool trans_fcvt_s_wu(DisasContext *ctx, arg_fcvt_s_wu *a)
+>      REQUIRE_FPU;
+>      REQUIRE_EXT(ctx, RVF);
+>
+> -    TCGv t0 = tcg_temp_new();
+> -    gen_get_gpr(ctx, t0, a->rs1);
+> +    TCGv src = get_gpr(ctx, a->rs1, EXT_ZERO);
+>
+>      gen_set_rm(ctx, a->rm);
+> -    gen_helper_fcvt_s_wu(cpu_fpr[a->rd], cpu_env, t0);
+> +    gen_helper_fcvt_s_wu(cpu_fpr[a->rd], cpu_env, src);
+>
+>      mark_fs_dirty(ctx);
+> -    tcg_temp_free(t0);
+> -
+>      return true;
+>  }
+>
+> @@ -402,15 +403,12 @@ static bool trans_fmv_w_x(DisasContext *ctx, arg_fmv_w_x *a)
+>      REQUIRE_FPU;
+>      REQUIRE_EXT(ctx, RVF);
+>
+> -    TCGv t0 = tcg_temp_new();
+> -    gen_get_gpr(ctx, t0, a->rs1);
+> +    TCGv src = get_gpr(ctx, a->rs1, EXT_ZERO);
+>
+> -    tcg_gen_extu_tl_i64(cpu_fpr[a->rd], t0);
+> +    tcg_gen_extu_tl_i64(cpu_fpr[a->rd], src);
+>      gen_nanbox_s(cpu_fpr[a->rd], cpu_fpr[a->rd]);
+>
+>      mark_fs_dirty(ctx);
+> -    tcg_temp_free(t0);
+> -
+>      return true;
+>  }
+>
+> @@ -420,11 +418,11 @@ static bool trans_fcvt_l_s(DisasContext *ctx, arg_fcvt_l_s *a)
+>      REQUIRE_FPU;
+>      REQUIRE_EXT(ctx, RVF);
+>
+> -    TCGv t0 = tcg_temp_new();
+> +    TCGv dest = dest_gpr(ctx, a->rd);
+> +
+>      gen_set_rm(ctx, a->rm);
+> -    gen_helper_fcvt_l_s(t0, cpu_env, cpu_fpr[a->rs1]);
+> -    gen_set_gpr(ctx, a->rd, t0);
+> -    tcg_temp_free(t0);
+> +    gen_helper_fcvt_l_s(dest, cpu_env, cpu_fpr[a->rs1]);
+> +    gen_set_gpr(ctx, a->rd, dest);
+>      return true;
+>  }
+>
+> @@ -434,11 +432,11 @@ static bool trans_fcvt_lu_s(DisasContext *ctx, arg_fcvt_lu_s *a)
+>      REQUIRE_FPU;
+>      REQUIRE_EXT(ctx, RVF);
+>
+> -    TCGv t0 = tcg_temp_new();
+> +    TCGv dest = dest_gpr(ctx, a->rd);
+> +
+>      gen_set_rm(ctx, a->rm);
+> -    gen_helper_fcvt_lu_s(t0, cpu_env, cpu_fpr[a->rs1]);
+> -    gen_set_gpr(ctx, a->rd, t0);
+> -    tcg_temp_free(t0);
+> +    gen_helper_fcvt_lu_s(dest, cpu_env, cpu_fpr[a->rs1]);
+> +    gen_set_gpr(ctx, a->rd, dest);
+>      return true;
+>  }
+>
+> @@ -448,14 +446,12 @@ static bool trans_fcvt_s_l(DisasContext *ctx, arg_fcvt_s_l *a)
+>      REQUIRE_FPU;
+>      REQUIRE_EXT(ctx, RVF);
+>
+> -    TCGv t0 = tcg_temp_new();
+> -    gen_get_gpr(ctx, t0, a->rs1);
+> +    TCGv src = get_gpr(ctx, a->rs1, EXT_SIGN);
+>
+>      gen_set_rm(ctx, a->rm);
+> -    gen_helper_fcvt_s_l(cpu_fpr[a->rd], cpu_env, t0);
+> +    gen_helper_fcvt_s_l(cpu_fpr[a->rd], cpu_env, src);
+>
+>      mark_fs_dirty(ctx);
+> -    tcg_temp_free(t0);
+>      return true;
+>  }
+>
+> @@ -465,13 +461,11 @@ static bool trans_fcvt_s_lu(DisasContext *ctx, arg_fcvt_s_lu *a)
+>      REQUIRE_FPU;
+>      REQUIRE_EXT(ctx, RVF);
+>
+> -    TCGv t0 = tcg_temp_new();
+> -    gen_get_gpr(ctx, t0, a->rs1);
+> +    TCGv src = get_gpr(ctx, a->rs1, EXT_ZERO);
+>
+>      gen_set_rm(ctx, a->rm);
+> -    gen_helper_fcvt_s_lu(cpu_fpr[a->rd], cpu_env, t0);
+> +    gen_helper_fcvt_s_lu(cpu_fpr[a->rd], cpu_env, src);
+>
+>      mark_fs_dirty(ctx);
+> -    tcg_temp_free(t0);
+>      return true;
+>  }
+> --
+> 2.25.1
+>
+>
 
