@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 838753F75CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:21:10 +0200 (CEST)
-Received: from localhost ([::1]:52028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5413F75D1
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 15:23:06 +0200 (CEST)
+Received: from localhost ([::1]:60450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIsq5-00043A-Gj
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:21:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50774)
+	id 1mIsrx-0001ph-JF
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 09:23:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mIsYv-0000Jt-Nt
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:03:25 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:46764)
+ id 1mIsYw-0000MO-Ha
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:03:26 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:42663)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mIsYq-0002YR-Eo
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:03:25 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- m25-20020a7bcb99000000b002e751bcb5dbso4520488wmi.5
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 06:03:20 -0700 (PDT)
+ id 1mIsYv-0002Zq-1i
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 09:03:26 -0400
+Received: by mail-wm1-x335.google.com with SMTP id
+ k20-20020a05600c0b5400b002e87ad6956eso2869022wmr.1
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 06:03:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7K4agRCBaycik3Kl53uHvRTckq1KBjkJxVACY1s8PEc=;
- b=IboX7k+qJsZB+NrThlzjpON6eM2UR/hSngZ0BNiV8sce0If9Gnif03rQEiebE4BgBa
- gmdETwYXLKD5UQ0mQnuELgnmaOHzwkXd2dwecf3F9q02Ioh1INbeGvn1Wl4MQFXn5wnf
- AAChC6jDQcpgArmrAg7xp/2MwJSyNanA8GY7Lmpp5PF0Y3OlefjXMrilSkTgJJJ8PwNg
- IzZ3TB4PaJXLbOW452jvPE/BbhJiSAlNP+wZA3ouJnmvlPOc5Nf8Y7kkVcDNXPfSPNgn
- R7LISy3+fvleVBiQHmpiphgu80ZRtVENYwO8Tjclc8qX9IBrWE4gOm3C2gOCxDMekFTc
- ldMg==
+ bh=Q2GBJLLz4fX2cAnRDxHMbQVxUbqrTMTT7pmg3XAcYZM=;
+ b=ijL5G5eoKqRB5PNVm56QPbFxIa8BUfe5JeELCOJEi5WJYOA4r0a1SmR1S8DbeuDmHr
+ IdqIk5ANVCksMqeyOiGvXBglmPFljnPv/jq0lG2yQ6gRtLegc5iyPHQNisUGc2pVLa0M
+ +V7bvva+2aZQ7U0vZxtQSRMg7N7VL2KumnKrcuNIB17o5B8Mhn6t2mDH2/ZaHKK72MTv
+ Prso1urrjKIjudIZ50MoB1pmXQNyZhM9EFtQkcL381XCAqMflcSPN9dcOFD9I5mAil0S
+ mrQS8Q6a4dgXWUfwC7MofT4GPv6OHyVGJNwZSb/9ioIr1u30I7LpETFU3sHSFqyNTQ9s
+ rFvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=7K4agRCBaycik3Kl53uHvRTckq1KBjkJxVACY1s8PEc=;
- b=abeA1ZsovZOxwHeKvAEUPx/wYrwar3XU9FFjOWtVOPxn0XWgqFbp9iujAeQ+W22AOX
- yifYVHi/gCBA9Ye5nmULRQ4RW/c7kCp8CLdyQx87j2vrR69F5CjWE021I2nFg/3VU+fT
- 1ksE54MkgIQr8r0gVXUjmWnZiDRt5A+frgWaGtY5x9/v+BtjLqVqqHE6UtDg/77G/FXk
- EgqnZXrdpgOokADDr2SA7G4MVYKb4rjfzda4PQkfI0WhkC1/fZqTDNvZXFts+tBdBcKX
- k+zgBORBQ22n/m54kPRKUcm4ZHEwRdH7Bao3b0s+v9t/wyjflvTec//k6ajuhT9T6Ey8
- dOnA==
-X-Gm-Message-State: AOAM531BCGj0FrVM6ACkJt25ALSk+U/z5b9QgfpH1/VMmKtt6wf6GcjP
- /wYOJncAwD07YLxFoVlbTAysnNxICBU=
-X-Google-Smtp-Source: ABdhPJz8+MFHLaOQkG51xP/TdF58MFnicoG7i83zJBJR6ELORKwcYeg6FYt+qwoXE4GXJZBMlXs8bQ==
-X-Received: by 2002:a05:600c:154e:: with SMTP id
- f14mr9262374wmg.162.1629896598843; 
- Wed, 25 Aug 2021 06:03:18 -0700 (PDT)
+ bh=Q2GBJLLz4fX2cAnRDxHMbQVxUbqrTMTT7pmg3XAcYZM=;
+ b=Gr0kpsl1AzjztMXWWEeUnHz6oOK5+SMkB8/8TXggFhFLzSq1cemlGflSRfZ2CLXApD
+ K3YDtSByJgm8rglq3OWE93Z2X0/AwhPr/IKOwAFxFOdO+kceNk4oPQkimi+DA1wsU9uk
+ XeX3zTskI63cc05wXyBJSEmouiX3ETXzOdBFWnMdV4+WS7/4TDFquuPh0boJYhxKGuPu
+ 1GIHc9C8HOEfh01svFr1tT5witmxLh8qt6exbQotVG4afahxcm8uhldpBrioyDTCNmSE
+ lpn24agGPbkMfCT/7mHJ7jcPF3qskx584Zll2bRKR8vydqVm1DAIYjde3Vpp1PQquTlo
+ tmGw==
+X-Gm-Message-State: AOAM5338F2mNZT2RQ3pkuKXjnKvYzYocJoV5rinDiYiu9tRqpmHqv7MG
+ VdK8mF9i7tXycx8QB3enUOndZrthXis=
+X-Google-Smtp-Source: ABdhPJwuZzNL5vhmxunT3XVOqMa+zxIl4nnjUGsoNaz7VfEcsIbPKM+DmZ3bbmZzYmiqWF5L8mvXtQ==
+X-Received: by 2002:a1c:f606:: with SMTP id w6mr9434386wmc.42.1629896603404;
+ Wed, 25 Aug 2021 06:03:23 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- p11sm1892558wma.16.2021.08.25.06.03.17
+ c6sm5004545wrp.95.2021.08.25.06.03.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 06:03:18 -0700 (PDT)
+ Wed, 25 Aug 2021 06:03:22 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/28] target/mips: Allow Loongson 3A1000 to use up to 48-bit
- VAddr
-Date: Wed, 25 Aug 2021 15:01:57 +0200
-Message-Id: <20210825130211.1542338-15-f4bug@amsat.org>
+Subject: [PULL 15/28] target/mips: Remove duplicated check_cp1_enabled() calls
+ in Loongson EXT
+Date: Wed, 25 Aug 2021 15:01:58 +0200
+Message-Id: <20210825130211.1542338-16-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210825130211.1542338-1-f4bug@amsat.org>
 References: <20210825130211.1542338-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,31 +94,37 @@ Cc: Aurelien Jarno <aurelien@aurel32.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per the manual '龙芯 GS264 处理器核用户手册' v1.0, chapter
-1.1.5 SEGBITS: the 3A1000 (based on GS464 core) implements
-48 virtual address bits in each 64-bit segment, not 40.
+We already call check_cp1_enabled() earlier in the "pre-conditions"
+checks for GSLWXC1 and GSLDXC1 in gen_loongson_lsdc2() prologue.
+Remove the duplicated calls.
 
-Fixes: af868995e1b ("target/mips: Add Loongson-3 CPU definition")
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Huacai Chen <chenhuacai@loongson.cn>
-Message-Id: <20210813110149.1432692-3-f4bug@amsat.org>
+Message-Id: <20210816001031.1720432-1-f4bug@amsat.org>
 ---
- target/mips/cpu-defs.c.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/mips/tcg/translate.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/target/mips/cpu-defs.c.inc b/target/mips/cpu-defs.c.inc
-index c6ab3af190e..cbc45fcb0e8 100644
---- a/target/mips/cpu-defs.c.inc
-+++ b/target/mips/cpu-defs.c.inc
-@@ -828,7 +828,7 @@ const mips_def_t mips_defs[] =
-                     (0x1 << FCR0_D) | (0x1 << FCR0_S),
-         .CP1_fcr31 = 0,
-         .CP1_fcr31_rw_bitmask = 0xFF83FFFF,
--        .SEGBITS = 42,
-+        .SEGBITS = 48,
-         .PABITS = 48,
-         .insn_flags = CPU_MIPS64R2 | INSN_LOONGSON3A |
-                       ASE_LMMI | ASE_LEXT,
+diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+index 30780deb96f..a58d50e40e2 100644
+--- a/target/mips/tcg/translate.c
++++ b/target/mips/tcg/translate.c
+@@ -4693,7 +4693,6 @@ static void gen_loongson_lsdc2(DisasContext *ctx, int rt,
+         break;
+ #endif
+     case OPC_GSLWXC1:
+-        check_cp1_enabled(ctx);
+         gen_base_offset_addr(ctx, t0, rs, offset);
+         if (rd) {
+             gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
+@@ -4706,7 +4705,6 @@ static void gen_loongson_lsdc2(DisasContext *ctx, int rt,
+         break;
+ #if defined(TARGET_MIPS64)
+     case OPC_GSLDXC1:
+-        check_cp1_enabled(ctx);
+         gen_base_offset_addr(ctx, t0, rs, offset);
+         if (rd) {
+             gen_op_addr_add(ctx, t0, cpu_gpr[rd], t0);
 -- 
 2.31.1
 
