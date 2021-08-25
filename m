@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80783F738D
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 12:43:09 +0200 (CEST)
-Received: from localhost ([::1]:36970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 818DB3F73B5
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 12:52:08 +0200 (CEST)
+Received: from localhost ([::1]:45066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIqNA-0005rq-Op
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 06:43:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48826)
+	id 1mIqVr-0005TH-IJ
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 06:52:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIqGG-0003qw-0n
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:36:00 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:51066)
+ id 1mIqGH-0003wI-BG
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:36:01 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:39853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIqGE-0005U1-07
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:35:59 -0400
-Received: by mail-wm1-x329.google.com with SMTP id m2so3048215wmm.0
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 03:35:57 -0700 (PDT)
+ id 1mIqGE-0005UF-NE
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:36:01 -0400
+Received: by mail-wr1-x432.google.com with SMTP id z4so20022044wrr.6
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 03:35:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=wLBDTVo8uPxsFMze+DTZAhzyPrmDpywm7k5ga1QcofA=;
- b=W9dR7tUvyId4kQ5RBG7IOzh6/W9CGnVKFgN2bGGB1lNWGPNTdJ6iGZLXpLZ/YL4XgR
- w93gqmT12bnwEqI7piqoNF6fz2AMoKTJvMp5AP78zW/U9/+bP0bFpjEidqEAPJzIjzsJ
- szPCzdjVuPJUjMCF6p5Sus5vzgT9gyHHi5CMfnPbpLRLAN8b5QYLUT9eeqzA810dhz0R
- VmKljeRhYcVbUC2h+cEFs2DJJ8jAvaDNC8lv80TFngo0TY7kZ3qcKrOlNXsM9XomeI9r
- xzl15q++RaLzKHYxHbMVnlEp/7Y8PUPD8DnyIynvj3noMF4CYxd6KALznlZQ97qS5rYV
- VimQ==
+ bh=rmaXRFhzA84467Map0exaJ0g7V5QOi2vgBWwnWDrh20=;
+ b=Ya8nvbsIITLHEbGo9C9gVRj3tDDMfQg04E553+jvgGa1uaRGSHWLeQD/ZglyD9vHLg
+ 8dglgKX1xQJaRpmA+Mb4cJXmHah8HgHmNLhVaBNK+VTCL89WR4Scg3HfQd/HVfenp5Pk
+ JB/SoapdrFcm7+Sazg/UYFQFoM1HlfZogZtSyNft0iwUr+lgecQ5NJTWKpMpJ9nqrd58
+ 7fHp7J4d42tdp9vHsGKpws5yNQjwXPQvaaMuRE7M3PM3Zt/Eml9ixyRAqy2LOi6qDxvA
+ SLF+ceqPyViWtSJUxFX1e07qMfJ6wD5cwA856WC38hHoCGI65R3nFf9Esj3KOofOG2at
+ lT+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wLBDTVo8uPxsFMze+DTZAhzyPrmDpywm7k5ga1QcofA=;
- b=JEF4HW/1AMNthH6tKD8AhKji0oGfbpPUcDR3OblysiQ6cWAybTByWDZ6V7QJYnEzvp
- 21qzETPTDrzz/iL365wVoI8Tju8cUyzJ6/yg/bmVSBfHFlWeuXKC9wd6ccqnXdwsUmDb
- pwtebI7UVR/kZHH34Cto0zy8JANjtvIrM21f5VR+0RJZ0sUNfKn9mCHqToNXWgW4z0mc
- lYDj0FNIzmzASSRJJ9WbAs9dZvwo9u7XKh1KJY3Es3r9cCW0hOAeEgPS1REtHYjyTlKk
- QzdUVY5gMbxLLad+j0aQh9Jxz6uiIfpY5ZxxGRP3fvc+WiR4MTFLicNQEWrCkurNAOlK
- AB4Q==
-X-Gm-Message-State: AOAM533sYQwc+m7Sktq+xuGfJPKdJl7gH8yJKFzdEFA0/mEARwd2GHyi
- BaMVevQZB+WvdXOI72e0OEEnPl5asVCOZA==
-X-Google-Smtp-Source: ABdhPJyGa6goEKJdRo7jlpBUug7TFceGQXbfzqOgMBpAyPS1hSZTQVWS5reGzTUsExdRPg9sa4NYRg==
-X-Received: by 2002:a1c:a5c2:: with SMTP id o185mr8615452wme.34.1629887756582; 
- Wed, 25 Aug 2021 03:35:56 -0700 (PDT)
+ bh=rmaXRFhzA84467Map0exaJ0g7V5QOi2vgBWwnWDrh20=;
+ b=ahjkq18N3tEO2r7o3eeZlYjSugsQ3j2KNlUtfPEAsSyVTCd6M7MERmNHCHSJ4cO/Bd
+ u62rjwtjAdY3loWXYnpRqdrjI3q6Dd6Sg/ijTm7GFXzzMpNeCkdQNT98iVB0pTcVTDTm
+ VsmximnMSLSKXmJxITSpCx4Nagir/LjiS0qXc6DJBTAdENN1YMZ8L6ZhTI6eDExShA5P
+ 8T988j4W22f9Um8xdtpUhUv55W9nY5bUzY5GTZ31YkWdO3NNqWLO4duDcXzAy0OQF7Do
+ /tFor6StRav3D0XQFTnGLvs66M7/AtUvaMsTpedJHChjLFF/GONf674Bk5MHUDJWXyue
+ MXGQ==
+X-Gm-Message-State: AOAM532vyVt1rBjfG3eyI7svhWduhkdDHWc1Izk8ukqZZ8vOJJKGUhSR
+ 354Uwnde+zizox/OAg6RMzQo/7NKnZG6DA==
+X-Google-Smtp-Source: ABdhPJxfc9qjP5W9XrTxrQfWuqMJCuowGgo2naZ3Ikpv7RAzlfRuqkRbynlgDHsvFt1JkpAG3aYJ7A==
+X-Received: by 2002:a5d:460a:: with SMTP id t10mr19527622wrq.147.1629887757342; 
+ Wed, 25 Aug 2021 03:35:57 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m4sm5075931wml.28.2021.08.25.03.35.55
+ by smtp.gmail.com with ESMTPSA id m4sm5075931wml.28.2021.08.25.03.35.56
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 25 Aug 2021 03:35:56 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/44] target/arm: Implement MVE VABAV
-Date: Wed, 25 Aug 2021 11:35:12 +0100
-Message-Id: <20210825103534.6936-23-peter.maydell@linaro.org>
+Subject: [PULL 23/44] target/arm: Implement MVE narrowing moves
+Date: Wed, 25 Aug 2021 11:35:13 +0100
+Message-Id: <20210825103534.6936-24-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210825103534.6936-1-peter.maydell@linaro.org>
 References: <20210825103534.6936-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,156 +86,217 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the MVE VABAV insn, which computes absolute differences
-between elements of two vectors and accumulates the result into
-a general purpose register.
+Implement the MVE narrowing move insns VMOVN, VQMOVN and VQMOVUN.
+These take a double-width input, narrow it (possibly saturating) and
+store the result to either the top or bottom half of the output
+element.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper-mve.h    |  7 +++++++
- target/arm/mve.decode      |  6 ++++++
- target/arm/mve_helper.c    | 26 +++++++++++++++++++++++
- target/arm/translate-mve.c | 43 ++++++++++++++++++++++++++++++++++++++
- 4 files changed, 82 insertions(+)
+ target/arm/helper-mve.h    | 20 ++++++++++
+ target/arm/mve.decode      | 12 ++++++
+ target/arm/mve_helper.c    | 78 ++++++++++++++++++++++++++++++++++++++
+ target/arm/translate-mve.c | 22 +++++++++++
+ 4 files changed, 132 insertions(+)
 
 diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
-index 2c66fcba792..c7e7aab2cbb 100644
+index c7e7aab2cbb..17484f74323 100644
 --- a/target/arm/helper-mve.h
 +++ b/target/arm/helper-mve.h
-@@ -402,6 +402,13 @@ DEF_HELPER_FLAGS_3(mve_vminavw, TCG_CALL_NO_WG, i32, env, ptr, i32)
- DEF_HELPER_FLAGS_3(mve_vaddlv_s, TCG_CALL_NO_WG, i64, env, ptr, i64)
- DEF_HELPER_FLAGS_3(mve_vaddlv_u, TCG_CALL_NO_WG, i64, env, ptr, i64)
+@@ -76,6 +76,26 @@ DEF_HELPER_FLAGS_3(mve_vnegw, TCG_CALL_NO_WG, void, env, ptr, ptr)
+ DEF_HELPER_FLAGS_3(mve_vfnegh, TCG_CALL_NO_WG, void, env, ptr, ptr)
+ DEF_HELPER_FLAGS_3(mve_vfnegs, TCG_CALL_NO_WG, void, env, ptr, ptr)
  
-+DEF_HELPER_FLAGS_4(mve_vabavsb, TCG_CALL_NO_WG, i32, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vabavsh, TCG_CALL_NO_WG, i32, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vabavsw, TCG_CALL_NO_WG, i32, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vabavub, TCG_CALL_NO_WG, i32, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vabavuh, TCG_CALL_NO_WG, i32, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vabavuw, TCG_CALL_NO_WG, i32, env, ptr, ptr, i32)
++DEF_HELPER_FLAGS_3(mve_vmovnbb, TCG_CALL_NO_WG, void, env, ptr, ptr)
++DEF_HELPER_FLAGS_3(mve_vmovnbh, TCG_CALL_NO_WG, void, env, ptr, ptr)
++DEF_HELPER_FLAGS_3(mve_vmovntb, TCG_CALL_NO_WG, void, env, ptr, ptr)
++DEF_HELPER_FLAGS_3(mve_vmovnth, TCG_CALL_NO_WG, void, env, ptr, ptr)
 +
- DEF_HELPER_FLAGS_3(mve_vmovi, TCG_CALL_NO_WG, void, env, ptr, i64)
- DEF_HELPER_FLAGS_3(mve_vandi, TCG_CALL_NO_WG, void, env, ptr, i64)
- DEF_HELPER_FLAGS_3(mve_vorri, TCG_CALL_NO_WG, void, env, ptr, i64)
++DEF_HELPER_FLAGS_3(mve_vqmovunbb, TCG_CALL_NO_WG, void, env, ptr, ptr)
++DEF_HELPER_FLAGS_3(mve_vqmovunbh, TCG_CALL_NO_WG, void, env, ptr, ptr)
++DEF_HELPER_FLAGS_3(mve_vqmovuntb, TCG_CALL_NO_WG, void, env, ptr, ptr)
++DEF_HELPER_FLAGS_3(mve_vqmovunth, TCG_CALL_NO_WG, void, env, ptr, ptr)
++
++DEF_HELPER_FLAGS_3(mve_vqmovnbsb, TCG_CALL_NO_WG, void, env, ptr, ptr)
++DEF_HELPER_FLAGS_3(mve_vqmovnbsh, TCG_CALL_NO_WG, void, env, ptr, ptr)
++DEF_HELPER_FLAGS_3(mve_vqmovntsb, TCG_CALL_NO_WG, void, env, ptr, ptr)
++DEF_HELPER_FLAGS_3(mve_vqmovntsh, TCG_CALL_NO_WG, void, env, ptr, ptr)
++
++DEF_HELPER_FLAGS_3(mve_vqmovnbub, TCG_CALL_NO_WG, void, env, ptr, ptr)
++DEF_HELPER_FLAGS_3(mve_vqmovnbuh, TCG_CALL_NO_WG, void, env, ptr, ptr)
++DEF_HELPER_FLAGS_3(mve_vqmovntub, TCG_CALL_NO_WG, void, env, ptr, ptr)
++DEF_HELPER_FLAGS_3(mve_vqmovntuh, TCG_CALL_NO_WG, void, env, ptr, ptr)
++
+ DEF_HELPER_FLAGS_4(mve_vand, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ DEF_HELPER_FLAGS_4(mve_vbic, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ DEF_HELPER_FLAGS_4(mve_vorr, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
 diff --git a/target/arm/mve.decode b/target/arm/mve.decode
-index 83dc0300d69..c8a06edca78 100644
+index c8a06edca78..d295a693b18 100644
 --- a/target/arm/mve.decode
 +++ b/target/arm/mve.decode
-@@ -41,6 +41,7 @@
- &vcmp_scalar qn rm size mask
- &shl_scalar qda rm size
- &vmaxv qm rda size
-+&vabav qn qm rda size
+@@ -153,6 +153,9 @@ VMUL             1110 1111 0 . .. ... 0 ... 0 1001 . 1 . 1 ... 0 @2op
+   VSHLL_BS       111 0 1110 0 . 11 .. 01 ... 0 1110 0 0 . 0 ... 1 @2_shll_esize_b
+   VSHLL_BS       111 0 1110 0 . 11 .. 01 ... 0 1110 0 0 . 0 ... 1 @2_shll_esize_h
  
- @vldr_vstr ....... . . . . l:1 rn:4 ... ...... imm:7 &vldr_vstr qd=%qd u=0
- # Note that both Rn and Qd are 3 bits only (no D bit)
-@@ -386,6 +387,11 @@ VMLAS            111- 1110 0 . .. ... 1 ... 1 1110 . 100 .... @2scalar
-                  rdahi=%rdahi rdalo=%rdalo
++  VQMOVUNB       111 0 1110 0 . 11 .. 01 ... 0 1110 1 0 . 0 ... 1 @1op
++  VQMOVN_BS      111 0 1110 0 . 11 .. 11 ... 0 1110 0 0 . 0 ... 1 @1op
++
+   VMULH_S        111 0 1110 0 . .. ...1 ... 0 1110 . 0 . 0 ... 1 @2op
  }
  
-+@vabav           .... .... .. size:2 .... rda:4 .... .... .... &vabav qn=%qn qm=%qm
-+
-+VABAV_S          111 0 1110 10 .. ... 0 .... 1111 . 0 . 0 ... 1 @vabav
-+VABAV_U          111 1 1110 10 .. ... 0 .... 1111 . 0 . 0 ... 1 @vabav
-+
- # Logical immediate operations (1 reg and modified-immediate)
+@@ -160,6 +163,9 @@ VMUL             1110 1111 0 . .. ... 0 ... 0 1001 . 1 . 1 ... 0 @2op
+   VSHLL_BU       111 1 1110 0 . 11 .. 01 ... 0 1110 0 0 . 0 ... 1 @2_shll_esize_b
+   VSHLL_BU       111 1 1110 0 . 11 .. 01 ... 0 1110 0 0 . 0 ... 1 @2_shll_esize_h
  
- # The cmode/op bits here decode VORR/VBIC/VMOV/VMVN, but
++  VMOVNB         111 1 1110 0 . 11 .. 01 ... 0 1110 1 0 . 0 ... 1 @1op
++  VQMOVN_BU      111 1 1110 0 . 11 .. 11 ... 0 1110 0 0 . 0 ... 1 @1op
++
+   VMULH_U        111 1 1110 0 . .. ...1 ... 0 1110 . 0 . 0 ... 1 @2op
+ }
+ 
+@@ -167,6 +173,9 @@ VMUL             1110 1111 0 . .. ... 0 ... 0 1001 . 1 . 1 ... 0 @2op
+   VSHLL_TS       111 0 1110 0 . 11 .. 01 ... 1 1110 0 0 . 0 ... 1 @2_shll_esize_b
+   VSHLL_TS       111 0 1110 0 . 11 .. 01 ... 1 1110 0 0 . 0 ... 1 @2_shll_esize_h
+ 
++  VQMOVUNT       111 0 1110 0 . 11 .. 01 ... 1 1110 1 0 . 0 ... 1 @1op
++  VQMOVN_TS      111 0 1110 0 . 11 .. 11 ... 1 1110 0 0 . 0 ... 1 @1op
++
+   VRMULH_S       111 0 1110 0 . .. ...1 ... 1 1110 . 0 . 0 ... 1 @2op
+ }
+ 
+@@ -174,6 +183,9 @@ VMUL             1110 1111 0 . .. ... 0 ... 0 1001 . 1 . 1 ... 0 @2op
+   VSHLL_TU       111 1 1110 0 . 11 .. 01 ... 1 1110 0 0 . 0 ... 1 @2_shll_esize_b
+   VSHLL_TU       111 1 1110 0 . 11 .. 01 ... 1 1110 0 0 . 0 ... 1 @2_shll_esize_h
+ 
++  VMOVNT         111 1 1110 0 . 11 .. 01 ... 1 1110 1 0 . 0 ... 1 @1op
++  VQMOVN_TU      111 1 1110 0 . 11 .. 11 ... 1 1110 0 0 . 0 ... 1 @1op
++
+   VRMULH_U       111 1 1110 0 . .. ...1 ... 1 1110 . 0 . 0 ... 1 @2op
+ }
+ 
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index 924ad7f2bdc..fed0f3cd610 100644
+index fed0f3cd610..72c30f360ac 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -1320,6 +1320,32 @@ DO_VMAXMINV(vminavb, 1, int8_t, uint8_t, do_mina)
- DO_VMAXMINV(vminavh, 2, int16_t, uint16_t, do_mina)
- DO_VMAXMINV(vminavw, 4, int32_t, uint32_t, do_mina)
+@@ -1650,6 +1650,84 @@ DO_VSHRN_SAT_UH(vqrshrnb_uh, vqrshrnt_uh, DO_RSHRN_UH)
+ DO_VSHRN_SAT_SB(vqrshrunbb, vqrshruntb, DO_RSHRUN_B)
+ DO_VSHRN_SAT_SH(vqrshrunbh, vqrshrunth, DO_RSHRUN_H)
  
-+#define DO_VABAV(OP, ESIZE, TYPE)                               \
-+    uint32_t HELPER(glue(mve_, OP))(CPUARMState *env, void *vn, \
-+                                    void *vm, uint32_t ra)      \
-+    {                                                           \
-+        uint16_t mask = mve_element_mask(env);                  \
-+        unsigned e;                                             \
-+        TYPE *m = vm, *n = vn;                                  \
-+        for (e = 0; e < 16 / ESIZE; e++, mask >>= ESIZE) {      \
-+            if (mask & 1) {                                     \
-+                int64_t n0 = n[H##ESIZE(e)];                    \
-+                int64_t m0 = m[H##ESIZE(e)];                    \
-+                uint32_t r = n0 >= m0 ? (n0 - m0) : (m0 - n0);  \
-+                ra += r;                                        \
-+            }                                                   \
-+        }                                                       \
-+        mve_advance_vpt(env);                                   \
-+        return ra;                                              \
++#define DO_VMOVN(OP, TOP, ESIZE, TYPE, LESIZE, LTYPE)                   \
++    void HELPER(mve_##OP)(CPUARMState *env, void *vd, void *vm)         \
++    {                                                                   \
++        LTYPE *m = vm;                                                  \
++        TYPE *d = vd;                                                   \
++        uint16_t mask = mve_element_mask(env);                          \
++        unsigned le;                                                    \
++        mask >>= ESIZE * TOP;                                           \
++        for (le = 0; le < 16 / LESIZE; le++, mask >>= LESIZE) {         \
++            mergemask(&d[H##ESIZE(le * 2 + TOP)],                       \
++                      m[H##LESIZE(le)], mask);                          \
++        }                                                               \
++        mve_advance_vpt(env);                                           \
 +    }
 +
-+DO_VABAV(vabavsb, 1, int8_t)
-+DO_VABAV(vabavsh, 2, int16_t)
-+DO_VABAV(vabavsw, 4, int32_t)
-+DO_VABAV(vabavub, 1, uint8_t)
-+DO_VABAV(vabavuh, 2, uint16_t)
-+DO_VABAV(vabavuw, 4, uint32_t)
++DO_VMOVN(vmovnbb, false, 1, uint8_t, 2, uint16_t)
++DO_VMOVN(vmovnbh, false, 2, uint16_t, 4, uint32_t)
++DO_VMOVN(vmovntb, true, 1, uint8_t, 2, uint16_t)
++DO_VMOVN(vmovnth, true, 2, uint16_t, 4, uint32_t)
 +
- #define DO_VADDLV(OP, TYPE, LTYPE)                              \
-     uint64_t HELPER(glue(mve_, OP))(CPUARMState *env, void *vm, \
-                                     uint64_t ra)                \
++#define DO_VMOVN_SAT(OP, TOP, ESIZE, TYPE, LESIZE, LTYPE, FN)           \
++    void HELPER(mve_##OP)(CPUARMState *env, void *vd, void *vm)         \
++    {                                                                   \
++        LTYPE *m = vm;                                                  \
++        TYPE *d = vd;                                                   \
++        uint16_t mask = mve_element_mask(env);                          \
++        bool qc = false;                                                \
++        unsigned le;                                                    \
++        mask >>= ESIZE * TOP;                                           \
++        for (le = 0; le < 16 / LESIZE; le++, mask >>= LESIZE) {         \
++            bool sat = false;                                           \
++            TYPE r = FN(m[H##LESIZE(le)], &sat);                        \
++            mergemask(&d[H##ESIZE(le * 2 + TOP)], r, mask);             \
++            qc |= sat & mask & 1;                                       \
++        }                                                               \
++        if (qc) {                                                       \
++            env->vfp.qc[0] = qc;                                        \
++        }                                                               \
++        mve_advance_vpt(env);                                           \
++    }
++
++#define DO_VMOVN_SAT_UB(BOP, TOP, FN)                           \
++    DO_VMOVN_SAT(BOP, false, 1, uint8_t, 2, uint16_t, FN)       \
++    DO_VMOVN_SAT(TOP, true, 1, uint8_t, 2, uint16_t, FN)
++
++#define DO_VMOVN_SAT_UH(BOP, TOP, FN)                           \
++    DO_VMOVN_SAT(BOP, false, 2, uint16_t, 4, uint32_t, FN)      \
++    DO_VMOVN_SAT(TOP, true, 2, uint16_t, 4, uint32_t, FN)
++
++#define DO_VMOVN_SAT_SB(BOP, TOP, FN)                           \
++    DO_VMOVN_SAT(BOP, false, 1, int8_t, 2, int16_t, FN)         \
++    DO_VMOVN_SAT(TOP, true, 1, int8_t, 2, int16_t, FN)
++
++#define DO_VMOVN_SAT_SH(BOP, TOP, FN)                           \
++    DO_VMOVN_SAT(BOP, false, 2, int16_t, 4, int32_t, FN)        \
++    DO_VMOVN_SAT(TOP, true, 2, int16_t, 4, int32_t, FN)
++
++#define DO_VQMOVN_SB(N, SATP)                           \
++    do_sat_bhs((int64_t)(N), INT8_MIN, INT8_MAX, SATP)
++#define DO_VQMOVN_UB(N, SATP)                           \
++    do_sat_bhs((uint64_t)(N), 0, UINT8_MAX, SATP)
++#define DO_VQMOVUN_B(N, SATP)                           \
++    do_sat_bhs((int64_t)(N), 0, UINT8_MAX, SATP)
++
++#define DO_VQMOVN_SH(N, SATP)                           \
++    do_sat_bhs((int64_t)(N), INT16_MIN, INT16_MAX, SATP)
++#define DO_VQMOVN_UH(N, SATP)                           \
++    do_sat_bhs((uint64_t)(N), 0, UINT16_MAX, SATP)
++#define DO_VQMOVUN_H(N, SATP)                           \
++    do_sat_bhs((int64_t)(N), 0, UINT16_MAX, SATP)
++
++DO_VMOVN_SAT_SB(vqmovnbsb, vqmovntsb, DO_VQMOVN_SB)
++DO_VMOVN_SAT_SH(vqmovnbsh, vqmovntsh, DO_VQMOVN_SH)
++DO_VMOVN_SAT_UB(vqmovnbub, vqmovntub, DO_VQMOVN_UB)
++DO_VMOVN_SAT_UH(vqmovnbuh, vqmovntuh, DO_VQMOVN_UH)
++DO_VMOVN_SAT_SB(vqmovunbb, vqmovuntb, DO_VQMOVUN_B)
++DO_VMOVN_SAT_SH(vqmovunbh, vqmovunth, DO_VQMOVUN_H)
++
+ uint32_t HELPER(mve_vshlc)(CPUARMState *env, void *vd, uint32_t rdm,
+                            uint32_t shift)
+ {
 diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index 2fce74f86ab..247f6719e6f 100644
+index 247f6719e6f..5c3655efc3c 100644
 --- a/target/arm/translate-mve.c
 +++ b/target/arm/translate-mve.c
-@@ -45,6 +45,7 @@ typedef void MVEGenVIDUPFn(TCGv_i32, TCGv_ptr, TCGv_ptr, TCGv_i32, TCGv_i32);
- typedef void MVEGenVIWDUPFn(TCGv_i32, TCGv_ptr, TCGv_ptr, TCGv_i32, TCGv_i32, TCGv_i32);
- typedef void MVEGenCmpFn(TCGv_ptr, TCGv_ptr, TCGv_ptr);
- typedef void MVEGenScalarCmpFn(TCGv_ptr, TCGv_ptr, TCGv_i32);
-+typedef void MVEGenVABAVFn(TCGv_i32, TCGv_ptr, TCGv_ptr, TCGv_ptr, TCGv_i32);
+@@ -275,6 +275,28 @@ DO_1OP(VCLS, vcls)
+ DO_1OP(VABS, vabs)
+ DO_1OP(VNEG, vneg)
  
- /* Return the offset of a Qn register (same semantics as aa32_vfp_qreg()) */
- static inline long mve_qreg_offset(unsigned reg)
-@@ -1369,3 +1370,45 @@ DO_VMAXV(VMAXAV, vmaxav)
- DO_VMAXV(VMINV_S, vminvs)
- DO_VMAXV(VMINV_U, vminvu)
- DO_VMAXV(VMINAV, vminav)
-+
-+static bool do_vabav(DisasContext *s, arg_vabav *a, MVEGenVABAVFn *fn)
-+{
-+    /* Absolute difference accumulated across vector */
-+    TCGv_ptr qn, qm;
-+    TCGv_i32 rda;
-+
-+    if (!dc_isar_feature(aa32_mve, s) ||
-+        !mve_check_qreg_bank(s, a->qm | a->qn) ||
-+        !fn || a->rda == 13 || a->rda == 15) {
-+        /* Rda cases are UNPREDICTABLE */
-+        return false;
-+    }
-+    if (!mve_eci_check(s) || !vfp_access_check(s)) {
-+        return true;
-+    }
-+
-+    qm = mve_qreg_ptr(a->qm);
-+    qn = mve_qreg_ptr(a->qn);
-+    rda = load_reg(s, a->rda);
-+    fn(rda, cpu_env, qn, qm, rda);
-+    store_reg(s, a->rda, rda);
-+    tcg_temp_free_ptr(qm);
-+    tcg_temp_free_ptr(qn);
-+    mve_update_eci(s);
-+    return true;
-+}
-+
-+#define DO_VABAV(INSN, FN)                                      \
-+    static bool trans_##INSN(DisasContext *s, arg_vabav *a)     \
++/* Narrowing moves: only size 0 and 1 are valid */
++#define DO_VMOVN(INSN, FN) \
++    static bool trans_##INSN(DisasContext *s, arg_1op *a)       \
 +    {                                                           \
-+        static MVEGenVABAVFn * const fns[] = {                  \
++        static MVEGenOneOpFn * const fns[] = {                  \
 +            gen_helper_mve_##FN##b,                             \
 +            gen_helper_mve_##FN##h,                             \
-+            gen_helper_mve_##FN##w,                             \
++            NULL,                                               \
 +            NULL,                                               \
 +        };                                                      \
-+        return do_vabav(s, a, fns[a->size]);                    \
++        return do_1op(s, a, fns[a->size]);                      \
 +    }
 +
-+DO_VABAV(VABAV_S, vabavs)
-+DO_VABAV(VABAV_U, vabavu)
++DO_VMOVN(VMOVNB, vmovnb)
++DO_VMOVN(VMOVNT, vmovnt)
++DO_VMOVN(VQMOVUNB, vqmovunb)
++DO_VMOVN(VQMOVUNT, vqmovunt)
++DO_VMOVN(VQMOVN_BS, vqmovnbs)
++DO_VMOVN(VQMOVN_TS, vqmovnts)
++DO_VMOVN(VQMOVN_BU, vqmovnbu)
++DO_VMOVN(VQMOVN_TU, vqmovntu)
++
+ static bool trans_VREV16(DisasContext *s, arg_1op *a)
+ {
+     static MVEGenOneOpFn * const fns[] = {
 -- 
 2.20.1
 
