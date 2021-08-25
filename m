@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 096BA3F7C15
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 20:14:41 +0200 (CEST)
-Received: from localhost ([::1]:42202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBCBF3F7C1F
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 20:19:29 +0200 (CEST)
+Received: from localhost ([::1]:44378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIxQ8-0001Qq-5B
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 14:14:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32936)
+	id 1mIxUm-00032U-Td
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 14:19:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1mIxPN-0000cy-6J
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 14:13:53 -0400
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:37778)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1mIxTj-0002OI-Bz
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 14:18:23 -0400
+Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:46074)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1mIxPL-0007oq-7k
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 14:13:52 -0400
-Received: by mail-oi1-x236.google.com with SMTP id y128so599308oie.4
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 11:13:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1mIxTh-0002DC-8w
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 14:18:22 -0400
+Received: by mail-oi1-x22b.google.com with SMTP id q39so550186oiw.12
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 11:18:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qGFAeAO1X0/zgolabxVQZj/hrG91mH5K5HauR5zdyZ4=;
- b=OYYtDYy5Fm9UJB7e6OfNBF3MS+OKgXWfSw94d6WQ9G63HtKw0RnEugdHdy3zCw6isn
- HuxAPC6sFim3nL6VKndOWc+r0DUdbhcnb03baid4o3hgpuPZFF/Z2qIra+/v7CwlyVr0
- 2E5PMdXF6S0S0bbHfaDQGIs/zyPGGi1cHKu9qtKG1ibuTmCbfYgJcFVIVHb9ygptk4P3
- F3aWQ88U/uwTA17YJsh8dE69oR6/hKs4qpTHAMVorymsmNOExgk5U9rklS7pj6Oh6JMo
- PHKI2fZffiQqPZV597AdL1s7OV1W4xuhWYAiQNrwqpd+KPR6bXJXKdt/g9BNgGYQyWMW
- aEZw==
+ :cc; bh=J+h/jPg7EAgs0Ji/YG0lsAwZ8lkWI6laJfXqsEeKObA=;
+ b=yIFiF7/RT0sPxlYCpH6v1hCMQepoyUb0QmMFpcK5m2FfM3UmPk+TSbl9Gwz9+9TmFx
+ GiC5dhSV7tXRAC5mCxu+BH8MQT9ah2EQETQfrur/BC4hsR+Bm9zIk54JVuZgYva4aG0e
+ Zim24qEG3leYPQsawpbgQp4tzfaR3PTiGjQqGikKDMz3gudFyY7hcxc3kGToFPv3VW9c
+ c8kwrac3P7PvN4BLAY8KufKDTC+LvTulQ4S+Gbfhry0HSdbXmmizCKz/s7I2XtleE6Ol
+ kDrnsvl1osOemSZOHNaIZqGXLjFpXztRKVVWSatPVHYne1QXGgtz4Kr+t7oQYOw2HvvH
+ QZmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=qGFAeAO1X0/zgolabxVQZj/hrG91mH5K5HauR5zdyZ4=;
- b=gzM11XU3ek6u9CqahiQCCbg6W4gBA2xhYk6tXaeskNlHP4y8g5cKFPY+ddG6hPWD6H
- hCTcxmkQODvUmOfcD6f9jrualaBTdbMRcHRv/kdgu1RUdBlnnJcpqKSYjXLhgLUGO45U
- IAOnMSh11WxK+DW/k5IiVZEZuJei7gJv/SHfdSnTQ07WhG2XA2OSlgJt8yfXcdvNiP0+
- uR3LodNe7miVfymdQtu65ybo69tIszmlye27x3U2omtw0PB1pcbDPbFENFEM3VfL78Sa
- EJiQkx56HeX+wm6/CKUBMQmdmELioz3EGB8gP8OcaHOQZZJd41EBPtFvTzd0ri2oGJs4
- tEXg==
-X-Gm-Message-State: AOAM530F/tTbb5Id9ol+fUlB68eYCG77rvLc42mae3h+R/MF66zu1WDO
- iQkFaaZHH7C5kx/kBLIUX9V1scbJ1ICOcfS39Ib+mA==
-X-Google-Smtp-Source: ABdhPJyx8ffIKK6GOV22c2me1aGCxe8Tnpredh5CiIP3iOJbF4WNkDsdSc2d4k1jEdFVB1lb29ZufiSCsy5QpML/ByU=
-X-Received: by 2002:aca:3989:: with SMTP id g131mr7874207oia.169.1629915229157; 
- Wed, 25 Aug 2021 11:13:49 -0700 (PDT)
+ bh=J+h/jPg7EAgs0Ji/YG0lsAwZ8lkWI6laJfXqsEeKObA=;
+ b=hiixgrVob48hsNQI2YumE38ktdkEold6BgLtKSejM7bLew7p6OiclvQWUNM/QxyPvb
+ lYfdMKaOzULXyqVmTUbMVK3LFXfwwY9Z76QfPQwNURvG4aRWwiK+L/78milDazB8XMD6
+ I9xyZJPNBJPeTFgYrYOf/fHA6wd5Cb3r2y7vLdmFyp/sAhwv2lmjZbBFfjyZhgiVUCLK
+ 2H2x/b9YVCsxncOP4RwWwSIpyvpUlElig2DYbtyB+PXSWzNrQ7R3PdOOIsfRobFT7k+l
+ oFzGvwq5sbB75iUSwA6O3KUBHDh6IDkjll9XZq9ZQssXZHcu52Zrf7K1M7KvAi+Pi436
+ v5Lw==
+X-Gm-Message-State: AOAM533akEWEGOAnvAuFKiDRx6yxkbHxtRNrDYdipzxW6XDdC+nRP10F
+ 2oZQ/8BgXms4f4XT63+wVSmW2dVn29b4bD3wc+DZzQ==
+X-Google-Smtp-Source: ABdhPJw4Z98stlr62ISOsehITcGufEzpPsf+gs1pA1yDVQ8oBMyZwcS7M+UPydyXNJj4MohpqTgn+4nywecCauA0qd4=
+X-Received: by 2002:a05:6808:201c:: with SMTP id
+ q28mr6051834oiw.18.1629915500086; 
+ Wed, 25 Aug 2021 11:18:20 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210713153758.323614-1-andrew@daynix.com>
- <20210713153758.323614-2-andrew@daynix.com>
- <0cb9e90f-0d9f-8b31-f459-578a8fa90c7e@redhat.com>
-In-Reply-To: <0cb9e90f-0d9f-8b31-f459-578a8fa90c7e@redhat.com>
+ <20210713153758.323614-3-andrew@daynix.com>
+ <76ba645f-b34b-e63e-8116-0a1dd80fbbae@redhat.com>
+In-Reply-To: <76ba645f-b34b-e63e-8116-0a1dd80fbbae@redhat.com>
 From: Andrew Melnichenko <andrew@daynix.com>
-Date: Wed, 25 Aug 2021 21:13:38 +0300
-Message-ID: <CABcq3pFMHZWLb4bVoUUheqjs-Yp_6eF1MGTyveCm7G0v3o1S1Q@mail.gmail.com>
-Subject: Re: [PATCH 1/5] ebpf: Added eBPF initialization by fds and map update.
+Date: Wed, 25 Aug 2021 21:18:09 +0300
+Message-ID: <CABcq3pEViPNVhBAxRcz5j6yMgm8CVUaWkusRTj=FnhC_Oh0yvQ@mail.gmail.com>
+Subject: Re: [PATCH 2/5] virtio-net: Added property to load eBPF RSS with fds.
 To: Jason Wang <jasowang@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000003f8b5a05ca663624"
-Received-SPF: none client-ip=2607:f8b0:4864:20::236;
- envelope-from=andrew@daynix.com; helo=mail-oi1-x236.google.com
+Content-Type: multipart/alternative; boundary="00000000000065975b05ca664611"
+Received-SPF: none client-ip=2607:f8b0:4864:20::22b;
+ envelope-from=andrew@daynix.com; helo=mail-oi1-x22b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -84,125 +85,366 @@ Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003f8b5a05ca663624
+--00000000000065975b05ca664611
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi,
-Yes - to make the bpf() syscall capabilities are required, which libvirt
-have no intentions to give.
-Does it make any sense to leave syscall if mmap works?
 
-On Fri, Aug 20, 2021 at 6:34 AM Jason Wang <jasowang@redhat.com> wrote:
+> I wonder if it's better to use separated properties instead of implying
+> an order here?
+>
+Not really, technically RSS BPF interface may be changed (it's already
+changed after RFC).
+And libvirt should use something unified, so it's better to use fd array.
+If any changes occur - those changes will be applied only for qemu and the
+helper.
+Also, now all maps are combined in one configuration map.
+
+On Fri, Aug 20, 2021 at 6:36 AM Jason Wang <jasowang@redhat.com> wrote:
 
 >
 > =E5=9C=A8 2021/7/13 =E4=B8=8B=E5=8D=8811:37, Andrew Melnychenko =E5=86=99=
 =E9=81=93:
-> > -static bool ebpf_rss_set_indirections_table(struct EBPFRSSContext *ctx=
-,
-> > -                                            uint16_t
-> *indirections_table,
-> > -                                            size_t len)
-> > -{
-> > -    uint32_t i =3D 0;
-> > +    ctx->program_fd =3D program_fd;
-> > +    ctx->map_configuration =3D config_fd;
+> > eBPF RSS program and maps now may be passed during initialization.
+> > Initially was implemented for libvirt to launch qemu without permission=
+s.
 > >
-> > -    if (!ebpf_rss_is_loaded(ctx) || indirections_table =3D=3D NULL ||
-> > -       len > VIRTIO_NET_RSS_MAX_TABLE_LEN) {
-> > +    ctx->mmap_configuration =3D mmap(NULL, qemu_real_host_page_size,
-> > +                                   PROT_READ | PROT_WRITE, MAP_SHARED,
-> > +                                   ctx->map_configuration, 0);
-> > +    if (ctx->mmap_configuration =3D=3D MAP_FAILED) {
-> > +        trace_ebpf_error("eBPF RSS", "can not mmap eBPF configuration
-> array");
+> > Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+> > ---
+> >   hw/net/virtio-net.c            | 77 ++++++++++++++++++++++++++++++++-=
+-
+> >   include/hw/virtio/virtio-net.h |  1 +
+> >   2 files changed, 74 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> > index bd7958b9f0..0602b1772e 100644
+> > --- a/hw/net/virtio-net.c
+> > +++ b/hw/net/virtio-net.c
+> > @@ -41,6 +41,7 @@
+> >   #include "sysemu/sysemu.h"
+> >   #include "trace.h"
+> >   #include "monitor/qdev.h"
+> > +#include "monitor/monitor.h"
+> >   #include "hw/pci/pci.h"
+> >   #include "net_rx_pkt.h"
+> >   #include "hw/virtio/vhost.h"
+> > @@ -1223,14 +1224,81 @@ static void virtio_net_detach_epbf_rss(VirtIONe=
+t
+> *n)
+> >       virtio_net_attach_ebpf_to_backend(n->nic, -1);
+> >   }
+> >
+> > -static bool virtio_net_load_ebpf(VirtIONet *n)
+> > +static int virtio_net_get_ebpf_rss_fds(char *str, char *fds[], int nfd=
+s)
+> >   {
+> > -    if (!virtio_net_attach_ebpf_to_backend(n->nic, -1)) {
+> > -        /* backend does't support steering ebpf */
+> > +    char *ptr =3D str;
+> > +    char *cur =3D NULL;
+> > +    size_t len =3D strlen(str);
+> > +    int i =3D 0;
+> > +
+> > +    for (; i < nfds && ptr < str + len;) {
+> > +        cur =3D strchr(ptr, ':');
+> > +
+> > +        if (cur =3D=3D NULL) {
+> > +            fds[i] =3D g_strdup(ptr);
+> > +        } else {
+> > +            fds[i] =3D g_strndup(ptr, cur - ptr);
+> > +        }
+> > +
+> > +        i++;
+> > +        if (cur =3D=3D NULL) {
+> > +            break;
+> > +        } else {
+> > +            ptr =3D cur + 1;
+> > +        }
+> > +    }
+> > +
+> > +    return i;
+> > +}
+> > +
+> > +static bool virtio_net_load_ebpf_fds(VirtIONet *n)
+> > +{
+> > +    char *fds_strs[EBPF_RSS_MAX_FDS];
+> > +    int fds[EBPF_RSS_MAX_FDS];
+> > +    int nfds;
+> > +    int ret =3D false;
+> > +    Error *errp;
+> > +    int i =3D 0;
+> > +
+> > +    if (n =3D=3D NULL || !n->ebpf_rss_fds) {
 > >           return false;
 > >       }
 > >
-> > -    for (; i < len; ++i) {
-> > -        if (bpf_map_update_elem(ctx->map_indirections_table, &i,
-> > -                                indirections_table + i, 0) < 0) {
-> > -            return false;
-> > -        }
-> > -    }
-> > -    return true;
-> > -}
-> > -
+> > -    return ebpf_rss_load(&n->ebpf_rss);
+> > +    nfds =3D virtio_net_get_ebpf_rss_fds(n->ebpf_rss_fds,
+> > +                                       fds_strs, EBPF_RSS_MAX_FDS);
+> > +    for (i =3D 0; i < nfds; i++) {
+> > +        fds[i] =3D monitor_fd_param(monitor_cur(), fds_strs[i], &errp)=
+;
+> > +    }
+> > +
+> > +    if (nfds =3D=3D EBPF_RSS_MAX_FDS) {
+> > +        ret =3D ebpf_rss_load_fds(&n->ebpf_rss, fds[0], fds[1], fds[2]=
+,
+> fds[3]);
+> > +    }
+> > +
+> > +    if (!ret) {
+> > +        for (i =3D 0; i < nfds; i++) {
+> > +            close(fds[i]);
+> > +        }
+> > +    }
+> > +
+> > +    for (i =3D 0; i < nfds; i++) {
+> > +        g_free(fds_strs[i]);
+> > +    }
+> > +
+> > +    return ret;
+> > +}
+> > +
+> > +static bool virtio_net_load_ebpf(VirtIONet *n)
+> > +{
+> > +    bool ret =3D true;
+> > +
+> > +    if (virtio_net_attach_ebpf_to_backend(n->nic, -1)) {
+> > +        if (!(n->ebpf_rss_fds
+> > +                && virtio_net_load_ebpf_fds(n))) {
+> > +            ret =3D ebpf_rss_load(&n->ebpf_rss);
+> > +        }
+> > +    }
+> > +
+> > +    return ret;
+> >   }
+> >
+> >   static void virtio_net_unload_ebpf(VirtIONet *n)
+> > @@ -3605,6 +3673,7 @@ static Property virtio_net_properties[] =3D {
+> >                       VIRTIO_NET_F_RSS, false),
+> >       DEFINE_PROP_BIT64("hash", VirtIONet, host_features,
+> >                       VIRTIO_NET_F_HASH_REPORT, false),
+> > +    DEFINE_PROP_STRING("ebpf_rss_fds", VirtIONet, ebpf_rss_fds),
+> >       DEFINE_PROP_BIT64("guest_rsc_ext", VirtIONet, host_features,
+> >                       VIRTIO_NET_F_RSC_EXT, false),
+> >       DEFINE_PROP_UINT32("rsc_interval", VirtIONet, rsc_timeout,
+> > diff --git a/include/hw/virtio/virtio-net.h
+> b/include/hw/virtio/virtio-net.h
+> > index 824a69c23f..993f2f3036 100644
+> > --- a/include/hw/virtio/virtio-net.h
+> > +++ b/include/hw/virtio/virtio-net.h
+> > @@ -213,6 +213,7 @@ struct VirtIONet {
+> >       VirtioNetRssData rss_data;
+> >       struct NetRxPkt *rx_pkt;
+> >       struct EBPFRSSContext ebpf_rss;
+> > +    char *ebpf_rss_fds;
 >
 >
-> It looks to me you want to drop syscall path for map updating
-> completely. I think we'd better keep that for backward compatibility?
+> I wonder if it's better to use separated properties instead of implying
+> an order here?
+>
+> E.g "program_fd", "key_map_fd", "indirection_table_map_fd" etc.
 >
 > Thanks
 >
 >
+> >   };
+> >
+> >   void virtio_net_set_netclient_name(VirtIONet *n, const char *name,
+>
+>
 
---0000000000003f8b5a05ca663624
+--00000000000065975b05ca664611
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi,</div><div>Yes - to make the bpf() syscall capabil=
-ities are required, which libvirt have no intentions to give.<br></div><div=
->Does it make any sense to leave syscall if mmap works?<br></div></div><br>=
-<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Au=
-g 20, 2021 at 6:34 AM Jason Wang &lt;<a href=3D"mailto:jasowang@redhat.com"=
->jasowang@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex"><br>
+<div dir=3D"ltr"><div>Hi,</div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex"><div>I wonder if it&#39;s better to use separated properties instead =
+of implying <br>
+an order here?</div></blockquote><div>Not really, technically RSS BPF inter=
+face may be changed (it&#39;s already changed after RFC).</div><div>And lib=
+virt should use something unified, so it&#39;s better to use fd array.</div=
+><div>If any changes occur - those changes will be applied only for qemu an=
+d the helper.</div><div>Also, now all maps are combined in one configuratio=
+n map.<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Fri, Aug 20, 2021 at 6:36 AM Jason Wang &lt;<a href=3D"m=
+ailto:jasowang@redhat.com">jasowang@redhat.com</a>&gt; wrote:<br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
+:1px solid rgb(204,204,204);padding-left:1ex"><br>
 =E5=9C=A8 2021/7/13 =E4=B8=8B=E5=8D=8811:37, Andrew Melnychenko =E5=86=99=
 =E9=81=93:<br>
-&gt; -static bool ebpf_rss_set_indirections_table(struct EBPFRSSContext *ct=
-x,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 uint16_t *indirections_table,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 size_t len)<br>
-&gt; -{<br>
-&gt; -=C2=A0 =C2=A0 uint32_t i =3D 0;<br>
-&gt; +=C2=A0 =C2=A0 ctx-&gt;program_fd =3D program_fd;<br>
-&gt; +=C2=A0 =C2=A0 ctx-&gt;map_configuration =3D config_fd;<br>
+&gt; eBPF RSS program and maps now may be passed during initialization.<br>
+&gt; Initially was implemented for libvirt to launch qemu without permissio=
+ns.<br>
+&gt;<br>
+&gt; Signed-off-by: Andrew Melnychenko &lt;<a href=3D"mailto:andrew@daynix.=
+com" target=3D"_blank">andrew@daynix.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0hw/net/virtio-net.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 77 ++++++++++++++++++++++++++++++++--<br>
+&gt;=C2=A0 =C2=A0include/hw/virtio/virtio-net.h |=C2=A0 1 +<br>
+&gt;=C2=A0 =C2=A02 files changed, 74 insertions(+), 4 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c<br>
+&gt; index bd7958b9f0..0602b1772e 100644<br>
+&gt; --- a/hw/net/virtio-net.c<br>
+&gt; +++ b/hw/net/virtio-net.c<br>
+&gt; @@ -41,6 +41,7 @@<br>
+&gt;=C2=A0 =C2=A0#include &quot;sysemu/sysemu.h&quot;<br>
+&gt;=C2=A0 =C2=A0#include &quot;trace.h&quot;<br>
+&gt;=C2=A0 =C2=A0#include &quot;monitor/qdev.h&quot;<br>
+&gt; +#include &quot;monitor/monitor.h&quot;<br>
+&gt;=C2=A0 =C2=A0#include &quot;hw/pci/pci.h&quot;<br>
+&gt;=C2=A0 =C2=A0#include &quot;net_rx_pkt.h&quot;<br>
+&gt;=C2=A0 =C2=A0#include &quot;hw/virtio/vhost.h&quot;<br>
+&gt; @@ -1223,14 +1224,81 @@ static void virtio_net_detach_epbf_rss(VirtION=
+et *n)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0virtio_net_attach_ebpf_to_backend(n-&gt;nic,=
+ -1);<br>
+&gt;=C2=A0 =C2=A0}<br>
 &gt;=C2=A0 =C2=A0<br>
-&gt; -=C2=A0 =C2=A0 if (!ebpf_rss_is_loaded(ctx) || indirections_table =3D=
-=3D NULL ||<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0len &gt; VIRTIO_NET_RSS_MAX_TABLE_LEN) {<b=
+&gt; -static bool virtio_net_load_ebpf(VirtIONet *n)<br>
+&gt; +static int virtio_net_get_ebpf_rss_fds(char *str, char *fds[], int nf=
+ds)<br>
+&gt;=C2=A0 =C2=A0{<br>
+&gt; -=C2=A0 =C2=A0 if (!virtio_net_attach_ebpf_to_backend(n-&gt;nic, -1)) =
+{<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* backend does&#39;t support steering eb=
+pf */<br>
+&gt; +=C2=A0 =C2=A0 char *ptr =3D str;<br>
+&gt; +=C2=A0 =C2=A0 char *cur =3D NULL;<br>
+&gt; +=C2=A0 =C2=A0 size_t len =3D strlen(str);<br>
+&gt; +=C2=A0 =C2=A0 int i =3D 0;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 for (; i &lt; nfds &amp;&amp; ptr &lt; str + len;) {<br=
+>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 cur =3D strchr(ptr, &#39;:&#39;);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (cur =3D=3D NULL) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fds[i] =3D g_strdup(ptr);<b=
 r>
-&gt; +=C2=A0 =C2=A0 ctx-&gt;mmap_configuration =3D mmap(NULL, qemu_real_hos=
-t_page_size,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0PROT_READ | PROT_WR=
-ITE, MAP_SHARED,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ctx-&gt;map_configu=
-ration, 0);<br>
-&gt; +=C2=A0 =C2=A0 if (ctx-&gt;mmap_configuration =3D=3D MAP_FAILED) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_ebpf_error(&quot;eBPF RSS&quot;, &q=
-uot;can not mmap eBPF configuration array&quot;);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fds[i] =3D g_strndup(ptr, c=
+ur - ptr);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 i++;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (cur =3D=3D NULL) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ptr =3D cur + 1;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 return i;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static bool virtio_net_load_ebpf_fds(VirtIONet *n)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 char *fds_strs[EBPF_RSS_MAX_FDS];<br>
+&gt; +=C2=A0 =C2=A0 int fds[EBPF_RSS_MAX_FDS];<br>
+&gt; +=C2=A0 =C2=A0 int nfds;<br>
+&gt; +=C2=A0 =C2=A0 int ret =3D false;<br>
+&gt; +=C2=A0 =C2=A0 Error *errp;<br>
+&gt; +=C2=A0 =C2=A0 int i =3D 0;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (n =3D=3D NULL || !n-&gt;ebpf_rss_fds) {<br>
 &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return false;<br>
 &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 &gt;=C2=A0 =C2=A0<br>
-&gt; -=C2=A0 =C2=A0 for (; i &lt; len; ++i) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (bpf_map_update_elem(ctx-&gt;map_indir=
-ections_table, &amp;i,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 indirections_table + i, 0) &lt; =
-0) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; -=C2=A0 =C2=A0 }<br>
-&gt; -=C2=A0 =C2=A0 return true;<br>
-&gt; -}<br>
-&gt; -<br>
+&gt; -=C2=A0 =C2=A0 return ebpf_rss_load(&amp;n-&gt;ebpf_rss);<br>
+&gt; +=C2=A0 =C2=A0 nfds =3D virtio_net_get_ebpf_rss_fds(n-&gt;ebpf_rss_fds=
+,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fds_s=
+trs, EBPF_RSS_MAX_FDS);<br>
+&gt; +=C2=A0 =C2=A0 for (i =3D 0; i &lt; nfds; i++) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fds[i] =3D monitor_fd_param(monitor_cur()=
+, fds_strs[i], &amp;errp);<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (nfds =3D=3D EBPF_RSS_MAX_FDS) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D ebpf_rss_load_fds(&amp;n-&gt;ebpf=
+_rss, fds[0], fds[1], fds[2], fds[3]);<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (!ret) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (i =3D 0; i &lt; nfds; i++) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 close(fds[i]);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 for (i =3D 0; i &lt; nfds; i++) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(fds_strs[i]);<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 return ret;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static bool virtio_net_load_ebpf(VirtIONet *n)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 bool ret =3D true;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (virtio_net_attach_ebpf_to_backend(n-&gt;nic, -1)) {=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!(n-&gt;ebpf_rss_fds<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; vi=
+rtio_net_load_ebpf_fds(n))) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D ebpf_rss_load(&amp;=
+n-&gt;ebpf_rss);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 return ret;<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0static void virtio_net_unload_ebpf(VirtIONet *n)<br>
+&gt; @@ -3605,6 +3673,7 @@ static Property virtio_net_properties[] =3D {<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0VIRTIO_NET_F_RSS, false),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BIT64(&quot;hash&quot;, VirtIONe=
+t, host_features,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0VIRTIO_NET_F_HASH_REPORT, false),<br>
+&gt; +=C2=A0 =C2=A0 DEFINE_PROP_STRING(&quot;ebpf_rss_fds&quot;, VirtIONet,=
+ ebpf_rss_fds),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_BIT64(&quot;guest_rsc_ext&quot;,=
+ VirtIONet, host_features,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0VIRTIO_NET_F_RSC_EXT, false),<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0DEFINE_PROP_UINT32(&quot;rsc_interval&quot;,=
+ VirtIONet, rsc_timeout,<br>
+&gt; diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio=
+-net.h<br>
+&gt; index 824a69c23f..993f2f3036 100644<br>
+&gt; --- a/include/hw/virtio/virtio-net.h<br>
+&gt; +++ b/include/hw/virtio/virtio-net.h<br>
+&gt; @@ -213,6 +213,7 @@ struct VirtIONet {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0VirtioNetRssData rss_data;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct NetRxPkt *rx_pkt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct EBPFRSSContext ebpf_rss;<br>
+&gt; +=C2=A0 =C2=A0 char *ebpf_rss_fds;<br>
 <br>
 <br>
-It looks to me you want to drop syscall path for map updating <br>
-completely. I think we&#39;d better keep that for backward compatibility?<b=
-r>
+I wonder if it&#39;s better to use separated properties instead of implying=
+ <br>
+an order here?<br>
+<br>
+E.g &quot;program_fd&quot;, &quot;key_map_fd&quot;, &quot;indirection_table=
+_map_fd&quot; etc.<br>
 <br>
 Thanks<br>
 <br>
+<br>
+&gt;=C2=A0 =C2=A0};<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0void virtio_net_set_netclient_name(VirtIONet *n, const cha=
+r *name,<br>
+<br>
 </blockquote></div>
 
---0000000000003f8b5a05ca663624--
+--00000000000065975b05ca664611--
 
