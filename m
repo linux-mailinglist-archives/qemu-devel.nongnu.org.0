@@ -2,57 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46A6B3F7972
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 17:50:57 +0200 (CEST)
-Received: from localhost ([::1]:45510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F154A3F7987
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 17:55:45 +0200 (CEST)
+Received: from localhost ([::1]:49814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIvAx-0003ML-Bz
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 11:50:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58946)
+	id 1mIvFb-0006cz-JH
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 11:55:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mIv9f-00025G-RN
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 11:49:31 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:54695)
+ (Exim 4.90_1) (envelope-from <armbru@pond.sub.org>)
+ id 1mIvEn-0005wC-W1
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 11:54:50 -0400
+Received: from oxygen.pond.sub.org ([2a01:4f8:13b:3ad0:1::3]:40970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mIv9d-00047x-Re
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 11:49:31 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-ZUk-vDjZOOyLHzTDihZUwA-1; Wed, 25 Aug 2021 11:49:23 -0400
-X-MC-Unique: ZUk-vDjZOOyLHzTDihZUwA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5B95192D789;
- Wed, 25 Aug 2021 15:49:21 +0000 (UTC)
-Received: from bahia.lan (unknown [10.39.194.209])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B6D815C1A1;
- Wed, 25 Aug 2021 15:49:20 +0000 (UTC)
-Date: Wed, 25 Aug 2021 17:49:19 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [RESEND PATCH v3 1/5] spapr_numa.c: split FORM1 code into helpers
-Message-ID: <20210825174919.3c71a5d2@bahia.lan>
-In-Reply-To: <20210825143943.529733-2-danielhb413@gmail.com>
-References: <20210825143943.529733-1-danielhb413@gmail.com>
- <20210825143943.529733-2-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <armbru@pond.sub.org>)
+ id 1mIvEl-0007lB-Q0
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 11:54:49 -0400
+Received: from blackfin.pond.sub.org
+ (p200300d36f498700dacb8afffee0c842.dip0.t-ipconnect.de
+ [IPv6:2003:d3:6f49:8700:dacb:8aff:fee0:c842])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by oxygen.pond.sub.org (Postfix) with ESMTPSA id EA38C20906;
+ Wed, 25 Aug 2021 17:54:41 +0200 (CEST)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4180011380A9; Wed, 25 Aug 2021 17:54:40 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Stefan Reiter <s.reiter@proxmox.com>
+Subject: Re: [PATCH] monitor/qmp: fix race with clients disconnecting early
+References: <20210823101115.2015354-1-s.reiter@proxmox.com>
+Date: Wed, 25 Aug 2021 17:54:40 +0200
+Message-ID: <87r1eh4j0f.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain
+Received-SPF: pass client-ip=2a01:4f8:13b:3ad0:1::3;
+ envelope-from=armbru@pond.sub.org; helo=oxygen.pond.sub.org
+X-Spam_score_int: -16
+X-Spam_score: -1.7
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,132 +58,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>, Wolfgang Bumiller <w.bumiller@proxmox.com>,
+ Michael Roth <michael.roth@amd.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 25 Aug 2021 11:39:39 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+Stefan Reiter <s.reiter@proxmox.com> writes:
 
-> The upcoming FORM2 NUMA affinity will support asymmetric NUMA topologies
-> and doesn't need be concerned with all the legacy support for older
-> pseries FORM1 guests.
->=20
-> We're also not going to calculate associativity domains based on numa
-> distance (via spapr_numa_define_associativity_domains) since the
-> distances will be written directly into new DT properties.
->=20
-> Let's split FORM1 code into its own functions to allow for easier
-> insertion of FORM2 logic later on.
->=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> From: Stefan Reiter <stefan@pimaker.at>
+>
+> The following sequence can produce a race condition that results in
+> responses meant for different clients being sent to the wrong one:
+>
+> (QMP, no OOB)
+> 1) client A connects
+> 2) client A sends 'qmp_capabilities'
+> 3) 'qmp_dispatch' runs in coroutine, schedules out to
+>    'do_qmp_dispatch_bh' and yields
+> 4) client A disconnects (i.e. aborts, crashes, etc...)
+> 5) client B connects
+> 6) 'do_qmp_dispatch_bh' runs 'qmp_capabilities' and wakes calling coroutine
+> 7) capabilities are now set and 'mon->commands' is set to '&qmp_commands'
+> 8) 'qmp_dispatch' returns to 'monitor_qmp_dispatch'
+> 9) success message is sent to client B *without it ever having sent
+>    'qmp_capabilities' itself*
+> 9a) even if client B ignores it, it will now presumably send it's own
+>    greeting, which will error because caps are already set
+>
+> The fix proposed here uses an atomic, sequential connection number
+> stored in the MonitorQMP struct, which is incremented every time a new
+> client connects. Since it is not changed on CHR_EVENT_CLOSED, the
+> behaviour of allowing a client to disconnect only one side of the
+> connection is retained.
+>
+> The connection_nr needs to be exposed outside of the monitor subsystem,
+> since qmp_dispatch lives in qapi code. It needs to be checked twice,
+> once for actually running the command in the BH (fixes 7/9a), and once for
+> sending back a response (fixes 9).
+>
+> This satisfies my local reproducer - using multiple clients constantly
+> looping to open a connection, send the greeting, then exiting no longer
+> crashes other, normally behaving clients with unrelated responses.
+>
+> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
 > ---
+>
+> This is another patch in the apparently never-ending series of fixes to
+> QMP-related race conditions. Our PVE users really seem to have a knack for
+> triggering these ;)
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Fortunately, you seem to have a knack for fixing them!
 
->  hw/ppc/spapr_numa.c | 61 +++++++++++++++++++++++++++++----------------
->  1 file changed, 39 insertions(+), 22 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> index 779f18b994..04a86f9b5b 100644
-> --- a/hw/ppc/spapr_numa.c
-> +++ b/hw/ppc/spapr_numa.c
-> @@ -155,6 +155,32 @@ static void spapr_numa_define_associativity_domains(=
-SpaprMachineState *spapr)
-> =20
->  }
-> =20
-> +/*
-> + * Set NUMA machine state data based on FORM1 affinity semantics.
-> + */
-> +static void spapr_numa_FORM1_affinity_init(SpaprMachineState *spapr,
-> +                                           MachineState *machine)
-> +{
-> +    bool using_legacy_numa =3D spapr_machine_using_legacy_numa(spapr);
-> +
-> +    /*
-> +     * Legacy NUMA guests (pseries-5.1 and older, or guests with only
-> +     * 1 NUMA node) will not benefit from anything we're going to do
-> +     * after this point.
-> +     */
-> +    if (using_legacy_numa) {
-> +        return;
-> +    }
-> +
-> +    if (!spapr_numa_is_symmetrical(machine)) {
-> +        error_report("Asymmetrical NUMA topologies aren't supported "
-> +                     "in the pSeries machine");
-> +        exit(EXIT_FAILURE);
-> +    }
-> +
-> +    spapr_numa_define_associativity_domains(spapr);
-> +}
-> +
->  void spapr_numa_associativity_init(SpaprMachineState *spapr,
->                                     MachineState *machine)
->  {
-> @@ -210,22 +236,7 @@ void spapr_numa_associativity_init(SpaprMachineState=
- *spapr,
->          spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_to_b=
-e32(i);
->      }
-> =20
-> -    /*
-> -     * Legacy NUMA guests (pseries-5.1 and older, or guests with only
-> -     * 1 NUMA node) will not benefit from anything we're going to do
-> -     * after this point.
-> -     */
-> -    if (using_legacy_numa) {
-> -        return;
-> -    }
-> -
-> -    if (!spapr_numa_is_symmetrical(machine)) {
-> -        error_report("Asymmetrical NUMA topologies aren't supported "
-> -                     "in the pSeries machine");
-> -        exit(EXIT_FAILURE);
-> -    }
-> -
-> -    spapr_numa_define_associativity_domains(spapr);
-> +    spapr_numa_FORM1_affinity_init(spapr, machine);
->  }
-> =20
->  void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, void *f=
-dt,
-> @@ -302,12 +313,8 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMachin=
-eState *spapr, void *fdt,
->      return ret;
->  }
-> =20
-> -/*
-> - * Helper that writes ibm,associativity-reference-points and
-> - * max-associativity-domains in the RTAS pointed by @rtas
-> - * in the DT @fdt.
-> - */
-> -void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int r=
-tas)
-> +static void spapr_numa_FORM1_write_rtas_dt(SpaprMachineState *spapr,
-> +                                           void *fdt, int rtas)
->  {
->      MachineState *ms =3D MACHINE(spapr);
->      SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(spapr);
-> @@ -365,6 +372,16 @@ void spapr_numa_write_rtas_dt(SpaprMachineState *spa=
-pr, void *fdt, int rtas)
->                       maxdomains, sizeof(maxdomains)));
->  }
-> =20
-> +/*
-> + * Helper that writes ibm,associativity-reference-points and
-> + * max-associativity-domains in the RTAS pointed by @rtas
-> + * in the DT @fdt.
-> + */
-> +void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int r=
-tas)
-> +{
-> +    spapr_numa_FORM1_write_rtas_dt(spapr, fdt, rtas);
-> +}
-> +
->  static target_ulong h_home_node_associativity(PowerPCCPU *cpu,
->                                                SpaprMachineState *spapr,
->                                                target_ulong opcode,
+> Here's one of the (several) forum threads where we tried to diagnose the issue:
+> https://forum.proxmox.com/threads/error-with-backup-when-backing-up-qmp-command-query-backup-failed-got-wrong-command-id.88017/
+>
+> It manifested itself under load, where sometimes our monitor code (which uses
+> the 'id' system of QMP to track commands) would receive bogus responses, showing
+> up as "got wrong command id" errors in our logs.
 
+Let me re-explain the bug in my own words, to make sure I understand.
+
+A QMP monitor normally runs in the monitor I/O thread.
+
+A QMP monitor can serve only one client at a time.
+
+It executes out-of-band commands right as it reads them.  In-band
+commands are queued, and executed one after the other in the main loop.
+
+Command output is buffered.  We write it out as fast as the character
+device can take it.  If a write fails, we throw away the entire buffer
+contents.
+
+A client can disconnect at any time.  This throws away the queue.  An
+in-band command may be executing in the main loop.  An out-of-band
+command may be executing in the monitor's thread.
+
+Such commands (if any) are not affected by the disconnect.  Their output
+gets buffered, but write out fails, so it's thrown away.
+
+*Except* when another client connects quickly enough.  Then we send it
+output meant for the previous client.  This is wrong.  I suspect this
+could even send invalid JSON.
+
+Special case: if in-band command qmp_capabilities is executing when the
+client disconnects, and another client connects before the command flips
+the monitor from capabilities negotiation mode to command mode, that
+client starts in the wrong mode.
+
+> I'm not sure this approach is the best fix, it seems a lot like a band-aid to
+> me, but it's the best I could come up with for now - open for different ideas of
+> course.
+
+I need to think through the ramifications.  Please ping me if you don't
+hear from me this week.
+
+> Note that with this patch, we're no longer running a command that was scheduled
+> after a client has disconnected early. This seems like a slight behaviour change
+> to me...
+
+The commit message needs to spell this out.
+
+>          On the other hand, I didn't want to drag the connection number into
+> qmp_capabilities() and special case that even further.
+>
+> I didn't look to deeply into 'QMP in iothread' yet, if that does what I think it
+> does there might be two more potential races here:
+> * between 'do_qmp_dispatch_bh' running 'aio_co_wake' and 'qmp_dispatch' actually
+>   yielding (very unlikely though)
+> * plus a TOCTOU in 'do_qmp_dispatch_bh' with the atomic read of the
+>   connection_nr and actually running cmd->fn()
+
+We should discuss these in more detail.
+
+> Thanks!
+
+Thank *you*!
 
