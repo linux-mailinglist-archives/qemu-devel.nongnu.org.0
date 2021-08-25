@@ -2,68 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957D63F6F26
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 08:07:58 +0200 (CEST)
-Received: from localhost ([::1]:45852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B53173F6FAB
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 08:38:10 +0200 (CEST)
+Received: from localhost ([::1]:42886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIm4q-0005yh-D7
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 02:07:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40902)
+	id 1mImY5-0007lL-OJ
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 02:38:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mIm3g-0005HN-5Z; Wed, 25 Aug 2021 02:06:44 -0400
-Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:41531)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mIm3d-0003VG-8t; Wed, 25 Aug 2021 02:06:43 -0400
-Received: by mail-io1-xd34.google.com with SMTP id j18so29326393ioj.8;
- Tue, 24 Aug 2021 23:06:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PCZxr+8cCh6S5wv312qmGPwvfEZfeKgbGMKc1JhKGvk=;
- b=jxkOXSdeB2A/UHV8O9/433FYpJYX752tuwbZG//qnVS3wb53b4AgnwiTHIWv7CWnYf
- vZL4eBfSe+z4UiSJfqnHldD41nnxMDPCMgweAOrqJ2Qq3pj14QdmEOKWp9/8U9qc2d/u
- y2t1aPnp3Mh6uOkPWZXoOiTHNEEOILXxAQpfgiqPZcG3rpHJJbJ/LdD2JwXstIZ16B20
- 4JxhqOjowQBmr8iBv4jYE/+B0s7CSMt3sq33njVjgiqCaW5ZEGxq9SVkfv0xrx+TcdNb
- j1u1uXGZbXzc509EWQZWs+owbq/cIGmTOiAmLtA5yFu3APEUieBoFQa+/qSxtGc2/9y2
- vzGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PCZxr+8cCh6S5wv312qmGPwvfEZfeKgbGMKc1JhKGvk=;
- b=YCotPiSPkiprrOlUZE7YtZmSkkpian1WCCosPLcfBX2NK1oja6OjapSz8jzAy+BXEA
- /z4VPRdKt3L0n/yhP0aRxO+cHcDc7ihPZd5RfhA0FciC2kDPDnpqvMCpxMi0wJH6UZ6P
- MAENyodgMNa+DIZnhO80f2AthTvElFtbqlqD0k7UlwibO8qrdn3o5vrVC9RNk4JIKqEn
- wMr0Q4V1KwoMuku8MsGs/4EzHSqljYgAOc70HiG/jaGvZlOthQYwAnWFFi3i51GuGx26
- Y2LHd4WiuSX4l4QVJnfUreNm9aa5Z40FnXRV9Ln8YBJWm+vZemUro3aCoCqxCTp6OKy0
- NoQw==
-X-Gm-Message-State: AOAM531Nu3kG3q4jK+vY0iDx7U8kvRcMrx/JydCNdoV+QMFoG8Z6PKLd
- EUwRfop5odu8iSD6eQ2gudwEQjGXtM2ddRW/be0=
-X-Google-Smtp-Source: ABdhPJycVJ700squu/UUi398Naa6zbkggNTzODdlqTdJ4RMAx+x6u6xN+H9/XQXMc1kBhgw4CCq5WB85NJY8TBUDlcs=
-X-Received: by 2002:a02:90d0:: with SMTP id c16mr37924721jag.106.1629871598963; 
- Tue, 24 Aug 2021 23:06:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mImRu-0001fN-R6; Wed, 25 Aug 2021 02:31:46 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:48361)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mImRq-00076i-MW; Wed, 25 Aug 2021 02:31:46 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4GvbjP5gHLz9sWd; Wed, 25 Aug 2021 16:31:37 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1629873097;
+ bh=QnMZA1gfGRdzmua2zlaKa6J0d3dyZPsKeHsCz5BmF8U=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Isjg+hGffo203VHdf5zhI8vSvdMY4KFAT0ivttf3VfSLtmcB9nySQLwuJ+ho124sf
+ PuMvHPe95KfpCx8WzkVWfOV+5rW7BHRt4tqD/PQC3kVgqr8n5/3U5QdtLE1K9C4lSJ
+ 0AqQG1YKKfaB3UrEuetmAbfTLd97T3ZnTnrSOWfQ=
+Date: Wed, 25 Aug 2021 16:06:48 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH 12/26] ppc/pnv: Add a OCC model for POWER10
+Message-ID: <YSXd+C8IBxgbRd6L@yekko>
+References: <20210809134547.689560-1-clg@kaod.org>
+ <20210809134547.689560-13-clg@kaod.org>
 MIME-Version: 1.0
-References: <20210823195529.560295-1-richard.henderson@linaro.org>
- <20210823195529.560295-20-richard.henderson@linaro.org>
-In-Reply-To: <20210823195529.560295-20-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 25 Aug 2021 16:06:12 +1000
-Message-ID: <CAKmqyKPjTdut0Ry8mMbcQWwbJNE16S_KWGzvPP2YU9-8Bydjfg@mail.gmail.com>
-Subject: Re: [PATCH v5 19/24] target/riscv: Use {get,dest}_gpr for RVA
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="inUUuPcegtpYWfgj"
+Content-Disposition: inline
+In-Reply-To: <20210809134547.689560-13-clg@kaod.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,135 +58,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 24, 2021 at 6:07 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+--inUUuPcegtpYWfgj
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Alistair
+On Mon, Aug 09, 2021 at 03:45:33PM +0200, C=E9dric Le Goater wrote:
+> Our OCC model is very mininal and POWER10 can simply reuse the OCC
+> model we introduced for POWER9.
+>=20
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  target/riscv/insn_trans/trans_rva.c.inc | 47 ++++++++++---------------
->  1 file changed, 19 insertions(+), 28 deletions(-)
->
-> diff --git a/target/riscv/insn_trans/trans_rva.c.inc b/target/riscv/insn_trans/trans_rva.c.inc
-> index 3cc3c3b073..6ea07d89b0 100644
-> --- a/target/riscv/insn_trans/trans_rva.c.inc
-> +++ b/target/riscv/insn_trans/trans_rva.c.inc
-> @@ -18,11 +18,10 @@
->   * this program.  If not, see <http://www.gnu.org/licenses/>.
->   */
->
-> -static inline bool gen_lr(DisasContext *ctx, arg_atomic *a, MemOp mop)
-> +static bool gen_lr(DisasContext *ctx, arg_atomic *a, MemOp mop)
->  {
-> -    TCGv src1 = tcg_temp_new();
-> -    /* Put addr in load_res, data in load_val.  */
-> -    gen_get_gpr(ctx, src1, a->rs1);
-> +    TCGv src1 = get_gpr(ctx, a->rs1, EXT_ZERO);
+>  include/hw/ppc/pnv.h       |  1 +
+>  include/hw/ppc/pnv_occ.h   |  2 ++
+>  include/hw/ppc/pnv_xscom.h |  3 +++
+>  hw/ppc/pnv.c               | 10 ++++++++++
+>  hw/ppc/pnv_occ.c           | 16 ++++++++++++++++
+>  5 files changed, 32 insertions(+)
+>=20
+> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+> index b773b09f9f8e..a299fbc7f25c 100644
+> --- a/include/hw/ppc/pnv.h
+> +++ b/include/hw/ppc/pnv.h
+> @@ -127,6 +127,7 @@ struct Pnv10Chip {
+>      PnvXive2     xive;
+>      Pnv9Psi      psi;
+>      PnvLpcController lpc;
+> +    PnvOCC       occ;
+>  };
+> =20
+>  #define PNV10_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
+> diff --git a/include/hw/ppc/pnv_occ.h b/include/hw/ppc/pnv_occ.h
+> index b78185aecaf2..f982ba002481 100644
+> --- a/include/hw/ppc/pnv_occ.h
+> +++ b/include/hw/ppc/pnv_occ.h
+> @@ -32,6 +32,8 @@ DECLARE_INSTANCE_CHECKER(PnvOCC, PNV8_OCC,
+>  #define TYPE_PNV9_OCC TYPE_PNV_OCC "-POWER9"
+>  DECLARE_INSTANCE_CHECKER(PnvOCC, PNV9_OCC,
+>                           TYPE_PNV9_OCC)
+> +#define TYPE_PNV10_OCC TYPE_PNV_OCC "-POWER10"
+> +DECLARE_INSTANCE_CHECKER(PnvOCC, PNV10_OCC, TYPE_PNV10_OCC)
+> =20
+>  #define PNV_OCC_SENSOR_DATA_BLOCK_OFFSET 0x00580000
+>  #define PNV_OCC_SENSOR_DATA_BLOCK_SIZE   0x00025800
+> diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
+> index 188da874a4b0..151df15378d1 100644
+> --- a/include/hw/ppc/pnv_xscom.h
+> +++ b/include/hw/ppc/pnv_xscom.h
+> @@ -131,6 +131,9 @@ struct PnvXScomInterfaceClass {
+>  #define PNV10_XSCOM_PSIHB_BASE     0x3011D00
+>  #define PNV10_XSCOM_PSIHB_SIZE     0x100
+> =20
+> +#define PNV10_XSCOM_OCC_BASE       PNV9_XSCOM_OCC_BASE
+> +#define PNV10_XSCOM_OCC_SIZE       PNV9_XSCOM_OCC_SIZE
 > +
->      if (a->rl) {
->          tcg_gen_mb(TCG_MO_ALL | TCG_BAR_STRL);
->      }
-> @@ -30,33 +29,33 @@ static inline bool gen_lr(DisasContext *ctx, arg_atomic *a, MemOp mop)
->      if (a->aq) {
->          tcg_gen_mb(TCG_MO_ALL | TCG_BAR_LDAQ);
->      }
+>  #define PNV10_XSCOM_XIVE2_BASE     0x2010800
+>  #define PNV10_XSCOM_XIVE2_SIZE     0x400
+> =20
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 28c928b3985a..f75d90e61fa8 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -1602,6 +1602,7 @@ static void pnv_chip_power10_instance_init(Object *=
+obj)
+>                                "xive-fabric");
+>      object_initialize_child(obj, "psi", &chip10->psi, TYPE_PNV10_PSI);
+>      object_initialize_child(obj, "lpc", &chip10->lpc, TYPE_PNV10_LPC);
+> +    object_initialize_child(obj, "occ",  &chip10->occ, TYPE_PNV10_OCC);
+>  }
+> =20
+>  static void pnv_chip_power10_realize(DeviceState *dev, Error **errp)
+> @@ -1667,6 +1668,15 @@ static void pnv_chip_power10_realize(DeviceState *=
+dev, Error **errp)
+>      chip->fw_mr =3D &chip10->lpc.isa_fw;
+>      chip->dt_isa_nodename =3D g_strdup_printf("/lpcm-opb@%" PRIx64 "/lpc=
+@0",
+>                                              (uint64_t) PNV10_LPCM_BASE(c=
+hip));
 > +
-> +    /* Put addr in load_res, data in load_val.  */
->      tcg_gen_mov_tl(load_res, src1);
->      gen_set_gpr(ctx, a->rd, load_val);
->
-> -    tcg_temp_free(src1);
->      return true;
+> +    /* Create the simplified OCC model */
+> +    object_property_set_link(OBJECT(&chip10->occ), "psi", OBJECT(&chip10=
+->psi),
+> +                             &error_abort);
+> +    if (!qdev_realize(DEVICE(&chip10->occ), NULL, errp)) {
+> +        return;
+> +    }
+> +    pnv_xscom_add_subregion(chip, PNV10_XSCOM_OCC_BASE,
+> +                            &chip10->occ.xscom_regs);
 >  }
->
-> -static inline bool gen_sc(DisasContext *ctx, arg_atomic *a, MemOp mop)
-> +static bool gen_sc(DisasContext *ctx, arg_atomic *a, MemOp mop)
+> =20
+>  static uint32_t pnv_chip_power10_xscom_pcba(PnvChip *chip, uint64_t addr)
+> diff --git a/hw/ppc/pnv_occ.c b/hw/ppc/pnv_occ.c
+> index 5a716c256edc..4ed66f5e1fcc 100644
+> --- a/hw/ppc/pnv_occ.c
+> +++ b/hw/ppc/pnv_occ.c
+> @@ -236,7 +236,9 @@ static const MemoryRegionOps pnv_occ_power9_xscom_ops=
+ =3D {
+>  static void pnv_occ_power9_class_init(ObjectClass *klass, void *data)
 >  {
-> -    TCGv src1 = tcg_temp_new();
-> -    TCGv src2 = tcg_temp_new();
-> -    TCGv dat = tcg_temp_new();
-> +    TCGv dest, src1, src2;
->      TCGLabel *l1 = gen_new_label();
->      TCGLabel *l2 = gen_new_label();
->
-> -    gen_get_gpr(ctx, src1, a->rs1);
-> +    src1 = get_gpr(ctx, a->rs1, EXT_ZERO);
->      tcg_gen_brcond_tl(TCG_COND_NE, load_res, src1, l1);
->
-> -    gen_get_gpr(ctx, src2, a->rs2);
->      /*
->       * Note that the TCG atomic primitives are SC,
->       * so we can ignore AQ/RL along this path.
->       */
-> -    tcg_gen_atomic_cmpxchg_tl(src1, load_res, load_val, src2,
-> +    dest = dest_gpr(ctx, a->rd);
-> +    src2 = get_gpr(ctx, a->rs2, EXT_NONE);
-> +    tcg_gen_atomic_cmpxchg_tl(dest, load_res, load_val, src2,
->                                ctx->mem_idx, mop);
-> -    tcg_gen_setcond_tl(TCG_COND_NE, dat, src1, load_val);
-> -    gen_set_gpr(ctx, a->rd, dat);
-> +    tcg_gen_setcond_tl(TCG_COND_NE, dest, dest, load_val);
-> +    gen_set_gpr(ctx, a->rd, dest);
->      tcg_gen_br(l2);
->
->      gen_set_label(l1);
-> @@ -65,8 +64,7 @@ static inline bool gen_sc(DisasContext *ctx, arg_atomic *a, MemOp mop)
->       * provide the memory barrier implied by AQ/RL.
->       */
->      tcg_gen_mb(TCG_MO_ALL + a->aq * TCG_BAR_LDAQ + a->rl * TCG_BAR_STRL);
-> -    tcg_gen_movi_tl(dat, 1);
-> -    gen_set_gpr(ctx, a->rd, dat);
-> +    gen_set_gpr(ctx, a->rd, tcg_constant_tl(1));
->
->      gen_set_label(l2);
->      /*
-> @@ -75,9 +73,6 @@ static inline bool gen_sc(DisasContext *ctx, arg_atomic *a, MemOp mop)
->       */
->      tcg_gen_movi_tl(load_res, -1);
->
-> -    tcg_temp_free(dat);
-> -    tcg_temp_free(src1);
-> -    tcg_temp_free(src2);
->      return true;
->  }
->
-> @@ -85,17 +80,13 @@ static bool gen_amo(DisasContext *ctx, arg_atomic *a,
->                      void(*func)(TCGv, TCGv, TCGv, TCGArg, MemOp),
->                      MemOp mop)
+>      PnvOCCClass *poc =3D PNV_OCC_CLASS(klass);
+> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
+> =20
+> +    dc->desc =3D "PowerNV OCC Controller (POWER9)";
+>      poc->xscom_size =3D PNV9_XSCOM_OCC_SIZE;
+>      poc->xscom_ops =3D &pnv_occ_power9_xscom_ops;
+>      poc->psi_irq =3D PSIHB9_IRQ_OCC;
+> @@ -249,6 +251,19 @@ static const TypeInfo pnv_occ_power9_type_info =3D {
+>      .class_init    =3D pnv_occ_power9_class_init,
+>  };
+> =20
+> +static void pnv_occ_power10_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
+> +
+> +    dc->desc =3D "PowerNV OCC Controller (POWER10)";
+> +}
+> +
+> +static const TypeInfo pnv_occ_power10_type_info =3D {
+> +    .name          =3D TYPE_PNV10_OCC,
+> +    .parent        =3D TYPE_PNV9_OCC,
+> +    .class_init    =3D pnv_occ_power10_class_init,
+> +};
+> +
+>  static void pnv_occ_realize(DeviceState *dev, Error **errp)
 >  {
-> -    TCGv src1 = tcg_temp_new();
-> -    TCGv src2 = tcg_temp_new();
-> +    TCGv dest = dest_gpr(ctx, a->rd);
-> +    TCGv src1 = get_gpr(ctx, a->rs1, EXT_NONE);
-> +    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
->
-> -    gen_get_gpr(ctx, src1, a->rs1);
-> -    gen_get_gpr(ctx, src2, a->rs2);
-> +    func(dest, src1, src2, ctx->mem_idx, mop);
->
-> -    (*func)(src2, src1, src2, ctx->mem_idx, mop);
-> -
-> -    gen_set_gpr(ctx, a->rd, src2);
-> -    tcg_temp_free(src1);
-> -    tcg_temp_free(src2);
-> +    gen_set_gpr(ctx, a->rd, dest);
->      return true;
+>      PnvOCC *occ =3D PNV_OCC(dev);
+> @@ -297,6 +312,7 @@ static void pnv_occ_register_types(void)
+>      type_register_static(&pnv_occ_type_info);
+>      type_register_static(&pnv_occ_power8_type_info);
+>      type_register_static(&pnv_occ_power9_type_info);
+> +    type_register_static(&pnv_occ_power10_type_info);
 >  }
->
-> --
-> 2.25.1
->
->
+> =20
+>  type_init(pnv_occ_register_types);
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--inUUuPcegtpYWfgj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEl3fgACgkQbDjKyiDZ
+s5Ke6g//RQ0cOyvNslWXro/NbweGwNZP9Qk8eYBL141J9t4cKoE4EUo5srvjNQ97
+GV6QHWkGfdXqCCs7RbQgPQS/sIsYym82DBm4WgG8i7P3v+FvTj8l0zXBSWz1sLzE
+XbBIwvNllmvai1Hjvags6kVZy015kD/jhd2nTjxK8liYaPPuQeyTkNAGPqWG3ZTu
+7dCMfKOa/smlbxo/L2wcNWwk8jUBVXWKKqlpYJBJSVl1/JKPHQEZt543khXukeam
+QKzRXZj7TxqyNBG9XmN2cme3Bmy6Xv9Uh85TuEYk2tMQpoJ3IZbaAcQ752u2qxtD
+wliUnswXor3kIj4G+Ac1mH6+JFNwPDobbizWc5DTl4qybbSPBnR3rfjRvjldvyjM
+yHsu4aqAQfkZ0QP9F+cXYDiOzqID1WyRFhEUG+CgQayFnKu6M5wTPluOuM7K3Fag
+gb148VM1AT0+3aIotyh6KSaRDo8lEjY06TSZDSBUNsA4+nbJxiLaAX/ORApbWBPL
+sAPG25AMt0gzVEzkpRGLwVRpORP65gNOixI1w1sWIqXt7DUycgJtVT0sVHWvIykD
+CbCDOKq+c0JJD54B7E/y9lKZt0LIyDcrjDL9JFEPWMao07jMTX1tzzVmBuUngvTz
+Gexp3IjK5EOSxp7IslWV68KFGqhwkzUqcKFc+NH/s8pz53xS6V0=
+=5ffP
+-----END PGP SIGNATURE-----
+
+--inUUuPcegtpYWfgj--
 
