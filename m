@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C84D63F739B
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 12:47:19 +0200 (CEST)
-Received: from localhost ([::1]:52942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 980263F7383
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 12:41:06 +0200 (CEST)
+Received: from localhost ([::1]:56966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIqRC-0008MK-Qx
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 06:47:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48640)
+	id 1mIqLB-0000IX-JG
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 06:41:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIqG2-0002vI-EI
+ id 1mIqG2-0002xO-Ut
  for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:35:46 -0400
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:52899)
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:52900)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mIqG0-0005IS-Op
+ id 1mIqG1-0005JR-AK
  for qemu-devel@nongnu.org; Wed, 25 Aug 2021 06:35:46 -0400
-Received: by mail-wm1-x332.google.com with SMTP id f10so14670999wml.2
+Received: by mail-wm1-x333.google.com with SMTP id f10so14671029wml.2
  for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 03:35:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=8qIE5oE1JZoICFhq6qSEMy1TMT2jNqxyN7BxrEyKPnk=;
- b=dd9Ds+meriI9xZTes2q/4EeCeLljWB7PI2jqoIDVO/2ar0+PAD0hK8Rx7MZukZUi7T
- B+NCEJouOQcBaIZOkzDGOfMDpWovpFsWH7V1CarhNeUkbrEFpD+B9X3sxcMWtwULe0zm
- zgA1FNe54XfiYnpoUMmGg9x+Fx+75TrZZRWYM92yPooZ5HhhGNRf9GDfcjSg/u1vAfBi
- 3xXjEFGGmomaJYtKGrsBBmxkew/PiQo29nRFcSJYqAPBwKyUbtmH+BeyQqLl502sCrtP
- 3wXaCUEvIf1Jq9/FkOV3B0iVo7Hcal2uKjK7pQa1U0y9JNdROInSbPcGlYpZRiCHPKLj
- Z24A==
+ bh=9E2l5jElzoIn6FznnRlfJdbmRFg2UKvriErGukFqqJw=;
+ b=TU+AfCyYyJYKUWRUXygLCb+TM4h4M4jcIgELPafzxB5GIAy1ZGohxs70BRiVk4yEx0
+ w+LMKNmclvbRwN7zgOz7/jgHzF05bu1G1juYHdafCkBP6M2Z5JfZEvEBCXF5eY6N3ypp
+ 5oWtds75vbMn1hU4j8Wlidi5T3nPTEE/rQHeRqaQdoGDawd+4xj0+XLBUCzdsdWNSbmm
+ bvEsDXXYO5ZCRqRgdo/UM22RjrYhtI8H/qToUwIPS6uwoWsCFvQWN4RjWzvzTNUpZ3gD
+ 1XLjjJKaZ8+pe7X9v0HasvvllvEXs8z9+YCS3Ad6nFPnQ2aKOl+yu+VsqHLPG1xyGAzO
+ 5Qjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8qIE5oE1JZoICFhq6qSEMy1TMT2jNqxyN7BxrEyKPnk=;
- b=C6finHRiNK1ZArTENtMMt+XKgYloCipWz+cgd1HgZ1RMkkA69/ntwxOQKB87RL/TPl
- /ooK6WlUKVVOD1QZX4YzkYmlNfmzDs8+Xfr2bQLxJWtt5w7fmLQJPgkfe81EbOdKjNBu
- JDJ2LME25jtdOp3cr2boO1e+dDT2eOyNI7TT4jA0LJ9NPZJUejVud5YaoHTiK6zCmtum
- +KHsO/NllRBDlKDPB4aovuFNGLZap4EyTGF23RPEiO1eUKq+54FnhJ14tlDNjpFcncwl
- F+kHb7ZIOm+tfss2B8hUq0gyRc1V3DmBuRT1UJX1UjfcdqWm+u9oGdyGv+/F4XV6hSLZ
- IK6w==
-X-Gm-Message-State: AOAM533DB+lCchZNJbHNocuWMmWvy2ALtptJe4UpE1yg8vRYlsW7LuZM
- LWVBW0zWfq6N6vRjvwVpGOsOsbQ7KXgQSw==
-X-Google-Smtp-Source: ABdhPJxHp7pOyKPLlGTBmA1Q04TiIVgDV3i0N9AO2VIoFf0z1CPA0vgDAeGEgKyYYQmRXo1fp5A2Dw==
-X-Received: by 2002:a1c:28b:: with SMTP id 133mr3303473wmc.138.1629887743294; 
+ bh=9E2l5jElzoIn6FznnRlfJdbmRFg2UKvriErGukFqqJw=;
+ b=VUWovSiMgoBbIaEEjAH91HonLeXi1opUyJvv5k38cSFUYFuZY0Vp5P41G/GRdGVsF8
+ 2YshvuYTBPYoTFrxalPTjX5lDMI/o+ogBmn+0YDa1JyaDbsuvNyxtTN14vukJ/KstB/f
+ sFC3bfOnLnofETJfcMha8FkrjiTn2L1WeSSiWM3vgJlh3NwlGij7HlYYyJrLKyc0/lZu
+ LDRtdt7D10ephr/TGGNpOdKXgbgKTQgs57b30jVgBY0SMx8XJxcE1SGafanWxuMJ/7Cc
+ f8Kcyb/RHmPZBiXE6aRRjk7w7pEVhWke20xRpsX1ZXVjFM8LbVKlfSIfuvctt9tPZdnG
+ ESbw==
+X-Gm-Message-State: AOAM530H5H7Q+sxxhTKYAabKkxmXYC0r8SQ+zq/BbWSSbxwfutMtCLiJ
+ l8OIBuO2hlDFuxdpvju/CuoXQFK1fMJ39A==
+X-Google-Smtp-Source: ABdhPJxRV9/u3qncI0KKNZmfTXCUBJVATGsFZAn/y2U/mYk7rNbI1420YwkP79ChE6ArMrMhkpQTYQ==
+X-Received: by 2002:a05:600c:4a23:: with SMTP id
+ c35mr8511925wmp.140.1629887743921; 
  Wed, 25 Aug 2021 03:35:43 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m4sm5075931wml.28.2021.08.25.03.35.42
+ by smtp.gmail.com with ESMTPSA id m4sm5075931wml.28.2021.08.25.03.35.43
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 03:35:42 -0700 (PDT)
+ Wed, 25 Aug 2021 03:35:43 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/44] target/arm: Fix VPT advance when ECI is non-zero
-Date: Wed, 25 Aug 2021 11:35:00 +0100
-Message-Id: <20210825103534.6936-11-peter.maydell@linaro.org>
+Subject: [PULL 11/44] target/arm: Fix VLDRB/H/W for predicated elements
+Date: Wed, 25 Aug 2021 11:35:01 +0100
+Message-Id: <20210825103534.6936-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210825103534.6936-1-peter.maydell@linaro.org>
 References: <20210825103534.6936-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,67 +87,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We were not paying attention to the ECI state when advancing the VPT
-state.  Architecturally, VPT state advance happens for every beat
-(see the pseudocode VPTAdvance()), so on every beat the 4 bits of
-VPR.P0 corresponding to the current beat are inverted if required,
-and at the end of beats 1 and 3 the VPR MASK fields are updated.
-This means that if the ECI state says we should not be executing all
-4 beats then we need to skip some of the updating of the VPR that we
-currently do in mve_advance_vpt().
+For vector loads, predicated elements are zeroed, instead of
+retaining their previous values (as happens for most data
+processing operations). This means we need to distinguish
+"beat not executed due to ECI" (don't touch destination
+element) from "beat executed but predicated out" (zero
+destination element).
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/mve_helper.c | 24 +++++++++++++++++-------
- 1 file changed, 17 insertions(+), 7 deletions(-)
+ target/arm/mve_helper.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index ffff280726d..bc89ce94d5a 100644
+index bc89ce94d5a..be8b9545317 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -110,6 +110,8 @@ static void mve_advance_vpt(CPUARMState *env)
-     /* Advance the VPT and ECI state if necessary */
-     uint32_t vpr = env->v7m.vpr;
-     unsigned mask01, mask23;
-+    uint16_t inv_mask;
-+    uint16_t eci_mask = mve_eci_mask(env);
- 
-     if ((env->condexec_bits & 0xf) == 0) {
-         env->condexec_bits = (env->condexec_bits == (ECI_A0A1A2B0 << 4)) ?
-@@ -121,17 +123,25 @@ static void mve_advance_vpt(CPUARMState *env)
-         return;
-     }
- 
-+    /* Invert P0 bits if needed, but only for beats we actually executed */
-     mask01 = FIELD_EX32(vpr, V7M_VPR, MASK01);
-     mask23 = FIELD_EX32(vpr, V7M_VPR, MASK23);
--    if (mask01 > 8) {
--        /* high bit set, but not 0b1000: invert the relevant half of P0 */
--        vpr ^= 0xff;
-+    /* Start by assuming we invert all bits corresponding to executed beats */
-+    inv_mask = eci_mask;
-+    if (mask01 <= 8) {
-+        /* MASK01 says don't invert low half of P0 */
-+        inv_mask &= ~0xff;
-     }
--    if (mask23 > 8) {
--        /* high bit set, but not 0b1000: invert the relevant half of P0 */
--        vpr ^= 0xff00;
-+    if (mask23 <= 8) {
-+        /* MASK23 says don't invert high half of P0 */
-+        inv_mask &= ~0xff00;
-     }
--    vpr = FIELD_DP32(vpr, V7M_VPR, MASK01, mask01 << 1);
-+    vpr ^= inv_mask;
-+    /* Only update MASK01 if beat 1 executed */
-+    if (eci_mask & 0xf0) {
-+        vpr = FIELD_DP32(vpr, V7M_VPR, MASK01, mask01 << 1);
-+    }
-+    /* Beat 3 always executes, so update MASK23 */
-     vpr = FIELD_DP32(vpr, V7M_VPR, MASK23, mask23 << 1);
+@@ -146,12 +146,13 @@ static void mve_advance_vpt(CPUARMState *env)
      env->v7m.vpr = vpr;
  }
+ 
+-
++/* For loads, predicated lanes are zeroed instead of keeping their old values */
+ #define DO_VLDR(OP, MSIZE, LDTYPE, ESIZE, TYPE)                         \
+     void HELPER(mve_##OP)(CPUARMState *env, void *vd, uint32_t addr)    \
+     {                                                                   \
+         TYPE *d = vd;                                                   \
+         uint16_t mask = mve_element_mask(env);                          \
++        uint16_t eci_mask = mve_eci_mask(env);                          \
+         unsigned b, e;                                                  \
+         /*                                                              \
+          * R_SXTM allows the dest reg to become UNKNOWN for abandoned   \
+@@ -159,8 +160,9 @@ static void mve_advance_vpt(CPUARMState *env)
+          * then take an exception.                                      \
+          */                                                             \
+         for (b = 0, e = 0; b < 16; b += ESIZE, e++) {                   \
+-            if (mask & (1 << b)) {                                      \
+-                d[H##ESIZE(e)] = cpu_##LDTYPE##_data_ra(env, addr, GETPC()); \
++            if (eci_mask & (1 << b)) {                                  \
++                d[H##ESIZE(e)] = (mask & (1 << b)) ?                    \
++                    cpu_##LDTYPE##_data_ra(env, addr, GETPC()) : 0;     \
+             }                                                           \
+             addr += MSIZE;                                              \
+         }                                                               \
 -- 
 2.20.1
 
