@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF6853F6DAD
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 05:23:12 +0200 (CEST)
-Received: from localhost ([::1]:46650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 847C53F6DA9
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 05:21:42 +0200 (CEST)
+Received: from localhost ([::1]:40232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mIjVQ-0006bP-0j
-	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 23:23:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46286)
+	id 1mIjTx-0002Fd-G0
+	for lists+qemu-devel@lfdr.de; Tue, 24 Aug 2021 23:21:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mIjSY-0007xC-Ca
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 23:20:14 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:40950)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mIjSb-00086D-U9
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 23:20:17 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:42864)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mIjSW-0005h3-RN
- for qemu-devel@nongnu.org; Tue, 24 Aug 2021 23:20:14 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id y190so20113746pfg.7
- for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 20:20:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mIjSa-0005kJ-GS
+ for qemu-devel@nongnu.org; Tue, 24 Aug 2021 23:20:17 -0400
+Received: by mail-pl1-x630.google.com with SMTP id w6so13482859plg.9
+ for <qemu-devel@nongnu.org>; Tue, 24 Aug 2021 20:20:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=bKbc+f4bQs5XTTICu9SVnSh/UAlBzY4g0vt/DD+jm+Y=;
- b=0c0pXkvS72WAGdRLEz37P8IcuNb5G1ganWehBOwfPczgRQHVvz3Ex3CQwdkRZBDHCJ
- BjjTYWV12vtIxT2KK/2k5MoQ/Tv/OtON1sOXgByXQsdTalXuAl1qIE52vnQbFZxppCTk
- roX5QKOs+iu8azSJAV05VYs9bo22ZShwiEeXcQSZcL+LUKqJ666W7tXQmxvE2PSVm51Q
- s1mw6YYKiGS6bjSIbo2c1r0BcnD3b/ksg+UwcNnr4YkqI1fHWdNBGmvXlex32WJiXh8h
- 6T53i6KTJXMf61Nt1huiGs4rTFNHsMp7V9o7/2U3FBGIjFti/gpnvXROQjtKYM/z+Ku9
- B4+Q==
+ bh=fi5WxhhadR2UM/qthU4X06h6DIcMmGAlSCkO9HVYdao=;
+ b=qyl3s4Rx7MZUwn1w7LHunmL6L2lepkP9JyZ4bJa/YqYraiNJl2CdCRx6+gVVZUhjko
+ WcDv2LPwWSMcq7Ere6q23Ueh1T9e0rCH1ZwMhur+os30NIcxSWpqt/JPXZKq2LTnpo8b
+ nJzLqDz9D2qzAf/2yN4VyFnGue7c2bN17/9a/rkRNDJJNZlRgdPn6ffDzXpbcwxmpdz6
+ 78Fs3eKxaGdxX6+ki2GCuCPY92+G4pROWaRFul1vSLeFx4E6MX0Wf030W+hU7OZ5gdEw
+ yUEV9u634rCTZWGXK+PioYZSwkA6xJDMqCWRkNpqWc5jbYx76wDK5uNlBV1F/h1Nc7Va
+ FVHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bKbc+f4bQs5XTTICu9SVnSh/UAlBzY4g0vt/DD+jm+Y=;
- b=ZKmwoQLiIKwtfSFw3PHEwBuY16l/1Coxf4JrtEOik9iMj/YY82gzztHp+HN/fn/Sab
- NRLB5SYx7mA45DEFB3+OikyotUNBpzURqCAZWqstlvjo0p62EqToohLJX2BwZHb3je7T
- R+iZRR2pWHvhBM0PFUi5hwsIbDdA4ujh2b4Zc/irRxQSuicQHUjEgbfynRO2nu1WXxEk
- Zx6AIrWVcrKFQtCECHpRdauxGR1GIHbJgXFrlaD/TG5oXgffZU2XaHrpTeEQx3iB8q+V
- SKcSxOaDk2AI5Qy34GcDisoiL2ZvkIemdIIqYISoTMJexAtWlBulVu0bGK3mT1KdBUEc
- pkLw==
-X-Gm-Message-State: AOAM533r6i+jqBnpQzCNiZeO4ldr890ZPdOG73bHNJk/z7jJp+MkfE36
- wt1pzAzQOvLLHgoWzgrxAQc3fg==
-X-Google-Smtp-Source: ABdhPJximQquIWJHjU7pkSq2VhXCoCsqo4KlQxeKHUoHfZzwgAryoiL4AEfsOdTxWy1/3Lpb3OEenA==
-X-Received: by 2002:a63:1e4b:: with SMTP id p11mr40100930pgm.295.1629861611508; 
- Tue, 24 Aug 2021 20:20:11 -0700 (PDT)
+ bh=fi5WxhhadR2UM/qthU4X06h6DIcMmGAlSCkO9HVYdao=;
+ b=DW6yFWka2NgbL3+9UA3biBurEAcnekYgcpML4pKPdfVvywWqc2bRnq+brFbZMToFbe
+ lMSl2jjXJiCLj/uETXfgocmRXoHc1znaS2/4gF/CaWQ45cK9/rFT0WPOZ56FyHy2SEzE
+ 9cRdZNeXPQb/HPBp7lMGRI4HIN+FoK3klOlfkWQTdBoe6iMJ2OA7qZ0ZnT4Sff1zItLD
+ /brumIGv/01Lk4v5vLTeUPFvU2/toshc+Dkj0kcRr6AmErQfrrdPmtDVCkjF2e9gK1Nt
+ U25RDj0A9UwviI1Hk/yLVM5wZe6GGBJIrMHJ6WguS7i91UVlIdQEh/7Zob9b1mBWHGGq
+ CPkQ==
+X-Gm-Message-State: AOAM533eyBSNZYZCzjxCAF4PpbCmCbvlhBoWvnqdsRoy8Q4Cc59N/LdE
+ 7uVfwCLkZGFTMUWao3TXWC/5bw==
+X-Google-Smtp-Source: ABdhPJwqEiWXwrkYpOAtFTa1rDLnk1LYhSLp7SoVX98fejP70170MOEYxGAKLj56ms9MVTqaYKYMUw==
+X-Received: by 2002:a17:90a:5147:: with SMTP id
+ k7mr8057237pjm.204.1629861615264; 
+ Tue, 24 Aug 2021 20:20:15 -0700 (PDT)
 Received: from anisinha-lenovo.ba.nuagenetworks.net ([115.96.155.195])
- by smtp.googlemail.com with ESMTPSA id c19sm3404895pjs.1.2021.08.24.20.20.09
+ by smtp.googlemail.com with ESMTPSA id c19sm3404895pjs.1.2021.08.24.20.20.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Aug 2021 20:20:11 -0700 (PDT)
+ Tue, 24 Aug 2021 20:20:14 -0700 (PDT)
 From: Ani Sinha <ani@anisinha.ca>
 To: mst@redhat.com
-Subject: [PATCH 2/5] hw/acpi: use existing references to pci device struct
- within functions
-Date: Wed, 25 Aug 2021 08:49:46 +0530
-Message-Id: <20210825031949.919376-3-ani@anisinha.ca>
+Subject: [PATCH 3/5] MAINTAINERS: Added myself as a reviewer for acpi/smbios
+ subsystem
+Date: Wed, 25 Aug 2021 08:49:47 +0530
+Message-Id: <20210825031949.919376-4-ani@anisinha.ca>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210825031949.919376-1-ani@anisinha.ca>
 References: <20210825031949.919376-1-ani@anisinha.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::42a;
- envelope-from=ani@anisinha.ca; helo=mail-pf1-x42a.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::630;
+ envelope-from=ani@anisinha.ca; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -82,46 +83,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ani@anisinha.ca,
+Cc: ani@anisinha.ca, Igor Mammedov <imammedo@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no need to use fresh typecasts to get references to pci device structs
-when there is an existing reference to pci device struct. Use existing reference.
-Minor cleanup.
+I have developed an interest in this space and hopefully can lend some
+helping hand to Igor and Michael in reviewing simpler patches.
 
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/acpi/pcihp.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index f4d706e47d..f610a25d2e 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -283,7 +283,7 @@ void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
- 
-     /* Only hotplugged devices need the hotplug capability. */
-     if (dev->hotplugged &&
--        acpi_pcihp_get_bsel(pci_get_bus(PCI_DEVICE(dev))) < 0) {
-+        acpi_pcihp_get_bsel(pci_get_bus(pdev)) < 0) {
-         error_setg(errp, "Unsupported bus. Bus doesn't have property '"
-                    ACPI_PCIHP_PROP_BSEL "' set");
-         return;
-@@ -363,8 +363,8 @@ void acpi_pcihp_device_unplug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
- {
-     PCIDevice *pdev = PCI_DEVICE(dev);
- 
--    trace_acpi_pci_unplug(PCI_SLOT(PCI_DEVICE(dev)->devfn),
--                          acpi_pcihp_get_bsel(pci_get_bus(PCI_DEVICE(dev))));
-+    trace_acpi_pci_unplug(PCI_SLOT(pdev->devfn),
-+                          acpi_pcihp_get_bsel(pci_get_bus(pdev)));
- 
-     /*
-      * clean up acpi-index so it could reused by another device
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 6b3697962c..79b3e19931 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1739,6 +1739,7 @@ F: docs/specs/*pci*
+ ACPI/SMBIOS
+ M: Michael S. Tsirkin <mst@redhat.com>
+ M: Igor Mammedov <imammedo@redhat.com>
++R: Ani Sinha <ani@anisinha.ca>
+ S: Supported
+ F: include/hw/acpi/*
+ F: include/hw/firmware/smbios.h
 -- 
 2.25.1
 
