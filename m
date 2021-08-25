@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD3D3F76DF
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 16:06:50 +0200 (CEST)
-Received: from localhost ([::1]:42984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C73293F76F2
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 16:13:12 +0200 (CEST)
+Received: from localhost ([::1]:47638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mItYH-0007iS-SN
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 10:06:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34770)
+	id 1mIteR-0002fA-Jt
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 10:13:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mItX9-0006R0-5S; Wed, 25 Aug 2021 10:05:39 -0400
-Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732]:36793)
+ id 1mItcD-0001RU-Ir; Wed, 25 Aug 2021 10:10:53 -0400
+Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:35447)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mItX3-0000Ga-31; Wed, 25 Aug 2021 10:05:38 -0400
-Received: by mail-qk1-x732.google.com with SMTP id e14so27195384qkg.3;
- Wed, 25 Aug 2021 07:05:19 -0700 (PDT)
+ id 1mItcB-0002iA-Km; Wed, 25 Aug 2021 10:10:53 -0400
+Received: by mail-qk1-x731.google.com with SMTP id 22so27234944qkg.2;
+ Wed, 25 Aug 2021 07:10:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8v9bZqH8zaDvB2fgpA4FXRcXJ50cX/HVzsfkzjKy6I8=;
- b=AN7QHN9JH7M1UC5S18du2dPAVY5XCKFs+whIrCNCnzi6pvSQxoOrj7WN6nGyDQX6LU
- TPpdSyEP7Da1nCn9rNs7cgURYu94qlK+EZwlgeEIxCls+jPf1uNY96N0a5JBMsCCLr79
- KuYhg//WiF6a7K1+GjQjNAf8m0L3/qUnYbnPMOs7rJOh9b03tEHIPMvEgC615tgP8l1D
- hbtqJ+Ozqp9fE17qnEdTaUCn9TGfUQBx/kod/gR4rsZJ3E81AXVL7Mnjd/HcFtU8E1GP
- /9J7MOavW80RWCLaDewFLDvuNdSVjxN31GFznATLtI9rz2/uAyOZsuqkQpk2Lq3/XYTx
- oWhw==
+ bh=HdgXeGBnS0LD3FWZ77+K3o+CGLEQK+cv1hLnVJAlwio=;
+ b=iBJHFXKso/4oaFlkbVlzXSWmR2DD+XQSAYRx2FuHmfoc8WDZv7pHPRRz+vldQBeLo9
+ rAfkIY9kWlUd//Dnjifjs8AzpS3WBOBvryPZ55IyK3DD7RAn0eQqBL4BH85kDo2Z9UWR
+ oJ3pSY7nd0Z1Q4n3zPtfpdpJlwIt3UvFTZwxjiM3om685UHnCQr8n5qsQtKAJmYKsMXE
+ R3e81NqfY7YOj85tuVTpNykylH+JNo3ufsI4plRG+mAwHWCQQOBOyPmDWVLoA3qvdNqZ
+ GIIeQzsHeEo1kPqht4KaERAiLfv2tP8/wcZKqq2JHrWqd1PZsTgLh/UZzSwzeYRm6xdg
+ 0jDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=8v9bZqH8zaDvB2fgpA4FXRcXJ50cX/HVzsfkzjKy6I8=;
- b=m4S3jb2ig8SVR2+tkjo8FXlbRCvvXVNoK15DKC3iYrg9+0Ts3f7gfDs2QNK7jlXC5n
- TGPW415E1xV7EiFEmMNJVD1da/SJZcgJINGQn7O7t1oni4ADNToE5GvJrvZSzT82pVl6
- WGTsYUq2D8r4+fXlHmGOUC7IJalO4nsM+5fnR2TUAYmuEhmahZscBbW1yucksla3xJgB
- G2pRJYCClLcrpJnY8kV5F92CXkaJMBNphT77I4L6dTk1f0NveKi8zzfsNVNqH2GosPV5
- 1HMlHOk7RZiXbT69n49an4tzjORDcAvmtdztg1P33kh/u+IpU7I96pcfuwlnEvVvaaz2
- eJNg==
-X-Gm-Message-State: AOAM530X0sfW8G27xjwXiLUwqYm6fSPflznPIzbvI+Y7MsgbRz9Ii/Ze
- yFO8dsMWaK/agdNAh2PQV8c=
-X-Google-Smtp-Source: ABdhPJw87Kqe7vnF+XVxvuvI5VvK1HSmq4rXJl7cVYztLdauWuT+CLEHatmLvgMDJsltia2o9aHvFg==
-X-Received: by 2002:a37:8044:: with SMTP id b65mr31583836qkd.150.1629900319221; 
- Wed, 25 Aug 2021 07:05:19 -0700 (PDT)
+ bh=HdgXeGBnS0LD3FWZ77+K3o+CGLEQK+cv1hLnVJAlwio=;
+ b=eOGIJncZaHVJ4ef5Qx5UXRrnAIlQBg+eVzy4rzyAlrEOi2qUq9XSzY/liunInISesI
+ VqtRjeekSsNys3c4mpdV/iQ5CdFoUIayyVK7oUpjKRsxcbKhuJbbuX/k+Nn+UceU+CA8
+ acbAtFNkhEEYW9fxToU8a/ozQqaaB3v1ffxOYKVtVtKYY1wFv30Y5xjx+ixOcpULMpOF
+ bPnKDfoxotz3YlUdoecuWRAe5UJFRzkWc14h7VoRt6RV31a877g/sozR9YLfGm8V64na
+ YY5MhQ+ru1AJvDHHEKWtalQsKFASWBDsmyAur/Kf+w+xVukqICl/9UhgUOxizHZ8RvUd
+ hZZw==
+X-Gm-Message-State: AOAM533XHwVXKliviQLSi0nUtIt6vkD1dXLCLo9pUDCxguO3Hzm8MZm3
+ gpn1Es/B+ZCp54H5o/JFLZ0=
+X-Google-Smtp-Source: ABdhPJyBoDRiZyHNtR2gsEBkrlFBX0ohgzf94kCo9lDe6eersrukX33E1GCjgct8UR21zVDenEVbCQ==
+X-Received: by 2002:a37:445:: with SMTP id 66mr31565731qke.376.1629900650289; 
+ Wed, 25 Aug 2021 07:10:50 -0700 (PDT)
 Received: from [192.168.10.222] ([177.197.96.186])
- by smtp.gmail.com with ESMTPSA id v23sm10036452qto.55.2021.08.25.07.05.16
+ by smtp.gmail.com with ESMTPSA id h2sm49302qkf.106.2021.08.25.07.10.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Aug 2021 07:05:18 -0700 (PDT)
-Subject: Re: [PATCH v2 04/16] target/ppc: PMU basic cycle count for pseries TCG
+ Wed, 25 Aug 2021 07:10:49 -0700 (PDT)
+Subject: Re: [PATCH v2 06/16] target/ppc: PMU: add instruction counting
 To: David Gibson <david@gibson.dropbear.id.au>
 References: <20210824163032.394099-1-danielhb413@gmail.com>
- <20210824163032.394099-5-danielhb413@gmail.com> <YSXS3FToggt+hnhz@yekko>
+ <20210824163032.394099-7-danielhb413@gmail.com> <YSXVoP23iH+r0fxy@yekko>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <2c94b724-0957-11c6-2e81-bd94f6ffce1c@gmail.com>
-Date: Wed, 25 Aug 2021 11:05:15 -0300
+Message-ID: <36aa86c5-0797-3784-9f98-0cbe85bdd3fd@gmail.com>
+Date: Wed, 25 Aug 2021 11:10:46 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YSXS3FToggt+hnhz@yekko>
+In-Reply-To: <YSXVoP23iH+r0fxy@yekko>
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::732;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x732.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x731.google.com
 X-Spam_score_int: -40
 X-Spam_score: -4.1
 X-Spam_bar: ----
@@ -93,293 +93,244 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 8/25/21 2:19 AM, David Gibson wrote:
-> On Tue, Aug 24, 2021 at 01:30:20PM -0300, Daniel Henrique Barboza wrote:
->> This patch adds the barebones of the PMU logic by enabling cycle
->> counting, done via the performance monitor counter 6. The overall logic
->> goes as follows:
+On 8/25/21 2:31 AM, David Gibson wrote:
+> On Tue, Aug 24, 2021 at 01:30:22PM -0300, Daniel Henrique Barboza wrote:
+>> The PMU is already counting cycles by calculating time elapsed in
+>> nanoseconds. Counting instructions is a different matter and requires
+>> another approach.
 >>
->> - a helper is added to control the PMU state on each MMCR0 write. This
->> allows for the PMU to start/stop as the frozen counter bit (MMCR0_FC)
->> is cleared or set;
+>> This patch adds the capability of counting completed instructions
+>> (Perf event PM_INST_CMPL) by counting the amount of instructions
+>> translated in each translation block right before exiting it.
 >>
->> - MMCR0 reg initial value is set to 0x80000000 (MMCR0_FC set) to avoid
->> having to spin the PMU right at system init;
+>> A new pmu_count_insns() helper in translation.c was added to do that.
+>> After verifying that the PMU is running (MMCR0_FC bit not set), we
+>> call helper_insns_inc(). This is new helper from power8_pmu.c that
+>> will add the instructions to the relevant counters.
 >>
->> - the intended usage is to freeze the counters by setting MMCR0_FC, do
->> any additional setting of events to be counted via MMCR1 (not
->> implemented yet) and enable the PMU by zeroing MMCR0_FC. Software must
->> freeze counters to read the results - on the fly reading of the PMCs
->> will return the starting value of each one.
-> 
-> Ok, I like how this is simpler than the previous version.  Since qemu
-> is not a cycle-accurate simulator, we basically have a choice in
-> emulating the PMU:
->     1) we can maintain the illusion that the cpu clock goes at the
->        advertised speed w.r.t. real time
-> or 2) we can maintain the illusion that instructions complete roughly
->        as fast as we expect w.r.t. the cpu clock
-> 
-> We can't do both at the same time.  Well... in theory we kind of could
-> (on a time averaged basis at least) if we decouple the guest's notion
-> of "real time" from actual real time.  But that introduces a bunch of
-> other complications, so I don't think we want to go there.
-> 
-> Since it's simpler, I think (1) is probably the way to go, which is
-> what you've done here.
-> 
->> Since there will be more PMU exclusive code to be added next, put the
->> PMU logic in its own helper to keep all in the same place. The name of
->> the new helper file, power8_pmu.c, is an indicative that the PMU logic
->> has been tested with the IBM POWER chip family, POWER8 being the oldest
->> version tested. This doesn't mean that this PMU logic will break with
->> any other PPC64 chip that implements Book3s, but since we can't assert
->> that this PMU will work with all available Book3s emulated processors
->> we're choosing to be explicit.
+>> At this moment helper_insns_inc() is just summing instructions to
+>> counters, but it will also trigger counter negative overflow in a
+>> later patch.
 >>
 >> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 >> ---
->>   target/ppc/cpu.h        |  6 ++++
->>   target/ppc/cpu_init.c   |  6 ++--
 >>   target/ppc/helper.h     |  1 +
->>   target/ppc/meson.build  |  1 +
->>   target/ppc/power8_pmu.c | 74 +++++++++++++++++++++++++++++++++++++++++
->>   target/ppc/spr_tcg.h    |  1 +
->>   target/ppc/translate.c  | 17 +++++++++-
->>   7 files changed, 102 insertions(+), 4 deletions(-)
->>   create mode 100644 target/ppc/power8_pmu.c
+>>   target/ppc/power8_pmu.c | 61 ++++++++++++++++++++++++++++++++++++++---
+>>   target/ppc/translate.c  | 46 +++++++++++++++++++++++++++++++
+>>   3 files changed, 104 insertions(+), 4 deletions(-)
 >>
->> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
->> index 739005ba29..6878d950de 100644
->> --- a/target/ppc/cpu.h
->> +++ b/target/ppc/cpu.h
->> @@ -1176,6 +1176,12 @@ struct CPUPPCState {
->>       uint32_t tm_vscr;
->>       uint64_t tm_dscr;
->>       uint64_t tm_tar;
->> +
->> +    /*
->> +     * PMU base time value used by the PMU to calculate
->> +     * running cycles.
->> +     */
->> +    uint64_t pmu_base_time;
->>   };
->>   
->>   #define SET_FIT_PERIOD(a_, b_, c_, d_)          \
->> diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
->> index 860716da18..71f052b052 100644
->> --- a/target/ppc/cpu_init.c
->> +++ b/target/ppc/cpu_init.c
->> @@ -6821,8 +6821,8 @@ static void register_book3s_pmu_sup_sprs(CPUPPCState *env)
->>   {
->>       spr_register_kvm(env, SPR_POWER_MMCR0, "MMCR0",
->>                        SPR_NOACCESS, SPR_NOACCESS,
->> -                     &spr_read_generic, &spr_write_generic,
->> -                     KVM_REG_PPC_MMCR0, 0x00000000);
->> +                     &spr_read_generic, &spr_write_MMCR0_generic,
-> 
-> s/spr_write_MMCR0_generic/spr_write_MMCR0/
-> 
-> The generic refers to the fact that it's covering any register which
-> will just read back whatever value is written to it.  Now that you're
-> applying MMCR0 specific logic, it's not generic any more.
-> 
->> +                     KVM_REG_PPC_MMCR0, 0x80000000);
->>       spr_register_kvm(env, SPR_POWER_MMCR1, "MMCR1",
->>                        SPR_NOACCESS, SPR_NOACCESS,
->>                        &spr_read_generic, &spr_write_generic,
->> @@ -6870,7 +6870,7 @@ static void register_book3s_pmu_user_sprs(CPUPPCState *env)
->>       spr_register(env, SPR_POWER_UMMCR0, "UMMCR0",
->>                    &spr_read_MMCR0_ureg, &spr_write_MMCR0_ureg,
->>                    &spr_read_ureg, &spr_write_ureg,
->> -                 0x00000000);
->> +                 0x80000000);
->>       spr_register(env, SPR_POWER_UMMCR1, "UMMCR1",
->>                    &spr_read_ureg, SPR_NOACCESS,
->>                    &spr_read_ureg, &spr_write_ureg,
 >> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
->> index 4076aa281e..5122632784 100644
+>> index 5122632784..47dbbe6da1 100644
 >> --- a/target/ppc/helper.h
 >> +++ b/target/ppc/helper.h
->> @@ -20,6 +20,7 @@ DEF_HELPER_1(rfscv, void, env)
->>   DEF_HELPER_1(hrfid, void, env)
+>> @@ -21,6 +21,7 @@ DEF_HELPER_1(hrfid, void, env)
 >>   DEF_HELPER_2(store_lpcr, void, env, tl)
 >>   DEF_HELPER_2(store_pcr, void, env, tl)
->> +DEF_HELPER_2(store_mmcr0, void, env, tl)
+>>   DEF_HELPER_2(store_mmcr0, void, env, tl)
+>> +DEF_HELPER_2(insns_inc, void, env, i32)
 >>   #endif
 >>   DEF_HELPER_1(check_tlb_flush_local, void, env)
 >>   DEF_HELPER_1(check_tlb_flush_global, void, env)
->> diff --git a/target/ppc/meson.build b/target/ppc/meson.build
->> index b85f295703..278ce07da9 100644
->> --- a/target/ppc/meson.build
->> +++ b/target/ppc/meson.build
->> @@ -14,6 +14,7 @@ ppc_ss.add(when: 'CONFIG_TCG', if_true: files(
->>     'int_helper.c',
->>     'mem_helper.c',
->>     'misc_helper.c',
->> +  'power8_pmu.c',
->>     'timebase_helper.c',
->>     'translate.c',
->>   ))
 >> diff --git a/target/ppc/power8_pmu.c b/target/ppc/power8_pmu.c
->> new file mode 100644
->> index 0000000000..47de38a99e
->> --- /dev/null
+>> index 007007824d..311eaa358f 100644
+>> --- a/target/ppc/power8_pmu.c
 >> +++ b/target/ppc/power8_pmu.c
->> @@ -0,0 +1,74 @@
->> +/*
->> + * PMU emulation helpers for TCG IBM POWER chips
->> + *
->> + *  Copyright IBM Corp. 2021
->> + *
->> + * Authors:
->> + *  Daniel Henrique Barboza      <danielhb413@gmail.com>
->> + *
->> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
->> + * See the COPYING file in the top-level directory.
->> + */
->> +
->> +#include "qemu/osdep.h"
->> +
->> +#include "cpu.h"
->> +#include "helper_regs.h"
->> +#include "exec/exec-all.h"
->> +#include "exec/helper-proto.h"
->> +#include "qemu/error-report.h"
->> +#include "qemu/main-loop.h"
->> +
->> +#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
->> +
->> +static void update_PMC_PM_CYC(CPUPPCState *env, int sprn,
->> +                              uint64_t time_delta)
->> +{
->> +    /*
->> +     * The pseries and pvn clock runs at 1Ghz, meaning that
->> +     * 1 nanosec equals 1 cycle.
->> +     */
->> +    env->spr[sprn] += time_delta;
+>> @@ -31,10 +31,9 @@ static void update_PMC_PM_CYC(CPUPPCState *env, int sprn,
+>>       env->spr[sprn] += time_delta;
+>>   }
+>>   
+>> -static void update_programmable_PMC_reg(CPUPPCState *env, int sprn,
+>> -                                        uint64_t time_delta)
+>> +static uint8_t get_PMC_event(CPUPPCState *env, int sprn)
+>>   {
+>> -    uint8_t event;
+>> +    int event = 0x0;
+>>   
+>>       switch (sprn) {
+>>       case SPR_POWER_PMC1:
+>> @@ -53,9 +52,17 @@ static void update_programmable_PMC_reg(CPUPPCState *env, int sprn,
+>>           event = MMCR1_PMC4SEL & env->spr[SPR_POWER_MMCR1];
+>>           break;
+>>       default:
+>> -        return;
+>> +        break;
+>>       }
+>>   
+>> +    return event;
 >> +}
 >> +
->> +static void update_cycles_PMCs(CPUPPCState *env)
+>> +static void update_programmable_PMC_reg(CPUPPCState *env, int sprn,
+>> +                                        uint64_t time_delta)
 >> +{
->> +    uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
->> +    uint64_t time_delta = now - env->pmu_base_time;
+>> +    uint8_t event = get_PMC_event(env, sprn);
 >> +
->> +    update_PMC_PM_CYC(env, SPR_POWER_PMC6, time_delta);
->> +}
->> +
->> +void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
+>>       /*
+>>        * MMCR0_PMC1SEL = 0xF0 is the architected PowerISA v3.1 event
+>>        * that counts cycles using PMC1.
+>> @@ -124,4 +131,50 @@ void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
+>>       }
+>>   }
+>>   
+>> +static bool pmc_counting_insns(CPUPPCState *env, int sprn)
 >> +{
->> +    target_ulong curr_value = env->spr[SPR_POWER_MMCR0];
->> +    bool curr_FC = curr_value & MMCR0_FC;
->> +    bool new_FC = value & MMCR0_FC;
+>> +    bool ret = false;
+>> +    uint8_t event;
 >> +
->> +    env->spr[SPR_POWER_MMCR0] = value;
->> +
->> +    /* MMCR0 writes can change HFLAGS_PMCCCLEAR */
->> +    if ((curr_value & MMCR0_PMCC) != (value & MMCR0_PMCC)) {
->> +        hreg_compute_hflags(env);
+>> +    if (sprn == SPR_POWER_PMC5) {
+>> +        return true;
 >> +    }
 >> +
+>> +    event = get_PMC_event(env, sprn);
+>> +
 >> +    /*
->> +     * In an frozen count (FC) bit change:
+>> +     * Event 0x2 is an implementation-dependent event that IBM
+>> +     * POWER chips implement (at least since POWER8) that is
+>> +     * equivalent to PM_INST_CMPL. Let's support this event on
+>> +     * all programmable PMCs.
 >> +     *
->> +     * - if PMCs were running (curr_FC = false) and we're freezing
->> +     * them (new_FC = true), save the PMCs values in the registers.
->> +     *
->> +     * - if PMCs were frozen (curr_FC = true) and we're activating
->> +     * them (new_FC = false), set the new base_time for future cycle
->> +     * calculations.
+>> +     * Event 0xFE is the PowerISA v3.1 architected event to
+>> +     * sample PM_INST_CMPL using PMC1.
 >> +     */
->> +    if (curr_FC != new_FC) {
->> +        if (!curr_FC) {
->> +            update_cycles_PMCs(env);
->> +        } else {
->> +            env->pmu_base_time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+>> +    switch (sprn) {
+>> +    case SPR_POWER_PMC1:
+>> +        return event == 0x2 || event == 0xFE;
+>> +    case SPR_POWER_PMC2:
+>> +    case SPR_POWER_PMC3:
+>> +    case SPR_POWER_PMC4:
+>> +        return event == 0x2;
+>> +    default:
+>> +        break;
+>> +    }
+>> +
+>> +    return ret;
+>> +}
+>> +
+>> +/* This helper assumes that the PMC is running. */
+>> +void helper_insns_inc(CPUPPCState *env, uint32_t num_insns)
+>> +{
+>> +    int sprn;
+>> +
+>> +    for (sprn = SPR_POWER_PMC1; sprn <= SPR_POWER_PMC5; sprn++) {
+>> +        if (pmc_counting_insns(env, sprn)) {
+>> +            env->spr[sprn] += num_insns;
 >> +        }
 >> +    }
 >> +}
 >> +
->> +#endif /* defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY) */
->> diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
->> index 5c383dae3d..2c5b056fc1 100644
->> --- a/target/ppc/spr_tcg.h
->> +++ b/target/ppc/spr_tcg.h
->> @@ -25,6 +25,7 @@
->>   void spr_noaccess(DisasContext *ctx, int gprn, int sprn);
->>   void spr_read_generic(DisasContext *ctx, int gprn, int sprn);
->>   void spr_write_generic(DisasContext *ctx, int sprn, int gprn);
->> +void spr_write_MMCR0_generic(DisasContext *ctx, int sprn, int gprn);
->>   void spr_read_xer(DisasContext *ctx, int gprn, int sprn);
->>   void spr_write_xer(DisasContext *ctx, int sprn, int gprn);
->>   void spr_read_lr(DisasContext *ctx, int gprn, int sprn);
+>>   #endif /* defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY) */
 >> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
->> index b48eec83e3..e4f75ba380 100644
+>> index e4f75ba380..d45ce79a3e 100644
 >> --- a/target/ppc/translate.c
 >> +++ b/target/ppc/translate.c
->> @@ -401,6 +401,19 @@ void spr_write_generic(DisasContext *ctx, int sprn, int gprn)
->>       spr_store_dump_spr(sprn);
+>> @@ -4425,6 +4425,30 @@ static inline void gen_update_cfar(DisasContext *ctx, target_ulong nip)
+>>   #endif
 >>   }
 >>   
 >> +#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
->> +void spr_write_MMCR0_generic(DisasContext *ctx, int sprn, int gprn)
+>> +static void pmu_count_insns(DisasContext *ctx)
 >> +{
->> +    gen_icount_io_start(ctx);
-> 
-> Since you're not using icount any more, do you still need these?
-
-I believe we do. We're not using icount, but we should support icount guests.
-And if an icount guest runs this code we'll have a 'bad icount read' error
-because we're doing operations with the virtual clock.
-
-I explained this rationale in patch 14. I should've mentioned that in this patch
-instead.
-
-
-
-> 
->> +    gen_helper_store_mmcr0(cpu_env, cpu_gpr[gprn]);
+>> +    TCGv t_mmcr0FC = tcg_constant_i64(MMCR0_FC);
+>> +    TCGv t0 = tcg_temp_new();
+>> +    TCGLabel *l_exit = gen_new_label();
+>> +
+>> +    /* Do not bother calling the helper if the PMU is frozen */
+>> +    gen_load_spr(t0, SPR_POWER_MMCR0);
+>> +    tcg_gen_andi_tl(t0, t0, MMCR0_FC);
+>> +    tcg_gen_brcond_tl(TCG_COND_EQ, t0, t_mmcr0FC, l_exit);
+>> +
+>> +    gen_helper_insns_inc(cpu_env, tcg_constant_i32(ctx->base.num_insns));
+>> +
+>> +    gen_set_label(l_exit);
+>> +    tcg_temp_free(t_mmcr0FC);
+>> +    tcg_temp_free(t0);
 >> +}
 >> +#else
->> +void spr_write_MMCR0_generic(DisasContext *ctx, int sprn, int gprn)
+>> +static void pmu_count_insns(DisasContext *ctx)
 >> +{
->> +    spr_write_generic(ctx, sprn, gprn);
+>> +    return;
 >> +}
 >> +#endif
->> +
->>   #if !defined(CONFIG_USER_ONLY)
->>   void spr_write_generic32(DisasContext *ctx, int sprn, int gprn)
+>>   static inline bool use_goto_tb(DisasContext *ctx, target_ulong dest)
 >>   {
->> @@ -609,6 +622,8 @@ void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
->>       t0 = tcg_temp_new();
->>       t1 = tcg_temp_new();
->>   
->> +    gen_icount_io_start(ctx);
->> +
->>       /*
->>        * Filter out all bits but FC, PMAO, and PMAE, according
->>        * to ISA v3.1, in 10.4.4 Monitor Mode Control Register 0,
->> @@ -620,7 +635,7 @@ void spr_write_MMCR0_ureg(DisasContext *ctx, int sprn, int gprn)
->>       tcg_gen_andi_tl(t1, t1, ~(MMCR0_FC | MMCR0_PMAO | MMCR0_PMAE));
->>       /* Keep all other bits intact */
->>       tcg_gen_or_tl(t1, t1, t0);
->> -    gen_store_spr(SPR_POWER_MMCR0, t1);
->> +    gen_helper_store_mmcr0(cpu_env, t1);
+>>       return translator_use_goto_tb(&ctx->base, dest);
+>> @@ -4439,9 +4463,17 @@ static void gen_lookup_and_goto_ptr(DisasContext *ctx)
+>>           } else if (sse & (CPU_SINGLE_STEP | CPU_BRANCH_STEP)) {
+>>               gen_helper_raise_exception(cpu_env, tcg_constant_i32(gen_prep_dbgex(ctx)));
+>>           } else {
+>> +            pmu_count_insns(ctx);
+>>               tcg_gen_exit_tb(NULL, 0);
+>>           }
+>>       } else {
+>> +        /*
+>> +         * tcg_gen_lookup_and_goto_ptr will exit the TB if
+>> +         * CF_NO_GOTO_PTR is set. Count insns now.
+>> +         */
+>> +        if (ctx->base.tb->flags & CF_NO_GOTO_PTR) {
+>> +            pmu_count_insns(ctx);
+>> +        }
 > 
-> Do you need this change?  Won't the gen_store_spr() basically do the
-> same thing as the gen_helpersince spr_write_MMCR0() expands to a
-> gen_helper anyway?
+> Oof.  IIUC this will at least generate the instructions to read MMCR0
+> and check FC, all the time, even if we haven't touched the PMU.  That
+> sounds like it could be pretty expensive.  Couldn't we instead
+> determine if we're counting instructions when we generate the context,
+> then only generate the code to bump the counter if that's set.
+> Obviously changes to the MMCRs would need to force a new translation
+> block.
 
+We can add MMCR0_FC to hflags and check for ctx->mmcr0_fc.
 
-Never realized that. I'll try it out.
+I'm not sure about how to force a new translation block. Is it done via
+ctx->base.is_jmp = DISAS_EXIT_UPDATE?
 
 
 Daniel
 
 
 > 
+>>           tcg_gen_lookup_and_goto_ptr();
+>>       }
+>>   }
+>> @@ -4453,6 +4485,8 @@ static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
+>>           dest = (uint32_t) dest;
+>>       }
+>>       if (use_goto_tb(ctx, dest)) {
+>> +        pmu_count_insns(ctx);
+>> +
+>>           tcg_gen_goto_tb(n);
+>>           tcg_gen_movi_tl(cpu_nip, dest & ~3);
+>>           tcg_gen_exit_tb(ctx->base.tb, n);
+>> @@ -8785,6 +8819,8 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+>>       switch (is_jmp) {
+>>       case DISAS_TOO_MANY:
+>>           if (use_goto_tb(ctx, nip)) {
+>> +            pmu_count_insns(ctx);
+>> +
+>>               tcg_gen_goto_tb(0);
+>>               gen_update_nip(ctx, nip);
+>>               tcg_gen_exit_tb(ctx->base.tb, 0);
+>> @@ -8795,6 +8831,14 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+>>           gen_update_nip(ctx, nip);
+>>           /* fall through */
+>>       case DISAS_CHAIN:
+>> +        /*
+>> +         * tcg_gen_lookup_and_goto_ptr will exit the TB if
+>> +         * CF_NO_GOTO_PTR is set. Count insns now.
+>> +         */
+>> +        if (ctx->base.tb->flags & CF_NO_GOTO_PTR) {
+>> +            pmu_count_insns(ctx);
+>> +        }
+>> +
+>>           tcg_gen_lookup_and_goto_ptr();
+>>           break;
 >>   
->>       tcg_temp_free(t0);
->>       tcg_temp_free(t1);
+>> @@ -8802,6 +8846,8 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
+>>           gen_update_nip(ctx, nip);
+>>           /* fall through */
+>>       case DISAS_EXIT:
+>> +        pmu_count_insns(ctx);
+>> +
+>>           tcg_gen_exit_tb(NULL, 0);
+>>           break;
+>>   
 > 
 
