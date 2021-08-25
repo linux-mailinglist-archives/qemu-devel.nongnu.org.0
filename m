@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 190883F706E
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 09:33:14 +0200 (CEST)
-Received: from localhost ([::1]:46194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E923F7062
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Aug 2021 09:28:51 +0200 (CEST)
+Received: from localhost ([::1]:34080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mInPN-0003IN-4t
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 03:33:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34908)
+	id 1mInL8-0003Bl-Vg
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 03:28:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mInIC-0006dy-Kw
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:25:48 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:44390)
+ id 1mInI9-0006QB-6s
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:25:45 -0400
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:44338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mInI8-0004B2-BT
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:25:48 -0400
+ id 1mInI7-0004Ac-6y
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 03:25:44 -0400
 Received: from loganberry.canonical.com (loganberry.canonical.com
  [91.189.90.37])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id D2E003F788
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 04CE93F7BD
  for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 07:25:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
  s=20210803; t=1629876342;
- bh=ks4SUehSIvwFrYJPCRtr/A666XX/3ICYbGYjcCDMvR4=;
+ bh=4p7BsnkR5zxRIBizieNOXReiLXGkSDIbwO9SGZFUwIc=;
  h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
  Message-Id:Subject;
- b=bbTr5i/x3qylpWQCdGFl/YHWylxR+LgfIuBWyvlkuGoDQThjNdMRhS60lpQADhvaA
- uxJfrtF6pjyi6ij8mVLW8ZIY8wlEe6+tpM4a+EoBMQ0GkUve1rbtJ7MYAPkL1g8S52
- 5jmYBAF/RAJSVJ1g2blm9zmbvQ3fLgzCeE4t4YSC4RP07KZ0n9XCNhYpTizASQ3OlZ
- brAk4ofNFd9KI4sA7whgtZ18iw/2J9HsvVkAPH+EckUsRKUkQhhqR4vkZmnPjLD1X8
- FR8V/v3nNXm2SzhEc/Nzu906aK1jndbKZz2MMMs/Ryx219TbzWVTJuG5O5PBXDW6BQ
- M0yWfRnOhESow==
+ b=wWmWw4PbDkbCaiJevVveMSB1TBJeM2dSSejZKc8lK+SSUVVJvfaCQBlFT4zfuRp2T
+ 9cAJI/qsNa1gvKE/Q6ErZ0SMF+BAwCTSgo/OqC4f2kJSGi3n3QyH1VepImxRpV1bb6
+ pZ1FFcAxHcQm0NDM9tm2CWTrSLqaCp/oonJTiVab3oubri0JPoC+mosFzyzerX2wFX
+ WonWGawGc9Ql3+KXLuTtSQXaa9x24ADokevOaDBWSjFGE3PIzS16MX1qhCRhr7i7V2
+ t9zkiBmklLVE/z92vtLNNv49XL+xPiB8ekDH6V7YHajZK4tsPJj6Din1Qcfkr2Vwuf
+ I2RVvxhazLOGA==
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C9C282E813E
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 07:25:42 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id F36ED2E813A
+ for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 07:25:41 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 25 Aug 2021 07:17:56 -0000
-From: Thomas Huth <1905444@bugs.launchpad.net>
+Date: Wed, 25 Aug 2021 07:18:07 -0000
+From: Thomas Huth <1914117@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: fuzzer
+X-Launchpad-Bug-Tags: arm
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr th-huth
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Commenters: chrispinnock th-huth
+X-Launchpad-Bug-Reporter: Chris Pinnock (chrispinnock)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20201124171810.akchle2mwg6xdlol@mozz.bu.edu>
-Message-Id: <162987587835.18837.7464860329713646785.launchpad@gac.canonical.com>
-Subject: [Bug 1905444] Re: [OSS-Fuzz] Issue 27796 in oss-fuzz:
- qemu:qemu-fuzz-i386-target-generic-fuzz-xhci: Stack-overflow in
- address_space_stl_internal
+References: <161221293549.4659.2173832767419505412.malonedeb@chaenomeles.canonical.com>
+Message-Id: <162987588882.30796.5359758770282043674.launchpad@wampee.canonical.com>
+Subject: [Bug 1914117] Re: Short files returned via FTP on Qemu with various
+ architectures and OSes
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="7edb2d45353e030166106ae05838b77ab406edcd"; Instance="production"
-X-Launchpad-Hash: e73064c4cc15f09368ce65a13763647ac802da1b
+X-Launchpad-Hash: 8a31db79df01f92b401893de9bc8d3a4b0a88ca0
 Received-SPF: pass client-ip=185.125.188.251;
  envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
 X-Spam_score_int: -42
@@ -86,7 +85,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1905444 <1905444@bugs.launchpad.net>
+Reply-To: Bug 1914117 <1914117@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -96,64 +95,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 --=20
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1905444
+https://bugs.launchpad.net/bugs/1914117
 
 Title:
-  [OSS-Fuzz] Issue 27796 in oss-fuzz: qemu:qemu-fuzz-i386-target-
-  generic-fuzz-xhci: Stack-overflow in address_space_stl_internal
+  Short files returned via FTP on Qemu with various architectures and
+  OSes
 
 Status in QEMU:
   Fix Released
 
 Bug description:
-   affects qemu
+ =20
+  Qemu 5.2 on Mac OS X Big Sur.
 
-  OSS-Fuzz Report: https://bugs.chromium.org/p/oss-
-  fuzz/issues/detail?id=3D27796
+  I originally thought that it might be caused by the home-brew version of =
+Qemu, but this evening I have removed the brew edition and compiled from sc=
+ratch (using Ninja & Xcode compiler).=20
+  Still getting the same problem,.
 
-  =3D=3D=3D Reproducer (build with --enable-sanitizers) =3D=3D=3D
-  cat << EOF | ./qemu-system-i386 -display none  -machine accel=3Dqtest, \
-  -m 512M -machine q35 -nodefaults \
-  -drive file=3Dnull-co://,if=3Dnone,format=3Draw,id=3Ddisk0 \
-  -device qemu-xhci,id=3Dxhci -device usb-tablet,bus=3Dxhci.0 \
-  -qtest-log none -qtest stdio
-  outl 0xcf8 0x80000803
-  outw 0xcfc 0x5e46
-  outl 0xcf8 0x80000810
-  outl 0xcfc 0xff5a5e46
-  write 0xff5a5020 0x6 0xffffffff0b70
-  outl 0xcf8 0x80000893
-  outb 0xcfc 0x93
-  writel 0xff5a7000 0xff5a5020
-  write 0xff5a700c 0x4 0x0c0c2e58
-  write 0xff5a4040 0x4 0x00d26001
-  write 0xff5a4044 0x4 0x0000030
-  EOF
+  On the following architectures:=20
+  arm64, amd64 and sometimes i386 running NetBSD host OS;=20
+  i386 running OpenBSD host OS:
 
-  =3D=3D=3D Stack Trace =3D=3D=3D
-  =3D=3D50473=3D=3DERROR: AddressSanitizer: stack-overflow on address 0x7ff=
-e3ec97e28 (pc 0x55e292eac159 bp 0x7ffe3ec98670 sp 0x7ffe3ec97e30 T0)
-  #0 0x55e292eac159 in __asan_memcpy (u-system-i386+0x2a0e159)
-  #1 0x55e2944bc04e in flatview_do_translate softmmu/physmem.c:513:12
-  #2 0x55e2944dbe90 in flatview_translate softmmu/physmem.c:563:15
-  #3 0x55e2944dbe90 in address_space_translate include/exec/memory.h:2362:12
-  #4 0x55e2944dbe90 in address_space_stl_internal memory_ldst.c.inc:316:10
-  #5 0x55e29393d2a0 in xhci_intr_update hw/usb/hcd-xhci.c:554:13
-  #6 0x55e29393efb9 in xhci_runtime_write hw/usb/hcd-xhci.c:3032:9
-  #7 0x55e294230428 in memory_region_write_accessor softmmu/memory.c:484:5
-  #8 0x55e29422fe63 in access_with_adjusted_size softmmu/memory.c:545:18
-  #9 0x55e29422f6fc in memory_region_dispatch_write softmmu/memory.c
-  #10 0x55e2944dc03c in address_space_stl_internal memory_ldst.c.inc:319:13
-  #11 0x55e29393d2a0 in xhci_intr_update hw/usb/hcd-xhci.c:554:13
-  #12 0x55e29393efb9 in xhci_runtime_write hw/usb/hcd-xhci.c:3032:9
-  #13 0x55e294230428 in memory_region_write_accessor softmmu/memory.c:484:5
-  #14 0x55e29422fe63 in access_with_adjusted_size softmmu/memory.c:545:18
-  #15 0x55e29422f6fc in memory_region_dispatch_write softmmu/memory.c
-  #16 0x55e2944dc03c in address_space_stl_internal memory_ldst.c.inc:319:13
-  #17 0x55e29393d2a0 in xhci_intr_update hw/usb/hcd-xhci.c:554:13
-  #18 0x55e29393efb9 in xhci_runtime_write hw/usb/hcd-xhci.c:3032:9
+  I have seen a consistent problem with FTP returning short files. The
+  file will be a couple of bytes too short. I do not believe this is a
+  problem with the OS. Downloading the perl source code from CPAN does
+  not work properly, nor does downloading bind from isc. I've tried this
+  on different architectures as above.
+
+  (Qemu 4.2 on Ubuntu/x86_64 with NetBSD/i386 seems to function fine. My
+  gut feel is there is something not right on the Mac OS version of Qemu
+  or a bug in 5.2 - obviously in the network layer somewhere. If you
+  have anything you want me to try, please let me know - happy to help
+  get a resolution.)
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1905444/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1914117/+subscriptions
 
 
