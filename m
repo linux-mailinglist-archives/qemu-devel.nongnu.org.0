@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B12183F8910
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 15:35:25 +0200 (CEST)
-Received: from localhost ([::1]:43426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 633403F88CF
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 15:26:19 +0200 (CEST)
+Received: from localhost ([::1]:47682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJFXQ-0005x6-Pc
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 09:35:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50692)
+	id 1mJFOc-0005Kv-D2
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 09:26:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJFGI-0005nQ-CV
+ id 1mJFGI-0005nO-Ao
  for qemu-devel@nongnu.org; Thu, 26 Aug 2021 09:17:45 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:40830)
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJFGC-00050f-G7
+ id 1mJFGC-00051a-Fy
  for qemu-devel@nongnu.org; Thu, 26 Aug 2021 09:17:40 -0400
-Received: by mail-wr1-x436.google.com with SMTP id h4so5016258wro.7
+Received: by mail-wr1-x429.google.com with SMTP id h13so5065253wrp.1
  for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 06:17:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=IX63UH9elFIfzzmCD48DW45+4bO0eMwENm0AzIDl4+w=;
- b=LGhDpF77kx5RGKyXZlSumTghVTPhmkLL2pbD4DtpafKV7dagF2feoAxzP4blfCHHyD
- AyoN7xIk+zzdbHgsIDD34CD1JkmwV4StBRR8f6sKZWn3LncHPAKYwupORRLs1ytdDPyb
- aeHAsROcxfn88ubllLMT1Oe+QlLf6vTMz2kOYlutf7knrGb5UqkG4cL/cE+2nfa6q0+E
- sgLnZ9u79RDyz5br8tHiuiFvB3W6LEMa87I/QF63E/OMfT5pRa0yT9qJ9VUcKXe2vblg
- WFkTyzOqL2SMNwb8oRyb2b1000aq74nvMACB8YyOAVphUDbU0datem+i4HcZkr2cyANn
- YQ5A==
+ bh=DvhXlYYlfomJDUJCbAefggwT30WTKJdIb0Q3AVXh8mM=;
+ b=uV7gnocg7QyoQ0SZEor8AWM3Qdw+JYPG2LcEXM/w3vp2ZUwg4Jmf374e57dbU7EFCr
+ E53k3yNqo1qhUTMsLbuCIiasAnjjMfX1piRBL9+0h60A/OIOEmM2vEwsK40gbujyM0lH
+ rQwJiZmNG1I2zz6ZJZYHwVUMZ6WYqhhTD+BgYrzrhdxo6WJJLiz5Qgcf3NQuzldGB12X
+ sGNnROf0iLv6XPIxyEKl6vSlK2ElFKSgY7pSPf+re4go36Eo5rTZj30g3M+N2f83Ishg
+ oDqkKCCRBZmdHdEF7hWn3j6ioMFSDg27aZxGQxffMx+Cnv5gTTZ7Irkd7rtvrOO3AVnN
+ smwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IX63UH9elFIfzzmCD48DW45+4bO0eMwENm0AzIDl4+w=;
- b=fycrHnxuREwMRlfVNspqs7mdNE0AagddGy6goOLQuNtlaHduIl2LvRDZW5QyW6rgM8
- 0QFxUEzvf/tmypN9UQx/3F5WgVaYFr3wcw9hwRh+2KfMcf/FDkquJMvLpHEhekdn/pKa
- LR/SLetBjbMovbeNJ9MdWbKnHQxUSjM0D1aQa2MZm/tyaPuRIyeMuFbfB0GJoC/gWC+0
- 64tQ2tgyCyPMEQ1md/c2Awyg2VuoZ7SdlZ3uRnhZ2UNBACkTxbFK7RaGVRD5vjpLf822
- XrX9lO3NJIapjOjaifwN0n+VbOoCS89llZbs8/dhExufJHkcGwph5Ro5JkblQlpm+aYC
- cBxQ==
-X-Gm-Message-State: AOAM531KZ/7GqDGGbqP0fbpL1+8GDpsGTWoOaNiqOB72gw1BBKoHwUyI
- ClLfnIvSzndZdkvCBQ5ZofxHpCeRs0Au2g==
-X-Google-Smtp-Source: ABdhPJxwPWCSyByGdmVB6VkrQIb7Xxbcb5KjvEWcOX5pxeHlup9UmvuepuFfpeWDAV9yXBhq92mL3A==
-X-Received: by 2002:adf:fa82:: with SMTP id h2mr3965464wrr.195.1629983854274; 
+ bh=DvhXlYYlfomJDUJCbAefggwT30WTKJdIb0Q3AVXh8mM=;
+ b=K/7hZtLlyK/IObFdRtXaChewRxGCLpAwzQlCC6QmrQG3JLFJzPlRnXysdZBPDN5HVz
+ s9CAHrm0txk/2J2XsPjZLiTRfM7ZK9X+ASiI2lUKkPmNMRc3rIhCrdg1lG3du71Isw+V
+ Ug88tBtuDjsuduo8mIUNXeYCWkApR80cXmiTPSqx6gRaV2nr8pw1hRof5z+Lp3tFdqjj
+ b5vePEj45PBMKpzzh+nq9qbr10T2zgdSjCTFtL5wF3Vrt767G8OuZcDpf2ONu6fH/TG/
+ aikDPvzk1o7fhK1LT+u5l4YOff6I8XT0z9M5p0/yes2/z3zxN/jhJoG1Y4MzUFnWpMIx
+ 1C5A==
+X-Gm-Message-State: AOAM532wGZjHVqz2omqG7B5Z4LxNpKrAIf0wR9RNtGSeYKU+NT7sPmHm
+ i9bSHhkHCSFr7tNjTgAHY/YXwA==
+X-Google-Smtp-Source: ABdhPJyArABX/7DWyhsQOI2w0W1grkTMzPOdXFCIw5G3dDUMiHXv8qU4k+YB1g1lAyaJVBrHoQzC9A==
+X-Received: by 2002:adf:ec8b:: with SMTP id z11mr3986340wrn.122.1629983854977; 
  Thu, 26 Aug 2021 06:17:34 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i17sm1341908wrc.38.2021.08.26.06.17.33
+ by smtp.gmail.com with ESMTPSA id i17sm1341908wrc.38.2021.08.26.06.17.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 06:17:33 -0700 (PDT)
+ Thu, 26 Aug 2021 06:17:34 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 08/18] target/arm: Implement MVE fp-with-scalar VFMA, VFMAS
-Date: Thu, 26 Aug 2021 14:17:15 +0100
-Message-Id: <20210826131725.22449-9-peter.maydell@linaro.org>
+Subject: [PATCH v2 09/18] softfloat: Remove assertion preventing silencing of
+ NaN in default-NaN mode
+Date: Thu, 26 Aug 2021 14:17:16 +0100
+Message-Id: <20210826131725.22449-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210826131725.22449-1-peter.maydell@linaro.org>
 References: <20210826131725.22449-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,116 +87,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the MVE fp-with-scalar VFMA and VFMAS insns.
+In commit a777d6033447a we added an assertion to parts_silence_nan() that
+prohibits calling float*_silence_nan() when in default-NaN mode.
+This ties together a property of the output ("do we generate a default
+NaN when the result is a NaN?") with an operation on an input ("silence
+this input NaN").
+
+It's true that most of the time when in default-NaN mode you won't
+need to silence an input NaN, because you can just produce the
+default NaN as the result instead.  But some functions like
+float*_maxnum() are defined to be able to work with quiet NaNs, so
+silencing an input SNaN is still reasonable.  In particular, the
+upcoming implementation of MVE VMAXNMV would fall over this assertion
+if we didn't delete it.
+
+Delete the assertion.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v1->v2: use float* types
----
- target/arm/helper-mve.h    |  6 ++++++
- target/arm/mve.decode      | 14 +++++++++++---
- target/arm/mve_helper.c    | 37 +++++++++++++++++++++++++++++++++++++
- target/arm/translate-mve.c |  2 ++
- 4 files changed, 56 insertions(+), 3 deletions(-)
+ fpu/softfloat-specialize.c.inc | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
-index 091ec4b4270..cb7b6423239 100644
---- a/target/arm/helper-mve.h
-+++ b/target/arm/helper-mve.h
-@@ -809,3 +809,9 @@ DEF_HELPER_FLAGS_4(mve_vfsub_scalars, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
+diff --git a/fpu/softfloat-specialize.c.inc b/fpu/softfloat-specialize.c.inc
+index 12467bb9bba..f2ad0f335e6 100644
+--- a/fpu/softfloat-specialize.c.inc
++++ b/fpu/softfloat-specialize.c.inc
+@@ -198,7 +198,6 @@ static void parts128_default_nan(FloatParts128 *p, float_status *status)
+ static uint64_t parts_silence_nan_frac(uint64_t frac, float_status *status)
+ {
+     g_assert(!no_signaling_nans(status));
+-    g_assert(!status->default_nan_mode);
  
- DEF_HELPER_FLAGS_4(mve_vfmul_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(mve_vfmul_scalars, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_4(mve_vfma_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vfma_scalars, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+
-+DEF_HELPER_FLAGS_4(mve_vfmas_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-+DEF_HELPER_FLAGS_4(mve_vfmas_scalars, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
-diff --git a/target/arm/mve.decode b/target/arm/mve.decode
-index 5ba8b6deeaa..d2bd6815bc3 100644
---- a/target/arm/mve.decode
-+++ b/target/arm/mve.decode
-@@ -508,9 +508,17 @@ VSUB_scalar      1110 1110 0 . .. ... 1 ... 1 1111 . 100 .... @2scalar
-   VQRDMULH_scalar 1111  1110 0 . .. ... 1 ... 0 1110 . 110 .... @2scalar
- }
- 
--# The U bit (28) is don't-care because it does not affect the result
--VMLA             111- 1110 0 . .. ... 1 ... 0 1110 . 100 .... @2scalar
--VMLAS            111- 1110 0 . .. ... 1 ... 1 1110 . 100 .... @2scalar
-+{
-+  VFMA_scalar     111 . 1110 0 . 11 ... 1 ... 0 1110 . 100 .... @2op_fp_scalar
-+  # The U bit (28) is don't-care because it does not affect the result
-+  VMLA            111 - 1110 0 . .. ... 1 ... 0 1110 . 100 .... @2scalar
-+}
-+
-+{
-+  VFMAS_scalar    111 . 1110 0 . 11 ... 1 ... 1 1110 . 100 .... @2op_fp_scalar
-+  # The U bit (28) is don't-care because it does not affect the result
-+  VMLAS           111 - 1110 0 . .. ... 1 ... 1 1110 . 100 .... @2scalar
-+}
- 
- VQRDMLAH         1110 1110 0 . .. ... 0 ... 0 1110 . 100 .... @2scalar
- VQRDMLASH        1110 1110 0 . .. ... 0 ... 1 1110 . 100 .... @2scalar
-diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index b49975fdc01..36f0910b856 100644
---- a/target/arm/mve_helper.c
-+++ b/target/arm/mve_helper.c
-@@ -3075,3 +3075,40 @@ DO_VCMLA(vcmla270s, 4, float32, 3, DO_VCMLAS)
- DO_2OP_FP_SCALAR_ALL(vfadd_scalar, add)
- DO_2OP_FP_SCALAR_ALL(vfsub_scalar, sub)
- DO_2OP_FP_SCALAR_ALL(vfmul_scalar, mul)
-+
-+#define DO_2OP_FP_ACC_SCALAR(OP, ESIZE, TYPE, FN)                       \
-+    void HELPER(glue(mve_, OP))(CPUARMState *env,                       \
-+                                void *vd, void *vn, uint32_t rm)        \
-+    {                                                                   \
-+        TYPE *d = vd, *n = vn;                                          \
-+        TYPE r, m = rm;                                                 \
-+        uint16_t mask = mve_element_mask(env);                          \
-+        unsigned e;                                                     \
-+        float_status *fpst;                                             \
-+        float_status scratch_fpst;                                      \
-+        for (e = 0; e < 16 / ESIZE; e++, mask >>= ESIZE) {              \
-+            if ((mask & MAKE_64BIT_MASK(0, ESIZE)) == 0) {              \
-+                continue;                                               \
-+            }                                                           \
-+            fpst = (ESIZE == 2) ? &env->vfp.standard_fp_status_f16 :    \
-+                &env->vfp.standard_fp_status;                           \
-+            if (!(mask & 1)) {                                          \
-+                /* We need the result but without updating flags */     \
-+                scratch_fpst = *fpst;                                   \
-+                fpst = &scratch_fpst;                                   \
-+            }                                                           \
-+            r = FN(n[H##ESIZE(e)], m, d[H##ESIZE(e)], 0, fpst);         \
-+            mergemask(&d[H##ESIZE(e)], r, mask);                        \
-+        }                                                               \
-+        mve_advance_vpt(env);                                           \
-+    }
-+
-+/* VFMAS is vector * vector + scalar, so swap op2 and op3 */
-+#define DO_VFMAS_SCALARH(N, M, D, F, S) float16_muladd(N, D, M, F, S)
-+#define DO_VFMAS_SCALARS(N, M, D, F, S) float32_muladd(N, D, M, F, S)
-+
-+/* VFMA is vector * scalar + vector */
-+DO_2OP_FP_ACC_SCALAR(vfma_scalarh, 2, float16, float16_muladd)
-+DO_2OP_FP_ACC_SCALAR(vfma_scalars, 4, float32, float32_muladd)
-+DO_2OP_FP_ACC_SCALAR(vfmas_scalarh, 2, float16, DO_VFMAS_SCALARH)
-+DO_2OP_FP_ACC_SCALAR(vfmas_scalars, 4, float32, DO_VFMAS_SCALARS)
-diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index bc4b3f840a0..3627ba227f2 100644
---- a/target/arm/translate-mve.c
-+++ b/target/arm/translate-mve.c
-@@ -979,6 +979,8 @@ static bool trans_VQDMULLT_scalar(DisasContext *s, arg_2scalar *a)
- DO_2OP_FP_SCALAR(VADD_fp_scalar, vfadd_scalar)
- DO_2OP_FP_SCALAR(VSUB_fp_scalar, vfsub_scalar)
- DO_2OP_FP_SCALAR(VMUL_fp_scalar, vfmul_scalar)
-+DO_2OP_FP_SCALAR(VFMA_scalar, vfma_scalar)
-+DO_2OP_FP_SCALAR(VFMAS_scalar, vfmas_scalar)
- 
- static bool do_long_dual_acc(DisasContext *s, arg_vmlaldav *a,
-                              MVEGenLongDualAccOpFn *fn)
+     /* The only snan_bit_is_one target without default_nan_mode is HPPA. */
+     if (snan_bit_is_one(status)) {
 -- 
 2.20.1
 
