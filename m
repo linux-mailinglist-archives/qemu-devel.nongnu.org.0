@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 633C93F8FCE
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 23:15:08 +0200 (CEST)
-Received: from localhost ([::1]:38910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C31F3F8FCD
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 23:15:01 +0200 (CEST)
+Received: from localhost ([::1]:39248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJMi8-0008C4-Vy
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 17:14:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38760)
+	id 1mJMiC-0008QK-G9
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 17:15:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mJMfj-0005Us-CY
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 17:12:27 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:40752)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mJMfk-0005VD-HC
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 17:12:28 -0400
+Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b]:46961)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mJMfh-0006iy-QS
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 17:12:27 -0400
-Received: by mail-io1-xd44.google.com with SMTP id z1so5567919ioh.7
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 14:12:25 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mJMfi-0006j4-Tt
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 17:12:28 -0400
+Received: by mail-il1-x12b.google.com with SMTP id r6so4689471ilt.13
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 14:12:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hJRZgQI+QtTgjpShWzcLDKaF2c/eXvqYd/GhPRaiuEQ=;
- b=T64Qt+1IUbX6X9uqNbScLjTGyLA48r0dUYrdbACtvjvz7shjrabq6kaL1426N4xDDN
- ZLPYOjDALiOMzi7Xxc3AVm2Izau90dXVzi8z8V/zELl8N10F61RAPvaY5BsrSExdCsT3
- VU5UxZ5czXu9sHG+h8nyQp7r0+Y4qBlc33TCMLISz1OUyM7GAnc847PtagNV9Zjw0cUe
- bhjlYRscOAvyAqlusFBuHyBvmndPh8fl0ulNYpLHoV+Dr0U60+bv5K9v/h5WjcDuCGdC
- xk38ir7/xRGZxFuC4JLYZAZat10OWY+q8f9p4RtqqcZyMhN6ygSprcvJLo/86t5BO+g+
- YE4Q==
+ bh=KMQsbMY5NaOGHicHu9VbpgyM/1xluEbSzTVfLIIvix4=;
+ b=VXWJFq9wFeQ7SWyAPB6Ad+R69V4rsZ7TEEu7oUEaYnKBuVz2BMG72VgL99qmMZ1oPa
+ QpbwpqxAY2u8vB8ImzVz/uHWQeooB8VP3BrIy0kXxfsTVESBD1yWHhlRhhEaD1w94VrX
+ gh6yO8ywZOPjn0tw/jXfeot4QFDMMvlQzHN/+u70+WbsRoZR1rzvfz/aP9HD05buQhW8
+ F8HoZuXQghcA+8bV+5hznAQXdKLScIsnqDepwG9tEZ4tf7NhHjAB/bZ/KDTNY30PMPGh
+ 825f8evBiFHc3iWgf0dO+z0eaiM7ChyLeqqUJFDohi+a2YrxoKde/U9G40FV+UgEBUkE
+ 3yOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hJRZgQI+QtTgjpShWzcLDKaF2c/eXvqYd/GhPRaiuEQ=;
- b=hksNPHPnqK/SYSzW5kNCapsf8vTKIvosG7DAoHcZZNJhAbXH1hlZ1Kn4sf2t7I8U+9
- dNtAWYJnbblPIru3jLSNrl5ybk0eOZuw3DayiTUDNes5KWWE8ecZXhG6RZRU3t6IDoqI
- oMShOn90nICfWZQx31S4i7k1A3Xf+6P3v06svNcPc56zVJVZvIfx3RJq0j0Gu68mujsm
- tvnx1NPZuYgoT/rJyz4Igrz0PWmZy/FjJGyjRNgVI0BcupyLyuGEFm4jv7I5jQnYMa4M
- oaQKOg4NkxPWcPbVJbypqTUUQfuuhOLEbiWMG/kIQ06G19E5sc4TBiXNCaTGUhprBc69
- KgSQ==
-X-Gm-Message-State: AOAM530SlZqJraqYU/K8TT/PFHfi7MnBBa9hs5lPUY0sOOCPv36CR55X
- cOtuNvcFoS2/rYntBgPEtui/mjBUwQJiSrQO
-X-Google-Smtp-Source: ABdhPJw0EklW8CDdiKMR8Lco1PFzZ6q0DU2Ji+1gPPVsHbuzE1eMpQZIBDI+tl7fSGE/ztvvkCNLZA==
-X-Received: by 2002:a5d:9355:: with SMTP id i21mr4692921ioo.12.1630012344510; 
- Thu, 26 Aug 2021 14:12:24 -0700 (PDT)
+ bh=KMQsbMY5NaOGHicHu9VbpgyM/1xluEbSzTVfLIIvix4=;
+ b=RS5E2YWttqqR+c/bZgz7Kzi5CU9m99QLwZffEsZ94W02MHk/mi3Aplt1cIoHfpAt0+
+ 8sYmLHrpk94+zWuIBx5jDI5oMoPzCj0i3kBKSsjZ94FPzH7YvwfYQxJ3VftinCUxAxWa
+ Q9I9nHYw7VQAL94Eys5oW2AUQixqs6U2iNnVWD/kQ2mPizcHMlzIHSOxf398U/MRH7QU
+ hHyu98WVWp/MHlbTtVXKopqvJz2k5kn1aEmjnxD8WEPXlFGTv7DwwDBbPH/8rgjxr+el
+ YhU+ksesZn1+tZw+YMNSrBk+mRhnUZMr5Vcor4WO+88HcQ2zVTmRg7gsSVOOZvdFoNSx
+ DKlw==
+X-Gm-Message-State: AOAM533i4+WW7P7F09A0a8/yBIsl/rAw/Re17IMCMlTyMquDWRqlrC8Y
+ MVut6SxBDoeTTziDaYA6ikq512jXVsmvxsOa
+X-Google-Smtp-Source: ABdhPJxs1gEWZLZtGSIHYp3OZrE1OPzZAHPnsuIeiWdCabUZtAfuqEAmEH9dnhzZW7WltWtCnemGTA==
+X-Received: by 2002:a05:6e02:506:: with SMTP id
+ d6mr4171031ils.141.1630012345418; 
+ Thu, 26 Aug 2021 14:12:25 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id a17sm2348633ilp.75.2021.08.26.14.12.23
+ by smtp.gmail.com with ESMTPSA id a17sm2348633ilp.75.2021.08.26.14.12.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 14:12:23 -0700 (PDT)
+ Thu, 26 Aug 2021 14:12:24 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 02/43] bsd-user: add copyright header to elfload.c
-Date: Thu, 26 Aug 2021 15:11:20 -0600
-Message-Id: <20210826211201.98877-3-imp@bsdimp.com>
+Subject: [PATCH v2 03/43] bsd-user: Add Stacey's copyright to main.c
+Date: Thu, 26 Aug 2021 15:11:21 -0600
+Message-Id: <20210826211201.98877-4-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210826211201.98877-1-imp@bsdimp.com>
 References: <20210826211201.98877-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d44;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd44.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12b;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,42 +90,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@FreeBSD.org>
 
-Add Stacey's copyright to elfload.c
+Add Stacey's updated copyright to main.c
 
-Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
+Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/elfload.c | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ bsd-user/main.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
-index 6edceb3ea6..ae62f3aab3 100644
---- a/bsd-user/elfload.c
-+++ b/bsd-user/elfload.c
-@@ -1,4 +1,21 @@
--/* This is the Linux kernel elf-loading code, ported into user space */
-+/*
-+ *  ELF loading code
-+ *
-+ *  Copyright (c) 2013 Stacey D. Son
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
- 
- #include "qemu/osdep.h"
- 
+diff --git a/bsd-user/main.c b/bsd-user/main.c
+index 38185da111..39c4a0f33c 100644
+--- a/bsd-user/main.c
++++ b/bsd-user/main.c
+@@ -1,7 +1,8 @@
+ /*
+- *  qemu user main
++ *  qemu bsd user main
+  *
+  *  Copyright (c) 2003-2008 Fabrice Bellard
++ *  Copyright (c) 2013-14 Stacey Son
+  *
+  *  This program is free software; you can redistribute it and/or modify
+  *  it under the terms of the GNU General Public License as published by
 -- 
 2.32.0
 
