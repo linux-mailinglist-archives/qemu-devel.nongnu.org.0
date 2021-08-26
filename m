@@ -2,91 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4DF3F814D
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 05:51:38 +0200 (CEST)
-Received: from localhost ([::1]:51010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72BD03F81D1
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 06:56:05 +0200 (CEST)
+Received: from localhost ([::1]:37276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJ6QI-0003s1-O6
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 23:51:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57974)
+	id 1mJ7Qq-0008NL-H8
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 00:56:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mJ6PS-0003CF-1Z
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 23:50:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57885)
+ (Exim 4.90_1) (envelope-from <srikar@linux.vnet.ibm.com>)
+ id 1mJ6Ii-0002FN-0O
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 23:43:36 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:12628
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mJ6PQ-0006ni-6P
- for qemu-devel@nongnu.org; Wed, 25 Aug 2021 23:50:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629949831;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bzCJ/hbhw2CaaorYCDVAUbfgJvc6a3+iGBeCgk94nBc=;
- b=eRbks7ltKaxlBRWzGkSv4xVeRYFpiw+bjGY2m+m15zYBjo71CHKHa2zSGElqxgYrK/1cjo
- euzuLJvoAkx2jv/Ay737J8QbPCVCojBYaldBMkfH8f/1XTh7b8CfkUAh6eSzXNIgGHYBBW
- AUAWNgAeVRzMQQWtyWxkAGcyUTfSchs=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-AlqBS5UAMs-io1ogA3_cjQ-1; Wed, 25 Aug 2021 23:50:30 -0400
-X-MC-Unique: AlqBS5UAMs-io1ogA3_cjQ-1
-Received: by mail-qk1-f198.google.com with SMTP id
- t18-20020a05620a0b1200b003f8729fdd04so1279543qkg.5
- for <qemu-devel@nongnu.org>; Wed, 25 Aug 2021 20:50:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=bzCJ/hbhw2CaaorYCDVAUbfgJvc6a3+iGBeCgk94nBc=;
- b=TbP0WJzG8XPipPcXU+Erm0NeE0dZ144om7Lpl1Bn8nUwTkkRWiLoE5a2taTMeowFSQ
- 1Ya4RQtuEE9/zYuUvrgbpN2NpQOOF943mUiruxz1OvjDn8H07fdUg/Y9F5/dRFLxNiKy
- HQUCnqz/r3hY2KxET9Gk/BqRUZ8cSsjY4Ve8396btMDn6DFCHgEWw7ZtYIQ94vYk0EGT
- ICrEkPAODhNz17xn5jUxub4IDYCEvj/d0QfCVtvSkSmHEEZjoLJ2Dp0f70Nre8Fjzyaa
- WF8cfFwF2XJp94YcbBDXdDZbjs8EdNfXQQHvgC1R2QmrdmDuAX00aw7ZZ63C1VaM9SUZ
- jTzA==
-X-Gm-Message-State: AOAM533/c8hMAQ7NKQZlSLlvLE87kkGO7Zt5OQe7JtOYE7LB7ZFY/8vG
- aosfd3cPVgrO4O8cv+idKXn2P7ZtggBWbKzzWgJtKaF8f+Je+Lghz5yp8cfUpBFGeSQxbrjEqKF
- rqXJrmKwX3t0x74c=
-X-Received: by 2002:ad4:5f0d:: with SMTP id fo13mr1693628qvb.31.1629949829881; 
- Wed, 25 Aug 2021 20:50:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwc6pSS5oBKg6Vvo3is5aVGW3twY/CrHrOpL8kBPuBq62swrRlqed1JYVg2pFsQueDmhamW9A==
-X-Received: by 2002:ad4:5f0d:: with SMTP id fo13mr1693611qvb.31.1629949829544; 
- Wed, 25 Aug 2021 20:50:29 -0700 (PDT)
-Received: from xz-m1.local ([2607:fea8:56a3:500:a070:6ad3:df25:1633])
- by smtp.gmail.com with ESMTPSA id v23sm1111505qto.55.2021.08.25.20.50.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Aug 2021 20:50:28 -0700 (PDT)
-Date: Wed, 25 Aug 2021 23:50:27 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 4/4] vl: Prioritize realizations of devices
-Message-ID: <YScPg0cYYGxxTz+b@xz-m1.local>
-References: <20210818194318.110993-1-peterx@redhat.com>
- <20210823184912.mazqfn7gurntj7ld@habkost.net>
- <YSP0m83roQytqvDr@t490s>
- <20210823210703.cikdkhvyeqqypaqa@habkost.net>
- <YSQTwth0elaz4T8W@t490s>
- <20210823215623.bagyo3oojdpk3byj@habkost.net>
- <YSQp0Nh6Gs5equAG@t490s> <8735qxhnhn.fsf@dusky.pond.sub.org>
- <87h7fdg12w.fsf@dusky.pond.sub.org> <YSa7H3wGUHgccCrU@t490s>
-MIME-Version: 1.0
-In-Reply-To: <YSa7H3wGUHgccCrU@t490s>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+ (Exim 4.90_1) (envelope-from <srikar@linux.vnet.ibm.com>)
+ id 1mJ6Id-00017E-Ug
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 23:43:35 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 17Q3WVqZ192308; Wed, 25 Aug 2021 23:43:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : reply-to : references : content-type : in-reply-to
+ : mime-version; s=pp1; bh=2nBCMPuJAlL2L6PEL2YFH2SLNFBS5AtwSlsOxsLEO9I=;
+ b=olDgokC30oaqA0mzrieciMR3H0ZmDdZ5CQfd1EU0w3xXBLnx1x/ygTNZ1Pud1iu/G7qK
+ /eIVJtNbTIti74+KOnC/qJFd6gHjRDxHIz4G2O6LjZmKpTuG/bBfSy6LsbtUPUR3ChYw
+ QM7TKkTKwNxazcJd4taBu8r/Z4CVDGi+m/pYD+sLCX+57390FvbRS1JgwuEfsj5PFjOH
+ kQ2j7DLjSJpFKMQ+nlG8JP2nGGj0L2T/BvgcsQq9F25+sXKj/bmf1sCLZ2qlpF+5BjIZ
+ TFxNmV3dOC1XmYg5BcQxue/yyHr1CkMpCjF9jVoB3FVGm7e3uZAAiCH36bdfZT0mvDV8 8g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ap1v1hr7w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 25 Aug 2021 23:43:19 -0400
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 17Q3ZSUf003643;
+ Wed, 25 Aug 2021 23:43:19 -0400
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3ap1v1hr7g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 25 Aug 2021 23:43:19 -0400
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 17Q3gjxT011345;
+ Thu, 26 Aug 2021 03:43:17 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma02fra.de.ibm.com with ESMTP id 3ajs48f22y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 26 Aug 2021 03:43:17 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 17Q3hEuT33948082
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 26 Aug 2021 03:43:14 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A147F5204E;
+ Thu, 26 Aug 2021 03:43:14 +0000 (GMT)
+Received: from linux.vnet.ibm.com (unknown [9.126.150.29])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 2719152054;
+ Thu, 26 Aug 2021 03:43:11 +0000 (GMT)
+Date: Thu, 26 Aug 2021 09:13:10 +0530
+From: Srikar Dronamraju <srikar@linux.vnet.ibm.com>
+To: Christian Zigotzky <chzigotzky@xenosoft.de>
+Subject: Re: [FSL P50x0] lscpu reports wrong values since the RC1 of kernel
+ 5.13
+Message-ID: <20210826034310.GA296102@linux.vnet.ibm.com>
+References: <a7098505-2162-d3cc-b8f9-ef8c8a7d441f@xenosoft.de>
+ <c16c3747-8c6c-fb27-4e07-a893b83a5580@xenosoft.de>
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.745,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <c16c3747-8c6c-fb27-4e07-a893b83a5580@xenosoft.de>
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: nafgPOqAcOu8xe9FCZ1j6pFOCGZqeyOH
+X-Proofpoint-ORIG-GUID: PWW2l1UiDbkrTcxGO5hKlM3x_FikwQ-x
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-08-25_09:2021-08-25,
+ 2021-08-25 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 suspectscore=0
+ phishscore=0 spamscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
+ impostorscore=0 adultscore=0 priorityscore=1501 clxscore=1011 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
+ definitions=main-2108260018
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=srikar@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 26 Aug 2021 00:54:17 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -98,150 +111,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Srikar Dronamraju <srikar@linux.vnet.ibm.com>
+Cc: Darren Stevens <darren@stevens-zone.net>,
+ mad skateman <madskateman@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>,
+ qemu-devel@nongnu.org, "R.T.Dickinson" <rtd2@xtra.co.nz>,
+ linuxppc-dev <linuxppc-dev@lists.ozlabs.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Aug 25, 2021 at 05:50:23PM -0400, Peter Xu wrote:
-> On Wed, Aug 25, 2021 at 02:28:55PM +0200, Markus Armbruster wrote:
-> > Markus Armbruster <armbru@redhat.com> writes:
-> > 
-> > > Peter Xu <peterx@redhat.com> writes:
-> > >
-> > >> On Mon, Aug 23, 2021 at 05:56:23PM -0400, Eduardo Habkost wrote:
-> > >>> I don't have any other example, but I assume address assignment
-> > >>> based on ordering is a common pattern in device code.
-> > >>> 
-> > >>> I would take a very close and careful look at the devices with
-> > >>> non-default vmsd priority.  If you can prove that the 13 device
-> > >>> types with non-default priority are all order-insensitive, a
-> > >>> custom sort function as you describe might be safe.
-> > >>
-> > >> Besides virtio-mem-pci, there'll also similar devfn issue with all
-> > >> MIG_PRI_PCI_BUS, as they'll be allocated just like other pci devices.  Say,
-> > >> below two cmdlines will generate different pci topology too:
-> > >>
-> > >>   $ qemu-system-x86_64 -device pcie-root-port,chassis=0 \
-> > >>                        -device pcie-root-port,chassis=1 \
-> > >>                        -device virtio-net-pci
-> > >>
-> > >> And:
-> > >>
-> > >>   $ qemu-system-x86_64 -device pcie-root-port,chassis=0 \
-> > >>                        -device virtio-net-pci
-> > >>                        -device pcie-root-port,chassis=1 \
-> > >>
-> > >> This cannot be solved by keeping priority==0 ordering.
-> > >>
-> > >> After a second thought, I think I was initially wrong on seeing migration
-> > >> priority and device realization the same problem.
-> > >>
-> > >> For example, for live migration we have a requirement on PCI_BUS being migrated
-> > >> earlier than MIG_PRI_IOMMU because there's bus number information required
-> > >> because IOMMU relies on the bus number to find address spaces.  However that's
-> > >> definitely not a requirement for device realizations, say, realizing vIOMMU
-> > >> after pci buses are fine (bus assigned during bios).
-> > >>
-> > >> I've probably messed up with the ideas (though they really look alike!).  Sorry
-> > >> about that.
-> > >>
-> > >> Since the only ordering constraint so far is IOMMU vs all the rest of devices,
-> > >> I'll introduce a new priority mechanism and only make sure vIOMMUs are realized
-> > >> earlier.  That'll also avoid other implications on pci devfn allocations.
-> > >>
-> > >> Will rework a new version tomorrow.  Thanks a lot for all the comments,
-> > >
-> > > Is it really a good idea to magically reorder device realization just to
-> > > make a non-working command line work?  Why can't we just fail the
-> > > non-working command line in a way that tells users how to get a working
-> > > one?  We have way too much ordering magic already...
-> > >
-> > > If we decide we want more magic, then I'd argue for *dependencies*
-> > > instead of priorities.  Dependencies are specific and local: $this needs
-> > > to go after $that because $reasons.  Priorities are unspecific and
-> > > global.
-> > 
-> > Having thought about this a bit more...
-> > 
-> > Constraints on realize order are nothing new.  For instance, when a
-> > device plugs into a bus, it needs to be realized after the device
-> > providing the bus.
-> > 
-> > We ensure this by having the device refer to the bus, e.g. bus=pci.0.
-> > The reference may be implicit, but it's there.  It must resolve for
-> > device creation to succeed, and if it resolves, the device providing the
-> > bus will be realized in time.
-> > 
-> > I believe what's getting us into trouble with IOMMU is not having such a
-> > reference.  Or in other words, keeping the dependence between the IOMMU
-> > and the devices relying on it *implicit*, and thus hidden from the
-> > existing realize-ordering machinery.
+* Christian Zigotzky <chzigotzky@xenosoft.de> [2021-08-16 14:29:21]:
 
-[1]
 
-> > 
-> > Instead of inventing another such machinery, let's try to use the one we
-> > already have.
+Hi Christian,
+
+> I tested the RC6 of kernel 5.14 today and unfortunately the issue still
+> exists. We have figured out that only P5040 SoCs are affected. [1]
+> P5020 SoCs display the correct values.
+> Please check the CPU changes in the PowerPC updates 5.13-1 and 5.13-2.
+>
+
+Thanks for reporting the issue.
+Would it be possible to try
+https://lore.kernel.org/linuxppc-dev/20210821092419.167454-3-srikar@linux.vnet.ibm.com/t/#u
+
+If the above patch is not helping, then can you please collect the output of
+
+cat /sys/devices/system/cpu/cpu*/topology/core_siblings
+
+Were all the CPUs online at the time of boot?
+Did we do any CPU online/offline operations post boot?
+
+If we did CPU online/offline, can you capture the output just after the
+boot along with lscpu output..
+
+Since this is being seen on few SOCs, can you summarize the difference
+between P5040 and P5020.
 > 
-> Hmm... I just found that we don't have such machinery, do we?
+> [1] https://forum.hyperion-entertainment.com/viewtopic.php?p=53775#p53775
 > 
-> This does not really work:
 > 
-> $ ./qemu-system-x86_64 -M q35 -device virtio-net-pci,bus=pcie.1 \
->                        -device pcie-root-port,id=pcie.1,bus=pcie.0
-> qemu-system-x86_64: -device virtio-net-pci,bus=pcie.1: Bus 'pcie.1' not found
-> 
-> While this will:
-> 
-> $ ./qemu-system-x86_64 -M q35 -device pcie-root-port,id=pcie.1,bus=pcie.0 \
->                        -device virtio-net-pci,bus=pcie.1
+> On 09 August 2021 um 02:37 pm, Christian Zigotzky wrote:
+> > Hi All,
+> > 
+> > Lscpu reports wrong values [1] since the RC1 of kernel 5.13 on my FSL
+> > P5040 Cyrus+ board (A-EON AmigaOne X5000). [2]
+> > The differences are:
+> > 
+> > Since the RC1 of kernel 5.13 (wrong values):
+> > 
+> > Core(s) per socket: 1
+> > Socket(s): 3
+> > 
 
-I think I fully agree at [1], the iommu is special in that it's not only
-implicit, but also does not have a default value.  Pci buses have default
-values (the root pci bus; e.g. pcie.0 on q35), so it's actually easier.
+I know that the socket count was off by 1, but I cant explain how its off by
+2 here.
 
-When parsing the "-device" entry for a pci device, we'll 100% sure what's the
-pci bus for the device, either specified or it's just the default.  We don't
-look at the rest of "-device"s to be sure of it.  We just try to look up the
-pci bus, if it's there we continue, otherwise we abort.
-
-But IOMMU is different, the device can run without a vIOMMU (in which case
-there's no dependency), but when vIOMMU is specified there's the dependency.
-
-That's why I am not sure whether the old machinery and "early failure" solution
-would work trivially for IOMMUs.
-
-We can add an "-iommu" parameter, then we simply parse it before "-device".
-However I forgot why Marcel (IIRC) made it a "-device" parameter, also "-iommu"
-is not ideal in that the IOMMU unit is indeed implemented as a device for the
-archs I'm aware of, so it's kind of some extra glue that seems to just work
-around the ordering problem we have right now.  Meanwhile that solution won't
-help the ordering issue of pci bus/device.
-
-That's why I still think the idea of having a global priority for device
-realization (or describe the dependency of devices) makes sense.  We can
-actually fix both IOMMU and pci bus so we can allow pci bus to be put latter
-than the pci device that belongs to the bus alongside of fixing the IOMMU.
-
-IMHO a list of global priority (maybe a realize_priority field in the class of
-devices) is just a simpler version of device dependencies.  Say, at least we
-don't need to worry about cycle-dependency issues.  So far the ordering
-requirement is still simple, so globally define them should fix most of the
-issues already and in a straightforward way, also less LOCs.  If it goes
-complicated one day, we can always switch the global priority list into device
-dependency easily, because that's not guest ABI.
-
-Any further thoughts will be greatly welcomed.
-
-Thanks,
+> > Before (correct values):
+> > 
+> > Core(s) per socket: 4
+> > Socket(s): 1
+> > 
 
 -- 
-Peter Xu
-
+Thanks and Regards
+Srikar Dronamraju
 
