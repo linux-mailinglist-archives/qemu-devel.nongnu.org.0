@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CE7E3F8547
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 12:26:23 +0200 (CEST)
-Received: from localhost ([::1]:47308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0621E3F8552
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 12:28:58 +0200 (CEST)
+Received: from localhost ([::1]:49716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJCaK-0006ah-Cg
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 06:26:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38644)
+	id 1mJCcz-0008IM-4F
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 06:28:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mJCYl-0005b5-1W
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 06:24:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48016)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mJCbU-0007cV-2j
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 06:27:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mJCYh-000227-Kk
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 06:24:34 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mJCbS-00048s-NO
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 06:27:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629973470;
+ s=mimecast20190719; t=1629973641;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=PemqTEeD87K9YnXAz88Qs6XOv4/freTkA8rMJeFI0X0=;
- b=JyFR54jblG21fR2YxPjnA3zAtXwZOOL7mwKeQ5lB8QzqdRr1N+lfWVv62E7Hmbvn7Ex6G8
- t1fSb9xuU/WQ/zkM8RTWriBDpHH6YK8869IjN2QOIx3Aehp2Ghf607t10PsbBKJt+IUQgS
- zGSq8uasCqY1i5vGBGfdSxJBkiS5v/s=
+ bh=UqwcFB3NH3TUfjydBburEvpc2bl5R15xjZ+9ZsXFipg=;
+ b=dBY2q5nHTFhs/xnagJHz69+gqnR0X3b7qJRWppKzuZsHoAw2krZCrAq5Z4Q6zk2XpQwIkt
+ tuh13bR+mFZCP+QJ9c5pabvbtrgMeEi8BaWcWdMWtggGFdX1N5kkn+LfYbFJ4kHdiaAz3k
+ 0O1NUWFUo2OFj7CDRj7YeAzONfgO6qY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-475-GRDbbpfSOMObprxT86KMfw-1; Thu, 26 Aug 2021 06:24:29 -0400
-X-MC-Unique: GRDbbpfSOMObprxT86KMfw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-68-gFX7_2fpNk6WKXISYqTPmQ-1; Thu, 26 Aug 2021 06:27:20 -0400
+X-MC-Unique: gFX7_2fpNk6WKXISYqTPmQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 924061008065;
- Thu, 26 Aug 2021 10:24:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 134EFC2A7;
+ Thu, 26 Aug 2021 10:27:19 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 47B6718428;
- Thu, 26 Aug 2021 10:24:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0584E19C59;
+ Thu, 26 Aug 2021 10:27:15 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id AD08018003AA; Thu, 26 Aug 2021 12:24:21 +0200 (CEST)
-Date: Thu, 26 Aug 2021 12:24:21 +0200
+ id 5FC5F18003AA; Thu, 26 Aug 2021 12:27:13 +0200 (CEST)
+Date: Thu, 26 Aug 2021 12:27:13 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: isaku.yamahata@gmail.com
-Subject: Re: [RFC PATCH v2 07/44] i386/kvm: Squash getting/putting guest
- state for TDX VMs
-Message-ID: <20210826102421.bwslsyeafmullmky@sirius.home.kraxel.org>
+Subject: Re: [RFC PATCH v2 10/44] hw/i386: Initialize TDX via KVM ioctl()
+ when kvm_type is TDX
+Message-ID: <20210826102713.sv4744gt6zersind@sirius.home.kraxel.org>
 References: <cover.1625704980.git.isaku.yamahata@intel.com>
- <7194a76cfb8541d4f7a5b6a04fb3496bc14eab15.1625704980.git.isaku.yamahata@intel.com>
+ <d173ac1f4524153b738309530c6a6599aeaa18fd.1625704981.git.isaku.yamahata@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7194a76cfb8541d4f7a5b6a04fb3496bc14eab15.1625704980.git.isaku.yamahata@intel.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+In-Reply-To: <d173ac1f4524153b738309530c6a6599aeaa18fd.1625704981.git.isaku.yamahata@intel.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -83,13 +83,12 @@ Cc: isaku.yamahata@intel.com, cohuck@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 07, 2021 at 05:54:37PM -0700, isaku.yamahata@gmail.com wrote:
-> From: Sean Christopherson <sean.j.christopherson@intel.com>
-> 
-> Ignore get/put state of TDX VMs as accessing/mutating guest state of
-> producation TDs is not supported.
+  Hi,
 
-Why silently ignore instead of returning an error?
+>        'sev-guest':                  'SevGuestProperties',
+> +      'tdx-guest':                  'TdxGuestProperties',
+
+Ah, see, it's already there ...
 
 take care,
   Gerd
