@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5B273F8CB8
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:09:08 +0200 (CEST)
-Received: from localhost ([::1]:55528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4DF83F8CBC
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:11:33 +0200 (CEST)
+Received: from localhost ([::1]:35830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJIs5-0007vz-UJ
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:08:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44980)
+	id 1mJIuZ-0005Al-Io
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:11:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJImq-0005dM-Ly
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:32 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:38452)
+ id 1mJImr-0005ir-Pz
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:33 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:38440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJImo-0008SP-VG
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:32 -0400
-Received: by mail-wm1-x336.google.com with SMTP id
- d22-20020a1c1d16000000b002e7777970f0so7366695wmd.3
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:30 -0700 (PDT)
+ id 1mJImp-0008TJ-Vz
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:33 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ d22-20020a1c1d16000000b002e7777970f0so7366715wmd.3
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=gElcNWN3M9Jq5lKNbD/CRw0/G5CG8Srht/Gqb5hcJyc=;
- b=lEgQqtyyh0bqOB1GHvGVlBf+Qsro+203Siy3qnQnycLa473qiQLh7Eg8BWyMvz5/Zx
- VaUNt9KIIBQ3DKqFzKlJQ3wTSsww5KjTgUVJ3HRay22IXJsplr02WRN5+HtbZEwh3Tp9
- FLGxxB5+KmYXd+bqOdUXVRwNiJEzn71qWQkqqSEiQbSadrkJu+alQvkaG6NA6uimNzJT
- 09S1SfnPlaanFLrWP24b4M75mK/ZQ71Nuqq1up+cwSY1egniP/F+I/72JLgcg5KrkgV7
- 9FQFx+ipztH/WYDjWRQbBwxz5EFuXms8zJXPB635zs+6QPPk9aUcUxtj4aGHFddLxiwC
- p+Fg==
+ bh=9S9qaExeEhXE11YYRh9+JjtdaNpjXkfjgsg5lVi2dxo=;
+ b=sfXghfE+twl1JYaOEQZzV7aTIr0RfcD9zbM6R9AfpYYLcR1KmzHEtD05MUlrFd3sta
+ ZEXaT6BhxgCS1okIe78W08QV6whIFhD7oE0rRuBATt3lpTBNkvwyNa0jrJE94mnsCrqc
+ HEE64gHS01obxkynoUchLnuX6o3mVOlTLvmxzRKthE2i0XPf0bM17ckdcFtJC2hwpiFr
+ cLzw4BL3xaXi56iE3jo4cDI+WGw8NTYOIh0xvM7eCTXVL44ML/D38sjgMruNC6ILqqYv
+ ZtAb16DFxaGeZOqIBpKnoM8FOemxSEkGbs9B+J9G0Ly2goTy+xwLn+sOsM1LU3UyZrtz
+ cZrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gElcNWN3M9Jq5lKNbD/CRw0/G5CG8Srht/Gqb5hcJyc=;
- b=K1RYueNoSEJNa3MT+b1uUloUeVJyVNstq5dl1Kij9m4PvX9TlJNVVXQ62oYoRiXSJX
- xP8lqvADF117qipFPwlxNpQ+IU+kVZnCJSc+xAZyLEBC3qOxB4V4Pt2LK5fV9T+5rr9j
- 4dGmk2EoddWRkFIfAi11iw9WJYqV9kxTqAdoZqTfP/Mm2LtVkWTxijQFLcBhzass5pUj
- O4xGCXDNkJVdwPcf7f1aKhKoxqhDR3Gmyo+Vw0vG1gTuSBwiINxwu/dDaEP2AnCrjvPI
- Hsy2gs7skPw2MH2BAkjJ+RKCMY2T6uetv4sleSeXWKPNjDzxCjHejiptN0L1dlHC0WJ5
- yOmQ==
-X-Gm-Message-State: AOAM533R1/JJrP1SF2UoCPTERErsJCxbpSQ0m7fsufvR+rdeBfl/zZ9s
- qDt0oVo4E8X9VLX9w8GnzfCrzRR04E4gfw==
-X-Google-Smtp-Source: ABdhPJzNbWclHv3NlAiS3QkGS5hCyWR0mVBtkBsjrD2U6c4y6gFudzRlkaxBYDex01NEcVT5h1aniQ==
-X-Received: by 2002:a05:600c:4b88:: with SMTP id
- e8mr595615wmp.164.1629997409699; 
- Thu, 26 Aug 2021 10:03:29 -0700 (PDT)
+ bh=9S9qaExeEhXE11YYRh9+JjtdaNpjXkfjgsg5lVi2dxo=;
+ b=FbGfxgH4RpYWR7BpY3h3NoABZtzJXWtB2Dz81UVPhJqeYSyGbEicsi22jcdHyQXEEg
+ +78bF1yh/Fbl3lJe7gMizMs2oTHvd7rR2GzJWXAkG8rLMuo/QQA36YnzDk9PWaQPTyhQ
+ 1+JtDhpVTkEqS1wMGWnjKJZUeTLF7S+chV4XHd2PnRJ61Eb7+lC+Lr4VALYPgXTVxdLO
+ N1auoUbYx+9D+MOE6dKRxZTXGs5uP8uWvIhM3Yjdtf4UC4IfUrLANc7+AUEk5v5bnj3Q
+ YcjyDFrHTvje6XiVXWfM57K7mnItHvzpMQxXspp843w/HtgyWLBKmi3vZiKhOEMlvshy
+ BMhQ==
+X-Gm-Message-State: AOAM531Qep8p0AzxhCDgHztdBHnMTwSTtLP0+BaweOXUtZZ0l3+ESjbJ
+ H2jumyJLtnNCnMmcYnP/bvB+eZW5eie3yg==
+X-Google-Smtp-Source: ABdhPJyR5faZx3WlY/be2m0vBYeYzHVafnZoAnTwsoihtcGPbbdEM5DYQkLf2DCG+MqW2rf8cZQ0pA==
+X-Received: by 2002:a05:600c:154e:: with SMTP id
+ f14mr15448697wmg.162.1629997410588; 
+ Thu, 26 Aug 2021 10:03:30 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 10:03:29 -0700 (PDT)
+ Thu, 26 Aug 2021 10:03:30 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/37] arch_init.h: Add QEMU_ARCH_HEXAGON
-Date: Thu, 26 Aug 2021 18:02:49 +0100
-Message-Id: <20210826170307.27733-20-peter.maydell@linaro.org>
+Subject: [PULL 20/37] arch_init.h: Move QEMU_ARCH_VIRTIO_* to qdev-monitor.c
+Date: Thu, 26 Aug 2021 18:02:50 +0100
+Message-Id: <20210826170307.27733-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210826170307.27733-1-peter.maydell@linaro.org>
 References: <20210826170307.27733-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,33 +88,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When Hexagon was added we forgot to add it to the QEMU_ARCH_*
-enumeration.  This doesn't cause a visible effect because at the
-moment Hexagon is linux-user only and the QEMU_ARCH_* constants are
-only used in softmmu, but we might as well add it in, since it's the
-only architecture currently missing from the list.
+The QEMU_ARCH_VIRTIO_* defines are used only in one file,
+qdev-monitor.c. Move them to that file.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
-Message-id: 20210730105947.28215-6-peter.maydell@linaro.org
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Message-id: 20210730105947.28215-7-peter.maydell@linaro.org
 ---
- include/sysemu/arch_init.h | 1 +
- 1 file changed, 1 insertion(+)
+ include/sysemu/arch_init.h | 9 ---------
+ softmmu/qdev-monitor.c     | 9 +++++++++
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-index 57caad1c675..60270c5ad15 100644
+index 60270c5ad15..e7789399508 100644
 --- a/include/sysemu/arch_init.h
 +++ b/include/sysemu/arch_init.h
-@@ -23,6 +23,7 @@ enum {
-     QEMU_ARCH_RISCV = (1 << 19),
-     QEMU_ARCH_RX = (1 << 20),
-     QEMU_ARCH_AVR = (1 << 21),
-+    QEMU_ARCH_HEXAGON = (1 << 22),
+@@ -30,13 +30,4 @@ enum {
  
-     QEMU_ARCH_NONE = (1 << 31),
- };
+ extern const uint32_t arch_type;
+ 
+-/* default virtio transport per architecture */
+-#define QEMU_ARCH_VIRTIO_PCI (QEMU_ARCH_ALPHA | QEMU_ARCH_ARM | \
+-                              QEMU_ARCH_HPPA | QEMU_ARCH_I386 | \
+-                              QEMU_ARCH_MIPS | QEMU_ARCH_PPC |  \
+-                              QEMU_ARCH_RISCV | QEMU_ARCH_SH4 | \
+-                              QEMU_ARCH_SPARC | QEMU_ARCH_XTENSA)
+-#define QEMU_ARCH_VIRTIO_CCW (QEMU_ARCH_S390X)
+-#define QEMU_ARCH_VIRTIO_MMIO (QEMU_ARCH_M68K)
+-
+ #endif
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index 721dec2d820..a304754ab91 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -52,6 +52,15 @@ typedef struct QDevAlias
+     uint32_t arch_mask;
+ } QDevAlias;
+ 
++/* default virtio transport per architecture */
++#define QEMU_ARCH_VIRTIO_PCI (QEMU_ARCH_ALPHA | QEMU_ARCH_ARM | \
++                              QEMU_ARCH_HPPA | QEMU_ARCH_I386 | \
++                              QEMU_ARCH_MIPS | QEMU_ARCH_PPC |  \
++                              QEMU_ARCH_RISCV | QEMU_ARCH_SH4 | \
++                              QEMU_ARCH_SPARC | QEMU_ARCH_XTENSA)
++#define QEMU_ARCH_VIRTIO_CCW (QEMU_ARCH_S390X)
++#define QEMU_ARCH_VIRTIO_MMIO (QEMU_ARCH_M68K)
++
+ /* Please keep this table sorted by typename. */
+ static const QDevAlias qdev_alias_table[] = {
+     { "AC97", "ac97" }, /* -soundhw name */
 -- 
 2.20.1
 
