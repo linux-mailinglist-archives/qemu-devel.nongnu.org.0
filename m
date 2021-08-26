@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33D9B3F8CD3
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:18:32 +0200 (CEST)
-Received: from localhost ([::1]:57560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9806B3F8D12
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:31:01 +0200 (CEST)
+Received: from localhost ([::1]:39562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJJ1A-0002wi-Fn
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:18:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45306)
+	id 1mJJDQ-0003Wb-MD
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:31:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJIn7-0006J6-Ik
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:51 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:56243)
+ id 1mJIn9-0006KL-Rt
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:53 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:38844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJIn4-0000DU-Vn
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:49 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id g135so2229072wme.5
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:46 -0700 (PDT)
+ id 1mJIn5-0000Ex-S7
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:51 -0400
+Received: by mail-wr1-x436.google.com with SMTP id u16so6174602wrn.5
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=txe39M70WygZOjT/yHmjHImLKdjFIHC1BiWvrXKQ32U=;
- b=d3oil2KCpXkflnhJqi29DasjFxanUvuWZmgA5Z02D9YiFyZOQ+9v1cfO5EZNC+WOz9
- /vsxffFdGv/upWTNcdLbPG+IKubbLSYATZ3rnlKzaa+28dGB3FpPoqsOMgdx+Q+mh6K6
- tl5qhnrnYV6i7U6bInkFCrkB5nKTQSkcfI6dT+9hZsJ6exRfmq7UUZR3hH2fklUq2WI9
- CE1LA1eyorfHIqGV99dYZRmz6sOwOEClW6ynapNFkaXqy7KcbeOyNZmvSBGKL3E0dBCJ
- 8q4P4fVC44+XXW5qFi9w/RpRB8lHoLHmgeMQ0bmd3CtQERvKcfi/bSUWYHoEsiac/zs5
- Mgbg==
+ bh=Gi4ZFyDmzcI+JAkvfvygpZgorNneqYeRk7O8h/ldoXk=;
+ b=pNXF/kDRkrhNQ/uzslr+lkf2Teu5WtPKmfrCKyM9e1oOUPYL1z/zskt+KsBjxyseKO
+ q4NjJTGGaidaLjEu+WXTTMfWufdNYTgFgvfZVpTFbIKsoJjRC1Kcr3u3i8herUysxLCw
+ wVEJEkmAbb9RIK0/QnqyTZCnM0kfqgATSpkk2o5KpodCDWTL4nKnhKHvx0qi+n0s1Qxl
+ zANAw/KNGrDP+MJOnIfNnSFfvxaQo9c2xAs1B8edEWZaOpAo93nc9YwCPJBbRS5ReF7a
+ U9blgKng8X6q3IIQRFVjdg6DhUs5WMjR3ACf69GXnhjoOHoKepNN3b0fJpyMVPzwShhG
+ koOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=txe39M70WygZOjT/yHmjHImLKdjFIHC1BiWvrXKQ32U=;
- b=sX/p6EEsCaYWyjuEQm61RIivKsnq9bcyKylOcl9Lu/oRojdfZXO3x1bpWW+6Fwi+B5
- cYL4h4exH4wasMwqWs0UliTnTQ0Q9ydhKIaAgq6mni/z9Yw4CsKy4tyd24NCCyqyNxWv
- NfUiqL6Vw/og7wfS2uf2M8HQ5MiurBKkm6rDOltcY9d6BTQ7D6D6kVaXzNASBojuIKVg
- 7J0H8n+jK1K+9hMaqo9M9+iN2lm30i5snguFYXRxyX5CKM9zfJQCj/KutBEp9nBNi6q8
- pI/IIwJyfFQqnmFRodpO7OthJsus/7HmEf/tFqQjCUSvRNFj7Ay75ogePcioIlAs2NqI
- 2MUA==
-X-Gm-Message-State: AOAM532ELEb7bCTUTmwW2WnjiqTdTZ5Sz57nIjozL167VBsZEBWETVxh
- ay0gKPQGQNyUGs7sQEez5gtk/2k/A1ndFg==
-X-Google-Smtp-Source: ABdhPJwRlBxBCeApWpfEfA3XyMMHSoxTqnvL9VM2MYxGihkIkfrWJpbPDiDZ0FTeB8WehQE5T4mqjw==
-X-Received: by 2002:a1c:7402:: with SMTP id p2mr15388303wmc.111.1629997425556; 
- Thu, 26 Aug 2021 10:03:45 -0700 (PDT)
+ bh=Gi4ZFyDmzcI+JAkvfvygpZgorNneqYeRk7O8h/ldoXk=;
+ b=fdN4VmWk76fmswJc8VH/vPwQOq8lIorSO0n+B/OYKq90F/xspsH07Ld0J3g6uH4IcO
+ bJQ9ijuNN61wHTnMfxaSbSxScYEpfMagkmmmnaU0UE8UlRy0Gd6S6d0urvMBv0oaZXip
+ nI8HjEuZOB/HyhnHyJG3Qy1jBO8ao5t/L0M0aShmoWe9Z/XXXHdCSdT6wy+oQbFtXTsA
+ FHTtu3zWBbWtqYxYYxosZBtfFofa7cjdfds82SsEdcj/tA7QS0UWVfSVkraikzOwcNdZ
+ LFc4RMaKutSLGrC8CE5m0AK0zAW3zWok51pVQdUOJVp07pgDvUpgpnClOpbj3kUhF3S5
+ xFCA==
+X-Gm-Message-State: AOAM531xyjhUTf1FCqZMCR8+rooXGzz6ScAOc4x/jl/Xt47Dxi9T7APr
+ AxNHHrGI0C3DQcAPmBjONThznEcjcIh+jg==
+X-Google-Smtp-Source: ABdhPJxdMk9EBuFNerKpgMunCE8g3CL33ba2aEERdAl0zRDRxXIKDW7JidAq4mYlCxz5FGmMl7r9gw==
+X-Received: by 2002:adf:fcc5:: with SMTP id f5mr5368732wrs.114.1629997426482; 
+ Thu, 26 Aug 2021 10:03:46 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.44
+ by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.45
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 10:03:45 -0700 (PDT)
+ Thu, 26 Aug 2021 10:03:46 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 35/37] target/arm: Do hflags rebuild in cpsr_write()
-Date: Thu, 26 Aug 2021 18:03:05 +0100
-Message-Id: <20210826170307.27733-36-peter.maydell@linaro.org>
+Subject: [PULL 36/37] hw/arm/xlnx-versal: Add unimplemented APU mmio
+Date: Thu, 26 Aug 2021 18:03:06 +0100
+Message-Id: <20210826170307.27733-37-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210826170307.27733-1-peter.maydell@linaro.org>
 References: <20210826170307.27733-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,109 +85,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently we rely on all the callsites of cpsr_write() to rebuild the
-cached hflags if they change one of the CPSR bits which we use as a
-TB flag and cache in hflags.  This is a bit awkward when we want to
-change the set of CPSR bits that we cache, because it means we need
-to re-audit all the cpsr_write() callsites to see which flags they
-are writing and whether they now need to rebuild the hflags.
+From: Tong Ho <tong.ho@xilinx.com>
 
-Switch instead to making cpsr_write() call arm_rebuild_hflags()
-itself if one of the bits being changed is a cached bit.
+Add unimplemented APU mmio region to xlnx-versal for booting
+bare-metal guests built with standalone bsp, which access the
+region from one of the following places:
+  https://github.com/Xilinx/embeddedsw/blob/release-2020.2/lib/bsp/standalone/src/arm/ARMv8/64bit/armclang/boot.S#L139
+  https://github.com/Xilinx/embeddedsw/blob/release-2020.2/lib/bsp/standalone/src/arm/ARMv8/64bit/gcc/boot.S#L183
 
-We don't do the rebuild for the CPSRWriteRaw write type, because that
-kind of write is generally doing something special anyway.  For the
-CPSRWriteRaw callsites in the KVM code and inbound migration we
-definitely don't want to recalculate the hflags; the callsites in
-boot.c and arm-powerctl.c have to do a rebuild-hflags call themselves
-anyway because of other CPU state changes they make.
-
-This allows us to drop explicit arm_rebuild_hflags() calls in a
-couple of places where the only reason we needed to call it was the
-CPSR write.
-
-This fixes a bug where we were incorrectly failing to rebuild hflags
-in the code path for a gdbstub write to CPSR, which meant that you
-could make QEMU assert by breaking into a running guest, altering the
-CPSR to change the value of, for example, CPSR.E, and then
-continuing.
-
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Signed-off-by: Tong Ho <tong.ho@xilinx.com>
+Message-id: 20210823173818.201259-2-tong.ho@xilinx.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210817201843.3829-1-peter.maydell@linaro.org
 ---
- target/arm/cpu.h        | 10 ++++++++--
- linux-user/arm/signal.c |  2 --
- target/arm/helper.c     |  5 +++++
- 3 files changed, 13 insertions(+), 4 deletions(-)
+ include/hw/arm/xlnx-versal.h | 2 ++
+ hw/arm/xlnx-versal.c         | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 09760333ccd..6a987f65e41 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1398,11 +1398,17 @@ uint32_t cpsr_read(CPUARMState *env);
- typedef enum CPSRWriteType {
-     CPSRWriteByInstr = 0,         /* from guest MSR or CPS */
-     CPSRWriteExceptionReturn = 1, /* from guest exception return insn */
--    CPSRWriteRaw = 2,             /* trust values, do not switch reg banks */
-+    CPSRWriteRaw = 2,
-+        /* trust values, no reg bank switch, no hflags rebuild */
-     CPSRWriteByGDBStub = 3,       /* from the GDB stub */
- } CPSRWriteType;
+diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
+index 22a8fa5d11b..9b790517478 100644
+--- a/include/hw/arm/xlnx-versal.h
++++ b/include/hw/arm/xlnx-versal.h
+@@ -167,6 +167,8 @@ struct Versal {
+ #define MM_IOU_SCNTRS_SIZE          0x10000
+ #define MM_FPD_CRF                  0xfd1a0000U
+ #define MM_FPD_CRF_SIZE             0x140000
++#define MM_FPD_FPD_APU              0xfd5c0000
++#define MM_FPD_FPD_APU_SIZE         0x100
  
--/* Set the CPSR.  Note that some bits of mask must be all-set or all-clear.*/
-+/*
-+ * Set the CPSR.  Note that some bits of mask must be all-set or all-clear.
-+ * This will do an arm_rebuild_hflags() if any of the bits in @mask
-+ * correspond to TB flags bits cached in the hflags, unless @write_type
-+ * is CPSRWriteRaw.
-+ */
- void cpsr_write(CPUARMState *env, uint32_t val, uint32_t mask,
-                 CPSRWriteType write_type);
- 
-diff --git a/linux-user/arm/signal.c b/linux-user/arm/signal.c
-index 32b68ee302b..1dfcfd2d57b 100644
---- a/linux-user/arm/signal.c
-+++ b/linux-user/arm/signal.c
-@@ -289,7 +289,6 @@ setup_return(CPUARMState *env, struct target_sigaction *ka,
-     env->regs[14] = retcode;
-     env->regs[15] = handler & (thumb ? ~1 : ~3);
-     cpsr_write(env, cpsr, CPSR_IT | CPSR_T | CPSR_E, CPSRWriteByInstr);
--    arm_rebuild_hflags(env);
- 
-     return 0;
- }
-@@ -547,7 +546,6 @@ restore_sigcontext(CPUARMState *env, struct target_sigcontext *sc)
-     __get_user(env->regs[15], &sc->arm_pc);
-     __get_user(cpsr, &sc->arm_cpsr);
-     cpsr_write(env, cpsr, CPSR_USER | CPSR_EXEC, CPSRWriteByInstr);
--    arm_rebuild_hflags(env);
- 
-     err |= !valid_user_regs(env);
- 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index d2dd4aa0b80..a7ae78146d4 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -9246,6 +9246,8 @@ void cpsr_write(CPUARMState *env, uint32_t val, uint32_t mask,
-                 CPSRWriteType write_type)
- {
-     uint32_t changed_daif;
-+    bool rebuild_hflags = (write_type != CPSRWriteRaw) &&
-+        (mask & (CPSR_M | CPSR_E | CPSR_IL));
- 
-     if (mask & CPSR_NZCV) {
-         env->ZF = (~val) & CPSR_Z;
-@@ -9365,6 +9367,9 @@ void cpsr_write(CPUARMState *env, uint32_t val, uint32_t mask,
-     }
-     mask &= ~CACHED_CPSR_BITS;
-     env->uncached_cpsr = (env->uncached_cpsr & ~mask) | (val & mask);
-+    if (rebuild_hflags) {
-+        arm_rebuild_hflags(env);
-+    }
- }
- 
- /* Sign/zero extend */
+ #define MM_PMC_SD0                  0xf1040000U
+ #define MM_PMC_SD0_SIZE             0x10000
+diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+index d60eb4fb184..547a26603a3 100644
+--- a/hw/arm/xlnx-versal.c
++++ b/hw/arm/xlnx-versal.c
+@@ -378,6 +378,8 @@ static void versal_unimp(Versal *s)
+                         MM_CRL, MM_CRL_SIZE);
+     versal_unimp_area(s, "crf", &s->mr_ps,
+                         MM_FPD_CRF, MM_FPD_CRF_SIZE);
++    versal_unimp_area(s, "apu", &s->mr_ps,
++                        MM_FPD_FPD_APU, MM_FPD_FPD_APU_SIZE);
+     versal_unimp_area(s, "crp", &s->mr_ps,
+                         MM_PMC_CRP, MM_PMC_CRP_SIZE);
+     versal_unimp_area(s, "iou-scntr", &s->mr_ps,
 -- 
 2.20.1
 
