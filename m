@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5D73F8C77
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 18:51:26 +0200 (CEST)
-Received: from localhost ([::1]:56322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9FB53F8CAF
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:06:17 +0200 (CEST)
+Received: from localhost ([::1]:43124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJIb6-0005bK-PE
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 12:51:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41864)
+	id 1mJIpU-0007wf-72
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:06:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mJIZb-0004IX-ML; Thu, 26 Aug 2021 12:49:51 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:53189)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mJImY-0004yw-Fc
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:14 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39765)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mJIZa-0007VM-At; Thu, 26 Aug 2021 12:49:51 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id f10so2237938wml.2;
- Thu, 26 Aug 2021 09:49:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kOsiRJ/ygtaCN1xppetgNUGtcT8kKQB5FMc95f3zhCM=;
- b=anSdlRsXbTv6NNt4nUwsDte1ppSOdfvk5LIpmXk0D5frvgGQjRu9NbAokO+45V1gvz
- DQWogBrzujaJ8gUucaRPbKpLpbjTG6QkYa87RPflXLbr2pU/rmPItiygG/oPdgmbeoJ+
- pnZAr/5mja+AMJ8sdoeHkKcuT3JQ8cvXB0buF6pCYPDn1pSqgN0rTypXFm8OHYOxr7Ru
- DJyhNv4ulxPCIJDnvJUoWrrLEjycExWuED8IoK8sEn8ooEfA1s5cVLfQoj+FVHYfHjJm
- Icx0Lnu15mZ913+oOTSS64hJKTo2Wpt0LGcmpwHDKRhGhbJBSNkWK4lziBnnwXHTkcse
- 9tAg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mJImW-0008FO-93
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:14 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id z4so6154436wrr.6
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9H9wu9brDDFrPLGmL4uvD7B4quY2qC3Q91Wy9LZ6UQE=;
+ b=bydXt5LrNm1bDDqMoWuOEr9BHshEfvxn/D3zA+VaVdG2ZUxLHoMo4xHY/9pIWYxeOP
+ zE7NoxNvpCx1+PtM8q/uwGUvHmkZ/ZOyf1KCnJNK/Wg4qBx9qBBzg6Ro/NeQ8NZ+UfM+
+ ZmXZ85ZCacNGyNp0QtygKOgkZBPq+z0qa9A2mrVqCL7BzakzhM2NjbumFguNqCPoxyGc
+ GFtAZeCzkMNpiEtfeAJmKVswcR0bA/Sy5Vv2bPxPZK6s7vK/eoy5WmpmP3wXXa3D5uGV
+ Srz0KJ4LHXs8TI3+bI27MLPcccVGgsrt/Rm7lK0X9diaK9pvOYhICvAXuP/g4ED+NF3I
+ zjHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=kOsiRJ/ygtaCN1xppetgNUGtcT8kKQB5FMc95f3zhCM=;
- b=nYb/vmJcwOOfIrMX8U/Cw+Ga8oAk5iDKd5ttWUd8sCYkdAPtgENfYEdhXSnKH1oE9M
- eNeLGNOCMpCWUi2G0P8tUQojP6T07hI4RClVvadP5rb7WTlqZ6R0VvbrjoTbfAqo5tpl
- B38sIEfpkKTzu+dnKl7d82pMT78kn1TXJiCDLeFcFdXrgTaTfIcvxWEKYzaxBzWdmG44
- 7iagNm67dXVOrBitP56dpGKKvt4nl6bm4zmwYvhTawAaKbZ6DALMHvn/FdXKcEm8NfeE
- iMJy/I2Rv6HKkoCKbm6PiHL+IuP49OmUno14wUGqSekoQxGnNdBr9oiy7WplK8PDSJLi
- /G2A==
-X-Gm-Message-State: AOAM5334aIe7xfoN3jRVibTYWs2F3cjbmT6iI1zaxoRGdps4RQJX5u/r
- +OeIQK/2qrqHH5Jx38pWkiI=
-X-Google-Smtp-Source: ABdhPJx7QElLCaiaiauAWrh8dMUx5KkPL7y1DMV069jZaH+6Sayw92Zejy1OkIEYFD7caiaPIKWv1A==
-X-Received: by 2002:a05:600c:a41:: with SMTP id
- c1mr4517873wmq.109.1629996587860; 
- Thu, 26 Aug 2021 09:49:47 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id f5sm3059480wmb.47.2021.08.26.09.49.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Aug 2021 09:49:47 -0700 (PDT)
-Subject: Re: [PATCH v2 0/2] hw/arm/raspi: Remove deprecated raspi2/raspi3
- aliases
-To: Peter Maydell <peter.maydell@linaro.org>,
- Willian Rampazzo <wrampazz@redhat.com>, John Snow <jsnow@redhat.com>
-References: <20210708145514.1751773-1-f4bug@amsat.org>
- <CAFEAcA_ukc+t_BYddOSv7EF6O1qoVHGGj6sA5uumUgt0VMS_pA@mail.gmail.com>
- <CAFEAcA8PLvMUEzyu=sN4bn4mU30w1aajU+T+i__5jnB0QMZnqg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <7cbaaf94-e255-a91b-8d71-ca720943bfcc@amsat.org>
-Date: Thu, 26 Aug 2021 18:49:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=9H9wu9brDDFrPLGmL4uvD7B4quY2qC3Q91Wy9LZ6UQE=;
+ b=kwn+dlrlKA5butD4VbNb4PNtyY3PqaRO2ArbPGNXgO86rHv44PyuGPvuhsSxtIyyXT
+ 41hHgAw5somkmrEZcRo/HAOv8mNtqacmOus2opc6ds3nDj3jZupMoRyIiC6L+TrXpdRX
+ QGArrHAXrVdGxrwx1XEexcqkAnJXewA9+eApqP2njtZeLKraUo90tIzG82rOYhX3MGMR
+ 2E+KijHq+f3+6bsWdQ/PawSLWhhER7YBrY3GVkbspEcl0lV/8ZNh9b+fPzq6HA8cig3g
+ HNxv7qiWNJbn2Jo2Rop7UJjcBZ1lbfWeZAS2IjmxzDaKubKh5wtBXG02SmnegBdreUup
+ bpvA==
+X-Gm-Message-State: AOAM530rh7UuNA4nnDm6wDa3cX/JLD9pGXutkgPrRBbLRCbyFPFay9jU
+ fSrasjCQDLakO0ZBqY3AQMZkCCS4QMmJbw==
+X-Google-Smtp-Source: ABdhPJwGBqLGewpUsl35nAvRap08BD+h8MNHNRD+obuk2YqNgNBdlw1yNQO+zCTGMxgy+fStRJQpGg==
+X-Received: by 2002:adf:dcc7:: with SMTP id x7mr5213529wrm.173.1629997390509; 
+ Thu, 26 Aug 2021 10:03:10 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.08
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Aug 2021 10:03:09 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/37] target-arm queue
+Date: Thu, 26 Aug 2021 18:02:30 +0100
+Message-Id: <20210826170307.27733-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8PLvMUEzyu=sN4bn4mU30w1aajU+T+i__5jnB0QMZnqg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,42 +82,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+More accumulated patches from during the freeze...
 
-On 7/9/21 6:00 PM, Peter Maydell wrote:
-> On Fri, 9 Jul 2021 at 16:33, Peter Maydell <peter.maydell@linaro.org> wrote:
->>
->> On Thu, 8 Jul 2021 at 15:55, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>>
->>> Since v1:
->>> - renamed tests (Peter)
->>>
->>> Philippe Mathieu-Daudé (2):
->>>   tests: Remove uses of deprecated raspi2/raspi3 machine names
->>>   hw/arm/raspi: Remove deprecated raspi2/raspi3 aliases
->>
->>
->>
->> Applied to target-arm.next, thanks.
-> 
-> I found that this seems to break 'make check':
-> 
->  (09/52) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_raspi2_initrd:
-> ERROR: Could not perform graceful shutdown (40.38 s)
+The following changes since commit c83fcfaf8a54d0d034bd0edf7bbb3b0d16669be9:
 
-I can not reproduce. Maybe something got changed in Python/Avocado
-since... I'm going to simply respin (updating 6.1 -> 6.2).
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2021-08-26' into staging (2021-08-26 13:42:34 +0100)
 
-> 
-> Dropped from target-arm.next.
-> 
-> thanks
-> -- PMM
-> 
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210826
+
+for you to fetch changes up to d2e6f370138a7f32bc28b20dcd55374b7a638f39:
+
+  hw/arm/xlnx-zynqmp: Add unimplemented APU mmio (2021-08-26 17:02:01 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * hw/dma/xlnx-zdma, xlnx_csu_dma: Require 'dma' link property to be set
+ * hw/arm/Kconfig: no need to enable ACPI_MEMORY_HOTPLUG/ACPI_NVDIMM explicitly
+ * target/arm/cpu: Introduce sve_vq_supported bitmap
+ * docs/specs: Convert ACPI spec docs to rST
+ * arch_init: Clean up and refactoring
+ * hw/core/loader: In gunzip(), check index is in range before use, not after
+ * softmmu/physmem.c: Remove unneeded NULL check in qemu_ram_alloc_from_fd()
+ * softmmu/physmem.c: Check return value from realpath()
+ * Zero-initialize sockaddr_in structs
+ * raspi: Use error_fatal for SoC realize errors, not error_abort
+ * target/arm: Avoid assertion trying to use KVM and multiple ASes
+ * target/arm: Implement HSTR.TTEE
+ * target/arm: Implement HSTR.TJDBX
+ * target/arm: Do hflags rebuild in cpsr_write()
+ * hw/arm/xlnx-versal, xlnx-zynqmp: Add unimplemented APU mmio
+
+----------------------------------------------------------------
+Andrew Jones (4):
+      target/arm/cpu: Introduce sve_vq_supported bitmap
+      target/arm/kvm64: Ensure sve vls map is completely clear
+      target/arm/cpu64: Replace kvm_supported with sve_vq_supported
+      target/arm/cpu64: Validate sve vector lengths are supported
+
+Ani Sinha (1):
+      hw/arm/Kconfig: no need to enable ACPI_MEMORY_HOTPLUG/ACPI_NVDIMM explicitly
+
+Peter Maydell (26):
+      docs/specs/acpu_cpu_hotplug: Convert to rST
+      docs/specs/acpi_mem_hotplug: Convert to rST
+      docs/specs/acpi_pci_hotplug: Convert to rST
+      docs/specs/acpi_nvdimm: Convert to rST
+      MAINTAINERS: Add ACPI specs documents to ACPI and NVDIMM sections
+      softmmu: Use accel_find("xen") instead of xen_available()
+      monitor: Use accel_find("kvm") instead of kvm_available()
+      softmmu/arch_init.c: Trim down include list
+      meson.build: Define QEMU_ARCH in config-target.h
+      arch_init.h: Add QEMU_ARCH_HEXAGON
+      arch_init.h: Move QEMU_ARCH_VIRTIO_* to qdev-monitor.c
+      arch_init.h: Don't include arch_init.h unnecessarily
+      stubs: Remove unused arch_type.c stub
+      hw/core/loader: In gunzip(), check index is in range before use, not after
+      softmmu/physmem.c: Remove unneeded NULL check in qemu_ram_alloc_from_fd()
+      softmmu/physmem.c: Check return value from realpath()
+      net: Zero sockaddr_in in parse_host_port()
+      gdbstub: Zero-initialize sockaddr structs
+      tests/qtest/ipmi-bt-test: Zero-initialize sockaddr struct
+      tests/tcg/multiarch/linux-test: Zero-initialize sockaddr structs
+      raspi: Use error_fatal for SoC realize errors, not error_abort
+      target/arm: Avoid assertion trying to use KVM and multiple ASes
+      hw/arm/virt: Delete EL3 error checksnow provided in CPU realize
+      target/arm: Implement HSTR.TTEE
+      target/arm: Implement HSTR.TJDBX
+      target/arm: Do hflags rebuild in cpsr_write()
+
+Philippe Mathieu-Daudé (4):
+      hw/arm/xlnx-zynqmp: Realize qspi controller *after* qspi_dma
+      hw/dma/xlnx_csu_dma: Run trivial checks early in realize()
+      hw/dma/xlnx_csu_dma: Always expect 'dma' link property to be set
+      hw/dma/xlnx-zdma Always expect 'dma' link property to be set
+
+Tong Ho (2):
+      hw/arm/xlnx-versal: Add unimplemented APU mmio
+      hw/arm/xlnx-zynqmp: Add unimplemented APU mmio
+
+ docs/specs/acpi_cpu_hotplug.rst                    | 235 +++++++++++++++++++++
+ docs/specs/acpi_cpu_hotplug.txt                    | 160 --------------
+ docs/specs/acpi_mem_hotplug.rst                    | 128 +++++++++++
+ docs/specs/acpi_mem_hotplug.txt                    |  94 ---------
+ docs/specs/acpi_nvdimm.rst                         | 228 ++++++++++++++++++++
+ docs/specs/acpi_nvdimm.txt                         | 188 -----------------
+ .../{acpi_pci_hotplug.txt => acpi_pci_hotplug.rst} |  37 ++--
+ docs/specs/index.rst                               |   4 +
+ meson.build                                        |   2 +
+ include/hw/arm/xlnx-versal.h                       |   2 +
+ include/hw/arm/xlnx-zynqmp.h                       |   7 +
+ include/hw/dma/xlnx-zdma.h                         |   2 +-
+ include/hw/dma/xlnx_csu_dma.h                      |   2 +-
+ include/sysemu/arch_init.h                         |  15 +-
+ target/arm/cpu.h                                   |  17 +-
+ target/arm/helper.h                                |   2 +
+ target/arm/syndrome.h                              |   7 +
+ blockdev.c                                         |   1 -
+ gdbstub.c                                          |   4 +-
+ hw/arm/raspi.c                                     |   2 +-
+ hw/arm/virt.c                                      |   5 -
+ hw/arm/xlnx-versal.c                               |   4 +
+ hw/arm/xlnx-zynqmp.c                               |  86 ++++++--
+ hw/core/loader.c                                   |  35 ++-
+ hw/dma/xlnx-zdma.c                                 |  24 +--
+ hw/dma/xlnx_csu_dma.c                              |  31 ++-
+ hw/i386/pc.c                                       |   1 -
+ hw/i386/pc_piix.c                                  |   1 -
+ hw/i386/pc_q35.c                                   |   1 -
+ hw/mips/jazz.c                                     |   1 -
+ hw/mips/malta.c                                    |   1 -
+ hw/ppc/prep.c                                      |   1 -
+ hw/riscv/sifive_e.c                                |   1 -
+ hw/riscv/sifive_u.c                                |   1 -
+ hw/riscv/spike.c                                   |   1 -
+ hw/riscv/virt.c                                    |   1 -
+ linux-user/arm/signal.c                            |   2 -
+ monitor/qmp-cmds.c                                 |   3 +-
+ net/net.c                                          |   2 +
+ softmmu/arch_init.c                                |  66 ------
+ softmmu/physmem.c                                  |   5 +-
+ softmmu/qdev-monitor.c                             |   9 +
+ softmmu/vl.c                                       |   6 +-
+ stubs/arch_type.c                                  |   4 -
+ target/arm/cpu.c                                   |  23 ++
+ target/arm/cpu64.c                                 | 118 +++++------
+ target/arm/helper.c                                |  40 +++-
+ target/arm/kvm64.c                                 |   2 +-
+ target/arm/op_helper.c                             |  16 ++
+ target/arm/translate.c                             |  12 ++
+ target/ppc/cpu_init.c                              |   1 -
+ target/s390x/cpu-sysemu.c                          |   1 -
+ tests/qtest/ipmi-bt-test.c                         |   2 +-
+ tests/tcg/multiarch/linux-test.c                   |   4 +-
+ MAINTAINERS                                        |   5 +
+ hw/arm/Kconfig                                     |   2 -
+ stubs/meson.build                                  |   1 -
+ 57 files changed, 949 insertions(+), 707 deletions(-)
+ create mode 100644 docs/specs/acpi_cpu_hotplug.rst
+ delete mode 100644 docs/specs/acpi_cpu_hotplug.txt
+ create mode 100644 docs/specs/acpi_mem_hotplug.rst
+ delete mode 100644 docs/specs/acpi_mem_hotplug.txt
+ create mode 100644 docs/specs/acpi_nvdimm.rst
+ delete mode 100644 docs/specs/acpi_nvdimm.txt
+ rename docs/specs/{acpi_pci_hotplug.txt => acpi_pci_hotplug.rst} (51%)
+ delete mode 100644 stubs/arch_type.c
 
