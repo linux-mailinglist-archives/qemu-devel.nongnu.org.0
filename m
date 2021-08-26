@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F5B23F8A04
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 16:23:07 +0200 (CEST)
-Received: from localhost ([::1]:38834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B71B3F8A01
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 16:19:40 +0200 (CEST)
+Received: from localhost ([::1]:35168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJGHZ-00027l-QE
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 10:23:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36748)
+	id 1mJGEF-0007zf-LQ
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 10:19:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mJGBR-0006MM-94; Thu, 26 Aug 2021 10:16:45 -0400
+ id 1mJGBT-0006Oi-Px; Thu, 26 Aug 2021 10:16:47 -0400
 Received: from [201.28.113.2] (port=2975 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mJGBP-0003xy-Qz; Thu, 26 Aug 2021 10:16:45 -0400
+ id 1mJGBS-0003xy-EX; Thu, 26 Aug 2021 10:16:47 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 26 Aug 2021 11:15:24 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Thu, 26 Aug 2021 11:15:26 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 74510800930;
- Thu, 26 Aug 2021 11:15:24 -0300 (-03)
+ by power9a (Postfix) with ESMTP id BA959800930;
+ Thu, 26 Aug 2021 11:15:25 -0300 (-03)
 From: matheus.ferst@eldorado.org.br
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 1/2] include/qemu/int128.h: define struct Int128 according
- to the host endianness
-Date: Thu, 26 Aug 2021 11:14:45 -0300
-Message-Id: <20210826141446.2488609-2-matheus.ferst@eldorado.org.br>
+Subject: [PATCH v2 2/2] target/ppc: fix vextu[bhw][lr]x helpers
+Date: Thu, 26 Aug 2021 11:14:46 -0300
+Message-Id: <20210826141446.2488609-3-matheus.ferst@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210826141446.2488609-1-matheus.ferst@eldorado.org.br>
 References: <20210826141446.2488609-1-matheus.ferst@eldorado.org.br>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 26 Aug 2021 14:15:24.0833 (UTC)
- FILETIME=[D0184110:01D79A84]
+X-OriginalArrivalTime: 26 Aug 2021 14:15:26.0155 (UTC)
+ FILETIME=[D0E1F9B0:01D79A84]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -66,86 +65,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+These helpers shouldn't depend on the host endianness, as they only use
+shifts, ands, and int128_* methods.
+
+Fixes: 60caf2216bf0 ("target-ppc: add vextu[bhw][lr]x instructions")
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
 ---
- include/qemu/int128.h | 27 ++++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 7 deletions(-)
+ target/ppc/int_helper.c | 38 ++++++++++----------------------------
+ 1 file changed, 10 insertions(+), 28 deletions(-)
 
-diff --git a/include/qemu/int128.h b/include/qemu/int128.h
-index 64500385e3..17436d851d 100644
---- a/include/qemu/int128.h
-+++ b/include/qemu/int128.h
-@@ -162,24 +162,37 @@ static inline Int128 bswap128(Int128 a)
- 
- typedef struct Int128 Int128;
- 
-+/*
-+ * We guarantee that the in-memory byte representation of an
-+ * Int128 is that of a host-endian-order 128-bit integer
-+ * (whether using this struct or the __int128_t version of the type).
-+ * Some code using this type relies on this (eg when copying it into
-+ * guest memory or a gdb protocol buffer, or by using Int128 in
-+ * a union with other integer types).
-+ */
- struct Int128 {
-+#ifdef HOST_WORDS_BIGENDIAN
-+    int64_t hi;
-+    uint64_t lo;
-+#else
-     uint64_t lo;
-     int64_t hi;
-+#endif
- };
- 
- static inline Int128 int128_make64(uint64_t a)
- {
--    return (Int128) { a, 0 };
-+    return (Int128) { .lo = a, .hi = 0 };
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index efa833ef64..c2d3248d1e 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -1492,34 +1492,16 @@ void helper_vlogefp(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *b)
+     }
  }
  
- static inline Int128 int128_makes64(int64_t a)
- {
--    return (Int128) { a, a >> 63 };
-+    return (Int128) { .lo = a, .hi = a >> 63 };
- }
- 
- static inline Int128 int128_make128(uint64_t lo, uint64_t hi)
- {
--    return (Int128) { lo, hi };
-+    return (Int128) { .lo = lo, .hi = hi };
- }
- 
- static inline uint64_t int128_get64(Int128 a)
-@@ -210,22 +223,22 @@ static inline Int128 int128_one(void)
- 
- static inline Int128 int128_2_64(void)
- {
--    return (Int128) { 0, 1 };
-+    return int128_make128(0, 1);
- }
- 
- static inline Int128 int128_exts64(int64_t a)
- {
--    return (Int128) { .lo = a, .hi = (a < 0) ? -1 : 0 };
-+    return int128_make128(a, (a < 0) ? -1 : 0);
- }
- 
- static inline Int128 int128_and(Int128 a, Int128 b)
- {
--    return (Int128) { a.lo & b.lo, a.hi & b.hi };
-+    return int128_make128(a.lo & b.lo, a.hi & b.hi);
- }
- 
- static inline Int128 int128_or(Int128 a, Int128 b)
- {
--    return (Int128) { a.lo | b.lo, a.hi | b.hi };
-+    return int128_make128(a.lo | b.lo, a.hi | b.hi);
- }
- 
- static inline Int128 int128_rshift(Int128 a, int n)
+-#if defined(HOST_WORDS_BIGENDIAN)
+-#define VEXTU_X_DO(name, size, left)                                \
+-    target_ulong glue(helper_, name)(target_ulong a, ppc_avr_t *b)  \
+-    {                                                               \
+-        int index;                                                  \
+-        if (left) {                                                 \
+-            index = (a & 0xf) * 8;                                  \
+-        } else {                                                    \
+-            index = ((15 - (a & 0xf) + 1) * 8) - size;              \
+-        }                                                           \
+-        return int128_getlo(int128_rshift(b->s128, index)) &        \
+-            MAKE_64BIT_MASK(0, size);                               \
+-    }
+-#else
+-#define VEXTU_X_DO(name, size, left)                                \
+-    target_ulong glue(helper_, name)(target_ulong a, ppc_avr_t *b)  \
+-    {                                                               \
+-        int index;                                                  \
+-        if (left) {                                                 \
+-            index = ((15 - (a & 0xf) + 1) * 8) - size;              \
+-        } else {                                                    \
+-            index = (a & 0xf) * 8;                                  \
+-        }                                                           \
+-        return int128_getlo(int128_rshift(b->s128, index)) &        \
+-            MAKE_64BIT_MASK(0, size);                               \
+-    }
+-#endif
+-
++#define VEXTU_X_DO(name, size, left)                            \
++target_ulong glue(helper_, name)(target_ulong a, ppc_avr_t *b)  \
++{                                                               \
++    int index = (a & 0xf) * 8;                                  \
++    if (left) {                                                 \
++        index = 128 - index - size;                             \
++    }                                                           \
++    return int128_getlo(int128_rshift(b->s128, index)) &        \
++        MAKE_64BIT_MASK(0, size);                               \
++}
+ VEXTU_X_DO(vextublx,  8, 1)
+ VEXTU_X_DO(vextuhlx, 16, 1)
+ VEXTU_X_DO(vextuwlx, 32, 1)
 -- 
 2.25.1
 
