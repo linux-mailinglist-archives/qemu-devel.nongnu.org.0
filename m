@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B7E03F8CC8
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:15:21 +0200 (CEST)
-Received: from localhost ([::1]:48868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4EB33F8D33
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:41:43 +0200 (CEST)
+Received: from localhost ([::1]:59146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJIyF-0005WR-T7
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:15:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45152)
+	id 1mJJNm-0000OC-Ot
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:41:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJImz-0006AI-Pv
+ id 1mJIn0-0006B9-Gc
  for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:42 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:52743)
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:52744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJImx-00007V-W0
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:41 -0400
-Received: by mail-wm1-x329.google.com with SMTP id f10so2260321wml.2
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:39 -0700 (PDT)
+ id 1mJImy-000091-TC
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:42 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id f10so2260365wml.2
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=0BjkPVSUV5NOpt5gcu1p+i8xXiaDTXmQKZV/ES6sZ4M=;
- b=JrjPwr/Rt0ffFZ3LpiJ0St52SdmEicAteA0TVigkNVYezxOZ30DUsl6idN2Nz22sjM
- fthYCGhVxoeWB14oRrKLS5dXJjAxH5upg4pVEQneadY1ePYLKGfnZqk2RRbQToRzUnoO
- 76zxWkq53pOBasWTkXjgrl414BB5bao4DlGvcShFhA6NmH1vuo+HvuFQiD8KmYXLV992
- c5hZd3oeWjyG359u2vLWZrilQud/gxWhjPCoXfnSUfobWdGbnL5UgpauRZW7OlXsL5bP
- WJEHvwVDLIgGO1ltsAZO+K2wREktbtYMOUlwfzRIwwH0g2d7RpKDn1hqXrIP1MR1QfV0
- LGfw==
+ bh=JHk5K28csa+x2X+vcfWlcE7ytViOJHrw2fgmN/di2rw=;
+ b=R0pZzWSeXhzSzC6fVYaQMuXpey7SPsAzjluCbpJpmMBNQCsIxCqOkWO7PUAGv4ZMdl
+ 0CQVE0RPfHN8P0bryZV4Tn0WjUgTBisHgOfEW2vtYTRGF/fyMgVScGghLehxai5op7kt
+ qxHNXtmyuuaeM6NivTmlxfTFKovTxYJxwvvyV84PBtg8Ie26tvkrHXTm9+YQc4EPn0F6
+ Vfgz1XaYEyY308LwiROw4n4wVbFjOWTN4huDDixKEk7L/ZeSj/sEtaXDGKwh307ffK7D
+ yoYHOvl1f21NL0V7GNdvhNWJweBaWb1DfL0Hrz2N2nswxM0QSl7ygKebbcXgp6ISwjsf
+ lHhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0BjkPVSUV5NOpt5gcu1p+i8xXiaDTXmQKZV/ES6sZ4M=;
- b=Ae9UiLpitZ0M1BzWHNkXoxgGmOaiIk2znD9v8iq9ie6s+AVYougsd6naaI9tTkv0g+
- mzKO4ZvMTF9TBw1nVzj1I+2vHmS1keCkOw2YDlT9X3LUWs1OSo3VlOc1P38p2Ri1mBzo
- beGGWwVa1IVvVoDi42aQ0R+eo4Eyq9So5sa45tCcHd8I77xsm1l9xHe4+kOgPfpfwBS2
- HSQd2/y/c4IF4GziLPo6KapqffuJUtBGxAL4NzvK1IJeOw8/sWsEUgqp4t2L8FEpmCOz
- Lya0BDsfr9Sz8OBVJIYnRfG7SficzzCxdlYEVxnTNaRvFQaF49/jZQ33Z1yIXGuK5aHh
- 5+GA==
-X-Gm-Message-State: AOAM532ySbik6DZ5yJziEpj+nCNGNzpPpdThVoF11+j5eUIAiDa+HB79
- JB8lx/5EscGYzo3GuF5jinc07hNzOn8J9Q==
-X-Google-Smtp-Source: ABdhPJzqMppBSuwLadm/PMZENgSzJax1bCC6tXtdf5Lk293LfoqfM6ZBIfK1m1HymcpjhtLN7WrtXw==
-X-Received: by 2002:a05:600c:1d11:: with SMTP id
- l17mr4624035wms.58.1629997418666; 
- Thu, 26 Aug 2021 10:03:38 -0700 (PDT)
+ bh=JHk5K28csa+x2X+vcfWlcE7ytViOJHrw2fgmN/di2rw=;
+ b=g/IN4Z5Wf8hF2AoOfTB6jQd/wai0u30XyH9kTMcLT5GvhHPu02yEi4/VoaiM4K6AHe
+ 0YTlcqxc+Ge2a7FxcxEfICkq7LAr4eC9SvVWFPSAS9DNYemHCWJCmiTY/he1AHQIB2IT
+ fu1DKBv40ir5uHn+MV7OyGOsQlTxqvhivzcR06domAeGwizSvoNk6mbl52kaxOxLD1iW
+ IqBPzGOLEkiyir/BdrsU4BFytecWinEjaOLlqFuUrdaN+jYA/tSwo5u56a7ewiZ6PX7F
+ 92gkn5XP602WKmNGu3qwmXIB3E5KJPmkO6CEUPZJtNaTPrDABlrpyVSB3uXOqS2xp9YP
+ /qrg==
+X-Gm-Message-State: AOAM530bcSt/KZk4UYqhcWn5qqmg6YxnSgEDF0yDtsW/haQ0JzQWEeGz
+ pwaUqmB9jnU7EDHyNKEZxADCSg6XPOKubA==
+X-Google-Smtp-Source: ABdhPJzUtoWEMdFHZlPuYF0MCrawvf0feTt1LZG6iutqdx3xHY9FxtkjET0vSTwDqIADAGlZ2rZa+w==
+X-Received: by 2002:a1c:1904:: with SMTP id 4mr4627965wmz.93.1629997419526;
+ Thu, 26 Aug 2021 10:03:39 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.37
+ by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.38
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 10:03:38 -0700 (PDT)
+ Thu, 26 Aug 2021 10:03:39 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/37] tests/qtest/ipmi-bt-test: Zero-initialize sockaddr struct
-Date: Thu, 26 Aug 2021 18:02:58 +0100
-Message-Id: <20210826170307.27733-29-peter.maydell@linaro.org>
+Subject: [PULL 29/37] tests/tcg/multiarch/linux-test: Zero-initialize sockaddr
+ structs
+Date: Thu, 26 Aug 2021 18:02:59 +0100
+Message-Id: <20210826170307.27733-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210826170307.27733-1-peter.maydell@linaro.org>
 References: <20210826170307.27733-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,32 +87,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Zero-initialize the sockaddr_in struct that we're about to fill in
-and pass to bind(), to ensure we don't leave possible
-implementation-defined extension fields as uninitialized garbage.
+Zero-initialize sockaddr_in and sockaddr_un structs that we're about
+to fill in and pass to bind() or connect(), to ensure we don't leave
+possible implementation-defined extension fields as uninitialized
+garbage.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Corey Minyard <cminyard@mvista.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Message-id: 20210813150506.7768-4-peter.maydell@linaro.org
+Message-id: 20210813150506.7768-5-peter.maydell@linaro.org
 ---
- tests/qtest/ipmi-bt-test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/tcg/multiarch/linux-test.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/ipmi-bt-test.c b/tests/qtest/ipmi-bt-test.c
-index 8492f02a9c3..19612e9405a 100644
---- a/tests/qtest/ipmi-bt-test.c
-+++ b/tests/qtest/ipmi-bt-test.c
-@@ -378,7 +378,7 @@ static void test_enable_irq(void)
-  */
- static void open_socket(void)
+diff --git a/tests/tcg/multiarch/linux-test.c b/tests/tcg/multiarch/linux-test.c
+index c8c6aeddeb3..019d8175ca6 100644
+--- a/tests/tcg/multiarch/linux-test.c
++++ b/tests/tcg/multiarch/linux-test.c
+@@ -251,7 +251,7 @@ static void test_time(void)
+ static int server_socket(void)
  {
--    struct sockaddr_in myaddr;
-+    struct sockaddr_in myaddr = {};
-     socklen_t addrlen;
+     int val, fd;
+-    struct sockaddr_in sockaddr;
++    struct sockaddr_in sockaddr = {};
  
-     myaddr.sin_family = AF_INET;
+     /* server socket */
+     fd = chk_error(socket(PF_INET, SOCK_STREAM, 0));
+@@ -271,7 +271,7 @@ static int server_socket(void)
+ static int client_socket(uint16_t port)
+ {
+     int fd;
+-    struct sockaddr_in sockaddr;
++    struct sockaddr_in sockaddr = {};
+ 
+     /* server socket */
+     fd = chk_error(socket(PF_INET, SOCK_STREAM, 0));
 -- 
 2.20.1
 
