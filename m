@@ -2,65 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1962E3F8AB5
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 17:08:42 +0200 (CEST)
-Received: from localhost ([::1]:35998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B8A63F8AEA
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 17:21:32 +0200 (CEST)
+Received: from localhost ([::1]:51966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJGzb-00077H-MR
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 11:08:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47534)
+	id 1mJHC7-0001Sc-Ha
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 11:21:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mJGyD-0006QD-Lg
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 11:07:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46328)
+ (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
+ id 1mJH7c-0002nW-Bl; Thu, 26 Aug 2021 11:16:52 -0400
+Received: from atcsqr.andestech.com ([60.248.187.195]:22682)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mJGy8-0004H6-Tt
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 11:07:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629990423;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=G2Q2x7WOo9oasuIA3XWldpXDoxM+ky2X6T8xE/JmZNk=;
- b=TX4UMwcV8xbtaUFs76+NebtceXbPeZLv6N1enAp8bPWepjpvefci5jKwaqJ5p+NnshjdT+
- 7EuDPHb7vK2pR4w2F2sBcP/maVC7BATsPOI2tash6vNNIakSp+qckaD/ECP7Srwxr6OvG1
- 2y6mWwD/IpJO6XurLAR1DIj5eHn6Nbw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-448-PCjM7CiCMkOrfpPea-3Y0w-1; Thu, 26 Aug 2021 11:07:01 -0400
-X-MC-Unique: PCjM7CiCMkOrfpPea-3Y0w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 182B61853026;
- Thu, 26 Aug 2021 15:07:00 +0000 (UTC)
-Received: from redhat.com (ovpn-112-96.phx2.redhat.com [10.3.112.96])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F1F2B5D9FC;
- Thu, 26 Aug 2021 15:06:54 +0000 (UTC)
-Date: Thu, 26 Aug 2021 10:06:53 -0500
-From: Eric Blake <eblake@redhat.com>
-To: isaku.yamahata@gmail.com
-Subject: Re: [RFC PATCH v2 10/44] hw/i386: Initialize TDX via KVM ioctl()
- when kvm_type is TDX
-Message-ID: <20210826150653.3vurw57fluf53cnt@redhat.com>
-References: <cover.1625704980.git.isaku.yamahata@intel.com>
- <d173ac1f4524153b738309530c6a6599aeaa18fd.1625704981.git.isaku.yamahata@intel.com>
+ (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
+ id 1mJH7X-0002GW-Hk; Thu, 26 Aug 2021 11:16:52 -0400
+Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
+ by ATCSQR.andestech.com with ESMTP id 17QFDUZ1021710;
+ Thu, 26 Aug 2021 23:13:30 +0800 (GMT-8)
+ (envelope-from ruinland@andestech.com)
+Received: from atcfdc88.andestech.com (10.0.15.120) by ATCPCS16.andestech.com
+ (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0;
+ Thu, 26 Aug 2021 23:13:33 +0800
+From: Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>
+To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>, <alistair23@gmail.com>, 
+ <wangjunqiang@iscas.ac.cn>, <bin.meng@windriver.com>
+Subject: [RFC PATCH 0/2] riscv: Adding custom CSR related Kconfig options
+Date: Thu, 26 Aug 2021 23:13:30 +0800
+Message-ID: <20210826151332.32753-1-ruinland@andestech.com>
+X-Mailer: git-send-email 2.17.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d173ac1f4524153b738309530c6a6599aeaa18fd.1625704981.git.isaku.yamahata@intel.com>
-User-Agent: NeoMutt/20210205-739-420e15
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.0.15.120]
+X-DNSRBL: 
+X-MAIL: ATCSQR.andestech.com 17QFDUZ1021710
+Received-SPF: pass client-ip=60.248.187.195;
+ envelope-from=ruinland@andestech.com; helo=ATCSQR.andestech.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,81 +55,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, cohuck@redhat.com, ehabkost@redhat.com,
- kvm@vger.kernel.org, mst@redhat.com, seanjc@google.com, alistair@alistair23.me,
- xiaoyao.li@intel.com, qemu-devel@nongnu.org,
- Sean Christopherson <sean.j.christopherson@intel.com>, mtosatti@redhat.com,
- erdemaktas@google.com, pbonzini@redhat.com
+Cc: Ruinland ChuanTzu Tsai <ruinland@andestech.com>, dylan@andestech.com,
+ imruinland.cs00@g2.nctu.edu.tw, alankao@andestech.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jul 07, 2021 at 05:54:40PM -0700, isaku.yamahata@gmail.com wrote:
-> From: Xiaoyao Li <xiaoyao.li@intel.com>
-> 
-> Introduce tdx_ioctl() to invoke TDX specific sub-ioctls of
-> KVM_MEMORY_ENCRYPT_OP.  Use tdx_ioctl() to invoke KVM_TDX_INIT, by way
-> of tdx_init(), during kvm_arch_init().  KVM_TDX_INIT configures global
-> TD state, e.g. the canonical CPUID config, and must be executed prior to
-> creating vCPUs.
-> 
-> Note, this doesn't address the fact that Qemu may change the CPUID
-> configuration when creating vCPUs, i.e. punts on refactoring Qemu to
-> provide a stable CPUID config prior to kvm_arch_init().
-> 
-> Explicitly set subleaf index and flags when adding CPUID
-> Set the index and flags when adding a CPUID entry to avoid propagating
-> stale state from a removed entry, e.g. when the CPUID 0x4 loop bails, it
-> can leave non-zero index and flags in the array.
-> 
-> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
-> Co-developed-by: Sean Christopherson <sean.j.christopherson@intel.com>
-> Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-> Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
-> ---
+From: Ruinland ChuanTzu Tsai <ruinland@andestech.com>
 
-> +++ b/qapi/qom.json
-> @@ -760,6 +760,18 @@
->              '*cbitpos': 'uint32',
->              'reduced-phys-bits': 'uint32' } }
->  
-> +##
-> +# @TdxGuestProperties:
-> +#
-> +# Properties for tdx-guest objects.
-> +#
-> +# @debug: enable debug mode (default: off)
-> +#
-> +# Since: 6.0
+During my modification on my previous patch series for custom CSR support, I
+believe this issue deserves its own discussion (or debate) because it's _not_
+as simple as "just put those options in Kconfig".
 
-This should be 6.2
+The obstables I've encountered and the kluges I came up is listed as follow :
 
-> +##
-> +{ 'struct': 'TdxGuestProperties',
-> +  'data': { '*debug': 'bool' } }
-> +
->  ##
->  # @ObjectType:
->  #
-> @@ -802,6 +814,7 @@
->      'secret_keyring',
->      'sev-guest',
->      's390-pv-guest',
-> +    'tdx-guest',
->      'throttle-group',
->      'tls-creds-anon',
->      'tls-creds-psk',
-> @@ -858,6 +871,7 @@
->        'secret':                     'SecretProperties',
->        'secret_keyring':             'SecretKeyringProperties',
->        'sev-guest':                  'SevGuestProperties',
-> +      'tdx-guest':                  'TdxGuestProperties',
->        'throttle-group':             'ThrottleGroupProperties',
->        'tls-creds-anon':             'TlsCredsAnonProperties',
->        'tls-creds-psk':              'TlsCredsPskProperties',
+(1) Due to the design of top-level meson.build, all Kconfig options will land
+into `*-config-devices.h` since minikconf will be only used after config_target
+being processed. This will let to the fact that linux-users won't be able to
+use custom CSR code properly becuase they only includes `*-config-devices.h`.
+And that is reasonble due to the fact that changes on cpu.c and csr.c is a 
+target-related matter and linux-user mode shouldn't include device related 
+headers in most of cases.
+
+So, modify meson.build to parse target/riscv/Kconfig during config_target phase
+is without doubts necessary.
+
+(2) Kconfig option `RISCV_CUSTOM_CSR` is introduced for RISC-V cpu models to 
+toggle it at its will. Yet due to the fact that csr.o and cpu.o are linked
+altogether for all CPU models, the suffer will be shared without option.
+The only reasonable way to seperate build the fire lane which seperates vendor
+flavored cpu and spec-conformed ones, is to build them seperately with options
+toggled diffrently, just like RV32 and RV64 shares almost the same source base,
+yet the sources are compiled with differnt flags/definitions.
+
+To achieve that, miraculously, we can just put *.mak files into `target`
+directoy, because that's how `configure` enumerates what targets are supported.
+
+(3) The longest days are not over yet, if we take a good look at how the minikconf
+is invoked during config_devices and in what way *.mak presented its options
+inside `default-configs/devices`, we can see that *.mak files there is formated
+in `CONFIG_*` style and the minikconf is reading directly during config_device
+phase. That's totally different from *.mak files presented in
+`default-configs/targets`. To make the parsing logic consistent, I
+introduce a rv_custom directory inside which contains minikconf-parsable
+mak files.
+
+With this patches, ones can build a A25/AX25 linux-user platform by :
+$ ./configure --target-list=riscv64-andes-linux-user,riscv32-andes-linux-user
+$ make
+
+P.S. The pacthes from :
+https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg00913.html
+is needed. A clean-up and modified version will be sent out soon.
+
+P.P.S.
+I know these parts won't be easy to digest, and the further iterations will be
+needed, so I didn't ask my colleagues to sign-off for now.
+
+Cordially yours,
+Ruinland ChuanTzu Tsai
+
+Ruinland ChuanTzu Tsai (2):
+  Adding Kconfig options for custom CSR support and Andes CPU model
+  Adding necessary files for Andes platforms, cores to enable custom CSR
+    support
+
+ Kconfig                                       |  1 +
+ .../devices/riscv32-andes-softmmu.mak         | 17 ++++++++++++
+ .../devices/riscv64-andes-softmmu.mak         | 17 ++++++++++++
+ .../targets/riscv32-andes-linux-user.mak      |  1 +
+ .../targets/riscv32-andes-softmmu.mak         |  1 +
+ .../targets/riscv64-andes-linux-user.mak      |  1 +
+ .../targets/riscv64-andes-softmmu.mak         |  1 +
+ .../targets/rv_custom/no_custom.mak           |  0
+ .../rv_custom/riscv32-andes-linux-user.mak    |  1 +
+ .../rv_custom/riscv32-andes-softmmu.mak       |  1 +
+ .../targets/rv_custom/riscv32-linux-user.mak  |  1 +
+ .../targets/rv_custom/riscv32-softmmu.mak     |  1 +
+ .../rv_custom/riscv64-andes-linux-user.mak    |  1 +
+ .../rv_custom/riscv64-andes-softmmu.mak       |  1 +
+ .../targets/rv_custom/riscv64-linux-user.mak  |  1 +
+ .../targets/rv_custom/riscv64-softmmu.mak     |  1 +
+ meson.build                                   | 26 +++++++++++++++++++
+ target/riscv/Kconfig                          |  6 +++++
+ 18 files changed, 79 insertions(+)
+ create mode 100644 default-configs/devices/riscv32-andes-softmmu.mak
+ create mode 100644 default-configs/devices/riscv64-andes-softmmu.mak
+ create mode 120000 default-configs/targets/riscv32-andes-linux-user.mak
+ create mode 120000 default-configs/targets/riscv32-andes-softmmu.mak
+ create mode 120000 default-configs/targets/riscv64-andes-linux-user.mak
+ create mode 120000 default-configs/targets/riscv64-andes-softmmu.mak
+ create mode 100644 default-configs/targets/rv_custom/no_custom.mak
+ create mode 100644 default-configs/targets/rv_custom/riscv32-andes-linux-user.mak
+ create mode 100644 default-configs/targets/rv_custom/riscv32-andes-softmmu.mak
+ create mode 120000 default-configs/targets/rv_custom/riscv32-linux-user.mak
+ create mode 120000 default-configs/targets/rv_custom/riscv32-softmmu.mak
+ create mode 100644 default-configs/targets/rv_custom/riscv64-andes-linux-user.mak
+ create mode 100644 default-configs/targets/rv_custom/riscv64-andes-softmmu.mak
+ create mode 120000 default-configs/targets/rv_custom/riscv64-linux-user.mak
+ create mode 120000 default-configs/targets/rv_custom/riscv64-softmmu.mak
+ create mode 100644 target/riscv/Kconfig
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.32.0
 
 
