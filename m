@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0621E3F8552
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 12:28:58 +0200 (CEST)
-Received: from localhost ([::1]:49716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8DB73F85C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 12:43:27 +0200 (CEST)
+Received: from localhost ([::1]:56954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJCcz-0008IM-4F
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 06:28:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39238)
+	id 1mJCqy-0005VQ-Rg
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 06:43:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mJCbU-0007cV-2j
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 06:27:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20521)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mJCpP-0004np-OS
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 06:41:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21855)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mJCbS-00048s-NO
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 06:27:23 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mJCpL-0005hy-Aj
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 06:41:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629973641;
+ s=mimecast20190719; t=1629974501;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=UqwcFB3NH3TUfjydBburEvpc2bl5R15xjZ+9ZsXFipg=;
- b=dBY2q5nHTFhs/xnagJHz69+gqnR0X3b7qJRWppKzuZsHoAw2krZCrAq5Z4Q6zk2XpQwIkt
- tuh13bR+mFZCP+QJ9c5pabvbtrgMeEi8BaWcWdMWtggGFdX1N5kkn+LfYbFJ4kHdiaAz3k
- 0O1NUWFUo2OFj7CDRj7YeAzONfgO6qY=
+ bh=WUSm/I+IuKQjkjPbmUi8oDeiiUHMswrLJ2gKcEGs3AM=;
+ b=RgxCqg7O/9a4PevcYNvErW8joAObf8LCP64HiUBB7seruEL4S9gPzrgTmxz3pFJ2M1jnCu
+ YdRd/kMKJm0k86bLOgfZSuW9E50vg4VN6ZnroLxryYai4wPPUeL97NpsTyLbVxYoRmV4gE
+ aU82KHrIShFozVl0qH5e9eYAyYcHHLI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-68-gFX7_2fpNk6WKXISYqTPmQ-1; Thu, 26 Aug 2021 06:27:20 -0400
-X-MC-Unique: gFX7_2fpNk6WKXISYqTPmQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-384-5eWfWPlyNSmcwndz2142DA-1; Thu, 26 Aug 2021 06:41:38 -0400
+X-MC-Unique: 5eWfWPlyNSmcwndz2142DA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 134EFC2A7;
- Thu, 26 Aug 2021 10:27:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90114100806A;
+ Thu, 26 Aug 2021 10:41:36 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0584E19C59;
- Thu, 26 Aug 2021 10:27:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 651D25C1D5;
+ Thu, 26 Aug 2021 10:41:31 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 5FC5F18003AA; Thu, 26 Aug 2021 12:27:13 +0200 (CEST)
-Date: Thu, 26 Aug 2021 12:27:13 +0200
+ id D420818003AA; Thu, 26 Aug 2021 12:41:29 +0200 (CEST)
+Date: Thu, 26 Aug 2021 12:41:29 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: isaku.yamahata@gmail.com
-Subject: Re: [RFC PATCH v2 10/44] hw/i386: Initialize TDX via KVM ioctl()
- when kvm_type is TDX
-Message-ID: <20210826102713.sv4744gt6zersind@sirius.home.kraxel.org>
+Subject: Re: [RFC PATCH v2 15/44] i386/tdx: Add hook to require generic
+ device loader
+Message-ID: <20210826104129.ukhut4lnttybf3sy@sirius.home.kraxel.org>
 References: <cover.1625704980.git.isaku.yamahata@intel.com>
- <d173ac1f4524153b738309530c6a6599aeaa18fd.1625704981.git.isaku.yamahata@intel.com>
+ <c16cb881efabc16a94ff7c02cd8c7abe24411e3f.1625704981.git.isaku.yamahata@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d173ac1f4524153b738309530c6a6599aeaa18fd.1625704981.git.isaku.yamahata@intel.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <c16cb881efabc16a94ff7c02cd8c7abe24411e3f.1625704981.git.isaku.yamahata@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -83,14 +83,24 @@ Cc: isaku.yamahata@intel.com, cohuck@redhat.com, ehabkost@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+> +    /*
+> +     * Sanitiy check for tdx:
+> +     * TDX uses generic loader to load bios instead of pflash.
+> +     */
+> +    for (i = 0; i < ARRAY_SIZE(pcms->flash); i++) {
+> +        if (drive_get(IF_PFLASH, 0, i)) {
+> +            error_report("pflash not supported by VM type, "
+> +                         "use -device loader,file=<path>");
+> +            exit(1);
+> +        }
 
->        'sev-guest':                  'SevGuestProperties',
-> +      'tdx-guest':                  'TdxGuestProperties',
+I suspect that catches only "-drive if=pflash,..."
+but not "-machine pflash0=..."
 
-Ah, see, it's already there ...
+Also: why does tdx not support flash?
+Should be explained in the commit message.
 
-take care,
+thanks,
   Gerd
 
 
