@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D6D23F8CC3
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:13:25 +0200 (CEST)
-Received: from localhost ([::1]:40390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B7E03F8CC8
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:15:21 +0200 (CEST)
+Received: from localhost ([::1]:48868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJIwO-0008Jo-2A
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:13:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45128)
+	id 1mJIyF-0005WR-T7
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:15:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJImy-000681-Nv
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:40 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:46729)
+ id 1mJImz-0006AI-Pv
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:42 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:52743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJImx-00006g-1B
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:40 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- m25-20020a7bcb99000000b002e751bcb5dbso2632449wmi.5
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:38 -0700 (PDT)
+ id 1mJImx-00007V-W0
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:41 -0400
+Received: by mail-wm1-x329.google.com with SMTP id f10so2260321wml.2
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=7G7OytPvUukFyBCYon8vLCnjKjIk5le1XSdFjDgae8k=;
- b=gCEnH5BnOQia1jM+VJhFBwh3DzunjGhBK0mmVtEVOG07UUnnlY1nmdAjR/YkggVIrO
- I5q0e1q9ZQb2uObjJOirzJaZdG2M4GH2S2UUxOP30RO8MoMUzuY5zxMJKqfgwcppQatc
- hJ97c0tBUAVg/1YGAFXlimsE10nj/NHoyLiYQUeKIbkzN6SKHHORU74BPnTgVBM29cri
- Q0xcMmcu9YpuSc5z5Sw7yCBAu3EaUUrlKKVoURpaOmHrLeoenClQTnToK5+lrghIjYyU
- qdNslqtdI1TVeejkd3Vvo0MmAvvks9eH9QvtXFluVbQPT+Lq7qTtzkzL7OD52RSdpee6
- mbIQ==
+ bh=0BjkPVSUV5NOpt5gcu1p+i8xXiaDTXmQKZV/ES6sZ4M=;
+ b=JrjPwr/Rt0ffFZ3LpiJ0St52SdmEicAteA0TVigkNVYezxOZ30DUsl6idN2Nz22sjM
+ fthYCGhVxoeWB14oRrKLS5dXJjAxH5upg4pVEQneadY1ePYLKGfnZqk2RRbQToRzUnoO
+ 76zxWkq53pOBasWTkXjgrl414BB5bao4DlGvcShFhA6NmH1vuo+HvuFQiD8KmYXLV992
+ c5hZd3oeWjyG359u2vLWZrilQud/gxWhjPCoXfnSUfobWdGbnL5UgpauRZW7OlXsL5bP
+ WJEHvwVDLIgGO1ltsAZO+K2wREktbtYMOUlwfzRIwwH0g2d7RpKDn1hqXrIP1MR1QfV0
+ LGfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7G7OytPvUukFyBCYon8vLCnjKjIk5le1XSdFjDgae8k=;
- b=MoEMhf/DgvLa1kkCqQFYIoFMomQyPVibLIVWvzp8YAx6XTLcneynhehoI3b/AKXZ9C
- DIj2X47qvs6njfpSZCY0urWp9MdGKZD5VZ5P3CBr6V7v8lI8fwIlgpInjb8lMDKXQJa+
- xa9EWkVQgYFqgID6MEw8RH26nMKa19OGjGBNTeuiSkDUir38R6IueEuNQre+l+0xhMzT
- R14O8/vCfKpiWCoN5XXX0IUeW3HX8izdvh5Cva+N/gjxEuM50gvu9QMAEy0dG6C1wUuG
- NTNbArnkcUu6sq10dyCjNzBeTQoewCU9suU1axid5fbCBhewtsLxQoIIxR63VcWfQpLe
- R8SA==
-X-Gm-Message-State: AOAM533iYQ8HehGuvUhOinapQ4ABO+WzfSOxCF1jvmfwim2M2Tr5FMD5
- pJvuMCLpYdsS5KuFMbDrpZz0TryDEBk8pw==
-X-Google-Smtp-Source: ABdhPJzU/1fiLfl7zkQCeSID96ietXsvCod22JRM2hGfLr+jD69Nz62iHcXewRujlYtjBATtn07o3A==
-X-Received: by 2002:a1c:25c7:: with SMTP id l190mr1105053wml.118.1629997417779; 
- Thu, 26 Aug 2021 10:03:37 -0700 (PDT)
+ bh=0BjkPVSUV5NOpt5gcu1p+i8xXiaDTXmQKZV/ES6sZ4M=;
+ b=Ae9UiLpitZ0M1BzWHNkXoxgGmOaiIk2znD9v8iq9ie6s+AVYougsd6naaI9tTkv0g+
+ mzKO4ZvMTF9TBw1nVzj1I+2vHmS1keCkOw2YDlT9X3LUWs1OSo3VlOc1P38p2Ri1mBzo
+ beGGWwVa1IVvVoDi42aQ0R+eo4Eyq9So5sa45tCcHd8I77xsm1l9xHe4+kOgPfpfwBS2
+ HSQd2/y/c4IF4GziLPo6KapqffuJUtBGxAL4NzvK1IJeOw8/sWsEUgqp4t2L8FEpmCOz
+ Lya0BDsfr9Sz8OBVJIYnRfG7SficzzCxdlYEVxnTNaRvFQaF49/jZQ33Z1yIXGuK5aHh
+ 5+GA==
+X-Gm-Message-State: AOAM532ySbik6DZ5yJziEpj+nCNGNzpPpdThVoF11+j5eUIAiDa+HB79
+ JB8lx/5EscGYzo3GuF5jinc07hNzOn8J9Q==
+X-Google-Smtp-Source: ABdhPJzqMppBSuwLadm/PMZENgSzJax1bCC6tXtdf5Lk293LfoqfM6ZBIfK1m1HymcpjhtLN7WrtXw==
+X-Received: by 2002:a05:600c:1d11:: with SMTP id
+ l17mr4624035wms.58.1629997418666; 
+ Thu, 26 Aug 2021 10:03:38 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.36
+ by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.37
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 10:03:37 -0700 (PDT)
+ Thu, 26 Aug 2021 10:03:38 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/37] gdbstub: Zero-initialize sockaddr structs
-Date: Thu, 26 Aug 2021 18:02:57 +0100
-Message-Id: <20210826170307.27733-28-peter.maydell@linaro.org>
+Subject: [PULL 28/37] tests/qtest/ipmi-bt-test: Zero-initialize sockaddr struct
+Date: Thu, 26 Aug 2021 18:02:58 +0100
+Message-Id: <20210826170307.27733-29-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210826170307.27733-1-peter.maydell@linaro.org>
 References: <20210826170307.27733-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,40 +87,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Zero-initialize sockaddr_in and sockaddr_un structs that we're about
-to fill in and pass to bind() or connect(), to ensure we don't leave
-possible implementation-defined extension fields as uninitialized
-garbage.
+Zero-initialize the sockaddr_in struct that we're about to fill in
+and pass to bind(), to ensure we don't leave possible
+implementation-defined extension fields as uninitialized garbage.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Message-id: 20210813150506.7768-3-peter.maydell@linaro.org
+Reviewed-by: Corey Minyard <cminyard@mvista.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+Message-id: 20210813150506.7768-4-peter.maydell@linaro.org
 ---
- gdbstub.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qtest/ipmi-bt-test.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/gdbstub.c b/gdbstub.c
-index 52bde5bdc97..5d8e6ae3cd9 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -3218,7 +3218,7 @@ static bool gdb_accept_socket(int gdb_fd)
- 
- static int gdbserver_open_socket(const char *path)
+diff --git a/tests/qtest/ipmi-bt-test.c b/tests/qtest/ipmi-bt-test.c
+index 8492f02a9c3..19612e9405a 100644
+--- a/tests/qtest/ipmi-bt-test.c
++++ b/tests/qtest/ipmi-bt-test.c
+@@ -378,7 +378,7 @@ static void test_enable_irq(void)
+  */
+ static void open_socket(void)
  {
--    struct sockaddr_un sockaddr;
-+    struct sockaddr_un sockaddr = {};
-     int fd, ret;
+-    struct sockaddr_in myaddr;
++    struct sockaddr_in myaddr = {};
+     socklen_t addrlen;
  
-     fd = socket(AF_UNIX, SOCK_STREAM, 0);
-@@ -3247,7 +3247,7 @@ static int gdbserver_open_socket(const char *path)
- 
- static bool gdb_accept_tcp(int gdb_fd)
- {
--    struct sockaddr_in sockaddr;
-+    struct sockaddr_in sockaddr = {};
-     socklen_t len;
-     int fd;
- 
+     myaddr.sin_family = AF_INET;
 -- 
 2.20.1
 
