@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD9523F8A2B
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 16:35:05 +0200 (CEST)
-Received: from localhost ([::1]:52660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36B8C3F8A33
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 16:37:13 +0200 (CEST)
+Received: from localhost ([::1]:55360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJGTA-00043j-BI
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 10:35:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39960)
+	id 1mJGVE-0005zQ-9P
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 10:37:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJGS1-0003Mi-PL
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 10:33:54 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:42628)
+ id 1mJGSX-0003w5-V4
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 10:34:25 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:36814)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJGS0-00071i-4J
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 10:33:53 -0400
-Received: by mail-ej1-x634.google.com with SMTP id mf2so6725536ejb.9
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 07:33:51 -0700 (PDT)
+ id 1mJGSW-0007NF-IH
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 10:34:25 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id bt14so6785019ejb.3
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 07:34:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZR+r3Hd9RUSYE6RRLgu82tljSYVCTkEZVekQxApExag=;
- b=InIshAK77SBTqju2rK9PrSUUl4L81d2hhXDq/FnGuxTKX8rnrYJvEOgRKrEBYfdzlR
- QoBaP6HjaBftunjsXGYA0lh3iNx3pkERNkXECtCm/BfnR5OvrqVvUL0Gca2A4iCpapZ0
- kluPgrd70/Wsup3NQ/OQD593MPgKFpnj116VvctWclSd7w79lw9qud8ASeyM3RV/3NuD
- lYrplQhBzNqWidIpsmwtxE7lOE17Zu2P1JEd1NAfeobumFgu5HDvFlX8DzZs8ODVStxn
- 2n/ksBiUofFrLA1YWrHMNi9FJMrtOC22Mp6e+XsbxHWFOsK5S13YghZbycr68wIyUu1S
- Z8iA==
+ :cc; bh=K4M2k49sKgs9+BYo+Q62pKMf6eC3jy/hgFeVkcKzM70=;
+ b=fUoHR+1ouOlfg5SzRscasy6GZPdUxrHQPpGQH0dkhNJJP+ABgwW5thRy9VjkyYxxXa
+ fBcefZUUys/Iz+7bOnm9KGW31pHZkQAQsHDVFidq4xu9caATmsAKILd/LPU4xG6qfnoT
+ vTWtbe08QHeFVPAEIOCTEv2Yo7ysGiIBZMHkoMYT0vsfGWRgZkz5RbXSFlqMA4BTMBhG
+ Ec2lnftlpiTOOZJx3rV8KBfkcMw4xRMDN/ouNYfwf5SkMEGYKQN2BB/p9J8HZFemas9H
+ GRwe3i67IEhvXag3OVq5rdcso2NnXm+ZgkxHLveiqvajGAteWdNX/EEatNWGU7hyoIJK
+ +xAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ZR+r3Hd9RUSYE6RRLgu82tljSYVCTkEZVekQxApExag=;
- b=lW0p/omO3lh8uWF04SzDy3+tbAtnWxcQPwxZc2oDfLDrNTGROuaCkACQponDB7vakL
- y3ULN9NenEz1mMy1Kp2KmgApBBZ6ZvPHFsOlEtStZQiPA1xYWMqNZkb7AmWfjFO12oYm
- TwlLND4WlLD1cnWuVCcV6ATB6S31C2T9HfcqGsG5ROytfNtImkrp5ip198R5uQpc/2EI
- HabWjPDL6c4VcjqlC+2VWQUru8nU2u9Y0s2JLT9cYuPTVWvPZcAaQ1bEBtooaD9AQHoW
- 4LhG6Z883GQeVSjSUJcr4v8KNIZv5eaVYwXZBwpPrqni12UbY5zLfKwg8nHf6vNMhGbh
- DqXg==
-X-Gm-Message-State: AOAM5314/J/OB9puPfxqz4zNehmjnWUDXKnKm9g1vouGComvkykmIzGS
- 8HN8IhFxGejmFRqu3so3NoVsiG2p8JkqktS7DRn8/A==
-X-Google-Smtp-Source: ABdhPJxZhN9YZJ8PrQC0UTDkT6ICB/QedXVr1Ty+eIen8fbnShZ5+2fG2nKWKKxUxqoG+5Vz2INCKzf8BsxRgL1TJl0=
-X-Received: by 2002:a17:907:1048:: with SMTP id
- oy8mr4524899ejb.382.1629988430406; 
- Thu, 26 Aug 2021 07:33:50 -0700 (PDT)
+ bh=K4M2k49sKgs9+BYo+Q62pKMf6eC3jy/hgFeVkcKzM70=;
+ b=WJHw4E0Ry+UyfPU3AKMD8jJxkyM0byduYI+C863Tm8fVkG0hXYLBA//zHq7TUXKKfM
+ Q8t5a9hixCpz77VR09nipojLl5gPaeDE2wrzhZBAvAaaIWaAkpfZlqMKwFGfhy+7o8lG
+ W7kDKgLjlH55GIH2Oc5iIST57J2+LdVZHjDg3FnMJ+s8Zau4MkdVcKUVrj3M+r4Mm3Tx
+ qh1xM46U9P2CgPyab8tK9yekjGF3ATkJ5lKEX3eivBo+/tE02aCsK/HE9uuC84J+UypM
+ eqZjeTWx+rTAaYRZiulSpvlVVqns9SA8pKGBeNyP9FsOfsgdpugqixqjmfCCEWA19Pld
+ +dXA==
+X-Gm-Message-State: AOAM5333RZjyKiyyf6dlwWcDnptXHcmg1Ti3ZrZd3XfGxljP9G2U5IsB
+ kP35/gkZmr1Lv34VxrzdGGySG9UMnbKICAxVB4KtBtWIPVs=
+X-Google-Smtp-Source: ABdhPJzYUicDmEasrZRgnJQWPggdUQXgQLNf/iJusUI2yb39F9M6JS0avXw0urKV6yoVXUQUwtLUs4DuiFXf60T9um8=
+X-Received: by 2002:a17:906:3497:: with SMTP id
+ g23mr4657342ejb.85.1629988463274; 
+ Thu, 26 Aug 2021 07:34:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210727170414.3368-1-peter.maydell@linaro.org>
- <20210730145558.6b3d67e9@redhat.com>
-In-Reply-To: <20210730145558.6b3d67e9@redhat.com>
+References: <20210730105947.28215-1-peter.maydell@linaro.org>
+In-Reply-To: <20210730105947.28215-1-peter.maydell@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 26 Aug 2021 15:33:03 +0100
-Message-ID: <CAFEAcA9Pv9Ygb2jSL=p-GigxQqsEP3PLwAfe3PLsdHcNp-oOEA@mail.gmail.com>
-Subject: Re: [PATCH 0/5] docs/specs: Convert various ACPI docs to rST
-To: Igor Mammedov <imammedo@redhat.com>
+Date: Thu, 26 Aug 2021 15:33:35 +0100
+Message-ID: <CAFEAcA-kqz9B9r4vA8X1EnU81LVX24W6Rq9B6H7bgHi0yzBW2Q@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 0/8] softmmu: Clean up arch_init.c
+To: QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,32 +77,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Jul 2021 at 13:56, Igor Mammedov <imammedo@redhat.com> wrote:
+On Fri, 30 Jul 2021 at 11:59, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> On Tue, 27 Jul 2021 18:04:09 +0100
-> Peter Maydell <peter.maydell@linaro.org> wrote:
+> This patchset does some cleanups of arch_init.c.  The bit I started
+> out caring about was getting rid of the TARGET_* ifdef ladder (in
+> patch 4 we make meson.build define QEMU_ARCH in config-target.h
+> instead) -- this kind of ifdef ladder is nasty because it's always
+> another place in the code that needs updating when we add or remove a
+> target.  I think this was one of the last remaining "every single
+> arch touches this" ones.  The rest of the patchset is stuff I noticed
+> when I started looking at what else arch_init.c was doing.
 >
-> > This patchset does a basic conversion of four ACPI related files in
-> > docs/specs from plain text to rST format.  The aim of the conversion
-> > is not to produce a maximally pretty result, but simply to do a
-> > low-effort conversion that at least results in this documentation
-> > appearing in our manuals rather than merely lying around in the
-> > source tree.
-> >
-> > Patch 4 adds the documentation files to MAINTAINERS file
-> > blocks; feel free to suggest I've picked the wrong ones.
->
-> compiled, and checked end result (html docs) which looks fine to me,
-> so
->
-> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> The graphic_width/height/depth target-specific defaults that
+> arch_init.c does also look like they could use cleanup.  My guess is
+> that we should instead have a per-machine default graphics
+> width/height/depth.  But that's a separate thing and more work than I
+> felt like doing this morning :-)
 
-Thanks; I'll take this via target-arm.next.
+I'll take this via target-arm.next unless anybody objects.
 
+thanks
 -- PMM
 
