@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A15B3F8FD5
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 23:18:04 +0200 (CEST)
-Received: from localhost ([::1]:48070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EDA63F902C
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 23:34:15 +0200 (CEST)
+Received: from localhost ([::1]:45728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJMl4-0005vw-KN
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 17:17:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38972)
+	id 1mJN0o-000076-Cw
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 17:34:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mJMfw-0006AU-DF
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 17:12:40 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:41703)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mJMfw-0006Cl-WF
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 17:12:41 -0400
+Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:35458)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mJMfu-0006s8-GL
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mJMfv-0006sF-C1
  for qemu-devel@nongnu.org; Thu, 26 Aug 2021 17:12:40 -0400
-Received: by mail-io1-xd44.google.com with SMTP id j18so5556732ioj.8
+Received: by mail-il1-x131.google.com with SMTP id h29so4749669ila.2
  for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 14:12:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rCADJHtb2smO/fMTHMh99sfxayWkHU7m8yH8FtJZoTM=;
- b=d5kCbVfCUasGCJ3XpdotZQv/qGNxWDK6oI5rsBdZhIEJzpWVWD1xQ/OSTXd+fJm/kn
- M1h71j59GlTOewbQufCNUdPLp5UBd0vaT6tcw8eHwE3ATZ3wGgQeGh5XEfbyqSdFPEXe
- C5na9iqCf+K4W0qXEADf1uCTLleKEoAQR2IRzDdr+TzgzwTtbrE2HhqmjYzjaqFr++SE
- zNPORdjeu+U2dS06zvLo3gfjGaGH8H6aB9FRj646rOiqLSXbtT6QL/uAYIe93G+yDPuZ
- vsuQaw8OqfncxLN/S5RCM44WRIdVYHkzLa2QsdkJogYcgmiityKbkz4zOKK2WX3bh+mX
- ocjg==
+ bh=Tu+3Mzgedz4+rqUQiO3m+rYiNxkgF+2/GqBtZIvUR6I=;
+ b=CGlnBzKdvQgaVgPWCrFCQHyFDjB6HDYlYNMqrvWyO0+YvcSCuoQn0xC8uO+caFGcLU
+ C/9O4BF7TojcPROZ5m7I9Zd/zHgUe6fV5chYMKfdxrzdFRGzH0W0M93sCGoXMr4SGl/4
+ QgWWH1HHkUkfeYeab2nLCrZsEfS3ZjZQhEVUjrAYPbY4FgaElqndiCBmt4/qHo5LbZB9
+ LQPDQymqdKNwKqc7bYi+mDLQ33KDrmWNdhUySyPMNFQeogExrTlLh/Ot5seANZhnrLVJ
+ soT+8pWEW/EKu8POYze9mEMA4nnCgTgr6I9bbi/F2B+VHOOFzuLsUlmcKzO8TVYtRw4n
+ 3DHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rCADJHtb2smO/fMTHMh99sfxayWkHU7m8yH8FtJZoTM=;
- b=oFowBADqtqMd0Ql9RXUfQFatSsc0PaDeg2EPgBJHs+WLmB39ZJBbnufLMNoJbYl3bc
- jybWRfgmCjKhQZNVKk7ogv86zgrBr9i+X8YRcZzheF1L3vhAeUdMD8PLfZOeD5dG6Nmr
- PWysxd2hvHTpR30KGAG5Fq5PV6QUULRTuKhZ9QQlqvh16itfeL1z0iziCGKTtwBjcRId
- wuHVEBN4HtDXUFdyj78mB65+MtQjQGdkfM12yAv97I2q3rVYQXjzc9vq+0h2vsZIOLVT
- DTOS/Kwgnmx7lQZMpiRU/TQBb2f7epwRzzz/iR8CZ6cLvFohAqbEMTQirjWo4ey6LMXo
- 4tKg==
-X-Gm-Message-State: AOAM530ycf11KVMGVYFHsWeT2rm915zYB1uxZjEov1XbGQFipzjDxlSe
- CKiURqCxQ1JiWz5inOZ1PZRjB1N9pIwPh0IZ
-X-Google-Smtp-Source: ABdhPJzUR6VIkkN/uhsIW3zSqx1sQSi+2r317IzKz6rXaJhZEzGdpWJ+mIZRINehWtLQZ+MKWMNYxg==
-X-Received: by 2002:a6b:ec0b:: with SMTP id c11mr4497707ioh.207.1630012357149; 
- Thu, 26 Aug 2021 14:12:37 -0700 (PDT)
+ bh=Tu+3Mzgedz4+rqUQiO3m+rYiNxkgF+2/GqBtZIvUR6I=;
+ b=dEd+2vCEiAlqBddvWQRjD71Ljmj9Ia5lZo+eP6TUqjwM1hpdoPEo/Zu7UmR9gGHX6d
+ O5hM4/V2ApB3nsjxAhHYDvj3F1is6+GDM96u5eiIny0lBHVjrmAo0qGOKl8DtnrH3/PA
+ OnSM0d1GQiBr0Mvxn0/advAG+7qf1ABeRKpiYCAV1qZC2m5hxkHkImA//qHa87iY4lVh
+ Yumai7yhiZ5vaXDcOu8VzB+mZwP+vpDZQ3YjKiF+dAfBFnISmIejd4sqi2LcfM7sdQqF
+ POqXf+RrUGPsQrGfA1P6Yw9syF03mzEns385B9XMJaguIiJWC06DpcaPhH5Gbbo1HDXv
+ c/Nw==
+X-Gm-Message-State: AOAM533tB5kCHJe5S5oZNTDGAZ/ivZVk8Sf0zlMqkhqDFLOwn9YPYfjJ
+ KlK/Y3LSV4QKPSxocYiYPgAoZp48xp/Vs3zE
+X-Google-Smtp-Source: ABdhPJwxXcVL/crUYRDGSvwK6S7J0WLD3NjJLLsyovdIJaJy7p/LE5vNCqjGQyRViGkhrX7LyZy1Bg==
+X-Received: by 2002:a92:d848:: with SMTP id h8mr3842766ilq.230.1630012358051; 
+ Thu, 26 Aug 2021 14:12:38 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id a17sm2348633ilp.75.2021.08.26.14.12.36
+ by smtp.gmail.com with ESMTPSA id a17sm2348633ilp.75.2021.08.26.14.12.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 14:12:36 -0700 (PDT)
+ Thu, 26 Aug 2021 14:12:37 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/43] bsd-user: add host-os.h
-Date: Thu, 26 Aug 2021 15:11:34 -0600
-Message-Id: <20210826211201.98877-17-imp@bsdimp.com>
+Subject: [PATCH v2 17/43] bsd-user: Include host-os.h from main
+Date: Thu, 26 Aug 2021 15:11:35 -0600
+Message-Id: <20210826211201.98877-18-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210826211201.98877-1-imp@bsdimp.com>
 References: <20210826211201.98877-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d44;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd44.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::131;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x131.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,107 +88,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@bsdimp.com>
 
-Host OS specific bits for this implementation go in this file.
+Include host-os.h from main.c to pick up the default OS to emulate.  Set
+that default in main().
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/freebsd/host-os.h | 23 +++++++++++++++++++++++
- bsd-user/netbsd/host-os.h  | 23 +++++++++++++++++++++++
- bsd-user/openbsd/host-os.h | 23 +++++++++++++++++++++++
- 3 files changed, 69 insertions(+)
- create mode 100644 bsd-user/freebsd/host-os.h
- create mode 100644 bsd-user/netbsd/host-os.h
- create mode 100644 bsd-user/openbsd/host-os.h
+ bsd-user/freebsd/host-os.h | 2 ++
+ bsd-user/main.c            | 4 +++-
+ bsd-user/netbsd/host-os.h  | 2 ++
+ bsd-user/openbsd/host-os.h | 2 ++
+ 4 files changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/bsd-user/freebsd/host-os.h b/bsd-user/freebsd/host-os.h
-new file mode 100644
-index 0000000000..a799164324
---- /dev/null
+index a799164324..ceb1543d06 100644
+--- a/bsd-user/freebsd/host-os.h
 +++ b/bsd-user/freebsd/host-os.h
-@@ -0,0 +1,23 @@
-+/*
-+ *  FreeBSD host dependent code and definitions
-+ *
-+ *  Copyright (c) 2013 Stacey D. Son
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
+@@ -20,4 +20,6 @@
+ #ifndef __HOST_OS_H_
+ #define __HOST_OS_H_
+ 
++#define HOST_DEFAULT_BSD_TYPE target_freebsd
 +
-+#ifndef __HOST_OS_H_
-+#define __HOST_OS_H_
+ #endif /*!__HOST_OS_H_ */
+diff --git a/bsd-user/main.c b/bsd-user/main.c
+index 3f6f4080e8..3a23e63cf8 100644
+--- a/bsd-user/main.c
++++ b/bsd-user/main.c
+@@ -41,6 +41,8 @@
+ #include "exec/log.h"
+ #include "trace/control.h"
+ 
++#include "host-os.h"
 +
-+#endif /*!__HOST_OS_H_ */
+ int singlestep;
+ unsigned long mmap_min_addr;
+ uintptr_t guest_base;
+@@ -352,7 +354,7 @@ int main(int argc, char **argv)
+     const char *gdbstub = NULL;
+     char **target_environ, **wrk;
+     envlist_t *envlist = NULL;
+-    bsd_type = target_openbsd;
++    bsd_type = HOST_DEFAULT_BSD_TYPE;
+ 
+     if (argc <= 1) {
+         usage();
 diff --git a/bsd-user/netbsd/host-os.h b/bsd-user/netbsd/host-os.h
-new file mode 100644
-index 0000000000..b44cb7fdda
---- /dev/null
+index b44cb7fdda..ccbea076e6 100644
+--- a/bsd-user/netbsd/host-os.h
 +++ b/bsd-user/netbsd/host-os.h
-@@ -0,0 +1,23 @@
-+/*
-+ *  NetBSD host dependent code and definitions
-+ *
-+ *  Copyright (c) 2013 Stacey D. Son
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
+@@ -20,4 +20,6 @@
+ #ifndef __HOST_OS_H_
+ #define __HOST_OS_H_
+ 
++#define HOST_DEFAULT_BSD_TYPE target_netbsd
 +
-+#ifndef __HOST_OS_H_
-+#define __HOST_OS_H_
-+
-+#endif /*!__HOST_OS_H_ */
+ #endif /*!__HOST_OS_H_ */
 diff --git a/bsd-user/openbsd/host-os.h b/bsd-user/openbsd/host-os.h
-new file mode 100644
-index 0000000000..9083555f26
---- /dev/null
+index 9083555f26..79468073e4 100644
+--- a/bsd-user/openbsd/host-os.h
 +++ b/bsd-user/openbsd/host-os.h
-@@ -0,0 +1,23 @@
-+/*
-+ *  OpenBSD host dependent code and definitions
-+ *
-+ *  Copyright (c) 2013 Stacey D. Son
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
+@@ -20,4 +20,6 @@
+ #ifndef __HOST_OS_H_
+ #define __HOST_OS_H_
+ 
++#define HOST_DEFAULT_BSD_TYPE target_openbsd
 +
-+#ifndef __HOST_OS_H_
-+#define __HOST_OS_H_
-+
-+#endif /*!__HOST_OS_H_ */
+ #endif /*!__HOST_OS_H_ */
 -- 
 2.32.0
 
