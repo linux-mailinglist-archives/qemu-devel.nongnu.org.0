@@ -2,97 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B20B3F8333
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 09:40:07 +0200 (CEST)
-Received: from localhost ([::1]:45816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 577533F833B
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 09:43:33 +0200 (CEST)
+Received: from localhost ([::1]:48158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJ9za-00009Z-0I
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 03:40:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60806)
+	id 1mJA2u-0001wX-D9
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 03:43:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mJ9yL-0007fH-Q6
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 03:38:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42811)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mJ9yI-00047M-Bg
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 03:38:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629963525;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NxyuCmhXnqP1VjbJDb9nxVDyugVP8jjeS7ev9WRf980=;
- b=UAWyZbRt2GnZoRlE1KH9ys0RWz+/ncFBdXaIHPSUaeTym3BG8ZLK6Z3XwASPU3OkH8tKE7
- pc/rj53glZKFGKnGAyngds6feQNF2K6L5ZrRUmNA9V3QxrHc4ulmyKtPD6wstLcrZ9sGx8
- oObgoBNFXFqXm72r2t+AUW5S4VB6exs=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-8dX_W7pSMQeaWgsgAM1-tw-1; Thu, 26 Aug 2021 03:38:44 -0400
-X-MC-Unique: 8dX_W7pSMQeaWgsgAM1-tw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- t15-20020a5d42cf000000b001565f9c9ee8so556661wrr.2
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 00:38:44 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mJA1e-0001Gl-0y; Thu, 26 Aug 2021 03:42:14 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:41522)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mJA1Y-0006uA-4l; Thu, 26 Aug 2021 03:42:13 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id u9so3475123wrg.8;
+ Thu, 26 Aug 2021 00:42:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=v8es6gbLCJsCDDNzwbACyTEiHAj7Ie+3La7R7ZFWeCA=;
+ b=rfevmODYEFospwqAoSJ3xrxeBEaOmMcAwhsVPipTC83xjDjuC/Y2ABvF5sZCZoUkEM
+ TAnsYh8twBwfC5n4HqARsU7HLLJmitptS8YEcqOcIIL0h4sv/yTgJHn0z8+2STDJnSA9
+ flnyUUWIAN9PmrYD1CBTf1umozuPHXNwt/SVVyEpivSD/Tfo4P1WL4l2qFfgFbQ6dbEo
+ MRi0GU9t4PqilkKtoYFOUlO5hc6fLmDU6BRTu8bMDtmRNtIvcufIjZGpAzPJ3TnbM7OV
+ z4OrL8SixOdsYUnRp80WN+wDS6qFG4Xhk3B2MAWEjQ8ZmrK745k3fbVT/N5Mx+ucpe/o
+ 3vIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=NxyuCmhXnqP1VjbJDb9nxVDyugVP8jjeS7ev9WRf980=;
- b=cEVIshDl2yKyYH173A9+kszQYdWrwOoImwaPFXxr+6w/GxPXovILxKCLIqI5U3oDUm
- f1nKhCaKHyH9Rc5Ksjk2BTuYKiQnkj9J6V9gsNY7es9XKMjZGDINvU7qr5bKPkz8kmCz
- hCEkx5/FIZQzpIfV+pOqhbAFjoh7q1OluISqtoDsCgoUYQnJe15X9UFT79giegg8u2Lu
- JtP/dTrq8CoWPQj5rVe001mE2+0vBAbZAgQnMQK0x8kzekIJA090ZqG35BN+Rq5DLPYa
- pyxhR7v5smqtrZiglKiechM5n5AXKH2YZOvUmITMiIT+b1eWT6cxSaZyDJHie0c93LlH
- +NPA==
-X-Gm-Message-State: AOAM533an5yLu9WdJNWLfDoJ+ToEoIZAnD4WL5gLUsfFxA5Gle2w02Pn
- YSKeQIsqxsUmICfx9LCF435CXwk1fl/b9TUl2RxoQm2yKDUAPIb6jBbE1GHsrEGF5svdKyY4Z+U
- mYCYeZAcWwC3HoSULxbVRU10yPG56D0VlIPo/NZWad8IQ9bUi1EpgWhq1wquq+8n1
-X-Received: by 2002:a1c:9a0e:: with SMTP id c14mr10815183wme.119.1629963522573; 
- Thu, 26 Aug 2021 00:38:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwi2vdl61aelY/zZnYLv6f7zZGx4+hrLkIr+q09bChgvCIcNhtLDYFthcfQbXgoqDQq0Qf+ww==
-X-Received: by 2002:a1c:9a0e:: with SMTP id c14mr10815161wme.119.1629963522320; 
- Thu, 26 Aug 2021 00:38:42 -0700 (PDT)
+ bh=v8es6gbLCJsCDDNzwbACyTEiHAj7Ie+3La7R7ZFWeCA=;
+ b=i5tbMiwr6L7AkbVALPMy7xnXujBDB5PzVEk5uEYkIqqVwStA+eNGGl1HOjq+PyDqkm
+ SlhiSlm6x7GX8E3gcyOtqoIXetWkwo/Ll8th+BObSHX/t2P24FqWaEkQ8Zi1wDufLu8p
+ VdNUT41iUIeWdGiqV2aAA5a9kCfDHoii6kKnhkjPEATLQg110S6e/5VsTTVTB5soS4p8
+ V3pC/qOhWIEB4j6ZsMuHovdDCsZBXqgrvGJWOVFNlaXdnsOLY3+yX3cNVguOcNx4BjxK
+ dLNeBMf/GEcCPgR3RLzfArVHYZasu2/PXhzRBOuZU/EgSacTlWz+MJc0ui1oN5KLlNvK
+ 3Srg==
+X-Gm-Message-State: AOAM533dyGcbzP7JtKN6TxrUUXI3Lo/lfsgOe9CWOvSp+0xQgoc7vLCE
+ 1lgmmOyyGryL0+JVx5XoKz9iUm6T5aY=
+X-Google-Smtp-Source: ABdhPJwQ7iiy9fSEtDQZIFeLl7ER89GB65arxzMA4QgI51F8HmQePiRcZmRT3kAei0+fw3aOuXVFcg==
+X-Received: by 2002:a5d:4f8d:: with SMTP id d13mr2204251wru.315.1629963726021; 
+ Thu, 26 Aug 2021 00:42:06 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id t8sm2521543wrx.27.2021.08.26.00.38.41
+ by smtp.gmail.com with ESMTPSA id n10sm2161642wrw.76.2021.08.26.00.42.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Aug 2021 00:38:41 -0700 (PDT)
-Subject: Re: [PATCH] RFC: build-sys: drop dtc submodule
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
-References: <20210825124309.223622-1-marcandre.lureau@redhat.com>
- <c79fb3c7-e6cc-adea-b694-ffe1f25c0d59@amsat.org>
- <CAFEAcA8YNwe-PCt2VuY4Fhjbyqnm2G7BpZDs6wyXNFh3pmee2Q@mail.gmail.com>
- <CAJ+F1CKx=24Hssrz=yz+D8Q2nTXcgaLeMFdB5tfHfdWRAZ-p+g@mail.gmail.com>
- <CAFEAcA-_Xcep33jG91M3j=bySpWS60zKyydm-jO8nn8nKg_6aQ@mail.gmail.com>
- <CAJ+F1CKo2hVhwKs+fH-W5rq04gCPiwjxe5HfFsg16gvTnH5U-A@mail.gmail.com>
- <YScGLe9HTm404Jc8@yekko>
- <CAJ+F1C+fxCyW+SrORudyoBi=ZYQD_v2MkAdRbaVgW-gh9580QA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <39d9b033-6d51-7571-c503-a4e8eabc298f@redhat.com>
-Date: Thu, 26 Aug 2021 09:38:40 +0200
+ Thu, 26 Aug 2021 00:42:05 -0700 (PDT)
+Subject: Re: [RFC 04/10] hw/mos6522: Rename timer callback functions
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Finn Thain <fthain@linux-m68k.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+References: <cover.1629799776.git.fthain@linux-m68k.org>
+ <e9a9b7f8c4530109b083bf19c547532f14db32a1.1629799776.git.fthain@linux-m68k.org>
+ <e7042a4f-1958-3e42-2d2e-9cf63eda6f5a@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <c75f83ee-0e00-f911-4b5c-4273cdb349d0@amsat.org>
+Date: Thu, 26 Aug 2021 09:42:04 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1C+fxCyW+SrORudyoBi=ZYQD_v2MkAdRbaVgW-gh9580QA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <e7042a4f-1958-3e42-2d2e-9cf63eda6f5a@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.745,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.24, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.24,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,58 +90,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: qemu-ppc@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/26/21 9:34 AM, Marc-André Lureau wrote:
-> Hi
+On 8/25/21 9:11 AM, Mark Cave-Ayland wrote:
+> On 24/08/2021 11:09, Finn Thain wrote:
 > 
-> On Thu, Aug 26, 2021 at 7:11 AM David Gibson
-> <david@gibson.dropbear.id.au <mailto:david@gibson.dropbear.id.au>> wrote:
+>> This improves readability.
+>>
+>> Signed-off-by: Finn Thain <fthain@linux-m68k.org>
+>> ---
+>>   hw/misc/mos6522.c | 10 ++++++----
+>>   1 file changed, 6 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
+>> index 1d4a56077e..c0d6bee4cc 100644
+>> --- a/hw/misc/mos6522.c
+>> +++ b/hw/misc/mos6522.c
+>> @@ -154,7 +154,7 @@ static void mos6522_timer2_update(MOS6522State *s,
+>> MOS6522Timer *ti,
+>>       }
+>>   }
+>>   -static void mos6522_timer1(void *opaque)
+>> +static void mos6522_timer1_expired(void *opaque)
+>>   {
+>>       MOS6522State *s = opaque;
+>>       MOS6522Timer *ti = &s->timers[0];
+>> @@ -164,7 +164,7 @@ static void mos6522_timer1(void *opaque)
+>>       mos6522_update_irq(s);
+>>   }
+>>   -static void mos6522_timer2(void *opaque)
+>> +static void mos6522_timer2_expired(void *opaque)
+>>   {
+>>       MOS6522State *s = opaque;
+>>       MOS6522Timer *ti = &s->timers[1];
+>> @@ -445,8 +445,10 @@ static void mos6522_init(Object *obj)
+>>           s->timers[i].index = i;
+>>       }
+>>   -    s->timers[0].timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
+>> mos6522_timer1, s);
+>> -    s->timers[1].timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
+>> mos6522_timer2, s);
+>> +    s->timers[0].timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
+>> +                                      mos6522_timer1_expired, s);
+>> +    s->timers[1].timer = timer_new_ns(QEMU_CLOCK_VIRTUAL,
+>> +                                      mos6522_timer2_expired, s);
+>>   }
+>>     static void mos6522_finalize(Object *obj)
 > 
->     On Thu, Aug 26, 2021 at 12:11:17AM +0400, Marc-André Lureau wrote:
->     > Hi
->     >
->     > On Thu, Aug 26, 2021 at 12:00 AM Peter Maydell
->     <peter.maydell@linaro.org <mailto:peter.maydell@linaro.org>>
->     > wrote:
->     >
->     > > On Wed, 25 Aug 2021 at 20:55, Marc-André Lureau
->     > > <marcandre.lureau@gmail.com <mailto:marcandre.lureau@gmail.com>>
->     wrote:
->     > > > fdt_check_full was added in 1.4.7:
->     > > > https://git.kernel.org/pub/scm/utils/dtc/dtc.git/tag/?h=v1.4.7
->     <https://git.kernel.org/pub/scm/utils/dtc/dtc.git/tag/?h=v1.4.7>
->     > > >
->     > > > Only ubuntu appears to be lagging a bit behind. I wonder if
->     they would
->     > > consider an update.
->     > >
->     > > I doubt it. You would need to wait until that actually falls off
->     > > our supported list. You also have a couple of years to wait until
->     > > Debian oldstable is no longer on our supported list.
->     > >
->     > > Maybe, I don't know why debian oldstable would have received a
->     new version
->     > plus fixes, and not ubuntu.
->     >
->     > It seems we could have our own fallback copy of fdt_check_full()
->     though..
->     > I'll give that a try.
-> 
->     We could, but fdt_check_full() is actually a pretty complex function.
-> 
-> 
-> Yeah, that would be used for those who don't have >= 1.4.7.
-> 
-> Alternatively we could lower the fdt_check_full to fdt_check_header in
-> this case? It seems it is used to verify the DT from SLOF. It may be
-> trusted I suppose, or a malformed DT may only impact the guest?
+> I'm not overly keen on this one: the general QEMU convention for a timer
+> callback is for it to be named *_timer() rather than *_expired(), so I'd
+> prefer to keep this consistent with the rest of the codebase.
 
-Alternative (or complementary?) approach:
-https://lore.kernel.org/qemu-devel/20210511155354.3069141-1-philmd@redhat.com/
-
+I can not find any convention, and 'git grep -A1 \ timer_new' doesn't
+show any conventional pattern neither.
 
