@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36B8C3F8A33
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 16:37:13 +0200 (CEST)
-Received: from localhost ([::1]:55360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 953DE3F8A41
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 16:39:23 +0200 (CEST)
+Received: from localhost ([::1]:59368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJGVE-0005zQ-9P
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 10:37:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40132)
+	id 1mJGXF-0000Fy-MY
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 10:39:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJGSX-0003w5-V4
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 10:34:25 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:36814)
+ id 1mJGTY-0004q7-KG
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 10:35:31 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:33592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJGSW-0007NF-IH
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 10:34:25 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id bt14so6785019ejb.3
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 07:34:24 -0700 (PDT)
+ id 1mJGTU-00088M-1x
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 10:35:28 -0400
+Received: by mail-ed1-x530.google.com with SMTP id s25so5066088edw.0
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 07:35:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=K4M2k49sKgs9+BYo+Q62pKMf6eC3jy/hgFeVkcKzM70=;
- b=fUoHR+1ouOlfg5SzRscasy6GZPdUxrHQPpGQH0dkhNJJP+ABgwW5thRy9VjkyYxxXa
- fBcefZUUys/Iz+7bOnm9KGW31pHZkQAQsHDVFidq4xu9caATmsAKILd/LPU4xG6qfnoT
- vTWtbe08QHeFVPAEIOCTEv2Yo7ysGiIBZMHkoMYT0vsfGWRgZkz5RbXSFlqMA4BTMBhG
- Ec2lnftlpiTOOZJx3rV8KBfkcMw4xRMDN/ouNYfwf5SkMEGYKQN2BB/p9J8HZFemas9H
- GRwe3i67IEhvXag3OVq5rdcso2NnXm+ZgkxHLveiqvajGAteWdNX/EEatNWGU7hyoIJK
- +xAg==
+ :cc; bh=I6k9eU2KOZ7kniwPglQ5e3qfK7erHrd3eaoioKg1AO0=;
+ b=mnKN9JTTwAccYgZpUQq1o4M/7mgExdmgr3ZnGTdnW6ne0zFuSR0TG1nvN86rkS650g
+ gZPIb5zAFVMphGUrGev4536uhC/gAW+QpP3e5wYyodP8lMa2SYZSPoCvNFk9iW7c1I4s
+ TNIGMdmQZGuS69Bui8WL4wbA7jPQQ+rTYOiaF7NdPRdtmWTBwBjp7CR1ImviXG82weKL
+ 7iuiLDMYgKrkiK60Lp0O8kzlfoS6bIuPiTcv7o0C2L5QqIG6f0L0RekUp1z0J+gZ2gx6
+ IY36rELBLJtT+C6IKcXGFxKtBMiejg/8+kaV/PNQ+uRv0IZf9CbupQctEq24Z9mjrYbV
+ G2bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=K4M2k49sKgs9+BYo+Q62pKMf6eC3jy/hgFeVkcKzM70=;
- b=WJHw4E0Ry+UyfPU3AKMD8jJxkyM0byduYI+C863Tm8fVkG0hXYLBA//zHq7TUXKKfM
- Q8t5a9hixCpz77VR09nipojLl5gPaeDE2wrzhZBAvAaaIWaAkpfZlqMKwFGfhy+7o8lG
- W7kDKgLjlH55GIH2Oc5iIST57J2+LdVZHjDg3FnMJ+s8Zau4MkdVcKUVrj3M+r4Mm3Tx
- qh1xM46U9P2CgPyab8tK9yekjGF3ATkJ5lKEX3eivBo+/tE02aCsK/HE9uuC84J+UypM
- eqZjeTWx+rTAaYRZiulSpvlVVqns9SA8pKGBeNyP9FsOfsgdpugqixqjmfCCEWA19Pld
- +dXA==
-X-Gm-Message-State: AOAM5333RZjyKiyyf6dlwWcDnptXHcmg1Ti3ZrZd3XfGxljP9G2U5IsB
- kP35/gkZmr1Lv34VxrzdGGySG9UMnbKICAxVB4KtBtWIPVs=
-X-Google-Smtp-Source: ABdhPJzYUicDmEasrZRgnJQWPggdUQXgQLNf/iJusUI2yb39F9M6JS0avXw0urKV6yoVXUQUwtLUs4DuiFXf60T9um8=
-X-Received: by 2002:a17:906:3497:: with SMTP id
- g23mr4657342ejb.85.1629988463274; 
- Thu, 26 Aug 2021 07:34:23 -0700 (PDT)
+ bh=I6k9eU2KOZ7kniwPglQ5e3qfK7erHrd3eaoioKg1AO0=;
+ b=Gsc0IiXhdG0+Q76MXzKFPPgSTM2CEty2dUq6SK5H1FIc+OeMOchAuQMck5ZIT6SNmS
+ qEoDLpJ+wUsz3SN0lMoNXmCC43++QRaJ7EnElwE5ZAwIgawbA8fRJKYwQXzlm875TKTD
+ DrWsCPMUdNA1mkHkbC/kIY7br+dPsIU4lI3JgnhE7gXV0wsNtGTLKBiZgJiJiiI/a7QB
+ NNIG7bM+prYVOmtMITIaQbEL4SIwDFNovY9eDlqdQaJfsHV1wvdTUqj+JlGs+EyhKSvX
+ 6xEkxOeG/Xz9Z8LPfo8ESTmBEdWUUyMEbQ+UcTp07InYWixYZn0znaKtUabCMkYlky5R
+ 2WrA==
+X-Gm-Message-State: AOAM530FGRcreE2cwTyeGdH4555nrls32+SYhbm6dTw1q0zrp6ottHj0
+ Sv9yxK4uix2B5U2/dUuXQ9WQFqbZrnSMB05GIsMj3ZzTky4=
+X-Google-Smtp-Source: ABdhPJzvOQajHSOxnd5NI2DG0O/BvDHw1K8fiu7JLS4XyaZLf2YeaQyKvjfCAyBXdkhjnvNKbXvADsEruOn62KqvsA0=
+X-Received: by 2002:a50:ff03:: with SMTP id a3mr4519709edu.100.1629988522589; 
+ Thu, 26 Aug 2021 07:35:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210730105947.28215-1-peter.maydell@linaro.org>
-In-Reply-To: <20210730105947.28215-1-peter.maydell@linaro.org>
+References: <20210813150506.7768-1-peter.maydell@linaro.org>
+In-Reply-To: <20210813150506.7768-1-peter.maydell@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 26 Aug 2021 15:33:35 +0100
-Message-ID: <CAFEAcA-kqz9B9r4vA8X1EnU81LVX24W6Rq9B6H7bgHi0yzBW2Q@mail.gmail.com>
-Subject: Re: [PATCH for-6.2 0/8] softmmu: Clean up arch_init.c
+Date: Thu, 26 Aug 2021 15:34:35 +0100
+Message-ID: <CAFEAcA-n1242Le8o0=Mp_=itv7Q+Xj09h7Fn8jPS7170dJMgjg@mail.gmail.com>
+Subject: Re: [PATCH for-6.2 0/4] Zero sockaddr_in when initializing it
 To: QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,29 +76,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Eric Blake <eblake@redhat.com>,
+ Corey Minyard <minyard@acm.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Jul 2021 at 11:59, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Fri, 13 Aug 2021 at 16:05, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> This patchset does some cleanups of arch_init.c.  The bit I started
-> out caring about was getting rid of the TARGET_* ifdef ladder (in
-> patch 4 we make meson.build define QEMU_ARCH in config-target.h
-> instead) -- this kind of ifdef ladder is nasty because it's always
-> another place in the code that needs updating when we add or remove a
-> target.  I think this was one of the last remaining "every single
-> arch touches this" ones.  The rest of the patchset is stuff I noticed
-> when I started looking at what else arch_init.c was doing.
+> The POSIX spec for sockaddr_in says that implementations are allowed
+> to have implementation-dependent extensions controlled by extra
+> fields in the struct, and that the way to ensure these are not
+> accidentally activated is to zero out the whole data structure.
+> We have several places in our codebase where we don't zero-init
+> sockaddr_in structs and so (at least in theory) might run into this.
+> Coverity spotted the ones in the net code (CID 1005338); the
+> others in this series I found by looking at all uses of sockaddr_in.
+> (The gdbstub patch changes also a sockaddr_un use, for symmetry.)
 >
-> The graphic_width/height/depth target-specific defaults that
-> arch_init.c does also look like they could use cleanup.  My guess is
-> that we should instead have a per-machine default graphics
-> width/height/depth.  But that's a separate thing and more work than I
-> felt like doing this morning :-)
+> Thanks to Eric for the analysis of what the spec says and why
+> Coverity is correct here.
+>
+> thanks
+> -- PMM
+>
+> Peter Maydell (4):
+>   net: Zero sockaddr_in in parse_host_port()
+>   gdbstub: Zero-initialize sockaddr structs
+>   tests/qtest/ipmi-bt-test: Zero-initialize sockaddr struct
+>   tests/tcg/multiarch/linux-test: Zero-initialize sockaddr structs
 
-I'll take this via target-arm.next unless anybody objects.
+I'll take this series via target-arm.next unless anybody objects.
 
 thanks
 -- PMM
