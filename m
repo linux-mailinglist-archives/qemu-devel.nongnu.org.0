@@ -2,49 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BADF3F8AE1
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 17:19:39 +0200 (CEST)
-Received: from localhost ([::1]:46302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3891C3F8ACB
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 17:14:59 +0200 (CEST)
+Received: from localhost ([::1]:39324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJHAI-00067L-M6
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 11:19:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49572)
+	id 1mJH5m-0001EP-14
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 11:14:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
- id 1mJH7a-0002jE-RP; Thu, 26 Aug 2021 11:16:50 -0400
-Received: from atcsqr.andestech.com ([60.248.187.195]:22684)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mJH51-0000Zk-C1
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 11:14:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ruinland@andestech.com>)
- id 1mJH7X-0002Gy-F1; Thu, 26 Aug 2021 11:16:50 -0400
-Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
- by ATCSQR.andestech.com with ESMTP id 17QFDeJr022151;
- Thu, 26 Aug 2021 23:13:41 +0800 (GMT-8)
- (envelope-from ruinland@andestech.com)
-Received: from atcfdc88.andestech.com (10.0.15.120) by ATCPCS16.andestech.com
- (10.0.1.222) with Microsoft SMTP Server id 14.3.498.0;
- Thu, 26 Aug 2021 23:13:41 +0800
-From: Ruinland Chuan-Tzu Tsai <ruinland@andestech.com>
-To: <qemu-devel@nongnu.org>, <qemu-riscv@nongnu.org>, <alistair23@gmail.com>, 
- <wangjunqiang@iscas.ac.cn>, <bin.meng@windriver.com>
-Subject: [RFC PATCH 2/2] Adding necessary files for Andes platforms,
- cores to enable custom CSR support
-Date: Thu, 26 Aug 2021 23:13:32 +0800
-Message-ID: <20210826151332.32753-3-ruinland@andestech.com>
-X-Mailer: git-send-email 2.17.0
-In-Reply-To: <20210826151332.32753-1-ruinland@andestech.com>
-References: <20210826151332.32753-1-ruinland@andestech.com>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mJH4z-0000a1-62
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 11:14:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629990848;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XaJ33W+0KXzwWgSHvJ5wqivbA3NRCYaI+PDep1AhJCE=;
+ b=RYlwCvdhvFvzZ5eipugGKznOe4wiq3Xyxee6UQIT9R+f39OoX2bkUfvrEvwuloc9tPitI3
+ 4UlNSTUrbsvJ7JPsvFIvypEbtZj+YpUghxXpF5l03FkMV2JiiZte14SFeTLwceShr+Ll+f
+ dZIKJWP83+6dxOXAHjugn6iTpjNTltw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-334-IuSBh38jMFG5I2GFGoOXjw-1; Thu, 26 Aug 2021 11:14:06 -0400
+X-MC-Unique: IuSBh38jMFG5I2GFGoOXjw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EF891853026;
+ Thu, 26 Aug 2021 15:14:05 +0000 (UTC)
+Received: from redhat.com (ovpn-112-96.phx2.redhat.com [10.3.112.96])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 392ED60583;
+ Thu, 26 Aug 2021 15:14:00 +0000 (UTC)
+Date: Thu, 26 Aug 2021 10:13:58 -0500
+From: Eric Blake <eblake@redhat.com>
+To: isaku.yamahata@gmail.com
+Subject: Re: [RFC PATCH v2 31/44] target/i386/tdx: Allows
+ mrconfigid/mrowner/mrownerconfig for TDX_INIT_VM
+Message-ID: <20210826151358.zjlpyd4ldkq3k75s@redhat.com>
+References: <cover.1625704980.git.isaku.yamahata@intel.com>
+ <9f1e7fd7678900791d2094d2f0def53fe0afc658.1625704981.git.isaku.yamahata@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.0.15.120]
-X-DNSRBL: 
-X-MAIL: ATCSQR.andestech.com 17QFDeJr022151
-Received-SPF: pass client-ip=60.248.187.195;
- envelope-from=ruinland@andestech.com; helo=ATCSQR.andestech.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9f1e7fd7678900791d2094d2f0def53fe0afc658.1625704981.git.isaku.yamahata@intel.com>
+User-Agent: NeoMutt/20210205-739-420e15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,194 +74,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ruinland ChuanTzu Tsai <ruinland@andestech.com>, dylan@andestech.com,
- imruinland.cs00@g2.nctu.edu.tw, alankao@andestech.com
+Cc: isaku.yamahata@intel.com, cohuck@redhat.com, ehabkost@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, seanjc@google.com, alistair@alistair23.me,
+ xiaoyao.li@intel.com, qemu-devel@nongnu.org, mtosatti@redhat.com,
+ erdemaktas@google.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ruinland ChuanTzu Tsai <ruinland@andestech.com>
+On Wed, Jul 07, 2021 at 05:55:01PM -0700, isaku.yamahata@gmail.com wrote:
+> From: Isaku Yamahata <isaku.yamahata@intel.com>
+> 
+> When creating VM with TDX_INIT_VM, three sha384 hash values are accepted
+> for TDX attestation.
+> So far they were hard coded as 0. Now allow user to specify those values
+> via property mrconfigid, mrowner and mrownerconfig.
+> string for those property are hex string of 48 * 2 length.
+> 
+> example
+> -device tdx-guest, \
+>   mrconfigid=0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef, \
+>   mrowner=fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210, \
+>   mrownerconfig=0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+> 
+> Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
+> ---
+>  qapi/qom.json         | 11 ++++++++++-
+>  target/i386/kvm/tdx.c | 17 +++++++++++++++++
+>  target/i386/kvm/tdx.h |  3 +++
+>  3 files changed, 30 insertions(+), 1 deletion(-)
+> 
+> diff --git a/qapi/qom.json b/qapi/qom.json
+> index 70c70e3efe..8f8b7828b3 100644
+> --- a/qapi/qom.json
+> +++ b/qapi/qom.json
+> @@ -767,10 +767,19 @@
+>  #
+>  # @debug: enable debug mode (default: off)
+>  #
+> +# @mrconfigid: MRCONFIGID SHA384 hex string of 48 * 2 length (default: 0)
+> +#
+> +# @mrowner: MROWNER SHA384 hex string of 48 * 2 length (default: 0)
+> +#
+> +# @mrownerconfig: MROWNERCONFIG SHA384 hex string of 48 * 2 length (default: 0)
+> +#
+>  # Since: 6.0
 
-Since Andes A25/AX25 is an extented "target" to existing, we suggest that if a
-vendor flavored RISC-V platform or core is presented, it could utilize the
-fact that `configure` the way how a "target" is defined by making corresponding
-mak files. `rv_custom` is presented for the mere use that the `meson.build`
-uses minikconf to parse `default-configs/devices/*.mak`, we want to use
-minimize the change of logics.
----
- .../devices/riscv32-andes-softmmu.mak           | 17 +++++++++++++++++
- .../devices/riscv64-andes-softmmu.mak           | 17 +++++++++++++++++
- .../targets/riscv32-andes-linux-user.mak        |  1 +
- .../targets/riscv32-andes-softmmu.mak           |  1 +
- .../targets/riscv64-andes-linux-user.mak        |  1 +
- .../targets/riscv64-andes-softmmu.mak           |  1 +
- default-configs/targets/rv_custom/no_custom.mak |  0
- .../rv_custom/riscv32-andes-linux-user.mak      |  1 +
- .../targets/rv_custom/riscv32-andes-softmmu.mak |  1 +
- .../targets/rv_custom/riscv32-linux-user.mak    |  1 +
- .../targets/rv_custom/riscv32-softmmu.mak       |  1 +
- .../rv_custom/riscv64-andes-linux-user.mak      |  1 +
- .../targets/rv_custom/riscv64-andes-softmmu.mak |  1 +
- .../targets/rv_custom/riscv64-linux-user.mak    |  1 +
- .../targets/rv_custom/riscv64-softmmu.mak       |  1 +
- 15 files changed, 46 insertions(+)
- create mode 100644 default-configs/devices/riscv32-andes-softmmu.mak
- create mode 100644 default-configs/devices/riscv64-andes-softmmu.mak
- create mode 120000 default-configs/targets/riscv32-andes-linux-user.mak
- create mode 120000 default-configs/targets/riscv32-andes-softmmu.mak
- create mode 120000 default-configs/targets/riscv64-andes-linux-user.mak
- create mode 120000 default-configs/targets/riscv64-andes-softmmu.mak
- create mode 100644 default-configs/targets/rv_custom/no_custom.mak
- create mode 100644 default-configs/targets/rv_custom/riscv32-andes-linux-user.mak
- create mode 100644 default-configs/targets/rv_custom/riscv32-andes-softmmu.mak
- create mode 120000 default-configs/targets/rv_custom/riscv32-linux-user.mak
- create mode 120000 default-configs/targets/rv_custom/riscv32-softmmu.mak
- create mode 100644 default-configs/targets/rv_custom/riscv64-andes-linux-user.mak
- create mode 100644 default-configs/targets/rv_custom/riscv64-andes-softmmu.mak
- create mode 120000 default-configs/targets/rv_custom/riscv64-linux-user.mak
- create mode 120000 default-configs/targets/rv_custom/riscv64-softmmu.mak
+As these are additions in a later release, they'll need a '(since 6.2)' tag.
 
-diff --git a/default-configs/devices/riscv32-andes-softmmu.mak b/default-configs/devices/riscv32-andes-softmmu.mak
-new file mode 100644
-index 0000000..8f2e781
---- /dev/null
-+++ b/default-configs/devices/riscv32-andes-softmmu.mak
-@@ -0,0 +1,17 @@
-+# Default configuration for riscv32-softmmu
-+
-+# Uncomment the following lines to disable these optional devices:
-+#
-+#CONFIG_PCI_DEVICES=n
-+CONFIG_SEMIHOSTING=y
-+CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
-+
-+# Boards:
-+#
-+CONFIG_ANDES_AE350=y
-+CONFIG_SPIKE=y
-+CONFIG_SIFIVE_E=y
-+CONFIG_SIFIVE_U=y
-+CONFIG_RISCV_VIRT=y
-+CONFIG_OPENTITAN=y
-+CONFIG_ANDES_CORE=y
-diff --git a/default-configs/devices/riscv64-andes-softmmu.mak b/default-configs/devices/riscv64-andes-softmmu.mak
-new file mode 100644
-index 0000000..7120cb8
---- /dev/null
-+++ b/default-configs/devices/riscv64-andes-softmmu.mak
-@@ -0,0 +1,17 @@
-+# Default configuration for riscv64-softmmu
-+
-+# Uncomment the following lines to disable these optional devices:
-+#
-+#CONFIG_PCI_DEVICES=n
-+CONFIG_SEMIHOSTING=y
-+CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
-+
-+# Boards:
-+#
-+CONFIG_ANDES_AE350=y
-+CONFIG_SPIKE=y
-+CONFIG_SIFIVE_E=y
-+CONFIG_SIFIVE_U=y
-+CONFIG_RISCV_VIRT=y
-+CONFIG_MICROCHIP_PFSOC=y
-+CONFIG_ANDES_CORE=y
-diff --git a/default-configs/targets/riscv32-andes-linux-user.mak b/default-configs/targets/riscv32-andes-linux-user.mak
-new file mode 120000
-index 0000000..640a619
---- /dev/null
-+++ b/default-configs/targets/riscv32-andes-linux-user.mak
-@@ -0,0 +1 @@
-+./riscv32-linux-user.mak
-\ No newline at end of file
-diff --git a/default-configs/targets/riscv32-andes-softmmu.mak b/default-configs/targets/riscv32-andes-softmmu.mak
-new file mode 120000
-index 0000000..e806510
---- /dev/null
-+++ b/default-configs/targets/riscv32-andes-softmmu.mak
-@@ -0,0 +1 @@
-+./riscv32-softmmu.mak
-\ No newline at end of file
-diff --git a/default-configs/targets/riscv64-andes-linux-user.mak b/default-configs/targets/riscv64-andes-linux-user.mak
-new file mode 120000
-index 0000000..01cefa0
---- /dev/null
-+++ b/default-configs/targets/riscv64-andes-linux-user.mak
-@@ -0,0 +1 @@
-+./riscv64-linux-user.mak
-\ No newline at end of file
-diff --git a/default-configs/targets/riscv64-andes-softmmu.mak b/default-configs/targets/riscv64-andes-softmmu.mak
-new file mode 120000
-index 0000000..ed1cae6
---- /dev/null
-+++ b/default-configs/targets/riscv64-andes-softmmu.mak
-@@ -0,0 +1 @@
-+./riscv64-softmmu.mak
-\ No newline at end of file
-diff --git a/default-configs/targets/rv_custom/no_custom.mak b/default-configs/targets/rv_custom/no_custom.mak
-new file mode 100644
-index 0000000..e69de29
-diff --git a/default-configs/targets/rv_custom/riscv32-andes-linux-user.mak b/default-configs/targets/rv_custom/riscv32-andes-linux-user.mak
-new file mode 100644
-index 0000000..984affb
---- /dev/null
-+++ b/default-configs/targets/rv_custom/riscv32-andes-linux-user.mak
-@@ -0,0 +1 @@
-+CONFIG_ANDES_CORE=y
-diff --git a/default-configs/targets/rv_custom/riscv32-andes-softmmu.mak b/default-configs/targets/rv_custom/riscv32-andes-softmmu.mak
-new file mode 100644
-index 0000000..984affb
---- /dev/null
-+++ b/default-configs/targets/rv_custom/riscv32-andes-softmmu.mak
-@@ -0,0 +1 @@
-+CONFIG_ANDES_CORE=y
-diff --git a/default-configs/targets/rv_custom/riscv32-linux-user.mak b/default-configs/targets/rv_custom/riscv32-linux-user.mak
-new file mode 120000
-index 0000000..073fa18
---- /dev/null
-+++ b/default-configs/targets/rv_custom/riscv32-linux-user.mak
-@@ -0,0 +1 @@
-+./no_custom.mak
-\ No newline at end of file
-diff --git a/default-configs/targets/rv_custom/riscv32-softmmu.mak b/default-configs/targets/rv_custom/riscv32-softmmu.mak
-new file mode 120000
-index 0000000..073fa18
---- /dev/null
-+++ b/default-configs/targets/rv_custom/riscv32-softmmu.mak
-@@ -0,0 +1 @@
-+./no_custom.mak
-\ No newline at end of file
-diff --git a/default-configs/targets/rv_custom/riscv64-andes-linux-user.mak b/default-configs/targets/rv_custom/riscv64-andes-linux-user.mak
-new file mode 100644
-index 0000000..984affb
---- /dev/null
-+++ b/default-configs/targets/rv_custom/riscv64-andes-linux-user.mak
-@@ -0,0 +1 @@
-+CONFIG_ANDES_CORE=y
-diff --git a/default-configs/targets/rv_custom/riscv64-andes-softmmu.mak b/default-configs/targets/rv_custom/riscv64-andes-softmmu.mak
-new file mode 100644
-index 0000000..984affb
---- /dev/null
-+++ b/default-configs/targets/rv_custom/riscv64-andes-softmmu.mak
-@@ -0,0 +1 @@
-+CONFIG_ANDES_CORE=y
-diff --git a/default-configs/targets/rv_custom/riscv64-linux-user.mak b/default-configs/targets/rv_custom/riscv64-linux-user.mak
-new file mode 120000
-index 0000000..073fa18
---- /dev/null
-+++ b/default-configs/targets/rv_custom/riscv64-linux-user.mak
-@@ -0,0 +1 @@
-+./no_custom.mak
-\ No newline at end of file
-diff --git a/default-configs/targets/rv_custom/riscv64-softmmu.mak b/default-configs/targets/rv_custom/riscv64-softmmu.mak
-new file mode 120000
-index 0000000..073fa18
---- /dev/null
-+++ b/default-configs/targets/rv_custom/riscv64-softmmu.mak
-@@ -0,0 +1 @@
-+./no_custom.mak
-\ No newline at end of file
+>  ##
+>  { 'struct': 'TdxGuestProperties',
+> -  'data': { '*debug': 'bool' } }
+> +  'data': { '*debug': 'bool',
+> +            '*mrconfigid': 'str',
+> +            '*mrowner': 'str',
+> +            '*mrownerconfig': 'str' } }
+
+Do we really want hex-encoded strings?  Elsewhere in QMP, we've
+favored the more compact base64 encoding; if you have a strong
+argument why hex representation is worth the break in consistency,
+it's worth calling out in the commit message.
+
 -- 
-2.32.0
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
