@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69EB43F8943
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 15:43:42 +0200 (CEST)
-Received: from localhost ([::1]:34050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 210813F894B
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 15:45:58 +0200 (CEST)
+Received: from localhost ([::1]:39942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJFfR-0002ML-Ge
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 09:43:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51566)
+	id 1mJFhd-0006FB-6g
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 09:45:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJFIf-0000Z1-1x
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 09:20:09 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:46630)
+ id 1mJFK8-0005I6-Dd
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 09:21:40 -0400
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:35811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJFIc-0006sv-3Z
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 09:20:08 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id u14so6143832ejf.13
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 06:20:05 -0700 (PDT)
+ id 1mJFK6-0007sc-U0
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 09:21:40 -0400
+Received: by mail-ed1-x532.google.com with SMTP id q17so4677272edv.2
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 06:21:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=VcB6UPUv0/aefkn21WKvLPnZynKgM5JWfyphg6syXCc=;
- b=evH4JPeVuIxkidqquobJskpIj7Pi7vQE5nbm6B/vVDb8cQ1fWolOw4YXa6Jzy8RfhA
- ltzoJBHL6BjJYfdWOR2V2tt8kxaQ2RHblX8BICVWGEihniF119Jkn5FUbNGk3m3M43uW
- B+uDCzmsf7s07imu7ZmeMEI8HfvqJnKYp+iM7kS4z51S4bhw8e7p3rR0gU6XZdMIjR1h
- yQOxabr/sH3YF5dFoaiCK2g00PzOkFKwC8au6jAIMG6FaDoV+vN88oNIk5JdOHf37scc
- kzONGxUJ1D11SEdz8nSHoh+XMEvcEujQrpWqgd/XbQGJwK7nSMoSGu+7EdFtmFbj9IAc
- D+SA==
+ bh=QIkmguGk5Ur8kPzbCJ2653Kcvq5uHWpeziEE5g5qXDw=;
+ b=b+0lDQgFoImsjgR7i/mXhZ5R1kffCi3MGAfa8leySHHm/SueR0YgfWLY1BxogP/8KE
+ OcpQWSG3ADJTVu4793Qg6ipBUb1qxYaIzp12MC8td+XDRTFbjpSPCRSlNw0xDrnKC65I
+ t2DBp17EP4ha3S2Z94dwR8Sjj4efbeSxoYUKD3CkCu1wJ/1QwGJvbM9out2KatLcR72W
+ HCDGgjBcAChX8+3gI3kl7HgP4XJ0A1zL5CBllV9SYkKPeq/Nr6iloPbz0B78XJR0bQt1
+ jdii/adWkMCeiY5VtqhYm3esY3rzwDAvlGvgdy/Bbh8WeONzfM3xG/I89WfCKMuwD5ZL
+ Pcjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=VcB6UPUv0/aefkn21WKvLPnZynKgM5JWfyphg6syXCc=;
- b=oPDDF1OLfZwjRtMFRy/BVkz7BAqBvGCHR0ir6pxHyNZ18Jcns536IL6OvwYIrgN7JS
- 2D8djZVk+CwkxoSRQuXtQnzT2vtD1KsPQs+wzKp4Ng5Uy2Ura3cirSFSq66+/n6Wwoe1
- VivmZAmb4R/j/E9r6YhjMDrqAfhzuXUiLbMd1rycXSYGsCBrTMGg1nYZzFQCkIWOkgaD
- hj4x5lBM9CJuNJMHJMe1BXIBPE+SEavCygypyrqenv12uPXP+8gobW2kedmcxF4skkLZ
- ipnGRhwYHUSJc6CIMiZiZsLjIQTqB2eY32b8B53hY5Dyzyub6vkNKWfcdwt4FPbCWpba
- YtWQ==
-X-Gm-Message-State: AOAM5323V14p7MoUtAq6l/jxkVtdUp4HegyECKM2FDb40ogRztu7nPCA
- uvHcjX9oY65W8x6jnzBz6v5e/DCNx7eFLUWUee2l/A==
-X-Google-Smtp-Source: ABdhPJwh/2gn6ZpZjlkqWsM9qA3FsyQVBsBf7KgjLnlUNrR0UhzB4NqGCQdP0QkEyUsiBTJHvSkduqWqolkVIeJGge8=
-X-Received: by 2002:a17:906:584:: with SMTP id 4mr4340252ejn.56.1629984004616; 
- Thu, 26 Aug 2021 06:20:04 -0700 (PDT)
+ bh=QIkmguGk5Ur8kPzbCJ2653Kcvq5uHWpeziEE5g5qXDw=;
+ b=cDQ8klDoohmackC9D05nvHP9P5zumaBFaYxQ4nySraNdnkTRw4AzpHBNk7ZSMKNblY
+ Y0MD0Emy9i9snGRMrq7X2C7OuJMQGZFEj0iXPuLT2ZUmZVP95cGtdJ18dKhR4wpE8Hlf
+ lsERSQFIrplrz/l2i1ywPSiGB9Nfqc1Xy9VA77iozSLr793H4t7ljKd2wZUa5vYWrGP4
+ aN8kK87SVzrCwkfV7NdoUxtM2xzvh/K9tc4N9b/9JQA9jMPh2Fb4pgeZ43c9+QlKgKHj
+ L8uoieM/CR03qyDWWA8Zvn7uhuVdprZlRyToHGEl/3Sc84bVMyxR52gQh85lOKmDa/1U
+ 1qPQ==
+X-Gm-Message-State: AOAM532SBA6dFkNWuT7aJL9ZfElvBckhIiHbzkUtUq2EJ1iKXxVZUwwJ
+ uAEK4t/vKvUjPGbYbn/6nKDOsb6tSzd5A1BcBc6ifw==
+X-Google-Smtp-Source: ABdhPJxpXKPVY+ZYakVGjt52buznFD3O/otCjXAbgdu9PAUMHxmUrVuHhiAEyHGJ36CT9JvNvlGWiifvsSP/gxKLbuc=
+X-Received: by 2002:aa7:dd48:: with SMTP id o8mr4184326edw.44.1629984097322;
+ Thu, 26 Aug 2021 06:21:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210819163422.2863447-1-philmd@redhat.com>
-In-Reply-To: <20210819163422.2863447-1-philmd@redhat.com>
+References: <20210819162637.518507-1-ani@anisinha.ca>
+In-Reply-To: <20210819162637.518507-1-ani@anisinha.ca>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 26 Aug 2021 14:19:17 +0100
-Message-ID: <CAFEAcA-n6VmzGEp3SCEgziEC6TkcbgunTVqVmJ3iyfVCpRbbzA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] hw/dma: Always expect 'dma' link property to be
- set to simplify
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Thu, 26 Aug 2021 14:20:49 +0100
+Message-ID: <CAFEAcA_oAkE5UV+KASVj5xo4BR_t6hdtfxj1Z1wJfUCsytd5Tw@mail.gmail.com>
+Subject: Re: [PATCH v3] hw/arm/Kconfig: no need to enable
+ ACPI_MEMORY_HOTPLUG/ACPI_NVDIMM explicitly
+To: Ani Sinha <ani@anisinha.ca>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,19 +79,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 19 Aug 2021 at 17:34, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
+On Thu, 19 Aug 2021 at 17:26, Ani Sinha <ani@anisinha.ca> wrote:
 >
-> Fix a qdev realization ordering, then simplify a pair of DMA
-> devices by always passing a MemoryRegion property to the device.
-> Doing so we can move the AddressSpace field to the device struct,
-> removing need for heap allocation.
+> Since commit
+> 36b79e3219d ("hw/acpi/Kconfig: Add missing Kconfig dependencies (build er=
+ror)"),
+> ACPI_MEMORY_HOTPLUG and ACPI_NVDIMM is implicitly turned on when
+> ACPI_HW_REDUCED is selected. ACPI_HW_REDUCED is already enabled. No need =
+to
+> turn on ACPI_MEMORY_HOTPLUG or ACPI_NVDIMM explicitly. This is a minor cl=
+eanup.
+>
+> Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 
 
