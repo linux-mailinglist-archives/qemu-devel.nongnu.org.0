@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F0853F9027
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 23:29:59 +0200 (CEST)
-Received: from localhost ([::1]:33998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E3353F9039
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 23:40:24 +0200 (CEST)
+Received: from localhost ([::1]:38776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJMwg-0000dl-0K
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 17:29:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39030)
+	id 1mJN6l-0005y4-7Q
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 17:40:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mJMg1-0006K7-DT
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 17:12:45 -0400
-Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:45995)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mJMg4-0006NW-9Q
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 17:12:48 -0400
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:37869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mJMg0-0006vu-1T
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 17:12:45 -0400
-Received: by mail-io1-xd2b.google.com with SMTP id e186so5548234iof.12
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 14:12:43 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mJMg0-0006wa-Sb
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 17:12:47 -0400
+Received: by mail-io1-xd2e.google.com with SMTP id b7so5606370iob.4
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 14:12:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eEkC4W7uTDt5OeWX/S5kHSE0qmVobg9OD2eDr+oF0C4=;
- b=oJKTWfrFeM7Ii4TpMOCNpnwThseM354yp2fAQCQ9w9VCT4J9a2k75dg7x2Q0SBpXEF
- QuPHbCjrkE6r0RddisY8wL6xXnMd2g63ndxh0xjmyN5Sho/XdldprrTGCXipptdmm8H1
- +1v7MLzFk8FtAB0xS+OUkgKunz+WkkAb6psM4i6htyJsDNIbSZ20lPLu570kGGF1I+9X
- Wh+LvRy237352IU14dejQ1a49vcpg/MssB6EywVF0Nos4HHpI2p5hbi7FeErTde5K1cu
- 2D0gat7cJPjHPK1fxkFFLjT8hrtIM6/Fl+CMky0kE5UDvBReM6shqN9Mp73KhqXj/Jjp
- UsyQ==
+ bh=LfrE81ZrxSCq64hVLSr9n7zzdJ11Q73sKolgD5sAWUM=;
+ b=dsXDnil5RnNf9yg2JWDyb25I766cQQ2G6fkCP7tnbzwoplUUgSCP6BoECGA5wvTM9g
+ 5Sr1wMVsmuxlCeLmfbTfQQWfFFHeVcDCYpTwuAI6HpIs25++zTgsKML4FHkYX3vPMHWF
+ 1LfBI//P+XFmdhrO/Ovbgj68aFsAKAtbVOCUs7uddMd2yxeb6TKYD7hniBDGGxUFP1j1
+ zbC9gf6yCDzYRBlHQzdPPdwn/UWmbEKMODOE+FfiBce2CTjZZb2zt9K3YfhqliZslcSh
+ V3UJaB5j8RRX66dTcTk8SLLGIphZNxFUWb/hJycFUIDecjsERRNA9W4yeYT5qDcKoYj3
+ ffIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eEkC4W7uTDt5OeWX/S5kHSE0qmVobg9OD2eDr+oF0C4=;
- b=UdVmNGOP+nga4LfGEedLBOKCD78A+m8EabNlyMdNzp2LmSaA926SjfeJTG4nC8eL7K
- T38HhWn/i1cCDPZioj4Tb8IHLAkbX5rNB08n7IxDTI9qL0oX2BItqJrz6ghJIaG/sxku
- v+ePLdZ5dTs54vOay1EQRmIOcfOrjo8OoErh2wjtiiy49nFbJvTKYYCJ0RASQXUOyZNM
- 7RhQwZbZalTTP8Myh0r5hLaWbSn1JNA4hPeQvHUPbwoo185hTvXxNr5j8zS+C1VQhvou
- 3dtX6yRYjQMsclMk1rhWnAQgX3XhTNGPlP3BX67nTqB8A3Zp/Q28+A5YELdygfP+nyH+
- 8pIw==
-X-Gm-Message-State: AOAM533UKyPZtulMt2o0+Ww1p++wD4BmeX19EpBgC470/zDSDJahtivR
- 5aNrhEJbsvct6qjAp1GRL/nYboh30ddrpG09
-X-Google-Smtp-Source: ABdhPJwFTS1sDdaTRgN0zCBg+XV/tNdK3O4hUE9xjnscisAvBSW4RsHzCE4A/NCb140ywWFRZwRsqg==
-X-Received: by 2002:a05:6638:265:: with SMTP id
- x5mr5014125jaq.23.1630012362733; 
- Thu, 26 Aug 2021 14:12:42 -0700 (PDT)
+ bh=LfrE81ZrxSCq64hVLSr9n7zzdJ11Q73sKolgD5sAWUM=;
+ b=S67SCyfHmEza8FkcnoCmtrxyI+IiWsYDi3uOcV9Bo5anekJHmnryYh8XpkCzESYEte
+ 6ChyH5mt3Tx9AnzFkP2CfL2vBQmT5GaGwVe/5I1UJJ/ldhKkWay9d+MDL6f/sa2yVYfo
+ dBKIv4rA28g22R1S87oP0nfh99N64b2A/dX3vbcRUm4Z4s+xu3XuqQpkL7C3TyJ+G3/o
+ WbOMssSScpx+PB55VkT6zi1qz5QWjAxjAfQdXmzSBLzBVFRmysM8lOrDalmRy6RnnDt0
+ UnrR9CcK837WtlySlBdJVV17vBwSuD+i4hxPN/OwydhYVM/nv5N/cwTkaBDevLD5LYBK
+ PFzQ==
+X-Gm-Message-State: AOAM530POwGbcyiorl5VZsiq9kHAvQcj5/tDhiVxRYszpJknUPCYVhdn
+ 95GgBm5BSUGr0CJr+XHxYt9OD2IfsbTJE+sB
+X-Google-Smtp-Source: ABdhPJwG52LfIlFVT/VgQpb3RcjBotg9n6coJLoiOL7koDaDMQ2cCnbWdVGM43q8a2oPfO5sz6HtMQ==
+X-Received: by 2002:a02:c8cc:: with SMTP id q12mr5131032jao.93.1630012363630; 
+ Thu, 26 Aug 2021 14:12:43 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id a17sm2348633ilp.75.2021.08.26.14.12.41
+ by smtp.gmail.com with ESMTPSA id a17sm2348633ilp.75.2021.08.26.14.12.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 14:12:42 -0700 (PDT)
+ Thu, 26 Aug 2021 14:12:43 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 22/43] bsd-user: Include more things in qemu.h
-Date: Thu, 26 Aug 2021 15:11:40 -0600
-Message-Id: <20210826211201.98877-23-imp@bsdimp.com>
+Subject: [PATCH v2 23/43] bsd-user: define max args in terms of pages
+Date: Thu, 26 Aug 2021 15:11:41 -0600
+Message-Id: <20210826211201.98877-24-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210826211201.98877-1-imp@bsdimp.com>
 References: <20210826211201.98877-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2b;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2b.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -82,47 +81,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Warner Losh <imp@FreeBSD.org>, Warner Losh <imp@bsdimp.com>
+Cc: Kyle Evans <kevans@freebsd.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Warner Losh <imp@FreeBSD.org>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@FreeBSD.org>
 
-Include more header files to match bsd-user fork.
+For 32-bit platforms, pass in up to 256k of args. For 64-bit, bump that
+to 512k.
 
+Signed-off-by: Kyle Evans <kevans@freebsd.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/qemu.h | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ bsd-user/qemu.h | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
 diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index 5e4cbb40d4..55d71130bb 100644
+index 55d71130bb..fea1a167e4 100644
 --- a/bsd-user/qemu.h
 +++ b/bsd-user/qemu.h
-@@ -18,12 +18,12 @@
- #define QEMU_H
+@@ -20,6 +20,7 @@
  
- 
-+#include "qemu/osdep.h"
+ #include "qemu/osdep.h"
  #include "cpu.h"
++#include "qemu/units.h"
  #include "exec/cpu_ldst.h"
-+#include "exec/exec-all.h"
+ #include "exec/exec-all.h"
  
- #undef DEBUG_REMAP
--#ifdef DEBUG_REMAP
--#endif /* DEBUG_REMAP */
+@@ -101,11 +102,17 @@ extern const char *qemu_uname_release;
+ extern unsigned long mmap_min_addr;
  
- #include "exec/user/abitypes.h"
+ /*
+- * MAX_ARG_PAGES defines the number of pages allocated for arguments
+- * and envelope for the new program. 32 should suffice, this gives
+- * a maximum env+arg of 128kB w/4KB pages!
++ * TARGET_ARG_MAX defines the number of bytes allocated for arguments
++ * and envelope for the new program. 256k should suffice for a reasonable
++ * maxiumum env+arg in 32-bit environments, bump it up to 512k for !ILP32
++ * platforms.
+  */
+-#define MAX_ARG_PAGES 32
++#if TARGET_ABI_BITS > 32
++#define TARGET_ARG_MAX (512 * KiB)
++#else
++#define TARGET_ARG_MAX (256 * KiB)
++#endif
++#define MAX_ARG_PAGES (TARGET_ARG_MAX / TARGET_PAGE_SIZE)
  
-@@ -36,6 +36,8 @@ enum BSDType {
- };
- extern enum BSDType bsd_type;
- 
-+#include "exec/user/thunk.h"
-+#include "target_arch.h"
- #include "syscall_defs.h"
- #include "target_syscall.h"
- #include "exec/gdbstub.h"
+ /*
+  * This structure is used to hold the arguments that are
 -- 
 2.32.0
 
