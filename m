@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0AA63F84B6
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 11:43:49 +0200 (CEST)
-Received: from localhost ([::1]:59304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FBBA3F8529
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 12:14:49 +0200 (CEST)
+Received: from localhost ([::1]:42150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJBvI-0002Hm-9g
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 05:43:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58682)
+	id 1mJCPC-0002b8-Qi
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 06:14:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJBu6-0001bK-Ep
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 05:42:34 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:33736)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJBu4-0007DT-Hc
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 05:42:34 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id s25so3803587edw.0
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 02:42:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=h+jzmOTR8AERWsxwbvSmLSLd5obtPlGREJm8FbHeNCI=;
- b=Lrb+sq72zmEjTLa205ak3F3MewX4M/T638qmhB2C00ATLJM7lINqDfU++cqih+o9Uu
- wdbaGbfSth9LFLlWXfD/Vl1Fn0Trqoko9IuEf/bKw4WkO7jZnlP+Awv/QXNe45Em3ReR
- Hx4T5a8ankUg11iGiG3BlcbZzc4lmBKl8RvkoAKnCZIqFivVHGSyhCADVPkjogMTWF5F
- WKLAdoLRYqtUtSRY2YNUv82X09z2jxgOA2VWmmp65fDjkpIdmBaFZ/M8jjAQ0X8dWThA
- Tzmfj8EXK9Zyo9OWqJXfdL0Pz0qxNUIUvHz/EG6I2XCYi/UAu2AYtfFekE9CUlXqQIJF
- ZDgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=h+jzmOTR8AERWsxwbvSmLSLd5obtPlGREJm8FbHeNCI=;
- b=rOQmPXYD4bIXL+GTfA+ixo25skjDRM7/1S7kV88FBxtQHZEq+ElIxKB4uyIRJIVPUa
- 3DxRQ2AikuM2E7ulSQfpz1EuqvMS4t+D+YmkysMX4vH1s75ouF4P9o9sLnww4dX+8EmO
- QmEB8fi2UhQEJVKE9lJx9AhrCXkTXJ4lIEg1CqBFK5gdl1TAUIJvlf5lppvwQWfopahY
- kuQ/4atmGuLU/yqx+WoQLwdz8K8sheWjqcBkVYsux6NChaIn1mx6+K+xwf+i3+30Hr+6
- 4xW7nfDJk9fWzoXliTy+tlqu8iVQ1gubDt5Il6v15WyMCPLloSWqsFcJszqhkbdO0Pz6
- FfLQ==
-X-Gm-Message-State: AOAM531TMScnI/wTftlIQPR25asPXsN2UcIhL5cTfv9GK09Y/HWTSbVF
- Af97DVbfso2Rkfdh/2RdzN9a/EPPkGzRkS93FjSXeg==
-X-Google-Smtp-Source: ABdhPJyJf8DFbOdO+jvH3RqSmCHSOGnLlLL1UybNZr06OjOnKpRQd9jfPd2xkNbMmEw/7p2zY6+ZKDO431oRDBZIKuo=
-X-Received: by 2002:a05:6402:157:: with SMTP id
- s23mr3295562edu.36.1629970950761; 
- Thu, 26 Aug 2021 02:42:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mJCNz-0001uG-HJ
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 06:13:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20615)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mJCNw-00036B-36
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 06:13:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629972802;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0a9FyQ8pkS9692Sgt+LnpoD5fEBDwGdQCkploFJtYOY=;
+ b=GGaFdNSbkSnuxzn/+9FuYxBvNahh8z2Hj6esAPBn3+2KGsBklGd5YwYgesUOmJLB+A8LBw
+ 86oKLEA+JeMc0vY1kST/7CCwXm4n7AcZU1jfStFrW3NSumqXI6qGOs7c3divJMf5cwNRdJ
+ sQBkm2bEvJkIOM8PMLGVX04uAiUkVQA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-200-P2LE4Q-cMCuIxU4yJ0A88Q-1; Thu, 26 Aug 2021 06:13:21 -0400
+X-MC-Unique: P2LE4Q-cMCuIxU4yJ0A88Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA6A1800EB8;
+ Thu, 26 Aug 2021 10:13:19 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6BECD5C22B;
+ Thu, 26 Aug 2021 10:13:16 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 91BC018003AA; Thu, 26 Aug 2021 12:13:14 +0200 (CEST)
+Date: Thu, 26 Aug 2021 12:13:14 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: isaku.yamahata@gmail.com
+Subject: Re: [RFC PATCH v2 04/44] vl: Introduce machine_init_done_late notifier
+Message-ID: <20210826101314.bi5fkgelnkfo6d7b@sirius.home.kraxel.org>
+References: <cover.1625704980.git.isaku.yamahata@intel.com>
+ <80ac3e382a248bac13662d4052d17c41f1c21e3a.1625704980.git.isaku.yamahata@intel.com>
 MIME-Version: 1.0
-References: <20210825130211.1542338-1-f4bug@amsat.org>
-In-Reply-To: <20210825130211.1542338-1-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 26 Aug 2021 10:41:43 +0100
-Message-ID: <CAFEAcA-mgT7zL2-HBAgfMeF-DxAU7xpcrvMB-y57u-K5tOhjWA@mail.gmail.com>
-Subject: Re: [PULL 00/28] MIPS patches for 2021-08-25
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <80ac3e382a248bac13662d4052d17c41f1c21e3a.1625704980.git.isaku.yamahata@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.745,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,45 +74,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: isaku.yamahata@intel.com, cohuck@redhat.com, ehabkost@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, seanjc@google.com, alistair@alistair23.me,
+ xiaoyao.li@intel.com, qemu-devel@nongnu.org, mtosatti@redhat.com,
+ erdemaktas@google.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 25 Aug 2021 at 14:06, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> The following changes since commit d42685765653ec155fdf60910662f8830bdb2c=
-ef:
->
->   Open 6.2 development tree (2021-08-25 10:25:12 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/philmd/qemu.git tags/mips-20210825
->
-> for you to fetch changes up to bf78469cc8ddb117b6db4a353e59fb4664a96de4:
->
->   target/mips: Replace TARGET_WORDS_BIGENDIAN by cpu_is_bigendian() (2021=
--08-25 13:02:14 +0200)
->
-> ----------------------------------------------------------------
-> MIPS patches queue
->
-> - minor simplifications in PREF / JR opcodes
-> - merge 32-bit/64-bit Release6 decodetree definitions
-> - converted NEC Vr54xx extension opcodes to decodetree
-> - housekeeping in gen_helper() macros
-> - replace TARGET_WORDS_BIGENDIAN #ifdef'ry by cpu_is_bigendian()
-> - allow Loongson 3A1000 to use up to 48-bit VAddr
->
-> ----------------------------------------------------------------
+On Wed, Jul 07, 2021 at 05:54:34PM -0700, isaku.yamahata@gmail.com wrote:
+> From: Isaku Yamahata <isaku.yamahata@intel.com>
+> 
+> Introduce a new notifier, machine_init_done_late, that is notified after
+> machine_init_done.  This will be used by TDX to generate the HOB for its
+> virtual firmware, which needs to be done after all guest memory has been
+> added, i.e. after machine_init_done notifiers have run.  Some code
+> registers memory by machine_init_done().
 
+Can you be more specific than "some code"?
 
-Applied, thanks.
+I see only pc_memory_init() adding guest ram (and the corresponding e820
+entries), and that should run early enough ...
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
-for any user-visible changes.
+thanks,
+  Gerd
 
--- PMM
 
