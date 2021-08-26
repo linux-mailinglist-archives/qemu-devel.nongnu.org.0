@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 984DF3F8CE9
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:25:13 +0200 (CEST)
-Received: from localhost ([::1]:49104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E5F3F8CBB
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:10:20 +0200 (CEST)
+Received: from localhost ([::1]:60208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJJ7j-0007i2-Lk
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:25:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45092)
+	id 1mJItK-0002aS-Kb
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:10:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJImw-00060d-S2
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:38 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:41684)
+ id 1mJImx-000649-NA
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:39 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:53872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJImv-00005N-5d
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:38 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- c129-20020a1c35870000b02902e6b6135279so2677571wma.0
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:36 -0700 (PDT)
+ id 1mJImw-00006Q-7U
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:39 -0400
+Received: by mail-wm1-x334.google.com with SMTP id i3so2245676wmq.3
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=uBfKuvC9vU4hge2NlBpeQ1rXhY8CEOUWhY6VAa6lKr8=;
- b=VRXpm+/bujLAHl3N0mlFnpR09gEOsygHWtImjA1PAhWHsPXb3n9ua1gQ5nZrAjddYT
- HRyik5gtecTGbbdBMgrkS2v/cQAMTDTF61HQz4nVMrCFPkOL0L2gBje4bXd338WbCnWH
- iYuGCVTmgZ8sH9aVoPQwE8vA25lIAF0hdcVyVcAvgx5zvqWh+IGNGOoD01UIUmGIVMoa
- 7T4lv07FWgFy0JNBeJimv2wiOUsUJMQkZCB9yVE2sCOhDtwMBR0pMEIUMLc0pKKqquwF
- xMH1fKaY68d+dwuqbeQ+Hh0YmgGoHRWIeFhNb9NFxC5aO2PwyKpPm53Hk+uCpnx84Tp9
- P0jw==
+ bh=duV1NJYvhbTjXRB/sB4q/N+Q39wEGYQP8q4khg4Tuts=;
+ b=Hzt2NczQuBGi18+bI3pwG6ksNrb/yioWNtRGe52kEYGBHtIDZ9en3BhvoCM71LWeH8
+ JOvjkGOL1C0Clp+oir/mgl93J9P3gqaQm8CepVQ9pu0CbACifCc5FFIoCk37ZSZsYDSx
+ p8F5dyDjzBev2G8mujl4a4nF34ONUp4YtMaijbaZuh0IgdViF00thXkQkoUBrZ21TyTN
+ F1KlNkq8BnIRLlSBBRsSuL1ABdnbsiy1WG6wyzlr1coinKe+M6xmzgGjvfQFiQLulZPH
+ 0j6QrHCzCzhMaNoZLLQDFATCODaA2O+M4mPTG+WC1kQH6hzqttQ5hvfuQw1Ei7Nt0i5N
+ iDDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uBfKuvC9vU4hge2NlBpeQ1rXhY8CEOUWhY6VAa6lKr8=;
- b=n/ToynBAv9p0S1l5ZoQR5XNlDc3oonA3aBGh90C55o/9HqKXW1wVh55FUSqt0vctDe
- PsIezwZXTGL4x4mQM3/oaOw7ceZ6TctX3vWePaMQsbKOYWc1Kvg9kRkruE8F2liOPER6
- BiW1vc6AkcxCLPxwXKfhpg8He1rrJtHYYiMpFdYW7lQv35a2sT48djkzb5TNkymQn2Dt
- dxqt5fhyLr/cJar0P4V0fbWm6+giEkCN5P9u5sKDS3qA571Jf/+kJECq1wYLnmI9IgzJ
- eZ42700dN8kHg8fJFFr/vtcF13lzb4KUqzhRf/moKsElpUf8lH1+9XjmZz19pRl3b/YT
- /wtg==
-X-Gm-Message-State: AOAM531fKXg7TkOpqGnsRz5EllFiuCdgx45AY0RKCFJ3LQsSQ2HuwOz7
- 3GIGIwFVMKyxEugXT4W3m1HIRR1uu4MwYQ==
-X-Google-Smtp-Source: ABdhPJyxCGTKY5n4hdEPSlE47hxakcYoU72Kus+VQp/wTS6+qs1KrBcgIHWRav8dQb473CKtQ65ujQ==
-X-Received: by 2002:a1c:1c2:: with SMTP id 185mr4629806wmb.11.1629997415758;
- Thu, 26 Aug 2021 10:03:35 -0700 (PDT)
+ bh=duV1NJYvhbTjXRB/sB4q/N+Q39wEGYQP8q4khg4Tuts=;
+ b=YUTkZYxPDlfIV87XxV7XaF2Uehg6WSO096Gj8pl2O+GmfySfPJj6o2SspXFFfB3X+W
+ T6qTy7bXaU7moayz7LukyggRUmaIzn9DwLcpuX8CfXlQNQ2qGYimc8RtfEQhE8BNvdeP
+ NW7unrjCXjZaZnpgdFkRExHJdn37NS9Xd8aZKSG3kZJrGv+Z0B2xML3URKubwDBvNH3X
+ RPHq3vODSD14bbg8iB31nw7MX43+KSfmX9Z/bxaMF2dabJ4eeaq/jQauNthqfAfbudh9
+ r0Im14G/X9bxhFHhe1e1ZrXe0DQaWq6KfSNfFnEDDjTAvXA7+ZEBjgbGVaprOg0h29BV
+ xrOg==
+X-Gm-Message-State: AOAM530CYLiDdp1o5mMjHF71gacGciqwCRnKgyYeoGn4qNXix3wjlO1b
+ ERMVVX9zKnaHatIAKVyLSgzrBWFZKOk/Gg==
+X-Google-Smtp-Source: ABdhPJw2ThuR8Y/Ahy9+xtD5uu9xYjmyGh86bnP9ubPjt/l9akz3aD0oCgpY0M6JmxO5FjiAtLkWQg==
+X-Received: by 2002:a1c:7ecb:: with SMTP id
+ z194mr15498761wmc.182.1629997416841; 
+ Thu, 26 Aug 2021 10:03:36 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.35
+ by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.36
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 10:03:35 -0700 (PDT)
+ Thu, 26 Aug 2021 10:03:36 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/37] softmmu/physmem.c: Check return value from realpath()
-Date: Thu, 26 Aug 2021 18:02:55 +0100
-Message-Id: <20210826170307.27733-26-peter.maydell@linaro.org>
+Subject: [PULL 26/37] net: Zero sockaddr_in in parse_host_port()
+Date: Thu, 26 Aug 2021 18:02:56 +0100
+Message-Id: <20210826170307.27733-27-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210826170307.27733-1-peter.maydell@linaro.org>
 References: <20210826170307.27733-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,34 +87,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The realpath() function can return NULL on error, so we need to check
-for it to avoid crashing when we try to strstr() into it.
-This can happen if we run out of memory, or if /sys/ is not mounted,
-among other situations.
+We don't currently zero-initialize the 'struct sockaddr_in' that
+parse_host_port() fills in, so any fields we don't explicitly
+initialize might be left as random garbage.  POSIX states that
+implementations may define extensions in sockaddr_in, and that those
+extensions must not trigger if zero-initialized.  So not zero
+initializing might result in inadvertently triggering an impdef
+extension.
 
-Fixes: Coverity 1459913, 1460474
-Fixes: ce317be98db0 ("exec: fetch the alignment of Linux devdax pmem character device nodes")
+memset() the sockaddr_in before we start to fill it in.
+
+Fixes: Coverity CID 1005338
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Jingqi Liu <jingqi.liu@intel.com>
-Message-id: 20210812151525.31456-1-peter.maydell@linaro.org
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-id: 20210813150506.7768-2-peter.maydell@linaro.org
 ---
- softmmu/physmem.c | 3 +++
- 1 file changed, 3 insertions(+)
+ net/net.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 31baf3a8877..23e77cb7715 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -1451,6 +1451,9 @@ static int64_t get_file_align(int fd)
-         path = g_strdup_printf("/sys/dev/char/%d:%d",
-                     major(st.st_rdev), minor(st.st_rdev));
-         rpath = realpath(path, NULL);
-+        if (!rpath) {
-+            return -errno;
-+        }
+diff --git a/net/net.c b/net/net.c
+index 76bbb7c31b4..52c99196c69 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -75,6 +75,8 @@ int parse_host_port(struct sockaddr_in *saddr, const char *str,
+     const char *addr, *p, *r;
+     int port, ret = 0;
  
-         rc = daxctl_new(&ctx);
-         if (rc) {
++    memset(saddr, 0, sizeof(*saddr));
++
+     substrings = g_strsplit(str, ":", 2);
+     if (!substrings || !substrings[0] || !substrings[1]) {
+         error_setg(errp, "host address '%s' doesn't contain ':' "
 -- 
 2.20.1
 
