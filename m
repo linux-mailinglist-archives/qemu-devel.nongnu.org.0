@@ -2,49 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B71B3F8A01
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 16:19:40 +0200 (CEST)
-Received: from localhost ([::1]:35168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69AF63F8A13
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 16:27:32 +0200 (CEST)
+Received: from localhost ([::1]:48500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJGEF-0007zf-LQ
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 10:19:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36760)
+	id 1mJGLq-0000uO-UN
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 10:27:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mJGBT-0006Oi-Px; Thu, 26 Aug 2021 10:16:47 -0400
-Received: from [201.28.113.2] (port=2975 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mJGBS-0003xy-EX; Thu, 26 Aug 2021 10:16:47 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 26 Aug 2021 11:15:26 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id BA959800930;
- Thu, 26 Aug 2021 11:15:25 -0300 (-03)
-From: matheus.ferst@eldorado.org.br
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH v2 2/2] target/ppc: fix vextu[bhw][lr]x helpers
-Date: Thu, 26 Aug 2021 11:14:46 -0300
-Message-Id: <20210826141446.2488609-3-matheus.ferst@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210826141446.2488609-1-matheus.ferst@eldorado.org.br>
-References: <20210826141446.2488609-1-matheus.ferst@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mJGKc-0008F9-F6
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 10:26:14 -0400
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:43573)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mJGKa-0002BM-Rb
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 10:26:14 -0400
+Received: by mail-ej1-x635.google.com with SMTP id ia27so6669194ejc.10
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 07:26:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/zNi7sjaRrO8YP/D79a5nfilm9vrzzc3P/RNfzPzqcQ=;
+ b=oEABQIOPqNvZUilPsNxa9pJXBn68C7iFip7Km4wT8QsJky0X49s9Zw6nZPHhsYt0pR
+ QhNGrZfUyVg1aB0kcTfgGlI3E7XM46sxQIG84aA1Ubnr4JNCOgHzHHPwaEeFPUMlPyEn
+ 5MbyfxRRrwqOIUyUu2mzb1nKyY14nhfrtIhdVvHJJ/jJTvaQx1cOviG7aTSu+D/7qaox
+ uvDRM6qFp4ua90qE9ZbWisN/vLeO2/l3mBluu3guvROIQwPYl29d+v8hoeXcE9hPUssd
+ 6q44Uo6eMQn+Gq6+IyB3oXw9yiJ1ipLy+IUrJ2Pl2hl/DZxHoNkXLJlQXGSF2Ok6SHR1
+ 2cZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/zNi7sjaRrO8YP/D79a5nfilm9vrzzc3P/RNfzPzqcQ=;
+ b=FAKJ+FqavqNcq2xZ4cxnBM8q0Lmm7O4t9+13RAyN2MV3sz+WDQT5MlpaQZOeTLGsR6
+ wU9r8pbbmC3t/FV8VfjzCtgPYRJZK821PxY2MWbQ7f16Y95kc0zvy5bn3HqKJNLcTcuR
+ HWdu3Cc1VEV2n9zwXfYmi5mp8zTNd7nBKHyBOPKITPb1IPfxMg5OHKE0batuU037zWpq
+ URoOheCUqGkj95MagIGFyBjlOJtBy1hBWIBphcqj+0QTFRT3IcYWTCEgOF8LGvxip6Pv
+ xXfhV9o7gW2SYsgPiA8steC4Ne5CfVV2SFGT33ALQmuZqalHgnue7RsAbDPYSzXqXBEA
+ Go9w==
+X-Gm-Message-State: AOAM532Pzl9Zreiia0f+d+CPDA/1bNgBPsrUiGPd7B+C/Kj89TDOdPUE
+ Cd4Iae1yj6txiY2qa65DNjE5QFc71aAwrlewIz6Cew==
+X-Google-Smtp-Source: ABdhPJxR7/OUoG84fWeOhSUbJiTpuiU2/q63QdjbjGn03s3D5V9oqENgZVscjfjE6EX8IwKJ/sxN8D9CK3SUAcIVtkY=
+X-Received: by 2002:a17:906:c085:: with SMTP id
+ f5mr4677455ejz.250.1629987970632; 
+ Thu, 26 Aug 2021 07:26:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 26 Aug 2021 14:15:26.0155 (UTC)
- FILETIME=[D0E1F9B0:01D79A84]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210821094527.491232-1-florian.hauschild@fs.ei.tum.de>
+ <20210821094527.491232-2-florian.hauschild@fs.ei.tum.de>
+ <CAFEAcA8vKOmD+e7h1PSBEv_BUtkkcq8+SskZGhBNZ-kACs4S3w@mail.gmail.com>
+ <22e65815-7aaa-69d1-fa72-d40f3d480498@fs.ei.tum.de>
+ <CAFEAcA9itqeya5WVhfsVEvjvFStSW=yrAtOw6tcak9QrG+nxeQ@mail.gmail.com>
+ <3ff9641c-a6b8-00aa-2ade-f8c89412059f@fs.ei.tum.de>
+In-Reply-To: <3ff9641c-a6b8-00aa-2ade-f8c89412059f@fs.ei.tum.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 26 Aug 2021 15:25:22 +0100
+Message-ID: <CAFEAcA8B7dmQeQj9cpYOYck2BnuK6afGGC4H3UpRp+i-UQRLvg@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/1] QEMU plugin interface extension
+To: Florian Hauschild <florian.hauschild@fs.ei.tum.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,75 +82,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org, f4bug@amsat.org,
- groug@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
- david@gibson.dropbear.id.au
+Cc: Alexandre Iooss <erdnaxe@crans.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+On Thu, 26 Aug 2021 at 15:12, Florian Hauschild
+<florian.hauschild@fs.ei.tum.de> wrote:
+> Form my observation all three insn_cb would see x0 == 2. They are
+> executed at the end of a tb execution.
 
-These helpers shouldn't depend on the host endianness, as they only use
-shifts, ands, and int128_* methods.
+The documentation for the insn_exec_cb says the cb is called
+every time an instruction is executed. That won't always be at
+the end of a TB, will it ?
 
-Fixes: 60caf2216bf0 ("target-ppc: add vextu[bhw][lr]x instructions")
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
- target/ppc/int_helper.c | 38 ++++++++++----------------------------
- 1 file changed, 10 insertions(+), 28 deletions(-)
+> Please correct me if i am wrong:
+> When the TB is executed, first the TB cb is executed, then the various
+> instruction cb. If you would like to see x0 in between instructions (e.g
+> mov and first add), QEMU need to be in single step mode.
+> The plugin infrastructure does have some sort of infrastructure to tell
+> the tcg if the registers are read or written to, but does apparently not
+> use it. The register values seem to be written back before the various
+> cbs are called.
 
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index efa833ef64..c2d3248d1e 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -1492,34 +1492,16 @@ void helper_vlogefp(CPUPPCState *env, ppc_avr_t *r, ppc_avr_t *b)
-     }
- }
- 
--#if defined(HOST_WORDS_BIGENDIAN)
--#define VEXTU_X_DO(name, size, left)                                \
--    target_ulong glue(helper_, name)(target_ulong a, ppc_avr_t *b)  \
--    {                                                               \
--        int index;                                                  \
--        if (left) {                                                 \
--            index = (a & 0xf) * 8;                                  \
--        } else {                                                    \
--            index = ((15 - (a & 0xf) + 1) * 8) - size;              \
--        }                                                           \
--        return int128_getlo(int128_rshift(b->s128, index)) &        \
--            MAKE_64BIT_MASK(0, size);                               \
--    }
--#else
--#define VEXTU_X_DO(name, size, left)                                \
--    target_ulong glue(helper_, name)(target_ulong a, ppc_avr_t *b)  \
--    {                                                               \
--        int index;                                                  \
--        if (left) {                                                 \
--            index = ((15 - (a & 0xf) + 1) * 8) - size;              \
--        } else {                                                    \
--            index = (a & 0xf) * 8;                                  \
--        }                                                           \
--        return int128_getlo(int128_rshift(b->s128, index)) &        \
--            MAKE_64BIT_MASK(0, size);                               \
--    }
--#endif
--
-+#define VEXTU_X_DO(name, size, left)                            \
-+target_ulong glue(helper_, name)(target_ulong a, ppc_avr_t *b)  \
-+{                                                               \
-+    int index = (a & 0xf) * 8;                                  \
-+    if (left) {                                                 \
-+        index = 128 - index - size;                             \
-+    }                                                           \
-+    return int128_getlo(int128_rshift(b->s128, index)) &        \
-+        MAKE_64BIT_MASK(0, size);                               \
-+}
- VEXTU_X_DO(vextublx,  8, 1)
- VEXTU_X_DO(vextuhlx, 16, 1)
- VEXTU_X_DO(vextuwlx, 32, 1)
--- 
-2.25.1
+Any new plugin API for "read/write registers" needs to work correctly
+at any point where it is valid for it to be called, whether QEMU
+is in single-step mode or not.
 
+I guess we'll wait for Alex to get back from holiday and have a look at this...
+
+thanks
+-- PMM
 
