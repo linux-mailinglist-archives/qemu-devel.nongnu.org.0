@@ -2,51 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B8223F886A
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 15:11:49 +0200 (CEST)
-Received: from localhost ([::1]:40292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ED093F8845
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 15:03:38 +0200 (CEST)
+Received: from localhost ([::1]:34018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJFAZ-0004s4-Im
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 09:11:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48474)
+	id 1mJF2e-00006r-Kn
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 09:03:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <62f08c3c6e1e4f669b034af831dd898aed9a902c@lizzy.crudebyte.com>)
- id 1mJF7Y-0003O0-FH
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 09:08:40 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:54677)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <62f08c3c6e1e4f669b034af831dd898aed9a902c@lizzy.crudebyte.com>)
- id 1mJF7R-0006Vt-WE
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 09:08:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
- Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
- Content-Description; bh=0E+jOWv0uKjvZG2iAtApUvcFkdUHOYDQbj6eBDsr/S4=; b=bkBAp
- dPuULEgsTSDBpzc/wtfrI2NB+tdWaaNbGuRwZD0c4Jq28iPTsGSVosW6Cb07dGELQwgVMKFuuK9+P
- DLDMqa04UoHSHRN9vd0go0coBZIxlzIIJWxbby+isdXLxae7jnAbmW7tWsliyJ9QmGmGx1AnHBmfa
- DjiFOR4NrfEgEgYhvVwgevmr3Il6IYhb3dFKsUzM4cgs3FWgKQ17k6oCjyuitGDjofo4rwKv7aT5C
- 13oXA1fNR95lgSl6p4np1rGfS+BPIuCv7O1AyET8TLI1I7v5BuB5Y1KWnMk5fid+gyAMXIfOYmlDi
- 9N6RjdQqYXpOQul8aWBgDMwtFf4Ng==;
-Message-Id: <cover.1629982046.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Thu, 26 Aug 2021 14:47:26 +0200
-Subject: [PATCH v3 0/5] introduce QArray
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=62f08c3c6e1e4f669b034af831dd898aed9a902c@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mJF0q-0007AQ-Ab
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 09:01:46 -0400
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:43803)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mJF0o-0002Jx-Eg
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 09:01:43 -0400
+Received: by mail-ed1-x534.google.com with SMTP id dm15so4521245edb.10
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 06:01:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kHDsMw0ijjESA2TZPIA3la3msaDnpBif+c9BedbIdvc=;
+ b=jyQlHsmH1AfP0hJCUszG8gMkkq2opcvfeget0LNJVaK2Ah1GkrYE0pmGCwML2eBZXB
+ sr+ZU00+J4VqnWsxKF+gaWrpXxVZ78yREqg2LZk0vwPdrsMwTZsQCeSFEnL7LqRcHwp/
+ OJm31tWx/b/jzGcI54aPm1SmwewxgJuz8TNAVfp+65oDAPuSJue2i2N3NxJK2yVIZanF
+ ZioMWazBHmLVllyp1LH68R/FMxL0sPVErcDuH+y4tC5BEqoocKahoMlD8p2/gdcIGgpl
+ eFJvARCyMrUf3AzlGNnQic6gJaucCJ37EWRltEnDSr1gY/YJ+AzS11fq/Uq335zOm9SK
+ a+DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kHDsMw0ijjESA2TZPIA3la3msaDnpBif+c9BedbIdvc=;
+ b=YlfXMGIobC0UoCk/aMEDpsyXXrts7TX4ZPwiJkK03pbuJbjRlwg1SHysGs/4BP5DAR
+ 7SWvQy2mwWalrkOxH5RzXwIYSZv2jJgGHobsB6FKkPnCEUQClY3azXd6PkPedcUTAd+W
+ a7xhooOlVoFxfQqgWFVIf9UCXqnBksmFwe6XTXRKGQFX94ET+1E99B/QhBi66CC2iQ10
+ CgTixIVw6Ok8/4/iz7lMKGpuY2b8xRYJ9eC5RUNe321dYVYHn2Xmo6B/8OJvjvQPI998
+ kuVQc6rCcP4QBab22gafGJ0Epw9/lfh1NzDaoQV/IkYKwqmtJ1DLafXwviAZ5aGaGSFt
+ NT+Q==
+X-Gm-Message-State: AOAM533mF96tBKw1wQtLXiuWN1IpsN336qB6BmNRxKLPrtnBNboWgSH2
+ 5Pl1wtJt/g8bFvi1o2eFeEib5iPbFeCgss9UsgmrdJj8w6s=
+X-Google-Smtp-Source: ABdhPJxb8+n6HwD/aWqDPX6rZaaIakrA/z1lFHzw+Hf7AC8EaFrOL3eqcRKCIu7pvVd0rKWi24IJP0cF30CKFAybfwQ=
+X-Received: by 2002:a05:6402:4404:: with SMTP id
+ y4mr4186135eda.52.1629982900541; 
+ Thu, 26 Aug 2021 06:01:40 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAFEAcA8Q2XEANtKfk_Ak2GgeM8b_=kf_qduLztCuL=E_k36FWg@mail.gmail.com>
+In-Reply-To: <CAFEAcA8Q2XEANtKfk_Ak2GgeM8b_=kf_qduLztCuL=E_k36FWg@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 26 Aug 2021 14:00:53 +0100
+Message-ID: <CAFEAcA9NEOSyCxzikhfkG81zxeW931syv5HDvYvvF7=Xvr90kA@mail.gmail.com>
+Subject: Re: ensuring a machine's buses have unique names
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,57 +77,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Patches 1 and 2 introduce include/qemu/qarray.h which implements a deep auto
-free mechanism for arrays. See commit log of patch 1 for a detailed
-explanation and motivation for introducing QArray.
+On Thu, 12 Aug 2021 at 12:05, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> What's the right way to ensure that when a machine has multiple
+> buses of the same type (eg multiple i2c controllers, multiple
+> sd card controllers) they all get assigned unique names so that
+> the user can use '-device ...,bus=some-name' to put a device on a
+> specific bus?
+>
+> For instance in hw/arm/xlnx-zynqmp.c, the SoC object creates
+> a set of alias properties on the SoC for the sd-bus buses that
+> its 4 SD card controllers create. The alias properties are named
+> "sd-bus%d" so they are unique. This works, but it's kind of error-prone
+> because you need each machine model to remember to create these
+> aliases when necessary.
+>
+> mps3-an524 is an example of a machine that fails to do this
+> for its i2c buses, and therefore the user can't usefully
+> tell QEMU which bus to plug a command-line created i2c bus into.
+>
+> Ideally we should make buses get unique names by default
+> and also assert() at startup that there aren't any duplicated
+> names, I think.
+>
+> Side note: is there a way to mark a bus as "do not consider
+> this when plugging devices where the user did not specify
+> the bus themselves" ? Some of the i2c buses on that machine
+> are purely internal to the board (eg there's one that has
+> the touchscreen controller hanging off it and nothing else),
+> and some are "this i2c bus is connected to the expansion port",
+> so ideally if no bus is specified we would want to prefer
+> the expansion-port i2c bus, not the ones that are internal-only.
 
-Patches 3..5 are provided (e.g. as example) for 9p being the first user of
-this new QArray API. These particular patches 3..5 are rebased on my
-current 9p queue: https://github.com/cschoenebeck/qemu/commits/9p.next
-which are basically just the following two queued patches:
+Ping, in the hopes anybody has an answer to these...
 
-https://github.com/cschoenebeck/qemu/commit/7772715d43908235940f5b7dec68d0458b1ccdf4
-https://github.com/cschoenebeck/qemu/commit/838b55e392ea7d52e714fdba1db777f658aee2cc
-
-v2 -> v3:
-
-    * Refactor QArrayRef() -> QARRAY_REF() [patch 1], [patch 5].
-
-    * Commit log: Add more thorough explanation for the motivation of QArray,
-      along with example for advantage over GArray [patch 1].
-
-    * Commit log: Add reason for using MIT license for qarray.h instead of
-      the standard QEMU license GPLv2+ [patch 1].
-
-    * API doc comments: use 'size_t' type consistently in API doc example
-      code [patch 1].
-
-v1 -> v2:
-
-    * Minor API comment changes [patch 1].
-
-    * Perform strong type check by using __builtin_types_compatible_p()
-      instead of a weak check using sizeof() [patch 2].
-
-Christian Schoenebeck (5):
-  qemu/qarray.h: introduce QArray
-  qemu/qarray.h: check scalar type in QARRAY_CREATE()
-  9pfs: make V9fsString usable via QArray API
-  9pfs: make V9fsPath usable via QArray API
-  9pfs: use QArray in v9fs_walk()
-
- fsdev/9p-marshal.c    |   2 +
- fsdev/9p-marshal.h    |   3 +
- fsdev/file-op-9p.h    |   2 +
- hw/9pfs/9p.c          |  19 ++---
- include/qemu/qarray.h | 160 ++++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 174 insertions(+), 12 deletions(-)
- create mode 100644 include/qemu/qarray.h
-
--- 
-2.20.1
-
+-- PMM
 
