@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 232EA3F8CF8
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:26:43 +0200 (CEST)
-Received: from localhost ([::1]:54964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAB7A3F8CCC
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:16:45 +0200 (CEST)
+Received: from localhost ([::1]:52968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJJ9G-0003K9-5o
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:26:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45236)
+	id 1mJIzc-0008F9-ID
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:16:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJIn4-0006HQ-6o
+ id 1mJIn5-0006HU-5X
  for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:47 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:51172)
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:43978)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJIn1-0000B9-V2
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:45 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id m2so2278556wmm.0
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:43 -0700 (PDT)
+ id 1mJIn3-0000Cj-HY
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:46 -0400
+Received: by mail-wr1-x432.google.com with SMTP id b6so6126081wrh.10
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=oiyXNGxu9IIMHJpXStpM0zzZ7SVtpaA14aPib5MdPfI=;
- b=ek3f95U5IrtJzZg8Tj8XGUMYsBUZzUG0GIT9vTEdmR6wPOU8kdCprOyxZkCzhVvEZi
- 1ScFkHXsV5wWxCmEQfjHl5MZE6VArLa97DXL1FA+kdENNpo+rUHRlZ7ShbgviW18pMZg
- Nqi7uJOJqtCye7POWgY0paVWuDQny9mtpwzLiMTqF7O1DzyN44LZYN6g60zx7FcL33Lw
- 7adkG+oNBUHBzKSc+gJJRV785MY5j36UxVqi40k2GzVZZTL3jvfDE7CLXhJnGSyOjrWx
- +KJr1I5kvt+Yy/K5GVx5Zsx0aCQ22FFlsMPHYQjnsPYpVkDL4TEiqghn4knHxphAnBxE
- NkBg==
+ bh=Fr5/qTsyPceG+UnhtkA8Hp2jMgS+2xvalZAPZZRCG0c=;
+ b=D4mhoU5p9enHjPx1ch/ZniNUveffVtm+Hry6JYOG02TcrA61BhMdj/76uEunjbKkVy
+ BqGICjIgf7m5rauJapthRhD26JmTsxG1PCm+qU5Qz6fDC7N1usK1K3ZJGhrkuJv0M+Og
+ 4XVXBX0OSgp+U4p0BAS2p5Abs6Ql4ePttjv6ZOnTWlCYfNRvB9diSZL1iR+6AKqsZk8l
+ TuZ4bhi3kg/fVBld12fduj5kcvnrteb5eluKATQTwUswopUBuPrmZ3vpsUUcPVWUdfOy
+ 6bfy8QNHEu4PhVqsf1e6Zaiuien3Z5+N/i0nw7a9/z+Zn8ujhZVnnAl3rl9nhMq+2jJl
+ 9lVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oiyXNGxu9IIMHJpXStpM0zzZ7SVtpaA14aPib5MdPfI=;
- b=h/oLixTm4QcIU7vz1d7P6+2aWEu4iTYAV8pRNuaVA+gs5Zo0cQ3wOcmpK6FmSP//ow
- nUlx1AHZcTcFeSlKjG+By/gts9iAZD/pdL3URL9Upf3iwBTawVlQKT+BjBtHJBOtnbpC
- nAyq1UWdcUheW8pomasAi1TGFQWXy7KbQlL3lXc7370V+0jvbiMTrqb5PlKBCbLN57qc
- ZCHqHMo9b9iAWsWK2yAdWN+sVWznDhbcFnMysU5vpjpDteRJ4B+RAbUzHqgDDtgiGBtn
- dg6q0veVjTfpJNAvDKhfDnLbe+Kqg4J2BbORbrwbIKwvvkMM3CprQh50pmS1/2KCdig7
- NFeg==
-X-Gm-Message-State: AOAM531S4eP/1JzmU4QTvXD9Ix2xhzIOkd+tpwtkzk9ifNXrOqUMdeis
- tHS4tKqXqCP6S0cBsFb0mjyRN22tOxQiTg==
-X-Google-Smtp-Source: ABdhPJwENaOgQyo01Wq2mE29T/mBdojLbLudWe1AG6PRcRUTrI9goO9I8zfZ7AYwF2acwhr3+Pcerg==
-X-Received: by 2002:a05:600c:299:: with SMTP id
- 25mr2673547wmk.107.1629997422549; 
- Thu, 26 Aug 2021 10:03:42 -0700 (PDT)
+ bh=Fr5/qTsyPceG+UnhtkA8Hp2jMgS+2xvalZAPZZRCG0c=;
+ b=dssd7vKC05YtsXX/hNzO7Zt8iw3LFwvgnrO+/jnk6J5ogex3VKZ74RZRpGIosbL+mp
+ mnC1m2zeRWs8rEncOnadz2G31GIW1d80oLAA6zVMIKyL4xCzwL9yY+8up/FouzsYUs29
+ eb3QL8ZescsPb5Mb5HrdhaGBASxPmUUqvCE10PFUwnWyPn97SAukPLAcxNNPnHxLfnrw
+ rhClbmNwU+x5TIJlrMIZlyTmkKU0JYwyGdALfVb4GIW8loGFzS74IPvoMDCyyKIs24SS
+ 2ENO1q+vlE8svtGLmeo4in29sqlTnSfycb8JYJyUhchECqVeBdNAmyTvuJ4lTI2j4AJF
+ turg==
+X-Gm-Message-State: AOAM530aZ06sccNZWjIUKlSOcGLiAKu8Ytmy1F0GPFYOMK2AMXFZRLks
+ UwKoQfCAUkW9b2M9jO8brCgzm7J1CwEi0w==
+X-Google-Smtp-Source: ABdhPJzdGDsqm9DUFhara8xM2gY2TR5PCs50Q62b/d5dDs6sdLS0uP7dvR3+/aNpHz13LNQvH2iDWg==
+X-Received: by 2002:adf:c40f:: with SMTP id v15mr2060792wrf.316.1629997423445; 
+ Thu, 26 Aug 2021 10:03:43 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.41
+ by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 26 Aug 2021 10:03:42 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/37] hw/arm/virt: Delete EL3 error checksnow provided in CPU
- realize
-Date: Thu, 26 Aug 2021 18:03:02 +0100
-Message-Id: <20210826170307.27733-33-peter.maydell@linaro.org>
+Subject: [PULL 33/37] target/arm: Implement HSTR.TTEE
+Date: Thu, 26 Aug 2021 18:03:03 +0100
+Message-Id: <20210826170307.27733-34-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210826170307.27733-1-peter.maydell@linaro.org>
 References: <20210826170307.27733-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,45 +86,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the CPU realize function will fail cleanly if we ask for EL3
-when KVM is enabled, we don't need to check for errors explicitly in
-the virt board code. The reported message is slightly different;
-it is now:
-  qemu-system-aarch64: Cannot enable KVM when guest CPU has EL3 enabled
-instead of:
-  qemu-system-aarch64: mach-virt: KVM does not support Security extensions
-
-We don't delete the MTE check because there the logic is more
-complex; deleting the check would work but makes the error message
-less helpful, as it would read:
-  qemu-system-aarch64: MTE requested, but not supported by the guest CPU
-instead of:
-  qemu-system-aarch64: mach-virt: KVM does not support providing MTE to the guest CPU
+In v7, the HSTR register has a TTEE bit which allows EL0/EL1 accesses
+to the Thumb2EE TEECR and TEEHBR registers to be trapped to the
+hypervisor. Implement these traps.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20210816135842.25302-4-peter.maydell@linaro.org
+Message-id: 20210816180305.20137-2-peter.maydell@linaro.org
 ---
- hw/arm/virt.c | 5 -----
- 1 file changed, 5 deletions(-)
+ target/arm/cpu.h    |  2 ++
+ target/arm/helper.c | 18 ++++++++++++++++--
+ 2 files changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 81eda46b0bb..86c8a4ca3d7 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1852,11 +1852,6 @@ static void machvirt_init(MachineState *machine)
-     }
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 1060825c746..0cd3206041e 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1541,6 +1541,8 @@ static inline void xpsr_write(CPUARMState *env, uint32_t val, uint32_t mask)
+ #define SCR_ENSCXT            (1U << 25)
+ #define SCR_ATA               (1U << 26)
  
-     if (vms->secure) {
--        if (kvm_enabled()) {
--            error_report("mach-virt: KVM does not support Security extensions");
--            exit(1);
--        }
--
-         /*
-          * The Secure view of the world is the same as the NonSecure,
-          * but with a few extra devices. Create it as a container region
++#define HSTR_TTEE (1 << 16)
++
+ /* Return the current FPSCR value.  */
+ uint32_t vfp_get_fpscr(CPUARMState *env);
+ void vfp_set_fpscr(CPUARMState *env, uint32_t val);
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 56c520cf8e9..54ac8c54b1f 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -2446,20 +2446,34 @@ static void teecr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+     env->teecr = value;
+ }
+ 
++static CPAccessResult teecr_access(CPUARMState *env, const ARMCPRegInfo *ri,
++                                   bool isread)
++{
++    /*
++     * HSTR.TTEE only exists in v7A, not v8A, but v8A doesn't have T2EE
++     * at all, so we don't need to check whether we're v8A.
++     */
++    if (arm_current_el(env) < 2 && !arm_is_secure_below_el3(env) &&
++        (env->cp15.hstr_el2 & HSTR_TTEE)) {
++        return CP_ACCESS_TRAP_EL2;
++    }
++    return CP_ACCESS_OK;
++}
++
+ static CPAccessResult teehbr_access(CPUARMState *env, const ARMCPRegInfo *ri,
+                                     bool isread)
+ {
+     if (arm_current_el(env) == 0 && (env->teecr & 1)) {
+         return CP_ACCESS_TRAP;
+     }
+-    return CP_ACCESS_OK;
++    return teecr_access(env, ri, isread);
+ }
+ 
+ static const ARMCPRegInfo t2ee_cp_reginfo[] = {
+     { .name = "TEECR", .cp = 14, .crn = 0, .crm = 0, .opc1 = 6, .opc2 = 0,
+       .access = PL1_RW, .fieldoffset = offsetof(CPUARMState, teecr),
+       .resetvalue = 0,
+-      .writefn = teecr_write },
++      .writefn = teecr_write, .accessfn = teecr_access },
+     { .name = "TEEHBR", .cp = 14, .crn = 1, .crm = 0, .opc1 = 6, .opc2 = 0,
+       .access = PL0_RW, .fieldoffset = offsetof(CPUARMState, teehbr),
+       .accessfn = teehbr_access, .resetvalue = 0 },
 -- 
 2.20.1
 
