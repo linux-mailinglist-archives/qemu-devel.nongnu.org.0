@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834B13F8CFA
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:27:24 +0200 (CEST)
-Received: from localhost ([::1]:57456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5B273F8CB8
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:09:08 +0200 (CEST)
+Received: from localhost ([::1]:55528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJJ9v-00050a-Il
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:27:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44964)
+	id 1mJIs5-0007vz-UJ
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:08:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJImq-0005ah-52
+ id 1mJImq-0005dM-Ly
  for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:32 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:38838)
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:38452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJImo-0008SD-8d
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:31 -0400
-Received: by mail-wr1-x432.google.com with SMTP id u16so6173223wrn.5
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:29 -0700 (PDT)
+ id 1mJImo-0008SP-VG
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:32 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ d22-20020a1c1d16000000b002e7777970f0so7366695wmd.3
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=lGvmFfdtSs7YGgPJ+UvDEX8ttejeZpWGK6v4y8O9lpE=;
- b=DT/OmsOzZ0OGiNF+pcWDtxOHCi1rwcq+fmJzhV8beuyq1FrIcEOWuZirVzKE34f+fK
- BO+0yv4aulgDM4OtSFxBMcOR/PB+/i0I4LRJIf9a8pg/qCqh6Lvi/G9RFwTFXgVqroV9
- 9GJvgEFUE9zrkVJdVp5IP+2V5AcRmWhecvoPjxz22kX7fbQ3aunVXQY20lIqk8+pK82v
- +WGwcCi9kbZdWtwr6EqwfdvqQLXvKOIgLEVGRAYcEsrKgUMT+43NMk5bJ9zQKbctWXEX
- SNCTNxEOKw/Vi1Uz3pNwdWuqu9yuYN/lJ7kPCz5geaUkWi7LnPBSW8YQAH7Z8ZzzROFa
- 7pZw==
+ bh=gElcNWN3M9Jq5lKNbD/CRw0/G5CG8Srht/Gqb5hcJyc=;
+ b=lEgQqtyyh0bqOB1GHvGVlBf+Qsro+203Siy3qnQnycLa473qiQLh7Eg8BWyMvz5/Zx
+ VaUNt9KIIBQ3DKqFzKlJQ3wTSsww5KjTgUVJ3HRay22IXJsplr02WRN5+HtbZEwh3Tp9
+ FLGxxB5+KmYXd+bqOdUXVRwNiJEzn71qWQkqqSEiQbSadrkJu+alQvkaG6NA6uimNzJT
+ 09S1SfnPlaanFLrWP24b4M75mK/ZQ71Nuqq1up+cwSY1egniP/F+I/72JLgcg5KrkgV7
+ 9FQFx+ipztH/WYDjWRQbBwxz5EFuXms8zJXPB635zs+6QPPk9aUcUxtj4aGHFddLxiwC
+ p+Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lGvmFfdtSs7YGgPJ+UvDEX8ttejeZpWGK6v4y8O9lpE=;
- b=Xef9GpiyLeFvejxdWXUxlBpL7aAHYp/wbav98Eh1h1vlMXetyVZKDRVSnpmi7kfn/2
- OOCmfszQ2jsFQ14bge+6bwudpeVxR4qqvwZqKGZXVvrWf70igZztk3tTLPM4EeAR8o/w
- /T/STW5iD5J8FVw/s9/opqOaJHt5MFAKr8fe2QmS0VyqTML+4GBJfffGi3VDUtLhGTf+
- 1axi/O+yBoB0H6yBCLBtRLcvk7nssbXYEmfvNaBwrVsjIi0bUbw7D8MSL6uDlQM9KWgw
- sxuHPqqw2z12PFsT8FgKUELAa7s6sbuPZf1+QzHhUoYPFWL3pFWVfLExt41qviouGfg1
- 1H0Q==
-X-Gm-Message-State: AOAM530ssTTED4QerAxaNIXSgw3/jAVRuSYLzqIL8g5uJTsUjC46x8YH
- 6WwlGEKRX8lI1JXO8rYDXavg9wKeG4Sb1Q==
-X-Google-Smtp-Source: ABdhPJy7augtv27QxHL0puOMqKnxsBzDfzH15TgOlbj/4XUiP7y+IAnZP/F0rw5DO8zq8voisRuZFA==
-X-Received: by 2002:a5d:690a:: with SMTP id t10mr5368767wru.304.1629997408891; 
- Thu, 26 Aug 2021 10:03:28 -0700 (PDT)
+ bh=gElcNWN3M9Jq5lKNbD/CRw0/G5CG8Srht/Gqb5hcJyc=;
+ b=K1RYueNoSEJNa3MT+b1uUloUeVJyVNstq5dl1Kij9m4PvX9TlJNVVXQ62oYoRiXSJX
+ xP8lqvADF117qipFPwlxNpQ+IU+kVZnCJSc+xAZyLEBC3qOxB4V4Pt2LK5fV9T+5rr9j
+ 4dGmk2EoddWRkFIfAi11iw9WJYqV9kxTqAdoZqTfP/Mm2LtVkWTxijQFLcBhzass5pUj
+ O4xGCXDNkJVdwPcf7f1aKhKoxqhDR3Gmyo+Vw0vG1gTuSBwiINxwu/dDaEP2AnCrjvPI
+ Hsy2gs7skPw2MH2BAkjJ+RKCMY2T6uetv4sleSeXWKPNjDzxCjHejiptN0L1dlHC0WJ5
+ yOmQ==
+X-Gm-Message-State: AOAM533R1/JJrP1SF2UoCPTERErsJCxbpSQ0m7fsufvR+rdeBfl/zZ9s
+ qDt0oVo4E8X9VLX9w8GnzfCrzRR04E4gfw==
+X-Google-Smtp-Source: ABdhPJzNbWclHv3NlAiS3QkGS5hCyWR0mVBtkBsjrD2U6c4y6gFudzRlkaxBYDex01NEcVT5h1aniQ==
+X-Received: by 2002:a05:600c:4b88:: with SMTP id
+ e8mr595615wmp.164.1629997409699; 
+ Thu, 26 Aug 2021 10:03:29 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.27
+ by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 10:03:28 -0700 (PDT)
+ Thu, 26 Aug 2021 10:03:29 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/37] meson.build: Define QEMU_ARCH in config-target.h
-Date: Thu, 26 Aug 2021 18:02:48 +0100
-Message-Id: <20210826170307.27733-19-peter.maydell@linaro.org>
+Subject: [PULL 19/37] arch_init.h: Add QEMU_ARCH_HEXAGON
+Date: Thu, 26 Aug 2021 18:02:49 +0100
+Message-Id: <20210826170307.27733-20-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210826170307.27733-1-peter.maydell@linaro.org>
 References: <20210826170307.27733-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,83 +89,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of using an ifdef ladder in arch_init.c (which we then have
-to manually update every time we add or remove a target
-architecture), have meson.build put "#define QEMU_ARCH QEMU_ARCH_FOO"
-in the config-target.h file.
+When Hexagon was added we forgot to add it to the QEMU_ARCH_*
+enumeration.  This doesn't cause a visible effect because at the
+moment Hexagon is linux-user only and the QEMU_ARCH_* constants are
+only used in softmmu, but we might as well add it in, since it's the
+only architecture currently missing from the list.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210730105947.28215-5-peter.maydell@linaro.org
+Reviewed-by: Taylor Simpson <tsimpson@quicinc.com>
+Message-id: 20210730105947.28215-6-peter.maydell@linaro.org
 ---
- meson.build         |  2 ++
- softmmu/arch_init.c | 41 -----------------------------------------
- 2 files changed, 2 insertions(+), 41 deletions(-)
+ include/sysemu/arch_init.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meson.build b/meson.build
-index b3e7ec0e92d..bf637848125 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1625,6 +1625,8 @@ foreach target : target_dirs
-       config_target_data.set(k, v)
-     endif
-   endforeach
-+  config_target_data.set('QEMU_ARCH',
-+                         'QEMU_ARCH_' + config_target['TARGET_BASE_ARCH'].to_upper())
-   config_target_h += {target: configure_file(output: target + '-config-target.h',
-                                                configuration: config_target_data)}
+diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
+index 57caad1c675..60270c5ad15 100644
+--- a/include/sysemu/arch_init.h
++++ b/include/sysemu/arch_init.h
+@@ -23,6 +23,7 @@ enum {
+     QEMU_ARCH_RISCV = (1 << 19),
+     QEMU_ARCH_RX = (1 << 20),
+     QEMU_ARCH_AVR = (1 << 21),
++    QEMU_ARCH_HEXAGON = (1 << 22),
  
-diff --git a/softmmu/arch_init.c b/softmmu/arch_init.c
-index 91cbf883e28..8919405c7b2 100644
---- a/softmmu/arch_init.c
-+++ b/softmmu/arch_init.c
-@@ -38,45 +38,4 @@ int graphic_height = 600;
- int graphic_depth = 32;
- #endif
- 
--
--#if defined(TARGET_ALPHA)
--#define QEMU_ARCH QEMU_ARCH_ALPHA
--#elif defined(TARGET_ARM)
--#define QEMU_ARCH QEMU_ARCH_ARM
--#elif defined(TARGET_CRIS)
--#define QEMU_ARCH QEMU_ARCH_CRIS
--#elif defined(TARGET_HPPA)
--#define QEMU_ARCH QEMU_ARCH_HPPA
--#elif defined(TARGET_I386)
--#define QEMU_ARCH QEMU_ARCH_I386
--#elif defined(TARGET_M68K)
--#define QEMU_ARCH QEMU_ARCH_M68K
--#elif defined(TARGET_MICROBLAZE)
--#define QEMU_ARCH QEMU_ARCH_MICROBLAZE
--#elif defined(TARGET_MIPS)
--#define QEMU_ARCH QEMU_ARCH_MIPS
--#elif defined(TARGET_NIOS2)
--#define QEMU_ARCH QEMU_ARCH_NIOS2
--#elif defined(TARGET_OPENRISC)
--#define QEMU_ARCH QEMU_ARCH_OPENRISC
--#elif defined(TARGET_PPC)
--#define QEMU_ARCH QEMU_ARCH_PPC
--#elif defined(TARGET_RISCV)
--#define QEMU_ARCH QEMU_ARCH_RISCV
--#elif defined(TARGET_RX)
--#define QEMU_ARCH QEMU_ARCH_RX
--#elif defined(TARGET_S390X)
--#define QEMU_ARCH QEMU_ARCH_S390X
--#elif defined(TARGET_SH4)
--#define QEMU_ARCH QEMU_ARCH_SH4
--#elif defined(TARGET_SPARC)
--#define QEMU_ARCH QEMU_ARCH_SPARC
--#elif defined(TARGET_TRICORE)
--#define QEMU_ARCH QEMU_ARCH_TRICORE
--#elif defined(TARGET_XTENSA)
--#define QEMU_ARCH QEMU_ARCH_XTENSA
--#elif defined(TARGET_AVR)
--#define QEMU_ARCH QEMU_ARCH_AVR
--#endif
--
- const uint32_t arch_type = QEMU_ARCH;
+     QEMU_ARCH_NONE = (1 << 31),
+ };
 -- 
 2.20.1
 
