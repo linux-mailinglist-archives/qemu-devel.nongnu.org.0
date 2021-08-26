@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD47D3F8F7C
+	by mail.lfdr.de (Postfix) with ESMTPS id 203023F8F7B
 	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 22:09:04 +0200 (CEST)
-Received: from localhost ([::1]:35062 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:34962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJLgN-0000Bz-MY
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 16:09:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52086)
+	id 1mJLgM-00007W-HR
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 16:09:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mJLex-0005sh-CK
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 16:07:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40840)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mJLey-0005xv-Q8
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 16:07:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mJLet-0005dM-Mr
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 16:07:34 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mJLew-0005gV-T6
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 16:07:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630008449;
+ s=mimecast20190719; t=1630008454;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iFdJgmZSFDi0T3tz5j4VdZ4mFoLbPu805prh7+ofjFQ=;
- b=Rmb6K2BGPnhajjnEW1/GQPBsSBshhPMvB55eyMqTkyw2P9tmMPbUghl4YMZYfwT32eCvDs
- h+UpLWoffYhU77CbD/NMzV/mZuP+7/ZOsEai3VuI/OvLHXcMj5Vzg3ZhcKvrJPEyep+03p
- YrXGKlCGvg39DAJf2MblvwpQo69F+cE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-365-kch9r3bBPu6b5wEqBhDVFw-1; Thu, 26 Aug 2021 16:07:28 -0400
-X-MC-Unique: kch9r3bBPu6b5wEqBhDVFw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- a201-20020a1c7fd2000000b002e748bf0544so4800725wmd.2
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 13:07:28 -0700 (PDT)
+ bh=8ZLosj281VIPcnVVY5MWZocWOZi5mT78NAOIuJQf3M8=;
+ b=PiHdk1IU4lg1cBiCRgt2BZhKoPUcmYTAvus2Jm/SOvNJatWSujXRWEmdq67aZKLLgGrM8a
+ uz+Uyk6fjHy7c6jYgbbGE8IhDBEYY1rQ86t5HhreM8JDvwYoJQWnVveKwn6tfYmJ7v0sKr
+ uI6rYaUDtrfHcOFvcnZqweWMAqXfzoQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-aD0tW992NFOuzZVhkQAYqw-1; Thu, 26 Aug 2021 16:07:33 -0400
+X-MC-Unique: aD0tW992NFOuzZVhkQAYqw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ j135-20020a1c238d000000b002e87aa95b5aso3984902wmj.4
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 13:07:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iFdJgmZSFDi0T3tz5j4VdZ4mFoLbPu805prh7+ofjFQ=;
- b=pdcYX4GClK2dej4h0o0SiC7EDIawi38eV+4F1uu3uWxcT/mbg12Topua0qK1LQLTQ4
- 6C3ClT0AHiVA5piF3T4+q1u6mPB6i3IAsKMiaR+/WyVXkANYMouzNKsHjPMzphI7Plr2
- Y9XnCenL12vUf5rjgQgFy86Lkq5QTEzOkU28Y38hsE6cHmYIE6SK3kB8Tl+GHPzgMbVc
- pLmngWZdmsJoQhhJTKukWaKQEx4ysQXh16V/14eywgBOkRd7S2t/dSH+k7bN0IsOkbRF
- srfl1ReEtr0E3c5ril9wut4bQBHxmXBVa3eMxSL2GIkjqM3l+B0rpbUol25BAdvelkn+
- RJYQ==
-X-Gm-Message-State: AOAM533Fvut+u/PQVM5ilR79PEFpWEF8DniGz4JCamdywgTvKuOtwOzM
- PsohLFdptw34KaTU9OK/Py/eAQch0jUkRek/Rl8LdVAUdy/M5nwsws35/uU8/a6Fe7CQgpiaZCd
- BTsIR9njHFcKuBdIuYcEegRLVxA3mvAvsVkWvYaK8fs6xHd0V8R0gEsI5Nl79Bj1g
-X-Received: by 2002:a5d:4568:: with SMTP id a8mr6402661wrc.200.1630008447158; 
- Thu, 26 Aug 2021 13:07:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyXM+8NhwWeRegRd1V7F+CEHGpzg5FArWoj0MLdwiQWtLa7KFb1eNKTHJ8Gtl/e3VLSkMXnxw==
-X-Received: by 2002:a5d:4568:: with SMTP id a8mr6402629wrc.200.1630008446951; 
- Thu, 26 Aug 2021 13:07:26 -0700 (PDT)
+ bh=8ZLosj281VIPcnVVY5MWZocWOZi5mT78NAOIuJQf3M8=;
+ b=qkUiOTbT+xR26hdgsbFnGZjyJPWKma8ARL+y3/uFGL9kqdxLz6KWhruzCNppJfxJWU
+ 2WC8VQqlh4gqLicEYotOQ0qvjznwJ/xCuPyE9mWyVHQVNnw3bA63sxNHyhPxfTVN/dwK
+ IqZ6G2oT50pugB2u0+41LPkn38iRCWXZLJ3kFs2P+WUDNj+fUoOoLUy/TFI7BJIzFYOU
+ YMLxKMcG2zeZYg9dywRXofMOyiIZTQIHgqSsfAyEb93jvNk9n5Ht2OAxHRPYL8AFXbkt
+ BCFN1J8HzTEV/pCEj+8QCbavUeVuKyXw31XH8g0tGrhodXajvZcotxvuU6WmRN/0C3Q9
+ x4vg==
+X-Gm-Message-State: AOAM5324F5dawzr6YHyuUI6qwtyIDVBB9s8AhSaJS0A9OSKCemOGRL2T
+ 1u7U2YKQTq2Y8TU3WSK7Tfh7in+3rjie5rXQdAYSCzYTn6qbxWU4u5UaV8ACZNGBWGjdLT2RquU
+ SpV7yxzkbfRuzSUzRlKRLPNpq+1q6AR8gcIy8Hw6QL6BCSgP5IY9BFqNQav1jjriB
+X-Received: by 2002:a1c:a5c2:: with SMTP id o185mr16068553wme.34.1630008451522; 
+ Thu, 26 Aug 2021 13:07:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyMCstQ65sK3jZMXwP0SFbsn0H2tQqwl2KgBLEA5lchtjsw/WTWmqZcZYq3kpEdDr2fs9ONKQ==
+X-Received: by 2002:a1c:a5c2:: with SMTP id o185mr16068529wme.34.1630008451304; 
+ Thu, 26 Aug 2021 13:07:31 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- u26sm2085844wrd.32.2021.08.26.13.07.26
+ y1sm3837057wmq.43.2021.08.26.13.07.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 13:07:26 -0700 (PDT)
+ Thu, 26 Aug 2021 13:07:30 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/3] hw/pci: Introduce pci_dma_memory_region() helper
-Date: Thu, 26 Aug 2021 22:07:18 +0200
-Message-Id: <20210826200720.2196827-2-philmd@redhat.com>
+Subject: [PATCH v3 2/3] hw/usb/hcd-xhci-pci: Abort if setting link property
+ failed
+Date: Thu, 26 Aug 2021 22:07:19 +0200
+Message-Id: <20210826200720.2196827-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210826200720.2196827-1-philmd@redhat.com>
 References: <20210826200720.2196827-1-philmd@redhat.com>
@@ -73,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -103,31 +104,27 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pci_get_address_space() returns an AddressSpace. In some
-cases we want a MemoryRegion. Add the pci_dma_memory_region()
-equivalent helper.
+Do not ignore eventual error if we failed at setting the 'host'
+property of the TYPE_XHCI model.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/pci/pci.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/usb/hcd-xhci-pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index d0f4266e372..5860f42e400 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -786,6 +786,11 @@ static inline AddressSpace *pci_get_address_space(PCIDevice *dev)
-     return &dev->bus_master_as;
- }
+diff --git a/hw/usb/hcd-xhci-pci.c b/hw/usb/hcd-xhci-pci.c
+index e934b1a5b1f..24c528d210f 100644
+--- a/hw/usb/hcd-xhci-pci.c
++++ b/hw/usb/hcd-xhci-pci.c
+@@ -115,7 +115,7 @@ static void usb_xhci_pci_realize(struct PCIDevice *dev, Error **errp)
+     dev->config[PCI_CACHE_LINE_SIZE] = 0x10;
+     dev->config[0x60] = 0x30; /* release number */
  
-+static inline MemoryRegion *pci_dma_memory_region(PCIDevice *dev)
-+{
-+    return &dev->bus_master_container_region;
-+}
-+
- /**
-  * pci_dma_rw: Read from or write to an address space from PCI device.
-  *
+-    object_property_set_link(OBJECT(&s->xhci), "host", OBJECT(s), NULL);
++    object_property_set_link(OBJECT(&s->xhci), "host", OBJECT(s), &error_abort);
+     s->xhci.intr_update = xhci_pci_intr_update;
+     s->xhci.intr_raise = xhci_pci_intr_raise;
+     if (!qdev_realize(DEVICE(&s->xhci), NULL, errp)) {
 -- 
 2.31.1
 
