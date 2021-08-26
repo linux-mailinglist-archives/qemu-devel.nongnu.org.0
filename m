@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E64783F8CB9
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:09:11 +0200 (CEST)
-Received: from localhost ([::1]:56828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA1B3F8CBA
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:10:07 +0200 (CEST)
+Received: from localhost ([::1]:59718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJIsI-0000Ka-Vj
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:09:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44750)
+	id 1mJItC-0002Et-75
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:10:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJImf-00057Y-WB
+ id 1mJImg-00057p-44
  for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:22 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:46655)
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJImZ-0008Hc-HJ
+ id 1mJImd-0008Hp-A1
  for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:21 -0400
-Received: by mail-wr1-x436.google.com with SMTP id f5so6089744wrm.13
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:15 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id h13so6201635wrp.1
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=edu7yXEsds87c0fEWhTabD3K7GBv5VOGHbQoii2mmig=;
- b=sJQSqGQZ7I/49k+6RELf551LQU9sIv3VWLg+Ud+A6P3iC9WSy7sBnO0n1SQ3lR9EDc
- ii3ZAGP7WHsz29bgQwPFtCk27faR9cjzyTtUFCqdC7uAlpwclglEi4qem8yQ4fNZdfUy
- br/9EJhpcGbcqmc1bUrMbAmgJ8TLfn/8YmzLLrztv+AvWnuEh5Ejkzeh8fNhDnR4zkmz
- pj0xKOCB6UWFNNZ1d7KR9QteW1FgasHK4gxiK4zInys4M5NodlifSeCJxOam7gVH+AtS
- GDlqrDo1UFSKwmiHSZWZpVQok2TWv144HYDItdfwpP+YR+PeUp678Hd6JecMXtbQX7MR
- NwuA==
+ bh=x/Nq7lPd453gnrtSLW1mI2yW4d8E0EVPspmERk/DwAo=;
+ b=ZsTzuPdOYNgrnjhcyGELA9LpGq2TGOzomIX1TyjBFGn5qXP2//Ntjv6n+N5M+aJh4F
+ IHqOeWdR+3CLXgGcJjugx0dPCsEmfeBtyZJ6K2e2PpjLJMCJ+D4QmuyCG0XbxuyuoFAD
+ h3e6Y42bXyBCTodJ+CoLBiBERSp4Dix8Ya2YRayUJU5V9PsP3z44+cfhx9yEruDqaPaf
+ Rxke9zFUqJS8L/HNdzw71oerdM+3i1pmiHM5P7HpNMyhY1PQxjp71AlFRx7K7YUmwBrz
+ pZd5ct6WRm+8ViXp48CCmuxjvOSwXXBzfnBRmLKZXeELdnCwo9KRIy0P4JX3gWltX0yd
+ GAAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=edu7yXEsds87c0fEWhTabD3K7GBv5VOGHbQoii2mmig=;
- b=cUeYVA5280wbI0kQuGWxAJfWuh51Q0epCf6gYA/I3qUti9w05z8Uxp3kXmiWhgEHX6
- vOnnT45rb2uO9SP288PBmyuQs9/+KP5Sjk8jdb2ugz6ZXo7eccfW4lUytrbdRnwxB/5d
- XW47ICrc0MXbzstsBud1YgeEUBwN7SxwehSnT4D+Gk+a/vPo4NftaY/kXAUSwPjv9tGH
- 9OhH4YQdQc5QRJSrChou1gNfWU8nW2QI2RJXZYPFOkRRog823oepAwS93D4vqng3AcAN
- UBNysNaWlTUbZOBVJYyumeMkllUD8nUFhuzgnFL1KZaEuSp4QTmW6siJQpnu+WMwmH9+
- xXFg==
-X-Gm-Message-State: AOAM532c/E8ebjAzOnbRH4NRyXk1A+zW9m+qvP9DrSv9Hl+1N919NN3o
- d5Dyzu8+s2DxvKboBnNVHvzqF98mc5hXIA==
-X-Google-Smtp-Source: ABdhPJxRVDGxvKgy3WzZUEINtpNjfBbgj8M9lD9iMazUwRMWgnLcROVSu+goTMPupxjftwiVCHFgpg==
-X-Received: by 2002:adf:fdd2:: with SMTP id i18mr5276492wrs.406.1629997394193; 
- Thu, 26 Aug 2021 10:03:14 -0700 (PDT)
+ bh=x/Nq7lPd453gnrtSLW1mI2yW4d8E0EVPspmERk/DwAo=;
+ b=NnGEDceYB3YcTTYeiHMQI09ZTEaprlIqU+q1zJp2VF+05Y009+6vBigvUMmbCj9kVf
+ m7vhrdqmvym/hcorbYC/lEAHAEMl1N20qOP8SlahB/+/dU5Vx+0+WlziiwaG1gLJ+Wya
+ SRNPtElcxwofaLJ9cFGk+XdYLeNSaB5Rty7kCHtaUzwsi8UAuKs/XKxam9bRcrLnN37D
+ pR5NmI9ZwnfXqFChwOaiyH8lnLeRiq/xGj2QMtG1XDkksfB7oOrHj0NfbYlIC8rCed6B
+ amYY1c097+VMVnyOogBMX3veK08zo3En2My3/5yaZvgmA3c1+Ek5Y1D9Cg0751oXidbt
+ W8QA==
+X-Gm-Message-State: AOAM532qd4fTCZKT66U/3082/rTTTrznBdT32wLhRewJyV6OQBkJbatI
+ 7ZolPDoEIVWXp2BQgknmkEL0tq0jc3/1FQ==
+X-Google-Smtp-Source: ABdhPJxHD02ympb4C6d9GSEoc90ON4lpTqAhTioN6ZdjdGnUVUmhAXFGIufWeoROuyyaexiE1okU2w==
+X-Received: by 2002:adf:c40f:: with SMTP id v15mr2057940wrf.316.1629997395491; 
+ Thu, 26 Aug 2021 10:03:15 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.13
+ by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 10:03:13 -0700 (PDT)
+ Thu, 26 Aug 2021 10:03:14 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/37] hw/dma/xlnx-zdma Always expect 'dma' link property to be
- set
-Date: Thu, 26 Aug 2021 18:02:34 +0100
-Message-Id: <20210826170307.27733-5-peter.maydell@linaro.org>
+Subject: [PULL 05/37] hw/arm/Kconfig: no need to enable
+ ACPI_MEMORY_HOTPLUG/ACPI_NVDIMM explicitly
+Date: Thu, 26 Aug 2021 18:02:35 +0100
+Message-Id: <20210826170307.27733-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210826170307.27733-1-peter.maydell@linaro.org>
 References: <20210826170307.27733-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,149 +87,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
 
-Simplify by always passing a MemoryRegion property to the device.
-Doing so we can move the AddressSpace field to the device struct,
-removing need for heap allocation.
+Since commit
+36b79e3219d ("hw/acpi/Kconfig: Add missing Kconfig dependencies (build error)"),
+ACPI_MEMORY_HOTPLUG and ACPI_NVDIMM is implicitly turned on when
+ACPI_HW_REDUCED is selected. ACPI_HW_REDUCED is already enabled. No need to
+turn on ACPI_MEMORY_HOTPLUG or ACPI_NVDIMM explicitly. This is a minor cleanup.
 
-Update the Xilinx ZynqMP / Versal SoC models to pass the default
-system memory instead of a NULL value.
-
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20210819163422.2863447-5-philmd@redhat.com
+Signed-off-by: Ani Sinha <ani@anisinha.ca>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20210819162637.518507-1-ani@anisinha.ca
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/dma/xlnx-zdma.h |  2 +-
- hw/arm/xlnx-versal.c       |  2 ++
- hw/arm/xlnx-zynqmp.c       |  8 ++++++++
- hw/dma/xlnx-zdma.c         | 24 ++++++++++++------------
- 4 files changed, 23 insertions(+), 13 deletions(-)
+ hw/arm/Kconfig | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/include/hw/dma/xlnx-zdma.h b/include/hw/dma/xlnx-zdma.h
-index 6602e7ffa72..efc75217d59 100644
---- a/include/hw/dma/xlnx-zdma.h
-+++ b/include/hw/dma/xlnx-zdma.h
-@@ -56,7 +56,7 @@ struct XlnxZDMA {
-     MemoryRegion iomem;
-     MemTxAttrs attr;
-     MemoryRegion *dma_mr;
--    AddressSpace *dma_as;
-+    AddressSpace dma_as;
-     qemu_irq irq_zdma_ch_imr;
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 4ba0aca0676..dc050b5c37f 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -25,9 +25,7 @@ config ARM_VIRT
+     select ACPI_PCI
+     select MEM_DEVICE
+     select DIMM
+-    select ACPI_MEMORY_HOTPLUG
+     select ACPI_HW_REDUCED
+-    select ACPI_NVDIMM
+     select ACPI_APEI
  
-     struct {
-diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-index fb776834f7e..d60eb4fb184 100644
---- a/hw/arm/xlnx-versal.c
-+++ b/hw/arm/xlnx-versal.c
-@@ -218,6 +218,8 @@ static void versal_create_admas(Versal *s, qemu_irq *pic)
-                                 TYPE_XLNX_ZDMA);
-         dev = DEVICE(&s->lpd.iou.adma[i]);
-         object_property_set_int(OBJECT(dev), "bus-width", 128, &error_abort);
-+        object_property_set_link(OBJECT(dev), "dma",
-+                                 OBJECT(get_system_memory()), &error_fatal);
-         sysbus_realize(SYS_BUS_DEVICE(dev), &error_fatal);
- 
-         mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
-diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-index 4344e223f2d..6cfce26210d 100644
---- a/hw/arm/xlnx-zynqmp.c
-+++ b/hw/arm/xlnx-zynqmp.c
-@@ -601,6 +601,10 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
-                                       errp)) {
-             return;
-         }
-+        if (!object_property_set_link(OBJECT(&s->gdma[i]), "dma",
-+                                      OBJECT(system_memory), errp)) {
-+            return;
-+        }
-         if (!sysbus_realize(SYS_BUS_DEVICE(&s->gdma[i]), errp)) {
-             return;
-         }
-@@ -611,6 +615,10 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
-     }
- 
-     for (i = 0; i < XLNX_ZYNQMP_NUM_ADMA_CH; i++) {
-+        if (!object_property_set_link(OBJECT(&s->adma[i]), "dma",
-+                                      OBJECT(system_memory), errp)) {
-+            return;
-+        }
-         if (!sysbus_realize(SYS_BUS_DEVICE(&s->adma[i]), errp)) {
-             return;
-         }
-diff --git a/hw/dma/xlnx-zdma.c b/hw/dma/xlnx-zdma.c
-index fa38a556341..a5a92b4ff8c 100644
---- a/hw/dma/xlnx-zdma.c
-+++ b/hw/dma/xlnx-zdma.c
-@@ -320,9 +320,9 @@ static bool zdma_load_descriptor(XlnxZDMA *s, uint64_t addr,
-         return false;
-     }
- 
--    descr->addr = address_space_ldq_le(s->dma_as, addr, s->attr, NULL);
--    descr->size = address_space_ldl_le(s->dma_as, addr + 8, s->attr, NULL);
--    descr->attr = address_space_ldl_le(s->dma_as, addr + 12, s->attr, NULL);
-+    descr->addr = address_space_ldq_le(&s->dma_as, addr, s->attr, NULL);
-+    descr->size = address_space_ldl_le(&s->dma_as, addr + 8, s->attr, NULL);
-+    descr->attr = address_space_ldl_le(&s->dma_as, addr + 12, s->attr, NULL);
-     return true;
- }
- 
-@@ -354,7 +354,7 @@ static void zdma_update_descr_addr(XlnxZDMA *s, bool type,
-     } else {
-         addr = zdma_get_regaddr64(s, basereg);
-         addr += sizeof(s->dsc_dst);
--        next = address_space_ldq_le(s->dma_as, addr, s->attr, NULL);
-+        next = address_space_ldq_le(&s->dma_as, addr, s->attr, NULL);
-     }
- 
-     zdma_put_regaddr64(s, basereg, next);
-@@ -421,7 +421,7 @@ static void zdma_write_dst(XlnxZDMA *s, uint8_t *buf, uint32_t len)
-             }
-         }
- 
--        address_space_write(s->dma_as, s->dsc_dst.addr, s->attr, buf, dlen);
-+        address_space_write(&s->dma_as, s->dsc_dst.addr, s->attr, buf, dlen);
-         if (burst_type == AXI_BURST_INCR) {
-             s->dsc_dst.addr += dlen;
-         }
-@@ -497,7 +497,7 @@ static void zdma_process_descr(XlnxZDMA *s)
-                 len = s->cfg.bus_width / 8;
-             }
-         } else {
--            address_space_read(s->dma_as, src_addr, s->attr, s->buf, len);
-+            address_space_read(&s->dma_as, src_addr, s->attr, s->buf, len);
-             if (burst_type == AXI_BURST_INCR) {
-                 src_addr += len;
-             }
-@@ -765,6 +765,12 @@ static void zdma_realize(DeviceState *dev, Error **errp)
-     XlnxZDMA *s = XLNX_ZDMA(dev);
-     unsigned int i;
- 
-+    if (!s->dma_mr) {
-+        error_setg(errp, TYPE_XLNX_ZDMA " 'dma' link not set");
-+        return;
-+    }
-+    address_space_init(&s->dma_as, s->dma_mr, "zdma-dma");
-+
-     for (i = 0; i < ARRAY_SIZE(zdma_regs_info); ++i) {
-         RegisterInfo *r = &s->regs_info[zdma_regs_info[i].addr / 4];
- 
-@@ -777,12 +783,6 @@ static void zdma_realize(DeviceState *dev, Error **errp)
-         };
-     }
- 
--    if (s->dma_mr) {
--        s->dma_as = g_malloc0(sizeof(AddressSpace));
--        address_space_init(s->dma_as, s->dma_mr, NULL);
--    } else {
--        s->dma_as = &address_space_memory;
--    }
-     s->attr = MEMTXATTRS_UNSPECIFIED;
- }
- 
+ config CHEETAH
 -- 
 2.20.1
 
