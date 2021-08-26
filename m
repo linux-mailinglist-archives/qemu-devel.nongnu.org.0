@@ -2,54 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D0763F7FAF
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 03:13:30 +0200 (CEST)
-Received: from localhost ([::1]:43176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB38A3F7FEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 03:33:31 +0200 (CEST)
+Received: from localhost ([::1]:53090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJ3xQ-0005u0-BA
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 21:13:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36508)
+	id 1mJ4Go-0005Kd-BD
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 21:33:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mJ3bJ-0000ie-6C; Wed, 25 Aug 2021 20:50:41 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:43099 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mJ3bD-0001hq-Vm; Wed, 25 Aug 2021 20:50:35 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Gw45F0WMhz9sjJ; Thu, 26 Aug 2021 10:50:25 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1629939025;
- bh=I+CMNLdu4oJzzaQvFJgU0w8NORALCZfXAvWUU8KHXIk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mTPsLQBlyMjZujqUH/zWTYmVmYFhzcgazKV+Q4Cv8T1UHQcwyXYxKjWzgLNuHZy39
- rtYbA/isjdOITv07z+zjDz+eR/VKZWOlrvY05Kn/WMkcT/ney5t0eBInVZNjrNP5Jt
- HfGJgbr2dp0gI1AhLEPINQxml6j2vpRpYwBVAGkc=
-Date: Wed, 25 Aug 2021 23:35:08 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: "Paul A. Clarke" <pc@us.ibm.com>
-Subject: Re: [PATCH v2 02/16] target/ppc: add user read functions for MMCR0
- and MMCR2
-Message-ID: <YSZHDLP7qSSYvOBU@yekko>
-References: <20210824163032.394099-1-danielhb413@gmail.com>
- <20210824163032.394099-3-danielhb413@gmail.com>
- <YSXHU2NJbJpI6spA@yekko>
- <20210825122510.GB1113121@li-24c3614c-2adc-11b2-a85c-85f334518bdb.ibm.com>
+ (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1mJ4Cj-0003rz-Km; Wed, 25 Aug 2021 21:29:17 -0400
+Received: from [201.28.113.2] (port=62264 helo=outlook.eldorado.org.br)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <matheus.ferst@eldorado.org.br>)
+ id 1mJ4Cd-0002CY-GJ; Wed, 25 Aug 2021 21:29:13 -0400
+Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
+ Microsoft SMTPSVC(8.5.9600.16384); Wed, 25 Aug 2021 22:28:13 -0300
+Received: from [127.0.0.1] (unknown [10.10.70.45])
+ by power9a (Postfix) with ESMTP id AC7F18012CD;
+ Wed, 25 Aug 2021 22:28:13 -0300 (-03)
+Subject: Re: [PATCH 0/2] target/ppc: Fix vextu[bhw][lr]x on big endian hosts
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20210824201105.2303789-1-matheus.ferst@eldorado.org.br>
+ <1f5fe437-4839-c225-0859-91ccfa7532af@ilande.co.uk>
+From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
+Message-ID: <11218ef5-ddc8-b5b4-96bf-6df30b3ba50f@eldorado.org.br>
+Date: Wed, 25 Aug 2021 22:28:13 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Rf7ljvyfhaj1LGkn"
-Content-Disposition: inline
-In-Reply-To: <20210825122510.GB1113121@li-24c3614c-2adc-11b2-a85c-85f334518bdb.ibm.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_06_12=1.543,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <1f5fe437-4839-c225-0859-91ccfa7532af@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 26 Aug 2021 01:28:14.0023 (UTC)
+ FILETIME=[A3980D70:01D79A19]
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
+Received-SPF: pass client-ip=201.28.113.2;
+ envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_20=-0.001, NICE_REPLY_A=-2.24,
+ PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,57 +60,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gustavo.romero@linaro.org, Gustavo Romero <gromero@linux.ibm.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org
+Cc: peter.maydell@linaro.org, groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 25/08/2021 09:55, Mark Cave-Ayland wrote:
+> [E-MAIL EXTERNO] Não clique em links ou abra anexos, a menos que você 
+> possa confirmar o remetente e saber que o conteúdo é seguro. Em caso de 
+> e-mail suspeito entre imediatamente em contato com o DTI.
+> 
+> On 24/08/2021 21:11, matheus.ferst@eldorado.org.br wrote:
+> 
+>> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+>>
+>> The definition of struct Int128 is currently independent of the host
+>> endianness, causing different results when using the member s128 of
+>> union ppc_vsr_t in big-endian builds with CONFIG_INT128 or
+>> !CONFIG_INT128.
+>>
+>> The only PPC instructions that seem to be affected by this issue are the
+>> "Vector Extract Unsigned Byte/Halfword/Word to GPR using GPR-specified
+>> Left/Right-Index." Even on builds with Int128 support, however, their
+>> helpers give the wrong result on big-endian hosts.
+>>
+>> The first patch in this series changes the definition of struct Int128
+>> to allow its use in the ppc_vsr_t union. The second patch fixes the
+>> helper definition.
+>>
+>> Matheus Ferst (2):
+>>    include/qemu/int128.h: define struct Int128 according to the host
+>>      endianness
+>>    target/ppc: fix vextu[bhw][lr]x helpers
+>>
+>>   include/qemu/int128.h   | 19 ++++++++++++-------
+>>   target/ppc/int_helper.c | 38 ++++++++++----------------------------
+>>   2 files changed, 22 insertions(+), 35 deletions(-)
+> 
+> Hi Matheus,
+> 
+> Slightly unrelated to this patchset, however I see you've managed to 
+> make some good
+> efforts in consolidating the functionality between big-endian and 
+> little-endian host
+> systems.
+> 
+> When I first worked on adding host vector support for PPC I noticed 
+> there were some
+> further places in target/ppc/int_helper.c that could be improved from 
+> accessing
+> ppc_avr_t fields such as u64 directly and instead using the relevant 
+> Vsr*() macros.
+> 
+> If you feel suitably motivated, it would be amazing to see more patches 
+> to help this
+> further along: basically look in target/ppc/int_helper.c for individual 
+> elements such
+> as u64 (and also the VECTOR_FOR_INORDER_I macro) and determine which 
+> ones are better
+> replaced by the relevant Vsr*() macro.
+> 
+> 
+> ATB,
+> 
+> Mark.
 
---Rf7ljvyfhaj1LGkn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Mark,
 
-On Wed, Aug 25, 2021 at 07:25:10AM -0500, Paul A. Clarke wrote:
-> On Wed, Aug 25, 2021 at 02:30:11PM +1000, David Gibson wrote:
-> > On Tue, Aug 24, 2021 at 01:30:18PM -0300, Daniel Henrique Barboza wrote:
-> > > From: Gustavo Romero <gromero@linux.ibm.com>
-> > >=20
-> > > This patch adds handling of UMMCR0 and UMMCR2 user read which,
-> > > according to PowerISA 3.1, has some bits ommited to the
-> >=20
-> > Nit: One 'm' in "omited".
->=20
-> Let's trade that extra 'm' for a 't', FTW:  "omitted".  :-)
+That would be a nice change. Our efforts are currently on PowerISA v3.1 
+instructions, but I'll try to change that in helpers of things we move 
+to decodetree. After completing the new instructions, I can give a shot 
+in a Vsr*() patchset.
 
-Er.. yes.  Muphry's law in action.
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---Rf7ljvyfhaj1LGkn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEmRwoACgkQbDjKyiDZ
-s5JS2w//eFPX+cueuy2LZL+w+tRdHKZM5YT2yo8Kisz+dt8fAhZih/XJr+dpEpgW
-GPTIBgaQ0LCbbE0+xV51/gk9BaOH/FF9uyaQYHnCDHBwwaq9yPxcip6KIaOUcKKw
-ETa86VVoncPw4hIhz5gfQ+Mw1fK15C08IiSmDVGFn8nck6wu6YL6jzx3GvvQOeV3
-b5MQNLQKD4LW9bPC3ooL6Hh6G608H3YPs5lan7GQsTI/Q+PI8zyXb5KIocFhOyjh
-C7T3lwek9rg/nHTEF/WRbsmK3pvo7E3kVeOh5go6YVF3YTOTY9K1NZ4cckWRoxPC
-skdEB+VGd6WVTtCjacPGksPkgW53+wdujYrpnN8oeb08IRb866E7/Y5oXiQR/07s
-OJ1HntomeBgM5+eZ0wfTqIGZi0N+Lidch8L+B1Kv/mlTVL6RhKThp8uYkXb2Q6+A
-qbP3i0cadogqgMqlV9soSBkpkkLSqTzB97OzaCyBl7TPyfbT4o4VM7kQxHxRHXPO
-eDV/tQIFAuakRzODk2MqkmtwjEiebDu/kuUUUnsLsDkc7hu/BlrVb6FAsjxZ8eJ9
-QLanyWs3BnVMQ7behjNdq6rhPskGBI+s4zIdPdjW71tP51wFsxJbF6KLnP5x8dJo
-SuVjSbdqF9XHExZG5fK3Wwv/nfCp6tW96s+gnVMWxd86JhZf0Fc=
-=NHbw
------END PGP SIGNATURE-----
-
---Rf7ljvyfhaj1LGkn--
+-- 
+Matheus K. Ferst
+Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
+Analista de Software Júnior
+Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
 
