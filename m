@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75D663F8CD6
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:20:19 +0200 (CEST)
-Received: from localhost ([::1]:34708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A7863F8CB0
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:06:27 +0200 (CEST)
+Received: from localhost ([::1]:43820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJJ2z-0006Vg-G4
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:20:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44908)
+	id 1mJIpe-0008PI-77
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:06:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJImm-0005Sv-Ut
+ id 1mJImm-0005QN-1l
  for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:28 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:39774)
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:44853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJImh-0008Mg-Em
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:28 -0400
-Received: by mail-wr1-x433.google.com with SMTP id z4so6155273wrr.6
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:22 -0700 (PDT)
+ id 1mJImi-0008Ms-8m
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:27 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ l7-20020a1c2507000000b002e6be5d86b3so2640017wml.3
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=umdqEHNcd/kOIObIprqQSXQ+aP7HYiCnogSEnAV1qew=;
- b=fpPdVY1lr9X1nbDUZVGHHvW39qdIeo0bRiNNqfbP18TCIhEx5MTLsiDvUB5TUndpAH
- h2wy2Br7gu8frHR4z14bf/V7A8dMesV9U2+I6qxXFIHN22pYMhmeZkFcyBPM0Ay1KRpx
- vxYenZ/RSMPM0zvLVPjtpsXv2rt3kqAc+YKBX9AiuQezYikkCkSSz/2MsF0rBw1P9dlq
- mNO197UmOuP10ZfLNknjTLwt70la+bngsmH0E9iOadBivRTXp+Av7zmODxxBv9KMiOoN
- t5vU9nKUpvqY1aiUX6HaCl3peQ11b9XSj3JeX3yG+wbyrilpmDxSN8zrn/UuYmi2PRcb
- m5tg==
+ bh=kFz9cdCuHFlGvHx243QpYrt+H+eFiCSkf8eXbm4ZxFQ=;
+ b=h/o3ohNiRLXIj8k7+gcEezV3X2a2nfOJLzYF1cKBsgDwXMNAC9xlo4UzmwjATh7pHp
+ XOSfOycQd8SilljuD3X7YEfsjq33SRRnVR1yMqRgDBJUgCGayrBdDFf23FmNzDylPypd
+ VYXp5gvWacdh9qvJ9q6htttdOkcl03zX4jET//9OtrC/Xr/cOzjEnLyGDakcNge9j1eb
+ cxDnJ20oUUbCE0SOh3vH0lcq7Vwi972TJiR6I/CeXFCseFyeZs4hAYBg1iwqN4xc+pq+
+ 3sP2R4FK/3Pa5e5LOE2MW/jmPTpynfu1WrwoVloe56IjeDLqXK78UEpdKMjOj0yhF67S
+ oHGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=umdqEHNcd/kOIObIprqQSXQ+aP7HYiCnogSEnAV1qew=;
- b=K1n5aJHESCbdWq98bgs4jBchwdNlMbTnTHJA2q3kSlFEF64O0J2X0lTwFCiCk6s1SK
- 20yDQv/dgP6/PB+AucDJGxX8WF2R9bpyVGwrKcwjE+4cZYeZUEfEdbl9nADW9+gqU/4I
- 72KbAPDrsi2aAOGBy7Tzgu8tbff/qx9XeDtPbfcFqh2A5i/JI62FpSmvkZG+ZvAQZYrx
- MKHQKJuTXUtjVt/djEEC+OAfC4By7r8cgO04ydn+5ncjpdx31BzzeC3w70JkKbItRv05
- iIf85CL4w6VcL/XnaFeeFszto4dQpbfBjNC7qVIfzTQVtK/VuHBjp0NRjCL3Ae3U8JqY
- M0ZA==
-X-Gm-Message-State: AOAM530TvKZvpfKYhulvX34qS1IbwDHkmsMPUEw9EkFWUu+N+nneiA2H
- jCQO7CA4Vz2LjZ4WaRH/9OSMsiFnbZmb/A==
-X-Google-Smtp-Source: ABdhPJxGu8se8mPDf+zyfQ1T5BOg44w5Bj8s4oDKuXki7yZjUgokrmqRPFHbQ46ndnMdQKFqPykcdQ==
-X-Received: by 2002:adf:9783:: with SMTP id s3mr5365645wrb.349.1629997401896; 
- Thu, 26 Aug 2021 10:03:21 -0700 (PDT)
+ bh=kFz9cdCuHFlGvHx243QpYrt+H+eFiCSkf8eXbm4ZxFQ=;
+ b=lME6f4h1Xk0I6l4LUey0/MGFWoQrLKeGW2ERsj36sRwvFUZJGFLvhb9UwTnkszMqmu
+ jbtKU/dx61rErC4yegryAN8bXkHnJHNyqfOL4aODNHtP6YioX7tT5PuzNcILytF1Gvrp
+ VHWi6kegeluKhHk2A3st8VuQLWsw38lpWeZM+iu8ay9Crbj2IXRcvA9cGkBYmcsDWMpk
+ /xS9b9z+jQ0XU/TztCyCj2EJtGIus4WbhgtQdXFJEnAkYSCiAwUV7H+4TIf3wOU1CyHg
+ QC2pyPVA4cijkd8Laywa4Cni28gTS2+SHWCd+033kr8LUweTC4PnQ16T4C6L/GtuQlJP
+ 7MWg==
+X-Gm-Message-State: AOAM533BsyW+yvLBpUVJJ8XV6EOzTLYJHP9vvRmxzgDusuyoz9pbx5vY
+ vtdUnPqT2vpu3l5JzTwSQlp37Yppfa46Gw==
+X-Google-Smtp-Source: ABdhPJyDSajbCraK47ZA6o/DkHta0USasPY2MCXDr6IHJFz6bD2EFq3mSAPaMSRh4jaVJpKSZ84aCA==
+X-Received: by 2002:a1c:7413:: with SMTP id p19mr4745049wmc.30.1629997402745; 
+ Thu, 26 Aug 2021 10:03:22 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.20
+ by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.21
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 10:03:21 -0700 (PDT)
+ Thu, 26 Aug 2021 10:03:22 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/37] docs/specs/acpi_mem_hotplug: Convert to rST
-Date: Thu, 26 Aug 2021 18:02:41 +0100
-Message-Id: <20210826170307.27733-12-peter.maydell@linaro.org>
+Subject: [PULL 12/37] docs/specs/acpi_pci_hotplug: Convert to rST
+Date: Thu, 26 Aug 2021 18:02:42 +0100
+Message-Id: <20210826170307.27733-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210826170307.27733-1-peter.maydell@linaro.org>
 References: <20210826170307.27733-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,266 +87,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Convert the acpi memory hotplug spec to rST.
-
-Note that this includes converting a lot of weird whitespace
-characters to plain old spaces (the rST parser does not like
-whatever the old ones were).
+Convert the PCI hotplug spec document to rST.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Message-id: 20210727170414.3368-3-peter.maydell@linaro.org
 ---
- docs/specs/acpi_mem_hotplug.rst | 128 ++++++++++++++++++++++++++++++++
- docs/specs/acpi_mem_hotplug.txt |  94 -----------------------
- docs/specs/index.rst            |   1 +
- 3 files changed, 129 insertions(+), 94 deletions(-)
- create mode 100644 docs/specs/acpi_mem_hotplug.rst
- delete mode 100644 docs/specs/acpi_mem_hotplug.txt
+ ...i_pci_hotplug.txt => acpi_pci_hotplug.rst} | 37 ++++++++++---------
+ docs/specs/index.rst                          |  1 +
+ 2 files changed, 21 insertions(+), 17 deletions(-)
+ rename docs/specs/{acpi_pci_hotplug.txt => acpi_pci_hotplug.rst} (51%)
 
-diff --git a/docs/specs/acpi_mem_hotplug.rst b/docs/specs/acpi_mem_hotplug.rst
-new file mode 100644
-index 00000000000..069819bc3e0
---- /dev/null
-+++ b/docs/specs/acpi_mem_hotplug.rst
-@@ -0,0 +1,128 @@
-+QEMU<->ACPI BIOS memory hotplug interface
-+=========================================
-+
-+ACPI BIOS GPE.3 handler is dedicated for notifying OS about memory hot-add
-+and hot-remove events.
-+
-+Memory hot-plug interface (IO port 0xa00-0xa17, 1-4 byte access)
-+----------------------------------------------------------------
-+
-+Read access behavior
-+^^^^^^^^^^^^^^^^^^^^
-+
-+[0x0-0x3]
-+  Lo part of memory device phys address
-+[0x4-0x7]
-+  Hi part of memory device phys address
-+[0x8-0xb]
-+  Lo part of memory device size in bytes
-+[0xc-0xf]
-+  Hi part of memory device size in bytes
-+[0x10-0x13]
-+  Memory device proximity domain
-+[0x14]
-+  Memory device status fields
-+
-+  bits:
-+
-+  0:
-+    Device is enabled and may be used by guest
-+  1:
-+    Device insert event, used to distinguish device for which
-+    no device check event to OSPM was issued.
-+    It's valid only when bit 1 is set.
-+  2:
-+    Device remove event, used to distinguish device for which
-+    no device eject request to OSPM was issued.
-+  3-7:
-+    reserved and should be ignored by OSPM
-+
-+[0x15-0x17]
-+  reserved
-+
-+Write access behavior
-+^^^^^^^^^^^^^^^^^^^^^
-+
-+
-+[0x0-0x3]
-+  Memory device slot selector, selects active memory device.
-+  All following accesses to other registers in 0xa00-0xa17
-+  region will read/store data from/to selected memory device.
-+[0x4-0x7]
-+  OST event code reported by OSPM
-+[0x8-0xb]
-+  OST status code reported by OSPM
-+[0xc-0x13]
-+  reserved, writes into it are ignored
-+[0x14]
-+  Memory device control fields
-+
-+  bits:
-+
-+  0:
-+    reserved, OSPM must clear it before writing to register.
-+    Due to BUG in versions prior 2.4 that field isn't cleared
-+    when other fields are written. Keep it reserved and don't
-+    try to reuse it.
-+  1:
-+    if set to 1 clears device insert event, set by OSPM
-+    after it has emitted device check event for the
-+    selected memory device
-+  2:
-+    if set to 1 clears device remove event, set by OSPM
-+    after it has emitted device eject request for the
-+    selected memory device
-+  3:
-+    if set to 1 initiates device eject, set by OSPM when it
-+    triggers memory device removal and calls _EJ0 method
-+  4-7:
-+    reserved, OSPM must clear them before writing to register
-+
-+Selecting memory device slot beyond present range has no effect on platform:
-+
-+- write accesses to memory hot-plug registers not documented above are ignored
-+- read accesses to memory hot-plug registers not documented above return
-+  all bits set to 1.
-+
-+Memory hot remove process diagram
-+---------------------------------
-+
-+::
-+
-+   +-------------+     +-----------------------+      +------------------+
-+   |  1. QEMU    |     | 2. QEMU               |      |3. QEMU           |
-+   |  device_del +---->+ device unplug request +----->+Send SCI to guest,|
-+   |             |     |         cb            |      |return control to |
-+   |             |     |                       |      |management        |
-+   +-------------+     +-----------------------+      +------------------+
-+
-+   +---------------------------------------------------------------------+
-+
-+   +---------------------+              +-------------------------+
-+   | OSPM:               | remove event | OSPM:                   |
-+   | send Eject Request, |              | Scan memory devices     |
-+   | clear remove event  +<-------------+ for event flags         |
-+   |                     |              |                         |
-+   +---------------------+              +-------------------------+
-+             |
-+             |
-+   +---------v--------+            +-----------------------+
-+   | Guest OS:        |  success   | OSPM:                 |
-+   | process Ejection +----------->+ Execute _EJ0 method,  |
-+   | request          |            | set eject bit in flags|
-+   +------------------+            +-----------------------+
-+             |failure                         |
-+             v                                v
-+   +------------------------+      +-----------------------+
-+   | OSPM:                  |      | QEMU:                 |
-+   | set OST event & status |      | call device unplug cb |
-+   | fields                 |      |                       |
-+   +------------------------+      +-----------------------+
-+            |                                  |
-+            v                                  v
-+   +------------------+              +-------------------+
-+   |QEMU:             |              |QEMU:              |
-+   |Send OST QMP event|              |Send device deleted|
-+   |                  |              |QMP event          |
-+   +------------------+              |                   |
-+                                     +-------------------+
-diff --git a/docs/specs/acpi_mem_hotplug.txt b/docs/specs/acpi_mem_hotplug.txt
-deleted file mode 100644
-index 3df3620ce42..00000000000
---- a/docs/specs/acpi_mem_hotplug.txt
-+++ /dev/null
-@@ -1,94 +0,0 @@
--QEMU<->ACPI BIOS memory hotplug interface
+diff --git a/docs/specs/acpi_pci_hotplug.txt b/docs/specs/acpi_pci_hotplug.rst
+similarity index 51%
+rename from docs/specs/acpi_pci_hotplug.txt
+rename to docs/specs/acpi_pci_hotplug.rst
+index a839434f313..685bc5c322f 100644
+--- a/docs/specs/acpi_pci_hotplug.txt
++++ b/docs/specs/acpi_pci_hotplug.rst
+@@ -1,45 +1,48 @@
+ QEMU<->ACPI BIOS PCI hotplug interface
 ---------------------------------------
--
--ACPI BIOS GPE.3 handler is dedicated for notifying OS about memory hot-add
--and hot-remove events.
--
--Memory hot-plug interface (IO port 0xa00-0xa17, 1-4 byte access):
++======================================
+ 
+ QEMU supports PCI hotplug via ACPI, for PCI bus 0. This document
+ describes the interface between QEMU and the ACPI BIOS.
+ 
+-ACPI GPE block (IO ports 0xafe0-0xafe3, byte access):
+------------------------------------------
++ACPI GPE block (IO ports 0xafe0-0xafe3, byte access)
++----------------------------------------------------
+ 
+ Generic ACPI GPE block. Bit 1 (GPE.1) used to notify PCI hotplug/eject
+ event to ACPI BIOS, via SCI interrupt.
+ 
+-PCI slot injection notification pending (IO port 0xae00-0xae03, 4-byte access):
 ----------------------------------------------------------------
--0xa00:
--  read access:
--      [0x0-0x3] Lo part of memory device phys address
--      [0x4-0x7] Hi part of memory device phys address
--      [0x8-0xb] Lo part of memory device size in bytes
--      [0xc-0xf] Hi part of memory device size in bytes
--      [0x10-0x13] Memory device proximity domain
--      [0x14] Memory device status fields
--          bits:
--              0: Device is enabled and may be used by guest
--              1: Device insert event, used to distinguish device for which
--                 no device check event to OSPM was issued.
--                 It's valid only when bit 1 is set.
--              2: Device remove event, used to distinguish device for which
--                 no device eject request to OSPM was issued.
--              3-7: reserved and should be ignored by OSPM
--      [0x15-0x17] reserved
--
--  write access:
--      [0x0-0x3] Memory device slot selector, selects active memory device.
--                All following accesses to other registers in 0xa00-0xa17
--                region will read/store data from/to selected memory device.
--      [0x4-0x7] OST event code reported by OSPM
--      [0x8-0xb] OST status code reported by OSPM
--      [0xc-0x13] reserved, writes into it are ignored
--      [0x14] Memory device control fields
--          bits:
--              0: reserved, OSPM must clear it before writing to register.
--                 Due to BUG in versions prior 2.4 that field isn't cleared
--                 when other fields are written. Keep it reserved and don't
--                 try to reuse it.
--              1: if set to 1 clears device insert event, set by OSPM
--                 after it has emitted device check event for the
--                 selected memory device
--              2: if set to 1 clears device remove event, set by OSPM
--                 after it has emitted device eject request for the
--                 selected memory device
--              3: if set to 1 initiates device eject, set by OSPM when it
--                 triggers memory device removal and calls _EJ0 method
--              4-7: reserved, OSPM must clear them before writing to register
--
--Selecting memory device slot beyond present range has no effect on platform:
--   - write accesses to memory hot-plug registers not documented above are
--     ignored
--   - read accesses to memory hot-plug registers not documented above return
--     all bits set to 1.
--
--Memory hot remove process diagram:
------------------------------------
-- +-------------+     +-----------------------+      +------------------+     
-- |  1. QEMU    |     | 2. QEMU               |      |3. QEMU           |     
-- |  device_del +---->+ device unplug request +----->+Send SCI to guest,|     
-- |             |     |         cb            |      |return control to |     
-- +-------------+     +-----------------------+      |management        |     
--                                                    +------------------+     
--                                                                             
-- +---------------------------------------------------------------------+     
--                                                                             
-- +---------------------+              +-------------------------+            
-- | OSPM:               | remove event | OSPM:                   |            
-- | send Eject Request, |              | Scan memory devices     |            
-- | clear remove event  +<-------------+ for event flags         |            
-- |                     |              |                         |            
-- +---------------------+              +-------------------------+            
--           |                                                                 
--           |                                                                 
-- +---------v--------+            +-----------------------+                   
-- | Guest OS:        |  success   | OSPM:                 |                   
-- | process Ejection +----------->+ Execute _EJ0 method,  |                   
-- | request          |            | set eject bit in flags|                   
-- +------------------+            +-----------------------+                   
--           |failure                         |                                
--           v                                v                                
-- +------------------------+      +-----------------------+                   
-- | OSPM:                  |      | QEMU:                 |                   
-- | set OST event & status |      | call device unplug cb |                   
-- | fields                 |      |                       |                   
-- +------------------------+      +-----------------------+                   
--          |                                  |                               
--          v                                  v                               
-- +------------------+              +-------------------+                     
-- |QEMU:             |              |QEMU:              |                     
-- |Send OST QMP event|              |Send device deleted|                     
-- |                  |              |QMP event          |                     
-- +------------------+              |                   |                     
--                                   +-------------------+
++PCI slot injection notification pending (IO port 0xae00-0xae03, 4-byte access)
++------------------------------------------------------------------------------
++
+ Slot injection notification pending. One bit per slot.
+ 
+ Read by ACPI BIOS GPE.1 handler to notify OS of injection
+ events.  Read-only.
+ 
+-PCI slot removal notification (IO port 0xae04-0xae07, 4-byte access):
+------------------------------------------------------
++PCI slot removal notification (IO port 0xae04-0xae07, 4-byte access)
++--------------------------------------------------------------------
++
+ Slot removal notification pending. One bit per slot.
+ 
+ Read by ACPI BIOS GPE.1 handler to notify OS of removal
+ events.  Read-only.
+ 
+-PCI device eject (IO port 0xae08-0xae0b, 4-byte access):
+-----------------------------------------
++PCI device eject (IO port 0xae08-0xae0b, 4-byte access)
++-------------------------------------------------------
+ 
+ Write: Used by ACPI BIOS _EJ0 method to request device removal.
+ One bit per slot.
+ 
+ Read: Hotplug features register.  Used by platform to identify features
+ available.  Current base feature set (no bits set):
+- - Read-only "up" register @0xae00, 4-byte access, bit per slot
+- - Read-only "down" register @0xae04, 4-byte access, bit per slot
+- - Read/write "eject" register @0xae08, 4-byte access,
+-   write: bit per slot eject, read: hotplug feature set
+- - Read-only hotplug capable register @0xae0c, 4-byte access, bit per slot
+ 
+-PCI removability status (IO port 0xae0c-0xae0f, 4-byte access):
+------------------------------------------------
++- Read-only "up" register @0xae00, 4-byte access, bit per slot
++- Read-only "down" register @0xae04, 4-byte access, bit per slot
++- Read/write "eject" register @0xae08, 4-byte access,
++  write: bit per slot eject, read: hotplug feature set
++- Read-only hotplug capable register @0xae0c, 4-byte access, bit per slot
++
++PCI removability status (IO port 0xae0c-0xae0f, 4-byte access)
++--------------------------------------------------------------
+ 
+ Used by ACPI BIOS _RMV method to indicate removability status to OS. One
+-bit per slot.  Read-only
++bit per slot.  Read-only.
 diff --git a/docs/specs/index.rst b/docs/specs/index.rst
-index 24b765e1a45..17cc7868b91 100644
+index 17cc7868b91..8296fb19b72 100644
 --- a/docs/specs/index.rst
 +++ b/docs/specs/index.rst
-@@ -14,3 +14,4 @@ guest hardware that is specific to QEMU.
-    tpm
+@@ -15,3 +15,4 @@ guest hardware that is specific to QEMU.
     acpi_hest_ghes
     acpi_cpu_hotplug
-+   acpi_mem_hotplug
+    acpi_mem_hotplug
++   acpi_pci_hotplug
 -- 
 2.20.1
 
