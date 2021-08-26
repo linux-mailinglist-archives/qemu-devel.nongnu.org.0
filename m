@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D0ED3F8797
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 14:36:30 +0200 (CEST)
-Received: from localhost ([::1]:52034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B4E3F8799
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 14:36:36 +0200 (CEST)
+Received: from localhost ([::1]:52172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJEcL-0006tX-0e
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 08:36:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40484)
+	id 1mJEcV-000705-3b
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 08:36:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mJEYb-0004A5-Ir
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 08:32:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:45899)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mJEYn-0004Ak-7s
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 08:32:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:35366)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mJEYZ-00088D-49
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 08:32:32 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mJEYi-0008C1-6k
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 08:32:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629981149;
+ s=mimecast20190719; t=1629981157;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tad11opssmnVeXRaOe4HhaYIssHpPLxaNvEbtnekugw=;
- b=foKd8hi2ZcHcFs193VnoWhS1eKFA2bK5Vu548LAz9MCWYxgLlFDeUCUL4qFM4hy5e8cZgU
- gJfYwq1rje1KlXBbeQW3uXAEbFk7wLNrOiBIT4/RE6Guar0mXY260LyVmr58JN1+bKUP5F
- IZsM4QaoDikLrx3+PvG/Mic9nOo0OyU=
+ bh=PsTutcg/lRrtWDE4iFDlyr/ZBBbqmo2DXv8ZTmGwZcM=;
+ b=Qk8kX5g5XQYoYdwETb31QriebPumfohDtEtLINAWrKSLpth+joUPKHvlXyfYOrPLGuvwNY
+ X2rPYBFbygNlHLS1vvp66fqTA/J1KavXHQ+GlagVU/rm23BHdUhrClD1UJy+CdCF6pRd3i
+ KnbJjTBQHdivZFst4z+RclmcUqrcvfc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-AEnHi9W2Ny2RjoMoWqvuPg-1; Thu, 26 Aug 2021 08:32:28 -0400
-X-MC-Unique: AEnHi9W2Ny2RjoMoWqvuPg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-3-kKe2Hxn-NhqQMfO-VXJlWQ-1; Thu, 26 Aug 2021 08:32:35 -0400
+X-MC-Unique: kKe2Hxn-NhqQMfO-VXJlWQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48D61108292D;
- Thu, 26 Aug 2021 12:32:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A578E87D541;
+ Thu, 26 Aug 2021 12:32:34 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-4.ams2.redhat.com [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B6B85D9C6;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0B6D95C1D5;
  Thu, 26 Aug 2021 12:32:27 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9477A11380AA; Thu, 26 Aug 2021 14:32:25 +0200 (CEST)
+ id 9C32111380AB; Thu, 26 Aug 2021 14:32:25 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/11] qapi: Fix crash on redefinition with a different
- condition
-Date: Thu, 26 Aug 2021 14:32:15 +0200
-Message-Id: <20210826123225.157891-2-armbru@redhat.com>
+Subject: [PULL 02/11] docs: update the documentation upfront about schema
+ configuration
+Date: Thu, 26 Aug 2021 14:32:16 +0200
+Message-Id: <20210826123225.157891-3-armbru@redhat.com>
 In-Reply-To: <20210826123225.157891-1-armbru@redhat.com>
 References: <20210826123225.157891-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
 X-Spam_bar: ---
 X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,77 +79,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Eric Blake <eblake@redhat.com>
+Cc: peter.maydell@linaro.org, John Snow <jsnow@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QAPISchema._make_implicit_object_type() asserts that when an implicit
-object type is used multiple times, @ifcond is the same for all uses.
-It will be for legitimate uses, i.e. simple union branch wrapper
-types.  A comment explains this.
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The assertion fails when a command or event is redefined with a
-different condition.  The redefinition is an error, but it's flagged
-only later.
+Update the documentation describing the changes in this series.
 
-Fixing the assertion would complicate matters further.  Not
-worthwhile, drop it instead.  We really need to get rid of simple
-unions.
-
-Tweak test case redefined-event to cover redefinition with a different
-condition.
-
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Tested-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20210804083105.97531-2-marcandre.lureau@redhat.com>
+[Rebased with straightforward conflicts]
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20210806120510.2367124-1-armbru@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- scripts/qapi/schema.py                 | 22 +++++++++++-----------
- tests/qapi-schema/redefined-event.json |  2 +-
- 2 files changed, 12 insertions(+), 12 deletions(-)
+ docs/devel/qapi-code-gen.rst | 30 ++++++++++++++++++------------
+ 1 file changed, 18 insertions(+), 12 deletions(-)
 
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index d1d27ff7ee..a4ce3972a4 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -997,18 +997,18 @@ def _make_implicit_object_type(self, name, info, ifcond, role, members):
-         name = 'q_obj_%s-%s' % (name, role)
-         typ = self.lookup_entity(name, QAPISchemaObjectType)
-         if typ:
--            # The implicit object type has multiple users.  This can
--            # happen only for simple unions' implicit wrapper types.
--            # Its ifcond should be the disjunction of its user's
--            # ifconds.  Not implemented.  Instead, we always pass the
--            # wrapped type's ifcond, which is trivially the same for all
--            # users.  It's also necessary for the wrapper to compile.
--            # But it's not tight: the disjunction need not imply it.  We
--            # may end up compiling useless wrapper types.
-+            # The implicit object type has multiple users.  This is
-+            # either a duplicate definition (which will be flagged
-+            # later), or an implicit wrapper type used for multiple
-+            # simple unions.  In the latter case, ifcond should be the
-+            # disjunction of its user's ifconds.  Not implemented.
-+            # Instead, we always pass the wrapped type's ifcond, which
-+            # is trivially the same for all users.  It's also
-+            # necessary for the wrapper to compile.  But it's not
-+            # tight: the disjunction need not imply it.  We may end up
-+            # compiling useless wrapper types.
-             # TODO kill simple unions or implement the disjunction
--
--            # pylint: disable=protected-access
--            assert (ifcond or []) == typ._ifcond
-+            pass
-         else:
-             self._def_entity(QAPISchemaObjectType(
-                 name, info, None, ifcond, None, None, members, None))
-diff --git a/tests/qapi-schema/redefined-event.json b/tests/qapi-schema/redefined-event.json
-index 7717e91c18..09eff18412 100644
---- a/tests/qapi-schema/redefined-event.json
-+++ b/tests/qapi-schema/redefined-event.json
-@@ -1,3 +1,3 @@
- # we reject duplicate events
- { 'event': 'EVENT_A', 'data': { 'myint': 'int' } }
--{ 'event': 'EVENT_A', 'data': { 'myint': 'int' } }
-+{ 'event': 'EVENT_A', 'data': { 'myint': 'int' }, 'if': 'defined(FOO)' }
+diff --git a/docs/devel/qapi-code-gen.rst b/docs/devel/qapi-code-gen.rst
+index 26c62b0e7b..ced7a5ffe1 100644
+--- a/docs/devel/qapi-code-gen.rst
++++ b/docs/devel/qapi-code-gen.rst
+@@ -826,25 +826,31 @@ Configuring the schema
+ Syntax::
+ 
+     COND = STRING
+-         | [ STRING, ... ]
++         | { 'all: [ COND, ... ] }
++         | { 'any: [ COND, ... ] }
++         | { 'not': COND }
+ 
+ All definitions take an optional 'if' member.  Its value must be a
+-string or a list of strings.  A string is shorthand for a list
+-containing just that string.  The code generated for the definition
+-will then be guarded by #if STRING for each STRING in the COND list.
++string, or an object with a single member 'all', 'any' or 'not'.
++
++The C code generated for the definition will then be guarded by an #if
++preprocessing directive with an operand generated from that condition:
++
++ * STRING will generate defined(STRING)
++ * { 'all': [COND, ...] } will generate (COND && ...)
++ * { 'any': [COND, ...] } will generate (COND || ...)
++ * { 'not': COND } will generate !COND
+ 
+ Example: a conditional struct ::
+ 
+  { 'struct': 'IfStruct', 'data': { 'foo': 'int' },
+-   'if': ['defined(CONFIG_FOO)', 'defined(HAVE_BAR)'] }
++   'if': { 'all': [ 'CONFIG_FOO', 'HAVE_BAR' ] } }
+ 
+ gets its generated code guarded like this::
+ 
+- #if defined(CONFIG_FOO)
+- #if defined(HAVE_BAR)
++ #if defined(CONFIG_FOO) && defined(HAVE_BAR)
+  ... generated code ...
+- #endif /* defined(HAVE_BAR) */
+- #endif /* defined(CONFIG_FOO) */
++ #endif /* defined(HAVE_BAR) && defined(CONFIG_FOO) */
+ 
+ Individual members of complex types, commands arguments, and
+ event-specific data can also be made conditional.  This requires the
+@@ -855,7 +861,7 @@ member 'bar' ::
+ 
+  { 'struct': 'IfStruct', 'data':
+    { 'foo': 'int',
+-     'bar': { 'type': 'int', 'if': 'defined(IFCOND)'} } }
++     'bar': { 'type': 'int', 'if': 'IFCOND'} } }
+ 
+ A union's discriminator may not be conditional.
+ 
+@@ -867,7 +873,7 @@ value 'bar' ::
+ 
+  { 'enum': 'IfEnum', 'data':
+    [ 'foo',
+-     { 'name' : 'bar', 'if': 'defined(IFCOND)' } ] }
++     { 'name' : 'bar', 'if': 'IFCOND' } ] }
+ 
+ Likewise, features can be conditional.  This requires the longhand
+ form of FEATURE_.
+@@ -877,7 +883,7 @@ Example: a struct with conditional feature 'allow-negative-numbers' ::
+  { 'struct': 'TestType',
+    'data': { 'number': 'int' },
+    'features': [ { 'name': 'allow-negative-numbers',
+-                   'if': 'defined(IFCOND)' } ] }
++                   'if': 'IFCOND' } ] }
+ 
+ Please note that you are responsible to ensure that the C code will
+ compile with an arbitrary combination of conditions, since the
 -- 
 2.31.1
 
