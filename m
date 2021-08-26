@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ED173F88A8
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 15:21:02 +0200 (CEST)
-Received: from localhost ([::1]:57234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98FDD3F88A9
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 15:21:16 +0200 (CEST)
+Received: from localhost ([::1]:59140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJFJQ-0000PP-Bq
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 09:20:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49862)
+	id 1mJFJj-0001lb-Mq
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 09:21:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJFE7-0002UD-PD
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 09:15:27 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:45604)
+ id 1mJFG6-0005ZL-Qx
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 09:17:30 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJFE6-0003Ta-8G
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 09:15:27 -0400
-Received: by mail-ej1-x632.google.com with SMTP id e21so6128477ejz.12
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 06:15:25 -0700 (PDT)
+ id 1mJFG5-0004tH-5J
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 09:17:30 -0400
+Received: by mail-wr1-x436.google.com with SMTP id q14so5041734wrp.3
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 06:17:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/UkNg+S0E5Ze9o20iVzr0wYeHSQPp59AzIhUWQtgAdY=;
- b=OIulbnvVGsF2IDnk+PmvsvxU8MxOkJldOCB67O/GM1NuXSxSkcLL7Rug6RQohisaD7
- q1V6+Z1ctSn4AkMmA4+jgdhh/tJCO+Qmu7twoY/bNfzWJBRfvLpP1d04f++SAiYcSqK2
- yrgGauXheSDHvjBvE9hIE0wUKd7ibYVxSCETHmPapZjJg+mjLIIlDwMNDX3m6cj2sKDx
- f6Ed8Ww3W97xF0a5pHe/kNRePWPfqMOjq9V3zvdk4mAphbPaiAJmZMCLreuh7HrwxgD5
- xeKdkqWUqjpNrz6zkI0fN5zAjSuTeM/tnuCO96q89qdorfGn23I4JFzikWAKDkgZRadO
- N5Cw==
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=82sgR5/m4fumkYT0/xj95NETaJMqRNknmR9Pa+WdhVA=;
+ b=imN0DOeZR6bkgsi5Hx442o6xk8fu82/0dsEFgoKMospYshyFxVCdh3wfMwNtF/Qvx4
+ MnGUsyH7ZVCCOZp5o++HX9DanW58q0GCpY4Sy3hpxRwgsleG3xjUXkPDEhla0ZssLDRa
+ Y+l/eyH1F83DZwQRJDLRdAL+lCJ+tygncq9hNn2/5zjtXcCn65+QDtAxGjo6LTY9KcDK
+ nbYOSW9idk0T+UAwYIzEFoczICYiIftPZ6Cg7Zp9k0FEoRKjqXT/5SvYxmj7rRR8hJ3n
+ tcirycD5s4qlWbGfhmXQqyH44ZTBMyxmbW74WZBpNa6luVAbL4sgRzoLNQ5m0m20U3oL
+ m7+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/UkNg+S0E5Ze9o20iVzr0wYeHSQPp59AzIhUWQtgAdY=;
- b=rG7RrhlYfIzLXBs1IlQzlSbynvf9lnUABhGFcvGr2VTv7LpfTT0DPGsLtJUELK6E85
- IQloziAM7pNEuFdvXeftz+qIGAIkiQ1OZ7sS6CLyf4TXSgaM8lVD9GH+vm0YhMrfdhA6
- eIouASlZr/EJ1aacPEndpzX6o77uE8ZicucY48hV/wxaBWOLRDR4azEmFjhDQUaZZP1a
- eVL7e9dOWbQI5Q6VeSbm4S1swzaAGEw+4kuyI9pcNtj6tdom78pd9LlUeR8alSaW3tHB
- PfqyNA7uGBQ8KffPbE7v6Q9Se9aee+PT3oEnsVc0ehw6KSzS2mXTDr/mcFlb5KthS+cI
- 0OTg==
-X-Gm-Message-State: AOAM530imTLctrbuABNduowvxwRfwo/U71oQOD2T7DMt3e+cK56uMI58
- c6IRhw51SMGJMinFD4Kq2jqGaxyrCtSYB+8VEqhkdA==
-X-Google-Smtp-Source: ABdhPJyL3/TLib7oz6oZbPpkmC6Avu2H5n/4A20BLj7fZUuas4G7k7ZRY0Uuf7U7LtI5n/PaTjiKsp4u0cfIttsvOn0=
-X-Received: by 2002:a17:907:75d9:: with SMTP id
- jl25mr4291912ejc.4.1629983724719; 
- Thu, 26 Aug 2021 06:15:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210824201105.2303789-1-matheus.ferst@eldorado.org.br>
- <20210824201105.2303789-2-matheus.ferst@eldorado.org.br>
- <CAFEAcA-_=BYkEPpARFpieTUfEVVQq+yEQYDBvsjm5uGZUmVn7Q@mail.gmail.com>
-In-Reply-To: <CAFEAcA-_=BYkEPpARFpieTUfEVVQq+yEQYDBvsjm5uGZUmVn7Q@mail.gmail.com>
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=82sgR5/m4fumkYT0/xj95NETaJMqRNknmR9Pa+WdhVA=;
+ b=UWq8WItdhCWgblms9x8SRfwuLw2MHYsE0pDBijUnG+7J2FOsj8fiNvuX1uBs9swejs
+ kQlPceAfzxBWTgHOPIqmihbAGyNYAv3n+yC5TneJQxEkNZR9L9brybFZ8H1qIJLdH/PU
+ qirHJCTnE8p8jwItgT592QfbDFPkGTDXsFq/gcXzearoKEld5jSC4MI2pPMy56gF/lCa
+ Kuj3R2NQsgQB5swm+v8uWEz3PYhN/ksyjQ0YP2Z2hX1zoDWicIO5rcTuAnlGoFiy1Led
+ WNothrk1qu9NJOsKWkpeAwnoa61JY2bO33JXrL87PUC0Zxj6zRu0qcl617NGghc0761N
+ HL0g==
+X-Gm-Message-State: AOAM532hapGfsT8ZH0ClAlgq6kxClgSRRSiCHQnLOTFjewKgwLpCI5Of
+ zRwUsGKId8Q1OmST46fl5wtyZz+cmKcGqg==
+X-Google-Smtp-Source: ABdhPJwN4JWsjMvihsgqZj2+A1sCB2NX6PFqiNaICEfmSKtOdkgVbU3Q+jhEbSCqqT/VcMCffuSbdw==
+X-Received: by 2002:adf:c3c3:: with SMTP id d3mr3915842wrg.373.1629983847583; 
+ Thu, 26 Aug 2021 06:17:27 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id i17sm1341908wrc.38.2021.08.26.06.17.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Aug 2021 06:17:27 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 26 Aug 2021 14:14:37 +0100
-Message-ID: <CAFEAcA9qAtoC1Tr8tqt8Ernc2VD+m6vd8PwqbGJ9VKOD=yFAMA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] include/qemu/int128.h: define struct Int128 according
- to the host endianness
-To: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH v2 00/18] target/arm: MVE slice 4
+Date: Thu, 26 Aug 2021 14:17:07 +0100
+Message-Id: <20210826131725.22449-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,38 +81,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>, qemu-ppc <qemu-ppc@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 Aug 2021 at 14:11, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Tue, 24 Aug 2021 at 21:12, <matheus.ferst@eldorado.org.br> wrote:
-> >
-> > From: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> >
-> > Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> > Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-> > ---
->
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+This patchseries is the fourth slice of the MVE implementation,
+including the "turn it on" patch. These patches have all been
+on-list before and have been reviewed; changes since v1 are
+mostly just the ones requested by Richard.
 
-Oh, you could add a comment before the struct definition:
+v1->v2:
+ * use float* types in macro arguments, not uint*_t
+   (in most patches)
+ * make do_vcvt_sh/do_vcvt_hs functions, not macros
+ * new DO_2OP_FP_ALL, DO_2OP_FP_SCALAR_ALL macros that invoke
+   DO_2OP_FP/DO_2OP_FP_SCALAR once each for float16, float32
+ * pass a CHS bool to DO_VFMA rather than a function name
 
- /*
-  * We guarantee that the in-memory byte representation of an
-  * Int128 is that of a host-endian-order 128-bit integer
-  * (whether using this struct or the __int128_t version of the type).
-  * Some code using this type relies on this (eg when copying it into
-  * guest memory or a gdb protocol buffer, or by using Int128 in
-  * a union with other integer types).
-  */
- struct Int128 {
-     ....
-
-so we don't forget why we put this ifdef in.
-
+thanks
 -- PMM
+
+Peter Maydell (18):
+  target/arm: Implement MVE VADD (floating-point)
+  target/arm: Implement MVE VSUB, VMUL, VABD, VMAXNM, VMINNM
+  target/arm: Implement MVE VCADD
+  target/arm: Implement MVE VFMA and VFMS
+  target/arm: Implement MVE VCMUL and VCMLA
+  target/arm: Implement MVE VMAXNMA and VMINNMA
+  target/arm: Implement MVE scalar fp insns
+  target/arm: Implement MVE fp-with-scalar VFMA, VFMAS
+  softfloat: Remove assertion preventing silencing of NaN in default-NaN
+    mode
+  target/arm: Implement MVE FP max/min across vector
+  target/arm: Implement MVE fp vector comparisons
+  target/arm: Implement MVE fp scalar comparisons
+  target/arm: Implement MVE VCVT between floating and fixed point
+  target/arm: Implement MVE VCVT between fp and integer
+  target/arm: Implement MVE VCVT with specified rounding mode
+  target/arm: Implement MVE VCVT between single and half precision
+  target/arm: Implement MVE VRINT insns
+  target/arm: Enable MVE in Cortex-M55
+
+ target/arm/helper-mve.h        | 142 +++++++
+ target/arm/translate.h         |   6 +
+ target/arm/mve.decode          | 277 ++++++++++++--
+ target/arm/cpu_tcg.c           |   7 +-
+ target/arm/mve_helper.c        | 650 +++++++++++++++++++++++++++++++++
+ target/arm/translate-mve.c     | 277 +++++++++++++-
+ target/arm/translate-neon.c    |   6 -
+ fpu/softfloat-specialize.c.inc |   1 -
+ 8 files changed, 1318 insertions(+), 48 deletions(-)
+
+-- 
+2.20.1
+
 
