@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB38A3F7FEF
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 03:33:31 +0200 (CEST)
-Received: from localhost ([::1]:53090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A723F805E
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 04:18:17 +0200 (CEST)
+Received: from localhost ([::1]:33506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJ4Go-0005Kd-BD
-	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 21:33:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41308)
+	id 1mJ4y7-0004mW-Nu
+	for lists+qemu-devel@lfdr.de; Wed, 25 Aug 2021 22:18:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mJ4Cj-0003rz-Km; Wed, 25 Aug 2021 21:29:17 -0400
-Received: from [201.28.113.2] (port=62264 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mJ4Cd-0002CY-GJ; Wed, 25 Aug 2021 21:29:13 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Wed, 25 Aug 2021 22:28:13 -0300
-Received: from [127.0.0.1] (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id AC7F18012CD;
- Wed, 25 Aug 2021 22:28:13 -0300 (-03)
-Subject: Re: [PATCH 0/2] target/ppc: Fix vextu[bhw][lr]x on big endian hosts
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-References: <20210824201105.2303789-1-matheus.ferst@eldorado.org.br>
- <1f5fe437-4839-c225-0859-91ccfa7532af@ilande.co.uk>
-From: "Matheus K. Ferst" <matheus.ferst@eldorado.org.br>
-Message-ID: <11218ef5-ddc8-b5b4-96bf-6df30b3ba50f@eldorado.org.br>
-Date: Wed, 25 Aug 2021 22:28:13 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1mJ4wZ-00044b-AS
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 22:16:39 -0400
+Received: from mga18.intel.com ([134.134.136.126]:1512)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <xiaoyao.li@intel.com>)
+ id 1mJ4wW-00080g-Az
+ for qemu-devel@nongnu.org; Wed, 25 Aug 2021 22:16:38 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10087"; a="204785239"
+X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; d="scan'208";a="204785239"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2021 19:16:30 -0700
+X-IronPort-AV: E=Sophos;i="5.84,352,1620716400"; d="scan'208";a="494884155"
+Received: from xiaoyaol-mobl.ccr.corp.intel.com (HELO [10.239.13.122])
+ ([10.239.13.122])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 25 Aug 2021 19:16:28 -0700
+Subject: Re: Live migration regarding Intel PT
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <e31344c9-e9e6-7d78-3a53-2c0e5e5f39d7@intel.com>
+ <20210825204813.tfhrj3dg2vlqxm4u@habkost.net>
+From: Xiaoyao Li <xiaoyao.li@intel.com>
+Message-ID: <3d098ac3-e757-a26f-8bf8-e74e711ca09e@intel.com>
+Date: Thu, 26 Aug 2021 10:16:26 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <1f5fe437-4839-c225-0859-91ccfa7532af@ilande.co.uk>
+In-Reply-To: <20210825204813.tfhrj3dg2vlqxm4u@habkost.net>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 26 Aug 2021 01:28:14.0023 (UTC)
- FILETIME=[A3980D70:01D79A19]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_20=-0.001, NICE_REPLY_A=-2.24,
- PDS_HP_HELO_NORDNS=0.001, RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=134.134.136.126;
+ envelope-from=xiaoyao.li@intel.com; helo=mga18.intel.com
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.89,
+ HK_RANDOM_FROM=0.999, NICE_REPLY_A=-2.24, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,80 +63,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, groug@kaod.org, david@gibson.dropbear.id.au
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/08/2021 09:55, Mark Cave-Ayland wrote:
-> [E-MAIL EXTERNO] Não clique em links ou abra anexos, a menos que você 
-> possa confirmar o remetente e saber que o conteúdo é seguro. Em caso de 
-> e-mail suspeito entre imediatamente em contato com o DTI.
-> 
-> On 24/08/2021 21:11, matheus.ferst@eldorado.org.br wrote:
-> 
->> From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+On 8/26/2021 4:48 AM, Eduardo Habkost wrote:
+> On Wed, Aug 25, 2021 at 02:59:37PM +0800, Xiaoyao Li wrote:
+>> Hi Eduardo,
 >>
->> The definition of struct Int128 is currently independent of the host
->> endianness, causing different results when using the member s128 of
->> union ppc_vsr_t in big-endian builds with CONFIG_INT128 or
->> !CONFIG_INT128.
+>> I have some question regrading Intel PT live migration.
 >>
->> The only PPC instructions that seem to be affected by this issue are the
->> "Vector Extract Unsigned Byte/Halfword/Word to GPR using GPR-specified
->> Left/Right-Index." Even on builds with Int128 support, however, their
->> helpers give the wrong result on big-endian hosts.
+>> Commit "e37a5c7fa459 (i386: Add Intel Processor Trace feature support)"
+>> expose Intel PT with a fixed capabilities of CPUID 0x14 for live migration.
+>> And the fixed capabilities are the value reported on ICX(IceLake). However,
+>> the upcoming SPR(Sapphire Rapids) has less capabilities of
+>> INTEL_PT_CYCLE_BITMAP than ICX. It fails to enable PT in guest on SPR
+>> machine.
 >>
->> The first patch in this series changes the definition of struct Int128
->> to allow its use in the ppc_vsr_t union. The second patch fixes the
->> helper definition.
->>
->> Matheus Ferst (2):
->>    include/qemu/int128.h: define struct Int128 according to the host
->>      endianness
->>    target/ppc: fix vextu[bhw][lr]x helpers
->>
->>   include/qemu/int128.h   | 19 ++++++++++++-------
->>   target/ppc/int_helper.c | 38 ++++++++++----------------------------
->>   2 files changed, 22 insertions(+), 35 deletions(-)
+>> If change the check on INTEL_PT_CYCLE_BITMAP to allow different value to
+>> allow it work on SPR. I think it breaks live migration, right?
 > 
-> Hi Matheus,
+> If I understand your description correctly, I don't think that
+> would break live migration.
 > 
-> Slightly unrelated to this patchset, however I see you've managed to 
-> make some good
-> efforts in consolidating the functionality between big-endian and 
-> little-endian host
-> systems.
+> Generating different CPUID data for the same CPU model+flags
+> would break live migration.
 > 
-> When I first worked on adding host vector support for PPC I noticed 
-> there were some
-> further places in target/ppc/int_helper.c that could be improved from 
-> accessing
-> ppc_avr_t fields such as u64 directly and instead using the relevant 
-> Vsr*() macros.
-> 
-> If you feel suitably motivated, it would be amazing to see more patches 
-> to help this
-> further along: basically look in target/ppc/int_helper.c for individual 
-> elements such
-> as u64 (and also the VECTOR_FOR_INORDER_I macro) and determine which 
-> ones are better
-> replaced by the relevant Vsr*() macro.
-> 
-> 
-> ATB,
-> 
-> Mark.
+> However, merely allowing a wider set of configurations to work
+> wouldn't break live migration, as long as the same CPU
+> model+flags generates the same CPUID data on any host.
 
-Hi Mark,
+The easy fix in my brain to make PT work on SPR guest surely will lead 
+to different CPUID data between ICX and SPR. That's why I wrote the email.
 
-That would be a nice change. Our efforts are currently on PowerISA v3.1 
-instructions, but I'll try to change that in helpers of things we move 
-to decodetree. After completing the new instructions, I can give a shot 
-in a Vsr*() patchset.
+Other questions about live migration. I think a named CPU model is the 
+pre-condition for live migration, right?
 
--- 
-Matheus K. Ferst
-Instituto de Pesquisas ELDORADO <http://www.eldorado.org.br/>
-Analista de Software Júnior
-Aviso Legal - Disclaimer <https://www.eldorado.org.br/disclaimer.html>
+Then is "same QEMU version/binary" the pre-condition for live migration 
+as well?
+
+> 
+>>
+>> For me, not making each sub-function of PT as configurable in QEMU indeed
+>> makes it hard for live migration. [...]
+> 
+> Making all sub-functions of PT configurable would be welcome.
+> actually.  That would allow us to support a wider range of
+> configurations and keep live migration working at the same time.
+
+I think it will break old QEMU? Is it OK?
+
+> 
+>> [...] Why not make PT as unmigratable in the
+>> first place when introducing the support in QEMU?
+> 
+> I don't know, this was not my decision.  Now we support live
+> migration in a few specific cases (ICX hosts), and I assume we
+> don't want to stop supporting it.
+> 
+> If you just want to support a larger set of hosts when live
+> migration is not needed, you can add support to that use case
+> too.  e.g.: "-cpu host,migratable=off" and/or
+> "-cpu ...,intel-pt-passthrough=on" could do host passthrough of
+> intel-pt sub-leaves (and block live migration).
+> 
+
+That will make things complicated that old use case "-cpu ...,+intel-pt" 
+still means supporting live migration. And when use "-cpu 
+...,+intel-pt", QEMU needs to generate fixed PT capability as previous?
+
 
