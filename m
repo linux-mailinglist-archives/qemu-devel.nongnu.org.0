@@ -2,67 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83F083F8B91
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 18:11:04 +0200 (CEST)
-Received: from localhost ([::1]:59518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5D73F8C77
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 18:51:26 +0200 (CEST)
+Received: from localhost ([::1]:56322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJHy3-0003w3-7y
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 12:11:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32952)
+	id 1mJIb6-0005bK-PE
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 12:51:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJHwc-0002Zt-DZ
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 12:09:34 -0400
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:40468)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mJIZb-0004IX-ML; Thu, 26 Aug 2021 12:49:51 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:53189)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJHwa-0004ll-BM
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 12:09:33 -0400
-Received: by mail-ed1-x536.google.com with SMTP id d6so5433928edt.7
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 09:09:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VxVspwANZEWNOYs674+EUJWexm1P8NmSW4e6pzVMS/s=;
- b=LTETAheE51hmqAdXGQWmUZUMfiRirvV17SV4RXc86bXCWohsOnKpeB1J8O+Cw+Av9V
- JH5TtRjtvhoO3mSiI6UIERLw3Co2hXQOs0xuDbdYnWeYzDmbsbTsv06fz9eb5g8XfB0i
- wtfN08sXH+Nu82PoyuN+hPOTTRonphm15FF886D+HnML0LSAVsCWPFyLBvtlbHROtgQS
- FFsoQQ2ZivE74lgtT/lgFY2KwAkmQPHHgGGo8z4hB/IrWAJ34R3Vw4srp3bWEPwPPiU1
- 8OLp2qQkb33ZyqlzwPaia9Y7DlDSq/SSU+z8FYdFePejq4J5NsY89yw2EWakvi5/lLXX
- OKnA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mJIZa-0007VM-At; Thu, 26 Aug 2021 12:49:51 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id f10so2237938wml.2;
+ Thu, 26 Aug 2021 09:49:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=kOsiRJ/ygtaCN1xppetgNUGtcT8kKQB5FMc95f3zhCM=;
+ b=anSdlRsXbTv6NNt4nUwsDte1ppSOdfvk5LIpmXk0D5frvgGQjRu9NbAokO+45V1gvz
+ DQWogBrzujaJ8gUucaRPbKpLpbjTG6QkYa87RPflXLbr2pU/rmPItiygG/oPdgmbeoJ+
+ pnZAr/5mja+AMJ8sdoeHkKcuT3JQ8cvXB0buF6pCYPDn1pSqgN0rTypXFm8OHYOxr7Ru
+ DJyhNv4ulxPCIJDnvJUoWrrLEjycExWuED8IoK8sEn8ooEfA1s5cVLfQoj+FVHYfHjJm
+ Icx0Lnu15mZ913+oOTSS64hJKTo2Wpt0LGcmpwHDKRhGhbJBSNkWK4lziBnnwXHTkcse
+ 9tAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VxVspwANZEWNOYs674+EUJWexm1P8NmSW4e6pzVMS/s=;
- b=O1dy0GCFnBunu75rvVhTsZ7nlQXZuAeK01zAAQ5dR8d8P4AGkKHx01r+DsJ7wRQxKk
- 3NpePPY9iLMOAG1p2DnRQ3DjDUkGj/98ejI2Mc/6x8JpHj1LEGaOlXxLrB0hBM/5Zusn
- PBNWb0aBS+iO9R2MPCTxVXTteQu6eYeariwve+6Fq8PPogzfqcQhV1+nOXLLxnN/+q4v
- p/rLQm+/IapfCh6C9vCEZFbtWXQT8PcxfRKss6IX9AD8JSnxrYPG8Lsnw4TSOyG1XX08
- fkmXQgdaJGltdic7KwD2vjylmWw/aI0jJZKmwX2n9cYh+tvlG13Ie234bjEH6e1TieRe
- o+8A==
-X-Gm-Message-State: AOAM530kIiOj3uK8gkfl7ffMlf+zQZ5R/LmWEw+FU8Nv3RoGUTCKLUpp
- 7KKSyyxi0Kpw6zpOdAjkzzZBbgAF4gbJu9arlD0etA==
-X-Google-Smtp-Source: ABdhPJwDropj/znIjF+XQxXu96S1X75Y02VIAE6sTD2jC9E0udA1XgfK9lpqD8xHPKHGW0YIE9EG6kbrkLQzK07iJ6I=
-X-Received: by 2002:aa7:cc0b:: with SMTP id q11mr4884559edt.251.1629994170603; 
- Thu, 26 Aug 2021 09:09:30 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kOsiRJ/ygtaCN1xppetgNUGtcT8kKQB5FMc95f3zhCM=;
+ b=nYb/vmJcwOOfIrMX8U/Cw+Ga8oAk5iDKd5ttWUd8sCYkdAPtgENfYEdhXSnKH1oE9M
+ eNeLGNOCMpCWUi2G0P8tUQojP6T07hI4RClVvadP5rb7WTlqZ6R0VvbrjoTbfAqo5tpl
+ B38sIEfpkKTzu+dnKl7d82pMT78kn1TXJiCDLeFcFdXrgTaTfIcvxWEKYzaxBzWdmG44
+ 7iagNm67dXVOrBitP56dpGKKvt4nl6bm4zmwYvhTawAaKbZ6DALMHvn/FdXKcEm8NfeE
+ iMJy/I2Rv6HKkoCKbm6PiHL+IuP49OmUno14wUGqSekoQxGnNdBr9oiy7WplK8PDSJLi
+ /G2A==
+X-Gm-Message-State: AOAM5334aIe7xfoN3jRVibTYWs2F3cjbmT6iI1zaxoRGdps4RQJX5u/r
+ +OeIQK/2qrqHH5Jx38pWkiI=
+X-Google-Smtp-Source: ABdhPJx7QElLCaiaiauAWrh8dMUx5KkPL7y1DMV069jZaH+6Sayw92Zejy1OkIEYFD7caiaPIKWv1A==
+X-Received: by 2002:a05:600c:a41:: with SMTP id
+ c1mr4517873wmq.109.1629996587860; 
+ Thu, 26 Aug 2021 09:49:47 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id f5sm3059480wmb.47.2021.08.26.09.49.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 Aug 2021 09:49:47 -0700 (PDT)
+Subject: Re: [PATCH v2 0/2] hw/arm/raspi: Remove deprecated raspi2/raspi3
+ aliases
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Willian Rampazzo <wrampazz@redhat.com>, John Snow <jsnow@redhat.com>
+References: <20210708145514.1751773-1-f4bug@amsat.org>
+ <CAFEAcA_ukc+t_BYddOSv7EF6O1qoVHGGj6sA5uumUgt0VMS_pA@mail.gmail.com>
+ <CAFEAcA8PLvMUEzyu=sN4bn4mU30w1aajU+T+i__5jnB0QMZnqg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <7cbaaf94-e255-a91b-8d71-ca720943bfcc@amsat.org>
+Date: Thu, 26 Aug 2021 18:49:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <F5CE910A-83CC-4425-871D-8471A5D76698@hxcore.ol>
-In-Reply-To: <F5CE910A-83CC-4425-871D-8471A5D76698@hxcore.ol>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 26 Aug 2021 17:08:43 +0100
-Message-ID: <CAFEAcA_jKGfQRN6P815X9hCn0GOntHMs9EAgbn=rNQ565yUwCQ@mail.gmail.com>
-Subject: Re: Looking for two missing files used in the `emu-master-dev` branch
- in the repo.
-To: Ammar Mohammed <testvacomp@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <CAFEAcA8PLvMUEzyu=sN4bn4mU30w1aajU+T+i__5jnB0QMZnqg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,24 +91,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 Aug 2021 at 15:46, Ammar Mohammed <testvacomp@gmail.com> wrote:
-> I'm building qemu which depends on ShaderTranslator.h and
-> ShaderTranslator.cpp. There is a shell script, build-ANGLE.sh,
-> supposed to copy them from angle/src/libShaderTranslator to where
-> they are needed.
+Hi Peter,
 
-That build-ANGLE.sh is for the Google Android emulator. It's
-nothing to do with us, the upstream QEMU project -- Google have
-taken a copy of QEMU and modified it, and this part in particular
-is all their work, not ours. You would need to ask them, not us.
+On 7/9/21 6:00 PM, Peter Maydell wrote:
+> On Fri, 9 Jul 2021 at 16:33, Peter Maydell <peter.maydell@linaro.org> wrote:
+>>
+>> On Thu, 8 Jul 2021 at 15:55, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>>
+>>> Since v1:
+>>> - renamed tests (Peter)
+>>>
+>>> Philippe Mathieu-Daudé (2):
+>>>   tests: Remove uses of deprecated raspi2/raspi3 machine names
+>>>   hw/arm/raspi: Remove deprecated raspi2/raspi3 aliases
+>>
+>>
+>>
+>> Applied to target-arm.next, thanks.
+> 
+> I found that this seems to break 'make check':
+> 
+>  (09/52) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_raspi2_initrd:
+> ERROR: Could not perform graceful shutdown (40.38 s)
 
-I think libShaderTranslator is (or was) also part of the work
-Google did for the Android emulator, so that also you need to
-ask Google about, not us, and not the ANGLE project folks.
+I can not reproduce. Maybe something got changed in Python/Avocado
+since... I'm going to simply respin (updating 6.1 -> 6.2).
 
--- PMM
+> 
+> Dropped from target-arm.next.
+> 
+> thanks
+> -- PMM
+> 
 
