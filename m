@@ -2,68 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 551B83F895B
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 15:49:19 +0200 (CEST)
-Received: from localhost ([::1]:49904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EC313F894E
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 15:46:25 +0200 (CEST)
+Received: from localhost ([::1]:40938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJFks-0004Wl-4X
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 09:49:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53994)
+	id 1mJFi4-0006xG-8B
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 09:46:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJFU5-0000lu-Ob
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 09:31:57 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:35418)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJFU2-0006IK-BZ
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 09:31:57 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id q17so4725459edv.2
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 06:31:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=a6vXpH60FrqbEAmgek0+3fo9ZGa7cKL1PBz9TiK6Abg=;
- b=g25gu8WeMgLFhZEMaxtQH7ZvHFyXbQsUX7+MrUA+uEeMXByF5HSOX9Rz8EOYzaZSYR
- BJhYug5XTvZ+S52KMMjsuUxYFpvtCkU938HrPEoCBC+GLMRAM1G4EuU/6B7A6XL27NPK
- R5tw5h+okNaV/BQkM2tqhiIb6rjZOqEfY7XpZ5F7qnhxWf/KbaBuoLrK+LemAyrCHkps
- s10nBUOED3RFQ+vaFNRHOMFS4Sjh/UfOfxOPaRS/kuXzL6fx46QgjnSFioc3WlgnjrVd
- UkKCLvMvlaGS1e0Evgwrq9NJv3b7OjRojE1s+ZUH6O+QLMc/R/pHIeo8Evv1yGjmDj/u
- 2Dpg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mJFfu-0004QM-H4
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 09:44:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30052)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mJFfq-0006l0-JM
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 09:44:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629985444;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jYLttMuDWROOgZcugJTIvWsNsq9Zj4/lHABveL0mUTY=;
+ b=P+5y/WG69WH0TRiSerRc/qd/gkm27U8yfLh6cPC3p9j7J/h0/VX4PflBPCsup/N5pnmwaT
+ gnex0mt9ThnIcGcpKAzFfZNJCXTzue3rvab2mEnOPmsZvSJPiUPOk13JrU8jUxFIMBzaY2
+ lcS14T0Z5vXlAY/4Y/TaxCtxGveGftw=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-197-CT0C4KQxPzyq_Q6C96UrKA-1; Thu, 26 Aug 2021 09:44:03 -0400
+X-MC-Unique: CT0C4KQxPzyq_Q6C96UrKA-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ l22-20020a05622a175600b0029d63a970f6so81644qtk.23
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 06:44:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=a6vXpH60FrqbEAmgek0+3fo9ZGa7cKL1PBz9TiK6Abg=;
- b=uHenZqRed0IxQdoqHZfrWBs3y+sVYnYwFRgLJmz4YdSweT5h0Hn5SNCRmllAY6yO0z
- KlKNeXWFqaTppJOwm18r9XW0otbPumgsMt52R0rRNYXGZkLXReTkOAbQA1SGeKz4HLCm
- UJlyIkMWRs+BhMMCREO+KfTtPNh3IYN0Uo7/jbpS37wdKBdQI3blzy3zNYXQ5kug/C49
- p3Cc5AkHZ68FzJRt7yhnqDqosw9tNnGvbk1jSVywKWMqU+g1z9IC8mKAUVDOrlNQ4oPX
- psvKPvCEjsT7k9KdlQ6zBpfe1CjIvZeCQ8023UGm1wj8oR5bCiqXyfqncH2HiQCgkUnQ
- 7fRg==
-X-Gm-Message-State: AOAM532qKzFsy8YGBblPjHB79OGhfB/wXjJ9uO9tczpiPsYZ4QvTzkRa
- PO1KSypdDTSnH3rAlldgLeIerTn05j0sgANuq+Qfrw==
-X-Google-Smtp-Source: ABdhPJxb14xgxN+t8IVRMKTBiisaQYl0V4At0FWPOeUcSLsovTw7MzK9sO82Zt30fARq0aflJ8AAisQANsPZLPVPG7o=
-X-Received: by 2002:aa7:dd48:: with SMTP id o8mr4232988edw.44.1629984712863;
- Thu, 26 Aug 2021 06:31:52 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=jYLttMuDWROOgZcugJTIvWsNsq9Zj4/lHABveL0mUTY=;
+ b=m6gk3uj8fpr5wF3lRq2hKAIcRKSzwjdnNzxNBHbG8if+BgUWtcKsZLFu5Org1tOJNo
+ h/YUMbh54KMfRI7530vhp7hx0XdNU/toLjztQLtKrI/ckEHhBC6MjAwKszWRLAKAwldY
+ Ej4v5zh4uod3gyMd/Jgjgnom6lY8s5uV2E7JYsrF0byZpTH6aOb2TERaWH/YSDs8GEB3
+ FIS0SK3wVbTaprtIdThQ4Wy4eI/jpMS7bV/2z2ehFCW/zAijO3VzoXNYQmVBsuw688+x
+ r4dPD++1fId5xN7EgrVoEsHyGfxMoz6kwY+KOuP+td6O8UDo5FG2DZeeoML4G+iFTqJj
+ MFLQ==
+X-Gm-Message-State: AOAM5320M9dTinC1/6KcxdiMUEgGn8Ty0+uFW++ZDvJjWFwNpAjYhIMq
+ iTVWmVyeOnVJ9J3kFmVhszgtaUaiP+b0DUBgajs9U2kkoYDE33wiR0D5e3n8XLv2D1poKcyaFQP
+ UPUq5HSE6+DAhaFo=
+X-Received: by 2002:ac8:5fc5:: with SMTP id k5mr3306449qta.108.1629985442506; 
+ Thu, 26 Aug 2021 06:44:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw0X5AKWQS7vMaPgoMxWii9LRgnFQ+7YBZHcyYOEbj+SxGk4HiZOT+FlU1R92y3vNKleCTH5w==
+X-Received: by 2002:ac8:5fc5:: with SMTP id k5mr3306423qta.108.1629985442123; 
+ Thu, 26 Aug 2021 06:44:02 -0700 (PDT)
+Received: from t490s ([2607:fea8:56a3:500::d413])
+ by smtp.gmail.com with ESMTPSA id e22sm1724247qte.57.2021.08.26.06.44.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Aug 2021 06:44:01 -0700 (PDT)
+Date: Thu, 26 Aug 2021 09:43:59 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH 4/4] vl: Prioritize realizations of devices
+Message-ID: <YSean3PIkslbTHeU@t490s>
+References: <20210823210703.cikdkhvyeqqypaqa@habkost.net>
+ <YSQTwth0elaz4T8W@t490s>
+ <20210823215623.bagyo3oojdpk3byj@habkost.net>
+ <YSQp0Nh6Gs5equAG@t490s> <8735qxhnhn.fsf@dusky.pond.sub.org>
+ <87h7fdg12w.fsf@dusky.pond.sub.org> <YSa7H3wGUHgccCrU@t490s>
+ <YScPg0cYYGxxTz+b@xz-m1.local> <87y28oy6rm.fsf@dusky.pond.sub.org>
+ <20210826133629.2ddd3b88@redhat.com>
 MIME-Version: 1.0
-References: <20210821195958.41312-1-richard.henderson@linaro.org>
- <20210821195958.41312-5-richard.henderson@linaro.org>
-In-Reply-To: <20210821195958.41312-5-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 26 Aug 2021 14:31:05 +0100
-Message-ID: <CAFEAcA82iZptWmCcgonZvLTU4g+5nnEEQDdtHD5y=X7m82N1Yg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/8] linux-user/arm: Report SIGBUS and SIGSEGV correctly
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210826133629.2ddd3b88@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,56 +97,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 21 Aug 2021 at 21:03, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Pull the fault information from where we placed it, in
-> arm_cpu_tlb_fill and arm_cpu_do_unaligned_access.
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> Pulled out from the larger unaligned data patch set.
-> For short-form FSC, pc misalignment is reported in the same way.
-> ---
->  linux-user/arm/cpu_loop.c | 39 ++++++++++++++++++++++++++++++++++-----
->  1 file changed, 34 insertions(+), 5 deletions(-)
->
-> diff --git a/linux-user/arm/cpu_loop.c b/linux-user/arm/cpu_loop.c
+On Thu, Aug 26, 2021 at 01:36:29PM +0200, Igor Mammedov wrote:
+> On Thu, 26 Aug 2021 10:01:01 +0200
+> Markus Armbruster <armbru@redhat.com> wrote:
+> 
+> > Peter Xu <peterx@redhat.com> writes:
+> > 
+> > > On Wed, Aug 25, 2021 at 05:50:23PM -0400, Peter Xu wrote:  
+> > >> On Wed, Aug 25, 2021 at 02:28:55PM +0200, Markus Armbruster wrote:  
+> > >> > Having thought about this a bit more...
+> ...
+> > > Any further thoughts will be greatly welcomed.  
+> > 
+> > I'd like to propose a more modest solution: detect the problem and fail.
+> That's or proper dependency tracking (which stands chance to work with QMP,
+> but like it was said it's complex)
+> 
+> > A simple state machine can track "has IOMMU" state.  It has three states
+> > "no so far", "yes", and "no", and two events "add IOMMU" and "add device
+> > that needs to know".  State diagram:
+> > 
+> >                           no so far
+> >                    +--- (start state) ---+
+> >                    |                     |
+> >          add IOMMU |                     | add device that
+> >                    |                     |  needs to know
+> >                    v                     v
+> >              +--> yes                    no <--+
+> >              |     |   add device that   |     |
+> >              +-----+    needs to know    +-----+
+> > 
+> > "Add IOMMU" in state "no" is an error.
+> 
+> question is how we distinguish "device that needs to know"
+> from device that doesn't need to know, and then recently
+> added feature 'bypass IOMMU' adds more fun to this.
 
+Maybe we can start from "no device needs to know"? Then add more into it when
+the list expands.
 
-> +            case 0x3: /* Access flag fault, level 1 */
-> +            case 0x6: /* Access flag fault, level 2 */
-> +            case 0x9: /* Domain fault, level 1 */
-> +            case 0xb: /* Domain fault, level 2 */
-> +            case 0xd: /* Permision fault, level 1 */
-> +            case 0xf: /* Permision fault, level 2 */
+vfio-pci should be a natural fit because we're sure it won't break any valid
+old configurations.  However we may need to be careful on adding more devices,
+e.g. when some old configuration might work on old binaries, but I'm not sure.
 
-"Permission"
+Off-topic: I'm wondering whether bypass_iommu is just a work-around of not
+using iommu=pt in the guest cmdlines?  Is there any performance comparison of
+using bypass_iommu against having iommu but with iommu=pt?  At least intel
+iommu has pt enabled explicitly, i.e. it shouldn't even need a shadow iommu
+pgtable in the guest but only a single bit in device context entry showing that
+"this device wants to pass-through iommu", so I would expect the perf can be
+similar to explicitly bypass iommu in the qemu cmdline.
 
-> +                si_signo = TARGET_SIGSEGV;
-> +                si_code = TARGET_SEGV_ACCERR;
-> +                break;
-> +            case 0x5: /* Translation fault, level 1 */
-> +            case 0x7: /* Translation fault, level 2 */
-> +                si_signo = TARGET_SIGSEGV;
-> +                si_code = TARGET_SEGV_MAPERR;
-> +                break;
+Thanks,
 
-Side note: for cases like this where we can tell MAPERR from
-ACCERR based on info the exception handler passes to us, should
-we prefer that or the "check the page flags" approach that
-force_sigsegv_for_addr() takes ?  I feel like the former is
-nicer, because in a multithreaded program some other thread
-might have changed whether the page is mapped between our taking
-the fault and getting here. But maybe that's always racy...
+-- 
+Peter Xu
 
-Anyway, other than the typo,
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-
-thanks
--- PMM
 
