@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABFF23F8CC6
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:14:21 +0200 (CEST)
-Received: from localhost ([::1]:45772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 164B03F8CD2
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 19:18:25 +0200 (CEST)
+Received: from localhost ([::1]:57142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJIxI-0003RV-Mw
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:14:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44804)
+	id 1mJJ13-0002go-SO
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 13:18:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJImi-0005G7-O6
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:24 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:39914)
+ id 1mJImk-0005La-LA
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:26 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJImf-0008KP-0V
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:24 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- f9-20020a05600c1549b029025b0f5d8c6cso7370562wmg.4
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:20 -0700 (PDT)
+ id 1mJImg-0008MM-IK
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 13:03:26 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id d26so6252070wrc.0
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 10:03:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=6qj0VLNCYgASFVMdt6JQgvSntH4PzChad90nSq2diw8=;
- b=MZi2+VrEkyt4tG3ILqXMrkqfwNn4YP+ZyPxPbz73FFvCIPC2PqI3n1WS7D4LwHyUxk
- VyVZdisJVA7cOVVb7cOeXeh7GO0MwNr5O3/g3Ntw6t9vHm7HuytntL9cGrY8vRNZp7y2
- tvMIV8GCQsaA6Qpz97885BItW7xyOwiAkSzAnOpXj3zwBFTCT6i9JrAqAbJh1E0/eMLs
- bZjmNr/0vGU5tUAaUVnyay4hK9A4Dj318EeDcbwDrzDPJ7FsYYZ4BxDe2D6gLvON4uQm
- l+gSD4Z4u5v6DUErd3jqREpPOkJq5aeRiJxPRnKbKgRyzwOnZ/KAuuqo3jzhll/r1IZ6
- CB+Q==
+ bh=bpKy06aWQHGk5o8oeE1BHvM+Caiu8yoY/ltq+d1ag6s=;
+ b=Y72MQp6KWceCt6kkPIj4YFBefTrAvdeCyU2RB2u5DJYIQ+sVV+0UjSU6OC0E5jYUW2
+ PrK89Y+Y39pFV0B73SU0uJBF/Yes4E71kh5zETuq8Ru1umWiO/PYmh2UFcjK7aoiNC3S
+ 3zw/qqCQ3WqDZT1qW2mpJsWo6K60wjGOGVUDga2BrarVN1jnhsrtDeLkOcRzHRCZWN7r
+ X/hcteOPWJYfcgfJrUbfYpvNTiiRykDru61iSVfsAmHhCH9d8hrq8iFtWlrhYzhP8oJQ
+ h+dYyWvvd7pJppWqKfBmMqU1zlrMDf8XiRgCpC61MPk/acOMZUL6/qHu2UtNV8bn12ar
+ h+PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6qj0VLNCYgASFVMdt6JQgvSntH4PzChad90nSq2diw8=;
- b=EEZkw/9dT2qCIqWWROMXsTc/LASzP+eKNFOvhpARQYEVbnHqGpCd43ifLf8PeIC+o7
- cJZ4KAB5Jpi6c/wE3gX1fiLdbc4abn3GhC3kHSvD7bQ5HOkFg/c1tHSjIf+ILM6ooyks
- KCNfwD6ujVdpqoUcTmW7QBe/4gmB0ruYZvYj5kaHHcUan4zVgLoykb/w7tULJ26ioFtx
- w+QVMi94cyXTwz7Oymb4fflJ5APwsQxHpso0Xaykh8/rFA9KUnQu+tkkjjd4SZ8ma8e2
- 2/zeB6E5/ExWT+igmwhA6vkjZiOSvN+KeBw1D3+oRigRHJAoOA0oB1RBUPNjjfpWTY4F
- ++Xg==
-X-Gm-Message-State: AOAM530j/beTcabvFfx+/eWzv/GDQJG0XEUZOw1NrnP11p6td24EncE7
- X0sGLlrAQSy0Wnodvy75zrPNf9jkeYcogA==
-X-Google-Smtp-Source: ABdhPJwtNIO6Op4TNELyxmraFcNSnICAMd2m1UsDcA8BQdmlLnHogXYPsQleqxW61n+TXEB6t7CoJQ==
-X-Received: by 2002:a1c:1c2:: with SMTP id 185mr4628330wmb.11.1629997399564;
- Thu, 26 Aug 2021 10:03:19 -0700 (PDT)
+ bh=bpKy06aWQHGk5o8oeE1BHvM+Caiu8yoY/ltq+d1ag6s=;
+ b=LBp8dQr7jWk9QNdS/F/rQVRYKmmBiFliuI9RTCGgItxupL7lBmMjAwoZG1M9lb79eb
+ pb0jlLzAFvrKUDOFsPAb1ZZnKLIfvqyHhihMHDDpKGrtYcSjxU4CKEHgimkDmtKhyhZt
+ uv+h/sCm819v5wDrvivu7A2l8GMW5ueGYYqnFjKeVRv7cwjW1TmnRLS5hCKj+L+mhbB1
+ ptdsMbHpXTsQjuuzpnRr7dcsIa+3xtW5KQ0UNqI4ZrNl/sbA2dOJwvDx4qIRbPtKjJ3L
+ VSheoqWHA+1V7X/n0q5CDEg8QL4pnQOLH8PKR29+kRSPxT+ANkBjzZfXNOwgOYrjBPsm
+ OLSQ==
+X-Gm-Message-State: AOAM532ut7GnHd+4LxsRy2wvckQHRE+gLMDW7CvzzZsP995uslIDwZUK
+ tHwAmlXRHfl4xqeR8Ut5ZbLjEWEwfGFSag==
+X-Google-Smtp-Source: ABdhPJwPDNhgjee5ciyYC712Qbo8Xd1aGyERTNGkBT2ELiQQT3wdtoRgP3YVapSmLnddeKdn+hvo5g==
+X-Received: by 2002:adf:fb44:: with SMTP id c4mr5101210wrs.179.1629997400789; 
+ Thu, 26 Aug 2021 10:03:20 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.18
+ by smtp.gmail.com with ESMTPSA id i21sm3632470wrb.62.2021.08.26.10.03.19
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 10:03:19 -0700 (PDT)
+ Thu, 26 Aug 2021 10:03:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/37] target/arm/cpu64: Validate sve vector lengths are
- supported
-Date: Thu, 26 Aug 2021 18:02:39 +0100
-Message-Id: <20210826170307.27733-10-peter.maydell@linaro.org>
+Subject: [PULL 10/37] docs/specs/acpu_cpu_hotplug: Convert to rST
+Date: Thu, 26 Aug 2021 18:02:40 +0100
+Message-Id: <20210826170307.27733-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210826170307.27733-1-peter.maydell@linaro.org>
 References: <20210826170307.27733-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,157 +86,435 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrew Jones <drjones@redhat.com>
+Do a basic conversion of the acpi_cpu_hotplug spec document to rST.
 
-Future CPU types may specify which vector lengths are supported.
-We can apply nearly the same logic to validate those lengths
-as we do for KVM's supported vector lengths. We merge the code
-where we can, but unfortunately can't completely merge it because
-KVM requires all vector lengths, power-of-two or not, smaller than
-the maximum enabled length to also be enabled. The architecture
-only requires all the power-of-two lengths, though, so TCG will
-only enforce that.
-
-Signed-off-by: Andrew Jones <drjones@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210823160647.34028-5-drjones@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Message-id: 20210727170414.3368-2-peter.maydell@linaro.org
 ---
- target/arm/cpu64.c | 101 ++++++++++++++++++++-------------------------
- 1 file changed, 45 insertions(+), 56 deletions(-)
+ docs/specs/acpi_cpu_hotplug.rst | 235 ++++++++++++++++++++++++++++++++
+ docs/specs/acpi_cpu_hotplug.txt | 160 ----------------------
+ docs/specs/index.rst            |   1 +
+ 3 files changed, 236 insertions(+), 160 deletions(-)
+ create mode 100644 docs/specs/acpi_cpu_hotplug.rst
+ delete mode 100644 docs/specs/acpi_cpu_hotplug.txt
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 557fd475774..2f0cbddab56 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -329,35 +329,26 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-                     break;
-                 }
-             }
--            max_vq = vq <= ARM_MAX_VQ ? vq - 1 : ARM_MAX_VQ;
--            bitmap_andnot(cpu->sve_vq_map, cpu->sve_vq_supported,
--                          cpu->sve_vq_init, max_vq);
--            if (max_vq == 0 || bitmap_empty(cpu->sve_vq_map, max_vq)) {
--                error_setg(errp, "cannot disable sve%d", vq * 128);
--                error_append_hint(errp, "Disabling sve%d results in all "
--                                  "vector lengths being disabled.\n",
--                                  vq * 128);
--                error_append_hint(errp, "With SVE enabled, at least one "
--                                  "vector length must be enabled.\n");
--                return;
--            }
-         } else {
-             /* Disabling a power-of-two disables all larger lengths. */
--            if (test_bit(0, cpu->sve_vq_init)) {
--                error_setg(errp, "cannot disable sve128");
--                error_append_hint(errp, "Disabling sve128 results in all "
--                                  "vector lengths being disabled.\n");
--                error_append_hint(errp, "With SVE enabled, at least one "
--                                  "vector length must be enabled.\n");
--                return;
--            }
--            for (vq = 2; vq <= ARM_MAX_VQ; vq <<= 1) {
-+            for (vq = 1; vq <= ARM_MAX_VQ; vq <<= 1) {
-                 if (test_bit(vq - 1, cpu->sve_vq_init)) {
-                     break;
-                 }
-             }
--            max_vq = vq <= ARM_MAX_VQ ? vq - 1 : ARM_MAX_VQ;
--            bitmap_complement(cpu->sve_vq_map, cpu->sve_vq_init, max_vq);
-+        }
+diff --git a/docs/specs/acpi_cpu_hotplug.rst b/docs/specs/acpi_cpu_hotplug.rst
+new file mode 100644
+index 00000000000..351057c9676
+--- /dev/null
++++ b/docs/specs/acpi_cpu_hotplug.rst
+@@ -0,0 +1,235 @@
++QEMU<->ACPI BIOS CPU hotplug interface
++======================================
 +
-+        max_vq = vq <= ARM_MAX_VQ ? vq - 1 : ARM_MAX_VQ;
-+        bitmap_andnot(cpu->sve_vq_map, cpu->sve_vq_supported,
-+                      cpu->sve_vq_init, max_vq);
-+        if (max_vq == 0 || bitmap_empty(cpu->sve_vq_map, max_vq)) {
-+            error_setg(errp, "cannot disable sve%d", vq * 128);
-+            error_append_hint(errp, "Disabling sve%d results in all "
-+                              "vector lengths being disabled.\n",
-+                              vq * 128);
-+            error_append_hint(errp, "With SVE enabled, at least one "
-+                              "vector length must be enabled.\n");
-+            return;
-         }
- 
-         max_vq = find_last_bit(cpu->sve_vq_map, max_vq) + 1;
-@@ -393,46 +384,44 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp)
-     assert(max_vq != 0);
-     bitmap_clear(cpu->sve_vq_map, max_vq, ARM_MAX_VQ - max_vq);
- 
--    if (kvm_enabled()) {
--        /* Ensure the set of lengths matches what KVM supports. */
--        bitmap_xor(tmp, cpu->sve_vq_map, cpu->sve_vq_supported, max_vq);
--        if (!bitmap_empty(tmp, max_vq)) {
--            vq = find_last_bit(tmp, max_vq) + 1;
--            if (test_bit(vq - 1, cpu->sve_vq_map)) {
--                if (cpu->sve_max_vq) {
--                    error_setg(errp, "cannot set sve-max-vq=%d",
--                               cpu->sve_max_vq);
--                    error_append_hint(errp, "This KVM host does not support "
--                                      "the vector length %d-bits.\n",
--                                      vq * 128);
--                    error_append_hint(errp, "It may not be possible to use "
--                                      "sve-max-vq with this KVM host. Try "
--                                      "using only sve<N> properties.\n");
--                } else {
--                    error_setg(errp, "cannot enable sve%d", vq * 128);
--                    error_append_hint(errp, "This KVM host does not support "
--                                      "the vector length %d-bits.\n",
--                                      vq * 128);
--                }
-+    /* Ensure the set of lengths matches what is supported. */
-+    bitmap_xor(tmp, cpu->sve_vq_map, cpu->sve_vq_supported, max_vq);
-+    if (!bitmap_empty(tmp, max_vq)) {
-+        vq = find_last_bit(tmp, max_vq) + 1;
-+        if (test_bit(vq - 1, cpu->sve_vq_map)) {
-+            if (cpu->sve_max_vq) {
-+                error_setg(errp, "cannot set sve-max-vq=%d", cpu->sve_max_vq);
-+                error_append_hint(errp, "This CPU does not support "
-+                                  "the vector length %d-bits.\n", vq * 128);
-+                error_append_hint(errp, "It may not be possible to use "
-+                                  "sve-max-vq with this CPU. Try "
-+                                  "using only sve<N> properties.\n");
-             } else {
-+                error_setg(errp, "cannot enable sve%d", vq * 128);
-+                error_append_hint(errp, "This CPU does not support "
-+                                  "the vector length %d-bits.\n", vq * 128);
-+            }
-+            return;
-+        } else {
-+            if (kvm_enabled()) {
-                 error_setg(errp, "cannot disable sve%d", vq * 128);
-                 error_append_hint(errp, "The KVM host requires all "
-                                   "supported vector lengths smaller "
-                                   "than %d bits to also be enabled.\n",
-                                   max_vq * 128);
--            }
--            return;
--        }
--    } else {
--        /* Ensure all required powers-of-two are enabled. */
--        for (vq = pow2floor(max_vq); vq >= 1; vq >>= 1) {
--            if (!test_bit(vq - 1, cpu->sve_vq_map)) {
--                error_setg(errp, "cannot disable sve%d", vq * 128);
--                error_append_hint(errp, "sve%d is required as it "
--                                  "is a power-of-two length smaller than "
--                                  "the maximum, sve%d\n",
--                                  vq * 128, max_vq * 128);
-                 return;
-+            } else {
-+                /* Ensure all required powers-of-two are enabled. */
-+                for (vq = pow2floor(max_vq); vq >= 1; vq >>= 1) {
-+                    if (!test_bit(vq - 1, cpu->sve_vq_map)) {
-+                        error_setg(errp, "cannot disable sve%d", vq * 128);
-+                        error_append_hint(errp, "sve%d is required as it "
-+                                          "is a power-of-two length smaller "
-+                                          "than the maximum, sve%d\n",
-+                                          vq * 128, max_vq * 128);
-+                        return;
-+                    }
-+                }
-             }
-         }
-     }
++QEMU supports CPU hotplug via ACPI. This document
++describes the interface between QEMU and the ACPI BIOS.
++
++ACPI BIOS GPE.2 handler is dedicated for notifying OS about CPU hot-add
++and hot-remove events.
++
++
++Legacy ACPI CPU hotplug interface registers
++-------------------------------------------
++
++CPU present bitmap for:
++
++- ICH9-LPC (IO port 0x0cd8-0xcf7, 1-byte access)
++- PIIX-PM  (IO port 0xaf00-0xaf1f, 1-byte access)
++- One bit per CPU. Bit position reflects corresponding CPU APIC ID. Read-only.
++- The first DWORD in bitmap is used in write mode to switch from legacy
++  to modern CPU hotplug interface, write 0 into it to do switch.
++
++QEMU sets corresponding CPU bit on hot-add event and issues SCI
++with GPE.2 event set. CPU present map is read by ACPI BIOS GPE.2 handler
++to notify OS about CPU hot-add events. CPU hot-remove isn't supported.
++
++
++Modern ACPI CPU hotplug interface registers
++-------------------------------------------
++
++Register block base address:
++
++- ICH9-LPC IO port 0x0cd8
++- PIIX-PM  IO port 0xaf00
++
++Register block size:
++
++- ACPI_CPU_HOTPLUG_REG_LEN = 12
++
++All accesses to registers described below, imply little-endian byte order.
++
++Reserved registers behavior:
++
++- write accesses are ignored
++- read accesses return all bits set to 0.
++
++The last stored value in 'CPU selector' must refer to a possible CPU, otherwise
++
++- reads from any register return 0
++- writes to any other register are ignored until valid value is stored into it
++
++On QEMU start, 'CPU selector' is initialized to a valid value, on reset it
++keeps the current value.
++
++Read access behavior
++^^^^^^^^^^^^^^^^^^^^
++
++offset [0x0-0x3]
++  Command data 2: (DWORD access)
++
++  If value last stored in 'Command field' is:
++
++  0:
++    reads as 0x0
++  3:
++    upper 32 bits of architecture specific CPU ID value
++  other values:
++    reserved
++
++offset [0x4]
++  CPU device status fields: (1 byte access)
++
++  bits:
++
++  0:
++    Device is enabled and may be used by guest
++  1:
++    Device insert event, used to distinguish device for which
++    no device check event to OSPM was issued.
++    It's valid only when bit 0 is set.
++  2:
++    Device remove event, used to distinguish device for which
++    no device eject request to OSPM was issued. Firmware must
++    ignore this bit.
++  3:
++    reserved and should be ignored by OSPM
++  4:
++    if set to 1, OSPM requests firmware to perform device eject.
++  5-7:
++    reserved and should be ignored by OSPM
++
++offset [0x5-0x7]
++  reserved
++
++offset [0x8]
++  Command data: (DWORD access)
++
++  If value last stored in 'Command field' is one of:
++
++  0:
++    contains 'CPU selector' value of a CPU with pending event[s]
++  3:
++    lower 32 bits of architecture specific CPU ID value
++    (in x86 case: APIC ID)
++  otherwise:
++    contains 0
++
++Write access behavior
++^^^^^^^^^^^^^^^^^^^^^
++
++offset [0x0-0x3]
++  CPU selector: (DWORD access)
++
++  Selects active CPU device. All following accesses to other
++  registers will read/store data from/to selected CPU.
++  Valid values: [0 .. max_cpus)
++
++offset [0x4]
++  CPU device control fields: (1 byte access)
++
++  bits:
++
++  0:
++    reserved, OSPM must clear it before writing to register.
++  1:
++    if set to 1 clears device insert event, set by OSPM
++    after it has emitted device check event for the
++    selected CPU device
++  2:
++    if set to 1 clears device remove event, set by OSPM
++    after it has emitted device eject request for the
++    selected CPU device.
++  3:
++    if set to 1 initiates device eject, set by OSPM when it
++    triggers CPU device removal and calls _EJ0 method or by firmware
++    when bit #4 is set. In case bit #4 were set, it's cleared as
++    part of device eject.
++  4:
++    if set to 1, OSPM hands over device eject to firmware.
++    Firmware shall issue device eject request as described above
++    (bit #3) and OSPM should not touch device eject bit (#3) in case
++    it's asked firmware to perform CPU device eject.
++  5-7:
++    reserved, OSPM must clear them before writing to register
++
++offset[0x5]
++  Command field: (1 byte access)
++
++  value:
++
++  0:
++    selects a CPU device with inserting/removing events and
++    following reads from 'Command data' register return
++    selected CPU ('CPU selector' value).
++    If no CPU with events found, the current 'CPU selector' doesn't
++    change and corresponding insert/remove event flags are not modified.
++
++  1:
++    following writes to 'Command data' register set OST event
++    register in QEMU
++  2:
++    following writes to 'Command data' register set OST status
++    register in QEMU
++  3:
++    following reads from 'Command data' and 'Command data 2' return
++    architecture specific CPU ID value for currently selected CPU.
++  other values:
++    reserved
++
++offset [0x6-0x7]
++  reserved
++
++offset [0x8]
++  Command data: (DWORD access)
++
++  If last stored 'Command field' value is:
++
++  1:
++    stores value into OST event register
++  2:
++    stores value into OST status register, triggers
++    ACPI_DEVICE_OST QMP event from QEMU to external applications
++    with current values of OST event and status registers.
++  other values:
++    reserved
++
++Typical usecases
++----------------
++
++(x86) Detecting and enabling modern CPU hotplug interface
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++QEMU starts with legacy CPU hotplug interface enabled. Detecting and
++switching to modern interface is based on the 2 legacy CPU hotplug features:
++
++#. Writes into CPU bitmap are ignored.
++#. CPU bitmap always has bit #0 set, corresponding to boot CPU.
++
++Use following steps to detect and enable modern CPU hotplug interface:
++
++#. Store 0x0 to the 'CPU selector' register, attempting to switch to modern mode
++#. Store 0x0 to the 'CPU selector' register, to ensure valid selector value
++#. Store 0x0 to the 'Command field' register
++#. Read the 'Command data 2' register.
++   If read value is 0x0, the modern interface is enabled.
++   Otherwise legacy or no CPU hotplug interface available
++
++Get a cpu with pending event
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++#. Store 0x0 to the 'CPU selector' register.
++#. Store 0x0 to the 'Command field' register.
++#. Read the 'CPU device status fields' register.
++#. If both bit #1 and bit #2 are clear in the value read, there is no CPU
++   with a pending event and selected CPU remains unchanged.
++#. Otherwise, read the 'Command data' register. The value read is the
++   selector of the CPU with the pending event (which is already selected).
++
++Enumerate CPUs present/non present CPUs
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++#. Set the present CPU count to 0.
++#. Set the iterator to 0.
++#. Store 0x0 to the 'CPU selector' register, to ensure that it's in
++   a valid state and that access to other registers won't be ignored.
++#. Store 0x0 to the 'Command field' register to make 'Command data'
++   register return 'CPU selector' value of selected CPU
++#. Read the 'CPU device status fields' register.
++#. If bit #0 is set, increment the present CPU count.
++#. Increment the iterator.
++#. Store the iterator to the 'CPU selector' register.
++#. Read the 'Command data' register.
++#. If the value read is not zero, goto 05.
++#. Otherwise store 0x0 to the 'CPU selector' register, to put it
++   into a valid state and exit.
++   The iterator at this point equals "max_cpus".
+diff --git a/docs/specs/acpi_cpu_hotplug.txt b/docs/specs/acpi_cpu_hotplug.txt
+deleted file mode 100644
+index 9bd59ae0dae..00000000000
+--- a/docs/specs/acpi_cpu_hotplug.txt
++++ /dev/null
+@@ -1,160 +0,0 @@
+-QEMU<->ACPI BIOS CPU hotplug interface
+---------------------------------------
+-
+-QEMU supports CPU hotplug via ACPI. This document
+-describes the interface between QEMU and the ACPI BIOS.
+-
+-ACPI BIOS GPE.2 handler is dedicated for notifying OS about CPU hot-add
+-and hot-remove events.
+-
+-============================================
+-Legacy ACPI CPU hotplug interface registers:
+---------------------------------------------
+-CPU present bitmap for:
+-  ICH9-LPC (IO port 0x0cd8-0xcf7, 1-byte access)
+-  PIIX-PM  (IO port 0xaf00-0xaf1f, 1-byte access)
+-  One bit per CPU. Bit position reflects corresponding CPU APIC ID. Read-only.
+-  The first DWORD in bitmap is used in write mode to switch from legacy
+-  to modern CPU hotplug interface, write 0 into it to do switch.
+----------------------------------------------------------------
+-QEMU sets corresponding CPU bit on hot-add event and issues SCI
+-with GPE.2 event set. CPU present map is read by ACPI BIOS GPE.2 handler
+-to notify OS about CPU hot-add events. CPU hot-remove isn't supported.
+-
+-=====================================
+-Modern ACPI CPU hotplug interface registers:
+--------------------------------------
+-Register block base address:
+-    ICH9-LPC IO port 0x0cd8
+-    PIIX-PM  IO port 0xaf00
+-Register block size:
+-    ACPI_CPU_HOTPLUG_REG_LEN = 12
+-
+-All accesses to registers described below, imply little-endian byte order.
+-
+-Reserved resisters behavior:
+-   - write accesses are ignored
+-   - read accesses return all bits set to 0.
+-
+-The last stored value in 'CPU selector' must refer to a possible CPU, otherwise
+-  - reads from any register return 0
+-  - writes to any other register are ignored until valid value is stored into it
+-On QEMU start, 'CPU selector' is initialized to a valid value, on reset it
+-keeps the current value.
+-
+-read access:
+-    offset:
+-    [0x0-0x3] Command data 2: (DWORD access)
+-              if value last stored in 'Command field':
+-                0: reads as 0x0
+-                3: upper 32 bits of architecture specific CPU ID value
+-                other values: reserved
+-    [0x4] CPU device status fields: (1 byte access)
+-        bits:
+-           0: Device is enabled and may be used by guest
+-           1: Device insert event, used to distinguish device for which
+-              no device check event to OSPM was issued.
+-              It's valid only when bit 0 is set.
+-           2: Device remove event, used to distinguish device for which
+-              no device eject request to OSPM was issued. Firmware must
+-              ignore this bit.
+-           3: reserved and should be ignored by OSPM
+-           4: if set to 1, OSPM requests firmware to perform device eject.
+-           5-7: reserved and should be ignored by OSPM
+-    [0x5-0x7] reserved
+-    [0x8] Command data: (DWORD access)
+-          contains 0 unless value last stored in 'Command field' is one of:
+-              0: contains 'CPU selector' value of a CPU with pending event[s]
+-              3: lower 32 bits of architecture specific CPU ID value
+-                 (in x86 case: APIC ID)
+-
+-write access:
+-    offset:
+-    [0x0-0x3] CPU selector: (DWORD access)
+-              selects active CPU device. All following accesses to other
+-              registers will read/store data from/to selected CPU.
+-              Valid values: [0 .. max_cpus)
+-    [0x4] CPU device control fields: (1 byte access)
+-        bits:
+-            0: reserved, OSPM must clear it before writing to register.
+-            1: if set to 1 clears device insert event, set by OSPM
+-               after it has emitted device check event for the
+-               selected CPU device
+-            2: if set to 1 clears device remove event, set by OSPM
+-               after it has emitted device eject request for the
+-               selected CPU device.
+-            3: if set to 1 initiates device eject, set by OSPM when it
+-               triggers CPU device removal and calls _EJ0 method or by firmware
+-               when bit #4 is set. In case bit #4 were set, it's cleared as
+-               part of device eject.
+-            4: if set to 1, OSPM hands over device eject to firmware.
+-               Firmware shall issue device eject request as described above
+-               (bit #3) and OSPM should not touch device eject bit (#3) in case
+-               it's asked firmware to perform CPU device eject.
+-            5-7: reserved, OSPM must clear them before writing to register
+-    [0x5] Command field: (1 byte access)
+-          value:
+-            0: selects a CPU device with inserting/removing events and
+-               following reads from 'Command data' register return
+-               selected CPU ('CPU selector' value).
+-               If no CPU with events found, the current 'CPU selector' doesn't
+-               change and corresponding insert/remove event flags are not modified.
+-            1: following writes to 'Command data' register set OST event
+-               register in QEMU
+-            2: following writes to 'Command data' register set OST status
+-               register in QEMU
+-            3: following reads from 'Command data' and 'Command data 2' return
+-               architecture specific CPU ID value for currently selected CPU.
+-            other values: reserved
+-    [0x6-0x7] reserved
+-    [0x8] Command data: (DWORD access)
+-          if last stored 'Command field' value:
+-              1: stores value into OST event register
+-              2: stores value into OST status register, triggers
+-                 ACPI_DEVICE_OST QMP event from QEMU to external applications
+-                 with current values of OST event and status registers.
+-              other values: reserved
+-
+-Typical usecases:
+-    - (x86) Detecting and enabling modern CPU hotplug interface.
+-      QEMU starts with legacy CPU hotplug interface enabled. Detecting and
+-      switching to modern interface is based on the 2 legacy CPU hotplug features:
+-        1. Writes into CPU bitmap are ignored.
+-        2. CPU bitmap always has bit#0 set, corresponding to boot CPU.
+-
+-      Use following steps to detect and enable modern CPU hotplug interface:
+-        1. Store 0x0 to the 'CPU selector' register,
+-           attempting to switch to modern mode
+-        2. Store 0x0 to the 'CPU selector' register,
+-           to ensure valid selector value
+-        3. Store 0x0 to the 'Command field' register,
+-        4. Read the 'Command data 2' register.
+-           If read value is 0x0, the modern interface is enabled.
+-           Otherwise legacy or no CPU hotplug interface available
+-
+-    - Get a cpu with pending event
+-      1. Store 0x0 to the 'CPU selector' register.
+-      2. Store 0x0 to the 'Command field' register.
+-      3. Read the 'CPU device status fields' register.
+-      4. If both bit#1 and bit#2 are clear in the value read, there is no CPU
+-         with a pending event and selected CPU remains unchanged.
+-      5. Otherwise, read the 'Command data' register. The value read is the
+-         selector of the CPU with the pending event (which is already
+-         selected).
+-
+-    - Enumerate CPUs present/non present CPUs
+-      01. Set the present CPU count to 0.
+-      02. Set the iterator to 0.
+-      03. Store 0x0 to the 'CPU selector' register, to ensure that it's in
+-          a valid state and that access to other registers won't be ignored.
+-      04. Store 0x0 to the 'Command field' register to make 'Command data'
+-          register return 'CPU selector' value of selected CPU
+-      05. Read the 'CPU device status fields' register.
+-      06. If bit#0 is set, increment the present CPU count.
+-      07. Increment the iterator.
+-      08. Store the iterator to the 'CPU selector' register.
+-      09. Read the 'Command data' register.
+-      10. If the value read is not zero, goto 05.
+-      11. Otherwise store 0x0 to the 'CPU selector' register, to put it
+-          into a valid state and exit.
+-          The iterator at this point equals "max_cpus".
+diff --git a/docs/specs/index.rst b/docs/specs/index.rst
+index b7b08ea30d7..24b765e1a45 100644
+--- a/docs/specs/index.rst
++++ b/docs/specs/index.rst
+@@ -13,3 +13,4 @@ guest hardware that is specific to QEMU.
+    acpi_hw_reduced_hotplug
+    tpm
+    acpi_hest_ghes
++   acpi_cpu_hotplug
 -- 
 2.20.1
 
