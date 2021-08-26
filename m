@@ -2,49 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FEC43F8AA3
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 17:03:08 +0200 (CEST)
-Received: from localhost ([::1]:56350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1962E3F8AB5
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 17:08:42 +0200 (CEST)
+Received: from localhost ([::1]:35998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJGuJ-0001Sy-2n
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 11:03:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44732)
+	id 1mJGzb-00077H-MR
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 11:08:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mJGon-0005gR-Tf; Thu, 26 Aug 2021 10:57:25 -0400
-Received: from [201.28.113.2] (port=34533 helo=outlook.eldorado.org.br)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <matheus.ferst@eldorado.org.br>)
- id 1mJGom-00062m-FD; Thu, 26 Aug 2021 10:57:25 -0400
-Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Thu, 26 Aug 2021 11:57:21 -0300
-Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 67550800930;
- Thu, 26 Aug 2021 11:57:21 -0300 (-03)
-From: matheus.ferst@eldorado.org.br
-To: qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org
-Subject: [PATCH v3 2/2] target/ppc: fix vector registers access in gdbstub for
- little-endian
-Date: Thu, 26 Aug 2021 11:56:56 -0300
-Message-Id: <20210826145656.2507213-3-matheus.ferst@eldorado.org.br>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210826145656.2507213-1-matheus.ferst@eldorado.org.br>
-References: <20210826145656.2507213-1-matheus.ferst@eldorado.org.br>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mJGyD-0006QD-Lg
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 11:07:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46328)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mJGy8-0004H6-Tt
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 11:07:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1629990423;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=G2Q2x7WOo9oasuIA3XWldpXDoxM+ky2X6T8xE/JmZNk=;
+ b=TX4UMwcV8xbtaUFs76+NebtceXbPeZLv6N1enAp8bPWepjpvefci5jKwaqJ5p+NnshjdT+
+ 7EuDPHb7vK2pR4w2F2sBcP/maVC7BATsPOI2tash6vNNIakSp+qckaD/ECP7Srwxr6OvG1
+ 2y6mWwD/IpJO6XurLAR1DIj5eHn6Nbw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-448-PCjM7CiCMkOrfpPea-3Y0w-1; Thu, 26 Aug 2021 11:07:01 -0400
+X-MC-Unique: PCjM7CiCMkOrfpPea-3Y0w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 182B61853026;
+ Thu, 26 Aug 2021 15:07:00 +0000 (UTC)
+Received: from redhat.com (ovpn-112-96.phx2.redhat.com [10.3.112.96])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F1F2B5D9FC;
+ Thu, 26 Aug 2021 15:06:54 +0000 (UTC)
+Date: Thu, 26 Aug 2021 10:06:53 -0500
+From: Eric Blake <eblake@redhat.com>
+To: isaku.yamahata@gmail.com
+Subject: Re: [RFC PATCH v2 10/44] hw/i386: Initialize TDX via KVM ioctl()
+ when kvm_type is TDX
+Message-ID: <20210826150653.3vurw57fluf53cnt@redhat.com>
+References: <cover.1625704980.git.isaku.yamahata@intel.com>
+ <d173ac1f4524153b738309530c6a6599aeaa18fd.1625704981.git.isaku.yamahata@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 26 Aug 2021 14:57:21.0807 (UTC)
- FILETIME=[AC5401F0:01D79A8A]
-X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
-Received-SPF: pass client-ip=201.28.113.2;
- envelope-from=matheus.ferst@eldorado.org.br; helo=outlook.eldorado.org.br
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, PDS_HP_HELO_NORDNS=0.001,
- RDNS_NONE=0.793, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d173ac1f4524153b738309530c6a6599aeaa18fd.1625704981.git.isaku.yamahata@intel.com>
+User-Agent: NeoMutt/20210205-739-420e15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.742,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,93 +74,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, philmd@redhat.com, richard.henderson@linaro.org,
- groug@kaod.org, Matheus Ferst <matheus.ferst@eldorado.org.br>,
- david@gibson.dropbear.id.au
+Cc: isaku.yamahata@intel.com, cohuck@redhat.com, ehabkost@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, seanjc@google.com, alistair@alistair23.me,
+ xiaoyao.li@intel.com, qemu-devel@nongnu.org,
+ Sean Christopherson <sean.j.christopherson@intel.com>, mtosatti@redhat.com,
+ erdemaktas@google.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Matheus Ferst <matheus.ferst@eldorado.org.br>
+On Wed, Jul 07, 2021 at 05:54:40PM -0700, isaku.yamahata@gmail.com wrote:
+> From: Xiaoyao Li <xiaoyao.li@intel.com>
+> 
+> Introduce tdx_ioctl() to invoke TDX specific sub-ioctls of
+> KVM_MEMORY_ENCRYPT_OP.  Use tdx_ioctl() to invoke KVM_TDX_INIT, by way
+> of tdx_init(), during kvm_arch_init().  KVM_TDX_INIT configures global
+> TD state, e.g. the canonical CPUID config, and must be executed prior to
+> creating vCPUs.
+> 
+> Note, this doesn't address the fact that Qemu may change the CPUID
+> configuration when creating vCPUs, i.e. punts on refactoring Qemu to
+> provide a stable CPUID config prior to kvm_arch_init().
+> 
+> Explicitly set subleaf index and flags when adding CPUID
+> Set the index and flags when adding a CPUID entry to avoid propagating
+> stale state from a removed entry, e.g. when the CPUID 0x4 loop bails, it
+> can leave non-zero index and flags in the array.
+> 
+> Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+> Co-developed-by: Sean Christopherson <sean.j.christopherson@intel.com>
+> Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
+> Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
+> ---
 
-As vector registers are stored in host endianness, we shouldn't swap its
-64-bit elements in user mode. Add a 16-byte case in
-ppc_maybe_bswap_register to handle the reordering of elements in softmmu
-and remove avr_need_swap which is now unused.
+> +++ b/qapi/qom.json
+> @@ -760,6 +760,18 @@
+>              '*cbitpos': 'uint32',
+>              'reduced-phys-bits': 'uint32' } }
+>  
+> +##
+> +# @TdxGuestProperties:
+> +#
+> +# Properties for tdx-guest objects.
+> +#
+> +# @debug: enable debug mode (default: off)
+> +#
+> +# Since: 6.0
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
----
-The fix of the order of Int128 fields is in the based-on patchset.
----
- target/ppc/gdbstub.c | 32 +++++++-------------------------
- 1 file changed, 7 insertions(+), 25 deletions(-)
+This should be 6.2
 
-diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
-index 09ff1328d4..1808a150e4 100644
---- a/target/ppc/gdbstub.c
-+++ b/target/ppc/gdbstub.c
-@@ -101,6 +101,8 @@ void ppc_maybe_bswap_register(CPUPPCState *env, uint8_t *mem_buf, int len)
-         bswap32s((uint32_t *)mem_buf);
-     } else if (len == 8) {
-         bswap64s((uint64_t *)mem_buf);
-+    } else if (len == 16) {
-+        bswap128s((Int128 *)mem_buf);
-     } else {
-         g_assert_not_reached();
-     }
-@@ -389,15 +391,6 @@ const char *ppc_gdb_get_dynamic_xml(CPUState *cs, const char *xml_name)
- }
- #endif
- 
--static bool avr_need_swap(CPUPPCState *env)
--{
--#ifdef HOST_WORDS_BIGENDIAN
--    return msr_le;
--#else
--    return !msr_le;
--#endif
--}
--
- #if !defined(CONFIG_USER_ONLY)
- static int gdb_find_spr_idx(CPUPPCState *env, int n)
- {
-@@ -486,14 +479,9 @@ static int gdb_get_avr_reg(CPUPPCState *env, GByteArray *buf, int n)
- 
-     if (n < 32) {
-         ppc_avr_t *avr = cpu_avr_ptr(env, n);
--        if (!avr_need_swap(env)) {
--            gdb_get_reg128(buf, avr->u64[0] , avr->u64[1]);
--        } else {
--            gdb_get_reg128(buf, avr->u64[1] , avr->u64[0]);
--        }
-+        gdb_get_reg128(buf, avr->VsrD(0), avr->VsrD(1));
-         mem_buf = gdb_get_reg_ptr(buf, 16);
--        ppc_maybe_bswap_register(env, mem_buf, 8);
--        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
-+        ppc_maybe_bswap_register(env, mem_buf, 16);
-         return 16;
-     }
-     if (n == 32) {
-@@ -515,15 +503,9 @@ static int gdb_set_avr_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
- {
-     if (n < 32) {
-         ppc_avr_t *avr = cpu_avr_ptr(env, n);
--        ppc_maybe_bswap_register(env, mem_buf, 8);
--        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
--        if (!avr_need_swap(env)) {
--            avr->u64[0] = ldq_p(mem_buf);
--            avr->u64[1] = ldq_p(mem_buf + 8);
--        } else {
--            avr->u64[1] = ldq_p(mem_buf);
--            avr->u64[0] = ldq_p(mem_buf + 8);
--        }
-+        ppc_maybe_bswap_register(env, mem_buf, 16);
-+        avr->VsrD(0) = ldq_p(mem_buf);
-+        avr->VsrD(1) = ldq_p(mem_buf + 8);
-         return 16;
-     }
-     if (n == 32) {
+> +##
+> +{ 'struct': 'TdxGuestProperties',
+> +  'data': { '*debug': 'bool' } }
+> +
+>  ##
+>  # @ObjectType:
+>  #
+> @@ -802,6 +814,7 @@
+>      'secret_keyring',
+>      'sev-guest',
+>      's390-pv-guest',
+> +    'tdx-guest',
+>      'throttle-group',
+>      'tls-creds-anon',
+>      'tls-creds-psk',
+> @@ -858,6 +871,7 @@
+>        'secret':                     'SecretProperties',
+>        'secret_keyring':             'SecretKeyringProperties',
+>        'sev-guest':                  'SevGuestProperties',
+> +      'tdx-guest':                  'TdxGuestProperties',
+>        'throttle-group':             'ThrottleGroupProperties',
+>        'tls-creds-anon':             'TlsCredsAnonProperties',
+>        'tls-creds-psk':              'TlsCredsPskProperties',
+
 -- 
-2.25.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
