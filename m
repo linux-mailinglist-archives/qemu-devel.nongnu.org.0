@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B44F3F86EC
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 14:03:44 +0200 (CEST)
-Received: from localhost ([::1]:35816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 513C23F871F
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 14:17:44 +0200 (CEST)
+Received: from localhost ([::1]:41756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJE6h-0001DE-AQ
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 08:03:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60946)
+	id 1mJEKE-0006Ta-Ss
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 08:17:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mJE50-0000Jh-5k
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 08:01:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37521)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mJEHw-0005Xp-Bi
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 08:15:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mJE4y-0002ye-PQ
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 08:01:57 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mJEHs-0003bT-JB
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 08:15:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629979315;
+ s=mimecast20190719; t=1629980115;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=oTHP8Ry/DO/IuLNpWWeVVCxCQtKNXgqO0Ii/9aqphjo=;
- b=B7ivi439XkbVdAL1b6Z8XAs0MvI+u7YNyuZZyUHHJb+Hk71xrz0hGvVGQ8Qle90cnCctU6
- F7d75Nm2AsSZXDfhVwo5MY06MED3MnHedhK+8XS2JHZyBmNhKRVOxkOnNdtJ+jcrfFjp6R
- up2IweGq+EnhbVuqjR/+LQ2ZGo+HYfU=
+ bh=7zGor1pAi8Pv4p2D7vXiNRA/Bu6ID2uhk8gwuUCvznc=;
+ b=Df9f+y1zRiWt6DFwI3pZ3FBFLZFWJL4r+woBDQcwD7XKtQSiM6W/Dp6BVn0/u9hYResS15
+ wa1NqIB4kCYmngVebHwsOlGeTbgXlCE4oFPP22UKO6ba9V6m/hjuNa+JE/dYTQCMHtH8QO
+ TNFvhI9+unLW9USzOW/8M8eJyne0syY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-zZSuDz7WP6ONhOMhuGsqNQ-1; Thu, 26 Aug 2021 08:01:54 -0400
-X-MC-Unique: zZSuDz7WP6ONhOMhuGsqNQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-226-8hjrYhzcM_2mOqHYO5SnSg-1; Thu, 26 Aug 2021 08:15:13 -0400
+X-MC-Unique: 8hjrYhzcM_2mOqHYO5SnSg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A141F100E322;
- Thu, 26 Aug 2021 12:01:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64C5B184F1A0;
+ Thu, 26 Aug 2021 12:15:12 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 590E31002F12;
- Thu, 26 Aug 2021 12:01:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F0AC360583;
+ Thu, 26 Aug 2021 12:15:08 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id C6EDA18003AA; Thu, 26 Aug 2021 14:01:50 +0200 (CEST)
-Date: Thu, 26 Aug 2021 14:01:50 +0200
+ id 5E29A18003AA; Thu, 26 Aug 2021 14:15:07 +0200 (CEST)
+Date: Thu, 26 Aug 2021 14:15:07 +0200
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: isaku.yamahata@gmail.com
-Subject: Re: [RFC PATCH v2 34/44] target/i386/tdx: set reboot action to
- shutdown when tdx
-Message-ID: <20210826120150.w36qf3ac2xf2dhnp@sirius.home.kraxel.org>
+Subject: Re: [RFC PATCH v2 42/44] hw/i386: add a flag to disable init/sipi
+ delivery mode of interrupt
+Message-ID: <20210826121507.kaetaey7wocsiko5@sirius.home.kraxel.org>
 References: <cover.1625704980.git.isaku.yamahata@intel.com>
- <d1afced8a92c01367d0aed7c6f82659c9bf79956.1625704981.git.isaku.yamahata@intel.com>
+ <b11399727683e22ff53a14f15eb93f24eef1d49b.1625704981.git.isaku.yamahata@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d1afced8a92c01367d0aed7c6f82659c9bf79956.1625704981.git.isaku.yamahata@intel.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <b11399727683e22ff53a14f15eb93f24eef1d49b.1625704981.git.isaku.yamahata@intel.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -84,12 +84,16 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
   Hi,
 
-> In TDX CPU state is also protected, thus vcpu state can't be reset by VMM.
-> It assumes -action reboot=shutdown instead of silently ignoring vcpu reset.
+>      ioapic_init_gsi(gsi_state, "machine", x86ms->eoi_intercept_unsupported,
+> -                    x86ms->smi_unsupported);
+> +                    x86ms->smi_unsupported, x86ms->init_sipi_unsupported);
 
-Again, better throw an error instead of silently fixing up settings.
+Hmm, why add three different switches here?  I suspect these would all
+be used together anyway?  So maybe just add a "tdx mode" to the ioapic?
+Or maybe better a "confidential-computing" mode, as I guess amd will
+have similar requirements for similar reasons?
 
-take care,
+thanks,
   Gerd
 
 
