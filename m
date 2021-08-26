@@ -2,87 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1C53F8698
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 13:38:16 +0200 (CEST)
-Received: from localhost ([::1]:49550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D3B33F869C
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 13:41:14 +0200 (CEST)
+Received: from localhost ([::1]:51716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJDho-0006br-Rv
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 07:38:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54150)
+	id 1mJDkv-0008Ey-3T
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 07:41:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mJDgW-0005vm-GA
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 07:36:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29811)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mJDiC-0007O8-1D
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 07:38:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mJDgV-0001ds-2D
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 07:36:40 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mJDiA-0002m2-L3
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 07:38:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1629977794;
+ s=mimecast20190719; t=1629977902;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DNfBd15+Df1aTkq8KpuiuBaE7wHypXE5iz+/4tqAjao=;
- b=VgPq6t3ssHde6hDQa3QT+HCHa/J7yV3vgvtszQFvIIctWqroeIKxvnYNXrE46jU0M0bGdZ
- nyUS2gRoFcpuWmg59Un8sGqA2tCAJTCe8KY5s0WQ9FP6oGGUwQ8YkA6Y2GovQBGsvevB4j
- xccW5qCbJ5LQADMBfBw+wtc4rtUOISo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-137-HCCOxltmPoS5JiuAJzuUjg-1; Thu, 26 Aug 2021 07:36:33 -0400
-X-MC-Unique: HCCOxltmPoS5JiuAJzuUjg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- p5-20020a7bcc85000000b002e7563efc4cso809027wma.4
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 04:36:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=DNfBd15+Df1aTkq8KpuiuBaE7wHypXE5iz+/4tqAjao=;
- b=bfod4PmNAz2L4SylB5Lhqm5K80+q6bglh2wPPlNthDEkv5cFJkVrEuRNAT7D26Dw29
- Pq7UEty+M2ztGCG5zyjmROmYBmeaX2ajcyzgSM6F56mUKi/V9d66aWDXehOOLWl1lVA6
- TDuz5fzguYM8YvrJ9SF3SkpO63Tvr1Fa0yPHqGu2gZV9QzH7U7kPgelMSJkOrRrhpQGh
- uCGhrs4dRf7FfiTfeyv0k9E1n4MfpEqr76XMXU7g1w11dIecOFY4tFYRnLEGE5wfWMwn
- iwvMFWYW9FTpYDW1aVTUA++lg205cP02gdjl5Z7I6CddxTz/XBgkm6MfMjWgBDAPHu7u
- YpSg==
-X-Gm-Message-State: AOAM532eZmnnf8DBvFICTeFCceCtl9wrU8eqnaEu9zRqikUZDcjvF6ye
- 5aiHtfkuqKIarfoEeolo2+BlvrNUDZhxM7yGDf3Z6YAZhbDGwwSTtMq6ALpVhjq6kbQIrHTQNwU
- LrO0amMOo1BptaKM=
-X-Received: by 2002:adf:eacb:: with SMTP id o11mr3437157wrn.418.1629977791912; 
- Thu, 26 Aug 2021 04:36:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwFInCEOd7mIVtvOEgORMCqOdSV7V6RLfLw1ix66tisGgVPEp9fGCUCH0baAALrWg7/6v9Mqw==
-X-Received: by 2002:adf:eacb:: with SMTP id o11mr3437130wrn.418.1629977791681; 
- Thu, 26 Aug 2021 04:36:31 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id h8sm7828946wmb.35.2021.08.26.04.36.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 04:36:30 -0700 (PDT)
-Date: Thu, 26 Aug 2021 13:36:29 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 4/4] vl: Prioritize realizations of devices
-Message-ID: <20210826133629.2ddd3b88@redhat.com>
-In-Reply-To: <87y28oy6rm.fsf@dusky.pond.sub.org>
-References: <20210818194318.110993-1-peterx@redhat.com>
- <20210823184912.mazqfn7gurntj7ld@habkost.net>
- <YSP0m83roQytqvDr@t490s>
- <20210823210703.cikdkhvyeqqypaqa@habkost.net>
- <YSQTwth0elaz4T8W@t490s>
- <20210823215623.bagyo3oojdpk3byj@habkost.net>
- <YSQp0Nh6Gs5equAG@t490s> <8735qxhnhn.fsf@dusky.pond.sub.org>
- <87h7fdg12w.fsf@dusky.pond.sub.org> <YSa7H3wGUHgccCrU@t490s>
- <YScPg0cYYGxxTz+b@xz-m1.local> <87y28oy6rm.fsf@dusky.pond.sub.org>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ bh=u2PgJEZnx+tvPMvdEmrhLWHjONlR24wEnc+tJpOhAl4=;
+ b=c4oKzQkPu02ZgIsu0SxI7v3GA7qseI1kF556UX2tFLaLyRbrk7KHCHbLAQYVKRFzkpAncY
+ OVnk/KjedZTIhbZ0LsjD83sYfR5bLyQ9PaNco4Z2wJgHm0v+LwnEMQDZAT15mo+tHNlbIp
+ vy3aIqPNPbf8wkjZ6SZ2R/CpkHgGJzE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-365-nvOca9XMPpCswdwQfpBtsQ-1; Thu, 26 Aug 2021 07:38:20 -0400
+X-MC-Unique: nvOca9XMPpCswdwQfpBtsQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B8DA193F560;
+ Thu, 26 Aug 2021 11:38:19 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A3B56100238C;
+ Thu, 26 Aug 2021 11:38:15 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 0141218003AA; Thu, 26 Aug 2021 13:38:13 +0200 (CEST)
+Date: Thu, 26 Aug 2021 13:38:13 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: isaku.yamahata@gmail.com
+Subject: Re: [RFC PATCH v2 27/44] q35: Introduce smm_ranges property for
+ q35-pci-host
+Message-ID: <20210826113813.gfxnnpn6i5kdu2wg@sirius.home.kraxel.org>
+References: <cover.1625704980.git.isaku.yamahata@intel.com>
+ <32a79698d8c585cbf34e92d558ef9250ebba85ab.1625704981.git.isaku.yamahata@intel.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <32a79698d8c585cbf34e92d558ef9250ebba85ab.1625704981.git.isaku.yamahata@intel.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -103,57 +75,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S .
- Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: isaku.yamahata@intel.com, cohuck@redhat.com, ehabkost@redhat.com,
+ kvm@vger.kernel.org, mst@redhat.com, seanjc@google.com, alistair@alistair23.me,
+ xiaoyao.li@intel.com, qemu-devel@nongnu.org,
+ Sean Christopherson <sean.j.christopherson@intel.com>, mtosatti@redhat.com,
+ erdemaktas@google.com, pbonzini@redhat.com,
+ Isaku Yamahata <isaku.yamahata@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 26 Aug 2021 10:01:01 +0200
-Markus Armbruster <armbru@redhat.com> wrote:
+On Wed, Jul 07, 2021 at 05:54:57PM -0700, isaku.yamahata@gmail.com wrote:
+> From: Isaku Yamahata <isaku.yamahata@linux.intel.com>
+> 
+> Add a q35 property to check whether or not SMM ranges, e.g. SMRAM, TSEG,
+> etc... exist for the target platform.  TDX doesn't support SMM and doesn't
+> play nice with QEMU modifying related guest memory ranges.
 
-> Peter Xu <peterx@redhat.com> writes:
-> 
-> > On Wed, Aug 25, 2021 at 05:50:23PM -0400, Peter Xu wrote:  
-> >> On Wed, Aug 25, 2021 at 02:28:55PM +0200, Markus Armbruster wrote:  
-> >> > Having thought about this a bit more...
-...
-> > Any further thoughts will be greatly welcomed.  
-> 
-> I'd like to propose a more modest solution: detect the problem and fail.
-That's or proper dependency tracking (which stands chance to work with QMP,
-but like it was said it's complex)
+"qemu -M q35,smm=off" doesn't work?
+If so: what is the exact problem?
 
-> A simple state machine can track "has IOMMU" state.  It has three states
-> "no so far", "yes", and "no", and two events "add IOMMU" and "add device
-> that needs to know".  State diagram:
-> 
->                           no so far
->                    +--- (start state) ---+
->                    |                     |
->          add IOMMU |                     | add device that
->                    |                     |  needs to know
->                    v                     v
->              +--> yes                    no <--+
->              |     |   add device that   |     |
->              +-----+    needs to know    +-----+
-> 
-> "Add IOMMU" in state "no" is an error.
-
-question is how we distinguish "device that needs to know"
-from device that doesn't need to know, and then recently
-added feature 'bypass IOMMU' adds more fun to this.
- 
-> "Add IOMMU" in state "yes" stays in state "yes" if multiple IOMMU make
-> sense.  Else it's an error.
-> 
-> The state machine could be owned by the machine type.
-> 
-> 
+take care,
+  Gerd
 
 
