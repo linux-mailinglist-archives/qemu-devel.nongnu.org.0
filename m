@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211CA3F8DB7
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 20:18:20 +0200 (CEST)
-Received: from localhost ([::1]:44288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FF4D3F8DD4
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Aug 2021 20:29:37 +0200 (CEST)
+Received: from localhost ([::1]:59638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJJxD-0000PZ-4f
-	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 14:18:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58502)
+	id 1mJK88-0002Tf-11
+	for lists+qemu-devel@lfdr.de; Thu, 26 Aug 2021 14:29:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mJJmT-00037g-OM
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 14:07:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57342)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mJJmW-0003If-Kw
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 14:07:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36274)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mJJmP-0000LH-On
- for qemu-devel@nongnu.org; Thu, 26 Aug 2021 14:07:13 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mJJmT-0000Ou-Kq
+ for qemu-devel@nongnu.org; Thu, 26 Aug 2021 14:07:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630001228;
+ s=mimecast20190719; t=1630001232;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=33VXL4U1qbRTuU/5QwhrCQZylW9kwLggVtsgtFcLNRc=;
- b=aNG7y/6yDsXrmqo+vPS8gUsjBz9njfugjnPcCUIwet0E+cPQlIrZeZHEVP/Plnzz8mzIcj
- N7DIMnCISjL+gS4KYsPhcmb/TYTK2rVP1S2r6y6DDRGGZ1hoMnn3TH1MIeYNWaiTIPX3uw
- b6LtRE1TqzIAhJnFHP/KEgkzXd27STA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6hV9/zziKNEk7s6VzPpMvb9Nml78ruzqt2otDpuWxAs=;
+ b=Fphm2E3hYa0fm+7iLKIYsSMfPy//etaAbmp9wg87lGE3iko+iLcg18SkKh1q+flxKJwtRj
+ D2NZs8GJ+/RRfuheXq9qF+9fRgqrBkaO34seXa+N2eTAsBuuVw/v77Ud7ftYRmotEYvMq2
+ lsYx+edOTKpm8mVXjFqwh2/f/FPOzzo=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-153-nIHb-Dj7NbaAl4T41Pd5Qw-1; Thu, 26 Aug 2021 14:07:07 -0400
-X-MC-Unique: nIHb-Dj7NbaAl4T41Pd5Qw-1
+ us-mta-591-jdj7beDmPqupS9yJMyZdhQ-1; Thu, 26 Aug 2021 14:07:11 -0400
+X-MC-Unique: jdj7beDmPqupS9yJMyZdhQ-1
 Received: by mail-wm1-f72.google.com with SMTP id
- c2-20020a7bc8420000b0290238db573ab7so4657903wml.5
- for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 11:07:07 -0700 (PDT)
+ a201-20020a1c7fd2000000b002e748bf0544so4669456wmd.2
+ for <qemu-devel@nongnu.org>; Thu, 26 Aug 2021 11:07:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=GB0xfRVEKlq5JbrRPqkV0PavmfY69/bsAfF6w8cRM50=;
- b=fqb91djuuJI4OeymD9cvNQBiN/dT5L0hGLBw29uTcVmojBZ2DTs4at0iwnWCIYXuy2
- wzTiG4f0Wqb5RLv/HEIE+Yu2wD3Or7V+9wdx0U2j4VZUiIU+QL45qOPuU9ab7exkYM+D
- IACXKZxUx2KMBD4OAWf6v9vdJvArVnQNRuPzvU1Jj8nmfa3cWdTKgJ5LqUy8PVlGr2ms
- MertcY+zrvtS2wB1aTFyQ+H+mfQaTmoMSzvD1YoPKbzoq3w9OUT3/kHf/KjL/lZ1Vsxd
- v7YzETIi4/N5HHRFmDx8UKeVAmDApx3QzdZih0Ztev4CNaaSjmgiW31VyrCm0xqGXbJc
- uTTg==
-X-Gm-Message-State: AOAM5321+2eJS4zd2oemf2lEu3NTnMaLQZjLyQlLzolgG/JjmF0peV2I
- yY1oJrYnPsyB+yHePkq7eN3Ry0VjOCroq+g5tCH9V3zGSWHKv6zTM/l8cZyR1KElHJthKZvmmSr
- eK2JTM+cbnZ0AkAFeDzNZsCGpZ3SC7272sDzKI1yunL8Na5cbPtSdkD9kxHGFdiKd
-X-Received: by 2002:a05:600c:2215:: with SMTP id
- z21mr10035291wml.47.1630001225822; 
- Thu, 26 Aug 2021 11:07:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyjdJVK9pjguBo1YexWxwXEUx4tkMfoAwpeLOzovh8KBRa9wlKROMgo9eRhbcVbhl7IO9yHSA==
-X-Received: by 2002:a05:600c:2215:: with SMTP id
- z21mr10035275wml.47.1630001225644; 
- Thu, 26 Aug 2021 11:07:05 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=6hV9/zziKNEk7s6VzPpMvb9Nml78ruzqt2otDpuWxAs=;
+ b=sInuzdbUCKNiWWzERSq4ETwr04YRj0O6lg7DglF56jv3/C0y0tXlFYY/66EBtn5Wog
+ aJ+N9KKchyezXbjRGWkt1GT9nUE0jut7p53cLHfc1FNXAHD6W2aMDudgyFj8Swm78GZc
+ WFJXq9rJFzKTiAuU+DIykmZsPU7gax0glgo+OyXFh4o7DAn0XiiEH6mh4Rv6nVTCm5+C
+ 4P1TI3odSkSHkMVuIbwjcgjStKE2FF/1SnjmynbSG4jELZgXnWDKQk1tGaBedvItMgTc
+ EuFoh0lxsmVqX4oXyqydaq2GNMEnNQAJAUCoeaBug+sCo9RUhhDCIX1WxmVdViQZAl9L
+ Vu3w==
+X-Gm-Message-State: AOAM533Rtge017VzI1LwfHJ1i56KQln1cRrLg+i2IrBfPvzz2zCvDLQQ
+ Y22BRyMM6/37i1cR8DrdpohiVWD72k2m/uzGRvU17gwQCTDNGxuqfuAuvXKu97Tw5qgmRHTsMp/
+ 9BG53br7yZXqJtVn4wbpp/Gm/2lqR+mtFwTLrLzztKr5KkocBawyZC3y+rdJlRc/K
+X-Received: by 2002:a05:6000:9:: with SMTP id h9mr5812798wrx.396.1630001230351; 
+ Thu, 26 Aug 2021 11:07:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxOOy+Rb53rsNo9rgQv6a5bBsB9kj5286pXqc1RTwbrNwYOjhYGGZJmt5qX2pV2bYyWzX5Stg==
+X-Received: by 2002:a05:6000:9:: with SMTP id h9mr5812774wrx.396.1630001230156; 
+ Thu, 26 Aug 2021 11:07:10 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- j17sm3803394wrh.67.2021.08.26.11.07.04
+ d4sm3934597wrz.35.2021.08.26.11.07.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Aug 2021 11:07:05 -0700 (PDT)
+ Thu, 26 Aug 2021 11:07:09 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] hw/intc/arm_gicv3: Replace mis-used MEMTX_* constants by
- booleans
-Date: Thu, 26 Aug 2021 20:07:02 +0200
-Message-Id: <20210826180704.2131949-1-philmd@redhat.com>
+Subject: [PATCH 1/2] hw/intc/arm_gicv3_dist: Rename 64-bit accessors with 'q'
+ suffix
+Date: Thu, 26 Aug 2021 20:07:03 +0200
+Message-Id: <20210826180704.2131949-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210826180704.2131949-1-philmd@redhat.com>
+References: <20210826180704.2131949-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
@@ -99,20 +100,60 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Minor cleanups on the GICv3 distributor common accessors to=0D
-have the overall codebase better use the MEMTX_* constants.=0D
-=0D
-No logical code change intended.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (2):=0D
-  hw/intc/arm_gicv3_dist: Rename 64-bit accessors with 'q' suffix=0D
-  hw/intc/arm_gicv3: Replace mis-used MEMTX_* constants by booleans=0D
-=0D
- hw/intc/arm_gicv3_dist.c | 205 +++++++++++++++++++++------------------=0D
- 1 file changed, 108 insertions(+), 97 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+QEMU load/store API (docs/devel/loads-stores.rst) uses the 'q'
+suffix for 64-bit accesses. Rename the current 'll' suffix to
+have the GIC dist accessors better match the rest of the codebase.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ hw/intc/arm_gicv3_dist.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/hw/intc/arm_gicv3_dist.c b/hw/intc/arm_gicv3_dist.c
+index b65f56f9035..7e9b393d9ab 100644
+--- a/hw/intc/arm_gicv3_dist.c
++++ b/hw/intc/arm_gicv3_dist.c
+@@ -763,8 +763,8 @@ static MemTxResult gicd_writel(GICv3State *s, hwaddr offset,
+     }
+ }
+ 
+-static MemTxResult gicd_writell(GICv3State *s, hwaddr offset,
+-                                uint64_t value, MemTxAttrs attrs)
++static MemTxResult gicd_writeq(GICv3State *s, hwaddr offset,
++                               uint64_t value, MemTxAttrs attrs)
+ {
+     /* Our only 64-bit registers are GICD_IROUTER<n> */
+     int irq;
+@@ -779,8 +779,8 @@ static MemTxResult gicd_writell(GICv3State *s, hwaddr offset,
+     }
+ }
+ 
+-static MemTxResult gicd_readll(GICv3State *s, hwaddr offset,
+-                               uint64_t *data, MemTxAttrs attrs)
++static MemTxResult gicd_readq(GICv3State *s, hwaddr offset,
++                              uint64_t *data, MemTxAttrs attrs)
+ {
+     /* Our only 64-bit registers are GICD_IROUTER<n> */
+     int irq;
+@@ -812,7 +812,7 @@ MemTxResult gicv3_dist_read(void *opaque, hwaddr offset, uint64_t *data,
+         r = gicd_readl(s, offset, data, attrs);
+         break;
+     case 8:
+-        r = gicd_readll(s, offset, data, attrs);
++        r = gicd_readq(s, offset, data, attrs);
+         break;
+     default:
+         r = MEMTX_ERROR;
+@@ -854,7 +854,7 @@ MemTxResult gicv3_dist_write(void *opaque, hwaddr offset, uint64_t data,
+         r = gicd_writel(s, offset, data, attrs);
+         break;
+     case 8:
+-        r = gicd_writell(s, offset, data, attrs);
++        r = gicd_writeq(s, offset, data, attrs);
+         break;
+     default:
+         r = MEMTX_ERROR;
+-- 
+2.31.1
 
 
