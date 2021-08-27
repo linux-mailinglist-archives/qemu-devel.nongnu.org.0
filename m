@@ -2,89 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0572A3F9E5F
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 19:56:42 +0200 (CEST)
-Received: from localhost ([::1]:39010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 664DD3F9E79
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 20:04:30 +0200 (CEST)
+Received: from localhost ([::1]:55750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJg5p-0000LV-1X
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 13:56:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56740)
+	id 1mJgDD-0003Sa-Do
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 14:04:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1mJg3V-00060l-22
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 13:54:17 -0400
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32]:46650)
+ id 1mJg3M-0005d5-Np
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 13:54:08 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:32584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1mJg3S-00071O-Qh
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 13:54:16 -0400
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 17RGPUUa015226; 
- Fri, 27 Aug 2021 17:54:13 GMT
+ id 1mJg3J-0006vc-B5
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 13:54:08 -0400
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 17RH9dZJ025438; 
+ Fri, 27 Aug 2021 17:54:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=qUxgYcymVUOcPkHKKIaA6/gzrd+qPRl0kJ3LRQgd/z8=;
- b=JSuWFFv9/LAYPK8nKLxXzwEG0DjANzXDfvb3JxoT5JyeTV0kyQr0j57SDuMTxmCs2Dpa
- HYmBdj6QYSb2itrjHdZJI2eMBhDYT7j/nzScQn8EAVlg//sD88drVhT/BRM6a1ssH6EE
- hZXmI2KA00RXO4FBBpr5C1n1XE2TErTLR7hAHTY45yPd3DahlS5+Ax/f/PPd/tVFRvgn
- dLrQa0bf0HlGftHXvkeF59FQi8BFfEPVb0c5n7uVmpTA1En96xup47tZ+UQJIPw3kVoe
- Qt39zFLIMXCoQ+4Ch48BT5jR3yNPd//PD4N9PnKms6UpQN8mbufH9wyIYrrOqq6gWknH 8w== 
+ bh=KisP+5WTiznmLb6i3eK76RZlqh4SbpCBxf1ru1SblEQ=;
+ b=ZfL1SwHSmfFe1oOj+6LBY5oL3zWK0CxKHgoqC+CpXjnqqS24CvbsODnqHYqhvnj9CQVN
+ QiV5PJo2FUYLpIE39CvOohSr5UjDt6gJ4ci9mxnmwLDV3b3IoUEy3iDEQIvhh8MR5QMl
+ S82ihXsYtGLMPKlDn74MuE7ECFj4ivhkaelB48ULKqkmZPn1UfABVFREurpskIFSM1h7
+ /JRVhknj3qg9+mgrlMCP1KI8O6hMjmYa7btAh5cqRCNNSwdoEZht8JcD+ttvHz4fbmEL
+ xQJgzkW7C4sryJK4/ET+E45L0YozdgsNkQlWqAtu4q6CLQtDOVTd4TTTEu79o5S/cyLm Qw== 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2020-01-29;
- bh=qUxgYcymVUOcPkHKKIaA6/gzrd+qPRl0kJ3LRQgd/z8=;
- b=o+Js5pUaUS01lg/hrebT8pfCJPOpvsbDVo2FNuh3CMz0cUE1F5tjrDKBiLSYjnDoCXJs
- 7qkPoSerGGtID1WJu70IRVqh8dj2R9HqimYOJ6dTB9Q0dUmQcdiY7XsEJgeaf6TjFY8v
- GLMDEn5uRcCPWO2ZD+37VSSKSvd4Z8n4435ufVqB3oubLMbVYu+JgOXfpxtq9iDhdXQl
- 1qq8WiT9oyd3DX4oaGTY3M6smNT3/L6qGWr4iBvqMcbl2FcAQ0r2W/1sCOaLKRMn+ctF
- 0vHFFhRrJbYC8eYKD8qAOJqPRQYpXwLX0aPF1WvypON+pE4U06o5PwBqsGqaA4We4lXq dg== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by mx0b-00069f02.pphosted.com with ESMTP id 3ap4ekvaag-1
+ bh=KisP+5WTiznmLb6i3eK76RZlqh4SbpCBxf1ru1SblEQ=;
+ b=mDr9hC7hPaXUNhKCe5/8PDVbpn9jyCOPxMou09bPa+dWcLiljtpHCH61tZCUL6fEuTd2
+ zGg7YbX5Apz+IaakscHX4GFsY6wq7KrAM8Fm4jB1rZ8okZxZtBpEuZfGuKaNcQp517n1
+ u5+lHYptwaFxp8Xv6rFa8en1KqghZ0S47dsu4FEEaDze0yZniHDF9N86oeyaseHnFcd5
+ 3EEICKfEeW4AeXgUsdPPsBHQIlw6fyVPXOmtJZFdfxCt+Xc27Rpi92y5yoYGtxdiXoiW
+ 4mULaUl2Wv2cDUNQO829igAw/7ZbCcZAMRDripUlk5W7hMdlCCTLuiA40TqeLBp21iuZ pw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3aq1kvgh9a-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 27 Aug 2021 17:54:12 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17RHoCf9038016;
- Fri, 27 Aug 2021 17:54:11 GMT
-Received: from nam02-dm3-obe.outbound.protection.outlook.com
- (mail-dm3nam07lp2040.outbound.protection.outlook.com [104.47.56.40])
- by userp3030.oracle.com with ESMTP id 3ajpm53hh9-1
+ Fri, 27 Aug 2021 17:54:01 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17RHnuc2179067;
+ Fri, 27 Aug 2021 17:53:59 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2043.outbound.protection.outlook.com [104.47.66.43])
+ by userp3020.oracle.com with ESMTP id 3akb92hj7q-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 27 Aug 2021 17:54:11 +0000
+ Fri, 27 Aug 2021 17:53:59 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YBqpbQX06O8jkhRmztRmSF6+rXUSyy+AvguI2zz33T9IKEyrb/0efqo8FV1EaatYjRS128XUAbIiyJLJWtm7GdcVnV2d7VGiJoK6BAg5957wQf4RB88/eZirpReomNSma2tlXMPsynu8iL00VJ1g76beElTjOYRsRpc5tKab6NShslULFUP8L33V9gZhhWWqAy8uEX35lbNuHau0mmsDou+cHGQ1sTcHVqHLx16sRqTrLM2P3EUiVsBcp5iZaCJHU/wWdjq3YUDNkoMo/56AIIuS6BD5a9HJGyZOfjEcha/vK5uCkHvJMrqy6jAHG8DXS0VH36adZykThFSMmBNiZA==
+ b=FNvvC6uj5SONTxVnf15W2mcHCKZc5Z0h3tdN1Cb/1O99/fI+PDpTI8dwo6OsPN19VOllsBZM/mSfmdSW5v0QdcM2Hj8Y6XTeUe2mPZeIajew0F0swcDwv2A5TV5NOoOUh0Zt/iPeDdPbqOpGkOzW48QHMdRV3x6cRgzkf4XMT5MvSKwkSxk6hpG0mXGqq5hKw6BydtueYkQ7gruGoeXZPoiP68fvgmXCnDlIfBLvUX7rtWy/Xeb7uDQdRNftL4ICAfy6y63qdGBgOw60Ru7GTQGr6MVOLbEr+u+oAZfbvxyxWBRRHeDL3XLeLF9AT0asRS7NnzVkI5gFljyUGz07hA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qUxgYcymVUOcPkHKKIaA6/gzrd+qPRl0kJ3LRQgd/z8=;
- b=e6Ra+6ByGcU1oJNv0bL+BVaVKxbOl8ZK4YtMlA0bU/4T45vSOiUV1PdTzFsUpZCctT/ngGx7ibnKAgJ89YD7R3bvDZzVGa5QYkGGkjGzm8NO8FE/nfXomSm9ois06GPGqye95g7+Ll2swR20bUig8rlBlnqdXS6JyNuPqR7qPJtbcXUhDDT1tF7J12aKsZNgFg228WD/66sqTDi6TD3GMQ9j6sEnTvmNbaClgq+lX7d+e1Z/bYC6P2SI4b1zR4J0Elc4XZJqhISHgCNlGcEoA3ZgtCWOwPg+IYCq96XmlGsuDxN3fepT7BqTLW94LL/QWjQ2wzfFDHySmtYY+wuBmg==
+ bh=KisP+5WTiznmLb6i3eK76RZlqh4SbpCBxf1ru1SblEQ=;
+ b=dC4f2gGK26u5IZnx0HxITmiP3hW+lTXuK0jF8jATJFMvINYaAgHYAOvbD0JA0CwceSjJtB+aaPeoiUp9D65CXsxHKLfuCrjGSs3fB5FZU48leLchFLSYTJgh3UAmv2Kqwju2NqCoz5JmHIdAcjzAsuZnEPuBPmpvLT2xFCBX9CZrj13UzXrpFpyBtqk08j1X59G/q2uZha+feuuGuobTf6NH13fJi+iV3AhrvFC8gIKa22FOhZBSC2uobSR8cR0ce9kt7sxxvj5Wc/Qpwuum0JHOagOzC15RBbU09Ym2+04kqHQAYOtFVS0NLSddcX/Uj5jJdtzem90d11c3oNfH+w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qUxgYcymVUOcPkHKKIaA6/gzrd+qPRl0kJ3LRQgd/z8=;
- b=uAV2/yeimzTX5khge7zFKwWvKvhglYx3RkVNIK6mSAJondMCwvd+CSL67Aiqu5G2X0swZWZr8jZzQMbpjB2SzpBzFpcjlWIN275eO6S0Mwg7AdebSQqfcsl+7vePjCpcygkmbyC/SaQgP8j9+jk+WFt3yusFiBlXiR5UZHKO1G0=
+ bh=KisP+5WTiznmLb6i3eK76RZlqh4SbpCBxf1ru1SblEQ=;
+ b=Q9vIJdaZfsZcts4YqpXzwA+H7i/VIfRlPaU+AoFSKaqYTiBdNfpH7vI3wUvpjbYHQPpQjqTa5ROSZhjGqT0noXmDNe16fPVJPjg80gJIAzBUOHX7Z1jRrmAUECGiMNQy5MgTn2qQovuhoCaFnflm8k1CuDYKo8XXqdaNS58dKi4=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
  by BLAPR10MB4865.namprd10.prod.outlook.com (2603:10b6:208:334::5)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.23; Fri, 27 Aug
- 2021 17:54:10 +0000
+ 2021 17:53:56 +0000
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::282e:c371:7a10:b122]) by MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::282e:c371:7a10:b122%5]) with mapi id 15.20.4457.023; Fri, 27 Aug 2021
- 17:54:09 +0000
+ 17:53:56 +0000
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC server v2 11/11] vfio-user: acceptance test
-Date: Fri, 27 Aug 2021 13:53:30 -0400
-Message-Id: <9bcb7b4cf45e2211913a57030aaf5809e3e381f7.1630084211.git.jag.raman@oracle.com>
+Subject: [PATCH RFC server v2 06/11] vfio-user: handle PCI config space
+ accesses
+Date: Fri, 27 Aug 2021 13:53:25 -0400
+Message-Id: <5f371fa15eb347317ce9ce56a329a24c713129e0.1630084211.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1630084211.git.jag.raman@oracle.com>
 References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
@@ -98,66 +99,66 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from jaraman-bur-1.us.oracle.com (209.17.40.46) by
  BYAPR11CA0093.namprd11.prod.outlook.com (2603:10b6:a03:f4::34) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4457.20 via Frontend Transport; Fri, 27 Aug 2021 17:54:07 +0000
+ 15.20.4457.20 via Frontend Transport; Fri, 27 Aug 2021 17:53:54 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 63341781-a479-40aa-c18d-08d96983abfe
+X-MS-Office365-Filtering-Correlation-Id: 8376b326-fb01-4a92-d458-08d96983a415
 X-MS-TrafficTypeDiagnostic: BLAPR10MB4865:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BLAPR10MB486581AC2DA8B7E61FD0CA4B90C89@BLAPR10MB4865.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-Microsoft-Antispam-PRVS: <BLAPR10MB4865566E8E8787506359196D90C89@BLAPR10MB4865.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:91;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: UFbp+vuMr/CLNPPfnvojMS7HuJXYMAJDXFvUgbN55/tE+fhvUM33sLqfiGBwNjJflyZyLgyZb5F9sv7RP3aCLDVqDDK1YSI7mpDf+cQ96cJ9LaeRVNtQc3w5Tjp4mk7TYDDq0LFSy/90w75yy8BFO0TPOiku7cMzh5YrUpRgCnPxa4+7D3QS8VrxO/u2uDV0ZoJuYC0PgNJp0QVH859d+O+cvo8JcD4JryIZTNzDkpUVmAfzHJuPICJDU8jytURhFMPtvBE5vM1YJ6nkshIk0MhbQoz68NgaWI1ml/clDin4aZ8twS4bYmXcftUQHqkkNHcN6CMTuEl8orKusVRsxZuxigbxL499Hyi5Ohvm24LDZoaIYPiK6NAeqYip3WjE+MO0EQ96wLzOZgo39Xmqn6G5Yaxk/t/xzsiS+i2C/wqyGnxmL90eBvuW6+mh5ZxP8OmKBh+MK/AUzkCpW7KKiaLCCQOHrX1CNs1QXnwVUq7HSdptOLkELSxJpctPkLO7Hs2oMHjuYJpJh+DpAcKmigf7d2irzmey+V1qEDDLRH/zFtnhKC4cNmqI10cZUD72tKdUvdQf0Qt04/ov0QY+CraFqDjPgeYp6E6uP7evYCXfQF5ei/fHLbrUCDeXgtxT3fpJyA0s3z+1daKPlkm4/G4RiDLnWL4HhbgvUH24yBkiMA1pxPe8sL0+0rIRYGoX85lK+drstIHcqZPvNT67NMNfedmp7bERpZp2hZjyyj+CdtDHZyyCnqRSz9C0/qV5dZps7stZQyLyhDYL8ao4xQ==
+X-Microsoft-Antispam-Message-Info: zIA6qHs3EKr8qb3CASQSvazISzoO8gNodpu0j9bXqEvSFLzYedmZDxpa25TjqlcggiNYpzGBdOfRt1xj6lljUYKKyYBxS5DzPRkSJmwq+LcnFwZSm5bZdvFtA+scHJuWa/ZotQr/Q+izCAOSe6DJnjOYrpjfrFFsuD+NSEqoj0C+pj7v7HpAgvNiP+I2/X5sABolQSPx7OXH6eXhYZ+ox3kvNTKCRLUTaPDw2RBYqGLx4E6YKkPtVdyo4hk9v66JS+szwO9AOPNtEsZJfW2Ebcyc6Z6aOHw2+1OA6jhup+NtDBvfdBx32fkY8H1OmjNYGFXgX3I9FR/yFsFa5c13otQYxWtkq3aXUYKcTmI19fdIaXgn53l/935GUE5eM7ei87B4j+xgknxTD4GbDnawWllzOm77emttQX1TnOfTTbIN2FoDjMS1zhICZB6E/CVMM7u0FXGt/qMBpFujUEiRg2gnraLU7mBZwxGs6uOvHJNL44Ch4MF670wJ+kOzfBP7oO854jVebFP+oYeqXMOpKIL1ZbJkbgPrY+dvPz4C6IKgPPYntUTWV5+KUjI8XlviSMO3w8exneAiUT3FDEy567fdjpAOMcKJAIbkoUUIQhfwAtcQKq/f9ri335exN8RlonY64Ee/k63/8MisNEdDsh8vvchJHplqlGLHH77vw5wdhxVdFiM9Sy0ihQmXKUe2Wc0ZDiNJoyOEbhN6oPkERQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(346002)(376002)(39860400002)(366004)(136003)(396003)(2906002)(186003)(2616005)(8936002)(26005)(8676002)(38100700002)(36756003)(52116002)(7696005)(83380400001)(107886003)(478600001)(38350700002)(956004)(7416002)(6486002)(4326008)(6666004)(66946007)(5660300002)(66556008)(66476007)(316002)(6916009)(86362001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?d/B8pOkN7bEt8J0RemMAuxACsKldFJJw7SCbfXbRrzRYz6apnNRZSXkIDkxN?=
- =?us-ascii?Q?2Ues//MGEXMzpWxUYiWZ7qlDkwXhKEXndVt/+cSnmTKd2Ja41ZkRsP/VGeUA?=
- =?us-ascii?Q?5gGK8PfCk8k9yoiuchB0XMe5sLr/HRB0NbKbr2EHyY30ANEX0MvFQSL4Ifws?=
- =?us-ascii?Q?trkIS3RimROimRFIBQJUNoxlm/pltGQ34Jb5m3P3G59k129WFBUMCyVAupZE?=
- =?us-ascii?Q?vh3Sm++EGn0RnQJ/E80nL9BjCHZpdhFjsYSYSvzurzrsw6QTSRCfXcy3lpDm?=
- =?us-ascii?Q?79CgijG75Cp0r2cjQQdePzPACC012iPuv4NJxeAtFhTpV5RAS6MwTNmiNFSG?=
- =?us-ascii?Q?+2HftkiyyGhELySGAo5sJ8ul9Lc3Q1KLY4uQK89Yyfv1aMJ49lzRSeOmQuwU?=
- =?us-ascii?Q?I4Oukpss4A01J9v2+BkbJv3b1gMFTmE4q9jCNg6prGBwmrc4F9kEG3hWy75d?=
- =?us-ascii?Q?bWYqWrG40uCWGdStgpAUt6AQInh4taaozERY05InjWIYxXSnvIy1pBFHLTD8?=
- =?us-ascii?Q?wJzdthjQhhQgHRHTYX+stZnDTN/MNNu7MPYv234lpsDiS8RIcVqXHzZDZO73?=
- =?us-ascii?Q?eEX3w8l9CATUSDZO/9ahUc7Gn/zK6m5M2V51JrUOVwojz9yX0kmnR4A03cY5?=
- =?us-ascii?Q?P5jSDh7AR0s/ePsDfxyCWxV1zkBRrLBFD8k/5NFam62XS+5w1mWVTs7gU9p3?=
- =?us-ascii?Q?p4H6B6IJXLusaoudYs1vYidIQBFWrosCg4f/EgbLPEUl7xlYI9sJ8Q3WdgVs?=
- =?us-ascii?Q?hUW1Erjs93n1KnFKBhUueAopzvzvDXIMSvsSuYZjr+jkCjhEAwY2bqNZv31t?=
- =?us-ascii?Q?P+85/HVhGmtQ+2T10U0K0uLuM1gzFeBUqUZjC/W/K8KkKdGWM1WqWByYyzT/?=
- =?us-ascii?Q?nWMB8d0Becrzy5I2V9MfJo04tkC4TKzNcl5SpUT9Ux8RWTGoIszBJikBL0uE?=
- =?us-ascii?Q?uIBKnvGAJmtqn1IMCzzwIh19RbZ0jY6gWzs05M3bLcat9zXoEx8aQENH7+nx?=
- =?us-ascii?Q?j0uJZpiSCI18xIpAGY2coe/15/M2vcWGNNtsOoB7WnqEGNM3OsjCwcTgT0rw?=
- =?us-ascii?Q?NHlbcGqrkvvun3j7OYrRsckM7hZwssDp+wQp6SQxrja8PHqPfBk7zAOXSEcY?=
- =?us-ascii?Q?erRVTBUJ2BEOoc5eOkhr/zXBHdqCVoh5HmyyBaIYIlqhSW4O70aeARrwpyld?=
- =?us-ascii?Q?CVK5q2Dr3ATlEIfBGxzsj2obnNizt60I//gJBFrZHCVqw+TDreHz1adatp3l?=
- =?us-ascii?Q?aehN6tl0ReWRxrB2f0vEcP3S+atGnQ5NZPXLuwANFvw0jNwbZzB3Y9/o77c2?=
- =?us-ascii?Q?LqLp6v022aoJ/tJ1YjDMyr3W?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?i8ofpC2hInUu6WrYAXGdK73tNaxAg8IzdWc3suvGOzuBgAMqpemejPD8Hv9w?=
+ =?us-ascii?Q?zmzuN+5f6fqJBBpMXDV0RwwsPv7ZNbx9eymDRZQfD/pBaYYGR12mg5QrPbDt?=
+ =?us-ascii?Q?J/UGdXIr44dPCXvqzs5JmCiz8zgv0Sj7p1OtoF49J6fhFw3JDEcKV1yLGlx5?=
+ =?us-ascii?Q?M561XkF97qL5/tSyGjqjAz8xR16WkfyK9dmeps44jLWWO55XhB2Kg+uR83KY?=
+ =?us-ascii?Q?dvHRpP+vkEOhBCdSRqb/3o4LyXMONJr2amFT051OIMk7iFfuKFyOMmDnn9tm?=
+ =?us-ascii?Q?qJWiPXT7VBCucAT+UuaDz194jP4zXTCvxb4DukArKrfw4AQFX+v2l8IZGf96?=
+ =?us-ascii?Q?h+3ZEbUh9HlH9Rw0+JwQ5xOh/k1eEn6z6zJJ6RLse9e6SMIgjuJMVmuTSnH4?=
+ =?us-ascii?Q?pVZCSrTCPf4y2xwrPfW0kGW85wrw9hpuMiE205XyZIsdCZ2Ix8lHctsdn1Z4?=
+ =?us-ascii?Q?6Rb66wtsRyL5wgnE8J3QOeoQOMAVDZtgZyo6YqVqA+MO46w3G0MeAausxbw5?=
+ =?us-ascii?Q?O9UeUpVeOOGBea04s9qKzdPl5HGWvVFhYaxQHIU+BMOJO5KUyxOZ9dg76n8J?=
+ =?us-ascii?Q?UFvk1zs5IyiCM5ToCm3xZ6JyAWaOnw58Tzn4ZfljyoZAQG/JFzVYfInCMPA3?=
+ =?us-ascii?Q?ZyHdTCIyogAtiUsUIrHeAd8u0b2MdnqEQ14vKBSYWMxJM8ABAoAidqPkNqNX?=
+ =?us-ascii?Q?oYW+RB0A7prpZex3kxa6DFovxzpgQM4qiLHDik99po27d/nNMtXrvhQ2OUJi?=
+ =?us-ascii?Q?W8KNbvssaJ8irNVXYyEg/ROYv8RLUcOCsuxfUjVWNegN9KVdr5AZfHpEFf3Z?=
+ =?us-ascii?Q?GEqRKd1IMCyRK99EcROqIws0YjgKbQ4l8RApziIijF663zNGrF/lSIzp1KiK?=
+ =?us-ascii?Q?hRPPRKDMvNSYPpGkX6wscFMevir/LvCe9e7q62BpXEdcKqgkvEYzVoxyebCU?=
+ =?us-ascii?Q?zvk/lrNaxsigZQAXZJOjxyIr0Z14O0qoxivMILX3Q0ZovOXXClYM7sg6bjWG?=
+ =?us-ascii?Q?NCHvy+CZ3X+j4Tq9C6lmjZlv4tKDIPTadQ3b1LjiUCFzKENFCq99Y/78JQO+?=
+ =?us-ascii?Q?ZiG8R0XqC1/FUCYW/LGQ+w6Xz+f6Gc367wfjunDQm7dw9UfE/3csp9h6ZDoe?=
+ =?us-ascii?Q?EPcW/sKSPwQNPOlimrvy3sega/JLCnde4Le49OZwtCAJl8APqH4OU17p6a+R?=
+ =?us-ascii?Q?dO8lZUMXMUxh48GnA3AtaNYsJ21FozLsJVGstM/dnE/K8s/1BfzEgj7Su5U5?=
+ =?us-ascii?Q?l2kr4MTbaRubS9yn+SlGU7Pg1bOY/syE8nBF3XBS7M2qmusKG0PwgUk94x6P?=
+ =?us-ascii?Q?txBadjgqyipGa7c4Ck/wBy5Z?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 63341781-a479-40aa-c18d-08d96983abfe
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8376b326-fb01-4a92-d458-08d96983a415
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2021 17:54:09.8387 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2021 17:53:56.6201 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iSZaIItIolrpWlnDlxG8KdjW26AVL0VCtizA4iGK+DS7w7aP7/NyWQElcOE7e69SkXru5aPiR+HPzNu94q3nFg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1842XpMvWtRNjcIBzCaSkA6Ckkxn/gcr8GBHupnxmKEwkwcqV2jrsnzl/zHk7dSOjCyj3rPTDXPLMP2OaSjTrQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB4865
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10089
  signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- phishscore=0 malwarescore=0
- mlxscore=0 bulkscore=0 mlxlogscore=999 suspectscore=0 adultscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ phishscore=0 spamscore=0
+ bulkscore=0 mlxlogscore=999 malwarescore=0 adultscore=0 mlxscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
  definitions=main-2108270105
-X-Proofpoint-GUID: Ugr96GCJob9b8ZQwbd6p9azTH4LyYCfv
-X-Proofpoint-ORIG-GUID: Ugr96GCJob9b8ZQwbd6p9azTH4LyYCfv
-Received-SPF: pass client-ip=205.220.177.32; envelope-from=jag.raman@oracle.com;
- helo=mx0b-00069f02.pphosted.com
+X-Proofpoint-GUID: tunsE8dv9RUDcb8K8cbOUk8QXcToIDqp
+X-Proofpoint-ORIG-GUID: tunsE8dv9RUDcb8K8cbOUk8QXcToIDqp
+Received-SPF: pass client-ip=205.220.165.32; envelope-from=jag.raman@oracle.com;
+ helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -184,129 +185,95 @@ Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Acceptance test for libvfio-user in QEMU
+Define and register handlers for PCI config space accesses
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- MAINTAINERS                   |  1 +
- tests/acceptance/vfio-user.py | 94 +++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 95 insertions(+)
- create mode 100644 tests/acceptance/vfio-user.py
+ hw/remote/vfio-user-obj.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+ hw/remote/trace-events    |  2 ++
+ 2 files changed, 46 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f9d8092..2c7332b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3392,6 +3392,7 @@ F: include/hw/remote/proxy-memory-listener.h
- F: hw/remote/iohub.c
- F: include/hw/remote/iohub.h
- F: hw/remote/vfio-user-obj.c
-+F: tests/acceptance/vfio-user.py
+diff --git a/hw/remote/vfio-user-obj.c b/hw/remote/vfio-user-obj.c
+index 0726eb9..13011ce 100644
+--- a/hw/remote/vfio-user-obj.c
++++ b/hw/remote/vfio-user-obj.c
+@@ -36,6 +36,7 @@
+ #include "sysemu/runstate.h"
+ #include "qemu/notify.h"
+ #include "qemu/thread.h"
++#include "qemu/main-loop.h"
+ #include "qapi/error.h"
+ #include "sysemu/sysemu.h"
+ #include "libvfio-user.h"
+@@ -144,6 +145,38 @@ retry_attach:
+     return NULL;
+ }
  
- EBPF:
- M: Jason Wang <jasowang@redhat.com>
-diff --git a/tests/acceptance/vfio-user.py b/tests/acceptance/vfio-user.py
-new file mode 100644
-index 0000000..ef318d9
---- /dev/null
-+++ b/tests/acceptance/vfio-user.py
-@@ -0,0 +1,94 @@
-+# vfio-user protocol sanity test
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
++static ssize_t vfu_object_cfg_access(vfu_ctx_t *vfu_ctx, char * const buf,
++                                     size_t count, loff_t offset,
++                                     const bool is_write)
++{
++    VfuObject *o = vfu_get_private(vfu_ctx);
++    uint32_t pci_access_width = sizeof(uint32_t);
++    size_t bytes = count;
++    uint32_t val = 0;
++    char *ptr = buf;
++    int len;
 +
++    while (bytes > 0) {
++        len = (bytes > pci_access_width) ? pci_access_width : bytes;
++        if (is_write) {
++            memcpy(&val, ptr, len);
++            pci_default_write_config(PCI_DEVICE(o->pci_dev),
++                                     offset, val, len);
++            trace_vfu_cfg_write(offset, val);
++        } else {
++            val = pci_default_read_config(PCI_DEVICE(o->pci_dev),
++                                          offset, len);
++            memcpy(ptr, &val, len);
++            trace_vfu_cfg_read(offset, val);
++        }
++        offset += len;
++        ptr += len;
++        bytes -= len;
++    }
 +
-+import os
-+import socket
-+import uuid
++    return count;
++}
 +
-+from avocado_qemu import Test
-+from avocado_qemu import wait_for_console_pattern
-+from avocado_qemu import exec_command
-+from avocado_qemu import exec_command_and_wait_for_pattern
+ static void vfu_object_machine_done(Notifier *notifier, void *data)
+ {
+     VfuObject *o = container_of(notifier, VfuObject, machine_done);
+@@ -182,6 +215,17 @@ static void vfu_object_machine_done(Notifier *notifier, void *data)
+         return;
+     }
+ 
++    ret = vfu_setup_region(o->vfu_ctx, VFU_PCI_DEV_CFG_REGION_IDX,
++                           pci_config_size(o->pci_dev), &vfu_object_cfg_access,
++                           VFU_REGION_FLAG_RW | VFU_REGION_FLAG_ALWAYS_CB,
++                           NULL, 0, -1, 0);
++    if (ret < 0) {
++        error_setg(&error_abort,
++                   "vfu: Failed to setup config space handlers for %s- %s",
++                   o->devid, strerror(errno));
++        return;
++    }
 +
-+class VfioUser(Test):
-+    """
-+    :avocado: tags=vfiouser
-+    """
-+    KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
-+
-+    def do_test(self, kernel_url, initrd_url, kernel_command_line,
-+                machine_type):
-+        """Main test method"""
-+        self.require_accelerator('kvm')
-+
-+        kernel_path = self.fetch_asset(kernel_url)
-+        initrd_path = self.fetch_asset(initrd_url)
-+
-+        socket = os.path.join('/tmp', str(uuid.uuid4()))
-+        if os.path.exists(socket):
-+            os.remove(socket)
-+
-+        # Create remote process
-+        remote_vm = self.get_vm()
-+        remote_vm.add_args('-machine', 'x-remote')
-+        remote_vm.add_args('-nodefaults')
-+        remote_vm.add_args('-device', 'lsi53c895a,id=lsi1')
-+        remote_vm.add_args('-object', 'vfio-user,id=vfioobj1,'
-+                           'devid=lsi1,socket='+socket)
-+        remote_vm.launch()
-+
-+        # Create proxy process
-+        self.vm.set_console()
-+        self.vm.add_args('-machine', machine_type)
-+        self.vm.add_args('-accel', 'kvm')
-+        self.vm.add_args('-cpu', 'host')
-+        self.vm.add_args('-object',
-+                         'memory-backend-memfd,id=sysmem-file,size=2G')
-+        self.vm.add_args('--numa', 'node,memdev=sysmem-file')
-+        self.vm.add_args('-m', '2048')
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-initrd', initrd_path,
-+                         '-append', kernel_command_line)
-+        self.vm.add_args('-device',
-+                         'vfio-user-pci,'
-+                         'socket='+socket)
-+        self.vm.launch()
-+        wait_for_console_pattern(self, 'as init process',
-+                                 'Kernel panic - not syncing')
-+        exec_command(self, 'mount -t sysfs sysfs /sys')
-+        exec_command_and_wait_for_pattern(self,
-+                                          'cat /sys/bus/pci/devices/*/uevent',
-+                                          'PCI_ID=1000:0012')
-+
-+    def test_multiprocess_x86_64(self):
-+        """
-+        :avocado: tags=arch:x86_64
-+        """
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/x86_64/os/images'
-+                      '/pxeboot/vmlinuz')
-+        initrd_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/x86_64/os/images'
-+                      '/pxeboot/initrd.img')
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyS0 rdinit=/bin/bash')
-+        machine_type = 'pc'
-+        self.do_test(kernel_url, initrd_url, kernel_command_line, machine_type)
-+
-+    def test_multiprocess_aarch64(self):
-+        """
-+        :avocado: tags=arch:aarch64
-+        """
-+        kernel_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/aarch64/os/images'
-+                      '/pxeboot/vmlinuz')
-+        initrd_url = ('https://archives.fedoraproject.org/pub/archive/fedora'
-+                      '/linux/releases/31/Everything/aarch64/os/images'
-+                      '/pxeboot/initrd.img')
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'rdinit=/bin/bash console=ttyAMA0')
-+        machine_type = 'virt,gic-version=3'
-+        self.do_test(kernel_url, initrd_url, kernel_command_line, machine_type)
+     ret = vfu_realize_ctx(o->vfu_ctx);
+     if (ret < 0) {
+         error_setg(&error_abort, "vfu: Failed to realize device %s- %s",
+diff --git a/hw/remote/trace-events b/hw/remote/trace-events
+index 7da12f0..2ef7884 100644
+--- a/hw/remote/trace-events
++++ b/hw/remote/trace-events
+@@ -5,3 +5,5 @@ mpqemu_recv_io_error(int cmd, int size, int nfds) "failed to receive %d size %d,
+ 
+ # vfio-user-obj.c
+ vfu_prop(const char *prop, const char *val) "vfu: setting %s as %s"
++vfu_cfg_read(uint32_t offset, uint32_t val) "vfu: cfg: 0x%u -> 0x%x"
++vfu_cfg_write(uint32_t offset, uint32_t val) "vfu: cfg: 0x%u <- 0x%x"
 -- 
 1.8.3.1
 
