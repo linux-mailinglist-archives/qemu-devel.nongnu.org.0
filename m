@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D0E23F9EC6
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 20:28:18 +0200 (CEST)
-Received: from localhost ([::1]:41620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCEF03F9EB9
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 20:25:11 +0200 (CEST)
+Received: from localhost ([::1]:32920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJgaK-0007so-FT
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 14:28:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33708)
+	id 1mJgXJ-0001w1-Sj
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 14:25:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mJgRB-00018F-P4; Fri, 27 Aug 2021 14:18:45 -0400
-Received: from mail-eopbgr20112.outbound.protection.outlook.com
- ([40.107.2.112]:14422 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
+ id 1mJgR8-00017h-Py; Fri, 27 Aug 2021 14:18:45 -0400
+Received: from mail-db8eur05on2112.outbound.protection.outlook.com
+ ([40.107.20.112]:12641 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mJgR9-0006cC-AI; Fri, 27 Aug 2021 14:18:45 -0400
+ id 1mJgR7-0006Un-94; Fri, 27 Aug 2021 14:18:42 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kGKPkClI2E+KYhw+2rD9WfkqqtoLgiG8XmwiwMeJFQ9tGwfudwF/Jt7pmky/GbDL+rhvazwq+WBz450wBf+q18u38nKi6LfWps8d2FfdkyG+yjv/60wy+HuFRQVVWnL1pzKgeU2vaIsavgL47GQUgDtM1W2KBGdu5ChqQD41h/T51Uf0Weqm9UsiSS9UFFWBd8m8hqcMSFRMOPk6rX787QHuts9Mw4+sR6jZ5LgI7W+phQuy+96XDqnt+NzAVkQ5QNYnNK6gdUCjdLtCpo6eax2ztYUMnaZ6kH8AVJeOYvPGSuIomme9PKATyuq7FF2Tb9x8MXBDMO2XdHZ3wFTDKQ==
+ b=ne77vVWV8BMtaRYwjgNgZkS7sP3Yg8h0Yae0wrBhaTYM680mkvyopExxo/EMmg4ofoE7tIDfYeTA3UZ2ZEJZEB606lbP0QxTkBSEAQWQ+1NJJch3Wi5Lfc4YffJMuhzIqukj2Ibgxs4eoOXpktSZ8mHy7l30ewfSqzp2/qNZO9JGVDa3Eac5fo7k0K0bWslnm1vxRRKEQBWFJXfCyhcfwLTBBaC6NVYrJRj9Vh1pI0lJtElUH2xL1yC5KAyUCeXVMVjWm+p/aaN5m/VpeMbj8zZaSOMxZ6E5o93Mok6WGxjPalNBqApvJsY34CqR++jNT1O9kjNXD3fdasnT3oX3GA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tUqhcqqCmZtsCbd2cz8PpLDKH7AY66a78oeMIbCzlVA=;
- b=VuNnt/s7s6YoH0xWZGbIOxf2YV+PeiNwxIJd8Xc5uiZgwR8z4MrRCKKmQRI1sEKk4lAl6kvuMs6Ih6ZL9pGtTTZ7tU1AAStXsrzIao4PRdEWZQMu2RXLanz8pBbNxHzY2FQoCA+pLWWA0XzqzmKTy9OLsSs63ZhLGOxSo0Dvq8Vv9ulDiGb4d3F5T1A6DYnVhvAMmQsLZ7WHCp7EBSXyI+7wyRSFVEHgIU6/7MMoIiBd+/AhoRgybwciEAx+Ffj/k0gNrQlAnyr9hM9ZfqeBM+97zZYXLTU37BJhlO5/NGn1xSwGdQN0L2j3MFZ4lZ9Mpy1BcRLC8ztXB6wMT0DqXw==
+ bh=LQ755RN4B88us0Z35oknYvrIcdk7clEi9p4Po8f+mAo=;
+ b=PeBZ6u7O42oQAEi6S5jyoMSqND771kjs1EYsZhYgnAtCR3EGmRa3RZJzeiZKneHrjVlNOC3I1VH7QA+X3drDM5+hn+g60HPbpc4JHylh31x95RakKD1vHJbOd/BdaV9UMyQhVMS9CE3Vb6FJuhhxI06MBvdmjVbt7HRC3/oz2SGLKh3LXFOKuvvp4vzNg/MIpDHwEzCs7fZFS51ZmB6ulrJsf54LndD2RWKFzhvzq7hRfCJL35Mo5On+EJPW1rWuchIQ24aBYYnNyP5tX48GHDYnhqDpCXS5r2R447PPo9PizM1DF1C7bac2rfRjZ3Iz8LTWmjy2bsQM3F88PGO7zQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tUqhcqqCmZtsCbd2cz8PpLDKH7AY66a78oeMIbCzlVA=;
- b=t9WuHj5iFWk/pO8fUD0kSztZx52hczXQSgo3wCKOQbCVWanmyA36hGA8cv9ctCvYlmJDeT9abXKBu8JEYrf/Rl+yp3crG1hJEA4zeIaC4+31R8EtHmDUGTWYWocA73SspXPbnrtGPsn9b7KzLmjCzEKsvZeOLKSik1RsgExdMxA=
+ bh=LQ755RN4B88us0Z35oknYvrIcdk7clEi9p4Po8f+mAo=;
+ b=EBzhvFeH5bdanM+Eqm6CGtDeYS2MRG9q2NI6/CxQ7m+r/gD3nTT71RDQnZwiVrOunxFLDqexc6mKKPQXWrNghm3ZZoVy1TTBgQPLHWKGzrFygtnSrrOdqr6iR4+4dMd6B3CAE7lb4/q5CBj0Ojznkx/xKOfymiH/tn7NUFhP7R8=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB3765.eurprd08.prod.outlook.com (2603:10a6:20b:8f::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.21; Fri, 27 Aug
- 2021 18:18:31 +0000
+ 2021 18:18:32 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22%7]) with mapi id 15.20.4457.023; Fri, 27 Aug 2021
- 18:18:31 +0000
+ 18:18:32 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, xiechanglong.d@gmail.com,
  wencongyang2@huawei.com, eblake@redhat.com, hreitz@redhat.com,
  kwolf@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com
-Subject: [PATCH v2 06/19] block: intoduce reqlist
-Date: Fri, 27 Aug 2021 21:17:55 +0300
-Message-Id: <20210827181808.311670-7-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 07/19] block/dirty-bitmap: introduce
+ bdrv_dirty_bitmap_status()
+Date: Fri, 27 Aug 2021 21:17:56 +0300
+Message-Id: <20210827181808.311670-8-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210827181808.311670-1-vsementsov@virtuozzo.com>
 References: <20210827181808.311670-1-vsementsov@virtuozzo.com>
@@ -65,58 +66,58 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.220) by
  HE1PR0402CA0012.eurprd04.prod.outlook.com (2603:10a6:3:d0::22) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4457.18 via Frontend Transport; Fri, 27 Aug 2021 18:18:30 +0000
+ 15.20.4457.18 via Frontend Transport; Fri, 27 Aug 2021 18:18:31 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a10418e6-7ab4-4616-9579-08d96987134a
+X-MS-Office365-Filtering-Correlation-Id: bdd46f94-a260-489f-7266-08d969871405
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3765:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3765BD5D6E9A5E27300F87C3C1C89@AM6PR08MB3765.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3765EB51171CFF4324EE2528C1C89@AM6PR08MB3765.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2089;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: SO7tNSG6sSzUeSOuhUqz7Zw4czPA6iJEdseHEckECJF3hkcmqmFVL8XHNQ4oE8Oiyq4tJAxfy9WEU83YV6JGb2+ShP9eutLMu6tFYY8l1Ms3lEBZfbWeZ6X7UeqgMZnSgBLhQwUvICgZIweE6OX+ybJ7OLiGXqmlyECSTOGwI8zygOKMeZ03BT5fpj+E8XdRGYKEwbgtBb0vICR85EtWi64lP+s97nIKvilUA+f5MlPqEJ/Kxh4A+01ryv69r2wv+u6KSNoSfdTe/d2BeWwO2qlNV5iSGvD1zzGffmNUD310zqKtoEUh/RXCB79UOgS3ZZGBzeMqk2QUxKORdhquTjOFo660awHsFnOfFW5D0cLQuNQxICPySpv0nWP0tiL+87Q/pA1MBv49gTSsR4h47RA8BB1JS+lE8oIqs4qQxHJ3W1TwnG7lOXCxx7fUTK+xP4FtCWYZOcr80G7XMPsIrP2fDQcgzoXoUHUvfVy4LCmv8Cu8Wff86OClgPJGcoYxNryonvVYyc12ksZUl+6L46aQmOVRqzmmk60SNv6uJCQItvMcXlGfINyZcG9yHazApp0AlLuTBSVZKHoNBt7XF+9i4xD8zTooc+7gM+Jt5JNM/n2RJ4qoCGpGf/VcEJp4GY7WIy6H2nJDvsUqrd9f6LHXrJY/nLbQBGPNlQiIyfbt/CKs5zk1pcVKtX3FsvDhNCdO0pCjEkSgNd/vqYejhQ==
+X-Microsoft-Antispam-Message-Info: M1Mn1vZyUgtxxFJbmkFMBSzPySVVc7Slw4RPcbCrWUd/3+Q9+8qNdhB97QkVY8LrHmBw+eQyx6zq5EYbRKC/h6B9F6nz2aIoFM/ZFQmWOE8fy4ydybasbBqxPCfUK2gTbGXac+gFf55VWgz6S8mNcuZ1bl7r4cMFv57uRllTOT8vMChfWVaFmhL1uIgKU6GuxG6kZpGJkaLtSYILw5Rip0cl32wxP2800aV+tPdiBsXLsVggTReCxbAflryCuek7XUPuoWcz20CIfLqTseIblUMj+MwWm9v/wgfNomGh1soTo+MMYL98p6QO1zbHWjbZuWsgNQKFwomewcqAOj5iLFcf4h2oRJgByOBf9pUO4MGPT2Op7jNPrkKhjZoihO8PxnjpEXIPPFIegOL6NSL97lvPke1kbJejf0PprW5zjmMGZ38wPaVE0spV2ZL2wwESsaPL+OwvHPHj4H4qqqcfOzmvqKSqH2/a2hxkKQHWmc2dtWuVt6+NhEGu4lxlaKd2dtBGrDS6/sOlITezp8UrDWBzUv76dFYbnk4fSAGgfVyXl/wlYq9+s0PteMrACtUYVYW7YoXMD4M3KVgeClueEo//b+bNNRb2eyR1vDBvy6ZHvQNWcnOWUROaS4w4+iLm9bwhPFbMr8IyB2ifEnn4Q8jaMa7zA8dkB+WkfD5cRkQQwDTR6OIAQnYt36WXyq6Z3cqsP/ZEuKLYDeT+Bn/iuwvaknN/h21nq/rI04DpoSw=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(39840400004)(366004)(136003)(346002)(396003)(52116002)(6486002)(1076003)(26005)(66946007)(66476007)(8936002)(6506007)(30864003)(2616005)(38350700002)(38100700002)(956004)(5660300002)(86362001)(8676002)(186003)(6666004)(83380400001)(66556008)(6916009)(4326008)(6512007)(36756003)(2906002)(478600001)(316002);
+ SFS:(4636009)(376002)(39840400004)(366004)(136003)(346002)(396003)(52116002)(6486002)(1076003)(26005)(66946007)(66476007)(8936002)(6506007)(2616005)(38350700002)(38100700002)(956004)(5660300002)(86362001)(8676002)(186003)(6666004)(83380400001)(66556008)(6916009)(4326008)(6512007)(36756003)(2906002)(478600001)(316002)(14143004);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QauU8i8PT5jelBGm8t9iAg9rKTiYvh8I4Kn371nPOXCLxNrScFkT++nu0Wo8?=
- =?us-ascii?Q?RMJXUmXtf5LSr5krNaJwOgJiBjrvNaaZqU8QhWZwrsh3ff+e+q333coDER7g?=
- =?us-ascii?Q?VGjJwjfW8aBkZH+NF8HT3dtanDZrHcLq+GYaPg3Q/GIwOxxYn3PizV47BW4o?=
- =?us-ascii?Q?gjZVhnavdRwoqfEFWWA5/7xZz9n8GYFI8MEia4AlSOPCsRbLeypnxNpYE3A+?=
- =?us-ascii?Q?zwJg1/uU+9JggLfbvLFxacn/KmT8ob7WHE5jaLicQm6fruFPo9MoCGi9ITwe?=
- =?us-ascii?Q?K0zzd5a1lsNXQa6IYd3bDBvwaUDIeTS8NP3ilQff0V3zqt7Yr4qb/h8SLBuZ?=
- =?us-ascii?Q?4RjBGmTZUgcQUrLRArdLywGQYmpsXFcRMM4e7iuYGFSW36ToHx1gRpABmnvs?=
- =?us-ascii?Q?sle2Xt/V9hTbTvocRiYINtN3K3ZizC2EQ1MPZgnv+gAxAK6iZqAI3dxjil4W?=
- =?us-ascii?Q?KTmInMEXg7IBQtVzJX6I/qc3v2a67VtxV+GShFA70lGNtXQT4FYMcmi7rIUG?=
- =?us-ascii?Q?aefvXik26fcCHkOQ59njwpZmWwDxmJ2LlqA0JdzqT9o3fbUQhgnxvWAte5nQ?=
- =?us-ascii?Q?kBYzaPtbiX7Oq37MRSaYbW+qKKBNjg6LujmXMeh8DK6aIKeF9Cr665rn7yLe?=
- =?us-ascii?Q?xd0zTgEr74AcTqArsKlPoZu+8ntaYmUZZ6657Tu2yhu1g1/ATcdfg12Lc3+4?=
- =?us-ascii?Q?Jl5py10K+1nmXZUEfaj+MiqUk52bBC9BIx/N//p4sThbMJHsMzT0qcERG4GD?=
- =?us-ascii?Q?ALNWigYc6OLLVmOs0ADwxgzUAQpWy4VoAg6K2u+JMjoRNfP9wsY2N1Ipfu8u?=
- =?us-ascii?Q?vq+9mqQWc7MP2CgRRKZkfcpEm8UxSMugwEMGbyhEg8DjlxdL70OEIClYRWdY?=
- =?us-ascii?Q?sEWto35oISb8Ml1jWZI+R+EYiUtRxs7K8v4vCRzYcvv1jhLOzqHjg3X7LqGf?=
- =?us-ascii?Q?vTVgiVqewA6H83uYx7uPDfbDB7GCl2TXu3Crm0Q0rjDf1y5F8KL6j7ABPiDG?=
- =?us-ascii?Q?zF3kjvuJY/Bnc708XFI930LxUP9PXOQ/5G3DUcqgkT9seYE1jP+bgumQYfrb?=
- =?us-ascii?Q?qmOgzPD7arzvuLcDaLJ2J5II5GJ9+7iK2R5EqTf/XUJGSRPqQpvLH6a11Qy6?=
- =?us-ascii?Q?x73yG2ncQmlBTmQUd0upRxviaTWlkKJNisOth9+8rkiOkAOMA/s1LOwDEqEX?=
- =?us-ascii?Q?XXwnbpM6TpFEK2kmXgBfWF8AKYoXWL5L2Cz3VI/pevaZZE+/JFp8THudrhiu?=
- =?us-ascii?Q?z6HXJqB61noUMG1UF719sUkdeu6c80KQH263QDwGUacfnaZeI3V2G6a36DTq?=
- =?us-ascii?Q?qsBd9f7L0ileeNXKD0iO4TVe?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?4eiQ30fEc7TT0OJgkecBgeCHSNKHZGyLJUuPlb0M9h5lrJbPGBoT9UkBx9kx?=
+ =?us-ascii?Q?SVQW2dRZdZa/qIh/9NTMPYGK1KebthwTLiWMhrA6QJzjwbFcR9OfxiP5FbAm?=
+ =?us-ascii?Q?+kzQP4FTUpMGMkpQ2wkW2Uwf8n9tWdH/b2C9kS77/2vdXjUmLs/KguZUsp4P?=
+ =?us-ascii?Q?K4Gjun8Iv0oPeJ/Mt8X36c7ydAZEnS6Td7bqhZGK5Fw6s+huq9l9Jw4pdFhX?=
+ =?us-ascii?Q?Yv8UR4RPMtVUDmyfcHC/GAABJcB/VFOi9cI2Y+/e5wWDjj7C9At0bME2ycpG?=
+ =?us-ascii?Q?7qoupmWQ8vVpb6E8z3CItFQVbPBbY38jHLwAtFaA9RkRxyVdXCfDTmr0oNPW?=
+ =?us-ascii?Q?KCOIkY0tuCCCmVPk35QW4w0faik0DsyX+cq2/sA6vItEU6Qln5MOw9+vvtax?=
+ =?us-ascii?Q?5D3xddyPim3DB4Ape/eF14qxgI69Z8IS1di+nK/fUYNVsYL/ubBKhIH6LRsT?=
+ =?us-ascii?Q?OpiNZJLig3rX6vv2TFDlcg8zP6BgWaORgPs1SfiOZkd9OpvE7ysDm+xAA9D1?=
+ =?us-ascii?Q?YsyRPGFj4mFKdCu9E/BKx1T0akh1NiwszjNsAe/gWh2jE7lt4KTtnkCo+1bp?=
+ =?us-ascii?Q?ov6MRlXbTqh2zeHDB9eu0nQ9OX28srrMM0QkuxtY4TKojut/1Bj9NPj+gSO1?=
+ =?us-ascii?Q?Lzpyipa82yhqLvt/MFUeOLn9RtQ+NmAM/WmuF6qP4QiuJxQluAtRJ9rIarKA?=
+ =?us-ascii?Q?fTYzTCnBiGPfjt88MCv9HFJUiSWAC11VpFnmx4OrA8rMSf0bIyYHIqWyP1Ly?=
+ =?us-ascii?Q?U4EaHQUB44bTbssITrXONGlC44d3snTM06hsQJe5TdXzc7dXalBnvQ3tl4Xr?=
+ =?us-ascii?Q?kViZpGF38v1fxJDy/tvVpeYt99FAd0kaq7gNBZOSft/cSJxTWH3bhpr8wdhj?=
+ =?us-ascii?Q?sMb8aHuIrou+IdQ/dSTOFJGpYL0KRxo/aptte08wAzAFyuSXNNaoJY0NE8FE?=
+ =?us-ascii?Q?8N1bDezqdr/x+z4c40xaaaYadMIRVBByCUTmjBCTFnTUvW3rv8Gv94fNFgYr?=
+ =?us-ascii?Q?/+GzNdarmjSIWlkCoSOYi7t2LFt7J6tgbZEd7IzeCyLYkT6zm3Oq4bNtF30o?=
+ =?us-ascii?Q?iBsUg34HtEAa7ZNqh9t54HxI4w0E6pLSy34XW/dmxxkaMKy/Iekytlb40Cvw?=
+ =?us-ascii?Q?90Ip/N5WHBtSYSDoX/pzRHlmt/jg61046vVt1wDPzaHRbEMuljdbCyczPVAI?=
+ =?us-ascii?Q?BaVjEztLuR5zQwGYZHnNJDpEt342iBS7hecwQks97uliD0tpRjmV3vWOTn89?=
+ =?us-ascii?Q?PuusNQaerOxuY1jCxpWCiMf1WtLYXJuBdNnC+nx0Tl5v/RFNTph3vUyMeZA6?=
+ =?us-ascii?Q?ymsReCfFTgekRyBYcH6e0ucj?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a10418e6-7ab4-4616-9579-08d96987134a
+X-MS-Exchange-CrossTenant-Network-Message-Id: bdd46f94-a260-489f-7266-08d969871405
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2021 18:18:31.6365 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2021 18:18:32.8153 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ri8hx/Pqw+Zl/GGveQJL8Rau8RxEapYm6axNIlSnpC2+hSvwiDGTZqK1yDRfbzRXgMgbPyMlYI4e1UV3VA5qIpWktf8zUxlwqzEv6yjjrQ8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: XCLxRx455g49L+pS6QlIgEVttt7cq5+4U+VrPYkbRDJp02CkHt39XlCRTSE38VrUC7AL7nHcZ7MbLU40FfTsWoBZI913iLa1pDzeGekg8GQ=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3765
-Received-SPF: pass client-ip=40.107.2.112;
+Received-SPF: pass client-ip=40.107.20.112;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-VE1-obe.outbound.protection.outlook.com
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -140,476 +141,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Split intersecting-requests functionality out of block-copy to be
-reused in copy-before-write filter.
-
-Note: while being here, fix tiny typo in MAINTAINERS.
+Add a convenient function similar with bdrv_block_status() to get
+status of dirty bitmap.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/reqlist.h |  67 +++++++++++++++++++++++
- block/block-copy.c      | 116 +++++++++++++---------------------------
- block/reqlist.c         |  76 ++++++++++++++++++++++++++
- MAINTAINERS             |   4 +-
- block/meson.build       |   1 +
- 5 files changed, 184 insertions(+), 80 deletions(-)
- create mode 100644 include/block/reqlist.h
- create mode 100644 block/reqlist.c
+ include/block/dirty-bitmap.h |  2 ++
+ include/qemu/hbitmap.h       | 11 +++++++++++
+ block/dirty-bitmap.c         |  6 ++++++
+ util/hbitmap.c               | 36 ++++++++++++++++++++++++++++++++++++
+ 4 files changed, 55 insertions(+)
 
-diff --git a/include/block/reqlist.h b/include/block/reqlist.h
-new file mode 100644
-index 0000000000..b904d80216
---- /dev/null
-+++ b/include/block/reqlist.h
-@@ -0,0 +1,67 @@
-+/*
-+ * reqlist API
-+ *
-+ * Copyright (C) 2013 Proxmox Server Solutions
-+ * Copyright (c) 2021 Virtuozzo International GmbH.
-+ *
-+ * Authors:
-+ *  Dietmar Maurer (dietmar@proxmox.com)
-+ *  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#ifndef REQLIST_H
-+#define REQLIST_H
-+
-+#include "qemu/coroutine.h"
-+
-+/*
-+ * The API is not thread-safe and shouldn't be. The struct is public to be part
-+ * of other structures and protected by third-party locks, see
-+ * block/block-copy.c for example.
-+ */
-+
-+typedef struct BlockReq {
-+    int64_t offset;
-+    int64_t bytes;
-+
-+    CoQueue wait_queue; /* coroutines blocked on this req */
-+    QLIST_ENTRY(BlockReq) list;
-+} BlockReq;
-+
-+typedef QLIST_HEAD(, BlockReq) BlockReqList;
-+
-+/*
-+ * Initialize new request and add it to the list. Caller should be sure that
-+ * there are no conflicting requests in the list.
-+ */
-+void reqlist_init_req(BlockReqList *reqs, BlockReq *req, int64_t offset,
-+                      int64_t bytes);
-+/* Search for request in the list intersecting with @offset/@bytes area. */
-+BlockReq *reqlist_find_conflict(BlockReqList *reqs, int64_t offset,
-+                                int64_t bytes);
-+
-+/*
-+ * If there are no intersecting requests return false. Otherwise, wait for the
-+ * first found intersecting request to finish and return true.
-+ *
-+ * @lock is passed to qemu_co_queue_wait()
-+ * False return value proves that lock was NOT released.
-+ */
-+bool coroutine_fn reqlist_wait_one(BlockReqList *reqs, int64_t offset,
-+                                   int64_t bytes, CoMutex *lock);
-+
-+/*
-+ * Shrink request and wake all waiting coroutines (may be some of them are not
-+ * intersecting with shrunk request).
-+ */
-+void coroutine_fn reqlist_shrink_req(BlockReq *req, int64_t new_bytes);
-+
-+/*
-+ * Remove request and wake all waiting coroutines. Do not release any memory.
-+ */
-+void coroutine_fn reqlist_remove_req(BlockReq *req);
-+
-+#endif /* REQLIST_H */
-diff --git a/block/block-copy.c b/block/block-copy.c
-index ca51eab149..46e6a6736d 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -17,6 +17,7 @@
- #include "trace.h"
- #include "qapi/error.h"
- #include "block/block-copy.h"
-+#include "block/reqlist.h"
- #include "sysemu/block-backend.h"
- #include "qemu/units.h"
- #include "qemu/coroutine.h"
-@@ -82,7 +83,6 @@ typedef struct BlockCopyTask {
-      */
-     BlockCopyState *s;
-     BlockCopyCallState *call_state;
--    int64_t offset;
-     /*
-      * @method can also be set again in the while loop of
-      * block_copy_dirty_clusters(), but it is never accessed concurrently
-@@ -93,21 +93,17 @@ typedef struct BlockCopyTask {
-     BlockCopyMethod method;
+diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
+index f95d350b70..2ae7dc3d1d 100644
+--- a/include/block/dirty-bitmap.h
++++ b/include/block/dirty-bitmap.h
+@@ -115,6 +115,8 @@ int64_t bdrv_dirty_bitmap_next_zero(BdrvDirtyBitmap *bitmap, int64_t offset,
+ bool bdrv_dirty_bitmap_next_dirty_area(BdrvDirtyBitmap *bitmap,
+         int64_t start, int64_t end, int64_t max_dirty_count,
+         int64_t *dirty_start, int64_t *dirty_count);
++void bdrv_dirty_bitmap_status(BdrvDirtyBitmap *bitmap, int64_t offset,
++                              int64_t bytes, bool *is_dirty, int64_t *count);
+ BdrvDirtyBitmap *bdrv_reclaim_dirty_bitmap_locked(BdrvDirtyBitmap *bitmap,
+                                                   Error **errp);
  
-     /*
--     * Fields whose state changes throughout the execution
--     * Protected by lock in BlockCopyState.
-+     * Generally, req is protected by lock in BlockCopyState, Still req.offset
-+     * is only set on task creation, so may be read concurrently after creation.
-+     * req.bytes is changed at most once, and need only protecting the case of
-+     * parallel read while updating @bytes value in block_copy_task_shrink().
-      */
--    CoQueue wait_queue; /* coroutines blocked on this task */
--    /*
--     * Only protect the case of parallel read while updating @bytes
--     * value in block_copy_task_shrink().
--     */
--    int64_t bytes;
--    QLIST_ENTRY(BlockCopyTask) list;
-+    BlockReq req;
- } BlockCopyTask;
+diff --git a/include/qemu/hbitmap.h b/include/qemu/hbitmap.h
+index 5e71b6d6f7..845fda12db 100644
+--- a/include/qemu/hbitmap.h
++++ b/include/qemu/hbitmap.h
+@@ -340,6 +340,17 @@ bool hbitmap_next_dirty_area(const HBitmap *hb, int64_t start, int64_t end,
+                              int64_t max_dirty_count,
+                              int64_t *dirty_start, int64_t *dirty_count);
  
- static int64_t task_end(BlockCopyTask *task)
- {
--    return task->offset + task->bytes;
-+    return task->req.offset + task->req.bytes;
++/*
++ * bdrv_dirty_bitmap_status:
++ * @hb: The HBitmap to operate on
++ * @start: the offset to start from
++ * @end: end of requested area
++ * @is_dirty: is bitmap dirty at @offset
++ * @pnum: how many bits has same value starting from @offset
++ */
++void hbitmap_status(const HBitmap *hb, int64_t offset, int64_t bytes,
++                    bool *is_dirty, int64_t *pnum);
++
+ /**
+  * hbitmap_iter_next:
+  * @hbi: HBitmapIter to operate on.
+diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+index 94a0276833..e4a836749a 100644
+--- a/block/dirty-bitmap.c
++++ b/block/dirty-bitmap.c
+@@ -875,6 +875,12 @@ bool bdrv_dirty_bitmap_next_dirty_area(BdrvDirtyBitmap *bitmap,
+                                    dirty_start, dirty_count);
  }
  
- typedef struct BlockCopyState {
-@@ -135,7 +131,7 @@ typedef struct BlockCopyState {
-     CoMutex lock;
-     int64_t in_flight_bytes;
-     BlockCopyMethod method;
--    QLIST_HEAD(, BlockCopyTask) tasks; /* All tasks from all block-copy calls */
-+    BlockReqList reqs;
-     QLIST_HEAD(, BlockCopyCallState) calls;
-     /*
-      * skip_unallocated:
-@@ -159,42 +155,6 @@ typedef struct BlockCopyState {
-     RateLimit rate_limit;
- } BlockCopyState;
- 
--/* Called with lock held */
--static BlockCopyTask *find_conflicting_task(BlockCopyState *s,
--                                            int64_t offset, int64_t bytes)
--{
--    BlockCopyTask *t;
--
--    QLIST_FOREACH(t, &s->tasks, list) {
--        if (offset + bytes > t->offset && offset < t->offset + t->bytes) {
--            return t;
--        }
--    }
--
--    return NULL;
--}
--
--/*
-- * If there are no intersecting tasks return false. Otherwise, wait for the
-- * first found intersecting tasks to finish and return true.
-- *
-- * Called with lock held. May temporary release the lock.
-- * Return value of 0 proves that lock was NOT released.
-- */
--static bool coroutine_fn block_copy_wait_one(BlockCopyState *s, int64_t offset,
--                                             int64_t bytes)
--{
--    BlockCopyTask *task = find_conflicting_task(s, offset, bytes);
--
--    if (!task) {
--        return false;
--    }
--
--    qemu_co_queue_wait(&task->wait_queue, &s->lock);
--
--    return true;
--}
--
- /* Called with lock held */
- static int64_t block_copy_chunk_size(BlockCopyState *s)
- {
-@@ -238,7 +198,7 @@ block_copy_task_create(BlockCopyState *s, BlockCopyCallState *call_state,
-     bytes = QEMU_ALIGN_UP(bytes, s->cluster_size);
- 
-     /* region is dirty, so no existent tasks possible in it */
--    assert(!find_conflicting_task(s, offset, bytes));
-+    assert(!reqlist_find_conflict(&s->reqs, offset, bytes));
- 
-     bdrv_reset_dirty_bitmap(s->copy_bitmap, offset, bytes);
-     s->in_flight_bytes += bytes;
-@@ -248,12 +208,9 @@ block_copy_task_create(BlockCopyState *s, BlockCopyCallState *call_state,
-         .task.func = block_copy_task_entry,
-         .s = s,
-         .call_state = call_state,
--        .offset = offset,
--        .bytes = bytes,
-         .method = s->method,
-     };
--    qemu_co_queue_init(&task->wait_queue);
--    QLIST_INSERT_HEAD(&s->tasks, task, list);
-+    reqlist_init_req(&s->reqs, &task->req, offset, bytes);
- 
-     return task;
- }
-@@ -269,34 +226,34 @@ static void coroutine_fn block_copy_task_shrink(BlockCopyTask *task,
-                                                 int64_t new_bytes)
- {
-     QEMU_LOCK_GUARD(&task->s->lock);
--    if (new_bytes == task->bytes) {
-+    if (new_bytes == task->req.bytes) {
-         return;
-     }
- 
--    assert(new_bytes > 0 && new_bytes < task->bytes);
-+    assert(new_bytes > 0 && new_bytes < task->req.bytes);
- 
--    task->s->in_flight_bytes -= task->bytes - new_bytes;
-+    task->s->in_flight_bytes -= task->req.bytes - new_bytes;
-     bdrv_set_dirty_bitmap(task->s->copy_bitmap,
--                          task->offset + new_bytes, task->bytes - new_bytes);
-+                          task->req.offset + new_bytes,
-+                          task->req.bytes - new_bytes);
- 
--    task->bytes = new_bytes;
--    qemu_co_queue_restart_all(&task->wait_queue);
-+    reqlist_shrink_req(&task->req, new_bytes);
- }
- 
- static void coroutine_fn block_copy_task_end(BlockCopyTask *task, int ret)
- {
-     QEMU_LOCK_GUARD(&task->s->lock);
--    task->s->in_flight_bytes -= task->bytes;
-+    task->s->in_flight_bytes -= task->req.bytes;
-     if (ret < 0) {
--        bdrv_set_dirty_bitmap(task->s->copy_bitmap, task->offset, task->bytes);
-+        bdrv_set_dirty_bitmap(task->s->copy_bitmap, task->req.offset,
-+                              task->req.bytes);
-     }
--    QLIST_REMOVE(task, list);
-     if (task->s->progress) {
-         progress_set_remaining(task->s->progress,
-                                bdrv_get_dirty_count(task->s->copy_bitmap) +
-                                task->s->in_flight_bytes);
-     }
--    qemu_co_queue_restart_all(&task->wait_queue);
-+    reqlist_remove_req(&task->req);
- }
- 
- void block_copy_state_free(BlockCopyState *s)
-@@ -447,7 +404,7 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
- 
-     ratelimit_init(&s->rate_limit);
-     qemu_co_mutex_init(&s->lock);
--    QLIST_INIT(&s->tasks);
-+    QLIST_INIT(&s->reqs);
-     QLIST_INIT(&s->calls);
- 
-     return s;
-@@ -480,7 +437,7 @@ static coroutine_fn int block_copy_task_run(AioTaskPool *pool,
- 
-     aio_task_pool_wait_slot(pool);
-     if (aio_task_pool_status(pool) < 0) {
--        co_put_to_shres(task->s->mem, task->bytes);
-+        co_put_to_shres(task->s->mem, task->req.bytes);
-         block_copy_task_end(task, -ECANCELED);
-         g_free(task);
-         return -ECANCELED;
-@@ -593,7 +550,8 @@ static coroutine_fn int block_copy_task_entry(AioTask *task)
-     BlockCopyMethod method = t->method;
-     int ret;
- 
--    ret = block_copy_do_copy(s, t->offset, t->bytes, &method, &error_is_read);
-+    ret = block_copy_do_copy(s, t->req.offset, t->req.bytes, &method,
-+                             &error_is_read);
- 
-     WITH_QEMU_LOCK_GUARD(&s->lock) {
-         if (s->method == t->method) {
-@@ -606,10 +564,10 @@ static coroutine_fn int block_copy_task_entry(AioTask *task)
-                 t->call_state->error_is_read = error_is_read;
-             }
-         } else if (s->progress) {
--            progress_work_done(s->progress, t->bytes);
-+            progress_work_done(s->progress, t->req.bytes);
-         }
-     }
--    co_put_to_shres(s->mem, t->bytes);
-+    co_put_to_shres(s->mem, t->req.bytes);
-     block_copy_task_end(t, ret);
- 
-     return ret;
-@@ -768,22 +726,22 @@ block_copy_dirty_clusters(BlockCopyCallState *call_state)
-             trace_block_copy_skip_range(s, offset, bytes);
-             break;
-         }
--        if (task->offset > offset) {
--            trace_block_copy_skip_range(s, offset, task->offset - offset);
-+        if (task->req.offset > offset) {
-+            trace_block_copy_skip_range(s, offset, task->req.offset - offset);
-         }
- 
-         found_dirty = true;
- 
--        ret = block_copy_block_status(s, task->offset, task->bytes,
-+        ret = block_copy_block_status(s, task->req.offset, task->req.bytes,
-                                       &status_bytes);
-         assert(ret >= 0); /* never fail */
--        if (status_bytes < task->bytes) {
-+        if (status_bytes < task->req.bytes) {
-             block_copy_task_shrink(task, status_bytes);
-         }
-         if (qatomic_read(&s->skip_unallocated) &&
-             !(ret & BDRV_BLOCK_ALLOCATED)) {
-             block_copy_task_end(task, 0);
--            trace_block_copy_skip_range(s, task->offset, task->bytes);
-+            trace_block_copy_skip_range(s, task->req.offset, task->req.bytes);
-             offset = task_end(task);
-             bytes = end - offset;
-             g_free(task);
-@@ -804,11 +762,11 @@ block_copy_dirty_clusters(BlockCopyCallState *call_state)
-             }
-         }
- 
--        ratelimit_calculate_delay(&s->rate_limit, task->bytes);
-+        ratelimit_calculate_delay(&s->rate_limit, task->req.bytes);
- 
--        trace_block_copy_process(s, task->offset);
-+        trace_block_copy_process(s, task->req.offset);
- 
--        co_get_from_shres(s->mem, task->bytes);
-+        co_get_from_shres(s->mem, task->req.bytes);
- 
-         offset = task_end(task);
-         bytes = end - offset;
-@@ -876,8 +834,8 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
-                  * Check that there is no task we still need to
-                  * wait to complete
-                  */
--                ret = block_copy_wait_one(s, call_state->offset,
--                                          call_state->bytes);
-+                ret = reqlist_wait_one(&s->reqs, call_state->offset,
-+                                       call_state->bytes, &s->lock);
-                 if (ret == 0) {
-                     /*
-                      * No pending tasks, but check again the bitmap in this
-@@ -885,7 +843,7 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
-                      * between this and the critical section in
-                      * block_copy_dirty_clusters().
-                      *
--                     * block_copy_wait_one return value 0 also means that it
-+                     * reqlist_wait_one return value 0 also means that it
-                      * didn't release the lock. So, we are still in the same
-                      * critical section, not interrupted by any concurrent
-                      * access to state.
-diff --git a/block/reqlist.c b/block/reqlist.c
-new file mode 100644
-index 0000000000..5e320ba649
---- /dev/null
-+++ b/block/reqlist.c
-@@ -0,0 +1,76 @@
-+/*
-+ * reqlist API
-+ *
-+ * Copyright (C) 2013 Proxmox Server Solutions
-+ * Copyright (c) 2021 Virtuozzo International GmbH.
-+ *
-+ * Authors:
-+ *  Dietmar Maurer (dietmar@proxmox.com)
-+ *  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+
-+#include "block/reqlist.h"
-+
-+void reqlist_init_req(BlockReqList *reqs, BlockReq *req, int64_t offset,
-+                      int64_t bytes)
++void bdrv_dirty_bitmap_status(BdrvDirtyBitmap *bitmap, int64_t offset,
++                              int64_t bytes, bool *is_dirty, int64_t *count)
 +{
-+    assert(!reqlist_find_conflict(reqs, offset, bytes));
-+
-+    *req = (BlockReq) {
-+        .offset = offset,
-+        .bytes = bytes,
-+    };
-+    qemu_co_queue_init(&req->wait_queue);
-+    QLIST_INSERT_HEAD(reqs, req, list);
++    hbitmap_status(bitmap->bitmap, offset, bytes, is_dirty, count);
 +}
 +
-+BlockReq *reqlist_find_conflict(BlockReqList *reqs, int64_t offset,
-+                                int64_t bytes)
+ /**
+  * bdrv_merge_dirty_bitmap: merge src into dest.
+  * Ensures permissions on bitmaps are reasonable; use for public API.
+diff --git a/util/hbitmap.c b/util/hbitmap.c
+index 305b894a63..ae8d0eb4d2 100644
+--- a/util/hbitmap.c
++++ b/util/hbitmap.c
+@@ -301,6 +301,42 @@ bool hbitmap_next_dirty_area(const HBitmap *hb, int64_t start, int64_t end,
+     return true;
+ }
+ 
++void hbitmap_status(const HBitmap *hb, int64_t start, int64_t count,
++                    bool *is_dirty, int64_t *pnum)
 +{
-+    BlockReq *r;
++    int64_t next_dirty, next_zero;
 +
-+    QLIST_FOREACH(r, reqs, list) {
-+        if (offset + bytes > r->offset && offset < r->offset + r->bytes) {
-+            return r;
-+        }
-+    }
++    assert(start >= 0);
++    assert(count > 0);
++    assert(start + count <= hb->orig_size);
 +
-+    return NULL;
-+}
-+
-+bool coroutine_fn reqlist_wait_one(BlockReqList *reqs, int64_t offset,
-+                                   int64_t bytes, CoMutex *lock)
-+{
-+    BlockReq *r = reqlist_find_conflict(reqs, offset, bytes);
-+
-+    if (!r) {
-+        return false;
-+    }
-+
-+    qemu_co_queue_wait(&r->wait_queue, lock);
-+
-+    return true;
-+}
-+
-+void coroutine_fn reqlist_shrink_req(BlockReq *req, int64_t new_bytes)
-+{
-+    if (new_bytes == req->bytes) {
++    next_dirty = hbitmap_next_dirty(hb, start, count);
++    if (next_dirty == -1) {
++        *pnum = count;
++        *is_dirty = false;
 +        return;
 +    }
 +
-+    assert(new_bytes > 0 && new_bytes < req->bytes);
++    if (next_dirty > start) {
++        *pnum = next_dirty - start;
++        *is_dirty = false;
++        return;
++    }
 +
-+    req->bytes = new_bytes;
-+    qemu_co_queue_restart_all(&req->wait_queue);
++    assert(next_dirty == start);
++
++    next_zero = hbitmap_next_zero(hb, start, count);
++    if (next_zero == -1) {
++        *pnum = count;
++        *is_dirty = true;
++        return;
++    }
++
++    assert(next_zero > start);
++    *pnum = next_zero - start;
++    *is_dirty = false;
 +}
 +
-+void coroutine_fn reqlist_remove_req(BlockReq *req)
-+{
-+    QLIST_REMOVE(req, list);
-+    qemu_co_queue_restart_all(&req->wait_queue);
-+}
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ece044bd25..2d58170224 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2336,7 +2336,9 @@ F: block/stream.c
- F: block/mirror.c
- F: qapi/job.json
- F: block/block-copy.c
--F: include/block/block-copy.c
-+F: include/block/block-copy.h
-+F: block/reqlist.c
-+F: include/block/reqlist.h
- F: block/copy-before-write.h
- F: block/copy-before-write.c
- F: include/block/aio_task.h
-diff --git a/block/meson.build b/block/meson.build
-index 66ee11e62c..c630e9374a 100644
---- a/block/meson.build
-+++ b/block/meson.build
-@@ -32,6 +32,7 @@ block_ss.add(files(
-   'qcow2.c',
-   'quorum.c',
-   'raw-format.c',
-+  'reqlist.c',
-   'snapshot.c',
-   'throttle-groups.c',
-   'throttle.c',
+ bool hbitmap_empty(const HBitmap *hb)
+ {
+     return hb->count == 0;
 -- 
 2.29.2
 
