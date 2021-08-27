@@ -2,75 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AFBB3F9A25
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 15:31:59 +0200 (CEST)
-Received: from localhost ([::1]:46426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A9323F9A4A
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 15:34:46 +0200 (CEST)
+Received: from localhost ([::1]:53006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJbxe-0008CF-HN
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 09:31:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60214)
+	id 1mJc0L-0004O1-3T
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 09:34:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mJbu3-00044o-9K
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 09:28:15 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39551)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mJbu1-0002n0-LR
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 09:28:14 -0400
-Received: by mail-wr1-x430.google.com with SMTP id z4so10414598wrr.6
- for <qemu-devel@nongnu.org>; Fri, 27 Aug 2021 06:28:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=hLXmW8lnIR0vGIwVfHCn084kS7VObtURvu8WDB3Cwmc=;
- b=hs0EMql1ACYClqanVSWdcjsuvuI32Z+hQxAHSNdXl/Filj627ZUhlpdu3L+8242PAT
- Z4y5S03B0XnooofDg3HtrTdBSfo7SL9LmSk9pRKNCCkfTr6/A6uvuKwqNjanHF4EYMIq
- QmlE3yh7CLRPLyZfbo+R+IAzqWtlpR+aCko+mFCkYuGrU+VqK66ceDOvn5JQgNunlg2Q
- oiJ5GoxeBIr0/DQJBrB1KZxZ+aDNcbmbHU2NcZgf1gpo3c6nUxs0ytG32bKGwXYBcgXZ
- 1yy1xGwW1e1U6W3iD73DbNMTsRah5UnXKIJltrDp+wpGEK6+mdOMLKfhCrKjhyGkk8Yu
- dgpw==
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mJbya-0002TE-Lo
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 09:32:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33454)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1mJbyU-0005EL-Kl
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 09:32:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630071169;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IsP4LK7TFMFvzwQTfXoyqmz55SKCAms1G4WwM4ZlaSQ=;
+ b=R66FM10If0Vae7pmQxfc5uoIjI4yLL/dk3h56yvxSIveboF4/DNfjT+XzYf8cFvw3ca2Ih
+ Y87564dBBmQwu4uRdaLQSdqatk9DwIeh+ALyotumLczpcH2o9minJbTzmbrgYHsN6cjkQv
+ v+sV03AmphoTcTyc92G/wy1jC24jlZ0=
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
+ [209.85.216.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-303-B7D9QUeiPHOuGcKJJgoVFQ-1; Fri, 27 Aug 2021 09:32:48 -0400
+X-MC-Unique: B7D9QUeiPHOuGcKJJgoVFQ-1
+Received: by mail-pj1-f72.google.com with SMTP id
+ 11-20020a17090a198b00b001822e08fc1bso2712660pji.0
+ for <qemu-devel@nongnu.org>; Fri, 27 Aug 2021 06:32:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=hLXmW8lnIR0vGIwVfHCn084kS7VObtURvu8WDB3Cwmc=;
- b=UFPZ93a60D1PUhTGG9eA4037Xj6Sv0Cq2+QPaoP/leKcYiEP/AHC4u0emP9s2qXQ8C
- BcWswfs3x9trO+aimP8CjD1Go13AckhQF1ggNg8rCAaVzLMvTSFqK/94gUvwJprlhnpx
- 6clXhkkXvbjiwkREquN3+WZnCQuK4CdGNoTV1UXprHAUnh2fByRd9wQO1tnFg6Q0zzRc
- x2iiNFShEmhJJKnpDj4gtfruvuWySriwKac0V/A3yk1GvYzQduJekR0fn+CPIrvl272I
- y0Q4kNvijbPfCEUtD+3HgIn0G8iBahQ3b56PhbfDEpyB64eMwz2+v/v2vZpF7m9tRhli
- 24Hg==
-X-Gm-Message-State: AOAM533ktqpCt2lUQpqGnFxqYCpdjx4WZ2fpv0QDN4PLVlgK7p8CJzl1
- lrarylebhGuyV+ZTK9Ujhgldyr8ZZ6e4NuMP
-X-Google-Smtp-Source: ABdhPJymfACtt7Ct9L5yZG1XWEMAMb8fPv52kb2iXZyar0YdqtT8p6Kt15Kb7IP1Tm0WTNSaeGOZ+g==
-X-Received: by 2002:adf:f84d:: with SMTP id d13mr10433678wrq.292.1630070892241; 
- Fri, 27 Aug 2021 06:28:12 -0700 (PDT)
-Received: from larix (19.11.114.78.rev.sfr.net. [78.114.11.19])
- by smtp.gmail.com with ESMTPSA id l26sm2060769wmi.13.2021.08.27.06.28.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Aug 2021 06:28:11 -0700 (PDT)
-Date: Fri, 27 Aug 2021 15:30:22 +0200
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH 0/6] virtio-iommu: Add ACPI support
-Message-ID: <YSjo7hZ9ptMH9JSx@larix>
-References: <20210810084505.2257983-1-jean-philippe@linaro.org>
- <808699d8-d2cf-bd66-c53d-8ae8c2fdbb9b@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=IsP4LK7TFMFvzwQTfXoyqmz55SKCAms1G4WwM4ZlaSQ=;
+ b=o7djGHYq47/O8bfPCYiL1gQLYuKavfttShXn9uXh7D8E9PPyAsejfNETtQ2X7oG4R7
+ Bu5tcfJ2Z83ltdOZzLxXrMkyqF863EifO+nAVOfsUEnxhPxLC4oIJSj/G1z3/LOVwyLn
+ A+9/Ag+xJ0sPL0d1o/TW08VCvoOJhgD3yWTdhbWYUErl0Wlx6kTacICJQ0avELy3Tjh/
+ XW4dJnSsYMkWIn20dc9grcQGKhnUF6+xwIuxOzhBDBtuf2zWgVXmC+doTw146iiC2tXU
+ ZFReMK10/sqpC8BYlOPhe+zQ1VpVj/mhG4APNgNwRmVjOZoPShW8fb1jgre134GgBOUi
+ NC8A==
+X-Gm-Message-State: AOAM531tjKUhe0e6dKdg9JYcuH638RMefEHZwibDmFL14LDjW50sx5xf
+ 15UIS6YLr5QlvhHFfUQgHHGKecpC1BUHp34CH90CiJdgkSlp9Jitcxlan2xiYjH+sHPgzk0TxvA
+ REG8PMw+QGvTxkUkZTnSlwEvcBGSNI1c=
+X-Received: by 2002:a17:90a:de16:: with SMTP id
+ m22mr23169134pjv.38.1630071167376; 
+ Fri, 27 Aug 2021 06:32:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxqoXf01O87OCNX1DZEQpa+T9HTFpm+ti4Ln8xyv0Fpczr1/B7C4eOv/3zFQ7tEg9eXTpBwOTHWZMFV1WqmN44=
+X-Received: by 2002:a17:90a:de16:: with SMTP id
+ m22mr23169107pjv.38.1630071167114; 
+ Fri, 27 Aug 2021 06:32:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <808699d8-d2cf-bd66-c53d-8ae8c2fdbb9b@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: 13
-X-Spam_score: 1.3
-X-Spam_bar: +
-X-Spam_report: (1.3 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210827060815.2384760-1-f4bug@amsat.org>
+ <20210827060815.2384760-2-f4bug@amsat.org>
+In-Reply-To: <20210827060815.2384760-2-f4bug@amsat.org>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Fri, 27 Aug 2021 10:32:20 -0300
+Message-ID: <CAKJDGDb23P3YDKcQVcHbtgBhsrT6BoWAFropTjuzmE-iwo+KMg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] tests: Remove uses of deprecated raspi2/raspi3
+ machine names
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -34
+X-Spam_score: -3.5
+X-Spam_bar: ---
+X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.743,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,37 +94,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
- qemu-arm@nongnu.org, pbonzini@redhat.com, imammedo@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ libvir-list@redhat.com, qemu-devel <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Eric,
+On Fri, Aug 27, 2021 at 3:14 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Commit 155e1c82ed0 deprecated the raspi2/raspi3 machine names.
+> Use the recommended new names: raspi2b and raspi3b.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  docs/devel/qgraph.rst                   | 38 ++++++++++++-------------
+>  tests/qtest/libqos/qgraph.h             |  6 ++--
+>  tests/qtest/libqos/qgraph_internal.h    |  2 +-
+>  tests/qtest/boot-serial-test.c          |  2 +-
+>  tests/qtest/libqos/arm-raspi2-machine.c |  8 +++---
+>  tests/unit/test-qgraph.c                |  2 +-
+>  tests/acceptance/boot_linux_console.py  |  6 ++--
+>  7 files changed, 32 insertions(+), 32 deletions(-)
+>
 
-On Tue, Aug 17, 2021 at 04:58:01PM +0200, Eric Auger wrote:
-> Hi Jean,
-> 
-> On 8/10/21 10:45 AM, Jean-Philippe Brucker wrote:
-> > Allow instantiating a virtio-iommu device on ACPI systems by adding a
-> > Virtual I/O Translation table (VIOT). Enable x86 support for VIOT.
-> 
-> Don't you need your other patch
-> "virtio-iommu: Default to bypass during boot"?
-> 
-> Without this latter, for me the guest fails to boot.
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
-Good point, I think I've been lucky during my testing. My bootloader and
-kernel are on virtio-blk-pci devices and as I wasn't explicitly enabling
-the "iommu_platform" parameter, they would bypass the IOMMU. When enabling
-the parameter, boot hangs since the IOMMU isn't enabled when the
-bootloader needs to fetch the kernel, and DMA faults. That parameter is
-specific to virtio devices. Using another storage for bootloader and
-kernel will result in failure to boot.
-
-I've been postponing the boot-bypass patch since it requires a
-specification change to be done right, but it's next on my list.
-
-Thanks,
-Jean
 
