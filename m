@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16EB23F9430
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 08:06:54 +0200 (CEST)
-Received: from localhost ([::1]:54068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5749B3F9431
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 08:08:31 +0200 (CEST)
+Received: from localhost ([::1]:55858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJV0u-0007BN-QJ
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 02:06:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39686)
+	id 1mJV2U-000058-6K
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 02:08:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mJUpl-0001LT-P0; Fri, 27 Aug 2021 01:55:21 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:60851)
+ id 1mJUrt-00031H-4e; Fri, 27 Aug 2021 01:57:33 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:51723)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mJUpj-0002aw-H8; Fri, 27 Aug 2021 01:55:21 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 71E6F32009F5;
- Fri, 27 Aug 2021 01:55:17 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 27 Aug 2021 01:55:18 -0400
+ id 1mJUrq-0004U5-Sr; Fri, 27 Aug 2021 01:57:32 -0400
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.west.internal (Postfix) with ESMTP id 9288332009AE;
+ Fri, 27 Aug 2021 01:57:28 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Fri, 27 Aug 2021 01:57:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=S/UAfvtE+k44En+jiw6pQwND2kS
- Dhdde1jmI8r22HmE=; b=JU1xV4hGelfpulOx702XD+aGGAM3m4mXdQII23gtwYK
- xpcEw5BRAe6cynbPLbYwgRbXCAFWLFvDH96qAZV/tqpZwqomSE0a+bGLvoSnR0vf
- Gfb8Iqkq1J1whdFp+4oahnP13MOrE7cQK63Is1lLEH7CH1cEYW+pMhmMd9EGSYR1
- OoBHf64JDaEsYY7pFn2g1cxN9hSaxUUPfAh/03LOTcBwwoS2yLpl6GOPpL4f3yny
- Bj3H2bTjfYyZ5oFVU3eswz9SENxkWwmMWrofpbaTNpX8l7X3dO7xS1yl00P87XTe
- Eqkz3og8BNnuiRtN/79eWSOQeOblVG9QTsk85VU7mWw==
+ :content-type:in-reply-to; s=fm3; bh=GqccO5aPBGSm5p3zv/2+jgs5/6l
+ M7/IAZeJwVHqPWrA=; b=QAvD0HMFESpu9VwZlm9oP8jJw4k38sWjYa79M/IzZs5
+ HluRI5zuHZlj6MOMdWVaalxesK+hsN7KjCCZJAamHu1+sLRFu4N7tw8WtsykQowa
+ UeUdt3PZLS3FdwaRFtZ5aKZjapZYi/L1f844P62Qp7ReBROpaI1o/ZFUzn0qJHbE
+ LWLrnDehetB9qiZYRYYdckrAxLX9uCknLGrNygtnHBzf33dGNKPxfRc2xPI/Ez7e
+ rJ+CQg3WG24FhEFj37HpkuPPkEEoeqI22FcyBwtI1oUDXBOH6MjuFf33JndTzg/Z
+ 30rFSG78ssUazEBrqB4uBmAwCt5djp/9KBmrdg/5CIQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=S/UAfv
- tE+k44En+jiw6pQwND2kSDhdde1jmI8r22HmE=; b=JMUEESiE3TC5bflC6FAxGW
- 9SJJy7ilqsIm4KJs2xnkI3t+mNFdRxzR2bZdG9SOoVgFXcLuC1yeXLkUUZngDxpB
- 5leSgsq5YQCACVpjwbBSVm3FdXdJ+zjBQT+5PIx9N/A6bzY0XaVyHH5WHy8ONVEG
- lDuWIkVBHeKWRL/RyB/9eaXjXoTRQjhsmi4fkPpnM/LBd1+xwZD1E9ngCMg3O0ri
- ORNs6qFoVBbH/Gw5x/HFQpczApn7o4ZreYwbVYWCKR7rJDCxx8iN99jph7GtO7/K
- f64c+6spb8FoDt3jVkuq0+0nuNgXTqfjuNk/IMDkt365T0D0KvEZ/YHqsxoz/aWw
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=GqccO5
+ aPBGSm5p3zv/2+jgs5/6lM7/IAZeJwVHqPWrA=; b=fk0PHKSXGbuBwA8ybr/yNU
+ QO3h0z0985X3NKua+wRAkZ4a2D+puX/iScBI0BtXewDrROYbvt1G6EQuRb6TRcO9
+ J3NqGUs0eNgLSJAKyPmPWtG/JvnAxHoADrEdW1uum4bsDpK4X3hXGyEUw2oKShK3
+ JC1YUsEYj557rhSftc0EczitH7KnB4OLqZdVRzQX6wClf5u4N0Fl2LBVx/yajuzx
+ pm+0b2qq186kHuDkoLxjP9Be/Jp4KD9Ckt9svsSy2FxSPE+oCiIGuSNux2MkMuz/
+ gdBUUm4cpdqASifuxcZDIwqo0SjwrZ8KIP73h1I+0TwW6dUchAd2sUP57+bA5MaQ
  ==
-X-ME-Sender: <xms:Q34oYZcC6jsW9rKkVfZMAQgs7wSd9Hbw6CKmgTSXZJsWbZ21fYWVAw>
- <xme:Q34oYXPgIF55ShR0RkOr0HEPwqYcQwa3RoPUysJF1xm8d4sLysaOxpbyPlYr_1NIB
- Tr7eawe2xGHglTBB4I>
-X-ME-Received: <xmr:Q34oYSg7Czk_XP-gdWHmbIgPnyZbk4WihFZ4U4OPK-wwZJ1J5SYSymW-YgnRdqR3kKXmxo5bdSI-aF-cWJ8rLxZ9ZWowQ5BM-REvo8yDtCgX69rMYg>
+X-ME-Sender: <xms:x34oYT17qC9gg03FsAJFKHOCdnPr9hRzQ7nfxgLubDepUyWQvAhcXg>
+ <xme:x34oYSFjp3NGZCxKok4HvnPK9cAnT3OA-SyB-Hu4gjIdStxcHLF_2vvLIGSgtMAPD
+ FBuTWLnDq6snLNuzO0>
+X-ME-Received: <xmr:x34oYT4zIZl3k5Jauu8LaOQ_c7J9b1dP2Vd7g2-KvgOreh1JfuoV1QUbJpVo3gI30mRNF8e-65wYMqOJ9J0diNMbI8U_YD3odEF7FcE-1HdH1t4r3g>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudduvddguddtvdcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
@@ -54,25 +54,25 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudduvddguddtvdcutefuodetgg
  htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
  ffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
  htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:Q34oYS-Msd67s31BFAxY3ivNw8bKuXbB-V7u5C3nv56qkeslW71rEQ>
- <xmx:Q34oYVuuIo_34JvSQAlDW6Gyy6KA5lxiwqPR54E4aSUZFOL2Zi0Ijw>
- <xmx:Q34oYRGbNEHPmlHvHzOCblaBHopd5BX2soaBdbPSXp6bYbbczem8PA>
- <xmx:RX4oYbA9H5h8fPxXRl4Yl4JNUE0iud6CPa0m9_2S1a2awpJ6tDr1mQ>
+X-ME-Proxy: <xmx:x34oYY3xN03j72x8RuaqnK9TmMCXMUEWb8tyJFc8zo8j8420gmz3ZA>
+ <xmx:x34oYWFLFlSTdQ5XHQM2eOdFf1nRAcsOa66F-eOEwNL237JcG__3Gg>
+ <xmx:x34oYZ_aifEqKF5l3ptNyK0gWNazU9yZTPFWw4IByROU22eH_kE1NA>
+ <xmx:yH4oYUZnm9NXd9C-y4lPJ7X3L60-KBHWQM0qR3VwT7Z81NXeu5IEnA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 27 Aug 2021 01:55:14 -0400 (EDT)
-Date: Fri, 27 Aug 2021 07:55:12 +0200
+ 27 Aug 2021 01:57:25 -0400 (EDT)
+Date: Fri, 27 Aug 2021 07:57:23 +0200
 From: Klaus Jensen <its@irrelevant.dk>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 07/11] util/vfio-helpers: Extract
- qemu_vfio_water_mark_reached()
-Message-ID: <YSh+QH25YQknMJUe@apples.localdomain>
+Subject: Re: [PATCH v2 08/11] util/vfio-helpers: Use error_setg in
+ qemu_vfio_find_[fixed/temp]_iova
+Message-ID: <YSh+w0Avk/vUu7zE@apples.localdomain>
 References: <20210826195014.2180369-1-philmd@redhat.com>
- <20210826195014.2180369-8-philmd@redhat.com>
+ <20210826195014.2180369-9-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="LGOpx5gI6c3RyhmB"
+ protocol="application/pgp-signature"; boundary="1xTUR4vjF68xOCsn"
 Content-Disposition: inline
-In-Reply-To: <20210826195014.2180369-8-philmd@redhat.com>
+In-Reply-To: <20210826195014.2180369-9-philmd@redhat.com>
 Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
  helo=wout1-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -102,34 +102,104 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---LGOpx5gI6c3RyhmB
+--1xTUR4vjF68xOCsn
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 On Aug 26 21:50, Philippe Mathieu-Daud=C3=A9 wrote:
-> Extract qemu_vfio_water_mark_reached() for readability,
-> and have it provide an error hint it its Error* handle.
+> Have qemu_vfio_find_fixed_iova() and qemu_vfio_find_temp_iova()
+> propagate eventual errors to callers.
 >=20
 > Suggested-by: Klaus Jensen <k.jensen@samsung.com>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  util/vfio-helpers.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
+> index 306b5a83e48..7de5081dbd3 100644
+> --- a/util/vfio-helpers.c
+> +++ b/util/vfio-helpers.c
+> @@ -678,7 +678,8 @@ static bool qemu_vfio_verify_mappings(QEMUVFIOState *=
+s)
+>  }
+> =20
+>  static int
+> -qemu_vfio_find_fixed_iova(QEMUVFIOState *s, size_t size, uint64_t *iova)
+> +qemu_vfio_find_fixed_iova(QEMUVFIOState *s, size_t size, uint64_t *iova,
+> +                          Error **errp)
+>  {
+>      int i;
+> =20
+> @@ -696,11 +697,14 @@ qemu_vfio_find_fixed_iova(QEMUVFIOState *s, size_t =
+size, uint64_t *iova)
+>              return 0;
+>          }
+>      }
+> +    error_setg(errp, "fixed iova range not found");
+> +
+>      return -ENOMEM;
+>  }
+> =20
+>  static int
+> -qemu_vfio_find_temp_iova(QEMUVFIOState *s, size_t size, uint64_t *iova)
+> +qemu_vfio_find_temp_iova(QEMUVFIOState *s, size_t size, uint64_t *iova,
+> +                         Error **errp)
+>  {
+>      int i;
+> =20
+> @@ -718,6 +722,8 @@ qemu_vfio_find_temp_iova(QEMUVFIOState *s, size_t siz=
+e, uint64_t *iova)
+>              return 0;
+>          }
+>      }
+> +    error_setg(errp, "temporary iova range not found");
+> +
+>      return -ENOMEM;
+>  }
+> =20
+> @@ -762,7 +768,7 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, s=
+ize_t size,
+>              goto out;
+>          }
+>          if (!temporary) {
+> -            if (qemu_vfio_find_fixed_iova(s, size, &iova0)) {
+> +            if (qemu_vfio_find_fixed_iova(s, size, &iova0, errp) < 0) {
+>                  ret =3D -ENOMEM;
+>                  goto out;
+>              }
+> @@ -776,7 +782,7 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, s=
+ize_t size,
+>              }
+>              qemu_vfio_dump_mappings(s);
+>          } else {
+> -            if (qemu_vfio_find_temp_iova(s, size, &iova0)) {
+> +            if (qemu_vfio_find_temp_iova(s, size, &iova0, errp)) {
+>                  ret =3D -ENOMEM;
+>                  goto out;
+>              }
+
+Not related to this patch, but it is slightly confusing that these
+functions actually already return a negative errno, but then we
+overwrite it.
 
 Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 
---LGOpx5gI6c3RyhmB
+--1xTUR4vjF68xOCsn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmEofj8ACgkQTeGvMW1P
-DenwrAf7BbG9/DRmbaHl/OSYwIQLw9Q01v1xWCjAWumDzo7aQfcdPBoWLXjQ88ar
-5xRDuH4PsSOqrdEh6a8RCIU0fHuHhNymQnWL0Y4gzBjXJ4y7yW7y/+dO7IZLnq10
-pY9EQ9dOVgs/j0S+pXQBZu+pcnrUOO0XnNYkh8YCUww5Pd6nmc62owVDtcW10Fdz
-5/zFcTZvgQM1ViFkchMQoi2aSE7MiQuaE32+t35XB1qR8FmjF7W5+hAq76fNSwcq
-A/L8/HJvsoTKu4nPpUFTW51MM6RZS5QNtZ2AmEy/MEg/lxQ8SmJePvNuWUXYULMH
-63mvcZXP/PvV6JPGvNH7hWWw8R8wcA==
-=WNkL
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmEofsEACgkQTeGvMW1P
+DemJoggAwtmMCF/MnOsdPDK2PqUhD7iWl3ciA5JsEugaT48uHzEkua6yr28LsmZb
+/Nspmm7FJxS6rdrNdbnFrss11KCLIb15I4vilqu0lRsISQCggMbS1fDktDnnQ0lx
+2ulqYduCvbR/+4p8qkEUK2qpV7ivu/ISvf/lSpIttFBPIYyoRIE9+5LxqZbgblQY
+pswHya05Eru3Ef4IhMcRcAhShgcZGiJUeznSPW9sj7jTnQVKTl5FuMKfxDM3GkhC
+Sv7jEL4CBS11mDG1fHXsbxEj4bkDzKtfoMQujMfnCWVaBxEfyFNPPgY440vh9UBz
+to1XvAI6rNHgZhYiEhTNA9UCjhHIGg==
+=NIaS
 -----END PGP SIGNATURE-----
 
---LGOpx5gI6c3RyhmB--
+--1xTUR4vjF68xOCsn--
 
