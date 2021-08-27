@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D39A3F9427
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 08:01:35 +0200 (CEST)
-Received: from localhost ([::1]:49598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16EB23F9430
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 08:06:54 +0200 (CEST)
+Received: from localhost ([::1]:54068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJUvl-0003vh-PS
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 02:01:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39618)
+	id 1mJV0u-0007BN-QJ
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 02:06:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mJUoi-0000VS-91; Fri, 27 Aug 2021 01:54:17 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:59207)
+ id 1mJUpl-0001LT-P0; Fri, 27 Aug 2021 01:55:21 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:60851)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mJUog-0001hB-MU; Fri, 27 Aug 2021 01:54:16 -0400
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.west.internal (Postfix) with ESMTP id D0DC432009F5;
- Fri, 27 Aug 2021 01:54:11 -0400 (EDT)
+ id 1mJUpj-0002aw-H8; Fri, 27 Aug 2021 01:55:21 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 71E6F32009F5;
+ Fri, 27 Aug 2021 01:55:17 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Fri, 27 Aug 2021 01:54:12 -0400
+ by compute3.internal (MEProxy); Fri, 27 Aug 2021 01:55:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=obe2NxmcFyl8ECgA5S12RMZNkHo
- JVhQLAcfzJOXDG3w=; b=VUNdny/RKbhxoipjOrgnBNGHohQAj50SrhP66XidamT
- 9wdhTa8k9PpuA9T7yrf3YRLMllisz/GPalLuO2brJFljkBLZO1V6cXgxLThLzNsU
- 9liPKg2N4aWB1ijZE7t8az7Jxl7ZPSPJTg6wEou40dZuAp0iJPdqmd28j0mdzcmP
- sD4Y42G+QLajbbNp8tF15kuLNopqcqPlgN96KP/21R+qAMjGZ1+qq0j0Pxd63KTk
- wBR/EydAmOVJoBaVsm7NmkZd97LTgmPMJDC6fqgy1CYQHR18fCefkcjaul5rk1JA
- Dr67jESc894lPik+XmsVqEjjq/3DWINFtvkeHD1t1pg==
+ :content-type:in-reply-to; s=fm3; bh=S/UAfvtE+k44En+jiw6pQwND2kS
+ Dhdde1jmI8r22HmE=; b=JU1xV4hGelfpulOx702XD+aGGAM3m4mXdQII23gtwYK
+ xpcEw5BRAe6cynbPLbYwgRbXCAFWLFvDH96qAZV/tqpZwqomSE0a+bGLvoSnR0vf
+ Gfb8Iqkq1J1whdFp+4oahnP13MOrE7cQK63Is1lLEH7CH1cEYW+pMhmMd9EGSYR1
+ OoBHf64JDaEsYY7pFn2g1cxN9hSaxUUPfAh/03LOTcBwwoS2yLpl6GOPpL4f3yny
+ Bj3H2bTjfYyZ5oFVU3eswz9SENxkWwmMWrofpbaTNpX8l7X3dO7xS1yl00P87XTe
+ Eqkz3og8BNnuiRtN/79eWSOQeOblVG9QTsk85VU7mWw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=obe2Nx
- mcFyl8ECgA5S12RMZNkHoJVhQLAcfzJOXDG3w=; b=gXT4nLZ03j+96sZ9QAJPzB
- uN9+91CRiBffVVcRuunBBmJdDWbZkwgxX7YPWL9049stT4538kphIRawbcGrTQeY
- krYfZ5gypF0h/NfbaTmD6vxWeySAc+wef4XR3Bd6NOOAiVqriokrgHvuYk3sbQ75
- vh3ewymAPeZfkLrrmB5hrVo9EL7L8NlMszgSXDk+eVRhpYrmpk/DZSP4XxXXLqoX
- zVqSc6uePNZO5LZ5GNkZXkCqNZcgG594q4HPQzYYRj6M0+wPr32YN3/S+7H91wt/
- URS523t9BnsVl5JL0VyyYPa4JcNPe4f7lyP9XgmJQaNgmMg0DaPOaLxBq8QCjQtA
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=S/UAfv
+ tE+k44En+jiw6pQwND2kSDhdde1jmI8r22HmE=; b=JMUEESiE3TC5bflC6FAxGW
+ 9SJJy7ilqsIm4KJs2xnkI3t+mNFdRxzR2bZdG9SOoVgFXcLuC1yeXLkUUZngDxpB
+ 5leSgsq5YQCACVpjwbBSVm3FdXdJ+zjBQT+5PIx9N/A6bzY0XaVyHH5WHy8ONVEG
+ lDuWIkVBHeKWRL/RyB/9eaXjXoTRQjhsmi4fkPpnM/LBd1+xwZD1E9ngCMg3O0ri
+ ORNs6qFoVBbH/Gw5x/HFQpczApn7o4ZreYwbVYWCKR7rJDCxx8iN99jph7GtO7/K
+ f64c+6spb8FoDt3jVkuq0+0nuNgXTqfjuNk/IMDkt365T0D0KvEZ/YHqsxoz/aWw
  ==
-X-ME-Sender: <xms:AX4oYU6joC7S-SdYt6vlh4plveWHYMJe3EIsBf7kY44zPHaIbaBb_w>
- <xme:AX4oYV64-6S4eAe5NFYds1sbKQCx7t49DT1-dsCjYbKbijMTQoxUhqPhl7I9Z3uBD
- 7P05oAqyONIXl7wkHE>
-X-ME-Received: <xmr:AX4oYTdM2thzeBfpiW6JFhJYht9Hh-Ff29fb8qWL328uyM9uiZg_7mTc5o2DvNq78g5VzrwSo-QF2eNIUrfcMhZig3TgzVsCZ9zcoj1PRMHN9uM6iQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudduvddguddtudcutefuodetggdotefrod
+X-ME-Sender: <xms:Q34oYZcC6jsW9rKkVfZMAQgs7wSd9Hbw6CKmgTSXZJsWbZ21fYWVAw>
+ <xme:Q34oYXPgIF55ShR0RkOr0HEPwqYcQwa3RoPUysJF1xm8d4sLysaOxpbyPlYr_1NIB
+ Tr7eawe2xGHglTBB4I>
+X-ME-Received: <xmr:Q34oYSg7Czk_XP-gdWHmbIgPnyZbk4WihFZ4U4OPK-wwZJ1J5SYSymW-YgnRdqR3kKXmxo5bdSI-aF-cWJ8rLxZ9ZWowQ5BM-REvo8yDtCgX69rMYg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudduvddguddtvdcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
  enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
@@ -54,25 +54,25 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudduvddguddtudcutefuodetgg
  htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
  ffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
  htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:AX4oYZJJA68As2JLIRnWYf_nBhxLB9NYV58skPJgL1ODlyBXhsGIWg>
- <xmx:AX4oYYJDWyP3OtY-Cdh0HAevmmVo3udnL_0o2xrIer4R3dExY8la-w>
- <xmx:AX4oYawmQYWA27rt6PTnNVtZ3IGaByuKxZdTNe3Ftt12k4usY2FGmg>
- <xmx:A34oYX-woCQvlCl-dMPqbqwk0yHU7p2nh0vvkyN0Fe9_lxzAyHjRew>
+X-ME-Proxy: <xmx:Q34oYS-Msd67s31BFAxY3ivNw8bKuXbB-V7u5C3nv56qkeslW71rEQ>
+ <xmx:Q34oYVuuIo_34JvSQAlDW6Gyy6KA5lxiwqPR54E4aSUZFOL2Zi0Ijw>
+ <xmx:Q34oYRGbNEHPmlHvHzOCblaBHopd5BX2soaBdbPSXp6bYbbczem8PA>
+ <xmx:RX4oYbA9H5h8fPxXRl4Yl4JNUE0iud6CPa0m9_2S1a2awpJ6tDr1mQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 27 Aug 2021 01:54:07 -0400 (EDT)
-Date: Fri, 27 Aug 2021 07:54:05 +0200
+ 27 Aug 2021 01:55:14 -0400 (EDT)
+Date: Fri, 27 Aug 2021 07:55:12 +0200
 From: Klaus Jensen <its@irrelevant.dk>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 05/11] block/nvme: Have nvme_create_queue_pair()
- report errors consistently
-Message-ID: <YSh9/QzjljVK1P3I@apples.localdomain>
+Subject: Re: [PATCH v2 07/11] util/vfio-helpers: Extract
+ qemu_vfio_water_mark_reached()
+Message-ID: <YSh+QH25YQknMJUe@apples.localdomain>
 References: <20210826195014.2180369-1-philmd@redhat.com>
- <20210826195014.2180369-6-philmd@redhat.com>
+ <20210826195014.2180369-8-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="y4muogdzNDdMGYZS"
+ protocol="application/pgp-signature"; boundary="LGOpx5gI6c3RyhmB"
 Content-Disposition: inline
-In-Reply-To: <20210826195014.2180369-6-philmd@redhat.com>
+In-Reply-To: <20210826195014.2180369-8-philmd@redhat.com>
 Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
  helo=wout1-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -102,36 +102,34 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---y4muogdzNDdMGYZS
+--LGOpx5gI6c3RyhmB
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 On Aug 26 21:50, Philippe Mathieu-Daud=C3=A9 wrote:
-> nvme_create_queue_pair() does not return a boolean value (indicating
-> eventual error) but a pointer, and is inconsistent in how it fills the
-> error handler. To fulfill callers expectations, always set an error
-> message on failure.
+> Extract qemu_vfio_water_mark_reached() for readability,
+> and have it provide an error hint it its Error* handle.
 >=20
-> Reported-by: Auger Eric <eric.auger@redhat.com>
+> Suggested-by: Klaus Jensen <k.jensen@samsung.com>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 
---y4muogdzNDdMGYZS
+--LGOpx5gI6c3RyhmB
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmEoffwACgkQTeGvMW1P
-DelKMAgAlHzE2HF1lHvR1s2plaXjqkRarTQWoldzxdQ3GexXvSjLC5zK52Zibd92
-6+nhb4Te0BsPkyFMKvidfqfoJ33pMC6oO/nJBeeQ2+WtW5k5x78qyQalslEdpQNs
-QptISvOhk9MMYkrqnuTkda9ZXXOhse9z9mxg0g1QYAeV/9nlp/9+7PzVvigfUq9P
-XGpY4yN+bXyX1RxCVCvKg12OKscpfaoug4yR0+9vyFjoQOkqB7iaRb6V0V9UeSdh
-OBsNicUI1dIWFeymM5/0C/DLbr7VrrzafosNi8KULV3W33IHgZPFKLTm1CNN+Gmb
-V1pmmJY4qJrazfVERixJ3s3AUQCgvg==
-=59HR
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmEofj8ACgkQTeGvMW1P
+DenwrAf7BbG9/DRmbaHl/OSYwIQLw9Q01v1xWCjAWumDzo7aQfcdPBoWLXjQ88ar
+5xRDuH4PsSOqrdEh6a8RCIU0fHuHhNymQnWL0Y4gzBjXJ4y7yW7y/+dO7IZLnq10
+pY9EQ9dOVgs/j0S+pXQBZu+pcnrUOO0XnNYkh8YCUww5Pd6nmc62owVDtcW10Fdz
+5/zFcTZvgQM1ViFkchMQoi2aSE7MiQuaE32+t35XB1qR8FmjF7W5+hAq76fNSwcq
+A/L8/HJvsoTKu4nPpUFTW51MM6RZS5QNtZ2AmEy/MEg/lxQ8SmJePvNuWUXYULMH
+63mvcZXP/PvV6JPGvNH7hWWw8R8wcA==
+=WNkL
 -----END PGP SIGNATURE-----
 
---y4muogdzNDdMGYZS--
+--LGOpx5gI6c3RyhmB--
 
