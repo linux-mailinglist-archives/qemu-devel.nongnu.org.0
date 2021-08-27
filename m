@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B045C3FA19A
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Aug 2021 00:42:36 +0200 (CEST)
-Received: from localhost ([::1]:50932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB6C53FA19B
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Aug 2021 00:43:42 +0200 (CEST)
+Received: from localhost ([::1]:53068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJkYQ-00051V-Ky
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 18:42:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59548)
+	id 1mJkZU-0006Tj-PI
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 18:43:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=78736a82b9=pdel@fb.com>)
- id 1mJj3T-0006Wo-BS
+ id 1mJj3U-0006Yd-Ig
  for qemu-devel@nongnu.org; Fri, 27 Aug 2021 17:06:28 -0400
-Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:34358)
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:53974)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=78736a82b9=pdel@fb.com>)
- id 1mJj3O-0003DU-D0
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 17:06:25 -0400
+ id 1mJj3P-0003Ee-QR
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 17:06:27 -0400
 Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
  by mx0a-00082601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 17RL6Kpp032656
- for <qemu-devel@nongnu.org>; Fri, 27 Aug 2021 14:06:20 -0700
+ 17RL6KMG032729
+ for <qemu-devel@nongnu.org>; Fri, 27 Aug 2021 14:06:22 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding : content-type; s=facebook;
- bh=/loIWSp6B85T8RoaS4kqWMLnn9oXmwg9e4FVG1PWIgU=;
- b=q3o0hOR0Ktm5lnAgSyLGFu1whrBSsfOpEocZjbOUTLGRKZlEoFL7Ga+KAPKT1oGw3loO
- N6aHGlshNB06P9TyeWcl8zgxSQkCpMdinRCl7GXs5Y8TVCaC1kvhureyY4Nbv0b3Hgfc
- /+2/nrJVJTVFuobnA5OE3uj9qxbCz67eBg8= 
+ bh=tDJjVYNbtK148iDxIm9iEAIwpTcMHlAyGoWGjlNolUo=;
+ b=XAt5yn/w2gafCuJL5UrVo3kLEw3Fk3nnTR1oWqm/LZ33+td5KqURp1/l0t6jYnkbjNJW
+ k/QWuLvZRAauew+BYCvTudzvOB4a358XNyfne++A8DADyEADQ/jqH0ebm93dEzUSrPnr
+ 2MsSNERXuC+GD0NGWWj/gcNY5Cr5IZ3EfCk= 
 Received: from mail.thefacebook.com ([163.114.132.120])
- by mx0a-00082601.pphosted.com with ESMTP id 3apfpfrk0q-1
+ by mx0a-00082601.pphosted.com with ESMTP id 3apfpfrk0a-6
  (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 27 Aug 2021 14:06:20 -0700
-Received: from intmgw001.27.prn2.facebook.com (2620:10d:c085:108::4) by
- mail.thefacebook.com (2620:10d:c085:11d::6) with Microsoft SMTP Server
+ for <qemu-devel@nongnu.org>; Fri, 27 Aug 2021 14:06:22 -0700
+Received: from intmgw002.46.prn1.facebook.com (2620:10d:c085:108::4) by
+ mail.thefacebook.com (2620:10d:c085:21d::5) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 27 Aug 2021 14:06:11 -0700
+ 15.1.2176.2; Fri, 27 Aug 2021 14:06:16 -0700
 Received: by devvm660.prn0.facebook.com (Postfix, from userid 385188)
- id 3056DE74C04; Fri, 27 Aug 2021 14:06:08 -0700 (PDT)
+ id 941E7E74C19; Fri, 27 Aug 2021 14:06:13 -0700 (PDT)
 From: <pdel@fb.com>
 To: 
 CC: <clg@kaod.org>, <joel@jms.id.au>, <qemu-devel@nongnu.org>,
  <qemu-arm@nongnu.org>, Peter Delevoryas <pdel@fb.com>
-Subject: [PATCH 1/5] hw/arm/aspeed: Add get_irq to AspeedSoCClass
-Date: Fri, 27 Aug 2021 14:04:13 -0700
-Message-ID: <20210827210417.4022054-2-pdel@fb.com>
+Subject: [PATCH 2/5] hw/arm/aspeed: Select console UART from machine
+Date: Fri, 27 Aug 2021 14:04:14 -0700
+Message-ID: <20210827210417.4022054-3-pdel@fb.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210827210417.4022054-1-pdel@fb.com>
 References: <20210827210417.4022054-1-pdel@fb.com>
@@ -56,8 +56,8 @@ Content-Transfer-Encoding: quoted-printable
 X-FB-Internal: Safe
 Content-Type: text/plain
 X-FB-Source: Intern
-X-Proofpoint-ORIG-GUID: j8RUzjmtdN7J_TqglAgIDRHA59u2GZQs
-X-Proofpoint-GUID: j8RUzjmtdN7J_TqglAgIDRHA59u2GZQs
+X-Proofpoint-ORIG-GUID: Ut1blo5vFmtjyaZGafnf2yhBXPLqZ7-z
+X-Proofpoint-GUID: Ut1blo5vFmtjyaZGafnf2yhBXPLqZ7-z
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
  definitions=2021-08-27_06:2021-08-27,
  2021-08-27 signatures=0
@@ -95,52 +95,109 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Delevoryas <pdel@fb.com>
 
-The AST2500 uses different logic than the AST2600 for getting IRQ's.
-This adds a virtual `get_irq` function to the Aspeed SOC class, so that
-the shared initialization code in `hw/arm/aspeed.c` can retrieve IRQ's.
+This change replaces the UART serial device initialization code with mach=
+ine
+configuration data, making it so that we have a single code path for cons=
+ole
+UART initialization, but allowing different machines to use different
+UART's. This is relevant because the Aspeed chips have 2 debug UART's, UA=
+RT5
+and UART1, and while most machines just use UART5, some use UART1.
 
 Signed-off-by: Peter Delevoryas <pdel@fb.com>
 ---
- hw/arm/aspeed_ast2600.c     | 1 +
- hw/arm/aspeed_soc.c         | 1 +
- include/hw/arm/aspeed_soc.h | 1 +
- 3 files changed, 3 insertions(+)
+ hw/arm/aspeed.c         | 7 +++++++
+ hw/arm/aspeed_ast2600.c | 5 -----
+ hw/arm/aspeed_soc.c     | 5 -----
+ include/hw/arm/aspeed.h | 1 +
+ 4 files changed, 8 insertions(+), 10 deletions(-)
 
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 9d43e26c51..ff53d12395 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -14,6 +14,7 @@
+ #include "hw/arm/boot.h"
+ #include "hw/arm/aspeed.h"
+ #include "hw/arm/aspeed_soc.h"
++#include "hw/char/serial.h"
+ #include "hw/i2c/i2c_mux_pca954x.h"
+ #include "hw/i2c/smbus_eeprom.h"
+ #include "hw/misc/pca9552.h"
+@@ -21,6 +22,7 @@
+ #include "hw/misc/led.h"
+ #include "hw/qdev-properties.h"
+ #include "sysemu/block-backend.h"
++#include "sysemu/sysemu.h"
+ #include "hw/loader.h"
+ #include "qemu/error-report.h"
+ #include "qemu/units.h"
+@@ -352,6 +354,10 @@ static void aspeed_machine_init(MachineState *machin=
+e)
+     }
+     qdev_realize(DEVICE(&bmc->soc), NULL, &error_abort);
+=20
++    serial_mm_init(get_system_memory(), sc->memmap[amc->serial_dev], 2,
++                   sc->get_irq(&bmc->soc, amc->serial_dev), 38400,
++                   serial_hd(0), DEVICE_LITTLE_ENDIAN);
++
+     memory_region_add_subregion(get_system_memory(),
+                                 sc->memmap[ASPEED_DEV_SDRAM],
+                                 &bmc->ram_container);
+@@ -804,6 +810,7 @@ static void aspeed_machine_class_init(ObjectClass *oc=
+, void *data)
+     mc->no_parallel =3D 1;
+     mc->default_ram_id =3D "ram";
+     amc->macs_mask =3D ASPEED_MAC0_ON;
++    amc->serial_dev =3D ASPEED_DEV_UART5;
+=20
+     aspeed_machine_class_props_init(oc);
+ }
 diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index e3013128c6..56e1adb343 100644
+index 56e1adb343..a27b0de482 100644
 --- a/hw/arm/aspeed_ast2600.c
 +++ b/hw/arm/aspeed_ast2600.c
-@@ -527,6 +527,7 @@ static void aspeed_soc_ast2600_class_init(ObjectClass=
- *oc, void *data)
-     sc->irqmap       =3D aspeed_soc_ast2600_irqmap;
-     sc->memmap       =3D aspeed_soc_ast2600_memmap;
-     sc->num_cpus     =3D 2;
-+    sc->get_irq      =3D aspeed_soc_get_irq;
- }
+@@ -322,11 +322,6 @@ static void aspeed_soc_ast2600_realize(DeviceState *=
+dev, Error **errp)
+         sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
+     }
 =20
- static const TypeInfo aspeed_soc_ast2600_type_info =3D {
+-    /* UART - attach an 8250 to the IO space as our UART5 */
+-    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
+-                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5),
+-                   38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
+-
+     /* I2C */
+     object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(s->dram_mr)=
+,
+                              &error_abort);
 diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 3ad6c56fa9..c373182299 100644
+index c373182299..0c09d1e5b4 100644
 --- a/hw/arm/aspeed_soc.c
 +++ b/hw/arm/aspeed_soc.c
-@@ -476,6 +476,7 @@ static void aspeed_soc_ast2400_class_init(ObjectClass=
- *oc, void *data)
-     sc->irqmap       =3D aspeed_soc_ast2400_irqmap;
-     sc->memmap       =3D aspeed_soc_ast2400_memmap;
-     sc->num_cpus     =3D 1;
-+    sc->get_irq      =3D aspeed_soc_get_irq;
- }
+@@ -287,11 +287,6 @@ static void aspeed_soc_realize(DeviceState *dev, Err=
+or **errp)
+         sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
+     }
 =20
- static const TypeInfo aspeed_soc_ast2400_type_info =3D {
-diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-index d9161d26d6..ca16e1e383 100644
---- a/include/hw/arm/aspeed_soc.h
-+++ b/include/hw/arm/aspeed_soc.h
-@@ -84,6 +84,7 @@ struct AspeedSoCClass {
-     const int *irqmap;
-     const hwaddr *memmap;
-     uint32_t num_cpus;
-+    qemu_irq (*get_irq)(AspeedSoCState *s, int ctrl);
+-    /* UART - attach an 8250 to the IO space as our UART5 */
+-    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
+-                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5), 38400,
+-                   serial_hd(0), DEVICE_LITTLE_ENDIAN);
+-
+     /* I2C */
+     object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(s->dram_mr)=
+,
+                              &error_abort);
+diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
+index c9747b15fc..9f5b9f04d6 100644
+--- a/include/hw/arm/aspeed.h
++++ b/include/hw/arm/aspeed.h
+@@ -38,6 +38,7 @@ struct AspeedMachineClass {
+     uint32_t num_cs;
+     uint32_t macs_mask;
+     void (*i2c_init)(AspeedMachineState *bmc);
++    uint32_t serial_dev;
  };
 =20
 =20
