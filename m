@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00EBA3F99BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 15:26:29 +0200 (CEST)
-Received: from localhost ([::1]:37262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 655753F9A19
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 15:29:30 +0200 (CEST)
+Received: from localhost ([::1]:41654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJbsK-0001ym-24
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 09:26:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59222)
+	id 1mJbul-00051m-FA
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 09:28:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mJbqR-0000iS-C2
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 09:24:31 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:46958)
+ id 1mJbsw-0002rY-61
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 09:27:06 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:33727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mJbqM-0000qG-ON
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 09:24:29 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id
- m25-20020a7bcb99000000b002e751bcb5dbso4351815wmi.5
- for <qemu-devel@nongnu.org>; Fri, 27 Aug 2021 06:24:25 -0700 (PDT)
+ id 1mJbsu-0002Dp-R3
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 09:27:05 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ j14-20020a1c230e000000b002e748b9a48bso7396951wmj.0
+ for <qemu-devel@nongnu.org>; Fri, 27 Aug 2021 06:27:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to;
- bh=IL0IhZ89qP0aP4cEleW4k8GTKxNWY73C+es1+kPwk0A=;
- b=PoyJzcgPrlJ87BcQi8swMmF7BlfJd844Apw3LR68kMm/Av1hDvUGraBPqYDCgo89+P
- +AVZ6lBRpUu3Wdvg6NM559tQ5QDJ4hHkYcMlTYde2UYiOqueXafwSXOvk4rbP/NNwTKC
- G0K9Szg+D1m/hhXVUHxvOZV/sCxNl41D3ZyYZCF6jRg/kg5zerLpNsKAgpddSkXdg6K6
- Ry/tQ+I0jPKpCwA73dU/T7k+EWSICRpvgsSZ108BtUbvKfPjmiddC49A1pDYFSzYcu+D
- 4B2AbfBMLUt6BKbAbpb0AIyQIqL5waq04C44cTHG+DkNIFKNV+jDQPpf7/ESS7ENTWFi
- Y9hA==
+ bh=Ut2olzrp9AuPu5yCw+i3exqRUeLcgNF0bC6la2O5LxI=;
+ b=EWkbx+RFeIoqJA7ckRbNNDuaT2xWAmPm5Co5oXN64l06zowFUSIVR5+5fYBi8F4ejk
+ EZooUrTIBsvrnwhXMDEcXFDcUxvbEoDiVxFRKVKMxLjPVwrs6sS7VtcaziwiNiah3oGI
+ //pWysg84iBpZEYZL9pAgQCBHujjECjw77XhEbpGGoSOO+TN6V4kSkPjgTGRLqK6TYBx
+ kDfxHBbG56hsb4wzzfJhrAdRqclOSVGDIWJWFT7fPXsky6gNA5zMklNK2Gq/Z2Sz2xsU
+ VozYwbpSi+IMhioBZxMYHp8QN9+CDQ8X06z0viH7BmQLxxLtaMW5Q4y9+ZD/puVampS+
+ x6dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=IL0IhZ89qP0aP4cEleW4k8GTKxNWY73C+es1+kPwk0A=;
- b=eMcKFF/N44ybulEIyu1ps4XhlVR/zPORo0xo1HNej277HO6n2fXV83khprlxAvWHRj
- S16d3/OctivAZuQXFZ1SXSS5PMFKpQAPEOdX0juJExBwr9zsTnmgOosJGyhl1J6cGZo/
- OTKfprLsbg/NHOQ9ua5oUYR1im5n9n6w/OqC/TTFUYqIrbIPo1otvctgLfGozltncdw6
- lphrpgjFfhd/2mYJoYX2GUh9JAN3Lgnz6GwZ/Oeqv9uTGS4hdzy6JveBDKveIY38bjBD
- p2VXvdwZ0/P3ZKzcwvzrKWDI+1pmufHp3Zjd8a4aeCREtHGUWmEnKBSD4nRhWnMS7B/B
- qqfQ==
-X-Gm-Message-State: AOAM533msZL524D0G3Unx/hIadxlUpDOTgvgTAdMG4Dth9SpcGwSfz6m
- pNzv6sns3jxEFyz05AvWxl1gww==
-X-Google-Smtp-Source: ABdhPJw+FN3a2trMN9sQYMO2l9BUUw0q9ezznNNYD8w9XGwgs/hgBIbp7UH4Kxwq04gkJcSC5qjG+Q==
-X-Received: by 2002:a7b:c405:: with SMTP id k5mr8871274wmi.87.1630070663958;
- Fri, 27 Aug 2021 06:24:23 -0700 (PDT)
+ bh=Ut2olzrp9AuPu5yCw+i3exqRUeLcgNF0bC6la2O5LxI=;
+ b=ZkH3HEc5eXIYBSC1OL/VkKkJus6KtPCaTso9763f/3dENYbg4C3L/hZg8sDGFPjKqP
+ EgywpxwTxYr6oBc2PL9LcnGW+oW+DWv11mEkT+IlM/mWymm4dpisXThE4hLNOfpctLCI
+ eAUx+SuQl/Lbo20JGyv90wCr1E5fTWYXWOOzsciwYg5gLj18v4ChWyEc0nLob6ywHFap
+ 9kyCV1QdioW+ZSUJA48Ody5ShoU1PkTQ8Q4e8kLMBYIPdENkmitI+qqC8wFbHOJUFlOk
+ JpV4XZ2eL2jIHdPWqc6GT4O6356xoXd+4XD7cHOhtjiYF+anzB3Qjapu7+1GLXWiCdt2
+ Uvrw==
+X-Gm-Message-State: AOAM5338TS/Dleeu9Daw9V+o41+rRWRDIEfytYSOGxYV3EMl6xBx5iYt
+ wUY5mZeLSM3JMpDFBF9LkDYIvRwas8aVELe4
+X-Google-Smtp-Source: ABdhPJyQqsrXTwQE6U83mQ4xv/hUS3R66+MKW1vwSpY6smQrU9WQTwJEWm09kH8k4I3CXt46pKxg0Q==
+X-Received: by 2002:a1c:4407:: with SMTP id r7mr20155324wma.150.1630070822011; 
+ Fri, 27 Aug 2021 06:27:02 -0700 (PDT)
 Received: from larix (19.11.114.78.rev.sfr.net. [78.114.11.19])
- by smtp.gmail.com with ESMTPSA id n8sm5331351wmq.18.2021.08.27.06.24.22
+ by smtp.gmail.com with ESMTPSA id q195sm5743923wme.37.2021.08.27.06.27.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Aug 2021 06:24:23 -0700 (PDT)
-Date: Fri, 27 Aug 2021 15:26:33 +0200
+ Fri, 27 Aug 2021 06:27:01 -0700 (PDT)
+Date: Fri, 27 Aug 2021 15:29:12 +0200
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH 6/6] pc: Allow instantiating a virtio-iommu device
-Message-ID: <YSjoCW5z1xbYL4Gp@larix>
+Subject: Re: [PATCH 4/6] hw/arm/virt: Remove device tree restriction for
+ virtio-iommu
+Message-ID: <YSjoqGLKjcwCeBtn@larix>
 References: <20210810084505.2257983-1-jean-philippe@linaro.org>
- <20210810084505.2257983-7-jean-philippe@linaro.org>
- <41720de5-ce29-dd79-2911-d974408af544@redhat.com>
+ <20210810084505.2257983-5-jean-philippe@linaro.org>
+ <71dc152e-269b-fc32-e478-e2164008ff04@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <41720de5-ce29-dd79-2911-d974408af544@redhat.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x32f.google.com
+In-Reply-To: <71dc152e-269b-fc32-e478-e2164008ff04@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -5
 X-Spam_score: -0.6
 X-Spam_bar: /
@@ -91,39 +92,33 @@ Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 17, 2021 at 04:11:49PM +0200, Eric Auger wrote:
-> Hi Jean,
-> 
-> On 8/10/21 10:45 AM, Jean-Philippe Brucker wrote:
-> > From: Eric Auger <eric.auger@redhat.com>
-> >
-> > Add a hotplug handler for virtio-iommu on x86 and set the necessary
-> > reserved region property. On x86, the [0xfee00000, 0xfeefffff] DMA
-> > region is reserved for MSIs. DMA transactions to this range either
-> > trigger IRQ remapping in the IOMMU or bypasses IOMMU translation.
-> >
-> > Although virtio-iommu does not support IRQ remapping it must be informed
-> > of the reserved region so that it can forward DMA transactions targeting
-> > this region.
-> >
-> > Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> 
-> I think we need to handle the case where the end-user gets lost with
-> iommu options and use an invalid combination such as
-> 
-> -M q35,iommu=on,int_remap=on,kernel_irqchip=off -device -device virtio-iommu-pci
+On Tue, Aug 17, 2021 at 03:42:22PM +0200, Eric Auger wrote:
+> > diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
+> > index 770c286be7..f30eb16cbf 100644
+> > --- a/hw/virtio/virtio-iommu-pci.c
+> > +++ b/hw/virtio/virtio-iommu-pci.c
+> > @@ -48,16 +48,9 @@ static void virtio_iommu_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+> >      VirtIOIOMMU *s = VIRTIO_IOMMU(vdev);
+> >  
+> >      if (!qdev_get_machine_hotplug_handler(DEVICE(vpci_dev))) {
+> > -        MachineClass *mc = MACHINE_GET_CLASS(qdev_get_machine());
+> > -
+> > -        error_setg(errp,
+> > -                   "%s machine fails to create iommu-map device tree bindings",
+> > -                   mc->name);
+> >          error_append_hint(errp,
+> >                            "Check your machine implements a hotplug handler "
+> >                            "for the virtio-iommu-pci device\n");
+> > -        error_append_hint(errp, "Check the guest is booted without FW or with "
+> > -                          "-no-acpi\n");
+> We may check the vms->iommu is not already set to something else (to
+> VIRT_IOMMU_SMMUV3 for instance).
 
-I guess that would be
-"-M q35,kernel_irqchip=off -device intel-iommu,intremap=on -device virtio-iommu-pci"
-
-I'll add the checks, similar to the one in x86_iommu_set_default().
-
-> We may also document somewhere that the virtio-iommu-pci
-> does not support irq remapping as this may be an important limitation on x86.
-
-I'll mention it in the commit message, unless you had another place in
-mind?
+Since that check is machine specific, virt_machine_device_plug_cb() in
+hw/arm/virt.c may be a good place for it. The change feels unrelated to
+this series but it's simple enough that I'm tempted to just append the
+patch at the end. It also deals with trying to instantiate multiple
+virtio-iommu devices, which isn't supported either.
 
 Thanks,
 Jean
