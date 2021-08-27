@@ -2,59 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5A93F96B5
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 11:16:06 +0200 (CEST)
-Received: from localhost ([::1]:42958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 371133F96D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 11:26:53 +0200 (CEST)
+Received: from localhost ([::1]:49408 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJXxr-0002At-FD
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 05:15:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43432)
+	id 1mJY8S-00074S-9y
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 05:26:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mJXwu-0001Ud-9T
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 05:14:56 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:50658
- helo=mail.default.ilande.bv.iomart.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mJXws-0001l0-IH
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 05:14:56 -0400
-Received: from host86-179-186-93.range86-179.btcentralplus.com
- ([86.179.186.93] helo=[192.168.50.176])
- by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mJXwM-0002HU-Up; Fri, 27 Aug 2021 10:14:29 +0100
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210826200720.2196827-1-philmd@redhat.com>
- <20210826200720.2196827-4-philmd@redhat.com>
- <b8842325-cf0c-31f6-a4ba-68890eea4e49@ilande.co.uk>
- <CAFEAcA-fn4L9mSqvq+fQ9FhNnvAYv5gJmRMGYbQJNdJ15h81Lg@mail.gmail.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <44d7475b-0d4a-58e0-59e1-bba24cb1ca7e@ilande.co.uk>
-Date: Fri, 27 Aug 2021 10:14:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mJY6n-0004Jf-KN; Fri, 27 Aug 2021 05:25:13 -0400
+Received: from mail-ua1-x92b.google.com ([2607:f8b0:4864:20::92b]:38664)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1mJY6l-000233-Uk; Fri, 27 Aug 2021 05:25:09 -0400
+Received: by mail-ua1-x92b.google.com with SMTP id 90so3079742uax.5;
+ Fri, 27 Aug 2021 02:25:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+uBRXpaahCmt7wQwbzuf5+gOK9IMFWUSmiBEZAGNm8c=;
+ b=uOcbPMMKFXgORlB6KRsQ6ueLfKcLqlBd/zmom5zLEml3YF9ikH2HoSe44gFBLFmrqy
+ Rf6UOq4/eXQ54B05ZfqKcnwINhGbDIeRH66Af2CmATS9GKfuPHayyMq/KaIuZxolWxJE
+ 7KZYPr5x0sDc3rt2RMuFMFHDvY06VQLEbZ50Rn+pRvXtRr4aN6wiOR8jK2E90XKAo6xg
+ 46Q/qnoe2HLb0IHGtBFFKygTma4s3Dzayf93td9VeqdOjrMlYt8rn6LdOyC825Nd2TR8
+ FDzP7TmgZLBAhZF6jRWMDP89JjSGP5sL88NjvlEal2MyjFbN4wJkgZhqECPos9sF4MZT
+ sfuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+uBRXpaahCmt7wQwbzuf5+gOK9IMFWUSmiBEZAGNm8c=;
+ b=qdoowSjShdvmEX18a7BcMBNk8sK/ipw3FYKDZ4NO5+D9IwwTDHRzXVNDP0+2fejVk4
+ r/0EyUgVJzuQjQ8ZPbdmCLc8hOlbNm+swaFCji55KTpdKy61949hG+3ij2DE26twzlm4
+ OQXVCoMHQPNkmEPY4tnu5haxGqvtAT9CS+xxjOYnSR7NsWq2rYZ2Z6SMvplWtNlxJcCD
+ MnOW2tOSaGehr2q91ox1hCAQE7uBsJtArQgrOzWUK9SRBI79m5zzp+/CBMsPfZFcgsca
+ W3YchSeZMxijv0hL2XYMtAbbqQo9ozQIdSKKSPc4Knpv9tH+GnqTeIAGZojJqjdGySxS
+ Ccuw==
+X-Gm-Message-State: AOAM5338Bc06+wKljYstIw2BZkTym7WLTvuh/te241mZ17OAOlfGUYSg
+ x3I8Kr8oJ39SI3wURr5hcWcM01Nm1aQ=
+X-Google-Smtp-Source: ABdhPJxjU1COeSKK1mjFcwJX0AbYy88eE0MztJXfoiL7fSeiZQsXXzBaRy35elKKhAGJWDkmMEZy9A==
+X-Received: by 2002:ab0:1e45:: with SMTP id n5mr5802998uak.133.1630056306014; 
+ Fri, 27 Aug 2021 02:25:06 -0700 (PDT)
+Received: from rekt.COMFAST ([177.197.96.186])
+ by smtp.gmail.com with ESMTPSA id d17sm629180vsj.9.2021.08.27.02.25.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Aug 2021 02:25:05 -0700 (PDT)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/5]  pSeries FORM2 affinity support
+Date: Fri, 27 Aug 2021 06:24:50 -0300
+Message-Id: <20210827092455.125411-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-fn4L9mSqvq+fQ9FhNnvAYv5gJmRMGYbQJNdJ15h81Lg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.179.186.93
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v3 3/3] hw/usb/xhci: Always expect 'dma' link property to
- be set
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::92b;
+ envelope-from=danielhb413@gmail.com; helo=mail-ua1-x92b.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,92 +79,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/08/2021 09:54, Peter Maydell wrote:
+Hi,
 
->> In a way I could see why you may wish to explicitly set the DMA memory region, but a
->> quick look around suggests that devices where the memory region is unspecified
->> (typically using a link property called "dma_mr") then the default is assumed to be
->> get_system_memory(). That seems a reasonably intuitive default to me, but presumably
->> there is another type of mistake you're trying to guard against here?
-> 
-> Mostly we have allowed a default for "dma link not set" as a transitional
-> thing. When we added the 'dma' links to a device which had multiple users
-> and we didn't at the time want to go through and modify all those users to
-> make sure they all set the link, we made the device default if the link
-> wasn't set be "behave the same way the device behaved before we added support
-> for the link property". I think it's useful cleanup to get rid of the
-> back-compat
-> default -- from a theoretical perspective devices should mostly not
-> be directly grabbing and using the system_memory.
-
-Ah so the plan moving forward is to always have an explicit MR passed in for DMA use. 
-Sorry if I missed that in earlier versions of the patchset, I'm still getting back up 
-to speed on QEMU hacking.
-
-Was there a decision as to what the property name should be? I see "dma_mr" used 
-quite a bit, and if there will be more patches to remove the system_memory default 
-from other devices then it would be nice to try and use the same name everywhere.
-
->>> @@ -43,13 +48,7 @@ static void xhci_sysbus_realize(DeviceState *dev, Error **errp)
->>>        s->irq = g_new0(qemu_irq, s->xhci.numintrs);
->>>        qdev_init_gpio_out_named(dev, s->irq, SYSBUS_DEVICE_GPIO_IRQ,
->>>                                 s->xhci.numintrs);
->>> -    if (s->xhci.dma_mr) {
->>> -        s->xhci.as =  g_malloc0(sizeof(AddressSpace));
->>> -        address_space_init(s->xhci.as, s->xhci.dma_mr, NULL);
->>> -    } else {
->>> -        s->xhci.as = &address_space_memory;
->>> -    }
->>> -
->>> +    address_space_init(&s->xhci.as, s->xhci.dma_mr, "usb-xhci-dma");
->>>        sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->xhci.mem);
->>>    }
->>
->> My understanding of the patch is that you're trying to avoid the heap allocation
->> above (which is a good idea!) so from that perspective all you need is somewhere to
->> store the AddressSpace used for the the xhci-sysbus device, for which XHCISysbusState
->> would be the natural choice.
->>
->> It seems to me that the easiest approach is just to set the s->xhci.as pointer in
->> xhci_sysbus_realize() in exactly the same as usb_xhci_pci_realize() does:
->>
->> typedef struct XHCISysbusState {
->>       ...
->>       ...
->>       AddressSpace as;
->> } XHCISysbusState
->>
->> static void xhci_sysbus_realize(DeviceState *dev, Error **errp)
->> {
->>       XHCISysbusState *s = XHCI_SYSBUS(dev);
->>       ...
->>       ...
->>       address_space_init(&s->as, s->xhci.dma_mr ? s->xhci.dma_mr : get_system_memory(),
->>                          "usb-xhci-dma");
->>       s->xhci.as = &s->as;
->> }
->>
->> I think this approach is clearer since the xhci-sysbus device always creates its own
->> address space which is either an alias onto normal system memory or the custom
->> MemoryRegion provided via the "dma_mr" link property.
-> 
-> I don't think we should continue to provide the back-compat fallback
-> for "no link property set", but I agree that we should have
-> have s->xhci.as = &s->as. This means that for the PCI case we can
-> continue to set s->xhci.as = pci_address_space(), so the other patch
-> that exposes the root MR of the PCI AS then becomes unneeded.
+This new version contains changes suggested by Greg from his v3 review.
 
 
-ATB,
+Changes from v3:
 
-Mark.
+- patch 1: added due to a need of having a MachineClass attribute for tne
+yet to be added 6.2 machine type. Can be dropped if someone already did this
+in an yet to be merged tree. Can also be enhanced to add the 6.2 machine types
+to all guests if no one else already did it.
+
+- patch 2 (former 1):
+  * added Greg's R-b
+
+- former patch 2 (post-cas DT changes): dropped
+
+- v3 link: https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg04394.html
+
+Daniel Henrique Barboza (5):
+  hw, spapr: add 6.2 compat pseries machine
+  spapr_numa.c: split FORM1 code into helpers
+  spapr_numa.c: base FORM2 NUMA affinity support
+  spapr: simplify spapr_numa_associativity_init params
+  spapr: move memory/cpu less check to spapr_numa_FORM1_affinity_init()
+
+ hw/core/machine.c           |   3 +
+ hw/ppc/spapr.c              |  75 +++++++------
+ hw/ppc/spapr_hcall.c        |   4 +
+ hw/ppc/spapr_numa.c         | 213 ++++++++++++++++++++++++++++++++----
+ include/hw/boards.h         |   3 +
+ include/hw/ppc/spapr.h      |   1 +
+ include/hw/ppc/spapr_numa.h |   3 +-
+ include/hw/ppc/spapr_ovec.h |   1 +
+ 8 files changed, 244 insertions(+), 59 deletions(-)
+
+-- 
+2.31.1
+
 
