@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2370D3F94F9
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 09:19:36 +0200 (CEST)
-Received: from localhost ([::1]:42590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81CAD3F955F
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 09:49:49 +0200 (CEST)
+Received: from localhost ([::1]:40378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJW9H-0003rF-1L
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 03:19:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52232)
+	id 1mJWcW-000774-Ab
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 03:49:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mJW08-00012n-SN; Fri, 27 Aug 2021 03:10:08 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:52479 helo=ozlabs.org)
+ id 1mJW0S-0001Rh-1Q; Fri, 27 Aug 2021 03:10:28 -0400
+Received: from ozlabs.org ([203.11.71.1]:40019)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mJW06-0007Vs-9R; Fri, 27 Aug 2021 03:10:07 -0400
+ id 1mJW0Q-0007Vw-Au; Fri, 27 Aug 2021 03:10:27 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GwrSZ5fjWz9t0T; Fri, 27 Aug 2021 17:09:50 +1000 (AEST)
+ id 4GwrSZ60Csz9sXk; Fri, 27 Aug 2021 17:09:50 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1630048190;
- bh=7P/sBElL80z3oJauXgiZrDIdIXtbiRtKVxOhL7XdaQ8=;
+ bh=VNhnQvDV9fzB32EkfI9Q2C9+aXXWxo58SYEs8WdWAjs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fNN32zOJdQJOMRzs3gqxsdSWPCYftzuObUI6Qpuc0azNYhR6FkkDtxjjsMc7Dl06z
- rskD+W6FCpbu0HHznxlNywVhHrUgiMwtEPEk4279BW01bCQMarfdDPns7as6TAWH5Q
- a2zJp36YhsPrkOhKAjtTS8IYzpdz906bQO4jFmhs=
+ b=IgHhmspvVIUILH4s3NNaeAVUKLbZBC8XYAGnytMzp1YaZiR0sGNydeBQO7c87Bqbx
+ dSqGEwW16Fi3yT6La4kpzuYQp94MONfladHgY52GXm2B4PZb7g2BDINqtDYDftXZpb
+ hHQBggDbyG+MIcRGJsbvHXGBZhbh7t9JBeg2gBpU=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 13/18] ppc/xive: Export PQ get/set routines
-Date: Fri, 27 Aug 2021 17:09:41 +1000
-Message-Id: <20210827070946.219970-14-david@gibson.dropbear.id.au>
+Subject: [PULL 14/18] ppc/xive: Export xive_presenter_notify()
+Date: Fri, 27 Aug 2021 17:09:42 +1000
+Message-Id: <20210827070946.219970-15-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210827070946.219970-1-david@gibson.dropbear.id.au>
 References: <20210827070946.219970-1-david@gibson.dropbear.id.au>
@@ -66,104 +66,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-These will be shared with the XIVE2 router.
+It's generic enough to be used from the XIVE2 router and avoid more
+duplication.
 
 Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20210809134547.689560-8-clg@kaod.org>
+Message-Id: <20210809134547.689560-9-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/spapr_xive_kvm.c | 8 ++++----
- hw/intc/xive.c           | 6 +++---
- include/hw/ppc/xive.h    | 4 ++++
- 3 files changed, 11 insertions(+), 7 deletions(-)
+ hw/intc/xive.c        | 8 ++++----
+ include/hw/ppc/xive.h | 4 ++++
+ 2 files changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index c008331160..3e534b9685 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -297,7 +297,7 @@ static uint8_t xive_esb_read(XiveSource *xsrc, int srcno, uint32_t offset)
-     return xive_esb_rw(xsrc, srcno, offset, 0, 0) & 0x3;
- }
- 
--static void xive_esb_trigger(XiveSource *xsrc, int srcno)
-+static void kvmppc_xive_esb_trigger(XiveSource *xsrc, int srcno)
- {
-     uint64_t *addr = xsrc->esb_mmap + xive_source_esb_page(xsrc, srcno);
- 
-@@ -322,7 +322,7 @@ uint64_t kvmppc_xive_esb_rw(XiveSource *xsrc, int srcno, uint32_t offset,
-         offset == XIVE_ESB_LOAD_EOI) {
-         xive_esb_read(xsrc, srcno, XIVE_ESB_SET_PQ_00);
-         if (xsrc->status[srcno] & XIVE_STATUS_ASSERTED) {
--            xive_esb_trigger(xsrc, srcno);
-+            kvmppc_xive_esb_trigger(xsrc, srcno);
-         }
-         return 0;
-     } else {
-@@ -366,7 +366,7 @@ void kvmppc_xive_source_set_irq(void *opaque, int srcno, int val)
-         }
-     }
- 
--    xive_esb_trigger(xsrc, srcno);
-+    kvmppc_xive_esb_trigger(xsrc, srcno);
- }
- 
- /*
-@@ -533,7 +533,7 @@ static void kvmppc_xive_change_state_handler(void *opaque, bool running,
-              * generate a trigger.
-              */
-             if (pq == XIVE_ESB_RESET && old_pq == XIVE_ESB_QUEUED) {
--                xive_esb_trigger(xsrc, i);
-+                kvmppc_xive_esb_trigger(xsrc, i);
-             }
-         }
- 
 diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index eeb4e62ba9..5ec61ec14e 100644
+index 5ec61ec14e..b817ee8e37 100644
 --- a/hw/intc/xive.c
 +++ b/hw/intc/xive.c
-@@ -816,7 +816,7 @@ void xive_tctx_destroy(XiveTCTX *tctx)
-  * XIVE ESB helpers
+@@ -1514,10 +1514,10 @@ int xive_presenter_tctx_match(XivePresenter *xptr, XiveTCTX *tctx,
+  *
+  * The parameters represent what is sent on the PowerBus
   */
- 
--static uint8_t xive_esb_set(uint8_t *pq, uint8_t value)
-+uint8_t xive_esb_set(uint8_t *pq, uint8_t value)
+-static bool xive_presenter_notify(XiveFabric *xfb, uint8_t format,
+-                                  uint8_t nvt_blk, uint32_t nvt_idx,
+-                                  bool cam_ignore, uint8_t priority,
+-                                  uint32_t logic_serv)
++bool xive_presenter_notify(XiveFabric *xfb, uint8_t format,
++                           uint8_t nvt_blk, uint32_t nvt_idx,
++                           bool cam_ignore, uint8_t priority,
++                           uint32_t logic_serv)
  {
-     uint8_t old_pq = *pq & 0x3;
- 
-@@ -826,7 +826,7 @@ static uint8_t xive_esb_set(uint8_t *pq, uint8_t value)
-     return old_pq;
- }
- 
--static bool xive_esb_trigger(uint8_t *pq)
-+bool xive_esb_trigger(uint8_t *pq)
- {
-     uint8_t old_pq = *pq & 0x3;
- 
-@@ -846,7 +846,7 @@ static bool xive_esb_trigger(uint8_t *pq)
-     }
- }
- 
--static bool xive_esb_eoi(uint8_t *pq)
-+bool xive_esb_eoi(uint8_t *pq)
- {
-     uint8_t old_pq = *pq & 0x3;
- 
+     XiveFabricClass *xfc = XIVE_FABRIC_GET_CLASS(xfb);
+     XiveTCTXMatch match = { .tctx = NULL, .ring = 0 };
 diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 445eccfe6b..7e25c25bfd 100644
+index 7e25c25bfd..db76411654 100644
 --- a/include/hw/ppc/xive.h
 +++ b/include/hw/ppc/xive.h
-@@ -261,6 +261,10 @@ static inline hwaddr xive_source_esb_mgmt(XiveSource *xsrc, int srcno)
- #define XIVE_ESB_QUEUED       (XIVE_ESB_VAL_P | XIVE_ESB_VAL_Q)
- #define XIVE_ESB_OFF          XIVE_ESB_VAL_Q
+@@ -408,6 +408,10 @@ int xive_presenter_tctx_match(XivePresenter *xptr, XiveTCTX *tctx,
+                               uint8_t format,
+                               uint8_t nvt_blk, uint32_t nvt_idx,
+                               bool cam_ignore, uint32_t logic_serv);
++bool xive_presenter_notify(XiveFabric *xfb, uint8_t format,
++                           uint8_t nvt_blk, uint32_t nvt_idx,
++                           bool cam_ignore, uint8_t priority,
++                           uint32_t logic_serv);
  
-+bool xive_esb_trigger(uint8_t *pq);
-+bool xive_esb_eoi(uint8_t *pq);
-+uint8_t xive_esb_set(uint8_t *pq, uint8_t value);
-+
  /*
-  * "magic" Event State Buffer (ESB) MMIO offsets.
-  *
+  * XIVE Fabric (Interface between Interrupt Controller and Machine)
 -- 
 2.31.1
 
