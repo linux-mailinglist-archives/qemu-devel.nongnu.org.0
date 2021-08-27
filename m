@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F31D93F9ED1
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 20:29:59 +0200 (CEST)
-Received: from localhost ([::1]:44572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 611683F9F13
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 20:44:39 +0200 (CEST)
+Received: from localhost ([::1]:40248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJgbs-0001Q6-W7
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 14:29:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33822)
+	id 1mJgq9-0001WM-FY
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 14:44:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mJgRM-0001FW-Ms; Fri, 27 Aug 2021 14:18:56 -0400
-Received: from mail-eopbgr20117.outbound.protection.outlook.com
- ([40.107.2.117]:18413 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
+ id 1mJgRM-0001Fg-Oo; Fri, 27 Aug 2021 14:18:56 -0400
+Received: from mail-eopbgr20112.outbound.protection.outlook.com
+ ([40.107.2.112]:14422 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mJgRJ-0006di-Kw; Fri, 27 Aug 2021 14:18:55 -0400
+ id 1mJgRL-0006cC-9Z; Fri, 27 Aug 2021 14:18:56 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GIMkLJWa+jqjjlqlzYjZqvVtL5klKz1NpMTbvOYN0UGxq0CySUtxefi2kokP7vC7ByPNWf5Dpa8DDNItBv87dnqbXprwPB+agmJGp0ooGVIu7BdhiMWDx1WWqEIF//vtzq43BAUO+sYngCFbOlMqwuWY4tyfe5Ba9eL0jQmD4C/skiTsvpvLpKM9+FqBPL2pMjx4ZWa+OyJXweaycMSAFAvsi0bmvGzKWwxqagGcP3QFKpRKA2Gd+MoamdWj84BdCc67xd3ggpRoJxVkXLBJUuHdwxVkwAzFC+L9cvAZuydBxS8mDtHF1mvs161iCiaE/u8aTCriZnHwFtCz04hFUQ==
+ b=TkoZr5qeL/HNLUECZPUr7tMhROWb237mZYyYSETqVlJMOgyfDPPVgZ6d9/lyPMw73I94nATW7nQ721QAyef1u+JAmicZ82N7yNSLjpo9grwbvD4dHYr8lMqX/oS7xu+LXxXikOM4PjOMkj8xMMyd0vT47vQIqC5qPXI+x444sevbgDdSLAHy3HAqB06q63PMbfPkA6Y2CPL+cWTK2ZrMQrgKqifYfCprVjvRQX5CTNmBlY4Ybfbg0mPsuB98td1WHoC4BMk1GZlP7ok7UGuVYYJO5sondi20B+7AUl00pJJfDUGV90gC9r23yqSLrk94+Czj0U/4RQg9zQuNsaa6ZQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=feKgbUrUHyK4s4qRnScjO7ZxNAZELzOMmSsvrYpOSRU=;
- b=fm90t317arzX+SVtwJqNpM8fs36dgP0xFc8XV76qywIRfZ54S8snGVhZgpjr85DSZaxHvrf6IVWdkC1s/ZdaTTJEcu1HhowUXGYkp3kdDotfcMZDbitTP0MOljvBh/wHldlEaRUt85AcLWGUmIlNGd9m+sGZ7ugUCoQFBLCIlhjAJ/dOqSr5TbYUBNu3gyHTfI0kTmTTWKrYtOUdQzFj8Q36Ueucq/PGJCj7Q2zf3xi6bjxM7qfQolJBYFNz7YWJo8OrC87G2MvMY21nRXlhI3jqQtlOOf982BcMRN6zq4aFzaPkEHvq9blkPlY4yBUTgPfgi60FNulNVPA0U/2xaA==
+ bh=id6Ws+1vmuiK1ZDxksT5x56XfzH86Fg5GkxheV5RRo8=;
+ b=AixkWqeg9Wckc9FJsCIQCflykJyEhGIVRzi/p9+OvBCLUUI+Bm9tl99/9KNee/vm65/xcM4Euvds/58BLPE4JGd7K3tb28J8OXVy5KJcULZdABaFFFVZUcXuU9JmoI8t7S5Q9pajSZUgvwB924x5n65Cf7nvVsn+PJ0yj1/z6z8i6MR3wPUK55kgcYrFmLdPC3qqnXsvkjPoCaJy5nxABP2v4U59RRxDpzFr02vM7OQc6c8mmvNDkZwsFT0vmYHzv4QIVBeykk0HMp6mI5tO/ZIBFrh0an1EQJCvNVYiRG6JMvH/aq3w32V3RD2lWN5Y0CGi8V0qfHAY51oarE6LIQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=feKgbUrUHyK4s4qRnScjO7ZxNAZELzOMmSsvrYpOSRU=;
- b=SIwuhh1rWVUPhniKYKYIkMWP1PXcIYg1K3Xd7bYgoQDFjfeQtmAD5ydnqriA6es3TFbcw3luhAOcvqt0oakXURlXBOaX/ibh2WzKGR/KR3/YCDEMngbENGgJIlKBraVT5085Hi2yGHnDyR4LaK1JcyjDlwYcX1Ej/FeqXr7arWA=
+ bh=id6Ws+1vmuiK1ZDxksT5x56XfzH86Fg5GkxheV5RRo8=;
+ b=s8F9AAdl5xjQxYk/xqqpWIrA78VYCPbiN6dR/8WPfiT3rBZSYExOJdDEczzrVbrgAUT0fDndS+r9CWXNRDbJqkFgDFfca4tE1hSNwZqEbHPpqbNQ+RgYuL9GBy9NmDWOLWUwj/cWys9Nnch0lGoZngf0HgpJpL5GHgQ0LvA83eI=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB3765.eurprd08.prod.outlook.com (2603:10a6:20b:8f::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.21; Fri, 27 Aug
- 2021 18:18:44 +0000
+ 2021 18:18:45 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22%7]) with mapi id 15.20.4457.023; Fri, 27 Aug 2021
- 18:18:43 +0000
+ 18:18:45 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, armbru@redhat.com, xiechanglong.d@gmail.com,
  wencongyang2@huawei.com, eblake@redhat.com, hreitz@redhat.com,
  kwolf@redhat.com, vsementsov@virtuozzo.com, jsnow@redhat.com
-Subject: [PATCH v2 16/19] iotests/image-fleecing: add test case with bitmap
-Date: Fri, 27 Aug 2021 21:18:05 +0300
-Message-Id: <20210827181808.311670-17-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 17/19] block: blk_root(): return non-const pointer
+Date: Fri, 27 Aug 2021 21:18:06 +0300
+Message-Id: <20210827181808.311670-18-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210827181808.311670-1-vsementsov@virtuozzo.com>
 References: <20210827181808.311670-1-vsementsov@virtuozzo.com>
@@ -65,56 +65,56 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.220) by
  HE1PR0402CA0012.eurprd04.prod.outlook.com (2603:10a6:3:d0::22) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4457.18 via Frontend Transport; Fri, 27 Aug 2021 18:18:42 +0000
+ 15.20.4457.18 via Frontend Transport; Fri, 27 Aug 2021 18:18:44 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d10c8fde-10c9-4ef9-1cce-08d969871a9f
+X-MS-Office365-Filtering-Correlation-Id: d6fb75f5-87cf-49eb-3738-08d969871b59
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3765:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3765439F5DF8D24FB640D450C1C89@AM6PR08MB3765.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:73;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB37659080A3CA0699B2942E32C1C89@AM6PR08MB3765.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ax804zK5ToGzXs+Rawel765dnUvmw0LgI6WZvn+kR1opvAbk8/xl3j+l8oMVWAjpphNaO5ytvxk2YoSriWOcjFLpA1SYLuYnusLIGqsfZLA2M/aJ3CVOPBc/jUbnbPIA8RPeBY6pOZNpB3Iy/o3Krz9YkeiE7B3Dnt8vkGtriRJcvPhu2BNLogq7WJ6JPHzOfv5dnFMm/cqU08FV6XMWxZZvk/mDSOAWXNpG/QA7mToOMEO/dQ0cYt3Id7bUMGuKKDAeb9yHOqSPd2IaynQScSQINUDWv/xAdfHmBYq8O/JcLLi6v5K9QQY5Fmg0/YsN9/Oc4kS5W0DdXCAcAtSjxeonLZ7L7A8jHBmfNLRiLt8X7F9BH+iCAseSMx5Z8ZkSZYxjlMrfNZgE8z82ieLvK7NdLrnpmS04gFSA4kLEAXEXGRw2sZwt8q6OKwaqhDXnLAq2ic65k1LWenn0TnV4yzHCdtZ8vmtcoTWekuSmBDwR3pJKrTTrnVYcVM03HvfRWDWtVZkvQg+I11qTuCLml4ykaa2Xp4zv1+2c1JhkewhVmwUytMJr8/jiWUN7nmBQfZV3XZ+l9mW0Hlp+wa4vWnT20lpXtd73/HiK/2ASNsB6BFR3z2gzxZsstXS+Jl4FW4VGeT2n8/ohSMMkqA0LHmVax9VEBeFdGkypLa2+Q/fK2k5LAepeCrmXSbna7NLwjmYvv/7PMTWHf4fa7DZJuw==
+X-Microsoft-Antispam-Message-Info: 7bRB9YN8Bv9k9I5cTZn0n5e6dOFAv1rj8tWio3INZGEZATpXhwVHnjowZrGhtC06GgrK2P16L2lFU0m1MjQHiOMYvBfB7ER4scVOe4ik60tmhcYDImfmM/VJYwIfBLvh7Ec7UfhhLWb18JnSpkJ0Tn7xFkSzyKPjc73MNjewIZn8VnhIW/oHOiDat8Km53wAQOwJBpkjoQYaQmBvB7GCWaie4EqthH5XIk2WxAz6jP7N6qBXU9hB/ndX6yOFQJzg5DEC9A8Wel+/cJcdx1Qe6GDSzDtb/fSG/ztA3LBqgT+l7Hn3b+70bckQZUZOdBACJKS7dN7KrneqR2KzFED9jXwDwOZZSwiGwL2GmwUGFWvvT4swP4VFupql4q82usf1Bw7V1IDBfeoHUOC4wuqkCG9flMnAlWSpigSiNjdEcywzdywwOGiR0JcynARCX+XW6do/STOHcwfRi47QwEHnDqZtmp/lDIvrvnONL12N5GnnXLdoeuHguSljXEasKKABNcZOfMfCxOw4Zcsn4CsnGkz4OYa/+7vEwDN0w28gP/HuRWuIhPDtQyvbVnIybYxdVQxNhmueGc9OdV/3bxSE9Y+EYKhgeU2JE77mJBu2T88AdF2BkvIBPP9aIlEdWPtQ5SFlueMA0NhAr7unPPgeJcaJqVQOH1VS7ZQPhQGz8G946jMOcmJ2zROp64m1AbrDmri+eigNA2bqjihZUr/LCw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(376002)(39840400004)(366004)(136003)(346002)(396003)(52116002)(6486002)(1076003)(26005)(66946007)(66476007)(8936002)(6506007)(2616005)(38350700002)(38100700002)(956004)(5660300002)(86362001)(8676002)(186003)(6666004)(83380400001)(66556008)(6916009)(4326008)(6512007)(36756003)(2906002)(478600001)(316002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zcdLHFyj8BZEkhGpYCdzZzFon/37uxeY6Rw7Ny1+pmgRhU23OzwGqspMl9c+?=
- =?us-ascii?Q?h3Pf5h9qdhDrPOBt7bG22fQhtgBGh1hehaSM+JccvW3TQWhL7Bc4eTcXaPtK?=
- =?us-ascii?Q?CA/l8TtGqE9LvexxgU+GUQO+6MbztNvkbA07/vFdqojCGz+pE4T/Bz6EGQ0J?=
- =?us-ascii?Q?U9sEpO7R2tVZEuSNir1KOp7nd2+w42VpIOtgsA8SMBwjF/BOov021ULn6orb?=
- =?us-ascii?Q?Gyd5XfewPXMIR3YhOFZamKjWM4P97cKrSj8OXOsnUKWD7ic60N5DLIrN0fd6?=
- =?us-ascii?Q?nsK/UrIFW6EONk9AKrUyjJGjnSh5bhXQ5Ld3ceIzlKaUxCU6KKlA1eIG2wTr?=
- =?us-ascii?Q?xCmrupa1JqsPMNZHXqRKy7zi3drIUTaV1Bb4Sg49j4xiY74YvmMsLccAi+lX?=
- =?us-ascii?Q?VafEWKKroelrxM6H6cGgsBriGC8vYKI9QH82dokcJ7IVkxUkDWSw+sa3MRcO?=
- =?us-ascii?Q?GBdtgL5k863Pw6JFw2Lx9YZyWeUmMGAZX9D4rB7XUps7hUhS2r3CtMJRqVga?=
- =?us-ascii?Q?m2AJyQEQ1/2KIqlplKuTMKURIFbSINm/kr27HMkIROeuS6OHrKs8oH9rysdx?=
- =?us-ascii?Q?MlKiSFBUxRUL+cIDIt7ou0PbfAXrqVJTa000tYua/JZb7MnRLElE+9+Jy8qF?=
- =?us-ascii?Q?AqXzNX83rRNf6+D7NdFBi+d5t9ZL9VFpm/cVJjzlwwQqtFfmvfump3otLaC6?=
- =?us-ascii?Q?0u6ritq2GfZABUZt/ITBUZFIKiSQu798dl0mD+qvpEcTrcLTM9ZJHt3ElZsX?=
- =?us-ascii?Q?V8M6yRkAIp1NZJTc4dtl8LSb4m9ht2umTvE0lak4fxV/gp89CYltles8oxPT?=
- =?us-ascii?Q?kFrJ6ZzsD7zzkMbg9kRugLx3gZDlO/9hlBl6AkabgvJNZhjlE90T00k/7g5m?=
- =?us-ascii?Q?eMKRzsRu5j1LeLFLSXwixxRtSrPpLCIMKYk1O8a++7uZ0rdby2WsUc2057sL?=
- =?us-ascii?Q?I+ZColi/fDumPQxRRwiADN7JshMq36Un8qzDyBQBQlNC2HGu5vYbumad94O6?=
- =?us-ascii?Q?jGVcP7z+1tlhaMFUW+0pcA3Kg1rtaMQV/R2tRKCx5YG5LQhQM4Z4fesAdVDV?=
- =?us-ascii?Q?6l4bTaOFsWRgGHKPrrcgsjqU7p/xoyT+4yTSIVPSWEWfYsK3XnE1A3cv1Yh8?=
- =?us-ascii?Q?ql9b7bQq3GP1zM/JBwrT/R4IJR4zvuoOSoZ+AXPA8tUZ5YiVrvHJvUJcnLsk?=
- =?us-ascii?Q?dGZPdEmGKp1CUmEsdynNXhzqITxDkcnJg0bJmkU5r4XxWPvPn05WtY0ydfRU?=
- =?us-ascii?Q?P5emBgVcX1thk5kG6n1mhCp1Jz5O/m1VZ+Hv9Z0OPtTxQ59Nqve8mBGBa+uO?=
- =?us-ascii?Q?ogTpNp2bMYFV6ugJ7yzVI2mr?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?s2kI8X20elvHFtTafuJN8n4j6fpgboD7tu9xkA2BOv5LmJmIkYAoEkLHFtJA?=
+ =?us-ascii?Q?XWc8lz94CD8Vg2wSyqzlIuUJGte0a+hSIBpLtiiAQhZboz4P1it8XAbyKsvK?=
+ =?us-ascii?Q?4F39mum9aCesCCImg2/DquOwbEw+tv5FDsM5PDSTuLg+nuVVmpVO1LMkWN0s?=
+ =?us-ascii?Q?9L8DoHnUBhHfD262OWKBEVfTlK6yWQCUw+Vqz8qidWJI7c6he3ZpCR6iuEt3?=
+ =?us-ascii?Q?TG0qySDdiDK80ndUDHOI71o0fQ+6WDmnk8eI6GNElvAazD6Sqdg4429+MDE8?=
+ =?us-ascii?Q?Iv3KesuL7G/0FYdQT+ilh4lJhlvp0CszrL3IohBil12Zl1oMO56ae9ccByrR?=
+ =?us-ascii?Q?ztE8hEaHXmKBbf8DKRTpl3TKs1yShErkXXwsCEHFdvo4dT3dXHihouzClv3T?=
+ =?us-ascii?Q?NhXU6ZKWFbXz0fmugBfqFmfpO05rsnJwqIe7GjphLIIifBwnnlOeLy1rAK/5?=
+ =?us-ascii?Q?xTYKONauuevd/L9WIIv48Ir6fQU/AnQ+Mp+DJknUFN+SHRXOckGoAtuKXJdN?=
+ =?us-ascii?Q?0PpEpLODieVFoJ0Xi0clrppNCG3d/ySfe21fJvOn8Sxa0euY4b/npxelQ772?=
+ =?us-ascii?Q?4GbpAnHD5q07+58sUMo0mbo2KNgPQiQKx7eXtp14JWKYhWiXf3a7eI3aaBaf?=
+ =?us-ascii?Q?zXdt32fXpxjckFqH/pLn1b6hEowYO8iw53IK4Ds8wJTZBmpF9piGWa1bshuh?=
+ =?us-ascii?Q?GrFOm19aPP8LQqeNwbNcKvdens6kovEDCdX0SbiXVF91X9ic2ntXbUOnzbJV?=
+ =?us-ascii?Q?TN35BqWRD/24fMk/e0/Pfqqcut6Xg+oI4PEhur9wBM8ps9fl2fj8VTriLJNK?=
+ =?us-ascii?Q?+3OkIM/iZqzAt1oIpjLKLbelG/GLC4A2+AvnwmR/PI2eQrq6gnFy+av4JjwY?=
+ =?us-ascii?Q?AzxRXm6DxflQvs3rBjeE6W2/W4xEhPGXude+DNnF+qRuBexA6926aTbt7IgB?=
+ =?us-ascii?Q?/1c3kguamN6biq23D/ABZlMSSVlkKZopv5Zbg+GSbGFK4/VJbrIfPpcqpB6k?=
+ =?us-ascii?Q?xmf1IguDHRrCfFfBlnI83jALmoYSAErOnfP4Ps2mnF45NqCHfiTP0oO63rHN?=
+ =?us-ascii?Q?INHXkWUBj2hObxpMy+/Xf8yK90ISSoo6BjlrE8NtI3tdlDfCKFsQWM6bgk+F?=
+ =?us-ascii?Q?2RdVvt/cA/cc7344ha/YI22zCMTe7oVm6ANq6Umt0z3MVWFDTBaS6s74JQgm?=
+ =?us-ascii?Q?3ZNAMSzugGZfJTUny2ePedeAUOu7wmc/MyWM4BHN/EZoqAGqNJkEYm9wKwig?=
+ =?us-ascii?Q?u/q9etYlKusEthtQsN5byvlsnckkxcGGuT4Ik6edshQbok8k6On07cKSnFXD?=
+ =?us-ascii?Q?1gyFJotxnjHE0i9tUkFarQmK?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d10c8fde-10c9-4ef9-1cce-08d969871a9f
+X-MS-Exchange-CrossTenant-Network-Message-Id: d6fb75f5-87cf-49eb-3738-08d969871b59
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2021 18:18:43.9156 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2021 18:18:45.1502 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jjmTuvJGcjzT5XYHR+sh0rAWg3kLZ9L8v0KlCJnQCPcLKh87qESOGmlr0khTRN9vUfZBcjPJ9IGKhKtrqqVyOwDa7GCbN5Ezs47JHe9n9u8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: lK4H9dV8YLYM8Ol9r0xr6A5cJNGLLA/VR9Rzi1Gz+o2H0c0pYjE5G83z1tnIjSQKLpTZNcoPegSLs/0vkOb8Kp901Ozed2Ufx6bs/jtLUdc=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3765
-Received-SPF: pass client-ip=40.107.2.117;
+Received-SPF: pass client-ip=40.107.2.112;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR02-VE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
@@ -140,206 +140,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Note that reads zero areas (not dirty in the bitmap) fails, that's
-correct.
+In the following patch we'll want to pass blk children to block-copy.
+Const pointers are not enough. So, return non const pointer from
+blk_root().
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- tests/qemu-iotests/tests/image-fleecing     | 32 ++++++--
- tests/qemu-iotests/tests/image-fleecing.out | 84 +++++++++++++++++++++
- 2 files changed, 108 insertions(+), 8 deletions(-)
+ include/sysemu/block-backend.h | 2 +-
+ block/block-backend.c          | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/tests/image-fleecing b/tests/qemu-iotests/tests/image-fleecing
-index f18881fa71..ab95e4960e 100755
---- a/tests/qemu-iotests/tests/image-fleecing
-+++ b/tests/qemu-iotests/tests/image-fleecing
-@@ -23,7 +23,7 @@
- # Creator/Owner: John Snow <jsnow@redhat.com>
+diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
+index 29d4fdbf63..5d4dd877b7 100644
+--- a/include/sysemu/block-backend.h
++++ b/include/sysemu/block-backend.h
+@@ -271,7 +271,7 @@ int coroutine_fn blk_co_copy_range(BlockBackend *blk_in, int64_t off_in,
+                                    int bytes, BdrvRequestFlags read_flags,
+                                    BdrvRequestFlags write_flags);
  
- import iotests
--from iotests import log, qemu_img, qemu_io, qemu_io_silent
-+from iotests import log, qemu_img, qemu_io, qemu_io_silent, qemu_io_pipe_and_status
+-const BdrvChild *blk_root(BlockBackend *blk);
++BdrvChild *blk_root(BlockBackend *blk);
  
- iotests.script_initialize(
-     supported_fmts=['qcow2', 'qcow', 'qed', 'vmdk', 'vhdx', 'raw'],
-@@ -49,11 +49,15 @@ remainder = [('0xd5', '0x108000',  '32k'), # Right-end of partial-left [1]
-              ('0xcd', '0x3ff0000', '64k')] # patterns[3]
+ int blk_make_empty(BlockBackend *blk, Error **errp);
  
- def do_test(use_cbw, use_fleecing_filter, base_img_path,
--            fleece_img_path, nbd_sock_path, vm):
-+            fleece_img_path, nbd_sock_path, vm,
-+            bitmap=False):
-     log('--- Setting up images ---')
-     log('')
+diff --git a/block/block-backend.c b/block/block-backend.c
+index 6140d133e2..b167c630d2 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -2463,7 +2463,7 @@ int coroutine_fn blk_co_copy_range(BlockBackend *blk_in, int64_t off_in,
+                               bytes, read_flags, write_flags);
+ }
  
-     assert qemu_img('create', '-f', iotests.imgfmt, base_img_path, '64M') == 0
-+    if bitmap:
-+        assert qemu_img('bitmap', '--add', base_img_path, 'bitmap0') == 0
-+
-     if use_fleecing_filter:
-         assert use_cbw
-         assert qemu_img('create', '-f', 'raw', fleece_img_path, '64M') == 0
-@@ -113,12 +117,17 @@ def do_test(use_cbw, use_fleecing_filter, base_img_path,
-                 'source': src_node,
-             }))
- 
--        log(vm.qmp('blockdev-add', {
-+        fl_cbw = {
-             'driver': 'copy-before-write',
-             'node-name': 'fl-cbw',
-             'file': src_node,
-             'target': 'fl-fleecing' if use_fleecing_filter else tmp_node
--        }))
-+        }
-+
-+        if bitmap:
-+            fl_cbw['bitmap'] = {'node': src_node, 'name': 'bitmap0'}
-+
-+        log(vm.qmp('blockdev-add', fl_cbw))
- 
-         log(vm.qmp('qom-set', path=qom_path, property='drive', value='fl-cbw'))
-     else:
-@@ -148,7 +157,9 @@ def do_test(use_cbw, use_fleecing_filter, base_img_path,
-     for p in patterns + zeroes:
-         cmd = 'read -P%s %s %s' % p
-         log(cmd)
--        assert qemu_io_silent('-r', '-f', 'raw', '-c', cmd, nbd_uri) == 0
-+        out, ret = qemu_io_pipe_and_status('-r', '-f', 'raw', '-c', cmd, nbd_uri)
-+        if ret != 0:
-+            print(out)
- 
-     log('')
-     log('--- Testing COW ---')
-@@ -166,7 +177,9 @@ def do_test(use_cbw, use_fleecing_filter, base_img_path,
-     for p in patterns + zeroes:
-         cmd = 'read -P%s %s %s' % p
-         log(cmd)
--        assert qemu_io_silent('-r', '-f', 'raw', '-c', cmd, nbd_uri) == 0
-+        out, ret = qemu_io_pipe_and_status('-r', '-f', 'raw', '-c', cmd, nbd_uri)
-+        if ret != 0:
-+            print(out)
- 
-     log('')
-     log('--- Cleanup ---')
-@@ -201,14 +214,14 @@ def do_test(use_cbw, use_fleecing_filter, base_img_path,
-     log('Done')
- 
- 
--def test(use_cbw, use_fleecing_filter):
-+def test(use_cbw, use_fleecing_filter, bitmap=False):
-     with iotests.FilePath('base.img') as base_img_path, \
-          iotests.FilePath('fleece.img') as fleece_img_path, \
-          iotests.FilePath('nbd.sock',
-                           base_dir=iotests.sock_dir) as nbd_sock_path, \
-          iotests.VM() as vm:
-         do_test(use_cbw, use_fleecing_filter, base_img_path,
--                fleece_img_path, nbd_sock_path, vm)
-+                fleece_img_path, nbd_sock_path, vm, bitmap=bitmap)
- 
- 
- log('=== Test backup(sync=none) based fleecing ===\n')
-@@ -219,3 +232,6 @@ test(True, False)
- 
- log('=== Test fleecing-format based fleecing ===\n')
- test(True, True)
-+
-+log('=== Test fleecing-format based fleecing with bitmap ===\n')
-+test(True, True, bitmap=True)
-diff --git a/tests/qemu-iotests/tests/image-fleecing.out b/tests/qemu-iotests/tests/image-fleecing.out
-index da0af93388..62e1c1fe42 100644
---- a/tests/qemu-iotests/tests/image-fleecing.out
-+++ b/tests/qemu-iotests/tests/image-fleecing.out
-@@ -190,6 +190,90 @@ read -P0 0x00f8000 32k
- read -P0 0x2010000 32k
- read -P0 0x3fe0000 64k
- 
-+--- Cleanup ---
-+
-+{"return": {}}
-+{"return": {}}
-+{"return": {}}
-+{"return": {}}
-+{"return": {}}
-+
-+--- Confirming writes ---
-+
-+read -P0xab 0 64k
-+read -P0xad 0x00f8000 64k
-+read -P0x1d 0x2008000 64k
-+read -P0xea 0x3fe0000 64k
-+read -P0xd5 0x108000 32k
-+read -P0xdc 32M 32k
-+read -P0xcd 0x3ff0000 64k
-+
-+Done
-+=== Test fleecing-format based fleecing with bitmap ===
-+
-+--- Setting up images ---
-+
-+Done
-+
-+--- Launching VM ---
-+
-+Done
-+
-+--- Setting up Fleecing Graph ---
-+
-+{"return": {}}
-+{"return": {}}
-+{"return": {}}
-+{"return": {}}
-+
-+--- Setting up NBD Export ---
-+
-+{"return": {}}
-+{"return": {}}
-+
-+--- Sanity Check ---
-+
-+read -P0x5d 0 64k
-+read -P0xd5 1M 64k
-+read -P0xdc 32M 64k
-+read -P0xcd 0x3ff0000 64k
-+read -P0 0x00f8000 32k
-+read failed: Invalid argument
-+
-+read -P0 0x2010000 32k
-+read failed: Invalid argument
-+
-+read -P0 0x3fe0000 64k
-+read failed: Invalid argument
-+
-+
-+--- Testing COW ---
-+
-+write -P0xab 0 64k
-+{"return": ""}
-+write -P0xad 0x00f8000 64k
-+{"return": ""}
-+write -P0x1d 0x2008000 64k
-+{"return": ""}
-+write -P0xea 0x3fe0000 64k
-+{"return": ""}
-+
-+--- Verifying Data ---
-+
-+read -P0x5d 0 64k
-+read -P0xd5 1M 64k
-+read -P0xdc 32M 64k
-+read -P0xcd 0x3ff0000 64k
-+read -P0 0x00f8000 32k
-+read failed: Invalid argument
-+
-+read -P0 0x2010000 32k
-+read failed: Invalid argument
-+
-+read -P0 0x3fe0000 64k
-+read failed: Invalid argument
-+
-+
- --- Cleanup ---
- 
- {"return": {}}
+-const BdrvChild *blk_root(BlockBackend *blk)
++BdrvChild *blk_root(BlockBackend *blk)
+ {
+     return blk->root;
+ }
 -- 
 2.29.2
 
