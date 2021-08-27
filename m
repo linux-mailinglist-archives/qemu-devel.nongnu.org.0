@@ -2,86 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51D543F942E
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 08:06:17 +0200 (CEST)
-Received: from localhost ([::1]:53396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B24B03F9433
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 08:09:50 +0200 (CEST)
+Received: from localhost ([::1]:34462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJV0K-0006jp-5T
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 02:06:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40200)
+	id 1mJV3l-0004ku-RY
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 02:09:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mJUtm-0004Ny-Uh; Fri, 27 Aug 2021 01:59:30 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:40467)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1mJUtl-000645-Gw; Fri, 27 Aug 2021 01:59:30 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id F1D5332009A9;
- Fri, 27 Aug 2021 01:59:26 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Fri, 27 Aug 2021 01:59:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=tefJ4acTvueJ0u8oTQQHCzB8ysa
- kv4d2aG4q0iCibgk=; b=jzPTUzObAqitBb2cdhASmPXx/wOf5MVeGk/Z4Sb7CIs
- cJZIba1usUy4gBBf+5tyPo+R3xX5H5YXntySZPUy3qJD4nUCLZ3m6avY5MSG44DE
- Vjke7dv46UDhRiPOiYKyJ8fXQdPivPOh+LrsCwc2+isvJtCLFun4EtsJF0aiOKBp
- B54gU0fkQIL7jLtKe5/B243UBksFjTeAHCuQYxdAXKc6G2xwHuYm380HVSylaTqZ
- i3EI75uOHqjU8KTYL/CoN053etzaMtgudfYAB4MbYq9ujEJriWgEtYMNrKYlhxmW
- MR33rDKrv4fnKgefRSwqas16UYOXnPkzUVVEl3TZyzg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=tefJ4a
- cTvueJ0u8oTQQHCzB8ysakv4d2aG4q0iCibgk=; b=H+6e1L0aksqRpq6OGj8VSu
- ScDT27JLXwCuVqDIWpclRAFVVKU8RVlWhmhIv6dL63JAgRJqABNkWmPbSUoLruNu
- 98cbjmLFpgTQIgfE+8LH/MnPL8WahEtrNBTAAbD7HEoy4PSx7txajTgftwi8YF5J
- oORdqBtalQ67lvCpytOfaLUNTVSjqFvwc3CI1q0d8eKlsFWD5lKYRcN4Y/jO9cm3
- TZl09S1nq8dcLGvpeWIH58k3FAFD5djD66jnReNBCEfALdK9fDTOY/CXH5Bp9GE2
- S2pntm4EQbZ0kkUDQT0s7ZSVRx+Uj7CJq813Z0JGBbwJTpJtHnPy0IOyCEwxrtPw
- ==
-X-ME-Sender: <xms:PX8oYeI5MhQHecTOmCnDlSRLShw_QR6jRPwZ-xGo_yjsXuM1OdCB_A>
- <xme:PX8oYWLNsVnJlIDy6CTBZXaRjQU13fe1rnR4x-DHhta24L6uqZczevfLnzESbV0FT
- AKodX8lCtgsJH4fxHk>
-X-ME-Received: <xmr:PX8oYevW8jjC3mULaq4juhzvHgGmJCx4K9rLjMBBt0rtu1n3_T_r18qTNRA2Tw1YU4JdpdLcBfKBIYi9l2Q_yQ8zKMX7T-xxxTDoajPg-sqBIKXh4w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudduvddguddtvdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
- ffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:PX8oYTYQBJwhjNLI_nQD2gdqPd5ZwbEtZQiIpGoD33PTWXXkbj8ZzA>
- <xmx:PX8oYVYvVxbKOZ7mZC-nAFmZv0P0tPKqbzw0HSNKQO5IJNZ6UkUzSQ>
- <xmx:PX8oYfAH1Y_Inc3mR9pWRoNwXV_C_PwwdVZot93lsTP445KpumUYpA>
- <xmx:Pn8oYTNQgRU851x5nPu_KpuHhzBEUXRmVprF3mY4PwHmad8-5pWUEg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 27 Aug 2021 01:59:23 -0400 (EDT)
-Date: Fri, 27 Aug 2021 07:59:21 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 10/11] util/vfio-helpers: Let qemu_vfio_do_mapping()
- propagate Error
-Message-ID: <YSh/OVP/45tz8JTA@apples.localdomain>
-References: <20210826195014.2180369-1-philmd@redhat.com>
- <20210826195014.2180369-11-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mJV2M-0002Yy-2s; Fri, 27 Aug 2021 02:08:22 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:46062)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mJV2K-0004t3-E7; Fri, 27 Aug 2021 02:08:21 -0400
+Received: by mail-wr1-x430.google.com with SMTP id n5so8583154wro.12;
+ Thu, 26 Aug 2021 23:08:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=n5MWTd/k8xEuf1Dv83EzRuhLKkCGNLEizr7TqZHxSF0=;
+ b=AtHd6PHrmxAUo6mzovs1lwyQUZfNPUF86TsyXnCFrS7fx0KFLxGdOJdW10tVJixOdl
+ KyrZS5sY3sac0hT7voDTSwOQ1VGF7MENQs4p5AgUP71chKaFKAFyxOu9aSNZsq6mWWLy
+ AvtYDuNOqQj8SxKx1cY4julEsv5HifZ9BTFkNazMyMPK8xeiw/3Ri2knk+/Rd4g3q8+G
+ FkUcxx2bUP8kjtYq9SjleGTKVriFF1f2RreDkgyISNnXsDac0EjkdrNk1ug1oQ8o2egp
+ zGjLsWjF50nmiaEb7sgdtg2CesigtvAmr7SLPTPMN5J4mi7Ia2CZYUEbLyokPtAK8Uxt
+ 62nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=n5MWTd/k8xEuf1Dv83EzRuhLKkCGNLEizr7TqZHxSF0=;
+ b=AhjI7ljPzBSgQbC710L1tY9wc1RIz6DR9Z9kQC9KWZdkRIlsVj/z1PsQ+c9kvE1r/X
+ qxH3daxS9CCuHsAQFu+xsj97j6rJWFeBGRQDuVY7FqfmTjrHSfsDimTCZukNTNaas7mX
+ b48A4Xi56JpDo3GY2tfVLTMffSgkI+dob5K882y/6ZaHH0FInm9p5/z9IBDmSDKyHsxP
+ 668tI37Sh3u/wnkj9zFgc+1G3iwWNFJLqyU+uY8BvmGEW/ffO5wfUt+ja4NgGPFEKJ3F
+ AldgPPGVK6r4t9w1VsvmAaOHu0Fj/a2i38lxBBfOeTKPDFDpKA1k8pHD0jToI/qi9hjg
+ I0NA==
+X-Gm-Message-State: AOAM531Vo4D9U2UrgR52P/hP0kdL77M+mUQYN3i8YQJZOi8rTCw7cz8J
+ McrWgQrsPlVZm79mm4C2gQpzWJFkAzs=
+X-Google-Smtp-Source: ABdhPJwk/PIdOR/wAy7XgDfh4S/H/MVgQ7PKTbmzOQsfxXT4D5MwdxF4aai4VNTGT7iWbDaogiMt5Q==
+X-Received: by 2002:adf:8102:: with SMTP id 2mr7900657wrm.89.1630044497698;
+ Thu, 26 Aug 2021 23:08:17 -0700 (PDT)
+Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id
+ l15sm5338103wrv.84.2021.08.26.23.08.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Aug 2021 23:08:17 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/2] hw/arm/raspi: Remove deprecated raspi2/raspi3 aliases
+Date: Fri, 27 Aug 2021 08:08:13 +0200
+Message-Id: <20210827060815.2384760-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="GhFN0YcjxgEH6k3Q"
-Content-Disposition: inline
-In-Reply-To: <20210826195014.2180369-11-philmd@redhat.com>
-Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
- helo=wout1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,44 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Auger Eric <eric.auger@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ libvir-list@redhat.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---GhFN0YcjxgEH6k3Q
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Aug 26 21:50, Philippe Mathieu-Daud=C3=A9 wrote:
-> Pass qemu_vfio_do_mapping() an Error* argument so it can propagate
-> any error to callers. Replace error_report() which only report
-> to the monitor by the more generic error_setg_errno().
->=20
-> Reviewed-by: Fam Zheng <fam@euphon.net>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-
---GhFN0YcjxgEH6k3Q
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmEofzgACgkQTeGvMW1P
-DekvKggAtipT4IPRp4EmSyiZrcpfLUvqQUkWoZt8mvoLJ2Nm159oN+nfmJQ+gLY8
-VKh8sd78PFPfYZVx0K8x2nrD88k2qzrXLzmIJMjRmWsRZb5qzYZdi0HqKar9VqbE
-IwXtBbjNzY31o+tn6sfSQom5OvkRI8m/MqEI6itgrKTxCH92WdYqrrVt2NXB00lV
-HdjQLKQRc+n7cpsIKkQLNyYyOcEY4gLUsf/dQz98ev/EGOcCmJzobLX9SKYnd99z
-wehO3nmjXmwg7reuylUfjG3XcduCs492I279DZGTzPyLCdZnEpm+3IaY2vW1SzrW
-SyLVLq8dQOdP2THNIRQ7A5Vhbzr4lA==
-=skkR
------END PGP SIGNATURE-----
-
---GhFN0YcjxgEH6k3Q--
+Since v2:=0D
+- updated "Since 6.1" -> "Since 6.2"=0D
+=0D
+Peter reported CI failure [*] but I can't reproduce:=0D
+https://gitlab.com/philmd/qemu/-/pipelines/360227279=0D
+=0D
+Since v1:=0D
+- renamed tests (Peter)=0D
+=0D
+[*] https://lore.kernel.org/qemu-devel/CAFEAcA8PLvMUEzyu=3DsN4bn4mU30w1aajU=
++T+i__5jnB0QMZnqg@mail.gmail.com/=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  tests: Remove uses of deprecated raspi2/raspi3 machine names=0D
+  hw/arm/raspi: Remove deprecated raspi2/raspi3 aliases=0D
+=0D
+ docs/about/deprecated.rst               |  7 -----=0D
+ docs/about/removed-features.rst         |  7 +++++=0D
+ docs/devel/qgraph.rst                   | 38 ++++++++++++-------------=0D
+ tests/qtest/libqos/qgraph.h             |  6 ++--=0D
+ tests/qtest/libqos/qgraph_internal.h    |  2 +-=0D
+ hw/arm/raspi.c                          |  2 --=0D
+ tests/qtest/boot-serial-test.c          |  2 +-=0D
+ tests/qtest/libqos/arm-raspi2-machine.c |  8 +++---=0D
+ tests/unit/test-qgraph.c                |  2 +-=0D
+ tests/acceptance/boot_linux_console.py  |  6 ++--=0D
+ 10 files changed, 39 insertions(+), 41 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
