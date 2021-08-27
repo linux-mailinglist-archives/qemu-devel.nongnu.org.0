@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E18343F9C14
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 18:06:28 +0200 (CEST)
-Received: from localhost ([::1]:32828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF0BC3F9C77
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 18:30:47 +0200 (CEST)
+Received: from localhost ([::1]:42524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJeN9-0002ot-Hm
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 12:06:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37748)
+	id 1mJekb-0002GF-BI
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 12:30:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mJeHI-0003PG-Vx
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 12:00:26 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:40599)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mJej2-0001MK-N0
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 12:29:04 -0400
+Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135]:35529)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mJeHH-0006gH-4b
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 12:00:24 -0400
-Received: by mail-wr1-x435.google.com with SMTP id t15so4954152wrg.7
- for <qemu-devel@nongnu.org>; Fri, 27 Aug 2021 09:00:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=RfJ6MjPIX/WaO0jb8mm/roXBg+YQMjKNmoWp8O8MdM4=;
- b=mLj1tN6eoe/k9Wjp3pKu3Ec8jdTTZn/OJvv4969PDqz9+rsNUms7K0tn/8WhxVM7Qq
- oD4yaimQW7054jW8rqsQf0ule/+p3RSqVY4RPeaWvUB+z6A7s5pW5h/CWGryaqNVLu0W
- Q7MmOEYbTuNuaMGjLdoWDwJj7wbTXgzcHa3ojbeJvytgYMdaD9wHNwPBgJduQLE2xpKZ
- pP9Eq+NyU1UOfcVjBxXL+IO7YZ1+zeGlx8XrxiQ32RxDB9L03o0axeMBSbevtwCV/Ydc
- YdIoUi4upzQTm0o6QVihyN6KzIvtajBEhHXHWuzjSLMOjO0q8WL+ys30Ag2zoIT2o6R2
- Pehw==
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mJej1-0000Jc-1J
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 12:29:04 -0400
+Received: by mail-il1-x135.google.com with SMTP id h29so7582590ila.2
+ for <qemu-devel@nongnu.org>; Fri, 27 Aug 2021 09:29:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
+ :references; bh=6ygkPXrPCRdf3B7WcZ4ZKsWlKAzMIzJvdyfEhZV6XIU=;
+ b=YQHrpfAkB2afKec0xqbrjH9G8SAtBRPDZX8wb33XcWl8ubTD75l3XGdEQMAKgs8Kue
+ APikPJx6tBzFbHqXNOOYb21hYvvdjgJ6qFPnOrf2bskc+TzWRC0SkEUutnAdP7Hmw6co
+ EFkBl5L4Z3mdgKX2OrfYcWhBhcGo75ndGCPzITYbmadjM6vS6DON/hAPfY5FDchBoQGU
+ 007OAMJl63W8lj0GAv0uUb0oguXuxOHxKzco6TELDHDzlwLHyI9gRJoDAoPrS8enMyGK
+ 5SrGxckJvAKIQ0B5Kub4yZp+BHbkJILaP1sBNHmAv8Jj+3IEBUGWZyvb/2au4sQ4/sOG
+ fteg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=RfJ6MjPIX/WaO0jb8mm/roXBg+YQMjKNmoWp8O8MdM4=;
- b=CgPKF22Atx+wLxkweTJtr3JtTSUlsRC7dWrVSryIcBAfMJOABX9UspPR2rdoo832Bc
- tGYbTmZ93puyXiHLoQCgg+ZH0VYYqtyaLV23NniKM0/A+g/oeufsVCPWzIOFWsqAq3bL
- esVVlQbg4XCxnMMIC1IdHQYCDTPH0EgP9/W3OIUmYLQRfbBY4+ARRoIDdVHIDM519fqo
- Au0BnWCmzyI02ZY2lb367pwudiT0dRkKF7Y7h0L3Zbc7dQKGjncVni/FtZrgKoBUEkSn
- E8k5xz7y2FGn/ocb/EB3TAJt1QqSxaKDgnWw4IGGBDEsvS930NYUwDrON8aAcM+txhMY
- DVKA==
-X-Gm-Message-State: AOAM530lQtljRb/kIErszhPawYVzcWxcLq50LKLPHBTX7EmzYbjjjFQV
- uaF3fIUTkyfVQPId1oO2WOk=
-X-Google-Smtp-Source: ABdhPJxRO9AGeQvfI0u79rz4o5NAHVGEiw0VydLh5UJK3WfhkgNzR0s74TEsY5RRFWDfjMC/OTt6Zg==
-X-Received: by 2002:a5d:6149:: with SMTP id y9mr11380024wrt.162.1630080021526; 
- Fri, 27 Aug 2021 09:00:21 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id z2sm6011007wma.45.2021.08.27.09.00.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Aug 2021 09:00:21 -0700 (PDT)
-Subject: Re: [PATCH v2 41/43] bsd-user: Implement cpu_copy() helper routine
-To: Warner Losh <wlosh@bsdimp.com>
+ h=x-gm-message-state:from:message-id:mime-version:subject:date
+ :in-reply-to:cc:to:references;
+ bh=6ygkPXrPCRdf3B7WcZ4ZKsWlKAzMIzJvdyfEhZV6XIU=;
+ b=kp5WktLHr32xxOG97ene0LyfLCKUkMgo7wOHgntrYLGiETzNb7eq4+oiA8rsxf+MMX
+ Y2awIq5X3FKphZwGVlHaPn/v3DTvJGs78tiYbgenaJMxWJ2yxQYACp62EiIxwVZako4G
+ flJVk6F59j25/CF+wGs+naQDzPYfjxNu/KVXs+im1nu6gIs2qJdUviSuW/SNyMJicYrd
+ RZUGj+L7SslWhIMmwZtRaMDg65CqhVqMQ4vKz+6cOdaV45FyXyBdMHRC3Lz1dw0X09RD
+ WYjqXC7q9rzibgaIhM5/x3jfmftxKsrNRFEKs+l4Zb7dq5aUY9y2Z+dNZjcOvwL3p0zm
+ a3TQ==
+X-Gm-Message-State: AOAM533TRMmf3J700pvAGqyhRb0W9wuN2hh1jcoZ+39xXM1t/9CmmaHm
+ 2IvVgfHu1NvbuV3BDHdEdyC1Rw==
+X-Google-Smtp-Source: ABdhPJyhYS/GmtUYqkvoLwL+7E74PxTbwwwoeJqdsi743OJPqiamsALeN8ISZl19taP8dDIw7zKiHg==
+X-Received: by 2002:a92:cc0d:: with SMTP id s13mr6768653ilp.95.1630081740664; 
+ Fri, 27 Aug 2021 09:29:00 -0700 (PDT)
+Received: from ?IPv6:2603:300b:6:5100:c17e:7522:3652:c9d4?
+ ([2603:300b:6:5100:c17e:7522:3652:c9d4])
+ by smtp.gmail.com with ESMTPSA id x21sm813386ioh.55.2021.08.27.09.28.59
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 27 Aug 2021 09:28:59 -0700 (PDT)
+From: Warner Losh <wlosh@bsdimp.com>
+Message-Id: <C37E3FCC-67E4-4F45-90D8-8E970960621A@bsdimp.com>
+Content-Type: multipart/signed;
+ boundary="Apple-Mail=_A0CDEE6F-EE62-472F-B8B1-03D5554CE162";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.7\))
+Subject: Re: [PATCH v2 30/43] bsd-user: Remove dead #ifdefs from elfload.c
+Date: Fri, 27 Aug 2021 10:28:58 -0600
+In-Reply-To: <e263b49f-4028-b4cd-4b76-787bb3047e0f@amsat.org>
+To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 References: <20210826211201.98877-1-imp@bsdimp.com>
- <20210826211201.98877-42-imp@bsdimp.com>
- <f76e5319-6f95-4765-cac7-ad945b52f662@amsat.org>
- <E0A580FD-61B8-4889-A7F6-778E1848773F@bsdimp.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <75787713-74e2-db26-26d1-83f5118c5546@amsat.org>
-Date: Fri, 27 Aug 2021 18:00:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <E0A580FD-61B8-4889-A7F6-778E1848773F@bsdimp.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+ <20210826211201.98877-31-imp@bsdimp.com>
+ <de44e02d-5da0-3347-c2b6-5bbb344ae354@amsat.org>
+ <35C0402D-0451-478E-8BCF-446AF2BFBBD4@bsdimp.com>
+ <e263b49f-4028-b4cd-4b76-787bb3047e0f@amsat.org>
+X-Mailer: Apple Mail (2.3608.120.23.2.7)
+Received-SPF: none client-ip=2607:f8b0:4864:20::135;
+ envelope-from=wlosh@bsdimp.com; helo=mail-il1-x135.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.437,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,78 +86,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stacey Son <sson@FreeBSD.org>, Justin Hibbits <chmeeedalf@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Warner Losh <imp@FreeBSD.org>, Warner Losh <imp@bsdimp.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Warner Losh <imp@FreeBSD.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/27/21 4:56 PM, Warner Losh wrote:
->> On Aug 26, 2021, at 10:47 PM, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> On 8/26/21 11:11 PM, imp@bsdimp.com wrote:
->>> From: Warner Losh <imp@FreeBSD.org>
->>>
->>> cpu_copy shouldbe called when processes are creating new threads. It
->>
->> Typo "should be"
->>
->>> copies the current state of the CPU to a new cpu state needed for the
->>> new thread.
->>>
->>> Signed-off-by: Stacey Son <sson@FreeBSD.org>
->>> Signed-off-by: Warner Losh <imp@bsdimp.com>
->>> Signed-off-by: Justin Hibbits <chmeeedalf@gmail.com>
->>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->>> ---
->>> bsd-user/main.c | 30 ++++++++++++++++++++++++++++++
->>> 1 file changed, 30 insertions(+)
->>>
->>> diff --git a/bsd-user/main.c b/bsd-user/main.c
->>> index e2ed9e32ba..b35bcf4d1e 100644
->>> --- a/bsd-user/main.c
->>> +++ b/bsd-user/main.c
->>> @@ -180,6 +180,36 @@ void init_task_state(TaskState *ts)
->>>     ts->sigqueue_table[i].next = NULL;
->>> }
->>>
->>> +CPUArchState *cpu_copy(CPUArchState *env)
->>> +{
->>> +    CPUState *cpu = env_cpu(env);
->>> +    CPUState *new_cpu = cpu_create(cpu_type);
->>> +    CPUArchState *new_env = new_cpu->env_ptr;
->>> +    CPUBreakpoint *bp;
->>> +    CPUWatchpoint *wp;
->>> +
->>> +    /* Reset non arch specific state */
->>> +    cpu_reset(new_cpu);
->>> +
->>> +    memcpy(new_env, env, sizeof(CPUArchState));
->>> +
->>> +    /*
->>> +     * Clone all break/watchpoints.
->>> +     * Note: Once we support ptrace with hw-debug register access, make sure
->>> +     * BP_CPU break/watchpoints are handled correctly on clone.
->>> +     */
->>> +    QTAILQ_INIT(&cpu->breakpoints);
->>> +    QTAILQ_INIT(&cpu->watchpoints);
->>> +    QTAILQ_FOREACH(bp, &cpu->breakpoints, entry) {
->>> +        cpu_breakpoint_insert(new_cpu, bp->pc, bp->flags, NULL);
->>> +    }
->>> +    QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
->>> +        cpu_watchpoint_insert(new_cpu, wp->vaddr, wp->len, wp->flags, NULL);
->>> +    }
->>> +
->>> +    return new_env;
->>> +}
->>
->> But where is it called?
-> 
-> It’s in the bsd-user fork’d proc code:
-> 
-> https://github.com/qemu-bsd-user/qemu-bsd-user/blob/079d45942db8d1038806cb459992b4f016b52b51/bsd-user/freebsd/os-thread.c#L1566
-> 
-> Is where it’s called from. I wanted to get it out of the way in this review since I was trying to get all the changes to main.c done, but if you’d like, I can drop it and submit in the next round.
 
-Better keep it for next round :)
+--Apple-Mail=_A0CDEE6F-EE62-472F-B8B1-03D5554CE162
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
+
+
+
+> On Aug 27, 2021, at 9:58 AM, Philippe Mathieu-Daud=C3=A9 =
+<f4bug@amsat.org> wrote:
+>=20
+> On 8/27/21 5:02 PM, Warner Losh wrote:
+>>> On Aug 26, 2021, at 10:42 PM, Philippe Mathieu-Daud=C3=A9 =
+<f4bug@amsat.org> wrote:
+>>>=20
+>>> On 8/26/21 11:11 PM, imp@bsdimp.com wrote:
+>>>> From: Warner Losh <imp@FreeBSD.org>
+>>>>=20
+>>>> LOW_ELF_STACK doesn't exist on FreeBSD and likely never will. =
+Remove it.
+>>>> Likewise, remove an #if 0 block that's not useful
+>>>>=20
+>>>> Signed-off-by: Warner Losh <imp@bsdimp.com>
+>>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>>> ---
+>>>> bsd-user/elfload.c | 20 --------------------
+>>>> 1 file changed, 20 deletions(-)
+>>>=20
+>>> Move as patch #14?
+>>=20
+>> Are you suggesting I move this to be right after patch #14 or that I =
+squash / fold it into patch #14?
+>=20
+> Move, if possible. If too much trouble (rebase conflict) then
+> don't worry and let it here.
+
+Yea, there=E2=80=99s rebase failures that aren=E2=80=99t trivial to =
+resolve :(  Too many moving parts in this patch set.
+
+>> Warner
+>>=20
+>>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+
+
+--Apple-Mail=_A0CDEE6F-EE62-472F-B8B1-03D5554CE162
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iQIzBAEBCgAdFiEEIDX4lLAKo898zeG3bBzRKH2wEQAFAmEpEsoACgkQbBzRKH2w
+EQBrNw//S5962+7CM7+m1dfZjuRimyETwrKOZlPjVQeRqxk0is57B6PhzeL2IGvJ
+1WAGJEHIL+y2CoO0i8iJMBlrcrJ+FCo0g/dzOuqiEEaOjPxFTqj8GJhYMG7PtP/B
+NTphjoRRTCvZagwnOe4yceLGx1Ffzt0OGVkBeasqB0Fvr5mLLbTrpt88YUImXAyb
+JBEPg2Qjvn1OwnTSNvhGjVa+6U099JhjTzPoL3fA75VTqjY4PwPCY9gf5mUZjBKM
+H67E/URsXZwrNQT5yQ82yeOtqad9w5Z2lzqLXflRCAptzZOJZ/XRxhkDe2M7qTiO
+GnKdB5q5DQ1p5ooYKuYojna8HDHjwj/CzmprxVTAR7Vj0cte35iCuOjrEdj8KLg9
+ho9PDp9434xm31ztqqAiprSQX9GgnAmzBlNPv1lw2hlbYoRpK3i4F/DoBiGk8jh9
+I1VnQb4dg8l0YhgibfvUVTzs6xcuADgQilxwFWiykP/eluPvVO4QUNM5Ng+55/IO
+XLwu8jmqfRIYkyrnJJ3fXU+FK/eqQrBWgRYXs2ofrXMHA0JmBmvEuSSqlfi7bDL4
+eOi0m5UimtdVvrT5wojqSFhSvbQlbwZsg4uDxMV1qlLr14K5wFHbZC8NdWLNmc55
+ol4TOnB/1sLp3bHlsQLa+/llz4ZqkZSPdFGagjAXLzx2HNeWTKs=
+=AIPB
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_A0CDEE6F-EE62-472F-B8B1-03D5554CE162--
 
