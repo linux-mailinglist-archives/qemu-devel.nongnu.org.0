@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E95F3F9B2E
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 16:56:00 +0200 (CEST)
-Received: from localhost ([::1]:42988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84DA93F9B33
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 16:58:08 +0200 (CEST)
+Received: from localhost ([::1]:46080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJdGx-0006hh-NL
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 10:55:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49452)
+	id 1mJdJ1-0000c8-Js
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 10:58:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mJdDV-0001VN-PK
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 10:52:26 -0400
-Received: from mail-il1-x136.google.com ([2607:f8b0:4864:20::136]:42952)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mJdHl-0008Ht-Da
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 10:56:49 -0400
+Received: from mail-il1-x12e.google.com ([2607:f8b0:4864:20::12e]:46008)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mJdDS-0001FB-Su
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 10:52:25 -0400
-Received: by mail-il1-x136.google.com with SMTP id s16so7247308ilo.9
- for <qemu-devel@nongnu.org>; Fri, 27 Aug 2021 07:52:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mJdHj-0004VN-Os
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 10:56:49 -0400
+Received: by mail-il1-x12e.google.com with SMTP id v2so7225804ilg.12
+ for <qemu-devel@nongnu.org>; Fri, 27 Aug 2021 07:56:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
- :references; bh=Lz7Ue4rZgpTgyBOCyRDQvwPs5AK7TtWfLTwGVu1UIcE=;
- b=sYFj0kPmQ5tHmEdkb2PIXc7xDWpPsaTyaEMTF2c2lw2c/YNzz6KaWxkGKgSNoxf5vH
- TBmVYvYEiNOZdPgFHmLKgXOZn4TKvime0mLnOcq7p0owmroxPvvD50K/y8lGP7vJCrZl
- mAArYNxyn3Tr7Bs76y2SxEPH/HCJgSehJrGUNV0vs1ZgyQFeeNYoguNpC8jfcO07YSRd
- YsxPBm8oLbRgCIFDW/W2NrjhyJL4OkZAkkcGsCw48pcvSF/cg761zBfY6Nw48vqgvtut
- pU7PGtn97cRlUkf4eJZI+g662P//2DanksVo1wftAOdz9fjx0vTH86L8ffuSwPzcV1IJ
- TZIw==
+ :references; bh=BFCDHOCQNQdA7MQQ1POGjSkN9V1iqa1TEHn7b9i0O94=;
+ b=nQR8JpvoTHeBMG61a1i1FS/5CicwKww+a+N3lopnk2PozAcsA2qZEYnvxzi0oJ+6r9
+ znqRN44qoVdgZlti4xOu+K6YoZIx693PbDe1aRrQVryk+nyTtONHdPL58SRJA+2PLT9h
+ VuCrpUJ91o1B8vVrRHpnvO/crIDCcyck0M+wTGAeHqnF8ixp1e8WX7qXeQ3dNKZeifdA
+ /8fFpxRB2cXIT7DNAHi6gV9h1DmhVWACoelJOFS0H7F3c4L/K1a+F33fwVwnyAxj0KFG
+ +0XrZyu8+pAl0PzQMUWcbBcdL+MIN9FUbd4IXMAyZS5yJqi4MKZEqcTSFthkZZ/gZg0Q
+ Z6vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:message-id:mime-version:subject:date
  :in-reply-to:cc:to:references;
- bh=Lz7Ue4rZgpTgyBOCyRDQvwPs5AK7TtWfLTwGVu1UIcE=;
- b=LPYA3+AVZdiBwHFSc7SikT+LxMkcuwcMxtaAonI04h8MVCVR8P5hdDpi0DTk44uR8n
- r5xbd0HtKsy8EkDcWjEjLnNQdzCMN6//cqDAZPGJ9SN15nFrmD+Lzsg0ENJmWfoJAGId
- tsTsqqaNEpTWGwVdzOg28S/F316TKWWxaTEFJYQBlqV/SXyWblGfNE3/w2IUpTmlaQ5L
- utu0uM+XLK7L5ZS0fZSSGlo+oGME4EQYL4bZWOvPkKTPFeT/4vGtmGPTm5bJ1efuTkeK
- VssX0hO3FDW+C0tn5oLSgjUj/8pI/BwbdU8DfqFYnX5dy5tPd3glf+P1iVGEX3rXVfUs
- fdqw==
-X-Gm-Message-State: AOAM530YRKfb5muMqxlE23g2QvPEgrWyarrXFzSycFmm336yfrBbEmBb
- KjNTmGIYtbZITYXPosCdj2nXbg==
-X-Google-Smtp-Source: ABdhPJw1UvQp1/xRZzlFDy/G6JgJiwpBz2byiFphWyRz80J4iE2d4Q3jkQZ1xLe7IL2oitp9H5GT6w==
-X-Received: by 2002:a92:194c:: with SMTP id e12mr6437694ilm.199.1630075940794; 
- Fri, 27 Aug 2021 07:52:20 -0700 (PDT)
-Received: from ?IPv6:2603:300b:6:5100:e143:d455:15a1:490a?
- ([2603:300b:6:5100:e143:d455:15a1:490a])
- by smtp.gmail.com with ESMTPSA id k21sm3483480ioh.38.2021.08.27.07.52.19
+ bh=BFCDHOCQNQdA7MQQ1POGjSkN9V1iqa1TEHn7b9i0O94=;
+ b=bxsh5ykP6dismR5gn06vtl/+FpCpGqt7GNnI0F74MvqmFTMbZXZHavcNlzGWrJh4+t
+ Nhv0fuvjqVMf2SeoRtE9k6msfhpvAd9+NoB0XqKx4Tv1FFlevWUPsJhHw4j3dyjyr9Wi
+ X6rawXa6u9ScDveDQKT0js5C+44LD1IOwYU8DUN3mobQ6WVNwCwYUKQ6DSofOWNF/fMS
+ Plp0MrbTx/fkcrFM7XBI0at+Zns9NBQe54he3zmFDgDpRVW+en9lJ/eQK3q73nYeMvt4
+ j7G5A/7BoWd6de/r6ZKUjZuwUH/pE84piSxQelkr2J0GAqo5NgEnHL6+F/1EoAykges8
+ k98g==
+X-Gm-Message-State: AOAM533vsvZpQS0DB0XdShexvJWKsn7X0ASnGXb/f+a/pejVXFCkoarK
+ PXKv0ASx8z06Mc4Q/HVaBkzflg==
+X-Google-Smtp-Source: ABdhPJyQSNOGe2t0VU4nwUY0USqbzef2ACH4T0zaikFtGwcPhlgJXaG8quQfjKccroDwJBGuJ7PgCA==
+X-Received: by 2002:a05:6e02:10c2:: with SMTP id
+ s2mr6933585ilj.148.1630076206629; 
+ Fri, 27 Aug 2021 07:56:46 -0700 (PDT)
+Received: from ?IPv6:2603:300b:6:5100:c17e:7522:3652:c9d4?
+ ([2603:300b:6:5100:c17e:7522:3652:c9d4])
+ by smtp.gmail.com with ESMTPSA id i14sm3387012iog.47.2021.08.27.07.56.45
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 27 Aug 2021 07:52:20 -0700 (PDT)
+ Fri, 27 Aug 2021 07:56:46 -0700 (PDT)
 From: Warner Losh <wlosh@bsdimp.com>
-Message-Id: <9FF11B14-6845-42B9-B0D4-157DE600FBA9@bsdimp.com>
+Message-Id: <E0A580FD-61B8-4889-A7F6-778E1848773F@bsdimp.com>
 Content-Type: multipart/signed;
- boundary="Apple-Mail=_D964C189-526D-457F-810F-F0E6D223A6AA";
+ boundary="Apple-Mail=_39558CB2-DC58-4CFC-A428-5CFF7C48D98D";
  protocol="application/pgp-signature"; micalg=pgp-sha512
 Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.7\))
-Subject: Re: [PATCH v2 42/43] bsd-user: Add '-0 argv0' option to
- bsd-user/main.c
-Date: Fri, 27 Aug 2021 08:52:19 -0600
-In-Reply-To: <afd0da77-a175-63c7-7ff8-9b4a298e5db1@amsat.org>
+Subject: Re: [PATCH v2 41/43] bsd-user: Implement cpu_copy() helper routine
+Date: Fri, 27 Aug 2021 08:56:44 -0600
+In-Reply-To: <f76e5319-6f95-4765-cac7-ad945b52f662@amsat.org>
 To: =?utf-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 References: <20210826211201.98877-1-imp@bsdimp.com>
- <20210826211201.98877-43-imp@bsdimp.com>
- <afd0da77-a175-63c7-7ff8-9b4a298e5db1@amsat.org>
+ <20210826211201.98877-42-imp@bsdimp.com>
+ <f76e5319-6f95-4765-cac7-ad945b52f662@amsat.org>
 X-Mailer: Apple Mail (2.3608.120.23.2.7)
-Received-SPF: none client-ip=2607:f8b0:4864:20::136;
- envelope-from=wlosh@bsdimp.com; helo=mail-il1-x136.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12e;
+ envelope-from=wlosh@bsdimp.com; helo=mail-il1-x12e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -85,84 +85,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Colin Percival <cperciva@tarsnap.com>,
+Cc: Stacey Son <sson@FreeBSD.org>, Justin Hibbits <chmeeedalf@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Warner Losh <imp@bsdimp.com>
+ Warner Losh <imp@FreeBSD.org>, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Apple-Mail=_D964C189-526D-457F-810F-F0E6D223A6AA
+--Apple-Mail=_39558CB2-DC58-4CFC-A428-5CFF7C48D98D
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=utf-8
 
 
 
-> On Aug 26, 2021, at 10:48 PM, Philippe Mathieu-Daud=C3=A9 =
+> On Aug 26, 2021, at 10:47 PM, Philippe Mathieu-Daud=C3=A9 =
 <f4bug@amsat.org> wrote:
 >=20
-> On 8/26/21 11:12 PM, imp@bsdimp.com wrote:
->> From: Colin Percival <cperciva@tarsnap.com>
+> On 8/26/21 11:11 PM, imp@bsdimp.com wrote:
+>> From: Warner Losh <imp@FreeBSD.org>
 >>=20
->> Previously it was impossible to emulate a program with a file name
->> different from its argv[0].  With this change, you can run
->>    qemu -0 fakename realname args
->> which runs the program "realname" with an argv of "fakename args".
+>> cpu_copy shouldbe called when processes are creating new threads. It
+>=20
+> Typo "should be"
+>=20
+>> copies the current state of the CPU to a new cpu state needed for the
+>> new thread.
 >>=20
->> Signed-off-by: Colin Percival <cperciva@tarsnap.com>
+>> Signed-off-by: Stacey Son <sson@FreeBSD.org>
 >> Signed-off-by: Warner Losh <imp@bsdimp.com>
+>> Signed-off-by: Justin Hibbits <chmeeedalf@gmail.com>
 >> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 >> ---
->> bsd-user/main.c | 5 +++++
->> 1 file changed, 5 insertions(+)
+>> bsd-user/main.c | 30 ++++++++++++++++++++++++++++++
+>> 1 file changed, 30 insertions(+)
 >>=20
 >> diff --git a/bsd-user/main.c b/bsd-user/main.c
->> index b35bcf4d1e..ae25f4c773 100644
+>> index e2ed9e32ba..b35bcf4d1e 100644
 >> --- a/bsd-user/main.c
 >> +++ b/bsd-user/main.c
->> @@ -268,6 +268,7 @@ int main(int argc, char **argv)
->>     char **target_environ, **wrk;
->>     envlist_t *envlist =3D NULL;
->>     bsd_type =3D HOST_DEFAULT_BSD_TYPE;
->> +    char * argv0 =3D NULL;
+>> @@ -180,6 +180,36 @@ void init_task_state(TaskState *ts)
+>>     ts->sigqueue_table[i].next =3D NULL;
+>> }
 >>=20
->>     adjust_ssize();
->>=20
->> @@ -390,6 +391,8 @@ int main(int argc, char **argv)
->>             do_strace =3D 1;
->>         } else if (!strcmp(r, "trace")) {
->>             trace_opt_parse(optarg);
->> +        } else if (!strcmp(r, "0")) {
->> +            argv0 =3D argv[optind++];
->>         } else {
->>             usage();
->>         }
->> @@ -413,6 +416,8 @@ int main(int argc, char **argv)
->>         usage();
->>     }
->>     filename =3D argv[optind];
->> +    if (argv0)
+>> +CPUArchState *cpu_copy(CPUArchState *env)
+>> +{
+>> +    CPUState *cpu =3D env_cpu(env);
+>> +    CPUState *new_cpu =3D cpu_create(cpu_type);
+>> +    CPUArchState *new_env =3D new_cpu->env_ptr;
+>> +    CPUBreakpoint *bp;
+>> +    CPUWatchpoint *wp;
+>> +
+>> +    /* Reset non arch specific state */
+>> +    cpu_reset(new_cpu);
+>> +
+>> +    memcpy(new_env, env, sizeof(CPUArchState));
+>> +
+>> +    /*
+>> +     * Clone all break/watchpoints.
+>> +     * Note: Once we support ptrace with hw-debug register access, =
+make sure
+>> +     * BP_CPU break/watchpoints are handled correctly on clone.
+>> +     */
+>> +    QTAILQ_INIT(&cpu->breakpoints);
+>> +    QTAILQ_INIT(&cpu->watchpoints);
+>> +    QTAILQ_FOREACH(bp, &cpu->breakpoints, entry) {
+>> +        cpu_breakpoint_insert(new_cpu, bp->pc, bp->flags, NULL);
+>> +    }
+>> +    QTAILQ_FOREACH(wp, &cpu->watchpoints, entry) {
+>> +        cpu_watchpoint_insert(new_cpu, wp->vaddr, wp->len, =
+wp->flags, NULL);
+>> +    }
+>> +
+>> +    return new_env;
+>> +}
 >=20
-> Style:
->=20
-> {
->=20
->> +        argv[optind] =3D argv0;
->=20
-> }
+> But where is it called?
 
-Done in v3.
+It=E2=80=99s in the bsd-user fork=E2=80=99d proc code:
+
+=
+https://github.com/qemu-bsd-user/qemu-bsd-user/blob/079d45942db8d1038806cb=
+459992b4f016b52b51/bsd-user/freebsd/os-thread.c#L1566
+
+Is where it=E2=80=99s called from. I wanted to get it out of the way in =
+this review since I was trying to get all the changes to main.c done, =
+but if you=E2=80=99d like, I can drop it and submit in the next round.
 
 Warner
 
->=20
->>=20
->>     if (!trace_init_backends()) {
->>         exit(1);
-
-
---Apple-Mail=_D964C189-526D-457F-810F-F0E6D223A6AA
+--Apple-Mail=_39558CB2-DC58-4CFC-A428-5CFF7C48D98D
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -173,20 +185,20 @@ Content-Description: Message signed with OpenPGP
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iQIzBAEBCgAdFiEEIDX4lLAKo898zeG3bBzRKH2wEQAFAmEo/CMACgkQbBzRKH2w
-EQDc3Q/+P1a0hSbIJTG4Ijw7EwCWJ5LRBSn3hQFNJa9pSMBhgJG1VjuIwf8j688B
-LigoaxlyHlyGA9hxWhZZNAhnJST8wRLdtr0HVdT1GplDhg/jo1sMZSHv4TfMn24p
-CtLMydYot0pifZ/odXYPfJT425jIaWpWt6qO17O3HoSwDOUF/EI0fQNNFAQsM2M7
-TYw/koIfXoAKsBXF6kpXZDniv4ML1GTzveQ7Wze+qjJSor1CNIknP0DNpcjWc3Ks
-db0WelLJkU7siCnY9yMKIqVoo8Po1KtwscBGVhLPX5/DjsnY1aWadpZ7U4TliB47
-RNsaPmdx4ZBER+D3qfjsUaYQo19PVIyGY0og8/wDosRmgQjnCM8B5vVIzJsx2o8e
-6eFYumoqc2z3GxOSxx+ChnoFMpxlWy73ogqjxQOF1mVICrs1RWaz4I1Uygbg34VQ
-7D0mSPDXHIuS7enlL0iTWMUD8af69sVENnwwKykJd5NluE2rPYtUCOKw7XQbiV2k
-DzE06jhkFlrcuQIB7NbXZhspwtM9ryLaiX22oeVUtGepr3FOfFFJz992vMhtRYCZ
-rfJ2vxA4/SJ3PAHQ8lFqN5Nvx9Z0DUAbOaxfwxDQjxw7V+gcE2n0CKO/0S+jziHj
-AaI4xNI8mU9Qa4DTjBGl4mDDkrGW42dCRF56mqSNoxzzWt8CCYQ=
-=/y0u
+iQIzBAEBCgAdFiEEIDX4lLAKo898zeG3bBzRKH2wEQAFAmEo/S0ACgkQbBzRKH2w
+EQAq7hAAlzNzOWD3kNtYJLxkWy96HG0IH5v1oi8+iUq7p82SLGMhcZpTXyMuEq5H
+pPcDRw/FnXf8nJOc7mf5Q/QoV9B4QavgHQxPZacYhbeQyIMvdpoZNn+zYLq6iPRm
+p5TBlRRy3nCLBEiLnGEDuKvYT2u8lMERypqXBqLmQClDfyMx1di6aIo3AkAcXR73
+2LGW1q7ETgcROvFkKM8HoIssEy7IYq8+IzoaQ4LR04fQ6EroqeGZ5Use2M3lqHcO
+avo4j9GnOKzP19YH2Is4OeRzusPdXTE5nrvj4FNr2Z7z2dlefDpILshJGw0W9pH8
+GEOl/whfweumAMoadSnufHiOTu+1K+eu+IJgFKg93wuSKopKtSbuHxO9RzlnbOH/
+GWrDHqaH/THgP+7NTESaCuiAhDM1Up2QNGAjl7KydEDcPetxm7yBvbQurt3Y5uSB
+8jZgL7OgZ+ZSrHJ52TVt2jmkCAAkW+q9+E3zTqrlLf2QYJtQbgEE/adOn4Eu6GMg
+iJ/K+IZFDIqxEH9Wi46NFAokXKvJ6l6HH8knPp3un9+mpBQc/I36ymFF1aj20PTu
+bpWFzJ8qoItkjonOdp/Fj+dVtpAp4+bIJFnsPuCCldpk+C1seTPynnZJ8huUEJ4l
+qxkk7TJGc8e/YH6HVTx/LyU1opHFh9qtCUMAkYl+FiF92uDcII8=
+=quOc
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_D964C189-526D-457F-810F-F0E6D223A6AA--
+--Apple-Mail=_39558CB2-DC58-4CFC-A428-5CFF7C48D98D--
 
