@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81CAD3F955F
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 09:49:49 +0200 (CEST)
-Received: from localhost ([::1]:40378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B58893F9509
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 09:23:57 +0200 (CEST)
+Received: from localhost ([::1]:52684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJWcW-000774-Ab
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 03:49:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52300)
+	id 1mJWDU-0002F6-MF
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 03:23:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mJW0S-0001Rh-1Q; Fri, 27 Aug 2021 03:10:28 -0400
-Received: from ozlabs.org ([203.11.71.1]:40019)
+ id 1mJW0S-0001S6-BH; Fri, 27 Aug 2021 03:10:28 -0400
+Received: from ozlabs.org ([203.11.71.1]:46179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mJW0Q-0007Vw-Au; Fri, 27 Aug 2021 03:10:27 -0400
+ id 1mJW0Q-0007Vq-BH; Fri, 27 Aug 2021 03:10:28 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GwrSZ60Csz9sXk; Fri, 27 Aug 2021 17:09:50 +1000 (AEST)
+ id 4GwrSZ5KnZz9sX2; Fri, 27 Aug 2021 17:09:50 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1630048190;
- bh=VNhnQvDV9fzB32EkfI9Q2C9+aXXWxo58SYEs8WdWAjs=;
+ bh=bUh5/q/VVnQa7Kk2hGPDSzdTWw52OKrXjW7L7R48MVQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IgHhmspvVIUILH4s3NNaeAVUKLbZBC8XYAGnytMzp1YaZiR0sGNydeBQO7c87Bqbx
- dSqGEwW16Fi3yT6La4kpzuYQp94MONfladHgY52GXm2B4PZb7g2BDINqtDYDftXZpb
- hHQBggDbyG+MIcRGJsbvHXGBZhbh7t9JBeg2gBpU=
+ b=kkrXfjhMXPBUT5x0CpG8864lAGVPYMoePOScLnQ9976oYl1KQYyNBut1jPyqsas8P
+ JF4+2AUcBo+VMfcK1n8+Wklw+YBYoWnagTY9Jvki2OyEJ06Zlca8Jjl6H6tdUG8Ymd
+ kRUP65AYKNYGhCqkdfIo3HC4cmKz5M0sA5LzfK5s=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 14/18] ppc/xive: Export xive_presenter_notify()
-Date: Fri, 27 Aug 2021 17:09:42 +1000
-Message-Id: <20210827070946.219970-15-david@gibson.dropbear.id.au>
+Subject: [PULL 15/18] include/qemu/int128.h: define struct Int128 according to
+ the host endianness
+Date: Fri, 27 Aug 2021 17:09:43 +1000
+Message-Id: <20210827070946.219970-16-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210827070946.219970-1-david@gibson.dropbear.id.au>
 References: <20210827070946.219970-1-david@gibson.dropbear.id.au>
@@ -59,59 +60,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: Matheus Ferst <matheus.ferst@eldorado.org.br>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cédric Le Goater <clg@kaod.org>
+From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-It's generic enough to be used from the XIVE2 router and avoid more
-duplication.
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20210809134547.689560-9-clg@kaod.org>
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+Message-Id: <20210826141446.2488609-2-matheus.ferst@eldorado.org.br>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/xive.c        | 8 ++++----
- include/hw/ppc/xive.h | 4 ++++
- 2 files changed, 8 insertions(+), 4 deletions(-)
+ include/qemu/int128.h | 27 ++++++++++++++++++++-------
+ 1 file changed, 20 insertions(+), 7 deletions(-)
 
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index 5ec61ec14e..b817ee8e37 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -1514,10 +1514,10 @@ int xive_presenter_tctx_match(XivePresenter *xptr, XiveTCTX *tctx,
-  *
-  * The parameters represent what is sent on the PowerBus
-  */
--static bool xive_presenter_notify(XiveFabric *xfb, uint8_t format,
--                                  uint8_t nvt_blk, uint32_t nvt_idx,
--                                  bool cam_ignore, uint8_t priority,
--                                  uint32_t logic_serv)
-+bool xive_presenter_notify(XiveFabric *xfb, uint8_t format,
-+                           uint8_t nvt_blk, uint32_t nvt_idx,
-+                           bool cam_ignore, uint8_t priority,
-+                           uint32_t logic_serv)
- {
-     XiveFabricClass *xfc = XIVE_FABRIC_GET_CLASS(xfb);
-     XiveTCTXMatch match = { .tctx = NULL, .ring = 0 };
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index 7e25c25bfd..db76411654 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -408,6 +408,10 @@ int xive_presenter_tctx_match(XivePresenter *xptr, XiveTCTX *tctx,
-                               uint8_t format,
-                               uint8_t nvt_blk, uint32_t nvt_idx,
-                               bool cam_ignore, uint32_t logic_serv);
-+bool xive_presenter_notify(XiveFabric *xfb, uint8_t format,
-+                           uint8_t nvt_blk, uint32_t nvt_idx,
-+                           bool cam_ignore, uint8_t priority,
-+                           uint32_t logic_serv);
+diff --git a/include/qemu/int128.h b/include/qemu/int128.h
+index 64500385e3..17436d851d 100644
+--- a/include/qemu/int128.h
++++ b/include/qemu/int128.h
+@@ -162,24 +162,37 @@ static inline Int128 bswap128(Int128 a)
  
- /*
-  * XIVE Fabric (Interface between Interrupt Controller and Machine)
+ typedef struct Int128 Int128;
+ 
++/*
++ * We guarantee that the in-memory byte representation of an
++ * Int128 is that of a host-endian-order 128-bit integer
++ * (whether using this struct or the __int128_t version of the type).
++ * Some code using this type relies on this (eg when copying it into
++ * guest memory or a gdb protocol buffer, or by using Int128 in
++ * a union with other integer types).
++ */
+ struct Int128 {
++#ifdef HOST_WORDS_BIGENDIAN
++    int64_t hi;
++    uint64_t lo;
++#else
+     uint64_t lo;
+     int64_t hi;
++#endif
+ };
+ 
+ static inline Int128 int128_make64(uint64_t a)
+ {
+-    return (Int128) { a, 0 };
++    return (Int128) { .lo = a, .hi = 0 };
+ }
+ 
+ static inline Int128 int128_makes64(int64_t a)
+ {
+-    return (Int128) { a, a >> 63 };
++    return (Int128) { .lo = a, .hi = a >> 63 };
+ }
+ 
+ static inline Int128 int128_make128(uint64_t lo, uint64_t hi)
+ {
+-    return (Int128) { lo, hi };
++    return (Int128) { .lo = lo, .hi = hi };
+ }
+ 
+ static inline uint64_t int128_get64(Int128 a)
+@@ -210,22 +223,22 @@ static inline Int128 int128_one(void)
+ 
+ static inline Int128 int128_2_64(void)
+ {
+-    return (Int128) { 0, 1 };
++    return int128_make128(0, 1);
+ }
+ 
+ static inline Int128 int128_exts64(int64_t a)
+ {
+-    return (Int128) { .lo = a, .hi = (a < 0) ? -1 : 0 };
++    return int128_make128(a, (a < 0) ? -1 : 0);
+ }
+ 
+ static inline Int128 int128_and(Int128 a, Int128 b)
+ {
+-    return (Int128) { a.lo & b.lo, a.hi & b.hi };
++    return int128_make128(a.lo & b.lo, a.hi & b.hi);
+ }
+ 
+ static inline Int128 int128_or(Int128 a, Int128 b)
+ {
+-    return (Int128) { a.lo | b.lo, a.hi | b.hi };
++    return int128_make128(a.lo | b.lo, a.hi | b.hi);
+ }
+ 
+ static inline Int128 int128_rshift(Int128 a, int n)
 -- 
 2.31.1
 
