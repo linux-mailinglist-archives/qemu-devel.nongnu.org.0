@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 539F73F99A5
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 15:23:51 +0200 (CEST)
-Received: from localhost ([::1]:34256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00EBA3F99BF
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 15:26:29 +0200 (CEST)
+Received: from localhost ([::1]:37262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJbpl-0007ZG-RZ
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 09:23:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58810)
+	id 1mJbsK-0001ym-24
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 09:26:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mJboF-0006rw-Lg
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 09:22:15 -0400
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:36425)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mJbqR-0000iS-C2
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 09:24:31 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:46958)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mJboD-0008B1-CY
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 09:22:15 -0400
-Received: by mail-ej1-x632.google.com with SMTP id bt14so13825341ejb.3
- for <qemu-devel@nongnu.org>; Fri, 27 Aug 2021 06:22:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2AJq6Ujy2eOwY4Ado6FRm2/JiOIMq637T8n4VcXvLw4=;
- b=hcirLzvddyevW1IdcdfXBT/5ld2gsFE104FkV4OdKzg+M9bkvO5Y0YNeGfU74t0X5X
- QdcfeNABWTsic0059lbB4fHEj0fyQwCkmCX1R7CMtITWmqXkidPfVnzLC8E/QmayYTVP
- 6AbtBR7yVEHu22JkTFvsx06uDTEeQjUcWD+HyKnfKuTwavXMfFD4wnVRMHcpfXHoaur4
- oqsw79FIcUEp6AZKedmxSwryT23xY+RXyiLEXNEjSdFLbNjy8LC3K6W29InclYmY7H3z
- OyILOhk/HAmTARyXTKbVpLn6cVymm03EjEvz5NT+CW4SOKFhbI9UYPq9CimJQXFjIHuj
- g3qg==
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mJbqM-0000qG-ON
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 09:24:29 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id
+ m25-20020a7bcb99000000b002e751bcb5dbso4351815wmi.5
+ for <qemu-devel@nongnu.org>; Fri, 27 Aug 2021 06:24:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=IL0IhZ89qP0aP4cEleW4k8GTKxNWY73C+es1+kPwk0A=;
+ b=PoyJzcgPrlJ87BcQi8swMmF7BlfJd844Apw3LR68kMm/Av1hDvUGraBPqYDCgo89+P
+ +AVZ6lBRpUu3Wdvg6NM559tQ5QDJ4hHkYcMlTYde2UYiOqueXafwSXOvk4rbP/NNwTKC
+ G0K9Szg+D1m/hhXVUHxvOZV/sCxNl41D3ZyYZCF6jRg/kg5zerLpNsKAgpddSkXdg6K6
+ Ry/tQ+I0jPKpCwA73dU/T7k+EWSICRpvgsSZ108BtUbvKfPjmiddC49A1pDYFSzYcu+D
+ 4B2AbfBMLUt6BKbAbpb0AIyQIqL5waq04C44cTHG+DkNIFKNV+jDQPpf7/ESS7ENTWFi
+ Y9hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2AJq6Ujy2eOwY4Ado6FRm2/JiOIMq637T8n4VcXvLw4=;
- b=M/DcbM5XwRrTtCjrnQDuamuI83gj5aUf6CXwtzVT6t8eKiffeHqyfAet2h3nNdcXYB
- ep/pwXsD5CpyGjQjcy7TLaJMOCann0nWXzo3znsf5Tzv9X8ruojnM0cjfXZEVr1rZG6f
- W5i+q7imRDVwzujs9TAJtuqt1g1aJwObpFJ6H8MCE3imkZGidVfGjRQfQB94VSW23W2s
- TxH0sa8+yhBM6eoCIIdY/0b5eHaxUN3yvwYSDv+eUusx0cocSebLxjqCyN7o38TgnR9W
- SJjtPasrc7TK5q456DOLzxIw8npobrwQfyRs1psgYZU4hhGnH4rSTwviRUcaUUkVYr9C
- 0nrg==
-X-Gm-Message-State: AOAM531pwvf3PujMNLK+GUdWSIFXwjDtVjgmRqBoGZXtkBiL9KJRHDxf
- ffWUtZvPhBzKyDCAmELYyNHeGix1fOy2HzpYFxUc8yII5rk=
-X-Google-Smtp-Source: ABdhPJxDthmniqTABekt/kQBrlDHg+/CrhXZAaESwkmuLnLcQifo7PAJW2Mdb6+oaNFkZEWnw2BgWUA1Bb1EcGBa/20=
-X-Received: by 2002:a17:906:4a8e:: with SMTP id
- x14mr10094088eju.389.1630070531355; 
- Fri, 27 Aug 2021 06:22:11 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=IL0IhZ89qP0aP4cEleW4k8GTKxNWY73C+es1+kPwk0A=;
+ b=eMcKFF/N44ybulEIyu1ps4XhlVR/zPORo0xo1HNej277HO6n2fXV83khprlxAvWHRj
+ S16d3/OctivAZuQXFZ1SXSS5PMFKpQAPEOdX0juJExBwr9zsTnmgOosJGyhl1J6cGZo/
+ OTKfprLsbg/NHOQ9ua5oUYR1im5n9n6w/OqC/TTFUYqIrbIPo1otvctgLfGozltncdw6
+ lphrpgjFfhd/2mYJoYX2GUh9JAN3Lgnz6GwZ/Oeqv9uTGS4hdzy6JveBDKveIY38bjBD
+ p2VXvdwZ0/P3ZKzcwvzrKWDI+1pmufHp3Zjd8a4aeCREtHGUWmEnKBSD4nRhWnMS7B/B
+ qqfQ==
+X-Gm-Message-State: AOAM533msZL524D0G3Unx/hIadxlUpDOTgvgTAdMG4Dth9SpcGwSfz6m
+ pNzv6sns3jxEFyz05AvWxl1gww==
+X-Google-Smtp-Source: ABdhPJw+FN3a2trMN9sQYMO2l9BUUw0q9ezznNNYD8w9XGwgs/hgBIbp7UH4Kxwq04gkJcSC5qjG+Q==
+X-Received: by 2002:a7b:c405:: with SMTP id k5mr8871274wmi.87.1630070663958;
+ Fri, 27 Aug 2021 06:24:23 -0700 (PDT)
+Received: from larix (19.11.114.78.rev.sfr.net. [78.114.11.19])
+ by smtp.gmail.com with ESMTPSA id n8sm5331351wmq.18.2021.08.27.06.24.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Aug 2021 06:24:23 -0700 (PDT)
+Date: Fri, 27 Aug 2021 15:26:33 +0200
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH 6/6] pc: Allow instantiating a virtio-iommu device
+Message-ID: <YSjoCW5z1xbYL4Gp@larix>
+References: <20210810084505.2257983-1-jean-philippe@linaro.org>
+ <20210810084505.2257983-7-jean-philippe@linaro.org>
+ <41720de5-ce29-dd79-2911-d974408af544@redhat.com>
 MIME-Version: 1.0
-References: <20210805135715.857938-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20210805135715.857938-1-marcandre.lureau@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 27 Aug 2021 17:21:59 +0400
-Message-ID: <CAJ+F1C+sFJaHbg5bP+cqH6Dg=XfX9k-BKfFqEDSw3OMNcPen9w@mail.gmail.com>
-Subject: Re: [PATCH v3 00/18] Clipboard fixes (for 6.1?)
-To: QEMU <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="000000000000faf6bc05ca8a5e0a"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <41720de5-ce29-dd79-2911-d974408af544@redhat.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,153 +85,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
+ qemu-arm@nongnu.org, pbonzini@redhat.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000faf6bc05ca8a5e0a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Tue, Aug 17, 2021 at 04:11:49PM +0200, Eric Auger wrote:
+> Hi Jean,
+> 
+> On 8/10/21 10:45 AM, Jean-Philippe Brucker wrote:
+> > From: Eric Auger <eric.auger@redhat.com>
+> >
+> > Add a hotplug handler for virtio-iommu on x86 and set the necessary
+> > reserved region property. On x86, the [0xfee00000, 0xfeefffff] DMA
+> > region is reserved for MSIs. DMA transactions to this range either
+> > trigger IRQ remapping in the IOMMU or bypasses IOMMU translation.
+> >
+> > Although virtio-iommu does not support IRQ remapping it must be informed
+> > of the reserved region so that it can forward DMA transactions targeting
+> > this region.
+> >
+> > Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> 
+> I think we need to handle the case where the end-user gets lost with
+> iommu options and use an invalid combination such as
+> 
+> -M q35,iommu=on,int_remap=on,kernel_irqchip=off -device -device virtio-iommu-pci
 
-Hi
+I guess that would be
+"-M q35,kernel_irqchip=off -device intel-iommu,intremap=on -device virtio-iommu-pci"
 
-On Thu, Aug 5, 2021 at 5:59 PM <marcandre.lureau@redhat.com> wrote:
+I'll add the checks, similar to the one in x86_iommu_set_default().
 
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> Hi,
->
-> Here is a few fixes I have collected while working on clipboard-related
-> code.
->
-> There are some obvious code improvements/fixes, and better handling of
-> release &
-> unregister to avoid dangling pointers and improve user experience.
->
-> v3:
->  - add a migration blocker
->  - improve the code by using a few helpers
->
-> v2:
->  - replaced "ui/vdagent: unregister clipboard peer on finalize" with
-> "ui/vdagent: disconnect handlers and reset state on finalize" patch.
->  - added "ui/vdagent: reset outbuf on disconnect"
->  - commit message tweaks
->
-> Marc-Andr=C3=A9 Lureau (18):
->   ui/vdagent: fix leak on error path
->   ui/vdagent: remove copy-pasta comment
->   ui/gtk-clipboard: use existing macros
->   ui/gtk-clipboard: fix clipboard enum typo
->   ui/clipboard: add helper to retrieve current clipboard
->   ui/clipboard: add qemu_clipboard_peer_owns() helper
->   ui/clipboard: add qemu_clipboard_peer_release() helper
->   ui/clipboard: release owned grabs on unregister
->   ui/vdagent: disconnect handlers and reset state on finalize
->   ui/vdagent: reset outbuf on disconnect
->   ui/vdagent: split clipboard recv message handling
->   ui/vdagent: use qemu_clipboard_peer_release helper
->   ui/vdagent: use qemu_clipboard_info helper
->   ui/vdagent: send empty clipboard when unhandled
->   ui/gtk-clipboard: use qemu_clipboard_info helper
->   ui/vdagent: send release when no clipboard owner
->   ui/gtk-clipboard: emit release clipboard events
->   ui/vdagent: add a migration blocker
->
->  include/ui/clipboard.h |  33 ++++++
->  include/ui/gtk.h       |   1 -
->  ui/clipboard.c         |  41 +++++++
->  ui/gtk-clipboard.c     |  24 ++---
->  ui/vdagent.c           | 239 ++++++++++++++++++++++++++---------------
->  ui/trace-events        |   1 +
->  6 files changed, 240 insertions(+), 99 deletions(-)
->
-> --
-> 2.32.0.264.g75ae10bc75
->
->
->
->
+> We may also document somewhere that the virtio-iommu-pci
+> does not support irq remapping as this may be an important limitation on x86.
 
-Ping
+I'll mention it in the commit message, unless you had another place in
+mind?
 
-Since Gerd is lowering his maintainer responsibilities, is anyone else
-interested?
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000faf6bc05ca8a5e0a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 5, 2021 at 5:59 PM &lt;=
-<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">F=
-rom: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.c=
-om" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-<br>
-Hi,<br>
-<br>
-Here is a few fixes I have collected while working on clipboard-related cod=
-e.<br>
-<br>
-There are some obvious code improvements/fixes, and better handling of rele=
-ase &amp;<br>
-unregister to avoid dangling pointers and improve user experience.<br>
-<br>
-v3:<br>
-=C2=A0- add a migration blocker<br>
-=C2=A0- improve the code by using a few helpers<br>
-<br>
-v2:<br>
-=C2=A0- replaced &quot;ui/vdagent: unregister clipboard peer on finalize&qu=
-ot; with &quot;ui/vdagent: disconnect handlers and reset state on finalize&=
-quot; patch.<br>
-=C2=A0- added &quot;ui/vdagent: reset outbuf on disconnect&quot;<br>
-=C2=A0- commit message tweaks<br>
-<br>
-Marc-Andr=C3=A9 Lureau (18):<br>
-=C2=A0 ui/vdagent: fix leak on error path<br>
-=C2=A0 ui/vdagent: remove copy-pasta comment<br>
-=C2=A0 ui/gtk-clipboard: use existing macros<br>
-=C2=A0 ui/gtk-clipboard: fix clipboard enum typo<br>
-=C2=A0 ui/clipboard: add helper to retrieve current clipboard<br>
-=C2=A0 ui/clipboard: add qemu_clipboard_peer_owns() helper<br>
-=C2=A0 ui/clipboard: add qemu_clipboard_peer_release() helper<br>
-=C2=A0 ui/clipboard: release owned grabs on unregister<br>
-=C2=A0 ui/vdagent: disconnect handlers and reset state on finalize<br>
-=C2=A0 ui/vdagent: reset outbuf on disconnect<br>
-=C2=A0 ui/vdagent: split clipboard recv message handling<br>
-=C2=A0 ui/vdagent: use qemu_clipboard_peer_release helper<br>
-=C2=A0 ui/vdagent: use qemu_clipboard_info helper<br>
-=C2=A0 ui/vdagent: send empty clipboard when unhandled<br>
-=C2=A0 ui/gtk-clipboard: use qemu_clipboard_info helper<br>
-=C2=A0 ui/vdagent: send release when no clipboard owner<br>
-=C2=A0 ui/gtk-clipboard: emit release clipboard events<br>
-=C2=A0 ui/vdagent: add a migration blocker<br>
-<br>
-=C2=A0include/ui/clipboard.h |=C2=A0 33 ++++++<br>
-=C2=A0include/ui/gtk.h=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 -<br>
-=C2=A0ui/clipboard.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 41 +++++++<br=
->
-=C2=A0ui/gtk-clipboard.c=C2=A0 =C2=A0 =C2=A0|=C2=A0 24 ++---<br>
-=C2=A0ui/vdagent.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 239 ++++++++++=
-++++++++++++++++---------------<br>
-=C2=A0ui/trace-events=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
-=C2=A06 files changed, 240 insertions(+), 99 deletions(-)<br>
-<br>
--- <br>
-2.32.0.264.g75ae10bc75<br>
-<br>
-<br>
-<br>
-</blockquote></div><div><br></div><div><br></div><div>Ping</div><div><br></=
-div><div>Since Gerd is lowering his maintainer responsibilities, is anyone =
-else interested?<br></div><br>-- <br><div dir=3D"ltr" class=3D"gmail_signat=
-ure">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000faf6bc05ca8a5e0a--
+Thanks,
+Jean
 
