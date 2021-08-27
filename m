@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA0303F9F49
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 20:57:33 +0200 (CEST)
-Received: from localhost ([::1]:60092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B23493FA06D
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 22:16:50 +0200 (CEST)
+Received: from localhost ([::1]:57320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJh2i-0007UF-Rl
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 14:57:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39496)
+	id 1mJiHR-0003yo-62
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 16:16:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mJh1G-0006lc-Ve
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 14:56:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49415)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mJiGT-0003IF-04
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 16:15:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54400)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mJh1C-0005kb-2Q
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 14:56:02 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mJiGQ-0004w8-7i
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 16:15:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630090556;
+ s=mimecast20190719; t=1630095344;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=GuaaiI7ps7pC947Eco058fNG/MWx2GVrMdzZDRHBYVc=;
- b=NaPSZaabmY0N2+OImZ6+4k8Nb18ydguM+b8GUkuYI3eXKQbb30W4MeAKL0lJCLGWlLPyzT
- zNPev/TVUYjiZpJvCDdlY38iyi/zccGnQy5DwvpYzV4fU4jj/tWD2z7uCoUuVMYhQLFNq/
- UTAnsV6FJrt3XRUFa2N651e2l6l11Ro=
+ bh=lkJuGHRWTjEjE+gy4jXEjtAVv+BPYQ8MVLBM+H9fyFw=;
+ b=CNTY6ekoNLSzqi4qY0lkZ04D9KK5GbArzrVDnzyYWEI2cX5MKTI/ENWlYR5ULMUnmSn21B
+ hsiXCvWxRDiHb15n0+aVnhDaPqITCKskRVrjh0kzH+pfSCyU5bbgnRR3tMdej+f8xHYKMR
+ 8Phr1xEIweTE7trxmAOyZvB+Kff7eyc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-4b86KLE4PD621fMLn-RLEA-1; Fri, 27 Aug 2021 14:55:53 -0400
-X-MC-Unique: 4b86KLE4PD621fMLn-RLEA-1
+ us-mta-569-R2Y2ZTknNquZYaLBqhi_BQ-1; Fri, 27 Aug 2021 16:15:38 -0400
+X-MC-Unique: R2Y2ZTknNquZYaLBqhi_BQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F15BD801B3D;
- Fri, 27 Aug 2021 18:55:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C5FB87D541;
+ Fri, 27 Aug 2021 20:15:37 +0000 (UTC)
 Received: from redhat.com (ovpn-112-96.phx2.redhat.com [10.3.112.96])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DA3AD1017CCB;
- Fri, 27 Aug 2021 18:55:42 +0000 (UTC)
-Date: Fri, 27 Aug 2021 13:55:41 -0500
-From: "eblake@redhat.com" <eblake@redhat.com>
-To: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Subject: Re: [PATCH 2/2] Prevent vhost-user-blk-test hang
-Message-ID: <20210827185541.ehmhgoznavtyogfc@redhat.com>
-References: <20210827164954.13951-1-raphael.norwitz@nutanix.com>
- <20210827164954.13951-2-raphael.norwitz@nutanix.com>
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1501F100EB3D;
+ Fri, 27 Aug 2021 20:15:34 +0000 (UTC)
+Date: Fri, 27 Aug 2021 15:15:32 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Guoyi Tu <tugy@chinatelecom.cn>
+Subject: Re: [PATCH] qapi: Set boolean value correctly in examples
+Message-ID: <20210827201532.bott5brcqnvnicfo@redhat.com>
+References: <a21a2b61-2653-a2c9-4478-715e5fb19120@chinatelecom.cn>
 MIME-Version: 1.0
-In-Reply-To: <20210827164954.13951-2-raphael.norwitz@nutanix.com>
+In-Reply-To: <a21a2b61-2653-a2c9-4478-715e5fb19120@chinatelecom.cn>
 User-Agent: NeoMutt/20210205-739-420e15
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
@@ -56,7 +55,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -34
 X-Spam_score: -3.5
@@ -77,134 +76,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "mst@redhat.com" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "sgarzare@redhat.com" <sgarzare@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Aug 27, 2021 at 04:50:47PM +0000, Raphael Norwitz wrote:
-> In the vhost-user-blk-test, as of now there is nothing stoping
-
-stopping
-
-> vhost-user-blk in QEMU writing to the socket right after forking off the
-> storage daemon before it has a chance to come up properly, leaving the
-> test hanging forever. This intermittently hanging test has caused QEMU
-> automation failures reported multiple times on the mailing list [1].
+On Fri, Aug 27, 2021 at 05:06:27PM +0800, Guoyi Tu wrote:
 > 
-> This change makes the storage-daemon notify the vhost-user-blk-test
-> that it is fully initialized and ready to handle client connections via
-> a pipefd before allowing the test to proceed. This ensures that the
-> storage-daemon backend won't miss vhost-user messages and thereby
-> resolves the hang.
-
-As I said on patch 1, I think the proper fix here is to utilize the
---pidfile option.
-
-> 
-> [1] https://lore.kernel.org/qemu-devel/CAFEAcA8kYpz9LiPNxnWJAPSjc=nv532bEdyfynaBeMeohqBp3A@mail.gmail.com/
-> 
-> Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+> Signed-off-by: Guoyi Tu <tugy@chinatelecom.cn>
 > ---
->  tests/qtest/vhost-user-blk-test.c | 33 ++++++++++++++++++++++++++++---
->  1 file changed, 30 insertions(+), 3 deletions(-)
+>  qapi/trace.json | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
 > 
-> diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk-test.c
-> index 6f108a1b62..b62af449df 100644
-> --- a/tests/qtest/vhost-user-blk-test.c
-> +++ b/tests/qtest/vhost-user-blk-test.c
-> @@ -21,6 +21,8 @@
->  #include "libqos/vhost-user-blk.h"
->  #include "libqos/libqos-pc.h"
->  
-> +const char *daemon_msg = "Block exports setup\n";
-> +
->  #define TEST_IMAGE_SIZE         (64 * 1024 * 1024)
->  #define QVIRTIO_BLK_TIMEOUT_US  (30 * 1000 * 1000)
->  #define PCI_SLOT_HP             0x06
-> @@ -885,7 +887,8 @@ static void start_vhost_user_blk(GString *cmd_line, int vus_instances,
->                                   int num_queues)
->  {
->      const char *vhost_user_blk_bin = qtest_qemu_storage_daemon_binary();
-> -    int i;
-> +    int i, err, pipe_fds[2];
-> +    char buf[32] = {0};
->      gchar *img_path;
->      GString *storage_daemon_command = g_string_new(NULL);
->      QemuStorageDaemonState *qsd;
-> @@ -898,6 +901,12 @@ static void start_vhost_user_blk(GString *cmd_line, int vus_instances,
->              " -object memory-backend-memfd,id=mem,size=256M,share=on "
->              " -M memory-backend=mem -m 256M ");
->  
-> +    err = pipe(pipe_fds);
-> +    if (err != 0) {
-> +        fprintf(stderr, "start_vhost_user_blk: pipe() failed %m\n");
-> +        abort();
-> +    }
-
-Instead of setting up a pipe()...
-
-> +
->      for (i = 0; i < vus_instances; i++) {
->          int fd;
->          char *sock_path = create_listen_socket(&fd);
-> @@ -914,22 +923,40 @@ static void start_vhost_user_blk(GString *cmd_line, int vus_instances,
->                                 i + 1, sock_path);
->      }
->  
-> +    g_string_append_printf(storage_daemon_command, "--printset");
-
-...change this to request the --pidfile option...
-
-> +
->      g_test_message("starting vhost-user backend: %s",
->                     storage_daemon_command->str);
-> +
->      pid_t pid = fork();
->      if (pid == 0) {
-> +        close(pipe_fds[0]);
-> +
->          /*
->           * Close standard file descriptors so tap-driver.pl pipe detects when
->           * our parent terminates.
->           */
->          close(0);
-> -        close(1);
->          open("/dev/null", O_RDONLY);
-> -        open("/dev/null", O_WRONLY);
-> +        close(1);
-> +        dup2(pipe_fds[1], 1);
->  
->          execlp("/bin/sh", "sh", "-c", storage_daemon_command->str, NULL);
->          exit(1);
->      }
-> +
-> +    close(pipe_fds[1]);
-> +
-> +    err = read(pipe_fds[0], buf, 20);
-> +    if (err < 0) {
-> +        fprintf(stderr, "Failed to read from storage-daemon pipe %m\n");
-> +        abort();
-> +    } else if (strcmp(buf, daemon_msg) != 0) {
-> +        fprintf(stderr, "qemu-storage-daemon did not write expected messaage "
-> +                "to the pipe. Total bytes read: %d. Got: %s\n", err, buf);
-> +        abort();
-> +    }
-
-...and instead of trying to read() from a pipe, you instead wait until
-the pid file exists.
-
-> +
->      g_string_free(storage_daemon_command, true);
->  
->      qsd = g_new(QemuStorageDaemonState, 1);
+> diff --git a/qapi/trace.json b/qapi/trace.json
+> index 47c68f04da..eedfded512 100644
+> --- a/qapi/trace.json
+> +++ b/qapi/trace.json
+> @@ -99,7 +99,7 @@
+>  # Example:
+>  #
+>  # -> { "execute": "trace-event-set-state",
+> -#      "arguments": { "name": "qemu_memalign", "enable": "true" } }
+> +#      "arguments": { "name": "qemu_memalign", "enable": true } }
+>  # <- { "return": {} }
+>  #
+>  ##
 > -- 
-> 2.20.1
+> 2.25.1
+> 
+> -- 
+> Best Regards,
+> Guoyi Tu
 > 
 
 -- 
