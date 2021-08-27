@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C1443F954A
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 09:43:30 +0200 (CEST)
-Received: from localhost ([::1]:58982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 044AF3F953F
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 09:40:27 +0200 (CEST)
+Received: from localhost ([::1]:53350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJWWP-0000Y5-JK
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 03:43:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52246)
+	id 1mJWTH-00050a-EY
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 03:40:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mJW0A-00016D-Or; Fri, 27 Aug 2021 03:10:11 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:52425 helo=ozlabs.org)
+ id 1mJW0U-0001Xk-MR; Fri, 27 Aug 2021 03:10:30 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:44133 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mJW08-0007Ys-Ui; Fri, 27 Aug 2021 03:10:10 -0400
+ id 1mJW0S-0007Yp-TV; Fri, 27 Aug 2021 03:10:30 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GwrSZ6fdLz9t0Z; Fri, 27 Aug 2021 17:09:50 +1000 (AEST)
+ id 4GwrSZ6tssz9t0p; Fri, 27 Aug 2021 17:09:50 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1630048190;
- bh=NZRVmO4G1nbaVxDAJi4F5HRlMsuWxzLGETr8Xkvg9vI=;
+ bh=NPzF9dR+Ne0EN3AVW3Gugr5uyLZL0QnOMa6+I6bCoBQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OIykcU7w5UsDfYPNtRmbo/QcIvRt4db45VM7r2PFSebKZEKemiDCR4OKmqqQScM+2
- J7i9RLEcX9YENv+RxmlTgLkd3NXJst0e+0k18elGFXW9/grcdCJiyUQ/Mapoz5TZTI
- UtwsRXva3PnDdn06Kgch8KVpuKO0ap4g0S9ZtsZM=
+ b=lxmqXWiZv8cyUqwssfG247HB+lNUkOj/iKCirgm+QVC+G5XqNXNRoQLSX7HN23PA0
+ ipsIGvCt99OZ2sRc/joRhb4mEK5uH1NIk5gryukuhn9EciAubVuHyrUKmL2Jic8iAc
+ TAxMKt/7tLUI3yDBCfC9SvnpfIe7ZotSIkF7CB+Y=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 17/18] include/qemu/int128.h: introduce bswap128s
-Date: Fri, 27 Aug 2021 17:09:45 +1000
-Message-Id: <20210827070946.219970-18-david@gibson.dropbear.id.au>
+Subject: [PULL 18/18] target/ppc: fix vector registers access in gdbstub for
+ little-endian
+Date: Fri, 27 Aug 2021 17:09:46 +1000
+Message-Id: <20210827070946.219970-19-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210827070946.219970-1-david@gibson.dropbear.id.au>
 References: <20210827070946.219970-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,69 +63,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Matheus Ferst <matheus.ferst@eldorado.org.br>,
  David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matheus Ferst <matheus.ferst@eldorado.org.br>
 
-Changes the current bswap128 implementation to use __builtin_bswap128
-when available, adds a bswap128 implementation for !CONFIG_INT128
-builds, and introduces bswap128s based on bswap128.
+As vector registers are stored in host endianness, we shouldn't swap its
+64-bit elements in user mode. Add a 16-byte case in
+ppc_maybe_bswap_register to handle the reordering of elements in softmmu
+and remove avr_need_swap which is now unused.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
-Message-Id: <20210826145656.2507213-2-matheus.ferst@eldorado.org.br>
+Message-Id: <20210826145656.2507213-3-matheus.ferst@eldorado.org.br>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- include/qemu/int128.h | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ target/ppc/gdbstub.c | 32 +++++++-------------------------
+ 1 file changed, 7 insertions(+), 25 deletions(-)
 
-diff --git a/include/qemu/int128.h b/include/qemu/int128.h
-index 17436d851d..2ac0746426 100644
---- a/include/qemu/int128.h
-+++ b/include/qemu/int128.h
-@@ -1,9 +1,9 @@
- #ifndef INT128_H
- #define INT128_H
+diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
+index 09ff1328d4..1808a150e4 100644
+--- a/target/ppc/gdbstub.c
++++ b/target/ppc/gdbstub.c
+@@ -101,6 +101,8 @@ void ppc_maybe_bswap_register(CPUPPCState *env, uint8_t *mem_buf, int len)
+         bswap32s((uint32_t *)mem_buf);
+     } else if (len == 8) {
+         bswap64s((uint64_t *)mem_buf);
++    } else if (len == 16) {
++        bswap128s((Int128 *)mem_buf);
+     } else {
+         g_assert_not_reached();
+     }
+@@ -389,15 +391,6 @@ const char *ppc_gdb_get_dynamic_xml(CPUState *cs, const char *xml_name)
+ }
+ #endif
  
--#ifdef CONFIG_INT128
- #include "qemu/bswap.h"
- 
-+#ifdef CONFIG_INT128
- typedef __int128_t Int128;
- 
- static inline Int128 int128_make64(uint64_t a)
-@@ -155,7 +155,11 @@ static inline void int128_subfrom(Int128 *a, Int128 b)
- 
- static inline Int128 bswap128(Int128 a)
+-static bool avr_need_swap(CPUPPCState *env)
+-{
+-#ifdef HOST_WORDS_BIGENDIAN
+-    return msr_le;
+-#else
+-    return !msr_le;
+-#endif
+-}
+-
+ #if !defined(CONFIG_USER_ONLY)
+ static int gdb_find_spr_idx(CPUPPCState *env, int n)
  {
-+#if __has_builtin(__builtin_bswap128)
-+    return __builtin_bswap128(a);
-+#else
-     return int128_make128(bswap64(int128_gethi(a)), bswap64(int128_getlo(a)));
-+#endif
- }
+@@ -486,14 +479,9 @@ static int gdb_get_avr_reg(CPUPPCState *env, GByteArray *buf, int n)
  
- #else /* !CONFIG_INT128 */
-@@ -350,5 +354,16 @@ static inline void int128_subfrom(Int128 *a, Int128 b)
-     *a = int128_sub(*a, b);
- }
- 
-+static inline Int128 bswap128(Int128 a)
-+{
-+    return int128_make128(bswap64(a.hi), bswap64(a.lo));
-+}
-+
- #endif /* CONFIG_INT128 */
-+
-+static inline void bswap128s(Int128 *s)
-+{
-+    *s = bswap128(*s);
-+}
-+
- #endif /* INT128_H */
+     if (n < 32) {
+         ppc_avr_t *avr = cpu_avr_ptr(env, n);
+-        if (!avr_need_swap(env)) {
+-            gdb_get_reg128(buf, avr->u64[0] , avr->u64[1]);
+-        } else {
+-            gdb_get_reg128(buf, avr->u64[1] , avr->u64[0]);
+-        }
++        gdb_get_reg128(buf, avr->VsrD(0), avr->VsrD(1));
+         mem_buf = gdb_get_reg_ptr(buf, 16);
+-        ppc_maybe_bswap_register(env, mem_buf, 8);
+-        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
++        ppc_maybe_bswap_register(env, mem_buf, 16);
+         return 16;
+     }
+     if (n == 32) {
+@@ -515,15 +503,9 @@ static int gdb_set_avr_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
+ {
+     if (n < 32) {
+         ppc_avr_t *avr = cpu_avr_ptr(env, n);
+-        ppc_maybe_bswap_register(env, mem_buf, 8);
+-        ppc_maybe_bswap_register(env, mem_buf + 8, 8);
+-        if (!avr_need_swap(env)) {
+-            avr->u64[0] = ldq_p(mem_buf);
+-            avr->u64[1] = ldq_p(mem_buf + 8);
+-        } else {
+-            avr->u64[1] = ldq_p(mem_buf);
+-            avr->u64[0] = ldq_p(mem_buf + 8);
+-        }
++        ppc_maybe_bswap_register(env, mem_buf, 16);
++        avr->VsrD(0) = ldq_p(mem_buf);
++        avr->VsrD(1) = ldq_p(mem_buf + 8);
+         return 16;
+     }
+     if (n == 32) {
 -- 
 2.31.1
 
