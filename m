@@ -2,36 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08B83F9508
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 09:22:31 +0200 (CEST)
-Received: from localhost ([::1]:49514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDFB73F9513
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 09:26:25 +0200 (CEST)
+Received: from localhost ([::1]:55924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJWC1-00005b-NZ
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 03:22:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52200)
+	id 1mJWFr-0004PQ-Q8
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 03:26:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mJW06-00010T-7w; Fri, 27 Aug 2021 03:10:06 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:50049 helo=ozlabs.org)
+ id 1mJW03-0000wa-KU; Fri, 27 Aug 2021 03:10:03 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:39481 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mJW03-0007SQ-Qh; Fri, 27 Aug 2021 03:10:05 -0400
+ id 1mJW01-0007QW-2S; Fri, 27 Aug 2021 03:10:02 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GwrSZ3JFXz9sWd; Fri, 27 Aug 2021 17:09:50 +1000 (AEST)
+ id 4GwrSZ2f6xz9sWc; Fri, 27 Aug 2021 17:09:50 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1630048190;
- bh=va9gDSdsAlOXmXWPG7o/9EszwysLvmLJ6dOnM86bfaE=;
+ bh=3HAnMry8QrGfAtdyPyBFYVzTe6YycbOf8WcqDPtwUDg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=fl7dRJv92n7oDTljAlpbr2qsuP/DTcYb5IJPBPWLzrR3WFDj5QKph39ElFcKjftu+
- GwL2ORrA6L29LBn4I2sWg93KGJ4HR++ySpwMUZ/GMSvpWmlpwiqvwNdRMqw1Ort+kE
- bF12mjfPDKUUe85C4Tbce3CpHmwDNP6Zix4eIPDc=
+ b=UGElfXuIZ6SCtEvFsWtLU3CaYpvIpZu3rOc/AeuahwCjggxuAoWnPObyys05cZbB/
+ oBjnq3PcxylFolv45xt7y4W1rZI6W7rcmgfCIsDO+HefQOsOWA5sWkiVhdFDrtgwSo
+ CRkUvfWJZ/iGe1ldJk9lZLnz/YQMKT5VsokDcgxo=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 08/18] ppc/pnv: Change the POWER10 machine to support DD2 only
-Date: Fri, 27 Aug 2021 17:09:36 +1000
-Message-Id: <20210827070946.219970-9-david@gibson.dropbear.id.au>
+Subject: [PULL 09/18] ppc/pnv: powerpc_excp: Do not discard HDECR exception
+ when entering power-saving mode
+Date: Fri, 27 Aug 2021 17:09:37 +1000
+Message-Id: <20210827070946.219970-10-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210827070946.219970-1-david@gibson.dropbear.id.au>
 References: <20210827070946.219970-1-david@gibson.dropbear.id.au>
@@ -66,58 +67,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cédric Le Goater <clg@kaod.org>
 
-There is no need to keep the DD1 chip model as it will never be
-publicly available.
+The Hypervisor Decrementer exception should not be generated while the
+CPU is in power-saving mode (see cpu_ppc_hdecr_excp()). However,
+discarding the exception before entering the power-saving mode is
+wrong since we would loose a previously generated HDEC.
 
+Fixes: 4b236b621bf0 ("ppc: Initial HDEC support")
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20210809134547.689560-3-clg@kaod.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <20210809134547.689560-4-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/pnv.c         | 2 +-
- hw/ppc/pnv_core.c    | 2 +-
- include/hw/ppc/pnv.h | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ target/ppc/excp_helper.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-index d16dd2d080..b122251d1a 100644
---- a/hw/ppc/pnv.c
-+++ b/hw/ppc/pnv.c
-@@ -1916,7 +1916,7 @@ static void pnv_machine_power10_class_init(ObjectClass *oc, void *data)
-     static const char compat[] = "qemu,powernv10\0ibm,powernv";
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index a79a0ed465..7b6ac16eef 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -1211,12 +1211,6 @@ void helper_pminsn(CPUPPCState *env, powerpc_pm_insn_t insn)
+     cs = env_cpu(env);
+     cs->halted = 1;
  
-     mc->desc = "IBM PowerNV (Non-Virtualized) POWER10";
--    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("power10_v1.0");
-+    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("power10_v2.0");
- 
-     pmc->compat = compat;
-     pmc->compat_size = sizeof(compat);
-diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-index 8c2a15a0fb..4de8414df2 100644
---- a/hw/ppc/pnv_core.c
-+++ b/hw/ppc/pnv_core.c
-@@ -347,7 +347,7 @@ static const TypeInfo pnv_core_infos[] = {
-     DEFINE_PNV_CORE_TYPE(power8, "power8_v2.0"),
-     DEFINE_PNV_CORE_TYPE(power8, "power8nvl_v1.0"),
-     DEFINE_PNV_CORE_TYPE(power9, "power9_v2.0"),
--    DEFINE_PNV_CORE_TYPE(power10, "power10_v1.0"),
-+    DEFINE_PNV_CORE_TYPE(power10, "power10_v2.0"),
- };
- 
- DEFINE_TYPES(pnv_core_infos)
-diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-index d69cee17b2..3fec7c87d8 100644
---- a/include/hw/ppc/pnv.h
-+++ b/include/hw/ppc/pnv.h
-@@ -170,7 +170,7 @@ DECLARE_INSTANCE_CHECKER(PnvChip, PNV_CHIP_POWER8NVL,
- DECLARE_INSTANCE_CHECKER(PnvChip, PNV_CHIP_POWER9,
-                          TYPE_PNV_CHIP_POWER9)
- 
--#define TYPE_PNV_CHIP_POWER10 PNV_CHIP_TYPE_NAME("power10_v1.0")
-+#define TYPE_PNV_CHIP_POWER10 PNV_CHIP_TYPE_NAME("power10_v2.0")
- DECLARE_INSTANCE_CHECKER(PnvChip, PNV_CHIP_POWER10,
-                          TYPE_PNV_CHIP_POWER10)
- 
+-    /*
+-     * The architecture specifies that HDEC interrupts are discarded
+-     * in PM states
+-     */
+-    env->pending_interrupts &= ~(1 << PPC_INTERRUPT_HDECR);
+-
+     /* Condition for waking up at 0x100 */
+     env->resume_as_sreset = (insn != PPC_PM_STOP) ||
+         (env->spr[SPR_PSSCR] & PSSCR_EC);
 -- 
 2.31.1
 
