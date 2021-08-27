@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB193F9503
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 09:21:30 +0200 (CEST)
-Received: from localhost ([::1]:47814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 161823F94F1
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 09:18:02 +0200 (CEST)
+Received: from localhost ([::1]:39566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJWB2-0007Ku-5I
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 03:21:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52110)
+	id 1mJW7k-0001re-Rp
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 03:18:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mJW00-0000rx-06; Fri, 27 Aug 2021 03:10:00 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:52049)
+ id 1mJVzy-0000qy-LA; Fri, 27 Aug 2021 03:09:58 -0400
+Received: from ozlabs.org ([203.11.71.1]:44191)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mJVzu-0007Jv-Vu; Fri, 27 Aug 2021 03:09:59 -0400
+ id 1mJVzv-0007Jt-4T; Fri, 27 Aug 2021 03:09:58 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4GwrSY55b2z9sVq; Fri, 27 Aug 2021 17:09:49 +1000 (AEST)
+ id 4GwrSY5dZYz9sPf; Fri, 27 Aug 2021 17:09:49 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1630048189;
- bh=I4sakuYPcrBaQkmCgTNoXL6KPV5pXDpFf41HibTIaXA=;
- h=From:To:Cc:Subject:Date:From;
- b=o7edketcYN1ljU/OWt9e2mIhP3s3ZaS5ChoSueC6hOdSajBuJAGnNvBeuxbYzT4au
- NZsqMkZRDUKsTvPAkJRmRNn1+tv6cPKkFwHlrfqLLtt93+E2NyArmxHmcZHIBnge30
- 29323B9ZbRiVwrrG/s3UznmlXkxuvWSnd1ytZbzQ=
+ bh=VnVzv6b5PYxmxBHBsKU3ygBVv97Y3zR1Ypi5Cn14e9I=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=iyJgplgiUfSCWGt3Y919TNpANZ7NMqbDqJaUR8+HXwqfwmnF1TxwDy2CAEb31pWhg
+ nvlhLFyoS4S4GWKImylWU8gMjXw0wvkhsasOuhdz6+6PPVjjEhhp/qolCi5/JRZN5P
+ iTYpbi10P3MrLpFZYxADcL6+ruYXezFGqq+ec2oU=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 00/18] ppc-for-6.2 queue 20210827
-Date: Fri, 27 Aug 2021 17:09:28 +1000
-Message-Id: <20210827070946.219970-1-david@gibson.dropbear.id.au>
+Subject: [PULL 01/18] xive: Remove extra '0x' prefix in trace events
+Date: Fri, 27 Aug 2021 17:09:29 +1000
+Message-Id: <20210827070946.219970-2-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210827070946.219970-1-david@gibson.dropbear.id.au>
+References: <20210827070946.219970-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,88 +59,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+Cc: thuth@redhat.com, qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-ppc@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit f214d8e0150766c31172e16ef4b17674f549d852:
+From: Cédric Le Goater <clg@kaod.org>
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210826' into staging (2021-08-26 18:03:57 +0100)
+Cc: thuth@redhat.com
+Fixes: 4e960974d4ee ("xive: Add trace events")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/519
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Message-Id: <20210809085227.288523-1-clg@kaod.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ hw/intc/trace-events | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-are available in the Git repository at:
+diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+index e56e7dd3b6..6a17d38998 100644
+--- a/hw/intc/trace-events
++++ b/hw/intc/trace-events
+@@ -219,14 +219,14 @@ kvm_xive_source_reset(uint32_t srcno) "IRQ 0x%x"
+ xive_tctx_accept(uint32_t index, uint8_t ring, uint8_t ipb, uint8_t pipr, uint8_t cppr, uint8_t nsr) "target=%d ring=0x%x IBP=0x%02x PIPR=0x%02x CPPR=0x%02x NSR=0x%02x ACK"
+ xive_tctx_notify(uint32_t index, uint8_t ring, uint8_t ipb, uint8_t pipr, uint8_t cppr, uint8_t nsr) "target=%d ring=0x%x IBP=0x%02x PIPR=0x%02x CPPR=0x%02x NSR=0x%02x raise !"
+ xive_tctx_set_cppr(uint32_t index, uint8_t ring, uint8_t ipb, uint8_t pipr, uint8_t cppr, uint8_t nsr) "target=%d ring=0x%x IBP=0x%02x PIPR=0x%02x new CPPR=0x%02x NSR=0x%02x"
+-xive_source_esb_read(uint64_t addr, uint32_t srcno, uint64_t value) "@0x0x%"PRIx64" IRQ 0x%x val=0x0x%"PRIx64
+-xive_source_esb_write(uint64_t addr, uint32_t srcno, uint64_t value) "@0x0x%"PRIx64" IRQ 0x%x val=0x0x%"PRIx64
++xive_source_esb_read(uint64_t addr, uint32_t srcno, uint64_t value) "@0x%"PRIx64" IRQ 0x%x val=0x%"PRIx64
++xive_source_esb_write(uint64_t addr, uint32_t srcno, uint64_t value) "@0x%"PRIx64" IRQ 0x%x val=0x%"PRIx64
+ xive_router_end_notify(uint8_t end_blk, uint32_t end_idx, uint32_t end_data) "END 0x%02x/0x%04x -> enqueue 0x%08x"
+ xive_router_end_escalate(uint8_t end_blk, uint32_t end_idx, uint8_t esc_blk, uint32_t esc_idx, uint32_t end_data) "END 0x%02x/0x%04x -> escalate END 0x%02x/0x%04x data 0x%08x"
+-xive_tctx_tm_write(uint64_t offset, unsigned int size, uint64_t value) "@0x0x%"PRIx64" sz=%d val=0x%" PRIx64
+-xive_tctx_tm_read(uint64_t offset, unsigned int size, uint64_t value) "@0x0x%"PRIx64" sz=%d val=0x%" PRIx64
++xive_tctx_tm_write(uint64_t offset, unsigned int size, uint64_t value) "@0x%"PRIx64" sz=%d val=0x%" PRIx64
++xive_tctx_tm_read(uint64_t offset, unsigned int size, uint64_t value) "@0x%"PRIx64" sz=%d val=0x%" PRIx64
+ xive_presenter_notify(uint8_t nvt_blk, uint32_t nvt_idx, uint8_t ring) "found NVT 0x%x/0x%x ring=0x%x"
+-xive_end_source_read(uint8_t end_blk, uint32_t end_idx, uint64_t addr) "END 0x%x/0x%x @0x0x%"PRIx64
++xive_end_source_read(uint8_t end_blk, uint32_t end_idx, uint64_t addr) "END 0x%x/0x%x @0x%"PRIx64
+ 
+ # pnv_xive.c
+ pnv_xive_ic_hw_trigger(uint64_t addr, uint64_t val) "@0x%"PRIx64" val=0x%"PRIx64
+-- 
+2.31.1
 
-  https://gitlab.com/dgibson/qemu.git tags/ppc-for-6.2-20210827
-
-for you to fetch changes up to 0ff16b6b78831240c39cfaaeab1f22ae52c84b09:
-
-  target/ppc: fix vector registers access in gdbstub for little-endian (2021-08-27 12:43:13 +1000)
-
-----------------------------------------------------------------
-ppc patch queue 2021-08-27
-
-First ppc pull request for qemu-6.2.  As usual, there's a fair bit
-here, since it's been queued during the 6.1 freeze.  Highlights are:
-
- * Some fixes for 128 bit arithmetic and some vector opcodes that use
-   them
- * Significant improvements to the powernv to support POWER10 cpus
-   (more to come though)
- * Several cleanups to the ppc softmmu code
- * A few other assorted fixes
-
-----------------------------------------------------------------
-Cédric Le Goater (10):
-      xive: Remove extra '0x' prefix in trace events
-      ppc/pnv: update skiboot to commit 820d43c0a775.
-      ppc: Add a POWER10 DD2 CPU
-      ppc/pnv: Change the POWER10 machine to support DD2 only
-      ppc/pnv: powerpc_excp: Do not discard HDECR exception when entering power-saving mode
-      ppc/pnv: Use a simple incrementing index for the chip-id
-      ppc/pnv: Distribute RAM among the chips
-      ppc/pnv: add a chip topology index for POWER10
-      ppc/xive: Export PQ get/set routines
-      ppc/xive: Export xive_presenter_notify()
-
-David Gibson (1):
-      spapr_pci: Fix leak in spapr_phb_vfio_get_loc_code() with g_autofree
-
-Lucas Mateus Castro (alqotel) (3):
-      target/ppc: divided mmu_helper.c in 2 files
-      target/ppc: moved ppc_store_sdr1 to mmu_common.c
-      target/ppc: moved store_40x_sler to helper_regs.c
-
-Matheus Ferst (4):
-      include/qemu/int128.h: define struct Int128 according to the host endianness
-      target/ppc: fix vextu[bhw][lr]x helpers
-      include/qemu/int128.h: introduce bswap128s
-      target/ppc: fix vector registers access in gdbstub for little-endian
-
- hw/intc/spapr_xive_kvm.c |    8 +-
- hw/intc/trace-events     |   10 +-
- hw/intc/xive.c           |   14 +-
- hw/ppc/pnv.c             |   46 +-
- hw/ppc/pnv_core.c        |    2 +-
- hw/ppc/pnv_xscom.c       |    2 +
- hw/ppc/spapr_pci.c       |   22 +-
- include/hw/ppc/pnv.h     |   35 +-
- include/hw/ppc/xive.h    |    8 +
- include/qemu/int128.h    |   44 +-
- pc-bios/skiboot.lid      |  Bin 1667280 -> 2528128 bytes
- roms/skiboot             |    2 +-
- target/ppc/cpu-models.c  |    4 +-
- target/ppc/cpu-models.h  |    1 +
- target/ppc/cpu.c         |   28 -
- target/ppc/cpu.h         |    9 +
- target/ppc/cpu_init.c    |    3 +
- target/ppc/excp_helper.c |    6 -
- target/ppc/gdbstub.c     |   32 +-
- target/ppc/helper_regs.c |   12 +
- target/ppc/int_helper.c  |   38 +-
- target/ppc/internal.h    |   39 ++
- target/ppc/meson.build   |    8 +-
- target/ppc/mmu_common.c  | 1620 ++++++++++++++++++++++++++++++++++++++++++++++
- target/ppc/mmu_helper.c  | 1590 +--------------------------------------------
- 25 files changed, 1823 insertions(+), 1760 deletions(-)
- create mode 100644 target/ppc/mmu_common.c
 
