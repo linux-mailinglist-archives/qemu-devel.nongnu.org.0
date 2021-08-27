@@ -2,92 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 828683F9E5D
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 19:56:14 +0200 (CEST)
-Received: from localhost ([::1]:37310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06CD13F9E5C
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 19:56:13 +0200 (CEST)
+Received: from localhost ([::1]:37350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJg5I-0007gQ-13
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 13:56:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56538)
+	id 1mJg5M-0007hy-3a
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 13:56:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1mJg3B-00057V-DM
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 13:53:57 -0400
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:14104)
+ id 1mJg39-00056i-OP
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 13:53:55 -0400
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32]:5660)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1mJg38-0006ob-LM
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 13:53:57 -0400
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 17RGR5BB002221; 
- Fri, 27 Aug 2021 17:53:51 GMT
+ id 1mJg36-0006lX-SS
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 13:53:55 -0400
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 17RGaM4g013604; 
+ Fri, 27 Aug 2021 17:53:46 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2021-07-09;
- bh=hbeesl5jr2MDQwAekYTe74dtuO0w8jGAN0DHFmlsco8=;
- b=fhvPGkxu4gNQSRHpf+j2K+AVplpaU3VdHuyk4FupiC4DYmSb0yRT5Qt6fAPxu8XRZNF9
- +jFiNcYnOL5N4fy+SfqtwJXF08VgQ7J7VBEE16pjSFcincLXFKqPAcxtRtr2YhFiMvqK
- bSqaDtFGHn5qLb9TwQTwAd5gtdt1sNCYxec1kPLDgY+mKyZ9VXD0aXHkya7aHSWPx3Oe
- 0PYP742xZsrUCBDth6WMECR8kezthyZui+8YZHz4JdvCYluf4Xi3NvHTtUkYgnLRkqgG
- pHVGXJsAU4r/qC5/AJ3cMcC83cpoMWkw69TrQFGELTzQk3051EzaLktvQnaj8NqJPOit vQ== 
+ bh=nk/mNJJOF9JR+QEoTONQvGTOCsWn6uIcziEOqnTgdc8=;
+ b=CxWrXRPlEVeNnn1Erv87eIWrSutMPPIsKfzejbZh5g+SEURDKCOaxHHtCwkSDC2xAXhj
+ e1a24zfYscxcE0xb/jxNSk+NPmyE+O3W5oiQ+z7BOS1bFxWSRfx8Mo5Twp6oaOEOfF5i
+ AN5SgLb2thY/ckEmM1jiPscw87iE/LdI2cjQ0QoRiYeCPj2kgEUmhbvWK4FR1eMgOdeA
+ b2Ky4MWgJ+FTSCptBp1w3avVuJ7QvF6T8eumgmdpWVtFR7ihdj5NZLcz9Xls99q/MmXU
+ 86LjFyB2SUbQtKYkGZeSSrotyFJIgERsgka1A5PJlfR6PrqoIf/BW5ZDcvQCSLHjOoqO Ag== 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2020-01-29;
- bh=hbeesl5jr2MDQwAekYTe74dtuO0w8jGAN0DHFmlsco8=;
- b=qsSKZgArXM7ly3OFRB5Nh89zEjvrMHE3X141E6EcBqG0dYZ2WXsVkZlaIlb3vXo8Bxs/
- ZbLKlUsbMR1CG1xO1sZpfTviV/7fUJgni9wu9/Erkgk0uuts8OeF159isEko1DtZXKi9
- 2cJWwCsE3E0TLvLGkGvFllzRYjSdNY7PVCh6L54KVJJpx0WiEY76/5HLa6qmn6sD2w49
- FVRr8XoQ8C0OB4hULG2oF14GO2gX+sPxQ+bQ9GMGUoEI5sFGwa/Z4c1HsOsADGDoNHqJ
- zo7qpAyaqoPS6PxXw+ITbhgCkKfIYhhNaE+kumTG6pM0kQWxJwhXSLcHrgKxQ7CYKKnl Bw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by mx0b-00069f02.pphosted.com with ESMTP id 3apvjr19ev-1
+ bh=nk/mNJJOF9JR+QEoTONQvGTOCsWn6uIcziEOqnTgdc8=;
+ b=lujw1nIXtYyyZ1TaGWZOR4joHlkDeaO4h76j16Mj7UOsNagdc10QlJgCmDHo1ZYWNEOW
+ Zy/91W+CaoQbtAqq1prnGLhsgUSO82tBTbPq9gpvlFh7xWbq5hs164BmF8fNAYGOKpOL
+ hV/J93e800ryZ4BBwj6B85GVme8yvIzvj/ZVZNVEJHTy24OxvgOo2HxIEwYe9oCtr9qU
+ 16zheqKqs+rXlWpGvp/9FqD1cANtkVm+n6MGVGFx4unEpjJ0VErpaDsqJ2AhBUy/NGIx
+ 3CaIApkqGbLJCcHkVZxRnWcJm0n8MMBBM9jCFSJqHOwbt6gP192Qf5jJfIN7LHlLHhQq rw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3ap552c622-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 27 Aug 2021 17:53:50 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17RHnwwb179340;
- Fri, 27 Aug 2021 17:53:40 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2104.outbound.protection.outlook.com [104.47.58.104])
- by userp3020.oracle.com with ESMTP id 3akb92hhth-1
+ Fri, 27 Aug 2021 17:53:45 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 17RHnnPM173202;
+ Fri, 27 Aug 2021 17:53:44 GMT
+Received: from nam11-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11lp2172.outbound.protection.outlook.com [104.47.58.172])
+ by aserp3030.oracle.com with ESMTP id 3aq2hupwfa-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 27 Aug 2021 17:53:40 +0000
+ Fri, 27 Aug 2021 17:53:44 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UnHqC57qefBJftxKvQ+RqpkbVjHhwhc2ktif38YGZmpmbaIuwg8aX49RJokl2pMMngjWZUJAu2hNOTtBFjDULrl6+dPkaorCH7WjM3ZxIpiKgxmBLVXvvkh4rU+f3IU2DqOdWJ4YTwu+tg4wMrbBvjND75Tk4lu15Y9nRzR2hxZ8i6SlzEqqG/cvPGBUmDtFckJDlsj9PTS+GOcu0S/TYNRV3KVQgl/27Idi2gn0o3HHHxRMrbMjNU/HMbwTKWaNB9c1z5HfUeegQbLjdpuCvAe+pNfe9MD9YZ3SUJHOzryPut223jorymzLnEbNzsxPeeT/t+btoo/cSYp6TLSSCg==
+ b=FS13T8FfOLIl71ppGTd+9rBbStcTidcdxplhOuSNr508w8kWTj2bciq14BD4rpPlg8p/7Dc3KcmDs57yq3sLTeo6HjuS6aa8KKPNVsFENUOOecFaiSizGOaJWPZnHU8XfZYUTHMut9elTshpscgDbhhCXcYrpZxclgblubKv9aR0iDVlTrftV5ArhS2//nTW5RH6VSUA4vb0EZF99Rs20hMV+8eDjL/aYNJce2yyaCkDp3A9rjex3p3yyt1R6i1EYraGC7qnbE3Styl2wHtSRReuSLs373oz+1PCE6XjgD/qCYoWm2rq93PGi7Twd2RB2f0ZGIgoapynAF3lPCqlqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hbeesl5jr2MDQwAekYTe74dtuO0w8jGAN0DHFmlsco8=;
- b=Jqe9dHD4ZmuGoUjTrWi5YFig2jtYF6GknWmlvrh+UMMOMNbjptA6cQZhnYZ52N/hthpLYa2ypHbp6FcrFBpCyYHMwGqYO2kEOFoWwZQqIq8GnLVpDuQZnCaIFw0t+eTAbx/PMLDvMSQ67tWN6kMBqFWrPl8BkIRv5UvU973aDa7d5fqkYjux2cfJrxZEx8ZEA39SqvhKnTsfhcIf9EdfI9750wXDmeYPRKXv9WLa3h73EqCEbjkiM0LzmbDwZlrU1jYkSikLVGelo41kDfCsXHOjWOoItJI/nMg2hXHo96/Fd8uny1MDCu5fcok+1/0ZRCw1OmftVvDa89IvZBrI/g==
+ bh=nk/mNJJOF9JR+QEoTONQvGTOCsWn6uIcziEOqnTgdc8=;
+ b=f/meBfCnkPgkUh+eYfjylTeiM0EwOhqkzA8m07F5HfH3WbdvYPLYIRnBKOofcZC/4wEmKZpGm3Mjih73APgZpGVVYd3xPZ7GaP3hVGc5MmHV+pEF3GQ5yUzXUYWxRJ5d+5mFF8EDchhzq9bD8HvZ/hCO/UTZ7TsH0LivTIhWbxDN4SKJwb6zJzaKIoGqwo41PYzXkrB28cKEJGKJnXE8oAb1AhFfBLmdko/cBNqnPK7VWHrl6VGjL0Ip7+eEkfBjUuIwu/4BfwaRgPcpwa2+dCKnfnnvh+DCyT0SiaNtWR97FM3LPlVwBB76xpNFqerBzUf2/iZuIsbFEFlM+Bp1ig==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hbeesl5jr2MDQwAekYTe74dtuO0w8jGAN0DHFmlsco8=;
- b=Js3XZqJ1vH8qKarNM//VRJ+32v6zqlWapmgU0zdzDIZWeey+WLvfz9gaV+SKdptXFCu8DEzRkFQWqilonQrPu6giyZ5apoQYuNu2tsw7SvM4hq6LgpUNkIEkC5hFxntf6HK5MKertreV6P5SzudQiMirs1Oz3iF/c9DObIKsgKM=
+ bh=nk/mNJJOF9JR+QEoTONQvGTOCsWn6uIcziEOqnTgdc8=;
+ b=zXdfwx0503ZLGIZ7+8QtUAdHubbUfaq39KPgNkPbT98vFo3M+B1HdPJYOszFBM7x/FGKNjymxj4Y5Lo9Z2POe4Ytm51j+oSkMBu5yiDBDxoMEOt1ZD8ZZFdM5s8tD/i7PTkVVrOhdGa81vHVgYBwHcGtuBlOGSGJyymIDgV3b2Y=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com (2603:10b6:208:185::25)
- by BLAPR10MB5233.namprd10.prod.outlook.com (2603:10b6:208:328::23)
+ by BLAPR10MB5187.namprd10.prod.outlook.com (2603:10b6:208:334::23)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4436.19; Fri, 27 Aug
- 2021 17:53:38 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.21; Fri, 27 Aug
+ 2021 17:53:41 +0000
 Received: from MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::282e:c371:7a10:b122]) by MN2PR10MB4013.namprd10.prod.outlook.com
  ([fe80::282e:c371:7a10:b122%5]) with mapi id 15.20.4457.023; Fri, 27 Aug 2021
- 17:53:38 +0000
+ 17:53:41 +0000
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC server v2 00/11] vfio-user server in QEMU
-Date: Fri, 27 Aug 2021 13:53:19 -0400
-Message-Id: <cover.1630084211.git.jag.raman@oracle.com>
+Subject: [PATCH RFC server v2 01/11] vfio-user: build library
+Date: Fri, 27 Aug 2021 13:53:20 -0400
+Message-Id: <b556fb2bb8e364657a867dc5a83df937ffbf5880.1630084211.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <cover.1629131628.git.elena.ufimtseva@oracle.com>
+In-Reply-To: <cover.1630084211.git.jag.raman@oracle.com>
 References: <cover.1629131628.git.elena.ufimtseva@oracle.com>
+ <cover.1630084211.git.jag.raman@oracle.com>
 Content-Type: text/plain
 X-ClientProxiedBy: BYAPR11CA0093.namprd11.prod.outlook.com
  (2603:10b6:a03:f4::34) To MN2PR10MB4013.namprd10.prod.outlook.com
@@ -97,73 +98,73 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from jaraman-bur-1.us.oracle.com (209.17.40.46) by
  BYAPR11CA0093.namprd11.prod.outlook.com (2603:10b6:a03:f4::34) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4457.20 via Frontend Transport; Fri, 27 Aug 2021 17:53:35 +0000
+ 15.20.4457.20 via Frontend Transport; Fri, 27 Aug 2021 17:53:38 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7c760c28-606f-47a2-6f7d-08d969839913
-X-MS-TrafficTypeDiagnostic: BLAPR10MB5233:
+X-MS-Office365-Filtering-Correlation-Id: 4cf924a5-e113-4005-e31d-08d969839ab6
+X-MS-TrafficTypeDiagnostic: BLAPR10MB5187:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BLAPR10MB5233FCE1AF957D276E18933390C89@BLAPR10MB5233.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Microsoft-Antispam-PRVS: <BLAPR10MB51876B71279C0EFEF656CD4390C89@BLAPR10MB5187.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bChTL3PrvI2ZNlWg9j86b4b8uEXab45TzX0hJwPcvaGEmXnamb3aG95XtiO9qWox0lcJSgP4pskRy0Aniyz45GdQxwoJI6fjJJS2GKlU8c1teMoRYIcod2eHhzEsUiyhUYvUDfzTcpg3zPR5BMDBS69XoX9l+ytAxKwVb+Maasx2k+d8CX+MSoMqGTTIUI1/wxzx9pEi9c1g4uoMmcgXuKUvVJfi3fJ7mDHd1Po5OkfEhlmuDA3RVJd2e4vXEFzTUZFuBIyzernTjIrxNLILJGMTaYCN8Y6OmIYKb22RpbE9SOCFEN2QONRp4PCRNE6IrYUg+opVreCllXUy+5dPlyjZGBG4ELYaQ0JnnGvduGLRDBa20X3ElQyl1a2NHny/9yQlWp0IyI27as9stPwz+Lsgek2gWRvRPZSnxo5+nZ+tCjLgnFFpor7eGqu5F/PmIgbqNX7anFEdx/D1HPoZ/UBQ6PmUISqostaYmQsKkHOOECc7Tf60vnqyiR1iBX5mM/Gfypov9/XWoCHdcZQ1BaxY3+1wk3v43VVvnmQkuM9iScoZDo+U43f8QMdZ905ODhy4eVixcuPjZeWeRjtHSf2ldSFGmUxrrWNJGGdnNwzkaOV+DV8O7U/70CXmfdCQq91V0FsggB6wf9ldGlHwlU2xFdpmCA/KDTOo2gp52BzOGEGyH8Kniw5CWJsZ9qc+iunrZ3KG8sepmkxb+aI4jhdyNfdhX4IiXDi6x7MD43reYhdYCLh65iikHFiElxSi5nNTVldFJ36795lYDWopgQ==
+X-Microsoft-Antispam-Message-Info: /ztO5UyEAZvONA2kNfHk0/vUAx1toL5D3QMZcPmvTTt864/d4Q9YUgQ7hUuRp/9wHfPZfCgN4KwPUNHVCXmfQ0+tyVmU6CcIo002wy6h9qFQvug6nr5PRlkvnye819UvZzGkGWV1LjCMm0FxQq4IcmaSGBW4genbLPjORA0FUIf4E3yyhWlW/jEZTcGXAacHPInRo0NxmlByeVNl1CBMGquG2rxfKsdRFyvz7ExX9at6UyhvcbKxQ1jsDH2bTASp2D5rUA+ayGUcIy5g18la8n946qJAAtDodwYgFolpZ6pacxL8Kjeb7ld0LJkuOKIonrP1O42Ppi6bsyLRvscScMviRJQJ8vdyGowyZA9X4PRn7YU+9OYUlE8gOXtAtcE8161jlgs7bDteMmdCsjsleu1/j+PGpHp/YjQE5g/giv2gm1OiaQegzMU/MY/oQOGkegra8kn9C/7U1TS4IfUQZBGX9Ed8m6yS5igZGUBeStlpPo3gjJT4FeleZA9/ZfWWE3C60sJkaEhBcsmAAPil+YbKmC4pTjgpdnDoYqvE0QlSCkrJQQHKQecUfF+Q3ztjfjVxQ2iQn+XjZ7dHPl7wqtyJuqXpndEC/j2zeo3WXENenntm8kqloEKQLaeR2764ACBxs+ABWboxolpyPax6JKIzQ2AqzFhaXI239OGl1Pt3tsFfGz0IB0gwgAYg4znRW3Vbs28RDRHNOyduqzAO60yFz3ZL1riKynfH0jDooMalCpeSnpUo+s1D1NmqnPaL+K9lYDWtASbhMD868G4wySFklTmVgOwuNevxJLT2bETxTaIrXtF+qgDVCDcnWgcALTqGLGSlZOXwTP9gNuq8dQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MN2PR10MB4013.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(366004)(346002)(39860400002)(376002)(136003)(38350700002)(478600001)(966005)(86362001)(6486002)(6666004)(26005)(7696005)(316002)(7416002)(52116002)(6916009)(66476007)(66556008)(38100700002)(66946007)(2616005)(36756003)(107886003)(4326008)(5660300002)(956004)(2906002)(8676002)(186003)(8936002)(83380400001);
+ SFS:(366004)(66556008)(66476007)(2906002)(66946007)(8936002)(7696005)(508600001)(966005)(6486002)(8676002)(6666004)(26005)(52116002)(316002)(5660300002)(186003)(36756003)(6916009)(107886003)(7416002)(4326008)(956004)(2616005)(86362001)(83380400001)(38100700002)(38350700002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?u3xEbZhpXCYCC6v+izHJgUQmbHIvasKkbn1z2TnApQ7Zg9Xv6xir7FXKkkvx?=
- =?us-ascii?Q?YeUb5qScytO79fxvcgduGFDTbJ3lrF1ZbjKWHfyXVneJfirMG7o+9/F1mvA4?=
- =?us-ascii?Q?XY5VNWQrdWvgUOca8RitXWHeseQdKRjokguIudbFU2UesszbFJll71Rf0zbH?=
- =?us-ascii?Q?eWagvbB+B043OF+2x8ZPi7IMGetv720yr5Bp38OlcyIrmeT1cmLyueyI0HsU?=
- =?us-ascii?Q?YRy2lvfw6KDF0LxIMbPFIpVG2fq7HTPGSUrhckRTqsDdgpNVhh301VgPKhEm?=
- =?us-ascii?Q?9tSC29aEWAMqPC4MKzL361QkqSUHd6pBEwJ/e8Qrogx8i3zKXLV67w2oC89k?=
- =?us-ascii?Q?hdoPjjnm1+VKF3EYMizd0RHwES0DtfnWSDOkz4bKp+FSZ0NNaaKLXsFPhf9t?=
- =?us-ascii?Q?Yq5vR0tRmVYpytvLuIq2qNjtTJyBivStFyoiTdwhvwmmQlG0dymsmYKivtVX?=
- =?us-ascii?Q?oBjwWLMmUAwDfvq8VK8GYjg4NdeVWFKkqflKt7q6SLxq2X5iBgnmTWyRx01f?=
- =?us-ascii?Q?MjgqHn4q2o4WOSIByWlGe5vtvQuvtWsE3suoH8u/QxfqvekgdQ8SofXXil54?=
- =?us-ascii?Q?mj8KWxRQeGNjJbFO2gHxr7Xttjq3l4kHmdSXChY5oKFuivC/sKcQNFqllyim?=
- =?us-ascii?Q?U3o0o0FQ7vFG7tQxpn5kC/DvrahHtHbajvjszw8EJF0iIfGzRX2Ay66hlCTN?=
- =?us-ascii?Q?JhEiVKrzUKuPV5oe6RrOHuGILgzw7UdOvagRemIcWN8RdKQqEfPU7TWeXLKg?=
- =?us-ascii?Q?mD77P9w5X37IsqXaOcYXq7bE5C4Lb7LWTt0c5U2BYBTcB6DNslodx4szsgCq?=
- =?us-ascii?Q?2YlYqGiQA5X2QfYAgFvTKyXnvhQwQLKtS1AlfaTEdA52yU+DksNd8ca2D2jO?=
- =?us-ascii?Q?z5DfkImu6236Ga2Yhzo8QkOW3WiYx4cRYaAXl2dQMH0qra3NVeDpVTn0tpaJ?=
- =?us-ascii?Q?nxVk/b3LhaK5zWYtdID4jjE0wUgxKJaHzi8HEHSNGIxMafugxR14RuItNbXe?=
- =?us-ascii?Q?5wQxmQb0aYav3pzxdwF7TOyS57nzH5ZVHafdnhGpB/PrhJoXNbMzKypGmEBN?=
- =?us-ascii?Q?JgknXryxO7Xi95gHZagBI7GeUKUiiZbkUkdSZvnmO+e5YdRNzBMKuGMa6i02?=
- =?us-ascii?Q?8dNDy7bA/VlKwSa7dlpopwZuBh6mZJGZIqgedlOsWcXt88MqM86zA/Uq8pcL?=
- =?us-ascii?Q?Vsw5TsVdr6tV3I9eQtfWnljQJ63Nz0fnZ4OhKx4VZT1oLPJNO40KnW8KUK2n?=
- =?us-ascii?Q?dZJhKj/vjbrlCc5IDu3b/udGPB0i1FRIQ252Y67PE/WAxJTFpz4WeDPUTWD9?=
- =?us-ascii?Q?u95D26YCMtha9N1lg+PWAdBG?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Hvc1ex0vagcIJ8+w8vtLlfAW/ckLhpIKovUm+n7fK4PGTcEIHmE4KKLBPWiy?=
+ =?us-ascii?Q?ouGMiB7F2y3nclbyg/AFJ5hmMUwpM3PRltRbiQzJlibfs4yCVzIk+T7y4PfS?=
+ =?us-ascii?Q?0f6w4ie/w3fTTxW3vZumFvaSLVdWN1KkToEe2kIXWamU7v60i2DpLHjeHlVn?=
+ =?us-ascii?Q?IsQ/GX7FB75AEj52Te1aU+kedKJDfCvvys7BUB1u1ArGvt6bUa0lPsZHsg8S?=
+ =?us-ascii?Q?GJhaLyOLmLzUsw5/+RueFQHJZuiDUB+2volMopDUhpP39mH8/75mO8AcR9lY?=
+ =?us-ascii?Q?xlS9Z3HvUthwrv/wJz3Kk8iowsecrcom/OkqXChxAHob1tWsEmZxkmodD0nd?=
+ =?us-ascii?Q?whVZYDgE/sgxwM8Q3RjapH6UrvJJR7Uoq4PI6JuM4EKLhGd++EFGWE4xfjJ3?=
+ =?us-ascii?Q?2Do6d3W3xVIpIc4WaKJPgteZzFqinCTZ0kVlw4lHX5wDibG809Vgf89tmUGt?=
+ =?us-ascii?Q?WjVNLVk5Wt1pNIRhU+HtkyszomX78IoHZMlKEhR9dFntlBKz193W7B0dXgqd?=
+ =?us-ascii?Q?+TwioHaJy8T0gUi/sBjItQafGIeoj+eiPgI76BlBh3NY7OHnAmuxyHsC8/A8?=
+ =?us-ascii?Q?XBnPc7W8LIxSIyqO/esHW14GrBY7/qKG7pbtMg6vEIm3Qzav0warRG7jLYI4?=
+ =?us-ascii?Q?sdBkVi+Mo/OC1m1uaU3PEAmka5t0IcAAi+ddFHCVrQSzNvjJy5S8mB8MY8Jf?=
+ =?us-ascii?Q?lSDNnAHllu5/SQhMJuEpzA5hEQTD0p7CLjFaS9VU/AyZCWnmPLNRXG5SeT4R?=
+ =?us-ascii?Q?MijiA7c4L84fVHfKhFrdledSlKsQ3YpK62UyvwBrddGthFZZ3Hh9wb4HbcrX?=
+ =?us-ascii?Q?8AdvsiYYqxgi7rEGi7w2y+O6oIwa43+5gW4t1wDgFHEPV9b7JD388s6fbbi9?=
+ =?us-ascii?Q?KUc4oNX38AoPmhQCalaatB6CJqfH10P303MakhISgdDj33row+/GISo0ovuU?=
+ =?us-ascii?Q?NoM/vhPF35RBZb1L9OceDUQao4oDTNyc479cZb6T/usKp7qY7gzEEs/ejdYM?=
+ =?us-ascii?Q?/M4e4dk+EAeAlLxjoOGG8I+SWXB4hJpQ6en8xXm583fER0+ShFw1BXeYZm6l?=
+ =?us-ascii?Q?xiC+Qhy7gEPeUmdKRsZ+tMbMKJGTDfyWHTMp9hEseiPkeAQUHwNYI/6bYxFl?=
+ =?us-ascii?Q?Gb2qvTBuX9QY4y20gx9SQV2iX8eEVd8zPOukkpdEPUPJkXrd3djVStbu5fy5?=
+ =?us-ascii?Q?LM5yphRu9GQWfmiF6f/YXaMMnkQPwpGb447QFo/aRNTx/RqOpwvZvS0DKWo6?=
+ =?us-ascii?Q?RA2MVUswhRMhLoG36SRrJRh4Fc6DOnwt+uhU0MsmLl6BgD4kEtWu4Y3p3h6s?=
+ =?us-ascii?Q?VolnvUPbGvKLLV7RPZnDponA?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c760c28-606f-47a2-6f7d-08d969839913
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4cf924a5-e113-4005-e31d-08d969839ab6
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB4013.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2021 17:53:38.2264 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2021 17:53:41.2342 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NLUhr5WoSog3pvv/RB/X/nrmAvcpbVMgrxIWm8zc4PthLvl1JEov4VaoQ4R9Tic1SoqXdj6FV14I5cPFzdkwuQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5233
+X-MS-Exchange-CrossTenant-UserPrincipalName: HeXOfnvcd2J4gjWtM09e145i1QHVGfncypx77kstePWx3R6zHa5S3qe6jEx8CahbyD/EkAFzHfBq8X2bwg2ZTA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5187
 X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10089
  signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- phishscore=0 spamscore=0
- bulkscore=0 mlxlogscore=999 malwarescore=0 adultscore=0 mlxscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ adultscore=0 spamscore=0
+ bulkscore=0 mlxlogscore=999 malwarescore=0 suspectscore=0 mlxscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
  definitions=main-2108270105
-X-Proofpoint-GUID: bIFNhilSaB0sot1OR9CcUNF91OFPORS8
-X-Proofpoint-ORIG-GUID: bIFNhilSaB0sot1OR9CcUNF91OFPORS8
+X-Proofpoint-GUID: A28R2XE6mGqFwO09Qs5f-P-LLxDss7Qk
+X-Proofpoint-ORIG-GUID: A28R2XE6mGqFwO09Qs5f-P-LLxDss7Qk
 Received-SPF: pass client-ip=205.220.165.32; envelope-from=jag.raman@oracle.com;
  helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -183,83 +184,132 @@ Cc: elena.ufimtseva@oracle.com, john.g.johnson@oracle.com, thuth@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+add the libvfio-user library as a submodule. build it as a cmake
+subproject.
 
-This series depends on the following series from
-Elena Ufimtseva <elena.ufimtseva@oracle.com>:
-[PATCH RFC v2 00/16] vfio-user implementation
-
-Thank you for your feedback for the v1 patches!
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg825021.html
-
-We have incorporated the following feedback from v1 of the
-review cycle:
-
-[PATCH RFC server v2 01/11] vfio-user: build library
-  - Using cmake subproject to build libvfio-user
-
-[PATCH RFC server v2 02/11] vfio-user: define vfio-user object
-  - Added check to confirm that TYPE_REMOTE_MACHINE is used
-    with TYPE_VFU_OBJECT
-
-[PATCH RFC server v2 04/11] vfio-user: find and init PCI device
-  - Removed call to vfu_pci_set_id()
-  - Added check to confirm that TYPE_PCI_DEVICE is used with
-    TYPE_VFU_OBJECT
-
-[PATCH RFC server v2 05/11] vfio-user: run vfio-user context
-  - Using QEMU main-loop to drive the vfu_ctx (using
-    vfu_get_poll_fd() & qemu_set_fd_handler())
-  - Set vfu_ctx to non-blocking mode (LIBVFIO_USER_FLAG_ATTACH_NB)
-  - Modified how QEMU attaches to the vfu_ctx
-
-[PATCH RFC server v2 06/11] handle PCI config space accesses
-  - Broke-up PCI config space access to 4-byte accesses
-
-[PATCH RFC server v2 07/11] vfio-user: handle DMA mappings
-  - Received feedback to assert that vfu_dma_info_t->vaddr is not
-    NULL - unable to do it as it appears to be a valid case.
-
-[PATCH RFC server v2 10/11] register handlers to facilitate migration
-  - Migrate only one device's data per contect
-
-Would appreciate if you could kindly review this v2 series. Looking
-forward to your comments.
-
-Thank you!
-
-Jagannathan Raman (11):
-  vfio-user: build library
-  vfio-user: define vfio-user object
-  vfio-user: instantiate vfio-user context
-  vfio-user: find and init PCI device
-  vfio-user: run vfio-user context
-  vfio-user: handle PCI config space accesses
-  vfio-user: handle DMA mappings
-  vfio-user: handle PCI BAR accesses
-  vfio-user: handle device interrupts
-  vfio-user: register handlers to facilitate migration
-  vfio-user: acceptance test
-
- configure                     |  11 +
- meson.build                   |  28 ++
- qapi/qom.json                 |  20 +-
- include/hw/remote/iohub.h     |   2 +
- migration/savevm.h            |   2 +
- hw/remote/iohub.c             |   5 +
- hw/remote/vfio-user-obj.c     | 803 ++++++++++++++++++++++++++++++++++++++++++
- migration/savevm.c            |  73 ++++
- .gitmodules                   |   3 +
- MAINTAINERS                   |   9 +
- hw/remote/meson.build         |   3 +
- hw/remote/trace-events        |  10 +
- subprojects/libvfio-user      |   1 +
- tests/acceptance/vfio-user.py |  94 +++++
- 14 files changed, 1062 insertions(+), 2 deletions(-)
- create mode 100644 hw/remote/vfio-user-obj.c
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+---
+ configure                | 11 +++++++++++
+ meson.build              | 28 ++++++++++++++++++++++++++++
+ .gitmodules              |  3 +++
+ MAINTAINERS              |  7 +++++++
+ hw/remote/meson.build    |  2 ++
+ subprojects/libvfio-user |  1 +
+ 6 files changed, 52 insertions(+)
  create mode 160000 subprojects/libvfio-user
- create mode 100644 tests/acceptance/vfio-user.py
 
+diff --git a/configure b/configure
+index 9a79a00..794e900 100755
+--- a/configure
++++ b/configure
+@@ -4291,6 +4291,17 @@ but not implemented on your system"
+ fi
+ 
+ ##########################################
++# check for multiprocess
++
++case "$multiprocess" in
++  auto | enabled )
++    if test "$git_submodules_action" != "ignore"; then
++      git_submodules="${git_submodules} libvfio-user"
++    fi
++    ;;
++esac
++
++##########################################
+ # End of CC checks
+ # After here, no more $cc or $ld runs
+ 
+diff --git a/meson.build b/meson.build
+index bf63784..2b2d5c2 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1898,6 +1898,34 @@ if get_option('cfi') and slirp_opt == 'system'
+          + ' Please configure with --enable-slirp=git')
+ endif
+ 
++vfiouser = not_found
++if have_system and multiprocess_allowed
++  have_internal = fs.exists(meson.current_source_dir() / 'subprojects/libvfio-user/Makefile')
++
++  if not have_internal
++    error('libvfio-user source not found - please pull git submodule')
++  endif
++
++  json_c = dependency('json-c', required: false)
++    if not json_c.found()
++      json_c = dependency('libjson-c')
++  endif
++
++  cmake = import('cmake')
++
++  vfiouser_subproj = cmake.subproject('libvfio-user')
++
++  vfiouser_sl = vfiouser_subproj.dependency('vfio-user-static')
++
++  # Although cmake links the json-c library with vfio-user-static
++  # target, that info is not available to meson via cmake.subproject.
++  # As such, we have to separately declare the json-c dependency here.
++  # This appears to be a current limitation of using cmake inside meson.
++  # libvfio-user is planning a switch to meson in the future, which
++  # would address this item automatically.
++  vfiouser = declare_dependency(dependencies: [vfiouser_sl, json_c])
++endif
++
+ fdt = not_found
+ fdt_opt = get_option('fdt')
+ if have_system
+diff --git a/.gitmodules b/.gitmodules
+index 08b1b48..cfeea7c 100644
+--- a/.gitmodules
++++ b/.gitmodules
+@@ -64,3 +64,6 @@
+ [submodule "roms/vbootrom"]
+ 	path = roms/vbootrom
+ 	url = https://gitlab.com/qemu-project/vbootrom.git
++[submodule "subprojects/libvfio-user"]
++	path = subprojects/libvfio-user
++	url = https://github.com/nutanix/libvfio-user.git
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 4039d3c..0c5a18e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3361,6 +3361,13 @@ F: semihosting/
+ F: include/semihosting/
+ F: tests/tcg/multiarch/arm-compat-semi/
+ 
++libvfio-user Library
++M: Thanos Makatos <thanos.makatos@nutanix.com>
++M: John Levon <john.levon@nutanix.com>
++T: https://github.com/nutanix/libvfio-user.git
++S: Maintained
++F: subprojects/libvfio-user/*
++
+ Multi-process QEMU
+ M: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+ M: Jagannathan Raman <jag.raman@oracle.com>
+diff --git a/hw/remote/meson.build b/hw/remote/meson.build
+index e6a5574..fb35fb8 100644
+--- a/hw/remote/meson.build
++++ b/hw/remote/meson.build
+@@ -7,6 +7,8 @@ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('remote-obj.c'))
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy.c'))
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('iohub.c'))
+ 
++remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: vfiouser)
++
+ specific_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('memory.c'))
+ specific_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy-memory-listener.c'))
+ 
+diff --git a/subprojects/libvfio-user b/subprojects/libvfio-user
+new file mode 160000
+index 0000000..647c934
+--- /dev/null
++++ b/subprojects/libvfio-user
+@@ -0,0 +1 @@
++Subproject commit 647c9341d2e06266a710ddd075f69c95dd3b8446
 -- 
 1.8.3.1
 
