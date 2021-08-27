@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29E8A3F98EF
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 14:18:22 +0200 (CEST)
-Received: from localhost ([::1]:38660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D4C3F98F6
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 14:23:50 +0200 (CEST)
+Received: from localhost ([::1]:43230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJaoP-0002pH-7j
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 08:18:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46204)
+	id 1mJath-0006tt-Nx
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 08:23:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1mJamu-0000qE-DK
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 08:16:48 -0400
-Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:43921)
+ id 1mJaqs-0004bK-7d
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 08:20:54 -0400
+Received: from mail-qk1-x72e.google.com ([2607:f8b0:4864:20::72e]:46607)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1mJams-0000pS-Hi
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 08:16:48 -0400
-Received: by mail-qt1-x831.google.com with SMTP id s15so1741789qta.10
- for <qemu-devel@nongnu.org>; Fri, 27 Aug 2021 05:16:44 -0700 (PDT)
+ id 1mJaqp-0003hR-Ro
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 08:20:53 -0400
+Received: by mail-qk1-x72e.google.com with SMTP id m21so6843116qkm.13
+ for <qemu-devel@nongnu.org>; Fri, 27 Aug 2021 05:20:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:content-transfer-encoding:mime-version:subject:message-id:date
- :cc:to; bh=7+YuRDb7CY/A4KtdiOSigAyt5dgagaSufxFz2sC7D8E=;
- b=HtB6wopGcfPzhlMKi/r+9tHFkSTRyICepXj//sj+LwhAIEGIjPQ9ginzdL9gK0HCtS
- TeyG7Mw/b1XsYP/dDvh6Rs+wbSdrU9RugkvDX1naufzBreYN/dAzRSyVEjmuvzvEte6s
- K6UWm+0tBmcJ5BEn/ZbSQRK5xiT5n+Cmgx2YQcpWwZZIr85ntZ2HR3uGMz2v4P+XF6jJ
- 4yzNzy8F2j4bKgBwcjwyoMVrG3C4ATE+Wgy5mdKhcsJJ1D4bVmLQT3Qt359s/f7a6mwr
- pNrTt3j60v0ESiVZ6x+y2BUXfO4H9fGFwCnhQGM8EQq2oM2yoX54dHnMUzMo2vm4bmeo
- Ob4Q==
+ :cc:to; bh=yL6evdCAVwXBgYdoXUl3tlojUIq0uF7k3U5CgBfKA54=;
+ b=eMLVz8unJOv2rw7tS6ES/6RbFFNtgnh6T2Pap6nIxWirPgViD3Qu6bBOTHeZANQWaE
+ Mj/NHLILRl2akgf31JjO1sJGROA5eIskzr4tFxvRCuSMJTJLdvAYwTZOL+XYO0luS6iA
+ kbH+dYtltkqyKcckz9m6LDZJTHDvqaEUUMoBjAJlA0EjRo4DXrQPcsZcR4dAd48+Q9Co
+ ztWNHzG1/ef6xjUFxHjI4sfY4GUKAer+wPM3ibnhphiWwdIZPfs3/1oLIZw/fvT1ZGQ6
+ WmiHiXSFZlc0chJwTKlDo8hv6H2d0ykxoOHkMq2/ks1xWyUPBtQsJbfzx+SV94mGBeoa
+ AvjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:content-transfer-encoding:mime-version
  :subject:message-id:date:cc:to;
- bh=7+YuRDb7CY/A4KtdiOSigAyt5dgagaSufxFz2sC7D8E=;
- b=NvAOmbph3ZAc5fL0GEgaV3zqCriCVU6p6gnH/CGcjKGa+V6cU+Mdz+dDrozc+xTKqs
- at7YsrzM6LfUSyH3Gqe346OjOEOqFr0FdAPbj0k8SGT6WH4vGOhI1TM3M7c4qNbNi3UM
- Oe2aeu93bAMADGurV73bNSVx0MEKGSFRXQWmAuGdqk7/Av6LWESjKHycNPY7UDfHjEQ9
- 9oO+QkdPsnFEeU4mySd7tJqnkA0p/nYp51TlkcgRGbk29mveuc94NERmo3j6QVW5b2x2
- Wqm401afjWtcqfOBZ/WYLTdfnSO8CL0ZrcyJ+DTPyzfGl3ntkPSjX3csb1IsoyHDqCOk
- YElg==
-X-Gm-Message-State: AOAM530Uz1GA3wq/70EyJNTUZ6SMwYZ8GgmtZtCNgM65ExOOKEw/4d7n
- avf09sirwlVEV04HlQRVaew=
-X-Google-Smtp-Source: ABdhPJx6mMe8kkWfCkUOIn471HEVuwWwgDmTAlVHjoJF7m1up4peFBBFnDuaDtD5+5a+UdXmqQJG5Q==
-X-Received: by 2002:ac8:4684:: with SMTP id g4mr8031332qto.290.1630066603889; 
- Fri, 27 Aug 2021 05:16:43 -0700 (PDT)
+ bh=yL6evdCAVwXBgYdoXUl3tlojUIq0uF7k3U5CgBfKA54=;
+ b=F8qSKhR3y61/inVbvwCu+zkHV6BILrN/y3dnYQR5QZ5EYeh+WUdmuIm5K6m7QJkTjS
+ ZWtPVyiaom5C+oTp+60ibrvRVLjphK+Nu5XIGyBdgdJofBmEW4Wqj+2Geeautz8EwqnY
+ nO/obXzeCeREqFsHqM7WutVZWTQIFjh/nF0hR6+vFd/5zu1dNU0Tbo2YIFKr1gEHPWbT
+ cfUhdbNc22UAhX6h3JOsSe0E/1xecYgsKMH+ue7pjS7fEjrzNE58Xh5rMxDyNBLX6nuh
+ 5eG53LNNtfOFGj3BGK8jLqBYSi/yvjeoDR/FX6OIwTzIm2MB7j4NgJvEsuvm+5Bt/qWL
+ V8BQ==
+X-Gm-Message-State: AOAM530lZmMdTpl8O4+M8a33woqSs1LBDwbeFPgnlULzlzc3Yf4EWqsC
+ GKxBZUTz3F92xzDtz46k4tbXwIgDAwk=
+X-Google-Smtp-Source: ABdhPJxGVSkudtfYQKaCeUxyrBiAvx3rd2NVWOG1OfrT3u9JkmaxweOObq9Q32hao4r5I4xk2RIbyw==
+X-Received: by 2002:a05:620a:1082:: with SMTP id
+ g2mr9085373qkk.138.1630066850663; 
+ Fri, 27 Aug 2021 05:20:50 -0700 (PDT)
 Received: from [192.168.0.5] (d149-67-175-105.try.wideopenwest.com.
  [67.149.105.175])
- by smtp.gmail.com with ESMTPSA id c2sm3430357qte.22.2021.08.27.05.16.42
+ by smtp.gmail.com with ESMTPSA id f3sm3600906qti.65.2021.08.27.05.20.49
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 27 Aug 2021 05:16:43 -0700 (PDT)
+ Fri, 27 Aug 2021 05:20:50 -0700 (PDT)
 From: Programmingkid <programmingkidx@gmail.com>
 Content-Type: text/plain;
 	charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Ping: [PATCH 1/2] ui/cocoa.m: Add full keyboard grab support
-Message-Id: <90E28997-9AFA-4D8C-8323-BD087E629638@gmail.com>
-Date: Fri, 27 Aug 2021 08:16:42 -0400
+Subject: Ping: [PATCH 2/2] ui/cocoa.m: Add ability to swap command/meta and
+ options keys
+Message-Id: <38371064-7807-4186-AEEB-AA79C3DB17EA@gmail.com>
+Date: Fri, 27 Aug 2021 08:20:49 -0400
 To: Peter Maydell <peter.maydell@linaro.org>
 X-Mailer: Apple Mail (2.3654.40.0.2.32)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
- envelope-from=programmingkidx@gmail.com; helo=mail-qt1-x831.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::72e;
+ envelope-from=programmingkidx@gmail.com; helo=mail-qk1-x72e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,218 +88,170 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ping
+Ping:
 
 From: John Arbuckle <programmingkidx@gmail.com>
-Date: Thu, 29 Jul 2021 14:41:57 -0400
-Subject: [PATCH 1/2] ui/cocoa.m: Add full keyboard grab support
+Date: Fri, 30 Jul 2021 10:18:56 -0400
+Subject: [PATCH 2/2] ui/cocoa.m: Add ability to swap command/meta and =
+options keys
 
-There are keyboard shortcuts that are vital for use in a guest that runs =
-Mac OS.
-These shortcuts are reserved for Mac OS use only which makes having the =
-guest
-see them impossible on a Mac OS host - until now. This patch will enable =
-the
-user to decide if the guest should see all keyboard shortcuts using a =
-menu item.
-This patch adds a new menu called Options and a new menu item called
-"Full Keyboard Grab". Simply selecting this menu item will turn the =
-feature on
-or off at any time. Mac OS requires the user to enable access to =
-assistive
-devices to use this feature. How to do this varies with each Mac OS =
-version.
-Based on patch by Gustavo Noronha Silva <gustavo@noronha.dev.br>.=20
+For users who are use to using a Macintosh keyboard having to use a PC =
+keyboard
+can be a pain because the Command/meta and Option/Alt keys are switched. =
+To
+make life easier this option is added to allow the user to switch how =
+the guest
+reacts to each of these keys being pushed. It can make a Macintosh =
+keyboard user
+feel almost at home with a PC keyboard. The same could be said for PC =
+keyboard
+users who have to use a Macinosh keyboard.
+Based on patch by Gustavo Noronha Silva <gustavo@noronha.dev.br>.
 
 Signed-off-by: John Arbuckle <programmingkidx@gmail.com>
 ---
- ui/cocoa.m | 112 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 112 insertions(+)
+ ui/cocoa.m | 66 +++++++++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 58 insertions(+), 8 deletions(-)
 
 diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 9f72844b07..fdef9e9901 100644
+index fdef9e9901..98596d5f38 100644
 --- a/ui/cocoa.m
 +++ b/ui/cocoa.m
-@@ -114,6 +114,9 @@ static void cocoa_switch(DisplayChangeListener *dcl,
- typedef void (^CodeBlock)(void);
- typedef bool (^BoolCodeBlock)(void);
+@@ -116,6 +116,7 @@ static void cocoa_switch(DisplayChangeListener *dcl,
 =20
-+static CFMachPortRef eventsTap =3D NULL;
-+static CFRunLoopSourceRef eventsTapSource =3D NULL;
-+
+ static CFMachPortRef eventsTap =3D NULL;
+ static CFRunLoopSourceRef eventsTapSource =3D NULL;
++static bool swap_command_option_keys =3D false;
+=20
  static void with_iothread_lock(CodeBlock block)
  {
-     bool locked =3D qemu_mutex_iothread_locked();
-@@ -332,10 +335,27 @@ - (float) cdx;
- - (float) cdy;
- - (QEMUScreen) gscreen;
- - (void) raiseAllKeys;
-+- (void) setFullGrab;
- @end
-=20
- QemuCocoaView *cocoaView;
-=20
-+// Part of the full keyboard grab system
-+static CGEventRef handleTapEvent(CGEventTapProxy proxy, CGEventType =
-type,
-+CGEventRef cgEvent, void *userInfo)
-+{
-+    QemuCocoaView *cocoaView =3D (QemuCocoaView*) userInfo;
-+    NSEvent* event =3D [NSEvent eventWithCGEvent:cgEvent];
-+    if ([cocoaView isMouseGrabbed] && [cocoaView handleEvent:event]) {
-+        COCOA_DEBUG("Global events tap: qemu handled the event, =
-capturing!\n");
-+        return NULL;
-+    }
-+    COCOA_DEBUG("Global events tap: qemu did not handle the event, =
-letting it"
-+                " through...\n");
-+
-+    return cgEvent;
-+}
-+
- @implementation QemuCocoaView
- - (id)initWithFrame:(NSRect)frameRect
- {
-@@ -361,6 +381,12 @@ - (void) dealloc
+@@ -810,12 +811,22 @@ - (bool) handleEventLocked:(NSEvent *)event
+         qkbd_state_key_event(kbd, Q_KEY_CODE_CTRL_R, false);
+     }
+     if (!(modifiers & NSEventModifierFlagOption)) {
+-        qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
+-        qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
++        if (swap_command_option_keys) {
++            qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
++            qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
++        } else {
++            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
++            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
++        }
+     }
+     if (!(modifiers & NSEventModifierFlagCommand)) {
+-        qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
+-        qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
++        if (swap_command_option_keys) {
++            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT, false);
++            qkbd_state_key_event(kbd, Q_KEY_CODE_ALT_R, false);
++        } else {
++            qkbd_state_key_event(kbd, Q_KEY_CODE_META_L, false);
++            qkbd_state_key_event(kbd, Q_KEY_CODE_META_R, false);
++        }
      }
 =20
-     qkbd_state_free(kbd);
-+    if (eventsTap) {
-+        CFRelease(eventsTap);
-+    }
-+    if (eventsTapSource) {
-+        CFRelease(eventsTapSource);
-+    }
-     [super dealloc];
- }
+     switch ([event type]) {
+@@ -847,13 +858,22 @@ - (bool) handleEventLocked:(NSEvent *)event
 =20
-@@ -1086,6 +1112,50 @@ - (void) raiseAllKeys
-         qkbd_state_lift_all_keys(kbd);
-     });
- }
+                 case kVK_Option:
+                     if (!!(modifiers & NSEventModifierFlagOption)) {
+-                        [self toggleKey:Q_KEY_CODE_ALT];
++                        if (swap_command_option_keys) {
++                            [self toggleKey:Q_KEY_CODE_META_L];
++                        } else {
++                            [self toggleKey:Q_KEY_CODE_ALT];
++                        }
 +
-+// Inserts the event tap.
-+// This enables us to receive keyboard events that Mac OS would
-+// otherwise not let us see - like Command-Option-Esc.
-+- (void) setFullGrab
-+{
-+    COCOA_DEBUG("QemuCocoaView: setFullGrab\n");
-+    NSString *advice =3D @"Try enabling access to assistive devices";
-+    CGEventMask mask =3D CGEventMaskBit(kCGEventKeyDown) |
-+    CGEventMaskBit(kCGEventKeyUp) | =
-CGEventMaskBit(kCGEventFlagsChanged);
-+    eventsTap =3D CGEventTapCreate(kCGHIDEventTap, =
-kCGHeadInsertEventTap,
-+                                 kCGEventTapOptionDefault, mask, =
-handleTapEvent,
-+                                 self);
-+    if (!eventsTap) {
-+        @throw [NSException
-+                 exceptionWithName:@"Tap failure"
-+                reason:[NSString stringWithFormat:@"%@\n%@", @"Could =
-not "
-+                        "create event tap.", advice]
-+                userInfo:nil];
-+    } else {
-+        COCOA_DEBUG("Global events tap created! Will capture system =
-key"
-+                    " combos.\n");
-+    }
-+
-+    eventsTapSource =3D
-+    CFMachPortCreateRunLoopSource(kCFAllocatorDefault, eventsTap, 0);
-+    if (!eventsTapSource ) {
-+        @throw [NSException
-+                 exceptionWithName:@"Tap failure"
-+                 reason:@"Could not obtain current CFRunLoop source."
-+                userInfo:nil];
-+    }
-+    CFRunLoopRef runLoop =3D CFRunLoopGetCurrent();
-+    if (!runLoop) {
-+           @throw [NSException
-+                 exceptionWithName:@"Tap failure"
-+                 reason:@"Could not obtain current CFRunLoop."
-+                userInfo:nil];
-+    }
-+
-+    CFRunLoopAddSource(runLoop, eventsTapSource, =
-kCFRunLoopDefaultMode);
-+    CFRelease(eventsTapSource);
-+}
-+
- @end
+                     }
+                     break;
 =20
+                 case kVK_RightOption:
+                     if (!!(modifiers & NSEventModifierFlagOption)) {
+-                        [self toggleKey:Q_KEY_CODE_ALT_R];
++                        if (swap_command_option_keys) {
++                            [self toggleKey:Q_KEY_CODE_META_R];
++                        } else {
++                            [self toggleKey:Q_KEY_CODE_ALT_R];
++                        }
+                     }
+                     break;
 =20
-@@ -1117,6 +1187,7 @@ - (void)openDocumentation:(NSString *)filename;
- - (IBAction) do_about_menu_item: (id) sender;
+@@ -861,14 +881,22 @@ - (bool) handleEventLocked:(NSEvent *)event
+                 case kVK_Command:
+                     if (isMouseGrabbed &&
+                         !!(modifiers & NSEventModifierFlagCommand)) {
+-                        [self toggleKey:Q_KEY_CODE_META_L];
++                        if (swap_command_option_keys) {
++                            [self toggleKey:Q_KEY_CODE_ALT];
++                        } else {
++                            [self toggleKey:Q_KEY_CODE_META_L];
++                        }
+                     }
+                     break;
+=20
+                 case kVK_RightCommand:
+                     if (isMouseGrabbed &&
+                         !!(modifiers & NSEventModifierFlagCommand)) {
+-                        [self toggleKey:Q_KEY_CODE_META_R];
++                        if (swap_command_option_keys) {
++                            [self toggleKey:Q_KEY_CODE_ALT_R];
++                        } else {
++                            [self toggleKey:Q_KEY_CODE_META_R];
++                        }
+                     }
+                     break;
+             }
+@@ -1188,6 +1216,7 @@ - (IBAction) do_about_menu_item: (id) sender;
  - (void)make_about_window;
  - (void)adjustSpeed:(id)sender;
-+- (IBAction)doFullGrab:(id)sender;
+ - (IBAction)doFullGrab:(id)sender;
++- (IBAction)doSwapCommandOptionKeys:(id)sender;
  @end
 =20
  @implementation QemuCocoaAppController
-@@ -1569,6 +1640,35 @@ - (void)adjustSpeed:(id)sender
-     COCOA_DEBUG("cpu throttling at %d%c\n", =
-cpu_throttle_get_percentage(), '%');
+@@ -1669,6 +1698,22 @@ - (IBAction)doFullGrab:(id) sender
+     }
  }
 =20
-+// The action method to the 'Options->Full Keyboard Grab' menu item
-+- (IBAction)doFullGrab:(id) sender
++// The action method to the "Options->Swap Command and Option Keys" =
+menu item
++- (IBAction)doSwapCommandOptionKeys:(id)sender
 +{
-+    @try
-+    {
-+        // Set the state of the menu item
-+        // if already checked
-+        if ([sender state] =3D=3D NSControlStateValueOn) {
-+            // remove runloop source
-+            CFRunLoopSourceInvalidate(eventsTapSource);
-+            if (!eventsTap) {
-+                CFRelease(eventsTap);
-+            }
-+            [sender setState: NSControlStateValueOff];
-+        }
-+
-+        // if not already checked
-+        else {
-+            [cocoaView setFullGrab];
-+            [sender setState: NSControlStateValueOn];
-+        }
++    // If the menu item is not checked
++    if ([sender state] =3D=3D NSControlStateValueOff) {
++        swap_command_option_keys =3D true;
++        [sender setState: NSControlStateValueOn];
 +    }
-+    @catch(NSException *e) {
-+        NSBeep();
-+        NSLog(@"Exception in doFullGrab: %@", [e reason]);
-+        QEMU_Alert([e reason]);
++
++    // If the menu item is checked
++    else {
++        swap_command_option_keys =3D false;
++        [sender setState: NSControlStateValueOff];
 +    }
 +}
 +
  @end
 =20
  @interface QemuApplication : NSApplication
-@@ -1655,6 +1755,18 @@ static void create_initial_menus(void)
-     [menuItem setSubmenu:menu];
-     [[NSApp mainMenu] addItem:menuItem];
-=20
-+    // Options menu
-+    menu =3D [[NSMenu alloc] initWithTitle:@"Options"];
-+
-+    [menu addItem: [[[NSMenuItem alloc] initWithTitle:
-+                         @"Full Keyboard Grab" =
+@@ -1762,6 +1807,11 @@ static void create_initial_menus(void)
+                          @"Full Keyboard Grab" =
 action:@selector(doFullGrab:)
+                                         keyEquivalent:@""] =
+autorelease]];
+=20
++    [menu addItem: [[[NSMenuItem alloc] initWithTitle:
++                                                 @"Swap Command and =
+Option Keys"
++                                               =
+action:@selector(doSwapCommandOptionKeys:)
 +                                        keyEquivalent:@""] =
 autorelease]];
 +
-+    menuItem =3D [[[NSMenuItem alloc] initWithTitle:@"Options" =
+     menuItem =3D [[[NSMenuItem alloc] initWithTitle:@"Options" =
 action:nil
-+                                    keyEquivalent:@""] autorelease];
-+    [menuItem setSubmenu:menu];
-+    [[NSApp mainMenu] addItem:menuItem];
-+
-     // Window menu
-     menu =3D [[NSMenu alloc] initWithTitle:@"Window"];
-     [menu addItem: [[[NSMenuItem alloc] initWithTitle:@"Minimize" =
-action:@selector(performMiniaturize:) keyEquivalent:@"m"] autorelease]]; =
-// Miniaturize
+                                     keyEquivalent:@""] autorelease];
+     [menuItem setSubmenu:menu];
 --=20
 2.24.3 (Apple Git-128)
 
