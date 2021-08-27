@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0AA03F97F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 12:17:13 +0200 (CEST)
-Received: from localhost ([::1]:46074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D213F9822
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Aug 2021 12:31:47 +0200 (CEST)
+Received: from localhost ([::1]:52434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJYv1-0001Fw-0K
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 06:17:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55190)
+	id 1mJZ9G-0006Qs-87
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 06:31:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJYtK-0000U5-TQ
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 06:15:18 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:45018)
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1mJZ7g-0005Sl-T7
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 06:30:08 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJYtJ-0001Hk-9u
- for qemu-devel@nongnu.org; Fri, 27 Aug 2021 06:15:18 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id me10so12678851ejb.11
- for <qemu-devel@nongnu.org>; Fri, 27 Aug 2021 03:15:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
+ id 1mJZ7e-0005KX-9B
+ for qemu-devel@nongnu.org; Fri, 27 Aug 2021 06:30:08 -0400
+Received: by mail-wr1-x429.google.com with SMTP id b6so9617269wrh.10
+ for <qemu-devel@nongnu.org>; Fri, 27 Aug 2021 03:30:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=brainfault-org.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=m8eZme49jQRfYhDzJSJ/77OFV7j4iRnk/WS77defNqc=;
- b=GLLoHXs8Nm+9NSjYiNdwlWBnZz/yA74IOV8DMS1eTs8z0X8bIO+6y1Wlkk4iQBpNFv
- xsreQ8/Zda80wQkNZMjGcGLAT+Rt7qPpZEAYr+5yXv9Ndpnm2TTl2KBhfQ5/g4GTvg8/
- LmpPXN1b2LvFtgzT91ksaQazSAbb5mD6pYpE2SxToFz7UKtARucprxMtRmRDFh/zvRJk
- MuIMqG8iW7XWM5Drseu7Dvt6lRxemBoQX9oFDllOSQAlwo2QoCbf8s2T+YCYHGxp9VXx
- 6NyvTL0TD+NnH51Nrs27kAJC9l+7RgGPUgPybpzW+rHk8aIEc3m8grpBDGnKNttrrLUm
- lCSQ==
+ :cc; bh=y44c6hcAC18URVEAtmPZAYiKRKGkHIAsc5iJ9C+0yXQ=;
+ b=WnI3kHOKyr5S9fSDTknfkekHYuJwT/0/YHsCiVAvqSRaDAiVKghSA4OX8GX1W+z8qE
+ FshZnPqGaXo4cQM/1MY1D8F/9E97CYoWEaVZ2+GSob/Vm017Q0zUBsecKzJcDz+5fwju
+ DcvSVU42quBEVbhJ+EeK/1oS9EPV/gDdYYTWxIgURFnAuheHYQ7sGRRF/pAY9ROjs9Kn
+ 2E0r6alMbn2pdTa3D3SmwxNv8ctINvNHYt04fYfK3Rrai3eteiPd0f+CiyquCqOc5m53
+ yj2Aqz7ZbKg9kRM9uFwVC72pp+W7XTR+ocg/VsotrOzqCNoZKCo6N1F5fixAtl8Cyqpt
+ G8Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=m8eZme49jQRfYhDzJSJ/77OFV7j4iRnk/WS77defNqc=;
- b=scp2S9x48BGwIzF3knl04Yk0PE6N4g6DGGw7bkJ1Wbzef5l+MaAPr/t+EvrvICFrot
- e1rVtoX7iVaGM7hddDU0TiIPuqeeg51lYFxazdhiNOtcDlFvHJViwQc1otC4iI4DhUcz
- dpyTEeS5tqrJBuZTWdsX3Ear0Un7MhmljVm5SI3zdjdIrXFGRs3IJWpiGrNj0DZZDgGE
- z9lmGnwkAsnAlVCfZqTTE18Z05TYXI3k1a3QT3b5IK6U+KQoL1dhACdZsUEIL2gWEkci
- g/rPX6d+84c/UKVnQt+HKdRA0PFxz9Dp480nGEEKEg37VpepXRxiCJs9z2IC0gN2YZDL
- MM7Q==
-X-Gm-Message-State: AOAM530wlF2Z89v0kd1ucPuzp9h+YquLcc1izdXBC+usrEXutcDqY2m+
- +updXhnSNggHB/wvGrJ9Tz6Y7PRikWI0hOPmG3j21g==
-X-Google-Smtp-Source: ABdhPJxp7np42q5owXKclCbBFkr/kfu+aU9H8Oq2E7AgAR6gr1Ce5pnK7CgKJO7BV7aVPq1kxUYrYOKVgoCPftkXGRk=
-X-Received: by 2002:a17:906:c085:: with SMTP id
- f5mr9305367ejz.250.1630059315096; 
- Fri, 27 Aug 2021 03:15:15 -0700 (PDT)
+ bh=y44c6hcAC18URVEAtmPZAYiKRKGkHIAsc5iJ9C+0yXQ=;
+ b=UYC63Xb8bVLi6cOFaL/ww240gOcsQEi477cajjD2kcgLwfzKyeCsh42jW2GX3DAH/r
+ BrNdP4oinhMsA4ZFi6Ce7iQuVj0E7YiuFO/eaWzTDaLZIqgZe0iFi4rNaHqgxp1gu9tc
+ 3iG30JymiFGptxkhli1HufuBn4mjQbp/VNINJ/cfdJ0XH9QML48bgKUMfmsPmFcS/Nwq
+ E60NQAoLfaO3uXLtX/UnFqSb4z58h7HXY7snfFJvQdx+cDDVHhKYAqK79fzNhltuPFBt
+ h5HCjwf9E40zaOueOLeUxzcWFFw1DsmX7zhfx813/mFgWTZSKbR9+3F7ZJKf1w2qAG/F
+ 34tw==
+X-Gm-Message-State: AOAM531jr/+6Gxm9/NAOL871rxu19V8+vs3Fi1ch/l41wx0NbV3k2h8b
+ tYuDE4icMYfyIPOzId0Xb5txciIs9AVnDTQGZOIijQ==
+X-Google-Smtp-Source: ABdhPJyowO7qGEy3ddsSQk8lcMBLYFPKXNhxEgjvXpYoL0iGhurnjTkwo17BNICJj5WGnY3SUpWWIa1irlDu1v4qkLw=
+X-Received: by 2002:a5d:6ac7:: with SMTP id u7mr9585563wrw.390.1630060204524; 
+ Fri, 27 Aug 2021 03:30:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210826200720.2196827-1-philmd@redhat.com>
- <20210826200720.2196827-4-philmd@redhat.com>
- <b8842325-cf0c-31f6-a4ba-68890eea4e49@ilande.co.uk>
- <CAFEAcA-fn4L9mSqvq+fQ9FhNnvAYv5gJmRMGYbQJNdJ15h81Lg@mail.gmail.com>
- <44d7475b-0d4a-58e0-59e1-bba24cb1ca7e@ilande.co.uk>
-In-Reply-To: <44d7475b-0d4a-58e0-59e1-bba24cb1ca7e@ilande.co.uk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 27 Aug 2021 11:14:27 +0100
-Message-ID: <CAFEAcA82o8v6zJoYsv0hg9O-rUcUQL8EL2G-o76dwMg9k=bONA@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] hw/usb/xhci: Always expect 'dma' link property to
- be set
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <20210724122407.2486558-1-anup.patel@wdc.com>
+ <20210724122407.2486558-5-anup.patel@wdc.com>
+ <CAEUhbmUMkGtsC0V7kz22_0h4Ku2xStankcfhEVS5ywnuRpFtBQ@mail.gmail.com>
+In-Reply-To: <CAEUhbmUMkGtsC0V7kz22_0h4Ku2xStankcfhEVS5ywnuRpFtBQ@mail.gmail.com>
+From: Anup Patel <anup@brainfault.org>
+Date: Fri, 27 Aug 2021 15:59:53 +0530
+Message-ID: <CAAhSdy2m9CJhs2zE-1o6DdCpj2EqsNfbR9KfRfNcJNwXJkunpw@mail.gmail.com>
+Subject: Re: [PATCH v2 4/4] hw/riscv: virt: Add optional ACLINT support to
+ virt machine
+To: Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=2a00:1450:4864:20::429;
+ envelope-from=anup@brainfault.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,72 +79,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup.patel@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 Aug 2021 at 10:14, Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
-> Ah so the plan moving forward is to always have an explicit MR passed in for DMA use.
-> Sorry if I missed that in earlier versions of the patchset, I'm still getting back up
-> to speed on QEMU hacking.
+On Fri, Aug 6, 2021 at 8:00 AM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> Was there a decision as to what the property name should be? I see "dma_mr" used
-> quite a bit, and if there will be more patches to remove the system_memory default
-> from other devices then it would be nice to try and use the same name everywhere.
+> On Sat, Jul 24, 2021 at 8:27 PM Anup Patel <anup.patel@wdc.com> wrote:
+> >
+> > We extend virt machine to emulate ACLINT devices only when "aclint=on"
+> > parameter is passed along with machine name in QEMU command-line.
+> >
+> > Signed-off-by: Anup Patel <anup.patel@wdc.com>
+> > ---
+> >  hw/riscv/virt.c         | 113 +++++++++++++++++++++++++++++++++++++++-
+> >  include/hw/riscv/virt.h |   2 +
+> >  2 files changed, 114 insertions(+), 1 deletion(-)
+> >
+>
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+>
+> Please add a "Machine-specific options" in the Virt documentation.
+>
+> See sifive_u example @
+> https://qemu.readthedocs.io/en/latest/system/riscv/sifive_u.html#machine-specific-options
 
-No, I don't think we have a convention; it might be nice to add one.
-Currently a quick git grep for DEFINE_PROP_LINK and eyeballing of
-the results shows that we have:
+Okay, I will update the documentation in the next revision.
 
- "memory" x 7
- "dram" x 4
- "downstream" x 3
- "dma-memory" x 3
- "dma" x 2
- "source-memory"
- "dram-mr"
- "ddr"
- "ddr-ram"
- "gic"
- "cpc"
- "port[N]"
- "dma_mr"
- "ahb-bus"
- "system-memory"
- "main-bus"
+Regards,
+Anup
 
-This list includes all our TYPE_MEMORY_REGION link properties; a few of these
-are special-purpose, and reasonably have specialized names. 2 out of 3 users
-of "downstream" are devices which pass on (or filter out) memory transactions
-from the CPU (tz-msc, tz-mpc), and I think that name makes sense there.
-(The 3rd is pl080.c, which is a plain old DMA controller, and the naming
-there is not so well-suited.)
-
-"memory" is mostly SoC and CPU objects taking a link to whatever they should
-have as the CPU's view of memory.
-
-I don't have a strong view on what we ought to try to standardize on,
-except that I don't like the "_mr" or "-mr" suffix -- I don't think we
-need to try to encode the type of the link property in the property name.
-
-It is probably reasonable to have different naming conventions for:
- * SoC and CPU objects, which take a link to the MR which represents
-   the CPU/SoC's view of the outside world
- * Endpoint devices which can be DMA masters and take a link giving
-   them their view of what they can DMA to
- * filtering/control devices which take incoming transactions from
-   an upstream port, filter some and pass the rest through to a
-   downstream port
-
-In pretty much all cases, these link properties are used only internally
-to QEMU, so if we decide on a naming convention we can fairly easily
-rename existing properties to match.
-
--- PMM
+>
+> Regards,
+> Bin
 
