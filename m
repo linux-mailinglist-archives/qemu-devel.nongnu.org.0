@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148093FA292
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Aug 2021 02:48:43 +0200 (CEST)
-Received: from localhost ([::1]:49304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CEAB3FA2AF
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Aug 2021 03:04:37 +0200 (CEST)
+Received: from localhost ([::1]:52798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJmWS-0003z3-Lg
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 20:48:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53280)
+	id 1mJmll-000781-Mj
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 21:04:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1mJmUV-0003JR-MV; Fri, 27 Aug 2021 20:46:35 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:59899)
+ id 1mJmhx-0005tm-K8; Fri, 27 Aug 2021 21:00:29 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:59737)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1mJmUT-00044x-OU; Fri, 27 Aug 2021 20:46:35 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id E88F65C00D6;
- Fri, 27 Aug 2021 20:46:29 -0400 (EDT)
+ id 1mJmhv-0004r3-Q8; Fri, 27 Aug 2021 21:00:29 -0400
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 792105C012A;
+ Fri, 27 Aug 2021 21:00:25 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 27 Aug 2021 20:46:29 -0400
+ by compute6.internal (MEProxy); Fri, 27 Aug 2021 21:00:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ijogH1
- ZPsNoeQRumMw6phMVHhhmlNC+6ocOLzlFLzdQ=; b=IhVAVJ+yqANTj1m/B9gegp
- nGRpOPLOkm8E1Op6AQvpVWvDjy0MjwjlRG+xGR1gKkhHIV4SErA+kNic/07QwMan
- 03QAtLuV2Mba2DjDXd5ecyu5RS7t//1ZXGHpU0GNc9LQy6Md0Dp/9Hk0C+JEogvs
- 6EcF1LeHlpGaaAJcTwrlriljhkHKKRJpTpWwXnIMINZ5XJkdqx3BZuQRB/ZEyJKI
- NHq9EPK2Bph97v/i6Sqn+ovnBMVVLmd+eJQkenuGmMiiPyzdAKuml7tKKgjRYlmt
- tezMEvEhQqfmmD0PRAtoTOoZf0BQu0nN9PbKv21tPyl9Dn8+nJ9FtpdsC12XO0EQ
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=iM8WiK
+ ktXoXLW4ZT2Mrqsjc0n62ZYigDOa6MRqGF/cE=; b=nwOUqFyoRrP7E8bAW3McnV
+ +uK/hLSFMR6HpKlJSCEdJbFAY4IX/3cPrL8wHCnDMbjJGfJEirq86f1oKByse+IQ
+ IXRxBLjRNrueU1Te71ljlPucvA40XdB5BHN47YJK3hsd1K14ctlOdvV4sbYN3bWj
+ DBNZHqVZcwrmrQMkPFvkYcEunQYlCgvI/jXQ6UVrof7qvLQnKLikU/t7qrr1N1uH
+ O64ef+hG357ICz7pcdWYYDNPkbUji+ohviXKKqOI72rOpdRoUv6ovulsByqwFNaX
+ o+nENFpF8924/I96xymDyG6sggn3HlUTkVPhnRZetnLHe25/qzga/yMT3LFmp/dQ
  ==
-X-ME-Sender: <xms:Y4cpYdW0FPoegQ9ETv6SnKNVsufmzdKx8XKNmBEMxpSb3t3kAk0_SQ>
- <xme:Y4cpYdl4mscC4iPxtSfDs0DK8eo6WKpoBNzKPwhI3F0iyKFev2U5GJA-_KvMI2lPN
- vjYvfLpzEDHsCrAhL8>
-X-ME-Received: <xmr:Y4cpYZbCxFI0bDQuBY_sEoTlHVF2alMMFnx0TixXSWl3z-tFKP03ul42x6s7yYuqLOit6uVcq2KNcAr2D6RSqHOSvfQOgsuKxMdAZA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddugedgfeekucetufdoteggodetrfdotf
+X-ME-Sender: <xms:poopYUTwjAD1OeYgPdqigcA--GTQewol5yCfWqOZ8yup6F7pBftbAw>
+ <xme:poopYRyBhZoZIoP1QjTe8nfuw2gl08WnD2iqJssuvrdEUVEQKmyx7hzK_xXBthPhm
+ K1LMQ-_HyVDoOgx3AY>
+X-ME-Received: <xmr:poopYR15BwLnnkYJln2m2njVKV3ErU9jp-KZ5tHDkysPZCN_nW2d9TrapnPN7rB7fBY1BuBAZtLHB00DXdT7NeDVDEkk3iDMXEx7fQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddugedggeduucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffujgfkfhggtgesthdtredttddtvdenucfhrhhomhephfhinhhnucfv
  hhgrihhnuceofhhthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgheqnecuggftrfgrth
- htvghrnhepiedvieetledvleevvdeiffetieekfffhleetjeeijeelffejudduteeihfff
- kedtnecuffhomhgrihhnpeeihedtvddrohhrghenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehfthhhrghinheslhhinhhugidqmheikehkrdho
- rhhg
-X-ME-Proxy: <xmx:Y4cpYQUKxb-dRbky2PQjXwLSoslnwKD84q10UzThxNsELlThRiwVTQ>
- <xmx:Y4cpYXmGxXwNDLC3f_JTMDB7d3YNiwLk-isb6HR4xstBtj35Ti-L9g>
- <xmx:Y4cpYdeTXf3a4vfgQIXDJdp9eSS56StdWYXfsEmE7wv1e7vaMtN7Wg>
- <xmx:ZYcpYVj9nZTTfFLoSijeyKiodGT480d29OjMVv85bVjyz4DsVRQTHA>
+ htvghrnhepteehfffgudevgfehgeetjedvvddttefhtedtgfehleegueevieeileetfeev
+ feejnecuffhomhgrihhnpegrphhplhgvrdgtohhmnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepfhhthhgrihhnsehlihhnuhigqdhmieekkhdr
+ ohhrgh
+X-ME-Proxy: <xmx:poopYYALnqWHm44JE6YAaXwU3fezeGQIryTt3du_agxAa3nROo5-RQ>
+ <xmx:poopYdip41j3oI16urQGe0jofddRKWW0GZcdZTtCjVWRkZQ-ztnzYQ>
+ <xmx:poopYUr9jcdnt_ngHkb8jTdAOSc8U_1iQ-WImp_YR5SJ5q4qV1fjmQ>
+ <xmx:qYopYSsC-WArqE7scv5z-eZOmz4XIaTfNobfBuQ5Z7-ojMc_dc2RbA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 27 Aug 2021 20:46:24 -0400 (EDT)
-Date: Sat, 28 Aug 2021 10:46:10 +1000 (AEST)
+ 27 Aug 2021 21:00:19 -0400 (EDT)
+Date: Sat, 28 Aug 2021 11:00:14 +1000 (AEST)
 From: Finn Thain <fthain@linux-m68k.org>
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [RFC 07/10] hw/mos6522: Fix initial timer counter reload
-In-Reply-To: <a0042d81-d7ed-ddd1-cf40-254c63ef4843@ilande.co.uk>
-Message-ID: <4721eb37-afb5-a55-35cd-f4d585a6c5f1@linux-m68k.org>
+Subject: Re: [RFC 01/10] hw/mos6522: Remove get_load_time() methods and
+ functions
+In-Reply-To: <ee403f8a-2fde-56cd-789f-a2ab7f35eb00@ilande.co.uk>
+Message-ID: <beda4286-f08d-ca6d-567f-28efa0b8b2f0@linux-m68k.org>
 References: <cover.1629799776.git.fthain@linux-m68k.org>
- <ae3528be683e131503ea272847a4490d505739ca.1629799776.git.fthain@linux-m68k.org>
- <a0042d81-d7ed-ddd1-cf40-254c63ef4843@ilande.co.uk>
+ <9b78e8c6e453feab6275d04bf503051645770d85.1629799776.git.fthain@linux-m68k.org>
+ <ee403f8a-2fde-56cd-789f-a2ab7f35eb00@ilande.co.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Received-SPF: none client-ip=66.111.4.25; envelope-from=fthain@linux-m68k.org;
@@ -94,80 +95,104 @@ On Wed, 25 Aug 2021, Mark Cave-Ayland wrote:
 
 > On 24/08/2021 11:09, Finn Thain wrote:
 > 
-> > The first reload of timer 1 is early by half of a clock cycle as it gets
-> > measured from a falling edge. By contrast, the succeeding reloads are
-> > measured from rising edge to rising edge.
-> > 
-> > Neglecting that complication, the behaviour of the counter should be the
-> > same from one reload to the next. The sequence is always:
-> > 
-> > N, N-1, N-2, ... 2, 1, 0, -1, N, N-1, N-2, ...
-> > 
-> > But at the first reload, the present driver does this instead:
-> > 
-> > N, N-1, N-2, ... 2, 1, 0, -1, N-1, N-2, ...
-> > 
-> > Fix this deviation for both timer 1 and timer 2, and allow for the fact
-> > that on a real 6522 the timer 2 counter is not reloaded when it wraps.
+> > This code appears to be unnecessary.
 > > 
 > > Signed-off-by: Finn Thain <fthain@linux-m68k.org>
 > > ---
-> >   hw/misc/mos6522.c | 19 +++++++++++--------
-> >   1 file changed, 11 insertions(+), 8 deletions(-)
+> >   hw/misc/mos6522.c | 22 +---------------------
+> >   1 file changed, 1 insertion(+), 21 deletions(-)
 > > 
 > > diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-> > index 5b1657ac0d..0a241fe9f8 100644
+> > index 1c57332b40..a478c1ca43 100644
 > > --- a/hw/misc/mos6522.c
 > > +++ b/hw/misc/mos6522.c
-> > @@ -63,15 +63,16 @@ static unsigned int get_counter(MOS6522State *s,
+> > @@ -63,17 +63,6 @@ static uint64_t get_counter_value(MOS6522State *s,
 > > MOS6522Timer *ti)
-> >       if (ti->index == 0) {
-> >           /* the timer goes down from latch to -1 (period of latch + 2) */
-> >           if (d <= (ti->counter_value + 1)) {
-> > -            counter = (ti->counter_value - d) & 0xffff;
-> > +            counter = ti->counter_value - d;
-> >           } else {
-> > -            counter = (d - (ti->counter_value + 1)) % (ti->latch + 2);
-> > -            counter = (ti->latch - counter) & 0xffff;
-> > +            int64_t d_post_reload = d - (ti->counter_value + 2);
-> > +            /* XXX this calculation assumes that ti->latch has not changed
-> > */
-> > +            counter = ti->latch - (d_post_reload % (ti->latch + 2));
-> >           }
-> >       } else {
-> > -        counter = (ti->counter_value - d) & 0xffff;
-> > +        counter = ti->counter_value - d;
 > >       }
-> > -    return counter;
-> > +    return counter & 0xffff;
 > >   }
-> >     static void set_counter(MOS6522State *s, MOS6522Timer *ti, unsigned int
+> >   -static uint64_t get_load_time(MOS6522State *s, MOS6522Timer *ti)
+> > -{
+> > -    MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(s);
+> > -
+> > -    if (ti->index == 0) {
+> > -        return mdc->get_timer1_load_time(s, ti);
+> > -    } else {
+> > -        return mdc->get_timer2_load_time(s, ti);
+> > -    }
+> > -}
+> > -
+> >   static unsigned int get_counter(MOS6522State *s, MOS6522Timer *ti)
+> >   {
+> >       int64_t d;
+> > @@ -98,7 +87,7 @@ static unsigned int get_counter(MOS6522State *s,
+> > MOS6522Timer *ti)
+> >   static void set_counter(MOS6522State *s, MOS6522Timer *ti, unsigned int
 > > val)
-> > @@ -103,11 +104,13 @@ static int64_t get_next_irq_time(MOS6522State *s,
-> > MOS6522Timer *ti,
-> >         /* the timer goes down from latch to -1 (period of latch + 2) */
-> >       if (d <= (ti->counter_value + 1)) {
-> > -        counter = (ti->counter_value - d) & 0xffff;
-> > +        counter = ti->counter_value - d;
-> >       } else {
-> > -        counter = (d - (ti->counter_value + 1)) % (ti->latch + 2);
-> > -        counter = (ti->latch - counter) & 0xffff;
-> > +        int64_t d_post_reload = d - (ti->counter_value + 2);
-> > +        /* XXX this calculation assumes that ti->latch has not changed */
-> > +        counter = ti->latch - (d_post_reload % (ti->latch + 2));
-> >       }
-> > +    counter &= 0xffff;
-> >         /* Note: we consider the irq is raised on 0 */
-> >       if (counter == 0xffff) {
+> >   {
+> >       trace_mos6522_set_counter(1 + ti->index, val);
+> > -    ti->load_time = get_load_time(s, ti);
+> > +    ti->load_time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> >       ti->counter_value = val;
+> >       if (ti->index == 0) {
+> >           mos6522_timer1_update(s, ti, ti->load_time);
+> > @@ -208,13 +197,6 @@ static uint64_t mos6522_get_counter_value(MOS6522State
+> > *s, MOS6522Timer *ti)
+> >                       ti->frequency, NANOSECONDS_PER_SECOND);
+> >   }
+> >   -static uint64_t mos6522_get_load_time(MOS6522State *s, MOS6522Timer *ti)
+> > -{
+> > -    uint64_t load_time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> > -
+> > -    return load_time;
+> > -}
+> > -
+> >   static void mos6522_portA_write(MOS6522State *s)
+> >   {
+> >       qemu_log_mask(LOG_UNIMP, "portA_write unimplemented\n");
+> > @@ -518,8 +500,6 @@ static void mos6522_class_init(ObjectClass *oc, void
+> > *data)
+> >       mdc->update_irq = mos6522_update_irq;
+> >       mdc->get_timer1_counter_value = mos6522_get_counter_value;
+> >       mdc->get_timer2_counter_value = mos6522_get_counter_value;
+> > -    mdc->get_timer1_load_time = mos6522_get_load_time;
+> > -    mdc->get_timer2_load_time = mos6522_get_load_time;
+> >   }
+> >     static const TypeInfo mos6522_type_info = {
 > 
-> I think the code looks right, but I couldn't see an explicit reference to this
-> behaviour in
-> http://archive.6502.org/datasheets/mos_6522_preliminary_nov_1977.pdf.
-
-Yes, that datasheet is missing a lot of information.
-
-> Presumably this matches what you've observed on real hardware?
+> Both the get_counter_value() and get_load_time() callbacks are used as part of
+> the CUDA emulation in hw/misc/macio/cuda.c as per the comment:
+> 
+> /* MacOS uses timer 1 for calibration on startup, so we use
+>  * the timebase frequency and cuda_get_counter_value() with
+>  * cuda_get_load_time() to steer MacOS to calculate calibrate its timers
+>  * correctly for both TCG and KVM (see commit b981289c49 "PPC: Cuda: Use cuda
+>  * timer to expose tbfreq to guest" for more information) */
+> 
+> Certainly for the 6522 device it is worth configuring with
+> --target-list="ppc-softmmu m68k-softmmu" to make sure that you don't
+> inadvertently break anything in the PPC world.
 > 
 
-Yes.
+No build failure here. Maybe your tree is different?
+
+> A bit of history here: the original mos6522.c was extracted from
+> hw/misc/macio/cuda.c when Laurent presented his initial q800 patches since
+> they also had their own implementation of the 6522, and it was better to move
+> the implementation into a separate QEMU device so that the logic could be
+> shared.
+> 
+> The Darwin kernel timer calibration loop is quite hard to get right: see
+> https://opensource.apple.com/source/xnu/xnu-123.5/pexpert/ppc/pe_clock_speed_asm.s.auto.html
+> and
+> https://opensource.apple.com/source/xnu/xnu-123.5/pexpert/ppc/pe_clock_speed.c.auto.html.
+> Ben/Alex came up with the current mechanism to fool the calibration routine,
+> and I simply added in those callbacks to allow it to be implemented as part of
+> the now-generic 6522 device.
+> 
+
+I didn't find any references to these methods (get_timer1_counter_value, 
+get_timer2_counter_value, get_timer1_load_time and get_timer2_load_time).
+It appears to be dead code, and it adds complexity and harms readability. 
+The Linux kernel project has a policy that no code is added if it lacks 
+any in-tree usage. Does QEMU have the same policy?
 
