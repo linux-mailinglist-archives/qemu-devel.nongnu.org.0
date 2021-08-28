@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB1933FA53C
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Aug 2021 13:07:47 +0200 (CEST)
-Received: from localhost ([::1]:41112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADFCA3FA635
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Aug 2021 16:15:12 +0200 (CEST)
+Received: from localhost ([::1]:60332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJwBZ-0004c1-2K
-	for lists+qemu-devel@lfdr.de; Sat, 28 Aug 2021 07:07:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56064)
+	id 1mJz6w-0002I3-IJ
+	for lists+qemu-devel@lfdr.de; Sat, 28 Aug 2021 10:15:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mJwAO-0003kr-AS; Sat, 28 Aug 2021 07:06:28 -0400
-Received: from 10.mo548.mail-out.ovh.net ([46.105.77.235]:41225)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mJwAL-0007qK-S0; Sat, 28 Aug 2021 07:06:28 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.188])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 921F0200AD;
- Sat, 28 Aug 2021 11:06:21 +0000 (UTC)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Sat, 28 Aug
- 2021 13:06:20 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003fe7dd30e-bef9-4ab9-ac33-8937de540edf,
- 6CE952B1E590FC391734534FA2C2FCCDA042449D) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 83.199.102.86
-Subject: Re: QEMU-KVM offers OPAL firmware interface? OpenBSD guest support?
-To: Mark Kettenis <mark.kettenis@xs4all.nl>
-References: <7r8MLHEKQicVkfT4tQLsiRXQmt_800XbV1s0mM_QJTgOY7XadpiRcD4HizmXByPaZRsMQV2WbNKDfKU-PdVo3ZO9JC6fJ0MF5LM_j5a2fgA=@protonmail.com>
- <20210827170113.5f4ed260@bahia.lan>
- <HgtFZEnabNjIrsVI3x8MYs2QYSCG4IFStP0MR3qwPWBmXW9kDmQmIwQEWHMVdJbUCu-XvHdMpZGe3pr-B91s1D7y6cn9SVzhxEYms5c3p0o=@protonmail.com>
- <20210827180259.3720d58d@bahia.lan>
- <56141ff67838992a@bloch.sibelius.xs4all.nl>
- <20210827190053.6c68def5@bahia.lan>
- <25bfa81c-9498-4e82-a848-1fbb1c188ff1@kaod.org>
- <561422a20e4f9ae2@bloch.sibelius.xs4all.nl>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <51bff28d-4779-b023-fee6-b3e9196b7ec5@kaod.org>
-Date: Sat, 28 Aug 2021 13:06:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mJz68-0001Nx-QV
+ for qemu-devel@nongnu.org; Sat, 28 Aug 2021 10:14:16 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:35393)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mJz67-0004Ki-2l
+ for qemu-devel@nongnu.org; Sat, 28 Aug 2021 10:14:16 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id i21so20426461ejd.2
+ for <qemu-devel@nongnu.org>; Sat, 28 Aug 2021 07:14:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=4V424xuUFhf6+XCY1022UvlV3WOaDvrlZ6vcenGy1RE=;
+ b=iR5Q8Z5goL6NFzHs9/GcGUZMnW3NK4g9q/1TvLRmNol8/klBK4zIyYDqzSTcfU5If/
+ dbz1H8JkI6YQZP8+q4/nCK+CID3cJ+Bl/2fLHPq9lCrWgaw7pxhC4tiTfyfVGHu8c5rL
+ Iz8m0RXEkq8+Svq2lyzn+hu2bzyccwEyKSsgLbCaURYw7148+LciJVekU18/J6FlR4y5
+ J4lIBOUzgF1mVZy6iO6rLUJt/7wwaT9qDxwrodjmve1AdzytVoVM3bqNpsMQTk8yVxIa
+ BDgEj4PmL832Hs6+q9DR3aPUU6cXa4LWzFuq3DXtLoEDN1oAFaXO1o8ISsB3ssiM3ghX
+ OY7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4V424xuUFhf6+XCY1022UvlV3WOaDvrlZ6vcenGy1RE=;
+ b=b30HqMMEvU+5uXA/NDc5+B/eyFAracOe9Y7pVUbMfCf5V762ImHsfC+YJbiVEhQmTs
+ sI9PuaOUq4fazDt6FKNb/66PtKY+9JVScUlNFCjSMLyK4Jz0lDzz3CLAtlX5pQL8SZXz
+ 8c6ZE6+lailYZ9Kb/mTpASwoTpXbsFUI2xmTdbA7TKaYKcJ5OHxxjCllRvGrcMNj4Qvi
+ +0sJ8GATpRUMadrYPkcf95dYuElmfbkb+DlNkCIu9+RKEzuTsYJC+RcqpjBQSwbOJJ/Z
+ /jTDkZEhACUEQ+P19maT1OVufeJKxv9hYWpgVTfPSH5MvfXqLRTfIi4T0Q+WaG2wZ3US
+ 9nrA==
+X-Gm-Message-State: AOAM533opU1zHaNDWfIadLNXVl0nwL04KFMR5X14qkvOkC8Qv4JMVBrx
+ 4Jm3D6dd5KfgCVO2OfQfR6npdBdZD5mkC1/5L9DLqw==
+X-Google-Smtp-Source: ABdhPJyaMDDAwoddqmznh+IePLUfvPqMWs9pKxL5kDXMDPHwsgmPSJJQ/zqUL+IgX5JrhC8whvbVcmPBV6idnEanHYc=
+X-Received: by 2002:a17:906:a108:: with SMTP id
+ t8mr15592609ejy.407.1630160053428; 
+ Sat, 28 Aug 2021 07:14:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <561422a20e4f9ae2@bloch.sibelius.xs4all.nl>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: f6390f59-a226-4ce9-9a03-6de76ce7d392
-X-Ovh-Tracer-Id: 1778077430714371003
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudduhedgfeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtjeertddtfeehnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeelkeekgfefudehueetjeffheevfeegteegveekffduvdejleefueeugeehvdeunecuffhomhgrihhnpehgihhthhhusgdrtghomhdpohhpvghnsghsugdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=46.105.77.235; envelope-from=clg@kaod.org;
- helo=10.mo548.mail-out.ovh.net
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.437,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210827070946.219970-1-david@gibson.dropbear.id.au>
+In-Reply-To: <20210827070946.219970-1-david@gibson.dropbear.id.au>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 28 Aug 2021 15:13:26 +0100
+Message-ID: <CAFEAcA8tPo7Ldbpm=oi1cT+zpHAdQph=AHJBTuYNTP_MLtBevw@mail.gmail.com>
+Subject: Re: [PULL 00/18] ppc-for-6.2 queue 20210827
+To: David Gibson <david@gibson.dropbear.id.au>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,69 +76,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pjp@centroid.eu, QEMU Developers <qemu-devel@nongnu.org>, gardask@gmail.com,
- rgcinjp@disroot.org, daniel@pocock.pro, groug@kaod.org, ppc@openbsd.org,
- kite@centroid.eu, joseph.mayer@protonmail.com, siliconbadger@protonmail.com,
- qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: qemu-ppc <qemu-ppc@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[ ... ] 
+On Fri, 27 Aug 2021 at 08:09, David Gibson <david@gibson.dropbear.id.au> wrote:
+>
+> The following changes since commit f214d8e0150766c31172e16ef4b17674f549d852:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210826' into staging (2021-08-26 18:03:57 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/dgibson/qemu.git tags/ppc-for-6.2-20210827
+>
+> for you to fetch changes up to 0ff16b6b78831240c39cfaaeab1f22ae52c84b09:
+>
+>   target/ppc: fix vector registers access in gdbstub for little-endian (2021-08-27 12:43:13 +1000)
+>
+> ----------------------------------------------------------------
+> ppc patch queue 2021-08-27
+>
+> First ppc pull request for qemu-6.2.  As usual, there's a fair bit
+> here, since it's been queued during the 6.1 freeze.  Highlights are:
+>
+>  * Some fixes for 128 bit arithmetic and some vector opcodes that use
+>    them
+>  * Significant improvements to the powernv to support POWER10 cpus
+>    (more to come though)
+>  * Several cleanups to the ppc softmmu code
+>  * A few other assorted fixes
+>
 
-> OpenBSD probably uses XIVE in a different way than Linux though.
-If it is running under the skiboot firmware (Like on the Talos 
-system), it is necessarily using an OPAL interface, either the 
-P8 legacy interface (on top of XIVE HW) or the XIVE native 
-interface.     
 
-  https://github.com/open-power/skiboot/blob/master/doc/opal-api/index.rst
-  https://github.com/open-power/skiboot/blob/master/doc/xive.rst
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
+for any user-visible changes.
 
-[ ... ]
-
-> qemu-system-ppc64 -M powernv9 -cpu power9 -m 2G -smp 1 \
->                   -serial mon:stdio \
->                   -device ich9-ahci,id=ahci0,bus=pcie.0 \
->                   -device qemu-xhci,id=usb0,bus=pcie.2 \
->                   -bios /usr/local/share/qemu/skiboot.lid \
->                   -kernel ./pnor.BOOTKERNEL \
->                   -drive id=disk,file=miniroot70.img,if=none \
->                   -device ide-hd,bus=ahci0.0,drive=disk \
->                   -drive id=disk1,file=power.img,if=none \
->                   -device ide-hd,bus=ahci0.1,drive=disk1 \
->                   -device e1000e,bus=pcie.1
-> 
-> miniroot70.img is the OpenBSD installer image that can be found at:
-> 
->   http://cdn.openbsd.org/pub/OpenBSD/snapshots/powerpc64/miniroot70.img
-> 
-> power.img is the disk image to install on; you can probably leave that out.
-> 
-> Not sure where I got pnor.BOOTKERNEL from anymore.
-
-That's the file we would be interested in. I suppose this is the same 
-image used to boot the Talos ? 
-
-> This command boots into the installer, but hangs at the "Welcome to
-> the OpenBSD installer" message.  It is supposed to print a prompt
-> after that, but that never happens.
-
-It shouldn't be too hard to debug with all the FW images.  
-
-[ ... ]
-
->> I thought the BSD folks were working on POWER9 baremetal support,
->> PowerNV platform, on top of OPAL/skiboot. Is that completed ?
-> 
-> Yup. OpenBSD boots fine on the Raptor Talos/Blackbird machines that we have.
-
-Great ! Where can we get the kernel/rootfs images loaded by skiboot ?  
-That would make a good acceptance test for the QEMU PowerNV machines.
-
-Thanks,
-
-C.
- 
-
+-- PMM
 
