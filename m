@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CEAB3FA2AF
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Aug 2021 03:04:37 +0200 (CEST)
-Received: from localhost ([::1]:52798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3F183FA2C6
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Aug 2021 03:23:43 +0200 (CEST)
+Received: from localhost ([::1]:56634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJmll-000781-Mj
-	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 21:04:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54304)
+	id 1mJn4Q-00026y-ID
+	for lists+qemu-devel@lfdr.de; Fri, 27 Aug 2021 21:23:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1mJmhx-0005tm-K8; Fri, 27 Aug 2021 21:00:29 -0400
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:59737)
+ id 1mJn3d-0001JE-Dp; Fri, 27 Aug 2021 21:22:53 -0400
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:55309)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1mJmhv-0004r3-Q8; Fri, 27 Aug 2021 21:00:29 -0400
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 792105C012A;
- Fri, 27 Aug 2021 21:00:25 -0400 (EDT)
+ id 1mJn3b-0002aA-OI; Fri, 27 Aug 2021 21:22:53 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id EF2A15C0118;
+ Fri, 27 Aug 2021 21:22:48 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Fri, 27 Aug 2021 21:00:25 -0400
+ by compute1.internal (MEProxy); Fri, 27 Aug 2021 21:22:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=iM8WiK
- ktXoXLW4ZT2Mrqsjc0n62ZYigDOa6MRqGF/cE=; b=nwOUqFyoRrP7E8bAW3McnV
- +uK/hLSFMR6HpKlJSCEdJbFAY4IX/3cPrL8wHCnDMbjJGfJEirq86f1oKByse+IQ
- IXRxBLjRNrueU1Te71ljlPucvA40XdB5BHN47YJK3hsd1K14ctlOdvV4sbYN3bWj
- DBNZHqVZcwrmrQMkPFvkYcEunQYlCgvI/jXQ6UVrof7qvLQnKLikU/t7qrr1N1uH
- O64ef+hG357ICz7pcdWYYDNPkbUji+ohviXKKqOI72rOpdRoUv6ovulsByqwFNaX
- o+nENFpF8924/I96xymDyG6sggn3HlUTkVPhnRZetnLHe25/qzga/yMT3LFmp/dQ
- ==
-X-ME-Sender: <xms:poopYUTwjAD1OeYgPdqigcA--GTQewol5yCfWqOZ8yup6F7pBftbAw>
- <xme:poopYRyBhZoZIoP1QjTe8nfuw2gl08WnD2iqJssuvrdEUVEQKmyx7hzK_xXBthPhm
- K1LMQ-_HyVDoOgx3AY>
-X-ME-Received: <xmr:poopYR15BwLnnkYJln2m2njVKV3ErU9jp-KZ5tHDkysPZCN_nW2d9TrapnPN7rB7fBY1BuBAZtLHB00DXdT7NeDVDEkk3iDMXEx7fQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddugedggeduucetufdoteggodetrfdotf
+ messagingengine.com; h=cc:content-id:content-type:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=6PN4PGA+jO+/HGVsow+mRqHKZ12IcuEw+eRm/8dXXeQ=; b=ena9VjkY
+ NK3ip5IvlU+ZdOpPdduiGpPaVVOhwR98sXmINTA4oMiRtPlsNXsyxoMq5mQXqkCD
+ +eP4vwbixRKbPOgzFwOgZrbnaBi9b8eT3QuNpfvLQcuAVjR7NeIK6ret2n0fif1H
+ dCkxPyVQKlOfsrt8ejH7coRayavbwobiexkdeDMi5i5eaTDd8MZCRwA0I3XrSXWu
+ 9/rPXELbfYeBczrKxB522cphrVBXLXAMao7CGtbuff8ZCc2xAvLt6mxBKyUBjZoc
+ 1W7D+Ek6MeHjDErF+IJwF6jVzz9nS/YnoPst8e1LrmAoQkDaQSSNM8VOxos8ww1p
+ 90Ei+6S2RiZZYQ==
+X-ME-Sender: <xms:5o8pYeNMEicl2OeScR44jAZAjFSXpYfsg5l2jXx226TfK8wQMG9nQQ>
+ <xme:5o8pYc_KGBcEOZb6bqMGEuKXcRRXJKADs9DGv2LMgz1_RgDcGiFbAmgoOYv-KeovF
+ ibsfnk7ujLofTp-gSg>
+X-ME-Received: <xmr:5o8pYVSs-IscV_PG_zP05S_9czsJdHcPuOkwF8TUJ21iSOm3OU4PLFML7Nbd-idEivWQBodMbc9_YH7pYsxfM5a59AWkY4TXdwtXGw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddugedggeehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffujgfkfhggtgesthdtredttddtvdenucfhrhhomhephfhinhhnucfv
+ cujfgurhepfffhvffujgfkfhggtgesmhdtreertddtjeenucfhrhhomhephfhinhhnucfv
  hhgrihhnuceofhhthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgheqnecuggftrfgrth
- htvghrnhepteehfffgudevgfehgeetjedvvddttefhtedtgfehleegueevieeileetfeev
- feejnecuffhomhgrihhnpegrphhplhgvrdgtohhmnecuvehluhhsthgvrhfuihiivgeptd
- enucfrrghrrghmpehmrghilhhfrhhomhepfhhthhgrihhnsehlihhnuhigqdhmieekkhdr
- ohhrgh
-X-ME-Proxy: <xmx:poopYYALnqWHm44JE6YAaXwU3fezeGQIryTt3du_agxAa3nROo5-RQ>
- <xmx:poopYdip41j3oI16urQGe0jofddRKWW0GZcdZTtCjVWRkZQ-ztnzYQ>
- <xmx:poopYUr9jcdnt_ngHkb8jTdAOSc8U_1iQ-WImp_YR5SJ5q4qV1fjmQ>
- <xmx:qYopYSsC-WArqE7scv5z-eZOmz4XIaTfNobfBuQ5Z7-ojMc_dc2RbA>
+ htvghrnhepfeffjeeigfehveehfeevhfetgefgieejieeviefhffffudfgfeekleffhffg
+ hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfh
+ hthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgh
+X-ME-Proxy: <xmx:5o8pYetDCP6PENodTm6jDTqyc8APvFsFtAA4Ljlc8-e1_UxFLH-5xw>
+ <xmx:5o8pYWfRcTlw4KTqs8A119KktvSdQHjbg0kpmc40h3ftQHvWQpp7jg>
+ <xmx:5o8pYS1Pc5WVbdlV9E0GDO3tmn7kY1iqWt8XOWz830uf5-LGUolVnA>
+ <xmx:6I8pYTFhw5M_9gTR_LHX284NQWW7Cywh_If9bEq61kZPrwfz-UJrbQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 27 Aug 2021 21:00:19 -0400 (EDT)
-Date: Sat, 28 Aug 2021 11:00:14 +1000 (AEST)
+ 27 Aug 2021 21:22:43 -0400 (EDT)
+Date: Sat, 28 Aug 2021 11:22:37 +1000 (AEST)
 From: Finn Thain <fthain@linux-m68k.org>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [RFC 01/10] hw/mos6522: Remove get_load_time() methods and
- functions
-In-Reply-To: <ee403f8a-2fde-56cd-789f-a2ab7f35eb00@ilande.co.uk>
-Message-ID: <beda4286-f08d-ca6d-567f-28efa0b8b2f0@linux-m68k.org>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [RFC 00/10] hw/mos6522: VIA timer emulation fixes and improvements
+In-Reply-To: <283af572-2157-77c6-2594-8e9e92497346@amsat.org>
+Message-ID: <fb42cb6-117c-c138-c18a-3af7f1d9be6a@linux-m68k.org>
 References: <cover.1629799776.git.fthain@linux-m68k.org>
- <9b78e8c6e453feab6275d04bf503051645770d85.1629799776.git.fthain@linux-m68k.org>
- <ee403f8a-2fde-56cd-789f-a2ab7f35eb00@ilande.co.uk>
+ <283af572-2157-77c6-2594-8e9e92497346@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: multipart/mixed; BOUNDARY="-1463811774-1446952128-1629974846=:34"
+Content-ID: <d52a3024-43c8-1039-fa2-ab9ca1b80de@nippy.intranet>
 Received-SPF: none client-ip=66.111.4.25; envelope-from=fthain@linux-m68k.org;
  helo=out1-smtp.messagingengine.com
 X-Spam_score_int: -25
@@ -85,114 +83,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 25 Aug 2021, Mark Cave-Ayland wrote:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-> On 24/08/2021 11:09, Finn Thain wrote:
-> 
-> > This code appears to be unnecessary.
-> > 
-> > Signed-off-by: Finn Thain <fthain@linux-m68k.org>
-> > ---
-> >   hw/misc/mos6522.c | 22 +---------------------
-> >   1 file changed, 1 insertion(+), 21 deletions(-)
-> > 
+---1463811774-1446952128-1629974846=:34
+Content-Type: text/plain; CHARSET=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-ID: <9db37747-5fc8-154b-447d-c8b5ba992090@nippy.intranet>
+
+On Tue, 24 Aug 2021, Philippe Mathieu-Daud=C3=A9 wrote:
+
+> On 8/24/21 12:09 PM, Finn Thain wrote:
+>=20
+> > On a real Quadra, accesses to the SY6522 chips are slow because they ar=
+e=20
+> > synchronous with the 783360 Hz "phase 2" clock. In QEMU, they are slow=
+=20
+> > only because of the division operation in the timer count calculation.
+> >=20
+> > This patch series improves the fidelity of the emulated chip, but the=
+=20
+> > price is more division ops. I haven't tried to measure this yet.
+> >=20
+> > The emulated 6522 still deviates from the behaviour of the real thing,=
+=20
+> > however. For example, two consecutive accesses to a real 6522 timer=20
+> > counter can never yield the same value. This is not true of the 6522 in=
+=20
+> > QEMU 6 wherein two consecutive accesses to a timer count register have=
+=20
+> > been observed to yield the same value.
+> >=20
+> > Linux is not particularly robust in the face of a 6522 that deviates=20
+> > from the usual behaviour. The problem presently affecting a Linux guest=
+=20
+> > is that its 'via' clocksource is prone to monotonicity failure. That is=
+,=20
+> > the clocksource counter can jump backwards. This can be observed by=20
+> > patching Linux like so:
+> >=20
+> > diff --git a/arch/m68k/mac/via.c b/arch/m68k/mac/via.c
+> > --- a/arch/m68k/mac/via.c
+> > +++ b/arch/m68k/mac/via.c
+> > @@ -606,6 +606,8 @@ void __init via_init_clock(void)
+> >  =09clocksource_register_hz(&mac_clk, VIA_CLOCK_FREQ);
+> >  }
+> > =20
+> > +static u32 prev_ticks;
+> > +
+> >  static u64 mac_read_clk(struct clocksource *cs)
+> >  {
+> >  =09unsigned long flags;
+> > @@ -631,6 +633,8 @@ static u64 mac_read_clk(struct clocksource *cs)
+> >  =09count =3D count_high << 8;
+> >  =09ticks =3D VIA_TIMER_CYCLES - count;
+> >  =09ticks +=3D clk_offset + clk_total;
+> > +if (ticks < prev_ticks) pr_warn("%s: %u < %u\n", __func__, ticks, prev=
+_ticks);
+> > +prev_ticks =3D ticks;
+> >  =09local_irq_restore(flags);
+> > =20
+> >  =09return ticks;
+> >=20
+> > This problem can be partly blamed on a 6522 design limitation, which is=
+=20
+> > that the timer counter has no overflow register. Hence, if a timer=20
+> > counter wraps around and the kernel is late to handle the subsequent=20
+> > interrupt, the kernel can't account for any missed ticks.
+> >=20
+> > On a real Quadra, the kernel mitigates this limitation by minimizing=20
+> > interrupt latency. But on QEMU, interrupt latency is unbounded. This=20
+> > can't be mitigated by the guest kernel at all and leads to clock drift.=
+=20
+> > This can be observed by patching QEMU like so:
+> >=20
 > > diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-> > index 1c57332b40..a478c1ca43 100644
 > > --- a/hw/misc/mos6522.c
 > > +++ b/hw/misc/mos6522.c
-> > @@ -63,17 +63,6 @@ static uint64_t get_counter_value(MOS6522State *s,
-> > MOS6522Timer *ti)
-> >       }
-> >   }
-> >   -static uint64_t get_load_time(MOS6522State *s, MOS6522Timer *ti)
-> > -{
-> > -    MOS6522DeviceClass *mdc = MOS6522_GET_CLASS(s);
-> > -
-> > -    if (ti->index == 0) {
-> > -        return mdc->get_timer1_load_time(s, ti);
-> > -    } else {
-> > -        return mdc->get_timer2_load_time(s, ti);
-> > -    }
-> > -}
-> > -
-> >   static unsigned int get_counter(MOS6522State *s, MOS6522Timer *ti)
-> >   {
-> >       int64_t d;
-> > @@ -98,7 +87,7 @@ static unsigned int get_counter(MOS6522State *s,
-> > MOS6522Timer *ti)
-> >   static void set_counter(MOS6522State *s, MOS6522Timer *ti, unsigned int
-> > val)
-> >   {
-> >       trace_mos6522_set_counter(1 + ti->index, val);
-> > -    ti->load_time = get_load_time(s, ti);
-> > +    ti->load_time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-> >       ti->counter_value = val;
-> >       if (ti->index == 0) {
-> >           mos6522_timer1_update(s, ti, ti->load_time);
-> > @@ -208,13 +197,6 @@ static uint64_t mos6522_get_counter_value(MOS6522State
-> > *s, MOS6522Timer *ti)
-> >                       ti->frequency, NANOSECONDS_PER_SECOND);
-> >   }
-> >   -static uint64_t mos6522_get_load_time(MOS6522State *s, MOS6522Timer *ti)
-> > -{
-> > -    uint64_t load_time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-> > -
-> > -    return load_time;
-> > -}
-> > -
-> >   static void mos6522_portA_write(MOS6522State *s)
-> >   {
-> >       qemu_log_mask(LOG_UNIMP, "portA_write unimplemented\n");
-> > @@ -518,8 +500,6 @@ static void mos6522_class_init(ObjectClass *oc, void
-> > *data)
-> >       mdc->update_irq = mos6522_update_irq;
-> >       mdc->get_timer1_counter_value = mos6522_get_counter_value;
-> >       mdc->get_timer2_counter_value = mos6522_get_counter_value;
-> > -    mdc->get_timer1_load_time = mos6522_get_load_time;
-> > -    mdc->get_timer2_load_time = mos6522_get_load_time;
-> >   }
-> >     static const TypeInfo mos6522_type_info = {
-> 
-> Both the get_counter_value() and get_load_time() callbacks are used as part of
-> the CUDA emulation in hw/misc/macio/cuda.c as per the comment:
-> 
-> /* MacOS uses timer 1 for calibration on startup, so we use
->  * the timebase frequency and cuda_get_counter_value() with
->  * cuda_get_load_time() to steer MacOS to calculate calibrate its timers
->  * correctly for both TCG and KVM (see commit b981289c49 "PPC: Cuda: Use cuda
->  * timer to expose tbfreq to guest" for more information) */
-> 
-> Certainly for the 6522 device it is worth configuring with
-> --target-list="ppc-softmmu m68k-softmmu" to make sure that you don't
-> inadvertently break anything in the PPC world.
-> 
+> > @@ -379,6 +379,12 @@ void mos6522_write(void *opaque, hwaddr addr, uint=
+64_t val, unsigned size)
+> >          s->pcr =3D val;
+> >          break;
+> >      case VIA_REG_IFR:
+> > +        if (val & T1_INT) {
+> > +            static int64_t last_t1_int_cleared;
+> > +            int64_t now =3D qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> > +            if (now - last_t1_int_cleared > 20000000) printf("\t%s: t1=
+ int clear is late\n", __func__);
+> > +            last_t1_int_cleared =3D now;
+> > +        }
+> >          /* reset bits */
+> >          s->ifr &=3D ~val;
+> >          mos6522_update_irq(s);
+> >=20
+> > This logic asserts that, given that Linux/m68k sets CONFIG_HZ to 100,=
+=20
+> > the emulator will theoretically see each timer 1 interrupt cleared=20
+> > within 20 ms of the previous one. But that deadline is often missed on=
+=20
+> > my QEMU host [4].
+>=20
+> I wonder if using QEMU ptimer wouldn't help here, instead of
+> calling qemu_clock_get_ns() and doing the math by hand:
+>=20
+> /* Starting to run with/setting counter to "0" won't trigger immediately,
+>  * but after a one period for both oneshot and periodic modes.  */
+> #define PTIMER_POLICY_NO_IMMEDIATE_TRIGGER  (1 << 2)
+>=20
+> /* Starting to run with/setting counter to "0" won't re-load counter
+>  * immediately, but after a one period.  */
+> #define PTIMER_POLICY_NO_IMMEDIATE_RELOAD   (1 << 3)
+>=20
+> /* Make counter value of the running timer represent the actual value and
+>  * not the one less.  */
+> #define PTIMER_POLICY_NO_COUNTER_ROUND_DOWN (1 << 4)
+>=20
 
-No build failure here. Maybe your tree is different?
+It's often the case that a conversion to a new API is trivial for someone=
+=20
+who understands that API. But I still haven't got my head around the=20
+implementation (hw/core/ptimer.c).
 
-> A bit of history here: the original mos6522.c was extracted from
-> hw/misc/macio/cuda.c when Laurent presented his initial q800 patches since
-> they also had their own implementation of the 6522, and it was better to move
-> the implementation into a separate QEMU device so that the logic could be
-> shared.
-> 
-> The Darwin kernel timer calibration loop is quite hard to get right: see
-> https://opensource.apple.com/source/xnu/xnu-123.5/pexpert/ppc/pe_clock_speed_asm.s.auto.html
-> and
-> https://opensource.apple.com/source/xnu/xnu-123.5/pexpert/ppc/pe_clock_speed.c.auto.html.
-> Ben/Alex came up with the current mechanism to fool the calibration routine,
-> and I simply added in those callbacks to allow it to be implemented as part of
-> the now-generic 6522 device.
-> 
+So I agree the ptimer API could simplify mos6522.c but adopting it is not=
+=20
+trivial for me.
 
-I didn't find any references to these methods (get_timer1_counter_value, 
-get_timer2_counter_value, get_timer1_load_time and get_timer2_load_time).
-It appears to be dead code, and it adds complexity and harms readability. 
-The Linux kernel project has a policy that no code is added if it lacks 
-any in-tree usage. Does QEMU have the same policy?
+QEMU's 6522 device does not attempt to model the relationship between the=
+=20
+"phase two" clock and timer counters and timer interrupts. I haven't=20
+attempted to fix these deviations at all, as that's not trivial either.
+
+But using the ptimer API could potentially make it easier to address those=
+=20
+fidelity issues.
+---1463811774-1446952128-1629974846=:34--
 
