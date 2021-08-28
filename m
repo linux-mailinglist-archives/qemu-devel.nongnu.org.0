@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 187EF3FA52F
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Aug 2021 12:53:45 +0200 (CEST)
-Received: from localhost ([::1]:38126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB1933FA53C
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Aug 2021 13:07:47 +0200 (CEST)
+Received: from localhost ([::1]:41112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mJvy2-0001PL-Li
-	for lists+qemu-devel@lfdr.de; Sat, 28 Aug 2021 06:53:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54206)
+	id 1mJwBZ-0004c1-2K
+	for lists+qemu-devel@lfdr.de; Sat, 28 Aug 2021 07:07:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJvvu-0000KA-VQ
- for qemu-devel@nongnu.org; Sat, 28 Aug 2021 06:51:32 -0400
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:37697)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mJvvt-0003Ao-5j
- for qemu-devel@nongnu.org; Sat, 28 Aug 2021 06:51:30 -0400
-Received: by mail-ej1-x633.google.com with SMTP id h9so19630177ejs.4
- for <qemu-devel@nongnu.org>; Sat, 28 Aug 2021 03:51:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=O7aAkV1CGb7+IShcjFyAVU7OvhH5fkDA+TbkiNj4vyQ=;
- b=T21fC0tj19k57Ytp8jEoKAA1mzfZduoBl02mXYsKjDNXVSGEaaCmKrh+Qe/gq2JbeW
- cLV7QjwQ0qD1tMjX8eIITSabNdogVe21mRcbqMEF8zJTVbXJCVr22KC2zjVRw1QTVU0P
- o9BD1EsrjWge7RASmSEuSIl515n+HKIm2+1Ek6jZ1swED+de+9ZAn5H3XDiA4scp+eMa
- U8ZMNVSjerMQ4uHby9KtY8345YqwPSX5tNusSfy8+MX2qaKFrzQwCEK2qgh270lLZC33
- DFK+z1OJ9LqtqAVJ5cFcV/a/HcZYiBEhqOO0KI3tzs/ElVMax3gUwZj8nJ+A5Y6I3KY1
- ZYmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=O7aAkV1CGb7+IShcjFyAVU7OvhH5fkDA+TbkiNj4vyQ=;
- b=ILeAes3ironaDmR1COo8u0529DE8QeTD2H3CN28xQjOand6yhk67E3KZyYpPD6+ACT
- TdSCZV9n9Bv7y0IojaMoP7w3VQUVgnkmSAFSgcEi6JsAlZ/u8RWaF6ADpYCEckwrmtWs
- 0K3NWeKTyBuPI8Y4TbjYU9QPZAcXISYC6YQchExTHM109uQ19XEnL4GRVJ7go+Rb7pKh
- 4pjvWJTR4JefwmKgGPhNaw5KgAEP5N+NGwQUoLUIeWDrtmiXDJUwq6nE1kdSwai3yGUF
- N3PNxdBI4PqvoA0BjQ42urA+MKgKZixBYEdVrN+tZ8MuT7NQeiAekMLvO5V/YZAn2j5r
- bwsQ==
-X-Gm-Message-State: AOAM533mEsN89wKqF0KpOXOy3nmrD613VkAQbEPIbWattTeFrVvGrve3
- aU7UuvKDVzLs0dGXXKjMBw/DILobtus7eEmjcYzJYw==
-X-Google-Smtp-Source: ABdhPJyg51Dcp53SpeLwj2MIm/3eKQa83C1CY4aeFoTUy7eBXZLHlCNKPF2BRmD3jKAUtsCW3kgC2TnAVNDSC0dJFFU=
-X-Received: by 2002:a17:907:923:: with SMTP id
- au3mr12630803ejc.482.1630147887472; 
- Sat, 28 Aug 2021 03:51:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mJwAO-0003kr-AS; Sat, 28 Aug 2021 07:06:28 -0400
+Received: from 10.mo548.mail-out.ovh.net ([46.105.77.235]:41225)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mJwAL-0007qK-S0; Sat, 28 Aug 2021 07:06:28 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.188])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 921F0200AD;
+ Sat, 28 Aug 2021 11:06:21 +0000 (UTC)
+Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Sat, 28 Aug
+ 2021 13:06:20 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G003fe7dd30e-bef9-4ab9-ac33-8937de540edf,
+ 6CE952B1E590FC391734534FA2C2FCCDA042449D) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 83.199.102.86
+Subject: Re: QEMU-KVM offers OPAL firmware interface? OpenBSD guest support?
+To: Mark Kettenis <mark.kettenis@xs4all.nl>
+References: <7r8MLHEKQicVkfT4tQLsiRXQmt_800XbV1s0mM_QJTgOY7XadpiRcD4HizmXByPaZRsMQV2WbNKDfKU-PdVo3ZO9JC6fJ0MF5LM_j5a2fgA=@protonmail.com>
+ <20210827170113.5f4ed260@bahia.lan>
+ <HgtFZEnabNjIrsVI3x8MYs2QYSCG4IFStP0MR3qwPWBmXW9kDmQmIwQEWHMVdJbUCu-XvHdMpZGe3pr-B91s1D7y6cn9SVzhxEYms5c3p0o=@protonmail.com>
+ <20210827180259.3720d58d@bahia.lan>
+ <56141ff67838992a@bloch.sibelius.xs4all.nl>
+ <20210827190053.6c68def5@bahia.lan>
+ <25bfa81c-9498-4e82-a848-1fbb1c188ff1@kaod.org>
+ <561422a20e4f9ae2@bloch.sibelius.xs4all.nl>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <51bff28d-4779-b023-fee6-b3e9196b7ec5@kaod.org>
+Date: Sat, 28 Aug 2021 13:06:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210823142004.17935-1-changbin.du@gmail.com>
- <7523c6ad-52cd-0b20-b09d-01bd537edbb3@redhat.com>
- <CAFEAcA8WKdZiuzjXgwj_9T7ewDbkLky+_NKaXw6WQ95V8x=0Tw@mail.gmail.com>
- <20210823230535.js3gymomh2chmznc@mail.google.com>
- <CAFEAcA8DR4UuZi-QAqMr82tL+S3Y8bEQn7q0W7iCjQCsFRis1Q@mail.gmail.com>
- <20210827144938.72astzvxxy3igpn4@mail.google.com>
-In-Reply-To: <20210827144938.72astzvxxy3igpn4@mail.google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 28 Aug 2021 11:51:16 +0100
-Message-ID: <CAFEAcA_78m1jXENFEBRbMcZ4gY+o9BAk01rPHYtXXR1p+rXuFA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] gdbstub: add support for switchable endianness
-To: Changbin Du <changbin.du@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <561422a20e4f9ae2@bloch.sibelius.xs4all.nl>
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: f6390f59-a226-4ce9-9a03-6de76ce7d392
+X-Ovh-Tracer-Id: 1778077430714371003
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudduhedgfeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtjeertddtfeehnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeelkeekgfefudehueetjeffheevfeegteegveekffduvdejleefueeugeehvdeunecuffhomhgrihhnpehgihhthhhusgdrtghomhdpohhpvghnsghsugdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=46.105.77.235; envelope-from=clg@kaod.org;
+ helo=10.mo548.mail-out.ovh.net
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.437,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,57 +76,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: pjp@centroid.eu, QEMU Developers <qemu-devel@nongnu.org>, gardask@gmail.com,
+ rgcinjp@disroot.org, daniel@pocock.pro, groug@kaod.org, ppc@openbsd.org,
+ kite@centroid.eu, joseph.mayer@protonmail.com, siliconbadger@protonmail.com,
+ qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 Aug 2021 at 15:49, Changbin Du <changbin.du@gmail.com> wrote:
->
-> On Tue, Aug 24, 2021 at 10:11:14AM +0100, Peter Maydell wrote:
-> > On Tue, 24 Aug 2021 at 00:05, Changbin Du <changbin.du@gmail.com> wrote:
-> > >
-> > > On Mon, Aug 23, 2021 at 04:30:05PM +0100, Peter Maydell wrote:
-> > > > changes to be more capable of handling dynamic target changes
-> > > > (this would also help with eg debugging across 32<->64 bit switches);
-> > > > as I understand it that gdb work would be pretty significant,
-> > > > and at least for aarch64 pretty much nobody cares about
-> > > > big-endian, so nobody's got round to doing it yet.
-> > > >
-> > > Mostly we do not care dynamic target changes because nearly all OS will setup
-> > > endianness mode by its first instruction. And dynamic changes for gdb is hard
-> > > since the byte order of debugging info in elf is fixed. And currently the GDB
-> > > remote protocol does not support querying endianness info from remote.
-> > >
-> > > So usually we needn't change byte order during a debug session, but we just want
-> > > the qemu gdbstub can send data in and handle data it received in right byte order.
-> > > This patch does this work with the help of users via the option 'endianness='.
-> >
-> > I'm not a huge fan of putting in workarounds that deal with the
-> > problem for specific cases and require users to tweak options settings,
-> > rather than solving the problem in a more general way that would
-> > let it all Just Work for all cases.
-> >
-> Probably we can add a new callback 'gdb_get_endianness' for CPUClass, and use
-> this callback to determine if bswap is needed every time we read/write cpu
-> registers. What's your thought?
+[ ... ] 
 
-I think that you need to start by talking to the gdb folks about
-how debugging a dynamic endianness target should work. Fixing
-this probably goes something like:
- * agree on design for how dynamic endianness, 32-64 mode changes,
-   etc, should be handled by gdb
- * make gdb changes
- * document required gdbstub protocol enhancements (ie how the stub
-   tells gdb about endianness changes, whether this changes how we
-   send register information, memory data, etc)
- * implement those changes in QEMU
+> OpenBSD probably uses XIVE in a different way than Linux though.
+If it is running under the skiboot firmware (Like on the Talos 
+system), it is necessarily using an OPAL interface, either the 
+P8 legacy interface (on top of XIVE HW) or the XIVE native 
+interface.     
 
-You seem to be trying to start with the final step, not the first one :-)
+  https://github.com/open-power/skiboot/blob/master/doc/opal-api/index.rst
+  https://github.com/open-power/skiboot/blob/master/doc/xive.rst
 
--- PMM
+
+[ ... ]
+
+> qemu-system-ppc64 -M powernv9 -cpu power9 -m 2G -smp 1 \
+>                   -serial mon:stdio \
+>                   -device ich9-ahci,id=ahci0,bus=pcie.0 \
+>                   -device qemu-xhci,id=usb0,bus=pcie.2 \
+>                   -bios /usr/local/share/qemu/skiboot.lid \
+>                   -kernel ./pnor.BOOTKERNEL \
+>                   -drive id=disk,file=miniroot70.img,if=none \
+>                   -device ide-hd,bus=ahci0.0,drive=disk \
+>                   -drive id=disk1,file=power.img,if=none \
+>                   -device ide-hd,bus=ahci0.1,drive=disk1 \
+>                   -device e1000e,bus=pcie.1
+> 
+> miniroot70.img is the OpenBSD installer image that can be found at:
+> 
+>   http://cdn.openbsd.org/pub/OpenBSD/snapshots/powerpc64/miniroot70.img
+> 
+> power.img is the disk image to install on; you can probably leave that out.
+> 
+> Not sure where I got pnor.BOOTKERNEL from anymore.
+
+That's the file we would be interested in. I suppose this is the same 
+image used to boot the Talos ? 
+
+> This command boots into the installer, but hangs at the "Welcome to
+> the OpenBSD installer" message.  It is supposed to print a prompt
+> after that, but that never happens.
+
+It shouldn't be too hard to debug with all the FW images.  
+
+[ ... ]
+
+>> I thought the BSD folks were working on POWER9 baremetal support,
+>> PowerNV platform, on top of OPAL/skiboot. Is that completed ?
+> 
+> Yup. OpenBSD boots fine on the Raptor Talos/Blackbird machines that we have.
+
+Great ! Where can we get the kernel/rootfs images loaded by skiboot ?  
+That would make a good acceptance test for the QEMU PowerNV machines.
+
+Thanks,
+
+C.
+ 
+
 
