@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D02D53FABD5
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Aug 2021 15:19:54 +0200 (CEST)
-Received: from localhost ([::1]:56700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F0E13FABD6
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Aug 2021 15:21:53 +0200 (CEST)
+Received: from localhost ([::1]:59974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKKj3-00082A-B4
-	for lists+qemu-devel@lfdr.de; Sun, 29 Aug 2021 09:19:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58320)
+	id 1mKKky-0001xh-Ka
+	for lists+qemu-devel@lfdr.de; Sun, 29 Aug 2021 09:21:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mKKhX-0006lj-Cp
- for qemu-devel@nongnu.org; Sun, 29 Aug 2021 09:18:19 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:37434)
+ id 1mKKjx-0001GM-Jp
+ for qemu-devel@nongnu.org; Sun, 29 Aug 2021 09:20:49 -0400
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:34383)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mKKhV-0006L6-JD
- for qemu-devel@nongnu.org; Sun, 29 Aug 2021 09:18:18 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id h9so24920346ejs.4
- for <qemu-devel@nongnu.org>; Sun, 29 Aug 2021 06:18:16 -0700 (PDT)
+ id 1mKKjw-0008Nw-1A
+ for qemu-devel@nongnu.org; Sun, 29 Aug 2021 09:20:49 -0400
+Received: by mail-ed1-x52e.google.com with SMTP id i6so17378463edu.1
+ for <qemu-devel@nongnu.org>; Sun, 29 Aug 2021 06:20:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IMGJAnCBy17Bl+LNhd+hg82SR0x76ir9YJlsz6w62FU=;
- b=GC96u3xtNMG59aqO/Vtiec+P6bscniEUG4mEZ90MUpYlQaXmk0Al8l08t+GS9vo0fF
- Yk7DTT2Lmqh4QXo3VTa3S01EtBbAKQrX+/xpwyiKPJGRNsuAT1gj2ngAyZwaV9lfQBZW
- pU46Oyz6f3E77BzSg3G0qlXGyS09WhOsnkRgow36wOuLFXB1Rvl7ynIegzPJ4m2va9JT
- U3e/fnKaXStbfsFCE0Z3ZP03Fw9xwt6pCM9H8G2vMyxp+iYO5ClEAfpBhQm9XGieeJzz
- a0NX6kKV8B78b2ZeQT/zJvQOm1ej7oCS507dahZdlC2ZvMOVtjCWHqimaDT1f+l7UJxs
- BcAw==
+ :cc; bh=oobGl3fCn1XFnIgexGn4COkTfceanNK7J8aQ0oxJor4=;
+ b=shkulshdouG0rfeF8DXzgvs5aqnqbGDf9KzmeDcaEAbgOdNSEfPDo4vqmOjPuj5qlC
+ h2pabprk+k1bkui+DMnSAGb/2kLCBGkGnbce3ZsozzzEFNb+SzP7qsCvXjg2DrFfco0m
+ loqgfUS9gBGurVX2UEsnmu3/IeKI9TeCYoDcmcmTQrZZtIbkPldFuf035fIUv1elYqjb
+ XZ1nzjVKTfuqK6yZ6TBDz/cZEZBdRXypFgDBKyrJrI5Aug6KfcBH+BY6xbSnOtL0KUz9
+ nrICUEpxcxBjArC5gP1UbikvlXBzuWn/1lCEGGwWJ0f16XLI/WDUEiWBF7rdJgLy10qN
+ vGLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=IMGJAnCBy17Bl+LNhd+hg82SR0x76ir9YJlsz6w62FU=;
- b=BNMDZ3WQvrLCAf52UArj16DoO4D0zrxGmyA+R5QoyvXZyM/mt5kcvgeaQaS2rWOLiw
- gVitH4UN6Wo/sKmZpOxN8L1SkwnJr9ZNbaKZGD4TuAm2l+7F4pCjpFZKggE0WoH4O7Md
- 9bGFqPjKV2jkBNUN7hwi2O/MlvVKusI1WYrOVLzrDjYk7ezrcObzYtsnTqzM4QLkmorO
- +lZYcrNP28w+0whA52f9f0/Hw1GoxDEpg5U3M71I/hmrX9qcFokSdeujBzifMIIdVEU+
- zZPGPdszq6hHCbJgZ5ZiUVNN4zyiAVZjsBiGYtmCMUAHBgSqyZQj5EMdSJ/pac03nUzV
- 7rzg==
-X-Gm-Message-State: AOAM532FFpZ4S0J/yfbiEvkEcNL8IIWvjm/8c6kUjLNwkHYAehumA5CE
- imOcv8kqzcaSHzoURR4fkkylhEePzuSH+v6uOe+heg==
-X-Google-Smtp-Source: ABdhPJx/KKDx4j7JOy2eqL2JCtv0VrsBTDSHvbdTq4k72T6oBUkpDZOS+nLNmISp7cHav1Si+aYiuNiPuJnksTe6D1Y=
-X-Received: by 2002:a17:907:923:: with SMTP id
- au3mr17934501ejc.482.1630243095623; 
- Sun, 29 Aug 2021 06:18:15 -0700 (PDT)
+ bh=oobGl3fCn1XFnIgexGn4COkTfceanNK7J8aQ0oxJor4=;
+ b=Mu6NRDtq5it4ZQ7fSQbrIfddBEZaBUeOe5PKr9P0WoBQXV1CzONDjvOrfyb2GdmFWj
+ kkCFBOgxPl6lmqKkMg/knzjSKXyvQBdSbg7biXR60258PYHMCac8fynq0oxDuSN9hL47
+ G7ptonNSjWTw190xgvFrIApp7y63w8xP9diIgY+wE4RVvDH7Tl8bf28blBeLclvX45VF
+ GhvCvdTabRaCp+qT+fqwwoqCFSIa+IFI/npOU3Q+gMfLs9aSrFn9EI5T+nnLSrFQ0cUE
+ WWXB0IeD7vPGTcyOiRxkz6+MdNhg32d1B5D7nvrHZ7k5mdzmHxoaxsYd3eTezvdGrxNP
+ wIBw==
+X-Gm-Message-State: AOAM530lykjN1Vmp2Fq1ptaM8vuQTtQDY4/3OwpLTNx30H75KMW8A5UP
+ lyX+KVjONiKau5UBEBqmjeUGdoTZu8wzKMzDleLKfg==
+X-Google-Smtp-Source: ABdhPJwyzX2s/Kg0uPioOlIRgYFi6z+ESxF7wRQ07ruoCFmtyJge6R91DcigjJnOQk9HSM5eB97ntUAH6Nv74nZi060=
+X-Received: by 2002:a05:6402:157:: with SMTP id
+ s23mr19222294edu.36.1630243246602; 
+ Sun, 29 Aug 2021 06:20:46 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210829100103.1950-1-mark.cave-ayland@ilande.co.uk>
- <20210829100103.1950-3-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20210829100103.1950-3-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210829100103.1950-1-mark.cave-ayland@ilande.co.uk>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 29 Aug 2021 14:17:27 +0100
-Message-ID: <CAFEAcA9WwdDfTAZDzseT4ox8z-BdEcdmFQ6Vn3JOoeF9Vu+6LQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] escc: fix R_STATUS channel reset value
+Date: Sun, 29 Aug 2021 14:19:58 +0100
+Message-ID: <CAFEAcA8G-3rJfeeS3vM7DvazJqerFzkyNMckrABF=GNOByU4Bg@mail.gmail.com>
+Subject: Re: [PATCH 0/3] escc: fix R_STATUS when SDLC mode is enabled
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,55 +81,21 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 29 Aug 2021 at 11:07, Mark Cave-Ayland
+On Sun, 29 Aug 2021 at 11:05, Mark Cave-Ayland
 <mark.cave-ayland@ilande.co.uk> wrote:
 >
-> According to the "Z80X30 Register Reset Values" table in the ESCC datasheet
-> bits 2 and 6 are set whilst bits 0 and 1 are cleared during channel reset.
-> All other bits should be left unaltered.
+> Here is another small set of ESCC fixes from my attempts to boot MacOS on the q800
+> machine.
 >
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/char/escc.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
->
-> diff --git a/hw/char/escc.c b/hw/char/escc.c
-> index 63e0f15dfa..0f6957ba8b 100644
-> --- a/hw/char/escc.c
-> +++ b/hw/char/escc.c
-> @@ -281,12 +281,11 @@ static void escc_reset_chn(ESCCChannelState *s)
->      s->wregs[W_MISC2] = MISC2_PLLDIS;
->      /* Enable most interrupts */
->      s->wregs[W_EXTINT] = EXTINT_DCD | EXTINT_SYNCINT | EXTINT_CTSINT |
-> -        EXTINT_TXUNDRN | EXTINT_BRKINT;
-> +                         EXTINT_TXUNDRN | EXTINT_BRKINT;
+> When MacOS loads the OpenTransport extension on boot it attempts to enable
+> SDLC mode on the ESCC. QEMU's emulation doesn't support SDLC mode, but without
+> these fixes the active low STATUS_SYNC bit in R_STATUS is continually
+> asserted causing the extension to hang on startup as it believe it is constantly
+> receiving LocalTalk responses during its initial negotiation phase.
 
-This indentation fix should probably have been in the
-coding-style-fixes patch.
+The ESCC data sheet is the first one I've ever encountered that includes
+a multiple-choice test on features of the device ("ESCC Questions and Answers"
+on pages 385/386: http://www.zilog.com/docs/serial/scc_escc_um.pdf ) :-)
 
-> +    s->rregs[R_STATUS] &= ~(STATUS_RXAV | STATUS_ZERO);
-> +    s->rregs[R_STATUS] |= STATUS_TXEMPTY | STATUS_TXUNDRN;
->      if (s->disabled) {
-> -        s->rregs[R_STATUS] = STATUS_TXEMPTY | STATUS_DCD | STATUS_SYNC |
-> -            STATUS_CTS | STATUS_TXUNDRN;
-> -    } else {
-> -        s->rregs[R_STATUS] = STATUS_TXEMPTY | STATUS_TXUNDRN;
-> +        s->rregs[R_STATUS] |= STATUS_DCD | STATUS_CTS;
->      }
->      s->rregs[R_SPEC] = SPEC_BITS8 | SPEC_ALLSENT;
-
-We seem to use this function for both 'channel reset' and
-'hardware reset' -- escc_reset just calls escc_reset_chn for
-each channel, and is used as the DeviceState::reset as well
-as for the 'hardware reset' you get by writing to WR9 with
-both D6 and D7 set to 1.
-
-Because we want this software-triggered 'hardware reset' to not
-reset all registers to fixed values, I think we need to disentangle
-the power-on reset DeviceState::reset so that power-on reset always
-brings the device back to exactly the state that it has when QEMU
-first starts.
-
-thanks
 -- PMM
 
