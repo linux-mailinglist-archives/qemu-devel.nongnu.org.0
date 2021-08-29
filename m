@@ -2,76 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D56963FAE63
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Aug 2021 22:22:08 +0200 (CEST)
-Received: from localhost ([::1]:47674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E036C3FAEA9
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Aug 2021 23:11:51 +0200 (CEST)
+Received: from localhost ([::1]:38544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKRJV-0002iy-IJ
-	for lists+qemu-devel@lfdr.de; Sun, 29 Aug 2021 16:21:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36878)
+	id 1mKS5c-000732-EC
+	for lists+qemu-devel@lfdr.de; Sun, 29 Aug 2021 17:11:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <johannes.stoelp@googlemail.com>)
- id 1mKRHV-0001CN-4t; Sun, 29 Aug 2021 16:19:53 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:38520)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mKS4D-0004km-I3
+ for qemu-devel@nongnu.org; Sun, 29 Aug 2021 17:10:15 -0400
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:41542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <johannes.stoelp@googlemail.com>)
- id 1mKRHT-0008Bu-Hy; Sun, 29 Aug 2021 16:19:52 -0400
-Received: by mail-wr1-x434.google.com with SMTP id u16so19410406wrn.5;
- Sun, 29 Aug 2021 13:19:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=TRzehENWVenwx+2eKZxeEkedInooacXD9R1T/qNf11Y=;
- b=Z2M2pOksye6DjLu4vMdJMBtb4FWz8FzyM170jG7p0No2Qj3MU/KCNRs0B1kAIqGX2i
- ryRXtiigS0fopL21BWMxcz/rfA8a5yK+oKGKzhbNIxLZh/X2HsLoRAf0pPYDzM/fpXJc
- 7SLo+2DlahJ1FRaFGiU7Kcnsqt0q9Wl/LLf8D9I3z2rybSGUe6eYkpmuKW3RYHPT56GU
- SUURMNyX8SUM4IoJvWuhpE7ba+szWc1b2Mq3AlS965L2YUMXZMPhmxtwFo21322U6zLe
- ue+ABs0wzBUcMqS5AgXHEb322BHBUM/DbrgYi81fJXG4pJKzps4iEaM7A1IA/0smfgmr
- fIjg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mKS49-00006Q-JG
+ for qemu-devel@nongnu.org; Sun, 29 Aug 2021 17:10:13 -0400
+Received: by mail-ej1-x62e.google.com with SMTP id t19so26788181ejr.8
+ for <qemu-devel@nongnu.org>; Sun, 29 Aug 2021 14:10:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+6xo55Vod6vaIwz8qUmmfczFV9y54683wfrEVWbU+7E=;
+ b=zPKksyZGGaaV93ChMtFuDVrE08R5wIMjs4ooN9Bp8GbOL4ba97Zdyx4m9KXq8nApQc
+ IJ7euPn8wvz9XZH2+T2iJlhn9NvaCuDNSqrSQfj1aL1XvgdKSAc+6E7bIa8yhOZ2oydf
+ Q/3GPEPElxxY2Ej+KLA4LR3lVgGzzCrZN5rUwe10o8PeS4pbS+WH4NbqsoLJO5hDvWCU
+ bEpJHd7Kvh6jo4t/d1vaxDxKcTur3zQqH8ee4yxB1gwndaLd7CSOGs2iKHs45gO4IyZJ
+ JCXABGmABrFUCZEHVR0cmYnjrqJk5USruLooqldE/nYFzp5jayDCcRfS2d19mNr+Eayw
+ eu+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=TRzehENWVenwx+2eKZxeEkedInooacXD9R1T/qNf11Y=;
- b=NaH7+/hADhSPfdo2CMkLZtNAeUITcvBEKxRAkxtDueUjSLKpPxpQcfksv04mSmfopR
- PammV4/rvPr0RU8OaNI1XbdZ//6oSitA0nxNqWQWoNvPF0h8VFdWLhMtFrrWrQk5Xp3W
- /TVJCIoD3QTsnqBjBVzIXUfEoQ1sVy/N+WdsxyIprFllLzeoN35Otqh1T3qL+S1ET5MH
- VwKSIrkpUvdKrQCXkS3QBzqv4EIr7FodfNha6gtQbMaE2AtwIiOzR5ek2EdW8cdlBJP8
- 870bKEw9zMyCbgfADgRljLBcqNGDFhUh40ma3Ns8EEacGtQoVcWeV5D3X5Uy0Qq48neV
- rLrA==
-X-Gm-Message-State: AOAM5311jLzqtD/mWMzupQl3vBqD8LBezr2CimSCqvvTqhQZsWdQQmK9
- qEh6tKOCFpyruDL2w+KenIit9lrMKJw=
-X-Google-Smtp-Source: ABdhPJwmyRIx0oHvXvZwZoCNkGlVDoHbHBRfwKJstqWCXakOlZHYB0hnrgPEr2yafHvzCvk761TV0A==
-X-Received: by 2002:adf:914e:: with SMTP id j72mr22712523wrj.218.1630268387517; 
- Sun, 29 Aug 2021 13:19:47 -0700 (PDT)
-Received: from endor.speedport.ip
- (p200300c21707a48b7f3f1b0e18124d09.dip0.t-ipconnect.de.
- [2003:c2:1707:a48b:7f3f:1b0e:1812:4d09])
- by smtp.gmail.com with ESMTPSA id x18sm13326817wrw.19.2021.08.29.13.19.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Aug 2021 13:19:47 -0700 (PDT)
-From: Johannes Stoelp <johannes.stoelp@googlemail.com>
-X-Google-Original-From: Johannes Stoelp <johannes.stoelp@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: johannes.stoelp@gmail.com,
-	qemu-trivial@nongnu.org
-Subject: [PATCH v0] kvm: unsigned datatype in ioctl wrapper
-Date: Sun, 29 Aug 2021 22:19:29 +0200
-Message-Id: <20210829201929.79931-1-johannes.stoelp@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210813173923.49278-1-johannes.stoelp@gmail.com>
-References: <20210813173923.49278-1-johannes.stoelp@gmail.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+6xo55Vod6vaIwz8qUmmfczFV9y54683wfrEVWbU+7E=;
+ b=BwPbnXoM8jJO0M06AylYXu1HlHSE9zqJWOb/ikrTsqUda/1YZnqBKA1R/w3jQ4WcgX
+ 7tYXRV/fVztXItvrq+yZh1WmXq9mgF3IUTA7iMdFsYr7R7QA+8ffABpiMDEbrstBVU6x
+ aQw7gU6xntRNgdmh+hoBP428QIKt0uVHs66+ELPiSZWY15PXRrbmiNgbxgXi+WrpJQtI
+ +gApIyk8ZgzWBJ9pIRJccz0CSvnIDEJDB/xlNZZijyFwl1cl7H6XmXDY3GKYAMp5yQyp
+ 5SQmtgtymq5Nx6c0ZLdTa67tw5EkIU7ZtTG0aM0lIyHI0KzKM3Jcwar8K3PiEbETg8ri
+ 8ZdQ==
+X-Gm-Message-State: AOAM533INPQ048ng+dZohNQxPEmzJPazfN2zHrm/I/ASxqQa/hiKdJim
+ maA48vBChDIsVlqu+kRXDqCIMHEkcXwXqSAOY2g/7Q==
+X-Google-Smtp-Source: ABdhPJw5nUv6P//AMNHodrAJcara3aOOMw1t550Vm2uVYy3iHzQCCwSKlr7t4k0pUBejPu3ZMNY+UZ/kgKi+oN2BNE4=
+X-Received: by 2002:a17:906:abc3:: with SMTP id
+ kq3mr2137628ejb.382.1630271407375; 
+ Sun, 29 Aug 2021 14:10:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=johannes.stoelp@googlemail.com; helo=mail-wr1-x434.google.com
+References: <20210805193950.514357-1-johannes.stoelp@gmail.com>
+In-Reply-To: <20210805193950.514357-1-johannes.stoelp@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 29 Aug 2021 22:09:19 +0100
+Message-ID: <CAFEAcA8TRQdj33Ycm=XzmuUUNApaXVgeDexfS+3Ycg6kLnpmyg@mail.gmail.com>
+Subject: Re: [PATCH v0] kvm: unsigned datatype in ioctl wrapper
+To: johannst <johannes.stoelp@googlemail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -86,16 +77,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+ johannst <johannes.stoelp@gmail.com>, Eric Blake <eblake@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: johannst <johannes.stoelp@gmail.com>
+On Thu, 5 Aug 2021 at 21:34, johannst <johannes.stoelp@googlemail.com> wrote:
+>
+> Dear all,
+>
+> in my opinion the `type` argument in the kvm ioctl wrappers should be of
+> type unsigned. Please correct me if I am wrong.
 
-Ping.
+(Ccing Eric as our resident POSIX expert.)
 
-https://patchew.org/QEMU/20210805193950.514357-1-johannes.stoelp@gmail.com/
-https://lore.kernel.org/qemu-devel/20210805193950.514357-1-johannes.stoelp@gmail.com/
+> Due to the same reason as explained in the comment on the
+> `irq_set_ioctl` field in `struct KVMState` (accel/kvm/kvm-all.c),
+> the kvm ioctl wrapper should take `type` as an unsigned.
 
-Thanks and best,
-Johannes
+The reason in that comment:
+    /* The man page (and posix) say ioctl numbers are signed int, but
+     * they're not.  Linux, glibc and *BSD all treat ioctl numbers as
+     * unsigned, and treating them as signed here can break things */
+
+It would be more helpful to readers to state the reason directly
+in the commit message, rather than requiring them to go and look
+up a comment in some other file.
+
+(That comment, incidentally, seems to be no longer completely
+true: on my system the ioctl manpage says 'unsigned long', though
+the glibc info docs say 'int', in contradiction to the ioctl.h
+glibc actually ships...)
+
+Of the various KVM_* ioctls we use via these functions, do
+any actually have values that would result in invalid sign
+extension here ? That is, is this fixing an existing bug, or is
+it merely avoiding a potential future bug?
+
+> Signed-off-by: johannst <johannes.stoelp@gmail.com>
+> ---
+>  accel/kvm/kvm-all.c    | 8 ++++----
+>  accel/kvm/trace-events | 8 ++++----
+>  include/sysemu/kvm.h   | 8 ++++----
+>  3 files changed, 12 insertions(+), 12 deletions(-)
+>
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index 0125c17edb..45cd6edce3 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -2967,7 +2967,7 @@ int kvm_cpu_exec(CPUState *cpu)
+>      return ret;
+>  }
+>
+> -int kvm_ioctl(KVMState *s, int type, ...)
+> +int kvm_ioctl(KVMState *s, unsigned type, ...)
+
+The underlying ioctl() prototype (at least in my Linux /usr/include/sys/ioctl.h
+and as documented in the ioctl(2) manpage) uses "unsigned long" for the
+request argument; should we do the same ?
+
+-- PMM
 
