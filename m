@@ -2,44 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3773B3FAD01
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Aug 2021 18:06:02 +0200 (CEST)
-Received: from localhost ([::1]:48338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEA833FAD20
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Aug 2021 18:41:25 +0200 (CEST)
+Received: from localhost ([::1]:60202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKNJo-00072K-LQ
-	for lists+qemu-devel@lfdr.de; Sun, 29 Aug 2021 12:06:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36620)
+	id 1mKNs4-0008Jn-1Z
+	for lists+qemu-devel@lfdr.de; Sun, 29 Aug 2021 12:41:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <reinoud@gorilla.13thmonkey.org>)
- id 1mKNIk-00068B-7h
- for qemu-devel@nongnu.org; Sun, 29 Aug 2021 12:04:54 -0400
-Received: from 13thmonkey.org ([80.100.255.32]:63512
- helo=gorilla.13thmonkey.org) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <reinoud@gorilla.13thmonkey.org>) id 1mKNIi-0000VV-Dg
- for qemu-devel@nongnu.org; Sun, 29 Aug 2021 12:04:53 -0400
-Received: by gorilla.13thmonkey.org (Postfix, from userid 103)
- id B11E42FF07A7; Sun, 29 Aug 2021 18:04:38 +0200 (CEST)
-Date: Sun, 29 Aug 2021 18:04:36 +0200
-From: Reinoud Zandijk <reinoud@13thmonkey.org>
-To: qemu-devel@nongnu.org
-Subject: applied? Re: [PATCH v1 0/2] Update NVMM support to recent changes,
- [PATCH v1 1/2] Only check CONFIG_NVMM when NEED_CPU_H is defined, [PATCH v1
- 2/2] Fix nvmm_ram_block_added() function arguments
-Message-ID: <YSuwFI8vBJTDF2GW@gorilla.13thmonkey.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mKNqg-0007Wt-Dx
+ for qemu-devel@nongnu.org; Sun, 29 Aug 2021 12:39:58 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:33692)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mKNqe-0006p2-RU
+ for qemu-devel@nongnu.org; Sun, 29 Aug 2021 12:39:58 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id x11so25885889ejv.0
+ for <qemu-devel@nongnu.org>; Sun, 29 Aug 2021 09:39:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yaII4uzpkdPkJI4ZtmjROE1+vLJCdNVpJoIuT5RnHqE=;
+ b=n5g44khjRgpvC9QG4m0NmyYBM8GRjBccjKv3COgyYyjCxyCBKUmDlCRyQuRHlztEoc
+ 3sp5+Y/4Q6sKCE2oOweOC1kse64NKewUa5twP3fhezPJYQFC4GCNXDFg3n7GCrYan423
+ xttkMCNddVJDhiMbem2sKKRB/SBr4So8vgHNjj5uL9XGoFFbjMkcu7Uji2vprJc6zU9x
+ daM0Zi/BiKcAXzrfwAO4dt40PY9tvss9wVhHpuBATIAQsagXnCuDb65cp8wQCYHU9llg
+ 9p9ufnX7GjKrxSTHbI/VxH0dq4k55BuYkEy7zXWFj7SAB0sFUqtot4IXlbjkJKP5nkha
+ zDEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yaII4uzpkdPkJI4ZtmjROE1+vLJCdNVpJoIuT5RnHqE=;
+ b=Tj7mF1w6mi/ha18Cy+hBZMAE/V3KW2OyDQncyAAqg1U4rb0IYfB2vK9wqD/A+ybn/1
+ hPyjGsyVu+qHbhBYgZcKSyoFpVG2GFPnm+o8p1xJ0XzUAkrgG7BT/KqhUmjsgz8ZHXjQ
+ 3PnM2IT8tYjla1slHVJYWrjoe3+9IEqK7YR4h5YBZKwsJWtEUp1rWv2m6eQnlKOxKjto
+ 5PIay6Ln/yoTylAdNoAEeKKNTxaPT55kSMeI0IHhH6KDrw8wLddH/yWu9oseZAAENKj7
+ 0MDak73ew85VVbBzDMx4puE5U3sV+2AkEXh/LSnpKbroQNRMJvCl2ToCOgXI3Kk4xyD5
+ iVSA==
+X-Gm-Message-State: AOAM531G2wEpB3lIHLCWTgLmAmF8GzWJTLBrjOaGSfPTgoEfx4c5nEWx
+ R06PZiX5+FV3yNFnTubnqeocgDBQkhhPQQ/sOtLvnA==
+X-Google-Smtp-Source: ABdhPJyN9JEMGAkfrNZSDNK/AIFgmOK1onJG7kbOJPVnwCnNj14Sn/Dx6fgyLW2AbqzEQHPXY4WgfHx1XicaaKzBdUo=
+X-Received: by 2002:a17:906:abc3:: with SMTP id
+ kq3mr1299047ejb.382.1630255195062; 
+ Sun, 29 Aug 2021 09:39:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210718134650.1191-3-reinoud@NetBSD.org>
+References: <20210718134650.1191-3-reinoud@NetBSD.org>
  <20210718134650.1191-2-reinoud@NetBSD.org>
  <20210718134650.1191-1-reinoud@NetBSD.org>
-Received-SPF: none client-ip=80.100.255.32;
- envelope-from=reinoud@gorilla.13thmonkey.org; helo=gorilla.13thmonkey.org
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ <YSuwFI8vBJTDF2GW@gorilla.13thmonkey.org>
+In-Reply-To: <YSuwFI8vBJTDF2GW@gorilla.13thmonkey.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 29 Aug 2021 17:39:07 +0100
+Message-ID: <CAFEAcA8oLY-XYUFVguMDcQzZ+CykWnddpgdAcbrq3-2S1Q5X4Q@mail.gmail.com>
+Subject: Re: applied? Re: [PATCH v1 0/2] Update NVMM support to recent
+ changes, [PATCH v1 1/2] Only check CONFIG_NVMM when NEED_CPU_H is defined,
+ [PATCH v1 2/2] Fix nvmm_ram_block_added() function arguments
+To: Reinoud Zandijk <reinoud@13thmonkey.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -52,101 +82,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi :)
+On Sun, 29 Aug 2021 at 17:06, Reinoud Zandijk <reinoud@13thmonkey.org> wrote:
+>
+> Hi :)
+>
+> Have these patches been applied? How can I easily check it without manually
+> checking if they are there in a git pullup? Am I notified normally when
+> patches are applied?
 
-Have these patches been applied? How can I easily check it without manually
-checking if they are there in a git pullup? Am I notified normally when
-patches are applied?
+Generally when a submaintainer picks up a patchset they'll send
+an email reply to the patch cover letter to say they've done so.
+At that point it should get into upstream git eventually.
+Until that happens it's the initial submitter's responsibility to
+'ping' the patch after a few weeks if nobody's replied to it
+or reviewed it.
 
-With regards,
-Reinoud
+Ccing Paolo who seems to have taken the initial nvmm patches
+through his tree.
 
-On Sun, Jul 18, 2021 at 03:46:48PM +0200, Reinoud Zandijk wrote:
-> This patchset fixes small NVMM accelerator compilation issues due to
-> changes made in the rest of Qemu since its import.
-> 
-> Signed-off-by: Reinoud Zandijk <Reinoud@NetBSD.org>
-> ---
-> 
-> Reinoud Zandijk (2):
->   Only check CONFIG_NVMM when NEED_CPU_H is defined
->   Fix nvmm_ram_block_added() function arguments
-> 
->  include/sysemu/nvmm.h       | 7 ++++---
->  target/i386/nvmm/nvmm-all.c | 5 +++--
->  2 files changed, 7 insertions(+), 5 deletions(-)
-> 
-> -- 
-> 2.31.1
-
-On Sun, Jul 18, 2021 at 03:46:49PM +0200, Reinoud Zandijk wrote:
-> Userland targers will otherwise use a poisoned CONFIG_NVMM
-> 
-> Signed-off-by: Reinoud Zandijk <Reinoud@NetBSD.org>
-> ---
->  include/sysemu/nvmm.h | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/sysemu/nvmm.h b/include/sysemu/nvmm.h
-> index 6d216599b0..833670fccb 100644
-> --- a/include/sysemu/nvmm.h
-> +++ b/include/sysemu/nvmm.h
-> @@ -10,8 +10,7 @@
->  #ifndef QEMU_NVMM_H
->  #define QEMU_NVMM_H
->  
-> -#include "config-host.h"
-> -#include "qemu-common.h"
-> +#ifdef NEED_CPU_H
->  
->  #ifdef CONFIG_NVMM
->  
-> @@ -23,4 +22,6 @@ int nvmm_enabled(void);
->  
->  #endif /* CONFIG_NVMM */
->  
-> -#endif /* CONFIG_NVMM */
-> +#endif /* NEED_CPU_H */
-> +
-> +#endif /* QEMU_NVMM_H */
-> -- 
-> 2.31.1
-
-On Sun, Jul 18, 2021 at 03:46:50PM +0200, Reinoud Zandijk wrote:
-> A parameter max_size was added to the RAMBlockNotifier
-> ram_block_added function. Use the max_size for pre allocation
-> of hva space.
-> 
-> Signed-off-by: Reinoud Zandijk <Reinoud@NetBSD.org>
-> ---
->  target/i386/nvmm/nvmm-all.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/i386/nvmm/nvmm-all.c b/target/i386/nvmm/nvmm-all.c
-> index dfa690d65d..fdcd37ed3e 100644
-> --- a/target/i386/nvmm/nvmm-all.c
-> +++ b/target/i386/nvmm/nvmm-all.c
-> @@ -1134,13 +1134,14 @@ static MemoryListener nvmm_memory_listener = {
->  };
->  
->  static void
-> -nvmm_ram_block_added(RAMBlockNotifier *n, void *host, size_t size)
-> +nvmm_ram_block_added(RAMBlockNotifier *n, void *host, size_t size,
-> +                     size_t max_size)
->  {
->      struct nvmm_machine *mach = get_nvmm_mach();
->      uintptr_t hva = (uintptr_t)host;
->      int ret;
->  
-> -    ret = nvmm_hva_map(mach, hva, size);
-> +    ret = nvmm_hva_map(mach, hva, max_size);
->  
->      if (ret == -1) {
->          error_report("NVMM: Failed to map HVA, HostVA:%p "
-> -- 
-> 2.31.1
-
+thanks
+-- PMM
 
