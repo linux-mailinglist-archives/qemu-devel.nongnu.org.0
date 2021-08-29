@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D46BC3FAD77
+	by mail.lfdr.de (Postfix) with ESMTPS id 58DE63FAD76
 	for <lists+qemu-devel@lfdr.de>; Sun, 29 Aug 2021 19:36:01 +0200 (CEST)
-Received: from localhost ([::1]:55982 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:55948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKOiu-0001bD-Us
+	id 1mKOiu-0001Zq-Dz
 	for lists+qemu-devel@lfdr.de; Sun, 29 Aug 2021 13:36:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46406)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mKOfY-0005hs-V2
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mKOfZ-0005i3-NV
  for qemu-devel@nongnu.org; Sun, 29 Aug 2021 13:32:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52007)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mKOfW-0007eJ-1J
- for qemu-devel@nongnu.org; Sun, 29 Aug 2021 13:32:32 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mKOfX-0007gh-EG
+ for qemu-devel@nongnu.org; Sun, 29 Aug 2021 13:32:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630258349;
+ s=mimecast20190719; t=1630258350;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G1Bsykwl2wYCVn3Ry5+muRkAzVb59Z/hgF89Hmp7AtU=;
- b=LnODBx4JoMfzIDYyaikqAB8ME+oXCC6ArZVNIsLQ7O2zw7imUSKGu/T5pABrvZKaoXmKnF
- lDte0nZtLBwxiEbfIk9Z+xICEPc3WmeDIC7g24ED0rCD7WjXYEMK5KXWDAyGwfl2DuMIJP
- 8y6OK/DKRZV5H6yS0Dheo1NurOrWjJQ=
+ bh=4GbFDsAkxaHCYVaiYXmHoSjhftRtlDugeSznPCPOSyg=;
+ b=fDbL1RWBvqNFCDpiAejhDC8gmgraL2+hMjMRb4adAAMtYyOZ6zlTqu3jaWafw/6xOgBcgN
+ qNPobV70G6WTOn8mE3+9TKeO0Z+49C0qvoUwGfUJAGiYkwdoUCFhKcKoI9j9t129kGk7Na
+ ibD1W4EFSFo8VpcGQYOKvGQEIfrZPa8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-fJVcjywtM0WJBDLY9ve8cA-1; Sun, 29 Aug 2021 13:32:27 -0400
-X-MC-Unique: fJVcjywtM0WJBDLY9ve8cA-1
+ us-mta-373-4-ScpaHDM2-lywfFicWNYg-1; Sun, 29 Aug 2021 13:32:29 -0400
+X-MC-Unique: 4-ScpaHDM2-lywfFicWNYg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E087185302B
- for <qemu-devel@nongnu.org>; Sun, 29 Aug 2021 17:32:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84F8D1008065
+ for <qemu-devel@nongnu.org>; Sun, 29 Aug 2021 17:32:28 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DC5F760939;
- Sun, 29 Aug 2021 17:32:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 84AD760D31;
+ Sun, 29 Aug 2021 17:32:27 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 2/3] configure: Remove options that can be handled via
- meson_options.txt instead
-Date: Sun, 29 Aug 2021 19:32:09 +0200
-Message-Id: <20210829173210.39562-3-thuth@redhat.com>
+Subject: [PATCH 3/3] configure: Get help text from meson_options.txt
+Date: Sun, 29 Aug 2021 19:32:10 +0200
+Message-Id: <20210829173210.39562-4-thuth@redhat.com>
 In-Reply-To: <20210829173210.39562-1-thuth@redhat.com>
 References: <20210829173210.39562-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -82,571 +81,174 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These trivial options can now be handled via the new generic code
-that parses meson_options.txt
+It's cumbersome to maintain the option help texts twice, once in the
+"configure" script and once in meson_options.txt. So let's add some logic to
+the configure script to read most of the help texts from meson_options.txt.
 
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- configure         | 316 +---------------------------------------------
- meson_options.txt |   2 +-
- 2 files changed, 5 insertions(+), 313 deletions(-)
+ configure | 89 ++++++++++++++++---------------------------------------
+ 1 file changed, 25 insertions(+), 64 deletions(-)
 
 diff --git a/configure b/configure
-index b3e6d51916..cb125c3f84 100755
+index cb125c3f84..8446b7b3ea 100755
 --- a/configure
 +++ b/configure
-@@ -291,34 +291,14 @@ for opt do
-   esac
- done
- 
--brlapi="auto"
--curl="auto"
--iconv="auto"
--curses="auto"
--docs="auto"
- fdt="auto"
- netmap="no"
- sdl="auto"
--sdl_image="auto"
- coreaudio="auto"
--virtiofsd="auto"
--virtfs="auto"
--libudev="auto"
--mpath="auto"
--vnc="auto"
--sparse="auto"
- vde="$default_feature"
--vnc_sasl="auto"
--vnc_jpeg="auto"
--vnc_png="auto"
--xkbcommon="auto"
- xen=${default_feature:+disabled}
- xen_ctrl_version="$default_feature"
--xen_pci_passthrough="auto"
- linux_aio="$default_feature"
--linux_io_uring="auto"
--cap_ng="auto"
--attr="auto"
- xfs="$default_feature"
- tcg="enabled"
- membarrier="$default_feature"
-@@ -328,15 +308,8 @@ vhost_crypto="$default_feature"
- vhost_scsi="$default_feature"
- vhost_vsock="$default_feature"
- vhost_user="no"
--vhost_user_blk_server="auto"
- vhost_user_fs="$default_feature"
- vhost_vdpa="$default_feature"
--bpf="auto"
--kvm="auto"
--hax="auto"
--hvf="auto"
--whpx="auto"
--nvmm="auto"
- rdma="$default_feature"
- pvrdma="$default_feature"
- gprof="no"
-@@ -362,7 +335,6 @@ bsd="no"
- linux="no"
- solaris="no"
- profiler="no"
--cocoa="auto"
- softmmu="yes"
- linux_user="no"
- bsd_user="no"
-@@ -374,45 +346,23 @@ trace_backends="log"
- trace_file="trace"
- spice="$default_feature"
- spice_protocol="auto"
--rbd="auto"
--smartcard="auto"
--u2f="auto"
--libusb="auto"
--usb_redir="auto"
- opengl="$default_feature"
- cpuid_h="no"
- avx2_opt="$default_feature"
- capstone="auto"
--lzo="auto"
--snappy="auto"
--bzip2="auto"
--lzfse="auto"
--zstd="auto"
- guest_agent="$default_feature"
- guest_agent_with_vss="no"
- guest_agent_ntddscsi="no"
--guest_agent_msi="auto"
- vss_win32_sdk="$default_feature"
- win_sdk="no"
- want_tools="$default_feature"
--libiscsi="auto"
--libnfs="auto"
- coroutine=""
- coroutine_pool="$default_feature"
- debug_stack_usage="no"
- crypto_afalg="no"
- cfi="false"
- cfi_debug="false"
--seccomp="auto"
--glusterfs="auto"
--gtk="auto"
- tls_priority="NORMAL"
--gnutls="auto"
--nettle="auto"
--gcrypt="auto"
--auth_pam="auto"
--vte="auto"
--virglrenderer="auto"
- tpm="$default_feature"
- libssh="$default_feature"
- live_block_migration=${default_feature:-yes}
-@@ -428,25 +378,17 @@ vdi=${default_feature:-yes}
- vvfat=${default_feature:-yes}
- qed=${default_feature:-yes}
- parallels=${default_feature:-yes}
--libxml2="auto"
- debug_mutex="no"
--libpmem="auto"
- default_devices="true"
- plugins="$default_feature"
- fuzzing="no"
- rng_none="no"
- secret_keyring="$default_feature"
--libdaxctl="auto"
- meson=""
- ninja=""
- skip_meson=no
--gettext="auto"
--fuse="auto"
--fuse_lseek="auto"
--multiprocess="auto"
- slirp_smbd="$default_feature"
- 
--malloc_trim="auto"
- gio="$default_feature"
- 
- # parse CC options second
-@@ -982,38 +924,10 @@ for opt do
-   ;;
-   --enable-sdl) sdl="enabled"
-   ;;
--  --disable-sdl-image) sdl_image="disabled"
--  ;;
--  --enable-sdl-image) sdl_image="enabled"
--  ;;
-   --disable-qom-cast-debug) qom_cast_debug="no"
-   ;;
-   --enable-qom-cast-debug) qom_cast_debug="yes"
-   ;;
--  --disable-virtfs) virtfs="disabled"
--  ;;
--  --enable-virtfs) virtfs="enabled"
--  ;;
--  --disable-libudev) libudev="disabled"
--  ;;
--  --enable-libudev) libudev="enabled"
--  ;;
--  --disable-virtiofsd) virtiofsd="disabled"
--  ;;
--  --enable-virtiofsd) virtiofsd="enabled"
--  ;;
--  --disable-mpath) mpath="disabled"
--  ;;
--  --enable-mpath) mpath="enabled"
--  ;;
--  --disable-vnc) vnc="disabled"
--  ;;
--  --enable-vnc) vnc="enabled"
--  ;;
--  --disable-gettext) gettext="disabled"
--  ;;
--  --enable-gettext) gettext="enabled"
--  ;;
-   --oss-lib=*) oss_lib="$optarg"
-   ;;
-   --audio-drv-list=*) audio_drv_list="$optarg"
-@@ -1046,24 +960,8 @@ for opt do
-   ;;
-   --disable-tsan) tsan="no"
-   ;;
--  --enable-sparse) sparse="enabled"
--  ;;
--  --disable-sparse) sparse="disabled"
--  ;;
-   --disable-strip) strip_opt="no"
-   ;;
--  --disable-vnc-sasl) vnc_sasl="disabled"
--  ;;
--  --enable-vnc-sasl) vnc_sasl="enabled"
--  ;;
--  --disable-vnc-jpeg) vnc_jpeg="disabled"
--  ;;
--  --enable-vnc-jpeg) vnc_jpeg="enabled"
--  ;;
--  --disable-vnc-png) vnc_png="disabled"
--  ;;
--  --enable-vnc-png) vnc_png="enabled"
--  ;;
-   --disable-slirp) slirp="disabled"
-   ;;
-   --enable-slirp) slirp="enabled"
-@@ -1084,51 +982,15 @@ for opt do
-   ;;
-   --enable-xen) xen="enabled"
-   ;;
--  --disable-xen-pci-passthrough) xen_pci_passthrough="disabled"
--  ;;
--  --enable-xen-pci-passthrough) xen_pci_passthrough="enabled"
--  ;;
--  --disable-brlapi) brlapi="disabled"
--  ;;
--  --enable-brlapi) brlapi="enabled"
--  ;;
--  --disable-kvm) kvm="disabled"
--  ;;
--  --enable-kvm) kvm="enabled"
--  ;;
--  --disable-hax) hax="disabled"
--  ;;
--  --enable-hax) hax="enabled"
--  ;;
--  --disable-hvf) hvf="disabled"
--  ;;
--  --enable-hvf) hvf="enabled"
--  ;;
--  --disable-nvmm) nvmm="disabled"
--  ;;
--  --enable-nvmm) nvmm="enabled"
--  ;;
--  --disable-whpx) whpx="disabled"
--  ;;
--  --enable-whpx) whpx="enabled"
--  ;;
-   --disable-tcg-interpreter) tcg_interpreter="false"
-   ;;
-   --enable-tcg-interpreter) tcg_interpreter="true"
-   ;;
--  --disable-cap-ng)  cap_ng="disabled"
--  ;;
--  --enable-cap-ng) cap_ng="enabled"
--  ;;
-   --disable-tcg) tcg="disabled"
-                  plugins="no"
-   ;;
-   --enable-tcg) tcg="enabled"
-   ;;
--  --disable-malloc-trim) malloc_trim="disabled"
--  ;;
--  --enable-malloc-trim) malloc_trim="enabled"
--  ;;
-   --disable-spice) spice="no"
-   ;;
-   --enable-spice)
-@@ -1141,20 +1003,8 @@ for opt do
-   ;;
-   --enable-spice-protocol) spice_protocol="yes"
-   ;;
--  --disable-libiscsi) libiscsi="disabled"
--  ;;
--  --enable-libiscsi) libiscsi="enabled"
--  ;;
--  --disable-libnfs) libnfs="disabled"
--  ;;
--  --enable-libnfs) libnfs="enabled"
--  ;;
-   --enable-profiler) profiler="yes"
-   ;;
--  --disable-cocoa) cocoa="disabled"
--  ;;
--  --enable-cocoa) cocoa="enabled"
--  ;;
-   --disable-system) softmmu="no"
-   ;;
-   --enable-system) softmmu="yes"
-@@ -1202,18 +1052,6 @@ for opt do
-   ;;
-   --disable-cfi-debug) cfi_debug="false"
-   ;;
--  --disable-curses) curses="disabled"
--  ;;
--  --enable-curses) curses="enabled"
--  ;;
--  --disable-iconv) iconv="disabled"
--  ;;
--  --enable-iconv) iconv="enabled"
--  ;;
--  --disable-curl) curl="disabled"
--  ;;
--  --enable-curl) curl="enabled"
--  ;;
-   --disable-fdt) fdt="disabled"
-   ;;
-   --enable-fdt) fdt="enabled"
-@@ -1226,22 +1064,10 @@ for opt do
-   ;;
-   --enable-linux-aio) linux_aio="yes"
-   ;;
--  --disable-linux-io-uring) linux_io_uring="disabled"
--  ;;
--  --enable-linux-io-uring) linux_io_uring="enabled"
--  ;;
--  --disable-attr) attr="disabled"
--  ;;
--  --enable-attr) attr="enabled"
--  ;;
-   --disable-membarrier) membarrier="no"
-   ;;
-   --enable-membarrier) membarrier="yes"
-   ;;
--  --disable-bpf) bpf="disabled"
--  ;;
--  --enable-bpf) bpf="enabled"
--  ;;
-   --disable-blobs) blobs="false"
-   ;;
-   --with-pkgversion=*) pkgversion="$optarg"
-@@ -1258,10 +1084,6 @@ for opt do
-   ;;
-   --disable-crypto-afalg) crypto_afalg="no"
-   ;;
--  --disable-docs) docs="disabled"
--  ;;
--  --enable-docs) docs="enabled"
--  ;;
-   --disable-vhost-net) vhost_net="no"
-   ;;
-   --enable-vhost-net) vhost_net="yes"
-@@ -1278,10 +1100,6 @@ for opt do
-   ;;
-   --enable-vhost-vsock) vhost_vsock="yes"
-   ;;
--  --disable-vhost-user-blk-server) vhost_user_blk_server="disabled"
--  ;;
--  --enable-vhost-user-blk-server) vhost_user_blk_server="enabled"
--  ;;
-   --disable-vhost-user-fs) vhost_user_fs="no"
-   ;;
-   --enable-vhost-user-fs) vhost_user_fs="yes"
-@@ -1290,60 +1108,14 @@ for opt do
-   ;;
-   --enable-opengl) opengl="yes"
-   ;;
--  --disable-rbd) rbd="disabled"
--  ;;
--  --enable-rbd) rbd="enabled"
--  ;;
-   --disable-xfsctl) xfs="no"
-   ;;
-   --enable-xfsctl) xfs="yes"
-   ;;
--  --disable-smartcard) smartcard="disabled"
--  ;;
--  --enable-smartcard) smartcard="enabled"
--  ;;
--  --disable-u2f) u2f="disabled"
--  ;;
--  --enable-u2f) u2f="enabled"
--  ;;
--  --disable-libusb) libusb="disabled"
--  ;;
--  --enable-libusb) libusb="enabled"
--  ;;
--  --disable-usb-redir) usb_redir="disabled"
--  ;;
--  --enable-usb-redir) usb_redir="enabled"
--  ;;
--  --disable-zlib-test)
--  ;;
--  --disable-lzo) lzo="disabled"
--  ;;
--  --enable-lzo) lzo="enabled"
--  ;;
--  --disable-snappy) snappy="disabled"
--  ;;
--  --enable-snappy) snappy="enabled"
--  ;;
--  --disable-bzip2) bzip2="disabled"
--  ;;
--  --enable-bzip2) bzip2="enabled"
--  ;;
--  --enable-lzfse) lzfse="enabled"
--  ;;
--  --disable-lzfse) lzfse="disabled"
--  ;;
--  --disable-zstd) zstd="disabled"
--  ;;
--  --enable-zstd) zstd="enabled"
--  ;;
-   --enable-guest-agent) guest_agent="yes"
-   ;;
-   --disable-guest-agent) guest_agent="no"
-   ;;
--  --enable-guest-agent-msi) guest_agent_msi="enabled"
--  ;;
--  --disable-guest-agent-msi) guest_agent_msi="disabled"
--  ;;
-   --with-vss-sdk) vss_win32_sdk=""
-   ;;
-   --with-vss-sdk=*) vss_win32_sdk="$optarg"
-@@ -1360,12 +1132,6 @@ for opt do
-   ;;
-   --disable-tools) want_tools="no"
-   ;;
--  --enable-seccomp) seccomp="enabled"
--  ;;
--  --disable-seccomp) seccomp="disabled"
--  ;;
--  --disable-glusterfs) glusterfs="disabled"
--  ;;
-   --disable-avx2) avx2_opt="no"
-   ;;
-   --enable-avx2) avx2_opt="yes"
-@@ -1374,9 +1140,6 @@ for opt do
-   ;;
-   --enable-avx512f) avx512f_opt="yes"
-   ;;
+@@ -1549,7 +1549,6 @@ Advanced options (experts only):
+                            Default:trace-<pid>
+   --disable-slirp          disable SLIRP userspace network connectivity
+   --enable-tcg-interpreter enable TCI (TCG with bytecode interpreter, experimental and slow)
+-  --enable-malloc-trim     enable libc malloc_trim() for memory optimization
+   --oss-lib                path to OSS library
+   --cpu=CPU                Build for host CPU [$cpu]
+   --with-coroutine=BACKEND coroutine backend. Supported options:
+@@ -1576,16 +1575,13 @@ disabled with --disable-FEATURE, default is enabled if available
+   user            supported user emulation targets
+   linux-user      all linux usermode emulation targets
+   bsd-user        all BSD usermode emulation targets
+-  docs            build documentation
+   guest-agent     build the QEMU Guest Agent
+-  guest-agent-msi build guest agent Windows MSI installation package
+   pie             Position Independent Executables
+   modules         modules support (non-Windows)
+   module-upgrades try to load modules from alternate paths for upgrades
+   debug-tcg       TCG debugging (default is disabled)
+   debug-info      debugging information
+   lto             Enable Link-Time Optimization.
+-  sparse          sparse checker
+   safe-stack      SafeStack Stack Smash Protection. Depends on
+                   clang/llvm >= 3.7 and requires coroutine backend ucontext.
+   cfi             Enable Control-Flow Integrity for indirect function calls.
+@@ -1595,85 +1591,33 @@ disabled with --disable-FEATURE, default is enabled if available
+   cfi-debug       In case of a cfi violation, a message containing the line that
+                   triggered the error is written to stderr. After the error,
+                   QEMU is still terminated with SIGILL
+-  gnutls          GNUTLS cryptography support
+-  nettle          nettle cryptography support
+-  gcrypt          libgcrypt cryptography support
+-  auth-pam        PAM access control
+-  sdl             SDL UI
+-  sdl-image       SDL Image support for icons
+-  gtk             gtk UI
+-  vte             vte support for the gtk UI
+-  curses          curses UI
+-  iconv           font glyph conversion support
+-  vnc             VNC UI support
+-  vnc-sasl        SASL encryption for VNC server
+-  vnc-jpeg        JPEG lossy compression for VNC server
+-  vnc-png         PNG compression for VNC server
+-  cocoa           Cocoa UI (Mac OS X only)
+-  virtfs          VirtFS
+-  virtiofsd       build virtiofs daemon (virtiofsd)
+-  libudev         Use libudev to enumerate host devices
+-  mpath           Multipath persistent reservation passthrough
+-  xen             xen backend driver support
+-  xen-pci-passthrough    PCI passthrough support for Xen
+-  brlapi          BrlAPI (Braile)
+-  curl            curl connectivity
+   membarrier      membarrier system call (for Linux 4.14+ or Windows)
+   fdt             fdt device tree
+-  kvm             KVM acceleration support
+-  hax             HAX acceleration support
+-  hvf             Hypervisor.framework acceleration support
+-  nvmm            NVMM acceleration support
+-  whpx            Windows Hypervisor Platform acceleration support
+   rdma            Enable RDMA-based migration
+   pvrdma          Enable PVRDMA support
+   vde             support for vde network
+   netmap          support for netmap network
+   linux-aio       Linux AIO support
+-  linux-io-uring  Linux io_uring support
+-  cap-ng          libcap-ng support
+-  attr            attr and xattr support
+   vhost-net       vhost-net kernel acceleration support
+   vhost-vsock     virtio sockets device support
+   vhost-scsi      vhost-scsi kernel target support
+   vhost-crypto    vhost-user-crypto backend support
+   vhost-kernel    vhost kernel backend support
+   vhost-user      vhost-user backend support
+-  vhost-user-blk-server    vhost-user-blk server support
+   vhost-vdpa      vhost-vdpa kernel backend support
+-  bpf             BPF kernel support
+   spice           spice
+   spice-protocol  spice-protocol
+-  rbd             rados block device (rbd)
+-  libiscsi        iscsi support
+-  libnfs          nfs support
+-  smartcard       smartcard support (libcacard)
+-  u2f             U2F support (u2f-emu)
+-  libusb          libusb (for usb passthrough)
+   live-block-migration   Block migration in the main migration stream
+-  usb-redir       usb network redirection support
+-  lzo             support of lzo compression library
+-  snappy          support of snappy compression library
+-  bzip2           support of bzip2 compression library
+-                  (for reading bzip2-compressed dmg images)
+-  lzfse           support of lzfse compression library
+-                  (for reading lzfse-compressed dmg images)
+-  zstd            support for zstd compression library
+-                  (for migration compression and qcow2 cluster compression)
+-  seccomp         seccomp support
+   coroutine-pool  coroutine freelist (better performance)
+-  glusterfs       GlusterFS backend
+   tpm             TPM support
+   libssh          ssh block device support
+   numa            libnuma support
+-  libxml2         for Parallels image format
+   tcmalloc        tcmalloc support
+   jemalloc        jemalloc support
+   avx2            AVX2 optimization support
+   avx512f         AVX512F optimization support
+   replication     replication support
+   opengl          opengl support
+-  virglrenderer   virgl rendering support
+   xfsctl          xfsctl support
+   qom-cast-debug  cast debugging support
+   tools           build qemu-io, qemu-nbd and qemu-img tools
+@@ -1688,18 +1632,35 @@ disabled with --disable-FEATURE, default is enabled if available
+   crypto-afalg    Linux AF_ALG crypto backend driver
+   capstone        capstone disassembler support
+   debug-mutex     mutex debugging support
+-  libpmem         libpmem support
+-  xkbcommon       xkbcommon support
+   rng-none        dummy RNG, avoid using /dev/(u)random and getrandom()
+-  libdaxctl       libdaxctl support
+-  fuse            FUSE block device export
+-  fuse-lseek      SEEK_HOLE/SEEK_DATA support for FUSE exports
+-  multiprocess    Out of process device emulation support
+   gio             libgio support
+   slirp-smbd      use smbd (at path --smbd=*) in slirp networking
 -
--  --enable-glusterfs) glusterfs="enabled"
--  ;;
-   --disable-virtio-blk-data-plane|--enable-virtio-blk-data-plane)
-       echo "$0: $opt is obsolete, virtio-blk data-plane is always on" >&2
-   ;;
-@@ -1386,28 +1149,8 @@ for opt do
-   --enable-uuid|--disable-uuid)
-       echo "$0: $opt is obsolete, UUID support is always built" >&2
-   ;;
--  --disable-gtk) gtk="disabled"
--  ;;
--  --enable-gtk) gtk="enabled"
--  ;;
-   --tls-priority=*) tls_priority="$optarg"
-   ;;
--  --disable-gnutls) gnutls="disabled"
--  ;;
--  --enable-gnutls) gnutls="enabled"
--  ;;
--  --disable-nettle) nettle="disabled"
--  ;;
--  --enable-nettle) nettle="enabled"
--  ;;
--  --disable-gcrypt) gcrypt="disabled"
--  ;;
--  --enable-gcrypt) gcrypt="enabled"
--  ;;
--  --disable-auth-pam) auth_pam="disabled"
--  ;;
--  --enable-auth-pam) auth_pam="enabled"
--  ;;
-   --enable-rdma) rdma="yes"
-   ;;
-   --disable-rdma) rdma="no"
-@@ -1416,14 +1159,6 @@ for opt do
-   ;;
-   --disable-pvrdma) pvrdma="no"
-   ;;
--  --disable-vte) vte="disabled"
--  ;;
--  --enable-vte) vte="enabled"
--  ;;
--  --disable-virglrenderer) virglrenderer="disabled"
--  ;;
--  --enable-virglrenderer) virglrenderer="enabled"
--  ;;
-   --disable-tpm) tpm="no"
-   ;;
-   --enable-tpm) tpm="yes"
-@@ -1440,10 +1175,6 @@ for opt do
-   ;;
-   --enable-numa) numa="yes"
-   ;;
--  --disable-libxml2) libxml2="disabled"
--  ;;
--  --enable-libxml2) libxml2="enabled"
--  ;;
-   --disable-tcmalloc) tcmalloc="no"
-   ;;
-   --enable-tcmalloc) tcmalloc="yes"
-@@ -1525,14 +1256,6 @@ for opt do
-   ;;
-   --disable-debug-mutex) debug_mutex=no
-   ;;
--  --enable-libpmem) libpmem="enabled"
--  ;;
--  --disable-libpmem) libpmem="disabled"
--  ;;
--  --enable-xkbcommon) xkbcommon="enabled"
--  ;;
--  --disable-xkbcommon) xkbcommon="disabled"
--  ;;
-   --enable-plugins) if test "$mingw32" = "yes"; then
-                         error_exit "TCG plugins not currently supported on Windows platforms"
-                     else
-@@ -1559,22 +1282,6 @@ for opt do
-   ;;
-   --disable-keyring) secret_keyring="no"
-   ;;
--  --enable-libdaxctl) libdaxctl="enabled"
--  ;;
--  --disable-libdaxctl) libdaxctl="disabled"
--  ;;
--  --enable-fuse) fuse="enabled"
--  ;;
--  --disable-fuse) fuse="disabled"
--  ;;
--  --enable-fuse-lseek) fuse_lseek="enabled"
--  ;;
--  --disable-fuse-lseek) fuse_lseek="disabled"
--  ;;
--  --enable-multiprocess) multiprocess="enabled"
--  ;;
--  --disable-multiprocess) multiprocess="disabled"
--  ;;
-   --enable-gio) gio=yes
-   ;;
-   --disable-gio) gio=no
-@@ -5213,25 +4920,10 @@ if test "$skip_meson" = no; then
-         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
-         ${staticpic:+-Db_staticpic=$staticpic} \
-         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
--        -Db_lto=$lto -Dcfi=$cfi -Dcfi_debug=$cfi_debug \
--        -Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
--        -Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf -Dnvmm=$nvmm \
--        -Dxen=$xen -Dxen_pci_passthrough=$xen_pci_passthrough -Dtcg=$tcg \
--        -Dcocoa=$cocoa -Dgtk=$gtk -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
--        -Dlibusb=$libusb -Dsmartcard=$smartcard -Dusb_redir=$usb_redir -Dvte=$vte \
--        -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
--        -Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f -Dvirtiofsd=$virtiofsd \
--        -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt -Dbrlapi=$brlapi \
--        -Dcurl=$curl -Dglusterfs=$glusterfs -Dbzip2=$bzip2 -Dlibiscsi=$libiscsi \
--        -Dlibnfs=$libnfs -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
--        -Drbd=$rbd -Dlzo=$lzo -Dsnappy=$snappy -Dlzfse=$lzfse -Dlibxml2=$libxml2 \
--        -Dlibdaxctl=$libdaxctl -Dlibpmem=$libpmem -Dlinux_io_uring=$linux_io_uring \
--        -Dgnutls=$gnutls -Dnettle=$nettle -Dgcrypt=$gcrypt -Dauth_pam=$auth_pam \
--        -Dzstd=$zstd -Dseccomp=$seccomp -Dvirtfs=$virtfs -Dcap_ng=$cap_ng \
--        -Dattr=$attr -Ddefault_devices=$default_devices -Dvirglrenderer=$virglrenderer \
--        -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
--        -Dvhost_user_blk_server=$vhost_user_blk_server -Dmultiprocess=$multiprocess \
--        -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi -Dbpf=$bpf\
-+        -Db_lto=$lto -Dcfi=$cfi -Dcfi_debug=$cfi_debug -Dmalloc=$malloc \
-+        -Ddefault_devices=$default_devices -Dxen=$xen -Dtcg=$tcg -Dsdl=$sdl \
-+        -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt \
-+        -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
-         $(if test "$default_feature" = no; then echo "-Dauto_features=disabled"; fi) \
-         -Dtcg_interpreter=$tcg_interpreter $meson_options \
-         $cross_arg \
-diff --git a/meson_options.txt b/meson_options.txt
-index a9a9b8f4c6..2c89e79e8b 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -120,7 +120,7 @@ option('usb_redir', type : 'feature', value : 'auto',
-        description: 'libusbredir support')
- option('virglrenderer', type : 'feature', value : 'auto',
-        description: 'virgl rendering support')
--option('vnc', type : 'feature', value : 'enabled',
-+option('vnc', type : 'feature', value : 'auto',
-        description: 'VNC server')
- option('vnc_jpeg', type : 'feature', value : 'auto',
-        description: 'JPEG lossy compression for VNC server')
+-NOTE: The object files are built at the place where configure is launched
+ EOF
++
++current_feature=""
++current_desc=""
++while read word1 word2 ; do
++   case "$word1" in
++   option*)
++       if echo "$word2" | grep -q "type[ ]*: 'feature'"; then
++           current_feature=$(echo $word1 | sed -e "s/option('//" -e "s/',.*$//")
++       else
++           current_feature=""
++       fi
++   ;;
++   description:)
++       if [ -n "$current_feature" ]; then
++           printf "  %-15s %s\n" "$current_feature" \
++                  "$(echo "$word2" | sed -e "s/^'//" -e "s/'.*$//")"
++           current_feature=""
++       fi
++   ;;
++   esac
++done < $source_path/meson_options.txt | sort
++
++echo
++echo "NOTE: The object files are built at the place where configure is launched"
++
+ exit 0
+ fi
+ 
 -- 
 2.27.0
 
