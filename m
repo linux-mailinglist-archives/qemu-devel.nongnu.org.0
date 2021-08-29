@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58DE63FAD76
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Aug 2021 19:36:01 +0200 (CEST)
-Received: from localhost ([::1]:55948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A6B3FAD81
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Aug 2021 19:53:55 +0200 (CEST)
+Received: from localhost ([::1]:41706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKOiu-0001Zq-Dz
-	for lists+qemu-devel@lfdr.de; Sun, 29 Aug 2021 13:36:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46408)
+	id 1mKP0D-0003iG-Kw
+	for lists+qemu-devel@lfdr.de; Sun, 29 Aug 2021 13:53:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mKOfZ-0005i3-NV
- for qemu-devel@nongnu.org; Sun, 29 Aug 2021 13:32:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38408)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mKOfX-0007gh-EG
- for qemu-devel@nongnu.org; Sun, 29 Aug 2021 13:32:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630258350;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4GbFDsAkxaHCYVaiYXmHoSjhftRtlDugeSznPCPOSyg=;
- b=fDbL1RWBvqNFCDpiAejhDC8gmgraL2+hMjMRb4adAAMtYyOZ6zlTqu3jaWafw/6xOgBcgN
- qNPobV70G6WTOn8mE3+9TKeO0Z+49C0qvoUwGfUJAGiYkwdoUCFhKcKoI9j9t129kGk7Na
- ibD1W4EFSFo8VpcGQYOKvGQEIfrZPa8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-4-ScpaHDM2-lywfFicWNYg-1; Sun, 29 Aug 2021 13:32:29 -0400
-X-MC-Unique: 4-ScpaHDM2-lywfFicWNYg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84F8D1008065
- for <qemu-devel@nongnu.org>; Sun, 29 Aug 2021 17:32:28 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.192.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 84AD760D31;
- Sun, 29 Aug 2021 17:32:27 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH 3/3] configure: Get help text from meson_options.txt
-Date: Sun, 29 Aug 2021 19:32:10 +0200
-Message-Id: <20210829173210.39562-4-thuth@redhat.com>
-In-Reply-To: <20210829173210.39562-1-thuth@redhat.com>
-References: <20210829173210.39562-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
+ id 1mKOxy-0000s9-IC; Sun, 29 Aug 2021 13:51:34 -0400
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:35608)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
+ id 1mKOxw-0003L7-L9; Sun, 29 Aug 2021 13:51:34 -0400
+Received: by mail-ej1-x636.google.com with SMTP id i21so26077177ejd.2;
+ Sun, 29 Aug 2021 10:51:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tFsyR1ZM/a4IV0JjcI3Zce2929CdzFZ411s2ZRs6mW0=;
+ b=FP3qnpY6pajqqV1S/o76K3xUM0S7+Ree8Hn4HMYWPQZoi7PV25H5REHdQo5XDRrR7m
+ 8CL2snBgYwIGitWzlVLGqnIvPm4Gkwt7lNrcqkEib5H0W1fBgUhh2S5dYJWDCMrFoN/x
+ N405nvhXPoo20B8Xcno9Ej+Km2Ptrhh7VUnhrx32rXVwDyN6n3N1KyAGGhPFYxpchAoA
+ U+4thUWI2BWI1LC4i8iLYx7pkuJwOlvrgCASk9IRE9Gf/bXmLzTKmeA1gSil3KinzW8H
+ /TDPDh6QSIU4koBa/wH/WsJofZ/TR6sG10VphA/0IHu5S4Cx3Nim6XLeKogha/iKjFQQ
+ uCcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tFsyR1ZM/a4IV0JjcI3Zce2929CdzFZ411s2ZRs6mW0=;
+ b=l0kY07RjqdlmMF2TIsZ/LxjZ0aMXDmlDbkZwL2dHdbnhqkh6JGreTNNpj+t6RIrbAv
+ cQ8iKxeiDIiwsCxEiqNSacPtAJQyA+exLGD37w/TMVtqSqtNUUEzHv0GOLgUxGdlkxgi
+ fS5wXs7dzsHiUdDo15lCk61AOGqIEjBSdns9iS+LN+NLMvSUNl1SFOE+RonoH4HdXhsW
+ tvLd/K8MNw+/FCxG/EUEGlF4o2FRP1IReW1QowAHRW0Jz2MGuEKLPPWZam1tN0qid9JQ
+ 9AG0rJt7xv+gyoOD0hJ1wMhug0Qzr3Mt0AjhnTwRmhLndIOSgVq+VLz0gmhzsLbvyPoY
+ 6rHQ==
+X-Gm-Message-State: AOAM532j8mIVNeaM857xosBeVwySkEpivEMDSlWHMkDs0deMR7HIE6qx
+ rxj+3w1GmXy1Ayy9fume1MY=
+X-Google-Smtp-Source: ABdhPJzz2rZkR43iMdtfsy50GWa8Tl+BfIjdKT59Pp/+ObzOhmK/I/VfXnyDfblEyXH3E/bU3dckcw==
+X-Received: by 2002:a17:906:c52:: with SMTP id
+ t18mr20969300ejf.148.1630259490131; 
+ Sun, 29 Aug 2021 10:51:30 -0700 (PDT)
+Received: from neptune.lab ([46.39.229.233])
+ by smtp.googlemail.com with ESMTPSA id e22sm6564361edu.35.2021.08.29.10.51.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 29 Aug 2021 10:51:29 -0700 (PDT)
+From: Alexey Baturo <baturo.alexey@gmail.com>
+X-Google-Original-From: Alexey Baturo <space.monkey.delivers@gmail.com>
+To: 
+Subject: [PATCH v10 0/7] RISC-V Pointer Masking implementation
+Date: Sun, 29 Aug 2021 20:51:13 +0300
+Message-Id: <20210829175120.19413-1-space.monkey.delivers@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=baturo.alexey@gmail.com; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,179 +80,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: baturo.alexey@gmail.com, qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
+ kbastian@mail.uni-paderborn.de, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, space.monkey.delivers@gmail.com,
+ Alistair.Francis@wdc.com, kupokupokupopo@gmail.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's cumbersome to maintain the option help texts twice, once in the
-"configure" script and once in meson_options.txt. So let's add some logic to
-the configure script to read most of the help texts from meson_options.txt.
+v10:
+Hi folks,
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- configure | 89 ++++++++++++++++---------------------------------------
- 1 file changed, 25 insertions(+), 64 deletions(-)
+For this iteration I fixes some minor things Alistair mentioned in review and splitted one of patches into two:
+one with preliminary CSR numbers(unfortunately there're still no final ones) and another with actual CSR implementation.
 
-diff --git a/configure b/configure
-index cb125c3f84..8446b7b3ea 100755
---- a/configure
-+++ b/configure
-@@ -1549,7 +1549,6 @@ Advanced options (experts only):
-                            Default:trace-<pid>
-   --disable-slirp          disable SLIRP userspace network connectivity
-   --enable-tcg-interpreter enable TCI (TCG with bytecode interpreter, experimental and slow)
--  --enable-malloc-trim     enable libc malloc_trim() for memory optimization
-   --oss-lib                path to OSS library
-   --cpu=CPU                Build for host CPU [$cpu]
-   --with-coroutine=BACKEND coroutine backend. Supported options:
-@@ -1576,16 +1575,13 @@ disabled with --disable-FEATURE, default is enabled if available
-   user            supported user emulation targets
-   linux-user      all linux usermode emulation targets
-   bsd-user        all BSD usermode emulation targets
--  docs            build documentation
-   guest-agent     build the QEMU Guest Agent
--  guest-agent-msi build guest agent Windows MSI installation package
-   pie             Position Independent Executables
-   modules         modules support (non-Windows)
-   module-upgrades try to load modules from alternate paths for upgrades
-   debug-tcg       TCG debugging (default is disabled)
-   debug-info      debugging information
-   lto             Enable Link-Time Optimization.
--  sparse          sparse checker
-   safe-stack      SafeStack Stack Smash Protection. Depends on
-                   clang/llvm >= 3.7 and requires coroutine backend ucontext.
-   cfi             Enable Control-Flow Integrity for indirect function calls.
-@@ -1595,85 +1591,33 @@ disabled with --disable-FEATURE, default is enabled if available
-   cfi-debug       In case of a cfi violation, a message containing the line that
-                   triggered the error is written to stderr. After the error,
-                   QEMU is still terminated with SIGILL
--  gnutls          GNUTLS cryptography support
--  nettle          nettle cryptography support
--  gcrypt          libgcrypt cryptography support
--  auth-pam        PAM access control
--  sdl             SDL UI
--  sdl-image       SDL Image support for icons
--  gtk             gtk UI
--  vte             vte support for the gtk UI
--  curses          curses UI
--  iconv           font glyph conversion support
--  vnc             VNC UI support
--  vnc-sasl        SASL encryption for VNC server
--  vnc-jpeg        JPEG lossy compression for VNC server
--  vnc-png         PNG compression for VNC server
--  cocoa           Cocoa UI (Mac OS X only)
--  virtfs          VirtFS
--  virtiofsd       build virtiofs daemon (virtiofsd)
--  libudev         Use libudev to enumerate host devices
--  mpath           Multipath persistent reservation passthrough
--  xen             xen backend driver support
--  xen-pci-passthrough    PCI passthrough support for Xen
--  brlapi          BrlAPI (Braile)
--  curl            curl connectivity
-   membarrier      membarrier system call (for Linux 4.14+ or Windows)
-   fdt             fdt device tree
--  kvm             KVM acceleration support
--  hax             HAX acceleration support
--  hvf             Hypervisor.framework acceleration support
--  nvmm            NVMM acceleration support
--  whpx            Windows Hypervisor Platform acceleration support
-   rdma            Enable RDMA-based migration
-   pvrdma          Enable PVRDMA support
-   vde             support for vde network
-   netmap          support for netmap network
-   linux-aio       Linux AIO support
--  linux-io-uring  Linux io_uring support
--  cap-ng          libcap-ng support
--  attr            attr and xattr support
-   vhost-net       vhost-net kernel acceleration support
-   vhost-vsock     virtio sockets device support
-   vhost-scsi      vhost-scsi kernel target support
-   vhost-crypto    vhost-user-crypto backend support
-   vhost-kernel    vhost kernel backend support
-   vhost-user      vhost-user backend support
--  vhost-user-blk-server    vhost-user-blk server support
-   vhost-vdpa      vhost-vdpa kernel backend support
--  bpf             BPF kernel support
-   spice           spice
-   spice-protocol  spice-protocol
--  rbd             rados block device (rbd)
--  libiscsi        iscsi support
--  libnfs          nfs support
--  smartcard       smartcard support (libcacard)
--  u2f             U2F support (u2f-emu)
--  libusb          libusb (for usb passthrough)
-   live-block-migration   Block migration in the main migration stream
--  usb-redir       usb network redirection support
--  lzo             support of lzo compression library
--  snappy          support of snappy compression library
--  bzip2           support of bzip2 compression library
--                  (for reading bzip2-compressed dmg images)
--  lzfse           support of lzfse compression library
--                  (for reading lzfse-compressed dmg images)
--  zstd            support for zstd compression library
--                  (for migration compression and qcow2 cluster compression)
--  seccomp         seccomp support
-   coroutine-pool  coroutine freelist (better performance)
--  glusterfs       GlusterFS backend
-   tpm             TPM support
-   libssh          ssh block device support
-   numa            libnuma support
--  libxml2         for Parallels image format
-   tcmalloc        tcmalloc support
-   jemalloc        jemalloc support
-   avx2            AVX2 optimization support
-   avx512f         AVX512F optimization support
-   replication     replication support
-   opengl          opengl support
--  virglrenderer   virgl rendering support
-   xfsctl          xfsctl support
-   qom-cast-debug  cast debugging support
-   tools           build qemu-io, qemu-nbd and qemu-img tools
-@@ -1688,18 +1632,35 @@ disabled with --disable-FEATURE, default is enabled if available
-   crypto-afalg    Linux AF_ALG crypto backend driver
-   capstone        capstone disassembler support
-   debug-mutex     mutex debugging support
--  libpmem         libpmem support
--  xkbcommon       xkbcommon support
-   rng-none        dummy RNG, avoid using /dev/(u)random and getrandom()
--  libdaxctl       libdaxctl support
--  fuse            FUSE block device export
--  fuse-lseek      SEEK_HOLE/SEEK_DATA support for FUSE exports
--  multiprocess    Out of process device emulation support
-   gio             libgio support
-   slirp-smbd      use smbd (at path --smbd=*) in slirp networking
--
--NOTE: The object files are built at the place where configure is launched
- EOF
-+
-+current_feature=""
-+current_desc=""
-+while read word1 word2 ; do
-+   case "$word1" in
-+   option*)
-+       if echo "$word2" | grep -q "type[ ]*: 'feature'"; then
-+           current_feature=$(echo $word1 | sed -e "s/option('//" -e "s/',.*$//")
-+       else
-+           current_feature=""
-+       fi
-+   ;;
-+   description:)
-+       if [ -n "$current_feature" ]; then
-+           printf "  %-15s %s\n" "$current_feature" \
-+                  "$(echo "$word2" | sed -e "s/^'//" -e "s/'.*$//")"
-+           current_feature=""
-+       fi
-+   ;;
-+   esac
-+done < $source_path/meson_options.txt | sort
-+
-+echo
-+echo "NOTE: The object files are built at the place where configure is launched"
-+
- exit 0
- fi
- 
+As for not raising the exception on writing into PM CSRs in wrong mode, it's expected behavior and reflected in the spec, but I agree that it's odd.
+
+Thanks
+
+v9:
+Hi folks,
+
+Finaly the J-ext spec has table with preliminary CSR numbers.
+Rebased and updated CSR machinery for recent changes.
+Addressed Alistair's comments.
+
+v8-resend:
+Resending to trigger recheck due to minor codestyle issues.
+
+v8:
+Hi folks,
+
+Finally we were able to assign v0.1 draft for Pointer Masking extension for RISC-V: https://github.com/riscv/riscv-j-extension/blob/master/pointer-masking-proposal.adoc
+This is supposed to be the first series of patches with initial support for PM. It obviously misses support for hypervisor mode, vector load/stores and some other features, while using temporary csr numbers(they're to be assigned by the committee a bit later).
+With this patch series we were able to run a bunch of tests with HWASAN checks enabled.
+
+I hope I've managed to addressed @Alistair's previous comments in this version.
+
+Thanks!
+
+v7:
+Hi folks,
+
+Sorry it took me almost 3 month to provide the reply and fixes: it was a really busy EOY.
+This series contains fixed @Alistair suggestion on enabling J-ext.
+
+As for @Richard comments:
+- Indeed I've missed appending review-by to the approved commits. Now I've restored them except for the fourth commit. @Richard could you please tell if you think it's still ok to commit it as is, or should I support masking mem ops for RVV first?
+- These patches don't have any support for load/store masking for RVV and RVH extensions, so no support for special load/store for Hypervisor in particular.
+
+If this patch series would be accepted, I think my further attention would be to:
+- Support pm for memory operations for RVV
+- Add proper csr and support pm for memory operations for Hypervisor mode
+- Support address wrapping on unaligned accesses as @Richard mentioned previously
+
+Thanks!
+
+Alexey Baturo (6):
+  [RISCV_PM] Add J-extension into RISC-V
+  [RISCV_PM] Add CSR defines for RISC-V PM extension
+  [RISCV_PM] Support CSRs required for RISC-V PM extension except for
+    the h-mode
+  [RISCV_PM] Print new PM CSRs in QEMU logs
+  [RISCV_PM] Support pointer masking for RISC-V for i/c/f/d/a types of
+    instructions
+  [RISCV_PM] Allow experimental J-ext to be turned on
+
+Anatoly Parshintsev (1):
+  [RISCV_PM] Implement address masking functions required for RISC-V
+    Pointer Masking extension
+
+ target/riscv/cpu.c                      |  33 +++
+ target/riscv/cpu.h                      |  33 +++
+ target/riscv/cpu_bits.h                 |  96 +++++++++
+ target/riscv/csr.c                      | 276 ++++++++++++++++++++++++
+ target/riscv/insn_trans/trans_rva.c.inc |   3 +
+ target/riscv/insn_trans/trans_rvd.c.inc |   2 +
+ target/riscv/insn_trans/trans_rvf.c.inc |   2 +
+ target/riscv/insn_trans/trans_rvi.c.inc |   2 +
+ target/riscv/translate.c                |  42 ++++
+ 9 files changed, 489 insertions(+)
+
 -- 
-2.27.0
+2.20.1
 
 
