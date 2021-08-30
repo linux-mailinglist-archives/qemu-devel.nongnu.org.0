@@ -2,92 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780C43FB9CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 18:08:38 +0200 (CEST)
-Received: from localhost ([::1]:33386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D7BF3FB9B6
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 18:06:16 +0200 (CEST)
+Received: from localhost ([::1]:57728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKjpt-00061a-GW
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 12:08:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42186)
+	id 1mKjnb-0002kG-43
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 12:06:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mKjk2-0006mq-Os
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 12:02:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52072)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mKjjy-00034l-Lf
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 12:02:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630339349;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <msuchanek@suse.de>)
+ id 1mKjm2-0000xn-So; Mon, 30 Aug 2021 12:04:38 -0400
+Received: from smtp-out2.suse.de ([195.135.220.29]:52798)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <msuchanek@suse.de>)
+ id 1mKjm1-0004fE-45; Mon, 30 Aug 2021 12:04:38 -0400
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+ by smtp-out2.suse.de (Postfix) with ESMTP id B15AD200DA;
+ Mon, 30 Aug 2021 16:04:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1630339473; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Py37IJokhrUD0plN0RlD6lkH9QFw0w7KCILmJNxhWX4=;
- b=EsXGfuHt7LzYpJR6ef9nWNz3l5IvuPbak8RguMs/DYObP5hw6NIIi34dNBerr8Ux0sShUq
- TGcK1y0K1teNRLS6EutlNcuPftpWScsStxJMPWvVVEW5/EB9HR8TW7YKU8rNWmR4YKRHG3
- CSnwHOBiQuJyh+IWtm8VSfoF/5pF3w4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-448-QscUf7Z-MouNg-_feAeFrQ-1; Mon, 30 Aug 2021 12:02:26 -0400
-X-MC-Unique: QscUf7Z-MouNg-_feAeFrQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- d10-20020adffbca000000b00157bc86d94eso535373wrs.20
- for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 09:02:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Py37IJokhrUD0plN0RlD6lkH9QFw0w7KCILmJNxhWX4=;
- b=kBluw5uNH8jJizlfg3dfzTGUReztV5mTKyJVSvkto3sKIJhM9gSdBEZ5D6Pwd/NxQI
- K59sozc3oxf6dqnGNP4cg6n1gxX9Mr4nEhIjZQFJDlDVl6piXUOv944OQV2s2HrKqHdz
- VjDMCbMyCB5B1TY2D8vybft25jz7JGiSSXpufjY+s+lHhS/H+guLIzci1VZ2W72JA+ou
- dxY/VDcY62LSujcrxHylFWG3jir9wkgjhKNlmTsZYqilQrV5ynOhjHnvMdsUKBsDiiix
- +TIql9DR4TnVTWWHXG147eu7nNgEAutENF+IkhqqQGCJZdr0jFy8Ac0fvqw8if6a09Z+
- mr6w==
-X-Gm-Message-State: AOAM533ftKP8UVrbrAr2alPMt49DeDnCGaLlE87JMvcZ/m4ZkuygNLEg
- xMzkuxpgRcWHzu9yZucK7rFjkSK8qcJJFE2L3z+uDLl7En53jcSnAvEr9dpJMb+0ik0XyFWyL4A
- afrvWAgwBlnvOxUw=
-X-Received: by 2002:adf:b7c7:: with SMTP id t7mr9140533wre.259.1630339345440; 
- Mon, 30 Aug 2021 09:02:25 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwTlbwtRa6XqPa1RughY8qRZgbVjEII+hlddozkW3cspJ7gldF/+bE0/aYwM2/+B5RxzLM9mA==
-X-Received: by 2002:adf:b7c7:: with SMTP id t7mr9140501wre.259.1630339345191; 
- Mon, 30 Aug 2021 09:02:25 -0700 (PDT)
-Received: from thuth.remote.csb (pd9e830c4.dip0.t-ipconnect.de.
- [217.232.48.196])
- by smtp.gmail.com with ESMTPSA id q13sm15656558wrv.79.2021.08.30.09.02.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Aug 2021 09:02:24 -0700 (PDT)
-Subject: Re: [PULL 5/6] docs: split the CI docs into two files
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-References: <20210825110018.100913-1-thuth@redhat.com>
- <20210825110018.100913-6-thuth@redhat.com>
- <224f739e-96c6-0e14-e53d-d64a8ade64ca@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <f09c711a-3d74-ca4f-05e4-0d6ebf380e5e@redhat.com>
-Date: Mon, 30 Aug 2021 18:02:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ bh=NK0xPBZ4sn4TApmOjl+yIkGOOulqQsrQSV8IQToTd6U=;
+ b=XucIDVmBQBLjCsdO8+LTOehh7sbO+zAJt/yyxdLw6QLzgiSNIavnGebU+WKDUEoIgFJaDe
+ 35jIxR5LlFEjQhWmK/lrLfRiYVqYBsO8AIBbgcc1nKWucYihu0F4hUMVZMdAuoCxNz7W+9
+ 66pVEBLuM96nb5cu1G3R3Sev5wUb/Io=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1630339473;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NK0xPBZ4sn4TApmOjl+yIkGOOulqQsrQSV8IQToTd6U=;
+ b=1gVspRKs5ncF2WVLr7wPBHod7Hx/8/LXycHeoafcQ7RW1vSONyahxJFKzVXdNrnshQE3bV
+ WT7F2An27pdjHJCQ==
+Received: from kunlun.suse.cz (unknown [10.100.128.76])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by relay2.suse.de (Postfix) with ESMTPS id 77A05A3BA5;
+ Mon, 30 Aug 2021 16:04:32 +0000 (UTC)
+Date: Mon, 30 Aug 2021 18:04:31 +0200
+From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: QEMU-KVM offers OPAL firmware interface? OpenBSD guest support?
+Message-ID: <20210830160431.GC61714@kunlun.suse.cz>
+References: <20210827170113.5f4ed260@bahia.lan>
+ <HgtFZEnabNjIrsVI3x8MYs2QYSCG4IFStP0MR3qwPWBmXW9kDmQmIwQEWHMVdJbUCu-XvHdMpZGe3pr-B91s1D7y6cn9SVzhxEYms5c3p0o=@protonmail.com>
+ <20210827180259.3720d58d@bahia.lan>
+ <56141ff67838992a@bloch.sibelius.xs4all.nl>
+ <20210827190053.6c68def5@bahia.lan>
+ <25bfa81c-9498-4e82-a848-1fbb1c188ff1@kaod.org>
+ <561422a20e4f9ae2@bloch.sibelius.xs4all.nl>
+ <51bff28d-4779-b023-fee6-b3e9196b7ec5@kaod.org>
+ <3QoYEEZauH3xXwC2NcJFnrHe4IaWwu2fqEvtR6tR3RHsY_b0bsyz0oQdcI0b1zdwnXbXhl6bCtaUiyWQjbYgnx5U-Ov_Lm3tMGdMkTwZC88=@protonmail.com>
+ <YSyBUSxBiH+UYE/Y@yekko>
 MIME-Version: 1.0
-In-Reply-To: <224f739e-96c6-0e14-e53d-d64a8ade64ca@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
+In-Reply-To: <YSyBUSxBiH+UYE/Y@yekko>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=msuchanek@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
 X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.932, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,44 +85,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: pjp@centroid.eu, gardask@gmail.com, rgcinjp@disroot.org, daniel@pocock.pro,
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ kite@centroid.eu, Joseph <joseph.mayer@protonmail.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ siliconbadger@protonmail.com, qemu-ppc@nongnu.org,
+ "ppc@openbsd.org" <ppc@openbsd.org>, Mark Kettenis <mark.kettenis@xs4all.nl>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/08/2021 15.33, Philippe Mathieu-Daudé wrote:
-> Hi Thomas,
+On Mon, Aug 30, 2021 at 04:57:21PM +1000, David Gibson wrote:
+> On Sun, Aug 29, 2021 at 04:09:54AM +0000, Joseph wrote:
+> > Hi Mark, C�dric, Greg at the openbsd-ppc ML,
+
 > 
-> On 8/25/21 1:00 PM, Thomas Huth wrote:
->> From: Daniel P. Berrangé <berrange@redhat.com>
->>
->> This splits the CI docs into one file talking about job setup and usage
->> and another file describing provisioning of custom runners.
->>
->> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
->> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
->> Message-Id: <20210812180403.4129067-2-berrange@redhat.com>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   docs/devel/ci-jobs.rst    |  40 ++++++++++
->>   docs/devel/ci-runners.rst | 117 ++++++++++++++++++++++++++++
->>   docs/devel/ci.rst         | 159 +-------------------------------------
->>   3 files changed, 159 insertions(+), 157 deletions(-)
->>   create mode 100644 docs/devel/ci-jobs.rst
->>   create mode 100644 docs/devel/ci-runners.rst
-> 
-> You took this one but not the following "docs: add definitions of
-> terms for CI/testing", is there something missing there?
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg830839.html
+> So.. if you want to run OpenBSD on POWER10 you will definitely need
+> PAPR support, because POWER10 won't support bare metal OS access at
+> all (it will be back to PowerVM always, like POWER5..POWER7).
 
-I took the patch from Daniel's series here:
+Hello,
 
-  https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg02102.html
+what is stopping powernv support other than lack of firmware support?
 
-The second patch there did not apply anymore.
+Doesn't PowerVM use teh very same vrtualization features that KVM does?
 
-Sorry for missing Willian's patch, I can put it in my next PR if nobody 
-beats me to it.
+Thanks
 
-  Thomas
+Michal
 
 
