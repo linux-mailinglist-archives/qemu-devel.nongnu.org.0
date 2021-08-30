@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67B63FBB16
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 19:35:10 +0200 (CEST)
-Received: from localhost ([::1]:54496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB453FBCE6
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 21:30:59 +0200 (CEST)
+Received: from localhost ([::1]:37866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKlBd-0002o0-RT
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 13:35:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60332)
+	id 1mKmzi-000702-9k
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 15:30:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mKlAV-0001lf-NL
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 13:33:59 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:38468)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mKlAU-0004Ye-2m
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 13:33:59 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id n27so32833950eja.5
- for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 10:33:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UT8lSzlGl/B8N1X79Ob2xv+78u86UKZFIM+1gk+DwE4=;
- b=gEugG4B1wnj4mX2S+tgJAvladbxo4BAln/IooMH8Gac38xZU8+bIqttPA2rE86beBj
- MDwVzlfmpjSbBCovsqAwf5FBZWyJdrPrs95ME5nPAaPRhaKtgG0W/q03va/vUMtZKQF2
- b+QbNytHXEXlDsRA9TENFGX1aPbSmACHXl81+1dbOqKwRN2Mt72wv8dRN5IfQ0dfWMhi
- bXKixqRWFftk274N1YWV65xytQ1nOF+4rZFzs1f9lZQE9kvI8eSqiCNNlzjDzzhTnTAC
- OijBVik/nHq58x1gjKr0IOJhP2fo+PnQsgSulV59IkEp0Dz2Nj5O7+Uw9uRFrxkidWBx
- UXyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UT8lSzlGl/B8N1X79Ob2xv+78u86UKZFIM+1gk+DwE4=;
- b=O1NnJuXoR+grfmjbSK4pKKwtzHqhWZTsJgzajWhYU/vUrIyAMQmLHY6ojxldVpq+//
- BhJDWwZaQziFoSawza8dVg71y1kZhBYCI+yfj3TIa8KVm3aJ1oH0ViK9sntrw3Cbwkl+
- GiiPkOH76CPHwg/q7r5B4H2FgKbb5uryu5ZEsLzQ0XGbvZAWrnUp1+u3jUILSEQwps7Z
- ZIgoKUqkRLKv1TN43TfO4WcjyMCJ64dsK92I/scb7QqJmsoZiSRQqecP6fiPkVnF+7Lt
- bevt6bWFgfPvNcaOtaFTo/PpL1s4tNajQabTWPnDvpaNFlRe7YU/rfdHFiKY2FutSe8X
- lMDw==
-X-Gm-Message-State: AOAM5300I2s1DB+Ha+HU85IRwHAS0h0KknNwuAdsRI6iUJ0cEVR508oA
- 54VFQDbRPeAc6RpaTDqOVbBtK0Wvpj0+DZWHJs2VLA==
-X-Google-Smtp-Source: ABdhPJzb7GiO289gCafJuOl2S6goAz2cp8C1U74dauKHYyGhyt3CZwH6lHjww0WoMkdfVK1YUvDPR/js9wgTbBdWMko=
-X-Received: by 2002:a17:907:75d9:: with SMTP id
- jl25mr26162641ejc.4.1630344836074; 
- Mon, 30 Aug 2021 10:33:56 -0700 (PDT)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mKktq-00053G-8H; Mon, 30 Aug 2021 13:16:46 -0400
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:50012)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mKktn-00071s-V8; Mon, 30 Aug 2021 13:16:46 -0400
+Received: from zm-mta-out.u-ga.fr (zm-mta-out.u-ga.fr [152.77.200.53])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 4268B418F6;
+ Mon, 30 Aug 2021 19:16:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=univ-grenoble-alpes.fr; s=2020; t=1630343798;
+ bh=5oP298Xzro+R4gmYUDsaul8dlZmp3Xk+e6e7UGQfvHs=;
+ h=From:To:Cc:Subject:Date:From;
+ b=PNwa56+wrI/EWI8zmNeXC0fkY3ppp0IOqwidA7Q1mzSl9GWvUxY7kagAkiSapWRP+
+ AN9jGcneRCKcgGOMEqG9p559MpTwcAzz75RgH7O4vHV95CBuDy8iwQJzjm5eLwQJM1
+ VM27CTX9PsfsLV9BqbB2hae8MTTn+mR+QhlG8Lltj01MK1g1XzODbzwCjBOc63v0bP
+ ZvUpOWoqT5HZDZW+mt09S+swdJPDV4nCKUzzRaYDglFEDfGCRX7stc/lSDJvL0EnH3
+ Lso/HWeZBaZFcku0D49QVVN0FWHJsJW+fRfQZ8Asm8H1hbQqXccNHVAitiCIcF4d2i
+ rkUV6Uu5l4SqQ==
+Received: from smtps.univ-grenoble-alpes.fr (smtps3.u-ga.fr [195.83.24.62])
+ by zm-mta-out.u-ga.fr (Postfix) with ESMTP id 3C5E980137;
+ Mon, 30 Aug 2021 19:16:38 +0200 (CEST)
+Received: from palmier.tima.u-ga.fr (35.201.90.79.rev.sfr.net [79.90.201.35])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 1881E40069;
+ Mon, 30 Aug 2021 19:16:38 +0200 (CEST)
+From: =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH 0/8] RISC V partial support for 128-bit architecture
+Date: Mon, 30 Aug 2021 19:16:20 +0200
+Message-Id: <20210830171620.126296-1-frederic.petrot@univ-grenoble-alpes.fr>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <20210805193950.514357-1-johannes.stoelp@gmail.com>
- <CAFEAcA8TRQdj33Ycm=XzmuUUNApaXVgeDexfS+3Ycg6kLnpmyg@mail.gmail.com>
- <20210830154708.ah27fh34q5dgg3le@redhat.com>
-In-Reply-To: <20210830154708.ah27fh34q5dgg3le@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 30 Aug 2021 18:33:07 +0100
-Message-ID: <CAFEAcA-QW1_sLEArKY1jBJkmGdKQukgwe=O36p7gDpH2mFceqw@mail.gmail.com>
-Subject: Re: [PATCH v0] kvm: unsigned datatype in ioctl wrapper
-To: Eric Blake <eblake@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
+ via submission-587 ACL (40)
+Received-SPF: pass client-ip=152.77.200.56;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=zm-mta-out-3.u-ga.fr
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 30 Aug 2021 15:25:55 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,33 +78,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- johannst <johannes.stoelp@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- johannst <johannes.stoelp@googlemail.com>
+Cc: philmd@redhat.com, bin.meng@windriver.com, richard.henderson@linaro.org,
+ palmer@dabbelt.com, fabien.portas@grenoble-inp.org, alistair.francis@wdc.com,
+ =?UTF-8?q?Fr=C3=A9d=C3=A9ric=20P=C3=A9trot?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 30 Aug 2021 at 16:47, Eric Blake <eblake@redhat.com> wrote:
->
-> On Sun, Aug 29, 2021 at 10:09:19PM +0100, Peter Maydell wrote:
-> > Of the various KVM_* ioctls we use via these functions, do
-> > any actually have values that would result in invalid sign
-> > extension here ? That is, is this fixing an existing bug, or is
-> > it merely avoiding a potential future bug?
->
-> My question as well.  If there is such a bug, calling it out in the
-> commit message is essential; if the bug is just theoretical,
-> mentioning that is still useful.
+This series of patches aims at adding partial 128-bit support to the riscv
+target, following the (unratified) RV128I specification, Chapter 7 of
+riscv-spec document dated 20191214.
+It provides support for all user integer (I) instructions and for an M
+extension which follows the definition of the 32 and 64-bit specifications.
+We also included minimal support for 128-bit csrs.
+Among the csrs, we selected misa, to know the mxlen in which the processor
+is, mtvec, mepc, mscratch and mstatus for minimal kernel development, and
+satp to point to the page table.
+We fallback on the 64-bit csrs for the others.
 
-I found this glibc bug from 2012, filed by some random guy named
-Linus Torvalds, and still open:
-https://sourceware.org/bugzilla/show_bug.cgi?id=14362
-where among other things he claims
-# As noted, this does not actually cause problems on Linux, because
-# unlike FreeBSD, Linux knows what the f*ck it is doing, and just
-# ignores the upper bits exactly because of possible sign confusion.
+In the last patch, we propose a "natural" extension of the sv39 and sv48
+virtual address modes using 16KB pages, that we believe suitable for
+128-bit CPU workloads.
 
-Whether that's still true a decade later I have no idea :-)
+There are two strong assumptions in this implementation:
+- the 64 upper bits of the addresses are irrelevant, be they virtual or
+  physical, in order to use the existing address translation mechanism,
+- the mxlen field stays hardwired, so there is no dynamic change in
+  register size.
 
--- PMM
+As no toolchain exists yet for this target, we wrote all our tests in asm
+using macros expanding .insn directives.
+We unit tested the behavior of the instructions, and wrote some simple
+user level performance tests: on our examples the execution speed of the
+128-bit version is between 1.2 to 5 time slower than its 32 and 64-bit
+counterparts.
+
+Thanks to Luc Michel for his advice in building the patches (although
+all errors are ours.)
+
+Frédéric Pétrot (8):
+  target/riscv: Settings for 128-bit extension support
+  target/riscv: 128-bit registers creation and access
+  target/riscv: Addition of 128-bit ldu, lq and sq instructions
+  target/riscv: 128-bit arithmetic and logic instructions
+  target/riscv: 128-bit multiply and divide
+  target/riscv: Support of compiler's 128-bit integer types
+  target/riscv: 128-bit support for some csrs
+  target/riscv: Support for 128-bit satp
+
+ configs/devices/riscv128-softmmu/default.mak |   16 +
+ configs/targets/riscv128-softmmu.mak         |    5 +
+ gdb-xml/riscv-128bit-cpu.xml                 |   48 +
+ gdb-xml/riscv-128bit-virtual.xml             |   12 +
+ include/hw/riscv/sifive_cpu.h                |    4 +
+ include/tcg/tcg-op.h                         |    1 +
+ slirp                                        |    2 +-
+ target/riscv/Kconfig                         |    3 +
+ target/riscv/arch_dump.c                     |    3 +-
+ target/riscv/cpu-param.h                     |   12 +-
+ target/riscv/cpu.c                           |   51 +-
+ target/riscv/cpu.h                           |   61 +
+ target/riscv/cpu_bits.h                      |   12 +
+ target/riscv/cpu_helper.c                    |   56 +-
+ target/riscv/csr.c                           |  343 ++++-
+ target/riscv/gdbstub.c                       |    3 +
+ target/riscv/helper.h                        |   15 +
+ target/riscv/insn16.decode                   |   33 +-
+ target/riscv/insn32.decode                   |   25 +
+ target/riscv/insn_trans/trans_rvd.c.inc      |   10 +-
+ target/riscv/insn_trans/trans_rvf.c.inc      |    2 +-
+ target/riscv/insn_trans/trans_rvi.c.inc      | 1209 +++++++++++++++++-
+ target/riscv/insn_trans/trans_rvm.c.inc      |  456 ++++++-
+ target/riscv/m128_helper.c                   |  349 +++++
+ target/riscv/meson.build                     |    1 +
+ target/riscv/op_helper.c                     |   60 +
+ target/riscv/translate.c                     |  104 +-
+ target/riscv/utils_128.h                     |  173 +++
+ tcg/tcg-op.c                                 |    6 +
+ 29 files changed, 2990 insertions(+), 85 deletions(-)
+ create mode 100644 configs/devices/riscv128-softmmu/default.mak
+ create mode 100644 configs/targets/riscv128-softmmu.mak
+ create mode 100644 gdb-xml/riscv-128bit-cpu.xml
+ create mode 100644 gdb-xml/riscv-128bit-virtual.xml
+ create mode 100644 target/riscv/m128_helper.c
+ create mode 100644 target/riscv/utils_128.h
+
+-- 
+2.33.0
+
 
