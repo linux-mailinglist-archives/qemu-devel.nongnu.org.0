@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20EFF3FB706
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 15:34:46 +0200 (CEST)
-Received: from localhost ([::1]:45808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A4C33FB708
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 15:36:11 +0200 (CEST)
+Received: from localhost ([::1]:48276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKhQy-000745-Nw
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 09:34:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38728)
+	id 1mKhSM-0000Hb-5w
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 09:36:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mKhPr-0006Kk-3j
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 09:33:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60509)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mKhQa-00079D-KR
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 09:34:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24089)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mKhPm-0004mK-44
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 09:33:33 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mKhQZ-0005K5-2M
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 09:34:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630330408;
+ s=mimecast20190719; t=1630330458;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Gf1P4Ksbt2msNnnSUgiA3Pc7+BRPEWrBQVm130029R0=;
- b=giVbQzDWBs7VJd5oVIg4uR2d7uzLk8WDdY0jNhdHym1lNBHa2ayyZvYpJUMBSkQ9r5gAMF
- jnRsQIH+QWbpRPwCo47aYJ7EdgvUPN8yj7/NBCyr4gHhx7HJZwIRFyuDBK4qOcli9Bqnsp
- iH0m0Zi3frWgws3CesNojytN+6745Cw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-383-8yX0ZBb0MrG5Drbt_lkhgw-1; Mon, 30 Aug 2021 09:33:25 -0400
-X-MC-Unique: 8yX0ZBb0MrG5Drbt_lkhgw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- c2-20020a7bc8420000b0290238db573ab7so10080470wml.5
- for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 06:33:25 -0700 (PDT)
+ bh=Wh/Wb7lDYrsB480QD+uiafhPjZ+ojkQP+l82wGeNBlQ=;
+ b=gJesq/bKe4BeJo9N7j+PuvkUu16M3mF5gWqWwQWUjObtRqMWU6a9eTbIVhyXNx1Gc4G5uV
+ RjGFzoWJHFWVT7pTabi8qOO9WHoxAIjc5eb1BDuX+nf1+jR9GUvuWWoM2B1Ch4wgU/uho5
+ ueid4AW6siNslua1C36mWzN0MErC7BU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-95-leojZatEMGG_JI7uZ58_KQ-1; Mon, 30 Aug 2021 09:34:17 -0400
+X-MC-Unique: leojZatEMGG_JI7uZ58_KQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ b8-20020a5d5508000000b001574e8e9237so3332743wrv.16
+ for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 06:34:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Gf1P4Ksbt2msNnnSUgiA3Pc7+BRPEWrBQVm130029R0=;
- b=iwXf8YUNWzL8rnBOTKkVO+hYJ6KBfHgnCFf8jaDvg5NztArp6MdjBLAnhXaGn+NGo8
- YXukZ+e/cAIT7VOjsJtsu/plPFNY4zE8O+eilJjGbQ9v8+oVeZp/A6mk/Ss5dOGGAkFW
- WX2lE/mpi9oO8MZIbDvdZmUQZKrrSBinF1JcQaLPJCUIpwyhbmtJ7oydkvMmDH3LA65l
- QyUbbkbxsqApRWR2dVUTahFrkiMlbKvC4leeQLgIyOW2xiRuHlHx7TwOpiMq5mGkwBAM
- dG6W6K1P9PDi6mgsikPx43NEntDyB9bkfSe0OGqwtevdaGIiXGX+cDoMzYoOt36skT/1
- n8Fg==
-X-Gm-Message-State: AOAM533Arxr5gTNLIYK97+wM3kMynh830Z0yjfxbyAwYpITnowEDMhfA
- wQn0Ik/V3kVYGze3f+MMM83+UKuUeACTSqx7pi0tgYnUWw+24xK6o0kSgnJhCF2mHRPJrEzrE+b
- oWvRV9N2wxgMZhvw=
-X-Received: by 2002:a05:600c:3588:: with SMTP id
- p8mr5138883wmq.20.1630330404483; 
- Mon, 30 Aug 2021 06:33:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx4mUkIIXEona8RiZvysL7Csb5QV8J+iVKnlGEr3Y+/qMedFEJoACDwAv9+aaugTsn5z4Slrw==
-X-Received: by 2002:a05:600c:3588:: with SMTP id
- p8mr5138858wmq.20.1630330404298; 
- Mon, 30 Aug 2021 06:33:24 -0700 (PDT)
+ bh=Wh/Wb7lDYrsB480QD+uiafhPjZ+ojkQP+l82wGeNBlQ=;
+ b=RY+k6THdGgFxbyJIIj7C+Gasl/P37/+o4P4ec8tnSsuEUU0MJ/61qmafebnEJp7COq
+ D5iOmhjPKyp0Uc89rBGYqW7eOc9GgDPky3w/Y71I4UYQEymtaw8tkc20TTvWT2uVeZok
+ ZTPJbaMxpSrPplaLCyNt9rwpNa4o+Iw0zHaO9r0oor/2+Ef+YoKfvqpzJOUNxYIrZoz0
+ Ztx4xMSk+KUW83x3objY9H+Qilw0VfmAiub5gK9XFDxjrJPSkocSLQ9pYqObTAhwhGCt
+ yY2Oa12QC5QpunhbZIGQwEkOd/c9aC12Olzl75sWVzeUAPEMcso73o8Msc/Jib8e+Y6r
+ kBBA==
+X-Gm-Message-State: AOAM532dXb+iMrxUn1eaRjy34wKrKqzabDcGw0S6PymjSS4beKivt4hU
+ WLJmXnnJCwmmv5yYxmxiy1Usak6kRx7BT2yFu9YgAaBYcccQ1aFD4eMb0N9tPqe5Y22XJmNL8nL
+ Z3ZSwQjtrOs0pj8c=
+X-Received: by 2002:a7b:c255:: with SMTP id b21mr21913978wmj.44.1630330455969; 
+ Mon, 30 Aug 2021 06:34:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzVE5fIMGzamf55JNoBom1vxmno2N9dQIjkbRycK6I4MUDAxLpbomXjAkRkLZ5fq3ZEAjP2Tg==
+X-Received: by 2002:a7b:c255:: with SMTP id b21mr21913963wmj.44.1630330455839; 
+ Mon, 30 Aug 2021 06:34:15 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id u9sm15496476wrm.70.2021.08.30.06.33.23
+ by smtp.gmail.com with ESMTPSA id m3sm19652152wrg.45.2021.08.30.06.34.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Aug 2021 06:33:23 -0700 (PDT)
-Subject: Re: [PULL 5/6] docs: split the CI docs into two files
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210825110018.100913-1-thuth@redhat.com>
- <20210825110018.100913-6-thuth@redhat.com>
+ Mon, 30 Aug 2021 06:34:15 -0700 (PDT)
+Subject: Re: [PATCH 2/2] docs: add definitions of terms for CI/testing
+To: Willian Rampazzo <willianr@redhat.com>, qemu-devel@nongnu.org,
+ QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20210820210946.291335-1-willianr@redhat.com>
+ <20210820210946.291335-3-willianr@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <224f739e-96c6-0e14-e53d-d64a8ade64ca@redhat.com>
-Date: Mon, 30 Aug 2021 15:33:22 +0200
+Message-ID: <66629452-44dd-865e-1912-c6d89fbf202a@redhat.com>
+Date: Mon, 30 Aug 2021 15:34:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210825110018.100913-6-thuth@redhat.com>
+In-Reply-To: <20210820210946.291335-3-willianr@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -40
@@ -101,32 +99,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Thomas,
+On 8/20/21 11:09 PM, Willian Rampazzo wrote:
+> To understand the current state of QEMU CI/testing and have a base to
+> discuss the plans for the future, it is important to define some usual
+> terms. This patch defines the terms for "Automated tests", "Unit
+> testing", "Functional testing", "System testing", "Flaky tests",
+> "Gating", and "Continuous Integration".
+> 
+> The first patch was borrowed from
+> 20210812180403.4129067-1-berrange@redhat.com.
 
-On 8/25/21 1:00 PM, Thomas Huth wrote:
-> From: Daniel P. Berrangé <berrange@redhat.com>
-> 
-> This splits the CI docs into one file talking about job setup and usage
-> and another file describing provisioning of custom runners.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-> Message-Id: <20210812180403.4129067-2-berrange@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+^ These 2 lines belong to the cover and are irrelevant in this context.
+
+Cc'ing qemu-trivial@ otherwise (patch reviewed).
+
+> Signed-off-by: Willian Rampazzo <willianr@redhat.com>
 > ---
->  docs/devel/ci-jobs.rst    |  40 ++++++++++
->  docs/devel/ci-runners.rst | 117 ++++++++++++++++++++++++++++
->  docs/devel/ci.rst         | 159 +-------------------------------------
->  3 files changed, 159 insertions(+), 157 deletions(-)
->  create mode 100644 docs/devel/ci-jobs.rst
->  create mode 100644 docs/devel/ci-runners.rst
-
-You took this one but not the following "docs: add definitions of
-terms for CI/testing", is there something missing there?
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg830839.html
+>  docs/devel/ci-definitions.rst | 121 ++++++++++++++++++++++++++++++++++
+>  docs/devel/ci.rst             |   1 +
+>  2 files changed, 122 insertions(+)
+>  create mode 100644 docs/devel/ci-definitions.rst
 
 
