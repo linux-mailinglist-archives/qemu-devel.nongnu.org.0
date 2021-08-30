@@ -2,106 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0CF83FB4E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 14:01:26 +0200 (CEST)
-Received: from localhost ([::1]:53710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A28FD3FB72D
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 15:44:59 +0200 (CEST)
+Received: from localhost ([::1]:33474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKfyf-0006Wv-53
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 08:01:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46654)
+	id 1mKhas-0001R1-Mq
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 09:44:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1mKfwr-0005Rz-1J; Mon, 30 Aug 2021 07:59:33 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:48566)
+ (Exim 4.90_1)
+ (envelope-from <prvs=8697c1236=alistair.francis@opensource.wdc.com>)
+ id 1mKZx7-0007Ch-I2
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 01:35:25 -0400
+Received: from esa1.hgst.iphmx.com ([68.232.141.245]:27142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1mKfwp-0001dH-66; Mon, 30 Aug 2021 07:59:32 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 17UBXHpD031335; Mon, 30 Aug 2021 07:59:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=aiQBT8dOJsea8hCKIXnoSWodlyxOeqsVxdFFNSAamjY=;
- b=TcHyAkJb6I2Y5vbScTGM1hyHg0zyDzygAYPEi+nBH4DI6O9zH2JnOwaRQRNtss+ninhE
- WE7z2ESSNbQJDWTjWp0WOQhP70RXcNbLk0JoxrH/UhE+e9dnehOniY/m0u3bSB8kUR4A
- wZrlDCQjuzYaAOb8xHL+zv90gOb7+l7nGvDGgZFe+jQxUh7vdaJvjSJzOcKsnieLlW65
- 3vugLcFWj9QHNWeFpR/FBB1wtre1+/8lDQsjI/6OSU9re1cQcxd8+m4hjEaHX+fxYvfH
- QqDsjsios9TWiOkxudmioXC0rcDFcnFf5kU/t6y351i7z2h06ji4rnawt/vcARF680b1 cg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3arvagbr2p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Aug 2021 07:59:25 -0400
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 17UBXRtL032024;
- Mon, 30 Aug 2021 07:59:25 -0400
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3arvagbr1v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Aug 2021 07:59:24 -0400
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 17UBuYRR014504;
- Mon, 30 Aug 2021 11:59:22 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma02fra.de.ibm.com with ESMTP id 3aqcs8avwa-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Aug 2021 11:59:22 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
- [9.149.105.58])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 17UBxJh529294926
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 30 Aug 2021 11:59:19 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EF0F44C050;
- Mon, 30 Aug 2021 11:59:18 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A62624C071;
- Mon, 30 Aug 2021 11:59:18 +0000 (GMT)
-Received: from oc3016276355.ibm.com (unknown [9.145.33.184])
- by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 30 Aug 2021 11:59:18 +0000 (GMT)
-Subject: Re: [PATCH v2 0/5] s390x: CPU Topology
-To: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
-References: <1626975764-22131-1-git-send-email-pmorel@linux.ibm.com>
- <bfd70d97-b6be-6514-4966-7f110bb89334@linux.ibm.com>
- <142ebaed-8f5a-6f2e-7cc7-d51ca23ebc68@de.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-Message-ID: <8193fc21-6cd5-c6fa-aedc-2631829b91bc@linux.ibm.com>
-Date: Mon, 30 Aug 2021 13:59:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1)
+ (envelope-from <prvs=8697c1236=alistair.francis@opensource.wdc.com>)
+ id 1mKZx4-0007mD-Mh
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 01:35:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1630301722; x=1661837722;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=nSm9A1goegV837KL+0Rg+vRf1hfDkOy/ABxNwnYYvqg=;
+ b=LjnSNo9+Nkl5cWeUBFF492BN/aXJCLd6IbZUG/SBgOrIpKkmj06eWe15
+ ucDZjG+vpUEQt64/8hrKG3JVwyfnws5XsVmiItDwwOCadPhni9NFaYwXQ
+ W4ZUCbkF5UzoV/MDLx9J4lnRND4hWhi84uFqNr6SdVSbCtIHaE8FMfFeE
+ fBJYzDqhvB82gXQXKqB+FH93ckVCd3lVFJNip7Tk//dsN8vj72rjR5T4f
+ BZ8JSY4vbvb96u8EodH6or5BsESY20sO1U9kQ90DGCV9dhpXNOY8yQpgK
+ MUY906AFqBkRk+kONaIJhYMW1afk6ADfhlJz4Wnr+xU3CkWZqpZrmM5qY Q==;
+X-IronPort-AV: E=Sophos;i="5.84,362,1620662400"; d="scan'208";a="290336835"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 30 Aug 2021 13:34:32 +0800
+IronPort-SDR: HApnMEEEFJZA19eeWcW+6K42cDkUlAel99m11O/5/IOJMCNSW25kx8H0kQ2gVRQ/UV2jywUddH
+ NsFLPFvmNi9adXUHSYcWxyldTPMpp9tMxqQcLJXh/K9adPq0rSx0Qzl6Xl7/F/En1ep3S+mWXB
+ UPEEKaFMjqV4hAf9K1Wjomglev/VM3JmPm7r9xpkjXqmwb81hDr2SB9i9OKNI7YiTOMdWz79Gn
+ /OtOtkKEEPfB15xWmPeupJ27tcO91XFl45VjmUMfvCEVEdivV3VThc/MKqd9w3qTA2spqLQuEQ
+ QR/TMu5vYqBaTgP8bH7HJPqy
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2021 22:09:40 -0700
+IronPort-SDR: jX345GwtBtw6wc0oc6EaRv8qE9QoM9gstG5BagoUyHLNJ9E0DQ0EzqBFIQxW5sJD7hYAGMnMYg
+ gy5TjRk4mnBzIBNEo/wBRtMuv1B/ayTHA2tO3y/aKSQevZwE3ChmhUZIatWOgBZ5rl6RvXD0AV
+ tQgELEYFTH3HfyCWF5WGykfmHWfVQm+uU6wTRNbGzz0uXTewODYeLIBd5RxTBGbpu4z4Gl+mXi
+ 5Ke2yoSi0R8H8DckutClV8bZcnIaHy12Ii830xzaYdqBOIb8TseRUqGLg3FQfLF19priLOWgm7
+ 3Y4=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Aug 2021 22:34:32 -0700
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4GyfCD20vxz1RvlY
+ for <qemu-devel@nongnu.org>; Sun, 29 Aug 2021 22:34:32 -0700 (PDT)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:x-mailer:message-id:date:subject:to:from; s=dkim;
+ t=1630301671; x=1632893672; bh=nSm9A1goegV837KL+0Rg+vRf1hfDkOy/
+ ABxNwnYYvqg=; b=gcdkcSpd8ysYF/I57jleF1QJ6wu0ZuDp/Ma9VOg3PsSRJTwZ
+ Mp4jcPcfKW7DLodmDaTWa237HFSBUK+tEzrkYhZ/SFvkyDh+Y2ySpZrP27kRCRRw
+ 1bOmDAMIsuDUN/A8CShjKQfU+VsbNW5ZsCNjtc67UmYjZQbbhihZU769I9TIkcxM
+ 3xheU1p4xrUpF1+ADCAeHdkl893F2u0TdNgQjU0Pktfgawy5MR896S6Y2MkgOMpn
+ kQx1A6j6iXDTuDqTWCS89wllt1J7s2ZiVAZpoRhnR/H5sMojc0Buw7CZWAlO5gqS
+ HT8Rf9/nUA3awIbrYqlm2QrkCK3f5kQrlu7FmA==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id tFu-XSQs7Mqi for <qemu-devel@nongnu.org>;
+ Sun, 29 Aug 2021 22:34:31 -0700 (PDT)
+Received: from toolbox.alistair23.me (unknown [10.225.165.14])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4GyfC71M6yz1Rvl9;
+ Sun, 29 Aug 2021 22:34:26 -0700 (PDT)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Cc: bmeng.cn@gmail.com, palmer@dabbelt.com, alistair.francis@wdc.com,
+ alistair23@gmail.com
+Subject: [PATCH v3 1/5] target/riscv: Expose interrupt pending bits as GPIO
+ lines
+Date: Mon, 30 Aug 2021 15:34:20 +1000
+Message-Id: <069d6162f0bc2f4a4f5a44e73f6442b11c703c53.1630301632.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <142ebaed-8f5a-6f2e-7cc7-d51ca23ebc68@de.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: VCNmIEuoShUUZ0ReZCEaTRARZGZyu8LM
-X-Proofpoint-GUID: 4S-H0eZT-SzuvjQUb61kVhZCAl12WOqw
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-08-30_04:2021-08-30,
- 2021-08-30 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- lowpriorityscore=0 mlxlogscore=999 phishscore=0 clxscore=1015
- priorityscore=1501 suspectscore=0 adultscore=0 impostorscore=0 mlxscore=0
- spamscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2108300083
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.932,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=68.232.141.245;
+ envelope-from=prvs=8697c1236=alistair.francis@opensource.wdc.com;
+ helo=esa1.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 30 Aug 2021 09:40:47 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -113,46 +114,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, david@redhat.com, cohuck@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- Viktor Mihajlovski <mihajlov@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Alistair Francis <alistair.francis@wdc.com>
 
+Expose the 12 interrupt pending bits in MIP as GPIO lines.
 
-On 8/30/21 11:54 AM, Christian Borntraeger wrote:
-> 
-> 
-> On 26.08.21 11:22, Pierre Morel wrote:
->>
->> a gentle ping :)
->>
->> I would like if you have time, comments on the architecture I propose,
->> if the handling is done at the right level, KVM vs QEMU.
-> 
-> Do we expect changes in this series due to the discussed changes of PTF 
-> interpretion?
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
+Tested-by: Bin Meng <bmeng.cn@gmail.com>
+---
+ target/riscv/cpu.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-No we do not expect any change.
-The configuration topology feature is enabled in QEMU if KVM provides 
-the KVM_CAP_S390_CPU_TOPOLOGY.
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 991a6bb760..86321baf9f 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -565,11 +565,41 @@ static void riscv_cpu_realize(DeviceState *dev, Err=
+or **errp)
+     mcc->parent_realize(dev, errp);
+ }
+=20
++#ifndef CONFIG_USER_ONLY
++static void riscv_cpu_set_irq(void *opaque, int irq, int level)
++{
++    RISCVCPU *cpu =3D RISCV_CPU(opaque);
++
++    switch (irq) {
++    case IRQ_U_SOFT:
++    case IRQ_S_SOFT:
++    case IRQ_VS_SOFT:
++    case IRQ_M_SOFT:
++    case IRQ_U_TIMER:
++    case IRQ_S_TIMER:
++    case IRQ_VS_TIMER:
++    case IRQ_M_TIMER:
++    case IRQ_U_EXT:
++    case IRQ_S_EXT:
++    case IRQ_VS_EXT:
++    case IRQ_M_EXT:
++        riscv_cpu_update_mip(cpu, 1 << irq, BOOL_TO_MASK(level));
++        break;
++    default:
++        g_assert_not_reached();
++    }
++}
++#endif /* CONFIG_USER_ONLY */
++
+ static void riscv_cpu_init(Object *obj)
+ {
+     RISCVCPU *cpu =3D RISCV_CPU(obj);
+=20
+     cpu_set_cpustate_pointers(cpu);
++
++#ifndef CONFIG_USER_ONLY
++    qdev_init_gpio_in(DEVICE(cpu), riscv_cpu_set_irq, 12);
++#endif /* CONFIG_USER_ONLY */
+ }
+=20
+ static Property riscv_cpu_properties[] =3D {
+--=20
+2.31.1
 
-Interpretation is set in KVM if QEMU activated the feature and if the 
-host supports the configuration topology feature.
-
-If the host does not support the feature, interception is done and QEMU 
-emulates the PTF instruction.
-
-The feature can be fenced with qemu -cpu XX,ctop=off for CPU already 
-having the feature activated as default in QEMU (newer GEN10_GA1)
-
-
-Regards,
-Pierre
-
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
 
