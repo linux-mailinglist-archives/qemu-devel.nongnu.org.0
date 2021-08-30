@@ -2,50 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8BCA3FBE97
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 23:53:51 +0200 (CEST)
-Received: from localhost ([::1]:47372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B482D3FBE8F
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 23:52:02 +0200 (CEST)
+Received: from localhost ([::1]:43418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKpDy-0006RJ-RO
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 17:53:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59460)
+	id 1mKpCD-0003lh-PA
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 17:52:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mKp8c-0000Sh-2S; Mon, 30 Aug 2021 17:48:18 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:27691)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mKp8P-0008G9-L9; Mon, 30 Aug 2021 17:48:16 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id DDC8F746399;
- Mon, 30 Aug 2021 23:47:58 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id BB0737457EE; Mon, 30 Aug 2021 23:47:58 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id B904A745708;
- Mon, 30 Aug 2021 23:47:58 +0200 (CEST)
-Date: Mon, 30 Aug 2021 23:47:58 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] Report any problems with loading the VGA driver for PPC
- Macintosh targets
-In-Reply-To: <CAFEAcA96V6d-aAR65xiZQrB65aTfQEJfHq5x_ZSa3mpAoSUMQw@mail.gmail.com>
-Message-ID: <269a250-93ec-2e6-8813-5b65aa9fb76@eik.bme.hu>
-References: <20210827181429.23609-1-programmingkidx@gmail.com>
- <2d87adfb-c612-8d36-4c97-50f07a82beeb@ilande.co.uk>
- <CAFEAcA_mb5zAaBiVjzo1QGGo-4Yt+j89iD9AUVKJP-pP1XCJmQ@mail.gmail.com>
- <8ED650E0-5874-4AE6-85E3-631E7B76D37A@gmail.com>
- <CAFEAcA96V6d-aAR65xiZQrB65aTfQEJfHq5x_ZSa3mpAoSUMQw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mKpAH-0001XZ-IN
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 17:50:01 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:39564)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mKpAF-0000oc-W5
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 17:50:01 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ f9-20020a05600c1549b029025b0f5d8c6cso446624wmg.4
+ for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 14:49:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=izq8i6RGqEB5FunFyk4fB88XoSyTc0XRSCGM6S8Qw4w=;
+ b=Hpb3LZdt1x1nn2rpxgp9SVzAJYr5+spFY/V/zcNCAGlwLRnXDWBu6BgL62x81p+9Yz
+ AOHdJuF+89EzBInoZ7tf1wOO4jJ6g3wtnM/4AXSOLVBkPAyGyEze3qcYeZhDPF6X84NA
+ uMtZlbn3Fo8mr+u430eUqJjPmp8wgRitZQjjEDWfSUeDw+l8bSIThsOabkeLPEhuoGq3
+ lNYhNybdp/MxrOR7OuPDvjp1wt9bALQEqjIPvBtyni9ytfa30v+tYZKB8WezGM/9rfvD
+ Od1GxKLQmZGrqzhddXlHkw4XX7DAHuJqTyb3Lju87e65filQonwzPIhN9gXbdfskNEvt
+ Kb5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=izq8i6RGqEB5FunFyk4fB88XoSyTc0XRSCGM6S8Qw4w=;
+ b=aJGdEifHvueotJY4+A33R1tCzhGjyphwrekKaaOIip2GqnWZ4IrMDT1xwCGliep3zd
+ o2FywD+iEP+ud4v5JkVUWTJFZsVZBhmqc5XL6SQAP4OHcNxfkwrYYpV1ZKuAEvj9lN7O
+ ZtAY9P6ZPb6XwtWADW4Ga3xyNFiuGbw9JZI4Q1q/L+XfKW0VYjY1XCect1RFYREDR818
+ 3Jnpnfnqznw9RZub+EfWQLRo92ciCY38hvZdnGGb2fdAKR+r5RXY/78WefdaG8t4hNWS
+ 8xMM9Z95/ZXB3uIExHlyLQHK2dw+Ze7qbOTuIwySwF1vAqrIn9zprAu3N+uyhifiejVJ
+ UunQ==
+X-Gm-Message-State: AOAM531WbEKilUlnIC4sP7dK6Gkb7SKyglDMqEIssfsYiMnW5N3VqY1P
+ zgVtQOsH4XxzMF6mbGhYC3MfW7++/G0=
+X-Google-Smtp-Source: ABdhPJzAsVYnwKk1cG8rDpw6ftc7e2DqW5MNjiD3ML7aof3l9K0r0JPflE8TyGnZMaVzwLshj2Rg6Q==
+X-Received: by 2002:a1c:f713:: with SMTP id v19mr1007065wmh.188.1630360198177; 
+ Mon, 30 Aug 2021 14:49:58 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id z17sm12205641wrh.66.2021.08.30.14.49.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Aug 2021 14:49:57 -0700 (PDT)
+Subject: Re: [PATCH 45/48] tcg/optimize: Propagate sign info for logical
+ operations
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210830062451.639572-1-richard.henderson@linaro.org>
+ <20210830062451.639572-46-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <61e652ef-03b9-7e1a-c2d2-d49d033b38f2@amsat.org>
+Date: Mon, 30 Aug 2021 23:49:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) SPF_HELO_NONE=0.001,
+In-Reply-To: <20210830062451.639572-46-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.932,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,45 +91,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- Programmingkid <programmingkidx@gmail.com>, qemu-ppc <qemu-ppc@nongnu.org>,
- Howard Spoelstra <hsp.cat7@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 30 Aug 2021, Peter Maydell wrote:
-> On Mon, 30 Aug 2021 at 21:29, Programmingkid <programmingkidx@gmail.com> wrote:
->> I found out that there are two pc-bios folders. One in the root directory
->> and one in the build directory. QEMU is looking in the pc-bios folder
->> located inside the build folder. The qemu_vga.ndrv file is only located
->> in the root directory pc-bios folder. I think a good solution to this
->> issue is to first remove one of the pc-bios folders. I'm not sure if it
->> is just me who has two pc-bios folders or if everyone does.
->
-> Having two pc-bios folders is expected. The one in the source tree is
-> the one which has the files we actually carry around in git. The one
-> in the build tree is created by 'configure' and populated with symbolic
-> links back to the files in the source tree. We need this one because
-> the QEMU executable doesn't (and shouldn't) know where the source tree is:
-> when it is looking for files it will look in places relative to the
-> location of the executable itself (ie relative to the build tree)
-> as well as places set by configure (used when you install QEMU and
-> its various supporting files).
->
-> The reason qemu_vga.ndrv is not in the pc-bios folder in the build
-> tree is because when that file was added we forgot to add handling
-> for it in configure. I'm not sure why nobody else has fallen over
-> this in the intervening 3 years: running QEMU from the build tree
-> will never find the file, and it will not be installed via
-> 'make install' either.
+On 8/30/21 8:24 AM, Richard Henderson wrote:
+> Sign repetitions are perforce all identical, whether they are 1 or 0.
+> Bitwise operations preserve the relative quantity of the repetitions.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/optimize.c | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
 
-This file is a driver for MacOS and not many people run that old OS. Those 
-who do probably use Howard's binaries and follow his guides that tell you 
-to use -L pc-bios on command line. I always wondered why that's needed 
-when it should find it by default but this explains it and probably also 
-your question why nobody complained.
-
-Regards,
-BALATON Zoltan
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
