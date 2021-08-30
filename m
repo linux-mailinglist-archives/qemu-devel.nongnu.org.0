@@ -2,69 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54C3E3FB939
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 17:48:50 +0200 (CEST)
-Received: from localhost ([::1]:34360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 078F83FB961
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 17:56:55 +0200 (CEST)
+Received: from localhost ([::1]:38650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKjWj-0002vI-Dd
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 11:48:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39444)
+	id 1mKjeX-0006FM-Rj
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 11:56:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mKjVI-0001d0-16
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 11:47:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57692)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mKjcu-0005U1-1p
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 11:55:12 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:35347)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mKjVF-00079u-1l
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 11:47:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630338435;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Cuetmihm1yANF0z2LYB1AEnlbKR2U+z84xNMqbhOC7I=;
- b=VJjOLnoNT8EnbwRmqmS8MNVjWbKysNlRj/3E15IT8Qs4V0qYA7iJYzJzgVbX/iJf8HEK1B
- S2kxTZ0u9gdoY/v0T9HStCnoJCA8PZy90ZgueZ6T0t5ksSwC7YIlg1tveG+7vEtlv9gHjb
- p5d7DPVBjVMrQfum91LOczrrmoRX4PA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-525-7Uwe9vDjOnmsq9mbcBExBw-1; Mon, 30 Aug 2021 11:47:12 -0400
-X-MC-Unique: 7Uwe9vDjOnmsq9mbcBExBw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D67E22E77;
- Mon, 30 Aug 2021 15:47:10 +0000 (UTC)
-Received: from redhat.com (ovpn-113-81.phx2.redhat.com [10.3.113.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 639936A900;
- Mon, 30 Aug 2021 15:47:10 +0000 (UTC)
-Date: Mon, 30 Aug 2021 10:47:08 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v0] kvm: unsigned datatype in ioctl wrapper
-Message-ID: <20210830154708.ah27fh34q5dgg3le@redhat.com>
-References: <20210805193950.514357-1-johannes.stoelp@gmail.com>
- <CAFEAcA8TRQdj33Ycm=XzmuUUNApaXVgeDexfS+3Ycg6kLnpmyg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mKjcs-0005Oc-2Y
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 11:55:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:Message-ID:Date:Subject:Cc:To:From:References:In-Reply-To:
+ Content-ID:Content-Description;
+ bh=oHZSkTddTypHfgTeISiSJvHuBUI+c7EbfuVvf/dCJY4=; b=A+A8SIMbAuKfSMyen8McFWsM+X
+ CD4BrvSrHhDaqAyChwMWt9rsoCcRzBkzCzRf8nAybIhMXs2DOWZ9Va2dAF+6qt8hdaHlJFpw1JKR/
+ veXidyDUTjE1qKZT9UNuue0SpF8yvHkBvQFjc+4QcZq5TVWX5uNoY1O6ikV0Oc0WOwojkZqXr87GD
+ Q7y6hqMiSbxeRXffRD5St1QAWUdF6UfVFHNy0EbebhTggA9IxQRlL6BtBoOOQfv/X2iqugTEniaLo
+ 24pETp09ob+K/QsKAm17ZtNqwp5ZtBonpPcMyP2LAzg5jVhWwwU5bWm0e19/dez/So/TMCk5J4C8n
+ yqZc1j0A/z+UFwWNv2l9oazsTZMHWyjc5RjZc30zELWxLq//dK3RWOiAQdtOnqBB+bYRQGLx6neLz
+ Fit0n/8ba/UgGXeKwfn5UR/BTSyIbOm+uDZ4f6A321YgBvgQ5DidJm66g2p+6jheRjSoPevaB91Xb
+ vjZEygn+hxMNEd9RL/rvRXNCPuDSUxLQxc9N47Fq1RkVx1WYltVI0G31u50UMpxxNJpcc5tG2BwZX
+ bFuuii9RvV6bhOX1JdrOM0dfm/38/LZHXuNPRnhNFh0nhFgBEcN+NY37lrOfsZqH/stY+gIemVqsf
+ rtkcpFyxzs9bNaGZ+mSMlBWjjocA2U/9wiKdJzgHU=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Subject: 9pfs: Twalk crash
+Date: Mon, 30 Aug 2021 17:55:04 +0200
+Message-ID: <4325838.qn0ATYcOi1@silver>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8TRQdj33Ycm=XzmuUUNApaXVgeDexfS+3Ycg6kLnpmyg@mail.gmail.com>
-User-Agent: NeoMutt/20210205-739-420e15
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,101 +62,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- johannst <johannes.stoelp@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- johannst <johannes.stoelp@googlemail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Aug 29, 2021 at 10:09:19PM +0100, Peter Maydell wrote:
-> On Thu, 5 Aug 2021 at 21:34, johannst <johannes.stoelp@googlemail.com> wrote:
-> >
-> > Dear all,
-> >
-> > in my opinion the `type` argument in the kvm ioctl wrappers should be of
-> > type unsigned. Please correct me if I am wrong.
-> 
-> (Ccing Eric as our resident POSIX expert.)
-> 
-> > Due to the same reason as explained in the comment on the
-> > `irq_set_ioctl` field in `struct KVMState` (accel/kvm/kvm-all.c),
-> > the kvm ioctl wrapper should take `type` as an unsigned.
-> 
-> The reason in that comment:
->     /* The man page (and posix) say ioctl numbers are signed int, but
->      * they're not.  Linux, glibc and *BSD all treat ioctl numbers as
->      * unsigned, and treating them as signed here can break things */
-> 
-> It would be more helpful to readers to state the reason directly
-> in the commit message, rather than requiring them to go and look
-> up a comment in some other file.
-> 
-> (That comment, incidentally, seems to be no longer completely
-> true: on my system the ioctl manpage says 'unsigned long', though
-> the glibc info docs say 'int', in contradiction to the ioctl.h
-> glibc actually ships...)
+Apparently commit 8d6cb100731c4d28535adbf2a3c2d1f29be3fef4 '9pfs: reduce 
+latency of Twalk' has introduced occasional crashes.
 
-POSIX says of ioctl:
-https://pubs.opengroup.org/onlinepubs/9699919799/functions/ioctl.html
- int ioctl(int fildes, int request, ... /* arg */);
+My first impression after looking at the backtrace: looks like the patch 
+itself is probably not causing this, but rather unmasked this issue (i.e. 
+increased the chance to be triggered).
 
-But the standardization of ioctl() is extremely limited: POSIX only
-uses it for the now-deprecated STREAMS option (basically it was
-supposed to be the next-generation pty interface, but it never really
-caught on; Solaris supported it, but I don't think Linux ever has).
-And qemu doesn't really care about the STREAMS option; so our real
-source of authority for how ioctl behaves is not POSIX, but the
-kernel.
+The crash is because of 'elem' is NULL in virtio_pdu_vunmarshal() (frame 0).
 
-The fact that glibc uses unsigned long rather than int for the second
-argument is a strong argument in favor of using an unsigned type (on
-64-bit platforms, the kernel really is looking at 64 bits, even though
-POSIX says we are only passing in 32, and sign-extension is wrong),
-but on the other hand, I don't know if any ioctl requests CAN be sign
-extended (ideally, no ioctl request has bit 0x80000000 set, so that it
-doesn't matter if the userspace code was calling via a signed or
-unsigned type, or via the 32-bit POSIX signature instead of the actual
-kernel 'unsigned long' signature).
+bt taken with HEAD being 8d6cb100731c4d28535adbf2a3c2d1f29be3fef4:
 
-> 
-> Of the various KVM_* ioctls we use via these functions, do
-> any actually have values that would result in invalid sign
-> extension here ? That is, is this fixing an existing bug, or is
-> it merely avoiding a potential future bug?
+Program terminated with signal SIGSEGV, Segmentation fault.
+#0  virtio_pdu_vunmarshal (pdu=0x55a93717cde8, offset=7, fmt=0x55a9352766d1 
+"ddw", ap=0x7f38a9ad9cd0) at ../hw/9pfs/virtio-9p-device.c:146
+146         ret = v9fs_iov_vunmarshal(elem->out_sg, elem->out_num, offset, 1, 
+fmt, ap);
+[Current thread is 1 (Thread 0x7f3bddd2ac40 (LWP 7811))]
+(gdb) bt full
+#0  0x000055a934dfb9a7 in virtio_pdu_vunmarshal (pdu=0x55a93717cde8, offset=7, 
+fmt=0x55a9352766d1 "ddw", ap=0x7f38a9ad9cd0) at ../hw/9pfs/virtio-9p-device.c:
+146
+        s = 0x55a93717b4b8
+        v = 0x55a93717aee0
+        elem = 0x0
+        ret = <optimized out>
+#1  0x000055a934bf35e8 in pdu_unmarshal (pdu=pdu@entry=0x55a93717cde8, 
+offset=offset@entry=7, fmt=fmt@entry=0x55a9352766d1 "ddw") at ../hw/9pfs/9p.c:
+71
+        ret = <optimized out>
+        ap = {{gp_offset = 24, fp_offset = 48, overflow_arg_area = 
+0x7f38a9ad9db0, reg_save_area = 0x7f38a9ad9cf0}}
+#2  0x000055a934bf68db in v9fs_walk (opaque=0x55a93717cde8) at ../hw/9pfs/
+9p.c:1720
+        name_idx = <optimized out>
+        qids = 0x0
+        i = <optimized out>
+        err = 0
+        dpath = {size = 0, data = 0x0}
+        path = {size = 0, data = 0x0}
+        pathes = 0x0
+        nwnames = 1
+        stbuf = 
+            {st_dev = 2050, st_ino = 1199848, st_nlink = 1, st_mode = 41471, 
+st_uid = 0, st_gid = 0, __pad0 = 0, st_rdev = 0, st_size = 13, st_blksize = 
+4096, st_blocks = 16, s}
+        fidst = 
+            {st_dev = 2050, st_ino = 1198183, st_nlink = 3, st_mode = 16877, 
+st_uid = 0, st_gid = 0, __pad0 = 0, st_rdev = 0, st_size = 12288, st_blksize = 
+4096, st_blocks = 32}
+        stbufs = 0x0
+        offset = 7
+        fid = 299
+        newfid = 687
+        wnames = 0x0
+        fidp = <optimized out>
+        newfidp = 0x0
+        pdu = 0x55a93717cde8
+        s = 0x55a93717b4b8
+        qid = {type = 2 '\002', version = 1556732739, path = 2399697}
+#3  0x000055a93505760b in coroutine_trampoline (i0=<optimized out>, 
+i1=<optimized out>) at ../util/coroutine-ucontext.c:173
 
-My question as well.  If there is such a bug, calling it out in the
-commit message is essential; if the bug is just theoretical,
-mentioning that is still useful.
 
-> 
-> > Signed-off-by: johannst <johannes.stoelp@gmail.com>
-> > ---
-> >  accel/kvm/kvm-all.c    | 8 ++++----
-> >  accel/kvm/trace-events | 8 ++++----
-> >  include/sysemu/kvm.h   | 8 ++++----
-> >  3 files changed, 12 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> > index 0125c17edb..45cd6edce3 100644
-> > --- a/accel/kvm/kvm-all.c
-> > +++ b/accel/kvm/kvm-all.c
-> > @@ -2967,7 +2967,7 @@ int kvm_cpu_exec(CPUState *cpu)
-> >      return ret;
-> >  }
-> >
-> > -int kvm_ioctl(KVMState *s, int type, ...)
-> > +int kvm_ioctl(KVMState *s, unsigned type, ...)
-> 
-> The underlying ioctl() prototype (at least in my Linux /usr/include/sys/ioctl.h
-> and as documented in the ioctl(2) manpage) uses "unsigned long" for the
-> request argument; should we do the same ?
 
-Either we should match POSIX ('int') or Linux ('unsigned long'),
-'unsigned' matches neither.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
 
 
