@@ -2,80 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B37903FB90E
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 17:35:31 +0200 (CEST)
-Received: from localhost ([::1]:44408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 026B73FB912
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 17:36:53 +0200 (CEST)
+Received: from localhost ([::1]:46786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKjJq-0006HW-Hu
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 11:35:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36696)
+	id 1mKjL5-0007wv-2o
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 11:36:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mKjHx-00044G-7A
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 11:33:33 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:36742)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mKjKA-00075L-LD
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 11:35:51 -0400
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:35615)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mKjHv-0003lK-2T
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 11:33:32 -0400
-Received: by mail-pf1-x432.google.com with SMTP id m26so12527927pff.3
- for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 08:33:30 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mKjK7-0005gD-1K
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 11:35:50 -0400
+Received: by mail-ej1-x62c.google.com with SMTP id i21so32089671ejd.2
+ for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 08:35:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=yNzkicToSsozVy/9ZWrb+/qe2rpN9aPGIOsu9DTQKbc=;
- b=eTt/tGIOEkthWSQIwIHTx/RKfMqjWz57yZhXn/wNr6hOcOe2yFUO2kHh4kIDExiBcd
- +QjwZOLB6ks0KMn8QWgrIYWGFCHFz8VHe1BY+JlH3JJHty6rgWRczGUgIG2IjZwsajq6
- 8l0jRebVuCOpkvNuRGKquhT8H3X/jWYUVodW4YWepWexEpUgR3o8DmjdcA0CcnoX60tF
- gHmqx7OEhV5e1vxgtSHBkEl5uiUrhc+WfKeIa3y0ssAki5I9c2mVAaat59img7Uu063l
- MVQnfNeZSU2pkgEkPj7gHWvh+jy7XyjYQzz11mrNGKI11TQ5n8qhbAHkXIe7hL8MMQ/i
- 3kNg==
+ h=mime-version:from:date:message-id:subject:to;
+ bh=VYUB5TR5pS4Ue4VCIJFSTFxErEVrcPIjGvJDgfoiVKI=;
+ b=TzYJjblV1cAjTmxcXl7rRVFDnQ/owkvUnGD647jMwcnAkCG4toUl4A7aFs8JFKWet3
+ 5Bxd0XzX+GaA88xteBQImng8BPFr1eQaKRLR/Ymol2cKZZbrln1Tq5XoRNDaaztB05hN
+ J6IxD4uxsPq8gRYQywA3XArkHf44BHiE1HWm2iFBYMyGIdO4IsF1mzmZrhgqAKPtXzY9
+ 3LPHrVXlFt9YQn12pofvoa9zfqlSSiijmF6uakNSK3vDhyk34/QJKuLqNtl8H8hWtjpR
+ zhKe7orV11dN7aErpSQhWFnauqKTcJNzpjWBZnEAtsp2IzjOu+z783jDr8uMI3kHHwxA
+ XBJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yNzkicToSsozVy/9ZWrb+/qe2rpN9aPGIOsu9DTQKbc=;
- b=EOq8czVBC4IAi+8m+sMf0MRwIr96P51WM+NCjhzHrUukgVKg0PjEhf2RfeSxo1OWsD
- Ib+7BpcCfG5rc7lmHSd0dVbekrOZXlCkc9X4Tbmn9I3kWJeL/H0Cu3qAJmbYPCjQJ/Xr
- tNRqI8ZFo4FY+3P8xqJcoQkG+SU9RTr8jBe57ts8/841bqmx/uaK+sXKRA4Sr9JVXEPs
- MtwrYXoj4V0cCKBa5lSM1XkObwGf9nYOWpMixiYU+cxTQkte17YSAed2iG60XDJgJK6e
- Uef+Buu1A4WwKHnKWzc4SyE0xylJubQjTFZbwL1i8L8kqkz+ZVWm+KRu5lWu+cCuIAmP
- wNQA==
-X-Gm-Message-State: AOAM5306sPk9BePBEucU3Djkr+WV4iyvuK29lqWsgLHXyNg7vT3K8oIU
- ds0t3MlmEsNAxKB1lI6tVdZgQg==
-X-Google-Smtp-Source: ABdhPJx2KadgeECTg5LaxoFpGxrHwFbR5EB4zxNb0LCUEZ4/o4XRd9CufQ/MgulHSFJLOE5vhibzrQ==
-X-Received: by 2002:aa7:80d8:0:b0:3f3:814f:4368 with SMTP id
- a24-20020aa780d8000000b003f3814f4368mr18152696pfn.77.1630337609608; 
- Mon, 30 Aug 2021 08:33:29 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-72-39.tukw.qwest.net. [174.21.72.39])
- by smtp.gmail.com with ESMTPSA id p24sm13738953pfh.136.2021.08.30.08.33.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Aug 2021 08:33:29 -0700 (PDT)
-Subject: Re: [PATCH 2/3] configure: Remove options that can be handled via
- meson_options.txt instead
-To: Eric Blake <eblake@redhat.com>, Thomas Huth <thuth@redhat.com>
-References: <20210829173210.39562-1-thuth@redhat.com>
- <20210829173210.39562-3-thuth@redhat.com>
- <20210830150625.l76qozj4lzmuqsf7@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c95dd4f5-4640-8247-027c-550e2af750aa@linaro.org>
-Date: Mon, 30 Aug 2021 08:33:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=VYUB5TR5pS4Ue4VCIJFSTFxErEVrcPIjGvJDgfoiVKI=;
+ b=XQ3Xu+RyO988lCBrtWMt8xEfx/TZ9oefZGpwudHLeV/u3AB4qR5O+08lskFBWiFLa6
+ ZvL5UpSYKLXbrZTT6lZ80Oa6Bd3zOtMJzShDHZ5CPxvd9R2eX4ffjy+QFaUJIkW8JTbS
+ FYJdx3ZiDg/G19PI8UwNVCQ2FrBCRGXvkuNgIRgMZ1KJm0UOKregT0tJJrb6n+suD1mX
+ ucHRSO6u5YHeD01kfF9Io3s300rQmD6Xvy7sB8zoeShEO+y7I7dlR9qVEe6VX79pZ9QL
+ clgHEhzVElxSfoD2no/ldNUSCwTEAlmsy71l18I/nR/nO88b2a+PDREiYbP49M6JheTr
+ yKOA==
+X-Gm-Message-State: AOAM532Ig9+NwErYzwbE07yDv9Nt7wuV2vf0prahb2la7h+YHjhTi2Jg
+ 1d2zJR/dV3Yf+UgBfrZDPCKdzT2Ei3ctsKDmYznsFDzHdpDmFA==
+X-Google-Smtp-Source: ABdhPJyb6lHRZg4JrvckeumkUtT3eBlKDiKFjJWyIrENj+ykwcvSivVgGUpLKjne35uq9S3eAk+sQH0Ryqh+UHZhNiE=
+X-Received: by 2002:a17:906:3497:: with SMTP id
+ g23mr25905143ejb.85.1630337744611; 
+ Mon, 30 Aug 2021 08:35:44 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210830150625.l76qozj4lzmuqsf7@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.932,
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 30 Aug 2021 16:34:56 +0100
+Message-ID: <CAFEAcA9YCwrm43JfFE_oenTYnj+vfOHD+Bw4mTHAqOnBgpQX-w@mail.gmail.com>
+Subject: block/curl: should we be checking curl_easy_setopt() for errors?
+To: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,22 +74,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/30/21 8:06 AM, Eric Blake wrote:
-> Does meson treat
-> -Dbrlapi=auto and the absence of any mention of brlapi identically?
+Coverity complains (CID 1460331, 1459482, 1459336, 1458895)
+that we call curl_easy_setopt(), which can return an error value,
+but we never check the return value.
 
-I believe the default is right there in meson_options.txt:
+Is it correct? Looking at the libcurl documentation, the function
+does return an error status, and there's nothing that says it's
+ok to ignore (e.g. that it's guaranteed that the library will
+safely accumulate any errors and return them when you make the
+subsequent curl_easy_perform() call). On the other hand, neither
+the libcurl manpage example nor the handful of example programs
+at https://curl.se/libcurl/c/example.html ever seem to check the
+return value from curl_easy_setopt()...
 
-option('brlapi', type : 'feature', value : 'auto',
-        description: 'brlapi character device driver')
-
-with value: 'auto'
-
-
-r~
+thanks
+-- PMM
 
