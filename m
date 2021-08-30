@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 682423FB159
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 08:47:08 +0200 (CEST)
-Received: from localhost ([::1]:57156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9CBD3FB14E
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 08:40:49 +0200 (CEST)
+Received: from localhost ([::1]:43850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKb4V-0007qX-Cr
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 02:47:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46366)
+	id 1mKayN-000727-7n
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 02:40:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mKajE-0003zq-CX
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:25:08 -0400
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:45975)
+ id 1mKajD-0003yL-TK
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:25:07 -0400
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:46026)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mKajB-0007Wp-IU
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:25:08 -0400
-Received: by mail-pj1-x102f.google.com with SMTP id
- f11-20020a17090aa78b00b0018e98a7cddaso9237800pjq.4
+ id 1mKajC-0007XF-B8
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:25:07 -0400
+Received: by mail-pl1-x62b.google.com with SMTP id d17so7915921plr.12
  for <qemu-devel@nongnu.org>; Sun, 29 Aug 2021 23:25:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=P94Y5dxSBpEMiLv8AoX01K+FSXvmiAd5JT5hA1ZV/Ms=;
- b=IFbaa++c9L1wLfJZCb1bFwUNy/NtQjGetF7oOOINx7K4ea2sklBqZ69UgsobSodBTz
- 8Jaknr/FEko6S8PyZ86EglmWx1QxE0hORJ7fPW2ZxSdTllYPTdu29XYDFCrdP7TKpVDY
- qE1urRMiak/w1wABzy0QfJT3bTVZkxBjy3buCMqX7a6uiO6fNAwmfA8BT2PS6jxF0but
- vkVZUnEG1dt572LpEnWFwPR1BcWFtBIyr3CRF7nyjThxl3Jlw2+GoE6Z+hvxcaT10v/I
- SKjXuXYlEQHLP9/hSCjK7fxb9Ci8RRIMtTBuLWPWcELeolbaaX8QlNvkJlgjXcvjSyv6
- hiWQ==
+ bh=qbW4VpjE9MbutpbgnWYnm2S01dHzMdGYJQJnh5A4i/Y=;
+ b=lFp62LUZ+/Mm3QWL+0vcReiEFOh6vc6ZAmEWKAHVbXCPZIZ85UBIPsjLi3l+clw7my
+ 4C2qx0LVSOw+A9FeQDdwwdG6KNk/FP2FKcl6pxEv7lI0pHxOufHOBA1+XfOX1TZVTh0m
+ kRTsOsHSxuwI5rPT7sLxzIM7CC5f8SglumDxG2TTMr/erOTlkMCBmaSgWAToBfGR9eU/
+ 9sgbnR6AsnLCf33ieo9DaJoMo2/5uyADGudqnx1iyKRYmqOaa+LSWTU7Ve1EeCi8YBxf
+ Uoqoil5/U/7WTmqBgYIp81B+D0RxujL4xS+m6UZJDLJp1LGV55aEyFZXNlHdwScI7ZII
+ bFUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=P94Y5dxSBpEMiLv8AoX01K+FSXvmiAd5JT5hA1ZV/Ms=;
- b=iI0NV7T4L3UMCA1oc2pnpTXqKmv//+EuwjGtHJi2b+yq82uxP01ButVfxHO9Dbh7Eo
- HWNDEH9pu5DsTmGd9YKYnqmBY5Pad/eNposUtS3uuOth9B+EbYb3gKzIK6MfXMaAkCWS
- +aUYQ+xdwmOx7rkTE+XgjIwohkaXXUMeCoCHI7BiO+w1lVBYwXzZIA9tLHroj+KpII5s
- v9n0aLik1iEuX4HliudtNmg6RLJEYFhmWsENFWlTcM82kQdCWiV/EiLXjZnRR4pSFdSx
- dQFXBS63lvKx+jJw4sytmE/bW2frTBLws2LCeZJrP8i8jf3fwVoHo32WtFq23Gj0+amX
- TELg==
-X-Gm-Message-State: AOAM532JGcVFCNGZJgcw5KhXg4sR7fEh8M9sbKtnnHfYPbDCMecy9oey
- hrWttDKUEJfG2XQSRhq6c4rPicpGUTJEWg==
-X-Google-Smtp-Source: ABdhPJw4EmlyE+80BIqDAeqC3YKqK12HmcbfcPgHG4320/aX0kAQpRJijhVBrgD1cBqsXKF3OB34yw==
-X-Received: by 2002:a17:902:7ed0:b0:138:d64c:7c4 with SMTP id
- p16-20020a1709027ed000b00138d64c07c4mr4553919plb.1.1630304704040; 
+ bh=qbW4VpjE9MbutpbgnWYnm2S01dHzMdGYJQJnh5A4i/Y=;
+ b=V+BDwRq+dCE3eQz+IADP2G+8gm/0mPJUTQL5QWgeAHBtBcYN9YeO2ushRYWrIB3cQL
+ 73pHRirQabh9OqRalSMH12/v3HMM4zflDp+hTH425ZYN+TAlQ8cedxjiDlXsZdqXa+Eu
+ Ie+y9/U5C8zgAXasXWieRWLtupUL01sz4zIkMoMNtCY1TP3VT6lYHpi+bUtgF+z0Hk6j
+ XXKgDwYYKlwFWCdStrzMWoN9cqdfSujbTh03WmMK/ps7Ir6VOMuyzbS5WPCEsaaup2pZ
+ OAdcS8mRPhlSaeabQssM9ItYyiOZFcMnVoL4rWddGMleP4ZsBmRVhfE8ajY84JZnIEO3
+ NQ/A==
+X-Gm-Message-State: AOAM531C1V1ck87gKdVmfzKmwpWjeqteQ1tUgUpQwRyZAbYwKHjVN6EC
+ qr9P7+ty1EI/Bqm+k2TS5QxzUCRLcJX4jg==
+X-Google-Smtp-Source: ABdhPJxzuLbWNY6JTOG6TRS4TqYA1B2g/Jt3Yz5pk4Q5P1F0p/Mxy2HcfOq09KknHYksgg/83+TXIA==
+X-Received: by 2002:a17:902:7882:b0:131:2e12:c928 with SMTP id
+ q2-20020a170902788200b001312e12c928mr20475939pll.74.1630304704917; 
  Sun, 29 Aug 2021 23:25:04 -0700 (PDT)
 Received: from localhost.localdomain (174-21-72-39.tukw.qwest.net.
  [174.21.72.39])
- by smtp.gmail.com with ESMTPSA id b12sm13942084pff.63.2021.08.29.23.25.03
+ by smtp.gmail.com with ESMTPSA id b12sm13942084pff.63.2021.08.29.23.25.04
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Aug 2021 23:25:03 -0700 (PDT)
+ Sun, 29 Aug 2021 23:25:04 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/48] tcg/optimize: Split out fold_brcond2
-Date: Sun, 29 Aug 2021 23:24:20 -0700
-Message-Id: <20210830062451.639572-18-richard.henderson@linaro.org>
+Subject: [PATCH 18/48] tcg/optimize: Split out fold_brcond
+Date: Sun, 29 Aug 2021 23:24:21 -0700
+Message-Id: <20210830062451.639572-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210830062451.639572-1-richard.henderson@linaro.org>
 References: <20210830062451.639572-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,198 +88,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reduce some code duplication by folding the NE and EQ cases.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/optimize.c | 161 +++++++++++++++++++++++++------------------------
- 1 file changed, 83 insertions(+), 78 deletions(-)
+ tcg/optimize.c | 33 +++++++++++++++++++--------------
+ 1 file changed, 19 insertions(+), 14 deletions(-)
 
 diff --git a/tcg/optimize.c b/tcg/optimize.c
-index 7de76b6de9..0ddeaf7e4f 100644
+index 0ddeaf7e4f..9dfd172a34 100644
 --- a/tcg/optimize.c
 +++ b/tcg/optimize.c
-@@ -714,6 +714,86 @@ static bool fold_andc(OptContext *ctx, TCGOp *op)
+@@ -714,6 +714,22 @@ static bool fold_andc(OptContext *ctx, TCGOp *op)
      return fold_const2(ctx, op);
  }
  
-+static bool fold_brcond2(OptContext *ctx, TCGOp *op)
++static bool fold_brcond(OptContext *ctx, TCGOp *op)
 +{
-+    TCGCond cond = op->args[4];
-+    int i = do_constant_folding_cond2(&op->args[0], &op->args[2], cond);
-+    TCGArg label = op->args[5];
-+    int inv = 0;
++    TCGCond cond = op->args[2];
++    int i = do_constant_folding_cond(op->opc, op->args[0], op->args[1], cond);
 +
 +    if (i == 0) {
-+        goto do_brcond_false;
-+    } else if (i > 0) {
-+        goto do_brcond_true;
++        tcg_op_remove(ctx->tcg, op);
++        return true;
 +    }
-+
-+    switch (cond) {
-+    case TCG_COND_LT:
-+    case TCG_COND_GE:
-+        /*
-+         * Simplify LT/GE comparisons vs zero to a single compare
-+         * vs the high word of the input.
-+         */
-+        if (arg_is_const(op->args[2]) && arg_info(op->args[2])->val == 0 &&
-+            arg_is_const(op->args[3]) && arg_info(op->args[3])->val == 0) {
-+            goto do_brcond_high;
-+        }
-+        break;
-+
-+    case TCG_COND_NE:
-+        inv = 1;
-+        QEMU_FALLTHROUGH;
-+    case TCG_COND_EQ:
-+        /*
-+         * Simplify EQ/NE comparisons where one of the pairs
-+         * can be simplified.
-+         */
-+        i = do_constant_folding_cond(INDEX_op_brcond_i32, op->args[0],
-+                                     op->args[2], cond);
-+        switch (i ^ inv) {
-+        case 0:
-+            goto do_brcond_false;
-+        case 1:
-+            goto do_brcond_high;
-+        }
-+
-+        i = do_constant_folding_cond(INDEX_op_brcond_i32, op->args[1],
-+                                     op->args[3], cond);
-+        switch (i ^ inv) {
-+        case 0:
-+            goto do_brcond_false;
-+        case 1:
-+            op->opc = INDEX_op_brcond_i32;
-+            op->args[1] = op->args[2];
-+            op->args[2] = cond;
-+            op->args[3] = label;
-+            break;
-+        }
-+        break;
-+
-+    default:
-+        break;
-+
-+    do_brcond_true:
++    if (i > 0) {
 +        op->opc = INDEX_op_br;
-+        op->args[0] = label;
-+        break;
-+
-+    do_brcond_high:
-+        op->opc = INDEX_op_brcond_i32;
-+        op->args[0] = op->args[1];
-+        op->args[1] = op->args[3];
-+        op->args[2] = cond;
-+        op->args[3] = label;
-+        break;
++        op->args[0] = op->args[3];
 +    }
 +    return false;
-+
-+ do_brcond_false:
-+    tcg_op_remove(ctx->tcg, op);
-+    return true;
 +}
 +
- static bool fold_call(OptContext *ctx, TCGOp *op)
+ static bool fold_brcond2(OptContext *ctx, TCGOp *op)
  {
-     TCGContext *s = ctx->tcg;
-@@ -1629,84 +1709,6 @@ void tcg_optimize(TCGContext *s)
+     TCGCond cond = op->args[4];
+@@ -1628,20 +1644,6 @@ void tcg_optimize(TCGContext *s)
              }
              break;
  
--        case INDEX_op_brcond2_i32:
--            i = do_constant_folding_cond2(&op->args[0], &op->args[2],
--                                          op->args[4]);
+-        CASE_OP_32_64(brcond):
+-            i = do_constant_folding_cond(opc, op->args[0],
+-                                         op->args[1], op->args[2]);
 -            if (i == 0) {
--            do_brcond_false:
 -                tcg_op_remove(s, op);
 -                continue;
--            }
--            if (i > 0) {
--            do_brcond_true:
--                op->opc = opc = INDEX_op_br;
--                op->args[0] = op->args[5];
--                break;
--            }
--            if ((op->args[4] == TCG_COND_LT || op->args[4] == TCG_COND_GE)
--                 && arg_is_const(op->args[2])
--                 && arg_info(op->args[2])->val == 0
--                 && arg_is_const(op->args[3])
--                 && arg_info(op->args[3])->val == 0) {
--                /* Simplify LT/GE comparisons vs zero to a single compare
--                   vs the high word of the input.  */
--            do_brcond_high:
--                op->opc = opc = INDEX_op_brcond_i32;
--                op->args[0] = op->args[1];
--                op->args[1] = op->args[3];
--                op->args[2] = op->args[4];
--                op->args[3] = op->args[5];
--                break;
--            }
--            if (op->args[4] == TCG_COND_EQ) {
--                /* Simplify EQ comparisons where one of the pairs
--                   can be simplified.  */
--                i = do_constant_folding_cond(INDEX_op_brcond_i32,
--                                             op->args[0], op->args[2],
--                                             TCG_COND_EQ);
--                if (i == 0) {
--                    goto do_brcond_false;
--                } else if (i > 0) {
--                    goto do_brcond_high;
--                }
--                i = do_constant_folding_cond(INDEX_op_brcond_i32,
--                                             op->args[1], op->args[3],
--                                             TCG_COND_EQ);
--                if (i == 0) {
--                    goto do_brcond_false;
--                } else if (i < 0) {
--                    break;
--                }
--            do_brcond_low:
+-            } else if (i > 0) {
 -                memset(&ctx.temps_used, 0, sizeof(ctx.temps_used));
--                op->opc = INDEX_op_brcond_i32;
--                op->args[1] = op->args[2];
--                op->args[2] = op->args[4];
--                op->args[3] = op->args[5];
+-                op->opc = opc = INDEX_op_br;
+-                op->args[0] = op->args[3];
 -                break;
--            }
--            if (op->args[4] == TCG_COND_NE) {
--                /* Simplify NE comparisons where one of the pairs
--                   can be simplified.  */
--                i = do_constant_folding_cond(INDEX_op_brcond_i32,
--                                             op->args[0], op->args[2],
--                                             TCG_COND_NE);
--                if (i == 0) {
--                    goto do_brcond_high;
--                } else if (i > 0) {
--                    goto do_brcond_true;
--                }
--                i = do_constant_folding_cond(INDEX_op_brcond_i32,
--                                             op->args[1], op->args[3],
--                                             TCG_COND_NE);
--                if (i == 0) {
--                    goto do_brcond_low;
--                } else if (i > 0) {
--                    goto do_brcond_true;
--                }
 -            }
 -            break;
 -
-         default:
-             break;
- 
-@@ -1722,6 +1724,9 @@ void tcg_optimize(TCGContext *s)
+         CASE_OP_32_64(movcond):
+             i = do_constant_folding_cond(opc, op->args[1],
+                                          op->args[2], op->args[5]);
+@@ -1724,6 +1726,9 @@ void tcg_optimize(TCGContext *s)
          CASE_OP_32_64_VEC(andc):
              done = fold_andc(&ctx, op);
              break;
-+        case INDEX_op_brcond2_i32:
-+            done = fold_brcond2(&ctx, op);
++        CASE_OP_32_64(brcond):
++            done = fold_brcond(&ctx, op);
 +            break;
-         CASE_OP_32_64(ctpop):
-             done = fold_ctpop(&ctx, op);
+         case INDEX_op_brcond2_i32:
+             done = fold_brcond2(&ctx, op);
              break;
 -- 
 2.25.1
