@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23BBA3FB093
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 06:53:29 +0200 (CEST)
-Received: from localhost ([::1]:46358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B0583FB097
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 06:56:14 +0200 (CEST)
+Received: from localhost ([::1]:49204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKZIW-0003LP-74
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 00:53:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35692)
+	id 1mKZLB-0005Ik-A8
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 00:56:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mKZGA-0001Kg-4y
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 00:51:02 -0400
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:33605)
+ id 1mKZJy-0004Vg-Tn; Mon, 30 Aug 2021 00:54:58 -0400
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:41970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mKZG8-0004L5-Ao
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 00:51:01 -0400
-Received: by mail-io1-xd30.google.com with SMTP id f6so18350580iox.0
- for <qemu-devel@nongnu.org>; Sun, 29 Aug 2021 21:50:59 -0700 (PDT)
+ id 1mKZJw-0007b3-Eg; Mon, 30 Aug 2021 00:54:58 -0400
+Received: by mail-io1-xd33.google.com with SMTP id j18so18203943ioj.8;
+ Sun, 29 Aug 2021 21:54:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k+eDF0SCC0zvmbAamZWPVIy97x5Pmyda0AMykK7Jc3o=;
- b=EneoKUYEAS5WJFniLoPz+qY3qmi1GBBmJnW9bSQRqdI3MXR8ktW+q2ptrSeJNKru0N
- r+ix/cUDV2z0oIa5vSP+f51Z8Tb2SU5jBDEoxp2JoySVWa5rBpFLed53xl7xZH9ywusm
- Ldeq/uRQlU0jCeTsTFPIr0i6FoENcuFzScUMVUVnKt3vUt4sXvJJJbBNJhTDWV38K2lG
- uQYNmcunUzbumwxoeQ2Go9zRzn8kqk6u0Ln1vBHESepEbcY+/UIK473DG85nFahbVvKR
- Ih5dmwm1VDlAXjiKLFOCT6lsq6yX71shDtQ5zuNckWdNsltEpSRNslr8kUAfyJf847m4
- hapw==
+ :cc:content-transfer-encoding;
+ bh=cZWRea4DY6SKcyUaYtJH9XDqp0mSbe8e+F+lEim52kE=;
+ b=j7c1jvsn0SboTE85okCIztwKXn476gTLH/vAaKo+jedutPK2hPvaYMUcT3zZ/+dGpD
+ tZZ3NNMgKmDFlLPs6wtkW9xa6dG60qpT0CcvuUaGJM5TlS3ye13R/I87FbQ5srGZOl73
+ NmLtsrkOsilstwXXpJ5qMpXj3qSvFEA7h49WlafDFyE0pI6i4upbpHF7ji87EvOHu+qE
+ WdmRrwVjhjFaH+Yb7L95ZQ0nFZ+oALRs2DjHNZRb8i3uamVAjkURRbOzB0tkH8P1rA6o
+ 2F8/brcpYk7YIlBOIfBgXd1eNOQDwLHVmnnfZErmTrTNrxJ/81VIdEuLJ+rwH4AWjeP4
+ 18VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=k+eDF0SCC0zvmbAamZWPVIy97x5Pmyda0AMykK7Jc3o=;
- b=NXZ1+cy7QQEr8yVQcRJ6DBCWHSlq9p2hLikAVtC/CNif4XxOKLX+bmK9oqF6swdtPy
- YzUESuxQw2KrPmYplvV3iAJimSzyH8+gb7qzQuWGESU+juaAAhfVs/Q62Ecvvvpr0jir
- 9DgURqU5Y94SdMlAkLNkrq3jDOLb8jfaMIHQr4F+pu1HPt3B4XOp45u4OMl+4AoYRcz8
- bSap48mLOHCvXhXhCdqmU5V1duixXPe9t/7VO6mUtBPka+0R4DwQk/DsJcWeO79lSjDM
- 5QGR60m7FxDvBAGVSYwnmWFxUlWQcbsG/8V+pEpZJbd4TztOF01ItQ2Qx+i0qESqfbdI
- anwA==
-X-Gm-Message-State: AOAM532Mfohn3BAecnv3/gH8YAtVI5EaMGOiKrs9Sv+CH2DeVvqs+VuQ
- RC0DCc2UyN9zcJUpiUrpN5BF9yF89x73SU2NOrQ=
-X-Google-Smtp-Source: ABdhPJw/oldce1ED7frLophedNaxIiwVaKR3V9uLgWIAvw7+aeztWNvcpjhBsXkN4iP9cDyQLkICUkc8/Kj5zCH6BNA=
-X-Received: by 2002:a5d:850f:: with SMTP id q15mr17026949ion.118.1630299059199; 
- Sun, 29 Aug 2021 21:50:59 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=cZWRea4DY6SKcyUaYtJH9XDqp0mSbe8e+F+lEim52kE=;
+ b=Gcj/c05BpRStogyW+0EuckA2sUXBzPhNCO+aLeLFuIr6OnwonODW3v9vA+5/+it6+2
+ mAnD4NksK7FauO8XorqLBdWXsflnLU9kg5IT+Z1ny465AJYFhU70oIE9XybAZbQF3VSP
+ tF93BBRAvp8LNV8QxEwmgrbWAUMdQYhuL/txQ2ZIir8ytnVfm5YliT485e3Yh55DQ5zt
+ J7LJJTGgpi0SGMV0WjYJ81PjZsKsTe3S1YQt6Ixt8RYUcXysrUT9vp57zz0Rsk9i+R3E
+ 1SNRCETPFdkvYsW+XNdoY1GilYjua3cWH3HuVOfy2bAWbhxKk+IHLsWvfkKikwXKFNeR
+ p/QQ==
+X-Gm-Message-State: AOAM533Wv0JmvQ2UexowGuPGMTaqr8X/aW97OhMYuOgiWGs3JckVj2vm
+ VUK5EtTT7YquCbGhHcDD9OS4rcu6/3Ddlz2hJaQ=
+X-Google-Smtp-Source: ABdhPJw4VyhiQ9xwy4JtU53LOH7gbUWL1YfeizjHHGjN59b5XEf0/hrE8+4Htk/4kCMOag8LYLpqiyzBrA77LXc3VA8=
+X-Received: by 2002:a02:90d0:: with SMTP id c16mr18617435jag.106.1630299294998; 
+ Sun, 29 Aug 2021 21:54:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210825165907.34026-1-philipp.tomsich@vrull.eu>
- <20210825165907.34026-7-philipp.tomsich@vrull.eu>
-In-Reply-To: <20210825165907.34026-7-philipp.tomsich@vrull.eu>
+References: <20210823195529.560295-1-richard.henderson@linaro.org>
+ <20210823195529.560295-24-richard.henderson@linaro.org>
+In-Reply-To: <20210823195529.560295-24-richard.henderson@linaro.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 30 Aug 2021 14:50:32 +1000
-Message-ID: <CAKmqyKNx-y=QE_3HZTErmy5BH37Goph+19ORbEy4YWUW7W6qVA@mail.gmail.com>
-Subject: Re: [PATCH v6 06/14] target/riscv: Reassign instructions to the
- Zbs-extension
-To: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Date: Mon, 30 Aug 2021 14:54:28 +1000
+Message-ID: <CAKmqyKNzk7u9Jif1iHe80db=3xjY6CeO+FK72410ogD3+J6q1g@mail.gmail.com>
+Subject: Re: [PATCH v5 23/24] target/riscv: Tidy trans_rvh.c.inc
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -79,159 +78,419 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Kito Cheng <kito.cheng@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 26, 2021 at 3:05 AM Philipp Tomsich
-<philipp.tomsich@vrull.eu> wrote:
+On Tue, Aug 24, 2021 at 6:07 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> The following instructions are part of Zbs:
->  - b{set,clr,ext,inv}
->  - b{set,clr,ext,inv}i
+> Exit early if check_access fails.
+> Split out do_hlv, do_hsv, do_hlvx subroutines.
+> Use dest_gpr, get_gpr in the new subroutines.
 >
-> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->
-> (no changes since v3)
->
-> Changes in v3:
-> - The changes to the Zbs instructions (i.e. the REQUIRE_ZBS macro) and
->   its use for qualifying the Zba instructions) are moved into a
->   separate commit.
->
->  target/riscv/insn32.decode              | 17 +++++++++--------
->  target/riscv/insn_trans/trans_rvb.c.inc | 24 +++++++++++++++---------
->  2 files changed, 24 insertions(+), 17 deletions(-)
+>  target/riscv/insn32.decode              |   1 +
+>  target/riscv/insn_trans/trans_rvh.c.inc | 266 +++++-------------------
+>  2 files changed, 57 insertions(+), 210 deletions(-)
 >
 > diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 7e38477553..1166e7f648 100644
+> index f09f8d5faf..2cd921d51c 100644
 > --- a/target/riscv/insn32.decode
 > +++ b/target/riscv/insn32.decode
-> @@ -688,19 +688,11 @@ min        0000101 .......... 100 ..... 0110011 @r
->  minu       0000101 .......... 101 ..... 0110011 @r
->  max        0000101 .......... 110 ..... 0110011 @r
->  maxu       0000101 .......... 111 ..... 0110011 @r
-> -bset       0010100 .......... 001 ..... 0110011 @r
-> -bclr       0100100 .......... 001 ..... 0110011 @r
-> -binv       0110100 .......... 001 ..... 0110011 @r
-> -bext       0100100 .......... 101 ..... 0110011 @r
->  ror        0110000 .......... 101 ..... 0110011 @r
->  rol        0110000 .......... 001 ..... 0110011 @r
->  grev       0110100 .......... 101 ..... 0110011 @r
->  gorc       0010100 .......... 101 ..... 0110011 @r
+> @@ -42,6 +42,7 @@
+>  &j    imm rd
+>  &r    rd rs1 rs2
+>  &r2   rd rs1
+> +&r2_s rs1 rs2
+>  &s    imm rs1 rs2
+>  &u    imm rd
+>  &shift     shamt rs1 rd
+> diff --git a/target/riscv/insn_trans/trans_rvh.c.inc b/target/riscv/insn_=
+trans/trans_rvh.c.inc
+> index 585eb1d87e..ecbf77ff9c 100644
+> --- a/target/riscv/insn_trans/trans_rvh.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvh.c.inc
+> @@ -17,281 +17,139 @@
+>   */
 >
-> -bseti      00101. ........... 001 ..... 0010011 @sh
-> -bclri      01001. ........... 001 ..... 0010011 @sh
-> -binvi      01101. ........... 001 ..... 0010011 @sh
-> -bexti      01001. ........... 101 ..... 0010011 @sh
->  rori       01100. ........... 101 ..... 0010011 @sh
->  grevi      01101. ........... 101 ..... 0010011 @sh
->  gorci      00101. ........... 101 ..... 0010011 @sh
-> @@ -721,3 +713,12 @@ roriw      0110000 .......... 101 ..... 0011011 @sh5
->  greviw     0110100 .......... 101 ..... 0011011 @sh5
->  gorciw     0010100 .......... 101 ..... 0011011 @sh5
+>  #ifndef CONFIG_USER_ONLY
+> -static void check_access(DisasContext *ctx) {
+> +static bool check_access(DisasContext *ctx)
+> +{
+>      if (!ctx->hlsx) {
+>          if (ctx->virt_enabled) {
+>              generate_exception(ctx, RISCV_EXCP_VIRT_INSTRUCTION_FAULT);
+>          } else {
+>              generate_exception(ctx, RISCV_EXCP_ILLEGAL_INST);
+>          }
+> +        return false;
+>      }
+> +    return true;
+>  }
+>  #endif
 >
-> +# *** RV32 Zbs Standard Extension ***
-> +bclr       0100100 .......... 001 ..... 0110011 @r
-> +bclri      01001. ........... 001 ..... 0010011 @sh
-> +bext       0100100 .......... 101 ..... 0110011 @r
-> +bexti      01001. ........... 101 ..... 0010011 @sh
-> +binv       0110100 .......... 001 ..... 0110011 @r
-> +binvi      01101. ........... 001 ..... 0010011 @sh
-> +bset       0010100 .......... 001 ..... 0110011 @r
-> +bseti      00101. ........... 001 ..... 0010011 @sh
-> diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-> index ac706349f5..21d713df27 100644
-> --- a/target/riscv/insn_trans/trans_rvb.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvb.c.inc
-> @@ -1,5 +1,5 @@
->  /*
-> - * RISC-V translation routines for the RVB draft and Zba Standard Extension.
-> + * RISC-V translation routines for the RVB draft Zb[as] Standard Extension.
->   *
->   * Copyright (c) 2020 Kito Cheng, kito.cheng@sifive.com
->   * Copyright (c) 2020 Frank Chang, frank.chang@sifive.com
-> @@ -24,6 +24,12 @@
->      }                                            \
->  } while (0)
->
-> +#define REQUIRE_ZBS(ctx) do {                    \
-> +    if (!RISCV_CPU(ctx->cs)->cfg.ext_zbs) {      \
-> +        return false;                            \
-> +    }                                            \
-> +} while (0)
+> +static bool do_hlv(DisasContext *ctx, arg_r2 *a, MemOp mop)
+> +{
+> +#ifdef CONFIG_USER_ONLY
+> +    return false;
+> +#else
+> +    if (check_access(ctx)) {
+> +        TCGv dest =3D dest_gpr(ctx, a->rd);
+> +        TCGv addr =3D get_gpr(ctx, a->rs1, EXT_NONE);
+> +        int mem_idx =3D ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK;
+> +        tcg_gen_qemu_ld_tl(dest, addr, mem_idx, mop);
+> +        gen_set_gpr(ctx, a->rd, dest);
+> +    }
+> +    return true;
+> +#endif
+> +}
 > +
->  static bool trans_clz(DisasContext *ctx, arg_clz *a)
+>  static bool trans_hlv_b(DisasContext *ctx, arg_hlv_b *a)
 >  {
->      REQUIRE_EXT(ctx, RVB);
-> @@ -116,49 +122,49 @@ static bool trans_sext_h(DisasContext *ctx, arg_sext_h *a)
->
->  static bool trans_bset(DisasContext *ctx, arg_bset *a)
->  {
-> -    REQUIRE_EXT(ctx, RVB);
-> +    REQUIRE_ZBS(ctx);
->      return gen_shift(ctx, a, gen_bset);
+>      REQUIRE_EXT(ctx, RVH);
+> -#ifndef CONFIG_USER_ONLY
+> -    TCGv t0 =3D tcg_temp_new();
+> -    TCGv t1 =3D tcg_temp_new();
+> -
+> -    check_access(ctx);
+> -
+> -    gen_get_gpr(ctx, t0, a->rs1);
+> -
+> -    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_M=
+ASK, MO_SB);
+> -    gen_set_gpr(ctx, a->rd, t1);
+> -
+> -    tcg_temp_free(t0);
+> -    tcg_temp_free(t1);
+> -    return true;
+> -#else
+> -    return false;
+> -#endif
+> +    return do_hlv(ctx, a, MO_SB);
 >  }
 >
->  static bool trans_bseti(DisasContext *ctx, arg_bseti *a)
+>  static bool trans_hlv_h(DisasContext *ctx, arg_hlv_h *a)
 >  {
-> -    REQUIRE_EXT(ctx, RVB);
-> +    REQUIRE_ZBS(ctx);
->      return gen_shifti(ctx, a, gen_bset);
+>      REQUIRE_EXT(ctx, RVH);
+> -#ifndef CONFIG_USER_ONLY
+> -    TCGv t0 =3D tcg_temp_new();
+> -    TCGv t1 =3D tcg_temp_new();
+> -
+> -    check_access(ctx);
+> -
+> -    gen_get_gpr(ctx, t0, a->rs1);
+> -
+> -    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_M=
+ASK, MO_TESW);
+> -    gen_set_gpr(ctx, a->rd, t1);
+> -
+> -    tcg_temp_free(t0);
+> -    tcg_temp_free(t1);
+> -    return true;
+> -#else
+> -    return false;
+> -#endif
+> +    return do_hlv(ctx, a, MO_TESW);
 >  }
 >
->  static bool trans_bclr(DisasContext *ctx, arg_bclr *a)
+>  static bool trans_hlv_w(DisasContext *ctx, arg_hlv_w *a)
 >  {
-> -    REQUIRE_EXT(ctx, RVB);
-> +    REQUIRE_ZBS(ctx);
->      return gen_shift(ctx, a, gen_bclr);
+>      REQUIRE_EXT(ctx, RVH);
+> -#ifndef CONFIG_USER_ONLY
+> -    TCGv t0 =3D tcg_temp_new();
+> -    TCGv t1 =3D tcg_temp_new();
+> -
+> -    check_access(ctx);
+> -
+> -    gen_get_gpr(ctx, t0, a->rs1);
+> -
+> -    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_M=
+ASK, MO_TESL);
+> -    gen_set_gpr(ctx, a->rd, t1);
+> -
+> -    tcg_temp_free(t0);
+> -    tcg_temp_free(t1);
+> -    return true;
+> -#else
+> -    return false;
+> -#endif
+> +    return do_hlv(ctx, a, MO_TESL);
 >  }
 >
->  static bool trans_bclri(DisasContext *ctx, arg_bclri *a)
+>  static bool trans_hlv_bu(DisasContext *ctx, arg_hlv_bu *a)
 >  {
-> -    REQUIRE_EXT(ctx, RVB);
-> +    REQUIRE_ZBS(ctx);
->      return gen_shifti(ctx, a, gen_bclr);
+>      REQUIRE_EXT(ctx, RVH);
+> -#ifndef CONFIG_USER_ONLY
+> -    TCGv t0 =3D tcg_temp_new();
+> -    TCGv t1 =3D tcg_temp_new();
+> -
+> -    check_access(ctx);
+> -
+> -    gen_get_gpr(ctx, t0, a->rs1);
+> -
+> -    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_M=
+ASK, MO_UB);
+> -    gen_set_gpr(ctx, a->rd, t1);
+> -
+> -    tcg_temp_free(t0);
+> -    tcg_temp_free(t1);
+> -    return true;
+> -#else
+> -    return false;
+> -#endif
+> +    return do_hlv(ctx, a, MO_UB);
 >  }
 >
->  static bool trans_binv(DisasContext *ctx, arg_binv *a)
+>  static bool trans_hlv_hu(DisasContext *ctx, arg_hlv_hu *a)
 >  {
-> -    REQUIRE_EXT(ctx, RVB);
-> +    REQUIRE_ZBS(ctx);
->      return gen_shift(ctx, a, gen_binv);
+>      REQUIRE_EXT(ctx, RVH);
+> -#ifndef CONFIG_USER_ONLY
+> -    TCGv t0 =3D tcg_temp_new();
+> -    TCGv t1 =3D tcg_temp_new();
+> +    return do_hlv(ctx, a, MO_TEUW);
+> +}
+>
+> -    check_access(ctx);
+> -
+> -    gen_get_gpr(ctx, t0, a->rs1);
+> -    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_M=
+ASK, MO_TEUW);
+> -    gen_set_gpr(ctx, a->rd, t1);
+> -
+> -    tcg_temp_free(t0);
+> -    tcg_temp_free(t1);
+> -    return true;
+> -#else
+> +static bool do_hsv(DisasContext *ctx, arg_r2_s *a, MemOp mop)
+> +{
+> +#ifdef CONFIG_USER_ONLY
+>      return false;
+> +#else
+> +    if (check_access(ctx)) {
+> +        TCGv addr =3D get_gpr(ctx, a->rs1, EXT_NONE);
+> +        TCGv data =3D get_gpr(ctx, a->rs2, EXT_NONE);
+> +        int mem_idx =3D ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK;
+> +        tcg_gen_qemu_st_tl(data, addr, mem_idx, mop);
+> +    }
+> +    return true;
+>  #endif
 >  }
 >
->  static bool trans_binvi(DisasContext *ctx, arg_binvi *a)
+>  static bool trans_hsv_b(DisasContext *ctx, arg_hsv_b *a)
 >  {
-> -    REQUIRE_EXT(ctx, RVB);
-> +    REQUIRE_ZBS(ctx);
->      return gen_shifti(ctx, a, gen_binv);
+>      REQUIRE_EXT(ctx, RVH);
+> -#ifndef CONFIG_USER_ONLY
+> -    TCGv t0 =3D tcg_temp_new();
+> -    TCGv dat =3D tcg_temp_new();
+> -
+> -    check_access(ctx);
+> -
+> -    gen_get_gpr(ctx, t0, a->rs1);
+> -    gen_get_gpr(ctx, dat, a->rs2);
+> -
+> -    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_=
+MASK, MO_SB);
+> -
+> -    tcg_temp_free(t0);
+> -    tcg_temp_free(dat);
+> -    return true;
+> -#else
+> -    return false;
+> -#endif
+> +    return do_hsv(ctx, a, MO_SB);
 >  }
 >
->  static bool trans_bext(DisasContext *ctx, arg_bext *a)
+>  static bool trans_hsv_h(DisasContext *ctx, arg_hsv_h *a)
 >  {
-> -    REQUIRE_EXT(ctx, RVB);
-> +    REQUIRE_ZBS(ctx);
->      return gen_shift(ctx, a, gen_bext);
+>      REQUIRE_EXT(ctx, RVH);
+> -#ifndef CONFIG_USER_ONLY
+> -    TCGv t0 =3D tcg_temp_new();
+> -    TCGv dat =3D tcg_temp_new();
+> -
+> -    check_access(ctx);
+> -
+> -    gen_get_gpr(ctx, t0, a->rs1);
+> -    gen_get_gpr(ctx, dat, a->rs2);
+> -
+> -    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_=
+MASK, MO_TESW);
+> -
+> -    tcg_temp_free(t0);
+> -    tcg_temp_free(dat);
+> -    return true;
+> -#else
+> -    return false;
+> -#endif
+> +    return do_hsv(ctx, a, MO_TESW);
 >  }
 >
->  static bool trans_bexti(DisasContext *ctx, arg_bexti *a)
+>  static bool trans_hsv_w(DisasContext *ctx, arg_hsv_w *a)
 >  {
-> -    REQUIRE_EXT(ctx, RVB);
-> +    REQUIRE_ZBS(ctx);
->      return gen_shifti(ctx, a, gen_bext);
+>      REQUIRE_EXT(ctx, RVH);
+> -#ifndef CONFIG_USER_ONLY
+> -    TCGv t0 =3D tcg_temp_new();
+> -    TCGv dat =3D tcg_temp_new();
+> -
+> -    check_access(ctx);
+> -
+> -    gen_get_gpr(ctx, t0, a->rs1);
+> -    gen_get_gpr(ctx, dat, a->rs2);
+> -
+> -    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_=
+MASK, MO_TESL);
+> -
+> -    tcg_temp_free(t0);
+> -    tcg_temp_free(dat);
+> -    return true;
+> -#else
+> -    return false;
+> -#endif
+> +    return do_hsv(ctx, a, MO_TESL);
 >  }
 >
+>  static bool trans_hlv_wu(DisasContext *ctx, arg_hlv_wu *a)
+>  {
+>      REQUIRE_64BIT(ctx);
+>      REQUIRE_EXT(ctx, RVH);
+> -
+> -#ifndef CONFIG_USER_ONLY
+> -    TCGv t0 =3D tcg_temp_new();
+> -    TCGv t1 =3D tcg_temp_new();
+> -
+> -    check_access(ctx);
+> -
+> -    gen_get_gpr(ctx, t0, a->rs1);
+> -
+> -    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_M=
+ASK, MO_TEUL);
+> -    gen_set_gpr(ctx, a->rd, t1);
+> -
+> -    tcg_temp_free(t0);
+> -    tcg_temp_free(t1);
+> -    return true;
+> -#else
+> -    return false;
+> -#endif
+> +    return do_hlv(ctx, a, MO_TEUL);
+>  }
+>
+>  static bool trans_hlv_d(DisasContext *ctx, arg_hlv_d *a)
+>  {
+>      REQUIRE_64BIT(ctx);
+>      REQUIRE_EXT(ctx, RVH);
+> -
+> -#ifndef CONFIG_USER_ONLY
+> -    TCGv t0 =3D tcg_temp_new();
+> -    TCGv t1 =3D tcg_temp_new();
+> -
+> -    check_access(ctx);
+> -
+> -    gen_get_gpr(ctx, t0, a->rs1);
+> -
+> -    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_M=
+ASK, MO_TEQ);
+> -    gen_set_gpr(ctx, a->rd, t1);
+> -
+> -    tcg_temp_free(t0);
+> -    tcg_temp_free(t1);
+> -    return true;
+> -#else
+> -    return false;
+> -#endif
+> +    return do_hlv(ctx, a, MO_TEQ);
+>  }
+>
+>  static bool trans_hsv_d(DisasContext *ctx, arg_hsv_d *a)
+>  {
+>      REQUIRE_64BIT(ctx);
+>      REQUIRE_EXT(ctx, RVH);
+> +    return do_hsv(ctx, a, MO_TEQ);
+> +}
+>
+>  #ifndef CONFIG_USER_ONLY
+> -    TCGv t0 =3D tcg_temp_new();
+> -    TCGv dat =3D tcg_temp_new();
+> -
+> -    check_access(ctx);
+> -
+> -    gen_get_gpr(ctx, t0, a->rs1);
+> -    gen_get_gpr(ctx, dat, a->rs2);
+> -
+> -    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_=
+MASK, MO_TEQ);
+> -
+> -    tcg_temp_free(t0);
+> -    tcg_temp_free(dat);
+> +static bool do_hlvx(DisasContext *ctx, arg_r2 *a,
+> +                    void (*func)(TCGv, TCGv_env, TCGv))
+> +{
+> +    if (check_access(ctx)) {
+> +        TCGv dest =3D dest_gpr(ctx, a->rd);
+> +        TCGv addr =3D get_gpr(ctx, a->rs1, EXT_NONE);
+> +        func(dest, cpu_env, addr);
+> +        gen_set_gpr(ctx, a->rd, dest);
+> +    }
+>      return true;
+> -#else
+> -    return false;
+> -#endif
+>  }
+> +#endif
+>
+>  static bool trans_hlvx_hu(DisasContext *ctx, arg_hlvx_hu *a)
+>  {
+>      REQUIRE_EXT(ctx, RVH);
+>  #ifndef CONFIG_USER_ONLY
+> -    TCGv t0 =3D tcg_temp_new();
+> -    TCGv t1 =3D tcg_temp_new();
+> -
+> -    check_access(ctx);
+> -
+> -    gen_get_gpr(ctx, t0, a->rs1);
+> -
+> -    gen_helper_hyp_hlvx_hu(t1, cpu_env, t0);
+> -    gen_set_gpr(ctx, a->rd, t1);
+> -
+> -    tcg_temp_free(t0);
+> -    tcg_temp_free(t1);
+> -    return true;
+> +    return do_hlvx(ctx, a, gen_helper_hyp_hlvx_hu);
+>  #else
+>      return false;
+>  #endif
+> @@ -301,19 +159,7 @@ static bool trans_hlvx_wu(DisasContext *ctx, arg_hlv=
+x_wu *a)
+>  {
+>      REQUIRE_EXT(ctx, RVH);
+>  #ifndef CONFIG_USER_ONLY
+> -    TCGv t0 =3D tcg_temp_new();
+> -    TCGv t1 =3D tcg_temp_new();
+> -
+> -    check_access(ctx);
+> -
+> -    gen_get_gpr(ctx, t0, a->rs1);
+> -
+> -    gen_helper_hyp_hlvx_wu(t1, cpu_env, t0);
+> -    gen_set_gpr(ctx, a->rd, t1);
+> -
+> -    tcg_temp_free(t0);
+> -    tcg_temp_free(t1);
+> -    return true;
+> +    return do_hlvx(ctx, a, gen_helper_hyp_hlvx_wu);
+>  #else
+>      return false;
+>  #endif
 > --
 > 2.25.1
 >
