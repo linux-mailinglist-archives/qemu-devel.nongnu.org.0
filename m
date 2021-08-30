@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBEEB3FB104
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 08:11:39 +0200 (CEST)
-Received: from localhost ([::1]:57814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AFB63FB121
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 08:27:09 +0200 (CEST)
+Received: from localhost ([::1]:34746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKaW5-0002AS-Hn
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 02:11:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44636)
+	id 1mKalA-0006Uk-3J
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 02:27:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mKaVI-0001V8-DQ
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:10:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58651)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mKaVF-0003kQ-4u
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:10:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630303839;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=y97Snws/Xa3CP0scL1x8B1srx9N63e7AuoBXz27VjyU=;
- b=YfEeQybqLhwnP8MGpozR+aHyiQnGvbTxpCvGOq+q07prcuMeNGW0FXyLYsbJXK9DyiZF2f
- 9frLvE6h3wQtGKm5oGlKngORF4n8ooI+Rh5RxXWXSSu/462mUW+nf/1X/03rUX5yX8+VOi
- m7pzA09oorrVuEcSuZa8PNm3aeF8geE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-253-83f7jDmqOTuooXu9VL7GVQ-1; Mon, 30 Aug 2021 02:10:35 -0400
-X-MC-Unique: 83f7jDmqOTuooXu9VL7GVQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D9B21008064;
- Mon, 30 Aug 2021 06:10:34 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-4.ams2.redhat.com [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FD7A5D9F4;
- Mon, 30 Aug 2021 06:10:30 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 05DAC11380A9; Mon, 30 Aug 2021 08:10:29 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
-Subject: Re: [PATCH 5/5] qmp: Added qemu-ebpf-rss-path command.
-References: <20210713153758.323614-1-andrew@daynix.com>
- <20210713153758.323614-6-andrew@daynix.com>
- <87y29dct4m.fsf@dusky.pond.sub.org>
- <CABcq3pE3vAh=Cs=VjjkioooEbbPjgNEtCEZGwtoxaCn0OCRQkg@mail.gmail.com>
- <877dgbpco1.fsf@dusky.pond.sub.org>
- <CAOEp5OcyvQ9Y2onyHuJnwjtWK+Tx9QxYXUePd1kJ=V9+H9wraw@mail.gmail.com>
-Date: Mon, 30 Aug 2021 08:10:28 +0200
-In-Reply-To: <CAOEp5OcyvQ9Y2onyHuJnwjtWK+Tx9QxYXUePd1kJ=V9+H9wraw@mail.gmail.com>
- (Yuri Benditovich's message of "Sun, 29 Aug 2021 23:13:42 +0300")
-Message-ID: <87v93n8nu3.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mKaj3-0003XH-5O
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:24:57 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:40619)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mKaj1-0007M7-AZ
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:24:56 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id y23so12413938pgi.7
+ for <qemu-devel@nongnu.org>; Sun, 29 Aug 2021 23:24:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ELO8ldzR6uETqHFDoxmjf00JPNHufBQpShlXLq8y3W4=;
+ b=Tqbm0Iz7VtSJ45AuyhvlmuSEqZWFxIABFEIOkZZmKbBgR3rabzHQRNJdPGWWBhtdWv
+ JKmXB+MjSh/jhCXBVO1Y1EFf2yL+KDCCoht+KU7qmslus4dInFfmjwdy4XAUDh7ccuv/
+ aCc/jqqWTdDx/flMvN++soj2T8S43o10mlNnTeFzHKqFvGenTeJh6D4uZSGA9rFsFQ6p
+ POvhRMzQcukjJriD8jTj92AvRHJYLUzyG2eoDEFuhL7iRA4fAyTJ8/irYEK1Hvkn15ye
+ V7XlQM3UKCBFv50aEWVn6SPd7sWagvvVe3OUMFqYMFaYG1U0ok2DAEspxFDENZbszk4u
+ nQ9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ELO8ldzR6uETqHFDoxmjf00JPNHufBQpShlXLq8y3W4=;
+ b=oggzko4bIQTtnuinmQmRkBMJep0jPKIrvd3e+dh0UjdX011VYjHEMkJFfus++9GCdw
+ MvP9r7mpU4Bz7SKV0Xm6i8lQzADijTcXEFRn4noImXjceyalqY3hHJr1IhPnV+/jPphR
+ w6FD4f3OsjjCoj+ARG/HdOfSFFSIIoGejMF+bOSvEHRbps1XhV7zXL0EPzP7gj1Vv+CU
+ 79zYeFtQCT8g8JZ8U1dnYGEeLe5qoXmPjQYjACYARr4dMRFeSvCPte4tchzDVG1MjlgE
+ PDZ6Wn0hX/C3koR44cMP6QtnubRMummGGlH2bzkkVaNIPuvGu85lV4wf1Ls1+xqo75nT
+ cJZA==
+X-Gm-Message-State: AOAM533MwjCoEl/PRbDa1agBe7aHFiwuAmS/Qp85sJc2sw4uIIM6D5dd
+ Um/lfQDIhB7CXjBeCYeklocyln6SFeX+LA==
+X-Google-Smtp-Source: ABdhPJwjMA0lI2R1noEpsNJFVL3Vuq0fVw0eUvKca8VtHDdv3VFbKxlgT86do+3z9FIZWGQJUw/oEg==
+X-Received: by 2002:a63:da49:: with SMTP id l9mr20163867pgj.277.1630304692908; 
+ Sun, 29 Aug 2021 23:24:52 -0700 (PDT)
+Received: from localhost.localdomain (174-21-72-39.tukw.qwest.net.
+ [174.21.72.39])
+ by smtp.gmail.com with ESMTPSA id b12sm13942084pff.63.2021.08.29.23.24.52
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 29 Aug 2021 23:24:52 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/48] tcg: optimize redundant sign extensions
+Date: Sun, 29 Aug 2021 23:24:03 -0700
+Message-Id: <20210830062451.639572-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,81 +82,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Melnichenko <andrew@daynix.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Yan Vugenfirer <yan@daynix.com>,
- Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yuri Benditovich <yuri.benditovich@daynix.com> writes:
+Currently, we have support for optimizing redundant zero extensions,
+which I think was done with x86 and aarch64 in mind, which zero-extend
+all 32-bit operations into the 64-bit register.
 
-> On Tue, Aug 24, 2021 at 9:41 AM Markus Armbruster <armbru@redhat.com> wrote:
->>
->> Andrew Melnichenko <andrew@daynix.com> writes:
->>
->> > Hi,
->> >
->> >> The helper may or may not be installed at the path compiled into QEMU.
->> >>
->> > Yes, so the helper will not be called - QEMU will try to initiate eBPF RSS
->> > or use "in-qemu" RSS.
->>
->> My point is: the proposed command's mission is to help the management
->> application run the right helper.  However, its advice is *unreliable*.
->> It may point to the wrong helper, or to nothing at all.  The right
->> helper may still exist elsewhere.
->
-> Hi Markus,
-> Indeed the intention of this command is to return the proper helper.
-> Especially in the case of RSS helper this is *reliable* advice and it
-> points to the helper that was built together with QEMU, i.e. with the
-> same headers.
-> This was discussed earlier, for example in
-> https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg02248.html
->
->>
->> I suspect you're trying to address the problem at the wrong level.
->
-> What is the proper solution for the problem from your point of view?
+But targets like Alpha, MIPS, and RISC-V do sign-extensions instead.
+The last 5 patches address this.
 
-I'll explain in more detail, but first I'd like you to answer my
-question below.
+But before that, split the quite massive tcg_optimize function.
 
->> Similar versioning issues exist with other helpers.  We've been doing
->> fine without QEMU providing unreliable advice on where they might sit in
->> the file system.  What makes this one different?
->
-> This one is required to be *fully synchronized* with the existing build of QEMU.
-> Other helpers are probably less restrictive and do not have common
-> structures definitions with the QEMU, otherwise they would face the
-> same problem.
->
->>
->> >> What happens when you use the wrong helper?
->
-> Our intention is that libvirt should never use the wrong RSS helper.
-> But it does not have any ability to check which helper is compatible
-> with the QEMU.
-> QEMU can easily recognize the correct one.
 
-You did not actually answer my question :)
+r~
 
-So let's try again: if libvirt does use the wrong RSS helper, how does
-the system behave?
 
->> >>
->> > UB - in most cases, eBPF program will work with wrong configurations.
->> > That's why the stamp was added.
->> >
->> > query-helper-paths checks the stamp only for RSS helper.
->>
->> I have no idea what you're talking about :)
->>
->> My best guess is that you're trying to tell me that attempting to work
->> with the wrong helper will fail cleanly due to some stamp check.  That
->> would be nice.
->>
+Richard Henderson (48):
+  tcg/optimize: Rename "mask" to "z_mask"
+  tcg/optimize: Split out OptContext
+  tcg/optimize: Remove do_default label
+  tcg/optimize: Change tcg_opt_gen_{mov,movi} interface
+  tcg/optimize: Move prev_mb into OptContext
+  tcg/optimize: Split out init_arguments
+  tcg/optimize: Split out copy_propagate
+  tcg/optimize: Split out fold_call
+  tcg/optimize: Drop nb_oargs, nb_iargs locals
+  tcg/optimize: Change fail return for do_constant_folding_cond*
+  tcg/optimize: Return true from tcg_opt_gen_{mov,movi}
+  tcg/optimize: Split out finish_folding
+  tcg/optimize: Use a boolean to avoid a mass of continues
+  tcg/optimize: Split out fold_mb, fold_qemu_{ld,st}
+  tcg/optimize: Split out fold_const{1,2}
+  tcg/optimize: Split out fold_setcond2
+  tcg/optimize: Split out fold_brcond2
+  tcg/optimize: Split out fold_brcond
+  tcg/optimize: Split out fold_setcond
+  tcg/optimize: Split out fold_mulu2_i32
+  tcg/optimize: Split out fold_addsub2_i32
+  tcg/optimize: Split out fold_movcond
+  tcg/optimize: Split out fold_extract2
+  tcg/optimize: Split out fold_extract, fold_sextract
+  tcg/optimize: Split out fold_deposit
+  tcg/optimize: Split out fold_count_zeros
+  tcg/optimize: Split out fold_bswap
+  tcg/optimize: Split out fold_dup, fold_dup2
+  tcg/optimize: Split out fold_mov
+  tcg/optimize: Split out fold_xx_to_i
+  tcg/optimize: Split out fold_xx_to_x
+  tcg/optimize: Split out fold_xi_to_i
+  tcg/optimize: Add type to OptContext
+  tcg/optimize: Split out fold_to_not
+  tcg/optimize: Split out fold_sub_to_neg
+  tcg/optimize: Split out fold_xi_to_x
+  tcg/optimize: Split out fold_ix_to_i
+  tcg/optimize: Split out fold_masks
+  tcg/optimize: Expand fold_mulu2_i32 to all 4-arg multiplies
+  tcg/optimize: Expand fold_addsub2_i32 to 64-bit ops
+  tcg/optimize: Sink commutative operand swapping into fold functions
+  tcg/optimize: Add more simplifications for orc
+  tcg/optimize: Stop forcing z_mask to "garbage" for 32-bit values
+  tcg/optimize: Optimize sign extensions
+  tcg/optimize: Propagate sign info for logical operations
+  tcg/optimize: Propagate sign info for setcond
+  tcg/optimize: Propagate sign info for bit counting
+  tcg/optimize: Propagate sign info for shifting
+
+ tcg/optimize.c | 2594 +++++++++++++++++++++++++++++-------------------
+ 1 file changed, 1577 insertions(+), 1017 deletions(-)
+
+-- 
+2.25.1
 
 
