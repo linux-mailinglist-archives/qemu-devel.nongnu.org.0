@@ -2,49 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE4C3FBEE2
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 00:15:09 +0200 (CEST)
-Received: from localhost ([::1]:42234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 760433FBEB9
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 00:09:37 +0200 (CEST)
+Received: from localhost ([::1]:40332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKpYa-0006yQ-Hu
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 18:15:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34328)
+	id 1mKpT9-0005MH-4y
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 18:09:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1mKpQA-0001vW-Vj
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 18:06:27 -0400
-Received: from isrv.corpit.ru ([86.62.121.231]:58721)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1mKpQ9-0002tq-2N
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 18:06:26 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 970DC40798;
- Tue, 31 Aug 2021 01:06:21 +0300 (MSK)
-Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with ESMTP id F01707D;
- Tue, 31 Aug 2021 01:06:21 +0300 (MSK)
-Subject: Re: [PATCH] util: fix abstract socket path copy
-From: Michael Tokarev <mjt@tls.msk.ru>
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20210719130112.932069-1-marcandre.lureau@redhat.com>
- <12894fce-38cd-8d29-9c2b-fc2d8f73a42f@msgid.tls.msk.ru>
-Message-ID: <1706f18b-d6e3-e88c-ac12-decdfbd7d9b2@msgid.tls.msk.ru>
-Date: Tue, 31 Aug 2021 01:06:21 +0300
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mKpR0-0002Y6-BW
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 18:07:18 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:39510)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mKpQx-0003U3-Ar
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 18:07:17 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id z4so24468949wrr.6
+ for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 15:07:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=fNQeoODls1XrMsRnMuPJCtKOGoAm/4L++pvu5GQbwQo=;
+ b=SAZX+f9e7Ikq2Db34fEae2dH19qN1fJ3HuYSAlxRJsbQIRgUeZKM7XGkQfMVGG2WYK
+ hp/hMn7h52dqNNKhY4nJW6yMody1GMl0sjvhHHoUeGvEq/Bfa+KfuEkgdWHWGFlSU+KM
+ oAZdSUbGQYE/NcM/9vTACgW7D0AqKocHBcC64ucCsQ8qGs5HYDpKgpgZWCuSoS41kTfF
+ v2/ShSR30NhOzCs+y3WMli0zSCvk+1dYrhDHUKWl4w0ZBewbnuMihQTY7kHoH6VUu6jf
+ QqvZ3vQB5x/cWltGH5NNLU1vAKZXBxlYhDuaC9PX3uh8GraQyIUfNimMPfdDhekEoljB
+ Jo2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fNQeoODls1XrMsRnMuPJCtKOGoAm/4L++pvu5GQbwQo=;
+ b=plMO6pEgV8VOLevA2yJxmUIRpFQCFgOyrvc1XuXe0wNm1Ya5FaM3+HP2h94hSr5dtg
+ 6/AJQLMn7c4D2w99UB6cBcrWs85nt//ZMoSTjKUsbJ5wB9C8W4pCyAFwF3+mGeIcdyG9
+ sEijYVchPqnuSM2eThX+mDuZNwMvyN3YnWw4xNww5m7JiAXCNWHJhPl4ZQw3WfdhZayr
+ +uurKjfsnsZsBex5+ux5gEiuEfk2z9XMtxdyRob/rLC4vM6UCNO4TzQ/o72IVB+ui3vT
+ i4/kTcY7jOViKauwSmN15TCTjkxRbJQavzpZJFt/8dZuat6gjYj0m7j1i9mUwUo81sNg
+ 9PTw==
+X-Gm-Message-State: AOAM530VA9L/2Y4qnuKbIyY4dLrzKmNyf2IPJN2Ps8oit4jhFV6FHkPV
+ tqip2qzIKprY5HuPYspzE6E=
+X-Google-Smtp-Source: ABdhPJziGMIK89dcLKh0FhnqPsRPvYFk5ftWXlWYYAW2CMloyW7GD/WziaGDEuwID/zFziRMIna7Sw==
+X-Received: by 2002:adf:c3c9:: with SMTP id d9mr26521663wrg.339.1630361233852; 
+ Mon, 30 Aug 2021 15:07:13 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id a133sm712770wme.5.2021.08.30.15.07.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Aug 2021 15:07:13 -0700 (PDT)
+Subject: Re: [PATCH 04/12] mac_via: move PRAM/RTC variables to
+ MOS6522Q800VIA1State
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ laurent@vivier.eu
+References: <20210830102447.10806-1-mark.cave-ayland@ilande.co.uk>
+ <20210830102447.10806-5-mark.cave-ayland@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <8a56eb64-3199-1d2b-3004-6f538c049ad8@amsat.org>
+Date: Tue, 31 Aug 2021 00:07:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <12894fce-38cd-8d29-9c2b-fc2d8f73a42f@msgid.tls.msk.ru>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210830102447.10806-5-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -77
-X-Spam_score: -7.8
-X-Spam_bar: -------
-X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.932,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.932,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,70 +91,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zxq_yx_007@163.com, berrange@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-31.08.2021 00:38, Michael Tokarev wrote:
-...
->> @@ -1345,13 +1345,16 @@ socket_sockaddr_to_address_unix(struct sockaddr_storage *sa,
->>       SocketAddress *addr;
->>       struct sockaddr_un *su = (struct sockaddr_un *)sa;
->> +    assert(salen >= sizeof(su->sun_family) + 1 &&
->> +           salen <= sizeof(struct sockaddr_un));
->> +
+On 8/30/21 12:24 PM, Mark Cave-Ayland wrote:
+> The PRAM/RTC is accessed using clock and data pins on q800 VIA1 port B and so
+> can be moved to MOS6522Q800VIA1State.
 > 
-> This seems to be wrong and causes this assert in the existing qemu code to fire up.
-> I can't say for *sure* but it *seems* the issue is the trailing null terminator
-> in the case of abstract sockets on linux where the path name is exactly equal
-> to 108 bytes (including the leading \0).
-> 
-> The prob seems to be that socket_local_address() initially allocates
-> sockaddr_storage bytes for the getsockname() call - which is larger
-> than sizeof(sockaddr_un). So the kernel is able to add the zero terminator,
-> and return 111 bytes in salen, not 110 as the size of sockaddr_un.
-> And later on the above assert will fire up..
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  hw/misc/mac_via.c         | 135 +++++++++++++++++++-------------------
+>  include/hw/misc/mac_via.h |  21 +++---
+>  2 files changed, 77 insertions(+), 79 deletions(-)
 
-Here's the linux kernel code:
-
-net/unix/af_unix.c
-tatic int unix_mkname(struct sockaddr_un *sunaddr, int len, unsigned int *hashp)
-{
-         *hashp = 0;
-
-         if (len <= sizeof(short) || len > sizeof(*sunaddr))
-                 return -EINVAL;
-         if (!sunaddr || sunaddr->sun_family != AF_UNIX)
-                 return -EINVAL;
-         if (sunaddr->sun_path[0]) {
-                 /*
-                  * This may look like an off by one error but it is a bit more
-                  * subtle. 108 is the longest valid AF_UNIX path for a binding.
-                  * sun_path[108] doesn't as such exist.  However in kernel space
-                  * we are guaranteed that it is a valid memory location in our
-                  * kernel address buffer.
-                  */
-                 ((char *)sunaddr)[len] = 0;
-                 len = strlen(sunaddr->sun_path)+1+sizeof(short);
-                 return len;
-         }
-..
-
-Suppose we have sun_path of exactly 108 chars (not counting the trailing
-zero terminator), so the total length of the sockaddr is 110 bytes.
-
-After the len = recalculation above, it will be 111 bytes -
-  strlen(sun_path)=108 + 1 + sizeof(short)=2 = 111.
-
-And this is the value used to be returned in the getsockname/getpeername
-calls.
-
-So this has nothing to do with socket being abstract or not. We asked for
-larger storage for the sockaddr structure, and the kernel was able to build
-one for us, including the trailing \0 byte. Currently kernel will only
-return +1 byte for non-abstract sockets, but this is an implementation
-detail. We asked for it. So we - I think - should account for this +1
-byte here.
-
-/mjt
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
