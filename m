@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E673FBA78
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 18:57:34 +0200 (CEST)
-Received: from localhost ([::1]:36872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 061FD3FBAAC
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 19:09:52 +0200 (CEST)
+Received: from localhost ([::1]:42392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKkb4-00059R-Eg
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 12:57:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52764)
+	id 1mKkn8-0001qe-Jh
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 13:09:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1mKka3-0004Og-D6
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 12:56:19 -0400
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:38730)
+ id 1mKklX-0000Na-Js
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 13:08:13 -0400
+Received: from mail-oi1-x22e.google.com ([2607:f8b0:4864:20::22e]:46748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1mKka1-0006Hc-D6
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 12:56:19 -0400
-Received: by mail-ot1-x32e.google.com with SMTP id
- i8-20020a056830402800b0051afc3e373aso19237607ots.5
- for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 09:56:16 -0700 (PDT)
+ id 1mKklU-0008Sq-Ai
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 13:08:11 -0400
+Received: by mail-oi1-x22e.google.com with SMTP id o185so20647998oih.13
+ for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 10:08:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=+dCCdDV4BPZdyGCItByPUoT49rYjWC3LEpTdddrbEQo=;
- b=gJgUAnt05QVp1Ph7dDaqfiIpWMCLIa19o0ULea9B0zMeJho5m1uxArChp0GZWzLdGd
- xBqaAddsTDlb7NJnX66AFN3rV8roIQfDw48T4hqijigqQsFXS9YZcJX1fj6deUlsk7Oe
- /SyqCq6Wm+9Sy8gShmb7H+p2eZIi4qdRH6HyMqSMEE0ml3ReOQIuOy87GH0D8wH02X8Q
- hLAUoURxbgtQpayKKTZigyei2ONgsgqWUSUtrCXwk2shJvFhgXDtGjWwAJtikpX6K0S3
- KsMK6y0odyuYKYUthsUT7AQ2OFCGukuzgtMmpEeeHVIi6iOqLeIgynP9YqiJ9GAYP7YF
- zuJQ==
+ :cc:content-transfer-encoding;
+ bh=hzEU0qj2fRAavyadqIUxPBruYDgbY6UqxWuCJPkvkx0=;
+ b=W3mY/i8AfYWJL1bxswigQa8GGgaperUy6zCzgfpk5xIEqfqwjaHGIZve32AJgAjX5i
+ a1Czg5kgFd5/EZ57aYdS/HTqOAWnFAcrcSJKvzriHgZk3EAU/CMv+mBqFCeO/QagwdvB
+ cmOjAT/IjTi9R13hnaVqcuGWtNSU5aVUJWZaKeORcPn3hTCddJQarc1c4FEgDzCOQLfV
+ hoQsGwO4bFkU5U/xcJi8yaP+xYrG7zfNrM1eCrvP1IXlzygWg3dpUC2arzphxGRtsQIQ
+ /1o5t47hWUNn58iJuwEh+pKEFfY0RLPkb7Wgcvm1PvKliDoIEnW5PaeB4IAtFw3T0ISl
+ bEYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+dCCdDV4BPZdyGCItByPUoT49rYjWC3LEpTdddrbEQo=;
- b=f6TKQ4Rl5vH090Nqvth6+S9dNy6p6oogjou8w+88lSzkZqiRam8pp5EXWqNP44R9zY
- SuoohFntHNSCYyZSYygjGMNiaUTKdWbNYcAi5OtULrMTcV+9ltx2GqYhPN6NYj1NVXnu
- O/xlmrMG3uW5z7MWAKUp3qE6KHYrRFzQQOh9Eyvw2s9cMuvDNEaNVgzdLGwRqDYcO2KX
- loqJtGAVQ3OMHbBZR12HB7L+034wIT+eN10hWj6q90is+NpGvDSoAmYQFa6QAhwJlgFt
- OdGsSMTgXOYBG/3JcoZf+T3v3IL4T1ixgvckUDl11OMoXcdDKz9BEdaw1iFOjYDbj9T4
- EHjw==
-X-Gm-Message-State: AOAM530IUWCQFC6l8RF8Av1eQ6hNkcrEgd5EDxYKkl2aQung/fAue2R2
- Tu7sNCyN1DRtGF2Wj1QarwPeG4na/P/lleRNv8na3Q==
-X-Google-Smtp-Source: ABdhPJyB2z5sOVmE9qCQZzvyumGfwoV7OdSwzBxYqKMmK/UnCgwr/JEfcH4dlBA9RVZVrDecaBQL5oZkd17OpLQU5nI=
-X-Received: by 2002:a05:6830:1009:: with SMTP id
- a9mr21302752otp.220.1630342575889; 
- Mon, 30 Aug 2021 09:56:15 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=hzEU0qj2fRAavyadqIUxPBruYDgbY6UqxWuCJPkvkx0=;
+ b=fF6idHNSwTdipNLXQiccdu7+YToBlxFazmgrFR1gCM/R314mvWmZ3c5DVaJBDQLwl1
+ c5w1PKXGHEOCnbMiJvqdo6LNAtc66VaaPCWHZ6SO5/LJZCHPBo+HHkgYUnb7u/JJN+18
+ zXG93vyx2jK+kiwne9dilyQmKsNGxV4S7Eqw6O+tdyw8M5yGtQ8kiAySpzepJC0AyWtl
+ GUbNHUbD2+e1ceF3fXhFasUvGU53ZLMN9rurLsfzLelXUyYNgz0I9ubDzqo3CMvok/go
+ FvfezZfn4xuodGl74BZQVbtDj9pQpGEvdLhOUJt8k3YT78vsx3GrDRG1M5gV7YMYT+wh
+ JRTQ==
+X-Gm-Message-State: AOAM532P/ZjxxahFqlrfU/gjURKG8hlq8WvwU/i8DY81xB6gVrA73c57
+ d4DlUc8ctLbmeI9AbJlFGkYKgxygqh7DyTAjlLvUNw==
+X-Google-Smtp-Source: ABdhPJymDbC+cPvfbjd7jxN7ZNy9k9W2XzJljUNMxPNSp083elMWlypp5Murh6pb5+ZikYkpE2zDlwwJT0rjevT4bFU=
+X-Received: by 2002:a05:6808:1d3:: with SMTP id
+ x19mr47505oic.137.1630343286029; 
+ Mon, 30 Aug 2021 10:08:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210713153758.323614-1-andrew@daynix.com>
- <20210713153758.323614-6-andrew@daynix.com>
- <87y29dct4m.fsf@dusky.pond.sub.org>
- <CABcq3pE3vAh=Cs=VjjkioooEbbPjgNEtCEZGwtoxaCn0OCRQkg@mail.gmail.com>
- <877dgbpco1.fsf@dusky.pond.sub.org>
- <CAOEp5OcyvQ9Y2onyHuJnwjtWK+Tx9QxYXUePd1kJ=V9+H9wraw@mail.gmail.com>
- <87v93n8nu3.fsf@dusky.pond.sub.org>
- <CAOEp5Of0C4yUhwbgFmu4roiEmNXZ8qiNMUA3CCBE8Zwu=OWhtQ@mail.gmail.com>
- <87a6kz8i4g.fsf@dusky.pond.sub.org>
-In-Reply-To: <87a6kz8i4g.fsf@dusky.pond.sub.org>
+ <20210713153758.323614-5-andrew@daynix.com>
+ <e73ce649-a04e-5200-8258-487a565c7e20@redhat.com>
+In-Reply-To: <e73ce649-a04e-5200-8258-487a565c7e20@redhat.com>
 From: Yuri Benditovich <yuri.benditovich@daynix.com>
-Date: Mon, 30 Aug 2021 19:56:03 +0300
-Message-ID: <CAOEp5OfxM+YyZFMUxDrcOw6eKRhyhouJ3q+UnAx3x7sXhQQvHQ@mail.gmail.com>
-Subject: Re: [PATCH 5/5] qmp: Added qemu-ebpf-rss-path command.
-To: Markus Armbruster <armbru@redhat.com>
+Date: Mon, 30 Aug 2021 20:07:53 +0300
+Message-ID: <CAOEp5OekBjFfwPEJ3JU-x0_wrwO9szApOk=kR3e7AKhiLqa9-w@mail.gmail.com>
+Subject: Re: [PATCH 4/5] ebpf_rss_helper: Added helper for eBPF RSS.
+To: Jason Wang <jasowang@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2607:f8b0:4864:20::32e;
- envelope-from=yuri.benditovich@daynix.com; helo=mail-ot1-x32e.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2607:f8b0:4864:20::22e;
+ envelope-from=yuri.benditovich@daynix.com; helo=mail-oi1-x22e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -86,104 +81,262 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Melnichenko <andrew@daynix.com>,
+Cc: Andrew Melnychenko <andrew@daynix.com>,
  =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Yan Vugenfirer <yan@daynix.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Yan Vugenfirer <yan@daynix.com>,
  Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 30, 2021 at 11:14 AM Markus Armbruster <armbru@redhat.com> wrote:
+On Fri, Aug 20, 2021 at 6:41 AM Jason Wang <jasowang@redhat.com> wrote:
 >
-> Yuri Benditovich <yuri.benditovich@daynix.com> writes:
 >
-> > On Mon, Aug 30, 2021 at 9:10 AM Markus Armbruster <armbru@redhat.com> wrote:
-> >>
-> >> Yuri Benditovich <yuri.benditovich@daynix.com> writes:
-> >>
-> >> > On Tue, Aug 24, 2021 at 9:41 AM Markus Armbruster <armbru@redhat.com> wrote:
-> >> >>
-> >> >> Andrew Melnichenko <andrew@daynix.com> writes:
-> >> >>
-> >> >> > Hi,
-> >> >> >
-> >> >> >> The helper may or may not be installed at the path compiled into QEMU.
-> >> >> >>
-> >> >> > Yes, so the helper will not be called - QEMU will try to initiate eBPF RSS
-> >> >> > or use "in-qemu" RSS.
-> >> >>
-> >> >> My point is: the proposed command's mission is to help the management
-> >> >> application run the right helper.  However, its advice is *unreliable*.
-> >> >> It may point to the wrong helper, or to nothing at all.  The right
-> >> >> helper may still exist elsewhere.
-> >> >
-> >> > Hi Markus,
-> >> > Indeed the intention of this command is to return the proper helper.
-> >> > Especially in the case of RSS helper this is *reliable* advice and it
-> >> > points to the helper that was built together with QEMU, i.e. with the
-> >> > same headers.
-> >> > This was discussed earlier, for example in
-> >> > https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg02248.html
-> >> >
-> >> >>
-> >> >> I suspect you're trying to address the problem at the wrong level.
-> >> >
-> >> > What is the proper solution for the problem from your point of view?
-> >>
-> >> I'll explain in more detail, but first I'd like you to answer my
-> >> question below.
-> >>
-> >> >> Similar versioning issues exist with other helpers.  We've been doing
-> >> >> fine without QEMU providing unreliable advice on where they might sit in
-> >> >> the file system.  What makes this one different?
-> >> >
-> >> > This one is required to be *fully synchronized* with the existing build of QEMU.
-> >> > Other helpers are probably less restrictive and do not have common
-> >> > structures definitions with the QEMU, otherwise they would face the
-> >> > same problem.
-> >> >
-> >> >>
-> >> >> >> What happens when you use the wrong helper?
-> >> >
-> >> > Our intention is that libvirt should never use the wrong RSS helper.
-> >> > But it does not have any ability to check which helper is compatible
-> >> > with the QEMU.
-> >> > QEMU can easily recognize the correct one.
-> >>
-> >> You did not actually answer my question :)
-> >>
-> >> So let's try again: if libvirt does use the wrong RSS helper, how does
-> >> the system behave?
-> >
-> > The receive-side scaling may work incorrectly, i.e. finally may move
-> > incoming packets to a virtqueue different than expected one.
+> =E5=9C=A8 2021/7/13 =E4=B8=8B=E5=8D=8811:37, Andrew Melnychenko =E5=86=99=
+=E9=81=93:
+> > Helper program. Loads eBPF RSS program and maps and passes them through=
+ unix socket.
+> > Libvirt may launch this helper and pass eBPF fds to qemu virtio-net.
 >
-> Then I'm confused about the purpose of "the stamp" mentioned below.  Can
-> you enlighten me?
+>
+> I wonder if this can be done as helper for TAP/bridge.
+>
+> E.g it's the qemu to launch those helper with set-uid.
+>
+> Then libvirt won't even need to care about that?
+>
 
-The stamp is a string (common for qemu executable and RSS helper
-executable during build) that qemu can later retrieve from the helper
-in run-time and ensure this helper is fully compatible with this build
-of qemu (in terms of eBPF operation). The helper is built with the
-same C headers (related to ebpf operation) as the qemu, the qemu is
-able to receive file descriptors created by the helper (of ebpf
-program and ebpf data structure's maps) from libvirt and deal with
-them as if it has created them.
+There are pros and cons for such a solution with set-uid.
+From my point of view one of the cons is that set-uid is efficient
+only at install time so the coexistence of different qemu builds (and
+different helpers for each one) is kind of problematic.
+With the current solution this does not present any problem: the
+developer can have several different builds, each one automatically
+has its own helper and there is no conflict between these builds and
+between these builds and installed qemu package. Changing the
+'emulator' in the libvirt profile automatically brings the proper
+helper to work.
 
 >
+> > Also, libbpf dependency now exclusively for Linux.
+> > Libbpf is used for eBPF RSS steering, which is supported only by Linux =
+TAP.
+> > There is no reason yet to build eBPF loader and helper for non Linux sy=
+stems,
+> > even if libbpf is present.
 > >
-> >>
-> >> >> >>
-> >> >> > UB - in most cases, eBPF program will work with wrong configurations.
-> >> >> > That's why the stamp was added.
-> >> >> >
-> >> >> > query-helper-paths checks the stamp only for RSS helper.
-> >> >>
-> >> >> I have no idea what you're talking about :)
-> >> >>
-> >> >> My best guess is that you're trying to tell me that attempting to work
-> >> >> with the wrong helper will fail cleanly due to some stamp check.  That
-> >> >> would be nice.
+> > Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+> > ---
+> >   ebpf/qemu-ebpf-rss-helper.c | 130 +++++++++++++++++++++++++++++++++++=
++
+> >   meson.build                 |  37 ++++++----
+> >   2 files changed, 154 insertions(+), 13 deletions(-)
+> >   create mode 100644 ebpf/qemu-ebpf-rss-helper.c
+> >
+> > diff --git a/ebpf/qemu-ebpf-rss-helper.c b/ebpf/qemu-ebpf-rss-helper.c
+> > new file mode 100644
+> > index 0000000000..fe68758f57
+> > --- /dev/null
+> > +++ b/ebpf/qemu-ebpf-rss-helper.c
+> > @@ -0,0 +1,130 @@
+> > +/*
+> > + * eBPF RSS Helper
+> > + *
+> > + * Developed by Daynix Computing LTD (http://www.daynix.com)
+> > + *
+> > + * Authors:
+> > + *  Andrew Melnychenko <andrew@daynix.com>
+> > + *
+> > + * This work is licensed under the terms of the GNU GPL, version 2.  S=
+ee
+> > + * the COPYING file in the top-level directory.
+> > + *
+> > + * Description: This is helper program for libvirtd.
+> > + *              It loads eBPF RSS program and passes fds through unix =
+socket.
+> > + *              Built by meson, target - 'qemu-ebpf-rss-helper'.
+> > + */
+> > +
+> > +#include <stdio.h>
+> > +#include <stdint.h>
+> > +#include <stdlib.h>
+> > +#include <stdbool.h>
+> > +#include <getopt.h>
+> > +#include <memory.h>
+> > +#include <errno.h>
+> > +#include <sys/socket.h>
+> > +
+> > +#include "ebpf_rss.h"
+> > +
+> > +#include "qemu-helper-stamp.h"
+> > +
+> > +void QEMU_HELPER_STAMP(void) {}
+> > +
+> > +static int send_fds(int socket, int *fds, int n)
+> > +{
+> > +    struct msghdr msg =3D {};
+> > +    struct cmsghdr *cmsg =3D NULL;
+> > +    char buf[CMSG_SPACE(n * sizeof(int))];
+> > +    char dummy_buffer =3D 0;
+> > +    struct iovec io =3D { .iov_base =3D &dummy_buffer,
+> > +                        .iov_len =3D sizeof(dummy_buffer) };
+> > +
+> > +    memset(buf, 0, sizeof(buf));
+> > +
+> > +    msg.msg_iov =3D &io;
+> > +    msg.msg_iovlen =3D 1;
+> > +    msg.msg_control =3D buf;
+> > +    msg.msg_controllen =3D sizeof(buf);
+> > +
+> > +    cmsg =3D CMSG_FIRSTHDR(&msg);
+> > +    cmsg->cmsg_level =3D SOL_SOCKET;
+> > +    cmsg->cmsg_type =3D SCM_RIGHTS;
+> > +    cmsg->cmsg_len =3D CMSG_LEN(n * sizeof(int));
+> > +
+> > +    memcpy(CMSG_DATA(cmsg), fds, n * sizeof(int));
+> > +
+> > +    return sendmsg(socket, &msg, 0);
+> > +}
+> > +
+> > +static void print_help_and_exit(const char *prog, int exitcode)
+> > +{
+> > +    fprintf(stderr, "%s - load eBPF RSS program for qemu and pass eBPF=
+ fds"
+> > +            " through unix socket.\n", prog);
+> > +    fprintf(stderr, "\t--fd <num>, -f <num> - unix socket file descrip=
+tor"
+> > +            " used to pass eBPF fds.\n");
+> > +    fprintf(stderr, "\t--help, -h - this help.\n");
+> > +    exit(exitcode);
+> > +}
+> > +
+> > +int main(int argc, char **argv)
+> > +{
+> > +    char *fd_string =3D NULL;
+> > +    int unix_fd =3D 0;
+> > +    struct EBPFRSSContext ctx =3D {};
+> > +    int fds[EBPF_RSS_MAX_FDS] =3D {};
+> > +    int ret =3D -1;
+> > +
+> > +    for (;;) {
+> > +        int c;
+> > +        static struct option long_options[] =3D {
+> > +                {"help",  no_argument, 0, 'h'},
+> > +                {"fd",  required_argument, 0, 'f'},
+> > +                {0, 0, 0, 0}
+> > +        };
+> > +        c =3D getopt_long(argc, argv, "hf:",
+> > +                long_options, NULL);
+> > +
+> > +        if (c =3D=3D -1) {
+> > +            break;
+> > +        }
+> > +
+> > +        switch (c) {
+> > +        case 'f':
+> > +            fd_string =3D optarg;
+> > +            break;
+> > +        case 'h':
+> > +        default:
+> > +            print_help_and_exit(argv[0],
+> > +                    c =3D=3D 'h' ? EXIT_SUCCESS : EXIT_FAILURE);
+> > +        }
+> > +    }
+> > +
+> > +    if (!fd_string) {
+> > +        fprintf(stderr, "Unix file descriptor not present.\n");
+> > +        print_help_and_exit(argv[0], EXIT_FAILURE);
+> > +    }
+> > +
+> > +    unix_fd =3D atoi(fd_string);
+> > +
+> > +    if (!unix_fd) {
+> > +        fprintf(stderr, "Unix file descriptor is invalid.\n");
+> > +        return EXIT_FAILURE;
+> > +    }
+> > +
+> > +    ebpf_rss_init(&ctx);
+> > +    if (!ebpf_rss_load(&ctx)) {
+> > +        fprintf(stderr, "Can't load ebpf.\n");
+> > +        return EXIT_FAILURE;
+> > +    }
+> > +    fds[0] =3D ctx.program_fd;
+> > +    fds[1] =3D ctx.map_configuration;
+> > +
+> > +    ret =3D send_fds(unix_fd, fds, EBPF_RSS_MAX_FDS);
+> > +    if (ret < 0) {
+> > +        fprintf(stderr, "Issue while sending fds: %s.\n", strerror(err=
+no));
+> > +    }
+> > +
+> > +    ebpf_rss_unload(&ctx);
+> > +
+> > +    return ret < 0 ? EXIT_FAILURE : EXIT_SUCCESS;
+> > +}
+> > +
+> > diff --git a/meson.build b/meson.build
+> > index 257e51d91b..913aa1fee5 100644
+> > --- a/meson.build
+> > +++ b/meson.build
+> > @@ -1033,19 +1033,22 @@ if not get_option('fuse_lseek').disabled()
+> >   endif
+> >
+> >   # libbpf
+> > -libbpf =3D dependency('libbpf', required: get_option('bpf'), method: '=
+pkg-config')
+> > -if libbpf.found() and not cc.links('''
+> > -   #include <bpf/libbpf.h>
+> > -   int main(void)
+> > -   {
+> > -     bpf_object__destroy_skeleton(NULL);
+> > -     return 0;
+> > -   }''', dependencies: libbpf)
+> > -  libbpf =3D not_found
+> > -  if get_option('bpf').enabled()
+> > -    error('libbpf skeleton test failed')
+> > -  else
+> > -    warning('libbpf skeleton test failed, disabling')
+> > +libbpf =3D not_found
+> > +if targetos =3D=3D 'linux'
+> > +  libbpf =3D dependency('libbpf', required: get_option('bpf'), method:=
+ 'pkg-config')
+> > +  if libbpf.found() and not cc.links('''
+> > +    #include <bpf/libbpf.h>
+> > +    int main(void)
+> > +    {
+> > +      bpf_object__destroy_skeleton(NULL);
+>
+>
+> Do we need to test whether the bpf can do mmap() here?
+>
+> Thanks
+>
+>
+> > +      return 0;
+> > +    }''', dependencies: libbpf)
+> > +    libbpf =3D not_found
+> > +    if get_option('bpf').enabled()
+> > +      error('libbpf skeleton test failed')
+> > +    else
+> > +      warning('libbpf skeleton test failed, disabling')
+> > +    endif
+> >     endif
+> >   endif
+> >
+> > @@ -2423,6 +2426,14 @@ if have_tools
+> >                  dependencies: [authz, crypto, io, qom, qemuutil,
+> >                                 libcap_ng, mpathpersist],
+> >                  install: true)
+> > +
+> > +    if libbpf.found()
+> > +        executable('qemu-ebpf-rss-helper', files(
+> > +                   'ebpf/qemu-ebpf-rss-helper.c', 'ebpf/ebpf_rss.c'),
+> > +                   dependencies: [qemuutil, libbpf, glib],
+> > +                   install: true,
+> > +                   install_dir: get_option('libexecdir'))
+> > +    endif
+> >     endif
+> >
+> >     if 'CONFIG_IVSHMEM' in config_host
 >
 
