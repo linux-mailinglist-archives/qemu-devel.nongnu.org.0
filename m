@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808613FBEA1
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 23:58:00 +0200 (CEST)
-Received: from localhost ([::1]:53022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39B7E3FBEA8
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 00:01:26 +0200 (CEST)
+Received: from localhost ([::1]:57398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKpHz-0001yn-Ij
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 17:57:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60832)
+	id 1mKpLJ-0004xB-6I
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 18:01:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mKpFZ-0000OI-Vb
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 17:55:30 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:41525)
+ id 1mKpHW-0002qo-Uy
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 17:57:34 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:44905)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mKpFU-0004O3-Ny
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 17:55:29 -0400
-Received: by mail-wr1-x436.google.com with SMTP id u9so24412617wrg.8
- for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 14:55:24 -0700 (PDT)
+ id 1mKpHV-0005hN-Gg
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 17:57:30 -0400
+Received: by mail-wr1-x434.google.com with SMTP id g18so16944855wrc.11
+ for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 14:57:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=qjkXnS+UFv4aI6I7n2Lnn/XT+4sWjNnJhRCaP0ewaOA=;
- b=u5/3aYy+drqSu6bQAU424thkkDpi1LNGj/NhZwbOz/6L+vNyhUbtuh5Jrgq1YE5jbx
- iW2qlEaf7Up8UB7XE/8AuqBZE/JFQRxiSFW2L1NXuW6C9QfzwBlbv9RudPOfMt7Fy5FI
- KJBrZoPmngMCvmTYHZW9ujkiOgqvMBE3lN6ryx6juyrMOuCcVz/clOFB4aTbhWE/jIgZ
- Cs48r839DK6IB4XmSNNvkQ6Zqh1c8sJGHewYUbsbGwGaJIMkYVQJ8FDl0h0IuZVjrbju
- Cbt2OG5WRbQJ87RIQ0x6kjlJf9Ln2Lc9m4Fc1hnlXOjZgeWWz5cmAK57x6cStRt02BJP
- CsSw==
+ bh=J64s7XOMbMjyM3NCUIUSZvs8G/eQjIN8TPYm/AQewdc=;
+ b=qkivoIFOhg/YNYmzmH3AczFtROMXNLwkw6HoYl/BawY9yabWyiRurBrR9fLwqJ2Ea0
+ +Lzcfxlei138qGhSPB6HWbT7ztIcomPPfuXaWEZwnUbIpqPFQLnicR4CMtYjxhfxko6Y
+ Lc6Z7RC7qNaA2r2ThL9Kn3+EB29AMzAdzzBi0O2g20hFhXrGwKWL7rb9chxKbERVWSB/
+ GZ3lvi4ORM4fe2EhAW+gqNGclAu+ZwIVQtqAKxvSFGwirUWlqSJmXsGRLRK7egHZwX60
+ mfWd8K9ZQP4uxCROrtsvhlS1ByI7/uhXe0hFyxkegnkofSl6jtP5fLD1QBc0xn2XRC53
+ lOSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=qjkXnS+UFv4aI6I7n2Lnn/XT+4sWjNnJhRCaP0ewaOA=;
- b=nL8VLvVouHuAX2lkRDiRsaMjgBcpdooRsXYL3MhAWCYqwzERDWTLYtafx4XuiCzjcU
- xb3IzEVUTSceVDhPLDjo26eYa1A6p1gul/Yu1Cp3KhGvnxAmDHv8AUG+DWyMy6L2wOZf
- Vl9EE1bz19iSKqoRn0eNOo3W083wSjeVwJzjG7YfWBckJ82aj2YA1MXgQHW0itW8pSUN
- zSgrDrjTvzM6mP4vOV/nviin5irobqcI9GqB9f+E6DQgobyjb+iEEnyXpkG8oONhwJjU
- 1qt1LXNHvdAUbBMfkV5yhG5Ca7GcrNNfc+TWnj5+jFQW18YkdCNdhZq+sqnPIeJHLwfp
- fP0Q==
-X-Gm-Message-State: AOAM531MhF82Ip46RMVCodlt4rfunL7kJr7FT/8M/O1wfRPuSYaqJDiP
- h42P5bopQkMd6/yvhx/p14zg3eAfqC4=
-X-Google-Smtp-Source: ABdhPJx9/x5t0Wd3QNmol6sclVex8dzWwAN2aETC4XSdoC6+29kZRo9Rr//0iHxD0f2+6cK8f3BPQg==
-X-Received: by 2002:a05:6000:160f:: with SMTP id
- u15mr28390749wrb.166.1630360522962; 
- Mon, 30 Aug 2021 14:55:22 -0700 (PDT)
+ bh=J64s7XOMbMjyM3NCUIUSZvs8G/eQjIN8TPYm/AQewdc=;
+ b=jyBQtjNeFnHmWwGvAttv80WSdZFHQ7J7d7B3L3w2cnt5+yopTGtdnapjQg4G+JIjJz
+ YxnIlPtG690qWIwgRkIAu2AO6ymjoATuCEL4W+R4FhwXQ75O9QmAXc/UN5LaSLdIWi1V
+ 1aobIXnBjxIU9vTl8xtwD5vUH2+US0wZRy+ahfIO8+pbhWlVv+xdTBkrvwi8BGhcHGED
+ NpQcR+fHQROgv9MGCGAeNIVTxhoKad7f7OhsZcD9FCjIZEjQQbi/awsnt+pjse1xw/6F
+ qC1JIQVPaykMfbicugirVvxr7aF/OUbRx6Dx5uEmiLfndsLGT/raFizjCMgU0Sd3GU+Z
+ RldA==
+X-Gm-Message-State: AOAM531gpFEtvKZ0qsK0XDFp0s6Bns3cmtWEnhp7j3vcrSi1aJYtKmgN
+ 2fcA98v70+vCBfJHeIcsxm2efgsUQe0=
+X-Google-Smtp-Source: ABdhPJyVXs1HGzDa1oYZFRhXi4SMO/NkcVUJtaV+K7qYqTz8wjC9A25C2GqIj9VgMPLmksJIHbkEpQ==
+X-Received: by 2002:a5d:4c89:: with SMTP id z9mr28358783wrs.290.1630360647016; 
+ Mon, 30 Aug 2021 14:57:27 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id v62sm80679wme.21.2021.08.30.14.55.22
+ by smtp.gmail.com with ESMTPSA id w29sm17282293wra.88.2021.08.30.14.57.25
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Aug 2021 14:55:22 -0700 (PDT)
-Subject: Re: [PATCH 31/48] tcg/optimize: Split out fold_xx_to_x
+ Mon, 30 Aug 2021 14:57:26 -0700 (PDT)
+Subject: Re: [PATCH 29/48] tcg/optimize: Split out fold_mov
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210830062451.639572-1-richard.henderson@linaro.org>
- <20210830062451.639572-32-richard.henderson@linaro.org>
+ <20210830062451.639572-30-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <100854e2-2b29-9b13-2412-6455c930caad@amsat.org>
-Date: Mon, 30 Aug 2021 23:55:21 +0200
+Message-ID: <e1f85a7e-4a07-2258-a05c-2777de601d66@amsat.org>
+Date: Mon, 30 Aug 2021 23:57:25 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210830062451.639572-32-richard.henderson@linaro.org>
+In-Reply-To: <20210830062451.639572-30-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -94,13 +93,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 8/30/21 8:24 AM, Richard Henderson wrote:
-> Pull the "op r, a, a => mov r, a" optimization into a function,
-> and use it in the outer opcode fold functions.
+> This is the final entry in the main switch that was in a
+> different form.  After this, we have the option to convert
+> the switch into a function dispatch table.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tcg/optimize.c | 39 ++++++++++++++++++++++++---------------
->  1 file changed, 24 insertions(+), 15 deletions(-)
+>  tcg/optimize.c | 27 ++++++++++++++-------------
+>  1 file changed, 14 insertions(+), 13 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
