@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B0A93FB14B
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 08:39:42 +0200 (CEST)
-Received: from localhost ([::1]:40686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 682423FB159
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 08:47:08 +0200 (CEST)
+Received: from localhost ([::1]:57156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKaxJ-0004td-Mm
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 02:39:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46338)
+	id 1mKb4V-0007qX-Cr
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 02:47:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mKajD-0003w7-9L
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:25:07 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:42992)
+ id 1mKajE-0003zq-CX
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:25:08 -0400
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:45975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mKajA-0007VM-P1
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:25:07 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id n4so834422plh.9
- for <qemu-devel@nongnu.org>; Sun, 29 Aug 2021 23:25:04 -0700 (PDT)
+ id 1mKajB-0007Wp-IU
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:25:08 -0400
+Received: by mail-pj1-x102f.google.com with SMTP id
+ f11-20020a17090aa78b00b0018e98a7cddaso9237800pjq.4
+ for <qemu-devel@nongnu.org>; Sun, 29 Aug 2021 23:25:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=NHt8cYm8EKeBALKp+ZROcv2m1GndeyHCLq0Etmcw7us=;
- b=HGAWA00B3c8DjyChhA6Ay8B003NBQh/iYWP3KrqV3CjmGdRWwfaAlaSmIJ/V/LIMQL
- j2I539VB3tzOymejCLJR4Qn3gqBl4LL6WkvJPth5VnbgFbSpoOZg97uAMrfWdpelHpck
- /Ves87G3Q9aU5SHt6rPT9brvIoVacg+xAkz7JE1wrsKG4YirAzf1H0RtFBlITJUI91wx
- DiX643EJNnFFBuXVmyfryJ/ysQhkVpm5yPo/q9JPUY252v8jSudJDKgp+fDI4yMbiyBN
- htt/oSJpeMInzZeMUPURCY3zUDxqUtt6OJrx6giNFlz5/2aRSl6PuYDQ2HS1XQVsyFuS
- T9VA==
+ bh=P94Y5dxSBpEMiLv8AoX01K+FSXvmiAd5JT5hA1ZV/Ms=;
+ b=IFbaa++c9L1wLfJZCb1bFwUNy/NtQjGetF7oOOINx7K4ea2sklBqZ69UgsobSodBTz
+ 8Jaknr/FEko6S8PyZ86EglmWx1QxE0hORJ7fPW2ZxSdTllYPTdu29XYDFCrdP7TKpVDY
+ qE1urRMiak/w1wABzy0QfJT3bTVZkxBjy3buCMqX7a6uiO6fNAwmfA8BT2PS6jxF0but
+ vkVZUnEG1dt572LpEnWFwPR1BcWFtBIyr3CRF7nyjThxl3Jlw2+GoE6Z+hvxcaT10v/I
+ SKjXuXYlEQHLP9/hSCjK7fxb9Ci8RRIMtTBuLWPWcELeolbaaX8QlNvkJlgjXcvjSyv6
+ hiWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NHt8cYm8EKeBALKp+ZROcv2m1GndeyHCLq0Etmcw7us=;
- b=dUIP+jJitvb+9allSq/m3HiM1Wz6EqPPPBmKKELm9Yvzn9pGuVsEhb53WhAlYYJ0Ra
- gamYBE9cF43eJ/2BONxGNOIbsLg9XY8XIPi/8FrmZtv2jmkTdzngSFxS1UGGh1Y/LWsF
- dE64h6jXXcw7vWtH46GkBo/HxkboOOPDnuNwPzkL9GfSqDKwZiebcWMxpLLcvL9Q71TV
- s2mxzCVV1THwJ+f1LzMeufDCZJ/jt43OmlrA9kR6kNJmDPcnvN5GEj+m2ej2hQ9swN/0
- kim3WYuSp7P0gjEXwFMvQzxNFMZi7NteNYb9ec3vmbrjbfiTzSktZq8P5EK92tl6TK9N
- dvFg==
-X-Gm-Message-State: AOAM531WhXTy5iDTBHyWJSwzSnfj2p3SBZ3GXCPDM9fPkQWOI/HsMqY7
- Lei4mxPeJobnXvfFhcR1WLn2bAOPigsXnQ==
-X-Google-Smtp-Source: ABdhPJxqC9pRUdTUwczGVwxuiiT7VoK1Pjzzhw+8vtymtylwbZ0BzUtkCE8MfZzTjwLKmzQo22YV+g==
-X-Received: by 2002:a17:90a:44:: with SMTP id 4mr24609140pjb.130.1630304703415; 
- Sun, 29 Aug 2021 23:25:03 -0700 (PDT)
+ bh=P94Y5dxSBpEMiLv8AoX01K+FSXvmiAd5JT5hA1ZV/Ms=;
+ b=iI0NV7T4L3UMCA1oc2pnpTXqKmv//+EuwjGtHJi2b+yq82uxP01ButVfxHO9Dbh7Eo
+ HWNDEH9pu5DsTmGd9YKYnqmBY5Pad/eNposUtS3uuOth9B+EbYb3gKzIK6MfXMaAkCWS
+ +aUYQ+xdwmOx7rkTE+XgjIwohkaXXUMeCoCHI7BiO+w1lVBYwXzZIA9tLHroj+KpII5s
+ v9n0aLik1iEuX4HliudtNmg6RLJEYFhmWsENFWlTcM82kQdCWiV/EiLXjZnRR4pSFdSx
+ dQFXBS63lvKx+jJw4sytmE/bW2frTBLws2LCeZJrP8i8jf3fwVoHo32WtFq23Gj0+amX
+ TELg==
+X-Gm-Message-State: AOAM532JGcVFCNGZJgcw5KhXg4sR7fEh8M9sbKtnnHfYPbDCMecy9oey
+ hrWttDKUEJfG2XQSRhq6c4rPicpGUTJEWg==
+X-Google-Smtp-Source: ABdhPJw4EmlyE+80BIqDAeqC3YKqK12HmcbfcPgHG4320/aX0kAQpRJijhVBrgD1cBqsXKF3OB34yw==
+X-Received: by 2002:a17:902:7ed0:b0:138:d64c:7c4 with SMTP id
+ p16-20020a1709027ed000b00138d64c07c4mr4553919plb.1.1630304704040; 
+ Sun, 29 Aug 2021 23:25:04 -0700 (PDT)
 Received: from localhost.localdomain (174-21-72-39.tukw.qwest.net.
  [174.21.72.39])
  by smtp.gmail.com with ESMTPSA id b12sm13942084pff.63.2021.08.29.23.25.03
@@ -55,16 +57,16 @@ Received: from localhost.localdomain (174-21-72-39.tukw.qwest.net.
  Sun, 29 Aug 2021 23:25:03 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 16/48] tcg/optimize: Split out fold_setcond2
-Date: Sun, 29 Aug 2021 23:24:19 -0700
-Message-Id: <20210830062451.639572-17-richard.henderson@linaro.org>
+Subject: [PATCH 17/48] tcg/optimize: Split out fold_brcond2
+Date: Sun, 29 Aug 2021 23:24:20 -0700
+Message-Id: <20210830062451.639572-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210830062451.639572-1-richard.henderson@linaro.org>
 References: <20210830062451.639572-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,25 +93,28 @@ Reduce some code duplication by folding the NE and EQ cases.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/optimize.c | 145 ++++++++++++++++++++++++-------------------------
- 1 file changed, 72 insertions(+), 73 deletions(-)
+ tcg/optimize.c | 161 +++++++++++++++++++++++++------------------------
+ 1 file changed, 83 insertions(+), 78 deletions(-)
 
 diff --git a/tcg/optimize.c b/tcg/optimize.c
-index 05de083d50..7de76b6de9 100644
+index 7de76b6de9..0ddeaf7e4f 100644
 --- a/tcg/optimize.c
 +++ b/tcg/optimize.c
-@@ -839,6 +839,75 @@ static bool fold_qemu_st(OptContext *ctx, TCGOp *op)
-     return false;
+@@ -714,6 +714,86 @@ static bool fold_andc(OptContext *ctx, TCGOp *op)
+     return fold_const2(ctx, op);
  }
  
-+static bool fold_setcond2(OptContext *ctx, TCGOp *op)
++static bool fold_brcond2(OptContext *ctx, TCGOp *op)
 +{
-+    TCGCond cond = op->args[5];
-+    int i = do_constant_folding_cond2(&op->args[1], &op->args[3], cond);
++    TCGCond cond = op->args[4];
++    int i = do_constant_folding_cond2(&op->args[0], &op->args[2], cond);
++    TCGArg label = op->args[5];
 +    int inv = 0;
 +
-+    if (i >= 0) {
-+        goto do_setcond_const;
++    if (i == 0) {
++        goto do_brcond_false;
++    } else if (i > 0) {
++        goto do_brcond_true;
 +    }
 +
 +    switch (cond) {
@@ -119,9 +124,9 @@ index 05de083d50..7de76b6de9 100644
 +         * Simplify LT/GE comparisons vs zero to a single compare
 +         * vs the high word of the input.
 +         */
-+        if (arg_is_const(op->args[3]) && arg_info(op->args[3])->val == 0 &&
-+            arg_is_const(op->args[4]) && arg_info(op->args[4])->val == 0) {
-+            goto do_setcond_high;
++        if (arg_is_const(op->args[2]) && arg_info(op->args[2])->val == 0 &&
++            arg_is_const(op->args[3]) && arg_info(op->args[3])->val == 0) {
++            goto do_brcond_high;
 +        }
 +        break;
 +
@@ -133,24 +138,25 @@ index 05de083d50..7de76b6de9 100644
 +         * Simplify EQ/NE comparisons where one of the pairs
 +         * can be simplified.
 +         */
-+        i = do_constant_folding_cond(INDEX_op_setcond_i32, op->args[1],
++        i = do_constant_folding_cond(INDEX_op_brcond_i32, op->args[0],
++                                     op->args[2], cond);
++        switch (i ^ inv) {
++        case 0:
++            goto do_brcond_false;
++        case 1:
++            goto do_brcond_high;
++        }
++
++        i = do_constant_folding_cond(INDEX_op_brcond_i32, op->args[1],
 +                                     op->args[3], cond);
 +        switch (i ^ inv) {
 +        case 0:
-+            goto do_setcond_const;
++            goto do_brcond_false;
 +        case 1:
-+            goto do_setcond_high;
-+        }
-+
-+        i = do_constant_folding_cond(INDEX_op_setcond_i32, op->args[2],
-+                                     op->args[4], cond);
-+        switch (i ^ inv) {
-+        case 0:
-+            goto do_setcond_const;
-+        case 1:
-+            op->args[2] = op->args[3];
-+            op->args[3] = cond;
-+            op->opc = INDEX_op_setcond_i32;
++            op->opc = INDEX_op_brcond_i32;
++            op->args[1] = op->args[2];
++            op->args[2] = cond;
++            op->args[3] = label;
 +            break;
 +        }
 +        break;
@@ -158,95 +164,107 @@ index 05de083d50..7de76b6de9 100644
 +    default:
 +        break;
 +
-+    do_setcond_high:
-+        op->args[1] = op->args[2];
-+        op->args[2] = op->args[4];
-+        op->args[3] = cond;
-+        op->opc = INDEX_op_setcond_i32;
++    do_brcond_true:
++        op->opc = INDEX_op_br;
++        op->args[0] = label;
++        break;
++
++    do_brcond_high:
++        op->opc = INDEX_op_brcond_i32;
++        op->args[0] = op->args[1];
++        op->args[1] = op->args[3];
++        op->args[2] = cond;
++        op->args[3] = label;
 +        break;
 +    }
 +    return false;
 +
-+ do_setcond_const:
-+    return tcg_opt_gen_movi(ctx, op, op->args[0], i);
++ do_brcond_false:
++    tcg_op_remove(ctx->tcg, op);
++    return true;
 +}
 +
- static bool fold_shift(OptContext *ctx, TCGOp *op)
+ static bool fold_call(OptContext *ctx, TCGOp *op)
  {
-     return fold_const2(ctx, op);
-@@ -1638,79 +1707,6 @@ void tcg_optimize(TCGContext *s)
+     TCGContext *s = ctx->tcg;
+@@ -1629,84 +1709,6 @@ void tcg_optimize(TCGContext *s)
              }
              break;
  
--        case INDEX_op_setcond2_i32:
--            i = do_constant_folding_cond2(&op->args[1], &op->args[3],
--                                          op->args[5]);
--            if (i >= 0) {
--            do_setcond_const:
--                tcg_opt_gen_movi(&ctx, op, op->args[0], i);
+-        case INDEX_op_brcond2_i32:
+-            i = do_constant_folding_cond2(&op->args[0], &op->args[2],
+-                                          op->args[4]);
+-            if (i == 0) {
+-            do_brcond_false:
+-                tcg_op_remove(s, op);
 -                continue;
 -            }
--            if ((op->args[5] == TCG_COND_LT || op->args[5] == TCG_COND_GE)
+-            if (i > 0) {
+-            do_brcond_true:
+-                op->opc = opc = INDEX_op_br;
+-                op->args[0] = op->args[5];
+-                break;
+-            }
+-            if ((op->args[4] == TCG_COND_LT || op->args[4] == TCG_COND_GE)
+-                 && arg_is_const(op->args[2])
+-                 && arg_info(op->args[2])->val == 0
 -                 && arg_is_const(op->args[3])
--                 && arg_info(op->args[3])->val == 0
--                 && arg_is_const(op->args[4])
--                 && arg_info(op->args[4])->val == 0) {
+-                 && arg_info(op->args[3])->val == 0) {
 -                /* Simplify LT/GE comparisons vs zero to a single compare
 -                   vs the high word of the input.  */
--            do_setcond_high:
--                reset_temp(op->args[0]);
--                arg_info(op->args[0])->z_mask = 1;
--                op->opc = INDEX_op_setcond_i32;
+-            do_brcond_high:
+-                op->opc = opc = INDEX_op_brcond_i32;
+-                op->args[0] = op->args[1];
+-                op->args[1] = op->args[3];
+-                op->args[2] = op->args[4];
+-                op->args[3] = op->args[5];
+-                break;
+-            }
+-            if (op->args[4] == TCG_COND_EQ) {
+-                /* Simplify EQ comparisons where one of the pairs
+-                   can be simplified.  */
+-                i = do_constant_folding_cond(INDEX_op_brcond_i32,
+-                                             op->args[0], op->args[2],
+-                                             TCG_COND_EQ);
+-                if (i == 0) {
+-                    goto do_brcond_false;
+-                } else if (i > 0) {
+-                    goto do_brcond_high;
+-                }
+-                i = do_constant_folding_cond(INDEX_op_brcond_i32,
+-                                             op->args[1], op->args[3],
+-                                             TCG_COND_EQ);
+-                if (i == 0) {
+-                    goto do_brcond_false;
+-                } else if (i < 0) {
+-                    break;
+-                }
+-            do_brcond_low:
+-                memset(&ctx.temps_used, 0, sizeof(ctx.temps_used));
+-                op->opc = INDEX_op_brcond_i32;
 -                op->args[1] = op->args[2];
 -                op->args[2] = op->args[4];
 -                op->args[3] = op->args[5];
 -                break;
 -            }
--            if (op->args[5] == TCG_COND_EQ) {
--                /* Simplify EQ comparisons where one of the pairs
--                   can be simplified.  */
--                i = do_constant_folding_cond(INDEX_op_setcond_i32,
--                                             op->args[1], op->args[3],
--                                             TCG_COND_EQ);
--                if (i == 0) {
--                    goto do_setcond_const;
--                } else if (i > 0) {
--                    goto do_setcond_high;
--                }
--                i = do_constant_folding_cond(INDEX_op_setcond_i32,
--                                             op->args[2], op->args[4],
--                                             TCG_COND_EQ);
--                if (i == 0) {
--                    goto do_setcond_high;
--                } else if (i < 0) {
--                    break;
--                }
--            do_setcond_low:
--                reset_temp(op->args[0]);
--                arg_info(op->args[0])->z_mask = 1;
--                op->opc = INDEX_op_setcond_i32;
--                op->args[2] = op->args[3];
--                op->args[3] = op->args[5];
--                break;
--            }
--            if (op->args[5] == TCG_COND_NE) {
+-            if (op->args[4] == TCG_COND_NE) {
 -                /* Simplify NE comparisons where one of the pairs
 -                   can be simplified.  */
--                i = do_constant_folding_cond(INDEX_op_setcond_i32,
+-                i = do_constant_folding_cond(INDEX_op_brcond_i32,
+-                                             op->args[0], op->args[2],
+-                                             TCG_COND_NE);
+-                if (i == 0) {
+-                    goto do_brcond_high;
+-                } else if (i > 0) {
+-                    goto do_brcond_true;
+-                }
+-                i = do_constant_folding_cond(INDEX_op_brcond_i32,
 -                                             op->args[1], op->args[3],
 -                                             TCG_COND_NE);
 -                if (i == 0) {
--                    goto do_setcond_high;
+-                    goto do_brcond_low;
 -                } else if (i > 0) {
--                    goto do_setcond_const;
--                }
--                i = do_constant_folding_cond(INDEX_op_setcond_i32,
--                                             op->args[2], op->args[4],
--                                             TCG_COND_NE);
--                if (i == 0) {
--                    goto do_setcond_low;
--                } else if (i > 0) {
--                    goto do_setcond_const;
+-                    goto do_brcond_true;
 -                }
 -            }
 -            break;
@@ -254,15 +272,15 @@ index 05de083d50..7de76b6de9 100644
          default:
              break;
  
-@@ -1796,6 +1792,9 @@ void tcg_optimize(TCGContext *s)
-         CASE_OP_32_64(shr):
-             done = fold_shift(&ctx, op);
+@@ -1722,6 +1724,9 @@ void tcg_optimize(TCGContext *s)
+         CASE_OP_32_64_VEC(andc):
+             done = fold_andc(&ctx, op);
              break;
-+        case INDEX_op_setcond2_i32:
-+            done = fold_setcond2(&ctx, op);
++        case INDEX_op_brcond2_i32:
++            done = fold_brcond2(&ctx, op);
 +            break;
-         CASE_OP_32_64_VEC(sub):
-             done = fold_sub(&ctx, op);
+         CASE_OP_32_64(ctpop):
+             done = fold_ctpop(&ctx, op);
              break;
 -- 
 2.25.1
