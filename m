@@ -2,81 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A43553FB318
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 11:24:52 +0200 (CEST)
-Received: from localhost ([::1]:50304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EB613FB371
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 11:53:58 +0200 (CEST)
+Received: from localhost ([::1]:34234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKdX4-0000ah-PM
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 05:24:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46550)
+	id 1mKdz9-0002Qt-5A
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 05:53:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mKdVU-0007Dy-Hg
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 05:23:08 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33385)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mKdVS-0005AN-RP
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 05:23:08 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id d26so21523135wrc.0
- for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 02:23:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=bMZaC/N19W1A4nRtYofoq8PkEDtOryJf928ArtFa+EQ=;
- b=WsLHWaIcj6clgxuEMoPG5L2G98yn/oSJk6zZMzlFaAOVw/OhVuJdBuBK5AdLZQlgLW
- NGSJW3KdSIoWZrpaG4snfdr55MarzRBOnFF5vVQDCtklf6Y96Go1I+cAcY8pkQ/s3MCy
- 18qWvSQSwmIHAWZZLHx+6VZ1mzePGWSfUUu/2OVIvMe1ekvw5tQGR2ThLEwX6WWqwo0B
- 2JobFSF2rUs39FJnJjpY36eQR1MzNF+YTc/0JnkKnh0JuBGE9skz6KdZiBCtXSEfIAf0
- uDOX4St+dHQ9AgeOY2gjHKJUgzZquoJ4Q6s3YBNES3ljOPo8cQsWdGJaPktoBkr073hh
- AQsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bMZaC/N19W1A4nRtYofoq8PkEDtOryJf928ArtFa+EQ=;
- b=eDwVItMEvU/IBKIkFF47hu/V4D9KtMXNDnKYGso1X77EAO+wOxjzDBhvSFmjxJusBu
- 2bFq/f6/gIlitg5eqkbNhRPaKPwBnU8NFbKzTUy0sbEd1Kz0ElGyXg2rEUWnFbVmZbIQ
- l5OzATLSAO9Xjze75B/3Pg2ALMGxjLwzNO64ipxVaAR5N0zYAu80Hu1p0ycs6CkORyeu
- FS/Me/xgW4wrmCf/I7B8drTc0t8Wwwmkdycif9AO/7vMJvARgHGkZYJca1GdK1ThIJj6
- 2II1yaCNCKOv3OmjU3icoR5K8SdjajQG9884S+W7OKpK6YMKoZ1BBWHInjTI6iRkwmnS
- hUJg==
-X-Gm-Message-State: AOAM533+YAh5JDBU69hfETbKTPxpVfYrk2NQQKN1d5lWxzV9nWofcdID
- pLkLZAG2l5P73E1HoMJjJOCH5PRhKvU=
-X-Google-Smtp-Source: ABdhPJyV/2neaFB38sOmVnywzIsiVjscF7mliGMa8dzbLzGgQ85X0EKaKM//zYbKjCP+l9MfMvgY6A==
-X-Received: by 2002:adf:ec8b:: with SMTP id z11mr24877041wrn.122.1630315384603; 
- Mon, 30 Aug 2021 02:23:04 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id t14sm14780507wrw.59.2021.08.30.02.23.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Aug 2021 02:23:04 -0700 (PDT)
-Subject: Re: [PATCH 13/48] tcg/optimize: Use a boolean to avoid a mass of
- continues
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210830062451.639572-1-richard.henderson@linaro.org>
- <20210830062451.639572-14-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <a4332c8c-1ea8-038c-1b39-62d7fbda00f9@amsat.org>
-Date: Mon, 30 Aug 2021 11:23:03 +0200
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1mKdxU-0000xm-8l; Mon, 30 Aug 2021 05:52:04 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:63170
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1mKdxS-0004i2-9i; Mon, 30 Aug 2021 05:52:03 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 17U9XQgP095218; Mon, 30 Aug 2021 05:51:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=FbO8gnqMrcAlzu0onQlb9s/bqdObD9KMbua+ueFaAZc=;
+ b=lNidZhG36vemmOFvEJTn1jZEkMJiK+qSDVnCqOn80arNvJkWYYem+cevLOJget5+X0aP
+ UZTGp9iUExxNPPXYL8BflfZqVPmw97E2f5Ia4591yXci8STWYw4R1Drw1ZiOz97g/qFf
+ dOUIeH01RBnaO7vhg6VIRyr35fTRQXZmsZNFpEqugXQSG6zq3RanZxYxl6FVQQ7oapw+
+ DFtdi9ZPxMl0JkN4PXfzcyl4Ri4MhgJF8xriZDrjFTYdhdOmYKUKOuBLdedTamdbJaOZ
+ n1aI9MMseC0YRIFbWbeUJ68UwX21TRI0LmAye/sgRrLH9xnI9+Uxov5xSIfhbXy36iy2 bA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3are857gd1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Aug 2021 05:51:58 -0400
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 17U9XvZ2096461;
+ Mon, 30 Aug 2021 05:51:57 -0400
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3are857gc9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Aug 2021 05:51:57 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 17U9lX5t003244;
+ Mon, 30 Aug 2021 09:51:55 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com
+ (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+ by ppma04ams.nl.ibm.com with ESMTP id 3aqcs8u847-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Aug 2021 09:51:55 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 17U9lvUY55116238
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 30 Aug 2021 09:47:57 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1F5114C046;
+ Mon, 30 Aug 2021 09:51:52 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8A02A4C040;
+ Mon, 30 Aug 2021 09:51:51 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.145.78.133])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 30 Aug 2021 09:51:51 +0000 (GMT)
+Subject: Re: [PATCH 0/2] s390x: ccw: A simple test device for virtio CCW
+To: Pierre Morel <pmorel@linux.ibm.com>, kvm@vger.kernel.org,
+ Michael S Tsirkin <mst@redhat.com>
+References: <1630061450-18744-1-git-send-email-pmorel@linux.ibm.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Message-ID: <fe2c0cbd-24a6-0785-6a64-22c6b6c01e6d@de.ibm.com>
+Date: Mon, 30 Aug 2021 11:51:51 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210830062451.639572-14-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <1630061450-18744-1-git-send-email-pmorel@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: HVxNOsCQi9V9Fw1jk6HxavDXyERoGWqO
+X-Proofpoint-ORIG-GUID: yph-RShPm_2fm0OOuPfdGNQcvL8FyKJu
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-08-30_03:2021-08-27,
+ 2021-08-30 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0
+ suspectscore=0 mlxscore=0 mlxlogscore=999 lowpriorityscore=0 clxscore=1011
+ phishscore=0 priorityscore=1501 adultscore=0 spamscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2107140000
+ definitions=main-2108300070
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.58,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.58,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,16 +113,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: thuth@redhat.com, frankja@linux.ibm.com, david@redhat.com,
+ cohuck@redhat.com, richard.henderson@linaro.org, drjones@redhat.com,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, qemu-s390x@nongnu.org,
+ mst@redhat.com, imbrenda@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/30/21 8:24 AM, Richard Henderson wrote:
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tcg/optimize.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
 
-Can we order patches 12 11 13 instead?
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 27.08.21 12:50, Pierre Morel wrote:
+> Hello All,
+> 
+> 
+> This series presents a VIRTIO test device which receives data on its
+> input channel and sends back a simple checksum for the data it received
+> on its output channel.
+>   
+> The goal is to allow a simple VIRTIO device driver to check the VIRTIO
+> initialization and various data transfer.
+> 
+> For this I introduced a new device ID for the device and having no
+> Linux driver but a kvm-unit-test driver, I have the following
+> questions:
+
+I think we should reserve an ID in the official virtio spec then for such a device?
+Maybe also add mst for such things.
+  
+
+> Is there another way to advertise new VIRTIO IDs but Linux?
+> If this QEMU test meet interest, should I write a Linux test program?
+> 
+> Regards,
+> Pierre
+> 
+> 
+> Pierre Morel (2):
+>    virtio: Linux: Update of virtio_ids
+>    s390x: ccw: A simple test device for virtio CCW
+> 
+>   hw/s390x/meson.build                        |   1 +
+>   hw/s390x/virtio-ccw-pong.c                  |  66 ++++++++
+>   hw/s390x/virtio-ccw.h                       |  13 ++
+>   hw/virtio/Kconfig                           |   5 +
+>   hw/virtio/meson.build                       |   1 +
+>   hw/virtio/virtio-pong.c                     | 161 ++++++++++++++++++++
+>   include/hw/virtio/virtio-pong.h             |  34 +++++
+>   include/standard-headers/linux/virtio_ids.h |   1 +
+>   8 files changed, 282 insertions(+)
+>   create mode 100644 hw/s390x/virtio-ccw-pong.c
+>   create mode 100644 hw/virtio/virtio-pong.c
+>   create mode 100644 include/hw/virtio/virtio-pong.h
+> 
 
