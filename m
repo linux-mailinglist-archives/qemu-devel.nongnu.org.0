@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 546E43FBE72
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 23:42:13 +0200 (CEST)
-Received: from localhost ([::1]:32912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AD743FBE79
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 23:44:28 +0200 (CEST)
+Received: from localhost ([::1]:35688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKp2i-0004fC-EM
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 17:42:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57776)
+	id 1mKp4t-0006fS-9d
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 17:44:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mKp1K-0002xO-I0; Mon, 30 Aug 2021 17:40:46 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54049)
+ id 1mKp2y-0005fO-Rx
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 17:42:28 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:46780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mKp1I-0003VS-6h; Mon, 30 Aug 2021 17:40:46 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id i3so9722761wmq.3;
- Mon, 30 Aug 2021 14:40:43 -0700 (PDT)
+ id 1mKp2x-0004eV-E6
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 17:42:28 -0400
+Received: by mail-wr1-x433.google.com with SMTP id x6so16193603wrv.13
+ for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 14:42:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=oX2OGbnzbccy5IFjTgp1jj2+IwrBnLFDn7gnE4X0tdQ=;
- b=oCluvLfPgVb+7mjEaJGMlvoEnDi686UVbvLW0N6e8viu8pAAV9dXmkxfGhOGXeUJUh
- y7M83oLMMTk2e//4hySqBHDUQyZMZxxWjR6dGkFCZhWRV23X/wD4qnp10WoHAZUcfbN6
- qfRKvqVluk6B0Vb7KQbp9g9mmozd9JxG0tnWomIRakD7MrrIxnC7qiJmH/Ui0/e90bGH
- F5WknEEImAsjnv+BLNjKeTcGlevtK03dSR/kbj+jS4w/1glt9898tvdG/U60HkRhfiwx
- 7Yx4J0irjJ3QaEr+HMNbP0tedkWa5w6afhepf9vQybKN5Q3ZXjXBBkhXYtBFgPC4Jpzj
- 8+TQ==
+ bh=ppMDxWMCzrcAOV5ZI0ApFbFnCECBR9z9LgKHk41fDvI=;
+ b=mdbX/ltrEEipnKGznrEq4L+EwIQvwXbsqP2iRHcRkv0IIly01FZFsnV1ZlhrzGoiRB
+ BbcTX9jr33y/CSm8iDFafwRWiusYE9iso7m6tRIJVC2LBcN89V0nCkheiE3f1q4pNRCE
+ zQ8nmP2ZtdEK5/8avbovv3dHKo+bFbJZfgzgwfqblCBlreY43b1H4s4E8qjIfCy0mqgt
+ L4E0jrTg0J817oZzYtQrRtotdvidfqihIHVgb2CtiXophSOv1GPNkynZE/mtEDaT3VZk
+ 7l0m8v0ZK+mOnaOoiX/lj+TFTvhgSDyg8nTdlAXIeT9B6RNvv/Su8fglOcLdYYINSsbz
+ YvhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=oX2OGbnzbccy5IFjTgp1jj2+IwrBnLFDn7gnE4X0tdQ=;
- b=WnmSY40US2W8MJ4ONgHVIxbPRg+RXox9B4f8jOh3uI22BXKcxXhur+MbpRNA/8b/dV
- Sc3ueebYYeLy46kVDbr4Tz1MKv61MXdmyJc1epn+JF7U1UtItTky9uwgUdpZ4hBFPHKh
- 9M4tdxBs/UnrP8HQ4fJOH5gPwDKlirdnnLO81L5ZdcEzIrjzvet7VN6ezitTkJObA4x4
- /6xuNXlr9QnQOtT508h45Tzqq/MX79RmKbI870WHPZWw589asTLy3dmyXohWWxMyfHot
- dNGWyFgCXnUnnYaT3VhT5YgtuxMvNge1scnPvOfNt7oVJ+XReWa0XurlYY/zzZnutc2f
- g1iw==
-X-Gm-Message-State: AOAM530iOw43wdYiXfGO+FoGNe8ySwQFJYTY6wR0s2ACNauQz0BM6Avc
- fthRcFHPH23Sr03ne0tRwkQ=
-X-Google-Smtp-Source: ABdhPJwTPxDVPPYCJkcKmL4XYl6BFsmrGOER40ne6vgGj71VGTLZmUeGXet9D6pEQo2W/3qeVxhXkw==
-X-Received: by 2002:a05:600c:1d05:: with SMTP id
- l5mr976532wms.139.1630359641592; 
- Mon, 30 Aug 2021 14:40:41 -0700 (PDT)
+ bh=ppMDxWMCzrcAOV5ZI0ApFbFnCECBR9z9LgKHk41fDvI=;
+ b=nO5jXRVpr9CtLf5+YwvEfbzWQIFwjP3l6WyOpPYCnHbpKeU+P9tN1w8ndRXi8zcfN4
+ KOqeeJkCm21/4jqsIjFXcBqTkgiR9CWx09dT4K9tIKgdacsCy6oZABy4H5q2MSxzKfrd
+ 3LkhRMjVC8KPuzJ9nXfYJlu1LQjhQitu9YKj+RW1LSKLGbt7JX635gvCFDNKjUmFx6lJ
+ 575uP6bFLn31YP8Ed5YWac8YTPYU0p6nk3HndX1iR5Y/lRYjXyRLHE0VPXLV3gnDCORG
+ jmChAawmN2bVqMU0Czl/h51xdO572cuW6TmHYycAtbuROC7ihsWMZ6zJ9YgbVZ/qCMPf
+ Kmtg==
+X-Gm-Message-State: AOAM532cRVBmsmMJ1zHecqEPIAe4BRQxdEExNj3px/xKGt9jMOHdl4Km
+ YmMexOyJ6wPBBCA1gpG7idBXucLYr8o=
+X-Google-Smtp-Source: ABdhPJzmt+wXKTP+BmKnflGqUkem7z+KdvWf0CIVwCnflpqfECiCv9N88ZwiuK+sOTiSOkHrokZnSA==
+X-Received: by 2002:adf:c442:: with SMTP id a2mr28368629wrg.228.1630359745559; 
+ Mon, 30 Aug 2021 14:42:25 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id s12sm16729045wru.41.2021.08.30.14.40.40
+ by smtp.gmail.com with ESMTPSA id a10sm573044wmj.44.2021.08.30.14.42.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Aug 2021 14:40:41 -0700 (PDT)
-Subject: Re: [PATCH 4/8] target/riscv: 128-bit arithmetic and logic
- instructions
+ Mon, 30 Aug 2021 14:42:25 -0700 (PDT)
+Subject: Re: [PATCH v3 28/66] plugins: Reorg arguments to
+ qemu_plugin_vcpu_mem_cb
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210818191920.390759-1-richard.henderson@linaro.org>
+ <20210818191920.390759-29-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
- <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20210830171638.126325-1-frederic.petrot@univ-grenoble-alpes.fr>
- <20210830171638.126325-4-frederic.petrot@univ-grenoble-alpes.fr>
- <f9094de6-f36a-4da7-d5ef-9fa976ae4c18@amsat.org>
-Message-ID: <653d064f-7020-dce0-a43b-6697e68b79b0@amsat.org>
-Date: Mon, 30 Aug 2021 23:40:40 +0200
+Message-ID: <1c22e5bb-116e-6af8-5527-4585bd901642@amsat.org>
+Date: Mon, 30 Aug 2021 23:42:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <f9094de6-f36a-4da7-d5ef-9fa976ae4c18@amsat.org>
+In-Reply-To: <20210818191920.390759-29-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
@@ -92,66 +90,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Fabien Portas <fabien.portas@grenoble-inp.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/30/21 11:38 PM, Philippe Mathieu-Daudé wrote:
-> On 8/30/21 7:16 PM, Frédéric Pétrot wrote:
->> Adding the support for the 128-bit arithmetic and logic instructions.
->> Remember that all (i) instructions are now acting on 128-bit registers, that
->> a few others are added to cope with values that are held on 64 bits within
->> the 128-bit registers, and that the ones that cope with values on 32-bit
->> must also be modified for proper sign extension.
->> Most algorithms taken from Hackers' delight.
->>
->> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
->> Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
->> ---
->>  target/riscv/insn32.decode              |  13 +
->>  target/riscv/insn_trans/trans_rvi.c.inc | 955 +++++++++++++++++++++++-
->>  target/riscv/translate.c                |  25 +
->>  3 files changed, 976 insertions(+), 17 deletions(-)
+On 8/18/21 9:18 PM, Richard Henderson wrote:
+> Use the MemOpIdx directly, rather than the rearrangement
+> of the same bits currently done by the trace infrastructure.
+> Pass in enum qemu_plugin_mem_rw so that we are able to treat
+> read-modify-write operations as a single operation.
 > 
->> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
->> index 772330a766..0401ba3d69 100644
->> --- a/target/riscv/insn_trans/trans_rvi.c.inc
->> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
->> @@ -26,14 +26,20 @@ static bool trans_illegal(DisasContext *ctx, arg_empty *a)
->>  
->>  static bool trans_c64_illegal(DisasContext *ctx, arg_empty *a)
->>  {
->> -     REQUIRE_64BIT(ctx);
->> -     return trans_illegal(ctx, a);
->> +    REQUIRE_64_OR_128BIT(ctx);
->> +    return trans_illegal(ctx, a);
->>  }
->>  
->>  static bool trans_lui(DisasContext *ctx, arg_lui *a)
->>  {
->>      if (a->rd != 0) {
->>          tcg_gen_movi_tl(cpu_gpr[a->rd], a->imm);
->> +#if defined(TARGET_RISCV128)
->> +        if (is_128bit(ctx)) {
-> 
-> Maybe this could allow the compiler eventually elide the
-> code and avoid superfluous #ifdef'ry:
-> 
->            if (TARGET_LONG_BITS >= 128) {
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/qemu/plugin.h         | 26 ++++++++++++++++++++++++--
+>  accel/tcg/cputlb.c            |  4 ++--
+>  accel/tcg/plugin-gen.c        |  5 ++---
+>  accel/tcg/user-exec.c         | 28 ++++++++++++++--------------
+>  plugins/api.c                 | 19 +++++++++++--------
+>  plugins/core.c                | 10 +++++-----
+>  tcg/tcg-op.c                  | 30 +++++++++++++++++++++---------
+>  accel/tcg/atomic_common.c.inc | 13 +++----------
+>  8 files changed, 82 insertions(+), 53 deletions(-)
 
-Actually:
-
-             if (TARGET_LONG_BITS >= 128 && is_128bit(ctx)) {
-
-> 
->> +            tcg_gen_ext_i64_i128(cpu_gpr[a->rd], cpu_gprh[a->rd],
->> +                                 cpu_gpr[a->rd]);
->> +        }
->> +#endif
->>      }
->>      return true;
->>  }
-> 
+(now v3)
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
