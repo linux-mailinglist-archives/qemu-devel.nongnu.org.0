@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CCA83FB0FF
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 08:04:45 +0200 (CEST)
-Received: from localhost ([::1]:55118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBEEB3FB104
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 08:11:39 +0200 (CEST)
+Received: from localhost ([::1]:57814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKaPU-0007hT-2z
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 02:04:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43286)
+	id 1mKaW5-0002AS-Hn
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 02:11:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mKaNk-0006tZ-6W; Mon, 30 Aug 2021 02:02:56 -0400
-Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:37586)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mKaNi-0005fU-7o; Mon, 30 Aug 2021 02:02:55 -0400
-Received: by mail-io1-xd2a.google.com with SMTP id b7so18410979iob.4;
- Sun, 29 Aug 2021 23:02:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4/9vx44xz2WgINlJwaRfidJjsn6WvWS3ez6lukaxFMQ=;
- b=ENf5DS1369jE7vH9kv723oA8q8AfCRmesZ+HSB8qE9b4VIin11rQCLReIky2CNO6Ha
- 2TWk1NZLLd9g2x7/JT+lui2HGzAUhQ1w6I6sp/+2anbX+Gei2b64JmNYKyq2WS5K578M
- it4Y0qp1f6iC6Tb7nCLAk2+hZLiFGRwZidlXlD/u9CQOlQTKaF0boU6pu5lYWPQUW+G0
- KNu5RV3XtWajxktJcUOgoD+4ZXnovJVWgWoIDYU7nmb1WOGEm3Azbi0Wj0cfR5P2bKoE
- CBu/6f2IYx/p025pf8j6HRyVNuGqC2WvpjG3ZeA/i9wOLAqTBYHNuavQt3tPzcZyhAwW
- 46Nw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4/9vx44xz2WgINlJwaRfidJjsn6WvWS3ez6lukaxFMQ=;
- b=f62H1L30Obc2JMDjsUL2xPzZ+odUefeWw8iFEE/f9SiZIesbbeIyHuS+7jOoRNMp3q
- zhVGyX+sP/jHtt3IZ4wcIVOauCIe3JOMu7NV2txJknOi2IC7iRrnBAE3gUzi7zSpHuOK
- Q8Vb/r3n6QKbMRm+jH14sdaW1EmpY0LecrkDhEuYorSe+ZPtbcH0byQACBbsqcRu6aDo
- pVtr0y5sw9kMTnSubdZMJQoDXuY9qchMlzXray5DONyHVtuUo4MTvIQ/Y5ZoYj1NmDY9
- TocgMt1t3znLR12BdAX+/+vp9DhUSLay4cZhxMcS+pXB4mkzca7aasJIwTzqDTlF++Dq
- ix+g==
-X-Gm-Message-State: AOAM530+/feOOHGyxYCkdTuMZDEmD7SX/PxwY/P8DvTzZ6ZEGiJBozDa
- 9l6Wsv2wGrjg2Ao8i7upO7mCDidR9imLBH173eE=
-X-Google-Smtp-Source: ABdhPJw0V33zHV+wXHeTmBYAF+e66e/2vt+CbB0vlbazTHKZ4wUxLLkUgX6YQt5uVVLalWO3J9jr0+8M+hVVC4m7dWI=
-X-Received: by 2002:a6b:5819:: with SMTP id m25mr16858909iob.105.1630303372987; 
- Sun, 29 Aug 2021 23:02:52 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mKaVI-0001V8-DQ
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:10:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58651)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mKaVF-0003kQ-4u
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:10:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630303839;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=y97Snws/Xa3CP0scL1x8B1srx9N63e7AuoBXz27VjyU=;
+ b=YfEeQybqLhwnP8MGpozR+aHyiQnGvbTxpCvGOq+q07prcuMeNGW0FXyLYsbJXK9DyiZF2f
+ 9frLvE6h3wQtGKm5oGlKngORF4n8ooI+Rh5RxXWXSSu/462mUW+nf/1X/03rUX5yX8+VOi
+ m7pzA09oorrVuEcSuZa8PNm3aeF8geE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-253-83f7jDmqOTuooXu9VL7GVQ-1; Mon, 30 Aug 2021 02:10:35 -0400
+X-MC-Unique: 83f7jDmqOTuooXu9VL7GVQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D9B21008064;
+ Mon, 30 Aug 2021 06:10:34 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-4.ams2.redhat.com [10.36.112.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6FD7A5D9F4;
+ Mon, 30 Aug 2021 06:10:30 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 05DAC11380A9; Mon, 30 Aug 2021 08:10:29 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Yuri Benditovich <yuri.benditovich@daynix.com>
+Subject: Re: [PATCH 5/5] qmp: Added qemu-ebpf-rss-path command.
+References: <20210713153758.323614-1-andrew@daynix.com>
+ <20210713153758.323614-6-andrew@daynix.com>
+ <87y29dct4m.fsf@dusky.pond.sub.org>
+ <CABcq3pE3vAh=Cs=VjjkioooEbbPjgNEtCEZGwtoxaCn0OCRQkg@mail.gmail.com>
+ <877dgbpco1.fsf@dusky.pond.sub.org>
+ <CAOEp5OcyvQ9Y2onyHuJnwjtWK+Tx9QxYXUePd1kJ=V9+H9wraw@mail.gmail.com>
+Date: Mon, 30 Aug 2021 08:10:28 +0200
+In-Reply-To: <CAOEp5OcyvQ9Y2onyHuJnwjtWK+Tx9QxYXUePd1kJ=V9+H9wraw@mail.gmail.com>
+ (Yuri Benditovich's message of "Sun, 29 Aug 2021 23:13:42 +0300")
+Message-ID: <87v93n8nu3.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-References: <20210827152324.5201-1-david@salt-inc.org>
-In-Reply-To: <20210827152324.5201-1-david@salt-inc.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 30 Aug 2021 16:02:26 +1000
-Message-ID: <CAKmqyKOZzx8sgoNmeAMPXjOOR87oxaOT5O240+k8F22Rqbcy_A@mail.gmail.com>
-Subject: Re: [PATCH v4] hw/intc/sifive_clint: Fix muldiv64 overflow in
- sifive_clint_write_timecmp()
-To: David Hoppenbrouwers <david@salt-inc.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.393,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,86 +83,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <Alistair.Francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "open list:SiFive Machines" <qemu-riscv@nongnu.org>
+Cc: Andrew Melnichenko <andrew@daynix.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Yan Vugenfirer <yan@daynix.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Aug 28, 2021 at 1:28 AM David Hoppenbrouwers <david@salt-inc.org> wrote:
->
-> `muldiv64` would overflow in cases where the final 96-bit value does not
-> fit in a `uint64_t`. This would result in small values that cause an
-> interrupt to be triggered much sooner than intended.
->
-> The overflow can be detected in most cases by checking if the new value is
-> smaller than the previous value. If the final result is larger than
-> `diff` it is either correct or it doesn't matter as it is effectively
-> infinite anyways.
->
-> `next` is an `uint64_t` value, but `timer_mod` takes an `int64_t`. This
-> resulted in high values such as `UINT64_MAX` being converted to `-1`,
-> which caused an immediate timer interrupt.
->
-> By limiting `next` to `INT64_MAX` no overflow will happen while the
-> timer will still be effectively set to "infinitely" far in the future.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/493
-> Signed-off-by: David Hoppenbrouwers <david@salt-inc.org>
+Yuri Benditovich <yuri.benditovich@daynix.com> writes:
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> On Tue, Aug 24, 2021 at 9:41 AM Markus Armbruster <armbru@redhat.com> wrote:
+>>
+>> Andrew Melnichenko <andrew@daynix.com> writes:
+>>
+>> > Hi,
+>> >
+>> >> The helper may or may not be installed at the path compiled into QEMU.
+>> >>
+>> > Yes, so the helper will not be called - QEMU will try to initiate eBPF RSS
+>> > or use "in-qemu" RSS.
+>>
+>> My point is: the proposed command's mission is to help the management
+>> application run the right helper.  However, its advice is *unreliable*.
+>> It may point to the wrong helper, or to nothing at all.  The right
+>> helper may still exist elsewhere.
+>
+> Hi Markus,
+> Indeed the intention of this command is to return the proper helper.
+> Especially in the case of RSS helper this is *reliable* advice and it
+> points to the helper that was built together with QEMU, i.e. with the
+> same headers.
+> This was discussed earlier, for example in
+> https://lists.nongnu.org/archive/html/qemu-devel/2021-06/msg02248.html
+>
+>>
+>> I suspect you're trying to address the problem at the wrong level.
+>
+> What is the proper solution for the problem from your point of view?
 
-Alistair
+I'll explain in more detail, but first I'd like you to answer my
+question below.
 
-> ---
-> I addressed the potential signed integer overflow if `ns_diff` is
-> `INT64_MAX`. An unsigned integer overflow still should not be able to
-> happen practically.
+>> Similar versioning issues exist with other helpers.  We've been doing
+>> fine without QEMU providing unreliable advice on where they might sit in
+>> the file system.  What makes this one different?
 >
-> David
+> This one is required to be *fully synchronized* with the existing build of QEMU.
+> Other helpers are probably less restrictive and do not have common
+> structures definitions with the QEMU, otherwise they would face the
+> same problem.
 >
->  hw/intc/sifive_clint.c | 25 +++++++++++++++++++++++--
->  1 file changed, 23 insertions(+), 2 deletions(-)
+>>
+>> >> What happens when you use the wrong helper?
 >
-> diff --git a/hw/intc/sifive_clint.c b/hw/intc/sifive_clint.c
-> index 0f41e5ea1c..99c870ced2 100644
-> --- a/hw/intc/sifive_clint.c
-> +++ b/hw/intc/sifive_clint.c
-> @@ -59,8 +59,29 @@ static void sifive_clint_write_timecmp(RISCVCPU *cpu, uint64_t value,
->      riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(0));
->      diff = cpu->env.timecmp - rtc_r;
->      /* back to ns (note args switched in muldiv64) */
-> -    next = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
-> -        muldiv64(diff, NANOSECONDS_PER_SECOND, timebase_freq);
-> +    uint64_t ns_diff = muldiv64(diff, NANOSECONDS_PER_SECOND, timebase_freq);
-> +
-> +    /*
-> +     * check if ns_diff overflowed and check if the addition would potentially
-> +     * overflow
-> +     */
-> +    if ((NANOSECONDS_PER_SECOND > timebase_freq && ns_diff < diff) ||
-> +        ns_diff > INT64_MAX) {
-> +        next = INT64_MAX;
-> +    } else {
-> +        /*
-> +         * as it is very unlikely qemu_clock_get_ns will return a value
-> +         * greater than INT64_MAX, no additional check is needed for an
-> +         * unsigned integer overflow.
-> +         */
-> +        next = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + ns_diff;
-> +        /*
-> +         * if ns_diff is INT64_MAX next may still be outside the range
-> +         * of a signed integer.
-> +         */
-> +        next = MIN(next, INT64_MAX);
-> +    }
-> +
->      timer_mod(cpu->env.timer, next);
->  }
->
-> --
-> 2.20.1
->
->
+> Our intention is that libvirt should never use the wrong RSS helper.
+> But it does not have any ability to check which helper is compatible
+> with the QEMU.
+> QEMU can easily recognize the correct one.
+
+You did not actually answer my question :)
+
+So let's try again: if libvirt does use the wrong RSS helper, how does
+the system behave?
+
+>> >>
+>> > UB - in most cases, eBPF program will work with wrong configurations.
+>> > That's why the stamp was added.
+>> >
+>> > query-helper-paths checks the stamp only for RSS helper.
+>>
+>> I have no idea what you're talking about :)
+>>
+>> My best guess is that you're trying to tell me that attempting to work
+>> with the wrong helper will fail cleanly due to some stamp check.  That
+>> would be nice.
+>>
+
 
