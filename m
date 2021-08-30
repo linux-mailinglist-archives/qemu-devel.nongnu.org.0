@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47BE3FB099
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 06:58:32 +0200 (CEST)
-Received: from localhost ([::1]:51662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 372433FB0BE
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 07:14:12 +0200 (CEST)
+Received: from localhost ([::1]:57704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKZNK-000774-Pu
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 00:58:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36296)
+	id 1mKZcP-0003Yu-8I
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 01:14:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mKZMB-0006DB-EP; Mon, 30 Aug 2021 00:57:15 -0400
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:45936)
+ id 1mKZaV-00022L-9z
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 01:12:03 -0400
+Received: from mail-il1-x136.google.com ([2607:f8b0:4864:20::136]:41778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mKZM9-00018x-8R; Mon, 30 Aug 2021 00:57:15 -0400
-Received: by mail-io1-xd31.google.com with SMTP id e186so18230162iof.12;
- Sun, 29 Aug 2021 21:57:12 -0700 (PDT)
+ id 1mKZaT-0005IC-9m
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 01:12:02 -0400
+Received: by mail-il1-x136.google.com with SMTP id l10so14730666ilh.8
+ for <qemu-devel@nongnu.org>; Sun, 29 Aug 2021 22:12:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VchSjG70x8tQ18pYSq9Dh7DUFCX1pjiF1SbGJxrsHgQ=;
- b=du/+rPoI7yYpKtVe/wi+9ImF4I7F32NevTio+kdJzAb3duG2jnXlKE2hRheqSY3cqC
- JNxXosDvqRNtQ0vlnEuTAh2vDcZDi1S1WH5JAEcNu9kAYjJ7kjPkzyNjPJqKXVHmHiR4
- BQk4FaiJb85StRBWR+eVCmCLdcT9+5StNTdekqiUo/VqkI6+UhIz+j1xJiZ3rExO+2i5
- oN6qs6l34kS6XRnGFgZEtAlwyHSK25UymVnmcuATsJMweZhUQVUQ9CDU0VuHWs82hkzs
- 5eeAQJ7DzdPEXZLGT8JbT3lvaUkfOuhQJp5vjoQrV7O1Tb/kYPAdhW8bx8cFtvcyeG/r
- KbEw==
+ :cc; bh=X5sx0K53tQEy7KiGwyFEX14IRecJJnscicRgU80SkBQ=;
+ b=ind3MGgMf7XGPXaYETGkQcoC/oayBXFOu4N2TV20C9NY7al/1SnMmywDsrpFQ9AUeQ
+ a1y7/TDujZKfybYAkTu8q6NwmzG44Dvq8IHeAP+uhx2hhkC2yVCvN8ZS37/mG4Huafm8
+ YKT36OBdbPAwjeHHodeX/VAqy6ecxL8mS8ynyKhmx9Vsga9kGmErMa43vhoamB5hlzTi
+ dA5vZSa7tqK7JjhnxzBDt74pYOTDdQeL2s6e5QktRWjC0U3h4OQQcpvESAH0t3j507JU
+ 433aktua9AetdnRvPLRAhN/PgoQ0VHqG8+jG/72VVLvgPL0dmm6oxn6Z+4WmHOIfnmw9
+ LZ4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=VchSjG70x8tQ18pYSq9Dh7DUFCX1pjiF1SbGJxrsHgQ=;
- b=cNaE9egpG6suFMjb8wge8Pst3wv//Z3rtBiAYkwqz9DvYzI2e45oUVsx5+uwqUfDlU
- 04F26rY0dxawoUZanVs34+KH7VY3rn5B/fFYvm4gttsDnPYTcM47IxageaddetD59J2M
- 44HwFfAHo71DKDPrKn/RVvagFGb7isWpcI0SdeFQ6WRJuUZlIE9CtaS0uOcHjQhfllRF
- IXSIGYH/sLfWQF57ZTUYmWjt0pqlT9fw7y9gkrqNJl90ppMV0gdCXkxlh4imkHfdoiBQ
- zeM/Hs5sT7L+R5YbULOl1fMjgTRAeCgvYSPMlkNVVoqdu27pCczhMlzTDo+3VTKfj62x
- IGlw==
-X-Gm-Message-State: AOAM532S0nmhuUvAMhvTs7NnpsLsDWtaRGJCOPQjNO4rk0urSJa/cb7+
- mgLVuUU+xvIYbIl4FTCW8mq5KdomkRdeqPZ7ahJENpMHnOPZCPhu
-X-Google-Smtp-Source: ABdhPJz2nucHzJpjmXEEQv1IHZpUVWuzMqrFwXv0wPiMdf0GfFRcqNl5PRRZK9cGZpsg8yxr4aqAtJwjZtc0orsz2Zk=
-X-Received: by 2002:a6b:8e87:: with SMTP id
- q129mr17126967iod.176.1630299431600; 
- Sun, 29 Aug 2021 21:57:11 -0700 (PDT)
+ bh=X5sx0K53tQEy7KiGwyFEX14IRecJJnscicRgU80SkBQ=;
+ b=jsDpPWu8qPqmuE2/SzG5kZAKqNNZDk+B6MWjo6HAaSJrYYhnQVL7Ce4YQjOyvIFPRy
+ fgWk6+aVF8PtcaBO3vftcI/As4RQgOn376bvv2MUqPj5JbTr+axZ6CnciNXSxp2rnJkp
+ HguL+iHQDLEwLRHMgc/L0vzu2+qM3R+AuAz9e6ptqGd+COj+kmIX4wxAsfEgP3gx88xn
+ UW+C7rtQTPfgYg79L8G0dhETVgGABxswjdToUVAOXQsUxT8oZAeFiJvFfDd46V5agaSC
+ 1YaRwBxtd89y7Ew/e5XDCXX8TJa93nnRpPf01CZwRx8g36itgqLNm+EfilncEwLyJosJ
+ RNiA==
+X-Gm-Message-State: AOAM532Q/rK9NmS7XXL9jzDDNRmcyQbIxBTdKQMzY+Pqy8/6RvlT4ZQO
+ d1YzgREvpuUaf1/wTVl1H6iSRQvuHa1ZucvJ+OI=
+X-Google-Smtp-Source: ABdhPJwZQJKsMr8xX8J6SoPsil9qAVKNxmbyMHyuNyR63R8b+9jqvEPdf8U/ijNssEACsQZQDZ4HQGCpvei+eITMvfA=
+X-Received: by 2002:a92:ce03:: with SMTP id b3mr15061286ilo.267.1630300319904; 
+ Sun, 29 Aug 2021 22:11:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210823195529.560295-1-richard.henderson@linaro.org>
- <20210823195529.560295-25-richard.henderson@linaro.org>
-In-Reply-To: <20210823195529.560295-25-richard.henderson@linaro.org>
+References: <20210825165907.34026-1-philipp.tomsich@vrull.eu>
+ <20210825165907.34026-8-philipp.tomsich@vrull.eu>
+In-Reply-To: <20210825165907.34026-8-philipp.tomsich@vrull.eu>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 30 Aug 2021 14:56:45 +1000
-Message-ID: <CAKmqyKP6txHjTOW5BjeHfDNoo7+ng96wuW2LqAjhgwrWWj17aQ@mail.gmail.com>
-Subject: Re: [PATCH v5 24/24] target/riscv: Use {get,dest}_gpr for RVV
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Mon, 30 Aug 2021 15:11:33 +1000
+Message-ID: <CAKmqyKOc574KcKMFPko4jE9EL=b1M2xYFZ2AoACYWiB4rHs88Q@mail.gmail.com>
+Subject: Re: [PATCH v6 07/14] target/riscv: Add instructions of the
+ Zbc-extension
+To: Philipp Tomsich <philipp.tomsich@vrull.eu>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::136;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x136.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -77,357 +79,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Kito Cheng <kito.cheng@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 24, 2021 at 6:13 AM Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Thu, Aug 26, 2021 at 3:08 AM Philipp Tomsich
+<philipp.tomsich@vrull.eu> wrote:
 >
-> Remove gen_get_gpr, as the function becomes unused.
+> The following instructions are part of Zbc:
+>  - clmul
+>  - clmulh
+>  - clmulr
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Note that these instructions were already defined in the pre-0.93 and
+> the 0.93 draft-B proposals, but had not been omitted in the earlier
+> addition of draft-B to QEmu.
+>
+> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  target/riscv/translate.c                | 13 ++---
->  target/riscv/insn_trans/trans_rvv.c.inc | 74 +++++++------------------
->  2 files changed, 26 insertions(+), 61 deletions(-)
 >
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index e44254e878..e356fc6c46 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -232,11 +232,6 @@ static TCGv get_gpr(DisasContext *ctx, int reg_num, DisasExtend ext)
->      g_assert_not_reached();
->  }
+> Changes in v6:
+> - Move gen_clmulh to trans_rvb.c.inc, as per Richard H's request.
 >
-> -static void gen_get_gpr(DisasContext *ctx, TCGv t, int reg_num)
-> -{
-> -    tcg_gen_mov_tl(t, get_gpr(ctx, reg_num, EXT_NONE));
-> -}
-> -
->  static TCGv dest_gpr(DisasContext *ctx, int reg_num)
+> Changes in v5:
+> - Introduce gen_clmulh (as suggested by Richard H) and use to simplify
+>   trans_clmulh().
+>
+> Changes in v3:
+> - This adds the Zbc instructions as a spearate commit.
+> - Uses a helper for clmul/clmulr instead of inlining the calculation of
+>   the result (addressing a comment from Richard Henderson).
+>
+>  target/riscv/bitmanip_helper.c          | 27 +++++++++++++++++++++
+>  target/riscv/helper.h                   |  2 ++
+>  target/riscv/insn32.decode              |  5 ++++
+>  target/riscv/insn_trans/trans_rvb.c.inc | 32 ++++++++++++++++++++++++-
+>  4 files changed, 65 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/bitmanip_helper.c b/target/riscv/bitmanip_helper.c
+> index 5b2f795d03..73be5a81c7 100644
+> --- a/target/riscv/bitmanip_helper.c
+> +++ b/target/riscv/bitmanip_helper.c
+> @@ -3,6 +3,7 @@
+>   *
+>   * Copyright (c) 2020 Kito Cheng, kito.cheng@sifive.com
+>   * Copyright (c) 2020 Frank Chang, frank.chang@sifive.com
+> + * Copyright (c) 2021 Philipp Tomsich, philipp.tomsich@vrull.eu
+>   *
+>   * This program is free software; you can redistribute it and/or modify it
+>   * under the terms and conditions of the GNU General Public License,
+> @@ -88,3 +89,29 @@ target_ulong HELPER(gorcw)(target_ulong rs1, target_ulong rs2)
 >  {
->      if (reg_num == 0 || ctx->w) {
-> @@ -637,9 +632,11 @@ void riscv_translate_init(void)
->  {
->      int i;
->
-> -    /* cpu_gpr[0] is a placeholder for the zero register. Do not use it. */
-> -    /* Use the gen_set_gpr and gen_get_gpr helper functions when accessing */
-> -    /* registers, unless you specifically block reads/writes to reg 0 */
-> +    /*
-> +     * cpu_gpr[0] is a placeholder for the zero register. Do not use it.
-> +     * Use the gen_set_gpr and get_gpr helper functions when accessing regs,
-> +     * unless you specifically block reads/writes to reg 0.
-> +     */
->      cpu_gpr[0] = NULL;
->
->      for (i = 1; i < 32; i++) {
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index de580c493c..fa451938f1 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -27,27 +27,22 @@ static bool trans_vsetvl(DisasContext *ctx, arg_vsetvl *a)
->          return false;
->      }
->
-> -    s2 = tcg_temp_new();
-> -    dst = tcg_temp_new();
-> +    s2 = get_gpr(ctx, a->rs2, EXT_ZERO);
-> +    dst = dest_gpr(ctx, a->rd);
->
->      /* Using x0 as the rs1 register specifier, encodes an infinite AVL */
->      if (a->rs1 == 0) {
->          /* As the mask is at least one bit, RV_VLEN_MAX is >= VLMAX */
->          s1 = tcg_constant_tl(RV_VLEN_MAX);
->      } else {
-> -        s1 = tcg_temp_new();
-> -        gen_get_gpr(ctx, s1, a->rs1);
-> +        s1 = get_gpr(ctx, a->rs1, EXT_ZERO);
->      }
-> -    gen_get_gpr(ctx, s2, a->rs2);
->      gen_helper_vsetvl(dst, cpu_env, s1, s2);
->      gen_set_gpr(ctx, a->rd, dst);
+>      return do_gorc(rs1, rs2, 32);
+>  }
 > +
->      tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
->      lookup_and_goto_ptr(ctx);
->      ctx->base.is_jmp = DISAS_NORETURN;
-> -
-> -    tcg_temp_free(s1);
-> -    tcg_temp_free(s2);
-> -    tcg_temp_free(dst);
->      return true;
->  }
->
-> @@ -60,23 +55,20 @@ static bool trans_vsetvli(DisasContext *ctx, arg_vsetvli *a)
->      }
->
->      s2 = tcg_constant_tl(a->zimm);
-> -    dst = tcg_temp_new();
-> +    dst = dest_gpr(ctx, a->rd);
->
->      /* Using x0 as the rs1 register specifier, encodes an infinite AVL */
->      if (a->rs1 == 0) {
->          /* As the mask is at least one bit, RV_VLEN_MAX is >= VLMAX */
->          s1 = tcg_constant_tl(RV_VLEN_MAX);
->      } else {
-> -        s1 = tcg_temp_new();
-> -        gen_get_gpr(ctx, s1, a->rs1);
-> +        s1 = get_gpr(ctx, a->rs1, EXT_ZERO);
->      }
->      gen_helper_vsetvl(dst, cpu_env, s1, s2);
->      gen_set_gpr(ctx, a->rd, dst);
+> +target_ulong HELPER(clmul)(target_ulong rs1, target_ulong rs2)
+> +{
+> +    target_ulong result = 0;
 > +
->      gen_goto_tb(ctx, 0, ctx->pc_succ_insn);
->      ctx->base.is_jmp = DISAS_NORETURN;
-> -
-> -    tcg_temp_free(s1);
-> -    tcg_temp_free(dst);
->      return true;
->  }
->
-> @@ -173,7 +165,7 @@ static bool ldst_us_trans(uint32_t vd, uint32_t rs1, uint32_t data,
->
->      dest = tcg_temp_new_ptr();
->      mask = tcg_temp_new_ptr();
-> -    base = tcg_temp_new();
-> +    base = get_gpr(s, rs1, EXT_NONE);
->
->      /*
->       * As simd_desc supports at most 256 bytes, and in this implementation,
-> @@ -184,7 +176,6 @@ static bool ldst_us_trans(uint32_t vd, uint32_t rs1, uint32_t data,
->       */
->      desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
->
-> -    gen_get_gpr(s, base, rs1);
->      tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
->      tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
->
-> @@ -192,7 +183,6 @@ static bool ldst_us_trans(uint32_t vd, uint32_t rs1, uint32_t data,
->
->      tcg_temp_free_ptr(dest);
->      tcg_temp_free_ptr(mask);
-> -    tcg_temp_free(base);
->      gen_set_label(over);
->      return true;
->  }
-> @@ -330,12 +320,10 @@ static bool ldst_stride_trans(uint32_t vd, uint32_t rs1, uint32_t rs2,
->
->      dest = tcg_temp_new_ptr();
->      mask = tcg_temp_new_ptr();
-> -    base = tcg_temp_new();
-> -    stride = tcg_temp_new();
-> +    base = get_gpr(s, rs1, EXT_NONE);
-> +    stride = get_gpr(s, rs2, EXT_NONE);
->      desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
->
-> -    gen_get_gpr(s, base, rs1);
-> -    gen_get_gpr(s, stride, rs2);
->      tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
->      tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
->
-> @@ -343,8 +331,6 @@ static bool ldst_stride_trans(uint32_t vd, uint32_t rs1, uint32_t rs2,
->
->      tcg_temp_free_ptr(dest);
->      tcg_temp_free_ptr(mask);
-> -    tcg_temp_free(base);
-> -    tcg_temp_free(stride);
->      gen_set_label(over);
->      return true;
->  }
-> @@ -458,10 +444,9 @@ static bool ldst_index_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
->      dest = tcg_temp_new_ptr();
->      mask = tcg_temp_new_ptr();
->      index = tcg_temp_new_ptr();
-> -    base = tcg_temp_new();
-> +    base = get_gpr(s, rs1, EXT_NONE);
->      desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
->
-> -    gen_get_gpr(s, base, rs1);
->      tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
->      tcg_gen_addi_ptr(index, cpu_env, vreg_ofs(s, vs2));
->      tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
-> @@ -471,7 +456,6 @@ static bool ldst_index_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
->      tcg_temp_free_ptr(dest);
->      tcg_temp_free_ptr(mask);
->      tcg_temp_free_ptr(index);
-> -    tcg_temp_free(base);
->      gen_set_label(over);
->      return true;
->  }
-> @@ -589,10 +573,9 @@ static bool ldff_trans(uint32_t vd, uint32_t rs1, uint32_t data,
->
->      dest = tcg_temp_new_ptr();
->      mask = tcg_temp_new_ptr();
-> -    base = tcg_temp_new();
-> +    base = get_gpr(s, rs1, EXT_NONE);
->      desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
->
-> -    gen_get_gpr(s, base, rs1);
->      tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
->      tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
->
-> @@ -600,7 +583,6 @@ static bool ldff_trans(uint32_t vd, uint32_t rs1, uint32_t data,
->
->      tcg_temp_free_ptr(dest);
->      tcg_temp_free_ptr(mask);
-> -    tcg_temp_free(base);
->      gen_set_label(over);
->      return true;
->  }
-> @@ -665,10 +647,9 @@ static bool amo_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
->      dest = tcg_temp_new_ptr();
->      mask = tcg_temp_new_ptr();
->      index = tcg_temp_new_ptr();
-> -    base = tcg_temp_new();
-> +    base = get_gpr(s, rs1, EXT_NONE);
->      desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
->
-> -    gen_get_gpr(s, base, rs1);
->      tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
->      tcg_gen_addi_ptr(index, cpu_env, vreg_ofs(s, vs2));
->      tcg_gen_addi_ptr(mask, cpu_env, vreg_ofs(s, 0));
-> @@ -678,7 +659,6 @@ static bool amo_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
->      tcg_temp_free_ptr(dest);
->      tcg_temp_free_ptr(mask);
->      tcg_temp_free_ptr(index);
-> -    tcg_temp_free(base);
->      gen_set_label(over);
->      return true;
->  }
-> @@ -862,8 +842,7 @@ static bool opivx_trans(uint32_t vd, uint32_t rs1, uint32_t vs2, uint32_t vm,
->      dest = tcg_temp_new_ptr();
->      mask = tcg_temp_new_ptr();
->      src2 = tcg_temp_new_ptr();
-> -    src1 = tcg_temp_new();
-> -    gen_get_gpr(s, src1, rs1);
-> +    src1 = get_gpr(s, rs1, EXT_NONE);
->
->      data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
->      data = FIELD_DP32(data, VDATA, VM, vm);
-> @@ -879,7 +858,6 @@ static bool opivx_trans(uint32_t vd, uint32_t rs1, uint32_t vs2, uint32_t vm,
->      tcg_temp_free_ptr(dest);
->      tcg_temp_free_ptr(mask);
->      tcg_temp_free_ptr(src2);
-> -    tcg_temp_free(src1);
->      gen_set_label(over);
->      return true;
->  }
-> @@ -905,15 +883,12 @@ do_opivx_gvec(DisasContext *s, arg_rmrr *a, GVecGen2sFn *gvec_fn,
->
->      if (a->vm && s->vl_eq_vlmax) {
->          TCGv_i64 src1 = tcg_temp_new_i64();
-> -        TCGv tmp = tcg_temp_new();
->
-> -        gen_get_gpr(s, tmp, a->rs1);
-> -        tcg_gen_ext_tl_i64(src1, tmp);
-> +        tcg_gen_ext_tl_i64(src1, get_gpr(s, a->rs1, EXT_SIGN));
->          gvec_fn(s->sew, vreg_ofs(s, a->rd), vreg_ofs(s, a->rs2),
->                  src1, MAXSZ(s), MAXSZ(s));
->
->          tcg_temp_free_i64(src1);
-> -        tcg_temp_free(tmp);
->          return true;
->      }
->      return opivx_trans(a->rd, a->rs1, a->rs2, a->vm, fn, s);
-> @@ -1398,16 +1373,13 @@ do_opivx_gvec_shift(DisasContext *s, arg_rmrr *a, GVecGen2sFn32 *gvec_fn,
->
->      if (a->vm && s->vl_eq_vlmax) {
->          TCGv_i32 src1 = tcg_temp_new_i32();
-> -        TCGv tmp = tcg_temp_new();
->
-> -        gen_get_gpr(s, tmp, a->rs1);
-> -        tcg_gen_trunc_tl_i32(src1, tmp);
-> +        tcg_gen_trunc_tl_i32(src1, get_gpr(s, a->rs1, EXT_NONE));
->          tcg_gen_extract_i32(src1, src1, 0, s->sew + 3);
->          gvec_fn(s->sew, vreg_ofs(s, a->rd), vreg_ofs(s, a->rs2),
->                  src1, MAXSZ(s), MAXSZ(s));
->
->          tcg_temp_free_i32(src1);
-> -        tcg_temp_free(tmp);
->          return true;
->      }
->      return opivx_trans(a->rd, a->rs1, a->rs2, a->vm, fn, s);
-> @@ -1665,8 +1637,7 @@ static bool trans_vmv_v_x(DisasContext *s, arg_vmv_v_x *a)
->          TCGLabel *over = gen_new_label();
->          tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
->
-> -        s1 = tcg_temp_new();
-> -        gen_get_gpr(s, s1, a->rs1);
-> +        s1 = get_gpr(s, a->rs1, EXT_SIGN);
->
->          if (s->vl_eq_vlmax) {
->              tcg_gen_gvec_dup_tl(s->sew, vreg_ofs(s, a->rd),
-> @@ -1690,7 +1661,6 @@ static bool trans_vmv_v_x(DisasContext *s, arg_vmv_v_x *a)
->              tcg_temp_free_i64(s1_i64);
->          }
->
-> -        tcg_temp_free(s1);
->          gen_set_label(over);
->          return true;
->      }
-> @@ -2412,7 +2382,7 @@ static bool trans_vmpopc_m(DisasContext *s, arg_rmr *a)
->
->          mask = tcg_temp_new_ptr();
->          src2 = tcg_temp_new_ptr();
-> -        dst = tcg_temp_new();
-> +        dst = dest_gpr(s, a->rd);
->          desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
->
->          tcg_gen_addi_ptr(src2, cpu_env, vreg_ofs(s, a->rs2));
-> @@ -2423,7 +2393,6 @@ static bool trans_vmpopc_m(DisasContext *s, arg_rmr *a)
->
->          tcg_temp_free_ptr(mask);
->          tcg_temp_free_ptr(src2);
-> -        tcg_temp_free(dst);
->          return true;
->      }
->      return false;
-> @@ -2443,7 +2412,7 @@ static bool trans_vmfirst_m(DisasContext *s, arg_rmr *a)
->
->          mask = tcg_temp_new_ptr();
->          src2 = tcg_temp_new_ptr();
-> -        dst = tcg_temp_new();
-> +        dst = dest_gpr(s, a->rd);
->          desc = tcg_constant_i32(simd_desc(s->vlen / 8, s->vlen / 8, data));
->
->          tcg_gen_addi_ptr(src2, cpu_env, vreg_ofs(s, a->rs2));
-> @@ -2454,7 +2423,6 @@ static bool trans_vmfirst_m(DisasContext *s, arg_rmr *a)
->
->          tcg_temp_free_ptr(mask);
->          tcg_temp_free_ptr(src2);
-> -        tcg_temp_free(dst);
->          return true;
->      }
->      return false;
-> @@ -2638,7 +2606,7 @@ static void vec_element_loadi(DisasContext *s, TCGv_i64 dest,
->  static bool trans_vext_x_v(DisasContext *s, arg_r *a)
->  {
->      TCGv_i64 tmp = tcg_temp_new_i64();
-> -    TCGv dest = tcg_temp_new();
-> +    TCGv dest = dest_gpr(s, a->rd);
->
->      if (a->rs1 == 0) {
->          /* Special case vmv.x.s rd, vs2. */
-> @@ -2648,10 +2616,10 @@ static bool trans_vext_x_v(DisasContext *s, arg_r *a)
->          int vlmax = s->vlen >> (3 + s->sew);
->          vec_element_loadx(s, tmp, a->rs2, cpu_gpr[a->rs1], vlmax);
->      }
+> +    for (int i = 0; i < TARGET_LONG_BITS; i++) {
+> +        if ((rs2 >> i) & 1) {
+> +            result ^= (rs1 << i);
+> +        }
+> +    }
 > +
->      tcg_gen_trunc_i64_tl(dest, tmp);
->      gen_set_gpr(s, a->rd, dest);
+> +    return result;
+> +}
+> +
+> +target_ulong HELPER(clmulr)(target_ulong rs1, target_ulong rs2)
+> +{
+> +    target_ulong result = 0;
+> +
+> +    for (int i = 0; i < TARGET_LONG_BITS; i++) {
+> +        if ((rs2 >> i) & 1) {
+> +            result ^= (rs1 >> (TARGET_LONG_BITS - i - 1));
+> +        }
+> +    }
+> +
+> +    return result;
+> +}
+> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+> index 415e37bc37..c559c860a7 100644
+> --- a/target/riscv/helper.h
+> +++ b/target/riscv/helper.h
+> @@ -63,6 +63,8 @@ DEF_HELPER_FLAGS_2(grev, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+>  DEF_HELPER_FLAGS_2(grevw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+>  DEF_HELPER_FLAGS_2(gorc, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+>  DEF_HELPER_FLAGS_2(gorcw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+> +DEF_HELPER_FLAGS_2(clmul, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+> +DEF_HELPER_FLAGS_2(clmulr, TCG_CALL_NO_RWG_SE, tl, tl, tl)
 >
-> -    tcg_temp_free(dest);
->      tcg_temp_free_i64(tmp);
+>  /* Special functions */
+>  DEF_HELPER_3(csrrw, tl, env, tl, tl)
+> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> index 1166e7f648..04711111c8 100644
+> --- a/target/riscv/insn32.decode
+> +++ b/target/riscv/insn32.decode
+> @@ -713,6 +713,11 @@ roriw      0110000 .......... 101 ..... 0011011 @sh5
+>  greviw     0110100 .......... 101 ..... 0011011 @sh5
+>  gorciw     0010100 .......... 101 ..... 0011011 @sh5
+>
+> +# *** RV32 Zbc Standard Extension ***
+> +clmul      0000101 .......... 001 ..... 0110011 @r
+> +clmulh     0000101 .......... 011 ..... 0110011 @r
+> +clmulr     0000101 .......... 010 ..... 0110011 @r
+> +
+>  # *** RV32 Zbs Standard Extension ***
+>  bclr       0100100 .......... 001 ..... 0110011 @r
+>  bclri      01001. ........... 001 ..... 0010011 @sh
+> diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
+> index 21d713df27..6a3e0c6a09 100644
+> --- a/target/riscv/insn_trans/trans_rvb.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvb.c.inc
+> @@ -1,5 +1,5 @@
+>  /*
+> - * RISC-V translation routines for the RVB draft Zb[as] Standard Extension.
+> + * RISC-V translation routines for the Zb[acs] Standard Extension.
+>   *
+>   * Copyright (c) 2020 Kito Cheng, kito.cheng@sifive.com
+>   * Copyright (c) 2020 Frank Chang, frank.chang@sifive.com
+> @@ -24,6 +24,12 @@
+>      }                                            \
+>  } while (0)
+>
+> +#define REQUIRE_ZBC(ctx) do {                    \
+> +    if (!RISCV_CPU(ctx->cs)->cfg.ext_zbc) {      \
+> +        return false;                            \
+> +    }                                            \
+> +} while (0)
+> +
+>  #define REQUIRE_ZBS(ctx) do {                    \
+>      if (!RISCV_CPU(ctx->cs)->cfg.ext_zbs) {      \
+>          return false;                            \
+> @@ -357,3 +363,27 @@ static bool trans_slli_uw(DisasContext *ctx, arg_slli_uw *a)
+>      tcg_temp_free(source1);
 >      return true;
 >  }
+> +
+> +static bool trans_clmul(DisasContext *ctx, arg_clmul *a)
+> +{
+> +    REQUIRE_ZBC(ctx);
+> +    return gen_arith(ctx, a, gen_helper_clmul);
+> +}
+> +
+> +static void gen_clmulh(TCGv dst, TCGv src1, TCGv src2)
+> +{
+> +     gen_helper_clmulr(dst, src1, src2);
+> +     tcg_gen_shri_tl(dst, dst, 1);
+> +}
+> +
+> +static bool trans_clmulh(DisasContext *ctx, arg_clmulr *a)
+> +{
+> +    REQUIRE_ZBC(ctx);
+> +    return gen_arith(ctx, a, gen_clmulh);
+> +}
+> +
+> +static bool trans_clmulr(DisasContext *ctx, arg_clmulh *a)
+> +{
+> +    REQUIRE_ZBC(ctx);
+> +    return gen_arith(ctx, a, gen_helper_clmulr);
+> +}
 > --
 > 2.25.1
 >
