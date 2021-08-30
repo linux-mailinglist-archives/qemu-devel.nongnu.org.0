@@ -2,85 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6B4D3FBEF6
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 00:23:33 +0200 (CEST)
-Received: from localhost ([::1]:49212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1502C3FBEFE
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 00:29:10 +0200 (CEST)
+Received: from localhost ([::1]:51842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKpgi-0003j7-87
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 18:23:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36338)
+	id 1mKpm3-0005fH-Bc
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 18:29:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mKpfK-0002oO-61
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 18:22:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40189)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1mKpfj-0003R8-EV
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 18:22:31 -0400
+Received: from isrv.corpit.ru ([86.62.121.231]:37479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mKpfF-0004Ph-12
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 18:22:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630362118;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=cEtmDi4N2E392sMoVWkGdOltIrapUkBcloZx2FL7iHk=;
- b=AxoWXuZAmbBJ9eLQBklD0Lm+v6YsFGh9JmQBIPuE0XoN7meoR7iRSpVtx8sxQxaDBqlMEC
- dh109uqOIIAVmma+rB4WUnuBsOLPFIiXRTH4j2R5yMu1+Lj5P+KTnMy5x1KSYdK3sMjzzs
- MBhsIvfprAncXf+qdnbrmA+QdG7bWQo=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-48I8DIcOOG6_GXZrMBKHEQ-1; Mon, 30 Aug 2021 18:21:57 -0400
-X-MC-Unique: 48I8DIcOOG6_GXZrMBKHEQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- bf22-20020a0564021a5600b003c86b59e291so5524430edb.18
- for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 15:21:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=cEtmDi4N2E392sMoVWkGdOltIrapUkBcloZx2FL7iHk=;
- b=octqydnVVIvH1o2hIqyg/btskFM+WjK/SGMkbSeMTYOGbCy6iSd4jcopBqxpKxxtDg
- gE9EFq0iwLcDY2YKy+o+7BbZcbsMjCcfNmYjadTmCdln5XxAS0krxR0s0xidRNVgoPyI
- +PhkLvjywRX4JlXOQY7xdTGN2isk3tBiLTPUOTmeDD9sX0hQXbCxy3/U/GoDOY7IcBk2
- u4lKEkv2T9JLyt9tAmSUDMkVD0CR7/9OxgMQX7DTlPGQMXRKj6xukWihgQDe3TZLMTCi
- YB0CLh8OllqTtISufgpnLgijMd8ASoVDIkzkL2On2vDigZbjoNO0XS1JIdQp/L/R+W6q
- WP9A==
-X-Gm-Message-State: AOAM533TI3DF4QmeNnn3TQCwQY/epiFG+fi+T/RzaToRp92h5yCukMSy
- HITlJDAm4IzYwRyy3cFJQ53WmU79EhI6Qb6aok/dciNsM28knE5urswExBw2bpjYhgf64rVZmtf
- RjlzdoNRjcGkTfG0=
-X-Received: by 2002:a50:9e41:: with SMTP id z59mr24138356ede.376.1630362115954; 
- Mon, 30 Aug 2021 15:21:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz2YK8MusiaT7DWEuXCYplIOqjbjO0ZFGPdCaByTfO6241lPmMBtUc/hVL+d/2HCw2oOYxbfA==
-X-Received: by 2002:a50:9e41:: with SMTP id z59mr24138341ede.376.1630362115800; 
- Mon, 30 Aug 2021 15:21:55 -0700 (PDT)
-Received: from redhat.com ([2.55.138.60])
- by smtp.gmail.com with ESMTPSA id o12sm8214130edv.19.2021.08.30.15.21.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Aug 2021 15:21:54 -0700 (PDT)
-Date: Mon, 30 Aug 2021 18:21:51 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v7 7/7] memory_hotplug.c: send DEVICE_UNPLUG_GUEST_ERROR
- in acpi_memory_hotplug_write()
-Message-ID: <20210830182133-mutt-send-email-mst@kernel.org>
-References: <20210825004835.472919-1-danielhb413@gmail.com>
- <20210825004835.472919-8-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1mKpfh-0004d2-Ca
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 18:22:31 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id D21C840798;
+ Tue, 31 Aug 2021 01:22:24 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 350C77D;
+ Tue, 31 Aug 2021 01:22:25 +0300 (MSK)
+Subject: Re: [PATCH] util: fix abstract socket path copy
+From: Michael Tokarev <mjt@tls.msk.ru>
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20210719130112.932069-1-marcandre.lureau@redhat.com>
+ <12894fce-38cd-8d29-9c2b-fc2d8f73a42f@msgid.tls.msk.ru>
+ <1706f18b-d6e3-e88c-ac12-decdfbd7d9b2@msgid.tls.msk.ru>
+Message-ID: <6dd4a9d9-c264-a747-0fb5-2d470f19ad16@msgid.tls.msk.ru>
+Date: Tue, 31 Aug 2021 01:22:24 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210825004835.472919-8-danielhb413@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1706f18b-d6e3-e88c-ac12-decdfbd7d9b2@msgid.tls.msk.ru>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -77
+X-Spam_score: -7.8
+X-Spam_bar: -------
+X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.932,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,60 +58,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, armbru@redhat.com, groug@kaod.org,
- qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- david@gibson.dropbear.id.au
+Cc: zxq_yx_007@163.com, berrange@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 24, 2021 at 09:48:35PM -0300, Daniel Henrique Barboza wrote:
-> MEM_UNPLUG_ERROR is deprecated since the introduction of
-> DEVICE_UNPLUG_GUEST_ERROR. Keep emitting both while the deprecation of
-> MEM_UNPLUG_ERROR is pending.
+31.08.2021 01:06, Michael Tokarev wrote:
+...
+> And this is the value used to be returned in the getsockname/getpeername
+> calls.
 > 
-> CC: Michael S. Tsirkin <mst@redhat.com>
-> CC: Igor Mammedov <imammedo@redhat.com>
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> So this has nothing to do with socket being abstract or not. We asked for
+> larger storage for the sockaddr structure, and the kernel was able to build
+> one for us, including the trailing \0 byte. Currently kernel will only
+> return +1 byte for non-abstract sockets, but this is an implementation
+> detail. We asked for it. So we - I think - should account for this +1
+> byte here.
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+And here's the note from man 7 unix:
 
-feel free to include with the rest of the patchset
+BUGS
+        When binding a socket to an address, Linux is one of the implementations that appends a null termina‐
+        tor if none is supplied in sun_path.  In most cases this is unproblematic: when the socket address is
+        retrieved, it will be one byte longer than that supplied when the socket was bound.   However,  there
+        is  one case where confusing behavior can result: if 108 non-null bytes are supplied when a socket is
+        bound,  then  the  addition  of  the  null  terminator  takes  the  length  of  the  pathname  beyond
+        sizeof(sun_path).   Consequently, when retrieving the socket address (for example, via accept(2)), if
+        the input addrlen argument for the retrieving call is specified as sizeof(struct  sockaddr_un),  then
+        the returned address structure won't have a null terminator in sun_path.
 
-> ---
->  hw/acpi/memory_hotplug.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/hw/acpi/memory_hotplug.c b/hw/acpi/memory_hotplug.c
-> index 6a71de408b..d0fffcf787 100644
-> --- a/hw/acpi/memory_hotplug.c
-> +++ b/hw/acpi/memory_hotplug.c
-> @@ -8,6 +8,7 @@
->  #include "qapi/error.h"
->  #include "qapi/qapi-events-acpi.h"
->  #include "qapi/qapi-events-machine.h"
-> +#include "qapi/qapi-events-qdev.h"
->  
->  #define MEMORY_SLOTS_NUMBER          "MDNR"
->  #define MEMORY_HOTPLUG_IO_REGION     "HPMR"
-> @@ -178,8 +179,16 @@ static void acpi_memory_hotplug_write(void *opaque, hwaddr addr, uint64_t data,
->              hotplug_handler_unplug(hotplug_ctrl, dev, &local_err);
->              if (local_err) {
->                  trace_mhp_acpi_pc_dimm_delete_failed(mem_st->selector);
-> +
-> +                /*
-> +                 * Send both MEM_UNPLUG_ERROR and DEVICE_UNPLUG_GUEST_ERROR
-> +                 * while the deprecation of MEM_UNPLUG_ERROR is
-> +                 * pending.
-> +                 */
->                  qapi_event_send_mem_unplug_error(dev->id ? : "",
->                                                   error_get_pretty(local_err));
-> +                qapi_event_send_device_unplug_guest_error(!!dev->id, dev->id,
-> +                                                          dev->canonical_path);
->                  error_free(local_err);
->                  break;
->              }
-> -- 
-> 2.31.1
+So how about this:
 
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index f2f3676d1f..83926dc2bc 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -1345,8 +1345,9 @@ socket_sockaddr_to_address_unix(struct sockaddr_storage *sa,
+      SocketAddress *addr;
+      struct sockaddr_un *su = (struct sockaddr_un *)sa;
+
++    /* kernel might have added \0 terminator to non-abstract socket */
+      assert(salen >= sizeof(su->sun_family) + 1 &&
+-           salen <= sizeof(struct sockaddr_un));
++           salen <= sizeof(struct sockaddr_un) + su->sun_path[0] ? 1 : 0);
+
+      addr = g_new0(SocketAddress, 1);
+      addr->type = SOCKET_ADDRESS_TYPE_UNIX;
+
+?
+
+/mjt
 
