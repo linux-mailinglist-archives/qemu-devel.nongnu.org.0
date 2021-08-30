@@ -2,61 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 848343FBCB6
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 20:56:26 +0200 (CEST)
-Received: from localhost ([::1]:53696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12FE13FBCC4
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 21:05:34 +0200 (CEST)
+Received: from localhost ([::1]:60404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKmSH-0002XF-1q
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 14:56:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45558)
+	id 1mKmb6-0007mn-JI
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 15:05:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <carpeddiem@gmail.com>)
- id 1mKmN9-0008Vr-Lh; Mon, 30 Aug 2021 14:51:09 -0400
-Received: from mail-io1-f41.google.com ([209.85.166.41]:35577)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <carpeddiem@gmail.com>)
- id 1mKmN7-00054g-6v; Mon, 30 Aug 2021 14:51:06 -0400
-Received: by mail-io1-f41.google.com with SMTP id a15so21213646iot.2;
- Mon, 30 Aug 2021 11:51:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mKmYk-0005r3-Ar
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 15:03:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60217)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mKmYe-0004cu-Ks
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 15:03:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630350178;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=6ccc2ABZFzTRWkBjbJf2g2wleBQDQMDfMm64Qr4HN/k=;
+ b=MWPwXeBVGMsgcHownwmCdstWIqNsnC5ssQ6W/xYr7e2e3CxmnARElzFUYGYatJ62flZoiX
+ ZQdwpoPGSTjAty++vtZkrT6x462Z2MpOM1IUvLmun1PJ4dr6tOZleK606cjX004oJfd5VH
+ wgTYapRYl+4k7qmSzqjbeLsfJBjVGJ4=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-396-440hk3FON0KcODIPRZBtbQ-1; Mon, 30 Aug 2021 15:02:57 -0400
+X-MC-Unique: 440hk3FON0KcODIPRZBtbQ-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ q19-20020ac87353000000b0029a09eca2afso183432qtp.21
+ for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 12:02:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jMn4gNdH35bROA1lED0zkD+n5Ctz/uq3n/fh9h0pueQ=;
- b=KD1oYKKi9OspmzBToXLTUuEEwqbZ3UR/UEvnDv3ozFL27lpvBxLsNn2eyi8Z94SNJI
- GqX6jPYGbKGg0TvAjN2ukSPuL9jfndO1P+VTKp9OwbU8HdFjvHRY83l24YSUmyAIKkqF
- It3vI6jDsvu/zmiIbklnMKIQtEplm9hiO/bCcktTl8Uk3zA4sSpQCbkE3T57UaK8gk8i
- Yvy2s881UOX8yZT6HE++2R+bD7Ye6nAx9mm8IlAIwqAjfKEoxX1wiCa54tzCyPuKLn8k
- OACctkHHhpFu+YJhNivVT9ocv75lMsgtI73+h1YOjjE+msVRkc+KjRhPd8TJeWY6vjc1
- Q2kw==
-X-Gm-Message-State: AOAM530hzzi1zdXFRFFMBkPsrwbJ6IdY18UaCzzaQMiiRn3UeG0/+l4y
- nV96w37iCqNg4gZNqxtul07ZbfGVdRDj0uMujj8=
-X-Google-Smtp-Source: ABdhPJwnDHLowPfP3UKmNKOeeXDJhC92yrz5aKd29VB7W0AEBQRBuz3lCpXmKvN4j0slibJ68V+StVqmUkNll8KUoDc=
-X-Received: by 2002:a6b:fd05:: with SMTP id c5mr18857750ioi.102.1630349462852; 
- Mon, 30 Aug 2021 11:51:02 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=6ccc2ABZFzTRWkBjbJf2g2wleBQDQMDfMm64Qr4HN/k=;
+ b=NFP1mBn7S37JbcFA1J4tLbFozGsBc5zSRCmkizpMbYL3eLszqXUhLocLkuepqGHDwU
+ z/+Rz+CooGXV4bkU4bAuWwJoeQ0S3X0Kt3NLmP0m/QDMfnVxqOPsjbOTXKdx8TOi3+pP
+ x63USSjfgrjiXNouBB2Ba95PV2oyswYwkcjpw+G4U9g3W3lajVy18+RFclwuDCGm1EWy
+ vNUXpzYxXtbrmYz4DwAk//rRxGW1x7m3K+tMdc4a8eDmJ8Fx7j1TJY//G+THdZpMHDhp
+ MTbPaaAtl7DxCYPadRy+pQS/oRDSK5gBf1rivVErnquOJPMY3/cMXm1Gh3gvAzJ//mn6
+ oshw==
+X-Gm-Message-State: AOAM5330cnVomiW28kB7qEqjIsmxKdUnne44PfQyFgu0rfTcaZrE/yLy
+ gtTD7wqiASe4O6w65zRR98ak3xv/0XXCyuvjesVX5A/64HQuevuW3eo3RzzNCpID4W29ndicFO2
+ IR3uRIaDdI0dl240=
+X-Received: by 2002:a0c:e790:: with SMTP id x16mr24480619qvn.6.1630350176503; 
+ Mon, 30 Aug 2021 12:02:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxjn1wq6W7hR5o32XgZhvT22OB6v46/Zl0+VWfZXHiXGnrKsWx36DYSFiElSeMDkBOflW8xLQ==
+X-Received: by 2002:a0c:e790:: with SMTP id x16mr24480588qvn.6.1630350176193; 
+ Mon, 30 Aug 2021 12:02:56 -0700 (PDT)
+Received: from t490s ([2607:fea8:56a3:500::ad7f])
+ by smtp.gmail.com with ESMTPSA id f28sm11744425qkk.10.2021.08.30.12.02.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Aug 2021 12:02:55 -0700 (PDT)
+Date: Mon, 30 Aug 2021 15:02:53 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH 4/4] vl: Prioritize realizations of devices
+Message-ID: <YS0rXQXwqKjhr4TA@t490s>
+References: <YSQTwth0elaz4T8W@t490s>
+ <20210823215623.bagyo3oojdpk3byj@habkost.net>
+ <YSQp0Nh6Gs5equAG@t490s> <8735qxhnhn.fsf@dusky.pond.sub.org>
+ <87h7fdg12w.fsf@dusky.pond.sub.org> <YSa7H3wGUHgccCrU@t490s>
+ <YScPg0cYYGxxTz+b@xz-m1.local> <87y28oy6rm.fsf@dusky.pond.sub.org>
+ <20210826133629.2ddd3b88@redhat.com> <YSean3PIkslbTHeU@t490s>
 MIME-Version: 1.0
-References: <20210805193950.514357-1-johannes.stoelp@gmail.com>
- <CAFEAcA8TRQdj33Ycm=XzmuUUNApaXVgeDexfS+3Ycg6kLnpmyg@mail.gmail.com>
- <20210830154708.ah27fh34q5dgg3le@redhat.com>
- <CAFEAcA-QW1_sLEArKY1jBJkmGdKQukgwe=O36p7gDpH2mFceqw@mail.gmail.com>
-In-Reply-To: <CAFEAcA-QW1_sLEArKY1jBJkmGdKQukgwe=O36p7gDpH2mFceqw@mail.gmail.com>
-From: Ed Maste <emaste@freebsd.org>
-Date: Mon, 30 Aug 2021 14:50:47 -0400
-Message-ID: <CAPyFy2CZNOL0=-F5_7rZt+oBEC36wwgNj9JQFJre3stZf+KTcw@mail.gmail.com>
-Subject: Re: [PATCH v0] kvm: unsigned datatype in ioctl wrapper
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.166.41; envelope-from=carpeddiem@gmail.com;
- helo=mail-io1-f41.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <YSean3PIkslbTHeU@t490s>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,24 +96,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- johannst <johannes.stoelp@gmail.com>, Eric Blake <eblake@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- johannst <johannes.stoelp@googlemail.com>
+Cc: Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 30 Aug 2021 at 13:34, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> # As noted, this does not actually cause problems on Linux, because
-> # unlike FreeBSD, Linux knows what the f*ck it is doing, and just
-> # ignores the upper bits exactly because of possible sign confusion.
->
-> Whether that's still true a decade later I have no idea :-)
+On Thu, Aug 26, 2021 at 09:43:59AM -0400, Peter Xu wrote:
+> > > A simple state machine can track "has IOMMU" state.  It has three states
+> > > "no so far", "yes", and "no", and two events "add IOMMU" and "add device
+> > > that needs to know".  State diagram:
+> > > 
+> > >                           no so far
+> > >                    +--- (start state) ---+
+> > >                    |                     |
+> > >          add IOMMU |                     | add device that
+> > >                    |                     |  needs to know
+> > >                    v                     v
+> > >              +--> yes                    no <--+
+> > >              |     |   add device that   |     |
+> > >              +-----+    needs to know    +-----+
+> > > 
+> > > "Add IOMMU" in state "no" is an error.
+> > 
+> > question is how we distinguish "device that needs to know"
+> > from device that doesn't need to know, and then recently
+> > added feature 'bypass IOMMU' adds more fun to this.
+> 
+> Maybe we can start from "no device needs to know"? Then add more into it when
+> the list expands.
+> 
+> vfio-pci should be a natural fit because we're sure it won't break any valid
+> old configurations.  However we may need to be careful on adding more devices,
+> e.g. when some old configuration might work on old binaries, but I'm not sure.
 
-It wasn't even true a decade ago -- FreeBSD has ignored the upper bits
-since 2005[1]. That change included a warning if upper bits were set,
-but the warning is now hidden behind a diagnostic option.
+Btw, I think this state machine is indeed bringing some complexity on even
+understanding it - it is definitely working but it's not obvious to anyone at
+the first glance, and it's only solving problem for vIOMMU.  E.g., do we need
+yet another state machine for some other ordering constraints?
 
-[1] URL: https://cgit.FreeBSD.org/src/commit/?id=9fc6aa0618a174f436fb1a26867c99cff4125b40
+From that POV, I don't like this solution more than the simple "assign priority
+for device realization" idea..
+
+-- 
+Peter Xu
+
 
