@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD3213FBCC8
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 21:11:26 +0200 (CEST)
-Received: from localhost ([::1]:38576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C6083FBD17
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 21:43:48 +0200 (CEST)
+Received: from localhost ([::1]:37288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKmgn-000471-MG
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 15:11:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50276)
+	id 1mKnC1-0001K9-SO
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 15:43:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mKmew-0002QO-Lz; Mon, 30 Aug 2021 15:09:30 -0400
-Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:33469)
+ (Exim 4.90_1) (envelope-from <johannes.stoelp@googlemail.com>)
+ id 1mKn6G-0002QU-Kv; Mon, 30 Aug 2021 15:37:44 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:44853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mKmeu-0000mX-HV; Mon, 30 Aug 2021 15:09:30 -0400
-Received: by mail-qt1-x831.google.com with SMTP id b4so6883954qtx.0;
- Mon, 30 Aug 2021 12:09:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NBYtS0YuLywxSJ+zPVnPvJnKBPNiDIXHoWsFTTfD1W4=;
- b=ANrz6QByavs3fWshGJDJ7+zOELx+8s8JLrmAEluYMUH1KsdEXMtxV01h4yMQmJJv4F
- TzaYDeQ3Q5HI3NOyoRgYws168oCxbkDoMOOH5iRW1XAYRQaxP+fAEZ4dxQ80nxVBRWBs
- Tr79kMh9EDAPcwkCP/USKmYz3L3LrO4udYkXtDc/s57V7ZaOoINbx6hYUgPmwr3rQyYH
- iApnxI3K1s3ZOTh1wSpKA4S+Wtu8nTQPJLKsTHktXaX2jJx9IPFh4kg9054quf+qqmL/
- fnzVIbQP3I2KG0KrXhB3Jp9P/9wrGu3fJ8yxZNdT49yqBzc1KRHxSaVYOFAF8Tn+YxQk
- qNmw==
+ (Exim 4.90_1) (envelope-from <johannes.stoelp@googlemail.com>)
+ id 1mKn6E-0003EG-V0; Mon, 30 Aug 2021 15:37:44 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id v123so13010113pfb.11;
+ Mon, 30 Aug 2021 12:37:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=googlemail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LtBGuJebGmv1cfvYr9RhkscSVvbjAGdKN8AeQiV/CHs=;
+ b=avY6WCoHfYvC9+2jUWmmxDriiDlJdWQlswBV9WKEzI+Jew4SRQCk8ytUFK6e6N9piT
+ Rxn/QjuXL6D0cTTakMCecBAF58uuwgZ/Oatorj6+wliXlIbvUIK8Is/A0ddZ6bEUEpLo
+ GmV9OyuhYgVV8dN81St7GzQZB58BXVg0Fgh/6LgQzqMafD/yWkNx7mwMfzNucaHOgw5p
+ hUWIPFMMh5KOKWVyr8jF3tvcVlP6qzUejd7YT5zrx8wxPzvf/B0lb20dMX6sW3TChaMF
+ wPL9aJTIGNfTYxmkYgceH6OrSHpvPSUIuiUtCIbaKH7zTBWH89rt3jCgh2TS1nkds9B5
+ FIKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=NBYtS0YuLywxSJ+zPVnPvJnKBPNiDIXHoWsFTTfD1W4=;
- b=Go8QM6l81S6KBe7pz+0/AwgLfqWTFh7Wzi0AiYh2nV1WGtsu79i4biQW/R/aOZMqQn
- Jh4IYfqCStZc+SnU68Wu59bZOpsNvFrmjtdmdCxs9Lii2NuQze1lUn8Jpl6qkXnXrXHA
- uSmGER/BQPf39miUBb6JNtFIFPt1pZBgP3uamoXmcpsyM3kkEoLz/hJ/+4WjwBJZtkGU
- WobRxI3076+jBZhABYA2D7idFDrk3k5KZfFIkOLp1VmumxJTSihIqQdwH07hB1499e7I
- lGsGo5fi/vEhdH1Aoq/vtnab94TE3LibUZf3gLjAGKfjeNe3hFnTDAr4kWaaJ35JAByW
- EDGw==
-X-Gm-Message-State: AOAM5323b0JEGmNpPGNLLzun4hS1MDwTNtMhIiRWtArbEOcfymXY9xJS
- fMm58tLOgOm+3tNNLHvDNgk=
-X-Google-Smtp-Source: ABdhPJzI1Lw6FKPErpnlIElT6lvgQnb4FaYNcQzN2T5tSJ2oQjrHXS2pbjsY4bRPQud9sGWpXe+GsA==
-X-Received: by 2002:ac8:7154:: with SMTP id h20mr22355443qtp.251.1630350567022; 
- Mon, 30 Aug 2021 12:09:27 -0700 (PDT)
-Received: from [192.168.10.222] ([177.197.96.186])
- by smtp.gmail.com with ESMTPSA id y185sm12133056qkb.36.2021.08.30.12.09.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Aug 2021 12:09:26 -0700 (PDT)
-Subject: Re: [PATCH v2 10/16] target/ppc: PMU Event-Based exception support
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210824163032.394099-1-danielhb413@gmail.com>
- <20210824163032.394099-11-danielhb413@gmail.com> <YSXXDoktzkXkd3Vv@yekko>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <81920465-74d5-e068-6e47-fb2fe48fdc8b@gmail.com>
-Date: Mon, 30 Aug 2021 16:09:22 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LtBGuJebGmv1cfvYr9RhkscSVvbjAGdKN8AeQiV/CHs=;
+ b=QnkI/5JDi/CiFdz+UY7u+OMbnXc2eMpP6DMUoDsayXl00nwL0bBO1vWgKTcMuXrnS9
+ BRkazJSnf13WtqpRmvvf1OYirJOWlsT9ty1Hq7MdECIx6Tiko28fzXtvxhv89dKOZdrp
+ IBomZ/0BptlGBJUrJDgWQMooc4usyzMuKqavKNFIFf9KKK1DkwUHP/nL1AWrt2iUpvzO
+ XxD1XXb2NNRb5ww/MeNliw87GTqNp6a0xGOP6yjkHa6gy+o8HMSJBONiUmx8VFpmRIO1
+ icQ+JC44zIycwUeksuAcEdrhvFSSrX6EhqYHt/hFboN0KFW93LQMfkWiTeGnlatfWeBm
+ ynog==
+X-Gm-Message-State: AOAM533yRZj6szbXQp/0xH6v04mtcdI1kP0piF5j4q11XVjQkzKF/dqa
+ PYDEhEukieUwuptB9RbwT8+R/o5hNnu63qj5GMI=
+X-Google-Smtp-Source: ABdhPJxsvmI7hd5bWcqDvADpYFfh4BmTmy02z9lVQLsc/s6IJKDLav9NdeNH6PwImGYe1tvDRoRO7OjfEtF0ZXE9zII=
+X-Received: by 2002:a63:5651:: with SMTP id g17mr8171158pgm.119.1630352260981; 
+ Mon, 30 Aug 2021 12:37:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YSXXDoktzkXkd3Vv@yekko>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x831.google.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.932,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210805193950.514357-1-johannes.stoelp@gmail.com>
+ <CAFEAcA8TRQdj33Ycm=XzmuUUNApaXVgeDexfS+3Ycg6kLnpmyg@mail.gmail.com>
+ <20210830154708.ah27fh34q5dgg3le@redhat.com>
+ <CAFEAcA-QW1_sLEArKY1jBJkmGdKQukgwe=O36p7gDpH2mFceqw@mail.gmail.com>
+In-Reply-To: <CAFEAcA-QW1_sLEArKY1jBJkmGdKQukgwe=O36p7gDpH2mFceqw@mail.gmail.com>
+From: Johannes S <johannes.stoelp@googlemail.com>
+Date: Mon, 30 Aug 2021 21:37:30 +0200
+Message-ID: <CAMnW+q_6Vd0os7AEVVyM30m1kzev_3j8MWusXV1kp6jmUmRqcg@mail.gmail.com>
+Subject: Re: [PATCH v0] kvm: unsigned datatype in ioctl wrapper
+To: Peter Maydell <peter.maydell@linaro.org>, Eric Blake <eblake@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>, 
+ =?UTF-8?Q?Johannes_St=C3=B6lp?= <johannes.stoelp@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=johannes.stoelp@googlemail.com; helo=mail-pf1-x42c.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_XBL=0.375, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,273 +81,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gustavo.romero@linaro.org, Gustavo Romero <gromero@linux.ibm.com>,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, groug@kaod.org,
- qemu-ppc@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sun, Aug 29, 2021 at 11:10 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> It would be more helpful to readers to state the reason directly
+> in the commit message, rather than requiring them to go and look
+> up a comment in some other file.
 
+Thanks for the tip, that makes sense. I will follow it next time.
 
-On 8/25/21 2:37 AM, David Gibson wrote:
-> On Tue, Aug 24, 2021 at 01:30:26PM -0300, Daniel Henrique Barboza wrote:
->> From: Gustavo Romero <gromero@linux.ibm.com>
->>
->> Following up the rfebb implementation, this patch adds the EBB exception
->> support that are triggered by Performance Monitor alerts. This exception
->> occurs when an enabled PMU condition or event happens and both MMCR0_EBE
->> and BESCR_PME are set.
->>
->> The supported PM alerts will consist of counter negative conditions of
->> the PMU counters. This will be achieved by a timer mechanism that will
->> predict when a counter becomes negative. The PMU timer callback will set
->> the appropriate bits in MMCR0 and fire a PMC interrupt. The EBB
->> exception code will then set the appropriate BESCR bits, set the next
->> instruction pointer to the address pointed by the return register
->> (SPR_EBBRR), and redirect execution to the handler (pointed by
->> SPR_EBBHR).
->>
->> This patch sets the basic structure of interrupts and timers. The
->> following patches will add the counter negative logic for the
->> registers.
-> 
-> A timer makes sense for tripping cycles based EBB events.  But for
-> instructions based EBB events, shouldn't you instead have a test in
-> the update instructions path which trips the event if you've passed
-> the magic number?
+> > Of the various KVM_* ioctls we use via these functions, do
+> > any actually have values that would result in invalid sign
+> > extension here ? That is, is this fixing an existing bug, or is
+> > it merely avoiding a potential future bug?
+>
+> My question as well.  If there is such a bug, calling it out in the
+> commit message is essential; if the bug is just theoretical,
+> mentioning that is still useful.
 
-IIUC this is done in patch 14.
+I agree, more details would have been helpful here.
 
+The background is, that I observed some sign-extension for certain kvm
+ioctl requests. However that was in an artificial environment which
+included an ioctl wrapper that was defined as
+    int ioctl(int fd, unsigned long type, ...);
 
-Thanks,
+One example for such an ioctl request is the 'KVM_IRQ_LINE_STATUS'.
 
+So this is not fixing a actual bug, but a theoretical one.
 
-Daniel
+On Mon, Aug 30, 2021 at 5:47 PM Eric Blake <eblake@redhat.com> wrote:
+> The fact that glibc uses unsigned long rather than int for the second
+> argument is a strong argument in favor of using an unsigned type (on
+> 64-bit platforms, the kernel really is looking at 64 bits, even though
+> POSIX says we are only passing in 32, and sign-extension is wrong),
+> but on the other hand, I don't know if any ioctl requests CAN be sign
+> extended (ideally, no ioctl request has bit 0x80000000 set, so that it
+> doesn't matter if the userspace code was calling via a signed or
+> unsigned type, or via the 32-bit POSIX signature instead of the actual
+> kernel 'unsigned long' signature).
 
-> 
->>
->> CC: Gustavo Romero <gustavo.romero@linaro.org>
->> Signed-off-by: Gustavo Romero <gromero@linux.ibm.com>
->> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->> ---
->>   hw/ppc/spapr_cpu_core.c  |  6 ++++++
->>   target/ppc/cpu.h         | 12 +++++++++++-
->>   target/ppc/excp_helper.c | 28 +++++++++++++++++++++++++++
->>   target/ppc/power8_pmu.c  | 41 ++++++++++++++++++++++++++++++++++++++++
->>   target/ppc/power8_pmu.h  | 25 ++++++++++++++++++++++++
->>   5 files changed, 111 insertions(+), 1 deletion(-)
->>   create mode 100644 target/ppc/power8_pmu.h
->>
->> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
->> index 4f316a6f9d..c7a342c4aa 100644
->> --- a/hw/ppc/spapr_cpu_core.c
->> +++ b/hw/ppc/spapr_cpu_core.c
->> @@ -20,6 +20,7 @@
->>   #include "target/ppc/kvm_ppc.h"
->>   #include "hw/ppc/ppc.h"
->>   #include "target/ppc/mmu-hash64.h"
->> +#include "target/ppc/power8_pmu.h"
->>   #include "sysemu/numa.h"
->>   #include "sysemu/reset.h"
->>   #include "sysemu/hw_accel.h"
->> @@ -266,6 +267,11 @@ static bool spapr_realize_vcpu(PowerPCCPU *cpu, SpaprMachineState *spapr,
->>           return false;
->>       }
->>   
->> +    /* Init PMU interrupt timer (TCG only) */
->> +    if (!kvm_enabled()) {
->> +        cpu_ppc_pmu_timer_init(env);
->> +    }
->> +
->>       if (!sc->pre_3_0_migration) {
->>           vmstate_register(NULL, cs->cpu_index, &vmstate_spapr_cpu_state,
->>                            cpu->machine_data);
->> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
->> index 9d5eb9ead4..535754ddff 100644
->> --- a/target/ppc/cpu.h
->> +++ b/target/ppc/cpu.h
->> @@ -129,8 +129,9 @@ enum {
->>       /* ISA 3.00 additions */
->>       POWERPC_EXCP_HVIRT    = 101,
->>       POWERPC_EXCP_SYSCALL_VECTORED = 102, /* scv exception                     */
->> +    POWERPC_EXCP_EBB = 103, /* Event-based branch exception                  */
->>       /* EOL                                                                   */
->> -    POWERPC_EXCP_NB       = 103,
->> +    POWERPC_EXCP_NB       = 104,
->>       /* QEMU exceptions: special cases we want to stop translation            */
->>       POWERPC_EXCP_SYSCALL_USER = 0x203, /* System call in user mode only      */
->>   };
->> @@ -1047,6 +1048,8 @@ struct ppc_radix_page_info {
->>   #define PPC_CPU_OPCODES_LEN          0x40
->>   #define PPC_CPU_INDIRECT_OPCODES_LEN 0x20
->>   
->> +#define PMU_TIMERS_LEN 5
->> +
->>   struct CPUPPCState {
->>       /* Most commonly used resources during translated code execution first */
->>       target_ulong gpr[32];  /* general purpose registers */
->> @@ -1208,6 +1211,12 @@ struct CPUPPCState {
->>        * running cycles.
->>        */
->>       uint64_t pmu_base_time;
->> +
->> +    /*
->> +     * Timers used to fire performance monitor alerts and
->> +     * interrupts. All PMCs but PMC5 has a timer.
->> +     */
->> +    QEMUTimer *pmu_intr_timers[PMU_TIMERS_LEN];
->>   };
->>   
->>   #define SET_FIT_PERIOD(a_, b_, c_, d_)          \
->> @@ -2424,6 +2433,7 @@ enum {
->>       PPC_INTERRUPT_HMI,            /* Hypervisor Maintenance interrupt    */
->>       PPC_INTERRUPT_HDOORBELL,      /* Hypervisor Doorbell interrupt        */
->>       PPC_INTERRUPT_HVIRT,          /* Hypervisor virtualization interrupt  */
->> +    PPC_INTERRUPT_PMC,            /* Performance Monitor Counter interrupt */
->>   };
->>   
->>   /* Processor Compatibility mask (PCR) */
->> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
->> index 058b063d8a..e97898c5f4 100644
->> --- a/target/ppc/excp_helper.c
->> +++ b/target/ppc/excp_helper.c
->> @@ -821,6 +821,22 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
->>           cpu_abort(cs, "Non maskable external exception "
->>                     "is not implemented yet !\n");
->>           break;
->> +    case POWERPC_EXCP_EBB:       /* Event-based branch exception             */
->> +        if ((env->spr[SPR_BESCR] & BESCR_GE) &&
->> +            (env->spr[SPR_BESCR] & BESCR_PME)) {
->> +            target_ulong nip;
->> +
->> +            env->spr[SPR_BESCR] &= ~BESCR_GE;   /* Clear GE */
->> +            env->spr[SPR_BESCR] |= BESCR_PMEO;  /* Set PMEO */
->> +            env->spr[SPR_EBBRR] = env->nip;     /* Save NIP for rfebb insn */
->> +            nip = env->spr[SPR_EBBHR];          /* EBB handler */
->> +            powerpc_set_excp_state(cpu, nip, env->msr);
->> +        }
->> +        /*
->> +         * This interrupt is handled by userspace. No need
->> +         * to proceed.
->> +         */
->> +        return;
->>       default:
->>       excp_invalid:
->>           cpu_abort(cs, "Invalid PowerPC exception %d. Aborting\n", excp);
->> @@ -1068,6 +1084,18 @@ static void ppc_hw_interrupt(CPUPPCState *env)
->>               powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_THERM);
->>               return;
->>           }
->> +        /* PMC -> Event-based branch exception */
->> +        if (env->pending_interrupts & (1 << PPC_INTERRUPT_PMC)) {
->> +            /*
->> +             * Performance Monitor event-based exception can only
->> +             * occur in problem state.
->> +             */
->> +            if (msr_pr == 1) {
->> +                env->pending_interrupts &= ~(1 << PPC_INTERRUPT_PMC);
->> +                powerpc_excp(cpu, env->excp_model, POWERPC_EXCP_EBB);
->> +                return;
->> +            }
->> +        }
->>       }
->>   
->>       if (env->resume_as_sreset) {
->> diff --git a/target/ppc/power8_pmu.c b/target/ppc/power8_pmu.c
->> index 4545fe7810..a57b602125 100644
->> --- a/target/ppc/power8_pmu.c
->> +++ b/target/ppc/power8_pmu.c
->> @@ -12,12 +12,14 @@
->>   
->>   #include "qemu/osdep.h"
->>   
->> +#include "power8_pmu.h"
->>   #include "cpu.h"
->>   #include "helper_regs.h"
->>   #include "exec/exec-all.h"
->>   #include "exec/helper-proto.h"
->>   #include "qemu/error-report.h"
->>   #include "qemu/main-loop.h"
->> +#include "hw/ppc/ppc.h"
->>   
->>   #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
->>   
->> @@ -114,6 +116,45 @@ static void update_cycles_PMCs(CPUPPCState *env)
->>       }
->>   }
->>   
->> +static void cpu_ppc_pmu_timer_cb(void *opaque)
->> +{
->> +    PowerPCCPU *cpu = opaque;
->> +    CPUPPCState *env = &cpu->env;
->> +    uint64_t mmcr0;
->> +
->> +    mmcr0 = env->spr[SPR_POWER_MMCR0];
->> +    if (env->spr[SPR_POWER_MMCR0] & MMCR0_EBE) {
->> +        /* freeeze counters if needed */
->> +        if (mmcr0 & MMCR0_FCECE) {
->> +            mmcr0 &= ~MMCR0_FCECE;
->> +            mmcr0 |= MMCR0_FC;
->> +        }
->> +
->> +        /* Clear PMAE and set PMAO */
->> +        if (mmcr0 & MMCR0_PMAE) {
->> +            mmcr0 &= ~MMCR0_PMAE;
->> +            mmcr0 |= MMCR0_PMAO;
->> +        }
->> +        env->spr[SPR_POWER_MMCR0] = mmcr0;
->> +
->> +        /* Fire the PMC hardware exception */
->> +        ppc_set_irq(cpu, PPC_INTERRUPT_PMC, 1);
->> +    }
->> +}
->> +
->> +void cpu_ppc_pmu_timer_init(CPUPPCState *env)
->> +{
->> +    PowerPCCPU *cpu = env_archcpu(env);
->> +    QEMUTimer *timer;
->> +    int i;
->> +
->> +    for (i = 0; i < PMU_TIMERS_LEN; i++) {
->> +        timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, &cpu_ppc_pmu_timer_cb,
->> +                             cpu);
->> +        env->pmu_intr_timers[i] = timer;
->> +    }
->> +}
->> +
->>   void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
->>   {
->>       target_ulong curr_value = env->spr[SPR_POWER_MMCR0];
->> diff --git a/target/ppc/power8_pmu.h b/target/ppc/power8_pmu.h
->> new file mode 100644
->> index 0000000000..34a9d0e8a2
->> --- /dev/null
->> +++ b/target/ppc/power8_pmu.h
->> @@ -0,0 +1,25 @@
->> +/*
->> + * PMU emulation helpers for TCG IBM POWER chips
->> + *
->> + *  Copyright IBM Corp. 2021
->> + *
->> + * Authors:
->> + *  Daniel Henrique Barboza      <danielhb413@gmail.com>
->> + *
->> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
->> + * See the COPYING file in the top-level directory.
->> + */
->> +
->> +#ifndef PMU_BOOK3S_HELPER
->> +#define PMU_BOOK3S_HELPER
->> +
->> +#include "qemu/osdep.h"
->> +#include "cpu.h"
->> +#include "exec/exec-all.h"
->> +#include "exec/helper-proto.h"
->> +#include "qemu/error-report.h"
->> +#include "qemu/main-loop.h"
->> +
->> +void cpu_ppc_pmu_timer_init(CPUPPCState *env);
->> +
->> +#endif
-> 
+On my machine (64bit) I found some ioctl requests with the 0x8000_0000 bit
+set, eg
+- KVM_IRQ_LINE_STATUS
+- KVM_GET_MSR_INDEX_LIST
+- KVM_SET_IRQCHIP
+
+I was curious and looked into the macro definitions and it turns out on my
+machine, all requests with the '_IOC_READ' direction seem to have the
+0x8000_0000 bit set.
+_IOC_READ = 2
+_IOC_DIRSHIFT = 30
+_IOC_READ << _IOC_DIRSHIFT = 0x80000000
+
+#define KVM_SET_IRQCHIP     _IOR(KVMIO,  0x63, struct kvm_irqchip)
+#define _IOR(type,nr,size)  _IOC(_IOC_READ,(type),(nr),(_IOC_TYPECHECK(size)))
+#define _IOC(dir,type,nr,size) \
+    (((dir)  << _IOC_DIRSHIFT) | \
+     ((type) << _IOC_TYPESHIFT) | \
+     ((nr)   << _IOC_NRSHIFT) | \
+     ((size) << _IOC_SIZESHIFT))
+
+On Mon, Aug 30, 2021 at 7:33 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> I found this glibc bug from 2012, filed by some random guy named
+> Linus Torvalds, and still open:
+> https://sourceware.org/bugzilla/show_bug.cgi?id=14362
+> where among other things he claims
+> # As noted, this does not actually cause problems on Linux, because
+> # unlike FreeBSD, Linux knows what the f*ck it is doing, and just
+> # ignores the upper bits exactly because of possible sign confusion.
+
+Sounds like we are saved be the Linux Kernel here :)
+
+In my opinion we should use 'unsigned' data types here for the ioctl
+request in the ioctl wrappers or would you prefer to keep the ioctl
+wrapper definition as is today? What is you opinion?
+
+Thanks and best,
+Johannes
 
