@@ -2,68 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 589B53FB77C
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 16:05:02 +0200 (CEST)
-Received: from localhost ([::1]:53958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B48BD3FB7CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 16:21:33 +0200 (CEST)
+Received: from localhost ([::1]:42022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKhuB-0007lw-G9
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 10:04:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46116)
+	id 1mKiAE-0003Do-Th
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 10:21:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mKhqt-0005Cq-2u
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 10:01:31 -0400
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:46700)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mKhqq-0007Ql-H4
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 10:01:30 -0400
-Received: by mail-ed1-x52a.google.com with SMTP id j13so16459279edv.13
- for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 07:01:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hEXhE5VCwR3lvTmQm+0RHT6BKAptZR9+wLH8xPIpIjY=;
- b=cJmpyRQlNWd3A9TmpGezw6NN3o1x8nRzhb7ZJpDhyh6FKhaDQIKyqWfQnCBws7G5k4
- GraXHqnhrN6mVSsCX954PfxRbnnStvfgnXzCprxjhllhcQOq44YFtTAks8hVSy3NCEEs
- ELDqo8tbBIcSMg3REpOt/aORvAGW4Pqx89cKZl60fnaoY6cXApXrOEsfVIGw+PJYG7Wf
- pudDPlRmziT6Bz4hLqMaqafW3Rz5zTmybqP0v8Wtr+hSxsIYis9l2haII6YgeRJOpFZH
- 9uVQMeChtaJXGCCR7BpuHh6k/wbjBgxG8PKrtBt6jilXPh/f7NbmUkLQFLpYsXRMbwzR
- 8jXw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mKi7J-0000LD-LB
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 10:18:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23681)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mKi7H-0002MU-43
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 10:18:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630333106;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oblSH1oT4EgBngN4YaKm0pUdA0pCNQgBGUYq2VwmbaM=;
+ b=ZjD74xKGTxPKCAG74ewTev8x/dPP+fU5oqROg2Mgq7A8I2GU4fgXtS/SFx6qKUYIBTeeAM
+ 9KD+FM2JF2GY0fqLZCg43I0HIYhP+Cr7Fyu11Prpar69d/fn08eKmK+jZ8R+2mNG/EU+Ln
+ 6eUdo2/hPcyd6uN0W+i5CpZU0zMb4Gc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-213-Kc3Zq6N5OAiL579gQIUobw-1; Mon, 30 Aug 2021 10:18:06 -0400
+X-MC-Unique: Kc3Zq6N5OAiL579gQIUobw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ u14-20020a7bcb0e0000b0290248831d46e4so40879wmj.6
+ for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 07:18:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hEXhE5VCwR3lvTmQm+0RHT6BKAptZR9+wLH8xPIpIjY=;
- b=BNYTPGXszeIK7lqtimhazviQQ8DEsK42V2RQLpCoteEcdRbBii15uod5mWt7jKLUTd
- snGNBxehGD69XM8uYYeyUNzLxfT1/mtq1UfWKBARcHNYS3MPPWBSgTk91FNp0eEXl0PR
- ZQt63BknxBO7Ou9N9hPkPnxXQ/PYYbEdZtwW3LpkwXXh2Zr3e3OvWnjJEPkqd6Ckz1xy
- Y20hy4uAfviSJ8LIpfKL/E5l4aThr6kUPEOKCLftXntE3SD3GI3Z4waxnH5gT7ZbB6aA
- G6tHhlzah4M4dndJcEiMLPux/FjEPB3zLJtqzbtk+eIMo67gKa2HxWtkbbl5mlA7TLq8
- ETjQ==
-X-Gm-Message-State: AOAM530Dh0SSYtt837yF9wCIxMfyv0X7Hw0sg12LKNKe9yiMmgh03kPY
- KuCRQSEQLO1WiYgwgpq7LZGC0UzexFUVhCazFds=
-X-Google-Smtp-Source: ABdhPJxBeAO/AicyyC6VRtqoHujd0mUU+PGlUFMdNW7gh36OhPJbvHZRvIJGiCQVVX9V5IfM7OXnOo55E7ELOMzZR5M=
-X-Received: by 2002:aa7:d9d3:: with SMTP id v19mr24414262eds.257.1630332085670; 
- Mon, 30 Aug 2021 07:01:25 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oblSH1oT4EgBngN4YaKm0pUdA0pCNQgBGUYq2VwmbaM=;
+ b=YE9xSW3eoRnUS34hWfvgmP8eS31ZXBYIsy4+SB2LfoAwpBnw8zS+wtulzqUk+0JeEI
+ y+HFqp7fWe2E2whHH77v7KRYFrJR9Vvt2wjg8hwAWKhXlbRrFHDq+smyJMWkvkDQhC0m
+ YSc7syGeLi+QTOHIAANKcGbYP+CycdOiSQRSJgmdOkUfqCd6A9v3ZpDjp+4zO7mdcASN
+ uDqVvY+94fz8Jjqr3BJ/L/48/ptpmFiLSGMDoaSlaNW/HvMujjpUQaoK66oA9wFEKrt2
+ pD4egxDpCDORjcu+2XQMODhKheCnLWPBbFxfoSZ/wLR2yiDPlZSsVhjympctxpE900xF
+ 4hug==
+X-Gm-Message-State: AOAM533jz2OMniRtuEg6L+63T8CvFbLuNvXnwHoJCqA2G5zrn+ID7EOI
+ hMUq/FVto3Eq8LxFjTbygragtTFFFYFCKdTFCG+oECHmywO/ioG08SLD/JHvd9RJ0VFMDD0fign
+ Q6FQ9nMPM20yZnRs=
+X-Received: by 2002:a5d:63ca:: with SMTP id c10mr26715042wrw.16.1630333085208; 
+ Mon, 30 Aug 2021 07:18:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy2GQDliXvVW6/fDvymqUw1v9nEaTd344muOKc88ToZe3tWRdJj7cDbChfW1OALEyf2yre0DA==
+X-Received: by 2002:a5d:63ca:: with SMTP id c10mr26715011wrw.16.1630333085006; 
+ Mon, 30 Aug 2021 07:18:05 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id q13sm15424573wrv.79.2021.08.30.07.18.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Aug 2021 07:18:04 -0700 (PDT)
+Subject: Re: [PATCH v2 01/23] MAINTAINERS: Add Connor Kuehl as reviewer for
+ AMD SEV
+To: qemu-devel@nongnu.org, Connor Kuehl <ckuehl@redhat.com>
+References: <20210616204328.2611406-1-philmd@redhat.com>
+ <20210616204328.2611406-2-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <980f9ccb-39d7-23ec-4aa8-830e93dd0ff2@redhat.com>
+Date: Mon, 30 Aug 2021 16:18:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210824222226.22528-1-eugeneh@nvidia.com>
-In-Reply-To: <20210824222226.22528-1-eugeneh@nvidia.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Mon, 30 Aug 2021 18:01:13 +0400
-Message-ID: <CAJ+F1CLM6n7r-ic5t853gwGGfnETV0GwFQnG-21OHQgbpf1PMw@mail.gmail.com>
-Subject: Re: [PATCH 1/2] Use EGL device extension in display initialization.
-To: Eugene Huang <eugeneh@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000d5168305cac7440d"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210616204328.2611406-2-philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.932, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,279 +99,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: Brijesh Singh <brijesh.singh@amd.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ James Bottomley <jejb@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Dov Murik <dovmurik@linux.ibm.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d5168305cac7440d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Aug 25, 2021 at 2:22 AM Eugene Huang <eugeneh@nvidia.com> wrote:
-
-> Signed-off-by: Eugene Huang <eugeneh@nvidia.com>
+On 6/16/21 10:43 PM, Philippe Mathieu-Daudé wrote:
+> From: Connor Kuehl <ckuehl@redhat.com>
+> 
+> It may not be appropriate for me to take over as a maintainer at this time,
+> but I would consider myself familiar with AMD SEV and what this code is
+> meant to be doing as part of a VMM for launching SEV-protected guests.
+> 
+> To that end, I would be happy to volunteer as a reviewer for SEV-related
+> changes so that I am CC'd on them and can help share the review burden with
+> whoever does maintain this code.
+> 
+> Signed-off-by: Connor Kuehl <ckuehl@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Message-Id: <20210608192537.103584-1-ckuehl@redhat.com>
+> [PMD: Cover more files]
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  ui/egl-helpers.c | 41 +++++++++++++++++++++++++++++++++++++----
->  1 file changed, 37 insertions(+), 4 deletions(-)
->
-> diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
-> index 6d0cb2b5cb..ce0971422b 100644
-> --- a/ui/egl-helpers.c
-> +++ b/ui/egl-helpers.c
-> @@ -1,6 +1,8 @@
->  /*
->   * Copyright (C) 2015-2016 Gerd Hoffmann <kraxel@redhat.com>
->   *
-> + * Copyright (c) 2021, NVIDIA CORPORATION & AFFILIATES. All rights
-> reserved.
-> + *
->   * This library is free software; you can redistribute it and/or
->   * modify it under the terms of the GNU Lesser General Public
->   * License as published by the Free Software Foundation; either
-> @@ -351,11 +353,26 @@ static EGLDisplay
-> qemu_egl_get_display(EGLNativeDisplayType native,
->      EGLDisplay dpy =3D EGL_NO_DISPLAY;
->
->      /* In practise any EGL 1.5 implementation would support the EXT
-> extension */
-> -    if (epoxy_has_egl_extension(NULL, "EGL_EXT_platform_base")) {
-> +    if (epoxy_has_egl_extension(NULL, "EGL_EXT_platform_base")
-> +        && epoxy_has_egl_extension(NULL, "EGL_EXT_platform_device")
-> +        && (epoxy_has_egl_extension(NULL, "EGL_EXT_device_base")
-> +        || epoxy_has_egl_extension(NULL, "EGL_EXT_device_enumeration")))=
- {
->          PFNEGLGETPLATFORMDISPLAYEXTPROC getPlatformDisplayEXT =3D
->              (void *) eglGetProcAddress("eglGetPlatformDisplayEXT");
->          if (getPlatformDisplayEXT && platform !=3D 0) {
-> -            dpy =3D getPlatformDisplayEXT(platform, native, NULL);
-> +            if (platform =3D=3D EGL_PLATFORM_DEVICE_EXT) {
-> +                static const int MAX_DEVICES =3D 4;
-> +                EGLDeviceEXT eglDevs[MAX_DEVICES];
-> +                EGLint numDevices;
+>  MAINTAINERS | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ccdb81c9f62..fbfaaa54721 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2937,6 +2937,13 @@ F: hw/core/clock-vmstate.c
+>  F: hw/core/qdev-clock.c
+>  F: docs/devel/clocks.rst
+>  
+> +AMD Secure Encrypted Virtualization (SEV)
+> +R: Connor Kuehl <ckuehl@redhat.com>
+
+Is this patch still valid?
+
+> +F: docs/amd-memory-encryption.txt
+> +F: accel/kvm/sev-stub.c
+> +F: target/i386/sev*
+> +F: include/sysemu/sev.h
 > +
-> +                PFNEGLQUERYDEVICESEXTPROC eglQueryDevicesEXT =3D
-> +                    (PFNEGLQUERYDEVICESEXTPROC)
-> +                eglGetProcAddress("eglQueryDevicesEXT");
->
+>  Usermode Emulation
+>  ------------------
+>  Overall usermode emulation
+> 
 
-It should handle the case where returned eglQueryDevicesEXT is NULL.
-
-+                eglQueryDevicesEXT(MAX_DEVICES, eglDevs, &numDevices);
->
-
-You need to handle the success return value, as well as the case where
-numDevices =3D=3D 0.
-
-(surprisingly, we don't need to care about memory of eglDevs?)
-
-
-> +                dpy =3D getPlatformDisplayEXT(platform, eglDevs[0], 0);
-> +            } else {
-> +                dpy =3D getPlatformDisplayEXT(platform, native, NULL);
-> +            }
->          }
->      }
->
-> @@ -388,6 +405,17 @@ static int qemu_egl_init_dpy(EGLNativeDisplayType dp=
-y,
->          EGL_ALPHA_SIZE, 0,
->          EGL_NONE,
->      };
-> +
-> +    static const EGLint conf_att_pbuffer[] =3D {
-> +        EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,
-> +        EGL_RED_SIZE, 8,
-> +        EGL_GREEN_SIZE, 8,
-> +        EGL_BLUE_SIZE, 8,
-> +        EGL_DEPTH_SIZE, 1,
-> +        EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,
-> +        EGL_NONE
-> +    };
-> +
->      EGLint major, minor;
->      EGLBoolean b;
->      EGLint n;
-> @@ -413,8 +441,8 @@ static int qemu_egl_init_dpy(EGLNativeDisplayType dpy=
-,
->      }
->
->      b =3D eglChooseConfig(qemu_egl_display,
-> -                        gles ? conf_att_gles : conf_att_core,
-> -                        &qemu_egl_config, 1, &n);
-> +        gles ? conf_att_gles : (platform =3D=3D EGL_PLATFORM_DEVICE_EXT =
-?
-> conf_att_pbuffer : conf_att_core),
-> +        &qemu_egl_config, 1, &n);
->      if (b =3D=3D EGL_FALSE || n !=3D 1) {
->          error_report("egl: eglChooseConfig failed (%s mode)",
->                       gles ? "gles" : "core");
-> @@ -436,6 +464,11 @@ int qemu_egl_init_dpy_x11(EGLNativeDisplayType dpy,
-> DisplayGLMode mode)
->
->  int qemu_egl_init_dpy_mesa(EGLNativeDisplayType dpy, DisplayGLMode mode)
->  {
-> +    // Try EGL Device Extension
-> +    if (qemu_egl_init_dpy(dpy, EGL_PLATFORM_DEVICE_EXT, mode) =3D=3D 0) =
-{
-> +        return 0;
-> +    }
-> +
->  #ifdef EGL_MESA_platform_gbm
->      return qemu_egl_init_dpy(dpy, EGL_PLATFORM_GBM_MESA, mode);
->  #else
-> --
-> 2.17.1
->
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000d5168305cac7440d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Aug 25, 2021 at 2:22 AM Eugen=
-e Huang &lt;<a href=3D"mailto:eugeneh@nvidia.com">eugeneh@nvidia.com</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Signed-=
-off-by: Eugene Huang &lt;<a href=3D"mailto:eugeneh@nvidia.com" target=3D"_b=
-lank">eugeneh@nvidia.com</a>&gt;<br>
----<br>
-=C2=A0ui/egl-helpers.c | 41 +++++++++++++++++++++++++++++++++++++----<br>
-=C2=A01 file changed, 37 insertions(+), 4 deletions(-)<br>
-<br>
-diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c<br>
-index 6d0cb2b5cb..ce0971422b 100644<br>
---- a/ui/egl-helpers.c<br>
-+++ b/ui/egl-helpers.c<br>
-@@ -1,6 +1,8 @@<br>
-=C2=A0/*<br>
-=C2=A0 * Copyright (C) 2015-2016 Gerd Hoffmann &lt;<a href=3D"mailto:kraxel=
-@redhat.com" target=3D"_blank">kraxel@redhat.com</a>&gt;<br>
-=C2=A0 *<br>
-+ * Copyright (c) 2021, NVIDIA CORPORATION &amp; AFFILIATES. All rights res=
-erved.<br>
-+ *<br>
-=C2=A0 * This library is free software; you can redistribute it and/or<br>
-=C2=A0 * modify it under the terms of the GNU Lesser General Public<br>
-=C2=A0 * License as published by the Free Software Foundation; either<br>
-@@ -351,11 +353,26 @@ static EGLDisplay qemu_egl_get_display(EGLNativeDispl=
-ayType native,<br>
-=C2=A0 =C2=A0 =C2=A0EGLDisplay dpy =3D EGL_NO_DISPLAY;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* In practise any EGL 1.5 implementation would support=
- the EXT extension */<br>
--=C2=A0 =C2=A0 if (epoxy_has_egl_extension(NULL, &quot;EGL_EXT_platform_bas=
-e&quot;)) {<br>
-+=C2=A0 =C2=A0 if (epoxy_has_egl_extension(NULL, &quot;EGL_EXT_platform_bas=
-e&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; epoxy_has_egl_extension(NULL, &quot=
-;EGL_EXT_platform_device&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;&amp; (epoxy_has_egl_extension(NULL, &quo=
-t;EGL_EXT_device_base&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 || epoxy_has_egl_extension(NULL, &quot;EGL_EXT=
-_device_enumeration&quot;))) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0PFNEGLGETPLATFORMDISPLAYEXTPROC getPlatfo=
-rmDisplayEXT =3D<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(void *) eglGetProcAddress(=
-&quot;eglGetPlatformDisplayEXT&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (getPlatformDisplayEXT &amp;&amp; plat=
-form !=3D 0) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dpy =3D getPlatformDisplayEXT(pl=
-atform, native, NULL);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (platform =3D=3D EGL_PLATFORM=
-_DEVICE_EXT) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 static const int M=
-AX_DEVICES =3D 4;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 EGLDeviceEXT eglDe=
-vs[MAX_DEVICES];<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 EGLint numDevices;=
-<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 PFNEGLQUERYDEVICES=
-EXTPROC eglQueryDevicesEXT =3D<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (PFN=
-EGLQUERYDEVICESEXTPROC)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 eglGetProcAddress(=
-&quot;eglQueryDevicesEXT&quot;);<br></blockquote><div><br></div><div>It sho=
-uld handle the case where returned eglQueryDevicesEXT is NULL.</div><div><b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 eglQueryDevicesEXT=
-(MAX_DEVICES, eglDevs, &amp;numDevices);<br></blockquote><div><br></div><di=
-v>You need to handle the success return value, as well as the case where nu=
-mDevices =3D=3D 0.</div><div><br></div><div>(surprisingly, we don&#39;t nee=
-d to care about memory of eglDevs?)<br></div><div>=C2=A0</div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dpy =3D getPlatfor=
-mDisplayEXT(platform, eglDevs[0], 0);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dpy =3D getPlatfor=
-mDisplayEXT(platform, native, NULL);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-@@ -388,6 +405,17 @@ static int qemu_egl_init_dpy(EGLNativeDisplayType dpy,=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0EGL_ALPHA_SIZE, 0,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0EGL_NONE,<br>
-=C2=A0 =C2=A0 =C2=A0};<br>
-+<br>
-+=C2=A0 =C2=A0 static const EGLint conf_att_pbuffer[] =3D {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 EGL_SURFACE_TYPE, EGL_PBUFFER_BIT,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 EGL_RED_SIZE, 8,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 EGL_GREEN_SIZE, 8,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 EGL_BLUE_SIZE, 8,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 EGL_DEPTH_SIZE, 1,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 EGL_RENDERABLE_TYPE, EGL_OPENGL_BIT,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 EGL_NONE<br>
-+=C2=A0 =C2=A0 };<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0EGLint major, minor;<br>
-=C2=A0 =C2=A0 =C2=A0EGLBoolean b;<br>
-=C2=A0 =C2=A0 =C2=A0EGLint n;<br>
-@@ -413,8 +441,8 @@ static int qemu_egl_init_dpy(EGLNativeDisplayType dpy,<=
-br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0b =3D eglChooseConfig(qemu_egl_display,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 gles ? conf_att_gles : conf_att_core,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 &amp;qemu_egl_config, 1, &amp;n);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 gles ? conf_att_gles : (platform =3D=3D EGL_PL=
-ATFORM_DEVICE_EXT ? conf_att_pbuffer : conf_att_core),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &amp;qemu_egl_config, 1, &amp;n);<br>
-=C2=A0 =C2=A0 =C2=A0if (b =3D=3D EGL_FALSE || n !=3D 1) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_report(&quot;egl: eglChooseConfig f=
-ailed (%s mode)&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 gles ? &quot;gles&quot; : &quot;core&quot;);<br>
-@@ -436,6 +464,11 @@ int qemu_egl_init_dpy_x11(EGLNativeDisplayType dpy, Di=
-splayGLMode mode)<br>
-<br>
-=C2=A0int qemu_egl_init_dpy_mesa(EGLNativeDisplayType dpy, DisplayGLMode mo=
-de)<br>
-=C2=A0{<br>
-+=C2=A0 =C2=A0 // Try EGL Device Extension<br>
-+=C2=A0 =C2=A0 if (qemu_egl_init_dpy(dpy, EGL_PLATFORM_DEVICE_EXT, mode) =
-=3D=3D 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-=C2=A0#ifdef EGL_MESA_platform_gbm<br>
-=C2=A0 =C2=A0 =C2=A0return qemu_egl_init_dpy(dpy, EGL_PLATFORM_GBM_MESA, mo=
-de);<br>
-=C2=A0#else<br>
--- <br>
-2.17.1<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000d5168305cac7440d--
 
