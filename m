@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAFD43FB191
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 09:04:16 +0200 (CEST)
-Received: from localhost ([::1]:44800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 834653FB161
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 08:48:44 +0200 (CEST)
+Received: from localhost ([::1]:35412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKbKv-0003mX-KX
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 03:04:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46760)
+	id 1mKb63-0003ie-IQ
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 02:48:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mKakI-00070K-Py; Mon, 30 Aug 2021 02:26:14 -0400
-Received: from mail-il1-x136.google.com ([2607:f8b0:4864:20::136]:37692)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mKakH-0008VH-10; Mon, 30 Aug 2021 02:26:14 -0400
-Received: by mail-il1-x136.google.com with SMTP id i13so14879962ilm.4;
- Sun, 29 Aug 2021 23:26:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Tb0zSWhg3UjMLub3KbfL43K/aQO47njriunHw2KJfLk=;
- b=fFtsm2BjTjzlwNLyIBw56+u9e+3MR+KugStyk+2oAuOTh+p+cPLaA7IXHMAYVoLVaZ
- vobQcC9HNdMdhKO6hLSvvCW2ErA9IkuBlmAOUMUZbWVWlsxotkb6t/6M187dL3pn9Bmd
- df8g3+AEl6JsCs1Y335RjMwSHaEMWAz2L1CXC2TEQyU8S44qZpxbRUgGfUTpIUEmcJnV
- g147O09Xhf7UEkl31C8FnukemXo0dPturjlUjyrn+WNH+vWCa3NVK4T0JOtis15Ngt2K
- 3cytS1yTl+EArIV47yyD95FS/RXnbNEpRRs5nMiN1SiqoGP9J6aVm+yVG/NQ0TpWZqxn
- SYdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Tb0zSWhg3UjMLub3KbfL43K/aQO47njriunHw2KJfLk=;
- b=drA6yexCITcY+syWgI7PbOa5B8a3HXWc16f4ZpAZWibgd3T6TuMAmVZNR2n7lUuDmi
- CnZFLPvwmR64zqDi+HJKuLt+beDZTciKRuSXDZG0on22SRODnxJ1K0c9TfD0/SLvN8zT
- HgkVn1/ZCFDgfqRE63WCxkuEd+dt9Qx0/BJFYWWQWfRTbWn6RcI1dJbMgpoCyvVP60nb
- hBTlrLMB+q6VTOc3MwiJhcVUeHN1r9USTrbF17AILrScUtKu1vCnh/B1YqXXWBqXa5yD
- UDJabubMfHXP4aSzI4udyV9H34x6wyPcAeK6n/0bSdAjOyZotpChotsg8ocrWns0umMU
- coeA==
-X-Gm-Message-State: AOAM5301QelUxlvW9nW1bR69FLbOVbLwhDZct3kTSMNly7bEdM1D5+/t
- jcfUDR0X5M5uq3YNcw3c0fXPIHMuo4qS6Q7W/d8=
-X-Google-Smtp-Source: ABdhPJwcL+B3nz3NFdxiPOzmObWsXVqGGNaSPU7OslCtzQBVKbwYGKNPSA8wpEEnzQ4TD7Gmiv3tEjLlarBtnL6U4Zo=
-X-Received: by 2002:a05:6e02:1044:: with SMTP id
- p4mr14882469ilj.227.1630304771567; 
- Sun, 29 Aug 2021 23:26:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mKakO-0007Oq-HA
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:26:20 -0400
+Received: from 1.mo52.mail-out.ovh.net ([178.32.96.117]:50655)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mKakM-0008Sb-Cm
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:26:20 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.51])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 62848293C2C;
+ Mon, 30 Aug 2021 08:26:05 +0200 (CEST)
+Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 30 Aug
+ 2021 08:26:05 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G005851b2489-13fd-4744-9cb1-e346517d0995,
+ A410DCCBFF6448DFF799E1C977766415213BDB3F) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.66.77.115
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Subject: Re: QEMU-KVM offers OPAL firmware interface? OpenBSD guest support?
+To: Joseph <joseph.mayer@protonmail.com>, Mark Kettenis
+ <mark.kettenis@xs4all.nl>, Greg Kurz <groug@kaod.org>, "ppc@openbsd.org"
+ <ppc@openbsd.org>
+References: <7r8MLHEKQicVkfT4tQLsiRXQmt_800XbV1s0mM_QJTgOY7XadpiRcD4HizmXByPaZRsMQV2WbNKDfKU-PdVo3ZO9JC6fJ0MF5LM_j5a2fgA=@protonmail.com>
+ <20210827170113.5f4ed260@bahia.lan>
+ <HgtFZEnabNjIrsVI3x8MYs2QYSCG4IFStP0MR3qwPWBmXW9kDmQmIwQEWHMVdJbUCu-XvHdMpZGe3pr-B91s1D7y6cn9SVzhxEYms5c3p0o=@protonmail.com>
+ <20210827180259.3720d58d@bahia.lan>
+ <56141ff67838992a@bloch.sibelius.xs4all.nl>
+ <20210827190053.6c68def5@bahia.lan>
+ <25bfa81c-9498-4e82-a848-1fbb1c188ff1@kaod.org>
+ <561422a20e4f9ae2@bloch.sibelius.xs4all.nl>
+ <51bff28d-4779-b023-fee6-b3e9196b7ec5@kaod.org>
+ <3QoYEEZauH3xXwC2NcJFnrHe4IaWwu2fqEvtR6tR3RHsY_b0bsyz0oQdcI0b1zdwnXbXhl6bCtaUiyWQjbYgnx5U-Ov_Lm3tMGdMkTwZC88=@protonmail.com>
+ <rsXZBagdw5FfhNG03S3YOPy0gXevBIpZ2ugg1vO381FSYZPj2Cxjtn-SBmEfa1Z2R4lQLB_Qwt3kI7C_-amLCSy1fBxTbkAQckqjYHAhWcs=@protonmail.com>
+Message-ID: <6c7067e2-b9e7-62a3-9074-2de85c28b1b3@kaod.org>
+Date: Mon, 30 Aug 2021 08:26:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <aa466b05545e360b9a96249a659c5d1e@m101.nthu.edu.tw>
- <e7340f10bfbab7bead0a045aa9ae09f7@m101.nthu.edu.tw>
- <113c061817fc2caa934930182da7ab63@m101.nthu.edu.tw>
-In-Reply-To: <113c061817fc2caa934930182da7ab63@m101.nthu.edu.tw>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 30 Aug 2021 16:25:45 +1000
-Message-ID: <CAKmqyKM+HTBsvgQ-A19WSGy8-hWZ-RgyFxMD0t0w32Rg_c9LOg@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/intc/sifive_clint: Fix expiration time logic
-To: s101062801 <s101062801@m101.nthu.edu.tw>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::136;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x136.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+In-Reply-To: <rsXZBagdw5FfhNG03S3YOPy0gXevBIpZ2ugg1vO381FSYZPj2Cxjtn-SBmEfa1Z2R4lQLB_Qwt3kI7C_-amLCSy1fBxTbkAQckqjYHAhWcs=@protonmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 62fce9bc-fa63-4979-9dbf-d71d51bd2078
+X-Ovh-Tracer-Id: 8790182047845616632
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddukedguddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhuffvfhfkffgfgggjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedtudeludehgfefhedugfduteeftefftedvfeelvdefuedufeeivdfgffeijeeiheenucffohhmrghinhepohhpvghnphhofigvrhhfohhunhgurghtihhonhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
+ helo=1.mo52.mail-out.ovh.net
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.58,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,84 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: pjp@centroid.eu, gardask@gmail.com, rgcinjp@disroot.org, daniel@pocock.pro,
+ kite@centroid.eu, QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Aug 29, 2021 at 12:27 PM s101062801 <s101062801@m101.nthu.edu.tw> wrote:
->
-> After timecmp is modified, the value is converted into nanosecond,
-> and pass to timer_mod.  However, timer_mod perceives the value as
-> a signed integer.  An example that goes wrong is as follows:
->
-> OpenSBI v0.9 initializes the cold boot hart's timecmp to
-> 0xffffffff_ffffffff.  timer_mod then interprets the product of the
-> following calculation as a negative value.  As a result, the clint
-> timer is pulled out of timerlist because it looks like it has
-> expired, which cause the MIP.MTIP is set before any real timer
-> interrupt.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/493
-> Signed-off-by: Quey-Liang Kao <s101062801@m101.nthu.edu.tw>
-> ---
-> v2:
->   - Fix the calculation for next.
->   - Link to issue 493.
->   - I saw David's after I made this patch.  Yet I want to correct the
-> error
->     in v1.
+On 8/29/21 6:20 AM, Joseph wrote:
+>> runs Linux powernv bare metal on Power9 hardware. Each VM is a
+>> KVM-QEMU instance.
+> 
+>>>> If you want to also run OpenBSD inside a VM, then OpenBSD must
+>>>> implement proper support to be able to run in the paravirtualized
+>>>> PAPR environment provided by KVM-QEMU on POWER. The OpenBSD statement
+>>>> seem to indicate this is missing. Nothing special "should" be needed
+>>>> on the KVM-QEMU side.
+> 
+> Terminology, what is PAPR an abbreviation of
 
-Hello,
+Power Architecture Platform Reference
 
-Thanks for the patch!
+https://openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-20200611.pdf
 
-As David's was sent first I am going to apply that instead of this
-one. Sorry about that.
+> is pseries (hardware interface) equivalent with PAPR?
 
-Please feel free to send more QEMU patches in the future or to review
-other people's patches.
+pseries was the name of IBM powerpc servers. It is the name of the Linux 
+platform supporting PAPR and also the name of the QEMU machine implementing 
+PAPR.
 
-Hopefully we will see you again :)
+> Also all discussed above is supported by Raptor Talos/Blackbird
+> hardware right - the Raptor machine exports PowerNV to the host system
+> that runs on bare metal, and the host system (= Linux QEMU-KVM for
+> now) will export a virtualized pseries/papr Power9 machine to the VM
+> guest, which runs at close to full bare metal speed?
 
-Alistair
-
-> ---
->   hw/intc/sifive_clint.c | 9 ++++++---
->   1 file changed, 6 insertions(+), 3 deletions(-)
->
-> diff --git a/hw/intc/sifive_clint.c b/hw/intc/sifive_clint.c
-> index 0f41e5ea1c..78f01d17d3 100644
-> --- a/hw/intc/sifive_clint.c
-> +++ b/hw/intc/sifive_clint.c
-> @@ -44,6 +44,7 @@ static void sifive_clint_write_timecmp(RISCVCPU *cpu,
-> uint64_t value,
->   {
->       uint64_t next;
->       uint64_t diff;
-> +    uint64_t now;
->
->       uint64_t rtc_r = cpu_riscv_read_rtc(timebase_freq);
->
-> @@ -59,9 +60,11 @@ static void sifive_clint_write_timecmp(RISCVCPU *cpu,
-> uint64_t value,
->       riscv_cpu_update_mip(cpu, MIP_MTIP, BOOL_TO_MASK(0));
->       diff = cpu->env.timecmp - rtc_r;
->       /* back to ns (note args switched in muldiv64) */
-> -    next = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
-> -        muldiv64(diff, NANOSECONDS_PER_SECOND, timebase_freq);
-> -    timer_mod(cpu->env.timer, next);
-> +    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-> +    next = now + muldiv64(diff, NANOSECONDS_PER_SECOND, timebase_freq);
-> +    timer_mod(cpu->env.timer, (next <= now) ?
-> +                              (int64_t)((1ULL << 63) - 1) :
-> +                              next);
->   }
->
->   /*
-> --
-> 2.32.0
->
+yes. There is a slight overhead depending on how much the hypervisor needs
+to be involved.  
+ 
+C.
 
