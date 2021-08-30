@@ -2,37 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834653FB161
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 08:48:44 +0200 (CEST)
-Received: from localhost ([::1]:35412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61FAC3FB1AF
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 09:12:32 +0200 (CEST)
+Received: from localhost ([::1]:35452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKb63-0003ie-IQ
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 02:48:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46786)
+	id 1mKbSv-0000Gq-A4
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 03:12:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mKakO-0007Oq-HA
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:26:20 -0400
-Received: from 1.mo52.mail-out.ovh.net ([178.32.96.117]:50655)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mKbEr-0004or-At; Mon, 30 Aug 2021 02:57:51 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:55471 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mKakM-0008Sb-Cm
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:26:20 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.51])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 62848293C2C;
- Mon, 30 Aug 2021 08:26:05 +0200 (CEST)
-Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Mon, 30 Aug
- 2021 08:26:05 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005851b2489-13fd-4744-9cb1-e346517d0995,
- A410DCCBFF6448DFF799E1C977766415213BDB3F) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.66.77.115
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mKbEo-0008PJ-Uk; Mon, 30 Aug 2021 02:57:49 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4Gyh356nygz9sR4; Mon, 30 Aug 2021 16:57:37 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1630306657;
+ bh=kIswjZcPbNpVHhhlQHxOlgKRttoIb4mdcKEzfDRzlo0=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=grGDyEUNlgk2JDIPkGWuxtstnHihXsmZ0YRKdH5xTcPI358vPGvSAqsiGHrXDkiTM
+ qvwcM7sq/XVLKO+3yDpoCOi0o0lQVAAxgZcqQa8SvlPDT1Wm4KplO7wmcTr81LxXkA
+ E11nugXsjEVv4OeS23GB1BY5Zd3v6U1QpotlJXIQ=
+Date: Mon, 30 Aug 2021 16:57:21 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Joseph <joseph.mayer@protonmail.com>
 Subject: Re: QEMU-KVM offers OPAL firmware interface? OpenBSD guest support?
-To: Joseph <joseph.mayer@protonmail.com>, Mark Kettenis
- <mark.kettenis@xs4all.nl>, Greg Kurz <groug@kaod.org>, "ppc@openbsd.org"
- <ppc@openbsd.org>
+Message-ID: <YSyBUSxBiH+UYE/Y@yekko>
 References: <7r8MLHEKQicVkfT4tQLsiRXQmt_800XbV1s0mM_QJTgOY7XadpiRcD4HizmXByPaZRsMQV2WbNKDfKU-PdVo3ZO9JC6fJ0MF5LM_j5a2fgA=@protonmail.com>
  <20210827170113.5f4ed260@bahia.lan>
  <HgtFZEnabNjIrsVI3x8MYs2QYSCG4IFStP0MR3qwPWBmXW9kDmQmIwQEWHMVdJbUCu-XvHdMpZGe3pr-B91s1D7y6cn9SVzhxEYms5c3p0o=@protonmail.com>
@@ -43,32 +41,20 @@ References: <7r8MLHEKQicVkfT4tQLsiRXQmt_800XbV1s0mM_QJTgOY7XadpiRcD4HizmXByPaZRs
  <561422a20e4f9ae2@bloch.sibelius.xs4all.nl>
  <51bff28d-4779-b023-fee6-b3e9196b7ec5@kaod.org>
  <3QoYEEZauH3xXwC2NcJFnrHe4IaWwu2fqEvtR6tR3RHsY_b0bsyz0oQdcI0b1zdwnXbXhl6bCtaUiyWQjbYgnx5U-Ov_Lm3tMGdMkTwZC88=@protonmail.com>
- <rsXZBagdw5FfhNG03S3YOPy0gXevBIpZ2ugg1vO381FSYZPj2Cxjtn-SBmEfa1Z2R4lQLB_Qwt3kI7C_-amLCSy1fBxTbkAQckqjYHAhWcs=@protonmail.com>
-Message-ID: <6c7067e2-b9e7-62a3-9074-2de85c28b1b3@kaod.org>
-Date: Mon, 30 Aug 2021 08:26:04 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <rsXZBagdw5FfhNG03S3YOPy0gXevBIpZ2ugg1vO381FSYZPj2Cxjtn-SBmEfa1Z2R4lQLB_Qwt3kI7C_-amLCSy1fBxTbkAQckqjYHAhWcs=@protonmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 62fce9bc-fa63-4979-9dbf-d71d51bd2078
-X-Ovh-Tracer-Id: 8790182047845616632
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddukedguddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhuffvfhfkffgfgggjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedtudeludehgfefhedugfduteeftefftedvfeelvdefuedufeeivdfgffeijeeiheenucffohhmrghinhepohhpvghnphhofigvrhhfohhunhgurghtihhonhdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
- helo=1.mo52.mail-out.ovh.net
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.58,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="vq5cOuJQdTdvWDLr"
+Content-Disposition: inline
+In-Reply-To: <3QoYEEZauH3xXwC2NcJFnrHe4IaWwu2fqEvtR6tR3RHsY_b0bsyz0oQdcI0b1zdwnXbXhl6bCtaUiyWQjbYgnx5U-Ov_Lm3tMGdMkTwZC88=@protonmail.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,41 +68,113 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: pjp@centroid.eu, gardask@gmail.com, rgcinjp@disroot.org, daniel@pocock.pro,
- kite@centroid.eu, QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc@nongnu.org,
- david@gibson.dropbear.id.au
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ kite@centroid.eu, qemu-ppc@nongnu.org,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ siliconbadger@protonmail.com, "ppc@openbsd.org" <ppc@openbsd.org>,
+ Mark Kettenis <mark.kettenis@xs4all.nl>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/29/21 6:20 AM, Joseph wrote:
->> runs Linux powernv bare metal on Power9 hardware. Each VM is a
->> KVM-QEMU instance.
-> 
->>>> If you want to also run OpenBSD inside a VM, then OpenBSD must
->>>> implement proper support to be able to run in the paravirtualized
->>>> PAPR environment provided by KVM-QEMU on POWER. The OpenBSD statement
->>>> seem to indicate this is missing. Nothing special "should" be needed
->>>> on the KVM-QEMU side.
-> 
-> Terminology, what is PAPR an abbreviation of
 
-Power Architecture Platform Reference
+--vq5cOuJQdTdvWDLr
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-https://openpowerfoundation.org/wp-content/uploads/2020/07/LoPAR-20200611.pdf
+On Sun, Aug 29, 2021 at 04:09:54AM +0000, Joseph wrote:
+> Hi Mark, C=E9dric, Greg at the openbsd-ppc ML,
+>=20
+> It is great to talk to you. Thank you for taking on the conversation.
+>=20
+> Right, OpenBSD implements powernv meaning it runs on bare metal on
+> Power9, that is great.
+>=20
+> What I wanted to ask about with this thread is:
+>=20
+> To have the same utility of Power9 as of AMD64, it would be great to
+> have a high speed virtualizer, like what OpenBSD's VMM or Linux' KVM-
+> QEMU accomplish on AMD64.
+>=20
+> Linux KVM-QEMU supports Power9 already so that's a great start: One
+> runs Linux powernv bare metal on Power9 hardware. Each VM is a
+> KVM-QEMU instance.
+>=20
+> Is there any way today to make Linux-KVM-QEMU as VM host run
+> OpenBSD as a high speed (say >90% of bare metal performance, here
+> presume KVM uses PCIe passthrough) VM guest -
 
-> is pseries (hardware interface) equivalent with PAPR?
+I'm afraid this is more or less impossible, without adding
+PAPR/pseries support to OpenBSD.  The fundamental problem is that the
+virtualization facilities on the POWER chip don't really allow
+efficient full hardware virtualization, only para-virtualization and
+PAPR is that para-virtualized environment.
 
-pseries was the name of IBM powerpc servers. It is the name of the Linux 
-platform supporting PAPR and also the name of the QEMU machine implementing 
-PAPR.
+That's why the "powernv" machine type doesn't utilize KVM and is fully
+emulated and therefore slow.  It might be possible to use the
+"powernv" machine type with the "PR" implementation of KVM - that's a
+KVM implementation which works by running the entire guest in
+userspace and emulating all privileged instructions.  But:
 
-> Also all discussed above is supported by Raptor Talos/Blackbird
-> hardware right - the Raptor machine exports PowerNV to the host system
-> that runs on bare metal, and the host system (= Linux QEMU-KVM for
-> now) will export a virtualized pseries/papr Power9 machine to the VM
-> guest, which runs at close to full bare metal speed?
+ * KVM PR doesn't currently work properly on POWER9, and getting it
+   working would be a significant amount of work
+ * The way KVM PR works means it's very fiddly to get right, so it's
+   unlikely to ever be suitable for production work
+ * Depending on host and guest cpu models there might be a few corner
+   cases it can never get exactly right
+ * KVM PR will never be all that fast, although it will be
+   significantly faster than full emulation
 
-yes. There is a slight overhead depending on how much the hypervisor needs
-to be involved.  
- 
-C.
+> From the discussion I gather it's not possible without OpenBSD being
+> extended with pseries mode support, is it so?
+
+Essentially yes.  The situation is different from x86.  On x86 the
+bare metal PC platform was the original "normal" one, and then that
+platform was made possible as a virtual guest.  There were some
+alternative paravirtualized guest platforms (notably XenPV) but they
+never really caught on.
+
+On POWER, the paravirtualized PAPR platform was the original "normal"
+one, as provided by PowerVM, which was included in the POWER
+firmware.  Then bare metal machines became available and the powernv
+platform was created.  KVM kept the same paravirtualized PAPR platform
+for the guest as PowerVM used for compatibility, rather than inventing
+a new one.
+
+> (Great to see that Power hardware is on par with or faster than AMD64,
+> so the hardware part of this equation is clearly there: Power10 is
+> advertised to be released late this year, lithography will be down
+> from 14nm to 7, they say performance will 3x and electricity 1/3.)
+
+So.. if you want to run OpenBSD on POWER10 you will definitely need
+PAPR support, because POWER10 won't support bare metal OS access at
+all (it will be back to PowerVM always, like POWER5..POWER7).
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--vq5cOuJQdTdvWDLr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEsgU8ACgkQbDjKyiDZ
+s5Janw//fLfRsJ1fy6bnVfoRmF2P6PA8bYqXK+c/bWDvOxSBS9sGXOaTXQ1K6kbX
+3ScOrFnv6XA3cOZwy9gk3pNUPtIwBk39txFMvxXk09h4P/P8IMzwZJdZQFaQBs/R
+1c12Yb4o1xw0OS9ZdsFwuJfaN15d17IL093+wWGUgNzps+q989bEOh7DBJyUVJWS
+GHsJ6aLZ6Lzb4WIiY6KeSc8hjd2grvuWh0HQR4kdW5/pA1WCgFhL64rTD+HkIXxA
+q6+Yusvm+PwPYt+Suz5naq0ifeUcXilJRlBJLonDT7FnyOYWWh3dj6pGwJqTwg3F
+0TBzsWE7thVaauEhYqqf7z7NGCdBNHdaQLYDFM0tVPB4Q+tosQxr9O2YaCC/pxEh
+DP5pB++OL7vqrgkJG8xG1UhzI3hWCl/I/ppQQEczXqM7onAfkqubJIg+7c6HqlMe
+K5pD+TGsFAvOK7KxaozD4hEbAbAn6U+07qgckNDBGLdDUwAhf2oO2cUuYiOVIq1f
+rmoFeHE/6lrv/uXUTtLpzTgYYAGjK4zbA5Y+O+ke5QkAkwkLqztTqfzTib2H/Pdm
+zNCxE46QsqnWN9qBJIU3p0JkyYWB7tesNVIZ0GR1VJfqHxRf6baZEExxRemWI5VF
+PovyTcedP62SFH6NTavBJX0ukE2fPU0N1CqlnitSYckwJZTVdpk=
+=sQx+
+-----END PGP SIGNATURE-----
+
+--vq5cOuJQdTdvWDLr--
 
