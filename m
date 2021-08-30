@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81C493FB148
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 08:38:09 +0200 (CEST)
-Received: from localhost ([::1]:35772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3593FB17A
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 08:57:40 +0200 (CEST)
+Received: from localhost ([::1]:58070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKavj-0001X3-Hg
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 02:38:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46524)
+	id 1mKbEc-0001wQ-Qu
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 02:57:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mKajM-0004Na-2M
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:25:16 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:40624)
+ id 1mKajO-0004RR-2B
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:25:19 -0400
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:33791)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mKajJ-0007eL-PT
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:25:15 -0400
-Received: by mail-pg1-x530.google.com with SMTP id y23so12414618pgi.7
+ id 1mKajK-0007eW-3d
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:25:17 -0400
+Received: by mail-pg1-x536.google.com with SMTP id c17so12473542pgc.0
  for <qemu-devel@nongnu.org>; Sun, 29 Aug 2021 23:25:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Dk8TGNQOVNzQn8cwlm1MaEPrVhLuKdgx7sOHdUet68w=;
- b=qHLA0FQTXvedK6h0BU9XOvS+oFEnmoCv874Kg41AdiAI/ZSOTCNlcteQkfzYNBfuuD
- 4SntmMPYG92y1f03OXDRXEuaNfKvzf7GXUnDYLwmUK91jzGUc1rML+mwnl/zMWdR7YaR
- U1sO20G7reXW1xSf8wmcCY4m194KSAL6PhnJ/HQ8E9XRmV2dlsJefJz+fWfQRo0s020P
- NvqDBZrcl3CTA0an+pczBuFKtFiOynntfkyAqINr1f5DisZfzymQ2SscMwG3JhARPwST
- 6kcAV/OvbMU2Lz8sWEWpAH/Vjg+PgXQqgEgfiRM1VHaOM/FB/IKEZ7Muz9lGrtHHmXSS
- zkrg==
+ bh=uRn4oZx0R2inY58Z0L6HjLhCbVRsyKo+GkaJcQcjclE=;
+ b=Wz9HSwNoPlaTM8Ng+52gPh8S+JuYQIGZljbZ2ai2tHZneHuhBhdEweOj3eiw4BJtZ1
+ 9EwxxV9nWc7iGCH0BgG60SRzYR7hvPt32zkmGFe4UOEKDBrlvx5OYyotnTG6P6X679+Y
+ 9Njo0+agmfk3CIGA3Wrr8fv/2TRH+DjBvRR6348+b46XbAWX5VpVUOrr6hizB2frnYR1
+ i0yj4VBUp+XDOC3RZmmWO3It5Uc8/4zKtLriwrrney4rkgqZyOgLvILBfxqhE5kBbG7M
+ vYlmQLAK8sN1yjFJOK0HzoW4BLbfNYphWu2fUD3z46Q35FYvBbQfV4Bb3vyl4l6veG29
+ lcog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Dk8TGNQOVNzQn8cwlm1MaEPrVhLuKdgx7sOHdUet68w=;
- b=XwpLvltl3Vm5nk+YorOwKjEFqr6k2HJGYOmiWnFs4/OYiWgrngfTY4yTgwKRXk9T5u
- rA3CJCfkO6Sn2CtN9K3ZO8qbM3UCfx8BqhhvKd0j/I4eEZoXP34Op4DhRxu6quavadRx
- UxGRZ6JJp5GxJz3tVLFBUOp/KenDO/5rjMoEw524WI0ENwSmeyCjOe1fJy37bxEv2oLj
- QVezZlvhjMaFxKpHpgcl5k/BFHF1pXL1bpy/AA1JrLW9O3LpBJil91SsAy8CMQGI656r
- mggU/BMPN2DkBLaEGxHeEozEK2qmTI7w3IA9Fa9H0VcWBTGu/yBFcEQZsFYcMbu0PVjF
- I/Gg==
-X-Gm-Message-State: AOAM5308bVoOHKHLQL1uXT4clahhsG5wYZDK2U/+V3zi8OojQ2j0jHT5
- 1Ab9Iu5WZZk5IzZ3Eb2pBZaGq/fTS7DWMA==
-X-Google-Smtp-Source: ABdhPJzQM54LSV8K+iDqHoHFP4F77OsB4Mm39Uj/vydZAKxCAinWd0ZUjptBX5dvqX7Jvl+f94kIaw==
-X-Received: by 2002:aa7:9ae9:0:b0:3f5:e1a7:db23 with SMTP id
- y9-20020aa79ae9000000b003f5e1a7db23mr14282965pfp.42.1630304712224; 
+ bh=uRn4oZx0R2inY58Z0L6HjLhCbVRsyKo+GkaJcQcjclE=;
+ b=LauWRwga3+/C0Slr+ID3XLW/9OSo1uBCPu3e4NA8kp4eWP+QUGAZ8sgkrW2TDGo2t1
+ aYh1AdsxefuUSDhCEA3Uzk5FxfeIRdkWkudlaqPOYh9DEYEfNoQeaAmjmIU+SPFkqJoF
+ gGK/p2TyzmOrmr6CsUJOcTZXpvHtxlYYmLGpUJbo5nbOMs+bTBPglkaLRXhVLRyYEBia
+ V/jJd22MV1RcOY4ccJhYkFviI3TkoE7uoN0l6vE/B7zPq3voWjwbMhmViV059gPCJtPx
+ 9VOis9qtYN7+UIHvVC9isLI55q8pCNXNSsezKOf7bgDxgLmsyaYhgw0W8kVeMDwdaWz7
+ GfTw==
+X-Gm-Message-State: AOAM531XzUOMPpj5vaH9ImfBHTfupEc5lP3Bjlcx1Cu9hG4MT11OrazB
+ EdtNFMYih1OLjL6rlQoiLJNbwZdERhDISw==
+X-Google-Smtp-Source: ABdhPJyeGnghilLRWTMlC7F0wrYjFjS5pL/NmVGk0F65cVgCnA6WJPeHBF+R+VI+14pLDKVZYkRJ4w==
+X-Received: by 2002:aa7:8888:0:b0:3ff:1d90:1864 with SMTP id
+ z8-20020aa78888000000b003ff1d901864mr4582206pfe.54.1630304712805; 
  Sun, 29 Aug 2021 23:25:12 -0700 (PDT)
 Received: from localhost.localdomain (174-21-72-39.tukw.qwest.net.
  [174.21.72.39])
- by smtp.gmail.com with ESMTPSA id b12sm13942084pff.63.2021.08.29.23.25.11
+ by smtp.gmail.com with ESMTPSA id b12sm13942084pff.63.2021.08.29.23.25.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Aug 2021 23:25:11 -0700 (PDT)
+ Sun, 29 Aug 2021 23:25:12 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 30/48] tcg/optimize: Split out fold_xx_to_i
-Date: Sun, 29 Aug 2021 23:24:33 -0700
-Message-Id: <20210830062451.639572-31-richard.henderson@linaro.org>
+Subject: [PATCH 31/48] tcg/optimize: Split out fold_xx_to_x
+Date: Sun, 29 Aug 2021 23:24:34 -0700
+Message-Id: <20210830062451.639572-32-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210830062451.639572-1-richard.henderson@linaro.org>
 References: <20210830062451.639572-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,84 +88,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pull the "op r, a, a => movi r, 0" optimization into a function,
+Pull the "op r, a, a => mov r, a" optimization into a function,
 and use it in the outer opcode fold functions.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/optimize.c | 41 ++++++++++++++++++++++++-----------------
- 1 file changed, 24 insertions(+), 17 deletions(-)
+ tcg/optimize.c | 39 ++++++++++++++++++++++++---------------
+ 1 file changed, 24 insertions(+), 15 deletions(-)
 
 diff --git a/tcg/optimize.c b/tcg/optimize.c
-index ee674fe623..f48d0bc52d 100644
+index f48d0bc52d..cb05da7b39 100644
 --- a/tcg/optimize.c
 +++ b/tcg/optimize.c
-@@ -695,6 +695,15 @@ static bool fold_const2(OptContext *ctx, TCGOp *op)
+@@ -704,8 +704,22 @@ static bool fold_xx_to_i(OptContext *ctx, TCGOp *op, uint64_t i)
      return false;
  }
  
-+/* If the binary operation has both arguments equal, fold to @i. */
-+static bool fold_xx_to_i(OptContext *ctx, TCGOp *op, uint64_t i)
++/* If the binary operation has both arguments equal, fold to identity. */
++static bool fold_xx_to_x(OptContext *ctx, TCGOp *op)
 +{
 +    if (args_are_copies(op->args[1], op->args[2])) {
-+        return tcg_opt_gen_movi(ctx, op, op->args[0], i);
++        return tcg_opt_gen_mov(ctx, op, op->args[0], op->args[1]);
 +    }
 +    return false;
 +}
 +
  /*
   * These outermost fold_<op> functions are sorted alphabetically.
++ *
++ * The ordering of the transformations should be:
++ *   1) those that produce a constant
++ *   2) those that produce a copy
++ *   3) those that produce information about the result value.
   */
-@@ -744,7 +753,11 @@ static bool fold_and(OptContext *ctx, TCGOp *op)
+ 
+ static bool fold_add(OptContext *ctx, TCGOp *op)
+@@ -748,7 +762,11 @@ static bool fold_add2_i32(OptContext *ctx, TCGOp *op)
+ 
+ static bool fold_and(OptContext *ctx, TCGOp *op)
+ {
+-    return fold_const2(ctx, op);
++    if (fold_const2(ctx, op) ||
++        fold_xx_to_x(ctx, op)) {
++        return true;
++    }
++    return false;
+ }
  
  static bool fold_andc(OptContext *ctx, TCGOp *op)
+@@ -1103,7 +1121,11 @@ static bool fold_not(OptContext *ctx, TCGOp *op)
+ 
+ static bool fold_or(OptContext *ctx, TCGOp *op)
  {
 -    return fold_const2(ctx, op);
 +    if (fold_const2(ctx, op) ||
-+        fold_xx_to_i(ctx, op, 0)) {
++        fold_xx_to_x(ctx, op)) {
 +        return true;
 +    }
 +    return false;
  }
  
- static bool fold_brcond(OptContext *ctx, TCGOp *op)
-@@ -1211,7 +1224,11 @@ static bool fold_shift(OptContext *ctx, TCGOp *op)
- 
- static bool fold_sub(OptContext *ctx, TCGOp *op)
- {
--    return fold_const2(ctx, op);
-+    if (fold_const2(ctx, op) ||
-+        fold_xx_to_i(ctx, op, 0)) {
-+        return true;
-+    }
-+    return false;
- }
- 
- static bool fold_sub2_i32(OptContext *ctx, TCGOp *op)
-@@ -1221,7 +1238,11 @@ static bool fold_sub2_i32(OptContext *ctx, TCGOp *op)
- 
- static bool fold_xor(OptContext *ctx, TCGOp *op)
- {
--    return fold_const2(ctx, op);
-+    if (fold_const2(ctx, op) ||
-+        fold_xx_to_i(ctx, op, 0)) {
-+        return true;
-+    }
-+    return false;
- }
- 
- /* Propagate constants and copies, fold constant expressions. */
-@@ -1726,20 +1747,6 @@ void tcg_optimize(TCGContext *s)
+ static bool fold_orc(OptContext *ctx, TCGOp *op)
+@@ -1734,19 +1756,6 @@ void tcg_optimize(TCGContext *s)
              break;
          }
  
--        /* Simplify expression for "op r, a, a => movi r, 0" cases */
+-        /* Simplify expression for "op r, a, a => mov r, a" cases */
 -        switch (opc) {
--        CASE_OP_32_64_VEC(andc):
--        CASE_OP_32_64_VEC(sub):
--        CASE_OP_32_64_VEC(xor):
+-        CASE_OP_32_64_VEC(or):
+-        CASE_OP_32_64_VEC(and):
 -            if (args_are_copies(op->args[1], op->args[2])) {
--                tcg_opt_gen_movi(&ctx, op, op->args[0], 0);
+-                tcg_opt_gen_mov(&ctx, op, op->args[0], op->args[1]);
 -                continue;
 -            }
 -            break;
