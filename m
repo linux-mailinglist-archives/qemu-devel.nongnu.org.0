@@ -2,59 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 026B73FB912
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 17:36:53 +0200 (CEST)
-Received: from localhost ([::1]:46786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 392C43FB91B
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 17:38:34 +0200 (CEST)
+Received: from localhost ([::1]:49214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKjL5-0007wv-2o
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 11:36:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37118)
+	id 1mKjMn-0001ge-B0
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 11:38:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mKjKA-00075L-LD
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 11:35:51 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:35615)
+ id 1mKjLa-0000I3-WD
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 11:37:19 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:40812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mKjK7-0005gD-1K
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 11:35:50 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id i21so32089671ejd.2
- for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 08:35:46 -0700 (PDT)
+ id 1mKjLZ-0006xn-Bi
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 11:37:18 -0400
+Received: by mail-ej1-x629.google.com with SMTP id lc21so32054552ejc.7
+ for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 08:37:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to;
- bh=VYUB5TR5pS4Ue4VCIJFSTFxErEVrcPIjGvJDgfoiVKI=;
- b=TzYJjblV1cAjTmxcXl7rRVFDnQ/owkvUnGD647jMwcnAkCG4toUl4A7aFs8JFKWet3
- 5Bxd0XzX+GaA88xteBQImng8BPFr1eQaKRLR/Ymol2cKZZbrln1Tq5XoRNDaaztB05hN
- J6IxD4uxsPq8gRYQywA3XArkHf44BHiE1HWm2iFBYMyGIdO4IsF1mzmZrhgqAKPtXzY9
- 3LPHrVXlFt9YQn12pofvoa9zfqlSSiijmF6uakNSK3vDhyk34/QJKuLqNtl8H8hWtjpR
- zhKe7orV11dN7aErpSQhWFnauqKTcJNzpjWBZnEAtsp2IzjOu+z783jDr8uMI3kHHwxA
- XBJA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2AgvSiMaUvp7AnxXE7Z8OtiyNLCBjKTy1g+VtvMY0mQ=;
+ b=cKKN3ve8S3EuOqQd7A7Ti3sICVxCfaZTC/KpFt2ln/yHSqmHCcopwDLBtiWVbYYVxy
+ QrNTQWC5SYyfHjgVFlYYgB9yq1jCtNUMnqUE4ybrAMtF1wRRZuTooJXwlLeuyN6ip+Ci
+ VDeCHmCJHX3tWm6Zrqdis00+mXyz9CoZ8mjq2xRSS37YB5uJ4x0l6zgEaoh+WCbx0hoZ
+ vj5aMp63/57wcQHadn5RC3CR0elzIbAXL67yZYXWeQDnjrzq/RA9A1Y4pH7XaJKIMdLz
+ dXM/bQtFDTUFdRZ4e1KF2NDRa489MeOTzCnLA56Q4H6MH0UE1sbTk/ZkFS++Ksghg3OG
+ wXvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=VYUB5TR5pS4Ue4VCIJFSTFxErEVrcPIjGvJDgfoiVKI=;
- b=XQ3Xu+RyO988lCBrtWMt8xEfx/TZ9oefZGpwudHLeV/u3AB4qR5O+08lskFBWiFLa6
- ZvL5UpSYKLXbrZTT6lZ80Oa6Bd3zOtMJzShDHZ5CPxvd9R2eX4ffjy+QFaUJIkW8JTbS
- FYJdx3ZiDg/G19PI8UwNVCQ2FrBCRGXvkuNgIRgMZ1KJm0UOKregT0tJJrb6n+suD1mX
- ucHRSO6u5YHeD01kfF9Io3s300rQmD6Xvy7sB8zoeShEO+y7I7dlR9qVEe6VX79pZ9QL
- clgHEhzVElxSfoD2no/ldNUSCwTEAlmsy71l18I/nR/nO88b2a+PDREiYbP49M6JheTr
- yKOA==
-X-Gm-Message-State: AOAM532Ig9+NwErYzwbE07yDv9Nt7wuV2vf0prahb2la7h+YHjhTi2Jg
- 1d2zJR/dV3Yf+UgBfrZDPCKdzT2Ei3ctsKDmYznsFDzHdpDmFA==
-X-Google-Smtp-Source: ABdhPJyb6lHRZg4JrvckeumkUtT3eBlKDiKFjJWyIrENj+ykwcvSivVgGUpLKjne35uq9S3eAk+sQH0Ryqh+UHZhNiE=
-X-Received: by 2002:a17:906:3497:: with SMTP id
- g23mr25905143ejb.85.1630337744611; 
- Mon, 30 Aug 2021 08:35:44 -0700 (PDT)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2AgvSiMaUvp7AnxXE7Z8OtiyNLCBjKTy1g+VtvMY0mQ=;
+ b=iDarN8AxEMqOA117k4j/6aT01cKvePI1Z+R7390dZysW3AE6E9xKELT3A8gUY8EZqA
+ lXeX4/deZzfcfeIiNFwaicfAOKr9LQcmf6s4EWaIXqlsZJSGjcS6nLuXuOTaHSAYOKRN
+ kiJ/SnNsvp6N4t4RKP2tF5BKpg8qdlZcS5Y3g9nmKdTiqqGnS/Uin+yvho8dbov2kUgn
+ BPJD9kWX5DLLlACcDxm1rhjzhKyypaitmuFpRkHx0i0a2tucrRXfEsC2NKjNoZkjtre5
+ DbNSH/NE+zK4f1r7LRgKSJ65zAU3/EkdBrHnoAj2kzKPob5vrYm3hrbOs+QbgRDpbbPN
+ wkMA==
+X-Gm-Message-State: AOAM533hKkeQRH4bCPK/I7ty+cqYAuqa3+hF+8wpVRogpRGzhV3qspNX
+ MILzEY/ZFA+4nm5NOHi/hRiNU7nS8T5zhKjeetj7AA==
+X-Google-Smtp-Source: ABdhPJzwwQY08AEx4haEjHArq/qClB34s1oHSixoUfr3BT31erv8VJJR0S8yWzsbdO9/0nRVnxnV6MU+32EdOpy08sw=
+X-Received: by 2002:a17:907:75d9:: with SMTP id
+ jl25mr25646598ejc.4.1630337835891; 
+ Mon, 30 Aug 2021 08:37:15 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210724085453.16791-1-pbonzini@redhat.com>
+ <20210724085453.16791-9-pbonzini@redhat.com>
+ <CAFEAcA9eNFoZ5p8A1hneJ7kZ=9HOSjFMxR_9C1tuMA20sFhDZw@mail.gmail.com>
+In-Reply-To: <CAFEAcA9eNFoZ5p8A1hneJ7kZ=9HOSjFMxR_9C1tuMA20sFhDZw@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 30 Aug 2021 16:34:56 +0100
-Message-ID: <CAFEAcA9YCwrm43JfFE_oenTYnj+vfOHD+Bw4mTHAqOnBgpQX-w@mail.gmail.com>
-Subject: block/curl: should we be checking curl_easy_setopt() for errors?
-To: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
+Date: Mon, 30 Aug 2021 16:36:28 +0100
+Message-ID: <CAFEAcA-az0rOTQ1wcvseCqr3qy7Gq64VxzvnRZPVHurqunVWAQ@mail.gmail.com>
+Subject: Re: [PULL 8/9] qapi: introduce forwarding visitor
+To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -74,21 +79,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eric Blake <eblake@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity complains (CID 1460331, 1459482, 1459336, 1458895)
-that we call curl_easy_setopt(), which can return an error value,
-but we never check the return value.
+On Mon, 9 Aug 2021 at 11:40, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Sat, 24 Jul 2021 at 10:00, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >
+> > This new adaptor visitor takes a single field of the adaptee, and exposes it
+> > with a different name.
+> >
+> > This will be used for QOM alias properties.  Alias targets can of course
+> > have a different name than the alias property itself (e.g. a machine's
+> > pflash0 might be an alias of a property named 'drive').  When the target's
+> > getter or setter invokes the visitor, it will use a different name than
+> > what the caller expects, and the visitor will not be able to find it
+> > (or will consume erroneously).
+> >
+> > The solution is for alias getters and setters to wrap the incoming
+> > visitor, and forward the sole field that the target is expecting while
+> > renaming it appropriately.
+> >
+> > Reviewed-by: Eric Blake <eblake@redhat.com>
+> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>
+> Hi; Coverity complains here (CID 1459068) that the call to
+> visit_optional() is ignoring its return value (which we check
+> in 983 out of the other 989 callsites).
 
-Is it correct? Looking at the libcurl documentation, the function
-does return an error status, and there's nothing that says it's
-ok to ignore (e.g. that it's guaranteed that the library will
-safely accumulate any errors and return them when you make the
-subsequent curl_easy_perform() call). On the other hand, neither
-the libcurl manpage example nor the handful of example programs
-at https://curl.se/libcurl/c/example.html ever seem to check the
-return value from curl_easy_setopt()...
+Ping? It would be nice to either confirm this is a false
+positive or else fix it.
+
+> > +static void forward_field_optional(Visitor *v, const char *name, bool *present)
+> > +{
+> > +    ForwardFieldVisitor *ffv = to_ffv(v);
+> > +
+> > +    if (!forward_field_translate_name(ffv, &name, NULL)) {
+> > +        *present = false;
+> > +        return;
+> > +    }
+> > +    visit_optional(ffv->target, name, present);
+> > +}
+>
+> Is it right, or is this its "looks like this is returning an error
+> indication" heuristic misfiring again ?
+>
+> My guess is the latter and it's caused by a mismatch
+> between the prototype of visit_optional() (returns a
+> status both by setting *present and in its return value)
+> and the Visitor::optional method (returns a status only
+> by setting *present, return void). I guess ideally we'd
+> standardize on whether these things were intended to return
+> a value or not.
 
 thanks
 -- PMM
