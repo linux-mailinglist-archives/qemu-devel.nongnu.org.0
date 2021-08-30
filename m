@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207783FB088
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 06:49:57 +0200 (CEST)
-Received: from localhost ([::1]:40096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C6C43FB091
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 06:52:31 +0200 (CEST)
+Received: from localhost ([::1]:43858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKZF6-0007S3-4r
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 00:49:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35394)
+	id 1mKZHa-0001eE-Az
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 00:52:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mKZDr-000677-UI
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 00:48:39 -0400
-Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:39503)
+ id 1mKZF0-00083f-0K
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 00:49:50 -0400
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:40587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mKZDn-0002GI-Py
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 00:48:39 -0400
-Received: by mail-io1-xd29.google.com with SMTP id m11so9870895ioo.6
- for <qemu-devel@nongnu.org>; Sun, 29 Aug 2021 21:48:35 -0700 (PDT)
+ id 1mKZEy-0003Ig-8d
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 00:49:49 -0400
+Received: by mail-io1-xd32.google.com with SMTP id z1so18235431ioh.7
+ for <qemu-devel@nongnu.org>; Sun, 29 Aug 2021 21:49:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=91EBsQ+xpqz5PZTt6b4goTLM8SgadvNjzVOmbtnbXQY=;
- b=DszUyUkixD7FgT6yWGcLny629j/ZJxejbP1KQKzUcOhYdEOxPf7moL5wt1j6gAVhE5
- HCvTGQfrVLuyqR04/ohn0eMohqo3t3ppdsOnfm5sZTtTmAqmipgnjfwoRkdgItBogbcG
- JJ6OxINBcSo6kGbMdjCJotmQfyqBBCpovAdkPRfc3/gD9JfNdXQHUUlZOWczH8JB0EoW
- vYyAddNu74yAK9Xuda668RbtUrC66/DsQQ/+hAEDXwJ8YY6b1HKIWCywMzM/HKTm5OVC
- iP8VcUWjsDLQK7riZn0bSV/ZQ31W0RHY/UY95oIrLpHU40OQ5nqEFspLFKUJAXOywQII
- 7nJg==
+ :cc; bh=OB0Q4RRIehY3jaZQR8DcU3wSZrJHoIpcmbGy/N56Fxk=;
+ b=apcxeseBxCCRle/bb27t9bLICpB1mkRH3A4fxFjP+3eEq1gUKkCY7iGTmE3lD6bATm
+ w70bAhgs5NNz48R6BkscNRrTDa+YH8iiW5vNXosE0ynbcvpk16UonL9fKkNuVpDFO1g3
+ 7cMBjyXgsqlKxh/sW+bGCeCH8crXqs3fB1mWGv/+3p9nOW4tOf40Wbh2tzUlSuRnAP8a
+ H/w0BrDjUh9brnsMBcbrHetSEVtVMUa74A7eg80Af3sowNhJtGMqt3fVwGwijB6HA3JX
+ jZR3Ok5vRVVL+L6eYVOStiUjj0FF/mSRrqnQ+r4lWrLpBQpA3ehCHb52g6SjzxnSn+Lj
+ czqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=91EBsQ+xpqz5PZTt6b4goTLM8SgadvNjzVOmbtnbXQY=;
- b=szID2BoLKzBF81fYcpl2UO834k2rx3/9x4Z9LJ+89YAEUUyNtZszK523TfLXtHkVHq
- L5Lm3KbhmVEN+DMyp+mRbthqY/K4GMH2JVV6jAZg0L7EyTHK0CD/AQYeq7+sDm3axoJa
- EnhBckvBrSHAVyYVZObI5p5Ko0ofOwKICUOx77TQYG8ZKZ6P9eHvdfRelMnpFF2glfxo
- qR+yAVrrD5oXtYic1thzlwPtGZuS8DkWsluYWhcWr7F576Fm40Sduwr6QUbqzuL32M6h
- n8Y/0EGBRfo3pHWvpE353W3PSs1esyAQ/cENNojrsgtTNRF0ngG7WrPJBmB13NzeNcAQ
- l+2g==
-X-Gm-Message-State: AOAM533zdPXS7rbEZzmkMSgRhrVsNsebP7ICxiRF6g7xiYw7XrmpZAMy
- KkJndmFa1FbdoLq53eaZVRnEyucMjtWE1OOpEB4=
-X-Google-Smtp-Source: ABdhPJw+5kxvQ3VtsR1FC+Mx/GDKtTOwPqgJzNtWy9Dcz9XpeAplcGMRlH16X2gami4dLvgQMiEUXQRR+9GJp8aZOp8=
-X-Received: by 2002:a05:6638:14cf:: with SMTP id
- l15mr5231447jak.8.1630298914531; 
- Sun, 29 Aug 2021 21:48:34 -0700 (PDT)
+ bh=OB0Q4RRIehY3jaZQR8DcU3wSZrJHoIpcmbGy/N56Fxk=;
+ b=ApIyAxU8HxxbdNZO1n1Qhq9wvxWhbNf6aRB6/Y1+0jv6r3iaKv5pozFqa2IgDQVr8v
+ b8ykgBYSAMAt4ULt/sAOIN8Rf6a/yK4UKLlZXMuFVdmwuBbGWFZFkbnNnezqgnSdG76t
+ snuSZeJ6lQNcb38GHXw3ZLJsnk6rLPuLYpfomJ3leR1DRWZi7h5xyjGfJjq5BECC/b/T
+ 6alT4M3DGwt+ywACm/EGviozF7mPDjwmPEwkWOcpOftazRyRTcYap+mKS5EDx+n7ORZe
+ ga/lk01qfVzpwqT/FmpkX+E8NS+Q7USXW9HMP/uT4LPqzenkVKfgCnsVlORGtB0o+mHv
+ uM0Q==
+X-Gm-Message-State: AOAM532sWNCGdgABdb29q1Xj4XVb1oYO4xtCXzuNJDRCxMVvrFx11iv7
+ VZEDvQLWTNL0diowEn3s2ehncr54LOI0Ybdy8/o=
+X-Google-Smtp-Source: ABdhPJx9mDpHbyOVMqKwI/FbpSMyeqNIdJjqXUkBIkg0DT90McJ59vEWozQRWgwNPvFu7NupWSPua9wGiLmMFyyQJcQ=
+X-Received: by 2002:a6b:5819:: with SMTP id m25mr16708864iob.105.1630298987346; 
+ Sun, 29 Aug 2021 21:49:47 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210825165907.34026-1-philipp.tomsich@vrull.eu>
- <20210825165907.34026-5-philipp.tomsich@vrull.eu>
-In-Reply-To: <20210825165907.34026-5-philipp.tomsich@vrull.eu>
+ <20210825165907.34026-6-philipp.tomsich@vrull.eu>
+In-Reply-To: <20210825165907.34026-6-philipp.tomsich@vrull.eu>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 30 Aug 2021 14:48:08 +1000
-Message-ID: <CAKmqyKN8_LbwRQztAEva7woPpb=mz0vWVoc8tgVYaJ0-exLxdw@mail.gmail.com>
-Subject: Re: [PATCH v6 04/14] target/riscv: Remove the W-form instructions
- from Zbs
+Date: Mon, 30 Aug 2021 14:49:20 +1000
+Message-ID: <CAKmqyKNkqY6WLmdHRLkutyzZcL7sDNMkGqJUNqxOw_hkpB40xg@mail.gmail.com>
+Subject: Re: [PATCH v6 05/14] target/riscv: Remove shift-one instructions
+ (proposed Zbo in pre-0.93 draft-B)
 To: Philipp Tomsich <philipp.tomsich@vrull.eu>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -87,15 +86,13 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 26, 2021 at 3:05 AM Philipp Tomsich
+On Thu, Aug 26, 2021 at 3:13 AM Philipp Tomsich
 <philipp.tomsich@vrull.eu> wrote:
 >
-> Zbs 1.0.0 (just as the 0.93 draft-B before) does no provide for W-form
-> instructions for Zbs (single-bit instructions).  Remove them.
->
-> Note that these instructions had already been removed for the 0.93
-> version of the draft-B extenstion and have not been present in the
-> binutils patches circulating in January 2021.
+> The Zb[abcs] ratification package does not include the proposed
+> shift-one instructions. There currently is no clear plan to whether
+> these (or variants of them) will be ratified as Zbo (or a different
+> extension) or what the timeframe for such a decision could be.
 >
 > Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 > Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
@@ -109,97 +106,146 @@ Alistair
 > (no changes since v3)
 >
 > Changes in v3:
-> - Remove the W-form instructions from Zbs in a separate commit.
+> - Remove shift-one instructions in a separate commit.
 >
->  target/riscv/insn32.decode              |  7 ----
->  target/riscv/insn_trans/trans_rvb.c.inc | 49 -------------------------
->  2 files changed, 56 deletions(-)
+>  target/riscv/insn32.decode              |  8 ----
+>  target/riscv/insn_trans/trans_rvb.c.inc | 52 -------------------------
+>  target/riscv/translate.c                | 14 -------
+>  3 files changed, 74 deletions(-)
 >
 > diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 68b163b72d..9abdbcb799 100644
+> index 9abdbcb799..7e38477553 100644
 > --- a/target/riscv/insn32.decode
 > +++ b/target/riscv/insn32.decode
-> @@ -716,10 +716,6 @@ cpopw      0110000 00010 ..... 001 ..... 0011011 @r2
+> @@ -692,8 +692,6 @@ bset       0010100 .......... 001 ..... 0110011 @r
+>  bclr       0100100 .......... 001 ..... 0110011 @r
+>  binv       0110100 .......... 001 ..... 0110011 @r
+>  bext       0100100 .......... 101 ..... 0110011 @r
+> -slo        0010000 .......... 001 ..... 0110011 @r
+> -sro        0010000 .......... 101 ..... 0110011 @r
+>  ror        0110000 .......... 101 ..... 0110011 @r
+>  rol        0110000 .......... 001 ..... 0110011 @r
+>  grev       0110100 .......... 101 ..... 0110011 @r
+> @@ -703,8 +701,6 @@ bseti      00101. ........... 001 ..... 0010011 @sh
+>  bclri      01001. ........... 001 ..... 0010011 @sh
+>  binvi      01101. ........... 001 ..... 0010011 @sh
+>  bexti      01001. ........... 101 ..... 0010011 @sh
+> -sloi       00100. ........... 001 ..... 0010011 @sh
+> -sroi       00100. ........... 101 ..... 0010011 @sh
+>  rori       01100. ........... 101 ..... 0010011 @sh
+>  grevi      01101. ........... 101 ..... 0010011 @sh
+>  gorci      00101. ........... 101 ..... 0010011 @sh
+> @@ -716,15 +712,11 @@ cpopw      0110000 00010 ..... 001 ..... 0011011 @r2
 >
 >  packw      0000100 .......... 100 ..... 0111011 @r
 >  packuw     0100100 .......... 100 ..... 0111011 @r
-> -bsetw      0010100 .......... 001 ..... 0111011 @r
-> -bclrw      0100100 .......... 001 ..... 0111011 @r
-> -binvw      0110100 .......... 001 ..... 0111011 @r
-> -bextw      0100100 .......... 101 ..... 0111011 @r
->  slow       0010000 .......... 001 ..... 0111011 @r
->  srow       0010000 .......... 101 ..... 0111011 @r
+> -slow       0010000 .......... 001 ..... 0111011 @r
+> -srow       0010000 .......... 101 ..... 0111011 @r
 >  rorw       0110000 .......... 101 ..... 0111011 @r
-> @@ -727,9 +723,6 @@ rolw       0110000 .......... 001 ..... 0111011 @r
+>  rolw       0110000 .......... 001 ..... 0111011 @r
 >  grevw      0110100 .......... 101 ..... 0111011 @r
 >  gorcw      0010100 .......... 101 ..... 0111011 @r
 >
-> -bsetiw     0010100 .......... 001 ..... 0011011 @sh5
-> -bclriw     0100100 .......... 001 ..... 0011011 @sh5
-> -binviw     0110100 .......... 001 ..... 0011011 @sh5
->  sloiw      0010000 .......... 001 ..... 0011011 @sh5
->  sroiw      0010000 .......... 101 ..... 0011011 @sh5
+> -sloiw      0010000 .......... 001 ..... 0011011 @sh5
+> -sroiw      0010000 .......... 101 ..... 0011011 @sh5
 >  roriw      0110000 .......... 101 ..... 0011011 @sh5
+>  greviw     0110100 .......... 101 ..... 0011011 @sh5
+>  gorciw     0010100 .......... 101 ..... 0011011 @sh5
 > diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-> index dcc7b6893d..975492d45c 100644
+> index 975492d45c..ac706349f5 100644
 > --- a/target/riscv/insn_trans/trans_rvb.c.inc
 > +++ b/target/riscv/insn_trans/trans_rvb.c.inc
-> @@ -279,55 +279,6 @@ static bool trans_packuw(DisasContext *ctx, arg_packuw *a)
+> @@ -162,30 +162,6 @@ static bool trans_bexti(DisasContext *ctx, arg_bexti *a)
+>      return gen_shifti(ctx, a, gen_bext);
+>  }
+>
+> -static bool trans_slo(DisasContext *ctx, arg_slo *a)
+> -{
+> -    REQUIRE_EXT(ctx, RVB);
+> -    return gen_shift(ctx, a, gen_slo);
+> -}
+> -
+> -static bool trans_sloi(DisasContext *ctx, arg_sloi *a)
+> -{
+> -    REQUIRE_EXT(ctx, RVB);
+> -    return gen_shifti(ctx, a, gen_slo);
+> -}
+> -
+> -static bool trans_sro(DisasContext *ctx, arg_sro *a)
+> -{
+> -    REQUIRE_EXT(ctx, RVB);
+> -    return gen_shift(ctx, a, gen_sro);
+> -}
+> -
+> -static bool trans_sroi(DisasContext *ctx, arg_sroi *a)
+> -{
+> -    REQUIRE_EXT(ctx, RVB);
+> -    return gen_shifti(ctx, a, gen_sro);
+> -}
+> -
+>  static bool trans_ror(DisasContext *ctx, arg_ror *a)
+>  {
+>      REQUIRE_EXT(ctx, RVB);
+> @@ -279,34 +255,6 @@ static bool trans_packuw(DisasContext *ctx, arg_packuw *a)
 >      return gen_arith(ctx, a, gen_packuw);
 >  }
 >
-> -static bool trans_bsetw(DisasContext *ctx, arg_bsetw *a)
+> -static bool trans_slow(DisasContext *ctx, arg_slow *a)
 > -{
 > -    REQUIRE_64BIT(ctx);
 > -    REQUIRE_EXT(ctx, RVB);
-> -    return gen_shiftw(ctx, a, gen_bset);
+> -    return gen_shiftw(ctx, a, gen_slo);
 > -}
 > -
-> -static bool trans_bsetiw(DisasContext *ctx, arg_bsetiw *a)
+> -static bool trans_sloiw(DisasContext *ctx, arg_sloiw *a)
 > -{
 > -    REQUIRE_64BIT(ctx);
 > -    REQUIRE_EXT(ctx, RVB);
-> -    return gen_shiftiw(ctx, a, gen_bset);
+> -    return gen_shiftiw(ctx, a, gen_slo);
 > -}
 > -
-> -static bool trans_bclrw(DisasContext *ctx, arg_bclrw *a)
+> -static bool trans_srow(DisasContext *ctx, arg_srow *a)
 > -{
 > -    REQUIRE_64BIT(ctx);
 > -    REQUIRE_EXT(ctx, RVB);
-> -    return gen_shiftw(ctx, a, gen_bclr);
+> -    return gen_shiftw(ctx, a, gen_sro);
 > -}
 > -
-> -static bool trans_bclriw(DisasContext *ctx, arg_bclriw *a)
+> -static bool trans_sroiw(DisasContext *ctx, arg_sroiw *a)
 > -{
 > -    REQUIRE_64BIT(ctx);
 > -    REQUIRE_EXT(ctx, RVB);
-> -    return gen_shiftiw(ctx, a, gen_bclr);
+> -    return gen_shiftiw(ctx, a, gen_sro);
 > -}
 > -
-> -static bool trans_binvw(DisasContext *ctx, arg_binvw *a)
-> -{
-> -    REQUIRE_64BIT(ctx);
-> -    REQUIRE_EXT(ctx, RVB);
-> -    return gen_shiftw(ctx, a, gen_binv);
-> -}
-> -
-> -static bool trans_binviw(DisasContext *ctx, arg_binviw *a)
-> -{
-> -    REQUIRE_64BIT(ctx);
-> -    REQUIRE_EXT(ctx, RVB);
-> -    return gen_shiftiw(ctx, a, gen_binv);
-> -}
-> -
-> -static bool trans_bextw(DisasContext *ctx, arg_bextw *a)
-> -{
-> -    REQUIRE_64BIT(ctx);
-> -    REQUIRE_EXT(ctx, RVB);
-> -    return gen_shiftw(ctx, a, gen_bext);
-> -}
-> -
->  static bool trans_slow(DisasContext *ctx, arg_slow *a)
+>  static bool trans_rorw(DisasContext *ctx, arg_rorw *a)
 >  {
 >      REQUIRE_64BIT(ctx);
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 6983be5723..fc22ae82d0 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -595,20 +595,6 @@ static void gen_bext(TCGv ret, TCGv arg1, TCGv shamt)
+>      tcg_gen_andi_tl(ret, ret, 1);
+>  }
+>
+> -static void gen_slo(TCGv ret, TCGv arg1, TCGv arg2)
+> -{
+> -    tcg_gen_not_tl(ret, arg1);
+> -    tcg_gen_shl_tl(ret, ret, arg2);
+> -    tcg_gen_not_tl(ret, ret);
+> -}
+> -
+> -static void gen_sro(TCGv ret, TCGv arg1, TCGv arg2)
+> -{
+> -    tcg_gen_not_tl(ret, arg1);
+> -    tcg_gen_shr_tl(ret, ret, arg2);
+> -    tcg_gen_not_tl(ret, ret);
+> -}
+> -
+>  static bool gen_grevi(DisasContext *ctx, arg_grevi *a)
+>  {
+>      TCGv source1 = tcg_temp_new();
 > --
 > 2.25.1
 >
