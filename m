@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D21713FB5C3
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 14:18:13 +0200 (CEST)
-Received: from localhost ([::1]:36134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 189E63FB730
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 15:45:57 +0200 (CEST)
+Received: from localhost ([::1]:35618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKgEu-0007aa-VU
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 08:18:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50432)
+	id 1mKhbk-0002rY-Th
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 09:45:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1mKgCc-0005bZ-Db
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 08:15:51 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:46969)
+ (Exim 4.90_1) (envelope-from <zhangyuwei.9149@bytedance.com>)
+ id 1mKgUv-0005v9-EJ
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 08:34:45 -0400
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c]:35697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ma.mandourr@gmail.com>)
- id 1mKgCZ-0001KF-Lh
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 08:15:50 -0400
-Received: by mail-wr1-x432.google.com with SMTP id x6so13905992wrv.13
- for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 05:15:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <zhangyuwei.9149@bytedance.com>)
+ id 1mKgUr-0001fE-79
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 08:34:43 -0400
+Received: by mail-pl1-x62c.google.com with SMTP id x16so6792973pll.2
+ for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 05:34:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=mRZAyUANStAU/jLFyUI9w/uXXddpmlTi8fzbECdo/Jw=;
- b=lL/4aGhDV5D75vSDm6bz0Gn9b4owUNlNG2eI+jvBXSqsTtlsne3fB5nx+evpNVFMiK
- E7TIOq5wFefASdq8nf0XBEMnTtUxhW+ADpqWhz9H5PlCPTRPxc1Wqa8PhAe8eR3X/ZFA
- a3RtoZUtezMtOaeO/hvyk++P4epWF46J4Izm+dJhD1EY9850HBgOfgUazzg14QxGmqez
- XZqLETfd7+w4mwX62J2NKho5WAlznHiV2OXdqts8Omk8nDM434RG0dDQvEO0akwMexj/
- FNllCLq1wETy7B6KKuiJ3zmYetPJWadw+X+e41sc9NQKuVeNiM4yaFg7vr+ROLADds8s
- H8Fw==
+ bh=fPo9dQfdE2y5oJxkirZSLpXGC3oSVAkckZt6Uo+xcKc=;
+ b=mlLdvOJjhhCbJ7uX/36xYkHl19r8NrFlekF0IQCjLlQxJoM86fAXOtTfMwFNfShGma
+ DtiZO7azs3GoclJNunLQ19KKy/ZIfWf6+gkqlFSsoOPUyJF730hVx/LyVwgAjezoz5FH
+ k9iu7AVTsxJq1dy9jBKvMdbsf3EmM32S0CVUxJ5xqrgDQVEAj8IlSbowDTnh1c0idzar
+ Ia0fCGAhhZZ7R/M1kjoh/M4AD5mn1k2jcYy/5j1u/OC4YRBUOvox0NA06j6CdBA1xcWd
+ YHyvroKfkQ/yoOPDUP+MjIfYJ2mrSzkS7uOF2pA+EcCy4tKCjkLdfAq8T4KGO/mGR3JF
+ xIgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=mRZAyUANStAU/jLFyUI9w/uXXddpmlTi8fzbECdo/Jw=;
- b=hEDUNAGuTj8Wg9cve2ZpIKOrW/EHnyVRFFUjfytDrhpoH8TaRQHAO9jULnwaG3Bhsq
- Ena+2MjqO50XMTj4GwC2Y44OF4Git0JEa5iqPNFH8fbjSbW1Ezm0565A1bopc36yhzKA
- VMliEBIm3tT6BTHQm9WuzJ1CBPSu+o3OUJa8wzGLcM6WvP/kDIxi2j//ZlOXgqWTvy2b
- IYINvAdXM99a8kzdvS+UKfahIhZLmVuswTHON9gGrFVZCdht7syrQv/f+lemuVXX0wnV
- LJkUrYVu4iK5Kriiv6L3OABOXFpo70PayR7GP41uXp+tvMw0J2l4MxiLgr3Bao0dwTqZ
- Wy2g==
-X-Gm-Message-State: AOAM531CYwqeVZ4BOA9kXs198nGO/hE46UU1j4YO2he0v7mZNop5Movw
- eMhuK4qgkKAn7ERSWdJpG+WIcSlPSoQ=
-X-Google-Smtp-Source: ABdhPJzI1Gxvk1Ftr/N93mhBW1vb6nue4xz6tTE1XmTXnpGuBwqefPxyzD4tyk06BVNRKpkYIS6rqg==
-X-Received: by 2002:adf:9f05:: with SMTP id l5mr24954662wrf.188.1630325742785; 
- Mon, 30 Aug 2021 05:15:42 -0700 (PDT)
-Received: from localhost.localdomain ([197.61.134.204])
- by smtp.gmail.com with ESMTPSA id l124sm15001426wml.8.2021.08.30.05.15.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Aug 2021 05:15:42 -0700 (PDT)
-From: Mahmoud Mandour <ma.mandourr@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] docs/devel: be consistent about example plugin names
-Date: Mon, 30 Aug 2021 14:15:34 +0200
-Message-Id: <20210830121534.656559-1-ma.mandourr@gmail.com>
-X-Mailer: git-send-email 2.33.0
+ bh=fPo9dQfdE2y5oJxkirZSLpXGC3oSVAkckZt6Uo+xcKc=;
+ b=gxuxx8naUNsBk1rQgWlZWnw6iut1MCHX9ocUSpwKBhNj+bOePBmyn8ppXRNsWLpVtQ
+ YTwVZcJdgjAjPwx+Rc8JwOgOlIaRgZFVJhv3HoRRgWGq9SzStdamWsTNKQGOB0AxW2o6
+ VEeu67y33oLDwk3dQhzgX4bW22uy7oUlLU1CdrSBYb5UWh3ttLdMtfKo7OJue7ptQr/H
+ zo7O6Z56AiQAXpwcHX4zrxx+poy+8vW4Bcpanx1jKJV50eSQ0T6siym+8Ot4sQL5ijb0
+ gH2P4FeKg+Rm1DRZwv0PUZu6AzGZOSxMWLOvkC3CZhnR6qVdURYxwOyYYmPMvIZ8twTm
+ vCvA==
+X-Gm-Message-State: AOAM531P+eSGHhU5QdQ8gIFMmNvhBj5gBTa0ArVN5WJvyot3DH9U+trN
+ 2JCbmctqAoPMFL8ZDkEbeU8sdA==
+X-Google-Smtp-Source: ABdhPJzA8KspCUkDV9uU9Lke3PSP0QQdZlVwjPnlKNGYfIPUg8rQO2onpovzB2NC9g02SmwQhG2a/w==
+X-Received: by 2002:a17:90a:460a:: with SMTP id
+ w10mr37227553pjg.144.1630326879160; 
+ Mon, 30 Aug 2021 05:34:39 -0700 (PDT)
+Received: from C02FR03AMD6V.bytedance.net ([139.177.225.229])
+ by smtp.gmail.com with ESMTPSA id h4sm12584494pjs.2.2021.08.30.05.34.37
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 30 Aug 2021 05:34:38 -0700 (PDT)
+From: Yuwei Zhang <zhangyuwei.9149@bytedance.com>
+To: mst@redhat.com
+Subject: [PATCH] hw/virtio: Add flatview update in vhost_user_cleanup()
+Date: Mon, 30 Aug 2021 20:34:33 +0800
+Message-Id: <20210830123433.45727-1-zhangyuwei.9149@bytedance.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=ma.mandourr@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=zhangyuwei.9149@bytedance.com; helo=mail-pl1-x62c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 30 Aug 2021 09:40:47 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,44 +83,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexandre Iooss <erdnaxe@crans.org>,
- Mahmoud Mandour <ma.mandourr@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Yuwei Zhang <zhangyuwei.9149@bytedance.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some plugins were prefixed with `.c`, some were not. Since the name is
-essentially the full-name of the plugin file, it's logical to include
-the extension.
+Qemu will crash on vhost backend unexpected exit and re-connect                                                                          │
+in some case due to access released memory.
 
-Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+Signed-off-by: Yuwei Zhang <zhangyuwei.9149@bytedance.com>
 ---
- docs/devel/tcg-plugins.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/virtio/vhost-user.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-index 047bf4ada7..f96aad4ae7 100644
---- a/docs/devel/tcg-plugins.rst
-+++ b/docs/devel/tcg-plugins.rst
-@@ -286,7 +286,7 @@ which will eventually report::
-     previously @ 0x000000ffd08098/5 (809900593 insns)
-     previously @ 0x000000ffd080c0/1 (809900588 insns)
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 2407836fac..b59ebc7457 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -2422,7 +2422,7 @@ void vhost_user_cleanup(VhostUserState *user)
+     if (!user->chr) {
+         return;
+     }
+-
++    memory_region_transaction_begin();
+     for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+         if (user->notifier[i].addr) {
+             object_unparent(OBJECT(&user->notifier[i].mr));
+@@ -2430,6 +2430,7 @@ void vhost_user_cleanup(VhostUserState *user)
+             user->notifier[i].addr = NULL;
+         }
+     }
++    memory_region_transaction_commit();
+     user->chr = NULL;
+ }
  
--- contrib/plugins/hwprofile
-+- contrib/plugins/hwprofile.c
- 
- The hwprofile tool can only be used with system emulation and allows
- the user to see what hardware is accessed how often. It has a number of options:
-@@ -345,7 +345,7 @@ which will output an execution trace following this structure::
-   0, 0xd34, 0xf9c8f000, "bl #0x10c8"
-   0, 0x10c8, 0xfff96c43, "ldr r3, [r0, #0x44]", load, 0x200000e4, RAM
- 
--- contrib/plugins/cache
-+- contrib/plugins/cache.c
- 
- Cache modelling plugin that measures the performance of a given cache
- configuration when a given working set is run::
 -- 
-2.33.0
+2.32.0
 
 
