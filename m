@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13CC3FB2A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 10:43:14 +0200 (CEST)
-Received: from localhost ([::1]:44462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60E823FB2A6
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 10:43:08 +0200 (CEST)
+Received: from localhost ([::1]:43828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKcsr-0000sm-Nn
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 04:43:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38662)
+	id 1mKcsb-0000Sm-EY
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 04:42:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mKcpv-0006G1-El
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 04:40:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20873)
+ id 1mKcqw-0007FJ-ML
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 04:41:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38495)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1mKcpq-0002Bx-QI
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 04:40:11 -0400
+ id 1mKcqv-00031d-9x
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 04:41:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630312806;
+ s=mimecast20190719; t=1630312872;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=IbGQ/0E+rwcz2d9e4UMrUxbrBCbSpVycHY+HYpA6hW0=;
- b=cgU2OtFjNPs8LeFOlNTDQOSqJJIBJFJjOnj8/IixixkNCqZWZCoorIRppBxqztps7mA69M
- 8kfi7qojG9/zhYrI4SMTANDqWwfB7o05eeAqrLyWKKGNUtREo/rEUS0BQBE23hrFqYXI+/
- NdX/AZ1aLh0E6FLxwj9Wy48FSuibjF0=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-d9I_YcT7MXOCpPP8TucxTA-1; Mon, 30 Aug 2021 04:40:04 -0400
-X-MC-Unique: d9I_YcT7MXOCpPP8TucxTA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- e6-20020a056402088600b003c73100e376so6127858edy.17
- for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 01:40:04 -0700 (PDT)
+ bh=zbGeAHx9mz3GDIOt+owuKfWc210mNj0q8+VSMNPz+Xc=;
+ b=CJ+mHrIrokGxR7UVJfKTsG//6Wm9J+OAnqu75LNSf/ZPjvGZN6KtaZk3hoQMzcBfsUm9v4
+ R4RbWH3nk/v197DLyOvfuQRzw9qyadGtQTXJk8okSWI3k1Rf2HbVE3YqVY2LHfFri5W6NA
+ L8ddUxFT+bACEPGLo3GYO9YNVh8H6zY=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-568-4K5McowjMditv1w3uHzrKA-1; Mon, 30 Aug 2021 04:41:10 -0400
+X-MC-Unique: 4K5McowjMditv1w3uHzrKA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ q19-20020a1709064cd3b02904c5f93c0124so5314244ejt.14
+ for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 01:41:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=IbGQ/0E+rwcz2d9e4UMrUxbrBCbSpVycHY+HYpA6hW0=;
- b=GaOGDq6xbbRZZ3NC9vlqIM2RTAI+v2vM5j5tYoGFW48VBvG4Pi8cRk3iw/4uBZPDvV
- eIDHO/tBO+I+b+3Xrkg2c4ZtFh6F2R2unArEI8tHJR8f5EdO1KtTAqX2vdOHLOyIFe7T
- 5vEc0Q/vf7MeSkpR4zYnOWQio1LKfx0qWvBMVde9UktmYiFnRDHRRfQP0li9Tp7b72m1
- aclL1r05KD/rliwhz9EIpjv5WSuVyQTNbXa94U4+n9s1Pnxc78Gw1mkEhLCG8EZ0DMXx
- OGFop9LsDaV8cUDY7xT/dwMc/dAJtx+Q/pbgCIJ052SohnQHbwGKruLqUJiYW9q0MQJt
- YMSw==
-X-Gm-Message-State: AOAM532DBQGM7JWS8HS05YUqulI1PvG09EvX/WNiUrrK3BQ/PXfEf+uP
- +2nwBXUdrsMaSmF3Nw+zz3hK3OkYAor5/0yPlFUdKOQSRs9nnhnaEox6ieuHCZd+gGojTuNkr44
- WaK/jrRNpOPpr8qg=
-X-Received: by 2002:a17:906:3e1b:: with SMTP id
- k27mr23991395eji.284.1630312803370; 
- Mon, 30 Aug 2021 01:40:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyAO9m7bd/iNlkrS+5IpXvktCpE2atNelQZMpJH/LPsF2oftc0vqe12jJm21xdVpt+noqYXOA==
-X-Received: by 2002:a17:906:3e1b:: with SMTP id
- k27mr23991370eji.284.1630312803037; 
- Mon, 30 Aug 2021 01:40:03 -0700 (PDT)
+ bh=zbGeAHx9mz3GDIOt+owuKfWc210mNj0q8+VSMNPz+Xc=;
+ b=jV/dqs1DRtfvrEBIXQitB7xNhQw7k20cyCNlBsV9DXFsMGJtkV92ytnY8LvEx6/1ms
+ dqEw9WV4uupeV1EjYsDBNBtJVCj+Y2NR/SWMyyJ0coXH34rKjADfzCZZ25uIeJ7NvEv5
+ Vos9VV+EEZKYNDQgJWqNu4PWBd4yYSX6ADG53R7X6s89UrkJd4/9dVgS0dD9PMAi9ocs
+ T9E6b157FhbvMAxUHsWOPwULyNsYY95BgjkbXcUsxq+hDUKZRCmkndaq7Icvz48h5Tl6
+ jW7lxFJ+r5DgaUkWOIHXMb2F/wcxbE6L7WVWBtFH7BT/yPCVQ9tJz6vTfrdyr3tHO6gu
+ ntOA==
+X-Gm-Message-State: AOAM530VelczONqYLxd+QNUI+hJBWxoIkIt9di52hdkX0D9d+DNpPARZ
+ dGvIIJXONw+ekWYHZ5eEKgsLhAFWyqWW/p4YucBUFVsJGgUAlTE2nXv+Sl5GDNOXaB2fxSc6Oh2
+ Hqr80XVhqcWVFL44=
+X-Received: by 2002:a50:ed0b:: with SMTP id j11mr22858214eds.97.1630312869394; 
+ Mon, 30 Aug 2021 01:41:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwLa7HeW8+PI0Y5E6K7aG6j+S7+6V/CgOrUPZveswYfihFDU1Fe+eyPFiD28XK44itMqj/1aA==
+X-Received: by 2002:a50:ed0b:: with SMTP id j11mr22858207eds.97.1630312869209; 
+ Mon, 30 Aug 2021 01:41:09 -0700 (PDT)
 Received: from gator.home (cst2-174-132.cust.vodafone.cz. [31.30.174.132])
- by smtp.gmail.com with ESMTPSA id dy7sm2448829edb.38.2021.08.30.01.40.02
+ by smtp.gmail.com with ESMTPSA id n23sm7302839eds.41.2021.08.30.01.41.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Aug 2021 01:40:02 -0700 (PDT)
-Date: Mon, 30 Aug 2021 10:40:01 +0200
+ Mon, 30 Aug 2021 01:41:08 -0700 (PDT)
+Date: Mon, 30 Aug 2021 10:41:07 +0200
 From: Andrew Jones <drjones@redhat.com>
 To: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
-Subject: Re: [PATCH v5 2/3] hw/arm/virt: target-arm: Add A64FX processor
- support to virt machine
-Message-ID: <20210830084001.pvsds2ycv6acriit@gator.home>
+Subject: Re: [PATCH v5 3/3] tests/arm-cpu-features: Add A64FX processor related
+Message-ID: <20210830084107.ce43ww5glhtmwor6@gator.home>
 References: <20210830082820.2690275-1-ishii.shuuichir@fujitsu.com>
- <20210830082820.2690275-3-ishii.shuuichir@fujitsu.com>
+ <20210830082820.2690275-4-ishii.shuuichir@fujitsu.com>
 MIME-Version: 1.0
-In-Reply-To: <20210830082820.2690275-3-ishii.shuuichir@fujitsu.com>
+In-Reply-To: <20210830082820.2690275-4-ishii.shuuichir@fujitsu.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -101,40 +98,40 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 30, 2021 at 05:28:19PM +0900, Shuuichirou Ishii wrote:
-> Add -cpu a64fx to use A64FX processor when -machine virt option is specified.
-> In addition, add a64fx to the Supported guest CPU types in the virt.rst document.
-> 
+On Mon, Aug 30, 2021 at 05:28:20PM +0900, Shuuichirou Ishii wrote:
+
+nit: A commit message would be nice, even if it's just a simple
+sentence expanding on the summary.
+
 > Signed-off-by: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
 > ---
->  docs/system/arm/virt.rst | 1 +
->  hw/arm/virt.c            | 1 +
->  2 files changed, 2 insertions(+)
+>  tests/qtest/arm-cpu-features.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
-> diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
-> index 59acf0eeaf..850787495b 100644
-> --- a/docs/system/arm/virt.rst
-> +++ b/docs/system/arm/virt.rst
-> @@ -55,6 +55,7 @@ Supported guest CPU types:
->  - ``cortex-a53`` (64-bit)
->  - ``cortex-a57`` (64-bit)
->  - ``cortex-a72`` (64-bit)
-> +- ``a64fx`` (64-bit)
->  - ``host`` (with KVM only)
->  - ``max`` (same as ``host`` for KVM; best possible emulation with TCG)
+> diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
+> index 8252b85bb8..90a87f0ea9 100644
+> --- a/tests/qtest/arm-cpu-features.c
+> +++ b/tests/qtest/arm-cpu-features.c
+> @@ -473,6 +473,19 @@ static void test_query_cpu_model_expansion(const void *data)
+>          assert_has_feature_enabled(qts, "cortex-a57", "pmu");
+>          assert_has_feature_enabled(qts, "cortex-a57", "aarch64");
 >  
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 86c8a4ca3d..3fa4295a78 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -200,6 +200,7 @@ static const char *valid_cpus[] = {
->      ARM_CPU_TYPE_NAME("cortex-a53"),
->      ARM_CPU_TYPE_NAME("cortex-a57"),
->      ARM_CPU_TYPE_NAME("cortex-a72"),
-> +    ARM_CPU_TYPE_NAME("a64fx"),
->      ARM_CPU_TYPE_NAME("host"),
->      ARM_CPU_TYPE_NAME("max"),
->  };
+> +        assert_has_feature_enabled(qts, "a64fx", "pmu");
+> +        assert_has_feature_enabled(qts, "a64fx", "aarch64");
+> +        /*
+> +         * A64FX does not support any other vector lengths besides those
+> +         * that are enabled by default(128bit, 256bits, 512bit).
+> +         */
+> +        assert_has_feature_enabled(qts, "a64fx", "sve");
+> +        assert_sve_vls(qts, "a64fx", 0xb, NULL);
+> +        assert_error(qts, "a64fx", "cannot enable sve384",
+> +                     "{ 'sve384': true }");
+> +        assert_error(qts, "a64fx", "cannot enable sve640",
+> +                     "{ 'sve640': true }");
+> +
+>          sve_tests_default(qts, "max");
+>          pauth_tests_default(qts, "max");
+>  
 > -- 
 > 2.27.0
 >
