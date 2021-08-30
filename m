@@ -2,50 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1502C3FBEFE
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 00:29:10 +0200 (CEST)
-Received: from localhost ([::1]:51842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 244583FBF12
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 00:41:15 +0200 (CEST)
+Received: from localhost ([::1]:56160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKpm3-0005fH-Bc
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 18:29:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36396)
+	id 1mKpxp-0001Bc-OA
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 18:41:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1mKpfj-0003R8-EV
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 18:22:31 -0400
-Received: from isrv.corpit.ru ([86.62.121.231]:37479)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1mKpfh-0004d2-Ca
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 18:22:31 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id D21C840798;
- Tue, 31 Aug 2021 01:22:24 +0300 (MSK)
-Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with ESMTP id 350C77D;
- Tue, 31 Aug 2021 01:22:25 +0300 (MSK)
-Subject: Re: [PATCH] util: fix abstract socket path copy
-From: Michael Tokarev <mjt@tls.msk.ru>
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20210719130112.932069-1-marcandre.lureau@redhat.com>
- <12894fce-38cd-8d29-9c2b-fc2d8f73a42f@msgid.tls.msk.ru>
- <1706f18b-d6e3-e88c-ac12-decdfbd7d9b2@msgid.tls.msk.ru>
-Message-ID: <6dd4a9d9-c264-a747-0fb5-2d470f19ad16@msgid.tls.msk.ru>
-Date: Tue, 31 Aug 2021 01:22:24 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mKpw6-0000O9-Sm
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 18:39:27 -0400
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:36846)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mKpw5-0007Gf-Ca
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 18:39:26 -0400
+Received: by mail-io1-xd34.google.com with SMTP id q3so22237748iot.3
+ for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 15:39:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Urt7tCr7Xm+jyEn/d1KU2GTmLdRoq3Y1faOqj4L12Co=;
+ b=qXKCLd7rArMvpWogNJNAfb0MyqrOahwolq7phB48n8udiOzpxHjSA8VKthUkSXW0Ey
+ 1pe/fPUrXHvy1M3nXk5+OetS48rEKG3eF9Na3wQzQRnNkyO22LxaFIlulvpcmQ+2R2Gi
+ GsPlswVBiQIL5ybsKrylkMineWd3IAk+KBhxaei95IX7b/+rmjfmuExDwhODAkW90Skn
+ 3g93wZvIIqBp4qKZaD3Ytjt2dbTsgowXg9w0TIkeKMO5RgwqO4LSaE5owl7Jq7XHjRPP
+ ghGioErzFHQGkrRtJ41teBPfCCfQmotvVhEclo6VFt36yyMo3hSeYCFmKYETPk7zkNLv
+ PCTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Urt7tCr7Xm+jyEn/d1KU2GTmLdRoq3Y1faOqj4L12Co=;
+ b=UwusAQPI8vEakfbsdyZekk4Erejk7FU12oHwBxGtuPUTOxgbk3lAuR+cH6Re1H79oj
+ kTCPd5fRPHSTfunpvm4ODCUwHr5sRoOwCX96rdcyYMQJRyyjKuXLrFp87pawZzSe1pfi
+ /1VpPN2e382PJ60JTeC1ffCWjmtHAX8T9mKjg6QuXM2Jg6R9Z50U86Gqhx8VtIGOFhpG
+ oIfzNAJRVrhGWPtJMabojANirQuRG+5tqQHYioxX9a6SmU8Vz/3tsUZg/snVNh9Twuzc
+ 0+kb49WffJ1OkrUlgVaRP9yM9pUG9TlZP/ugBMr4gNMNKhtQD6eQnbMQm+bQ6LPzGa81
+ yx9Q==
+X-Gm-Message-State: AOAM530qwefILIm2fXcZYnIM9LK/682/MdFfKgwgOfabd3XMVqWIL0RN
+ RTzidFgUaIJNgmFhCATY67x+lCnX4f6JsuxijDIC18Xsc6emoZah
+X-Google-Smtp-Source: ABdhPJzJAIkrQ86Kc+CVaeMVgnGCz3qZqIz0JzEtAhHCtPRcvoEpEYthvK4isOkKziFXUu5pJke+SdbSxxDiiA6Tt48=
+X-Received: by 2002:a02:ad17:: with SMTP id s23mr623986jan.135.1630363164149; 
+ Mon, 30 Aug 2021 15:39:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1706f18b-d6e3-e88c-ac12-decdfbd7d9b2@msgid.tls.msk.ru>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -77
-X-Spam_score: -7.8
-X-Spam_bar: -------
-X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.932,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210818191920.390759-1-richard.henderson@linaro.org>
+ <20210818191920.390759-67-richard.henderson@linaro.org>
+In-Reply-To: <20210818191920.390759-67-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 31 Aug 2021 08:38:58 +1000
+Message-ID: <CAKmqyKOQVW6WO1FUdQThmj76+5j6+cGvVyJ5GPkKe3nTB=NJ-Q@mail.gmail.com>
+Subject: Re: [PATCH v3 66/66] tcg/riscv: Remove add with zero on user-only
+ memory access
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,53 +79,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zxq_yx_007@163.com, berrange@redhat.com, armbru@redhat.com
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-31.08.2021 01:06, Michael Tokarev wrote:
-...
-> And this is the value used to be returned in the getsockname/getpeername
-> calls.
-> 
-> So this has nothing to do with socket being abstract or not. We asked for
-> larger storage for the sockaddr structure, and the kernel was able to build
-> one for us, including the trailing \0 byte. Currently kernel will only
-> return +1 byte for non-abstract sockets, but this is an implementation
-> detail. We asked for it. So we - I think - should account for this +1
-> byte here.
+On Thu, Aug 19, 2021 at 6:18 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-And here's the note from man 7 unix:
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-BUGS
-        When binding a socket to an address, Linux is one of the implementations that appends a null termina‐
-        tor if none is supplied in sun_path.  In most cases this is unproblematic: when the socket address is
-        retrieved, it will be one byte longer than that supplied when the socket was bound.   However,  there
-        is  one case where confusing behavior can result: if 108 non-null bytes are supplied when a socket is
-        bound,  then  the  addition  of  the  null  terminator  takes  the  length  of  the  pathname  beyond
-        sizeof(sun_path).   Consequently, when retrieving the socket address (for example, via accept(2)), if
-        the input addrlen argument for the retrieving call is specified as sizeof(struct  sockaddr_un),  then
-        the returned address structure won't have a null terminator in sun_path.
+Alistair
 
-So how about this:
-
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index f2f3676d1f..83926dc2bc 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -1345,8 +1345,9 @@ socket_sockaddr_to_address_unix(struct sockaddr_storage *sa,
-      SocketAddress *addr;
-      struct sockaddr_un *su = (struct sockaddr_un *)sa;
-
-+    /* kernel might have added \0 terminator to non-abstract socket */
-      assert(salen >= sizeof(su->sun_family) + 1 &&
--           salen <= sizeof(struct sockaddr_un));
-+           salen <= sizeof(struct sockaddr_un) + su->sun_path[0] ? 1 : 0);
-
-      addr = g_new0(SocketAddress, 1);
-      addr->type = SOCKET_ADDRESS_TYPE_UNIX;
-
-?
-
-/mjt
+> ---
+>  tcg/riscv/tcg-target.c.inc | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+>
+> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+> index f75dcf88f8..b84a4e876b 100644
+> --- a/tcg/riscv/tcg-target.c.inc
+> +++ b/tcg/riscv/tcg-target.c.inc
+> @@ -1182,9 +1182,7 @@ static void tcg_out_qemu_ld(TCGContext *s, const TCGArg *args, bool is_64)
+>      if (a_bits) {
+>          tcg_out_test_alignment(s, true, addr_regl, a_bits);
+>      }
+> -    if (guest_base == 0) {
+> -        tcg_out_opc_reg(s, OPC_ADD, base, addr_regl, TCG_REG_ZERO);
+> -    } else {
+> +    if (guest_base != 0) {
+>          tcg_out_opc_reg(s, OPC_ADD, base, TCG_GUEST_BASE_REG, addr_regl);
+>      }
+>      tcg_out_qemu_ld_direct(s, data_regl, data_regh, base, opc, is_64);
+> @@ -1256,9 +1254,7 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is_64)
+>      if (a_bits) {
+>          tcg_out_test_alignment(s, false, addr_regl, a_bits);
+>      }
+> -    if (guest_base == 0) {
+> -        tcg_out_opc_reg(s, OPC_ADD, base, addr_regl, TCG_REG_ZERO);
+> -    } else {
+> +    if (guest_base != 0) {
+>          tcg_out_opc_reg(s, OPC_ADD, base, TCG_GUEST_BASE_REG, addr_regl);
+>      }
+>      tcg_out_qemu_st_direct(s, data_regl, data_regh, base, opc);
+> --
+> 2.25.1
+>
+>
 
