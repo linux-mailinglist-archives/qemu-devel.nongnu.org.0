@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 287113FB122
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 08:27:14 +0200 (CEST)
-Received: from localhost ([::1]:35008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ADCC3FB131
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 08:30:11 +0200 (CEST)
+Received: from localhost ([::1]:43242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKalF-0006hY-5X
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 02:27:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46108)
+	id 1mKanw-0003y6-9G
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 02:30:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mKaj3-0003XQ-QI
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:24:57 -0400
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:47075)
+ id 1mKaj5-0003Xy-2Z
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:24:59 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:39602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mKaj1-0007N7-M7
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:24:57 -0400
-Received: by mail-pg1-x52f.google.com with SMTP id w7so11276254pgk.13
+ id 1mKaj2-0007Nw-4D
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:24:58 -0400
+Received: by mail-pg1-x534.google.com with SMTP id g184so12423160pgc.6
  for <qemu-devel@nongnu.org>; Sun, 29 Aug 2021 23:24:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=LK7AmLFSY1ToCjPOE+7gR/8ticEGolKTb1yvJJVuTUo=;
- b=PUz4T+E+Dr1sTe+H31Mizsi/pOU594HW24D52BM2PbZNk6iIaNwXNF8Fy7OcA0BZ5H
- x5bo2g/97GiKXQDsdyQU/AtiB9cllyjqxYGyHcfwp9MIjUzHEHzcKc0K7IvtZiKaQ7/y
- zDmnQcrMY+fsyJynPn7bz7DiTA2jm98SFhVCkvF83ciP/MIascNqAp6SClGzx8ovsTVj
- qPtIKufEkdqbmpbvM6aWFx3Ee2ArJdtOXBEcT4K53S3UBRJrPkoK2+3g1oQXVQe5i1YS
- qzva3LgZNczPDRa9QK6YWWZoAA2dTMSfQOrT3h0u9vZNwe2jmGHF4oYn6No1pG+YpAZU
- X3rA==
+ bh=L8iZIESA4E99wkHpwQ59xznrqxj54q8TXcl6nmJJi8M=;
+ b=FFg7sWbXA4u2jaD8wNh672WMN36lh8HQHtltXujXocOoRcBkmXF7Rw7eKuiGAmElpZ
+ z5AAA8rHWOTPWpfWJECeII/X3+8TjfNLiP+tKu2/DCPsnltJnUGlVMToL2HQ8Df7Y4uM
+ r2A84BHdBwZJnyarlAZxj114x9CbQKZO2zgvMCTPyv0CqNGQtE1sq5IqWKeUSXgXqbIT
+ C76v8HcD7IgTHmyg+vJ4O46Zk2C302CRAfGRijaqtUPyUyIZ19x0Kl1EjrRyIA2AWCXJ
+ 6EsJbjg8Sd4nKWDpX5O5g+It7DHq/uoNcNExKYQiNM2ZyvgoNb8CH+P6BVrt9mQJEvei
+ g7/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LK7AmLFSY1ToCjPOE+7gR/8ticEGolKTb1yvJJVuTUo=;
- b=cbkh3NXUJXWs3yoNbgFeVD/gJnpE4wGdybncYjn/dnTVR2mAjeNzmJygF8RAIrZfU9
- F+Rr7TmKdwGLIEMyq5/HujNIqVeTzuiLUAGbE/Qu0nwwzCXl9qGPp5ECnDdPpzzJOQah
- 4br+OskkuI9XGMXjfIrcBI51tZz0anwpUsTQvH/KYS7oDHsfdksjyCVAX5rDHztlHUWc
- +GwF/evJdchTdUyYwsDXY2vtEezK6S8NtE2vCpw0c0cydb4uPjFTPwtE32MkzohSWJC7
- QjzlmaFP0hnEKRiQhmIZS2GpkKUd7JZaNlZfwiMi9RkWMjgtHKmPbSByt3QZ99nCO4dC
- wUzA==
-X-Gm-Message-State: AOAM5339KfoGCb57Kb1KtYsIV7lvgth3UcTziXlFPgPgec6WCG/p4Rau
- 6BS+QKnKCjEe6NUmkdFKARB0RnCGKpEGCw==
-X-Google-Smtp-Source: ABdhPJzeqQNQn5n02azlA24UlamHZzAQhq8mcD3whK2Mu/BqsDCE7YsI7RFuyhu0kGy+g+Jpm6MCKg==
-X-Received: by 2002:a65:6393:: with SMTP id h19mr20448352pgv.64.1630304693697; 
- Sun, 29 Aug 2021 23:24:53 -0700 (PDT)
+ bh=L8iZIESA4E99wkHpwQ59xznrqxj54q8TXcl6nmJJi8M=;
+ b=NOFUIjH+fqOdXD3oNDekn274Z54DJN/eNWD5S7z7LbORvJzDuIDrcGJfWYbubOL4xb
+ 89ERB/cbnHpCvh+N/TlYswzAI9vwdMZFbc/JGXUxR91KoyJZ1Cn6bsCwyD8RHtUZ95P9
+ DoTw4CRx3Uuzy/wtm/UzFd7kfi6vUu9rBrlUowVtQh1qCkoKwpvPbc4uzRghzmuUz/je
+ sMwmAwiKAicRYF8OTtsmSGSfZb4NYvfQIHMT5/u4Qn3q2muErimfid6ILtp/DsTwb5Uy
+ LpPnQFfmxEp5zCJGKk4rxO2BrujMKFnm78CUUN7YfmxADj7MomLDuu9HQBIwxThpixmy
+ TwBw==
+X-Gm-Message-State: AOAM531xRiR1Xxe+xsVeSIuVgCBfHni3lI3noAUImISY1TKSRBWM4nNf
+ oqAHlx6dYiC6UAgWpa5TstGpuJnbi0zdyA==
+X-Google-Smtp-Source: ABdhPJxnylBndNuiVy3FU7QIIH/lR0hjHunK4qhkMSHPG5C6aVee/9G0MGefS9LiseI5UakTsabneg==
+X-Received: by 2002:a63:1717:: with SMTP id x23mr13507962pgl.182.1630304694630; 
+ Sun, 29 Aug 2021 23:24:54 -0700 (PDT)
 Received: from localhost.localdomain (174-21-72-39.tukw.qwest.net.
  [174.21.72.39])
- by smtp.gmail.com with ESMTPSA id b12sm13942084pff.63.2021.08.29.23.24.53
+ by smtp.gmail.com with ESMTPSA id b12sm13942084pff.63.2021.08.29.23.24.54
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Aug 2021 23:24:53 -0700 (PDT)
+ Sun, 29 Aug 2021 23:24:54 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/48] tcg/optimize: Rename "mask" to "z_mask"
-Date: Sun, 29 Aug 2021 23:24:04 -0700
-Message-Id: <20210830062451.639572-2-richard.henderson@linaro.org>
+Subject: [PATCH 02/48] tcg/optimize: Split out OptContext
+Date: Sun, 29 Aug 2021 23:24:05 -0700
+Message-Id: <20210830062451.639572-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210830062451.639572-1-richard.henderson@linaro.org>
 References: <20210830062451.639572-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,406 +87,332 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Prepare for tracking different masks by renaming this one.
+Provide what will become a larger context for splitting
+the very large tcg_optimize function.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/optimize.c | 142 +++++++++++++++++++++++++------------------------
- 1 file changed, 72 insertions(+), 70 deletions(-)
+ tcg/optimize.c | 77 ++++++++++++++++++++++++++------------------------
+ 1 file changed, 40 insertions(+), 37 deletions(-)
 
 diff --git a/tcg/optimize.c b/tcg/optimize.c
-index 9876ac52a8..254f0b1b71 100644
+index 254f0b1b71..bc0e6f14d2 100644
 --- a/tcg/optimize.c
 +++ b/tcg/optimize.c
-@@ -41,7 +41,7 @@ typedef struct TempOptInfo {
-     TCGTemp *prev_copy;
-     TCGTemp *next_copy;
-     uint64_t val;
--    uint64_t mask;
-+    uint64_t z_mask;  /* mask bit is 0 if and only if value bit is 0 */
+@@ -44,6 +44,10 @@ typedef struct TempOptInfo {
+     uint64_t z_mask;  /* mask bit is 0 if and only if value bit is 0 */
  } TempOptInfo;
  
++typedef struct OptContext {
++    TCGTempSet temps_used;
++} OptContext;
++
  static inline TempOptInfo *ts_info(TCGTemp *ts)
-@@ -81,7 +81,7 @@ static void reset_ts(TCGTemp *ts)
-     ti->next_copy = ts;
-     ti->prev_copy = ts;
-     ti->is_const = false;
--    ti->mask = -1;
-+    ti->z_mask = -1;
+ {
+     return ts->state_ptr;
+@@ -90,15 +94,15 @@ static void reset_temp(TCGArg arg)
  }
  
- static void reset_temp(TCGArg arg)
-@@ -111,14 +111,14 @@ static void init_ts_info(TCGTempSet *temps_used, TCGTemp *ts)
-     if (ts->kind == TEMP_CONST) {
-         ti->is_const = true;
-         ti->val = ts->val;
--        ti->mask = ts->val;
-+        ti->z_mask = ts->val;
-         if (TCG_TARGET_REG_BITS > 32 && ts->type == TCG_TYPE_I32) {
-             /* High bits of a 32-bit quantity are garbage.  */
--            ti->mask |= ~0xffffffffull;
-+            ti->z_mask |= ~0xffffffffull;
-         }
-     } else {
-         ti->is_const = false;
--        ti->mask = -1;
-+        ti->z_mask = -1;
+ /* Initialize and activate a temporary.  */
+-static void init_ts_info(TCGTempSet *temps_used, TCGTemp *ts)
++static void init_ts_info(OptContext *ctx, TCGTemp *ts)
+ {
+     size_t idx = temp_idx(ts);
+     TempOptInfo *ti;
+ 
+-    if (test_bit(idx, temps_used->l)) {
++    if (test_bit(idx, ctx->temps_used.l)) {
+         return;
+     }
+-    set_bit(idx, temps_used->l);
++    set_bit(idx, ctx->temps_used.l);
+ 
+     ti = ts->state_ptr;
+     if (ti == NULL) {
+@@ -122,9 +126,9 @@ static void init_ts_info(TCGTempSet *temps_used, TCGTemp *ts)
      }
  }
  
-@@ -186,7 +186,7 @@ static void tcg_opt_gen_mov(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg src)
-     const TCGOpDef *def;
-     TempOptInfo *di;
-     TempOptInfo *si;
--    uint64_t mask;
-+    uint64_t z_mask;
-     TCGOpcode new_op;
+-static void init_arg_info(TCGTempSet *temps_used, TCGArg arg)
++static void init_arg_info(OptContext *ctx, TCGArg arg)
+ {
+-    init_ts_info(temps_used, arg_temp(arg));
++    init_ts_info(ctx, arg_temp(arg));
+ }
  
-     if (ts_are_copies(dst_ts, src_ts)) {
-@@ -210,12 +210,12 @@ static void tcg_opt_gen_mov(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg src)
-     op->args[0] = dst;
-     op->args[1] = src;
- 
--    mask = si->mask;
-+    z_mask = si->z_mask;
-     if (TCG_TARGET_REG_BITS > 32 && new_op == INDEX_op_mov_i32) {
-         /* High bits of the destination are now garbage.  */
--        mask |= ~0xffffffffull;
-+        z_mask |= ~0xffffffffull;
+ static TCGTemp *find_better_copy(TCGContext *s, TCGTemp *ts)
+@@ -229,7 +233,7 @@ static void tcg_opt_gen_mov(TCGContext *s, TCGOp *op, TCGArg dst, TCGArg src)
      }
--    di->mask = mask;
-+    di->z_mask = z_mask;
+ }
  
-     if (src_ts->type == dst_ts->type) {
-         TempOptInfo *ni = ts_info(si->next_copy);
-@@ -621,7 +621,7 @@ void tcg_optimize(TCGContext *s)
+-static void tcg_opt_gen_movi(TCGContext *s, TCGTempSet *temps_used,
++static void tcg_opt_gen_movi(TCGContext *s, OptContext *ctx,
+                              TCGOp *op, TCGArg dst, uint64_t val)
+ {
+     const TCGOpDef *def = &tcg_op_defs[op->opc];
+@@ -246,7 +250,7 @@ static void tcg_opt_gen_movi(TCGContext *s, TCGTempSet *temps_used,
+ 
+     /* Convert movi to mov with constant temp. */
+     tv = tcg_constant_internal(type, val);
+-    init_ts_info(temps_used, tv);
++    init_ts_info(ctx, tv);
+     tcg_opt_gen_mov(s, op, dst, temp_arg(tv));
+ }
+ 
+@@ -605,7 +609,7 @@ void tcg_optimize(TCGContext *s)
+ {
+     int nb_temps, nb_globals, i;
+     TCGOp *op, *op_next, *prev_mb = NULL;
+-    TCGTempSet temps_used;
++    OptContext ctx = {};
+ 
+     /* Array VALS has an element for each temp.
+        If this temp holds a constant then its value is kept in VALS' element.
+@@ -615,7 +619,6 @@ void tcg_optimize(TCGContext *s)
+     nb_temps = s->nb_temps;
+     nb_globals = s->nb_globals;
+ 
+-    memset(&temps_used, 0, sizeof(temps_used));
+     for (i = 0; i < nb_temps; ++i) {
+         s->temps[i].state_ptr = NULL;
      }
- 
-     QTAILQ_FOREACH_SAFE(op, &s->ops, link, op_next) {
--        uint64_t mask, partmask, affected, tmp;
-+        uint64_t z_mask, partmask, affected, tmp;
-         int nb_oargs, nb_iargs;
-         TCGOpcode opc = op->opc;
-         const TCGOpDef *def = &tcg_op_defs[opc];
-@@ -855,170 +855,172 @@ void tcg_optimize(TCGContext *s)
- 
-         /* Simplify using known-zero bits. Currently only ops with a single
-            output argument is supported. */
--        mask = -1;
-+        z_mask = -1;
-         affected = -1;
-         switch (opc) {
-         CASE_OP_32_64(ext8s):
--            if ((arg_info(op->args[1])->mask & 0x80) != 0) {
-+            if ((arg_info(op->args[1])->z_mask & 0x80) != 0) {
-                 break;
-             }
-             QEMU_FALLTHROUGH;
-         CASE_OP_32_64(ext8u):
--            mask = 0xff;
-+            z_mask = 0xff;
-             goto and_const;
-         CASE_OP_32_64(ext16s):
--            if ((arg_info(op->args[1])->mask & 0x8000) != 0) {
-+            if ((arg_info(op->args[1])->z_mask & 0x8000) != 0) {
-                 break;
-             }
-             QEMU_FALLTHROUGH;
-         CASE_OP_32_64(ext16u):
--            mask = 0xffff;
-+            z_mask = 0xffff;
-             goto and_const;
-         case INDEX_op_ext32s_i64:
--            if ((arg_info(op->args[1])->mask & 0x80000000) != 0) {
-+            if ((arg_info(op->args[1])->z_mask & 0x80000000) != 0) {
-                 break;
-             }
-             QEMU_FALLTHROUGH;
-         case INDEX_op_ext32u_i64:
--            mask = 0xffffffffU;
-+            z_mask = 0xffffffffU;
-             goto and_const;
- 
-         CASE_OP_32_64(and):
--            mask = arg_info(op->args[2])->mask;
-+            z_mask = arg_info(op->args[2])->z_mask;
-             if (arg_is_const(op->args[2])) {
-         and_const:
--                affected = arg_info(op->args[1])->mask & ~mask;
-+                affected = arg_info(op->args[1])->z_mask & ~z_mask;
-             }
--            mask = arg_info(op->args[1])->mask & mask;
-+            z_mask = arg_info(op->args[1])->z_mask & z_mask;
-             break;
- 
-         case INDEX_op_ext_i32_i64:
--            if ((arg_info(op->args[1])->mask & 0x80000000) != 0) {
-+            if ((arg_info(op->args[1])->z_mask & 0x80000000) != 0) {
-                 break;
-             }
-             QEMU_FALLTHROUGH;
-         case INDEX_op_extu_i32_i64:
-             /* We do not compute affected as it is a size changing op.  */
--            mask = (uint32_t)arg_info(op->args[1])->mask;
-+            z_mask = (uint32_t)arg_info(op->args[1])->z_mask;
-             break;
- 
-         CASE_OP_32_64(andc):
-             /* Known-zeros does not imply known-ones.  Therefore unless
-                op->args[2] is constant, we can't infer anything from it.  */
-             if (arg_is_const(op->args[2])) {
--                mask = ~arg_info(op->args[2])->mask;
-+                z_mask = ~arg_info(op->args[2])->z_mask;
-                 goto and_const;
-             }
-             /* But we certainly know nothing outside args[1] may be set. */
--            mask = arg_info(op->args[1])->mask;
-+            z_mask = arg_info(op->args[1])->z_mask;
-             break;
- 
-         case INDEX_op_sar_i32:
-             if (arg_is_const(op->args[2])) {
-                 tmp = arg_info(op->args[2])->val & 31;
--                mask = (int32_t)arg_info(op->args[1])->mask >> tmp;
-+                z_mask = (int32_t)arg_info(op->args[1])->z_mask >> tmp;
-             }
-             break;
-         case INDEX_op_sar_i64:
-             if (arg_is_const(op->args[2])) {
-                 tmp = arg_info(op->args[2])->val & 63;
--                mask = (int64_t)arg_info(op->args[1])->mask >> tmp;
-+                z_mask = (int64_t)arg_info(op->args[1])->z_mask >> tmp;
-             }
-             break;
- 
-         case INDEX_op_shr_i32:
-             if (arg_is_const(op->args[2])) {
-                 tmp = arg_info(op->args[2])->val & 31;
--                mask = (uint32_t)arg_info(op->args[1])->mask >> tmp;
-+                z_mask = (uint32_t)arg_info(op->args[1])->z_mask >> tmp;
-             }
-             break;
-         case INDEX_op_shr_i64:
-             if (arg_is_const(op->args[2])) {
-                 tmp = arg_info(op->args[2])->val & 63;
--                mask = (uint64_t)arg_info(op->args[1])->mask >> tmp;
-+                z_mask = (uint64_t)arg_info(op->args[1])->z_mask >> tmp;
-             }
-             break;
- 
-         case INDEX_op_extrl_i64_i32:
--            mask = (uint32_t)arg_info(op->args[1])->mask;
-+            z_mask = (uint32_t)arg_info(op->args[1])->z_mask;
-             break;
-         case INDEX_op_extrh_i64_i32:
--            mask = (uint64_t)arg_info(op->args[1])->mask >> 32;
-+            z_mask = (uint64_t)arg_info(op->args[1])->z_mask >> 32;
-             break;
- 
-         CASE_OP_32_64(shl):
-             if (arg_is_const(op->args[2])) {
-                 tmp = arg_info(op->args[2])->val & (TCG_TARGET_REG_BITS - 1);
--                mask = arg_info(op->args[1])->mask << tmp;
-+                z_mask = arg_info(op->args[1])->z_mask << tmp;
-             }
-             break;
- 
-         CASE_OP_32_64(neg):
-             /* Set to 1 all bits to the left of the rightmost.  */
--            mask = -(arg_info(op->args[1])->mask
--                     & -arg_info(op->args[1])->mask);
-+            z_mask = -(arg_info(op->args[1])->z_mask
-+                       & -arg_info(op->args[1])->z_mask);
-             break;
- 
-         CASE_OP_32_64(deposit):
--            mask = deposit64(arg_info(op->args[1])->mask,
--                             op->args[3], op->args[4],
--                             arg_info(op->args[2])->mask);
-+            z_mask = deposit64(arg_info(op->args[1])->z_mask,
-+                               op->args[3], op->args[4],
-+                               arg_info(op->args[2])->z_mask);
-             break;
- 
-         CASE_OP_32_64(extract):
--            mask = extract64(arg_info(op->args[1])->mask,
--                             op->args[2], op->args[3]);
-+            z_mask = extract64(arg_info(op->args[1])->z_mask,
-+                               op->args[2], op->args[3]);
-             if (op->args[2] == 0) {
--                affected = arg_info(op->args[1])->mask & ~mask;
-+                affected = arg_info(op->args[1])->z_mask & ~z_mask;
-             }
-             break;
-         CASE_OP_32_64(sextract):
--            mask = sextract64(arg_info(op->args[1])->mask,
--                              op->args[2], op->args[3]);
--            if (op->args[2] == 0 && (tcg_target_long)mask >= 0) {
--                affected = arg_info(op->args[1])->mask & ~mask;
-+            z_mask = sextract64(arg_info(op->args[1])->z_mask,
-+                                op->args[2], op->args[3]);
-+            if (op->args[2] == 0 && (tcg_target_long)z_mask >= 0) {
-+                affected = arg_info(op->args[1])->z_mask & ~z_mask;
-             }
-             break;
- 
-         CASE_OP_32_64(or):
-         CASE_OP_32_64(xor):
--            mask = arg_info(op->args[1])->mask | arg_info(op->args[2])->mask;
-+            z_mask = arg_info(op->args[1])->z_mask
-+                   | arg_info(op->args[2])->z_mask;
-             break;
- 
-         case INDEX_op_clz_i32:
-         case INDEX_op_ctz_i32:
--            mask = arg_info(op->args[2])->mask | 31;
-+            z_mask = arg_info(op->args[2])->z_mask | 31;
-             break;
- 
-         case INDEX_op_clz_i64:
-         case INDEX_op_ctz_i64:
--            mask = arg_info(op->args[2])->mask | 63;
-+            z_mask = arg_info(op->args[2])->z_mask | 63;
-             break;
- 
-         case INDEX_op_ctpop_i32:
--            mask = 32 | 31;
-+            z_mask = 32 | 31;
-             break;
-         case INDEX_op_ctpop_i64:
--            mask = 64 | 63;
-+            z_mask = 64 | 63;
-             break;
- 
-         CASE_OP_32_64(setcond):
-         case INDEX_op_setcond2_i32:
--            mask = 1;
-+            z_mask = 1;
-             break;
- 
-         CASE_OP_32_64(movcond):
--            mask = arg_info(op->args[3])->mask | arg_info(op->args[4])->mask;
-+            z_mask = arg_info(op->args[3])->z_mask
-+                   | arg_info(op->args[4])->z_mask;
-             break;
- 
-         CASE_OP_32_64(ld8u):
--            mask = 0xff;
-+            z_mask = 0xff;
-             break;
-         CASE_OP_32_64(ld16u):
--            mask = 0xffff;
-+            z_mask = 0xffff;
-             break;
-         case INDEX_op_ld32u_i64:
--            mask = 0xffffffffu;
-+            z_mask = 0xffffffffu;
-             break;
- 
-         CASE_OP_32_64(qemu_ld):
-@@ -1026,43 +1028,43 @@ void tcg_optimize(TCGContext *s)
-                 TCGMemOpIdx oi = op->args[nb_oargs + nb_iargs];
-                 MemOp mop = get_memop(oi);
-                 if (!(mop & MO_SIGN)) {
--                    mask = (2ULL << ((8 << (mop & MO_SIZE)) - 1)) - 1;
-+                    z_mask = (2ULL << ((8 << (mop & MO_SIZE)) - 1)) - 1;
+@@ -634,14 +637,14 @@ void tcg_optimize(TCGContext *s)
+             for (i = 0; i < nb_oargs + nb_iargs; i++) {
+                 TCGTemp *ts = arg_temp(op->args[i]);
+                 if (ts) {
+-                    init_ts_info(&temps_used, ts);
++                    init_ts_info(&ctx, ts);
                  }
              }
-             break;
- 
-         CASE_OP_32_64(bswap16):
--            mask = arg_info(op->args[1])->mask;
--            if (mask <= 0xffff) {
-+            z_mask = arg_info(op->args[1])->z_mask;
-+            if (z_mask <= 0xffff) {
-                 op->args[2] |= TCG_BSWAP_IZ;
+         } else {
+             nb_oargs = def->nb_oargs;
+             nb_iargs = def->nb_iargs;
+             for (i = 0; i < nb_oargs + nb_iargs; i++) {
+-                init_arg_info(&temps_used, op->args[i]);
++                init_arg_info(&ctx, op->args[i]);
              }
--            mask = bswap16(mask);
-+            z_mask = bswap16(z_mask);
-             switch (op->args[2] & (TCG_BSWAP_OZ | TCG_BSWAP_OS)) {
-             case TCG_BSWAP_OZ:
-                 break;
-             case TCG_BSWAP_OS:
--                mask = (int16_t)mask;
-+                z_mask = (int16_t)z_mask;
-                 break;
-             default: /* undefined high bits */
--                mask |= MAKE_64BIT_MASK(16, 48);
-+                z_mask |= MAKE_64BIT_MASK(16, 48);
-                 break;
-             }
-             break;
- 
-         case INDEX_op_bswap32_i64:
--            mask = arg_info(op->args[1])->mask;
--            if (mask <= 0xffffffffu) {
-+            z_mask = arg_info(op->args[1])->z_mask;
-+            if (z_mask <= 0xffffffffu) {
-                 op->args[2] |= TCG_BSWAP_IZ;
-             }
--            mask = bswap32(mask);
-+            z_mask = bswap32(z_mask);
-             switch (op->args[2] & (TCG_BSWAP_OZ | TCG_BSWAP_OS)) {
-             case TCG_BSWAP_OZ:
-                 break;
-             case TCG_BSWAP_OS:
--                mask = (int32_t)mask;
-+                z_mask = (int32_t)z_mask;
-                 break;
-             default: /* undefined high bits */
--                mask |= MAKE_64BIT_MASK(32, 32);
-+                z_mask |= MAKE_64BIT_MASK(32, 32);
-                 break;
-             }
-             break;
-@@ -1074,9 +1076,9 @@ void tcg_optimize(TCGContext *s)
-         /* 32-bit ops generate 32-bit results.  For the result is zero test
-            below, we can ignore high bits, but for further optimizations we
-            need to record that the high bits contain garbage.  */
--        partmask = mask;
-+        partmask = z_mask;
-         if (!(def->flags & TCG_OPF_64BIT)) {
--            mask |= ~(tcg_target_ulong)0xffffffffu;
-+            z_mask |= ~(tcg_target_ulong)0xffffffffu;
-             partmask &= 0xffffffffu;
-             affected &= 0xffffffffu;
          }
-@@ -1472,7 +1474,7 @@ void tcg_optimize(TCGContext *s)
+ 
+@@ -720,7 +723,7 @@ void tcg_optimize(TCGContext *s)
+         CASE_OP_32_64(rotr):
+             if (arg_is_const(op->args[1])
+                 && arg_info(op->args[1])->val == 0) {
+-                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], 0);
++                tcg_opt_gen_movi(s, &ctx, op, op->args[0], 0);
+                 continue;
+             }
+             break;
+@@ -1085,7 +1088,7 @@ void tcg_optimize(TCGContext *s)
+ 
+         if (partmask == 0) {
+             tcg_debug_assert(nb_oargs == 1);
+-            tcg_opt_gen_movi(s, &temps_used, op, op->args[0], 0);
++            tcg_opt_gen_movi(s, &ctx, op, op->args[0], 0);
+             continue;
+         }
+         if (affected == 0) {
+@@ -1102,7 +1105,7 @@ void tcg_optimize(TCGContext *s)
+         CASE_OP_32_64(mulsh):
+             if (arg_is_const(op->args[2])
+                 && arg_info(op->args[2])->val == 0) {
+-                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], 0);
++                tcg_opt_gen_movi(s, &ctx, op, op->args[0], 0);
+                 continue;
+             }
+             break;
+@@ -1129,7 +1132,7 @@ void tcg_optimize(TCGContext *s)
+         CASE_OP_32_64_VEC(sub):
+         CASE_OP_32_64_VEC(xor):
+             if (args_are_copies(op->args[1], op->args[2])) {
+-                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], 0);
++                tcg_opt_gen_movi(s, &ctx, op, op->args[0], 0);
+                 continue;
+             }
+             break;
+@@ -1149,7 +1152,7 @@ void tcg_optimize(TCGContext *s)
+             if (arg_is_const(op->args[1])) {
+                 tmp = arg_info(op->args[1])->val;
+                 tmp = dup_const(TCGOP_VECE(op), tmp);
+-                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
++                tcg_opt_gen_movi(s, &ctx, op, op->args[0], tmp);
+                 break;
+             }
+             goto do_default;
+@@ -1157,7 +1160,7 @@ void tcg_optimize(TCGContext *s)
+         case INDEX_op_dup2_vec:
+             assert(TCG_TARGET_REG_BITS == 32);
+             if (arg_is_const(op->args[1]) && arg_is_const(op->args[2])) {
+-                tcg_opt_gen_movi(s, &temps_used, op, op->args[0],
++                tcg_opt_gen_movi(s, &ctx, op, op->args[0],
+                                  deposit64(arg_info(op->args[1])->val, 32, 32,
+                                            arg_info(op->args[2])->val));
+                 break;
+@@ -1183,7 +1186,7 @@ void tcg_optimize(TCGContext *s)
+         case INDEX_op_extrh_i64_i32:
+             if (arg_is_const(op->args[1])) {
+                 tmp = do_constant_folding(opc, arg_info(op->args[1])->val, 0);
+-                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
++                tcg_opt_gen_movi(s, &ctx, op, op->args[0], tmp);
+                 break;
+             }
+             goto do_default;
+@@ -1194,7 +1197,7 @@ void tcg_optimize(TCGContext *s)
+             if (arg_is_const(op->args[1])) {
+                 tmp = do_constant_folding(opc, arg_info(op->args[1])->val,
+                                           op->args[2]);
+-                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
++                tcg_opt_gen_movi(s, &ctx, op, op->args[0], tmp);
+                 break;
+             }
+             goto do_default;
+@@ -1224,7 +1227,7 @@ void tcg_optimize(TCGContext *s)
+             if (arg_is_const(op->args[1]) && arg_is_const(op->args[2])) {
+                 tmp = do_constant_folding(opc, arg_info(op->args[1])->val,
+                                           arg_info(op->args[2])->val);
+-                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
++                tcg_opt_gen_movi(s, &ctx, op, op->args[0], tmp);
+                 break;
+             }
+             goto do_default;
+@@ -1235,7 +1238,7 @@ void tcg_optimize(TCGContext *s)
+                 TCGArg v = arg_info(op->args[1])->val;
+                 if (v != 0) {
+                     tmp = do_constant_folding(opc, v, 0);
+-                    tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
++                    tcg_opt_gen_movi(s, &ctx, op, op->args[0], tmp);
+                 } else {
+                     tcg_opt_gen_mov(s, op, op->args[0], op->args[2]);
+                 }
+@@ -1248,7 +1251,7 @@ void tcg_optimize(TCGContext *s)
+                 tmp = deposit64(arg_info(op->args[1])->val,
+                                 op->args[3], op->args[4],
+                                 arg_info(op->args[2])->val);
+-                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
++                tcg_opt_gen_movi(s, &ctx, op, op->args[0], tmp);
+                 break;
+             }
+             goto do_default;
+@@ -1257,7 +1260,7 @@ void tcg_optimize(TCGContext *s)
+             if (arg_is_const(op->args[1])) {
+                 tmp = extract64(arg_info(op->args[1])->val,
+                                 op->args[2], op->args[3]);
+-                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
++                tcg_opt_gen_movi(s, &ctx, op, op->args[0], tmp);
+                 break;
+             }
+             goto do_default;
+@@ -1266,7 +1269,7 @@ void tcg_optimize(TCGContext *s)
+             if (arg_is_const(op->args[1])) {
+                 tmp = sextract64(arg_info(op->args[1])->val,
+                                  op->args[2], op->args[3]);
+-                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
++                tcg_opt_gen_movi(s, &ctx, op, op->args[0], tmp);
+                 break;
+             }
+             goto do_default;
+@@ -1283,7 +1286,7 @@ void tcg_optimize(TCGContext *s)
+                     tmp = (int32_t)(((uint32_t)v1 >> shr) |
+                                     ((uint32_t)v2 << (32 - shr)));
+                 }
+-                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
++                tcg_opt_gen_movi(s, &ctx, op, op->args[0], tmp);
+                 break;
+             }
+             goto do_default;
+@@ -1292,7 +1295,7 @@ void tcg_optimize(TCGContext *s)
+             tmp = do_constant_folding_cond(opc, op->args[1],
+                                            op->args[2], op->args[3]);
+             if (tmp != 2) {
+-                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
++                tcg_opt_gen_movi(s, &ctx, op, op->args[0], tmp);
+                 break;
+             }
+             goto do_default;
+@@ -1302,7 +1305,7 @@ void tcg_optimize(TCGContext *s)
+                                            op->args[1], op->args[2]);
+             if (tmp != 2) {
+                 if (tmp) {
+-                    memset(&temps_used, 0, sizeof(temps_used));
++                    memset(&ctx.temps_used, 0, sizeof(ctx.temps_used));
+                     op->opc = INDEX_op_br;
+                     op->args[0] = op->args[3];
+                 } else {
+@@ -1358,8 +1361,8 @@ void tcg_optimize(TCGContext *s)
+ 
+                 rl = op->args[0];
+                 rh = op->args[1];
+-                tcg_opt_gen_movi(s, &temps_used, op, rl, (int32_t)a);
+-                tcg_opt_gen_movi(s, &temps_used, op2, rh, (int32_t)(a >> 32));
++                tcg_opt_gen_movi(s, &ctx, op, rl, (int32_t)a);
++                tcg_opt_gen_movi(s, &ctx, op2, rh, (int32_t)(a >> 32));
+                 break;
+             }
+             goto do_default;
+@@ -1374,8 +1377,8 @@ void tcg_optimize(TCGContext *s)
+ 
+                 rl = op->args[0];
+                 rh = op->args[1];
+-                tcg_opt_gen_movi(s, &temps_used, op, rl, (int32_t)r);
+-                tcg_opt_gen_movi(s, &temps_used, op2, rh, (int32_t)(r >> 32));
++                tcg_opt_gen_movi(s, &ctx, op, rl, (int32_t)r);
++                tcg_opt_gen_movi(s, &ctx, op2, rh, (int32_t)(r >> 32));
+                 break;
+             }
+             goto do_default;
+@@ -1386,7 +1389,7 @@ void tcg_optimize(TCGContext *s)
+             if (tmp != 2) {
+                 if (tmp) {
+             do_brcond_true:
+-                    memset(&temps_used, 0, sizeof(temps_used));
++                    memset(&ctx.temps_used, 0, sizeof(ctx.temps_used));
+                     op->opc = INDEX_op_br;
+                     op->args[0] = op->args[5];
+                 } else {
+@@ -1402,7 +1405,7 @@ void tcg_optimize(TCGContext *s)
+                 /* Simplify LT/GE comparisons vs zero to a single compare
                     vs the high word of the input.  */
-             do_setcond_high:
-                 reset_temp(op->args[0]);
--                arg_info(op->args[0])->mask = 1;
-+                arg_info(op->args[0])->z_mask = 1;
-                 op->opc = INDEX_op_setcond_i32;
+             do_brcond_high:
+-                memset(&temps_used, 0, sizeof(temps_used));
++                memset(&ctx.temps_used, 0, sizeof(ctx.temps_used));
+                 op->opc = INDEX_op_brcond_i32;
+                 op->args[0] = op->args[1];
+                 op->args[1] = op->args[3];
+@@ -1428,7 +1431,7 @@ void tcg_optimize(TCGContext *s)
+                     goto do_default;
+                 }
+             do_brcond_low:
+-                memset(&temps_used, 0, sizeof(temps_used));
++                memset(&ctx.temps_used, 0, sizeof(ctx.temps_used));
+                 op->opc = INDEX_op_brcond_i32;
                  op->args[1] = op->args[2];
                  op->args[2] = op->args[4];
-@@ -1498,7 +1500,7 @@ void tcg_optimize(TCGContext *s)
-                 }
-             do_setcond_low:
-                 reset_temp(op->args[0]);
--                arg_info(op->args[0])->mask = 1;
-+                arg_info(op->args[0])->z_mask = 1;
-                 op->opc = INDEX_op_setcond_i32;
-                 op->args[2] = op->args[3];
-                 op->args[3] = op->args[5];
-@@ -1543,7 +1545,7 @@ void tcg_optimize(TCGContext *s)
-             /* Default case: we know nothing about operation (or were unable
-                to compute the operation result) so no propagation is done.
-                We trash everything if the operation is the end of a basic
--               block, otherwise we only trash the output args.  "mask" is
-+               block, otherwise we only trash the output args.  "z_mask" is
-                the non-zero bits mask for the first output arg.  */
-             if (def->flags & TCG_OPF_BB_END) {
-                 memset(&temps_used, 0, sizeof(temps_used));
-@@ -1554,7 +1556,7 @@ void tcg_optimize(TCGContext *s)
-                     /* Save the corresponding known-zero bits mask for the
-                        first output argument (only one supported so far). */
-                     if (i == 0) {
--                        arg_info(op->args[i])->mask = mask;
-+                        arg_info(op->args[i])->z_mask = z_mask;
+@@ -1463,7 +1466,7 @@ void tcg_optimize(TCGContext *s)
+                                             op->args[5]);
+             if (tmp != 2) {
+             do_setcond_const:
+-                tcg_opt_gen_movi(s, &temps_used, op, op->args[0], tmp);
++                tcg_opt_gen_movi(s, &ctx, op, op->args[0], tmp);
+             } else if ((op->args[5] == TCG_COND_LT
+                         || op->args[5] == TCG_COND_GE)
+                        && arg_is_const(op->args[3])
+@@ -1533,7 +1536,7 @@ void tcg_optimize(TCGContext *s)
+             if (!(tcg_call_flags(op)
+                   & (TCG_CALL_NO_READ_GLOBALS | TCG_CALL_NO_WRITE_GLOBALS))) {
+                 for (i = 0; i < nb_globals; i++) {
+-                    if (test_bit(i, temps_used.l)) {
++                    if (test_bit(i, ctx.temps_used.l)) {
+                         reset_ts(&s->temps[i]);
                      }
                  }
-             }
+@@ -1548,7 +1551,7 @@ void tcg_optimize(TCGContext *s)
+                block, otherwise we only trash the output args.  "z_mask" is
+                the non-zero bits mask for the first output arg.  */
+             if (def->flags & TCG_OPF_BB_END) {
+-                memset(&temps_used, 0, sizeof(temps_used));
++                memset(&ctx.temps_used, 0, sizeof(ctx.temps_used));
+             } else {
+         do_reset_output:
+                 for (i = 0; i < nb_oargs; i++) {
 -- 
 2.25.1
 
