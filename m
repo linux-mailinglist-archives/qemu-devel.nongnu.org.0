@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 689033FB18A
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 09:02:35 +0200 (CEST)
-Received: from localhost ([::1]:42400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E44AB3FB17F
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Aug 2021 08:59:14 +0200 (CEST)
+Received: from localhost ([::1]:35220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKbJS-00023G-Fz
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 03:02:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47164)
+	id 1mKbGE-0005fD-0f
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 02:59:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mKamS-0003EN-0T
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:28:29 -0400
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:33656)
+ id 1mKamP-0003Df-VS
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:28:27 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:35348)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mKamL-0001nk-PY
- for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:28:27 -0400
-Received: by mail-pl1-x62b.google.com with SMTP id m4so7977107pll.0
+ id 1mKamM-0001oA-7g
+ for qemu-devel@nongnu.org; Mon, 30 Aug 2021 02:28:24 -0400
+Received: by mail-pl1-x632.google.com with SMTP id x16so6285088pll.2
  for <qemu-devel@nongnu.org>; Sun, 29 Aug 2021 23:28:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=LV58SddOWnlnFKtjz4i6HF8Dt9vT0aWd1Tsy/0qkamg=;
- b=DNDpdfwAyZx2VkGQJiz0cQ0eUBRo6jSvXElkV3peZhAq252+UB99OJLNIxSXY+IWrk
- olnHeTaf8wmWETH6lLSiXeCSj4z0tXrw8SFcc/lNpHR+5IMb5Jz43OZviRUacXiEaO00
- rx3CqAvvQPyMlPd3clztCeRK6xZ18uMReED8YlXdFuo4YyTTfuXAqgctLGvYfnSt3PhK
- vSVpP0bxfOKTWSZBqTJjjpxvjvryuYje4Tic1GsJb3w/5IuUARYnnfj0BdwabrOs0p8B
- /aaZjmGRovCV5m7n4AsW1sdkF2d4epqc2dTxq0alLlzbKLERGd6P11zSOYuRqvJydt7H
- uqYA==
+ bh=BNq1ox8+rWVzst3iv6VIsSYBSdVmvqvfqZdAkCFh17E=;
+ b=zOKEbGjcZUKdtyWroSTOS9W8p/2XCePlrJtl/bU48rkWcIM8BnBgKkqzNrVTDLfq15
+ WfJ/HyMJakhtjtNXTEfhLbA26T0amxvmbRWCQQaiDJL2IQprRaUR2mtGh/uJmRxjgjmr
+ iEaPun2JjcY/BMHujwWNjVuULyo19EcUMSCPPmW4r3pdadbu1xiHxZRxHcb2Kq89WR2+
+ 1UV11LMij05OcvM2m5Tcd4E2YZkuC175j1RZ8AcltL9IKGAW+UkGk39G8ChwA6hSES5w
+ c7L+tzOMbrzqfLPP66TliEeCzcenQDdgvDX50VuHdIsqRZPbyo10qiPS7jf/HC9htc6R
+ fQCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LV58SddOWnlnFKtjz4i6HF8Dt9vT0aWd1Tsy/0qkamg=;
- b=Lq7slv5BREudF0QeU1pu2C83+Cc4AIR7J3D8mbkanR3t9tN4okXf7Q3btBoRYrosdE
- RBxajY7CY9tCjZn5CDfddvKNz9LLRNhe94roxKaYzslFsZ6heSTLOst/Cu0VLfH/zS4j
- Yjm3vYaABhZH0a0Re/7qO8KiKu26ekuiYmCFYwffq3nsTBF861O4fgQnG8FBBbSWQSNs
- CBYr1Qely1xxLEn90uQphKOsU0+6TUParT28U8969jkht6OX8cg9nui6BSiAYXzrq4GO
- JnPNu9dqd2eQ48zjltakiK+aenxkspnqu8h1CVGFKOzO9eglDq4TsKQ0RP706xG7hJAm
- FU0g==
-X-Gm-Message-State: AOAM531ShVFZjpcX6K2Ghms/SZ0uMbdJdFmCD6Mu4yEqeoLhM7fu8Efn
- /kjGWLQp3/WZTg1v35ay3Z5JZ47h6XkIWw==
-X-Google-Smtp-Source: ABdhPJwSdhTz1ZMcbyKgszK4APkRiJoq87XpP3fM+d1ldWhkPCFc40LPZTh+26SA10P25OHUcMFPZQ==
-X-Received: by 2002:a17:902:dacc:b0:135:7ac:b790 with SMTP id
- q12-20020a170902dacc00b0013507acb790mr20042223plx.5.1630304900207; 
+ bh=BNq1ox8+rWVzst3iv6VIsSYBSdVmvqvfqZdAkCFh17E=;
+ b=OsmmSZAYUV6Fsoz0eTI4wR7WMpfA98TH681pyhZjdIvzajO2F1KEOcBxXFDRKeCiGv
+ vIkOhihGKDfTFuf0X3Z+Eg4Bn6XdM9F8y+KSJfSkZBXiCRyKWNja46i8jwClc98jOz8a
+ GggGNIc5A12uzjy22J1VPBjeMKk3W/8IKGO0q8DYeY0wjij+OYM/rQ74c50DoGwuSpiz
+ zU9LNsCRszyJ9Bqnat2chCR852nZhI/5qoUodvW3kbuJFlNhXO3h0PfsQFBAWPiruraq
+ o0b+It9bd9G4pfaIS2h7St16Gu09Ty4L9cNP8Q2ix1P8RA7IjlHLnLmwRIjU0PzjGPZL
+ hfMA==
+X-Gm-Message-State: AOAM533F8aRsaFag9bfTBBaUbOoyuwZjGuPbQX7X44ouCHFF1sjfhkvK
+ jUXOfYEjSUDFVtpLznlRDlIyOzHJ72mXUw==
+X-Google-Smtp-Source: ABdhPJyFEX92Xy9y47LysBUzIa/QZZaszkd9STkpWXxoI3SZeNZ8JKA++I6P7MLNx27tV/TjZPHiow==
+X-Received: by 2002:a17:90a:9511:: with SMTP id
+ t17mr38092884pjo.194.1630304900843; 
  Sun, 29 Aug 2021 23:28:20 -0700 (PDT)
 Received: from localhost.localdomain (174-21-72-39.tukw.qwest.net.
  [174.21.72.39])
- by smtp.gmail.com with ESMTPSA id o6sm13337072pjk.4.2021.08.29.23.28.19
+ by smtp.gmail.com with ESMTPSA id o6sm13337072pjk.4.2021.08.29.23.28.20
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Aug 2021 23:28:19 -0700 (PDT)
+ Sun, 29 Aug 2021 23:28:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 42/48] tcg/optimize: Add more simplifications for orc
-Date: Sun, 29 Aug 2021 23:24:45 -0700
-Message-Id: <20210830062451.639572-43-richard.henderson@linaro.org>
+Subject: [PATCH 43/48] tcg/optimize: Stop forcing z_mask to "garbage" for
+ 32-bit values
+Date: Sun, 29 Aug 2021 23:24:46 -0700
+Message-Id: <20210830062451.639572-44-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210830062451.639572-1-richard.henderson@linaro.org>
 References: <20210830062451.639572-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,27 +89,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Two simplifications that were missing from before the split
-to fold functions, and are now easy to provide.
+This "garbage" setting pre-dates the addition of the type
+changing opcodes INDEX_op_ext_i32_i64, INDEX_op_extu_i32_i64,
+and INDEX_op_extr{l,h}_i64_i32.
+
+So now we have a definitive points at which to adjust z_mask
+to eliminate such bits from the 32-bit operands.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/optimize.c | 2 ++
- 1 file changed, 2 insertions(+)
+ tcg/optimize.c | 35 ++++++++++++++++-------------------
+ 1 file changed, 16 insertions(+), 19 deletions(-)
 
 diff --git a/tcg/optimize.c b/tcg/optimize.c
-index a66ac77c29..6feaf905e7 100644
+index 6feaf905e7..334639339b 100644
 --- a/tcg/optimize.c
 +++ b/tcg/optimize.c
-@@ -1554,6 +1554,8 @@ static bool fold_or(OptContext *ctx, TCGOp *op)
- static bool fold_orc(OptContext *ctx, TCGOp *op)
+@@ -123,10 +123,6 @@ static void init_ts_info(OptContext *ctx, TCGTemp *ts)
+         ti->is_const = true;
+         ti->val = ts->val;
+         ti->z_mask = ts->val;
+-        if (TCG_TARGET_REG_BITS > 32 && ts->type == TCG_TYPE_I32) {
+-            /* High bits of a 32-bit quantity are garbage.  */
+-            ti->z_mask |= ~0xffffffffull;
+-        }
+     } else {
+         ti->is_const = false;
+         ti->z_mask = -1;
+@@ -191,7 +187,6 @@ static bool tcg_opt_gen_mov(OptContext *ctx, TCGOp *op, TCGArg dst, TCGArg src)
+     TCGTemp *src_ts = arg_temp(src);
+     TempOptInfo *di;
+     TempOptInfo *si;
+-    uint64_t z_mask;
+     TCGOpcode new_op;
+ 
+     if (ts_are_copies(dst_ts, src_ts)) {
+@@ -223,12 +218,7 @@ static bool tcg_opt_gen_mov(OptContext *ctx, TCGOp *op, TCGArg dst, TCGArg src)
+     op->args[0] = dst;
+     op->args[1] = src;
+ 
+-    z_mask = si->z_mask;
+-    if (TCG_TARGET_REG_BITS > 32 && new_op == INDEX_op_mov_i32) {
+-        /* High bits of the destination are now garbage.  */
+-        z_mask |= ~0xffffffffull;
+-    }
+-    di->z_mask = z_mask;
++    di->z_mask = si->z_mask;
+ 
+     if (src_ts->type == dst_ts->type) {
+         TempOptInfo *ni = ts_info(si->next_copy);
+@@ -246,9 +236,14 @@ static bool tcg_opt_gen_mov(OptContext *ctx, TCGOp *op, TCGArg dst, TCGArg src)
+ static bool tcg_opt_gen_movi(OptContext *ctx, TCGOp *op,
+                              TCGArg dst, uint64_t val)
  {
-     if (fold_const2(ctx, op) ||
-+        fold_xx_to_i(ctx, op, -1) ||
-+        fold_xi_to_x(ctx, op, -1) ||
-         fold_xi_to_not(ctx, op, 0)) {
-         return true;
+-    /* Convert movi to mov with constant temp. */
+-    TCGTemp *tv = tcg_constant_internal(ctx->type, val);
++    TCGTemp *tv;
+ 
++    if (ctx->type == TCG_TYPE_I32) {
++        val = (int32_t)val;
++    }
++
++    /* Convert movi to mov with constant temp. */
++    tv = tcg_constant_internal(ctx->type, val);
+     init_ts_info(ctx, tv);
+     return tcg_opt_gen_mov(ctx, op, dst, temp_arg(tv));
+ }
+@@ -707,14 +702,16 @@ static bool fold_masks(OptContext *ctx, TCGOp *op)
+     uint64_t z_mask = ctx->z_mask;
+ 
+     /*
+-     * 32-bit ops generate 32-bit results.  For the result is zero test
+-     * below, we can ignore high bits, but for further optimizations we
+-     * need to record that the high bits contain garbage.
++     * 32-bit ops generate 32-bit results, which for the purpose of
++     * simplifying tcg are sign-extended.  Certainly that's how we
++     * represent our constants elsewhere.  Note that the bits will
++     * be reset properly for a 64-bit value when encountering the
++     * type changing opcodes.
+      */
+     if (ctx->type == TCG_TYPE_I32) {
+-        ctx->z_mask |= MAKE_64BIT_MASK(32, 32);
+-        a_mask &= MAKE_64BIT_MASK(0, 32);
+-        z_mask &= MAKE_64BIT_MASK(0, 32);
++        a_mask = (int32_t)a_mask;
++        z_mask = (int32_t)z_mask;
++        ctx->z_mask = z_mask;
      }
+ 
+     if (z_mask == 0) {
 -- 
 2.25.1
 
