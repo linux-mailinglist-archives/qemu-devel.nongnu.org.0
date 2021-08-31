@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6428E3FCB18
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 17:58:52 +0200 (CEST)
-Received: from localhost ([::1]:56958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 061083FCB19
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 17:59:06 +0200 (CEST)
+Received: from localhost ([::1]:57480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL69q-0002Yj-EJ
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 11:58:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34644)
+	id 1mL6A4-0002tM-4H
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 11:58:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mL68U-0000zb-O3; Tue, 31 Aug 2021 11:57:18 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45638)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mL68T-0008H8-93; Tue, 31 Aug 2021 11:57:18 -0400
-Received: by mail-wr1-x430.google.com with SMTP id n5so28453381wro.12;
- Tue, 31 Aug 2021 08:57:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=HWowmjO9oqnYlirU1HX7Z5qpQ87IyehJn3UgEGmWmp4=;
- b=dFgIfd1iYDcKdYbkyvcNEcjREElG0FEOfN+p0sm0qWtK6ULxpgS2JfpU1JonXv6Mpn
- 4MtKyNGvK8MUGM4l4VoPzmCGPp+Ks9/svX6RCZwJPd/v+jaZv7MJd7iL86lVRSPD0t/D
- 3PJURlLYmRxDoH7KYoaCv7bgd5/iOfhl+EwIx6d6hzAoGcV/rqqPdnE7VWTS9m0clGjQ
- YpL+hP+A4TjSbt9MfqDCCdZUmAod8l7JhUF1ROhP5L9oU8cWwt2qLGJ8Bonk7pfy7sQu
- tnRvabHMkDxT/5kHfk0m9wZ9DkjQDOjufLgmEBZ6IoSvbUxNxl57uFthRm5t00N/gWoq
- Dusg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=HWowmjO9oqnYlirU1HX7Z5qpQ87IyehJn3UgEGmWmp4=;
- b=KGih5FLYMEKw9kVvN+ShGs5Gxrva+SZhCHC/a6kpZzSxpFt+ZqJH7WTlpzvIbNkegL
- CU5c7PZiTfonBLNst6iTCrHEzHP/+EpUwlAF+ZdVQ5WKtZcffLW1p7KH/n8CuimAZ78/
- NhF1Gn5RgrG2kOCc4Qw1F0ulgf1RF6JBdhO+yLnsa6V+et6+9gnLr8kZ8c3Gtv9Wp+Um
- 2xpShXTnRpGzf8dnDETtKPYip/p8v5kqCWe3Oc+U4EZJ7yZOKEmzXIAL4uXxTvP3mo1o
- cQG39bmVgB+FEJjEu4mwoO2vUvSl5qxNuiw2oNsfPDXoehCDINKBTKMnokUVO1JSlnpY
- voGw==
-X-Gm-Message-State: AOAM533zR4u3AOYz+O6tAhuSqkXtA6jMKq3S22Sn8yFWRgvL43QSOM/u
- JdzY7kRN/Nc+BnwIRlTFfqTdHErtA6A=
-X-Google-Smtp-Source: ABdhPJyWS5PxA3VMk3CM7f596fioaYrVgI4QbAZms90yOFyBhqOZo7YKS+PA98mWsPFgoT6rsUAUnA==
-X-Received: by 2002:adf:b743:: with SMTP id n3mr32521812wre.243.1630425434552; 
- Tue, 31 Aug 2021 08:57:14 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id g1sm3093913wmk.2.2021.08.31.08.57.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Aug 2021 08:57:13 -0700 (PDT)
-Subject: Re: [PATCH 2/5] hw/arm/aspeed: Select console UART from machine
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Andrew Jeffery <andrew@aj.id.au>, Peter Delevoryas <pdel@fb.com>
-References: <20210827210417.4022054-1-pdel@fb.com>
- <20210827210417.4022054-3-pdel@fb.com>
- <7a53d5e9-52c2-a06b-1385-fd71a96d7486@kaod.org>
- <BYAPR15MB3032BA6C3556797AC2A3461CACC99@BYAPR15MB3032.namprd15.prod.outlook.com>
- <547b5f32-0858-1882-fb8b-c60056cdbfd4@kaod.org>
- <d3d43c7a-1f37-4489-a07b-bf561e4e36a1@www.fastmail.com>
- <a802ecb1-aa49-fd4c-5bd2-2bb19af56ac9@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <db657491-35df-8c35-3354-98a76492a4a0@amsat.org>
-Date: Tue, 31 Aug 2021 17:57:12 +0200
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mL68c-0001Gj-Eh; Tue, 31 Aug 2021 11:57:26 -0400
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:52896)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mL68Z-0008Kw-SC; Tue, 31 Aug 2021 11:57:26 -0400
+Received: from zm-mta-out.u-ga.fr (zm-mta-out.u-ga.fr [152.77.200.53])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 534D141919;
+ Tue, 31 Aug 2021 17:57:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=univ-grenoble-alpes.fr; s=2020; t=1630425440;
+ bh=KbNRKDNUVZyVoxAFsnMJFve4Sf53yh9azq0eP5BG7/k=;
+ h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+ b=KmR2YWd1sBEPbG4dcvDKqfqkR1LB1NH5sSRTR8dl5FOi3cZTf3+C3yp4CutuFOkq3
+ oFhwJLt3C7ZWPcNwJMsSo47cj5DM28K0pd6dlqjQyTgj4TvukFjy1FwmGZA0KqY5t9
+ C3lNCFL9i5YI3yfvblF5Uaxko/0YsIuK9DJEonWGK41n/rIsMVR6WHYa7vAJ7TJ9Ib
+ +XpXMYBmbEPH7R0B9ZSZjmIFQKQOZrD6tRmcpRqh4mORLp5CQKXqnEyjBwDaKg4LoT
+ v+69EDzrRq0f5A3RzuVmfooZVfqSlmXZ/AkzhBAXoBBSOZyezjHBPue7dfu4bAEKHd
+ iSGXm2s+Upk+w==
+Received: from smtps.univ-grenoble-alpes.fr (smtps1.u-ga.fr [152.77.1.30])
+ by zm-mta-out.u-ga.fr (Postfix) with ESMTP id 4D2FE80035;
+ Tue, 31 Aug 2021 17:57:20 +0200 (CEST)
+Received: from [147.171.132.208] (palmier.tima.u-ga.fr [147.171.132.208])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id DAB53187E13;
+ Tue, 31 Aug 2021 17:57:19 +0200 (CEST)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+References: <20210830171638.126325-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <20210830171638.126325-4-frederic.petrot@univ-grenoble-alpes.fr>
+ <f9094de6-f36a-4da7-d5ef-9fa976ae4c18@amsat.org>
+ <653d064f-7020-dce0-a43b-6697e68b79b0@amsat.org>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+Subject: Re: [PATCH 4/8] target/riscv: 128-bit arithmetic and logic
+ instructions
+Message-ID: <592eba58-51ec-61db-2896-28cb2b7caa3b@univ-grenoble-alpes.fr>
+Date: Tue, 31 Aug 2021 17:57:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <a802ecb1-aa49-fd4c-5bd2-2bb19af56ac9@kaod.org>
+In-Reply-To: <653d064f-7020-dce0-a43b-6697e68b79b0@amsat.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.932,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
+ via submission-587 ACL (110)
+Received-SPF: pass client-ip=152.77.200.56;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=zm-mta-out-3.u-ga.fr
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.932,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,33 +84,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
- Cameron Esfahani via <qemu-devel@nongnu.org>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Fabien Portas <fabien.portas@grenoble-inp.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/31/21 3:34 PM, Cédric Le Goater wrote:
-> On 8/31/21 1:23 PM, Andrew Jeffery wrote:
->> Hi Cédric, Peter,
->>
->> On Tue, 31 Aug 2021, at 20:09, Cédric Le Goater wrote:
->>> On 8/28/21 5:58 PM, Peter Delevoryas wrote:
->>>> I think I’m a little confused on this part. What I meant by “most machines just use UART5” was that most DTS’s use “stdout-path=&uart5”, but fuji uses “stdout-path=&uart1”. I /do/ see that SCU510 includes a bit related to UART, but it’s for disabling booting from UART1 and UART5. I just care about the console aspect, not booting.
->>>
->>> The UART can be switched with SCU70[29] on the AST2500, btw.
->>
->> If it helps, neither the AST2600's "Boot from UART" feature nor the 
->> AST2[456]00's "Debug UART" feature are related to which UART is used as 
->> the BMC console by u-boot and/or the kernel - the latter is entirely a 
->> software thing.
-> 
-> ok. 
-> 
-> I don't think we should initialize all 5 UARTs of SoC and let the user define 
-> all the expected devices on the command. Unless we want to do something like
-> 'macs_mask' ? but at the SoC level. It might be overkill for the need.
+Hello Philippe,
 
-I'm not sure I'm following what you are suggesting. If we are talking
-about QEMU device initialization, QEMU must initialize all devices
-on the board, regardless the guest code uses them or not.
+Le 30/08/2021 à 23:40, Philippe Mathieu-Daudé a écrit :
+> On 8/30/21 11:38 PM, Philippe Mathieu-Daudé wrote:
+>> On 8/30/21 7:16 PM, Frédéric Pétrot wrote:
+>>> Adding the support for the 128-bit arithmetic and logic instructions.
+>>> Remember that all (i) instructions are now acting on 128-bit registers, that
+>>> a few others are added to cope with values that are held on 64 bits within
+>>> the 128-bit registers, and that the ones that cope with values on 32-bit
+>>> must also be modified for proper sign extension.
+>>> Most algorithms taken from Hackers' delight.
+>>>
+>>> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+>>> Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
+>>> ---
+>>>  target/riscv/insn32.decode              |  13 +
+>>>  target/riscv/insn_trans/trans_rvi.c.inc | 955 +++++++++++++++++++++++-
+>>>  target/riscv/translate.c                |  25 +
+>>>  3 files changed, 976 insertions(+), 17 deletions(-)
+>>
+>>> diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+>>> index 772330a766..0401ba3d69 100644
+>>> --- a/target/riscv/insn_trans/trans_rvi.c.inc
+>>> +++ b/target/riscv/insn_trans/trans_rvi.c.inc
+>>> @@ -26,14 +26,20 @@ static bool trans_illegal(DisasContext *ctx, arg_empty *a)
+>>>  
+>>>  static bool trans_c64_illegal(DisasContext *ctx, arg_empty *a)
+>>>  {
+>>> -     REQUIRE_64BIT(ctx);
+>>> -     return trans_illegal(ctx, a);
+>>> +    REQUIRE_64_OR_128BIT(ctx);
+>>> +    return trans_illegal(ctx, a);
+>>>  }
+>>>  
+>>>  static bool trans_lui(DisasContext *ctx, arg_lui *a)
+>>>  {
+>>>      if (a->rd != 0) {
+>>>          tcg_gen_movi_tl(cpu_gpr[a->rd], a->imm);
+>>> +#if defined(TARGET_RISCV128)
+>>> +        if (is_128bit(ctx)) {
+>>
+>> Maybe this could allow the compiler eventually elide the
+>> code and avoid superfluous #ifdef'ry:
+>>
+>>            if (TARGET_LONG_BITS >= 128) {
+> 
+> Actually:
+> 
+>              if (TARGET_LONG_BITS >= 128 && is_128bit(ctx)) {
+
+  We may have taken a wrong path then, because we have kept
+  TARGET_LONG_BITS == 64 for the 128-bit case (as we use the tcg_xxx_tl of the
+  64 version to generate our micro-ops, which I admit might be a mistake).
+
+  Frédéric
+
+> 
+>>
+>>> +            tcg_gen_ext_i64_i128(cpu_gpr[a->rd], cpu_gprh[a->rd],
+>>> +                                 cpu_gpr[a->rd]);
+>>> +        }
+>>> +#endif
+>>>      }
+>>>      return true;
+>>>  }
+>>
+
+-- 
++---------------------------------------------------------------------------+
+| Frédéric Pétrot, Pr. Grenoble INP-Ensimag/TIMA,   Ensimag deputy director |
+| Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
+| http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
++---------------------------------------------------------------------------+
 
