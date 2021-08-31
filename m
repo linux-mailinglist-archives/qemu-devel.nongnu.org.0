@@ -2,58 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DF603FC7D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 15:04:52 +0200 (CEST)
-Received: from localhost ([::1]:51982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA6E33FC7EF
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 15:13:19 +0200 (CEST)
+Received: from localhost ([::1]:43042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL3Rb-0008TA-68
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 09:04:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34784)
+	id 1mL3Zk-00058g-En
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 09:13:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mL2pC-0008UK-GA
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 08:25:10 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:54221)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mL2u4-0002qB-5K
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 08:30:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mL2pA-0001BI-8w
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 08:25:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=F9sI3zFpz3Ejkystq7ebI2Ix+PdiYFFarK4x0OkXkjQ=; b=HLGS/zU4JyntdDulaerX9dqNQz
- D+1Vta5sbljgAhUyQS5wgBBdxei2Yp47UHNXX6DcXxigCInYC/tOdutLYcSgCmoD2zyeH2nC7qQv0
- hPVrUr9AQvpA0a3MxFESyE5ISqohwtcqDn9wkQ6DFTdIU1V/2N0ov4FxbFv5BYw2bs+q3kZDCSN/T
- LcZArs0fDeL6w0ikbUmBPCppNPnDseqwxGDXwv+DLUeRW37dbS0Chcp8sLw89KwmBPTWYZdREzLKW
- +1ZiER1hjl7EVJTAwInu/o8VX2gU1Gfd+RMpPhBCqEAXsEoYnpHR2GxizpE+hzp2jrc68+jVaW5ZA
- +hLTF0hGJH5yB8p0p/Xjk9p4CpULNjrSW2gr2MrFWL2C7KsDBUxmYDnoncBRc/5oRHGpQ37pFsezF
- R2WR/dLcWFhaRTkxO9NSeF72iuyAKsm2ZeAbgUvhde+zCYbNkvQIxgFMyCzEOd9RIFp4+glvzkIyp
- PmRV3AJWesDsgovL/kUV3mV6il1y4uKWiZ3KMVBgG/TJCPUuyGXPWHRO6aC3K/1zKdAYS2LPABsXC
- +lv4Ryy6K1MDMNr6SRsh94V5RgpAtDuLLo7mY+zV3uSQViwtx5ah66ofk8gzFJ22qEOVrcRGxFDEW
- /RmHwIVJdwB7oWWjvClYShuVkjU8nN1vSxcUql1GI=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v3 0/5] introduce QArray
-Date: Tue, 31 Aug 2021 14:25:04 +0200
-Message-ID: <1697912.9TVREAEhXh@silver>
-In-Reply-To: <20210831135802.349fb447@bahia.lan>
-References: <cover.1629982046.git.qemu_oss@crudebyte.com>
- <20210831135802.349fb447@bahia.lan>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mL2u2-0002dy-MQ
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 08:30:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630413008;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qYZj3hZiAq+4JigblpvUmgGUL08VF/PepXeRCS7SMfc=;
+ b=Q41rLtMqiv/JfqaBzpBfZt4r8y1/LOAc83sOdIK+NtnJsCSrEt9m6PyaZ1sr7U9v3U+Fet
+ CEs2tCT4I82HXFz9slVRO6y4/mbS1JNE8JP/0UUfdZjfurfVFAJfNOjspOMmAMfK4PtfO/
+ /42HElOx00jrw0QnauZt6bMMXl+SFpo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-290-bN4ZrMcjM2ex0xTziHwhMg-1; Tue, 31 Aug 2021 08:30:07 -0400
+X-MC-Unique: bN4ZrMcjM2ex0xTziHwhMg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAAE5CC62B;
+ Tue, 31 Aug 2021 12:30:06 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 744376A05B;
+ Tue, 31 Aug 2021 12:30:06 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 621891800936; Tue, 31 Aug 2021 14:30:01 +0200 (CEST)
+Date: Tue, 31 Aug 2021 14:30:01 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [PATCH v3 00/18] Clipboard fixes (for 6.1?)
+Message-ID: <20210831123001.jnot6uohtdeaobgt@sirius.home.kraxel.org>
+References: <20210805135715.857938-1-marcandre.lureau@redhat.com>
+ <CAJ+F1C+sFJaHbg5bP+cqH6Dg=XfX9k-BKfFqEDSw3OMNcPen9w@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAJ+F1C+sFJaHbg5bP+cqH6Dg=XfX9k-BKfFqEDSw3OMNcPen9w@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,37 +80,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU <qemu-devel@nongnu.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 31. August 2021 13:58:02 CEST Greg Kurz wrote:
-> On Thu, 26 Aug 2021 14:47:26 +0200
+  Hi,
+
+> > Marc-André Lureau (18):
+> >   ui/vdagent: fix leak on error path
+> >   ui/vdagent: remove copy-pasta comment
+> >   ui/gtk-clipboard: use existing macros
+> >   ui/gtk-clipboard: fix clipboard enum typo
+> >   ui/clipboard: add helper to retrieve current clipboard
+> >   ui/clipboard: add qemu_clipboard_peer_owns() helper
+> >   ui/clipboard: add qemu_clipboard_peer_release() helper
+> >   ui/clipboard: release owned grabs on unregister
+> >   ui/vdagent: disconnect handlers and reset state on finalize
+> >   ui/vdagent: reset outbuf on disconnect
+> >   ui/vdagent: split clipboard recv message handling
+> >   ui/vdagent: use qemu_clipboard_peer_release helper
+> >   ui/vdagent: use qemu_clipboard_info helper
+> >   ui/vdagent: send empty clipboard when unhandled
+> >   ui/gtk-clipboard: use qemu_clipboard_info helper
+> >   ui/vdagent: send release when no clipboard owner
+> >   ui/gtk-clipboard: emit release clipboard events
+> >   ui/vdagent: add a migration blocker
+
+Looks all sane to me.
+
+Acked-by: Gerd Hoffmann <kraxel@redhat.com>
+
+> Ping
 > 
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > Patches 1 and 2 introduce include/qemu/qarray.h which implements a deep
-> > auto free mechanism for arrays. See commit log of patch 1 for a detailed
-> > explanation and motivation for introducing QArray.
-> > 
-> > Patches 3..5 are provided (e.g. as example) for 9p being the first user of
-> > this new QArray API. These particular patches 3..5 are rebased on my
-> > current 9p queue: https://github.com/cschoenebeck/qemu/commits/9p.next
-> 
-> > which are basically just the following two queued patches:
-> This looks nice indeed but I have the impression the same could be
-> achieved using glib's g_autoptr framework with less code being added
-> to QEMU (at the cost of being less generic maybe).
+> Since Gerd is lowering his maintainer responsibilities, is anyone else
+> interested?
 
-I haven't seen a way doing this with glib, except of GArray which has some 
-disadvantages. But who knows, maybe I was missing something.
+Don't be shy, send a pull request?
 
-> Anyway, we should likely sort out the SEGV issue you're hitting
-> before going forward with supplementary changes in v9fs_walk().
-
-Yeah, let's postpone this series here. I'll look into the Twalk crash issue 
-more closely today and will get back on that issue first.
-
-Best regards,
-Christian Schoenebeck
-
+take care,
+  Gerd
 
 
