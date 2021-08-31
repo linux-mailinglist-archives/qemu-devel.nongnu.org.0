@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B223FCEF3
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 23:09:18 +0200 (CEST)
-Received: from localhost ([::1]:54532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE5B43FCEFE
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 23:16:10 +0200 (CEST)
+Received: from localhost ([::1]:58008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLB0O-0004ds-Ov
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 17:09:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36530)
+	id 1mLB73-0007Hd-Oz
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 17:16:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mLAzM-0003p3-14; Tue, 31 Aug 2021 17:08:12 -0400
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:30260)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mLB5k-0005yL-91; Tue, 31 Aug 2021 17:14:48 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:55198
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1mLAzJ-0000dW-9g; Tue, 31 Aug 2021 17:08:11 -0400
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id DCDE2746398;
- Tue, 31 Aug 2021 23:08:01 +0200 (CEST)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B77FD7462D3; Tue, 31 Aug 2021 23:08:01 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id B604F745708;
- Tue, 31 Aug 2021 23:08:01 +0200 (CEST)
-Date: Tue, 31 Aug 2021 23:08:01 +0200 (CEST)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Programmingkid <programmingkidx@gmail.com>
-Subject: Re: [PATCH] Report any problems with loading the VGA driver for PPC
- Macintosh targets
-In-Reply-To: <9E32E4A0-D1BB-4DDF-8F57-38BD5044DF1D@gmail.com>
-Message-ID: <91bc8dea-deb6-193e-326d-7a6467fa1214@eik.bme.hu>
-References: <20210827181429.23609-1-programmingkidx@gmail.com>
- <2d87adfb-c612-8d36-4c97-50f07a82beeb@ilande.co.uk>
- <CAFEAcA_mb5zAaBiVjzo1QGGo-4Yt+j89iD9AUVKJP-pP1XCJmQ@mail.gmail.com>
- <8ED650E0-5874-4AE6-85E3-631E7B76D37A@gmail.com>
- <CAFEAcA96V6d-aAR65xiZQrB65aTfQEJfHq5x_ZSa3mpAoSUMQw@mail.gmail.com>
- <269a250-93ec-2e6-8813-5b65aa9fb76@eik.bme.hu>
- <9E32E4A0-D1BB-4DDF-8F57-38BD5044DF1D@gmail.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mLB5i-0004sc-BQ; Tue, 31 Aug 2021 17:14:47 -0400
+Received: from host86-179-186-93.range86-179.btcentralplus.com
+ ([86.179.186.93] helo=[192.168.50.176])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mLB5E-0001Lk-TZ; Tue, 31 Aug 2021 22:14:17 +0100
+To: Finn Thain <fthain@linux-m68k.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <cover.1629799776.git.fthain@linux-m68k.org>
+ <283af572-2157-77c6-2594-8e9e92497346@amsat.org>
+ <fb42cb6-117c-c138-c18a-3af7f1d9be6a@linux-m68k.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <4da39536-1acb-05c3-755c-9a30d82d6ace@ilande.co.uk>
+Date: Tue, 31 Aug 2021 22:14:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <fb42cb6-117c-c138-c18a-3af7f1d9be6a@linux-m68k.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.179.186.93
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC 00/10] hw/mos6522: VIA timer emulation fixes and improvements
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.932,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,59 +64,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, Howard Spoelstra <hsp.cat7@gmail.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 31 Aug 2021, Programmingkid wrote:
->> On Aug 30, 2021, at 5:47 PM, BALATON Zoltan <balaton@eik.bme.hu> wrote:
+On 28/08/2021 02:22, Finn Thain wrote:
 
->> On Mon, 30 Aug 2021, Peter Maydell wrote:
->>> On Mon, 30 Aug 2021 at 21:29, Programmingkid <programmingkidx@gmail.com> wrote:
->>>> I found out that there are two pc-bios folders. One in the root directory
->>>> and one in the build directory. QEMU is looking in the pc-bios folder
->>>> located inside the build folder. The qemu_vga.ndrv file is only located
->>>> in the root directory pc-bios folder. I think a good solution to this
->>>> issue is to first remove one of the pc-bios folders. I'm not sure if it
->>>> is just me who has two pc-bios folders or if everyone does.
->>>
->>> Having two pc-bios folders is expected. The one in the source tree is
->>> the one which has the files we actually carry around in git. The one
->>> in the build tree is created by 'configure' and populated with symbolic
->>> links back to the files in the source tree. We need this one because
->>> the QEMU executable doesn't (and shouldn't) know where the source tree is:
->>> when it is looking for files it will look in places relative to the
->>> location of the executable itself (ie relative to the build tree)
->>> as well as places set by configure (used when you install QEMU and
->>> its various supporting files).
->>>
->>> The reason qemu_vga.ndrv is not in the pc-bios folder in the build
->>> tree is because when that file was added we forgot to add handling
->>> for it in configure. I'm not sure why nobody else has fallen over
->>> this in the intervening 3 years: running QEMU from the build tree
->>> will never find the file, and it will not be installed via
->>> 'make install' either.
+>> On 8/24/21 12:09 PM, Finn Thain wrote:
 >>
->> This file is a driver for MacOS and not many people run that old OS. Those who do probably use Howard's binaries and follow his guides that tell you to use -L pc-bios on command line. I always wondered why that's needed when it should find it by default but this explains it and probably also your question why nobody complained.
+>>> On a real Quadra, accesses to the SY6522 chips are slow because they are
+>>> synchronous with the 783360 Hz "phase 2" clock. In QEMU, they are slow
+>>> only because of the division operation in the timer count calculation.
+>>>
+>>> This patch series improves the fidelity of the emulated chip, but the
+>>> price is more division ops. I haven't tried to measure this yet.
+>>>
+>>> The emulated 6522 still deviates from the behaviour of the real thing,
+>>> however. For example, two consecutive accesses to a real 6522 timer
+>>> counter can never yield the same value. This is not true of the 6522 in
+>>> QEMU 6 wherein two consecutive accesses to a timer count register have
+>>> been observed to yield the same value.
+>>>
+>>> Linux is not particularly robust in the face of a 6522 that deviates
+>>> from the usual behaviour. The problem presently affecting a Linux guest
+>>> is that its 'via' clocksource is prone to monotonicity failure. That is,
+>>> the clocksource counter can jump backwards. This can be observed by
+>>> patching Linux like so:
+>>>
+>>> diff --git a/arch/m68k/mac/via.c b/arch/m68k/mac/via.c
+>>> --- a/arch/m68k/mac/via.c
+>>> +++ b/arch/m68k/mac/via.c
+>>> @@ -606,6 +606,8 @@ void __init via_init_clock(void)
+>>>   	clocksource_register_hz(&mac_clk, VIA_CLOCK_FREQ);
+>>>   }
+>>>   
+>>> +static u32 prev_ticks;
+>>> +
+>>>   static u64 mac_read_clk(struct clocksource *cs)
+>>>   {
+>>>   	unsigned long flags;
+>>> @@ -631,6 +633,8 @@ static u64 mac_read_clk(struct clocksource *cs)
+>>>   	count = count_high << 8;
+>>>   	ticks = VIA_TIMER_CYCLES - count;
+>>>   	ticks += clk_offset + clk_total;
+>>> +if (ticks < prev_ticks) pr_warn("%s: %u < %u\n", __func__, ticks, prev_ticks);
+>>> +prev_ticks = ticks;
+>>>   	local_irq_restore(flags);
+>>>   
+>>>   	return ticks;
+>>>
+>>> This problem can be partly blamed on a 6522 design limitation, which is
+>>> that the timer counter has no overflow register. Hence, if a timer
+>>> counter wraps around and the kernel is late to handle the subsequent
+>>> interrupt, the kernel can't account for any missed ticks.
+>>>
+>>> On a real Quadra, the kernel mitigates this limitation by minimizing
+>>> interrupt latency. But on QEMU, interrupt latency is unbounded. This
+>>> can't be mitigated by the guest kernel at all and leads to clock drift.
+>>> This can be observed by patching QEMU like so:
+>>>
+>>> diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
+>>> --- a/hw/misc/mos6522.c
+>>> +++ b/hw/misc/mos6522.c
+>>> @@ -379,6 +379,12 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
+>>>           s->pcr = val;
+>>>           break;
+>>>       case VIA_REG_IFR:
+>>> +        if (val & T1_INT) {
+>>> +            static int64_t last_t1_int_cleared;
+>>> +            int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+>>> +            if (now - last_t1_int_cleared > 20000000) printf("\t%s: t1 int clear is late\n", __func__);
+>>> +            last_t1_int_cleared = now;
+>>> +        }
+>>>           /* reset bits */
+>>>           s->ifr &= ~val;
+>>>           mos6522_update_irq(s);
+>>>
+>>> This logic asserts that, given that Linux/m68k sets CONFIG_HZ to 100,
+>>> the emulator will theoretically see each timer 1 interrupt cleared
+>>> within 20 ms of the previous one. But that deadline is often missed on
+>>> my QEMU host [4].
 >>
->> Regards,
->> BALATON Zoltan
->
-> This does sound like a good explanation. I am pretty sure I was able to 
-> use my Mac OS 9 VM without the -L option in the past and still have many 
-> video resolutions available.
+>> I wonder if using QEMU ptimer wouldn't help here, instead of
+>> calling qemu_clock_get_ns() and doing the math by hand:
+>>
+>> /* Starting to run with/setting counter to "0" won't trigger immediately,
+>>   * but after a one period for both oneshot and periodic modes.  */
+>> #define PTIMER_POLICY_NO_IMMEDIATE_TRIGGER  (1 << 2)
+>>
+>> /* Starting to run with/setting counter to "0" won't re-load counter
+>>   * immediately, but after a one period.  */
+>> #define PTIMER_POLICY_NO_IMMEDIATE_RELOAD   (1 << 3)
+>>
+>> /* Make counter value of the running timer represent the actual value and
+>>   * not the one less.  */
+>> #define PTIMER_POLICY_NO_COUNTER_ROUND_DOWN (1 << 4)
+>>
+> 
+> It's often the case that a conversion to a new API is trivial for someone
+> who understands that API. But I still haven't got my head around the
+> implementation (hw/core/ptimer.c).
+> 
+> So I agree the ptimer API could simplify mos6522.c but adopting it is not
+> trivial for me.
+> 
+> QEMU's 6522 device does not attempt to model the relationship between the
+> "phase two" clock and timer counters and timer interrupts. I haven't
+> attempted to fix these deviations at all, as that's not trivial either.
+> 
+> But using the ptimer API could potentially make it easier to address those
+> fidelity issues.
 
-Depends how far back in the past was that. If before the meson conversion 
-that introduced the build dir maybe you run it from the source dir (if 
-used in-tree build) and it found the file. I'm not sure if it still works 
-if you run from source dir such as build/qemu-system-ppc that is without 
-changing current dir to build dir. If it works that way then maybe you 
-ran it like that before. (Or maybe had an installed version and it picked 
-up the file from there.)
+I had another look at the mos6522 code this evening, and certainly whilst there are 
+things that could be improved, I'm still puzzled as to how you would see time going 
+backwards:
 
-Regards,
-BALATON Zoltan
+- qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) eventually ends up calling cpu_get_clock() 
+where the comment for the function is "Return the monotonic time elapsed in VM"
+
+- get_next_irq_time() calculates the counter value for the current clock, adds the 
+value of the counter (compensating for wraparound) and calculates the clock for the 
+next IRQ
+
+- Using the current clock instead of ti->next_irq_time in the timer callbacks should 
+compensate for any latency when the callback is invoked
+
+You mentioned that the OS may compensate for the fact that the 6522 doesn't have an 
+overflow flag: can you explain more as to how this works in Linux? Is the problem 
+here that even if you read the counter value in the interrupt handler to work out the 
+latency, the counter may still have already wrapped?
+
+
+ATB,
+
+Mark.
 
