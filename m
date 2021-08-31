@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4802E3FC788
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 14:46:05 +0200 (CEST)
-Received: from localhost ([::1]:58974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3963FC771
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 14:41:38 +0200 (CEST)
+Received: from localhost ([::1]:50642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL39Q-0000HA-1q
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 08:46:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33224)
+	id 1mL357-00032L-Uu
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 08:41:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mL2jC-00088Z-Aj
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 08:18:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55707)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mL2jB-00087j-7Z
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 08:18:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50879)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mL2j9-0006l4-Nu
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 08:18:58 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mL2j8-0006kG-Np
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 08:18:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630412335;
+ s=mimecast20190719; t=1630412334;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1FX/az27XaMeHUvM8QQkgGCCE/jWAwmUfVJoWBRI9Wg=;
- b=B4wSE++P4vv40nk831JgoU/ZA38uI+9s7+pNxIxKbbcrEO4GGgGmhx9kzLXitBMjLUbsyY
- ZBXy6/V4Kg8LLqTYwuSdj/JLxBVY1AKbByqumCw/gQrNtH7vP/YJiDNUPd9W54z7Zz4jsv
- AIZdB5rU7KHalCzM9+lY3pyTry18kQM=
+ bh=l7/kp6ZcRFvxoK6BJgtBhQaabSWzcO2N+/IvjX3LuSo=;
+ b=hTXf3cKGbJHUsY0gJfIixYMO1yK/AsKfhw9PfDjMgJZCpU/6OaCEyfh2DQXcYnzIl236Oq
+ 4BA8KIAqhJPO7ySAFoXYPlmg//tlTH7RYRAs8xbshGiVCyLG2QbqgiUT0/JLUO0qbrTuub
+ iHyWSGE12DwIs8Ionuqw72wQUDi6OoA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-hhaxD5rUMbGlAywzxULgFw-1; Tue, 31 Aug 2021 08:18:53 -0400
-X-MC-Unique: hhaxD5rUMbGlAywzxULgFw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-239-wzZQLAZwOJq8XmMfOrETSg-1; Tue, 31 Aug 2021 08:18:52 -0400
+X-MC-Unique: wzZQLAZwOJq8XmMfOrETSg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9DE6C18C9F42;
- Tue, 31 Aug 2021 12:18:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72819875118;
+ Tue, 31 Aug 2021 12:18:49 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 24F6627CB1;
- Tue, 31 Aug 2021 12:18:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D522060BD8;
+ Tue, 31 Aug 2021 12:18:37 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CCB7E18009E6; Tue, 31 Aug 2021 14:15:46 +0200 (CEST)
+ id DF22F18009E9; Tue, 31 Aug 2021 14:15:46 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 22/29] tcg_i386_funcs: Add update_fp_status to TCGI386ModuleOps
-Date: Tue, 31 Aug 2021 14:15:38 +0200
-Message-Id: <20210831121545.2874233-23-kraxel@redhat.com>
+Subject: [PATCH 23/29] tcg_i386_funcs: Add update_mxcsr_status to
+ TCGI386ModuleOps
+Date: Tue, 31 Aug 2021 14:15:39 +0200
+Message-Id: <20210831121545.2874233-24-kraxel@redhat.com>
 In-Reply-To: <20210831121545.2874233-1-kraxel@redhat.com>
 References: <20210831121545.2874233-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -65,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,135 +104,91 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Also add TCGI386ModuleOps struct, which works like TCGModuleOps
-but for i386-specific functions.
-
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- include/tcg/tcg-module-i386.h |  9 +++++++++
- target/i386/cpu.h             |  4 ++--
- accel/tcg/tcg-module-i386.c   | 10 ++++++++++
- target/i386/machine.c         |  2 +-
- target/i386/tcg/fpu_helper.c  |  9 ++++++++-
- accel/tcg/meson.build         |  6 ++++++
- 6 files changed, 36 insertions(+), 4 deletions(-)
- create mode 100644 include/tcg/tcg-module-i386.h
- create mode 100644 accel/tcg/tcg-module-i386.c
+ include/tcg/tcg-module-i386.h | 1 +
+ target/i386/cpu.h             | 3 +--
+ accel/tcg/tcg-module-i386.c   | 1 +
+ target/i386/machine.c         | 2 +-
+ target/i386/tcg/fpu_helper.c  | 3 ++-
+ 5 files changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/include/tcg/tcg-module-i386.h b/include/tcg/tcg-module-i386.h
-new file mode 100644
-index 000000000000..3854b506d5dc
---- /dev/null
+index 3854b506d5dc..5d8f6434e32d 100644
+--- a/include/tcg/tcg-module-i386.h
 +++ b/include/tcg/tcg-module-i386.h
-@@ -0,0 +1,9 @@
-+#ifndef TCG_MODULE_I386_H
-+#define TCG_MODULE_I386_H
-+
-+struct TCGI386ModuleOps {
-+    void (*update_fp_status)(CPUX86State *env);
-+};
-+extern struct TCGI386ModuleOps tcg_i386;
-+
-+#endif /* TCG_MODULE_I386_H */
+@@ -3,6 +3,7 @@
+ 
+ struct TCGI386ModuleOps {
+     void (*update_fp_status)(CPUX86State *env);
++    void (*update_mxcsr_status)(CPUX86State *env);
+ };
+ extern struct TCGI386ModuleOps tcg_i386;
+ 
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 6c50d3ab4f1d..5769c1292683 100644
+index 5769c1292683..bdfdbdb0d8a8 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -1802,6 +1802,7 @@ struct X86CPU {
-     int32_t hv_max_vps;
- };
- 
-+#include "tcg/tcg-module-i386.h"
- 
- #ifndef CONFIG_USER_ONLY
- extern const VMStateDescription vmstate_x86_cpu;
-@@ -2127,7 +2128,6 @@ static inline bool cpu_vmx_maybe_enabled(CPUX86State *env)
+@@ -2128,14 +2128,13 @@ static inline bool cpu_vmx_maybe_enabled(CPUX86State *env)
  int get_pg_mode(CPUX86State *env);
  
  /* fpu_helper.c */
--void update_fp_status(CPUX86State *env);
- void update_mxcsr_status(CPUX86State *env);
+-void update_mxcsr_status(CPUX86State *env);
  void update_mxcsr_from_sse_status(CPUX86State *env);
  
-@@ -2143,7 +2143,7 @@ static inline void cpu_set_fpuc(CPUX86State *env, uint16_t fpuc)
+ static inline void cpu_set_mxcsr(CPUX86State *env, uint32_t mxcsr)
  {
-      env->fpuc = fpuc;
-      if (tcg_enabled()) {
--        update_fp_status(env);
-+        tcg_i386.update_fp_status(env);
-      }
+     env->mxcsr = mxcsr;
+     if (tcg_enabled()) {
+-        update_mxcsr_status(env);
++        tcg_i386.update_mxcsr_status(env);
+     }
  }
  
 diff --git a/accel/tcg/tcg-module-i386.c b/accel/tcg/tcg-module-i386.c
-new file mode 100644
-index 000000000000..41ce2ba4eb76
---- /dev/null
+index 41ce2ba4eb76..fa455a2e02cb 100644
+--- a/accel/tcg/tcg-module-i386.c
 +++ b/accel/tcg/tcg-module-i386.c
-@@ -0,0 +1,10 @@
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+
-+static void i386_update_cpu_stub(CPUX86State *cpu)
-+{
-+}
-+
-+struct TCGI386ModuleOps tcg_i386 = {
-+    .update_fp_status = i386_update_cpu_stub,
-+};
+@@ -7,4 +7,5 @@ static void i386_update_cpu_stub(CPUX86State *cpu)
+ 
+ struct TCGI386ModuleOps tcg_i386 = {
+     .update_fp_status = i386_update_cpu_stub,
++    .update_mxcsr_status = i386_update_cpu_stub,
+ };
 diff --git a/target/i386/machine.c b/target/i386/machine.c
-index 571e98853c64..7f5d80766f28 100644
+index 7f5d80766f28..dc63de37dd6f 100644
 --- a/target/i386/machine.c
 +++ b/target/i386/machine.c
-@@ -371,7 +371,7 @@ static int cpu_post_load(void *opaque, int version_id)
-     }
+@@ -372,7 +372,7 @@ static int cpu_post_load(void *opaque, int version_id)
      if (tcg_enabled()) {
          target_ulong dr7;
--        update_fp_status(env);
-+        tcg_i386.update_fp_status(env);
-         update_mxcsr_status(env);
+         tcg_i386.update_fp_status(env);
+-        update_mxcsr_status(env);
++        tcg_i386.update_mxcsr_status(env);
  
          cpu_breakpoint_remove_all(cs, BP_CPU);
+         cpu_watchpoint_remove_all(cs, BP_CPU);
 diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
-index eddf0bb9dfc4..0f7206e834fd 100644
+index 0f7206e834fd..12dd6c9a65df 100644
 --- a/target/i386/tcg/fpu_helper.c
 +++ b/target/i386/tcg/fpu_helper.c
-@@ -672,7 +672,7 @@ uint32_t helper_fnstcw(CPUX86State *env)
-     return env->fpuc;
+@@ -2947,7 +2947,7 @@ void helper_xsetbv(CPUX86State *env, uint32_t ecx, uint64_t mask)
+ #define SSE_RC_CHOP         0x6000
+ #define SSE_FZ              0x8000
+ 
+-void update_mxcsr_status(CPUX86State *env)
++static void update_mxcsr_status(CPUX86State *env)
+ {
+     uint32_t mxcsr = env->mxcsr;
+     int rnd_type;
+@@ -3043,6 +3043,7 @@ void helper_movq(CPUX86State *env, void *d, void *s)
+ static void tcgi386_module_ops_fpu(void)
+ {
+     tcg_i386.update_fp_status = update_fp_status;
++    tcg_i386.update_mxcsr_status = update_mxcsr_status;
  }
  
--void update_fp_status(CPUX86State *env)
-+static void update_fp_status(CPUX86State *env)
- {
-     FloatRoundMode rnd_mode;
-     FloatX80RoundPrec rnd_prec;
-@@ -3039,3 +3039,10 @@ void helper_movq(CPUX86State *env, void *d, void *s)
- 
- #define SHIFT 1
- #include "ops_sse.h"
-+
-+static void tcgi386_module_ops_fpu(void)
-+{
-+    tcg_i386.update_fp_status = update_fp_status;
-+}
-+
-+type_init(tcgi386_module_ops_fpu);
-diff --git a/accel/tcg/meson.build b/accel/tcg/meson.build
-index 93cbbf9f3926..7f1fdd68233b 100644
---- a/accel/tcg/meson.build
-+++ b/accel/tcg/meson.build
-@@ -1,6 +1,12 @@
- specific_ss.add(files(
-   'tcg-module.c',
- ))
-+specific_ss.add(when: 'TARGET_I386', if_true: files(
-+  'tcg-module-i386.c',
-+))
-+specific_ss.add(when: 'TARGET_X86_64', if_true: files(
-+  'tcg-module-i386.c',
-+))
- 
- specific_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'cpu-exec-common.c',
+ type_init(tcgi386_module_ops_fpu);
 -- 
 2.31.1
 
