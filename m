@@ -2,69 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C0B3FCCB0
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 19:56:45 +0200 (CEST)
-Received: from localhost ([::1]:41838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39D513FCCB3
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 19:59:11 +0200 (CEST)
+Received: from localhost ([::1]:44162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL7zv-0003YA-BQ
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 13:56:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59824)
+	id 1mL82I-0005B8-MO
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 13:59:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mL7vZ-0001O1-Tq
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 13:52:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30962)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mL816-0004RB-Ma
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 13:57:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40219)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mL7vV-0005Kh-5w
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 13:52:05 -0400
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mL815-0001er-3F
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 13:57:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630432320;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1630432666;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FdOnnHWzjinBIiO4mRD7fgf5WuOUyeKHqx82vrOORtU=;
- b=YEDST/d/RESI1MVEaG8K6sV2HcMauLLsPUchJdUbtbwX9ntm3aE2U0cPX8c6T8APUKLL/A
- doQntkwQXG8YhsW5BYTC88RgjKok3cemi58UEpFFgJJZ0zfxq0o6H5en3UEzQMgGR5dwAb
- pmy8YDGg7TUPqchFY64PXYnKxo3iArU=
+ bh=ib730FJ5rAr7Rv4R4zQvODQEKboU9vm4u2Wlce1GRHY=;
+ b=OiR6Ng6GppqVZlzrNHIPQL8uBC80N8+GeCBW3D9WZrdWM628jr9+VnAGYy1cXKAToItj8k
+ lqQ/fkD/He3bqLMTNVqcI3oGRtxH95JoK0FMdu+Ebi0c7xfiycvg6YH5fvLf1X2qZpE3qw
+ h5fILwTHFIF9ffLYDMRmiA7SFp/lL0I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-26nCyXiFNn6P1nsmMOJg6Q-1; Tue, 31 Aug 2021 13:51:54 -0400
-X-MC-Unique: 26nCyXiFNn6P1nsmMOJg6Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-588-7_iT72JLOXaZz0PHkeOgOQ-1; Tue, 31 Aug 2021 13:57:42 -0400
+X-MC-Unique: 7_iT72JLOXaZz0PHkeOgOQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05609107B7C6;
- Tue, 31 Aug 2021 17:51:54 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1931E18A5B;
- Tue, 31 Aug 2021 17:51:48 +0000 (UTC)
-Date: Tue, 31 Aug 2021 18:51:46 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Michael Tokarev <mjt@tls.msk.ru>
-Subject: Re: qemu-sockets: account for trailing \0 byte in unix socket pathname
-Message-ID: <YS5sMr746Bvz2hw+@redhat.com>
-References: <20210830225449.1509719-1-mjt@msgid.tls.msk.ru>
- <c5887473-1df2-5827-e9c7-e6f0470ab332@msgid.tls.msk.ru>
- <CAMxuvawU2d6fFBczkDcPAJzYP4dSoin7UnesX2idHfd1WAyTOA@mail.gmail.com>
- <YS5pLKxTjguyUAlR@redhat.com>
- <5826ad07-380d-b84a-4d16-507312baff08@msgid.tls.msk.ru>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 102D68CC783;
+ Tue, 31 Aug 2021 17:57:42 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B5B002B0B3;
+ Tue, 31 Aug 2021 17:57:41 +0000 (UTC)
+Date: Tue, 31 Aug 2021 18:57:40 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH] target/i386: add missing bits to CR4_RESERVED_MASK
+Message-ID: <20210831175740.GZ26415@redhat.com>
+References: <20210831175033.175584-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <5826ad07-380d-b84a-4d16-507312baff08@msgid.tls.msk.ru>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210831175033.175584-1-berrange@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -85,47 +78,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-stable <qemu-stable@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Lara Lazier <laramglazier@gmail.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 31, 2021 at 08:47:43PM +0300, Michael Tokarev wrote:
-> 31.08.2021 20:38, Daniel P. BerrangÃ© wrote:
-> ...
-> > > > So it looks like libvirt provides an unnamed socket there, --
-> > > > maybe from a socketpair(2)?
-> > > > 
-> > > 
-> > > Yes
-> > 
-> > No, libvirt binds to a named socket path and passes in a pre-opened
-> > FD for the listener socket. There shouldn't be any socketpair involved.
+On Tue, Aug 31, 2021 at 06:50:33PM +0100, Daniel P. Berrangé wrote:
+> Booting Fedora kernels with -cpu max hangs very early in boot. Disabling
+> the la57 CPUID bit fixes the problem. git bisect traced the regression to
 > 
-> Here's some more info from the original bugreport:
+>   commit 213ff024a2f92020290296cb9dc29c2af3d4a221 (HEAD, refs/bisect/bad)
+>   Author: Lara Lazier <laramglazier@gmail.com>
+>   Date:   Wed Jul 21 17:26:50 2021 +0200
 > 
-> 31.08.2021 00:20, dann frazier wrote:
-> > Aha! It seems that the important difference is whether or not the
-> > virt-manager GUI window for the VM is active. If it is active, the VM
-> > crashes regardless of how it is started (virsh console start/clicking
-> > "play" button). If the GUI is not active, the VM always works.
-> >
-> > With this knowledge I am able to confidently say that reverting
-> > 4cfd970ec1 *does* reliably avoid the problem.
+>     target/i386: Added consistency checks for CR4
 > 
-> We'll try to figure out the calltrace, where this socket is coming from..
+>     All MBZ bits in CR4 must be zero. (APM2 15.5)
+>     Added reserved bitmask and added checks in both
+>     helper_vmrun and helper_write_crN.
+> 
+>     Signed-off-by: Lara Lazier <laramglazier@gmail.com>
+>     Message-Id: <20210721152651.14683-2-laramglazier@gmail.com>
+>     Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> 
+> In this commit CR4_RESERVED_MASK is missing CR4_LA57_MASK and
+> two others. Adding this lets Fedora kernels boot once again.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  target/i386/cpu.h | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> I don't know the implications of CR4_VMXE_MASK and CR4_SMXE_MASK
+> being missing in CR4_RESERVED_MASK. It didn't cause any ill effects
+> either way, but I added them on the assumption that CR4_RESERVED_MASK
+> was supposed to contain all define bits.
+> 
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index 6c50d3ab4f..ce85f1a29d 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -257,6 +257,7 @@ typedef enum X86Seg {
+>                  | CR4_DE_MASK | CR4_PSE_MASK | CR4_PAE_MASK \
+>                  | CR4_MCE_MASK | CR4_PGE_MASK | CR4_PCE_MASK \
+>                  | CR4_OSFXSR_MASK | CR4_OSXMMEXCPT_MASK |CR4_UMIP_MASK \
+> +                | CR4_LA57_MASK | CR4_VMXE_MASK | CR4_SMXE_MASK \
+>                  | CR4_FSGSBASE_MASK | CR4_PCIDE_MASK | CR4_OSXSAVE_MASK \
+>                  | CR4_SMEP_MASK | CR4_SMAP_MASK | CR4_PKE_MASK | CR4_PKS_MASK))
 
-Oh, it is probably from the graphical console connection to SPICE or VNC.
-For those virt-manager will pass in a socket creted with socketpair()
-via libvirt, in order to bypass the need for authentication when running
-locally.
+First thing to say is I tested this locally and it fixes the
+problem seen in https://bugzilla.redhat.com/show_bug.cgi?id=1999700.
+I will also add this patch to Fedora soon.  So:
 
-Regards,
-Daniel
+Tested-by: Richard W.M. Jones <rjones@redhat.com>
+
+But my question is, does this mean that every time a new CPU feature
+appears we must remember to update this code?
+
+Rich.
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+Fedora Windows cross-compiler. Compile Windows programs, test, and
+build Windows installers. Over 100 libraries supported.
+http://fedoraproject.org/wiki/MinGW
 
 
