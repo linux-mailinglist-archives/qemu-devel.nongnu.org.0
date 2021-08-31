@@ -2,73 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8251B3FC5A8
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 12:32:58 +0200 (CEST)
-Received: from localhost ([::1]:48162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 843403FC5C0
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 12:41:27 +0200 (CEST)
+Received: from localhost ([::1]:51990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL14b-0005Vw-B2
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 06:32:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34212)
+	id 1mL1Cn-0000BS-Sa
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 06:41:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mL12q-0004e8-Nx
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 06:31:08 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:36550)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mL12o-00043m-H8
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 06:31:08 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id u19so9346580edb.3
- for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 03:31:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MRyz44IJDv/81zRSeYynYPoDaDUd6kI011azu0eG57w=;
- b=nVOczl3N7XnCiWqTh/aAGgekg3oVYC6OYYElJBe2J5yWFIoKyjaj04GZdfaBkJKsNZ
- fVs18WpExQ1jjdp5o4sVkpYTY7fUK7U5lXKZPdhxGwAxSHu0Kt4RQF8ggjzZ/w0E/YuB
- VD/4kb2QbIxVJSmAgiRzeNXQ+jUX/8ssrX/dtq6D2xQYjtOUQ9hrk/wb4Fs7LnXi2SR4
- yLF6WdYMUY9gTNSdnWIMb9/papOZdSUX0k9pqkqVUCYGJl3wuja7Ssj+EgHOS3B7x/nA
- Lkev5KFZGvXLCH3RSXF0EFyYXNzz404F8PvVi44l8F3TWEGjVGUA+XWs2xjNOW46rBGa
- fMhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MRyz44IJDv/81zRSeYynYPoDaDUd6kI011azu0eG57w=;
- b=P9ClzIOLeaBpQnRujjMsSpMaAYfyM4p9veLcjDKia+XHFlPoRaJmgXzBo4kemTm99J
- MQRJwo0gH7zErTCu2Bcp5Gn4CWmIo36iehbf+tkG0kx6xMXUthNm9ONHVoCA2Gppk6K1
- ugWG+Ea2I9rAy2aedXgJLkY3CCIpc5w4ILGBDE+ZtxgIvT0gKSI/1TScOv6zRXNuaHym
- BwLjUSSHZGHjs1t3p5nBzN1nWiFdwgTlorr+5W8n9b9opgLK/i8GX0Ybgbz5uHQn6Ng6
- LGMtyMOKueSVq/fwXNxbuB6EtEQ4O48x10iwgChzLASey2m2Iv1d+U7hlZ7Bc5RWV0iR
- dgJg==
-X-Gm-Message-State: AOAM530WPbWt2dTdoHcZ24noyiS6S9/eU0G2ngGED2IK/ZvUsCFL6U4l
- ogoUoPFgejUsZhNIsnYCZfcRP2Vo2WBqRvGvYX50jw==
-X-Google-Smtp-Source: ABdhPJxglCih5AX1KPT1fkJW7qOU1Vgg6nkNgZuwW4VUXvRyFR792EQc1D/FWC4OV7En8KrBlSJ0lrTdqxawgRPoX3o=
-X-Received: by 2002:a05:6402:4404:: with SMTP id
- y4mr29102796eda.52.1630405864637; 
- Tue, 31 Aug 2021 03:31:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mL1BU-0007bX-Vw; Tue, 31 Aug 2021 06:40:05 -0400
+Received: from smtpout2.3005.mail-out.ovh.net ([46.105.54.81]:34565)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mL1BS-0003JQ-6P; Tue, 31 Aug 2021 06:40:04 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.243])
+ by mo3005.mail-out.ovh.net (Postfix) with ESMTPS id 300FF13B127;
+ Tue, 31 Aug 2021 10:39:57 +0000 (UTC)
+Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 31 Aug
+ 2021 12:39:57 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R0025c238559-eb94-444d-843b-b939751d30ed,
+ 3D02C4E7E229260F021FFF691A6C377EE278DEFF) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PATCH 2/5] hw/arm/aspeed: Select console UART from machine
+To: Peter Delevoryas <pdel@fb.com>
+References: <20210827210417.4022054-1-pdel@fb.com>
+ <20210827210417.4022054-3-pdel@fb.com>
+ <7a53d5e9-52c2-a06b-1385-fd71a96d7486@kaod.org>
+ <BYAPR15MB3032BA6C3556797AC2A3461CACC99@BYAPR15MB3032.namprd15.prod.outlook.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <547b5f32-0858-1882-fb8b-c60056cdbfd4@kaod.org>
+Date: Tue, 31 Aug 2021 12:39:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210719130112.932069-1-marcandre.lureau@redhat.com>
- <12894fce-38cd-8d29-9c2b-fc2d8f73a42f@msgid.tls.msk.ru>
- <1706f18b-d6e3-e88c-ac12-decdfbd7d9b2@msgid.tls.msk.ru>
- <6dd4a9d9-c264-a747-0fb5-2d470f19ad16@msgid.tls.msk.ru>
- <CAFEAcA-XyxFpVD--uO9QzVWirYb7RE=OoAewueFy1AN0zyz++Q@mail.gmail.com>
- <314d03f8-1270-e146-3806-74752fe970f5@msgid.tls.msk.ru>
-In-Reply-To: <314d03f8-1270-e146-3806-74752fe970f5@msgid.tls.msk.ru>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 31 Aug 2021 11:30:16 +0100
-Message-ID: <CAFEAcA-sZ_BMeydW6-iqdGQnETC5Gb0FLaCFgCgnZWZecMaD8g@mail.gmail.com>
-Subject: Re: [PATCH] util: fix abstract socket path copy
-To: Michael Tokarev <mjt@tls.msk.ru>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <BYAPR15MB3032BA6C3556797AC2A3461CACC99@BYAPR15MB3032.namprd15.prod.outlook.com>
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 942e986e-d1e2-4c3d-88a2-5109db00e18a
+X-Ovh-Tracer-Id: 503558733826526115
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddvuddgfeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeehnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheplefhtdegueeffffghffhhefgleejjedvveetvdfggfefjedvueffvedttdduueffnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehpuggvlhesfhgsrdgtohhm
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout2.3005.mail-out.ovh.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.932,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,67 +72,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xiaoqiang zhao <zxq_yx_007@163.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
+Cc: Andrew Jeffery <andrew@aj.id.au>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "joel@jms.id.au" <joel@jms.id.au>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 31 Aug 2021 at 11:17, Michael Tokarev <mjt@tls.msk.ru> wrote:
+On 8/28/21 5:58 PM, Peter Delevoryas wrote:
+> I think I’m a little confused on this part. What I meant by “most machines just use UART5” was that most DTS’s use “stdout-path=&uart5”, but fuji uses “stdout-path=&uart1”. I /do/ see that SCU510 includes a bit related to UART, but it’s for disabling booting from UART1 and UART5. I just care about the console aspect, not booting.
+
+The UART can be switched with SCU70[29] on the AST2500, btw.
+
 >
-> 31.08.2021 12:53, Peter Maydell wrote:
-> > On Mon, 30 Aug 2021 at 23:30, Michael Tokarev <mjt@tls.msk.ru> wrote:
-> >>
-> >> 31.08.2021 01:06, Michael Tokarev wrote:
-> >> ...
-> >>> And this is the value used to be returned in the getsockname/getpeername
-> >>> calls.
-> >>>
-> >>> So this has nothing to do with socket being abstract or not. We asked for
-> >>> larger storage for the sockaddr structure, and the kernel was able to build
-> >>> one for us, including the trailing \0 byte.
-> >
-> >> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-> >> index f2f3676d1f..83926dc2bc 100644
-> >> --- a/util/qemu-sockets.c
-> >> +++ b/util/qemu-sockets.c
-> >> @@ -1345,8 +1345,9 @@ socket_sockaddr_to_address_unix(struct sockaddr_storage *sa,
-> >>        SocketAddress *addr;
-> >>        struct sockaddr_un *su = (struct sockaddr_un *)sa;
-> >>
-> >> +    /* kernel might have added \0 terminator to non-abstract socket */
-> >>        assert(salen >= sizeof(su->sun_family) + 1 &&
-> >> -           salen <= sizeof(struct sockaddr_un));
-> >> +           salen <= sizeof(struct sockaddr_un) + su->sun_path[0] ? 1 : 0);
-> >
-> > Q: Why are we imposing an upper limit on salen anyway?
-> > We need the lower limit because salen is supposed to include
-> > the whole of the 'struct sockaddr_un' and we assume that.
-> > But what's the upper limit here protecting?
->
-> It is not about protection really, it is about correctness.
-> This is actually a grey area. This single trailing \0 byte
-> depends on the implementation. Please read man 7 unix -
-> especially the "Pathname sockets" and BUGS sections.
+> 
+> This is the commit that changed the serial console from UART5 to UART1 in fuji’s DTS: https://github.com/facebook/openbmc-uboot/commit/afeddd6e27b5f094bbc4805dc8c1c22b3b7fb203 <https://github.com/facebook/openbmc-uboot/commit/afeddd6e27b5f094bbc4805dc8c1c22b3b7fb203>
 
-Yes, I know about that. Why are we assert()ing ? Our
-implementation here doesn't care whether the struct
-we're passed is exactly the size of a sockaddr_un,
-a bit bigger than it, or 5 bytes bigger. We're not going
-to crash or misbehave if the caller passes us in an oversized
-buffer.
+That's an AST2620-A1. May be we should also introduce a new SoC then. I will try
+to get the datasheet.
+  
+> I don’t know what the platform.S AST_SCU_MFP_CTRL7 changes do (maybe setting some GPIO for UART1?),
 
-> > Q2: why does our required upper limit change depending on whether
-> > there happens to be a string in the sun_path array or not ?
->
-> Because for abstract sockets (the ones whos name starts with \0
-> byte) the sun_path is treated as a blob of given length, without
-> the additional trailing \0, and neither the kernel nor userspace
-> is trying to add the terminator, while for pathname sockets this
-> is not the case and someone has to add the trailing \0 somewhere.
+Yes. The patch above enables the UART1 RX function. 
 
-Ah, I hadn't realized about the abstract-sockets case. Thanks.
+Is TX always enabled ? Something to check on real HW.
 
--- PMM
+>  but as far as I understand, I don’t think using UART1 should require any extra registers from the datasheet.
+>  
+> 
+> An alternate design I considered was UART5=serial_hd(0) and UART1=serial_hd(1), maybe that would be more appropriate? I don’t think anybody uses both UART’s simultaneously though, so I didn’t pursue that design.
+
+An other simple idea would be activate both UART5 and UART1 on the AST2600 
+SoC if this is how the HW works. Or add a bool "enable-uart1" at the SoC 
+level and set it from the machine. 
+
+In any case, we will need a serial backend for both.
+
+
+Thanks,
+
+C.
+
+>  
+> 
+> Some link references:
+> 
+> Elbert DTS uses “stdout-path=&uart5” https://github.com/facebook/openbmc-uboot/blob/openbmc/helium/v2019.04/arch/arm/dts/aspeed-bmc-facebook-elbert.dts#L17
+> 
+> Fuji DTS uses “stdout-path=&uart1” https://github.com/facebook/openbmc-uboot/blob/openbmc/helium/v2019.04/arch/arm/dts/aspeed-bmc-facebook-fuji.dts#L17
+> 
+>  
+> 
+> *From: *Cédric Le Goater <clg@kaod.org>
+> *Date: *Saturday, August 28, 2021 at 1:26 AM
+> *To: *Peter Delevoryas <pdel@fb.com>
+> *Cc: *joel@jms.id.au <joel@jms.id.au>, qemu-devel@nongnu.org <qemu-devel@nongnu.org>, qemu-arm@nongnu.org <qemu-arm@nongnu.org>
+> *Subject: *Re: [PATCH 2/5] hw/arm/aspeed: Select console UART from machine
+> 
+> On 8/27/21 11:04 PM, pdel@fb.com wrote:
+>> From: Peter Delevoryas <pdel@fb.com>
+>>
+>> This change replaces the UART serial device initialization code with machine
+>> configuration data, making it so that we have a single code path for console
+>> UART initialization, but allowing different machines to use different
+>> UART's. This is relevant because the Aspeed chips have 2 debug UART's, UART5
+>> and UART1, and while most machines just use UART5, some use UART1.
+> 
+> I think this is controlled by SCU510. If so, we should have a different HW
+> strapping for the new machine and check the configuration at the SoC level,
+> in aspeed_ast2600.c, to change the serial initialization.
+> 
+> 
+> Thanks,
+> 
+> C.
+>  
+>>
+>> Signed-off-by: Peter Delevoryas <pdel@fb.com>
+>> ---
+>>  hw/arm/aspeed.c         | 7 +++++++
+>>  hw/arm/aspeed_ast2600.c | 5 -----
+>>  hw/arm/aspeed_soc.c     | 5 -----
+>>  include/hw/arm/aspeed.h | 1 +
+>>  4 files changed, 8 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+>> index 9d43e26c51..ff53d12395 100644
+>> --- a/hw/arm/aspeed.c
+>> +++ b/hw/arm/aspeed.c
+>> @@ -14,6 +14,7 @@
+>>  #include "hw/arm/boot.h"
+>>  #include "hw/arm/aspeed.h"
+>>  #include "hw/arm/aspeed_soc.h"
+>> +#include "hw/char/serial.h"
+>>  #include "hw/i2c/i2c_mux_pca954x.h"
+>>  #include "hw/i2c/smbus_eeprom.h"
+>>  #include "hw/misc/pca9552.h"
+>> @@ -21,6 +22,7 @@
+>>  #include "hw/misc/led.h"
+>>  #include "hw/qdev-properties.h"
+>>  #include "sysemu/block-backend.h"
+>> +#include "sysemu/sysemu.h"
+>>  #include "hw/loader.h"
+>>  #include "qemu/error-report.h"
+>>  #include "qemu/units.h"
+>> @@ -352,6 +354,10 @@ static void aspeed_machine_init(MachineState *machine)
+>>      }
+>>      qdev_realize(DEVICE(&bmc->soc), NULL, &error_abort);
+>> 
+>> +    serial_mm_init(get_system_memory(), sc->memmap[amc->serial_dev], 2,
+>> +                   sc->get_irq(&bmc->soc, amc->serial_dev), 38400,
+>> +                   serial_hd(0), DEVICE_LITTLE_ENDIAN);
+>> +
+>>      memory_region_add_subregion(get_system_memory(),
+>>                                  sc->memmap[ASPEED_DEV_SDRAM],
+>>                                  &bmc->ram_container);
+>> @@ -804,6 +810,7 @@ static void aspeed_machine_class_init(ObjectClass *oc, void *data)
+>>      mc->no_parallel = 1;
+>>      mc->default_ram_id = "ram";
+>>      amc->macs_mask = ASPEED_MAC0_ON;
+>> +    amc->serial_dev = ASPEED_DEV_UART5;
+>> 
+>>      aspeed_machine_class_props_init(oc);
+>>  }
+>> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+>> index 56e1adb343..a27b0de482 100644
+>> --- a/hw/arm/aspeed_ast2600.c
+>> +++ b/hw/arm/aspeed_ast2600.c
+>> @@ -322,11 +322,6 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+>>          sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
+>>      }
+>> 
+>> -    /* UART - attach an 8250 to the IO space as our UART5 */
+>> -    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
+>> -                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5),
+>> -                   38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
+>> -
+>>      /* I2C */
+>>      object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(s->dram_mr),
+>>                               &error_abort);
+>> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+>> index c373182299..0c09d1e5b4 100644
+>> --- a/hw/arm/aspeed_soc.c
+>> +++ b/hw/arm/aspeed_soc.c
+>> @@ -287,11 +287,6 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+>>          sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
+>>      }
+>> 
+>> -    /* UART - attach an 8250 to the IO space as our UART5 */
+>> -    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
+>> -                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5), 38400,
+>> -                   serial_hd(0), DEVICE_LITTLE_ENDIAN);
+>> -
+>>      /* I2C */
+>>      object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(s->dram_mr),
+>>                               &error_abort);
+>> diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
+>> index c9747b15fc..9f5b9f04d6 100644
+>> --- a/include/hw/arm/aspeed.h
+>> +++ b/include/hw/arm/aspeed.h
+>> @@ -38,6 +38,7 @@ struct AspeedMachineClass {
+>>      uint32_t num_cs;
+>>      uint32_t macs_mask;
+>>      void (*i2c_init)(AspeedMachineState *bmc);
+>> +    uint32_t serial_dev;
+>>  };
+>> 
+>> 
+>>
+> 
+
 
