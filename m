@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54BA3FCDC2
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 21:49:03 +0200 (CEST)
-Received: from localhost ([::1]:36408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0C4E3FCDC3
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 21:51:34 +0200 (CEST)
+Received: from localhost ([::1]:39318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL9kf-00035U-8F
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 15:48:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51702)
+	id 1mL9nB-00053V-JS
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 15:51:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mL9jf-0002Ax-3R
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 15:47:55 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:39530)
+ id 1mL9mL-0004OI-4z
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 15:50:41 -0400
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:42864)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mL9jd-0006Oi-4u
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 15:47:54 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id a25so1352761ejv.6
- for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 12:47:52 -0700 (PDT)
+ id 1mL9mJ-00087F-LR
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 15:50:40 -0400
+Received: by mail-ej1-x629.google.com with SMTP id mf2so1321938ejb.9
+ for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 12:50:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dGA/mZWuLpm8206G2uLBKhCKQ5KX8Fhjx7Itc17dnoE=;
- b=LTi3LCDTrR0h7K3lO2Ur8m0klTYBrUklt0eADq2jvJgKP7xBAs80iENnAO+9O3EHsJ
- 6G/DiYFFO0vaMe5brCD1qu2L1ZMVppy7bgBt0oMmbpLW+FTlR/ADPCpf9UwwmBNfyhq8
- solTVqXOtpx7hlOK5Szu2Bbxk0vuXtopFDKUxylcDEUIjwWeepOAsbc6O+cEE4jACvaJ
- 9pmziG7wsWuVYlN2bydk0xjoZGkhP2VGZHubNcNXzCv3BpcGoh6Iw4QaQr3WhgbfVjl9
- mIJ8ZQ7Sn64EHhFSPkMhckVxVuq+C0xAUxgVWuQngwTZaakgseKptVpOK1cNXEuEiSpD
- 69sg==
+ :cc:content-transfer-encoding;
+ bh=Jxu9OVNsIN4JkgcG6d08Mxtx2uOD1hFDk/jDfsXWFb4=;
+ b=mZL4PWlTTsLN8sulBLzi6e5xCjkiSl31Uyx7/k9Loh5FgqMcuoah9PxZSMevToIINq
+ xCiI3Sp4EenzPY+qqxuSF17Za/kylTFM+92OS6TPmCqwLRW5f9qV751acCAsNc2ecMLd
+ 0FVJUECUMsWIGwgiaChlvj5/VWHTjer5Gs0TX9ytH6HZR4pjF2msTMiWeocxOFBZP/8k
+ 0zuYEFMUYtl5z703S2aq5eT/2TdVonHoFKsSd8ysAFy9jRJzL+sgZoNT0cF5k7O+71Xc
+ gH6l03PKRevuOp60U7RVpX4pQDWQc6kpNjLXRZ9isHA/YRhZdIjDT3wWxi2JgRYFxgGZ
+ N2rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dGA/mZWuLpm8206G2uLBKhCKQ5KX8Fhjx7Itc17dnoE=;
- b=bRsa5WFuurSmXs+lt1BotTYscQtIlGSdm4lPp6XwXVWrvYT9Dv+VAgbupoWkEp7r1K
- sEkyKlfOg213HGtLrzeuE764CBBRqt22vAZQ7UozyYe6WvNYROrQonr3yKlORYWJk12G
- Ohmu2uXWU+VxXbo3rcFADwzHJrPFKjydNqGTh0xz9EGuBWMVwok9pAHM4zNq8fw70X9K
- Dx7sVbRalEISf/OrtAVvQzLgRUtglQUodI9IIDHHvSAp4C9KO8ymf+kgLhCNACM+H1m3
- z26ziXRErkMpSb15zySSatTDPEHrs7gNvVwaorFyVH0k4lSYzAXfElCR0YrLaP0spKpX
- s5kQ==
-X-Gm-Message-State: AOAM530CQyL2IZAGbfFoGuyvTHpCVScJQC8zqlRyGT0nNDS09r1RkvNN
- cuvRjHiY7sddJYD/7XqMZoYDUsqNFcqMaaoXuppWng==
-X-Google-Smtp-Source: ABdhPJzQ+OK9Xxwuh3FpTA6hFVEnQE9VuyumyZxKcqui0qwuln0mH31G3M8A3elIgh9O6CCmOMLOgbprEj33WFf1PQI=
-X-Received: by 2002:a17:906:a108:: with SMTP id
- t8mr32866386ejy.407.1630439271557; 
- Tue, 31 Aug 2021 12:47:51 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Jxu9OVNsIN4JkgcG6d08Mxtx2uOD1hFDk/jDfsXWFb4=;
+ b=Da0meUg75JMVCiBgERw5cf0iRVK6PcOCx4kG6KDKodN2UxhBu+jpFd+4unBoEBH5RC
+ 9k4iUYffMdl+pAy++ks57InJ9+C82Xd7Tc5QUVRHmLTTuWDUIzKUk1m3AwGUjlO5qrvx
+ b4h0xiViqocBd5zrt0Kw/1LuWSuD1O1Fd42bcKLf6+oQitybB08zuk1cAWETUCAj4/Wz
+ 3c8GfxXW5EETmTthv/97I48vuMtOEvNLjKj0P1+7IBrhnt8hyhz6PZniSgqOHWHF4BLL
+ ikDLb8U4PuWS5IltITZMxcHoWNwxFb0AURuypqpnzMEdc2REseY3N8yCaEhjDOT5K5Je
+ PAkA==
+X-Gm-Message-State: AOAM533Kg+wqa4FvoPZeSZ/C0OuAHaqGualZUNzFggmFrUXCYdfWNlWJ
+ rbJc8mDM/ETAl4CjfHrnNIh5osbEpx9CqAMPOoVmwg==
+X-Google-Smtp-Source: ABdhPJwp8NgrS+iIgZp0gxvw1nBOyYi58BLb7bEAsJ8AHkWYFQcX1RatSCE3Krs9qeXVLkgNAImZObPEnmDFUcXzf4Y=
+X-Received: by 2002:a17:907:75d9:: with SMTP id
+ jl25mr32521206ejc.4.1630439437886; 
+ Tue, 31 Aug 2021 12:50:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210831182623.1792608-1-mjt@msgid.tls.msk.ru>
-In-Reply-To: <20210831182623.1792608-1-mjt@msgid.tls.msk.ru>
+References: <20210831133132.1697228-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20210831133132.1697228-1-marcandre.lureau@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 31 Aug 2021 20:47:03 +0100
-Message-ID: <CAFEAcA9xc_q1fDT1F8uEW=dEQXmRWX8nusPmtmFLASg1EwU8gw@mail.gmail.com>
-Subject: Re: [PATCH] qemu-sockets: fix unix socket path copy (again)
-To: Michael Tokarev <mjt@tls.msk.ru>
+Date: Tue, 31 Aug 2021 20:49:49 +0100
+Message-ID: <CAFEAcA_yEy8F+MDZxJ=udDP57zCsBi7=HbNCBSZJjXhFav5egA@mail.gmail.com>
+Subject: Re: [PULL 00/18] UI/clipboard fixes
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,89 +79,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-stable <qemu-stable@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 31 Aug 2021 at 19:34, Michael Tokarev <mjt@tls.msk.ru> wrote:
+On Tue, 31 Aug 2021 at 14:31, <marcandre.lureau@redhat.com> wrote:
 >
-> We test whenever the path of unix-domain socket
-> address is non-empty and strictly-less than
-> the length of the path buffer. Both these
-> conditions are wrong: the socket can be unnamed,
-> with empty path, or socket can have pathname
-> null-terminated _after_ the sun_path buffer,
-> since we provided more room when asking kernel.
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> So on one side, allow empty, unnamed sockets
-> (and adjust the test for abstract socket too -
-> only do that if the socket is not unnamed),
-> and on another side, allow path length to be
-> up to our own maximum, - we have up to size
-> of sockaddr_storage there.
+> The following changes since commit ad22d0583300df420819e6c89b1c022b998fac=
+8a:
 >
-> While at it, fix the duplication of regular
-> pathname socket to not require trailing \0
-> (since it can be missing for unnamed sockets).
+>   Merge remote-tracking branch 'remotes/dg-gitlab/tags/ppc-for-6.2-202108=
+27' into staging (2021-08-27 11:34:12 +0100)
 >
-> Fixes: 4cfd970ec188558daa6214f26203fe553fb1e01f (first in 6.1.0)
-> Fixes: http://bugs.debian.org/993145
-> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-> Cc: qemu-stable@nongnu.org
-> --
-> Two questions.
-> 1. Why do we store the name of the socket to start with?
-> 2. The code in the abstract socket case should not use
->    g_strndup but g_memdup instead, since the whole thing
->    is a blob of the given length, not a \0-terminated string.
-> ---
->  util/qemu-sockets.c | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
+> are available in the Git repository at:
 >
-> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-> index f2f3676d1f..7c83d81792 100644
-> --- a/util/qemu-sockets.c
-> +++ b/util/qemu-sockets.c
-> @@ -1345,13 +1345,20 @@ socket_sockaddr_to_address_unix(struct sockaddr_storage *sa,
->      SocketAddress *addr;
->      struct sockaddr_un *su = (struct sockaddr_un *)sa;
+>   git@gitlab.com:marcandre.lureau/qemu.git tags/clip-pull-request
 >
-> -    assert(salen >= sizeof(su->sun_family) + 1 &&
-> -           salen <= sizeof(struct sockaddr_un));
-> +    /* there's a corner case when trailing \0 does not fit into
-> +     * sockaddr_un. Compare length with sizeof(sockaddr_storage),
-> +     * not with sizeof(sockaddr_un), since this is what we actually
-> +     * provide, to ensure we had no truncation and a room for
-> +     * the trailing \0 which we add below.
-> +     * When salen == sizeof(sun_family) it is unnamed socket,
-> +     * and when first byte of sun_path is \0, it is abstract. */
-> +    assert(salen >= sizeof(su->sun_family) &&
-> +           salen <= sizeof(struct sockaddr_storage));
+> for you to fetch changes up to 90208bc9657b7e0f8a6bc6af82b69c65c97b2d64:
+>
+>   ui/vdagent: add a migration blocker (2021-08-31 17:25:14 +0400)
+>
 
-Again, why are we asserting an upper bound? We don't care here:
-the representation in the SocketAddress structure has no length
-limit on the path. (Conversely, we do care about the max length
-when we convert from a SocketAddress to a sockaddr_un: we do this
-in eg unix_connect_saddr().)
 
->      addr = g_new0(SocketAddress, 1);
->      addr->type = SOCKET_ADDRESS_TYPE_UNIX;
->  #ifdef CONFIG_LINUX
-> -    if (!su->sun_path[0]) {
-> +    if (salen > sizeof(su->sun_family) && !su->sun_path[0]) {
->          /* Linux abstract socket */
->          addr->u.q_unix.path = g_strndup(su->sun_path + 1,
->                                          salen - sizeof(su->sun_family) - 1);
-> @@ -1363,7 +1370,7 @@ socket_sockaddr_to_address_unix(struct sockaddr_storage *sa,
->      }
->  #endif
->
-> -    addr->u.q_unix.path = g_strndup(su->sun_path, sizeof(su->sun_path));
-> +    addr->u.q_unix.path = g_strndup(su->sun_path, salen - sizeof(su->sun_family));
->      return addr;
->  }
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
+for any user-visible changes.
 
 -- PMM
 
