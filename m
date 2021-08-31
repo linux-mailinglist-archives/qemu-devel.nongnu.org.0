@@ -2,91 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B27DE3FC5DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 13:25:21 +0200 (CEST)
-Received: from localhost ([::1]:35878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9962A3FC697
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 13:37:01 +0200 (CEST)
+Received: from localhost ([::1]:45526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL1tI-0005Su-8x
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 07:25:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47854)
+	id 1mL24Z-0004Yi-Vw
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 07:37:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1mL1rt-0004Xu-85; Tue, 31 Aug 2021 07:23:53 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:36499)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mL23D-0003iP-7X
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 07:35:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1mL1rr-0002gF-Bw; Tue, 31 Aug 2021 07:23:53 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.nyi.internal (Postfix) with ESMTP id C78235C0051;
- Tue, 31 Aug 2021 07:23:48 -0400 (EDT)
-Received: from imap43 ([10.202.2.93])
- by compute2.internal (MEProxy); Tue, 31 Aug 2021 07:23:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type:content-transfer-encoding; s=fm3; bh=L2Vtm
- 5Z4vGJidVeg/2jOJv5NFZBJrz6FMsbuGAp6lxM=; b=T/7ZEtogHDJVj4AoGddW7
- N6zcbL2w6LusdlKyDh7bBkXMDLdF5y6L4A3l/a3EUq66FvNEnwM+O3xQ6oanY+Sr
- xkZxYC7kYEv3fH3nzCot5e3t/h1vhPzKHbEtIuwOXkfaTXwjNU1EOGyWQQwZk7KN
- TKiKRnnm6U6CXyb5QTlTouG7NTI78ZUL18nUcxYykt6QcHPIO/wpm1/ANjmreUo2
- avq5wgt/jzYThwDecy7Lg/f6UD1OdclEe05e6n8QkwxXVVlJgupGytUIzs3bhjYW
- stmtN1vlKTuWdFiNaprekdg9+hyFf1SVWMZYUaeRqsMSVtXtOdbWXeGyRkCQ922y
- w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=L2Vtm5Z4vGJidVeg/2jOJv5NFZBJrz6FMsbuGAp6l
- xM=; b=TncLntfJ3m4kOl8ESf5nhkcn5mn8gpU9DRPMCLtXmW5oEGKhh7lExBJ7u
- My1BAkaVuFXEkTl888fuWItnPM5Itk+Sa3pQqak4KD1aqaiQICFA/k/n8wD9XymX
- 3BKlMW5wxZ/mA9i+812Q7moorT2N5eeTTnQjTs5I0TGM7OV/PTWy14Rm26/QMalP
- g/oexIy1JsRSxKgVOg8ZkwUHdmVKixcuY/JLFyMblXPhduv9SqacJFbfaTBobQGQ
- 1sEYqLNg5wDmKII9UL0E8pnA4g/+z5n7no2eULaTly0urQD4IKkLITEYPOJ2IE1f
- yoIYSC/0vLVl4/4uYPAUQ/qWYDgWQ==
-X-ME-Sender: <xms:QxEuYaRd1HBd4M_etK2GjQJShScLPziLJBStvQnwORbRA45mM4VqCQ>
- <xme:QxEuYfxSs6ltQ7zo4E1LVjueDsV_xKrpO1AxFio0Y12HARLo39NvdEL5jsgjhiG1d
- VxuHAdvjWV6Qh5kmQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvuddgfeelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedftehn
- ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
- frrghtthgvrhhnpefhgfekhfdugefhjeduhfdtgfeutdefheejveetffegudduteejieej
- hfehfffgfeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgifsegrjhdrihgurdgr
- uh
-X-ME-Proxy: <xmx:QxEuYX0VmV3VjgxdVAXusvsrkZwcXpk1ZxGDsnUb3N1RNOIR-a_5yA>
- <xmx:QxEuYWDgm92db1qDpFqN7aXfKq7nPxCDvIKcbkhvMROpUupQ1yznjA>
- <xmx:QxEuYTiNuLvK36WN2tGAYs2tX7Ion2w5cYmwnO5794YYOPnlhTUvDA>
- <xmx:RBEuYWsJY8DPmqIEucwoL7FmTeisnkjhTN0xMiPgCJ14dndnIeA2hw>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id B0E5DAC0362; Tue, 31 Aug 2021 07:23:47 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-1124-g8f1c7cb9de-fm-20210824.001-g8f1c7cb9
-Mime-Version: 1.0
-Message-Id: <d3d43c7a-1f37-4489-a07b-bf561e4e36a1@www.fastmail.com>
-In-Reply-To: <547b5f32-0858-1882-fb8b-c60056cdbfd4@kaod.org>
-References: <20210827210417.4022054-1-pdel@fb.com>
- <20210827210417.4022054-3-pdel@fb.com>
- <7a53d5e9-52c2-a06b-1385-fd71a96d7486@kaod.org>
- <BYAPR15MB3032BA6C3556797AC2A3461CACC99@BYAPR15MB3032.namprd15.prod.outlook.com>
- <547b5f32-0858-1882-fb8b-c60056cdbfd4@kaod.org>
-Date: Tue, 31 Aug 2021 20:53:10 +0930
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- "Peter Delevoryas" <pdel@fb.com>
-Subject: Re: [PATCH 2/5] hw/arm/aspeed: Select console UART from machine
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=andrew@aj.id.au;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mL237-00008t-Ly
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 07:35:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630409727;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=g2VGzo5TqUEMNtHXLrpszy68t/BmZz8+gI4LAUeEDPs=;
+ b=Ph32LLgsdfBFvKGuIJVvKbADUtpkWjmAW2kcghNkJhsbshQr4cQ5chE8Roexqqs+AeJLm/
+ 5jD6mfkmmRz/qGhIJE0+uU3bWaErgOq+1UwadVJm3JHiaBqa/UK7b4wgdZGGdLEDYcU/iT
+ I1t+FA/CNQ+KzmovxJhbOO2pdM73S70=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-130-zMfotjqVNFm4yiTm_TeaOA-1; Tue, 31 Aug 2021 07:35:26 -0400
+X-MC-Unique: zMfotjqVNFm4yiTm_TeaOA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCE52871827
+ for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 11:35:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-4.ams2.redhat.com [10.36.112.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 772CC6A912;
+ Tue, 31 Aug 2021 11:35:06 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id F0CF011380A9; Tue, 31 Aug 2021 13:35:04 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 4/4] vl: Prioritize realizations of devices
+References: <YSQTwth0elaz4T8W@t490s>
+ <20210823215623.bagyo3oojdpk3byj@habkost.net> <YSQp0Nh6Gs5equAG@t490s>
+ <8735qxhnhn.fsf@dusky.pond.sub.org>
+ <87h7fdg12w.fsf@dusky.pond.sub.org> <YSa7H3wGUHgccCrU@t490s>
+ <YScPg0cYYGxxTz+b@xz-m1.local> <87y28oy6rm.fsf@dusky.pond.sub.org>
+ <20210826133629.2ddd3b88@redhat.com> <YSean3PIkslbTHeU@t490s>
+ <YS0rXQXwqKjhr4TA@t490s>
+Date: Tue, 31 Aug 2021 13:35:04 +0200
+In-Reply-To: <YS0rXQXwqKjhr4TA@t490s> (Peter Xu's message of "Mon, 30 Aug 2021
+ 15:02:53 -0400")
+Message-ID: <87mtoxzw2f.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,44 +84,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
- Cameron Esfahani via <qemu-devel@nongnu.org>
+Cc: "Daniel P . =?utf-8?Q?Berrang?= =?utf-8?Q?=C3=A9?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S
+ . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi C=C3=A9dric, Peter,
+Peter Xu <peterx@redhat.com> writes:
 
-On Tue, 31 Aug 2021, at 20:09, C=C3=A9dric Le Goater wrote:
-> On 8/28/21 5:58 PM, Peter Delevoryas wrote:
-> > I think I=E2=80=99m a little confused on this part. What I meant by =
-=E2=80=9Cmost machines just use UART5=E2=80=9D was that most DTS=E2=80=99=
-s use =E2=80=9Cstdout-path=3D&uart5=E2=80=9D, but fuji uses =E2=80=9Cstd=
-out-path=3D&uart1=E2=80=9D. I /do/ see that SCU510 includes a bit relate=
-d to UART, but it=E2=80=99s for disabling booting from UART1 and UART5. =
-I just care about the console aspect, not booting.
->=20
-> The UART can be switched with SCU70[29] on the AST2500, btw.
+> On Thu, Aug 26, 2021 at 09:43:59AM -0400, Peter Xu wrote:
+>> > > A simple state machine can track "has IOMMU" state.  It has three states
+>> > > "no so far", "yes", and "no", and two events "add IOMMU" and "add device
+>> > > that needs to know".  State diagram:
+>> > > 
+>> > >                           no so far
+>> > >                    +--- (start state) ---+
+>> > >                    |                     |
+>> > >          add IOMMU |                     | add device that
+>> > >                    |                     |  needs to know
+>> > >                    v                     v
+>> > >              +--> yes                    no <--+
+>> > >              |     |   add device that   |     |
+>> > >              +-----+    needs to know    +-----+
+>> > > 
+>> > > "Add IOMMU" in state "no" is an error.
+>> > 
+>> > question is how we distinguish "device that needs to know"
+>> > from device that doesn't need to know, and then recently
+>> > added feature 'bypass IOMMU' adds more fun to this.
+>> 
+>> Maybe we can start from "no device needs to know"? Then add more into it when
+>> the list expands.
+>> 
+>> vfio-pci should be a natural fit because we're sure it won't break any valid
+>> old configurations.  However we may need to be careful on adding more devices,
+>> e.g. when some old configuration might work on old binaries, but I'm not sure.
+>
+> Btw, I think this state machine is indeed bringing some complexity on even
+> understanding it - it is definitely working but it's not obvious to anyone at
+> the first glance, and it's only solving problem for vIOMMU.  E.g., do we need
+> yet another state machine for some other ordering constraints?
+>
+> From that POV, I don't like this solution more than the simple "assign priority
+> for device realization" idea..
 
-If it helps, neither the AST2600's "Boot from UART" feature nor the=20
-AST2[456]00's "Debug UART" feature are related to which UART is used as=20
-the BMC console by u-boot and/or the kernel - the latter is entirely a=20
-software thing.
+I wouldn't worry about other ordering constraints until we have them.
+If you do, please tell!
 
-The "Debug UART" is a hardware backdoor, a UART-to-AHB bridge=20
-implemented by the SoC. It provides a shell environment that allows you=20
-to issue transactions directly on the AHB if you perform a magic knock.=20
-I have a driver for it implemented here:
+I'm hoping you can't, because such implicit constraints are commonly
+signs of oversimplified / screwed up machine modeling.
 
-https://github.com/amboar/cve-2019-6260/blob/master/src/debug.c
-
-SCU70[29] on the AST2500 selects whether this backdoor is exposed on=20
-UART1 or UART5.
-
-The "Boot from UART" feature is implemented in the AST2600 ROM code as=20
-a fallback for loading the SPL if fetching it from SPI-NOR or the eMMC=20
-fails, or the SPL is incorrectly signed for secure-boot.
-
-I think Peter is on the right track with this patch?
-
-Andrew
 
