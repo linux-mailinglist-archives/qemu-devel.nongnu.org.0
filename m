@@ -2,94 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF4153FC20C
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 07:09:09 +0200 (CEST)
-Received: from localhost ([::1]:55250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D63A3FC213
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 07:11:32 +0200 (CEST)
+Received: from localhost ([::1]:57546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKw14-0007y6-0N
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 01:08:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52636)
+	id 1mKw3W-00019f-Ac
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 01:11:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mKvzb-0007Hf-Gu
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 01:07:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53971)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mKvzX-0005Wj-S7
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 01:07:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630386442;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8032ZwJmdYMQdIVdLPLA1HSx5FXYpRI3cCjOht3gY+w=;
- b=KJEaprune7Eke8V6k6XmYRsomHpuQz15WEKTmlaTQigfKGnC3zX996YACNGhf3pT0hgMYl
- viaE07w1XAfofkU1VsCt4DauzW2PV4tglKW61kCFeLDZAJzKpXFq4iTKYb8+QU+3b0cL17
- btA3S+5e63WN6DaHLoTQKdFSMXyDVcw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-u3NuuJqTOGySuNJnZZSxXg-1; Tue, 31 Aug 2021 01:07:19 -0400
-X-MC-Unique: u3NuuJqTOGySuNJnZZSxXg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r4-20020a1c4404000000b002e728beb9fbso727876wma.9
- for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 22:07:19 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mKw26-0000LP-96
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 01:10:02 -0400
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:40941)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mKw24-0007Xi-Fk
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 01:10:01 -0400
+Received: by mail-pj1-x1033.google.com with SMTP id
+ n13-20020a17090a4e0d00b0017946980d8dso1081442pjh.5
+ for <qemu-devel@nongnu.org>; Mon, 30 Aug 2021 22:10:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=+nvbEZTv+aUf63SANfhK6BSV2Q32ulVZKPJPeCH2lIc=;
+ b=drgs7DJTXzrrev1JM8gdRuOt/PL6DvSBVhsUl6o9NYhybzm+WwAs/KHunBEEPpTBRM
+ /9RN7eHhuHw9w0tnbYVEXbxL6sRB1q8JqEG9B42M4EVZeV4Yrr7GUWdZksmJXktuLBMi
+ +41I8Do08IYw5qxm/Wy8tearqMWG+TEVwb004MLK4bPlbSWBK8VDCpN7i/mGujqcBB6+
+ 0ARcnE7YgkDcy3F3qDDtSNhHHndRekX8TlvIrXu1Ue/vNxi6z+qczzjkwb5ix4ItqIvl
+ tcf96i/EQLaicwvX18XgxejwgEEi/Z1mdRR2ByT65/9PnyI8vpcF3naK9hqiWEZi44sJ
+ OT4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=8032ZwJmdYMQdIVdLPLA1HSx5FXYpRI3cCjOht3gY+w=;
- b=D+lqXJvfuYaDyuy9WH4HYPUVetAmajVWnjp+St+KJKnmYK4WXgE+9fZbxfZ6Smzi0g
- SfjPEcWcbxiwxeW/s8cBNi1FnsJ/RRuSk5LkT3LBFhS/2oI4xHDVSjHvJfASC7R7BtDk
- OZ95D9HjaGxv8z8WepLgD1b6993U7ECy4jMGjf+YRUrscCAzpGuxLtj6DfSoWGZVT6XL
- pldL2SSKzsuWJMPUsrCMJTnUoYVYQG4AeJISQNJx2fIawYCWzH7bxRvLUg3JUjQyDZXP
- RSp/VmuHW3GISQTqNpKHzIDvbIIT2gUZulqg7PcgWyuj4VniBxqJDJN+jO3xd+jEkCur
- +o9Q==
-X-Gm-Message-State: AOAM533crkI94P6ApeZnZMddI+v9mJm/WtIKUtDxGI2MBQM7XsYQYGsi
- E6ydTcdjOXqO3eFIZUhJWvZygs0s+Ax0pze9oaG5RE9g7xgVCpeLAuig/9sxmxTz/1ll+xXEg6y
- ndzVV6BM5ZMK4H2I=
-X-Received: by 2002:a1c:9a91:: with SMTP id c139mr2156695wme.106.1630386438135; 
- Mon, 30 Aug 2021 22:07:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzlDsKrmf8eeS8UuhlJnd97e1hfypQe34JrXO4sb4c2YOUT9tuYrlMCzMiA1+4ENOkZ1t1Msg==
-X-Received: by 2002:a1c:9a91:: with SMTP id c139mr2156675wme.106.1630386437901; 
- Mon, 30 Aug 2021 22:07:17 -0700 (PDT)
-Received: from thuth.remote.csb (pd9e830c4.dip0.t-ipconnect.de.
- [217.232.48.196])
- by smtp.gmail.com with ESMTPSA id c15sm1349564wmr.8.2021.08.30.22.07.17
+ bh=+nvbEZTv+aUf63SANfhK6BSV2Q32ulVZKPJPeCH2lIc=;
+ b=mYigU06/hfrs6VxORrSwmOqQ2+NFfV5dzLuj1RqoVMyTmyUjboDYbo+fF98BQqqcLa
+ qVVaRXr8QOJWXurNfjuX7fGJUada8QZhay182JIph/oPnatXRv7oi26jCmUpZQxpBQHx
+ w0UeegAe7VAdTZrCOoNYpxlkBnbOKeo7W8agxfDbT77M3zfcY/wlapG3LccAHlH3A9jf
+ xfWe6V7wvoF5AxmSetpRhQMwlmlqaD8saLA/uUWSTPl6YRZBhpx53VoVts7RFyFgbYWA
+ JESeTQar4DqBaghYhuF45+7Cvfk3AdbHqBqZ7A5vwhEXebCiPxp77OoBrs0XlPteuRc3
+ 9OqA==
+X-Gm-Message-State: AOAM533iXZLBB99dZ/cDzY35Ee4XR3ZQKuHPmJzS0/vsDVg6JfJXZYYk
+ Yx4xOD2tfwfwZsK88NZZ3Xeojw==
+X-Google-Smtp-Source: ABdhPJxJ/DvlQjyubdo3VgrYBzMuwDVB66dqs6Jkm5gAHE7i8G9AnD6He8DmQcEZYg0wq/AE6DYlzQ==
+X-Received: by 2002:a17:90b:ec8:: with SMTP id gz8mr994898pjb.41.1630386598620; 
+ Mon, 30 Aug 2021 22:09:58 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-72-39.tukw.qwest.net. [174.21.72.39])
+ by smtp.gmail.com with ESMTPSA id v6sm9102738pfu.0.2021.08.30.22.09.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Aug 2021 22:07:17 -0700 (PDT)
-Subject: Re: [PULL 5/6] docs: split the CI docs into two files
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-References: <20210825110018.100913-1-thuth@redhat.com>
- <20210825110018.100913-6-thuth@redhat.com>
- <224f739e-96c6-0e14-e53d-d64a8ade64ca@redhat.com>
- <f09c711a-3d74-ca4f-05e4-0d6ebf380e5e@redhat.com>
- <4da56a6a-a3b6-f17b-a9a7-c81fe5b903d2@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <1ee6270c-95f3-0f20-8c84-95207c0be378@redhat.com>
-Date: Tue, 31 Aug 2021 07:07:16 +0200
+ Mon, 30 Aug 2021 22:09:58 -0700 (PDT)
+Subject: Re: [PATCH 0/8] RISC V partial support for 128-bit architecture
+To: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org, liuzhiwei <zhiwei_liu@c-sky.com>
+References: <20210830171620.126296-1-frederic.petrot@univ-grenoble-alpes.fr>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <cca8020d-2cce-0978-9f67-9c71a1345b36@linaro.org>
+Date: Mon, 30 Aug 2021 22:09:56 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <4da56a6a-a3b6-f17b-a9a7-c81fe5b903d2@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210830171620.126296-1-frederic.petrot@univ-grenoble-alpes.fr>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.932, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.932,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,48 +89,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: philmd@redhat.com, bin.meng@windriver.com, palmer@dabbelt.com,
+ fabien.portas@grenoble-inp.org, alistair.francis@wdc.com,
+ alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/08/2021 23.15, Philippe Mathieu-Daudé wrote:
-> On 8/30/21 6:02 PM, Thomas Huth wrote:
->> On 30/08/2021 15.33, Philippe Mathieu-Daudé wrote:
->>> Hi Thomas,
->>>
->>> On 8/25/21 1:00 PM, Thomas Huth wrote:
->>>> From: Daniel P. Berrangé <berrange@redhat.com>
->>>>
->>>> This splits the CI docs into one file talking about job setup and usage
->>>> and another file describing provisioning of custom runners.
->>>>
->>>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
->>>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
->>>> Message-Id: <20210812180403.4129067-2-berrange@redhat.com>
->>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>>> ---
->>>>    docs/devel/ci-jobs.rst    |  40 ++++++++++
->>>>    docs/devel/ci-runners.rst | 117 ++++++++++++++++++++++++++++
->>>>    docs/devel/ci.rst         | 159 +-------------------------------------
->>>>    3 files changed, 159 insertions(+), 157 deletions(-)
->>>>    create mode 100644 docs/devel/ci-jobs.rst
->>>>    create mode 100644 docs/devel/ci-runners.rst
->>>
->>> You took this one but not the following "docs: add definitions of
->>> terms for CI/testing", is there something missing there?
->>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg830839.html
->>
->> I took the patch from Daniel's series here:
->>
->>   https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg02102.html
->>
->> The second patch there did not apply anymore.
-> 
-> Willian can you respin it please?
+On 8/30/21 10:16 AM, Frédéric Pétrot wrote:
+> This series of patches aims at adding partial 128-bit support to the riscv
+> target, following the (unratified) RV128I specification, Chapter 7 of
+> riscv-spec document dated 20191214.
+> It provides support for all user integer (I) instructions and for an M
+> extension which follows the definition of the 32 and 64-bit specifications.
 
-No, you got it wrong. Daniel's second patch did not apply anymore. I didn't 
-look at Willian's series at that point in time.
+So... I think that this patch set ought to coordinate with the patches to support UXL. 
+Both this and UXL require adjustments to almost every operation, both widening and 
+narrowing the effects of the operation.
 
-  Thomas
+I think that we're going to need to adjust the primary helpers.
+E.g. the current
 
+static bool gen_arith(DisasContext *ctx, arg_r *a,
+                       void (*func)(TCGv, TCGv, TCGv))
+
+which supports only one implementation, is going to need to expand to
+
+static bool gen_arith(DisasContext *ctx, arg_r *a,
+                       void (*fn32)(TCGv, TCGv, TCGv),
+                       void (*fn64)(TCGv, TCGv, TCGv),
+                       void (*fn128)(TCGv, TCGv, TCGv
+                                     TCGv, TCGv, TCGv))
+
+with the is_32bit, is_128bit check done inside the helper.  Similarly with gen_unary, and 
+possibly gen_shift.
+
+Sometimes the fn32 and fn64 operand will be the same, e.g. add, where the 32-bit to 64-bit 
+sign-extension is done during the writeback.  But sometimes, e.g. mulhu, we will need 
+separate implementations for each.
+
+We should rename the current helper, with one operand, gen_logical, indicating it is clear 
+that the operation is bitwise and one tcg function covers all widths.
+
+
+r~
 
