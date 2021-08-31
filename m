@@ -2,94 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3CDE3FC5CC
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 13:05:30 +0200 (CEST)
-Received: from localhost ([::1]:35578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4F13FC5D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 13:10:56 +0200 (CEST)
+Received: from localhost ([::1]:48024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL1a6-0001Ix-0f
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 07:05:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42822)
+	id 1mL1fL-0002GD-Ns
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 07:10:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1mL1Xl-0007aq-Qw
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 07:03:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49856)
+ (Exim 4.90_1) (envelope-from <prvs=870f666b0=Anup.Patel@wdc.com>)
+ id 1mL1bP-0004Xd-9V; Tue, 31 Aug 2021 07:06:51 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:13062)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
- id 1mL1Xi-00066y-Ml
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 07:03:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630407781;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=p9rSUW+5mIJo1lA0bnwvxvKcuIMBAj1Pcz7IyE4l0jw=;
- b=ZO4lLgHT44wYAmbZMsts4n2LYdj6DA3OwOU2ONvO730a1MwzA70ZfG/91vgPxE92Idu3p5
- RKe10pm3WYwZq820D0U1JmWRxzqVzfQNjjWWqUKDfaNheicjA2IE+88CyGGOKvVe54iLji
- vaPPAG0Filoqg7ebu8EyPo3C2ChTU6c=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-HO-MfMR1M3KbvcOq9IOaGQ-1; Tue, 31 Aug 2021 07:03:00 -0400
-X-MC-Unique: HO-MfMR1M3KbvcOq9IOaGQ-1
-Received: by mail-qk1-f199.google.com with SMTP id
- h135-20020a379e8d000000b003f64b0f4865so1927891qke.12
- for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 04:03:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=p9rSUW+5mIJo1lA0bnwvxvKcuIMBAj1Pcz7IyE4l0jw=;
- b=C0T78B/Wx84uN0ZbNAnosl9LlbMazoJXS1nee5JF6ez/2h/odWajyubUYGg6LHLMZL
- e0tJiKTUI4Rkd8GyMCw0FXZXOwZRNJjV7KluoFA3DOQXoSrxaIAat5F/DCOBDyqux4V1
- kAmXEXGQhreTHrlWAVAmz5F+PWjEVOQECQh68mjNWQKkEH74bcFBltNJgbOztj31X7SE
- WXr2hN8gM9+7sC0LePsKOzhlnkYCHGn5NbupRn0qdK2XtPRRngYnXifKSYO38n7uA7HU
- C+yTKvFzOveAxA79Testb6CB5C1gm0S6kqVyYbdkAU+IM4fLBJRf8xR3dHU52+N4/b3Z
- ZkVA==
-X-Gm-Message-State: AOAM5303ZFbjHI8XxT1GATDW03BiumvA/GCKySNbNh98RDUhP8FUArhu
- zSuyvpM6287lUhhs2xIfJqQb6WpbdrUG5CDm3Bb0ngMfAYWFuZ5yFkxdG9Uxz5Hu/VCa3+nPFVT
- LGaVaUtf7A0PbKjk=
-X-Received: by 2002:ae9:df07:: with SMTP id t7mr2373497qkf.95.1630407780006;
- Tue, 31 Aug 2021 04:03:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy55gEMfNxL9DZMfGwWVHLuMA91xOVcCUV2MRQG6EAN/0L9opZbMvfI+XtxQVgkYAVOngyTxA==
-X-Received: by 2002:ae9:df07:: with SMTP id t7mr2373483qkf.95.1630407779843;
- Tue, 31 Aug 2021 04:02:59 -0700 (PDT)
-Received: from LeoBras.redhat.com ([2804:431:c7f1:e948:8e69:9cd6:5512:12f4])
- by smtp.gmail.com with ESMTPSA id b25sm13315536qka.23.2021.08.31.04.02.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Aug 2021 04:02:59 -0700 (PDT)
-From: Leonardo Bras <leobras@redhat.com>
-To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Fam Zheng <fam@euphon.net>,
- Peter Xu <peterx@redhat.com>
-Subject: [PATCH v1 3/3] migration: multifd: Enable zerocopy
-Date: Tue, 31 Aug 2021 08:02:39 -0300
-Message-Id: <20210831110238.299458-4-leobras@redhat.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210831110238.299458-1-leobras@redhat.com>
-References: <20210831110238.299458-1-leobras@redhat.com>
-MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=leobras@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (Exim 4.90_1) (envelope-from <prvs=870f666b0=Anup.Patel@wdc.com>)
+ id 1mL1bL-0000tA-R8; Tue, 31 Aug 2021 07:06:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1630408007; x=1661944007;
+ h=from:to:cc:subject:date:message-id:
+ content-transfer-encoding:mime-version;
+ bh=E/HQFsViWaMkIBujlou/Z4C0Ob0/b14XmrMFIQSamaM=;
+ b=ScvlrOLlf2aRehya6xcJ67MWiaBSfr9qUp2f6r879p4X/4hNZa+yAXLH
+ sPAfXD9c2io/qV999SS2KhSnAdusEQMzaRyHJTJJ1mNwM79Tt8TPWXSb5
+ HkcqViB3ngZDvy1eFWDqVIDUJnRU4Qtdx9ngjRETqzbCsPms2ERIPW5JD
+ lWHUY20uJJJwu3WsOkkgPv5iEA+UMLkQG+QN9yP3L5kllpsjR/n2EOCxR
+ HbeKgodt51gHHmzukUPH9ve3E8NgOHHV4CBd9phkksFb78yGaWruE5PrZ
+ fMeZEdG1zlKZs+3EzWoStEoFB2MXdUbJu8GgxnhTQmaE4kPDZFDuUbX06 w==;
+X-IronPort-AV: E=Sophos;i="5.84,366,1620662400"; d="scan'208";a="177951716"
+Received: from mail-dm6nam08lp2041.outbound.protection.outlook.com (HELO
+ NAM04-DM6-obe.outbound.protection.outlook.com) ([104.47.73.41])
+ by ob1.hgst.iphmx.com with ESMTP; 31 Aug 2021 19:06:43 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=M1e1ON6TGptI2A1QZsnj2VaGRXFYGIN+yjz+UKfd6SzHNgX9AnVRbxVzprpLUb8l6yVu4/bjh647YZLfMl+5v3WL8cW4dgHFHtHxDuNN/g1JxPAyd8eo35ia61V3fsV6ma7B9C9Pg94gwPPIUk/dWP1Q2wMwJ34RzxukJudlLjz4WXH+dR/nm4UEz/5t9RhXS1h0wkEe0u8ggk93I0h24nx4sjgPaiu7yjhgEZTyoFqmMKr24zJdZvZvBBdF7M6p/+dqnZ0865SesCFv2c5h3mIsWZVQ8lT3Rffr4OO7jAChWqObySc8foUdOJfdmdqU+DsXrLc+30oFchg6QRIdWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e+CYTret+TkN6e1rfo9PNWNwIQxB3yNsTloyEZrLCz0=;
+ b=hmM+LLJoum/OGqhlIBILx4SPXI0/FFAIguYU3xEmcgcJqHsrIwFnOtGfjYh2iYLMeSwRDCGsUfp78+8qeL1zUleVZPV3mk6dexwR5XTr1t9x5DGnyEInP8gdYjYifclr0r8c7K9eUgAJPlHAwrD55WKRt982IN1xDi7tk1iVomhdgbGfuIt2cfzmRTA96vRRfQ5Er5+Dl3lU3qqFpRriY3gQklVsOvsdb1hfrkhKr5wHNy4GpEzprVyNEwOx4mui8UnGUFBFccj+r87sTtMC3gSjbip4WZDZquiAelWoErqv3oNNi62iEQemRMIu2W3O6SaieNGM7ok0sWfGzsqOxQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
+ header.d=wdc.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e+CYTret+TkN6e1rfo9PNWNwIQxB3yNsTloyEZrLCz0=;
+ b=k5OXGKkHCtcghgpHImmJd65SPXXfcN8EPkgvoiJUOTqWyh6fcZmDv8yjn4tsdhVeTU2v+oJl4dNdmbUD5xuU+8Lyaf13AfukVTXSRoX2jgtboKmp86PB/FjjUD8nnaqD/0Qk428YLYdSKgJfkX1VBtUxv3NI7vXp3UjdGQM14M4=
+Authentication-Results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=wdc.com;
+Received: from SJ0PR04MB7821.namprd04.prod.outlook.com (2603:10b6:a03:3ac::8)
+ by SJ0PR04MB7886.namprd04.prod.outlook.com (2603:10b6:a03:300::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.23; Tue, 31 Aug
+ 2021 11:06:40 +0000
+Received: from SJ0PR04MB7821.namprd04.prod.outlook.com
+ ([fe80::545a:34f7:53c5:6514]) by SJ0PR04MB7821.namprd04.prod.outlook.com
+ ([fe80::545a:34f7:53c5:6514%8]) with mapi id 15.20.4457.024; Tue, 31 Aug 2021
+ 11:06:39 +0000
+From: Anup Patel <anup.patel@wdc.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
+Subject: [PATCH v4 0/4] QEMU RISC-V ACLINT Support
+Date: Tue, 31 Aug 2021 16:35:59 +0530
+Message-Id: <20210831110603.338681-1-anup.patel@wdc.com>
+X-Mailer: git-send-email 2.25.1
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=leobras@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-ClientProxiedBy: MAXPR01CA0111.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:5d::29) To SJ0PR04MB7821.namprd04.prod.outlook.com
+ (2603:10b6:a03:3ac::8)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from wdc.com (122.171.35.197) by
+ MAXPR01CA0111.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a00:5d::29) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4457.18 via Frontend Transport; Tue, 31 Aug 2021 11:06:36 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3af27c4d-9944-40bf-fa05-08d96c6f67f1
+X-MS-TrafficTypeDiagnostic: SJ0PR04MB7886:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SJ0PR04MB788637F83A4A5E9C337C32DD8DCC9@SJ0PR04MB7886.namprd04.prod.outlook.com>
+WDCIPOUTBOUND: EOP-TRUE
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: G53xcsp2E7eHp9PZcnknlMh4Uy36TASKkb2rJYP2JP0a/fOfpeZYZ3ubCDk2/2utrB8L2MHC+9c5mCW9Jq/sqo84EOQSlqgrH8x9FGPL8bGgwggllArG0fyVhA2nYMdHOsvfp+10MFEeNb3suvCd/3pKhoJfmoBa7esZzGHGJUxXXWbA4bYjqp9NzyTKG/lDbjwyRHeYFhulG5j0vQzLAzP6RlcxfIaQ4ofbpsYDLaI3ZSErSHCn8ySLmgqZu0gGXugMtUwd5/fXguOcNRt1FzmFxlWVfE85tNyc27iE4R5b3Qh5xM+WvhMKfrbFXgxSkX3DM83yagvqNGsZZNMgnpqxYYU7wnka+4/x/EN+n2hb1I4wEr9I8NuGeJwbkUnXyqrhssCHNMNrpMQlX8QUFYzGrs6R9F0QfazgC//Lj6rLLTEWto4EQnaiOj2a1fOKfxhiNL9jq5OdhkQ8tvFeWd8tXZl5/Kn9wJU11ij/b7NBHjvmw7wXPFPMEkqO6ex1vA/knOUMRHJs6WordvZa5sA238JHEIdg/TMP56xwnwUjsybbU6DFUvS9Rgmvulqy0Gp5rWIhHMoSDSKirVVVmzyyRqpaaYWHzWwNQ0R0YbTz/MB/17nBg6qpMAqvYVOj3qYbOpy4vDVHSMCqIiWtL4a5jUjShwIP9CmqFmJRc21f7O6kh1jGadu/6vQ7BcFlIBVUAH8LwdRMq09UhT8H6NT17DvWe89UQciumG2DwVDr7c1DnZDfunByP5P2tTppS/ilQn7w7kgEqz988DSzXcIuiJOFhjTksHnJnAmsE8EDrKpBUKtf8TZP4W4TxoAI
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR04MB7821.namprd04.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(346002)(376002)(396003)(136003)(366004)(38350700002)(86362001)(2616005)(7696005)(38100700002)(44832011)(2906002)(26005)(8936002)(956004)(66556008)(8676002)(55016002)(54906003)(5660300002)(8886007)(66476007)(83380400001)(316002)(66946007)(186003)(36756003)(110136005)(478600001)(1076003)(52116002)(4326008)(6666004)(966005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?5JUzoxpM3x4iKxYockyWTXQo5SO6sBq6FB2qwA4RMWxu8E5svV/+0mwJgasx?=
+ =?us-ascii?Q?SOnyRJbHjsQgisZP8N3uo/9gIEaQBawP8LpgeiL5vGxu/x0Q4Gwi1XhlmHv1?=
+ =?us-ascii?Q?CO8Zhpst1vTLMTTvCZ3dXB9/+kKgksW0+zF/KOhCTfje17TFpcVPKB5mLQpS?=
+ =?us-ascii?Q?doJ4MDB63iwueOfdkI1O7MKlpgCrj1ai7YlfoqYiUe/Wfzb5Z5HZGAlGixIw?=
+ =?us-ascii?Q?O4B3VAQSE+AW+d+Iysmh8XnfGH5ZLVrBbWrSMvPrTpcToX9UApC6fvpf0/l9?=
+ =?us-ascii?Q?xE9UjqVNX61brETI25ubAS1BY3EP12gsh6/raioIhKUv4/oOzj7ZmuD9CpWO?=
+ =?us-ascii?Q?6nvzPGiByxXuDAEMJ1Vkryu/L9MacKiUhZnx//V1eSXv9qrsZmhyhVVo47Ou?=
+ =?us-ascii?Q?9GyGZmq+Qu64AlVjhSYXv5rq65dMp2MkSh4S3x9hUgifYA2xhjfoo7qvlXED?=
+ =?us-ascii?Q?7rnXNsHk0as9ddaUpOIiDIHAsjV9WlR3DDUs7hUer9focB1GmUF3K2xvebN3?=
+ =?us-ascii?Q?3h55A06RaKDuJYH9klSST7FSUKDlMBCaXTS35VsYpeOkVeR84tk430GGVefy?=
+ =?us-ascii?Q?CClFHQm1BSfIJbvyKQSwR37hb3UUF+rC3Tx9hOO8JcnAqnnWRdKPBeOB4kK4?=
+ =?us-ascii?Q?Kb7Nse/PWNaZS0SGFaChiAQ8R5XQL6uUNuq3tqm9Qct0QUjo1/o5FmmlzxV9?=
+ =?us-ascii?Q?42/BUTNISUQut3a+/nF64Co4RfsJhVdXNRXuMOP1trKtThJ29ax2Nt5lzu5a?=
+ =?us-ascii?Q?uXJTDVvHQ91Cf5LGdIcyyd9hcUc4FRu24DOeoDWvi2Z+Qmgzr1ky0Mydo2Of?=
+ =?us-ascii?Q?ZNzK7yyXpRJR2SZuGZE6iItU5mlSc5lX5vjDnvWL+zNRHDZvHy7iTQD1lxI9?=
+ =?us-ascii?Q?zWFKdZtJCNJb73jB5egDkbShuTA96tGfxrLtNGcOxPOwr30mTG3bpBU/iBNm?=
+ =?us-ascii?Q?VLt+IRj6sdyHc2AbcihnqE5bGqhsbMtIzvbt9fQxny9uKqVNntmmPrXx8Zj2?=
+ =?us-ascii?Q?9eqo0aaNfxT6WJLR6AP8h6I+ZzPx43aqvqOLJJqB1J+3IPHG/G1dMvisgrW6?=
+ =?us-ascii?Q?thSDHiLoQiviti8btxqEiIIj/vMdYTuo161+/EDlbGeVMKNXROenjSq9K4ds?=
+ =?us-ascii?Q?9KMkKjHFB2tXfxIJi/okag+heNIrbsU84lBexajTEZ9c+9+ALhcc2At/D/vF?=
+ =?us-ascii?Q?SNmCQyHhqlpIo8e/WZ9r/QHlr2j1+sfrzlHazy1Q3g3Emsn3wskaGR0vusKB?=
+ =?us-ascii?Q?YK0BzxlRA129jZPCpE5PhwcLWkMmORaj/HWf5I0XOOjJtTxO/kyI0LrRvQwS?=
+ =?us-ascii?Q?h5qynP55THA1g0NTRMidTePA?=
+X-OriginatorOrg: wdc.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3af27c4d-9944-40bf-fa05-08d96c6f67f1
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR04MB7821.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2021 11:06:39.2409 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zNNkkZDaz+wWQX8+elVOXCnYEDgCglerhnwgNovXMfy0I5HEDGmoMNO8rS2ra8Ptzj3vSvU11HB8QNw9cIiuZA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7886
+Received-SPF: pass client-ip=216.71.154.42;
+ envelope-from=prvs=870f666b0=Anup.Patel@wdc.com; helo=esa4.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,119 +149,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Atish Patra <atish.patra@wdc.com>, Anup Patel <anup.patel@wdc.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org, Anup Patel <anup@brainfault.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Call qio_channel_set_zerocopy(true) in the start of every multifd thread.
+The RISC-V Advanced Core Local Interruptor (ACLINT) is an improvement
+over the SiFive CLINT but also maintains backward compatibility with
+the SiFive CLINT.
 
-Change the send_write() interface of multifd, allowing it to pass down
-flags for qio_channel_write*().
+Latest RISC-V ACLINT specification (will be frozen soon) can be found at:
+https://github.com/riscv/riscv-aclint/blob/main/riscv-aclint.adoc
 
-Pass down MSG_ZEROCOPY flag for sending memory pages, while keeping the
-other data being sent at the default copying approach.
+This series:
+1) Replaces SiFive CLINT implementation with RISC-V ACLINT
+2) Refactors RISC-V virt machine FDT generation
+3) Adds optional full ACLINT support in QEMU RISC-V virt machine
 
-Signed-off-by: Leonardo Bras <leobras@redhat.com>
----
- migration/multifd-zlib.c | 7 ++++---
- migration/multifd-zstd.c | 7 ++++---
- migration/multifd.c      | 9 ++++++---
- migration/multifd.h      | 3 ++-
- 4 files changed, 16 insertions(+), 10 deletions(-)
+This series can be found in the riscv_aclint_v4 branch at:
+https://github.com/avpatel/qemu.git
 
-diff --git a/migration/multifd-zlib.c b/migration/multifd-zlib.c
-index ab4ba75d75..d8cce1810a 100644
---- a/migration/multifd-zlib.c
-+++ b/migration/multifd-zlib.c
-@@ -160,12 +160,13 @@ static int zlib_send_prepare(MultiFDSendParams *p, uint32_t used, Error **errp)
-  * @used: number of pages used
-  * @errp: pointer to an error
-  */
--static int zlib_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
-+static int zlib_send_write(MultiFDSendParams *p, uint32_t used, int flags,
-+                           Error **errp)
- {
-     struct zlib_data *z = p->data;
- 
--    return qio_channel_write_all(p->c, (void *)z->zbuff, p->next_packet_size,
--                                 errp);
-+    return qio_channel_write_all_flags(p->c, (void *)z->zbuff,
-+                                       p->next_packet_size, flags, errp);
- }
- 
- /**
-diff --git a/migration/multifd-zstd.c b/migration/multifd-zstd.c
-index 693bddf8c9..fa063fd33e 100644
---- a/migration/multifd-zstd.c
-+++ b/migration/multifd-zstd.c
-@@ -171,12 +171,13 @@ static int zstd_send_prepare(MultiFDSendParams *p, uint32_t used, Error **errp)
-  * @used: number of pages used
-  * @errp: pointer to an error
-  */
--static int zstd_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
-+static int zstd_send_write(MultiFDSendParams *p, uint32_t used, int flags,
-+                           Error **errp)
- {
-     struct zstd_data *z = p->data;
- 
--    return qio_channel_write_all(p->c, (void *)z->zbuff, p->next_packet_size,
--                                 errp);
-+    return qio_channel_write_all_flags(p->c, (void *)z->zbuff,
-+                                       p->next_packet_size, flags, errp);
- }
- 
- /**
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 377da78f5b..097621c12c 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -103,9 +103,10 @@ static int nocomp_send_prepare(MultiFDSendParams *p, uint32_t used,
-  * @used: number of pages used
-  * @errp: pointer to an error
-  */
--static int nocomp_send_write(MultiFDSendParams *p, uint32_t used, Error **errp)
-+static int nocomp_send_write(MultiFDSendParams *p, uint32_t used, int flags,
-+                             Error **errp)
- {
--    return qio_channel_writev_all(p->c, p->pages->iov, used, errp);
-+    return qio_channel_writev_all_flags(p->c, p->pages->iov, used, flags, errp);
- }
- 
- /**
-@@ -675,7 +676,8 @@ static void *multifd_send_thread(void *opaque)
-             }
- 
-             if (used) {
--                ret = multifd_send_state->ops->send_write(p, used, &local_err);
-+                ret = multifd_send_state->ops->send_write(p, used, MSG_ZEROCOPY,
-+                                                          &local_err);
-                 if (ret != 0) {
-                     break;
-                 }
-@@ -815,6 +817,7 @@ static bool multifd_channel_connect(MultiFDSendParams *p,
-         } else {
-             /* update for tls qio channel */
-             p->c = ioc;
-+            qio_channel_set_zerocopy(ioc, true);
-             qemu_thread_create(&p->thread, p->name, multifd_send_thread, p,
-                                    QEMU_THREAD_JOINABLE);
-        }
-diff --git a/migration/multifd.h b/migration/multifd.h
-index 8d6751f5ed..7243ba4185 100644
---- a/migration/multifd.h
-+++ b/migration/multifd.h
-@@ -157,7 +157,8 @@ typedef struct {
-     /* Prepare the send packet */
-     int (*send_prepare)(MultiFDSendParams *p, uint32_t used, Error **errp);
-     /* Write the send packet */
--    int (*send_write)(MultiFDSendParams *p, uint32_t used, Error **errp);
-+    int (*send_write)(MultiFDSendParams *p, uint32_t used, int flags,
-+                      Error **errp);
-     /* Setup for receiving side */
-     int (*recv_setup)(MultiFDRecvParams *p, Error **errp);
-     /* Cleanup for receiving side */
+Changes since v3:
+ - Rebased on Alistair's CPU GPIO pins v3 series
+ - Replaced error_report() in PATCH2 with qemu_log_mask()
+
+Changes since v2:
+ - Addresed nit comments in PATCH2
+ - Update SSWI device emulation to match final ACLINT draft specification
+
+Changes since v1:
+ - Split PATCH1 into two patches where one patch renames CLINT sources
+   and another patch updates the implementation
+ - Addressed comments from Alistar and Bin
+
+Anup Patel (4):
+  hw/intc: Rename sifive_clint sources to riscv_aclint sources
+  hw/intc: Upgrade the SiFive CLINT implementation to RISC-V ACLINT
+  hw/riscv: virt: Re-factor FDT generation
+  hw/riscv: virt: Add optional ACLINT support to virt machine
+
+ docs/system/riscv/virt.rst     |  10 +
+ hw/intc/Kconfig                |   2 +-
+ hw/intc/meson.build            |   2 +-
+ hw/intc/riscv_aclint.c         | 460 +++++++++++++++++++++++
+ hw/intc/sifive_clint.c         | 315 ----------------
+ hw/riscv/Kconfig               |  12 +-
+ hw/riscv/microchip_pfsoc.c     |  11 +-
+ hw/riscv/shakti_c.c            |  13 +-
+ hw/riscv/sifive_e.c            |  13 +-
+ hw/riscv/sifive_u.c            |  11 +-
+ hw/riscv/spike.c               |  16 +-
+ hw/riscv/virt.c                | 652 ++++++++++++++++++++++-----------
+ include/hw/intc/riscv_aclint.h |  80 ++++
+ include/hw/intc/sifive_clint.h |  62 ----
+ include/hw/riscv/virt.h        |   2 +
+ 15 files changed, 1047 insertions(+), 614 deletions(-)
+ create mode 100644 hw/intc/riscv_aclint.c
+ delete mode 100644 hw/intc/sifive_clint.c
+ create mode 100644 include/hw/intc/riscv_aclint.h
+ delete mode 100644 include/hw/intc/sifive_clint.h
+
 -- 
-2.33.0
+2.25.1
 
 
