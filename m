@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F4053FC031
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 02:56:47 +0200 (CEST)
-Received: from localhost ([::1]:37000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 135883FC098
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 03:56:35 +0200 (CEST)
+Received: from localhost ([::1]:47204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKs50-0001DY-3r
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 20:56:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59426)
+	id 1mKt0m-0003HR-Gb
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 21:56:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nathan@kernel.org>)
- id 1mKs0G-0005qv-C7; Mon, 30 Aug 2021 20:51:53 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38246)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mKsz7-0002BM-Fs; Mon, 30 Aug 2021 21:54:45 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2476)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nathan@kernel.org>)
- id 1mKs0E-0000FP-1z; Mon, 30 Aug 2021 20:51:51 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 51BFE60FE6;
- Tue, 31 Aug 2021 00:51:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1630371106;
- bh=5b6KMByTq/cAx5d95U9mOsUwqM/LJsTDakbM6Mc4Zms=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iSzOJgRPLQSA6KglLfZ15BUNpcQ5UFgobdTPoU3sSgi9MUL0d3hm2b2Wk4WWLFE1j
- 9MKpl1JHznFvhSDlF06lu0+RANfULrwdKAe/32/DLBrl7p2cfMRO0RA3/OBqtScl/S
- Ph9AbJizsRKQTs7iwLo1IdHDe/WTRlGhE9iJia/lSELoklWOEqL7Od2JyTf2S48L5V
- sVliygSqXSoBnzOX6XkRJIfIj5QDzq4YFyJ4omrxsZDZpX07Wg3ZdYmDfMrCXBVPXD
- /uZyzPUINtHnGuCNFwEOZsXsmTgLWRoiyQRbvKbtwNT6e9IBkmr6aBJeSyass8QRHz
- gCRuC1+1SVdsQ==
-Date: Mon, 30 Aug 2021 17:51:44 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v5 17/31] target/arm: Enforce alignment for LDM/STM
-Message-ID: <YS19IBEGrIUnUT2p@Ryzen-9-3900X.localdomain>
-References: <20210419202257.161730-1-richard.henderson@linaro.org>
- <20210419202257.161730-18-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mKsz4-0003xK-WF; Mon, 30 Aug 2021 21:54:45 -0400
+Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Gz9BN0zlbzbkrN;
+ Tue, 31 Aug 2021 09:50:36 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 31 Aug 2021 09:54:27 +0800
+Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Tue, 31 Aug 2021 09:54:26 +0800
+From: Yanan Wang <wangyanan55@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <qemu-ppc@nongnu.org>,
+ <qemu-s390x@nongnu.org>
+Subject: [PATCH 0/1] hw: Add compat machines for 6.2
+Date: Tue, 31 Aug 2021 09:54:25 +0800
+Message-ID: <20210831015426.101188-1-wangyanan55@huawei.com>
+X-Mailer: git-send-email 2.8.4.windows.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210419202257.161730-18-richard.henderson@linaro.org>
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=nathan@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -74
-X-Spam_score: -7.5
-X-Spam_bar: -------
-X-Spam_report: (-7.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,70 +61,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- llvm@lists.linux.dev, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>, wanghaibin.wang@huawei.com, Paolo
+ Bonzini <pbonzini@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+This patch adds 6.2 machine types for arm/i440fx/q35/s390x/spapr,
+which is originally from [1]. Here resend it separately and hopefully
+it can get into upstream first, so that some other patches currently
+on the mail list which depend on 6.2 machine compat stuff can be
+rebased on this.
 
-On Mon, Apr 19, 2021 at 01:22:43PM -0700, Richard Henderson wrote:
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/arm/translate.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/arm/translate.c b/target/arm/translate.c
-> index 29fbbb84b2..f58ac4f018 100644
-> --- a/target/arm/translate.c
-> +++ b/target/arm/translate.c
-> @@ -7868,7 +7868,7 @@ static bool op_stm(DisasContext *s, arg_ldst_block *a, int min_n)
->          } else {
->              tmp = load_reg(s, i);
->          }
-> -        gen_aa32_st32(s, tmp, addr, mem_idx);
-> +        gen_aa32_st_i32(s, tmp, addr, mem_idx, MO_UL | MO_ALIGN);
->          tcg_temp_free_i32(tmp);
->  
->          /* No need to add after the last transfer.  */
-> @@ -7943,7 +7943,7 @@ static bool do_ldm(DisasContext *s, arg_ldst_block *a, int min_n)
->          }
->  
->          tmp = tcg_temp_new_i32();
-> -        gen_aa32_ld32u(s, tmp, addr, mem_idx);
-> +        gen_aa32_ld_i32(s, tmp, addr, mem_idx, MO_UL | MO_ALIGN);
->          if (user) {
->              tmp2 = tcg_const_i32(i);
->              gen_helper_set_user_reg(cpu_env, tmp2, tmp);
-> -- 
-> 2.25.1
+[1] https://lore.kernel.org/qemu-devel/20210823122804.7692-7-wangyanan55@huawei.com/
 
-I just bisected a boot hang with an LLVM-built multi_v7_defconfig +
-CONFIG_THUMB2_KERNEL=y kernel down to this commit. I do not see the same
-hang when the kernel is compiled with GCC 11.2.0 and binutils 2.37 nor
-do I see a hang with multi_v7_defconfig by itself. Is there something
-that LLVM is doing wrong when compiling/assembling/linking the kernel or
-is there something wrong/too aggressive with this commit? I can
-reproduce this with current QEMU HEAD (ad22d05833).
+Yanan Wang (1):
+  hw: Add compat machines for 6.2
 
-My QEMU invocation is:
+ hw/arm/virt.c              |  9 ++++++++-
+ hw/core/machine.c          |  3 +++
+ hw/i386/pc.c               |  3 +++
+ hw/i386/pc_piix.c          | 14 +++++++++++++-
+ hw/i386/pc_q35.c           | 13 ++++++++++++-
+ hw/ppc/spapr.c             | 15 +++++++++++++--
+ hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
+ include/hw/boards.h        |  3 +++
+ include/hw/i386/pc.h       |  3 +++
+ 9 files changed, 71 insertions(+), 6 deletions(-)
 
-$ qemu-system-arm \
-    -append "console=ttyAMA0 earlycon" \
-    -display none \
-    -initrd rootfs.cpio \
-    -kernel zImage \
-    -M virt \
-    -m 512m \
-    -nodefaults \
-    -no-reboot \
-    -serial mon:stdio
+-- 
+2.19.1
 
-and the rootfs.cpio and zImage files can be found here:
-
-https://github.com/nathanchance/bug-files/tree/15c1fd6e44622a3c27823d2c5c3083dfc7246146/qemu-2e1f39e29bf9a6b28eaee9fc0949aab50dbad94a
-
-Cheers,
-Nathan
 
