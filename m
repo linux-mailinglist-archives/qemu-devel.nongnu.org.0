@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 030363FCB6E
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 18:21:30 +0200 (CEST)
-Received: from localhost ([::1]:44172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B7713FCB77
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 18:23:41 +0200 (CEST)
+Received: from localhost ([::1]:47960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL6Vs-0007EJ-La
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 12:21:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40858)
+	id 1mL6Y0-0001PD-55
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 12:23:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mL6UI-0005ro-FE
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 12:19:50 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:42719)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mL6UG-0006fH-S5
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 12:19:50 -0400
-Received: by mail-pg1-x530.google.com with SMTP id q68so17224285pga.9
- for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 09:19:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vmlKoDxqBvo8hJSqw7CIzV4+Jgx5bSUDagxk8762k9c=;
- b=cY6DUcx7M1jw1s7GloMIuPqdsaTio01nopsGGJFofOTGizRghN3MJQENU90iZnjctG
- ASionOYEvCsISj6gCt1gB2DJOSgzPve8+5kC0fdEYTcHLoEXq5bgEdaIW/C5Bg0DRoLU
- 8/1lrC28ao72Tw7Lcjiv2H2XO9P4E641O5RKUdnDSP1q0cQT19PPxUuDGYvyPlyYC0u9
- 26JVqslpphs0wXFUCM2KZhpZ7MY1u1BqwESOT73aUuEK3YX+f3sAgy9lhhHd7M0R0Fe0
- qXJkUjn52juATU2IkUQUQ5llm/5oYsD33fOH/uZdgfKkhKUxUwaUwSKq/Bn9FSTVgaO4
- wiag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vmlKoDxqBvo8hJSqw7CIzV4+Jgx5bSUDagxk8762k9c=;
- b=oOhtJGawUpR6KOxkQWp/5qgj/0whApRAou438BOO5sCOyPailkZkI8G1MdpQ9oCOxJ
- 42nYfAvA9oMOe4zecCJG9rFfgt4fgPp3/ia4YYs2Phxli4Ep2O4DfPJJuphtNz0ly55Y
- cB8kmQB8nVVYraVwjxpypB7qAAM2hfP9MMzEUJgOXGN7AvhGomuknS1KZo4dM9OiuiRo
- BjJuZntZ0UDAgvchOvDnnw4nGJyIgc98BPu7ueOcma7HddyfEWZHUUHdEwNvJH7HCch1
- yAQKJpTRsjMRU/UD3w7ZSxLzLcNhzddqrqgTLosuxV98Y+Ud3Fck/h1ghNfY+7F+eY6X
- /h6Q==
-X-Gm-Message-State: AOAM5320tHskxX10rA+te2yVn9Egr6cwTOil9yKTo/7ONEQCdvkQ1U5h
- 0piX3/wjhoksv5eZ3KGH0YCbGQ==
-X-Google-Smtp-Source: ABdhPJxOwomSAQiOXTKKTO5cr71tNx4QjUSSySMuzDFRgQGeFVDlfZGrUplUHKp6BzTzNKpYvYhSZQ==
-X-Received: by 2002:a05:6a00:1984:b029:3cd:c2ed:cd5a with SMTP id
- d4-20020a056a001984b02903cdc2edcd5amr29024979pfl.12.1630426785631; 
- Tue, 31 Aug 2021 09:19:45 -0700 (PDT)
-Received: from [192.168.1.11] (174-21-72-39.tukw.qwest.net. [174.21.72.39])
- by smtp.gmail.com with ESMTPSA id i24sm7472331pfo.13.2021.08.31.09.19.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Aug 2021 09:19:45 -0700 (PDT)
-Subject: Re: [PATCH v7 09/14] target/riscv: Add orc.b instruction for Zbb,
- removing gorc/gorci
-To: Philipp Tomsich <philipp.tomsich@vrull.eu>, qemu-devel@nongnu.org
-References: <20210830111511.1905048-1-philipp.tomsich@vrull.eu>
- <20210830111511.1905048-10-philipp.tomsich@vrull.eu>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <60dcad53-de32-2527-86e8-41be6219cb35@linaro.org>
-Date: Tue, 31 Aug 2021 09:19:43 -0700
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mL6VE-0006wL-Qh; Tue, 31 Aug 2021 12:20:49 -0400
+Received: from zm-mta-out-3.u-ga.fr ([152.77.200.56]:34172)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <frederic.petrot@univ-grenoble-alpes.fr>)
+ id 1mL6V2-0007Hv-Po; Tue, 31 Aug 2021 12:20:48 -0400
+Received: from zm-mta-out.u-ga.fr (zm-mta-out.u-ga.fr [152.77.200.53])
+ by zm-mta-out-3.u-ga.fr (Postfix) with ESMTP id 07E0A41856;
+ Tue, 31 Aug 2021 18:20:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=univ-grenoble-alpes.fr; s=2020; t=1630426832;
+ bh=uM/jh2SiuHcD61N4L9cUZcBdAbEUUOp9yvVN3JSFw2E=;
+ h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+ b=XPEYuCD33h11GMbBfyo/ivlBP62uTKcrisLRE1X83TvhkjkFf9iJjmpM39R7ARVnY
+ VaOs6d+8+MuqcbnRleItv9GteHA1GfugcZlvKXykb5/a6D2cXT5hxPeljW/6czS8/Z
+ VCA+vkzqiInp/gwNJ+L7YOF0b1kt4EOfEJo4HR2UWaMgNABfQyNKpNRD/4aqg9K9mJ
+ FcB5P0+ykgvaf9dj5PuNHDt4AQ8h3RVUxvyEYRmKxmZ3lqPByAZhkoc/spIDOADwxT
+ +NFH2LyDWi/4xu4SfXNGf6R1/4IvuBYAQGsN7PBZ73XQe2UoFzPIawKk9Z7veSkOa+
+ 05/HN/uxhUUWA==
+Received: from smtps.univ-grenoble-alpes.fr (smtps1.u-ga.fr [152.77.1.30])
+ by zm-mta-out.u-ga.fr (Postfix) with ESMTP id 01916803C3;
+ Tue, 31 Aug 2021 18:20:32 +0200 (CEST)
+Received: from [147.171.132.208] (palmier.tima.u-ga.fr [147.171.132.208])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: petrotf@univ-grenoble-alpes.fr)
+ by smtps.univ-grenoble-alpes.fr (Postfix) with ESMTPSA id 7018C187E19;
+ Tue, 31 Aug 2021 18:20:31 +0200 (CEST)
+To: Alistair Francis <alistair23@gmail.com>
+References: <20210830171638.126325-1-frederic.petrot@univ-grenoble-alpes.fr>
+ <CAKmqyKOiqe1wic+_0si7PTTCT62XqWXc3h=0LqCh229Q0x8R6A@mail.gmail.com>
+From: =?UTF-8?B?RnLDqWTDqXJpYyBQw6l0cm90?=
+ <frederic.petrot@univ-grenoble-alpes.fr>
+Subject: Re: [PATCH 1/8] target/riscv: Settings for 128-bit extension support
+Message-ID: <4800e7bc-d168-8f79-4e29-27bfadc6bca2@univ-grenoble-alpes.fr>
+Date: Tue, 31 Aug 2021 18:20:30 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210830111511.1905048-10-philipp.tomsich@vrull.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+In-Reply-To: <CAKmqyKOiqe1wic+_0si7PTTCT62XqWXc3h=0LqCh229Q0x8R6A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Greylist: Whitelist-UGA SMTP Authentifie (petrotf@univ-grenoble-alpes.fr)
+ via submission-587 ACL (110)
+Received-SPF: pass client-ip=152.77.200.56;
+ envelope-from=frederic.petrot@univ-grenoble-alpes.fr;
+ helo=zm-mta-out-3.u-ga.fr
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.932,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,40 +80,273 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kito Cheng <kito.cheng@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Fabien Portas <fabien.portas@grenoble-inp.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/30/21 4:15 AM, Philipp Tomsich wrote:
-> +    TCGv  tmp = tcg_temp_new();
-> +
-> +    /* Set msb in each byte if the byte was zero. */
-> +    tcg_gen_subi_tl(tmp, source1, dup_const(MO_8, 0x01));
-> +    tcg_gen_andc_tl(tmp, tmp, source1);
-> +    tcg_gen_andi_tl(tmp, tmp, dup_const(MO_8, 0x80));
-> +
-> +    /* Replicate the msb of each byte across the byte. */
-> +    tcg_gen_shri_tl(tmp, tmp, 7);
-> +    tcg_gen_muli_tl(tmp, tmp, 0xff);
-> +
-> +    /* Negate */
-> +    tcg_gen_not_tl(ret, tmp);
+Hello Alistair,
 
-It just occurred to me that we can swap the shift/andi and re-use the same constant, and 
-we can fold in the negate with andc.
+Le 31/08/2021 à 05:13, Alistair Francis a écrit :
+> On Tue, Aug 31, 2021 at 5:26 AM Frédéric Pétrot
+> <frederic.petrot@univ-grenoble-alpes.fr> wrote:
+>>
+>> Starting 128-bit extension support implies a few modifications in the
+>> existing sources because checking for 32-bit is done by checking that
+>> it is not 64-bit and vice-versa.
+>> We now consider the 3 possible xlen values so as to allow correct
+>> compilation for both existing targets while setting the compilation
+>> framework so that it can also handle the riscv128-softmmu target.
+>> This includes gdb configuration files, that are just the bare copy of the
+>> 64-bit ones as gdb does not honor, yet, 128-bit CPUs.
+>> To consider the 3 xlen values, we had to add a misah field, representing the
+>> upper 64 bits of the misa register.
+>>
+>> Signed-off-by: Frédéric Pétrot <frederic.petrot@univ-grenoble-alpes.fr>
+>> Co-authored-by: Fabien Portas <fabien.portas@grenoble-inp.org>
+>> ---
+>>  configs/devices/riscv128-softmmu/default.mak | 16 ++++++
+>>  configs/targets/riscv128-softmmu.mak         |  5 ++
+>>  gdb-xml/riscv-128bit-cpu.xml                 | 48 ++++++++++++++++++
+>>  gdb-xml/riscv-128bit-virtual.xml             | 12 +++++
+>>  include/hw/riscv/sifive_cpu.h                |  4 ++
+>>  target/riscv/Kconfig                         |  3 ++
+>>  target/riscv/arch_dump.c                     |  3 +-
+>>  target/riscv/cpu-param.h                     |  3 +-
+>>  target/riscv/cpu.c                           | 51 +++++++++++++++++---
+>>  target/riscv/cpu.h                           | 19 ++++++++
+>>  target/riscv/gdbstub.c                       |  3 ++
+>>  target/riscv/insn_trans/trans_rvd.c.inc      | 10 ++--
+>>  target/riscv/insn_trans/trans_rvf.c.inc      |  2 +-
+>>  target/riscv/translate.c                     | 45 ++++++++++++++++-
+>>  14 files changed, 209 insertions(+), 15 deletions(-)
+>>  create mode 100644 configs/devices/riscv128-softmmu/default.mak
+>>  create mode 100644 configs/targets/riscv128-softmmu.mak
+>>  create mode 100644 gdb-xml/riscv-128bit-cpu.xml
+>>  create mode 100644 gdb-xml/riscv-128bit-virtual.xml
+> 
+> Hey!
+> 
+> Thanks for the patches!
+> 
+> Overall this patch looks good.
 
-     TCGv ones = tcg_constant_tl(dup_const(MO_8, 1));
-     TCGv tmp = tcg_temp_new();
+  Thanks for cheering!
 
-     tcg_gen_sub_tl(tmp, src1, ones);
-     tcg_gen_andc_tl(tmp, tmp, src1);
-     tcg_gen_shri_tl(tmp, tmp, 7);
-     tcg_gen_andc_tl(tmp, ones, tmp);
-     tcg_gen_muli_tl(tmp, tmp, 0xff);
+> It would greatly help reviewing and the speed in which this can be
+> merged if you can split it up more. A lot of these changes probably
+> can be separate patches (for example a patch to add misah). I know it
+> can sometimes seem a little silly, but it greatly helps with reviewing
+> when patches are small and self contained.
 
-     tcg_temp_free(tmp);
+  Ok, got it.
+>>
+>> diff --git a/configs/devices/riscv128-softmmu/default.mak b/configs/devices/riscv128-softmmu/default.mak
+>> new file mode 100644
+>> index 0000000000..31439dbcfe
+>> --- /dev/null
+>> +++ b/configs/devices/riscv128-softmmu/default.mak
+>> @@ -0,0 +1,16 @@
+>> +# Default configuration for riscv128-softmmu
+>> +
+>> +# Uncomment the following lines to disable these optional devices:
+>> +#
+>> +#CONFIG_PCI_DEVICES=n
+>> +CONFIG_SEMIHOSTING=y
+>> +CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+>> +
+>> +# Boards:
+>> +#
+>> +CONFIG_SPIKE=n
+>> +CONFIG_SIFIVE_E=n
+>> +CONFIG_SIFIVE_U=n
+>> +CONFIG_RISCV_VIRT=y
+>> +CONFIG_MICROCHIP_PFSOC=n
+>> +CONFIG_SHAKTI_C=n
+>> diff --git a/configs/targets/riscv128-softmmu.mak b/configs/targets/riscv128-softmmu.mak
+>> new file mode 100644
+>> index 0000000000..e300c43c8e
+>> --- /dev/null
+>> +++ b/configs/targets/riscv128-softmmu.mak
+>> @@ -0,0 +1,5 @@
+>> +TARGET_ARCH=riscv128
+>> +TARGET_BASE_ARCH=riscv
+>> +TARGET_SUPPORTS_MTTCG=y
+>> +TARGET_XML_FILES= gdb-xml/riscv-128bit-cpu.xml gdb-xml/riscv-32bit-fpu.xml gdb-xml/riscv-64bit-fpu.xml gdb-xml/riscv-128bit-virtual.xml
+>> +TARGET_NEED_FDT=y
+>> diff --git a/gdb-xml/riscv-128bit-cpu.xml b/gdb-xml/riscv-128bit-cpu.xml
+>> new file mode 100644
+>> index 0000000000..c98168148f
+>> --- /dev/null
+>> +++ b/gdb-xml/riscv-128bit-cpu.xml
+>> @@ -0,0 +1,48 @@
+>> +<?xml version="1.0"?>
+>> +<!-- Copyright (C) 2018-2019 Free Software Foundation, Inc.
+>> +
+>> +     Copying and distribution of this file, with or without modification,
+>> +     are permitted in any medium without royalty provided the copyright
+>> +     notice and this notice are preserved.  -->
+>> +
+>> +<!-- Register numbers are hard-coded in order to maintain backward
+>> +     compatibility with older versions of tools that didn't use xml
+>> +     register descriptions.  -->
+>> +
+>> +<!DOCTYPE feature SYSTEM "gdb-target.dtd">
+>> +<!-- FIXME : All GPRs are marked as 64-bits since gdb doesn't like 128-bit registers for now. -->
+>> +<feature name="org.gnu.gdb.riscv.cpu">
+>> +  <reg name="zero" bitsize="64" type="int" regnum="0"/>
+>> +  <reg name="ra" bitsize="64" type="code_ptr"/>
+>> +  <reg name="sp" bitsize="64" type="data_ptr"/>
+>> +  <reg name="gp" bitsize="64" type="data_ptr"/>
+>> +  <reg name="tp" bitsize="64" type="data_ptr"/>
+>> +  <reg name="t0" bitsize="64" type="int"/>
+>> +  <reg name="t1" bitsize="64" type="int"/>
+>> +  <reg name="t2" bitsize="64" type="int"/>
+>> +  <reg name="fp" bitsize="64" type="data_ptr"/>
+>> +  <reg name="s1" bitsize="64" type="int"/>
+>> +  <reg name="a0" bitsize="64" type="int"/>
+>> +  <reg name="a1" bitsize="64" type="int"/>
+>> +  <reg name="a2" bitsize="64" type="int"/>
+>> +  <reg name="a3" bitsize="64" type="int"/>
+>> +  <reg name="a4" bitsize="64" type="int"/>
+>> +  <reg name="a5" bitsize="64" type="int"/>
+>> +  <reg name="a6" bitsize="64" type="int"/>
+>> +  <reg name="a7" bitsize="64" type="int"/>
+>> +  <reg name="s2" bitsize="64" type="int"/>
+>> +  <reg name="s3" bitsize="64" type="int"/>
+>> +  <reg name="s4" bitsize="64" type="int"/>
+>> +  <reg name="s5" bitsize="64" type="int"/>
+>> +  <reg name="s6" bitsize="64" type="int"/>
+>> +  <reg name="s7" bitsize="64" type="int"/>
+>> +  <reg name="s8" bitsize="64" type="int"/>
+>> +  <reg name="s9" bitsize="64" type="int"/>
+>> +  <reg name="s10" bitsize="64" type="int"/>
+>> +  <reg name="s11" bitsize="64" type="int"/>
+>> +  <reg name="t3" bitsize="64" type="int"/>
+>> +  <reg name="t4" bitsize="64" type="int"/>
+>> +  <reg name="t5" bitsize="64" type="int"/>
+>> +  <reg name="t6" bitsize="64" type="int"/>
+>> +  <reg name="pc" bitsize="64" type="code_ptr"/>
+>> +</feature>
+>> diff --git a/gdb-xml/riscv-128bit-virtual.xml b/gdb-xml/riscv-128bit-virtual.xml
+>> new file mode 100644
+>> index 0000000000..db9a0ff677
+>> --- /dev/null
+>> +++ b/gdb-xml/riscv-128bit-virtual.xml
+>> @@ -0,0 +1,12 @@
+>> +<?xml version="1.0"?>
+>> +<!-- Copyright (C) 2018-2019 Free Software Foundation, Inc.
+>> +
+>> +     Copying and distribution of this file, with or without modification,
+>> +     are permitted in any medium without royalty provided the copyright
+>> +     notice and this notice are preserved.  -->
+>> +
+>> +<!DOCTYPE feature SYSTEM "gdb-target.dtd">
+>> +<!-- FIXME : priv marked as 64-bits since gdb doesn't like 128-bit registers for now. -->
+>> +<feature name="org.gnu.gdb.riscv.virtual">
+>> +  <reg name="priv" bitsize="64"/>
+>> +</feature>
+>> diff --git a/include/hw/riscv/sifive_cpu.h b/include/hw/riscv/sifive_cpu.h
+>> index 136799633a..2fd441664f 100644
+>> --- a/include/hw/riscv/sifive_cpu.hthat
+>> +++ b/include/hw/riscv/sifive_cpu.h
+>> @@ -26,6 +26,10 @@
+>>  #elif defined(TARGET_RISCV64)
+>>  #define SIFIVE_E_CPU TYPE_RISCV_CPU_SIFIVE_E51
+>>  #define SIFIVE_U_CPU TYPE_RISCV_CPU_SIFIVE_U54
+>> +#elif defined(TARGET_RISCV128)
+>> +/* 128-bit uses 64-bit CPU for now, since no cpu implements RV128 */
+>> +#define SIFIVE_E_CPU TYPE_RISCV_CPU_SIFIVE_E51
+>> +#define SIFIVE_U_CPU TYPE_RISCV_CPU_SIFIVE_U54
+>>  #endif
+>>
+>>  #endif /* HW_SIFIVE_CPU_H */
+>> diff --git a/target/riscv/Kconfig b/target/riscv/Kconfig
+>> index b9e5932f13..f9ea52a59a 100644
+>> --- a/target/riscv/Kconfig
+>> +++ b/target/riscv/Kconfig
+>> @@ -3,3 +3,6 @@ config RISCV32
+>>
+>>  config RISCV64
+>>      bool
+>> +
+>> +config RISCV128
+>> +    bool
+>> diff --git a/target/riscv/arch_dump.c b/target/riscv/arch_dump.c
+>> index 709f621d82..f756ed2988 100644
+>> --- a/target/riscv/arch_dump.c
+>> +++ b/target/riscv/arch_dump.c
+>> @@ -176,7 +176,8 @@ int cpu_get_dump_info(ArchDumpInfo *info,
+>>
+>>      info->d_machine = EM_RISCV;
+>>
+>> -#if defined(TARGET_RISCV64)
+>> +#if defined(TARGET_RISCV64) || defined(TARGET_RISCV128)
+>> +    /* FIXME : No 128-bit ELF class exists (for now), use 64-bit one. */
+>>      info->d_class = ELFCLASS64;
+>>  #else
+>>      info->d_class = ELFCLASS32;
+>> diff --git a/target/riscv/cpu-param.h b/target/riscv/cpu-param.h
+>> index 80eb615f93..e6d0651f60 100644
+>> --- a/target/riscv/cpu-param.h
+>> +++ b/target/riscv/cpu-param.h
+>> @@ -8,7 +8,8 @@
+>>  #ifndef RISCV_CPU_PARAM_H
+>>  #define RISCV_CPU_PARAM_H 1
+>>
+>> -#if defined(TARGET_RISCV64)
+>> +/* 64-bit target, since QEMU isn't built to have TARGET_LONG_BITS over 64 */
+>> +#if defined(TARGET_RISCV64) || defined(TARGET_RISCV128)
+>>  # define TARGET_LONG_BITS 64
+>>  # define TARGET_PHYS_ADDR_SPACE_BITS 56 /* 44-bit PPN */
+>>  # define TARGET_VIRT_ADDR_SPACE_BITS 48 /* sv48 */
+>> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+>> index 991a6bb760..1f15026e9c 100644
+>> --- a/target/riscv/cpu.c
+>> +++ b/target/riscv/cpu.c
+>> @@ -110,18 +110,38 @@ const char *riscv_cpu_get_trap_name(target_ulong cause, bool async)
+>>
+>>  bool riscv_cpu_is_32bit(CPURISCVState *env)
+>>  {
+>> -    if (env->misa & RV64) {
+>> -        return false;
+>> -    }
+>> +    return (env->misa & MXLEN_MASK) == RV32;
+>> +}
+>>
+>> -    return true;
+>> +bool riscv_cpu_is_64bit(CPURISCVState *env)
+>> +{
+>> +    return (env->misa & MXLEN_MASK) == RV64;
+>>  }
+>>
+>> +#if defined(TARGET_RISCV128)
+> 
+> Don't add any TARGET_* defines.
+> 
+> We are trying to move to a point where the 64-bit RISC-V softmmu can
+> run 32-bit CPUs. Ideally we want the same with 128-bit. You don't have
+> to get that working, but don't add any compile time conditionals.
+> 
+> That applies to all code, not just this patch. Unless there is already
+> a conditional TARGET_* compile please don't add one.
 
+  Dully noted,
+  Frédéric
+> 
+> Alistair
+> 
 
-r~
+-- 
++---------------------------------------------------------------------------+
+| Frédéric Pétrot, Pr. Grenoble INP-Ensimag/TIMA,   Ensimag deputy director |
+| Mob/Pho: +33 6 74 57 99 65/+33 4 76 57 48 70      Ad augusta  per angusta |
+| http://tima.univ-grenoble-alpes.fr frederic.petrot@univ-grenoble-alpes.fr |
++---------------------------------------------------------------------------+
 
