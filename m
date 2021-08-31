@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A9D43FC6FB
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 14:20:38 +0200 (CEST)
-Received: from localhost ([::1]:53362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B24183FC702
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 14:25:08 +0200 (CEST)
+Received: from localhost ([::1]:34532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL2km-0007Uq-Hf
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 08:20:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59700)
+	id 1mL2p9-00069W-P5
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 08:25:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mL2gZ-0003jL-Hi
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 08:16:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23460)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mL2gm-0004Js-Gb
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 08:16:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39092)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mL2gV-000582-Jn
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 08:16:15 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mL2gj-0005Fa-FV
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 08:16:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630412171;
+ s=mimecast20190719; t=1630412184;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LK4fnylC73dEzKTJly+qoqoxWFfW8wdmNlU+K3NKCGU=;
- b=QJ3qCreJff5lJ4BnO2CLKo2os/KQ5k/vxmuQmbgyDayXMVFCnOr4ZQfKlPVYr/jY4aukoM
- DFbQzdCLA5ID9QnkbViZBbQYQJ90h/3jYnaXGNU2z3PaNpRVYAUHaiyPrCqfNvh8qvkaxT
- BMD8v5CUZjVum4Fq+GCr7kQj2dSZLRE=
+ bh=Zlsq4UMzdEMYv0Xvm4eAWbgRSDl8tyA0ndz30DB3qMY=;
+ b=JUZTnnclJOok56a1bKgrySzDwCVlpCE6NN6I5Dnsx9uPedHqDTaEKd0cYHJ3JAZIFp5+AG
+ SIRxktNdio/tvmSg58WRfBBiMwkJEOotknV0B9aVnE9r8QPQQmLylCcHFmNn/pa8E9Cl36
+ 6sjFOeaXNjqLV4GHqgAWaKXleeWEP2I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-OzDvGCrbNuqQrndV3ZgBnA-1; Tue, 31 Aug 2021 08:16:06 -0400
-X-MC-Unique: OzDvGCrbNuqQrndV3ZgBnA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-412-uUgAP4dpMYGGp8VVJqFsvA-1; Tue, 31 Aug 2021 08:16:23 -0400
+X-MC-Unique: uUgAP4dpMYGGp8VVJqFsvA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 837B9100F766;
- Tue, 31 Aug 2021 12:16:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E8D580198A;
+ Tue, 31 Aug 2021 12:16:20 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD98C60843;
- Tue, 31 Aug 2021 12:15:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C86818A49;
+ Tue, 31 Aug 2021 12:16:05 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 1DB3C1800939; Tue, 31 Aug 2021 14:15:45 +0200 (CEST)
+ id 2EF88180093A; Tue, 31 Aug 2021 14:15:45 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/29] build: temporarily disable modular tcg
-Date: Tue, 31 Aug 2021 14:15:17 +0200
-Message-Id: <20210831121545.2874233-2-kraxel@redhat.com>
+Subject: [PATCH 02/29] plugins: register qemu_plugin_opts using opts_init()
+Date: Tue, 31 Aug 2021 14:15:18 +0200
+Message-Id: <20210831121545.2874233-3-kraxel@redhat.com>
 In-Reply-To: <20210831121545.2874233-1-kraxel@redhat.com>
 References: <20210831121545.2874233-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -59,11 +59,11 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.391, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -103,27 +103,83 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allows more fine-grained patches
-without breaking bisecting.
+Removes the need for an explicit qemu_plugin_add_opts() call.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/qemu/plugin.h | 7 -------
+ linux-user/main.c     | 2 +-
+ plugins/loader.c      | 9 ++++++++-
+ softmmu/vl.c          | 1 -
+ 4 files changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index bf6378481250..e83aa4f5c3c9 100644
---- a/meson.build
-+++ b/meson.build
-@@ -94,7 +94,7 @@ endif
+diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
+index 9a8438f6836c..57bdcdecdb42 100644
+--- a/include/qemu/plugin.h
++++ b/include/qemu/plugin.h
+@@ -37,13 +37,6 @@ struct qemu_plugin_desc;
+ typedef QTAILQ_HEAD(, qemu_plugin_desc) QemuPluginList;
  
- modular_tcg = []
- # Darwin does not support references to thread-local variables in modules
--if targetos != 'darwin'
-+if false #targetos != 'darwin'
-   modular_tcg = ['i386-softmmu', 'x86_64-softmmu']
- endif
+ #ifdef CONFIG_PLUGIN
+-extern QemuOptsList qemu_plugin_opts;
+-
+-static inline void qemu_plugin_add_opts(void)
+-{
+-    qemu_add_opts(&qemu_plugin_opts);
+-}
+-
+ void qemu_plugin_opt_parse(const char *optarg, QemuPluginList *head);
+ int qemu_plugin_load_list(QemuPluginList *head, Error **errp);
  
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 37ed50d98e2e..f9d2c6e2de31 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -661,7 +661,7 @@ int main(int argc, char **argv, char **envp)
+     cpu_model = NULL;
+ 
+     qemu_add_opts(&qemu_trace_opts);
+-    qemu_plugin_add_opts();
++    module_call_init(MODULE_INIT_OPTS);
+ 
+     optind = parse_args(argc, argv);
+ 
+diff --git a/plugins/loader.c b/plugins/loader.c
+index 05df40398d62..71b03721dffc 100644
+--- a/plugins/loader.c
++++ b/plugins/loader.c
+@@ -53,7 +53,7 @@ struct qemu_plugin_parse_arg {
+     struct qemu_plugin_desc *curr;
+ };
+ 
+-QemuOptsList qemu_plugin_opts = {
++static QemuOptsList qemu_plugin_opts = {
+     .name = "plugin",
+     .implied_opt_name = "file",
+     .head = QTAILQ_HEAD_INITIALIZER(qemu_plugin_opts.head),
+@@ -403,3 +403,10 @@ void plugin_reset_uninstall(qemu_plugin_id_t id,
+         plugin_reset_destroy(data);
+     }
+ }
++
++static void plugin_register_config(void)
++{
++    qemu_add_opts(&qemu_plugin_opts);
++}
++opts_init(plugin_register_config);
++module_opts("plugin");
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index ea05bb39c501..c29a58dee8a0 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2736,7 +2736,6 @@ void qemu_init(int argc, char **argv, char **envp)
+     qemu_add_opts(&qemu_global_opts);
+     qemu_add_opts(&qemu_mon_opts);
+     qemu_add_opts(&qemu_trace_opts);
+-    qemu_plugin_add_opts();
+     qemu_add_opts(&qemu_option_rom_opts);
+     qemu_add_opts(&qemu_accel_opts);
+     qemu_add_opts(&qemu_mem_opts);
 -- 
 2.31.1
 
