@@ -2,72 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C54CA3FCB03
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 17:46:50 +0200 (CEST)
-Received: from localhost ([::1]:41000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5CE3FCB0B
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 17:51:32 +0200 (CEST)
+Received: from localhost ([::1]:48444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL5yL-00085y-Cm
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 11:46:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60526)
+	id 1mL62s-0004mG-QG
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 11:51:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mL5x7-0007Gs-VL
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 11:45:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34275)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mL5x3-00005O-3L
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 11:45:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630424728;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qoO96Sj7HwdtWRkZN5ODShrfAcnpII/gf3O1lCMSKv4=;
- b=PTnBY0XtfA/CqR8LpWoFfMovk5Rao1pvNlPCOiwcKpK12xryyjDnJ4Xz4XhqdTEFTQX5cI
- NsmvyNglTf0iuvBw8GlyMqUf+PFLOHYTn9XyKQ2Ysc5STt25Jw8Se5aTMCkqbeQ8WFv6pU
- 94K6B3pt5dvGLO97pXwTr3FXAFU/yKk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-VE88_qhANlO_iBjGYLLpHw-1; Tue, 31 Aug 2021 11:45:26 -0400
-X-MC-Unique: VE88_qhANlO_iBjGYLLpHw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B780100806F;
- Tue, 31 Aug 2021 15:45:25 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-4.ams2.redhat.com [10.36.112.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B000218649;
- Tue, 31 Aug 2021 15:45:21 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3DD9311380A9; Tue, 31 Aug 2021 17:45:20 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefan Reiter <s.reiter@proxmox.com>
-Subject: Re: [PATCH] monitor/qmp: fix race with clients disconnecting early
-References: <20210823101115.2015354-1-s.reiter@proxmox.com>
- <87r1eh4j0f.fsf@dusky.pond.sub.org>
- <87r1eguxgi.fsf@dusky.pond.sub.org>
- <91f2fb28-fd4d-f7ad-13d1-61c7ba16ae3c@proxmox.com>
-Date: Tue, 31 Aug 2021 17:45:20 +0200
-In-Reply-To: <91f2fb28-fd4d-f7ad-13d1-61c7ba16ae3c@proxmox.com> (Stefan
- Reiter's message of "Thu, 26 Aug 2021 17:15:43 +0200")
-Message-ID: <87eea9wrcf.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
+ id 1mL61p-0003pR-Uy; Tue, 31 Aug 2021 11:50:25 -0400
+Received: from mail-qt1-x829.google.com ([2607:f8b0:4864:20::829]:35656)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
+ id 1mL61l-0003LI-N1; Tue, 31 Aug 2021 11:50:25 -0400
+Received: by mail-qt1-x829.google.com with SMTP id t9so15017901qtp.2;
+ Tue, 31 Aug 2021 08:50:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:content-transfer-encoding:mime-version:subject:date:references
+ :to:in-reply-to:message-id;
+ bh=mnGhs7Q+wpRoSL9rhPlO6moiJq1wuWbGmmnOEi6Oebw=;
+ b=Zxn8mEkS9LuEKjvD9jZ+e7ms4BMosXcCEYONPsoWCH5EeRa1WYJui2xJP8kj98/7Gl
+ KRY1F+jN3T4g7hIZbwFB6Fm+UGoL2ruz4PLglL5yiVNP9iex6ce2bGGN6aEYj8ffoSQC
+ V8UtVutVRP6FOR8UVRZ+IrQc2TlnYnUeHsgpsr0hwu1DyFFmj9D2VBGQjN77/+etqQOk
+ 75K5LcPpnkLZ0XlgDx8tX0A3eat3JsGpqYTtlT6U364e4WrdBzCHBH8Lgs4ErlhwNPMd
+ UpH0UnTxcsn2Hp//bnvOokXFzlLLKQ3mHqUk6MsSR1t2bmECQZyBYv5OrtT73paaHlav
+ HbkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:content-transfer-encoding:mime-version
+ :subject:date:references:to:in-reply-to:message-id;
+ bh=mnGhs7Q+wpRoSL9rhPlO6moiJq1wuWbGmmnOEi6Oebw=;
+ b=I/ZZVPSuIR7Wq7CA3pkAx2cQaouWk/vjoiql92q7kcDZdYnnJBNHh48lbnpBLev1B3
+ 57eEsvQp9KDZibBq0zbOovHDzIO8Aw0nIttbOkXz92l5d/wHYL0u1yVJnBC3A52vuvxJ
+ z92W+1+0HSrYl151AouSCCp+UWesTN+EPbDqNjQv0bNETJA12bHJv7Jt4+JjsvDFpcme
+ cWAtTFKgNZ/+lbSiAoz8VXgz+YfAZRrEORjJlNxWZ0PXspN7ziGiXvdfNZy699EM1Rh2
+ YoK6MKcJX8LRnq4G1/SOH1tkcgQWiEz8SGWnaaoUfQTpSAisppvbLnUQ7tuCH523ZT9v
+ uWJA==
+X-Gm-Message-State: AOAM531xgy+LumXJ6rFLDIlM2ZXupdYRgMV84PcOpzcQt89QofQUXuBW
+ Jd4l8hN1AzP8wZgrWqZJZKU=
+X-Google-Smtp-Source: ABdhPJxGhNmnQHVC3hYvKx+S0P2nOnSBeANd5yKU5GCQW1RWVXDf8pngI1T3MjUmojGSVkuhB9svyA==
+X-Received: by 2002:ac8:5e46:: with SMTP id i6mr3424575qtx.33.1630425019945;
+ Tue, 31 Aug 2021 08:50:19 -0700 (PDT)
+Received: from [192.168.0.5] (d149-67-175-105.try.wideopenwest.com.
+ [67.149.105.175])
+ by smtp.gmail.com with ESMTPSA id k10sm8723610qth.44.2021.08.31.08.50.18
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 31 Aug 2021 08:50:19 -0700 (PDT)
+From: Programmingkid <programmingkidx@gmail.com>
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
+Subject: Re: [PATCH] Report any problems with loading the VGA driver for PPC
+ Macintosh targets
+Date: Tue, 31 Aug 2021 11:50:17 -0400
+References: <20210827181429.23609-1-programmingkidx@gmail.com>
+ <2d87adfb-c612-8d36-4c97-50f07a82beeb@ilande.co.uk>
+ <CAFEAcA_mb5zAaBiVjzo1QGGo-4Yt+j89iD9AUVKJP-pP1XCJmQ@mail.gmail.com>
+ <8ED650E0-5874-4AE6-85E3-631E7B76D37A@gmail.com>
+ <CAFEAcA96V6d-aAR65xiZQrB65aTfQEJfHq5x_ZSa3mpAoSUMQw@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-ppc <qemu-ppc@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Howard Spoelstra <hsp.cat7@gmail.com>
+In-Reply-To: <CAFEAcA96V6d-aAR65xiZQrB65aTfQEJfHq5x_ZSa3mpAoSUMQw@mail.gmail.com>
+Message-Id: <8C4A73A1-22A7-4EC9-B561-F8487D56E8A9@gmail.com>
+X-Mailer: Apple Mail (2.3654.40.0.2.32)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::829;
+ envelope-from=programmingkidx@gmail.com; helo=mail-qt1-x829.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,109 +92,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Wolfgang Bumiller <w.bumiller@proxmox.com>,
- Michael Roth <michael.roth@amd.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan Reiter <s.reiter@proxmox.com> writes:
 
-> On 26/08/2021 15:50, Markus Armbruster wrote:
->> Markus Armbruster <armbru@redhat.com> writes:
->> [...]
->> 
->>> Let me re-explain the bug in my own words, to make sure I understand.
->>>
->>> A QMP monitor normally runs in the monitor I/O thread.
->>>
->>> A QMP monitor can serve only one client at a time.
->>>
->>> It executes out-of-band commands right as it reads them.  In-band
->>> commands are queued, and executed one after the other in the main loop.
->>>
->>> Command output is buffered.  We write it out as fast as the character
->>> device can take it.  If a write fails, we throw away the entire buffer
->>> contents.
->>>
->>> A client can disconnect at any time.  This throws away the queue.  An
->>> in-band command may be executing in the main loop.  An out-of-band
->>> command may be executing in the monitor's thread.
->>>
->>> Such commands (if any) are not affected by the disconnect.  Their output
->>> gets buffered, but write out fails, so it's thrown away.
->>>
->>> *Except* when another client connects quickly enough.  Then we send it
->>> output meant for the previous client.  This is wrong.  I suspect this
->>> could even send invalid JSON.
->>>
->
-> I'm not sure this is the case. In all testing I have *never*
-> encountered the case of broken JS or any other indication that partial
-> output was received.
 
-We buffer monitor output without bounds, and try to write it out as
-quickly as the client will take it.  I think short writes are possible
-when the client is slow to read.  Such short writes can write partial
-JSON expressions; the operating system doesn't know or care.  If the
-client disconnects right then, the buffer starts with the remainder of
-the JSON expression.  If the buffer is sent to the next client...
+> On Aug 30, 2021, at 4:59 PM, Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+>=20
+> On Mon, 30 Aug 2021 at 21:29, Programmingkid =
+<programmingkidx@gmail.com> wrote:
+>> I found out that there are two pc-bios folders. One in the root =
+directory
+>> and one in the build directory. QEMU is looking in the pc-bios folder
+>> located inside the build folder. The qemu_vga.ndrv file is only =
+located
+>> in the root directory pc-bios folder. I think a good solution to this
+>> issue is to first remove one of the pc-bios folders. I'm not sure if =
+it
+>> is just me who has two pc-bios folders or if everyone does.
+>=20
+> Having two pc-bios folders is expected. The one in the source tree is
+> the one which has the files we actually carry around in git. The one
+> in the build tree is created by 'configure' and populated with =
+symbolic
+> links back to the files in the source tree. We need this one because
+> the QEMU executable doesn't (and shouldn't) know where the source tree =
+is:
+> when it is looking for files it will look in places relative to the
+> location of the executable itself (ie relative to the build tree)
+> as well as places set by configure (used when you install QEMU and
+> its various supporting files).
+>=20
+> The reason qemu_vga.ndrv is not in the pc-bios folder in the build
+> tree is because when that file was added we forgot to add handling
+> for it in configure. I'm not sure why nobody else has fallen over
+> this in the intervening 3 years: running QEMU from the build tree
+> will never find the file, and it will not be installed via
+> 'make install' either.
+>=20
+> (The pc-bios symlink stuff is a bit of a mess, as the comment about
+> it in configure notes. Perhaps meson now offers a cleaner way to
+> handle this? In particular pc-bios/meson.build already has to carry
+> around a complete list of all the bios blobs, so it could probably
+> create the symlink farm itself.)
+>=20
+> thanks
+> -- PMM
 
-> I think the issue is just between starting to execute the command in
-> the BH and the new client connecting... can the CHR_EVENTs even be
-> triggered when the main thread is busy with the BH?
-
-Good question.  We better find out.
-
->>> Special case: if in-band command qmp_capabilities is executing when the
->>> client disconnects, and another client connects before the command flips
->>> the monitor from capabilities negotiation mode to command mode, that
->>> client starts in the wrong mode.
->>
->> What the cases have in common: disconnect + connect in monitor I/O
->> thread and the command executing in the main thread change the same
->> monitor state.
->>
->> You observed two issues: one involving the output buffer (new client
->> receives old client's output), and one involving monitor mode (new
->> client has its mode flipped by the old client's qmp_capabilities
->> command).
->>
->> Any monitor state accessed by commands could cause issues.  Right now, I
->> can see only one more: file descriptors.  Cleaning them up on disconnect
->> could mess with the command.
->
-> Right, that would make sense, but also only an issue if the reconnect
-> can happen in the middle of the command itself.
->
-> Maybe we can acquire some kind of lock during actual in-band QMP
-> command execution?
-
-Yes, the root cause is insufficient synchronization between in-band
-command running in the main loop and disconnect / connect running in the
-monitor I/O thread, and synchronizing them properly feels like the best
-chance for a complete and reliable fix.
-
-Before the OOB work, everything was in the main thread.  I figure the
-misbehavior you found was not possible then.
-
-Synchronization so that disconnect is delayed until after the in-band
-command in flight completes should get us back to that state.  But I'm
-afraid it could regress the OOB feature.
-
-The point of OOB commands is "exec-oob executes right away no matter
-what".  To make that possible OOB-capable commands are severely
-restricted in what they can do, and the client needs to limit the number
-of commands in flight.
-
-"Right away" should be possible even when the client has to connect
-first.  I'm not sure that's actually the case now.  Delaying until after
-in-band completes would definitely kill it, though.
-
-I'm afraid the synchronization needs to be more involved.
-
->> [...]
-
+I did try working on the pc-bios/meson.build file. I deleted all the =
+entries in the 'blobs' list. Then I ran './configure =
+--target-list=3Dppc-softmmu && make -j 9'. The pc-bios folder in the =
+build directory was still populated with all the files (except for =
+qemu_vga.ndrv). Anyone knows what exactly populates the pc-bios folder =
+in the build folder?=
 
