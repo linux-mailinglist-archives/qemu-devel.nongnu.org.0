@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCD343FCFAB
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 00:48:26 +0200 (CEST)
-Received: from localhost ([::1]:40236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8490D3FCFF6
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 01:34:18 +0200 (CEST)
+Received: from localhost ([::1]:53730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLCYL-0004q4-Da
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 18:48:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51248)
+	id 1mLDGj-0007tg-KX
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 19:34:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1mLCW4-0003VK-N9; Tue, 31 Aug 2021 18:46:04 -0400
-Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:34939)
+ (Exim 4.90_1) (envelope-from <prvs=88771d3da1=pdel@fb.com>)
+ id 1mLDEi-0006Ib-Vi
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 19:32:13 -0400
+Received: from mx0a-00082601.pphosted.com ([67.231.145.42]:25268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1mLCW2-0006Yb-27; Tue, 31 Aug 2021 18:46:04 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 27E9632005BC;
- Tue, 31 Aug 2021 18:45:55 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Tue, 31 Aug 2021 18:45:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=aRqajF
- HU5v0DXEShda6ICI5iXAJeAvwM1HPRHPkyUlc=; b=LX7Yph8n7X3dULyUZlY6T3
- S8zUK2qSNIAki/NedvaNjklJMh1qfm5a8Ope8wEfW06bpNawwvOSRTAu3Fy69ch4
- gwi+iC88xPSKt8l5EZNg0KBbscZSOnbV3Dz3bEWwpla4CJPvbKyQiocC4dSEj9H1
- LxOudgPIS3hVJhOpeoeiJpK6N4E5rVP1eHc+GGEMHG0qrZX8V2mJ0rNYU9K5nDTr
- 1ivtXn2Q8f1V/ySAhM5ChUVxhgBd7sSxXsT0eD5xjFWQiAdwVg984bvPAJKOWdi9
- iMdQ66QAj0xVxMLHEaeREcY79ggXKHMZiM9HJN1TBYsdNrM2jgj42zN9zITwMmUg
- ==
-X-ME-Sender: <xms:IbEuYTO0QpllpBHr3go48L0wRnusFCcLj1x1Hp1pirNMxHlSfI44ig>
- <xme:IbEuYd-nRtBMherxpte64fwy7Ag4cQMTqInpulwZ5ICCwjP6Is3NTcuufmaF8gIyZ
- FVGpvbpdkb7pW-A2_I>
-X-ME-Received: <xmr:IbEuYSQs3EM28ge41GF1gNXvlowHqEONBm-MdQc5tx9kRrzQSk07UZ0VLcZaQmYv0MCoVJomly1yozkNif4Qn2j-OZDqoxc4p88bhw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvvddgudefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffujgfkfhggtgesthdtredttddtvdenucfhrhhomhephfhinhhnucfv
- hhgrihhnuceofhhthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgheqnecuggftrfgrth
- htvghrnhepffduhfegfedvieetudfgleeugeehkeekfeevfffhieevteelvdfhtdevffet
- uedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfh
- hthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgh
-X-ME-Proxy: <xmx:IbEuYXuPeuJndEl1qGa7bG1nZB1gfROfwOL7GsOzerCP0HGtVy_kUA>
- <xmx:IbEuYbddv7bBbEnNTU0CFrZWqwxYewsj_-5NdbwcV5ChPCr3sY76YA>
- <xmx:IbEuYT3tR1WuVOeT6ti9uJ66B3XU0plvKKNBj3SG0s3FT1XmSep26Q>
- <xmx:IrEuYcHXiDIkXC8U4Vgwlz_CuzKNIqFhu1iqLk1Nh-HYzEyHKGOR2Q>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 31 Aug 2021 18:45:50 -0400 (EDT)
-Date: Wed, 1 Sep 2021 08:44:56 +1000 (AEST)
-From: Finn Thain <fthain@linux-m68k.org>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [RFC 00/10] hw/mos6522: VIA timer emulation fixes and improvements
-In-Reply-To: <4da39536-1acb-05c3-755c-9a30d82d6ace@ilande.co.uk>
-Message-ID: <88a445-398a-7566-171b-c551b61c38b@linux-m68k.org>
-References: <cover.1629799776.git.fthain@linux-m68k.org>
- <283af572-2157-77c6-2594-8e9e92497346@amsat.org>
- <fb42cb6-117c-c138-c18a-3af7f1d9be6a@linux-m68k.org>
- <4da39536-1acb-05c3-755c-9a30d82d6ace@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <prvs=88771d3da1=pdel@fb.com>)
+ id 1mLDEg-0003VX-Sc
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 19:32:12 -0400
+Received: from pps.filterd (m0044010.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 17VNW6SH020494
+ for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 16:32:08 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=facebook; bh=COYQZgUu+2/LsBlUJEGDY6klb+xepGIgFiTm3f0oRdc=;
+ b=cHWz4RYTNsCfE9MidAkrrnJodey2dBcB3Jb7z1BIV2+GRw99dodeyyEsLl/CYChycUyY
+ xN6hd0aVAQoJb/p3iNcWznJnmCPSwD+EVDDZpFLnHbpjJ7kHwWL8KuponqxHqPAXZT1e
+ 8N/5tV/TVFi898XHXoALLiV41D74MqMKv80= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+ by mx0a-00082601.pphosted.com with ESMTP id 3asrgutba0-4
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 16:32:08 -0700
+Received: from intmgw001.05.prn6.facebook.com (2620:10d:c085:208::11) by
+ mail.thefacebook.com (2620:10d:c085:21d::7) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 31 Aug 2021 16:31:59 -0700
+Received: by devvm660.prn0.facebook.com (Postfix, from userid 385188)
+ id AB442172C90C; Tue, 31 Aug 2021 16:31:51 -0700 (PDT)
+From: <pdel@fb.com>
+To: 
+CC: <clg@kaod.org>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
+ <patrick@stwcx.xyz>, <andrew@aj.id.au>, <f4bug@amsat.org>, Peter Delevoryas
+ <pdel@fb.com>
+Subject: [PATCH 0/1] hw/arm/aspeed: Allow machine to set serial_hd(0)
+Date: Tue, 31 Aug 2021 16:31:39 -0700
+Message-ID: <20210831233140.2659116-1-pdel@fb.com>
+X-Mailer: git-send-email 2.30.2
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-FB-Source: Intern
+X-Proofpoint-GUID: VfZCqqenL6HbovrVGowifNFv1ynwXT3u
+X-Proofpoint-ORIG-GUID: VfZCqqenL6HbovrVGowifNFv1ynwXT3u
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=64.147.123.20; envelope-from=fthain@linux-m68k.org;
- helo=wout4-smtp.messagingengine.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-08-31_10:2021-08-31,
+ 2021-08-31 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ impostorscore=0
+ clxscore=1015 priorityscore=1501 suspectscore=0 bulkscore=0
+ mlxlogscore=756 malwarescore=0 spamscore=0 adultscore=0 mlxscore=0
+ phishscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2107140000 definitions=main-2108310129
+X-FB-Internal: deliver
+Received-SPF: pass client-ip=67.231.145.42;
+ envelope-from=prvs=88771d3da1=pdel@fb.com; helo=mx0a-00082601.pphosted.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,171 +88,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Laurent Vivier <laurent@vivier.eu>,
- qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 31 Aug 2021, Mark Cave-Ayland wrote:
+From: Peter Delevoryas <pdel@fb.com>
 
-> On 28/08/2021 02:22, Finn Thain wrote:
-> 
-> > > On 8/24/21 12:09 PM, Finn Thain wrote:
-> > > 
-> > > > On a real Quadra, accesses to the SY6522 chips are slow because they are
-> > > > synchronous with the 783360 Hz "phase 2" clock. In QEMU, they are slow
-> > > > only because of the division operation in the timer count calculation.
-> > > > 
-> > > > This patch series improves the fidelity of the emulated chip, but the
-> > > > price is more division ops. I haven't tried to measure this yet.
-> > > > 
-> > > > The emulated 6522 still deviates from the behaviour of the real thing,
-> > > > however. For example, two consecutive accesses to a real 6522 timer
-> > > > counter can never yield the same value. This is not true of the 6522 in
-> > > > QEMU 6 wherein two consecutive accesses to a timer count register have
-> > > > been observed to yield the same value.
-> > > > 
-> > > > Linux is not particularly robust in the face of a 6522 that deviates
-> > > > from the usual behaviour. The problem presently affecting a Linux guest
-> > > > is that its 'via' clocksource is prone to monotonicity failure. That is,
-> > > > the clocksource counter can jump backwards. This can be observed by
-> > > > patching Linux like so:
-> > > > 
-> > > > diff --git a/arch/m68k/mac/via.c b/arch/m68k/mac/via.c
-> > > > --- a/arch/m68k/mac/via.c
-> > > > +++ b/arch/m68k/mac/via.c
-> > > > @@ -606,6 +606,8 @@ void __init via_init_clock(void)
-> > > >   	clocksource_register_hz(&mac_clk, VIA_CLOCK_FREQ);
-> > > >   }
-> > > >   +static u32 prev_ticks;
-> > > > +
-> > > >   static u64 mac_read_clk(struct clocksource *cs)
-> > > >   {
-> > > >   	unsigned long flags;
-> > > > @@ -631,6 +633,8 @@ static u64 mac_read_clk(struct clocksource *cs)
-> > > >   	count = count_high << 8;
-> > > >   	ticks = VIA_TIMER_CYCLES - count;
-> > > >   	ticks += clk_offset + clk_total;
-> > > > +if (ticks < prev_ticks) pr_warn("%s: %u < %u\n", __func__, ticks,
-> > > > prev_ticks);
-> > > > +prev_ticks = ticks;
-> > > >   	local_irq_restore(flags);
-> > > >     	return ticks;
-> > > > 
-> > > > This problem can be partly blamed on a 6522 design limitation, which is
-> > > > that the timer counter has no overflow register. Hence, if a timer
-> > > > counter wraps around and the kernel is late to handle the subsequent
-> > > > interrupt, the kernel can't account for any missed ticks.
-> > > > 
-> > > > On a real Quadra, the kernel mitigates this limitation by minimizing
-> > > > interrupt latency. But on QEMU, interrupt latency is unbounded. This
-> > > > can't be mitigated by the guest kernel at all and leads to clock drift.
-> > > > This can be observed by patching QEMU like so:
-> > > > 
-> > > > diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-> > > > --- a/hw/misc/mos6522.c
-> > > > +++ b/hw/misc/mos6522.c
-> > > > @@ -379,6 +379,12 @@ void mos6522_write(void *opaque, hwaddr addr,
-> > > > uint64_t val, unsigned size)
-> > > >           s->pcr = val;
-> > > >           break;
-> > > >       case VIA_REG_IFR:
-> > > > +        if (val & T1_INT) {
-> > > > +            static int64_t last_t1_int_cleared;
-> > > > +            int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-> > > > +            if (now - last_t1_int_cleared > 20000000) printf("\t%s: t1
-> > > > int clear is late\n", __func__);
-> > > > +            last_t1_int_cleared = now;
-> > > > +        }
-> > > >           /* reset bits */
-> > > >           s->ifr &= ~val;
-> > > >           mos6522_update_irq(s);
-> > > > 
-> > > > This logic asserts that, given that Linux/m68k sets CONFIG_HZ to 100,
-> > > > the emulator will theoretically see each timer 1 interrupt cleared
-> > > > within 20 ms of the previous one. But that deadline is often missed on
-> > > > my QEMU host [4].
-> > > 
-> > > I wonder if using QEMU ptimer wouldn't help here, instead of
-> > > calling qemu_clock_get_ns() and doing the math by hand:
-> > > 
-> > > /* Starting to run with/setting counter to "0" won't trigger immediately,
-> > >   * but after a one period for both oneshot and periodic modes.  */
-> > > #define PTIMER_POLICY_NO_IMMEDIATE_TRIGGER  (1 << 2)
-> > > 
-> > > /* Starting to run with/setting counter to "0" won't re-load counter
-> > >   * immediately, but after a one period.  */
-> > > #define PTIMER_POLICY_NO_IMMEDIATE_RELOAD   (1 << 3)
-> > > 
-> > > /* Make counter value of the running timer represent the actual value and
-> > >   * not the one less.  */
-> > > #define PTIMER_POLICY_NO_COUNTER_ROUND_DOWN (1 << 4)
-> > > 
-> > 
-> > It's often the case that a conversion to a new API is trivial for someone
-> > who understands that API. But I still haven't got my head around the
-> > implementation (hw/core/ptimer.c).
-> > 
-> > So I agree the ptimer API could simplify mos6522.c but adopting it is not
-> > trivial for me.
-> > 
-> > QEMU's 6522 device does not attempt to model the relationship between the
-> > "phase two" clock and timer counters and timer interrupts. I haven't
-> > attempted to fix these deviations at all, as that's not trivial either.
-> > 
-> > But using the ptimer API could potentially make it easier to address those
-> > fidelity issues.
-> 
-> I had another look at the mos6522 code this evening, and certainly whilst
-> there are things that could be improved, I'm still puzzled as to how you would
-> see time going backwards:
-> 
+This is a follow-up to a discussion in a previous series I sent:
 
-I didn't say time goes backwards, I said the "clocksource counter can jump 
-backwards". You can easily observe this for yourself if you apply the 
-patch above.
+https://lore.kernel.org/qemu-devel/20210827210417.4022054-1-pdel@fb.com/
 
-> - qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) eventually ends up calling 
-> cpu_get_clock() where the comment for the function is "Return the 
-> monotonic time elapsed in VM"
-> 
+I tried to add a new machine type called Fuji that required the ability
+to specify the UART connected to the first serial device on the command
+line (serial_hd(0)).
 
-AFAICT, QEMU_CLOCK_VIRTUAL is monotonic. I confirmed last year when 
-debugging mos6522.c.
+After some discussion, we concluded that we could add a serial_dev
+option to the machine class and the SoC to support this:
 
-> - get_next_irq_time() calculates the counter value for the current 
-> clock, adds the value of the counter (compensating for wraparound) and 
-> calculates the clock for the next IRQ
-> 
-> - Using the current clock instead of ti->next_irq_time in the timer 
-> callbacks should compensate for any latency when the callback is invoked
-> 
+https://lore.kernel.org/qemu-devel/a802ecb1-aa49-fd4c-5bd2-2bb19af56ac9@kao=
+d.org/
 
-That's the theory. In practice, however, there are known flaws in the 
-present implementation which this series addresses.
+I didn't follow Cedric's advice _exactly_, so let me know if you have
+suggestions. I used "uint32_t serial_hd0", because I think it more
+clearly indicates that this is the device to connect to the first serial
+device, serial_hd(0).
 
-> You mentioned that the OS may compensate for the fact that the 6522 
-> doesn't have an overflow flag: can you explain more as to how this works 
-> in Linux? Is the problem here that even if you read the counter value in 
-> the interrupt handler to work out the latency, the counter may still 
-> have already wrapped?
-> 
+Also, I didn't know how to transfer data from the machine class to the
+device state, so I just added the attribute to the machine class and
+used 'qdev_get_machine' to within aspeed_soc_realize() based on some
+code I found in hw/ppc/spapr_cpu_core.c. I expect that I'm missing
+something, I've just been having some trouble figuring out the QEMU
+object model.
 
-Unbounded interrupt latency means that the guest kernel can not tell how 
-many times the timer counter wrapped between timer interrupts. There will 
-always be a race condition in the guest kernel.
+If this patch is accepted, I can follow-up with another patch adding the
+fuji machine type with "serial_hd0 =3D ASPEED_DEV_UART1".
 
-It's possible to code around this in the kernel with a ratchet to prevent 
-backwards movement in the clocksource counter (I had to do something 
-similar for the Atari clocksource driver) but that would address only one 
-symptom.
+Thanks,
+Peter
 
-And that kind of hack certainly doesn't help any other guest operating 
-system that's adversely affected by QEMU's design limitations (which is 
-behavioural simulation rather than gate-level simulation).
+Peter Delevoryas (1):
+  hw/arm/aspeed: Allow machine to set serial_hd(0)
 
-This patch series doesn't solve the timer problem but it does improve the 
-situation (for the reasons given in the cover letter).
+ hw/arm/aspeed.c         |  1 +
+ hw/arm/aspeed_ast2600.c | 11 +++++++----
+ hw/arm/aspeed_soc.c     |  9 ++++++---
+ include/hw/arm/aspeed.h |  1 +
+ 4 files changed, 15 insertions(+), 7 deletions(-)
+
+--=20
+2.30.2
+
 
