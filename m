@@ -2,71 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE2E3FCE42
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 22:18:00 +0200 (CEST)
-Received: from localhost ([::1]:47862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 257993FCE91
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 22:28:49 +0200 (CEST)
+Received: from localhost ([::1]:55374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLACl-0003iE-Db
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 16:17:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56460)
+	id 1mLAND-0000qF-Op
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 16:28:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLAB2-0002kM-Uf
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 16:16:12 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:38793)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLAB1-0008L9-Bh
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 16:16:12 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id n27so1544001eja.5
- for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 13:16:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=SCqLjISKkEFa7cIEsXq7jv793D3CNJs9UaW3XAPtYJs=;
- b=JGn6Uq1Fh6ABcW6cKoAkWysvlFIaz5bL0Z77d55HwpFYyj02gPq0Yy6WdOdSen8doK
- Y8mk56xMxlc9Ju/bWNZK8DgHcbqj7pOaCbS6B82mW1fIKNA/bHu9flnyWD12c3iOy/98
- Bu01i3d0Zq/f/pwsszuzzfYmtmDGT/qt23sVNL9Cb33IDH90er5ZzwWjY1vtdDRjlRAD
- QjzEn8WzBNJSLlYloQyl8GO+2qWzMpizh6zxNaVhl6eoPQtx+WmQtSABXKkjZcVvKUlf
- o4+OadKlMuVB5bmT8HfQfh23XBo6xn7CiQ4d7yPkD7iNx1BnIHoSE4Fy7S8V0vq/ewux
- cIjw==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mLALk-0007p7-Ua
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 16:27:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50974)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mLALf-0007Lt-6H
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 16:27:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630441629;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OlOZBXUFmhOqprS+yTxaI5YGoKa9MA49dapJBABnsgE=;
+ b=IFhKumTKAdI4whlC+ddQyGHYQ7sVZb6aXjQImp+JPyUkVeCUqg2T9kFhU6S0YnCzj8A4dk
+ g5js9AJi3W11LK3f5KM7ZnDQ5eITxxcelOLt++gF5k6ulGudWN5wAcCJzxz0H13S+1Px05
+ b572LqAvCgPuGgFYAEx9xCOsk41QS7k=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-597-d6sfq8YNP8e7W8jwysohkg-1; Tue, 31 Aug 2021 16:27:08 -0400
+X-MC-Unique: d6sfq8YNP8e7W8jwysohkg-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ x11-20020ac86b4b000000b00299d7592d31so656411qts.0
+ for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 13:27:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=SCqLjISKkEFa7cIEsXq7jv793D3CNJs9UaW3XAPtYJs=;
- b=OXB8m3HYJchA/p3KSRSPauLgtE85TF0Xy8ZYwEFFxyRy5uY4YLK8Ltw5j1EGebBqSK
- 5oPrX1chABW8hiuXHrW73xczb+VgHy2b+pl+uY/8+QjRY3Dl3GAk+npmBrtiOzO5jE7P
- cnCVrTP1UF79F+if7EO7p57MPk6OhrBRdOFtgxXyKO87PW8i3gRyky//m2SQAwgiDGje
- o83jXRr60ZxvDD+j/xV6w7ysx6Hq738l57UvE4lDIOUy0Tz4g90/6E/kSEW8ezkapjhN
- C0S8vhHje3Dd8UeXvPrhu8JmAXiluOklCU4JXFbvYbknYyCGNw/COh5JfxbaRLmfRx+x
- 4NrQ==
-X-Gm-Message-State: AOAM530W5UHNAz3aCAYhf3Tyup3hhIY54n4LAQ8VIXgcAfS0s5s/ePwX
- OZg6qXcpJmTgZrMRq3xLdPjv5t3/l6dHRDu4Z6VB9w==
-X-Google-Smtp-Source: ABdhPJzU6P3aqRObvek4TQjtj1l4V6BhTaBDCPKH5Gx70+lWeqYYHDop2BHFqdVBxnYNhclINDWAUNmr9qjTtAuIDPc=
-X-Received: by 2002:a17:907:923:: with SMTP id
- au3mr30634629ejc.482.1630440969490; 
- Tue, 31 Aug 2021 13:16:09 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=OlOZBXUFmhOqprS+yTxaI5YGoKa9MA49dapJBABnsgE=;
+ b=QDuYCpzon898jmabPROkgU0nVxOqbEuu3r8Z9ruym7J6AP1JAt111auPZPiQ/ncMW1
+ HVeJfDOkGrX4HY75LsNZBMxstp3OR1bQz4RLD4boFtg1nuJ7qulJTpJb+s7JOqYBGVsG
+ 1XOYZdWidhuV62jpkaDI2UJDSPAoOakGaxlKGqE39Ly5vhko59+oDr00d7rAQDWXzIIB
+ F0CvQ2sJ5I33kv4G545j9tDsM6/r1vPtjTDIqup8SpVDGwkIIaworNDDhy3ktVI/C8T9
+ NoL3LFAPMMMtHjj6PZxkGCCkYr80pkFe2BFoOV5RpICfODy0ZSsxt21BY74wmJv2Ll6M
+ hRiw==
+X-Gm-Message-State: AOAM5331n3qteN1VkghUodrm6OJG3H2n817ntfFv3lmi+F0T/CKXec0Y
+ uc3urkBHINro5+/l1j4+SrOHI8fj2iTzTB6TgQlEoCicJnDHjyQ6mZ3765P+hrtw0mC9EhRuXaE
+ czbQqTobEmzO8y3o=
+X-Received: by 2002:a37:8a86:: with SMTP id m128mr4839193qkd.319.1630441627452; 
+ Tue, 31 Aug 2021 13:27:07 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwzy+gUYhq9UqWZJD2b/UWjSlkecjnKqZWlaXT+UkP+vjHr2XGOCFnRUd8R3494tbMtySNuPA==
+X-Received: by 2002:a37:8a86:: with SMTP id m128mr4839180qkd.319.1630441627191; 
+ Tue, 31 Aug 2021 13:27:07 -0700 (PDT)
+Received: from t490s ([2607:fea8:56a3:500::ad7f])
+ by smtp.gmail.com with ESMTPSA id g13sm15176792qkk.110.2021.08.31.13.27.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Aug 2021 13:27:06 -0700 (PDT)
+Date: Tue, 31 Aug 2021 16:27:04 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH v1 2/3] io: Add zerocopy and errqueue
+Message-ID: <YS6QmOrN4qr055vR@t490s>
+References: <20210831110238.299458-1-leobras@redhat.com>
+ <20210831110238.299458-3-leobras@redhat.com>
+ <YS4nPfEBCy9IC3rd@redhat.com>
 MIME-Version: 1.0
-References: <20210827060815.2384760-1-f4bug@amsat.org>
-In-Reply-To: <20210827060815.2384760-1-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 31 Aug 2021 21:15:21 +0100
-Message-ID: <CAFEAcA_KLQGvxZa9Y4=jVUr3ofM3DASErT+JqVJt+o7-77ewDQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/2] hw/arm/raspi: Remove deprecated raspi2/raspi3
- aliases
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <YS4nPfEBCy9IC3rd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,24 +96,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Libvirt <libvir-list@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras <leobras@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 Aug 2021 at 07:08, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> Since v2:
-> - updated "Since 6.1" -> "Since 6.2"
->
-> Peter reported CI failure [*] but I can't reproduce:
-> https://gitlab.com/philmd/qemu/-/pipelines/360227279
+On Tue, Aug 31, 2021 at 01:57:33PM +0100, Daniel P. Berrangé wrote:
+> On Tue, Aug 31, 2021 at 08:02:38AM -0300, Leonardo Bras wrote:
+> > MSG_ZEROCOPY is a feature that enables copy avoidance in TCP/UDP socket
+> > send calls. It does so by avoiding copying user data into kernel buffers.
+> > 
+> > To make it work, three steps are needed:
+> > 1 - A setsockopt() system call, enabling SO_ZEROCOPY
+> > 2 - Passing down the MSG_ZEROCOPY flag for each send*() syscall
+> > 3 - Process the socket's error queue, dealing with any error
+> 
+> AFAICT, this is missing the single most critical aspect of MSG_ZEROCOPY.
+> 
+> It is non-obvious, but setting the MSG_ZEROCOPY flag turns sendmsg()
+> from a synchronous call to an asynchronous call.
+> 
+> It is forbidden to overwrite/reuse/free the buffer passed to sendmsg
+> until an asynchronous completion notification has been received from
+> the socket error queue. These notifications are not required to
+> arrive in-order, even for a TCP stream, because the kernel hangs on
+> to the buffer if a re-transmit is needed.
+> 
+> https://www.kernel.org/doc/html/v5.4/networking/msg_zerocopy.html
+> 
+>   "Page pinning also changes system call semantics. It temporarily 
+>    shares the buffer between process and network stack. Unlike with
+>    copying, the process cannot immediately overwrite the buffer 
+>    after system call return without possibly modifying the data in 
+>    flight. Kernel integrity is not affected, but a buggy program
+>    can possibly corrupt its own data stream."
+> 
+> AFAICT, the design added in this patch does not provide any way
+> to honour these requirements around buffer lifetime.
+> 
+> I can't see how we can introduce MSG_ZEROCOPY in any seemless
+> way. The buffer lifetime requirements imply need for an API
+> design that is fundamentally different for asynchronous usage,
+> with a callback to notify when the write has finished/failed.
 
-'make check' seems to work for me too this time...
+Regarding buffer reuse - it indeed has a very deep implication on the buffer
+being available and it's not obvious at all.  Just to mention that the initial
+user of this work will make sure all zero copy buffers will be guest pages only
+(as it's only used in multi-fd), so they should always be there during the
+process.
 
-Applied to target-arm.next, thanks.
+I think asking for a complete design still makes sense.  E.g., for precopy
+before we flush device states and completes the migration, we may want to at
+least have a final ack on all the zero-copies of guest pages to guarantee they
+are flushed.
 
--- PMM
+IOW, we need to make sure the last piece of migration stream lands after the
+guest pages so that the dest VM will always contain the latest page data when
+dest VM starts.  So far I don't see how current code guaranteed that.
+
+In short, we may just want to at least having a way to make sure all zero
+copied buffers are finished using and they're sent after some function returns
+(e.g., qio_channel_flush()).  That may require us to do some accounting on when
+we called sendmsg(MSG_ZEROCOPY), meanwhile we should need to read out the
+ee_data field within SO_EE_ORIGIN_ZEROCOPY msg when we do recvmsg() for the
+error queue and keep those information somewhere too.
+
+Some other side notes that reached my mind..
+
+The qio_channel_writev_full() may not be suitable for async operations, as the
+name "full" implies synchronous to me.  So maybe we can add a new helper for
+zero copy on the channel?
+
+We may also want a new QIOChannelFeature as QIO_CHANNEL_FEATURE_ZEROCOPY, then
+we fail qio_channel_writv_zerocopy() (or whatever name we come up with) if that
+bit is not set in qio channel features.
+
+Thanks,
+
+-- 
+Peter Xu
+
 
