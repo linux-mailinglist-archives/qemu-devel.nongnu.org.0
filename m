@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52EE3FC8E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 15:54:22 +0200 (CEST)
-Received: from localhost ([::1]:60638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59CC33FC880
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 15:42:17 +0200 (CEST)
+Received: from localhost ([::1]:57012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL4DV-0001r9-Vu
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 09:54:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52208)
+	id 1mL41k-0005UV-Uc
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 09:42:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mL3vS-000416-PI
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 09:35:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47796)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mL3uV-0001u5-Qw; Tue, 31 Aug 2021 09:34:43 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:44049)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mL3vL-0001vS-QH
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 09:35:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630416932;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CyepSsTUTfApAnlmB7/qTyZ2OXxSOVK+tRrED4gd8g8=;
- b=NCL67uQ1IvVqprglZCpEYW8buvnNp3Jq/wpqTN/nYDXtezX7wHb8jX6PR7qiqvEtO2iV+x
- iOpczoPM/J3EyO4qZPwDTOFccPnNB5nn8Pajp0lLBS+QqaR9ZLsk+BeVp0cWthlCaO2sK/
- f21711n+JD8Z/0u/0ddiX9OehbO/B/E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-apLzckEwNbuBcmC6Oa86aA-1; Tue, 31 Aug 2021 09:35:30 -0400
-X-MC-Unique: apLzckEwNbuBcmC6Oa86aA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6B51101C8A8;
- Tue, 31 Aug 2021 13:35:29 +0000 (UTC)
-Received: from localhost (unknown [10.39.208.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A39EB5D9D5;
- Tue, 31 Aug 2021 13:35:21 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PULL 18/18] ui/vdagent: add a migration blocker
-Date: Tue, 31 Aug 2021 17:31:32 +0400
-Message-Id: <20210831133132.1697228-19-marcandre.lureau@redhat.com>
-In-Reply-To: <20210831133132.1697228-1-marcandre.lureau@redhat.com>
-References: <20210831133132.1697228-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mL3uS-0000yV-VQ; Tue, 31 Aug 2021 09:34:43 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.35])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 86D26BBBCAE9;
+ Tue, 31 Aug 2021 15:34:36 +0200 (CEST)
+Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 31 Aug
+ 2021 15:34:35 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-96R00194eb615d-1c82-4c44-b249-ebb91bdfa188,
+ 3D02C4E7E229260F021FFF691A6C377EE278DEFF) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PATCH 2/5] hw/arm/aspeed: Select console UART from machine
+To: Andrew Jeffery <andrew@aj.id.au>, Peter Delevoryas <pdel@fb.com>
+References: <20210827210417.4022054-1-pdel@fb.com>
+ <20210827210417.4022054-3-pdel@fb.com>
+ <7a53d5e9-52c2-a06b-1385-fd71a96d7486@kaod.org>
+ <BYAPR15MB3032BA6C3556797AC2A3461CACC99@BYAPR15MB3032.namprd15.prod.outlook.com>
+ <547b5f32-0858-1882-fb8b-c60056cdbfd4@kaod.org>
+ <d3d43c7a-1f37-4489-a07b-bf561e4e36a1@www.fastmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <a802ecb1-aa49-fd4c-5bd2-2bb19af56ac9@kaod.org>
+Date: Tue, 31 Aug 2021 15:34:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <d3d43c7a-1f37-4489-a07b-bf561e4e36a1@www.fastmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [37.59.142.96]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 536ab2ba-0c01-4360-85d7-712f474091c5
+X-Ovh-Tracer-Id: 3453135017623325603
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddvuddgieejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheeutdehgefhvdehtdeuleetgedvfeeukedtfeeihfffffeiuddutdduhffgvedtnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegrnhgurhgvfiesrghjrdhiugdrrghu
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.932,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,77 +74,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
+ Cameron Esfahani via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On 8/31/21 1:23 PM, Andrew Jeffery wrote:
+> Hi Cédric, Peter,
+> 
+> On Tue, 31 Aug 2021, at 20:09, Cédric Le Goater wrote:
+>> On 8/28/21 5:58 PM, Peter Delevoryas wrote:
+>>> I think I’m a little confused on this part. What I meant by “most machines just use UART5” was that most DTS’s use “stdout-path=&uart5”, but fuji uses “stdout-path=&uart1”. I /do/ see that SCU510 includes a bit related to UART, but it’s for disabling booting from UART1 and UART5. I just care about the console aspect, not booting.
+>>
+>> The UART can be switched with SCU70[29] on the AST2500, btw.
+> 
+> If it helps, neither the AST2600's "Boot from UART" feature nor the 
+> AST2[456]00's "Debug UART" feature are related to which UART is used as 
+> the BMC console by u-boot and/or the kernel - the latter is entirely a 
+> software thing.
 
-The current implementation lacks migration support. After migration,
-vdagent support will be broken (even after a restart of the daemons).
-Let's try to fix it in 6.2.
+ok. 
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20210805135715.857938-19-marcandre.lureau@redhat.com>
-Acked-by: Gerd Hoffmann <kraxel@redhat.com>
----
- ui/vdagent.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+I don't think we should initialize all 5 UARTs of SoC and let the user define 
+all the expected devices on the command. Unless we want to do something like
+'macs_mask' ? but at the SoC level. It might be overkill for the need.
 
-diff --git a/ui/vdagent.c b/ui/vdagent.c
-index 7d8cb963ff..19e8fbfc96 100644
---- a/ui/vdagent.c
-+++ b/ui/vdagent.c
-@@ -6,6 +6,7 @@
- #include "qemu/option.h"
- #include "qemu/units.h"
- #include "hw/qdev-core.h"
-+#include "migration/blocker.h"
- #include "ui/clipboard.h"
- #include "ui/console.h"
- #include "ui/input.h"
-@@ -23,6 +24,9 @@
- struct VDAgentChardev {
-     Chardev parent;
- 
-+    /* TODO: migration isn't yet supported */
-+    Error *migration_blocker;
-+
-     /* config */
-     bool mouse;
-     bool clipboard;
-@@ -599,6 +603,10 @@ static void vdagent_chr_open(Chardev *chr,
-     return;
- #endif
- 
-+    if (migrate_add_blocker(vd->migration_blocker, errp) != 0) {
-+        return;
-+    }
-+
-     vd->mouse = VDAGENT_MOUSE_DEFAULT;
-     if (cfg->has_mouse) {
-         vd->mouse = cfg->mouse;
-@@ -832,14 +840,18 @@ static void vdagent_chr_init(Object *obj)
-     VDAgentChardev *vd = QEMU_VDAGENT_CHARDEV(obj);
- 
-     buffer_init(&vd->outbuf, "vdagent-outbuf");
-+    error_setg(&vd->migration_blocker,
-+               "The vdagent chardev doesn't yet support migration");
- }
- 
- static void vdagent_chr_fini(Object *obj)
- {
-     VDAgentChardev *vd = QEMU_VDAGENT_CHARDEV(obj);
- 
-+    migrate_del_blocker(vd->migration_blocker);
-     vdagent_disconnect(vd);
-     buffer_free(&vd->outbuf);
-+    error_free(vd->migration_blocker);
- }
- 
- static const TypeInfo vdagent_chr_type_info = {
--- 
-2.33.0.rc2
+My suggestion is have the Aspeed board tell the SoC which uart was selected 
+for the console. That can be done with an extra "serial-dev" int property at 
+the SoC level, defaults to ASPEED_DEV_UART5, like for the machine. 
 
+The serial init needs a change  : 
+
+    /* UART - attach an 8250 to the IO space as our UART5 */
+    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
+                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5), 38400,
+                   serial_hd(0), DEVICE_LITTLE_ENDIAN);
+
+but it stays where it is currently, under the SoC.
+
+> The "Debug UART" is a hardware backdoor, a UART-to-AHB bridge 
+> implemented by the SoC. It provides a shell environment that allows you 
+> to issue transactions directly on the AHB if you perform a magic knock. 
+> I have a driver for it implemented here:
+> 
+> https://github.com/amboar/cve-2019-6260/blob/master/src/debug.c
+> 
+> SCU70[29] on the AST2500 selects whether this backdoor is exposed on 
+> UART1 or UART5.
+> 
+> The "Boot from UART" feature is implemented in the AST2600 ROM code as 
+> a fallback for loading the SPL if fetching it from SPI-NOR or the eMMC 
+> fails, or the SPL is incorrectly signed for secure-boot.
+>
+> I think Peter is on the right track with this patch?
+
+Yes. nearly. Sorry for the confusion on how to handle this Peter. A machine 
+*and* a SoC property should to the trick. 
+
+'amc->serial_dev' is a good idea. You need a similar one under the SoC.
+
+Thanks for the feedback Andrew,
+
+C. 
 
