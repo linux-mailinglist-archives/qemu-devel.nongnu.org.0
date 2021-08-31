@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA2113FC7CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 15:03:21 +0200 (CEST)
-Received: from localhost ([::1]:48504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F9B3FC7B5
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 14:58:36 +0200 (CEST)
+Received: from localhost ([::1]:39752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL3Q6-00062h-B6
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 09:03:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35688)
+	id 1mL3LX-0008VI-DX
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 08:58:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mL2wd-0005gr-JD; Tue, 31 Aug 2021 08:32:52 -0400
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:35807)
+ id 1mL2y3-0007Pt-2C
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 08:34:19 -0400
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:46843)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mL2wc-0003Uy-1r; Tue, 31 Aug 2021 08:32:51 -0400
-Received: by mail-ej1-x635.google.com with SMTP id i21so38357569ejd.2;
- Tue, 31 Aug 2021 05:32:49 -0700 (PDT)
+ id 1mL2y1-0003tZ-6J
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 08:34:18 -0400
+Received: by mail-ed1-x52c.google.com with SMTP id j13so21205159edv.13
+ for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 05:34:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oBbkUGUbQNQfW8zDCJh2GTovLeF/kSQLYf/CTezdX9o=;
- b=UjHd3puR1J51v1cHhi0pLY9HYHFJ5Iz2g3UTIMO3LTOl9wWXFjp4eEyTxEclv9oDWa
- r4+TbdRx8AGU0uVa1KVkTnImFfUsHhX19e4yz6XMBUG/ISG+/VG0BChzy2qmu+buUuLf
- jkgQl2flVZQDqQAOr8nDbut7mXjvXPTNMEYx23XUdFi+T9sz2ts7j6TzIzTFu6pmqm/R
- FJxBPBWEpoWCTsdzmGqqj7MRnO1I0vhq9/kcX3X/BBxt1CL62aR1+7WUSJ74gu0dlFHu
- dArbxVyHR4R45DdXRujrak+kFFPL+SWWgHUuX8ZhE4APUwaJlmWrDkGha/hxSZn7/Ckp
- aObg==
+ :cc; bh=8DyeuXR5mbs9NMH3lqJAd5qzM/+0spkEgo/gmyT98bE=;
+ b=t9PCZ5jshKvVYJZHeclGzXqS6R1pmGJCH+vtzYsSlTDf0kPKQV3ZnGpx3/sRcddvGi
+ xo5RfvcQe/mZZZ6kTEvlTbEDSq47YnA6SIknCGW81T8RVTQhGTeysNW58MiNA14A0RaG
+ RK0e3TeAQ8EskQLDXlqTQWT0BogtWac/6CKp4XSM2VZ6h+Ui2uDDxS3AX6vsw+8LKC5A
+ VweFmZa9JNO8dz409JGMLgSeyWr8LnsN71xmgHiM5kK6g3gaoYPjQQDYxXzrXQaT0FV1
+ eQFXuxFRef45aq3HyMgBBJEKnZsfFywEDmvoiXMFrNx986lZgL/V4Akz0Z4unNH6Z+e8
+ A1gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=oBbkUGUbQNQfW8zDCJh2GTovLeF/kSQLYf/CTezdX9o=;
- b=hAAetzpXgu46AQZqJn/2XYYk2DIc41lEsDDAUuS5H+K1GnUCN2uvgdDh9GiVHURC/Y
- SWWK1P2hxVZR+qIYYZidbSlpmeLVeNy7WqcdAnGvnY4MBUJIxBqkFwfz6GRT5zDZZJMz
- Onmlfxv2o5Ik57m5hn6xBajHToPGQlzRcoRLouDbR9yHKrw60PUjeHfok7Wnztoi1ATc
- q9G5QT9KY7n8dVgfdoAwOXRlwdOFxLFOD3Nduc3zDJXpoAWf0225JnGlr4ZB0/CDjLnX
- vwg4E6PmlDZhMu/tRIt9xsYtGZ3VOP6GrVekaQ74EVheB3/cY1e50hHQbQT4Y0iU27Fi
- x7KA==
-X-Gm-Message-State: AOAM530QbU1n8stiEFj+ida8faWiTtCy+o2vR4hiyxdp5hysmowImijB
- xfvLbyPZNH6e0V08a94QdAZnagByHq5gYnXtRzfBhoAefaZdlg==
-X-Google-Smtp-Source: ABdhPJylX2lm0CLTAFwimmv4vPYxR76hwpaXklwR9n+7FR8tji+GzyzIktrI0wX9Gca6J4ZlW3VkzuDSunInyUptw1s=
-X-Received: by 2002:a17:906:9742:: with SMTP id
- o2mr31084900ejy.532.1630413168124; 
- Tue, 31 Aug 2021 05:32:48 -0700 (PDT)
+ bh=8DyeuXR5mbs9NMH3lqJAd5qzM/+0spkEgo/gmyT98bE=;
+ b=ahjf5pO/jwnda/N7JDOuMqoYAs0s/qhB16mAJIhnXOP9MkoGQX78RF9murZFmXuD/h
+ B+tpMxQDXZBHq9uC38Fs2d8XZbhA64jKmcAQWwq2SpyqHvivMSgqFJO9X2RDk+d7aQDi
+ hYU4e08NnUWeXlLOcz50XQY4YPcV4uVrUft9ebidfZ3zMuR049dIEF39vcLg6rnIDO6/
+ 5PLmqwmFWgL61JmErTiOGzyApH8w+9YwikwxKZPB8UL5AJ+CIHohafIE5RrtNTPTy/mV
+ gq6BNvCiy5YWQB2B0+Hq7EEGKWFGqLkljsFFnsmv4uswan/i9ttRxiact2Syv3yVQTwF
+ +1gg==
+X-Gm-Message-State: AOAM530gkDKAk8cZT+DSB1XhaOeQKRS69XcV6RyLEEI+HGhkUM2vhU1U
+ 4kM7li0IANvjnFMsv4LZFI2GoUvpfIxw9trwnMQ5R0ZCuTk=
+X-Google-Smtp-Source: ABdhPJzFyKy2tVvtQnzAuAJyhj56/A9CR3AsmoFOjAkqjXE+OKwADFykitF/STK0fkURjGjsvWJ3vL4ePH6BB8Wqulc=
+X-Received: by 2002:aa7:d9d3:: with SMTP id v19mr29732842eds.257.1630413255685; 
+ Tue, 31 Aug 2021 05:34:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210830225449.1509719-1-mjt@msgid.tls.msk.ru>
-In-Reply-To: <20210830225449.1509719-1-mjt@msgid.tls.msk.ru>
+References: <20210805135715.857938-1-marcandre.lureau@redhat.com>
+ <CAJ+F1C+sFJaHbg5bP+cqH6Dg=XfX9k-BKfFqEDSw3OMNcPen9w@mail.gmail.com>
+ <20210831123001.jnot6uohtdeaobgt@sirius.home.kraxel.org>
+In-Reply-To: <20210831123001.jnot6uohtdeaobgt@sirius.home.kraxel.org>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 31 Aug 2021 16:32:36 +0400
-Message-ID: <CAJ+F1CLXQmwD2u-a4tLeSkCj6hgM-mUSD8bGHqmgXCrAuQ-+WA@mail.gmail.com>
-Subject: Re: qemu-sockets: account for trailing \0 byte in unix socket pathname
-To: Michael Tokarev <mjt@tls.msk.ru>
-Content-Type: multipart/alternative; boundary="000000000000b928f505cada2580"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x635.google.com
+Date: Tue, 31 Aug 2021 16:34:03 +0400
+Message-ID: <CAJ+F1CJeueLyTjBuS6s8PgtS+Mh=gWY3wq45EZ=+_92Ddq+GjQ@mail.gmail.com>
+Subject: Re: [PATCH v3 00/18] Clipboard fixes (for 6.1?)
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000f1381405cada2a12"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -75,105 +78,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, qemu-stable <qemu-stable@nongnu.org>
+Cc: QEMU <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b928f505cada2580
+--000000000000f1381405cada2a12
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-On Tue, Aug 31, 2021 at 3:00 AM Michael Tokarev <mjt@tls.msk.ru> wrote:
+On Tue, Aug 31, 2021 at 4:30 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-> Linux kernel can return size of af_unix socket to be
-> one byte larger than sockaddr_un structure - adding
-> the trailing zero byte.
+>   Hi,
 >
-> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-> Fixes: 4cfd970ec188558daa6214f26203fe553fb1e01f (first in 6.1.0)
-> Cc: qemu-stable@nongnu.org
+> > > Marc-Andr=C3=A9 Lureau (18):
+> > >   ui/vdagent: fix leak on error path
+> > >   ui/vdagent: remove copy-pasta comment
+> > >   ui/gtk-clipboard: use existing macros
+> > >   ui/gtk-clipboard: fix clipboard enum typo
+> > >   ui/clipboard: add helper to retrieve current clipboard
+> > >   ui/clipboard: add qemu_clipboard_peer_owns() helper
+> > >   ui/clipboard: add qemu_clipboard_peer_release() helper
+> > >   ui/clipboard: release owned grabs on unregister
+> > >   ui/vdagent: disconnect handlers and reset state on finalize
+> > >   ui/vdagent: reset outbuf on disconnect
+> > >   ui/vdagent: split clipboard recv message handling
+> > >   ui/vdagent: use qemu_clipboard_peer_release helper
+> > >   ui/vdagent: use qemu_clipboard_info helper
+> > >   ui/vdagent: send empty clipboard when unhandled
+> > >   ui/gtk-clipboard: use qemu_clipboard_info helper
+> > >   ui/vdagent: send release when no clipboard owner
+> > >   ui/gtk-clipboard: emit release clipboard events
+> > >   ui/vdagent: add a migration blocker
 >
-> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-> index f2f3676d1f..83926dc2bc 100644
-> --- a/util/qemu-sockets.c
-> +++ b/util/qemu-sockets.c
-> @@ -1345,8 +1345,9 @@ socket_sockaddr_to_address_unix(struct
-> sockaddr_storage *sa,
->      SocketAddress *addr;
->      struct sockaddr_un *su =3D (struct sockaddr_un *)sa;
+> Looks all sane to me.
 >
-> +    /* kernel might have added \0 terminator to non-abstract socket */
->      assert(salen >=3D sizeof(su->sun_family) + 1 &&
-> -           salen <=3D sizeof(struct sockaddr_un));
-> +           salen <=3D sizeof(struct sockaddr_un) + su->sun_path[0] ? 1 :=
- 0);
+> Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 >
 >
-Looks right, but we may want to drop the upper bound check altogether. I
-thought the path must always fit the sockaddr_un, but since that's not the
-case it's only harmful here.
+thanks
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Ping
+> >
+> > Since Gerd is lowering his maintainer responsibilities, is anyone else
+> > interested?
+>
+> Don't be shy, send a pull request?
+>
 
-     addr =3D g_new0(SocketAddress, 1);
->      addr->type =3D SOCKET_ADDRESS_TYPE_UNIX;
->
->
+Ok!
+
 
 --=20
 Marc-Andr=C3=A9 Lureau
 
---000000000000b928f505cada2580
+--000000000000f1381405cada2a12
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi<br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Tue, Aug 31, 2021 at 3:00 AM Michael Tokar=
-ev &lt;<a href=3D"mailto:mjt@tls.msk.ru">mjt@tls.msk.ru</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">Linux kernel can ret=
-urn size of af_unix socket to be<br>
-one byte larger than sockaddr_un structure - adding<br>
-the trailing zero byte.<br>
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Aug 31, 2021 at 4:30 PM Ger=
+d Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0=
+ Hi,<br>
 <br>
-Signed-off-by: Michael Tokarev &lt;<a href=3D"mailto:mjt@tls.msk.ru" target=
-=3D"_blank">mjt@tls.msk.ru</a>&gt;<br>
-Fixes: 4cfd970ec188558daa6214f26203fe553fb1e01f (first in 6.1.0)<br>
-Cc: <a href=3D"mailto:qemu-stable@nongnu.org" target=3D"_blank">qemu-stable=
-@nongnu.org</a><br>
-<br>
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c<br>
-index f2f3676d1f..83926dc2bc 100644<br>
---- a/util/qemu-sockets.c<br>
-+++ b/util/qemu-sockets.c<br>
-@@ -1345,8 +1345,9 @@ socket_sockaddr_to_address_unix(struct sockaddr_stora=
-ge *sa,<br>
-=C2=A0 =C2=A0 =C2=A0SocketAddress *addr;<br>
-=C2=A0 =C2=A0 =C2=A0struct sockaddr_un *su =3D (struct sockaddr_un *)sa;<br=
+&gt; &gt; Marc-Andr=C3=A9 Lureau (18):<br>
+&gt; &gt;=C2=A0 =C2=A0ui/vdagent: fix leak on error path<br>
+&gt; &gt;=C2=A0 =C2=A0ui/vdagent: remove copy-pasta comment<br>
+&gt; &gt;=C2=A0 =C2=A0ui/gtk-clipboard: use existing macros<br>
+&gt; &gt;=C2=A0 =C2=A0ui/gtk-clipboard: fix clipboard enum typo<br>
+&gt; &gt;=C2=A0 =C2=A0ui/clipboard: add helper to retrieve current clipboar=
+d<br>
+&gt; &gt;=C2=A0 =C2=A0ui/clipboard: add qemu_clipboard_peer_owns() helper<b=
+r>
+&gt; &gt;=C2=A0 =C2=A0ui/clipboard: add qemu_clipboard_peer_release() helpe=
+r<br>
+&gt; &gt;=C2=A0 =C2=A0ui/clipboard: release owned grabs on unregister<br>
+&gt; &gt;=C2=A0 =C2=A0ui/vdagent: disconnect handlers and reset state on fi=
+nalize<br>
+&gt; &gt;=C2=A0 =C2=A0ui/vdagent: reset outbuf on disconnect<br>
+&gt; &gt;=C2=A0 =C2=A0ui/vdagent: split clipboard recv message handling<br>
+&gt; &gt;=C2=A0 =C2=A0ui/vdagent: use qemu_clipboard_peer_release helper<br=
 >
+&gt; &gt;=C2=A0 =C2=A0ui/vdagent: use qemu_clipboard_info helper<br>
+&gt; &gt;=C2=A0 =C2=A0ui/vdagent: send empty clipboard when unhandled<br>
+&gt; &gt;=C2=A0 =C2=A0ui/gtk-clipboard: use qemu_clipboard_info helper<br>
+&gt; &gt;=C2=A0 =C2=A0ui/vdagent: send release when no clipboard owner<br>
+&gt; &gt;=C2=A0 =C2=A0ui/gtk-clipboard: emit release clipboard events<br>
+&gt; &gt;=C2=A0 =C2=A0ui/vdagent: add a migration blocker<br>
 <br>
-+=C2=A0 =C2=A0 /* kernel might have added \0 terminator to non-abstract soc=
-ket */<br>
-=C2=A0 =C2=A0 =C2=A0assert(salen &gt;=3D sizeof(su-&gt;sun_family) + 1 &amp=
-;&amp;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0salen &lt;=3D sizeof(struct socka=
-ddr_un));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0salen &lt;=3D sizeof(struct socka=
-ddr_un) + su-&gt;sun_path[0] ? 1 : 0);<br>
-<br></blockquote><div><br></div><div>Looks right, but we may want to drop t=
-he upper bound check altogether. I thought the path must always fit the soc=
-kaddr_un, but since that&#39;s not the case it&#39;s only harmful here.<br>=
-</div><div><br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=
-=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;=
-</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0addr =3D g_new0(SocketAddress, 1);<br>
-=C2=A0 =C2=A0 =C2=A0addr-&gt;type =3D SOCKET_ADDRESS_TYPE_UNIX;<br>
+Looks all sane to me.<br>
 <br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+Acked-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" target=3D"=
+_blank">kraxel@redhat.com</a>&gt;<br>
+<br></blockquote><div><br></div><div>thanks</div><div> <br></div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">
+&gt; Ping<br>
+&gt; <br>
+&gt; Since Gerd is lowering his maintainer responsibilities, is anyone else=
+<br>
+&gt; interested?<br>
+<br>
+Don&#39;t be shy, send a pull request?<br></blockquote><div><br></div><div>=
+Ok! <br></div><br clear=3D"all"></div><br>-- <br><div dir=3D"ltr" class=3D"=
+gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---000000000000b928f505cada2580--
+--000000000000f1381405cada2a12--
 
