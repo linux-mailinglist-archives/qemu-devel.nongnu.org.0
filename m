@@ -2,79 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A7C03FCB12
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 17:54:56 +0200 (CEST)
-Received: from localhost ([::1]:51464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6428E3FCB18
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 17:58:52 +0200 (CEST)
+Received: from localhost ([::1]:56958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL662-0006x8-NF
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 11:54:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33510)
+	id 1mL69q-0002Yj-EJ
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 11:58:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1mL63s-0005aI-6h; Tue, 31 Aug 2021 11:52:32 -0400
-Received: from mail-qv1-xf2a.google.com ([2607:f8b0:4864:20::f2a]:37707)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mL68U-0000zb-O3; Tue, 31 Aug 2021 11:57:18 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45638)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1mL63n-0004v4-Nk; Tue, 31 Aug 2021 11:52:31 -0400
-Received: by mail-qv1-xf2a.google.com with SMTP id z7so6633999qvi.4;
- Tue, 31 Aug 2021 08:52:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mL68T-0008H8-93; Tue, 31 Aug 2021 11:57:18 -0400
+Received: by mail-wr1-x430.google.com with SMTP id n5so28453381wro.12;
+ Tue, 31 Aug 2021 08:57:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=8wLZota3fDdSQGyQ34sdZBG/Wc47lY2RYPq16YHnTbQ=;
- b=Tf9N/j6DtqAUUM+8cRcfV691vQ+Y4itBV/kRdlluMPbuI0IPC7D3uDnWjhymr1gCAG
- +MmazWfQnpmOUamEoRwmSq4T/IHCxIi4EdnysT09gWSaBl9bsPG5q5AvxzFR9/fNmXaa
- zq1xujqqImsgDx1yzXtaYh9gZYvCiNuRXn8eOV9BLU6V+H90Unt3Bx8j9ONiBUgaEcX5
- dRN4s5vX7+o8u4Samv2Z+zJ61/PfTMHR5HnmWrRmH4cMsfNAgIwSPMH/y/aJ7eEQHgAs
- v5rNbxAAGI/GPgKZ6hNhoTF4r+K3VhYKOjPeK64uJ/Qe5Ac6pxFEwGPMEYwZDuYraWTC
- svZA==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=HWowmjO9oqnYlirU1HX7Z5qpQ87IyehJn3UgEGmWmp4=;
+ b=dFgIfd1iYDcKdYbkyvcNEcjREElG0FEOfN+p0sm0qWtK6ULxpgS2JfpU1JonXv6Mpn
+ 4MtKyNGvK8MUGM4l4VoPzmCGPp+Ks9/svX6RCZwJPd/v+jaZv7MJd7iL86lVRSPD0t/D
+ 3PJURlLYmRxDoH7KYoaCv7bgd5/iOfhl+EwIx6d6hzAoGcV/rqqPdnE7VWTS9m0clGjQ
+ YpL+hP+A4TjSbt9MfqDCCdZUmAod8l7JhUF1ROhP5L9oU8cWwt2qLGJ8Bonk7pfy7sQu
+ tnRvabHMkDxT/5kHfk0m9wZ9DkjQDOjufLgmEBZ6IoSvbUxNxl57uFthRm5t00N/gWoq
+ Dusg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=8wLZota3fDdSQGyQ34sdZBG/Wc47lY2RYPq16YHnTbQ=;
- b=HBuQah0N9dTFN/6DKwySb5sTRlD2ElPBX79Z0VxwqMlfq2fT+/FFFHTQqeXCpT8T+r
- nsDA7W159dFOZm1u0pQps8rONnAAMsbplhNhNWYmeCom08IwxWKmWaFPWf5j71zadmyU
- hFS25+tS9huy4z9GgeFgzVOIyqVtfEZ3S9Wcc7ybUa9AdmZ88GZJrue+lH1xvqG3vbFR
- IPEL4PTuVlBVbgUo5dT9/iU7gZlTbW0vIPFneBrQgyRsDULXssiUuhui8/Vx03nBfcf8
- MjRaAH3dixOMGsNOpKtnWxRMMV9ZRbemiDIyd9D6NHv4Ij8E7o1aQ9L/sXOFVGqdDzlQ
- SaHA==
-X-Gm-Message-State: AOAM530bgzMOC92Khq5OSlI0COTC5shzAMDvO1YuvQznid9Ocz3XUvlm
- SJHrntLY2MKjKdXFvdeIrmI=
-X-Google-Smtp-Source: ABdhPJzmIr32qD5V6aaxxGOOADrA7JjwgsyCYY0a6/0K78I13nwmHCnj7lmd1iSiOEJMZEPRagDnoA==
-X-Received: by 2002:ad4:4f50:: with SMTP id eu16mr28874099qvb.27.1630425146366; 
- Tue, 31 Aug 2021 08:52:26 -0700 (PDT)
-Received: from [192.168.0.5] (d149-67-175-105.try.wideopenwest.com.
- [67.149.105.175])
- by smtp.gmail.com with ESMTPSA id v27sm13884784qkj.129.2021.08.31.08.52.25
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 31 Aug 2021 08:52:26 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Re: [PATCH] Report any problems with loading the VGA driver for PPC
- Macintosh targets
-From: Programmingkid <programmingkidx@gmail.com>
-In-Reply-To: <269a250-93ec-2e6-8813-5b65aa9fb76@eik.bme.hu>
-Date: Tue, 31 Aug 2021 11:52:24 -0400
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <9E32E4A0-D1BB-4DDF-8F57-38BD5044DF1D@gmail.com>
-References: <20210827181429.23609-1-programmingkidx@gmail.com>
- <2d87adfb-c612-8d36-4c97-50f07a82beeb@ilande.co.uk>
- <CAFEAcA_mb5zAaBiVjzo1QGGo-4Yt+j89iD9AUVKJP-pP1XCJmQ@mail.gmail.com>
- <8ED650E0-5874-4AE6-85E3-631E7B76D37A@gmail.com>
- <CAFEAcA96V6d-aAR65xiZQrB65aTfQEJfHq5x_ZSa3mpAoSUMQw@mail.gmail.com>
- <269a250-93ec-2e6-8813-5b65aa9fb76@eik.bme.hu>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-X-Mailer: Apple Mail (2.3654.40.0.2.32)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2a;
- envelope-from=programmingkidx@gmail.com; helo=mail-qv1-xf2a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=HWowmjO9oqnYlirU1HX7Z5qpQ87IyehJn3UgEGmWmp4=;
+ b=KGih5FLYMEKw9kVvN+ShGs5Gxrva+SZhCHC/a6kpZzSxpFt+ZqJH7WTlpzvIbNkegL
+ CU5c7PZiTfonBLNst6iTCrHEzHP/+EpUwlAF+ZdVQ5WKtZcffLW1p7KH/n8CuimAZ78/
+ NhF1Gn5RgrG2kOCc4Qw1F0ulgf1RF6JBdhO+yLnsa6V+et6+9gnLr8kZ8c3Gtv9Wp+Um
+ 2xpShXTnRpGzf8dnDETtKPYip/p8v5kqCWe3Oc+U4EZJ7yZOKEmzXIAL4uXxTvP3mo1o
+ cQG39bmVgB+FEJjEu4mwoO2vUvSl5qxNuiw2oNsfPDXoehCDINKBTKMnokUVO1JSlnpY
+ voGw==
+X-Gm-Message-State: AOAM533zR4u3AOYz+O6tAhuSqkXtA6jMKq3S22Sn8yFWRgvL43QSOM/u
+ JdzY7kRN/Nc+BnwIRlTFfqTdHErtA6A=
+X-Google-Smtp-Source: ABdhPJyWS5PxA3VMk3CM7f596fioaYrVgI4QbAZms90yOFyBhqOZo7YKS+PA98mWsPFgoT6rsUAUnA==
+X-Received: by 2002:adf:b743:: with SMTP id n3mr32521812wre.243.1630425434552; 
+ Tue, 31 Aug 2021 08:57:14 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id g1sm3093913wmk.2.2021.08.31.08.57.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 31 Aug 2021 08:57:13 -0700 (PDT)
+Subject: Re: [PATCH 2/5] hw/arm/aspeed: Select console UART from machine
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Andrew Jeffery <andrew@aj.id.au>, Peter Delevoryas <pdel@fb.com>
+References: <20210827210417.4022054-1-pdel@fb.com>
+ <20210827210417.4022054-3-pdel@fb.com>
+ <7a53d5e9-52c2-a06b-1385-fd71a96d7486@kaod.org>
+ <BYAPR15MB3032BA6C3556797AC2A3461CACC99@BYAPR15MB3032.namprd15.prod.outlook.com>
+ <547b5f32-0858-1882-fb8b-c60056cdbfd4@kaod.org>
+ <d3d43c7a-1f37-4489-a07b-bf561e4e36a1@www.fastmail.com>
+ <a802ecb1-aa49-fd4c-5bd2-2bb19af56ac9@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <db657491-35df-8c35-3354-98a76492a4a0@amsat.org>
+Date: Tue, 31 Aug 2021 17:57:12 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <a802ecb1-aa49-fd4c-5bd2-2bb19af56ac9@kaod.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.932,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,62 +93,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, Howard Spoelstra <hsp.cat7@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
+ Cameron Esfahani via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 8/31/21 3:34 PM, Cédric Le Goater wrote:
+> On 8/31/21 1:23 PM, Andrew Jeffery wrote:
+>> Hi Cédric, Peter,
+>>
+>> On Tue, 31 Aug 2021, at 20:09, Cédric Le Goater wrote:
+>>> On 8/28/21 5:58 PM, Peter Delevoryas wrote:
+>>>> I think I’m a little confused on this part. What I meant by “most machines just use UART5” was that most DTS’s use “stdout-path=&uart5”, but fuji uses “stdout-path=&uart1”. I /do/ see that SCU510 includes a bit related to UART, but it’s for disabling booting from UART1 and UART5. I just care about the console aspect, not booting.
+>>>
+>>> The UART can be switched with SCU70[29] on the AST2500, btw.
+>>
+>> If it helps, neither the AST2600's "Boot from UART" feature nor the 
+>> AST2[456]00's "Debug UART" feature are related to which UART is used as 
+>> the BMC console by u-boot and/or the kernel - the latter is entirely a 
+>> software thing.
+> 
+> ok. 
+> 
+> I don't think we should initialize all 5 UARTs of SoC and let the user define 
+> all the expected devices on the command. Unless we want to do something like
+> 'macs_mask' ? but at the SoC level. It might be overkill for the need.
 
-
-> On Aug 30, 2021, at 5:47 PM, BALATON Zoltan <balaton@eik.bme.hu> =
-wrote:
->=20
-> On Mon, 30 Aug 2021, Peter Maydell wrote:
->> On Mon, 30 Aug 2021 at 21:29, Programmingkid =
-<programmingkidx@gmail.com> wrote:
->>> I found out that there are two pc-bios folders. One in the root =
-directory
->>> and one in the build directory. QEMU is looking in the pc-bios =
-folder
->>> located inside the build folder. The qemu_vga.ndrv file is only =
-located
->>> in the root directory pc-bios folder. I think a good solution to =
-this
->>> issue is to first remove one of the pc-bios folders. I'm not sure if =
-it
->>> is just me who has two pc-bios folders or if everyone does.
->>=20
->> Having two pc-bios folders is expected. The one in the source tree is
->> the one which has the files we actually carry around in git. The one
->> in the build tree is created by 'configure' and populated with =
-symbolic
->> links back to the files in the source tree. We need this one because
->> the QEMU executable doesn't (and shouldn't) know where the source =
-tree is:
->> when it is looking for files it will look in places relative to the
->> location of the executable itself (ie relative to the build tree)
->> as well as places set by configure (used when you install QEMU and
->> its various supporting files).
->>=20
->> The reason qemu_vga.ndrv is not in the pc-bios folder in the build
->> tree is because when that file was added we forgot to add handling
->> for it in configure. I'm not sure why nobody else has fallen over
->> this in the intervening 3 years: running QEMU from the build tree
->> will never find the file, and it will not be installed via
->> 'make install' either.
->=20
-> This file is a driver for MacOS and not many people run that old OS. =
-Those who do probably use Howard's binaries and follow his guides that =
-tell you to use -L pc-bios on command line. I always wondered why that's =
-needed when it should find it by default but this explains it and =
-probably also your question why nobody complained.
->=20
-> Regards,
-> BALATON Zoltan
-
-This does sound like a good explanation. I am pretty sure I was able to =
-use my Mac OS 9 VM without the -L option in the past and still have many =
-video resolutions available.=20=
+I'm not sure I'm following what you are suggesting. If we are talking
+about QEMU device initialization, QEMU must initialize all devices
+on the board, regardless the guest code uses them or not.
 
