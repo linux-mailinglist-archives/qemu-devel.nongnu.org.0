@@ -2,59 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD383FCA63
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 16:53:03 +0200 (CEST)
-Received: from localhost ([::1]:51284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C97B43FCA76
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 17:02:29 +0200 (CEST)
+Received: from localhost ([::1]:59086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL58G-0007go-47
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 10:53:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46236)
+	id 1mL5HQ-0005As-Cq
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 11:02:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mL56s-0006qO-Bf
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 10:51:34 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:23237)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mL5Fa-0003o0-TN
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 11:00:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mL56p-0005Bh-Kg
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 10:51:34 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mL5FZ-0002uU-85
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 11:00:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630422032;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EFwGEA77dqXFe2x85zIZvkrKinMUoPFVzTAgYEIQpPE=;
+ b=jBNBBavNwqYcX+ELWi7W0rphuabeWDxjJEvqU0pFJzP+UnslFiV77q/78/wsI0MIeFMylw
+ RoDv6WB3zSIqLxR5w5G+3lbIKkxczPAU+bXDDXXKOfv0076QMKNTTPIRUV9m00tDVtVrL4
+ ODRL23hHa/bKPk3UG+hiVNxazVHDVk0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-HSLD87sEMGylTVmKwTAepw-1; Tue, 31 Aug 2021 10:51:28 -0400
-X-MC-Unique: HSLD87sEMGylTVmKwTAepw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-67-yhT6XxVGNzOmlkz5qD2XMg-1; Tue, 31 Aug 2021 11:00:31 -0400
+X-MC-Unique: yhT6XxVGNzOmlkz5qD2XMg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA7F41008061;
- Tue, 31 Aug 2021 14:51:26 +0000 (UTC)
-Received: from bahia.lan (unknown [10.39.193.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4ABCD27CA9;
- Tue, 31 Aug 2021 14:51:25 +0000 (UTC)
-Date: Tue, 31 Aug 2021 16:51:07 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v4 3/5] spapr_numa.c: base FORM2 NUMA affinity support
-Message-ID: <20210831165107.47550472@bahia.lan>
-In-Reply-To: <c2a831e0-bd28-8d28-394d-2047ff3e14fb@gmail.com>
-References: <20210827092455.125411-1-danielhb413@gmail.com>
- <20210827092455.125411-4-danielhb413@gmail.com>
- <20210831154055.3c5cf39f@bahia.lan>
- <c2a831e0-bd28-8d28-394d-2047ff3e14fb@gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AB181966340;
+ Tue, 31 Aug 2021 15:00:30 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-4.ams2.redhat.com [10.36.112.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2C90D6A05B;
+ Tue, 31 Aug 2021 15:00:25 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id A574711380A9; Tue, 31 Aug 2021 17:00:23 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Yuri Benditovich <yuri.benditovich@daynix.com>
+Subject: Re: [PATCH 5/5] qmp: Added qemu-ebpf-rss-path command.
+References: <20210713153758.323614-1-andrew@daynix.com>
+ <20210713153758.323614-6-andrew@daynix.com>
+ <87y29dct4m.fsf@dusky.pond.sub.org>
+ <CABcq3pE3vAh=Cs=VjjkioooEbbPjgNEtCEZGwtoxaCn0OCRQkg@mail.gmail.com>
+ <877dgbpco1.fsf@dusky.pond.sub.org>
+ <CAOEp5OcyvQ9Y2onyHuJnwjtWK+Tx9QxYXUePd1kJ=V9+H9wraw@mail.gmail.com>
+ <87v93n8nu3.fsf@dusky.pond.sub.org>
+ <CAOEp5Of0C4yUhwbgFmu4roiEmNXZ8qiNMUA3CCBE8Zwu=OWhtQ@mail.gmail.com>
+ <87a6kz8i4g.fsf@dusky.pond.sub.org>
+ <CAOEp5OfxM+YyZFMUxDrcOw6eKRhyhouJ3q+UnAx3x7sXhQQvHQ@mail.gmail.com>
+Date: Tue, 31 Aug 2021 17:00:23 +0200
+In-Reply-To: <CAOEp5OfxM+YyZFMUxDrcOw6eKRhyhouJ3q+UnAx3x7sXhQQvHQ@mail.gmail.com>
+ (Yuri Benditovich's message of "Mon, 30 Aug 2021 19:56:03 +0300")
+Message-ID: <87k0k1wtfc.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,440 +87,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: Andrew Melnichenko <andrew@daynix.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel@nongnu.org, Yan Vugenfirer <yan@daynix.com>,
+ Eric Blake <eblake@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 31 Aug 2021 11:13:45 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+Yuri Benditovich <yuri.benditovich@daynix.com> writes:
 
->=20
->=20
-> On 8/31/21 10:40 AM, Greg Kurz wrote:
-> > On Fri, 27 Aug 2021 06:24:53 -0300
-> > Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
-> >=20
-> >> The main feature of FORM2 affinity support is the separation of NUMA
-> >> distances from ibm,associativity information. This allows for a more
-> >> flexible and straightforward NUMA distance assignment without relying =
-on
-> >> complex associations between several levels of NUMA via
-> >> ibm,associativity matches. Another feature is its extensibility. This =
-base
-> >> support contains the facilities for NUMA distance assignment, but in t=
-he
-> >> future more facilities will be added for latency, performance, bandwid=
-th
-> >> and so on.
-> >>
-> >> This patch implements the base FORM2 affinity support as follows:
-> >>
-> >> - the use of FORM2 associativity is indicated by using bit 2 of byte 5
-> >> of ibm,architecture-vec-5. A FORM2 aware guest can choose to use FORM1
-> >> or FORM2 affinity. Setting both forms will default to FORM2. We're not
-> >> advertising FORM2 for pseries-6.1 and older machine versions to preven=
-t
-> >> guest visible changes in those;
-> >>
-> >> - move spapr_numa_associativity_init() from spapr_machine_init() to
-> >> do_client_architecture_support(), when we already know which NUMA
-> >> affinity the guest will use. This will avoid initializing FORM1
-> >> spapr->numa_assoc_array and overwrite it shortly after if FORM2 is
-> >> chosen;
-> >>
-> >=20
-> > As I was saying in another mail. I'm not very comfortable with delaying
-> > spapr_numa_associativity_init() to CAS until I'm sure nothing else
-> > assumes it's already done when the machine first resets and boots.
-> >=20
-> > And also, these are slow paths and I'd rather overwrite the array if
-> > that keeps the code simple. FWIW this is what we already do with the
-> > irq backend : we always reset to XICS and switch to XIVE at CAS.
-> >=20
-> > This also makes me think that spapr_numa_associativity_init() should
-> > be called during machine reset so that spapr->numa_assoc_array is
-> > reset to a known default value, i.e. FORM1 or legacy depending on
-> > the machine version. Maybe rename it to spapr_numa_associativity_reset(=
-)
-> > for clarity ?
->=20
-> It is not tragic to delay spapr_numa_associativity_init() up until CAS
-> because we haven't written any ibm,associativity arrays yet. What we
-> write before CAS are the common RTAS artifacts such as reference-points
-> and maxdomains, but as you suggested in the previous review, we're just
-> writing them again if the guest chose to use FORM2.
->=20
-> If we really want to be safe I can do the following:
->=20
-> - keep spapr_numa_associativity_init() in machine_init(), like it is toda=
-y;
->=20
+> On Mon, Aug 30, 2021 at 11:14 AM Markus Armbruster <armbru@redhat.com> wrote:
+>>
+>> Yuri Benditovich <yuri.benditovich@daynix.com> writes:
+>>
+>> > On Mon, Aug 30, 2021 at 9:10 AM Markus Armbruster <armbru@redhat.com> wrote:
 
-I think it should be performed at machine reset actually.
+[...]
 
-> - call it again after CAS if the guest chooses FORM2;
->=20
-> - change spapr_numa_associativity_init() to clear the unused FORM 1 assoc=
-iativity
-> domains if FORM2 is chosen. This step is needed because there's no way to=
- know if
-> we're before or after CAS, and FORM1 code populates the associativity dom=
-ains
-> based on user NUMA distance input. For clarity, I want to keep unused stu=
-ff
-> zeroed when using FORM2.
->=20
->=20
-> Thanks,
->=20
->=20
-> Daniel
->=20
-> >=20
-> >> - ibm,associativity-reference-points has a new semantic. Instead of
-> >> being used to calculate distances via NUMA levels, it's now used to
-> >> indicate the primary domain index in the ibm,associativity domain of
-> >> each resource. In our case it's set to {0x4}, matching the position
-> >> where we already place logical_domain_id;
-> >>
-> >> - two new RTAS DT artifacts are introduced: ibm,numa-lookup-index-tabl=
-e
-> >> and ibm,numa-distance-table. The index table is used to list all the
-> >> NUMA logical domains of the platform, in ascending order, and allows f=
-or
-> >> spartial NUMA configurations (although QEMU ATM doesn't support that).
-> >> ibm,numa-distance-table is an array that contains all the distances fr=
-om
-> >> the first NUMA node to all other nodes, then the second NUMA node
-> >> distances to all other nodes and so on;
-> >>
-> >> - spapr_post_load changes: since we're adding a new NUMA affinity that
-> >> isn't compatible with the existing one, migration must be handled
-> >> accordingly because we can't be certain of whether the guest went
-> >> through CAS in the source. The solution chosen is to initiate the NUMA
-> >> associativity data in spapr_post_load() unconditionally. The worst cas=
-e
-> >> would be to write the DT twice if the guest is in pre-CAS stage.
-> >> Otherwise, we're making sure that a FORM1 guest will have the
-> >> spapr->numa_assoc_array initialized with the proper information based =
-on
-> >> user distance, something that we're not doing with FORM2.
-> >>
-> >> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> >> ---
-> >>   hw/ppc/spapr.c              |  27 +++++++-
-> >>   hw/ppc/spapr_hcall.c        |   4 ++
-> >>   hw/ppc/spapr_numa.c         | 127 ++++++++++++++++++++++++++++++++++=
-+-
-> >>   include/hw/ppc/spapr.h      |   1 +
-> >>   include/hw/ppc/spapr_ovec.h |   1 +
-> >>   5 files changed, 156 insertions(+), 4 deletions(-)
-> >>
-> >> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> >> index d39fd4e644..a3eb33764d 100644
-> >> --- a/hw/ppc/spapr.c
-> >> +++ b/hw/ppc/spapr.c
-> >> @@ -1786,6 +1786,22 @@ static int spapr_post_load(void *opaque, int ve=
-rsion_id)
-> >>           return err;
-> >>       }
-> >>  =20
-> >> +    /*
-> >> +     * NUMA data init is made in CAS time. There is no reliable
-> >> +     * way of telling whether the guest already went through CAS
-> >> +     * in the source due to how spapr_ov5_cas_needed works: a
-> >> +     * FORM1 guest can be migrated with ov5_cas empty regardless
-> >> +     * of going through CAS first.
-> >> +     *
-> >> +     * One solution is to always call numa_associativity_init. The
-> >> +     * downside is that a guest migrated before CAS will run
-> >> +     * numa_associativity_init again when going through it, but
-> >> +     * at least we're making sure spapr->numa_assoc_array will be
-> >> +     * initialized and hotplug operations won't fail in both before
-> >> +     * and after CAS migration cases.
-> >=20
-> > This seems to comfort my feelings : it is safer to do the init
-> > unconditionally to ensure no other code gets upset.
-> >=20
-> >> +     */
-> >> +     spapr_numa_associativity_init(spapr, MACHINE(spapr));
-> >> +
-> >>       return err;
-> >>   }
-> >>  =20
-> >> @@ -2752,6 +2768,11 @@ static void spapr_machine_init(MachineState *ma=
-chine)
-> >>  =20
-> >>       spapr_ovec_set(spapr->ov5, OV5_FORM1_AFFINITY);
-> >>  =20
-> >> +    /* Do not advertise FORM2 support for pseries-6.1 and older */
-> >> +    if (!smc->pre_6_2_numa_affinity) {
-> >> +        spapr_ovec_set(spapr->ov5, OV5_FORM2_AFFINITY);
-> >> +    }
-> >> +
-> >>       /* advertise support for dedicated HP event source to guests */
-> >>       if (spapr->use_hotplug_event_source) {
-> >>           spapr_ovec_set(spapr->ov5, OV5_HP_EVT);
-> >> @@ -2808,9 +2829,6 @@ static void spapr_machine_init(MachineState *mac=
-hine)
-> >>  =20
-> >>       spapr->gpu_numa_id =3D spapr_numa_initial_nvgpu_numa_id(machine)=
-;
-> >>  =20
-> >> -    /* Init numa_assoc_array */
-> >> -    spapr_numa_associativity_init(spapr, machine);
-> >> -
-> >>       if ((!kvm_enabled() || kvmppc_has_cap_mmu_radix()) &&
-> >>           ppc_type_check_compat(machine->cpu_type, CPU_POWERPC_LOGICAL=
-_3_00, 0,
-> >>                                 spapr->max_compat_pvr)) {
-> >> @@ -4700,8 +4718,11 @@ DEFINE_SPAPR_MACHINE(6_2, "6.2", true);
-> >>    */
-> >>   static void spapr_machine_6_1_class_options(MachineClass *mc)
-> >>   {
-> >> +    SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
-> >> +
-> >>       spapr_machine_6_2_class_options(mc);
-> >>       compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_=
-len);
-> >> +    smc->pre_6_2_numa_affinity =3D true;
-> >>   }
-> >>  =20
-> >>   DEFINE_SPAPR_MACHINE(6_1, "6.1", false);
-> >> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> >> index 0e9a5b2e40..1cc88716c1 100644
-> >> --- a/hw/ppc/spapr_hcall.c
-> >> +++ b/hw/ppc/spapr_hcall.c
-> >> @@ -11,6 +11,7 @@
-> >>   #include "helper_regs.h"
-> >>   #include "hw/ppc/spapr.h"
-> >>   #include "hw/ppc/spapr_cpu_core.h"
-> >> +#include "hw/ppc/spapr_numa.h"
-> >>   #include "mmu-hash64.h"
-> >>   #include "cpu-models.h"
-> >>   #include "trace.h"
-> >> @@ -1197,6 +1198,9 @@ target_ulong do_client_architecture_support(Powe=
-rPCCPU *cpu,
-> >>       spapr->cas_pre_isa3_guest =3D !spapr_ovec_test(ov1_guest, OV1_PP=
-C_3_00);
-> >>       spapr_ovec_cleanup(ov1_guest);
-> >>  =20
-> >> +    /* Init numa_assoc_array */
-> >> +    spapr_numa_associativity_init(spapr, MACHINE(spapr));
-> >> +
-> >>       /*
-> >>        * Ensure the guest asks for an interrupt mode we support;
-> >>        * otherwise terminate the boot.
-> >> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> >> index 04a86f9b5b..0a5fa8101e 100644
-> >> --- a/hw/ppc/spapr_numa.c
-> >> +++ b/hw/ppc/spapr_numa.c
-> >> @@ -202,6 +202,16 @@ void spapr_numa_associativity_init(SpaprMachineSt=
-ate *spapr,
-> >>           spapr->numa_assoc_array[i][0] =3D cpu_to_be32(MAX_DISTANCE_R=
-EF_POINTS);
-> >>           spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_=
-to_be32(i);
-> >>  =20
-> >> +        /*
-> >> +         * For FORM2 affinity the initialization above is enough. No
-> >> +         * need to fill non-zero NUMA nodes with node_id because
-> >> +         * there is no associativity domain match to calculate
-> >> +         * NUMA distances in FORM2.
-> >> +         */
-> >> +        if (spapr_ovec_test(spapr->ov5_cas, OV5_FORM2_AFFINITY)) {
-> >> +            continue;
-> >> +        }
-> >> +
-> >>           /*
-> >>            * Fill all associativity domains of non-zero NUMA nodes wit=
-h
-> >>            * node_id. This is required because the default value (0) i=
-s
-> >> @@ -236,7 +246,16 @@ void spapr_numa_associativity_init(SpaprMachineSt=
-ate *spapr,
-> >>           spapr->numa_assoc_array[i][MAX_DISTANCE_REF_POINTS] =3D cpu_=
-to_be32(i);
-> >>       }
-> >>  =20
-> >> -    spapr_numa_FORM1_affinity_init(spapr, machine);
-> >> +    /*
-> >> +     * We test for !FORM2 instead of testing for FORM1 because,
-> >> +     * as per spapr_ov5_cas_needed, setting FORM1 is not enough
-> >> +     * to get ov5_cas migrated, but setting FORM2 is. Since we're
-> >> +     * dealing with either FORM1 or FORM2, test for the option
-> >> +     * that is guaranteed to be set after a migration.
-> >> +     */
-> >> +    if (!spapr_ovec_test(spapr->ov5_cas, OV5_FORM2_AFFINITY)) {
-> >> +        spapr_numa_FORM1_affinity_init(spapr, machine);
-> >> +    }
-> >>   }
-> >>  =20
-> >>   void spapr_numa_write_associativity_dt(SpaprMachineState *spapr, voi=
-d *fdt,
-> >> @@ -313,6 +332,107 @@ int spapr_numa_write_assoc_lookup_arrays(SpaprMa=
-chineState *spapr, void *fdt,
-> >>       return ret;
-> >>   }
-> >>  =20
-> >> +static void spapr_numa_FORM2_write_rtas_tables(SpaprMachineState *spa=
-pr,
-> >> +                                               void *fdt, int rtas)
-> >> +{
-> >> +    MachineState *ms =3D MACHINE(spapr);
-> >> +    NodeInfo *numa_info =3D ms->numa_state->nodes;
-> >> +    int nb_numa_nodes =3D ms->numa_state->num_nodes;
-> >> +    int distance_table_entries =3D nb_numa_nodes * nb_numa_nodes;
-> >> +    g_autofree uint32_t *lookup_index_table =3D NULL;
-> >> +    g_autofree uint32_t *distance_table =3D NULL;
-> >> +    int src, dst, i, distance_table_size;
-> >> +    uint8_t *node_distances;
-> >> +
-> >> +    /*
-> >> +     * ibm,numa-lookup-index-table: array with length and a
-> >> +     * list of NUMA ids present in the guest.
-> >> +     */
-> >> +    lookup_index_table =3D g_new0(uint32_t, nb_numa_nodes + 1);
-> >> +    lookup_index_table[0] =3D cpu_to_be32(nb_numa_nodes);
-> >> +
-> >> +    for (i =3D 0; i < nb_numa_nodes; i++) {
-> >> +        lookup_index_table[i + 1] =3D cpu_to_be32(i);
-> >> +    }
-> >> +
-> >> +    _FDT(fdt_setprop(fdt, rtas, "ibm,numa-lookup-index-table",
-> >> +                     lookup_index_table,
-> >> +                     (nb_numa_nodes + 1) * sizeof(uint32_t)));
-> >> +
-> >> +    /*
-> >> +     * ibm,numa-distance-table: contains all node distances. First
-> >> +     * element is the size of the table as uint32, followed up
-> >> +     * by all the uint8 distances from the first NUMA node, then all
-> >> +     * distances from the second NUMA node and so on.
-> >> +     *
-> >> +     * ibm,numa-lookup-index-table is used by guest to navigate this
-> >> +     * array because NUMA ids can be sparse (node 0 is the first,
-> >> +     * node 8 is the second ...).
-> >> +     */
-> >> +    distance_table =3D g_new0(uint32_t, distance_table_entries + 1);
-> >> +    distance_table[0] =3D cpu_to_be32(distance_table_entries);
-> >> +
-> >> +    node_distances =3D (uint8_t *)&distance_table[1];
-> >> +    i =3D 0;
-> >> +
-> >> +    for (src =3D 0; src < nb_numa_nodes; src++) {
-> >> +        for (dst =3D 0; dst < nb_numa_nodes; dst++) {
-> >> +            node_distances[i++] =3D numa_info[src].distance[dst];
-> >=20
-> > It looks like you could s/i++/src + dst/ here.
-> >=20
-> >> +        }
-> >> +    }
-> >> +
-> >> +    distance_table_size =3D distance_table_entries * sizeof(uint8_t) =
-+
-> >> +                          sizeof(uint32_t);
-> >> +    _FDT(fdt_setprop(fdt, rtas, "ibm,numa-distance-table",
-> >> +                     distance_table, distance_table_size));
-> >> +}
-> >> +
-> >> +/*
-> >> + * This helper could be compressed in a single function with
-> >> + * FORM1 logic since we're setting the same DT values, with the
-> >> + * difference being a call to spapr_numa_FORM2_write_rtas_tables()
-> >> + * in the end. The separation was made to avoid clogging FORM1 code
-> >> + * which already has to deal with compat modes from previous
-> >> + * QEMU machine types.
-> >> + */
-> >> +static void spapr_numa_FORM2_write_rtas_dt(SpaprMachineState *spapr,
-> >> +                                           void *fdt, int rtas)
-> >> +{
-> >> +    MachineState *ms =3D MACHINE(spapr);
-> >> +    uint32_t number_nvgpus_nodes =3D spapr->gpu_numa_id -
-> >> +                                   spapr_numa_initial_nvgpu_numa_id(m=
-s);
-> >> +
-> >> +    /*
-> >> +     * In FORM2, ibm,associativity-reference-points will point to
-> >> +     * the element in the ibm,associativity array that contains the
-> >> +     * primary domain index. This value (in our case, the numa-id) is
-> >> +     * then used as an index to retrieve all other attributes of the
-> >> +     * node (distance, bandwidth, latency) via ibm,numa-lookup-index-=
-table
-> >> +     * and other ibm,numa-*-table properties.
-> >> +     */
-> >> +    uint32_t refpoints[] =3D {
-> >> +        cpu_to_be32(0x4),
-> >> +    };
-> >> +
-> >> +    uint32_t nr_refpoints =3D ARRAY_SIZE(refpoints);
-> >> +    uint32_t maxdomain =3D ms->numa_state->num_nodes + number_nvgpus_=
-nodes;
-> >> +    uint32_t maxdomains[] =3D {
-> >> +        cpu_to_be32(4),
-> >=20
-> > Maybe use same base for initializers, especially when they land in the =
-same
-> > hunk :) Either dec or hex I don't care.
-> >=20
-> > Rest LGTM.
-> >=20
-> >> +        cpu_to_be32(maxdomain),
-> >> +        cpu_to_be32(maxdomain),
-> >> +        cpu_to_be32(maxdomain),
-> >> +        cpu_to_be32(maxdomain)
-> >> +    };
-> >> +
-> >> +    _FDT(fdt_setprop(fdt, rtas, "ibm,associativity-reference-points",
-> >> +                     refpoints, nr_refpoints * sizeof(refpoints[0])))=
-;
-> >> +
-> >> +    _FDT(fdt_setprop(fdt, rtas, "ibm,max-associativity-domains",
-> >> +                     maxdomains, sizeof(maxdomains)));
-> >> +
-> >> +    spapr_numa_FORM2_write_rtas_tables(spapr, fdt, rtas);
-> >> +}
-> >> +
-> >>   static void spapr_numa_FORM1_write_rtas_dt(SpaprMachineState *spapr,
-> >>                                              void *fdt, int rtas)
-> >>   {
-> >> @@ -379,6 +499,11 @@ static void spapr_numa_FORM1_write_rtas_dt(SpaprM=
-achineState *spapr,
-> >>    */
-> >>   void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, i=
-nt rtas)
-> >>   {
-> >> +    if (spapr_ovec_test(spapr->ov5_cas, OV5_FORM2_AFFINITY)) {
-> >> +        spapr_numa_FORM2_write_rtas_dt(spapr, fdt, rtas);
-> >> +        return;
-> >> +    }
-> >> +
-> >>       spapr_numa_FORM1_write_rtas_dt(spapr, fdt, rtas);
-> >>   }
-> >>  =20
-> >> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> >> index 637652ad16..21b1cf9ebf 100644
-> >> --- a/include/hw/ppc/spapr.h
-> >> +++ b/include/hw/ppc/spapr.h
-> >> @@ -145,6 +145,7 @@ struct SpaprMachineClass {
-> >>       hwaddr rma_limit;          /* clamp the RMA to this size */
-> >>       bool pre_5_1_assoc_refpoints;
-> >>       bool pre_5_2_numa_associativity;
-> >> +    bool pre_6_2_numa_affinity;
-> >>  =20
-> >>       bool (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
-> >>                             uint64_t *buid, hwaddr *pio,
-> >> diff --git a/include/hw/ppc/spapr_ovec.h b/include/hw/ppc/spapr_ovec.h
-> >> index 48b716a060..c3e8b98e7e 100644
-> >> --- a/include/hw/ppc/spapr_ovec.h
-> >> +++ b/include/hw/ppc/spapr_ovec.h
-> >> @@ -49,6 +49,7 @@ typedef struct SpaprOptionVector SpaprOptionVector;
-> >>   /* option vector 5 */
-> >>   #define OV5_DRCONF_MEMORY       OV_BIT(2, 2)
-> >>   #define OV5_FORM1_AFFINITY      OV_BIT(5, 0)
-> >> +#define OV5_FORM2_AFFINITY      OV_BIT(5, 2)
-> >>   #define OV5_HP_EVT              OV_BIT(6, 5)
-> >>   #define OV5_HPT_RESIZE          OV_BIT(6, 7)
-> >>   #define OV5_DRMEM_V2            OV_BIT(22, 0)
-> >=20
+>> >> So let's try again: if libvirt does use the wrong RSS helper, how does
+>> >> the system behave?
+>> >
+>> > The receive-side scaling may work incorrectly, i.e. finally may move
+>> > incoming packets to a virtqueue different than expected one.
+>>
+>> Then I'm confused about the purpose of "the stamp" mentioned below.  Can
+>> you enlighten me?
+>
+> The stamp is a string (common for qemu executable and RSS helper
+> executable during build) that qemu can later retrieve from the helper
+> in run-time and ensure this helper is fully compatible with this build
+> of qemu (in terms of eBPF operation). The helper is built with the
+> same C headers (related to ebpf operation) as the qemu, the qemu is
+> able to receive file descriptors created by the helper (of ebpf
+> program and ebpf data structure's maps) from libvirt and deal with
+> them as if it has created them.
+
+Thanks.
+
+I tried to apply your series to check a few of my assumptions, but I'm
+getting conflicts.  Got something I could git-pull?
+
+[...]
 
 
