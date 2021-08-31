@@ -2,82 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97043FCFF5
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 01:34:16 +0200 (CEST)
-Received: from localhost ([::1]:53574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8754D3FD17D
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 04:50:21 +0200 (CEST)
+Received: from localhost ([::1]:46818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLDGh-0007nL-7w
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 19:34:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57010)
+	id 1mLGKS-0002rb-Ey
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 22:50:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=88771d3da1=pdel@fb.com>)
- id 1mLDEW-0006CE-Bb
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 19:32:00 -0400
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:6694)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mLG44-0001KA-4U; Tue, 31 Aug 2021 22:33:25 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:36397 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=88771d3da1=pdel@fb.com>)
- id 1mLDEU-0003No-Am
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 19:32:00 -0400
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 17VNE36I019701
- for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 16:31:56 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding : content-type; s=facebook;
- bh=ArJ7A304NXOfou4bnSsYVp5J3WAA6e1k3Nqw6AE4mTY=;
- b=OGrkrm1tHBY2rEx+8g+aNigwH7/OBE6iwVLN0pIPpwXvrWgNPJcMCVpt5fkH3NMZxBld
- jvxvxWWMkjd+gqWOFVDxL5fFkNvW4W1C/uVBTmkZBRS01efbPd/2qVXrQPaxOG4JIKgQ
- aVrcD2U4uNkq8vvXoEOwoicJ08piYdS4OHc= 
-Received: from maileast.thefacebook.com ([163.114.130.16])
- by mx0a-00082601.pphosted.com with ESMTP id 3asvpw0nuy-2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 16:31:56 -0700
-Received: from intmgw001.46.prn1.facebook.com (2620:10d:c0a8:1b::d) by
- mail.thefacebook.com (2620:10d:c0a8:83::5) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.14; Tue, 31 Aug 2021 16:31:55 -0700
-Received: by devvm660.prn0.facebook.com (Postfix, from userid 385188)
- id 7D995172C90E; Tue, 31 Aug 2021 16:31:52 -0700 (PDT)
-From: <pdel@fb.com>
-To: 
-CC: <clg@kaod.org>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>,
- <patrick@stwcx.xyz>, <andrew@aj.id.au>, <f4bug@amsat.org>, Peter Delevoryas
- <pdel@fb.com>
-Subject: [PATCH 1/1] hw/arm/aspeed: Allow machine to set serial_hd(0)
-Date: Tue, 31 Aug 2021 16:31:40 -0700
-Message-ID: <20210831233140.2659116-2-pdel@fb.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210831233140.2659116-1-pdel@fb.com>
-References: <20210831233140.2659116-1-pdel@fb.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mLG3x-0005Kl-NB; Tue, 31 Aug 2021 22:33:23 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4Gzp4s6tD4z9sRf; Wed,  1 Sep 2021 12:33:01 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1630463581;
+ bh=S7ZqpZ3bNxHoe2X47zaK/1FtgiXF30StOKhuskmEYjY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pDegpLkllNGMOldAOrmTyGr7UA6kdCLiFI0SV3WOKTPZMiQI0LyhleQPPOKRYbGTA
+ 9nJHwIY2fW7YcFef0pGZAJERaChnGfeDzoqwtGX6VRQRSlABBnIK3jjFrbzputFZ6E
+ 1dxa7vxJtRNDs/fHkHkn6FKfkmbib/4VpczjuTPI=
+Date: Tue, 31 Aug 2021 19:56:22 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: QEMU-KVM offers OPAL firmware interface? OpenBSD guest support?
+Message-ID: <YS38xhiy3MTYphxC@yekko>
+References: <20210827180259.3720d58d@bahia.lan>
+ <56141ff67838992a@bloch.sibelius.xs4all.nl>
+ <20210827190053.6c68def5@bahia.lan>
+ <25bfa81c-9498-4e82-a848-1fbb1c188ff1@kaod.org>
+ <561422a20e4f9ae2@bloch.sibelius.xs4all.nl>
+ <51bff28d-4779-b023-fee6-b3e9196b7ec5@kaod.org>
+ <3QoYEEZauH3xXwC2NcJFnrHe4IaWwu2fqEvtR6tR3RHsY_b0bsyz0oQdcI0b1zdwnXbXhl6bCtaUiyWQjbYgnx5U-Ov_Lm3tMGdMkTwZC88=@protonmail.com>
+ <YSyBUSxBiH+UYE/Y@yekko> <20210830160431.GC61714@kunlun.suse.cz>
+ <f437e50a-b9de-9599-e6de-bc84c8a14eb7@kaod.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-FB-Source: Intern
-X-Proofpoint-ORIG-GUID: somjNRq72WcLv5s246qJOBB3Hc7K57bT
-X-Proofpoint-GUID: somjNRq72WcLv5s246qJOBB3Hc7K57bT
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-08-31_09:2021-08-31,
- 2021-08-31 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- impostorscore=0
- malwarescore=0 clxscore=1015 mlxscore=0 phishscore=0 bulkscore=0
- lowpriorityscore=0 priorityscore=1501 suspectscore=0 mlxlogscore=999
- spamscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2108310128
-X-FB-Internal: deliver
-Received-SPF: pass client-ip=67.231.153.30;
- envelope-from=prvs=88771d3da1=pdel@fb.com; helo=mx0b-00082601.pphosted.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="TxwSWzRRe30QXNsW"
+Content-Disposition: inline
+In-Reply-To: <f437e50a-b9de-9599-e6de-bc84c8a14eb7@kaod.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -6
+X-Spam_score: -0.7
+X-Spam_bar: /
+X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,140 +66,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: pjp@centroid.eu, gardask@gmail.com, rgcinjp@disroot.org,
+ "ppc@openbsd.org" <ppc@openbsd.org>, daniel@pocock.pro,
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ kite@centroid.eu, Joseph <joseph.mayer@protonmail.com>,
+ siliconbadger@protonmail.com, qemu-ppc@nongnu.org,
+ Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>,
+ Mark Kettenis <mark.kettenis@xs4all.nl>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Delevoryas <pdel@fb.com>
 
-When you run QEMU with an Aspeed machine and a single serial device
-using stdio like this:
+--TxwSWzRRe30QXNsW
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-    qemu -machine ast2600-evb -drive ... -serial stdio
+On Tue, Aug 31, 2021 at 09:42:05AM +0200, C=E9dric Le Goater wrote:
+> On 8/30/21 6:04 PM, Michal Such=E1nek wrote:
+> > On Mon, Aug 30, 2021 at 04:57:21PM +1000, David Gibson wrote:
+> >> On Sun, Aug 29, 2021 at 04:09:54AM +0000, Joseph wrote:
+> >>> Hi Mark, C=E9dric, Greg at the openbsd-ppc ML,
+> >=20
+> >>
+> >> So.. if you want to run OpenBSD on POWER10 you will definitely need
+> >> PAPR support, because POWER10 won't support bare metal OS access at
+> >> all (it will be back to PowerVM always, like POWER5..POWER7).
+> >=20
+> > Hello,
+> >=20
+> > what is stopping powernv support other than lack of firmware support?
+>=20
+> Yes. that's the main issue. OpenPOWER firmware should be available
+> for people to use on P10 but it won't have any support AFAIK. We just=20
+> published skiboot as part of it.
 
-The guest OS can read and write to the UART5 registers at 0x1E784000 and
-it will receive from stdin and write to stdout. The Aspeed SoC's have a
-lot more UART's though (AST2500 has 5, AST2600 has 13) and depending on
-the board design, may be using any of them as the serial console. (See
-"stdout-path" in a DTS to check which one is chosen).
+Thanks for your reply.  I realized that my reply misunderstood the
+question, sorry about that.
 
-Most boards, including all of those currently defined in
-hw/arm/aspeed.c, just use UART5, but some use UART1. This change adds
-some flexibility for different boards without requiring users to change
-their command-line invocation of QEMU.
-
-I tested this doesn't break existing code by booting an AST2500 OpenBMC
-image and an AST2600 OpenBMC image, each using UART5 as the console.
-
-Then I tested switching the default to UART1 and booting an AST2600
-OpenBMC image that uses UART1, and that worked too.
-
-Signed-off-by: Peter Delevoryas <pdel@fb.com>
----
- hw/arm/aspeed.c         |  1 +
- hw/arm/aspeed_ast2600.c | 11 +++++++----
- hw/arm/aspeed_soc.c     |  9 ++++++---
- include/hw/arm/aspeed.h |  1 +
- 4 files changed, 15 insertions(+), 7 deletions(-)
-
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 9d43e26c51..74379907ff 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -804,6 +804,7 @@ static void aspeed_machine_class_init(ObjectClass *oc=
-, void *data)
-     mc->no_parallel =3D 1;
-     mc->default_ram_id =3D "ram";
-     amc->macs_mask =3D ASPEED_MAC0_ON;
-+    amc->serial_hd0 =3D ASPEED_DEV_UART5;
-=20
-     aspeed_machine_class_props_init(oc);
- }
-diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index e3013128c6..361a456214 100644
---- a/hw/arm/aspeed_ast2600.c
-+++ b/hw/arm/aspeed_ast2600.c
-@@ -10,6 +10,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "hw/misc/unimp.h"
-+#include "hw/arm/aspeed.h"
- #include "hw/arm/aspeed_soc.h"
- #include "hw/char/serial.h"
- #include "qemu/module.h"
-@@ -231,6 +232,8 @@ static uint64_t aspeed_calc_affinity(int cpu)
- static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
- {
-     int i;
-+    AspeedMachineState *bmc =3D ASPEED_MACHINE(qdev_get_machine());
-+    AspeedMachineClass *amc =3D ASPEED_MACHINE_GET_CLASS(bmc);
-     AspeedSoCState *s =3D ASPEED_SOC(dev);
-     AspeedSoCClass *sc =3D ASPEED_SOC_GET_CLASS(s);
-     Error *err =3D NULL;
-@@ -322,10 +325,10 @@ static void aspeed_soc_ast2600_realize(DeviceState =
-*dev, Error **errp)
-         sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
-     }
-=20
--    /* UART - attach an 8250 to the IO space as our UART5 */
--    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
--                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5),
--                   38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
-+    /* Wire up the first serial device, usually either UART5 or UART1 */
-+    serial_mm_init(get_system_memory(), sc->memmap[amc->serial_hd0], 2,
-+                   aspeed_soc_get_irq(s, amc->serial_hd0), 38400,
-+                   serial_hd(0), DEVICE_LITTLE_ENDIAN);
-=20
-     /* I2C */
-     object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(s->dram_mr)=
-,
-diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
-index 3ad6c56fa9..77422bbeb1 100644
---- a/hw/arm/aspeed_soc.c
-+++ b/hw/arm/aspeed_soc.c
-@@ -13,6 +13,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "hw/misc/unimp.h"
-+#include "hw/arm/aspeed.h"
- #include "hw/arm/aspeed_soc.h"
- #include "hw/char/serial.h"
- #include "qemu/module.h"
-@@ -221,6 +222,8 @@ static void aspeed_soc_init(Object *obj)
- static void aspeed_soc_realize(DeviceState *dev, Error **errp)
- {
-     int i;
-+    AspeedMachineState *bmc =3D ASPEED_MACHINE(qdev_get_machine());
-+    AspeedMachineClass *amc =3D ASPEED_MACHINE_GET_CLASS(bmc);
-     AspeedSoCState *s =3D ASPEED_SOC(dev);
-     AspeedSoCClass *sc =3D ASPEED_SOC_GET_CLASS(s);
-     Error *err =3D NULL;
-@@ -287,9 +290,9 @@ static void aspeed_soc_realize(DeviceState *dev, Erro=
-r **errp)
-         sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
-     }
-=20
--    /* UART - attach an 8250 to the IO space as our UART5 */
--    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
--                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5), 38400,
-+    /* Wire up the first serial device, usually either UART5 or UART1 */
-+    serial_mm_init(get_system_memory(), sc->memmap[amc->serial_hd0], 2,
-+                   aspeed_soc_get_irq(s, amc->serial_hd0), 38400,
-                    serial_hd(0), DEVICE_LITTLE_ENDIAN);
-=20
-     /* I2C */
-diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
-index c9747b15fc..bc0f27885a 100644
---- a/include/hw/arm/aspeed.h
-+++ b/include/hw/arm/aspeed.h
-@@ -38,6 +38,7 @@ struct AspeedMachineClass {
-     uint32_t num_cs;
-     uint32_t macs_mask;
-     void (*i2c_init)(AspeedMachineState *bmc);
-+    uint32_t serial_hd0;
- };
-=20
-=20
 --=20
-2.30.2
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--TxwSWzRRe30QXNsW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEt/MQACgkQbDjKyiDZ
+s5JXUhAA49cvTzrScFkTxI5Inok9e35XoptGBbY85lbBXkRhGb2TNX4GXv+MzG/Y
+EmSLGBey2Ols71D3hLp33o1JQAAwYxn54KKec9e8JMPrR74pmfWF9/m/sN7P20QE
+WuN9gEg/j0xUtgtp0ZLwGCbH2TxhSkHzU3dlZSn5puIS3BxquP2/nQrLlro8Wh6V
+hSd47F9u4M8Mvwuetd7SiNjTIAIKJJEWhs7Xn8oyL5M5+uEsR282BAwzCb7tWU7D
+cGDE/5Xrbg0FemAfUN8GKejHQC9EVOiqrB0IZPrbMqSkLGmk6K87Nzq/bOkYZtPk
+40nTCAeUczrHCOS1Cd8Y0kYhLKDMKvyN8IvzQoOmt2l0DTHrLPigfrD4CmzkKogZ
++tGmTxmtp6iU0ffiHSE1NZDDnWwxJmkGddzKVYsA38TZGhGMYT5yhpQS7XuJ667Z
+6kQ4/7oWXqnOjYF93ww8K4DmybbkdU0Gbm5BjZtuVd5UAJrSSkTxUZV4/StRBbOJ
+B6Trxm+dc9/QM4BrtDLlvbObBy+udZ0CNpvEBFS6CqedMVAg3mBjNh02APGvnYcK
+8EcpcEBoWnM0sAPx/LhYUAuAqK5OaeqyyShnezm9TagIu4iIF23RyJ4fUXCFahW/
+DaG3N+IP6uXaZHxaXxJimovAEunV9vqX4ook9GEcAL2kw0bBIRE=
+=C58+
+-----END PGP SIGNATURE-----
+
+--TxwSWzRRe30QXNsW--
 
