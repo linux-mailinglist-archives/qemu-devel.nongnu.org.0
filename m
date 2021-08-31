@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73CD13FC861
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 15:38:28 +0200 (CEST)
-Received: from localhost ([::1]:48434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD843FC8D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 15:51:56 +0200 (CEST)
+Received: from localhost ([::1]:54114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL3xw-000881-Hs
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 09:38:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51756)
+	id 1mL4B9-0005lr-Hu
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 09:51:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mL3tt-0008Go-FP
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 09:34:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46895)
+ id 1mL3u6-0000Sn-J3
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 09:34:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52255)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1mL3tr-0000YK-J1
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 09:34:05 -0400
+ id 1mL3u4-0000jq-Vp
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 09:34:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630416842;
+ s=mimecast20190719; t=1630416856;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XH2EqmNh7Un1m+28ixxdjXpfmYB07W/pjYIcJtkzdcA=;
- b=NrR2VlUn+hBz/BDqiepNH/OCk1pjJlbfpBgc27IuszPapcSQJNDIEJCfRkBaxEbTXyZcls
- WxSj+uWOCMMAwYdNQi6HDHLrnGGxjLcoIg4K5YPjJqcym5/0mMijGFEuwR11/MfKw9WeWA
- wIfRgeuf4AktmSuPTjm1YycXiPdxN6Y=
+ bh=qqPT+58pnOmmaWzAwrlvirBDgNknMiRmcjA5qgc1JxA=;
+ b=caia2erXsv/O+9cpk8abSOaTj/jmzIWVeky1r/72K89HpU1x9J7Zf96oUXPLrSRIOH56cc
+ KPn0gFT/339jWYGc3HFbmFaX19la+D9xtegJjanLWfTqCZ8W7QkC0JxBMY1NwA6IcHVMJO
+ oQ4FXRbukdoJoL36aIw+ZgUu0rT0uG4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-505-1POO2-osNJSy6N5hBE6sPg-1; Tue, 31 Aug 2021 09:34:00 -0400
-X-MC-Unique: 1POO2-osNJSy6N5hBE6sPg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-525-FTvtu1gON4Ow_jgdj7VGmw-1; Tue, 31 Aug 2021 09:34:12 -0400
+X-MC-Unique: FTvtu1gON4Ow_jgdj7VGmw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4C661008066;
- Tue, 31 Aug 2021 13:33:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAAC418C8C01;
+ Tue, 31 Aug 2021 13:34:11 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 138525C22B;
- Tue, 31 Aug 2021 13:33:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 73D1D5D9D5;
+ Tue, 31 Aug 2021 13:34:03 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/18] ui/vdagent: split clipboard recv message handling
-Date: Tue, 31 Aug 2021 17:31:25 +0400
-Message-Id: <20210831133132.1697228-12-marcandre.lureau@redhat.com>
+Subject: [PULL 12/18] ui/vdagent: use qemu_clipboard_peer_release helper
+Date: Tue, 31 Aug 2021 17:31:26 +0400
+Message-Id: <20210831133132.1697228-13-marcandre.lureau@redhat.com>
 In-Reply-To: <20210831133132.1697228-1-marcandre.lureau@redhat.com>
 References: <20210831133132.1697228-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,195 +87,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20210805135715.857938-12-marcandre.lureau@redhat.com>
+Message-Id: <20210805135715.857938-13-marcandre.lureau@redhat.com>
 Acked-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- ui/vdagent.c | 157 +++++++++++++++++++++++++++++----------------------
- 1 file changed, 89 insertions(+), 68 deletions(-)
+ ui/vdagent.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
 
 diff --git a/ui/vdagent.c b/ui/vdagent.c
-index 3770c58b6c..362064213c 100644
+index 362064213c..99ba34646f 100644
 --- a/ui/vdagent.c
 +++ b/ui/vdagent.c
-@@ -433,13 +433,94 @@ static void vdagent_clipboard_request(QemuClipboardInfo *info,
-     vdagent_send_msg(vd, msg);
- }
+@@ -507,13 +507,7 @@ static void vdagent_clipboard_recv_data(VDAgentChardev *vd, uint8_t s, uint32_t
  
-+static void vdagent_clipboard_recv_grab(VDAgentChardev *vd, uint8_t s, uint32_t size, void *data)
-+{
-+    g_autoptr(QemuClipboardInfo) info = NULL;
-+
-+    trace_vdagent_cb_grab_selection(GET_NAME(sel_name, s));
-+    info = qemu_clipboard_info_new(&vd->cbpeer, s);
-+    if (size > sizeof(uint32_t) * 10) {
-+        /*
-+         * spice has 6 types as of 2021. Limiting to 10 entries
-+         * so we we have some wiggle room.
-+         */
-+        return;
-+    }
-+    while (size >= sizeof(uint32_t)) {
-+        trace_vdagent_cb_grab_type(GET_NAME(type_name, *(uint32_t *)data));
-+        switch (*(uint32_t *)data) {
-+        case VD_AGENT_CLIPBOARD_UTF8_TEXT:
-+            info->types[QEMU_CLIPBOARD_TYPE_TEXT].available = true;
-+            break;
-+        default:
-+            break;
-+        }
-+        data += sizeof(uint32_t);
-+        size -= sizeof(uint32_t);
-+    }
-+    qemu_clipboard_update(info);
-+}
-+
-+static void vdagent_clipboard_recv_request(VDAgentChardev *vd, uint8_t s, uint32_t size, void *data)
-+{
-+    QemuClipboardType type;
-+
-+    if (size < sizeof(uint32_t)) {
-+        return;
-+    }
-+    switch (*(uint32_t *)data) {
-+    case VD_AGENT_CLIPBOARD_UTF8_TEXT:
-+        type = QEMU_CLIPBOARD_TYPE_TEXT;
-+        break;
-+    default:
-+        return;
-+    }
-+    if (vd->cbinfo[s] && vd->cbinfo[s]->types[type].available &&
-+        vd->cbinfo[s]->owner != &vd->cbpeer) {
-+        if (vd->cbinfo[s]->types[type].data) {
-+            vdagent_send_clipboard_data(vd, vd->cbinfo[s], type);
-+        } else {
-+            vd->cbpending[s] |= (1 << type);
-+            qemu_clipboard_request(vd->cbinfo[s], type);
-+        }
-+    }
-+}
-+
-+static void vdagent_clipboard_recv_data(VDAgentChardev *vd, uint8_t s, uint32_t size, void *data)
-+{
-+    QemuClipboardType type;
-+
-+    if (size < sizeof(uint32_t)) {
-+        return;
-+    }
-+    switch (*(uint32_t *)data) {
-+    case VD_AGENT_CLIPBOARD_UTF8_TEXT:
-+        type = QEMU_CLIPBOARD_TYPE_TEXT;
-+        break;
-+    default:
-+        return;
-+    }
-+    data += 4;
-+    size -= 4;
-+    qemu_clipboard_set_data(&vd->cbpeer, vd->cbinfo[s], type, size, data, true);
-+}
-+
-+static void vdagent_clipboard_recv_release(VDAgentChardev *vd, uint8_t s)
-+{
-+    g_autoptr(QemuClipboardInfo) info = NULL;
-+
-+    if (vd->cbinfo[s] && vd->cbinfo[s]->owner == &vd->cbpeer) {
-+        /* set empty clipboard info */
-+        info = qemu_clipboard_info_new(NULL, s);
-+        qemu_clipboard_update(info);
-+    }
-+}
-+
- static void vdagent_chr_recv_clipboard(VDAgentChardev *vd, VDAgentMessage *msg)
+ static void vdagent_clipboard_recv_release(VDAgentChardev *vd, uint8_t s)
  {
-     uint8_t s = VD_AGENT_CLIPBOARD_SELECTION_CLIPBOARD;
-     uint32_t size = msg->size;
-     void *data = msg->data;
 -    g_autoptr(QemuClipboardInfo) info = NULL;
--    QemuClipboardType type;
- 
-     if (have_selection(vd)) {
-         if (size < 4) {
-@@ -455,75 +536,15 @@ static void vdagent_chr_recv_clipboard(VDAgentChardev *vd, VDAgentMessage *msg)
- 
-     switch (msg->type) {
-     case VD_AGENT_CLIPBOARD_GRAB:
--        trace_vdagent_cb_grab_selection(GET_NAME(sel_name, s));
--        info = qemu_clipboard_info_new(&vd->cbpeer, s);
--        if (size > sizeof(uint32_t) * 10) {
--            /*
--             * spice has 6 types as of 2021. Limiting to 10 entries
--             * so we we have some wiggle room.
--             */
--            return;
--        }
--        while (size >= sizeof(uint32_t)) {
--            trace_vdagent_cb_grab_type(GET_NAME(type_name, *(uint32_t *)data));
--            switch (*(uint32_t *)data) {
--            case VD_AGENT_CLIPBOARD_UTF8_TEXT:
--                info->types[QEMU_CLIPBOARD_TYPE_TEXT].available = true;
--                break;
--            default:
--                break;
--            }
--            data += sizeof(uint32_t);
--            size -= sizeof(uint32_t);
--        }
+-
+-    if (vd->cbinfo[s] && vd->cbinfo[s]->owner == &vd->cbpeer) {
+-        /* set empty clipboard info */
+-        info = qemu_clipboard_info_new(NULL, s);
 -        qemu_clipboard_update(info);
--        break;
-+        return vdagent_clipboard_recv_grab(vd, s, size, data);
-     case VD_AGENT_CLIPBOARD_REQUEST:
--        if (size < sizeof(uint32_t)) {
--            return;
--        }
--        switch (*(uint32_t *)data) {
--        case VD_AGENT_CLIPBOARD_UTF8_TEXT:
--            type = QEMU_CLIPBOARD_TYPE_TEXT;
--            break;
--        default:
--            return;
--        }
--        if (vd->cbinfo[s] &&
--            vd->cbinfo[s]->types[type].available &&
--            vd->cbinfo[s]->owner != &vd->cbpeer) {
--            if (vd->cbinfo[s]->types[type].data) {
--                vdagent_send_clipboard_data(vd, vd->cbinfo[s], type);
--            } else {
--                vd->cbpending[s] |= (1 << type);
--                qemu_clipboard_request(vd->cbinfo[s], type);
--            }
--        }
--        break;
-+        return vdagent_clipboard_recv_request(vd, s, size, data);
-     case VD_AGENT_CLIPBOARD: /* data */
--        if (size < sizeof(uint32_t)) {
--            return;
--        }
--        switch (*(uint32_t *)data) {
--        case VD_AGENT_CLIPBOARD_UTF8_TEXT:
--            type = QEMU_CLIPBOARD_TYPE_TEXT;
--            break;
--        default:
--            return;
--        }
--        data += 4;
--        size -= 4;
--        qemu_clipboard_set_data(&vd->cbpeer, vd->cbinfo[s], type,
--                                size, data, true);
--        break;
-+        return vdagent_clipboard_recv_data(vd, s, size, data);
-     case VD_AGENT_CLIPBOARD_RELEASE:
--        if (vd->cbinfo[s] &&
--            vd->cbinfo[s]->owner == &vd->cbpeer) {
--            /* set empty clipboard info */
--            info = qemu_clipboard_info_new(NULL, s);
--            qemu_clipboard_update(info);
--        }
--        break;
-+        return vdagent_clipboard_recv_release(vd, s);
-+    default:
-+        g_assert_not_reached();
-     }
+-    }
++    qemu_clipboard_peer_release(&vd->cbpeer, s);
  }
  
+ static void vdagent_chr_recv_clipboard(VDAgentChardev *vd, VDAgentMessage *msg)
 -- 
 2.33.0.rc2
 
