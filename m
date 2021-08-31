@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2CF83FCBC2
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 18:48:21 +0200 (CEST)
-Received: from localhost ([::1]:43586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D5A33FCBF1
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 18:58:38 +0200 (CEST)
+Received: from localhost ([::1]:39450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL6vs-0001v0-MN
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 12:48:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46906)
+	id 1mL75p-0001SJ-8I
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 12:58:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1mL6s4-0007Ji-N7; Tue, 31 Aug 2021 12:44:24 -0400
+ id 1mL6s7-0007Qc-GA; Tue, 31 Aug 2021 12:44:27 -0400
 Received: from [201.28.113.2] (port=43158 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <luis.pires@eldorado.org.br>)
- id 1mL6s3-0008P9-2A; Tue, 31 Aug 2021 12:44:24 -0400
+ id 1mL6s5-0008P9-Uf; Tue, 31 Aug 2021 12:44:27 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Tue, 31 Aug 2021 13:43:15 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 31 Aug 2021 13:43:18 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id 90F67800930;
- Tue, 31 Aug 2021 13:43:13 -0300 (-03)
+ by power9a (Postfix) with ESMTP id D8917800930;
+ Tue, 31 Aug 2021 13:43:15 -0300 (-03)
 From: Luis Pires <luis.pires@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 06/19] libdecnumber: introduce decNumberFrom[U]Int128
-Date: Tue, 31 Aug 2021 13:39:54 -0300
-Message-Id: <20210831164007.297781-7-luis.pires@eldorado.org.br>
+Subject: [PATCH v2 07/19] target/ppc: Move REQUIRE_ALTIVEC/VECTOR to
+ translate.c
+Date: Tue, 31 Aug 2021 13:39:55 -0300
+Message-Id: <20210831164007.297781-8-luis.pires@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210831164007.297781-1-luis.pires@eldorado.org.br>
 References: <20210831164007.297781-1-luis.pires@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 31 Aug 2021 16:43:15.0403 (UTC)
- FILETIME=[4B6E91B0:01D79E87]
+X-OriginalArrivalTime: 31 Aug 2021 16:43:18.0457 (UTC)
+ FILETIME=[4D409290:01D79E87]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -56,86 +57,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luis Pires <luis.pires@eldorado.org.br>, richard.henderson@linaro.org,
- groug@kaod.org, david@gibson.dropbear.id.au
+Cc: richard.henderson@linaro.org, groug@kaod.org,
+ Luis Pires <luis.pires@eldorado.org.br>,
+ Fernando Valle <fernando.valle@eldorado.org.br>,
+ Bruno Larsen <bruno.larsen@eldorado.org.br>,
+ Matheus Ferst <matheus.ferst@eldorado.org.br>, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will be used to implement PowerPC's dcffixqq.
+From: Bruno Larsen <bruno.larsen@eldorado.org.br>
 
+Move REQUIRE_ALTIVEC to translate.c and rename it to REQUIRE_VECTOR.
+
+Signed-off-by: Bruno Larsen <bruno.larsen@eldorado.org.br>
+Signed-off-by: Matheus Ferst <matheus.ferst@eldorado.org.br>
+Signed-off-by: Fernando Valle <fernando.valle@eldorado.org.br>
 Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
 ---
- include/libdecnumber/decNumber.h |  2 ++
- libdecnumber/decNumber.c         | 36 ++++++++++++++++++++++++++++++++
- 2 files changed, 38 insertions(+)
+ target/ppc/translate.c                 |  8 ++++++++
+ target/ppc/translate/vector-impl.c.inc | 10 +---------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/include/libdecnumber/decNumber.h b/include/libdecnumber/decNumber.h
-index aa115fed07..0cf69c7db2 100644
---- a/include/libdecnumber/decNumber.h
-+++ b/include/libdecnumber/decNumber.h
-@@ -116,6 +116,8 @@
-   decNumber * decNumberFromUInt32(decNumber *, uint32_t);
-   decNumber *decNumberFromInt64(decNumber *, int64_t);
-   decNumber *decNumberFromUInt64(decNumber *, uint64_t);
-+  decNumber *decNumberFromInt128(decNumber *, uint64_t, int64_t);
-+  decNumber *decNumberFromUInt128(decNumber *, uint64_t, uint64_t);
-   decNumber * decNumberFromString(decNumber *, const char *, decContext *);
-   char	    * decNumberToString(const decNumber *, char *);
-   char	    * decNumberToEngString(const decNumber *, char *);
-diff --git a/libdecnumber/decNumber.c b/libdecnumber/decNumber.c
-index 1ffe458ad8..75c09ba052 100644
---- a/libdecnumber/decNumber.c
-+++ b/libdecnumber/decNumber.c
-@@ -167,6 +167,7 @@
- /* ------------------------------------------------------------------ */
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 171b216e17..4749ecdaa9 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -7453,6 +7453,14 @@ static int times_4(DisasContext *ctx, int x)
+ # define REQUIRE_64BIT(CTX)  REQUIRE_INSNS_FLAGS(CTX, 64B)
+ #endif
  
- #include "qemu/osdep.h"
-+#include "qemu/host-utils.h"
- #include "libdecnumber/dconfig.h"
- #include "libdecnumber/decNumber.h"
- #include "libdecnumber/decNumberLocal.h"
-@@ -462,6 +463,41 @@ decNumber *decNumberFromUInt64(decNumber *dn, uint64_t uin)
-     return dn;
- } /* decNumberFromUInt64 */
++#define REQUIRE_VECTOR(CTX)                             \
++    do {                                                \
++        if (unlikely(!(CTX)->altivec_enabled)) {        \
++            gen_exception((CTX), POWERPC_EXCP_VPU);     \
++            return true;                                \
++        }                                               \
++    } while (0)
++
+ /*
+  * Helpers for implementing sets of trans_* functions.
+  * Defer the implementation of NAME to FUNC, with optional extra arguments.
+diff --git a/target/ppc/translate/vector-impl.c.inc b/target/ppc/translate/vector-impl.c.inc
+index 117ce9b137..197e903337 100644
+--- a/target/ppc/translate/vector-impl.c.inc
++++ b/target/ppc/translate/vector-impl.c.inc
+@@ -17,20 +17,12 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
  
-+decNumber *decNumberFromInt128(decNumber *dn, uint64_t lo, int64_t hi)
-+{
-+    uint64_t unsig_hi = hi;
-+    if (hi < 0) {
-+        if (lo == 0) {
-+            unsig_hi = -unsig_hi;
-+        } else {
-+            unsig_hi = ~unsig_hi;
-+            lo = -lo;
-+        }
-+    }
-+
-+    decNumberFromUInt128(dn, lo, unsig_hi);
-+    if (hi < 0) {
-+        dn->bits = DECNEG;        /* sign needed */
-+    }
-+    return dn;
-+} /* decNumberFromInt128 */
-+
-+decNumber *decNumberFromUInt128(decNumber *dn, uint64_t lo, uint64_t hi)
-+{
-+    uint64_t rem;
-+    Unit *up;                             /* work pointer */
-+    decNumberZero(dn);                    /* clean */
-+    if (lo == 0 && hi == 0) {
-+        return dn;                /* [or decGetDigits bad call] */
-+    }
-+    for (up = dn->lsu; hi > 0 || lo > 0; up++) {
-+        divu128(&lo, &hi, &rem, DECDPUNMAX + 1);
-+        *up = (Unit)rem;
-+    }
-+    dn->digits = decGetDigits(dn->lsu, up - dn->lsu);
-+    return dn;
-+} /* decNumberFromUInt128 */
-+
- /* ------------------------------------------------------------------ */
- /* to-int64 -- conversion to int64                                    */
- /*                                                                    */
+-#define REQUIRE_ALTIVEC(CTX) \
+-    do {                                                \
+-        if (unlikely(!(CTX)->altivec_enabled)) {        \
+-            gen_exception((CTX), POWERPC_EXCP_VPU);     \
+-            return true;                                \
+-        }                                               \
+-    } while (0)
+-
+ static bool trans_VCFUGED(DisasContext *ctx, arg_VX *a)
+ {
+     TCGv_i64 tgt, src, mask;
+ 
+     REQUIRE_INSNS_FLAGS2(ctx, ISA310);
+-    REQUIRE_ALTIVEC(ctx);
++    REQUIRE_VECTOR(ctx);
+ 
+     tgt = tcg_temp_new_i64();
+     src = tcg_temp_new_i64();
 -- 
 2.25.1
 
