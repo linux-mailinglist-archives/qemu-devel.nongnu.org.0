@@ -2,72 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE52D3FCC1F
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 19:15:03 +0200 (CEST)
-Received: from localhost ([::1]:40052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD4F83FCC41
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 19:23:31 +0200 (CEST)
+Received: from localhost ([::1]:53202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL7La-0004ff-UT
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 13:14:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51780)
+	id 1mL7Tl-00059y-Cf
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 13:23:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mL7J8-0002w5-Sp
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 13:12:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22406)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1mL7Nr-0000TE-AV; Tue, 31 Aug 2021 13:17:15 -0400
+Received: from isrv.corpit.ru ([86.62.121.231]:39379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mL7J2-00065P-GC
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 13:12:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630429934;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=S4Qex5nT3SsG/DvmuaI8zUx4tKniXVohLZLNt2CP5rg=;
- b=KSMZB6NSHgyonXBJ+JCUTFekHDoQKKLRDPf2EeFfeHa3gGOwmEIE1deb3n6HYntR4u8Z61
- SfT4rUx+5KtjiiW48TkJiNm6PzUJM6Nt79aLZVWEMbMxFQxYDmBj7UQaP5Lk0gTqBXcjrJ
- 1Bj0PBhK5+gBozQ6elV2U4WrOFIqfTc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-vlGVHr5sORmbvfA5UWdB8g-1; Tue, 31 Aug 2021 13:12:08 -0400
-X-MC-Unique: vlGVHr5sORmbvfA5UWdB8g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F12C21853028;
- Tue, 31 Aug 2021 17:12:07 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.192.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CB9ED27C2C;
- Tue, 31 Aug 2021 17:12:06 +0000 (UTC)
-Date: Tue, 31 Aug 2021 18:12:04 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Richard W.M. Jones" <rjones@redhat.com>
-Subject: Re: [PULL 08/15] target/i386: Added consistency checks for CR4
-Message-ID: <YS5i5AfLdc1wubLa@redhat.com>
-References: <20210722153612.955537-1-pbonzini@redhat.com>
- <20210722153612.955537-9-pbonzini@redhat.com>
- <20210831170304.GA24819@redhat.com>
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1mL7Np-0001a8-EU; Tue, 31 Aug 2021 13:17:14 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id B660040835;
+ Tue, 31 Aug 2021 20:17:09 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 9417671;
+ Tue, 31 Aug 2021 20:17:09 +0300 (MSK)
+Subject: Re: qemu-sockets: account for trailing \0 byte in unix socket pathname
+To: qemu-devel@nongnu.org
+References: <20210830225449.1509719-1-mjt@msgid.tls.msk.ru>
+From: Michael Tokarev <mjt@tls.msk.ru>
+Message-ID: <c5887473-1df2-5827-e9c7-e6f0470ab332@msgid.tls.msk.ru>
+Date: Tue, 31 Aug 2021 20:17:09 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210831170304.GA24819@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210830225449.1509719-1-mjt@msgid.tls.msk.ru>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -77
+X-Spam_score: -7.8
+X-Spam_bar: -------
+X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.932,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,38 +56,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Lara Lazier <laramglazier@gmail.com>,
- qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 31, 2021 at 06:03:04PM +0100, Richard W.M. Jones wrote:
-> On Thu, Jul 22, 2021 at 05:36:05PM +0200, Paolo Bonzini wrote:
-> > From: Lara Lazier <laramglazier@gmail.com>
-> > 
-> > All MBZ bits in CR4 must be zero. (APM2 15.5)
-> > Added reserved bitmask and added checks in both
-> > helper_vmrun and helper_write_crN.
-> > 
-> > Signed-off-by: Lara Lazier <laramglazier@gmail.com>
-> > Message-Id: <20210721152651.14683-2-laramglazier@gmail.com>
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+31.08.2021 01:54, Michael Tokarev wrote:
+> Linux kernel can return size of af_unix socket to be
+> one byte larger than sockaddr_un structure - adding
+> the trailing zero byte.
 > 
-> FYI this commit causes a regression with -cpu max (regression analyzed
-> by Daniel Berrange).  See:
+> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+> Fixes: 4cfd970ec188558daa6214f26203fe553fb1e01f (first in 6.1.0)
+> Cc: qemu-stable@nongnu.org
+> 
+> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+> index f2f3676d1f..83926dc2bc 100644
+> --- a/util/qemu-sockets.c
+> +++ b/util/qemu-sockets.c
+> @@ -1345,8 +1345,9 @@ socket_sockaddr_to_address_unix(struct sockaddr_storage *sa,
+>       SocketAddress *addr;
+>       struct sockaddr_un *su = (struct sockaddr_un *)sa;
+>   
+> +    /* kernel might have added \0 terminator to non-abstract socket */
+>       assert(salen >= sizeof(su->sun_family) + 1 &&
+> -           salen <= sizeof(struct sockaddr_un));
+> +           salen <= sizeof(struct sockaddr_un) + su->sun_path[0] ? 1 : 0);
+>   
+>       addr = g_new0(SocketAddress, 1);
+>       addr->type = SOCKET_ADDRESS_TYPE_UNIX;
 
-Specifically this commit breaks the ability to boot current fedora
-kernels with --cpu max.   Disabling 'la57' feature makes it work
-again. Similarly enabling 'la57' on any named CPU model makes that
-then break.
+Actually, this is not sufficient.
 
+While this change fixes one issue (the famous trailing null byte \0),
+the actual assertion failure occurs because salen = 2, ie, too SMALL,
+not too large.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+So it looks like libvirt provides an unnamed socket there, --
+maybe from a socketpair(2)?
 
+Hwell..
+
+/mjt
 
