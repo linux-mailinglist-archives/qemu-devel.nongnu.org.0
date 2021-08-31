@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 257993FCE91
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 22:28:49 +0200 (CEST)
-Received: from localhost ([::1]:55374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A5283FCE95
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 22:31:18 +0200 (CEST)
+Received: from localhost ([::1]:58816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLAND-0000qF-Op
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 16:28:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58256)
+	id 1mLAPd-0003H5-A6
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 16:31:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mLALk-0007p7-Ua
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 16:27:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50974)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mLALf-0007Lt-6H
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 16:27:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630441629;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OlOZBXUFmhOqprS+yTxaI5YGoKa9MA49dapJBABnsgE=;
- b=IFhKumTKAdI4whlC+ddQyGHYQ7sVZb6aXjQImp+JPyUkVeCUqg2T9kFhU6S0YnCzj8A4dk
- g5js9AJi3W11LK3f5KM7ZnDQ5eITxxcelOLt++gF5k6ulGudWN5wAcCJzxz0H13S+1Px05
- b572LqAvCgPuGgFYAEx9xCOsk41QS7k=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-597-d6sfq8YNP8e7W8jwysohkg-1; Tue, 31 Aug 2021 16:27:08 -0400
-X-MC-Unique: d6sfq8YNP8e7W8jwysohkg-1
-Received: by mail-qt1-f200.google.com with SMTP id
- x11-20020ac86b4b000000b00299d7592d31so656411qts.0
- for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 13:27:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mLAN6-0001lo-GR
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 16:28:40 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:38440)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mLAN4-0008H9-Lc
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 16:28:40 -0400
+Received: by mail-ej1-x632.google.com with SMTP id n27so1618113eja.5
+ for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 13:28:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ghFEX3xMK8UPb0mZNm7DLWFKUWu0WYDHovIjkpzAaXc=;
+ b=E69tadqiS/NHIMhTkh693qiNmUoPbnAiv8Fzw/+YysmsL8rQ61O7uu9JeGQd8RvZ0h
+ +3Y/Nvu+ldu4E+bPh3g4wIBTsYU/WjNvLthcmPphxknKBIgFjD8q3zBG0Eh4KYAvXD+s
+ iD94Jw0Edd9cbgT2chW6m3S4wxCissmyENRF1WxOMAN1bVn3KM6wpADtupIKxwk6/6q3
+ daPuO3yv8taWtxKEOET2JLZ1+wmH0aQ8DNvISCuVZbVB6paoxOjcuTiODtA5ABvhax/x
+ Mw0BAI9XeFrD1ju405UxC3nm/SO2CmYjgsnTJCxGqz+cXLTNR5osOry+ZQHd97uOPXcg
+ zU7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=OlOZBXUFmhOqprS+yTxaI5YGoKa9MA49dapJBABnsgE=;
- b=QDuYCpzon898jmabPROkgU0nVxOqbEuu3r8Z9ruym7J6AP1JAt111auPZPiQ/ncMW1
- HVeJfDOkGrX4HY75LsNZBMxstp3OR1bQz4RLD4boFtg1nuJ7qulJTpJb+s7JOqYBGVsG
- 1XOYZdWidhuV62jpkaDI2UJDSPAoOakGaxlKGqE39Ly5vhko59+oDr00d7rAQDWXzIIB
- F0CvQ2sJ5I33kv4G545j9tDsM6/r1vPtjTDIqup8SpVDGwkIIaworNDDhy3ktVI/C8T9
- NoL3LFAPMMMtHjj6PZxkGCCkYr80pkFe2BFoOV5RpICfODy0ZSsxt21BY74wmJv2Ll6M
- hRiw==
-X-Gm-Message-State: AOAM5331n3qteN1VkghUodrm6OJG3H2n817ntfFv3lmi+F0T/CKXec0Y
- uc3urkBHINro5+/l1j4+SrOHI8fj2iTzTB6TgQlEoCicJnDHjyQ6mZ3765P+hrtw0mC9EhRuXaE
- czbQqTobEmzO8y3o=
-X-Received: by 2002:a37:8a86:: with SMTP id m128mr4839193qkd.319.1630441627452; 
- Tue, 31 Aug 2021 13:27:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwzy+gUYhq9UqWZJD2b/UWjSlkecjnKqZWlaXT+UkP+vjHr2XGOCFnRUd8R3494tbMtySNuPA==
-X-Received: by 2002:a37:8a86:: with SMTP id m128mr4839180qkd.319.1630441627191; 
- Tue, 31 Aug 2021 13:27:07 -0700 (PDT)
-Received: from t490s ([2607:fea8:56a3:500::ad7f])
- by smtp.gmail.com with ESMTPSA id g13sm15176792qkk.110.2021.08.31.13.27.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Aug 2021 13:27:06 -0700 (PDT)
-Date: Tue, 31 Aug 2021 16:27:04 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH v1 2/3] io: Add zerocopy and errqueue
-Message-ID: <YS6QmOrN4qr055vR@t490s>
-References: <20210831110238.299458-1-leobras@redhat.com>
- <20210831110238.299458-3-leobras@redhat.com>
- <YS4nPfEBCy9IC3rd@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ghFEX3xMK8UPb0mZNm7DLWFKUWu0WYDHovIjkpzAaXc=;
+ b=qq35RgyPRgY5UBD7kpmKGqcuOL+ye4RXfkNEP7UEmtljxLhpp1cHKdJNijYJsM1Z2p
+ 4c/rpKFc/hZIvFxXLeylTZ4SJlbVQjn/ETb+zAEacJKCfFOqhnMkwvcE0KzfRnKZrN/e
+ HKh/neriF2A+sUcG1ykUlNb8fn6/xQVnBZev83iTm28hU35dzdy162TDJ1f7eAIiFAny
+ 0DXgEGd23l8kkmnIo7KS3EVNzTocYq+cpWHN0ydoHIQzaM9iVXz+UCp/x+r2sHgl8nUP
+ /kmff2AdzUazVNZUW4ouGejGXzlhP9Cn9yLlvOCljTwVEFf2LDv4+QrAUB956OR93cv4
+ lmvg==
+X-Gm-Message-State: AOAM531liaAV7Jbnq3q2dSlzkMu1iTj/hLA3U/a75lCb+ZZVQ5RqE13s
+ B0f4PFZBvDSC/NNZbOTB8hVMiaNXNXyeeUIqBs8cqQ==
+X-Google-Smtp-Source: ABdhPJxKjO7bTfhGwHIBEfJ5tjLS8O6xeahNWmtC5+5jGC/ScKqQT5NeMXQWPdOAWDVkjGoNj07KC74iJ4MoZOyMzEY=
+X-Received: by 2002:a17:906:a108:: with SMTP id
+ t8mr33030518ejy.407.1630441717035; 
+ Tue, 31 Aug 2021 13:28:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YS4nPfEBCy9IC3rd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210823085429.597873-1-philmd@redhat.com>
+In-Reply-To: <20210823085429.597873-1-philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 31 Aug 2021 21:27:48 +0100
+Message-ID: <CAFEAcA_tPGNWYmXDAnUqmBY1fzwQQ+ccCZ_icF67eoKE-eTPXA@mail.gmail.com>
+Subject: Re: [PATCH v3] memory: Have 'info mtree' remove duplicated Address
+ Space information
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,90 +80,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras <leobras@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>
+Cc: David Hildenbrand <david@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 31, 2021 at 01:57:33PM +0100, Daniel P. Berrangé wrote:
-> On Tue, Aug 31, 2021 at 08:02:38AM -0300, Leonardo Bras wrote:
-> > MSG_ZEROCOPY is a feature that enables copy avoidance in TCP/UDP socket
-> > send calls. It does so by avoiding copying user data into kernel buffers.
-> > 
-> > To make it work, three steps are needed:
-> > 1 - A setsockopt() system call, enabling SO_ZEROCOPY
-> > 2 - Passing down the MSG_ZEROCOPY flag for each send*() syscall
-> > 3 - Process the socket's error queue, dealing with any error
-> 
-> AFAICT, this is missing the single most critical aspect of MSG_ZEROCOPY.
-> 
-> It is non-obvious, but setting the MSG_ZEROCOPY flag turns sendmsg()
-> from a synchronous call to an asynchronous call.
-> 
-> It is forbidden to overwrite/reuse/free the buffer passed to sendmsg
-> until an asynchronous completion notification has been received from
-> the socket error queue. These notifications are not required to
-> arrive in-order, even for a TCP stream, because the kernel hangs on
-> to the buffer if a re-transmit is needed.
-> 
-> https://www.kernel.org/doc/html/v5.4/networking/msg_zerocopy.html
-> 
->   "Page pinning also changes system call semantics. It temporarily 
->    shares the buffer between process and network stack. Unlike with
->    copying, the process cannot immediately overwrite the buffer 
->    after system call return without possibly modifying the data in 
->    flight. Kernel integrity is not affected, but a buggy program
->    can possibly corrupt its own data stream."
-> 
-> AFAICT, the design added in this patch does not provide any way
-> to honour these requirements around buffer lifetime.
-> 
-> I can't see how we can introduce MSG_ZEROCOPY in any seemless
-> way. The buffer lifetime requirements imply need for an API
-> design that is fundamentally different for asynchronous usage,
-> with a callback to notify when the write has finished/failed.
+On Mon, 23 Aug 2021 at 09:54, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+>
+> Per Peter Maydell [*]:
+>
+>   'info mtree' monitor command was designed on the assumption that
+>   there's really only one or two interesting address spaces, and
+>   with more recent developments that's just not the case any more.
+>
+> Similarly about how the FlatView are sorted using a GHashTable,
+> sort the AddressSpace objects to remove the duplications (AS
+> using the same root MemoryRegion).
+>
 
-Regarding buffer reuse - it indeed has a very deep implication on the buffer
-being available and it's not obvious at all.  Just to mention that the initial
-user of this work will make sure all zero copy buffers will be guest pages only
-(as it's only used in multi-fd), so they should always be there during the
-process.
 
-I think asking for a complete design still makes sense.  E.g., for precopy
-before we flush device states and completes the migration, we may want to at
-least have a final ack on all the zero-copies of guest pages to guarantee they
-are flushed.
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index bfedaf9c4df..459d6246672 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -3246,11 +3246,55 @@ static gboolean mtree_info_flatview_free(gpointer=
+ key, gpointer value,
+>      return true;
+>  }
+>
+> +struct AddressSpaceInfo {
+> +    MemoryRegionListHead *ml_head;
+> +    bool owner;
+> +    bool disabled;
+> +};
+> +
+> +/* Returns negative value if a < b; zero if a =3D b; positive value if a=
+ > b. */
+> +static gint address_space_compare_name(gconstpointer a, gconstpointer b)
+> +{
+> +    const AddressSpace *as_a =3D a;
+> +    const AddressSpace *as_b =3D b;
+> +
+> +    return g_strcmp0(as_a->name, as_b->name);
+> +}
+> +static void mtree_print_as_name(gpointer data, gpointer user_data)
+> +{
+> +    AddressSpace *as =3D data;
+> +
+> +    qemu_printf("address-space: %s\n", as->name);
+> +}
+> +
+> +static void mtree_print_as(gpointer key, gpointer value, gpointer user_d=
+ata)
+> +{
+> +    MemoryRegion *mr =3D key;
+> +    GSList *as_same_root_mr_list =3D value;
+> +    struct AddressSpaceInfo *asi =3D user_data;
+> +
+> +    g_slist_foreach(as_same_root_mr_list, mtree_print_as_name, NULL);
+> +    mtree_print_mr(mr, 1, 0, asi->ml_head, asi->owner, asi->disabled);
+> +    qemu_printf("\n");
+> +}
+> +
+> +static gboolean mtree_info_as_free(gpointer key, gpointer value,
+> +                                   gpointer user_data)
+> +{
+> +    GSList *as_same_root_mr_list =3D value;
+> +
+> +    g_slist_free(as_same_root_mr_list);
+> +
+> +    return true;
+> +}
+> +
+>  void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disa=
+bled)
+>  {
+>      MemoryRegionListHead ml_head;
+>      MemoryRegionList *ml, *ml2;
+>      AddressSpace *as;
+> +    GHashTable *views =3D g_hash_table_new(g_direct_hash, g_direct_equal=
+);
+> +    GSList *as_same_root_mr_list;
+>
+>      if (flatview) {
+>          FlatView *view;
+> @@ -3260,7 +3304,6 @@ void mtree_info(bool flatview, bool dispatch_tree, =
+bool owner, bool disabled)
+>              .owner =3D owner,
+>          };
+>          GArray *fv_address_spaces;
+> -        GHashTable *views =3D g_hash_table_new(g_direct_hash, g_direct_e=
+qual);
+>          AccelClass *ac =3D ACCEL_GET_CLASS(current_accel());
+>
+>          if (ac->has_memory) {
+> @@ -3293,11 +3336,24 @@ void mtree_info(bool flatview, bool dispatch_tree=
+, bool owner, bool disabled)
+>      QTAILQ_INIT(&ml_head);
+>
+>      QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
+> -        qemu_printf("address-space: %s\n", as->name);
+> -        mtree_print_mr(as->root, 1, 0, &ml_head, owner, disabled);
+> -        qemu_printf("\n");
+> +        /* Create hashtable, key=3DAS root MR, value =3D list of AS */
+> +        as_same_root_mr_list =3D g_hash_table_lookup(views, as->root);
+> +        as_same_root_mr_list =3D g_slist_insert_sorted(as_same_root_mr_l=
+ist, as,
+> +                                                     address_space_compa=
+re_name);
+> +        g_hash_table_insert(views, as->root, as_same_root_mr_list);
+>      }
+>
+> +    struct AddressSpaceInfo asi =3D {
+> +        .ml_head =3D &ml_head,
+> +        .owner =3D owner,
+> +        .disabled =3D disabled,
+> +    };
 
-IOW, we need to make sure the last piece of migration stream lands after the
-guest pages so that the dest VM will always contain the latest page data when
-dest VM starts.  So far I don't see how current code guaranteed that.
+Strictly speaking this is against our coding-style "no variable
+declarations in the middle of a block".
 
-In short, we may just want to at least having a way to make sure all zero
-copied buffers are finished using and they're sent after some function returns
-(e.g., qio_channel_flush()).  That may require us to do some accounting on when
-we called sendmsg(MSG_ZEROCOPY), meanwhile we should need to read out the
-ee_data field within SO_EE_ORIGIN_ZEROCOPY msg when we do recvmsg() for the
-error queue and keep those information somewhere too.
+> +
+> +    /* print address spaces */
+> +    g_hash_table_foreach(views, mtree_print_as, &asi);
+> +    g_hash_table_foreach_remove(views, mtree_info_as_free, 0);
+> +    g_hash_table_unref(views);
+> +
+>      /* print aliased regions */
+>      QTAILQ_FOREACH(ml, &ml_head, mrqueue) {
+>          qemu_printf("memory-region: %s\n", memory_region_name(ml->mr));
+> --
+> 2.31.1
 
-Some other side notes that reached my mind..
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-The qio_channel_writev_full() may not be suitable for async operations, as the
-name "full" implies synchronous to me.  So maybe we can add a new helper for
-zero copy on the channel?
+Side note: I wonder if it would be worth splitting mtree_info()
+into a function for ASes and a function for flatviews? The two
+cases share basically no code, and there's only one callsite.
 
-We may also want a new QIOChannelFeature as QIO_CHANNEL_FEATURE_ZEROCOPY, then
-we fail qio_channel_writv_zerocopy() (or whatever name we come up with) if that
-bit is not set in qio channel features.
-
-Thanks,
-
--- 
-Peter Xu
-
+thanks
+-- PMM
 
