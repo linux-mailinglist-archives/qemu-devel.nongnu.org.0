@@ -2,54 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBF6B3FC5C9
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 12:59:50 +0200 (CEST)
-Received: from localhost ([::1]:59314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 628053FC5CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 13:05:28 +0200 (CEST)
+Received: from localhost ([::1]:35398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL1Ub-00069h-Ce
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 06:59:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41654)
+	id 1mL1a3-0001BE-8B
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 07:05:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mL1Sx-0005Fo-F2
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 06:58:07 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:54737)
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1mL1Xc-0007Yv-3T
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 07:02:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mL1Sv-0001n3-1k
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 06:58:07 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-298-4OT-d12iMaGv9KKJsNZSrA-1; Tue, 31 Aug 2021 06:57:53 -0400
-X-MC-Unique: 4OT-d12iMaGv9KKJsNZSrA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A108801B3D;
- Tue, 31 Aug 2021 10:57:52 +0000 (UTC)
-Received: from bahia.lan (unknown [10.39.193.19])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F44D60C9F;
- Tue, 31 Aug 2021 10:57:51 +0000 (UTC)
-Date: Tue, 31 Aug 2021 12:57:49 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: 9pfs: Twalk crash
-Message-ID: <20210831125749.15c42c33@bahia.lan>
-In-Reply-To: <4325838.qn0ATYcOi1@silver>
-References: <4325838.qn0ATYcOi1@silver>
+ (Exim 4.90_1) (envelope-from <leobras@redhat.com>)
+ id 1mL1XZ-0005yA-OV
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 07:02:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630407772;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bwYIVAjwCGLQKbtVQCCFSi3jI5oXekweU87cr9L4CPE=;
+ b=NR+aWVl7W4+EOD16Ktzm+V6/3t5ZWwqfvb/OVZp54T8qKKPuaOv96+3QkjmU1cwOld49Fw
+ R/M4Xs1CIr8LEauEgtQt9AbFpmVzieaqqXsaoiq/k89p7GsAK2x+GBvgUmvu4IAt5qPHhZ
+ yCz+StiLZ+r+oN1MmqV6rRlNxjZTzWk=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-351-eQc0knjDMuqiH6O4fykifw-1; Tue, 31 Aug 2021 07:02:50 -0400
+X-MC-Unique: eQc0knjDMuqiH6O4fykifw-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ u19-20020a05620a121300b0042665527c3bso1122763qkj.14
+ for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 04:02:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bwYIVAjwCGLQKbtVQCCFSi3jI5oXekweU87cr9L4CPE=;
+ b=ce3hXeY6jszAxUdkHy7WTT7XkWQpjAy3xgClgxe79JJaJ0G2L6iECQgqXbfQCtg3r0
+ mY+m2u7u2JjD0HTQGe38uSGdxOEMyFgilM+tDDRcEVjv/SYrt6SQ4SwkFLZxUIWamCVi
+ BxjAZiNDmBCwCngf/k7jIH82mJ/rc3zvM7UXLNnGcxWzylIwcd66pqHZipoGpTcURrFC
+ aeEg20yukfrecqliDwHfd+8zMe05FgKZTJoSzr6dcG8okm9z13Ji6ITie+zPAqm7LlJC
+ s1Wwa5Ys+yM2Ijt7N3LJG9oq7BSVLnvzgYMhN3atGeejXjZNWBH2WmCdtuK4JxJaUoDS
+ n4Yw==
+X-Gm-Message-State: AOAM530aW+keE8mvCITu9HhmfVb6aOjjmmL/b6NsKpNlvmEnDgKIUJqD
+ Oge1kKHB/Xy1Vwx5oGAWEIKikxxcuSa+J5kHcqiHaZBVsP/zHhfamMV/sJE/YRSkCwV7wnP/Pw+
+ +2XryD3Y4WJ7seOc=
+X-Received: by 2002:a0c:ac48:: with SMTP id m8mr21980971qvb.28.1630407770329; 
+ Tue, 31 Aug 2021 04:02:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyMPOMQ9x5A/NdCWkggMuVVXVAFbwewNnBIzhqjlPQBxs0sVL1dQZScNZ5L46CgYJdvQYy2QQ==
+X-Received: by 2002:a0c:ac48:: with SMTP id m8mr21980961qvb.28.1630407770195; 
+ Tue, 31 Aug 2021 04:02:50 -0700 (PDT)
+Received: from LeoBras.redhat.com ([2804:431:c7f1:e948:8e69:9cd6:5512:12f4])
+ by smtp.gmail.com with ESMTPSA id b25sm13315536qka.23.2021.08.31.04.02.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Aug 2021 04:02:49 -0700 (PDT)
+From: Leonardo Bras <leobras@redhat.com>
+To: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Peter Xu <peterx@redhat.com>
+Subject: [PATCH v1 0/3] QIOChannel flags + multifd zerocopy
+Date: Tue, 31 Aug 2021 08:02:36 -0300
+Message-Id: <20210831110238.299458-1-leobras@redhat.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=leobras@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=leobras@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.391, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,118 +100,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Leonardo Bras <leobras@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 30 Aug 2021 17:55:04 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+This patch series intends to enable MSG_ZEROCOPY in QIOChannel, and make
+use of it for multifd migration performance improvement.
 
-> Apparently commit 8d6cb100731c4d28535adbf2a3c2d1f29be3fef4 '9pfs: reduce=
-=20
-> latency of Twalk' has introduced occasional crashes.
->=20
-> My first impression after looking at the backtrace: looks like the patch=
-=20
-> itself is probably not causing this, but rather unmasked this issue (i.e.=
-=20
-> increased the chance to be triggered).
->=20
-> The crash is because of 'elem' is NULL in virtio_pdu_vunmarshal() (frame =
-0).
->=20
+Patch #1 enables the use of flags on qio_channel_write*(), allowing
+more flexibility in using the channel. 
+It was designed for MSG_ZEROCOPY usage, in which it's a good idea
+having a eassy way to choose what packets are sent with the flag, but
+also makes it more flexible for future usage.
 
-Ouch... this certainly isn't expected to happen :-\
+Patch #2 just adds the MSG_ZEROCOPY feature, and defines the enablement
+mechanics, while not enabling it in any code.
 
-elem is popped out the vq in handle_9p_output():
-
-        elem =3D virtqueue_pop(vq, sizeof(VirtQueueElement));
-        if (!elem) {
-            goto out_free_pdu;
-        }
-[...]
-        v->elems[pdu->idx] =3D elem;
-
-and cleared on PDU completion in virtio_9p_push_and_notify() :
-
-    v->elems[pdu->idx] =3D NULL;
+Patch #3 enables MSG_ZEROCOPY for migration / multifd.
 
 
-I can't think of a way where push_and_notify() could collide
-with handle_output()... both are supposed to be run sequentially
-by the main event loop. Maybe active some traces ?
+Results:
+So far, the resource usage of __sys_sendmsg() reduced 15 times, and the
+overall migration took 13-18% less time, based in synthetic workload.
 
-> bt taken with HEAD being 8d6cb100731c4d28535adbf2a3c2d1f29be3fef4:
->=20
-> Program terminated with signal SIGSEGV, Segmentation fault.
-> #0  virtio_pdu_vunmarshal (pdu=3D0x55a93717cde8, offset=3D7, fmt=3D0x55a9=
-352766d1=20
-> "ddw", ap=3D0x7f38a9ad9cd0) at ../hw/9pfs/virtio-9p-device.c:146
-> 146         ret =3D v9fs_iov_vunmarshal(elem->out_sg, elem->out_num, offs=
-et, 1,=20
-> fmt, ap);
-> [Current thread is 1 (Thread 0x7f3bddd2ac40 (LWP 7811))]
-> (gdb) bt full
-> #0  0x000055a934dfb9a7 in virtio_pdu_vunmarshal (pdu=3D0x55a93717cde8, of=
-fset=3D7,=20
-> fmt=3D0x55a9352766d1 "ddw", ap=3D0x7f38a9ad9cd0) at ../hw/9pfs/virtio-9p-=
-device.c:
-> 146
->         s =3D 0x55a93717b4b8
->         v =3D 0x55a93717aee0
->         elem =3D 0x0
+The objective is to reduce migration time in hosts with heavy cpu usage.
 
-So this is v->elems[pdu->idx]... what's the value of pdu->idx ?
+Leonardo Bras (3):
+  io: Enable write flags for QIOChannel
+  io: Add zerocopy and errqueue
+  migration: multifd: Enable zerocopy
 
->         ret =3D <optimized out>
-> #1  0x000055a934bf35e8 in pdu_unmarshal (pdu=3Dpdu@entry=3D0x55a93717cde8=
-,=20
-> offset=3Doffset@entry=3D7, fmt=3Dfmt@entry=3D0x55a9352766d1 "ddw") at ../=
-hw/9pfs/9p.c:
-> 71
->         ret =3D <optimized out>
->         ap =3D {{gp_offset =3D 24, fp_offset =3D 48, overflow_arg_area =
-=3D=20
-> 0x7f38a9ad9db0, reg_save_area =3D 0x7f38a9ad9cf0}}
-> #2  0x000055a934bf68db in v9fs_walk (opaque=3D0x55a93717cde8) at ../hw/9p=
-fs/
-> 9p.c:1720
->         name_idx =3D <optimized out>
->         qids =3D 0x0
->         i =3D <optimized out>
->         err =3D 0
->         dpath =3D {size =3D 0, data =3D 0x0}
->         path =3D {size =3D 0, data =3D 0x0}
->         pathes =3D 0x0
->         nwnames =3D 1
->         stbuf =3D=20
->             {st_dev =3D 2050, st_ino =3D 1199848, st_nlink =3D 1, st_mode=
- =3D 41471,=20
-> st_uid =3D 0, st_gid =3D 0, __pad0 =3D 0, st_rdev =3D 0, st_size =3D 13, =
-st_blksize =3D=20
-> 4096, st_blocks =3D 16, s}
->         fidst =3D=20
->             {st_dev =3D 2050, st_ino =3D 1198183, st_nlink =3D 3, st_mode=
- =3D 16877,=20
-> st_uid =3D 0, st_gid =3D 0, __pad0 =3D 0, st_rdev =3D 0, st_size =3D 1228=
-8, st_blksize =3D=20
-> 4096, st_blocks =3D 32}
->         stbufs =3D 0x0
->         offset =3D 7
->         fid =3D 299
->         newfid =3D 687
->         wnames =3D 0x0
->         fidp =3D <optimized out>
->         newfidp =3D 0x0
->         pdu =3D 0x55a93717cde8
->         s =3D 0x55a93717b4b8
->         qid =3D {type =3D 2 '\002', version =3D 1556732739, path =3D 2399=
-697}
-> #3  0x000055a93505760b in coroutine_trampoline (i0=3D<optimized out>,=20
-> i1=3D<optimized out>) at ../util/coroutine-ucontext.c:173
->=20
->=20
->=20
->=20
+ chardev/char-io.c                   |  2 +-
+ hw/remote/mpqemu-link.c             |  2 +-
+ include/io/channel-socket.h         |  2 +
+ include/io/channel.h                | 85 +++++++++++++++++++++++------
+ io/channel-buffer.c                 |  1 +
+ io/channel-command.c                |  1 +
+ io/channel-file.c                   |  1 +
+ io/channel-socket.c                 | 80 ++++++++++++++++++++++++++-
+ io/channel-tls.c                    | 12 ++++
+ io/channel-websock.c                | 10 ++++
+ io/channel.c                        | 64 +++++++++++++---------
+ migration/multifd-zlib.c            |  7 ++-
+ migration/multifd-zstd.c            |  7 ++-
+ migration/multifd.c                 |  9 ++-
+ migration/multifd.h                 |  3 +-
+ migration/rdma.c                    |  1 +
+ scsi/pr-manager-helper.c            |  2 +-
+ tests/unit/test-io-channel-socket.c |  1 +
+ 18 files changed, 235 insertions(+), 55 deletions(-)
+
+-- 
+2.33.0
 
 
