@@ -2,80 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE043FC9A5
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 16:22:04 +0200 (CEST)
-Received: from localhost ([::1]:41020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97A383FC9B4
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 16:26:40 +0200 (CEST)
+Received: from localhost ([::1]:49992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL4eI-00046C-Nb
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 10:22:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57828)
+	id 1mL4il-0001z1-MH
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 10:26:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mL4Di-00043s-Ux
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 09:54:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37813)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mL4Kl-0005Bc-Su
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 10:01:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1mL4De-0007Sq-Be
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 09:54:34 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mL4Kh-0003x5-6P
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 10:01:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630418069;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1630418505;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0tVaU8DZcm8ZAmdDeLmbu/4Vl8f85fmkA4K+ms7qH6g=;
- b=CUmr3lsdIgRcvhjLSQx6PvKZm2nmJb+0zlnyZP04fqI/07PqGu6H0dkyTzsw9dePs+yACZ
- oA0mBo9w5LJ1nUUjOVUQObuhK24sJWZobTkMfcafl0xniHwws99pv0ROJ9HiRUPdYMIQY8
- aSQnd5qPt7ZTieweb96TEuUnQT+wyfQ=
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-500-VBJ4IWHEMACOD42f2ShnHA-1; Tue, 31 Aug 2021 09:54:28 -0400
-X-MC-Unique: VBJ4IWHEMACOD42f2ShnHA-1
-Received: by mail-pl1-f197.google.com with SMTP id
- u12-20020a170902a60c00b00138b944e10fso2362381plq.9
- for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 06:54:27 -0700 (PDT)
+ bh=noUBStaK8/M34XqCVj6sM5my/wyghfQ0BFep4Gh9s2g=;
+ b=eFpBhA+5L+C5yk2x/aJsEYSM0d28OwBTlLcn5NYnhu6MMBQoURDMFovub82tr9c1+PS+S9
+ gifatLxvElpq0r3uonyC76ycb/U9xJ1ovtciXkshddSrst6QAGVgH9Kn/a4VRxldQMLYRb
+ rsJICHQGvu3GVVXCtk1Szil39Iajrzc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-551-UhkZYp6NOOGWa02tkACMJw-1; Tue, 31 Aug 2021 10:01:43 -0400
+X-MC-Unique: UhkZYp6NOOGWa02tkACMJw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m16-20020a7bca50000000b002ee5287d4bfso1363942wml.7
+ for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 07:01:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0tVaU8DZcm8ZAmdDeLmbu/4Vl8f85fmkA4K+ms7qH6g=;
- b=N4/u6DFmhh4OtRk/s2kSbxLhDyl9fihzf0BuOLpoOMZGmt9aOR182Cv9/hYzVU2m/7
- SlqNNbp8vxZ4PAbsRClJK4JGwVgWzYTRSa9zrbfRSy3GfmWd4twujtdGH3x9fZiB9a7v
- rOyX7hSOfYKdFvhcb0EIT6gAMC7vcBPW8aIUqyFvfuh59Mf5rgxfqruGgb13syMGse9M
- gdLjQTWJ1PjKZ9VHN6Srgfj5hPC7gdseWyCNdkigRZiuyEH1hWmXLInINgwtsPGHdXCg
- ESx24lsnoo/sTY8yH/VRnMMftNoQVhTSuqp9+O3aRIb3s5BPsSxQVPk824NHNNdlkVTE
- I4kA==
-X-Gm-Message-State: AOAM532XQLJlOITJkrjYtZ2wqH+1l+pKL1RMGgLDL+9YhDzTAzVmk1tx
- DVc8Jus2TArIZ9iutMiJu2tB32+zIHQaqtVwRh3PDgdD3QOMQKVclSc/IBvd5xR2qDie26ZFvgK
- Kgg3JJV7oPG7iSJYGaYHjN/kK94UdKpw=
-X-Received: by 2002:a63:25c5:: with SMTP id l188mr3060989pgl.281.1630418066718; 
- Tue, 31 Aug 2021 06:54:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyRsBX1RXDSyrzZJQ7QBrBYHLKUDbBAcxpS8bumH0d7LUdqflorrAgiE7hhiybpy9yuS6E29yJxffGGJUJuBAI=
-X-Received: by 2002:a63:25c5:: with SMTP id l188mr3060971pgl.281.1630418066467; 
- Tue, 31 Aug 2021 06:54:26 -0700 (PDT)
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=noUBStaK8/M34XqCVj6sM5my/wyghfQ0BFep4Gh9s2g=;
+ b=rajXIClq5puSZOLytxC7hbdmMQUM+UZ9p9sRiX/ZHcPJZcu00RxugOFVik6/dUgKdD
+ 3ea+8BaTlBfyUd5VWFh+GElN2PxsRG8yxbNk+e24Ur5XyHY29KYuwjCzjVMhxQ8dKP/q
+ PwE/sZ5qR/N79UBCOhCG/h4aKfVKm4XxfCHl9paYKfR/PO6m3Lj+oJ0UiSwGMEGvPMJp
+ Dpq8hPhcogE5/iGtFfzxkmuQILfS0FnvlLm5vBrrlFxIAxXuRxA+IqjkM2NPj9pOZTPP
+ 6+LX1cLF7O1DbpSchg4k3c/UT7UnkwoM+XkEUzOu2B7MZcAYJe2emgFHjxEIMthWthI7
+ LXyA==
+X-Gm-Message-State: AOAM533butBZkmFwHythgVsMucS/hTL8E4vhHypoirlueqzgn5hoN2Vt
+ epqGPZ9Xv5XsdEE6Of6yF4mjbFECZdHx3LEOsOTdELbEpMIMF4+NT4bOqg5hG+xhFRA2v0LpmQT
+ DEUUkxAhio945gS4=
+X-Received: by 2002:a05:6000:128d:: with SMTP id
+ f13mr33566490wrx.244.1630418502160; 
+ Tue, 31 Aug 2021 07:01:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwHGR7CoO6ENBilgE51bQpVvCL+KVZCjTkwDxwMR5cCV0xMvBFDb1VwSfDxcq4sA9FJ1O4ejg==
+X-Received: by 2002:a05:6000:128d:: with SMTP id
+ f13mr33566456wrx.244.1630418501959; 
+ Tue, 31 Aug 2021 07:01:41 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id p9sm2248741wrg.14.2021.08.31.07.01.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 31 Aug 2021 07:01:41 -0700 (PDT)
+Subject: Re: [PATCH v5 2/4] hw/arm/smmuv3: Update implementation of CFGI
+ commands based on device SID
+To: chunming <chunming_li1234@163.com>, peter.maydell@linaro.org
+References: <1629878922-173270-1-git-send-email-chunming_li1234@163.com>
+ <1629878922-173270-3-git-send-email-chunming_li1234@163.com>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <7089ce3e-2b15-7cf3-86d9-231c69794138@redhat.com>
+Date: Tue, 31 Aug 2021 16:01:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-References: <20210825092023.81396-1-thuth@redhat.com>
- <20210825092023.81396-3-thuth@redhat.com>
-In-Reply-To: <20210825092023.81396-3-thuth@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Tue, 31 Aug 2021 15:54:14 +0200
-Message-ID: <CABgObfbuqJmv7BHNbuTKBU5g0QAMweyLvGtHEB2hyPi2e6Nzog@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] softmmu/vl: Deprecate the old grab options
-To: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <1629878922-173270-3-git-send-email-chunming_li1234@163.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000affeb805cadb49d7"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ NICE_REPLY_A=-0.932, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,327 +104,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Armbruster, Markus" <armbru@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: eric.auger@redhat.com
+Cc: renwei.liu@verisilicon.com, qemu-arm@nongnu.org,
+ jianxian.wen@verisilicon.com, qemu-devel@nongnu.org,
+ chunming <chunming.li@verisilicon.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000affeb805cadb49d7
-Content-Type: text/plain; charset="UTF-8"
+Hi Chunming
 
-No objections at all here, though. :)
-
-Paolo
-
-Il mer 25 ago 2021, 11:20 Thomas Huth <thuth@redhat.com> ha scritto:
-
-> The alt_grab and ctrl_grab parameter of the -display sdl option prevent
-> the QAPIfication of the "sdl" part of the -display option, so we should
-> eventually remove them. And since this feature is also rather niche anyway,
-> we should not clutter the top-level option list with these, so let's
-> also deprecate the "-alt-grab" and the "-ctrl-grab" options while we're
-> at it.
+On 8/25/21 10:08 AM, chunming wrote:
+> From: chunming <chunming.li@verisilicon.com>
 >
-> Once the deprecation period of "alt_grab" and "ctrl_grab" is over, we
-> then can finally switch the -display sdl option to use QAPI internally,
-> too.
+> Replace "smmuv3_flush_config" with "g_hash_table_foreach_remove".
+this replacement may have a potential negative impact on the performance
+for PCIe support, which is the main use case: a unique
+g_hash_table_remove() is replaced by an iteration over all the config
+hash keys.
+
+I wonder if you couldn't just adapt smmu_iommu_mr() and it case this
+latter returns NULL for the current PCIe search, look up in the platform
+device list:
+
+peri_sdev_list?
+
+Thanks
+
+Eric
+
+
+
+> "smmu_iommu_mr" function can't get MR according to SID for non PCI/PCIe devices.
 >
-> Acked-by: Peter Krempa <pkrempa@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: chunming <chunming.li@verisilicon.com>
 > ---
->  docs/about/deprecated.rst | 10 ++++++++++
->  qemu-options.hx           | 12 ++++++++----
->  softmmu/vl.c              |  6 ++++++
->  3 files changed, 24 insertions(+), 4 deletions(-)
+>  hw/arm/smmuv3.c              | 35 ++++++++++-------------------------
+>  include/hw/arm/smmu-common.h |  5 ++++-
+>  2 files changed, 14 insertions(+), 26 deletions(-)
 >
-> diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-> index 6d438f1c8d..868eca0dd4 100644
-> --- a/docs/about/deprecated.rst
-> +++ b/docs/about/deprecated.rst
-> @@ -138,6 +138,16 @@ an underscore between "window" and "close").
->  The ``-no-quit`` is a synonym for ``-display ...,window-close=off`` which
->  should be used instead.
->
-> +``-alt-grab`` and ``-display sdl,alt_grab=on`` (since 6.2)
-> +''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-> +
-> +Use ``-display sdl,grab-mod=lshift-lctrl-lalt`` instead.
-> +
-> +``-ctrl-grab`` and ``-display sdl,ctrl_grab=on`` (since 6.2)
-> +''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-> +
-> +Use ``-display sdl,grab-mod=rctrl`` instead.
-> +
->
->  QEMU Machine Protocol (QMP) commands
->  ------------------------------------
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 0bff756ded..4f46233527 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -1884,9 +1884,11 @@ SRST
->          the mouse grabbing in conjunction with the "g" key. `<mods>` can
-> be
->          either `lshift-lctrl-lalt` or `rctrl`.
->
-> -        ``alt_grab=on|off`` : Use Control+Alt+Shift-g to toggle mouse
-> grabbing
-> +        ``alt_grab=on|off`` : Use Control+Alt+Shift-g to toggle mouse
-> grabbing.
-> +        This parameter is deprecated - use ``grab-mod`` instead.
->
-> -        ``ctrl_grab=on|off`` : Use Right-Control-g to toggle mouse
-> grabbing
-> +        ``ctrl_grab=on|off`` : Use Right-Control-g to toggle mouse
-> grabbing.
-> +        This parameter is deprecated - use ``grab-mod`` instead.
->
->          ``gl=on|off|core|es`` : Use OpenGL for displaying
->
-> @@ -1971,7 +1973,8 @@ SRST
->  ``-alt-grab``
->      Use Ctrl-Alt-Shift to grab mouse (instead of Ctrl-Alt). Note that
->      this also affects the special keys (for fullscreen, monitor-mode
-> -    switching, etc).
-> +    switching, etc). This option is deprecated - please use
-> +    ``-display sdl,grab-mod=lshift-lctrl-lalt`` instead.
->  ERST
->
->  DEF("ctrl-grab", 0, QEMU_OPTION_ctrl_grab,
-> @@ -1981,7 +1984,8 @@ SRST
->  ``-ctrl-grab``
->      Use Right-Ctrl to grab mouse (instead of Ctrl-Alt). Note that this
->      also affects the special keys (for fullscreen, monitor-mode
-> -    switching, etc).
-> +    switching, etc). This option is deprecated - please use
-> +    ``-display sdl,grab-mod=rctrl`` instead.
->  ERST
->
->  DEF("no-quit", 0, QEMU_OPTION_no_quit,
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 294990debf..613948ab46 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -1043,6 +1043,7 @@ static void parse_display(const char *p)
->                  } else {
->                      goto invalid_sdl_args;
->                  }
-> +                warn_report("alt_grab is deprecated, use grab-mod
-> instead.");
->              } else if (strstart(opts, ",ctrl_grab=", &nextopt)) {
->                  opts = nextopt;
->                  if (strstart(opts, "on", &nextopt)) {
-> @@ -1052,6 +1053,7 @@ static void parse_display(const char *p)
->                  } else {
->                      goto invalid_sdl_args;
->                  }
-> +                warn_report("ctrl_grab is deprecated, use grab-mod
-> instead.");
->              } else if (strstart(opts, ",window_close=", &nextopt) ||
->                         strstart(opts, ",window-close=", &nextopt)) {
->                  if (strstart(opts, ",window_close=", NULL)) {
-> @@ -3253,9 +3255,13 @@ void qemu_init(int argc, char **argv, char **envp)
+> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+> index 11d7fe8423..9f3f13fb8e 100644
+> --- a/hw/arm/smmuv3.c
+> +++ b/hw/arm/smmuv3.c
+> @@ -613,14 +613,6 @@ static SMMUTransCfg *smmuv3_get_config(SMMUDevice *sdev, SMMUEventInfo *event)
+>      return cfg;
+>  }
+>  
+> -static void smmuv3_flush_config(SMMUDevice *sdev)
+> -{
+> -    SMMUv3State *s = sdev->smmu;
+> -    SMMUState *bc = &s->smmu_state;
+> -
+> -    trace_smmuv3_config_cache_inv(smmu_get_sid(sdev));
+> -    g_hash_table_remove(bc->configs, sdev);
+> -}
+>  
+>  static IOMMUTLBEntry smmuv3_translate(IOMMUMemoryRegion *mr, hwaddr addr,
+>                                        IOMMUAccessFlags flag, int iommu_idx)
+> @@ -964,22 +956,18 @@ static int smmuv3_cmdq_consume(SMMUv3State *s)
+>          case SMMU_CMD_CFGI_STE:
+>          {
+>              uint32_t sid = CMD_SID(&cmd);
+> -            IOMMUMemoryRegion *mr = smmu_iommu_mr(bs, sid);
+> -            SMMUDevice *sdev;
+> +            SMMUSIDRange sid_range;
+>  
+>              if (CMD_SSEC(&cmd)) {
+>                  cmd_error = SMMU_CERROR_ILL;
 >                  break;
->              case QEMU_OPTION_alt_grab:
->                  alt_grab = 1;
-> +                warn_report("-alt-grab is deprecated, please use "
-> +                            "-display sdl,grab-mod=lshift-lctrl-lalt
-> instead.");
+>              }
+>  
+> -            if (!mr) {
+> -                break;
+> -            }
+> -
+> +            sid_range.start = sid;
+> +            sid_range.end = sid;
+>              trace_smmuv3_cmdq_cfgi_ste(sid);
+> -            sdev = container_of(mr, SMMUDevice, iommu);
+> -            smmuv3_flush_config(sdev);
+> -
+> +            g_hash_table_foreach_remove(bs->configs, smmuv3_invalidate_ste,
+> +                                        &sid_range);
+>              break;
+>          }
+>          case SMMU_CMD_CFGI_STE_RANGE: /* same as SMMU_CMD_CFGI_ALL */
+> @@ -1006,21 +994,18 @@ static int smmuv3_cmdq_consume(SMMUv3State *s)
+>          case SMMU_CMD_CFGI_CD_ALL:
+>          {
+>              uint32_t sid = CMD_SID(&cmd);
+> -            IOMMUMemoryRegion *mr = smmu_iommu_mr(bs, sid);
+> -            SMMUDevice *sdev;
+> +            SMMUSIDRange sid_range;
+>  
+>              if (CMD_SSEC(&cmd)) {
+>                  cmd_error = SMMU_CERROR_ILL;
 >                  break;
->              case QEMU_OPTION_ctrl_grab:
->                  ctrl_grab = 1;
-> +                warn_report("-ctrl-grab is deprecated, please use "
-> +                            "-display sdl,grab-mod=rctrl instead.");
->                  break;
->              case QEMU_OPTION_no_quit:
->                  dpy.has_window_close = true;
-> --
-> 2.27.0
->
->
-
---000000000000affeb805cadb49d7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">No objections at all here, though. :)<div dir=3D"auto"><b=
-r></div><div dir=3D"auto">Paolo</div></div><br><div class=3D"gmail_quote"><=
-div dir=3D"ltr" class=3D"gmail_attr">Il mer 25 ago 2021, 11:20 Thomas Huth =
-&lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; ha scritto=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex">The alt_grab and ctrl_grab parame=
-ter of the -display sdl option prevent<br>
-the QAPIfication of the &quot;sdl&quot; part of the -display option, so we =
-should<br>
-eventually remove them. And since this feature is also rather niche anyway,=
-<br>
-we should not clutter the top-level option list with these, so let&#39;s<br=
->
-also deprecate the &quot;-alt-grab&quot; and the &quot;-ctrl-grab&quot; opt=
-ions while we&#39;re<br>
-at it.<br>
-<br>
-Once the deprecation period of &quot;alt_grab&quot; and &quot;ctrl_grab&quo=
-t; is over, we<br>
-then can finally switch the -display sdl option to use QAPI internally,<br>
-too.<br>
-<br>
-Acked-by: Peter Krempa &lt;<a href=3D"mailto:pkrempa@redhat.com" target=3D"=
-_blank" rel=3D"noreferrer">pkrempa@redhat.com</a>&gt;<br>
-Signed-off-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=
-=3D"_blank" rel=3D"noreferrer">thuth@redhat.com</a>&gt;<br>
----<br>
-=C2=A0docs/about/deprecated.rst | 10 ++++++++++<br>
-=C2=A0qemu-options.hx=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 12 ++++++++=
-----<br>
-=C2=A0softmmu/vl.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-6 ++++++<br>
-=C2=A03 files changed, 24 insertions(+), 4 deletions(-)<br>
-<br>
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst<br>
-index 6d438f1c8d..868eca0dd4 100644<br>
---- a/docs/about/deprecated.rst<br>
-+++ b/docs/about/deprecated.rst<br>
-@@ -138,6 +138,16 @@ an underscore between &quot;window&quot; and &quot;clo=
-se&quot;).<br>
-=C2=A0The ``-no-quit`` is a synonym for ``-display ...,window-close=3Doff``=
- which<br>
-=C2=A0should be used instead.<br>
-<br>
-+``-alt-grab`` and ``-display sdl,alt_grab=3Don`` (since 6.2)<br>
-+&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39=
-;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39=
-;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39=
-;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;<br>
-+<br>
-+Use ``-display sdl,grab-mod=3Dlshift-lctrl-lalt`` instead.<br>
-+<br>
-+``-ctrl-grab`` and ``-display sdl,ctrl_grab=3Don`` (since 6.2)<br>
-+&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39=
-;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39=
-;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39=
-;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39;&#39=
-;<br>
-+<br>
-+Use ``-display sdl,grab-mod=3Drctrl`` instead.<br>
-+<br>
-<br>
-=C2=A0QEMU Machine Protocol (QMP) commands<br>
-=C2=A0------------------------------------<br>
-diff --git a/qemu-options.hx b/qemu-options.hx<br>
-index 0bff756ded..4f46233527 100644<br>
---- a/qemu-options.hx<br>
-+++ b/qemu-options.hx<br>
-@@ -1884,9 +1884,11 @@ SRST<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0the mouse grabbing in conjunction with th=
-e &quot;g&quot; key. `&lt;mods&gt;` can be<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0either `lshift-lctrl-lalt` or `rctrl`.<br=
->
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 ``alt_grab=3Don|off`` : Use Control+Alt+Shift-=
-g to toggle mouse grabbing<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ``alt_grab=3Don|off`` : Use Control+Alt+Shift-=
-g to toggle mouse grabbing.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 This parameter is deprecated - use ``grab-mod`=
-` instead.<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 ``ctrl_grab=3Don|off`` : Use Right-Control-g t=
-o toggle mouse grabbing<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ``ctrl_grab=3Don|off`` : Use Right-Control-g t=
-o toggle mouse grabbing.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 This parameter is deprecated - use ``grab-mod`=
-` instead.<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0``gl=3Don|off|core|es`` : Use OpenGL for =
-displaying<br>
-<br>
-@@ -1971,7 +1973,8 @@ SRST<br>
-=C2=A0``-alt-grab``<br>
-=C2=A0 =C2=A0 =C2=A0Use Ctrl-Alt-Shift to grab mouse (instead of Ctrl-Alt).=
- Note that<br>
-=C2=A0 =C2=A0 =C2=A0this also affects the special keys (for fullscreen, mon=
-itor-mode<br>
--=C2=A0 =C2=A0 switching, etc).<br>
-+=C2=A0 =C2=A0 switching, etc). This option is deprecated - please use<br>
-+=C2=A0 =C2=A0 ``-display sdl,grab-mod=3Dlshift-lctrl-lalt`` instead.<br>
-=C2=A0ERST<br>
-<br>
-=C2=A0DEF(&quot;ctrl-grab&quot;, 0, QEMU_OPTION_ctrl_grab,<br>
-@@ -1981,7 +1984,8 @@ SRST<br>
-=C2=A0``-ctrl-grab``<br>
-=C2=A0 =C2=A0 =C2=A0Use Right-Ctrl to grab mouse (instead of Ctrl-Alt). Not=
-e that this<br>
-=C2=A0 =C2=A0 =C2=A0also affects the special keys (for fullscreen, monitor-=
-mode<br>
--=C2=A0 =C2=A0 switching, etc).<br>
-+=C2=A0 =C2=A0 switching, etc). This option is deprecated - please use<br>
-+=C2=A0 =C2=A0 ``-display sdl,grab-mod=3Drctrl`` instead.<br>
-=C2=A0ERST<br>
-<br>
-=C2=A0DEF(&quot;no-quit&quot;, 0, QEMU_OPTION_no_quit,<br>
-diff --git a/softmmu/vl.c b/softmmu/vl.c<br>
-index 294990debf..613948ab46 100644<br>
---- a/softmmu/vl.c<br>
-+++ b/softmmu/vl.c<br>
-@@ -1043,6 +1043,7 @@ static void parse_display(const char *p)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0goto invalid_sdl_args;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 warn_report(&quot;=
-alt_grab is deprecated, use grab-mod instead.&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (strstart(opts, &=
-quot;,ctrl_grab=3D&quot;, &amp;nextopt)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0opts =3D next=
-opt;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (strstart(=
-opts, &quot;on&quot;, &amp;nextopt)) {<br>
-@@ -1052,6 +1053,7 @@ static void parse_display(const char *p)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0goto invalid_sdl_args;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 warn_report(&quot;=
-ctrl_grab is deprecated, use grab-mod instead.&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else if (strstart(opts, &=
-quot;,window_close=3D&quot;, &amp;nextopt) ||<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 strstart(opts, &quot;,window-close=3D&quot;, &amp;nextopt)) {<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (strstart(=
-opts, &quot;,window_close=3D&quot;, NULL)) {<br>
-@@ -3253,9 +3255,13 @@ void qemu_init(int argc, char **argv, char **envp)<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case QEMU_OPTION_alt_grab:<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0alt_grab =3D =
-1;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 warn_report(&quot;=
--alt-grab is deprecated, please use &quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 &quot;-display sdl,grab-mod=3Dlshift-lctrl-lalt in=
-stead.&quot;);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case QEMU_OPTION_ctrl_grab:=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ctrl_grab =3D=
- 1;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 warn_report(&quot;=
--ctrl-grab is deprecated, please use &quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 &quot;-display sdl,grab-mod=3Drctrl instead.&quot;=
-);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case QEMU_OPTION_no_quit:<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dpy.has_windo=
-w_close =3D true;<br>
--- <br>
-2.27.0<br>
-<br>
-</blockquote></div>
-
---000000000000affeb805cadb49d7--
+>              }
+>  
+> -            if (!mr) {
+> -                break;
+> -            }
+> -
+> +            sid_range.start = sid;
+> +            sid_range.end = sid;
+>              trace_smmuv3_cmdq_cfgi_cd(sid);
+> -            sdev = container_of(mr, SMMUDevice, iommu);
+> -            smmuv3_flush_config(sdev);
+> +            g_hash_table_foreach_remove(bs->configs, smmuv3_invalidate_ste,
+> +                                        &sid_range);
+>              break;
+>          }
+>          case SMMU_CMD_TLBI_NH_ASID:
+> diff --git a/include/hw/arm/smmu-common.h b/include/hw/arm/smmu-common.h
+> index 95cd12a4b5..d016455d80 100644
+> --- a/include/hw/arm/smmu-common.h
+> +++ b/include/hw/arm/smmu-common.h
+> @@ -159,7 +159,10 @@ int smmu_ptw(SMMUTransCfg *cfg, dma_addr_t iova, IOMMUAccessFlags perm,
+>   */
+>  SMMUTransTableInfo *select_tt(SMMUTransCfg *cfg, dma_addr_t iova);
+>  
+> -/* Return the iommu mr associated to @sid, or NULL if none */
+> +/**
+> + * Return the iommu mr associated to @sid, or NULL if none
+> + * Only for PCI device, check smmu_find_peri_sdev for non PCI/PCIe device
+> + */
+>  IOMMUMemoryRegion *smmu_iommu_mr(SMMUState *s, uint32_t sid);
+>  
+>  #define SMMU_IOTLB_MAX_SIZE 256
 
 
