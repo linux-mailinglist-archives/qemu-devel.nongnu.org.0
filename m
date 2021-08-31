@@ -2,45 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD543FBF2D
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 01:01:43 +0200 (CEST)
-Received: from localhost ([::1]:34382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 227E73FBFBD
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 02:23:38 +0200 (CEST)
+Received: from localhost ([::1]:50912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKqHd-0006gK-JG
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 19:01:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42120)
+	id 1mKrYp-0006Fb-K4
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 20:23:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1mKqBC-0005aj-Ox; Mon, 30 Aug 2021 18:55:02 -0400
-Received: from isrv.corpit.ru ([86.62.121.231]:44153)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1mKqBA-0000oq-UU; Mon, 30 Aug 2021 18:55:02 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 6527F40798;
- Tue, 31 Aug 2021 01:54:56 +0300 (MSK)
-Received: from tls.msk.ru (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with SMTP id C8D7F7D;
- Tue, 31 Aug 2021 01:54:56 +0300 (MSK)
-Received: (nullmailer pid 1509769 invoked by uid 1000);
- Mon, 30 Aug 2021 22:54:56 -0000
-From: Michael Tokarev <mjt@tls.msk.ru>
-To: qemu-devel@nongnu.org
-Subject: qemu-sockets: account for trailing \0 byte in unix socket pathname
-Date: Tue, 31 Aug 2021 01:54:49 +0300
-Message-Id: <20210830225449.1509719-1-mjt@msgid.tls.msk.ru>
-X-Mailer: git-send-email 2.30.2
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mKrWi-0005A4-D3; Mon, 30 Aug 2021 20:21:20 -0400
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:44781)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mKrWg-00068i-Mp; Mon, 30 Aug 2021 20:21:20 -0400
+Received: by mail-io1-xd34.google.com with SMTP id g9so22518581ioq.11;
+ Mon, 30 Aug 2021 17:21:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Jguf6lXASw0mGI28NY2MtOD2FBLW++xf+xDtvzCMPs4=;
+ b=nleswV2wfc8A/CYL6uHimYwUaiej16mvkDzOxV8kGI1XGL2ytBFO8XVF4rF1SKLkRQ
+ 2KL023E5B8o1oS2VuJDEhc8TZ1HIefwDSILkJ461SVL8T3c0Pvd5Bm51sGVmlB9ETyvn
+ azINYGFEIxroar+UfWQH3W41mJAGL1/P8uAW48Ih6yjog4yLojHUB0LDhW9q3XIn4sC5
+ TsCQVeaWaVYvwYoEl7W9Q7nLNSBxLSN5s+PRGq/AU3q84S5pzgP6yV53U+GnHtjodVEI
+ 05ZA2qZZU5/3Gw7XY1XyEV7ow0TVLOCNmNads+muzYkvPbk37jLrwhfSn8YZnLHC5Lci
+ dhSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Jguf6lXASw0mGI28NY2MtOD2FBLW++xf+xDtvzCMPs4=;
+ b=BrbiFcitPFrdtOJgaq8L65Km9RJErDLY5qfny9+XKppr8QE8r38UlPjnpivh0k5oNo
+ Xl3LPpiaoLFCCFCdL+Xkr43XCkS6HqfxMGQVb+wDeWgRwmMwtKBMhFmuhAAJGl6GCkVP
+ i8xLExmShfuYlsuD0Fumzl22I9FyKl0dTFH+NLDr6CqGbCI4TcfSI1tphBCusiqGuq/u
+ 17GDlr17/2EwdUbK8FYh6F1ugSd8VgU6bcqiWNENpTQc6OJSHENEqhwoHEOPUyCiOxmW
+ xddeDhJ/cnxxe01z9qAboFHPUbyF4QG/ofmiJmpU+IQlcqnvS/bQOmmeI1rla4jMNO1f
+ 1mGw==
+X-Gm-Message-State: AOAM532jG0dx4jfHLeRFoObaV6uBrP4DCxVSM0v/1Hk9rgxr9AVHMRzI
+ EsBWTeEULldYC6Zj6PCLuswGKcYcyYU5zbWF/Ug=
+X-Google-Smtp-Source: ABdhPJwlcfAgtDf3HmXA69flzT5e0vkNxSbyl27s6MFAMFTlEbx/I2wwN5/nxbN/f/b42T0KYG1Iys5s2NrscaWf2jA=
+X-Received: by 2002:a6b:8e87:: with SMTP id
+ q129mr20667646iod.176.1630369277078; 
+ Mon, 30 Aug 2021 17:21:17 -0700 (PDT)
 MIME-Version: 1.0
-Bug-Debian: http://bugs.debian.org/993145
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210820174257.548286-1-richard.henderson@linaro.org>
+ <CAKmqyKM7aoT9a7rZnbNukZb7mO-2zJddnKr1XkA+WbkidHRoxQ@mail.gmail.com>
+ <92c46154-0260-bdf8-b5f2-e37e8f009625@linaro.org>
+In-Reply-To: <92c46154-0260-bdf8-b5f2-e37e8f009625@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 31 Aug 2021 10:20:50 +1000
+Message-ID: <CAKmqyKOYssuWwhBaX=_pstW=5mwp_56vKp1EQsJhDD7V2_aiKg@mail.gmail.com>
+Subject: Re: [PATCH v4 00/21] target/riscv: Use tcg_constant_*
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -53,32 +78,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-stable@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Linux kernel can return size of af_unix socket to be
-one byte larger than sockaddr_un structure - adding
-the trailing zero byte.
+On Tue, Aug 31, 2021 at 1:27 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 8/30/21 3:12 AM, Alistair Francis wrote:
+> > On Sat, Aug 21, 2021 at 3:43 AM Richard Henderson
+> > <richard.henderson@linaro.org> wrote:
+> >>
+> >> Replace use of tcg_const_*, which makes a copy into a temp which must
+> >> be freed, with direct use of the constant.  Reorg handling of $zero,
+> >> with different accessors for source and destination.  Reorg handling
+> >> of csrs, passing the actual write_mask instead of a regno.  Use more
+> >> helpers for RVH expansion.
+> >>
+> >> Patches lacking review:
+> >>    02-tests-tcg-riscv64-Add-test-for-division.patch
+> >>    03-target-riscv-Clean-up-division-helpers.patch
+> >>    11-target-riscv-Add-DisasExtend-to-gen_unary.patch
+> >>    17-target-riscv-Use-gen_shift_imm_fn-for-slli_uw.patch
+> >>    21-target-riscv-Use-get-dest-_gpr-for-RVV.patch
+> >
+> > This should be all reviewed now. Do you want me to take it or do you plan on it?
+>
+> Please take it through the riscv tree.  Thanks for the review.
 
-Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-Fixes: 4cfd970ec188558daa6214f26203fe553fb1e01f (first in 6.1.0)
-Cc: qemu-stable@nongnu.org
+Thanks!
 
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index f2f3676d1f..83926dc2bc 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -1345,8 +1345,9 @@ socket_sockaddr_to_address_unix(struct sockaddr_storage *sa,
-     SocketAddress *addr;
-     struct sockaddr_un *su = (struct sockaddr_un *)sa;
- 
-+    /* kernel might have added \0 terminator to non-abstract socket */
-     assert(salen >= sizeof(su->sun_family) + 1 &&
--           salen <= sizeof(struct sockaddr_un));
-+           salen <= sizeof(struct sockaddr_un) + su->sun_path[0] ? 1 : 0);
- 
-     addr = g_new0(SocketAddress, 1);
-     addr->type = SOCKET_ADDRESS_TYPE_UNIX;
+Applied to riscv-to-apply.next
+
+Alistair
+
+>
+>
+> r~
 
