@@ -2,64 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 843403FC5C0
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 12:41:27 +0200 (CEST)
-Received: from localhost ([::1]:51990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF6B3FC5C9
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 12:59:50 +0200 (CEST)
+Received: from localhost ([::1]:59314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL1Cn-0000BS-Sa
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 06:41:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36858)
+	id 1mL1Ub-00069h-Ce
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 06:59:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mL1BU-0007bX-Vw; Tue, 31 Aug 2021 06:40:05 -0400
-Received: from smtpout2.3005.mail-out.ovh.net ([46.105.54.81]:34565)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mL1Sx-0005Fo-F2
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 06:58:07 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:54737)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mL1BS-0003JQ-6P; Tue, 31 Aug 2021 06:40:04 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.243])
- by mo3005.mail-out.ovh.net (Postfix) with ESMTPS id 300FF13B127;
- Tue, 31 Aug 2021 10:39:57 +0000 (UTC)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Tue, 31 Aug
- 2021 12:39:57 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R0025c238559-eb94-444d-843b-b939751d30ed,
- 3D02C4E7E229260F021FFF691A6C377EE278DEFF) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PATCH 2/5] hw/arm/aspeed: Select console UART from machine
-To: Peter Delevoryas <pdel@fb.com>
-References: <20210827210417.4022054-1-pdel@fb.com>
- <20210827210417.4022054-3-pdel@fb.com>
- <7a53d5e9-52c2-a06b-1385-fd71a96d7486@kaod.org>
- <BYAPR15MB3032BA6C3556797AC2A3461CACC99@BYAPR15MB3032.namprd15.prod.outlook.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <547b5f32-0858-1882-fb8b-c60056cdbfd4@kaod.org>
-Date: Tue, 31 Aug 2021 12:39:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mL1Sv-0001n3-1k
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 06:58:07 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-298-4OT-d12iMaGv9KKJsNZSrA-1; Tue, 31 Aug 2021 06:57:53 -0400
+X-MC-Unique: 4OT-d12iMaGv9KKJsNZSrA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A108801B3D;
+ Tue, 31 Aug 2021 10:57:52 +0000 (UTC)
+Received: from bahia.lan (unknown [10.39.193.19])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8F44D60C9F;
+ Tue, 31 Aug 2021 10:57:51 +0000 (UTC)
+Date: Tue, 31 Aug 2021 12:57:49 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: 9pfs: Twalk crash
+Message-ID: <20210831125749.15c42c33@bahia.lan>
+In-Reply-To: <4325838.qn0ATYcOi1@silver>
+References: <4325838.qn0ATYcOi1@silver>
 MIME-Version: 1.0
-In-Reply-To: <BYAPR15MB3032BA6C3556797AC2A3461CACC99@BYAPR15MB3032.namprd15.prod.outlook.com>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 942e986e-d1e2-4c3d-88a2-5109db00e18a
-X-Ovh-Tracer-Id: 503558733826526115
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddvuddgfeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeehnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheplefhtdegueeffffghffhhefgleejjedvveetvdfggfefjedvueffvedttdduueffnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehpuggvlhesfhgsrdgtohhm
-Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
- helo=smtpout2.3005.mail-out.ovh.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.932,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,173 +62,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "joel@jms.id.au" <joel@jms.id.au>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/28/21 5:58 PM, Peter Delevoryas wrote:
-> I think I’m a little confused on this part. What I meant by “most machines just use UART5” was that most DTS’s use “stdout-path=&uart5”, but fuji uses “stdout-path=&uart1”. I /do/ see that SCU510 includes a bit related to UART, but it’s for disabling booting from UART1 and UART5. I just care about the console aspect, not booting.
+On Mon, 30 Aug 2021 17:55:04 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-The UART can be switched with SCU70[29] on the AST2500, btw.
+> Apparently commit 8d6cb100731c4d28535adbf2a3c2d1f29be3fef4 '9pfs: reduce=
+=20
+> latency of Twalk' has introduced occasional crashes.
+>=20
+> My first impression after looking at the backtrace: looks like the patch=
+=20
+> itself is probably not causing this, but rather unmasked this issue (i.e.=
+=20
+> increased the chance to be triggered).
+>=20
+> The crash is because of 'elem' is NULL in virtio_pdu_vunmarshal() (frame =
+0).
+>=20
 
->
-> 
-> This is the commit that changed the serial console from UART5 to UART1 in fuji’s DTS: https://github.com/facebook/openbmc-uboot/commit/afeddd6e27b5f094bbc4805dc8c1c22b3b7fb203 <https://github.com/facebook/openbmc-uboot/commit/afeddd6e27b5f094bbc4805dc8c1c22b3b7fb203>
+Ouch... this certainly isn't expected to happen :-\
 
-That's an AST2620-A1. May be we should also introduce a new SoC then. I will try
-to get the datasheet.
-  
-> I don’t know what the platform.S AST_SCU_MFP_CTRL7 changes do (maybe setting some GPIO for UART1?),
+elem is popped out the vq in handle_9p_output():
 
-Yes. The patch above enables the UART1 RX function. 
+        elem =3D virtqueue_pop(vq, sizeof(VirtQueueElement));
+        if (!elem) {
+            goto out_free_pdu;
+        }
+[...]
+        v->elems[pdu->idx] =3D elem;
 
-Is TX always enabled ? Something to check on real HW.
+and cleared on PDU completion in virtio_9p_push_and_notify() :
 
->  but as far as I understand, I don’t think using UART1 should require any extra registers from the datasheet.
->  
-> 
-> An alternate design I considered was UART5=serial_hd(0) and UART1=serial_hd(1), maybe that would be more appropriate? I don’t think anybody uses both UART’s simultaneously though, so I didn’t pursue that design.
-
-An other simple idea would be activate both UART5 and UART1 on the AST2600 
-SoC if this is how the HW works. Or add a bool "enable-uart1" at the SoC 
-level and set it from the machine. 
-
-In any case, we will need a serial backend for both.
+    v->elems[pdu->idx] =3D NULL;
 
 
-Thanks,
+I can't think of a way where push_and_notify() could collide
+with handle_output()... both are supposed to be run sequentially
+by the main event loop. Maybe active some traces ?
 
-C.
+> bt taken with HEAD being 8d6cb100731c4d28535adbf2a3c2d1f29be3fef4:
+>=20
+> Program terminated with signal SIGSEGV, Segmentation fault.
+> #0  virtio_pdu_vunmarshal (pdu=3D0x55a93717cde8, offset=3D7, fmt=3D0x55a9=
+352766d1=20
+> "ddw", ap=3D0x7f38a9ad9cd0) at ../hw/9pfs/virtio-9p-device.c:146
+> 146         ret =3D v9fs_iov_vunmarshal(elem->out_sg, elem->out_num, offs=
+et, 1,=20
+> fmt, ap);
+> [Current thread is 1 (Thread 0x7f3bddd2ac40 (LWP 7811))]
+> (gdb) bt full
+> #0  0x000055a934dfb9a7 in virtio_pdu_vunmarshal (pdu=3D0x55a93717cde8, of=
+fset=3D7,=20
+> fmt=3D0x55a9352766d1 "ddw", ap=3D0x7f38a9ad9cd0) at ../hw/9pfs/virtio-9p-=
+device.c:
+> 146
+>         s =3D 0x55a93717b4b8
+>         v =3D 0x55a93717aee0
+>         elem =3D 0x0
 
->  
-> 
-> Some link references:
-> 
-> Elbert DTS uses “stdout-path=&uart5” https://github.com/facebook/openbmc-uboot/blob/openbmc/helium/v2019.04/arch/arm/dts/aspeed-bmc-facebook-elbert.dts#L17
-> 
-> Fuji DTS uses “stdout-path=&uart1” https://github.com/facebook/openbmc-uboot/blob/openbmc/helium/v2019.04/arch/arm/dts/aspeed-bmc-facebook-fuji.dts#L17
-> 
->  
-> 
-> *From: *Cédric Le Goater <clg@kaod.org>
-> *Date: *Saturday, August 28, 2021 at 1:26 AM
-> *To: *Peter Delevoryas <pdel@fb.com>
-> *Cc: *joel@jms.id.au <joel@jms.id.au>, qemu-devel@nongnu.org <qemu-devel@nongnu.org>, qemu-arm@nongnu.org <qemu-arm@nongnu.org>
-> *Subject: *Re: [PATCH 2/5] hw/arm/aspeed: Select console UART from machine
-> 
-> On 8/27/21 11:04 PM, pdel@fb.com wrote:
->> From: Peter Delevoryas <pdel@fb.com>
->>
->> This change replaces the UART serial device initialization code with machine
->> configuration data, making it so that we have a single code path for console
->> UART initialization, but allowing different machines to use different
->> UART's. This is relevant because the Aspeed chips have 2 debug UART's, UART5
->> and UART1, and while most machines just use UART5, some use UART1.
-> 
-> I think this is controlled by SCU510. If so, we should have a different HW
-> strapping for the new machine and check the configuration at the SoC level,
-> in aspeed_ast2600.c, to change the serial initialization.
-> 
-> 
-> Thanks,
-> 
-> C.
->  
->>
->> Signed-off-by: Peter Delevoryas <pdel@fb.com>
->> ---
->>  hw/arm/aspeed.c         | 7 +++++++
->>  hw/arm/aspeed_ast2600.c | 5 -----
->>  hw/arm/aspeed_soc.c     | 5 -----
->>  include/hw/arm/aspeed.h | 1 +
->>  4 files changed, 8 insertions(+), 10 deletions(-)
->>
->> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
->> index 9d43e26c51..ff53d12395 100644
->> --- a/hw/arm/aspeed.c
->> +++ b/hw/arm/aspeed.c
->> @@ -14,6 +14,7 @@
->>  #include "hw/arm/boot.h"
->>  #include "hw/arm/aspeed.h"
->>  #include "hw/arm/aspeed_soc.h"
->> +#include "hw/char/serial.h"
->>  #include "hw/i2c/i2c_mux_pca954x.h"
->>  #include "hw/i2c/smbus_eeprom.h"
->>  #include "hw/misc/pca9552.h"
->> @@ -21,6 +22,7 @@
->>  #include "hw/misc/led.h"
->>  #include "hw/qdev-properties.h"
->>  #include "sysemu/block-backend.h"
->> +#include "sysemu/sysemu.h"
->>  #include "hw/loader.h"
->>  #include "qemu/error-report.h"
->>  #include "qemu/units.h"
->> @@ -352,6 +354,10 @@ static void aspeed_machine_init(MachineState *machine)
->>      }
->>      qdev_realize(DEVICE(&bmc->soc), NULL, &error_abort);
->> 
->> +    serial_mm_init(get_system_memory(), sc->memmap[amc->serial_dev], 2,
->> +                   sc->get_irq(&bmc->soc, amc->serial_dev), 38400,
->> +                   serial_hd(0), DEVICE_LITTLE_ENDIAN);
->> +
->>      memory_region_add_subregion(get_system_memory(),
->>                                  sc->memmap[ASPEED_DEV_SDRAM],
->>                                  &bmc->ram_container);
->> @@ -804,6 +810,7 @@ static void aspeed_machine_class_init(ObjectClass *oc, void *data)
->>      mc->no_parallel = 1;
->>      mc->default_ram_id = "ram";
->>      amc->macs_mask = ASPEED_MAC0_ON;
->> +    amc->serial_dev = ASPEED_DEV_UART5;
->> 
->>      aspeed_machine_class_props_init(oc);
->>  }
->> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
->> index 56e1adb343..a27b0de482 100644
->> --- a/hw/arm/aspeed_ast2600.c
->> +++ b/hw/arm/aspeed_ast2600.c
->> @@ -322,11 +322,6 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
->>          sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
->>      }
->> 
->> -    /* UART - attach an 8250 to the IO space as our UART5 */
->> -    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
->> -                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5),
->> -                   38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
->> -
->>      /* I2C */
->>      object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(s->dram_mr),
->>                               &error_abort);
->> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
->> index c373182299..0c09d1e5b4 100644
->> --- a/hw/arm/aspeed_soc.c
->> +++ b/hw/arm/aspeed_soc.c
->> @@ -287,11 +287,6 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
->>          sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
->>      }
->> 
->> -    /* UART - attach an 8250 to the IO space as our UART5 */
->> -    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
->> -                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5), 38400,
->> -                   serial_hd(0), DEVICE_LITTLE_ENDIAN);
->> -
->>      /* I2C */
->>      object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(s->dram_mr),
->>                               &error_abort);
->> diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
->> index c9747b15fc..9f5b9f04d6 100644
->> --- a/include/hw/arm/aspeed.h
->> +++ b/include/hw/arm/aspeed.h
->> @@ -38,6 +38,7 @@ struct AspeedMachineClass {
->>      uint32_t num_cs;
->>      uint32_t macs_mask;
->>      void (*i2c_init)(AspeedMachineState *bmc);
->> +    uint32_t serial_dev;
->>  };
->> 
->> 
->>
-> 
+So this is v->elems[pdu->idx]... what's the value of pdu->idx ?
+
+>         ret =3D <optimized out>
+> #1  0x000055a934bf35e8 in pdu_unmarshal (pdu=3Dpdu@entry=3D0x55a93717cde8=
+,=20
+> offset=3Doffset@entry=3D7, fmt=3Dfmt@entry=3D0x55a9352766d1 "ddw") at ../=
+hw/9pfs/9p.c:
+> 71
+>         ret =3D <optimized out>
+>         ap =3D {{gp_offset =3D 24, fp_offset =3D 48, overflow_arg_area =
+=3D=20
+> 0x7f38a9ad9db0, reg_save_area =3D 0x7f38a9ad9cf0}}
+> #2  0x000055a934bf68db in v9fs_walk (opaque=3D0x55a93717cde8) at ../hw/9p=
+fs/
+> 9p.c:1720
+>         name_idx =3D <optimized out>
+>         qids =3D 0x0
+>         i =3D <optimized out>
+>         err =3D 0
+>         dpath =3D {size =3D 0, data =3D 0x0}
+>         path =3D {size =3D 0, data =3D 0x0}
+>         pathes =3D 0x0
+>         nwnames =3D 1
+>         stbuf =3D=20
+>             {st_dev =3D 2050, st_ino =3D 1199848, st_nlink =3D 1, st_mode=
+ =3D 41471,=20
+> st_uid =3D 0, st_gid =3D 0, __pad0 =3D 0, st_rdev =3D 0, st_size =3D 13, =
+st_blksize =3D=20
+> 4096, st_blocks =3D 16, s}
+>         fidst =3D=20
+>             {st_dev =3D 2050, st_ino =3D 1198183, st_nlink =3D 3, st_mode=
+ =3D 16877,=20
+> st_uid =3D 0, st_gid =3D 0, __pad0 =3D 0, st_rdev =3D 0, st_size =3D 1228=
+8, st_blksize =3D=20
+> 4096, st_blocks =3D 32}
+>         stbufs =3D 0x0
+>         offset =3D 7
+>         fid =3D 299
+>         newfid =3D 687
+>         wnames =3D 0x0
+>         fidp =3D <optimized out>
+>         newfidp =3D 0x0
+>         pdu =3D 0x55a93717cde8
+>         s =3D 0x55a93717b4b8
+>         qid =3D {type =3D 2 '\002', version =3D 1556732739, path =3D 2399=
+697}
+> #3  0x000055a93505760b in coroutine_trampoline (i0=3D<optimized out>,=20
+> i1=3D<optimized out>) at ../util/coroutine-ucontext.c:173
+>=20
+>=20
+>=20
+>=20
 
 
