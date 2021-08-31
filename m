@@ -2,49 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A96A3FCDB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 21:34:25 +0200 (CEST)
-Received: from localhost ([::1]:41100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A883FCDB0
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 21:30:56 +0200 (CEST)
+Received: from localhost ([::1]:37954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL9Wa-0003Ua-7k
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 15:34:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47740)
+	id 1mL9TD-0001Hn-75
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 15:30:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1mL9OZ-0006wj-Tx; Tue, 31 Aug 2021 15:26:07 -0400
-Received: from isrv.corpit.ru ([86.62.121.231]:53447)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1mL9OW-0000IK-41; Tue, 31 Aug 2021 15:26:07 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id AA95440835;
- Tue, 31 Aug 2021 22:26:00 +0300 (MSK)
-Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with ESMTP id 7E53E71;
- Tue, 31 Aug 2021 22:26:00 +0300 (MSK)
-Subject: Re: [PATCH] qemu-sockets: fix unix socket path copy (again)
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20210831182623.1792608-1-mjt@msgid.tls.msk.ru>
- <CAMxuvayrgXYBU0dcmmO2=Po1fBLFugxP7JS7KrR83iVQZE9fKg@mail.gmail.com>
-From: Michael Tokarev <mjt@tls.msk.ru>
-Message-ID: <b4b9e0af-2709-68ba-7687-a8209641d90c@msgid.tls.msk.ru>
-Date: Tue, 31 Aug 2021 22:26:00 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1mL9QR-00087Z-Jr
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 15:28:03 -0400
+Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130]:34812)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yaroshchuk2000@gmail.com>)
+ id 1mL9QQ-0001iW-38
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 15:28:03 -0400
+Received: by mail-lf1-x130.google.com with SMTP id z2so1203741lft.1
+ for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 12:28:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0mw4T3ibckOn9FDTr4J0EhqiJpPK1ayy8eQiDDH1aDI=;
+ b=gAAP3fDMGmHPVYoJ67BdlVr6/5fpZnP+bItz4mqnuQ+YenQcKbYGfXKJzrgATzU1C5
+ AIHm5pf4l7QmZSKwUVY3y6YK7720BUKB23THdZfzBaJL7hn3YWnOwFvTT99kJ5HF69pt
+ DIx3gVMtmJLryHnbjIMFZqSsUOU8udSCYKUGdvk/86hylI/Tan8obrXYlI1R7tUI1QJJ
+ GuH3pOAhqK/38y+BC6FNvO0C87XWi6THjml3HWO1AzdxTkvF6qMVdPrT+bZkn1OiI4Rj
+ RR2GyNtRrLIVTFgrpaGaeg0Ra5nxot8oSj5CwhMSLpKmqpDWPYmDaImhzsF3f4xD+GrA
+ pLPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0mw4T3ibckOn9FDTr4J0EhqiJpPK1ayy8eQiDDH1aDI=;
+ b=L1ae8JJqtgrd6W6a73kGeqH6RYMOHbs8PCUgPs+ejQrsvv5aeoqD7WfOGHr9cbSNz6
+ S+6vzrANl9lJ9ZyAdBvUnWLd1M2+tMJWZKRKuapcUpVBeEGEHygZYP66aLikgRBkCxjE
+ UZse0MlEFUjkDIvafOFi45CWdxd1098cUhafYrhmLODO+8Lgj0P3gXhYEyILptSG+aYu
+ 7rIuyZpizHp8qWH5TOfKNb8BfST3CaeLAcNPpkEYZw/YZrJNtDmOXl9DsIblyKBqbTuh
+ uYl6EuRIlt3YCfbb9WJRtX1y2r3lI6lviM3eskgIGs/cluueoeipJ24hdlE6J1ggxNR6
+ PsIQ==
+X-Gm-Message-State: AOAM531u0coP8qRjZbteclibBXVURukZgJwGATxZdX+fL3ZT8/H+EFaL
+ VX7oeqa77nzjGfXH9wIc9uBYiQ2YLqJidw==
+X-Google-Smtp-Source: ABdhPJzTpNsSYupdgqwg8f//Sai8cFuW8l3X8ybsdcW/TdAuJ66ezqmo7dX2fgJa69NWs1Uzwv43xQ==
+X-Received: by 2002:a05:6512:3407:: with SMTP id
+ i7mr11464832lfr.254.1630438079663; 
+ Tue, 31 Aug 2021 12:27:59 -0700 (PDT)
+Received: from UNIT-808.lan ([217.12.73.131])
+ by smtp.gmail.com with ESMTPSA id u13sm1254791lfq.254.2021.08.31.12.27.58
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 31 Aug 2021 12:27:59 -0700 (PDT)
+From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/6] Add vmnet.framework based network backend
+Date: Tue, 31 Aug 2021 22:27:14 +0300
+Message-Id: <20210831192720.33406-1-yaroshchuk2000@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <CAMxuvayrgXYBU0dcmmO2=Po1fBLFugxP7JS7KrR83iVQZE9fKg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -77
-X-Spam_score: -7.8
-X-Spam_bar: -------
-X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.932,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::130;
+ envelope-from=yaroshchuk2000@gmail.com; helo=mail-lf1-x130.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,36 +82,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-stable <qemu-stable@nongnu.org>
+Cc: jasowang@redhat.com, r.bolshakov@yadro.com,
+ Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-31.08.2021 22:21, Marc-André Lureau wrote:
-...
+macOS provides networking API for VMs called vmnet.framework.
+I tried to add it as a network backend. All three modes are supported:
 
-> Seems right to me, however there are some notes in libc bits/socket.h
-> /* Structure large enough to hold any socket address (with the historical
->     exception of AF_UNIX).  */
-> 
-> And also this
-> https://idea.popcount.org/2019-12-06-addressing/#fn:sockaddr_storage <https://idea.popcount.org/2019-12-06-addressing/#fn:sockaddr_storage>
-> 
-> I must say I feel confused by those comments :) Is it large enough or not??
+-shared:
+  allows the guest to comminicate with other guests in shared mode and
+  also with external network (Internet) via NAT
 
-It was my first thought too when I first saw the prototype
-of this very function we're patching here:
+-host:
+  allows the guest to communicate with other guests in host mode
 
-   socket_sockaddr_to_address_unix(struct sockaddr_storage *sa, ...)
+-bridged:
+  bridges the guest with a physical network interface
 
-it uses sockaddr_storage and I swear I always thought sockaddr_storage
-is for sockaddr_in and sockaddr_in6 but NOT for sockaddr_un.
+Separate netdev for each vmnet mode was created because they use quite
+different settings, especially since macOS 11.0 when vmnet.framework
+gets a lot of updates.
 
-If this is the case we're in trouble actually and all this stuff
-needs serious review.
+Not sure that I use qemu_mutex_lock_iothread() and
+qemu_mutex_unlock_iothread() in correct way while sending packet
+from vmnet interface to QEMU. I'll be happy to receive
+recomendations how to make this thing better if I done sth wrong.
 
-However by fact sockaddr_storage is actually LARGER than sockaddr_un.
-I dunno how universal it is.
+Also vmnet.framework requires com.apple.vm.networking entitlement to
+run without root priveledges. Ad-hoc signing does not fit there,
+so I didn't touch anything related to signing. As a result we should
+run qemu-system by a priviledged user:
+`$ sudo qemu-system-x86_64 -nic vmnet-shared`
+otherwise vmnet fails with 'general failure'.
 
-/mjt
+But in any way it seems working now,
+I tested it within qemu-system-x86-64 on macOS 10.15.7 host, with nic
+models:
+- e1000-82545em
+- virtio-net-pci
+
+and having such guests:
+- macOS 10.15.7
+- Ubuntu Bionic (server cloudimg) 
+
+v1: 
+ Since v1 minor typos were fixed, patches rebased onto latest master, redudant
+ changes removed (small commits squashed)
+
+Vladislav Yaroshchuk (6):
+  net/vmnet: dependencies setup, initial preparations
+  net/vmnet: create common netdev state structure
+  net/vmnet: implement shared mode (vmnet-shared)
+  net/vmnet: implement host mode (vmnet-host)
+  net/vmnet: implement bridged mode (vmnet-bridged)
+  net/vmnet: update qemu-options.hx
+
+ configure           |  31 +++++
+ meson.build         |   5 +
+ net/clients.h       |  11 ++
+ net/meson.build     |   7 ++
+ net/net.c           |  10 ++
+ net/vmnet-bridged.m | 123 ++++++++++++++++++
+ net/vmnet-common.m  | 294 ++++++++++++++++++++++++++++++++++++++++++++
+ net/vmnet-host.c    |  93 ++++++++++++++
+ net/vmnet-shared.c  |  94 ++++++++++++++
+ net/vmnet_int.h     |  48 ++++++++
+ qapi/net.json       |  99 ++++++++++++++-
+ qemu-options.hx     |  17 +++
+ 12 files changed, 830 insertions(+), 2 deletions(-)
+ create mode 100644 net/vmnet-bridged.m
+ create mode 100644 net/vmnet-common.m
+ create mode 100644 net/vmnet-host.c
+ create mode 100644 net/vmnet-shared.c
+ create mode 100644 net/vmnet_int.h
+
+-- 
+2.23.0
+
 
