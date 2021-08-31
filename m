@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F9DD3FC793
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 14:49:35 +0200 (CEST)
-Received: from localhost ([::1]:40508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 122753FC796
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 14:50:48 +0200 (CEST)
+Received: from localhost ([::1]:42592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL3Cn-0006uR-CB
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 08:49:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33482)
+	id 1mL3Dz-0008Kb-32
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 08:50:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mL2jW-0008RT-F6
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 08:19:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26792)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mL2jk-0000P1-5b
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 08:19:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55567)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mL2jQ-0006wc-TP
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 08:19:16 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mL2ji-00076O-GF
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 08:19:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630412352;
+ s=mimecast20190719; t=1630412369;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bAh7jA6EdUo63aN7uq8/4SBOFFdgzWJ9ei5/ZCA+u+k=;
- b=Ly5Q44HCjB8/MUI88Ee4Wi1c9tD6fET4IMWDwn4i5NQI1faituUSEG0p1NzzBmxB67y2lx
- 9wlSAU7qUmhLqucah/UH3mV+kpO4OEjnWNs2WgIG8Zn6yf9Gr5WOnE+xZDPzkeIrp/MyRb
- QX/PQGDKuRJPflEtchdlWHBVOYsAloA=
+ bh=/3ujaq1NT6nZmAaAMZak8E793ppg3V97NR3xFqYDTs8=;
+ b=ELmow3suXIQtxc60N4mWMP+jzl5f4KgoRdIp4kweT8dsbweNWEGj19kNAh9qIgca1X8yQ1
+ 87eUUCyrFTUDkw9/QkE16FzOQLrO8oS3tK0wsCIPzetA0igxkyxoZ2bp0wA7ZBkeiDjLOz
+ jju80oO4frr6m/TAWwsRcLDMdUXywQU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-86-mJxDlrd5P4CCeJlY2hFhXg-1; Tue, 31 Aug 2021 08:19:11 -0400
-X-MC-Unique: mJxDlrd5P4CCeJlY2hFhXg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-414-tix8G2sPOqmNDDjCgBMWqw-1; Tue, 31 Aug 2021 08:19:28 -0400
+X-MC-Unique: tix8G2sPOqmNDDjCgBMWqw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5E35100960B;
- Tue, 31 Aug 2021 12:19:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 725B8802B9F;
+ Tue, 31 Aug 2021 12:19:25 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D6511001281;
- Tue, 31 Aug 2021 12:18:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 743A627CB1;
+ Tue, 31 Aug 2021 12:19:09 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2C2E518009EE; Tue, 31 Aug 2021 14:15:47 +0200 (CEST)
+ id 407BB18009F0; Tue, 31 Aug 2021 14:15:47 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 26/29] tcg_i386_funcs: Add cpu_set_ignne to TCGI386ModuleOps
-Date: Tue, 31 Aug 2021 14:15:42 +0200
-Message-Id: <20210831121545.2874233-27-kraxel@redhat.com>
+Subject: [PATCH 27/29] tcg_i386_funcs: Add cpu_x86_update_dr7 to
+ TCGI386ModuleOps
+Date: Tue, 31 Aug 2021 14:15:43 +0200
+Message-Id: <20210831121545.2874233-28-kraxel@redhat.com>
 In-Reply-To: <20210831121545.2874233-1-kraxel@redhat.com>
 References: <20210831121545.2874233-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -108,89 +109,105 @@ Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
  include/tcg/tcg-module-i386.h       | 1 +
  target/i386/cpu.h                   | 1 -
  accel/tcg/tcg-module-i386.c         | 5 +++++
- hw/i386/pc.c                        | 2 +-
- target/i386/tcg/sysemu/fpu_helper.c | 3 ++-
- 5 files changed, 9 insertions(+), 3 deletions(-)
+ target/i386/machine.c               | 2 +-
+ target/i386/tcg/seg_helper.c        | 2 +-
+ target/i386/tcg/sysemu/bpt_helper.c | 9 ++++++++-
+ 6 files changed, 16 insertions(+), 4 deletions(-)
 
 diff --git a/include/tcg/tcg-module-i386.h b/include/tcg/tcg-module-i386.h
-index 7b99b9836a20..aa96aca82c4a 100644
+index aa96aca82c4a..02a9716e2e66 100644
 --- a/include/tcg/tcg-module-i386.h
 +++ b/include/tcg/tcg-module-i386.h
-@@ -6,6 +6,7 @@ struct TCGI386ModuleOps {
-     void (*update_mxcsr_status)(CPUX86State *env);
+@@ -7,6 +7,7 @@ struct TCGI386ModuleOps {
      void (*update_mxcsr_from_sse_status)(CPUX86State *env);
      void (*x86_register_ferr_irq)(qemu_irq irq);
-+    void (*cpu_set_ignne)(void);
+     void (*cpu_set_ignne)(void);
++    void (*cpu_x86_update_dr7)(CPUX86State *env, uint32_t new_dr7);
  };
  extern struct TCGI386ModuleOps tcg_i386;
  
 diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index d1819166ae11..6b9b1fad016f 100644
+index 6b9b1fad016f..0f3922939eb6 100644
 --- a/target/i386/cpu.h
 +++ b/target/i386/cpu.h
-@@ -1836,7 +1836,6 @@ int cpu_x86_support_mca_broadcast(CPUX86State *env);
- int cpu_get_pic_interrupt(CPUX86State *s);
- /* MSDOS compatibility mode FPU exception support */
- void fpu_check_raise_ferr_irq(CPUX86State *s);
--void cpu_set_ignne(void);
- void cpu_clear_ignne(void);
+@@ -1995,7 +1995,6 @@ void x86_stq_phys(CPUState *cs, hwaddr addr, uint64_t val);
+ void cpu_x86_update_cr0(CPUX86State *env, uint32_t new_cr0);
+ void cpu_x86_update_cr3(CPUX86State *env, target_ulong new_cr3);
+ void cpu_x86_update_cr4(CPUX86State *env, uint32_t new_cr4);
+-void cpu_x86_update_dr7(CPUX86State *env, uint32_t new_dr7);
  
- /* mpx_helper.c */
+ /* hw/pc.c */
+ uint64_t cpu_get_tsc(CPUX86State *env);
 diff --git a/accel/tcg/tcg-module-i386.c b/accel/tcg/tcg-module-i386.c
-index f6d367912c17..307238e3bc78 100644
+index 307238e3bc78..1025943c8b21 100644
 --- a/accel/tcg/tcg-module-i386.c
 +++ b/accel/tcg/tcg-module-i386.c
-@@ -5,6 +5,10 @@ static void i386_update_cpu_stub(CPUX86State *cpu)
+@@ -13,10 +13,15 @@ static void x86_register_ferr_irq_stub(qemu_irq irq)
  {
  }
  
-+static void i386_update_stub(void)
++static void cpu_x86_update_dr7_stub(CPUX86State *env, uint32_t new_dr7)
 +{
 +}
 +
- static void x86_register_ferr_irq_stub(qemu_irq irq)
- {
- }
-@@ -14,4 +18,5 @@ struct TCGI386ModuleOps tcg_i386 = {
+ struct TCGI386ModuleOps tcg_i386 = {
+     .update_fp_status = i386_update_cpu_stub,
      .update_mxcsr_status = i386_update_cpu_stub,
      .update_mxcsr_from_sse_status = i386_update_cpu_stub,
      .x86_register_ferr_irq = x86_register_ferr_irq_stub,
-+    .cpu_set_ignne = i386_update_stub,
+     .cpu_set_ignne = i386_update_stub,
++    .cpu_x86_update_dr7 = cpu_x86_update_dr7_stub,
  };
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 102b22394689..4b74776f6d8a 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -389,7 +389,7 @@ static void ioportF0_write(void *opaque, hwaddr addr, uint64_t data,
-                            unsigned size)
- {
-     if (tcg_enabled()) {
--        cpu_set_ignne();
-+        tcg_i386.cpu_set_ignne();
+diff --git a/target/i386/machine.c b/target/i386/machine.c
+index dc63de37dd6f..44736cb036c0 100644
+--- a/target/i386/machine.c
++++ b/target/i386/machine.c
+@@ -381,7 +381,7 @@ static int cpu_post_load(void *opaque, int version_id)
+            let the helper re-enable them.  */
+         dr7 = env->dr[7];
+         env->dr[7] = dr7 & ~(DR7_GLOBAL_BP_MASK | DR7_LOCAL_BP_MASK);
+-        cpu_x86_update_dr7(env, dr7);
++        tcg_i386.cpu_x86_update_dr7(env, dr7);
+     }
+     tcg.tlb_flush(cs);
+     return 0;
+diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
+index 3ed20ca31d75..f39d5be97b94 100644
+--- a/target/i386/tcg/seg_helper.c
++++ b/target/i386/tcg/seg_helper.c
+@@ -460,7 +460,7 @@ static void switch_tss_ra(CPUX86State *env, int tss_selector,
+ #ifndef CONFIG_USER_ONLY
+     /* reset local breakpoints */
+     if (env->dr[7] & DR7_LOCAL_BP_MASK) {
+-        cpu_x86_update_dr7(env, env->dr[7] & ~DR7_LOCAL_BP_MASK);
++        tcg_i386.cpu_x86_update_dr7(env, env->dr[7] & ~DR7_LOCAL_BP_MASK);
+     }
+ #endif
+ }
+diff --git a/target/i386/tcg/sysemu/bpt_helper.c b/target/i386/tcg/sysemu/bpt_helper.c
+index 4d96a48a3ca3..b90c5e267ddf 100644
+--- a/target/i386/tcg/sysemu/bpt_helper.c
++++ b/target/i386/tcg/sysemu/bpt_helper.c
+@@ -121,7 +121,7 @@ static void hw_breakpoint_remove(CPUX86State *env, int index)
      }
  }
  
-diff --git a/target/i386/tcg/sysemu/fpu_helper.c b/target/i386/tcg/sysemu/fpu_helper.c
-index 9caf164a7269..6453760b33c7 100644
---- a/target/i386/tcg/sysemu/fpu_helper.c
-+++ b/target/i386/tcg/sysemu/fpu_helper.c
-@@ -42,7 +42,7 @@ void cpu_clear_ignne(void)
-     env->hflags2 &= ~HF2_IGNNE_MASK;
- }
- 
--void cpu_set_ignne(void)
-+static void cpu_set_ignne(void)
+-void cpu_x86_update_dr7(CPUX86State *env, uint32_t new_dr7)
++static void cpu_x86_update_dr7(CPUX86State *env, uint32_t new_dr7)
  {
-     CPUX86State *env = &X86_CPU(first_cpu)->env;
-     env->hflags2 |= HF2_IGNNE_MASK;
-@@ -59,6 +59,7 @@ void cpu_set_ignne(void)
- static void tcgi386_module_ops_fpu_sys(void)
- {
-     tcg_i386.x86_register_ferr_irq = x86_register_ferr_irq;
-+    tcg_i386.cpu_set_ignne = cpu_set_ignne;
+     target_ulong old_dr7 = env->dr[7];
+     int iobpt = 0;
+@@ -296,3 +296,10 @@ void helper_bpt_io(CPUX86State *env, uint32_t port,
+         raise_exception(env, EXCP01_DB);
+     }
  }
- 
- type_init(tcgi386_module_ops_fpu_sys);
++
++static void tcgi386_module_ops_bpt_sys(void)
++{
++    tcg_i386.cpu_x86_update_dr7 = cpu_x86_update_dr7;
++}
++
++type_init(tcgi386_module_ops_bpt_sys);
 -- 
 2.31.1
 
