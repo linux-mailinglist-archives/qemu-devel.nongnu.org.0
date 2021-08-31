@@ -2,76 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E5013FCED5
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 22:54:08 +0200 (CEST)
-Received: from localhost ([::1]:44640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1B223FCEF3
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 23:09:18 +0200 (CEST)
+Received: from localhost ([::1]:54532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLAlj-0005XE-3F
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 16:54:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34136)
+	id 1mLB0O-0004ds-Ov
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 17:09:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1mLAkW-0004gi-5r; Tue, 31 Aug 2021 16:52:52 -0400
-Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:39519)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1mLAkU-0007Sp-5w; Tue, 31 Aug 2021 16:52:51 -0400
-Received: by mail-qk1-x736.google.com with SMTP id y144so769967qkb.6;
- Tue, 31 Aug 2021 13:52:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=ZbZiGEyZvFWCiwUUvshrP9GiEZqAxD/VpFiHfyJQekA=;
- b=V9OzWsM+Ah48oPEDPhueUTu+GgblvNTFlBQV8Fixozk7zxyqvcNII6CdsPA0saUcEI
- EwWYLEwoYcXazFO0mXsydFTkTSfLFrHbJfad11FTQ4yyI8P8GResC/q19dHmFD5b1eHE
- DoKyLhLmg67Q/CiHjo8XEuJJma3VXvBSMft+IuUkTmwnQmE2BPxy9FC74zTbGCaURkoN
- 42uSEYSjndaB7Xt01To0u342qlE7t+Ds1S2X309wux6rrmF+Fk82MIk/obC3x2CEy9er
- T7odGK3hbx6LJ1ETPIWvP9ktmN1FryhddFOH5UYpYHicIJLKhEq1J5ag7j9ksEquGthD
- UloQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=ZbZiGEyZvFWCiwUUvshrP9GiEZqAxD/VpFiHfyJQekA=;
- b=WT9wX6mCTx2EWAP4QbrKPVR296tbZAPRqLldKnfXUJEpCXqSJJQaLMEZljUEF0gt/G
- 6bO5utN09aCi7c0p3stBzf0ku83ws3nu5TQB2FBwoUd7SYs8fBay+CBIQPgZy5CvPYDl
- C25kFtpBVSLest6X7PqWRNAg4jXO9iOyMOk1zCwWW58NBmR8whPRWuzqV9IoLKC8kKp0
- buImb1tRpR9EAT5XFI3I1O9xRlc/HiEcY3mRJrdbf/L38MiPRk0YyMs9YUts5Uj4GoMi
- ckujClHct6h+/hsuMepSQAs0JYjTUlHlxLWuCHKKtjVfnSeF2cTUBhC1/q+ZmHY/1oct
- 52cA==
-X-Gm-Message-State: AOAM533LhdDDYSQ9zIEuqEebSCWMqYA4dhrscU1lyN3mJzhAXSWRiik8
- Rsmg1d0VihqX9Ov0efeXEu8=
-X-Google-Smtp-Source: ABdhPJxLZ/OlxsD+jDZPuj8l124M83QTU6NvTC5y3wHgG6IH20jE7Z4RAxHFMjxHRKj10SX3YB9FBw==
-X-Received: by 2002:a05:620a:4094:: with SMTP id
- f20mr5126616qko.488.1630443168016; 
- Tue, 31 Aug 2021 13:52:48 -0700 (PDT)
-Received: from [192.168.0.5] (d149-67-175-105.try.wideopenwest.com.
- [67.149.105.175])
- by smtp.gmail.com with ESMTPSA id t64sm14815975qkd.71.2021.08.31.13.52.47
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 31 Aug 2021 13:52:47 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Re: [PATCH] Add qemu_vga.ndrv to build/pc-bios folder
-From: Programmingkid <programmingkidx@gmail.com>
-In-Reply-To: <694bebbe-9920-c110-4331-47cefbdfde51@ilande.co.uk>
-Date: Tue, 31 Aug 2021 16:52:46 -0400
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <B8D898FD-3C06-4086-8BB2-C3A414E8E504@gmail.com>
-References: <20210831165020.84855-1-programmingkidx@gmail.com>
- <694bebbe-9920-c110-4331-47cefbdfde51@ilande.co.uk>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-X-Mailer: Apple Mail (2.3654.40.0.2.32)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
- envelope-from=programmingkidx@gmail.com; helo=mail-qk1-x736.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mLAzM-0003p3-14; Tue, 31 Aug 2021 17:08:12 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:30260)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1mLAzJ-0000dW-9g; Tue, 31 Aug 2021 17:08:11 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id DCDE2746398;
+ Tue, 31 Aug 2021 23:08:01 +0200 (CEST)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id B77FD7462D3; Tue, 31 Aug 2021 23:08:01 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id B604F745708;
+ Tue, 31 Aug 2021 23:08:01 +0200 (CEST)
+Date: Tue, 31 Aug 2021 23:08:01 +0200 (CEST)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Programmingkid <programmingkidx@gmail.com>
+Subject: Re: [PATCH] Report any problems with loading the VGA driver for PPC
+ Macintosh targets
+In-Reply-To: <9E32E4A0-D1BB-4DDF-8F57-38BD5044DF1D@gmail.com>
+Message-ID: <91bc8dea-deb6-193e-326d-7a6467fa1214@eik.bme.hu>
+References: <20210827181429.23609-1-programmingkidx@gmail.com>
+ <2d87adfb-c612-8d36-4c97-50f07a82beeb@ilande.co.uk>
+ <CAFEAcA_mb5zAaBiVjzo1QGGo-4Yt+j89iD9AUVKJP-pP1XCJmQ@mail.gmail.com>
+ <8ED650E0-5874-4AE6-85E3-631E7B76D37A@gmail.com>
+ <CAFEAcA96V6d-aAR65xiZQrB65aTfQEJfHq5x_ZSa3mpAoSUMQw@mail.gmail.com>
+ <269a250-93ec-2e6-8813-5b65aa9fb76@eik.bme.hu>
+ <9E32E4A0-D1BB-4DDF-8F57-38BD5044DF1D@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,58 +61,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- groug@kaod.org, qemu-ppc@nongnu.org, hsp.cat7@gmail.com,
- david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Howard Spoelstra <hsp.cat7@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 31 Aug 2021, Programmingkid wrote:
+>> On Aug 30, 2021, at 5:47 PM, BALATON Zoltan <balaton@eik.bme.hu> wrote:
 
+>> On Mon, 30 Aug 2021, Peter Maydell wrote:
+>>> On Mon, 30 Aug 2021 at 21:29, Programmingkid <programmingkidx@gmail.com> wrote:
+>>>> I found out that there are two pc-bios folders. One in the root directory
+>>>> and one in the build directory. QEMU is looking in the pc-bios folder
+>>>> located inside the build folder. The qemu_vga.ndrv file is only located
+>>>> in the root directory pc-bios folder. I think a good solution to this
+>>>> issue is to first remove one of the pc-bios folders. I'm not sure if it
+>>>> is just me who has two pc-bios folders or if everyone does.
+>>>
+>>> Having two pc-bios folders is expected. The one in the source tree is
+>>> the one which has the files we actually carry around in git. The one
+>>> in the build tree is created by 'configure' and populated with symbolic
+>>> links back to the files in the source tree. We need this one because
+>>> the QEMU executable doesn't (and shouldn't) know where the source tree is:
+>>> when it is looking for files it will look in places relative to the
+>>> location of the executable itself (ie relative to the build tree)
+>>> as well as places set by configure (used when you install QEMU and
+>>> its various supporting files).
+>>>
+>>> The reason qemu_vga.ndrv is not in the pc-bios folder in the build
+>>> tree is because when that file was added we forgot to add handling
+>>> for it in configure. I'm not sure why nobody else has fallen over
+>>> this in the intervening 3 years: running QEMU from the build tree
+>>> will never find the file, and it will not be installed via
+>>> 'make install' either.
+>>
+>> This file is a driver for MacOS and not many people run that old OS. Those who do probably use Howard's binaries and follow his guides that tell you to use -L pc-bios on command line. I always wondered why that's needed when it should find it by default but this explains it and probably also your question why nobody complained.
+>>
+>> Regards,
+>> BALATON Zoltan
+>
+> This does sound like a good explanation. I am pretty sure I was able to 
+> use my Mac OS 9 VM without the -L option in the past and still have many 
+> video resolutions available.
 
-> On Aug 31, 2021, at 4:33 PM, Mark Cave-Ayland =
-<mark.cave-ayland@ilande.co.uk> wrote:
->=20
-> On 31/08/2021 17:50, John Arbuckle wrote:
->=20
->> Currently the file qemu_vga.ndrv is not copied into the =
-/build/pc-bios folder. This makes all video resolution choices disappear =
-from a PowerPC Mac OS guest. This patch has the qemu_vga.ndrv file =
-copied into the build/pc-bios folder giving users back their video =
-resolution choices.
->> Signed-off-by: John Arbuckle <programmingkidx@gmail.com>
->> ---
->>  configure | 4 +++-
->>  1 file changed, 3 insertions(+), 1 deletion(-)
->> diff --git a/configure b/configure
->> index 9a79a004d7..281577e46f 100755
->> --- a/configure
->> +++ b/configure
->> @@ -5056,7 +5056,9 @@ for bios_file in \
->>      $source_path/pc-bios/openbios-* \
->>      $source_path/pc-bios/u-boot.* \
->>      $source_path/pc-bios/edk2-*.fd.bz2 \
->> -    $source_path/pc-bios/palcode-*
->> +    $source_path/pc-bios/palcode-* \
->> +    $source_path/pc-bios/qemu_vga.ndrv
->> +
->>  do
->>      LINKS=3D"$LINKS pc-bios/$(basename $bios_file)"
->>  done
->=20
-> I think the patch looks correct, however the commit message and =
-subject aren't quite right. How about something like:
->=20
-> [PATCH] configure: add missing pc-bios/qemu_vga.ndrv symlink in build =
-tree
->=20
-> Ensure that a link to pc-bios/qemu_vga.ndrv is added to the build =
-tree, otherwise the optional MacOS client driver will not be loaded by =
-OpenBIOS when launching QEMU directly from the build directory.
->=20
->=20
-> ATB,
->=20
-> Mark.
+Depends how far back in the past was that. If before the meson conversion 
+that introduced the build dir maybe you run it from the source dir (if 
+used in-tree build) and it found the file. I'm not sure if it still works 
+if you run from source dir such as build/qemu-system-ppc that is without 
+changing current dir to build dir. If it works that way then maybe you 
+ran it like that before. (Or maybe had an installed version and it picked 
+up the file from there.)
 
-Ok. I will create a new patch with these changes.=
+Regards,
+BALATON Zoltan
 
