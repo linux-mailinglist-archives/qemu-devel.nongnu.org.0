@@ -2,48 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD4F83FCC41
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 19:23:31 +0200 (CEST)
-Received: from localhost ([::1]:53202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 770C43FCC45
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 19:24:35 +0200 (CEST)
+Received: from localhost ([::1]:58982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL7Tl-00059y-Cf
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 13:23:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52732)
+	id 1mL7Un-0000g4-TQ
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 13:24:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1mL7Nr-0000TE-AV; Tue, 31 Aug 2021 13:17:15 -0400
-Received: from isrv.corpit.ru ([86.62.121.231]:39379)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
- id 1mL7Np-0001a8-EU; Tue, 31 Aug 2021 13:17:14 -0400
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id B660040835;
- Tue, 31 Aug 2021 20:17:09 +0300 (MSK)
-Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
- by tsrv.corpit.ru (Postfix) with ESMTP id 9417671;
- Tue, 31 Aug 2021 20:17:09 +0300 (MSK)
-Subject: Re: qemu-sockets: account for trailing \0 byte in unix socket pathname
-To: qemu-devel@nongnu.org
-References: <20210830225449.1509719-1-mjt@msgid.tls.msk.ru>
-From: Michael Tokarev <mjt@tls.msk.ru>
-Message-ID: <c5887473-1df2-5827-e9c7-e6f0470ab332@msgid.tls.msk.ru>
-Date: Tue, 31 Aug 2021 20:17:09 +0300
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mL7SS-0007Jj-RZ
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 13:22:01 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:45634)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mL7SR-0005mE-9T
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 13:22:00 -0400
+Received: by mail-pl1-x631.google.com with SMTP id d17so11033475plr.12
+ for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 10:21:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Y06EPieyIG7Uq1AkogwEOeIK4zF8IAzB6ZcmKZTMs1Q=;
+ b=rSjcwvxPCehDGPLQ+u2cLlg6z4wcDDhnl9yjMryU+JSCwMUAdNYpRHQXDc7Uyn70mI
+ KiWgvZtatNPp6Z/jFM97WShge/5RMM5ViOqaSW/gzR4WrFV+EqTPjdfuhgaOTQDcw45v
+ KEUYwgltF/+VmfDVMX/9RuSeyqxe4R/xhzIsqSNAa9+0qF1LpvJ1ienNbilVvtmdOEyk
+ bJFzQ7g1qUeFNbDtc6sRZKEZmVvDmPSb9CvELHx5fvwWzqgeHJhJq/lpkAIL+ipFLKKw
+ fHpguT2jZAmdgz5XJzk/ObfcaifIUJNLJVFaH0lOs6fClQBmptyDvRD2HgyaanFQQDq7
+ BCoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Y06EPieyIG7Uq1AkogwEOeIK4zF8IAzB6ZcmKZTMs1Q=;
+ b=aXLfykCqgs4IHpFkXzvZL3AvivkEjia7NEbq2ueb6ZdSU5luxpaiBJR0TTnbjJjQBq
+ 9+1I5W9FG9nQW8WICjLWx1/L07pQ8dvzOrVvPv83E79Ml9FO6uIOcni9vFPBnoX23Mg9
+ QK/IvTAn3khJ/lpEyaPi7KzTB3uwGGpZ5yLn8446dbR2Z99z+DdjM2SNxeldReL7C9BO
+ LlmSAgoCyNBdEQYqKNEd6uRDxzyzhmxCZUYlYforPi2RjxEYc/aHOenA5jfUYsSMbD0b
+ sVbSrRtCCWvuaJ7xFidAmfkvV6+0kJF0j+wXz3QAjtI9pieBrkvEQJJgOpSlHbNtQeye
+ oeXA==
+X-Gm-Message-State: AOAM5335JdAEpCMmUeQ8QysuUAWkTzebBTKT6Fw6iN9Xy9xdGgXiaRw+
+ 3u/Y4hp36EGqLoBPt7YDw7jp6w==
+X-Google-Smtp-Source: ABdhPJxzlHjy7+CXAqotaT6d8gPIqPNsNzAnP4KtL724eebTllHQiPFKZ/WhJhXQ7zc1baryyhVasQ==
+X-Received: by 2002:a17:90b:1b44:: with SMTP id
+ nv4mr6649616pjb.192.1630430517703; 
+ Tue, 31 Aug 2021 10:21:57 -0700 (PDT)
+Received: from [192.168.1.11] (174-21-72-39.tukw.qwest.net. [174.21.72.39])
+ by smtp.gmail.com with ESMTPSA id n1sm6765255pfv.209.2021.08.31.10.21.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 31 Aug 2021 10:21:57 -0700 (PDT)
+Subject: Re: [PATCH v2 03/19] host-utils: move checks out of divu128/divs128
+To: Luis Pires <luis.pires@eldorado.org.br>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <20210831164007.297781-1-luis.pires@eldorado.org.br>
+ <20210831164007.297781-4-luis.pires@eldorado.org.br>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <984687eb-4d74-38e4-70ef-b8c527fe828b@linaro.org>
+Date: Tue, 31 Aug 2021 10:21:55 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210830225449.1509719-1-mjt@msgid.tls.msk.ru>
+In-Reply-To: <20210831164007.297781-4-luis.pires@eldorado.org.br>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -77
-X-Spam_score: -7.8
-X-Spam_bar: -------
-X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.932,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.932,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,47 +89,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-stable@nongnu.org
+Cc: groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-31.08.2021 01:54, Michael Tokarev wrote:
-> Linux kernel can return size of af_unix socket to be
-> one byte larger than sockaddr_un structure - adding
-> the trailing zero byte.
-> 
-> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-> Fixes: 4cfd970ec188558daa6214f26203fe553fb1e01f (first in 6.1.0)
-> Cc: qemu-stable@nongnu.org
-> 
-> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-> index f2f3676d1f..83926dc2bc 100644
-> --- a/util/qemu-sockets.c
-> +++ b/util/qemu-sockets.c
-> @@ -1345,8 +1345,9 @@ socket_sockaddr_to_address_unix(struct sockaddr_storage *sa,
->       SocketAddress *addr;
->       struct sockaddr_un *su = (struct sockaddr_un *)sa;
+On 8/31/21 9:39 AM, Luis Pires wrote:
+> -static inline int divs128(int64_t *plow, int64_t *phigh, int64_t divisor)
+> +static inline void divs128(int64_t *plow, int64_t *phigh, int64_t divisor)
+>   {
+> -    if (divisor == 0) {
+> -        return 1;
+> -    } else {
+> -        __int128_t dividend = ((__int128_t)*phigh << 64) | *plow;
+> -        __int128_t result = dividend / divisor;
+> -        *plow = result;
+> -        *phigh = dividend % divisor;
+> -        return result != *plow;
+> -    }
+> +    __int128_t dividend = ((__int128_t)*phigh << 64) | *plow;
+
+This is incorrect, before and after: *plow must be zero-extended here.
+
+
+> @@ -97,13 +101,11 @@ int divu128(uint64_t *plow, uint64_t *phigh, uint64_t divisor)
+>       uint64_t carry = 0;
 >   
-> +    /* kernel might have added \0 terminator to non-abstract socket */
->       assert(salen >= sizeof(su->sun_family) + 1 &&
-> -           salen <= sizeof(struct sockaddr_un));
-> +           salen <= sizeof(struct sockaddr_un) + su->sun_path[0] ? 1 : 0);
->   
->       addr = g_new0(SocketAddress, 1);
->       addr->type = SOCKET_ADDRESS_TYPE_UNIX;
+>       if (divisor == 0) {
+> -        return 1;
+> +        /* intentionally cause a division by 0 */
+> +        *plow = 1 / divisor;
+>       } else if (dhi == 0) {
+>           *plow  = dlo / divisor;
+>           *phigh = dlo % divisor;
 
-Actually, this is not sufficient.
+Let's not do two undefined things and leave *phigh uninitialized (e.g. riscv host, where 
+div-by-zero does not trap).  Just fold the div-by-zero case into the dhi == 0 case.
 
-While this change fixes one issue (the famous trailing null byte \0),
-the actual assertion failure occurs because salen = 2, ie, too SMALL,
-not too large.
 
-So it looks like libvirt provides an unnamed socket there, --
-maybe from a socketpair(2)?
-
-Hwell..
-
-/mjt
+r~
 
