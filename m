@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC323FCBBF
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 18:47:48 +0200 (CEST)
-Received: from localhost ([::1]:42634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27E623FCBCB
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 18:50:33 +0200 (CEST)
+Received: from localhost ([::1]:48484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL6vL-0001Ga-AM
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 12:47:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46834)
+	id 1mL6y0-0005DU-7X
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 12:50:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
- id 1mL6ro-0006kJ-96; Tue, 31 Aug 2021 12:44:08 -0400
+ id 1mL6rs-0006oc-0n; Tue, 31 Aug 2021 12:44:12 -0400
 Received: from [201.28.113.2] (port=43158 helo=outlook.eldorado.org.br)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <luis.pires@eldorado.org.br>)
- id 1mL6rm-0008P9-TS; Tue, 31 Aug 2021 12:44:08 -0400
+ id 1mL6rp-0008P9-DV; Tue, 31 Aug 2021 12:44:11 -0400
 Received: from power9a ([10.10.71.235]) by outlook.eldorado.org.br with
- Microsoft SMTPSVC(8.5.9600.16384); Tue, 31 Aug 2021 13:42:55 -0300
+ Microsoft SMTPSVC(8.5.9600.16384); Tue, 31 Aug 2021 13:43:04 -0300
 Received: from eldorado.org.br (unknown [10.10.70.45])
- by power9a (Postfix) with ESMTP id E93D0800930;
- Tue, 31 Aug 2021 13:42:53 -0300 (-03)
+ by power9a (Postfix) with ESMTP id EDB2C800930;
+ Tue, 31 Aug 2021 13:43:01 -0300 (-03)
 From: Luis Pires <luis.pires@eldorado.org.br>
 To: qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org
-Subject: [PATCH v2 01/19] host-utils: Fix overflow detection in divu128()
-Date: Tue, 31 Aug 2021 13:39:49 -0300
-Message-Id: <20210831164007.297781-2-luis.pires@eldorado.org.br>
+Subject: [PATCH v2 02/19] host-utils: move abs64() to host-utils as uabs64()
+Date: Tue, 31 Aug 2021 13:39:50 -0300
+Message-Id: <20210831164007.297781-3-luis.pires@eldorado.org.br>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210831164007.297781-1-luis.pires@eldorado.org.br>
 References: <20210831164007.297781-1-luis.pires@eldorado.org.br>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-OriginalArrivalTime: 31 Aug 2021 16:42:55.0767 (UTC)
- FILETIME=[3FBA5A70:01D79E87]
+X-OriginalArrivalTime: 31 Aug 2021 16:43:04.0271 (UTC)
+ FILETIME=[44CBF5F0:01D79E87]
 X-Host-Lookup-Failed: Reverse DNS lookup failed for 201.28.113.2 (failed)
 Received-SPF: pass client-ip=201.28.113.2;
  envelope-from=luis.pires@eldorado.org.br; helo=outlook.eldorado.org.br
@@ -56,33 +56,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luis Pires <luis.pires@eldorado.org.br>, richard.henderson@linaro.org,
- groug@kaod.org, david@gibson.dropbear.id.au
+Cc: Eduardo Habkost <ehabkost@redhat.com>, richard.henderson@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, groug@kaod.org,
+ Luis Pires <luis.pires@eldorado.org.br>, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The previous code didn't detect overflows if the high 64-bit
-of the dividend were equal to the 64-bit divisor. In that case,
-64 bits wouldn't be enough to hold the quotient.
+Move abs64 to host-utils as uabs64, so it can be used elsewhere.
+The function was renamed to uabs64 and modified to return an
+unsigned value. This avoids the undefined behavior for common
+abs implementations, where abs of the most negative value is
+undefined.
 
 Signed-off-by: Luis Pires <luis.pires@eldorado.org.br>
 ---
- util/host-utils.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/i386/kvm/i8254.c       | 7 +------
+ include/qemu/host-utils.h | 8 ++++++++
+ 2 files changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/util/host-utils.c b/util/host-utils.c
-index 7b9322071d..a789a11b46 100644
---- a/util/host-utils.c
-+++ b/util/host-utils.c
-@@ -102,7 +102,7 @@ int divu128(uint64_t *plow, uint64_t *phigh, uint64_t divisor)
-         *plow  = dlo / divisor;
-         *phigh = dlo % divisor;
-         return 0;
--    } else if (dhi > divisor) {
-+    } else if (dhi >= divisor) {
-         return 1;
-     } else {
+diff --git a/hw/i386/kvm/i8254.c b/hw/i386/kvm/i8254.c
+index fa68669e8a..191a26fa57 100644
+--- a/hw/i386/kvm/i8254.c
++++ b/hw/i386/kvm/i8254.c
+@@ -59,11 +59,6 @@ struct KVMPITClass {
+     DeviceRealize parent_realize;
+ };
  
+-static int64_t abs64(int64_t v)
+-{
+-    return v < 0 ? -v : v;
+-}
+-
+ static void kvm_pit_update_clock_offset(KVMPITState *s)
+ {
+     int64_t offset, clock_offset;
+@@ -81,7 +76,7 @@ static void kvm_pit_update_clock_offset(KVMPITState *s)
+         clock_gettime(CLOCK_MONOTONIC, &ts);
+         offset -= ts.tv_nsec;
+         offset -= (int64_t)ts.tv_sec * 1000000000;
+-        if (abs64(offset) < abs64(clock_offset)) {
++        if (uabs64(offset) < uabs64(clock_offset)) {
+             clock_offset = offset;
+         }
+     }
+diff --git a/include/qemu/host-utils.h b/include/qemu/host-utils.h
+index 711b221704..0c6715774c 100644
+--- a/include/qemu/host-utils.h
++++ b/include/qemu/host-utils.h
+@@ -357,6 +357,14 @@ static inline uint64_t revbit64(uint64_t x)
+ #endif
+ }
+ 
++/**
++ * Return the absolute value of a 64-bit integer as an unsigned 64-bit value
++ */
++static inline uint64_t uabs64(int64_t v)
++{
++    return v < 0 ? -v : v;
++}
++
+ /**
+  * sadd32_overflow - addition with overflow indication
+  * @x, @y: addends
 -- 
 2.25.1
 
