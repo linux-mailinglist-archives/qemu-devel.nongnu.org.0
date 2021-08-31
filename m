@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEBB33FC9EA
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 16:38:20 +0200 (CEST)
-Received: from localhost ([::1]:39814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18BD93FCA55
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 16:48:14 +0200 (CEST)
+Received: from localhost ([::1]:48734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mL4u3-0006XG-IO
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 10:38:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41640)
+	id 1mL53c-0005c4-OY
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 10:48:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mL4sh-00056M-4z
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 10:36:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56947)
+ id 1mL525-0004YR-PQ
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 10:46:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35417)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mL4sS-0002zU-Oy
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 10:36:54 -0400
+ id 1mL522-0001g2-Tx
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 10:46:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630420598;
+ s=mimecast20190719; t=1630421193;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=up8xaEiXR2LzGa5H4knRneGib5mkmJ70AqGkvPSL6aM=;
- b=PSTqV4OOGmNvjCwOtC93hcwPwiYpGtIxpdzANeyv/b/uZf0roCDpmckhRYxN56VZpjLuls
- d0Yr5H7Uz0eblIG7KeJn8C7uJdbJXltEqH2uorXWq3d4Nh7C5nvBXUVEX7ijvl8QBahrbL
- A5yj0eN6DdE4KoVWq+hf2w8VABkauJM=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-571-4jWbJ2QTNXapoCCsGrLMyA-1; Tue, 31 Aug 2021 10:36:37 -0400
-X-MC-Unique: 4jWbJ2QTNXapoCCsGrLMyA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- j135-20020a1c238d000000b002e87aa95b5aso1345057wmj.4
- for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 07:36:37 -0700 (PDT)
+ bh=NH+y0otVJ9gmIyVkrddHEbZLJjRgx7PdnT3LMRoKqVs=;
+ b=b3kZYzZw9CoSlYNGBoohEt/LUvNYc4pS6WRqrYI+/+cVh2yTzBEOJKtFBQBgTZ+R/huKJ+
+ yKrIMpU7gMtWICdpzRzl0SLIi631Z9C0ixOPknsMrtrF4KZPUNcOBTxyAiWzZGYoTVKCGu
+ ugaKtFWWjff571HxkVs0wQ7bqK4toOM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-246-ISzBoek0P9CUZHMap4CPtw-1; Tue, 31 Aug 2021 10:46:32 -0400
+X-MC-Unique: ISzBoek0P9CUZHMap4CPtw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ p10-20020adfce0a000000b001572d05c970so4131189wrn.21
+ for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 07:46:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:reply-to:subject:to:cc:references:from
  :message-id:date:user-agent:mime-version:in-reply-to
  :content-transfer-encoding:content-language;
- bh=up8xaEiXR2LzGa5H4knRneGib5mkmJ70AqGkvPSL6aM=;
- b=cbJD84FyUQb3/9DK5qOxFfAphaKxZcE9rM/mxMclEaSAOPO8N8aPQav6wnvIsCOoVw
- fM14ZB+W8YS4JOmKm6QMts9Ra5oLXEmRrbzeImZgrZevTt5BNSRJISKVIFw8CVT94aOn
- Rv6E4Tuwl1Zbxm6ngVYMR/jRyiyUf+/Qa2bm+iJnJ4sRvmIBVHhf5kW/gnCTFXCdva2q
- Vl9ggFuiSAsp+hOBXWqEKn4AxviUWujpHKJt54oIdgQDUUskFqxgMq7QxxR3nM1Mhjhb
- iIU9nqSTUjcvHauSYm3qLGlHWAFDnqUZIYhBuugzPx5J/lAs/qOAm6T5zV9PsP1AsMAF
- K8Iw==
-X-Gm-Message-State: AOAM5322UVIYSvkAdMmtcP4QV96baI/sFeMSiNtvLYurTzD/nrySoq7p
- LYq+GMQjIs8YSRoiOTiPidAFgkELIwnWnYJKvNOVenccIVJDGpKbdCdLJLKSr076YqTSqo1SnO0
- HpszScW72u//fE5Q=
-X-Received: by 2002:a5d:5452:: with SMTP id w18mr31667373wrv.221.1630420595863; 
- Tue, 31 Aug 2021 07:36:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyLokYCuhqMY+Cx7SIQV6XKSmziL83iCi7UbhnKiOm2R8X7ZbBqVfEp7vyr0pxOwLh0V19sKA==
-X-Received: by 2002:a5d:5452:: with SMTP id w18mr31667348wrv.221.1630420595659; 
- Tue, 31 Aug 2021 07:36:35 -0700 (PDT)
+ bh=NH+y0otVJ9gmIyVkrddHEbZLJjRgx7PdnT3LMRoKqVs=;
+ b=ZA61JIUiuRSHLnZcI5HadfuZE6IXRd0femEvuaxTqCRZy+njqRYMkTxrazUzE2+zfq
+ eCvNWDQJDZzXaGxKLs9Ceg5enbiKELx97umfNIDvP7GbOxw6Fk2omhnYbJw9azotgHoG
+ 2ukMYeDNhqO8BoRKk/X6jbryoONZ4VQvaeM7g1hjMDENgOUV1ix21CBo/RTkNgUFF+Ze
+ pgq4kaOXMpAIHchwmtDLLo7yghV9vBdx54LC6TTvDYvWtjtpGERj3LasJJKnZmpawVFd
+ AX9ePhNzEqMi0xVqgCX9gttLIElmMO1y2B+cONFR43FlfygZu6KPH5EFt9G1//7r8Jys
+ K0WQ==
+X-Gm-Message-State: AOAM5307fb58iiwrwLgCuuJ3NRfjIiJcXxsJTQ+AUpyuLxFr67c4/NIY
+ qTg0BzCXk0xulVxmVH2S7l/mjyTYjKRTcOLqurUKD01B2E61znHmpFiPdl92C17NBo5CBjIxgKz
+ RFKLwBbQ3L9AnZwc=
+X-Received: by 2002:adf:9e08:: with SMTP id u8mr14751930wre.383.1630421191153; 
+ Tue, 31 Aug 2021 07:46:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw0w0D/Y8PdQlTDV2GZqFCtLAB1lfpGEmaDLfGB2R9B81mGl2lnyWk2+EVmOaOft7Vp3O0bKg==
+X-Received: by 2002:adf:9e08:: with SMTP id u8mr14751900wre.383.1630421190920; 
+ Tue, 31 Aug 2021 07:46:30 -0700 (PDT)
 Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
  ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id m3sm23513153wrg.45.2021.08.31.07.36.34
+ by smtp.gmail.com with ESMTPSA id z2sm2795356wma.45.2021.08.31.07.46.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Aug 2021 07:36:35 -0700 (PDT)
-Subject: Re: [PATCH v5 4/4] hw/arm/virt: Add PL330 DMA controller and connect
- with SMMU v3
-To: chunming <chunming_li1234@163.com>, peter.maydell@linaro.org
-References: <1629878922-173270-1-git-send-email-chunming_li1234@163.com>
- <1629878922-173270-5-git-send-email-chunming_li1234@163.com>
+ Tue, 31 Aug 2021 07:46:30 -0700 (PDT)
+Subject: Re: [PATCH v2] hw/arm/smmuv3: Simplify range invalidation
+To: "Liu, Renwei" <Renwei.Liu@verisilicon.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <4FA89A717CD8094DBA0FE20FA5F98EAA010E6E9940@SHASXM03.verisilicon.com>
 From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <756203c3-76ec-62ea-beca-91a245059536@redhat.com>
-Date: Tue, 31 Aug 2021 16:36:33 +0200
+Message-ID: <1805dcb3-6f99-0bf1-2d73-be0537c98512@redhat.com>
+Date: Tue, 31 Aug 2021 16:46:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
-In-Reply-To: <1629878922-173270-5-git-send-email-chunming_li1234@163.com>
+In-Reply-To: <4FA89A717CD8094DBA0FE20FA5F98EAA010E6E9940@SHASXM03.verisilicon.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,15 +80,15 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124;
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.932, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.932, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,183 +102,125 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: eric.auger@redhat.com
-Cc: renwei.liu@verisilicon.com, qemu-arm@nongnu.org,
- jianxian.wen@verisilicon.com, qemu-devel@nongnu.org,
- chunming <chunming.li@verisilicon.com>
+Cc: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Wen,
+ Jianxian" <Jianxian.Wen@verisilicon.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Li,
+ Chunming" <Chunming.Li@verisilicon.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Chunming,
+Hi Liu,
 
-On 8/25/21 10:08 AM, chunming wrote:
-> From: chunming <chunming.li@verisilicon.com>
->
-> Add PL330 DMA controller to test SMMU v3 connection and function.
-> The default SID for PL330 is 1 but we test other values, it works well.
-Is it just a patch for testing or would you want this to be applied
-upstream too?
+On 8/23/21 9:50 AM, Liu, Renwei wrote:
+> Simplify range invalidation which can avoid to iterate over all
+> iotlb entries multi-times. For instance invalidations patterns like
+> "invalidate 32 4kB pages starting from 0xffacd000" need to iterate over
+> all iotlb entries 6 times (num_pages: 1, 2, 16, 8, 4, 1). It only needs
+> to iterate over all iotlb entries once with new implementation.
 
-This static SID allocation may not work in general as it may collide
-with PCIe RID space?
-
-My feeling is if we want to enable platform device support in the SMMUv3
-this should work for all platform devices doing DMA accesses and not
-only for this PL330.
-I guess this should work with virtio platform devices and VFIO platform
-devices. How would you extend that work to those devices?
+This wouldn't work. This reverts commit
+6d9cd115b9df ("hw/arm/smmuv3: Enforce invalidation on a power of two range")
+which is mandated for VFIO and virtio to work. IOTLB invalidations must
+be naturally aligned and with a power of 2 range, hence this iteration.
 
 Thanks
 
 Eric
 >
-> Signed-off-by: chunming <chunming.li@verisilicon.com>
+> Signed-off-by: Renwei Liu <renwei.liu@verisilicon.com>
 > ---
->  hw/arm/virt.c         | 92 ++++++++++++++++++++++++++++++++++++++++++-
->  include/hw/arm/virt.h |  1 +
->  2 files changed, 92 insertions(+), 1 deletion(-)
+> v2:
+>  - Remove file mode change.
 >
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index c3fd30e071..8180e4a331 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -143,6 +143,7 @@ static const MemMapEntry base_memmap[] = {
->      [VIRT_GIC_REDIST] =         { 0x080A0000, 0x00F60000 },
->      [VIRT_UART] =               { 0x09000000, 0x00001000 },
->      [VIRT_RTC] =                { 0x09010000, 0x00001000 },
-> +    [VIRT_DMA] =                { 0x09011000, 0x00001000 },
->      [VIRT_FW_CFG] =             { 0x09020000, 0x00000018 },
->      [VIRT_GPIO] =               { 0x09030000, 0x00001000 },
->      [VIRT_SECURE_UART] =        { 0x09040000, 0x00001000 },
-> @@ -188,6 +189,7 @@ static const int a15irqmap[] = {
->      [VIRT_GPIO] = 7,
->      [VIRT_SECURE_UART] = 8,
->      [VIRT_ACPI_GED] = 9,
-> +    [VIRT_DMA] = 10,
->      [VIRT_MMIO] = 16, /* ...to 16 + NUM_VIRTIO_TRANSPORTS - 1 */
->      [VIRT_GIC_V2M] = 48, /* ...to 48 + NUM_GICV2M_SPIS - 1 */
->      [VIRT_SMMU] = 74,    /* ...to 74 + NUM_SMMU_IRQS - 1 */
-> @@ -205,7 +207,7 @@ static const char *valid_cpus[] = {
->  };
->  
->  static const uint16_t smmuv3_sidmap[] = {
-> -
-> +    [VIRT_DMA] = 1,
->  };
->  
->  static bool cpu_type_valid(const char *cpu)
-> @@ -793,6 +795,92 @@ static void create_uart(const VirtMachineState *vms, int uart,
->      g_free(nodename);
+>  hw/arm/smmu-common.c   |  6 +++---
+>  hw/arm/smmu-internal.h |  2 +-
+>  hw/arm/smmuv3.c        | 22 ++++------------------
+>  3 files changed, 8 insertions(+), 22 deletions(-)
+>
+> diff --git a/hw/arm/smmu-common.c b/hw/arm/smmu-common.c
+> index 0459850a93..ccb085f83c 100644
+> --- a/hw/arm/smmu-common.c
+> +++ b/hw/arm/smmu-common.c
+> @@ -142,8 +142,8 @@ static gboolean smmu_hash_remove_by_asid_iova(gpointer key, gpointer value,
+>      if (info->asid >= 0 && info->asid != SMMU_IOTLB_ASID(iotlb_key)) {
+>          return false;
+>      }
+> -    return ((info->iova & ~entry->addr_mask) == entry->iova) ||
+> -           ((entry->iova & ~info->mask) == info->iova);
+> +    return (entry->iova >= info->iova) &&
+> +           ((entry->iova + entry->addr_mask) < (info->iova + info->range));
 >  }
 >  
-> +static void create_dma(const VirtMachineState *vms)
-> +{
-> +    int i;
-> +    char *nodename;
-> +    hwaddr base = vms->memmap[VIRT_DMA].base;
-> +    hwaddr size = vms->memmap[VIRT_DMA].size;
-> +    int irq = vms->irqmap[VIRT_DMA];
-> +    int sid = vms->sidmap[VIRT_DMA];
-> +    const char compat[] = "arm,pl330\0arm,primecell";
-> +    const char irq_names[] = "abort\0dma0\0dma1\0dma2\0dma3\0dma4\0dma5\0dma6\0dma7";
-> +    DeviceState *dev;
-> +    MachineState *ms = MACHINE(vms);
-> +    SysBusDevice *busdev;
-> +    DeviceState *smmuv3_dev;
-> +    SMMUState *smmuv3_sys;
-> +    Object *smmuv3_memory;
-> +
-> +    dev = qdev_new("pl330");
-> +
-> +    if (vms->iommu == VIRT_IOMMU_SMMUV3 && vms->iommu_phandle) {
-> +        smmuv3_dev = vms->smmuv3;
-> +        smmuv3_sys = ARM_SMMU(smmuv3_dev);
-> +        g_autofree char *memname = g_strdup_printf("%s-peri-%d[0]",
-> +                                                   smmuv3_sys->mrtypename,
-> +                                                   sid);
-> +
-> +        smmuv3_memory = object_property_get_link(OBJECT(smmuv3_dev),
-> +                                memname, &error_abort);
-> +
-> +        object_property_set_link(OBJECT(dev), "memory",
-> +                                 OBJECT(smmuv3_memory),
-> +                                 &error_fatal);
-> +    } else {
-> +        object_property_set_link(OBJECT(dev), "memory",
-> +                                 OBJECT(get_system_memory()),
-> +                                 &error_fatal);
-> +    }
-> +
-> +    qdev_prop_set_uint8(dev, "num_chnls",  8);
-> +    qdev_prop_set_uint8(dev, "num_periph_req",  4);
-> +    qdev_prop_set_uint8(dev, "num_events",  16);
-> +    qdev_prop_set_uint8(dev, "data_width",  64);
-> +    qdev_prop_set_uint8(dev, "wr_cap",  8);
-> +    qdev_prop_set_uint8(dev, "wr_q_dep",  16);
-> +    qdev_prop_set_uint8(dev, "rd_cap",  8);
-> +    qdev_prop_set_uint8(dev, "rd_q_dep",  16);
-> +    qdev_prop_set_uint16(dev, "data_buffer_dep",  256);
-> +
-> +    busdev = SYS_BUS_DEVICE(dev);
-> +    sysbus_realize_and_unref(busdev, &error_fatal);
-> +    sysbus_mmio_map(busdev, 0, base);
-> +
-> +    for (i = 0; i < 9; ++i) {
-> +        sysbus_connect_irq(busdev, i, qdev_get_gpio_in(vms->gic, irq + i));
-> +    }
-> +
-> +    nodename = g_strdup_printf("/pl330@%" PRIx64, base);
-> +    qemu_fdt_add_subnode(ms->fdt, nodename);
-> +    qemu_fdt_setprop(ms->fdt, nodename, "compatible", compat, sizeof(compat));
-> +    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
-> +                                 2, base, 2, size);
-> +    qemu_fdt_setprop_cells(ms->fdt, nodename, "interrupts",
-> +                    GIC_FDT_IRQ_TYPE_SPI, irq, GIC_FDT_IRQ_FLAGS_LEVEL_HI,
-> +                    GIC_FDT_IRQ_TYPE_SPI, irq + 1, GIC_FDT_IRQ_FLAGS_LEVEL_HI,
-> +                    GIC_FDT_IRQ_TYPE_SPI, irq + 2, GIC_FDT_IRQ_FLAGS_LEVEL_HI,
-> +                    GIC_FDT_IRQ_TYPE_SPI, irq + 3, GIC_FDT_IRQ_FLAGS_LEVEL_HI,
-> +                    GIC_FDT_IRQ_TYPE_SPI, irq + 4, GIC_FDT_IRQ_FLAGS_LEVEL_HI,
-> +                    GIC_FDT_IRQ_TYPE_SPI, irq + 5, GIC_FDT_IRQ_FLAGS_LEVEL_HI,
-> +                    GIC_FDT_IRQ_TYPE_SPI, irq + 6, GIC_FDT_IRQ_FLAGS_LEVEL_HI,
-> +                    GIC_FDT_IRQ_TYPE_SPI, irq + 7, GIC_FDT_IRQ_FLAGS_LEVEL_HI,
-> +                    GIC_FDT_IRQ_TYPE_SPI, irq + 8, GIC_FDT_IRQ_FLAGS_LEVEL_HI);
-> +
-> +    qemu_fdt_setprop(ms->fdt, nodename, "interrupt-names", irq_names,
-> +                     sizeof(irq_names));
-> +
-> +    qemu_fdt_setprop_cell(ms->fdt, nodename, "clocks", vms->clock_phandle);
-> +    qemu_fdt_setprop_string(ms->fdt, nodename, "clock-names", "apb_pclk");
-> +
-> +    if (vms->iommu == VIRT_IOMMU_SMMUV3 && vms->iommu_phandle) {
-> +        qemu_fdt_setprop_cells(ms->fdt, nodename, "iommus",
-> +                               vms->iommu_phandle, sid);
-> +        qemu_fdt_setprop(ms->fdt, nodename, "dma-coherent", NULL, 0);
-> +    }
-> +
-> +    g_free(nodename);
-> +}
->  static void create_rtc(const VirtMachineState *vms)
+>  inline void
+> @@ -167,7 +167,7 @@ smmu_iotlb_inv_iova(SMMUState *s, int asid, dma_addr_t iova,
+>  
+>      SMMUIOTLBPageInvInfo info = {
+>          .asid = asid, .iova = iova,
+> -        .mask = (num_pages * 1 << granule) - 1};
+> +        .range = num_pages * 1 << granule};
+>  
+>      g_hash_table_foreach_remove(s->iotlb,
+>                                  smmu_hash_remove_by_asid_iova,
+> diff --git a/hw/arm/smmu-internal.h b/hw/arm/smmu-internal.h
+> index 2d75b31953..f0e3a777af 100644
+> --- a/hw/arm/smmu-internal.h
+> +++ b/hw/arm/smmu-internal.h
+> @@ -101,7 +101,7 @@ uint64_t iova_level_offset(uint64_t iova, int inputsize,
+>  typedef struct SMMUIOTLBPageInvInfo {
+>      int asid;
+>      uint64_t iova;
+> -    uint64_t mask;
+> +    uint64_t range;
+>  } SMMUIOTLBPageInvInfo;
+>  
+>  typedef struct SMMUSIDRange {
+> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+> index 01b60bee49..0b009107d1 100644
+> --- a/hw/arm/smmuv3.c
+> +++ b/hw/arm/smmuv3.c
+> @@ -857,7 +857,7 @@ static void smmuv3_inv_notifiers_iova(SMMUState *s, int asid, dma_addr_t iova,
+>  
+>  static void smmuv3_s1_range_inval(SMMUState *s, Cmd *cmd)
 >  {
->      char *nodename;
-> @@ -2081,6 +2169,8 @@ static void machvirt_init(MachineState *machine)
+> -    dma_addr_t end, addr = CMD_ADDR(cmd);
+> +    dma_addr_t addr = CMD_ADDR(cmd);
+>      uint8_t type = CMD_TYPE(cmd);
+>      uint16_t vmid = CMD_VMID(cmd);
+>      uint8_t scale = CMD_SCALE(cmd);
+> @@ -866,7 +866,6 @@ static void smmuv3_s1_range_inval(SMMUState *s, Cmd *cmd)
+>      bool leaf = CMD_LEAF(cmd);
+>      uint8_t tg = CMD_TG(cmd);
+>      uint64_t num_pages;
+> -    uint8_t granule;
+>      int asid = -1;
 >  
->      create_pcie(vms);
+>      if (type == SMMU_CMD_TLBI_NH_VA) {
+> @@ -880,23 +879,10 @@ static void smmuv3_s1_range_inval(SMMUState *s, Cmd *cmd)
+>          return;
+>      }
 >  
-> +    create_dma(vms);
-> +
->      if (has_ged && aarch64 && firmware_loaded && virt_is_acpi_enabled(vms)) {
->          vms->acpi_dev = create_acpi_ged(vms);
->      } else {
-> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-> index d3402a43dd..f307b26587 100644
-> --- a/include/hw/arm/virt.h
-> +++ b/include/hw/arm/virt.h
-> @@ -72,6 +72,7 @@ enum {
->      VIRT_UART,
->      VIRT_MMIO,
->      VIRT_RTC,
-> +    VIRT_DMA,
->      VIRT_FW_CFG,
->      VIRT_PCIE,
->      VIRT_PCIE_MMIO,
+> -    /* RIL in use */
+> -
+>      num_pages = (num + 1) * BIT_ULL(scale);
+> -    granule = tg * 2 + 10;
+> -
+> -    /* Split invalidations into ^2 range invalidations */
+> -    end = addr + (num_pages << granule) - 1;
+> -
+> -    while (addr != end + 1) {
+> -        uint64_t mask = dma_aligned_pow2_mask(addr, end, 64);
+> -
+> -        num_pages = (mask + 1) >> granule;
+> -        trace_smmuv3_s1_range_inval(vmid, asid, addr, tg, num_pages, ttl, leaf);
+> -        smmuv3_inv_notifiers_iova(s, asid, addr, tg, num_pages);
+> -        smmu_iotlb_inv_iova(s, asid, addr, tg, num_pages, ttl);
+> -        addr += mask + 1;
+> -    }
+> +    trace_smmuv3_s1_range_inval(vmid, asid, addr, tg, num_pages, ttl, leaf);
+> +    smmuv3_inv_notifiers_iova(s, asid, addr, tg, num_pages);
+> +    smmu_iotlb_inv_iova(s, asid, addr, tg, num_pages, ttl);
+>  }
+>  
+>  static gboolean
 
 
