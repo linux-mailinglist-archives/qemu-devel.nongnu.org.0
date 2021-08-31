@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51FC73FC028
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 02:53:01 +0200 (CEST)
-Received: from localhost ([::1]:58534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 248903FC025
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Aug 2021 02:52:31 +0200 (CEST)
+Received: from localhost ([::1]:57470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mKs1L-0004yF-Vb
-	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 20:53:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58210)
+	id 1mKs0r-00049w-Ho
+	for lists+qemu-devel@lfdr.de; Mon, 30 Aug 2021 20:52:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mKruD-0001ek-Lp; Mon, 30 Aug 2021 20:45:38 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:43803 helo=ozlabs.org)
+ id 1mKruE-0001el-5C; Mon, 30 Aug 2021 20:45:38 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:40933 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mKru8-00051U-MR; Mon, 30 Aug 2021 20:45:36 -0400
+ id 1mKru8-00051c-MR; Mon, 30 Aug 2021 20:45:37 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Gz7lB2pP9z9sT6; Tue, 31 Aug 2021 10:45:26 +1000 (AEST)
+ id 4Gz7lB3sjVz9sRN; Tue, 31 Aug 2021 10:45:26 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1630370726;
- bh=QrmsPVeR5SkMV2EUyldIP/bO+/wAjtMB3/fahV9TLXw=;
+ bh=N9ARYRzPxVDrc+XcYxH/jUinks22k51MEmxCy9B6/8o=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=auTBLXijy2nfDbROSPUP6NBQZkQjBJCCCQUWF0AYfwIUiUH8hCyjAhSHRP0X4HgWQ
- G0n8yNIOpiVf6Uc2HklKtyAtKlRvapEdVgHi5dHHF2W/ZVXt+oX/TrRTjOWQCyPF+w
- MTSqFhAtPUenoa8/h1dkUlGKu/eXbuDO8iRLc15w=
-Date: Tue, 31 Aug 2021 10:27:26 +1000
+ b=FuHzA1uEmk8KQpH/txK2JJxsxNec7dAu/XSuATk8sbuZ0sBAYWbgqqWtyVVInNopM
+ RQDW8vR0/pTSnDF1MZxpduFwWUzxAX1KLTQ8mzktsCaYr+YAA2T5kCMNs4kzNLO7lY
+ 5k+Nr0Ml5zXyj/udXUMsAMbO2y6Axd3mx0j9pXwk=
+Date: Tue, 31 Aug 2021 10:45:21 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: BALATON Zoltan <balaton@eik.bme.hu>
+To: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
 Subject: Re: QEMU-KVM offers OPAL firmware interface? OpenBSD guest support?
-Message-ID: <YS13btS1TgRWIGkI@yekko>
+Message-ID: <YS17oUzgIY0TIjzT@yekko>
 References: <HgtFZEnabNjIrsVI3x8MYs2QYSCG4IFStP0MR3qwPWBmXW9kDmQmIwQEWHMVdJbUCu-XvHdMpZGe3pr-B91s1D7y6cn9SVzhxEYms5c3p0o=@protonmail.com>
  <20210827180259.3720d58d@bahia.lan>
  <56141ff67838992a@bloch.sibelius.xs4all.nl>
@@ -39,13 +39,12 @@ References: <HgtFZEnabNjIrsVI3x8MYs2QYSCG4IFStP0MR3qwPWBmXW9kDmQmIwQEWHMVdJbUCu-
  <561422a20e4f9ae2@bloch.sibelius.xs4all.nl>
  <51bff28d-4779-b023-fee6-b3e9196b7ec5@kaod.org>
  <3QoYEEZauH3xXwC2NcJFnrHe4IaWwu2fqEvtR6tR3RHsY_b0bsyz0oQdcI0b1zdwnXbXhl6bCtaUiyWQjbYgnx5U-Ov_Lm3tMGdMkTwZC88=@protonmail.com>
- <YSyBUSxBiH+UYE/Y@yekko>
- <341991bb-5cb4-646d-6df-10f61bb8f27b@eik.bme.hu>
+ <YSyBUSxBiH+UYE/Y@yekko> <20210830160431.GC61714@kunlun.suse.cz>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="YS1tjK9cKwt0tTDt"
+ protocol="application/pgp-signature"; boundary="Da6Gjm0t0DXHydxn"
 Content-Disposition: inline
-In-Reply-To: <341991bb-5cb4-646d-6df-10f61bb8f27b@eik.bme.hu>
+In-Reply-To: <20210830160431.GC61714@kunlun.suse.cz>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -67,95 +66,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, QEMU Developers <qemu-devel@nongnu.org>
+Cc: pjp@centroid.eu, gardask@gmail.com, rgcinjp@disroot.org, daniel@pocock.pro,
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ kite@centroid.eu, Joseph <joseph.mayer@protonmail.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ siliconbadger@protonmail.com, qemu-ppc@nongnu.org,
+ "ppc@openbsd.org" <ppc@openbsd.org>, Mark Kettenis <mark.kettenis@xs4all.nl>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---YS1tjK9cKwt0tTDt
+--Da6Gjm0t0DXHydxn
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 30, 2021 at 05:44:00PM +0200, BALATON Zoltan wrote:
-> On Mon, 30 Aug 2021, David Gibson wrote:
+On Mon, Aug 30, 2021 at 06:04:31PM +0200, Michal Such=E1nek wrote:
+> On Mon, Aug 30, 2021 at 04:57:21PM +1000, David Gibson wrote:
 > > On Sun, Aug 29, 2021 at 04:09:54AM +0000, Joseph wrote:
 > > > Hi Mark, C=E9dric, Greg at the openbsd-ppc ML,
-> > >=20
-> > > It is great to talk to you. Thank you for taking on the conversation.
-> > >=20
-> > > Right, OpenBSD implements powernv meaning it runs on bare metal on
-> > > Power9, that is great.
-> > >=20
-> > > What I wanted to ask about with this thread is:
-> > >=20
-> > > To have the same utility of Power9 as of AMD64, it would be great to
-> > > have a high speed virtualizer, like what OpenBSD's VMM or Linux' KVM-
-> > > QEMU accomplish on AMD64.
-> > >=20
-> > > Linux KVM-QEMU supports Power9 already so that's a great start: One
-> > > runs Linux powernv bare metal on Power9 hardware. Each VM is a
-> > > KVM-QEMU instance.
-> > >=20
-> > > Is there any way today to make Linux-KVM-QEMU as VM host run
-> > > OpenBSD as a high speed (say >90% of bare metal performance, here
-> > > presume KVM uses PCIe passthrough) VM guest -
-> >=20
-> > I'm afraid this is more or less impossible, without adding
-> > PAPR/pseries support to OpenBSD.  The fundamental problem is that the
-> > virtualization facilities on the POWER chip don't really allow
-> > efficient full hardware virtualization, only para-virtualization and
-> > PAPR is that para-virtualized environment.
-> >=20
-> > That's why the "powernv" machine type doesn't utilize KVM and is fully
-> > emulated and therefore slow.  It might be possible to use the
-> > "powernv" machine type with the "PR" implementation of KVM - that's a
-> > KVM implementation which works by running the entire guest in
-> > userspace and emulating all privileged instructions.  But:
-> >=20
-> > * KVM PR doesn't currently work properly on POWER9, and getting it
-> >   working would be a significant amount of work
-> > * The way KVM PR works means it's very fiddly to get right, so it's
-> >   unlikely to ever be suitable for production work
-> > * Depending on host and guest cpu models there might be a few corner
-> >   cases it can never get exactly right
 >=20
-> Out of curiosity what are the problems with KVM-PR on POWER9 currently and
-
-I don't know entirely.  My point is that I've never had the time
-and/or interest to investigate (and to my knowledge no-one else has
-either).  The biggest is likely to be that PR also needs to emulate to
-some extent the guest CPU's MMU.  That means adding support for the
-POWER9 radix-MMU, which would be avery large job.  There are probably
-other problems as well: I vaguely recall that if you attempt to boot a
-kernel, the first problem you hit is a new-in-POWER9 privileged SPR
-which PR doesn't emulate.
-
-> what are the corner cases that it can never get right?
-
-Well, I'm not certain they exist (at least in a way that can't be
-worked around) - but I'm not certain they don't either.  In particular
-behavioural differences in userspace (i.e. MSR[PR] =3D=3D 1) between host
-and guest CPUs couldn't be handled by PR (since it wouldn't get the
-necessary trap to emulate).  Those are rare, of course, since the
-architecture is pretty strict about user mode behaviour, but I can't
-swear that none exist.  There are certainly new non-privileged
-instructions that have been added, but it might be possible to work
-around those (trap the illegal instruction and emulate if guest has it
-and host doesn't, hope the guest doesn't rely on the 0x700 trap if
-host has it and guest doesn't).
-
-Or of course you could have a big matrix of host/guest CPU userspace
-compatibility, but that in itself is not a trivial job.
-
-> This info may be
-> useful for those interested in fixing and using it and having it listed h=
-ere
-> may save time debugging some known problems.
+> >=20
+> > So.. if you want to run OpenBSD on POWER10 you will definitely need
+> > PAPR support, because POWER10 won't support bare metal OS access at
+> > all (it will be back to PowerVM always, like POWER5..POWER7).
 >=20
-> Regards,
-> BALATON Zoltan
+> Hello,
+>=20
+> what is stopping powernv support other than lack of firmware
+> support?
 
+The virtualization features of the CPU simply aren't designed to do
+full virtualization, only para-virtualization (which is what PAPR
+is).  A guest in the POWER model is *aware* that it doesn't have
+hypervisor privilege, but a powernv OS expects to have hypervisor
+privilege.
+
+I don't know that it's strictly impossible to provide a virtualized
+powernv environment.  Specifically, it might be possible to take an
+approach similar to KVM PR at a higher level: run the guest in
+supervisor mode, but trap and emulate all hypervisor privileged
+instructions.  However, I'm not certain that all the things that need
+to be trapped do in fact trap, it would require a bunch of careful
+research.  Even if it's possible, it would be a big job: essentially a
+completely new KVM implementation.
+
+> Doesn't PowerVM use teh very same vrtualization features that KVM
+> does?
+
+Yes, that's exactly the point.  The (para-)virtualized guest
+environment provided by both PowerVM and KVM is PAPR (the "pseries"
+machine type in qemu terms).  "powernv" is the bare metal,
+hypervisor-privileged, host environment (that's even where the name
+comes from "POWER Non Virtualized").
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -163,25 +126,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---YS1tjK9cKwt0tTDt
+--Da6Gjm0t0DXHydxn
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEtd2wACgkQbDjKyiDZ
-s5Jczg/5AZK/Ybkr1qANqVns5fykP6Kr53wObx4w9fknjRmgYzIiu/JqB8ES3pHD
-N78S7X7vExM95azbfbW2rJkqcM4HZ+vBfhS88oSQJa9hSH8KMh+/V7F1iRnugcuJ
-pCcdA/n4Xu+Ste6Au7HknlTYncZ+a6cbJmH1vTYWg4+TqD/TVU/CK/wsQVrVepds
-jtXNQwBfvE7PKb5bbTTn7Iby2TfJ5+z0xtcWhZEtOGMRjiKgY+xFj20rBLkT4h4w
-wj6NhiSIjDImCc4i1Lz1ZcrpwTaBHQyaX9QH4x5AptrLBa56IpvKWV2OAbxE89/L
-VLKVfk9PLptLcRIy1A9YjMboMtnRZKeIJtvA6fSSEa1K/oHZzclJxH4Oq6HRFGeA
-Xy7YASwEWs6fc1qgy0eRqrDQQsoyAF2GwjxPppVhhUyyzj9DbqPJ9c0r4VjSjX1J
-C9CtM4vKKlkHSnHBBWiClImiiEyUtmjlMV2ujsiI3SvDm6H7awHiLVaaTfk/MblB
-zdMnAhtCBfDN/ZZRpNro6PSkJ4ENLSxb/OkZvaQlZOl1bOmt8BEg6G3JWa8zHFPn
-JY4+W5LGcPR5O7jfxCRamOAf+bC6vryjgK3aiYgWGfmDNA3GohOaFUfxip9MJMbn
-y8JVSceQTsBXFUwn8qGitUUwzWX08X6ySMLCgt3udyWXm4cxYRY=
-=5RtA
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEte58ACgkQbDjKyiDZ
+s5I+RxAAxy/flmcF+SM88zIhn/4uAkBk/YVtloFHi1ZtinCxDlt6sCTOJfh/7VQc
+tz07nqoE34uTblwbw1bi1LDYsP8YcCA1O5IK0tXqGJE9XfwHy1Oi5lNUTfU8lupF
+62vWiLPyglXcZGcYuw4fpe0tU5aKQIgveIL7fYM3LRMN4dezW/QxhZDNrdPHsb1b
++IUzuAZ0662lbBAAUfCFU5fXwhegMzQ2WN51DvFSl06i05746eCRa0PfHcZVVYXz
+PpqIOExxiYK4k93tDnDppK/z4w9kfmooWPhHlq7tgn6twHL5TBy2tN10ID0LgkR0
+x83jNz5sBM0l6nTFQx7yWfRVWD6om4tSbcLDeO3zYjlrgBvzqDAPGNhEZlNOPqrp
+ind1DK5jHgcGTdiL5bKVKvxil0RNIsImdUnrsGmCDUYHeOhB/SdNnkExs0IudiGF
+emshdICFoch54I69kyBF/FOEuyVRhtO6C+CmiHnOQAsinrDBiHrKmpsBRJUV28Jl
+4sxDIEPm8Laat4uP6bp9rf8T5HjG2ZhqISOl8xlZ1x+yg5jRUkC3KHLqWlrJyO1O
+jm+IP/y0RhS9jl+AyIRELBPQ29or5PElbP++Z34sGBWvN5MbbJ4xdILqxuSbXji8
+I/oPd0ZadvYvUGh8q3dr6TuIzXMYt/EW0MWMEkOrEAVvqeci4Kg=
+=UwvP
 -----END PGP SIGNATURE-----
 
---YS1tjK9cKwt0tTDt--
+--Da6Gjm0t0DXHydxn--
 
