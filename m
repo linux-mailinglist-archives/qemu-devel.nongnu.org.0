@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39CA3FE06C
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:53:24 +0200 (CEST)
-Received: from localhost ([::1]:46908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96DAE3FDFD3
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:25:57 +0200 (CEST)
+Received: from localhost ([::1]:49532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLTUJ-0000KZ-Qd
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:53:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35182)
+	id 1mLT3k-0002ke-BR
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:25:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLSxv-0002Is-45
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:19:56 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45320)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLSy0-0002VW-Oq
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:20:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53613)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLSxt-0003ni-KN
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:19:54 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLSxz-0003rJ-2g
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:20:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630513192;
+ s=mimecast20190719; t=1630513198;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tAiJThYlf1S7x56S9WL4YRBDxzxck2gItvUxPEZ3WZ0=;
- b=U7OHc+er9yo/3xPSHuppzPwqCBUQgggL3n9fRI0liqx6PdyqoiBRDRSOlbq25WRasbuY8G
- ZzwueNnzs95EZeJJhpUwN9/Ux9KU1gwyp551I6h53PVaBdJKbusQsRuVLGLClzQRdcwcPE
- FMarzJgl+Dfg4vuwPCGt45xNW4xalcM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-515-R8k2YsKLO7GkQQwm-TuJ_g-1; Wed, 01 Sep 2021 12:19:51 -0400
-X-MC-Unique: R8k2YsKLO7GkQQwm-TuJ_g-1
-Received: by mail-wm1-f69.google.com with SMTP id
- p5-20020a7bcc85000000b002e7563efc4cso24928wma.4
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 09:19:51 -0700 (PDT)
+ bh=Kk7AoJgI8qARtyKWpkBg86PldAYgZZy6ZQx9AZo/Lg8=;
+ b=hv2oCGEQlD6ZyWXNg0bQplsZ2qlw5Pudm8w9rOWBqSlUr+18HL5P0knQGiH+IDiH+sc7Dx
+ Dp+wXVXOxAKHPe/bdRt5TpsbSBbaN27AVdxhxywXY1C/++9LgEn7D5okWm8r7pRpB4V/sl
+ Oyo2RoHazY9ZQ3Dd6+GZFjY2OIkhidg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-24-Hd8ZrFhmPauieLtUqaPgkw-1; Wed, 01 Sep 2021 12:19:57 -0400
+X-MC-Unique: Hd8ZrFhmPauieLtUqaPgkw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ t15-20020a5d42cf000000b001565f9c9ee8so87844wrr.2
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 09:19:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tAiJThYlf1S7x56S9WL4YRBDxzxck2gItvUxPEZ3WZ0=;
- b=Hu3UEKIcEvTSFpBz/bXeowKBWLklBxB9b8e2nlbdxaTjq1mujuk7yNR/SLWEjWclxa
- 4nZWZaeWUXSr4+UOs6sJutKli4KNjbwQAFbyPhS/4MKzvMh3R9XovdXmLAZEVf0NUHIO
- H78zGNMNMUOqzlxT7TWHQkwYk/aPVOk3YB+GY9yhOQYGjDEijbdh5zgGQ0jUozcGE/V6
- bvZNZ3rr4yqCyg5NKzgB/93vDQ69md0KCJV8wHIw+p5oqRAUEzPxrrDJNtddLSH5yOwI
- 2Uc1D9YL+OnIIWr+MLHf54xuRs2HQYCfRq7pD3Dm5HVM2LbPi2pkN6RoPQJKaNmdWHpl
- PwtA==
-X-Gm-Message-State: AOAM5333DO7WKTNUeDqhDaF2kzPO+CoIGYKcrRms9BwoY6T0TP/ZzFqJ
- b66+BAZlR8vT7SBvvs4gnlGGtO+SMTAuRQEI1tyjDKjLgOXGQ7ORk0mOuJUYdd2v8LQXSPbqW0b
- JbX6fBe4GhOmJ1MRjElwCW75I5bz2VUfczk3NiUa/p1zsy2rLHnylGZ/55P4vGf0Z
-X-Received: by 2002:adf:fd8c:: with SMTP id d12mr186613wrr.21.1630513189712;
- Wed, 01 Sep 2021 09:19:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwQUi9fb8zCAfTxFoBTcrpsjRDxcs2UQiylWLGolXdY2BluMogTiqqv3xmyf20DdhU1/3WS7w==
-X-Received: by 2002:adf:fd8c:: with SMTP id d12mr186589wrr.21.1630513189532;
- Wed, 01 Sep 2021 09:19:49 -0700 (PDT)
+ bh=Kk7AoJgI8qARtyKWpkBg86PldAYgZZy6ZQx9AZo/Lg8=;
+ b=FCrDhVQhwX9ZON30wEckqfdsTcTYrLzF+/U7tEe5g8svVkbq90750mwvyyroUXp5LZ
+ c1ILKTbDvqgBCnyVja0pZg5zIps9y4YGFBz8XYKN5D76aboCX5d1k6c5OD2YWQxlX+qY
+ gBnCLnY86KWK1eYIFbQOZoC+Lap46VUjMX7FV/L6RsmUUDLFEhibxMjTL9qIt02LZYu2
+ mn5JzAhQpDrqOaDEgZhLkMyKL97WJ6Szl6hkTJhAoYmHMItT+u7fTkm8qb5fR9qHAg7K
+ EJ+OUE1McYZvd4m3xM0cu3a65nQ3nnkIYypufWTvRr8c9x98E+jmeYZqOsL4jmhPv3OH
+ L6zw==
+X-Gm-Message-State: AOAM531CLki8hejiWjh4++lmfdXWKaBeOgcn1GW0xB2sznqPBo64cjx+
+ jq28HcC439GugnYAk/RoITCeHwNZsGv+EkwxAFvL7/niPjNsI/XcVG41gQKhHHyEYL7UUOGZjHH
+ Tm1iDB4jim6wtcDfRvXuNtzwicY+2YnMUd2qeubmua9HqIP9w3vRmQlBWZ4sTQgao
+X-Received: by 2002:adf:a2c4:: with SMTP id t4mr208616wra.258.1630513194436;
+ Wed, 01 Sep 2021 09:19:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzXtjZrT9i4QhHU7/wjj9AHlEXNgoQApqEN/duEol5J/c/TZeHwzBqCWcrDF/6SnClSX0v8Ew==
+X-Received: by 2002:adf:a2c4:: with SMTP id t4mr208587wra.258.1630513194282;
+ Wed, 01 Sep 2021 09:19:54 -0700 (PDT)
 Received: from x1w.redhat.com (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id o15sm6273559wra.3.2021.09.01.09.19.48
+ by smtp.gmail.com with ESMTPSA id f17sm25160170wrt.63.2021.09.01.09.19.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 09:19:49 -0700 (PDT)
+ Wed, 01 Sep 2021 09:19:53 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/3] memory: Extract mtree_info_flatview() from mtree_info()
-Date: Wed,  1 Sep 2021 18:19:41 +0200
-Message-Id: <20210901161943.4174212-2-philmd@redhat.com>
+Subject: [PATCH v4 2/3] memory: Extract mtree_info_as() from mtree_info()
+Date: Wed,  1 Sep 2021 18:19:42 +0200
+Message-Id: <20210901161943.4174212-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210901161943.4174212-1-philmd@redhat.com>
 References: <20210901161943.4174212-1-philmd@redhat.com>
@@ -73,7 +73,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -103,107 +103,55 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 While mtree_info() handles both ASes and flatviews cases,
-the two cases share basically no code. Split mtree_info_flatview()
+the two cases share basically no code. Split mtree_info_as()
 out of mtree_info() to simplify.
-
-Note: Patch easier to review using 'git-diff --color-moved=blocks'.
 
 Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- softmmu/memory.c | 72 ++++++++++++++++++++++++++----------------------
- 1 file changed, 39 insertions(+), 33 deletions(-)
+ softmmu/memory.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
 diff --git a/softmmu/memory.c b/softmmu/memory.c
-index bfedaf9c4df..3eb6f52de67 100644
+index 3eb6f52de67..5be7d5e7412 100644
 --- a/softmmu/memory.c
 +++ b/softmmu/memory.c
-@@ -3246,6 +3246,44 @@ static gboolean mtree_info_flatview_free(gpointer key, gpointer value,
-     return true;
+@@ -3284,18 +3284,12 @@ static void mtree_info_flatview(bool dispatch_tree, bool owner)
+     g_hash_table_unref(views);
  }
  
-+static void mtree_info_flatview(bool dispatch_tree, bool owner)
-+{
-+    struct FlatViewInfo fvi = {
-+        .counter = 0,
-+        .dispatch_tree = dispatch_tree,
-+        .owner = owner,
-+    };
-+    AddressSpace *as;
-+    FlatView *view;
-+    GArray *fv_address_spaces;
-+    GHashTable *views = g_hash_table_new(g_direct_hash, g_direct_equal);
-+    AccelClass *ac = ACCEL_GET_CLASS(current_accel());
-+
-+    if (ac->has_memory) {
-+        fvi.ac = ac;
-+    }
-+
-+    /* Gather all FVs in one table */
-+    QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
-+        view = address_space_get_flatview(as);
-+
-+        fv_address_spaces = g_hash_table_lookup(views, view);
-+        if (!fv_address_spaces) {
-+            fv_address_spaces = g_array_new(false, false, sizeof(as));
-+            g_hash_table_insert(views, view, fv_address_spaces);
-+        }
-+
-+        g_array_append_val(fv_address_spaces, as);
-+    }
-+
-+    /* Print */
-+    g_hash_table_foreach(views, mtree_print_flatview, &fvi);
-+
-+    /* Free */
-+    g_hash_table_foreach_remove(views, mtree_info_flatview_free, 0);
-+    g_hash_table_unref(views);
-+}
-+
- void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
+-void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
++static void mtree_info_as(bool dispatch_tree, bool owner, bool disabled)
  {
      MemoryRegionListHead ml_head;
-@@ -3253,39 +3291,7 @@ void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
+     MemoryRegionList *ml, *ml2;
      AddressSpace *as;
  
-     if (flatview) {
--        FlatView *view;
--        struct FlatViewInfo fvi = {
--            .counter = 0,
--            .dispatch_tree = dispatch_tree,
--            .owner = owner,
--        };
--        GArray *fv_address_spaces;
--        GHashTable *views = g_hash_table_new(g_direct_hash, g_direct_equal);
--        AccelClass *ac = ACCEL_GET_CLASS(current_accel());
+-    if (flatview) {
+-        mtree_info_flatview(dispatch_tree, owner);
 -
--        if (ac->has_memory) {
--            fvi.ac = ac;
--        }
+-        return;
+-    }
 -
--        /* Gather all FVs in one table */
--        QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
--            view = address_space_get_flatview(as);
--
--            fv_address_spaces = g_hash_table_lookup(views, view);
--            if (!fv_address_spaces) {
--                fv_address_spaces = g_array_new(false, false, sizeof(as));
--                g_hash_table_insert(views, view, fv_address_spaces);
--            }
--
--            g_array_append_val(fv_address_spaces, as);
--        }
--
--        /* Print */
--        g_hash_table_foreach(views, mtree_print_flatview, &fvi);
--
--        /* Free */
--        g_hash_table_foreach_remove(views, mtree_info_flatview_free, 0);
--        g_hash_table_unref(views);
-+        mtree_info_flatview(dispatch_tree, owner);
+     QTAILQ_INIT(&ml_head);
  
-         return;
+     QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
+@@ -3316,6 +3310,15 @@ void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
      }
+ }
+ 
++void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
++{
++    if (flatview) {
++        mtree_info_flatview(dispatch_tree, owner);
++    } else {
++        mtree_info_as(dispatch_tree, owner, disabled);
++    }
++}
++
+ void memory_region_init_ram(MemoryRegion *mr,
+                             Object *owner,
+                             const char *name,
 -- 
 2.31.1
 
