@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 206003FDFE0
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:28:04 +0200 (CEST)
-Received: from localhost ([::1]:57970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4590D3FDF5C
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:07:07 +0200 (CEST)
+Received: from localhost ([::1]:58170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLT5n-0008R8-2e
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:28:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58084)
+	id 1mLSlU-0003Tj-0r
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:07:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1mLSe9-0002Zs-LY
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:59:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35713)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mLSeN-0002fA-8y
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:59:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1mLSe3-0003wO-Qm
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:59:29 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mLSeJ-0004B1-S6
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:59:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630511962;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1630511979;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C7+ch+2nlnAPcA10EYorC4gxStS1nhYgqF+fw5+rZBQ=;
- b=d0PPotp/gdPxPMRZGoyPjXrZEh9gssIk0KhPgUPjevru/X0F8Ce0kJ2+YBpDIRx1YNcA7r
- V7Dii1ZBA+dgtm0N352t0H3HLvagmXOs6qNTXLYjh/cso9/8IroU0kqeJ4ucWj2Pqyg5sL
- Ie+OW6Eo2F1bPFH4I6PI7Ej/yBAulOs=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-Ii0WwQTiOFehbXrzWhJ40Q-1; Wed, 01 Sep 2021 11:59:20 -0400
-X-MC-Unique: Ii0WwQTiOFehbXrzWhJ40Q-1
-Received: by mail-pl1-f200.google.com with SMTP id
- z3-20020a170902ee0300b00138918cbcceso1090107plb.22
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 08:59:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=C7+ch+2nlnAPcA10EYorC4gxStS1nhYgqF+fw5+rZBQ=;
- b=RuK9aH8B8TZvsXbykv3XgPGN61snSDtW3n8h4m4nF8Qz+t0Z4Ubv7eIludNx+3XM6h
- KgvyybM/dfV52M6SR1ATGdYUnhDeLESwiMB8R7jNq1bjVPLnRrCZFr54xv8SV8Qs1KcZ
- pPhlYyz46YQXhS6StdSM18EyFb9C67s74uM3Hp9j/MntUoaykWd5yuEr23wLQ9u2Fwio
- uH1Iohpop32h3Kub4i7wb9XkdfBSLz2Uzu+F2JZyEyHiRKBYX+6L7nkr7T0I2loFJPRV
- 7yHshoErp4vELJILLV5sln3EcD7vMxeeh2/oSxqlO3y2NR1QIus3yXUJOYwLNloZAni8
- Uxjw==
-X-Gm-Message-State: AOAM533+gHZfhq9WbrNxZTy0NyRIjizbCQWnFRpQx5ouNeGO3WbBE/VM
- /mHvHc2F3wq1l9Mc20EpCpsrsXV1CabqrXbQg3Lenwcrs/Eva12um6htLpb2dgcWKNMsXyhOmQm
- a1HbaBKJzusWpg5NsA6c+LM9zIzQqpWU=
-X-Received: by 2002:a17:90a:c798:: with SMTP id
- gn24mr66597pjb.97.1630511959690; 
- Wed, 01 Sep 2021 08:59:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCKtGFUKkMQJRzogzvL3FB6u66FaECBMbDp77QAUOQq5XSP6+53CG9DEBTwJiQPIC0Rm+4MwHjy6ZVMvguZVc=
-X-Received: by 2002:a17:90a:c798:: with SMTP id
- gn24mr66574pjb.97.1630511959329; 
- Wed, 01 Sep 2021 08:59:19 -0700 (PDT)
+ bh=sjFT+L7XFx/8tTCmCVPqYdu3qoIZOrjkklKSYwmj6zo=;
+ b=gSbVu6hMQIfr3yF3ApI76HCS6VWCzH3BfPwkqhmlTxPbRUecBu5lv01CCCX5vOKlwSBbVP
+ C2CclC8QNDacKc3msNr6xiDUx2TJD7uMKEFprEbwi9U/u8Ycr2Uyj2dmX3h/xxrLT+dE8E
+ NaFKnj73Ij+sXyNe484es/hXsSPHEm0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-218-y8RDwf8wNhW_yCeBw7JdAQ-1; Wed, 01 Sep 2021 11:59:38 -0400
+X-MC-Unique: y8RDwf8wNhW_yCeBw7JdAQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 251FA108592C;
+ Wed,  1 Sep 2021 15:59:37 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C5DF95D6AD;
+ Wed,  1 Sep 2021 15:59:22 +0000 (UTC)
+Date: Wed, 1 Sep 2021 16:59:20 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v1 2/3] io: Add zerocopy and errqueue
+Message-ID: <YS+jWOxYq0qzohY6@redhat.com>
+References: <20210831110238.299458-1-leobras@redhat.com>
+ <20210831110238.299458-3-leobras@redhat.com>
+ <YS4nPfEBCy9IC3rd@redhat.com> <YS6QmOrN4qr055vR@t490s>
+ <YS8+8EKboNvsB0zP@redhat.com> <YS+hrV7Rz5iiwRlH@t490s>
 MIME-Version: 1.0
-References: <20210901131624.46171-1-mjt@msgid.tls.msk.ru>
-In-Reply-To: <20210901131624.46171-1-mjt@msgid.tls.msk.ru>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 1 Sep 2021 19:59:08 +0400
-Message-ID: <CAMxuvaynd8jKZstXHOQS-xwb8Z7ThhE20bEGgzSMkYWFuTA=Jw@mail.gmail.com>
-Subject: Re: [PATCH v3] qemu-sockets: fix unix socket path copy (again)
-To: Michael Tokarev <mjt@tls.msk.ru>
+In-Reply-To: <YS+hrV7Rz5iiwRlH@t490s>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000002360cc05caf126f9"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mlureau@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,200 +84,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-stable <qemu-stable@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras <leobras@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002360cc05caf126f9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, Sep 01, 2021 at 11:52:13AM -0400, Peter Xu wrote:
+> On Wed, Sep 01, 2021 at 09:50:56AM +0100, Daniel P. Berrangé wrote:
+> > On Tue, Aug 31, 2021 at 04:27:04PM -0400, Peter Xu wrote:
+> > > On Tue, Aug 31, 2021 at 01:57:33PM +0100, Daniel P. Berrangé wrote:
+> > > > On Tue, Aug 31, 2021 at 08:02:38AM -0300, Leonardo Bras wrote:
+> > > > > MSG_ZEROCOPY is a feature that enables copy avoidance in TCP/UDP socket
+> > > > > send calls. It does so by avoiding copying user data into kernel buffers.
+> > > > > 
+> > > > > To make it work, three steps are needed:
+> > > > > 1 - A setsockopt() system call, enabling SO_ZEROCOPY
+> > > > > 2 - Passing down the MSG_ZEROCOPY flag for each send*() syscall
+> > > > > 3 - Process the socket's error queue, dealing with any error
+> > > > 
+> > > > AFAICT, this is missing the single most critical aspect of MSG_ZEROCOPY.
+> > > > 
+> > > > It is non-obvious, but setting the MSG_ZEROCOPY flag turns sendmsg()
+> > > > from a synchronous call to an asynchronous call.
+> > > > 
+> > > > It is forbidden to overwrite/reuse/free the buffer passed to sendmsg
+> > > > until an asynchronous completion notification has been received from
+> > > > the socket error queue. These notifications are not required to
+> > > > arrive in-order, even for a TCP stream, because the kernel hangs on
+> > > > to the buffer if a re-transmit is needed.
+> > > > 
+> > > > https://www.kernel.org/doc/html/v5.4/networking/msg_zerocopy.html
+> > > > 
+> > > >   "Page pinning also changes system call semantics. It temporarily 
+> > > >    shares the buffer between process and network stack. Unlike with
+> > > >    copying, the process cannot immediately overwrite the buffer 
+> > > >    after system call return without possibly modifying the data in 
+> > > >    flight. Kernel integrity is not affected, but a buggy program
+> > > >    can possibly corrupt its own data stream."
+> > > > 
+> > > > AFAICT, the design added in this patch does not provide any way
+> > > > to honour these requirements around buffer lifetime.
+> > > > 
+> > > > I can't see how we can introduce MSG_ZEROCOPY in any seemless
+> > > > way. The buffer lifetime requirements imply need for an API
+> > > > design that is fundamentally different for asynchronous usage,
+> > > > with a callback to notify when the write has finished/failed.
+> > > 
+> > > Regarding buffer reuse - it indeed has a very deep implication on the buffer
+> > > being available and it's not obvious at all.  Just to mention that the initial
+> > > user of this work will make sure all zero copy buffers will be guest pages only
+> > > (as it's only used in multi-fd), so they should always be there during the
+> > > process.
+> > 
+> > That is not the case when migration is using TLS, because the buffers
+> > transmitted are the ciphertext buffer, not the plaintext guest page.
+> 
+> Agreed.
+> 
+> > 
+> > > In short, we may just want to at least having a way to make sure all zero
+> > > copied buffers are finished using and they're sent after some function returns
+> > > (e.g., qio_channel_flush()).  That may require us to do some accounting on when
+> > > we called sendmsg(MSG_ZEROCOPY), meanwhile we should need to read out the
+> > > ee_data field within SO_EE_ORIGIN_ZEROCOPY msg when we do recvmsg() for the
+> > > error queue and keep those information somewhere too.
+> > > 
+> > > Some other side notes that reached my mind..
+> > > 
+> > > The qio_channel_writev_full() may not be suitable for async operations, as the
+> > > name "full" implies synchronous to me.  So maybe we can add a new helper for
+> > > zero copy on the channel?
+> > 
+> > All the APIs that exist today are fundamentally only suitable for sync
+> > operations. Supporting async correctly will definitely a brand new APIs
+> > separate from what exists today.
+> 
+> Yes.  What I wanted to say is maybe we can still keep the io_writev() interface
+> untouched, but just add a new interface at qio_channel_writev_full() level.
+> 
+> IOW, we could comment on io_writev() that it can be either sync or async now,
+> just like sendmsg() has that implication too with different flag passed in.
+> When calling io_writev() with different upper helpers, QIO channel could
+> identify what flag to pass over to io_writev().
 
-On Wed, Sep 1, 2021 at 5:16 PM Michael Tokarev <mjt@tls.msk.ru> wrote:
+I don't think we should overload any of the existing methods with extra
+parameters for async. Introduce a completely new set of methods exclusively
+for this alternative interaction model.  I can kinda understand why they
+took the approach they did with sendmsg, but I wouldn't use it as design
+motivation for QEMU (except as example of what not to do).
 
-> Commit 4cfd970ec188558daa6214f26203fe553fb1e01f added an
-> assert which ensures the path within an address of a unix
-> socket returned from the kernel is at least one byte and
-> does not exceed sun_path buffer. Both of this constraints
-> are wrong:
->
-> A unix socket can be unnamed, in this case the path is
-> completely empty (not even \0)
->
-> And some implementations (notable linux) can add extra
-> trailing byte (\0) _after_ the sun_path buffer if we
-> passed buffer larger than it (and we do).
->
-> So remove the assertion (since it causes real-life breakage)
-> but at the same time fix the usage of sun_path. Namely,
-> we should not access sun_path[0] if kernel did not return
-> it at all (this is the case for unnamed sockets),
-> and use the returned salen when copyig actual path as an
-> upper constraint for the amount of bytes to copy - this
-> will ensure we wont exceed the information provided by
-> the kernel, regardless whenever there is a trailing \0
-> or not. This also helps with unnamed sockets.
->
-> Note the case of abstract socket, the sun_path is actually
-> a blob and can contain \0 characters, - it should not be
-> passed to g_strndup and the like, it should be accessed by
-> memcpy-like functions.
->
-> Fixes: 4cfd970ec188558daa6214f26203fe553fb1e01f
-> Fixes: http://bugs.debian.org/993145
-> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-> CC: qemu-stable@nongnu.org
-> ---
->  util/qemu-sockets.c | 13 +++++--------
->  1 file changed, 5 insertions(+), 8 deletions(-)
->
-> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-> index f2f3676d1f..c5043999e9 100644
-> --- a/util/qemu-sockets.c
-> +++ b/util/qemu-sockets.c
-> @@ -1345,25 +1345,22 @@ socket_sockaddr_to_address_unix(struct
-> sockaddr_storage *sa,
->      SocketAddress *addr;
->      struct sockaddr_un *su =3D (struct sockaddr_un *)sa;
->
-> -    assert(salen >=3D sizeof(su->sun_family) + 1 &&
-> -           salen <=3D sizeof(struct sockaddr_un));
-> -
->      addr =3D g_new0(SocketAddress, 1);
->      addr->type =3D SOCKET_ADDRESS_TYPE_UNIX;
-> +    salen -=3D offsetof(struct sockaddr_un, sun_path);
->  #ifdef CONFIG_LINUX
-> -    if (!su->sun_path[0]) {
-> +    if (salen > 0 && !su->sun_path[0]) {
->          /* Linux abstract socket */
-> -        addr->u.q_unix.path =3D g_strndup(su->sun_path + 1,
-> -                                        salen - sizeof(su->sun_family) -
-> 1);
-> +        addr->u.q_unix.path =3D g_strndup(su->sun_path + 1, salen - 1);
->          addr->u.q_unix.has_abstract =3D true;
->          addr->u.q_unix.abstract =3D true;
->          addr->u.q_unix.has_tight =3D true;
-> -        addr->u.q_unix.tight =3D salen < sizeof(*su);
-> +        addr->u.q_unix.tight =3D salen < sizeof(su->sun_path);
->          return addr;
->      }
->  #endif
->
-> -    addr->u.q_unix.path =3D g_strndup(su->sun_path, sizeof(su->sun_path)=
-);
-> +    addr->u.q_unix.path =3D g_strndup(su->sun_path, salen);
->      return addr;
->  }
->  #endif /* WIN32 */
-> --
-> 2.30.2
->
->
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
---0000000000002360cc05caf126f9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 1, 2021 at 5:16 PM Michae=
-l Tokarev &lt;<a href=3D"mailto:mjt@tls.msk.ru">mjt@tls.msk.ru</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Commit 4cfd97=
-0ec188558daa6214f26203fe553fb1e01f added an<br>
-assert which ensures the path within an address of a unix<br>
-socket returned from the kernel is at least one byte and<br>
-does not exceed sun_path buffer. Both of this constraints<br>
-are wrong:<br>
-<br>
-A unix socket can be unnamed, in this case the path is<br>
-completely empty (not even \0)<br>
-<br>
-And some implementations (notable linux) can add extra<br>
-trailing byte (\0) _after_ the sun_path buffer if we<br>
-passed buffer larger than it (and we do).<br>
-<br>
-So remove the assertion (since it causes real-life breakage)<br>
-but at the same time fix the usage of sun_path. Namely,<br>
-we should not access sun_path[0] if kernel did not return<br>
-it at all (this is the case for unnamed sockets),<br>
-and use the returned salen when copyig actual path as an<br>
-upper constraint for the amount of bytes to copy - this<br>
-will ensure we wont exceed the information provided by<br>
-the kernel, regardless whenever there is a trailing \0<br>
-or not. This also helps with unnamed sockets.<br>
-<br>
-Note the case of abstract socket, the sun_path is actually<br>
-a blob and can contain \0 characters, - it should not be<br>
-passed to g_strndup and the like, it should be accessed by<br>
-memcpy-like functions.<br>
-<br>
-Fixes: 4cfd970ec188558daa6214f26203fe553fb1e01f<br>
-Fixes: <a href=3D"http://bugs.debian.org/993145" rel=3D"noreferrer" target=
-=3D"_blank">http://bugs.debian.org/993145</a><br>
-Signed-off-by: Michael Tokarev &lt;<a href=3D"mailto:mjt@tls.msk.ru" target=
-=3D"_blank">mjt@tls.msk.ru</a>&gt;<br>
-CC: <a href=3D"mailto:qemu-stable@nongnu.org" target=3D"_blank">qemu-stable=
-@nongnu.org</a><br>
----<br>
-=C2=A0util/qemu-sockets.c | 13 +++++--------<br>
-=C2=A01 file changed, 5 insertions(+), 8 deletions(-)<br>
-<br>
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c<br>
-index f2f3676d1f..c5043999e9 100644<br>
---- a/util/qemu-sockets.c<br>
-+++ b/util/qemu-sockets.c<br>
-@@ -1345,25 +1345,22 @@ socket_sockaddr_to_address_unix(struct sockaddr_sto=
-rage *sa,<br>
-=C2=A0 =C2=A0 =C2=A0SocketAddress *addr;<br>
-=C2=A0 =C2=A0 =C2=A0struct sockaddr_un *su =3D (struct sockaddr_un *)sa;<br=
->
-<br>
--=C2=A0 =C2=A0 assert(salen &gt;=3D sizeof(su-&gt;sun_family) + 1 &amp;&amp=
-;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0salen &lt;=3D sizeof(struct socka=
-ddr_un));<br>
--<br>
-=C2=A0 =C2=A0 =C2=A0addr =3D g_new0(SocketAddress, 1);<br>
-=C2=A0 =C2=A0 =C2=A0addr-&gt;type =3D SOCKET_ADDRESS_TYPE_UNIX;<br>
-+=C2=A0 =C2=A0 salen -=3D offsetof(struct sockaddr_un, sun_path);<br>
-=C2=A0#ifdef CONFIG_LINUX<br>
--=C2=A0 =C2=A0 if (!su-&gt;sun_path[0]) {<br>
-+=C2=A0 =C2=A0 if (salen &gt; 0 &amp;&amp; !su-&gt;sun_path[0]) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Linux abstract socket */<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 addr-&gt;u.q_unix.path =3D g_strndup(su-&gt;su=
-n_path + 1,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 salen - =
-sizeof(su-&gt;sun_family) - 1);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 addr-&gt;u.q_unix.path =3D g_strndup(su-&gt;su=
-n_path + 1, salen - 1);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0addr-&gt;u.q_unix.has_abstract =3D true;<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0addr-&gt;u.q_unix.abstract =3D true;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0addr-&gt;u.q_unix.has_tight =3D true;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 addr-&gt;u.q_unix.tight =3D salen &lt; sizeof(=
-*su);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 addr-&gt;u.q_unix.tight =3D salen &lt; sizeof(=
-su-&gt;sun_path);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return addr;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0#endif<br>
-<br>
--=C2=A0 =C2=A0 addr-&gt;u.q_unix.path =3D g_strndup(su-&gt;sun_path, sizeof=
-(su-&gt;sun_path));<br>
-+=C2=A0 =C2=A0 addr-&gt;u.q_unix.path =3D g_strndup(su-&gt;sun_path, salen)=
-;<br>
-=C2=A0 =C2=A0 =C2=A0return addr;<br>
-=C2=A0}<br>
-=C2=A0#endif /* WIN32 */<br>
--- <br>
-2.30.2<br>
-<br></blockquote><div><br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &l=
-t;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.co=
-m</a>&gt; <br></div></div></div>
-
---0000000000002360cc05caf126f9--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
