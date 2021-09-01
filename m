@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0916C3FE03E
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:42:46 +0200 (CEST)
-Received: from localhost ([::1]:48402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B39CA3FE06C
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:53:24 +0200 (CEST)
+Received: from localhost ([::1]:46908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLTK1-0007O8-2T
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:42:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35162)
+	id 1mLTUJ-0000KZ-Qd
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:53:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLSxq-0002HN-DU
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:19:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22530)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLSxv-0002Is-45
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:19:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45320)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLSxo-0003ir-DA
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:19:49 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLSxt-0003ni-KN
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:19:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630513187;
+ s=mimecast20190719; t=1630513192;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=o9k4VULlBtEVICWMDzetVlf0jUIflUHHlITC/iwhe74=;
- b=F57YOHxN6Kcmc7Jq6eXU4giw5GUXkcO1F/3ZFfUsrhLlVA2hOSJPbkBeqYq0lcaMrKh2du
- WgZ1V96wVQ4uQU6DWu2n05783zzdyxeaOGzWiYtkIMoI0baLV41ZvD5Q+Yz7zVrhLmvHQO
- 9Pdt2e1IIqCrPDEIgO0bYKAZMG5vGCA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tAiJThYlf1S7x56S9WL4YRBDxzxck2gItvUxPEZ3WZ0=;
+ b=U7OHc+er9yo/3xPSHuppzPwqCBUQgggL3n9fRI0liqx6PdyqoiBRDRSOlbq25WRasbuY8G
+ ZzwueNnzs95EZeJJhpUwN9/Ux9KU1gwyp551I6h53PVaBdJKbusQsRuVLGLClzQRdcwcPE
+ FMarzJgl+Dfg4vuwPCGt45xNW4xalcM=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-518-cC5_KxyjNwK5q0Dpsg_8DQ-1; Wed, 01 Sep 2021 12:19:46 -0400
-X-MC-Unique: cC5_KxyjNwK5q0Dpsg_8DQ-1
+ us-mta-515-R8k2YsKLO7GkQQwm-TuJ_g-1; Wed, 01 Sep 2021 12:19:51 -0400
+X-MC-Unique: R8k2YsKLO7GkQQwm-TuJ_g-1
 Received: by mail-wm1-f69.google.com with SMTP id
- p5-20020a7bcc85000000b002e7563efc4cso24854wma.4
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 09:19:46 -0700 (PDT)
+ p5-20020a7bcc85000000b002e7563efc4cso24928wma.4
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 09:19:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VUR3axTjLiG/ZmEq+5IjJWrMokvFs7tsIqlEnqCtVGE=;
- b=jhBYDap2qAH3o09YtmK3qCDcBKOFmNReOrf8z8JJlnVAlByPa2C2+CsvfNb8jZcd0V
- QWPabNKIgssma3MtnCtuO92SOXTWz9q5bs+IOfxV6hBD4TG5xMEwiiyN8Rh4x+QpUYaD
- NaPTCQYNM8aBRZwIhf0ldTE6MvM5u+pYCejtXSDYehWD7KecC8MJ5ERjKZelVZwJJkD1
- /twBdtaf6/iFnFZGEXf6PF/FBov+q1qszJDuoBE40mV46prkcKH53eM3tyt74F8YJ4O4
- JfRkeaN3vVNARxEP+V32r8Fh65WMVfgUPLu+uPdVciuzFkgTFdVb3w4l7EtMZGHYAb5m
- 529g==
-X-Gm-Message-State: AOAM532iTld4oDCmlyHXcfR+PrMWYtzspHWN74L+FXWkZ8wYTI/kGxrg
- qzmFqk41upNq9n7E0W0JDBtdftXrcmWhXpGSwemF3wmtr3nf4oKxsWm2aCClOuL/IImX8aGsWzW
- 3SG4QTvjagcgN2NkIveMpPHaStL8wXc2SFoyMXezXyQr+SNf7lbQjtuS8pPLOhW4k
-X-Received: by 2002:adf:e449:: with SMTP id t9mr170320wrm.135.1630513185162;
- Wed, 01 Sep 2021 09:19:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxGr1wp7QZC5BfQRsSSnN3AlEID5pNrco+6K7wNPYw2XV1NMiQyBmTe4sWAXhVrVjCx2r4OVw==
-X-Received: by 2002:adf:e449:: with SMTP id t9mr170284wrm.135.1630513184860;
- Wed, 01 Sep 2021 09:19:44 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=tAiJThYlf1S7x56S9WL4YRBDxzxck2gItvUxPEZ3WZ0=;
+ b=Hu3UEKIcEvTSFpBz/bXeowKBWLklBxB9b8e2nlbdxaTjq1mujuk7yNR/SLWEjWclxa
+ 4nZWZaeWUXSr4+UOs6sJutKli4KNjbwQAFbyPhS/4MKzvMh3R9XovdXmLAZEVf0NUHIO
+ H78zGNMNMUOqzlxT7TWHQkwYk/aPVOk3YB+GY9yhOQYGjDEijbdh5zgGQ0jUozcGE/V6
+ bvZNZ3rr4yqCyg5NKzgB/93vDQ69md0KCJV8wHIw+p5oqRAUEzPxrrDJNtddLSH5yOwI
+ 2Uc1D9YL+OnIIWr+MLHf54xuRs2HQYCfRq7pD3Dm5HVM2LbPi2pkN6RoPQJKaNmdWHpl
+ PwtA==
+X-Gm-Message-State: AOAM5333DO7WKTNUeDqhDaF2kzPO+CoIGYKcrRms9BwoY6T0TP/ZzFqJ
+ b66+BAZlR8vT7SBvvs4gnlGGtO+SMTAuRQEI1tyjDKjLgOXGQ7ORk0mOuJUYdd2v8LQXSPbqW0b
+ JbX6fBe4GhOmJ1MRjElwCW75I5bz2VUfczk3NiUa/p1zsy2rLHnylGZ/55P4vGf0Z
+X-Received: by 2002:adf:fd8c:: with SMTP id d12mr186613wrr.21.1630513189712;
+ Wed, 01 Sep 2021 09:19:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwQUi9fb8zCAfTxFoBTcrpsjRDxcs2UQiylWLGolXdY2BluMogTiqqv3xmyf20DdhU1/3WS7w==
+X-Received: by 2002:adf:fd8c:: with SMTP id d12mr186589wrr.21.1630513189532;
+ Wed, 01 Sep 2021 09:19:49 -0700 (PDT)
 Received: from x1w.redhat.com (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id m1sm25318wmq.10.2021.09.01.09.19.44
+ by smtp.gmail.com with ESMTPSA id o15sm6273559wra.3.2021.09.01.09.19.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 09:19:44 -0700 (PDT)
+ Wed, 01 Sep 2021 09:19:49 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/3] memory: Have 'info mtree' remove duplicated Address
- Space information
-Date: Wed,  1 Sep 2021 18:19:40 +0200
-Message-Id: <20210901161943.4174212-1-philmd@redhat.com>
+Subject: [PATCH v4 1/3] memory: Extract mtree_info_flatview() from mtree_info()
+Date: Wed,  1 Sep 2021 18:19:41 +0200
+Message-Id: <20210901161943.4174212-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210901161943.4174212-1-philmd@redhat.com>
+References: <20210901161943.4174212-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -92,32 +94,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Peter Xu <peterx@redhat.com>,
  Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Follow Peter Maydell suggestions:=0D
-- Split mtree_info() as mtree_info_flatview() + mtree_info_as()=0D
-- Remove duplicated Address Space information=0D
-=0D
-Since v3:=0D
-- Fix typos=0D
-- Split mtree_info_flatview() + mtree_info_as() first=0D
-- Rebased last patch keeping Peter's R-b tag=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (3):=0D
-  memory: Extract mtree_info_flatview() from mtree_info()=0D
-  memory: Extract mtree_info_as() from mtree_info()=0D
-  memory: Have 'info mtree' remove duplicated Address Space information=0D
-=0D
- softmmu/memory.c | 160 ++++++++++++++++++++++++++++++++++-------------=0D
- 1 file changed, 118 insertions(+), 42 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+While mtree_info() handles both ASes and flatviews cases,
+the two cases share basically no code. Split mtree_info_flatview()
+out of mtree_info() to simplify.
+
+Note: Patch easier to review using 'git-diff --color-moved=blocks'.
+
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ softmmu/memory.c | 72 ++++++++++++++++++++++++++----------------------
+ 1 file changed, 39 insertions(+), 33 deletions(-)
+
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index bfedaf9c4df..3eb6f52de67 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -3246,6 +3246,44 @@ static gboolean mtree_info_flatview_free(gpointer key, gpointer value,
+     return true;
+ }
+ 
++static void mtree_info_flatview(bool dispatch_tree, bool owner)
++{
++    struct FlatViewInfo fvi = {
++        .counter = 0,
++        .dispatch_tree = dispatch_tree,
++        .owner = owner,
++    };
++    AddressSpace *as;
++    FlatView *view;
++    GArray *fv_address_spaces;
++    GHashTable *views = g_hash_table_new(g_direct_hash, g_direct_equal);
++    AccelClass *ac = ACCEL_GET_CLASS(current_accel());
++
++    if (ac->has_memory) {
++        fvi.ac = ac;
++    }
++
++    /* Gather all FVs in one table */
++    QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
++        view = address_space_get_flatview(as);
++
++        fv_address_spaces = g_hash_table_lookup(views, view);
++        if (!fv_address_spaces) {
++            fv_address_spaces = g_array_new(false, false, sizeof(as));
++            g_hash_table_insert(views, view, fv_address_spaces);
++        }
++
++        g_array_append_val(fv_address_spaces, as);
++    }
++
++    /* Print */
++    g_hash_table_foreach(views, mtree_print_flatview, &fvi);
++
++    /* Free */
++    g_hash_table_foreach_remove(views, mtree_info_flatview_free, 0);
++    g_hash_table_unref(views);
++}
++
+ void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
+ {
+     MemoryRegionListHead ml_head;
+@@ -3253,39 +3291,7 @@ void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
+     AddressSpace *as;
+ 
+     if (flatview) {
+-        FlatView *view;
+-        struct FlatViewInfo fvi = {
+-            .counter = 0,
+-            .dispatch_tree = dispatch_tree,
+-            .owner = owner,
+-        };
+-        GArray *fv_address_spaces;
+-        GHashTable *views = g_hash_table_new(g_direct_hash, g_direct_equal);
+-        AccelClass *ac = ACCEL_GET_CLASS(current_accel());
+-
+-        if (ac->has_memory) {
+-            fvi.ac = ac;
+-        }
+-
+-        /* Gather all FVs in one table */
+-        QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
+-            view = address_space_get_flatview(as);
+-
+-            fv_address_spaces = g_hash_table_lookup(views, view);
+-            if (!fv_address_spaces) {
+-                fv_address_spaces = g_array_new(false, false, sizeof(as));
+-                g_hash_table_insert(views, view, fv_address_spaces);
+-            }
+-
+-            g_array_append_val(fv_address_spaces, as);
+-        }
+-
+-        /* Print */
+-        g_hash_table_foreach(views, mtree_print_flatview, &fvi);
+-
+-        /* Free */
+-        g_hash_table_foreach_remove(views, mtree_info_flatview_free, 0);
+-        g_hash_table_unref(views);
++        mtree_info_flatview(dispatch_tree, owner);
+ 
+         return;
+     }
+-- 
+2.31.1
 
 
