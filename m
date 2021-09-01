@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16D3F3FD7CC
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 12:39:41 +0200 (CEST)
-Received: from localhost ([::1]:48226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E25513FD7DC
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 12:42:08 +0200 (CEST)
+Received: from localhost ([::1]:56554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLNee-0001RM-5T
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 06:39:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43162)
+	id 1mLNh2-0006z1-0u
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 06:42:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLNc8-0006jq-4i
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:04 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:38571)
+ id 1mLNcA-0006qI-VQ
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:07 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:51929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLNc5-0005dB-2K
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:03 -0400
-Received: by mail-wr1-x429.google.com with SMTP id u16so3749816wrn.5
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 03:37:00 -0700 (PDT)
+ id 1mLNc5-0005e5-MZ
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:06 -0400
+Received: by mail-wm1-x335.google.com with SMTP id u15so1523683wmj.1
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 03:37:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Kw+tgxnJQFgyIKtC9H3QhpTCdzasNtrMOVm+PcV5arQ=;
- b=ioXyUWKLhk3NPSbBlb40NKHCGzSdo+rJCPCRlg0chYz+H2xXpBjKj4MhMau19aMJCl
- dEvWM5N8czO/x3dhhytEwNmR/Rghza+WJ2Tv8mWDyXRhY0DK+PsMR6uo9wsVkDPTBpNn
- QeasL0sLg0rUUPJVLQWaIilzjgtrSjvODV9tfTP+GjsK0pWBkm6HLdGYzXCQMZZA1hRp
- 7S6/lbMIiATIieivA7YrLkZBy/iTM4YfD0nEOvbPQ5592gFXATwWQi59fzwR1QS2iKuY
- nPf0+hEOBdZ549+vcOwl3VWIIO+S8GGP+Tx1RIQNFyyG/jcd2dmpp9d+kwt78YwBQL+P
- JPHg==
+ bh=mWFsqLJx/ZREG9fsj3Ycq1zQrSJgiL5MT7G2IKi2KCc=;
+ b=vR5OJvH84Lqs2vbAIWyVvUS9iyluzShJ4f5LlEO/tYqL0yRkJh8UJfVOkgEMoWOGz9
+ LVW3G8T5ypkgg9XTz7CAKHcH1HLQ2o1JVTzNxSYqCoN0YQL2Df+Ka5SH8+dm6CmWBDSR
+ nrYKmHok/RX3RCNdPrXxlX9lj+scnHyF1+Uz3lLpOGeOn3QP5xgiDle2o18jpUF08Njo
+ 7Z5htVGiFOy2hEkgBdNgmVbIsY/sTNYiggh4nfzBJon25+LNyVCBuoFjQulrKqX8ukYp
+ rxR037A/QcDbZikLXRpUV1Nha0u6oBwuSQkyiCBsx4ap/LJ2Z4+EJLwwv8sLf5sbhqT+
+ fz3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Kw+tgxnJQFgyIKtC9H3QhpTCdzasNtrMOVm+PcV5arQ=;
- b=WwMHg0zFPJKvFviOz8XenIKAYJsia6L84aqMkTMq3LcAHl+oZMhfAzKiKZbHd238po
- UDNzloJZ/cp5wJxyPMciXy4cV4Ul0tPeG9ICcH3GCs43TzPKiLiH3qHf/at6d02p4dNO
- OTmlkIQsinsO7Of2JOoDllU9599ld1lNhOAAGRg/EoYGr9XjzIUnuumBqWrE4bWfKkaj
- bfm5iQmjDgORXB+XoSSqt4LkEYmRI7crU2Ky9aOrMBvZnRzOnDg1KHKqYS4b/xYi9GAn
- IzgE4Wg3yfyYsddOzMjAuMLaPH5omNom517fI5AIY4Ml537Ur031iXKit4VR7J2TpayG
- cKdg==
-X-Gm-Message-State: AOAM53181WI7LMG5bWCKFZTE3Opq1mBetPif1QUKpYsTUoHImnNNDjUp
- 8dT3XtvzmRnPdN9Mpew9V4tZO6l4IzKq/Q==
-X-Google-Smtp-Source: ABdhPJyT4uDWUhKGFBPc41aAljyjs3WYkwLgTp112y8f1nBje/wXyABlmKMu0KR+Ut0jH2Rlfh4P0g==
-X-Received: by 2002:adf:b7c1:: with SMTP id t1mr37468326wre.387.1630492619745; 
- Wed, 01 Sep 2021 03:36:59 -0700 (PDT)
+ bh=mWFsqLJx/ZREG9fsj3Ycq1zQrSJgiL5MT7G2IKi2KCc=;
+ b=IITbr10oDXajxK4aFfFQcMj/D+zMFtzmpk2ApZyGUMcaN5V1QNvfUmkZo9PKqjnJIg
+ KSRdVB7U9EK+vDt94iAOBJuKB5U2clK/yUWiZS4iya/VmcrNDRNxFLfz0Gc520TW6Qwb
+ zTiiDSg45OosYasQ9SmsRDVfeLeGHwtxny6BfeCty/nPXq6yQb7Xd/dWgk3qePyVaLS9
+ QAK3nZj36U5FpGcEVZ1JGJ/RbuplSAw7453JPOx/LVnxwILV0CfDcM9i3R9Lt/VmF7Df
+ zvKcZRbEELJxh5vJpe80RrNlHVpAGcYP+urN+oaJ4GvP8npxcmKqKBcct2T5fG9XLCY7
+ kqhQ==
+X-Gm-Message-State: AOAM530Fk2FtgDgk4ZKQyb549UJTjWBXyXoFEhCjeuM/KqwJx6ReXHWX
+ buhXJkbyz8HS1EgfEGSo2A0Z0f2nV8ONyg==
+X-Google-Smtp-Source: ABdhPJzOlJ4foWY/6uOA3gNFGDhysGI5YIa+rVxTKp+1FgnFqNDwNbM7XRbuyEqIp/LHYdh8CeCo5A==
+X-Received: by 2002:a1c:20d7:: with SMTP id g206mr9229605wmg.153.1630492620383; 
+ Wed, 01 Sep 2021 03:37:00 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id j207sm5494771wmj.40.2021.09.01.03.36.59
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 03:36:59 -0700 (PDT)
+ Wed, 01 Sep 2021 03:37:00 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/51] hw: Add compat machines for 6.2
-Date: Wed,  1 Sep 2021 11:36:07 +0100
-Message-Id: <20210901103653.13435-6-peter.maydell@linaro.org>
+Subject: [PULL 06/51] target/arm: Implement MVE VADD (floating-point)
+Date: Wed,  1 Sep 2021 11:36:08 +0100
+Message-Id: <20210901103653.13435-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210901103653.13435-1-peter.maydell@linaro.org>
 References: <20210901103653.13435-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,236 +86,185 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yanan Wang <wangyanan55@huawei.com>
+Implement the MVE VADD (floating-point) insn.  Handling of this is
+similar to the 2-operand integer insns, except that we must take care
+to only update the floating point exception status if the least
+significant bit of the predicate mask for each element is active.
 
-Add 6.2 machine types for arm/i440fx/q35/s390x/spapr.
-
-Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/boards.h        |  3 +++
- include/hw/i386/pc.h       |  3 +++
- hw/arm/virt.c              | 11 +++++++++--
- hw/core/machine.c          |  3 +++
- hw/i386/pc.c               |  3 +++
- hw/i386/pc_piix.c          | 14 +++++++++++++-
- hw/i386/pc_q35.c           | 13 ++++++++++++-
- hw/ppc/spapr.c             | 17 ++++++++++++++---
- hw/s390x/s390-virtio-ccw.c | 14 +++++++++++++-
- 9 files changed, 73 insertions(+), 8 deletions(-)
+ target/arm/helper-mve.h     |  3 +++
+ target/arm/translate.h      |  6 ++++++
+ target/arm/mve.decode       | 10 ++++++++++
+ target/arm/mve_helper.c     | 40 +++++++++++++++++++++++++++++++++++++
+ target/arm/translate-mve.c  | 17 ++++++++++++++++
+ target/arm/translate-neon.c |  6 ------
+ 6 files changed, 76 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index accd6eff35a..463a5514f97 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -353,6 +353,9 @@ struct MachineState {
-     } \
-     type_init(machine_initfn##_register_types)
+diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
+index 3db9b15f121..32fd2e1f9be 100644
+--- a/target/arm/helper-mve.h
++++ b/target/arm/helper-mve.h
+@@ -410,6 +410,9 @@ DEF_HELPER_FLAGS_4(mve_vhcadd270b, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ DEF_HELPER_FLAGS_4(mve_vhcadd270h, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
+ DEF_HELPER_FLAGS_4(mve_vhcadd270w, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
  
-+extern GlobalProperty hw_compat_6_1[];
-+extern const size_t hw_compat_6_1_len;
++DEF_HELPER_FLAGS_4(mve_vfaddh, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vfadds, TCG_CALL_NO_WG, void, env, ptr, ptr, ptr)
 +
- extern GlobalProperty hw_compat_6_0[];
- extern const size_t hw_compat_6_0_len;
- 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 88dffe75172..97b4ab79b53 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -196,6 +196,9 @@ void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size);
- void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
-                        const CPUArchIdList *apic_ids, GArray *entry);
- 
-+extern GlobalProperty pc_compat_6_1[];
-+extern const size_t pc_compat_6_1_len;
-+
- extern GlobalProperty pc_compat_6_0[];
- extern const size_t pc_compat_6_0_len;
- 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 86c8a4ca3d7..dbb77b59974 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2783,10 +2783,17 @@ static void machvirt_machine_init(void)
+ DEF_HELPER_FLAGS_4(mve_vadd_scalarb, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(mve_vadd_scalarh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(mve_vadd_scalarw, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index 241596c5bda..8636c20c3b4 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -181,6 +181,12 @@ static inline int rsub_8(DisasContext *s, int x)
+     return 8 - x;
  }
- type_init(machvirt_machine_init);
  
--static void virt_machine_6_1_options(MachineClass *mc)
-+static void virt_machine_6_2_options(MachineClass *mc)
- {
- }
--DEFINE_VIRT_MACHINE_AS_LATEST(6, 1)
-+DEFINE_VIRT_MACHINE_AS_LATEST(6, 2)
-+
-+static void virt_machine_6_1_options(MachineClass *mc)
++static inline int neon_3same_fp_size(DisasContext *s, int x)
 +{
-+    virt_machine_6_2_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
-+}
-+DEFINE_VIRT_MACHINE(6, 1)
- 
- static void virt_machine_6_0_options(MachineClass *mc)
- {
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 54e040587dd..067f42b528f 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -37,6 +37,9 @@
- #include "hw/virtio/virtio.h"
- #include "hw/virtio/virtio-pci.h"
- 
-+GlobalProperty hw_compat_6_1[] = {};
-+const size_t hw_compat_6_1_len = G_N_ELEMENTS(hw_compat_6_1);
-+
- GlobalProperty hw_compat_6_0[] = {
-     { "gpex-pcihost", "allow-unmapped-accesses", "false" },
-     { "i8042", "extended-state", "false"},
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 102b2239468..1276bfeee45 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -93,6 +93,9 @@
- #include "trace.h"
- #include CONFIG_DEVICES
- 
-+GlobalProperty pc_compat_6_1[] = {};
-+const size_t pc_compat_6_1_len = G_N_ELEMENTS(pc_compat_6_1);
-+
- GlobalProperty pc_compat_6_0[] = {
-     { "qemu64" "-" TYPE_X86_CPU, "family", "6" },
-     { "qemu64" "-" TYPE_X86_CPU, "model", "6" },
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 1bc30167acc..c5da7739cef 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -412,7 +412,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
-     machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
- }
- 
--static void pc_i440fx_6_1_machine_options(MachineClass *m)
-+static void pc_i440fx_6_2_machine_options(MachineClass *m)
- {
-     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_i440fx_machine_options(m);
-@@ -421,6 +421,18 @@ static void pc_i440fx_6_1_machine_options(MachineClass *m)
-     pcmc->default_cpu_version = 1;
- }
- 
-+DEFINE_I440FX_MACHINE(v6_2, "pc-i440fx-6.2", NULL,
-+                      pc_i440fx_6_2_machine_options);
-+
-+static void pc_i440fx_6_1_machine_options(MachineClass *m)
-+{
-+    pc_i440fx_6_2_machine_options(m);
-+    m->alias = NULL;
-+    m->is_default = false;
-+    compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
-+    compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
++    /* Convert 0==fp32, 1==fp16 into a MO_* value */
++    return MO_32 - x;
 +}
 +
- DEFINE_I440FX_MACHINE(v6_1, "pc-i440fx-6.1", NULL,
-                       pc_i440fx_6_1_machine_options);
- 
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index eeb0b185b11..565fadce540 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -354,7 +354,7 @@ static void pc_q35_machine_options(MachineClass *m)
-     m->max_cpus = 288;
- }
- 
--static void pc_q35_6_1_machine_options(MachineClass *m)
-+static void pc_q35_6_2_machine_options(MachineClass *m)
+ static inline int arm_dc_feature(DisasContext *dc, int feature)
  {
-     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_q35_machine_options(m);
-@@ -362,6 +362,17 @@ static void pc_q35_6_1_machine_options(MachineClass *m)
-     pcmc->default_cpu_version = 1;
- }
+     return (dc->features & (1ULL << feature)) != 0;
+diff --git a/target/arm/mve.decode b/target/arm/mve.decode
+index 87446816293..e211cb016c6 100644
+--- a/target/arm/mve.decode
++++ b/target/arm/mve.decode
+@@ -26,6 +26,10 @@
+ # VQDMULL has size in bit 28: 0 for 16 bit, 1 for 32 bit
+ %size_28 28:1 !function=plus_1
  
-+DEFINE_Q35_MACHINE(v6_2, "pc-q35-6.2", NULL,
-+                   pc_q35_6_2_machine_options);
++# 2 operand fp insns have size in bit 20: 1 for 16 bit, 0 for 32 bit,
++# like Neon FP insns.
++%2op_fp_size 20:1 !function=neon_3same_fp_size
 +
-+static void pc_q35_6_1_machine_options(MachineClass *m)
-+{
-+    pc_q35_6_2_machine_options(m);
-+    m->alias = NULL;
-+    compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
-+    compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
-+}
+ # 1imm format immediate
+ %imm_28_16_0 28:1 16:3 0:4
+ 
+@@ -118,6 +122,9 @@
+ 
+ @vmaxv .... .... .... size:2 .. rda:4 .... .... .... &vmaxv qm=%qm
+ 
++@2op_fp .... .... .... .... .... .... .... .... &2op \
++        qd=%qd qn=%qn qm=%qm size=%2op_fp_size
 +
- DEFINE_Q35_MACHINE(v6_1, "pc-q35-6.1", NULL,
-                    pc_q35_6_1_machine_options);
+ # Vector loads and stores
  
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 81699d4f8be..d39fd4e6449 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4686,14 +4686,25 @@ static void spapr_machine_latest_class_options(MachineClass *mc)
-     type_init(spapr_machine_register_##suffix)
+ # Widening loads and narrowing stores:
+@@ -615,3 +622,6 @@ VCMPGE_scalar     1111 1110 0 . .. ... 1 ... 1 1111 0 1 0 0 .... @vcmp_scalar
+ VCMPLT_scalar     1111 1110 0 . .. ... 1 ... 1 1111 1 1 0 0 .... @vcmp_scalar
+ VCMPGT_scalar     1111 1110 0 . .. ... 1 ... 1 1111 0 1 1 0 .... @vcmp_scalar
+ VCMPLE_scalar     1111 1110 0 . .. ... 1 ... 1 1111 1 1 1 0 .... @vcmp_scalar
++
++# 2-operand FP
++VADD_fp           1110 1111 0 . 0 . ... 0 ... 0 1101 . 1 . 0 ... 0 @2op_fp
+diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
+index c2826eb5f9f..abca7c0b2ab 100644
+--- a/target/arm/mve_helper.c
++++ b/target/arm/mve_helper.c
+@@ -25,6 +25,7 @@
+ #include "exec/cpu_ldst.h"
+ #include "exec/exec-all.h"
+ #include "tcg/tcg.h"
++#include "fpu/softfloat.h"
  
- /*
-- * pseries-6.1
-+ * pseries-6.2
-  */
--static void spapr_machine_6_1_class_options(MachineClass *mc)
-+static void spapr_machine_6_2_class_options(MachineClass *mc)
+ static uint16_t mve_eci_mask(CPUARMState *env)
  {
-     /* Defaults for the latest behaviour inherited from the base class */
- }
- 
--DEFINE_SPAPR_MACHINE(6_1, "6.1", true);
-+DEFINE_SPAPR_MACHINE(6_2, "6.2", true);
+@@ -2798,3 +2799,42 @@ DO_VMAXMINA(vmaxaw, 4, int32_t, uint32_t, DO_MAX)
+ DO_VMAXMINA(vminab, 1, int8_t, uint8_t, DO_MIN)
+ DO_VMAXMINA(vminah, 2, int16_t, uint16_t, DO_MIN)
+ DO_VMAXMINA(vminaw, 4, int32_t, uint32_t, DO_MIN)
 +
 +/*
-+ * pseries-6.1
++ * 2-operand floating point. Note that if an element is partially
++ * predicated we must do the FP operation to update the non-predicated
++ * bytes, but we must be careful to avoid updating the FP exception
++ * state unless byte 0 of the element was unpredicated.
 + */
-+static void spapr_machine_6_1_class_options(MachineClass *mc)
-+{
-+    spapr_machine_6_2_class_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
-+}
++#define DO_2OP_FP(OP, ESIZE, TYPE, FN)                                  \
++    void HELPER(glue(mve_, OP))(CPUARMState *env,                       \
++                                void *vd, void *vn, void *vm)           \
++    {                                                                   \
++        TYPE *d = vd, *n = vn, *m = vm;                                 \
++        TYPE r;                                                         \
++        uint16_t mask = mve_element_mask(env);                          \
++        unsigned e;                                                     \
++        float_status *fpst;                                             \
++        float_status scratch_fpst;                                      \
++        for (e = 0; e < 16 / ESIZE; e++, mask >>= ESIZE) {              \
++            if ((mask & MAKE_64BIT_MASK(0, ESIZE)) == 0) {              \
++                continue;                                               \
++            }                                                           \
++            fpst = (ESIZE == 2) ? &env->vfp.standard_fp_status_f16 :    \
++                &env->vfp.standard_fp_status;                           \
++            if (!(mask & 1)) {                                          \
++                /* We need the result but without updating flags */     \
++                scratch_fpst = *fpst;                                   \
++                fpst = &scratch_fpst;                                   \
++            }                                                           \
++            r = FN(n[H##ESIZE(e)], m[H##ESIZE(e)], fpst);               \
++            mergemask(&d[H##ESIZE(e)], r, mask);                        \
++        }                                                               \
++        mve_advance_vpt(env);                                           \
++    }
 +
-+DEFINE_SPAPR_MACHINE(6_1, "6.1", false);
- 
- /*
-  * pseries-6.0
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index e4b18aef496..4d25278cf20 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -791,14 +791,26 @@ bool css_migration_enabled(void)
-     }                                                                         \
-     type_init(ccw_machine_register_##suffix)
- 
-+static void ccw_machine_6_2_instance_options(MachineState *machine)
-+{
-+}
++#define DO_2OP_FP_ALL(OP, FN)                  \
++    DO_2OP_FP(OP##h, 2, float16, float16_##FN) \
++    DO_2OP_FP(OP##s, 4, float32, float32_##FN)
 +
-+static void ccw_machine_6_2_class_options(MachineClass *mc)
-+{
-+}
-+DEFINE_CCW_MACHINE(6_2, "6.2", true);
-+
- static void ccw_machine_6_1_instance_options(MachineState *machine)
- {
-+    ccw_machine_6_2_instance_options(machine);
++DO_2OP_FP_ALL(vfadd, add)
+diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
+index 78229c44c68..d2c40ede564 100644
+--- a/target/arm/translate-mve.c
++++ b/target/arm/translate-mve.c
+@@ -831,6 +831,23 @@ static bool trans_VSBCI(DisasContext *s, arg_2op *a)
+     return do_2op(s, a, gen_helper_mve_vsbci);
  }
  
- static void ccw_machine_6_1_class_options(MachineClass *mc)
++#define DO_2OP_FP(INSN, FN)                                     \
++    static bool trans_##INSN(DisasContext *s, arg_2op *a)       \
++    {                                                           \
++        static MVEGenTwoOpFn * const fns[] = {                  \
++            NULL,                                               \
++            gen_helper_mve_##FN##h,                             \
++            gen_helper_mve_##FN##s,                             \
++            NULL,                                               \
++        };                                                      \
++        if (!dc_isar_feature(aa32_mve_fp, s)) {                 \
++            return false;                                       \
++        }                                                       \
++        return do_2op(s, a, fns[a->size]);                      \
++    }
++
++DO_2OP_FP(VADD_fp, vfadd)
++
+ static bool do_2op_scalar(DisasContext *s, arg_2scalar *a,
+                           MVEGenTwoOpScalarFn fn)
  {
-+    ccw_machine_6_2_class_options(mc);
-+    compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
- }
--DEFINE_CCW_MACHINE(6_1, "6.1", true);
-+DEFINE_CCW_MACHINE(6_1, "6.1", false);
+diff --git a/target/arm/translate-neon.c b/target/arm/translate-neon.c
+index c53ab20fa48..dd43de558e4 100644
+--- a/target/arm/translate-neon.c
++++ b/target/arm/translate-neon.c
+@@ -28,12 +28,6 @@
+ #include "translate.h"
+ #include "translate-a32.h"
  
- static void ccw_machine_6_0_instance_options(MachineState *machine)
- {
+-static inline int neon_3same_fp_size(DisasContext *s, int x)
+-{
+-    /* Convert 0==fp32, 1==fp16 into a MO_* value */
+-    return MO_32 - x;
+-}
+-
+ /* Include the generated Neon decoder */
+ #include "decode-neon-dp.c.inc"
+ #include "decode-neon-ls.c.inc"
 -- 
 2.20.1
 
