@@ -2,92 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681523FDFD1
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:25:42 +0200 (CEST)
-Received: from localhost ([::1]:49254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3BCB3FE048
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:46:20 +0200 (CEST)
+Received: from localhost ([::1]:56504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLT3V-0002Zd-GM
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:25:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57562)
+	id 1mLTNS-0004TZ-Ob
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:46:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mLSbW-0007w6-9M
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:56:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31143)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1mLSdl-0002LT-Fs
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:59:06 -0400
+Received: from mout.web.de ([212.227.17.12]:46859)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mLSbO-0001nf-6O
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:56:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630511797;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cBkkwmentReDbVTjhIzAtUVD/2+Ts5Ifp+CMyFV+YQg=;
- b=hBZRFLLs0N8xjHIPENuoPicVDSBWDHjuZFDtci1jvs/7yXDqsor3BjO2DXyVGFG2v7u0Mf
- ukkJpOIxHrDz/SbieosdTrp5uvntkLpVhnvse/G093Jn1jHMglu5EvWiLZjNzgZduKtFDz
- VdFBJztc2zimCmunFljfaOLyAqcBy18=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-333-C5VOTDAiPbiLNApTjx1u4w-1; Wed, 01 Sep 2021 11:56:36 -0400
-X-MC-Unique: C5VOTDAiPbiLNApTjx1u4w-1
-Received: by mail-ed1-f72.google.com with SMTP id
- x4-20020a50d9c4000000b003bed5199871so1505550edj.14
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 08:56:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=cBkkwmentReDbVTjhIzAtUVD/2+Ts5Ifp+CMyFV+YQg=;
- b=tTSzBxQ6jmMrb6fQNcG3TcNSWWfAx3fkBbY5URApLPs84ceVlODkVd0Cfd9JvpN5HF
- l1yr4P5afp+rYEwe0TRP9pR0tVu86vNBv3kMGREgLeFYnjoPE/cZptyel6eoI7iRUjCd
- Jvx4pDN3RCMXGjrvnZBKlt3RNSWyO6os5uNlcJcOhRhLsyMv9YaMwTEhR7H05RLjojqF
- RPONyzL1L+ODmAQnuY8ZegLdzV5+RbKqQxRUmT4cK4i36JpaViSdvp987wMDwHk4Wglq
- U9uzXA9iiRfTs3FnKogo42aE+HlMYYDKknhRn634YxlMgwiWeldb39MUaiC3FSI7iVk2
- vyLA==
-X-Gm-Message-State: AOAM5333NGsnW0HcwHRIGQMxI2+EYeISrwI/hb4bihole2uxRXIhn6BO
- tZBF2kszqhZi45QXhQk1PZPGNhwvlg3aFLwQr3vpsUU6sPaZC419K7NKnmdPse+ZQg9B4WEKuhv
- j/uI9G23ewHa+QTk=
-X-Received: by 2002:a17:906:b18c:: with SMTP id
- w12mr135221ejy.534.1630511795246; 
- Wed, 01 Sep 2021 08:56:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz+HR2rzcEt8KGie6IfO7o0KiA3u2suKYNgj6QRSogLA9EOOTE+BxGizfekYh4px0wftCpkPw==
-X-Received: by 2002:a17:906:b18c:: with SMTP id
- w12mr135203ejy.534.1630511795067; 
- Wed, 01 Sep 2021 08:56:35 -0700 (PDT)
-Received: from steredhat (host-79-51-2-59.retail.telecomitalia.it.
- [79.51.2.59])
- by smtp.gmail.com with ESMTPSA id cn16sm33301edb.87.2021.09.01.08.56.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 08:56:34 -0700 (PDT)
-Date: Wed, 1 Sep 2021 17:56:32 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 2/3] hw/virtio: Remove NULL check in
- virtio_free_region_cache()
-Message-ID: <20210901155632.oxsgf3kpny2vzcbt@steredhat>
-References: <20210826172658.2116840-1-philmd@redhat.com>
- <20210826172658.2116840-3-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1mLSdj-0003fv-Nm
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:59:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1630511938;
+ bh=eR+Qsf1s8yMV+auDSJ6ptpSjivxrRLHnJpN0y3NehOQ=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=iSrJzgtETauZYk58kB1ZGPg+oC8NzV4Q8yxALATMTuG4c9rFnK4rKN9BvT0UEE4t6
+ LhLW8WnYYaaXwiLDSS0evMdNblFAaOo8eOGAHX84At/0PF79NoGLQbN5COWcTotuTD
+ HAUvC3lTkfGVsrfsQI0Gvop4j9YQdxdMkJeEsNN0=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from gecko.fritz.box ([94.134.180.176]) by smtp.web.de (mrweb103
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0MIvXZ-1mIzfP2gh7-002X4g; Wed, 01
+ Sep 2021 17:58:58 +0200
+Date: Wed, 1 Sep 2021 17:58:57 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH] multifd: Implement yank for multifd send side
+Message-ID: <20210901175857.0858efe1@gecko.fritz.box>
 MIME-Version: 1.0
-In-Reply-To: <20210826172658.2116840-3-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; boundary="Sig_/rswLaR1fQi5MedgWLuTuj9G";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:AINUgW7NhG8B5FhNIRoHSdFocDSRBp8jx3Ljr3ND0twXKv5Eozp
+ n0qFL/Cg4RdBkfMFO2QEdPGUos+N+eENDN4kZd4sUVeTO03yGpxZ179YjMXjl4QXH2f7CPQ
+ Pv/Q2Ljdmkym4m6o3k9EjML7gZ9YYdVESLDGtl7buuxrsdmbntNrXPLHRhhAdNd7Mn/aaYO
+ iwH+w7YliVtVECgBqB/6w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Chcbgq2TRO0=:v3D1yNcn8vrdZzE1bGGXzb
+ v/OL5WESHJgNpy+M3rWiT+xzFjM2bQX7zkfm6/vuIralyAJXeTw51NSYp46tIEKvzgZDJXkKw
+ 9St809gteWTrCeCXEBNY3m+lo9HI6zh7Mu4gJe6j5JQEDyaXAvCHzCjRA1PVLqGG0BmFdgOmd
+ V1ltYUuB+Jv5VW94Zfs9BRyMzg2BRevvCAQMILnmRdPMldTf7Hhd8TfLhj+mTDHXWJuBA433j
+ UsCziC2FN5puDPCbQL5ObWAa00k89Z9j18efSOODIgqxeNMX6uYmqcGMWrIIScSIVC6v6Fa8u
+ +ecR9c5hxe5Hjhtv/gRtY5UX6/7kjIEDD7SqS3FpdOpTQ89hwhAZ8mzBgsooXMSL/9zo8LXsp
+ io1ic2G0yw+BwKof9riVwZX+yetl5N76Zrz2bcf2lLlMqGLpfKbsJUlPncTkE+7soO/t3F+AI
+ IK+AGtTSFrZWA/Y8zUXzQMih27s6ColufSZleRKsQvC/17+3XwUQcy0fwYzrxSSPk7z3sMH/t
+ iDjyhB14emCNvOIbQXnstD+6SMxwJGoygC6SrT9ctvXrnkeyeeIiuxGgzPAMUo+q9wWmfhZKn
+ j76c05G2tj+kcag63Z5ByAzHNgGaLgeoD7fByP1dS1da5/CVKLgrb7qupkbAkdJTOpbxr0eep
+ c4t83bErEDggGAWaG8+Oi05uzBFB5juqMmb38xh2a+mW+z7EQGtuzcvm65fUY0zJ6Fg8BXs8x
+ TR7Ll8VEPB/QipIDYJqYrtH29JFpd2LGywLdZmUkVXXAlJ5D82um5fSk+sVDQxSyQuYyoI/dK
+ 9bzO0yJoiXZzhZs8rA4qc6wX5SANBZrjkEghBitNQpVH5+2ZhzX6w8VjCaIooOyorAKR2H19h
+ Zks0CmGVXo9MrjKJb+h9KoPmTq/Xa1R2YiCfxqe08/+N1c1bhmceHAHWI1AVcR4ULf764gg0X
+ zRWLUp7cvTA8c1QTSYvYEyRWwOMcGS9rzkEIEYK1zZNxy2GG+W6JtmoyztaDZshY777jkI6MR
+ t2ev3T4OJiamLaHqlEiw6t50pvr2LG53RN4fZgdWYrVrG4BGCWAsY4Ot3rCN5Hlk9LeUMc+gF
+ zLEv+lLyUPSb+e3Au5IxcOdUUGvmC+amlYV9kNFVGG2Kwc7xg6/wJCYEQ==
+Received-SPF: pass client-ip=212.227.17.12; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,47 +81,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 26, 2021 at 07:26:57PM +0200, Philippe Mathieu-Daudé wrote:
->virtio_free_region_cache() is called within call_rcu(),
->always with a non-NULL argument. Ensure new code keep it
->that way by replacing the NULL check by an assertion.
->Add a comment this function is called within call_rcu().
->
->Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->---
-> hw/virtio/virtio.c | 6 ++----
-> 1 file changed, 2 insertions(+), 4 deletions(-)
->
->diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
->index a5214bca612..3a1f6c520cb 100644
->--- a/hw/virtio/virtio.c
->+++ b/hw/virtio/virtio.c
->@@ -133,12 +133,10 @@ struct VirtQueue
->     QLIST_ENTRY(VirtQueue) node;
-> };
->
->+/* Called within call_rcu().  */
-> static void virtio_free_region_cache(VRingMemoryRegionCaches *caches)
-> {
->-    if (!caches) {
->-        return;
->-    }
->-
->+    assert(caches != NULL);
->     address_space_cache_destroy(&caches->desc);
->     address_space_cache_destroy(&caches->avail);
->     address_space_cache_destroy(&caches->used);
->-- 
->2.31.1
->
->
+--Sig_/rswLaR1fQi5MedgWLuTuj9G
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+When introducing yank functionality in the migration code I forgot
+to cover the multifd send side.
 
+Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+Tested-by: Leonardo Bras <leobras@redhat.com>
+Reviewed-by: Leonardo Bras <leobras@redhat.com>
+---
+
+-v2:
+ -add Tested-by and Reviewed-by tags
+
+ migration/multifd.c | 6 +++++-
+ migration/multifd.h | 2 ++
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 377da78f5b..5a4f158f3c 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -546,6 +546,9 @@ void multifd_save_cleanup(void)
+         MultiFDSendParams *p =3D &multifd_send_state->params[i];
+         Error *local_err =3D NULL;
+=20
++        if (p->registered_yank) {
++            migration_ioc_unregister_yank(p->c);
++        }
+         socket_send_channel_destroy(p->c);
+         p->c =3D NULL;
+         qemu_mutex_destroy(&p->mutex);
+@@ -813,7 +816,8 @@ static bool multifd_channel_connect(MultiFDSendParams *=
+p,
+                 return false;
+             }
+         } else {
+-            /* update for tls qio channel */
++            migration_ioc_register_yank(ioc);
++            p->registered_yank =3D true;
+             p->c =3D ioc;
+             qemu_thread_create(&p->thread, p->name, multifd_send_thread, p,
+                                    QEMU_THREAD_JOINABLE);
+diff --git a/migration/multifd.h b/migration/multifd.h
+index 8d6751f5ed..16c4d112d1 100644
+--- a/migration/multifd.h
++++ b/migration/multifd.h
+@@ -85,6 +85,8 @@ typedef struct {
+     bool running;
+     /* should this thread finish */
+     bool quit;
++    /* is the yank function registered */
++    bool registered_yank;
+     /* thread has work to do */
+     int pending_job;
+     /* array of pages to sent */
+--=20
+2.32.0
+
+--Sig_/rswLaR1fQi5MedgWLuTuj9G
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmEvo0EACgkQNasLKJxd
+sli1UxAAqfWeEnrQNFrGdNS/VZUAMuFteOHOWDW6hDTWXF6VrZNVvQtuoxzc258j
+oceylAwKi14chBzUb3op0Q2Z2kagqFZC/tGIe1w3Zbkwl2Ks+ZI/S9N6JQa65qpc
+P2AoedltkowbAvY2WAWn2utOCufPSVt67OkI5bZL6BB9a8dtk32V8VHAItsxtZPQ
+TQIbluyK6mzOrpBm9rIqRIZmziXGCuCb/1gNCMJtLLyr6wnlKNCdlgFjM7xlOtV/
+A0/U9QUmoVeP447CvJA9OKpzzlAjO3QQzu5L+OsXxBipY4Is252rExILikIEDbn3
+fcAbMH/TxHFYTZNPl9PS0UqgvklRs7+iSpTNnW99GYZY3gX70auOaRLfyJry1rP+
+nTmRIONOfU+6OQMJqznUFjBqgTMucNEQ4Qg3Aal2uIEQ3FlFtFD8aINyUy0RdmKA
+iv7k/nvOP9pATxvHWQYOtLP1hHZZhFYSHNz64/IWbOspSEYvxds8oCVsD0tYOf2H
+66B+RKLsPaevKVO2rWol1d6vVou1WVfVptpfZ04N2UNJmcYLBUrjcfkCK2zxBKXf
+f5xCbmcIONst/49W/9XUs1S3LgF/O+Y62XjwV5zXvmuO6k3PL4CWQ0Nq+LdWFw1T
+yZEfc+8DNC5D4C/i+y8ycRCP43XYBMlWziHgDSTqh+K6QQkNPA4=
+=21ic
+-----END PGP SIGNATURE-----
+
+--Sig_/rswLaR1fQi5MedgWLuTuj9G--
 
