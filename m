@@ -2,69 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6D2B3FE0E8
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 19:07:56 +0200 (CEST)
-Received: from localhost ([::1]:56196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1763D3FE08D
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 19:01:16 +0200 (CEST)
+Received: from localhost ([::1]:41792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLTiN-0000mX-Hq
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 13:07:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42228)
+	id 1mLTbv-0007TO-2c
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 13:01:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mLTQl-00033G-MF
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:49:43 -0400
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:39857)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1mLTQk-0002qP-6W
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:49:43 -0400
-Received: by mail-ej1-x62b.google.com with SMTP id a25so441846ejv.6
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 09:49:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tniQsuWvjWmT/Cf2kDzOpnpZxV9NhsEDOJjBQpP6F1U=;
- b=J/lU5WCJADSO0a/Oba9+xF1TPCxbZ5DbH1DkG0N2Jem9UVTrCugaDGNellEYT8b7Er
- FvqdF4yYqs3cIhCauVCZy9TY5LSSnTgb/ixpaNYZZEXyWbbgU1nuW3W0Rq7VziUkGYnY
- 0hVy5Q+UvAVG7e7pwg4rStFsQIk0xRfgitGi6cbj/xQ1gTcIyHtHkdrMObcJAunukHWo
- 0hkNFpILCkuzR26NqDCAufM+dehA93Zv1kfJ61DqhKPVpFExznqqSmiuEG+nog+xmr4z
- wN867uOg/hWGfskYiihxcTKKxZqntqyGvqmtYUx0CrwdAxhpgkSEBO8tXPKmMNupU9EK
- KS5A==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLTSq-000640-SK
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:51:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60374)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLTSo-0004j9-JQ
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:51:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630515109;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eBzGziF0T4EWpv4lUnMy0UciSYoPfXAs/EbWMrzJD1A=;
+ b=XgM5nYs5A3XEYH0awmlI4IoMwl9e0T6vhgh3BNzF7/k6MELslI6dMwxXxIhk9oMCC3y0Kc
+ 7XAvX+0K1R+2p/jCtSjfXfaSIB0IEIPI7CjEsuCsTju9HcT7GHMPSYSJB3yd/oaeUuxwdc
+ PPokaePxYVB8TSXcJQDYPv7AZlAetHQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-550-MSqTdflSMNev68NFYqszOg-1; Wed, 01 Sep 2021 12:51:49 -0400
+X-MC-Unique: MSqTdflSMNev68NFYqszOg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ m16-20020a7bca50000000b002ee5287d4bfso49543wml.7
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 09:51:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tniQsuWvjWmT/Cf2kDzOpnpZxV9NhsEDOJjBQpP6F1U=;
- b=eGnN2Nxvbz7oSNZOb0+COePam/tI6vE0JQtpsNKBEEtAyIvE6SWnJ9YXtoHRlzu8vx
- txiZJgQ4Dn3g34ZgJpMRgbeU/c3f29RZKzdfirEE9sIxQk/bdqUw6foifgDqhHStdzDq
- Jfpn3AdIhh/By8Qe6QUlaunLRsowtshNh/6MZ75MBTJc+I3Ym1PUToDwiPUUdmvjXSq3
- PbWsE8SGysAcO30vD6W2PHNBt2z56Jm+hyweiKeOnGKUC+2esLAvWH1MwPAD5Qr6rRRD
- bbBa1rW4io2HocRGgr03hnjDvPBi6g9wpdgrBmF0GeoasjF1obz/nG0SQICQMGtbQ7H2
- 4c7A==
-X-Gm-Message-State: AOAM533KQICR39pPUQwaws7TBcU4lZz1an71eLUlaK+vn1jRZAagmNDg
- j7suXDhTlyaA/WhTXBYEiXH8fnFQKHQgG+ABX9f8xEeWBfk=
-X-Google-Smtp-Source: ABdhPJwamgiE3hc1EFEgOOvzDZvc9EP1hQawOTrar11ym3lcp1YH79tPBGECP0HpJ4AXCLqHgD7t55NvkX0d11oYI3s=
-X-Received: by 2002:a17:907:7252:: with SMTP id
- ds18mr389973ejc.105.1630514980634; 
- Wed, 01 Sep 2021 09:49:40 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=eBzGziF0T4EWpv4lUnMy0UciSYoPfXAs/EbWMrzJD1A=;
+ b=ZyNFdTJ3pJFTQp0NynaboECGmFjnns+EpTz4JvTUAQaC8o9WcqZBsnRoEOCm+ZaoR7
+ Ex+YTVfubZmZTW/mgMwMm2SCZ5kptp4/Y2iXp7pVGLETtIiRwgyGcZ+VYOuXCXABe1+d
+ R3fpW0Ig6qGf5V2Toh9w1NIQfYMbzdNWZxcBLQoY3if6g6L80Kp4RNk7Vw0cNqvTkCRA
+ XnPEPHDcbUI2RuH1ZF4nnBumZBArrjsdsKKL05GUd4NqIQz1CECM9O0aVqPjV3FZRlZr
+ 3gQkNfqA1b39sYsf0VcoMIUGTV3OL/WH9Vg51MUjnk1tT0RS2zC4nXOA+2csrl3b3Gyy
+ dpYA==
+X-Gm-Message-State: AOAM532d9vGfWFv/YvmSq20l7uwX8wM2ZCw4DY3SVR/wE8UenUILhxas
+ BMvCZMWqKRQQ2OYyLFyn+6JOtWZQIH5jffqZ5wWFghnEo5oF3c24OSPkXpgawKskufXRx9CnQAI
+ 45+fY+5U2VQ0deKA=
+X-Received: by 2002:a05:600c:6c5:: with SMTP id b5mr413277wmn.70.1630515106198; 
+ Wed, 01 Sep 2021 09:51:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyZ2kch5SVJHrYzlMNSptRGUM42UdigDGlRTEhbHi8hbFUA2ujZW2No2W4SpGyN1McGbzw97A==
+X-Received: by 2002:a05:600c:6c5:: with SMTP id b5mr413267wmn.70.1630515106027; 
+ Wed, 01 Sep 2021 09:51:46 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id z1sm94786wmi.34.2021.09.01.09.51.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Sep 2021 09:51:45 -0700 (PDT)
+Subject: Re: [PATCH] gitlab: Escape git-describe match pattern on Windows hosts
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+References: <20210901145229.4132606-1-philmd@redhat.com>
+ <YS+UylEr3CJyksxt@redhat.com>
+ <CAFEAcA_gyZTfUTAAoKvrA-qyv-8dOvGjLSLmq2uaur8XYS6CuQ@mail.gmail.com>
+ <YS+aiZep166VuVcH@redhat.com>
+ <0901f6da-de5c-f9e6-5f40-e15f4a7c807d@redhat.com>
+ <YS+iCgl88cmMepKl@redhat.com>
+ <33d1a40b-c242-6472-5aa4-4108668ccc84@redhat.com>
+ <005033c9-ac86-7af2-203d-0c597cec691c@kaod.org> <YS+usDwjGFD07w0C@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <4a081ec5-6375-076e-5139-f326ef73a5e0@redhat.com>
+Date: Wed, 1 Sep 2021 18:51:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210901152713.25701-1-peter.maydell@linaro.org>
-In-Reply-To: <20210901152713.25701-1-peter.maydell@linaro.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 1 Sep 2021 20:49:29 +0400
-Message-ID: <CAJ+F1C+dT8=WHwUEAMZHVd6QhLvXieYaFvFiJ22Nrn-epp_YZg@mail.gmail.com>
-Subject: Re: [PATCH] tests/vhost-user-bridge.c: Fix typo in help message
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="00000000000038c27e05caf1da5a"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YS+usDwjGFD07w0C@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.029, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,96 +105,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eric Blake <eblake@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000038c27e05caf1da5a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 9/1/21 6:47 PM, Daniel P. Berrangé wrote:
+> On Wed, Sep 01, 2021 at 06:27:37PM +0200, Cédric Le Goater wrote:
+>> On 9/1/21 6:24 PM, Philippe Mathieu-Daudé wrote:
+>>> On 9/1/21 5:53 PM, Daniel P. Berrangé wrote:
+>>>> On Wed, Sep 01, 2021 at 05:35:42PM +0200, Philippe Mathieu-Daudé wrote:
+>>>>> On 9/1/21 5:21 PM, Daniel P. Berrangé wrote:
+>>>>>> On Wed, Sep 01, 2021 at 04:17:48PM +0100, Peter Maydell wrote:
+>>>>>>> On Wed, 1 Sept 2021 at 15:59, Daniel P. Berrangé <berrange@redhat.com> wrote:
+>>>>>>>>
+>>>>>>>> On Wed, Sep 01, 2021 at 04:52:29PM +0200, Philippe Mathieu-Daudé wrote:
+>>>>>>>>> Properly escape git-describe 'match' pattern to avoid (MinGW):
+>>>>>>>>>
+>>>>>>>>>   $ if grep -q "EXESUF=.exe" config-host.mak; then make installer;
+>>>>>>>>>     version="$(git describe --match v[0-9]*)";
+>>>>>>>>>     mv -v qemu-setup*.exe qemu-setup-${version}.exe; fi
+>>>>>>>>>   fatal: No names found, cannot describe anything.
+>>>>>>>>>   ERROR: Job failed: exit code 1
+>>>>>>>>>
+>>>>>>>>> Reported-by: Cédric Le Goater <clg@kaod.org>
+>>>>>>>>> Fixes: 8619b5ddb56 ("ci: build & store windows installer")
+>>>>>>>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/591
+>>>>>>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>>>>>>>> ---
+>>>>>>>>>  .gitlab-ci.d/crossbuild-template.yml | 2 +-
+>>>>>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>>>>>>
+>>>>>>>>> diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
+>>>>>>>>> index 10d22dcf6c1..62d33e6661d 100644
+>>>>>>>>> --- a/.gitlab-ci.d/crossbuild-template.yml
+>>>>>>>>> +++ b/.gitlab-ci.d/crossbuild-template.yml
+>>>>>>>>> @@ -14,7 +14,7 @@
+>>>>>>>>>      - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
+>>>>>>>>>      - if grep -q "EXESUF=.exe" config-host.mak;
+>>>>>>>>>        then make installer;
+>>>>>>>>> -      version="$(git describe --match v[0-9]*)";
+>>>>>>>>> +      version="$(git describe --match 'v[0-9]*')";
+>>>>>>>>
+>>>>>>>> Do you have a pointer to a pipeline showing this fix works ?
+>>>>>
+>>>>> It worked on my fork but I have some versioned tag:
+>>>>> https://gitlab.com/philmd_rh/qemu/-/jobs/1553450025
+>>>>
+>>>> I can reproduce the error msg if I do a shallow clone with no history
+>>>>
+>>>> $ cd qemu
+>>>> $ git describe --match v[0-9]*
+>>>> v6.1.0-171-g5e8c1a0c90
+>>>>
+>>>> $ cd ..
+>>>> $ git clone --depth 1 https://gitlab.com/qemu-project/qemu/ qemu.new
+>>>> $ cd qemu.new/
+>>>> $ git describe --match v[0-9]*
+>>>> fatal: No names found, cannot describe anything.
+>>>>
+>>>> but the odd thing is that I think we should have been hitting the
+>>>> problem frequently if it was related to git depth. This job passes
+>>>> fine in current CI pipelines and my own fork.
+>>>
+>>> FYI it didn't work out on Cédric fork:
+>>> https://gitlab.com/legoater/qemu/-/jobs/1553492082
+>>>
+>>
+>> Indeed.
+> 
+> I'm curious if you go to
+> 
+>   https://gitlab.com/legoater/qemu/-/settings/ci_cd
+> 
+> and expand "General pipelines", what value is set for the
+> 
+>   "Git shallow clone"
+> 
+> setting.  In my fork it is 0 which means unlimited depth, but in
+> gitlab docs I see reference to repos getting this set to 50
+> since a particular gitlab release.
+> 
+> Likewise same question for Phil in ?
+> 
+>   https://gitlab.com/philmd_rh/qemu/-/settings/ci_cd
 
-On Wed, Sep 1, 2021 at 8:13 PM Peter Maydell <peter.maydell@linaro.org>
-wrote:
+0 too.
 
-> Fix a typo in the help message printed by vhost-user-bridge.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
----
->  tests/vhost-user-bridge.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/tests/vhost-user-bridge.c b/tests/vhost-user-bridge.c
-> index cb009545fa5..35088dd67f7 100644
-> --- a/tests/vhost-user-bridge.c
-> +++ b/tests/vhost-user-bridge.c
-> @@ -831,7 +831,7 @@ main(int argc, char *argv[])
->  out:
->      fprintf(stderr, "Usage: %s ", argv[0]);
->      fprintf(stderr, "[-c] [-H] [-u ud_socket_path] [-l lhost:lport] [-r
-> rhost:rport]\n");
-> -    fprintf(stderr, "\t-u path to unix doman socket. default: %s\n",
-> +    fprintf(stderr, "\t-u path to unix domain socket. default: %s\n",
->              DEFAULT_UD_SOCKET);
->      fprintf(stderr, "\t-l local host and port. default: %s:%s\n",
->              DEFAULT_LHOST, DEFAULT_LPORT);
-> --
-> 2.20.1
->
->
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---00000000000038c27e05caf1da5a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 1, 2021 at 8:13 PM Peter =
-Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linar=
-o.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">Fix a typo in the help message printed by vhost-user-bridge.<br>
-<br>
-Signed-off-by: Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org=
-" target=3D"_blank">peter.maydell@linaro.org</a>&gt;<br></blockquote><div><=
-br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:mar=
-candre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div> <b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">
----<br>
-=C2=A0tests/vhost-user-bridge.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/tests/vhost-user-bridge.c b/tests/vhost-user-bridge.c<br>
-index cb009545fa5..35088dd67f7 100644<br>
---- a/tests/vhost-user-bridge.c<br>
-+++ b/tests/vhost-user-bridge.c<br>
-@@ -831,7 +831,7 @@ main(int argc, char *argv[])<br>
-=C2=A0out:<br>
-=C2=A0 =C2=A0 =C2=A0fprintf(stderr, &quot;Usage: %s &quot;, argv[0]);<br>
-=C2=A0 =C2=A0 =C2=A0fprintf(stderr, &quot;[-c] [-H] [-u ud_socket_path] [-l=
- lhost:lport] [-r rhost:rport]\n&quot;);<br>
--=C2=A0 =C2=A0 fprintf(stderr, &quot;\t-u path to unix doman socket. defaul=
-t: %s\n&quot;,<br>
-+=C2=A0 =C2=A0 fprintf(stderr, &quot;\t-u path to unix domain socket. defau=
-lt: %s\n&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DEFAULT_UD_SOCKET);<br>
-=C2=A0 =C2=A0 =C2=A0fprintf(stderr, &quot;\t-l local host and port. default=
-: %s:%s\n&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DEFAULT_LHOST, DEFAULT_LPOR=
-T);<br>
--- <br>
-2.20.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---00000000000038c27e05caf1da5a--
 
