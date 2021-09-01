@@ -2,92 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E20D3FE0FE
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 19:13:33 +0200 (CEST)
-Received: from localhost ([::1]:35410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5CDB3FE118
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 19:24:24 +0200 (CEST)
+Received: from localhost ([::1]:43612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLTno-0006DP-L8
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 13:13:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47954)
+	id 1mLTyJ-0003rr-Ea
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 13:24:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLTmv-0005TV-1F
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 13:12:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26110)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mLTwn-0002iQ-Ob; Wed, 01 Sep 2021 13:22:49 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:38457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLTmr-0005MD-PC
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 13:12:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630516353;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mMtVA2HhPK0yWBLXQr2S58XNLdxvRm8h49KcX3Rr9wM=;
- b=a5RmIoCEwrnxPeIofk/L4+aUuV7cMMkMLnQnDYfB72zqDTWUGtIC7DzhAZZlWf7SHB5ZFz
- ppAoKCLWwrlIRht7CixDZs8eAPMHk53zB+QixuHQtg+FI3Kjr+EDP9IB+fkNd7oI1mTnYw
- J4DYn89/7vVkF5dNt5OdggLVwS6+Zlk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-571-hdp2sRwqNcyJ2Q7gsSRsDg-1; Wed, 01 Sep 2021 13:12:29 -0400
-X-MC-Unique: hdp2sRwqNcyJ2Q7gsSRsDg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- r125-20020a1c2b830000b0290197a4be97b7so66691wmr.9
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 10:12:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=mMtVA2HhPK0yWBLXQr2S58XNLdxvRm8h49KcX3Rr9wM=;
- b=jQLF+tWISOWgr3dwkOysGi8g5Ky67sbw8717kmzf0usikmOXGwlARBUvR2TUNsLMf0
- 8pAzq6seKUC1oS5+A0fJlD9nX4Ki8UN5yRd3fkLvTFyW1GDzaESl6ft50ot8JgVeJJPO
- 2oBqNLNtul+Fq6UfF/t9Ylz447zRfqRwyMiGOfrQwCGZMOpQoWajCgSXUXPZK8J3LRuo
- 1ypq5V818kKhgL0XkzgsSevqHVhEXx2gUBy9jQ5rfHwoSSvz1O18OwP+hwZqd+zyQTHf
- AAE0KZfz5x5qRZ7umd19jhYI6EKhfZmMTqgJaxQNlKf0dZe03N9yoVatWigQMvgKwy3q
- pKLw==
-X-Gm-Message-State: AOAM5302jodoTHwCXxnNKK7uWx4Jys0b0afPqfTqWB3Ljs2VY0ookQkO
- 7R9nHSjOCKMZMEDGF4xfWU8vUlJ1mVQKbHvJTS0jtyRYLx3FB8BQ2+7K3dPfyAAT4APbV5Za0dU
- dPlkmyTphynydSBg=
-X-Received: by 2002:adf:82b1:: with SMTP id 46mr491147wrc.217.1630516348711;
- Wed, 01 Sep 2021 10:12:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyBGGy58bRctfsoy/Wz6RgYHjsnnlMkv6EAumP+tkH8ZaBH8ApUG/lgSjbI+hbwHqqiA/DGVw==
-X-Received: by 2002:adf:82b1:: with SMTP id 46mr491124wrc.217.1630516348501;
- Wed, 01 Sep 2021 10:12:28 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff23f71.dip0.t-ipconnect.de. [79.242.63.113])
- by smtp.gmail.com with ESMTPSA id a10sm57495wrd.51.2021.09.01.10.12.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Sep 2021 10:12:27 -0700 (PDT)
-Subject: Re: [PATCH v4 3/3] memory: Have 'info mtree' remove duplicated
- Address Space information
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210901161943.4174212-1-philmd@redhat.com>
- <20210901161943.4174212-4-philmd@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Message-ID: <6519c605-2d39-0b43-a912-85cf1e1353a5@redhat.com>
-Date: Wed, 1 Sep 2021 19:12:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1mLTwj-0005Ve-Ur; Wed, 01 Sep 2021 13:22:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=x06MbuifD9YiH7vbaMP/vBOclqyGkshSq6R63VLKhx4=; b=v+8hgTyf4ywTlv2kLl+95k5K8f
+ cvWs+6hQlYHDxwv2KugOOcSfg82j00RRZKN1hKmQAfZwSjUQHGcgPSo7qSSq7mVTkbbbABfLCaVE1
+ JB9hKhXDVEXk3QjUsjwnnI5oeUxw8Pe/G4hGLlydqn03llDy09425sJ2wU3EEbuj2yCX95GbOS6ZK
+ 7xJ7NLutSj3es2yghDP8jQdvKilAap9FzmfS5iYdI4kul8Ye4FrAMotnzjZtq78R2n5YlCDLZV0SA
+ k9Q4AfF0H9wO5ZCTL75HfEOIjpSiMzROmdu3lUdM8RLtt0SC0YrGu6il9KfkAEWwA7Fb8Xy/MRnbq
+ Le2JTp6KccascPw4xS3GaT10CTivDC/1EpeBhGbCj/5kPLztYWydBO5nXIuj79B2hht11tgXcmNbz
+ 5ngmutUYh9CJCM1ccMsLvge3TfoG1ukkd+gFcJWMVEx/AbDMyZ3kFj94i+4DCcnBDcLDIMnhTpTjw
+ fDjKX7ZYXmXMKZnmIKzf+ss/j0x4ABGoQJC9ab6aNL5HMkdBQl4n9VPQSkvP0CRNXmPGwkS2Ar5j0
+ QtJnhdQfBfm4St17uBJgU05lujRPlaXJ4iY+hPQvUcAKXAVWx7oF6mTANqzZ9GrEhLEapV5J+D+XT
+ mB8lSNyY0+lNDB8drm91xKAuu0DAJA7H1wedzAbBo=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>, qemu-stable@nongnu.org
+Subject: Re: [PATCH] 9pfs: fix crash in v9fs_walk()
+Date: Wed, 01 Sep 2021 19:22:42 +0200
+Message-ID: <5081248.r7JVVAaEAC@silver>
+In-Reply-To: <20210901184721.57b1f611@bahia.lan>
+References: <E1mLTBg-0002Bh-2D@lizzy.crudebyte.com>
+ <20210901184721.57b1f611@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <20210901161943.4174212-4-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.029, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,185 +63,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Gerd Hoffmann <kraxel@redhat.com>, Peter Xu <peterx@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01.09.21 18:19, Philippe Mathieu-Daudé wrote:
-> Per Peter Maydell [*]:
+On Mittwoch, 1. September 2021 18:47:21 CEST Greg Kurz wrote:
+> On Wed, 1 Sep 2021 18:15:10 +0200
 > 
->    'info mtree' monitor command was designed on the assumption that
->    there's really only one or two interesting address spaces, and
->    with more recent developments that's just not the case any more.
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > v9fs_walk() utilizes the v9fs_co_run_in_worker({...}) macro to run the
+> > supplied fs driver code block on a background worker thread.
+> > 
+> > When either the 'Twalk' client request was interrupted or if the client
+> > requested fid for that 'Twalk' request caused a stat error then that
+> > fs driver code block was left by 'break' keyword, with the intention to
+> > 
+> > return from worker thread back to main thread as well:
+> >     v9fs_co_run_in_worker({
+> >     
+> >         if (v9fs_request_cancelled(pdu)) {
+> >         
+> >             err = -EINTR;
+> >             break;
+> >         
+> >         }
+> >         err = s->ops->lstat(&s->ctx, &dpath, &fidst);
+> >         if (err < 0) {
+> >         
+> >             err = -errno;
+> >             break;
+> >         
+> >         }
+> >         ...
+> >     
+> >     });
+> > 
+> > However that 'break;' statement also skipped the v9fs_co_run_in_worker()
+> > macro's final and mandatory
+> > 
+> >     /* re-enter back to qemu thread */
+> >     qemu_coroutine_yield();
+> > 
+> > call and thus caused the rest of v9fs_walk() to be continued being
+> > executed on the worker thread instead of main thread, eventually
+> > leading to a crash in the transport virtio transport driver.
+> > 
+> > To fix this issue and to prevent the same error from happening again by
+> > other users of v9fs_co_run_in_worker() in future, auto wrap the supplied
+> > code block into its own
+> > 
+> >     do { } while (0);
+> > 
+> > loop inside the 'v9fs_co_run_in_worker' macro definition.
+> > 
+> > Full discussion and backtrace:
+> > https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg05209.html
+> > https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg00174.html
+> > 
+> > Fixes: 8d6cb100731c4d28535adbf2a3c2d1f29be3fef4
+> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > Cc: qemu-stable@nongnu.org
+> > ---
 > 
-> Similarly about how the FlatView are sorted using a GHashTable,
-> sort the AddressSpace objects to remove the duplications (AS
-> using the same root MemoryRegion).
-> 
-> This drastically reduces the output of 'info mtree' on some boards.
-> 
-> Before:
-> 
->    $ (echo info mtree; echo q) \
->      | qemu-system-aarch64 -S -monitor stdio -M raspi3b \
->      | wc -l
->    423
-> 
-> After:
-> 
->    $ (echo info mtree; echo q) \
->      | qemu-system-aarch64 -S -monitor stdio -M raspi3b \
->      | wc -l
->    108
-> 
->    (qemu) info mtree
->    address-space: I/O
->      0000000000000000-000000000000ffff (prio 0, i/o): io
-> 
->    address-space shared 9 times:
->      - cpu-memory-0
->      - cpu-memory-1
->      - cpu-memory-2
->      - cpu-memory-3
->      - cpu-secure-memory-0
->      - cpu-secure-memory-1
->      - cpu-secure-memory-2
->      - cpu-secure-memory-3
->      - memory
->      0000000000000000-ffffffffffffffff (prio 0, i/o): system
->        0000000000000000-000000003fffffff (prio 0, ram): ram
->        000000003f000000-000000003fffffff (prio 1, i/o): bcm2835-peripherals
->          000000003f003000-000000003f00301f (prio 0, i/o): bcm2835-sys-timer
->          000000003f004000-000000003f004fff (prio -1000, i/o): bcm2835-txp
->          000000003f006000-000000003f006fff (prio 0, i/o): mphi
->          000000003f007000-000000003f007fff (prio 0, i/o): bcm2835-dma
->          000000003f00b200-000000003f00b3ff (prio 0, i/o): bcm2835-ic
->          000000003f00b400-000000003f00b43f (prio -1000, i/o): bcm2835-sp804
->          000000003f00b800-000000003f00bbff (prio 0, i/o): bcm2835-mbox
->          000000003f100000-000000003f1001ff (prio 0, i/o): bcm2835-powermgt
->          000000003f101000-000000003f102fff (prio 0, i/o): bcm2835-cprman
->          000000003f104000-000000003f10400f (prio 0, i/o): bcm2835-rng
->          000000003f200000-000000003f200fff (prio 0, i/o): bcm2835_gpio
->          000000003f201000-000000003f201fff (prio 0, i/o): pl011
->          000000003f202000-000000003f202fff (prio 0, i/o): bcm2835-sdhost
->          000000003f203000-000000003f2030ff (prio -1000, i/o): bcm2835-i2s
->          000000003f204000-000000003f20401f (prio -1000, i/o): bcm2835-spi0
->          000000003f205000-000000003f20501f (prio -1000, i/o): bcm2835-i2c0
->          000000003f20f000-000000003f20f07f (prio -1000, i/o): bcm2835-otp
->          000000003f212000-000000003f212007 (prio 0, i/o): bcm2835-thermal
->          000000003f214000-000000003f2140ff (prio -1000, i/o): bcm2835-spis
->          000000003f215000-000000003f2150ff (prio 0, i/o): bcm2835-aux
->          000000003f300000-000000003f3000ff (prio 0, i/o): sdhci
->          000000003f600000-000000003f6000ff (prio -1000, i/o): bcm2835-smi
->          000000003f804000-000000003f80401f (prio -1000, i/o): bcm2835-i2c1
->          000000003f805000-000000003f80501f (prio -1000, i/o): bcm2835-i2c2
->          000000003f900000-000000003f907fff (prio -1000, i/o): bcm2835-dbus
->          000000003f910000-000000003f917fff (prio -1000, i/o): bcm2835-ave0
->          000000003f980000-000000003f990fff (prio 0, i/o): dwc2
->            000000003f980000-000000003f980fff (prio 0, i/o): dwc2-io
->            000000003f981000-000000003f990fff (prio 0, i/o): dwc2-fifo
->          000000003fc00000-000000003fc00fff (prio -1000, i/o): bcm2835-v3d
->          000000003fe00000-000000003fe000ff (prio -1000, i/o): bcm2835-sdramc
->          000000003fe05000-000000003fe050ff (prio 0, i/o): bcm2835-dma-chan15
->        0000000040000000-00000000400000ff (prio 0, i/o): bcm2836-control
-> 
->    address-space shared 4 times:
->      - bcm2835-dma-memory
->      - bcm2835-fb-memory
->      - bcm2835-property-memory
->      - dwc2
->      0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
->        0000000000000000-000000003fffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
->        0000000040000000-000000007fffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
->        000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
->        0000000080000000-00000000bfffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
->        00000000c0000000-00000000ffffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-> 
->    address-space: bcm2835-mbox-memory
->      0000000000000000-000000000000008f (prio 0, i/o): bcm2835-mbox
->        0000000000000010-000000000000001f (prio 0, i/o): bcm2835-fb
->        0000000000000080-000000000000008f (prio 0, i/o): bcm2835-property
-> 
->    memory-region: ram
->      0000000000000000-000000003fffffff (prio 0, ram): ram
-> 
->    memory-region: bcm2835-peripherals
->      000000003f000000-000000003fffffff (prio 1, i/o): bcm2835-peripherals
->        000000003f003000-000000003f00301f (prio 0, i/o): bcm2835-sys-timer
->        000000003f004000-000000003f004fff (prio -1000, i/o): bcm2835-txp
->        000000003f006000-000000003f006fff (prio 0, i/o): mphi
->        000000003f007000-000000003f007fff (prio 0, i/o): bcm2835-dma
->        000000003f00b200-000000003f00b3ff (prio 0, i/o): bcm2835-ic
->        000000003f00b400-000000003f00b43f (prio -1000, i/o): bcm2835-sp804
->        000000003f00b800-000000003f00bbff (prio 0, i/o): bcm2835-mbox
->        000000003f100000-000000003f1001ff (prio 0, i/o): bcm2835-powermgt
->        000000003f101000-000000003f102fff (prio 0, i/o): bcm2835-cprman
->        000000003f104000-000000003f10400f (prio 0, i/o): bcm2835-rng
->        000000003f200000-000000003f200fff (prio 0, i/o): bcm2835_gpio
->        000000003f201000-000000003f201fff (prio 0, i/o): pl011
->        000000003f202000-000000003f202fff (prio 0, i/o): bcm2835-sdhost
->        000000003f203000-000000003f2030ff (prio -1000, i/o): bcm2835-i2s
->        000000003f204000-000000003f20401f (prio -1000, i/o): bcm2835-spi0
->        000000003f205000-000000003f20501f (prio -1000, i/o): bcm2835-i2c0
->        000000003f20f000-000000003f20f07f (prio -1000, i/o): bcm2835-otp
->        000000003f212000-000000003f212007 (prio 0, i/o): bcm2835-thermal
->        000000003f214000-000000003f2140ff (prio -1000, i/o): bcm2835-spis
->        000000003f215000-000000003f2150ff (prio 0, i/o): bcm2835-aux
->        000000003f300000-000000003f3000ff (prio 0, i/o): sdhci
->        000000003f600000-000000003f6000ff (prio -1000, i/o): bcm2835-smi
->        000000003f804000-000000003f80401f (prio -1000, i/o): bcm2835-i2c1
->        000000003f805000-000000003f80501f (prio -1000, i/o): bcm2835-i2c2
->        000000003f900000-000000003f907fff (prio -1000, i/o): bcm2835-dbus
->        000000003f910000-000000003f917fff (prio -1000, i/o): bcm2835-ave0
->        000000003f980000-000000003f990fff (prio 0, i/o): dwc2
->          000000003f980000-000000003f980fff (prio 0, i/o): dwc2-io
->          000000003f981000-000000003f990fff (prio 0, i/o): dwc2-fifo
->        000000003fc00000-000000003fc00fff (prio -1000, i/o): bcm2835-v3d
->        000000003fe00000-000000003fe000ff (prio -1000, i/o): bcm2835-sdramc
->        000000003fe05000-000000003fe050ff (prio 0, i/o): bcm2835-dma-chan15
-> 
->    (qemu) q
-> 
-> [*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg829821.html
-> 
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
-> Pending question from David on v3:
-> 
->    We can still distinguish from a completely empty AS, because we don't have an empty line here, correct?
-> 
-> checkpatch warning (81 chars):
-> 
->    WARNING: line over 80 characters
->    #86: FILE: softmmu/memory.c:3359:
->    +                                  address_space_compare_name);
-> ---
->   softmmu/memory.c | 73 ++++++++++++++++++++++++++++++++++++++++++++++--
->   1 file changed, 70 insertions(+), 3 deletions(-)
-> 
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index 5be7d5e7412..9be2017bc38 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -3282,6 +3282,59 @@ static void mtree_info_flatview(bool dispatch_tree, bool owner)
->       /* Free */
->       g_hash_table_foreach_remove(views, mtree_info_flatview_free, 0);
->       g_hash_table_unref(views);
-> +
-> +    return;
+> Reviewed-by: Greg Kurz <groug@kaod.org>
 
-^ unnecessary
+Queued on 9p.next:
+https://github.com/cschoenebeck/qemu/commits/9p.next
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Thanks!
 
--- 
-Thanks,
+I'll send out a PR tomorrow.
 
-David / dhildenb
+> >  hw/9pfs/coth.h | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/hw/9pfs/coth.h b/hw/9pfs/coth.h
+> > index c51289903d..f83c7dda7b 100644
+> > --- a/hw/9pfs/coth.h
+> > +++ b/hw/9pfs/coth.h
+> > @@ -51,7 +51,9 @@
+> > 
+> >           */                                                             \
+> >          
+> >          qemu_coroutine_yield();                                         \
+> >          qemu_bh_delete(co_bh);                                          \
+> > 
+> > -        code_block;                                                     \
+> > +        do {                                                            \
+> > +            code_block;                                                 \
+> > +        } while (0);                                                    \
+> > 
+> >          /* re-enter back to qemu thread */                              \
+> >          qemu_coroutine_yield();                                         \
+> >      
+> >      } while (0)
+
+Best regards,
+Christian Schoenebeck
+
 
 
