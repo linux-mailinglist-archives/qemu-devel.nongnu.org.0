@@ -2,91 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948ED3FD4F1
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 10:10:39 +0200 (CEST)
-Received: from localhost ([::1]:55296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD9513FD4F8
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 10:11:55 +0200 (CEST)
+Received: from localhost ([::1]:59024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLLKQ-0007vJ-NM
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 04:10:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40754)
+	id 1mLLLe-0002F0-PA
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 04:11:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mLLIh-0006D7-LG
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 04:08:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21253)
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1mLLJb-0008Np-Iz; Wed, 01 Sep 2021 04:09:47 -0400
+Received: from collins.uni-paderborn.de ([2001:638:502:c003::14]:39056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mLLIf-0005Qn-7S
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 04:08:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630483728;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UhY85mgKT2w6kezqC9Rh2DH+ypHWLJYfSggJov8hoEQ=;
- b=PwKRuZyGNmWgZxhb+9j2+2vn3wahNlXpiMQW3kYFePa+cysZ+BIxixiT2gzLRbddl4KVSL
- +x2Qv69BHYlxHDTHz+i+iGM2pMDc4WgJYIIPE2+QzqHRiFFYhvjVsJKW3PRg9E07InPndk
- vG/kNA3UHusEQoK4QeFI4KIT7AMpJ/I=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-112-uZK-WVxPPvKvqWFG3euD4w-1; Wed, 01 Sep 2021 04:08:46 -0400
-X-MC-Unique: uZK-WVxPPvKvqWFG3euD4w-1
-Received: by mail-wm1-f70.google.com with SMTP id
- o20-20020a05600c379400b002e755735eedso744849wmr.0
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 01:08:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UhY85mgKT2w6kezqC9Rh2DH+ypHWLJYfSggJov8hoEQ=;
- b=OpJsZ14thIC+N5PaJPmD8doWYK6MOhFi1XwnI+WgPsP9ySc0p+3CljLWhaNapqrVPf
- gQQx4OtpWUUrUE3mIPL6ep9808Oiak+kv27KeYWaos7jGuRX/wwlBF12jphLT15owtKo
- Ei1UlcB4G4xIMd6auI+kAz6igrDNvMDaoevpHCm8jYyNLhzZXUw7g8RXL9h4iPR7cQiP
- fWZBC4ea3R4Yj8fMTg4wttUpxhYJ9uNNiW0TSBOs5M7hbeR/6MKVCnbEhnXSmFwBKhZn
- BHq9ydqrNGQbB6SLBpRN6fH18bHSYrD1TnRSHSuKBPqsziJISYzAZKQMjDwVMFJKP5ef
- urqw==
-X-Gm-Message-State: AOAM5326vkbwjfRDwW32LImngHGHfCYLmXkgoVneqO3UGzxxVAq/RVJV
- ill7+i7YhuW8JsuX2xHMmTuCikuDwiLBhbKl+FB+ehuz2j78v3ey3Ug2/FBqfZbfMkAza9MiUSu
- dyhU4r0sWYo8ac0Y=
-X-Received: by 2002:adf:b789:: with SMTP id s9mr25620018wre.315.1630483725552; 
- Wed, 01 Sep 2021 01:08:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzdjvEZfw+qVskTX9iJE6O42Q5Rzx3sKoIq73jE+q5Wzf2fdYigkXSs/okXWS+1GNmWdogvwg==
-X-Received: by 2002:adf:b789:: with SMTP id s9mr25619990wre.315.1630483725320; 
- Wed, 01 Sep 2021 01:08:45 -0700 (PDT)
-Received: from thuth.remote.csb (pd9e832f4.dip0.t-ipconnect.de.
- [217.232.50.244])
- by smtp.gmail.com with ESMTPSA id m186sm4742695wme.48.2021.09.01.01.08.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Sep 2021 01:08:44 -0700 (PDT)
-Subject: Re: [PATCH 1/1] hw: Add compat machines for 6.2
-To: Yanan Wang <wangyanan55@huawei.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-s390x@nongnu.org
-References: <20210831015426.101188-1-wangyanan55@huawei.com>
- <20210831015426.101188-2-wangyanan55@huawei.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <53f7e1e9-8394-e606-26a4-c559479a4f25@redhat.com>
-Date: Wed, 1 Sep 2021 10:08:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1mLLJZ-000654-61; Wed, 01 Sep 2021 04:09:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=6lZ6ydmxvbnC4r0Pymcd338rHTaneKicD1zouDaR9B4=; b=nmvAFUt4vIGCfB6G8oONgc+jwF
+ +rEGS7jey9hOxOwvjlXfNSsB7XEdoc/uYmhO01C9zV9blvAp0OYj7tjkbDKhJQMOzu9cuMozUn+9H
+ MtOfSkBCBidNQY7MYUBVD8rVY8Ah9xTQCVAxoliEMRmJgtsP7YTbNRRQAdSP/mphQp7k=;
+Date: Wed, 1 Sep 2021 10:09:30 +0200
+From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 20/29] tcg_funcs: Add cpu_restore_state to TCGModuleOps
+Message-ID: <20210901080930.42kpcwrobyzgxmqt@schnipp-desktop>
+References: <20210831121545.2874233-1-kraxel@redhat.com>
+ <20210831121545.2874233-21-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210831015426.101188-2-wangyanan55@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.932, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210831121545.2874233-21-kraxel@redhat.com>
+X-IMT-Spam-Score: 0.0 ()
+X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
+ Antispam-Data: 2021.9.1.75716, AntiVirus-Engine: 5.84.0,
+ AntiVirus-Data: 2021.7.20.5840001
+X-Sophos-SenderHistory: ip=84.184.59.97, fs=3861074, da=118092839, mc=48, sc=0,
+ hc=48, sp=0, fso=3861074, re=0, sd=0, hd=0
+X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
+Received-SPF: pass client-ip=2001:638:502:c003::14;
+ envelope-from=kbastian@mail.uni-paderborn.de; helo=collins.uni-paderborn.de
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,55 +65,58 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Greg Kurz <groug@kaod.org>,
- Halil Pasic <pasic@linux.ibm.com>, wanghaibin.wang@huawei.com,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ David Hildenbrand <david@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Alexandre Iooss <erdnaxe@crans.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Huacai Chen <chenhuacai@kernel.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-ppc@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Stafford Horne <shorne@gmail.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 31/08/2021 03.54, Yanan Wang wrote:
-> Add 6.2 machine types for arm/i440fx/q35/s390x/spapr.
-> 
-> Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-> Acked-by: David Gibson <david@gibson.dropbear.id.au>
-> Reviewed-by: Andrew Jones <drjones@redhat.com>
-> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-> Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+On Tue, Aug 31, 2021 at 02:15:36PM +0200, Gerd Hoffmann wrote:
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > ---
-[..]
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index e4b18aef49..4d25278cf2 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -791,14 +791,26 @@ bool css_migration_enabled(void)
->       }                                                                         \
->       type_init(ccw_machine_register_##suffix)
->   
-> +static void ccw_machine_6_2_instance_options(MachineState *machine)
-> +{
-> +}
-> +
-> +static void ccw_machine_6_2_class_options(MachineClass *mc)
-> +{
-> +}
-> +DEFINE_CCW_MACHINE(6_2, "6.2", true);
-> +
->   static void ccw_machine_6_1_instance_options(MachineState *machine)
->   {
-> +    ccw_machine_6_2_instance_options(machine);
->   }
->   
->   static void ccw_machine_6_1_class_options(MachineClass *mc)
->   {
-> +    ccw_machine_6_2_class_options(mc);
-> +    compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
->   }
-> -DEFINE_CCW_MACHINE(6_1, "6.1", true);
-> +DEFINE_CCW_MACHINE(6_1, "6.1", false);
+>  include/exec/exec-all.h             | 2 +-
+>  include/tcg/tcg-module.h            | 1 +
+>  accel/tcg/cpu-exec-common.c         | 2 +-
+>  accel/tcg/tcg-module.c              | 6 ++++++
+>  accel/tcg/translate-all.c           | 3 ++-
+>  softmmu/physmem.c                   | 2 +-
+>  target/alpha/helper.c               | 2 +-
+>  target/alpha/mem_helper.c           | 2 +-
+>  target/arm/op_helper.c              | 2 +-
+>  target/arm/tlb_helper.c             | 8 ++++----
+>  target/cris/helper.c                | 2 +-
+>  target/i386/helper.c                | 2 +-
+>  target/i386/tcg/sysemu/svm_helper.c | 2 +-
+>  target/m68k/op_helper.c             | 6 +++---
+>  target/microblaze/helper.c          | 2 +-
+>  target/openrisc/sys_helper.c        | 8 ++++----
+>  target/ppc/excp_helper.c            | 2 +-
+>  target/s390x/tcg/excp_helper.c      | 2 +-
+>  target/tricore/op_helper.c          | 2 +-
+>  target/xtensa/helper.c              | 6 +++---
+>  20 files changed, 36 insertions(+), 28 deletions(-)
 
-For the s390x part:
-Acked-by: Thomas Huth <thuth@redhat.com>
+tricore part
 
+Reviewed-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+
+Cheers,
+Bastian
 
