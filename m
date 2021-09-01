@@ -2,89 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117F73FE000
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:34:53 +0200 (CEST)
-Received: from localhost ([::1]:50124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E750D3FE00D
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:37:26 +0200 (CEST)
+Received: from localhost ([::1]:57282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLTCO-0005nV-3t
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:34:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51840)
+	id 1mLTEr-0002LH-Ij
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:37:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLS72-0004wK-KA
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:25:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30765)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLS6z-0001kc-Mk
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:25:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630509913;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ToFGOS1/4HM40AQquohB88E7LjowD3oG771dWFIThSg=;
- b=cHeUIZS6ApFcUhWjLYVwglELi04+Ysinb2xZOKUxnJ7EP09NqgoKMWfmCryFOHNt0tNfGX
- Bs13C0padLMJdsQW66ukhEzz2FEFn3tPsJ5y+lBYQLG7bcRc6y8qCHh1sIxB95AScEmY/i
- 4y3BxqeDumub0KJXWX5C0tECNA7CC1k=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-67-BeCdTPbCNoiF7xTozHigng-1; Wed, 01 Sep 2021 11:25:12 -0400
-X-MC-Unique: BeCdTPbCNoiF7xTozHigng-1
-Received: by mail-wm1-f72.google.com with SMTP id
- h1-20020a05600c350100b002e751bf6733so1163104wmq.8
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 08:25:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mLS8N-0008BT-VW
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:26:39 -0400
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33478)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mLS8L-0002wm-07
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:26:39 -0400
+Received: by mail-wr1-x430.google.com with SMTP id d26so234703wrc.0
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 08:26:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bzHL0tw5XE8O4+6om5ojDvP15UJs4GGb2qZXwsUwtaw=;
+ b=vQQm/+PHKHqd/o5xutnjqnUoSalLrke8RTcnvY5tbs36LzYcURwMWahVdD4oGq9nC0
+ fsCJuNxhdkZ0eVAkvIGbpzOs1AjWjIHpChRAXHZkdkAcKh3hDwb3URDYxI+R0DifVg7k
+ yTEayjQvd8swY/fPEe6aso6x7qnLW3Bp8s3zzkCfq+ziusgUeVOgqFVxEeoNIR5c2wXo
+ yuMtpTcjssOLXIDezoHgG8sZnfcaE0i9RZZfcSgqNoKudN1Xqz9sfAsTwNf4lCeC+fVt
+ HbEyKhKANU9GlpwzqiWgt7bp+j72vxWRdWDPdbXoMnRNk9cTmYBX9h/paLHmpnepfs50
+ tYdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ToFGOS1/4HM40AQquohB88E7LjowD3oG771dWFIThSg=;
- b=buhtMfy2mWADvleW3QIaZn3GkE+ptE44waY9zMqAn+q4pSzpkPQQu+SlC7tb8bGl8U
- EhyRxPhrBjiZC6rkeMOvfmPMD727IiIG8gY2AGi6GwJDiFpBAEMi2dIUtcay2LMZ4oMk
- uPVw7oVziVdAqCQ2JdE343i0dzV7Ni9b/Xs7/nNs6mFqDAZHSNiG6hgOg0daJ1/7k7Or
- MvfQDWQDWd/SPkye63HQGX2FVKtwrCKik+v8AGEl2ORC2+31tAZRB+oTNzoSexc9NvYz
- P3h1NT5AKgysVIukLpALyzGdWHNVXWH0B3wVnXUO0L1I89rvC0U9qGjTH/GRJM2rUfAi
- ou9g==
-X-Gm-Message-State: AOAM532jGbKH0tvVbJY0Z1NclVmex0KZTUwsFvKRFsQJSJyHrT+NUUfb
- GG4R/RTZrTQEREoMuS+NKuQxn2sznbq/vqIW1WllFzRhbij+V9RRNGU9duhlwFeuB/Ul6NcNkIz
- 2lSV70WwKKjLDlRI=
-X-Received: by 2002:adf:b78d:: with SMTP id s13mr21434931wre.344.1630509910834; 
- Wed, 01 Sep 2021 08:25:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzVdB1Pl2RqBQoRqLRnHNDB25lZjfzssISIgZQnalEYnEp1rZdT8ZpXdDi1kU8go3xAgi0zqw==
-X-Received: by 2002:adf:b78d:: with SMTP id s13mr21434913wre.344.1630509910648; 
- Wed, 01 Sep 2021 08:25:10 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id c14sm21484693wrr.58.2021.09.01.08.25.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Sep 2021 08:25:10 -0700 (PDT)
-Subject: Re: [PATCH 1/2] elf2dmp: Check curl_easy_setopt() return value
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20210901143910.17112-1-peter.maydell@linaro.org>
- <20210901143910.17112-2-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <59844a83-9058-3935-0228-e159eef5277e@redhat.com>
-Date: Wed, 1 Sep 2021 17:25:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=bzHL0tw5XE8O4+6om5ojDvP15UJs4GGb2qZXwsUwtaw=;
+ b=U0cbGw8POcriEk6c1I7VXXdSzvehNFWb/VCvF12a3zbeVctkVEia7JOjbtNxJKeDHq
+ SQ/mZY5f15Zcc7Cgkh5jdTTqVWiEN0p4+SGfd5zkrw1eFuFMVmN8sGzGNbqJHFiy046Y
+ j3wdiJrrZxSrZNCsnQK1QGycRNgB4mpzTiWgzygU3NLESufl1N0fBe2EQpegjGK2Ajrq
+ 8dWYAukqG1pyM+hrcqvHqpCuoERav6PJIQUFGULhAY9eNdbjoKbHRvQQWd9mxaEZeXEo
+ 7WODfcavL1PQwRJfKOCItWV4Y9n8T5KAZI3rteDFDINS3kaE8HFFgoE2Voll61rUeK7Y
+ /HZQ==
+X-Gm-Message-State: AOAM531tXndjvayg2k6kEOm2GWvF/SyvuvAigd9n4iChvdFP7sAjJ4FP
+ RCOnJgJQriHCWSC/cBJfgpi9iQRI/M5M+g==
+X-Google-Smtp-Source: ABdhPJzZK0uKnLKg2drd16cm5YV8UTFsWBMiriw3foWnFaxFXEtR8AOZ2CTcU93DifpcDMEruWIECg==
+X-Received: by 2002:a5d:6cc9:: with SMTP id c9mr26209319wrc.158.1630509994950; 
+ Wed, 01 Sep 2021 08:26:34 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id a133sm5943345wme.5.2021.09.01.08.26.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Sep 2021 08:26:34 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/vhost-user-bridge.c: Sanity check socket path length
+Date: Wed,  1 Sep 2021 16:26:32 +0100
+Message-Id: <20210901152632.25511-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210901143910.17112-2-peter.maydell@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.029,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,107 +80,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/1/21 4:39 PM, Peter Maydell wrote:
-> Coverity points out that we aren't checking the return value
-> from curl_easy_setopt().
-> 
-> Fixes: Coverity CID 1458895
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  contrib/elf2dmp/download.c | 28 +++++++++++++++++-----------
->  1 file changed, 17 insertions(+), 11 deletions(-)
-> 
-> diff --git a/contrib/elf2dmp/download.c b/contrib/elf2dmp/download.c
-> index d09e607431f..01e4a7fc0dc 100644
-> --- a/contrib/elf2dmp/download.c
-> +++ b/contrib/elf2dmp/download.c
-> @@ -21,21 +21,19 @@ int download_url(const char *name, const char *url)
->  
->      file = fopen(name, "wb");
->      if (!file) {
-> -        err = 1;
-> -        goto out_curl;
-> +        goto fail;
->      }
->  
-> -    curl_easy_setopt(curl, CURLOPT_URL, url);
-> -    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
-> -    curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
-> -    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
-> -    curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0);
-> +    if (curl_easy_setopt(curl, CURLOPT_URL, url) != CURLE_OK ||
-> +        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL) != CURLE_OK ||
-> +        curl_easy_setopt(curl, CURLOPT_WRITEDATA, file) != CURLE_OK ||
-> +        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1) != CURLE_OK ||
-> +        curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0) != CURLE_OK) {
-> +        goto fail;
-> +    }
->  
->      if (curl_easy_perform(curl) != CURLE_OK) {
-> -        err = 1;
-> -        fclose(file);
-> -        unlink(name);
-> -        goto out_curl;
-> +        goto fail;
->      }
->  
->      err = fclose(file);
-> @@ -44,4 +42,12 @@ out_curl:
->      curl_easy_cleanup(curl);
->  
->      return err;
-> +
-> +fail:
-> +    err = 1;
-> +    if (file) {
-> +        fclose(file);
-> +        unlink(name);
-> +    }
-> +    goto out_curl;
->  }
-> 
+The vhost-user-bridge binary accepts a UNIX socket path on
+the command line. Sanity check that this is short enough to
+fit into a sockaddr_un before copying it in.
 
-Counter proposal without goto and less ifs:
-
--- >8 --
-@@ -25,21 +25,19 @@ int download_url(const char *name, const char *url)
-         goto out_curl;
-     }
-
--    curl_easy_setopt(curl, CURLOPT_URL, url);
--    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
--    curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
--    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
--    curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0);
--
--    if (curl_easy_perform(curl) != CURLE_OK) {
--        err = 1;
--        fclose(file);
-+    if (curl_easy_setopt(curl, CURLOPT_URL, url) != CURLE_OK
-+            || curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL) !=
-CURLE_OK
-+            || curl_easy_setopt(curl, CURLOPT_WRITEDATA, file) != CURLE_OK
-+            || curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1) !=
-CURLE_OK
-+            || curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0) != CURLE_OK
-+            || curl_easy_perform(curl) != CURLE_OK) {
-         unlink(name);
--        goto out_curl;
-+        fclose(file);
-+        err = 1;
-+    } else {
-+        err = fclose(file);
-     }
-
--    err = fclose(file);
--
- out_curl:
-     curl_easy_cleanup(curl);
-
+Fixes: Coverity CID 1432866
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
+ tests/vhost-user-bridge.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/tests/vhost-user-bridge.c b/tests/vhost-user-bridge.c
+index 24815920b2b..cb009545fa5 100644
+--- a/tests/vhost-user-bridge.c
++++ b/tests/vhost-user-bridge.c
+@@ -540,6 +540,11 @@ vubr_new(const char *path, bool client)
+     CallbackFunc cb;
+     size_t len;
+ 
++    if (strlen(path) >= sizeof(un.sun_path)) {
++        fprintf(stderr, "unix domain socket path '%s' is too long\n", path);
++        exit(1);
++    }
++
+     /* Get a UNIX socket. */
+     dev->sock = socket(AF_UNIX, SOCK_STREAM, 0);
+     if (dev->sock == -1) {
+-- 
+2.20.1
 
 
