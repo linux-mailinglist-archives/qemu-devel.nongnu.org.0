@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CBDD3FDD77
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 15:51:44 +0200 (CEST)
-Received: from localhost ([::1]:42804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 019D43FDD86
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 15:56:30 +0200 (CEST)
+Received: from localhost ([::1]:47902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLQeV-0003lG-9t
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 09:51:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54904)
+	id 1mLQj6-0007Mc-GK
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 09:56:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mLQdF-0002lu-Ug
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 09:50:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58276)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mLQhx-0006bY-Qf
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 09:55:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52833)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mLQdB-0006LF-Ai
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 09:50:24 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mLQhv-0001H5-Od
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 09:55:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630504219;
+ s=mimecast20190719; t=1630504514;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ni8MueqktVNDZSqGsEX23K54ZSfGfBieGeEI4LtCFds=;
- b=E8LK6dFWKxYywjHl077ASXjmF7hVpXBNq6yGlQXnEaiciv0JI+t2u9bmfrtJzbyT1B2/Tt
- RRPau1+6ToqTZOljzGZtp7sydo3zm6k6jI85YPZ43XHYRdoFMt5KHbvkuxy6N7ZtAWw/QR
- Fi+P9QgXGmSZiL/U56sDuv0pE+OWUBE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-199-yk5aWsU0PWS4P1t3bdOXvQ-1; Wed, 01 Sep 2021 09:50:17 -0400
-X-MC-Unique: yk5aWsU0PWS4P1t3bdOXvQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- r17-20020adfda510000b02901526f76d738so830638wrl.0
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 06:50:17 -0700 (PDT)
+ bh=ZxL6XsF30k6Et+bMh/3eDKLdiCkk1Sgdh9RB9XX5XDo=;
+ b=EOzE599afbKTEa5JrCdrUIf5BEX6lc4t6YQnj5UKitSYhKYzRe9RZUbsoHMptk5TcQBnSo
+ FP1/xEHxHJd+BX+QLJWNY40K5CiMM375PG7f2XkdSAfxj0VGM6DoLXYOVUGvKTv0R0dFSj
+ EdIs0NfUfhhwIdCPbRrDpYqvY2e26rs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-568-2gNFKA1GNii7jnEe4xz4FA-1; Wed, 01 Sep 2021 09:55:11 -0400
+X-MC-Unique: 2gNFKA1GNii7jnEe4xz4FA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r17-20020adfda510000b02901526f76d738so835031wrl.0
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 06:55:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ni8MueqktVNDZSqGsEX23K54ZSfGfBieGeEI4LtCFds=;
- b=UBImc4EuoQ2x4fSu8JNL8kRxuQVDLB/irkY/asIBXZD2NjIO/M5euPvGicAiFGNAhI
- 4vEXx7t2L/N6GYwKHJ4nty/oyCQ/WufSHI/YRZuF4a6H+FL0/6Tr6bFuIIW3YjmFbcJA
- Zn57bYTsju+lq0XzIULbZJEOM8OqhMvFBr656IsbgfF2bjeS84KchlhuuJvD9JqlYjxC
- fb5dEZxLxcVZ7SQdvS2FNuOZaEWnAFey9bAjtWmYbjaEmAgXuddGzjqvcaiLzBftoXUt
- Vq2cOwjUypxadre0X2xZHfW9pQrlP9m6pmEhzgBGhpaZndTGpwoq5tkVDmtjmcyMriD7
- VeAQ==
-X-Gm-Message-State: AOAM530bp7AMzmyeRzcKQ9P9OXHlxws7Jz/oGhznl+JcXNY+pEVrj1cm
- hoiY+H9q16Ufb7mibsUrN4cpUBVnwqZBjWdT0wkLk75w9gJA0HnU9dSowi5tpV9MbGHRd973pSL
- Iss8GruZZDZaaB84=
-X-Received: by 2002:adf:c54f:: with SMTP id s15mr20728609wrf.222.1630504216578; 
- Wed, 01 Sep 2021 06:50:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyEHcOU9XqC5TQ7rO9MRW+hqyWUwY759Kg0bQ67lbDm7eUtqGhwBny/R30ljGc4ft5iGykt7Q==
-X-Received: by 2002:adf:c54f:: with SMTP id s15mr20728569wrf.222.1630504216303; 
- Wed, 01 Sep 2021 06:50:16 -0700 (PDT)
+ bh=ZxL6XsF30k6Et+bMh/3eDKLdiCkk1Sgdh9RB9XX5XDo=;
+ b=cN2cojCs/+Un/tO+G6Lvq+8DOt/CwVq0fwUm/gfB4/H2wH/2C8N+hUce40PPcMHyJx
+ VIm2+EyrtPuRYyVvQXfyBXD9FGRcAFJe6ybWsyUJyyC+QG7k0BmvhD510kJFa5SI2juj
+ 3IvNnRT4blJceY+i6u8e7BdHjkZL5zbpsR6X3Oso+6RoMzYfqgu+rDY8EAEj/NeRt+64
+ KO+gfxq1ZqcMYib/JqpN1nmehswcYaKeZj5TmshUKJ6U4enbD9/g0yNVhelTEIdwqknP
+ ZCx9KY4jyELK29hy1kgeDdtxlBDn36p1AY4y9w0A9VLy8+1HJNPR010F8ndDAEo6/vfL
+ D69Q==
+X-Gm-Message-State: AOAM530/41O2Mh1fftwlL5SB3wVv3n9dQubvhdleatyhi0sGQHStRWvU
+ eZdufvvF3bEG8irBr1Vy1iXhmvKKQ3xuLZsCaejYQ2qBbdSlLwVKjmfTryxmbL/zJa6OpYqkyOD
+ U+NyQaJD2Sh/QLE8=
+X-Received: by 2002:a5d:6cc9:: with SMTP id c9mr25674468wrc.158.1630504510408; 
+ Wed, 01 Sep 2021 06:55:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzLmrmBTr4I24WDKvpQPnEkIqCFeoJbWM5wN5MeennOaKLhJo93oYQ55qxUL9+hBuOzgcTQmg==
+X-Received: by 2002:a5d:6cc9:: with SMTP id c9mr25674450wrc.158.1630504510207; 
+ Wed, 01 Sep 2021 06:55:10 -0700 (PDT)
 Received: from thuth.remote.csb (p5791d006.dip0.t-ipconnect.de. [87.145.208.6])
- by smtp.gmail.com with ESMTPSA id n5sm5369075wmd.29.2021.09.01.06.50.15
+ by smtp.gmail.com with ESMTPSA id c3sm22316130wrd.34.2021.09.01.06.55.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Sep 2021 06:50:15 -0700 (PDT)
-Subject: Re: [PATCH 2/2] Acceptance Tests: updates to the MAINTAINERS file
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210803193447.3946219-1-crosa@redhat.com>
- <20210803193447.3946219-3-crosa@redhat.com>
+ Wed, 01 Sep 2021 06:55:09 -0700 (PDT)
+Subject: Re: [PATCH] libqtest: check for g_setenv() failure
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20210820163750.9106-1-peter.maydell@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <60be05ac-214d-ed47-9ce5-6ec929c24f3c@redhat.com>
-Date: Wed, 1 Sep 2021 15:49:54 +0200
+Message-ID: <11999a17-9f3b-e558-a90d-4f23297d02e1@redhat.com>
+Date: Wed, 1 Sep 2021 15:55:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210803193447.3946219-3-crosa@redhat.com>
+In-Reply-To: <20210820163750.9106-1-peter.maydell@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -98,54 +96,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Auger Eric <eric.auger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/08/2021 21.34, Cleber Rosa wrote:
-> The tests/acceptance directory is currently lacking a maintainer
-> entry, even though I've been performing that role (of course with help
-> from many others).  Thus, its status is, even more now, Maintained.
+On 20/08/2021 18.37, Peter Maydell wrote:
+> g_setenv() can fail; check for it when starting a QEMU process
+> when we set the QEMU_AUDIO_DRV environment variable.
 > 
-> This also removes the currently broken Trello board link, which was
-> make unavailable unintentionally by a third party.
+> Because this happens after fork() reporting an exact message
+> via printf() is a bad idea; just exit(1), as we already do
+> for the case of execlp() failure.
 > 
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> Fixes: Coverity CID 1460117
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->   MAINTAINERS | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+>   tests/qtest/libqtest.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 37b1a8e442..d35b948e8d 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -3418,11 +3418,11 @@ F: tests/tcg/Makefile
->   F: tests/tcg/Makefile.include
->   
->   Acceptance (Integration) Testing with the Avocado framework
-> -W: https://trello.com/b/6Qi1pxVn/avocado-qemu
-> -R: Cleber Rosa <crosa@redhat.com>
-> +M: Cleber Rosa <crosa@redhat.com>
->   R: Philippe Mathieu-Daudé <philmd@redhat.com>
->   R: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> -S: Odd Fixes
-> +S: Maintained
-> +F: tests/Makefile.include
+> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+> index 825b13a44c7..73f6b977a66 100644
+> --- a/tests/qtest/libqtest.c
+> +++ b/tests/qtest/libqtest.c
+> @@ -301,7 +301,9 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
+>       s->expected_status = 0;
+>       s->qemu_pid = fork();
+>       if (s->qemu_pid == 0) {
+> -        g_setenv("QEMU_AUDIO_DRV", "none", true);
+> +        if (!g_setenv("QEMU_AUDIO_DRV", "none", true)) {
+> +            exit(1);
+> +        }
+>           execlp("/bin/sh", "sh", "-c", command, NULL);
+>           exit(1);
+>       }
 
-Not sure whether we really should add tests/Makefile.include in this 
-section, since there are only a couple of lines in there that are related to 
-the "acceptance" tests... Anyway:
+Thanks, queued to my testing-next branch:
 
-Acked-by: Thomas Huth <thuth@redhat.com>
-
-Cleber, now that the freeze period is over, could you collect the related 
-patches on the list and send a pull request?
+  https://gitlab.com/thuth/qemu/-/commits/testing-next
 
   Thomas
+
 
 
