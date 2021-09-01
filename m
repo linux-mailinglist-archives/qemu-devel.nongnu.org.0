@@ -2,98 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57E713FD944
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 14:09:59 +0200 (CEST)
-Received: from localhost ([::1]:47380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 785CF3FD949
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 14:13:39 +0200 (CEST)
+Received: from localhost ([::1]:55692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLP42-0002pD-Br
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 08:09:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58524)
+	id 1mLP7a-0000E7-9r
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 08:13:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mLOyz-0003vA-Ky
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 08:04:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55096)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mLP5K-0006H2-Ud; Wed, 01 Sep 2021 08:11:18 -0400
+Received: from mail-eopbgr20113.outbound.protection.outlook.com
+ ([40.107.2.113]:2972 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mLOyw-0001hn-Cj
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 08:04:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630497881;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=avIdGQOT79cPPUzFbCa/tb70UMmmNKwwLNNbrnRmOsM=;
- b=fNpS7DQG2u/4AWAhS8uH63cGLYKGFaL7wMMYNoY/IqLIeKe10gYkiaXZEi73V1UlZAvLUl
- epvEMmTPOFvxL4dS5ivDZ4bRG+JqZB6FW0FW8fZt3ilj1SdxwgUw/xH7u1oXhiC5rPOr1r
- fe8GVNbiBv5xMzWqhTCbDKwSW2yJGks=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-ceRVCzaCMbiSR1bwOz45gg-1; Wed, 01 Sep 2021 08:04:40 -0400
-X-MC-Unique: ceRVCzaCMbiSR1bwOz45gg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- a201-20020a1c7fd2000000b002e748bf0544so2726357wmd.2
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 05:04:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=avIdGQOT79cPPUzFbCa/tb70UMmmNKwwLNNbrnRmOsM=;
- b=r7d3cvmu0++ePwIAtzuBiWg6fsk30a0pvNNObljIRdw+HtD4/EpMVEPSN4Mn16UB65
- cpUdDoPilJsE2bYfOJMjmrnoNEP3PEDUy2U0/wayDD7b5SsGtPIh3RnE3Swx/z1/hRf8
- FTStaC4wqAONUP3aAFN2Gu23bLAharK/rUlHdnzQkDdbtrFOPDCkHR7s5Q2p3KRfwA1P
- tiA1Xf+q8az4hoEI9l6d12wF9J17a6gaFEyxjJDnhySc3Vc1yhNElst0XMKekBQiBPOU
- XtI9pzCTCodNkdaH2I9NJq2DbFG4svYoKR/JOK5rNSkl+06FKC+GonCTDIrWO2JfZgMZ
- 4Iaw==
-X-Gm-Message-State: AOAM531ibwZSji/hhye0TDwcjUHjo96tXEikbVr93mhYG1zL27UTSz2+
- bcII6cnIPSe5C9PKN8ZIsJaRzAAYWBWB7jJOmXDiY00OAEua3Yau6a0htcEPbGWid8RFuuU3cds
- XUKmYeq7alDOgc9E=
-X-Received: by 2002:a7b:c3d9:: with SMTP id t25mr7858291wmj.14.1630497879716; 
- Wed, 01 Sep 2021 05:04:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyB7+csufAW55Zadtm8KzUCnHWU+ElIng0j3jayvnjpHDAxpV3i7+HltZl5xh8gdRoA+zhdow==
-X-Received: by 2002:a7b:c3d9:: with SMTP id t25mr7858249wmj.14.1630497879376; 
- Wed, 01 Sep 2021 05:04:39 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id d28sm20537273wrc.4.2021.09.01.05.04.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Sep 2021 05:04:38 -0700 (PDT)
-Subject: Re: [PATCH v5 2/4] hw/arm/smmuv3: Update implementation of CFGI
- commands based on device SID
-To: "Li, Chunming" <Chunming.Li@verisilicon.com>,
- chunming <chunming_li1234@163.com>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>
-References: <1629878922-173270-1-git-send-email-chunming_li1234@163.com>
- <1629878922-173270-3-git-send-email-chunming_li1234@163.com>
- <7089ce3e-2b15-7cf3-86d9-231c69794138@redhat.com>
- <49C79B700B5D8F45B8EF0861B4EF3B3B0114302B8C@SHASXM03.verisilicon.com>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <1bdba252-d63d-15cb-7365-4fbc666cd075@redhat.com>
-Date: Wed, 1 Sep 2021 14:04:37 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mLP5I-0005Dx-Fp; Wed, 01 Sep 2021 08:11:18 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Gffh7ms7bDnOdQMpJzNh8x9aSfEZ0q/5lwh6K6YUU+JDJEy3zGr132olXicTXKaQnexHYQ+K5LJlvusdNC8Hdg5GvwkJKVjg5CtBDBfKjzNgQZ4YEhSveL4v9pdUn9nb8TGdF8hkkcHl0VWQNkHXCfO1uRTiKN7IGlp20Li+8jbOqLNXn5VEkI2PHJcxwPkrnxxkI7qTv+IAT2HIJ8cc6LQtpLOxIdmhsiM5OrSlwZOaRt9BTGlA89iRHCguoL8oZRrCdUVE7tgrF8RiGsPUxQ+1IwNfJs7xdJ+bNV6TROXz1IajYn3dFmJgMzdWDfdMFXUE//mIZ1tZAhZ7oPLZPA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=4IXnaVXprWFAuOQU8PKbZXQVNllpdOU4xfnpWW8BszE=;
+ b=k5eMF/Ue4iDkOxehOwRs/BJElKf1Dq3TcoLGHvKlo1mFZ7InGTMo1Esrv/HdpIJf+PCnZm6pOV4WsiAlO4nLatf5tOuq6XP/wRTeRW9XYMSGJNCEOcLZRlv6Yb4q4nCbjARQfJXK1t1sntS1qYX7J96hAc4tJAMUEQgie6v0bhM1TfWlSQgYSpdyouwONZEuCf5DaYwwcL/Xp1VPZ9V08SVqL7EnlkQCtQW+1G2ycLPgTZ6LSqx9x9nb6WtxUl4lWLYiTnrO8fAXj7mytRc2apLefw6owUc2rwgrwve17Er2cf1ce/vM24OEwgk7DBr0hz50AGkpivp9pu0iIkgBBw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4IXnaVXprWFAuOQU8PKbZXQVNllpdOU4xfnpWW8BszE=;
+ b=UZD5fGTY7u+MmDf95DVMxUi9qkQKDaZ1n0HqBxvVMI2TLDrAsaitqYAa8ZdycjiEeIYf3dtTHCzOWLOJTwuJYhIPIhinva8/BHi+EDNZhOH1nOd/Pi94BliOLhQIKXw0tD7kwkfddWDnxJATjWfGO+Zxhdfqd7l7ywzwA1UQJGo=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from VI1PR08MB5503.eurprd08.prod.outlook.com (2603:10a6:803:137::19)
+ by VI1PR08MB3472.eurprd08.prod.outlook.com (2603:10a6:803:80::27)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19; Wed, 1 Sep
+ 2021 12:11:06 +0000
+Received: from VI1PR08MB5503.eurprd08.prod.outlook.com
+ ([fe80::2082:8a88:6ff1:2dd8]) by VI1PR08MB5503.eurprd08.prod.outlook.com
+ ([fe80::2082:8a88:6ff1:2dd8%5]) with mapi id 15.20.4478.017; Wed, 1 Sep 2021
+ 12:11:06 +0000
+Subject: Re: [PATCH for-6.2 v3 09/12] mirror: Check job_is_cancelled() earlier
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>
+References: <20210806093859.706464-1-mreitz@redhat.com>
+ <20210806093859.706464-10-mreitz@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <729491a7-9c56-ee91-9ea2-d66e4ec44e15@virtuozzo.com>
+Date: Wed, 1 Sep 2021 15:11:04 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-In-Reply-To: <49C79B700B5D8F45B8EF0861B4EF3B3B0114302B8C@SHASXM03.verisilicon.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+ Thunderbird/78.13.0
+In-Reply-To: <20210806093859.706464-10-mreitz@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.029,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM4PR0701CA0036.eurprd07.prod.outlook.com
+ (2603:10a6:200:42::46) To VI1PR08MB5503.eurprd08.prod.outlook.com
+ (2603:10a6:803:137::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.196) by
+ AM4PR0701CA0036.eurprd07.prod.outlook.com (2603:10a6:200:42::46) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.10 via Frontend
+ Transport; Wed, 1 Sep 2021 12:11:05 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: fc1d9c2a-3d6d-4401-ede6-08d96d419341
+X-MS-TrafficTypeDiagnostic: VI1PR08MB3472:
+X-Microsoft-Antispam-PRVS: <VI1PR08MB34727F17F15770D5F197EF1CC1CD9@VI1PR08MB3472.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: K8CKrkSaHaMPt908xVWYvEe+gW8Le+nMs22QcUF5vdCwsihD/cIKBOoYsFGY+a38M3g8o8KZf0fygt8julk4TvuCCk1+pb2G/fwuLLKeHaIK6IQgAQj+fW0gUmXyzLouYWiyW06nFoC3Bw8mLa0ojVcBvaSAEm675oJF7axkhf4fIUp9X9j9atDPHa0XRUM2lgzZ9BcALUl72y3CZ6gcnIFuFaXFfSC2l5V4c2+lEVNbrv7CCHciVW2gxXEKUzefKuJ6dQr0S/3NcbqB+DJ5tkXGbXYhTAiUNRHgwb8xW9H1FUCsybInGpeRJy0AJ6je0C8O4/igrxZYFqgWEX3TSNF258lcd9SeTWPZrD636kuEjK6rvVx6cat6ijhTRQUdqcVLS9a7gkK84WJEdS6/nNXsFCpDGLhVl7nD1AfwqMXGdR6dEijnpUj44tPGdv6KZzHTpIk0Qei3mHeSNEisLwg4pWFpaZ6oGQMARURaNm8t2s/DDuiaQAFy0xeiLSpuLhrK+d53REKhXRFyuGUREN80jsUo4Uc/4N14h3Rri25eU8B5YgnF3gK/vDyCMbqwARF9z1z3bKrSF4VLcjJzkSI6LLPQU6Npj6Y9HbLFg92Ri4kOeaaeLhtmM8YXfN9O53M6MIT2gIrimV9+F6cBKjaWp15MAWs4jyroveMNBngI0BWNNGQZkphwgbuqIOe8yjlni7RqDdpgB9whJzo+2G6zx0Cr5az3Rdqah/zqxBT5EtJtN7CJTYeoyszAHkX24oTbeWZiAJI3eewID/PW3JE+r1GsAt2od3Ic/6cykrbAMx31UNlFqj/wUp+4DY3zyek482MTZUsENggXekTNSvIknZ25r7HfFeJDRBz+ebs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR08MB5503.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(39850400004)(346002)(396003)(366004)(376002)(2906002)(478600001)(83380400001)(4326008)(86362001)(16576012)(31696002)(36756003)(52116002)(186003)(26005)(31686004)(316002)(38100700002)(38350700002)(2616005)(956004)(4744005)(8676002)(66946007)(8936002)(6486002)(5660300002)(66476007)(66556008)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VSs3YmhOekVNMmdxb3lZTVNEUXdXQUhJNk1oczlhUWN2NXY5ZlVVRnZPWTRs?=
+ =?utf-8?B?MmRnUVNveHBWZ2ZaektYb1BSQnFJOWYwUXFkZEtWRmNrMXYvQ3A5TktMSG12?=
+ =?utf-8?B?VlcrUGtpaC81S25PQVVQMld4di9KbEpubEtSMWpLeXh0UXUvSC9YL01EaFhV?=
+ =?utf-8?B?ck9pL1dPOXZ6REcraVUxMWpnd0I3aVdSYkdIdGxLR1lteFdSVnp2WU1sVFRH?=
+ =?utf-8?B?aG5NTWtTeW9VL3llUnJ4Sm9Dd2pHR1RLUURJL1BzMGo1VVhqTTR0aEVpN2tv?=
+ =?utf-8?B?Q0h3YlBrVkluUGpIYXQ3U1hvR3cyOGtXUyt0R0pyT2FDcHE5dUZybEl0MGZK?=
+ =?utf-8?B?aGNoVnN5V3Ayc3BrUlErUG52dWhTN3pYbytvS1JtNWVJYk16UjA4cmkzMWo5?=
+ =?utf-8?B?OU9GSHpIN0R2NjJkTEVkNXFmVWZ0YkpWQXB1d29jYmw2NVgyRDkvdEM2YjRE?=
+ =?utf-8?B?VGdHQytCYmVFbUExVjM4YWpZM3ZWU3czYVVuUlBCdjYxeVo1REc5RGxHMTl3?=
+ =?utf-8?B?WjhhbzVmSlViM1F4cHMwb1QzYUtxUjJBTFBIaDRlSGRpbFZCKzhtRFZhc0w4?=
+ =?utf-8?B?K3prS1pYZ3E3SFJnOEFyajgvR0pWTzIxOW9BekZLUEQ5RGlldmRpUTdRaFBM?=
+ =?utf-8?B?YVluSU0zUWtDTXFpanplc0F5Um92ZEs0MlVObmdwOTdvai9ZQXFMcTFSUTRZ?=
+ =?utf-8?B?QzNreUxIS1hXcUxGNHVWL3MybUY0U1pKS1JKbDdNS3ppUlpXTmFDN1U2QUFs?=
+ =?utf-8?B?N3NtOHhtcmtoL3VoMTdjNzM1V3NxQ2ZUQ0k3RHlYV2plWEQwTUtHUGVRaTNL?=
+ =?utf-8?B?K0UrNGs3bFFjZE5yeUtKQks4U3h3eUhFb2ZwcUNPSkEwbnJqenBOVm1Zb1Z6?=
+ =?utf-8?B?NmVwMkNyTzVGMUVUenpxY3hMTnBRbEUvSEl6L0JuOUpVMFd5VW5jVTVKUmtO?=
+ =?utf-8?B?dG9OWGhPN0lFdUdpM1BKRmJYNU9JbGpaSVVET25GaUFCQ28ya0lFWkJQY1JI?=
+ =?utf-8?B?MkthNTBvd3hPMjlQclI3T2lDRnE5bjZ4T2Z6aFhGZURhbDNWdEovc1JtbmlV?=
+ =?utf-8?B?eEdpalViNXhGTzVONmRxWWJacnJkY2xUKy93RlNOcmR0SDJ0TGUvWitQUkNn?=
+ =?utf-8?B?S2ptSE1uZElRZnZXRHZMc3ViajZqb2RTMk04OHZwMzRZY1g2NnBRdktvUEhM?=
+ =?utf-8?B?Q0NwTzJLczlJVGkrMWUvWVU2VXRkTjZzZndPdVZzeUNYb2JtTm53ZVMrV01S?=
+ =?utf-8?B?VWVpbk1rV1p6ZVJxMzIrMHdheXdNOGpsRUQ4UWQwOHpzV3grMnRpanNjUzg1?=
+ =?utf-8?B?WjdEaXh2M01UWFh3cFZwcWpJWXM3VVhtczZaVTR4VkNHU3BPRlhVSWdGU1Ju?=
+ =?utf-8?B?U2JSaE1JVUlyUTFZWnN6WHRic2dHMlNQV1pTTThXRlZwMWQ2WmNDWjQ5NXNH?=
+ =?utf-8?B?dFQrTUttZW5uVWEwUzVRbGNXcm1UMC9Edkhvc1dLUUt4TWRTcEZEdlpoYllO?=
+ =?utf-8?B?R2czSUxHSDVrKzVSVlYyY0J6aHdkZGMyekxZajN3cjdMNW5lTFQ4UXNxK3VI?=
+ =?utf-8?B?TVYzbnJEVnF3WFhaelU1OWhVWnVsaVIvMWs3NlJxYjk1UTdIZkMycC9pQ1h1?=
+ =?utf-8?B?TzI0RjVOQ2dKZkZTUXVjY0lkOUUxcW1XaTNPUzFKTVB3dEh1bEpLQmxCdmxS?=
+ =?utf-8?B?N2ZGZjMzQmlUeC94OG9Ub2VKaFR6UkNtR2VpSHhabzlkcmxyYUhQN21PWFVW?=
+ =?utf-8?Q?/pBPvVCOT/mY0ks+jAXjPDIvY7qdctQkVSuXDIG?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc1d9c2a-3d6d-4401-ede6-08d96d419341
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB5503.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2021 12:11:06.1763 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: brOiiz+QsOmj/TIKcFJjHqilIVuifANzzlaRkzCWnO1rwtZSQuXTF3MlAVCWEDDOwBykvcTsp/FLXObXDfvp2hGZ1MMUVGyPhReNr74cNY4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB3472
+Received-SPF: pass client-ip=40.107.2.113;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR02-VE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.029, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,179 +145,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: "Liu, Renwei" <Renwei.Liu@verisilicon.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Wen,
- Jianxian" <Jianxian.Wen@verisilicon.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+06.08.2021 12:38, Max Reitz wrote:
+> We must check whether the job is force-cancelled early in our main loop,
+> most importantly before any `continue` statement.  For example, we used
+> to have `continue`s before our current checking location that are
+> triggered by `mirror_flush()` failing.  So, if `mirror_flush()` kept
+> failing, force-cancelling the job would not terminate it.
+> 
+> Jobs can be cancelled while they yield, and once they are
+> (force-cancelled), they should not generate new I/O requests.
+> Therefore, we should put the check after the last yield before
+> mirror_iteration() is invoked.
+> 
+> Buglink:https://gitlab.com/qemu-project/qemu/-/issues/462
+> Signed-off-by: Max Reitz<mreitz@redhat.com>
 
-On 9/1/21 8:51 AM, Li, Chunming wrote:
->
->> -----Original Message-----
->> From: Eric Auger [mailto:eric.auger@redhat.com]
->> Sent: Tuesday, August 31, 2021 10:02 PM
->> To: chunming; peter.maydell@linaro.org
->> Cc: qemu-arm@nongnu.org; qemu-devel@nongnu.org; Wen, Jianxian; Liu,
->> Renwei; Li, Chunming
->> Subject: Re: [PATCH v5 2/4] hw/arm/smmuv3: Update implementation of
->> CFGI commands based on device SID
->>
->> Hi Chunming
->>
->> On 8/25/21 10:08 AM, chunming wrote:
->>> From: chunming <chunming.li@verisilicon.com>
->>>
->>> Replace "smmuv3_flush_config" with "g_hash_table_foreach_remove".
->> this replacement may have a potential negative impact on the
->> performance
->> for PCIe support, which is the main use case: a unique
->> g_hash_table_remove() is replaced by an iteration over all the config
->> hash keys.
->>
->> I wonder if you couldn't just adapt smmu_iommu_mr() and it case this
->> latter returns NULL for the current PCIe search, look up in the
->> platform
->> device list:
->>
->> peri_sdev_list?
-> I think there are 2 scenes:
-> 	1.  PCIe devices share same SID with peripheral devices.
->       2.  Multi peripheral devices share same SID.
-> If we search PCIe 1st then search peri_sdev_list, there are 2 problems:
->       1.  The code is complex.
->       2.  We may need to search peri_sdev_list multi times. It may has performance impact.
-why multiple times? 1st you look for a PCIe RID and then you look for
-platform devices? Still I am dubious about the duplicate streamid case.
-what I wanted to emphasize is at the moment I do not have a clear view
-about your use case and I don't want to degrade the perf of the main use
-case to support a yet to be defined one ;-)
->         
-> The CFGI commands are only called when the SMMU device is removed.
-> So we think there is no big performance impact.
 
-Nevertheless I think this is not a major issue indeed.
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Thanks
-
-Eric
->
->> Thanks
->>
->> Eric
->>
->>
->>
->>> "smmu_iommu_mr" function can't get MR according to SID for non
->> PCI/PCIe devices.
->>> Signed-off-by: chunming <chunming.li@verisilicon.com>
->>> ---
->>>  hw/arm/smmuv3.c              | 35 ++++++++++------------------------
->> -
->>>  include/hw/arm/smmu-common.h |  5 ++++-
->>>  2 files changed, 14 insertions(+), 26 deletions(-)
->>>
->>> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
->>> index 11d7fe8423..9f3f13fb8e 100644
->>> --- a/hw/arm/smmuv3.c
->>> +++ b/hw/arm/smmuv3.c
->>> @@ -613,14 +613,6 @@ static SMMUTransCfg
->> *smmuv3_get_config(SMMUDevice *sdev, SMMUEventInfo *event)
->>>      return cfg;
->>>  }
->>>
->>> -static void smmuv3_flush_config(SMMUDevice *sdev)
->>> -{
->>> -    SMMUv3State *s = sdev->smmu;
->>> -    SMMUState *bc = &s->smmu_state;
->>> -
->>> -    trace_smmuv3_config_cache_inv(smmu_get_sid(sdev));
->>> -    g_hash_table_remove(bc->configs, sdev);
->>> -}
->>>
->>>  static IOMMUTLBEntry smmuv3_translate(IOMMUMemoryRegion *mr, hwaddr
->> addr,
->>>                                        IOMMUAccessFlags flag, int
->> iommu_idx)
->>> @@ -964,22 +956,18 @@ static int smmuv3_cmdq_consume(SMMUv3State *s)
->>>          case SMMU_CMD_CFGI_STE:
->>>          {
->>>              uint32_t sid = CMD_SID(&cmd);
->>> -            IOMMUMemoryRegion *mr = smmu_iommu_mr(bs, sid);
->>> -            SMMUDevice *sdev;
->>> +            SMMUSIDRange sid_range;
->>>
->>>              if (CMD_SSEC(&cmd)) {
->>>                  cmd_error = SMMU_CERROR_ILL;
->>>                  break;
->>>              }
->>>
->>> -            if (!mr) {
->>> -                break;
->>> -            }
->>> -
->>> +            sid_range.start = sid;
->>> +            sid_range.end = sid;
->>>              trace_smmuv3_cmdq_cfgi_ste(sid);
->>> -            sdev = container_of(mr, SMMUDevice, iommu);
->>> -            smmuv3_flush_config(sdev);
->>> -
->>> +            g_hash_table_foreach_remove(bs->configs,
->> smmuv3_invalidate_ste,
->>> +                                        &sid_range);
->>>              break;
->>>          }
->>>          case SMMU_CMD_CFGI_STE_RANGE: /* same as SMMU_CMD_CFGI_ALL
->> */
->>> @@ -1006,21 +994,18 @@ static int smmuv3_cmdq_consume(SMMUv3State *s)
->>>          case SMMU_CMD_CFGI_CD_ALL:
->>>          {
->>>              uint32_t sid = CMD_SID(&cmd);
->>> -            IOMMUMemoryRegion *mr = smmu_iommu_mr(bs, sid);
->>> -            SMMUDevice *sdev;
->>> +            SMMUSIDRange sid_range;
->>>
->>>              if (CMD_SSEC(&cmd)) {
->>>                  cmd_error = SMMU_CERROR_ILL;
->>>                  break;
->>>              }
->>>
->>> -            if (!mr) {
->>> -                break;
->>> -            }
->>> -
->>> +            sid_range.start = sid;
->>> +            sid_range.end = sid;
->>>              trace_smmuv3_cmdq_cfgi_cd(sid);
->>> -            sdev = container_of(mr, SMMUDevice, iommu);
->>> -            smmuv3_flush_config(sdev);
->>> +            g_hash_table_foreach_remove(bs->configs,
->> smmuv3_invalidate_ste,
->>> +                                        &sid_range);
->>>              break;
->>>          }
->>>          case SMMU_CMD_TLBI_NH_ASID:
->>> diff --git a/include/hw/arm/smmu-common.h b/include/hw/arm/smmu-
->> common.h
->>> index 95cd12a4b5..d016455d80 100644
->>> --- a/include/hw/arm/smmu-common.h
->>> +++ b/include/hw/arm/smmu-common.h
->>> @@ -159,7 +159,10 @@ int smmu_ptw(SMMUTransCfg *cfg, dma_addr_t iova,
->> IOMMUAccessFlags perm,
->>>   */
->>>  SMMUTransTableInfo *select_tt(SMMUTransCfg *cfg, dma_addr_t iova);
->>>
->>> -/* Return the iommu mr associated to @sid, or NULL if none */
->>> +/**
->>> + * Return the iommu mr associated to @sid, or NULL if none
->>> + * Only for PCI device, check smmu_find_peri_sdev for non PCI/PCIe
->> device
->>> + */
->>>  IOMMUMemoryRegion *smmu_iommu_mr(SMMUState *s, uint32_t sid);
->>>
->>>  #define SMMU_IOTLB_MAX_SIZE 256
-
+-- 
+Best regards,
+Vladimir
 
