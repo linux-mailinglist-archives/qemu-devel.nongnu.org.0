@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FB9F3FD21C
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 06:22:24 +0200 (CEST)
-Received: from localhost ([::1]:59020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD2B63FD259
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 06:28:30 +0200 (CEST)
+Received: from localhost ([::1]:42934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLHlX-0000wP-5l
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 00:22:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36666)
+	id 1mLHrR-0000fW-TX
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 00:28:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mLHj2-0006VN-RS
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 00:19:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38827)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mLHjB-0006jq-Ey
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 00:19:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43013)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mLHiw-0001jT-B3
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 00:19:48 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mLHj7-0001yK-Mq
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 00:19:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630469980;
+ s=mimecast20190719; t=1630469992;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N7iWJX5rZcaKv3HDBPNmpCLRyD7YNvjEVi6LfD4Sk0c=;
- b=dlvuoYVZe0TF+F6m2M/0r2A8VIRzcXDT7CXpp/H2NySTN+HvK8KTnNMUVUyhp/dSVpMs9d
- 0OaMRhIDXUg/rJPLSR7BCKAQf1IVi0zYtt3/DtKaugMFyW/bsxrJ15UZr/F9gXawupcwH0
- 7zTZa42y4zBVdspE42puT3xmqovRwMw=
+ bh=yGdGZvxrYlY/3/cqMJj5yr6YPJrDB+CO8qjQORCnAl4=;
+ b=DyphrGL/rbu0HxMo/umI86kUuvJvnnD0FLnsgdLIpN0OO2OClxAENVRf19iDp7yq1HPZ1P
+ 4+styW3Po1H7cXPkUw1I/BiMCH9LTLBQ8DXDVERRYiskLiyIT4j9Sc03vrvqecEo+vXFp5
+ rmzRfGrAWSg/5nCheBVZbng+swT7STE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-jUh_jpxBNJSx4kcJ3lxNNA-1; Wed, 01 Sep 2021 00:19:38 -0400
-X-MC-Unique: jUh_jpxBNJSx4kcJ3lxNNA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-259-iT_Gkn0yOpO-JbbezCGSYA-1; Wed, 01 Sep 2021 00:19:51 -0400
+X-MC-Unique: iT_Gkn0yOpO-JbbezCGSYA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D8ED10509F6;
- Wed,  1 Sep 2021 04:19:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74736189C446;
+ Wed,  1 Sep 2021 04:19:49 +0000 (UTC)
 Received: from sirius.home.kraxel.org (unknown [10.39.192.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6869A6B541;
- Wed,  1 Sep 2021 04:19:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A3E471001281;
+ Wed,  1 Sep 2021 04:19:39 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6D5D718009F3; Wed,  1 Sep 2021 06:19:03 +0200 (CEST)
+ id 77FC818009F4; Wed,  1 Sep 2021 06:19:03 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/6] hw/display/xlnx_dp: fix an out-of-bounds read in
- xlnx_dp_read
-Date: Wed,  1 Sep 2021 06:19:02 +0200
-Message-Id: <20210901041903.3111086-6-kraxel@redhat.com>
+Subject: [PULL 6/6] hw/display/artist: Fix bug in coordinate extraction in
+ artist_vram_read() and artist_vram_write()
+Date: Wed,  1 Sep 2021 06:19:03 +0200
+Message-Id: <20210901041903.3111086-7-kraxel@redhat.com>
 In-Reply-To: <20210901041903.3111086-1-kraxel@redhat.com>
 References: <20210901041903.3111086-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.391, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,122 +81,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Qiang Liu <cyruscyliu@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Alistair Francis <alistair@alistair23.me>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, qemu-arm@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Helge Deller <deller@gmx.de>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ qemu-arm@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
  "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>, Sven Schnelle <svens@stackframe.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Qiang Liu <cyruscyliu@gmail.com>
+From: Helge Deller <deller@gmx.de>
 
-xlnx_dp_read allows an out-of-bounds read at its default branch because
-of an improper index.
+The CDE desktop on HP-UX 10 shows wrongly rendered pixels when the local screen
+menu is closed. This bug was introduced by commit c7050f3f167b
+("hw/display/artist: Refactor x/y coordination extraction") which converted the
+coordinate extraction in artist_vram_read() and artist_vram_write() to use the
+ADDR_TO_X and ADDR_TO_Y macros, but forgot to right-shift the address by 2 as
+it was done before.
 
-According to
-https://www.xilinx.com/html_docs/registers/ug1087/ug1087-zynq-ultrascale-registers.html
-(DP Module), registers 0x3A4/0x3A4/0x3AC are allowed.
-
-DP_INT_MASK     0x000003A4      32      mixed   0xFFFFF03F      Interrupt Mask Register for intrN.
-DP_INT_EN       0x000003A8      32      mixed   0x00000000      Interrupt Enable Register.
-DP_INT_DS       0x000003AC      32      mixed   0x00000000      Interrupt Disable Register.
-
-In xlnx_dp_write, when the offset is 0x3A8 and 0x3AC, the virtual device
-will write s->core_registers[0x3A4
->> 2]. That is to say, the maxize of s->core_registers could be ((0x3A4
->> 2) + 1). However, the current size of s->core_registers is (0x3AF >>
->> 2), that is ((0x3A4 >> 2) + 2), which is out of the range.
-In xlxn_dp_read, the access to offset 0x3A8 or 0x3AC will be directed to
-the offset 0x3A8 (incorrect functionality) or 0x3AC (out-of-bounds read)
-rather than 0x3A4.
-
-This patch enforces the read access to offset 0x3A8 and 0x3AC to 0x3A4,
-but does not adjust the size of s->core_registers to avoid breaking
-migration.
-
-Fixes: 58ac482a66de ("introduce xlnx-dp")
-Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Acked-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <1628059910-12060-1-git-send-email-cyruscyliu@gmail.com>
+Signed-off-by: Helge Deller <deller@gmx.de>
+Fixes: c7050f3f167b ("hw/display/artist: Refactor x/y coordination extraction")
+Cc: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Sven Schnelle <svens@stackframe.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <YK1aPb8keur9W7h2@ls3530>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/xlnx_dp.c            |  6 +++++-
- tests/qtest/fuzz-xlnx-dp-test.c | 33 +++++++++++++++++++++++++++++++++
- tests/qtest/meson.build         |  1 +
- 3 files changed, 39 insertions(+), 1 deletion(-)
- create mode 100644 tests/qtest/fuzz-xlnx-dp-test.c
+ hw/display/artist.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/display/xlnx_dp.c b/hw/display/xlnx_dp.c
-index 2bb7a5441ad1..9bb781e31254 100644
---- a/hw/display/xlnx_dp.c
-+++ b/hw/display/xlnx_dp.c
-@@ -714,7 +714,11 @@ static uint64_t xlnx_dp_read(void *opaque, hwaddr offset, unsigned size)
-         break;
-     default:
-         assert(offset <= (0x3AC >> 2));
--        ret = s->core_registers[offset];
-+        if (offset == (0x3A8 >> 2) || offset == (0x3AC >> 2)) {
-+            ret = s->core_registers[DP_INT_MASK];
-+        } else {
-+            ret = s->core_registers[offset];
-+        }
-         break;
+diff --git a/hw/display/artist.c b/hw/display/artist.c
+index aa7bd594aac0..21b7fd1b440e 100644
+--- a/hw/display/artist.c
++++ b/hw/display/artist.c
+@@ -1170,8 +1170,8 @@ static void artist_vram_write(void *opaque, hwaddr addr, uint64_t val,
      }
  
-diff --git a/tests/qtest/fuzz-xlnx-dp-test.c b/tests/qtest/fuzz-xlnx-dp-test.c
-new file mode 100644
-index 000000000000..69eb6c0eb104
---- /dev/null
-+++ b/tests/qtest/fuzz-xlnx-dp-test.c
-@@ -0,0 +1,33 @@
-+/*
-+ * QTest fuzzer-generated testcase for xlnx-dp display device
-+ *
-+ * Copyright (c) 2021 Qiang Liu <cyruscyliu@gmail.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "libqos/libqtest.h"
-+
-+/*
-+ * This used to trigger the out-of-bounds read in xlnx_dp_read
-+ */
-+static void test_fuzz_xlnx_dp_0x3ac(void)
-+{
-+    QTestState *s = qtest_init("-M xlnx-zcu102 -display none ");
-+    qtest_readl(s, 0xfd4a03ac);
-+    qtest_quit(s);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    const char *arch = qtest_get_arch();
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+   if (strcmp(arch, "aarch64") == 0) {
-+        qtest_add_func("fuzz/test_fuzz_xlnx_dp/3ac", test_fuzz_xlnx_dp_0x3ac);
-+   }
-+
-+   return g_test_run();
-+}
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 2bc3efd49f94..757bb8499a23 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -187,6 +187,7 @@ qtests_aarch64 = \
-    'numa-test',
-    'boot-serial-test',
-    'xlnx-can-test',
-+   'fuzz-xlnx-dp-test',
-    'migration-test']
+     buf = vram_write_buffer(s);
+-    posy = ADDR_TO_Y(addr);
+-    posx = ADDR_TO_X(addr);
++    posy = ADDR_TO_Y(addr >> 2);
++    posx = ADDR_TO_X(addr >> 2);
  
- qtests_s390x = \
+     if (!buf->size) {
+         return;
+@@ -1232,8 +1232,8 @@ static uint64_t artist_vram_read(void *opaque, hwaddr addr, unsigned size)
+         return 0;
+     }
+ 
+-    posy = ADDR_TO_Y(addr);
+-    posx = ADDR_TO_X(addr);
++    posy = ADDR_TO_Y(addr >> 2);
++    posx = ADDR_TO_X(addr >> 2);
+ 
+     if (posy > buf->height || posx > buf->width) {
+         return 0;
 -- 
 2.31.1
 
