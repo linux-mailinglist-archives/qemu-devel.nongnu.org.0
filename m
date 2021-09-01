@@ -2,137 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA423FD78F
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 12:21:41 +0200 (CEST)
-Received: from localhost ([::1]:37972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9A503FD79B
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 12:23:55 +0200 (CEST)
+Received: from localhost ([::1]:40496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLNND-0002A5-3w
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 06:21:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39810)
+	id 1mLNPO-0003sD-W2
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 06:23:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mLNLu-0001Gn-LY; Wed, 01 Sep 2021 06:20:18 -0400
-Received: from mail-eopbgr30105.outbound.protection.outlook.com
- ([40.107.3.105]:57265 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mLNOI-0002xZ-AS
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:22:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42743)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mLNLs-0007uM-0t; Wed, 01 Sep 2021 06:20:18 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RNmJuzGXgJK+Mw6wuHUQvTn3tqtrHJ0BZPNC3Au3zXnXt3cpz+8uQi4GdFEfyJn5HjrFty8/Y4W5GMaAaa3fS827FOpw218CiKyDcJC7ZmzP0yj+JNBs5UHE61QZAbj/qruaa5aoMmdu0LJboRs3Df5BBcG1ah8AcoqwplknoKRK7JmNcd07zlcYrKw71wCr/y1Pevu5M6vSJIgVBzrH0ydf86svikA5Md3xIAE4PUk3yr4wCqT5cjHjNm4MFhVH9PoKYhmh4wuUraCJrTI8MGjSDJEiSgvIioBwWP1/Y2SwB7FE2wgPuQuPW7AFYmABtcVl53RW5hQcfOFw39DkIw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dEoR2ZU8QuJ2ZyocPYIhdEHmL7g5r1wdcdfbOKAJeVE=;
- b=SHEnAaAMMSSfFgcvr4Kh1BGhF7zvyPjpau1sktCdOeaKM4LAQKfaY0nUIFqMwC5niFJWAZhVIEOygeRidKCmntwHSk286cnCmBlEyihdFRARRrRdxWEf2NwX5X2QBrWqt468Lv2WrJqfpVh1IE43aZjAKnMtctfsyU+0SAIVYRX6KyOb1+zy7+gHXzmX/nQ4XHwrdEDkG9wYf/eI1REB5PVuSBAFpMhsDu06IxaqR6CtEwo/PsJ5Bck+CjzzILfaxxhWSe5LDMKr6gCMUjy8meJqwwBLkf9ESYzYb0IWpqSp0Fq6BXYl4AEFfVIVc0M840cK51SSYhUBbosKtFRbYg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dEoR2ZU8QuJ2ZyocPYIhdEHmL7g5r1wdcdfbOKAJeVE=;
- b=RWh9jkiRNMXCA0ejmaOwvWNTBJuwg3W3aQ+5UpuMCj8itXZvZLALC0DT4XBlXrPZm1iozZSg5NL7Mttn69DM2dUha1fcDsK1dlMxXPlXhsoptIbJcp6jp/0fluGpMDyNiQwSqxhijHDe1jSS/ikQ6/rgVwwES+/82JP+4DD1HNg=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from VI1PR08MB5503.eurprd08.prod.outlook.com (2603:10a6:803:137::19)
- by VI1PR0801MB1872.eurprd08.prod.outlook.com (2603:10a6:800:86::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.20; Wed, 1 Sep
- 2021 10:20:11 +0000
-Received: from VI1PR08MB5503.eurprd08.prod.outlook.com
- ([fe80::2082:8a88:6ff1:2dd8]) by VI1PR08MB5503.eurprd08.prod.outlook.com
- ([fe80::2082:8a88:6ff1:2dd8%5]) with mapi id 15.20.4478.017; Wed, 1 Sep 2021
- 10:20:11 +0000
-Subject: Re: [PATCH for-6.2 v3 05/12] job: @force parameter for
- job_cancel_sync{,_all}()
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>
-References: <20210806093859.706464-1-mreitz@redhat.com>
- <20210806093859.706464-6-mreitz@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <efd845f6-e62a-88a1-2ef7-0960714ba63d@virtuozzo.com>
-Date: Wed, 1 Sep 2021 13:20:09 +0300
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mLNOE-0001ZS-Nc
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:22:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630491761;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Rqk3qf86v11TEchqVYui0pBzoVNYPyTYatwPcCTPRUQ=;
+ b=EkSK0wSGgijVtv1VSi7iTq9WoFSDuyj8ELHM4LS6yMllacqgwuV6Z3yKZPtdoNFXNwxdcz
+ gIR0Lg8DQWuOn1WPnkJC7kBWh7rg+c3YVuUOihnMhouuQ3gH4e1EyIK2gQ695BEJ8jaax+
+ 9viitsSyPXzA+Daf8RmtarPisK/335M=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-361-G-DiF9EnPCS0AA-bOxs2hQ-1; Wed, 01 Sep 2021 06:22:38 -0400
+X-MC-Unique: G-DiF9EnPCS0AA-bOxs2hQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ y188-20020a1c7dc5000000b002e80e0b2f87so2625470wmc.1
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 03:22:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=Rqk3qf86v11TEchqVYui0pBzoVNYPyTYatwPcCTPRUQ=;
+ b=hwKUaCNWg9oci/B/WB16dT8qrpCovC3npCsjgQdxeAnv6N53GCG3GCAqzdeigOl6Cg
+ qdW3QLt95Fv9a373TiaJ5i31y9tF0ru/wiJ+Vw79Hh4Ji+YjDh/WaigljVHJEFfab8Bg
+ ZT8BKE8U8LylKgyYXwaJO/OsP3TXDW4kppq6wDmuRIlT7OO84k+y8NdLX+K3JoSY7N/p
+ qchj/F6yOmNhcObVFPrmj4MN3W0gA1iWCXSp76kWozIKHGzOibndtTI9dSBI4IlKOAgC
+ ymrxzjwgKsjJ/tXMVKGq+e1j23BftCVw1b9vSL6RoWJUE1VX01TvR5kXFMrNV8YDv9G0
+ V0eA==
+X-Gm-Message-State: AOAM531lhHLnptndmj14bz6jUXylevGwc267QAcNdz1cDFGc52H6JRq9
+ ht/6G/emZMOOPn8QKgeP+FdorshlptzKD2MQA932OpWrRrGtbCJk6zV48qKiHo6iCMY0cnrxtPz
+ RaPmkylHo28nQ4S8=
+X-Received: by 2002:a1c:218b:: with SMTP id h133mr8818934wmh.18.1630491757512; 
+ Wed, 01 Sep 2021 03:22:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzjXyws3yVfBcDIoXSKCf7b7PuX5i4WQ8zMmMoQpX3QoHf135HiKbh/E9ZJ2ejPqQguY7egDA==
+X-Received: by 2002:a1c:218b:: with SMTP id h133mr8818906wmh.18.1630491757219; 
+ Wed, 01 Sep 2021 03:22:37 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id g1sm10088728wrc.65.2021.09.01.03.22.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Sep 2021 03:22:36 -0700 (PDT)
+Subject: Re: [PATCH v5 4/4] hw/arm/virt: Add PL330 DMA controller and connect
+ with SMMU v3
+To: "Li, Chunming" <Chunming.Li@verisilicon.com>,
+ chunming <chunming_li1234@163.com>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>
+References: <1629878922-173270-1-git-send-email-chunming_li1234@163.com>
+ <1629878922-173270-5-git-send-email-chunming_li1234@163.com>
+ <756203c3-76ec-62ea-beca-91a245059536@redhat.com>
+ <49C79B700B5D8F45B8EF0861B4EF3B3B0114302BA7@SHASXM03.verisilicon.com>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <4ba6223c-f239-ccd2-e4a8-eb912dd4fb58@redhat.com>
+Date: Wed, 1 Sep 2021 12:22:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <20210806093859.706464-6-mreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PR3P191CA0021.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:102:54::26) To VI1PR08MB5503.eurprd08.prod.outlook.com
- (2603:10a6:803:137::19)
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.196) by
- PR3P191CA0021.EURP191.PROD.OUTLOOK.COM (2603:10a6:102:54::26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4457.23 via Frontend Transport; Wed, 1 Sep 2021 10:20:10 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6dac254a-66f0-47fc-464d-08d96d32147b
-X-MS-TrafficTypeDiagnostic: VI1PR0801MB1872:
-X-Microsoft-Antispam-PRVS: <VI1PR0801MB18722CD41D0DEC4776451B78C1CD9@VI1PR0801MB1872.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qa+H4+zia3XHqyEWaPlUTauaFPryOGN6dquqzCRFDRKE3sLwBM86G1cjVQLjsb2lGP1En3Bu7uAqZZQqHy6kwCnK5e591L/kxZiG1qT9IYp/HJzO+zXkq7F/j14Net6jht6I5csNFdzEV1U2QyE5CLuAxgwreQ8VcuE+oTSywsee6UsLjwEDKCM09ythmIG4KY30SKWFZ/Ocu7YIiddqAZRVL1RGGAlTo0/v44EmUFQJxI+ozmCictHosRTzipLJjMq/VV0p3pQLOsODbPpLZvolJ9AgMtPWDOoA7RLlGq2ylCarjLTkB1fVEuwGzMbBwJawhMY+HqOW1iazEZhEd1e1SADpt7B+nmDyFt/yWYAYjBB4AVeWLEvXB/QCnC3XwlBYpzkpdPOtFZnCbaLRwbgT3pyhUeaCdvliXfNPSs4Br9z6+aBYiBbYU/TYhmVoqLbTNE1f6bXrlcpSiaFRJa+vCK/brplXqpjRtvoWEpUnnP9pSUYIJykNaX0f+Xe0HZXzsT9LTR9xdqxRr6WvGxhOx8fJLeQbnk6eUZfquMnNDBo80j48T2dAzfPRJ8yDjJ2QQDeCg2gY6mmtndtd8a5u0QHxrkZ+y9yrgYhQgjknZsa81I69e0Joh1W0dWg1qbZ7CRJEoQH8QS5KvrcU4bHD/AJab4zDtNd1ZYutdCn4GB5iF7Ccgs9rAQE+ToYzAItVPZ3C3hpL4UCqz+/C+0NZMbDk9rrrRIwbA97Mtw48YVOhYgCS4FDCJKGwDeFJe6ylMPRW+A1CEAIpawTCPaATYD8aKzh89o2Kvpj6/bzrd0v6HhSsA79g1uzANw2DZpubQIzguNcf9NABbyc/E8WPUW4pPibapIIPWWHiCQw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR08MB5503.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(956004)(16576012)(38100700002)(2616005)(38350700002)(316002)(86362001)(83380400001)(2906002)(36756003)(8676002)(26005)(6486002)(508600001)(31696002)(186003)(5660300002)(8936002)(66556008)(66476007)(52116002)(66946007)(4326008)(31686004)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QUdHRFRwa2xuUG1PRC84bS93c09rMlJPSVJ1UHlPa1hkY0tJTkVSQmtqOHV0?=
- =?utf-8?B?R1poNElYVldoRnI5c1o5b1lHa1J0MXFpc2s5LzUxZnpoZVNRWnlORTFjamtI?=
- =?utf-8?B?TUFNQlhrcVowTzJrWEZEQjB1VFdyQWtCcE8zcUIrY09NNmcyanN1cmhpWWFs?=
- =?utf-8?B?UmsyUmljWmQzRUVtOXFVK0h5UHQ1MGRWNGQvYzI3am5KUVlkMGNxVW1HTXFU?=
- =?utf-8?B?aEdFYkZ4VHkvbUZBNXRhZVlMUXowKzhHSDlENE43RU1BQnNVczVxVVY4MFJz?=
- =?utf-8?B?SDFTOEtYV3NSZTZtUkVqd3E5NStLMEZjTU9rTnpKeUhtU1FlYVo0OUZsL3Fi?=
- =?utf-8?B?TXE3Z2tzNnVrR1hJZGFZdE1tTjVyN09zTU0xNUQzS2JNMDVDcmNDTTQ0V2dO?=
- =?utf-8?B?eG1EK0lGK2hia05Fcm9QNHZGUUdSWkV6MGJlTnZTdTZCUklhOWpjeEViUHpj?=
- =?utf-8?B?ZWFmdjlhL2hmcm9YTVFzSjNDUTlSQndhbkdkYTRVT2dMT2dLTDh3UHdaWWFv?=
- =?utf-8?B?MmtFaHZROHZYc2pkdWZRN0QwaTJlN1J6Z3RhaGY0a2FvNlBpb2JOa05JS0pj?=
- =?utf-8?B?R09lUjE0dVB0ZnR2UXhuc2psbk4wUVNhMzExc1l5emc4UE9YUnAzZmZCS2Vz?=
- =?utf-8?B?RFgxT0p1dUNBTDFTV2Vkb3pSNU84WDVYbWw2dFZLUU1UdXZFRmhHb0FjWUcz?=
- =?utf-8?B?UGIySmhYaktwUmhzRmpqRDdXdmRHTnBqR1VBTjdlbStXU3J1NnVsUkloNzN2?=
- =?utf-8?B?RTlmNkUyZXJ0SU9CY0lDRnVUSDJrcWcrVzVnREltc3BXamJJWkU5YU5XTmpB?=
- =?utf-8?B?djlaeThhd09ZN2tOdTg3b240TWI1cDVrbmt4QVRPd2tkV1F0bWRwdU1XRzN1?=
- =?utf-8?B?bmlua1NWZHQ4ZSt3ZFc1VERyVDRLZzdFMDZ4S2Vya21CNCtjbmJSMUNKNGw1?=
- =?utf-8?B?VHREODk1c1RMbjBjWG9ITWhHVEJnNmgxTnlIMzZpbG5QVDhQZUpsWGw3N0N4?=
- =?utf-8?B?Z0I4NnpZSTk4Yi85aG1DV29Da2ZSU2diQmZhL3JGZEVQdDU0MEVla1ZBSVdX?=
- =?utf-8?B?eHlzNGhjQm9GUDFBRXYyNEZueUIrY01uK0tnT29DT3h6SzJwL2JnbU8yZWZw?=
- =?utf-8?B?L3Zzeld6U3RXN00xTUM3bnViYjBEMHBTVy9iZUtkZ200VmFXSzR4cU5jNWEw?=
- =?utf-8?B?SDIybHEwckZGMnNZZnVpTGVIcEQ3S2IzaWFrT2xlekF6SkNuSjJnQnA5YWNP?=
- =?utf-8?B?Q3hNV2VIUHBNQkluMGlnQVlUaVo1eXVzNTM5RmZmaHVidTNOYjlZTi8rM3Ns?=
- =?utf-8?B?VVRadVVlS240K1YwMHljbk5KN3lUZVN4Rlc1dWI2NjlKVVRqQjZFdFJmWEtK?=
- =?utf-8?B?RytVYmtXd0pxRVpaQUdYdS9oM1BtdEEwMFFsOHkrOXNOQ0d4c3BSNFBlYU16?=
- =?utf-8?B?QUpWWS9EZUZLQldCajJKZktpV28wdGpKZ1VDL1BsSThxS1M2ZFR0K0xITlJS?=
- =?utf-8?B?QzI3NjBhNHVheXNyd1VHZmJFeVNaODZHakFtR2pBUGJyTDBOZzRIdHUxZkxo?=
- =?utf-8?B?R2dTS2FDMXJ2QTVtbndKUnJzcWw0dlNZOUFLZThqTVJLdXVjVjJVcTR2UUl1?=
- =?utf-8?B?a0lyUWdyNG4wa0c2OUJOT3pOMlFwZG1CSm5mZ2pxWktlSTBoWjBxYTNqaVo2?=
- =?utf-8?B?Y1A2cGVjVzc4Yi9WVGRsNzA2T05odjNCUENYS0sxUXRZTmlJUFpvaFN5ekVS?=
- =?utf-8?Q?DA8ulxjLWsJ/OdhwCRRLwENWks3hRwyzbbHlw+U?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6dac254a-66f0-47fc-464d-08d96d32147b
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB5503.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2021 10:20:11.0505 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QZ8Vem7ZGds975A4VTXX0ivk3AkICzvWNn6xjiV7quGmLmNTeHzI3i9iaX1r+/NcbQ+Pl8M84w7l/jyIsYYV8JsNX+zyOST77Oazm1y4HHo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0801MB1872
-Received-SPF: pass client-ip=40.107.3.105;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-AM5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.932, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <49C79B700B5D8F45B8EF0861B4EF3B3B0114302BA7@SHASXM03.verisilicon.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.932, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -145,73 +106,255 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: eric.auger@redhat.com
+Cc: "Liu, Renwei" <Renwei.Liu@verisilicon.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Wen,
+ Jianxian" <Jianxian.Wen@verisilicon.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-06.08.2021 12:38, Max Reitz wrote:
-> Callers should be able to specify whether they want job_cancel_sync() to
-> force-cancel the job or not.
-> 
-> In fact, almost all invocations do not care about consistency of the
-> result and just want the job to terminate as soon as possible, so they
-> should pass force=true.  The replication block driver is the exception.
-> 
-> This changes some iotest outputs, because quitting qemu while a mirror
-> job is active will now lead to it being cancelled instead of completed,
-> which is what we want.  (Cancelling a READY mirror job with force=false
-> may take an indefinite amount of time, which we do not want when
-> quitting.  If users want consistent results, they must have all jobs be
-> done before they quit qemu.)
-> 
-> Buglink:https://gitlab.com/qemu-project/qemu/-/issues/462
-> Signed-off-by: Max Reitz<mreitz@redhat.com>
-> ---
->   include/qemu/job.h                    | 10 ++---
->   block/replication.c                   |  4 +-
->   blockdev.c                            |  4 +-
->   job.c                                 | 20 +++++++--
->   qemu-nbd.c                            |  2 +-
->   softmmu/runstate.c                    |  2 +-
->   storage-daemon/qemu-storage-daemon.c  |  2 +-
->   tests/unit/test-block-iothread.c      |  2 +-
->   tests/unit/test-blockjob.c            |  2 +-
->   tests/qemu-iotests/109.out            | 60 +++++++++++----------------
->   tests/qemu-iotests/tests/qsd-jobs.out |  2 +-
->   11 files changed, 55 insertions(+), 55 deletions(-)
-> 
-> diff --git a/include/qemu/job.h b/include/qemu/job.h
-> index 41162ed494..5e8edbc2c8 100644
-> --- a/include/qemu/job.h
-> +++ b/include/qemu/job.h
-> @@ -506,19 +506,19 @@ void job_user_cancel(Job *job, bool force, Error **errp);
->   
->   /**
->    * Synchronously cancel the @job.  The completion callback is called
-> - * before the function returns.  The job may actually complete
-> - * instead of canceling itself; the circumstances under which this
-> - * happens depend on the kind of job that is active.
-> + * before the function returns.  If @force is false, the job may
-> + * actually complete instead of canceling itself; the circumstances
-> + * under which this happens depend on the kind of job that is active.
->    *
->    * Returns the return value from the job if the job actually completed
->    * during the call, or -ECANCELED if it was canceled.
->    *
->    * Callers must hold the AioContext lock of job->aio_context.
->    */
-> -int job_cancel_sync(Job *job);
-> +int job_cancel_sync(Job *job, bool force);
->   
->   /** Synchronously cancels all jobs using job_cancel_sync(). */
-> -void job_cancel_sync_all(void);
-> +void job_cancel_sync_all(bool force);
+Hi,
 
-I think it would be better to keep job_cancel_sync_all(void) prototype and just change its behavior to do force-cancel. Anyway, this patch always pass true to it. And it would be strange to do soft-cancel-all, keeping in mind that soft cancelling only make sense for mirror in ready state.
+On 9/1/21 8:53 AM, Li, Chunming wrote:
+>
+>> -----Original Message-----
+>> From: Eric Auger [mailto:eric.auger@redhat.com]
+>> Sent: Tuesday, August 31, 2021 10:37 PM
+>> To: chunming; peter.maydell@linaro.org
+>> Cc: qemu-arm@nongnu.org; qemu-devel@nongnu.org; Wen, Jianxian; Liu,
+>> Renwei; Li, Chunming
+>> Subject: Re: [PATCH v5 4/4] hw/arm/virt: Add PL330 DMA controller and
+>> connect with SMMU v3
+>>
+>> Hi Chunming,
+>>
+>> On 8/25/21 10:08 AM, chunming wrote:
+>>> From: chunming <chunming.li@verisilicon.com>
+>>>
+>>> Add PL330 DMA controller to test SMMU v3 connection and function.
+>>> The default SID for PL330 is 1 but we test other values, it works
+>> well.
+>> Is it just a patch for testing or would you want this to be applied
+>> upstream too?
+> I want this to be applied upstream.
+Then I think you need to bring a proper motivation behind adding the
+PL330 in machvirt besides a testing purpose.
+>
+>> This static SID allocation may not work in general as it may collide
+>> with PCIe RID space?
+> I think SMMU support different devices connected with 1 SMMU and share same
+> SID, even one is PCIe device and another one is peripheral platform device.
+> They can share 1 SMMU page table and get right data translation.
 
-Anyway:
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Indeed I cannot find any statement that a streamid couldn't be used by
+more than 1 device behing the same smmu. However the 2 devices would be
+associated to the same context.
+I think this kind of mapping would be really platform specific and in
+general it does not make sense to me. what the point using the same
+context for the PL330 and a virtio-net-pci device for instance?
+>
+>> My feeling is if we want to enable platform device support in the
+>> SMMUv3
+>> this should work for all platform devices doing DMA accesses and not
+>> only for this PL330.
+> Yes, these patches could support other platform devices connected with SMMUv3.
+> They only should follow PL330 example to connect their memory region with SMMUv3
+> peripheral IOMMU memory region.
+>
+>> I guess this should work with virtio platform devices and VFIO platform
+>> devices. How would you extend that work to those devices?
+> I didn't get your point. 
+> I think virtio platform device should be Linux kernel SW part.
+> These patches fixed the HW platform devices connection with SMMUv3.
+> Could you help to list one virtio platform device then I can check?
+After this series you would get a single platform device connected to
+the SMMU, the PL330. What is the actual use case?
+By the way what about the virtio-iommu which is also supported in DT
+mode at the moment?
 
--- 
-Best regards,
-Vladimir
+Besides I meant virtio-net-pci and virtio-block-pci are protected by the
+SMMU. What does happen with their virtio-net-device and
+virtio-block-device sysbus device counterparts? Then possibly you can
+assign a VFIO platform device. You may want this latter to protected by
+the SMMU. How would you handle that case (SMMU is not yet integrated
+with VFIO but the virtio-iommu is).
+
+Thanks
+
+Eric
+>
+>> Thanks
+>>
+>> Eric
+>>> Signed-off-by: chunming <chunming.li@verisilicon.com>
+>>> ---
+>>>  hw/arm/virt.c         | 92
+>> ++++++++++++++++++++++++++++++++++++++++++-
+>>>  include/hw/arm/virt.h |  1 +
+>>>  2 files changed, 92 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+>>> index c3fd30e071..8180e4a331 100644
+>>> --- a/hw/arm/virt.c
+>>> +++ b/hw/arm/virt.c
+>>> @@ -143,6 +143,7 @@ static const MemMapEntry base_memmap[] = {
+>>>      [VIRT_GIC_REDIST] =         { 0x080A0000, 0x00F60000 },
+>>>      [VIRT_UART] =               { 0x09000000, 0x00001000 },
+>>>      [VIRT_RTC] =                { 0x09010000, 0x00001000 },
+>>> +    [VIRT_DMA] =                { 0x09011000, 0x00001000 },
+>>>      [VIRT_FW_CFG] =             { 0x09020000, 0x00000018 },
+>>>      [VIRT_GPIO] =               { 0x09030000, 0x00001000 },
+>>>      [VIRT_SECURE_UART] =        { 0x09040000, 0x00001000 },
+>>> @@ -188,6 +189,7 @@ static const int a15irqmap[] = {
+>>>      [VIRT_GPIO] = 7,
+>>>      [VIRT_SECURE_UART] = 8,
+>>>      [VIRT_ACPI_GED] = 9,
+>>> +    [VIRT_DMA] = 10,
+>>>      [VIRT_MMIO] = 16, /* ...to 16 + NUM_VIRTIO_TRANSPORTS - 1 */
+>>>      [VIRT_GIC_V2M] = 48, /* ...to 48 + NUM_GICV2M_SPIS - 1 */
+>>>      [VIRT_SMMU] = 74,    /* ...to 74 + NUM_SMMU_IRQS - 1 */
+>>> @@ -205,7 +207,7 @@ static const char *valid_cpus[] = {
+>>>  };
+>>>
+>>>  static const uint16_t smmuv3_sidmap[] = {
+>>> -
+>>> +    [VIRT_DMA] = 1,
+>>>  };
+>>>
+>>>  static bool cpu_type_valid(const char *cpu)
+>>> @@ -793,6 +795,92 @@ static void create_uart(const VirtMachineState
+>> *vms, int uart,
+>>>      g_free(nodename);
+>>>  }
+>>>
+>>> +static void create_dma(const VirtMachineState *vms)
+>>> +{
+>>> +    int i;
+>>> +    char *nodename;
+>>> +    hwaddr base = vms->memmap[VIRT_DMA].base;
+>>> +    hwaddr size = vms->memmap[VIRT_DMA].size;
+>>> +    int irq = vms->irqmap[VIRT_DMA];
+>>> +    int sid = vms->sidmap[VIRT_DMA];
+>>> +    const char compat[] = "arm,pl330\0arm,primecell";
+>>> +    const char irq_names[] =
+>> "abort\0dma0\0dma1\0dma2\0dma3\0dma4\0dma5\0dma6\0dma7";
+>>> +    DeviceState *dev;
+>>> +    MachineState *ms = MACHINE(vms);
+>>> +    SysBusDevice *busdev;
+>>> +    DeviceState *smmuv3_dev;
+>>> +    SMMUState *smmuv3_sys;
+>>> +    Object *smmuv3_memory;
+>>> +
+>>> +    dev = qdev_new("pl330");
+>>> +
+>>> +    if (vms->iommu == VIRT_IOMMU_SMMUV3 && vms->iommu_phandle) {
+>>> +        smmuv3_dev = vms->smmuv3;
+>>> +        smmuv3_sys = ARM_SMMU(smmuv3_dev);
+>>> +        g_autofree char *memname = g_strdup_printf("%s-peri-%d[0]",
+>>> +                                                   smmuv3_sys-
+>>> mrtypename,
+>>> +                                                   sid);
+>>> +
+>>> +        smmuv3_memory = object_property_get_link(OBJECT(smmuv3_dev),
+>>> +                                memname, &error_abort);
+>>> +
+>>> +        object_property_set_link(OBJECT(dev), "memory",
+>>> +                                 OBJECT(smmuv3_memory),
+>>> +                                 &error_fatal);
+>>> +    } else {
+>>> +        object_property_set_link(OBJECT(dev), "memory",
+>>> +                                 OBJECT(get_system_memory()),
+>>> +                                 &error_fatal);
+>>> +    }
+>>> +
+>>> +    qdev_prop_set_uint8(dev, "num_chnls",  8);
+>>> +    qdev_prop_set_uint8(dev, "num_periph_req",  4);
+>>> +    qdev_prop_set_uint8(dev, "num_events",  16);
+>>> +    qdev_prop_set_uint8(dev, "data_width",  64);
+>>> +    qdev_prop_set_uint8(dev, "wr_cap",  8);
+>>> +    qdev_prop_set_uint8(dev, "wr_q_dep",  16);
+>>> +    qdev_prop_set_uint8(dev, "rd_cap",  8);
+>>> +    qdev_prop_set_uint8(dev, "rd_q_dep",  16);
+>>> +    qdev_prop_set_uint16(dev, "data_buffer_dep",  256);
+>>> +
+>>> +    busdev = SYS_BUS_DEVICE(dev);
+>>> +    sysbus_realize_and_unref(busdev, &error_fatal);
+>>> +    sysbus_mmio_map(busdev, 0, base);
+>>> +
+>>> +    for (i = 0; i < 9; ++i) {
+>>> +        sysbus_connect_irq(busdev, i, qdev_get_gpio_in(vms->gic, irq
+>> + i));
+>>> +    }
+>>> +
+>>> +    nodename = g_strdup_printf("/pl330@%" PRIx64, base);
+>>> +    qemu_fdt_add_subnode(ms->fdt, nodename);
+>>> +    qemu_fdt_setprop(ms->fdt, nodename, "compatible", compat,
+>> sizeof(compat));
+>>> +    qemu_fdt_setprop_sized_cells(ms->fdt, nodename, "reg",
+>>> +                                 2, base, 2, size);
+>>> +    qemu_fdt_setprop_cells(ms->fdt, nodename, "interrupts",
+>>> +                    GIC_FDT_IRQ_TYPE_SPI, irq,
+>> GIC_FDT_IRQ_FLAGS_LEVEL_HI,
+>>> +                    GIC_FDT_IRQ_TYPE_SPI, irq + 1,
+>> GIC_FDT_IRQ_FLAGS_LEVEL_HI,
+>>> +                    GIC_FDT_IRQ_TYPE_SPI, irq + 2,
+>> GIC_FDT_IRQ_FLAGS_LEVEL_HI,
+>>> +                    GIC_FDT_IRQ_TYPE_SPI, irq + 3,
+>> GIC_FDT_IRQ_FLAGS_LEVEL_HI,
+>>> +                    GIC_FDT_IRQ_TYPE_SPI, irq + 4,
+>> GIC_FDT_IRQ_FLAGS_LEVEL_HI,
+>>> +                    GIC_FDT_IRQ_TYPE_SPI, irq + 5,
+>> GIC_FDT_IRQ_FLAGS_LEVEL_HI,
+>>> +                    GIC_FDT_IRQ_TYPE_SPI, irq + 6,
+>> GIC_FDT_IRQ_FLAGS_LEVEL_HI,
+>>> +                    GIC_FDT_IRQ_TYPE_SPI, irq + 7,
+>> GIC_FDT_IRQ_FLAGS_LEVEL_HI,
+>>> +                    GIC_FDT_IRQ_TYPE_SPI, irq + 8,
+>> GIC_FDT_IRQ_FLAGS_LEVEL_HI);
+>>> +
+>>> +    qemu_fdt_setprop(ms->fdt, nodename, "interrupt-names",
+>> irq_names,
+>>> +                     sizeof(irq_names));
+>>> +
+>>> +    qemu_fdt_setprop_cell(ms->fdt, nodename, "clocks", vms-
+>>> clock_phandle);
+>>> +    qemu_fdt_setprop_string(ms->fdt, nodename, "clock-names",
+>> "apb_pclk");
+>>> +
+>>> +    if (vms->iommu == VIRT_IOMMU_SMMUV3 && vms->iommu_phandle) {
+>>> +        qemu_fdt_setprop_cells(ms->fdt, nodename, "iommus",
+>>> +                               vms->iommu_phandle, sid);
+>>> +        qemu_fdt_setprop(ms->fdt, nodename, "dma-coherent", NULL,
+>> 0);
+>>> +    }
+>>> +
+>>> +    g_free(nodename);
+>>> +}
+>>>  static void create_rtc(const VirtMachineState *vms)
+>>>  {
+>>>      char *nodename;
+>>> @@ -2081,6 +2169,8 @@ static void machvirt_init(MachineState
+>> *machine)
+>>>      create_pcie(vms);
+>>>
+>>> +    create_dma(vms);
+>>> +
+>>>      if (has_ged && aarch64 && firmware_loaded &&
+>> virt_is_acpi_enabled(vms)) {
+>>>          vms->acpi_dev = create_acpi_ged(vms);
+>>>      } else {
+>>> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+>>> index d3402a43dd..f307b26587 100644
+>>> --- a/include/hw/arm/virt.h
+>>> +++ b/include/hw/arm/virt.h
+>>> @@ -72,6 +72,7 @@ enum {
+>>>      VIRT_UART,
+>>>      VIRT_MMIO,
+>>>      VIRT_RTC,
+>>> +    VIRT_DMA,
+>>>      VIRT_FW_CFG,
+>>>      VIRT_PCIE,
+>>>      VIRT_PCIE_MMIO,
+
 
