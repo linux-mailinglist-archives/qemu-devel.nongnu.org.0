@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEBA13FE00C
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:36:48 +0200 (CEST)
-Received: from localhost ([::1]:55600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9CD13FDFC4
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:22:57 +0200 (CEST)
+Received: from localhost ([::1]:40400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLTEF-0001CK-PT
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:36:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57454)
+	id 1mLT0q-00058z-QB
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:22:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mLSaY-0006QO-7s
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:55:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22294)
+ id 1mLSb6-0007Cv-Qt
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:56:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1mLSaW-0000xy-Nc
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:55:46 -0400
+ id 1mLSb4-0001Tc-5g
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:56:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630511743;
+ s=mimecast20190719; t=1630511777;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2305zQIEpVXdwyQqVLSOiznLrHv27qrxbDP/CU/s2Hc=;
- b=K6CFlJRnt6syoWxis+LV9SUs/gSkwcHp82ELl6GGL2bI6KGX1w0HDJcH0I8FZ09rEJudfg
- gtV+IEoZivNe1XLyGsivNWhdSJIBuQnj11QzOZFYP5sEz1RHRfBPZB+WOo+yvbMwrXB4a8
- yoivyA2Oh2OdWNhv8kCWlUMzvO6WO9Q=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386--3-wATqVNAmTFBGuc_d3iA-1; Wed, 01 Sep 2021 11:55:42 -0400
-X-MC-Unique: -3-wATqVNAmTFBGuc_d3iA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- x4-20020a50d9c4000000b003bed5199871so1504117edj.14
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 08:55:42 -0700 (PDT)
+ bh=z0aFnPPH6NOYwCPfU3HMSb3IusAfOepcKxZtm4vuGXg=;
+ b=Q8jetjEol6xZ10AKco1kE8yKjRhYswZVlOi2RYuNuAHdgijkhxLruyYyc921/FG2BzAPws
+ h1Verez8QNxRFAPqlSK5iEIc4BfhrtaAlKh9TCvrDIr7auTrbnY2YznWf7+RSjM8Z1ytXZ
+ TotaMvm2JEKsQMQmallcv0t9lVQ3G24=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-350-tUUYn3d-MlGIDedCmEr6_g-1; Wed, 01 Sep 2021 11:56:16 -0400
+X-MC-Unique: tUUYn3d-MlGIDedCmEr6_g-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ x4-20020a50d9c4000000b003bed5199871so1505018edj.14
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 08:56:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=2305zQIEpVXdwyQqVLSOiznLrHv27qrxbDP/CU/s2Hc=;
- b=SJD4SkkQc/rKPpfVXffcH4Vb0cPbFfb2VLgW48skm05hVr5B/j8vYS7/r9I0L7fXzI
- slqxyjWTuEQlp/dAfmxa9uss7VFCST8qxQ7L2l3UJpnoErYPUWakGl0eQQUTZlyGnhR6
- MoR4EC/SseNF6ZvviZ7v1ft46XRhdSiBaQRwiay3pcXPON5/SvRyAlPOqZkK9hvF7jhb
- iwqkziaCohVOkW4B/PGW7TtJAR1GpB01qdCPGs/2fkcZBk2KIj6gLpGjQS7yfrUBEHYb
- 9bkWJjaS7/YJWQ0L8Fal+NLS7Z/jUea0y2kVRrTD68E+aTd98K0v5sWjPyGsiwaRTcnj
- YedA==
-X-Gm-Message-State: AOAM533cshnMZByV7pQBMGUmSmlWoc5rOfX8P/OtbcT6NLI+fyVPDHKP
- 0srj5kRNCIPt6ZRuAW2y4KzjjQtiVIvTOc8DcUZvU3t0fbCXDjV0sNMrptfuJk2PUmHzLe9VQAc
- p5br/cuOreTFeiNg=
-X-Received: by 2002:a17:906:8281:: with SMTP id
- h1mr148966ejx.352.1630511741620; 
- Wed, 01 Sep 2021 08:55:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzSZy29T1PKdA8Qz13Wr0L+jfKk3+UjDwNIm5oT8AXAk6cLQoQgdv+XHUGkXnGtpeEvB7c4BQ==
-X-Received: by 2002:a17:906:8281:: with SMTP id
- h1mr148940ejx.352.1630511741362; 
- Wed, 01 Sep 2021 08:55:41 -0700 (PDT)
+ bh=z0aFnPPH6NOYwCPfU3HMSb3IusAfOepcKxZtm4vuGXg=;
+ b=ZbWtR9cuREGW9WYQcecHKPXBn1cwE+eegnBph/p2eoOhPQIsBbYAlO2g6+ZFM4BwXz
+ U0PdnlL5cyu7NK/1jv4NDeq+lUlkM3hgMRjs582NZet3BG2334oIKcglCbq0LPWXjePK
+ 6B6+sjUdStQ00J2Da4BqfGLAoS81RgJ6fYUvPpGqJG0CL7SXYE0/YjByDWbJh4jk52Ay
+ Brc8bTXvqGjmFYM4YyvBEZRf1TNydZUusVAG97gMX8hVLFEs8wZISneR0qagVsKEgHf8
+ FiZV1AZAfkH4OXPmSiHi49rg4dr9U1yFxMnfK5rvPVkPw7Y4cgmlM5IdFajpcyloAA4h
+ BqTw==
+X-Gm-Message-State: AOAM533ud+8/FYFnMSzlTkYPWu9ZI/A9309+zs00ZOzqOvHK5uNF8TF2
+ yblQAnTX+7u6EpaGrVgofhzSyOhDPQ/MqGf8bLoGx0/E3wn9CZX4cqNCtqfKCnHWT9LbcnCubJv
+ vR7FxpUN8bjSYavU=
+X-Received: by 2002:a17:906:4e11:: with SMTP id
+ z17mr90179eju.483.1630511775415; 
+ Wed, 01 Sep 2021 08:56:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwm3Qp3jS2tM+3WVJxSe4bwJ4n+bEI/BNVmohBse/EtNv+HyNjxKZWPrG1aFCSwrMYu8TxtCg==
+X-Received: by 2002:a17:906:4e11:: with SMTP id
+ z17mr90167eju.483.1630511775285; 
+ Wed, 01 Sep 2021 08:56:15 -0700 (PDT)
 Received: from steredhat (host-79-51-2-59.retail.telecomitalia.it.
  [79.51.2.59])
- by smtp.gmail.com with ESMTPSA id b2sm39118ejj.124.2021.09.01.08.55.40
+ by smtp.gmail.com with ESMTPSA id q11sm37001edv.73.2021.09.01.08.56.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 08:55:40 -0700 (PDT)
-Date: Wed, 1 Sep 2021 17:55:38 +0200
+ Wed, 01 Sep 2021 08:56:14 -0700 (PDT)
+Date: Wed, 1 Sep 2021 17:56:12 +0200
 From: Stefano Garzarella <sgarzare@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [RFC PATCH 3/3] hw/virtio: Have virtqueue_get_avail_bytes() pass
- caches arg to callees
-Message-ID: <20210901155538.vbtxakrtbjwon3pt@steredhat>
+Subject: Re: [PATCH 1/3] hw/virtio: Document virtio_queue_packed_empty_rcu is
+ called within RCU
+Message-ID: <20210901155612.gfgma6zeqcclamtj@steredhat>
 References: <20210826172658.2116840-1-philmd@redhat.com>
- <20210826172658.2116840-4-philmd@redhat.com>
+ <20210826172658.2116840-2-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210826172658.2116840-4-philmd@redhat.com>
+In-Reply-To: <20210826172658.2116840-2-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -107,129 +107,34 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 26, 2021 at 07:26:58PM +0200, Philippe Mathieu-Daudé wrote:
->Both virtqueue_packed_get_avail_bytes() and
->virtqueue_split_get_avail_bytes() access the region cache, but
->their caller also does. Simplify by having virtqueue_get_avail_bytes
->calling both with RCU lock held, and passing the caches as argument.
+On Thu, Aug 26, 2021 at 07:26:56PM +0200, Philippe Mathieu-Daudé wrote:
+>While virtio_queue_packed_empty_rcu() uses the '_rcu' suffix,
+>it is not obvious it is called within rcu_read_lock(). All other
+>functions from this file called with the RCU locked have a comment
+>describing it. Document this one similarly for consistency.
 >
 >Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 >---
->RFC because I'm not sure this is safe enough
-
-It seems safe to me.
-
-While reviewing I saw that vring_get_region_caches() has
-/* Called within rcu_read_lock().  */ comment, but it seems to me that 
-we call that function in places where we haven't acquired it, which 
-shouldn't be a problem, but should we remove that comment?
-
-Thanks,
-Stefano
-
->---
-> hw/virtio/virtio.c | 29 ++++++++++++-----------------
-> 1 file changed, 12 insertions(+), 17 deletions(-)
+> hw/virtio/virtio.c | 1 +
+> 1 file changed, 1 insertion(+)
 >
 >diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
->index 3a1f6c520cb..8237693a567 100644
+>index 874377f37a7..a5214bca612 100644
 >--- a/hw/virtio/virtio.c
 >+++ b/hw/virtio/virtio.c
->@@ -984,28 +984,23 @@ static int virtqueue_split_read_next_desc(VirtIODevice *vdev, VRingDesc *desc,
->     return VIRTQUEUE_READ_DESC_MORE;
+>@@ -634,6 +634,7 @@ static int virtio_queue_split_empty(VirtQueue *vq)
+>     return empty;
 > }
 >
 >+/* Called within rcu_read_lock().  */
-> static void virtqueue_split_get_avail_bytes(VirtQueue *vq,
->                             unsigned int *in_bytes, unsigned int *out_bytes,
->-                            unsigned max_in_bytes, unsigned max_out_bytes)
->+                            unsigned max_in_bytes, unsigned max_out_bytes,
->+                            VRingMemoryRegionCaches *caches)
+> static int virtio_queue_packed_empty_rcu(VirtQueue *vq)
 > {
->     VirtIODevice *vdev = vq->vdev;
->     unsigned int max, idx;
->     unsigned int total_bufs, in_total, out_total;
->-    VRingMemoryRegionCaches *caches;
->     MemoryRegionCache indirect_desc_cache = MEMORY_REGION_CACHE_INVALID;
->     int64_t len = 0;
->     int rc;
->
->-    RCU_READ_LOCK_GUARD();
->-
->     idx = vq->last_avail_idx;
->     total_bufs = in_total = out_total = 0;
->
->     max = vq->vring.num;
->-    caches = vring_get_region_caches(vq);
->-    if (!caches) {
->-        goto err;
->-    }
->
->     while ((rc = virtqueue_num_heads(vq, idx)) > 0) {
->         MemoryRegionCache *desc_cache = &caches->desc;
->@@ -1124,32 +1119,28 @@ static int virtqueue_packed_read_next_desc(VirtQueue *vq,
->     return VIRTQUEUE_READ_DESC_MORE;
-> }
->
->+/* Called within rcu_read_lock().  */
-> static void virtqueue_packed_get_avail_bytes(VirtQueue *vq,
->                                              unsigned int *in_bytes,
->                                              unsigned int *out_bytes,
->                                              unsigned max_in_bytes,
->-                                             unsigned max_out_bytes)
->+                                             unsigned max_out_bytes,
->+                                             VRingMemoryRegionCaches *caches)
-> {
->     VirtIODevice *vdev = vq->vdev;
->     unsigned int max, idx;
->     unsigned int total_bufs, in_total, out_total;
->     MemoryRegionCache *desc_cache;
->-    VRingMemoryRegionCaches *caches;
->     MemoryRegionCache indirect_desc_cache = MEMORY_REGION_CACHE_INVALID;
->     int64_t len = 0;
->     VRingPackedDesc desc;
->     bool wrap_counter;
->
->-    RCU_READ_LOCK_GUARD();
->     idx = vq->last_avail_idx;
->     wrap_counter = vq->last_avail_wrap_counter;
->     total_bufs = in_total = out_total = 0;
->
->     max = vq->vring.num;
->-    caches = vring_get_region_caches(vq);
->-    if (!caches) {
->-        goto err;
->-    }
->
->     for (;;) {
->         unsigned int num_bufs = total_bufs;
->@@ -1250,6 +1241,8 @@ void virtqueue_get_avail_bytes(VirtQueue *vq, unsigned int *in_bytes,
->     uint16_t desc_size;
->     VRingMemoryRegionCaches *caches;
->
->+    RCU_READ_LOCK_GUARD();
->+
->     if (unlikely(!vq->vring.desc)) {
->         goto err;
->     }
->@@ -1268,10 +1261,12 @@ void virtqueue_get_avail_bytes(VirtQueue *vq, unsigned int *in_bytes,
->
->     if (virtio_vdev_has_feature(vq->vdev, VIRTIO_F_RING_PACKED)) {
->         virtqueue_packed_get_avail_bytes(vq, in_bytes, out_bytes,
->-                                         max_in_bytes, max_out_bytes);
->+                                         max_in_bytes, max_out_bytes,
->+                                         caches);
->     } else {
->         virtqueue_split_get_avail_bytes(vq, in_bytes, out_bytes,
->-                                        max_in_bytes, max_out_bytes);
->+                                        max_in_bytes, max_out_bytes,
->+                                        caches);
->     }
->
->     return;
+>     struct VRingPackedDesc desc;
 >-- 
 >2.31.1
 >
 >
+
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
 
