@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B43D83FD3F2
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 08:46:17 +0200 (CEST)
-Received: from localhost ([::1]:51796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 667903FD407
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 08:54:08 +0200 (CEST)
+Received: from localhost ([::1]:56648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLK0m-0005ye-Rm
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 02:46:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54244)
+	id 1mLK8K-00010m-DD
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 02:54:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mLJzM-0004xZ-PY
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 02:44:48 -0400
-Received: from 7.mo52.mail-out.ovh.net ([188.165.59.253]:53319)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mLJzK-00011Z-M1
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 02:44:48 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.141])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 0AD9D294B8C;
- Wed,  1 Sep 2021 08:44:42 +0200 (CEST)
-Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 1 Sep
- 2021 08:44:42 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R001b2900c0a-3fc1-4ad3-a5f9-9fe606980e89,
- 5EBA00A5E723AF1D17FBD8632F6684B6834AEADC) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PATCH 0/1] hw/arm/aspeed: Allow machine to set serial_hd(0)
-To: <pdel@fb.com>
-References: <20210831233140.2659116-1-pdel@fb.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <af023c9a-8ec5-27ec-9055-089969c88d1a@kaod.org>
-Date: Wed, 1 Sep 2021 08:44:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210831233140.2659116-1-pdel@fb.com>
+ (Exim 4.90_1) (envelope-from <Chunming.Li@verisilicon.com>)
+ id 1mLK5q-00071c-IB; Wed, 01 Sep 2021 02:51:30 -0400
+Received: from shasxm06.verisilicon.com ([101.89.135.45]:56961
+ helo=shasxm03.verisilicon.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <Chunming.Li@verisilicon.com>)
+ id 1mLK5l-0006Xh-Gf; Wed, 01 Sep 2021 02:51:30 -0400
+Content-Language: zh-CN
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 11fc943b-df1c-415b-b951-ed220c56ef06
-X-Ovh-Tracer-Id: 2403233355025582956
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddvvddgudduudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefgvdetkeduffeuvdelheektdetteelhedtvddtvefhteeuffejfeeltedvhefgheenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepphguvghlsehfsgdrtghomh
-Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
- helo=7.mo52.mail-out.ovh.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: base64
+DKIM-Signature: v=1; a=rsa-sha256; d=Verisilicon.com; s=default;
+ c=simple/simple; t=1630479071; h=from:subject:to:date:message-id;
+ bh=wqV2RxxdVnu89K6LxBJxOZxGYYonF9qd+o6oC0fPPvQ=;
+ b=aQYJSBb3eY7D/sI8QDxlVXYvwak4ru4CcmUzm+hjVV9mvTwPboPcW5EdCZ0qsc289XJslrl/i/x
+ upnyaBwVhlbSQAA43JfouI2Gh0LoKnGkP+P31aUfl1XL8qOjNUYc8DTTpiBxUnoqoHqE+f/zANvKa
+ iOoUAIY/GN6Q1Ba5Rtk=
+Received: from SHASXM03.verisilicon.com ([fe80::938:4dda:a2f9:38aa]) by
+ SHASXM06.verisilicon.com ([fe80::59a8:ce34:dc14:ddda%16]) with mapi id
+ 14.03.0408.000; Wed, 1 Sep 2021 14:51:11 +0800
+From: "Li, Chunming" <Chunming.Li@verisilicon.com>
+To: "eric.auger@redhat.com" <eric.auger@redhat.com>, chunming
+ <chunming_li1234@163.com>, "peter.maydell@linaro.org"
+ <peter.maydell@linaro.org>
+Subject: RE: [PATCH v5 1/4] hw/arm/smmuv3: Support non PCI/PCIe device
+ connect with SMMU v3
+Thread-Topic: [PATCH v5 1/4] hw/arm/smmuv3: Support non PCI/PCIe device
+ connect with SMMU v3
+Thread-Index: AQHXmYiKAv0WlrT3nUGzSw6tLzjnwKuNKE6AgAGd/bA=
+Date: Wed, 1 Sep 2021 06:51:09 +0000
+Message-ID: <49C79B700B5D8F45B8EF0861B4EF3B3B0114302B85@SHASXM03.verisilicon.com>
+References: <1629878922-173270-1-git-send-email-chunming_li1234@163.com>
+ <1629878922-173270-2-git-send-email-chunming_li1234@163.com>
+ <3730a403-5144-b743-06f9-90faa45e20a4@redhat.com>
+In-Reply-To: <3730a403-5144-b743-06f9-90faa45e20a4@redhat.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.10.44.37]
+x-tm-as-product-ver: SMEX-11.0.0.4179-8.100.1062-25628.004
+x-tm-as-result: No--24.854700-0.000000-31
+x-tm-as-user-approved-sender: Yes
+x-tm-as-user-blocked-sender: No
+MIME-Version: 1.0
+Received-SPF: pass client-ip=101.89.135.45;
+ envelope-from=Chunming.Li@verisilicon.com; helo=shasxm03.verisilicon.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.932,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,72 +74,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, andrew@aj.id.au,
- qemu-devel@nongnu.org, f4bug@amsat.org, patrick@stwcx.xyz, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>
+Cc: "Liu, Renwei" <Renwei.Liu@verisilicon.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Wen,
+ Jianxian" <Jianxian.Wen@verisilicon.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/1/21 1:31 AM, pdel@fb.com wrote:
-> From: Peter Delevoryas <pdel@fb.com>
-> 
-> This is a follow-up to a discussion in a previous series I sent:
-> 
-> https://lore.kernel.org/qemu-devel/20210827210417.4022054-1-pdel@fb.com/
-> 
-> I tried to add a new machine type called Fuji that required the ability
-> to specify the UART connected to the first serial device on the command
-> line (serial_hd(0)).
-> 
-> After some discussion, we concluded that we could add a serial_dev
-> option to the machine class and the SoC to support this:
-> 
-> https://lore.kernel.org/qemu-devel/a802ecb1-aa49-fd4c-5bd2-2bb19af56ac9@kaod.org/
-> 
-> I didn't follow Cedric's advice _exactly_, so let me know if you have
-> suggestions. I used "uint32_t serial_hd0", because I think it more
-> clearly indicates that this is the device to connect to the first serial
-> device, serial_hd(0).
-
-I don't have a strong opinion on the name but it is part of the user
-API and can be set from the command line  : 
-
-  -global driver=ast2600-a3,property=serial-hd0,value=5
-
-I would prefer something like "uart-default" which makes more sense.
-
-> Also, I didn't know how to transfer data from the machine class to the
-> device state, so I just added the attribute to the machine class and
-> used 'qdev_get_machine' to within aspeed_soc_realize() based on some
-> code I found in hw/ppc/spapr_cpu_core.c. 
-
-This is called from the reset execution path which is a bit special.
-The use of qdev_get_machine() should be avoided when possible. 
-
-> I expect that I'm missing
-> something, I've just been having some trouble figuring out the QEMU
-> object model.
-
-Look at the "dram" property of the SoC.
-
-Thanks,
-
-C. 
-
-> If this patch is accepted, I can follow-up with another patch adding the
-> fuji machine type with "serial_hd0 = ASPEED_DEV_UART1".
-> 
-> Thanks,
-> Peter
-> 
-> Peter Delevoryas (1):
->   hw/arm/aspeed: Allow machine to set serial_hd(0)
-> 
->  hw/arm/aspeed.c         |  1 +
->  hw/arm/aspeed_ast2600.c | 11 +++++++----
->  hw/arm/aspeed_soc.c     |  9 ++++++---
->  include/hw/arm/aspeed.h |  1 +
->  4 files changed, 15 insertions(+), 7 deletions(-)
-> 
-
+DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEVyaWMgQXVnZXIgW21haWx0
+bzplcmljLmF1Z2VyQHJlZGhhdC5jb21dDQo+IFNlbnQ6IFR1ZXNkYXksIEF1Z3VzdCAzMSwgMjAy
+MSAxMDowMiBQTQ0KPiBUbzogY2h1bm1pbmc7IHBldGVyLm1heWRlbGxAbGluYXJvLm9yZw0KPiBD
+YzogcWVtdS1hcm1Abm9uZ251Lm9yZzsgcWVtdS1kZXZlbEBub25nbnUub3JnOyBXZW4sIEppYW54
+aWFuOyBMaXUsDQo+IFJlbndlaTsgTGksIENodW5taW5nDQo+IFN1YmplY3Q6IFJlOiBbUEFUQ0gg
+djUgMS80XSBody9hcm0vc21tdXYzOiBTdXBwb3J0IG5vbiBQQ0kvUENJZSBkZXZpY2UNCj4gY29u
+bmVjdCB3aXRoIFNNTVUgdjMNCj4gDQo+IEhpIENodW5taW5nLA0KPiANCj4gT24gOC8yNS8yMSAx
+MDowOCBBTSwgY2h1bm1pbmcgd3JvdGU6DQo+ID4gRnJvbTogY2h1bm1pbmcgPGNodW5taW5nLmxp
+QHZlcmlzaWxpY29uLmNvbT4NCj4gPg0KPiA+ICAgLiBBZGQgc2lkLW1hcCBwcm9wZXJ0eSB0byBz
+dG9yZSBub24gUENJL1BDSWUgZGV2aWNlcyBTSUQNCj4gPiAgIC4gQ3JlYXRlIElPTU1VIG1lbW9y
+eSByZWdpb25zIGZvciBub24gUENJL1BDSWUgZGV2aWNlcyBiYXNlZCBvbg0KPiB0aGVpciBTSUQN
+Cj4gPiAgIC4gVXBkYXRlIFNJRCBnZXR0aW5nIHN0cmF0ZWd5IGZvciBQQ0kvUENJZSBhbmQgbm9u
+IFBDSS9QQ0llIGRldmljZXMNCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IGNodW5taW5nIDxjaHVu
+bWluZy5saUB2ZXJpc2lsaWNvbi5jb20+DQo+ID4gLS0tDQo+ID4gIGh3L2FybS9zbW11djMuYyAg
+ICAgICAgICAgICAgfCA0Ng0KPiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysN
+Cj4gPiAgaW5jbHVkZS9ody9hcm0vc21tdS1jb21tb24uaCB8ICA3ICsrKysrLQ0KPiA+ICBpbmNs
+dWRlL2h3L2FybS9zbW11djMuaCAgICAgIHwgIDIgKysNCj4gPiAgMyBmaWxlcyBjaGFuZ2VkLCA1
+NCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvaHcv
+YXJtL3NtbXV2My5jIGIvaHcvYXJtL3NtbXV2My5jDQo+ID4gaW5kZXggMDFiNjBiZWU0OS4uMTFk
+N2ZlODQyMyAxMDA2NDQNCj4gPiAtLS0gYS9ody9hcm0vc21tdXYzLmMNCj4gPiArKysgYi9ody9h
+cm0vc21tdXYzLmMNCj4gPiBAQCAtMzIsNiArMzIsNyBAQA0KPiA+ICAjaW5jbHVkZSAiaHcvYXJt
+L3NtbXV2My5oIg0KPiA+ICAjaW5jbHVkZSAic21tdXYzLWludGVybmFsLmgiDQo+ID4gICNpbmNs
+dWRlICJzbW11LWludGVybmFsLmgiDQo+ID4gKyNpbmNsdWRlICJody9xZGV2LXByb3BlcnRpZXMu
+aCINCj4gPg0KPiA+ICAvKioNCj4gPiAgICogc21tdXYzX3RyaWdnZXJfaXJxIC0gcHVsc2UgQGly
+cSBpZiBlbmFibGVkIGFuZCB1cGRhdGUNCj4gPiBAQCAtMTQzMCw2ICsxNDMxLDE5IEBAIHN0YXRp
+YyB2b2lkIHNtbXVfcmVzZXQoRGV2aWNlU3RhdGUgKmRldikNCj4gPiAgICAgIHNtbXV2M19pbml0
+X3JlZ3Mocyk7DQo+ID4gIH0NCj4gPg0KPiA+ICtzdGF0aWMgU01NVURldmljZSAqc21tdV9maW5k
+X3Blcmlfc2RldihTTU1VU3RhdGUgKnMsIHVpbnQxNl90IHNpZCkNCj4gPiArew0KPiA+ICsgICAg
+U01NVURldmljZSAqc2RldjsNCj4gPiArDQo+ID4gKyAgICBRTElTVF9GT1JFQUNIKHNkZXYsICZz
+LT5wZXJpX3NkZXZfbGlzdCwgbmV4dCkgew0KPiA+ICsgICAgICAgIGlmIChzbW11X2dldF9zaWQo
+c2RldikgPT0gc2lkKSB7DQo+ID4gKyAgICAgICAgICAgIHJldHVybiBzZGV2Ow0KPiA+ICsgICAg
+ICAgIH0NCj4gPiArICAgIH0NCj4gPiArDQo+ID4gKyAgICByZXR1cm4gTlVMTDsNCj4gPiArfQ0K
+PiA+ICsNCj4gPiAgc3RhdGljIHZvaWQgc21tdV9yZWFsaXplKERldmljZVN0YXRlICpkLCBFcnJv
+ciAqKmVycnApDQo+ID4gIHsNCj4gPiAgICAgIFNNTVVTdGF0ZSAqc3lzID0gQVJNX1NNTVUoZCk7
+DQo+ID4gQEAgLTE0MzcsNiArMTQ1MSw5IEBAIHN0YXRpYyB2b2lkIHNtbXVfcmVhbGl6ZShEZXZp
+Y2VTdGF0ZSAqZCwgRXJyb3INCj4gKiplcnJwKQ0KPiA+ICAgICAgU01NVXYzQ2xhc3MgKmMgPSBB
+Uk1fU01NVVYzX0dFVF9DTEFTUyhzKTsNCj4gPiAgICAgIFN5c0J1c0RldmljZSAqZGV2ID0gU1lT
+X0JVU19ERVZJQ0UoZCk7DQo+ID4gICAgICBFcnJvciAqbG9jYWxfZXJyID0gTlVMTDsNCj4gPiAr
+ICAgIFNNTVVEZXZpY2UgKnNkZXY7DQo+ID4gKyAgICBjaGFyICpuYW1lID0gTlVMTDsNCj4gPiAr
+ICAgIHVpbnQxNl90IHNpZCA9IDA7DQo+ID4NCj4gPiAgICAgIGMtPnBhcmVudF9yZWFsaXplKGQs
+ICZsb2NhbF9lcnIpOw0KPiA+ICAgICAgaWYgKGxvY2FsX2Vycikgew0KPiA+IEBAIC0xNDU0LDYg
+KzE0NzEsMjggQEAgc3RhdGljIHZvaWQgc21tdV9yZWFsaXplKERldmljZVN0YXRlICpkLCBFcnJv
+cg0KPiAqKmVycnApDQo+ID4gICAgICBzeXNidXNfaW5pdF9tbWlvKGRldiwgJnN5cy0+aW9tZW0p
+Ow0KPiA+DQo+ID4gICAgICBzbW11X2luaXRfaXJxKHMsIGRldik7DQo+ID4gKw0KPiA+ICsgICAg
+LyogQ3JlYXRlIElPTU1VIG1lbW9yeSByZWdpb24gZm9yIHBlcmlwaGVyYWwgZGV2aWNlcyBiYXNl
+ZCBvbg0KPiB0aGVpciBTSUQgKi8NCj4gcy9wZXJpcGhlcmFsIGRldmljZXMvcGxhdGZvcm0gZGV2
+aWNlcz8gSSB3b3VsZCBzdWdnZXN0IHRvIHJlbmFtZSB0aGUNCj4gZmllbGRzIGNvbnRhaW5lZCAn
+cGVyaScgdG9vLg0KDQpHb3QgaXQuIFdpbGwgcmVuYW1lIHNpZF9tYXAgLT4gcGVyaV9zaWRfbWFw
+LCBudW1fc2lkIC0+IHBlcmlfbnVtX3NpZCBpbiBuZXh0IHZlcnNpb24uDQoNCj4gPiArICAgIGZv
+ciAoaW50IGkgPSAwOyBpIDwgcy0+bnVtX3NpZDsgaSsrKSB7DQo+ID4gKyAgICAgICAgc2lkID0g
+cy0+c2lkX21hcFtpXTsNCj4gPiArICAgICAgICBzZGV2ID0gc21tdV9maW5kX3Blcmlfc2Rldihz
+eXMsIHNpZCk7DQo+ID4gKyAgICAgICAgaWYgKHNkZXYpIHsNCj4gPiArICAgICAgICAgICAgY29u
+dGludWU7DQo+ID4gKyAgICAgICAgfQ0KPiA+ICsNCj4gPiArICAgICAgICBzZGV2ID0gZ19uZXcw
+KFNNTVVEZXZpY2UsIDEpOw0KPiA+ICsgICAgICAgIHNkZXYtPnNtbXUgPSBzeXM7DQo+ID4gKyAg
+ICAgICAgc2Rldi0+YnVzID0gTlVMTDsNCj4gPiArICAgICAgICBzZGV2LT5kZXZmbiA9IHNpZDsN
+Cj4gPiArDQo+ID4gKyAgICAgICAgbmFtZSA9IGdfc3RyZHVwX3ByaW50ZigiJXMtcGVyaS0lZCIs
+IHN5cy0+bXJ0eXBlbmFtZSwgc2lkKTsNCj4gPiArICAgICAgICBtZW1vcnlfcmVnaW9uX2luaXRf
+aW9tbXUoJnNkZXYtPmlvbW11LCBzaXplb2Yoc2Rldi0+aW9tbXUpLA0KPiA+ICsgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBzeXMtPm1ydHlwZW5hbWUsDQo+ID4gKyAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIE9CSkVDVChzeXMpLCBuYW1lLCAxVUxMIDw8DQo+IFNNTVVf
+TUFYX1ZBX0JJVFMpOw0KPiA+ICsNCj4gPiArICAgICAgICBRTElTVF9JTlNFUlRfSEVBRCgmc3lz
+LT5wZXJpX3NkZXZfbGlzdCwgc2RldiwgbmV4dCk7DQo+ID4gKyAgICAgICAgZ19mcmVlKG5hbWUp
+Ow0KPiA+ICsgICAgfQ0KPiA+ICB9DQo+ID4NCj4gPiAgc3RhdGljIGNvbnN0IFZNU3RhdGVEZXNj
+cmlwdGlvbiB2bXN0YXRlX3NtbXV2M19xdWV1ZSA9IHsNCj4gPiBAQCAtMTUwNiw2ICsxNTQ1LDEy
+IEBAIHN0YXRpYyB2b2lkIHNtbXV2M19pbnN0YW5jZV9pbml0KE9iamVjdCAqb2JqKQ0KPiA+ICAg
+ICAgLyogTm90aGluZyBtdWNoIHRvIGRvIGhlcmUgYXMgb2Ygbm93ICovDQo+ID4gIH0NCj4gPg0K
+PiA+ICtzdGF0aWMgUHJvcGVydHkgc21tdXYzX3Byb3BlcnRpZXNbXSA9IHsNCj4gPiArICAgIERF
+RklORV9QUk9QX0FSUkFZKCJzaWQtbWFwIiwgU01NVXYzU3RhdGUsIG51bV9zaWQsIHNpZF9tYXAs
+DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgICBxZGV2X3Byb3BfdWludDE2LCB1aW50MTZfdCks
+DQo+ID4gKyAgICBERUZJTkVfUFJPUF9FTkRfT0ZfTElTVCgpLA0KPiA+ICt9Ow0KPiA+ICsNCj4g
+PiAgc3RhdGljIHZvaWQgc21tdXYzX2NsYXNzX2luaXQoT2JqZWN0Q2xhc3MgKmtsYXNzLCB2b2lk
+ICpkYXRhKQ0KPiA+ICB7DQo+ID4gICAgICBEZXZpY2VDbGFzcyAqZGMgPSBERVZJQ0VfQ0xBU1Mo
+a2xhc3MpOw0KPiA+IEBAIC0xNTE1LDYgKzE1NjAsNyBAQCBzdGF0aWMgdm9pZCBzbW11djNfY2xh
+c3NfaW5pdChPYmplY3RDbGFzcw0KPiAqa2xhc3MsIHZvaWQgKmRhdGEpDQo+ID4gICAgICBkZXZp
+Y2VfY2xhc3Nfc2V0X3BhcmVudF9yZXNldChkYywgc21tdV9yZXNldCwgJmMtPnBhcmVudF9yZXNl
+dCk7DQo+ID4gICAgICBjLT5wYXJlbnRfcmVhbGl6ZSA9IGRjLT5yZWFsaXplOw0KPiA+ICAgICAg
+ZGMtPnJlYWxpemUgPSBzbW11X3JlYWxpemU7DQo+ID4gKyAgICBkZXZpY2VfY2xhc3Nfc2V0X3By
+b3BzKGRjLCBzbW11djNfcHJvcGVydGllcyk7DQo+ID4gIH0NCj4gPg0KPiA+ICBzdGF0aWMgaW50
+IHNtbXV2M19ub3RpZnlfZmxhZ19jaGFuZ2VkKElPTU1VTWVtb3J5UmVnaW9uICppb21tdSwNCj4g
+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9ody9hcm0vc21tdS1jb21tb24uaCBiL2luY2x1ZGUvaHcv
+YXJtL3NtbXUtDQo+IGNvbW1vbi5oDQo+ID4gaW5kZXggNzA2YmUzYzZkMC4uOTVjZDEyYTRiNSAx
+MDA2NDQNCj4gPiAtLS0gYS9pbmNsdWRlL2h3L2FybS9zbW11LWNvbW1vbi5oDQo+ID4gKysrIGIv
+aW5jbHVkZS9ody9hcm0vc21tdS1jb21tb24uaA0KPiA+IEBAIC0xMTcsNiArMTE3LDcgQEAgc3Ry
+dWN0IFNNTVVTdGF0ZSB7DQo+ID4gICAgICBRTElTVF9IRUFEKCwgU01NVURldmljZSkgZGV2aWNl
+c193aXRoX25vdGlmaWVyczsNCj4gPiAgICAgIHVpbnQ4X3QgYnVzX251bTsNCj4gPiAgICAgIFBD
+SUJ1cyAqcHJpbWFyeV9idXM7DQo+ID4gKyAgICBRTElTVF9IRUFEKCwgU01NVURldmljZSkgcGVy
+aV9zZGV2X2xpc3Q7DQo+ID4gIH07DQo+ID4NCj4gPiAgc3RydWN0IFNNTVVCYXNlQ2xhc3Mgew0K
+PiA+IEBAIC0xMzgsNyArMTM5LDExIEBAIFNNTVVQY2lCdXMgKnNtbXVfZmluZF9zbW11X3BjaWJ1
+cyhTTU1VU3RhdGUgKnMsDQo+IHVpbnQ4X3QgYnVzX251bSk7DQo+ID4gIC8qIFJldHVybiB0aGUg
+c3RyZWFtIElEIG9mIGFuIFNNTVUgZGV2aWNlICovDQo+ID4gIHN0YXRpYyBpbmxpbmUgdWludDE2
+X3Qgc21tdV9nZXRfc2lkKFNNTVVEZXZpY2UgKnNkZXYpDQo+ID4gIHsNCj4gPiAtICAgIHJldHVy
+biBQQ0lfQlVJTERfQkRGKHBjaV9idXNfbnVtKHNkZXYtPmJ1cyksIHNkZXYtPmRldmZuKTsNCj4g
+PiArICAgIGlmIChzZGV2LT5idXMgPT0gTlVMTCkgew0KPiA+ICsgICAgICAgIHJldHVybiBzZGV2
+LT5kZXZmbjsNCj4gPiArICAgIH0gZWxzZSB7DQo+ID4gKyAgICAgICAgcmV0dXJuIFBDSV9CVUlM
+RF9CREYocGNpX2J1c19udW0oc2Rldi0+YnVzKSwgc2Rldi0+ZGV2Zm4pOw0KPiA+ICsgICAgfQ0K
+PiA+ICB9DQo+ID4NCj4gPiAgLyoqDQo+ID4gZGlmZiAtLWdpdCBhL2luY2x1ZGUvaHcvYXJtL3Nt
+bXV2My5oIGIvaW5jbHVkZS9ody9hcm0vc21tdXYzLmgNCj4gPiBpbmRleCBjNjQxZTYwNzM1Li4z
+MmJhODQ5OTBkIDEwMDY0NA0KPiA+IC0tLSBhL2luY2x1ZGUvaHcvYXJtL3NtbXV2My5oDQo+ID4g
+KysrIGIvaW5jbHVkZS9ody9hcm0vc21tdXYzLmgNCj4gPiBAQCAtMzksNiArMzksOCBAQCBzdHJ1
+Y3QgU01NVXYzU3RhdGUgew0KPiA+ICAgICAgdWludDMyX3QgZmVhdHVyZXM7DQo+ID4gICAgICB1
+aW50OF90IHNpZF9zaXplOw0KPiA+ICAgICAgdWludDhfdCBzaWRfc3BsaXQ7DQo+ID4gKyAgICB1
+aW50MzJfdCBudW1fc2lkOw0KPiA+ICsgICAgdWludDE2X3QgKnNpZF9tYXA7DQo+IA0KPiBwZXJp
+X3NkZXZfbGlzdCBpcyBhIGZpZWxkIG9mIHRoZSBTTU1VU3RhdGUuIFdoeSBkb24ndCB5b3UgcHV0
+IHRob3NlDQo+IGZpZWxkcyBpbiB0aGUgcGFyZW50IGNsYXNzIHRvby4gSWYgd2Ugd2VyZSB0byBz
+dXBwb3J0IGFub3RoZXIgb3RoZXINCj4gbW9kZWwgb2YgU01NVSwgcGxhdGZvcm0gZGV2aWNlIHN1
+cHBvcnQgd291bGQgYmUgbWVhbmluZ2Z1bCB0aGVyZSB0b28gc28NCj4gSSB3b3VsZCBzdWdlZXN0
+IHRvIHB1dCB0aGUgZmllbGRzIGFuZCBwZW9ycGVydHkgYW5kIHRoaXMgbGV2ZWwuDQoNCkdvdCBp
+dC4gV2lsbCBtb3ZlIHRoZSBmaWVsZHMgYW5kIHByb3BlcnR5IGludG8gU01NVVN0YXRlIGluIG5l
+eHQgdmVyc2lvbi4NCg0KPiANCj4gPg0KPiA+ICAgICAgdWludDMyX3QgaWRyWzZdOw0KPiA+ICAg
+ICAgdWludDMyX3QgaWlkcjsNCj4gVGhhbmtzDQo+IA0KPiBFcmljDQoNCg==
 
