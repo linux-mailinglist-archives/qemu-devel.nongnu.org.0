@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C4D3FE3F1
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 22:24:50 +0200 (CEST)
-Received: from localhost ([::1]:56390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4050E3FE3F7
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 22:26:56 +0200 (CEST)
+Received: from localhost ([::1]:33252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLWmv-0001PV-3U
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 16:24:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53504)
+	id 1mLWow-0004uL-3G
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 16:26:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <johannes.stoelp@googlemail.com>)
- id 1mLWlY-0000iF-LJ; Wed, 01 Sep 2021 16:23:24 -0400
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:40490)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <johannes.stoelp@googlemail.com>)
- id 1mLWlX-0005eP-2p; Wed, 01 Sep 2021 16:23:24 -0400
-Received: by mail-pf1-x436.google.com with SMTP id r13so732755pff.7;
- Wed, 01 Sep 2021 13:23:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Cc2dkFv4m3GWrhTqipor05lmSqPLVdF0dLohOouhlro=;
- b=kKHQ9wOhJP5qpRDBe6MqgTq3J5jXCikXvTGpBsknVVLqtBprU9nGViJtrmtqLQbjvo
- dS04sgoWMHHIBt3qJk+H+vQexpp52q4BeTRf2PT8o8eZRSCffw4wXBzBgPFxAeTxPbic
- lkmgg2jgUQGQ2XpBHVy9vgblS4mX/KfJaarj587kpdoZ0MFMnibW70w+LJZ03yXmuR8n
- 94GffF1bnujMGWF8S9K+e8o/2PHnp0PYyWqFIY6g4NlkhiWJTYLR8xcrFNw5Gf4KIS1Z
- nK88TAhzO48Ig6qle0B2bTR+MrR1Rs3MocKE9lIbtTl4yEQo/J9w6ZN0ou0qndW4Q+6D
- Mqvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Cc2dkFv4m3GWrhTqipor05lmSqPLVdF0dLohOouhlro=;
- b=dy4cve5ayxzA3OhhhWEvl7S/WCA16EU/J3Byip1gEkEaaAVzxiIdvy1larPoDq0hsS
- HR/tUUuOdQCBisY0S4QD9Joo7rSmcyowFWZnES5CPZOzzXcpm1G6jBL5Zmt5coB/WFI6
- ea20mlOXXcWYaRJo1txQlgygYh4kw/n1uwgqQefwDBreZglAfxzhki+dCmKbzFUgVTM9
- vhp7tK0abT1nixtiTknnJNaAaXWtRmCzWa1sd/nOLgQVxQwa2nn7BHfT4WNTxpy580WB
- fmLsZqRHWbil2v99KPddnrRtIqhu1GDbbfRbjv73Q2MOdyV0Y4gfbQKfVy9KxzkPGLvT
- yL1g==
-X-Gm-Message-State: AOAM532XOa8nJOXHclTYV780CfuhaYgg4J4hUy9l8aAM85U3wakiFdvH
- H1ekTqgfMbY+/zalfHmtqdEdNwahiLPq39YPyr4=
-X-Google-Smtp-Source: ABdhPJx/mV0yloWRVzCFbam8XzPyr8sPAsfkQIQ0RnErr/4KehQQx2XaKnyJc+qi112LnDIB7N2ba/XFb3bRPv56eBQ=
-X-Received: by 2002:aa7:82cf:0:b029:3c4:4daa:fd68 with SMTP id
- f15-20020aa782cf0000b02903c44daafd68mr1128606pfn.66.1630527800463; Wed, 01
- Sep 2021 13:23:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210805193950.514357-1-johannes.stoelp@gmail.com>
- <CAFEAcA8TRQdj33Ycm=XzmuUUNApaXVgeDexfS+3Ycg6kLnpmyg@mail.gmail.com>
- <20210830154708.ah27fh34q5dgg3le@redhat.com>
- <CAFEAcA-QW1_sLEArKY1jBJkmGdKQukgwe=O36p7gDpH2mFceqw@mail.gmail.com>
- <CAMnW+q_6Vd0os7AEVVyM30m1kzev_3j8MWusXV1kp6jmUmRqcg@mail.gmail.com>
- <CAFEAcA-PSg6puCy95bskoFzq1a0F60O43cAkz=k73SXLZxO0nQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA-PSg6puCy95bskoFzq1a0F60O43cAkz=k73SXLZxO0nQ@mail.gmail.com>
-From: Johannes S <johannes.stoelp@googlemail.com>
-Date: Wed, 1 Sep 2021 22:23:09 +0200
-Message-ID: <CAMnW+q_7MD0yd-fD1g1TSbYSo5HiV1jBeyzNJHaHOzHPrqTUgA@mail.gmail.com>
-Subject: Re: [PATCH v0] kvm: unsigned datatype in ioctl wrapper
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mLWn0-0002UU-DA
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 16:24:54 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31206)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mLWmw-0006c5-LX
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 16:24:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630527890;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LWXXSnO0nrnko3A+YzxuBOuZwcqMDat9+Anp6yWxowM=;
+ b=XXvhlWRdIpJAoNTxyFhAo57u+XQd26lSZVyGtyt2v4oRtZZHF0Ct+d7yMRT+Neh6YnGvpL
+ X++1FUZ1AfFbl47X0IN+35ND7d9TfmRp+s9O2jcVeJm68ySxnzQnF6SnPffA1IMpSgYcTI
+ sMxDf62bRZYsAdhQXow2K4xmYT3+n/o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-565-CjNzYdrVMt-pas_Ng4Wciw-1; Wed, 01 Sep 2021 16:24:45 -0400
+X-MC-Unique: CjNzYdrVMt-pas_Ng4Wciw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72D6C10CE780;
+ Wed,  1 Sep 2021 20:24:44 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1F84260E1C;
+ Wed,  1 Sep 2021 20:24:43 +0000 (UTC)
+Date: Wed, 1 Sep 2021 21:24:43 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Eric Blake <eblake@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>, 
- QEMU Trivial <qemu-trivial@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=johannes.stoelp@googlemail.com; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Subject: Re: [PATCH] tcg/arm: Increase stack alignment for function generation
+Message-ID: <20210901202443.GL26415@redhat.com>
+References: <20210901164446.2722007-1-rjones@redhat.com>
+ <20210901164446.2722007-2-rjones@redhat.com>
+ <CAFEAcA8WD97HqQRRzB8Z1LVMCmkKZu3_EAQZM1HAMxccQ=PMnA@mail.gmail.com>
+ <20210901183009.GG26415@redhat.com>
+ <CAFEAcA-V7kp+HGBkHM_Zjfq28KhRReo74nowbtP4ZuZzVaw+kw@mail.gmail.com>
+ <20210901185115.GI26415@redhat.com>
+ <CAFEAcA_JiWFrtj8nyVuPio-qPmu2z4_V4mu1kXFSv-UPXXxPNA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA_JiWFrtj8nyVuPio-qPmu2z4_V4mu1kXFSv-UPXXxPNA@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=rjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,19 +82,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-stable <qemu-stable@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Aug 30, 2021 at 10:15 PM Peter Maydell <peter.maydell@linaro.org> wrote:
-> I think I would vote for following the type used by the ioctl()
-> function as declared in the headers for both Linux and the BSDs,
-> and using 'unsigned long'.
-> (We should change KVMState::irq_set_ioctl too, to match.)
+On Wed, Sep 01, 2021 at 09:17:07PM +0100, Peter Maydell wrote:
+> On Wed, 1 Sept 2021 at 19:51, Richard W.M. Jones <rjones@redhat.com> wrote:
+> >
+> > On Wed, Sep 01, 2021 at 07:41:21PM +0100, Peter Maydell wrote:
+> > > Is the failure case short enough to allow -d ... logging to
+> > > be taken? That's usually the most useful info, but it's so huge
+> > > it's often not feasible.
+> >
+> > I can try -- what exact -d option would be useful?
+> 
+> Depends what you're after. Personally I'm fairly sure I know
+> what's going on, I'm just not sure what the right fix is.
 
-I would agree to 'unsigned long', in that case I can generate a new patch.
+Another question: We couldn't reproduce this even with the identical
+ARM guest kernel + initrd + command line using qemu-system-arm
+compiled for x86-64 host.  This was a bit surprising!  Was that bad
+luck or is there some reason why this bug might not be reproducible
+except on armv7 host?  (Both cases use -machine accel=tcg).
 
-And in theory if all libc implementations specify the ioctl request as
-'int' we could go back to 'int'.
+Rich.
 
-Johannes
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+libguestfs lets you edit virtual machines.  Supports shell scripting,
+bindings from many languages.  http://libguestfs.org
+
 
