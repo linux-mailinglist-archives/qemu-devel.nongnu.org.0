@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 899303FD877
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 13:11:05 +0200 (CEST)
-Received: from localhost ([::1]:41102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C8883FD876
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 13:11:04 +0200 (CEST)
+Received: from localhost ([::1]:40998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLO92-00046U-JS
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 07:11:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43582)
+	id 1mLO91-00042Q-9H
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 07:11:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLNcS-0007Al-Kj
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:26 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:51162)
+ id 1mLNcW-0007Ci-G8
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:31 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:46643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLNcN-0005tb-IK
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:24 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id m2so1549242wmm.0
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 03:37:18 -0700 (PDT)
+ id 1mLNcO-0005ur-9r
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:27 -0400
+Received: by mail-wm1-x333.google.com with SMTP id
+ m25-20020a7bcb99000000b002e751bcb5dbso1564472wmi.5
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 03:37:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=X6DKKwrxjW32EfCvSWfAmj3EcMaeoYEpjbuklyKkPSQ=;
- b=EFMhro5mF3RMnoJ48ODZ81uaFRHes4WXMYfRUAsAIkhSWZreDmqk83r0ExmFEe9SF2
- snSTRKEz7JfuxCpSg+fhhwrVnqgqHzOVTwUJhq5L+K3KyFWCIV+LvvJMmJOt+oJsZ3bO
- sObLVmgi3Tp0Z/k50AE+DOklJGWWQ/XsuVmwulUBESZXvi9bZSMKhy4UgicWxm0Bp8Jb
- v3W4dpdx/dhhRL0aA+hOV9WVwCD0vWh1eGcp33UyO6Jdz0Cirmyw69mDtQZfUWonj48F
- Km2XR02IPx04TzaBg2HNvCXo/buecvDklLqJIumC24Z/zDZGqNMD/EDQM0LPHQ09UX7u
- xx1w==
+ bh=wWVJBXgzRhaVQ69jIiCGvMtiBVCp4jd/hsLtG4YGx/E=;
+ b=rMYUJ461OP7Y+AcLpJcQ07ECw4eJf7zKEsycfmRC0e1WS8xgwlKSTP2qKvqFltPUtp
+ Q9F3P/f4AtTsU9echBMCQlYLA81XjZFrFW2hVtHr7fxKjHuBt61AhWGaRtGiSittHXMz
+ 90nGzCfXKqZLUOMlHCZ2Fzdn3ZDjw1BFJQ0p/p8E5pAKp9pLC9VKlDIHcJNdTTccUVGL
+ ZC4Z1WowDCckwlFe0cDGKvahnlwEPjebLpiTuw2aysQynmZDHJ/GSqQOZQ8F+z4//tdh
+ 71IajVE0mF9Jt3oQSV0pDvphydmUzLDSKwSm9Sd0ykD42f/LAThkdS8TGhV2RmJN6VJ9
+ RRNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=X6DKKwrxjW32EfCvSWfAmj3EcMaeoYEpjbuklyKkPSQ=;
- b=b5l8RmKz7fXCB6wKfaYtR6fFG+1F4LnOqqTKUJqTrem5tA6RLSUmJo9stqAy6l5LKi
- F9pxm2P2cj91HdvmIUI5uBmKxGp1EWSMQ/Ge6slpHXyr31canbt9WCTwS4/E3YDj2+F8
- AR+YFZVuAcyzyxRmBrBvSRly0mTtxCdic6K3W4PVKkFlmfT/vVqIfartyRr8V0AQlN7S
- QXV9tTUeuC5qw45Jg6wVjHbwDr82FEFw5BJLzKM6NWP/Gy5qN9147F4rZqJfZ57pWMSY
- oNxMmg5dF+mi13/FRChrW1cAOE//4OYpYB4rWlYfIpIou8cAKskXmTQ1uuVHYEUaS8Ja
- NHQw==
-X-Gm-Message-State: AOAM5302yYT9X6XXfFkmIbK5pPe7jE8/YBtHM1azlJ8xVZ/xwwekaFP/
- YHdvfsdE0YbTtNeuGm0P7iWD8+czT4VM/w==
-X-Google-Smtp-Source: ABdhPJxwUi1Knzdn0GxDwLY8Sjl2s2MGhWix7EV5C6mmV697XXIfBFEl7pgUI9vBN0cKhiosMBrvUQ==
-X-Received: by 2002:a7b:c30f:: with SMTP id k15mr9043445wmj.128.1630492637994; 
- Wed, 01 Sep 2021 03:37:17 -0700 (PDT)
+ bh=wWVJBXgzRhaVQ69jIiCGvMtiBVCp4jd/hsLtG4YGx/E=;
+ b=FvjrWNzkJE4P7NQDlb6gVkScZa/mPfwI4e65QeHr79Ub+GqJM2RsyVhloxfruGD/8X
+ vXXPPwqGYTUomRHFuZbEID6G4t/siWFxPMrkiq0/3dFo8PX+hxohODNBL9ZxozBDEsH4
+ INt9XtPMXwSPfWPUcAa4KwozChU00sv2rw9H7NQ431P1FI9FNXeYn/rX3h8Rdg9mOxyD
+ WuhNbA1lWDNhqe0FakNCqthmOAJ03Yqcnjhs7DwrW+/PsqvIJFtZEGfFXi29lGBsA97X
+ OBGaPySQkrffBt1E0xolumwdJU0JF8fh77wY8FnItNd9ehAE6k1Gx6f9l+IDMOkmZ1o5
+ g/mg==
+X-Gm-Message-State: AOAM5309Kf5JYvKO1l6xnAgWB9PWjLKO3oX3EuADNAgrEUirjfngeLSZ
+ ASvi9oYzn63hw0I+eqiLXX4GX2X7LNkBBw==
+X-Google-Smtp-Source: ABdhPJxdP7v2SCW37/ygPU+bMfYKXbX/D3vmk7A13BLcm7NZ9W42NcQRHApRq9Dx8Ac67gI3vTm0vw==
+X-Received: by 2002:a1c:a181:: with SMTP id k123mr8822616wme.90.1630492638571; 
+ Wed, 01 Sep 2021 03:37:18 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j207sm5494771wmj.40.2021.09.01.03.37.17
+ by smtp.gmail.com with ESMTPSA id j207sm5494771wmj.40.2021.09.01.03.37.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 03:37:17 -0700 (PDT)
+ Wed, 01 Sep 2021 03:37:18 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/51] armsse: Wire up systick cpuclk clock
-Date: Wed,  1 Sep 2021 11:36:35 +0100
-Message-Id: <20210901103653.13435-34-peter.maydell@linaro.org>
+Subject: [PULL 34/51] hw/arm/mps2.c: Connect up armv7m clocks
+Date: Wed,  1 Sep 2021 11:36:36 +0100
+Message-Id: <20210901103653.13435-35-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210901103653.13435-1-peter.maydell@linaro.org>
 References: <20210901103653.13435-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,38 +87,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Wire up the cpuclk for the systick devices to the SSE object's
-existing mainclk clock.
+Connect up the armv7m clocks on the mps2-an385/386/500/511.
 
-We do not wire up the refclk because the SSE subsystems do not
-provide a refclk.  (This is documented in the IoTKit and SSE-200
-TRMs; the SSE-300 TRM doesn't mention it but we assume it follows the
-same approach.) When we update the systick device later to honour "no
-refclk connected" this will fix a minor emulation inaccuracy for the
-SSE-based boards.
+Connect up the armv7m object's clocks on the MPS boards defined in
+mps2.c.  The documentation for these FPGA images doesn't specify what
+systick reference clock is used (if any), so for the moment we
+provide a 1MHz refclock, which will result in no behavioural change
+from the current hardwired 1MHz clock implemented in
+armv7m_systick.c:systick_scale().
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Luc Michel <luc@lmichel.fr>
-Message-id: 20210812093356.1946-8-peter.maydell@linaro.org
+Message-id: 20210812093356.1946-9-peter.maydell@linaro.org
 ---
- hw/arm/armsse.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/arm/mps2.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-index a1456cb0f42..70b52c3d4b9 100644
---- a/hw/arm/armsse.c
-+++ b/hw/arm/armsse.c
-@@ -995,6 +995,9 @@ static void armsse_realize(DeviceState *dev, Error **errp)
-         int j;
-         char *gpioname;
+diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
+index 81413b7133e..3671f49ad7b 100644
+--- a/hw/arm/mps2.c
++++ b/hw/arm/mps2.c
+@@ -86,6 +86,7 @@ struct MPS2MachineState {
+     CMSDKAPBWatchdog watchdog;
+     CMSDKAPBTimer timer[2];
+     Clock *sysclk;
++    Clock *refclk;
+ };
  
-+        qdev_connect_clock_in(cpudev, "cpuclk", s->mainclk);
-+        /* The SSE subsystems do not wire up a systick refclk */
+ #define TYPE_MPS2_MACHINE "mps2"
+@@ -99,6 +100,15 @@ OBJECT_DECLARE_TYPE(MPS2MachineState, MPS2MachineClass, MPS2_MACHINE)
+ /* Main SYSCLK frequency in Hz */
+ #define SYSCLK_FRQ 25000000
+ 
++/*
++ * The Application Notes don't say anything about how the
++ * systick reference clock is configured. (Quite possibly
++ * they don't have one at all.) This 1MHz clock matches the
++ * pre-existing behaviour that used to be hardcoded in the
++ * armv7m_systick implementation.
++ */
++#define REFCLK_FRQ (1 * 1000 * 1000)
 +
-         qdev_prop_set_uint32(cpudev, "num-irq", s->exp_numirq + NUM_SSE_IRQS);
-         /*
-          * In real hardware the initial Secure VTOR is set from the INITSVTOR*
+ /* Initialize the auxiliary RAM region @mr and map it into
+  * the memory map at @base.
+  */
+@@ -146,6 +156,9 @@ static void mps2_common_init(MachineState *machine)
+     mms->sysclk = clock_new(OBJECT(machine), "SYSCLK");
+     clock_set_hz(mms->sysclk, SYSCLK_FRQ);
+ 
++    mms->refclk = clock_new(OBJECT(machine), "REFCLK");
++    clock_set_hz(mms->refclk, REFCLK_FRQ);
++
+     /* The FPGA images have an odd combination of different RAMs,
+      * because in hardware they are different implementations and
+      * connected to different buses, giving varying performance/size
+@@ -223,6 +236,8 @@ static void mps2_common_init(MachineState *machine)
+     default:
+         g_assert_not_reached();
+     }
++    qdev_connect_clock_in(armv7m, "cpuclk", mms->sysclk);
++    qdev_connect_clock_in(armv7m, "refclk", mms->refclk);
+     qdev_prop_set_string(armv7m, "cpu-type", machine->cpu_type);
+     qdev_prop_set_bit(armv7m, "enable-bitband", true);
+     object_property_set_link(OBJECT(&mms->armv7m), "memory",
 -- 
 2.20.1
 
