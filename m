@@ -2,67 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BF1A3FE07A
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:55:42 +0200 (CEST)
-Received: from localhost ([::1]:53888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A0A3FE07D
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:58:00 +0200 (CEST)
+Received: from localhost ([::1]:33174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLTWX-0004yq-6M
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:55:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37220)
+	id 1mLTYl-0001fH-7e
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:57:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mLT5W-0001KQ-H5
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:27:46 -0400
-Received: from smtpout3.3005.mail-out.ovh.net ([217.182.185.173]:49693)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mLT9j-0001on-9l
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:32:07 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:30479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mLT5S-0001bf-HF
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:27:46 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.124])
- by mo3005.mail-out.ovh.net (Postfix) with ESMTPS id 627F713B0FD;
- Wed,  1 Sep 2021 16:27:38 +0000 (UTC)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 1 Sep
- 2021 18:27:37 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003f0d5f9b7-73f5-4f81-9d5e-fba7b2c2d7af,
- 5EBA00A5E723AF1D17FBD8632F6684B6834AEADC) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PATCH] gitlab: Escape git-describe match pattern on Windows hosts
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210901145229.4132606-1-philmd@redhat.com>
- <YS+UylEr3CJyksxt@redhat.com>
- <CAFEAcA_gyZTfUTAAoKvrA-qyv-8dOvGjLSLmq2uaur8XYS6CuQ@mail.gmail.com>
- <YS+aiZep166VuVcH@redhat.com>
- <0901f6da-de5c-f9e6-5f40-e15f4a7c807d@redhat.com>
- <YS+iCgl88cmMepKl@redhat.com>
- <33d1a40b-c242-6472-5aa4-4108668ccc84@redhat.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <005033c9-ac86-7af2-203d-0c597cec691c@kaod.org>
-Date: Wed, 1 Sep 2021 18:27:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mLT9g-0005EF-V8
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:32:06 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-568-DPTLuc4wMZ-VURy1eRGPLQ-1; Wed, 01 Sep 2021 12:32:02 -0400
+X-MC-Unique: DPTLuc4wMZ-VURy1eRGPLQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91D1887D542;
+ Wed,  1 Sep 2021 16:32:01 +0000 (UTC)
+Received: from bahia.lan (unknown [10.39.192.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C675A19C79;
+ Wed,  1 Sep 2021 16:32:00 +0000 (UTC)
+Date: Wed, 1 Sep 2021 18:31:59 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: 9pfs: Twalk crash
+Message-ID: <20210901183159.09d9119c@bahia.lan>
+In-Reply-To: <3500709.Usqnbg2EYA@silver>
+References: <4325838.qn0ATYcOi1@silver> <1825588.ABy5TKrSrS@silver>
+ <20210901174102.715b3169@bahia.lan> <3500709.Usqnbg2EYA@silver>
 MIME-Version: 1.0
-In-Reply-To: <33d1a40b-c242-6472-5aa4-4108668ccc84@redhat.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: cb528294-aab6-4a21-878e-a1d8578d1040
-X-Ovh-Tracer-Id: 12248102139088767989
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddvfedguddttdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekffdukeeuieehudegudejgeejkeefheduvddvveefieeuvdehgfehhfdvgeeffeenucffohhmrghinhepghhithhlrggsrdgtohhmpdhqvghmuhdrnhgvfienucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehphhhilhhmugesrhgvughhrghtrdgtohhm
-Received-SPF: pass client-ip=217.182.185.173; envelope-from=clg@kaod.org;
- helo=smtpout3.3005.mail-out.ovh.net
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.029,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: 0
+X-Spam_score: -0.0
+X-Spam_bar: /
+X-Spam_report: (-0.0 / 5.0 requ) RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,78 +63,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eric Blake <eblake@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/1/21 6:24 PM, Philippe Mathieu-Daudé wrote:
-> On 9/1/21 5:53 PM, Daniel P. Berrangé wrote:
->> On Wed, Sep 01, 2021 at 05:35:42PM +0200, Philippe Mathieu-Daudé wrote:
->>> On 9/1/21 5:21 PM, Daniel P. Berrangé wrote:
->>>> On Wed, Sep 01, 2021 at 04:17:48PM +0100, Peter Maydell wrote:
->>>>> On Wed, 1 Sept 2021 at 15:59, Daniel P. Berrangé <berrange@redhat.com> wrote:
->>>>>>
->>>>>> On Wed, Sep 01, 2021 at 04:52:29PM +0200, Philippe Mathieu-Daudé wrote:
->>>>>>> Properly escape git-describe 'match' pattern to avoid (MinGW):
->>>>>>>
->>>>>>>   $ if grep -q "EXESUF=.exe" config-host.mak; then make installer;
->>>>>>>     version="$(git describe --match v[0-9]*)";
->>>>>>>     mv -v qemu-setup*.exe qemu-setup-${version}.exe; fi
->>>>>>>   fatal: No names found, cannot describe anything.
->>>>>>>   ERROR: Job failed: exit code 1
->>>>>>>
->>>>>>> Reported-by: Cédric Le Goater <clg@kaod.org>
->>>>>>> Fixes: 8619b5ddb56 ("ci: build & store windows installer")
->>>>>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/591
->>>>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>>>>> ---
->>>>>>>  .gitlab-ci.d/crossbuild-template.yml | 2 +-
->>>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>>
->>>>>>> diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
->>>>>>> index 10d22dcf6c1..62d33e6661d 100644
->>>>>>> --- a/.gitlab-ci.d/crossbuild-template.yml
->>>>>>> +++ b/.gitlab-ci.d/crossbuild-template.yml
->>>>>>> @@ -14,7 +14,7 @@
->>>>>>>      - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
->>>>>>>      - if grep -q "EXESUF=.exe" config-host.mak;
->>>>>>>        then make installer;
->>>>>>> -      version="$(git describe --match v[0-9]*)";
->>>>>>> +      version="$(git describe --match 'v[0-9]*')";
->>>>>>
->>>>>> Do you have a pointer to a pipeline showing this fix works ?
->>>
->>> It worked on my fork but I have some versioned tag:
->>> https://gitlab.com/philmd_rh/qemu/-/jobs/1553450025
->>
->> I can reproduce the error msg if I do a shallow clone with no history
->>
->> $ cd qemu
->> $ git describe --match v[0-9]*
->> v6.1.0-171-g5e8c1a0c90
->>
->> $ cd ..
->> $ git clone --depth 1 https://gitlab.com/qemu-project/qemu/ qemu.new
->> $ cd qemu.new/
->> $ git describe --match v[0-9]*
->> fatal: No names found, cannot describe anything.
->>
->> but the odd thing is that I think we should have been hitting the
->> problem frequently if it was related to git depth. This job passes
->> fine in current CI pipelines and my own fork.
-> 
-> FYI it didn't work out on Cédric fork:
-> https://gitlab.com/legoater/qemu/-/jobs/1553492082
-> 
+On Wed, 01 Sep 2021 18:07:39 +0200
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Indeed.
+> On Mittwoch, 1. September 2021 17:41:02 CEST Greg Kurz wrote:
+> > On Wed, 01 Sep 2021 16:21:06 +0200
+> >=20
+> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > On Mittwoch, 1. September 2021 14:49:37 CEST Christian Schoenebeck wr=
+ote:
+> > > > > > And it triggered, however I am not sure if some of those functi=
+ons I
+> > > > > > asserted above are indeed allowed to be executed on a different
+> > > > > > thread
+> > > > > > than main thread:
+> > > > > >=20
+> > > > > > Program terminated with signal SIGABRT, Aborted.
+> > > > > > #0  __GI_raise (sig=3Dsig@entry=3D6) at
+> > > > > > ../sysdeps/unix/sysv/linux/raise.c:50
+> > > > > > 50      ../sysdeps/unix/sysv/linux/raise.c: No such file or
+> > > > > > directory.
+> > > > > > [Current thread is 1 (Thread 0x7fd0bcef1700 (LWP 6470))]
+> > > > >=20
+> > > > > Based in the thread number, it seems that the signal was raised b=
+y
+> > > > > the main event thread...
+> > > >=20
+> > > > No, it was not main thread actually, gdb's "current thread is 1" ou=
+tput
+> > > > is
+> > > > misleading.
+> > > >=20
+> > > > Following the thread id trace, I extended the thread assertion chec=
+ks
+> > > > over
+> > > > to v9fs_walk() as well, like this:
+> > > >=20
+> > > > static void coroutine_fn v9fs_walk(void *opaque)
+> > > > {
+> > > >=20
+> > > >     ...
+> > > >     assert_thread();
+> > > >     v9fs_co_run_in_worker({
+> > > >    =20
+> > > >         ...
+> > > >    =20
+> > > >     });
+> > > >     assert_thread();
+> > > >     ...
+> > > >=20
+> > > > }
+> > > >=20
+> > > > and made sure the reference thread id to be compared is really the =
+main
+> > > > thread.
+> > > >=20
+> > > > And what happens here is before v9fs_co_run_in_worker() is entered,
+> > > > v9fs_walk() runs on main thread, but after returning from
+> > > > v9fs_co_run_in_worker() it runs on a different thread for some reas=
+on,
+> > > > not
+> > > > on main thread as it would be expected at that point.
+> > >=20
+> > > Ok, I think I found the root cause: the block is break;-ing out too f=
+ar.
+> > > The
+> > That could explain the breakage indeed since the block you've added
+> > to v9fs_walk() embeds a bunch of break statements. AFAICT this block
+> > breaks on errors... do you know which one ?
+>=20
+> Yes, I've verified that. In my case an interrupt of Twalk triggered this =
+bug.=20
+> so it was this path exactly:
+>=20
+>     v9fs_co_run_in_worker({
+>         if (v9fs_request_cancelled(pdu)) {
+>             ...
+>             break;
+>         }
+>         ...
+>     });
+>=20
+> so it was really this break;-ing too far being the root cause of the cras=
+h.
+>=20
+> > > following patch should fix it:
+> > >=20
+> > > diff --git a/hw/9pfs/coth.h b/hw/9pfs/coth.h
+> > > index c51289903d..f83c7dda7b 100644
+> > > --- a/hw/9pfs/coth.h
+> > > +++ b/hw/9pfs/coth.h
+> > > @@ -51,7 +51,9 @@
+> > >=20
+> > >           */                                                         =
+    \
+> > >         =20
+> > >          qemu_coroutine_yield();                                     =
+    \
+> > >          qemu_bh_delete(co_bh);                                      =
+    \
+> > >=20
+> > > -        code_block;                                                 =
+    \
+> > > +        do {                                                        =
+    \
+> > > +            code_block;                                             =
+    \
+> > > +        } while (0);                                                =
+    \
+> >=20
+> > Good.
+> >=20
+> > >          /* re-enter back to qemu thread */                          =
+    \
+> > >          qemu_coroutine_yield();                                     =
+    \
+> > >     =20
+> > >      } while (0)
+> > >=20
+> > > I haven't triggered a crash with that patch, but due to the occasiona=
+l
+> > > nature of this issue I'll give it some more spins before officially
+> > > proclaiming it my bug. :)
+> >=20
+> > Well, this is a pre-existing limitation with v9fs_co_run_in_worker().
+> > This wasn't documented as such and not really obvious to detect when
+> > you optimized TWALK. We've never hit it before because the other
+> > v9fs_co_run_in_worker() users don't have break statements.
+>=20
+> Yes, I know, this was my bad.
+>=20
 
-Thanks Phil,
+No, I mean the opposite actually. You shouldn't feel sorry to have
+detected that this macro we're using everywhere is badly broken from
+the beginning... even at the cost of a regression we'll fix shortly :)
 
-C.
+> > But, indeed, this caused a regression in 6.1 so this will need a Fixes:
+> > tag and Cc: qemu-stable.
+>=20
+> Yep, I'm preparing a patch now.
+>=20
+> Best regards,
+> Christian Schoenebeck
+>=20
+>=20
+
 
