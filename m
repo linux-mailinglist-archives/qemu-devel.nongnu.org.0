@@ -2,79 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 213043FE503
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 23:36:18 +0200 (CEST)
-Received: from localhost ([::1]:40116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 162743FE556
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 00:12:45 +0200 (CEST)
+Received: from localhost ([::1]:46230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLXu4-0006ac-Mi
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 17:36:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38810)
+	id 1mLYTL-0004aZ-KZ
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 18:12:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <johannes.stoelp@googlemail.com>)
- id 1mLXsb-0005oU-I7
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 17:34:45 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:52973)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <johannes.stoelp@googlemail.com>)
- id 1mLXsY-0003Jv-Tj
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 17:34:45 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id e26so763401wmk.2
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 14:34:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=googlemail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UBKoDobh0XVZhhRE5jeN9weMGvnGAQOZr8BLx7GtMQM=;
- b=QdPEcUy0XU/0SfTH3IYAffEWnkThKPp/qW03OkEagcpsUBnlY86+O4pN74ltjRNV4g
- SgwQxlbtCuKrNSmYQLwFbqS2JFNRugz5qwHFkpPdan1PpZEFUqD/dG1fORIQA/lBUrbW
- SYnBY7VO+rISFsprg89ZCNEVG1L8QG3stYY/4nGo4JjZulXVGKi8QIKput+cgKC0etRJ
- 9oiJ/AGCb+sLWYdfrwto2tleTgOQ9DYoFkIIuHMddZMwRW7h8FTdf1aFu7G6kLHuHY8K
- aXuWMNtfpXyG0ZsIKWlVRmka5uFtiEM7h5MA+FddVBvp4pr7u1DyrDa/oJtVcc5tBfXp
- fnbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=UBKoDobh0XVZhhRE5jeN9weMGvnGAQOZr8BLx7GtMQM=;
- b=lEIeU95bPHgzm4KBysNwqVgm/7M91icKbZrP82VWCoWXeJ/uTCiMk1j9C0iYE0OsD9
- GP2c24UCXvfbDO0Vr0RvMYWUw4MSA2Rc6TRmTtNUSG3iVSA2/w5heezsAXWLmfriWCzX
- +GK00d8Om+83b8/nXz/HgWYRAJTDoi3c8w2NzMHd/hGy10nJ5sIs5waJBTQscAqr++g5
- ySQnoKA9Tozfy8luGzkL43W6+6I69/h+sjoA8TWLRsomttieAjiwWOnm43I+vzEEfo5/
- kI3x2pGjwW1rngZ6uoiDgljEkpN15OVssb9AOZ7TeOpmH4QEH2XS5DTOFo+I2XNnfAhI
- yjKQ==
-X-Gm-Message-State: AOAM530Mlxyyntz+PG6qG6bLa21swWxpQUEi5jg5xoEOV9VNrxmk3bqJ
- T6AZI5Dd9QEbe0UnuEiF9TwKjaLGcpE=
-X-Google-Smtp-Source: ABdhPJytQmqftrPhi5jBHYsffc3xS1lA5/HnxxR7/eYm+y48aIINnlGbqVZ7u2fzsATF9+E7B/ZKOg==
-X-Received: by 2002:a05:600c:3588:: with SMTP id p8mr10698wmq.20.1630532080952; 
- Wed, 01 Sep 2021 14:34:40 -0700 (PDT)
-Received: from endor.speedport.ip
- (p200300c2171e6ffd05e58539b6664b56.dip0.t-ipconnect.de.
- [2003:c2:171e:6ffd:5e5:8539:b666:4b56])
- by smtp.gmail.com with ESMTPSA id o10sm637257wrc.16.2021.09.01.14.34.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 14:34:40 -0700 (PDT)
-From: Johannes Stoelp <johannes.stoelp@googlemail.com>
-X-Google-Original-From: Johannes Stoelp <johannes.stoelp@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: johannes.stoelp@gmail.com,
-	peter.maydell@linaro.org
-Subject: [PATCH v1] kvm: unsigned datatype in ioctl wrapper
-Date: Wed,  1 Sep 2021 23:34:26 +0200
-Message-Id: <20210901213426.360748-1-johannes.stoelp@gmail.com>
-X-Mailer: git-send-email 2.32.0
+ (Exim 4.90_1) (envelope-from <vintagepc404@protonmail.com>)
+ id 1mLXwE-0007Y9-Dz
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 17:38:30 -0400
+Received: from mail-0201.mail-europe.com ([51.77.79.158]:47978)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vintagepc404@protonmail.com>)
+ id 1mLXw9-0005pE-Ia
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 17:38:29 -0400
+Date: Wed, 01 Sep 2021 21:38:07 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+ s=protonmail; t=1630532290;
+ bh=v8/QNOWqTdV7KqTM38SvIlInnmmJR/ofeQjB/QtZjhE=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=g8xW+pqN8WbDdBj5C0z+j+zp7c+ttKel2UHn2kYVIKP2al8JrBgAlatNjbIj7mwqL
+ kxUgr5FfwpV2dcWafgoIqxrJpxTc1BR4jOpabzJoC4fB73ftE/l2bl6licogFsVqug
+ 1di8y5+oW9h27YDio6/vpbTcX1/CrKjCPmUyMGx4=
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+From: VintagePC <vintagepc404@protonmail.com>
+Cc: "dgilbert@redhat.com" <dgilbert@redhat.com>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>
+Subject: USB-MSD non-functional after merging v5.1 to v6.x (seems to be
+ internal USB stack issue?)
+Message-ID: <HiU5xYXWuIPVg8tuVKzH1LTrKtKSBr01C6h_-uUbJ720IWY8SO1Bna1_-ak0HWraabqIa-hkGUoxeG2aQn6v7WAy1gnDxq9b_tklE0dGRYc=@protonmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=johannes.stoelp@googlemail.com; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/alternative;
+ boundary="b1_bLMWh8C0Vcv6mrwxRDNsaqLEPa6cUlcPTb0qTn5PteE"
+Received-SPF: pass client-ip=51.77.79.158;
+ envelope-from=vintagepc404@protonmail.com; helo=mail-0201.mail-europe.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ FREEMAIL_REPLYTO_END_DIGIT=0.25, HTML_MESSAGE=0.001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 01 Sep 2021 18:09:51 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,137 +62,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: VintagePC <vintagepc404@protonmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Change the data type of the ioctl _request_ argument from 'int' to
-'unsigned long' for the kvm ioctl wrappers.
+This is a multi-part message in MIME format.
 
-POSIX defines the request argument as 'int' but the glibc defines the ioctl
-call as follows
-    int ioctl (int fd, unsigned long int request, ...);
+--b1_bLMWh8C0Vcv6mrwxRDNsaqLEPa6cUlcPTb0qTn5PteE
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
 
-Requests with the 0x8000_0000 bit set will be sign-extended.
-Fortunately the Linux Kernel truncates the upper 32bit of the request on
-64bit machines [1].
+SGVsbG8hCgpTZW5kaW5nIHRvIHRoZSBsaXN0IGJlY2F1c2UgSSB3YXMgZGlyZWN0ZWQgaGVyZSBh
+ZnRlciBhc2tpbmcgb24gSVJDLgoKQmFja2dyb3VuZDogSSd2ZSBmb3JrZWQgUUVNVSBmb3IgYSBw
+cm9qZWN0IGFuZCBhbSBpbiB0aGUgcHJvY2VzcyBvZiBpbXBsZW1lbnRpbmcgYSBtb3JlIGNvbXBs
+ZXRlIFNUTTMyRjR4eCBzdGFjayBhcyBhIHNlY29uZGFyeSB0YXNrLgoKVG8gcmVzb2x2ZSByZWNl
+bnQgR0NDMTEgYnVpbGQgZXJyb3JzLCBJIGF0dGVtcHRlZCB0byBtZXJnZSB3aXRoIHVwc3RyZWFt
+IFFFTVUgdjYgKGNvbWluZyBmcm9tIGEgbGF0ZSAyMDIwIHY1LngueCkgYW5kIHRvIG15IHN1cnBy
+aXNlLCBVU0IgbWFzcyBzdG9yYWdlIGlzIG5vIGxvbmdlciBmdW5jdGlvbmFsLiBBIGZldyBwYWNr
+ZXRzIGFyZSBleGNoYW5nZWQgYnV0IGF0IHNvbWUgcG9pbnQgSQpBdCBmaXJzdCBJIHN1c3BlY3Rl
+ZCB0aGUgaXNzdWUgd2FzIG15IG93biBjb2RlIChmYWlyLCBteSBpbXBsZW1lbnRhdGlvbnMgYXJl
+IGluIHZhcnlpbmcgc3RhdGVzIG9mIGNvbXBsZXRlbmVzcy4gVGhlIFNUTTMyRjQgVVNCIGNvbnRy
+b2xsZXIgaGFzIG1hbnkgc2ltaWxhcml0aWVzIHRvIChidXQgaXMgbm90IHF1aXRlIHRoZSBzYW1l
+IGFzKSB0aGUgRFdDMiBVU0Igc3RhY2spLgoKSSBkZWNpZGVkIHRvIGJpc2VjdCB0aGUgbWVyZ2Ug
+aW4gb3JkZXIgdG8gaWRlbnRpZnkgdGhlIGNvbW1pdCB0aGF0IGNhdXNlcyB0aGUgaXNzdWUgLSBh
+bmQgbXVjaCB0byBteSBzdXJwcmlzZSwgaXQgaXMgdGhpcyBwYXJ0aWN1bGFyIGNvbW1pdDoKaHR0
+cHM6Ly9naXRodWIuY29tL3FlbXUvcWVtdS9jb21taXQvYmJkODMyM2QzMTk2Yzk5NzkzODVjYmEx
+YjhiMzg4NTk4MzZlNjNjMwoKR2l2ZW4gdGhpcyBkb2Vzbid0IHNlZW0gdG8gYmUgYW55dGhpbmcg
+bW9yZSB0aGFuIGEgcmVsb2NhdGlvbiBvZiBkZWNsYXJhdGlvbnMgKGFuZCBJIGRvbid0IGV2ZW4g
+dXNlIGFueSBvZiB0aGVzZSB0eXBlcyBkaXJlY3RseSBpbiBteSBjb2RlKSwgdGhpcyB3b3VsZCBz
+ZWVtIHRvIHN1Z2dlc3QgYW4gaW50ZXJuYWwgaXNzdWUgaW4gbGlua2luZyBvciBtZW1vcnkgaW5p
+dGlhbGl6YXRpb24uIEknbSBoYXBweSB0byBhc3Npc3QgaW4gZGVidWdnaW5nIHRoaXMgd2hlcmUg
+SSBjYW4gYnV0IEknbSBob3Bpbmcgc29tZW9uZSBtb3JlIGtub3dsZWRnZWFibGUgYWJvdXQgdGhl
+IFFFTVUgVVNCIGlubmFyZHMgbWlnaHQgYmUgYWJsZSB0byBwb2ludCBtZSB0byBhbiBhcmVhIHRv
+IHN0YXJ0IGRpZ2dpbmcgc2luY2UgdGhlIGNoYW5nZSBzZWVtcyBlbnRpcmVseSBvcnRob2dvbmFs
+IHRvIHRoZSBhY3R1YWwgcHJvYmxlbSBhbmQgY291bGQgYmUganVzdCBhYm91dCBhbnl3aGVyZS4K
+ClRoZSBjb21tYW5kIGxpbmUgSSdtIHVzaW5nIGlzIGFzIGZvbGxvd3M6Ci4vcWVtdS1zeXN0ZW0t
+YnVkZHkgLW1hY2hpbmUgcHJ1c2EtbWluaSAta2VybmVsIGZpcm13YXJlLmJpbiAtZGV2aWNlIHVz
+Yi1zdG9yYWdlLGRyaXZlPXVzYnN0IC1kcml2ZSBpZD11c2JzdCxmaWxlPVNEY2FyZC5iaW4KCndo
+ZXJlIFNEQ2FyZC5iaW4gaXMgYSBib2ctc3RhbmRhcmQgaW1hZ2Ugb2YgYSBGQVQzMiBwYXJ0aXRp
+b24uICh1c2luZyBWRkFUIGZvbGRlciBlbXVsYXRpb24gaXMgc2ltaWxhcmx5IG5vbi1mdW5jdGlv
+bmFsKS4gVW5mb3J0dW5hdGVseSB0aGUgZGV2aWNlIGRvZXMgbm90IHN1cHBvcnQgYW55dGhpbmcg
+b3RoZXIgdGhhbiBNU0Qgc28gSSBjYW5ub3QgY2hlY2sgZnVuY3Rpb25hbGl0eSB3aXRoIG90aGVy
+IFVTQiBkZXZpY2VzLgoKSSd2ZSBiZWVuIHRvbGQgdGhpcyBwcm9ibGVtIGlzIG5vdCB1bmlxdWUg
+dG8gbXkgb3duIGRldmVsb3BtZW50IHNldHVwLCBhbmQgYSBjdXJzb3J5IGludmVzdGlnYXRpb24g
+cmV2ZWFscyBvbmUgb2YgdGhlIHN5bXB0b21zIGlzIGEgZGl2ZXJnZW5jZSBpbiB0aGUgc2l6ZSBv
+ZiB0aGUgaW5jb21pbmcgVVNCIHBhY2tldHMuIChJJ20gaG9waW5nIHRvIHNldCB1cCBhIG1vcmUg
+ZGV0YWlsZWQgcGFja2V0IGNhcHR1cmUgd2hlbiBJIGhhdmUgbW9yZSBzcGFyZSB0aW1lIHRoaXMg
+d2Vla2VuZCkuIEZvciBleGFtcGxlLCB0aGUgd29ya2luZyB2ZXJzaW9uIEkgd2lsbCBzZWUgc29t
+ZSBpbml0aWFsIHNldHVwIHBhY2tldHMgYmUgZXhjaGFuZ2VkLCB0aGVuIGEgZmV3IHBhY2tldHMg
+b2Ygc2l6ZSAxLCAzNiwgMTMsIDEzLCAxNCwgZXRjIGFzIHRoZSBBUk0gZmlybXdhcmUgdGFsa3Mg
+dG8gdGhlIGRldmljZS4gKEJhY2sgd2hlbiBJIGltcGxlbWVudGVkIHRoZSBVU0Igc3RhY2sgSSBz
+cGVudCBhIGxvdCBvZiB0aW1lIGRlYnVnZ2luZyBhbmQgY29tcGFyaW5nIHdpcmVzaGFyayBjYXB0
+dXJlcyBzbyBJJ20gcmVhc29uYWJseSBjb25maWRlbnQgdGhlIFVTQiBoYW5kbGluZyBjb2RlIGlz
+IGNvcnJlY3Qgc2luY2UgdGhlIGZpcm13YXJlIGJlaW5nIHJ1biBpcyBkb2luZyBmdWxsIG9uIEZB
+VCBmaWxlc3lzdGVtIHN1cHBvcnQpLiBBZnRlciBtZXJnaW5nIHRoZSBvZmZlbmRpbmcgY29tbWl0
+LCBJIHNlZSB0aGUgaW5pdGlhbCBzZXR1cCBhbmQgdGhlbiBhIHNlcmllcyBvZiBwYWNrZXRzIG9m
+IHNpemUgMSwgMzYsIDE2LCA1MTIsIGFuZCB0aGVuIG5vdGhpbmcgZnVydGhlci4gKEludGVybmFs
+bHkgb24gdGhlIGZpcm13YXJlIHRoZSBVU0IgYnVzIGdldHMgc3R1Y2sgYmVjYXVzZSB0aGlzIGxh
+c3QgcGFja2V0IG9mIHNpemUgNTEyIGlzIG9idmlvdXNseSBqdW5rIGFuZCBhIHN5bXB0b20gb2Yg
+dGhlIGlzc3VlLikuIC0tZW5hYmxlLXNhbml0aXplcnMgcmV2ZWFsZWQgb25seSBhIG1pbm9yIGJ1
+ZyBlbHNld2hlcmUgdGhhdCB3YXMgdW5yZWxhdGVkIHRvIHRoZSBpc3N1ZSAoYW5kIGRpZCBub3Qg
+cmVzb2x2ZSBpdCB3aGVuIGZpeGVkKQoKVGhlIHByb2plY3QgaXRzZWxmIGlzIGhlcmU6IGh0dHBz
+Oi8vZ2l0aHViLmNvbS92aW50YWdlcGMvTUlOSTQwNCB3aXRoIGFsbCBvZiBteSBjdXN0b20gaW1w
+bGVtZW50YXRpb25zIHRlbXBvcmFyaWx5IHJlc2lkaW5nIGluIGh3L2FybS9wcnVzYS9zdG0zMmY0
+MDcgKHNlZSBmb290bm90ZS9QLlMuKQoKVGhhbmtzIGluIGFkdmFuY2UgZm9yIGFueSBhc3Npc3Rh
+bmNlIQpWaW50YWdlUEMuCgpQLlMuIC0gWWVzLCBJIHJlY29nbml6ZSBpdCdzIG5vdCBvcmdhbml6
+ZWQgYW5kIGZvcm1hdHRlZCBlbnRpcmVseSBpbiB0aGUgc2FtZSBzdHlsZSBhcyB0aGUgcmVzdCBv
+ZiBRRU1VIGFuZCBwcm9iYWJseSB2aW9sYXRlcyBhIGZldyBzdHlsZSBndWlkZSBpdGVtcy4gQXMg
+dGhpcyBpcyBhIHNwYXJlIHRpbWUgcHJvamVjdCAoYW5kIGJlY2F1c2UgSSBhbSBhbHNvIGxldmVy
+YWdpbmcgcHJpb3Igd29yayBmcm9tIG5vbi11cHN0cmVhbSBzb3VyY2VzKSBJIG5lZWQgdG8gYmUg
+YXMgZWZmaWNpZW50IGFzIHBvc3NpYmxlIGluIG1ha2luZyBjaGFuZ2VzIGFuZCBiZWluZyBhYmxl
+IHRvIGRlYnVnIHRoaW5ncy4gTG9uZ2VyIHRlcm0uLi4geWVzLCBJIGFtIGFic29sdXRlbHkgc3Vw
+cG9ydGl2ZSBvZiBnZXR0aW5nIFNUTTMyRjQgc3VwcG9ydCB1cHN0cmVhbSBiZWNhdXNlIEkga25v
+dyB0aGVyZSBpcyBzaWduaWZpY2FudCB2YWx1ZSBoZXJlLiBCdXQgYXMgaXQgaXMgcmlnaHQgbm93
+IHRoZSBwYXJ0cyBhcmUgbm90IGZ1bmN0aW9uYWwvcG9saXNoZWQgZW5vdWdoIHRoYXQgSSBmZWVs
+IGNvbWZvcnRhYmxlIGRvaW5nIHNvIC0gYW5kIEkganVzdCBkb24ndCBoYXZlIHRoZSBiYW5kd2lk
+dGggdG8gc3BlbmQgdGltZSBvbiB0aGF0IGluIGFkZGl0aW9uIHRvIHRoZSBwcm9qZWN0IGl0c2Vs
+Zi4gSW4gdGhlIGxvbmcgdGVybSBvbmNlIHRoZSBTT0MgaW1wbGVtZW50YXRpb24gaXMgbW9yZSBj
+b21wbGV0ZSwgSSBkZWZpbml0ZWx5IGhvcGUgdG8gYmUgYWJsZSB0byBzaGlmdCBmb2N1cyB0byBy
+ZWZhY3RvcmluZyBhbmQgbWFraW5nIHdoYXQgSSBiZWxpZXZlIHRvIGJlIHN1ZmZpY2llbnRseSBm
+dW5jdGlvbmFsIGltcGxlbWVudGF0aW9ucyByZWFkeSBmb3IgdXBzdHJlYW0gc3VibWlzc2lvbnMu
+IChBbmQgaWYgc29tZW9uZSByZWFkaW5nIHRoaXMgaXMga2VlbiBhbmQgd2lsbGluZyB0byBoZWxw
+LCBmZWVsIGZyZWUgdG8gY29udGFjdCBtZSBvZmYtbGlzdCEgdG8gY29sbGFib3JhdGUgYW5kL29y
+IGRpc2N1c3Mgd2hhdCBuZWVkcyB0byBoYXBwZW4gdG8gbWFrZSBpdCBzdWJtaXR0YWJsZSEp
 
-On x86_64 one such example is the KVM_IRQ_LINE_STATUS request.
-But requests with the _IOC_READ direction bit set, will have the high
-bit set.
+--b1_bLMWh8C0Vcv6mrwxRDNsaqLEPa6cUlcPTb0qTn5PteE
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: base64
 
-[1]: https://sourceware.org/bugzilla/show_bug.cgi?id=14362
+PGRpdj5IZWxsbyE8YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5TZW5kaW5nIHRvIHRoZSBs
+aXN0IGJlY2F1c2UgSSB3YXMgZGlyZWN0ZWQgaGVyZSBhZnRlciBhc2tpbmcgb24gSVJDLiZuYnNw
+Ozxicj48L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2PkJhY2tncm91bmQ6IEkndmUgZm9ya2VkIFFF
+TVUgZm9yIGEgcHJvamVjdCBhbmQgYW0gaW4gdGhlIHByb2Nlc3Mgb2YgaW1wbGVtZW50aW5nIGEg
+bW9yZSBjb21wbGV0ZSBTVE0zMkY0eHggc3RhY2sgYXMgYSBzZWNvbmRhcnkgdGFzay48YnI+PC9k
+aXY+PGRpdj48YnI+PC9kaXY+PGRpdj5UbyByZXNvbHZlIHJlY2VudCBHQ0MxMSBidWlsZCBlcnJv
+cnMsIEkgYXR0ZW1wdGVkIHRvIG1lcmdlIHdpdGggdXBzdHJlYW0gUUVNVSB2NiAoY29taW5nIGZy
+b20gYSBsYXRlIDIwMjAgdjUueC54KSBhbmQgdG8gbXkgc3VycHJpc2UsIFVTQiBtYXNzIHN0b3Jh
+Z2UgaXMgbm8gbG9uZ2VyIGZ1bmN0aW9uYWwuIEEgZmV3IHBhY2tldHMgYXJlIGV4Y2hhbmdlZCBi
+dXQgYXQgc29tZSBwb2ludCBJJm5ic3A7PGJyPjwvZGl2PjxkaXY+QXQgZmlyc3QgSSBzdXNwZWN0
+ZWQgdGhlIGlzc3VlIHdhcyBteSBvd24gY29kZSAoZmFpciwgbXkgaW1wbGVtZW50YXRpb25zIGFy
+ZSBpbiB2YXJ5aW5nIHN0YXRlcyBvZiBjb21wbGV0ZW5lc3MuIFRoZSBTVE0zMkY0IFVTQiBjb250
+cm9sbGVyIGhhcyBtYW55IHNpbWlsYXJpdGllcyB0byAoYnV0IGlzIG5vdCBxdWl0ZSB0aGUgc2Ft
+ZSBhcykgdGhlIERXQzIgVVNCIHN0YWNrKS4mbmJzcDs8YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+
+PGRpdj5JIGRlY2lkZWQgdG8gYmlzZWN0IHRoZSBtZXJnZSBpbiBvcmRlciB0byBpZGVudGlmeSB0
+aGUgY29tbWl0IHRoYXQgY2F1c2VzIHRoZSBpc3N1ZSAtIGFuZCBtdWNoIHRvIG15IHN1cnByaXNl
+LCBpdCBpcyB0aGlzIHBhcnRpY3VsYXIgY29tbWl0Ojxicj48L2Rpdj48ZGl2PjxhIGhyZWY9Imh0
+dHBzOi8vZ2l0aHViLmNvbS9xZW11L3FlbXUvY29tbWl0L2JiZDgzMjNkMzE5NmM5OTc5Mzg1Y2Jh
+MWI4YjM4ODU5ODM2ZTYzYzMiPmh0dHBzOi8vZ2l0aHViLmNvbS9xZW11L3FlbXUvY29tbWl0L2Ji
+ZDgzMjNkMzE5NmM5OTc5Mzg1Y2JhMWI4YjM4ODU5ODM2ZTYzYzM8L2E+PGJyPjwvZGl2PjxkaXY+
+PGJyPjwvZGl2PjxkaXY+R2l2ZW4gdGhpcyBkb2Vzbid0IHNlZW0gdG8gYmUgYW55dGhpbmcgbW9y
+ZSB0aGFuIGEgcmVsb2NhdGlvbiBvZiBkZWNsYXJhdGlvbnMgKGFuZCBJIGRvbid0IGV2ZW4gdXNl
+IGFueSBvZiB0aGVzZSB0eXBlcyBkaXJlY3RseSBpbiBteSBjb2RlKSwgdGhpcyB3b3VsZCBzZWVt
+IHRvIHN1Z2dlc3QgYW4gaW50ZXJuYWwgaXNzdWUgaW4gbGlua2luZyBvciBtZW1vcnkgaW5pdGlh
+bGl6YXRpb24uIEknbSBoYXBweSB0byBhc3Npc3QgaW4gZGVidWdnaW5nIHRoaXMgd2hlcmUgSSBj
+YW4gYnV0IEknbSBob3Bpbmcgc29tZW9uZSBtb3JlIGtub3dsZWRnZWFibGUgYWJvdXQgdGhlIFFF
+TVUgVVNCIGlubmFyZHMgbWlnaHQgYmUgYWJsZSB0byBwb2ludCBtZSB0byBhbiBhcmVhIHRvIHN0
+YXJ0IGRpZ2dpbmcgc2luY2UgdGhlIGNoYW5nZSBzZWVtcyBlbnRpcmVseSBvcnRob2dvbmFsIHRv
+IHRoZSBhY3R1YWwgcHJvYmxlbSBhbmQgY291bGQgYmUganVzdCBhYm91dCBhbnl3aGVyZS4mbmJz
+cDs8YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5UaGUgY29tbWFuZCBsaW5lIEknbSB1c2lu
+ZyBpcyBhcyBmb2xsb3dzOjxicj48L2Rpdj48ZGl2Pi4vcWVtdS1zeXN0ZW0tYnVkZHkgLW1hY2hp
+bmUgcHJ1c2EtbWluaSAta2VybmVsIGZpcm13YXJlLmJpbiAtZGV2aWNlIHVzYi1zdG9yYWdlLGRy
+aXZlPXVzYnN0IC1kcml2ZSBpZD11c2JzdCxmaWxlPVNEY2FyZC5iaW48YnI+PC9kaXY+PGRpdj48
+YnI+PC9kaXY+PGRpdj53aGVyZSBTRENhcmQuYmluIGlzIGEgYm9nLXN0YW5kYXJkIGltYWdlIG9m
+IGEgRkFUMzIgcGFydGl0aW9uLiAodXNpbmcgVkZBVCBmb2xkZXIgZW11bGF0aW9uIGlzIHNpbWls
+YXJseSBub24tZnVuY3Rpb25hbCkuIFVuZm9ydHVuYXRlbHkgdGhlIGRldmljZSBkb2VzIG5vdCBz
+dXBwb3J0IGFueXRoaW5nIG90aGVyIHRoYW4gTVNEIHNvIEkgY2Fubm90IGNoZWNrJm5ic3A7IGZ1
+bmN0aW9uYWxpdHkgd2l0aCBvdGhlciBVU0IgZGV2aWNlcy48L2Rpdj48ZGl2Pjxicj48L2Rpdj48
+ZGl2PkkndmUgYmVlbiB0b2xkIHRoaXMgcHJvYmxlbSBpcyBub3QgdW5pcXVlIHRvIG15IG93biBk
+ZXZlbG9wbWVudCBzZXR1cCwgYW5kIGEgY3Vyc29yeSBpbnZlc3RpZ2F0aW9uIHJldmVhbHMgb25l
+IG9mIHRoZSBzeW1wdG9tcyBpcyBhIGRpdmVyZ2VuY2UgaW4gdGhlIHNpemUgb2YgdGhlIGluY29t
+aW5nIFVTQiBwYWNrZXRzLiAoSSdtIGhvcGluZyB0byBzZXQgdXAgYSBtb3JlIGRldGFpbGVkIHBh
+Y2tldCBjYXB0dXJlIHdoZW4gSSBoYXZlIG1vcmUgc3BhcmUgdGltZSB0aGlzIHdlZWtlbmQpLiBG
+b3IgZXhhbXBsZSwgdGhlIHdvcmtpbmcgdmVyc2lvbiBJIHdpbGwgc2VlIHNvbWUgaW5pdGlhbCBz
+ZXR1cCBwYWNrZXRzIGJlIGV4Y2hhbmdlZCwgdGhlbiBhIGZldyBwYWNrZXRzIG9mIHNpemUgMSwg
+MzYsIDEzLCAxMywgMTQsIGV0YyBhcyB0aGUgQVJNIGZpcm13YXJlIHRhbGtzIHRvIHRoZSBkZXZp
+Y2UuIChCYWNrIHdoZW4gSSBpbXBsZW1lbnRlZCB0aGUgVVNCIHN0YWNrIEkgc3BlbnQgYSBsb3Qg
+b2YgdGltZSBkZWJ1Z2dpbmcgYW5kIGNvbXBhcmluZyB3aXJlc2hhcmsgY2FwdHVyZXMgc28gSSdt
+IHJlYXNvbmFibHkgY29uZmlkZW50IHRoZSBVU0IgaGFuZGxpbmcgY29kZSBpcyBjb3JyZWN0IHNp
+bmNlIHRoZSBmaXJtd2FyZSBiZWluZyBydW4gaXMgZG9pbmcgZnVsbCBvbiBGQVQgZmlsZXN5c3Rl
+bSBzdXBwb3J0KS4gQWZ0ZXIgbWVyZ2luZyB0aGUgb2ZmZW5kaW5nIGNvbW1pdCwgSSBzZWUgdGhl
+IGluaXRpYWwgc2V0dXAgYW5kIHRoZW4gYSBzZXJpZXMgb2YgcGFja2V0cyBvZiBzaXplIDEsIDM2
+LCAxNiwgNTEyLCBhbmQgdGhlbiBub3RoaW5nIGZ1cnRoZXIuIChJbnRlcm5hbGx5IG9uIHRoZSBm
+aXJtd2FyZSB0aGUgVVNCIGJ1cyBnZXRzIHN0dWNrIGJlY2F1c2UgdGhpcyBsYXN0IHBhY2tldCBv
+ZiBzaXplIDUxMiBpcyBvYnZpb3VzbHkganVuayBhbmQgYSBzeW1wdG9tIG9mIHRoZSBpc3N1ZS4p
+LiZuYnNwOyAtLWVuYWJsZS1zYW5pdGl6ZXJzIHJldmVhbGVkIG9ubHkgYSBtaW5vciBidWcgZWxz
+ZXdoZXJlIHRoYXQgd2FzIHVucmVsYXRlZCB0byB0aGUgaXNzdWUgKGFuZCBkaWQgbm90IHJlc29s
+dmUgaXQgd2hlbiBmaXhlZCk8YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5UaGUgcHJvamVj
+dCBpdHNlbGYgaXMgaGVyZTombmJzcDs8YSBocmVmPSJodHRwczovL2dpdGh1Yi5jb20vdmludGFn
+ZXBjL01JTkk0MDQiPmh0dHBzOi8vZ2l0aHViLmNvbS92aW50YWdlcGMvTUlOSTQwNDwvYT4mbmJz
+cDt3aXRoIGFsbCBvZiBteSBjdXN0b20gaW1wbGVtZW50YXRpb25zIHRlbXBvcmFyaWx5IHJlc2lk
+aW5nIGluIGh3L2FybS9wcnVzYS9zdG0zMmY0MDcgKHNlZSBmb290bm90ZS9QLlMuKTxicj48L2Rp
+dj48ZGl2Pjxicj48L2Rpdj48ZGl2PlRoYW5rcyBpbiBhZHZhbmNlIGZvciBhbnkgYXNzaXN0YW5j
+ZSE8L2Rpdj48ZGl2PlZpbnRhZ2VQQy48YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5QLlMu
+IC0gWWVzLCBJIHJlY29nbml6ZSBpdCdzIG5vdCBvcmdhbml6ZWQgYW5kIGZvcm1hdHRlZCBlbnRp
+cmVseSBpbiB0aGUgc2FtZSBzdHlsZSBhcyB0aGUgcmVzdCBvZiBRRU1VIGFuZCBwcm9iYWJseSB2
+aW9sYXRlcyBhIGZldyBzdHlsZSBndWlkZSBpdGVtcy4gQXMgdGhpcyBpcyBhIHNwYXJlIHRpbWUg
+cHJvamVjdCAoYW5kIGJlY2F1c2UgSSBhbSBhbHNvIGxldmVyYWdpbmcgcHJpb3Igd29yayBmcm9t
+IG5vbi11cHN0cmVhbSBzb3VyY2VzKSBJIG5lZWQgdG8gYmUgYXMgZWZmaWNpZW50IGFzIHBvc3Np
+YmxlIGluIG1ha2luZyBjaGFuZ2VzIGFuZCBiZWluZyBhYmxlIHRvIGRlYnVnIHRoaW5ncy4gTG9u
+Z2VyIHRlcm0uLi4geWVzLCBJIGFtIGFic29sdXRlbHkgc3VwcG9ydGl2ZSBvZiBnZXR0aW5nIFNU
+TTMyRjQgc3VwcG9ydCB1cHN0cmVhbSBiZWNhdXNlIEkga25vdyB0aGVyZSBpcyBzaWduaWZpY2Fu
+dCB2YWx1ZSBoZXJlLiBCdXQgYXMgaXQgaXMgcmlnaHQgbm93IHRoZSBwYXJ0cyBhcmUgbm90IGZ1
+bmN0aW9uYWwvcG9saXNoZWQgZW5vdWdoIHRoYXQgSSBmZWVsIGNvbWZvcnRhYmxlIGRvaW5nIHNv
+IC0gYW5kIEkganVzdCBkb24ndCBoYXZlIHRoZSBiYW5kd2lkdGggdG8gc3BlbmQgdGltZSBvbiB0
+aGF0IGluIGFkZGl0aW9uIHRvIHRoZSBwcm9qZWN0IGl0c2VsZi4gSW4gdGhlIGxvbmcgdGVybSBv
+bmNlIHRoZSBTT0MgaW1wbGVtZW50YXRpb24gaXMgbW9yZSBjb21wbGV0ZSwgSSBkZWZpbml0ZWx5
+IGhvcGUgdG8gYmUgYWJsZSB0byBzaGlmdCBmb2N1cyB0byByZWZhY3RvcmluZyBhbmQgbWFraW5n
+IHdoYXQgSSBiZWxpZXZlIHRvIGJlIHN1ZmZpY2llbnRseSBmdW5jdGlvbmFsIGltcGxlbWVudGF0
+aW9ucyByZWFkeSBmb3IgdXBzdHJlYW0gc3VibWlzc2lvbnMuIChBbmQgaWYgc29tZW9uZSByZWFk
+aW5nIHRoaXMgaXMga2VlbiBhbmQgd2lsbGluZyB0byBoZWxwLCBmZWVsIGZyZWUgdG8gY29udGFj
+dCBtZSBvZmYtbGlzdCEgdG8gY29sbGFib3JhdGUgYW5kL29yIGRpc2N1c3Mgd2hhdCBuZWVkcyB0
+byBoYXBwZW4gdG8gbWFrZSBpdCBzdWJtaXR0YWJsZSEpPGJyPjwvZGl2PjxkaXY+PGJyPjwvZGl2
+Pg==
 
-Signed-off-by: Johannes Stoelp <johannes.stoelp@gmail.com>
----
-v1:
-    - Changed ioctl request from 'unsigned' -> 'unsigned long' in kvm ioctl wrapper.
-v0:
-    - Changed ioctl request from 'int' -> 'unsigned' in kvm ioctl wrapper.
-    - L: https://lists.nongnu.org/archive/html/qemu-devel/2021-08/msg00945.html
 
- accel/kvm/kvm-all.c    | 10 +++++-----
- accel/kvm/trace-events |  8 ++++----
- include/sysemu/kvm.h   |  8 ++++----
- 3 files changed, 13 insertions(+), 13 deletions(-)
-
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 0125c17edb..5f9379f3cc 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -127,7 +127,7 @@ struct KVMState
-     /* The man page (and posix) say ioctl numbers are signed int, but
-      * they're not.  Linux, glibc and *BSD all treat ioctl numbers as
-      * unsigned, and treating them as signed here can break things */
--    unsigned irq_set_ioctl;
-+    unsigned long irq_set_ioctl;
-     unsigned int sigmask_len;
-     GHashTable *gsimap;
- #ifdef KVM_CAP_IRQ_ROUTING
-@@ -2967,7 +2967,7 @@ int kvm_cpu_exec(CPUState *cpu)
-     return ret;
- }
- 
--int kvm_ioctl(KVMState *s, int type, ...)
-+int kvm_ioctl(KVMState *s, unsigned long type, ...)
- {
-     int ret;
-     void *arg;
-@@ -2985,7 +2985,7 @@ int kvm_ioctl(KVMState *s, int type, ...)
-     return ret;
- }
- 
--int kvm_vm_ioctl(KVMState *s, int type, ...)
-+int kvm_vm_ioctl(KVMState *s, unsigned long type, ...)
- {
-     int ret;
-     void *arg;
-@@ -3003,7 +3003,7 @@ int kvm_vm_ioctl(KVMState *s, int type, ...)
-     return ret;
- }
- 
--int kvm_vcpu_ioctl(CPUState *cpu, int type, ...)
-+int kvm_vcpu_ioctl(CPUState *cpu, unsigned long type, ...)
- {
-     int ret;
-     void *arg;
-@@ -3021,7 +3021,7 @@ int kvm_vcpu_ioctl(CPUState *cpu, int type, ...)
-     return ret;
- }
- 
--int kvm_device_ioctl(int fd, int type, ...)
-+int kvm_device_ioctl(int fd, unsigned long type, ...)
- {
-     int ret;
-     void *arg;
-diff --git a/accel/kvm/trace-events b/accel/kvm/trace-events
-index 399aaeb0ec..a1905fe985 100644
---- a/accel/kvm/trace-events
-+++ b/accel/kvm/trace-events
-@@ -1,11 +1,11 @@
- # See docs/devel/tracing.rst for syntax documentation.
- 
- # kvm-all.c
--kvm_ioctl(int type, void *arg) "type 0x%x, arg %p"
--kvm_vm_ioctl(int type, void *arg) "type 0x%x, arg %p"
--kvm_vcpu_ioctl(int cpu_index, int type, void *arg) "cpu_index %d, type 0x%x, arg %p"
-+kvm_ioctl(unsigned long type, void *arg) "type 0x%lx, arg %p"
-+kvm_vm_ioctl(unsigned long type, void *arg) "type 0x%lx, arg %p"
-+kvm_vcpu_ioctl(int cpu_index, unsigned long type, void *arg) "cpu_index %d, type 0x%lx, arg %p"
- kvm_run_exit(int cpu_index, uint32_t reason) "cpu_index %d, reason %d"
--kvm_device_ioctl(int fd, int type, void *arg) "dev fd %d, type 0x%x, arg %p"
-+kvm_device_ioctl(int fd, unsigned long type, void *arg) "dev fd %d, type 0x%lx, arg %p"
- kvm_failed_reg_get(uint64_t id, const char *msg) "Warning: Unable to retrieve ONEREG %" PRIu64 " from KVM: %s"
- kvm_failed_reg_set(uint64_t id, const char *msg) "Warning: Unable to set ONEREG %" PRIu64 " to KVM: %s"
- kvm_init_vcpu(int cpu_index, unsigned long arch_cpu_id) "index: %d id: %lu"
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index a1ab1ee12d..d0f354a897 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -251,11 +251,11 @@ int kvm_on_sigbus(int code, void *addr);
- 
- /* internal API */
- 
--int kvm_ioctl(KVMState *s, int type, ...);
-+int kvm_ioctl(KVMState *s, unsigned long type, ...);
- 
--int kvm_vm_ioctl(KVMState *s, int type, ...);
-+int kvm_vm_ioctl(KVMState *s, unsigned long type, ...);
- 
--int kvm_vcpu_ioctl(CPUState *cpu, int type, ...);
-+int kvm_vcpu_ioctl(CPUState *cpu, unsigned long type, ...);
- 
- /**
-  * kvm_device_ioctl - call an ioctl on a kvm device
-@@ -264,7 +264,7 @@ int kvm_vcpu_ioctl(CPUState *cpu, int type, ...);
-  *
-  * Returns: -errno on error, nonnegative on success
-  */
--int kvm_device_ioctl(int fd, int type, ...);
-+int kvm_device_ioctl(int fd, unsigned long type, ...);
- 
- /**
-  * kvm_vm_check_attr - check for existence of a specific vm attribute
--- 
-2.32.0
+--b1_bLMWh8C0Vcv6mrwxRDNsaqLEPa6cUlcPTb0qTn5PteE--
 
 
