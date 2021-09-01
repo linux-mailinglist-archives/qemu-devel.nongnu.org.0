@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5C5C3FE19C
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 19:58:43 +0200 (CEST)
-Received: from localhost ([::1]:34812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 380EB3FE24E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 20:20:00 +0200 (CEST)
+Received: from localhost ([::1]:46542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLUVW-0002Mo-Eu
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 13:58:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57340)
+	id 1mLUq6-0002oA-RS
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 14:19:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mLUU3-0000LW-Cb
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 13:57:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58501)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mLUTz-00017I-Dz
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 13:57:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630519025;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HJk13/hM96f8sYfiCYDrdHcBl5w7fiV1NuUmsjsDy38=;
- b=L5YKWC09ffojhUm6HSbmN4fi9KU7x5Qko+1zRelYam9UZt3ggb04zXZ6io/DMx1CPOkECp
- Tc+XiKp6JmPkJkeMVG93gL18Q1tDaactkw0K38U3hLQWIk/BBc0+0qz6ale+g/9TclQOet
- M6eHI3lnhTM0UJnTyPRW804WSA4x4Dw=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-514-1ewdsgiSMrCnAOkrhMljSw-1; Wed, 01 Sep 2021 13:57:04 -0400
-X-MC-Unique: 1ewdsgiSMrCnAOkrhMljSw-1
-Received: by mail-qt1-f197.google.com with SMTP id
- x11-20020ac86b4b000000b00299d7592d31so369168qts.0
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 10:57:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mLUp9-0001sp-3s
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 14:18:59 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:38578)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mLUp4-00020j-Cd
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 14:18:58 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ k5-20020a05600c1c8500b002f76c42214bso88094wms.3
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 11:18:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CAd6Dxfcm6PBoIbTTBcYUUQyR63fgAPRdyDPESpVCBY=;
+ b=NYBcg/r5mFx1zm2JI7/DGm4v8lU1oRL7txEV9g2/axU+HJfU2vbqZL5UkUKUDVEnq8
+ wlL1rK+eH83hDI4mL51A0O/tadX37jJ16PbGDQGRsJsQ1ugSSp9YxGqphvJpRyodWAAx
+ SlALdVX1km3cLsco6nL0mtkykMzKrayId3dmcjcc6HLtMbG2WxovEuUPuOq1MlmurJuK
+ JZjnwMPMLRNqUagh8ucwSNnip0SqqcHypoFNMfVuJGXPG/ZRG2B7C3PBE9c+KXQDq1IW
+ 2OA0NFVGib+DgXCGyBrBx7EOqqutxo9Rewyyb1xzGV/eDrP/dmCZIiy8SbBUPBPO64Ff
+ wQxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=HJk13/hM96f8sYfiCYDrdHcBl5w7fiV1NuUmsjsDy38=;
- b=bf7uCBjmC/W7dThgaR8bvfkMsK/gSixvo0YZ1uJ4VfkQgEiglKI31VfdqZcO83fQs1
- X+pEe6X//A8yUhCpFXOzQ1K2B9iJYpwGqonDUcEIpi50S8WOgl0bcnnRRLLjr4Wo3TI8
- 14KJuYbrdKhEbrXdvXGKDPrXG3DCXtMgwuMP9KOxzFWbzMtQwGMmwE9XOTGpvzYMzBW7
- DGSZG5k29NlE+5JcCYfliJvkzgJxV8EToMEVUKwbHlTKrbr6fKrzX5kQnl5CBpSZ2cFM
- 9V3VibIGxfPl09f7wNQ4KbaHRXlXM9xN2k6iy40hyYDjIIbITsXLDJsaOk9KHY9tYhGZ
- 72fA==
-X-Gm-Message-State: AOAM531Tw1fp4yevrEL+5IPboRmViQw33w4eOREyUVQNX+nuZR+weJX8
- GRgttNCvNLl9Sd4X8nDI09/0lf81klVkUJZbggovFudalyPvp5+stcBZ3yFVnwAc2FjcQj6015x
- 3RfWoEVMUa6yh4/I=
-X-Received: by 2002:ac8:7ca9:: with SMTP id z9mr632340qtv.187.1630519024253;
- Wed, 01 Sep 2021 10:57:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwAb+mbMWaNjwHBNnvgV8pa3EK08eoBkg/wme8HCKT+j0LM6RnKJn6XwIOd6AH2ZcixMjW8yQ==
-X-Received: by 2002:ac8:7ca9:: with SMTP id z9mr632326qtv.187.1630519023994;
- Wed, 01 Sep 2021 10:57:03 -0700 (PDT)
-Received: from t490s ([2607:fea8:56a3:500::ad7f])
- by smtp.gmail.com with ESMTPSA id c28sm148109qkl.69.2021.09.01.10.57.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 10:57:03 -0700 (PDT)
-Date: Wed, 1 Sep 2021 13:57:02 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Lukas Straub <lukasstraub2@web.de>
-Subject: Re: [PATCH] multifd: Implement yank for multifd send side
-Message-ID: <YS++7hzGpvm/aCaD@t490s>
-References: <20210901175857.0858efe1@gecko.fritz.box>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CAd6Dxfcm6PBoIbTTBcYUUQyR63fgAPRdyDPESpVCBY=;
+ b=b8k2YvjrfQbUOeDRJLbyGe88yEqxt23wVnwHnjd/jEX+E9nHz4sKJmXmzUVEA9F6xW
+ e1dsVcdyKjZoUra+3+avkgxQCVTp7ONmizP7PCTnQ2yZWc/f8bo1uku75uT3uyNA2eXK
+ EM9UQlrrTBhDM6LhPYiM5NwJ585tUpKcnWpYDY2qHzFCGUL3zE6vXB4LFwF5HShmsImy
+ dLz70Vm/jEgwn5cpT4Yvh0SeT2pyRMd7yE9rt/i0LFDevv9kSCusn6sGQDoY1XFi8wzu
+ De0oFZ9RhMcdY0svOxp2zf0h7DepS7Xq9WYKOOfMwZW/WayiO1nilsdd5PPbLlUk8d51
+ 6Aew==
+X-Gm-Message-State: AOAM531S3JPN1doRcgAaJX+3/O60MkpLaSb7yi/k6a+G/1lvAV3JO0SY
+ o2Wuy9stYAK9AsgFovVIeg4x/w7h2BmvwYD57voJRg==
+X-Google-Smtp-Source: ABdhPJyEgexN/cFRJMELR047bEj62oVxzeE920qQmSRrvkJ+pu3HqEC4Mrplwo5FZOXafP3FvI2nroVgyXl0p3x9uRc=
+X-Received: by 2002:a1c:f30b:: with SMTP id q11mr819086wmq.91.1630520332695;
+ Wed, 01 Sep 2021 11:18:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210901175857.0858efe1@gecko.fritz.box>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20210901164446.2722007-1-rjones@redhat.com>
+ <20210901164446.2722007-2-rjones@redhat.com>
+In-Reply-To: <20210901164446.2722007-2-rjones@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 1 Sep 2021 19:18:03 +0100
+Message-ID: <CAFEAcA8WD97HqQRRzB8Z1LVMCmkKZu3_EAQZM1HAMxccQ=PMnA@mail.gmail.com>
+Subject: Re: [PATCH] tcg/arm: Increase stack alignment for function generation
+To: "Richard W.M. Jones" <rjones@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,79 +78,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-stable <qemu-stable@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 01, 2021 at 05:58:57PM +0200, Lukas Straub wrote:
-> When introducing yank functionality in the migration code I forgot
-> to cover the multifd send side.
-> 
-> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-> Tested-by: Leonardo Bras <leobras@redhat.com>
-> Reviewed-by: Leonardo Bras <leobras@redhat.com>
+On Wed, 1 Sept 2021 at 18:01, Richard W.M. Jones <rjones@redhat.com> wrote:
+>
+> This avoids the following assertion when the kernel initializes X.509
+> certificates:
+>
+> [    7.315373] Loading compiled-in X.509 certificates
+> qemu-system-arm: ../tcg/tcg.c:3063: temp_allocate_frame: Assertion `align <= TCG_TARGET_STACK_ALIGN' failed.
+>
+> Fixes: commit c1c091948ae
+> Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=1999878
+> Cc: qemu-stable@nongnu.org
+> Tested-by: Richard W.M. Jones <rjones@redhat.com>
+> Signed-off-by: Richard W.M. Jones <rjones@redhat.com>
 > ---
-> 
-> -v2:
->  -add Tested-by and Reviewed-by tags
-> 
->  migration/multifd.c | 6 +++++-
->  migration/multifd.h | 2 ++
->  2 files changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/migration/multifd.c b/migration/multifd.c
-> index 377da78f5b..5a4f158f3c 100644
-> --- a/migration/multifd.c
-> +++ b/migration/multifd.c
-> @@ -546,6 +546,9 @@ void multifd_save_cleanup(void)
->          MultiFDSendParams *p = &multifd_send_state->params[i];
->          Error *local_err = NULL;
->  
-> +        if (p->registered_yank) {
-> +            migration_ioc_unregister_yank(p->c);
-> +        }
->          socket_send_channel_destroy(p->c);
->          p->c = NULL;
->          qemu_mutex_destroy(&p->mutex);
-> @@ -813,7 +816,8 @@ static bool multifd_channel_connect(MultiFDSendParams *p,
->                  return false;
->              }
->          } else {
-> -            /* update for tls qio channel */
-> +            migration_ioc_register_yank(ioc);
-> +            p->registered_yank = true;
->              p->c = ioc;
->              qemu_thread_create(&p->thread, p->name, multifd_send_thread, p,
->                                     QEMU_THREAD_JOINABLE);
-> diff --git a/migration/multifd.h b/migration/multifd.h
-> index 8d6751f5ed..16c4d112d1 100644
-> --- a/migration/multifd.h
-> +++ b/migration/multifd.h
-> @@ -85,6 +85,8 @@ typedef struct {
->      bool running;
->      /* should this thread finish */
->      bool quit;
-> +    /* is the yank function registered */
-> +    bool registered_yank;
->      /* thread has work to do */
->      int pending_job;
->      /* array of pages to sent */
-> -- 
-> 2.32.0
+>  tcg/arm/tcg-target.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
+> index d113b7f8db..09df3b39a1 100644
+> --- a/tcg/arm/tcg-target.h
+> +++ b/tcg/arm/tcg-target.h
+> @@ -115,7 +115,7 @@ extern bool use_neon_instructions;
+>  #endif
+>
+>  /* used for function call generation */
+> -#define TCG_TARGET_STACK_ALIGN         8
+> +#define TCG_TARGET_STACK_ALIGN          16
+>  #define TCG_TARGET_CALL_ALIGN_ARGS     1
+>  #define TCG_TARGET_CALL_STACK_OFFSET   0
 
-This is probably yet another case that I'm wondering whether we made unregister
-of yank function/instance too strict so we should loose them.
+The 32-bit Arm procedure call standard only guarantees 8-alignment
+of SP, not 16-alignment, so I suspect this is not the correct fix.
 
-Logically a remove/unregister function doesn't need to assert and crash qemu if
-the entry doesn't exist at all.  Then it's just something like "makes sure XXX
-is removed", and noop if lookup failed.  The extra fields do not really help us
-from anything else..
-
-Thanks,
-
--- 
-Peter Xu
-
+-- PMM
 
