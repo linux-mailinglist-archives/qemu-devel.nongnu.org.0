@@ -2,140 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2103FD9E5
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 15:00:08 +0200 (CEST)
-Received: from localhost ([::1]:47056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A7A33FD9D4
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 14:50:17 +0200 (CEST)
+Received: from localhost ([::1]:44146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLPqZ-0005b7-4r
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 09:00:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40052)
+	id 1mLPh2-0001Pj-ES
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 08:50:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mLPej-000717-LV; Wed, 01 Sep 2021 08:47:55 -0400
-Received: from mail-eopbgr80103.outbound.protection.outlook.com
- ([40.107.8.103]:26501 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLPeg-00070Q-OC
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 08:47:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mLPed-0004P6-Et; Wed, 01 Sep 2021 08:47:53 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lPdWdMp6eLV+hH0OYUwaHcaZ5vLliMnMTld4OwJnMQRjZaligV2peLOluG7Gxmg8ZFoKJKN2K2FyLYHIcMUu8fAxA7Rf84cIlXyuXPl5vXpLM8PVHOgPldYa+Z9dpqOwN35V5Xa4BLZxO0LCDl71PG6Oha0Ybtu2JuEzzsM02JuG65sN/kfjDM/CVZLhGqy4ip1lGKUXY/fOaQ+IbXgAqH0dOd9cwaGZNDlRQWC1HycaOdvQ10M9aoneLDPWy7eAxM+bnW0vkqunhqkxhKDx1z2c0MhbZulO6yRkPW2xKMZpqPGWZoWf1EOBUdsFtSqbSLGIaLDg/PfBsWVbsquRhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=IH2gX7Isk8v+S7NMH5Ypz/+zxqhWjmTllJVfd3VM61Y=;
- b=bpIP0FBXBtIOvdMkParsbmCHMz0hy0NlGmpZRR6kemzL8KKOf/Ndcpy/D+1Ut+2W/+zjsZffby97GiuHzxp2E6CHtzwg7bCSP2aBeml/NqvIM0vr1ORP2fpcgp63ns1xQmbIFnVzUgYQG9kW3nxLOD6TUntBTlUdPtx4/Bp6aFUvwXC62hlNn71jQTu2TBd8g3veLQaeGn+bnYBxUzN9kvTWxrUumyZow3A9FwzQ77Bn6vXVhb5nmY16/llXIdlnEDr0VtliTOUtUnXl/93ArPhlvuaeStcDANv96JuDBK+7J/dIWcGrFVGiYPxsrq13CsAuxhMnmED28on+YMs36w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IH2gX7Isk8v+S7NMH5Ypz/+zxqhWjmTllJVfd3VM61Y=;
- b=GO9+hjKv0cz6KNVdDHNp16ABDPCxxMCnzREqOzyCByJNVKi7HeVlgS9TmwcxDHkF6qmQXhZO5YDiwx7HijKeRP24+seuX0zuPKUO1zzCEop2ApJpqembbM8fbhpR0DJqxG47XadloWwiEM1xpazqVRviOP8qCKbPJekNfRBp8Cg=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from VI1PR08MB5503.eurprd08.prod.outlook.com (2603:10a6:803:137::19)
- by VI1PR0801MB1663.eurprd08.prod.outlook.com (2603:10a6:800:4f::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19; Wed, 1 Sep
- 2021 12:47:41 +0000
-Received: from VI1PR08MB5503.eurprd08.prod.outlook.com
- ([fe80::2082:8a88:6ff1:2dd8]) by VI1PR08MB5503.eurprd08.prod.outlook.com
- ([fe80::2082:8a88:6ff1:2dd8%5]) with mapi id 15.20.4478.017; Wed, 1 Sep 2021
- 12:47:41 +0000
-Subject: Re: [PATCH v8 28/34] iotests: move 222 to tests/image-fleecing
-To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, eblake@redhat.com, armbru@redhat.com,
- crosa@redhat.com, ehabkost@redhat.com, berrange@redhat.com,
- pbonzini@redhat.com, jsnow@redhat.com, kwolf@redhat.com,
- Max Reitz <mreitz@redhat.com>
-References: <20210824083856.17408-1-vsementsov@virtuozzo.com>
- <20210824083856.17408-29-vsementsov@virtuozzo.com>
- <3dc6d789-1793-d80e-7318-2714de7e36ec@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <4ca70606-dba6-9fb6-20ca-a3971216b0de@virtuozzo.com>
-Date: Wed, 1 Sep 2021 15:47:39 +0300
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLPee-0004QT-CW
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 08:47:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630500467;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9mGzzDyUsdOkWEPVeeQ1x6dkJCiZbweQ1UbyOWhiu24=;
+ b=dnHILTNuMwwPZxt+ll3MMYuuHL8T9TbtQwZByfpi0TbQMRemDMSZF2wWSkShpkq43pEdwd
+ AMvBP8cGPdTN+hcfx9YaaRRlv+tpnBZlElIFQh4g/BRIrcjEnrsbYbY7cxzM7kc+Jy5RIa
+ mWg4bs/m6ZjiDKWZn1D7bj7TCGbsVzs=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-347-LoWaCR6kOy2WwftWw6W1-g-1; Wed, 01 Sep 2021 08:47:46 -0400
+X-MC-Unique: LoWaCR6kOy2WwftWw6W1-g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ y188-20020a1c7dc5000000b002e80e0b2f87so2784256wmc.1
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 05:47:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=9mGzzDyUsdOkWEPVeeQ1x6dkJCiZbweQ1UbyOWhiu24=;
+ b=Sedoc608s58qyc38RRGaiOMMCpEZWeHQWIXePtt2inLgYJ4QM70ZC8hJsVddqbPpPI
+ 358rPxV+7y1dn6lVkHH2M74vHYC8w7N+wJePRqA3s3Zvu0poP5XUtIOsv4Hcww6U3gjI
+ 5VfPZYLSAs/CqcMTgQKmsqjhMGFTQo8Amqj49xO1YkcdnHB0VTOuX2XKxCibxFp9SSVT
+ nKhn2NSWDcZFWS4eVA4+5Jq8Xhwp0yeu3mOR+xVwVxVLz3Re9KM8+YRG63DzX786exZz
+ YIAOfDc89eiO4I9KBWOZO38XUPh1lZWzxvYBdu+h9B1bCH/kfoNZOitpn5U4kPWh6R9J
+ UvSA==
+X-Gm-Message-State: AOAM533wi2IpxpnfE5/mD1AvcyhgHkMV0SMZQIaZl0k1b+btf0+/5F8x
+ mTMRZLPVtPOY+FhM05fMMPnHi0jmFsLCJJ8gm+uu9nlhYAXXskaAAXOS9WplYmZsJm8s7DJzRiv
+ /39aBM2n78rn5Y9g=
+X-Received: by 2002:a05:600c:4e8b:: with SMTP id
+ f11mr9642261wmq.165.1630500465046; 
+ Wed, 01 Sep 2021 05:47:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyU9o5Yqvs6igXTL51P5+PrwCFYN32QogPMvnauBguLIqIoDweAEwnXj3c00uRYWoecqC5rLQ==
+X-Received: by 2002:a05:600c:4e8b:: with SMTP id
+ f11mr9642248wmq.165.1630500464823; 
+ Wed, 01 Sep 2021 05:47:44 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ e9sm18786251wrd.69.2021.09.01.05.47.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Sep 2021 05:47:44 -0700 (PDT)
+Subject: Re: [PATCH for-6.2 v3 01/12] job: Context changes in
+ job_completed_txn_abort()
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20210806093859.706464-1-mreitz@redhat.com>
+ <20210806093859.706464-2-mreitz@redhat.com>
+ <bfffbce1-c62f-5ae2-0de3-202b97fd593b@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <9793f3ef-f570-2d67-e742-2df967547684@redhat.com>
+Date: Wed, 1 Sep 2021 14:47:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <3dc6d789-1793-d80e-7318-2714de7e36ec@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: PR0P264CA0123.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:100:1a::15) To VI1PR08MB5503.eurprd08.prod.outlook.com
- (2603:10a6:803:137::19)
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.196) by
- PR0P264CA0123.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1a::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4478.17 via Frontend Transport; Wed, 1 Sep 2021 12:47:40 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6e87f512-a7b6-424a-1490-08d96d46afe0
-X-MS-TrafficTypeDiagnostic: VI1PR0801MB1663:
-X-Microsoft-Antispam-PRVS: <VI1PR0801MB166322717B3FFE41B8EA3667C1CD9@VI1PR0801MB1663.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /2mJNdJp6wdQYQTinwUJetusOwIw+/HVnmmD9Y5sn1IIfsgrk+b69O5mTMoYrYCd+0Z1Wpq3rP5YstNSlymhkKG2Grcqi9/HOeC+jtmhOrrivKY++v8m0EeI/mYkOSzDp8anAVQxhikZ8MybhgQfNtBQqQ7jPeHgeIBKF+asRpGeDQqosDIyJrvGl3RnF1HsfGBmstNnu97c9w+S+KLiKjTthjyhe9GprTh6RLaIvuUxx7+39Zmdf79sbubB8v+PY3h0ZIw2WfGiNEwiZmxJRZ3eedACVQ13I/W2uTjDaJah/zjI1670UnC9uE6skA2O80PZqjD+7pYU0eubiQGQlDexNPaQj4o7awX/eAjPXHtdZU6dhGck0z8lGpJRpyO72/vhbIcBUJx/6F4rCHcwxiDtd8m+T79B+cWVXvdQJGyXENqrJU2KryFuizoDtusOjZuNS/xoDxFtIAgBwmuq/L4PhvgcxRAauX1Ob706d5BYhUC4J7LpgIpvcVtZn4+Nq97dszH2X/ySHrKpDJWioj3r48yOo0YR4R3+2EiegAzyvk0mINajG5TFWaDGB7g2P95B/jtgc35YS627EMXG6JSBhxSGVHpfbyP5uWYbSn43ovxGQVFMQcc3fV6Nr1P+tyPmikM4gyRZKKbdvsXSutfnKW0EZ3uqmdt9qjmuWHJZrEZGxQAyW0rANFuP5pPdBrCQeaZ63ahgBMlq/1xKMiqSYyFmJTTDW3DMxtPe2OCsGeQImettgCtw9QxeeFDXxQokN5Q3WdxC7QQBdoSqhg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR08MB5503.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(346002)(376002)(396003)(39850400004)(366004)(6486002)(5660300002)(66476007)(66556008)(66946007)(8676002)(8936002)(7416002)(316002)(16576012)(31696002)(36756003)(478600001)(2906002)(4326008)(86362001)(83380400001)(2616005)(956004)(38100700002)(38350700002)(53546011)(31686004)(52116002)(26005)(186003)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RHhDQVk4T2dITkVZRGVxQXYxSC9ySVJISGxBNlBNYUptbGJzWkNDK2NXOUNT?=
- =?utf-8?B?NXZpTWNGNEk2UFRxNXY1TEt4VU80eHovU2N3K2pmMWZhZFFLQjdMaXZubU14?=
- =?utf-8?B?RUMwcGtRK2FRRVEybVRyTlFiZE8xNE5ScSs2eVR3U3l5Nm00akhtZllMZGsz?=
- =?utf-8?B?U1NkTldLQVFJUE8zYzhTYXR1K0J5MUNnMVVTS1ZZcm9vbTFFa1c0YlFPRXRR?=
- =?utf-8?B?NUlMK3dUa0J6YUN1cmpqZ3NFbnlGVGoyKzdhNFdXSW1QUW5qRUhsWXVuZHE4?=
- =?utf-8?B?OWRscHVlQU4vOXBlOVV5VFFiRTNDeTlTaTlZcW5DcGt3YUR5SEtrbWE5WXdk?=
- =?utf-8?B?L3Z4SENJVlBCV2NtZ3BnRFN2Y0s0SDNlTHNUaHo3Z09zcXBiaGM0NlI4OUlm?=
- =?utf-8?B?U2xZNGFPM3k0Q1k4RktEL2hmYjFBY0V0eHM1MjFMWmp5Y1R1QklRM0pvN1RF?=
- =?utf-8?B?OEVBeUNvU0RHaDkzQWlOK0FKWDFVU3NvWnhVZlF6bEE4V1hHV2R6aE53eEdV?=
- =?utf-8?B?RDF3YWZ0Zy9LZTdXNjljd0RXbnl5azY2UUhmay94UTdNeWZ6Z1NnMDc5TmEw?=
- =?utf-8?B?aFFBa0xQSytrYStKNFMvL1NnbDNZbmE5TTJaREVTQzZweDZQMzNVT05HOHJY?=
- =?utf-8?B?Z2ZobmVNRlBxaWEzMnc2ZzlLN1F2b3p2S2hpWHV3RCtzbTZjdGVXRW9DWThP?=
- =?utf-8?B?ZFVMdVBvS3ZZZ0RFY1YwTWZXc3dsWS9rK2JFRVlhK1dZK3B5a2I0Y3l4am9N?=
- =?utf-8?B?QnJUbjk1M0NBeXB1YTkzc0hzUnZQa2luVENiYmhGVDJiZW5qbjY1UG5OTnZE?=
- =?utf-8?B?d0JrNEtmZmhRbjU5RVIzTUFnTzAwT0JtSDFsckVEb3hpWlRiMXExUCtHWmw3?=
- =?utf-8?B?aHpHRkl3SC9pMm44ZTd3TFdDRDlvSlNmVUtDZitmSjByNmxMMThsL3JsbTFk?=
- =?utf-8?B?VnlJQ3hlYjZxS0VvcWJLa0VpaVk2MGk2OXlXdVNjMytnWmxtc0dDVDJzZFQx?=
- =?utf-8?B?UGdScWJFTzcyT2RqY05oWDhaRThLYk9KeVVxS0FKZ1NJbm1RdjE4R2FXYlh1?=
- =?utf-8?B?R3ExOWR2aGRUNkhLUnByYzg3cU5oRFVuV0lZREowRnFpcjA5ZWpLQW8zSnh5?=
- =?utf-8?B?aHhhaWhSWXNKMlM4THZBa2xhQkV0QTV0dW5YdmFMbUFXZWZjS2lWbVl5bmZR?=
- =?utf-8?B?WmtwQW02SkFSVUNoWm5IZDI5MTBYa1JRdHJTZVdKSy9ud203K2IyWDYxclhV?=
- =?utf-8?B?UUpsYUdJYlFKQWdDTDdwSksvbFFNT3ZlNFpxN2E1emgxWk1GNDJpQ3c4dVlv?=
- =?utf-8?B?M2tWUTVZZklsR0ZFa2RPZ3JpU1JpaDAraXdVeFpMSkJKVHFZdnAyOU81eTR6?=
- =?utf-8?B?K2Nmc0RqcndudVB3bFlsd0NoNHBlTUVDMGd1dGdQK2RRSVUvMlYxeUJrZnhO?=
- =?utf-8?B?OG0zdlozRVVXMzZyZXBQajdIblRkQ1NKTWhxSFBPMW1GeTNnc1l3ZmtwQ3pI?=
- =?utf-8?B?MXdzK3c1OVNjSjN4Sk95Ujl5ZllabFNsS1Y5Qmx4czMzb0U1VXRHWk9FSHRE?=
- =?utf-8?B?UVZMTFF3b2hjSGlUZTJtT1NlMkpQZjJOdlloRDV5Y3hGZlRXWHVVTThpa2RR?=
- =?utf-8?B?eXpESlNrSFNsRFRCZWRxNjBteEtNSnJwaUY1dXVjZUlRbHo0L0puV3Nyc2lp?=
- =?utf-8?B?UHJDN1VxempZOVpRNnBTeWRrdlVzRWV3ZkNXZEZTZlExWmQwSHMvYUxMWGQ1?=
- =?utf-8?Q?9YDKn2NRg5p9+y1UF7am8hqDtSl7eZ1ipQN8HGo?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e87f512-a7b6-424a-1490-08d96d46afe0
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB5503.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2021 12:47:41.6935 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0KWWw5xxMbV23KDJMXofCwuV56m1L96RHF8pzvJCtGY5ZZdMuFvwLdWTKZKV37sIP1fHsW/mpsgOwFYiv/13PYjZ8HDazvq0PNLivCwHj24=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0801MB1663
-Received-SPF: pass client-ip=40.107.8.103;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.029, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <bfffbce1-c62f-5ae2-0de3-202b97fd593b@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.029, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -148,41 +103,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-01.09.2021 15:37, Hanna Reitz wrote:
-> On 24.08.21 10:38, Vladimir Sementsov-Ogievskiy wrote:
->> Give a good name to test file.
+On 01.09.21 12:05, Vladimir Sementsov-Ogievskiy wrote:
+> 06.08.2021 12:38, Max Reitz wrote:
+>> Finalizing the job may cause its AioContext to change.  This is noted by
+>> job_exit(), which points at job_txn_apply() to take this fact into
+>> account.
 >>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> Reviewed-by: Max Reitz <mreitz@redhat.com>
+>> However, job_completed() does not necessarily invoke job_txn_apply()
+>> (through job_completed_txn_success()), but potentially also
+>> job_completed_txn_abort().  The latter stores the context in a local
+>> variable, and so always acquires the same context at its end that it has
+>> released in the beginning -- which may be a different context from the
+>> one that job_exit() releases at its end.  If it is different, qemu
+>> aborts ("qemu_mutex_unlock_impl: Operation not permitted").
+>>
+>> Drop the local @outer_ctx variable from job_completed_txn_abort(), and
+>> instead re-acquire the actual job's context at the end of the function,
+>> so job_exit() will release the same.
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
 >> ---
->>   tests/qemu-iotests/{222 => tests/image-fleecing}         | 0
->>   tests/qemu-iotests/{222.out => tests/image-fleecing.out} | 0
->>   2 files changed, 0 insertions(+), 0 deletions(-)
->>   rename tests/qemu-iotests/{222 => tests/image-fleecing} (100%)
->>   rename tests/qemu-iotests/{222.out => tests/image-fleecing.out} (100%)
+>>   job.c | 23 ++++++++++++++++++-----
+>>   1 file changed, 18 insertions(+), 5 deletions(-)
 >>
->> diff --git a/tests/qemu-iotests/222 b/tests/qemu-iotests/tests/image-fleecing
->> similarity index 100%
->> rename from tests/qemu-iotests/222
->> rename to tests/qemu-iotests/tests/image-fleecing
->> diff --git a/tests/qemu-iotests/222.out b/tests/qemu-iotests/tests/image-fleecing.out
->> similarity index 100%
->> rename from tests/qemu-iotests/222.out
->> rename to tests/qemu-iotests/tests/image-fleecing.out
-> 
-> Good news: Including error-report.h helped with most of the CI errors.
-> 
-> “Bad” news: .gitlab-ci.d/buildtest.yml has a complete ./check command line including test numbers...  Not sure if that’s a great idea, but in any case, this means that build-tcg-disabled fails because that command line includes 222.  I think the fix should be simply to replace 222 by image-fleecing.  I hope that’s alright for you?
-> 
+>> diff --git a/job.c b/job.c
+>> index e7a5d28854..3fe23bb77e 100644
+>> --- a/job.c
+>> +++ b/job.c
+>> @@ -737,7 +737,6 @@ static void job_cancel_async(Job *job, bool force)
+>>     static void job_completed_txn_abort(Job *job)
+>>   {
+>> -    AioContext *outer_ctx = job->aio_context;
+>>       AioContext *ctx;
+>>       JobTxn *txn = job->txn;
+>>       Job *other_job;
+>> @@ -751,10 +750,14 @@ static void job_completed_txn_abort(Job *job)
+>>       txn->aborting = true;
+>>       job_txn_ref(txn);
+>>   -    /* We can only hold the single job's AioContext lock while 
+>> calling
+>> +    /*
+>> +     * We can only hold the single job's AioContext lock while calling
+>>        * job_finalize_single() because the finalization callbacks can 
+>> involve
+>> -     * calls of AIO_WAIT_WHILE(), which could deadlock otherwise. */
+>> -    aio_context_release(outer_ctx);
+>> +     * calls of AIO_WAIT_WHILE(), which could deadlock otherwise.
+>> +     * Note that the job's AioContext may change when it is finalized.
+>> +     */
+>> +    job_ref(job);
+>> +    aio_context_release(job->aio_context);
+>>         /* Other jobs are effectively cancelled by us, set the status 
+>> for
+>>        * them; this job, however, may or may not be cancelled, depending
+>> @@ -769,6 +772,10 @@ static void job_completed_txn_abort(Job *job)
+>>       }
+>>       while (!QLIST_EMPTY(&txn->jobs)) {
+>>           other_job = QLIST_FIRST(&txn->jobs);
+>> +        /*
+>> +         * The job's AioContext may change, so store it in @ctx so we
+>> +         * release the same context that we have acquired before.
+>> +         */
+>>           ctx = other_job->aio_context;
+>>           aio_context_acquire(ctx);
+>>           if (!job_is_completed(other_job)) {
+>> @@ -779,7 +786,13 @@ static void job_completed_txn_abort(Job *job)
+>>           aio_context_release(ctx);
+>>       }
+>>   -    aio_context_acquire(outer_ctx);
+>> +    /*
+>> +     * Use job_ref()/job_unref() so we can read the AioContext here
+>> +     * even if the job went away during job_finalize_single().
+>> +     */
+>> +    ctx = job->aio_context;
+>> +    job_unref(job);
+>> +    aio_context_acquire(ctx);
+>
+>
+> why to use ctx variable and not do it exactly same as in 
+> job_txn_apply() :
+>
+>    aio_context_acquire(job->aio_context);
+>    job_unref(job);
+>
+> ?
 
-Yes, that's OK, thanks
+Oh, I just didn’t think of that.  Sounds good, thanks!
 
-Unpredictable thing :( A reminder to always grep for file name when rename it..
+Hanna
 
--- 
-Best regards,
-Vladimir
+> anyway:
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>
+
 
