@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDA0C3FDE25
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 16:58:58 +0200 (CEST)
-Received: from localhost ([::1]:51950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF0723FDE38
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 17:06:53 +0200 (CEST)
+Received: from localhost ([::1]:57298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLRhZ-0002IP-U9
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 10:58:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44566)
+	id 1mLRpE-0006UQ-KI
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 11:06:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mLRgN-0001a6-Or
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 10:57:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26871)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mLRgL-0003uD-F8
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 10:57:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630508259;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SczuT2eMlYForwD5qO1QgmU+AXg+jJ62k2GnEQOngvQ=;
- b=Hn0jL51P7DuZTkAPQAR/MOIRJY9N6B2nhDju3vc/9VcPH49GAGueFyyzphErmRnluPVIib
- hAezWFc3d54KkwqMFbvQct7qsTetg3FGFhAfB0/h/pu83CuYjUWKdcUuaEyTHQm748hcOi
- oy6ae05mP+X0qhshoXtlPpRpWYMIC/Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-TFnFF7oROQCFkBigl7LREg-1; Wed, 01 Sep 2021 10:57:33 -0400
-X-MC-Unique: TFnFF7oROQCFkBigl7LREg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB07B801A92;
- Wed,  1 Sep 2021 14:57:30 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 586A560C05;
- Wed,  1 Sep 2021 14:57:17 +0000 (UTC)
-Date: Wed, 1 Sep 2021 15:57:14 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH] gitlab: Escape git-describe match pattern on Windows hosts
-Message-ID: <YS+UylEr3CJyksxt@redhat.com>
-References: <20210901145229.4132606-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mLRoA-0005p0-7b
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:05:46 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:56133)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mLRo7-0002F1-Cp
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:05:45 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id g135so5107wme.5
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 08:05:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=WytGeCdk9ym7l3UKnjiZJ4nLx3ccz7rfNfkyxdpMbu8=;
+ b=H7rdnn72BoSl9QSZTojwzN4Tm9KxUEU7tTSd71+27G03r42CsJPdAacTacDRcjum+P
+ 2iWNryv8VyYeYEIkLth2nwl6nmqALR+1gCeBgP6Reyoc0lmpATt1RCdndpyJYe+EE7oM
+ 2F/XAmBNaxjEmlPoaeJ8+810Lxx/4U5SpHFxW1wZl6XgMo+ZzX/jWz5MFYpTNP73zMhb
+ LAX0mpDFEt7HKLclgHYug3H2XuUD9GA5iPlh1zxc7l+PTJD+1OHjUsHjl0qMA06rTt35
+ qMdsYCd1ZZWhM81WwIbCMecafMECmxu4ROv4IFDtFTqZVOhlRfftWdXpe5yT9+e+prYq
+ HeDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WytGeCdk9ym7l3UKnjiZJ4nLx3ccz7rfNfkyxdpMbu8=;
+ b=d2ioO6qVqz/89eFpMzQCQEeyYNBabK6QORQa5atqbKmTLeMDiscNep4cnk0FEivI7B
+ 7AjPxzPPWoBAJsDve/G85cG2mr9dhIp6zQEZlG/+2Pc6s36G3vVWDsiTmyVD0Gahrout
+ cEiQ+3K4zyFqN0zYhc8C8R6Aae3pYY48k4XMDbRP7mM2rSCITn7QTuk+HIwRiwi/LdmV
+ UuFEoyQCHXQyHmRQL0fRdq4Wk47hO8E6tB9D/yZzWw04qWVdKLpUBh78++IgjSVekT8g
+ 42v/4/B6QqtAdfOx7a9ueMigTYU/mjc7Yhj2k+ZS8yeYStpttaypuNgRId1FEmvL3U9r
+ JKwA==
+X-Gm-Message-State: AOAM533Lx2NLmHVMxQyLmyJdolhQb3uGFJ+lbgcg6L6T+vUoJpqN7NJ4
+ Md3iA9AE9mSExSTEg6sxzrM=
+X-Google-Smtp-Source: ABdhPJxIB1MipQcfjM8/YEPdAlw4UNIXjF1TopUF3qw5DInOZ2SU+OXErGrnZVCNAPruMJ86IGxtyw==
+X-Received: by 2002:a05:600c:2056:: with SMTP id
+ p22mr10326663wmg.8.1630508742040; 
+ Wed, 01 Sep 2021 08:05:42 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id l15sm21575179wrv.84.2021.09.01.08.05.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Sep 2021 08:05:41 -0700 (PDT)
+Subject: Re: [PATCH] .mailmap: Fix more contributor entries
+To: qemu-devel@nongnu.org
+References: <20210820080437.2972139-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <cbaabea7-5a0c-2c1f-297e-c0a96bd0ee3a@amsat.org>
+Date: Wed, 1 Sep 2021 17:05:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210901145229.4132606-1-philmd@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210820080437.2972139-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.029,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,65 +89,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Eric Blake <eblake@redhat.com>,
- =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>
+Cc: Yuanjun Gong <ruc_gongyuanjun@163.com>,
+ Lichang Zhao <zhaolichang@huawei.com>, Haibin Zhang <haibinzhang@tencent.com>,
+ Guoyi Tu <tu.guoyi@h3c.com>, Bibo Mao <maobibo@loongson.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 01, 2021 at 04:52:29PM +0200, Philippe Mathieu-Daudé wrote:
-> Properly escape git-describe 'match' pattern to avoid (MinGW):
+On 8/20/21 10:04 AM, Philippe Mathieu-Daudé wrote:
+> These authors have some incorrect author email field.
+> For each of them, there is one commit with the replaced
+> entry.
 > 
->   $ if grep -q "EXESUF=.exe" config-host.mak; then make installer;
->     version="$(git describe --match v[0-9]*)";
->     mv -v qemu-setup*.exe qemu-setup-${version}.exe; fi
->   fatal: No names found, cannot describe anything.
->   ERROR: Job failed: exit code 1
-> 
-> Reported-by: Cédric Le Goater <clg@kaod.org>
-> Fixes: 8619b5ddb56 ("ci: build & store windows installer")
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/591
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Cc: Alex Chen <alex.chen@huawei.com>
+> Cc: Bibo Mao <maobibo@loongson.cn>
+> Cc: Guoyi Tu <tu.guoyi@h3c.com>
+> Cc: Haibin Zhang <haibinzhang@tencent.com>
+> Cc: Hyman Huang <huangy81@chinatelecom.cn>
+> Cc: Lichang Zhao <zhaolichang@huawei.com>
+> Cc: Yuanjun Gong <ruc_gongyuanjun@163.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  .gitlab-ci.d/crossbuild-template.yml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> If you are Cc'ed and agree with this change, please reply with a
+> "Reviewed-by: Name <email>" line. I'll wait 2 weeks and consider
+> no reply as a disagreement and will remove your entry from this
+> patch.
+
+last call ;)
+
+> ---
+>  .mailmap | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
-> index 10d22dcf6c1..62d33e6661d 100644
-> --- a/.gitlab-ci.d/crossbuild-template.yml
-> +++ b/.gitlab-ci.d/crossbuild-template.yml
-> @@ -14,7 +14,7 @@
->      - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
->      - if grep -q "EXESUF=.exe" config-host.mak;
->        then make installer;
-> -      version="$(git describe --match v[0-9]*)";
-> +      version="$(git describe --match 'v[0-9]*')";
-
-Do you have a pointer to a pipeline showing this fix works ?
-
-It is a bit strange to me. AFAICT, the only difference would
-be if the unquoted  v[0-9]*  matched a filename in the
-current directory, but that doesn't seem like it is the
-case here.
-
-Are you sure this isn't just caused by the setting
-
-  container-cross.yml:    GIT_DEPTH: 1
-
-ie we don't have the history depth needed to find any of the
-historic git tags.
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+> diff --git a/.mailmap b/.mailmap
+> index f029d1c21fe..11b259e7d07 100644
+> --- a/.mailmap
+> +++ b/.mailmap
+> @@ -69,6 +69,7 @@ Yongbok Kim <yongbok.kim@mips.com> <yongbok.kim@imgtec.com>
+>  # git author config, or had utf8/latin1 encoding issues.
+>  Aaron Lindsay <aaron@os.amperecomputing.com>
+>  Alexey Gerasimenko <x1917x@gmail.com>
+> +Alex Chen <alex.chen@huawei.com>
+>  Alex Ivanov <void@aleksoft.net>
+>  Andreas Färber <afaerber@suse.de>
+>  Bandan Das <bsd@redhat.com>
+> @@ -76,6 +77,7 @@ Benjamin MARSILI <mlspirat42@gmail.com>
+>  Benoît Canet <benoit.canet@gmail.com>
+>  Benoît Canet <benoit.canet@irqsave.net>
+>  Benoît Canet <benoit.canet@nodalink.com>
+> +Bibo Mao <maobibo@loongson.cn>
+>  Boqun Feng <boqun.feng@gmail.com>
+>  Boqun Feng <boqun.feng@intel.com>
+>  Brad Smith <brad@comstyle.com>
+> @@ -99,9 +101,12 @@ Gautham R. Shenoy <ego@in.ibm.com>
+>  Gautham R. Shenoy <ego@linux.vnet.ibm.com>
+>  Gonglei (Arei) <arei.gonglei@huawei.com>
+>  Guang Wang <wang.guang55@zte.com.cn>
+> +Guoyi Tu <tu.guoyi@h3c.com>
+> +Haibin Zhang <haibinzhang@tencent.com>
+>  Hailiang Zhang <zhang.zhanghailiang@huawei.com>
+>  Hanna Reitz <hreitz@redhat.com> <mreitz@redhat.com>
+>  Hervé Poussineau <hpoussin@reactos.org>
+> +Hyman Huang <huangy81@chinatelecom.cn>
+>  Jakub Jermář <jakub@jermar.eu>
+>  Jakub Jermář <jakub.jermar@kernkonzept.com>
+>  Jean-Christophe Dubois <jcd@tribudubois.net>
+> @@ -113,6 +118,7 @@ Jun Li <junmuzi@gmail.com>
+>  Laurent Vivier <Laurent@lvivier.info>
+>  Leandro Lupori <leandro.lupori@gmail.com>
+>  Li Guang <lig.fnst@cn.fujitsu.com>
+> +Lichang Zhao <zhaolichang@huawei.com>
+>  Liming Wang <walimisdev@gmail.com>
+>  linzhecheng <linzc@zju.edu.cn>
+>  Liran Schour <lirans@il.ibm.com>
+> @@ -171,6 +177,7 @@ Xiong Zhang <xiong.y.zhang@intel.com>
+>  Yin Yin <yin.yin@cs2c.com.cn>
+>  Yu-Chen Lin <npes87184@gmail.com>
+>  Yu-Chen Lin <npes87184@gmail.com> <yuchenlin@synology.com>
+> +Yuanjun Gong <ruc_gongyuanjun@163.com>
+>  YunQiang Su <syq@debian.org>
+>  YunQiang Su <ysu@wavecomp.com>
+>  Yuri Pudgorodskiy <yur@virtuozzo.com>
+> 
 
