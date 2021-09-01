@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C31933FD850
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 13:00:28 +0200 (CEST)
-Received: from localhost ([::1]:50322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B02C63FD853
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 13:01:34 +0200 (CEST)
+Received: from localhost ([::1]:52554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLNyl-0006mA-RZ
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 07:00:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43462)
+	id 1mLNzp-0008IJ-OK
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 07:01:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLNcL-00076T-4y
+ id 1mLNcL-00076q-KX
  for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:17 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:34516)
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:35548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLNcI-0005pA-H8
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:16 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- v20-20020a1cf714000000b002e71f4d2026so3499024wmh.1
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 03:37:13 -0700 (PDT)
+ id 1mLNcI-0005q0-Kp
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:17 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id i6so3792399wrv.2
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 03:37:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=+kXhFUWLQCA6qo5Trwr0Tjft3elFXFhPwM9yjPGmMdQ=;
- b=guE/YLgfckOMifOMAbujoeU4g74ijB+/37fn72gGMxFHo0AjiXQTew6rBRjB8PLF+r
- L6lvJLIn3n7dAePHJOAkx53WrUcgLXXZ28rph71lvqtBsMDxHQTttCrCZxDMp4npH0up
- fq7zWBncAqVy35RGWw+9tSMMHrETBH/e5aPZQllXVEAc/YvhSNIKbzPe3jyoAafOVgSj
- oGr4V402+JzFjVWu9hELbBCPI9iG7qqpzUbncMmPGoiCXJRf8XTpY8vQuNTaYxQ0iIbY
- At1YZP4sNWuy9FnmMe0FfuiKkXpF46f3MZnc5HlTV0dmN7bRtn72+ncjL9t0AC9upxl7
- Zk3g==
+ bh=qj0i5KL2ZuTJWlh9USuRwTygN60Vm69qctNqMX3MHmg=;
+ b=o1Qn5q0JKVnKcB3L8o5kHATiO8zOGZn4K8q3VUoUdotBmANRFwllfWbsu73UcRD7Q/
+ fafFz/vSBk83CEYw7zc3jdKkKaQTepNjQnl6SxGCT/TBi4nBSfFVA9NaEfXF82gnO4Pq
+ KeQsH9ypjpeBwwveOBEuKe/N0gjFC1/LmKIQMaNlHNpbznAODkrUO8nhXB1Pg48kJ69l
+ 6ZgKaPI1xapkDMKj1KGJMQZgSV5K1VK0fir7tyHCKjjh/R2aNnx++iUPV9akIguDxOwE
+ K6OuPp26jnWNdBXejQ+WDTFZkpALPogcLwk0jD//KpIsYUVrKyS3cXvO6ENWRhyLDfys
+ 6FGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+kXhFUWLQCA6qo5Trwr0Tjft3elFXFhPwM9yjPGmMdQ=;
- b=pFOl0zrjkGsyM8f0K/7rCXxD51YVx6dInuyvBm8v4o4aYDKcHLkYi1Ezup8xFka5rB
- gSIEFBIB4kHj3q9jXLDw3VOZw/mvMtbJPdw+2n91wIMI1EMYBJIU3xBGjlUPiRAkalfn
- lF/BSzUwrGeYshugcwRN08On0QKs07QjrTjJcrjVfWX0icpDp/j5bZwHLNICNzRUYgRX
- 7EezDjFma3AVXyAyqgCKx74pWJbcukWPb+reaJAACni+IyuE4iXZU/G04OIjXkqKYCmo
- lU89ds5lbGyK7mC/nrUW2wjfG8HIyv5tWSeXwJl38I0PaCALAnDpu+soRGwRpKjx7MSF
- e9fQ==
-X-Gm-Message-State: AOAM5316GUp7/V7ONFJgW/oV5oZG6sIv2wZTDGagJ9r0uVpBx5AaJkiP
- VEa2jctEbvBjjjJBs0YzEpp61KSPbPwh6A==
-X-Google-Smtp-Source: ABdhPJw/FXD1lIQYCZs91Kmu7yQJaTFGb0M87WZFgj0R6GmDG5GRTgeGdgAIhEqxxD5mwbN6KNL/kg==
-X-Received: by 2002:a1c:1dcc:: with SMTP id d195mr9204958wmd.85.1630492632618; 
- Wed, 01 Sep 2021 03:37:12 -0700 (PDT)
+ bh=qj0i5KL2ZuTJWlh9USuRwTygN60Vm69qctNqMX3MHmg=;
+ b=dkQXW+L1CKkjs0q8QylAlUsUyFehaoyGrWzRrTAaN5RJqC38LbzYQpUAyW+1EGWrw2
+ tWJuYF1xN3Sy2/3MRpy+FP5sC8ug/Ivl+78+ctPp2gwnzZl7YIM4jthczkp7sPZwlNAQ
+ l5ofUj5qplauOh3xVB804Wp+Y7Nj0BjFHOGTTZMrxe6vHHYGA1k8WeacogU/Pu/Iu8y3
+ /FKs/ANLd1xxbfuTEwMzTyuYzBhR0Ejpkf8YQhQyu7g83ZhpPUXmo77xmr3LwOuR2pHc
+ uJ4+Nt6bf0kmkqmOWcw0+YS3aHNSEvYMVHIA8ErlF6geyIw0TacpiYtTAvej5lX2SfAM
+ NFVw==
+X-Gm-Message-State: AOAM533RLsZtgOBM28uFEDfEuu3TtTM4Uo86lWC30ETqBuGQcUdqa4my
+ b8JukgMxRAA37ydeiyofaslAOVmRDM5ixA==
+X-Google-Smtp-Source: ABdhPJw+a4jbvuS0/dXsmImmpNdoOl6wydCdSh39poYOWuAb1REwheN02MZ3G5Dc/2LQHf0X62PZug==
+X-Received: by 2002:a5d:560e:: with SMTP id l14mr23410932wrv.205.1630492633258; 
+ Wed, 01 Sep 2021 03:37:13 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id j207sm5494771wmj.40.2021.09.01.03.37.12
  for <qemu-devel@nongnu.org>
@@ -55,17 +54,16 @@ Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  Wed, 01 Sep 2021 03:37:12 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/51] hw/arm/virt: target-arm: Add A64FX processor support to
- virt machine
-Date: Wed,  1 Sep 2021 11:36:27 +0100
-Message-Id: <20210901103653.13435-26-peter.maydell@linaro.org>
+Subject: [PULL 26/51] tests/arm-cpu-features: Add A64FX processor related tests
+Date: Wed,  1 Sep 2021 11:36:28 +0100
+Message-Id: <20210901103653.13435-27-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210901103653.13435-1-peter.maydell@linaro.org>
 References: <20210901103653.13435-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,42 +88,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
 
-Add -cpu a64fx to use A64FX processor when -machine virt option is
-specified.  In addition, add a64fx to the Supported guest CPU types
-in the virt.rst document.
+Add tests that the A64FX CPU model exposes the expected features.
 
 Signed-off-by: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
 Reviewed-by: Andrew Jones <drjones@redhat.com>
+[PMM: added commit message body]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/system/arm/virt.rst | 1 +
- hw/arm/virt.c            | 1 +
- 2 files changed, 2 insertions(+)
+ tests/qtest/arm-cpu-features.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/docs/system/arm/virt.rst b/docs/system/arm/virt.rst
-index 59acf0eeafa..850787495be 100644
---- a/docs/system/arm/virt.rst
-+++ b/docs/system/arm/virt.rst
-@@ -55,6 +55,7 @@ Supported guest CPU types:
- - ``cortex-a53`` (64-bit)
- - ``cortex-a57`` (64-bit)
- - ``cortex-a72`` (64-bit)
-+- ``a64fx`` (64-bit)
- - ``host`` (with KVM only)
- - ``max`` (same as ``host`` for KVM; best possible emulation with TCG)
+diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
+index 8252b85bb85..90a87f0ea9f 100644
+--- a/tests/qtest/arm-cpu-features.c
++++ b/tests/qtest/arm-cpu-features.c
+@@ -473,6 +473,19 @@ static void test_query_cpu_model_expansion(const void *data)
+         assert_has_feature_enabled(qts, "cortex-a57", "pmu");
+         assert_has_feature_enabled(qts, "cortex-a57", "aarch64");
  
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index dbb77b59974..73e9c6bb7cb 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -200,6 +200,7 @@ static const char *valid_cpus[] = {
-     ARM_CPU_TYPE_NAME("cortex-a53"),
-     ARM_CPU_TYPE_NAME("cortex-a57"),
-     ARM_CPU_TYPE_NAME("cortex-a72"),
-+    ARM_CPU_TYPE_NAME("a64fx"),
-     ARM_CPU_TYPE_NAME("host"),
-     ARM_CPU_TYPE_NAME("max"),
- };
++        assert_has_feature_enabled(qts, "a64fx", "pmu");
++        assert_has_feature_enabled(qts, "a64fx", "aarch64");
++        /*
++         * A64FX does not support any other vector lengths besides those
++         * that are enabled by default(128bit, 256bits, 512bit).
++         */
++        assert_has_feature_enabled(qts, "a64fx", "sve");
++        assert_sve_vls(qts, "a64fx", 0xb, NULL);
++        assert_error(qts, "a64fx", "cannot enable sve384",
++                     "{ 'sve384': true }");
++        assert_error(qts, "a64fx", "cannot enable sve640",
++                     "{ 'sve640': true }");
++
+         sve_tests_default(qts, "max");
+         pauth_tests_default(qts, "max");
+ 
 -- 
 2.20.1
 
