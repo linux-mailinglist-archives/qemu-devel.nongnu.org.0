@@ -2,86 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DB33FD9CD
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 14:37:59 +0200 (CEST)
-Received: from localhost ([::1]:46656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0216A3FD9CF
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 14:43:59 +0200 (CEST)
+Received: from localhost ([::1]:56370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLPV8-0000eu-47
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 08:37:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34900)
+	id 1mLPaw-0007LT-KM
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 08:43:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1mLPGv-0006ca-Jd; Wed, 01 Sep 2021 08:23:17 -0400
-Received: from mail-qk1-x730.google.com ([2607:f8b0:4864:20::730]:39820)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1mLPGt-0003W6-U9; Wed, 01 Sep 2021 08:23:17 -0400
-Received: by mail-qk1-x730.google.com with SMTP id y144so2716821qkb.6;
- Wed, 01 Sep 2021 05:23:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=FosCg8NsR9lp048gBtIzzt96cDOtCleXHbWuYb9TL2U=;
- b=k0H3UrlhzzP9karmkaRNzCBN2w8kzQTwV+tKUGMXDISNO72NHutxhlq3cdrVozuSDj
- xaYR32ZvO4FvSOQWsOKahQEkI8X87xYJe3MJzH0XghsXVIxOzPbywDYEl8Q06JPtlwEF
- U/tjv5xorN1p0FWBztzYR9tqxbhopSkh+my7xEvv7qDoX830JRKhtZEuvWxkONpnhi0u
- pooU4beAVgky5hLAH+QxqlMFkeF2dNiz2LWWYJH77xFV+t6JyN1G3ALhKjH9JO2Dc+VP
- nwfVyYrD39n63v7k4Dcb/OTto37DRQKUGzyo0aUn4xNb6VW4dAlYK30DONTcMqZTNw8p
- klFQ==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLPVB-0002FU-M5
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 08:38:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29327)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLPVA-0000ZU-4u
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 08:38:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630499878;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QfPOf7HVgBO/Z0EOL/1SMvh/aBP58LJEdhJGv+oOkOs=;
+ b=MnlQyvSeU22Swga8J6zyXUYCCJnp+cRgTjt6XI61j6KD6uLA43WUIvsLArP2Afb3ePhWIl
+ /hyfY4NBu+DJ6k+X6X/S2P/Mc+ZMQEQUD4gjAwX0wbhzn+c+5dlulfABnKn4BB7a8YigTx
+ TtiAvGE1baFqgnAZ3JOar7vOosNdZF4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-30-E0afQKpEPZy2ID6310iUGg-1; Wed, 01 Sep 2021 08:37:55 -0400
+X-MC-Unique: E0afQKpEPZy2ID6310iUGg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ a201-20020a1c7fd2000000b002e748bf0544so2768970wmd.2
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 05:37:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=FosCg8NsR9lp048gBtIzzt96cDOtCleXHbWuYb9TL2U=;
- b=QlW/lF9PHGWT6TcMtsjjLWCikK2otSHn5MoDWiId3bi5vJOzVqKd8oLcCeSa8MKPRs
- /Lubxkct9B5N8Q4cnjlxkg1ZVV8/mSpA4YCcxfv7cT4sXtkiLGWDv3JZGK6BZ/2kaBDx
- 5jPhr5C7kKLd1qEi7SwCBc/lrQVJnVz/dS+n4R28+9Tca+cIL9+FH9zQXEaJPpRxPiLC
- Yci6f8OHVLxxd0pycyG+sofvuAI73BMGUwbukXUDYH8coiWGMyXj+LX0IBE4h9spLNvg
- Lr5T8ekEBnAiyzFrm+gmDQCp9q4t05hmnpo5n17d6jllTk0Yccjr7FQlSlyMiwym5Is2
- t+yg==
-X-Gm-Message-State: AOAM533W0AkN4cE5tciQQCnrXLtMHY1oyYdXtbzj1g31Vofbj3b1UWBj
- yex7LF8KIUGUhCavivrW6HM=
-X-Google-Smtp-Source: ABdhPJzvs4BBlCWfSZM8VzsxirhFZAvML4PoHOERkE3JQ6Y6MneWn3xVBW9ppqUaRNxNv3pMiTmL9Q==
-X-Received: by 2002:a05:620a:13cc:: with SMTP id
- g12mr7883673qkl.277.1630498994551; 
- Wed, 01 Sep 2021 05:23:14 -0700 (PDT)
-Received: from [192.168.0.5] (d149-67-175-105.try.wideopenwest.com.
- [67.149.105.175])
- by smtp.gmail.com with ESMTPSA id o4sm12722114qti.24.2021.09.01.05.23.13
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 01 Sep 2021 05:23:14 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Re: [PATCH] Report any problems with loading the VGA driver for PPC
- Macintosh targets
-From: Programmingkid <programmingkidx@gmail.com>
-In-Reply-To: <d4343e2-cfd6-347f-d265-56cac2492643@eik.bme.hu>
-Date: Wed, 1 Sep 2021 08:23:12 -0400
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <50CE0E53-CD58-4D1C-82A2-02239E7492EB@gmail.com>
-References: <20210827181429.23609-1-programmingkidx@gmail.com>
- <2d87adfb-c612-8d36-4c97-50f07a82beeb@ilande.co.uk>
- <CAFEAcA_mb5zAaBiVjzo1QGGo-4Yt+j89iD9AUVKJP-pP1XCJmQ@mail.gmail.com>
- <8ED650E0-5874-4AE6-85E3-631E7B76D37A@gmail.com>
- <CAFEAcA96V6d-aAR65xiZQrB65aTfQEJfHq5x_ZSa3mpAoSUMQw@mail.gmail.com>
- <269a250-93ec-2e6-8813-5b65aa9fb76@eik.bme.hu>
- <9E32E4A0-D1BB-4DDF-8F57-38BD5044DF1D@gmail.com>
- <91bc8dea-deb6-193e-326d-7a6467fa1214@eik.bme.hu>
- <3FAD6D5D-E8E1-40AB-BAE8-0D92F6F4A171@gmail.com>
- <d4343e2-cfd6-347f-d265-56cac2492643@eik.bme.hu>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-X-Mailer: Apple Mail (2.3654.40.0.2.32)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::730;
- envelope-from=programmingkidx@gmail.com; helo=mail-qk1-x730.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=QfPOf7HVgBO/Z0EOL/1SMvh/aBP58LJEdhJGv+oOkOs=;
+ b=LeR2dzCMFR9AtcpM0gk9AbQsi+aYYr/cuE7Q8ECDHdVIr+CHUEHTVATPf6/01nMvL2
+ cj/NfU5QG+UozO1jjtWYGQnpfpYL+/CClBrkm/8404a/viCE2b+zUlyoHUMetcUo+JIC
+ I2v9detVMB3JPmi5eDVb7Y+nmscmJEyOMebhvP/mg8ptlQZe9SsHNy4jSZ9yflynbsT7
+ 6rKBGZAtGANJC/JnKO5CnLToiCB9DNKNRAz5qLBtQdF2Bp5aEcN7jDKfPs/BctXVIsxe
+ 35Wbsf0H/FfhSyx2mxXLC/G6Lz+JAmLTsekxxpgW6WFGd78ZtKAiw4GMjEhWP0U9QuF4
+ 1HQQ==
+X-Gm-Message-State: AOAM533mXxuU49Ni3tuDCCAbnKoUD9GuRoa0tN/LMYlX8HtDVFfw6Wuc
+ r/gEtVBJd477qq5sANXgcK0omkPHHPvFHZ7PZUPsoGIVqI0dC1FR+gGSMebmeUOv7UKJ5j1lB+J
+ V5lWEDkKwH6ZmWX0=
+X-Received: by 2002:a1c:3b8a:: with SMTP id i132mr9147939wma.145.1630499874043; 
+ Wed, 01 Sep 2021 05:37:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw9IV2md0bqAKY9c3PaGr029mPsUJ8cKkUQd1J+PpOMlchQV24FPMrklriREJZeydJvg9mYuA==
+X-Received: by 2002:a1c:3b8a:: with SMTP id i132mr9147917wma.145.1630499873866; 
+ Wed, 01 Sep 2021 05:37:53 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ k1sm21744936wrz.61.2021.09.01.05.37.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Sep 2021 05:37:53 -0700 (PDT)
+Subject: Re: [PATCH v8 28/34] iotests: move 222 to tests/image-fleecing
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210824083856.17408-1-vsementsov@virtuozzo.com>
+ <20210824083856.17408-29-vsementsov@virtuozzo.com>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <3dc6d789-1793-d80e-7318-2714de7e36ec@redhat.com>
+Date: Wed, 1 Sep 2021 14:37:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <20210824083856.17408-29-vsementsov@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.029, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,35 +99,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, Howard Spoelstra <hsp.cat7@gmail.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: kwolf@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+ jsnow@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com, crosa@redhat.com,
+ pbonzini@redhat.com, Max Reitz <mreitz@redhat.com>, eblake@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 24.08.21 10:38, Vladimir Sementsov-Ogievskiy wrote:
+> Give a good name to test file.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Max Reitz <mreitz@redhat.com>
+> ---
+>   tests/qemu-iotests/{222 => tests/image-fleecing}         | 0
+>   tests/qemu-iotests/{222.out => tests/image-fleecing.out} | 0
+>   2 files changed, 0 insertions(+), 0 deletions(-)
+>   rename tests/qemu-iotests/{222 => tests/image-fleecing} (100%)
+>   rename tests/qemu-iotests/{222.out => tests/image-fleecing.out} (100%)
+>
+> diff --git a/tests/qemu-iotests/222 b/tests/qemu-iotests/tests/image-fleecing
+> similarity index 100%
+> rename from tests/qemu-iotests/222
+> rename to tests/qemu-iotests/tests/image-fleecing
+> diff --git a/tests/qemu-iotests/222.out b/tests/qemu-iotests/tests/image-fleecing.out
+> similarity index 100%
+> rename from tests/qemu-iotests/222.out
+> rename to tests/qemu-iotests/tests/image-fleecing.out
 
+Good news: Including error-report.h helped with most of the CI errors.
 
-> On Sep 1, 2021, at 5:08 AM, BALATON Zoltan <balaton@eik.bme.hu> wrote:
->=20
-> On Tue, 31 Aug 2021, Programmingkid wrote:
->> I just realized, I sent a patch to the developer list that fixes the =
-missing qemu_vga.ndrv problem, but I do not know which maintainer to =
-send it to. Who maintains the configure script? A search of the =
-maintainers page was not clear as to who this is.
->=20
-> That's what the get_maintainer script is for, try
-> scripts/get_maintainer.pl -f configure
-> Interestingly there's no maintainer listed for configure, in that case =
-probably pick the contributor with highest percentage and since it's a =
-very simple patch you can also cc qemu-trivial list. See:
-> https://wiki.qemu.org/Contribute/SubmitAPatch
-> where all this should be explained.
->=20
-> Regards,
-> BALATON Zoltan
+“Bad” news: .gitlab-ci.d/buildtest.yml has a complete ./check command 
+line including test numbers...  Not sure if that’s a great idea, but in 
+any case, this means that build-tcg-disabled fails because that command 
+line includes 222.  I think the fix should be simply to replace 222 by 
+image-fleecing.  I hope that’s alright for you?
 
-Thank you for the advice. I have sent the patch to the trivial list and =
-its maintainers.=
+Hanna
+
 
