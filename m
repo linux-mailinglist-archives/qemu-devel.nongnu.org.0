@@ -2,93 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89CBD3FDF9B
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:18:24 +0200 (CEST)
-Received: from localhost ([::1]:57524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D379D3FDF7D
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:13:00 +0200 (CEST)
+Received: from localhost ([::1]:45374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLSwR-00065Q-JM
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:18:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52382)
+	id 1mLSrD-0006EN-V2
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:12:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLS9D-0001WB-Ph
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:27:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26889)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mLSCI-00080A-MS
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:30:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60422)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLS9C-0003e9-6N
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:27:31 -0400
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mLSCG-00066l-Qk
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:30:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630510048;
+ s=mimecast20190719; t=1630510236;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q3p94SWuVwowKCUt8FvJriR/qkltdvAkRqgjzymSZVw=;
- b=hTBgP35CUa0kiHkp6MLwKxBwEvDHt3eUcHyHeR+tMlQNkr5w8QC+/ihVKBVMJ2kPnkU9ok
- NvyQ7liifP1Mg7l8XxzoqXhY75XfVDEGIRKDFK6y5SsmU0wQyoeDbesQqRKfrpT+YK3J4P
- Zd2vfqHOomRA1oMfDrIs+YpeoDR+oIY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-444-3KyoIYzGOqirlCeCQwJxuQ-1; Wed, 01 Sep 2021 11:27:25 -0400
-X-MC-Unique: 3KyoIYzGOqirlCeCQwJxuQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- n18-20020adfe792000000b00156ae576abdso22067wrm.9
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 08:27:25 -0700 (PDT)
+ bh=bZE+0tIwllPyqp6hGi2pY21eXyWD8vDCvWZd05nW1jw=;
+ b=GLpWV8vYjz54yVPbfYR1jkpuql8DmP4xmBqzw6cz1ogNa+a2IgrKyXq0+o2j64pqY0mmy8
+ NLpod8LGbG+tlBNGNq/7+ouVgK6uFu7ZA5JTOXG6X3i+yCK/gIR+J9eHJSvssdepovSb9E
+ zIqNoBGe2zOeglZZI5DWzNpUp7vbSDA=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-220-q_ZhWlIiPXqzTmximHIkiA-1; Wed, 01 Sep 2021 11:30:33 -0400
+X-MC-Unique: q_ZhWlIiPXqzTmximHIkiA-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ x4-20020a50d9c4000000b003bed5199871so1465121edj.14
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 08:30:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Q3p94SWuVwowKCUt8FvJriR/qkltdvAkRqgjzymSZVw=;
- b=Yv3y/YFQVrpAeL07qV3//kTagSfU6DfBswsmBViRJzvebYtcD9eMa9PHjaWRt2gYGy
- ziWfRvNo16oQQjWIs+JlYoBB2TwBJ1zKQ44fT4BkvGM43hCxvhc6DhnmuUocFETFm+o1
- 0meDKXuGWOanLyNi6kv6WlsePzovPUIPufBbqx6IpCpH2ogmZkJhuk1x0cHXEj35nTV2
- eEuuPva5PEnmPpe4iAfV7wVKyf0Gr8KNIQZ070PoarY/VM09PYVcq1Hcdp80NE+LkPTv
- q3rHCXPPTnOVVPWNNmG4BYH79OabGHRAlKKcbuNYaE5iWmSMdM+OiMUMMIZExWmKKfLI
- KeiA==
-X-Gm-Message-State: AOAM531hPccELciQkJjuJ0vDtv70lCoMjAsofcBAyvBj4YfnEsE91GIo
- nakmNwnYJSuE2hkoDvqKPY6ksy2dXmfyulsaVg/RQCI1FANZjUE8+H1f9yhzW+rTp8ET7emSsIa
- gqopmEHCGQf7cpZc=
-X-Received: by 2002:a05:600c:4b92:: with SMTP id
- e18mr55286wmp.156.1630510044233; 
- Wed, 01 Sep 2021 08:27:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx4HFtCPEm1y1P1+bmkka1Lcy9WXmvzBhxFooYL9VvlPL9PoGmC3pG+YpltJp6D7zZf7ugUew==
-X-Received: by 2002:a05:600c:4b92:: with SMTP id
- e18mr55260wmp.156.1630510044054; 
- Wed, 01 Sep 2021 08:27:24 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id t14sm5355237wmi.12.2021.09.01.08.27.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Sep 2021 08:27:23 -0700 (PDT)
-Subject: Re: [PATCH] s390x: Replace PAGE_SIZE, PAGE_SHIFT and PAGE_MASK
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Matthew Rosato <mjrosato@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>
-References: <20210901125800.611183-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b5cebe17-c00d-dc87-5db0-7ffd0dbf2493@redhat.com>
-Date: Wed, 1 Sep 2021 17:27:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=bZE+0tIwllPyqp6hGi2pY21eXyWD8vDCvWZd05nW1jw=;
+ b=q4EkqvpVxDpHxr0fGi/lgKBsIQlij1YfH+I6f0VvFyJHAcMM9KxQzn3WXImY6HNhdv
+ 1lAQirhcA5cnYxsr/eCXUFEaFE5mACYnUd8ZsSYF9chikXX+fyXSltkrDJWjNwnjfo60
+ bpwOhdsez+BL99YvVWELLDbHnyAt85NvO3m5IVj0xn6LfIMjI2ReMPw7lxmAHB7ACKMA
+ FSRuzAFfjh/YJpaF+nPbMkCaVqiHFVTqWojvrpcdjdWdfzEoO3UnibRsGifAWuWEGuSV
+ 14XSnRCxr/fdYVPUZ+vl9QeG+m0rey/znHEYlAyYEu6ELjOwSuLyFL3wsolz4/G3Brjz
+ GUyg==
+X-Gm-Message-State: AOAM532zfRBW4Xz6SGbkqQ5hcB12l/6E8fuv/4AHQ/C28bs2q0L+L7f6
+ ahv/CSUVaHDJbDA4LsmZqHJqIyMLZZS+O3RM32O3JVfwEPITqkrvHMnlNjWsI2B8FvlRyTKGu3V
+ XU2JAYmXzXJZRi10=
+X-Received: by 2002:a17:906:abc3:: with SMTP id
+ kq3mr11651ejb.382.1630510232224; 
+ Wed, 01 Sep 2021 08:30:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwsXhBZKHj8FabMd0szGhOehctaNdjTzZUBHoVzvc0R30YDUdIA6j92E8+ohLJFOYmr0zWJyg==
+X-Received: by 2002:a17:906:abc3:: with SMTP id
+ kq3mr11624ejb.382.1630510231963; 
+ Wed, 01 Sep 2021 08:30:31 -0700 (PDT)
+Received: from steredhat (host-79-51-2-59.retail.telecomitalia.it.
+ [79.51.2.59])
+ by smtp.gmail.com with ESMTPSA id bx14sm102885edb.93.2021.09.01.08.30.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Sep 2021 08:30:31 -0700 (PDT)
+Date: Wed, 1 Sep 2021 17:30:29 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Helge Konetzka <hk@zapateado.de>
+Subject: Re: [qemu-web PATCH] Fix link to Windows page in Wiki
+Message-ID: <20210901153029.ilbyiqvev7j5vjb3@steredhat>
+References: <6755edb6-f953-4ca2-a4b6-31e4566e9842@zapateado.de>
 MIME-Version: 1.0
-In-Reply-To: <20210901125800.611183-1-thuth@redhat.com>
+In-Reply-To: <6755edb6-f953-4ca2-a4b6-31e4566e9842@zapateado.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.029, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,29 +96,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
- David Hildenbrand <david@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/1/21 2:58 PM, Thomas Huth wrote:
-> The PAGE_SIZE macro is causing trouble on Alpine Linux since it
-> clashes with a macro from a system header there. We already have
-> the TARGET_PAGE_SIZE, TARGET_PAGE_MASK and TARGET_PAGE_BITS macros
-> in QEMU anyway, so let's simply replace the PAGE_SIZE, PAGE_MASK
-> and PAGE_SHIFT macro with their TARGET_* counterparts.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/572
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  hw/s390x/s390-pci-bus.c         | 10 +++++-----
->  hw/s390x/s390-pci-inst.c        |  8 ++++----
->  hw/s390x/sclp.c                 |  2 +-
->  include/hw/s390x/s390-pci-bus.h |  5 +----
->  4 files changed, 11 insertions(+), 14 deletions(-)
+CCing Paolo and Thomas
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Wed, Aug 25, 2021 at 06:43:56PM +0200, Helge Konetzka wrote:
+>The appended patch fixes the link to Wiki Windows page on Website 
+>Download Sources page.
+>
+>Furthermore I would like to propose to change the instructions for 
+>Native builds with MSYS2 on Wiki Windows page.
+>
+>Please remove the section which copies system binaries to match the 
+>expected file names!
+>
+>Instead define variables for configure (gcc-ar and gcc-ranlib are 
+>existing copies of x86_64-w64-mingw32-gcc-ar and 
+>x86_64-w64-mingw32-gcc-ranlib) and add strip to enable make install:
+>
+>AR=gcc-ar NM=nm OBJCOPY=objcopy RANLIB=gcc-ranlib WINDRES=windres 
+>STRIP=strip \
+>./configure --cross-prefix=x86_64-w64-mingw32- --enable-gtk --enable-sdl
+>
+>Signed-off-by: Helge Konetzka <hk@zapateado.de>
+>---
+> _download/source.html | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>diff --git a/_download/source.html b/_download/source.html
+>index 35fd156..8671f4e 100644
+>--- a/_download/source.html
+>+++ b/_download/source.html
+>@@ -2,7 +2,7 @@
+>        <p>Grab the source code for the latest releases and compile it 
+>yourself!
+>        Detailed compilation instructions can be found in the wiki for
+>                <a href="https://wiki.qemu.org/Hosts/Linux">Linux</a>,
+>-               <a href="https://wiki.qemu.org/Hosts/Windows">Win32</a> and
+>+               <a href="https://wiki.qemu.org/Hosts/W32">Win32</a> and
+>                <a href="https://wiki.qemu.org/Hosts/Mac">macOS</a>.</p>
+>
+>        <div id="releases">
+>-- 
+>2.20.1
+>
 
 
