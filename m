@@ -2,68 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E131A3FD553
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 10:25:04 +0200 (CEST)
-Received: from localhost ([::1]:39566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C09253FD5BF
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 10:38:31 +0200 (CEST)
+Received: from localhost ([::1]:45168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLLYN-0000Hv-Nv
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 04:25:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43486)
+	id 1mLLlO-0004Xh-4S
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 04:38:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLLXF-0007pr-De
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 04:23:53 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37789)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLLXC-0001AQ-10
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 04:23:53 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id v10so3179116wrd.4
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 01:23:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=92BObO8RTM+Mo2JEAic2IS0WryqOsOn7gZKcj2QnUw4=;
- b=meciSSH3RLL8VxW/A91DJfmzd0thJycfEKXt/My6OdaF7712DWheojy+wxQH1LI3ib
- JjOhwmT8WY8jv+hpZdjXc+3wsduuvWCyZwKe9guNqY85Uk4r/qKmhsULHMmT57mt4M0E
- IomFZjr/DUX5fEPEsf8PKPtXyVamxFxuqgBENttJPbxDIllIOUKPIXTYG4oDonxVDlDQ
- qV5NXhmLvbuQroToq0O7w+4VEAIEyt9EIg6vyxytZIDzWrsYhSXczB6g6HW3PMBgSTui
- RHiJEzfQH0l4/kUlMQQ7v90Fkfc4xmdaDPUclFPN9S7z2i7TuOHNpCFMvAfH7VJc5s4Z
- KU+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=92BObO8RTM+Mo2JEAic2IS0WryqOsOn7gZKcj2QnUw4=;
- b=eask8CIH2O3Kcf+SrbJIjP6ZvskOi1sBBhaOK2Pmlg7ojBxz2wGEreOx1sTOHpp+YS
- kuHy4MNbcbQC37Cac+zvQKKvBlO3iQQUMB0CzlxDuAbKfTouMU+zh7rDzmVwQlZKaL8K
- zcpNf6L0PZRN95cjUnVEj1Ri3oiprJNMR170uqGOj1OeIyFixSPyi9KDxYAa8Ke5sobs
- uF0BM994Evha6JjvCgkwfYG2wLiHbTv6iZNXfPTLS2p8oSdHcuybjEX1wm8kvWFbpPs9
- sMMUyo/aMlV7HdrxJIFpcmr7vywO3VZBV1hMxLoi8di+q66jQ2sxhyZMxP99Wm2vB+3y
- 1oCA==
-X-Gm-Message-State: AOAM531FnDP3/jNA8xzxLVlsq1kbya9q+2Y2XXAtUCsgN52YOcorearT
- 0mSCvv5xLvHJK0Qk54C2xThKQ6WKDVYZBIYky5KAeA==
-X-Google-Smtp-Source: ABdhPJxL3BcwC2U1Lx1e2GqWL+jAxHruJqI0/CDYvUmUY1ysfEWYluUU0WM3JhDvPZstzYKt2Kh80CYgfvhyMiBZujI=
-X-Received: by 2002:adf:ba0f:: with SMTP id o15mr35685531wrg.386.1630484628434; 
- Wed, 01 Sep 2021 01:23:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1mLLdE-00022m-Mi; Wed, 01 Sep 2021 04:30:04 -0400
+Received: from isrv.corpit.ru ([86.62.121.231]:48559)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>)
+ id 1mLLd8-0006Fx-Oc; Wed, 01 Sep 2021 04:30:04 -0400
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 07AD24000A;
+ Wed,  1 Sep 2021 11:29:55 +0300 (MSK)
+Received: from [192.168.177.132] (mjt-x200la.wg.tls.msk.ru [192.168.177.132])
+ by tsrv.corpit.ru (Postfix) with ESMTP id D03297D;
+ Wed,  1 Sep 2021 11:29:54 +0300 (MSK)
+Subject: Re: [PATCH] qemu-sockets: fix unix socket path copy (again)
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210831182623.1792608-1-mjt@msgid.tls.msk.ru>
+ <CAFEAcA9xc_q1fDT1F8uEW=dEQXmRWX8nusPmtmFLASg1EwU8gw@mail.gmail.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
+Message-ID: <9785281e-85cb-a993-d35a-94ef11df9b67@msgid.tls.msk.ru>
+Date: Wed, 1 Sep 2021 11:29:58 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210831082940.2811719-1-ishii.shuuichir@fujitsu.com>
-In-Reply-To: <20210831082940.2811719-1-ishii.shuuichir@fujitsu.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 1 Sep 2021 09:23:00 +0100
-Message-ID: <CAFEAcA-F-gBMJiW1MEJ3m89Y14fXwOXx33=MvxvyHTBqpLM4bg@mail.gmail.com>
-Subject: Re: [PATCH v6 0/3] Add support for Fujitsu A64FX processor
-To: Shuuichirou Ishii <ishii.shuuichir@fujitsu.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <CAFEAcA9xc_q1fDT1F8uEW=dEQXmRWX8nusPmtmFLASg1EwU8gw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: ru-RU
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -77
+X-Spam_score: -7.8
+X-Spam_bar: -------
+X-Spam_report: (-7.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.932,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,22 +57,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-stable <qemu-stable@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 31 Aug 2021 at 09:29, Shuuichirou Ishii
-<ishii.shuuichir@fujitsu.com> wrote:
->
-> This is the v6 patch series.
->
-> v6:
-> For patch 1[1/3], added the commit messages that the Identification registers
-> value are defined based on FX700, and has been tested and confirmed.
+On 31.08.2021 22:47, Peter Maydell wrote:
+> On Tue, 31 Aug 2021 at 19:34, Michael Tokarev <mjt@tls.msk.ru> wrote:
+..
+>> -    assert(salen >= sizeof(su->sun_family) + 1 &&
+>> -           salen <= sizeof(struct sockaddr_un));
+>> +    /* there's a corner case when trailing \0 does not fit into
+>> +     * sockaddr_un. Compare length with sizeof(sockaddr_storage),
+>> +     * not with sizeof(sockaddr_un), since this is what we actually
+>> +     * provide, to ensure we had no truncation and a room for
+>> +     * the trailing \0 which we add below.
+>> +     * When salen == sizeof(sun_family) it is unnamed socket,
+>> +     * and when first byte of sun_path is \0, it is abstract. */
+>> +    assert(salen >= sizeof(su->sun_family) &&
+>> +           salen <= sizeof(struct sockaddr_storage));
+> 
+> Again, why are we asserting an upper bound? We don't care here:
+> the representation in the SocketAddress structure has no length
+> limit on the path. (Conversely, we do care about the max length
+> when we convert from a SocketAddress to a sockaddr_un: we do this
+> in eg unix_connect_saddr().)
 
+We have sizeof(sockaddr_storage) space there. If the kernel returned
+salen greather than that, this means we received only partial address
+and can't rely on it. It is like snprintf() returning more bytes than
+available in the buffer - it says how much bytes NEEDED.
 
-Applied to target-arm.next. Thanks!
-
--- PMM
+/mjt
 
