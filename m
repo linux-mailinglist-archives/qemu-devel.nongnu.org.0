@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD893FD9D5
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 14:50:42 +0200 (CEST)
-Received: from localhost ([::1]:46000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BA5E3FD9DE
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 14:54:58 +0200 (CEST)
+Received: from localhost ([::1]:58866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLPhR-0002f3-4x
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 08:50:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39694)
+	id 1mLPlZ-0002rZ-47
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 08:54:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mLPcf-0003bX-Pz; Wed, 01 Sep 2021 08:45:45 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:42619)
+ id 1mLPci-0003jA-4o; Wed, 01 Sep 2021 08:45:48 -0400
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:39709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mLPce-0003cJ-79; Wed, 01 Sep 2021 08:45:45 -0400
-Received: by mail-pl1-x630.google.com with SMTP id n4so1413021plh.9;
- Wed, 01 Sep 2021 05:45:43 -0700 (PDT)
+ id 1mLPcg-0003ge-LG; Wed, 01 Sep 2021 08:45:47 -0400
+Received: by mail-pf1-x433.google.com with SMTP id e16so1953240pfc.6;
+ Wed, 01 Sep 2021 05:45:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=iwqv3rn3ZLXoG5hEsp2R8ezKy0ImKKf4Ph1gMyrL2HU=;
- b=domoZ+gyU3iQRlpMhIMhkYEPtPnqY56xMUVABpdsa9dcVfv6PcFR56tqbFzZUrEVd+
- gQwSezynAPDTrGGhqFcuAZwYCWWsjXFmcCYLAejzGznnyVN54Ru9c/ffEkgD8lvN5kGV
- BXKWyyjWNma7y5firYQ01l0kllsGKZ1ANZ0hjC6Ogdzpvvz424K8u1UKR+VvSJllzpZf
- xqoiTatwKwdpyfa1ILdQrWbKDJRSmYUPrq0xkiqwFY7GcA37ovAuNhsvIMX6kTXppk74
- F/GQ5+SEHvF6hm6INv5ipU0de/H5cECyFCuwEVxlhW6g1cBzGsNx2GmA/ArBFrpb7bsU
- IQvw==
+ bh=0+KB8VLhpjDCIb3k+XnxOMKOakzrhTJnwW420hgy2YA=;
+ b=RO630i0c4UDvUHAZSkxa0pOSVXjJUThL3Hyu+OUN7brYuo9Jqz7YAAE3FGZp1VRP7D
+ ESPg08odxk9ypns5U/F8qejexBpcM7Wcpy9UwxM8r1mvupm2cJKLZB0lqZslyKTVnRiu
+ 7YpMqSsK+86d9ecfHQJ4IXjvZuBEEKdyAUHiCb9WH/nC3ZSb6/yjt5zLNDBhm0hBdi7Q
+ u4YKqZ8jh5uuEhuevrWKS4Eh4M9UZbqx8PEZYaNg77+aPfI0crAQnoR0UHZaYhxP7NO/
+ MVDC0sm+SknNlkm2umscYZ1j4xCYG1IMrKP6ZxqZiE6zK7cpI2yGQaGH+GGbZrIvx8Cv
+ QdCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iwqv3rn3ZLXoG5hEsp2R8ezKy0ImKKf4Ph1gMyrL2HU=;
- b=nMxQBKJEOB+AtXiKwQHQphOYyq0eg+2KRNnXpn+8h3RigQcj3J4AE6dIFLZTAzGIl9
- 4Dfhy9TtsVu6vukRfjHNLHtX2MP4Hyy7aH+N3vMUjhGIUs0pi8upQPoHxt/VPi4SF8Z4
- vatlJdVQzjZOBJWMQ+ZoZr0kcLUqFFZsxKej/Fxe7DpYKLDL/UWGRRwoj4V+PBEYGqvB
- a523H3n6oXUMHQvCLJw2XjVByEnN5d2ixp9x+M1V1GskIQaDqw1yUHGhAknm4zhJ5fkq
- Y9wOi7AFO8HCVsS6m388anABn8PTwtAwTFgzrh4ywLVU8sQ5WuASe5mkAv2rbxFYJnbN
- T+fw==
-X-Gm-Message-State: AOAM530CCHkR4TuMaaANSOzm5v66d9CnQpiN9eDBTWH6jIFnNonz5QY7
- DrIUstPNzHIob0wX0sC4WtY=
-X-Google-Smtp-Source: ABdhPJwBzNWT36PnD/YNPN+lN7hTmmHK2HqKdc5I+wTpQtm6SF+KXixTRtwpLuYnVrAFf1Q56z9qYw==
-X-Received: by 2002:a17:90a:af92:: with SMTP id
- w18mr11348401pjq.98.1630500342574; 
- Wed, 01 Sep 2021 05:45:42 -0700 (PDT)
+ bh=0+KB8VLhpjDCIb3k+XnxOMKOakzrhTJnwW420hgy2YA=;
+ b=hQRFyoXBzkTReTTCQzZuKeBA8nMBwfmdYniSC7uXDyJiExDyhIeDNLFKDwnRynjI/I
+ hC3sNUQPf458TbTtt+LyGP1KFqWIKSmQMvs6cvZ48B2Tug+48BPFvoqUF83WQXHKoA/o
+ 3W7daS4tBXMlWpwrFFWSz603bmaBonnBXdV0RzjzDXSsms2eFjsJwl2Ez21QWQx7Zzc4
+ zJ/TDGomzyNG4lJfO4u+52mAl6XYcyjxd3omBxUQWnkJ4VUHfC+YGOcWA4yahJo6i/aG
+ hIiO3YmY9hx93F5vxtHwaRI/wttdj6Dt5H/CbkfEDGhUT8E8f0etKhrxBhGKAn5RzzgC
+ MYZg==
+X-Gm-Message-State: AOAM531SXaqpg6C9HT4Y+XKqmeNXqWSCQ0Sb/Dn7FNNoxC/06TDeWOU4
+ DNRkMXLdihP9RDeztxfDMKE=
+X-Google-Smtp-Source: ABdhPJyKZ05wrtPKAXd372pjRGvQVa2DCd4nspCR55QBtCXfAFwYNxZAxKiq2/a0Ekb00lJHkrAkJA==
+X-Received: by 2002:aa7:8d4e:0:b0:3fd:b14b:950a with SMTP id
+ s14-20020aa78d4e000000b003fdb14b950amr17922569pfe.26.1630500345130; 
+ Wed, 01 Sep 2021 05:45:45 -0700 (PDT)
 Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
  [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id d22sm20917134pfq.158.2021.09.01.05.45.40
+ by smtp.gmail.com with ESMTPSA id d22sm20917134pfq.158.2021.09.01.05.45.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 05:45:42 -0700 (PDT)
+ Wed, 01 Sep 2021 05:45:44 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Damien Hedde <damien.hedde@greensocs.com>,
  "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
  Alistair Francis <alistair.francis@wdc.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v3 5/6] hw/char: cadence_uart: Ignore access when unclocked or
- in reset for uart_{read, write}()
-Date: Wed,  1 Sep 2021 20:45:20 +0800
-Message-Id: <20210901124521.30599-6-bmeng.cn@gmail.com>
+Subject: [PATCH v3 6/6] hw/char: cadence_uart: Log a guest error when device
+ is unclocked or in reset
+Date: Wed,  1 Sep 2021 20:45:21 +0800
+Message-Id: <20210901124521.30599-7-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210901124521.30599-1-bmeng.cn@gmail.com>
 References: <20210901124521.30599-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x630.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,62 +91,66 @@ Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Read or write to uart registers when unclocked or in reset should be
-ignored. Add the check there, and as a result of this, the check in
-uart_write_tx_fifo() is now unnecessary.
+We've got SW that expects FSBL (Bootlooader) to setup clocks and
+resets. It's quite common that users run that SW on QEMU without
+FSBL (FSBL typically requires the Xilinx tools installed). That's
+fine, since users can stil use -device loader to enable clocks etc.
 
+To help folks understand what's going, a log (guest-error) message
+would be helpful here. In particular with the serial port since
+things will go very quiet if they get things wrong.
+
+Suggested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
 ---
 
-(no changes since v2)
+Changes in v3:
+- new patch: hw/char: cadence_uart: Log a guest error when unclocked or in reset
 
-Changes in v2:
-- new patch: hw/char: cadence_uart: Ignore access when unclocked or in reset for uart_{read,write}()
-
- hw/char/cadence_uart.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ hw/char/cadence_uart.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
-index 8bcf2b718a..5f5a4645ac 100644
+index 5f5a4645ac..c069a30842 100644
 --- a/hw/char/cadence_uart.c
 +++ b/hw/char/cadence_uart.c
-@@ -335,11 +335,6 @@ static gboolean cadence_uart_xmit(void *do_not_use, GIOCondition cond,
- static void uart_write_tx_fifo(CadenceUARTState *s, const uint8_t *buf,
-                                int size)
- {
--    /* ignore characters when unclocked or in reset */
--    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
--        return;
--    }
--
-     if ((s->r[R_CR] & UART_CR_TX_DIS) || !(s->r[R_CR] & UART_CR_TX_EN)) {
+@@ -240,6 +240,8 @@ static int uart_can_receive(void *opaque)
+ 
+     /* ignore characters when unclocked or in reset */
+     if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: uart is unclocked or in reset\n",
++                      __func__);
+         return 0;
+     }
+ 
+@@ -376,6 +378,8 @@ static void uart_event(void *opaque, QEMUChrEvent event)
+ 
+     /* ignore characters when unclocked or in reset */
+     if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: uart is unclocked or in reset\n",
++                      __func__);
          return;
      }
-@@ -416,6 +411,11 @@ static MemTxResult uart_write(void *opaque, hwaddr offset,
- {
-     CadenceUARTState *s = opaque;
  
-+    /* ignore access when unclocked or in reset */
-+    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
-+        return MEMTX_ERROR;
-+    }
-+
-     DB_PRINT(" offset:%x data:%08x\n", (unsigned)offset, (unsigned)value);
-     offset >>= 2;
-     if (offset >= CADENCE_UART_R_MAX) {
-@@ -476,6 +476,11 @@ static MemTxResult uart_read(void *opaque, hwaddr offset,
-     CadenceUARTState *s = opaque;
-     uint32_t c = 0;
+@@ -413,6 +417,8 @@ static MemTxResult uart_write(void *opaque, hwaddr offset,
  
-+    /* ignore access when unclocked or in reset */
-+    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
-+        return MEMTX_ERROR;
-+    }
-+
-     offset >>= 2;
-     if (offset >= CADENCE_UART_R_MAX) {
-         return MEMTX_DECODE_ERROR;
+     /* ignore access when unclocked or in reset */
+     if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: uart is unclocked or in reset\n",
++                      __func__);
+         return MEMTX_ERROR;
+     }
+ 
+@@ -478,6 +484,8 @@ static MemTxResult uart_read(void *opaque, hwaddr offset,
+ 
+     /* ignore access when unclocked or in reset */
+     if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
++        qemu_log_mask(LOG_GUEST_ERROR, "%s: uart is unclocked or in reset\n",
++                      __func__);
+         return MEMTX_ERROR;
+     }
+ 
 -- 
 2.25.1
 
