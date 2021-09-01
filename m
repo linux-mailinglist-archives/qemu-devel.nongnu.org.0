@@ -2,78 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ECBB3FE03F
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:42:48 +0200 (CEST)
-Received: from localhost ([::1]:48424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4379A3FE002
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:35:09 +0200 (CEST)
+Received: from localhost ([::1]:51456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLTK3-0007Oo-87
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:42:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58334)
+	id 1mLTCe-0006fv-CB
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:35:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mLSex-0003GH-3X; Wed, 01 Sep 2021 12:00:19 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:46614)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mLSev-0004hf-5Q; Wed, 01 Sep 2021 12:00:18 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id x6so255589wrv.13;
- Wed, 01 Sep 2021 09:00:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=XfSukScJLJxCgklkfWrY6l+qKwS9yAR37XMRLBoslpc=;
- b=j00RAn1uh05sLi2N4X8DW1yoV+g7B1ghb7GXMECPcpumXv3ovYN6P/9g7DLSuVMTw9
- +friQkb3mCT6t7uu+PX61r//WNO8nIC1JV2udSweYmEfo0nJtVqoOVdO1EMGXrt2ECvl
- KtalSm4IJxiO9PmUHStTnvPeJSiuRGjOQYLQPQlhShDwdMcCXnTKftgL5QtkNf/cOQKL
- q/09YB7pSX2n83b3ta2oXyqMOdoPs+zJSRyOklofNpgf5yd3500q0w3qLRrN0vuweTSf
- DuYEg60y8oGRdj/Qpt6uyoINT63TdRINvgoCJE31P002coXbdBzdZhO4bEW9nUA61Tde
- 2dig==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mLSgM-0004rN-FA
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:01:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58892)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mLSg8-0005hj-BJ
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:01:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630512091;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BlIGAZvR60K8KfEyVet+GBVvZwSvJEFZQe5BG9TqS1o=;
+ b=WxID/Yo0m1vCL2hVSjOrmD1GQsaD2hPjOeGlIfU61UwCLOQqSs/r6KSNb5398ENF5gk27N
+ yM5uUG4HqKv4s6Go429H/S1KG9Ha3QA6XTttqFEv4X7pS2kLPjqGAVK/ZpUgAQSA9c3O1x
+ gYWh6hVTtvd6woGxdB+mj0lUcdiZM78=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-136-_N8BvxtHOoyGxspu44LJdg-1; Wed, 01 Sep 2021 12:01:30 -0400
+X-MC-Unique: _N8BvxtHOoyGxspu44LJdg-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ d202-20020a3768d3000000b003d30722c98fso3431016qkc.10
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 09:01:30 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XfSukScJLJxCgklkfWrY6l+qKwS9yAR37XMRLBoslpc=;
- b=aLLDm1ku8T2MnKFZGDguTLiykqyer0QzDzcyrbNc5DS53JOch3LQmVKUWZoq+RGKfO
- kEsqwyUYm+aCyZ7xfIVhGXJcfCFo1dBvuDlzqhIlMxE5Hluv87JFB+HI30c6cwh+i5G7
- MpCkjTBIjWLtuKq7663qhbQ6YP/d2fJqqtxq2GZ8tLo3Djte+xs6ooLwAPrxRjgldLcw
- y5MCFO83wmhyKKjuCTh3MrssdSVs+1JANfRoBzDEPRDIhXg2ALkheMqAttZO1uEIApYF
- 5lJvdEZWmzz34xRs/tuBSSRW7kI0tVXdw1tKimf6r4sKbZrnelhcqsC9cnHuTotnjn7k
- lDiA==
-X-Gm-Message-State: AOAM530gYYLzRRpQyQwj1mpqcYiRCuFlpQ13B7Klw1WRWyITY4ZnYVcs
- ZXegLPAXaN1SS7b09diW4i4=
-X-Google-Smtp-Source: ABdhPJy7HyyocD7LmfHYsWO1ZaGSazSZ6hf3NI2+uNYLFvwPKq8FjiCMY/zGEXp8VQORjtJBo5qGWw==
-X-Received: by 2002:a5d:554e:: with SMTP id g14mr96301wrw.48.1630512015156;
- Wed, 01 Sep 2021 09:00:15 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id z137sm6489626wmc.14.2021.09.01.09.00.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Sep 2021 09:00:14 -0700 (PDT)
-Subject: Re: [PATCH v2 0/1] hw/arm/aspeed: Allow machine to set UART default
-To: pdel@fb.com
-References: <20210901153615.2746885-1-pdel@fb.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <78e7129b-d652-7dae-ef8e-6289ccb28b06@amsat.org>
-Date: Wed, 1 Sep 2021 18:00:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=BlIGAZvR60K8KfEyVet+GBVvZwSvJEFZQe5BG9TqS1o=;
+ b=SeWf7xLTGz/RCtC7X5YMg4o7heDhVYuEKybGZgFxq2BuIP+BAWu1ZQbQxWAM6l3t5I
+ xGI/T1SLhSWVqNmO5s8FaoOodIHDKQkCQcdGmbv7XOUtB3NFCCq6Nhsn+iPM7FwB97n1
+ atijfKP7Yg8gkGKfgFw45yIoeP4ouBqsd71AqRXoK6r3p7KI9s96R+18mShFzCy8rahb
+ jBuoeOJnRcoTNFdI33VlAeRzp8bHjGq4I7Qgb9Zfctsy4rwrJMr1bw3F6aCkOisJO1LI
+ J6TcBl10vyk7XwJKpKlA8Kyzo89o+5aq7lXWgIi64AUbOc473bgY9HnrNvuZnEMmtXwp
+ BZqA==
+X-Gm-Message-State: AOAM531qLkBmZWc+UjaEt497cMRUvP99XyQo7DVx5FaL0ESXYZMJlTU9
+ UIUpaUG9R6v7pki6zCTQzQ0HzD0yjBkFkB4mzpWWu0GA5RhNQRfRjhDEyTAMFZhbqBMYUW0pBq5
+ DiX+LDWso8g+9WPw=
+X-Received: by 2002:ac8:7f83:: with SMTP id z3mr111745qtj.346.1630512084067;
+ Wed, 01 Sep 2021 09:01:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyFaGOY1i09WU3O40IccyT7NIh9Hcn/UFvOtbsB2eyfR67DVohiLFh2xrpT9KJnnKb5+JzeMQ==
+X-Received: by 2002:ac8:7f83:: with SMTP id z3mr111624qtj.346.1630512082852;
+ Wed, 01 Sep 2021 09:01:22 -0700 (PDT)
+Received: from t490s ([2607:fea8:56a3:500::ad7f])
+ by smtp.gmail.com with ESMTPSA id n11sm96297qtx.45.2021.09.01.09.01.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Sep 2021 09:01:22 -0700 (PDT)
+Date: Wed, 1 Sep 2021 12:01:20 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Subject: Re: [PATCH v1 3/3] migration: multifd: Enable zerocopy
+Message-ID: <YS+j0LTKe/FRQRqg@t490s>
+References: <20210831110238.299458-1-leobras@redhat.com>
+ <20210831110238.299458-4-leobras@redhat.com>
+ <YS4rulGV9eueB04H@redhat.com> <YS6RFcQnZEhE8XpG@t490s>
+ <YS8/cxTtiC7QIxTD@redhat.com> <YS+dxUBrhogJQkEY@t490s>
+ <YS+f3rgBLMdR2ELE@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210901153615.2746885-1-pdel@fb.com>
+In-Reply-To: <YS+f3rgBLMdR2ELE@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.029,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,43 +97,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, andrew@aj.id.au, qemu-devel@nongnu.org,
- patrick@stwcx.xyz, qemu-arm@nongnu.org, clg@kaod.org, joel@jms.id.au
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras <leobras@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/1/21 5:36 PM, pdel@fb.com wrote:
-> From: Peter Delevoryas <pdel@fb.com>
+On Wed, Sep 01, 2021 at 04:44:30PM +0100, Daniel P. Berrangé wrote:
+> QEMU has mptcp support already:
 > 
-> v1: https://lore.kernel.org/qemu-devel/20210831233140.2659116-1-pdel@fb.com/
-> v2:
-> - Replaced AspeedMachineClass "serial_hd0" with "uart_default"
-> - Removed "qdev_get_machine()" usage
-> - Removed unnecessary aspeed.h (machine class) includes in device files
-> - Added "uint32_t uart_default" to AspeedSoCState
-> - Added "uart-default" uint32 property to AspeedSoCState
-> - Set "uart-default" just before qdev_realize()
+>   commit 8bd1078aebcec5eac196a83ef1a7e74be0ba67b7
+>   Author: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>   Date:   Wed Apr 21 12:28:34 2021 +0100
 > 
-> NOTE: Still not totally sure I did this right, especially because I only
-> initialized the properties in the aspeed_soc.c file (2400 + 2500), but
-> not aspeed_ast2600.c (2600), but I guess that's because
-> aspeed_soc_class_init is common to all the SoC's.
-> 
-> Peter Delevoryas (1):
->   hw/arm/aspeed: Allow machine to set UART default
-> 
->  hw/arm/aspeed.c             | 3 +++
->  hw/arm/aspeed_ast2600.c     | 8 ++++----
->  hw/arm/aspeed_soc.c         | 9 ++++++---
->  include/hw/arm/aspeed.h     | 1 +
->  include/hw/arm/aspeed_soc.h | 1 +
->  5 files changed, 15 insertions(+), 7 deletions(-)
-> 
-> Interdiff against v1:
+>     sockets: Support multipath TCP
+>     
+>     Multipath TCP allows combining multiple interfaces/routes into a single
+>     socket, with very little work for the user/admin.
+>     
+>     It's enabled by 'mptcp' on most socket addresses:
+>     
+>        ./qemu-system-x86_64 -nographic -incoming tcp:0:4444,mptcp
 
-[...]
+Oops, I totally forgot about that, sorry!
 
-Not needed because QEMU uses patchew :)
+> 
+> > KTLS may be implicitly included by a new gnutls, but we need to mark TLS and
+> > ZEROCOPY mutual exclusive anyway because at least the userspace TLS code of
+> > gnutls won't has a way to maintain the tls buffers used by zerocopy.  So at
+> > least we need some knob to detect whether kTLS is enabled in gnutls.
+> 
+> It isn't possible for gnutls to transparently enable KTLS, because
+> GNUTLS doesn't get to see the actual socket directly - it'll need
+> some work in QEMU to enable it.  We know MPTCP and KTLS are currently
+> mutually exclusive as they both use the same kernel network hooks
+> framework.
 
-https://patchew.org/QEMU/20210831233140.2659116-1-pdel@fb.com/diff/20210901153615.2746885-1-pdel@fb.com/
+Then we may need to at least figure out whether zerocopy needs to mask out
+mptcp.
+
+-- 
+Peter Xu
+
 
