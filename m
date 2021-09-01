@@ -2,109 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 394DF3FDD96
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 16:02:20 +0200 (CEST)
-Received: from localhost ([::1]:56072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B68523FDDED
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 16:44:56 +0200 (CEST)
+Received: from localhost ([::1]:49008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLQol-0004Zs-BM
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 10:02:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57582)
+	id 1mLRTz-00062K-ON
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 10:44:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1mLQn7-0002ul-BI; Wed, 01 Sep 2021 10:00:40 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:56275
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <maxim.davydov@virtuozzo.com>)
+ id 1mLMEF-0003bF-Ls
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 05:08:19 -0400
+Received: from relay.sw.ru ([185.231.240.75]:35408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1mLQmz-0004FC-Jm; Wed, 01 Sep 2021 10:00:35 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 181DXw6w061707; Wed, 1 Sep 2021 09:59:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=AyGCXqTlDxFDakHInkc1TJcPaYtvreQxI3c3MyOovZ0=;
- b=mxRP+lhXY+6m6BKpBUmt9xD9Wq6OvxF3K1iTovTBaMA0UTqgSyoKhL1jVmlILZ2+Ia5X
- PGbOS0iuHQZqvh0bBKnvRRf7BsRjQPK6aHq8fktRmrw/PINFRMM5YnqcrGasr8VgBvpy
- /qaD8sa3kzBhd7nTmXW1Am8T/c0CkUaJ/tgCGJEeX6GR00ZSV31P+WDyezvuH++hf+2O
- V2u68y9NopPBQpbiTUFKJqPJt35PyybLhI92SXI0h0fDgIKWxCfla+wtKeiSh+i0W6xw
- DgOOtZyEZHMnnWeVCPtGFikrHicaMOJq+WuIWa5jepawp8yIr1jLVr+A1qsIycAuR0l+ Tw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3at7ctx9ew-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Sep 2021 09:59:26 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 181DYaNT064566;
- Wed, 1 Sep 2021 09:59:26 -0400
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3at7ctx9e4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Sep 2021 09:59:26 -0400
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 181DmojZ004850;
- Wed, 1 Sep 2021 13:59:24 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma02fra.de.ibm.com with ESMTP id 3aqcs9a9s0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Sep 2021 13:59:24 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 181DxKoD47383008
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 1 Sep 2021 13:59:20 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 92CF4AE058;
- Wed,  1 Sep 2021 13:59:20 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 201B0AE053;
- Wed,  1 Sep 2021 13:59:20 +0000 (GMT)
-Received: from oc3016276355.ibm.com (unknown [9.145.181.78])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed,  1 Sep 2021 13:59:20 +0000 (GMT)
-Subject: Re: [PATCH 0/2] s390x: ccw: A simple test device for virtio CCW
-To: Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>
-References: <1630061450-18744-1-git-send-email-pmorel@linux.ibm.com>
- <fe2c0cbd-24a6-0785-6a64-22c6b6c01e6d@de.ibm.com>
- <20210830224204.49a7965a.pasic@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-Message-ID: <9bcd5bc3-06b9-f5f5-d6c5-949e70a71ffa@linux.ibm.com>
-Date: Wed, 1 Sep 2021 15:59:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <20210830224204.49a7965a.pasic@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: bufpzJ1ZC30HoPccisE-0GDhcUUc92lJ
-X-Proofpoint-GUID: jCiJ1AmJD9ieuTxsrzlFjyGXPnPSS9-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <maxim.davydov@virtuozzo.com>)
+ id 1mLME6-0005OX-35
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 05:08:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=virtuozzo.com; s=relay; h=MIME-Version:Message-Id:Date:Subject:From:
+ Content-Type; bh=3YSujolLv/yWWqLflRXJooQucC4DZ5eW6P/XDDgLrAc=; b=jABRzTji6P2U
+ qkK4B7ftcesTAYuItfdTamLRpdKOH/DPwsQ/nxhnFQLYKkCUSFvyYQLuzEN1ERJGne5tNzFP9TrNt
+ dYGhVnEQBj2HSLsnOSUiYCCj1sjisPgxGq7zj5xpEHZuK8phG6MqwzpvPLbIM6ZFJFPTWq1AHud1i
+ X5VrI=;
+Received: from [192.168.15.100] (helo=max-Swift-SF314-57.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.94.2)
+ (envelope-from <maxim.davydov@virtuozzo.com>)
+ id 1mLME0-000RwD-Fq; Wed, 01 Sep 2021 12:08:04 +0300
+From: Maxim Davydov <maxim.davydov@virtuozzo.com>
+To: qemu-devel@nongnu.org
+Cc: den@openvz.org, mst@redhat.com, stefanha@redhat.com, fam@euphon.net,
+ amit@kernel.org, kraxel@redhat.com, berrange@redhat.com,
+ Maxim Davydov <maxim.davydov@virtuozzo.com>
+Subject: [PATCH v1 0/8] Virtio features acknowledged by guest
+Date: Wed,  1 Sep 2021 12:07:56 +0300
+Message-Id: <20210901090804.7139-1-maxim.davydov@virtuozzo.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-09-01_04:2021-09-01,
- 2021-09-01 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 spamscore=0
- bulkscore=0 phishscore=0 malwarescore=0 mlxlogscore=999 clxscore=1015
- priorityscore=1501 adultscore=0 lowpriorityscore=0 suspectscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2107140000 definitions=main-2109010081
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.029,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=185.231.240.75;
+ envelope-from=maxim.davydov@virtuozzo.com; helo=relay.sw.ru
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 01 Sep 2021 10:43:12 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -116,83 +61,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, frankja@linux.ibm.com, kvm@vger.kernel.org,
- david@redhat.com, cohuck@redhat.com, richard.henderson@linaro.org,
- drjones@redhat.com, qemu-devel@nongnu.org, qemu-s390x@nongnu.org,
- Michael S Tsirkin <mst@redhat.com>, imbrenda@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+In some situations (for instance, debug), we want to be able to see the
+features that were confirmed by the guest. At the same time, we would like
+to do this safely, without the possibility of setting bits of guest
+features from the outside.
 
+Maxim Davydov (8):
+  qdev-properties: Add read-only 64 bit property
+  virtio: Add tracking of the common virtio guest features
+  virtio-gpu: Add tracking of the virtio guest feature bits
+  virtio-serial: Add tracking of the virtio guest feature bits
+  virtio-net: Add tracking of the virtio guest feature bits
+  scsi: Add tracking of the acknowledged feature bits
+  virtio-blk: Add tracking of the virtio guest feature bits
+  virtio-balloon: Add tracking of the virtio guest feature bits
 
-On 8/30/21 10:42 PM, Halil Pasic wrote:
-> On Mon, 30 Aug 2021 11:51:51 +0200
-> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
-> 
->> On 27.08.21 12:50, Pierre Morel wrote:
->>> Hello All,
->>>
->>>
->>> This series presents a VIRTIO test device which receives data on its
->>> input channel and sends back a simple checksum for the data it received
->>> on its output channel.
->>>    
->>> The goal is to allow a simple VIRTIO device driver to check the VIRTIO
->>> initialization and various data transfer.
-> 
-> Can you please elaborate a little on the objectives.
-
-Yes I will, but I must think a lot more about it, I think doing the 
-specifications you speak about later in this response is the right way 
-to do it.
-
-
-> 
->>>
->>> For this I introduced a new device ID for the device and having no
->>> Linux driver but a kvm-unit-test driver, I have the following
->>> questions:
->>
->> I think we should reserve an ID in the official virtio spec then for such a device?
->> Maybe also add mst for such things.
-> 
-> I agree having ID reserved is a good idea. But then if we are going to
-> introduce an official test device, I believe we should write a
-> specification for it as well. Yes having the guarantee that test devices
-> and real devices won't mix is a value in itself, but if we had a
-> standardized test device, whoever does work with it would not have to
-> ask themselves is this test device compatible with this test device
-> driver.
-
-Yes right.
-
-> 
->>    
->>
->>> Is there another way to advertise new VIRTIO IDs but Linux?
->>> If this QEMU test meet interest, should I write a Linux test program?
->>>
-> 
-> You may not simply claim and advertise a VIRTIO ID. The virtio ids
-> are allocated by the virtio standardisation body, and the list of the
-> IDs reserved in the v1.1-cs01 incarnation of the spec can be found here:
-> https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01.html#x1-1930005
-> 
-> For how to contribute to the virtio specification please take look at
-> this:
-> https://github.com/oasis-tcs/virtio-admin/blob/master/README.md
-
-Thanks, I will go this way.
-
-
-Thanks for these constructive answers,
-
-Regards,
-Pierre
-
-
+ hw/block/virtio-blk.c          |  20 ++++---
+ hw/char/virtio-serial-bus.c    |   5 +-
+ hw/core/qdev-properties.c      |  32 +++++++++++
+ hw/display/vhost-user-gpu.c    |   3 +-
+ hw/display/virtio-gpu.c        |   8 +--
+ hw/net/virtio-net.c            | 118 +++++++++++++++++++++++++----------------
+ hw/scsi/vhost-scsi.c           |   6 +--
+ hw/scsi/vhost-user-scsi.c      |  18 +++----
+ hw/scsi/virtio-scsi.c          |  10 ++--
+ hw/virtio/virtio-balloon.c     |  20 ++++---
+ hw/virtio/virtio.c             |   2 +-
+ include/hw/qdev-properties.h   |   5 ++
+ include/hw/virtio/virtio-gpu.h |  10 ++--
+ include/hw/virtio/virtio.h     |  39 +++++++++-----
+ 14 files changed, 193 insertions(+), 103 deletions(-)
 
 -- 
-Pierre Morel
-IBM Lab Boeblingen
+1.8.3.1
+
 
