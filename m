@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC92C3FD9FA
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 15:11:33 +0200 (CEST)
-Received: from localhost ([::1]:44078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C243FD9F3
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 15:07:42 +0200 (CEST)
+Received: from localhost ([::1]:33478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLQ1c-0006M4-SR
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 09:11:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43326)
+	id 1mLPxt-0007Zx-7M
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 09:07:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mLPsf-0008Hr-QR
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 09:02:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:54739)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mLPsW-0001u2-BP
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 09:02:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630501327;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=36d7twqxIVPd10QfZ3xm4NjpdJXlzz3fh64p4Fuj2BU=;
- b=Lerfh7F3O8qNO7nxqo+gtGNmcvwDPI19IR4/9CYqtcEfoADBPKG3ArGmXIVUlXs+sWi9fQ
- qbEFZ5tSf5ZvOsk6y94VUQekLcsml3ZiT3YVR3c3NPv3jb70axJMa6Sj8bT3yskFubpppK
- j3bGO4zLjbF+LHK7FNd9XTFePPMYm18=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-rrDNtaAMMh26A_o6kuJvQQ-1; Wed, 01 Sep 2021 09:02:04 -0400
-X-MC-Unique: rrDNtaAMMh26A_o6kuJvQQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0136F1B2C983;
- Wed,  1 Sep 2021 13:02:03 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 350386ACED;
- Wed,  1 Sep 2021 13:01:56 +0000 (UTC)
-Date: Wed, 1 Sep 2021 14:01:53 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Michael Tokarev <mjt@tls.msk.ru>
-Subject: Re: [PATCH v2] qemu-sockets: fix unix socket path copy (again)
-Message-ID: <YS95wa4y4hcKxvNu@redhat.com>
-References: <20210901125055.41915-1-mjt@msgid.tls.msk.ru>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mLPvx-0004UK-1m; Wed, 01 Sep 2021 09:05:41 -0400
+Received: from mail-yb1-xb2a.google.com ([2607:f8b0:4864:20::b2a]:39566)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mLPvu-0003VJ-24; Wed, 01 Sep 2021 09:05:40 -0400
+Received: by mail-yb1-xb2a.google.com with SMTP id n126so4949808ybf.6;
+ Wed, 01 Sep 2021 06:05:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iT2AuVaz6o7nhCjsZ1aglO9N/gjzAl1Eq5akKyHGu48=;
+ b=YOoHzq6eE0K1qXp6LRyRmxXWGfSavT88uqA5IMPkYiMi3cbLJtGavaFfat2rvL0rMe
+ gZGV6O6aavroAqQnbymS6TZQ29gSa4CQ73oy+EMFR4INA4J1ztkXSmSEtvhrIpBUYaUS
+ IlSa25jTY7Omt1kp/eaeU0Z+c49njZDtWuI2cfJIkH8MgFT6LbIWcnOB3A6JrX5cGmQl
+ yY4PtJBSKW8cR9B0XxeH6TldL1swH+Wqougr2GtbY8fHfQTGCOjReD3dAowwZcihMXT0
+ NNK+vDKN4aeVDNYzdrQi5wDdI7R15pvelU9hdcKGQ/uzqsTBce1QUOpqrh5R3m5slV6v
+ r8sQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iT2AuVaz6o7nhCjsZ1aglO9N/gjzAl1Eq5akKyHGu48=;
+ b=pyeAQ8e4S/AA1Y5EmkIU+eVlQ73s0qKM5urrNVXE6FB50rhK+zQXeJNvS+D/n0ENaz
+ m2qBQXrCCIEIU1JuYQwpLH74EjOPsDOrkHkRcYVwLw45HupCv1a7OrVBWclrP8z0WVbA
+ 78eaNl7BQoztorOK7kt74rSmUBNZ4iD5nEFaSOWxJuAeTojKT5t2xgdzXmsTTUWjI02N
+ ts/1Fj84q3q+3j7F3WCJinx2TML2g4dpMMZfT8/RYB27ynwpcf2BqO9Xe7EJIqgVj+JN
+ 9Xc7cyKjWw4N36MHZzzUaWvrBz6By5wruP9qdcJ3b7N8tdKssXEIopHVkvYdVcjFQ+xa
+ 3YXw==
+X-Gm-Message-State: AOAM532PR1TsB4DMoxJq9EA+NDZJLqHGHDyiyZ5q8TIUoU5YQkmR82VV
+ KVJAzAd6D9iPEl+5bamilqvW15R7mtzPd35T6dI=
+X-Google-Smtp-Source: ABdhPJzIzOeGBSxRQT+ude7Gs9Jtd5BxwTRI5ONwgVObCeWHKWt3OVCnt17aSWk4hkhUrEL81Xk7qvlVmo/1KhMkfQU=
+X-Received: by 2002:a5b:391:: with SMTP id k17mr39245913ybp.152.1630501536256; 
+ Wed, 01 Sep 2021 06:05:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210901125055.41915-1-mjt@msgid.tls.msk.ru>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210901124539.222868-1-zhiwei_liu@c-sky.com>
+In-Reply-To: <20210901124539.222868-1-zhiwei_liu@c-sky.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 1 Sep 2021 21:05:25 +0800
+Message-ID: <CAEUhbmUvb4_tmevGEcK_YgyA9_g5LumRVpMc7+rwuD4D7FSBBA@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Fix satp write
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,91 +74,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-stable@nongnu.org, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 01, 2021 at 03:50:55PM +0300, Michael Tokarev wrote:
-> Commit 4cfd970ec188558daa6214f26203fe553fb1e01f added an
-> assert which ensures the path within an address of a unix
-> socket returned from the kernel is at least one byte and
-> does not exceed sun_path buffer. Both of this constraints
-> are wrong:
-> 
-> A unix socket can be unnamed, in this case the path is
-> completely empty (not even \0)
-> 
-> And some implementations (notable linux) can add extra
-> trailing byte (\0) _after_ the sun_path buffer if we
-> passed buffer larger than it (and we do).
-> 
-> So remove the assertion (since it causes real-life breakage)
-> but at the same time fix the usage of sun_path. Namely,
-> we should not access sun_path[0] if kernel did not return
-> it at all (this is the case for unnamed sockets),
-> and use the returned salen when copyig actual path as an
-> upper constraint for the amount of bytes to copy - this
-> will ensure we wont exceed the information provided by
-> the kernel, regardless whenever there is a trailing \0
-> or not. This also helps with unnamed sockets.
-> 
-> Note the case of abstract socket, the sun_path is actually
-> a blob and can contain \0 characters, - it should not be
-> passed to g_strndup and the like, it should be accessed by
-> memcpy-like functions.
-> 
-> Fixes: 4cfd970ec188558daa6214f26203fe553fb1e01f
-> Fixes: http://bugs.debian.org/993145
-> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
-> CC: qemu-stable@nongnu.org
+On Wed, Sep 1, 2021 at 8:51 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+> These variables should be target_ulong. If truncated to int,
+> the bool conditions they indicate will be wrong.
+>
+> As satp is very important for Linux, this bug almost fails every boot.
+
+Could you please describe which Linux configuration is broken? I have
+a 64-bit 5.10 kernel and it boots fine.
+
+Please add:
+
+Fixes: 419ddf00ed78 ("target/riscv: Remove the hardcoded SATP_MODE macro")
+
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
 > ---
->  util/qemu-sockets.c | 8 +++-----
->  1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-> index f2f3676d1f..842bd707ac 100644
-> --- a/util/qemu-sockets.c
-> +++ b/util/qemu-sockets.c
-> @@ -1345,13 +1345,11 @@ socket_sockaddr_to_address_unix(struct sockaddr_storage *sa,
->      SocketAddress *addr;
->      struct sockaddr_un *su = (struct sockaddr_un *)sa;
->  
-> -    assert(salen >= sizeof(su->sun_family) + 1 &&
-> -           salen <= sizeof(struct sockaddr_un));
-> -
->      addr = g_new0(SocketAddress, 1);
->      addr->type = SOCKET_ADDRESS_TYPE_UNIX;
-> +    salen -= offsetof(struct sockaddr_un, sun_path);
+>  target/riscv/csr.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 50a2c3a3b4..ba9818f6a5 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -986,7 +986,7 @@ static RISCVException read_satp(CPURISCVState *env, int csrno,
+>  static RISCVException write_satp(CPURISCVState *env, int csrno,
+>                                   target_ulong val)
+>  {
+> -    int vm, mask, asid;
+> +    target_ulong vm, mask, asid;
+>
+>      if (!riscv_feature(env, RISCV_FEATURE_MMU)) {
+>          return RISCV_EXCP_NONE;
 
-Adjusted salen value....
-
->  #ifdef CONFIG_LINUX
-> -    if (!su->sun_path[0]) {
-> +    if (salen > 0 && !su->sun_path[0]) {
->          /* Linux abstract socket */
->          addr->u.q_unix.path = g_strndup(su->sun_path + 1,
->                                          salen - sizeof(su->sun_family) - 1);
-
-....still assuming the original salen value.
-
-> @@ -1363,7 +1361,7 @@ socket_sockaddr_to_address_unix(struct sockaddr_storage *sa,
->      }
->  #endif
->  
-> -    addr->u.q_unix.path = g_strndup(su->sun_path, sizeof(su->sun_path));
-> +    addr->u.q_unix.path = g_strndup(su->sun_path, salen);
->      return addr;
->  }
->  #endif /* WIN32 */
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
