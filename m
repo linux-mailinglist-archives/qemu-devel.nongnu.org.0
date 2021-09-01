@@ -2,91 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB8E3FD87D
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 13:12:32 +0200 (CEST)
-Received: from localhost ([::1]:43960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAF723FD901
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 13:49:30 +0200 (CEST)
+Received: from localhost ([::1]:55796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLOAR-0006BT-RH
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 07:12:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48394)
+	id 1mLOkE-00037f-0C
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 07:49:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLO6W-0002RW-7j
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 07:08:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46404)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mLONa-0001cI-UW
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 07:26:07 -0400
+Received: from 2.mo52.mail-out.ovh.net ([178.33.105.233]:45650)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLO6R-0005qB-2y
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 07:08:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630494498;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Gu8bvIVXhfNKjBh9jBheO1ZqmEiR9cSo0BqjKYdfpXw=;
- b=YyZhE6ZgYa7C+Z6RiJSruFsbWozDdtpI3M8T/HcpA3tTqST2veKdafnQffkw21VyIrYAVW
- jZSRHiHqLMsl4Byegb2y4ilUEQTDN81nakWVmrf59Vt8EUC7nhDAY7TDSdhVsA7STq+SxN
- TKVPfSx2QCQ/8sVy7fYB0kbqqzinSf8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-mZkwbkQ-NsiByhl9pHthsQ-1; Wed, 01 Sep 2021 07:08:15 -0400
-X-MC-Unique: mZkwbkQ-NsiByhl9pHthsQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- f19-20020a1c1f13000000b002e6bd83c344so886035wmf.3
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 04:08:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=Gu8bvIVXhfNKjBh9jBheO1ZqmEiR9cSo0BqjKYdfpXw=;
- b=YEFnmVo2BIlz47NJtofiIHr8KbV7QyHBxyVRVZ5uTqkbGyZEvpgprB8+k4HfVkeI68
- g41+DOBMOKvLN+Fj1fr0YQz7RduioPuulGcsVybijx0XUsnCzFOzfoNyWiPTUh88GmrR
- RbZo5JLXVui9AFsHgNu1xkkYCXX9PeXj+TAnVlnKwFNWDVtaLqUIPlHyK//tZAtlLIf6
- 6DNzBgWeBwxLa0ibYK8doEyDdhu4VZovd/ePhC0FRYWQd+aW0jo5v/ccgKzV3rceRxFF
- bkIoynh+zbHmi4L07eySVhwLYxRHoL0Ef+3fQxu/81K6bp+nWcFg17DtH6t6cPlpiUiC
- uduA==
-X-Gm-Message-State: AOAM532UFRZxxAD+tBoIXNQ3KU1bM3Q3G1VMoOuSsBKi1Nzknr6BoF87
- SZy/+PiaDKkFmzbS9ZF7h+Ps1rM62KveBwIAQBPjJigJrl85IY2k21yLWea5P0hS3TovdkjKwAm
- E6vIPEWoQcpGe86c=
-X-Received: by 2002:a05:6000:259:: with SMTP id
- m25mr37477921wrz.53.1630494494440; 
- Wed, 01 Sep 2021 04:08:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJylrJJRZoHjAEVVxtn1QDGRbUO21fpbp99KEwPr3BkJPSvbO5GXZJZsNHA9f2vrdlv3yu827Q==
-X-Received: by 2002:a05:6000:259:: with SMTP id
- m25mr37477902wrz.53.1630494494265; 
- Wed, 01 Sep 2021 04:08:14 -0700 (PDT)
-Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
- by smtp.gmail.com with ESMTPSA id
- z9sm16959475wre.11.2021.09.01.04.08.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Sep 2021 04:08:13 -0700 (PDT)
-Subject: Re: [PATCH] block/export/fuse.c: fix fuse-lseek on uclibc or musl
-To: Fabrice Fontaine <fontaine.fabrice@gmail.com>, qemu-devel@nongnu.org
-References: <20210827220301.272887-1-fontaine.fabrice@gmail.com>
-From: Hanna Reitz <hreitz@redhat.com>
-Message-ID: <22b83df9-a75a-7392-d87e-4035a8a641c1@redhat.com>
-Date: Wed, 1 Sep 2021 13:08:13 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mLONV-0006gt-Tb
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 07:26:06 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.216])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 6FE96294504;
+ Wed,  1 Sep 2021 13:25:58 +0200 (CEST)
+Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 1 Sep
+ 2021 13:25:57 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R002c6e01acf-b444-4155-9ddc-fc36d5aea9ef,
+ 5EBA00A5E723AF1D17FBD8632F6684B6834AEADC) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PATCH 1/8] docs/system: ppc: Update the URL for OpenPOWER
+ firmware images
+To: Greg Kurz <groug@kaod.org>
+References: <20210901094153.227671-1-clg@kaod.org>
+ <20210901094153.227671-2-clg@kaod.org> <20210901121047.1051be9f@bahia.lan>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <2fcfce42-ab03-f988-d28a-83ba3abcfee3@kaod.org>
+Date: Wed, 1 Sep 2021 13:25:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210827220301.272887-1-fontaine.fabrice@gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210901121047.1051be9f@bahia.lan>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, NICE_REPLY_A=-1.029, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 7c9c993e-a9aa-4ee7-99b1-af9caabc0040
+X-Ovh-Tracer-Id: 7153405058555153376
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -83
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddvfedggedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegfrhhlucfvnfffucdludejmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekvefgudekkeekjeegfedtffefkeduteeviedvgeevkeehudffleehvedvueefkeenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhophgvnhhpohifvghrrdighiiinecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
+ helo=2.mo52.mail-out.ovh.net
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.029,
+ PDS_OTHER_BAD_TLD=1.999, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,37 +71,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28.08.21 00:03, Fabrice Fontaine wrote:
-> Include linux/fs.h to avoid the following build failure on uclibc or
-> musl raised since version 6.0.0:
->
-> ../block/export/fuse.c: In function 'fuse_lseek':
-> ../block/export/fuse.c:641:19: error: 'SEEK_HOLE' undeclared (first use in this function)
->    641 |     if (whence != SEEK_HOLE && whence != SEEK_DATA) {
->        |                   ^~~~~~~~~
-> ../block/export/fuse.c:641:19: note: each undeclared identifier is reported only once for each function it appears in
-> ../block/export/fuse.c:641:42: error: 'SEEK_DATA' undeclared (first use in this function); did you mean 'SEEK_SET'?
->    641 |     if (whence != SEEK_HOLE && whence != SEEK_DATA) {
->        |                                          ^~~~~~~~~
->        |                                          SEEK_SET
->
-> Fixes:
->   - http://autobuild.buildroot.org/results/33c90ebf04997f4d3557cfa66abc9cf9a3076137
->
-> Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
-> ---
->   block/export/fuse.c | 3 +++
->   1 file changed, 3 insertions(+)
+On 9/1/21 12:10 PM, Greg Kurz wrote:
+> On Wed, 1 Sep 2021 11:41:46 +0200
+> Cédric Le Goater <clg@kaod.org> wrote:
+> 
+>> This also fixes a small skiboot/skiroot typo and removes the links to
+>> the specific POWER8 and POWER9 images since the firmware images can be
+>> used to run all machines.
+>>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>  docs/system/ppc/powernv.rst | 3 +--
+>>  1 file changed, 1 insertion(+), 2 deletions(-)
+>>
+>> diff --git a/docs/system/ppc/powernv.rst b/docs/system/ppc/powernv.rst
+>> index 4c4cdea527e2..4ccfb2258622 100644
+>> --- a/docs/system/ppc/powernv.rst
+>> +++ b/docs/system/ppc/powernv.rst
+>> @@ -53,8 +53,7 @@ initramfs ``skiroot``. Source code can be found on GitHub:
+>>  
+>>    https://github.com/open-power.
+>>  
+>> -Prebuilt images of ``skiboot`` and ``skiboot`` are made available on the `OpenPOWER <https://openpower.xyz/job/openpower/job/openpower-op-build/>`__ site. To boot a POWER9 machine, use the `witherspoon <https://openpower.xyz/job/openpower/job/openpower-op-build/label=slave,target=witherspoon/lastSuccessfulBuild/>`__ images. For POWER8, use
+>> -the `palmetto <https://openpower.xyz/job/openpower/job/openpower-op-build/label=slave,target=palmetto/lastSuccessfulBuild/>`__ images.
+>> +Prebuilt images of ``skiboot`` and ``skiroot`` are made available on the `OpenPOWER <https://github.com/open-power/op-build/releases/download/v2.7/>`__ site.
+>>  
+> 
+> This URL ends up 404 for me.
+> 
+> I suggest you change it to:
+> 
+>     https://github.com/open-power/op-build/releases/tag/v2.7
+> 
+> or even
+> 
+>     https://github.com/open-power/op-build/releases
+> 
+> which are valid and display individual links for the image files.
 
-Thanks, applied to my block branch:
+Yes. I will resend this one.
 
-https://github.com/XanClic/qemu/commits/block
+Thanks,
 
-Hanna
-
+C.
 
