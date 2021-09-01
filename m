@@ -2,89 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D27413FE037
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:41:48 +0200 (CEST)
-Received: from localhost ([::1]:45438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A419B3FDFA1
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:19:18 +0200 (CEST)
+Received: from localhost ([::1]:60804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLTJ4-0005Nu-Kt
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:41:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56832)
+	id 1mLSxJ-0008GD-N6
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:19:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mLSXL-0008V9-Iq
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:52:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46897)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mLSZ2-0003iO-Kl
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:54:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mLSXF-0006gI-HF
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:52:24 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mLSYx-00086S-DB
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:54:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630511538;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1630511646;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AQywn3O/daM7Knh1N4Uq3FXm40OAgEaMtmHQm4Rf9lA=;
- b=Z1hcIFtSkToIE875Q8zBqm0lQzyxFfAgNiirne/Yvj41Kd5PuHqr1U3QEMUsW6fBJ96ZqF
- AwSK48eYWoH7VA9WGzr+JcRTbBxQvpe+WCjPbsNbiucGE0pjHa5hhQQSPh8palUzm6tBro
- UVck+anbm3/QOoPPPdTQ8iZV2GBvudY=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-138-eHcuOLR3MJ60Cr2xeJmvfg-1; Wed, 01 Sep 2021 11:52:17 -0400
-X-MC-Unique: eHcuOLR3MJ60Cr2xeJmvfg-1
-Received: by mail-qk1-f197.google.com with SMTP id
- 70-20020a370b49000000b003d2f5f0dcc6so3429078qkl.9
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 08:52:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=AQywn3O/daM7Knh1N4Uq3FXm40OAgEaMtmHQm4Rf9lA=;
- b=HYdXKJkIPx8+Laius/Ji9TRIGgAFiYZ02Sj6/YPu1mRQ3DmrgJev2XefrH/0JVksvC
- 4nsobG+EJZ1NYyhHmrSUK/I6ytElLV4aOT6anaxWIowSMm+hdBv1eZlsmHmeALu1Rp5s
- Z0a3ZifvIp6lKXLTf/9iIEQJw8F/z+ii083FLMX0r3WGabipRKsoGlaT9quM5/5159vB
- 7ns5Gy9/TIwky+uN33mvpSuA6elZowueIXzUv0hs8TgtdNviPw+H0q4zLCtDvl8DVTfS
- Of/skyFmuFyrNcdSF5ZZap7nWzZZYCVMdCmIKrrd7rb2StN3rzfwAJ7I9o5x0+UrgfhY
- /c7Q==
-X-Gm-Message-State: AOAM533+EQ05E8EQFnrDi3uJjar1gQ0AGnJ4wIPY4DZfHfzGtGbIFqkC
- +L9+Nb2zW6MjUXkgSW0v/1Nng4Rh0jIUu6UDh6kpftNnHBeWS8ICePbgAAi5gVjYP19S7HVt/QQ
- jSl6L4R5A0rP17ik=
-X-Received: by 2002:a37:b606:: with SMTP id g6mr300054qkf.476.1630511536553;
- Wed, 01 Sep 2021 08:52:16 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwOISP5goCAI+5PYD3QNyXBJ+3K8sowzBxXSTEMze/qlAghQDapzKE5qY60ROz24/TqgcFP7A==
-X-Received: by 2002:a37:b606:: with SMTP id g6mr300006qkf.476.1630511535922;
- Wed, 01 Sep 2021 08:52:15 -0700 (PDT)
-Received: from t490s ([2607:fea8:56a3:500::ad7f])
- by smtp.gmail.com with ESMTPSA id x2sm115111qtr.6.2021.09.01.08.52.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 08:52:15 -0700 (PDT)
-Date: Wed, 1 Sep 2021 11:52:13 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: [PATCH v1 2/3] io: Add zerocopy and errqueue
-Message-ID: <YS+hrV7Rz5iiwRlH@t490s>
-References: <20210831110238.299458-1-leobras@redhat.com>
- <20210831110238.299458-3-leobras@redhat.com>
- <YS4nPfEBCy9IC3rd@redhat.com> <YS6QmOrN4qr055vR@t490s>
- <YS8+8EKboNvsB0zP@redhat.com>
+ bh=+TrRM3NGI73q/ugrwUUQlc2dOw7ighTJXZM6sHGKlWY=;
+ b=ULAPVhF8HwW9ba2IvbVLRY+lr8IhoSrOKBpClVppZ50INSVSywpKHsiozKUIWceKhey4+g
+ /eU+ueLgv7kct29zMxooYUYei58on0Hx0QeCJsPPyd7cIeS0TcYfrHFjSDsjBJBtgDPuJQ
+ /rXPOA0UUB9b3qYzHTtSsFp7iGDxwNw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-451-L75zOXqgNQa-l17qqYlbYg-1; Wed, 01 Sep 2021 11:54:03 -0400
+X-MC-Unique: L75zOXqgNQa-l17qqYlbYg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA0E11034B20;
+ Wed,  1 Sep 2021 15:54:01 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.162])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 418155D9DC;
+ Wed,  1 Sep 2021 15:53:49 +0000 (UTC)
+Date: Wed, 1 Sep 2021 16:53:46 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH] gitlab: Escape git-describe match pattern on Windows hosts
+Message-ID: <YS+iCgl88cmMepKl@redhat.com>
+References: <20210901145229.4132606-1-philmd@redhat.com>
+ <YS+UylEr3CJyksxt@redhat.com>
+ <CAFEAcA_gyZTfUTAAoKvrA-qyv-8dOvGjLSLmq2uaur8XYS6CuQ@mail.gmail.com>
+ <YS+aiZep166VuVcH@redhat.com>
+ <0901f6da-de5c-f9e6-5f40-e15f4a7c807d@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YS8+8EKboNvsB0zP@redhat.com>
+In-Reply-To: <0901f6da-de5c-f9e6-5f40-e15f4a7c807d@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,95 +85,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras <leobras@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eric Blake <eblake@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>,
+ =?utf-8?Q?C=C3=A9dric?= Le Goater <clg@kaod.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 01, 2021 at 09:50:56AM +0100, Daniel P. Berrangé wrote:
-> On Tue, Aug 31, 2021 at 04:27:04PM -0400, Peter Xu wrote:
-> > On Tue, Aug 31, 2021 at 01:57:33PM +0100, Daniel P. Berrangé wrote:
-> > > On Tue, Aug 31, 2021 at 08:02:38AM -0300, Leonardo Bras wrote:
-> > > > MSG_ZEROCOPY is a feature that enables copy avoidance in TCP/UDP socket
-> > > > send calls. It does so by avoiding copying user data into kernel buffers.
-> > > > 
-> > > > To make it work, three steps are needed:
-> > > > 1 - A setsockopt() system call, enabling SO_ZEROCOPY
-> > > > 2 - Passing down the MSG_ZEROCOPY flag for each send*() syscall
-> > > > 3 - Process the socket's error queue, dealing with any error
-> > > 
-> > > AFAICT, this is missing the single most critical aspect of MSG_ZEROCOPY.
-> > > 
-> > > It is non-obvious, but setting the MSG_ZEROCOPY flag turns sendmsg()
-> > > from a synchronous call to an asynchronous call.
-> > > 
-> > > It is forbidden to overwrite/reuse/free the buffer passed to sendmsg
-> > > until an asynchronous completion notification has been received from
-> > > the socket error queue. These notifications are not required to
-> > > arrive in-order, even for a TCP stream, because the kernel hangs on
-> > > to the buffer if a re-transmit is needed.
-> > > 
-> > > https://www.kernel.org/doc/html/v5.4/networking/msg_zerocopy.html
-> > > 
-> > >   "Page pinning also changes system call semantics. It temporarily 
-> > >    shares the buffer between process and network stack. Unlike with
-> > >    copying, the process cannot immediately overwrite the buffer 
-> > >    after system call return without possibly modifying the data in 
-> > >    flight. Kernel integrity is not affected, but a buggy program
-> > >    can possibly corrupt its own data stream."
-> > > 
-> > > AFAICT, the design added in this patch does not provide any way
-> > > to honour these requirements around buffer lifetime.
-> > > 
-> > > I can't see how we can introduce MSG_ZEROCOPY in any seemless
-> > > way. The buffer lifetime requirements imply need for an API
-> > > design that is fundamentally different for asynchronous usage,
-> > > with a callback to notify when the write has finished/failed.
-> > 
-> > Regarding buffer reuse - it indeed has a very deep implication on the buffer
-> > being available and it's not obvious at all.  Just to mention that the initial
-> > user of this work will make sure all zero copy buffers will be guest pages only
-> > (as it's only used in multi-fd), so they should always be there during the
-> > process.
+On Wed, Sep 01, 2021 at 05:35:42PM +0200, Philippe Mathieu-Daudé wrote:
+> On 9/1/21 5:21 PM, Daniel P. Berrangé wrote:
+> > On Wed, Sep 01, 2021 at 04:17:48PM +0100, Peter Maydell wrote:
+> >> On Wed, 1 Sept 2021 at 15:59, Daniel P. Berrangé <berrange@redhat.com> wrote:
+> >>>
+> >>> On Wed, Sep 01, 2021 at 04:52:29PM +0200, Philippe Mathieu-Daudé wrote:
+> >>>> Properly escape git-describe 'match' pattern to avoid (MinGW):
+> >>>>
+> >>>>   $ if grep -q "EXESUF=.exe" config-host.mak; then make installer;
+> >>>>     version="$(git describe --match v[0-9]*)";
+> >>>>     mv -v qemu-setup*.exe qemu-setup-${version}.exe; fi
+> >>>>   fatal: No names found, cannot describe anything.
+> >>>>   ERROR: Job failed: exit code 1
+> >>>>
+> >>>> Reported-by: Cédric Le Goater <clg@kaod.org>
+> >>>> Fixes: 8619b5ddb56 ("ci: build & store windows installer")
+> >>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/591
+> >>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> >>>> ---
+> >>>>  .gitlab-ci.d/crossbuild-template.yml | 2 +-
+> >>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>>
+> >>>> diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
+> >>>> index 10d22dcf6c1..62d33e6661d 100644
+> >>>> --- a/.gitlab-ci.d/crossbuild-template.yml
+> >>>> +++ b/.gitlab-ci.d/crossbuild-template.yml
+> >>>> @@ -14,7 +14,7 @@
+> >>>>      - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
+> >>>>      - if grep -q "EXESUF=.exe" config-host.mak;
+> >>>>        then make installer;
+> >>>> -      version="$(git describe --match v[0-9]*)";
+> >>>> +      version="$(git describe --match 'v[0-9]*')";
+> >>>
+> >>> Do you have a pointer to a pipeline showing this fix works ?
 > 
-> That is not the case when migration is using TLS, because the buffers
-> transmitted are the ciphertext buffer, not the plaintext guest page.
+> It worked on my fork but I have some versioned tag:
+> https://gitlab.com/philmd_rh/qemu/-/jobs/1553450025
 
-Agreed.
+I can reproduce the error msg if I do a shallow clone with no history
 
-> 
-> > In short, we may just want to at least having a way to make sure all zero
-> > copied buffers are finished using and they're sent after some function returns
-> > (e.g., qio_channel_flush()).  That may require us to do some accounting on when
-> > we called sendmsg(MSG_ZEROCOPY), meanwhile we should need to read out the
-> > ee_data field within SO_EE_ORIGIN_ZEROCOPY msg when we do recvmsg() for the
-> > error queue and keep those information somewhere too.
-> > 
-> > Some other side notes that reached my mind..
-> > 
-> > The qio_channel_writev_full() may not be suitable for async operations, as the
-> > name "full" implies synchronous to me.  So maybe we can add a new helper for
-> > zero copy on the channel?
-> 
-> All the APIs that exist today are fundamentally only suitable for sync
-> operations. Supporting async correctly will definitely a brand new APIs
-> separate from what exists today.
+$ cd qemu
+$ git describe --match v[0-9]*
+v6.1.0-171-g5e8c1a0c90
 
-Yes.  What I wanted to say is maybe we can still keep the io_writev() interface
-untouched, but just add a new interface at qio_channel_writev_full() level.
+$ cd ..
+$ git clone --depth 1 https://gitlab.com/qemu-project/qemu/ qemu.new
+$ cd qemu.new/
+$ git describe --match v[0-9]*
+fatal: No names found, cannot describe anything.
 
-IOW, we could comment on io_writev() that it can be either sync or async now,
-just like sendmsg() has that implication too with different flag passed in.
-When calling io_writev() with different upper helpers, QIO channel could
-identify what flag to pass over to io_writev().
+but the odd thing is that I think we should have been hitting the
+problem frequently if it was related to git depth. This job passes
+fine in current CI pipelines and my own fork.
 
+Regards,
+Daniel
 -- 
-Peter Xu
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
