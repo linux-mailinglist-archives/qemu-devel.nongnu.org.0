@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24DDD3FD88E
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C1643FD88F
 	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 13:18:49 +0200 (CEST)
-Received: from localhost ([::1]:55452 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:55438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLOGW-0005rs-8n
+	id 1mLOGW-0005rS-AB
 	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 07:18:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43776)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLNcd-0007EC-LS
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:36 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:37852)
+ id 1mLNcc-0007E5-8K
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:35 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLNcU-0005zf-7E
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:34 -0400
-Received: by mail-wr1-x430.google.com with SMTP id v10so3744065wrd.4
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 03:37:24 -0700 (PDT)
+ id 1mLNcV-00060F-AE
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:31 -0400
+Received: by mail-wr1-x436.google.com with SMTP id q14so3764045wrp.3
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 03:37:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=j83XUPV97J381oMF7qSvoBGESd0UTWy6ZMCHvkTRW4Y=;
- b=qtNIt07tA70+/bC4lF7JqB03lYM/9futLrbWLQ7IJ/8pX1iEqkHruzXy+bW7QKDHaU
- PNudWrJ3FFHegi3G6RdxYeSAhd3OsPwne5e4EokZhhCXshBNmSCS30odAiFzhkAiGppy
- XgxMvyFd6jSJyBd4w249WhM4dAfgsyDkG2+e1YciJh5CcJzs2Z3bsnX/OkxwUE+LKlpA
- 6fbYUVUHw2DwqVrJJwqpke+9jXpTnrpIbIUhpOjeS94MwTLZ5246MvpoXif1pQRS7A3a
- Rez+O6veLfpUkaUOD5IzQFMzb9VpjtcGp1ULqIVrn6akGIgL4bLb5uxRKwbSivpE/MBJ
- 38Bw==
+ bh=NiuR82k4Z/QjftRCChwntyHfqleW/Hw4RZMhUwxUflY=;
+ b=xa9vyP1JVJ4TEgbnufk9mPKhIKrw98RYG+Y4LJ2VSMISGNiYY0NVXXhehuos36e13A
+ uhXFYua7enGxO6o5v8wniksbPfKu3hXRrxPa+CbRK9Xd1MXXrPMhOs44P2+OySGaaYfF
+ Rfe2Ag/LtWYrnI9YGjtEoqICr9NFjhnjqFq+gNWbMkaXv2cbBAjaEHhLn3yw/Iu8aGX8
+ c+XQyS7Le2pC8m47ImFPShfbk4L2VEEH9ipGJleK2RnpiJ4rRQoWF2zxnIwn9v3JyPyz
+ EPUPZ78v+FVeZboEB2K44PK7tCKXh4CJ+0J6eFPO3a0I27a18kruJqaFYE8TNdUVuzy+
+ G42w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=j83XUPV97J381oMF7qSvoBGESd0UTWy6ZMCHvkTRW4Y=;
- b=o0Tv2Pms7kl1OORSDWMKvgBbgn8k2jSRLFXL1C4paEPbMbyi3lEwVPePVf2WtxEzQl
- uzf2O8d0JYBlfKMtPi5nwphg1PfETgTT/HVRde1c3qCe7hMZY/MUDKHm97rPvAZfaU6W
- uzlDiuB1h5uIyDlVEoF/jV/IHsw8cLQjhA5wvQdaGN6g3fKqAiB2UZtPcsIESFV0A+aR
- u8+Tk5C4zqq7qgBSdwKtBgvM9Doc7CspH7N/8nRYwaQk4X+EbdDqCabzyw7ej83YobbE
- HD5dG71yONmcWO56CPPpRc/Gm/i3HISz5iH5XODnJLlHkgNzmWbbqsmpLjF0iSZMqmys
- N5/Q==
-X-Gm-Message-State: AOAM530OOTlwc21csa+cQzgMuTxq+obcTp9FZXlgoSLzv8VNb6RHo2cU
- LLomDUgrMADmF1+YURlvf9x3hhg4EpIFfA==
-X-Google-Smtp-Source: ABdhPJybbfxVVP2uIoVKeWMIgi4YfSZWhZcYSTf35xc9cj3ym9z6Yew26voETnyoBTuHeKIEjPGVVg==
-X-Received: by 2002:adf:c148:: with SMTP id w8mr29040415wre.317.1630492643919; 
- Wed, 01 Sep 2021 03:37:23 -0700 (PDT)
+ bh=NiuR82k4Z/QjftRCChwntyHfqleW/Hw4RZMhUwxUflY=;
+ b=dL8tyydrFQ2UG+x1mnOQTqmcd1VWmvfCOd5cKR/aNGFvpjjsKtVOfd/akVQLmK5lCy
+ IGDshdjESmPXcAblxUyTa+GmLGuSbIkeb/7dHN3rzDLltrAyo1RMFpnEAwk/mhdlnDzz
+ QFGsrMAaYCtYJVb/+1OKJEnIDEngU6f+TZPYPA/+q1mPSU9kMd3V9ZFtnL2OeVKjO8mx
+ 97gNt4s+JdWHKDu4Yo30Ius9hAmdIsI536KajaTcCemHfgSb+k317dN7yUk1+ljdHW1d
+ i+ynaNB4BGjm9Lb2ztPKLC0qqDPZnYx4omVGrqe/bVg+1Om/NF2kNBiHBsLvQvmuaddB
+ 6Mcg==
+X-Gm-Message-State: AOAM532ID82+xydeGrNY8QdzychwcCAm2Ku3xY7k+PGZIPxRpRGVR5LS
+ 2t+Hm7bhijkQbeub5IkTz2bs4vAULdgaIA==
+X-Google-Smtp-Source: ABdhPJy1VZee5qV1EJg4x3GXXaoancIXeCXq7dvUoXm4yLPsyBkmwqExaHh9qxrmaTjUrBupyZtWvw==
+X-Received: by 2002:adf:b7c1:: with SMTP id t1mr37470496wre.387.1630492644655; 
+ Wed, 01 Sep 2021 03:37:24 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j207sm5494771wmj.40.2021.09.01.03.37.23
+ by smtp.gmail.com with ESMTPSA id j207sm5494771wmj.40.2021.09.01.03.37.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 03:37:23 -0700 (PDT)
+ Wed, 01 Sep 2021 03:37:24 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 42/51] hw/arm/stellaris: split stellaris_sys_init()
-Date: Wed,  1 Sep 2021 11:36:44 +0100
-Message-Id: <20210901103653.13435-43-peter.maydell@linaro.org>
+Subject: [PULL 43/51] hw/arm/stellaris: Wire sysclk up to armv7m
+Date: Wed,  1 Sep 2021 11:36:45 +0100
+Message-Id: <20210901103653.13435-44-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210901103653.13435-1-peter.maydell@linaro.org>
 References: <20210901103653.13435-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,121 +86,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the stellaris_sys_init() function creates the
-TYPE_STELLARIS_SYS object, sets its properties, realizes it, maps its
-MMIO region and connects its IRQ.  In order to support wiring the
-sysclk up to the armv7m object, we need to split this function apart,
-because to connect the clock output of the STELLARIS_SYS object to
-the armv7m object we need to create the STELLARIS_SYS object before
-the armv7m object, but we can't wire up the IRQ until after we've
-created the armv7m object.
-
-Remove the stellaris_sys_init() function, and instead put the
-create/configure/realize parts before we create the armv7m object and
-the mmio/irq connection parts afterwards.
+Connect the sysclk to the armv7m object.  This board's SoC does not
+connect up the systick reference clock, so we don't need to connect a
+refclk.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Alexandre Iooss <erdnaxe@crans.org>
-Message-id: 20210812093356.1946-17-peter.maydell@linaro.org
+Message-id: 20210812093356.1946-18-peter.maydell@linaro.org
 ---
- hw/arm/stellaris.c | 56 +++++++++++++++++++++-------------------------
- 1 file changed, 25 insertions(+), 31 deletions(-)
+ hw/arm/stellaris.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-index ad48cf26058..bf24abd44fd 100644
+index bf24abd44fd..8c8bd39e2fe 100644
 --- a/hw/arm/stellaris.c
 +++ b/hw/arm/stellaris.c
-@@ -755,33 +755,6 @@ static void stellaris_sys_instance_init(Object *obj)
-     s->sysclk = qdev_init_clock_out(DEVICE(s), "SYSCLK");
- }
- 
--static DeviceState *stellaris_sys_init(uint32_t base, qemu_irq irq,
--                                       stellaris_board_info *board,
--                                       uint8_t *macaddr)
--{
--    DeviceState *dev = qdev_new(TYPE_STELLARIS_SYS);
--    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
--
--    /* Most devices come preprogrammed with a MAC address in the user data. */
--    qdev_prop_set_uint32(dev, "user0",
--                         macaddr[0] | (macaddr[1] << 8) | (macaddr[2] << 16));
--    qdev_prop_set_uint32(dev, "user1",
--                         macaddr[3] | (macaddr[4] << 8) | (macaddr[5] << 16));
--    qdev_prop_set_uint32(dev, "did0", board->did0);
--    qdev_prop_set_uint32(dev, "did1", board->did1);
--    qdev_prop_set_uint32(dev, "dc0", board->dc0);
--    qdev_prop_set_uint32(dev, "dc1", board->dc1);
--    qdev_prop_set_uint32(dev, "dc2", board->dc2);
--    qdev_prop_set_uint32(dev, "dc3", board->dc3);
--    qdev_prop_set_uint32(dev, "dc4", board->dc4);
--
--    sysbus_realize_and_unref(sbd, &error_fatal);
--    sysbus_mmio_map(sbd, 0, base);
--    sysbus_connect_irq(sbd, 0, irq);
--
--    return dev;
--}
--
- /* I2C controller.  */
- 
- #define TYPE_STELLARIS_I2C "stellaris-i2c"
-@@ -1349,6 +1322,7 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
+@@ -1322,7 +1322,7 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
      DeviceState *ssys_dev;
      int i;
      int j;
-+    uint8_t *macaddr;
+-    uint8_t *macaddr;
++    const uint8_t *macaddr;
  
      MemoryRegion *sram = g_new(MemoryRegion, 1);
      MemoryRegion *flash = g_new(MemoryRegion, 1);
-@@ -1366,6 +1340,26 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
-                            &error_fatal);
-     memory_region_add_subregion(system_memory, 0x20000000, sram);
- 
-+    /*
-+     * Create the system-registers object early, because we will
-+     * need its sysclk output.
-+     */
-+    ssys_dev = qdev_new(TYPE_STELLARIS_SYS);
-+    /* Most devices come preprogrammed with a MAC address in the user data. */
-+    macaddr = nd_table[0].macaddr.a;
-+    qdev_prop_set_uint32(ssys_dev, "user0",
-+                         macaddr[0] | (macaddr[1] << 8) | (macaddr[2] << 16));
-+    qdev_prop_set_uint32(ssys_dev, "user1",
-+                         macaddr[3] | (macaddr[4] << 8) | (macaddr[5] << 16));
-+    qdev_prop_set_uint32(ssys_dev, "did0", board->did0);
-+    qdev_prop_set_uint32(ssys_dev, "did1", board->did1);
-+    qdev_prop_set_uint32(ssys_dev, "dc0", board->dc0);
-+    qdev_prop_set_uint32(ssys_dev, "dc1", board->dc1);
-+    qdev_prop_set_uint32(ssys_dev, "dc2", board->dc2);
-+    qdev_prop_set_uint32(ssys_dev, "dc3", board->dc3);
-+    qdev_prop_set_uint32(ssys_dev, "dc4", board->dc4);
-+    sysbus_realize_and_unref(SYS_BUS_DEVICE(ssys_dev), &error_fatal);
-+
-     nvic = qdev_new(TYPE_ARMV7M);
+@@ -1364,6 +1364,9 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
      qdev_prop_set_uint32(nvic, "num-irq", NUM_IRQ_LINES);
      qdev_prop_set_string(nvic, "cpu-type", ms->cpu_type);
-@@ -1375,6 +1369,10 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
+     qdev_prop_set_bit(nvic, "enable-bitband", true);
++    qdev_connect_clock_in(nvic, "cpuclk",
++                          qdev_get_clock_out(ssys_dev, "SYSCLK"));
++    /* This SoC does not connect the systick reference clock */
+     object_property_set_link(OBJECT(nvic), "memory",
+                              OBJECT(get_system_memory()), &error_abort);
      /* This will exit with an error if the user passed us a bad cpu_type */
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(nvic), &error_fatal);
- 
-+    /* Now we can wire up the IRQ and MMIO of the system registers */
-+    sysbus_mmio_map(SYS_BUS_DEVICE(ssys_dev), 0, 0x400fe000);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(ssys_dev), 0, qdev_get_gpio_in(nvic, 28));
-+
-     if (board->dc1 & (1 << 16)) {
-         dev = sysbus_create_varargs(TYPE_STELLARIS_ADC, 0x40038000,
-                                     qdev_get_gpio_in(nvic, 14),
-@@ -1397,10 +1395,6 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
-         }
-     }
- 
--    ssys_dev = stellaris_sys_init(0x400fe000, qdev_get_gpio_in(nvic, 28),
--                                  board, nd_table[0].macaddr.a);
--
--
-     if (board->dc1 & (1 << 3)) { /* watchdog present */
-         dev = qdev_new(TYPE_LUMINARY_WATCHDOG);
- 
 -- 
 2.20.1
 
