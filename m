@@ -2,97 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC5693FE061
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:52:02 +0200 (CEST)
-Received: from localhost ([::1]:41036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6951B3FE06D
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:53:33 +0200 (CEST)
+Received: from localhost ([::1]:47760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLTT0-0004kn-1p
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:52:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40442)
+	id 1mLTUS-0000tr-G1
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:53:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLTHW-0002z7-Rg
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:40:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35180)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mLTKy-0001dh-38
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:43:44 -0400
+Received: from 6.mo52.mail-out.ovh.net ([188.165.49.222]:55111)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLTHS-0003Ss-QM
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:40:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630514405;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/Cv5hXyN0h5cm2EJc51fpl0EwQG9YlE4asvFKJtyDkE=;
- b=MWibK1fCjyCAW7nC1fiO5KK7ZumGr6UsKQJ4qin6Sux3Bv83ifYE4dZqtN1Ovf4RznOCdd
- xy4bIgwE3jZWCyyVGomSwMjimues1Co5gIsxJsLihX4H8lvmFbEkT1UkxsY/ILOrga0cZp
- FIEkELisfmbIWej5hzoK+JWXqan2i80=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-oiVNal28MUWy289yRfvMyA-1; Wed, 01 Sep 2021 12:40:03 -0400
-X-MC-Unique: oiVNal28MUWy289yRfvMyA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- f19-20020a1c1f13000000b002e6bd83c344so48062wmf.3
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 09:40:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/Cv5hXyN0h5cm2EJc51fpl0EwQG9YlE4asvFKJtyDkE=;
- b=nb0BHeChcNufuIU2m9bMcy3gsHejv3Em6aeseftU00n5sQakqw6Fa979c3gd88XK33
- 7wVmCaEOPHZziiOjKNlJmD0ebtBNW5mqkHYsVIb+LCisC8dx5HEVlB7ALFuWi/aOp3tL
- 8+vjzkAY3MWfZmwHxOmr+mPNUOZQ1EXrw8YBUlklXWZqjN15hjdLC0RA6IbXxRlhOEO1
- N0tO6/j/ZwDX/vIFhdI4h8Vp409yG/fW27P2cO3S9Np+FS5X6jBg4kd0aTRk6REunzOZ
- DHBCSxbbh60nnsMnM5Zm5hTMBOD9sVdDueo0Eicm2OG0r4S7IbwnICsVP+4PMUVYN92Q
- vloA==
-X-Gm-Message-State: AOAM533D98s7ae+WdrU5DB0rtrWt9RNQLoSX02wE1zLIjSdIxwYYg2HO
- mQ49hdvXxSCUkZeCe+VAR4mOjgdTVI0uFDriw8CoEYKhtNjly09IsaoxX52Rw0nrDU82+N18BDc
- ExwMyRkaXHHmh1aY=
-X-Received: by 2002:a7b:cc0a:: with SMTP id f10mr388932wmh.32.1630514401834;
- Wed, 01 Sep 2021 09:40:01 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxvjluswrxvD7nCo+W8rK6rGInCsN+i3oFeUwlULrmJ7c3loyn/gG4w8/IK34E3VcjZxHsdpA==
-X-Received: by 2002:a7b:cc0a:: with SMTP id f10mr388900wmh.32.1630514401569;
- Wed, 01 Sep 2021 09:40:01 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id i4sm33966wmd.5.2021.09.01.09.40.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Sep 2021 09:40:01 -0700 (PDT)
-Subject: Re: [PATCH] gitlab: Escape git-describe match pattern on Windows hosts
-To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210901145229.4132606-1-philmd@redhat.com>
- <YS+UylEr3CJyksxt@redhat.com>
- <CAFEAcA_gyZTfUTAAoKvrA-qyv-8dOvGjLSLmq2uaur8XYS6CuQ@mail.gmail.com>
- <YS+aiZep166VuVcH@redhat.com>
- <0901f6da-de5c-f9e6-5f40-e15f4a7c807d@redhat.com>
- <YS+iCgl88cmMepKl@redhat.com>
- <33d1a40b-c242-6472-5aa4-4108668ccc84@redhat.com>
- <005033c9-ac86-7af2-203d-0c597cec691c@kaod.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <15e90d82-b4bb-f588-bca5-e53abe16b8f7@redhat.com>
-Date: Wed, 1 Sep 2021 18:40:00 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mLTKv-0006O8-LF
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:43:43 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.68])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 775792952D9;
+ Wed,  1 Sep 2021 18:43:36 +0200 (CEST)
+Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 1 Sep
+ 2021 18:43:35 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R0023692a728-bd14-4947-9e4a-82a37454aebf,
+ 5EBA00A5E723AF1D17FBD8632F6684B6834AEADC) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PATCH v2 1/1] hw/arm/aspeed: Allow machine to set UART default
+To: Peter Delevoryas <pdel@fb.com>
+References: <20210901153615.2746885-1-pdel@fb.com>
+ <20210901153615.2746885-2-pdel@fb.com>
+ <d7c98ab7-1ebd-d18c-8d49-a7429fc7940a@kaod.org>
+ <C390CCCB-A1C0-4B5E-8197-F417F7D5849E@fb.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <49202e96-8c92-d699-8b68-465e896e640d@kaod.org>
+Date: Wed, 1 Sep 2021 18:43:35 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <005033c9-ac86-7af2-203d-0c597cec691c@kaod.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <C390CCCB-A1C0-4B5E-8197-F417F7D5849E@fb.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.029, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: e667a356-d06e-428d-aaa1-44dcbbf1b60d
+X-Ovh-Tracer-Id: 12517755165518433132
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddvfedguddtfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehpuggvlhesfhgsrdgtohhm
+Received-SPF: pass client-ip=188.165.49.222; envelope-from=clg@kaod.org;
+ helo=6.mo52.mail-out.ovh.net
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.029,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,96 +72,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eric Blake <eblake@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "andrew@aj.id.au" <andrew@aj.id.au>, "f4bug@amsat.org" <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "patrick@stwcx.xyz" <patrick@stwcx.xyz>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "joel@jms.id.au" <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/1/21 6:27 PM, Cédric Le Goater wrote:
-> On 9/1/21 6:24 PM, Philippe Mathieu-Daudé wrote:
->> On 9/1/21 5:53 PM, Daniel P. Berrangé wrote:
->>> On Wed, Sep 01, 2021 at 05:35:42PM +0200, Philippe Mathieu-Daudé wrote:
->>>> On 9/1/21 5:21 PM, Daniel P. Berrangé wrote:
->>>>> On Wed, Sep 01, 2021 at 04:17:48PM +0100, Peter Maydell wrote:
->>>>>> On Wed, 1 Sept 2021 at 15:59, Daniel P. Berrangé <berrange@redhat.com> wrote:
->>>>>>>
->>>>>>> On Wed, Sep 01, 2021 at 04:52:29PM +0200, Philippe Mathieu-Daudé wrote:
->>>>>>>> Properly escape git-describe 'match' pattern to avoid (MinGW):
->>>>>>>>
->>>>>>>>   $ if grep -q "EXESUF=.exe" config-host.mak; then make installer;
->>>>>>>>     version="$(git describe --match v[0-9]*)";
->>>>>>>>     mv -v qemu-setup*.exe qemu-setup-${version}.exe; fi
->>>>>>>>   fatal: No names found, cannot describe anything.
->>>>>>>>   ERROR: Job failed: exit code 1
->>>>>>>>
->>>>>>>> Reported-by: Cédric Le Goater <clg@kaod.org>
->>>>>>>> Fixes: 8619b5ddb56 ("ci: build & store windows installer")
->>>>>>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/591
->>>>>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>>>>>> ---
->>>>>>>>  .gitlab-ci.d/crossbuild-template.yml | 2 +-
->>>>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>>>
->>>>>>>> diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
->>>>>>>> index 10d22dcf6c1..62d33e6661d 100644
->>>>>>>> --- a/.gitlab-ci.d/crossbuild-template.yml
->>>>>>>> +++ b/.gitlab-ci.d/crossbuild-template.yml
->>>>>>>> @@ -14,7 +14,7 @@
->>>>>>>>      - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
->>>>>>>>      - if grep -q "EXESUF=.exe" config-host.mak;
->>>>>>>>        then make installer;
->>>>>>>> -      version="$(git describe --match v[0-9]*)";
->>>>>>>> +      version="$(git describe --match 'v[0-9]*')";
->>>>>>>
->>>>>>> Do you have a pointer to a pipeline showing this fix works ?
->>>>
->>>> It worked on my fork but I have some versioned tag:
->>>> https://gitlab.com/philmd_rh/qemu/-/jobs/1553450025
->>>
->>> I can reproduce the error msg if I do a shallow clone with no history
->>>
->>> $ cd qemu
->>> $ git describe --match v[0-9]*
->>> v6.1.0-171-g5e8c1a0c90
->>>
->>> $ cd ..
->>> $ git clone --depth 1 https://gitlab.com/qemu-project/qemu/ qemu.new
->>> $ cd qemu.new/
->>> $ git describe --match v[0-9]*
->>> fatal: No names found, cannot describe anything.
->>>
->>> but the odd thing is that I think we should have been hitting the
->>> problem frequently if it was related to git depth. This job passes
->>> fine in current CI pipelines and my own fork.
-
-What about not using the best tag if no versioned tag available?
-(no default string in case user wants to download and archive artifacts)
-
--- >8 --
-@@ -14,7 +14,7 @@
-     - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
-     - if grep -q "EXESUF=.exe" config-host.mak;
-       then make installer;
--      version="$(git describe --match v[0-9]*)";
-+      version="$(git describe --tags --match 'v[0-9]*' 2>/dev/null ||
-git describe --abbrev)";
-       mv -v qemu-setup*.exe qemu-setup-${version}.exe;
-       fi
----
-
->> FYI it didn't work out on Cédric fork:
->> https://gitlab.com/legoater/qemu/-/jobs/1553492082
+On 9/1/21 6:38 PM, Peter Delevoryas wrote:
+> 
+>> On Sep 1, 2021, at 9:19 AM, Cédric Le Goater <clg@kaod.org> wrote:
 >>
+>> ﻿On 9/1/21 5:36 PM, pdel@fb.com wrote:
+>>> From: Peter Delevoryas <pdel@fb.com>
+>>>
+>>> When you run QEMU with an Aspeed machine and a single serial device
+>>> using stdio like this:
+>>>
+>>>    qemu -machine ast2600-evb -drive ... -serial stdio
+>>>
+>>> The guest OS can read and write to the UART5 registers at 0x1E784000 and
+>>> it will receive from stdin and write to stdout. The Aspeed SoC's have a
+>>> lot more UART's though (AST2500 has 5, AST2600 has 13) and depending on
+>>> the board design, may be using any of them as the serial console. (See
+>>> "stdout-path" in a DTS to check which one is chosen).
+>>>
+>>> Most boards, including all of those currently defined in
+>>> hw/arm/aspeed.c, just use UART5, but some use UART1. This change adds
+>>> some flexibility for different boards without requiring users to change
+>>> their command-line invocation of QEMU.
+>>>
+>>> I tested this doesn't break existing code by booting an AST2500 OpenBMC
+>>> image and an AST2600 OpenBMC image, each using UART5 as the console.
+>>>
+>>> Then I tested switching the default to UART1 and booting an AST2600
+>>> OpenBMC image that uses UART1, and that worked too.
+>>>
+>>> Signed-off-by: Peter Delevoryas <pdel@fb.com>
+>>
+>> One comment, any how 
+>>
+>> Reviewed-by: Cédric Le Goater <clg@kaod.org>
+>>
+>>> ---
+>>> hw/arm/aspeed.c             | 3 +++
+>>> hw/arm/aspeed_ast2600.c     | 8 ++++----
+>>> hw/arm/aspeed_soc.c         | 9 ++++++---
+>>> include/hw/arm/aspeed.h     | 1 +
+>>> include/hw/arm/aspeed_soc.h | 1 +
+>>> 5 files changed, 15 insertions(+), 7 deletions(-)
+>>>
+>>> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+>>> index 9d43e26c51..a81e90c539 100644
+>>> --- a/hw/arm/aspeed.c
+>>> +++ b/hw/arm/aspeed.c
+>>> @@ -350,6 +350,8 @@ static void aspeed_machine_init(MachineState *machine)
+>>>         object_property_set_int(OBJECT(&bmc->soc), "hw-prot-key",
+>>>                                 ASPEED_SCU_PROT_KEY, &error_abort);
+>>>     }
+>>> +    qdev_prop_set_uint32(DEVICE(&bmc->soc), "uart-default",
+>>> +                         amc->uart_default);
+>>>     qdev_realize(DEVICE(&bmc->soc), NULL, &error_abort);
+>>>
+>>>     memory_region_add_subregion(get_system_memory(),
+>>> @@ -804,6 +806,7 @@ static void aspeed_machine_class_init(ObjectClass *oc, void *data)
+>>>     mc->no_parallel = 1;
+>>>     mc->default_ram_id = "ram";
+>>>     amc->macs_mask = ASPEED_MAC0_ON;
+>>> +    amc->uart_default = ASPEED_DEV_UART5;
+>>>
+>>>     aspeed_machine_class_props_init(oc);
+>>> }
+>>> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+>>> index e3013128c6..b07fcf10a0 100644
+>>> --- a/hw/arm/aspeed_ast2600.c
+>>> +++ b/hw/arm/aspeed_ast2600.c
+>>> @@ -322,10 +322,10 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+>>>         sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
+>>>     }
+>>>
+>>> -    /* UART - attach an 8250 to the IO space as our UART5 */
+>>> -    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
+>>> -                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5),
+>>> -                   38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
+>>> +    /* UART - attach an 8250 to the IO space as our UART */
+>>> +    serial_mm_init(get_system_memory(), sc->memmap[s->uart_default], 2,
+>>> +                   aspeed_soc_get_irq(s, s->uart_default), 38400,
+>>> +                   serial_hd(0), DEVICE_LITTLE_ENDIAN);
+>>>
+>>>     /* I2C */
+>>>     object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(s->dram_mr),
+>>> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+>>> index 3ad6c56fa9..09c0f83710 100644
+>>> --- a/hw/arm/aspeed_soc.c
+>>> +++ b/hw/arm/aspeed_soc.c
+>>> @@ -287,9 +287,9 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+>>>         sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
+>>>     }
+>>>
+>>> -    /* UART - attach an 8250 to the IO space as our UART5 */
+>>> -    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
+>>> -                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5), 38400,
+>>> +    /* UART - attach an 8250 to the IO space as our UART */
+>>> +    serial_mm_init(get_system_memory(), sc->memmap[s->uart_default], 2,
+>>> +                   aspeed_soc_get_irq(s, s->uart_default), 38400,
+>>>                    serial_hd(0), DEVICE_LITTLE_ENDIAN);
+>>>
+>>>     /* I2C */
+>>> @@ -439,6 +439,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+>>> static Property aspeed_soc_properties[] = {
+>>>     DEFINE_PROP_LINK("dram", AspeedSoCState, dram_mr, TYPE_MEMORY_REGION,
+>>>                      MemoryRegion *),
+>>> +    DEFINE_PROP_UINT32("uart-default", AspeedSoCState, uart_default,
+>>> +                       ASPEED_DEV_UART5),
+>>>     DEFINE_PROP_END_OF_LIST(),
+>>> };
+>>>
+>>> @@ -449,6 +451,7 @@ static void aspeed_soc_class_init(ObjectClass *oc, void *data)
+>>>     dc->realize = aspeed_soc_realize;
+>>>     /* Reason: Uses serial_hds and nd_table in realize() directly */
+>>>     dc->user_creatable = false;
+>>> +
+>>
+>> Unneeded change,
+>>
+>> Thanks,
+>>
+>> C. 
 > 
-> Indeed.
+> Dang it, yeah I noticed that just after I sent the patch, my bad. I’ll remove it, I’m just away from my computer, so probably won’t get it in time for you guys to review over in your timeline.
+
+Np. I fixed it inline. We are all ready for the Fuji machine now. 
+I will send a PR after that.
+
+Thanks,
+
+C.
+
 > 
-> Thanks Phil,
+> Sent from my iPhone
 > 
-> C.
-> 
+>>
+>>>     device_class_set_props(dc, aspeed_soc_properties);
+>>> }
+>>>
+>>> diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
+>>> index c9747b15fc..cbeacb214c 100644
+>>> --- a/include/hw/arm/aspeed.h
+>>> +++ b/include/hw/arm/aspeed.h
+>>> @@ -38,6 +38,7 @@ struct AspeedMachineClass {
+>>>     uint32_t num_cs;
+>>>     uint32_t macs_mask;
+>>>     void (*i2c_init)(AspeedMachineState *bmc);
+>>> +    uint32_t uart_default;
+>>> };
+>>>
+>>>
+>>> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+>>> index d9161d26d6..87d76c9259 100644
+>>> --- a/include/hw/arm/aspeed_soc.h
+>>> +++ b/include/hw/arm/aspeed_soc.h
+>>> @@ -65,6 +65,7 @@ struct AspeedSoCState {
+>>>     AspeedSDHCIState sdhci;
+>>>     AspeedSDHCIState emmc;
+>>>     AspeedLPCState lpc;
+>>> +    uint32_t uart_default;
+>>> };
+>>>
+>>> #define TYPE_ASPEED_SOC "aspeed-soc"
+>>>
+>>
 
 
