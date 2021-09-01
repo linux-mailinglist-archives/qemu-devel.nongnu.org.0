@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A3E3FD7F6
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 12:46:59 +0200 (CEST)
-Received: from localhost ([::1]:39816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C87E13FD85F
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 13:03:44 +0200 (CEST)
+Received: from localhost ([::1]:56548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLNli-00069P-R8
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 06:46:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43522)
+	id 1mLO1v-0002ms-T4
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 07:03:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLNcO-00078n-Ux
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:20 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40675)
+ id 1mLNcR-0007Ai-UK
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:25 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:40679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLNcL-0005sN-FD
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:20 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- x2-20020a1c7c02000000b002e6f1f69a1eso4372877wmc.5
+ id 1mLNcM-0005sn-O6
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:22 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ x2-20020a1c7c02000000b002e6f1f69a1eso4372898wmc.5
  for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 03:37:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=qx8wsOMhtL2NtE+ycWwK1nQUW28qH1evLQrUvakhzE0=;
- b=mObLd0wL3pG6jt4vXlwYBCTsV2ygYUvQFsL4+13vixOCjsOGhmhxO37M3xfl01pGug
- 43xuEHDGUvTLYB/8W3TqAsApXtevQa0ET62mH0QYtPZb4NO/9JMvpkhhmjMy6UFYsT4A
- +fXxmKNhVNTzx4SomUSWpg4hLL5H1mlb4JKWNnpobng9w5gvadPQ9Qk0bnht/epoq6qM
- 3MknmutnUEb7dwvh0CU2aoMY7IQ3aUW2LlOd0roc4GYttynWGTPCthBfJjJpMkCS/UJ+
- lhiLZjQJ7Aqxz3bt7QGG9EgwkVDVvFjjiBk0zSnWA32ocxo61/ZiyU5up34SQg1lBhsw
- ZtXg==
+ bh=7K40W+n2BmNQl8Ueq80FHzUsouD+Q77Hv2+ZcA1BX38=;
+ b=ID0oCYKIma52uVgmslopmEhKlJi7MG8z1KkEzzjRMef8BMMwceqmGL7CZ2KUWdWm4G
+ bH7GJq2Xo8z9yUMeNqvZcHWKukp68M9gXrkKUs9HJVzxtLEvlc3vlOxABcHcDxwXKozU
+ 2BgQdSf6zFbCZBFhP6I4Msjq87lbGn4tnJECMKdB61JsfPldvfCTQiNJDmhcfprLidGB
+ NJT9c8WxXnSmqNypAhbPcoORXyB4yHREVJMXEOnBzwV0vH9pjtFyS/ryrmZFhkOCAtzw
+ iEPmRpj9OxpbX2fo8jYBVFqh+Pn2GQ2wYPCfBG3S2lj2NG14qDFs8mckc6gugWSzH4bE
+ +xiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qx8wsOMhtL2NtE+ycWwK1nQUW28qH1evLQrUvakhzE0=;
- b=Com3ClDYuJhjFqYf5GpxT6VtXk4bnMeb5cRxdiVcLIIJM93oP+TD0p45J2smluhzNy
- uQkuuFUPU5FPLvBS51EkNZZO0MiCU5ii9NxNpPxxduLjieGtfYK0BvAJF5OsBxE1mSPt
- cg/yYJJ0y6Uueci2RcH6CBUTetJD6JkHDeA5Q/ZwbVAtZUriSDvUxDSlS/mlEcAX0dXn
- MHsLhvrHmT8kQE5rwkkAfVuxNDvi1WwmHO1Dv4ZnGUD/Um462159TlBE6VUir1PpUtb+
- LiRW4VlHPbLQ2LrCOJ2TpmooHIVSDXOSLQo6tmwoGGv3BLNeu675rIFZVFsf637khzPa
- W6kg==
-X-Gm-Message-State: AOAM533Zye0uLhHV9RPrV11fIagdny2u0Lu5AIkrR9GDzx7uoG/awIhv
- +pUQFqFs4nRhz6H7gODbfX+efi2NQY/Hmw==
-X-Google-Smtp-Source: ABdhPJyI6lfN2uG2lDm3OVpqtXU8lKQ6ed06CB7MYK0JDTKh2X6kIJiiXvCNQ6BsGhIR0mKGCG8Keg==
-X-Received: by 2002:a1c:f30b:: with SMTP id q11mr8915602wmq.91.1630492636148; 
+ bh=7K40W+n2BmNQl8Ueq80FHzUsouD+Q77Hv2+ZcA1BX38=;
+ b=pPQVhuufB4B5bOlzAqTdJej8E7QwW+FNoXSKeE96YpAbFmC5g2UCdOv5Fn3usbDlIx
+ uGqj3FVle52iLwIDBw5tiQTSjA94uTpr3vxL3zmNp9yS1SGqW4VnmEh8a/NhW2c17Bb/
+ mj1S8riZVCLv5uBZDvnXkK5ZJZ/M/4Ug5BOD0hxdxzIRcPkpTcUj0ynA+jYUzxFh2YQJ
+ GVFY4/hXY8yu8pX3nGKXtub1qLj6Ck4RO7PVxOMrzLcz0pHm+bFKCRjnw0p4+e9+RWkx
+ 1ql8/9oPIXkGppGgZxlqM3HAV+2e5/uNEgiUY9khk2sszdkoAe6WSEH7pZXadVIfi8Nf
+ T/cg==
+X-Gm-Message-State: AOAM530nboBe+HD7DBK1X3fUc3lOl4aYI3BV5fQjUlEJTpmZuWOZe0S3
+ KAlw3B7V/6OJAN/m5TbgA8ePAOY0aayPPg==
+X-Google-Smtp-Source: ABdhPJwIxt3Z6L9csgX5hm8wIeqMgQw0+HW2A5aLrhDUPA0t2EdPtHS6Hmzka0mSosBZHTKiINbm5A==
+X-Received: by 2002:a1c:3b05:: with SMTP id i5mr8963348wma.136.1630492636774; 
  Wed, 01 Sep 2021 03:37:16 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j207sm5494771wmj.40.2021.09.01.03.37.15
+ by smtp.gmail.com with ESMTPSA id j207sm5494771wmj.40.2021.09.01.03.37.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 03:37:15 -0700 (PDT)
+ Wed, 01 Sep 2021 03:37:16 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/51] hw/timer/armv7m_systick: Add usual QEMU interface comment
-Date: Wed,  1 Sep 2021 11:36:32 +0100
-Message-Id: <20210901103653.13435-31-peter.maydell@linaro.org>
+Subject: [PULL 31/51] hw/timer/armv7m_systick: Add input clocks
+Date: Wed,  1 Sep 2021 11:36:33 +0100
+Message-Id: <20210901103653.13435-32-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210901103653.13435-1-peter.maydell@linaro.org>
 References: <20210901103653.13435-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,35 +87,104 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the usual-style QEMU interface comment documenting what
-properties, etc, this device exposes.
+The v7M systick timer can be programmed to run from either of
+two clocks:
+ * an "external reference clock" (when SYST_CSR.CLKSOURCE == 0)
+ * the main CPU clock (when SYST_CSR.CLKSOURCE == 1)
+
+Our implementation currently hardwires the external reference clock
+to be 1MHz, and allows boards to set the main CPU clock frequency via
+the global 'system_clock_scale'.  (Most boards set that to a constant
+value; the Stellaris boards allow the guest to reprogram it via the
+board-specific RCC registers).
+
+As the first step in converting this to use the Clock infrastructure,
+add input clocks to the systick device for the reference clock and
+the CPU clock.  The device implementation ignores them; once we have
+made all the users of the device correctly wire up the new Clocks we
+will switch the implementation to use them and ignore the old
+system_clock_scale.
+
+This is a migration compat break for all M-profile boards, because of
+the addition of the new clock objects to the vmstate struct.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Luc Michel <luc@lmichel.fr>
-Message-id: 20210812093356.1946-5-peter.maydell@linaro.org
+Message-id: 20210812093356.1946-6-peter.maydell@linaro.org
 ---
- include/hw/timer/armv7m_systick.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+ include/hw/timer/armv7m_systick.h |  7 +++++++
+ hw/timer/armv7m_systick.c         | 10 ++++++++--
+ 2 files changed, 15 insertions(+), 2 deletions(-)
 
 diff --git a/include/hw/timer/armv7m_systick.h b/include/hw/timer/armv7m_systick.h
-index 84496faaf96..685fc5bc0d7 100644
+index 685fc5bc0d7..38adf8d274e 100644
 --- a/include/hw/timer/armv7m_systick.h
 +++ b/include/hw/timer/armv7m_systick.h
-@@ -20,6 +20,13 @@
+@@ -15,6 +15,7 @@
+ #include "hw/sysbus.h"
+ #include "qom/object.h"
+ #include "hw/ptimer.h"
++#include "hw/clock.h"
  
- OBJECT_DECLARE_SIMPLE_TYPE(SysTickState, SYSTICK)
+ #define TYPE_SYSTICK "armv7m_systick"
  
-+/*
-+ * QEMU interface:
-+ *  + sysbus MMIO region 0 is the register interface (covering
-+ *    the registers which are mapped at address 0xE000E010)
-+ *  + sysbus IRQ 0 is the interrupt line to the NVIC
-+ */
-+
+@@ -25,6 +26,10 @@ OBJECT_DECLARE_SIMPLE_TYPE(SysTickState, SYSTICK)
+  *  + sysbus MMIO region 0 is the register interface (covering
+  *    the registers which are mapped at address 0xE000E010)
+  *  + sysbus IRQ 0 is the interrupt line to the NVIC
++ *  + Clock input "refclk" is the external reference clock
++ *    (used when SYST_CSR.CLKSOURCE == 0)
++ *  + Clock input "cpuclk" is the main CPU clock
++ *    (used when SYST_CSR.CLKSOURCE == 1)
+  */
+ 
  struct SysTickState {
-     /*< private >*/
-     SysBusDevice parent_obj;
+@@ -38,6 +43,8 @@ struct SysTickState {
+     ptimer_state *ptimer;
+     MemoryRegion iomem;
+     qemu_irq irq;
++    Clock *refclk;
++    Clock *cpuclk;
+ };
+ 
+ /*
+diff --git a/hw/timer/armv7m_systick.c b/hw/timer/armv7m_systick.c
+index 2f192011eb0..e43f74114e8 100644
+--- a/hw/timer/armv7m_systick.c
++++ b/hw/timer/armv7m_systick.c
+@@ -14,6 +14,7 @@
+ #include "migration/vmstate.h"
+ #include "hw/irq.h"
+ #include "hw/sysbus.h"
++#include "hw/qdev-clock.h"
+ #include "qemu/timer.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+@@ -201,6 +202,9 @@ static void systick_instance_init(Object *obj)
+     memory_region_init_io(&s->iomem, obj, &systick_ops, s, "systick", 0xe0);
+     sysbus_init_mmio(sbd, &s->iomem);
+     sysbus_init_irq(sbd, &s->irq);
++
++    s->refclk = qdev_init_clock_in(DEVICE(obj), "refclk", NULL, NULL, 0);
++    s->cpuclk = qdev_init_clock_in(DEVICE(obj), "cpuclk", NULL, NULL, 0);
+ }
+ 
+ static void systick_realize(DeviceState *dev, Error **errp)
+@@ -215,9 +219,11 @@ static void systick_realize(DeviceState *dev, Error **errp)
+ 
+ static const VMStateDescription vmstate_systick = {
+     .name = "armv7m_systick",
+-    .version_id = 2,
+-    .minimum_version_id = 2,
++    .version_id = 3,
++    .minimum_version_id = 3,
+     .fields = (VMStateField[]) {
++        VMSTATE_CLOCK(refclk, SysTickState),
++        VMSTATE_CLOCK(cpuclk, SysTickState),
+         VMSTATE_UINT32(control, SysTickState),
+         VMSTATE_INT64(tick, SysTickState),
+         VMSTATE_PTIMER(ptimer, SysTickState),
 -- 
 2.20.1
 
