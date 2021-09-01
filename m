@@ -2,90 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 827DA3FD4E0
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 10:06:42 +0200 (CEST)
-Received: from localhost ([::1]:45748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 598893FD4E4
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 10:07:57 +0200 (CEST)
+Received: from localhost ([::1]:49816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLLGb-0001HO-Iz
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 04:06:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39668)
+	id 1mLLHo-000490-ES
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 04:07:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mLLDa-0007Z0-Ft
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 04:03:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42057)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mLLGN-0002I1-O1; Wed, 01 Sep 2021 04:06:27 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:55710
+ helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mLLDY-0000tU-1m
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 04:03:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630483410;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2EFasJRPaWNSp5dBYvRrNqey6IACM0MXhZC7bnd/8GE=;
- b=hAyXUrJsvDV6gUyxeKED61cpM4SAr/8hvkfs1oeaLaGvuccUaAQ8V6w8h+zxxMiB5XUFku
- 9OvvNXhK4jLKZSyyYU6Yl5Sz7Z/oD6Xqc8varMLMqUv7P1K6LV6W0BTd8JkCQ8BqMLBlEz
- 6+O1BJ56GozW8wDD1kc/yZOy9oi2iSs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-Xl2ffqnUMTWluQ_HeH5rTg-1; Wed, 01 Sep 2021 04:03:27 -0400
-X-MC-Unique: Xl2ffqnUMTWluQ_HeH5rTg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- g3-20020a1c2003000000b002e751c4f439so2455548wmg.7
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 01:03:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=2EFasJRPaWNSp5dBYvRrNqey6IACM0MXhZC7bnd/8GE=;
- b=VUtk8LkdyBMOG5aEndi6E4hvqPmBq2ZiQE953R9o40MOipwPoAJ8fdMIwWftS9oYxs
- u9MU/51hO8EYyOQYw2pFHyu2F8SUEMCiLcVuM+Hnq9bUP9DJsAdZQghJzRB2nKwbMb5O
- WmqylkuqpuyiPRRy6eH0koIyZ+/uwoj74xx2uqCEnVyJf8PIDPBO11COsO43lfaSjrsq
- tTvNaDUzHCQmLH3ZQnRZnvxF0l8jWdvS4czxXRhMMSe2WQs2+uwCas4cH3j/rJwXMhij
- o3U6uxIwM4KYHj5js0mfp29IXm2iT6Qy+1RhIIksunAvWEOphLXTtv+KJoPeaCBUgYZn
- xJvQ==
-X-Gm-Message-State: AOAM533qoxeGhTrhyC0P41Ku6Ev/V4zXAlmzIcdHellQ88trgw4OJGO5
- lTeSAnUdGHtfw1TiX+0D9rZaZntzJfQJjeR1cPH44Lymc2ec797a9NHd0euUQdK4g9gVReEx2xe
- YUZfPWb7WY3eXX/U=
-X-Received: by 2002:a05:600c:4293:: with SMTP id
- v19mr8233387wmc.32.1630483406313; 
- Wed, 01 Sep 2021 01:03:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy/Lw5HxgSYrVDmRgT5T046SScHwnN04GoogL83QuNkOTI10JBP7Q/3FGzeohubE7jr8GIMHg==
-X-Received: by 2002:a05:600c:4293:: with SMTP id
- v19mr8233357wmc.32.1630483405953; 
- Wed, 01 Sep 2021 01:03:25 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id b24sm4367376wmj.43.2021.09.01.01.03.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 01:03:25 -0700 (PDT)
-Date: Wed, 1 Sep 2021 10:03:24 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Shashi Mallela <shashi.mallela@linaro.org>
-Subject: Re: [PATCH v7 10/10] tests/data/acpi/virt: Update IORT files for ITS
-Message-ID: <20210901100324.3ce458f6@redhat.com>
-In-Reply-To: <20210805223002.144855-11-shashi.mallela@linaro.org>
-References: <20210805223002.144855-1-shashi.mallela@linaro.org>
- <20210805223002.144855-11-shashi.mallela@linaro.org>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mLLGL-0003WN-RO; Wed, 01 Sep 2021 04:06:27 -0400
+Received: from host86-133-17-27.range86-133.btcentralplus.com ([86.133.17.27]
+ helo=[192.168.50.176])
+ by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mLLFj-0004k5-6R; Wed, 01 Sep 2021 09:05:51 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: Finn Thain <fthain@linux-m68k.org>
+References: <cover.1629799776.git.fthain@linux-m68k.org>
+ <283af572-2157-77c6-2594-8e9e92497346@amsat.org>
+ <fb42cb6-117c-c138-c18a-3af7f1d9be6a@linux-m68k.org>
+ <4da39536-1acb-05c3-755c-9a30d82d6ace@ilande.co.uk>
+ <88a445-398a-7566-171b-c551b61c38b@linux-m68k.org>
+ <abc8ceff-8336-b3b1-d5f1-37d412a393ca@ilande.co.uk>
+Message-ID: <f35346db-5246-73a7-d6dc-28492d922ed7@ilande.co.uk>
+Date: Wed, 1 Sep 2021 09:06:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <abc8ceff-8336-b3b1-d5f1-37d412a393ca@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.133.17.27
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [RFC 00/10] hw/mos6522: VIA timer emulation fixes and improvements
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.932,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,107 +66,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, mst@redhat.com, rad@semihalf.com,
- qemu-devel@nongnu.org, eric.auger@redhat.com, qemu-arm@nongnu.org,
- leif@nuviainc.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-not directly related to the patch but while I was testing IORT testcase
-(https://github.com/imammedo/qemu acpi-tests)
-after rebase to 6.1, I get test failure due to change in MADT table vs
-expected blobs made in 6.0 time and it does look like ABI change
-(what is bad, it also happens to virt-6.0 machine type).
-Can ARM folks check if we didn't break something?
+On 01/09/2021 08:57, Mark Cave-Ayland wrote:
 
-acpi-test: Warning! APIC mismatch. Actual [asl:/tmp/asl-1TCW80.dsl, aml:/tmp/aml-OUIW80], Expected [asl:/tmp/asl-O8DW80.dsl, aml:tests/data/acpi/virt/APIC].
---- /tmp/asl-O8DW80.dsl	2021-09-01 03:49:02.311023292 -0400
-+++ /tmp/asl-1TCW80.dsl	2021-09-01 03:49:02.311023292 -0400
-@@ -1,78 +1,82 @@
- /*
-  * Intel ACPI Component Architecture
-  * AML/ASL+ Disassembler version 20180629 (64-bit version)
-  * Copyright (c) 2000 - 2018 Intel Corporation
-  * 
-- * Disassembly of tests/data/acpi/virt/APIC, Wed Sep  1 03:49:02 2021
-+ * Disassembly of /tmp/aml-OUIW80, Wed Sep  1 03:49:02 2021
-  *
-  * ACPI Data Table [APIC]
-  *
-  * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue
-  */
- 
- [000h 0000   4]                    Signature : "APIC"    [Multiple APIC Description Table (MADT)]
--[004h 0004   4]                 Table Length : 000000A8
-+[004h 0004   4]                 Table Length : 000000B4
- [008h 0008   1]                     Revision : 03
--[009h 0009   1]                     Checksum : 50
-+[009h 0009   1]                     Checksum : CA
- [00Ah 0010   6]                       Oem ID : "BOCHS "
- [010h 0016   8]                 Oem Table ID : "BXPC    "
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
- 
- [024h 0036   4]           Local Apic Address : 00000000
- [028h 0040   4]        Flags (decoded below) : 00000000
-                          PC-AT Compatibility : 0
- 
- [02Ch 0044   1]                Subtable Type : 0C [Generic Interrupt Distributor]
- [02Dh 0045   1]                       Length : 18
- [02Eh 0046   2]                     Reserved : 0000
- [030h 0048   4]        Local GIC Hardware ID : 00000000
- [034h 0052   8]                 Base Address : 0000000008000000
- [03Ch 0060   4]               Interrupt Base : 00000000
--[040h 0064   1]                      Version : 02
-+[040h 0064   1]                      Version : 03
- [041h 0065   3]                     Reserved : 000000
- 
- [044h 0068   1]                Subtable Type : 0B [Generic Interrupt Controller]
- [045h 0069   1]                       Length : 4C
- [046h 0070   2]                     Reserved : 0000
- [048h 0072   4]         CPU Interface Number : 00000000
- [04Ch 0076   4]                Processor UID : 00000000
- [050h 0080   4]        Flags (decoded below) : 00000001
-                            Processor Enabled : 1
-           Performance Interrupt Trigger Mode : 0
-           Virtual GIC Interrupt Trigger Mode : 0
- [054h 0084   4]     Parking Protocol Version : 00000000
- [058h 0088   4]        Performance Interrupt : 00000017
- [05Ch 0092   8]               Parked Address : 0000000000000000
--[064h 0100   8]                 Base Address : 0000000008010000
--[06Ch 0108   8]     Virtual GIC Base Address : 0000000008040000
--[074h 0116   8]  Hypervisor GIC Base Address : 0000000008030000
-+[064h 0100   8]                 Base Address : 0000000000000000
-+[06Ch 0108   8]     Virtual GIC Base Address : 0000000000000000
-+[074h 0116   8]  Hypervisor GIC Base Address : 0000000000000000
- [07Ch 0124   4]        Virtual GIC Interrupt : 00000000
- [080h 0128   8]   Redistributor Base Address : 0000000000000000
- [088h 0136   8]                    ARM MPIDR : 0000000000000000
- /**** ACPI subtable terminates early - may be older version (dump table) */
- 
--[090h 0144   1]                Subtable Type : 0D [Generic MSI Frame]
--[091h 0145   1]                       Length : 18
-+[090h 0144   1]                Subtable Type : 0E [Generic Interrupt Redistributor]
-+[091h 0145   1]                       Length : 10
- [092h 0146   2]                     Reserved : 0000
--[094h 0148   4]                 MSI Frame ID : 00000000
--[098h 0152   8]                 Base Address : 0000000008020000
--[0A0h 0160   4]        Flags (decoded below) : 00000001
--                                  Select SPI : 1
--[0A4h 0164   2]                    SPI Count : 0040
--[0A6h 0166   2]                     SPI Base : 0050
-+[094h 0148   8]                 Base Address : 00000000080A0000
-+[09Ch 0156   4]                       Length : 00F60000
- 
--Raw Table Data: Length 168 (0xA8)
-+[0A0h 0160   1]                Subtable Type : 0F [Generic Interrupt Translator]
-+[0A1h 0161   1]                       Length : 14
-+[0A2h 0162   2]                     Reserved : 0000
-+[0A4h 0164   4]               Translation ID : 00000000
-+[0A8h 0168   8]                 Base Address : 0000000008080000
-+[0B0h 0176   4]                     Reserved : 00000000
- 
+> I had a quick look at your via-timer branch at 
+> https://github.com/fthain/qemu/commits/via-timer and spotted that your work is based 
+> upon the v6.0 release. Before digging further into this, can you try using vanilla 
+> git master or the v6.1 tag instead as there are a couple of related fixes from the 
+> 6.1 development cycle that you are missing:
+> 
+> 82ff856fe7 ("mac_via: fix 60Hz VIA1 timer interval")
+> - This fixed the 60Hz VIA1 timer interval (it was running 100x too fast) and so could 
+> limit the virtual CPUs ability to process the 100Hz timer.
+> 
+> 30ca7eddc4 ("mac_via: remove VIA1 timer optimisations")
+> - This fixed an issue whereby constant writes to portB would reset the 60Hz VIA1 
+> timer and 1Hz VIA1 timer (Probably not relevant here, but worth having).
+
+Ah my mistake, clearly not enough caffeine this morning - looks like these patches 
+did make v6.0 after all :/
+
+I'll have a go at some basic timer measurements using your patch to see what sort of 
+numbers I get for the latency here. Obviously QEMU doesn't guarantee response times 
+but over 20ms does seem high.
 
 
+ATB,
+
+Mark.
 
