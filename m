@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57AD03FD9D8
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 14:51:35 +0200 (CEST)
-Received: from localhost ([::1]:49210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E364E3FD9D3
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 14:48:18 +0200 (CEST)
+Received: from localhost ([::1]:38150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLPiI-0004os-DU
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 08:51:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39658)
+	id 1mLPf7-0005mi-OF
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 08:48:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mLPca-0003KB-PL; Wed, 01 Sep 2021 08:45:40 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:39701)
+ id 1mLPcd-0003Rh-3G; Wed, 01 Sep 2021 08:45:43 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:33587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mLPcZ-0003aU-6d; Wed, 01 Sep 2021 08:45:40 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id e16so1952963pfc.6;
- Wed, 01 Sep 2021 05:45:38 -0700 (PDT)
+ id 1mLPcb-0003b2-Ix; Wed, 01 Sep 2021 08:45:42 -0400
+Received: by mail-pf1-x432.google.com with SMTP id u6so1999543pfi.0;
+ Wed, 01 Sep 2021 05:45:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ev+aq0JxPAo6o7UOcP7jbXTgregVlkRbo8hoXTI7T1k=;
- b=baOT5eMEWdfO8bzuyV5Cu8ZmkQoATFMAV9NQU7vHMifn/T8HYLmyOcNsoy0jUsrCjT
- oa1meNceuZrW8mK4j7BszhLFiNWGVHDpoH5bx1Od5QiOJKxH3iW000isFBz63qOLolro
- Nwf/LatDNra7uPs2s5JgOzaxD4q9NU+0d2NJofAcDf/tvWC9ObAeSExwoG6JLS5niVRd
- rdszH87qjkAl+Cg2V7LDR7O1qGk52pKpieA+vwuuq8GhcW3gN7GEL0M/kdqE1XY5Zijj
- GUCyDLgZNMUujo7k4jHtbM/3PlFxWzQPebSbWy6TZhMCWGbjqykJHlsqA9jivw8zZ3tg
- WigA==
+ bh=L07n8zX3R8GaFuJBCKEivKi6SKW1wli53ep7Q/Pq37k=;
+ b=pwnSenhhI4iiB7KGYPoIfpziezgnieKsDSACMP2F7Qu5t25C6ERg3C4k6hTGOJySyf
+ E2YQRlNo5ZpphPZ/L06EuAZGtfNMaqpfi8WiMCsTGHnWJEvSqjB1bF8diwPkux0afbCe
+ xGLhaMD8b1KLB2dWqOX09oz+3MC4rsfLkofPoKAqQ7bMJf/g+h6SdhHaWdbdOUTccxPT
+ 4t34CApThERdRcY2cM5crwOXTNBW9Yz/X0I/I2EozeNk+CONwzuc+D45saGpX4t9n4GO
+ roeA/fDFUTG+I+18Ud0OXAYG93edIW5603zwdlJ1UpqgRZsHmXT+BtW0/zfGxlDMCLOA
+ 5MKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ev+aq0JxPAo6o7UOcP7jbXTgregVlkRbo8hoXTI7T1k=;
- b=i0Uqe8QzCk6xsqW5pn4m4nwOdcTSbQ/HJ1uK8Z0b1ui6sjhmd1Bk+9G9lQfpshvjDm
- g7Lzckbf5uMbGlUVETvtDDO2LhZae49+9ntE5DjwCBjj9zNSIvOLBC1jE5RFVvvsZ+A+
- VTgBP11Fy4QSZRMseraBYz5f73KB+JpfICW3Ps3Bzxj3MQLBn28NjwEKq3xfyWISuX3g
- qyyj3IF6vk4aSf6E++bSB0GtLimjb7/YwS/5smlSzceCSR4sZF7lsGLsgP2nwrgQWySa
- NEc4uFFxQKN9H3Hk9bnHDvY0ZTWBm3/a+3XkOi8XiBE6Pynd8KUgnfNtpwDO92DFurj1
- /vsQ==
-X-Gm-Message-State: AOAM53287boCqZTMbt603HchuwJd9EjO6coCKISrW6Xc2uGLuXVcVR5i
- d1S9ly2fcMJbzejZ41AHYpQurQntq4zUaQ==
-X-Google-Smtp-Source: ABdhPJwGBh7YtMPkFNFC69GuhDZJ1Omi0DhfsuvxoHXpA1tIcAykgrxHjC6aQxCk+cJYVEyCoXgezg==
-X-Received: by 2002:a63:fd12:: with SMTP id d18mr32166158pgh.129.1630500337499; 
- Wed, 01 Sep 2021 05:45:37 -0700 (PDT)
+ bh=L07n8zX3R8GaFuJBCKEivKi6SKW1wli53ep7Q/Pq37k=;
+ b=qsfu3wTe5SFN1C/HC+KwGhQSJYDdCEgfrwzU/NctpNzNPhDEWmc3LErVLSaaLZBWmt
+ FJ1OhjvPQunVH4A0TzXUFVOWZ1UBp0lx9LOB363tgHvzuWmwBQ4nbeUfNKdhIFhZhBlo
+ 6j5VbquFr3OcPbBtmXpaCeIH+scUHXe6R9Sv95oeFL8Vw6i8r5li43Riq4Rgrm6DM4uP
+ ZT12L0O1plaYHmQO6hU9YPZJUk3fIDMEhUSxlNse6HTKIOt8SjFwniYZjhULesXU0ANw
+ gS3pBVuAou6+WEj5sD2xfwRmi9fHx5bJm+TnZ9nTMxy7IOHTOIgu7jM25Gd7AHH2l/PE
+ V7Xg==
+X-Gm-Message-State: AOAM531EX8hz1HVh+CqUutjThj1Ki8JNroDffauklWhKNhAAoZs9U/3l
+ u8W9gPEqlUQPI45hPg5aHB2FjnDC5JJ9Rw==
+X-Google-Smtp-Source: ABdhPJxqq99grwyCFRq/zmHpXkCvhTNre1lZ+kWFxY531yYu3iCI4y4NnZKxkfToFV1jNkfYSA3Jgg==
+X-Received: by 2002:a62:ea06:0:b0:3e1:62a6:95b8 with SMTP id
+ t6-20020a62ea06000000b003e162a695b8mr34188875pfh.70.1630500340059; 
+ Wed, 01 Sep 2021 05:45:40 -0700 (PDT)
 Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
  [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id d22sm20917134pfq.158.2021.09.01.05.45.35
+ by smtp.gmail.com with ESMTPSA id d22sm20917134pfq.158.2021.09.01.05.45.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 05:45:37 -0700 (PDT)
+ Wed, 01 Sep 2021 05:45:39 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Damien Hedde <damien.hedde@greensocs.com>,
  "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
  Alistair Francis <alistair.francis@wdc.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v3 3/6] hw/char: cadence_uart: Move clock/reset check to
- uart_can_receive()
-Date: Wed,  1 Sep 2021 20:45:18 +0800
-Message-Id: <20210901124521.30599-4-bmeng.cn@gmail.com>
+Subject: [PATCH v3 4/6] hw/char: cadence_uart: Convert to memop_with_attrs()
+ ops
+Date: Wed,  1 Sep 2021 20:45:19 +0800
+Message-Id: <20210901124521.30599-5-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210901124521.30599-1-bmeng.cn@gmail.com>
 References: <20210901124521.30599-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,8 +91,7 @@ Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the clock/reset check is done in uart_receive(), but we
-can move the check to uart_can_receive() which is earlier.
+This converts uart_read() and uart_write() to memop_with_attrs() ops.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
@@ -100,46 +100,77 @@ Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 (no changes since v2)
 
 Changes in v2:
-- avoid declaring variables mid-scope
+- new patch: hw/char: cadence_uart: Convert to memop_with_attrs() ops
 
- hw/char/cadence_uart.c | 17 ++++++++++-------
- 1 file changed, 10 insertions(+), 7 deletions(-)
+ hw/char/cadence_uart.c | 26 +++++++++++++++-----------
+ 1 file changed, 15 insertions(+), 11 deletions(-)
 
 diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
-index 154be34992..fff8be3619 100644
+index fff8be3619..8bcf2b718a 100644
 --- a/hw/char/cadence_uart.c
 +++ b/hw/char/cadence_uart.c
-@@ -235,8 +235,16 @@ static void uart_parameters_setup(CadenceUARTState *s)
- static int uart_can_receive(void *opaque)
+@@ -411,15 +411,15 @@ static void uart_read_rx_fifo(CadenceUARTState *s, uint32_t *c)
+     uart_update_status(s);
+ }
+ 
+-static void uart_write(void *opaque, hwaddr offset,
+-                          uint64_t value, unsigned size)
++static MemTxResult uart_write(void *opaque, hwaddr offset,
++                              uint64_t value, unsigned size, MemTxAttrs attrs)
  {
      CadenceUARTState *s = opaque;
--    int ret = MAX(CADENCE_UART_RX_FIFO_SIZE, CADENCE_UART_TX_FIFO_SIZE);
--    uint32_t ch_mode = s->r[R_MR] & UART_MR_CHMODE;
-+    int ret;
-+    uint32_t ch_mode;
-+
-+    /* ignore characters when unclocked or in reset */
-+    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
-+        return 0;
-+    }
-+
-+    ret = MAX(CADENCE_UART_RX_FIFO_SIZE, CADENCE_UART_TX_FIFO_SIZE);
-+    ch_mode = s->r[R_MR] & UART_MR_CHMODE;
  
-     if (ch_mode == NORMAL_MODE || ch_mode == ECHO_MODE) {
-         ret = MIN(ret, CADENCE_UART_RX_FIFO_SIZE - s->rx_count);
-@@ -358,11 +366,6 @@ static void uart_receive(void *opaque, const uint8_t *buf, int size)
-     CadenceUARTState *s = opaque;
-     uint32_t ch_mode = s->r[R_MR] & UART_MR_CHMODE;
- 
--    /* ignore characters when unclocked or in reset */
--    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
+     DB_PRINT(" offset:%x data:%08x\n", (unsigned)offset, (unsigned)value);
+     offset >>= 2;
+     if (offset >= CADENCE_UART_R_MAX) {
 -        return;
--    }
--
-     if (ch_mode == NORMAL_MODE || ch_mode == ECHO_MODE) {
-         uart_write_rx_fifo(opaque, buf, size);
++        return MEMTX_DECODE_ERROR;
      }
+     switch (offset) {
+     case R_IER: /* ier (wts imr) */
+@@ -466,30 +466,34 @@ static void uart_write(void *opaque, hwaddr offset,
+         break;
+     }
+     uart_update_status(s);
++
++    return MEMTX_OK;
+ }
+ 
+-static uint64_t uart_read(void *opaque, hwaddr offset,
+-        unsigned size)
++static MemTxResult uart_read(void *opaque, hwaddr offset,
++                             uint64_t *value, unsigned size, MemTxAttrs attrs)
+ {
+     CadenceUARTState *s = opaque;
+     uint32_t c = 0;
+ 
+     offset >>= 2;
+     if (offset >= CADENCE_UART_R_MAX) {
+-        c = 0;
+-    } else if (offset == R_TX_RX) {
++        return MEMTX_DECODE_ERROR;
++    }
++    if (offset == R_TX_RX) {
+         uart_read_rx_fifo(s, &c);
+     } else {
+-       c = s->r[offset];
++        c = s->r[offset];
+     }
+ 
+     DB_PRINT(" offset:%x data:%08x\n", (unsigned)(offset << 2), (unsigned)c);
+-    return c;
++    *value = c;
++    return MEMTX_OK;
+ }
+ 
+ static const MemoryRegionOps uart_ops = {
+-    .read = uart_read,
+-    .write = uart_write,
++    .read_with_attrs = uart_read,
++    .write_with_attrs = uart_write,
+     .endianness = DEVICE_NATIVE_ENDIAN,
+ };
+ 
 -- 
 2.25.1
 
