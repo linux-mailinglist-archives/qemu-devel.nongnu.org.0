@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DC243FDE02
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 16:50:43 +0200 (CEST)
-Received: from localhost ([::1]:37518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B89C73FDE10
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 16:52:33 +0200 (CEST)
+Received: from localhost ([::1]:42764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLRZa-0000gS-62
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 10:50:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54720)
+	id 1mLRbM-0004MN-RL
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 10:52:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <maxim.davydov@virtuozzo.com>)
- id 1mLMEE-0003Zo-KY
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 05:08:18 -0400
-Received: from relay.sw.ru ([185.231.240.75]:35396)
+ id 1mLMEG-0003c7-5o
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 05:08:20 -0400
+Received: from relay.sw.ru ([185.231.240.75]:35398)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <maxim.davydov@virtuozzo.com>)
- id 1mLME6-0005OV-5U
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 05:08:18 -0400
+ id 1mLME6-0005OY-Fe
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 05:08:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=virtuozzo.com; s=relay; h=MIME-Version:Message-Id:Date:Subject:From:
- Content-Type; bh=5VSyo9u1as5v2w8EoWPqVnnzXFcNIWYd4SGEqLo2lYo=; b=s70xStYQPV9z
- wbR6d9Anr+ufJyVchI6YRZ4UwYsHkvTR/Jn6DWtThhIjGur4q+qsVmrh9IqTwg10fcSRngdv9PnCy
- Z1yRbC4RKLT5ESuajMCGrtkLktj/xo948pcNPMSWwO9Rk8rPHSZQBh/eVjQlKiK8DIxdjBcYnFnif
- I0V8U=;
+ Content-Type; bh=nPiacBrr0uQwTXUm0yfQaTlAPSncgQfKpOtV272sm0A=; b=oH71fPcD2UV1
+ nK0SN3XBPYrE0+0NrAaUEB4BaP5RtyTC9PfvWY7xtDrwPedacNLvf/lmGzA33BTkX+ZOEtmw96Hdk
+ RCTe5v/XPG1WsScrdD6I7073D3oeL+STo/+0mgRHT/wbAJZDhEiRYp1VmHOONKbp7GBNXz+mRP+5f
+ gOa6k=;
 Received: from [192.168.15.100] (helo=max-Swift-SF314-57.sw.ru)
  by relay.sw.ru with esmtp (Exim 4.94.2)
  (envelope-from <maxim.davydov@virtuozzo.com>)
- id 1mLME0-000RwD-TB; Wed, 01 Sep 2021 12:08:04 +0300
+ id 1mLME1-000RwD-5b; Wed, 01 Sep 2021 12:08:05 +0300
 From: Maxim Davydov <maxim.davydov@virtuozzo.com>
 To: qemu-devel@nongnu.org
 Cc: den@openvz.org, mst@redhat.com, stefanha@redhat.com, fam@euphon.net,
  amit@kernel.org, kraxel@redhat.com, berrange@redhat.com,
  Maxim Davydov <maxim.davydov@virtuozzo.com>
-Subject: [PATCH v1 6/8] scsi: Add tracking of the acknowledged feature bits
-Date: Wed,  1 Sep 2021 12:08:02 +0300
-Message-Id: <20210901090804.7139-7-maxim.davydov@virtuozzo.com>
+Subject: [PATCH v1 7/8] virtio-blk: Add tracking of the virtio guest feature
+ bits
+Date: Wed,  1 Sep 2021 12:08:03 +0300
+Message-Id: <20210901090804.7139-8-maxim.davydov@virtuozzo.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210901090804.7139-1-maxim.davydov@virtuozzo.com>
 References: <20210901090804.7139-1-maxim.davydov@virtuozzo.com>
@@ -66,83 +67,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add tracking of the VIRTIO_SCSI_F_HOTPLUG, VIRTIO_SCSI_F_CHANGE and
-VIRTIO_SCSI_F_T10_PI bits acknowledged by the guest
+Add tracking of the bits acknowledged by the guests
 
 Signed-off-by: Maxim Davydov <maxim.davydov@virtuozzo.com>
 ---
- hw/scsi/vhost-scsi.c      |  6 +++---
- hw/scsi/vhost-user-scsi.c | 18 +++++++++---------
- hw/scsi/virtio-scsi.c     | 10 ++++++----
- 3 files changed, 18 insertions(+), 16 deletions(-)
+ hw/block/virtio-blk.c | 20 ++++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
 
-diff --git a/hw/scsi/vhost-scsi.c b/hw/scsi/vhost-scsi.c
-index 8c611bf..4530295 100644
---- a/hw/scsi/vhost-scsi.c
-+++ b/hw/scsi/vhost-scsi.c
-@@ -277,9 +277,9 @@ static Property vhost_scsi_properties[] = {
-     DEFINE_PROP_UINT32("max_sectors", VirtIOSCSICommon, conf.max_sectors,
-                        0xFFFF),
-     DEFINE_PROP_UINT32("cmd_per_lun", VirtIOSCSICommon, conf.cmd_per_lun, 128),
--    DEFINE_PROP_BIT64("t10_pi", VHostSCSICommon, host_features,
--                                                 VIRTIO_SCSI_F_T10_PI,
--                                                 false),
-+    DEFINE_VIRTIO_FEATURE_BIT64("t10_pi", VHostSCSICommon,
-+                                host_features, dev.acked_features,
-+                                VIRTIO_SCSI_F_T10_PI, false),
-     DEFINE_PROP_BOOL("migratable", VHostSCSICommon, migratable, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
-diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
-index 1b2f7ee..40f885d 100644
---- a/hw/scsi/vhost-user-scsi.c
-+++ b/hw/scsi/vhost-user-scsi.c
-@@ -168,15 +168,15 @@ static Property vhost_user_scsi_properties[] = {
-     DEFINE_PROP_UINT32("max_sectors", VirtIOSCSICommon, conf.max_sectors,
-                        0xFFFF),
-     DEFINE_PROP_UINT32("cmd_per_lun", VirtIOSCSICommon, conf.cmd_per_lun, 128),
--    DEFINE_PROP_BIT64("hotplug", VHostSCSICommon, host_features,
--                                                  VIRTIO_SCSI_F_HOTPLUG,
--                                                  true),
--    DEFINE_PROP_BIT64("param_change", VHostSCSICommon, host_features,
--                                                       VIRTIO_SCSI_F_CHANGE,
--                                                       true),
--    DEFINE_PROP_BIT64("t10_pi", VHostSCSICommon, host_features,
--                                                 VIRTIO_SCSI_F_T10_PI,
--                                                 false),
-+    DEFINE_VIRTIO_FEATURE_BIT64("hotplug", VHostSCSICommon,
-+                                host_features, dev.acked_features,
-+                                VIRTIO_SCSI_F_HOTPLUG, true),
-+    DEFINE_VIRTIO_FEATURE_BIT64("param_change", VHostSCSICommon,
-+                                host_features, dev.acked_features,
-+                                VIRTIO_SCSI_F_CHANGE, true),
-+    DEFINE_VIRTIO_FEATURE_BIT64("t10_pi", VHostSCSICommon,
-+                                host_features, dev.acked_features,
-+                                VIRTIO_SCSI_F_T10_PI, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-index 6d80730..8f7dd14 100644
---- a/hw/scsi/virtio-scsi.c
-+++ b/hw/scsi/virtio-scsi.c
-@@ -1061,10 +1061,12 @@ static Property virtio_scsi_properties[] = {
-                                                   0xFFFF),
-     DEFINE_PROP_UINT32("cmd_per_lun", VirtIOSCSI, parent_obj.conf.cmd_per_lun,
-                                                   128),
--    DEFINE_PROP_BIT("hotplug", VirtIOSCSI, host_features,
--                                           VIRTIO_SCSI_F_HOTPLUG, true),
--    DEFINE_PROP_BIT("param_change", VirtIOSCSI, host_features,
--                                                VIRTIO_SCSI_F_CHANGE, true),
-+    DEFINE_VIRTIO_FEATURE_BIT("hotplug", VirtIOSCSI, host_features,
-+                              parent_obj.parent_obj.guest_features,
-+                              VIRTIO_SCSI_F_HOTPLUG, true),
-+    DEFINE_VIRTIO_FEATURE_BIT("param_change", VirtIOSCSI, host_features,
-+                              parent_obj.parent_obj.guest_features,
-+                              VIRTIO_SCSI_F_CHANGE, true),
-     DEFINE_PROP_LINK("iothread", VirtIOSCSI, parent_obj.conf.iothread,
-                      TYPE_IOTHREAD, IOThread *),
-     DEFINE_PROP_END_OF_LIST(),
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index f139cd7..552b86c 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -1287,11 +1287,13 @@ static Property virtio_blk_properties[] = {
+     DEFINE_BLOCK_ERROR_PROPERTIES(VirtIOBlock, conf.conf),
+     DEFINE_BLOCK_CHS_PROPERTIES(VirtIOBlock, conf.conf),
+     DEFINE_PROP_STRING("serial", VirtIOBlock, conf.serial),
+-    DEFINE_PROP_BIT64("config-wce", VirtIOBlock, host_features,
+-                      VIRTIO_BLK_F_CONFIG_WCE, true),
++    DEFINE_VIRTIO_FEATURE_BIT64("config-wce", VirtIOBlock, host_features,
++                                parent_obj.guest_features,
++                                VIRTIO_BLK_F_CONFIG_WCE, true),
+ #ifdef __linux__
+-    DEFINE_PROP_BIT64("scsi", VirtIOBlock, host_features,
+-                      VIRTIO_BLK_F_SCSI, false),
++    DEFINE_VIRTIO_FEATURE_BIT64("scsi", VirtIOBlock, host_features,
++                                parent_obj.guest_features,
++                                VIRTIO_BLK_F_SCSI, false),
+ #endif
+     DEFINE_PROP_BIT("request-merging", VirtIOBlock, conf.request_merging, 0,
+                     true),
+@@ -1301,12 +1303,14 @@ static Property virtio_blk_properties[] = {
+     DEFINE_PROP_BOOL("seg-max-adjust", VirtIOBlock, conf.seg_max_adjust, true),
+     DEFINE_PROP_LINK("iothread", VirtIOBlock, conf.iothread, TYPE_IOTHREAD,
+                      IOThread *),
+-    DEFINE_PROP_BIT64("discard", VirtIOBlock, host_features,
+-                      VIRTIO_BLK_F_DISCARD, true),
++    DEFINE_VIRTIO_FEATURE_BIT64("discard", VirtIOBlock, host_features,
++                                parent_obj.guest_features,
++                                VIRTIO_BLK_F_DISCARD, true),
+     DEFINE_PROP_BOOL("report-discard-granularity", VirtIOBlock,
+                      conf.report_discard_granularity, true),
+-    DEFINE_PROP_BIT64("write-zeroes", VirtIOBlock, host_features,
+-                      VIRTIO_BLK_F_WRITE_ZEROES, true),
++    DEFINE_VIRTIO_FEATURE_BIT64("write-zeroes", VirtIOBlock, host_features,
++                                parent_obj.guest_features,
++                                VIRTIO_BLK_F_WRITE_ZEROES, true),
+     DEFINE_PROP_UINT32("max-discard-sectors", VirtIOBlock,
+                        conf.max_discard_sectors, BDRV_REQUEST_MAX_SECTORS),
+     DEFINE_PROP_UINT32("max-write-zeroes-sectors", VirtIOBlock,
 -- 
 1.8.3.1
 
