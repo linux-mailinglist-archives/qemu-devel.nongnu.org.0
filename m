@@ -2,97 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FCC93FDA2F
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 15:15:51 +0200 (CEST)
-Received: from localhost ([::1]:57070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 663FE3FDB95
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 15:17:56 +0200 (CEST)
+Received: from localhost ([::1]:59554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLQ5m-0006p7-B3
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 09:15:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46580)
+	id 1mLQ7n-00009y-Gs
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 09:17:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mLQ4D-0004kw-Iq
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 09:14:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28269)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mLQ4g-0005hv-Fb; Wed, 01 Sep 2021 09:14:42 -0400
+Received: from mail-eopbgr70101.outbound.protection.outlook.com
+ ([40.107.7.101]:15429 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1mLQ4A-0007lt-PM
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 09:14:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630502048;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zTq8bzNn/15bWWZP7Imc88LXypLn3mTLFNxBVP2+CAo=;
- b=CTIfx1VWntzYqGCAmslNuRUc2xXL5+8vftUj02MeqFKa2dvP6ClNGpprA19xB458a8R/wO
- TO5xAh6+zA3Z3rFbYpnKF0T1hFyerIjki8JrnicDjX2xxujPazl9fyDx776Z68DSVTeFAy
- CNEoZ8PxPGGpivcCn6Btbsg61AZk7nc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-ljfNFpXaNaeShk2prLaW6g-1; Wed, 01 Sep 2021 09:14:07 -0400
-X-MC-Unique: ljfNFpXaNaeShk2prLaW6g-1
-Received: by mail-wm1-f70.google.com with SMTP id
- x125-20020a1c3183000000b002e73f079eefso2833075wmx.0
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 06:14:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:reply-to:subject:to:cc:references:from
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-transfer-encoding:content-language;
- bh=zTq8bzNn/15bWWZP7Imc88LXypLn3mTLFNxBVP2+CAo=;
- b=Roal+S7OOVd/iUr/2kHGWemadx9N0tp1rg+bxi0CI28DZ+G5TcN1CqtUt80yeUFNii
- kCgvWtnDo7KnEHEEU83CHpujFKElpfki7AaP1MGt8/WkGQLN+/4uLPzWWpr24VxGo5pE
- LefxOVkNoXOqHDl6hsE392zF+qBq2b89kJT5dvxpwrSljBBG2fMEaXAfJLLU7dp28zaY
- oF9J3i4Pk3t2+gjNswJWMPR5iixEZ1IY7wxdv5oTP78omQnkiRdx4e5zImsnbWb3pHV5
- 1uHflctyITnbbgWgLX7o+WQxq7ZsloT3ipQMwbLwBrj/EWOphrGiYUHT2QiKMk2CD4OK
- Yyvg==
-X-Gm-Message-State: AOAM532Z5bTh7H4bvJbOfDWzJX/8ET8KteuklIkeEjFVmDEC7XQ+osHS
- d2yvh8ULXWdceFMwX3bOmxENuPtATkqDIpkGoPoWY5s16p9PJ3a8AKjWQ496neyE7q/reQV51LN
- NB+4aNVxXjVUQRcg=
-X-Received: by 2002:a05:600c:4ece:: with SMTP id
- g14mr9820008wmq.6.1630502046693; 
- Wed, 01 Sep 2021 06:14:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyos1xg1ISqaCeGUtS5ZXi1DVj2SU4ebEl5f+vKuo84PhdG6hBVUicg5/t+kjC4p8VVYLztCw==
-X-Received: by 2002:a05:600c:4ece:: with SMTP id
- g14mr9819982wmq.6.1630502046423; 
- Wed, 01 Sep 2021 06:14:06 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id r12sm21903785wrv.96.2021.09.01.06.14.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Sep 2021 06:14:05 -0700 (PDT)
-Subject: Re: [PATCH v2] hw/arm/smmuv3: Simplify range invalidation
-To: "Liu, Renwei" <Renwei.Liu@verisilicon.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <4FA89A717CD8094DBA0FE20FA5F98EAA010E6E9940@SHASXM03.verisilicon.com>
- <1805dcb3-6f99-0bf1-2d73-be0537c98512@redhat.com>
- <4FA89A717CD8094DBA0FE20FA5F98EAA010E6EA1E0@SHASXM03.verisilicon.com>
-From: Eric Auger <eric.auger@redhat.com>
-Message-ID: <48a545f5-d21c-85b1-20dd-b5449b88e993@redhat.com>
-Date: Wed, 1 Sep 2021 15:14:04 +0200
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mLQ4d-00082W-I1; Wed, 01 Sep 2021 09:14:41 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Yv/16pMqWnrsOJ4Fu3a5yD73VsaaQ0qAJAjUiLgtlvYcAVRfkk53eTWqJ74AQAEr80dcNnMCaMQ6iQH+pRsemXQNPfT0O71av/A/41pm5r+eDg40uj0MSa0laB8ebd5E8WRE2ZEempwErCbSCvzgzxsyY5Lb6xvhkjbAOaTY8msSVVq6rxzL9HxKdEcn7YJiY6jWht1gPeZdSMrGuC5lp8f+yhajO1PRu9L1UY5xXVigYRj/cCw4S5fN2f5WPmVM1WLXC7naVi7FftJzwLDBvfklRtzoG2ggAXu21i9r4hMIl4El/L2Mhz9qwtG9esxkoaNnb5BSqMlGhlB6wuEpwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=i1qvae2Ssst5TcR1ZMMmhBI8O+ZTK2EB2Op+7xxFooc=;
+ b=gJ7RaVpxzCAV2cYy01eAAsGEZXhDrVJp686N9xUIeS2fUeV3bxoxk6aiDQG5lktSDkPvLeZsTWtcjVuNuhcOrOVrECpffAc5uUDY3QwiNuIlAj5Lfs+G79HpI4NibJoJDe3s/VL6KkMAbCfLVQtuQj0XAC8sMEKo/SScu+7FvYP9Wn6Iuns8lfgHj7iBQSEKT7CX1JbsClozmxqE6gbMDgZie2wtzc4VI4xRZGePzNDM+sPr6rFwWFY0xTOo7BAZbowjNcvnuki1kGKJ+1nDsNPpF5ozGTkU4PJAySq4UvQHmtsvK3LHH2hLkgpUy/szGjD/Bxr2cSjWmxy0Dl/xJA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=i1qvae2Ssst5TcR1ZMMmhBI8O+ZTK2EB2Op+7xxFooc=;
+ b=LRiMWk3bmW/YQxKjsIyCzozC+h9TWPFT+rJ3ANv3QLE0ak+kBYAepY0F35+qtYxG5WZAPGBPB/3k+NAhwonEGlEjnXwAOpcJ9EhwND7h4aGrmHFAafSTrPu7O3vX9K6rtzcHVBsbE968x1ZQKwolnI/SQ1yptkOgtowFJEWPpJY=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from VI1PR08MB5503.eurprd08.prod.outlook.com (2603:10a6:803:137::19)
+ by VE1PR08MB5662.eurprd08.prod.outlook.com (2603:10a6:800:1a9::11)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19; Wed, 1 Sep
+ 2021 13:14:34 +0000
+Received: from VI1PR08MB5503.eurprd08.prod.outlook.com
+ ([fe80::2082:8a88:6ff1:2dd8]) by VI1PR08MB5503.eurprd08.prod.outlook.com
+ ([fe80::2082:8a88:6ff1:2dd8%5]) with mapi id 15.20.4478.017; Wed, 1 Sep 2021
+ 13:14:34 +0000
+Subject: Re: [PATCH v2 00/17] iotests: support zstd
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
+ den@openvz.org, jsnow@redhat.com
+References: <20210720113832.586428-1-vsementsov@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <443f2fd4-700b-f4a6-7a7e-65e499a89b96@virtuozzo.com>
+Date: Wed, 1 Sep 2021 16:14:32 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
-MIME-Version: 1.0
-In-Reply-To: <4FA89A717CD8094DBA0FE20FA5F98EAA010E6EA1E0@SHASXM03.verisilicon.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+ Thunderbird/78.13.0
+In-Reply-To: <20210720113832.586428-1-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.029, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR04CA0069.eurprd04.prod.outlook.com
+ (2603:10a6:208:1::46) To VI1PR08MB5503.eurprd08.prod.outlook.com
+ (2603:10a6:803:137::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.196) by
+ AM0PR04CA0069.eurprd04.prod.outlook.com (2603:10a6:208:1::46) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4478.19 via Frontend Transport; Wed, 1 Sep 2021 13:14:33 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 27c2328d-f50f-4392-dc52-08d96d4a70f9
+X-MS-TrafficTypeDiagnostic: VE1PR08MB5662:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VE1PR08MB566280BC291FDBF951E00103C1CD9@VE1PR08MB5662.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:32;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: O2zs+PVwNaBK267J8DHvTbUFJ+ivHI8vcgKmQ9toparwHcYA400KbOVVjjhvZpZVOeYD08m+/urRK3kL2/iwKPs672isXSteiGrFEk9JKtN3c6/7I/uGt6XOv1LSmFQTzGHRdlfgqeuzl3XE2YFax7hNs6lNQPA0wNPujHFXTb+aA4ycwvdMLL1HHfCsUkMYItZdTfX+fMd0R43CGe9EzIEneDeH0qTDLT/UI/KUAKHtC2d4iJWn5berLmiczDH9G3vwg0bQIG8Jhm+8ebW7eo+Rinpepw+TTLjo5uWjN+R+tRi33OJ/BCLYMUivPjGhMa3Ho7LhJM400I5svqaHHk4cXh/Kl4nZ/S0MpwS0wP/s1Zyf0INKjz3E92xf1joM7cue0nYQsaaeTbcJ8/kYzoZS/YyYSw6dpAsdoBrszbPf5ny+vVPWRK8OB6AUceeq5yEcjvuH84UP95ONyCPhVy4u3yW59GCupPtaHBgpGbf/pcnDVaVMnYj2dX7DkLEz3W0pVA1Vb7RR0I9qTu6oWss73PR29UnMUfL6p9JPXblUJcLzy0wAnquukt5TQS/yVwlX1YU+uTKJqydiX5y0DITJEztrDdieiCh8LGPzdT5X8zofwUos7EfEB7D54e9gyOoYJ0hx3bzB1VxWOUQbEDsPgbmGDr++VImdFdTaBJF2EaDrnVm/pIuNKWW3crNZ9/JqrQmubNPKClQJejHdcEFEzw9EyFXrF8YbO6KdnLCHaccyfMhTqkOimNKhaEp2iyrfGyTVde0p7XKszV80OQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR08MB5503.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(2906002)(2616005)(83380400001)(36756003)(6486002)(38350700002)(26005)(16576012)(186003)(508600001)(8676002)(38100700002)(316002)(66556008)(66476007)(31686004)(5660300002)(4326008)(66946007)(6916009)(86362001)(8936002)(31696002)(52116002)(956004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WFNJeG5lU3BudXVCY2JPaG9XcWdkTkFLNUlDa2Q4NzRKSUJrZlMyekxxamdy?=
+ =?utf-8?B?dFdKcS9tbWNUVEUwZW1CLzgzRUthTTB2ZnhOT3FoNEJ4TnRFaUlTSGdnNjJt?=
+ =?utf-8?B?Tms0Y1U3bml0Mnc1cGVjRG5jSnVKUlA0Ky9WOURDNUVqQ3RkaXFDWEN6WkEz?=
+ =?utf-8?B?c2Fnd2VSampuSlVrc2xPTitxWFdzblpDQnYvS2tvMFgxeWt4Vkp3czkzR0Fm?=
+ =?utf-8?B?azg5UEJsWEVvVm5rc3oxWnFhS082WnN2bUhyNVVCUVNCMUVHbjV2YzB0SGp4?=
+ =?utf-8?B?SVFXQkFPU0x5NnZVdGRPT1d2RWtUaTFKY1FCYzJDZ3hvTFYxbzl4ZEVFSEF0?=
+ =?utf-8?B?enhaMEJpSVJZRXRpcGc2amtkcTBTYWVUb21RMXh4aHlaWExvTkZtZDl3RjVB?=
+ =?utf-8?B?N2RlenYxdy9yNHlCaXlXMVUwUWlvK2JmOGl5NUdaV2s5TzBYc3B1K090dXNm?=
+ =?utf-8?B?aHJCL25HbjhPUmJSdFhjVUhmNStKdzZ0eUozaWhBSXFWcjlzVE9uZU1tUGp3?=
+ =?utf-8?B?dk5xMFFqeFRIRnh2bzZNYVdwd05kSzNXVVRmR25Td1VUb2lURHJuM3dVNWR6?=
+ =?utf-8?B?Y2lvUG54NFZkckd5NmlmTDFRZmIxMjIrNHVIZjE3d09sMklyaEJsNXZycHVn?=
+ =?utf-8?B?SE45QU5kZG15R204VkdiRVFyeEZJanF4N2hNV0E4dWdaazBNWkpRNC91YlJN?=
+ =?utf-8?B?dk9JcEhIWmhpUWpQR1pTSjVTNjZuYWR3aVo5MDZGVmNUVEdYb3ljSmF4QXNE?=
+ =?utf-8?B?azFjT0pUZ2lZc2tESENaTVZ5Ylp3Wm9HcGw2RDU2U2VjYmdORkRqTW9kQUhH?=
+ =?utf-8?B?SWlEVzA2dmVxZEdwOURMaXgzT2Z2RVgxY3gwMFNUVm0rK1NBUmlFT2pBeEZN?=
+ =?utf-8?B?eGJMTzhFN25BZW5kMTFzU2NWZ1IzV2RjQ2o1MEpyZmtmWlI0V1U3c3I2MjEv?=
+ =?utf-8?B?UzU3VTYvWlh2cVozblhMRUo1TSt6VndrMTNwd1puamZJekNvd0ppUnNvQjcz?=
+ =?utf-8?B?ckkrMllrTkY3ZE1Kb1ZwNHJqMnlVbE10Vk5zVnlTaC9OUTd0M0tuTlRmNlho?=
+ =?utf-8?B?emdKM0UxaC9OOGxvY0JYVzh4cDhrMVNtN3M0QlFHWEpvYVFpRi9CeGhCUm9q?=
+ =?utf-8?B?amtPcExuV21HQ2JlZzhYWnBUb1NjZUFuTVU1SnUwS2pVcnllZ0FOaEpZNEtq?=
+ =?utf-8?B?Z0UrSkZlUHVNZTBUak5DZGpWWnUrMUY4aWJKSFc4OVBpZWFxYTcxdllHeDc3?=
+ =?utf-8?B?WEs0RGg3UjNxbGRjR2tlMSt3UFkzYnZiQkk5cW8vTGNQbnNQd1lzWDJxUmdW?=
+ =?utf-8?B?bWExTE1RdXo1SGlMS2d1WHFzNHh0bVlEdEdOVWo5eUNvQk1xVExPWTRxUUhF?=
+ =?utf-8?B?Y0Z4czJkdUEvdFFmNEhveTR4dEo5L1p3TTc4Zk9EemppVkJaZnlEdkpSbWtR?=
+ =?utf-8?B?d3NxQnBmdnBmRE5XTGY3RDk4NExsSHJvbmNJVC94SE1vVFU3SENDN0g2Qnl6?=
+ =?utf-8?B?OWloWllDM3hQZlNMNFJmUVd1TmpmUWZhUktPU2EvbERzYlI5dkEyNDdzTjlD?=
+ =?utf-8?B?WDBHZDNBTDFZaDd0UW5sRzJhdnRLRkQ4TjNTdktHUXVOdk9nRDZUNDArY1Bu?=
+ =?utf-8?B?dlJBYnR5NEdOSjRwVGt2dmVEMTFjWW1kSkZZaWFHZXNZUjh5dVNNZVh2QVEy?=
+ =?utf-8?B?cVlrUGRBR00raTZEaDhBeHhvU0VzbTF4TGtxK2twNlNWNlNOUFh6aFhrcG11?=
+ =?utf-8?Q?V6j99g6VkRX41AI3mmc5dE1ZndCM0FzJafOQLLy?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 27c2328d-f50f-4392-dc52-08d96d4a70f9
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB5503.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2021 13:14:34.2814 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YGMjH3Ai4viZMrhd//S6uMbEf2engfRUCHqk9XWh4P2h9Ky1YacK9AnL0TQINHtxli3h8WQIFJBTjhPMgZqWTALBrR2XYyYFYQ1JVzQ8dCA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5662
+Received-SPF: pass client-ip=40.107.7.101;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.029, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,87 +145,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
-Cc: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Wen,
- Jianxian" <Jianxian.Wen@verisilicon.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "Li,
- Chunming" <Chunming.Li@verisilicon.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Ping.
 
-On 9/1/21 8:33 AM, Liu, Renwei wrote:
->> -----Original Message-----
->> From: Eric Auger [mailto:eric.auger@redhat.com]
->> Sent: Tuesday, August 31, 2021 10:46 PM
->> To: Liu, Renwei; Peter Maydell
->> Cc: qemu-arm@nongnu.org; qemu-devel@nongnu.org; Li, Chunming; Wen,
->> Jianxian
->> Subject: Re: [PATCH v2] hw/arm/smmuv3: Simplify range invalidation
->>
->> Hi Liu,
->>
->> On 8/23/21 9:50 AM, Liu, Renwei wrote:
->>> Simplify range invalidation which can avoid to iterate over all
->>> iotlb entries multi-times. For instance invalidations patterns like
->>> "invalidate 32 4kB pages starting from 0xffacd000" need to iterate
->> over
->>> all iotlb entries 6 times (num_pages: 1, 2, 16, 8, 4, 1). It only
->> needs
->>> to iterate over all iotlb entries once with new implementation.
->> This wouldn't work. This reverts commit
->> 6d9cd115b9df ("hw/arm/smmuv3: Enforce invalidation on a power of two
->> range")
->> which is mandated for VFIO and virtio to work. IOTLB invalidations must
->> be naturally aligned and with a power of 2 range, hence this iteration.
->>
->> Thanks
->>
->> Eric
-> Hi Eric,
->
-> Could you try the patch firstly? I want to know whether it's failed
-> in your application scenario with this implementation.
-There are many test cases, virtio-pci, vhost, VFIO, ...
-> I agree with you that IOTLB entry must be naturally aligned and
-> with a power of 2 range. But we can invalidate multi IOTLB entries
-> in one iteration. We check the overlap between invalidation range
-> and IOTLB range, not check mask.
-This smmu_hash_remove_by_asid_iova() change only affects the internal
-SMMUv3 IOTLB hash table lookup. However there are also IOTLB
-invalidation notifications sent to components who registered notifiers,
-ie. smmuv3_notify_iova path.
->  The final result is same with
-> your implementation (split to multi times with a power of 2 range).
-> I wonder why we can't implement it directly when the application can
-> send an invalidation command with a non power of 2 range.
-> We have tested it in our application scenario and not find any fail.
-Assume the driver invalidates 5 * 4kB pages =0x5000 range.  Without the
-loop you removed
+This applies to current master with a small obvious conflict in tests/qemu-iotests/common.filter
 
-in smmuv3_notify_iova()  event.entry.addr_mask = num_pages * (1 <<
-granule) - 1 = 0x4FFF. This addr_mask  is an invalid mask
-this entry is passed to components who registered invalidation notifiers
-such as vhost or vfio. for instance in VFIO you have '&' ops on the
-addr_mask.
-addr_mask is expected to be a mask of a power of 2 range.
+20.07.2021 14:38, Vladimir Sementsov-Ogievskiy wrote:
+> These series makes tests pass with
+> 
+>     IMGOPTS='compression_type=zstd'
+> 
+> Also, python iotests start to support IMGOPTS (they didn't before).
+> 
+> v2:
+> 01: add Max's r-b
+> 02: simplify a lot: just add separate -o for IMGOPTS.
+>      also, don't bother with catching compat=0.10
+> 03,04: new
+> 05: add Max's r-b
+> 06: one more explict compression_type=zlib
+> 07: new
+> 08: reduced to only update filter_img_info
+> 09: adjust commit message, add comment, add Max's r-b
+> 10: s/ = 0/ &= ~QCOW2_INCOMPAT_COMPRESSION/
+>      add Max's r-b
+> 11-13: add Max's r-b
+> 14: one more regex for "2, 3, 4" case
+> 15-16: add Max's r-b
+> 17: new
+> 
+> Vladimir Sementsov-Ogievskiy (17):
+>    iotests.py: img_info_log(): rename imgopts argument
+>    iotests.py: qemu_img*("create"): support
+>      IMGOPTS='compression_type=zstd'
+>    iotests: drop qemu_img_verbose() helper
+>    iotests.py: rewrite default luks support in qemu_img
+>    iotest 303: explicit compression type
+>    iotest 065: explicit compression type
+>    iotests.py: filter out successful output of qemu-img crate
+>    iotests.py: filter compression type out
+>    iotest 302: use img_info_log() helper
+>    qcow2: simple case support for downgrading of qcow2 images with zstd
+>    iotests/common.rc: introduce _qcow2_dump_header helper
+>    iotests: massive use _qcow2_dump_header
+>    iotest 39: use _qcow2_dump_header
+>    iotests: bash tests: filter compression type
+>    iotests 60: more accurate set dirty bit in qcow2 header
+>    iotest 214: explicit compression type
+>    iotests: declare lack of support for compresion_type in IMGOPTS
+> 
+>   block/qcow2.c                    | 58 +++++++++++++++++++++-
+>   tests/qemu-iotests/031           | 11 +++--
+>   tests/qemu-iotests/036           |  6 +--
+>   tests/qemu-iotests/039           | 22 ++++-----
+>   tests/qemu-iotests/044           |  5 +-
+>   tests/qemu-iotests/044.out       |  1 +
+>   tests/qemu-iotests/051           |  5 +-
+>   tests/qemu-iotests/060           | 22 ++++-----
+>   tests/qemu-iotests/060.out       |  2 +-
+>   tests/qemu-iotests/061           | 42 ++++++++--------
+>   tests/qemu-iotests/061.out       | 12 ++---
+>   tests/qemu-iotests/065           | 16 +++---
+>   tests/qemu-iotests/082.out       | 14 +++---
+>   tests/qemu-iotests/112           |  3 +-
+>   tests/qemu-iotests/137           |  2 +-
+>   tests/qemu-iotests/198.out       |  4 +-
+>   tests/qemu-iotests/206.out       | 10 ++--
+>   tests/qemu-iotests/209           |  7 +--
+>   tests/qemu-iotests/209.out       |  2 +
+>   tests/qemu-iotests/210           |  8 +--
+>   tests/qemu-iotests/214           |  2 +-
+>   tests/qemu-iotests/242.out       | 10 ++--
+>   tests/qemu-iotests/255.out       |  4 --
+>   tests/qemu-iotests/274.out       | 39 ++-------------
+>   tests/qemu-iotests/280.out       |  1 -
+>   tests/qemu-iotests/287           |  8 +--
+>   tests/qemu-iotests/290           |  2 +-
+>   tests/qemu-iotests/302           |  4 +-
+>   tests/qemu-iotests/302.out       |  7 ++-
+>   tests/qemu-iotests/303           | 25 ++++++----
+>   tests/qemu-iotests/303.out       | 30 +++++++++++-
+>   tests/qemu-iotests/common.filter |  8 +++
+>   tests/qemu-iotests/common.rc     | 22 +++++++++
+>   tests/qemu-iotests/iotests.py    | 84 ++++++++++++++++++++------------
+>   34 files changed, 310 insertions(+), 188 deletions(-)
+> 
 
-Does it clarify?
 
-Thanks
-
-Eric
->
-> In addition, from the code implementation, smmu_iotlb_inv_iova()
-> should be OK. In another call smmuv3_inv_notifiers_iova() ->
-> smmuv3_notify_iova() -> memory_region_notify_iommu_one(),
-> it also checks range overlap. So it should be OK if the range
-> is not a power of 2.
->
-> Could you take a look at it again?
->
-> Thanks
-> Renwei Liu
-
+-- 
+Best regards,
+Vladimir
 
