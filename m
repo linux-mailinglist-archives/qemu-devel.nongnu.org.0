@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35E9E3FD866
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 13:05:07 +0200 (CEST)
-Received: from localhost ([::1]:58796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0BF3FD86F
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 13:08:27 +0200 (CEST)
+Received: from localhost ([::1]:36828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLO3E-0004Lc-87
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 07:05:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43546)
+	id 1mLO6U-0000Xu-7m
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 07:08:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLNcQ-00079n-5t
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:22 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:39800)
+ id 1mLNcS-0007Ak-DW
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:25 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:43929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLNcJ-0005qG-E7
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:21 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- u26-20020a05600c441a00b002f66b2d8603so984951wmn.4
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 03:37:14 -0700 (PDT)
+ id 1mLNcK-0005qe-6x
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:24 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id b6so3705477wrh.10
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 03:37:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=wzZ0UeKNIh1arAaHhjnBPH9e/IIKM2NpmXHjt0CDyCU=;
- b=JgYcbhfra9052Nnfa1H5AE4udV1e8orWijo+oq31aEI3bin85ZSv2s3eEuaSwTdY4G
- 2gaICU0nNM62ggLAA+o2V3Mep6RgrPTQTst4L6KP3Qzj9LIq8WuH9NCTte2TkmlR99m5
- 6miW56Bo7J6yyZzBQC1GFFCeD6/L6KyShiC7F93Xrv7h3f8M6Tu0QweBXHAcVvnTz5DV
- 2SAX3sImQTQTg5sbuA1C7Zz/a7T/iWmYVvLB3+qAAeuMd5kRwdt/0t93INjZE7iwnTOV
- wxPI0lFMNU7WMcPVyRa2A9MOvDfe9fZ0QiTTTTceIwmXkthktWnsFkijdgBJpOG5GYpb
- WULQ==
+ bh=eBt5P+WEQI8XZSApXglAcqpV6GH9r8ahPX4b9vNojmU=;
+ b=r7s/IKp8oryYsJSC49QLz6Ty/y/NycDNw71zn2B/4kWu0ykg3UeKx//Q6YWR8g8H4m
+ FPbxjAaPij9qetHQcMACq8N8c//04qkhQuO/xiLHfFAehJBA2WFA6hCp2jMwUdvzTkSV
+ 4qjtrAzg9aBaNfmoZkBAHuOlQ9jmZcjjuOVQaAJdQbhloVwcuWibFBoxe4+symjBfcCM
+ 85EMYri35w4nS6OYzX33+AMHSTZGVku2eHm0mCbIhMfO0IKfozW/bids08WvQ2+7gJtp
+ FMTLx4YFLoStQV82yiUPrFAvAXS59CuGLylKKCWpCaysBInBn3x441zrjBpuo1BIxmfi
+ xBXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wzZ0UeKNIh1arAaHhjnBPH9e/IIKM2NpmXHjt0CDyCU=;
- b=RSD8cIDja7pSX59SamuP6Ha53z/U0sjQfHl/PDZD/W1yns93iidSkpeOP9v8Kzi2Rs
- BBcRgWc9hBkfeKVFDKvNsOJWUFBMh3Ou4J8crYF/UIQLTqQt+G5j7fEXpV3yAp6yxXPQ
- +ZAMAO83n33gTQz8gZIu52kcjyVPdzHdY69hwrGqLD6eEAOMba4MIuyHaCAQU68Lk7p+
- hcHtCKkEc15UjGKEvYclzCiG6Nn0lc9+fwGRF/+pUQQeP9AL+UN9MAjx+m0qTMc0Q3gY
- qXI9I2p/jBTTkoLlbjtiwF4vGuSaPRbjPr/SDRDf/MqVV1VPafn7eDlp2wS3oOruJUr9
- FbIg==
-X-Gm-Message-State: AOAM530Lqj6qQs+XOidzKAXPsnSmAKNks6MJRNvrmNFfVM7SuoWnCiTv
- 7rWJsuBLh7zLMZHOgDf0kqraDgpacYtqUQ==
-X-Google-Smtp-Source: ABdhPJxzuHt8Et2/op/0IDoWc3c4g1cSPC/pb1qWSHHeREe5VwPPlUKO7nI/ChzjGjcuj6NMG+1xwQ==
-X-Received: by 2002:a7b:c190:: with SMTP id y16mr8765042wmi.158.1630492634052; 
+ bh=eBt5P+WEQI8XZSApXglAcqpV6GH9r8ahPX4b9vNojmU=;
+ b=B4DDZBm/ViIq1aPwrQUrWXx37jwXVAnRli/UcUAe9kHHb3AT6TtAyv0sPKjxHgTExp
+ 2H1vxabFxaF0tte/VLEfat1e3fmzkHOsRBBEJMM5a52dyhhfvvmONXi9R361OHELCHpH
+ x7TJGKnhQJOClPdjEubnSRMfhIpxYZ78YxkoXFf+8Ym8gWush0zH5F2hS/iCzfyB9Tp3
+ PbVSjRHttto6XlDdy/4JizFKbvo7z9dTuxlWePS+/CwxzgjisJz49P/sji9Rpw0qXRj3
+ Lps90QF8z+zIjePBotawAYnCXQzwsm6wqxDA10QnBLeOUlayYCliEA4OyI9YcTrPz5ev
+ U9pw==
+X-Gm-Message-State: AOAM530JYaDEf5R93ALMXcZPhagcoduivys7rKXLQ2XZ09OYZAKhb1zZ
+ f1wNaxWAV9SRJlIcK9p9F2shWeAQ4DMeXg==
+X-Google-Smtp-Source: ABdhPJwKluFuNJz5QK8rc1naZ7t+sjtIaewLCKn64BkBqwwk4GbSIDMCzgx1Ia0V90piGV+LPYPP5w==
+X-Received: by 2002:adf:ded1:: with SMTP id i17mr36161096wrn.303.1630492634867; 
  Wed, 01 Sep 2021 03:37:14 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j207sm5494771wmj.40.2021.09.01.03.37.13
+ by smtp.gmail.com with ESMTPSA id j207sm5494771wmj.40.2021.09.01.03.37.14
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 03:37:13 -0700 (PDT)
+ Wed, 01 Sep 2021 03:37:14 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/51] arm: Move M-profile RAS register block into its own
- device
-Date: Wed,  1 Sep 2021 11:36:29 +0100
-Message-Id: <20210901103653.13435-28-peter.maydell@linaro.org>
+Subject: [PULL 28/51] arm: Move systick device creation from NVIC to ARMv7M
+ object
+Date: Wed,  1 Sep 2021 11:36:30 +0100
+Message-Id: <20210901103653.13435-29-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210901103653.13435-1-peter.maydell@linaro.org>
 References: <20210901103653.13435-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,335 +87,337 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently we implement the RAS register block within the NVIC device.
-It isn't really very tightly coupled with the NVIC proper, so instead
-move it out into a sysbus device of its own and have the top level
-ARMv7M container create it and map it into memory at the right
-address.
+There's no particular reason why the NVIC should be owning the
+SysTick device objects; move them into the ARMv7M container object
+instead, as part of consolidating the "create the devices which are
+built into an M-profile CPU and map them into their architected
+locations in the address space" work into one place.
+
+This involves temporarily creating a duplicate copy of the
+nvic_sysreg_ns_ops struct and its read/write functions (renamed as
+v7m_sysreg_ns_*), but we will delete the NVIC's copy of this code in
+a subsequent patch.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alexandre Iooss <erdnaxe@crans.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Luc Michel <luc@lmichel.fr>
-Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
-Message-id: 20210812093356.1946-2-peter.maydell@linaro.org
+Message-id: 20210812093356.1946-3-peter.maydell@linaro.org
 ---
- include/hw/arm/armv7m.h       |  2 +
- include/hw/intc/armv7m_nvic.h |  1 -
- include/hw/misc/armv7m_ras.h  | 37 ++++++++++++++
- hw/arm/armv7m.c               | 12 +++++
- hw/intc/armv7m_nvic.c         | 56 ---------------------
- hw/misc/armv7m_ras.c          | 93 +++++++++++++++++++++++++++++++++++
- MAINTAINERS                   |  2 +
- hw/misc/meson.build           |  2 +
- 8 files changed, 148 insertions(+), 57 deletions(-)
- create mode 100644 include/hw/misc/armv7m_ras.h
- create mode 100644 hw/misc/armv7m_ras.c
+ include/hw/arm/armv7m.h       |  12 ++++
+ include/hw/intc/armv7m_nvic.h |   4 --
+ hw/arm/armv7m.c               | 125 ++++++++++++++++++++++++++++++++++
+ hw/intc/armv7m_nvic.c         |  73 --------------------
+ 4 files changed, 137 insertions(+), 77 deletions(-)
 
 diff --git a/include/hw/arm/armv7m.h b/include/hw/arm/armv7m.h
-index bc6733c5184..4cae0d7eeaa 100644
+index 4cae0d7eeaa..360c35c5fb2 100644
 --- a/include/hw/arm/armv7m.h
 +++ b/include/hw/arm/armv7m.h
-@@ -12,6 +12,7 @@
- 
- #include "hw/sysbus.h"
- #include "hw/intc/armv7m_nvic.h"
-+#include "hw/misc/armv7m_ras.h"
- #include "target/arm/idau.h"
- #include "qom/object.h"
- 
-@@ -58,6 +59,7 @@ struct ARMv7MState {
-     NVICState nvic;
+@@ -60,11 +60,23 @@ struct ARMv7MState {
      BitBandState bitband[ARMV7M_NUM_BITBANDS];
      ARMCPU *cpu;
-+    ARMv7MRAS ras;
+     ARMv7MRAS ras;
++    SysTickState systick[M_REG_NUM_BANKS];
  
      /* MemoryRegion we pass to the CPU, with our devices layered on
       * top of the ones the board provides in board_memory.
+      */
+     MemoryRegion container;
++    /*
++     * MemoryRegion which passes the transaction to either the S or the
++     * NS systick device depending on the transaction attributes
++     */
++    MemoryRegion systickmem;
++    /*
++     * MemoryRegion which enforces the S/NS handling of the systick
++     * device NS alias region and passes the transaction to the
++     * NS systick device if appropriate.
++     */
++    MemoryRegion systick_ns_mem;
+ 
+     /* Properties */
+     char *cpu_type;
 diff --git a/include/hw/intc/armv7m_nvic.h b/include/hw/intc/armv7m_nvic.h
-index 39c71e15936..33b6d8810c7 100644
+index 33b6d8810c7..6a6a99090c7 100644
 --- a/include/hw/intc/armv7m_nvic.h
 +++ b/include/hw/intc/armv7m_nvic.h
-@@ -83,7 +83,6 @@ struct NVICState {
+@@ -81,16 +81,12 @@ struct NVICState {
+ 
+     MemoryRegion sysregmem;
      MemoryRegion sysreg_ns_mem;
-     MemoryRegion systickmem;
-     MemoryRegion systick_ns_mem;
--    MemoryRegion ras_mem;
+-    MemoryRegion systickmem;
+-    MemoryRegion systick_ns_mem;
      MemoryRegion container;
      MemoryRegion defaultmem;
  
-diff --git a/include/hw/misc/armv7m_ras.h b/include/hw/misc/armv7m_ras.h
-new file mode 100644
-index 00000000000..ba6daccf3fc
---- /dev/null
-+++ b/include/hw/misc/armv7m_ras.h
-@@ -0,0 +1,37 @@
-+/*
-+ * Arm M-profile RAS (Reliability, Availability and Serviceability) block
-+ *
-+ * Copyright (c) 2021 Linaro Limited
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License version 2 or
-+ *  (at your option) any later version.
-+ */
-+
-+/*
-+ * This is a model of the RAS register block of an M-profile CPU
-+ * (the registers starting at 0xE0005000 with ERRFRn).
-+ *
-+ * QEMU interface:
-+ *  + sysbus MMIO region 0: the register bank
-+ *
-+ * The QEMU implementation currently provides "minimal RAS" only.
-+ */
-+
-+#ifndef HW_MISC_ARMV7M_RAS_H
-+#define HW_MISC_ARMV7M_RAS_H
-+
-+#include "hw/sysbus.h"
-+
-+#define TYPE_ARMV7M_RAS "armv7m-ras"
-+OBJECT_DECLARE_SIMPLE_TYPE(ARMv7MRAS, ARMV7M_RAS)
-+
-+struct ARMv7MRAS {
-+    /*< private >*/
-+    SysBusDevice parent_obj;
-+
-+    /*< public >*/
-+    MemoryRegion iomem;
-+};
-+
-+#endif
+     uint32_t num_irq;
+     qemu_irq excpout;
+     qemu_irq sysresetreq;
+-
+-    SysTickState systick[M_REG_NUM_BANKS];
+ };
+ 
+ #endif
 diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-index 9ce5c30cd5c..8964730d153 100644
+index 8964730d153..364ac069702 100644
 --- a/hw/arm/armv7m.c
 +++ b/hw/arm/armv7m.c
-@@ -231,6 +231,18 @@ static void armv7m_realize(DeviceState *dev, Error **errp)
+@@ -124,6 +124,85 @@ static const hwaddr bitband_output_addr[ARMV7M_NUM_BITBANDS] = {
+     0x22000000, 0x42000000
+ };
+ 
++static MemTxResult v7m_sysreg_ns_write(void *opaque, hwaddr addr,
++                                       uint64_t value, unsigned size,
++                                       MemTxAttrs attrs)
++{
++    MemoryRegion *mr = opaque;
++
++    if (attrs.secure) {
++        /* S accesses to the alias act like NS accesses to the real region */
++        attrs.secure = 0;
++        return memory_region_dispatch_write(mr, addr, value,
++                                            size_memop(size) | MO_TE, attrs);
++    } else {
++        /* NS attrs are RAZ/WI for privileged, and BusFault for user */
++        if (attrs.user) {
++            return MEMTX_ERROR;
++        }
++        return MEMTX_OK;
++    }
++}
++
++static MemTxResult v7m_sysreg_ns_read(void *opaque, hwaddr addr,
++                                      uint64_t *data, unsigned size,
++                                      MemTxAttrs attrs)
++{
++    MemoryRegion *mr = opaque;
++
++    if (attrs.secure) {
++        /* S accesses to the alias act like NS accesses to the real region */
++        attrs.secure = 0;
++        return memory_region_dispatch_read(mr, addr, data,
++                                           size_memop(size) | MO_TE, attrs);
++    } else {
++        /* NS attrs are RAZ/WI for privileged, and BusFault for user */
++        if (attrs.user) {
++            return MEMTX_ERROR;
++        }
++        *data = 0;
++        return MEMTX_OK;
++    }
++}
++
++static const MemoryRegionOps v7m_sysreg_ns_ops = {
++    .read_with_attrs = v7m_sysreg_ns_read,
++    .write_with_attrs = v7m_sysreg_ns_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++};
++
++static MemTxResult v7m_systick_write(void *opaque, hwaddr addr,
++                                     uint64_t value, unsigned size,
++                                     MemTxAttrs attrs)
++{
++    ARMv7MState *s = opaque;
++    MemoryRegion *mr;
++
++    /* Direct the access to the correct systick */
++    mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->systick[attrs.secure]), 0);
++    return memory_region_dispatch_write(mr, addr, value,
++                                        size_memop(size) | MO_TE, attrs);
++}
++
++static MemTxResult v7m_systick_read(void *opaque, hwaddr addr,
++                                    uint64_t *data, unsigned size,
++                                    MemTxAttrs attrs)
++{
++    ARMv7MState *s = opaque;
++    MemoryRegion *mr;
++
++    /* Direct the access to the correct systick */
++    mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->systick[attrs.secure]), 0);
++    return memory_region_dispatch_read(mr, addr, data, size_memop(size) | MO_TE,
++                                       attrs);
++}
++
++static const MemoryRegionOps v7m_systick_ops = {
++    .read_with_attrs = v7m_systick_read,
++    .write_with_attrs = v7m_systick_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++};
++
+ static void armv7m_instance_init(Object *obj)
+ {
+     ARMv7MState *s = ARMV7M(obj);
+@@ -137,6 +216,13 @@ static void armv7m_instance_init(Object *obj)
+     object_property_add_alias(obj, "num-irq",
+                               OBJECT(&s->nvic), "num-irq");
+ 
++    object_initialize_child(obj, "systick-reg-ns", &s->systick[M_REG_NS],
++                            TYPE_SYSTICK);
++    /*
++     * We can't initialize the secure systick here, as we don't know
++     * yet if we need it.
++     */
++
+     for (i = 0; i < ARRAY_SIZE(s->bitband); i++) {
+         object_initialize_child(obj, "bitband[*]", &s->bitband[i],
+                                 TYPE_BITBAND);
+@@ -231,6 +317,45 @@ static void armv7m_realize(DeviceState *dev, Error **errp)
      memory_region_add_subregion(&s->container, 0xe0000000,
                                  sysbus_mmio_get_region(sbd, 0));
  
-+    /* If the CPU has RAS support, create the RAS register block */
-+    if (cpu_isar_feature(aa32_ras, s->cpu)) {
-+        object_initialize_child(OBJECT(dev), "armv7m-ras",
-+                                &s->ras, TYPE_ARMV7M_RAS);
-+        sbd = SYS_BUS_DEVICE(&s->ras);
-+        if (!sysbus_realize(sbd, errp)) {
++    /* Create and map the systick devices */
++    if (!sysbus_realize(SYS_BUS_DEVICE(&s->systick[M_REG_NS]), errp)) {
++        return;
++    }
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->systick[M_REG_NS]), 0,
++                       qdev_get_gpio_in_named(DEVICE(&s->nvic),
++                                              "systick-trigger", M_REG_NS));
++
++    if (arm_feature(&s->cpu->env, ARM_FEATURE_M_SECURITY)) {
++        /*
++         * We couldn't init the secure systick device in instance_init
++         * as we didn't know then if the CPU had the security extensions;
++         * so we have to do it here.
++         */
++        object_initialize_child(OBJECT(dev), "systick-reg-s",
++                                &s->systick[M_REG_S], TYPE_SYSTICK);
++
++        if (!sysbus_realize(SYS_BUS_DEVICE(&s->systick[M_REG_S]), errp)) {
 +            return;
 +        }
-+        memory_region_add_subregion_overlap(&s->container, 0xe0005000,
-+                                            sysbus_mmio_get_region(sbd, 0), 1);
++        sysbus_connect_irq(SYS_BUS_DEVICE(&s->systick[M_REG_S]), 0,
++                           qdev_get_gpio_in_named(DEVICE(&s->nvic),
++                                                  "systick-trigger", M_REG_S));
 +    }
 +
-     for (i = 0; i < ARRAY_SIZE(s->bitband); i++) {
-         if (s->enable_bitband) {
-             Object *obj = OBJECT(&s->bitband[i]);
++    memory_region_init_io(&s->systickmem, OBJECT(s),
++                          &v7m_systick_ops, s,
++                          "v7m_systick", 0xe0);
++
++    memory_region_add_subregion_overlap(&s->container, 0xe000e010,
++                                        &s->systickmem, 1);
++    if (arm_feature(&s->cpu->env, ARM_FEATURE_V8)) {
++        memory_region_init_io(&s->systick_ns_mem, OBJECT(s),
++                              &v7m_sysreg_ns_ops, &s->systickmem,
++                              "v7m_systick_ns", 0xe0);
++        memory_region_add_subregion_overlap(&s->container, 0xe002e010,
++                                            &s->systick_ns_mem, 1);
++    }
++
+     /* If the CPU has RAS support, create the RAS register block */
+     if (cpu_isar_feature(aa32_ras, s->cpu)) {
+         object_initialize_child(OBJECT(dev), "armv7m-ras",
 diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
-index 1e7ddcb94cb..a5975592dfa 100644
+index a5975592dfa..2b3e79a3da9 100644
 --- a/hw/intc/armv7m_nvic.c
 +++ b/hw/intc/armv7m_nvic.c
-@@ -2549,56 +2549,6 @@ static const MemoryRegionOps nvic_systick_ops = {
+@@ -2517,38 +2517,6 @@ static const MemoryRegionOps nvic_sysreg_ns_ops = {
      .endianness = DEVICE_NATIVE_ENDIAN,
  };
  
--
--static MemTxResult ras_read(void *opaque, hwaddr addr,
--                            uint64_t *data, unsigned size,
--                            MemTxAttrs attrs)
+-static MemTxResult nvic_systick_write(void *opaque, hwaddr addr,
+-                                      uint64_t value, unsigned size,
+-                                      MemTxAttrs attrs)
 -{
--    if (attrs.user) {
--        return MEMTX_ERROR;
--    }
+-    NVICState *s = opaque;
+-    MemoryRegion *mr;
 -
--    switch (addr) {
--    case 0xe10: /* ERRIIDR */
--        /* architect field = Arm; product/variant/revision 0 */
--        *data = 0x43b;
--        break;
--    case 0xfc8: /* ERRDEVID */
--        /* Minimal RAS: we implement 0 error record indexes */
--        *data = 0;
--        break;
--    default:
--        qemu_log_mask(LOG_UNIMP, "Read RAS register offset 0x%x\n",
--                      (uint32_t)addr);
--        *data = 0;
--        break;
--    }
--    return MEMTX_OK;
+-    /* Direct the access to the correct systick */
+-    mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->systick[attrs.secure]), 0);
+-    return memory_region_dispatch_write(mr, addr, value,
+-                                        size_memop(size) | MO_TE, attrs);
 -}
 -
--static MemTxResult ras_write(void *opaque, hwaddr addr,
--                             uint64_t value, unsigned size,
--                             MemTxAttrs attrs)
+-static MemTxResult nvic_systick_read(void *opaque, hwaddr addr,
+-                                     uint64_t *data, unsigned size,
+-                                     MemTxAttrs attrs)
 -{
--    if (attrs.user) {
--        return MEMTX_ERROR;
--    }
+-    NVICState *s = opaque;
+-    MemoryRegion *mr;
 -
--    switch (addr) {
--    default:
--        qemu_log_mask(LOG_UNIMP, "Write to RAS register offset 0x%x\n",
--                      (uint32_t)addr);
--        break;
--    }
--    return MEMTX_OK;
+-    /* Direct the access to the correct systick */
+-    mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->systick[attrs.secure]), 0);
+-    return memory_region_dispatch_read(mr, addr, data, size_memop(size) | MO_TE,
+-                                       attrs);
 -}
 -
--static const MemoryRegionOps ras_ops = {
--    .read_with_attrs = ras_read,
--    .write_with_attrs = ras_write,
+-static const MemoryRegionOps nvic_systick_ops = {
+-    .read_with_attrs = nvic_systick_read,
+-    .write_with_attrs = nvic_systick_write,
 -    .endianness = DEVICE_NATIVE_ENDIAN,
 -};
 -
  /*
   * Unassigned portions of the PPB space are RAZ/WI for privileged
   * accesses, and fault for non-privileged accesses.
-@@ -2946,12 +2896,6 @@ static void armv7m_nvic_realize(DeviceState *dev, Error **errp)
-                                             &s->systick_ns_mem, 1);
-     }
+@@ -2801,29 +2769,6 @@ static void armv7m_nvic_realize(DeviceState *dev, Error **errp)
  
--    if (cpu_isar_feature(aa32_ras, s->cpu)) {
--        memory_region_init_io(&s->ras_mem, OBJECT(s),
--                              &ras_ops, s, "nvic_ras", 0x1000);
--        memory_region_add_subregion(&s->container, 0x5000, &s->ras_mem);
+     s->num_prio_bits = arm_feature(&s->cpu->env, ARM_FEATURE_V7) ? 8 : 2;
+ 
+-    if (!sysbus_realize(SYS_BUS_DEVICE(&s->systick[M_REG_NS]), errp)) {
+-        return;
+-    }
+-    sysbus_connect_irq(SYS_BUS_DEVICE(&s->systick[M_REG_NS]), 0,
+-                       qdev_get_gpio_in_named(dev, "systick-trigger",
+-                                              M_REG_NS));
+-
+-    if (arm_feature(&s->cpu->env, ARM_FEATURE_M_SECURITY)) {
+-        /* We couldn't init the secure systick device in instance_init
+-         * as we didn't know then if the CPU had the security extensions;
+-         * so we have to do it here.
+-         */
+-        object_initialize_child(OBJECT(dev), "systick-reg-s",
+-                                &s->systick[M_REG_S], TYPE_SYSTICK);
+-
+-        if (!sysbus_realize(SYS_BUS_DEVICE(&s->systick[M_REG_S]), errp)) {
+-            return;
+-        }
+-        sysbus_connect_irq(SYS_BUS_DEVICE(&s->systick[M_REG_S]), 0,
+-                           qdev_get_gpio_in_named(dev, "systick-trigger",
+-                                                  M_REG_S));
 -    }
 -
+     /*
+      * This device provides a single sysbus memory region which
+      * represents the whole of the "System PPB" space. This is the
+@@ -2877,23 +2822,11 @@ static void armv7m_nvic_realize(DeviceState *dev, Error **errp)
+                           "nvic_sysregs", 0x1000);
+     memory_region_add_subregion(&s->container, 0xe000, &s->sysregmem);
+ 
+-    memory_region_init_io(&s->systickmem, OBJECT(s),
+-                          &nvic_systick_ops, s,
+-                          "nvic_systick", 0xe0);
+-
+-    memory_region_add_subregion_overlap(&s->container, 0xe010,
+-                                        &s->systickmem, 1);
+-
+     if (arm_feature(&s->cpu->env, ARM_FEATURE_V8)) {
+         memory_region_init_io(&s->sysreg_ns_mem, OBJECT(s),
+                               &nvic_sysreg_ns_ops, &s->sysregmem,
+                               "nvic_sysregs_ns", 0x1000);
+         memory_region_add_subregion(&s->container, 0x2e000, &s->sysreg_ns_mem);
+-        memory_region_init_io(&s->systick_ns_mem, OBJECT(s),
+-                              &nvic_sysreg_ns_ops, &s->systickmem,
+-                              "nvic_systick_ns", 0xe0);
+-        memory_region_add_subregion_overlap(&s->container, 0x2e010,
+-                                            &s->systick_ns_mem, 1);
+     }
+ 
      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->container);
- }
+@@ -2905,12 +2838,6 @@ static void armv7m_nvic_instance_init(Object *obj)
+     NVICState *nvic = NVIC(obj);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
  
-diff --git a/hw/misc/armv7m_ras.c b/hw/misc/armv7m_ras.c
-new file mode 100644
-index 00000000000..de24922c944
---- /dev/null
-+++ b/hw/misc/armv7m_ras.c
-@@ -0,0 +1,93 @@
-+/*
-+ * Arm M-profile RAS (Reliability, Availability and Serviceability) block
-+ *
-+ * Copyright (c) 2021 Linaro Limited
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License version 2 or
-+ *  (at your option) any later version.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/misc/armv7m_ras.h"
-+#include "qemu/log.h"
-+
-+static MemTxResult ras_read(void *opaque, hwaddr addr,
-+                            uint64_t *data, unsigned size,
-+                            MemTxAttrs attrs)
-+{
-+    if (attrs.user) {
-+        return MEMTX_ERROR;
-+    }
-+
-+    switch (addr) {
-+    case 0xe10: /* ERRIIDR */
-+        /* architect field = Arm; product/variant/revision 0 */
-+        *data = 0x43b;
-+        break;
-+    case 0xfc8: /* ERRDEVID */
-+        /* Minimal RAS: we implement 0 error record indexes */
-+        *data = 0;
-+        break;
-+    default:
-+        qemu_log_mask(LOG_UNIMP, "Read RAS register offset 0x%x\n",
-+                      (uint32_t)addr);
-+        *data = 0;
-+        break;
-+    }
-+    return MEMTX_OK;
-+}
-+
-+static MemTxResult ras_write(void *opaque, hwaddr addr,
-+                             uint64_t value, unsigned size,
-+                             MemTxAttrs attrs)
-+{
-+    if (attrs.user) {
-+        return MEMTX_ERROR;
-+    }
-+
-+    switch (addr) {
-+    default:
-+        qemu_log_mask(LOG_UNIMP, "Write to RAS register offset 0x%x\n",
-+                      (uint32_t)addr);
-+        break;
-+    }
-+    return MEMTX_OK;
-+}
-+
-+static const MemoryRegionOps ras_ops = {
-+    .read_with_attrs = ras_read,
-+    .write_with_attrs = ras_write,
-+    .endianness = DEVICE_NATIVE_ENDIAN,
-+};
-+
-+
-+static void armv7m_ras_init(Object *obj)
-+{
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-+    ARMv7MRAS *s = ARMV7M_RAS(obj);
-+
-+    memory_region_init_io(&s->iomem, obj, &ras_ops,
-+                          s, "armv7m-ras", 0x1000);
-+    sysbus_init_mmio(sbd, &s->iomem);
-+}
-+
-+static void armv7m_ras_class_init(ObjectClass *klass, void *data)
-+{
-+    /* This device has no state: no need for vmstate or reset */
-+}
-+
-+static const TypeInfo armv7m_ras_info = {
-+    .name = TYPE_ARMV7M_RAS,
-+    .parent = TYPE_SYS_BUS_DEVICE,
-+    .instance_size = sizeof(ARMv7MRAS),
-+    .instance_init = armv7m_ras_init,
-+    .class_init = armv7m_ras_class_init,
-+};
-+
-+static void armv7m_ras_register_types(void)
-+{
-+    type_register_static(&armv7m_ras_info);
-+}
-+
-+type_init(armv7m_ras_register_types);
-diff --git a/MAINTAINERS b/MAINTAINERS
-index dffcb651f46..f9d843ce0ad 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -617,6 +617,7 @@ F: hw/intc/gic_internal.h
- F: hw/misc/a9scu.c
- F: hw/misc/arm11scu.c
- F: hw/misc/arm_l2x0.c
-+F: hw/misc/armv7m_ras.c
- F: hw/timer/a9gtimer*
- F: hw/timer/arm*
- F: include/hw/arm/arm*.h
-@@ -626,6 +627,7 @@ F: include/hw/misc/arm11scu.h
- F: include/hw/timer/a9gtimer.h
- F: include/hw/timer/arm_mptimer.h
- F: include/hw/timer/armv7m_systick.h
-+F: include/hw/misc/armv7m_ras.h
- F: tests/qtest/test-arm-mptimer.c
- 
- Exynos
-diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-index a53b849a5a0..3f41a3a5b27 100644
---- a/hw/misc/meson.build
-+++ b/hw/misc/meson.build
-@@ -17,6 +17,8 @@ softmmu_ss.add(when: 'CONFIG_INTEGRATOR_DEBUG', if_true: files('arm_integrator_d
- softmmu_ss.add(when: 'CONFIG_A9SCU', if_true: files('a9scu.c'))
- softmmu_ss.add(when: 'CONFIG_ARM11SCU', if_true: files('arm11scu.c'))
- 
-+softmmu_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('armv7m_ras.c'))
-+
- # Mac devices
- softmmu_ss.add(when: 'CONFIG_MOS6522', if_true: files('mos6522.c'))
- 
+-    object_initialize_child(obj, "systick-reg-ns", &nvic->systick[M_REG_NS],
+-                            TYPE_SYSTICK);
+-    /* We can't initialize the secure systick here, as we don't know
+-     * yet if we need it.
+-     */
+-
+     sysbus_init_irq(sbd, &nvic->excpout);
+     qdev_init_gpio_out_named(dev, &nvic->sysresetreq, "SYSRESETREQ", 1);
+     qdev_init_gpio_in_named(dev, nvic_systick_trigger, "systick-trigger",
 -- 
 2.20.1
 
