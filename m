@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 249653FE57C
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 00:27:54 +0200 (CEST)
-Received: from localhost ([::1]:50796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F293FE593
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 01:02:43 +0200 (CEST)
+Received: from localhost ([::1]:33248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLYi0-0000NS-LP
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 18:27:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49008)
+	id 1mLZFi-0000wG-9l
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 19:02:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1mLYgd-0007ta-Oo; Wed, 01 Sep 2021 18:26:27 -0400
-Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:39377)
+ (Exim 4.90_1) (envelope-from <prvs=8878769573=pdel@fb.com>)
+ id 1mLZD3-0007KT-IY
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 18:59:57 -0400
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:15890
+ helo=mx0a-00082601.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
- id 1mLYgb-0004Zk-Jg; Wed, 01 Sep 2021 18:26:27 -0400
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id 773353200979;
- Wed,  1 Sep 2021 18:26:21 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 01 Sep 2021 18:26:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-id:content-type:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=lFBFAL7ZAMLvDao8F4H1FJRdT6ZOISe4lLmtbsIo6XE=; b=W9ZtasgK
- ZD8vl30rnrYkuAlnTfrPA30mD1o8Uscz2/0n8rNrIrkFCYrJHmO+k5TWEyTrkt4R
- AEV35x/JK1y4Wjn9r3umt2nQh35y/HuZuVVUeftU8OVXrbu6xy3xuPgQiH/ycdpz
- EIAdU1AxNuJoM/Hm0c1z9cy+sDIbqWF2jOj0mD146XUiJSR5CCyEpemMcedWwiX6
- ndtwsdXl7CSUf+MZ1u+Rw4ugcJADPemdLYrlpf1HUNXxDC5nituwCr41YaixWnyO
- 8HnmDQvMGUnMkJCurA30lR9OPr/9S6U5rxvHOPqwqDeAotSH8G0dojoXkidYD9O7
- T7AZGkI0Vwtntw==
-X-ME-Sender: <xms:C_4vYSt0Vk-nZMTxNrRRRzCs1e09FpKX-QoD60oY6YS_2_UdClFG1g>
- <xme:C_4vYXc0yB0oTa0L726bvGClrPjyr_nGR89amoOQXU9kroBZAJZWz_LlvV7NqDefE
- tbwDupkGfS4samkc_E>
-X-ME-Received: <xmr:C_4vYdyYdRSUm1VJzTcwsDk1-qRhpOVaSHCrxtliGwoDDHTD_PxKFClHwXtAkJD0oUDvRKCpG-FiyqEDMxPzn8u6AU-6n39XmHWgJA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvgedgtdelucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffujgfkfhggtgesmhdtreertddtjeenucfhrhhomhephfhinhhnucfv
- hhgrihhnuceofhhthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgheqnecuggftrfgrth
- htvghrnhepjeekueetleefvedtvdelfeeiffdtiedvveelvdeifeejgeeuveeugfdtfeet
- teeinecuffhomhgrihhnpeeihedtvddrohhrghenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehfthhhrghinheslhhinhhugidqmheikehkrdho
- rhhg
-X-ME-Proxy: <xmx:C_4vYdMpG1WBNeei-bFulnU2oZkF7pt8GB_b9junc12IZCqHh05BtA>
- <xmx:C_4vYS8l7GhUHQ3DMrWDEHpenwnGmky3HmqKPjvFOl8f0S7VYWxXwg>
- <xmx:C_4vYVWrLmDFxNgajWb6bwhKWUacr5iLxoUKPy9uN4xwLkBvC-cHCA>
- <xmx:Df4vYZZGX9ZzlHZNVhX2bNBWBNJ1C4CUJneNqclqB7GoAbW6a9btdQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 1 Sep 2021 18:26:16 -0400 (EDT)
-Date: Thu, 2 Sep 2021 08:26:10 +1000 (AEST)
-From: Finn Thain <fthain@linux-m68k.org>
-To: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [RFC 05/10] hw/mos6522: Don't clear T1 interrupt flag on latch
- write
-In-Reply-To: <8ef22032-c120-efe9-e1bc-70a91472c820@vivier.eu>
-Message-ID: <c131914-bc48-81d3-9018-f395cb5d251a@linux-m68k.org>
-References: <cover.1629799776.git.fthain@linux-m68k.org>
- <b87cf2a2841d4597cc779df5dfce500c51a172ef.1629799776.git.fthain@linux-m68k.org>
- <bd94f1e6-4f15-b4d0-ddc8-fa98e2e3d780@ilande.co.uk>
- <e18e24e4-c310-4f22-e6ac-f2d7816cdf2@linux-m68k.org>
- <8ef22032-c120-efe9-e1bc-70a91472c820@vivier.eu>
+ (Exim 4.90_1) (envelope-from <prvs=8878769573=pdel@fb.com>)
+ id 1mLZD0-0001jS-EH
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 18:59:57 -0400
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+ by m0001303.ppops.net (8.16.0.43/8.16.0.43) with SMTP id 181Mw535003151
+ for <qemu-devel@nongnu.org>; Wed, 1 Sep 2021 15:59:52 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=facebook; bh=vLpQSiv1KX3TInMV87Lqn+ph2VhFme0+494mZrhJA1A=;
+ b=dw0A+5kFeWr9bD4Fp3DFODbPgFHzNSaUyJPkCrzkl2oIYea/JE+EKjnfVzeMkzWCwkKl
+ gv0f5WdeGsntKsrxjM46y3bRpv+rdeIsAuDHQUD7/lDiXn1OCg17GOMxMIaydEpwFUaD
+ 9EyXxOdUf1D7Oz07sLRKZgradVRoMHC9VzQ= 
+Received: from maileast.thefacebook.com ([163.114.130.16])
+ by m0001303.ppops.net with ESMTP id 3atdyh4nb7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 15:59:52 -0700
+Received: from intmgw002.46.prn1.facebook.com (2620:10d:c0a8:1b::d) by
+ mail.thefacebook.com (2620:10d:c0a8:82::c) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.14; Wed, 1 Sep 2021 15:59:51 -0700
+Received: by devvm660.prn0.facebook.com (Postfix, from userid 385188)
+ id 744C317DA286; Wed,  1 Sep 2021 15:59:47 -0700 (PDT)
+From: <pdel@fb.com>
+To: 
+CC: <clg@kaod.org>, <joel@jms.id.au>, <qemu-devel@nongnu.org>,
+ <qemu-arm@nongnu.org>, <patrick@stwcx.xyz>, <f4bug@amsat.org>,
+ <peter.maydell@linaro.org>, <andrew@aj.id.au>,
+ Peter Delevoryas <pdel@fb.com>
+Subject: [PATCH 0/1] hw/arm/aspeed: Add Fuji machine type
+Date: Wed, 1 Sep 2021 15:59:45 -0700
+Message-ID: <20210901225946.500125-1-pdel@fb.com>
+X-Mailer: git-send-email 2.30.2
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-FB-Source: Intern
+X-Proofpoint-GUID: 2zaa-1h6_duz_P3a9ebzpOdQRYjG5VMg
+X-Proofpoint-ORIG-GUID: 2zaa-1h6_duz_P3a9ebzpOdQRYjG5VMg
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="-1463811774-337020819-1630535067=:27"
-Content-ID: <968cc48-d24b-8061-4be6-528925925581@nippy.intranet>
-Received-SPF: none client-ip=64.147.123.19; envelope-from=fthain@linux-m68k.org;
- helo=wout3-smtp.messagingengine.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-09-01_05:2021-09-01,
+ 2021-09-01 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ mlxscore=0 malwarescore=0
+ phishscore=0 mlxlogscore=999 clxscore=1015 suspectscore=0 adultscore=0
+ priorityscore=1501 impostorscore=0 bulkscore=0 spamscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2108310000 definitions=main-2109010135
+X-FB-Internal: deliver
+Received-SPF: pass client-ip=67.231.153.30;
+ envelope-from=prvs=8878769573=pdel@fb.com; helo=mx0a-00082601.pphosted.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,141 +89,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Greg Kurz <groug@kaod.org>,
- David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+From: Peter Delevoryas <pdel@fb.com>
 
----1463811774-337020819-1630535067=:27
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Content-ID: <a2b3e89e-90c3-54b6-448a-2c97c784105d@nippy.intranet>
+Adding a new Aspeed AST2600 machine type, uses MAC3 for ethernet1 and
+UART1 for the serial console, which is different than the existing
+ast2600-evb. Otherwise though, my usage so far hasn't required a
+different set of hardware strap registers or anything, so I just
+inherited the rest of the configuration from the ast2600-evb. If
+preferred, I can eliminate the inheritance and just declare Fuji
+completely independently.
 
-On Wed, 1 Sep 2021, Laurent Vivier wrote:
+I included more info in the commit message, but just for convenience,
+here's the DTS link and a link to an image I'm providing for the
+acceptance test.
 
-> Le 26/08/2021 =C3=A0 07:21, Finn Thain a =C3=A9crit=C2=A0:
-> > On Wed, 25 Aug 2021, Mark Cave-Ayland wrote:
-> >=20
-> >> On 24/08/2021 11:09, Finn Thain wrote:
-> >>
-> >>> The Synertek datasheet says, "A write to T1L-H loads an 8-bit count v=
-alue
-> >>> into the latch. A read of T1L-H transfers the contents of the latch t=
-o
-> >>> the data bus. Neither operation has an affect [sic] on the interrupt
-> >>> flag."
-> >>>
-> >>> Signed-off-by: Finn Thain <fthain@linux-m68k.org>
-> >>> ---
-> >>>   hw/misc/mos6522.c | 1 -
-> >>>   1 file changed, 1 deletion(-)
-> >>>
-> >>> diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
-> >>> index c0d6bee4cc..ffff8991f4 100644
-> >>> --- a/hw/misc/mos6522.c
-> >>> +++ b/hw/misc/mos6522.c
-> >>> @@ -313,7 +313,6 @@ void mos6522_write(void *opaque, hwaddr addr, uin=
-t64_t
-> >>> val, unsigned size)
-> >>>           break;
-> >>>       case VIA_REG_T1LH:
-> >>>           s->timers[0].latch =3D (s->timers[0].latch & 0xff) | (val <=
-< 8);
-> >>> -        s->ifr &=3D ~T1_INT;
-> >>>           break;
-> >>>       case VIA_REG_T2CL:
-> >>>           s->timers[1].latch =3D (s->timers[1].latch & 0xff00) | val;
-> >>
-> >> Hmmm. The reference document I used for QEMU's 6522 device is at
-> >> http://archive.6502.org/datasheets/mos_6522_preliminary_nov_1977.pdf a=
-nd
-> >> according to page 6 and the section "Writing the Timer 1 Registers" wr=
-iting to
-> >> the high byte of the latch does indeed clear the T1 interrupt flag.
-> >>
-> >> Side note: there is reference in Gary Davidian's excellent CHM video t=
-hat
-> >> 6522s obtained from different manufacturers had different behaviours, =
-and
-> >> there are also web pages mentioning that 6522s integrated as part of o=
-ther
-> >> silicon e.g. IOSB/CUDA also had their own bugs... :/
-> >>
-> >=20
-> > The MOS document you've cited is much older than the Synertek and Rockw=
-ell=20
-> > devices. The datasheets for the Synertek and Rockwell parts disagree wi=
-th=20
-> > MOS about T1LH behaviour. Apple certainly used SY6522 devices in my Mac=
- II=20
-> > and I'd assumed Apple would have used compatible logic cores in the cus=
-tom=20
-> > ICs found in later models. But I don't really trust assumptions and=20
-> > datasheets so I wrote the Linux patch below and ran it on my Quadra 630=
-=2E
-> >=20
-> > diff --git a/arch/m68k/mac/via.c b/arch/m68k/mac/via.c
-> > index 3d11d6219cdd..ed41f6ae2bf2 100644
-> > --- a/arch/m68k/mac/via.c
-> > +++ b/arch/m68k/mac/via.c
-> > @@ -634,3 +634,27 @@ static u64 mac_read_clk(struct clocksource *cs)
-> > =20
-> >  =09return ticks;
-> >  }
-> > +
-> > +static int baz(void)
-> > +{
-> > +=09u8 a, b, c;
-> > +
-> > +=09local_irq_disable();
-> > +
-> > +=09while (!(via1[vIFR] & VIA_TIMER_1_INT))
-> > +=09=09continue;
-> > +=09a =3D via1[vIFR] & VIA_TIMER_1_INT;
-> > +=09via1[vT1LH] =3D via1[vT1LH];
-> > +=09b =3D via1[vIFR] & VIA_TIMER_1_INT;
-> > +=09via1[vT1LL] =3D via1[vT1LL];
-> > +=09c =3D via1[vIFR] & VIA_TIMER_1_INT;
-> > +
-> > +=09printk("a =3D=3D %2x\n", a);
-> > +=09printk("b =3D=3D %2x\n", b);
-> > +=09printk("c =3D=3D %2x\n", c);
-> > +
-> > +=09local_irq_enable();
-> > +
-> > +=09return 0;
-> > +}
-> > +late_initcall(baz);
-> >=20
-> > Based on the Synertek datasheet* one would expect to see b equal to a b=
-ut=20
-> > I got this result instead:
-> >=20
-> > [   10.450000] a =3D=3D 40
-> > [   10.450000] b =3D=3D  0
-> > [   10.450000] c =3D=3D  0
-> >=20
-> > This amounts to a MOS design flaw and I doubt that this result from my=
-=20
-> > Quadra 630 would apply to other Mac models. So it would be great to see=
-=20
-> > the output from a Quadra 800. But until then, let's disregard this patc=
-h.
-> >=20
-> > * http://archive.6502.org/datasheets/synertek_sy6522.pdf
-> >=20
->=20
-> Tested on my Quadra 800:
->=20
-> [    4.730000] a =3D=3D 40
-> [    4.730000] b =3D=3D  0
-> [    4.730000] c =3D=3D  0
->=20
+https://github.com/facebook/openbmc-uboot/blob/openbmc/helium/v2019.04/arch=
+/arm/dts/aspeed-bmc-facebook-fuji.dts
+https://github.com/peterdelevoryas/openbmc/releases/download/fuji-v0.1-alph=
+a/fuji.mtd
 
-Much appreciated. I will drop this patch.
----1463811774-337020819-1630535067=:27--
+I'm not sure exactly what the requirements are on the image url
+provided, or the requirements of the image itself.
+
+The existing OpenBMC acceptance tests mostly use images from the Linux
+Foundation repository's releases, e.g.
+
+https://github.com/openbmc/openbmc/releases/download/2.9.0/obmc-phosphor-im=
+age-romulus.static.mtd
+
+Although, I do see one image from a regular user's repo:
+
+https://github.com/hskinnemoen/openbmc/releases/download/20200711-gsj-qemu-=
+0/obmc-phosphor-image-gsj.static.mtd.gz
+
+So maybe it's not that unreasonable? I also might be able to organize a
+release link on the official Facebook OpenBMC Github.
+
+As far as the actual requirements of the acceptance test, I didn't use
+the existing "do_test_arm_aspeed" because Fuji was sufficiently
+different (different U-Boot version, kernel address, CPU, SPI control
+register, doesn't use systemd), but I could try unifying them if there's
+interest or suggestions on how to do so.
+
+By the way, Fuji takes a long time to boot on my Macbook:
+
+(19/38) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_as=
+t2600_fuji_openbmc: PASS (85.13 s)
+
+The next longest boot time is <20 seconds:
+
+17/38) tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_ast=
+2500_romulus_openbmc_v2_9_0: PASS (17.46 s)
+
+Not sure if that's a problem for the CIT infra time or not.
+
+Thanks,
+Peter
+
+Peter Delevoryas (1):
+  hw/arm/aspeed: Add Fuji machine type
+
+ hw/arm/aspeed.c                        | 14 ++++++++++++++
+ tests/acceptance/boot_linux_console.py | 25 +++++++++++++++++++++++++
+ 2 files changed, 39 insertions(+)
+
+--=20
+2.30.2
+
 
