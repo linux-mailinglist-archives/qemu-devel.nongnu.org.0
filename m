@@ -2,48 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 428673FE081
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:58:54 +0200 (CEST)
-Received: from localhost ([::1]:36464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0916C3FE03E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:42:46 +0200 (CEST)
+Received: from localhost ([::1]:48402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLTZd-0003qY-Br
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:58:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39478)
+	id 1mLTK1-0007O8-2T
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:42:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <67cc6486b7aa95e35ce1dec25e67e05f9946bd35@lizzy.crudebyte.com>)
- id 1mLTDh-0001L9-J9; Wed, 01 Sep 2021 12:36:13 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:50961)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLSxq-0002HN-DU
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:19:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <67cc6486b7aa95e35ce1dec25e67e05f9946bd35@lizzy.crudebyte.com>)
- id 1mLTDf-0006pH-6V; Wed, 01 Sep 2021 12:36:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Message-Id:Cc:To:Subject:Date:From:Content-Type:
- Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
- Content-Description; bh=nKc4xoHOiVDi+8PQUp+JySodBOj7RAySbDvGBuOLt9U=; b=VZtO0
- Z4zs1qyeu5YVWalnLhlMfDXCmvwRBa8GKZZLxnd40elpiaXYIkefWTONDZOORMHZymsy/4tTAlX4K
- 8xtLQvHw18A6XZxXXKzSMdGp7LbDvOraKociVOrli31g7pPMTVuP2AaJHYoGo03JVqAuM/zaLTXUN
- aqvuuC6YRIIDSM78wuR2E/uVRwYpBL1T/H4ZQOGF0e25TnLdkwzghVNVlhnxkNdxCDaWg5o3mwio9
- 5uiCDzxllseelbGusJmOylLclzJb1c/NLYsS3sK3JLDqJT4v16o6+19JzVppYDiKx7GaycLfM4ELl
- +a552OT2fds4CmPnd6y6dNAQ+zgPQ==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Wed, 1 Sep 2021 18:15:10 +0200
-Subject: [PATCH] 9pfs: fix crash in v9fs_walk()
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLSxo-0003ir-DA
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:19:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630513187;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=o9k4VULlBtEVICWMDzetVlf0jUIflUHHlITC/iwhe74=;
+ b=F57YOHxN6Kcmc7Jq6eXU4giw5GUXkcO1F/3ZFfUsrhLlVA2hOSJPbkBeqYq0lcaMrKh2du
+ WgZ1V96wVQ4uQU6DWu2n05783zzdyxeaOGzWiYtkIMoI0baLV41ZvD5Q+Yz7zVrhLmvHQO
+ 9Pdt2e1IIqCrPDEIgO0bYKAZMG5vGCA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-518-cC5_KxyjNwK5q0Dpsg_8DQ-1; Wed, 01 Sep 2021 12:19:46 -0400
+X-MC-Unique: cC5_KxyjNwK5q0Dpsg_8DQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ p5-20020a7bcc85000000b002e7563efc4cso24854wma.4
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 09:19:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VUR3axTjLiG/ZmEq+5IjJWrMokvFs7tsIqlEnqCtVGE=;
+ b=jhBYDap2qAH3o09YtmK3qCDcBKOFmNReOrf8z8JJlnVAlByPa2C2+CsvfNb8jZcd0V
+ QWPabNKIgssma3MtnCtuO92SOXTWz9q5bs+IOfxV6hBD4TG5xMEwiiyN8Rh4x+QpUYaD
+ NaPTCQYNM8aBRZwIhf0ldTE6MvM5u+pYCejtXSDYehWD7KecC8MJ5ERjKZelVZwJJkD1
+ /twBdtaf6/iFnFZGEXf6PF/FBov+q1qszJDuoBE40mV46prkcKH53eM3tyt74F8YJ4O4
+ JfRkeaN3vVNARxEP+V32r8Fh65WMVfgUPLu+uPdVciuzFkgTFdVb3w4l7EtMZGHYAb5m
+ 529g==
+X-Gm-Message-State: AOAM532iTld4oDCmlyHXcfR+PrMWYtzspHWN74L+FXWkZ8wYTI/kGxrg
+ qzmFqk41upNq9n7E0W0JDBtdftXrcmWhXpGSwemF3wmtr3nf4oKxsWm2aCClOuL/IImX8aGsWzW
+ 3SG4QTvjagcgN2NkIveMpPHaStL8wXc2SFoyMXezXyQr+SNf7lbQjtuS8pPLOhW4k
+X-Received: by 2002:adf:e449:: with SMTP id t9mr170320wrm.135.1630513185162;
+ Wed, 01 Sep 2021 09:19:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxGr1wp7QZC5BfQRsSSnN3AlEID5pNrco+6K7wNPYw2XV1NMiQyBmTe4sWAXhVrVjCx2r4OVw==
+X-Received: by 2002:adf:e449:: with SMTP id t9mr170284wrm.135.1630513184860;
+ Wed, 01 Sep 2021 09:19:44 -0700 (PDT)
+Received: from x1w.redhat.com (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id m1sm25318wmq.10.2021.09.01.09.19.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Sep 2021 09:19:44 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>,
-    qemu-stable@nongnu.org
-Message-Id: <E1mLTBg-0002Bh-2D@lizzy.crudebyte.com>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=67cc6486b7aa95e35ce1dec25e67e05f9946bd35@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH v4 0/3] memory: Have 'info mtree' remove duplicated Address
+ Space information
+Date: Wed,  1 Sep 2021 18:19:40 +0200
+Message-Id: <20210901161943.4174212-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,75 +92,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: David Hildenbrand <david@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Peter Xu <peterx@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v9fs_walk() utilizes the v9fs_co_run_in_worker({...}) macro to run the
-supplied fs driver code block on a background worker thread.
-
-When either the 'Twalk' client request was interrupted or if the client
-requested fid for that 'Twalk' request caused a stat error then that
-fs driver code block was left by 'break' keyword, with the intention to
-return from worker thread back to main thread as well:
-
-    v9fs_co_run_in_worker({
-        if (v9fs_request_cancelled(pdu)) {
-            err = -EINTR;
-            break;
-        }
-        err = s->ops->lstat(&s->ctx, &dpath, &fidst);
-        if (err < 0) {
-            err = -errno;
-            break;
-        }
-        ...
-    });
-
-However that 'break;' statement also skipped the v9fs_co_run_in_worker()
-macro's final and mandatory
-
-    /* re-enter back to qemu thread */
-    qemu_coroutine_yield();
-
-call and thus caused the rest of v9fs_walk() to be continued being
-executed on the worker thread instead of main thread, eventually
-leading to a crash in the transport virtio transport driver.
-
-To fix this issue and to prevent the same error from happening again by
-other users of v9fs_co_run_in_worker() in future, auto wrap the supplied
-code block into its own
-
-    do { } while (0);
-
-loop inside the 'v9fs_co_run_in_worker' macro definition.
-
-Full discussion and backtrace:
-https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg05209.html
-https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg00174.html
-
-Fixes: 8d6cb100731c4d28535adbf2a3c2d1f29be3fef4
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: qemu-stable@nongnu.org
----
- hw/9pfs/coth.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/hw/9pfs/coth.h b/hw/9pfs/coth.h
-index c51289903d..f83c7dda7b 100644
---- a/hw/9pfs/coth.h
-+++ b/hw/9pfs/coth.h
-@@ -51,7 +51,9 @@
-          */                                                             \
-         qemu_coroutine_yield();                                         \
-         qemu_bh_delete(co_bh);                                          \
--        code_block;                                                     \
-+        do {                                                            \
-+            code_block;                                                 \
-+        } while (0);                                                    \
-         /* re-enter back to qemu thread */                              \
-         qemu_coroutine_yield();                                         \
-     } while (0)
--- 
-2.20.1
+Follow Peter Maydell suggestions:=0D
+- Split mtree_info() as mtree_info_flatview() + mtree_info_as()=0D
+- Remove duplicated Address Space information=0D
+=0D
+Since v3:=0D
+- Fix typos=0D
+- Split mtree_info_flatview() + mtree_info_as() first=0D
+- Rebased last patch keeping Peter's R-b tag=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (3):=0D
+  memory: Extract mtree_info_flatview() from mtree_info()=0D
+  memory: Extract mtree_info_as() from mtree_info()=0D
+  memory: Have 'info mtree' remove duplicated Address Space information=0D
+=0D
+ softmmu/memory.c | 160 ++++++++++++++++++++++++++++++++++-------------=0D
+ 1 file changed, 118 insertions(+), 42 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
