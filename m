@@ -2,137 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A4C3FD96D
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 14:20:39 +0200 (CEST)
-Received: from localhost ([::1]:38814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 524893FD96E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 14:22:12 +0200 (CEST)
+Received: from localhost ([::1]:40688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLPEJ-0000B7-Ux
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 08:20:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33364)
+	id 1mLPFr-0001ZC-DY
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 08:22:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mLPAS-0006Be-Ka; Wed, 01 Sep 2021 08:16:36 -0400
-Received: from mail-db8eur05on2139.outbound.protection.outlook.com
- ([40.107.20.139]:28512 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mLPAN-00081t-CX; Wed, 01 Sep 2021 08:16:35 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HbAM6ayULSINtb09JPLZz0hb2MpJhLrEnlMAbDit4Tc6z/p/E7KzzhwAWUWZdjWhVTwRu5YftSR0gJ9/tevYogvUFQFixfLqrh6q2gS9XPzsvQ49mXEP6iUHuyGqAzcFuhHtryYO8fJCfywdQ1x2IFl6EON6h36qZA4Hm7UNd4jvHUMtEBP+2KTpsJIib4+WL+GQJ5pfAdhlIIH/NilkfxlFdsmHqyWfEijIh0toIzKSup+3ahpSDIbGzTcaVTws8gZdzD4+3lGgenbKpq+R4sWK3TbucTEEOMPJd7Ak6l/LNJ0zIL/0IMsKqXBv9C+Br/XRZBFB6Mg6HizcImZ9yg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1HKLgCzaFqigZPrfVbNLWipps85+B488FR0KVdlYCzg=;
- b=TChV4L2Qbx1dmcxHtDXmQPZx++YTasOWEXuRCqM5N+yARBjJFXPMKqRxtY7mJ+QR2mOxUfRP3aUm0wIi3cdYr5l/f95pIt2GNINGabIszlEuwOpNmM4zeIU2spF0tutXd0dg/ermkZQINPYGyNzKrww913/i8qAEfAkz2bx+widfLM6EinFa0ds2ciuBPvHYsg6t4OaoBHwzw+p+RVKDojyxDRVeAxaj7Iexc89t2X+Cx7oL+AdcnkeodT42VhmoiWJnDpW5wdUWu0WSfXOF5ChNZecowjdXn/GOZDsyqi4Y2UeIJlwgNjuHVzkPLEKWttbBj0uc4dv9rn636Z5VXw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1HKLgCzaFqigZPrfVbNLWipps85+B488FR0KVdlYCzg=;
- b=S0vg+V6AZH4m5n37yBu/bwcufN6248AAEdGyjD39SRYeHzAx9XglniwAweF/zgbbuQyURRl0DXwekK6xnQ/UIbI6n8c5RvItTaKzPuVGn/IWQ5WFpJtJv9Iuy12Sjw4jcoehd7XYDSVsEBhWF8rVwuxn0oR2lN/IMni+HYntQ/Q=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from VI1PR08MB5503.eurprd08.prod.outlook.com (2603:10a6:803:137::19)
- by VE1PR08MB4814.eurprd08.prod.outlook.com (2603:10a6:802:ad::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.20; Wed, 1 Sep
- 2021 12:16:27 +0000
-Received: from VI1PR08MB5503.eurprd08.prod.outlook.com
- ([fe80::2082:8a88:6ff1:2dd8]) by VI1PR08MB5503.eurprd08.prod.outlook.com
- ([fe80::2082:8a88:6ff1:2dd8%5]) with mapi id 15.20.4478.017; Wed, 1 Sep 2021
- 12:16:27 +0000
-Subject: Re: [PATCH for-6.2 v3 10/12] mirror: Stop active mirroring after
- force-cancel
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>
-References: <20210806093859.706464-1-mreitz@redhat.com>
- <20210806093859.706464-11-mreitz@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <6a237782-bb93-9a13-d742-144425a071da@virtuozzo.com>
-Date: Wed, 1 Sep 2021 15:16:25 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <20210806093859.706464-11-mreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PR2P264CA0041.FRAP264.PROD.OUTLOOK.COM
- (2603:10a6:101:1::29) To VI1PR08MB5503.eurprd08.prod.outlook.com
- (2603:10a6:803:137::19)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mLPCQ-0008Ae-7E
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 08:18:39 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:38741)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mLPCO-0000rK-4B
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 08:18:37 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id n27so6183412eja.5
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 05:18:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DxQ8cqKbg/94b5cEyUxF4jkhpq7XIe8H3Q4JVFB+gMQ=;
+ b=bckjK1MyU20+1MRacu86a0rSxOPHGDPa78ivZoInKlkse7JZ9sR1RBJKPWOpT3g2Pe
+ QzeRre8eny65dc8MhMR2eWdezU8tgmpppb4hVfXMugUGnu1our/XVTYMdIN/NDHgKQN2
+ qbn7pRmGo8w3S7uLoWzGtWH+sSCWDmOXDfhF3tZZBnYT2Yi6S4o9FGA32zUHHQ+H7IxW
+ En/Zltsm1Esch56s4ybuPUdK/UhkJnYcyFocMXLwEFA1qOZcUqsRSuXrIZv/z4LPlEvt
+ crCgVBt+Jx+qg1EzEQDcUo7KdVvcPJHAkihiB67G0sL7nogT2cNLnZ/w0EdDKLjpAmJ0
+ fhvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DxQ8cqKbg/94b5cEyUxF4jkhpq7XIe8H3Q4JVFB+gMQ=;
+ b=rNTv9ADtTN+JBE2envK808sz2h7/zDxdAy4dhY9onMOO1yVTb4ZQr0YwwSirVMdyBx
+ 8xAFM3VvBi5SGWCwvfXDgF6npCOvx4QRuSiutrfpsA9vZmt5WTu0BVzYCeGmjxQhkF+X
+ Z1iTJLl5hciR745ktcyuaQg04HdiTa9j0rDhClZFE4/JKgmsLAIfj2LtX4ii8dQ0rqnZ
+ 82Y+otqnKqonPmcLTOrOonjmtHEZSlrFwVbyi/DbE5PjBBCVj0of68Zj86ENs2qsqi0J
+ uFe1kypKygDxlcuXD3vdvtRm9KvFKiR7+G/QIpbQJqB94CFwVmnjjpCLais2aAKjknhY
+ 5oAg==
+X-Gm-Message-State: AOAM530Bter/fEEe+8KPhO7BTsdfna/COM4NenkkPT6dA72rS0Y/E3ZM
+ L4LWwbtgnf/MCr05cCVfaX9XSb2nvDFwIB+gnbJ58g==
+X-Google-Smtp-Source: ABdhPJyGHAXiDAYY+BJEu0azq4kTpx+YAbMQo8uK6VUireGhts+tdaPoWxWcp84/wrGqEDimZu0ogeAEnlk+mQ4S9Ac=
+X-Received: by 2002:a17:906:1d41:: with SMTP id
+ o1mr37931081ejh.232.1630498713211; 
+ Wed, 01 Sep 2021 05:18:33 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.196) by
- PR2P264CA0041.FRAP264.PROD.OUTLOOK.COM (2603:10a6:101:1::29) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4478.17 via Frontend Transport; Wed, 1 Sep 2021 12:16:26 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 80e0bdcf-1a31-43d6-73d8-08d96d4252a5
-X-MS-TrafficTypeDiagnostic: VE1PR08MB4814:
-X-Microsoft-Antispam-PRVS: <VE1PR08MB4814736CB683EE8D131088F7C1CD9@VE1PR08MB4814.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6N9kNqKV/EGR4lx5e3zxlSNIa7Yp1FL0Ciby6GbQNrOYnMnWFu686SUUTno0LR46JcenCl7IwKgt3sLX2w4Uu8N4TglEUWz/i4wFD4aYDHsrLImeO0k2V3RQw5KfLUBPxCsk8636bxkFVaHFoWzKr8wrREDvl72CYA+coVSYWbveD4ZVVJ3pqmqiLD7w6to6skfyfLN2/VMH1IPk24aD+zsHjDv5wuREGZfUIDHRxo8I23dFNWEWw8rqcTdSwQoHev3lSGvi6K2XeJQkZmv30DBQlzGKtM9dTiWQVxdvVQNd2D6fRy43EnzjsblF6IM6zQESNnuKhmxfzP9aGTQAUHWVFagcPKqtFpDeT2KDgeHTsm3MUjlUMOFuFlv1SW/VydDDPTa6TJWT4WqwO8dZ6gLy+sFTknzvsQt0rSRK/l6QaBodC2UJ7Fh7ApPZeHkKlc+ZV43/qay8NLDmDoORFOdmOXT0JQap8CVNA7G9LRh/R5QYs8McZbSTmUo/bWAvMh7a36510MvQm6vLuKXJa8F8FDE6SF4tUalhcd+60I19BXmT+Oj3kwhR5rdd2W/3KHn1Kz4HvqWTpgfSQ7dFIHsYAvuVOJcp4FRfN4puxdp1nWPQHOzvNq3chvOYSbJ7gzMsxBlqJSCjA6ZBwRg7RmzxMxCSMpNqg4jUaQVFvGAcHrQ91Mb5vE8HBXGgW+UavpFTHPqyA2H6fVinPE7tcfuxn1nAMn5fpET9CaRjJnwkpcaw+VmVZByCITR0BYyPKmUAhXlrvCIBfz9F6d3drA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR08MB5503.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39850400004)(136003)(376002)(366004)(346002)(396003)(4744005)(2906002)(4326008)(31696002)(83380400001)(86362001)(36756003)(2616005)(956004)(38350700002)(38100700002)(8676002)(6486002)(316002)(66946007)(478600001)(5660300002)(66556008)(16576012)(66476007)(186003)(26005)(8936002)(31686004)(52116002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?L0hKWjhFaWJ5eUdlcnloYkoyRzhpU25YVlZaOXVxOGlORjYwblJTYURNZ1N2?=
- =?utf-8?B?OXhEN2I4ZmtEdkMzb0JvUTJCelF4cTNzcDhjUGczT05mSVJNSjZvSzd2a3ll?=
- =?utf-8?B?c2FOZ0xwSFUrdWJsUmprK244dWozaUV0cTJnR3lDc3IvSWk5ajBQSkxVVC9X?=
- =?utf-8?B?bHFWWHNxaGtuRE1mK3liT3JjdFNpakZ1NEYraCtCTWZ1bFZDM09HTVRuZ3dv?=
- =?utf-8?B?TzRkTjhEL3p2NkZ5SW9OYzJxZlB5WDNCbDIvMjl5Qk1MaU1yRlZPOVFaMFRt?=
- =?utf-8?B?RkRSZGNCa0t3SGxNNVBMVDh1cnMwZUQwVDU3dTR1aGpoVzAvL1VNNnU1WVV3?=
- =?utf-8?B?T0tuQVFMak96UjkrYnJ4TTRMakx5cWg4T2poanVyMXZjTFVXdTlhSnlnUDRl?=
- =?utf-8?B?MkVKU0FmZHpWSnpveWp5Y3hsdTZIUnoza2lMd0plcmZRZm5PQ29TUW53RzJ5?=
- =?utf-8?B?SWxCM2IzTlJxVFV5ZDhEVTdsNmUxeVdmM0lQdFkzTktpTGJ1NGxQbU4rUHpT?=
- =?utf-8?B?aTlaRmduQlZ1VmxZWXE0WkFvekIwZ1BDeWtadVpQK1hzYmx5YkZ3Z0dzK0g5?=
- =?utf-8?B?d1ZSd0JjRjZGYVQ5R085U0E0K0lqKzU0NDZCaDhteDJtSWx6SWtjRlBPZjh5?=
- =?utf-8?B?aUxDNlg4SlhTOTg0NGtSL3ZGdU4veXFCa2o2anNYTjlxdCs4VElLR1Vtd1NM?=
- =?utf-8?B?RDAvUldqSWVXUVpwVHRyK1F3a3lHNjAzdFpDb01TeFFFR1hlbSswbHhPa1Ns?=
- =?utf-8?B?RnZGMVpWTkFOaHlRbE5hT05CZjU3OEhnNks2SmFNMi9jQlNKcW5UMmw3Z1BC?=
- =?utf-8?B?OS9VYlhuaGhTU1owWk1uaFhTRWM5K2hnNnltM3JZdjZvZi92YTQzVklTZjBW?=
- =?utf-8?B?bHFXeVpOTHY3R0E1Y1Q4VUZwV3FoZW9STDI1TEtuRHNDRXZobDAvcUZBckFQ?=
- =?utf-8?B?S3psaWIwMTYrYXM3bWpxazYwZzVJM3l5NWJ4MVo5Z0RJVjB6WnA2MVZqaXYr?=
- =?utf-8?B?eThJWCtmdGp6MzNqaVd1Q1J2VmlyeDJjd3Y4emRrbnJEOW1DcWtkSGJ4SWpY?=
- =?utf-8?B?N0hWVTA5MURtTmJmZWtmcjAvOHVVYTY1U0VZRCsvSC85Z2g3Z0E3T3FhdzRy?=
- =?utf-8?B?L011d1BuQmVFdHZSUzRYUU5IdXUvV1IraEhvRld3ZHJQb0JpNWVveC9idUpi?=
- =?utf-8?B?UjhyVnJoV2c5cUxaOFkyVzdOMEZMbVNyZEdFTHIxR085MUlVUWJpRHlSMFNO?=
- =?utf-8?B?M0IySE41UnBOWWJsVDBNWlM0OFVKSjJpcXh1dUR1dC81YzBNc2FmRnI4aE00?=
- =?utf-8?B?cCtVWUdvdnNXeEJpdWt6Zmd2bHRxVitMWEhndmtXTGdZSVpJRnhvZ3pOTlJN?=
- =?utf-8?B?dDBhMUxwY0dCd0hrUjcxU0dpa0txUHVWd3RialF0OXRQeEFTSlVTR3RJVnhx?=
- =?utf-8?B?cmF1UzZGSXF0QTRBWFlnRXNaWGxxclRGRlVUTGNQeForVktXTmR6NmxiWTda?=
- =?utf-8?B?dk1kUGsyeFJUS1BNQjFmT3F6ZUJjbldaa1B4RUY2V1VYRlFIYW5ldDFwSG5V?=
- =?utf-8?B?V01tenRobm1PaVpKemt2enJDYUZZTXd3dHk1TUNST3JmUkExaW1ua2VVNko4?=
- =?utf-8?B?amVtQzBXb1ZMYkp6RkxWWDFEallmUkpRUmVjaS85SmZpZU1VR0l0WDQ1NFVx?=
- =?utf-8?B?ejdUdkswWDUrQU8zSnJHK0VjWHVTSzBXdFVJS1AvS3FqclF6ZHQ1TUFOOGZN?=
- =?utf-8?Q?X6GgA8yaaIDDHkGTO0D3jB2PDuocEuOb0YeTjw6?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80e0bdcf-1a31-43d6-73d8-08d96d4252a5
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB5503.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2021 12:16:27.2644 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BAQuBfs6vdZyrIV71FYj7pXmLFrvgambUY/r0HWC5j5TeyKgQ2qLthIPR+Pm0XxCSbW8w+qncdmJKcWyw5lZ7yeCBkMCW+iRvJwHsMUmLE0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB4814
-Received-SPF: pass client-ip=40.107.20.139;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.029, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210806174642.490023-1-ani@anisinha.ca>
+ <20210806174642.490023-2-ani@anisinha.ca>
+ <alpine.DEB.2.22.394.2108162113390.186141@anisinha-lenovo>
+In-Reply-To: <alpine.DEB.2.22.394.2108162113390.186141@anisinha-lenovo>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Wed, 1 Sep 2021 17:48:22 +0530
+Message-ID: <CAARzgwyb+Rtr-=UzzN3xcAKApb_U37VeX0+jhjqbzCQkdi9Scg@mail.gmail.com>
+Subject: Re: [RFC PATCH] tests/acpi/pcihp: add unit tests for hotplug on
+ multifunction bridges for q35
+To: Ani Sinha <ani@anisinha.ca>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::62f;
+ envelope-from=ani@anisinha.ca; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -145,23 +78,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-06.08.2021 12:38, Max Reitz wrote:
-> Once the mirror job is force-cancelled (job_is_cancelled() is true), we
-> should not generate new I/O requests.  This applies to active mirroring,
-> too, so stop it once the job is cancelled.
-> 
-> (We must still forward all I/O requests to the source, though, of
-> course, but those are not really I/O requests generated by the job, so
-> this is fine.)
-> 
-> Signed-off-by: Max Reitz<mreitz@redhat.com>
+Ping ...
 
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-
--- 
-Best regards,
-Vladimir
+On Mon, Aug 16, 2021 at 9:14 PM Ani Sinha <ani@anisinha.ca> wrote:
+>
+> Ping ...
+>
+> Igor, if this looks ok, I will send the entire patch series with the blobs
+> updated.
+>
+> On Fri, 6 Aug 2021, Ani Sinha wrote:
+>
+> > commit d7346e614f4ec ("acpi: x86: pcihp: add support hotplug on multifunction bridges")
+> > added ACPI hotplug descriptions for cold plugged bridges for functions other
+> > than 0. For all other devices, the ACPI hotplug descriptions are limited to
+> > function 0 only. This change adds unit tests for this feature.
+> >
+> > The diff of ACPI DSDT table before and after the change d7346e614f4e with the
+> > same newly added unit test is provided below:
+> >
+> > @@ -5,13 +5,13 @@
+> >   *
+> >   * Disassembling to symbolic ASL+ operators
+> >   *
+> > - * Disassembly of /tmp/aml-35UR70, Fri Aug  6 21:00:03 2021
+> > + * Disassembly of /tmp/aml-GY8760, Fri Aug  6 21:10:31 2021
+> >   *
+> >   * Original Table Header:
+> >   *     Signature        "DSDT"
+> > - *     Length           0x0000206A (8298)
+> > + *     Length           0x000020F3 (8435)
+> >   *     Revision         0x01 **** 32-bit table (V1), no 64-bit math support
+> > - *     Checksum         0x59
+> > + *     Checksum         0x1B
+> >   *     OEM ID           "BOCHS "
+> >   *     OEM Table ID     "BXPC    "
+> >   *     OEM Revision     0x00000001 (1)
+> > @@ -20,28 +20,6 @@
+> >   */
+> >  DefinitionBlock ("", "DSDT", 1, "BOCHS ", "BXPC    ", 0x00000001)
+> >  {
+> > -    /*
+> > -     * iASL Warning: There was 1 external control method found during
+> > -     * disassembly, but only 0 were resolved (1 unresolved). Additional
+> > -     * ACPI tables may be required to properly disassemble the code. This
+> > -     * resulting disassembler output file may not compile because the
+> > -     * disassembler did not know how many arguments to assign to the
+> > -     * unresolved methods. Note: SSDTs can be dynamically loaded at
+> > -     * runtime and may or may not be available via the host OS.
+> > -     *
+> > -     * In addition, the -fe option can be used to specify a file containing
+> > -     * control method external declarations with the associated method
+> > -     * argument counts. Each line of the file must be of the form:
+> > -     *     External (<method pathname>, MethodObj, <argument count>)
+> > -     * Invocation:
+> > -     *     iasl -fe refs.txt -d dsdt.aml
+> > -     *
+> > -     * The following methods were unresolved and many not compile properly
+> > -     * because the disassembler had to guess at the number of arguments
+> > -     * required for each:
+> > -     */
+> > -    External (_SB_.PCI0.S09_.PCNT, MethodObj)    // Warning: Unknown method, guessing 1 arguments
+> > -
+> >      Scope (\)
+> >      {
+> >          OperationRegion (DBG, SystemIO, 0x0402, One)
+> > @@ -3280,9 +3258,45 @@
+> >                  }
+> >              }
+> >
+> > +            Device (S09)
+> > +            {
+> > +                Name (_ADR, 0x00010001)  // _ADR: Address
+> > +                Name (BSEL, Zero)
+> > +                Device (S00)
+> > +                {
+> > +                    Name (_SUN, Zero)  // _SUN: Slot User Number
+> > +                    Name (_ADR, Zero)  // _ADR: Address
+> > +                    Method (_EJ0, 1, NotSerialized)  // _EJx: Eject Device, x=0-9
+> > +                    {
+> > +                        PCEJ (BSEL, _SUN)
+> > +                    }
+> > +
+> > +                    Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+> > +                    {
+> > +                        Return (PDSM (Arg0, Arg1, Arg2, Arg3, BSEL, _SUN))
+> > +                    }
+> > +                }
+> > +
+> > +                Method (DVNT, 2, NotSerialized)
+> > +                {
+> > +                    If ((Arg0 & One))
+> > +                    {
+> > +                        Notify (S00, Arg1)
+> > +                    }
+> > +                }
+> > +
+> > +                Method (PCNT, 0, NotSerialized)
+> > +                {
+> > +                    BNUM = Zero
+> > +                    DVNT (PCIU, One)
+> > +                    DVNT (PCID, 0x03)
+> > +                }
+> > +            }
+> > +
+> >              Method (PCNT, 0, NotSerialized)
+> >              {
+> > -                ^S09.PCNT (^S08.PCNT ())
+> > +                ^S09.PCNT ()
+> > +                ^S08.PCNT ()
+> >              }
+> >          }
+> >      }
+> >
+> > Signed-off-by: Ani Sinha <ani@anisinha.ca>
+> > ---
+> >  tests/qtest/bios-tables-test.c | 28 ++++++++++++++++++++++++++++
+> >  1 file changed, 28 insertions(+)
+> >
+> > diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+> > index 51d3a4e239..c92b70e8b8 100644
+> > --- a/tests/qtest/bios-tables-test.c
+> > +++ b/tests/qtest/bios-tables-test.c
+> > @@ -859,6 +859,33 @@ static void test_acpi_q35_tcg_bridge(void)
+> >      free_test_data(&data);
+> >  }
+> >
+> > +static void test_acpi_q35_multif_bridge(void)
+> > +{
+> > +    test_data data = {
+> > +        .machine = MACHINE_Q35,
+> > +        .variant = ".multi-bridge",
+> > +        .required_struct_types = base_required_struct_types,
+> > +        .required_struct_types_len = ARRAY_SIZE(base_required_struct_types)
+> > +    };
+> > +    /*
+> > +     * lets try three things:
+> > +     * (a) a multifunction bridge device
+> > +     * (b) a bridge device with function 1
+> > +     * (c) a non-bridge device with function 2
+> > +     * We should see AML hotplug descriptions for (a) and (b) in DSDT.
+> > +     * For (a) it should have a hotplug AML description for function 0.
+> > +     */
+> > +    test_acpi_one("-nodefaults -device pcie-root-port,id=pcie-root-port-0,"
+> > +                  "multifunction=on,"
+> > +                  "port=0x0,chassis=1,addr=0x1,bus=pcie.0 "
+> > +                  "-device pcie-root-port,id=pcie-root-port-1,"
+> > +                  "port=0x1,chassis=2,addr=0x1.0x1,bus=pcie.0 "
+> > +                  "-device virtio-balloon,id=balloon0,"
+> > +                  "bus=pcie.0,addr=0x1.0x2",
+> > +                  &data);
+> > +    free_test_data(&data);
+> > +}
+> > +
+> >  static void test_acpi_q35_tcg_mmio64(void)
+> >  {
+> >      test_data data = {
+> > @@ -1528,6 +1555,7 @@ int main(int argc, char *argv[])
+> >                         test_acpi_piix4_no_acpi_pci_hotplug);
+> >          qtest_add_func("acpi/q35", test_acpi_q35_tcg);
+> >          qtest_add_func("acpi/q35/bridge", test_acpi_q35_tcg_bridge);
+> > +        qtest_add_func("acpi/q35/multif-bridge", test_acpi_q35_multif_bridge);
+> >          qtest_add_func("acpi/q35/mmio64", test_acpi_q35_tcg_mmio64);
+> >          qtest_add_func("acpi/piix4/ipmi", test_acpi_piix4_tcg_ipmi);
+> >          qtest_add_func("acpi/q35/ipmi", test_acpi_q35_tcg_ipmi);
+> > --
+> > 2.25.1
+> >
+> >
 
