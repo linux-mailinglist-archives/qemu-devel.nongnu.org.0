@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CFDE3FD8DB
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 13:37:00 +0200 (CEST)
-Received: from localhost ([::1]:38336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFE5A3FD8D9
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 13:35:18 +0200 (CEST)
+Received: from localhost ([::1]:35576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLOY7-0007dy-L1
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 07:36:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45814)
+	id 1mLOWT-0005eA-Ot
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 07:35:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mLNrE-0002MV-Oz
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:52:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48319)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mLNrC-00019C-5a
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:52:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630493557;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PqNah3n3JbPQKP3gSLt6kN+YikxKRXYtu3uyLlLh3mo=;
- b=hviPy3hqxzOvtNVagrjliPJX3YqRKqxFB/+DPE3v3tS90L2dDTxZ0nXuOpck9HFw4XJMNE
- loPKKS9BcdjJbkl9qPsrLJfinYYYSF6q2KK4SW6bb/pn+j1Vd1EDVr+jkWSdLYJHlBHpf8
- 3etijuWwgIb2+4cXxToHoKvrFOW6o+I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-RQ6cm7PSOOCfD8GGfPt-aA-1; Wed, 01 Sep 2021 06:52:34 -0400
-X-MC-Unique: RQ6cm7PSOOCfD8GGfPt-aA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A201107ACCD;
- Wed,  1 Sep 2021 10:52:33 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A3B285E253;
- Wed,  1 Sep 2021 10:52:32 +0000 (UTC)
-Date: Wed, 1 Sep 2021 11:52:31 +0100
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PULL 30/33] tcg: Allocate sufficient storage in
- temp_allocate_frame
-Message-ID: <20210901105231.GA719@redhat.com>
-References: <20210619181452.877683-1-richard.henderson@linaro.org>
- <20210619181452.877683-31-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mLNrf-00030r-VV; Wed, 01 Sep 2021 06:53:07 -0400
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:39733)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mLNre-0001W3-D6; Wed, 01 Sep 2021 06:53:07 -0400
+Received: by mail-yb1-xb32.google.com with SMTP id n126so4236592ybf.6;
+ Wed, 01 Sep 2021 03:53:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Un+ZolysfcyfTySKsZ6MUdvG6CF06LXmy81Vz+1IUwc=;
+ b=jcVbY0IWLzIOneqJpFjvnom1Qhg1cTp7JIaoDzxz5Q8oluCi07p5JNn6xHAU3C43SE
+ s0nTQnqmLHgdfgvLJjG8Lh26gY1n3Ydiw6D5Qeogq5t45kFDfeK2hWBvXAcCjQoyPx4m
+ 9Ana7uM4FuzOIVK45zxmba15kU+/ZMPKxiIBkvWmD6nlEa5eXVOvL06dSq1I85iMid3r
+ V20fgw9Z9SrXWmilj0FSpg1SRsQrtZ1Y5ohfKBbZV6GQ8tiDtcBHub8ZTJzwL7p+hylY
+ 0lp2m8y7HOR4prH+7Ebq5k/2k407ESgg+hQ/CSXQPNpAu79mEq1SbOGuGpRDef1lpFAM
+ 9uRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Un+ZolysfcyfTySKsZ6MUdvG6CF06LXmy81Vz+1IUwc=;
+ b=GiRm5IPi7x4XOZzJSwGmB9tzvZF2OZ7tCgZ3x9Vs7dpufhAISag7v3rgTtNvn7krCS
+ 8MjjdHzxb1ABNuln3m6HAYJSpCiaGSEvridEYS6TBtfOa/E5nK6prLHtOTQMwsX9/KrX
+ omrrimD2Q5c8EoYyom/IJVGoFxmnlfhqT62ww9AjgPm0B3QEBz0IsWrhpo1Zh48p/ltc
+ YJReU8zHEhnqT2ag3QG/FzlM6q5IctdEPv0okYQWTP1wLlS65tIlp5NVkI3UF0j9/2mD
+ FraXbnMPDoxf1aHu5o4dIX+duHowmURhNeYOIc3XGZimNA3rI98WJovEv8iNVarV7pPj
+ 2wAQ==
+X-Gm-Message-State: AOAM533eMhA5OemlMFuii0nMSQpUbsv8M4j9M2VjcmgeXsBlVgS+j2R0
+ 5Zl6/y9jDbVjoukbdMy3CXSnbZvtLvatxXrcl9Y=
+X-Google-Smtp-Source: ABdhPJwvf01WjmptrIrh7vAeX/eN22DT8g1MCuZ5lYnBFUPmoLknlL63q3xB7kNRlQwiVQOuvlrPowf2B6Bm1Zj8kGU=
+X-Received: by 2002:a25:be09:: with SMTP id h9mr39523943ybk.239.1630493585103; 
+ Wed, 01 Sep 2021 03:53:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210619181452.877683-31-richard.henderson@linaro.org>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210901032724.23256-1-bmeng.cn@gmail.com>
+ <20210901032724.23256-6-bmeng.cn@gmail.com>
+ <20210901083251.GG6340@toto>
+In-Reply-To: <20210901083251.GG6340@toto>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 1 Sep 2021 18:52:53 +0800
+Message-ID: <CAEUhbmUs+K2-5iM93vdTxdJ6H-tDo9etwzao5cXJzLFCC5rtXA@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] hw/char: cadence_uart: Ignore access when
+ unclocked or in reset for uart_{read,write}()
+To: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb32.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,63 +77,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-stable@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Jun 19, 2021 at 11:14:49AM -0700, Richard Henderson wrote:
-> This function should have been updated for vector types
-> when they were introduced.
-> 
-> Fixes: d2fd745fe8b
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/367
-> Cc: qemu-stable@nongnu.org
-> Tested-by: Stefan Weil <sw@weilnetz.de>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tcg/tcg.c | 32 +++++++++++++++++++++++++++-----
->  1 file changed, 27 insertions(+), 5 deletions(-)
-> 
-...
-> +    assert(align <= TCG_TARGET_STACK_ALIGN);
+Hi Edgar,
 
-This assertion is triggering:
-https://bugzilla.redhat.com/show_bug.cgi?id=1999878
+On Wed, Sep 1, 2021 at 4:32 PM Edgar E. Iglesias
+<edgar.iglesias@xilinx.com> wrote:
+>
+> On Wed, Sep 01, 2021 at 11:27:24AM +0800, Bin Meng wrote:
+> > Read or write to uart registers when unclocked or in reset should be
+> > ignored. Add the check there, and as a result of this, the check in
+> > uart_write_tx_fifo() is now unnecessary.
+>
+> Hi Bin,
+>
+> I thought I had replied to this but it must have gotten lost somewhere.
+>
+> We've got SW that expects FSBL (Bootlooader) to setup clocks and resets.
+> It's quite common that users run that SW on QEMU without FSBL (FSBL typically
+> requires the Xilinx tools installed). That's fine, since users can stil use
+> -device loader to enable clocks etc.
+>
+> To help folks understand what's going, a log (guest-error) message would
+> be helpful here. In particular with the serial port since things will go
+> very quiet if they get things wrong.
+>
+> Otherwise, this patch is fine with me.
+>
 
-It happens when the kernel is booting after this line:
+Thanks. Will add a separate patch to enable a log message for all places.
 
-  [    7.315373] Loading compiled-in X.509 certificates
-
-If everything was working then the next line of output *should* be:
-
-  Loaded X.509 cert 'Fedora kernel signing key: 65d4930f94e951d5c1531017b9559872a4e7b0b0'
-
-but instead it is:
-
-  [    7.183521] ThumbEE CPU extension supported.
-  [    7.186066] Registering SWP/SWPB emulation handler
-  [    7.304374] registered taskstats version 1
-  [    7.315373] Loading compiled-in X.509 certificates
-  qemu-system-arm: ../tcg/tcg.c:3063: temp_allocate_frame: Assertion `align <= TCG_TARGET_STACK_ALIGN' failed.
-
-Unfortunately I don't have an easy reproducer.  It reproduces very
-reliably in Fedora's build system (qemu 6.1.0 running a TCG armv7 L2
-guest on armv7 L1 host on unknown aarch64 L0 host).  But my attempts
-to perform the same operation anywhere else don't reproduce the
-problem.
-
-What does the assertion mean?
-
-Rich.
-
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-Fedora Windows cross-compiler. Compile Windows programs, test, and
-build Windows installers. Over 100 libraries supported.
-http://fedoraproject.org/wiki/MinGW
-
+Regards,
+Bin
 
