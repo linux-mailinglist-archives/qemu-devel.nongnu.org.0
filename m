@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D17843FDEB1
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 17:31:34 +0200 (CEST)
-Received: from localhost ([::1]:51190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D87C3FDEA6
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 17:28:47 +0200 (CEST)
+Received: from localhost ([::1]:43656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLSD7-0007MF-Nq
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 11:31:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49772)
+	id 1mLSAQ-0002N4-HN
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 11:28:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLRzR-0005R3-K7
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:17:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28146)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLRzT-0005Th-3F
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:17:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31779)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLRzP-0003o0-KN
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:17:25 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLRzR-0003pj-DM
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:17:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630509443;
+ s=mimecast20190719; t=1630509444;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ptmW75KyIzcJGjJ/kFpJ8re3VNKXO76q5hbA08JudWY=;
- b=EJgwC63z3GzfFZhBYyQ+HsMC65WxnYsVluJuBjhZmpSiUObaFifJDrIYI08f4qolm/b5dN
- XM1+CMIhpP0o5AWS2YJ73P/Qz5LlWhJT/U8+/IKWWwGXNPHUOuXpFCk9hfXA2r7l4yW7by
- Gtl2xK6zIir5Reb1tiB3q8afwD1Xfvs=
+ bh=I132Md6AGfhZspt6ikCA4tUZKfOj7M6peueHsyGzFvQ=;
+ b=B21Ns8KAT4HCRkqglJrhUWNfiMpnlIbfRZR8u7kEYAtK0iGsEy+UQEMFmB82uDNtCGpsLg
+ StgAQbYhPQ5Ds0uv9K+Vt7xXxfAiLEsvPtp2t22Tu6d17VmEeNar+Bh5ir7B6A8fwZvPQX
+ GkYGUPmqA0nhmoVxdWEfTvrIu6LBT04=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-283-PP8YfaIFPqyhL1xZ0Lp3Wg-1; Wed, 01 Sep 2021 11:17:21 -0400
-X-MC-Unique: PP8YfaIFPqyhL1xZ0Lp3Wg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-96-Bxq2NmWKNuqqp3oLsjuipw-1; Wed, 01 Sep 2021 11:17:23 -0400
+X-MC-Unique: Bxq2NmWKNuqqp3oLsjuipw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 983B410053E7;
- Wed,  1 Sep 2021 15:17:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F47A1B2C986;
+ Wed,  1 Sep 2021 15:17:22 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.250])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4161A60C9F;
- Wed,  1 Sep 2021 15:17:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3712E69CBC;
+ Wed,  1 Sep 2021 15:17:22 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 27/56] block/block-copy: introduce block_copy_set_copy_opts()
-Date: Wed,  1 Sep 2021 17:15:50 +0200
-Message-Id: <20210901151619.689075-28-hreitz@redhat.com>
+Subject: [PULL 28/56] block/backup: set copy_range and compress after filter
+ insertion
+Date: Wed,  1 Sep 2021 17:15:51 +0200
+Message-Id: <20210901151619.689075-29-hreitz@redhat.com>
 In-Reply-To: <20210901151619.689075-1-hreitz@redhat.com>
 References: <20210901151619.689075-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -83,106 +84,93 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-We'll need a possibility to set compress and use_copy_range options
-after initialization of the state. So make corresponding part of
-block_copy_state_new() separate and public.
+We are going to publish copy-before-write filter, so it would be
+initialized through options. Still we don't want to publish compress
+and copy-range options, as
+
+1. Modern way to enable compression is to use compress filter.
+
+2. For copy-range it's unclean how to make proper interface:
+ - it's has experimental prefix for backup job anyway
+ - the whole BackupPerf structure doesn't make sense for the filter
+ So, let's just add copy-range possibility to the filter later if
+ needed.
+
+Still, we are going to continue support for compression and
+experimental copy-range in backup job. So, set these options after
+filter creation.
+
+Note, that we can drop "compress" argument of bdrv_cbw_append() now, as
+well as "perf". The only reason not doing so is that now, when I
+prepare this patch the big series around it is already reviewed and I
+want to avoid extra rebase conflicts to simplify review of the
+following version.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20210824083856.17408-8-vsementsov@virtuozzo.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
+Message-Id: <20210824083856.17408-9-vsementsov@virtuozzo.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- include/block/block-copy.h |  3 +++
- block/block-copy.c         | 49 ++++++++++++++++++++++----------------
- 2 files changed, 32 insertions(+), 20 deletions(-)
+ block/copy-before-write.h | 1 -
+ block/backup.c            | 3 ++-
+ block/copy-before-write.c | 4 +---
+ 3 files changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-index 734389d32a..dca6c4ce36 100644
---- a/include/block/block-copy.h
-+++ b/include/block/block-copy.h
-@@ -28,6 +28,9 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-                                      int64_t cluster_size, bool use_copy_range,
-                                      bool compress, Error **errp);
+diff --git a/block/copy-before-write.h b/block/copy-before-write.h
+index f37e2249ae..538aab8bdb 100644
+--- a/block/copy-before-write.h
++++ b/block/copy-before-write.h
+@@ -33,7 +33,6 @@ BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
+                                   BlockDriverState *target,
+                                   const char *filter_node_name,
+                                   uint64_t cluster_size,
+-                                  BackupPerf *perf,
+                                   bool compress,
+                                   BlockCopyState **bcs,
+                                   Error **errp);
+diff --git a/block/backup.c b/block/backup.c
+index 84f9a5f02c..b31fd99ab3 100644
+--- a/block/backup.c
++++ b/block/backup.c
+@@ -504,7 +504,7 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+     }
  
-+/* Function should be called prior any actual copy request */
-+void block_copy_set_copy_opts(BlockCopyState *s, bool use_copy_range,
-+                              bool compress);
- void block_copy_set_progress_meter(BlockCopyState *s, ProgressMeter *pm);
+     cbw = bdrv_cbw_append(bs, target, filter_node_name,
+-                          cluster_size, perf, compress, &bcs, errp);
++                          cluster_size, false, &bcs, errp);
+     if (!cbw) {
+         goto error;
+     }
+@@ -530,6 +530,7 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+     job->len = len;
+     job->perf = *perf;
  
- void block_copy_state_free(BlockCopyState *s);
-diff --git a/block/block-copy.c b/block/block-copy.c
-index 58b4345a5a..e83870ff81 100644
---- a/block/block-copy.c
-+++ b/block/block-copy.c
-@@ -315,6 +315,33 @@ static uint32_t block_copy_max_transfer(BdrvChild *source, BdrvChild *target)
-                                      target->bs->bl.max_transfer));
- }
++    block_copy_set_copy_opts(bcs, perf->use_copy_range, compress);
+     block_copy_set_progress_meter(bcs, &job->common.job.progress);
+     block_copy_set_speed(bcs, speed);
  
-+void block_copy_set_copy_opts(BlockCopyState *s, bool use_copy_range,
-+                              bool compress)
-+{
-+    /* Keep BDRV_REQ_SERIALISING set (or not set) in block_copy_state_new() */
-+    s->write_flags = (s->write_flags & BDRV_REQ_SERIALISING) |
-+        (compress ? BDRV_REQ_WRITE_COMPRESSED : 0);
-+
-+    if (s->max_transfer < s->cluster_size) {
-+        /*
-+         * copy_range does not respect max_transfer. We don't want to bother
-+         * with requests smaller than block-copy cluster size, so fallback to
-+         * buffered copying (read and write respect max_transfer on their
-+         * behalf).
-+         */
-+        s->method = COPY_READ_WRITE_CLUSTER;
-+    } else if (compress) {
-+        /* Compression supports only cluster-size writes and no copy-range. */
-+        s->method = COPY_READ_WRITE_CLUSTER;
-+    } else {
-+        /*
-+         * If copy range enabled, start with COPY_RANGE_SMALL, until first
-+         * successful copy_range (look at block_copy_do_copy).
-+         */
-+        s->method = use_copy_range ? COPY_RANGE_SMALL : COPY_READ_WRITE;
-+    }
-+}
-+
- BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-                                      int64_t cluster_size, bool use_copy_range,
-                                      bool compress, Error **errp)
-@@ -353,32 +380,14 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-         .copy_bitmap = copy_bitmap,
-         .cluster_size = cluster_size,
-         .len = bdrv_dirty_bitmap_size(copy_bitmap),
--        .write_flags = (is_fleecing ? BDRV_REQ_SERIALISING : 0) |
--            (compress ? BDRV_REQ_WRITE_COMPRESSED : 0),
-+        .write_flags = (is_fleecing ? BDRV_REQ_SERIALISING : 0),
-         .mem = shres_create(BLOCK_COPY_MAX_MEM),
-         .max_transfer = QEMU_ALIGN_DOWN(
-                                     block_copy_max_transfer(source, target),
-                                     cluster_size),
-     };
+diff --git a/block/copy-before-write.c b/block/copy-before-write.c
+index 4337076c1c..235251a640 100644
+--- a/block/copy-before-write.c
++++ b/block/copy-before-write.c
+@@ -170,7 +170,6 @@ BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
+                                   BlockDriverState *target,
+                                   const char *filter_node_name,
+                                   uint64_t cluster_size,
+-                                  BackupPerf *perf,
+                                   bool compress,
+                                   BlockCopyState **bcs,
+                                   Error **errp)
+@@ -217,8 +216,7 @@ BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
  
--    if (s->max_transfer < cluster_size) {
--        /*
--         * copy_range does not respect max_transfer. We don't want to bother
--         * with requests smaller than block-copy cluster size, so fallback to
--         * buffered copying (read and write respect max_transfer on their
--         * behalf).
--         */
--        s->method = COPY_READ_WRITE_CLUSTER;
--    } else if (compress) {
--        /* Compression supports only cluster-size writes and no copy-range. */
--        s->method = COPY_READ_WRITE_CLUSTER;
--    } else {
--        /*
--         * If copy range enabled, start with COPY_RANGE_SMALL, until first
--         * successful copy_range (look at block_copy_do_copy).
--         */
--        s->method = use_copy_range ? COPY_RANGE_SMALL : COPY_READ_WRITE;
--    }
-+    block_copy_set_copy_opts(s, use_copy_range, compress);
- 
-     ratelimit_init(&s->rate_limit);
-     qemu_co_mutex_init(&s->lock);
+     state->cluster_size = cluster_size;
+     state->bcs = block_copy_state_new(top->backing, state->target,
+-                                      cluster_size, perf->use_copy_range,
+-                                      compress, errp);
++                                      cluster_size, false, compress, errp);
+     if (!state->bcs) {
+         error_prepend(errp, "Cannot create block-copy-state: ");
+         goto fail;
 -- 
 2.31.1
 
