@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC523FD9DB
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 14:54:04 +0200 (CEST)
-Received: from localhost ([::1]:56322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F27703FD9D7
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 14:51:11 +0200 (CEST)
+Received: from localhost ([::1]:47462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLPkh-0001Bl-2i
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 08:54:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39608)
+	id 1mLPhv-0003dz-34
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 08:51:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mLPcV-0003A6-Ml; Wed, 01 Sep 2021 08:45:37 -0400
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:38442)
+ id 1mLPcW-0003A8-8W; Wed, 01 Sep 2021 08:45:37 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:46856)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mLPcT-0003Wg-OO; Wed, 01 Sep 2021 08:45:35 -0400
-Received: by mail-pj1-x1032.google.com with SMTP id
- g13-20020a17090a3c8d00b00196286963b9so4529687pjc.3; 
- Wed, 01 Sep 2021 05:45:30 -0700 (PDT)
+ id 1mLPcU-0003Xz-9v; Wed, 01 Sep 2021 08:45:36 -0400
+Received: by mail-pf1-x431.google.com with SMTP id y17so1918856pfl.13;
+ Wed, 01 Sep 2021 05:45:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=o2pmzupo+sdLEvr64T7VyZEHJUOePjMBuOCrScXM9Ek=;
- b=LHM80RBL/S0AqOD+m1zftvm0hD2Y0VZU2eXdVguCRt+73BVMapV1FhJBIlk9XpOInA
- Dls8pSkKYyF18LxHZVdqM7/HqnO+soPTfzL2svRO9j4nwjgltAdgleR/FCJApoB5jfZm
- h71xRr+woszOp++fQN86s9oZeNf3GmCRsb9s0FWRnABKPaJY4hfveSeZDIuBP4alCu8y
- 4QBJFLwySYp4T+agUbk4JO/PgNbBXM0XrsVVREKf7AY29rlBcA9jvFSWttGCXuWEm6CZ
- 2n2dIoYjn6uQId1E+rD5Xq14ln6y4jSqgaC9iRvHwm1IKxFcOZtUBThlMP7hZkzrDM2C
- wTQg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=5t8z8W2/Z4HnNDfJxkUtulZXcpKeSL8+hbjbGr7gaxg=;
+ b=WwfViySbJ2IQ1mlgtvxlqChgoPMo2TxSK1Hgfl2YeY2n+EMc66LZ6z1AJIlHFmlIdZ
+ mZo1ecfGYvxhtg6tg3+UNE803JXMBQ2Q2ih5nZHl+nluSb3EaWNeDrQGFHonGxmF6lHk
+ trdeQ1rtJKtJMnMDZ6HHDrkCnGnQJsdyQN2eSyahTaIEvoc27rDQDRU1fdZIuXNkaBu5
+ OYYddKv1NkHzOglW6dbDPb4jBar0v4nQewM0aZ++txvLZ6LAwJJkQSa7Qw7nlyKTEkWu
+ TwbTUPTPSk81f9YETvbVdo8iCEt8iZ1E/A07l2B99DIK98js7Qp9CnKameRGGA21ELiM
+ gxRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=o2pmzupo+sdLEvr64T7VyZEHJUOePjMBuOCrScXM9Ek=;
- b=Drs0plox/ACu8sa2NplUWb8Pt+9pMmBweczkbMXh9lmQgWe31IJCCWDb+bgk0RBBD0
- BLh8wPx8/3ib4GTw7QzAfjSS4DcTBY5sAJqUCU9n1t/X0vsyWdr+HqOV3lxZJC00/yP7
- bfXq/mNmB0OOqu7UlVsyoxmHRUmDLT07G2WAOIB0/hOfKlLfQ6r/WnGhroJjGVUzN+BQ
- sMdZo19Ba044PGd4LL8jeDM2pkoUpu5h/zEfHeDoy7DJIeJ8Cfk3Jn3rStS/oZNs74cN
- voJoiOiMEW1HlcB9l17CuTJF1tX55QUWf4daPbtZkM9Lxle+Fgo2cO1aWDIn0d9BFapc
- Ru4w==
-X-Gm-Message-State: AOAM530PWd4DSCuPSU5YP6figrW41e8ctfYdN9POcekKVjWIzGlToPT9
- lqF8ZtETHSx5iSB/ymJ2+t0=
-X-Google-Smtp-Source: ABdhPJx/Ipw56S7jCOROwP+u/KpI/pds8ygjRPIyO2Sq5x/mGPNy/rmoNCmnMNYvAdJqr0KA0ibnOg==
-X-Received: by 2002:a17:90a:2e0a:: with SMTP id
- q10mr11701434pjd.136.1630500329570; 
- Wed, 01 Sep 2021 05:45:29 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=5t8z8W2/Z4HnNDfJxkUtulZXcpKeSL8+hbjbGr7gaxg=;
+ b=rJl2bhFEtV3tMrqb05nTY571dpCBesJHP3E89D7qINBrsD35Bt1xEpXAgwD0OkooYK
+ qVOOSMHzgKJKVi0V/TEQ3zuIvvCxNGKDg79YYrZvcQfM6lCea/jFHc0+SLwDztU16gz3
+ E1LEjuiPPzZyP9UPaRAfTijQhT//CMLQLyFYZzAsupXv5wZNHR8N+MzYDR+N3t9HcdmK
+ h1oQBB9hP5OLQihjckkXiGRUMYyzXGgg+sdFsOccVrONnjt01OD/DL+NXf7s6oE9JKca
+ 6BORi4KipQw04Ylnwhmv9xkD58x2F2fi7vGhS4QOhmTs+R8klepJte12pDUX20CMh1N0
+ dRrA==
+X-Gm-Message-State: AOAM530zSK+Lz/GVTr/ujA5qQTvAY2sSbSxUvczSmSo3pzmasenjG4sI
+ wrg8yqQtBaoELAEFjwZnVzM=
+X-Google-Smtp-Source: ABdhPJzLtPGb66i6tkQJjBENPgdT/h3/yD6rTGxMUfbD8GZpgN/A4VGPJL0Y7I5u49tMEXIbTHCLlg==
+X-Received: by 2002:a62:a513:0:b0:3f1:e19c:a23 with SMTP id
+ v19-20020a62a513000000b003f1e19c0a23mr23555442pfm.43.1630500332170; 
+ Wed, 01 Sep 2021 05:45:32 -0700 (PDT)
 Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
  [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id d22sm20917134pfq.158.2021.09.01.05.45.27
+ by smtp.gmail.com with ESMTPSA id d22sm20917134pfq.158.2021.09.01.05.45.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 05:45:29 -0700 (PDT)
+ Wed, 01 Sep 2021 05:45:31 -0700 (PDT)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Damien Hedde <damien.hedde@greensocs.com>,
  "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
  Alistair Francis <alistair.francis@wdc.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v3 0/6] hw/arm: xilinx_zynq: Fix upstream U-Boot boot failure
-Date: Wed,  1 Sep 2021 20:45:15 +0800
-Message-Id: <20210901124521.30599-1-bmeng.cn@gmail.com>
+Subject: [PATCH v3 1/6] hw/misc: zynq_slcr: Correctly compute output clocks in
+ the reset exit phase
+Date: Wed,  1 Sep 2021 20:45:16 +0800
+Message-Id: <20210901124521.30599-2-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210901124521.30599-1-bmeng.cn@gmail.com>
+References: <20210901124521.30599-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,51 +93,96 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 As of today, when booting upstream U-Boot for Xilinx Zynq, the UART
 does not receive anything. Debugging shows that the UART input clock
-frequency is zero which prevents the UART from receiving anything as.
+frequency is zero which prevents the UART from receiving anything as
 per the logic in uart_receive().
 
-Note the U-Boot can still output data to the UART tx fifo, which should
-not happen, as the design seems to prevent the data transmission when
-clock is not enabled but somehow it only applies to the Rx side.
+From zynq_slcr_reset_exit() comment, it intends to compute output
+clocks according to ps_clk and registers. zynq_slcr_compute_clocks()
+is called to accomplish the task, inside which device_is_in_reset()
+is called to actually make the attempt in vain.
 
-For anyone who is interested to give a try, here is the U-Boot defconfig:
-$ make xilinx_zynq_virt_defconfig
+Rework reset_hold() and reset_exit() so that in the reset exit phase,
+the logic can really compute output clocks in reset_exit().
 
-and QEMU commands to test U-Boot:
+With this change, upstream U-Boot boots properly again with:
+
 $ qemu-system-arm -M xilinx-zynq-a9 -m 1G -display none -serial null -serial stdio \
     -device loader,file=u-boot-dtb.bin,addr=0x4000000,cpu-num=0
 
-Note U-Boot used to boot properly in QEMU 4.2.0 which is the QEMU
-version used in current U-Boot's CI testing. The UART clock changes
-were introduced by the following 3 commits:
+Fixes: 38867cb7ec90 ("hw/misc/zynq_slcr: add clock generation for uarts")
+Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+---
 
-38867cb7ec90 ("hw/misc/zynq_slcr: add clock generation for uarts")
-b636db306e06 ("hw/char/cadence_uart: add clock support")
-5b49a34c6800 ("hw/arm/xilinx_zynq: connect uart clocks to slcr")
+(no changes since v1)
 
-Changes in v3:
-- new patch: hw/char: cadence_uart: Log a guest error when unclocked or in reset
+ hw/misc/zynq_slcr.c | 31 ++++++++++++++++++-------------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
 
-Changes in v2:
-- avoid declaring variables mid-scope
-- new patch: hw/char: cadence_uart: Convert to memop_with_attrs() ops
-- new patch: hw/char: cadence_uart: Ignore access when unclocked or in reset for uart_{read,write}()
-
-Bin Meng (6):
-  hw/misc: zynq_slcr: Correctly compute output clocks in the reset exit
-    phase
-  hw/char: cadence_uart: Disable transmit when input clock is disabled
-  hw/char: cadence_uart: Move clock/reset check to uart_can_receive()
-  hw/char: cadence_uart: Convert to memop_with_attrs() ops
-  hw/char: cadence_uart: Ignore access when unclocked or in reset for
-    uart_{read,write}()
-  hw/char: cadence_uart: Log a guest error when device is unclocked or
-    in reset
-
- hw/char/cadence_uart.c | 61 +++++++++++++++++++++++++++++-------------
- hw/misc/zynq_slcr.c    | 31 ++++++++++++---------
- 2 files changed, 61 insertions(+), 31 deletions(-)
-
+diff --git a/hw/misc/zynq_slcr.c b/hw/misc/zynq_slcr.c
+index 5086e6b7ed..8b70285961 100644
+--- a/hw/misc/zynq_slcr.c
++++ b/hw/misc/zynq_slcr.c
+@@ -269,6 +269,21 @@ static uint64_t zynq_slcr_compute_clock(const uint64_t periods[],
+     zynq_slcr_compute_clock((plls), (state)->regs[reg], \
+                             reg ## _ ## enable_field ## _SHIFT)
+ 
++static void zynq_slcr_compute_clocks_internal(ZynqSLCRState *s, uint64_t ps_clk)
++{
++    uint64_t io_pll = zynq_slcr_compute_pll(ps_clk, s->regs[R_IO_PLL_CTRL]);
++    uint64_t arm_pll = zynq_slcr_compute_pll(ps_clk, s->regs[R_ARM_PLL_CTRL]);
++    uint64_t ddr_pll = zynq_slcr_compute_pll(ps_clk, s->regs[R_DDR_PLL_CTRL]);
++
++    uint64_t uart_mux[4] = {io_pll, io_pll, arm_pll, ddr_pll};
++
++    /* compute uartX reference clocks */
++    clock_set(s->uart0_ref_clk,
++              ZYNQ_COMPUTE_CLK(s, uart_mux, R_UART_CLK_CTRL, CLKACT0));
++    clock_set(s->uart1_ref_clk,
++              ZYNQ_COMPUTE_CLK(s, uart_mux, R_UART_CLK_CTRL, CLKACT1));
++}
++
+ /**
+  * Compute and set the ouputs clocks periods.
+  * But do not propagate them further. Connected clocks
+@@ -283,17 +298,7 @@ static void zynq_slcr_compute_clocks(ZynqSLCRState *s)
+         ps_clk = 0;
+     }
+ 
+-    uint64_t io_pll = zynq_slcr_compute_pll(ps_clk, s->regs[R_IO_PLL_CTRL]);
+-    uint64_t arm_pll = zynq_slcr_compute_pll(ps_clk, s->regs[R_ARM_PLL_CTRL]);
+-    uint64_t ddr_pll = zynq_slcr_compute_pll(ps_clk, s->regs[R_DDR_PLL_CTRL]);
+-
+-    uint64_t uart_mux[4] = {io_pll, io_pll, arm_pll, ddr_pll};
+-
+-    /* compute uartX reference clocks */
+-    clock_set(s->uart0_ref_clk,
+-              ZYNQ_COMPUTE_CLK(s, uart_mux, R_UART_CLK_CTRL, CLKACT0));
+-    clock_set(s->uart1_ref_clk,
+-              ZYNQ_COMPUTE_CLK(s, uart_mux, R_UART_CLK_CTRL, CLKACT1));
++    zynq_slcr_compute_clocks_internal(s, ps_clk);
+ }
+ 
+ /**
+@@ -416,7 +421,7 @@ static void zynq_slcr_reset_hold(Object *obj)
+     ZynqSLCRState *s = ZYNQ_SLCR(obj);
+ 
+     /* will disable all output clocks */
+-    zynq_slcr_compute_clocks(s);
++    zynq_slcr_compute_clocks_internal(s, 0);
+     zynq_slcr_propagate_clocks(s);
+ }
+ 
+@@ -425,7 +430,7 @@ static void zynq_slcr_reset_exit(Object *obj)
+     ZynqSLCRState *s = ZYNQ_SLCR(obj);
+ 
+     /* will compute output clocks according to ps_clk and registers */
+-    zynq_slcr_compute_clocks(s);
++    zynq_slcr_compute_clocks_internal(s, clock_get(s->ps_clk));
+     zynq_slcr_propagate_clocks(s);
+ }
+ 
 -- 
 2.25.1
 
