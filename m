@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E6E3FDF57
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:06:19 +0200 (CEST)
-Received: from localhost ([::1]:55042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D32E3FDF92
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:16:45 +0200 (CEST)
+Received: from localhost ([::1]:53782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLSkk-0001MD-Aq
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:06:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50450)
+	id 1mLSuq-0003Y2-Dk
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:16:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLS0F-0007C1-3f
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:18:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35390)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLS0E-0007Ai-Hg
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:18:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54352)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLS0B-0004Us-TQ
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLS0B-0004Ul-Jf
  for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:18:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630509491;
+ s=mimecast20190719; t=1630509490;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tAnsFZWRMAsIZoWLP5dJAnhZ6g5UVkqbvyapYPlkz4w=;
- b=Q9v8hkedyq2Vi6Z13gl3tIpr0fJyQgljKBWifCNuAi2c840qPZ8lmWUGN0H7AbXc67dnQk
- 8khljwR7dN9jsHe3S7FN3xCgEQFk5rCUoSKYX9oSeb4YVnnM9bDfs6fF+HjHjQPG5ynBZt
- 8dh3UeFvD4A4MUZH6QpET362BtmOSsA=
+ bh=94U9NO1T3G8r6PomIk4a38GYu901Bx0GJ6jPkD7re7U=;
+ b=Uy/j5ptlXEuhRiMQ7UFwhLgSIfyMOWdzf6BwxOqZsoa+bhOeHu5JsiBQXwkooxZDuA3tYT
+ M2pPfvTCRn/AoXirmwKDwIuRaD0NXQ+QfbCOVgbrLwYzXSJI0jRGw2ePP51ny28V1575QY
+ Z5aDEq98WR/93Vfq9RMNZnAfHctT0PY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-221-QeDoLJuMMVOWIa98NqgHKQ-1; Wed, 01 Sep 2021 11:18:07 -0400
-X-MC-Unique: QeDoLJuMMVOWIa98NqgHKQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-141-ZpXtBhZMM7CLARVbjxiVBQ-1; Wed, 01 Sep 2021 11:18:09 -0400
+X-MC-Unique: ZpXtBhZMM7CLARVbjxiVBQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74D4D1B2C984;
- Wed,  1 Sep 2021 15:18:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7ADDF87D542;
+ Wed,  1 Sep 2021 15:18:08 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.250])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D6F060BD8;
- Wed,  1 Sep 2021 15:18:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 22AE31F4;
+ Wed,  1 Sep 2021 15:18:07 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 49/56] iotests.py: hmp_qemu_io: support qdev
-Date: Wed,  1 Sep 2021 17:16:12 +0200
-Message-Id: <20210901151619.689075-50-hreitz@redhat.com>
+Subject: [PULL 50/56] iotests/image-fleecing: proper source device
+Date: Wed,  1 Sep 2021 17:16:13 +0200
+Message-Id: <20210901151619.689075-51-hreitz@redhat.com>
 In-Reply-To: <20210901151619.689075-1-hreitz@redhat.com>
 References: <20210901151619.689075-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,32 +83,87 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
+Define scsi device to operate with it by qom-set in further patch.
+
+Give a new node-name to source block node, to not look like device
+name.
+
+Job now don't want to work without giving explicit id, so, let's call
+it "fleecing".
+
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Message-Id: <20210824083856.17408-30-vsementsov@virtuozzo.com>
+Message-Id: <20210824083856.17408-31-vsementsov@virtuozzo.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/tests/image-fleecing     | 12 ++++++++----
+ tests/qemu-iotests/tests/image-fleecing.out |  2 +-
+ 2 files changed, 9 insertions(+), 5 deletions(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 4c8971d946..11276f380a 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -696,9 +696,10 @@ def resume_drive(self, drive: str) -> None:
-         self.hmp(f'qemu-io {drive} "remove_break bp_{drive}"')
+diff --git a/tests/qemu-iotests/tests/image-fleecing b/tests/qemu-iotests/tests/image-fleecing
+index 799369e290..961941bb27 100755
+--- a/tests/qemu-iotests/tests/image-fleecing
++++ b/tests/qemu-iotests/tests/image-fleecing
+@@ -70,7 +70,11 @@ with iotests.FilePath('base.img') as base_img_path, \
+     log('--- Launching VM ---')
+     log('')
  
-     def hmp_qemu_io(self, drive: str, cmd: str,
--                    use_log: bool = False) -> QMPMessage:
-+                    use_log: bool = False, qdev: bool = False) -> QMPMessage:
-         """Write to a given drive using an HMP command"""
--        return self.hmp(f'qemu-io {drive} "{cmd}"', use_log=use_log)
-+        d = '-d ' if qdev else ''
-+        return self.hmp(f'qemu-io {d}{drive} "{cmd}"', use_log=use_log)
+-    vm.add_drive(base_img_path)
++    src_node = 'source'
++    vm.add_blockdev(f'driver={iotests.imgfmt},file.driver=file,'
++                    f'file.filename={base_img_path},node-name={src_node}')
++    vm.add_device('virtio-scsi')
++    vm.add_device(f'scsi-hd,id=sda,drive={src_node}')
+     vm.launch()
+     log('Done')
  
-     def flatten_qmp_object(self, obj, output=None, basestr=''):
-         if output is None:
+@@ -78,7 +82,6 @@ with iotests.FilePath('base.img') as base_img_path, \
+     log('--- Setting up Fleecing Graph ---')
+     log('')
+ 
+-    src_node = 'drive0'
+     tgt_node = 'fleeceNode'
+ 
+     # create tgt_node backed by src_node
+@@ -94,6 +97,7 @@ with iotests.FilePath('base.img') as base_img_path, \
+ 
+     # Establish COW from source to fleecing node
+     log(vm.qmp('blockdev-backup',
++               job_id='fleecing',
+                device=src_node,
+                target=tgt_node,
+                sync='none'))
+@@ -125,7 +129,7 @@ with iotests.FilePath('base.img') as base_img_path, \
+     for p in overwrite:
+         cmd = 'write -P%s %s %s' % p
+         log(cmd)
+-        log(vm.hmp_qemu_io(src_node, cmd))
++        log(vm.hmp_qemu_io('/machine/peripheral/sda', cmd, qdev=True))
+ 
+     log('')
+     log('--- Verifying Data ---')
+@@ -140,7 +144,7 @@ with iotests.FilePath('base.img') as base_img_path, \
+     log('--- Cleanup ---')
+     log('')
+ 
+-    log(vm.qmp('block-job-cancel', device=src_node))
++    log(vm.qmp('block-job-cancel', device='fleecing'))
+     e = vm.event_wait('BLOCK_JOB_CANCELLED')
+     assert e is not None
+     log(e, filters=[iotests.filter_qmp_event])
+diff --git a/tests/qemu-iotests/tests/image-fleecing.out b/tests/qemu-iotests/tests/image-fleecing.out
+index 16643dde30..314a1b54e9 100644
+--- a/tests/qemu-iotests/tests/image-fleecing.out
++++ b/tests/qemu-iotests/tests/image-fleecing.out
+@@ -50,7 +50,7 @@ read -P0 0x3fe0000 64k
+ --- Cleanup ---
+ 
+ {"return": {}}
+-{"data": {"device": "drive0", "len": 67108864, "offset": 393216, "speed": 0, "type": "backup"}, "event": "BLOCK_JOB_CANCELLED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
++{"data": {"device": "fleecing", "len": 67108864, "offset": 393216, "speed": 0, "type": "backup"}, "event": "BLOCK_JOB_CANCELLED", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+ {"return": {}}
+ {"return": {}}
+ 
 -- 
 2.31.1
 
