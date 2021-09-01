@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B08973FD4D6
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 10:01:23 +0200 (CEST)
-Received: from localhost ([::1]:41282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAA003FD4DF
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 10:06:25 +0200 (CEST)
+Received: from localhost ([::1]:45244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLLBS-0006Oi-PX
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 04:01:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38494)
+	id 1mLLGK-0000vJ-Ow
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 04:06:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLL97-0005ZJ-0A
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 03:58:59 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:33705)
+ id 1mLLDY-0007Wh-3K
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 04:03:32 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:35457)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLL95-0005gd-EK
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 03:58:56 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id d26so3179758wrc.0
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 00:58:54 -0700 (PDT)
+ id 1mLLDV-0000r7-T5
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 04:03:31 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ z9-20020a7bc149000000b002e8861aff59so4104663wmi.0
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 01:03:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Lej0VSNVGdliuCMK5zY4jJXhNcn2iGO2dAjwZanBW/k=;
- b=g47jNh9UDHpKhRxCMuMzglm0C1IRA4wxRiyUAn5kxqCtLYVZAmeC5L20OYuJ6dKr5k
- o3x0px+hgWpmIx5vPLNdAxCjmU3Czs7I5JGEzeDwIsXGXqN8/43DRxTmcm3z9VcGm5nh
- /BTEsQbae0X5bHMVofG36Gjv3ysxryKG97BAUUy4xHaR6JFSGkYXaCfNSrGUwoihNz20
- 4RBXhZ8LZRceuLQil8Sr0Pd4C/iYerKGf6QDBzQaNmhU9QX2ODRMQmygxux/0i0Ptz81
- xDTxqQnB95q6RcWiuKRFZ8MO38foawRUzWcWhkwh87dvQrrGfRBZhw8pY1gGUSpxF/8C
- MrYw==
+ :cc; bh=zDt2ROSk9hoFzPAkovRW/KplVuckM6z30AfhNKjm5tk=;
+ b=vtkT2fUTd/4knv/c6gAEAI9dVe1r0bBslb75gjO+VWyeMvkKfvau+txtb9zTOXkE6C
+ aciRkBdZ2E5D+pS3oVo3uWOaDl9igrFBfO6TN3cYJ0DZmRWQalqjuBBtgcDNHYNYcc0R
+ ux0upd2lAm9N71/TTwAOlRhJmWX6+UhNTCioFRLTe2FJujE/FvYioZn1y7i+4XCAdQ7j
+ TdKFA1vl8NYYPwPGcP8zKMBSN871P3VOW3t2srkCGiAtoQpfP/HFd16dJPk0dC4Jl1Vn
+ wBSOvEcGAi+d2Rne/+ZcJLYq9OgMD792pz4rBiRhI5rbaXvA0bFwWjxt24T3oT923CWG
+ 90vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Lej0VSNVGdliuCMK5zY4jJXhNcn2iGO2dAjwZanBW/k=;
- b=VAamfFqYYJCvpdZA+n1tmkSPNBxvk3ObSDzaGYXaiBfZhKaMlD/EnFIREjzNMKFO7P
- 0RlGxT/vB+gU6eKrYwlmSW2uvxRRuO44/VtuaaC1RTc7J3vlygEQatdkHN+VeriFNeLR
- +2M+g1MZ4CnAW89+jGTu9cB2z39y41eN9rGI4F3VoGzQ4PHXHPlcIViGKoRIMuIjwjOH
- aSIk49ZgelTuh3iB4QZ0dG0pNr0Xnnuwgej4+BjWc0pLSRkQHkMGLC8Z9k5qwut5+jSG
- ZYOV3cv4Dl2QT9NOdwwWFrD0cDm7j5LPiFLmEdNPACEghNYzXf55JzrVwXCNPfHm3VKH
- YUgQ==
-X-Gm-Message-State: AOAM5318RkUb2HN0a9rmSlyogz+dTdLBeuIGrMPv1GvBLTz9t0ngorIx
- MCHwie4agfazDXMt0BZgG1ahftIO1bk2eiJso81Sp7U75gI=
-X-Google-Smtp-Source: ABdhPJwJOXgFjFWBc1IiuC1h9BmrrOzcwCu4yC17McohaSuBWFwUO4zwiaDJujLoQY+UQywI1MFybhamT33vriLXh54=
-X-Received: by 2002:adf:ba0f:: with SMTP id o15mr35558267wrg.386.1630483133369; 
- Wed, 01 Sep 2021 00:58:53 -0700 (PDT)
+ bh=zDt2ROSk9hoFzPAkovRW/KplVuckM6z30AfhNKjm5tk=;
+ b=Li8+/npYV/RHX8pjA+q68/qXsB/NcRLFC43lzzK3xTnE7naGrOM0rz+MoqYcFJdLHM
+ VMOTbTU+tDspYo2DQsBVsD9dKyQWTmePXhcSlmbF9vHA8dr2PUqcJezyZ/ApM6/uUeBq
+ W8iQO+GHkygUWIvpgEC4m7u2iL1qk9b6JrBmclmKySo1JcXR/0ESBc7cQmrqRj05BeiX
+ SxbGestBo0nULWkM4hPtqeFe09HrQk5Xj9s9cRrDcpLncCVHYCVD597fhH7Cd7epUXRQ
+ J4H4zL6yP8R0uD83yfXkIZKISNmMfeiSf/DycL8+tkzJtUWS+BeB2y9QCWkL8mUxJZvM
+ BZqw==
+X-Gm-Message-State: AOAM5317dAJxOCwkS5P2HtGEuNu+QOZQyA7aee4inaJwozPM1iFRNisJ
+ By1Qtx+ByD65MHOgosPC5uTkiumHlXAaJ+aOmnEwDA==
+X-Google-Smtp-Source: ABdhPJyy8M2myY6kfrG2SFGK9+0KQQuzWs3HVlLTBIRAYta4PyJq6nUpBEnIYpeXfjr+TkAWF2b38tVd2/2xgDzIFrM=
+X-Received: by 2002:a05:600c:4106:: with SMTP id
+ j6mr8299483wmi.102.1630483407499; 
+ Wed, 01 Sep 2021 01:03:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210724134902.7785-1-peter.maydell@linaro.org>
-In-Reply-To: <20210724134902.7785-1-peter.maydell@linaro.org>
+References: <20210831015426.101188-1-wangyanan55@huawei.com>
+In-Reply-To: <20210831015426.101188-1-wangyanan55@huawei.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 1 Sep 2021 08:58:05 +0100
-Message-ID: <CAFEAcA9zMdFwJ6TPG2G7+boV4zPGrg2nZHXzUmBKZ-BkHdnqjA@mail.gmail.com>
-Subject: Re: [PATCH for-6.2 0/2] target/sparc: Drop use of gen_io_end()
-To: QEMU Developers <qemu-devel@nongnu.org>
+Date: Wed, 1 Sep 2021 09:02:39 +0100
+Message-ID: <CAFEAcA9_DC+5gtScF1EjyqBc+Z7p-4ZtKb8k93QwRoT2gZtqqA@mail.gmail.com>
+Subject: Re: [PATCH 0/1] hw: Add compat machines for 6.2
+To: Yanan Wang <wangyanan55@huawei.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,28 +77,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>, qemu-s390x <qemu-s390x@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, qemu-ppc <qemu-ppc@nongnu.org>,
+ wanghaibin.wang@huawei.com, Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 24 Jul 2021 at 14:49, Peter Maydell <peter.maydell@linaro.org> wrote:
+On Tue, 31 Aug 2021 at 02:54, Yanan Wang <wangyanan55@huawei.com> wrote:
 >
-> The sparc frontend is now the only user of the obsolete gen_io_end()
-> function (used for icount support). This patchset removes the
-> use from sparc as well, and then tidies up the generic icount
-> infrastructure to remove the function altogether.
->
-> This is for-6.2 material because it's just cleanup.
+> This patch adds 6.2 machine types for arm/i440fx/q35/s390x/spapr,
+> which is originally from [1]. Here resend it separately and hopefully
+> it can get into upstream first, so that some other patches currently
+> on the mail list which depend on 6.2 machine compat stuff can be
+> rebased on this.
 
-> Peter Maydell (2):
->   target/sparc: Drop use of gen_io_end()
->   tcg: Drop gen_io_end()
+Thanks for resending this; I'm doing an arm pullreq today so I'll
+put it in with that.
 
-Mark, are you planning a sparc pullreq, or should I take these
-via target-arm.next?
-
-thanks
 -- PMM
 
