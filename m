@@ -2,55 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 162743FE556
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 00:12:45 +0200 (CEST)
-Received: from localhost ([::1]:46230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 249653FE57C
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 00:27:54 +0200 (CEST)
+Received: from localhost ([::1]:50796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLYTL-0004aZ-KZ
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 18:12:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39748)
+	id 1mLYi0-0000NS-LP
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 18:27:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vintagepc404@protonmail.com>)
- id 1mLXwE-0007Y9-Dz
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 17:38:30 -0400
-Received: from mail-0201.mail-europe.com ([51.77.79.158]:47978)
+ (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
+ id 1mLYgd-0007ta-Oo; Wed, 01 Sep 2021 18:26:27 -0400
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:39377)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vintagepc404@protonmail.com>)
- id 1mLXw9-0005pE-Ia
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 17:38:29 -0400
-Date: Wed, 01 Sep 2021 21:38:07 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1630532290;
- bh=v8/QNOWqTdV7KqTM38SvIlInnmmJR/ofeQjB/QtZjhE=;
- h=Date:To:From:Cc:Reply-To:Subject:From;
- b=g8xW+pqN8WbDdBj5C0z+j+zp7c+ttKel2UHn2kYVIKP2al8JrBgAlatNjbIj7mwqL
- kxUgr5FfwpV2dcWafgoIqxrJpxTc1BR4jOpabzJoC4fB73ftE/l2bl6licogFsVqug
- 1di8y5+oW9h27YDio6/vpbTcX1/CrKjCPmUyMGx4=
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-From: VintagePC <vintagepc404@protonmail.com>
-Cc: "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "kraxel@redhat.com" <kraxel@redhat.com>,
- "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
-Subject: USB-MSD non-functional after merging v5.1 to v6.x (seems to be
- internal USB stack issue?)
-Message-ID: <HiU5xYXWuIPVg8tuVKzH1LTrKtKSBr01C6h_-uUbJ720IWY8SO1Bna1_-ak0HWraabqIa-hkGUoxeG2aQn6v7WAy1gnDxq9b_tklE0dGRYc=@protonmail.com>
+ (Exim 4.90_1) (envelope-from <fthain@linux-m68k.org>)
+ id 1mLYgb-0004Zk-Jg; Wed, 01 Sep 2021 18:26:27 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 773353200979;
+ Wed,  1 Sep 2021 18:26:21 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Wed, 01 Sep 2021 18:26:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-id:content-type:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=lFBFAL7ZAMLvDao8F4H1FJRdT6ZOISe4lLmtbsIo6XE=; b=W9ZtasgK
+ ZD8vl30rnrYkuAlnTfrPA30mD1o8Uscz2/0n8rNrIrkFCYrJHmO+k5TWEyTrkt4R
+ AEV35x/JK1y4Wjn9r3umt2nQh35y/HuZuVVUeftU8OVXrbu6xy3xuPgQiH/ycdpz
+ EIAdU1AxNuJoM/Hm0c1z9cy+sDIbqWF2jOj0mD146XUiJSR5CCyEpemMcedWwiX6
+ ndtwsdXl7CSUf+MZ1u+Rw4ugcJADPemdLYrlpf1HUNXxDC5nituwCr41YaixWnyO
+ 8HnmDQvMGUnMkJCurA30lR9OPr/9S6U5rxvHOPqwqDeAotSH8G0dojoXkidYD9O7
+ T7AZGkI0Vwtntw==
+X-ME-Sender: <xms:C_4vYSt0Vk-nZMTxNrRRRzCs1e09FpKX-QoD60oY6YS_2_UdClFG1g>
+ <xme:C_4vYXc0yB0oTa0L726bvGClrPjyr_nGR89amoOQXU9kroBZAJZWz_LlvV7NqDefE
+ tbwDupkGfS4samkc_E>
+X-ME-Received: <xmr:C_4vYdyYdRSUm1VJzTcwsDk1-qRhpOVaSHCrxtliGwoDDHTD_PxKFClHwXtAkJD0oUDvRKCpG-FiyqEDMxPzn8u6AU-6n39XmHWgJA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvgedgtdelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffujgfkfhggtgesmhdtreertddtjeenucfhrhhomhephfhinhhnucfv
+ hhgrihhnuceofhhthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgheqnecuggftrfgrth
+ htvghrnhepjeekueetleefvedtvdelfeeiffdtiedvveelvdeifeejgeeuveeugfdtfeet
+ teeinecuffhomhgrihhnpeeihedtvddrohhrghenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehfthhhrghinheslhhinhhugidqmheikehkrdho
+ rhhg
+X-ME-Proxy: <xmx:C_4vYdMpG1WBNeei-bFulnU2oZkF7pt8GB_b9junc12IZCqHh05BtA>
+ <xmx:C_4vYS8l7GhUHQ3DMrWDEHpenwnGmky3HmqKPjvFOl8f0S7VYWxXwg>
+ <xmx:C_4vYVWrLmDFxNgajWb6bwhKWUacr5iLxoUKPy9uN4xwLkBvC-cHCA>
+ <xmx:Df4vYZZGX9ZzlHZNVhX2bNBWBNJ1C4CUJneNqclqB7GoAbW6a9btdQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 1 Sep 2021 18:26:16 -0400 (EDT)
+Date: Thu, 2 Sep 2021 08:26:10 +1000 (AEST)
+From: Finn Thain <fthain@linux-m68k.org>
+To: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [RFC 05/10] hw/mos6522: Don't clear T1 interrupt flag on latch
+ write
+In-Reply-To: <8ef22032-c120-efe9-e1bc-70a91472c820@vivier.eu>
+Message-ID: <c131914-bc48-81d3-9018-f395cb5d251a@linux-m68k.org>
+References: <cover.1629799776.git.fthain@linux-m68k.org>
+ <b87cf2a2841d4597cc779df5dfce500c51a172ef.1629799776.git.fthain@linux-m68k.org>
+ <bd94f1e6-4f15-b4d0-ddc8-fa98e2e3d780@ilande.co.uk>
+ <e18e24e4-c310-4f22-e6ac-f2d7816cdf2@linux-m68k.org>
+ <8ef22032-c120-efe9-e1bc-70a91472c820@vivier.eu>
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="b1_bLMWh8C0Vcv6mrwxRDNsaqLEPa6cUlcPTb0qTn5PteE"
-Received-SPF: pass client-ip=51.77.79.158;
- envelope-from=vintagepc404@protonmail.com; helo=mail-0201.mail-europe.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- FREEMAIL_REPLYTO_END_DIGIT=0.25, HTML_MESSAGE=0.001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/mixed; BOUNDARY="-1463811774-337020819-1630535067=:27"
+Content-ID: <968cc48-d24b-8061-4be6-528925925581@nippy.intranet>
+Received-SPF: none client-ip=64.147.123.19; envelope-from=fthain@linux-m68k.org;
+ helo=wout3-smtp.messagingengine.com
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 01 Sep 2021 18:09:51 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,180 +87,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: VintagePC <vintagepc404@protonmail.com>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a multi-part message in MIME format.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
---b1_bLMWh8C0Vcv6mrwxRDNsaqLEPa6cUlcPTb0qTn5PteE
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
+---1463811774-337020819-1630535067=:27
+Content-Type: text/plain; CHARSET=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-ID: <a2b3e89e-90c3-54b6-448a-2c97c784105d@nippy.intranet>
 
-SGVsbG8hCgpTZW5kaW5nIHRvIHRoZSBsaXN0IGJlY2F1c2UgSSB3YXMgZGlyZWN0ZWQgaGVyZSBh
-ZnRlciBhc2tpbmcgb24gSVJDLgoKQmFja2dyb3VuZDogSSd2ZSBmb3JrZWQgUUVNVSBmb3IgYSBw
-cm9qZWN0IGFuZCBhbSBpbiB0aGUgcHJvY2VzcyBvZiBpbXBsZW1lbnRpbmcgYSBtb3JlIGNvbXBs
-ZXRlIFNUTTMyRjR4eCBzdGFjayBhcyBhIHNlY29uZGFyeSB0YXNrLgoKVG8gcmVzb2x2ZSByZWNl
-bnQgR0NDMTEgYnVpbGQgZXJyb3JzLCBJIGF0dGVtcHRlZCB0byBtZXJnZSB3aXRoIHVwc3RyZWFt
-IFFFTVUgdjYgKGNvbWluZyBmcm9tIGEgbGF0ZSAyMDIwIHY1LngueCkgYW5kIHRvIG15IHN1cnBy
-aXNlLCBVU0IgbWFzcyBzdG9yYWdlIGlzIG5vIGxvbmdlciBmdW5jdGlvbmFsLiBBIGZldyBwYWNr
-ZXRzIGFyZSBleGNoYW5nZWQgYnV0IGF0IHNvbWUgcG9pbnQgSQpBdCBmaXJzdCBJIHN1c3BlY3Rl
-ZCB0aGUgaXNzdWUgd2FzIG15IG93biBjb2RlIChmYWlyLCBteSBpbXBsZW1lbnRhdGlvbnMgYXJl
-IGluIHZhcnlpbmcgc3RhdGVzIG9mIGNvbXBsZXRlbmVzcy4gVGhlIFNUTTMyRjQgVVNCIGNvbnRy
-b2xsZXIgaGFzIG1hbnkgc2ltaWxhcml0aWVzIHRvIChidXQgaXMgbm90IHF1aXRlIHRoZSBzYW1l
-IGFzKSB0aGUgRFdDMiBVU0Igc3RhY2spLgoKSSBkZWNpZGVkIHRvIGJpc2VjdCB0aGUgbWVyZ2Ug
-aW4gb3JkZXIgdG8gaWRlbnRpZnkgdGhlIGNvbW1pdCB0aGF0IGNhdXNlcyB0aGUgaXNzdWUgLSBh
-bmQgbXVjaCB0byBteSBzdXJwcmlzZSwgaXQgaXMgdGhpcyBwYXJ0aWN1bGFyIGNvbW1pdDoKaHR0
-cHM6Ly9naXRodWIuY29tL3FlbXUvcWVtdS9jb21taXQvYmJkODMyM2QzMTk2Yzk5NzkzODVjYmEx
-YjhiMzg4NTk4MzZlNjNjMwoKR2l2ZW4gdGhpcyBkb2Vzbid0IHNlZW0gdG8gYmUgYW55dGhpbmcg
-bW9yZSB0aGFuIGEgcmVsb2NhdGlvbiBvZiBkZWNsYXJhdGlvbnMgKGFuZCBJIGRvbid0IGV2ZW4g
-dXNlIGFueSBvZiB0aGVzZSB0eXBlcyBkaXJlY3RseSBpbiBteSBjb2RlKSwgdGhpcyB3b3VsZCBz
-ZWVtIHRvIHN1Z2dlc3QgYW4gaW50ZXJuYWwgaXNzdWUgaW4gbGlua2luZyBvciBtZW1vcnkgaW5p
-dGlhbGl6YXRpb24uIEknbSBoYXBweSB0byBhc3Npc3QgaW4gZGVidWdnaW5nIHRoaXMgd2hlcmUg
-SSBjYW4gYnV0IEknbSBob3Bpbmcgc29tZW9uZSBtb3JlIGtub3dsZWRnZWFibGUgYWJvdXQgdGhl
-IFFFTVUgVVNCIGlubmFyZHMgbWlnaHQgYmUgYWJsZSB0byBwb2ludCBtZSB0byBhbiBhcmVhIHRv
-IHN0YXJ0IGRpZ2dpbmcgc2luY2UgdGhlIGNoYW5nZSBzZWVtcyBlbnRpcmVseSBvcnRob2dvbmFs
-IHRvIHRoZSBhY3R1YWwgcHJvYmxlbSBhbmQgY291bGQgYmUganVzdCBhYm91dCBhbnl3aGVyZS4K
-ClRoZSBjb21tYW5kIGxpbmUgSSdtIHVzaW5nIGlzIGFzIGZvbGxvd3M6Ci4vcWVtdS1zeXN0ZW0t
-YnVkZHkgLW1hY2hpbmUgcHJ1c2EtbWluaSAta2VybmVsIGZpcm13YXJlLmJpbiAtZGV2aWNlIHVz
-Yi1zdG9yYWdlLGRyaXZlPXVzYnN0IC1kcml2ZSBpZD11c2JzdCxmaWxlPVNEY2FyZC5iaW4KCndo
-ZXJlIFNEQ2FyZC5iaW4gaXMgYSBib2ctc3RhbmRhcmQgaW1hZ2Ugb2YgYSBGQVQzMiBwYXJ0aXRp
-b24uICh1c2luZyBWRkFUIGZvbGRlciBlbXVsYXRpb24gaXMgc2ltaWxhcmx5IG5vbi1mdW5jdGlv
-bmFsKS4gVW5mb3J0dW5hdGVseSB0aGUgZGV2aWNlIGRvZXMgbm90IHN1cHBvcnQgYW55dGhpbmcg
-b3RoZXIgdGhhbiBNU0Qgc28gSSBjYW5ub3QgY2hlY2sgZnVuY3Rpb25hbGl0eSB3aXRoIG90aGVy
-IFVTQiBkZXZpY2VzLgoKSSd2ZSBiZWVuIHRvbGQgdGhpcyBwcm9ibGVtIGlzIG5vdCB1bmlxdWUg
-dG8gbXkgb3duIGRldmVsb3BtZW50IHNldHVwLCBhbmQgYSBjdXJzb3J5IGludmVzdGlnYXRpb24g
-cmV2ZWFscyBvbmUgb2YgdGhlIHN5bXB0b21zIGlzIGEgZGl2ZXJnZW5jZSBpbiB0aGUgc2l6ZSBv
-ZiB0aGUgaW5jb21pbmcgVVNCIHBhY2tldHMuIChJJ20gaG9waW5nIHRvIHNldCB1cCBhIG1vcmUg
-ZGV0YWlsZWQgcGFja2V0IGNhcHR1cmUgd2hlbiBJIGhhdmUgbW9yZSBzcGFyZSB0aW1lIHRoaXMg
-d2Vla2VuZCkuIEZvciBleGFtcGxlLCB0aGUgd29ya2luZyB2ZXJzaW9uIEkgd2lsbCBzZWUgc29t
-ZSBpbml0aWFsIHNldHVwIHBhY2tldHMgYmUgZXhjaGFuZ2VkLCB0aGVuIGEgZmV3IHBhY2tldHMg
-b2Ygc2l6ZSAxLCAzNiwgMTMsIDEzLCAxNCwgZXRjIGFzIHRoZSBBUk0gZmlybXdhcmUgdGFsa3Mg
-dG8gdGhlIGRldmljZS4gKEJhY2sgd2hlbiBJIGltcGxlbWVudGVkIHRoZSBVU0Igc3RhY2sgSSBz
-cGVudCBhIGxvdCBvZiB0aW1lIGRlYnVnZ2luZyBhbmQgY29tcGFyaW5nIHdpcmVzaGFyayBjYXB0
-dXJlcyBzbyBJJ20gcmVhc29uYWJseSBjb25maWRlbnQgdGhlIFVTQiBoYW5kbGluZyBjb2RlIGlz
-IGNvcnJlY3Qgc2luY2UgdGhlIGZpcm13YXJlIGJlaW5nIHJ1biBpcyBkb2luZyBmdWxsIG9uIEZB
-VCBmaWxlc3lzdGVtIHN1cHBvcnQpLiBBZnRlciBtZXJnaW5nIHRoZSBvZmZlbmRpbmcgY29tbWl0
-LCBJIHNlZSB0aGUgaW5pdGlhbCBzZXR1cCBhbmQgdGhlbiBhIHNlcmllcyBvZiBwYWNrZXRzIG9m
-IHNpemUgMSwgMzYsIDE2LCA1MTIsIGFuZCB0aGVuIG5vdGhpbmcgZnVydGhlci4gKEludGVybmFs
-bHkgb24gdGhlIGZpcm13YXJlIHRoZSBVU0IgYnVzIGdldHMgc3R1Y2sgYmVjYXVzZSB0aGlzIGxh
-c3QgcGFja2V0IG9mIHNpemUgNTEyIGlzIG9idmlvdXNseSBqdW5rIGFuZCBhIHN5bXB0b20gb2Yg
-dGhlIGlzc3VlLikuIC0tZW5hYmxlLXNhbml0aXplcnMgcmV2ZWFsZWQgb25seSBhIG1pbm9yIGJ1
-ZyBlbHNld2hlcmUgdGhhdCB3YXMgdW5yZWxhdGVkIHRvIHRoZSBpc3N1ZSAoYW5kIGRpZCBub3Qg
-cmVzb2x2ZSBpdCB3aGVuIGZpeGVkKQoKVGhlIHByb2plY3QgaXRzZWxmIGlzIGhlcmU6IGh0dHBz
-Oi8vZ2l0aHViLmNvbS92aW50YWdlcGMvTUlOSTQwNCB3aXRoIGFsbCBvZiBteSBjdXN0b20gaW1w
-bGVtZW50YXRpb25zIHRlbXBvcmFyaWx5IHJlc2lkaW5nIGluIGh3L2FybS9wcnVzYS9zdG0zMmY0
-MDcgKHNlZSBmb290bm90ZS9QLlMuKQoKVGhhbmtzIGluIGFkdmFuY2UgZm9yIGFueSBhc3Npc3Rh
-bmNlIQpWaW50YWdlUEMuCgpQLlMuIC0gWWVzLCBJIHJlY29nbml6ZSBpdCdzIG5vdCBvcmdhbml6
-ZWQgYW5kIGZvcm1hdHRlZCBlbnRpcmVseSBpbiB0aGUgc2FtZSBzdHlsZSBhcyB0aGUgcmVzdCBv
-ZiBRRU1VIGFuZCBwcm9iYWJseSB2aW9sYXRlcyBhIGZldyBzdHlsZSBndWlkZSBpdGVtcy4gQXMg
-dGhpcyBpcyBhIHNwYXJlIHRpbWUgcHJvamVjdCAoYW5kIGJlY2F1c2UgSSBhbSBhbHNvIGxldmVy
-YWdpbmcgcHJpb3Igd29yayBmcm9tIG5vbi11cHN0cmVhbSBzb3VyY2VzKSBJIG5lZWQgdG8gYmUg
-YXMgZWZmaWNpZW50IGFzIHBvc3NpYmxlIGluIG1ha2luZyBjaGFuZ2VzIGFuZCBiZWluZyBhYmxl
-IHRvIGRlYnVnIHRoaW5ncy4gTG9uZ2VyIHRlcm0uLi4geWVzLCBJIGFtIGFic29sdXRlbHkgc3Vw
-cG9ydGl2ZSBvZiBnZXR0aW5nIFNUTTMyRjQgc3VwcG9ydCB1cHN0cmVhbSBiZWNhdXNlIEkga25v
-dyB0aGVyZSBpcyBzaWduaWZpY2FudCB2YWx1ZSBoZXJlLiBCdXQgYXMgaXQgaXMgcmlnaHQgbm93
-IHRoZSBwYXJ0cyBhcmUgbm90IGZ1bmN0aW9uYWwvcG9saXNoZWQgZW5vdWdoIHRoYXQgSSBmZWVs
-IGNvbWZvcnRhYmxlIGRvaW5nIHNvIC0gYW5kIEkganVzdCBkb24ndCBoYXZlIHRoZSBiYW5kd2lk
-dGggdG8gc3BlbmQgdGltZSBvbiB0aGF0IGluIGFkZGl0aW9uIHRvIHRoZSBwcm9qZWN0IGl0c2Vs
-Zi4gSW4gdGhlIGxvbmcgdGVybSBvbmNlIHRoZSBTT0MgaW1wbGVtZW50YXRpb24gaXMgbW9yZSBj
-b21wbGV0ZSwgSSBkZWZpbml0ZWx5IGhvcGUgdG8gYmUgYWJsZSB0byBzaGlmdCBmb2N1cyB0byBy
-ZWZhY3RvcmluZyBhbmQgbWFraW5nIHdoYXQgSSBiZWxpZXZlIHRvIGJlIHN1ZmZpY2llbnRseSBm
-dW5jdGlvbmFsIGltcGxlbWVudGF0aW9ucyByZWFkeSBmb3IgdXBzdHJlYW0gc3VibWlzc2lvbnMu
-IChBbmQgaWYgc29tZW9uZSByZWFkaW5nIHRoaXMgaXMga2VlbiBhbmQgd2lsbGluZyB0byBoZWxw
-LCBmZWVsIGZyZWUgdG8gY29udGFjdCBtZSBvZmYtbGlzdCEgdG8gY29sbGFib3JhdGUgYW5kL29y
-IGRpc2N1c3Mgd2hhdCBuZWVkcyB0byBoYXBwZW4gdG8gbWFrZSBpdCBzdWJtaXR0YWJsZSEp
+On Wed, 1 Sep 2021, Laurent Vivier wrote:
 
---b1_bLMWh8C0Vcv6mrwxRDNsaqLEPa6cUlcPTb0qTn5PteE
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: base64
+> Le 26/08/2021 =C3=A0 07:21, Finn Thain a =C3=A9crit=C2=A0:
+> > On Wed, 25 Aug 2021, Mark Cave-Ayland wrote:
+> >=20
+> >> On 24/08/2021 11:09, Finn Thain wrote:
+> >>
+> >>> The Synertek datasheet says, "A write to T1L-H loads an 8-bit count v=
+alue
+> >>> into the latch. A read of T1L-H transfers the contents of the latch t=
+o
+> >>> the data bus. Neither operation has an affect [sic] on the interrupt
+> >>> flag."
+> >>>
+> >>> Signed-off-by: Finn Thain <fthain@linux-m68k.org>
+> >>> ---
+> >>>   hw/misc/mos6522.c | 1 -
+> >>>   1 file changed, 1 deletion(-)
+> >>>
+> >>> diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
+> >>> index c0d6bee4cc..ffff8991f4 100644
+> >>> --- a/hw/misc/mos6522.c
+> >>> +++ b/hw/misc/mos6522.c
+> >>> @@ -313,7 +313,6 @@ void mos6522_write(void *opaque, hwaddr addr, uin=
+t64_t
+> >>> val, unsigned size)
+> >>>           break;
+> >>>       case VIA_REG_T1LH:
+> >>>           s->timers[0].latch =3D (s->timers[0].latch & 0xff) | (val <=
+< 8);
+> >>> -        s->ifr &=3D ~T1_INT;
+> >>>           break;
+> >>>       case VIA_REG_T2CL:
+> >>>           s->timers[1].latch =3D (s->timers[1].latch & 0xff00) | val;
+> >>
+> >> Hmmm. The reference document I used for QEMU's 6522 device is at
+> >> http://archive.6502.org/datasheets/mos_6522_preliminary_nov_1977.pdf a=
+nd
+> >> according to page 6 and the section "Writing the Timer 1 Registers" wr=
+iting to
+> >> the high byte of the latch does indeed clear the T1 interrupt flag.
+> >>
+> >> Side note: there is reference in Gary Davidian's excellent CHM video t=
+hat
+> >> 6522s obtained from different manufacturers had different behaviours, =
+and
+> >> there are also web pages mentioning that 6522s integrated as part of o=
+ther
+> >> silicon e.g. IOSB/CUDA also had their own bugs... :/
+> >>
+> >=20
+> > The MOS document you've cited is much older than the Synertek and Rockw=
+ell=20
+> > devices. The datasheets for the Synertek and Rockwell parts disagree wi=
+th=20
+> > MOS about T1LH behaviour. Apple certainly used SY6522 devices in my Mac=
+ II=20
+> > and I'd assumed Apple would have used compatible logic cores in the cus=
+tom=20
+> > ICs found in later models. But I don't really trust assumptions and=20
+> > datasheets so I wrote the Linux patch below and ran it on my Quadra 630=
+=2E
+> >=20
+> > diff --git a/arch/m68k/mac/via.c b/arch/m68k/mac/via.c
+> > index 3d11d6219cdd..ed41f6ae2bf2 100644
+> > --- a/arch/m68k/mac/via.c
+> > +++ b/arch/m68k/mac/via.c
+> > @@ -634,3 +634,27 @@ static u64 mac_read_clk(struct clocksource *cs)
+> > =20
+> >  =09return ticks;
+> >  }
+> > +
+> > +static int baz(void)
+> > +{
+> > +=09u8 a, b, c;
+> > +
+> > +=09local_irq_disable();
+> > +
+> > +=09while (!(via1[vIFR] & VIA_TIMER_1_INT))
+> > +=09=09continue;
+> > +=09a =3D via1[vIFR] & VIA_TIMER_1_INT;
+> > +=09via1[vT1LH] =3D via1[vT1LH];
+> > +=09b =3D via1[vIFR] & VIA_TIMER_1_INT;
+> > +=09via1[vT1LL] =3D via1[vT1LL];
+> > +=09c =3D via1[vIFR] & VIA_TIMER_1_INT;
+> > +
+> > +=09printk("a =3D=3D %2x\n", a);
+> > +=09printk("b =3D=3D %2x\n", b);
+> > +=09printk("c =3D=3D %2x\n", c);
+> > +
+> > +=09local_irq_enable();
+> > +
+> > +=09return 0;
+> > +}
+> > +late_initcall(baz);
+> >=20
+> > Based on the Synertek datasheet* one would expect to see b equal to a b=
+ut=20
+> > I got this result instead:
+> >=20
+> > [   10.450000] a =3D=3D 40
+> > [   10.450000] b =3D=3D  0
+> > [   10.450000] c =3D=3D  0
+> >=20
+> > This amounts to a MOS design flaw and I doubt that this result from my=
+=20
+> > Quadra 630 would apply to other Mac models. So it would be great to see=
+=20
+> > the output from a Quadra 800. But until then, let's disregard this patc=
+h.
+> >=20
+> > * http://archive.6502.org/datasheets/synertek_sy6522.pdf
+> >=20
+>=20
+> Tested on my Quadra 800:
+>=20
+> [    4.730000] a =3D=3D 40
+> [    4.730000] b =3D=3D  0
+> [    4.730000] c =3D=3D  0
+>=20
 
-PGRpdj5IZWxsbyE8YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5TZW5kaW5nIHRvIHRoZSBs
-aXN0IGJlY2F1c2UgSSB3YXMgZGlyZWN0ZWQgaGVyZSBhZnRlciBhc2tpbmcgb24gSVJDLiZuYnNw
-Ozxicj48L2Rpdj48ZGl2Pjxicj48L2Rpdj48ZGl2PkJhY2tncm91bmQ6IEkndmUgZm9ya2VkIFFF
-TVUgZm9yIGEgcHJvamVjdCBhbmQgYW0gaW4gdGhlIHByb2Nlc3Mgb2YgaW1wbGVtZW50aW5nIGEg
-bW9yZSBjb21wbGV0ZSBTVE0zMkY0eHggc3RhY2sgYXMgYSBzZWNvbmRhcnkgdGFzay48YnI+PC9k
-aXY+PGRpdj48YnI+PC9kaXY+PGRpdj5UbyByZXNvbHZlIHJlY2VudCBHQ0MxMSBidWlsZCBlcnJv
-cnMsIEkgYXR0ZW1wdGVkIHRvIG1lcmdlIHdpdGggdXBzdHJlYW0gUUVNVSB2NiAoY29taW5nIGZy
-b20gYSBsYXRlIDIwMjAgdjUueC54KSBhbmQgdG8gbXkgc3VycHJpc2UsIFVTQiBtYXNzIHN0b3Jh
-Z2UgaXMgbm8gbG9uZ2VyIGZ1bmN0aW9uYWwuIEEgZmV3IHBhY2tldHMgYXJlIGV4Y2hhbmdlZCBi
-dXQgYXQgc29tZSBwb2ludCBJJm5ic3A7PGJyPjwvZGl2PjxkaXY+QXQgZmlyc3QgSSBzdXNwZWN0
-ZWQgdGhlIGlzc3VlIHdhcyBteSBvd24gY29kZSAoZmFpciwgbXkgaW1wbGVtZW50YXRpb25zIGFy
-ZSBpbiB2YXJ5aW5nIHN0YXRlcyBvZiBjb21wbGV0ZW5lc3MuIFRoZSBTVE0zMkY0IFVTQiBjb250
-cm9sbGVyIGhhcyBtYW55IHNpbWlsYXJpdGllcyB0byAoYnV0IGlzIG5vdCBxdWl0ZSB0aGUgc2Ft
-ZSBhcykgdGhlIERXQzIgVVNCIHN0YWNrKS4mbmJzcDs8YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+
-PGRpdj5JIGRlY2lkZWQgdG8gYmlzZWN0IHRoZSBtZXJnZSBpbiBvcmRlciB0byBpZGVudGlmeSB0
-aGUgY29tbWl0IHRoYXQgY2F1c2VzIHRoZSBpc3N1ZSAtIGFuZCBtdWNoIHRvIG15IHN1cnByaXNl
-LCBpdCBpcyB0aGlzIHBhcnRpY3VsYXIgY29tbWl0Ojxicj48L2Rpdj48ZGl2PjxhIGhyZWY9Imh0
-dHBzOi8vZ2l0aHViLmNvbS9xZW11L3FlbXUvY29tbWl0L2JiZDgzMjNkMzE5NmM5OTc5Mzg1Y2Jh
-MWI4YjM4ODU5ODM2ZTYzYzMiPmh0dHBzOi8vZ2l0aHViLmNvbS9xZW11L3FlbXUvY29tbWl0L2Ji
-ZDgzMjNkMzE5NmM5OTc5Mzg1Y2JhMWI4YjM4ODU5ODM2ZTYzYzM8L2E+PGJyPjwvZGl2PjxkaXY+
-PGJyPjwvZGl2PjxkaXY+R2l2ZW4gdGhpcyBkb2Vzbid0IHNlZW0gdG8gYmUgYW55dGhpbmcgbW9y
-ZSB0aGFuIGEgcmVsb2NhdGlvbiBvZiBkZWNsYXJhdGlvbnMgKGFuZCBJIGRvbid0IGV2ZW4gdXNl
-IGFueSBvZiB0aGVzZSB0eXBlcyBkaXJlY3RseSBpbiBteSBjb2RlKSwgdGhpcyB3b3VsZCBzZWVt
-IHRvIHN1Z2dlc3QgYW4gaW50ZXJuYWwgaXNzdWUgaW4gbGlua2luZyBvciBtZW1vcnkgaW5pdGlh
-bGl6YXRpb24uIEknbSBoYXBweSB0byBhc3Npc3QgaW4gZGVidWdnaW5nIHRoaXMgd2hlcmUgSSBj
-YW4gYnV0IEknbSBob3Bpbmcgc29tZW9uZSBtb3JlIGtub3dsZWRnZWFibGUgYWJvdXQgdGhlIFFF
-TVUgVVNCIGlubmFyZHMgbWlnaHQgYmUgYWJsZSB0byBwb2ludCBtZSB0byBhbiBhcmVhIHRvIHN0
-YXJ0IGRpZ2dpbmcgc2luY2UgdGhlIGNoYW5nZSBzZWVtcyBlbnRpcmVseSBvcnRob2dvbmFsIHRv
-IHRoZSBhY3R1YWwgcHJvYmxlbSBhbmQgY291bGQgYmUganVzdCBhYm91dCBhbnl3aGVyZS4mbmJz
-cDs8YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5UaGUgY29tbWFuZCBsaW5lIEknbSB1c2lu
-ZyBpcyBhcyBmb2xsb3dzOjxicj48L2Rpdj48ZGl2Pi4vcWVtdS1zeXN0ZW0tYnVkZHkgLW1hY2hp
-bmUgcHJ1c2EtbWluaSAta2VybmVsIGZpcm13YXJlLmJpbiAtZGV2aWNlIHVzYi1zdG9yYWdlLGRy
-aXZlPXVzYnN0IC1kcml2ZSBpZD11c2JzdCxmaWxlPVNEY2FyZC5iaW48YnI+PC9kaXY+PGRpdj48
-YnI+PC9kaXY+PGRpdj53aGVyZSBTRENhcmQuYmluIGlzIGEgYm9nLXN0YW5kYXJkIGltYWdlIG9m
-IGEgRkFUMzIgcGFydGl0aW9uLiAodXNpbmcgVkZBVCBmb2xkZXIgZW11bGF0aW9uIGlzIHNpbWls
-YXJseSBub24tZnVuY3Rpb25hbCkuIFVuZm9ydHVuYXRlbHkgdGhlIGRldmljZSBkb2VzIG5vdCBz
-dXBwb3J0IGFueXRoaW5nIG90aGVyIHRoYW4gTVNEIHNvIEkgY2Fubm90IGNoZWNrJm5ic3A7IGZ1
-bmN0aW9uYWxpdHkgd2l0aCBvdGhlciBVU0IgZGV2aWNlcy48L2Rpdj48ZGl2Pjxicj48L2Rpdj48
-ZGl2PkkndmUgYmVlbiB0b2xkIHRoaXMgcHJvYmxlbSBpcyBub3QgdW5pcXVlIHRvIG15IG93biBk
-ZXZlbG9wbWVudCBzZXR1cCwgYW5kIGEgY3Vyc29yeSBpbnZlc3RpZ2F0aW9uIHJldmVhbHMgb25l
-IG9mIHRoZSBzeW1wdG9tcyBpcyBhIGRpdmVyZ2VuY2UgaW4gdGhlIHNpemUgb2YgdGhlIGluY29t
-aW5nIFVTQiBwYWNrZXRzLiAoSSdtIGhvcGluZyB0byBzZXQgdXAgYSBtb3JlIGRldGFpbGVkIHBh
-Y2tldCBjYXB0dXJlIHdoZW4gSSBoYXZlIG1vcmUgc3BhcmUgdGltZSB0aGlzIHdlZWtlbmQpLiBG
-b3IgZXhhbXBsZSwgdGhlIHdvcmtpbmcgdmVyc2lvbiBJIHdpbGwgc2VlIHNvbWUgaW5pdGlhbCBz
-ZXR1cCBwYWNrZXRzIGJlIGV4Y2hhbmdlZCwgdGhlbiBhIGZldyBwYWNrZXRzIG9mIHNpemUgMSwg
-MzYsIDEzLCAxMywgMTQsIGV0YyBhcyB0aGUgQVJNIGZpcm13YXJlIHRhbGtzIHRvIHRoZSBkZXZp
-Y2UuIChCYWNrIHdoZW4gSSBpbXBsZW1lbnRlZCB0aGUgVVNCIHN0YWNrIEkgc3BlbnQgYSBsb3Qg
-b2YgdGltZSBkZWJ1Z2dpbmcgYW5kIGNvbXBhcmluZyB3aXJlc2hhcmsgY2FwdHVyZXMgc28gSSdt
-IHJlYXNvbmFibHkgY29uZmlkZW50IHRoZSBVU0IgaGFuZGxpbmcgY29kZSBpcyBjb3JyZWN0IHNp
-bmNlIHRoZSBmaXJtd2FyZSBiZWluZyBydW4gaXMgZG9pbmcgZnVsbCBvbiBGQVQgZmlsZXN5c3Rl
-bSBzdXBwb3J0KS4gQWZ0ZXIgbWVyZ2luZyB0aGUgb2ZmZW5kaW5nIGNvbW1pdCwgSSBzZWUgdGhl
-IGluaXRpYWwgc2V0dXAgYW5kIHRoZW4gYSBzZXJpZXMgb2YgcGFja2V0cyBvZiBzaXplIDEsIDM2
-LCAxNiwgNTEyLCBhbmQgdGhlbiBub3RoaW5nIGZ1cnRoZXIuIChJbnRlcm5hbGx5IG9uIHRoZSBm
-aXJtd2FyZSB0aGUgVVNCIGJ1cyBnZXRzIHN0dWNrIGJlY2F1c2UgdGhpcyBsYXN0IHBhY2tldCBv
-ZiBzaXplIDUxMiBpcyBvYnZpb3VzbHkganVuayBhbmQgYSBzeW1wdG9tIG9mIHRoZSBpc3N1ZS4p
-LiZuYnNwOyAtLWVuYWJsZS1zYW5pdGl6ZXJzIHJldmVhbGVkIG9ubHkgYSBtaW5vciBidWcgZWxz
-ZXdoZXJlIHRoYXQgd2FzIHVucmVsYXRlZCB0byB0aGUgaXNzdWUgKGFuZCBkaWQgbm90IHJlc29s
-dmUgaXQgd2hlbiBmaXhlZCk8YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5UaGUgcHJvamVj
-dCBpdHNlbGYgaXMgaGVyZTombmJzcDs8YSBocmVmPSJodHRwczovL2dpdGh1Yi5jb20vdmludGFn
-ZXBjL01JTkk0MDQiPmh0dHBzOi8vZ2l0aHViLmNvbS92aW50YWdlcGMvTUlOSTQwNDwvYT4mbmJz
-cDt3aXRoIGFsbCBvZiBteSBjdXN0b20gaW1wbGVtZW50YXRpb25zIHRlbXBvcmFyaWx5IHJlc2lk
-aW5nIGluIGh3L2FybS9wcnVzYS9zdG0zMmY0MDcgKHNlZSBmb290bm90ZS9QLlMuKTxicj48L2Rp
-dj48ZGl2Pjxicj48L2Rpdj48ZGl2PlRoYW5rcyBpbiBhZHZhbmNlIGZvciBhbnkgYXNzaXN0YW5j
-ZSE8L2Rpdj48ZGl2PlZpbnRhZ2VQQy48YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5QLlMu
-IC0gWWVzLCBJIHJlY29nbml6ZSBpdCdzIG5vdCBvcmdhbml6ZWQgYW5kIGZvcm1hdHRlZCBlbnRp
-cmVseSBpbiB0aGUgc2FtZSBzdHlsZSBhcyB0aGUgcmVzdCBvZiBRRU1VIGFuZCBwcm9iYWJseSB2
-aW9sYXRlcyBhIGZldyBzdHlsZSBndWlkZSBpdGVtcy4gQXMgdGhpcyBpcyBhIHNwYXJlIHRpbWUg
-cHJvamVjdCAoYW5kIGJlY2F1c2UgSSBhbSBhbHNvIGxldmVyYWdpbmcgcHJpb3Igd29yayBmcm9t
-IG5vbi11cHN0cmVhbSBzb3VyY2VzKSBJIG5lZWQgdG8gYmUgYXMgZWZmaWNpZW50IGFzIHBvc3Np
-YmxlIGluIG1ha2luZyBjaGFuZ2VzIGFuZCBiZWluZyBhYmxlIHRvIGRlYnVnIHRoaW5ncy4gTG9u
-Z2VyIHRlcm0uLi4geWVzLCBJIGFtIGFic29sdXRlbHkgc3VwcG9ydGl2ZSBvZiBnZXR0aW5nIFNU
-TTMyRjQgc3VwcG9ydCB1cHN0cmVhbSBiZWNhdXNlIEkga25vdyB0aGVyZSBpcyBzaWduaWZpY2Fu
-dCB2YWx1ZSBoZXJlLiBCdXQgYXMgaXQgaXMgcmlnaHQgbm93IHRoZSBwYXJ0cyBhcmUgbm90IGZ1
-bmN0aW9uYWwvcG9saXNoZWQgZW5vdWdoIHRoYXQgSSBmZWVsIGNvbWZvcnRhYmxlIGRvaW5nIHNv
-IC0gYW5kIEkganVzdCBkb24ndCBoYXZlIHRoZSBiYW5kd2lkdGggdG8gc3BlbmQgdGltZSBvbiB0
-aGF0IGluIGFkZGl0aW9uIHRvIHRoZSBwcm9qZWN0IGl0c2VsZi4gSW4gdGhlIGxvbmcgdGVybSBv
-bmNlIHRoZSBTT0MgaW1wbGVtZW50YXRpb24gaXMgbW9yZSBjb21wbGV0ZSwgSSBkZWZpbml0ZWx5
-IGhvcGUgdG8gYmUgYWJsZSB0byBzaGlmdCBmb2N1cyB0byByZWZhY3RvcmluZyBhbmQgbWFraW5n
-IHdoYXQgSSBiZWxpZXZlIHRvIGJlIHN1ZmZpY2llbnRseSBmdW5jdGlvbmFsIGltcGxlbWVudGF0
-aW9ucyByZWFkeSBmb3IgdXBzdHJlYW0gc3VibWlzc2lvbnMuIChBbmQgaWYgc29tZW9uZSByZWFk
-aW5nIHRoaXMgaXMga2VlbiBhbmQgd2lsbGluZyB0byBoZWxwLCBmZWVsIGZyZWUgdG8gY29udGFj
-dCBtZSBvZmYtbGlzdCEgdG8gY29sbGFib3JhdGUgYW5kL29yIGRpc2N1c3Mgd2hhdCBuZWVkcyB0
-byBoYXBwZW4gdG8gbWFrZSBpdCBzdWJtaXR0YWJsZSEpPGJyPjwvZGl2PjxkaXY+PGJyPjwvZGl2
-Pg==
-
-
---b1_bLMWh8C0Vcv6mrwxRDNsaqLEPa6cUlcPTb0qTn5PteE--
-
+Much appreciated. I will drop this patch.
+---1463811774-337020819-1630535067=:27--
 
