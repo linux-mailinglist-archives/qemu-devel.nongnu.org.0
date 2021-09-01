@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C1643FD88F
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 13:18:49 +0200 (CEST)
-Received: from localhost ([::1]:55438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 089573FD8B3
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 13:27:36 +0200 (CEST)
+Received: from localhost ([::1]:46506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLOGW-0005rS-AB
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 07:18:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43752)
+	id 1mLOP1-00026a-4N
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 07:27:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLNcc-0007E5-8K
+ id 1mLNcc-0007E7-AL
  for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:35 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36860)
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:51927)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLNcV-00060F-AE
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:31 -0400
-Received: by mail-wr1-x436.google.com with SMTP id q14so3764045wrp.3
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 03:37:25 -0700 (PDT)
+ id 1mLNcV-00060e-AH
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:34 -0400
+Received: by mail-wm1-x330.google.com with SMTP id u15so1524471wmj.1
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 03:37:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=NiuR82k4Z/QjftRCChwntyHfqleW/Hw4RZMhUwxUflY=;
- b=xa9vyP1JVJ4TEgbnufk9mPKhIKrw98RYG+Y4LJ2VSMISGNiYY0NVXXhehuos36e13A
- uhXFYua7enGxO6o5v8wniksbPfKu3hXRrxPa+CbRK9Xd1MXXrPMhOs44P2+OySGaaYfF
- Rfe2Ag/LtWYrnI9YGjtEoqICr9NFjhnjqFq+gNWbMkaXv2cbBAjaEHhLn3yw/Iu8aGX8
- c+XQyS7Le2pC8m47ImFPShfbk4L2VEEH9ipGJleK2RnpiJ4rRQoWF2zxnIwn9v3JyPyz
- EPUPZ78v+FVeZboEB2K44PK7tCKXh4CJ+0J6eFPO3a0I27a18kruJqaFYE8TNdUVuzy+
- G42w==
+ bh=FHlQJkP738avfN2ghaMhCgKtY64B2XdP/tvv/GsErWE=;
+ b=Y8KBl81eIiKV6xNIVgYJarRDQcivRMsrPE6unb3qfEBkMtEsSugTMZRpwFc72WGcGm
+ s52Yg6BUYuZID9OvuENrHACI0dNHlFQKSRd0eZ3cCc2H1yl5KeEWSE+zYKR9h0vBEbKu
+ 61WmLg8l0EHxprOhDuqeBmkj+HIx5sqp5EW9em84rrWhsQlBA38t37PyAuFTwmfSXQme
+ WE7KoaWLeGpMMNlSSDAN2WcJgg5gEvpOIaca1IV6eIMtHkskYWrFgYTT/su6X4tfgDEE
+ Tt27u8FcTirwy/foVZHPc61R1hLoTt49VOkuMVk+YPdR+8FYjhv3IrXowtp5xUALEZZI
+ PUTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NiuR82k4Z/QjftRCChwntyHfqleW/Hw4RZMhUwxUflY=;
- b=dL8tyydrFQ2UG+x1mnOQTqmcd1VWmvfCOd5cKR/aNGFvpjjsKtVOfd/akVQLmK5lCy
- IGDshdjESmPXcAblxUyTa+GmLGuSbIkeb/7dHN3rzDLltrAyo1RMFpnEAwk/mhdlnDzz
- QFGsrMAaYCtYJVb/+1OKJEnIDEngU6f+TZPYPA/+q1mPSU9kMd3V9ZFtnL2OeVKjO8mx
- 97gNt4s+JdWHKDu4Yo30Ius9hAmdIsI536KajaTcCemHfgSb+k317dN7yUk1+ljdHW1d
- i+ynaNB4BGjm9Lb2ztPKLC0qqDPZnYx4omVGrqe/bVg+1Om/NF2kNBiHBsLvQvmuaddB
- 6Mcg==
-X-Gm-Message-State: AOAM532ID82+xydeGrNY8QdzychwcCAm2Ku3xY7k+PGZIPxRpRGVR5LS
- 2t+Hm7bhijkQbeub5IkTz2bs4vAULdgaIA==
-X-Google-Smtp-Source: ABdhPJy1VZee5qV1EJg4x3GXXaoancIXeCXq7dvUoXm4yLPsyBkmwqExaHh9qxrmaTjUrBupyZtWvw==
-X-Received: by 2002:adf:b7c1:: with SMTP id t1mr37470496wre.387.1630492644655; 
- Wed, 01 Sep 2021 03:37:24 -0700 (PDT)
+ bh=FHlQJkP738avfN2ghaMhCgKtY64B2XdP/tvv/GsErWE=;
+ b=rqvXzlwBW7wQV9nPjXyhubqe1cFMkjPShg3ZcKWP3CKxUJB61Z+PNgNrfaP8dj2tlM
+ gVW24mee3MYuFAnFQo3obRIWk+EVREBEDIcEtpFhnr8VGZHfRVNrBLlq041736wyv2We
+ egk9bqwi8adM7FBhyNo/s+qMfYwwUr2ef1J20MLA5v9Rl1PZi5lu9qwpFkPYibr1ahVs
+ FTNH3y325HJsDbIm33mBE8b/Cl0sho9j6PUulKeD795HwxXYZUQupB+7Xq81lCjPgGHP
+ U8fF9YIZU/BJQIcn9F7pOdHa8aemx3UIj5lYmoTIoUz17E/K4xbw0/OvMFYDoHHtoBqY
+ bTbg==
+X-Gm-Message-State: AOAM530DNECq2/il9V7xPHHhlPfrTlZiWInCo1gnNWOqYceXaRrRPd8w
+ avuij0GR5/ixInhnLf3f5tkOOuzhwyJLNg==
+X-Google-Smtp-Source: ABdhPJzhqjNPNzN/XoM7A3x1+4BI5g4agO3t3Mj5KImg8uvff9SbvMoWhYaKUMlxjWT2J+lq3MfHaA==
+X-Received: by 2002:a1c:9d50:: with SMTP id g77mr8725488wme.67.1630492645454; 
+ Wed, 01 Sep 2021 03:37:25 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id j207sm5494771wmj.40.2021.09.01.03.37.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 03:37:24 -0700 (PDT)
+ Wed, 01 Sep 2021 03:37:25 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 43/51] hw/arm/stellaris: Wire sysclk up to armv7m
-Date: Wed,  1 Sep 2021 11:36:45 +0100
-Message-Id: <20210901103653.13435-44-peter.maydell@linaro.org>
+Subject: [PULL 44/51] hw/arm/msf2_soc: Don't allocate separate MemoryRegions
+Date: Wed,  1 Sep 2021 11:36:46 +0100
+Message-Id: <20210901103653.13435-45-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210901103653.13435-1-peter.maydell@linaro.org>
 References: <20210901103653.13435-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,40 +86,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Connect the sysclk to the armv7m object.  This board's SoC does not
-connect up the systick reference clock, so we don't need to connect a
-refclk.
+In the realize method of the msf2-soc SoC object, we call g_new() to
+create new MemoryRegion objects for the nvm, nvm_alias, and sram.
+This is unnecessary; make these MemoryRegions member fields of the
+device state struct instead.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Alexandre Iooss <erdnaxe@crans.org>
-Message-id: 20210812093356.1946-18-peter.maydell@linaro.org
+Message-id: 20210812093356.1946-19-peter.maydell@linaro.org
 ---
- hw/arm/stellaris.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ include/hw/arm/msf2-soc.h |  4 ++++
+ hw/arm/msf2-soc.c         | 17 +++++++----------
+ 2 files changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-index bf24abd44fd..8c8bd39e2fe 100644
---- a/hw/arm/stellaris.c
-+++ b/hw/arm/stellaris.c
-@@ -1322,7 +1322,7 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
-     DeviceState *ssys_dev;
-     int i;
-     int j;
--    uint8_t *macaddr;
-+    const uint8_t *macaddr;
+diff --git a/include/hw/arm/msf2-soc.h b/include/hw/arm/msf2-soc.h
+index d4061846855..38e10ce20aa 100644
+--- a/include/hw/arm/msf2-soc.h
++++ b/include/hw/arm/msf2-soc.h
+@@ -65,6 +65,10 @@ struct MSF2State {
+     MSSTimerState timer;
+     MSSSpiState spi[MSF2_NUM_SPIS];
+     MSF2EmacState emac;
++
++    MemoryRegion nvm;
++    MemoryRegion nvm_alias;
++    MemoryRegion sram;
+ };
  
-     MemoryRegion *sram = g_new(MemoryRegion, 1);
-     MemoryRegion *flash = g_new(MemoryRegion, 1);
-@@ -1364,6 +1364,9 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
-     qdev_prop_set_uint32(nvic, "num-irq", NUM_IRQ_LINES);
-     qdev_prop_set_string(nvic, "cpu-type", ms->cpu_type);
-     qdev_prop_set_bit(nvic, "enable-bitband", true);
-+    qdev_connect_clock_in(nvic, "cpuclk",
-+                          qdev_get_clock_out(ssys_dev, "SYSCLK"));
-+    /* This SoC does not connect the systick reference clock */
-     object_property_set_link(OBJECT(nvic), "memory",
-                              OBJECT(get_system_memory()), &error_abort);
-     /* This will exit with an error if the user passed us a bad cpu_type */
+ #endif
+diff --git a/hw/arm/msf2-soc.c b/hw/arm/msf2-soc.c
+index 5cfe7caf834..f36788054b3 100644
+--- a/hw/arm/msf2-soc.c
++++ b/hw/arm/msf2-soc.c
+@@ -83,11 +83,8 @@ static void m2sxxx_soc_realize(DeviceState *dev_soc, Error **errp)
+     int i;
+ 
+     MemoryRegion *system_memory = get_system_memory();
+-    MemoryRegion *nvm = g_new(MemoryRegion, 1);
+-    MemoryRegion *nvm_alias = g_new(MemoryRegion, 1);
+-    MemoryRegion *sram = g_new(MemoryRegion, 1);
+ 
+-    memory_region_init_rom(nvm, OBJECT(dev_soc), "MSF2.eNVM", s->envm_size,
++    memory_region_init_rom(&s->nvm, OBJECT(dev_soc), "MSF2.eNVM", s->envm_size,
+                            &error_fatal);
+     /*
+      * On power-on, the eNVM region 0x60000000 is automatically
+@@ -95,15 +92,15 @@ static void m2sxxx_soc_realize(DeviceState *dev_soc, Error **errp)
+      * start address (0x0). We do not support remapping other eNVM,
+      * eSRAM and DDR regions by guest(via Sysreg) currently.
+      */
+-    memory_region_init_alias(nvm_alias, OBJECT(dev_soc), "MSF2.eNVM", nvm, 0,
+-                             s->envm_size);
++    memory_region_init_alias(&s->nvm_alias, OBJECT(dev_soc), "MSF2.eNVM",
++                             &s->nvm, 0, s->envm_size);
+ 
+-    memory_region_add_subregion(system_memory, ENVM_BASE_ADDRESS, nvm);
+-    memory_region_add_subregion(system_memory, 0, nvm_alias);
++    memory_region_add_subregion(system_memory, ENVM_BASE_ADDRESS, &s->nvm);
++    memory_region_add_subregion(system_memory, 0, &s->nvm_alias);
+ 
+-    memory_region_init_ram(sram, NULL, "MSF2.eSRAM", s->esram_size,
++    memory_region_init_ram(&s->sram, NULL, "MSF2.eSRAM", s->esram_size,
+                            &error_fatal);
+-    memory_region_add_subregion(system_memory, SRAM_BASE_ADDRESS, sram);
++    memory_region_add_subregion(system_memory, SRAM_BASE_ADDRESS, &s->sram);
+ 
+     armv7m = DEVICE(&s->armv7m);
+     qdev_prop_set_uint32(armv7m, "num-irq", 81);
 -- 
 2.20.1
 
