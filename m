@@ -2,57 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C4E93FDDBF
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 16:22:17 +0200 (CEST)
-Received: from localhost ([::1]:49358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B28B3FDDD9
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 16:34:01 +0200 (CEST)
+Received: from localhost ([::1]:60066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLR83-0002ye-V5
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 10:22:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36052)
+	id 1mLRJP-0002GB-Oi
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 10:33:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mLR71-0002KB-Td
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 10:21:11 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:55669)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mLRHr-0001Mj-9C; Wed, 01 Sep 2021 10:32:23 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:57073)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1mLR6z-0002jW-Ux
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 10:21:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=dBBmTjmovBNdkorovXN4QGRQqy578ZWBi/tll03/IKE=; b=eCaZTFw2IIf3hxNcsTV82+16Fl
- qf0usT1k4rXcQgNveGweEdKlmi/1nfgISNMpGbcmoDUvNo/PMmzw+gbL4x40ckl+VZvytdNdXuZf3
- T4I1dzVxwWt3qzYh3WdhLzm/fpmExBdOCFxhf1m4DYlUZcnh/m4Xi0JY1OwtT0wVgIio6iHaLAFSa
- llGy/TaVywBEESFizR5ZD2Qoq6tlnq5NbBH9GV3LhY2UHVvsHZF+/N2Fl/1mo350p5boe7nXg2336
- 3b3Odb+PTeNqHW5ieX9UcKs0JA2Y1LzSQuDQwfqgsRjkgYaZxD33aOBwd71tsMFv1XD7W83NvpnOT
- 60gZ77+RPAatRDtWCZi7T0n3w/TNsguppofJDVnaLllDRXI5lSl8tU8T608qSMh/GTEwTUB863yhD
- NAv/urc/2hVf/KMUhNm9+A8yaCeETImlWDCr2bAk8VO4ZfuNZGfc1LPcu4IBicb5fmMpvB2BNX/Nd
- aWw/5l5I6EBMTyYY3mDwIHnYyOgG4VRilIqBbEjPw4KaME5KN9hX07SA90329LBhJaevc1+Yg66E2
- lHk3Ph7ur45UVE+pMDfEx3lqB0ZkL36atn11s0CSWjIvKHJN+3OBgrJqycJ4cFYvR0wfvlOUtl7yp
- s1BekWhXC9upTxQRCcoIAM7sHGNuvBIto1Kip4vRo=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Subject: Re: 9pfs: Twalk crash
-Date: Wed, 01 Sep 2021 16:21:06 +0200
-Message-ID: <1825588.ABy5TKrSrS@silver>
-In-Reply-To: <37058587.QroWqLRJlK@silver>
-References: <4325838.qn0ATYcOi1@silver> <20210831190454.5c725f2b@bahia.lan>
- <37058587.QroWqLRJlK@silver>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1mLRHp-0001yI-AY; Wed, 01 Sep 2021 10:32:22 -0400
+Received: from [192.168.100.1] ([82.142.3.22]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MF39S-1mEslh46kS-00FUeb; Wed, 01 Sep 2021 16:32:14 +0200
+To: Finn Thain <fthain@linux-m68k.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+References: <cover.1629799776.git.fthain@linux-m68k.org>
+ <b87cf2a2841d4597cc779df5dfce500c51a172ef.1629799776.git.fthain@linux-m68k.org>
+ <bd94f1e6-4f15-b4d0-ddc8-fa98e2e3d780@ilande.co.uk>
+ <e18e24e4-c310-4f22-e6ac-f2d7816cdf2@linux-m68k.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Subject: Re: [RFC 05/10] hw/mos6522: Don't clear T1 interrupt flag on latch
+ write
+Message-ID: <8ef22032-c120-efe9-e1bc-70a91472c820@vivier.eu>
+Date: Wed, 1 Sep 2021 16:32:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <e18e24e4-c310-4f22-e6ac-f2d7816cdf2@linux-m68k.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:lssLlriMEJ/0CDY4kwjzK0laorlgL6o+ZXQkY/6WGK43h6A3voK
+ IpcRXlTsplUz2iFHneQH42EeJUejjXKNEixR6Rd6gfX31TFMclgdbZNJq4DbHjH1u2FSaku
+ HhsiC/nrsp7uF/AmTnX7TfGSwm2Mz6XokVIumNnEUUT7qkC5T+mbnU2JQfG7SF1iHRPpL8O
+ ZM86ceNHMsGhOWt4LHJkw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:fmxsCEzQLoQ=:H3GjR61oe9BONE4E+cCNJ4
+ G5izii6y6C8bxm5Yx1WMGwigwG5NZ0qONYLtewRwM6qvmovoy6V9SG2grbxJzw8z2SYZp0FsG
+ hzNhVdJ9leiJT9BsUD0ipxmyJyZhhcgYe0Hd0669H4RZ3/QgCsKCNb6hjTYJny7rGiDN2bvhY
+ hAALyFckI5N89ILOvycnZJVyY5VDUOWGCYPsG9V5Jsl3dba3aU+f6xxCM73PfAtwqhPS0AApB
+ /mU3yW/1OMsO9LEl1gMbz4aVuM8gOYH/jYZ2WO4OPuuJtlAAls+t2ddi1nOPJQ1Mz6ow6pSMo
+ sapQNuFU3ONYF1aZrHSn0vSrbENw2BjFUJ0tJ6LWfTqpfBZFFCi9dhCNhT5bUX4vYKJs4Kg9Q
+ q4qpyMj0v/aapiCYxMiX0w6LKSJKdDvVI/m/VKrrbfTIuHW4BQpg6vdZ3FVYaMh1oFmxv1UL+
+ 900ZnPW8Ncr0NPIrJFiSBsP6rDxzbOZa2HzT6Z1oQnWtj1PCetKVLvtx65TsLbRoufSK4VHRO
+ RS4cxRa72LYBYr89YRCuE3gCs63lTIWHsQTIBSBvefvW+6fBOTZ4yHA/Yxmvxt6byNpdU9uFm
+ p2JTUyt2OPe9abcHmFkGhRs8SLZCmlnyJNtYhyr5um6GNoRP+KhhhumnTLt+nNOn8FjXnvLKl
+ BVU9vQSASGssPw/x/c6o9bhuAGfa0EWCUL8zMTQ3fbCt7Xg0JpPaUAWATDQ47l6+P0DXjtYkN
+ Qw1HM4RiEB95NKTtVxir8EzheHhvJ+AZJgGyxg==
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.029,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,73 +74,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 1. September 2021 14:49:37 CEST Christian Schoenebeck wrote:
-> > > And it triggered, however I am not sure if some of those functions I
-> > > asserted above are indeed allowed to be executed on a different thread
-> > > than main thread:
-> > > 
-> > > Program terminated with signal SIGABRT, Aborted.
-> > > #0  __GI_raise (sig=sig@entry=6) at
-> > > ../sysdeps/unix/sysv/linux/raise.c:50
-> > > 50      ../sysdeps/unix/sysv/linux/raise.c: No such file or directory.
-> > > [Current thread is 1 (Thread 0x7fd0bcef1700 (LWP 6470))]
-> > 
-> > Based in the thread number, it seems that the signal was raised by
-> > the main event thread...
+Le 26/08/2021 à 07:21, Finn Thain a écrit :
+> On Wed, 25 Aug 2021, Mark Cave-Ayland wrote:
 > 
-> No, it was not main thread actually, gdb's "current thread is 1" output is
-> misleading.
+>> On 24/08/2021 11:09, Finn Thain wrote:
+>>
+>>> The Synertek datasheet says, "A write to T1L-H loads an 8-bit count value
+>>> into the latch. A read of T1L-H transfers the contents of the latch to
+>>> the data bus. Neither operation has an affect [sic] on the interrupt
+>>> flag."
+>>>
+>>> Signed-off-by: Finn Thain <fthain@linux-m68k.org>
+>>> ---
+>>>   hw/misc/mos6522.c | 1 -
+>>>   1 file changed, 1 deletion(-)
+>>>
+>>> diff --git a/hw/misc/mos6522.c b/hw/misc/mos6522.c
+>>> index c0d6bee4cc..ffff8991f4 100644
+>>> --- a/hw/misc/mos6522.c
+>>> +++ b/hw/misc/mos6522.c
+>>> @@ -313,7 +313,6 @@ void mos6522_write(void *opaque, hwaddr addr, uint64_t
+>>> val, unsigned size)
+>>>           break;
+>>>       case VIA_REG_T1LH:
+>>>           s->timers[0].latch = (s->timers[0].latch & 0xff) | (val << 8);
+>>> -        s->ifr &= ~T1_INT;
+>>>           break;
+>>>       case VIA_REG_T2CL:
+>>>           s->timers[1].latch = (s->timers[1].latch & 0xff00) | val;
+>>
+>> Hmmm. The reference document I used for QEMU's 6522 device is at
+>> http://archive.6502.org/datasheets/mos_6522_preliminary_nov_1977.pdf and
+>> according to page 6 and the section "Writing the Timer 1 Registers" writing to
+>> the high byte of the latch does indeed clear the T1 interrupt flag.
+>>
+>> Side note: there is reference in Gary Davidian's excellent CHM video that
+>> 6522s obtained from different manufacturers had different behaviours, and
+>> there are also web pages mentioning that 6522s integrated as part of other
+>> silicon e.g. IOSB/CUDA also had their own bugs... :/
+>>
 > 
-> Following the thread id trace, I extended the thread assertion checks over
-> to v9fs_walk() as well, like this:
+> The MOS document you've cited is much older than the Synertek and Rockwell 
+> devices. The datasheets for the Synertek and Rockwell parts disagree with 
+> MOS about T1LH behaviour. Apple certainly used SY6522 devices in my Mac II 
+> and I'd assumed Apple would have used compatible logic cores in the custom 
+> ICs found in later models. But I don't really trust assumptions and 
+> datasheets so I wrote the Linux patch below and ran it on my Quadra 630.
 > 
-> static void coroutine_fn v9fs_walk(void *opaque)
-> {
->     ...
->     assert_thread();
->     v9fs_co_run_in_worker({
->         ...
->     });
->     assert_thread();
->     ...
-> }
+> diff --git a/arch/m68k/mac/via.c b/arch/m68k/mac/via.c
+> index 3d11d6219cdd..ed41f6ae2bf2 100644
+> --- a/arch/m68k/mac/via.c
+> +++ b/arch/m68k/mac/via.c
+> @@ -634,3 +634,27 @@ static u64 mac_read_clk(struct clocksource *cs)
+>  
+>  	return ticks;
+>  }
+> +
+> +static int baz(void)
+> +{
+> +	u8 a, b, c;
+> +
+> +	local_irq_disable();
+> +
+> +	while (!(via1[vIFR] & VIA_TIMER_1_INT))
+> +		continue;
+> +	a = via1[vIFR] & VIA_TIMER_1_INT;
+> +	via1[vT1LH] = via1[vT1LH];
+> +	b = via1[vIFR] & VIA_TIMER_1_INT;
+> +	via1[vT1LL] = via1[vT1LL];
+> +	c = via1[vIFR] & VIA_TIMER_1_INT;
+> +
+> +	printk("a == %2x\n", a);
+> +	printk("b == %2x\n", b);
+> +	printk("c == %2x\n", c);
+> +
+> +	local_irq_enable();
+> +
+> +	return 0;
+> +}
+> +late_initcall(baz);
 > 
-> and made sure the reference thread id to be compared is really the main
-> thread.
+> Based on the Synertek datasheet* one would expect to see b equal to a but 
+> I got this result instead:
 > 
-> And what happens here is before v9fs_co_run_in_worker() is entered,
-> v9fs_walk() runs on main thread, but after returning from
-> v9fs_co_run_in_worker() it runs on a different thread for some reason, not
-> on main thread as it would be expected at that point.
+> [   10.450000] a == 40
+> [   10.450000] b ==  0
+> [   10.450000] c ==  0
+> 
+> This amounts to a MOS design flaw and I doubt that this result from my 
+> Quadra 630 would apply to other Mac models. So it would be great to see 
+> the output from a Quadra 800. But until then, let's disregard this patch.
+> 
+> * http://archive.6502.org/datasheets/synertek_sy6522.pdf
+> 
 
-Ok, I think I found the root cause: the block is break;-ing out too far. The 
-following patch should fix it:
+Tested on my Quadra 800:
 
-diff --git a/hw/9pfs/coth.h b/hw/9pfs/coth.h
-index c51289903d..f83c7dda7b 100644
---- a/hw/9pfs/coth.h
-+++ b/hw/9pfs/coth.h
-@@ -51,7 +51,9 @@
-          */                                                             \
-         qemu_coroutine_yield();                                         \
-         qemu_bh_delete(co_bh);                                          \
--        code_block;                                                     \
-+        do {                                                            \
-+            code_block;                                                 \
-+        } while (0);                                                    \
-         /* re-enter back to qemu thread */                              \
-         qemu_coroutine_yield();                                         \
-     } while (0)
+[    4.730000] a == 40
+[    4.730000] b ==  0
+[    4.730000] c ==  0
 
-I haven't triggered a crash with that patch, but due to the occasional nature 
-of this issue I'll give it some more spins before officially proclaiming it my 
-bug. :)
-
-Best regards,
-Christian Schoenebeck
+Laurent
 
 
 
