@@ -2,89 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1763D3FE08D
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 19:01:16 +0200 (CEST)
-Received: from localhost ([::1]:41792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 413913FE0FB
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 19:11:47 +0200 (CEST)
+Received: from localhost ([::1]:59432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLTbv-0007TO-2c
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 13:01:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42724)
+	id 1mLTm6-0003Dz-CX
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 13:11:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLTSq-000640-SK
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:51:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60374)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLTkw-0002Oc-Fc
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 13:10:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45088)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLTSo-0004j9-JQ
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:51:52 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLTkt-0003ih-8N
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 13:10:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630515109;
+ s=mimecast20190719; t=1630516228;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eBzGziF0T4EWpv4lUnMy0UciSYoPfXAs/EbWMrzJD1A=;
- b=XgM5nYs5A3XEYH0awmlI4IoMwl9e0T6vhgh3BNzF7/k6MELslI6dMwxXxIhk9oMCC3y0Kc
- 7XAvX+0K1R+2p/jCtSjfXfaSIB0IEIPI7CjEsuCsTju9HcT7GHMPSYSJB3yd/oaeUuxwdc
- PPokaePxYVB8TSXcJQDYPv7AZlAetHQ=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-550-MSqTdflSMNev68NFYqszOg-1; Wed, 01 Sep 2021 12:51:49 -0400
-X-MC-Unique: MSqTdflSMNev68NFYqszOg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- m16-20020a7bca50000000b002ee5287d4bfso49543wml.7
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 09:51:48 -0700 (PDT)
+ bh=eZXdvrOQRGOK76PQrl2ZMZIXi7fA+FsivwFbPahqCpw=;
+ b=BAp7Qu6OMy9j/pBMAs8rk/3ESfzZNIYcJruqhBhnhl//PLjVNQHuRUcgdt2Ufh8CDKoXsV
+ l7NImROu1uw2pmh0Db8wLjeOnXme+0KCBtMfMMqVo66GKo8SaFW/kfFwKUuhuj2mpSqOWl
+ noSJ9DxMF1vtFjvIbu7i1+GBL6Y9BrQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-143-laQBvkFUMiO5bMpneimUbw-1; Wed, 01 Sep 2021 13:10:25 -0400
+X-MC-Unique: laQBvkFUMiO5bMpneimUbw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ o20-20020a05600c379400b002e755735eedso89572wmr.0
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 10:10:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=eBzGziF0T4EWpv4lUnMy0UciSYoPfXAs/EbWMrzJD1A=;
- b=ZyNFdTJ3pJFTQp0NynaboECGmFjnns+EpTz4JvTUAQaC8o9WcqZBsnRoEOCm+ZaoR7
- Ex+YTVfubZmZTW/mgMwMm2SCZ5kptp4/Y2iXp7pVGLETtIiRwgyGcZ+VYOuXCXABe1+d
- R3fpW0Ig6qGf5V2Toh9w1NIQfYMbzdNWZxcBLQoY3if6g6L80Kp4RNk7Vw0cNqvTkCRA
- XnPEPHDcbUI2RuH1ZF4nnBumZBArrjsdsKKL05GUd4NqIQz1CECM9O0aVqPjV3FZRlZr
- 3gQkNfqA1b39sYsf0VcoMIUGTV3OL/WH9Vg51MUjnk1tT0RS2zC4nXOA+2csrl3b3Gyy
- dpYA==
-X-Gm-Message-State: AOAM532d9vGfWFv/YvmSq20l7uwX8wM2ZCw4DY3SVR/wE8UenUILhxas
- BMvCZMWqKRQQ2OYyLFyn+6JOtWZQIH5jffqZ5wWFghnEo5oF3c24OSPkXpgawKskufXRx9CnQAI
- 45+fY+5U2VQ0deKA=
-X-Received: by 2002:a05:600c:6c5:: with SMTP id b5mr413277wmn.70.1630515106198; 
- Wed, 01 Sep 2021 09:51:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyZ2kch5SVJHrYzlMNSptRGUM42UdigDGlRTEhbHi8hbFUA2ujZW2No2W4SpGyN1McGbzw97A==
-X-Received: by 2002:a05:600c:6c5:: with SMTP id b5mr413267wmn.70.1630515106027; 
- Wed, 01 Sep 2021 09:51:46 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id z1sm94786wmi.34.2021.09.01.09.51.45
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=eZXdvrOQRGOK76PQrl2ZMZIXi7fA+FsivwFbPahqCpw=;
+ b=RJxNIzccZbmHV8EHCvra9KMXBYx5hgnMLTY2I2H2F6REWcKUFGHuWX6QERW2mKJSim
+ ghrk0LjyGXLP0Hsqahx+41UQGNMWlVfpOaF01x613zQNxPVf10F3U21h6G3nslEWRsE6
+ TPBNqubIh6pqnZAW3Lwpd2ZHJxBQajdmZlrMuon9hOfATWdXagXopv+RhmgqFb3XOlS8
+ DV/9eS7Rxg/9Af208RiY0Lm1/dgmEfhOEWNnBRK4B/0xRdKItQ1YmEEKDWh2I2OJxQVO
+ F+F420FW/E1MuyZYHR8ilyUKh5Yps6Foip1HV1nuXRnnySnolueCu9pb2bfsLomE1ZCf
+ 5O3w==
+X-Gm-Message-State: AOAM531HttWr7miUaOzjNrBDBvceZT/Ov89PR6BL48MYhSVnVN2dJ86t
+ fQmA7to/3O46IW6dP66lmE5XDfiYnaiUxAp6ttFHSU2VmXbutZ5RFfyshjIxtCNWLGLeDCl8dUk
+ MQL4OhdewpxDzZ5k=
+X-Received: by 2002:adf:b741:: with SMTP id n1mr536168wre.120.1630516224853;
+ Wed, 01 Sep 2021 10:10:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy7ZAkp+4a/ObWn3KA7uO3xUW/Qqinclwu1dLJRRCmJQ9sg1L9FMV7wbFhBmyFxP4rg3SH/eQ==
+X-Received: by 2002:adf:b741:: with SMTP id n1mr536137wre.120.1630516224629;
+ Wed, 01 Sep 2021 10:10:24 -0700 (PDT)
+Received: from [192.168.3.132] (p4ff23f71.dip0.t-ipconnect.de. [79.242.63.113])
+ by smtp.gmail.com with ESMTPSA id m4sm136936wml.28.2021.09.01.10.10.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Sep 2021 09:51:45 -0700 (PDT)
-Subject: Re: [PATCH] gitlab: Escape git-describe match pattern on Windows hosts
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-References: <20210901145229.4132606-1-philmd@redhat.com>
- <YS+UylEr3CJyksxt@redhat.com>
- <CAFEAcA_gyZTfUTAAoKvrA-qyv-8dOvGjLSLmq2uaur8XYS6CuQ@mail.gmail.com>
- <YS+aiZep166VuVcH@redhat.com>
- <0901f6da-de5c-f9e6-5f40-e15f4a7c807d@redhat.com>
- <YS+iCgl88cmMepKl@redhat.com>
- <33d1a40b-c242-6472-5aa4-4108668ccc84@redhat.com>
- <005033c9-ac86-7af2-203d-0c597cec691c@kaod.org> <YS+usDwjGFD07w0C@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <4a081ec5-6375-076e-5139-f326ef73a5e0@redhat.com>
-Date: Wed, 1 Sep 2021 18:51:44 +0200
+ Wed, 01 Sep 2021 10:10:24 -0700 (PDT)
+Subject: Re: [PATCH v4 1/3] memory: Extract mtree_info_flatview() from
+ mtree_info()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210901161943.4174212-1-philmd@redhat.com>
+ <20210901161943.4174212-2-philmd@redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <5179bb7e-4d7a-494d-a3ac-cf15f2d075cd@redhat.com>
+Date: Wed, 1 Sep 2021 19:10:22 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <YS+usDwjGFD07w0C@redhat.com>
+In-Reply-To: <20210901161943.4174212-2-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -105,95 +100,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eric Blake <eblake@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Gerd Hoffmann <kraxel@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/1/21 6:47 PM, Daniel P. Berrangé wrote:
-> On Wed, Sep 01, 2021 at 06:27:37PM +0200, Cédric Le Goater wrote:
->> On 9/1/21 6:24 PM, Philippe Mathieu-Daudé wrote:
->>> On 9/1/21 5:53 PM, Daniel P. Berrangé wrote:
->>>> On Wed, Sep 01, 2021 at 05:35:42PM +0200, Philippe Mathieu-Daudé wrote:
->>>>> On 9/1/21 5:21 PM, Daniel P. Berrangé wrote:
->>>>>> On Wed, Sep 01, 2021 at 04:17:48PM +0100, Peter Maydell wrote:
->>>>>>> On Wed, 1 Sept 2021 at 15:59, Daniel P. Berrangé <berrange@redhat.com> wrote:
->>>>>>>>
->>>>>>>> On Wed, Sep 01, 2021 at 04:52:29PM +0200, Philippe Mathieu-Daudé wrote:
->>>>>>>>> Properly escape git-describe 'match' pattern to avoid (MinGW):
->>>>>>>>>
->>>>>>>>>   $ if grep -q "EXESUF=.exe" config-host.mak; then make installer;
->>>>>>>>>     version="$(git describe --match v[0-9]*)";
->>>>>>>>>     mv -v qemu-setup*.exe qemu-setup-${version}.exe; fi
->>>>>>>>>   fatal: No names found, cannot describe anything.
->>>>>>>>>   ERROR: Job failed: exit code 1
->>>>>>>>>
->>>>>>>>> Reported-by: Cédric Le Goater <clg@kaod.org>
->>>>>>>>> Fixes: 8619b5ddb56 ("ci: build & store windows installer")
->>>>>>>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/591
->>>>>>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>>>>>>> ---
->>>>>>>>>  .gitlab-ci.d/crossbuild-template.yml | 2 +-
->>>>>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>>>>
->>>>>>>>> diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
->>>>>>>>> index 10d22dcf6c1..62d33e6661d 100644
->>>>>>>>> --- a/.gitlab-ci.d/crossbuild-template.yml
->>>>>>>>> +++ b/.gitlab-ci.d/crossbuild-template.yml
->>>>>>>>> @@ -14,7 +14,7 @@
->>>>>>>>>      - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
->>>>>>>>>      - if grep -q "EXESUF=.exe" config-host.mak;
->>>>>>>>>        then make installer;
->>>>>>>>> -      version="$(git describe --match v[0-9]*)";
->>>>>>>>> +      version="$(git describe --match 'v[0-9]*')";
->>>>>>>>
->>>>>>>> Do you have a pointer to a pipeline showing this fix works ?
->>>>>
->>>>> It worked on my fork but I have some versioned tag:
->>>>> https://gitlab.com/philmd_rh/qemu/-/jobs/1553450025
->>>>
->>>> I can reproduce the error msg if I do a shallow clone with no history
->>>>
->>>> $ cd qemu
->>>> $ git describe --match v[0-9]*
->>>> v6.1.0-171-g5e8c1a0c90
->>>>
->>>> $ cd ..
->>>> $ git clone --depth 1 https://gitlab.com/qemu-project/qemu/ qemu.new
->>>> $ cd qemu.new/
->>>> $ git describe --match v[0-9]*
->>>> fatal: No names found, cannot describe anything.
->>>>
->>>> but the odd thing is that I think we should have been hitting the
->>>> problem frequently if it was related to git depth. This job passes
->>>> fine in current CI pipelines and my own fork.
->>>
->>> FYI it didn't work out on Cédric fork:
->>> https://gitlab.com/legoater/qemu/-/jobs/1553492082
->>>
->>
->> Indeed.
+On 01.09.21 18:19, Philippe Mathieu-Daudé wrote:
+> While mtree_info() handles both ASes and flatviews cases,
+> the two cases share basically no code. Split mtree_info_flatview()
+> out of mtree_info() to simplify.
 > 
-> I'm curious if you go to
+> Note: Patch easier to review using 'git-diff --color-moved=blocks'.
 > 
->   https://gitlab.com/legoater/qemu/-/settings/ci_cd
-> 
-> and expand "General pipelines", what value is set for the
-> 
->   "Git shallow clone"
-> 
-> setting.  In my fork it is 0 which means unlimited depth, but in
-> gitlab docs I see reference to repos getting this set to 50
-> since a particular gitlab release.
-> 
-> Likewise same question for Phil in ?
-> 
->   https://gitlab.com/philmd_rh/qemu/-/settings/ci_cd
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-0 too.
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
