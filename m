@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21F343FD5F6
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 10:53:31 +0200 (CEST)
-Received: from localhost ([::1]:58476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F85D3FD5FB
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 10:55:07 +0200 (CEST)
+Received: from localhost ([::1]:60900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLLzt-0005mD-HW
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 04:53:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49224)
+	id 1mLM1S-0007Qr-5K
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 04:55:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mLLxt-0003uK-0v
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 04:51:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60606)
+ id 1mLLzu-0006JM-2l
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 04:53:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57126)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mLLxm-0007Tg-S1
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 04:51:24 -0400
+ id 1mLLzr-0000zh-IQ
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 04:53:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630486276;
+ s=mimecast20190719; t=1630486406;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bj/3Wq5VSEXYsoUvI2U/b/PpJOmYNwIyy8yOPrYEJ74=;
- b=ORAW+7VuBkix9QkIrwnOn+kStlbpxsVP6u4cYTD4J/4YNJ/GLmJzg3GyjORAKGNlawlNsp
- 27a8azKipqTp3Li3FxOeDvdw9IrjzLIvHK+MTX3EVDwdpllhOL6g+el6rdc7WCZaSbYVjV
- 17SM0iPq6kwxUk5/+sW7ToPLmh1oAvk=
+ bh=Y2WEq5a0DKO68i0xKFMdxMkqwNHG6WjU9yXn4LxgCAE=;
+ b=UOOfZcZejtdl20uuJ6YxtSqFo7MGvbVLmI6ihRO7jv2q4AFjrZCHv1TqlC0bPA3QQh7d1l
+ 051QkE9iRqlGoaLpOaennBdOo5S44dJYQJ5OWX2W5zt7T1la/Y9lIJRYgC1dcBCuhvDbEE
+ gL2pVSwcgZCmRLgg5WFdzKOQtq8w8fw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-QlsDTV-CPlS1u0Diahe-Iw-1; Wed, 01 Sep 2021 04:51:14 -0400
-X-MC-Unique: QlsDTV-CPlS1u0Diahe-Iw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-530-tbuLSAaJOkOfJa1DhM8GxQ-1; Wed, 01 Sep 2021 04:53:25 -0400
+X-MC-Unique: tbuLSAaJOkOfJa1DhM8GxQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FED380124F;
- Wed,  1 Sep 2021 08:51:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E44C107ACC7;
+ Wed,  1 Sep 2021 08:53:24 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.193.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C441712D49;
- Wed,  1 Sep 2021 08:50:59 +0000 (UTC)
-Date: Wed, 1 Sep 2021 09:50:56 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4AE09385;
+ Wed,  1 Sep 2021 08:53:10 +0000 (UTC)
+Date: Wed, 1 Sep 2021 09:53:07 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v1 2/3] io: Add zerocopy and errqueue
-Message-ID: <YS8+8EKboNvsB0zP@redhat.com>
+Subject: Re: [PATCH v1 3/3] migration: multifd: Enable zerocopy
+Message-ID: <YS8/cxTtiC7QIxTD@redhat.com>
 References: <20210831110238.299458-1-leobras@redhat.com>
- <20210831110238.299458-3-leobras@redhat.com>
- <YS4nPfEBCy9IC3rd@redhat.com> <YS6QmOrN4qr055vR@t490s>
+ <20210831110238.299458-4-leobras@redhat.com>
+ <YS4rulGV9eueB04H@redhat.com> <YS6RFcQnZEhE8XpG@t490s>
 MIME-Version: 1.0
-In-Reply-To: <YS6QmOrN4qr055vR@t490s>
+In-Reply-To: <YS6RFcQnZEhE8XpG@t490s>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -62,13 +62,13 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.391, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -95,70 +95,55 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Aug 31, 2021 at 04:27:04PM -0400, Peter Xu wrote:
-> On Tue, Aug 31, 2021 at 01:57:33PM +0100, Daniel P. Berrangé wrote:
-> > On Tue, Aug 31, 2021 at 08:02:38AM -0300, Leonardo Bras wrote:
-> > > MSG_ZEROCOPY is a feature that enables copy avoidance in TCP/UDP socket
-> > > send calls. It does so by avoiding copying user data into kernel buffers.
+On Tue, Aug 31, 2021 at 04:29:09PM -0400, Peter Xu wrote:
+> On Tue, Aug 31, 2021 at 02:16:42PM +0100, Daniel P. Berrangé wrote:
+> > On Tue, Aug 31, 2021 at 08:02:39AM -0300, Leonardo Bras wrote:
+> > > Call qio_channel_set_zerocopy(true) in the start of every multifd thread.
 > > > 
-> > > To make it work, three steps are needed:
-> > > 1 - A setsockopt() system call, enabling SO_ZEROCOPY
-> > > 2 - Passing down the MSG_ZEROCOPY flag for each send*() syscall
-> > > 3 - Process the socket's error queue, dealing with any error
+> > > Change the send_write() interface of multifd, allowing it to pass down
+> > > flags for qio_channel_write*().
+> > > 
+> > > Pass down MSG_ZEROCOPY flag for sending memory pages, while keeping the
+> > > other data being sent at the default copying approach.
+> > > 
+> > > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> > > ---
+> > >  migration/multifd-zlib.c | 7 ++++---
+> > >  migration/multifd-zstd.c | 7 ++++---
+> > >  migration/multifd.c      | 9 ++++++---
+> > >  migration/multifd.h      | 3 ++-
+> > >  4 files changed, 16 insertions(+), 10 deletions(-)
 > > 
-> > AFAICT, this is missing the single most critical aspect of MSG_ZEROCOPY.
+> > > @@ -675,7 +676,8 @@ static void *multifd_send_thread(void *opaque)
+> > >              }
+> > >  
+> > >              if (used) {
+> > > -                ret = multifd_send_state->ops->send_write(p, used, &local_err);
+> > > +                ret = multifd_send_state->ops->send_write(p, used, MSG_ZEROCOPY,
+> > > +                                                          &local_err);
 > > 
-> > It is non-obvious, but setting the MSG_ZEROCOPY flag turns sendmsg()
-> > from a synchronous call to an asynchronous call.
-> > 
-> > It is forbidden to overwrite/reuse/free the buffer passed to sendmsg
-> > until an asynchronous completion notification has been received from
-> > the socket error queue. These notifications are not required to
-> > arrive in-order, even for a TCP stream, because the kernel hangs on
-> > to the buffer if a re-transmit is needed.
+> > I don't think it is valid to unconditionally enable this feature due to the
+> > resource usage implications
 > > 
 > > https://www.kernel.org/doc/html/v5.4/networking/msg_zerocopy.html
 > > 
-> >   "Page pinning also changes system call semantics. It temporarily 
-> >    shares the buffer between process and network stack. Unlike with
-> >    copying, the process cannot immediately overwrite the buffer 
-> >    after system call return without possibly modifying the data in 
-> >    flight. Kernel integrity is not affected, but a buggy program
-> >    can possibly corrupt its own data stream."
+> >   "A zerocopy failure will return -1 with errno ENOBUFS. This happens 
+> >    if the socket option was not set, the socket exceeds its optmem 
+> >    limit or the user exceeds its ulimit on locked pages."
 > > 
-> > AFAICT, the design added in this patch does not provide any way
-> > to honour these requirements around buffer lifetime.
-> > 
-> > I can't see how we can introduce MSG_ZEROCOPY in any seemless
-> > way. The buffer lifetime requirements imply need for an API
-> > design that is fundamentally different for asynchronous usage,
-> > with a callback to notify when the write has finished/failed.
+> > The limit on locked pages is something that looks very likely to be
+> > exceeded unless you happen to be running a QEMU config that already
+> > implies locked memory (eg PCI assignment)
 > 
-> Regarding buffer reuse - it indeed has a very deep implication on the buffer
-> being available and it's not obvious at all.  Just to mention that the initial
-> user of this work will make sure all zero copy buffers will be guest pages only
-> (as it's only used in multi-fd), so they should always be there during the
-> process.
+> Yes it would be great to be a migration capability in parallel to multifd. At
+> initial phase if it's easy to be implemented on multi-fd only, we can add a
+> dependency between the caps.  In the future we can remove that dependency when
+> the code is ready to go without multifd.  Thanks,
 
-That is not the case when migration is using TLS, because the buffers
-transmitted are the ciphertext buffer, not the plaintext guest page.
+Also, I'm wondering how zerocopy support interacts with kernel support
+for kTLS and multipath-TCP, both of which we want to be able to use
+with migration.
 
-> In short, we may just want to at least having a way to make sure all zero
-> copied buffers are finished using and they're sent after some function returns
-> (e.g., qio_channel_flush()).  That may require us to do some accounting on when
-> we called sendmsg(MSG_ZEROCOPY), meanwhile we should need to read out the
-> ee_data field within SO_EE_ORIGIN_ZEROCOPY msg when we do recvmsg() for the
-> error queue and keep those information somewhere too.
-> 
-> Some other side notes that reached my mind..
-> 
-> The qio_channel_writev_full() may not be suitable for async operations, as the
-> name "full" implies synchronous to me.  So maybe we can add a new helper for
-> zero copy on the channel?
-
-All the APIs that exist today are fundamentally only suitable for sync
-operations. Supporting async correctly will definitely a brand new APIs
-separate from what exists today.
 
 Regards,
 Daniel
