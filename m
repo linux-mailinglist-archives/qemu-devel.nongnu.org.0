@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75C953FD836
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 12:55:33 +0200 (CEST)
-Received: from localhost ([::1]:34378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 638F53FD834
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 12:54:56 +0200 (CEST)
+Received: from localhost ([::1]:34208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLNu0-0004XO-GH
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 06:55:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43384)
+	id 1mLNtP-0004Qh-6y
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 06:54:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLNcH-00072j-MR
+ id 1mLNcI-00074Y-QL
  for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:14 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:36595)
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:38583)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLNcF-0005ms-O2
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:13 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id
- 79-20020a1c0452000000b002e6cf79e572so4409333wme.1
+ id 1mLNcG-0005n8-84
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 06:37:14 -0400
+Received: by mail-wr1-x434.google.com with SMTP id u16so3750512wrn.5
  for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 03:37:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=w3KXVNoxhsJO5H+sS6XekepmNFJDc+Q5EgHCZoxBLOM=;
- b=h6qUvFacLfpYCoQ5Vp37a4L+qUwFEFhq1Dg4nZoiN1JAg3zcwXZsIFluzIWQgJUNoq
- kyikKDcoJpUiewVl1DlPFOk+di6B1O/OTPEn+64+ZONL9H/qCyGIUfhS7wvj0m3sKvp4
- vy6yHchARSSEKzJapawmCQLagLapnngWX0RvgmfBdAnl/EUsPCI1wcl/g78IdkyzZ97C
- wIR063Z/M8H0zbCNqQ5aOX5uOnR1II1Dc1AHA9DerOlTFrqTVxmk/mwuzG/Ppn2t5vNX
- fj0Vs5614RorKKM3qkzhwIyiiK/b/OCu6lkOi5PsdBPL9sq6Z0T7iHpHoCWastRW+aNR
- mwNw==
+ bh=u9XrxnOjxPXtQ8fmSKp6DWMiWXBpdhUDNVvPv6HOSgI=;
+ b=wCY7RzrR6WwavKaZSDCDGwQ4tjXVP6ze9qKc3bEfnpkgPWGeFdM7sLxCcwu1HZPKiR
+ SSAaocFmCQaXMdx53RDRf+Ae0f1FsvMtZmUEE73sPE7ZB96inApj6sPeWrZeB1wAH9gE
+ qLlY29HvuOcKZ49PE6MwypB99UKyAdw3C/ZEzhtjsQB+zVYwnxj+unYnNBWmVTUbBeQH
+ wt12aX3liRcFxBc2yLbBx4JgZOq7WKAcDYYc97/joYYMqteNcaIzeyH8EleVpADc3xS0
+ g4U4JXHidjm7FZmqzkICX2pmAvO1stwIKC5athRX6i0f5grrI4S/k2wdlvKUHZ9pKka5
+ 8TSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=w3KXVNoxhsJO5H+sS6XekepmNFJDc+Q5EgHCZoxBLOM=;
- b=g23oxjcEOgGNrXlR/q7gZF3wC2S94KZwSLJU0fGJY6qlixlTmbMO1Q0cVkr+DQpqHD
- iNh22MNtpnaVtpwl9VdeTHny9BTrvyAhEPSjH0zmprmydBW1W0KdgFYQV+vGqBIN7iJ8
- Y/Cj8uwWVF09QTVmUz2hlG0jiulY6nRUPld6YaYZfLDqILYUmZXD0SDmc+gnEb8f6/PF
- XTBXqiJm/DpxrRNhv91juZ45UUMu8ptX3ZMhNNvXCPJo62VIFxI23znpSZNEgSv9kEUy
- YVOTzNY+cDYAV1lYxOXF4fAe4cYoxpOENfeDsU7Bxu8M4SK/6/yxP6y4PdpVwvVdSZtq
- atEg==
-X-Gm-Message-State: AOAM533jDqfT8ZPf/sxdLK9EC5KEU4spF2IvvdhRLEGkVm3VCP9IG4Ab
- WtEOYINQyukILSSqXLCBIdYJYYogcvxcQQ==
-X-Google-Smtp-Source: ABdhPJyke38c4zY9a+3oau/CBH4NvGzjxhknth21PIQGKRRUsddRnQB81txhTj4BQBv8jZ5hQUB/9g==
-X-Received: by 2002:a1c:e904:: with SMTP id q4mr9122821wmc.26.1630492630300;
+ bh=u9XrxnOjxPXtQ8fmSKp6DWMiWXBpdhUDNVvPv6HOSgI=;
+ b=NqInQ2F1jJtk9W+41rylKm6nLhQk94fw/FPkvIf+hytJSKKbp0zUCrsPBmanBkm8nK
+ H8FWelSOiD0HOxHvS+pOv6VYTpshZvqmzz57PIaJCZUPsVeKnTMLXrIWNMTh4qYRIRBI
+ k4e1eXtkVE1zTCajI0ndtNdUEATHLSfSTZnoDzV9Y+ADCt2TWP+3AjS59yo5seYBKHG+
+ e0jpzoC8Yjonl35420ceeYq7WCGvDWUJjEKoOrtDiA5tYLd/rBnf4QRFQ4+FmLxDWNRa
+ f/84r6fK0RBvDva9q6Cvgv1XPvoaq69G4+64OihHy45t5Qc/mtKOpTtYf8KE3j67Tau6
+ ojZw==
+X-Gm-Message-State: AOAM533f25xBrCuBDvaqQD39T9S/ukVS7lwIM43sPe1FqLwM1zvQ9tKh
+ uZopZ1GL8LPs+ZtqYw7Q3lMZrPwJlM1qGw==
+X-Google-Smtp-Source: ABdhPJxXngk8tofJTLUu7jTyRpfh2W4j846lUp0CrrNsZyL+S5O98y1tPkqfsvF6UJDC0AIzV3mZEQ==
+X-Received: by 2002:adf:9ccc:: with SMTP id h12mr36468239wre.385.1630492630864; 
  Wed, 01 Sep 2021 03:37:10 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id j207sm5494771wmj.40.2021.09.01.03.37.09
+ by smtp.gmail.com with ESMTPSA id j207sm5494771wmj.40.2021.09.01.03.37.10
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 01 Sep 2021 03:37:10 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/51] target/arm: Implement MVE VCVT between single and half
- precision
-Date: Wed,  1 Sep 2021 11:36:23 +0100
-Message-Id: <20210901103653.13435-22-peter.maydell@linaro.org>
+Subject: [PULL 22/51] target/arm: Implement MVE VRINT insns
+Date: Wed,  1 Sep 2021 11:36:24 +0100
+Message-Id: <20210901103653.13435-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210901103653.13435-1-peter.maydell@linaro.org>
 References: <20210901103653.13435-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,184 +86,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the MVE VCVT instruction which converts between single
-and half precision floating point.
+Implement the MVE VRINT insns, which round floating point inputs
+to integer values, leaving them in floating point format.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/helper-mve.h    |  5 +++
- target/arm/mve.decode      |  8 ++++
- target/arm/mve_helper.c    | 81 ++++++++++++++++++++++++++++++++++++++
- target/arm/translate-mve.c | 14 +++++++
- 4 files changed, 108 insertions(+)
+ target/arm/helper-mve.h    |  6 +++++
+ target/arm/mve.decode      |  7 ++++++
+ target/arm/mve_helper.c    | 35 +++++++++++++++++++++++++++++
+ target/arm/translate-mve.c | 45 ++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 93 insertions(+)
 
 diff --git a/target/arm/helper-mve.h b/target/arm/helper-mve.h
-index 6d4052a5269..f6345c7abbe 100644
+index f6345c7abbe..76bd25006d8 100644
 --- a/target/arm/helper-mve.h
 +++ b/target/arm/helper-mve.h
-@@ -182,6 +182,11 @@ DEF_HELPER_FLAGS_4(mve_vcvt_rm_uh, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(mve_vcvt_rm_ss, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
- DEF_HELPER_FLAGS_4(mve_vcvt_rm_us, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
- 
-+DEF_HELPER_FLAGS_3(mve_vcvtb_sh, TCG_CALL_NO_WG, void, env, ptr, ptr)
-+DEF_HELPER_FLAGS_3(mve_vcvtt_sh, TCG_CALL_NO_WG, void, env, ptr, ptr)
-+DEF_HELPER_FLAGS_3(mve_vcvtb_hs, TCG_CALL_NO_WG, void, env, ptr, ptr)
-+DEF_HELPER_FLAGS_3(mve_vcvtt_hs, TCG_CALL_NO_WG, void, env, ptr, ptr)
+@@ -882,3 +882,9 @@ DEF_HELPER_FLAGS_4(mve_vcvt_sf, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(mve_vcvt_uf, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(mve_vcvt_fs, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
+ DEF_HELPER_FLAGS_4(mve_vcvt_fu, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
 +
- DEF_HELPER_FLAGS_3(mve_vmovnbb, TCG_CALL_NO_WG, void, env, ptr, ptr)
- DEF_HELPER_FLAGS_3(mve_vmovnbh, TCG_CALL_NO_WG, void, env, ptr, ptr)
- DEF_HELPER_FLAGS_3(mve_vmovntb, TCG_CALL_NO_WG, void, env, ptr, ptr)
++DEF_HELPER_FLAGS_4(mve_vrint_rm_h, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
++DEF_HELPER_FLAGS_4(mve_vrint_rm_s, TCG_CALL_NO_WG, void, env, ptr, ptr, i32)
++
++DEF_HELPER_FLAGS_3(mve_vrintx_h, TCG_CALL_NO_WG, void, env, ptr, ptr)
++DEF_HELPER_FLAGS_3(mve_vrintx_s, TCG_CALL_NO_WG, void, env, ptr, ptr)
 diff --git a/target/arm/mve.decode b/target/arm/mve.decode
-index 55e8ce304e5..10f0f1de7b1 100644
+index 10f0f1de7b1..14a4f398020 100644
 --- a/target/arm/mve.decode
 +++ b/target/arm/mve.decode
-@@ -221,6 +221,8 @@ VMUL             1110 1111 0 . .. ... 0 ... 0 1001 . 1 . 1 ... 0 @2op
- # The VSHLL T2 encoding is not a @2op pattern, but is here because it
- # overlaps what would be size=0b11 VMULH/VRMULH
- {
-+  VCVTB_SH       111 0 1110 0 . 11 1111 ... 0 1110 0 0 . 0 ... 1 @1op_nosz
+@@ -823,3 +823,10 @@ VCVTPS            1111 1111 1 . 11 .. 11 ... 000 10 0 1 . 0 ... 0 @1op
+ VCVTPU            1111 1111 1 . 11 .. 11 ... 000 10 1 1 . 0 ... 0 @1op
+ VCVTMS            1111 1111 1 . 11 .. 11 ... 000 11 0 1 . 0 ... 0 @1op
+ VCVTMU            1111 1111 1 . 11 .. 11 ... 000 11 1 1 . 0 ... 0 @1op
 +
-   VMAXNMA        111 0 1110 0 . 11 1111 ... 0 1110 1 0 . 0 ... 1 @vmaxnma size=2
- 
-   VSHLL_BS       111 0 1110 0 . 11 .. 01 ... 0 1110 0 0 . 0 ... 1 @2_shll_esize_b
-@@ -235,6 +237,8 @@ VMUL             1110 1111 0 . .. ... 0 ... 0 1001 . 1 . 1 ... 0 @2op
- }
- 
- {
-+  VCVTB_HS       111 1 1110 0 . 11  1111 ... 0 1110 0 0 . 0 ... 1  @1op_nosz
-+
-   VMAXNMA        111 1 1110 0 . 11  1111 ... 0 1110 1 0 . 0 ... 1 @vmaxnma size=1
- 
-   VSHLL_BU       111 1 1110 0 . 11 .. 01 ... 0 1110 0 0 . 0 ... 1 @2_shll_esize_b
-@@ -247,6 +251,8 @@ VMUL             1110 1111 0 . .. ... 0 ... 0 1001 . 1 . 1 ... 0 @2op
- }
- 
- {
-+  VCVTT_SH       111 0 1110 0 . 11  1111 ... 1 1110 0 0 . 0 ... 1 @1op_nosz
-+
-   VMINNMA        111 0 1110 0 . 11  1111 ... 1 1110 1 0 . 0 ... 1 @vmaxnma size=2
-   VSHLL_TS       111 0 1110 0 . 11 .. 01 ... 1 1110 0 0 . 0 ... 1 @2_shll_esize_b
-   VSHLL_TS       111 0 1110 0 . 11 .. 01 ... 1 1110 0 0 . 0 ... 1 @2_shll_esize_h
-@@ -260,6 +266,8 @@ VMUL             1110 1111 0 . .. ... 0 ... 0 1001 . 1 . 1 ... 0 @2op
- }
- 
- {
-+  VCVTT_HS       111 1 1110 0 . 11  1111 ... 1 1110 0 0 . 0 ... 1 @1op_nosz
-+
-   VMINNMA        111 1 1110 0 . 11  1111 ... 1 1110 1 0 . 0 ... 1 @vmaxnma size=1
-   VSHLL_TU       111 1 1110 0 . 11 .. 01 ... 1 1110 0 0 . 0 ... 1 @2_shll_esize_b
-   VSHLL_TU       111 1 1110 0 . 11 .. 01 ... 1 1110 0 0 . 0 ... 1 @2_shll_esize_h
++VRINTN            1111 1111 1 . 11 .. 10 ... 001 000 1 . 0 ... 0 @1op
++VRINTX            1111 1111 1 . 11 .. 10 ... 001 001 1 . 0 ... 0 @1op
++VRINTA            1111 1111 1 . 11 .. 10 ... 001 010 1 . 0 ... 0 @1op
++VRINTZ            1111 1111 1 . 11 .. 10 ... 001 011 1 . 0 ... 0 @1op
++VRINTM            1111 1111 1 . 11 .. 10 ... 001 101 1 . 0 ... 0 @1op
++VRINTP            1111 1111 1 . 11 .. 10 ... 001 111 1 . 0 ... 0 @1op
 diff --git a/target/arm/mve_helper.c b/target/arm/mve_helper.c
-index a793199fbee..1ed76ac5ed8 100644
+index 1ed76ac5ed8..846962bf4c5 100644
 --- a/target/arm/mve_helper.c
 +++ b/target/arm/mve_helper.c
-@@ -3332,3 +3332,84 @@ DO_VCVT_RMODE(vcvt_rm_sh, 2, uint16_t, helper_vfp_toshh)
- DO_VCVT_RMODE(vcvt_rm_uh, 2, uint16_t, helper_vfp_touhh)
+@@ -3333,6 +3333,12 @@ DO_VCVT_RMODE(vcvt_rm_uh, 2, uint16_t, helper_vfp_touhh)
  DO_VCVT_RMODE(vcvt_rm_ss, 4, uint32_t, helper_vfp_tosls)
  DO_VCVT_RMODE(vcvt_rm_us, 4, uint32_t, helper_vfp_touls)
+ 
++#define DO_VRINT_RM_H(M, F, S) helper_rinth(M, S)
++#define DO_VRINT_RM_S(M, F, S) helper_rints(M, S)
 +
-+/*
-+ * VCVT between halfprec and singleprec. As usual for halfprec
-+ * conversions, FZ16 is ignored and AHP is observed.
-+ */
-+static void do_vcvt_sh(CPUARMState *env, void *vd, void *vm, int top)
-+{
-+    uint16_t *d = vd;
-+    uint32_t *m = vm;
-+    uint16_t r;
-+    uint16_t mask = mve_element_mask(env);
-+    bool ieee = !(env->vfp.xregs[ARM_VFP_FPSCR] & FPCR_AHP);
-+    unsigned e;
-+    float_status *fpst;
-+    float_status scratch_fpst;
-+    float_status *base_fpst = &env->vfp.standard_fp_status;
-+    bool old_fz = get_flush_to_zero(base_fpst);
-+    set_flush_to_zero(false, base_fpst);
-+    for (e = 0; e < 16 / 4; e++, mask >>= 4) {
-+        if ((mask & MAKE_64BIT_MASK(0, 4)) == 0) {
-+            continue;
-+        }
-+        fpst = base_fpst;
-+        if (!(mask & 1)) {
-+            /* We need the result but without updating flags */
-+            scratch_fpst = *fpst;
-+            fpst = &scratch_fpst;
-+        }
-+        r = float32_to_float16(m[H4(e)], ieee, fpst);
-+        mergemask(&d[H2(e * 2 + top)], r, mask >> (top * 2));
++DO_VCVT_RMODE(vrint_rm_h, 2, uint16_t, DO_VRINT_RM_H)
++DO_VCVT_RMODE(vrint_rm_s, 4, uint32_t, DO_VRINT_RM_S)
++
+ /*
+  * VCVT between halfprec and singleprec. As usual for halfprec
+  * conversions, FZ16 is ignored and AHP is observed.
+@@ -3413,3 +3419,32 @@ void HELPER(mve_vcvtt_hs)(CPUARMState *env, void *vd, void *vm)
+ {
+     do_vcvt_hs(env, vd, vm, 1);
+ }
++
++#define DO_1OP_FP(OP, ESIZE, TYPE, FN)                                  \
++    void HELPER(glue(mve_, OP))(CPUARMState *env, void *vd, void *vm)   \
++    {                                                                   \
++        TYPE *d = vd, *m = vm;                                          \
++        TYPE r;                                                         \
++        uint16_t mask = mve_element_mask(env);                          \
++        unsigned e;                                                     \
++        float_status *fpst;                                             \
++        float_status scratch_fpst;                                      \
++        for (e = 0; e < 16 / ESIZE; e++, mask >>= ESIZE) {              \
++            if ((mask & MAKE_64BIT_MASK(0, ESIZE)) == 0) {              \
++                continue;                                               \
++            }                                                           \
++            fpst = (ESIZE == 2) ? &env->vfp.standard_fp_status_f16 :    \
++                &env->vfp.standard_fp_status;                           \
++            if (!(mask & 1)) {                                          \
++                /* We need the result but without updating flags */     \
++                scratch_fpst = *fpst;                                   \
++                fpst = &scratch_fpst;                                   \
++            }                                                           \
++            r = FN(m[H##ESIZE(e)], fpst);                               \
++            mergemask(&d[H##ESIZE(e)], r, mask);                        \
++        }                                                               \
++        mve_advance_vpt(env);                                           \
 +    }
-+    set_flush_to_zero(old_fz, base_fpst);
-+    mve_advance_vpt(env);
-+}
 +
-+static void do_vcvt_hs(CPUARMState *env, void *vd, void *vm, int top)
-+{
-+    uint32_t *d = vd;
-+    uint16_t *m = vm;
-+    uint32_t r;
-+    uint16_t mask = mve_element_mask(env);
-+    bool ieee = !(env->vfp.xregs[ARM_VFP_FPSCR] & FPCR_AHP);
-+    unsigned e;
-+    float_status *fpst;
-+    float_status scratch_fpst;
-+    float_status *base_fpst = &env->vfp.standard_fp_status;
-+    bool old_fiz = get_flush_inputs_to_zero(base_fpst);
-+    set_flush_inputs_to_zero(false, base_fpst);
-+    for (e = 0; e < 16 / 4; e++, mask >>= 4) {
-+        if ((mask & MAKE_64BIT_MASK(0, 4)) == 0) {
-+            continue;
-+        }
-+        fpst = base_fpst;
-+        if (!(mask & (1 << (top * 2)))) {
-+            /* We need the result but without updating flags */
-+            scratch_fpst = *fpst;
-+            fpst = &scratch_fpst;
-+        }
-+        r = float16_to_float32(m[H2(e * 2 + top)], ieee, fpst);
-+        mergemask(&d[H4(e)], r, mask);
-+    }
-+    set_flush_inputs_to_zero(old_fiz, base_fpst);
-+    mve_advance_vpt(env);
-+}
-+
-+void HELPER(mve_vcvtb_sh)(CPUARMState *env, void *vd, void *vm)
-+{
-+    do_vcvt_sh(env, vd, vm, 0);
-+}
-+void HELPER(mve_vcvtt_sh)(CPUARMState *env, void *vd, void *vm)
-+{
-+    do_vcvt_sh(env, vd, vm, 1);
-+}
-+void HELPER(mve_vcvtb_hs)(CPUARMState *env, void *vd, void *vm)
-+{
-+    do_vcvt_hs(env, vd, vm, 0);
-+}
-+void HELPER(mve_vcvtt_hs)(CPUARMState *env, void *vd, void *vm)
-+{
-+    do_vcvt_hs(env, vd, vm, 1);
-+}
++DO_1OP_FP(vrintx_h, 2, float16, float16_round_to_int)
++DO_1OP_FP(vrintx_s, 4, float32, float32_round_to_int)
 diff --git a/target/arm/translate-mve.c b/target/arm/translate-mve.c
-index e80a55eb62e..194ef99cc74 100644
+index 194ef99cc74..2ed91577ec8 100644
 --- a/target/arm/translate-mve.c
 +++ b/target/arm/translate-mve.c
-@@ -627,6 +627,20 @@ DO_VCVT_RMODE(VCVTPU, FPROUNDING_POSINF, true)
- DO_VCVT_RMODE(VCVTMS, FPROUNDING_NEGINF, false)
- DO_VCVT_RMODE(VCVTMU, FPROUNDING_NEGINF, true)
+@@ -641,6 +641,51 @@ DO_VCVT_SH(VCVTT_SH, vcvtt_sh)
+ DO_VCVT_SH(VCVTB_HS, vcvtb_hs)
+ DO_VCVT_SH(VCVTT_HS, vcvtt_hs)
  
-+#define DO_VCVT_SH(INSN, FN)                                    \
-+    static bool trans_##INSN(DisasContext *s, arg_1op *a)       \
-+    {                                                           \
-+        if (!dc_isar_feature(aa32_mve_fp, s)) {                 \
-+            return false;                                       \
-+        }                                                       \
-+        return do_1op(s, a, gen_helper_mve_##FN);               \
-+    }                                                           \
++#define DO_VRINT(INSN, RMODE)                                           \
++    static void gen_##INSN##h(TCGv_ptr env, TCGv_ptr qd, TCGv_ptr qm)   \
++    {                                                                   \
++        gen_helper_mve_vrint_rm_h(env, qd, qm,                          \
++                                  tcg_constant_i32(arm_rmode_to_sf(RMODE))); \
++    }                                                                   \
++    static void gen_##INSN##s(TCGv_ptr env, TCGv_ptr qd, TCGv_ptr qm)   \
++    {                                                                   \
++        gen_helper_mve_vrint_rm_s(env, qd, qm,                          \
++                                  tcg_constant_i32(arm_rmode_to_sf(RMODE))); \
++    }                                                                   \
++    static bool trans_##INSN(DisasContext *s, arg_1op *a)               \
++    {                                                                   \
++        static MVEGenOneOpFn * const fns[] = {                          \
++            NULL,                                                       \
++            gen_##INSN##h,                                              \
++            gen_##INSN##s,                                              \
++            NULL,                                                       \
++        };                                                              \
++        if (!dc_isar_feature(aa32_mve_fp, s)) {                         \
++            return false;                                               \
++        }                                                               \
++        return do_1op(s, a, fns[a->size]);                              \
++    }
 +
-+DO_VCVT_SH(VCVTB_SH, vcvtb_sh)
-+DO_VCVT_SH(VCVTT_SH, vcvtt_sh)
-+DO_VCVT_SH(VCVTB_HS, vcvtb_hs)
-+DO_VCVT_SH(VCVTT_HS, vcvtt_hs)
++DO_VRINT(VRINTN, FPROUNDING_TIEEVEN)
++DO_VRINT(VRINTA, FPROUNDING_TIEAWAY)
++DO_VRINT(VRINTZ, FPROUNDING_ZERO)
++DO_VRINT(VRINTM, FPROUNDING_NEGINF)
++DO_VRINT(VRINTP, FPROUNDING_POSINF)
++
++static bool trans_VRINTX(DisasContext *s, arg_1op *a)
++{
++    static MVEGenOneOpFn * const fns[] = {
++        NULL,
++        gen_helper_mve_vrintx_h,
++        gen_helper_mve_vrintx_s,
++        NULL,
++    };
++    if (!dc_isar_feature(aa32_mve_fp, s)) {
++        return false;
++    }
++    return do_1op(s, a, fns[a->size]);
++}
 +
  /* Narrowing moves: only size 0 and 1 are valid */
  #define DO_VMOVN(INSN, FN) \
