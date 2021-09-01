@@ -2,98 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B52A63FD147
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 04:23:49 +0200 (CEST)
-Received: from localhost ([::1]:49768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DAC53FD149
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 04:24:25 +0200 (CEST)
+Received: from localhost ([::1]:51240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLFum-00009W-N5
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 22:23:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46964)
+	id 1mLFvM-0001A2-IV
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 22:24:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=871df42ed=alistair.francis@opensource.wdc.com>)
- id 1mLFj8-0006La-Gg
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 22:11:46 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:3906)
+ id 1mLFjA-0006RA-SD
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 22:11:48 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:10367)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=871df42ed=alistair.francis@opensource.wdc.com>)
- id 1mLFj3-0008Fb-FU
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 22:11:46 -0400
+ id 1mLFj9-0000B3-6R
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 22:11:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1630462300; x=1661998300;
+ t=1630462307; x=1661998307;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ZjbTSWK/IeIR5M5RWh3ICCne55eYSA/5bCO0T8iapR8=;
- b=ljiG4X/41+rcXJYZlE1VDGGc2XOd16FQt5fUFl9+rvuU9l79ETFMnS+h
- WMLeyX9Sw/80Kv9PXnXhjaAW3TrU1kc7ewr2e6oofH1uDL/Sm/MKuaVfj
- nSYvaePxdYfiGx4zhX/P9MVylgaCGNoqliRuk7qCNOn+bta1pE0gJycz+
- kFSTsurreeLeViE6HmeangDvZWlnDJykil6cuvNb9+lnY3GrcewjmqTnb
- ZoNblVYIchH0f6/uPkmXfvHvDDkq8KZVN69T6DlCRT8Zb8iElY5vyo9NN
- /tZ8DOiFiXfb4OBU7m0FU/eWRcjc9EoW571wjVviy++/unW+ots/uyMXk g==;
-X-IronPort-AV: E=Sophos;i="5.84,368,1620662400"; d="scan'208";a="178910785"
+ bh=25RoiPJRUM8/nB8GGzlGW2EvzjClmiFmjR4KFnO3OfM=;
+ b=HAPzo3G+UfJIayAgfu2jbY0azR5tXMhW6SsIN15kc0h7p3HLZCUxpY2X
+ JgDR+CkG8p3cmvVfBMKzEu9rAA/VV2gXfOR1udgxAjFcbxHOwfiz6KwsI
+ baCjffqcnewrxB/Qy8bhdVIYzJJyKKs8EnotaESm9jxYxryY1Q1X6Rfqq
+ GKc9Q5wgHAcejofNVtaiO/YEKqZ1BMetLRH9UPzOobzJ6CHmX44lEyYqE
+ BHZ46w6Wqp85joPaPLWqZLRGRUhu9ms5dTJFO0aybnr4ZEdFz8SLUK7US
+ CrcZ6AtOMtJlHVUUJN6qk0xomLRfKq6msQBJOWtleA/r2TCEUSkfnyIkn g==;
+X-IronPort-AV: E=Sophos;i="5.84,368,1620662400"; d="scan'208";a="178011713"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 01 Sep 2021 10:11:39 +0800
-IronPort-SDR: 61oX862I3LUE7lFXc/FmSoAQ7K2X5FKsA9b95LWbnanLdscUPiu/kahHhb5QU5MMLXiujIlTXp
- 43j/saiNhWuYTGBnLvcN5nejiBbn2Zjtf0Hw8oLkz8cs0TynTgUuakLh8eA5d8PogY5l+era3y
- KwF88dFUYoLR4i0RYXGgUoXKKirgkYl/DzRHI1v/zbZFApK0LG9XhpAtfPld2Q2GjidmGX0GJZ
- B6NxhbsCKIeY3WJPqafJQ6dTC0fkY84nGytD5T2FzkfidS6h1BA50Upx3NWHnjP1PFrctQh+Os
- Nu33DkZEO78TnKCURTADiCN2
+ by ob1.hgst.iphmx.com with ESMTP; 01 Sep 2021 10:11:45 +0800
+IronPort-SDR: geREhs+aVlttSkI33DXGr30Wc7+GZT5JHAkmoRuTKQO0uDqSf7mfj/IBCDGag5aHCjVlZ3AJnv
+ vDc84cSGQ3LUeyxRXQs/GBVenPRQiBJgkoNTsS9eLrK10BT0NgEdwz5dS+fykobBx09+ccRUft
+ NYrBVxXptSj9te4CQoBPtC4U7jyKBpTbd79CM0LvopQeVFOVne82/cQOwVYLys17SpAWib/jYP
+ /lUkvH+P+cVSsyU4GwoFB3hpg5twp0eNGP6FJ4TccAlPNOVgw4U5MbPGgJ605HNb4OyKtw2ty0
+ 0xvc0ZMxfMiQWgCb32N+WBPO
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2021 18:48:28 -0700
-IronPort-SDR: rdxxa1beYBQn2MueYeKe2lTHuxazqa4VPSmniVUDiXw4kIDaiVLGYMDAGR0Rnpr7FFv959fzC9
- iIYYTAIl0CVzv1jkbgOC5bM6HIUGFqchVdO+RlaHhRXKlV7oBmm2Psay4A2pduoY9moloZaiEh
- f7uLONKz2OisK+zVCxtK6d3TZLYnEmKhqty1EzWmb+I1uwYkLKv4K4dQE5PWyGgswK2sFhu0f2
- ZobrgZEoqqHLaX+QYWrzkdywQkX4ZWOFIsvQUrnglqWwTgeL2q7Q2gbwhWl5lW3MuPyWO0ijZV
- Vk0=
+ 31 Aug 2021 18:48:34 -0700
+IronPort-SDR: Qsdar5e3JqPoiHaJiDk8WlXPbDl+d1fHQh+93RqRu7Kvnsh8ztMCGrxduNcvhOIJvnDkavv07l
+ ScxMv7YW5fFgpYq5bFHfWTk8lXtVqUWmAGG6TjI2MWrfJ32JMAEIlY7FSfedOeWAG8KS0vAq19
+ 7Wmle1jcrbm4RdFJ3QUciMrSKMDlE/vWg8JaMUYc1BOTBgzbSahYddaNDQWjPF6iwHZIKxiobl
+ ovu69+5SQl4wv0bOC9RCNM8q5w5Vxv2sa1VXd2a7MywBe3OMgpwGBpZCvqkWuQwl0TSIvuzfgX
+ c90=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2021 19:11:40 -0700
+ 31 Aug 2021 19:11:46 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4GzncD17Fvz1RvmF
- for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 19:11:40 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4GzncK4MwXz1RvlZ
+ for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 19:11:45 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1630462295; x=1633054296; bh=ZjbTSWK/IeIR5M5RWh
- 3ICCne55eYSA/5bCO0T8iapR8=; b=nAnMvp79k+h0z3CpR8G856CT2QAblvbhZu
- Wm2qVVTiQ7nPhbcJV8GBZCAH5urnO13fpwayEIbpB4a8fouemYPuiB2Iaz/aTNRL
- JdhyGMMRy7G8ROPlyg0aaFdbevhdQmNf8LjZp+H+CK/PONPWk0D02XCAQLSDYOz6
- NKn9ojdCIxSNQkCnNxTKYmBqdafSnZUWPaIrz58aN9Hc9oj1H9eG8x84xkjeMJdm
- yGG/yEXcy0nh56wGO32CjvLPhJgn/FBNgLSuQ5n0tcZMhNR9H/Dq9rcC2fbBeC4q
- 6xpQ7MZW84NdYE7Q8LRXsrncLmGF+rC/XMeFSZRYB//VSoZy5MzQ==
+ :from; s=dkim; t=1630462300; x=1633054301; bh=25RoiPJRUM8/nB8GGz
+ lGW2EvzjClmiFmjR4KFnO3OfM=; b=Qdee+w3yF0NnQ1/YXYvFa+tYr5DVc+PcPo
+ 4ENUkD3ePNUYWoBYV1VY4pasBEOCpHD7SeA4xqwfajvowZJS1zjL5z5mSAeulCBM
+ EvadoQYFroBXv0YykmH1Pgz4jGhmhWeoWzDaE/kZHSBkcBdheoFrHoQIy47MOo4i
+ U9AtBvCzzjqU4Y76+4yZKpOvfz6N0e8q4e5Qpjv44CSdeS1Zb+9t1yk/CpgvfDZ5
+ XaHaRTWibdLVF/XxqNrtDWC/V++09czNVrjpBqYnoBoJDi87LAzx04RzeARI/Ts0
+ TGNpvwVzhqszDTdeKpG3FL+BdX0wp4KXkgosq5aQVhvOf4hev0rQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id wK1lG-ysTyCi for <qemu-devel@nongnu.org>;
- Tue, 31 Aug 2021 19:11:35 -0700 (PDT)
+ port 10026) with ESMTP id VAismJe6l7nb for <qemu-devel@nongnu.org>;
+ Tue, 31 Aug 2021 19:11:40 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.165.16])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Gznc30zGYz1Rvl9;
- Tue, 31 Aug 2021 19:11:30 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Gznc828JFz1Rvm1;
+ Tue, 31 Aug 2021 19:11:35 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: alistair23@gmail.com, Richard Henderson <richard.henderson@linaro.org>,
  Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 15/33] target/riscv: Add DisasExtend to gen_arith*
-Date: Wed,  1 Sep 2021 12:09:40 +1000
-Message-Id: <20210901020958.458454-16-alistair.francis@opensource.wdc.com>
+Subject: [PULL 16/33] target/riscv: Remove gen_arith_div*
+Date: Wed,  1 Sep 2021 12:09:41 +1000
+Message-Id: <20210901020958.458454-17-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210901020958.458454-1-alistair.francis@opensource.wdc.com>
 References: <20210901020958.458454-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.153.144;
+Received-SPF: pass client-ip=216.71.154.42;
  envelope-from=prvs=871df42ed=alistair.francis@opensource.wdc.com;
- helo=esa5.hgst.iphmx.com
+ helo=esa4.hgst.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -118,469 +118,117 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Most arithmetic does not require extending the inputs.
-Exceptions include division, comparison and minmax.
-
-Begin using ctx->w, which allows elimination of gen_addw,
-gen_subw, gen_mulw.
+Use ctx->w and the enhanced gen_arith function.
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210823195529.560295-7-richard.henderson@linaro.org
+Message-id: 20210823195529.560295-8-richard.henderson@linaro.org
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/translate.c                | 69 +++++++------------------
- target/riscv/insn_trans/trans_rvb.c.inc | 30 +++++------
- target/riscv/insn_trans/trans_rvi.c.inc | 39 ++++++++------
- target/riscv/insn_trans/trans_rvm.c.inc | 16 +++---
- 4 files changed, 64 insertions(+), 90 deletions(-)
+ target/riscv/translate.c                | 42 -------------------------
+ target/riscv/insn_trans/trans_rvm.c.inc | 16 +++++-----
+ 2 files changed, 8 insertions(+), 50 deletions(-)
 
 diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index d7552dc377..7dd2839288 100644
+index 7dd2839288..1855eacbac 100644
 --- a/target/riscv/translate.c
 +++ b/target/riscv/translate.c
-@@ -230,7 +230,7 @@ static void gen_get_gpr(DisasContext *ctx, TCGv t, in=
-t reg_num)
-     tcg_gen_mov_tl(t, get_gpr(ctx, reg_num, EXT_NONE));
- }
-=20
--static TCGv __attribute__((unused)) dest_gpr(DisasContext *ctx, int reg_=
-num)
-+static TCGv dest_gpr(DisasContext *ctx, int reg_num)
- {
-     if (reg_num =3D=3D 0 || ctx->w) {
-         return temp_new(ctx);
-@@ -482,57 +482,31 @@ static int ex_rvc_shifti(DisasContext *ctx, int imm=
-)
- /* Include the auto-generated decoder for 32 bit insn */
- #include "decode-insn32.c.inc"
-=20
--static bool gen_arith_imm_fn(DisasContext *ctx, arg_i *a,
-+static bool gen_arith_imm_fn(DisasContext *ctx, arg_i *a, DisasExtend ex=
-t,
-                              void (*func)(TCGv, TCGv, target_long))
- {
--    TCGv source1;
--    source1 =3D tcg_temp_new();
--
--    gen_get_gpr(ctx, source1, a->rs1);
-+    TCGv dest =3D dest_gpr(ctx, a->rd);
-+    TCGv src1 =3D get_gpr(ctx, a->rs1, ext);
-=20
--    (*func)(source1, source1, a->imm);
-+    func(dest, src1, a->imm);
-=20
--    gen_set_gpr(ctx, a->rd, source1);
--    tcg_temp_free(source1);
-+    gen_set_gpr(ctx, a->rd, dest);
+@@ -507,48 +507,6 @@ static bool gen_arith_imm_tl(DisasContext *ctx, arg_=
+i *a, DisasExtend ext,
      return true;
  }
 =20
--static bool gen_arith_imm_tl(DisasContext *ctx, arg_i *a,
-+static bool gen_arith_imm_tl(DisasContext *ctx, arg_i *a, DisasExtend ex=
-t,
-                              void (*func)(TCGv, TCGv, TCGv))
- {
+-static bool gen_arith_div_w(DisasContext *ctx, arg_r *a,
+-                            void(*func)(TCGv, TCGv, TCGv))
+-{
 -    TCGv source1, source2;
 -    source1 =3D tcg_temp_new();
 -    source2 =3D tcg_temp_new();
-+    TCGv dest =3D dest_gpr(ctx, a->rd);
-+    TCGv src1 =3D get_gpr(ctx, a->rs1, ext);
-+    TCGv src2 =3D tcg_constant_tl(a->imm);
-=20
--    gen_get_gpr(ctx, source1, a->rs1);
--    tcg_gen_movi_tl(source2, a->imm);
-+    func(dest, src1, src2);
-=20
--    (*func)(source1, source1, source2);
 -
--    gen_set_gpr(ctx, a->rd, source1);
--    tcg_temp_free(source1);
--    tcg_temp_free(source2);
-+    gen_set_gpr(ctx, a->rd, dest);
-     return true;
- }
-=20
--static void gen_addw(TCGv ret, TCGv arg1, TCGv arg2)
--{
--    tcg_gen_add_tl(ret, arg1, arg2);
--    tcg_gen_ext32s_tl(ret, ret);
--}
--
--static void gen_subw(TCGv ret, TCGv arg1, TCGv arg2)
--{
--    tcg_gen_sub_tl(ret, arg1, arg2);
--    tcg_gen_ext32s_tl(ret, ret);
--}
--
--static void gen_mulw(TCGv ret, TCGv arg1, TCGv arg2)
--{
--    tcg_gen_mul_tl(ret, arg1, arg2);
--    tcg_gen_ext32s_tl(ret, ret);
--}
--
- static bool gen_arith_div_w(DisasContext *ctx, arg_r *a,
-                             void(*func)(TCGv, TCGv, TCGv))
- {
-@@ -798,21 +772,16 @@ static void gen_add_uw(TCGv ret, TCGv arg1, TCGv ar=
-g2)
-     tcg_gen_add_tl(ret, arg1, arg2);
- }
-=20
--static bool gen_arith(DisasContext *ctx, arg_r *a,
--                      void(*func)(TCGv, TCGv, TCGv))
-+static bool gen_arith(DisasContext *ctx, arg_r *a, DisasExtend ext,
-+                      void (*func)(TCGv, TCGv, TCGv))
- {
--    TCGv source1, source2;
--    source1 =3D tcg_temp_new();
--    source2 =3D tcg_temp_new();
-+    TCGv dest =3D dest_gpr(ctx, a->rd);
-+    TCGv src1 =3D get_gpr(ctx, a->rs1, ext);
-+    TCGv src2 =3D get_gpr(ctx, a->rs2, ext);
-=20
 -    gen_get_gpr(ctx, source1, a->rs1);
 -    gen_get_gpr(ctx, source2, a->rs2);
-+    func(dest, src1, src2);
-=20
+-    tcg_gen_ext32s_tl(source1, source1);
+-    tcg_gen_ext32s_tl(source2, source2);
+-
 -    (*func)(source1, source1, source2);
 -
+-    tcg_gen_ext32s_tl(source1, source1);
 -    gen_set_gpr(ctx, a->rd, source1);
 -    tcg_temp_free(source1);
 -    tcg_temp_free(source2);
-+    gen_set_gpr(ctx, a->rd, dest);
-     return true;
- }
-=20
-diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_=
-trans/trans_rvb.c.inc
-index 260e15b47d..217a7d1f26 100644
---- a/target/riscv/insn_trans/trans_rvb.c.inc
-+++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -38,61 +38,61 @@ static bool trans_cpop(DisasContext *ctx, arg_cpop *a=
-)
- static bool trans_andn(DisasContext *ctx, arg_andn *a)
- {
-     REQUIRE_EXT(ctx, RVB);
--    return gen_arith(ctx, a, tcg_gen_andc_tl);
-+    return gen_arith(ctx, a, EXT_NONE, tcg_gen_andc_tl);
- }
-=20
- static bool trans_orn(DisasContext *ctx, arg_orn *a)
- {
-     REQUIRE_EXT(ctx, RVB);
--    return gen_arith(ctx, a, tcg_gen_orc_tl);
-+    return gen_arith(ctx, a, EXT_NONE, tcg_gen_orc_tl);
- }
-=20
- static bool trans_xnor(DisasContext *ctx, arg_xnor *a)
- {
-     REQUIRE_EXT(ctx, RVB);
--    return gen_arith(ctx, a, tcg_gen_eqv_tl);
-+    return gen_arith(ctx, a, EXT_NONE, tcg_gen_eqv_tl);
- }
-=20
- static bool trans_pack(DisasContext *ctx, arg_pack *a)
- {
-     REQUIRE_EXT(ctx, RVB);
--    return gen_arith(ctx, a, gen_pack);
-+    return gen_arith(ctx, a, EXT_NONE, gen_pack);
- }
-=20
- static bool trans_packu(DisasContext *ctx, arg_packu *a)
- {
-     REQUIRE_EXT(ctx, RVB);
--    return gen_arith(ctx, a, gen_packu);
-+    return gen_arith(ctx, a, EXT_NONE, gen_packu);
- }
-=20
- static bool trans_packh(DisasContext *ctx, arg_packh *a)
- {
-     REQUIRE_EXT(ctx, RVB);
--    return gen_arith(ctx, a, gen_packh);
-+    return gen_arith(ctx, a, EXT_NONE, gen_packh);
- }
-=20
- static bool trans_min(DisasContext *ctx, arg_min *a)
- {
-     REQUIRE_EXT(ctx, RVB);
--    return gen_arith(ctx, a, tcg_gen_smin_tl);
-+    return gen_arith(ctx, a, EXT_SIGN, tcg_gen_smin_tl);
- }
-=20
- static bool trans_max(DisasContext *ctx, arg_max *a)
- {
-     REQUIRE_EXT(ctx, RVB);
--    return gen_arith(ctx, a, tcg_gen_smax_tl);
-+    return gen_arith(ctx, a, EXT_SIGN, tcg_gen_smax_tl);
- }
-=20
- static bool trans_minu(DisasContext *ctx, arg_minu *a)
- {
-     REQUIRE_EXT(ctx, RVB);
--    return gen_arith(ctx, a, tcg_gen_umin_tl);
-+    return gen_arith(ctx, a, EXT_SIGN, tcg_gen_umin_tl);
- }
-=20
- static bool trans_maxu(DisasContext *ctx, arg_maxu *a)
- {
-     REQUIRE_EXT(ctx, RVB);
--    return gen_arith(ctx, a, tcg_gen_umax_tl);
-+    return gen_arith(ctx, a, EXT_SIGN, tcg_gen_umax_tl);
- }
-=20
- static bool trans_sext_b(DisasContext *ctx, arg_sext_b *a)
-@@ -230,7 +230,7 @@ static bool trans_gorci(DisasContext *ctx, arg_gorci =
-*a)
- static bool trans_sh##SHAMT##add(DisasContext *ctx, arg_sh##SHAMT##add *=
-a) \
- {                                                                       =
-   \
-     REQUIRE_EXT(ctx, RVB);                                              =
-   \
--    return gen_arith(ctx, a, gen_sh##SHAMT##add);                       =
-   \
-+    return gen_arith(ctx, a, EXT_NONE, gen_sh##SHAMT##add);             =
-   \
- }
-=20
- GEN_TRANS_SHADD(1)
-@@ -262,14 +262,14 @@ static bool trans_packw(DisasContext *ctx, arg_pack=
-w *a)
- {
-     REQUIRE_64BIT(ctx);
-     REQUIRE_EXT(ctx, RVB);
--    return gen_arith(ctx, a, gen_packw);
-+    return gen_arith(ctx, a, EXT_NONE, gen_packw);
- }
-=20
- static bool trans_packuw(DisasContext *ctx, arg_packuw *a)
- {
-     REQUIRE_64BIT(ctx);
-     REQUIRE_EXT(ctx, RVB);
--    return gen_arith(ctx, a, gen_packuw);
-+    return gen_arith(ctx, a, EXT_NONE, gen_packuw);
- }
-=20
- static bool trans_bsetw(DisasContext *ctx, arg_bsetw *a)
-@@ -404,7 +404,7 @@ static bool trans_sh##SHAMT##add_uw(DisasContext *ctx=
-,        \
- {                                                             \
-     REQUIRE_64BIT(ctx);                                       \
-     REQUIRE_EXT(ctx, RVB);                                    \
--    return gen_arith(ctx, a, gen_sh##SHAMT##add_uw);          \
-+    return gen_arith(ctx, a, EXT_NONE, gen_sh##SHAMT##add_uw);  \
- }
-=20
- GEN_TRANS_SHADD_UW(1)
-@@ -415,7 +415,7 @@ static bool trans_add_uw(DisasContext *ctx, arg_add_u=
-w *a)
- {
-     REQUIRE_64BIT(ctx);
-     REQUIRE_EXT(ctx, RVB);
--    return gen_arith(ctx, a, gen_add_uw);
-+    return gen_arith(ctx, a, EXT_NONE, gen_add_uw);
- }
-=20
- static bool trans_slli_uw(DisasContext *ctx, arg_slli_uw *a)
-diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_=
-trans/trans_rvi.c.inc
-index f1a5d8de56..bd80476852 100644
---- a/target/riscv/insn_trans/trans_rvi.c.inc
-+++ b/target/riscv/insn_trans/trans_rvi.c.inc
-@@ -230,7 +230,7 @@ static bool trans_sd(DisasContext *ctx, arg_sd *a)
-=20
- static bool trans_addi(DisasContext *ctx, arg_addi *a)
- {
--    return gen_arith_imm_fn(ctx, a, &tcg_gen_addi_tl);
-+    return gen_arith_imm_fn(ctx, a, EXT_NONE, tcg_gen_addi_tl);
- }
-=20
- static void gen_slt(TCGv ret, TCGv s1, TCGv s2)
-@@ -243,29 +243,31 @@ static void gen_sltu(TCGv ret, TCGv s1, TCGv s2)
-     tcg_gen_setcond_tl(TCG_COND_LTU, ret, s1, s2);
- }
-=20
+-    return true;
+-}
 -
- static bool trans_slti(DisasContext *ctx, arg_slti *a)
+-static bool gen_arith_div_uw(DisasContext *ctx, arg_r *a,
+-                            void(*func)(TCGv, TCGv, TCGv))
+-{
+-    TCGv source1, source2;
+-    source1 =3D tcg_temp_new();
+-    source2 =3D tcg_temp_new();
+-
+-    gen_get_gpr(ctx, source1, a->rs1);
+-    gen_get_gpr(ctx, source2, a->rs2);
+-    tcg_gen_ext32u_tl(source1, source1);
+-    tcg_gen_ext32u_tl(source2, source2);
+-
+-    (*func)(source1, source1, source2);
+-
+-    tcg_gen_ext32s_tl(source1, source1);
+-    gen_set_gpr(ctx, a->rd, source1);
+-    tcg_temp_free(source1);
+-    tcg_temp_free(source2);
+-    return true;
+-}
+-
+ static void gen_pack(TCGv ret, TCGv arg1, TCGv arg2)
  {
--    return gen_arith_imm_tl(ctx, a, &gen_slt);
-+    return gen_arith_imm_tl(ctx, a, EXT_SIGN, gen_slt);
- }
-=20
- static bool trans_sltiu(DisasContext *ctx, arg_sltiu *a)
- {
--    return gen_arith_imm_tl(ctx, a, &gen_sltu);
-+    return gen_arith_imm_tl(ctx, a, EXT_SIGN, gen_sltu);
- }
-=20
- static bool trans_xori(DisasContext *ctx, arg_xori *a)
- {
--    return gen_arith_imm_fn(ctx, a, &tcg_gen_xori_tl);
-+    return gen_arith_imm_fn(ctx, a, EXT_NONE, tcg_gen_xori_tl);
- }
-+
- static bool trans_ori(DisasContext *ctx, arg_ori *a)
- {
--    return gen_arith_imm_fn(ctx, a, &tcg_gen_ori_tl);
-+    return gen_arith_imm_fn(ctx, a, EXT_NONE, tcg_gen_ori_tl);
- }
-+
- static bool trans_andi(DisasContext *ctx, arg_andi *a)
- {
--    return gen_arith_imm_fn(ctx, a, &tcg_gen_andi_tl);
-+    return gen_arith_imm_fn(ctx, a, EXT_NONE, tcg_gen_andi_tl);
- }
-+
- static bool trans_slli(DisasContext *ctx, arg_slli *a)
- {
-     return gen_shifti(ctx, a, tcg_gen_shl_tl);
-@@ -283,12 +285,12 @@ static bool trans_srai(DisasContext *ctx, arg_srai =
-*a)
-=20
- static bool trans_add(DisasContext *ctx, arg_add *a)
- {
--    return gen_arith(ctx, a, &tcg_gen_add_tl);
-+    return gen_arith(ctx, a, EXT_NONE, tcg_gen_add_tl);
- }
-=20
- static bool trans_sub(DisasContext *ctx, arg_sub *a)
- {
--    return gen_arith(ctx, a, &tcg_gen_sub_tl);
-+    return gen_arith(ctx, a, EXT_NONE, tcg_gen_sub_tl);
- }
-=20
- static bool trans_sll(DisasContext *ctx, arg_sll *a)
-@@ -298,17 +300,17 @@ static bool trans_sll(DisasContext *ctx, arg_sll *a=
-)
-=20
- static bool trans_slt(DisasContext *ctx, arg_slt *a)
- {
--    return gen_arith(ctx, a, &gen_slt);
-+    return gen_arith(ctx, a, EXT_SIGN, gen_slt);
- }
-=20
- static bool trans_sltu(DisasContext *ctx, arg_sltu *a)
- {
--    return gen_arith(ctx, a, &gen_sltu);
-+    return gen_arith(ctx, a, EXT_SIGN, gen_sltu);
- }
-=20
- static bool trans_xor(DisasContext *ctx, arg_xor *a)
- {
--    return gen_arith(ctx, a, &tcg_gen_xor_tl);
-+    return gen_arith(ctx, a, EXT_NONE, tcg_gen_xor_tl);
- }
-=20
- static bool trans_srl(DisasContext *ctx, arg_srl *a)
-@@ -323,18 +325,19 @@ static bool trans_sra(DisasContext *ctx, arg_sra *a=
-)
-=20
- static bool trans_or(DisasContext *ctx, arg_or *a)
- {
--    return gen_arith(ctx, a, &tcg_gen_or_tl);
-+    return gen_arith(ctx, a, EXT_NONE, tcg_gen_or_tl);
- }
-=20
- static bool trans_and(DisasContext *ctx, arg_and *a)
- {
--    return gen_arith(ctx, a, &tcg_gen_and_tl);
-+    return gen_arith(ctx, a, EXT_NONE, tcg_gen_and_tl);
- }
-=20
- static bool trans_addiw(DisasContext *ctx, arg_addiw *a)
- {
-     REQUIRE_64BIT(ctx);
--    return gen_arith_imm_tl(ctx, a, &gen_addw);
-+    ctx->w =3D true;
-+    return gen_arith_imm_fn(ctx, a, EXT_NONE, tcg_gen_addi_tl);
- }
-=20
- static bool trans_slliw(DisasContext *ctx, arg_slliw *a)
-@@ -370,13 +373,15 @@ static bool trans_sraiw(DisasContext *ctx, arg_srai=
-w *a)
- static bool trans_addw(DisasContext *ctx, arg_addw *a)
- {
-     REQUIRE_64BIT(ctx);
--    return gen_arith(ctx, a, &gen_addw);
-+    ctx->w =3D true;
-+    return gen_arith(ctx, a, EXT_NONE, tcg_gen_add_tl);
- }
-=20
- static bool trans_subw(DisasContext *ctx, arg_subw *a)
- {
-     REQUIRE_64BIT(ctx);
--    return gen_arith(ctx, a, &gen_subw);
-+    ctx->w =3D true;
-+    return gen_arith(ctx, a, EXT_NONE, tcg_gen_sub_tl);
- }
-=20
- static bool trans_sllw(DisasContext *ctx, arg_sllw *a)
+     tcg_gen_deposit_tl(ret, arg1, arg2,
 diff --git a/target/riscv/insn_trans/trans_rvm.c.inc b/target/riscv/insn_=
 trans/trans_rvm.c.inc
-index 0a4318f18e..013b3f7009 100644
+index 013b3f7009..3d93b24c25 100644
 --- a/target/riscv/insn_trans/trans_rvm.c.inc
 +++ b/target/riscv/insn_trans/trans_rvm.c.inc
-@@ -22,7 +22,7 @@
- static bool trans_mul(DisasContext *ctx, arg_mul *a)
+@@ -99,30 +99,30 @@ static bool trans_divw(DisasContext *ctx, arg_divw *a=
+)
  {
+     REQUIRE_64BIT(ctx);
      REQUIRE_EXT(ctx, RVM);
--    return gen_arith(ctx, a, &tcg_gen_mul_tl);
-+    return gen_arith(ctx, a, EXT_NONE, tcg_gen_mul_tl);
- }
-=20
- static bool trans_mulh(DisasContext *ctx, arg_mulh *a)
-@@ -44,7 +44,7 @@ static bool trans_mulh(DisasContext *ctx, arg_mulh *a)
- static bool trans_mulhsu(DisasContext *ctx, arg_mulhsu *a)
- {
-     REQUIRE_EXT(ctx, RVM);
--    return gen_arith(ctx, a, &gen_mulhsu);
-+    return gen_arith(ctx, a, EXT_NONE, gen_mulhsu);
- }
-=20
- static bool trans_mulhu(DisasContext *ctx, arg_mulhu *a)
-@@ -66,33 +66,33 @@ static bool trans_mulhu(DisasContext *ctx, arg_mulhu =
-*a)
- static bool trans_div(DisasContext *ctx, arg_div *a)
- {
-     REQUIRE_EXT(ctx, RVM);
--    return gen_arith(ctx, a, &gen_div);
+-
+-    return gen_arith_div_w(ctx, a, &gen_div);
++    ctx->w =3D true;
 +    return gen_arith(ctx, a, EXT_SIGN, gen_div);
  }
 =20
- static bool trans_divu(DisasContext *ctx, arg_divu *a)
- {
-     REQUIRE_EXT(ctx, RVM);
--    return gen_arith(ctx, a, &gen_divu);
-+    return gen_arith(ctx, a, EXT_ZERO, gen_divu);
- }
-=20
- static bool trans_rem(DisasContext *ctx, arg_rem *a)
- {
-     REQUIRE_EXT(ctx, RVM);
--    return gen_arith(ctx, a, &gen_rem);
-+    return gen_arith(ctx, a, EXT_SIGN, gen_rem);
- }
-=20
- static bool trans_remu(DisasContext *ctx, arg_remu *a)
- {
-     REQUIRE_EXT(ctx, RVM);
--    return gen_arith(ctx, a, &gen_remu);
-+    return gen_arith(ctx, a, EXT_ZERO, gen_remu);
- }
-=20
- static bool trans_mulw(DisasContext *ctx, arg_mulw *a)
+ static bool trans_divuw(DisasContext *ctx, arg_divuw *a)
  {
      REQUIRE_64BIT(ctx);
      REQUIRE_EXT(ctx, RVM);
 -
--    return gen_arith(ctx, a, &gen_mulw);
+-    return gen_arith_div_uw(ctx, a, &gen_divu);
 +    ctx->w =3D true;
-+    return gen_arith(ctx, a, EXT_NONE, tcg_gen_mul_tl);
++    return gen_arith(ctx, a, EXT_ZERO, gen_divu);
  }
 =20
- static bool trans_divw(DisasContext *ctx, arg_divw *a)
+ static bool trans_remw(DisasContext *ctx, arg_remw *a)
+ {
+     REQUIRE_64BIT(ctx);
+     REQUIRE_EXT(ctx, RVM);
+-
+-    return gen_arith_div_w(ctx, a, &gen_rem);
++    ctx->w =3D true;
++    return gen_arith(ctx, a, EXT_SIGN, gen_rem);
+ }
+=20
+ static bool trans_remuw(DisasContext *ctx, arg_remuw *a)
+ {
+     REQUIRE_64BIT(ctx);
+     REQUIRE_EXT(ctx, RVM);
+-
+-    return gen_arith_div_uw(ctx, a, &gen_remu);
++    ctx->w =3D true;
++    return gen_arith(ctx, a, EXT_ZERO, gen_remu);
+ }
 --=20
 2.31.1
 
