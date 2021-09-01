@@ -2,86 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDC0E3FDFE1
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:28:06 +0200 (CEST)
-Received: from localhost ([::1]:58310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 619053FDFC6
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:23:05 +0200 (CEST)
+Received: from localhost ([::1]:40688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLT5p-0000DM-ON
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:28:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35442)
+	id 1mLT0x-0005MD-Fj
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:23:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLSyD-0002qw-4z
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:20:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20506)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mLSxz-0002RN-8W; Wed, 01 Sep 2021 12:19:59 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:56901)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLSy4-0003wh-D5
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:20:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630513203;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mqZ4QMnle7fwtbPQ8ukScqFi6F88Fa50C7r2uFtQeyM=;
- b=UobSzUL41m+CqubmMrdEgpXDNOWYukhARfrSkTkUMnJxCmIQAheofoSxNTQcKua6AlowWj
- jBqrUjd8wErieRegdSwY3s+wAjHAxh7SL0NZo4rdqpTCNeZOlIfglseGTsDnT+0NL5eIol
- PmHDkbHSEMRGHh0s21AQrGmMbvE00K4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-ngfFs-AHNoqIDtJVsehEKw-1; Wed, 01 Sep 2021 12:20:00 -0400
-X-MC-Unique: ngfFs-AHNoqIDtJVsehEKw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- t15-20020a5d42cf000000b001565f9c9ee8so87905wrr.2
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 09:20:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=mqZ4QMnle7fwtbPQ8ukScqFi6F88Fa50C7r2uFtQeyM=;
- b=CW8kViNn0ey8N5loM39MXAEYAxSCh89wfy42SegPp+6/r27uik2X9Hhd58/mbzWq5k
- JU7Fdj5WbvAKNY30vrvPrAr2mMF1uKorvKZDxceZOPmUPQbXm71SVOwTgtsVYfFwnv/n
- 3kH+5St19M/toZ86iqvFJBQ42MA+n+KQxLbMAXuM2ZbDXev2557eTRSHvl7cdadzR5wZ
- +bMtzEsjFuACyA4zevs+B8ETlyX6pQWSeAkocrWPXeVfI88BV8WpGweg22XqkXc0/6uN
- IHZu81iU8ZSXITo8yQROhihpsVlR+zZyf4eV/Etpy9n+2i/85AD9subs6O17n+6PkXYy
- BvvA==
-X-Gm-Message-State: AOAM532M59dEHKDlOOMVUQjmWHyhk6f33HeG6uTPX2fARsm0dDJ/fjBp
- PPd8nHdKIbILFpLBIO9stJY75GzeelQjxDc72ip1UdcYwbU13qoOxKc9YLP84PkoAvHleIKntwu
- 2fYNSXkzhMxbovsiffqRFDAgQsOR9hUkkbvea6giKPvQCe4D53hfj8HFLbqJxCpse
-X-Received: by 2002:a05:6000:10:: with SMTP id h16mr244921wrx.24.1630513199164; 
- Wed, 01 Sep 2021 09:19:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy4xo6F5HQUokXPtwznbTKoGysNObIhUiaFtcFWNOFqCBC9jQI/Vw+2Ea7S66iykJS4SPtyCA==
-X-Received: by 2002:a05:6000:10:: with SMTP id h16mr244865wrx.24.1630513198812; 
- Wed, 01 Sep 2021 09:19:58 -0700 (PDT)
-Received: from x1w.redhat.com (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id c14sm35251wme.6.2021.09.01.09.19.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 09:19:58 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/3] memory: Have 'info mtree' remove duplicated Address
- Space information
-Date: Wed,  1 Sep 2021 18:19:43 +0200
-Message-Id: <20210901161943.4174212-4-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210901161943.4174212-1-philmd@redhat.com>
-References: <20210901161943.4174212-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mLSxv-0003mJ-Dp; Wed, 01 Sep 2021 12:19:58 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.128])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id F272BBBF04D0;
+ Wed,  1 Sep 2021 18:19:50 +0200 (CEST)
+Received: from kaod.org (37.59.142.97) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 1 Sep
+ 2021 18:19:50 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G00222381ebb-9fb0-4881-aac4-995c390bc6ca,
+ 5EBA00A5E723AF1D17FBD8632F6684B6834AEADC) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PATCH v2 1/1] hw/arm/aspeed: Allow machine to set UART default
+To: <pdel@fb.com>
+References: <20210901153615.2746885-1-pdel@fb.com>
+ <20210901153615.2746885-2-pdel@fb.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <d7c98ab7-1ebd-d18c-8d49-a7429fc7940a@kaod.org>
+Date: Wed, 1 Sep 2021 18:19:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210901153615.2746885-2-pdel@fb.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: e5bcebe1-9804-4ad1-b872-bc48116734e6
+X-Ovh-Tracer-Id: 12116371847884540780
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddvfedgleelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehpuggvlhesfhgsrdgtohhm
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -28
+X-Spam_score: -2.9
+X-Spam_bar: --
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.029,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,265 +70,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Peter Xu <peterx@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, andrew@aj.id.au, f4bug@amsat.org,
+ qemu-devel@nongnu.org, patrick@stwcx.xyz, qemu-arm@nongnu.org, joel@jms.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per Peter Maydell [*]:
+On 9/1/21 5:36 PM, pdel@fb.com wrote:
+> From: Peter Delevoryas <pdel@fb.com>
+> 
+> When you run QEMU with an Aspeed machine and a single serial device
+> using stdio like this:
+> 
+>     qemu -machine ast2600-evb -drive ... -serial stdio
+> 
+> The guest OS can read and write to the UART5 registers at 0x1E784000 and
+> it will receive from stdin and write to stdout. The Aspeed SoC's have a
+> lot more UART's though (AST2500 has 5, AST2600 has 13) and depending on
+> the board design, may be using any of them as the serial console. (See
+> "stdout-path" in a DTS to check which one is chosen).
+> 
+> Most boards, including all of those currently defined in
+> hw/arm/aspeed.c, just use UART5, but some use UART1. This change adds
+> some flexibility for different boards without requiring users to change
+> their command-line invocation of QEMU.
+> 
+> I tested this doesn't break existing code by booting an AST2500 OpenBMC
+> image and an AST2600 OpenBMC image, each using UART5 as the console.
+> 
+> Then I tested switching the default to UART1 and booting an AST2600
+> OpenBMC image that uses UART1, and that worked too.
+> 
+> Signed-off-by: Peter Delevoryas <pdel@fb.com>
 
-  'info mtree' monitor command was designed on the assumption that
-  there's really only one or two interesting address spaces, and
-  with more recent developments that's just not the case any more.
+One comment, any how 
 
-Similarly about how the FlatView are sorted using a GHashTable,
-sort the AddressSpace objects to remove the duplications (AS
-using the same root MemoryRegion).
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-This drastically reduces the output of 'info mtree' on some boards.
+> ---
+>  hw/arm/aspeed.c             | 3 +++
+>  hw/arm/aspeed_ast2600.c     | 8 ++++----
+>  hw/arm/aspeed_soc.c         | 9 ++++++---
+>  include/hw/arm/aspeed.h     | 1 +
+>  include/hw/arm/aspeed_soc.h | 1 +
+>  5 files changed, 15 insertions(+), 7 deletions(-)
+> 
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index 9d43e26c51..a81e90c539 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -350,6 +350,8 @@ static void aspeed_machine_init(MachineState *machine)
+>          object_property_set_int(OBJECT(&bmc->soc), "hw-prot-key",
+>                                  ASPEED_SCU_PROT_KEY, &error_abort);
+>      }
+> +    qdev_prop_set_uint32(DEVICE(&bmc->soc), "uart-default",
+> +                         amc->uart_default);
+>      qdev_realize(DEVICE(&bmc->soc), NULL, &error_abort);
+>  
+>      memory_region_add_subregion(get_system_memory(),
+> @@ -804,6 +806,7 @@ static void aspeed_machine_class_init(ObjectClass *oc, void *data)
+>      mc->no_parallel = 1;
+>      mc->default_ram_id = "ram";
+>      amc->macs_mask = ASPEED_MAC0_ON;
+> +    amc->uart_default = ASPEED_DEV_UART5;
+>  
+>      aspeed_machine_class_props_init(oc);
+>  }
+> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+> index e3013128c6..b07fcf10a0 100644
+> --- a/hw/arm/aspeed_ast2600.c
+> +++ b/hw/arm/aspeed_ast2600.c
+> @@ -322,10 +322,10 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+>          sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
+>      }
+>  
+> -    /* UART - attach an 8250 to the IO space as our UART5 */
+> -    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
+> -                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5),
+> -                   38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
+> +    /* UART - attach an 8250 to the IO space as our UART */
+> +    serial_mm_init(get_system_memory(), sc->memmap[s->uart_default], 2,
+> +                   aspeed_soc_get_irq(s, s->uart_default), 38400,
+> +                   serial_hd(0), DEVICE_LITTLE_ENDIAN);
+>  
+>      /* I2C */
+>      object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(s->dram_mr),
+> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+> index 3ad6c56fa9..09c0f83710 100644
+> --- a/hw/arm/aspeed_soc.c
+> +++ b/hw/arm/aspeed_soc.c
+> @@ -287,9 +287,9 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+>          sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
+>      }
+>  
+> -    /* UART - attach an 8250 to the IO space as our UART5 */
+> -    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
+> -                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5), 38400,
+> +    /* UART - attach an 8250 to the IO space as our UART */
+> +    serial_mm_init(get_system_memory(), sc->memmap[s->uart_default], 2,
+> +                   aspeed_soc_get_irq(s, s->uart_default), 38400,
+>                     serial_hd(0), DEVICE_LITTLE_ENDIAN);
+>  
+>      /* I2C */
+> @@ -439,6 +439,8 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+>  static Property aspeed_soc_properties[] = {
+>      DEFINE_PROP_LINK("dram", AspeedSoCState, dram_mr, TYPE_MEMORY_REGION,
+>                       MemoryRegion *),
+> +    DEFINE_PROP_UINT32("uart-default", AspeedSoCState, uart_default,
+> +                       ASPEED_DEV_UART5),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>  
+> @@ -449,6 +451,7 @@ static void aspeed_soc_class_init(ObjectClass *oc, void *data)
+>      dc->realize = aspeed_soc_realize;
+>      /* Reason: Uses serial_hds and nd_table in realize() directly */
+>      dc->user_creatable = false;
+> +
 
-Before:
+Unneeded change,
 
-  $ (echo info mtree; echo q) \
-    | qemu-system-aarch64 -S -monitor stdio -M raspi3b \
-    | wc -l
-  423
+Thanks,
 
-After:
+C. 
 
-  $ (echo info mtree; echo q) \
-    | qemu-system-aarch64 -S -monitor stdio -M raspi3b \
-    | wc -l
-  108
-
-  (qemu) info mtree
-  address-space: I/O
-    0000000000000000-000000000000ffff (prio 0, i/o): io
-
-  address-space shared 9 times:
-    - cpu-memory-0
-    - cpu-memory-1
-    - cpu-memory-2
-    - cpu-memory-3
-    - cpu-secure-memory-0
-    - cpu-secure-memory-1
-    - cpu-secure-memory-2
-    - cpu-secure-memory-3
-    - memory
-    0000000000000000-ffffffffffffffff (prio 0, i/o): system
-      0000000000000000-000000003fffffff (prio 0, ram): ram
-      000000003f000000-000000003fffffff (prio 1, i/o): bcm2835-peripherals
-        000000003f003000-000000003f00301f (prio 0, i/o): bcm2835-sys-timer
-        000000003f004000-000000003f004fff (prio -1000, i/o): bcm2835-txp
-        000000003f006000-000000003f006fff (prio 0, i/o): mphi
-        000000003f007000-000000003f007fff (prio 0, i/o): bcm2835-dma
-        000000003f00b200-000000003f00b3ff (prio 0, i/o): bcm2835-ic
-        000000003f00b400-000000003f00b43f (prio -1000, i/o): bcm2835-sp804
-        000000003f00b800-000000003f00bbff (prio 0, i/o): bcm2835-mbox
-        000000003f100000-000000003f1001ff (prio 0, i/o): bcm2835-powermgt
-        000000003f101000-000000003f102fff (prio 0, i/o): bcm2835-cprman
-        000000003f104000-000000003f10400f (prio 0, i/o): bcm2835-rng
-        000000003f200000-000000003f200fff (prio 0, i/o): bcm2835_gpio
-        000000003f201000-000000003f201fff (prio 0, i/o): pl011
-        000000003f202000-000000003f202fff (prio 0, i/o): bcm2835-sdhost
-        000000003f203000-000000003f2030ff (prio -1000, i/o): bcm2835-i2s
-        000000003f204000-000000003f20401f (prio -1000, i/o): bcm2835-spi0
-        000000003f205000-000000003f20501f (prio -1000, i/o): bcm2835-i2c0
-        000000003f20f000-000000003f20f07f (prio -1000, i/o): bcm2835-otp
-        000000003f212000-000000003f212007 (prio 0, i/o): bcm2835-thermal
-        000000003f214000-000000003f2140ff (prio -1000, i/o): bcm2835-spis
-        000000003f215000-000000003f2150ff (prio 0, i/o): bcm2835-aux
-        000000003f300000-000000003f3000ff (prio 0, i/o): sdhci
-        000000003f600000-000000003f6000ff (prio -1000, i/o): bcm2835-smi
-        000000003f804000-000000003f80401f (prio -1000, i/o): bcm2835-i2c1
-        000000003f805000-000000003f80501f (prio -1000, i/o): bcm2835-i2c2
-        000000003f900000-000000003f907fff (prio -1000, i/o): bcm2835-dbus
-        000000003f910000-000000003f917fff (prio -1000, i/o): bcm2835-ave0
-        000000003f980000-000000003f990fff (prio 0, i/o): dwc2
-          000000003f980000-000000003f980fff (prio 0, i/o): dwc2-io
-          000000003f981000-000000003f990fff (prio 0, i/o): dwc2-fifo
-        000000003fc00000-000000003fc00fff (prio -1000, i/o): bcm2835-v3d
-        000000003fe00000-000000003fe000ff (prio -1000, i/o): bcm2835-sdramc
-        000000003fe05000-000000003fe050ff (prio 0, i/o): bcm2835-dma-chan15
-      0000000040000000-00000000400000ff (prio 0, i/o): bcm2836-control
-
-  address-space shared 4 times:
-    - bcm2835-dma-memory
-    - bcm2835-fb-memory
-    - bcm2835-property-memory
-    - dwc2
-    0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
-      0000000000000000-000000003fffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      0000000040000000-000000007fffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
-      0000000080000000-00000000bfffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      00000000c0000000-00000000ffffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-
-  address-space: bcm2835-mbox-memory
-    0000000000000000-000000000000008f (prio 0, i/o): bcm2835-mbox
-      0000000000000010-000000000000001f (prio 0, i/o): bcm2835-fb
-      0000000000000080-000000000000008f (prio 0, i/o): bcm2835-property
-
-  memory-region: ram
-    0000000000000000-000000003fffffff (prio 0, ram): ram
-
-  memory-region: bcm2835-peripherals
-    000000003f000000-000000003fffffff (prio 1, i/o): bcm2835-peripherals
-      000000003f003000-000000003f00301f (prio 0, i/o): bcm2835-sys-timer
-      000000003f004000-000000003f004fff (prio -1000, i/o): bcm2835-txp
-      000000003f006000-000000003f006fff (prio 0, i/o): mphi
-      000000003f007000-000000003f007fff (prio 0, i/o): bcm2835-dma
-      000000003f00b200-000000003f00b3ff (prio 0, i/o): bcm2835-ic
-      000000003f00b400-000000003f00b43f (prio -1000, i/o): bcm2835-sp804
-      000000003f00b800-000000003f00bbff (prio 0, i/o): bcm2835-mbox
-      000000003f100000-000000003f1001ff (prio 0, i/o): bcm2835-powermgt
-      000000003f101000-000000003f102fff (prio 0, i/o): bcm2835-cprman
-      000000003f104000-000000003f10400f (prio 0, i/o): bcm2835-rng
-      000000003f200000-000000003f200fff (prio 0, i/o): bcm2835_gpio
-      000000003f201000-000000003f201fff (prio 0, i/o): pl011
-      000000003f202000-000000003f202fff (prio 0, i/o): bcm2835-sdhost
-      000000003f203000-000000003f2030ff (prio -1000, i/o): bcm2835-i2s
-      000000003f204000-000000003f20401f (prio -1000, i/o): bcm2835-spi0
-      000000003f205000-000000003f20501f (prio -1000, i/o): bcm2835-i2c0
-      000000003f20f000-000000003f20f07f (prio -1000, i/o): bcm2835-otp
-      000000003f212000-000000003f212007 (prio 0, i/o): bcm2835-thermal
-      000000003f214000-000000003f2140ff (prio -1000, i/o): bcm2835-spis
-      000000003f215000-000000003f2150ff (prio 0, i/o): bcm2835-aux
-      000000003f300000-000000003f3000ff (prio 0, i/o): sdhci
-      000000003f600000-000000003f6000ff (prio -1000, i/o): bcm2835-smi
-      000000003f804000-000000003f80401f (prio -1000, i/o): bcm2835-i2c1
-      000000003f805000-000000003f80501f (prio -1000, i/o): bcm2835-i2c2
-      000000003f900000-000000003f907fff (prio -1000, i/o): bcm2835-dbus
-      000000003f910000-000000003f917fff (prio -1000, i/o): bcm2835-ave0
-      000000003f980000-000000003f990fff (prio 0, i/o): dwc2
-        000000003f980000-000000003f980fff (prio 0, i/o): dwc2-io
-        000000003f981000-000000003f990fff (prio 0, i/o): dwc2-fifo
-      000000003fc00000-000000003fc00fff (prio -1000, i/o): bcm2835-v3d
-      000000003fe00000-000000003fe000ff (prio -1000, i/o): bcm2835-sdramc
-      000000003fe05000-000000003fe050ff (prio 0, i/o): bcm2835-dma-chan15
-
-  (qemu) q
-
-[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg829821.html
-
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-Pending question from David on v3:
-
-  We can still distinguish from a completely empty AS, because we don't have an empty line here, correct?
-
-checkpatch warning (81 chars):
-
-  WARNING: line over 80 characters
-  #86: FILE: softmmu/memory.c:3359:
-  +                                  address_space_compare_name);
----
- softmmu/memory.c | 73 ++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 70 insertions(+), 3 deletions(-)
-
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 5be7d5e7412..9be2017bc38 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -3282,6 +3282,59 @@ static void mtree_info_flatview(bool dispatch_tree, bool owner)
-     /* Free */
-     g_hash_table_foreach_remove(views, mtree_info_flatview_free, 0);
-     g_hash_table_unref(views);
-+
-+    return;
-+}
-+
-+struct AddressSpaceInfo {
-+    MemoryRegionListHead *ml_head;
-+    int counter;
-+    bool owner;
-+    bool disabled;
-+};
-+
-+/* Returns negative value if a < b; zero if a = b; positive value if a > b. */
-+static gint address_space_compare_name(gconstpointer a, gconstpointer b)
-+{
-+    const AddressSpace *as_a = a;
-+    const AddressSpace *as_b = b;
-+
-+    return g_strcmp0(as_a->name, as_b->name);
-+}
-+static void mtree_print_as_name(gpointer data, gpointer user_data)
-+{
-+    AddressSpace *as = data;
-+
-+    qemu_printf("  - %s\n", as->name);
-+}
-+
-+static void mtree_print_as(gpointer key, gpointer value, gpointer user_data)
-+{
-+    MemoryRegion *mr = key;
-+    GSList *as_same_root_mr_list = value;
-+    struct AddressSpaceInfo *asi = user_data;
-+    guint same_root_len = g_slist_length(as_same_root_mr_list);
-+
-+    if (same_root_len == 1) {
-+        AddressSpace *as = g_slist_nth_data(as_same_root_mr_list, 0);
-+
-+        qemu_printf("address-space: %s\n", as->name);
-+    } else {
-+        qemu_printf("address-space shared %u times:\n", same_root_len);
-+        g_slist_foreach(as_same_root_mr_list, mtree_print_as_name, NULL);
-+    }
-+    mtree_print_mr(mr, 1, 0, asi->ml_head, asi->owner, asi->disabled);
-+    qemu_printf("\n");
-+}
-+
-+static gboolean mtree_info_as_free(gpointer key, gpointer value,
-+                                   gpointer user_data)
-+{
-+    GSList *as_same_root_mr_list = value;
-+
-+    g_slist_free(as_same_root_mr_list);
-+
-+    return true;
- }
- 
- static void mtree_info_as(bool dispatch_tree, bool owner, bool disabled)
-@@ -3289,15 +3342,29 @@ static void mtree_info_as(bool dispatch_tree, bool owner, bool disabled)
-     MemoryRegionListHead ml_head;
-     MemoryRegionList *ml, *ml2;
-     AddressSpace *as;
-+    GHashTable *views = g_hash_table_new(g_direct_hash, g_direct_equal);
-+    GSList *as_same_root_mr_list;
-+    struct AddressSpaceInfo asi = {
-+        .ml_head = &ml_head,
-+        .owner = owner,
-+        .disabled = disabled,
-+    };
- 
-     QTAILQ_INIT(&ml_head);
- 
-     QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
--        qemu_printf("address-space: %s\n", as->name);
--        mtree_print_mr(as->root, 1, 0, &ml_head, owner, disabled);
--        qemu_printf("\n");
-+        /* Create hashtable, key=AS root MR, value = list of AS */
-+        as_same_root_mr_list = g_hash_table_lookup(views, as->root);
-+        as_same_root_mr_list = g_slist_insert_sorted(as_same_root_mr_list, as,
-+                                                     address_space_compare_name);
-+        g_hash_table_insert(views, as->root, as_same_root_mr_list);
-     }
- 
-+    /* print address spaces */
-+    g_hash_table_foreach(views, mtree_print_as, &asi);
-+    g_hash_table_foreach_remove(views, mtree_info_as_free, 0);
-+    g_hash_table_unref(views);
-+
-     /* print aliased regions */
-     QTAILQ_FOREACH(ml, &ml_head, mrqueue) {
-         qemu_printf("memory-region: %s\n", memory_region_name(ml->mr));
--- 
-2.31.1
+>      device_class_set_props(dc, aspeed_soc_properties);
+>  }
+>  
+> diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
+> index c9747b15fc..cbeacb214c 100644
+> --- a/include/hw/arm/aspeed.h
+> +++ b/include/hw/arm/aspeed.h
+> @@ -38,6 +38,7 @@ struct AspeedMachineClass {
+>      uint32_t num_cs;
+>      uint32_t macs_mask;
+>      void (*i2c_init)(AspeedMachineState *bmc);
+> +    uint32_t uart_default;
+>  };
+>  
+>  
+> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+> index d9161d26d6..87d76c9259 100644
+> --- a/include/hw/arm/aspeed_soc.h
+> +++ b/include/hw/arm/aspeed_soc.h
+> @@ -65,6 +65,7 @@ struct AspeedSoCState {
+>      AspeedSDHCIState sdhci;
+>      AspeedSDHCIState emmc;
+>      AspeedLPCState lpc;
+> +    uint32_t uart_default;
+>  };
+>  
+>  #define TYPE_ASPEED_SOC "aspeed-soc"
+> 
 
 
