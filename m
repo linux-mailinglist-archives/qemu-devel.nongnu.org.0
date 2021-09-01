@@ -2,94 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 040FA3FE019
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:39:13 +0200 (CEST)
-Received: from localhost ([::1]:36188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 164F03FDFD4
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:26:08 +0200 (CEST)
+Received: from localhost ([::1]:50400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLTGZ-0007C9-Rf
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:39:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53810)
+	id 1mLT3v-0003L3-3C
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:26:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLSHI-00006S-Rj
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:35:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26626)
+ (Exim 4.90_1) (envelope-from <prvs=8878769573=pdel@fb.com>)
+ id 1mLSHw-0002CB-UG
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:36:33 -0400
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:42518)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLSHH-0001q1-2k
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:35:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630510550;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ra6r60ogw0INw+sg3LCqm9R+alg1wxxmTra4u8tkkVo=;
- b=JZ5Kw8v/MteExmmdb1cyfLd/naWeLhEtFlS5Jqkv7CP4bqeJ4rZxXvMoPEw/93Vg+5N98i
- 7UyvItkQV5IcclvD8vTpKIpIvASHq1ivEb6KB8Rf1BP3rK9ruJeEy5XMH8IlZi2r4duvtg
- WZTbA/7sM10jR2xQ5KKJt+C1zfGie2U=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-594-yHgdUINLOgSwxfzKIgE3RA-1; Wed, 01 Sep 2021 11:35:48 -0400
-X-MC-Unique: yHgdUINLOgSwxfzKIgE3RA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c4-20020a1c9a04000000b002e864b7edd1so33796wme.6
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 08:35:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ra6r60ogw0INw+sg3LCqm9R+alg1wxxmTra4u8tkkVo=;
- b=k2CEfPmaEDmL2wKrm8D2TbNe0cTBW8kD9It0NbA/z8nEm+eyzTIRPvEv3PmWHjxAD/
- 2TxCVfOvqXXJeoTvubTs1RXHSfVCz2ujhnRmdxc5g1fzS3WGqmQq4qmablY3Ibpdm+dh
- q6sfheTvTQcGAFiSmjXI3O++W7wGTNW9dIbcT8QDO35BbBg5bwFsZh7wwzJOqjbVw7fu
- oxqCb+pwKvcSI1npug/XYKEoMMLICDYRNahrSp/uwt3u+rIYYO9+oU916Y2zLH+ChUO7
- hn+tZX1E8OmIPq7S3QThTgUF/iWrR/fzGlb2CXiA05qLxXc5eX1lxImDvcmaSFa8U4XV
- HzDw==
-X-Gm-Message-State: AOAM532r64lA6bgWU6b44JyXSaWpyQF90vvM0B+rrX+vZsZLYwaxVpaJ
- B+NfdkE4XV5SUhLLmFi+kUxqLvD7kPfyKr0TwyX5cNErEpFoUjTNxFlF0MnO5szMHlT9GAlw+w5
- eGzfJ0xkJMCVvQtg=
-X-Received: by 2002:a05:600c:a44:: with SMTP id c4mr74365wmq.83.1630510544619; 
- Wed, 01 Sep 2021 08:35:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJymcnIk+AE3ZrBs7xjKQ1Pe5NtG/425r/24DQu/E/m6Vy7K7v7kVtLVf01AvakaXuIuPdxgNw==
-X-Received: by 2002:a05:600c:a44:: with SMTP id c4mr74335wmq.83.1630510544376; 
- Wed, 01 Sep 2021 08:35:44 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id e26sm22740982wrc.6.2021.09.01.08.35.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Sep 2021 08:35:43 -0700 (PDT)
-Subject: Re: [PATCH] gitlab: Escape git-describe match pattern on Windows hosts
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>
-References: <20210901145229.4132606-1-philmd@redhat.com>
- <YS+UylEr3CJyksxt@redhat.com>
- <CAFEAcA_gyZTfUTAAoKvrA-qyv-8dOvGjLSLmq2uaur8XYS6CuQ@mail.gmail.com>
- <YS+aiZep166VuVcH@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0901f6da-de5c-f9e6-5f40-e15f4a7c807d@redhat.com>
-Date: Wed, 1 Sep 2021 17:35:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <prvs=8878769573=pdel@fb.com>)
+ id 1mLSHs-0002IE-SE
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:36:32 -0400
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
+ by mx0a-00082601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 181FSmsm027210
+ for <qemu-devel@nongnu.org>; Wed, 1 Sep 2021 08:36:27 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
+ h=from : to : cc : subject
+ : date : message-id : in-reply-to : references : mime-version :
+ content-transfer-encoding : content-type; s=facebook;
+ bh=MBq1vy0WPgsMaP/HP5CupUdC6htwDYYPtDOlxuYnYiY=;
+ b=fUDlc/Lf3lAi0qln6UQsYWAzA282y9XfWUI/+WJ6ahI8WjVU+SnnENQr1pygGlbp2wCZ
+ lIoPugegjVI6OBGDLEaqAaAoc/jSNssIB+vW4VB650GY4m+JvH5DTXaaPlBOgFuSLjM/
+ fpQ+9WIg8cn8iS9tP/c6vPit85/c0zfqjlQ= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+ by mx0a-00082601.pphosted.com with ESMTP id 3asmx9n2pd-6
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 08:36:27 -0700
+Received: from intmgw001.05.prn6.facebook.com (2620:10d:c085:108::4) by
+ mail.thefacebook.com (2620:10d:c085:21d::5) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Wed, 1 Sep 2021 08:36:23 -0700
+Received: by devvm660.prn0.facebook.com (Postfix, from userid 385188)
+ id C902617A3ED8; Wed,  1 Sep 2021 08:36:19 -0700 (PDT)
+From: <pdel@fb.com>
+To: 
+CC: <clg@kaod.org>, <joel@jms.id.au>, <qemu-devel@nongnu.org>,
+ <qemu-arm@nongnu.org>, <peter.maydell@linaro.org>, <andrew@aj.id.au>,
+ <f4bug@amsat.org>, <patrick@stwcx.xyz>, Peter Delevoryas <pdel@fb.com>
+Subject: [PATCH v2 1/1] hw/arm/aspeed: Allow machine to set UART default
+Date: Wed, 1 Sep 2021 08:36:15 -0700
+Message-ID: <20210901153615.2746885-2-pdel@fb.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210901153615.2746885-1-pdel@fb.com>
+References: <20210901153615.2746885-1-pdel@fb.com>
 MIME-Version: 1.0
-In-Reply-To: <YS+aiZep166VuVcH@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+Content-Transfer-Encoding: quoted-printable
+X-FB-Internal: Safe
+Content-Type: text/plain
+X-FB-Source: Intern
+X-Proofpoint-ORIG-GUID: f-vDDLMvutGBOj-r1hNM85rhJ9IJXqTd
+X-Proofpoint-GUID: f-vDDLMvutGBOj-r1hNM85rhJ9IJXqTd
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-09-01_05:2021-09-01,
+ 2021-09-01 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
+ adultscore=0
+ mlxlogscore=999 mlxscore=0 impostorscore=0 spamscore=0 lowpriorityscore=0
+ bulkscore=0 priorityscore=1501 phishscore=0 suspectscore=0 malwarescore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2107140000 definitions=main-2109010090
+X-FB-Internal: deliver
+Received-SPF: pass client-ip=67.231.153.30;
+ envelope-from=prvs=8878769573=pdel@fb.com; helo=mx0b-00082601.pphosted.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.029, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,70 +90,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Eric Blake <eblake@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/1/21 5:21 PM, Daniel P. Berrangé wrote:
-> On Wed, Sep 01, 2021 at 04:17:48PM +0100, Peter Maydell wrote:
->> On Wed, 1 Sept 2021 at 15:59, Daniel P. Berrangé <berrange@redhat.com> wrote:
->>>
->>> On Wed, Sep 01, 2021 at 04:52:29PM +0200, Philippe Mathieu-Daudé wrote:
->>>> Properly escape git-describe 'match' pattern to avoid (MinGW):
->>>>
->>>>   $ if grep -q "EXESUF=.exe" config-host.mak; then make installer;
->>>>     version="$(git describe --match v[0-9]*)";
->>>>     mv -v qemu-setup*.exe qemu-setup-${version}.exe; fi
->>>>   fatal: No names found, cannot describe anything.
->>>>   ERROR: Job failed: exit code 1
->>>>
->>>> Reported-by: Cédric Le Goater <clg@kaod.org>
->>>> Fixes: 8619b5ddb56 ("ci: build & store windows installer")
->>>> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/591
->>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>> ---
->>>>  .gitlab-ci.d/crossbuild-template.yml | 2 +-
->>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossbuild-template.yml
->>>> index 10d22dcf6c1..62d33e6661d 100644
->>>> --- a/.gitlab-ci.d/crossbuild-template.yml
->>>> +++ b/.gitlab-ci.d/crossbuild-template.yml
->>>> @@ -14,7 +14,7 @@
->>>>      - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
->>>>      - if grep -q "EXESUF=.exe" config-host.mak;
->>>>        then make installer;
->>>> -      version="$(git describe --match v[0-9]*)";
->>>> +      version="$(git describe --match 'v[0-9]*')";
->>>
->>> Do you have a pointer to a pipeline showing this fix works ?
+From: Peter Delevoryas <pdel@fb.com>
 
-It worked on my fork but I have some versioned tag:
-https://gitlab.com/philmd_rh/qemu/-/jobs/1553450025
+When you run QEMU with an Aspeed machine and a single serial device
+using stdio like this:
 
-Cédric, do you mind testing on your fork?
+    qemu -machine ast2600-evb -drive ... -serial stdio
 
->>>
->>> It is a bit strange to me. AFAICT, the only difference would
->>> be if the unquoted  v[0-9]*  matched a filename in the
->>> current directory, but that doesn't seem like it is the
->>> case here.
->>
->> We should quote the glob pattern anyway, to avoid possible
->> really confusing behaviour in the future if such a file ever
->> does turn up...
-> 
-> Sure, I'm happy to see the thing quoted regardless, just want to
-> make sure the commit behaviour matches the commit message.
-> 
-> 
-> Regards,
-> Daniel
-> 
+The guest OS can read and write to the UART5 registers at 0x1E784000 and
+it will receive from stdin and write to stdout. The Aspeed SoC's have a
+lot more UART's though (AST2500 has 5, AST2600 has 13) and depending on
+the board design, may be using any of them as the serial console. (See
+"stdout-path" in a DTS to check which one is chosen).
+
+Most boards, including all of those currently defined in
+hw/arm/aspeed.c, just use UART5, but some use UART1. This change adds
+some flexibility for different boards without requiring users to change
+their command-line invocation of QEMU.
+
+I tested this doesn't break existing code by booting an AST2500 OpenBMC
+image and an AST2600 OpenBMC image, each using UART5 as the console.
+
+Then I tested switching the default to UART1 and booting an AST2600
+OpenBMC image that uses UART1, and that worked too.
+
+Signed-off-by: Peter Delevoryas <pdel@fb.com>
+---
+ hw/arm/aspeed.c             | 3 +++
+ hw/arm/aspeed_ast2600.c     | 8 ++++----
+ hw/arm/aspeed_soc.c         | 9 ++++++---
+ include/hw/arm/aspeed.h     | 1 +
+ include/hw/arm/aspeed_soc.h | 1 +
+ 5 files changed, 15 insertions(+), 7 deletions(-)
+
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 9d43e26c51..a81e90c539 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -350,6 +350,8 @@ static void aspeed_machine_init(MachineState *machine=
+)
+         object_property_set_int(OBJECT(&bmc->soc), "hw-prot-key",
+                                 ASPEED_SCU_PROT_KEY, &error_abort);
+     }
++    qdev_prop_set_uint32(DEVICE(&bmc->soc), "uart-default",
++                         amc->uart_default);
+     qdev_realize(DEVICE(&bmc->soc), NULL, &error_abort);
+=20
+     memory_region_add_subregion(get_system_memory(),
+@@ -804,6 +806,7 @@ static void aspeed_machine_class_init(ObjectClass *oc=
+, void *data)
+     mc->no_parallel =3D 1;
+     mc->default_ram_id =3D "ram";
+     amc->macs_mask =3D ASPEED_MAC0_ON;
++    amc->uart_default =3D ASPEED_DEV_UART5;
+=20
+     aspeed_machine_class_props_init(oc);
+ }
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index e3013128c6..b07fcf10a0 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -322,10 +322,10 @@ static void aspeed_soc_ast2600_realize(DeviceState =
+*dev, Error **errp)
+         sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
+     }
+=20
+-    /* UART - attach an 8250 to the IO space as our UART5 */
+-    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
+-                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5),
+-                   38400, serial_hd(0), DEVICE_LITTLE_ENDIAN);
++    /* UART - attach an 8250 to the IO space as our UART */
++    serial_mm_init(get_system_memory(), sc->memmap[s->uart_default], 2,
++                   aspeed_soc_get_irq(s, s->uart_default), 38400,
++                   serial_hd(0), DEVICE_LITTLE_ENDIAN);
+=20
+     /* I2C */
+     object_property_set_link(OBJECT(&s->i2c), "dram", OBJECT(s->dram_mr)=
+,
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index 3ad6c56fa9..09c0f83710 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -287,9 +287,9 @@ static void aspeed_soc_realize(DeviceState *dev, Erro=
+r **errp)
+         sysbus_connect_irq(SYS_BUS_DEVICE(&s->timerctrl), i, irq);
+     }
+=20
+-    /* UART - attach an 8250 to the IO space as our UART5 */
+-    serial_mm_init(get_system_memory(), sc->memmap[ASPEED_DEV_UART5], 2,
+-                   aspeed_soc_get_irq(s, ASPEED_DEV_UART5), 38400,
++    /* UART - attach an 8250 to the IO space as our UART */
++    serial_mm_init(get_system_memory(), sc->memmap[s->uart_default], 2,
++                   aspeed_soc_get_irq(s, s->uart_default), 38400,
+                    serial_hd(0), DEVICE_LITTLE_ENDIAN);
+=20
+     /* I2C */
+@@ -439,6 +439,8 @@ static void aspeed_soc_realize(DeviceState *dev, Erro=
+r **errp)
+ static Property aspeed_soc_properties[] =3D {
+     DEFINE_PROP_LINK("dram", AspeedSoCState, dram_mr, TYPE_MEMORY_REGION=
+,
+                      MemoryRegion *),
++    DEFINE_PROP_UINT32("uart-default", AspeedSoCState, uart_default,
++                       ASPEED_DEV_UART5),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+=20
+@@ -449,6 +451,7 @@ static void aspeed_soc_class_init(ObjectClass *oc, vo=
+id *data)
+     dc->realize =3D aspeed_soc_realize;
+     /* Reason: Uses serial_hds and nd_table in realize() directly */
+     dc->user_creatable =3D false;
++
+     device_class_set_props(dc, aspeed_soc_properties);
+ }
+=20
+diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
+index c9747b15fc..cbeacb214c 100644
+--- a/include/hw/arm/aspeed.h
++++ b/include/hw/arm/aspeed.h
+@@ -38,6 +38,7 @@ struct AspeedMachineClass {
+     uint32_t num_cs;
+     uint32_t macs_mask;
+     void (*i2c_init)(AspeedMachineState *bmc);
++    uint32_t uart_default;
+ };
+=20
+=20
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index d9161d26d6..87d76c9259 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -65,6 +65,7 @@ struct AspeedSoCState {
+     AspeedSDHCIState sdhci;
+     AspeedSDHCIState emmc;
+     AspeedLPCState lpc;
++    uint32_t uart_default;
+ };
+=20
+ #define TYPE_ASPEED_SOC "aspeed-soc"
+--=20
+2.30.2
 
 
