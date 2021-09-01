@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4074D3FE077
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:55:15 +0200 (CEST)
-Received: from localhost ([::1]:52764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BC093FDFF1
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:30:40 +0200 (CEST)
+Received: from localhost ([::1]:38998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLTW6-0004CA-83
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:55:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35562)
+	id 1mLT8J-0006Bx-HL
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:30:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLSyT-00033Z-BC
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:20:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41665)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLT1J-0007xj-V1
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:23:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLSyR-00049G-3d
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:20:29 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLT1F-0006Xn-Oi
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 12:23:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630513223;
+ s=mimecast20190719; t=1630513400;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9v72gwWAy5qaNuog2S1FNiaTh/MNfzgNG47O7CVqO+w=;
- b=a7bauFJmvVOOKJPEOuu042RnDjZHY4sfk1177Bp8acql8iXM62DnacqL66kGoLpY19Cw8A
- qFlShz/UITqb+XbKrNPmfmxcFMy4GNNB4sDRZtTHWWyFrMHTIrYMmA/V2FdQFJ/df4vwFm
- 5cIof8duWBhO0r6xP8iyXVHCnxkf9Vo=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-M2KweeNhOUyY3YqhkWYKnA-1; Wed, 01 Sep 2021 12:20:22 -0400
-X-MC-Unique: M2KweeNhOUyY3YqhkWYKnA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- w25-20020a1cf6190000b0290252505ddd56so92233wmc.3
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 09:20:22 -0700 (PDT)
+ bh=ZYgdXHdL0YCsRKrOCrJMdoX0fhsnWenSVg49uWJfhHg=;
+ b=A9uhkKEyR/fpYhXOjIkHnox5IKOUaoyuWj8rG7JZ8SSa1vKq3uzKGIqExa8189eGmN12AQ
+ JCNVLKMUnjQTiLB3TIjkD56KczlDfzk6ie1iNLCWXcq37+AX/b/0UIzZypG4Jd2utQ+ZMD
+ khyiP2WbU65Nbc40xnWDsBp+FMCyiIo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-308-14RIC2p-Pwe6hhpmq_ORmg-1; Wed, 01 Sep 2021 12:23:19 -0400
+X-MC-Unique: 14RIC2p-Pwe6hhpmq_ORmg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r11-20020a5d4e4b000000b001575c5ed4b4so88771wrt.4
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 09:23:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9v72gwWAy5qaNuog2S1FNiaTh/MNfzgNG47O7CVqO+w=;
- b=dQH76SU0mahwNlXc4fp2MtBomxe+4zo6fL+uinweMeaRVp4TYcRQY8A5vr2IGffg/5
- xNPyemGNF7kmmWWjgD718aWe+S2mB8KQXy0if+TBVJEvssxb8VwRIWUB4Pkbahnv4/DS
- gyqq1Wgrw2VpK9XJroZ/5qPx6f1T76R8EnfPyfOJcL+DOUYvwOrNei1jdLgM8A4vGzjd
- yrvRqgmjr3XfmxKs60Obb/PENM1F2jx5Su2wu0x2+Q4EKbM3iDeKNtGtO74h8soUl9Zv
- Kzal8OllputWJ5RgwZGYu8XxBFaOnG2XATQCcGBH8YoaJ+d/VOwkoeArEHCBhNI0j1pD
- urnA==
-X-Gm-Message-State: AOAM5334rRIVlC842kgwRpmDVLfti8R1soCLL1b4wr8xBHRXI6JqCJdr
- 9prvy4HLez8yYParCi7R93BLbo2IdE0oibBnbI98sQvCBQvs5JEdgxKrOKqSCGNQGxH7DaFPEFB
- ZczaLIQGcG02jlbs=
-X-Received: by 2002:a1c:443:: with SMTP id 64mr229423wme.180.1630513221153;
- Wed, 01 Sep 2021 09:20:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxAtfp9jfyI0IPx20Kle69FyxFbs9YX4EaqrspdrtwwezBumNf5UU4xkKk1vt88XjCidwfBSA==
-X-Received: by 2002:a1c:443:: with SMTP id 64mr229409wme.180.1630513221029;
- Wed, 01 Sep 2021 09:20:21 -0700 (PDT)
+ bh=ZYgdXHdL0YCsRKrOCrJMdoX0fhsnWenSVg49uWJfhHg=;
+ b=EvNwZ3PLPX99Abyg9pTWLPdR8q57scTiNs8DULpl9lZsElynjzVBpACK7bRBT4Onxl
+ 0vZgCMtvBrOKSjLkEcun0BFwCgKNewi0QsyquyafRvYwvu05cLTDH1REc2LWqVMQJ1nn
+ dZrjQvOpjmQd63lfN7U/U+gYlhIyy3Pg8fYlqJVDm0ZxR0riAu8Nutcc5PeRaXkflqcU
+ z+w85W6NPo5/UaDAHhcpv39x/qwqHnbkk2lqYeN5xw8avgJxMMqWM8xiv2IzCB2oJN8K
+ lFfAbnKn/QYtsg5kQT+A/lXseJcv4q5EgOJRPvqPrRtNxrSHe4tBMqsHbIkN4PmMv7SS
+ 6ZaA==
+X-Gm-Message-State: AOAM53074CR36GT2LZedvfidPc2dCrLIf5+OGb0L97cRAEszFz1TdkRR
+ s8RdcagH9H9WQVRAmfYdTu1Q/TyOMn4qX3qYurUzxrPBX/AGr+3tFZP8F10Zt8YmrLPh6CXIX4P
+ klj5lD55LFjTD/HA=
+X-Received: by 2002:a05:6000:374:: with SMTP id
+ f20mr193514wrf.129.1630513398347; 
+ Wed, 01 Sep 2021 09:23:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwPsD92gL9+AvYkgnoLUMMq2CujO1RBgKBKTyqJjqoVbGxMmCmiXF6h4djdJEzZbQE+5/zI1A==
+X-Received: by 2002:a05:6000:374:: with SMTP id
+ f20mr193491wrf.129.1630513398201; 
+ Wed, 01 Sep 2021 09:23:18 -0700 (PDT)
 Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id k16sm22248014wrx.87.2021.09.01.09.20.20
+ by smtp.gmail.com with ESMTPSA id r20sm22584782wrr.47.2021.09.01.09.23.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Sep 2021 09:20:20 -0700 (PDT)
-Subject: Re: [PATCH] tests/vhost-user-bridge.c: Fix typo in help message
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20210901152713.25701-1-peter.maydell@linaro.org>
+ Wed, 01 Sep 2021 09:23:17 -0700 (PDT)
+Subject: Re: [PATCH v4 1/3] memory: Extract mtree_info_flatview() from
+ mtree_info()
+To: qemu-devel@nongnu.org
+References: <20210901161943.4174212-1-philmd@redhat.com>
+ <20210901161943.4174212-2-philmd@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9f11e5af-41b2-fdc5-fb01-1e3284e53670@redhat.com>
-Date: Wed, 1 Sep 2021 18:20:19 +0200
+Message-ID: <ea031839-6c3e-fc91-5688-45acfb1d2fca@redhat.com>
+Date: Wed, 1 Sep 2021 18:23:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210901152713.25701-1-peter.maydell@linaro.org>
+In-Reply-To: <20210901161943.4174212-2-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -97,19 +101,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Peter Xu <peterx@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/1/21 5:27 PM, Peter Maydell wrote:
-> Fix a typo in the help message printed by vhost-user-bridge.
+On 9/1/21 6:19 PM, Philippe Mathieu-Daudé wrote:
+> While mtree_info() handles both ASes and flatviews cases,
+> the two cases share basically no code. Split mtree_info_flatview()
+> out of mtree_info() to simplify.
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  tests/vhost-user-bridge.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Note: Patch easier to review using 'git-diff --color-moved=blocks'.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Surprisingly git-format-patch choose a better algorithm automatically...
+
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  softmmu/memory.c | 72 ++++++++++++++++++++++++++----------------------
+>  1 file changed, 39 insertions(+), 33 deletions(-)
+> 
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index bfedaf9c4df..3eb6f52de67 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -3246,6 +3246,44 @@ static gboolean mtree_info_flatview_free(gpointer key, gpointer value,
+>      return true;
+>  }
+>  
+> +static void mtree_info_flatview(bool dispatch_tree, bool owner)
+> +{
+> +    struct FlatViewInfo fvi = {
+> +        .counter = 0,
+> +        .dispatch_tree = dispatch_tree,
+> +        .owner = owner,
+> +    };
+> +    AddressSpace *as;
+> +    FlatView *view;
+> +    GArray *fv_address_spaces;
+> +    GHashTable *views = g_hash_table_new(g_direct_hash, g_direct_equal);
+> +    AccelClass *ac = ACCEL_GET_CLASS(current_accel());
+> +
+> +    if (ac->has_memory) {
+> +        fvi.ac = ac;
+> +    }
+> +
+> +    /* Gather all FVs in one table */
+> +    QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
+> +        view = address_space_get_flatview(as);
+> +
+> +        fv_address_spaces = g_hash_table_lookup(views, view);
+> +        if (!fv_address_spaces) {
+> +            fv_address_spaces = g_array_new(false, false, sizeof(as));
+> +            g_hash_table_insert(views, view, fv_address_spaces);
+> +        }
+> +
+> +        g_array_append_val(fv_address_spaces, as);
+> +    }
+> +
+> +    /* Print */
+> +    g_hash_table_foreach(views, mtree_print_flatview, &fvi);
+> +
+> +    /* Free */
+> +    g_hash_table_foreach_remove(views, mtree_info_flatview_free, 0);
+> +    g_hash_table_unref(views);
+> +}
+> +
+>  void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
+>  {
+>      MemoryRegionListHead ml_head;
+> @@ -3253,39 +3291,7 @@ void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
+>      AddressSpace *as;
+>  
+>      if (flatview) {
+> -        FlatView *view;
+> -        struct FlatViewInfo fvi = {
+> -            .counter = 0,
+> -            .dispatch_tree = dispatch_tree,
+> -            .owner = owner,
+> -        };
+> -        GArray *fv_address_spaces;
+> -        GHashTable *views = g_hash_table_new(g_direct_hash, g_direct_equal);
+> -        AccelClass *ac = ACCEL_GET_CLASS(current_accel());
+> -
+> -        if (ac->has_memory) {
+> -            fvi.ac = ac;
+> -        }
+> -
+> -        /* Gather all FVs in one table */
+> -        QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
+> -            view = address_space_get_flatview(as);
+> -
+> -            fv_address_spaces = g_hash_table_lookup(views, view);
+> -            if (!fv_address_spaces) {
+> -                fv_address_spaces = g_array_new(false, false, sizeof(as));
+> -                g_hash_table_insert(views, view, fv_address_spaces);
+> -            }
+> -
+> -            g_array_append_val(fv_address_spaces, as);
+> -        }
+> -
+> -        /* Print */
+> -        g_hash_table_foreach(views, mtree_print_flatview, &fvi);
+> -
+> -        /* Free */
+> -        g_hash_table_foreach_remove(views, mtree_info_flatview_free, 0);
+> -        g_hash_table_unref(views);
+> +        mtree_info_flatview(dispatch_tree, owner);
+>  
+>          return;
+>      }
+> 
 
 
