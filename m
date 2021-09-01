@@ -2,63 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAF723FD901
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 13:49:30 +0200 (CEST)
-Received: from localhost ([::1]:55796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91D3E3FD8D0
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 13:33:47 +0200 (CEST)
+Received: from localhost ([::1]:58054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLOkE-00037f-0C
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 07:49:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50940)
+	id 1mLOV0-0001kX-C3
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 07:33:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mLONa-0001cI-UW
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 07:26:07 -0400
-Received: from 2.mo52.mail-out.ovh.net ([178.33.105.233]:45650)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLOP8-00043n-3u
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 07:27:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54152)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mLONV-0006gt-Tb
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 07:26:06 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.216])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 6FE96294504;
- Wed,  1 Sep 2021 13:25:58 +0200 (CEST)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Wed, 1 Sep
- 2021 13:25:57 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002c6e01acf-b444-4155-9ddc-fc36d5aea9ef,
- 5EBA00A5E723AF1D17FBD8632F6684B6834AEADC) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PATCH 1/8] docs/system: ppc: Update the URL for OpenPOWER
- firmware images
-To: Greg Kurz <groug@kaod.org>
-References: <20210901094153.227671-1-clg@kaod.org>
- <20210901094153.227671-2-clg@kaod.org> <20210901121047.1051be9f@bahia.lan>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <2fcfce42-ab03-f988-d28a-83ba3abcfee3@kaod.org>
-Date: Wed, 1 Sep 2021 13:25:57 +0200
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLOP6-0007Wo-Jh
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 07:27:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630495659;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xqrPYWuWt9ilqeo22SnuQmF8xhnohTA4WP6q+h5KJPo=;
+ b=ZkCzij5oxwt5ChrZ2G4OPyoPxjsLn7D57hjaIg5/99j3DLDLCsZNqZ5Y08vzmTxYzNiXaG
+ KUYjQC9yY44JOcCi4eC1vhQPgQZ7YDFtKOkA89ASfN7ESiZ+dndfswVCeSzWgB0qaruoWC
+ MdZdJiYzjE2tMJFTdhmurtYVDSB0Heg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353--AF5SZ8INbiR5GLnaoZmuA-1; Wed, 01 Sep 2021 07:27:36 -0400
+X-MC-Unique: -AF5SZ8INbiR5GLnaoZmuA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ h1-20020a05600c350100b002e751bf6733so891573wmq.8
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 04:27:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=xqrPYWuWt9ilqeo22SnuQmF8xhnohTA4WP6q+h5KJPo=;
+ b=lF2zmJtMoBWTrRia31iQyU78bCYhJmTzEwFrqHcKQwMGwxkJTbhM1Qw2KLcqjJjNck
+ XEnsUXm9P9Oyjf9wgyu94MplaRqhGHeNV4yYdqb2d0KlA/IEcy2X+wDfaspkab54xa6s
+ Obli8T2IceRJQPgdOZ/xJuxDwZXnq5AQxN0c07q5RF2aeuKfJIVijroeMmJ+6PNPz/B0
+ LasKBR52T7iPLunJgS2E8iEt93spqtFJuJAvJ2gdl4yXK1WAe/EVHsz7BGYlLujL3lpS
+ 8UIVjB0cs3d5oun4onHHcWMKb1gJd6emqD/XcJ5fPzj5KkkNtkaN4iXS4v1GTQbRkaRM
+ IgXQ==
+X-Gm-Message-State: AOAM5306mYQu2898fyTDpzhWT02ASyaDQ3h8MNCVtZIdcxRQ7Qt2XKUS
+ GmzfUXGNH+UDLGiHk60xOu2t8e6zhFy3H6zky3sGLppksu/vFPDw23NNP0ejqMIP7D0MOAvoBj/
+ Bzcu8rH8lJpbaWPM=
+X-Received: by 2002:a1c:a78a:: with SMTP id q132mr9170036wme.91.1630495655135; 
+ Wed, 01 Sep 2021 04:27:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxg16JoY0jxrodQ/3+P3xGc2mam/DgDTu1Q5CmJ1MUhvJbtWkwMlBB7H+CbLsBNY0eMVUyZlg==
+X-Received: by 2002:a1c:a78a:: with SMTP id q132mr9169998wme.91.1630495654743; 
+ Wed, 01 Sep 2021 04:27:34 -0700 (PDT)
+Received: from dresden.str.redhat.com ([2a02:908:1e46:160:b272:8083:d5:bc7d])
+ by smtp.gmail.com with ESMTPSA id
+ q13sm4871186wmj.46.2021.09.01.04.27.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Sep 2021 04:27:34 -0700 (PDT)
+Subject: Re: [PATCH v5] block/file-win32: add reopen handlers
+To: Viktor Prutyanov <viktor.prutyanov@phystech.edu>, philmd@redhat.com,
+ kwolf@redhat.com, sw@weilnetz.de, yan@daynix.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210825173625.19415-1-viktor.prutyanov@phystech.edu>
+From: Hanna Reitz <hreitz@redhat.com>
+Message-ID: <6519cf03-2fc8-799b-cf38-355eb9f1a3da@redhat.com>
+Date: Wed, 1 Sep 2021 13:27:33 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210901121047.1051be9f@bahia.lan>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+In-Reply-To: <20210825173625.19415-1-viktor.prutyanov@phystech.edu>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 7c9c993e-a9aa-4ee7-99b1-af9caabc0040
-X-Ovh-Tracer-Id: 7153405058555153376
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -83
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddvfedggedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnegfrhhlucfvnfffucdludejmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekvefgudekkeekjeegfedtffefkeduteeviedvgeevkeehudffleehvedvueefkeenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhophgvnhhpohifvghrrdighiiinecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
- helo=2.mo52.mail-out.ovh.net
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.029,
- PDS_OTHER_BAD_TLD=1.999, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.029, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,52 +99,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Helge Konetzka <hk@zapateado.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/1/21 12:10 PM, Greg Kurz wrote:
-> On Wed, 1 Sep 2021 11:41:46 +0200
-> Cédric Le Goater <clg@kaod.org> wrote:
-> 
->> This also fixes a small skiboot/skiroot typo and removes the links to
->> the specific POWER8 and POWER9 images since the firmware images can be
->> used to run all machines.
->>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
->>  docs/system/ppc/powernv.rst | 3 +--
->>  1 file changed, 1 insertion(+), 2 deletions(-)
->>
->> diff --git a/docs/system/ppc/powernv.rst b/docs/system/ppc/powernv.rst
->> index 4c4cdea527e2..4ccfb2258622 100644
->> --- a/docs/system/ppc/powernv.rst
->> +++ b/docs/system/ppc/powernv.rst
->> @@ -53,8 +53,7 @@ initramfs ``skiroot``. Source code can be found on GitHub:
->>  
->>    https://github.com/open-power.
->>  
->> -Prebuilt images of ``skiboot`` and ``skiboot`` are made available on the `OpenPOWER <https://openpower.xyz/job/openpower/job/openpower-op-build/>`__ site. To boot a POWER9 machine, use the `witherspoon <https://openpower.xyz/job/openpower/job/openpower-op-build/label=slave,target=witherspoon/lastSuccessfulBuild/>`__ images. For POWER8, use
->> -the `palmetto <https://openpower.xyz/job/openpower/job/openpower-op-build/label=slave,target=palmetto/lastSuccessfulBuild/>`__ images.
->> +Prebuilt images of ``skiboot`` and ``skiroot`` are made available on the `OpenPOWER <https://github.com/open-power/op-build/releases/download/v2.7/>`__ site.
->>  
-> 
-> This URL ends up 404 for me.
-> 
-> I suggest you change it to:
-> 
->     https://github.com/open-power/op-build/releases/tag/v2.7
-> 
-> or even
-> 
->     https://github.com/open-power/op-build/releases
-> 
-> which are valid and display individual links for the image files.
+On 25.08.21 19:36, Viktor Prutyanov wrote:
+> Make 'qemu-img commit' work on Windows.
+>
+> Command 'commit' requires reopening backing file in RW mode. So,
+> add reopen prepare/commit/abort handlers and change dwShareMode
+> for CreateFile call in order to allow further read/write reopening.
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/418
+>
+> Suggested-by: Hanna Reitz <hreitz@redhat.com>
+> Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+> Tested-by: Helge Konetzka <hk@zapateado.de>
+> ---
+>   v2:
+>      - fix indentation in raw_reopen_prepare
+>      - free rs if raw_reopen_prepare fails
+>   v3:
+>      - restore suggested-by field missed in v2
+>   v4:
+>      - add file type check
+>      - add comment about options
+>      - replace rs check with assert in raw_reopen_commit
+>   v5:
+>      - add CloseHandle at AIO attach fail
+>
+>   block/file-win32.c | 101 ++++++++++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 100 insertions(+), 1 deletion(-)
 
-Yes. I will resend this one.
+Thanks!  I’ve applied this patch to my block branch:
 
-Thanks,
+https://github.com/XanClic/qemu/commits/block
 
-C.
+Hanna
+
 
