@@ -2,78 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D4FC3FD1BE
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 05:29:59 +0200 (CEST)
-Received: from localhost ([::1]:33250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 390193FD218
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 06:21:59 +0200 (CEST)
+Received: from localhost ([::1]:57524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLGwo-0006UX-0o
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 23:29:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57606)
+	id 1mLHl7-0008O5-L3
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 00:21:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mLGum-0002wG-Jn; Tue, 31 Aug 2021 23:27:52 -0400
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:34587)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mLGuh-0007Ri-B5; Tue, 31 Aug 2021 23:27:52 -0400
-Received: by mail-pg1-x530.google.com with SMTP id x4so1389644pgh.1;
- Tue, 31 Aug 2021 20:27:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=S6XOMnBqg+q/iZwtkF+R3AtXykZOGfgLhZhWsHmX3Ho=;
- b=ZO/GJwtXodtXPk3GYDAVBqcNc+qE0ZHXbIh7md2iy6m5iGOrMJJNzcWXi7H2T+82xY
- Tl4Joh3fmEMkAWKz1EqHVtGvS/sVZG9v3Rdhr4Xfyurz60xaqB49HrZS98kczwdR6xKY
- UuljagPG9H8EJN822il1ROB8UC+9orYiJ+gWg6R6Z3k2Qerg/qdx5g3NK+V6C94P+k5/
- 4NpWAAys0qLFHYhSXSa3qBfccwH4I1TUlZBcf1GhlNGvr+YNAK21U9nlmSBR+JsXGoVu
- IHRMjuVZ+bKkKJWTelEowrqgoXE7+eFb09HcHlccVqh/RXiFmUwLenFyixHo/MljsITC
- nS4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=S6XOMnBqg+q/iZwtkF+R3AtXykZOGfgLhZhWsHmX3Ho=;
- b=mV8dlnBbRVxmDmZWzz7lX8KPJdk5J0p2sq4TJ5mB0Jiew0UoKFOgZGOOtyqFv7IDVh
- nAZDjyDXc15wObs/Dajvn9fa1gbDeHAuTaD87Ic9u+VwDfAq1aOsz7NoC5HHDgdUnBqD
- dFvV1pxxRzXZAOCzPUO1C6iPs38axsCX2rgW5tfkBWAy8gU0bQJFdmE1KR3YgInirF9R
- FqCaJsU1cvxZ4qOd6hLYn+HktiONxwKvmlaiO51IIGCqtQF1Dfx8C/Nzt1MBS2pfDSgD
- KVGNT/yAJhZtrq20RrGMOfQ32wQggO7+rQo0L9sXSYxeg4SY+SrFShFTfZ5X34GCRrjH
- rsAg==
-X-Gm-Message-State: AOAM531Lv8COmTQusWKHLjv4sJIBFDHoWxl29tGqkdOAI3h7PjdibJmv
- Gecc36Lu/jkLrz9oyurkCfI=
-X-Google-Smtp-Source: ABdhPJx5tF+09mkPULGsh/KcEkeriuKnyxIjREhKW6v5b3Wj4AiFPgwIY39XfLpJHIUORXsc94qA8g==
-X-Received: by 2002:a05:6a00:1a88:b0:407:1f7c:60b9 with SMTP id
- e8-20020a056a001a8800b004071f7c60b9mr3667597pfv.77.1630466865652; 
- Tue, 31 Aug 2021 20:27:45 -0700 (PDT)
-Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
- [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id g2sm7174467pfo.154.2021.08.31.20.27.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Aug 2021 20:27:45 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Damien Hedde <damien.hedde@greensocs.com>,
- "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH v2 5/5] hw/char: cadence_uart: Ignore access when unclocked or
- in reset for uart_{read, write}()
-Date: Wed,  1 Sep 2021 11:27:24 +0800
-Message-Id: <20210901032724.23256-6-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210901032724.23256-1-bmeng.cn@gmail.com>
-References: <20210901032724.23256-1-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mLHig-0005tX-H1
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 00:19:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44117)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mLHic-0001Mg-DC
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 00:19:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630469959;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=VHsSOuYKMljID1Uz+cfYkFla8EjGQYjZfunM5Z4lnVg=;
+ b=KguCN1WvDP9och/P0KSucU7jNXDKDFG898/moi+mZPZCCdetcE3FKVltQs+Bqu2+fN/Tp8
+ dthkmFUh4sYbNFiEpf5kwWsFll1z9EwElvpus7op3qMubAinIfZVbCCBsVMxOy5vXtZYal
+ dmKZzrS5Zb72g8vzt8vn3f8/WbQ+v8s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-190-R6yR0LtnODKTmcS0PNlHiw-1; Wed, 01 Sep 2021 00:19:16 -0400
+X-MC-Unique: R6yR0LtnODKTmcS0PNlHiw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3C77107ACCA;
+ Wed,  1 Sep 2021 04:19:14 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.91])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7BA9B1001281;
+ Wed,  1 Sep 2021 04:19:05 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 2BE7D180060F; Wed,  1 Sep 2021 06:19:03 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/6] Vga 20210901 patches
+Date: Wed,  1 Sep 2021 06:18:57 +0200
+Message-Id: <20210901041903.3111086-1-kraxel@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,65 +75,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>, Alexander Bulekov <alxndr@bu.edu>,
+ Bandan Das <bsd@redhat.com>, qemu-arm@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Read or write to uart registers when unclocked or in reset should be
-ignored. Add the check there, and as a result of this, the check in
-uart_write_tx_fifo() is now unnecessary.
-
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-
----
-
-Changes in v2:
-- new patch: hw/char: cadence_uart: Ignore access when unclocked or in reset for uart_{read,write}()
-
- hw/char/cadence_uart.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
-
-diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
-index 8bcf2b718a..5f5a4645ac 100644
---- a/hw/char/cadence_uart.c
-+++ b/hw/char/cadence_uart.c
-@@ -335,11 +335,6 @@ static gboolean cadence_uart_xmit(void *do_not_use, GIOCondition cond,
- static void uart_write_tx_fifo(CadenceUARTState *s, const uint8_t *buf,
-                                int size)
- {
--    /* ignore characters when unclocked or in reset */
--    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
--        return;
--    }
--
-     if ((s->r[R_CR] & UART_CR_TX_DIS) || !(s->r[R_CR] & UART_CR_TX_EN)) {
-         return;
-     }
-@@ -416,6 +411,11 @@ static MemTxResult uart_write(void *opaque, hwaddr offset,
- {
-     CadenceUARTState *s = opaque;
- 
-+    /* ignore access when unclocked or in reset */
-+    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
-+        return MEMTX_ERROR;
-+    }
-+
-     DB_PRINT(" offset:%x data:%08x\n", (unsigned)offset, (unsigned)value);
-     offset >>= 2;
-     if (offset >= CADENCE_UART_R_MAX) {
-@@ -476,6 +476,11 @@ static MemTxResult uart_read(void *opaque, hwaddr offset,
-     CadenceUARTState *s = opaque;
-     uint32_t c = 0;
- 
-+    /* ignore access when unclocked or in reset */
-+    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
-+        return MEMTX_ERROR;
-+    }
-+
-     offset >>= 2;
-     if (offset >= CADENCE_UART_R_MAX) {
-         return MEMTX_DECODE_ERROR;
--- 
-2.25.1
+The following changes since commit ad22d0583300df420819e6c89b1c022b998fac8a=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/dg-gitlab/tags/ppc-for-6.2-20210827=
+' into staging (2021-08-27 11:34:12 +0100)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/vga-20210901-pull-request=0D
+=0D
+for you to fetch changes up to 01f750f5fef1afd8f6abc0548910f87d473e26d5:=0D
+=0D
+  hw/display/artist: Fix bug in coordinate extraction in artist_vram_read()=
+ and artist_vram_write() (2021-08-31 14:38:53 +0200)=0D
+=0D
+----------------------------------------------------------------=0D
+vga: misc fixes and cleanups.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Dongwon Kim (1):=0D
+  virtio-gpu: no point of checking res->iov=0D
+=0D
+Helge Deller (1):=0D
+  hw/display/artist: Fix bug in coordinate extraction in=0D
+    artist_vram_read() and artist_vram_write()=0D
+=0D
+Jose R. Ziviani (1):=0D
+  vga: don't abort when adding a duplicate isa-vga device=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  hw/display: Restrict virtio-gpu-udmabuf stubs to !Linux=0D
+  ui/console: Restrict udmabuf_fd() to Linux=0D
+=0D
+Qiang Liu (1):=0D
+  hw/display/xlnx_dp: fix an out-of-bounds read in xlnx_dp_read=0D
+=0D
+ include/ui/console.h                          |  2 ++=0D
+ hw/display/artist.c                           |  8 ++---=0D
+ hw/display/vga-isa.c                          | 10 ++++++=0D
+ .../display/virtio-gpu-udmabuf-stubs.c        |  0=0D
+ hw/display/virtio-gpu.c                       |  2 +-=0D
+ hw/display/xlnx_dp.c                          |  6 +++-=0D
+ tests/qtest/fuzz-xlnx-dp-test.c               | 33 +++++++++++++++++++=0D
+ ui/udmabuf.c                                  | 11 -------=0D
+ hw/display/meson.build                        |  3 +-=0D
+ stubs/meson.build                             |  1 -=0D
+ tests/qtest/meson.build                       |  1 +=0D
+ ui/meson.build                                |  6 ++--=0D
+ 12 files changed, 62 insertions(+), 21 deletions(-)=0D
+ rename stubs/virtio-gpu-udmabuf.c =3D> hw/display/virtio-gpu-udmabuf-stubs=
+.c (100%)=0D
+ create mode 100644 tests/qtest/fuzz-xlnx-dp-test.c=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
