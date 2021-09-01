@@ -2,97 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 563583FD122
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 04:17:40 +0200 (CEST)
-Received: from localhost ([::1]:59374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37A3F3FD12A
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 04:20:15 +0200 (CEST)
+Received: from localhost ([::1]:39694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLFop-0004Z1-Bk
-	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 22:17:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46624)
+	id 1mLFrA-0001rm-6l
+	for lists+qemu-devel@lfdr.de; Tue, 31 Aug 2021 22:20:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=871df42ed=alistair.francis@opensource.wdc.com>)
- id 1mLFht-0004pQ-En
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 22:10:29 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:3841)
+ id 1mLFhv-0004tX-8c
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 22:10:31 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:3845)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=871df42ed=alistair.francis@opensource.wdc.com>)
- id 1mLFhr-0007dn-Ow
- for qemu-devel@nongnu.org; Tue, 31 Aug 2021 22:10:29 -0400
+ id 1mLFht-0007hT-I5
+ for qemu-devel@nongnu.org; Tue, 31 Aug 2021 22:10:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1630462226; x=1661998226;
+ t=1630462228; x=1661998228;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=gre89S+a81XQEJ08b8fsC/oOWYrA8yqgQv2vZI/fekM=;
- b=IhwP7g/yu7ggNYd9F+pDbEHPGqAlLiLTm0qHVtn8wCVc+tdcBbl9RoJl
- d2fX1kgCgS6AcT1La0Ak+UcnGeIdFsk3WolbjdwlA5Yu8YlK9VuGdJpAu
- gTgJUvNDeJbTbu57qt177yOBI38oArxNrero7ZdLhqjNNOHbFipTEHs0Y
- qOpESodqMVaQSSP/3N3L8/zH5F9qYkLfXgW648NnnG9y7GeQi9+6+jtjG
- uPbVtYbRi/3DqbINkP2RqZxj43dYBF5tPA8OyQU+4s4lJf5yFMMR0Lm++
- b/F2dIvnb4AIl7+yAzHia2+t3qzzJRlCkqkKDboh+NiJaKa/HYND/LTM6 w==;
-X-IronPort-AV: E=Sophos;i="5.84,368,1620662400"; d="scan'208";a="178910715"
+ bh=vaYxnEf/0537kt2nb0UwvsHsl3ytoVfv7r9+AnO3qH8=;
+ b=gl7iGAiN/mZB6ajaQ/jq4C4zp4FxAa05LLxhehXTbo053Qb2R3U64RJD
+ IF5TDZP7iyC7ssKBy+r+btn/LEEvsDNWJ4Ilsqr+NROWofNVA1BvZ8H/J
+ ip4/+8cfZF5YCvrsmey9OgEaYcmitDyZUy/L/5QIN+Cb+1J5Y67ctpRBQ
+ bXXD6ovuqQ2TAG22PGrtOK0L5v8E42vPJpohZGDiiz053kr+8cu2W/Drb
+ hBVghsIHcHK+U+2wl0FTweJejY1mBGTXOnLNS56/kbPAMI+IXAsYl8ykn
+ EKjkzo2ZpW7IrZ76i9tTg9uNs6XyC82t7JzymbADztaW1lR5zJQ9VVW9d g==;
+X-IronPort-AV: E=Sophos;i="5.84,368,1620662400"; d="scan'208";a="178910720"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 01 Sep 2021 10:10:22 +0800
-IronPort-SDR: NBjdJr1OM75lHsONPsnYpZCDsNimLMD4/KZRZtpIFsU4qy1CwsgSve+MOZ/TO7g5iGgjIVakKS
- L8lRnxEPh9aU77Jt9bbUsp0Ff5mvUyFrbY/vNER/uS61nUViJIBjgS1TsJo27cPy7GwHMD4Mza
- X8oDk6xmt/XCzI05kuYByEpZqFVsXf1Z3qLXZ/mrGHdjhV8GP6BqBGM9UwUMxHFe13C4UNcPRw
- 6qjxL6imNUDgFq/Dw0A4iz1+wbzCLsKWJiyRgmQ2yHGmFEoiLEVit97b7bf4ew4r/d4T86LhIQ
- wndO4nzA/3ASvteg2vK/SNYC
+ by ob1.hgst.iphmx.com with ESMTP; 01 Sep 2021 10:10:26 +0800
+IronPort-SDR: 3YhRKjJUKei/cBEz+OKMvJkD6tOv2kd8zCJz63fBHfqTldzsXZriiQqb0CMq3TxFXMiyU2GbiN
+ MvoHH7mvs+Muliqmfx5RLXkC9cjJl5WumCAE9NshXrKlyTcE6wsbAFNNtJw7fwc07qA/8b5GpO
+ mrVQnytl2+Cnsw3GWR8sLUT/6HzjfEh9F1Xczk1f/dET6ckWRF1SWDtJ1TbI2s1qNwzEsbVqJd
+ iKs00TM/t98ejgoKmfa+UWxEYJza7wyUuuUC56+eHDe6B3QLV7BZjXu6WUUwhGKqWg6hKsxzHb
+ QUFlY+4N3OpdeMwaT8EwcUJk
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2021 18:47:11 -0700
-IronPort-SDR: JAXasRyLt08f6pOigIuZ9h2MGs8V3PVcc5cZmHUAQrbJdo9rGGxlPCrbwCd9TcS5FImaZilqBk
- i2wx/AV1ZOIfamhjJkYAsUcw8uBEtZzF4mRb6pdCXOouCHfgn6Lp0mkSDE0/Hexr1I/DHRnW6B
- i1BCJHhtqb+OgPohSTiHJDf3b/PUOeK2/KNghyymzfSgeUU+y84d8u2iUHBYNgZXRgaL12PJBk
- DJM10WQbdeUYtJyQNxK99O0rdVsyfOa0+pmmcDe0mqyd3ztpeOVXfMnkJj8DEdPEWjjqLW97p2
- GEg=
+ 31 Aug 2021 18:47:16 -0700
+IronPort-SDR: 3sL3H+ObArbqZU8MY0yOvaOyK5ZYcw/w3UyOs3bjhMtSQCWJqIo9nb4ExV4OzZOj78++x5bwda
+ tCufPFrF3+hIFz+TqQydVT5DWOPwIWI2yL1cnbsIQKlpcF1Ozx7Tr9ScDncWeqrqKPPkauiv3+
+ Kmy5Js15/8pJfoQ5joIwQuvWlKKFN9XMMNP1xjqDz8Kus7ZxfZ04J+7WgWXUfdO3jnTX/24PMR
+ Tj56G+bMsmJzImgd8Y695R65lVcP8bF0IoHV2V9ZvgVK6eWUn3oUFwjZUHGiJbXfdp632m3Edi
+ TQM=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 31 Aug 2021 19:10:23 -0700
+ 31 Aug 2021 19:10:28 -0700
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4GznZk2mHsz1RvmF
- for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 19:10:22 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4GznZq6bzwz1RvlT
+ for <qemu-devel@nongnu.org>; Tue, 31 Aug 2021 19:10:27 -0700 (PDT)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:content-type
- :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1630462221; x=1633054222; bh=gre89S+
- a81XQEJ08b8fsC/oOWYrA8yqgQv2vZI/fekM=; b=bBsAEo71IOCnbVj3vN1XP5s
- HpCl7z31X+6p7OlpbU3BKnGyYympi6lsYehoV52lw638CCrPg1Dz1EfWYMcWpD4h
- TYNj+iS8ysdexavUl2bl6qdZxPj1ZV/IfDLmlOop0kyztihdmS7dZnScF1r6v7GV
- snCTJsSt7GThrWFglL/5WSeJOROovqL7Gs2AufGrEcMZEJot1tstwLD08R1++JAu
- 8mtB6MgvkpIK68nISDdCwVZoT1JlvTs49e3uUUoVxXrZlSpUc8bi9qiUi0vqwA/i
- Y1XQns6HSt7vulADg9eV5cieCmNZkE0gZeRcsKKvk20ghfVW5+gHmPSICudCsHQ=
- =
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :references:in-reply-to:x-mailer:message-id:date:subject:to
+ :from; s=dkim; t=1630462227; x=1633054228; bh=vaYxnEf/0537kt2nb0
+ UwvsHsl3ytoVfv7r9+AnO3qH8=; b=KoMfg3XWFQxFdZwq5srHY1VwNqV7EEdahE
+ bhYw2cHkpfVjTzCduifvZILyQ8gSwxhtvdxEoSJlqk15Ki/5K63InKGYGcwNsCOL
+ dM3o7RH7mGyoMFZNeM8/6VmZ8pBq8bONlNySjkyxADNlnwk0N4+/N3tTQXs2gdBL
+ hJcjnv/rR+H+DyUEkC6ptjq559d/Ji9lsGnwi+3pNG0pKErk+whXY3LXu099iHmm
+ cIvzcmneoxhXlocqyUmyAzqW30ouxDEMjcDeeSo4N298ZHasWfPKpa6yg3loYhsl
+ A8j7dSvn0lm8xakYMUVqtPb34fez6nKKKtY7qNLvI0GHVWkDbx2g==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id p_WCWRwG4awz for <qemu-devel@nongnu.org>;
- Tue, 31 Aug 2021 19:10:21 -0700 (PDT)
+ port 10026) with ESMTP id O_hdnncXAn1P for <qemu-devel@nongnu.org>;
+ Tue, 31 Aug 2021 19:10:27 -0700 (PDT)
 Received: from toolbox.alistair23.me (unknown [10.225.165.16])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4GznZd68Bbz1Rvl9;
- Tue, 31 Aug 2021 19:10:17 -0700 (PDT)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4GznZl0f6yz1Rvl9;
+ Tue, 31 Aug 2021 19:10:22 -0700 (PDT)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
 Cc: alistair23@gmail.com, Bin Meng <bmeng.cn@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 02/33] hw/riscv: virt: Move flash node to root
-Date: Wed,  1 Sep 2021 12:09:27 +1000
-Message-Id: <20210901020958.458454-3-alistair.francis@opensource.wdc.com>
+Subject: [PULL 03/33] target/riscv: Correct a comment in riscv_csrrw()
+Date: Wed,  1 Sep 2021 12:09:28 +1000
+Message-Id: <20210901020958.458454-4-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210901020958.458454-1-alistair.francis@opensource.wdc.com>
 References: <20210901020958.458454-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=871df42ed=alistair.francis@opensource.wdc.com;
@@ -121,32 +118,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bmeng.cn@gmail.com>
 
-The flash is not inside the SoC, so it's inappropriate to put it
-under the /soc node. Move it to root instead.
+When privilege check fails, RISCV_EXCP_ILLEGAL_INST is returned,
+not -1 (RISCV_EXCP_NONE).
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210807035641.22449-1-bmeng.cn@gmail.com
+Message-id: 20210807141025.31808-1-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/virt.c | 2 +-
+ target/riscv/csr.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 0e55411045..aa279c1bb6 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -454,7 +454,7 @@ static void create_fdt(RISCVVirtState *s, const MemMa=
-pEntry *memmap,
-     qemu_fdt_setprop_cell(fdt, name, "interrupts", RTC_IRQ);
-     g_free(name);
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 9a4ed18ac5..e747fbe0e9 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -1423,7 +1423,7 @@ RISCVException riscv_csrrw(CPURISCVState *env, int =
+csrno,
+     target_ulong old_value;
+     RISCVCPU *cpu =3D env_archcpu(env);
 =20
--    name =3D g_strdup_printf("/soc/flash@%" PRIx64, flashbase);
-+    name =3D g_strdup_printf("/flash@%" PRIx64, flashbase);
-     qemu_fdt_add_subnode(mc->fdt, name);
-     qemu_fdt_setprop_string(mc->fdt, name, "compatible", "cfi-flash");
-     qemu_fdt_setprop_sized_cells(mc->fdt, name, "reg",
+-    /* check privileges and return -1 if check fails */
++    /* check privileges and return RISCV_EXCP_ILLEGAL_INST if check fail=
+s */
+ #if !defined(CONFIG_USER_ONLY)
+     int effective_priv =3D env->priv;
+     int read_only =3D get_field(csrno, 0xC00) =3D=3D 3;
 --=20
 2.31.1
 
