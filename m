@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79023FDFF3
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:30:45 +0200 (CEST)
-Received: from localhost ([::1]:39030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43F433FDFFF
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:34:32 +0200 (CEST)
+Received: from localhost ([::1]:48394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLT8O-0006D2-Pi
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:30:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55184)
+	id 1mLTC3-0004b0-Au
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:34:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mLSQG-0005Gk-3R
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:45:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59494)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1mLSU9-0002pJ-FI
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:49:09 -0400
+Received: from mout.web.de ([212.227.15.3]:40739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mLSQD-0000a9-E4
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:45:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630511104;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CiJNCWLWaq9AbmtpPMcJQNZZHtumJazk6UE0mB+Sa94=;
- b=OoaAvYvryUyTthTOA86lfyB+0Y7+/k5BjbjXqZqwoPIaYPWSUiJhtRyeSogyJfgT7R/Wnt
- HyOcdVDywdAWB3W4FWeqtFCJ6/J4xv/W0pF+tSpKOaPtB7WCr/t4YAHAySUd8jb2KG2Qzo
- 0YABgnpvqE+dPMODsaK5SC/58i3AfPA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-_I75uq0pNDCGvsM9D63O2A-1; Wed, 01 Sep 2021 11:44:51 -0400
-X-MC-Unique: _I75uq0pNDCGvsM9D63O2A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0083501E1;
- Wed,  1 Sep 2021 15:44:49 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.162])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CFFD860C05;
- Wed,  1 Sep 2021 15:44:32 +0000 (UTC)
-Date: Wed, 1 Sep 2021 16:44:30 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v1 3/3] migration: multifd: Enable zerocopy
-Message-ID: <YS+f3rgBLMdR2ELE@redhat.com>
-References: <20210831110238.299458-1-leobras@redhat.com>
- <20210831110238.299458-4-leobras@redhat.com>
- <YS4rulGV9eueB04H@redhat.com> <YS6RFcQnZEhE8XpG@t490s>
- <YS8/cxTtiC7QIxTD@redhat.com> <YS+dxUBrhogJQkEY@t490s>
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1mLSU7-0003t3-Ly
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:49:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1630511342;
+ bh=QKNLusJK5jO7zHAA4XfHo6zd9WB5o1P/u25DKCTB3M0=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=dUje6JVZBlzNoxbiBWIpj+Nt8W88UNC8JkbffmDxUKReMH4ZEPk53C2TOovolo8vh
+ iytngbiaW/wMvWiGr5ecd0JXtSILhYF/ctOCNCWm+2DGcxfdYhlrzTpR2dMH92INrd
+ GuJTgeA0raYd/mM7ClNTqpiO5MjvqMeJjrQLBtxk=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from gecko.fritz.box ([94.134.180.176]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MlsON-1mkrXC3lrf-00j4uA; Wed, 01
+ Sep 2021 17:49:02 +0200
+Date: Wed, 1 Sep 2021 15:48:52 +0000
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: Re: [PATCH for 6.1] multifd: Unconditionally unregister yank function
+Message-ID: <20210901154852.0538f0f9@gecko.fritz.box>
+In-Reply-To: <20210804212632.77221bcf@gecko.fritz.box>
+References: <20210804212632.77221bcf@gecko.fritz.box>
 MIME-Version: 1.0
-In-Reply-To: <YS+dxUBrhogJQkEY@t490s>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/UMBdGZchbE8oxpBVHZWEanX";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:lk9q4g+WAlzE5ctPsxRJ3weEMM0WG2ZjVyd0x5jKEtw7T7Vsu8R
+ 4kQap/1DtU/YmOw6UJfk1ghmw3dxisMqnT+7+XOgb6HCRoTy6qtQ4rj544QWMbHl/ZagdCi
+ zdoTfPG7MdIdJFWY6ZaHhpKhJjHlNq3PFmZPHMqUHwiqGD5CWtws1pjGzaEer4vnFY4n0ZY
+ zqdFEHcnwTKeLKQDVmesA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:U0cebeaRdBM=:YdkjgNBDMbnmjpvG9D8MQA
+ SMrRFpQZweSh9BtOQlt9CPdpwKndqw4ux/aAhPO5KoZmNNeoYCh9ppgBmht9DoUhLGjY9oHLc
+ 9MDfS3x9LNvy4AhZhcRpvs8HldPWrWBGjwJOQfths6Wa3GCEaUijx/42XHfkT9jcjKCHLR9/e
+ aSm98RsK/23IEXDOu9aGBHmdWxKPUkJ0+hvRpZJUDqafDLCeBimU8CTvhhrHotNFLdhvJvRR5
+ gpfE044mGT3Yn/o7tKxpga0CHfBWBFefe4ONvtFwj+BMXCM+1CqKEf5jydWH/vKQhi3nm0/Bb
+ 5BJh1td7QWHSIwyA74W0/FQOxwiJOGayfYPlGm7khyKrPAz5+Cl7vgYJlXa8qOnaX+XR5iBW/
+ u4qPUlMUumRLQMDdRlNikNiq4ZPQBJwdWfVOoz+/z1U5x9GKi+DlIqhHTk7wvSlvFME3tlk99
+ p9JgSABrp88Hcp+xBfz0XXEVwlpv+pCBtmz3yJTABHEt5ABeUf3UvTy6B75LH3mYFJPN//h5k
+ MofOb6YBh4S1hkgJntEGzXcoK2ECeRC2tzB1bh+GVv0G8OO6WoAMGEi+2OdTbKdAxHtE+0xTk
+ aUZRAlRW4OemplsmmJ86JG9tVMXVW2MbDzfad3D8vpYTNVPv4hB59ZPcuvTeAA3eItLOGK+PD
+ pEEB4ETcF9U7kjOS61ULK3Vj85RbrfoBm0RudlDcprJ6+u2rsyt/U4VYvHOit0BTo188Hrf8A
+ cVMgKfdDJL3usmiIvKWUa4+pL65VTyMNX6mRv6Y3TjeVwczw8mU+H9ouAugKB8y0ar9bgWpzU
+ 8MZwo8h6jE22hAMXHWznlxPwG/VOieTEjobg3hrKmFfHTvIkwmKYeOINd0AXpXOqOBXuayqvy
+ QCVLfhXcGSqpNh9zbnibLYtmVlv7g1J3uNZ1g3YFToKYsFR0qxNxUxnraauzE1nnCTFioMd86
+ e1SBgAdXg9ik6mYpMlPL4BvGt11lZ7PpiUnMcYSN41mmnruSfUa+E0LLg5yls5mvmPBCJ/DJA
+ Jltj0Zi172Ui1BYc8USRJvcwKEy+JY7ulFbBlldcvBv77s2mkAsN8MdFNaaB0nCwWiWhEKhLI
+ Mh1KGWSJ/h0YpGfJPvx0PZ0CF8wu2y4sewvMmbBzPZayzOu++3bMZcjMw==
+Received-SPF: pass client-ip=212.227.15.3; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,121 +83,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras <leobras@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 01, 2021 at 11:35:33AM -0400, Peter Xu wrote:
-> On Wed, Sep 01, 2021 at 09:53:07AM +0100, Daniel P. Berrangé wrote:
-> > On Tue, Aug 31, 2021 at 04:29:09PM -0400, Peter Xu wrote:
-> > > On Tue, Aug 31, 2021 at 02:16:42PM +0100, Daniel P. Berrangé wrote:
-> > > > On Tue, Aug 31, 2021 at 08:02:39AM -0300, Leonardo Bras wrote:
-> > > > > Call qio_channel_set_zerocopy(true) in the start of every multifd thread.
-> > > > > 
-> > > > > Change the send_write() interface of multifd, allowing it to pass down
-> > > > > flags for qio_channel_write*().
-> > > > > 
-> > > > > Pass down MSG_ZEROCOPY flag for sending memory pages, while keeping the
-> > > > > other data being sent at the default copying approach.
-> > > > > 
-> > > > > Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> > > > > ---
-> > > > >  migration/multifd-zlib.c | 7 ++++---
-> > > > >  migration/multifd-zstd.c | 7 ++++---
-> > > > >  migration/multifd.c      | 9 ++++++---
-> > > > >  migration/multifd.h      | 3 ++-
-> > > > >  4 files changed, 16 insertions(+), 10 deletions(-)
-> > > > 
-> > > > > @@ -675,7 +676,8 @@ static void *multifd_send_thread(void *opaque)
-> > > > >              }
-> > > > >  
-> > > > >              if (used) {
-> > > > > -                ret = multifd_send_state->ops->send_write(p, used, &local_err);
-> > > > > +                ret = multifd_send_state->ops->send_write(p, used, MSG_ZEROCOPY,
-> > > > > +                                                          &local_err);
-> > > > 
-> > > > I don't think it is valid to unconditionally enable this feature due to the
-> > > > resource usage implications
-> > > > 
-> > > > https://www.kernel.org/doc/html/v5.4/networking/msg_zerocopy.html
-> > > > 
-> > > >   "A zerocopy failure will return -1 with errno ENOBUFS. This happens 
-> > > >    if the socket option was not set, the socket exceeds its optmem 
-> > > >    limit or the user exceeds its ulimit on locked pages."
-> > > > 
-> > > > The limit on locked pages is something that looks very likely to be
-> > > > exceeded unless you happen to be running a QEMU config that already
-> > > > implies locked memory (eg PCI assignment)
-> > > 
-> > > Yes it would be great to be a migration capability in parallel to multifd. At
-> > > initial phase if it's easy to be implemented on multi-fd only, we can add a
-> > > dependency between the caps.  In the future we can remove that dependency when
-> > > the code is ready to go without multifd.  Thanks,
-> > 
-> > Also, I'm wondering how zerocopy support interacts with kernel support
-> > for kTLS and multipath-TCP, both of which we want to be able to use
-> > with migration.
-> 
-> Copying Jason Wang for net implications between these features on kernel side
-> and whether they can be enabled together (MSG_ZEROCOPY, mptcp, kTLS).
-> 
-> From the safe side we may want to only enable one of them until we prove
-> they'll work together I guess..
+--Sig_/UMBdGZchbE8oxpBVHZWEanX
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-MPTCP is good when we're network limited for migration
+On Wed, 4 Aug 2021 21:26:32 +0200
+Lukas Straub <lukasstraub2@web.de> wrote:
 
-KTLS will be good when we're CPU limited on AES for migration,
-which is essentially always when TLS is used.
+> Unconditionally unregister yank function in multifd_load_cleanup().
+> If it is not unregistered here, it will leak and cause a crash
+> in yank_unregister_instance(). Now if the ioc is still in use
+> afterwards, it will only lead to qemu not being able to recover
+> from a hang related to that ioc.
+>=20
+> After checking the code, i am pretty sure that ref is always 1
+> when arriving here. So all this currently does is remove the
+> unneeded check.
+>=20
+> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> ---
+>=20
+> This is similar to Peter Xu's=20
+> 39675ffffb3394d44b880d083a214c5e44786170
+> "migration: Move the yank unregister of channel_close out"
+> in that it removes the "OBJECT(p->c)->ref =3D=3D 1" hack. So it
+> makes sense for 6.1 so these patches are together.
+>=20
+>  migration/multifd.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+>=20
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 377da78f5b..a37805e17e 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -987,10 +987,7 @@ int multifd_load_cleanup(Error **errp)
+>      for (i =3D 0; i < migrate_multifd_channels(); i++) {
+>          MultiFDRecvParams *p =3D &multifd_recv_state->params[i];
+> =20
+> -        if (OBJECT(p->c)->ref =3D=3D 1) {
+> -            migration_ioc_unregister_yank(p->c);
+> -        }
+> -
+> +        migration_ioc_unregister_yank(p->c);
+>          object_unref(OBJECT(p->c));
+>          p->c =3D NULL;
+>          qemu_mutex_destroy(&p->mutex);
 
-ZEROCOPY will be good when we're CPU limited for data copy
-on migration, or to reduce the impact on other concurrent
-VMs on the same CPUs.
+ping...
 
-Ultimately we woudld benefit from all of them at the same
-time, if it were technically possible todo.
+--=20
 
-> Not a immediate concern as I don't really think any of them is really
-> explicitly supported in qemu.
 
-QEMU has mptcp support already:
+--Sig_/UMBdGZchbE8oxpBVHZWEanX
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-  commit 8bd1078aebcec5eac196a83ef1a7e74be0ba67b7
-  Author: Dr. David Alan Gilbert <dgilbert@redhat.com>
-  Date:   Wed Apr 21 12:28:34 2021 +0100
+-----BEGIN PGP SIGNATURE-----
 
-    sockets: Support multipath TCP
-    
-    Multipath TCP allows combining multiple interfaces/routes into a single
-    socket, with very little work for the user/admin.
-    
-    It's enabled by 'mptcp' on most socket addresses:
-    
-       ./qemu-system-x86_64 -nographic -incoming tcp:0:4444,mptcp
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmEvoOQACgkQNasLKJxd
+slj/pg//YsFNXv+FFw8gL68GI8++ChL+HgvwpeN1jTKexTWGSyF25jJgZeJoBhW+
+mW+FoRK64lIJwa9QFWViaejS2fG7JmqOEgZJ7KS2SFc9UVHOKLA2cnczz3kIwiRi
+V7wyuS6TQd4nwV6KrQkqlU/s4vhCrNEmcvMEfiUpXrq/onDc371hQ60fBa3GlA/o
+19lqyas9VXQuB57ueh3i94fEAgMpu516LYYzjxotopWQg1Iwk9WOTH3yl2Dq9QY4
+iB8WsI9PUjfgpfBGh6OBOIy+Uf4dkwyK8FtQAw5f5tOmb7bmmz11E6wQ45Gk3Qja
+dyE/nELt0BfwxG1FPP176StYaWhGP2wSHSwTNinUKlDr9jRzkv62ljzhd4E3k8Xo
+KHW7qLzm6tEtOsFauETT1iyYyK33vNgERyinCA9+vjJGR/7ihYhVGhvE6h3vGkSC
+Zlef4tHe7/ELoP4BLoOqhVDQrEGdu2rY24Q0FQa3j35rd2yklYrVJ5mgJEO2Pe3j
+aFGou5fZg9nUokPnVccSQdSWSzU+yDndHQdafkaMQjYoBAEZVA7NfCmvT0fAQUoZ
+JkLo7/DpKWgKCHnHts3nDEFMmEDbN0flAUr3yUvxRHbjVYeqDxvBZwt1h9z6Vv9P
+FbEaE5HQ3+wOh4skigjltSAeS617xWXO2GZdwP1lAM/7LH8fRhA=
+=zHkJ
+-----END PGP SIGNATURE-----
 
-> KTLS may be implicitly included by a new gnutls, but we need to mark TLS and
-> ZEROCOPY mutual exclusive anyway because at least the userspace TLS code of
-> gnutls won't has a way to maintain the tls buffers used by zerocopy.  So at
-> least we need some knob to detect whether kTLS is enabled in gnutls.
-
-It isn't possible for gnutls to transparently enable KTLS, because
-GNUTLS doesn't get to see the actual socket directly - it'll need
-some work in QEMU to enable it.  We know MPTCP and KTLS are currently
-mutually exclusive as they both use the same kernel network hooks
-framework.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--Sig_/UMBdGZchbE8oxpBVHZWEanX--
 
