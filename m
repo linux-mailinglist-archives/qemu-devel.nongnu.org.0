@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C8373FDEE5
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 17:42:45 +0200 (CEST)
-Received: from localhost ([::1]:56530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D17843FDEB1
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 17:31:34 +0200 (CEST)
+Received: from localhost ([::1]:51190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLSNw-0005Wg-BF
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 11:42:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49750)
+	id 1mLSD7-0007MF-Nq
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 11:31:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLRzQ-0005MB-BG
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:17:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33140)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLRzR-0005R3-K7
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:17:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28146)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLRzO-0003mM-1m
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:17:23 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLRzP-0003o0-KN
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:17:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630509441;
+ s=mimecast20190719; t=1630509443;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pA8KdcqXP2kmo4Kd3McR9IkUAKKssIl/xZYVTCDPy1Y=;
- b=UTvZkj+CjSmrgRN6C8RSpwf9JCmAcC2QcMIPkkVhQQYUoFRXTTcYmysCXLi8diwPs/gINu
- d/Adi2yrGiJRFqbepZvR+fwZEQFMbet22KK2i+GpSwmRF9uX7UL1FlzJ3sTtC2bFOD6ngN
- vTp92ozd0emD2jDGIhjArfcyGhT3/E4=
+ bh=ptmW75KyIzcJGjJ/kFpJ8re3VNKXO76q5hbA08JudWY=;
+ b=EJgwC63z3GzfFZhBYyQ+HsMC65WxnYsVluJuBjhZmpSiUObaFifJDrIYI08f4qolm/b5dN
+ XM1+CMIhpP0o5AWS2YJ73P/Qz5LlWhJT/U8+/IKWWwGXNPHUOuXpFCk9hfXA2r7l4yW7by
+ Gtl2xK6zIir5Reb1tiB3q8afwD1Xfvs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-14o84Fn_P1u9VL8XUfOfvA-1; Wed, 01 Sep 2021 11:17:19 -0400
-X-MC-Unique: 14o84Fn_P1u9VL8XUfOfvA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-283-PP8YfaIFPqyhL1xZ0Lp3Wg-1; Wed, 01 Sep 2021 11:17:21 -0400
+X-MC-Unique: PP8YfaIFPqyhL1xZ0Lp3Wg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70451801A92;
- Wed,  1 Sep 2021 15:17:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 983B410053E7;
+ Wed,  1 Sep 2021 15:17:20 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.250])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E88236A05B;
- Wed,  1 Sep 2021 15:17:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4161A60C9F;
+ Wed,  1 Sep 2021 15:17:20 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 26/56] block-copy: move detecting fleecing scheme to block-copy
-Date: Wed,  1 Sep 2021 17:15:49 +0200
-Message-Id: <20210901151619.689075-27-hreitz@redhat.com>
+Subject: [PULL 27/56] block/block-copy: introduce block_copy_set_copy_opts()
+Date: Wed,  1 Sep 2021 17:15:50 +0200
+Message-Id: <20210901151619.689075-28-hreitz@redhat.com>
 In-Reply-To: <20210901151619.689075-1-hreitz@redhat.com>
 References: <20210901151619.689075-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -83,175 +83,106 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-We want to simplify initialization interface of copy-before-write
-filter as we are going to make it public. So, let's detect fleecing
-scheme exactly in block-copy code, to not pass this information through
-extra levels.
-
-Why not just set BDRV_REQ_SERIALISING unconditionally: because we are
-going to implement new more efficient fleecing scheme which will not
-rely on backing feature.
+We'll need a possibility to set compress and use_copy_range options
+after initialization of the state. So make corresponding part of
+block_copy_state_new() separate and public.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-Id: <20210824083856.17408-8-vsementsov@virtuozzo.com>
 Reviewed-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20210824083856.17408-7-vsementsov@virtuozzo.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- block/copy-before-write.h  |  2 +-
- include/block/block-copy.h |  3 +--
- block/backup.c             | 21 +--------------------
- block/block-copy.c         | 24 +++++++++++++++++++++---
- block/copy-before-write.c  |  4 ++--
- 5 files changed, 26 insertions(+), 28 deletions(-)
+ include/block/block-copy.h |  3 +++
+ block/block-copy.c         | 49 ++++++++++++++++++++++----------------
+ 2 files changed, 32 insertions(+), 20 deletions(-)
 
-diff --git a/block/copy-before-write.h b/block/copy-before-write.h
-index 5977b7aa31..f37e2249ae 100644
---- a/block/copy-before-write.h
-+++ b/block/copy-before-write.h
-@@ -34,7 +34,7 @@ BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
-                                   const char *filter_node_name,
-                                   uint64_t cluster_size,
-                                   BackupPerf *perf,
--                                  BdrvRequestFlags write_flags,
-+                                  bool compress,
-                                   BlockCopyState **bcs,
-                                   Error **errp);
- void bdrv_cbw_drop(BlockDriverState *bs);
 diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-index 5c8278895c..734389d32a 100644
+index 734389d32a..dca6c4ce36 100644
 --- a/include/block/block-copy.h
 +++ b/include/block/block-copy.h
-@@ -26,8 +26,7 @@ typedef struct BlockCopyCallState BlockCopyCallState;
- 
- BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+@@ -28,6 +28,9 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
                                       int64_t cluster_size, bool use_copy_range,
--                                     BdrvRequestFlags write_flags,
--                                     Error **errp);
-+                                     bool compress, Error **errp);
+                                      bool compress, Error **errp);
  
++/* Function should be called prior any actual copy request */
++void block_copy_set_copy_opts(BlockCopyState *s, bool use_copy_range,
++                              bool compress);
  void block_copy_set_progress_meter(BlockCopyState *s, ProgressMeter *pm);
  
-diff --git a/block/backup.c b/block/backup.c
-index ac91821b08..84f9a5f02c 100644
---- a/block/backup.c
-+++ b/block/backup.c
-@@ -407,7 +407,6 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-     int64_t len, target_len;
-     BackupBlockJob *job = NULL;
-     int64_t cluster_size;
--    BdrvRequestFlags write_flags;
-     BlockDriverState *cbw = NULL;
-     BlockCopyState *bcs = NULL;
- 
-@@ -504,26 +503,8 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
-         goto error;
-     }
- 
--    /*
--     * If source is in backing chain of target assume that target is going to be
--     * used for "image fleecing", i.e. it should represent a kind of snapshot of
--     * source at backup-start point in time. And target is going to be read by
--     * somebody (for example, used as NBD export) during backup job.
--     *
--     * In this case, we need to add BDRV_REQ_SERIALISING write flag to avoid
--     * intersection of backup writes and third party reads from target,
--     * otherwise reading from target we may occasionally read already updated by
--     * guest data.
--     *
--     * For more information see commit f8d59dfb40bb and test
--     * tests/qemu-iotests/222
--     */
--    write_flags = (bdrv_chain_contains(target, bs) ? BDRV_REQ_SERIALISING : 0) |
--                  (compress ? BDRV_REQ_WRITE_COMPRESSED : 0),
--
-     cbw = bdrv_cbw_append(bs, target, filter_node_name,
--                                        cluster_size, perf,
--                                        write_flags, &bcs, errp);
-+                          cluster_size, perf, compress, &bcs, errp);
-     if (!cbw) {
-         goto error;
-     }
+ void block_copy_state_free(BlockCopyState *s);
 diff --git a/block/block-copy.c b/block/block-copy.c
-index 0becad52da..58b4345a5a 100644
+index 58b4345a5a..e83870ff81 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
-@@ -317,10 +317,11 @@ static uint32_t block_copy_max_transfer(BdrvChild *source, BdrvChild *target)
+@@ -315,6 +315,33 @@ static uint32_t block_copy_max_transfer(BdrvChild *source, BdrvChild *target)
+                                      target->bs->bl.max_transfer));
+ }
  
++void block_copy_set_copy_opts(BlockCopyState *s, bool use_copy_range,
++                              bool compress)
++{
++    /* Keep BDRV_REQ_SERIALISING set (or not set) in block_copy_state_new() */
++    s->write_flags = (s->write_flags & BDRV_REQ_SERIALISING) |
++        (compress ? BDRV_REQ_WRITE_COMPRESSED : 0);
++
++    if (s->max_transfer < s->cluster_size) {
++        /*
++         * copy_range does not respect max_transfer. We don't want to bother
++         * with requests smaller than block-copy cluster size, so fallback to
++         * buffered copying (read and write respect max_transfer on their
++         * behalf).
++         */
++        s->method = COPY_READ_WRITE_CLUSTER;
++    } else if (compress) {
++        /* Compression supports only cluster-size writes and no copy-range. */
++        s->method = COPY_READ_WRITE_CLUSTER;
++    } else {
++        /*
++         * If copy range enabled, start with COPY_RANGE_SMALL, until first
++         * successful copy_range (look at block_copy_do_copy).
++         */
++        s->method = use_copy_range ? COPY_RANGE_SMALL : COPY_READ_WRITE;
++    }
++}
++
  BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
                                       int64_t cluster_size, bool use_copy_range,
--                                     BdrvRequestFlags write_flags, Error **errp)
-+                                     bool compress, Error **errp)
- {
-     BlockCopyState *s;
-     BdrvDirtyBitmap *copy_bitmap;
-+    bool is_fleecing;
- 
-     copy_bitmap = bdrv_create_dirty_bitmap(source->bs, cluster_size, NULL,
-                                            errp);
-@@ -329,6 +330,22 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-     }
-     bdrv_disable_dirty_bitmap(copy_bitmap);
- 
-+    /*
-+     * If source is in backing chain of target assume that target is going to be
-+     * used for "image fleecing", i.e. it should represent a kind of snapshot of
-+     * source at backup-start point in time. And target is going to be read by
-+     * somebody (for example, used as NBD export) during backup job.
-+     *
-+     * In this case, we need to add BDRV_REQ_SERIALISING write flag to avoid
-+     * intersection of backup writes and third party reads from target,
-+     * otherwise reading from target we may occasionally read already updated by
-+     * guest data.
-+     *
-+     * For more information see commit f8d59dfb40bb and test
-+     * tests/qemu-iotests/222
-+     */
-+    is_fleecing = bdrv_chain_contains(target->bs, source->bs);
-+
-     s = g_new(BlockCopyState, 1);
-     *s = (BlockCopyState) {
-         .source = source,
-@@ -336,7 +353,8 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+                                      bool compress, Error **errp)
+@@ -353,32 +380,14 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
          .copy_bitmap = copy_bitmap,
          .cluster_size = cluster_size,
          .len = bdrv_dirty_bitmap_size(copy_bitmap),
--        .write_flags = write_flags,
-+        .write_flags = (is_fleecing ? BDRV_REQ_SERIALISING : 0) |
-+            (compress ? BDRV_REQ_WRITE_COMPRESSED : 0),
+-        .write_flags = (is_fleecing ? BDRV_REQ_SERIALISING : 0) |
+-            (compress ? BDRV_REQ_WRITE_COMPRESSED : 0),
++        .write_flags = (is_fleecing ? BDRV_REQ_SERIALISING : 0),
          .mem = shres_create(BLOCK_COPY_MAX_MEM),
          .max_transfer = QEMU_ALIGN_DOWN(
                                      block_copy_max_transfer(source, target),
-@@ -351,7 +369,7 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
-          * behalf).
-          */
-         s->method = COPY_READ_WRITE_CLUSTER;
--    } else if (write_flags & BDRV_REQ_WRITE_COMPRESSED) {
-+    } else if (compress) {
-         /* Compression supports only cluster-size writes and no copy-range. */
-         s->method = COPY_READ_WRITE_CLUSTER;
-     } else {
-diff --git a/block/copy-before-write.c b/block/copy-before-write.c
-index 0dc5a107cf..4337076c1c 100644
---- a/block/copy-before-write.c
-+++ b/block/copy-before-write.c
-@@ -171,7 +171,7 @@ BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
-                                   const char *filter_node_name,
-                                   uint64_t cluster_size,
-                                   BackupPerf *perf,
--                                  BdrvRequestFlags write_flags,
-+                                  bool compress,
-                                   BlockCopyState **bcs,
-                                   Error **errp)
- {
-@@ -218,7 +218,7 @@ BlockDriverState *bdrv_cbw_append(BlockDriverState *source,
-     state->cluster_size = cluster_size;
-     state->bcs = block_copy_state_new(top->backing, state->target,
-                                       cluster_size, perf->use_copy_range,
--                                      write_flags, errp);
-+                                      compress, errp);
-     if (!state->bcs) {
-         error_prepend(errp, "Cannot create block-copy-state: ");
-         goto fail;
+                                     cluster_size),
+     };
+ 
+-    if (s->max_transfer < cluster_size) {
+-        /*
+-         * copy_range does not respect max_transfer. We don't want to bother
+-         * with requests smaller than block-copy cluster size, so fallback to
+-         * buffered copying (read and write respect max_transfer on their
+-         * behalf).
+-         */
+-        s->method = COPY_READ_WRITE_CLUSTER;
+-    } else if (compress) {
+-        /* Compression supports only cluster-size writes and no copy-range. */
+-        s->method = COPY_READ_WRITE_CLUSTER;
+-    } else {
+-        /*
+-         * If copy range enabled, start with COPY_RANGE_SMALL, until first
+-         * successful copy_range (look at block_copy_do_copy).
+-         */
+-        s->method = use_copy_range ? COPY_RANGE_SMALL : COPY_READ_WRITE;
+-    }
++    block_copy_set_copy_opts(s, use_copy_range, compress);
+ 
+     ratelimit_init(&s->rate_limit);
+     qemu_co_mutex_init(&s->lock);
 -- 
 2.31.1
 
