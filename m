@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3008F3FDED1
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 17:39:19 +0200 (CEST)
-Received: from localhost ([::1]:47118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4428B3FDECF
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 17:38:57 +0200 (CEST)
+Received: from localhost ([::1]:45874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLSKa-0007JX-Ji
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 11:39:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49594)
+	id 1mLSKG-0006UL-BU
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 11:38:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLRzD-0004dQ-5z
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLRzD-0004fy-Rb
  for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:17:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57221)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLRzB-0003cW-Cz
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:17:10 -0400
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLRzB-0003cQ-00
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:17:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1630509428;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F8AaHfQRnn/TzuyV/qk/3Rp5lhp+NGLCu5i6cugLt1A=;
- b=RdB/vOk501OXDuDgHK1gs6NPWLma5H9MDXUbW0vCCKJFd4aaYdROng7Tnz6p9xbg8BHin6
- daQ3tz4hndUbqZ/m5Vf02Olo7kUcCDqy3qbjAm7a5C8Qvtz/XEf+662u/EIYwtVzZWsDHR
- TNSB+es3pzgSE880oNX6OhK8IGbP5Uc=
+ bh=J3Wzs6PgdR5xFLD7xKbCyaLcwPJaATPbnIu6vqV2Zps=;
+ b=ANjfiOqmJ4LLNSowFLDGJZnp2vp1vXaorK8XDLqvnBEVFndsVZUJvBoDm4mH6vDoLFYU8M
+ 6GPfzxvceNQyz9UCEfrAdaFclV1M0dWR8Ge7RfuNXGpR6QX/KLG8o9MNV0vtgVV+xJ4tJo
+ CHlHRba4oo5j51QxDHh5w+S87InKolk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-498-onRFq3psP_Kbi0hw9U9lmg-1; Wed, 01 Sep 2021 11:17:04 -0400
-X-MC-Unique: onRFq3psP_Kbi0hw9U9lmg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-564-5ro6mnzQOWiQYZ8DcrptGQ-1; Wed, 01 Sep 2021 11:17:06 -0400
+X-MC-Unique: 5ro6mnzQOWiQYZ8DcrptGQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA48E1B2C980;
- Wed,  1 Sep 2021 15:17:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7D39802921;
+ Wed,  1 Sep 2021 15:17:05 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.250])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 83E0D6608B;
- Wed,  1 Sep 2021 15:17:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8327A5C23A;
+ Wed,  1 Sep 2021 15:17:05 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 20/56] iotests: use subprocess.DEVNULL instead of
- open("/dev/null")
-Date: Wed,  1 Sep 2021 17:15:43 +0200
-Message-Id: <20210901151619.689075-21-hreitz@redhat.com>
+Subject: [PULL 21/56] block: introduce bdrv_replace_child_bs()
+Date: Wed,  1 Sep 2021 17:15:44 +0200
+Message-Id: <20210901151619.689075-22-hreitz@redhat.com>
 In-Reply-To: <20210901151619.689075-1-hreitz@redhat.com>
 References: <20210901151619.689075-1-hreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=hreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -64,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,50 +81,74 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Avoids a warning from pylint not to use open() outside of a
-with-statement, and is ... probably more portable anyway. Not that I
-think we care too much about running tests *on* Windows, but... eh.
+Add function to transactionally replace bs inside BdrvChild.
 
-Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20210720173336.1876937-3-jsnow@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20210824083856.17408-2-vsementsov@virtuozzo.com>
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ include/block/block.h |  2 ++
+ block.c               | 31 +++++++++++++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 2ad7a15c8b..4c8971d946 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -237,18 +237,18 @@ def qemu_io_silent(*args):
-         default_args = qemu_io_args
+diff --git a/include/block/block.h b/include/block/block.h
+index 3477290f9a..740038a892 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -361,6 +361,8 @@ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
+                 Error **errp);
+ int bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
+                       Error **errp);
++int bdrv_replace_child_bs(BdrvChild *child, BlockDriverState *new_bs,
++                          Error **errp);
+ BlockDriverState *bdrv_insert_node(BlockDriverState *bs, QDict *node_options,
+                                    int flags, Error **errp);
+ int bdrv_drop_filter(BlockDriverState *bs, Error **errp);
+diff --git a/block.c b/block.c
+index e97ce0b1c8..b2b66263f9 100644
+--- a/block.c
++++ b/block.c
+@@ -5048,6 +5048,37 @@ out:
+     return ret;
+ }
  
-     args = default_args + list(args)
--    exitcode = subprocess.call(args, stdout=open('/dev/null', 'w'))
--    if exitcode < 0:
-+    result = subprocess.run(args, stdout=subprocess.DEVNULL, check=False)
-+    if result.returncode < 0:
-         sys.stderr.write('qemu-io received signal %i: %s\n' %
--                         (-exitcode, ' '.join(args)))
--    return exitcode
-+                         (-result.returncode, ' '.join(args)))
-+    return result.returncode
- 
- def qemu_io_silent_check(*args):
-     '''Run qemu-io and return the true if subprocess returned 0'''
-     args = qemu_io_args + list(args)
--    exitcode = subprocess.call(args, stdout=open('/dev/null', 'w'),
--                               stderr=subprocess.STDOUT)
--    return exitcode == 0
-+    result = subprocess.run(args, stdout=subprocess.DEVNULL,
-+                            stderr=subprocess.STDOUT, check=False)
-+    return result.returncode == 0
- 
- class QemuIoInteractive:
-     def __init__(self, *args):
++/* Not for empty child */
++int bdrv_replace_child_bs(BdrvChild *child, BlockDriverState *new_bs,
++                          Error **errp)
++{
++    int ret;
++    Transaction *tran = tran_new();
++    g_autoptr(GHashTable) found = NULL;
++    g_autoptr(GSList) refresh_list = NULL;
++    BlockDriverState *old_bs = child->bs;
++
++    bdrv_ref(old_bs);
++    bdrv_drained_begin(old_bs);
++    bdrv_drained_begin(new_bs);
++
++    bdrv_replace_child_tran(child, new_bs, tran);
++
++    found = g_hash_table_new(NULL, NULL);
++    refresh_list = bdrv_topological_dfs(refresh_list, found, old_bs);
++    refresh_list = bdrv_topological_dfs(refresh_list, found, new_bs);
++
++    ret = bdrv_list_refresh_perms(refresh_list, NULL, tran, errp);
++
++    tran_finalize(tran, ret);
++
++    bdrv_drained_end(old_bs);
++    bdrv_drained_end(new_bs);
++    bdrv_unref(old_bs);
++
++    return ret;
++}
++
+ static void bdrv_delete(BlockDriverState *bs)
+ {
+     assert(bdrv_op_blocker_is_empty(bs));
 -- 
 2.31.1
 
