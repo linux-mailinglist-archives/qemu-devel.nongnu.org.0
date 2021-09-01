@@ -2,71 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42A0F3FDF6B
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:09:42 +0200 (CEST)
-Received: from localhost ([::1]:36572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 117F73FE000
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 18:34:53 +0200 (CEST)
+Received: from localhost ([::1]:50124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLSo1-0008Do-Ao
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:09:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50684)
+	id 1mLTCO-0005nV-3t
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 12:34:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLS0i-0007dP-9T
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:18:45 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:41958)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLS0c-0004oU-FM
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:18:43 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- u15-20020a05600c19cf00b002f6445b8f55so1873036wmq.0
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 08:18:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=tb6HEiyVd/5u3ii8Uge9IjekFOIs+PGhTVvVrj8+cHw=;
- b=n8fRNo688fGqHDUQPZm77F467U68h6G0K4eoc2O69+/NPLGDSns+I5obZ5xoPmVnQ/
- 933uGLG4hFrDMxL2ICgRRU8RmO1q/gN421XksXGYvccQS+4SkaHMLiNZdpJYre8IH3IJ
- Ub/dihHW/e/cys08869QMt62vD2PU9j/cBpB5gfWOmekGwLIGWrJ7X8plt5fUMhWB25L
- hsLtWYbONcctE+u1dYE6FY6kWkp7WY42ryoCAcBSbgJpy7jGZX/6zMV0haZnGN6gK2kt
- 6YGDi34hYHSVLQLgP/ocIYujLwQBXwT7ynone0MnQbIz6Ho4bwpBhW63xPwxtUSmadQk
- TBLw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLS72-0004wK-KA
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:25:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30765)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLS6z-0001kc-Mk
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 11:25:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630509913;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ToFGOS1/4HM40AQquohB88E7LjowD3oG771dWFIThSg=;
+ b=cHeUIZS6ApFcUhWjLYVwglELi04+Ysinb2xZOKUxnJ7EP09NqgoKMWfmCryFOHNt0tNfGX
+ Bs13C0padLMJdsQW66ukhEzz2FEFn3tPsJ5y+lBYQLG7bcRc6y8qCHh1sIxB95AScEmY/i
+ 4y3BxqeDumub0KJXWX5C0tECNA7CC1k=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-67-BeCdTPbCNoiF7xTozHigng-1; Wed, 01 Sep 2021 11:25:12 -0400
+X-MC-Unique: BeCdTPbCNoiF7xTozHigng-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ h1-20020a05600c350100b002e751bf6733so1163104wmq.8
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 08:25:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=tb6HEiyVd/5u3ii8Uge9IjekFOIs+PGhTVvVrj8+cHw=;
- b=eLI2O7LbmZ8WUqJWSlKZEZb6dETM8KjFhChZobowJBWSGFl0cmuU60N8gFJbLFwMd6
- cpBzQwb1ShpWyH5keoMcGP4ywOvJmvk8jz6T8wtucnosx0ojaqVrVyrIONRyFxi0g0ib
- bF+QxGzb10ucvX/G389yu7rX68oTy66luQxxdBw1mTXD8q9um1HB6NWLs5z71E2BVcYg
- Z3Rw0N2P43BA82dEDDDDvNbqf5jXWpejpsESL/N5/xNQuaA0piouSyi59kPV1KVBbtuR
- B4F6H3HoYmJq7TNvDLXckfg4AzKsDd1SzOFhnvzgJ9KwblUlGQZnz0kkflPHA2LNvnoK
- VjoQ==
-X-Gm-Message-State: AOAM533GzPlz/SAlszyM+/m/Ymlei45Wv/yvpSyw53ReUzAmQXishp77
- Ww4NUPQl5wUfcjwIfNMGQa4CGn+5NH5/opWZ/IWZ2g==
-X-Google-Smtp-Source: ABdhPJxMzqdA+NDH/73XRK55dVVqok8FnMKX6zbekm74COJ8X24PzSqHTlnGmnBlrLmAUI09TtLwSBhOJtJs0YkC2eQ=
-X-Received: by 2002:a7b:c041:: with SMTP id u1mr10001668wmc.95.1630509516889; 
- Wed, 01 Sep 2021 08:18:36 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ToFGOS1/4HM40AQquohB88E7LjowD3oG771dWFIThSg=;
+ b=buhtMfy2mWADvleW3QIaZn3GkE+ptE44waY9zMqAn+q4pSzpkPQQu+SlC7tb8bGl8U
+ EhyRxPhrBjiZC6rkeMOvfmPMD727IiIG8gY2AGi6GwJDiFpBAEMi2dIUtcay2LMZ4oMk
+ uPVw7oVziVdAqCQ2JdE343i0dzV7Ni9b/Xs7/nNs6mFqDAZHSNiG6hgOg0daJ1/7k7Or
+ MvfQDWQDWd/SPkye63HQGX2FVKtwrCKik+v8AGEl2ORC2+31tAZRB+oTNzoSexc9NvYz
+ P3h1NT5AKgysVIukLpALyzGdWHNVXWH0B3wVnXUO0L1I89rvC0U9qGjTH/GRJM2rUfAi
+ ou9g==
+X-Gm-Message-State: AOAM532jGbKH0tvVbJY0Z1NclVmex0KZTUwsFvKRFsQJSJyHrT+NUUfb
+ GG4R/RTZrTQEREoMuS+NKuQxn2sznbq/vqIW1WllFzRhbij+V9RRNGU9duhlwFeuB/Ul6NcNkIz
+ 2lSV70WwKKjLDlRI=
+X-Received: by 2002:adf:b78d:: with SMTP id s13mr21434931wre.344.1630509910834; 
+ Wed, 01 Sep 2021 08:25:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzVdB1Pl2RqBQoRqLRnHNDB25lZjfzssISIgZQnalEYnEp1rZdT8ZpXdDi1kU8go3xAgi0zqw==
+X-Received: by 2002:adf:b78d:: with SMTP id s13mr21434913wre.344.1630509910648; 
+ Wed, 01 Sep 2021 08:25:10 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id c14sm21484693wrr.58.2021.09.01.08.25.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Sep 2021 08:25:10 -0700 (PDT)
+Subject: Re: [PATCH 1/2] elf2dmp: Check curl_easy_setopt() return value
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20210901143910.17112-1-peter.maydell@linaro.org>
+ <20210901143910.17112-2-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <59844a83-9058-3935-0228-e159eef5277e@redhat.com>
+Date: Wed, 1 Sep 2021 17:25:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210901145229.4132606-1-philmd@redhat.com>
- <YS+UylEr3CJyksxt@redhat.com>
-In-Reply-To: <YS+UylEr3CJyksxt@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 1 Sep 2021 16:17:48 +0100
-Message-ID: <CAFEAcA_gyZTfUTAAoKvrA-qyv-8dOvGjLSLmq2uaur8XYS6CuQ@mail.gmail.com>
-Subject: Re: [PATCH] gitlab: Escape git-describe match pattern on Windows hosts
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210901143910.17112-2-peter.maydell@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.029,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,61 +98,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Willian Rampazzo <willianr@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Eric Blake <eblake@redhat.com>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 1 Sept 2021 at 15:59, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
->
-> On Wed, Sep 01, 2021 at 04:52:29PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
-te:
-> > Properly escape git-describe 'match' pattern to avoid (MinGW):
-> >
-> >   $ if grep -q "EXESUF=3D.exe" config-host.mak; then make installer;
-> >     version=3D"$(git describe --match v[0-9]*)";
-> >     mv -v qemu-setup*.exe qemu-setup-${version}.exe; fi
-> >   fatal: No names found, cannot describe anything.
-> >   ERROR: Job failed: exit code 1
-> >
-> > Reported-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> > Fixes: 8619b5ddb56 ("ci: build & store windows installer")
-> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/591
-> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > ---
-> >  .gitlab-ci.d/crossbuild-template.yml | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/.gitlab-ci.d/crossbuild-template.yml b/.gitlab-ci.d/crossb=
-uild-template.yml
-> > index 10d22dcf6c1..62d33e6661d 100644
-> > --- a/.gitlab-ci.d/crossbuild-template.yml
-> > +++ b/.gitlab-ci.d/crossbuild-template.yml
-> > @@ -14,7 +14,7 @@
-> >      - make -j$(expr $(nproc) + 1) all check-build $MAKE_CHECK_ARGS
-> >      - if grep -q "EXESUF=3D.exe" config-host.mak;
-> >        then make installer;
-> > -      version=3D"$(git describe --match v[0-9]*)";
-> > +      version=3D"$(git describe --match 'v[0-9]*')";
->
-> Do you have a pointer to a pipeline showing this fix works ?
->
-> It is a bit strange to me. AFAICT, the only difference would
-> be if the unquoted  v[0-9]*  matched a filename in the
-> current directory, but that doesn't seem like it is the
-> case here.
+On 9/1/21 4:39 PM, Peter Maydell wrote:
+> Coverity points out that we aren't checking the return value
+> from curl_easy_setopt().
+> 
+> Fixes: Coverity CID 1458895
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  contrib/elf2dmp/download.c | 28 +++++++++++++++++-----------
+>  1 file changed, 17 insertions(+), 11 deletions(-)
+> 
+> diff --git a/contrib/elf2dmp/download.c b/contrib/elf2dmp/download.c
+> index d09e607431f..01e4a7fc0dc 100644
+> --- a/contrib/elf2dmp/download.c
+> +++ b/contrib/elf2dmp/download.c
+> @@ -21,21 +21,19 @@ int download_url(const char *name, const char *url)
+>  
+>      file = fopen(name, "wb");
+>      if (!file) {
+> -        err = 1;
+> -        goto out_curl;
+> +        goto fail;
+>      }
+>  
+> -    curl_easy_setopt(curl, CURLOPT_URL, url);
+> -    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
+> -    curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
+> -    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
+> -    curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0);
+> +    if (curl_easy_setopt(curl, CURLOPT_URL, url) != CURLE_OK ||
+> +        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL) != CURLE_OK ||
+> +        curl_easy_setopt(curl, CURLOPT_WRITEDATA, file) != CURLE_OK ||
+> +        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1) != CURLE_OK ||
+> +        curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0) != CURLE_OK) {
+> +        goto fail;
+> +    }
+>  
+>      if (curl_easy_perform(curl) != CURLE_OK) {
+> -        err = 1;
+> -        fclose(file);
+> -        unlink(name);
+> -        goto out_curl;
+> +        goto fail;
+>      }
+>  
+>      err = fclose(file);
+> @@ -44,4 +42,12 @@ out_curl:
+>      curl_easy_cleanup(curl);
+>  
+>      return err;
+> +
+> +fail:
+> +    err = 1;
+> +    if (file) {
+> +        fclose(file);
+> +        unlink(name);
+> +    }
+> +    goto out_curl;
+>  }
+> 
 
-We should quote the glob pattern anyway, to avoid possible
-really confusing behaviour in the future if such a file ever
-does turn up...
+Counter proposal without goto and less ifs:
 
--- PMM
+-- >8 --
+@@ -25,21 +25,19 @@ int download_url(const char *name, const char *url)
+         goto out_curl;
+     }
+
+-    curl_easy_setopt(curl, CURLOPT_URL, url);
+-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL);
+-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
+-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
+-    curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0);
+-
+-    if (curl_easy_perform(curl) != CURLE_OK) {
+-        err = 1;
+-        fclose(file);
++    if (curl_easy_setopt(curl, CURLOPT_URL, url) != CURLE_OK
++            || curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, NULL) !=
+CURLE_OK
++            || curl_easy_setopt(curl, CURLOPT_WRITEDATA, file) != CURLE_OK
++            || curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1) !=
+CURLE_OK
++            || curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0) != CURLE_OK
++            || curl_easy_perform(curl) != CURLE_OK) {
+         unlink(name);
+-        goto out_curl;
++        fclose(file);
++        err = 1;
++    } else {
++        err = fclose(file);
+     }
+
+-    err = fclose(file);
+-
+ out_curl:
+     curl_easy_cleanup(curl);
+
+---
+
 
