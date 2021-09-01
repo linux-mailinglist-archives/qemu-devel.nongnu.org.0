@@ -2,65 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EDBE3FDDA9
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 16:11:21 +0200 (CEST)
-Received: from localhost ([::1]:39774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4CA3FDDAF
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Sep 2021 16:15:15 +0200 (CEST)
+Received: from localhost ([::1]:43898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLQxU-0004Rw-8k
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 10:11:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60586)
+	id 1mLR1G-0007JL-RQ
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 10:15:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLQwQ-0003hN-3z
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 10:10:14 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:38674)
+ id 1mLQzG-0006N2-0d
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 10:13:10 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:51082)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLQwO-0003VY-FK
- for qemu-devel@nongnu.org; Wed, 01 Sep 2021 10:10:13 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id u16so4747661wrn.5
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 07:10:11 -0700 (PDT)
+ id 1mLQzD-0005Sl-2R
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 10:13:09 -0400
+Received: by mail-wm1-x334.google.com with SMTP id m2so2033231wmm.0
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 07:13:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YdnQvFnRj9VTCxv64h96MSKNuF6wjpgVFj12vYzb5q0=;
- b=f+tBrvqKws/Xvyjc7EVf7oO21RVt1mBix7kWf5rMTic/N1m+aIaTvXbLIsWLbGB9rp
- Nq3L9SIcpJYrSqb79HnQ+wxdzPu8yYSzIauyz0nljbcEbv4/3QHFGU6zCFIM43IqfOJt
- FL3AWshzwWoG0oBM9XOA7I0/9KRISQHhHAcrSZLxk7XzZtnjeP/T9RurfOzM1yp9v/hK
- KezGJhRuinQKTc+8dJ+vhDcZM23eyNrpTvi5Pcd2YVbU01kOqEG1e2gc+FTAYQ96BOo9
- GlSU5G/bkcC91Wq1HOdv3GtVzEanDamwqr9jgXCvPdYwt3EEwktdNIKsOEAPllx9ZH1n
- zlww==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BPDAHOwEFGUSEFTupARSITeo8c8XPIjUB3now1ZE8ho=;
+ b=p92pCB8TAQ8M0nyN0S/ofKcrx/0KDRiGdtXHKt05MzVLxryFIMDOLb2AoNLUkto+xT
+ PyIwJL/HH///IJ+PYrohcTPq9JEVZMpB9WORYYwTbWWCwYApFPvqYS8VO0fV2chEWmRb
+ YQbOWnVFKQDOLyd3/rPF0SYRDLrc7d3P2ueNoAoR47/udH3umcX/PIsVF3PYgGtqsMqI
+ zYWOfc1ktlj7bCsxWiZ2ysQePmM2tr502Y4NMHGcKzs2IRwcRQS9h6H5BrjN3arBXU5I
+ Yr3pH48Fcy95u4rscCM+3iwUUQpHWlfXpJvzE5+t/YDjjBc7BLtsfO93iXQZBJLVxdwU
+ sCeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=YdnQvFnRj9VTCxv64h96MSKNuF6wjpgVFj12vYzb5q0=;
- b=V+NPaiNKR+zhe2FPq6c2OHeq2XCpg0+gw8kapPEu62dN0m4xhu/qpS26iREnVmOuLU
- KaeCl0BoSZZsVqAkrgdfC2cfUATwCUGpt611eXb6jrYa9hA6Qy1iUyb7ljv+1P6lkXrs
- SB/6Nd1+aWU48azcU650M4So0zIAlJzJeeKnDa8XiRlZmVMjkdmHGDaXWVxkYMzGrYoH
- t0kdA30RWYrDnjOUz4vb7N8qx+gfS6VXcquoejP1cnkCKpm+E+XDNGgIxboAhvo4Fgjl
- 6F2rZBr3A8+N5CEm5xAHD8BcMkHtx9YfiQqox4AukgbHw+obdpP2E+s8DGKzlXSAelBk
- vz9w==
-X-Gm-Message-State: AOAM531khLtfPWPpSXx6JOi2uPDnl8vZzj9AzqO3Es7hhi7TUM62/58K
- DDUY85MJ9+L7vO5CqjyJFFOblO+3sgRKrg==
-X-Google-Smtp-Source: ABdhPJxNVqimbwkeEbQlICkFd1gomPYimk8Po9h972yqs7R96v2+X+w2RODiIcPb1OqZwUeOhadgDw==
-X-Received: by 2002:adf:f88d:: with SMTP id u13mr37890387wrp.297.1630505410360; 
- Wed, 01 Sep 2021 07:10:10 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d145sm5388964wmd.3.2021.09.01.07.10.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 07:10:09 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] target/i386: Use assert() to sanity-check b1 in SSE decode
-Date: Wed,  1 Sep 2021 15:10:08 +0100
-Message-Id: <20210901141008.17203-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BPDAHOwEFGUSEFTupARSITeo8c8XPIjUB3now1ZE8ho=;
+ b=lffqRvWI931yF6jCT9MD+dIr119FlV46qemafpF4r7dDQof2xJ59jiy2cM12hkQNdl
+ EnyzxEXsZtrtG5Ba1Er6UEFQ5WMyTMDGpqhhLO/8DHGxKjdCJrv0u8jaGonvMs/imFTg
+ 03wuGL7pV7VWD4T8qwbnKBiFysjj9wiMqVsTXnh+9PRSdWoUd6nrYIssbIvwTd3aMeov
+ 6/tSWwz4RQUB9QI3XB7uXA7oFD47tNRtQWTMEl+r5THLPeh4ZKc/HRhxPNdpaD460eyz
+ XhwpacLiZY9EFRYBscG+bKCmLuOt+2THhaCJSIL6tshabWwjjurd1Ij1s5YAHxIam0yz
+ +M8Q==
+X-Gm-Message-State: AOAM531fhos/X0dfwPMplnk5y4n5OuSsJDTfn0kYp63QeqHzo8NaLuGN
+ GAwmNBk9dRiAaw/gdAFZeD6qaa4NmWU3v834mpBzeg==
+X-Google-Smtp-Source: ABdhPJwr9cgGyjbSQguscwSqq/xs+j8RV9FfgeYWDaRpQ6pnkmpvxv/qHwkqj1YKG3r1gig0PnyS8nef0PpV42q1FoQ=
+X-Received: by 2002:a7b:c041:: with SMTP id u1mr9690157wmc.95.1630505585058;
+ Wed, 01 Sep 2021 07:13:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+References: <20210901044248.3122252-1-kraxel@redhat.com>
+In-Reply-To: <20210901044248.3122252-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 1 Sep 2021 15:12:16 +0100
+Message-ID: <CAFEAcA99F_=a+S4bMSvq04+DyKMeycjib6RzBvaz1KdtYyVS0Q@mail.gmail.com>
+Subject: Re: [PULL 0/3] Audio 20210901 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,93 +76,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the SSE decode function gen_sse(), we combine a byte
-'b' and a value 'b1' which can be [0..3], and switch on them:
-   b |= (b1 << 8);
-   switch (b) {
-   ...
-   default:
-   unknown_op:
-       gen_unknown_opcode(env, s);
-       return;
-   }
+On Wed, 1 Sept 2021 at 05:46, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> The following changes since commit ad22d0583300df420819e6c89b1c022b998fac8a:
+>
+>   Merge remote-tracking branch 'remotes/dg-gitlab/tags/ppc-for-6.2-20210827' into staging (2021-08-27 11:34:12 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/audio-20210901-pull-request
+>
+> for you to fetch changes up to 0ebe43ea6a5ceb30b4372038fefddc9e224438f8:
+>
+>   MAINTAINERS: Split Audio backends sections (2021-09-01 06:34:30 +0200)
+>
+> ----------------------------------------------------------------
+> audio: split audio entry in MAINTAINERS file.
+>
+> ----------------------------------------------------------------
 
-In three cases inside this switch, we were then also checking for
- "if (b1 >= 2) { goto unknown_op; }".
-However, this can never happen, because the 'case' values in each place
-are 0x0nn or 0x1nn and the switch will have directed the b1 == (2, 3)
-cases to the default already.
 
-This check was added in commit c045af25a52e9 in 2010; the added code
-was unnecessary then as well, and was apparently intended only to
-ensure that we never accidentally ended up indexing off the end
-of an sse_op_table with only 2 entries as a result of future bugs
-in the decode logic.
+Applied, thanks.
 
-Change the checks to assert() instead, and make sure they're always
-immediately before the array access they are protecting.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
+for any user-visible changes.
 
-Fixes: Coverity CID 1460207
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-v1->v2: use assert() rather than just deleting the if()s
-
- target/i386/tcg/translate.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
-
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index aacb605eee4..a4fee5e445d 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -3521,9 +3521,6 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-         case 0x171: /* shift xmm, im */
-         case 0x172:
-         case 0x173:
--            if (b1 >= 2) {
--                goto unknown_op;
--            }
-             val = x86_ldub_code(env, s);
-             if (is_xmm) {
-                 tcg_gen_movi_tl(s->T0, val);
-@@ -3542,6 +3539,7 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-                                 offsetof(CPUX86State, mmx_t0.MMX_L(1)));
-                 op1_offset = offsetof(CPUX86State,mmx_t0);
-             }
-+            assert(b1 < 2);
-             sse_fn_epp = sse_op_table2[((b - 1) & 3) * 8 +
-                                        (((modrm >> 3)) & 7)][b1];
-             if (!sse_fn_epp) {
-@@ -3772,10 +3770,8 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-             rm = modrm & 7;
-             reg = ((modrm >> 3) & 7) | REX_R(s);
-             mod = (modrm >> 6) & 3;
--            if (b1 >= 2) {
--                goto unknown_op;
--            }
- 
-+            assert(b1 < 2);
-             sse_fn_epp = sse_op_table6[b].op[b1];
-             if (!sse_fn_epp) {
-                 goto unknown_op;
-@@ -4202,10 +4198,8 @@ static void gen_sse(CPUX86State *env, DisasContext *s, int b,
-             rm = modrm & 7;
-             reg = ((modrm >> 3) & 7) | REX_R(s);
-             mod = (modrm >> 6) & 3;
--            if (b1 >= 2) {
--                goto unknown_op;
--            }
- 
-+            assert(b1 < 2);
-             sse_fn_eppi = sse_op_table7[b].op[b1];
-             if (!sse_fn_eppi) {
-                 goto unknown_op;
--- 
-2.20.1
-
+-- PMM
 
