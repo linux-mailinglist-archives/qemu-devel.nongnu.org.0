@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EC033FEE63
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:08:46 +0200 (CEST)
-Received: from localhost ([::1]:47542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB413FEE85
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:15:42 +0200 (CEST)
+Received: from localhost ([::1]:36246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLmST-0002Q5-7V
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:08:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37808)
+	id 1mLmZB-0005U5-Ir
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:15:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mLm9s-00057L-JP
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:49:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44630)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mLm9w-0005Ad-St
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:49:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mLm9q-000731-DF
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:49:32 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mLm9r-00073B-9V
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:49:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630586969;
+ s=mimecast20190719; t=1630586970;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5JwPDKcm4ATpSAkg2n1iiG42WJIGryyWXP9qh6bNdw8=;
- b=NyVBG2BQ9SR0tsf3Oq887ezBtAUdzU0XgAfHKDIfUwhnaePxIWUzhlz3KZtlaADTGqfIC7
- q83aq1oYSBep9KD4eIjlBv5tPkiiUGFlCHe2pYxKe4i18fjpJpU6/dc4y+oOgYRgLhwrli
- LOXQVuOiej90Z7UgoOqvIWyFT+QtGcg=
+ bh=peS/IAyxam/Jeuo5krFHpggifKYax0ZYDXwVRIFU8hk=;
+ b=JDyA0A90utlU9xh8KOC2agoKwjntUmj+IM4WsRDah6asMF/Cm63Wug4N5rHy+Qe1nXypwa
+ wnzmXyMb8srggKZD1hY1/VNSIqfjhv3Eo2V+cpV7f9LcwlJUPtBdPI5QaVbtbHZtVFrfyp
+ rB0aAcA79ymxSU30RFzgaX1OtIA24SY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-286-OB97aTs1OKWNSOpRxzjEXw-1; Thu, 02 Sep 2021 08:49:27 -0400
-X-MC-Unique: OB97aTs1OKWNSOpRxzjEXw-1
+ us-mta-204-4ffcMFh_PzKvHVeoBeDh_w-1; Thu, 02 Sep 2021 08:49:29 -0400
+X-MC-Unique: 4ffcMFh_PzKvHVeoBeDh_w-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED9F6FC81;
- Thu,  2 Sep 2021 12:49:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30A37107ACC7;
+ Thu,  2 Sep 2021 12:49:28 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.194.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2258D10016F2;
- Thu,  2 Sep 2021 12:49:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4E40410016F2;
+ Thu,  2 Sep 2021 12:49:27 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 06/13] gitlab-ci: Don't try to use the system libfdt in the
- debian job
-Date: Thu,  2 Sep 2021 14:49:04 +0200
-Message-Id: <20210902124911.822423-7-thuth@redhat.com>
+Subject: [PULL 07/13] meson.build: Fix the check for a usable libfdt
+Date: Thu,  2 Sep 2021 14:49:05 +0200
+Message-Id: <20210902124911.822423-8-thuth@redhat.com>
 In-Reply-To: <20210902124911.822423-1-thuth@redhat.com>
 References: <20210902124911.822423-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -81,30 +80,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-libfdt in Debian is too old to be usable for QEMU. So far we were
-silently falling back to the internal dtc submodule, but since
-this is wrong, let's remove the --enable-fdt=system switch here now.
+The check for libfdt currently has a flaw: If there is a system libfdt, the
+meson.build code initialized the fdt variable with fdt = cc.find_library(...).
+However, if this libfdt is too old and there is no internal dtc module
+available, it continues with "fdt" pointing to the old and unusable version.
+The check later in the file that tries to detect whether libfdt is necessary
+then fails to trigger:
 
-Message-Id: <20210827151718.178988-1-thuth@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Acked-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+ if not fdt.found() and fdt_required.length() > 0
+  error('fdt not available but required by targets ' + ', '.join(fdt_required))
+ endif
+
+The build fails then during compilation instead, which is of course bad
+since this is quite confusing and already wasted quite some time of the user.
+Thus if libfdt is not usable, we should unset the "fdt" variable immediately
+again, so that the build already fails during the configuration phase.
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/255
+Message-Id: <20210827120901.150276-2-thuth@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.d/buildtest.yml | 1 -
- 1 file changed, 1 deletion(-)
+ meson.build | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index 38f08452f1..175ebe43d3 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -74,7 +74,6 @@ build-system-debian:
-     job: amd64-debian-container
-   variables:
-     IMAGE: debian-amd64
--    CONFIGURE_ARGS: --enable-fdt=system
-     TARGETS: arm-softmmu avr-softmmu i386-softmmu mipsel-softmmu
-       riscv64-softmmu sh4eb-softmmu sparc-softmmu xtensaeb-softmmu
-     MAKE_CHECK_ARGS: check-build
+diff --git a/meson.build b/meson.build
+index bf63784812..6f7177428e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1916,6 +1916,7 @@ if have_system
+       fdt_opt = 'internal'
+     else
+       fdt_opt = 'disabled'
++      fdt = not_found
+     endif
+   endif
+   if fdt_opt == 'internal'
 -- 
 2.27.0
 
