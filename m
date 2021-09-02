@@ -2,82 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770573FE947
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 08:35:45 +0200 (CEST)
-Received: from localhost ([::1]:53228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B9A33FE962
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 08:42:31 +0200 (CEST)
+Received: from localhost ([::1]:36122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLgK8-00063P-JK
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 02:35:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48148)
+	id 1mLgQf-0005Zc-IR
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 02:42:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mLgIj-0004rU-Ic
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 02:34:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47451)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1mLgMa-000158-Tk
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 02:38:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32378)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mLgIg-00021y-SJ
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 02:34:16 -0400
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1mLgMY-0005Ye-Eo
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 02:38:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630564453;
+ s=mimecast20190719; t=1630564693;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z0VM2grTVVhZmbEEXidHTscewM16S5DpFj+E0QWA/Pc=;
- b=YQqTlA2EHgPE48hhY8rG/kmNNNvJvWArm1FVVycNyM5ajbLMI8eHcBGneME8dPmTNUHqLQ
- UWR8hTEPFyZdsKKKhvuHB2YZFRgVtncctEOAMkE6y38FkLTSmL4uEp1Pe5gyMC1/VyLbNU
- JCxnZ1Z0kqr9rHq3o/OAwYg668v4o+I=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-593-7x6WJ6ABPf-SxMzOMUpuvQ-1; Thu, 02 Sep 2021 02:34:12 -0400
-X-MC-Unique: 7x6WJ6ABPf-SxMzOMUpuvQ-1
-Received: by mail-wr1-f70.google.com with SMTP id
- v6-20020adfe4c6000000b001574f9d8336so192699wrm.15
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 23:34:12 -0700 (PDT)
+ bh=d+2IAQssCWLnzpH7UgCZ4E1ey+pKiH0SqI03vjoddrg=;
+ b=IKdQUtC2L33ODvIp+J0Fwz0vEdTXOYS6zi4jJaG2gqpAfNy1uwnKgp8an3ceHs5Pjt3bDw
+ neBAasFzzp7vj6ZDc5p7WN/Kup79+NmZLNzaNwZH6wpug1TbyKtDK6B/icqtGaCVX2r+YI
+ YVBW3SnadKh4OF6iI2sr3JQgwt0+pgA=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-121-Qbw0os7GNV65-oCpXk4U5g-1; Thu, 02 Sep 2021 02:38:02 -0400
+X-MC-Unique: Qbw0os7GNV65-oCpXk4U5g-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ d10-20020ac24c8a000000b003dce50ea2c4so448852lfl.0
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 23:38:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=z0VM2grTVVhZmbEEXidHTscewM16S5DpFj+E0QWA/Pc=;
- b=G+0jMWJogyjYuerJEHWj7ijAPep0ZORmZrSj80uqDgLtujdv+Na0IlrN2y6BtFrgsO
- YikC1sAzccZdsGirjhyHAA2wV6v6EOCfcLWWWwfjYNCqqHfgZIyWHSkttCsAwjXwwaR6
- 3ikGzj1wNieWoHCCjm1qugvrZPKnJLxZ/VlVXjI82rq+T58IIXBQaY1cegL0R3jZGRAr
- W+I0MWsatknAM3AWk/AmSqpkv1PRjBpdMcFnDs2q4kr5WhsD3rYodFXxvYVwQKqxiiHV
- BlvGysjJHrU/MQ0vg64VKucVu9qfaDUbIFxJtN25v4/lC5aPPI6Bfz2tSiHGfw2nTBcG
- 4oQQ==
-X-Gm-Message-State: AOAM533sEkqXhS9OQrjgXbmkH3ZGlwd5cxj2dwF9nfypLu2iF3QAtMkz
- rg1lrOCR4Y6lMB/MeKayfcXhwRTYjTW3RTcXQI6G3jwWkqafYUdYmA/tiuLdAOiEQ/znhxBUuBk
- UUDlBUDXXHtmt9aU=
-X-Received: by 2002:adf:dd11:: with SMTP id a17mr1713383wrm.132.1630564451481; 
- Wed, 01 Sep 2021 23:34:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzEK5zia3ZCgpILXf4fdelSPRVrcfBRMexrzk3Howzeo/ysSJ7DEZAL00MjtE5YuHoRErF7zw==
-X-Received: by 2002:adf:dd11:: with SMTP id a17mr1713345wrm.132.1630564451174; 
- Wed, 01 Sep 2021 23:34:11 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id k14sm858482wri.46.2021.09.01.23.34.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Sep 2021 23:34:10 -0700 (PDT)
-Date: Thu, 2 Sep 2021 08:34:09 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eric DeVolder <eric.devolder@oracle.com>
-Subject: Re: [PATCH v6 10/10] ACPI ERST: step 6 of bios-tables-test
-Message-ID: <20210902083409.39f80d3b@redhat.com>
-In-Reply-To: <3e25aaf1-6ce1-58d9-4095-8d684a29cfd4@oracle.com>
-References: <1628202639-16361-1-git-send-email-eric.devolder@oracle.com>
- <1628202639-16361-11-git-send-email-eric.devolder@oracle.com>
- <ee0dd71d-1583-120c-b5cc-be209c01b47c@oracle.com>
- <3e25aaf1-6ce1-58d9-4095-8d684a29cfd4@oracle.com>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=d+2IAQssCWLnzpH7UgCZ4E1ey+pKiH0SqI03vjoddrg=;
+ b=Pa2BiN930uY4Gv4Qf4LsfHyO2DSLwfSKRHoiTNDJgzBMO5DZOPgebiWcjBEu6GN6A3
+ VrTimXV3EyCa2r+w/lTsNSLjxdMEGRXZ6kJpZWHJyOGR8Aw7/IIC7Z63cuzT5B04zxDd
+ o9p4/tTXT75FvoZkq4VGQf2gksj4IFKBPYCSkkBk7egobwkKNrTMJA9w0wcsTSrXsdiN
+ cbx3eZYPuqzt2i6YCEPObKaX3rCTPHioPC1q2trhdTGeJH30TSbFKIcFlb11mPLn6wt6
+ B+R3IshS9mEvEtujv/9M9lCeVkwonyif8Pri5bhtusTkNtZBRlCCFuOeETsYO8h57vFj
+ n5Dw==
+X-Gm-Message-State: AOAM530c+nvR9oqsSlwjIhOxgEaaEz+s8Ytl83mfiPwl6htYka8lNSQh
+ iKu+GOvZKM4W+d7RPSiRUWBFI30hlmR0BG1LgnVtpGiCayv0nIuC+HBXkk867pm2FhpteQ2rkwM
+ Z8rxihVGLRWCTBl8pE/Pvng4VNVDOwjQ=
+X-Received: by 2002:a05:6512:301:: with SMTP id
+ t1mr1390612lfp.626.1630564680145; 
+ Wed, 01 Sep 2021 23:38:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyPxHjlrwGeG77fq6ucupI4Kw/ug0ZuLkCZcGiDaXsMQYMJmtOMO/V5JKrZ1p0GiEhNIqi3KFzwf/zAZP/nMwc=
+X-Received: by 2002:a05:6512:301:: with SMTP id
+ t1mr1390588lfp.626.1630564679797; 
+ Wed, 01 Sep 2021 23:37:59 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210831110238.299458-1-leobras@redhat.com>
+ <20210831110238.299458-3-leobras@redhat.com>
+ <YS4nPfEBCy9IC3rd@redhat.com>
+In-Reply-To: <YS4nPfEBCy9IC3rd@redhat.com>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Thu, 2 Sep 2021 03:38:11 -0300
+Message-ID: <CAJ6HWG75NDzaRAoHvM6FkFoB+sQvTpmdR8+AdMkoY6TsP06ZhA@mail.gmail.com>
+Subject: Re: [PATCH v1 2/3] io: Add zerocopy and errqueue
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lsoaresp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -98,159 +94,255 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, mst@redhat.com, konrad.wilk@oracle.com,
- qemu-devel@nongnu.org, pbonzini@redhat.com, boris.ostrovsky@oracle.com,
- rth@twiddle.net
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 27 Aug 2021 16:45:15 -0500
-Eric DeVolder <eric.devolder@oracle.com> wrote:
+Hello Daniel, thank you for the feedback!
 
-> Igor,
-> I'm not sure if I should post v7 with the correction to the tables,
-> or await your guidance/feedback on v6.
+Comments inline.
 
-Hopefully, I'll be back to reviewing patches (including yours) next week.
+On Tue, Aug 31, 2021 at 9:57 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Tue, Aug 31, 2021 at 08:02:38AM -0300, Leonardo Bras wrote:
+> > MSG_ZEROCOPY is a feature that enables copy avoidance in TCP/UDP socket
+> > send calls. It does so by avoiding copying user data into kernel buffer=
+s.
+> >
+> > To make it work, three steps are needed:
+> > 1 - A setsockopt() system call, enabling SO_ZEROCOPY
+> > 2 - Passing down the MSG_ZEROCOPY flag for each send*() syscall
+> > 3 - Process the socket's error queue, dealing with any error
+>
+> AFAICT, this is missing the single most critical aspect of MSG_ZEROCOPY.
+>
+> It is non-obvious, but setting the MSG_ZEROCOPY flag turns sendmsg()
+> from a synchronous call to an asynchronous call.
 
-> Thanks,
-> eric
->=20
->=20
-> On 8/6/21 12:16 PM, Eric DeVolder wrote:
-> > Well, I discovered today that running "make check" again resulted in
-> > bios table mismatches. In looking into this further, I think I might
-> > finally have an understanding as to how this is all to work. My
-> > bios-tables-test-allowed-diff for step 1 now looks like:
-> >=20
-> > "tests/data/acpi/pc/DSDT.acpierst",
-> > "tests/data/acpi/pc/ERST",
-> > "tests/data/acpi/q35/DSDT.acpierst",
-> > "tests/data/acpi/q35/ERST",
-> > "tests/data/acpi/microvm/ERST.pcie",
-> >=20
-> > and with the corresponding empty files and by using the
-> >  =C2=A0.variant =3D ".acpierst"
-> > in bios-tables-test, I am able to run "make check" multiple times
-> > now without failures.
-> >=20
-> > So, that means patch 01/10 and 10/10 are wrong. I'm assuming there
-> > will be other items to address, so I'll plan for these fixes in
-> > v7.
-> >=20
-> > My apologies,
-> > eric
-> >=20
-> >=20
-> > On 8/5/21 5:30 PM, Eric DeVolder wrote: =20
-> >> Following the guidelines in tests/qtest/bios-tables-test.c, this
-> >> is step 6, the re-generated ACPI tables binary blobs.
-> >>
-> >> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
-> >> ---
-> >> =C2=A0 tests/data/acpi/microvm/ERST.pcie=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | Bin 0 -> 912 bytes
-> >> =C2=A0 tests/data/acpi/pc/DSDT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | Bin 6002 -> 6009 bytes
-> >> =C2=A0 tests/data/acpi/pc/ERST=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | Bin 0 -> 912 bytes
-> >> =C2=A0 tests/data/acpi/q35/DSDT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- | Bin 8289 -> 8306 bytes
-> >> =C2=A0 tests/data/acpi/q35/ERST=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- | Bin 0 -> 912 bytes
-> >> =C2=A0 tests/qtest/bios-tables-test-allowed-diff.h |=C2=A0=C2=A0 6 ---=
----
-> >> =C2=A0 6 files changed, 6 deletions(-)
-> >> =C2=A0 create mode 100644 tests/data/acpi/microvm/ERST.pcie
-> >>
-> >> diff --git a/tests/data/acpi/microvm/ERST.pcie b/tests/data/acpi/micro=
-vm/ERST.pcie
-> >> new file mode 100644
-> >> index 0000000000000000000000000000000000000000..d9a2b3211ab5893a50751a=
-d52be3782579e367f2
-> >> GIT binary patch
-> >> literal 912
-> >> zcmaKpO%8%E5QPUQ|KVrvh9h_c12J)@5f?5!k_Ygv*jGA8UW7?#`}+D#XXyDpKHiZ?
-> >> z@anI_W$gOrZRl(SB7!yMqx}#E4EC&a5=3D}m^g_!0^0`kEl)DOuIXM6D@@*xq*8vyqH
-> >> z)b0KTlmlgmH~xt7vG<k#Z1~z=3DOnyT76ZX;Ysy^;NC0^^$`kY?zKK;^vMtny1JAD$P
-> >> zc^BR{l;i*H`IJAW`~~?1`_TXD_wQ2@UlL!DU$GCpQ-4i-O}x_^JdQTRH^e)=3D(_c$`
-> >> LOT5z?_v4Aa+v(5&
-> >>
-> >> literal 0
-> >> HcmV?d00001
-> >>
-> >> diff --git a/tests/data/acpi/pc/DSDT b/tests/data/acpi/pc/DSDT
-> >> index cc1223773e9c459a8d2f20666c051a74338d40b7..bff625a25602fa954b5b39=
-5fea53e3c7dfaca485 100644
-> >> GIT binary patch
-> >> delta 85
-> >> zcmeyQ_fwC{CD<jTQk;Q-F=3DQiG057Ni!kGAAr+5MP$;rGe;+`zQh8FQ0@s2J*JPZuX =
-=20
-> >> l3>=3DQZp?+M<lN)&@ggD~CY!RV&S1$v`0B2XP&5C@1oB+Xc6m$Rp =20
-> >>
-> >> delta 65
-> >> zcmeyV_eqb-CD<jTNSuLzao$F*0A5ayg)#BLPVoW`laqN{#GF`y4K3n1;)6r|xR^QO =20
-> >> V9bJNW7#Nr*U*I#`Y|7`t2>@&@5ljF8 =20
-> >>
-> >> diff --git a/tests/data/acpi/pc/ERST b/tests/data/acpi/pc/ERST
-> >> index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..f24fadd345c798ee5c17cd=
-b66e0e1703bd1b2f26 100644
-> >> GIT binary patch
-> >> literal 912 =20
-> >> zcmaKpOAdlC6h#XZC=3Dfn#CoF*_7>J28jW}>wF2KFG3zs9lTPTnl;U#=3D7r>E_sr(1u2=
- =20
-> >> z21<FK_R^jEx_w-`TFO&O;T_LLF4O@x8LMi!H}5Z^t6_Tah{H!Y?i2S%JoA7!BFgz1
-> >> zf~;?N{b8^}H2K=3Dviyuzh`L7M``U{CiG=3DIb#4X^gc{m10T<lDURCp`CW$T#HMd{o-?
-> >> zH~aE`PznCu9;f*enm;9;GDrTme_0zSBR|7ODR;g(@qEM!N8Z_gL4HBL%^N<3mgJY@
-> >> R+q~0XMSexT%^U0Ee0~)`g#iEn
-> >>
-> >> literal 0
-> >> HcmV?d00001
-> >>
-> >> diff --git a/tests/data/acpi/q35/DSDT b/tests/data/acpi/q35/DSDT
-> >> index 842533f53e6db40935c3cdecd1d182edba6c17d4..950c286b4c751f3c116a11=
-d8892779942375e16b 100644
-> >> GIT binary patch
-> >> delta 59
-> >> zcmaFp@X3M8CD<jTNP&TYv2`OCrvjHhYfOBwQ@nsX>ttC4TZ!l<{$N9cc#e2SmmnSn
-> >> O1||j(wg6|p5C#C(xDBxY
-> >>
-> >> delta 42
-> >> xcmez5@X&$FCD<h-QGtPh@##h`P6aMMmYDcpr+5K3mdUaTw(KHo0nUCQ3;+kH3ZMW0
-> >>
-> >> diff --git a/tests/data/acpi/q35/ERST b/tests/data/acpi/q35/ERST
-> >> index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..f24fadd345c798ee5c17cd=
-b66e0e1703bd1b2f26 100644
-> >> GIT binary patch
-> >> literal 912 =20
-> >> zcmaKpOAdlC6h#XZC=3Dfn#CoF*_7>J28jW}>wF2KFG3zs9lTPTnl;U#=3D7r>E_sr(1u2=
- =20
-> >> z21<FK_R^jEx_w-`TFO&O;T_LLF4O@x8LMi!H}5Z^t6_Tah{H!Y?i2S%JoA7!BFgz1
-> >> zf~;?N{b8^}H2K=3Dviyuzh`L7M``U{CiG=3DIb#4X^gc{m10T<lDURCp`CW$T#HMd{o-?
-> >> zH~aE`PznCu9;f*enm;9;GDrTme_0zSBR|7ODR;g(@qEM!N8Z_gL4HBL%^N<3mgJY@
-> >> R+q~0XMSexT%^U0Ee0~)`g#iEn
-> >>
-> >> literal 0
-> >> HcmV?d00001
-> >>
-> >> diff --git a/tests/qtest/bios-tables-test-allowed-diff.h=20
-> >> b/tests/qtest/bios-tables-test-allowed-diff.h
-> >> index b3aaf76..dfb8523 100644
-> >> --- a/tests/qtest/bios-tables-test-allowed-diff.h
-> >> +++ b/tests/qtest/bios-tables-test-allowed-diff.h
-> >> @@ -1,7 +1 @@
-> >> =C2=A0 /* List of comma-separated changed AML files to ignore */
-> >> -"tests/data/acpi/pc/ERST",
-> >> -"tests/data/acpi/q35/ERST",
-> >> -"tests/data/acpi/microvm/ERST",
-> >> -"tests/data/acpi/pc/DSDT",
-> >> -"tests/data/acpi/q35/DSDT",
-> >> -"tests/data/acpi/microvm/DSDT",
-> >> =20
->=20
+You are correct. I tried to adapt io_writev() interface to use MSG_ZEROCOPY=
+ in
+a somehow synchronous way, but returning errp (and sometimes closing the
+channel because of it) was a poor implementation.
+
+>
+> It is forbidden to overwrite/reuse/free the buffer passed to sendmsg
+> until an asynchronous completion notification has been received from
+> the socket error queue. These notifications are not required to
+> arrive in-order, even for a TCP stream, because the kernel hangs on
+> to the buffer if a re-transmit is needed.
+>
+> https://www.kernel.org/doc/html/v5.4/networking/msg_zerocopy.html
+>
+>   "Page pinning also changes system call semantics. It temporarily
+>    shares the buffer between process and network stack. Unlike with
+>    copying, the process cannot immediately overwrite the buffer
+>    after system call return without possibly modifying the data in
+>    flight. Kernel integrity is not affected, but a buggy program
+>    can possibly corrupt its own data stream."
+>
+
+By the above piece of documentation, I get there is no problem in
+overwriting the buffer, but a corrupt, or newer version of the memory may
+be sent instead of the original one. I am pointing this out because there
+are workloads like page migration that would not be impacted, given
+once the buffer is changed, it will dirty the page and it will be re-sent.
+
+But I agree with you.
+It's not a good choice to expect all the users to behave like that,
+and since an interface for dealing with those errors is not provided
+to the using code, there is no way of using that in other scenarios.
+
+> AFAICT, the design added in this patch does not provide any way
+> to honour these requirements around buffer lifetime.
+>
+> I can't see how we can introduce MSG_ZEROCOPY in any seemless
+> way. The buffer lifetime requirements imply need for an API
+> design that is fundamentally different for asynchronous usage,
+> with a callback to notify when the write has finished/failed.
+>
+
+That is a good point.
+Proposing a new optional method like io_async_writev() + an error
+checking mechanism could do the job.
+io_async_writev() could fall-back to io_writev() in cases where it's not
+implemented.
+
+I am not sure about the error checking yet.
+Options I can see are:
+1 - A callback, as you suggested, which IIUC would be provided by
+code using the QIOChannel, and would only fix the reported errors,
+leaving the responsibility of checking for errors to the IOChannel code.
+
+2 - A new method, maybe io_async_errck(), which would be called
+whenever the using code wants to deal with pending errors. It could
+return an array/list of IOVs that need to be re-sent, for example,
+and code using QIOChannel could deal with it however it wants.
+
+[snip]
+
+> >   * qio_channel_set_cork:
+> >   * @ioc: the channel object
+> > diff --git a/io/channel-socket.c b/io/channel-socket.c
+> > index e377e7303d..a69fec7315 100644
+> > --- a/io/channel-socket.c
+> > +++ b/io/channel-socket.c
+> > @@ -26,8 +26,10 @@
+> >  #include "io/channel-watch.h"
+> >  #include "trace.h"
+> >  #include "qapi/clone-visitor.h"
+> > +#include <linux/errqueue.h>
+>
+> That's going to fail to biuld on non-Linux
+
+Good catch, thanks!
+
+[snip]
+
+> > @@ -571,6 +623,14 @@ static ssize_t qio_channel_socket_writev(QIOChanne=
+l *ioc,
+> >                           "Unable to write to socket");
+> >          return -1;
+> >      }
+> > +
+> > +    if ((flags & MSG_ZEROCOPY) && sioc->zerocopy_enabled) {
+> > +        sioc->errq_pending +=3D niov;
+> > +        if (sioc->errq_pending > SOCKET_ERRQ_THRESH) {
+> > +            qio_channel_socket_errq_proc(sioc, errp);
+> > +        }
+> > +    }
+>
+> This silently looses any errors set from upto the final
+> SOCKET_ERRQ_THRESH write() calls with MSG_ZEROCOPY set.
+
+You are right.
+
+>
+> Also means if you have a series of writes without
+> MSG_ZEROCOPY, it'll delay checking any pending
+> errors.
+
+That's expected... if there are only happening sends without MSG_ZEROCOPY,
+it means the ones sent with zerocopy can wait. The problem would be
+the above case.
+
+>
+> I would suggest checkig in close(), but as mentioned
+> earlier, I think the design is flawed because the caller
+> fundamentally needs to know about completion for every
+> single write they make in order to know when the buffer
+> can be released / reused.
+
+Well, there could be a flush mechanism (maybe in io_sync_errck(),
+activated with a
+parameter flag, or on a different method if callback is preferred):
+In the MSG_ZEROCOPY docs, we can see that the example includes using a poll=
+()
+syscall after each packet sent, and this means the fd gets a signal after e=
+ach
+sendmsg() happens, with error or not.
+
+We could harness this with a poll() and a relatively high timeout:
+- We stop sending packets, and then call poll().
+- Whenever poll() returns 0, it means a timeout happened, and so it
+took too long
+without sendmsg() happening, meaning all the packets are sent.
+- If it returns anything else, we go back to fixing the errors found (re-se=
+nd)
+
+The problem may be defining the value of this timeout, but it could be
+called only
+when zerocopy is active.
+
+What do you think?
+
+
+>
+> > +static void
+> > +qio_channel_socket_set_zerocopy(QIOChannel *ioc,
+> > +                                bool enabled)
+> > +{
+> > +    QIOChannelSocket *sioc =3D QIO_CHANNEL_SOCKET(ioc);
+> > +    int v =3D enabled ? 1 : 0;
+> > +    int ret;
+> > +
+> > +    ret =3D qemu_setsockopt(sioc->fd, SOL_SOCKET, SO_ZEROCOPY, &v, siz=
+eof(v));
+> > +    if (ret >=3D 0) {
+> > +        sioc->zerocopy_enabled =3D true;
+> > +    }
+> > +}
+>
+> Surely we need to tell the caller wether this succeeed, otherwise
+> the later sendmsg() is going to fail with EINVAL on older kernels
+> where MSG_ZEROCOPY is not supported.
+
+Yeah, that was the idea on sioc->zerocopy_enabled, but in fact it
+should have been
+something like 'sioc->zerocopy_enabled =3D (ret >=3D 0) && enabled ', this
+way it would
+reflect zerocopy only if it was enabled and the syscall worked, and not_zer=
+ocopy
+otherwise.
+
+or something like this, if we want it to stick with zerocopy if
+setting it off fails.
+if (ret >=3D 0) {
+    sioc->zerocopy_enabled =3D enabled;
+}
+
+>
+>
+> > diff --git a/io/channel-tls.c b/io/channel-tls.c
+> > index 4ce890a538..bf44b0f7b0 100644
+> > --- a/io/channel-tls.c
+> > +++ b/io/channel-tls.c
+> > @@ -350,6 +350,16 @@ static void qio_channel_tls_set_delay(QIOChannel *=
+ioc,
+> >      qio_channel_set_delay(tioc->master, enabled);
+> >  }
+> >
+> > +
+> > +static void qio_channel_tls_set_zerocopy(QIOChannel *ioc,
+> > +                                         bool enabled)
+> > +{
+> > +    QIOChannelTLS *tioc =3D QIO_CHANNEL_TLS(ioc);
+> > +
+> > +    qio_channel_set_zerocopy(tioc->master, enabled);
+> > +}
+>
+> This is going to be unsafe because gnutls will discard/reuse the
+> buffer for the ciphertext after every write(). I can't see a
+> way to safely enable MSG_ZEROCOPY when TLS is used.
+
+Yeah, that makes sense.
+It would make more sense to implement KTLS, as IIRC it kind of does
+'zerocopy', since it saves the encrypted data directly in kernel buffer.
+
+We could implement KTLS as io_async_writev() for Channel_TLS, and change th=
+is
+flag to async_enabled. If KTLS is not available, it would fall back to
+using gnuTLS
+on io_writev, just like it would happen in zerocopy.
+
+>
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
 
 
