@@ -2,68 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25BF3FEB83
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 11:45:35 +0200 (CEST)
-Received: from localhost ([::1]:34664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE483FEB96
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 11:52:09 +0200 (CEST)
+Received: from localhost ([::1]:50266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLjHq-00024T-Uv
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 05:45:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55132)
+	id 1mLjOC-0004Lx-Rg
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 05:52:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLjD2-000299-NT
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:40:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34566)
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1mLjFr-0007LE-6y
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:43:31 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2104)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLjCz-0008KG-S9
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:40:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630575633;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2iZSvmdbAOFhL8QwxIestDXCWnDFmtF0JepevFXT1QI=;
- b=I9+G1kTMf/aWHfCYx451fD/TM6WYKIlcvgBYPIEDxuDvh463+0biegLSUlCHsh8BTsvvW+
- zxaY/r9AoCig1aPV5n93pij+AuMgR650nyW9kFKz+k7gsA7pIwFn6K1kbQ4aEle/o8GG/L
- /KLUH2qNGJnnAZaz/XuFdU5108mKvn8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-S3UW1j1EPkqLB7BY8Zdw3Q-1; Thu, 02 Sep 2021 05:40:32 -0400
-X-MC-Unique: S3UW1j1EPkqLB7BY8Zdw3Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 226E3107ACC7;
- Thu,  2 Sep 2021 09:40:31 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.237])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C152B5C3DF;
- Thu,  2 Sep 2021 09:40:30 +0000 (UTC)
-From: Hanna Reitz <hreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v4 5/5] iotests/297: Cover tests/
-Date: Thu,  2 Sep 2021 11:40:17 +0200
-Message-Id: <20210902094017.32902-6-hreitz@redhat.com>
-In-Reply-To: <20210902094017.32902-1-hreitz@redhat.com>
-References: <20210902094017.32902-1-hreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <longpeng2@huawei.com>)
+ id 1mLjFo-00029h-Pj
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:43:30 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4H0bVM5sT8zbfjY;
+ Thu,  2 Sep 2021 17:39:23 +0800 (CST)
+Received: from dggpeml500016.china.huawei.com (7.185.36.70) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 2 Sep 2021 17:43:15 +0800
+Received: from [10.174.148.223] (10.174.148.223) by
+ dggpeml500016.china.huawei.com (7.185.36.70) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 2 Sep 2021 17:43:14 +0800
+Subject: Re: [PATCH 0/5] optimize the downtime for vfio migration
+To: <alex.williamson@redhat.com>, <mst@redhat.com>,
+ <marcel.apfelbaum@gmail.com>, <pbonzini@redhat.com>
+References: <20210825075620.2607-1-longpeng2@huawei.com>
+From: "Longpeng (Mike, Cloud Infrastructure Service Product Dept.)"
+ <longpeng2@huawei.com>
+Message-ID: <8d239e7c-48e1-40bb-1376-f18c198dfe7a@huawei.com>
+Date: Thu, 2 Sep 2021 17:43:14 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210825075620.2607-1-longpeng2@huawei.com>
+Content-Type: text/plain; charset="gbk"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [10.174.148.223]
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpeml500016.china.huawei.com (7.185.36.70)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188; envelope-from=longpeng2@huawei.com;
+ helo=szxga02-in.huawei.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
+ NICE_REPLY_A=-1.029, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,43 +68,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: arei.gonglei@huawei.com, huangzhichao@huawei.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-297 so far does not check the named tests, which reside in the tests/
-directory (i.e. full path tests/qemu-iotests/tests).  Fix it.
+Hi maintainers,
 
-Thanks to the previous two commits, all named tests pass its scrutiny,
-so we do not have to add anything to SKIP_FILES.
+Ping...
 
-Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
----
- tests/qemu-iotests/297 | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-index c7d709cf50..ac10bd1e1a 100755
---- a/tests/qemu-iotests/297
-+++ b/tests/qemu-iotests/297
-@@ -55,8 +55,9 @@ def is_python_file(filename):
- 
- 
- def run_linters():
--    files = [filename for filename in (set(os.listdir('.')) - set(SKIP_FILES))
--             if is_python_file(filename)]
-+    named_tests = [f'tests/{entry}' for entry in os.listdir('tests')]
-+    check_tests = set(os.listdir('.') + named_tests) - set(SKIP_FILES)
-+    files = [filename for filename in check_tests if is_python_file(filename)]
- 
-     iotests.logger.debug('Files to be checked:')
-     iotests.logger.debug(', '.join(sorted(files)))
--- 
-2.31.1
-
+ÔÚ 2021/8/25 15:56, Longpeng(Mike) Ð´µÀ:
+> In vfio migration resume phase, the cost would increase if the
+> vfio device has more unmasked vectors. We try to optimize it in
+> this series.
+> 
+> Patch 1 & 2 are simple code cleanups.
+> Patch 3 defers to set irqs to vfio core.
+> Patch 4 & 5 defer to commit the route to KVM core. 
+> 
+> The test VM has 128 vcpus and 8 VF (with 65 vectors enabled),
+> we mesure the cost of the vfio_msix_enable for each one, and
+> we can see the total cost can be significantly reduced.
+> 
+>         Origin         Apply Patch 3     Apply Patch 3/4/5   
+> 1st     8              4                 2
+> 2nd     15             11                2
+> 3rd     22             18                2
+> 4th     24             25                3
+> 5th     36             33                2
+> 6th     44             40                3
+> 7th     51             47                3
+> 8th     58             54                4
+> Total   258ms          232ms             21ms
+> 
+> 
+> Longpeng (Mike) (5):
+>   vfio: use helper to simplfy the failure path in vfio_msi_enable
+>   msix: simplfy the conditional in msix_set/unset_vector_notifiers
+>   vfio: defer to enable msix in migration resume phase
+>   kvm: irqchip: support defer to commit the route
+>   vfio: defer to commit kvm route in migraiton resume phase
+> 
+>  accel/kvm/kvm-all.c    | 10 +++--
+>  accel/stubs/kvm-stub.c |  3 +-
+>  hw/misc/ivshmem.c      |  2 +-
+>  hw/pci/msix.c          |  7 ++--
+>  hw/vfio/pci.c          | 99 ++++++++++++++++++++++++++++++++++++++------------
+>  hw/vfio/pci.h          |  1 +
+>  hw/virtio/virtio-pci.c |  2 +-
+>  include/sysemu/kvm.h   |  4 +-
+>  target/i386/kvm/kvm.c  |  2 +-
+>  9 files changed, 95 insertions(+), 35 deletions(-)
+> 
 
