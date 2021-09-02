@@ -2,70 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A3C3FEDE1
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 14:37:24 +0200 (CEST)
-Received: from localhost ([::1]:47232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C87D3FEDE2
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 14:38:02 +0200 (CEST)
+Received: from localhost ([::1]:48176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLly6-0002Pg-Td
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 08:37:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34294)
+	id 1mLlyj-00038B-6o
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 08:38:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mLlw5-0001Mk-PF
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:35:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37703)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mLlw1-00059w-4g
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:35:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630586111;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uTt3x/xaM2R9hHos/eyFaVm1lQFZgBmbGaqDIyJjHu4=;
- b=DKB3t/6RdqtDVuX2k+VjNuyNZ5kkY4nx//a+8+nT9YaNVAcacxP3IzFhwl3umKu1vhJ7Ay
- N7odgRm6EqXxsMdrBdu2JgFt4oJ8qom20irmL9shdwiXpxAYzl5vO7lFtm2ESMTbazGypJ
- WlqcNF5AcV2xtayLERiKa1LbbEmSJcA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-516-2mYlLHdmM1qsiLJDwYbGLg-1; Thu, 02 Sep 2021 08:35:08 -0400
-X-MC-Unique: 2mYlLHdmM1qsiLJDwYbGLg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A130E802E61;
- Thu,  2 Sep 2021 12:35:06 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E4D4519D9B;
- Thu,  2 Sep 2021 12:34:57 +0000 (UTC)
-Date: Thu, 2 Sep 2021 13:34:56 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Maxim Davydov <maxim.davydov@virtuozzo.com>
-Subject: Re: [PATCH v1 0/8] Virtio features acknowledged by guest
-Message-ID: <YTDE8ImhsCjivlVG@stefanha-x1.localdomain>
-References: <20210901090804.7139-1-maxim.davydov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
+ id 1mLlx2-0001gh-FC
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:36:17 -0400
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:35394)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
+ id 1mLlx0-0005Ov-GU
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:36:16 -0400
+Received: by mail-yb1-xb31.google.com with SMTP id z5so3537239ybj.2
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 05:36:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=8pcWUZ3Ndl2FCE9Y6MCBRM/4I2NcxdYkIcEl0VaPf7I=;
+ b=Pg68SVUFvm8wBrG2eKr8vaYJC50sIg1GDZgSmlbzeGFSTuT5lLz/a4DkiCGKKqzDAQ
+ 0OoJcWFkRPCRy0sg32ZGBOAnNVOFRx98+EJdeaktyXily2doz1+Y/7JnZDYW88iObBhL
+ I/zbonDh4KgHs1K0xuaRyw+prX/7EqgY24XM3MZcuhC0niDb8PSMZIrGU8mZBxE+Kt3x
+ 7qgZLNcKIICCWAgLb1G+GIN5RYZWhJ3Wv5VItu50zJz3Yczkvja6THojtDSJLBHA2zXI
+ QWAKwroctUOwk4oXlTogJX6r7wpY/KVApD9p6Kp/mbdfdz4b35yiBqhpx30wL6rtMzqZ
+ z23A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=8pcWUZ3Ndl2FCE9Y6MCBRM/4I2NcxdYkIcEl0VaPf7I=;
+ b=qDa5SnkB5QNlPbKh1aOJaFjXdjsvnfgRunLVxYGAUKmGv9G8bdiDIT7tysVavWPoQ4
+ EhtLu5/v3CC+LPMyFxkyrPGWm+kAjmHln5cQhXIzlc2vkz+rq0hs9o4UFvqGlxsp/zPt
+ jZiA93KUKf0ncMi+xEK2MgNxDQe6YEvVJ8/8tfmA5D/HgLHxCTk4oqr7+FAnUiVktrKR
+ DB1B86j5OEwl1p2D79jjw1C80MGj7B4cwFPP1QFmx/xCXgWunw8OuUzLaXQ6sgayPvKh
+ ta7ZjApulsyIIh2zgB/4I91AQMMLDd6UOGlkczuzGq4wwh/MTml5EFGMkfsfAO5L5nuE
+ 8OjQ==
+X-Gm-Message-State: AOAM531dql7X9pC74TGYwLvA+fpgYGkoGUuld2uvzZm7G55brfopdMIH
+ yMBXelBBYG10LUKrRq4Ag5cwAUR+TEi8bVS792G7IDfjriItQPTY
+X-Google-Smtp-Source: ABdhPJyJm7wHgLUTln48xLK2vinHnd5UAYgucagjNKldp5G7KcfNAtF957Pzc4FeCaf0STbQay0HsnFoU5OcBDHyWrY=
+X-Received: by 2002:a25:80d4:: with SMTP id c20mr4102059ybm.345.1630586172004; 
+ Thu, 02 Sep 2021 05:36:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210901090804.7139-1-maxim.davydov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="a90QQKCoJnxe2dAL"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Konstantin Kostiuk <konstantin@daynix.com>
+Date: Thu, 2 Sep 2021 15:36:01 +0300
+Message-ID: <CAJ28CFSFEatxgfvUE3gvnFBVX7GrqMwk0+t1foFfNzDu7bwv3A@mail.gmail.com>
+Subject: Guest Agent issue with 'guest-get-osinfo' command on Windows
+To: Developers <qemu-devel@nongnu.org>
+Content-Type: multipart/alternative; boundary="0000000000008ef4cd05cb026d5d"
+Received-SPF: none client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=konstantin@daynix.com; helo=mail-yb1-xb31.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,86 +73,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, amit@kernel.org, mst@redhat.com,
- qemu-devel@nongnu.org, kraxel@redhat.com, den@openvz.org,
- Jonah Palmer <jonah.palmer@oracle.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Michael Roth <michael.roth@amd.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Tomas Golembiovsky <tgolembi@redhat.com>, Yan Vugenfirer <yan@daynix.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---a90QQKCoJnxe2dAL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--0000000000008ef4cd05cb026d5d
+Content-Type: text/plain; charset="UTF-8"
+
+Hi Team,
+
+We have several bugs related to 'guest-get-osinfo' command in Windows Guest
+Agent:
+https://bugzilla.redhat.com/show_bug.cgi?id=1998919
+https://bugzilla.redhat.com/show_bug.cgi?id=1972070
+
+This command returns the following data:
+{
+"name": "Microsoft Windows",
+"kernel-release": "20344",
+"version": "N/A",
+"variant": "server",
+"pretty-name": "Windows Server 2022 Datacenter",
+"version-id": "N/A",
+"variant-id": "server",
+"kernel-version": "10.0",
+"machine": "x86_64",
+"id": "mswindows"
+}
+
+The problem is with "version" and "pretty-name". Windows Server
+2016/2019/2022 and Windows 11 have the same MajorVersion ("kernel-version")
+= 10, so to get pretty-name the guest agent uses a conversion matrix
+between Windows build and name (
+https://github.com/qemu/qemu/blob/59a89510b62ec23dbeab8b02fa4e3526e353d8b6/qga/commands-win32.c#L2170
+).
+
+This solution has several problems: need to update the conversion matrix
+for each Windows build, one Windows name can have different build numbers.
+For example, Windows Server 2022 (preview) build number is 20344, Windows
+Server 2022 build number is 20348.
+
+There are two possible solutions:
+1. Use build number range instead of one number. Known implementation
+issue: Microsoft provides a table (
+https://docs.microsoft.com/en-Us/windows-server/get-started/windows-server-release-info)
+only with stable build numbers. So, we exactly don't know the build number
+range.
+
+2. We can read this string from the registry
+(HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion). Known
+implementation issues: ProductName value is localized (in a Russian version
+of Windows, the word "Microsoft' is translated), so we should ignore it.
+ReleaseId value does not equal to Windows Server version (for Windows
+Server 2019, ReleaseId is 1809)
+
+In conclusion, I have the next questions:
+What solution we should implement to get the Windows release name?
+Does someone know how end-users use this information? Should it be English
+only or it can be localized? Should we have exactly the same output as now?
+What should we do with the 'Standard' server edition? Currently, the guest
+agent always returns 'Datacenter'.
+
+Best wishes,
+Kostiantyn Kostiuk
+
+--0000000000008ef4cd05cb026d5d
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 01, 2021 at 12:07:56PM +0300, Maxim Davydov wrote:
-> In some situations (for instance, debug), we want to be able to see the
-> features that were confirmed by the guest. At the same time, we would lik=
-e
-> to do this safely, without the possibility of setting bits of guest
-> features from the outside.
->=20
-> Maxim Davydov (8):
->   qdev-properties: Add read-only 64 bit property
->   virtio: Add tracking of the common virtio guest features
->   virtio-gpu: Add tracking of the virtio guest feature bits
->   virtio-serial: Add tracking of the virtio guest feature bits
->   virtio-net: Add tracking of the virtio guest feature bits
->   scsi: Add tracking of the acknowledged feature bits
->   virtio-blk: Add tracking of the virtio guest feature bits
->   virtio-balloon: Add tracking of the virtio guest feature bits
->=20
->  hw/block/virtio-blk.c          |  20 ++++---
->  hw/char/virtio-serial-bus.c    |   5 +-
->  hw/core/qdev-properties.c      |  32 +++++++++++
->  hw/display/vhost-user-gpu.c    |   3 +-
->  hw/display/virtio-gpu.c        |   8 +--
->  hw/net/virtio-net.c            | 118 +++++++++++++++++++++++++----------=
-------
->  hw/scsi/vhost-scsi.c           |   6 +--
->  hw/scsi/vhost-user-scsi.c      |  18 +++----
->  hw/scsi/virtio-scsi.c          |  10 ++--
->  hw/virtio/virtio-balloon.c     |  20 ++++---
->  hw/virtio/virtio.c             |   2 +-
->  include/hw/qdev-properties.h   |   5 ++
->  include/hw/virtio/virtio-gpu.h |  10 ++--
->  include/hw/virtio/virtio.h     |  39 +++++++++-----
->  14 files changed, 193 insertions(+), 103 deletions(-)
+<div dir=3D"ltr"><div dir=3D"ltr"><div>Hi Team,<br></div><div><br></div><di=
+v>We have several bugs related to &#39;guest-get-osinfo&#39; command in Win=
+dows Guest Agent: <br></div><div><a href=3D"https://bugzilla.redhat.com/sho=
+w_bug.cgi?id=3D1998919" target=3D"_blank">https://bugzilla.redhat.com/show_=
+bug.cgi?id=3D1998919</a></div><div><a href=3D"https://bugzilla.redhat.com/s=
+how_bug.cgi?id=3D1972070" target=3D"_blank">https://bugzilla.redhat.com/sho=
+w_bug.cgi?id=3D1972070</a></div><div><br></div><div>This command returns th=
+e following data:</div><div>{</div><div>&quot;name&quot;: &quot;Microsoft W=
+indows&quot;,</div><div>&quot;kernel-release&quot;: &quot;20344&quot;,</div=
+><div>&quot;version&quot;: &quot;N/A&quot;,</div><div>&quot;variant&quot;: =
+&quot;server&quot;, <br></div><div>&quot;pretty-name&quot;: &quot;Windows S=
+erver 2022 Datacenter&quot;,</div><div>&quot;version-id&quot;: &quot;N/A&qu=
+ot;,</div><div>&quot;variant-id&quot;: &quot;server&quot;,</div><div>&quot;=
+kernel-version&quot;: &quot;10.0&quot;,</div><div>&quot;machine&quot;: &quo=
+t;x86_64&quot;,</div><div>&quot;id&quot;: &quot;mswindows&quot;</div><div>}=
+</div><div><br></div><div>The
+ problem is with &quot;version&quot; and &quot;pretty-name&quot;. Windows S=
+erver=20
+2016/2019/2022 and Windows 11 have the same MajorVersion=20
+(&quot;kernel-version&quot;) =3D 10, so to get pretty-name the guest agent =
+uses a=20
+conversion matrix between Windows build and name (<a href=3D"https://github=
+.com/qemu/qemu/blob/59a89510b62ec23dbeab8b02fa4e3526e353d8b6/qga/commands-w=
+in32.c#L2170">https://github.com/qemu/qemu/blob/59a89510b62ec23dbeab8b02fa4=
+e3526e353d8b6/qga/commands-win32.c#L2170</a>).<br></div><div><br></div><div=
+><span lang=3D"en"><span><span>This solution has several problems</span></s=
+pan></span>:
+ need to update the conversion matrix for each Windows build, one=20
+Windows name can have different build numbers. For example, Windows=20
+Server 2022 (preview) build number is 20344, Windows Server 2022 build numb=
+er is 20348.</div><div><br></div><div>There are two possible solutions:</di=
+v><div>1. Use build number range instead of one number. Known implementatio=
+n issue: Microsoft provides a table (<a href=3D"https://docs.microsoft.com/=
+en-Us/windows-server/get-started/windows-server-release-info" target=3D"_bl=
+ank">https://docs.microsoft.com/en-Us/windows-server/get-started/windows-se=
+rver-release-info</a>) only with stable build numbers. So, we exactly don&#=
+39;t know the build number range.</div><div><br></div><div>2. We can read t=
+his string from the registry (HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows
+ NT\CurrentVersion). Known implementation issues: ProductName value is loca=
+lized (in a Russian version of Windows, the word &quot;Microsoft&#39; is tr=
+anslated), so we should ignore it. ReleaseId value does not equal to=20
+Windows Server version (for Windows Server 2019, ReleaseId is 1809)</div><d=
+iv><br></div><div>In conclusion, I have the next questions: <br></div><div>=
+What solution we should implement to get the Windows release name?</div><di=
+v>Does someone know how end-users use this information? Should it be Englis=
+h only or it can be localized? Should we have exactly the same output as no=
+w? <br></div><div>What should we do with the &#39;Standard&#39; server edit=
+ion? Currently, the guest agent always returns &#39;Datacenter&#39;.</div><=
+div><br></div><div><div dir=3D"ltr"><div dir=3D"ltr"><div>Best wishes,</div=
+><div>Kostiantyn Kostiuk</div></div></div></div></div></div>
 
-Hi Maxim,
-The VIRTIO specification is designed to allow more than 64 feature bits.
-Currently all feature bits fit into 64 bits but that may not be the case
-in the future. Please use a representation that is capable of expanding
-in the future.
-
-The Linux guest drivers have a string sysfs attribute that is formatted
-in binary ('0' and '1' characters). It's not easy for humans to read but
-it is capable of growing in the future.
-
-Also, please take a look at Jonah Palmer's patch series that adds
-commands to introspect VIRTIO devices:
-https://lore.kernel.org/qemu-devel/1626086137-16292-1-git-send-email-jonah.=
-palmer@oracle.com/
-
-I have CCed Jonah in case there is overlap between the two series that
-you can work together on.
-
-Stefan
-
---a90QQKCoJnxe2dAL
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmEwxPAACgkQnKSrs4Gr
-c8iAGQgAwYb34sK9jf5LrecKV+S5sTtRCCyq+RB9k/rRXFl9mPlb2lmQi5VzNJss
-E1jbrfSe4T3VIFNSdubj2HLnUudjlGyEjJzD30dp3NePoU/jfeTrNs17XA1lh7xI
-zH2yEzWZ5dH+RVhBtJMVup0fAKYP9ktH0KjQtiVi04YZhP+Bp8VCbzCcCzbkeUPs
-Jm0MmZsu6feqigKhLMtCnn9sT5jBv6lvkm0//Lb+6OXgEHMf0uuVX2DKbpKCH6T3
-e5pVtBPcxgF2wWg8vAahAsHY+h5o+NeWGFs1BzKjuNQthD7IMyVc5vNkvs2ylSJy
-EvC/0rNdOXedIAXLEMfO1Gq5RmSrQw==
-=1wvh
------END PGP SIGNATURE-----
-
---a90QQKCoJnxe2dAL--
-
+--0000000000008ef4cd05cb026d5d--
 
