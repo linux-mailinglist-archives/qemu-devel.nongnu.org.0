@@ -2,78 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 376013FEB97
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 11:52:31 +0200 (CEST)
-Received: from localhost ([::1]:51182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B70B3FEBAB
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 11:57:22 +0200 (CEST)
+Received: from localhost ([::1]:58818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLjOY-0004yH-9O
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 05:52:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56974)
+	id 1mLjTF-0001iu-9J
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 05:57:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mLjMC-000386-8m
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:50:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39598)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mLjPO-0007Ux-9c; Thu, 02 Sep 2021 05:53:22 -0400
+Received: from mail-vi1eur05on2121.outbound.protection.outlook.com
+ ([40.107.21.121]:28640 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mLjMA-0007Y8-7v
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:50:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630576201;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=waSwdUAuWVkTpBXRWp74HWRPOD89GCNz0xwp8l+EhHk=;
- b=GBawIrg4dYwxEZY69+bHJimdZGcUTomLJsQ1ZMSnW296cvs7nYA+xCVGkfZk0DvUM+PeTz
- EDmNNyHkBRNBB/X8SMcH+R126kPC60sYd2SV3nfsJEndkSHDTckt/fRcvrXWeTs83dhaOh
- Na6rQicG4euO/lsenlBCGeLg3GU8j+k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-139-tUQwKgHrOYm0I4h1dXTzyA-1; Thu, 02 Sep 2021 05:50:00 -0400
-X-MC-Unique: tUQwKgHrOYm0I4h1dXTzyA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE2EF501F6;
- Thu,  2 Sep 2021 09:49:58 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 21FD510493DD;
- Thu,  2 Sep 2021 09:49:43 +0000 (UTC)
-Date: Thu, 2 Sep 2021 10:49:40 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Leonardo Bras Soares Passos <leobras@redhat.com>
-Subject: Re: [PATCH v1 2/3] io: Add zerocopy and errqueue
-Message-ID: <YTCeNCEmr3NsQEPR@redhat.com>
-References: <20210831110238.299458-1-leobras@redhat.com>
- <20210831110238.299458-3-leobras@redhat.com>
- <YS4nPfEBCy9IC3rd@redhat.com>
- <CAJ6HWG75NDzaRAoHvM6FkFoB+sQvTpmdR8+AdMkoY6TsP06ZhA@mail.gmail.com>
- <YTCPngNB+l70sl06@redhat.com>
- <CAJ6HWG6dd+timQM27-NTumvwDM2bFawRsnmrZumdzGZ8hCR3dQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mLjPI-0002DO-Md; Thu, 02 Sep 2021 05:53:21 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BRrHmckhXaBGWl4aQyUweUzdx8gxe5Mm/gEHlwnOK5Ya/6XBLVlWsSOcingtFzgnJcimWEu9DVioLZ5uKbMVTOGKec4J4Oz/IedegPDXHA2hwo37/qAX9JO6aLfuxhbsm6BF2+rEylM5ueaREbIowCR9KwYI33g+TVKZrpuBzJJkSTZ60AiCyWJYcBeCOr48004RorgBGMaczNK/XZ6dLbqZ5sSkWcE77Tq+I+8+tsPRBznshEoG2sxZ1/6VJWbQR1MnTZXhq2KOdor1SVuO2/V1hMPQpljEN8j+8hmizKLbZx0xAXyk9yIUK4dGjr9OP4/ZwMRX+tS1tckNXC3Q5g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=V45IId4EvOrOpcCRQvB3CmbSLWBUP+7W3XPv4VriJrk=;
+ b=diQr+FAn1VSDx/BK1hnA7sv7TG3iaWagWjiVH29UaDtZHZ/IR7vRGOaG5bvf+qjsFOnAY5AKuIYku2k4gwn5EJKUJTQj7/nRRvNMTdS2YXLH3YAyau368COyIwRDRMQoc9Y5rPqAs4uHNE0lWZ2xcoW6IbMGLChMq/AtEbV9nLZQ/7+/0QfyIvPpI0Syi3IYlbzJRR2A65x9QKbXcwEEGBFMIai3bOArsC8181VAl/DcqWhPdiCMVpE17q+G0ySYn/HnAZuo/osUpxwIYnZ5GQk5rLfgVfa37BF9NwzCr2y7MRM/NeApl5P31u3sZ4BoGktQMP0DiAlfj49hTlLcRg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V45IId4EvOrOpcCRQvB3CmbSLWBUP+7W3XPv4VriJrk=;
+ b=hnY2tY5678NsrUVVmyWf2awWTZ49t9BR3Q1ZSlJqitqERlYKgtPGK/GT4dk5uDWAza7s0jEdewnEPM7TGMymK7igVEDwEZENNlj188UcJ/GcqPy3imq/c5P8NkHYHZCYfl1lBn17KbL4Q98X0i7Qvl+igq1B9K3ofT7Y8oIxx+U=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6805.eurprd08.prod.outlook.com (2603:10a6:20b:396::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.17; Thu, 2 Sep
+ 2021 09:53:12 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22%8]) with mapi id 15.20.4478.019; Thu, 2 Sep 2021
+ 09:53:12 +0000
+Subject: Re: [PATCH v4 3/5] migrate-bitmaps-test: Fix pylint warnings
+To: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20210902094017.32902-1-hreitz@redhat.com>
+ <20210902094017.32902-4-hreitz@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <14fcbe06-01ed-4069-9aa0-568fb6057036@virtuozzo.com>
+Date: Thu, 2 Sep 2021 12:53:11 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <20210902094017.32902-4-hreitz@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PR1P264CA0011.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:19e::16) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <CAJ6HWG6dd+timQM27-NTumvwDM2bFawRsnmrZumdzGZ8hCR3dQ@mail.gmail.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.196) by
+ PR1P264CA0011.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:19e::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4478.17 via Frontend Transport; Thu, 2 Sep 2021 09:53:12 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5b2711e0-6515-442c-4d1a-08d96df77a6b
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6805:
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6805AD4FD1A114ADDF72E983C1CE9@AS8PR08MB6805.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6HAlxlc6CKblracbH0N3kA/Yemgz4DGaNZ8/uBU2j/0cckz2T3arPSSyOXhD0VraDkVlzRZW4HhSwMwvhKxLjRWxtg/NeixLhv/12IKboxRsjZgRgnRi26fmd1hQlnuQAw9DXmgJtsKcegWg4ZaOv2oliTxPvPQPHRSdrZu0x+iKRvvl7fGplnY8+UPYoFZh4G19d27Sx0hHRddhKLdcqQxB9TazRmuHr0+iH2ejuEKxa/NuS9CwQgDYr0f4GHaRd1O8gVNCBAtlnUPNj1xPmRYAnkIhl1ZkTecyy/ie6Tx4hNcQu+DYgJYBFpueHEwISHj1AnZWZzhtXuu7mJA2bf92bQD3GeE6PtV19D1I1Y2Ay6+zu43ZW21yxZmlPMwZJNnPk1ApKAp0nYR3brtGVcVp1N0mMeR7gM3uHrR9mNLqI9mTEs3Y1RRoqS/u57WBzM+Tm99MoaOfMh2UPrg90smGcDHjnV1gk2U6EsbtmdKLZfpXg1D5XCWWwk9jzfumwqlUzmeqeUtJ58Lh9k+wwDHYUiQimo7Xow+ldVyZYpeY76aSxc3d2e+WtGpEEDbIB14tCTUcTUPJQxbmFWolbcIDgQhM64O1fw6xRdttHjg9WRdJjRR5sySFV22e1scUoKWyw9Ic3qNGnASnYLywarrJR4DmMNtRagpbnt9vHmkDBb+na3Y43fPBV56t++nES4RBFrXT2eYLV0VYPmhFNvurQMsEL14ZpegBB044oiOBuBD+m7bpODMc7VeCIo0o53O9yANsSwxSNl/OOoQ6hA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(366004)(346002)(396003)(39850400004)(376002)(36756003)(26005)(8676002)(54906003)(38350700002)(38100700002)(956004)(16576012)(8936002)(186003)(83380400001)(6486002)(66556008)(66476007)(52116002)(66946007)(2616005)(478600001)(31696002)(2906002)(5660300002)(4326008)(86362001)(316002)(31686004)(4744005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VXlOT05ubUJjc044VW1MenR3aGxpdXd1SjdXOEE0akR3YTQ5UTBXVWlEQWww?=
+ =?utf-8?B?Z3UzTk9SbEZsc1pDV1R2Y1BjR25nbEh6UmhLL2xnMlExRy9mcmRnZHBJRVpm?=
+ =?utf-8?B?N0V4SEtUWmVZd3hDdkFLZFY2Nm9yZjhXdytWMW4yOHU1dG92Qm13c25CYm1x?=
+ =?utf-8?B?S1oveTVHWjRMVGFnV0tTVWlvMVlxT2t6andHN0JxWEllQlhlemxMa0VsMFAw?=
+ =?utf-8?B?VENEZlVqWUZVRldMNWMvTThFYUh1eHJ2NGdJdjF0ZkFOUUhjSlN5L0lEZHBT?=
+ =?utf-8?B?Q1orVEt5QnYyTk1CUmV0R0I4Y0NPNTg3TnF3QVZjQ1JJT0FSVUZMZW5WQWtk?=
+ =?utf-8?B?cXRpNi9TMi9TM3d0WVVjQTRHeVZwVzVvbm5pWGtKWHU4bHcxUWU4K0FITVQ5?=
+ =?utf-8?B?eVR6M2cxQmNWdFQwUEh0Vlk3dUFjUk42dGwvUG9qbXo1NGlwblVJWlJSOVFT?=
+ =?utf-8?B?MjhwV2treHJ3WnVYL2ZROTluemhyWkthZ1p0OFlWRjZ1MWlrSU5LSm4xNFM1?=
+ =?utf-8?B?VDRoUW4vYi9zVUg3WFR0eHFrQ2F6Q1VmWVlDajVtQVVWR2wwdkVXU0dDUkxH?=
+ =?utf-8?B?K09pdVRLT0ZEL2pEM2h1R2thVCtLcjRoV2wxUDJHRGpDRjVhWHdJRmZaanpO?=
+ =?utf-8?B?Z0JuRk9hTU9NNTFsVlVnRmN2REUyQVNmYnp1VGxsSFc4YWtkWWZUMWUzakR3?=
+ =?utf-8?B?RzZNaFlGRy9sU1I1NHM1QnRxSlR2c0dCSVJZYUY0VDBrbTg2a1RjQkFzTHcy?=
+ =?utf-8?B?bUFvRXVKc1piRjJNck1IT093MmhJTTZpMWpzZkl6SzdzMTQ0b0htaVBOOWZL?=
+ =?utf-8?B?MlcwVXhzZ3d3aU1FUXdlb3hYMGVkbHdiWXhaemlMeFB2RHp6akVmMkZTNGhk?=
+ =?utf-8?B?VUhLTzBoZ3d0b1JlaHNMZnpJMFBaMWpBVS9tK3FvNHpSUHpjQldpRGI1L1FZ?=
+ =?utf-8?B?Z1g0N1c1TjZLUW5kUmNMeS8zSnFNcks1NlFJYUdET2ZEQU5aSmoxS0hrZHhW?=
+ =?utf-8?B?Z1Z2dEY3NS94S2h2Y2QxOVFRSERXWWQ1ZG9QS2JTMGRsRGJGTW5RWHdmM2JL?=
+ =?utf-8?B?Q084UDFuenBZNkN0bXY2YklWR0JjanhYTmNlczlncW9VVUEyMVhXaFBoUTV0?=
+ =?utf-8?B?RmRKRHdaNUxzSUk2YmpNZWJRNHEwQ3pnTVBjNnlQNFkxa2ZFMXNxTmtXaURs?=
+ =?utf-8?B?MExVNnVYczJWemVFSGl4VTFoZy9qVjRaOGcwOWptMU0rM0JQdFQ0VFRkR1No?=
+ =?utf-8?B?cnZqbFdqdm1zRkdiZDUwMTRQVGFKTlBIck9HbUQ3ZXpTVnoxd3dORFJqekEw?=
+ =?utf-8?B?eXhUdmkxMGVzbDlTTS9aTTBDVGJ5TXJKRWtCd2IvRndHQnZObUhJTmxHelhP?=
+ =?utf-8?B?ejZ4dlBpSWpJUFFNSGhZdkxhcnpjVW1EMlNjL3pHS2JBRWJucDU0cWVlVHZV?=
+ =?utf-8?B?VFFsdnNCcTZTZ3RKMW5qdVVzSHBnRWQ1cytrWXdYU2hiaCs0NjFuMmtIaTBB?=
+ =?utf-8?B?U1dDL0NMa1IxSlFqTDgyK01WVWt0VkFsbTgzTXBtRG5tTlJOZVZpc2NtTERo?=
+ =?utf-8?B?Y1pwUnhabjAweVBkaXZpRzRzaFZkZnhycjZoS0d1RzRIVTRydWZLUkVOZTFK?=
+ =?utf-8?B?eWR2RkVnZnRDVVlKWmlURmVpVEVHTnl2SEFGWllpd1d6QUwxV2JzTk1ja1lE?=
+ =?utf-8?B?Q0x6WGcxbFYvS3VlTHBuSlRBdVdHQVA5amNNVXpkRHlhQjZPYklpQ1krTnFS?=
+ =?utf-8?Q?6ENw89FC9yMNGkkYw0cr4zt+9vz+yf6MG/9iEgy?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b2711e0-6515-442c-4d1a-08d96df77a6b
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2021 09:53:12.8445 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PVsFdTsnHpUW7gyz4dIjdQDV1qXFRfaNNNpU4oXGDwGWuEe9NpDssBZBLG37KtgJFxBrK5IyNsOPvPu9L+pmSkN6Zu4giVX5soKFFXE1p9Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6805
+Received-SPF: pass client-ip=40.107.21.121;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.029, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_PASS=-0.001,
+ T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,110 +145,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 02, 2021 at 06:34:01AM -0300, Leonardo Bras Soares Passos wrote:
-> On Thu, Sep 2, 2021 at 5:47 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > On Thu, Sep 02, 2021 at 03:38:11AM -0300, Leonardo Bras Soares Passos wrote:
-> >
-> > > > I would suggest checkig in close(), but as mentioned
-> > > > earlier, I think the design is flawed because the caller
-> > > > fundamentally needs to know about completion for every
-> > > > single write they make in order to know when the buffer
-> > > > can be released / reused.
-> > >
-> > > Well, there could be a flush mechanism (maybe in io_sync_errck(),
-> > > activated with a
-> > > parameter flag, or on a different method if callback is preferred):
-> > > In the MSG_ZEROCOPY docs, we can see that the example includes using a poll()
-> > > syscall after each packet sent, and this means the fd gets a signal after each
-> > > sendmsg() happens, with error or not.
-> > >
-> > > We could harness this with a poll() and a relatively high timeout:
-> > > - We stop sending packets, and then call poll().
-> > > - Whenever poll() returns 0, it means a timeout happened, and so it
-> > > took too long
-> > > without sendmsg() happening, meaning all the packets are sent.
-> > > - If it returns anything else, we go back to fixing the errors found (re-send)
-> > >
-> > > The problem may be defining the value of this timeout, but it could be
-> > > called only
-> > > when zerocopy is active.
-> >
-> > Maybe we need to check completions at the end of each iteration of the
-> > migration dirtypage loop ?
+02.09.2021 12:40, Hanna Reitz wrote:
+> There are a couple of things pylint takes issue with:
+> - The "time" import is unused
+> - The import order (iotests should come last)
+> - get_bitmap_hash() doesn't use @self and so should be a function
+> - Semicolons at the end of some lines
+> - Parentheses after "if"
+> - Some lines are too long (80 characters instead of 79)
+> - inject_test_case()'s @name parameter shadows a top-level @name
+>    variable
+> - "lambda self: mc(self)" were equivalent to just "mc", but in
+>    inject_test_case(), it is not equivalent, so add a comment and disable
+>    the warning locally
+> - Always put two empty lines after a function
+> - f'exec: cat > /dev/null' does not need to be an f-string
 > 
-> Sorry, I am really new to this, and I still couldn't understand why would we
-> need to check at the end of each iteration, instead of doing a full check at the
-> end.
-
-The end of each iteration is an implicit synchronization point in the
-current migration code.
-
-For example, we might do 2 iterations of migration pre-copy, and then
-switch to post-copy mode. If the data from those 2 iterations hasn't
-been sent at the point we switch to post-copy, that is a semantic
-change from current behaviour. I don't know if that will have an
-problematic effect on the migration process, or not. Checking the
-async completions at the end of each iteration though, would ensure
-the semantics similar to current semantics, reducing risk of unexpected
-problems.
-
-
-> > > or something like this, if we want it to stick with zerocopy if
-> > > setting it off fails.
-> > > if (ret >= 0) {
-> > >     sioc->zerocopy_enabled = enabled;
-> > > }
-> >
-> > Yes, that is a bug fix we need, but actually I was refering
-> > to the later sendmsg() call. Surely we need to clear MSG_ZEROCOPY
-> > from 'flags', if zerocopy_enabled is not set, to avoid EINVAL
-> > from sendmsg.
+> Fix them.
 > 
-> Agree, something like io_writev(,, sioc->zerocopy_enabled ?
-> MSG_ZEROCOPY : 0, errp)'
-> should do, right?
-> (or an io_async_writev(), that will fall_back to io_writev() if
-> zerocopy is disabled)
+> Signed-off-by: Hanna Reitz<hreitz@redhat.com>
 
-Something like that - depends what API we end up deciding on
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-> > > We could implement KTLS as io_async_writev() for Channel_TLS, and change this
-> > > flag to async_enabled. If KTLS is not available, it would fall back to
-> > > using gnuTLS on io_writev, just like it would happen in zerocopy.
-> >
-> > If gnutls is going to support KTLS in a way we can use, I dont want to
-> > have any of that duplicated in QEMU code. I want to be able delegate
-> > as much as possible to gnutls, at least so that QEMU isn't in the loop
-> > for any crypto sensitive parts, as that complicates certification
-> > of crypto.
-> 
-> Yeah, that's a very good argument :)
-> I think it's probably the case to move from the current callback implementation
-> to the implementation in which we give gnuTLS the file descriptor.
-
-That would introduce a coupling  between the two QIOChannel impls
-though, which is avoided so far, because we didn't want an assuption
-that a QIOChannel == a FD.
-
-
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Best regards,
+Vladimir
 
