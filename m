@@ -2,75 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97EEF3FEC96
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 13:00:57 +0200 (CEST)
-Received: from localhost ([::1]:48972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0F93FECA9
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 13:07:38 +0200 (CEST)
+Received: from localhost ([::1]:57160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLkSl-0004gP-GK
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 07:00:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42434)
+	id 1mLkZG-0002rB-0C
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 07:07:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mLkQO-0003KU-K4
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 06:58:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20958)
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mLkVZ-0006vQ-8w; Thu, 02 Sep 2021 07:03:49 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mLkQJ-0007Ti-Jh
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 06:58:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630580302;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gHwvMeaHKXY/KzJfx24PypasDD63COizkBPwAo3le4U=;
- b=byt60Tqbh2ZvIQsutt4dMgDjrYhKo4653HdfCcbW5lhUcGWxbA/Q++ZisoQP6GE+hcW+/c
- BBtzwmDKQu8hA7hZGu7W6TaFKlTTjTN66MRzwR/HExXHYJSz0ryeSzu1VWx4G+qUIsgHhH
- Jj9n26Lt47lmRQ/qI/S4d+ibWF1vVos=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-141-bFJGFx4DNoyFXcRQZK_1tQ-1; Thu, 02 Sep 2021 06:58:17 -0400
-X-MC-Unique: bFJGFx4DNoyFXcRQZK_1tQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E937A107ACE3
- for <qemu-devel@nongnu.org>; Thu,  2 Sep 2021 10:58:16 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DF37819D9B;
- Thu,  2 Sep 2021 10:58:11 +0000 (UTC)
-Date: Thu, 2 Sep 2021 11:58:08 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 3/3] softmmu/vl: Deprecate the -sdl and -curses option
-Message-ID: <YTCuQB5dWMhYC3fW@redhat.com>
-References: <20210825092023.81396-1-thuth@redhat.com>
- <20210825092023.81396-4-thuth@redhat.com>
- <CABgObfb8GHK0F=GCmDtaB=RqZT9+JnG+RRfNK+4XQ-ofoOxumA@mail.gmail.com>
- <a03ba523-ac40-3090-442e-7cc38022a2cc@redhat.com>
+ (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
+ id 1mLkVT-0003W4-LT; Thu, 02 Sep 2021 07:03:48 -0400
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4H0dGx0HWMzbkW4;
+ Thu,  2 Sep 2021 18:59:37 +0800 (CST)
+Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Thu, 2 Sep 2021 19:03:33 +0800
+Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
+ dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Thu, 2 Sep 2021 19:03:32 +0800
+From: Yanan Wang <wangyanan55@huawei.com>
+To: Eduardo Habkost <ehabkost@redhat.com>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, 
+ <qemu-ppc@nongnu.org>, <qemu-s390x@nongnu.org>
+Subject: [PATCH v8 00/14] machine: smp parsing fixes and improvement
+Date: Thu, 2 Sep 2021 19:03:16 +0800
+Message-ID: <20210902110330.18036-1-wangyanan55@huawei.com>
+X-Mailer: git-send-email 2.8.4.windows.1
 MIME-Version: 1.0
-In-Reply-To: <a03ba523-ac40-3090-442e-7cc38022a2cc@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.128]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggpemm500023.china.huawei.com (7.185.36.83)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,44 +62,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- "Armbruster, Markus" <armbru@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Peter
+ Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>, Pierre
+ Morel <pmorel@linux.ibm.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>, Greg Kurz <groug@kaod.org>,
+ Yanan Wang <wangyanan55@huawei.com>, wanghaibin.wang@huawei.com,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 02, 2021 at 12:51:02PM +0200, Thomas Huth wrote:
-> On 31/08/2021 15.53, Paolo Bonzini wrote:
-> > As an alternative, you may want to turn it into "-display sdl" rather
-> > than poke at dpy. This isn't much more code, but it keeps the shortcut
-> > isolated within a single "case". This follows a lot of recently cleaned
-> > up command line parsing code such as -no-hpet, -enable-kvm, -smp etc.
-> > 
-> > In the end (spoiler alert for my upcoming KVM Forum presentation—slides
-> > are already on sched.com <http://sched.com> :)) what really produces
-> > complexity is the lack of isolation/modularity. As long as UI code
-> > doesn't care about command line parsing, and command line parsing
-> > doesn't care about global variables from all over the place, the cost of
-> > shortcuts is so small that it may tilt in favor of keeping them.
-> 
-> Honestly, I'd rather like to see them removed in the end. Our user interface
-> is so terribly inconsistent here that I think that these options are rather
-> confusing for the users than helpful. For example, why do we have -sdl and
-> -curses, but no -gtk ? And as a normal user, I'd also always wonder what's
-> the difference between "-display sdl" and "-sdl", since the difference in
-> the amount of characters that you have to type here is not that much that it
-> justifies the shortcut option. So IMHO let's rather clean this up completely
-> than dragging the shortcut options along forever.
+I'm resending a new version, as one patch (hw: Add compat machines for 6.2)
+of the series has been merged into upstream. There are no changes of the
+other patches since v7 though. Series has been fully reviewed.
 
-There's also the elephant in the room "-vnc" which has never been mapped
-into -display, but which is also one of the most widely used options for
-display backends :-(
+Description:
+This series introduces some fixes and improvement for the SMP parsing.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+1) Specifying a CPU topology parameter as zero was implicitly allowed
+but undocumented before, while now it's explicitly deprecated.
+
+2) To keep consistency, maxcpus is now uniformly used to calculate the
+omitted topology members.
+
+3) Improve the error reporting.
+
+4) It's also suggested that we should start to prefer cores over sockets
+over threads on the newer machine types, which will make the computed
+virtual topology more reflective of the real hardware. Related discussion
+can be found in [1].
+[1] https://lore.kernel.org/qemu-devel/YNIgInK00yNNI4Dy@redhat.com/
+
+5) In order to reduce code duplication and ease the code maintenance,
+smp_parse() is converted into a generic enough parser for all arches,
+so that the arch-specific ones (e.g. pc_smp_parse) can be removed.
+It's also convenient to introduce more topology members to the generic
+parser in the future. Related discussions can be found in [2] and [3].
+[2] https://lore.kernel.org/qemu-devel/20210630115602.txmvmfe2jrzu7o67@gator.home/
+[3] https://lore.kernel.org/qemu-devel/YPFN83pKBt7F97kW@redhat.com/
+
+6) A unit test for the SMP parsing is added. In the test, all possible
+collections of the topology parameters and the corresponding expected
+results are listed, including the valid and invalid ones. The preference
+of sockets over cores and the preference of cores over sockets, and the
+support of dies are also taken into consideration.
+
+---
+
+Changelogs:
+
+v7->v8:
+- merge patch (hw: Add compat machines for 6.2) separately
+- rebased on upstream commit 079b1252e9
+- v7: https://lore.kernel.org/qemu-devel/20210823122804.7692-1-wangyanan55@huawei.com/
+
+v6->v7:
+- drop the two docs/about clean-up patches and they have been resent separately
+- v6: https://lore.kernel.org/qemu-devel/20210819031027.41104-1-wangyanan55@huawei.com/
+
+v5->v6:
+- deprecate "parameter=0" SMP configurations (patch #1 and #2 added)
+- rebased on upstream v6.1.0-rc4
+- v5: https://lore.kernel.org/qemu-devel/20210813023912.105880-1-wangyanan55@huawei.com/
+
+v4->v5:
+- refactor out the duplicated "threads == 0" case in patch #6 (Pankaj)
+- pick up more R-b tags from v4 (thanks very much for the review!)
+- v4: https://lore.kernel.org/qemu-devel/20210803080527.156556-1-wangyanan55@huawei.com/
+
+v3->v4:
+- put all the sanity check into the parser
+- refine the unit test and add it back to the series
+- add the R-b/A-b tags for the reviewed/acked patches
+- v3: https://lore.kernel.org/qemu-devel/20210728034848.75228-1-wangyanan55@huawei.com/
+
+v2->v3:
+- apply the calculation improvement to smp_parse and pc_smp_parse
+  separately and then convert the finally improved parsers into a
+  generic one, so that patches can be reviewed separately.
+- to ease review, drop the unit test part for a while until we have
+  a good enough generic parser.
+- send the patch "machine: Disallow specifying topology parameters as zero"
+  for 6.1 separately.
+- v2: https://lore.kernel.org/qemu-devel/20210719032043.25416-1-wangyanan55@huawei.com/
+
+v1->v2:
+- disallow "anything=0" in the smp configuration (Andrew)
+- make function smp_parse() a generic helper for all arches
+- improve the error reporting in the parser
+- start to prefer cores over sockets since 6.2 (Daniel)
+- add a unit test for the smp parsing (Daniel)
+- v1: https://lore.kernel.org/qemu-devel/20210702100739.13672-1-wangyanan55@huawei.com/
+
+---
+
+Yanan Wang (14):
+  machine: Deprecate "parameter=0" SMP configurations
+  machine: Minor refactor/fix for the smp parsers
+  machine: Uniformly use maxcpus to calculate the omitted parameters
+  machine: Set the value of cpus to match maxcpus if it's omitted
+  machine: Improve the error reporting of smp parsing
+  machine: Prefer cores over sockets in smp parsing since 6.2
+  machine: Use ms instead of global current_machine in sanity-check
+  machine: Tweak the order of topology members in struct CpuTopology
+  machine: Make smp_parse generic enough for all arches
+  machine: Remove smp_parse callback from MachineClass
+  machine: Move smp_prefer_sockets to struct SMPCompatProps
+  machine: Put all sanity-check in the generic SMP parser
+  machine: Split out the smp parsing code
+  tests/unit: Add a unit test for smp parsing
+
+ MAINTAINERS                 |   2 +
+ docs/about/deprecated.rst   |  15 +
+ hw/arm/virt.c               |   1 +
+ hw/core/machine-smp.c       | 200 +++++++++
+ hw/core/machine.c           |  90 +---
+ hw/core/meson.build         |   1 +
+ hw/i386/pc.c                |  63 +--
+ hw/i386/pc_piix.c           |   1 +
+ hw/i386/pc_q35.c            |   1 +
+ hw/ppc/spapr.c              |   1 +
+ hw/s390x/s390-virtio-ccw.c  |   1 +
+ include/hw/boards.h         |  24 +-
+ qapi/machine.json           |   2 +-
+ qemu-options.hx             |  24 +-
+ tests/unit/meson.build      |   1 +
+ tests/unit/test-smp-parse.c | 866 ++++++++++++++++++++++++++++++++++++
+ 16 files changed, 1130 insertions(+), 163 deletions(-)
+ create mode 100644 hw/core/machine-smp.c
+ create mode 100644 tests/unit/test-smp-parse.c
+
+--
+2.19.1
 
 
