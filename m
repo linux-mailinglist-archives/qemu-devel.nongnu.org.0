@@ -2,67 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C613B3FEF05
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:56:42 +0200 (CEST)
-Received: from localhost ([::1]:34638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E3B3FEF08
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:57:19 +0200 (CEST)
+Received: from localhost ([::1]:36066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLnCr-0006BB-T9
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:56:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52710)
+	id 1mLnDS-00078o-QT
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:57:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mLn9k-0000mw-JE
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:53:29 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60307)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mLnBg-0004pI-MB
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:55:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44217)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mLn9g-0005FC-Pd
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:53:27 -0400
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mLnBd-0006x1-Vq
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:55:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630590803;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=0r+VDrNJl40PjXZ4Ba+xXeGQnharpi4q2XR2L0edizQ=;
- b=azcKnM982SFePqv4dbYZyUBkdrGOe7HVR+1yDdaoSzzWDEkzdikEto6UpnyAxlV0xZqm+I
- nMDkEhsHQPP69p0cEyFBlNHrm5p+teLIBdgep9tDGL6PkN+dA/vusPjmlKIXtVPYAwhoUn
- 8wyt9FzPnQ+sNSBjZ8OhKRnAP6kqWDM=
+ s=mimecast20190719; t=1630590924;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vD0coD+6uunZIho/vV3f/6WUDRvVstXAuPIxYof5Z7o=;
+ b=ZV8Op6uO0SoaQ355UcIheIq3kxsBOMjGYE2HOhR5qv4y1jca9GAL08i86oKuZ2PNBhFnUz
+ VIOo35BLy+jsuyBcFd7n+2v/rzIvfsRNIzl6OfYTpn76dw56LirinS2XQbcnRVwEtsP21D
+ cVUB3WkboGRexZWbiX+WMsSBLpr3UMQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-600-rcG03WgdMcazl3MVSBUsQg-1; Thu, 02 Sep 2021 09:53:20 -0400
-X-MC-Unique: rcG03WgdMcazl3MVSBUsQg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-39-J000XcwmNBajvzHyhI3elQ-1; Thu, 02 Sep 2021 09:55:22 -0400
+X-MC-Unique: J000XcwmNBajvzHyhI3elQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C9F1801AE3
- for <qemu-devel@nongnu.org>; Thu,  2 Sep 2021 13:53:20 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.195.57])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B1C4D5D6B1;
- Thu,  2 Sep 2021 13:53:02 +0000 (UTC)
-Date: Thu, 2 Sep 2021 14:53:00 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 4/4] vl: Prioritize realizations of devices
-Message-ID: <YTDXPB/t22lzRS/H@redhat.com>
-References: <8735qxhnhn.fsf@dusky.pond.sub.org>
- <87h7fdg12w.fsf@dusky.pond.sub.org> <YSa7H3wGUHgccCrU@t490s>
- <YScPg0cYYGxxTz+b@xz-m1.local> <87y28oy6rm.fsf@dusky.pond.sub.org>
- <20210826133629.2ddd3b88@redhat.com> <YSean3PIkslbTHeU@t490s>
- <YS0rXQXwqKjhr4TA@t490s> <20210902102616.1b596104@redhat.com>
- <YTDVh9/MVAfCdkeu@t490s>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 182C0104FB69;
+ Thu,  2 Sep 2021 13:55:21 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 005E45D9C6;
+ Thu,  2 Sep 2021 13:55:09 +0000 (UTC)
+Date: Thu, 2 Sep 2021 14:55:09 +0100
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: Guest Agent issue with 'guest-get-osinfo' command on Windows
+Message-ID: <20210902135509.GU26415@redhat.com>
+References: <CAJ28CFSFEatxgfvUE3gvnFBVX7GrqMwk0+t1foFfNzDu7bwv3A@mail.gmail.com>
+ <YTDTc9NC9k7hJjpx@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YTDVh9/MVAfCdkeu@t490s>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <YTDTc9NC9k7hJjpx@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=rjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -83,104 +79,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Michael Roth <michael.roth@amd.com>, Developers <qemu-devel@nongnu.org>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Tomas Golembiovsky <tgolembi@redhat.com>, Yan Vugenfirer <yan@daynix.com>,
+ Konstantin Kostiuk <konstantin@daynix.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 02, 2021 at 09:45:43AM -0400, Peter Xu wrote:
-> On Thu, Sep 02, 2021 at 10:26:16AM +0200, Igor Mammedov wrote:
-> > On Mon, 30 Aug 2021 15:02:53 -0400
-> > Peter Xu <peterx@redhat.com> wrote:
+On Thu, Sep 02, 2021 at 02:36:51PM +0100, Daniel P. Berrangé wrote:
+> On Thu, Sep 02, 2021 at 03:36:01PM +0300, Konstantin Kostiuk wrote:
+> > Hi Team,
 > > 
-> > > On Thu, Aug 26, 2021 at 09:43:59AM -0400, Peter Xu wrote:
-> > > > > > A simple state machine can track "has IOMMU" state.  It has three states
-> > > > > > "no so far", "yes", and "no", and two events "add IOMMU" and "add device
-> > > > > > that needs to know".  State diagram:
-> > > > > > 
-> > > > > >                           no so far
-> > > > > >                    +--- (start state) ---+
-> > > > > >                    |                     |
-> > > > > >          add IOMMU |                     | add device that
-> > > > > >                    |                     |  needs to know
-> > > > > >                    v                     v
-> > > > > >              +--> yes                    no <--+
-> > > > > >              |     |   add device that   |     |
-> > > > > >              +-----+    needs to know    +-----+
-> > > > > > 
-> > > > > > "Add IOMMU" in state "no" is an error.  
-> > > > > 
-> > > > > question is how we distinguish "device that needs to know"
-> > > > > from device that doesn't need to know, and then recently
-> > > > > added feature 'bypass IOMMU' adds more fun to this.  
-> > > > 
-> > > > Maybe we can start from "no device needs to know"? Then add more into it when
-> > > > the list expands.
-> > > > 
-> > > > vfio-pci should be a natural fit because we're sure it won't break any valid
-> > > > old configurations.  However we may need to be careful on adding more devices,
-> > > > e.g. when some old configuration might work on old binaries, but I'm not sure.  
-> > > 
-> > > Btw, I think this state machine is indeed bringing some complexity on even
-> > > understanding it - it is definitely working but it's not obvious to anyone at
-> > > the first glance, and it's only solving problem for vIOMMU.  E.g., do we need
-> > > yet another state machine for some other ordering constraints?
-> > >
-> > > From that POV, I don't like this solution more than the simple "assign priority
-> > > for device realization" idea..
-> > It seems simple but implicit dependencies are fragile (good or
-> > I'd rather say bad example implicit dependencies is vl.c magic code,
-> > where changing order of initialization can easily break QEMU,
-> > which happens almost every time it's refactored),
+> > We have several bugs related to 'guest-get-osinfo' command in Windows Guest
+> > Agent:
+> > https://bugzilla.redhat.com/show_bug.cgi?id=1998919
+> > https://bugzilla.redhat.com/show_bug.cgi?id=1972070
+> > 
+> > This command returns the following data:
+> > {
+> > "name": "Microsoft Windows",
+> > "kernel-release": "20344",
+> > "version": "N/A",
+> > "variant": "server",
+> > "pretty-name": "Windows Server 2022 Datacenter",
+> > "version-id": "N/A",
+> > "variant-id": "server",
+> > "kernel-version": "10.0",
+> > "machine": "x86_64",
+> > "id": "mswindows"
+> > }
+> > 
+> > The problem is with "version" and "pretty-name". Windows Server
+> > 2016/2019/2022 and Windows 11 have the same MajorVersion ("kernel-version")
 > 
-> True.  I was never able of telling whether that comes from natural complexity
-> of the piece of software or there's indeed some smarter moves.
+> Yes, this is a long standing issue with version mapping Windows
+> guests, to which no one has ever come up with a nice solution
+> that I know of.
 > 
-> > and as Markus already mentioned it won't work in QMP case.
+> In libosinfo database, we just report the kernel version as the
+> OS version, and accept the fact that there's a clash in version
+> between various Windows products.
 > 
-> I didn't ask before, but I do have a question on whether that's a real problem.
+>   https://gitlab.com/libosinfo/osinfo-db/-/blob/master/data/os/microsoft.com/win-2k19.xml.in
 > 
-> When QMP interface is ready, we should have a last phase of "preconfig done"
-> command, right?  I thought it was "x-exit-preconfig" now, but I'm not sure so
-> am guessing.  If so, can we do the reorder there and postpone all device
-> creations, maybe?  Then the ordering properties can be applied there too.
+>   https://gitlab.com/libosinfo/osinfo-db/-/blob/master/data/os/microsoft.com/win-10.xml.in
 > 
-> The other thing is I think only libvirt will use the QMP case even if it'll be
-> ready, and libvirt will need to know the ordering already like vIOMMU and vfio
-> and pci buses - even if a new qemu supported the ordering of all these, libvirt
-> still need to support old qemu binaries (and the code is already there anyway)
-> and it's fairly natural they initiate the QMP commands using the same ordering.
+> Apps that need to distinguish simply have to look at the
+> product name, even if this causes localization pain.
 > 
-> IMHO it means ordering for QMP is not as important as cmdline if that's always
-> initiated by another software.
+> Similarly in libguestfs, the virt-inspector tool just reports
+> the kernel version, and product name from the registry:
+> 
+> # virt-inspector -d win2k8r2
+> <?xml version="1.0"?>
+> <operatingsystems>
+>   <operatingsystem>
+>     <root>/dev/sda2</root>
+>     <name>windows</name>
+>     <arch>x86_64</arch>
+>     <distro>windows</distro>
+>     <product_name>Windows Server 2008 R2 Standard</product_name>
+>     <product_variant>Server</product_variant>
+>     <major_version>6</major_version>
+>     <minor_version>1</minor_version>
+> 
+> 
+> # virt-inspector -d win10x64
+> <?xml version="1.0"?>
+> <operatingsystems>
+>   <operatingsystem>
+>     <root>/dev/sda2</root>
+>     <name>windows</name>
+>     <arch>x86_64</arch>
+>     <distro>windows</distro>
+>     <product_name>Windows 10 Pro</product_name>
+>     <product_variant>Client</product_variant>
+>     <major_version>10</major_version>
+>     <minor_version>0</minor_version>
+>     <windows_systemroot>/Windows</windows_systemroot>
+>     <windows_current_control_set>ControlSet001</windows_current_control_set>
+>     <hostname>DESKTOP-GR8HTR3</hostname>
+>     <osinfo>win10</osinfo>
 
-The correct ordering of devices/backends is generally pretty obvious
-for libvirt to determine. Most of the problems we've had related to
-ordering are on the QEMU side, because the ARGV given to QEMU made
-correct sense if parsed left-to-right, but QEMU didn't actually process
-them in that order. We've patched QEMU to hack around its inability to
-honour the CLI order repeatedly.
+We actually try to turn it into a libosinfo compatible short string as
+you can see from Dan's second example above and this code:
 
-Being completely self-ordering on the QEMU side using a topological
-sort would be neat from a conceptual purity POV, but that is quite a
-challenge to implement and I'm not convinced it is worth it, compared
-to other problems we want to spend time on.
+  https://github.com/libguestfs/libguestfs/blob/master/lib/inspect-osinfo.c
 
-If we don't want to keep hacking up the current QEMU system binaries
-parsing, then we need to just have new binaries with sane ordering,
-or we need to willingly break compat in some staged manner. 
+Which is I think what every tool should return.  libosinfo is the only
+project that attempts to classify a broad range of OSes and is
+constantly being updated.
 
-Regards,
-Daniel
+> > This solution has several problems: need to update the conversion matrix
+> > for each Windows build, one Windows name can have different build numbers.
+> > For example, Windows Server 2022 (preview) build number is 20344, Windows
+> > Server 2022 build number is 20348.
+> > 
+> > There are two possible solutions:
+> > 1. Use build number range instead of one number. Known implementation
+> > issue: Microsoft provides a table (
+> > https://docs.microsoft.com/en-Us/windows-server/get-started/windows-server-release-info)
+> > only with stable build numbers. So, we exactly don't know the build number
+> > range.
+> 
+> Yep, this looks troublesome when considering non-GA releases.
+> 
+> > 2. We can read this string from the registry
+> > (HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion). Known
+> > implementation issues: ProductName value is localized (in a Russian version
+> > of Windows, the word "Microsoft' is translated), so we should ignore it.
+> > ReleaseId value does not equal to Windows Server version (for Windows
+> > Server 2019, ReleaseId is 1809)
+> 
+> This reg key is what libguestfs reports IIUC
+> 
+> https://github.com/libguestfs/libguestfs/blob/master/daemon/inspect_fs_windows.ml#L227
+> 
+> > In conclusion, I have the next questions:
+> > What solution we should implement to get the Windows release name?
+> > Does someone know how end-users use this information? Should it be English
+> > only or it can be localized? Should we have exactly the same output as now?
+> > What should we do with the 'Standard' server edition? Currently, the guest
+> > agent always returns 'Datacenter'.
+> 
+> This is equiv ot libguestfs' "product variant" data,w hich it gets
+> from InstallationType registry key
+> 
+>   https://github.com/libguestfs/libguestfs/blob/master/daemon/inspect_fs_windows.ml#L259
+> 
+> Personally I think there's value in having consistent treatment of this
+> info across qemu guest agent and libguestfs / libosinfo.
+
+Agree.
+
+Rich.
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+virt-builder quickly builds VMs from scratch
+http://libguestfs.org/virt-builder.1.html
 
 
