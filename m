@@ -2,133 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 589623FEB55
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 11:30:57 +0200 (CEST)
-Received: from localhost ([::1]:59268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9C23FEB56
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 11:33:56 +0200 (CEST)
+Received: from localhost ([::1]:34612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLj3f-0005BF-UF
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 05:30:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52498)
+	id 1mLj6Z-0007i9-RG
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 05:33:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mLj1k-0004L8-PT; Thu, 02 Sep 2021 05:28:56 -0400
-Received: from mail-am6eur05on2099.outbound.protection.outlook.com
- ([40.107.22.99]:22305 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ id 1mLj5Q-0006uY-Jh; Thu, 02 Sep 2021 05:32:44 -0400
+Received: from mail-eopbgr80130.outbound.protection.outlook.com
+ ([40.107.8.130]:2562 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mLj1h-0006nm-UM; Thu, 02 Sep 2021 05:28:55 -0400
+ id 1mLj5M-0001hQ-Eu; Thu, 02 Sep 2021 05:32:44 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VdzfVlmCtLatfGtHUOhxfNd3dz+/mA7a1SC4oSleDfR/fPZdf0pe7b07cYS5coVn/Y16gAsMyiiXXTeudRN/6zciIRc6kdDoPOZjlpUlwAVMYyCrhL6eyVUVI6vr8ihWzgqXtBwW1nvFUnGpPimRDxtuVq4SaduBlN9e3RIQAB/SlKzSDkmlv5DvIjA9NlfSz7ORXCQSUGph7zOOE6WC24YTJHyZwkT/6ovxK6RPwb2wmsbjIO5b+byTDc7mVVqJ1Pf1yTUkIQrLoXOk0zfd7SVcLpkhb/3ichgXV8OLVs+rbUDbKTz8HZiNqu8h7/KUbR+ghMbnbIZwCoTPff+rwg==
+ b=Eh755dSnisVQnvk4O+HgFMEa3ijtc8pzB4lF/4/q2SndOxLYcv9bbaCcTqskL5d4wPYYqjoYUN9KHz1ECcEE50n054FInNllJ0UCa1e8Zqi1/GukIVmEHJLHfaBR4whKC5horyQB4erujn/EQCwsspE3B2aPLnYgQjtkgjeWZgc5yQKbw6E6PI5gwCdNkqRmYh1JQtaiXvEWl++EOWy0I2ayA/MqIks98vh/vWA2ovHkdUfjS8qX8S16M/CGsERheeEa5rkFfbKtFqFqlOjIoGjM7ARY9ycQ9gLUsE5FTo8Fzm/zYCLfRLCsxMZHtrNfjjwd0GkCG2XIoecSdNsmEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=E7kkx5ezq0KuXiUiqmHPc7ewZEBQkIHaElc7ejx7g00=;
- b=Ey1aqlxBwr/i6gg9w4nD5+b4czzuN+1Erj3Pi3GT4n4wNmRoHW4xEboHWgTZ3yNZYdSXmkn5IB9rtHVwGP9nOVq7phpZdbMAiR174DoGQQdSDGOV93Jaw/J8qNKDMg/InV3vEPjwDo6DEKOFPTKDAOuLBFk1UI8cdFoQYK44Jwl757FCAb0eGbTn1x4n7yDjXU0xYephLcqOQvY6y1Qfo24/GmHHZnN+dIgc+eJ4/Y5+OC/6ScDqC1e3cZo9pd5yW8jb/ZIN9C2RobM9YeS70GnTZkdQc9uGkWVJx97U9LvBWDcYe8NL1fTFSISoJn/npclQm7B+TAEtL8BnfF0HpA==
+ bh=wcoTSjPzqZTPTaays5fpkY3igokd5MSHfx5+21b2pAs=;
+ b=PpoG4kyNmoq5sWfhRgcFfYt0c5W0m8YRP4C7qlUQhKcU3xc15UYUN7pSnUxIRdcQfWc2AG3a5j5FdNuld+WhjOKtj54ZG3KeLncxHQyaXSRWRtEdNOnfwnuIbCGur9wXIk0MpWiY2EAGB5DX6HcpBw9uBsgUQ/oAwvR2Wzxhuk41lJaV0zYgBXlNbjbZbNOiBBr012sGoDsSVoYd8iIhYGoGVGo/yfFo42saifVl0gzo8U/tQKGQkiTBKUdU3tKmkmKdIXQ2KsTnuoLR5wmPVaGpQqGQZlPBjZ/LRA11NizoaEg0JbtvTyCEtcxAKA0Yo2rMzbMpGcCkgO8LnPY4tQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=E7kkx5ezq0KuXiUiqmHPc7ewZEBQkIHaElc7ejx7g00=;
- b=gRACNBXU71258lhkL868gms+CZ1HfJRB2ZE7RxziLXaqKSM10/3d54zUcmFEWd5npZROVvtMZOxw8p8CDkw9vk/9lYFLLgOLeE7ygdHluRJC+O1/FwMUsVu2ExtCH55nfkxOsJ8ZsDRS/rIddnNJeXY+DNVOv8w4oW6DJItwlH0=
+ bh=wcoTSjPzqZTPTaays5fpkY3igokd5MSHfx5+21b2pAs=;
+ b=CIQ/4XV4jXM4J0n1jaVuC+1/FS7hME2g0sxldJxpyOUZ20D+gJr1GuOWQYQ7u7WujeoPj0ZEpKksSYnQ+cEk5fA0OIVdce/Q8yo/jfhgHQu6pTZgdhj5svfsfd5keQEgs9K8lrCfVqRDa5KtpvOTDGah9bnn6E9iDcEltg2U2NY=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5335.eurprd08.prod.outlook.com (2603:10a6:20b:101::16)
+ by AS8PR08MB6168.eurprd08.prod.outlook.com (2603:10a6:20b:294::9)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.21; Thu, 2 Sep
- 2021 09:28:50 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19; Thu, 2 Sep
+ 2021 09:32:35 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22%8]) with mapi id 15.20.4478.019; Thu, 2 Sep 2021
- 09:28:50 +0000
-Subject: Re: [PATCH RFC 0/8] blockdev-replace
+ 09:32:35 +0000
+Subject: Re: [RFC] qemu_cleanup: do vm_shutdown() before bdrv_drain_all_begin()
 To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, ehabkost@redhat.com, berrange@redhat.com,
- pbonzini@redhat.com, armbru@redhat.com, eblake@redhat.com,
- mreitz@redhat.com, kwolf@redhat.com, den@openvz.org,
- nshirokovskiy@virtuozzo.com, yur@virtuozzo.com, dim@virtuozzo.com,
- igor@virtuozzo.com, pkrempa@redhat.com, libvir-list@redhat.com,
- stefanha@redhat.com
-References: <20210802185416.50877-1-vsementsov@virtuozzo.com>
+Cc: mreitz@redhat.com, kwolf@redhat.com, den@openvz.org,
+ qemu-devel@nongnu.org, pbonzini@redhat.com
+References: <20210730142907.18626-1-vsementsov@virtuozzo.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <96926fb9-0d5b-a7fb-87b1-764073d46521@virtuozzo.com>
-Date: Thu, 2 Sep 2021 12:28:47 +0300
+Message-ID: <e5742ec4-a6ff-268f-5d21-4b014734bde3@virtuozzo.com>
+Date: Thu, 2 Sep 2021 12:32:34 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
-In-Reply-To: <20210802185416.50877-1-vsementsov@virtuozzo.com>
+In-Reply-To: <20210730142907.18626-1-vsementsov@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM8P190CA0007.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:20b:219::12) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: AM0PR01CA0093.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:10e::34) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.100.5] (185.215.60.196) by
- AM8P190CA0007.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:219::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4478.19 via Frontend Transport; Thu, 2 Sep 2021 09:28:48 +0000
+ AM0PR01CA0093.eurprd01.prod.exchangelabs.com (2603:10a6:208:10e::34) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.17 via Frontend
+ Transport; Thu, 2 Sep 2021 09:32:35 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 666a4024-7b7b-4bb4-8564-08d96df4125c
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5335:
+X-MS-Office365-Filtering-Correlation-Id: 08a13067-458f-4157-751d-08d96df498ea
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6168:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5335DC6CE4850EA3C8FD9AC4C1CE9@AM7PR08MB5335.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB61681109F365D9B97A75FCF7C1CE9@AS8PR08MB6168.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 26D8Ut8vux0LV7IV2ffki85Is2iKp54s3COMZpdIOhZBnnS2nk9WEltIcUN348lgZiWI5usQ1fYka/3fo/6gzjZLIK1w82VUIzf61ZRcKWpEuw4gCalMxszm5V+GxH51Gjc1LRfwXz80h/I7oPlHdB/+Ji5+EMERIFTvsQZ7nB5c+rpWgmdmXkH+9NMybjmJ9YK44Cz024F3uu5HqANX14A1j+OU898y99I4mCLuxlkqbT6VzoY53T3tAvVNRFnCzKo1N3GGmNdrtloYRWCFp4JGwKhdccCIm7EbGPkrB2VuGw+V7Fv6upwuUm9pLx2hg2qWmsIzH/kJLGIv67C+vgLXPoBvEhdSYs0HflOQAZrZEZRr444UxdRHQ9qcDHMIo0l7KFweLB+GpM9wNFYDxRs58dRsjgjrdRb9P4q25/nta6ySTldga5MNFqBeQsPo5wnCt7myZMYtjDou6p5R2990pxtb8ntmB68l3Fpm3DoWRwL9YDH1Nw/1kG+sZIIrpny9gt0/ZULJQV88S8pVfZBQB49ntt/tnXxPJ1cGI6dxcjw3sUxBH3oYKRVEUrFUXeb+HTORBxlPaln0xdqIy6fP54L27d4rBISbuC1deoDax5yZ/8oQNXSAEoN+V9A5ZH3YvBWVj2NV6GpgPXP9uUW186+4iyWlZ5q0DhH54bDSw3i1Y5rNr5srJGZS3Gix4hL4AxV8uNOFf5sn9y4OejnIF66uLBb8wwwuexfLibLGbz2bju5eZdZBx9j0mCit44xLSpjegmHmMsawcEgpHg==
+X-Microsoft-Antispam-Message-Info: CBw09xmIKiZOArMvV4L+5MCzpjCGIfTW9e7Q3ociqLnzgu2yyoSG8igi/RY5mTUx2/TO4HH4qZr3w0qrJV2k4FIHVYIrOK4bePtbAq1Nd98oBConEDIHnZnPxGPDTbs6a3yVybmzQMBfidc1TVqspax+fOsztAD5lDpPVRi2WN1wk9vgoExCxGaEpm9NtCZe5WCYtW3mq32sUcvAuegyT9kyfwXdDlo7kiGG+4xGKkclhyxatg+YXGNhqSBWvpBa6l2bWXd6/wlSy1MKkbAS6g5PCGWNnqgNk9f5WZ54S5mLklXS9sBvZBclk8gAdMz7qBWOh8VkARMV7aX/io4umBzCwloV1ZHaDmDfW/escKwtUDNK4PDpzKvtLsG8pcLnt6KP1+VeXglgAN2z8oC+Hsvw0QgOaCWfo/TqgAkuLgWcCqzmmZQ2Y2qunY1DKexRykJcn+LhFSe4gZZvnmJPYWc7midvGOOY2A0mDDRwfSSvsNJYzlBEmVxLNBbRnx8nGqItU3NGxYV+U5QDQKiFX517214QXbBF9D8BkevJVs0EpYU/ebjYbUzsp9EdCoccndCoaNq9luT9hjAm+lm4nRX/CBHuaUo3odG3OkYfVu63cvuUUKBWQ37f8RjbZMkAM7Pf0+anWyD15abffu/402sGj8N5Oxs5uGHtyExdb+NhcMWXf1t03q/eYCTERJZYtfVG+LoRtuyq8+YwxJli3bduvES6RgMs1Wg5eAmm018=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39850400004)(136003)(396003)(376002)(366004)(346002)(31696002)(2906002)(6486002)(86362001)(36756003)(66476007)(66946007)(8676002)(66556008)(26005)(6916009)(2616005)(956004)(7416002)(316002)(5660300002)(52116002)(16576012)(8936002)(83380400001)(4326008)(31686004)(478600001)(186003)(38350700002)(38100700002)(43740500002)(45980500001);
+ SFS:(4636009)(136003)(366004)(346002)(376002)(396003)(39850400004)(2906002)(83380400001)(2616005)(36756003)(26005)(6486002)(16576012)(186003)(8676002)(478600001)(38350700002)(316002)(38100700002)(66946007)(31686004)(66556008)(66476007)(4326008)(5660300002)(6916009)(86362001)(8936002)(31696002)(52116002)(956004)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QVZsK05LN2laNTJtQW9LMWRoSlVKaU91MWJKVkgxblIvTkxSK09sOElzSHpJ?=
- =?utf-8?B?UmhVR2tMUS91U1VBY3drb0hzV1FlNXNIYjVramxJeUV5RlQ4ZDB4Tml2U3hY?=
- =?utf-8?B?QiszMkthSjBNU2pVTFg4Y2I5bUtHRGxOM2hpNWppQlVSLzQwZGlIT2ppVkox?=
- =?utf-8?B?V2FBYnpYRWpJVk5oeFdmR1RPQUpxTjR0SGZ3eUljSzhNMzcyTUpEVXhscUxD?=
- =?utf-8?B?SU9yTTEzV3ZSSTl4ZCt3aXh0ZDNnNjdxWkFKSDdHd0ZESXQ3ays0YTZ5bUFr?=
- =?utf-8?B?ZFFpRDkvRGZuVmhodkJZNDhKVkdNNDZtRjRiajJCRVJ2d1Zzb3dvd1E5TGtY?=
- =?utf-8?B?dm1XSWRZY3NIdWd0VkZBM3VlWS8yVUJIZXRqSnZuU001WVUzVXBLR0FVM0Z0?=
- =?utf-8?B?RldlK1hGRDFSaS9WVjVWR3VlZzBIZHNhaE1KOXBzeElpVTd0MmIrcU1tU1Nn?=
- =?utf-8?B?MjI5UVhIL1lOVGxaZ3RwblVlTHJYUDhoZ05wMWUwNHRiTWhWb0NtL2tVTk41?=
- =?utf-8?B?RGFQQXBMRmNGOGJQck1MVGpIbE9YUytoelJPMjdJWTVWdkNUNXNubER5d2NE?=
- =?utf-8?B?THZOcm5idG54WDlXQUpyeTdTeXBFNzdlWU9palRsT1NFNGt2MzZsZi9Nb2s0?=
- =?utf-8?B?bU1rNlAxcWg1Zm1aeU9ZR3l1L1hRZlVlTk94MmhKNHE5M1ZrNjkwUVNxNHJo?=
- =?utf-8?B?dnRIRXFMbElsQ0c2Ty9MbmhMb0lJSkVGYXNHREVpd0dQdkFsYXRwdFphYVdB?=
- =?utf-8?B?TjFCZzVuVDk0Qm93b0RjWmQ1dzllOG80TURScTdvUFYvdW5ZakJPKzk3SHFz?=
- =?utf-8?B?RjREV2xxTmZIMEdKWXEzMEx5UDJrUGxHZitTZFNBT01wQ2dDSmxaT1BQd1hE?=
- =?utf-8?B?cytCVlc5OTZHb2UzaWxqM0RwY0E5Z04xNVV1NE5nVmdwQzlGZEFrcFhzekJ1?=
- =?utf-8?B?aWdCYWNRV2lHaUxWK29EbUFUNE5aeXpLb20xV1VtbmNQZW1jakdoNVlPaG4w?=
- =?utf-8?B?d0VnK2RrSTRndGgyaW44MVVrSVRtR011dHR3OUhzMU1NaUttR0RBSjFWOGxJ?=
- =?utf-8?B?aTA2UDRiNlV1NlBKc21GVmMrdmNYN1hTNDhPQ1lSQlpRUTJXMEFFTFhRazVL?=
- =?utf-8?B?NkhuN1pJeHQ4aUhQaEhIYzlYYVpidnJYMWRXOXgrM05uNC9URFkxZWxDQk9R?=
- =?utf-8?B?RlZBbDh5b1dGQUtaTzg2SHA1TXl2N2xRcE5CbGZ6OGJzN3dMOWdpT255YmtF?=
- =?utf-8?B?SE11L2twUy9Oa3dNa3JONnM1L1pQazFXT0w3M3Y4V0RBZkJXTG9yL1FqaGpS?=
- =?utf-8?B?ZlczM3lWNjdidWhVbStTckF2Q3J1eWZBZWd5clJUN3dIamJsOHRZYXI5S3Ay?=
- =?utf-8?B?UlduelduNHlUTTJLRzdzS2NkbzZycVpaTjlBZnBBKzF6aE5MNmszV3RDa3VE?=
- =?utf-8?B?VW5SRmw4c29oODlUdTRpcXFBRHZVcUR4ajhOV2g2ZlNVTHcvOE54cEZSWjZQ?=
- =?utf-8?B?UTZyL2t3Mzh0QXluZ3lGR0tUTmdkWmI5WFJCZGFnMEZoamcvVmYzZ3hvOVBI?=
- =?utf-8?B?LzJFWldmemJQbXlBWk56cW9MR2VXT21VeXJRc0E5QXF6QjJRMHVWa2tSTFNW?=
- =?utf-8?B?aTdpMFYreVlROXE3WTV4RHBUVGx5RHZxWDR5cGc4RGF3RjZRSVRZcjlsNXRw?=
- =?utf-8?B?UWQ1UkNTL0xwYkJiTDkzQ1pSeGlnSUFNb1ZLZ0w4ekpnaVJVeWh4UWswSXBH?=
- =?utf-8?Q?neuiBo4mykPn1ZQrZe0jQ/pmYOmlDWHBXQwddlJ?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?em1uMzQyRnJvcERFUEtSekRDWU5JUXRqcU41M2RIK3hoaTRlUzVRWUxSMjVa?=
+ =?utf-8?B?V2hhSTlqYnptemVXWVo0U3ZIZDRDWEMwU3Z5OVBldlU0d2sxMWlpV3RlVit4?=
+ =?utf-8?B?U3p4bnJRc3hTbHBqMUZUeCtXSG1wbUVSaFV3OXh0N3BaNjhENkRmWWYzb2RF?=
+ =?utf-8?B?ZmZHb25ndGNMOWxOM2RFdmpPL3U2c2lxWXhDdzltNG5HRXA4bFhUR3pMRGNP?=
+ =?utf-8?B?MVdDNENyRE9HTFI5dWZtd3ZWVlEwRHdROUNBK3dZZzFqY25XWEErNlNENXlv?=
+ =?utf-8?B?WmE4dTdoWm9zemNCdnlRYU1haXp0NkxxNVplYU03ZUxuOWpQTmNkN3JsekR1?=
+ =?utf-8?B?MnZ0N1VYWTZuZ2lVSDZ6Ryt6bHNqYlRDRThieTFiVFlrbmtaZ2k2eXUvK2dU?=
+ =?utf-8?B?b3NHUlBiWmZQdGxGb3NvOWJVUDZ1S0Z2VHRzSXNpejRPZFA4cExMeHRIUytO?=
+ =?utf-8?B?OC9aL29lNGUyMlZkbVlPWHhQcTdwREFZRkI5bW5sb25ZVDJRSjlDRC9KdFli?=
+ =?utf-8?B?OE5yOWNWZmljcGRxZ0JnZXNRWFAxWE1POFhHSVU1Zlpxc1V0YXFiYkdvQ0lr?=
+ =?utf-8?B?aGNpV2EzS2VUR002NVczNVdSTzNWTDA5MlNBeDBFUHdrNDc2VEpDV0E3TVNP?=
+ =?utf-8?B?NC8yV0NMQUFqMzhkaGJrbE5ic0pyM2NTVUlCaHl0cENsUjloWWN6R1laMVFY?=
+ =?utf-8?B?QW5hcmhpK2xkd2FBeUh2d1dnTUpXMjIwVFhIWFd2RnpXTXlwWkx4UHVkTEpN?=
+ =?utf-8?B?eC9zT0ZsRURYM0dNTS85SUlUNGdOMVZSc3czVnpCNmlJN21wd1JRUGQ2SnlI?=
+ =?utf-8?B?RnlQTldCWjAxeGdXV0R3THJad3BBNWVwWnE2d2RVeGE0T0hrK1JUMHR6aURR?=
+ =?utf-8?B?QU92bE1qNmVsNGZsdEZOemw4TkNlNnMycHNTL1l1RGF3bTA4d0pDVEZxOUhn?=
+ =?utf-8?B?WnpFZVJETGNLUkQ1K1VOcFV3NzJHMkZCWHlydVNMZ0YxcGsxeEtLZGt1c0ds?=
+ =?utf-8?B?Q2poOGpCeCt6UFo5MVY0M2FiSkIydWdkcEExOVBkWk85enp4Zk5vVVRkc0cw?=
+ =?utf-8?B?WW5Va3laWG9TK250WDFwQWVvMXpZSThsY3pQbmxhaDB3TEFUSmxQenpLWGJP?=
+ =?utf-8?B?eHY4SlRwWmEvelQrdjBpbU1kcFRJNjh3aUxhSDRpTzZJZCtFVG1kU1I2S0Zm?=
+ =?utf-8?B?YkdXRTExN3VVU005VFlRM0kvem1DcFNNcUw4cHo1MU1SUStPbXY3dmJpK1R0?=
+ =?utf-8?B?RmtvUTNhdE8vMXRLYk1aa0NjT3llS0lBQ24vRUlNNlV6ZzVqUmpjVHNTVWR5?=
+ =?utf-8?B?VGwxRFpyclNMVTc1VHZiejJCWVBHQ3lPQk80VmFlS1pXS1BTaXkwc2tZTVVo?=
+ =?utf-8?B?S1FsMHhkK1N0dlJtZ01oNktkc2crMW95dHFweXlGVVBaOFdoMldPc2ZQMFNh?=
+ =?utf-8?B?VUZqdDRVL0E0S1YrSG5sZnAwQStsczJKZUZKN3daZlpWT2NHTTR3M0FKK1Zy?=
+ =?utf-8?B?bEUwV3YveUI3dGtUdmpWZFRjc0JrWDZwSDNRMVpQek9GKy82U1VyVHplZ2kx?=
+ =?utf-8?B?MnZuVXVKZGhYU01MRWVRWUpwNmd4bnFsTTFTWkNpKzRQQk44KzczRFBPRDhW?=
+ =?utf-8?B?bWI0Z1RkOVlTcmtYVURwZ0oyc3hjVUpCQ0ZIZzNjZDc3UzhTTkpObEdjaUh0?=
+ =?utf-8?B?a09vVVpDS2N5ZlRmbTJnNUpCUVZLVk1LK2ZvUWwwc2dJcnRpOEtwTUFtUUhS?=
+ =?utf-8?Q?2UF9OD1ObuxaKI0rYGsYtP3jbUecbpt/zmVYyu/?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 666a4024-7b7b-4bb4-8564-08d96df4125c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 08a13067-458f-4157-751d-08d96df498ea
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2021 09:28:49.9665 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2021 09:32:35.5402 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tBgNtyt5GxP40rjp4mEbVt2F/06/joF7RAAx8Q+QNXPszMlSnsZVBkMk1hoYkM4+czEwrY5ifSh83mFZvYoHU5VhQVBxvGqOtRjTn0HCQG0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5335
-Received-SPF: pass client-ip=40.107.22.99;
+X-MS-Exchange-CrossTenant-UserPrincipalName: 15krUfaNgMkEdaJG/p713uJPRcZwQxyHZJ02haZ6Mm/xFAoC+ZdOad4eOckK8KJ53vLNCUMq19PZkad9vAdij9uR+G3p7VEfvUrvbBsawsI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6168
+Received-SPF: pass client-ip=40.107.8.130;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
@@ -154,47 +151,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 ping
 
-02.08.2021 21:54, Vladimir Sementsov-Ogievskiy wrote:
+30.07.2021 17:29, Vladimir Sementsov-Ogievskiy wrote:
+> That doesn't seem good to stop handling io when guest is still running.
+> For example it leads to the following:
+> 
+> After bdrv_drain_all_begin(), during vm_shutdown() scsi_dma_writev()
+> calls blk_aio_pwritev(). As we are in drained section the request waits
+> in blk_wait_while_drained().
+> 
+> Next, during bdrv_close_all() bs is removed from blk, and blk drain
+> finishes. So, the request is resumed, and fails with -ENOMEDIUM.
+> Corresponding BLOCK_IO_ERROR event is sent and takes place in libvirt
+> log. That doesn't seem good.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+> 
 > Hi all!
 > 
-> As a continuation of "Qemu block filter insertion/removal API"
-> discussion, here is my proposal of blockdev-replace.
+> In our product (v5.2 based) we faced -ENOMEDIUM BLOCK_IO_ERROR events
+> during qemu termination (by SIGTERM). I don't have a reproducer for
+> master. Still the problem seems possible.
 > 
-> The realization allows:
+> Ideas of how to reproduce it are welcome.
 > 
-> - replace children of different parents: BDS, block devices, block
->    exports
+> Also, I thought that issuing blk_ requests from SCSI is not possible
+> during drained section, and logic with blk_wait_while_drained() was
+> introduced for IDE..  Which code is responsible for not issuing SCSI
+> requests during drained sections? May be it is racy.. Or it may be our
+> downstream problem, I don't know :(
 > 
-> - automatically replace all parents of specific BDS, excluding creating
->    loops (like bdrv_replace_node())
+>   softmmu/runstate.c | 11 ++++-------
+>   1 file changed, 4 insertions(+), 7 deletions(-)
 > 
-> - do several replacements in one transaction
-> 
-> It's an untested draft, so you may go to patch 8, to look at QAPI
-> addition.
-> 
-> Vladimir Sementsov-Ogievskiy (8):
->    block-backend: blk_root(): drop const specifier on return type
->    block: add BlockParentClass class
->    block: realize BlockParentClass for BlockDriverState
->    block/export: realize BlockParentClass functionality
->    qdev: improve find_device_state() to distinguish simple not found case
->    qdev: realize BlockParentClass
->    block: improve bdrv_replace_node_noperm()
->    qapi: add blockdev-replace command
-> 
->   qapi/block-core.json           |  78 ++++++++++++++++
->   include/block/block-parent.h   |  32 +++++++
->   include/sysemu/block-backend.h |   2 +-
->   block.c                        | 158 ++++++++++++++++++++++++++++++++-
->   block/block-backend.c          |   2 +-
->   block/block-parent.c           |  66 ++++++++++++++
->   block/export/export.c          |  44 +++++++++
->   softmmu/qdev-monitor.c         |  90 +++++++++++++++----
->   block/meson.build              |   1 +
->   9 files changed, 453 insertions(+), 20 deletions(-)
->   create mode 100644 include/block/block-parent.h
->   create mode 100644 block/block-parent.c
+> diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+> index 10d9b7365a..1966d773f3 100644
+> --- a/softmmu/runstate.c
+> +++ b/softmmu/runstate.c
+> @@ -797,21 +797,18 @@ void qemu_cleanup(void)
+>        */
+>       blk_exp_close_all();
+>   
+> +    /* No more vcpu or device emulation activity beyond this point */
+> +    vm_shutdown();
+> +    replay_finish();
+> +
+>       /*
+>        * We must cancel all block jobs while the block layer is drained,
+>        * or cancelling will be affected by throttling and thus may block
+>        * for an extended period of time.
+> -     * vm_shutdown() will bdrv_drain_all(), so we may as well include
+> -     * it in the drained section.
+>        * We do not need to end this section, because we do not want any
+>        * requests happening from here on anyway.
+>        */
+>       bdrv_drain_all_begin();
+> -
+> -    /* No more vcpu or device emulation activity beyond this point */
+> -    vm_shutdown();
+> -    replay_finish();
+> -
+>       job_cancel_sync_all();
+>       bdrv_close_all();
+>   
 > 
 
 
