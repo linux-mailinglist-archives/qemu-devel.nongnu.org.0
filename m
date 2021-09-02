@@ -2,51 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D23E3FE81E
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 05:42:56 +0200 (CEST)
-Received: from localhost ([::1]:44038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1392A3FE75D
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 04:02:47 +0200 (CEST)
+Received: from localhost ([::1]:38224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLdct-0003X5-7T
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 23:42:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50370)
+	id 1mLc3y-00077l-5L
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 22:02:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mLdLa-0001fo-08; Wed, 01 Sep 2021 23:25:02 -0400
-Received: from ozlabs.org ([203.11.71.1]:44537)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mLdLT-0000DZ-IO; Wed, 01 Sep 2021 23:25:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1630553072;
- bh=+fh9NTbLUQvQYvvY3mb+kbey81GXe7ZfZS5FNXvX2zI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=a0b6mYvXPanvnBPuctehRjmZ1Ca5+2eNkvMhYwklCZ7DwGLyzPxRhBlMOwBLq8iUk
- sxLt2Qh9tVWLSuI8CqVVGXKQngj956f2FDgO000imaHUzyJRBNV7WB4mljoeCMpU+l
- 8XTyHP8oemExJnH0qq9Rg1qrFYkIhoSiEma4aVhc=
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4H0R9r32vXz9t54; Thu,  2 Sep 2021 13:24:32 +1000 (AEST)
-Date: Thu, 2 Sep 2021 11:39:31 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 8/8] ppc/pnv: Rename "id" to "quad-id" in PnvQuad
-Message-ID: <YTArU/F/ijVDgJi3@yekko>
-References: <20210901094153.227671-1-clg@kaod.org>
- <20210901094153.227671-9-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mLc16-0005fl-PR; Wed, 01 Sep 2021 21:59:48 -0400
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:35763)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mLc14-0003CB-Uk; Wed, 01 Sep 2021 21:59:48 -0400
+Received: by mail-yb1-xb36.google.com with SMTP id z5so765771ybj.2;
+ Wed, 01 Sep 2021 18:59:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=+S6tQWW4zLInEU7qRs5MmcxuWh78BTuotdODNnedTVk=;
+ b=qPdmTfCTufO5T1dVzxf5XPNYzQbiZIBgk/6RW3yF1B8pdXy/3E+P6UhdXM8IJwlzHS
+ vG/0Q0SOCOgLWa6EPKtBY5XfcdtcANyIopjc8FWNJEp99mx6/kMGcs9gFMRR0ouRj3AJ
+ M7PPHsT4iGXU0tLTZS3cDP3jthebKHqrf4d99oDcJkQ6J301nd/KvbflQKGbDrG8iwOA
+ Jq74Ub+8MyAikMuC+8GLFbq/glcnyeQyN7HcTy43oFVenokIuOQRXM6RTEGFUbwaKmpo
+ gv0XqEjHKV2eS7fdWGlibJoxNfcArGetyHLhEtXYnqvvGip9SYn5LdbSINTCdQo692st
+ htLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+S6tQWW4zLInEU7qRs5MmcxuWh78BTuotdODNnedTVk=;
+ b=tNjIK85ZJSEQ3OReNnCjAc3lbMcZ0cJbtTEtJ4I6dQrjfaf3b7AMvT+swE00dtRYZ+
+ FGSwvcE9+Zt4QaESea76VHIMxXFzqBW5hjSIuX9MCQE/3UlfMA0uH39F9CeboKJcJZAs
+ gLHVtVpuocsAlfIheDHWc1Ks0CjL+9rBRCF6CZwcyfY/lrA8P4nA+DOiiY92StDWaIWa
+ yuu6RIVc/kwytW0uN4Y3taFpDWC2+rPtUswghS17h/YaX6mzSWYcMgxuWUmZ5U67UixK
+ NEB05lknk9PX+YXh4NjaaSMJv5OzDfZsInqIAp/j5sMdTP4L3zAvYNS8gSJPjuyKAu1z
+ +KaA==
+X-Gm-Message-State: AOAM532jybxJDdHWEbjYVA8T+oDTpUFLWOolvZ/UgROhEHKPbR6hAKRZ
+ /R2OSJkJXhkzUaGRIM0u97G+H2+ONCy2mq4UxcM=
+X-Google-Smtp-Source: ABdhPJy4GRqdAfXUcaICswfgzcf5gQo+972QW84Oe5aewGeKphSZqk/n4VFQbL6+xn8RLYqR6rGrewWJgEy/iCYg9ig=
+X-Received: by 2002:a25:1d06:: with SMTP id d6mr1259708ybd.122.1630547985791; 
+ Wed, 01 Sep 2021 18:59:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="GqiU1KyxgR/hQpDx"
-Content-Disposition: inline
-In-Reply-To: <20210901094153.227671-9-clg@kaod.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210901124539.222868-1-zhiwei_liu@c-sky.com>
+ <CAEUhbmUvb4_tmevGEcK_YgyA9_g5LumRVpMc7+rwuD4D7FSBBA@mail.gmail.com>
+ <a61c6fef-4bce-0c5b-7aff-b9e2fa75aa5b@c-sky.com>
+In-Reply-To: <a61c6fef-4bce-0c5b-7aff-b9e2fa75aa5b@c-sky.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 2 Sep 2021 09:59:35 +0800
+Message-ID: <CAEUhbmXULr_mcdfh6x=BGLNcNM5Q7YrFhnHOuLatbrokqP0Taw@mail.gmail.com>
+Subject: Re: [PATCH] target/riscv: Fix satp write
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb36.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,109 +78,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Sep 2, 2021 at 9:02 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+>
+>
+> On 2021/9/1 =E4=B8=8B=E5=8D=889:05, Bin Meng wrote:
+> > On Wed, Sep 1, 2021 at 8:51 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
+> >> These variables should be target_ulong. If truncated to int,
+> >> the bool conditions they indicate will be wrong.
+> >>
+> >> As satp is very important for Linux, this bug almost fails every boot.
+> > Could you please describe which Linux configuration is broken?
+>
+> I use the image from:
+>
+> https://gitlab.com/c-sky/buildroot/-/jobs/1251564514/artifacts/browse/out=
+put/images/
+>
+> >   I have
+> > a 64-bit 5.10 kernel and it boots fine.
+>
+> The login is mostly OK for me. But the busybox can't run properly.
 
---GqiU1KyxgR/hQpDx
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Which kernel version is this? Could you please investigate and
+indicate in the commit message?
 
-On Wed, Sep 01, 2021 at 11:41:53AM +0200, C=E9dric Le Goater wrote:
-> This to avoid possible conflicts with the "id" property of QOM objects.
->=20
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+I just tested current qemu-system-riscv64 can boot to Ubuntu 20.04
+distro user space.
 
-Applied to ppc-for-6.2, thanks.
-
-> ---
->  include/hw/ppc/pnv_core.h | 2 +-
->  hw/ppc/pnv.c              | 4 ++--
->  hw/ppc/pnv_core.c         | 4 ++--
->  3 files changed, 5 insertions(+), 5 deletions(-)
->=20
-> diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
-> index 6ecee98a76ed..c22eab2e1f69 100644
-> --- a/include/hw/ppc/pnv_core.h
-> +++ b/include/hw/ppc/pnv_core.h
-> @@ -67,7 +67,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(PnvQuad, PNV_QUAD)
->  struct PnvQuad {
->      DeviceState parent_obj;
-> =20
-> -    uint32_t id;
-> +    uint32_t quad_id;
->      MemoryRegion xscom_regs;
->  };
->  #endif /* PPC_PNV_CORE_H */
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 761b82be7401..93f76738fc94 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -1370,10 +1370,10 @@ static void pnv_chip_quad_realize(Pnv9Chip *chip9=
-, Error **errp)
->                                             sizeof(*eq), TYPE_PNV_QUAD,
->                                             &error_fatal, NULL);
-> =20
-> -        object_property_set_int(OBJECT(eq), "id", core_id, &error_fatal);
-> +        object_property_set_int(OBJECT(eq), "quad-id", core_id, &error_f=
-atal);
->          qdev_realize(DEVICE(eq), NULL, &error_fatal);
-> =20
-> -        pnv_xscom_add_subregion(chip, PNV9_XSCOM_EQ_BASE(eq->id),
-> +        pnv_xscom_add_subregion(chip, PNV9_XSCOM_EQ_BASE(eq->quad_id),
->                                  &eq->xscom_regs);
->      }
->  }
-> diff --git a/hw/ppc/pnv_core.c b/hw/ppc/pnv_core.c
-> index 4de8414df212..19e8eb885f71 100644
-> --- a/hw/ppc/pnv_core.c
-> +++ b/hw/ppc/pnv_core.c
-> @@ -407,13 +407,13 @@ static void pnv_quad_realize(DeviceState *dev, Erro=
-r **errp)
->      PnvQuad *eq =3D PNV_QUAD(dev);
->      char name[32];
-> =20
-> -    snprintf(name, sizeof(name), "xscom-quad.%d", eq->id);
-> +    snprintf(name, sizeof(name), "xscom-quad.%d", eq->quad_id);
->      pnv_xscom_region_init(&eq->xscom_regs, OBJECT(dev), &pnv_quad_xscom_=
-ops,
->                            eq, name, PNV9_XSCOM_EQ_SIZE);
->  }
-> =20
->  static Property pnv_quad_properties[] =3D {
-> -    DEFINE_PROP_UINT32("id", PnvQuad, id, 0),
-> +    DEFINE_PROP_UINT32("quad-id", PnvQuad, quad_id, 0),
->      DEFINE_PROP_END_OF_LIST(),
->  };
-> =20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---GqiU1KyxgR/hQpDx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEwK1MACgkQbDjKyiDZ
-s5IaJw/9FAGXljgir7b1Ov4593CT+KLqJ2q32dNhfOGPhVp9/6tVkRAy+amSh8xv
-35+jzHs4fupJvxvnCrX8yex8/alLpi9hg30Sa/05/pEoy0Cg76h+JDB3GP8CTXlH
-zuvr51x1p+TNM5qUPjhyfHrhOpAzrSburpODiLzKC+Eg3PsXkX2NRZ6UZHgdH+8H
-yY2uXjMRVmL8mOYAFoTlSaMF2QEBtDKOMqnuwblupeMLJ7/9WIVt9RI14ba3yEhe
-zIHncdR8Lnh8PTdmT+jljrv3FnK2NCkNcIvGlilrzJLOKmgkePS9g4VU8MkXQ1W4
-cDKv2s3B5FsTnvTxkTiI2mTc2BeLm3/XUb1p67/HcQewc2knpPMkrwvohxzC42U0
-ccAS17Ugbl9VpnQ8eQGjBqyUG5to+7v3LLkL6yiz0zrM+u0RBNdt0nFiUTfzvPUZ
-rd4qu+K+4xu8+Sv7tCUbMTFzXAsrpqhDkR+ZdZQdDzc5tXokhvWueMF+F6EpgMxR
-WS2n4GDdoOxb92I53mtxiB3J6Y1pQzZjlKQFCZELzaDrzuHj2fzSPxgZE++QO73F
-UFnUBp9/vsFhs9hJocx2QQK1dohY4P46Znw3r85UUDV/zf/kAAnekkJyyJM3CkLa
-QTd+u9zQCVpbiklhEvzItxgRxm5GdyyrOGz48Zp8PJLTgWGWNvU=
-=LRO+
------END PGP SIGNATURE-----
-
---GqiU1KyxgR/hQpDx--
+Regards,
+Bin
 
