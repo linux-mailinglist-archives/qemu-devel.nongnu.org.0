@@ -2,64 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F05243FE7CB
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 04:51:43 +0200 (CEST)
-Received: from localhost ([::1]:60884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 814733FE7CC
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 04:52:30 +0200 (CEST)
+Received: from localhost ([::1]:35446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLcpL-00080G-2N
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 22:51:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45826)
+	id 1mLcq5-0001Wu-KF
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 22:52:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mLcnX-0007DU-PC; Wed, 01 Sep 2021 22:49:51 -0400
-Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:39434)
+ id 1mLcoV-00084y-Kr; Wed, 01 Sep 2021 22:50:51 -0400
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:35787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1mLcnT-0004xz-Bg; Wed, 01 Sep 2021 22:49:51 -0400
-Received: by mail-il1-x12c.google.com with SMTP id a1so315746ilj.6;
- Wed, 01 Sep 2021 19:49:46 -0700 (PDT)
+ id 1mLcoU-0005sS-5g; Wed, 01 Sep 2021 22:50:51 -0400
+Received: by mail-io1-xd33.google.com with SMTP id a15so638361iot.2;
+ Wed, 01 Sep 2021 19:50:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=8hyf/3u1H4vpyHfMcdPoiyr7pnHuI7H5KQIPtkJeMlw=;
- b=K9ykK6aXJdRcwH2tzLOH7mYBgD+xMHzU6RVn+DDjVWQveF0fgXWEYbEjoENEz0zpyt
- 7z3YfXF2VSd7DETLJBSTx5r+2VdeoEeP8qwt4NGSP+GeS9p3QBzvxVqg60nTeolcq8nf
- sshLvFKXl7eILuXaDuLJzCdBXaVmVP3UFhkeuepDNA0fVBRRQNP7ZvAYGoU4ozd/Tjtg
- RVjZKOWTpIIFFttswsCMsP1s6T/zccDjxcuw1mKgZ0ScXkzOqAYuM7COdZ0swNrUL2/8
- EZz9QalvtHyPcR8ir7BM38V2Ei1Q0JkqKYXl7MLra4EESIQSvSngeC7bKd0NhSGGV4hg
- vFBQ==
+ :cc; bh=TLO7SuqixQSx12j6hU1WBtNsE1Kx3JVmxZU5bd2uLwI=;
+ b=mzRqVSl/btYxTDroNBUTngs/UF6/ZfYvqbMjIU9kTE3Wei42UPjgW4ax8zc9vkxX8J
+ PCNzj1NrzEFGVeoPOxxq/7quArouhEKIwIQyz0gKHwiUjE4rBzNCTVEMEYH04dZu2OkB
+ 03qSxpk0IWg3nEhIuszT5xbQk0IizGnbCxo54+itgI1OZ8BXURh990hDFl2kp9f2JVEH
+ JaBcTxfGVe1jFcd7GdwSF3fw5Vw2tOP2LTwnDqA5TSeDGT2o+QpKAseTpHrEXnZFIn9F
+ NSH6xoI4pnh2QinWIK0hKklqkqLZ5IYhgZEUjyr+MiqcF4RxsbhC/NW78Q4FKy+7JPcY
+ kn7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=8hyf/3u1H4vpyHfMcdPoiyr7pnHuI7H5KQIPtkJeMlw=;
- b=ZF4TuP1vfGax+PjyqZYEkeG4QdsKIrZdiJAlxxF3ishWbfqDS3+B7m6lCe+VKL6Og1
- CkygZyKseziQVN7E3IzFltXcAVnrQs3zn+wOeoFNw8S6KJU2UKtaag1RJxbX4CNnaWXr
- MJtptS+b7ySN2IjGzvLjjKZQ6IyShuZtn7cfyplKNCDHnDvlXLy61VnWFQh6NnpkXrrS
- c5rd6odEXnr5EVPzZa8Xmd9ww/2i5uGESMhwKSruKaXU0m68kBjHSTbWqD9aqOAqdqv6
- 8sRf0VzX+6DtBdmKvDSiX/dWag07X8XNQ/Svl33XNPuQJxh4HKM194TvbagpWuihEVdZ
- 6XEg==
-X-Gm-Message-State: AOAM533PFY7M5GLx7REI/lOYKY0KKLpad5rrg/AeTrmhbsU9b8gRwoVF
- OGduu48qNFLUaXWjlIc74e7N70u72Vz1poKULSs=
-X-Google-Smtp-Source: ABdhPJzAIdcrBpvbKR8Sm6TT5b0L7GCOyOIcZek66D0EMvxVriPPsOUD/04eaUFAmo9QNPAFvLwZrQxhdZ0ba5ZUuv0=
-X-Received: by 2002:a92:d3cf:: with SMTP id c15mr635314ilh.131.1630550985510; 
- Wed, 01 Sep 2021 19:49:45 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=TLO7SuqixQSx12j6hU1WBtNsE1Kx3JVmxZU5bd2uLwI=;
+ b=NHMGMjfUS/Z5QYizl8O59rbwZ86hKJGm/QLCbGtXoTTOug64kWL8mEG4zDebvdbWX8
+ dAGf8isaqE9zzltFsu7T1qjgpUjrvknDFlx9X2m5WB20imA16geOUSWkHxJeJAHf5Xvq
+ 3tIpo+SOXHxMyDYuwSXBwcmBBfzsO/jZ8z+2KY9ts/asrDMdxVBBKdtk9/WoVcwP5O/B
+ rXZzSx61/I16Zn1j9XXLIZrB99e1HU/gc6DZwNLrT/wIzwMy0jmMSZnb3MpwaMPLpLH4
+ FDxNg3FofsHwxDIfZBlS3OPuPHUpIAI/qmaxXWfzhVkcGI595H5oAGZYlltrxbmF3nej
+ bJJA==
+X-Gm-Message-State: AOAM533TNHd3rm9ReLnwzU1Xwe3odgxK1L6lNV1Zkszsauf8r9+XBRok
+ SPLvEMSLlEHxMKu0EB/PHTiH/jxkyHqPLxXUnXA=
+X-Google-Smtp-Source: ABdhPJzC/Hy/FK9+9Gx5n1FGuWaavduvlntCryUnpbbikhf4YELCeirWC6vgDEV604rTXaH/gNRskHzx/7pHVU8eU/Q=
+X-Received: by 2002:a6b:8e87:: with SMTP id q129mr891035iod.176.1630551048506; 
+ Wed, 01 Sep 2021 19:50:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210901124539.222868-1-zhiwei_liu@c-sky.com>
- <CAEUhbmUvb4_tmevGEcK_YgyA9_g5LumRVpMc7+rwuD4D7FSBBA@mail.gmail.com>
- <a61c6fef-4bce-0c5b-7aff-b9e2fa75aa5b@c-sky.com>
- <CAEUhbmXULr_mcdfh6x=BGLNcNM5Q7YrFhnHOuLatbrokqP0Taw@mail.gmail.com>
-In-Reply-To: <CAEUhbmXULr_mcdfh6x=BGLNcNM5Q7YrFhnHOuLatbrokqP0Taw@mail.gmail.com>
+References: <20210901124521.30599-1-bmeng.cn@gmail.com>
+ <20210901124521.30599-4-bmeng.cn@gmail.com>
+In-Reply-To: <20210901124521.30599-4-bmeng.cn@gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 2 Sep 2021 12:49:19 +1000
-Message-ID: <CAKmqyKPy4kDOWAcGHF9At1h__KEahGU8ysRHBBw=69OigQmadg@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv: Fix satp write
+Date: Thu, 2 Sep 2021 12:50:22 +1000
+Message-ID: <CAKmqyKMPFVKkW+R_2QaAgm_eumb-adrkMCN28oiLk_D4EyUMHA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/6] hw/char: cadence_uart: Move clock/reset check to
+ uart_can_receive()
 To: Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -80,64 +77,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <Alistair.Francis@wdc.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+ qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 2, 2021 at 11:59 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Wed, Sep 1, 2021 at 10:49 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> On Thu, Sep 2, 2021 at 9:02 AM LIU Zhiwei <zhiwei_liu@c-sky.com> wrote:
-> >
-> >
-> > On 2021/9/1 =E4=B8=8B=E5=8D=889:05, Bin Meng wrote:
-> > > On Wed, Sep 1, 2021 at 8:51 PM LIU Zhiwei <zhiwei_liu@c-sky.com> wrot=
-e:
-> > >> These variables should be target_ulong. If truncated to int,
-> > >> the bool conditions they indicate will be wrong.
-> > >>
-> > >> As satp is very important for Linux, this bug almost fails every boo=
-t.
-> > > Could you please describe which Linux configuration is broken?
-> >
-> > I use the image from:
-> >
-> > https://gitlab.com/c-sky/buildroot/-/jobs/1251564514/artifacts/browse/o=
-utput/images/
-> >
-> > >   I have
-> > > a 64-bit 5.10 kernel and it boots fine.
-> >
-> > The login is mostly OK for me. But the busybox can't run properly.
+> Currently the clock/reset check is done in uart_receive(), but we
+> can move the check to uart_can_receive() which is earlier.
 >
-> Which kernel version is this? Could you please investigate and
-> indicate in the commit message?
->
-> I just tested current qemu-system-riscv64 can boot to Ubuntu 20.04
-> distro user space.
-
-I also have never seen any issues.
-
-Looking at this `vm` is set from a `static const char
-valid_vm_1_10_64` so an int is fine.
-
-It probably is a good idea for `mask` and `asid` to be target_ulong as
-they are set by bit operations on target_ulong's. I guess if your host
-int is 32-bits SATP64_ASID will overflow that.
-
-Anyway with 128-bit RISC-V and maybe the ability to run 64-bit guests
-no 32-bit hosts this seems like a good step
+> Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 >
-> Regards,
-> Bin
+> ---
+>
+> (no changes since v2)
+>
+> Changes in v2:
+> - avoid declaring variables mid-scope
+>
+>  hw/char/cadence_uart.c | 17 ++++++++++-------
+>  1 file changed, 10 insertions(+), 7 deletions(-)
+>
+> diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
+> index 154be34992..fff8be3619 100644
+> --- a/hw/char/cadence_uart.c
+> +++ b/hw/char/cadence_uart.c
+> @@ -235,8 +235,16 @@ static void uart_parameters_setup(CadenceUARTState *s)
+>  static int uart_can_receive(void *opaque)
+>  {
+>      CadenceUARTState *s = opaque;
+> -    int ret = MAX(CADENCE_UART_RX_FIFO_SIZE, CADENCE_UART_TX_FIFO_SIZE);
+> -    uint32_t ch_mode = s->r[R_MR] & UART_MR_CHMODE;
+> +    int ret;
+> +    uint32_t ch_mode;
+> +
+> +    /* ignore characters when unclocked or in reset */
+> +    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
+> +        return 0;
+> +    }
+> +
+> +    ret = MAX(CADENCE_UART_RX_FIFO_SIZE, CADENCE_UART_TX_FIFO_SIZE);
+> +    ch_mode = s->r[R_MR] & UART_MR_CHMODE;
+>
+>      if (ch_mode == NORMAL_MODE || ch_mode == ECHO_MODE) {
+>          ret = MIN(ret, CADENCE_UART_RX_FIFO_SIZE - s->rx_count);
+> @@ -358,11 +366,6 @@ static void uart_receive(void *opaque, const uint8_t *buf, int size)
+>      CadenceUARTState *s = opaque;
+>      uint32_t ch_mode = s->r[R_MR] & UART_MR_CHMODE;
+>
+> -    /* ignore characters when unclocked or in reset */
+> -    if (!clock_is_enabled(s->refclk) || device_is_in_reset(DEVICE(s))) {
+> -        return;
+> -    }
+> -
+>      if (ch_mode == NORMAL_MODE || ch_mode == ECHO_MODE) {
+>          uart_write_rx_fifo(opaque, buf, size);
+>      }
+> --
+> 2.25.1
+>
 >
 
