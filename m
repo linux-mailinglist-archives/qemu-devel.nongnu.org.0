@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E4C03FEA05
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 09:28:27 +0200 (CEST)
-Received: from localhost ([::1]:45272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6E0C3FEA1D
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 09:39:34 +0200 (CEST)
+Received: from localhost ([::1]:51102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLh98-0001HW-Cu
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 03:28:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57348)
+	id 1mLhJt-0005er-6Y
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 03:39:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mLh7u-00089J-6M
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 03:27:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28708)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mLh7s-0004We-P0
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 03:27:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630567628;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iEXXP9fGTV3ggi04yDaEoGJ+ZgmxLi0b43lpowpq6Uw=;
- b=RdvPnn8xanqvhgQrvhtpKTZAbcKrCldkx/YdifyvUMXH+pt4gn2ZnwTDNx0hhsgw50TCme
- 2zcQYA3LdBgnahPdYWdGuMX/bwpIXYJ+8TDBrlM4QyymF01npsx2teaph402nC80QNiTnv
- P1wPEX4Fi0u/mMjBw91TMoPK8COrZnA=
-Received: from mail-lf1-f70.google.com (mail-lf1-f70.google.com
- [209.85.167.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-273-QS2uuyzVM8SuoRH12bMjqw-1; Thu, 02 Sep 2021 03:27:05 -0400
-X-MC-Unique: QS2uuyzVM8SuoRH12bMjqw-1
-Received: by mail-lf1-f70.google.com with SMTP id
- q3-20020ac25283000000b003dedfdcf716so455782lfm.20
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 00:27:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mLhIF-0004KE-0h
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 03:37:51 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:35533)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mLhIA-0005H0-8W
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 03:37:50 -0400
+Received: by mail-wr1-x435.google.com with SMTP id i6so1354468wrv.2
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 00:37:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=g+w0EJzIo1YSbCP3egCVRlj9aghbRtycsh0NNA/7E8g=;
+ b=FVnZfwR3XH8v1QzqFa8WjvAUFRA8AO760OJZq+c1k4bswRPKS8T/bAdSVvG+WT0mpw
+ bKUU5+XU2fvYLJH8QHEa4DYYhQv71DPxO/tO4J1T1BzKSeV9y0mH9V846OoA4uzgXUPH
+ V4MFJtMa/IRu8DPdhiowP8ktWcZu5jT8FIbyInowKodJWrmZllPDGmjsoBOMJM2p24RU
+ FhwTf1WbzNAg75TcFwiuTW0TZUsTTzXWn9oo04/SMjeXdLw7W45Gts4Q0lbaHfYmnnc0
+ xmB6bIcPK0Mu20QG/aBWb73fXnV1PDCqiVAGZADg0W7C0j98PZP29c7JFTktXz7RlfX6
+ ME9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=iEXXP9fGTV3ggi04yDaEoGJ+ZgmxLi0b43lpowpq6Uw=;
- b=Ac5Jz5K8Ftd0GuquzDZj/G/qD4YsG7+nJfk55maOWJqjxGE4o5rSUJhw5gTV+NfgDF
- JxCX51ez5LXtYR0tNa81zus1lt2dWNPeRK2cwtYrgOAs6k3v4LCnskNUG+dXUujq+Psn
- 9GHi0eYr/4fZXEgohI1/9ihjY6mylt5+an/lHWxvnCTPYMthwL5AIE5tM5adq1nMgtek
- uAMx1ZNN55zgAVtyy++5fr5LpV68WVNsWzw+CqnHTeu5WOLqeNgQEN5z0L9rl8mPMqyT
- cRVr44nuBCDMjlj4AM2GyRj6awbs+L7XLJRwcyc5hNfYbZ7A7eQjnr9lYkpDH0pph0tz
- H22w==
-X-Gm-Message-State: AOAM532Ln+/hZ+qGG3LYW4pX213QN15iezPR5sq9U1veg5p9oaDAcPdf
- kMcw56wjPm37qCXk+oWqtF362Xul+hD1gBMWMtr9MJbGl+h1GQ3E802reqwJhx/NXvPigwBKiYZ
- Qw4kchZNIKTMWPYgcuyS3RF0u1gQ9rz4=
-X-Received: by 2002:a05:651c:10a2:: with SMTP id
- k2mr1378211ljn.262.1630567623327; 
- Thu, 02 Sep 2021 00:27:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx6eh8Pgn/5MimyjfksiNrDG0fkNAHMcck/xShRHyrf92n9TE/xU5+JyBk1ipDqJPx533CvaE0tFT8mDcLx30Q=
-X-Received: by 2002:a05:651c:10a2:: with SMTP id
- k2mr1378199ljn.262.1630567623169; 
- Thu, 02 Sep 2021 00:27:03 -0700 (PDT)
+ bh=g+w0EJzIo1YSbCP3egCVRlj9aghbRtycsh0NNA/7E8g=;
+ b=mlNnhBhuUrHsnhfHhmZ596zvpWxIkU0Ho02z42aRDXdxuT6uGil5qsjESwTqDCr46r
+ QFlmWVJJYLymxXxbed/liBOlOoozlBhPXCbq2X5pvVIcePrHrI2bAmk+rWMNx9wB6s5q
+ 4lptIhJvzacKN7yKsWazMgniiqsh8KjW6PN0b13wBFoX8bsiGL2v0VD/Anwv0txCIMVB
+ xa5JHJZRLvvcewnN3hV13JfdLEeBR3QgSNyZkem9tnowLBnx095nItXWdrisJzkWL2Dj
+ S0CdcioPQRrQrtu2NDpULbzIRt1JSIWnxI4GMrEA4i0yP92s/b7LAYltryrmmDhIpM5C
+ cetg==
+X-Gm-Message-State: AOAM531vBugsDqcqs2GH9tFCDYmNqQbAOPsVANj+NyMbBvut2fqQfrqv
+ qN9PXyuLWHB0hM2P5xd7TDYRFTdUZ/5xwldqSsh4CA==
+X-Google-Smtp-Source: ABdhPJy/9ny4Auy/O8iJNc0GD80lQR1MYRiwVyPXaKWLOSgm0QIsdfi9yzartaI+zfYzU55f3Zhi6Uvv8UhOu8tnuEI=
+X-Received: by 2002:adf:ba0f:: with SMTP id o15mr1996067wrg.386.1630568264477; 
+ Thu, 02 Sep 2021 00:37:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210831110238.299458-1-leobras@redhat.com>
- <20210831110238.299458-4-leobras@redhat.com>
- <YS4rulGV9eueB04H@redhat.com> <YS6RFcQnZEhE8XpG@t490s>
-In-Reply-To: <YS6RFcQnZEhE8XpG@t490s>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Thu, 2 Sep 2021 04:27:14 -0300
-Message-ID: <CAJ6HWG4+5YtWBB8D_OdAEH-_JM_PE4pff12mvtgia0wcXAC2FQ@mail.gmail.com>
-Subject: Re: [PATCH v1 3/3] migration: multifd: Enable zerocopy
-To: Peter Xu <peterx@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20210901164446.2722007-1-rjones@redhat.com>
+ <20210901164446.2722007-2-rjones@redhat.com>
+ <CAFEAcA8WD97HqQRRzB8Z1LVMCmkKZu3_EAQZM1HAMxccQ=PMnA@mail.gmail.com>
+ <20210901183009.GG26415@redhat.com>
+ <CAFEAcA-V7kp+HGBkHM_Zjfq28KhRReo74nowbtP4ZuZzVaw+kw@mail.gmail.com>
+ <20210901185115.GI26415@redhat.com>
+ <CAFEAcA_JiWFrtj8nyVuPio-qPmu2z4_V4mu1kXFSv-UPXXxPNA@mail.gmail.com>
+ <20210901202443.GL26415@redhat.com>
+In-Reply-To: <20210901202443.GL26415@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 2 Sep 2021 08:36:56 +0100
+Message-ID: <CAFEAcA80RmVg=EbSvX+KJGdAk9YFt5Fzaw1GaUrkORoA3qh0wQ@mail.gmail.com>
+Subject: Re: [PATCH] tcg/arm: Increase stack alignment for function generation
+To: "Richard W.M. Jones" <rjones@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lsoaresp@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,34 +83,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-stable <qemu-stable@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Peter, thank you for this feedback!
+On Wed, 1 Sept 2021 at 21:24, Richard W.M. Jones <rjones@redhat.com> wrote:
+>
+> On Wed, Sep 01, 2021 at 09:17:07PM +0100, Peter Maydell wrote:
+> > On Wed, 1 Sept 2021 at 19:51, Richard W.M. Jones <rjones@redhat.com> wrote:
+> > >
+> > > On Wed, Sep 01, 2021 at 07:41:21PM +0100, Peter Maydell wrote:
+> > > > Is the failure case short enough to allow -d ... logging to
+> > > > be taken? That's usually the most useful info, but it's so huge
+> > > > it's often not feasible.
+> > >
+> > > I can try -- what exact -d option would be useful?
+> >
+> > Depends what you're after. Personally I'm fairly sure I know
+> > what's going on, I'm just not sure what the right fix is.
+>
+> Another question: We couldn't reproduce this even with the identical
+> ARM guest kernel + initrd + command line using qemu-system-arm
+> compiled for x86-64 host.  This was a bit surprising!  Was that bad
+> luck or is there some reason why this bug might not be reproducible
+> except on armv7 host?  (Both cases use -machine accel=tcg).
 
-On Tue, Aug 31, 2021 at 5:29 PM Peter Xu <peterx@redhat.com> wrote:
-> Yes it would be great to be a migration capability in parallel to multifd. At
-> initial phase if it's easy to be implemented on multi-fd only, we can add a
-> dependency between the caps.  In the future we can remove that dependency when
-> the code is ready to go without multifd.  Thanks,
+That's expected -- this is a bug in the codegen for arm hosts
+(specifically 32-bit arm where Neon is available). tcg/i386/
+sets TCG_TARGET_STACK_ALIGN to 16, so it won't hit the assert.
 
-I thought the idea was to use MSG_ZEROCOPY whenever possible, and otherwise
-fall back to the default copying mechanism.
+Yesterday I wrote:
+> The prologue does seem to actively align to the
+> specified value, not merely assume-and-preserve that alignment.
 
-On replies to 2/3 I mentioned a new method to QIOChannel interface,
-that would fall
-back to copying, and that may be a way to not have to use a capability.
+but I was misreading the code -- it does just assume-and-preserve.
 
-Best regards,
-Leonardo
+Do you need an urgent fix/workaround for this? The simplest thing
+is to wait for RTH to look at this, which is not likely to be before
+the 13th.
 
+Otherwise I think you can work around it with:
+
+--- a/tcg/arm/tcg-target.h
++++ b/tcg/arm/tcg-target.h
+@@ -152,7 +152,7 @@ extern bool use_neon_instructions;
+ #define TCG_TARGET_HAS_qemu_st8_i32     0
+
+ #define TCG_TARGET_HAS_v64              use_neon_instructions
+-#define TCG_TARGET_HAS_v128             use_neon_instructions
++#define TCG_TARGET_HAS_v128             0
+ #define TCG_TARGET_HAS_v256             0
+
+ #define TCG_TARGET_HAS_andc_vec         1
+
+though this is just a bodge that (hopefully) turns the use of v128
+off entirely.
+
+-- PMM
 
