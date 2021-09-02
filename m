@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB1603FF054
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 17:38:51 +0200 (CEST)
-Received: from localhost ([::1]:50300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DF633FF05F
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 17:41:09 +0200 (CEST)
+Received: from localhost ([::1]:56476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLoni-0005oc-TO
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 11:38:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47534)
+	id 1mLopw-0001iK-Mp
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 11:41:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mLoUS-0005M5-86; Thu, 02 Sep 2021 11:18:59 -0400
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34772)
+ id 1mLoUS-0005M8-Qv; Thu, 02 Sep 2021 11:18:59 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35519)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mLoU8-0002hT-Ns; Thu, 02 Sep 2021 11:18:51 -0400
-Received: by mail-wr1-x429.google.com with SMTP id m9so3552779wrb.1;
- Thu, 02 Sep 2021 08:18:34 -0700 (PDT)
+ id 1mLoUC-0002lK-Qt; Thu, 02 Sep 2021 11:18:53 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id i6so3539249wrv.2;
+ Thu, 02 Sep 2021 08:18:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qOhbKOMLJQTnP4opOKzKRsGwickHkRFQACXPCZkwzZ4=;
- b=MVdpwWPCgzsfVptRrLWGxJCKhgwtHmICPzS+494nVY58reKdXIcLJv+nFCR2fBuT1c
- EjD/e/B480ZHjRxYaeZYH1BzttEuTjVRPsxJF7w9Kccd0dazIjJBO/v824FVwQi4SF/2
- jPMOcbajzTFpJLAsqEhBGLKlZcWOkxIQPgQT1iMo3axxsNyT5tEHTnWQSsgnVAjKccwp
- 2Ahm0ebcztLvCmzqqJggnwUKp860fyqXzCaSmQkCSNNyIBLStSA5MyHENKpNYQ2c0soE
- jbhOrcKT278czFzvKqt4yZOM3QGSxResVes+LfOyb4cbpvhNkwOdnkSvXuK7E+talVC8
- 6N6A==
+ bh=0GktKoVpj+qe0HiWbp4icgBh99dDEcJX34VsG2pZhco=;
+ b=Is/bp5Fh3XIA6hA/dzYmAetUcNvoZbT2PMTJXGQenLZN+cEr8VtGUCBay42eDTze3D
+ tozqjRYDGa+pvoWsszXjMC44TDjVW/DQ7RVegAPyGORPmSITzcbmFDQeIEXn0HPn8dTX
+ /U/pe7aZ5r0VIsEOt1aP52anoSIYLNoIvT0SumWrSTHg+LuNZtDynarj1+o4iLhrF3Fd
+ ghRIaQgQ4IEId94u70SN7rVMr7bpy5Cax5wQetz7Pg9VoPxDIMDbm9DAbnsMgSjMYcSl
+ aBOM62R7gqMKq5F1pzyNNWWrZTNAHf1veMpmOS1eqWdgfVBX6ygwimJigWGVENkwEPkz
+ /OZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qOhbKOMLJQTnP4opOKzKRsGwickHkRFQACXPCZkwzZ4=;
- b=mWbZ4tllEOtIan9KTv3QBR9SWwi13bM63/8Pl2gkOED6WuNqUeU/0dvuE3+BTcEbrP
- PJA3PnF/Rsax9oau1yc6B+YoYkrRbqZL5iBvBqUW5RuG2xSqJieGQfxPw5rWv9JCYVWg
- wC9WXIXvWk3W6tWh7hY3iUWy8nWQXlrrG2FCkNSe2SyyYDFmkToOJxe9Tf2TWKvd/5Id
- E53Lv3KEmuwZeGKRj9O+hOidOn97qL87VJBbKe/TbEn+cNPrfkMFJ9kecv1PIPkJWD/W
- 0wkXJfyJzJ9QCuJm1U9UdntuwUx838Tcxq6oHuJlGv70JKgHCIJtWQa/KqBX/poZvK1D
- +MWw==
-X-Gm-Message-State: AOAM533JVftCyTS2yYqwrPH71IEDXLNxKkynvk+9Ckg1j4kV+K25Jvvh
- NmBwCdjJzdsYEkpTuwhXSG6F4x4y9/4=
-X-Google-Smtp-Source: ABdhPJysv/O1nATy+Iu5ULEGo2DtI3bT2Rsk+0/uZ+uSNrF4KOuKlIytm6Z9sf/zOU+f6QI7ieRRvw==
-X-Received: by 2002:adf:c3c8:: with SMTP id d8mr4413659wrg.143.1630595912991; 
- Thu, 02 Sep 2021 08:18:32 -0700 (PDT)
+ bh=0GktKoVpj+qe0HiWbp4icgBh99dDEcJX34VsG2pZhco=;
+ b=In509hwIg4ergtYncWm5RcON6CHdT2UX0emCt9E+3PEBJ3kr9OJ7BI0Qo5W6QowYTK
+ cNg0alb1M1sWon4hgJ1YzwstVb1oWXmyl+JJABtSJm4fgkGbPWPv6xh7JfvePtubgfnH
+ 7JLcZLkv5/xQ8CuOeHUwF0L2T0Y1EqmzLgoUxwiK1rZA3+LktgZFsYagdw/ZV/2NkUun
+ YeRSYs6Ns9n3iCAWwAY8YFZgKs8yUwyHnFxJ/wtCOIvlCIxG/T6cWzNk6q4OPFhkzUFz
+ PeBHDso3HLiSrVUoiWYWT2HyHQrDvBKzHGyUDjprhOMzR9tvZACq3P9Ih3uazRlrRftY
+ bECA==
+X-Gm-Message-State: AOAM531lQs+hEcr0CK18zKEpKRTvWVKhF2aZ65cc31n34eJe8V2KjCbl
+ Izy3gIqgpRQDXcCb3rpfmnZtWVgBBqM=
+X-Google-Smtp-Source: ABdhPJxF98exm7cfOJwkqDLOJqQCS6DDPr9eL3M6OveGJ6xGChb/WGy6cZX+lWoxEhy/T1+Z2Xnkhw==
+X-Received: by 2002:adf:fb8d:: with SMTP id a13mr4524803wrr.164.1630595918275; 
+ Thu, 02 Sep 2021 08:18:38 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- 17sm1830515wmj.20.2021.09.02.08.18.31
+ c14sm2124839wrr.58.2021.09.02.08.18.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 08:18:32 -0700 (PDT)
+ Thu, 02 Sep 2021 08:18:37 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 14/24] target/mips: Restrict cpu_exec_interrupt() handler to
+Subject: [PATCH 15/24] target/nios2: Restrict cpu_exec_interrupt() handler to
  sysemu
-Date: Thu,  2 Sep 2021 17:17:05 +0200
-Message-Id: <20210902151715.383678-15-f4bug@amsat.org>
+Date: Thu,  2 Sep 2021 17:17:06 +0200
+Message-Id: <20210902151715.383678-16-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210902151715.383678-1-f4bug@amsat.org>
 References: <20210902151715.383678-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_NONE=0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,123 +106,42 @@ Restrict cpu_exec_interrupt() and its callees to sysemu.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/tcg/tcg-internal.h      |  5 +++--
- target/mips/cpu.c                   |  2 +-
- target/mips/tcg/exception.c         | 18 ------------------
- target/mips/tcg/sysemu/tlb_helper.c | 18 ++++++++++++++++++
- target/mips/tcg/user/tlb_helper.c   |  5 -----
- 5 files changed, 22 insertions(+), 26 deletions(-)
+ target/nios2/cpu.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/target/mips/tcg/tcg-internal.h b/target/mips/tcg/tcg-internal.h
-index 81b14eb219e..c7a77ddccdd 100644
---- a/target/mips/tcg/tcg-internal.h
-+++ b/target/mips/tcg/tcg-internal.h
-@@ -18,8 +18,6 @@
- void mips_tcg_init(void);
- 
- void mips_cpu_synchronize_from_tb(CPUState *cs, const TranslationBlock *tb);
--void mips_cpu_do_interrupt(CPUState *cpu);
--bool mips_cpu_exec_interrupt(CPUState *cpu, int int_req);
- bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                        MMUAccessType access_type, int mmu_idx,
-                        bool probe, uintptr_t retaddr);
-@@ -41,6 +39,9 @@ static inline void QEMU_NORETURN do_raise_exception(CPUMIPSState *env,
- 
- #if !defined(CONFIG_USER_ONLY)
- 
-+void mips_cpu_do_interrupt(CPUState *cpu);
-+bool mips_cpu_exec_interrupt(CPUState *cpu, int int_req);
-+
- void mmu_init(CPUMIPSState *env, const mips_def_t *def);
- 
- void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask);
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index d426918291a..00e0c55d0e4 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -539,10 +539,10 @@ static const struct SysemuCPUOps mips_sysemu_ops = {
- static const struct TCGCPUOps mips_tcg_ops = {
-     .initialize = mips_tcg_init,
-     .synchronize_from_tb = mips_cpu_synchronize_from_tb,
--    .cpu_exec_interrupt = mips_cpu_exec_interrupt,
-     .tlb_fill = mips_cpu_tlb_fill,
- 
- #if !defined(CONFIG_USER_ONLY)
-+    .cpu_exec_interrupt = mips_cpu_exec_interrupt,
-     .do_interrupt = mips_cpu_do_interrupt,
-     .do_transaction_failed = mips_cpu_do_transaction_failed,
-     .do_unaligned_access = mips_cpu_do_unaligned_access,
-diff --git a/target/mips/tcg/exception.c b/target/mips/tcg/exception.c
-index 4fb8b00711d..7b3026b105b 100644
---- a/target/mips/tcg/exception.c
-+++ b/target/mips/tcg/exception.c
-@@ -86,24 +86,6 @@ void mips_cpu_synchronize_from_tb(CPUState *cs, const TranslationBlock *tb)
-     env->hflags |= tb->flags & MIPS_HFLAG_BMASK;
+diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
+index 5e37defef80..947bb09bc1e 100644
+--- a/target/nios2/cpu.c
++++ b/target/nios2/cpu.c
+@@ -127,6 +127,7 @@ static void nios2_cpu_realizefn(DeviceState *dev, Error **errp)
+     ncc->parent_realize(dev, errp);
  }
  
--bool mips_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
--{
--    if (interrupt_request & CPU_INTERRUPT_HARD) {
--        MIPSCPU *cpu = MIPS_CPU(cs);
--        CPUMIPSState *env = &cpu->env;
--
--        if (cpu_mips_hw_interrupts_enabled(env) &&
--            cpu_mips_hw_interrupts_pending(env)) {
--            /* Raise it */
--            cs->exception_index = EXCP_EXT_INTERRUPT;
--            env->error_code = 0;
--            mips_cpu_do_interrupt(cs);
--            return true;
--        }
--    }
--    return false;
--}
--
- static const char * const excp_names[EXCP_LAST + 1] = {
-     [EXCP_RESET] = "reset",
-     [EXCP_SRESET] = "soft reset",
-diff --git a/target/mips/tcg/sysemu/tlb_helper.c b/target/mips/tcg/sysemu/tlb_helper.c
-index a150a014ec1..73254d19298 100644
---- a/target/mips/tcg/sysemu/tlb_helper.c
-+++ b/target/mips/tcg/sysemu/tlb_helper.c
-@@ -1339,6 +1339,24 @@ void mips_cpu_do_interrupt(CPUState *cs)
-     cs->exception_index = EXCP_NONE;
- }
- 
-+bool mips_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-+{
-+    if (interrupt_request & CPU_INTERRUPT_HARD) {
-+        MIPSCPU *cpu = MIPS_CPU(cs);
-+        CPUMIPSState *env = &cpu->env;
-+
-+        if (cpu_mips_hw_interrupts_enabled(env) &&
-+            cpu_mips_hw_interrupts_pending(env)) {
-+            /* Raise it */
-+            cs->exception_index = EXCP_EXT_INTERRUPT;
-+            env->error_code = 0;
-+            mips_cpu_do_interrupt(cs);
-+            return true;
-+        }
-+    }
-+    return false;
-+}
-+
- void r4k_invalidate_tlb(CPUMIPSState *env, int idx, int use_extra)
++#ifndef CONFIG_USER_ONLY
+ static bool nios2_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
  {
-     CPUState *cs = env_cpu(env);
-diff --git a/target/mips/tcg/user/tlb_helper.c b/target/mips/tcg/user/tlb_helper.c
-index b835144b820..210c6d529ef 100644
---- a/target/mips/tcg/user/tlb_helper.c
-+++ b/target/mips/tcg/user/tlb_helper.c
-@@ -57,8 +57,3 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     raise_mmu_exception(env, address, access_type);
-     do_raise_exception_err(env, cs->exception_index, env->error_code, retaddr);
+     Nios2CPU *cpu = NIOS2_CPU(cs);
+@@ -140,7 +141,7 @@ static bool nios2_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+     }
+     return false;
  }
 -
--void mips_cpu_do_interrupt(CPUState *cs)
--{
--    cs->exception_index = EXCP_NONE;
--}
++#endif /* !CONFIG_USER_ONLY */
+ 
+ static void nios2_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
+ {
+@@ -219,10 +220,10 @@ static const struct SysemuCPUOps nios2_sysemu_ops = {
+ 
+ static const struct TCGCPUOps nios2_tcg_ops = {
+     .initialize = nios2_tcg_init,
+-    .cpu_exec_interrupt = nios2_cpu_exec_interrupt,
+     .tlb_fill = nios2_cpu_tlb_fill,
+ 
+ #ifndef CONFIG_USER_ONLY
++    .cpu_exec_interrupt = nios2_cpu_exec_interrupt,
+     .do_interrupt = nios2_cpu_do_interrupt,
+     .do_unaligned_access = nios2_cpu_do_unaligned_access,
+ #endif /* !CONFIG_USER_ONLY */
 -- 
 2.31.1
 
