@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE24A3FEE1D
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 14:53:13 +0200 (CEST)
-Received: from localhost ([::1]:56594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A48853FEE28
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 14:55:41 +0200 (CEST)
+Received: from localhost ([::1]:37016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLmDR-0002bX-0W
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 08:53:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35590)
+	id 1mLmFo-0008H5-OJ
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 08:55:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mLm2a-0005qB-V5
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:42:01 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:36288 helo=loongson.cn)
+ id 1mLm2g-0005wX-FH
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:42:06 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:36272 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mLm2U-00063F-LL
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:42:00 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1mLm2T-000639-R7
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:42:06 -0400
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxYctjxjBha2YCAA--.7003S13; 
- Thu, 02 Sep 2021 20:41:26 +0800 (CST)
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxYctjxjBha2YCAA--.7003S14; 
+ Thu, 02 Sep 2021 20:41:28 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 11/21] target/loongarch: Add floating point comparison
+Subject: [PATCH v4 12/21] target/loongarch: Add floating point conversion
  instruction translation
-Date: Thu,  2 Sep 2021 20:40:57 +0800
-Message-Id: <1630586467-22463-12-git-send-email-gaosong@loongson.cn>
+Date: Thu,  2 Sep 2021 20:40:58 +0800
+Message-Id: <1630586467-22463-13-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1630586467-22463-1-git-send-email-gaosong@loongson.cn>
 References: <1630586467-22463-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9AxYctjxjBha2YCAA--.7003S13
-X-Coremail-Antispam: 1UD129KBjvAXoW3Kr4xuryUKFW3Cry5CFyUJrb_yoW8Gw4UCo
- W5Gr15Cr4ft3sxWr90yas0qrsrJ3WxJwsrta90gas0ka4fGr12ka1aq34fAayfWr4I9Fy5
- A39rXa43twsrAr97n29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+X-CM-TRANSID: AQAAf9AxYctjxjBha2YCAA--.7003S14
+X-Coremail-Antispam: 1UD129KBjvAXoW3Zr47Ww17Kr4UtrWxGrWUtwb_yoW8Cw1DCo
+ Z8uF45Zr4rG3yfuFZIkwnYqF1xXryUArnxCF4rZryaga4xA34xKFWfCwn5AFyrKrWYqry5
+ Xrn3Z3W5Aw4aqr93n29KB7ZKAUJUUUU5529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
  AaLaJ3UjIYCTnIWjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRUUUUUUUUU=
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
@@ -68,164 +68,469 @@ Cc: peter.maydell@linaro.org, yangxiaojuan@loongson.cn, david@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch implement floating point comparison instruction translation.
+This patch implement floating point conversion instruction translation.
 
 This includes:
-- FCMP.cond.{S/D}
+- FCVT.S.D, FCVT.D.S
+- FFINT.{S/D}.{W/L}, FTINT.{W/L}.{S/D}
+- FTINT{RM/RP/RZ/RNE}.{W/L}.{S/D}
+- FRINT.{S/D}
 
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: XiaoJuan Yang <yangxiaojuan@loongson.cn>
 ---
- target/loongarch/fpu_helper.c            | 110 ++++++++++++
- target/loongarch/helper.h                |   9 +
- target/loongarch/insn_trans/trans_fcmp.c | 279 +++++++++++++++++++++++++++++++
- target/loongarch/insns.decode            |  10 ++
+ target/loongarch/fpu_helper.c            | 393 +++++++++++++++++++++++++++++++
+ target/loongarch/helper.h                |  29 +++
+ target/loongarch/insn_trans/trans_fcnv.c |  36 +++
+ target/loongarch/insns.decode            |  32 +++
  target/loongarch/translate.c             |   1 +
- target/loongarch/translate.h             |   5 +
- 6 files changed, 414 insertions(+)
- create mode 100644 target/loongarch/insn_trans/trans_fcmp.c
+ 5 files changed, 491 insertions(+)
+ create mode 100644 target/loongarch/insn_trans/trans_fcnv.c
 
 diff --git a/target/loongarch/fpu_helper.c b/target/loongarch/fpu_helper.c
-index c3bee57..bad7238 100644
+index bad7238..2aef1fa 100644
 --- a/target/loongarch/fpu_helper.c
 +++ b/target/loongarch/fpu_helper.c
-@@ -436,3 +436,113 @@ uint64_t helper_fmuladd_d(CPULoongArchState *env, uint64_t fj,
+@@ -546,3 +546,396 @@ uint64_t helper_fcmp_s_d(CPULoongArchState *env, uint64_t fj,
      update_fcsr0(env, GETPC());
-     return fd;
+     return cmp;
  }
 +
-+/* fcmp_cXXX_s */
-+uint64_t helper_fcmp_c_s(CPULoongArchState *env, uint64_t fj,
-+                         uint64_t fk, uint32_t flags)
++/* floating point conversion */
++uint64_t helper_fcvt_s_d(CPULoongArchState *env, uint64_t fj)
 +{
-+    uint32_t t0, t1;
-+    uint64_t cmp = 0;
-+    t0 = (uint32_t)fj;
-+    t1 = (uint32_t)fk;
++    uint64_t fd;
 +
-+    if (flags) {
-+        if (flags & FCMP_LT) {
-+            cmp |= float32_lt_quiet(t0, t1, &env->fp_status);
-+        }
-+        if (flags & FCMP_EQ) {
-+            cmp |= float32_eq_quiet(t0, t1, &env->fp_status);
-+        }
-+        if (flags & FCMP_GT) {
-+            cmp |= float32_lt_quiet(t1, t0, &env->fp_status);
-+        }
-+        if (flags & FCMP_UN) {
-+            cmp |= float32_unordered_quiet(t1, t0, &env->fp_status);
-+        }
-+    } else {
-+        cmp = (float32_unordered_quiet(t1, t0, &env->fp_status), 0);
-+    }
++    fd = nanbox_s(float64_to_float32(fj, &env->fp_status));
 +    update_fcsr0(env, GETPC());
-+    return cmp;
++    return fd;
 +}
 +
-+/* fcmp_sXXX_s */
-+uint64_t helper_fcmp_s_s(CPULoongArchState *env, uint64_t fj,
-+                         uint64_t fk, uint32_t flags)
++uint64_t helper_fcvt_d_s(CPULoongArchState *env, uint64_t fj)
 +{
-+    uint32_t t0, t1;
-+    uint64_t cmp = 0;
-+    t0 = (uint32_t)fj;
-+    t1 = (uint32_t)fk;
++    uint64_t fd;
 +
-+    if (flags) {
-+        if (flags & FCMP_LT) {
-+            cmp |= float32_lt(t0, t1, &env->fp_status);
-+        }
-+        if (flags & FCMP_EQ) {
-+            cmp |= float32_eq(t0, t1, &env->fp_status);
-+        }
-+        if (flags & FCMP_GT) {
-+            cmp |= float32_lt(t1, t0, &env->fp_status);
-+        }
-+        if (flags & FCMP_UN) {
-+            cmp |= float32_unordered(t1, t0, &env->fp_status);
-+        }
-+    } else {
-+        cmp = (float32_unordered(t1, t0, &env->fp_status), 0);
-+    }
++    fd = float32_to_float64((uint32_t)fj, &env->fp_status);
 +    update_fcsr0(env, GETPC());
-+    return cmp;
++    return fd;
 +}
 +
-+/* fcmp_cXXX_d */
-+uint64_t helper_fcmp_c_d(CPULoongArchState *env, uint64_t fj,
-+                         uint64_t fk, uint32_t flags)
++uint64_t helper_ffint_s_w(CPULoongArchState *env, uint64_t fj)
 +{
-+    uint64_t cmp = 0;
++    uint64_t fd;
 +
-+    if (flags) {
-+        if (flags & FCMP_LT) {
-+            cmp |= float64_lt_quiet(fj, fk, &env->fp_status);
-+        }
-+        if (flags & FCMP_EQ) {
-+            cmp |= float64_eq_quiet(fj, fk, &env->fp_status);
-+        }
-+        if (flags & FCMP_GT) {
-+            cmp |= float64_lt_quiet(fk, fj, &env->fp_status);
-+        }
-+        if (flags & FCMP_UN) {
-+            cmp |= float64_unordered_quiet(fk, fj, &env->fp_status);
-+        }
-+    } else {
-+        cmp = (float64_unordered_quiet(fk, fj, &env->fp_status), 0);
-+    }
++    fd = nanbox_s(int32_to_float32((int32_t)fj, &env->fp_status));
 +    update_fcsr0(env, GETPC());
-+    return cmp;
++    return fd;
 +}
 +
-+/* fcmp_sXXX_d */
-+uint64_t helper_fcmp_s_d(CPULoongArchState *env, uint64_t fj,
-+                         uint64_t fk, uint32_t flags)
++uint64_t helper_ffint_s_l(CPULoongArchState *env, uint64_t fj)
 +{
-+    uint64_t cmp = 0;
++    uint64_t fd;
 +
-+    if (flags) {
-+        if (flags & FCMP_LT) {
-+            cmp |= float64_lt(fj, fk, &env->fp_status);
-+        }
-+        if (flags & FCMP_EQ) {
-+            cmp |= float64_eq(fj, fk, &env->fp_status);
-+        }
-+        if (flags & FCMP_GT) {
-+            cmp |= float64_lt(fk, fj, &env->fp_status);
-+        }
-+        if (flags & FCMP_UN) {
-+            cmp |= float64_unordered(fk, fj, &env->fp_status);
-+        }
-+    } else {
-+        cmp = (float64_unordered(fk, fj, &env->fp_status), 0);
++    fd = nanbox_s(int64_to_float32(fj, &env->fp_status));
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ffint_d_w(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = int32_to_float64((int32_t)fj, &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ffint_d_l(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = int64_to_float64(fj, &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_frint_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = (uint64_t)(float32_round_to_int((uint32_t)fj, &env->fp_status));
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_frint_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = float64_round_to_int(fj, &env->fp_status);
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrm_l_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_down, &env->fp_status);
++    fd = float64_to_int64(fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
 +    }
 +    update_fcsr0(env, GETPC());
-+    return cmp;
++    return fd;
++}
++
++uint64_t helper_ftintrm_l_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_down, &env->fp_status);
++    fd = float32_to_int64((uint32_t)fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrm_w_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_down, &env->fp_status);
++    fd = (uint64_t)float64_to_int32(fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrm_w_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_down, &env->fp_status);
++    fd = (uint64_t)float32_to_int32((uint32_t)fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrp_l_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_up, &env->fp_status);
++    fd = float64_to_int64(fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrp_l_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_up, &env->fp_status);
++    fd = float32_to_int64((uint32_t)fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrp_w_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_up, &env->fp_status);
++    fd = (uint64_t)float64_to_int32(fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrp_w_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_up, &env->fp_status);
++    fd = (uint64_t)float32_to_int32((uint32_t)fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrz_l_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    fd = float64_to_int64_round_to_zero(fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrz_l_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    fd = float32_to_int64_round_to_zero((uint32_t)fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrz_w_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    fd = (uint64_t)float64_to_int32_round_to_zero(fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrz_w_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint32_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    fd = float32_to_int32_round_to_zero((uint32_t)fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return (uint64_t)fd;
++}
++
++uint64_t helper_ftintrne_l_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_nearest_even, &env->fp_status);
++    fd = float64_to_int64(fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrne_l_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_nearest_even, &env->fp_status);
++    fd = float32_to_int64((uint32_t)fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrne_w_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_nearest_even, &env->fp_status);
++    fd = (uint64_t)float64_to_int32(fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftintrne_w_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint32_t fd;
++    FloatRoundMode old_mode = get_float_rounding_mode(&env->fp_status);
++
++    set_float_rounding_mode(float_round_nearest_even, &env->fp_status);
++    fd = float32_to_int32((uint32_t)fj, &env->fp_status);
++    set_float_rounding_mode(old_mode, &env->fp_status);
++
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return (uint64_t)fd;
++}
++
++uint64_t helper_ftint_l_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = float64_to_int64(fj, &env->fp_status);
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftint_l_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = float32_to_int64((uint32_t)fj, &env->fp_status);
++    if (get_float_exception_flags(&env->fp_status) &
++        (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT64_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftint_w_s(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = (uint64_t)float32_to_int32((uint32_t)fj, &env->fp_status);
++    if (get_float_exception_flags(&env->fp_status)
++        & (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
++}
++
++uint64_t helper_ftint_w_d(CPULoongArchState *env, uint64_t fj)
++{
++    uint64_t fd;
++
++    fd = (uint64_t)float64_to_int32(fj, &env->fp_status);
++    if (get_float_exception_flags(&env->fp_status)
++        & (float_flag_invalid | float_flag_overflow)) {
++        fd = FLOAT_TO_INT32_OVERFLOW;
++    }
++    update_fcsr0(env, GETPC());
++    return fd;
 +}
 diff --git a/target/loongarch/helper.h b/target/loongarch/helper.h
-index 62c262e..5f6e60d 100644
+index 5f6e60d..d90b093 100644
 --- a/target/loongarch/helper.h
 +++ b/target/loongarch/helper.h
-@@ -60,3 +60,12 @@ DEF_HELPER_2(frecip_d, i64, env, i64)
- 
- DEF_HELPER_FLAGS_2(fclass_s, TCG_CALL_NO_RWG_SE, i64, env, i64)
- DEF_HELPER_FLAGS_2(fclass_d, TCG_CALL_NO_RWG_SE, i64, env, i64)
+@@ -69,3 +69,32 @@ DEF_HELPER_4(fcmp_s_s, i64, env, i64, i64, i32)
+ DEF_HELPER_4(fcmp_c_d, i64, env, i64, i64, i32)
+ /* fcmp.sXXX.d */
+ DEF_HELPER_4(fcmp_s_d, i64, env, i64, i64, i32)
 +
-+/* fcmp.cXXX.s */
-+DEF_HELPER_4(fcmp_c_s, i64, env, i64, i64, i32)
-+/* fcmp.sXXX.s */
-+DEF_HELPER_4(fcmp_s_s, i64, env, i64, i64, i32)
-+/* fcmp.cXXX.d */
-+DEF_HELPER_4(fcmp_c_d, i64, env, i64, i64, i32)
-+/* fcmp.sXXX.d */
-+DEF_HELPER_4(fcmp_s_d, i64, env, i64, i64, i32)
-diff --git a/target/loongarch/insn_trans/trans_fcmp.c b/target/loongarch/insn_trans/trans_fcmp.c
++DEF_HELPER_2(fcvt_d_s, i64, env, i64)
++DEF_HELPER_2(fcvt_s_d, i64, env, i64)
++DEF_HELPER_2(ffint_d_w, i64, env, i64)
++DEF_HELPER_2(ffint_d_l, i64, env, i64)
++DEF_HELPER_2(ffint_s_w, i64, env, i64)
++DEF_HELPER_2(ffint_s_l, i64, env, i64)
++DEF_HELPER_2(ftintrm_l_s, i64, env, i64)
++DEF_HELPER_2(ftintrm_l_d, i64, env, i64)
++DEF_HELPER_2(ftintrm_w_s, i64, env, i64)
++DEF_HELPER_2(ftintrm_w_d, i64, env, i64)
++DEF_HELPER_2(ftintrp_l_s, i64, env, i64)
++DEF_HELPER_2(ftintrp_l_d, i64, env, i64)
++DEF_HELPER_2(ftintrp_w_s, i64, env, i64)
++DEF_HELPER_2(ftintrp_w_d, i64, env, i64)
++DEF_HELPER_2(ftintrz_l_s, i64, env, i64)
++DEF_HELPER_2(ftintrz_l_d, i64, env, i64)
++DEF_HELPER_2(ftintrz_w_s, i64, env, i64)
++DEF_HELPER_2(ftintrz_w_d, i64, env, i64)
++DEF_HELPER_2(ftintrne_l_s, i64, env, i64)
++DEF_HELPER_2(ftintrne_l_d, i64, env, i64)
++DEF_HELPER_2(ftintrne_w_s, i64, env, i64)
++DEF_HELPER_2(ftintrne_w_d, i64, env, i64)
++DEF_HELPER_2(ftint_l_s, i64, env, i64)
++DEF_HELPER_2(ftint_l_d, i64, env, i64)
++DEF_HELPER_2(ftint_w_s, i64, env, i64)
++DEF_HELPER_2(ftint_w_d, i64, env, i64)
++DEF_HELPER_2(frint_s, i64, env, i64)
++DEF_HELPER_2(frint_d, i64, env, i64)
+diff --git a/target/loongarch/insn_trans/trans_fcnv.c b/target/loongarch/insn_trans/trans_fcnv.c
 new file mode 100644
-index 0000000..e9d7c3b
+index 0000000..6788859
 --- /dev/null
-+++ b/target/loongarch/insn_trans/trans_fcmp.c
-@@ -0,0 +1,279 @@
++++ b/target/loongarch/insn_trans/trans_fcnv.c
+@@ -0,0 +1,36 @@
 +/*
 + * LoongArch translate functions
 + *
@@ -234,344 +539,86 @@ index 0000000..e9d7c3b
 + * SPDX-License-Identifier: LGPL-2.1+
 + */
 +
-+static bool trans_fcmp_cond_s(DisasContext *ctx, arg_fcmp_cond_s *a)
-+{
-+    TCGv var = tcg_temp_new();
-+    TCGv_i32 flags = NULL;
-+
-+    switch (a->fcond) {
-+    /* caf */
-+    case  0:
-+        flags = tcg_constant_i32(0);
-+        gen_helper_fcmp_c_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* saf */
-+    case 1:
-+        flags = tcg_constant_i32(0);
-+        gen_helper_fcmp_s_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* clt */
-+    case 2:
-+        flags = tcg_constant_i32(FCMP_LT);
-+        gen_helper_fcmp_c_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* slt */
-+    case 3:
-+        flags = tcg_constant_i32(FCMP_LT);
-+        gen_helper_fcmp_s_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* ceq */
-+    case 4:
-+        flags = tcg_constant_i32(FCMP_EQ);
-+        gen_helper_fcmp_c_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* seq */
-+    case 5:
-+        flags = tcg_constant_i32(FCMP_EQ);
-+        gen_helper_fcmp_s_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* cle */
-+    case 6:
-+        flags = tcg_constant_i32(FCMP_LT | FCMP_EQ);
-+        gen_helper_fcmp_c_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* sle */
-+    case 7:
-+        flags = tcg_constant_i32(FCMP_LT | FCMP_EQ);
-+        gen_helper_fcmp_s_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* cun */
-+    case 8:
-+        flags = tcg_constant_i32(FCMP_UN);
-+        gen_helper_fcmp_c_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* sun */
-+    case 9:
-+        flags = tcg_constant_i32(FCMP_UN);
-+        gen_helper_fcmp_s_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* cult */
-+    case 10:
-+        flags = tcg_constant_i32(FCMP_UN | FCMP_LT);
-+        gen_helper_fcmp_c_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* sult */
-+    case 11:
-+        flags = tcg_constant_i32(FCMP_UN | FCMP_LT);
-+        gen_helper_fcmp_s_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* cueq */
-+    case 12:
-+        flags = tcg_constant_i32(FCMP_UN | FCMP_EQ);
-+        gen_helper_fcmp_c_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* sueq */
-+    case 13:
-+        flags = tcg_constant_i32(FCMP_UN | FCMP_EQ);
-+        gen_helper_fcmp_s_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* cule */
-+    case 14:
-+        flags = tcg_constant_i32(FCMP_UN | FCMP_LT | FCMP_EQ);
-+        gen_helper_fcmp_c_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* sule */
-+    case 15:
-+        flags = tcg_constant_i32(FCMP_UN | FCMP_LT | FCMP_EQ);
-+        gen_helper_fcmp_s_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* cne */
-+    case 16:
-+        flags = tcg_constant_i32(FCMP_GT | FCMP_LT);
-+        gen_helper_fcmp_c_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* sne */
-+    case 17:
-+        flags = tcg_constant_i32(FCMP_GT | FCMP_LT);
-+        gen_helper_fcmp_s_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* cor */
-+    case 20:
-+        flags = tcg_constant_i32(FCMP_GT | FCMP_LT | FCMP_EQ);
-+        gen_helper_fcmp_c_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* sor */
-+    case 21:
-+        flags = tcg_constant_i32(FCMP_GT | FCMP_LT | FCMP_EQ);
-+        gen_helper_fcmp_s_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* cune */
-+    case 24:
-+        flags = tcg_constant_i32(FCMP_UN | FCMP_GT | FCMP_LT);
-+        gen_helper_fcmp_c_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    /* sune */
-+    case 25:
-+        flags = tcg_constant_i32(FCMP_UN | FCMP_GT | FCMP_LT);
-+        gen_helper_fcmp_s_s(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    default:
-+        abort();
-+    }
-+
-+    tcg_gen_st8_tl(var, cpu_env, offsetof(CPULoongArchState, cf[a->cd & 0x7]));
-+    tcg_temp_free(var);
-+    return true;
-+}
-+
-+static bool trans_fcmp_cond_d(DisasContext *ctx, arg_fcmp_cond_d *a)
-+{
-+    TCGv var = tcg_temp_new();
-+    TCGv_i32 flags = NULL;
-+
-+    switch (a->fcond) {
-+    case 0:
-+        flags = tcg_constant_i32(0);
-+        gen_helper_fcmp_c_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 1:
-+        flags = tcg_constant_i32(0);
-+        gen_helper_fcmp_s_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 2:
-+        flags = tcg_constant_i32(FCMP_LT);
-+        gen_helper_fcmp_c_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 3:
-+        flags = tcg_constant_i32(FCMP_LT);
-+        gen_helper_fcmp_s_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 4:
-+        flags = tcg_constant_i32(FCMP_EQ);
-+        gen_helper_fcmp_c_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 5:
-+        flags = tcg_constant_i32(FCMP_EQ);
-+        gen_helper_fcmp_s_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 6:
-+        flags = tcg_constant_i32(FCMP_LT | FCMP_EQ);
-+        gen_helper_fcmp_c_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 7:
-+        flags = tcg_constant_i32(FCMP_LT | FCMP_EQ);
-+        gen_helper_fcmp_s_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 8:
-+        flags = tcg_constant_i32(FCMP_UN);
-+        gen_helper_fcmp_c_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 9:
-+        flags = tcg_constant_i32(FCMP_UN);
-+        gen_helper_fcmp_s_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 10:
-+        flags = tcg_constant_i32(FCMP_UN | FCMP_LT);
-+        gen_helper_fcmp_c_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 11:
-+        flags = tcg_constant_i32(FCMP_UN | FCMP_LT);
-+        gen_helper_fcmp_s_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 12:
-+        flags = tcg_constant_i32(FCMP_UN | FCMP_EQ);
-+        gen_helper_fcmp_c_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 13:
-+        flags = tcg_constant_i32(FCMP_UN | FCMP_EQ);
-+        gen_helper_fcmp_s_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 14:
-+        flags = tcg_constant_i32(FCMP_UN | FCMP_LT | FCMP_EQ);
-+        gen_helper_fcmp_c_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 15:
-+        flags = tcg_constant_i32(FCMP_UN | FCMP_LT | FCMP_EQ);
-+        gen_helper_fcmp_s_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 16:
-+        flags = tcg_constant_i32(FCMP_GT | FCMP_LT);
-+        gen_helper_fcmp_c_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 17:
-+        flags = tcg_constant_i32(FCMP_GT | FCMP_LT);
-+        gen_helper_fcmp_s_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 20:
-+        flags = tcg_constant_i32(FCMP_GT | FCMP_LT | FCMP_EQ);
-+        gen_helper_fcmp_c_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 21:
-+        flags = tcg_constant_i32(FCMP_GT | FCMP_LT | FCMP_EQ);
-+        gen_helper_fcmp_s_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 24:
-+        flags = tcg_constant_i32(FCMP_UN | FCMP_GT | FCMP_LT);
-+        gen_helper_fcmp_c_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    case 25:
-+        flags = tcg_constant_i32(FCMP_UN | FCMP_GT | FCMP_LT);
-+        gen_helper_fcmp_s_d(var, cpu_env, cpu_fpr[a->fj],
-+                            cpu_fpr[a->fk], flags);
-+        break;
-+    default:
-+        abort();
-+    }
-+
-+    tcg_gen_st8_tl(var, cpu_env, offsetof(CPULoongArchState, cf[a->cd & 0x7]));
-+    tcg_temp_free(var);
-+    return true;
-+}
++TRANS(fcvt_s_d, gen_f2, gen_helper_fcvt_s_d)
++TRANS(fcvt_d_s, gen_f2, gen_helper_fcvt_d_s)
++TRANS(ftintrm_w_s, gen_f2, gen_helper_ftintrm_w_s)
++TRANS(ftintrm_w_d, gen_f2, gen_helper_ftintrm_w_d)
++TRANS(ftintrm_l_s, gen_f2, gen_helper_ftintrm_l_s)
++TRANS(ftintrm_l_d, gen_f2, gen_helper_ftintrm_l_d)
++TRANS(ftintrp_w_s, gen_f2, gen_helper_ftintrp_w_s)
++TRANS(ftintrp_w_d, gen_f2, gen_helper_ftintrp_w_d)
++TRANS(ftintrp_l_s, gen_f2, gen_helper_ftintrp_l_s)
++TRANS(ftintrp_l_d, gen_f2, gen_helper_ftintrp_l_d)
++TRANS(ftintrz_w_s, gen_f2, gen_helper_ftintrz_w_s)
++TRANS(ftintrz_w_d, gen_f2, gen_helper_ftintrz_w_d)
++TRANS(ftintrz_l_s, gen_f2, gen_helper_ftintrz_l_s)
++TRANS(ftintrz_l_d, gen_f2, gen_helper_ftintrz_l_d)
++TRANS(ftintrne_w_s, gen_f2, gen_helper_ftintrne_w_s)
++TRANS(ftintrne_w_d, gen_f2, gen_helper_ftintrne_w_d)
++TRANS(ftintrne_l_s, gen_f2, gen_helper_ftintrne_l_s)
++TRANS(ftintrne_l_d, gen_f2, gen_helper_ftintrne_l_d)
++TRANS(ftint_w_s, gen_f2, gen_helper_ftint_w_s)
++TRANS(ftint_w_d, gen_f2, gen_helper_ftint_w_d)
++TRANS(ftint_l_s, gen_f2, gen_helper_ftint_l_s)
++TRANS(ftint_l_d, gen_f2, gen_helper_ftint_l_d)
++TRANS(ffint_s_w, gen_f2, gen_helper_ffint_s_w)
++TRANS(ffint_s_l, gen_f2, gen_helper_ffint_s_l)
++TRANS(ffint_d_w, gen_f2, gen_helper_ffint_d_w)
++TRANS(ffint_d_l, gen_f2, gen_helper_ffint_d_l)
++TRANS(frint_s, gen_f2, gen_helper_frint_s)
++TRANS(frint_d, gen_f2, gen_helper_frint_d)
 diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 9e6a727..8aadcfd 100644
+index 8aadcfd..c6fd762 100644
 --- a/target/loongarch/insns.decode
 +++ b/target/loongarch/insns.decode
-@@ -32,6 +32,8 @@
- %fj      5:5
- %fk      10:5
- %fa      15:5
-+%cd      0:3
-+%fcond   15:5
- 
+@@ -351,3 +351,35 @@ fclass_d         0000 00010001 01000 01110 ..... .....    @fmt_fdfj
  #
- # Argument sets
-@@ -56,6 +58,7 @@
- &fmt_fdfjfk         fd fj fk
- &fmt_fdfjfkfa       fd fj fk fa
- &fmt_fdfj           fd fj
-+&fmt_cdfjfkfcond    cd fj fk fcond
- 
- #
- # Formats
-@@ -80,6 +83,7 @@
- @fmt_fdfjfk          .... ........ ..... ..... ..... .....    &fmt_fdfjfk         %fd %fj %fk
- @fmt_fdfjfkfa        .... ........ ..... ..... ..... .....    &fmt_fdfjfkfa       %fd %fj %fk %fa
- @fmt_fdfj            .... ........ ..... ..... ..... .....    &fmt_fdfj           %fd %fj
-+@fmt_cdfjfkfcond     .... ........ ..... ..... ..... .. ...   &fmt_cdfjfkfcond    %cd %fj %fk %fcond
- 
- #
- # Fixed point arithmetic operation instruction
-@@ -341,3 +345,9 @@ fcopysign_s      0000 00010001 00101 ..... ..... .....    @fmt_fdfjfk
- fcopysign_d      0000 00010001 00110 ..... ..... .....    @fmt_fdfjfk
- fclass_s         0000 00010001 01000 01101 ..... .....    @fmt_fdfj
- fclass_d         0000 00010001 01000 01110 ..... .....    @fmt_fdfj
+ fcmp_cond_s      0000 11000001 ..... ..... ..... 00 ...   @fmt_cdfjfkfcond
+ fcmp_cond_d      0000 11000010 ..... ..... ..... 00 ...   @fmt_cdfjfkfcond
 +
 +#
-+# Floating point compare instruction
++# Floating point conversion instruction
 +#
-+fcmp_cond_s      0000 11000001 ..... ..... ..... 00 ...   @fmt_cdfjfkfcond
-+fcmp_cond_d      0000 11000010 ..... ..... ..... 00 ...   @fmt_cdfjfkfcond
++fcvt_s_d         0000 00010001 10010 00110 ..... .....    @fmt_fdfj
++fcvt_d_s         0000 00010001 10010 01001 ..... .....    @fmt_fdfj
++ftintrm_w_s      0000 00010001 10100 00001 ..... .....    @fmt_fdfj
++ftintrm_w_d      0000 00010001 10100 00010 ..... .....    @fmt_fdfj
++ftintrm_l_s      0000 00010001 10100 01001 ..... .....    @fmt_fdfj
++ftintrm_l_d      0000 00010001 10100 01010 ..... .....    @fmt_fdfj
++ftintrp_w_s      0000 00010001 10100 10001 ..... .....    @fmt_fdfj
++ftintrp_w_d      0000 00010001 10100 10010 ..... .....    @fmt_fdfj
++ftintrp_l_s      0000 00010001 10100 11001 ..... .....    @fmt_fdfj
++ftintrp_l_d      0000 00010001 10100 11010 ..... .....    @fmt_fdfj
++ftintrz_w_s      0000 00010001 10101 00001 ..... .....    @fmt_fdfj
++ftintrz_w_d      0000 00010001 10101 00010 ..... .....    @fmt_fdfj
++ftintrz_l_s      0000 00010001 10101 01001 ..... .....    @fmt_fdfj
++ftintrz_l_d      0000 00010001 10101 01010 ..... .....    @fmt_fdfj
++ftintrne_w_s     0000 00010001 10101 10001 ..... .....    @fmt_fdfj
++ftintrne_w_d     0000 00010001 10101 10010 ..... .....    @fmt_fdfj
++ftintrne_l_s     0000 00010001 10101 11001 ..... .....    @fmt_fdfj
++ftintrne_l_d     0000 00010001 10101 11010 ..... .....    @fmt_fdfj
++ftint_w_s        0000 00010001 10110 00001 ..... .....    @fmt_fdfj
++ftint_w_d        0000 00010001 10110 00010 ..... .....    @fmt_fdfj
++ftint_l_s        0000 00010001 10110 01001 ..... .....    @fmt_fdfj
++ftint_l_d        0000 00010001 10110 01010 ..... .....    @fmt_fdfj
++ffint_s_w        0000 00010001 11010 00100 ..... .....    @fmt_fdfj
++ffint_s_l        0000 00010001 11010 00110 ..... .....    @fmt_fdfj
++ffint_d_w        0000 00010001 11010 01000 ..... .....    @fmt_fdfj
++ffint_d_l        0000 00010001 11010 01010 ..... .....    @fmt_fdfj
++frint_s          0000 00010001 11100 10001 ..... .....    @fmt_fdfj
++frint_d          0000 00010001 11100 10010 ..... .....    @fmt_fdfj
 diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index d3e6f8a..be99fb7 100644
+index be99fb7..e81c26b 100644
 --- a/target/loongarch/translate.c
 +++ b/target/loongarch/translate.c
-@@ -206,6 +206,7 @@ static bool gen_f2(DisasContext *ctx, arg_fmt_fdfj *a,
- #include "insn_trans/trans_atomic.c"
+@@ -207,6 +207,7 @@ static bool gen_f2(DisasContext *ctx, arg_fmt_fdfj *a,
  #include "insn_trans/trans_extra.c"
  #include "insn_trans/trans_farith.c"
-+#include "insn_trans/trans_fcmp.c"
+ #include "insn_trans/trans_fcmp.c"
++#include "insn_trans/trans_fcnv.c"
  
  static void loongarch_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
  {
-diff --git a/target/loongarch/translate.h b/target/loongarch/translate.h
-index 99ab329..16e570c 100644
---- a/target/loongarch/translate.h
-+++ b/target/loongarch/translate.h
-@@ -11,6 +11,11 @@
- 
- #include "exec/translator.h"
- 
-+#define FCMP_LT   0x0001  /* fp0 < fp1 */
-+#define FCMP_EQ   0x0010  /* fp0 = fp1 */
-+#define FCMP_GT   0x0100  /* fp1 < fp0 */
-+#define FCMP_UN   0x1000  /* unordered */
-+
- #define TRANS(NAME, FUNC, ...) \
-     static bool trans_##NAME(DisasContext *ctx, arg_##NAME * a) \
-     { return FUNC(ctx, a, __VA_ARGS__); }
 -- 
 1.8.3.1
 
