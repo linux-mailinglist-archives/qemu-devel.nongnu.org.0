@@ -2,71 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74D993FEB78
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 11:42:07 +0200 (CEST)
-Received: from localhost ([::1]:50696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 596813FEB77
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 11:41:50 +0200 (CEST)
+Received: from localhost ([::1]:49902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLjEU-00021p-6t
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 05:42:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54396)
+	id 1mLjED-0001Ub-43
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 05:41:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1mLj9L-0002e2-ID
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:36:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37660)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mLj9F-0002bT-Pm
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:36:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:49283)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1mLj9K-0005Hr-2k
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:36:47 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1mLj9E-0005CS-Bp
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:36:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630575405;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1630575398;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MGXT4bpBRhawVmYk2DOx8tX2KL+m1MBi/gOw21IPETY=;
- b=a0Zuk/Jf/83rQ7Gt1CO7579AQJNzXZTrsG6snIms2xfT2VDOF2QkTPq3NzAjP7R1uBo9qj
- aAjpwnMAibEf944V/ivNpoAbEsjxZO11mB2dvu2aNsnVrKopezOjN8EOkAneQLJUKYuOtI
- nTXYxestd8FrIrfGfItfxrKoggyuy88=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-9OQot2h6PwWStiTYQJu-uA-1; Thu, 02 Sep 2021 05:36:44 -0400
-X-MC-Unique: 9OQot2h6PwWStiTYQJu-uA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A49A2102321E
- for <qemu-devel@nongnu.org>; Thu,  2 Sep 2021 09:36:25 +0000 (UTC)
-Received: from vitty.brq.redhat.com (unknown [10.40.194.92])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C0D58972FB;
- Thu,  2 Sep 2021 09:36:23 +0000 (UTC)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 8/8] i386: Change the default Hyper-V version to match
- WS2016
-Date: Thu,  2 Sep 2021 11:35:30 +0200
-Message-Id: <20210902093530.345756-9-vkuznets@redhat.com>
-In-Reply-To: <20210902093530.345756-1-vkuznets@redhat.com>
-References: <20210902093530.345756-1-vkuznets@redhat.com>
+ bh=h5E4aoy6GDYyHU2HoBN+ICe1KrCcbGlyC3yCmM84624=;
+ b=dwjzolyUibPwSFXIKc0UPpxkJNyNdgf5n+74855Wh8fl+K+93OEWYVmIMxmfgYlm9Peqvv
+ Z4FPhasswmH+LGfperEX9OovzOHbKgsyVlGH5rwGdpx7Bd1RzK/r/nUVTHaKXnWatrA9gC
+ 8vxiLYgTO6XRmTkP3IB2U3TDmS7yDQk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-35-HND0PEv6O3KXioHS7TUeAQ-1; Thu, 02 Sep 2021 05:36:37 -0400
+X-MC-Unique: HND0PEv6O3KXioHS7TUeAQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ z15-20020adff74f000000b001577d70c98dso340467wrp.12
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 02:36:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:reply-to:subject:to:cc:references:from
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-transfer-encoding:content-language;
+ bh=h5E4aoy6GDYyHU2HoBN+ICe1KrCcbGlyC3yCmM84624=;
+ b=EEpmzaIRSKfgH6N0takz7ruBfjtY4HOJlkTie4gJZ7oqEBLD0DbxOFdlc7MaWLrUkq
+ 6cmfnM/kmko0pjZh0Zqg8f5zS613a5Nmg3JMytcI9TFhXnM3dBGPVvUqyU6qiVrrh1Af
+ z0YeAdeCc1ugFE77WmEgw5PJ7HWFX8WL0+CzqWxI0e/v+jmzTrRllXSsMTmqhbc2NGGC
+ mlrrJ8k5BKJidFhLjiVO2wv39Y2UbuboVwVN3rj4W3t9kwGSsD64fpBnhob0BuIyzInA
+ yCVAcklivNBJVq2xyQsrLehES39zuHbOveBZXmSo3Gw5aK4O5gRITyUz3GHJw9LBbChg
+ QtKw==
+X-Gm-Message-State: AOAM5325+2ozyS1EjuXHvPwDxd2Kh5vpVh+S1lb6V83d19EI/Nj7lQr1
+ dPiTc3M9nUpdBJrC+YadN0sObmK9Tt/N8mavVACH0acsCMCHPW7/eweNSJzjptljw/WE+hctNSs
+ u1j7EbTdcuQyzRmQ=
+X-Received: by 2002:a5d:6352:: with SMTP id b18mr2528889wrw.116.1630575396546; 
+ Thu, 02 Sep 2021 02:36:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwCna7QYSI91ultBmfik2JIREcMQxJcv1snyKuYJ6fl35+JWeY+XTWwV7JPX3+6JCIFUHnOsg==
+X-Received: by 2002:a5d:6352:: with SMTP id b18mr2528865wrw.116.1630575396305; 
+ Thu, 02 Sep 2021 02:36:36 -0700 (PDT)
+Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ by smtp.gmail.com with ESMTPSA id x21sm1132426wmi.15.2021.09.02.02.36.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Sep 2021 02:36:35 -0700 (PDT)
+Subject: Re: [PATCH 6/6] pc: Allow instantiating a virtio-iommu device
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+References: <20210810084505.2257983-1-jean-philippe@linaro.org>
+ <20210810084505.2257983-7-jean-philippe@linaro.org>
+ <41720de5-ce29-dd79-2911-d974408af544@redhat.com> <YSjoCW5z1xbYL4Gp@larix>
+From: Eric Auger <eric.auger@redhat.com>
+Message-ID: <a6d02a90-4991-4577-909b-3cc38c49f71e@redhat.com>
+Date: Thu, 2 Sep 2021 11:36:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <YSjoCW5z1xbYL4Gp@larix>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+Content-Language: en-US
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.029, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,77 +102,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Maxim Levitsky <mlevitsk@redhat.com>,
- Vadim Rozenfeld <vrozenfe@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: eric.auger@redhat.com
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
+ qemu-arm@nongnu.org, pbonzini@redhat.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM implements some Hyper-V 2016 functions so providing WS2008R2 version
-is somewhat incorrect. While generally guests shouldn't care about it
-and always check feature bits, it is known that some tools in Windows
-actually check version info.
+Hi Jean,
 
-For compatibility reasons make the change for 7.2 machine types only.
+On 8/27/21 3:26 PM, Jean-Philippe Brucker wrote:
+> On Tue, Aug 17, 2021 at 04:11:49PM +0200, Eric Auger wrote:
+>> Hi Jean,
+>>
+>> On 8/10/21 10:45 AM, Jean-Philippe Brucker wrote:
+>>> From: Eric Auger <eric.auger@redhat.com>
+>>>
+>>> Add a hotplug handler for virtio-iommu on x86 and set the necessary
+>>> reserved region property. On x86, the [0xfee00000, 0xfeefffff] DMA
+>>> region is reserved for MSIs. DMA transactions to this range either
+>>> trigger IRQ remapping in the IOMMU or bypasses IOMMU translation.
+>>>
+>>> Although virtio-iommu does not support IRQ remapping it must be informed
+>>> of the reserved region so that it can forward DMA transactions targeting
+>>> this region.
+>>>
+>>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>>> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+>> I think we need to handle the case where the end-user gets lost with
+>> iommu options and use an invalid combination such as
+>>
+>> -M q35,iommu=on,int_remap=on,kernel_irqchip=off -device -device virtio-iommu-pci
+> I guess that would be
+> "-M q35,kernel_irqchip=off -device intel-iommu,intremap=on -device virtio-iommu-pci"
+>
+> I'll add the checks, similar to the one in x86_iommu_set_default().
+yes that what I meant sorry.
+>
+>> We may also document somewhere that the virtio-iommu-pci
+>> does not support irq remapping as this may be an important limitation on x86.
+> I'll mention it in the commit message, unless you had another place in
+> mind?
 
-Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
----
- docs/hyperv.txt   | 2 +-
- hw/i386/pc.c      | 6 +++++-
- target/i386/cpu.c | 6 +++---
- 3 files changed, 9 insertions(+), 5 deletions(-)
+you may add an entry in qemu-options.hx too as Peter did for the intel
+iommu in
+7395b3e3e7  docs: Add '-device intel-iommu' entry (7 weeks ago) <Peter Xu>
 
-diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-index 7803495468b7..5d99fd9a72b8 100644
---- a/docs/hyperv.txt
-+++ b/docs/hyperv.txt
-@@ -214,7 +214,7 @@ exposing correct vCPU topology and vCPU pinning.
- 3.20. hv-version-id-{build,major,minor,spack,sbranch,snumber}
- =============================================================
- This changes Hyper-V version identification in CPUID 0x40000002.EAX-EDX from the
--default (WS2008R2).
-+default (WS2016).
- - hv-version-id-build sets 'Build Number' (32 bits)
- - hv-version-id-major sets 'Major Version' (16 bits)
- - hv-version-id-minor sets 'Minor Version' (16 bits)
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 1276bfeee456..b2e4eef9d211 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -93,7 +93,11 @@
- #include "trace.h"
- #include CONFIG_DEVICES
- 
--GlobalProperty pc_compat_6_1[] = {};
-+GlobalProperty pc_compat_6_1[] = {
-+    { TYPE_X86_CPU, "hv-version-id-build", "0x1bbc" },
-+    { TYPE_X86_CPU, "hv-version-id-major", "0x0006" },
-+    { TYPE_X86_CPU, "hv-version-id-minor", "0x0001" },
-+};
- const size_t pc_compat_6_1_len = G_N_ELEMENTS(pc_compat_6_1);
- 
- GlobalProperty pc_compat_6_0[] = {
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 5766e720093d..569840deaf93 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6669,11 +6669,11 @@ static Property x86_cpu_properties[] = {
- 
-     /* WS2008R2 identify by default */
-     DEFINE_PROP_UINT32("hv-version-id-build", X86CPU, hyperv_ver_id_build,
--                       0x1bbc),
-+                       0x3839),
-     DEFINE_PROP_UINT16("hv-version-id-major", X86CPU, hyperv_ver_id_major,
--                       0x0006),
-+                       0x000A),
-     DEFINE_PROP_UINT16("hv-version-id-minor", X86CPU, hyperv_ver_id_minor,
--                       0x0001),
-+                       0x0000),
-     DEFINE_PROP_UINT32("hv-version-id-spack", X86CPU, hyperv_ver_id_sp, 0),
-     DEFINE_PROP_UINT8("hv-version-id-sbranch", X86CPU, hyperv_ver_id_sb, 0),
-     DEFINE_PROP_UINT32("hv-version-id-snumber", X86CPU, hyperv_ver_id_sn, 0),
--- 
-2.31.1
+Thanks
+
+Eric
+>
+> Thanks,
+> Jean
+>
 
 
