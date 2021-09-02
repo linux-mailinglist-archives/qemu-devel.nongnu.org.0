@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAED33FF05B
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 17:39:48 +0200 (CEST)
-Received: from localhost ([::1]:53104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 658213FF053
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 17:37:36 +0200 (CEST)
+Received: from localhost ([::1]:46402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLood-0007ng-Rd
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 11:39:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47542)
+	id 1mLomV-00039g-Fw
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 11:37:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mLoUT-0005MD-PG; Thu, 02 Sep 2021 11:19:01 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33692)
+ id 1mLoUa-0005MW-Fu; Thu, 02 Sep 2021 11:19:05 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:35528)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mLoUN-0002uY-Jl; Thu, 02 Sep 2021 11:18:55 -0400
-Received: by mail-wr1-x436.google.com with SMTP id b10so3587892wru.0;
- Thu, 02 Sep 2021 08:18:50 -0700 (PDT)
+ id 1mLoUT-0002z7-KI; Thu, 02 Sep 2021 11:19:01 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id i6so3540906wrv.2;
+ Thu, 02 Sep 2021 08:18:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=13cqWBFlNB/vr07VKws8Wf/EaynvIPSt3qDKZcCeXuc=;
- b=DR/9kbV/tVfJIqCP1z6hn9Su24lAAqqSfbLsxeichAuBJCWbb6zzEJRbxSkaCjgrjU
- lBe63GKOzbizURuEDjOTHZeTn9O0PphS8T666A6nkD8zLBcnnjs1mrzZhJduLakmh9zy
- 85ST1wRQyL4CICK29MeT0h2cvS+EPtiKFQb1FsJL7FPsBP4fhVIqHGP8Xd/2dyguYxtZ
- pzbZJkdJEx4lnZyK1o2I/oWFyDxBRK7UjBqYrKU03um7wW1CmEFzb7dWRWaWtp/VQUCS
- o7CAlhMgXA9t4OohgKnMObhmI8FRTyI3DI1ved8VJ8SYPFCemYEw/li1Cja6LEOYSNni
- tl0g==
+ bh=NjpYoE1+3YFnM0F4QDL6LEotiNFdmLxhe/DUiCLHaJM=;
+ b=OE2IJqZijkuAu/dtbUlP6NrY1EsKCVCfz038HJYOXGJ8EDulteUPVw6555LSquq8R6
+ UyBKsyS8TbxCG0tsSFJvYB9ADJXpRn70/xtWLjcmzdXfF7x/a5hVHd20QXgWS8llqbvf
+ RQfWoj9R/B+AWCxkrIr1BZvlzLejShTHQ+YSmEdC+u9eoEHoOc8rShzTgKV2UztPduyH
+ vKYYjTOxemAwBu9hCc1RW8h+NqDRzfy3q8VqTvyxqN1YiXtUBK/Y/vT5Cs4ZwKZBSpGD
+ jfyBQyX4dtNCXA6loITIiM3OL24aV4kpGFstbBz9jIIxjgf5jpPsl389IKvPiDBZC5i3
+ TFpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=13cqWBFlNB/vr07VKws8Wf/EaynvIPSt3qDKZcCeXuc=;
- b=gsPEehwO5Dpqjeh26gOT+gokQ94rXdnLugeXHvbdpKcXivbU7kxWLx6betrwZllYPd
- 8rcDOwsWwymNcQyglzLKiDW0p9gDNevrLonvd9tnJlGv6ZZLSsuQbgBmW5eV5taDL388
- WbZIZuPcYy3rfyfaosNcfmT4zTQrS0yKrHAp8sLJClSFjxgfnXyqAhQ31x+B9Ry/Uq+C
- Ge/m6kVU5Iv+bwsQLj4bLA5Ng6A3jUvxHD5adpvbbzeepVSGaGfkAggXcgzHfFATey0A
- vuDAgy4PUFF69Rs/I1XRYF3HBzUjZCAHlzO6glLg7iCzttX4ykW4EY5D59sILb1HEc6F
- ZvQQ==
-X-Gm-Message-State: AOAM5310Vkpkamy6UyHB3IGmgxjKsXziDn1xJrH2+OQ01yRUhYtC/EOf
- erVhPhL3Stky5Z+BROcI1gRXaNrRepM=
-X-Google-Smtp-Source: ABdhPJxhc8HhOPDEGEsFKW9abzQtV4rKAI+TEEQLs1Rc/U1Pasux0Q+YgJ0sayfIRcFYW/yyr4LuaQ==
-X-Received: by 2002:adf:90c1:: with SMTP id i59mr4412316wri.88.1630595929164; 
- Thu, 02 Sep 2021 08:18:49 -0700 (PDT)
+ bh=NjpYoE1+3YFnM0F4QDL6LEotiNFdmLxhe/DUiCLHaJM=;
+ b=fKQ1RrEmI2fwvHpw12pDjJurepR+yY2J0sNkDhi9Swpeld0A81cKofF/6odCK5OZrw
+ fZkbziKN0J5yx+BpNW82RFVXbNFmTyYr4wRwCaaE3SdvRv69zCDzuZWSqhYy1jMFBCvn
+ U+wbaIeKYz9bpDrSUY7sn3ESeKhdtHVA+iv+YsY4/OcHcLwY4U7u9jnoxA1CAFVbS0rj
+ Q1lpTkYJ+AkcvhDlX+XQNkt24ojJzLs/LFeNtrnRNGcaaoJ8HQLTNG6qjE+BS2ZEbdUk
+ X0k87NE1BosIio9Gz+XZT1iQyI0IHZfa9IQJUniAu3ip7lDY6GI/2eZnNP+cZQ90SHAN
+ rk6g==
+X-Gm-Message-State: AOAM531V9d0a+EZTsqAkFuAeQo4T7gxi2D3APtS4Z/8bbt9Poo5K+FJg
+ rGR/t3G1wDxlcIGkqDkMhXHfyk8pKNg=
+X-Google-Smtp-Source: ABdhPJxHGkPXjKBYhlTr35f7CR7AMmKVY8Al83O7nq6m8XUpAKzCtMrlY8MqhAltIqo0aoW6RI9a5A==
+X-Received: by 2002:a5d:638b:: with SMTP id p11mr4313614wru.257.1630595934445; 
+ Thu, 02 Sep 2021 08:18:54 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- 129sm1893960wmz.26.2021.09.02.08.18.47
+ t5sm2171265wra.95.2021.09.02.08.18.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 08:18:48 -0700 (PDT)
+ Thu, 02 Sep 2021 08:18:53 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/24] target/ppc: Restrict cpu_exec_interrupt() handler to
+Subject: [PATCH 18/24] target/riscv: Restrict cpu_exec_interrupt() handler to
  sysemu
-Date: Thu,  2 Sep 2021 17:17:08 +0200
-Message-Id: <20210902151715.383678-18-f4bug@amsat.org>
+Date: Thu,  2 Sep 2021 17:17:09 +0200
+Message-Id: <20210902151715.383678-19-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210902151715.383678-1-f4bug@amsat.org>
 References: <20210902151715.383678-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -106,95 +106,75 @@ Restrict cpu_exec_interrupt() and its callees to sysemu.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/ppc/cpu.h         |  4 ++--
- target/ppc/cpu_init.c    |  2 +-
- target/ppc/excp_helper.c | 21 +++------------------
- 3 files changed, 6 insertions(+), 21 deletions(-)
+ target/riscv/cpu.h        | 2 +-
+ target/riscv/cpu.c        | 2 +-
+ target/riscv/cpu_helper.c | 5 -----
+ 3 files changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 500205229c0..362e7c4c5c7 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -1254,8 +1254,6 @@ DECLARE_OBJ_CHECKERS(PPCVirtualHypervisor, PPCVirtualHypervisorClass,
-                      PPC_VIRTUAL_HYPERVISOR, TYPE_PPC_VIRTUAL_HYPERVISOR)
- #endif /* CONFIG_USER_ONLY */
- 
--void ppc_cpu_do_interrupt(CPUState *cpu);
--bool ppc_cpu_exec_interrupt(CPUState *cpu, int int_req);
- void ppc_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
- hwaddr ppc_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- int ppc_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
-@@ -1271,6 +1269,8 @@ int ppc64_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
- int ppc32_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index bf1c899c00b..e735e53e26c 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -334,7 +334,6 @@ int riscv_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
                                 int cpuid, void *opaque);
- #ifndef CONFIG_USER_ONLY
-+void ppc_cpu_do_interrupt(CPUState *cpu);
-+bool ppc_cpu_exec_interrupt(CPUState *cpu, int int_req);
- void ppc_cpu_do_system_reset(CPUState *cs);
- void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector);
- extern const VMStateDescription vmstate_ppc_cpu;
-diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
-index ad7abc6041a..6aad01d1d3a 100644
---- a/target/ppc/cpu_init.c
-+++ b/target/ppc/cpu_init.c
-@@ -9014,10 +9014,10 @@ static const struct SysemuCPUOps ppc_sysemu_ops = {
- 
- static const struct TCGCPUOps ppc_tcg_ops = {
-   .initialize = ppc_translate_init,
--  .cpu_exec_interrupt = ppc_cpu_exec_interrupt,
-   .tlb_fill = ppc_cpu_tlb_fill,
+ int riscv_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+ int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+-bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
+ bool riscv_cpu_fp_enabled(CPURISCVState *env);
+ bool riscv_cpu_virt_enabled(CPURISCVState *env);
+ void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable);
+@@ -362,6 +361,7 @@ void riscv_cpu_list(void);
+ #define cpu_mmu_index riscv_cpu_mmu_index
  
  #ifndef CONFIG_USER_ONLY
-+  .cpu_exec_interrupt = ppc_cpu_exec_interrupt,
-   .do_interrupt = ppc_cpu_do_interrupt,
-   .cpu_exec_enter = ppc_cpu_exec_enter,
-   .cpu_exec_exit = ppc_cpu_exec_exit,
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index 7b6ac16eef7..d7e32ee107e 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -40,24 +40,8 @@
++bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
+ void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env);
+ int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts);
+ uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value);
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 1a2b03d579c..13575c14085 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -644,10 +644,10 @@ static const struct SysemuCPUOps riscv_sysemu_ops = {
+ static const struct TCGCPUOps riscv_tcg_ops = {
+     .initialize = riscv_translate_init,
+     .synchronize_from_tb = riscv_cpu_synchronize_from_tb,
+-    .cpu_exec_interrupt = riscv_cpu_exec_interrupt,
+     .tlb_fill = riscv_cpu_tlb_fill,
  
- /*****************************************************************************/
- /* Exception processing */
--#if defined(CONFIG_USER_ONLY)
--void ppc_cpu_do_interrupt(CPUState *cs)
--{
--    PowerPCCPU *cpu = POWERPC_CPU(cs);
--    CPUPPCState *env = &cpu->env;
-+#if !defined(CONFIG_USER_ONLY)
- 
--    cs->exception_index = POWERPC_EXCP_NONE;
--    env->error_code = 0;
--}
--
--static void ppc_hw_interrupt(CPUPPCState *env)
--{
--    CPUState *cs = env_cpu(env);
--
--    cs->exception_index = POWERPC_EXCP_NONE;
--    env->error_code = 0;
--}
--#else /* defined(CONFIG_USER_ONLY) */
- static inline void dump_syscall(CPUPPCState *env)
- {
-     qemu_log_mask(CPU_LOG_INT, "syscall r0=%016" PRIx64
-@@ -1113,7 +1097,6 @@ void ppc_cpu_do_fwnmi_machine_check(CPUState *cs, target_ulong vector)
- 
-     powerpc_set_excp_state(cpu, vector, msr);
+ #ifndef CONFIG_USER_ONLY
++    .cpu_exec_interrupt = riscv_cpu_exec_interrupt,
+     .do_interrupt = riscv_cpu_do_interrupt,
+     .do_transaction_failed = riscv_cpu_do_transaction_failed,
+     .do_unaligned_access = riscv_cpu_do_unaligned_access,
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 968cb8046f4..701858d670c 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -75,11 +75,9 @@ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
+         return RISCV_EXCP_NONE; /* indicates no pending interrupt */
+     }
  }
--#endif /* !CONFIG_USER_ONLY */
+-#endif
  
- bool ppc_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
  {
-@@ -1130,6 +1113,8 @@ bool ppc_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+-#if !defined(CONFIG_USER_ONLY)
+     if (interrupt_request & CPU_INTERRUPT_HARD) {
+         RISCVCPU *cpu = RISCV_CPU(cs);
+         CPURISCVState *env = &cpu->env;
+@@ -90,12 +88,9 @@ bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+             return true;
+         }
+     }
+-#endif
      return false;
  }
  
-+#endif /* !CONFIG_USER_ONLY */
-+
- #if defined(DEBUG_OP)
- static void cpu_dump_rfi(target_ulong RA, target_ulong msr)
+-#if !defined(CONFIG_USER_ONLY)
+-
+ /* Return true is floating point support is currently enabled */
+ bool riscv_cpu_fp_enabled(CPURISCVState *env)
  {
 -- 
 2.31.1
