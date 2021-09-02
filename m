@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51ABA3FE9A7
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 09:03:25 +0200 (CEST)
-Received: from localhost ([::1]:56342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0715D3FE9AB
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 09:04:54 +0200 (CEST)
+Received: from localhost ([::1]:60020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLgku-0003Ly-CZ
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 03:03:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52922)
+	id 1mLgmJ-0005ne-PE
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 03:04:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLgiB-0000T7-4e
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 03:00:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33559)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLgiN-0000XR-Uf
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 03:00:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27655)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLgi8-0007pu-5N
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 03:00:34 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLgiB-0007s7-3t
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 03:00:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630566030;
+ s=mimecast20190719; t=1630566034;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=G11yS83SYPSi71JWCodPXBqZwp3R/qnqULwsrrlwKIU=;
- b=STGIYIRV4itFRH9x8OY9HNXj8kmglxC3tSqQxXheLkkRhK8Xtl26kIZUB5+mq2+Jtdrhgf
- XTzzmlomjfDkigk5PbrUzqZDLUc7dY6fJWYFaqlBxZws7zqYulZ5wrkPZff39HwBAl+TgW
- aNHhCVsVCWAsTTkEdsujLZwwUjssqlQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-7-ipZpv7N324rn9HDTX6zg-1; Thu, 02 Sep 2021 03:00:29 -0400
-X-MC-Unique: 7-ipZpv7N324rn9HDTX6zg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- z16-20020adfdf90000000b00159083b5966so206771wrl.23
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 00:00:29 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DPW4a8fAJ5aQIhBkKgFcCQAwlhPjH6NHU1IvtDHYfFc=;
+ b=b36AWFyjT64saCO5RG3ie7WacO1W9Id08koJVV2rMwHy9jZMGxRr1GY1JDNiPm1BcHKbKR
+ LuIv//tg6Xy8bFfokJOktM85NzzGVM5INTt5Wb1c0CVN1Qtp4dVX0vlZzeWGoplnjVC4mw
+ qrnNd1wsEVlGmqLrIZqZQnutWNTmV4Y=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-506-V4aBcoIZPPuQyYTF7L8lyA-1; Thu, 02 Sep 2021 03:00:33 -0400
+X-MC-Unique: V4aBcoIZPPuQyYTF7L8lyA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ w25-20020a1cf6190000b0290252505ddd56so332790wmc.3
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 00:00:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=7z+jkYJuV71NjqPJKVRZAnSidnNf9jpxe0FKFvfdYws=;
- b=Uv6fW2VX4+oXhZPam7x8FRKf9peDPcOK+7usR5kKymzGe02/eZ/XuoIT4BnHOpz1NW
- CseQKDcERClaq1Yd+JNEV8aDErw8SOuICi4cvoUhapdB9UY4wyYtOHxhpQ1GF0kYPUYT
- 0TsGv45KfaUM8b85yknVwmo5zkQsV53SuZj0XnjmUd456bIPdIq+gtvwDPOn+oS32MH+
- qbuwEoH5ry3ivYavCivxQDXm6ZFY7T2wVedYFBbgUh7EoXXxqGK3b1oozMBftzqAzwex
- x+t30AzDhTPffQC9k9AaAkiTlsZ+SB1S/IpmfdHwBNqvR/wa6Ahw+PrOcq12xdbDZlKH
- e7AQ==
-X-Gm-Message-State: AOAM531Bwx5wubLrM1R5DQ8E6zFz6WxQWnxfWCTwCp2cmtuQEDbB0Khc
- 8ZjgSqVD2gh4KN7IQaSxsHQmzCTYoHMShB7D+5CB3voB+u/2wQnK+r48swwitEP1blOPh+UqxZr
- Vt8X1Ldof1lYXcPYP3IaWFN9+WxSu93MqMUXNPq2uXTlLs+xLynAtF8Jsze9Y0bVA
-X-Received: by 2002:adf:9d4b:: with SMTP id o11mr1889590wre.29.1630566027749; 
- Thu, 02 Sep 2021 00:00:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyM+tJEloLn5Go7pbCsDxbmr25/0pDenaf5hrDCvlfm4gKTqb/O4n87cIWtzUtJTKdVItOYkg==
-X-Received: by 2002:adf:9d4b:: with SMTP id o11mr1889538wre.29.1630566027335; 
- Thu, 02 Sep 2021 00:00:27 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=DPW4a8fAJ5aQIhBkKgFcCQAwlhPjH6NHU1IvtDHYfFc=;
+ b=tJwcLav049DgypOJsxN24Dqs46lOXHo1KXHm+9U59KmGxWtQK4A9YNBr4ji9jcvqV2
+ C+zD4H3BR/Kz34yNwwMoNoXr/mcEi4kOxpPqKlqx1XT29fBx5Ohefjc+QlZIFjGG/eiF
+ O+KqvRyfpLx5UBk+bslxxMN6TYl8SzZq/AJPvm5wiqOGpb/VqPzaMvHedGsLyADJdHdF
+ 2XfUyf2bfYCEtUGPSGTbKZFVyndKcmAfJOhqXuhPRH7QqBua3moNYgFowQqPMP0D471S
+ v3s0US/R02iaYT3XHhFWUA81gqk9lCwA7dzhjoyXk8q24Q0Wn+6FyTB6MbNl9NO+6EmT
+ 71UA==
+X-Gm-Message-State: AOAM530pk1wRST2AFZM/MUKujm44udDxW9dqXHtKmXLnwLaFQZpJ99NY
+ oGc08BdSzbS0WrpvV6htEL4PDR/dyzteYex7Zsfqo98t20xwNjVqiKibxPnD3C6XymXgxu89sUm
+ cbJ9rDQvFqCcdbw64S7srjpsTVK0NlLDLwR9MGVl07uPJwx3KKCuLlqmmLGqG7qGt
+X-Received: by 2002:a1c:80c3:: with SMTP id b186mr1459271wmd.105.1630566032317; 
+ Thu, 02 Sep 2021 00:00:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzSuTMeUBYjmMj9GWscYxb35xMvhBOgt2AD3bmDvuZlwWwJvRxCponAJZjr4WVkSloZcaVXBg==
+X-Received: by 2002:a1c:80c3:: with SMTP id b186mr1459238wmd.105.1630566031984; 
+ Thu, 02 Sep 2021 00:00:31 -0700 (PDT)
 Received: from x1w.redhat.com (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id 17sm743356wmj.20.2021.09.02.00.00.26
+ by smtp.gmail.com with ESMTPSA id v5sm933269wru.37.2021.09.02.00.00.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 00:00:26 -0700 (PDT)
+ Thu, 02 Sep 2021 00:00:31 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/11] block/nvme: Rework error reporting
-Date: Thu,  2 Sep 2021 09:00:14 +0200
-Message-Id: <20210902070025.197072-1-philmd@redhat.com>
+Subject: [PATCH v3 01/11] block/nvme: Use safer trace format string
+Date: Thu,  2 Sep 2021 09:00:15 +0200
+Message-Id: <20210902070025.197072-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210902070025.197072-1-philmd@redhat.com>
+References: <20210902070025.197072-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -99,51 +102,30 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(Series fully reviewed)=0D
-=0D
-Hi,=0D
-=0D
-This series contains various patches sent last year with=0D
-review comments addressed, few more cleanups, and a new=0D
-patch which remove the spurious "VFIO_MAP_DMA failed: No=0D
-space left on device" now poping up since commit 15a730e7a.=0D
-(it is the expected behavior, which is why we retry the=0D
-same call after flushing the DMA mappings).=0D
-=0D
-Since v2:=0D
-- qemu_vfio_find_[fixed/temp]_iova retun bool (Klaus)=0D
-- Add Klaus's R-b=0D
-=0D
-Since v1:=0D
-- Addressed Klaus review comments (cleaner Error* handling)=0D
-- Add Klaus's R-b=0D
-=0D
-Regards,=0D
-=0D
-Phil.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (11):=0D
-  block/nvme: Use safer trace format string=0D
-  util/vfio-helpers: Let qemu_vfio_verify_mappings() use error_report()=0D
-  util/vfio-helpers: Replace qemu_mutex_lock() calls with=0D
-    QEMU_LOCK_GUARD=0D
-  util/vfio-helpers: Remove unreachable code in qemu_vfio_dma_map()=0D
-  block/nvme: Have nvme_create_queue_pair() report errors consistently=0D
-  util/vfio-helpers: Pass Error handle to qemu_vfio_dma_map()=0D
-  util/vfio-helpers: Extract qemu_vfio_water_mark_reached()=0D
-  util/vfio-helpers: Use error_setg in qemu_vfio_find_[fixed/temp]_iova=0D
-  util/vfio-helpers: Simplify qemu_vfio_dma_map() returning directly=0D
-  util/vfio-helpers: Let qemu_vfio_do_mapping() propagate Error=0D
-  block/nvme: Only report VFIO error on failed retry=0D
-=0D
- include/qemu/vfio-helpers.h |  2 +-=0D
- block/nvme.c                | 29 +++++++----=0D
- util/vfio-helpers.c         | 99 ++++++++++++++++++++-----------------=0D
- block/trace-events          |  2 +-=0D
- 4 files changed, 76 insertions(+), 56 deletions(-)=0D
-=0D
---=20=0D
-2.31.1=0D
-=0D
+Fix when building with -Wshorten-64-to-32:
+
+  warning: implicit conversion loses integer precision: 'unsigned long' to 'int' [-Wshorten-64-to-32]
+
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ block/trace-events | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/block/trace-events b/block/trace-events
+index b3d2b1e62cb..f4f1267c8c0 100644
+--- a/block/trace-events
++++ b/block/trace-events
+@@ -156,7 +156,7 @@ nvme_dsm(void *s, uint64_t offset, uint64_t bytes) "s %p offset 0x%"PRIx64" byte
+ nvme_dsm_done(void *s, uint64_t offset, uint64_t bytes, int ret) "s %p offset 0x%"PRIx64" bytes %"PRId64" ret %d"
+ nvme_dma_map_flush(void *s) "s %p"
+ nvme_free_req_queue_wait(void *s, unsigned q_index) "s %p q #%u"
+-nvme_create_queue_pair(unsigned q_index, void *q, unsigned size, void *aio_context, int fd) "index %u q %p size %u aioctx %p fd %d"
++nvme_create_queue_pair(unsigned q_index, void *q, size_t size, void *aio_context, int fd) "index %u q %p size %zu aioctx %p fd %d"
+ nvme_free_queue_pair(unsigned q_index, void *q) "index %u q %p"
+ nvme_cmd_map_qiov(void *s, void *cmd, void *req, void *qiov, int entries) "s %p cmd %p req %p qiov %p entries %d"
+ nvme_cmd_map_qiov_pages(void *s, int i, uint64_t page) "s %p page[%d] 0x%"PRIx64
+-- 
+2.31.1
 
 
