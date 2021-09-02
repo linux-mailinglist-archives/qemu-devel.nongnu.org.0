@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9559A3FF84A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 02:13:59 +0200 (CEST)
-Received: from localhost ([::1]:49876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F17553FF847
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 02:12:03 +0200 (CEST)
+Received: from localhost ([::1]:46980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLwqE-00028M-L8
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 20:13:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58744)
+	id 1mLwoL-0008KC-Ng
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 20:12:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwRC-0006vf-WA
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:48:07 -0400
-Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:38435)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwRN-00077c-7B
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:48:18 -0400
+Received: from mail-il1-x133.google.com ([2607:f8b0:4864:20::133]:37646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwR9-00031Q-M4
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:48:05 -0400
-Received: by mail-io1-xd2d.google.com with SMTP id a13so4706288iol.5
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 16:48:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwRB-00032o-EY
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:48:16 -0400
+Received: by mail-il1-x133.google.com with SMTP id i13so3575511ilm.4
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 16:48:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7gfG3cDMl/+BhUptceriSbC0OZc6hUw/vovcMjt5D7o=;
- b=xMAvVka9TnMaMlKsN0mqvA+5C13trsa5bDGb8zSpudc4jCq80awQDYRXpO/sypYKr4
- q/Mj/WDnuKMmt8WKxc1P+ocImZA9PUCgonDyiv4Vsb9RIntABQhFP4aUqf7mm3ZXcftJ
- ExoeBTgXgR5Qfta3gcFd7P9YpB8Em+TTdzs7aT94vkWtYef3qlEPa8TWz8T4C7Yy2H7T
- 9MTM5aSs0OJ3ZBKf4c0vV1S6HBxfG5CbpkUAmrORRmF17+38rs4CsTxtLCK6bs/0kuoB
- PvAtQkSA0trFJ11nADk6tNWrx4mYmkhK3niZU5/kBmIqZJAoDwGotiY3GBkLFUc1Upo4
- 54dA==
+ bh=XIdYQ+5cl7tWHxDF6skLL3TOWZUYbnuwJ9DfsPMOy5U=;
+ b=tth9YHT2+S9N1hgWz9D9mz62N9tJ3HX8m+RN1Vg9XI6tu4Nb5D7DeWh3pjA2x7AQ6U
+ BqJg4w5/IAY7IfjslAdO0pWqvExXCxlD8GFQXgR6eHW3WcyDCg4kaNAsKv9XZNhZ2nnR
+ AR8/6iVhfXyQL8UWJjYMTqK1X0DhagGSQXUbUpVgZNhDxrB6MzEDefcbq+YzKvFFMwXp
+ CLsXHbzpicV33NVmGfnOGBgkXURuZDra8lLKbZxKNqeqZWSsljyNu9OhEXX3ifnhK0mv
+ qjHaZpAWEEnau3SAZ5nBlTzvQnwB0TVUcSyx8kvMDlUt4BVpkJ21GsF7fiHa2t15tG+9
+ U3Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7gfG3cDMl/+BhUptceriSbC0OZc6hUw/vovcMjt5D7o=;
- b=LyJpTeEWW2mBsNHWMsegUdR9qyKIYlNn2FzTerFJPgYhuztUdOj1WZi+DRUmhJmvIz
- vzhS89nnxQRQQ6EcRm04k2kUdplbopyF7D1r01ZvKJyJFs/R8Vmf6pYtLBSaBSm2LZhB
- qbP6Myt9Z42m85NrpiewMaPwErxopSTQmBV1Za3z1Fa+n0Tc4LxHL2WS9lubIgGY0K1C
- 6/ny0kqbGnFKdaeYOPOWCLEFYAJ9j2RhdomNw+OSrktohw2i5kdwNP0nDOJGpsW5+Prk
- hTbjqu6mGemX/lkdt1zNoewpTQ67oe/GHEYbOm3BDnqWk9wU6ExUMbPpEtLjavShPLQZ
- z8Hg==
-X-Gm-Message-State: AOAM5312TB8Zn0sRebQX90UuqNbfcS1Pzj/cHpxSLbxo87pMPz6Nj+/X
- 4gsuXdKZO8WMi61xbLJgidRfsGeO+yjlpw==
-X-Google-Smtp-Source: ABdhPJw+OMGLFqA1Kk0q/MTsxKrK37aitewdM/u8H9kcgHUEkQsNZe4awwaAzQxmVS+5HTaAFJ4oCg==
-X-Received: by 2002:a02:1608:: with SMTP id a8mr286614jaa.36.1630626482363;
- Thu, 02 Sep 2021 16:48:02 -0700 (PDT)
+ bh=XIdYQ+5cl7tWHxDF6skLL3TOWZUYbnuwJ9DfsPMOy5U=;
+ b=ZzL8XxTbocz5gcJWShZIg9Nv5kvzvD0EeiCMHQ41sN5IxmaInwd7LPgl9DBXqWSB+e
+ keHXazDaFNAcVH8ga+7f6bEsi9uA3uKYUuhbcb3743MV899KlrEhdwRScTeBBPjVNbWq
+ pub3YVM26hGfQbi69sdQcsKOmjJcU/VE1TbIGmWLjJNLi24megpinbEryOJRMZXavWRU
+ tRCmdzFhz0ApS4Ln8I+e2Pk2YdkoBfGEtg6kxREspqcRsFFms/mYnNpdukbM0cCHFVmy
+ mf3XzFGO5nkfx5IZ4XSuLe/bLziEvNjiOgXCtwK4dFkL3kmgTF7ffkwsJkMeqFlcn7aA
+ Onng==
+X-Gm-Message-State: AOAM531pCZA5gY25mjYD3oRIwPCIrDCYulXpIpK3ssn3FQrsdCY9cHqP
+ ylkTfPW8WNfhMNbL56ab2at7GuBrpVAqVA==
+X-Google-Smtp-Source: ABdhPJyV1UQZHwx3IXAMT5weaInfxqd9bmMCE3KYZX2vqZmNtUKj/lzf3xjb9L+8FzC8xu3t93nbEw==
+X-Received: by 2002:a92:cb4d:: with SMTP id f13mr535654ilq.220.1630626483972; 
+ Thu, 02 Sep 2021 16:48:03 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id u10sm1740502ilg.15.2021.09.02.16.48.01
+ by smtp.gmail.com with ESMTPSA id u10sm1740502ilg.15.2021.09.02.16.48.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 16:48:01 -0700 (PDT)
+ Thu, 02 Sep 2021 16:48:03 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 19/43] bsd-user: start to move target CPU functions to
- target_arch*
-Date: Thu,  2 Sep 2021 17:47:05 -0600
-Message-Id: <20210902234729.76141-20-imp@bsdimp.com>
+Subject: [PATCH v3 21/43] bsd-user: pull in target_arch_thread.h update
+ target_arch_elf.h
+Date: Thu,  2 Sep 2021 17:47:07 -0600
+Message-Id: <20210902234729.76141-22-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210902234729.76141-1-imp@bsdimp.com>
 References: <20210902234729.76141-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d2d;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd2d.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::133;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x133.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,42 +82,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org, Richard Henderson <richard.henderson@linaro.org>,
- Warner Losh <imp@FreeBSD.org>, Warner Losh <imp@bsdimp.com>,
- Stacey Son <sson@FreeBSD.org>
+Cc: kevans@freebsd.org, Warner Losh <imp@FreeBSD.org>,
+ Warner Losh <imp@bsdimp.com>, Stacey Son <sson@FreeBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@FreeBSD.org>
 
-Move the CPU functions into target_arch_cpu.c that are unique to each
-CPU. These are defined in target_arch.h.
+Update target_arch_elf.h to remove thread_init. Move its contents to
+target_arch_thread.h and rename to target_thread_init(). Update
+elfload.c to call it. Create thread_os_thread.h to hold the os specific
+parts of the thread and threat manipulation routines. Currently, it just
+includes target_arch_thread.h. target_arch_thread.h contains the at the
+moment unused target_thread_set_upcall which will be used in the future
+when creating actual thread (i386 has this stubbed, but other
+architectures in the bsd-user tree have real ones). FreeBSD doesn't do
+AT_HWCAP, so remove that code. Linux does, and this code came from there.
+
+These changes are all interrelated and could be brokend own, but seem to
+represent a reviewable changeset since most of the change is boiler
+plate.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/i386/target_arch.h       | 31 +++++++++++++
- bsd-user/i386/target_arch_cpu.c   | 75 +++++++++++++++++++++++++++++++
- bsd-user/main.c                   | 35 ---------------
- bsd-user/x86_64/target_arch.h     | 31 +++++++++++++
- bsd-user/x86_64/target_arch_cpu.c | 75 +++++++++++++++++++++++++++++++
- configure                         |  7 +--
- meson.build                       |  7 ++-
- 7 files changed, 218 insertions(+), 43 deletions(-)
- create mode 100644 bsd-user/i386/target_arch.h
- create mode 100644 bsd-user/i386/target_arch_cpu.c
- create mode 100644 bsd-user/x86_64/target_arch.h
- create mode 100644 bsd-user/x86_64/target_arch_cpu.c
+ bsd-user/elfload.c                   |  4 ++-
+ bsd-user/freebsd/target_os_thread.h  | 25 +++++++++++++
+ bsd-user/i386/target_arch_elf.h      | 52 ++--------------------------
+ bsd-user/i386/target_arch_thread.h   | 47 +++++++++++++++++++++++++
+ bsd-user/netbsd/target_os_thread.h   | 25 +++++++++++++
+ bsd-user/openbsd/target_os_thread.h  | 25 +++++++++++++
+ bsd-user/x86_64/target_arch_elf.h    | 38 ++------------------
+ bsd-user/x86_64/target_arch_thread.h | 40 +++++++++++++++++++++
+ 8 files changed, 171 insertions(+), 85 deletions(-)
+ create mode 100644 bsd-user/freebsd/target_os_thread.h
+ create mode 100644 bsd-user/i386/target_arch_thread.h
+ create mode 100644 bsd-user/netbsd/target_os_thread.h
+ create mode 100644 bsd-user/openbsd/target_os_thread.h
+ create mode 100644 bsd-user/x86_64/target_arch_thread.h
 
-diff --git a/bsd-user/i386/target_arch.h b/bsd-user/i386/target_arch.h
+diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
+index ccb1744800..c28ef34143 100644
+--- a/bsd-user/elfload.c
++++ b/bsd-user/elfload.c
+@@ -24,6 +24,7 @@
+ #include "qemu/path.h"
+ 
+ #include "target_arch_elf.h"
++#include "target_os_thread.h"
+ 
+ /* this flag is uneffective under linux too, should be deleted */
+ #ifndef MAP_DENYWRITE
+@@ -1001,5 +1002,6 @@ int load_elf_binary(struct bsd_binprm *bprm, struct target_pt_regs *regs,
+ 
+ void do_init_thread(struct target_pt_regs *regs, struct image_info *infop)
+ {
+-    init_thread(regs, infop);
++
++    target_thread_init(regs, infop);
+ }
+diff --git a/bsd-user/freebsd/target_os_thread.h b/bsd-user/freebsd/target_os_thread.h
 new file mode 100644
-index 0000000000..73e9a028fe
+index 0000000000..77433acdff
 --- /dev/null
-+++ b/bsd-user/i386/target_arch.h
-@@ -0,0 +1,31 @@
++++ b/bsd-user/freebsd/target_os_thread.h
+@@ -0,0 +1,25 @@
 +/*
-+ * Intel x86 specific prototypes for bsd-user
++ *  FreeBSD thread dependent code and definitions
 + *
 + *  Copyright (c) 2013 Stacey D. Son
 + *
@@ -135,167 +166,143 @@ index 0000000000..73e9a028fe
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef _TARGET_ARCH_H_
-+#define _TARGET_ARCH_H_
++#ifndef _TARGET_OS_THREAD_H_
++#define _TARGET_OS_THREAD_H_
 +
-+/* target_arch_cpu.c */
-+void bsd_i386_write_dt(void *ptr, unsigned long addr, unsigned long limit,
-+                int flags);
-+void bsd_i386_set_idt(int n, unsigned int dpl);
-+void bsd_i386_set_idt_base(uint64_t base);
++#include "target_arch_thread.h"
 +
-+#define target_cpu_set_tls(env, newtls)
-+
-+#endif /* ! _TARGET_ARCH_H_ */
-diff --git a/bsd-user/i386/target_arch_cpu.c b/bsd-user/i386/target_arch_cpu.c
-new file mode 100644
-index 0000000000..7f2f755a11
---- /dev/null
-+++ b/bsd-user/i386/target_arch_cpu.c
-@@ -0,0 +1,75 @@
-+/*
-+ *  i386 cpu related code
-+ *
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include <sys/types.h>
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "qemu.h"
-+#include "qemu/timer.h"
-+
-+#include "target_arch.h"
-+
-+static uint64_t *idt_table;
-+
-+uint64_t cpu_get_tsc(CPUX86State *env)
-+{
-+    return cpu_get_host_ticks();
-+}
-+
-+int cpu_get_pic_interrupt(CPUX86State *env)
-+{
-+    return -1;
-+}
-+
-+void bsd_i386_write_dt(void *ptr, unsigned long addr, unsigned long limit,
-+                     int flags)
-+{
-+    unsigned int e1, e2;
-+    uint32_t *p;
-+    e1 = (addr << 16) | (limit & 0xffff);
-+    e2 = ((addr >> 16) & 0xff) | (addr & 0xff000000) | (limit & 0x000f0000);
-+    e2 |= flags;
-+    p = ptr;
-+    p[0] = tswap32(e1);
-+    p[1] = tswap32(e2);
-+}
-+
-+
-+static void set_gate(void *ptr, unsigned int type, unsigned int dpl,
-+                     uint32_t addr, unsigned int sel)
-+{
-+    uint32_t *p, e1, e2;
-+    e1 = (addr & 0xffff) | (sel << 16);
-+    e2 = (addr & 0xffff0000) | 0x8000 | (dpl << 13) | (type << 8);
-+    p = ptr;
-+    p[0] = tswap32(e1);
-+    p[1] = tswap32(e2);
-+}
-+
-+/* only dpl matters as we do only user space emulation */
-+void bsd_i386_set_idt(int n, unsigned int dpl)
-+{
-+    set_gate(idt_table + n, 0, dpl, 0, 0);
-+}
-+
-+void bsd_i386_set_idt_base(uint64_t base)
-+{
-+    idt_table = g2h_untagged(base);
-+}
-+
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index d7c8a3e348..f7c75df64d 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -72,13 +72,6 @@ void gemu_log(const char *fmt, ...)
-     va_end(ap);
- }
++#endif /* !_TARGET_OS_THREAD_H_ */
+diff --git a/bsd-user/i386/target_arch_elf.h b/bsd-user/i386/target_arch_elf.h
+index 84f61bd930..eb760e07fa 100644
+--- a/bsd-user/i386/target_arch_elf.h
++++ b/bsd-user/i386/target_arch_elf.h
+@@ -19,62 +19,16 @@
+ #ifndef _TARGET_ARCH_ELF_H_
+ #define _TARGET_ARCH_ELF_H_
  
--#if defined(TARGET_I386)
--int cpu_get_pic_interrupt(CPUX86State *env)
+-#define ELF_PLATFORM get_elf_platform()
+-
+-static const char *get_elf_platform(void)
 -{
--    return -1;
--}
--#endif
--
- void fork_start(void)
- {
- }
-@@ -94,11 +87,6 @@ void fork_end(int child)
- /***********************************************************/
- /* CPUX86 core interface */
- 
--uint64_t cpu_get_tsc(CPUX86State *env)
--{
--    return cpu_get_host_ticks();
--}
--
- static void write_dt(void *ptr, unsigned long addr, unsigned long limit,
-                      int flags)
- {
-@@ -570,29 +558,6 @@ int main(int argc, char **argv)
-      */
-     guest_base = HOST_PAGE_ALIGN(guest_base);
- 
--    /*
--     * Read in mmap_min_addr kernel parameter.  This value is used
--     * When loading the ELF image to determine whether guest_base
--     * is needed.
--     *
--     * When user has explicitly set the quest base, we skip this
--     * test.
--     */
--    if (!have_guest_base) {
--        FILE *fp;
--
--        fp = fopen("/proc/sys/vm/mmap_min_addr", "r");
--        if (fp != NULL) {
--            unsigned long tmp;
--            if (fscanf(fp, "%lu", &tmp) == 1) {
--                mmap_min_addr = tmp;
--                qemu_log_mask(CPU_LOG_PAGE, "host mmap_min_addr=0x%lx\n",
--                              mmap_min_addr);
--            }
--            fclose(fp);
--        }
+-    static char elf_platform[] = "i386";
+-    int family = object_property_get_int(OBJECT(thread_cpu), "family", NULL);
+-    if (family > 6) {
+-        family = 6;
 -    }
+-    if (family >= 3) {
+-        elf_platform[1] = '0' + family;
+-    }
+-    return elf_platform;
+-}
 -
-     if (loader_exec(filename, argv + optind, target_environ, regs, info,
-                     &bprm) != 0) {
-         printf("Error loading %s\n", filename);
-diff --git a/bsd-user/x86_64/target_arch.h b/bsd-user/x86_64/target_arch.h
+-#define ELF_HWCAP get_elf_hwcap()
+-
+-static uint32_t get_elf_hwcap(void)
+-{
+-    X86CPU *cpu = X86_CPU(thread_cpu);
+-
+-    return cpu->env.features[FEAT_1_EDX];
+-}
+-
+ #define ELF_START_MMAP 0x80000000
+-
+-/*
+- * This is used to ensure we don't load something for the wrong architecture.
+- */
++#define ELF_ET_DYN_LOAD_ADDR    0x01001000
+ #define elf_check_arch(x) (((x) == EM_386) || ((x) == EM_486))
+ 
+-/*
+- * These are used to set parameters in the core dumps.
+- */
++#define ELF_HWCAP       0 /* FreeBSD doesn't do AT_HWCAP{,2} on x86 */
++
+ #define ELF_CLASS       ELFCLASS32
+ #define ELF_DATA        ELFDATA2LSB
+ #define ELF_ARCH        EM_386
+ 
+-static inline void init_thread(struct target_pt_regs *regs,
+-                               struct image_info *infop)
+-{
+-    regs->esp = infop->start_stack;
+-    regs->eip = infop->entry;
+-
+-    /*
+-     * SVR4/i386 ABI (pages 3-31, 3-32) says that when the program
+-     * starts %edx contains a pointer to a function which might be
+-     * registered using `atexit'.  This provides a mean for the
+-     * dynamic linker to call DT_FINI functions for shared libraries
+-     * that have been loaded before the code runs.
+-     *
+-     * A value of 0 tells we have no such handler.
+-     */
+-    regs->edx = 0;
+-}
+-
+ #define USE_ELF_CORE_DUMP
+ #define ELF_EXEC_PAGESIZE       4096
+ 
+diff --git a/bsd-user/i386/target_arch_thread.h b/bsd-user/i386/target_arch_thread.h
 new file mode 100644
-index 0000000000..e558e1b956
+index 0000000000..e65e476f75
 --- /dev/null
-+++ b/bsd-user/x86_64/target_arch.h
-@@ -0,0 +1,31 @@
++++ b/bsd-user/i386/target_arch_thread.h
+@@ -0,0 +1,47 @@
 +/*
-+ * Intel x86_64 specific prototypes for bsd-user
++ *  i386 thread support
++ *
++ *  Copyright (c) 2013 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++#ifndef _TARGET_ARCH_THREAD_H_
++#define _TARGET_ARCH_THREAD_H_
++
++/* Compare to vm_machdep.c cpu_set_upcall_kse() */
++static inline void target_thread_set_upcall(CPUX86State *regs, abi_ulong entry,
++    abi_ulong arg, abi_ulong stack_base, abi_ulong stack_size)
++{
++    /* XXX */
++}
++
++static inline void target_thread_init(struct target_pt_regs *regs,
++        struct image_info *infop)
++{
++    regs->esp = infop->start_stack;
++    regs->eip = infop->entry;
++
++    /*
++     * SVR4/i386 ABI (pages 3-31, 3-32) says that when the program starts %edx
++     * contains a pointer to a function which might be registered using
++     * `atexit'.  This provides a mean for the dynamic linker to call DT_FINI
++     * functions for shared libraries that have been loaded before the code
++     * runs.
++     *
++     * A value of 0 tells we have no such handler.
++     */
++    regs->edx = 0;
++}
++
++#endif /* !_TARGET_ARCH_THREAD_H_ */
+diff --git a/bsd-user/netbsd/target_os_thread.h b/bsd-user/netbsd/target_os_thread.h
+new file mode 100644
+index 0000000000..904dd1bf78
+--- /dev/null
++++ b/bsd-user/netbsd/target_os_thread.h
+@@ -0,0 +1,25 @@
++/*
++ *  NetBSD thread dependent code and definitions
 + *
 + *  Copyright (c) 2013 Stacey D. Son
 + *
@@ -313,27 +320,22 @@ index 0000000000..e558e1b956
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef _TARGET_ARCH_H_
-+#define _TARGET_ARCH_H_
++#ifndef _TARGET_OS_THREAD_H_
++#define _TARGET_OS_THREAD_H_
 +
-+/* target_arch_cpu.c */
-+void bsd_x86_64_write_dt(void *ptr, unsigned long addr, unsigned long limit,
-+                int flags);
-+void bsd_x86_64_set_idt(int n, unsigned int dpl);
-+void bsd_x86_64_set_idt_base(uint64_t base);
++#include "target_arch_thread.h"
 +
-+#define target_cpu_set_tls(env, newtls)
-+
-+#endif /* !_TARGET_ARCH_H_ */
-diff --git a/bsd-user/x86_64/target_arch_cpu.c b/bsd-user/x86_64/target_arch_cpu.c
++#endif /* !_TARGET_OS_THREAD_H_ */
+diff --git a/bsd-user/openbsd/target_os_thread.h b/bsd-user/openbsd/target_os_thread.h
 new file mode 100644
-index 0000000000..a2c5b176a4
+index 0000000000..01ed0d9fc8
 --- /dev/null
-+++ b/bsd-user/x86_64/target_arch_cpu.c
-@@ -0,0 +1,75 @@
++++ b/bsd-user/openbsd/target_os_thread.h
+@@ -0,0 +1,25 @@
 +/*
-+ *  x86_64 cpu related code
++ *  OpenBSD thread dependent code and definitions
 + *
++ *  Copyright (c) 2013 Stacey D. Son
 + *
 + *  This program is free software; you can redistribute it and/or modify
 + *  it under the terms of the GNU General Public License as published by
@@ -349,107 +351,114 @@ index 0000000000..a2c5b176a4
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#include <sys/types.h>
++#ifndef _TARGET_OS_THREAD_H_
++#define _TARGET_OS_THREAD_H_
 +
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "qemu.h"
-+#include "qemu/timer.h"
++#include "target_arch_thread.h"
 +
-+#include "target_arch.h"
-+
-+static uint64_t *idt_table;
-+
-+uint64_t cpu_get_tsc(CPUX86State *env)
-+{
-+    return cpu_get_host_ticks();
-+}
-+
-+int cpu_get_pic_interrupt(CPUX86State *env)
-+{
-+    return -1;
-+}
-+
-+void bsd_x86_64_write_dt(void *ptr, unsigned long addr,
-+        unsigned long limit, int flags)
-+{
-+    unsigned int e1, e2;
-+    uint32_t *p;
-+    e1 = (addr << 16) | (limit & 0xffff);
-+    e2 = ((addr >> 16) & 0xff) | (addr & 0xff000000) | (limit & 0x000f0000);
-+    e2 |= flags;
-+    p = ptr;
-+    p[0] = tswap32(e1);
-+    p[1] = tswap32(e2);
-+}
-+
-+static void set_gate64(void *ptr, unsigned int type, unsigned int dpl,
-+        uint64_t addr, unsigned int sel)
-+{
-+    uint32_t *p, e1, e2;
-+    e1 = (addr & 0xffff) | (sel << 16);
-+    e2 = (addr & 0xffff0000) | 0x8000 | (dpl << 13) | (type << 8);
-+    p = ptr;
-+    p[0] = tswap32(e1);
-+    p[1] = tswap32(e2);
-+    p[2] = tswap32(addr >> 32);
-+    p[3] = 0;
-+}
-+
-+/* only dpl matters as we do only user space emulation */
-+void bsd_x86_64_set_idt(int n, unsigned int dpl)
-+{
-+    set_gate64(idt_table + n * 2, 0, dpl, 0, 0);
-+}
-+
-+void bsd_x86_64_set_idt_base(uint64_t base)
-+{
-+    idt_table = g2h_untagged(base);
-+}
-diff --git a/configure b/configure
-index 9a79a004d7..111d27f28e 100755
---- a/configure
-+++ b/configure
-@@ -721,6 +721,7 @@ GNU/kFreeBSD)
- ;;
- FreeBSD)
-   bsd="yes"
-+  bsd_user="yes"
-   make="${MAKE-gmake}"
-   audio_drv_list="oss try-sdl"
-   audio_possible_drivers="oss sdl pa"
-@@ -782,12 +783,6 @@ Linux)
- ;;
- esac
++#endif /* !_TARGET_OS_THREAD_H_ */
+diff --git a/bsd-user/x86_64/target_arch_elf.h b/bsd-user/x86_64/target_arch_elf.h
+index e7c8aa2755..c2f8553962 100644
+--- a/bsd-user/x86_64/target_arch_elf.h
++++ b/bsd-user/x86_64/target_arch_elf.h
+@@ -19,48 +19,16 @@
+ #ifndef _TARGET_ARCH_ELF_H_
+ #define _TARGET_ARCH_ELF_H_
  
--if [ "$bsd" = "yes" ] ; then
--  if [ "$darwin" != "yes" ] ; then
--    bsd_user="yes"
--  fi
--fi
+-#define ELF_PLATFORM get_elf_platform()
 -
- : ${make=${MAKE-make}}
+-static const char *get_elf_platform(void)
+-{
+-    static char elf_platform[] = "i386";
+-    int family = object_property_get_int(OBJECT(thread_cpu), "family", NULL);
+-    if (family > 6) {
+-        family = 6;
+-    }
+-    if (family >= 3) {
+-        elf_platform[1] = '0' + family;
+-    }
+-    return elf_platform;
+-}
+-
+-#define ELF_HWCAP get_elf_hwcap()
+-
+-static uint32_t get_elf_hwcap(void)
+-{
+-    X86CPU *cpu = X86_CPU(thread_cpu);
+-
+-    return cpu->env.features[FEAT_1_EDX];
+-}
+-
+ #define ELF_START_MMAP 0x2aaaaab000ULL
++#define ELF_ET_DYN_LOAD_ADDR    0x01021000
+ #define elf_check_arch(x) (((x) == ELF_ARCH))
  
- # We prefer python 3.x. A bare 'python' is traditionally
-diff --git a/meson.build b/meson.build
-index bf63784812..024ffe044c 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2564,9 +2564,12 @@ foreach target : target_dirs
-     if 'CONFIG_LINUX_USER' in config_target
-       base_dir = 'linux-user'
-       target_inc += include_directories('linux-user/host/' / config_host['ARCH'])
--    else
-+    endif
-+    if 'CONFIG_BSD_USER' in config_target
-       base_dir = 'bsd-user'
--      target_inc += include_directories('bsd-user/freebsd')
-+      target_inc += include_directories('bsd-user/' / targetos)
-+      dir = base_dir / abi
-+      arch_srcs += files(dir / 'target_arch_cpu.c')
-     endif
-     target_inc += include_directories(
-       base_dir,
++#define ELF_HWCAP      0 /* FreeBSD doesn't do AT_HWCAP{,2} on x86 */
++
+ #define ELF_CLASS      ELFCLASS64
+ #define ELF_DATA       ELFDATA2LSB
+ #define ELF_ARCH       EM_X86_64
+ 
+-static inline void init_thread(struct target_pt_regs *regs,
+-                               struct image_info *infop)
+-{
+-    regs->rax = 0;
+-    regs->rsp = infop->start_stack;
+-    regs->rip = infop->entry;
+-    if (bsd_type == target_freebsd) {
+-        regs->rdi = infop->start_stack;
+-    }
+-}
+-
+ #define USE_ELF_CORE_DUMP
+ #define ELF_EXEC_PAGESIZE       4096
+ 
+diff --git a/bsd-user/x86_64/target_arch_thread.h b/bsd-user/x86_64/target_arch_thread.h
+new file mode 100644
+index 0000000000..d105e43fd3
+--- /dev/null
++++ b/bsd-user/x86_64/target_arch_thread.h
+@@ -0,0 +1,40 @@
++/*
++ *  x86_64 thread support
++ *
++ *  Copyright (c) 2013 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++#ifndef _TARGET_ARCH_THREAD_H_
++#define _TARGET_ARCH_THREAD_H_
++
++/* Compare to vm_machdep.c cpu_set_upcall_kse() */
++static inline void target_thread_set_upcall(CPUX86State *regs, abi_ulong entry,
++    abi_ulong arg, abi_ulong stack_base, abi_ulong stack_size)
++{
++    /* XXX */
++}
++
++static inline void target_thread_init(struct target_pt_regs *regs,
++    struct image_info *infop)
++{
++    regs->rax = 0;
++    regs->rsp = infop->start_stack;
++    regs->rip = infop->entry;
++    if (bsd_type == target_freebsd) {
++        regs->rdi = infop->start_stack;
++    }
++}
++
++#endif /* !_TARGET_ARCH_THREAD_H_ */
 -- 
 2.32.0
 
