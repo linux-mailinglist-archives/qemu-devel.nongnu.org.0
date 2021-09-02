@@ -2,83 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 801B63FEC27
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 12:30:39 +0200 (CEST)
-Received: from localhost ([::1]:40978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD2273FEC29
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 12:31:49 +0200 (CEST)
+Received: from localhost ([::1]:43718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLjzS-0004E9-Es
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 06:30:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35928)
+	id 1mLk0a-00064A-VJ
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 06:31:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mLjvo-0005VX-K4
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 06:26:52 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40498)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mLjvm-00058f-RS
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 06:26:52 -0400
-Received: by mail-wr1-x433.google.com with SMTP id t15so2079389wrg.7
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 03:26:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=XB2ySMwxaAU8AyEQvsNP4iD+kPPISaMwOkV++8A/wTE=;
- b=A28F4WeLOeHh68DkE2xnK7wjvUmXnxxMtsi4ghDF0GlR7z9EbnJs0bWDgDDJRYF/7m
- DWZ0t2P5x6eOa2BX42abf6IbQOpfK656rvtfvJJy0MJohH40Ba0AVeKAwi6ZckNaST9C
- Gg1o06466f76QScnpcP4lctL6DOCt9IqQ4/dStadwa8V085+v4fN78iokUKGlRXPn2p9
- IZvwdkLqyp1nVMrkzVbYc6dqr1OpnuMVJg3LpofROOV8ua1oxuVz5xZrHIDvj57H+q7N
- Q1pX2S/H6kc7y8V/CJidHUBDo0WQvw9mq5VMOussZnzk+Grpd4Lcx9H4N4hbhIZP37LR
- Gmmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XB2ySMwxaAU8AyEQvsNP4iD+kPPISaMwOkV++8A/wTE=;
- b=Wk7RNYD+QF37hugi0O46McowxP+W+xmwI5xgphKu+B+TzXgUT8BxtRWY6JrjR6XJWT
- mDJ0p+lccEzIdQMWwbcB4fYJaabdOXf/xwoPYGUkrlFi2HKtLBehW5JZ6h1ZJr9Xnanl
- /L4sbCkBGft7ruSJ8tI5b6qkaKlDEz+eusOQTPubwyTPcVts8dg3Fdr9p1g1IYbkNHhQ
- u/2mQjR0eFogJyeyAz534eF/O3ANtW6cDvkxtw2bHzB0II0c4xTRLDngYuSw13mVmxrM
- dORwclLWAnYawMMKRkXvs24SurdHeuLXnxY/D/j8bgl1bAPFp9IyKD7meFbGulCtBJqL
- o/RA==
-X-Gm-Message-State: AOAM5324RZ7ywViqdWlFDGFeLarwcE3F9Yz56CefNz8ShYfaLJRgzX1M
- A97z5PWtsDXDqb7uzTwvCH6JnTph3/Y=
-X-Google-Smtp-Source: ABdhPJwplxI6cgjjk5kpUksWAty02DJ/Idvz3tdOtYUOxnoTnt9WLDwLyk041MvfUrKt5+Z9pmwByw==
-X-Received: by 2002:adf:9e49:: with SMTP id v9mr2755348wre.39.1630578409628;
- Thu, 02 Sep 2021 03:26:49 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id o5sm1392569wrw.17.2021.09.02.03.26.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Sep 2021 03:26:49 -0700 (PDT)
-Subject: Re: [PATCH v2 8/9] escc: re-use escc_reset_chn() for hard and soft
- reset
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- laurent@vivier.eu
-References: <20210902102205.7554-1-mark.cave-ayland@ilande.co.uk>
- <20210902102205.7554-9-mark.cave-ayland@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <21a098b5-7237-7540-955c-70fbb7f384bb@amsat.org>
-Date: Thu, 2 Sep 2021 12:26:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mLjxU-0000ep-2w
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 06:28:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46669)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mLjxP-0006Lw-N5
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 06:28:35 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630578511;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BsiN0AeCkL+aGVMEQwuyiOkjXuw+QA3vVAY9vd8r8J4=;
+ b=gpR7r45kOj2Kv/lYTMuTJupuaUX6aU0c+B0Y6+gfH5q5Ndg3M9Mqs/OAx8wWySzsiU9yii
+ 9g1QkIn5186Vv9x0ppVKR7epPZzikxkr3GkMavhHnI5ra765qzkNVYrksE7tJTAPE+LdOD
+ SpBkYcv62pSbhmu4OwGkiSlMlwU8+1Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-550-aLPOrh1YMPuJla9VK43Tlw-1; Thu, 02 Sep 2021 06:28:29 -0400
+X-MC-Unique: aLPOrh1YMPuJla9VK43Tlw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B68A8464D0;
+ Thu,  2 Sep 2021 10:28:28 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EF108104B51C;
+ Thu,  2 Sep 2021 10:28:17 +0000 (UTC)
+Date: Thu, 2 Sep 2021 11:28:15 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Leonardo Bras Soares Passos <leobras@redhat.com>
+Subject: Re: [PATCH v1 2/3] io: Add zerocopy and errqueue
+Message-ID: <YTCnP9J/JINhg4h8@redhat.com>
+References: <20210831110238.299458-1-leobras@redhat.com>
+ <20210831110238.299458-3-leobras@redhat.com>
+ <YS4nPfEBCy9IC3rd@redhat.com>
+ <CAJ6HWG75NDzaRAoHvM6FkFoB+sQvTpmdR8+AdMkoY6TsP06ZhA@mail.gmail.com>
+ <YTCPngNB+l70sl06@redhat.com>
+ <CAJ6HWG6dd+timQM27-NTumvwDM2bFawRsnmrZumdzGZ8hCR3dQ@mail.gmail.com>
+ <YTCeNCEmr3NsQEPR@redhat.com>
+ <CAJ6HWG6D61K49gyvfLo2c5=cZpkYh96ciZjO5V=wiPdG+wB5zQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210902102205.7554-9-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <CAJ6HWG6D61K49gyvfLo2c5=cZpkYh96ciZjO5V=wiPdG+wB5zQ@mail.gmail.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.029,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,17 +88,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/2/21 12:22 PM, Mark Cave-Ayland wrote:
-> This removes duplication of the internal device state initialisation from all
-> of device reset, soft reset and hard reset.
+On Thu, Sep 02, 2021 at 07:19:58AM -0300, Leonardo Bras Soares Passos wrote:
+> On Thu, Sep 2, 2021 at 6:50 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> >
+> > On Thu, Sep 02, 2021 at 06:34:01AM -0300, Leonardo Bras Soares Passos wrote:
+> > > On Thu, Sep 2, 2021 at 5:47 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > > >
+> > > > On Thu, Sep 02, 2021 at 03:38:11AM -0300, Leonardo Bras Soares Passos wrote:
+> > > >
+> > > > > > I would suggest checkig in close(), but as mentioned
+> > > > > > earlier, I think the design is flawed because the caller
+> > > > > > fundamentally needs to know about completion for every
+> > > > > > single write they make in order to know when the buffer
+> > > > > > can be released / reused.
+> > > > >
+> > > > > Well, there could be a flush mechanism (maybe in io_sync_errck(),
+> > > > > activated with a
+> > > > > parameter flag, or on a different method if callback is preferred):
+> > > > > In the MSG_ZEROCOPY docs, we can see that the example includes using a poll()
+> > > > > syscall after each packet sent, and this means the fd gets a signal after each
+> > > > > sendmsg() happens, with error or not.
+> > > > >
+> > > > > We could harness this with a poll() and a relatively high timeout:
+> > > > > - We stop sending packets, and then call poll().
+> > > > > - Whenever poll() returns 0, it means a timeout happened, and so it
+> > > > > took too long
+> > > > > without sendmsg() happening, meaning all the packets are sent.
+> > > > > - If it returns anything else, we go back to fixing the errors found (re-send)
+> > > > >
+> > > > > The problem may be defining the value of this timeout, but it could be
+> > > > > called only
+> > > > > when zerocopy is active.
+> > > >
+> > > > Maybe we need to check completions at the end of each iteration of the
+> > > > migration dirtypage loop ?
+> > >
+> > > Sorry, I am really new to this, and I still couldn't understand why would we
+> > > need to check at the end of each iteration, instead of doing a full check at the
+> > > end.
+> >
+> > The end of each iteration is an implicit synchronization point in the
+> > current migration code.
+> >
+> > For example, we might do 2 iterations of migration pre-copy, and then
+> > switch to post-copy mode. If the data from those 2 iterations hasn't
+> > been sent at the point we switch to post-copy, that is a semantic
+> > change from current behaviour. I don't know if that will have an
+> > problematic effect on the migration process, or not. Checking the
+> > async completions at the end of each iteration though, would ensure
+> > the semantics similar to current semantics, reducing risk of unexpected
+> > problems.
+> >
 > 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/char/escc.c | 18 ++++--------------
->  1 file changed, 4 insertions(+), 14 deletions(-)
+> What if we do the 'flush()' before we start post-copy, instead of after each
+> iteration? would that be enough?
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Possibly, yes. This really need David G's input since he understands
+the code in way more detail than me.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
