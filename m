@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86B513FF4BD
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 22:17:50 +0200 (CEST)
-Received: from localhost ([::1]:52008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58A0D3FF4C1
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 22:18:28 +0200 (CEST)
+Received: from localhost ([::1]:54554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLt9h-0004GE-J9
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 16:17:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39788)
+	id 1mLtAJ-0005xN-Bf
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 16:18:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mLt7e-0001uo-UI
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 16:15:42 -0400
-Received: from mail-ua1-x929.google.com ([2607:f8b0:4864:20::929]:44711)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mLt8F-0002te-H7
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 16:16:19 -0400
+Received: from mail-vs1-xe2c.google.com ([2607:f8b0:4864:20::e2c]:38828)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mLt7b-00068z-2y
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 16:15:41 -0400
-Received: by mail-ua1-x929.google.com with SMTP id x6so1562504uai.11
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 13:15:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mLt8C-0006gv-6o
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 16:16:19 -0400
+Received: by mail-vs1-xe2c.google.com with SMTP id a25so2606679vso.5
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 13:16:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HUTdYryH4g0QwdfTQrQx8E5mk3Ak5PJvxWL0FfqOQE8=;
- b=gT3m451EfStt/xnRBMF3RTRho0JYutgQYFADKXh1SYDddMdaTyEY6NkjLBf+06Hrix
- Fl7nQIEgd+791t/TITB7kE+M7L5y7+keLXwlC75d9+D2uDtCbkkABi/zPwKrblp4hm2W
- b/dEN2xjpuBXrPEOm5JuyvRKq6BpZC9zbNxqCzoU+iXmAol24OCwiy7Tym62pWdwx0Fa
- Bbzz33j2sX1s4PiL6adUK9a4BOCJoYji/WqYNrdkDUHDOZwlw5dARHPv6Ig0RmydN/Tm
- 0PmYLoOLihR6Z2+gt0zWoA+RBYt1eVpGC6ebLYJN36RIIOlMOnvDCkQKP5hyhzw4H2w8
- qGbg==
+ :cc; bh=zT2c+1E62cjQEi2kiCLiim1kp9aQQG9tokwDG6Y3pNg=;
+ b=Xgj2sBXu3i6bStX7urBDIHPF46qb2zi4OiBCj6DT686why3aWwbs8k6u90kvWcPu0s
+ 3A2vOuexaFQi2EevSzukNpRqNWyz/lPxza+Lj3R05dOrkeKQxcPnBJNz58yx0YSQDlVk
+ 4rxg2dI9xIWG/5rWZF9DccZHU/qEZJKiLKGazR3zyRsN/cD+HQigOd9GcKPM90aTsLx0
+ s3SAcjNhQKKk+UAxlen+fW1RPYCYCAxsIFF77EJSe9nr0o3NtE4HnUY21zk9yLIVIw5r
+ +Xul6lPpFSMHV+fhJJhp0J9xHfTGpo31few11iKKjDNVdQPM4b56OcgOmKHSLBQyhPzc
+ WwTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=HUTdYryH4g0QwdfTQrQx8E5mk3Ak5PJvxWL0FfqOQE8=;
- b=I270X3hxivCpPpflGxp7gh8fyA0Rq0hqI36+eB674numDUeTgYOZxgDPwLRpxNcNdw
- Y0Qm8r7APqQcKSws864KCtI4miboCVPntl2GENchcZzUbZWBDi/n9Xn6YpuIREhn2dwD
- CuPGQjcZG33lVZ+mkHFuAUV0+Fc8S6LTJ40dlj671xBzrP8NaqNP+XQzNy4vDXfznq9M
- 2GByP6meBa5gjqXnGTaxoMZ1GHLJGcGMqTw+rlVk3r2tIYe3gIkuhx8UAZkWk21DjFYo
- eo0kGBpNlaOjQEDC0ltAGiDrMJ+OYn+LBFJvuqx5y4RRmKeGWY8kRaomUdGIQ6ALAd1f
- aP9A==
-X-Gm-Message-State: AOAM531XZJcvRzUNuuCCb7/IDfaMVfrNZCdnAT7ExSZikskTBO3bfIK5
- 2wwrbtLqntYXKMdWtfqT6xmuqI0RgOM9ts32GLqyfA==
-X-Google-Smtp-Source: ABdhPJz5EIXzhOpDdVKWmu9EObSjnCbGAuXMfATGE79XUEXGmy92hZcyR1XQ/fIl/e5yFn0K8dfQaObYmdG6mCQgSCY=
-X-Received: by 2002:a9f:31c8:: with SMTP id w8mr41290uad.77.1630613737842;
- Thu, 02 Sep 2021 13:15:37 -0700 (PDT)
+ bh=zT2c+1E62cjQEi2kiCLiim1kp9aQQG9tokwDG6Y3pNg=;
+ b=ME+4Lz9eXboap/pUmT3tjYZcne3yLXYNcqg+PizPIJca1KYK92QenqRbITN3An6SK5
+ Nfo7XF4xa9rRJLgXlCCWTmnonweqb6tuxElD4eDXv2ExEMzXlojh3qb3ARkz79ASFGWc
+ T6UfVPkCRMn+2P8b0tMPwZhr6BgmGmCJwuxvZ5a8szOo/W1PlhruIF4CHgNO8JFp6mtq
+ tU12uM5JINvQTA+N6qxPYVSeTOwlVT5AC9ZaEjp/hH5ufpADYTjC5NKu+pG9x0qp/yV6
+ b5VEdwuDyiiZoBIJGMsZQApWhaZ9iqOafFqu/QgNdkF2zc/7AB+EUcuOPvYZA6yQSDFo
+ 1+mg==
+X-Gm-Message-State: AOAM5310nVzSOifaf9zmvWZKKsly7Vteq2kHTd3qVzPKkIY4qIxejOcY
+ NeDU23LCL9AbrxTiHBhobZMWGJua9szeEvkLQp94RA==
+X-Google-Smtp-Source: ABdhPJySLqKUvFQ4hGNx3XkylZn/cqi61Dc7gj6WuzjH6ru2Xr3bE/rhC+fe/5z45nYT5KJLSBmCOhUskDD1EWlqUvc=
+X-Received: by 2002:a67:c789:: with SMTP id t9mr4324246vsk.60.1630613775240;
+ Thu, 02 Sep 2021 13:16:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210902151715.383678-1-f4bug@amsat.org>
- <20210902151715.383678-7-f4bug@amsat.org>
-In-Reply-To: <20210902151715.383678-7-f4bug@amsat.org>
+ <20210902151715.383678-8-f4bug@amsat.org>
+In-Reply-To: <20210902151715.383678-8-f4bug@amsat.org>
 From: Warner Losh <imp@bsdimp.com>
-Date: Thu, 2 Sep 2021 14:15:27 -0600
-Message-ID: <CANCZdfqxmiLnND0srRphqg7yU=C_cCLo1S9=kqTCjvych96ufQ@mail.gmail.com>
-Subject: Re: [PATCH 06/24] target/alpha: Restrict cpu_exec_interrupt() handler
+Date: Thu, 2 Sep 2021 14:16:04 -0600
+Message-ID: <CANCZdfpdN6O6QyM_nQewz1+ugjjHOL38QD01B2dDZnw=zcTQOw@mail.gmail.com>
+Subject: Re: [PATCH 07/24] target/arm: Restrict cpu_exec_interrupt() handler
  to sysemu
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="0000000000009c418505cb08d8b0"
-Received-SPF: none client-ip=2607:f8b0:4864:20::929;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x929.google.com
-X-Spam_score_int: 0
-X-Spam_score: 0.0
-X-Spam_bar: /
-X-Spam_report: (0.0 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/alternative; boundary="000000000000d6e2f405cb08dab2"
+Received-SPF: none client-ip=2607:f8b0:4864:20::e2c;
+ envelope-from=wlosh@bsdimp.com; helo=mail-vs1-xe2c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,7 +94,7 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000009c418505cb08d8b0
+--000000000000d6e2f405cb08dab2
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -106,94 +106,123 @@ wrote:
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  target/alpha/cpu.h    | 2 +-
->  target/alpha/cpu.c    | 2 +-
->  target/alpha/helper.c | 5 ++---
->  3 files changed, 4 insertions(+), 5 deletions(-)
+>  target/arm/cpu.h     | 3 +--
+>  target/arm/cpu.c     | 7 +++++--
+>  target/arm/cpu_tcg.c | 6 +++---
+>  3 files changed, 9 insertions(+), 7 deletions(-)
 >
 
 Reviewed-by: Warner Losh <imp@bsdimp.com>
 
-
-> diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
-> index 82df108967b..4e993bd15bd 100644
-> --- a/target/alpha/cpu.h
-> +++ b/target/alpha/cpu.h
-> @@ -274,10 +274,10 @@ struct AlphaCPU {
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index 6a987f65e41..cfd755cff99 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -1040,11 +1040,10 @@ uint64_t arm_cpu_mp_affinity(int idx, uint8_t
+> clustersz);
 >
 >  #ifndef CONFIG_USER_ONLY
->  extern const VMStateDescription vmstate_alpha_cpu;
+>  extern const VMStateDescription vmstate_arm_cpu;
 > -#endif
 >
->  void alpha_cpu_do_interrupt(CPUState *cpu);
->  bool alpha_cpu_exec_interrupt(CPUState *cpu, int int_req);
+>  void arm_cpu_do_interrupt(CPUState *cpu);
+>  void arm_v7m_cpu_do_interrupt(CPUState *cpu);
+> -bool arm_cpu_exec_interrupt(CPUState *cpu, int int_req);
 > +#endif /* !CONFIG_USER_ONLY */
->  void alpha_cpu_dump_state(CPUState *cs, FILE *f, int flags);
->  hwaddr alpha_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
->  int alpha_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg)=
-;
-> diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
-> index 4871ad0c0a6..93e16a2ffb4 100644
-> --- a/target/alpha/cpu.c
-> +++ b/target/alpha/cpu.c
-> @@ -218,10 +218,10 @@ static const struct SysemuCPUOps alpha_sysemu_ops =
-=3D {
 >
->  static const struct TCGCPUOps alpha_tcg_ops =3D {
->      .initialize =3D alpha_translate_init,
-> -    .cpu_exec_interrupt =3D alpha_cpu_exec_interrupt,
->      .tlb_fill =3D alpha_cpu_tlb_fill,
+>  hwaddr arm_cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,
+>                                           MemTxAttrs *attrs);
+> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+> index d631c4683c4..ba0741b20e4 100644
+> --- a/target/arm/cpu.c
+> +++ b/target/arm/cpu.c
+> @@ -440,6 +440,8 @@ static void arm_cpu_reset(DeviceState *dev)
+>      arm_rebuild_hflags(env);
+>  }
 >
->  #ifndef CONFIG_USER_ONLY
-> +    .cpu_exec_interrupt =3D alpha_cpu_exec_interrupt,
->      .do_interrupt =3D alpha_cpu_do_interrupt,
->      .do_transaction_failed =3D alpha_cpu_do_transaction_failed,
->      .do_unaligned_access =3D alpha_cpu_do_unaligned_access,
-> diff --git a/target/alpha/helper.c b/target/alpha/helper.c
-> index 4f56fe4d231..81550d9e2ff 100644
-> --- a/target/alpha/helper.c
-> +++ b/target/alpha/helper.c
-> @@ -293,7 +293,6 @@ bool alpha_cpu_tlb_fill(CPUState *cs, vaddr addr, int
-> size,
->                   prot, mmu_idx, TARGET_PAGE_SIZE);
+> +#ifndef CONFIG_USER_ONLY
+> +
+>  static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_idx=
+,
+>                                       unsigned int target_el,
+>                                       unsigned int cur_el, bool secure,
+> @@ -556,7 +558,7 @@ static inline bool arm_excp_unmasked(CPUState *cs,
+> unsigned int excp_idx,
+>      return unmasked || pstate_unmasked;
+>  }
+>
+> -bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+> +static bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+>  {
+>      CPUClass *cc =3D CPU_GET_CLASS(cs);
+>      CPUARMState *env =3D cs->env_ptr;
+> @@ -608,6 +610,7 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int
+> interrupt_request)
+>      cc->tcg_ops->do_interrupt(cs);
 >      return true;
 >  }
-> -#endif /* USER_ONLY */
->
->  void alpha_cpu_do_interrupt(CPUState *cs)
->  {
-> @@ -348,7 +347,6 @@ void alpha_cpu_do_interrupt(CPUState *cs)
->
->      cs->exception_index =3D -1;
->
-> -#if !defined(CONFIG_USER_ONLY)
->      switch (i) {
->      case EXCP_RESET:
->          i =3D 0x0000;
-> @@ -404,7 +402,6 @@ void alpha_cpu_do_interrupt(CPUState *cs)
->
->      /* Switch to PALmode.  */
->      env->flags |=3D ENV_FLAG_PAL_MODE;
-> -#endif /* !USER_ONLY */
->  }
->
->  bool alpha_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-> @@ -451,6 +448,8 @@ bool alpha_cpu_exec_interrupt(CPUState *cs, int
-> interrupt_request)
->      return false;
->  }
->
 > +#endif /* !CONFIG_USER_ONLY */
-> +
->  void alpha_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+>
+>  void arm_cpu_update_virq(ARMCPU *cpu)
 >  {
->      static const char linux_reg_names[31][4] =3D {
+> @@ -2010,11 +2013,11 @@ static const struct SysemuCPUOps arm_sysemu_ops =
+=3D {
+>  static const struct TCGCPUOps arm_tcg_ops =3D {
+>      .initialize =3D arm_translate_init,
+>      .synchronize_from_tb =3D arm_cpu_synchronize_from_tb,
+> -    .cpu_exec_interrupt =3D arm_cpu_exec_interrupt,
+>      .tlb_fill =3D arm_cpu_tlb_fill,
+>      .debug_excp_handler =3D arm_debug_excp_handler,
+>
+>  #if !defined(CONFIG_USER_ONLY)
+> +    .cpu_exec_interrupt =3D arm_cpu_exec_interrupt,
+>      .do_interrupt =3D arm_cpu_do_interrupt,
+>      .do_transaction_failed =3D arm_cpu_do_transaction_failed,
+>      .do_unaligned_access =3D arm_cpu_do_unaligned_access,
+> diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+> index 33cc75af57d..0d5adccf1a7 100644
+> --- a/target/arm/cpu_tcg.c
+> +++ b/target/arm/cpu_tcg.c
+> @@ -22,7 +22,7 @@
+>  /* CPU models. These are not needed for the AArch64 linux-user build. */
+>  #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
+>
+> -#ifdef CONFIG_TCG
+> +#if !defined(CONFIG_USER_ONLY) && defined(CONFIG_TCG)
+>  static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int
+> interrupt_request)
+>  {
+>      CPUClass *cc =3D CPU_GET_CLASS(cs);
+> @@ -46,7 +46,7 @@ static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, in=
+t
+> interrupt_request)
+>      }
+>      return ret;
+>  }
+> -#endif /* CONFIG_TCG */
+> +#endif /* !CONFIG_USER_ONLY && CONFIG_TCG */
+>
+>  static void arm926_initfn(Object *obj)
+>  {
+> @@ -898,11 +898,11 @@ static void pxa270c5_initfn(Object *obj)
+>  static const struct TCGCPUOps arm_v7m_tcg_ops =3D {
+>      .initialize =3D arm_translate_init,
+>      .synchronize_from_tb =3D arm_cpu_synchronize_from_tb,
+> -    .cpu_exec_interrupt =3D arm_v7m_cpu_exec_interrupt,
+>      .tlb_fill =3D arm_cpu_tlb_fill,
+>      .debug_excp_handler =3D arm_debug_excp_handler,
+>
+>  #if !defined(CONFIG_USER_ONLY)
+> +    .cpu_exec_interrupt =3D arm_v7m_cpu_exec_interrupt,
+>      .do_interrupt =3D arm_v7m_cpu_do_interrupt,
+>      .do_transaction_failed =3D arm_cpu_do_transaction_failed,
+>      .do_unaligned_access =3D arm_cpu_do_unaligned_access,
 > --
 > 2.31.1
 >
 >
 
---0000000000009c418505cb08d8b0
+--000000000000d6e2f405cb08dab2
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -207,97 +236,137 @@ g</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
 t.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
 ---<br>
-=C2=A0target/alpha/cpu.h=C2=A0 =C2=A0 | 2 +-<br>
-=C2=A0target/alpha/cpu.c=C2=A0 =C2=A0 | 2 +-<br>
-=C2=A0target/alpha/helper.c | 5 ++---<br>
-=C2=A03 files changed, 4 insertions(+), 5 deletions(-)<br></blockquote><div=
+=C2=A0target/arm/cpu.h=C2=A0 =C2=A0 =C2=A0| 3 +--<br>
+=C2=A0target/arm/cpu.c=C2=A0 =C2=A0 =C2=A0| 7 +++++--<br>
+=C2=A0target/arm/cpu_tcg.c | 6 +++---<br>
+=C2=A03 files changed, 9 insertions(+), 7 deletions(-)<br></blockquote><div=
 ><br></div><div><div>Reviewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsd=
 imp.com" target=3D"_blank">imp@bsdimp.com</a>&gt;</div><div class=3D"gmail-=
 yj6qo gmail-ajU" style=3D"outline:none;padding:10px 0px;width:22px;margin:2=
-px 0px 0px">=C2=A0<br></div></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">
-diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h<br>
-index 82df108967b..4e993bd15bd 100644<br>
---- a/target/alpha/cpu.h<br>
-+++ b/target/alpha/cpu.h<br>
-@@ -274,10 +274,10 @@ struct AlphaCPU {<br>
+px 0px 0px"><br></div></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x">
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h<br>
+index 6a987f65e41..cfd755cff99 100644<br>
+--- a/target/arm/cpu.h<br>
++++ b/target/arm/cpu.h<br>
+@@ -1040,11 +1040,10 @@ uint64_t arm_cpu_mp_affinity(int idx, uint8_t clust=
+ersz);<br>
 <br>
 =C2=A0#ifndef CONFIG_USER_ONLY<br>
-=C2=A0extern const VMStateDescription vmstate_alpha_cpu;<br>
+=C2=A0extern const VMStateDescription vmstate_arm_cpu;<br>
 -#endif<br>
 <br>
-=C2=A0void alpha_cpu_do_interrupt(CPUState *cpu);<br>
-=C2=A0bool alpha_cpu_exec_interrupt(CPUState *cpu, int int_req);<br>
+=C2=A0void arm_cpu_do_interrupt(CPUState *cpu);<br>
+=C2=A0void arm_v7m_cpu_do_interrupt(CPUState *cpu);<br>
+-bool arm_cpu_exec_interrupt(CPUState *cpu, int int_req);<br>
 +#endif /* !CONFIG_USER_ONLY */<br>
-=C2=A0void alpha_cpu_dump_state(CPUState *cs, FILE *f, int flags);<br>
-=C2=A0hwaddr alpha_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);<br>
-=C2=A0int alpha_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int r=
-eg);<br>
-diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c<br>
-index 4871ad0c0a6..93e16a2ffb4 100644<br>
---- a/target/alpha/cpu.c<br>
-+++ b/target/alpha/cpu.c<br>
-@@ -218,10 +218,10 @@ static const struct SysemuCPUOps alpha_sysemu_ops =3D=
- {<br>
 <br>
-=C2=A0static const struct TCGCPUOps alpha_tcg_ops =3D {<br>
-=C2=A0 =C2=A0 =C2=A0.initialize =3D alpha_translate_init,<br>
--=C2=A0 =C2=A0 .cpu_exec_interrupt =3D alpha_cpu_exec_interrupt,<br>
-=C2=A0 =C2=A0 =C2=A0.tlb_fill =3D alpha_cpu_tlb_fill,<br>
+=C2=A0hwaddr arm_cpu_get_phys_page_attrs_debug(CPUState *cpu, vaddr addr,<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 M=
+emTxAttrs *attrs);<br>
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c<br>
+index d631c4683c4..ba0741b20e4 100644<br>
+--- a/target/arm/cpu.c<br>
++++ b/target/arm/cpu.c<br>
+@@ -440,6 +440,8 @@ static void arm_cpu_reset(DeviceState *dev)<br>
+=C2=A0 =C2=A0 =C2=A0arm_rebuild_hflags(env);<br>
+=C2=A0}<br>
 <br>
-=C2=A0#ifndef CONFIG_USER_ONLY<br>
-+=C2=A0 =C2=A0 .cpu_exec_interrupt =3D alpha_cpu_exec_interrupt,<br>
-=C2=A0 =C2=A0 =C2=A0.do_interrupt =3D alpha_cpu_do_interrupt,<br>
-=C2=A0 =C2=A0 =C2=A0.do_transaction_failed =3D alpha_cpu_do_transaction_fai=
-led,<br>
-=C2=A0 =C2=A0 =C2=A0.do_unaligned_access =3D alpha_cpu_do_unaligned_access,=
++#ifndef CONFIG_USER_ONLY<br>
++<br>
+=C2=A0static inline bool arm_excp_unmasked(CPUState *cs, unsigned int excp_=
+idx,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned int ta=
+rget_el,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned int cu=
+r_el, bool secure,<br>
+@@ -556,7 +558,7 @@ static inline bool arm_excp_unmasked(CPUState *cs, unsi=
+gned int excp_idx,<br>
+=C2=A0 =C2=A0 =C2=A0return unmasked || pstate_unmasked;<br>
+=C2=A0}<br>
 <br>
-diff --git a/target/alpha/helper.c b/target/alpha/helper.c<br>
-index 4f56fe4d231..81550d9e2ff 100644<br>
---- a/target/alpha/helper.c<br>
-+++ b/target/alpha/helper.c<br>
-@@ -293,7 +293,6 @@ bool alpha_cpu_tlb_fill(CPUState *cs, vaddr addr, int s=
-ize,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 prot, mmu_id=
-x, TARGET_PAGE_SIZE);<br>
+-bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)<br>
++static bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)<br=
+>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0CPUClass *cc =3D CPU_GET_CLASS(cs);<br>
+=C2=A0 =C2=A0 =C2=A0CPUARMState *env =3D cs-&gt;env_ptr;<br>
+@@ -608,6 +610,7 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt=
+_request)<br>
+=C2=A0 =C2=A0 =C2=A0cc-&gt;tcg_ops-&gt;do_interrupt(cs);<br>
 =C2=A0 =C2=A0 =C2=A0return true;<br>
 =C2=A0}<br>
--#endif /* USER_ONLY */<br>
-<br>
-=C2=A0void alpha_cpu_do_interrupt(CPUState *cs)<br>
-=C2=A0{<br>
-@@ -348,7 +347,6 @@ void alpha_cpu_do_interrupt(CPUState *cs)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0cs-&gt;exception_index =3D -1;<br>
-<br>
--#if !defined(CONFIG_USER_ONLY)<br>
-=C2=A0 =C2=A0 =C2=A0switch (i) {<br>
-=C2=A0 =C2=A0 =C2=A0case EXCP_RESET:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i =3D 0x0000;<br>
-@@ -404,7 +402,6 @@ void alpha_cpu_do_interrupt(CPUState *cs)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Switch to PALmode.=C2=A0 */<br>
-=C2=A0 =C2=A0 =C2=A0env-&gt;flags |=3D ENV_FLAG_PAL_MODE;<br>
--#endif /* !USER_ONLY */<br>
-=C2=A0}<br>
-<br>
-=C2=A0bool alpha_cpu_exec_interrupt(CPUState *cs, int interrupt_request)<br=
->
-@@ -451,6 +448,8 @@ bool alpha_cpu_exec_interrupt(CPUState *cs, int interru=
-pt_request)<br>
-=C2=A0 =C2=A0 =C2=A0return false;<br>
-=C2=A0}<br>
-<br>
 +#endif /* !CONFIG_USER_ONLY */<br>
-+<br>
-=C2=A0void alpha_cpu_dump_state(CPUState *cs, FILE *f, int flags)<br>
+<br>
+=C2=A0void arm_cpu_update_virq(ARMCPU *cpu)<br>
 =C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0static const char linux_reg_names[31][4] =3D {<br>
+@@ -2010,11 +2013,11 @@ static const struct SysemuCPUOps arm_sysemu_ops =3D=
+ {<br>
+=C2=A0static const struct TCGCPUOps arm_tcg_ops =3D {<br>
+=C2=A0 =C2=A0 =C2=A0.initialize =3D arm_translate_init,<br>
+=C2=A0 =C2=A0 =C2=A0.synchronize_from_tb =3D arm_cpu_synchronize_from_tb,<b=
+r>
+-=C2=A0 =C2=A0 .cpu_exec_interrupt =3D arm_cpu_exec_interrupt,<br>
+=C2=A0 =C2=A0 =C2=A0.tlb_fill =3D arm_cpu_tlb_fill,<br>
+=C2=A0 =C2=A0 =C2=A0.debug_excp_handler =3D arm_debug_excp_handler,<br>
+<br>
+=C2=A0#if !defined(CONFIG_USER_ONLY)<br>
++=C2=A0 =C2=A0 .cpu_exec_interrupt =3D arm_cpu_exec_interrupt,<br>
+=C2=A0 =C2=A0 =C2=A0.do_interrupt =3D arm_cpu_do_interrupt,<br>
+=C2=A0 =C2=A0 =C2=A0.do_transaction_failed =3D arm_cpu_do_transaction_faile=
+d,<br>
+=C2=A0 =C2=A0 =C2=A0.do_unaligned_access =3D arm_cpu_do_unaligned_access,<b=
+r>
+diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c<br>
+index 33cc75af57d..0d5adccf1a7 100644<br>
+--- a/target/arm/cpu_tcg.c<br>
++++ b/target/arm/cpu_tcg.c<br>
+@@ -22,7 +22,7 @@<br>
+=C2=A0/* CPU models. These are not needed for the AArch64 linux-user build.=
+ */<br>
+=C2=A0#if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)<br>
+<br>
+-#ifdef CONFIG_TCG<br>
++#if !defined(CONFIG_USER_ONLY) &amp;&amp; defined(CONFIG_TCG)<br>
+=C2=A0static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int interrupt_re=
+quest)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0CPUClass *cc =3D CPU_GET_CLASS(cs);<br>
+@@ -46,7 +46,7 @@ static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int =
+interrupt_request)<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0return ret;<br>
+=C2=A0}<br>
+-#endif /* CONFIG_TCG */<br>
++#endif /* !CONFIG_USER_ONLY &amp;&amp; CONFIG_TCG */<br>
+<br>
+=C2=A0static void arm926_initfn(Object *obj)<br>
+=C2=A0{<br>
+@@ -898,11 +898,11 @@ static void pxa270c5_initfn(Object *obj)<br>
+=C2=A0static const struct TCGCPUOps arm_v7m_tcg_ops =3D {<br>
+=C2=A0 =C2=A0 =C2=A0.initialize =3D arm_translate_init,<br>
+=C2=A0 =C2=A0 =C2=A0.synchronize_from_tb =3D arm_cpu_synchronize_from_tb,<b=
+r>
+-=C2=A0 =C2=A0 .cpu_exec_interrupt =3D arm_v7m_cpu_exec_interrupt,<br>
+=C2=A0 =C2=A0 =C2=A0.tlb_fill =3D arm_cpu_tlb_fill,<br>
+=C2=A0 =C2=A0 =C2=A0.debug_excp_handler =3D arm_debug_excp_handler,<br>
+<br>
+=C2=A0#if !defined(CONFIG_USER_ONLY)<br>
++=C2=A0 =C2=A0 .cpu_exec_interrupt =3D arm_v7m_cpu_exec_interrupt,<br>
+=C2=A0 =C2=A0 =C2=A0.do_interrupt =3D arm_v7m_cpu_do_interrupt,<br>
+=C2=A0 =C2=A0 =C2=A0.do_transaction_failed =3D arm_cpu_do_transaction_faile=
+d,<br>
+=C2=A0 =C2=A0 =C2=A0.do_unaligned_access =3D arm_cpu_do_unaligned_access,<b=
+r>
 -- <br>
 2.31.1<br>
 <br>
 </blockquote></div></div>
 
---0000000000009c418505cb08d8b0--
+--000000000000d6e2f405cb08dab2--
 
