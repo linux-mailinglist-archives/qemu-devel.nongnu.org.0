@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC0A33FF1DE
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 18:55:44 +0200 (CEST)
-Received: from localhost ([::1]:40024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88FB73FF1D7
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 18:54:16 +0200 (CEST)
+Received: from localhost ([::1]:35146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLq07-0001TN-UB
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 12:55:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49656)
+	id 1mLpyh-0006ev-JY
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 12:54:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLpvX-0001v0-DJ
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 12:51:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50815)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLpvc-0001x9-4t
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 12:51:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLpvV-0000PU-PS
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 12:50:59 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLpvZ-0000Tv-VP
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 12:51:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630601457;
+ s=mimecast20190719; t=1630601461;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZfztDw0T+IxqiSXV2YqDwUKK0y6/AeZln0/z1gPaV7s=;
- b=SO/TRkzX4zfm+LHbj6So0EjAAQF96/MqXl4jXMXmdt4LiC3MPX6eN28XaZDNReZpIzghf4
- Z8SwDOF21Lti7U/6XOXiaDSWv060yheovdr4yxv8VVV+d/1tcFpm6izFbupIjcMNZp0ZD8
- OumJAhgKrT/xazbqd6KfcBD9xJBsv94=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-514-DWnRze0hOEWp_9ED-Ys6ZQ-1; Thu, 02 Sep 2021 12:50:56 -0400
-X-MC-Unique: DWnRze0hOEWp_9ED-Ys6ZQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- 102-20020adf82ef000000b001576e345169so753095wrc.7
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 09:50:56 -0700 (PDT)
+ bh=ydqzmpwIS7w421UnF6h3bFe+Afko4IEnGxAHt+H+82o=;
+ b=H/DdrcNaA1sjw+SjVVOjviZlZFfCN8qQqe79eeHNdv7ifFafQdv6G4m2fvOpZ1fx7IXgYP
+ 99/xkf85GypYGZMFikzxbSSk/r2pxsrsynIhTwmlPkHT9XvvukF83dWrDQibIVTOXgTF6C
+ 2/H0DlEfxHsuTBl37ln7iDhq1AkZoNA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-54-RVdAuWNsOzuJezT50lpmRw-1; Thu, 02 Sep 2021 12:51:00 -0400
+X-MC-Unique: RVdAuWNsOzuJezT50lpmRw-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ h6-20020a5d4fc6000000b00157503046afso749886wrw.3
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 09:51:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZfztDw0T+IxqiSXV2YqDwUKK0y6/AeZln0/z1gPaV7s=;
- b=d9iuk6JrqM5cvE2kVx4noSQ6xs2uM9J4ULlmzhBM5ups7/vXN6c6WJF17/4Snrpx3G
- NAj90TEzMYFFaI4O4fVMuL/e2qWna6sg770JzZcNxJRojb0TRvxIlN7KTmZ9hniO3mjO
- Cm1jmsFNirYzXVVeINr03KXNMHv3ym0lxRHVNLeJSwjYmWy9uUVPcDvUaZVspKcoisg8
- cTfOWx4GCcdz9lh/IDpZyY2KbH28Jp44xxbiazYOSFkTGZUlxnEZBafvid90C82tO5UW
- GQnqpuES3p4ihtU43zOt4cMuL/3hOlw3tuQFD2ZyDXga42+aL1mT6IbUb44xnTGklIm+
- i4jg==
-X-Gm-Message-State: AOAM533a19Uy5NbOUXYMJqdGE1rWzNr3k1NlXxvbOSAoN5nwaEn6OZDW
- Np1cujdZ7lH/y/B9GTxBXzCF/L2XGF2ItfTLGsyHZlpDiCLhHTcHGFiCy3ioCUexIIXEwVnIhkI
- dYmKJJpm/OZqa0ChelB9LsKqFLmbFnB7Xvz+h3EP0hS53omnRvzIJbuE8KaezTQ95
-X-Received: by 2002:a1c:19c1:: with SMTP id 184mr4206766wmz.98.1630601454803; 
- Thu, 02 Sep 2021 09:50:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzzd3LRNbsJqd5qvimCtL2xxLJh/vNZ6XFLyopyhIFapV8NKMbi7jX4inkmwlQeFGpGDgL0Zg==
-X-Received: by 2002:a1c:19c1:: with SMTP id 184mr4206730wmz.98.1630601454395; 
- Thu, 02 Sep 2021 09:50:54 -0700 (PDT)
+ bh=ydqzmpwIS7w421UnF6h3bFe+Afko4IEnGxAHt+H+82o=;
+ b=uS8KdUlWHXIp4mhcfRoM4R/HXnoPIuU9oflhRVS9ahLlEhrBxqwx+5Zzp1Epn3jHIi
+ pfvR77U9EEo7V1dnvnUiAPG7fYKeEXXtyCALGu99XkTzdgTQiLG8UyfJ0Eg7o2wSLn0Z
+ jFZJAwvkATrEACXoYvkoHZ9LbIPESvmSw/BuhVc61nB2TciH9rB03pzP+BS+iMocg517
+ PG5uHVGjCFArmaMjBc5SUmrVVcXNT7joOeuWEBVyh4TjaLg8mB/mIUewzDnZyTXf0aoN
+ WqlI2kevBFBZSc6n5C7pNGIC+23k+euOSpzSCvw2XZeLALyyEDaDoT+SU8lus4CpsSVQ
+ JcQg==
+X-Gm-Message-State: AOAM531N7Radx7+9Lz6MLs+USMdGcDr8hUWB+LE3UwBOwww7pfdGtuGO
+ r93gYGly1Yde/DCnLJ4ZsWnNxpxLT1yLZJhiAiJ1CWITst2hLvSv8VAeDGMarEkybpcq6x1/LU9
+ s1H7SonqHzE5p31cgtmIUWF6TCKrtr2GDzkbInoLNr/lWZMLp63FgvmWoVWGTce8b
+X-Received: by 2002:adf:c405:: with SMTP id v5mr4922742wrf.183.1630601459025; 
+ Thu, 02 Sep 2021 09:50:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxsxF6ASqU+vuAstoHC6qZ4CFufNOz4O5rFfyQl1kKl5jUCnlfv2zuQ3t5UWCXVSXXQq2K+Gw==
+X-Received: by 2002:adf:c405:: with SMTP id v5mr4922718wrf.183.1630601458855; 
+ Thu, 02 Sep 2021 09:50:58 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- a12sm2207407wmm.42.2021.09.02.09.50.53
+ s1sm2386940wrs.53.2021.09.02.09.50.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 09:50:54 -0700 (PDT)
+ Thu, 02 Sep 2021 09:50:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/5] hw/virtio: Remove NULL check in
- virtio_free_region_cache()
-Date: Thu,  2 Sep 2021 18:50:37 +0200
-Message-Id: <20210902165039.432786-4-philmd@redhat.com>
+Subject: [PATCH v2 4/5] hw/virtio: Acquire RCU read lock in
+ virtqueue_packed_drop_all()
+Date: Thu,  2 Sep 2021 18:50:38 +0200
+Message-Id: <20210902165039.432786-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210902165039.432786-1-philmd@redhat.com>
 References: <20210902165039.432786-1-philmd@redhat.com>
@@ -103,40 +103,30 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-virtio_free_region_cache() is called within call_rcu(),
-always with a non-NULL argument. Ensure new code keep it
-that way by replacing the NULL check by an assertion.
-Add a comment this function is called within call_rcu().
+vring_get_region_caches() must be called with the RCU read lock
+acquired. virtqueue_packed_drop_all() does not, and uses the
+'caches' pointer. Fix that by using the RCU_READ_LOCK_GUARD()
+macro.
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reported-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-Worth mentioning the left-over from c611c76417f?
-("virtio: add MemoryListener to cache ring translations")
----
- hw/virtio/virtio.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ hw/virtio/virtio.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index b37344bb5e1..97f60017466 100644
+index 97f60017466..7d3bf9091ee 100644
 --- a/hw/virtio/virtio.c
 +++ b/hw/virtio/virtio.c
-@@ -133,12 +133,10 @@ struct VirtQueue
-     QLIST_ENTRY(VirtQueue) node;
- };
+@@ -1704,6 +1704,8 @@ static unsigned int virtqueue_packed_drop_all(VirtQueue *vq)
+     VirtIODevice *vdev = vq->vdev;
+     VRingPackedDesc desc;
  
-+/* Called within call_rcu().  */
- static void virtio_free_region_cache(VRingMemoryRegionCaches *caches)
- {
--    if (!caches) {
--        return;
--    }
--
-+    assert(caches != NULL);
-     address_space_cache_destroy(&caches->desc);
-     address_space_cache_destroy(&caches->avail);
-     address_space_cache_destroy(&caches->used);
++    RCU_READ_LOCK_GUARD();
++
+     caches = vring_get_region_caches(vq);
+     if (!caches) {
+         return 0;
 -- 
 2.31.1
 
