@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97AC53FEA6B
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 10:07:52 +0200 (CEST)
-Received: from localhost ([::1]:55200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 246F63FEA6C
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 10:09:04 +0200 (CEST)
+Received: from localhost ([::1]:57854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLhlH-0003Or-6Y
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 04:07:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35862)
+	id 1mLhmR-0005Ab-7x
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 04:09:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mLhjq-0002el-Vp
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 04:06:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60422)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1mLhlY-0004Aj-Vy
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 04:08:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mLhjk-0004Ar-W3
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 04:06:19 -0400
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1mLhlX-0005iG-6A
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 04:08:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630569976;
+ s=mimecast20190719; t=1630570086;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E5KDMfQr9Zw9wiSTSMiYkosyG0kFQfJ85pp+bJr9YnE=;
- b=ZzXqrBAv0+nfi2/botcS3rkhwWIZNWmKtrjfZwNn1Zr+IE2PIaYeKarSZ/1j1qzzHcTGcJ
- QfNCDLP6dUxfHohE2QlH66BpxdrCSF2K6u1IVBKUvb0FnUQ+TfeN1WMeu/QsqYxchrOjUP
- gJllp6bRznzD7Fn/FUtk6SzI4i1Tkbg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-tJBiPZKSNRO1SMZoEXe5Cg-1; Thu, 02 Sep 2021 04:06:13 -0400
-X-MC-Unique: tJBiPZKSNRO1SMZoEXe5Cg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 110BE188E3C1;
- Thu,  2 Sep 2021 08:06:12 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2906390BA;
- Thu,  2 Sep 2021 08:06:09 +0000 (UTC)
-Date: Thu, 2 Sep 2021 09:06:08 +0100
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] tcg/arm: Increase stack alignment for function generation
-Message-ID: <20210902080608.GO26415@redhat.com>
-References: <20210901164446.2722007-1-rjones@redhat.com>
- <20210901164446.2722007-2-rjones@redhat.com>
- <CAFEAcA8WD97HqQRRzB8Z1LVMCmkKZu3_EAQZM1HAMxccQ=PMnA@mail.gmail.com>
- <20210901183009.GG26415@redhat.com>
- <CAFEAcA-V7kp+HGBkHM_Zjfq28KhRReo74nowbtP4ZuZzVaw+kw@mail.gmail.com>
- <20210901185115.GI26415@redhat.com>
- <CAFEAcA_JiWFrtj8nyVuPio-qPmu2z4_V4mu1kXFSv-UPXXxPNA@mail.gmail.com>
- <20210901202443.GL26415@redhat.com>
- <CAFEAcA80RmVg=EbSvX+KJGdAk9YFt5Fzaw1GaUrkORoA3qh0wQ@mail.gmail.com>
+ bh=QUAdxWWaN4ZQ5aQAzg/H/AAM1eV13hA7VWMDQwIRNbg=;
+ b=ejrnmqwAPSt867DXEZeberWV9O1xrlB57LyzatW9NvCy+z/rMTamuAOiLLbj3c0aWdNIXn
+ F7j/ccYEa3I+JkzvLlRnxdyX9EPMV+yCLP2VKMCJUQE2QNNhPaUflUfLcQFuzqdXTp/oOV
+ IxTwObSWqtO00Ij56B2lW2sdHVMEGFQ=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-206-ZKKQqOBYMMm_3lRKkqquAw-1; Thu, 02 Sep 2021 04:08:05 -0400
+X-MC-Unique: ZKKQqOBYMMm_3lRKkqquAw-1
+Received: by mail-lf1-f71.google.com with SMTP id
+ d2-20020ac25442000000b003e52a038afaso513667lfn.10
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 01:08:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=QUAdxWWaN4ZQ5aQAzg/H/AAM1eV13hA7VWMDQwIRNbg=;
+ b=UYnZjcdCdIbO/w0VMN9JMgVB5S4IwXePHNZIJYmH7u+FEme4w0f0Uooi9gO8LVbkeH
+ UB4PWTyz3JPyeEeCd00jQSm5C91a11kef2RGkO3B9LoyWrTq/l2KXtf+g3innaa48YYN
+ zW9anfGIvghtUHBFApqowT3hD66xbK4y2ScK8bK3zogAFzK4ighcns1+e9dGtz2OA/qD
+ D/1IVdxjQ4K9MZ3XBvAjJpgkLrOUO1GXJ71D6k0BS4qpRy+4VvDj+t4TvRhDvwq5Yh5U
+ e71RQ+fPb+5pq7LeMt3t6Nszx91IH7wIacKCXR5Nuds5l3DvMWyS3NY9K3863DsS6KOF
+ ju0Q==
+X-Gm-Message-State: AOAM53320vh7+TjW3dfJfW1+zENRX+3qSK2XvVjjrW4VH6lRrn7a6LqO
+ O8AaLwTlh1vB3NZuTqeTsA6zUy4Df1Tb1eSPGwgbXPhKFQxGy1HQ+IYlslpSQlsxG9+iuN6rQsy
+ RObrpcJ4a+6hx8bFt3r25SFwsrnN3qn0=
+X-Received: by 2002:a05:6512:128b:: with SMTP id
+ u11mr1746416lfs.384.1630570082625; 
+ Thu, 02 Sep 2021 01:08:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy9HDNmapc6ZZf7qv0IeMFpASfBGs7xsR+nDazNJmgtDh820gv8mM3vhCvD6Y/ZMUjsu6yFnBYfOIeBWWdhY8U=
+X-Received: by 2002:a05:6512:128b:: with SMTP id
+ u11mr1746383lfs.384.1630570082149; 
+ Thu, 02 Sep 2021 01:08:02 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA80RmVg=EbSvX+KJGdAk9YFt5Fzaw1GaUrkORoA3qh0wQ@mail.gmail.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <20210831110238.299458-1-leobras@redhat.com>
+ <20210831110238.299458-4-leobras@redhat.com>
+ <YS4rulGV9eueB04H@redhat.com> <YS6RFcQnZEhE8XpG@t490s>
+ <YS8/cxTtiC7QIxTD@redhat.com>
+ <YS+dxUBrhogJQkEY@t490s> <517ed9ad-7e80-098c-52b4-566c6644df31@redhat.com>
+In-Reply-To: <517ed9ad-7e80-098c-52b4-566c6644df31@redhat.com>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Thu, 2 Sep 2021 05:08:13 -0300
+Message-ID: <CAJ6HWG6952K6GefMvGvNteLDv_iJQboQfxFBjKEUbJ6VJv=O8A@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] migration: multifd: Enable zerocopy
+To: Jason Wang <jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=rjones@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -84,78 +96,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- qemu-stable <qemu-stable@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 02, 2021 at 08:36:56AM +0100, Peter Maydell wrote:
-> On Wed, 1 Sept 2021 at 21:24, Richard W.M. Jones <rjones@redhat.com> wrote:
-> >
-> > On Wed, Sep 01, 2021 at 09:17:07PM +0100, Peter Maydell wrote:
-> > > On Wed, 1 Sept 2021 at 19:51, Richard W.M. Jones <rjones@redhat.com> wrote:
-> > > >
-> > > > On Wed, Sep 01, 2021 at 07:41:21PM +0100, Peter Maydell wrote:
-> > > > > Is the failure case short enough to allow -d ... logging to
-> > > > > be taken? That's usually the most useful info, but it's so huge
-> > > > > it's often not feasible.
-> > > >
-> > > > I can try -- what exact -d option would be useful?
-> > >
-> > > Depends what you're after. Personally I'm fairly sure I know
-> > > what's going on, I'm just not sure what the right fix is.
-> >
-> > Another question: We couldn't reproduce this even with the identical
-> > ARM guest kernel + initrd + command line using qemu-system-arm
-> > compiled for x86-64 host.  This was a bit surprising!  Was that bad
-> > luck or is there some reason why this bug might not be reproducible
-> > except on armv7 host?  (Both cases use -machine accel=tcg).
-> 
-> That's expected -- this is a bug in the codegen for arm hosts
-> (specifically 32-bit arm where Neon is available). tcg/i386/
-> sets TCG_TARGET_STACK_ALIGN to 16, so it won't hit the assert.
-> 
-> Yesterday I wrote:
-> > The prologue does seem to actively align to the
-> > specified value, not merely assume-and-preserve that alignment.
-> 
-> but I was misreading the code -- it does just assume-and-preserve.
-> 
-> Do you need an urgent fix/workaround for this? The simplest thing
-> is to wait for RTH to look at this, which is not likely to be before
-> the 13th.
+Thanks for contributing Jason!
 
-We can wait for Richard to take a look.
+On Thu, Sep 2, 2021 at 4:23 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> =E5=9C=A8 2021/9/1 =E4=B8=8B=E5=8D=8811:35, Peter Xu =E5=86=99=E9=81=93:
+> > On Wed, Sep 01, 2021 at 09:53:07AM +0100, Daniel P. Berrang=C3=A9 wrote=
+:
+> >> On Tue, Aug 31, 2021 at 04:29:09PM -0400, Peter Xu wrote:
+> >>> On Tue, Aug 31, 2021 at 02:16:42PM +0100, Daniel P. Berrang=C3=A9 wro=
+te:
+> >>>> On Tue, Aug 31, 2021 at 08:02:39AM -0300, Leonardo Bras wrote:
+> >>>>> Call qio_channel_set_zerocopy(true) in the start of every multifd t=
+hread.
+> >>>>>
+> >>>>> Change the send_write() interface of multifd, allowing it to pass d=
+own
+> >>>>> flags for qio_channel_write*().
+> >>>>>
+> >>>>> Pass down MSG_ZEROCOPY flag for sending memory pages, while keeping=
+ the
+> >>>>> other data being sent at the default copying approach.
+> >>>>>
+> >>>>> Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> >>>>> ---
+> >>>>>   migration/multifd-zlib.c | 7 ++++---
+> >>>>>   migration/multifd-zstd.c | 7 ++++---
+> >>>>>   migration/multifd.c      | 9 ++++++---
+> >>>>>   migration/multifd.h      | 3 ++-
+> >>>>>   4 files changed, 16 insertions(+), 10 deletions(-)
+> >>>>> @@ -675,7 +676,8 @@ static void *multifd_send_thread(void *opaque)
+> >>>>>               }
+> >>>>>
+> >>>>>               if (used) {
+> >>>>> -                ret =3D multifd_send_state->ops->send_write(p, use=
+d, &local_err);
+> >>>>> +                ret =3D multifd_send_state->ops->send_write(p, use=
+d, MSG_ZEROCOPY,
+> >>>>> +                                                          &local_e=
+rr);
+> >>>> I don't think it is valid to unconditionally enable this feature due=
+ to the
+> >>>> resource usage implications
+> >>>>
+> >>>> https://www.kernel.org/doc/html/v5.4/networking/msg_zerocopy.html
+> >>>>
+> >>>>    "A zerocopy failure will return -1 with errno ENOBUFS. This happe=
+ns
+> >>>>     if the socket option was not set, the socket exceeds its optmem
+> >>>>     limit or the user exceeds its ulimit on locked pages."
+> >>>>
+> >>>> The limit on locked pages is something that looks very likely to be
+> >>>> exceeded unless you happen to be running a QEMU config that already
+> >>>> implies locked memory (eg PCI assignment)
+> >>> Yes it would be great to be a migration capability in parallel to mul=
+tifd. At
+> >>> initial phase if it's easy to be implemented on multi-fd only, we can=
+ add a
+> >>> dependency between the caps.  In the future we can remove that depend=
+ency when
+> >>> the code is ready to go without multifd.  Thanks,
+> >> Also, I'm wondering how zerocopy support interacts with kernel support
+> >> for kTLS and multipath-TCP, both of which we want to be able to use
+> >> with migration.
+> > Copying Jason Wang for net implications between these features on kerne=
+l side
+>
+>
+> Note that the MSG_ZEROCOPY is contributed by Google :)
+>
+>
+> > and whether they can be enabled together (MSG_ZEROCOPY, mptcp, kTLS).
+>
+>
+> I think they can. Anyway kernel can choose to do datacopy when necessary.
+>
+> Note that the "zerocopy" is probably not correct here. What's better is
+> "Enable MSG_ZEROCOPY" since:
+>
+> 1) kernel supports various kinds of zerocopy, for TX, it has supported
+> sendfile() for many years.
+> 2) MSG_ZEROCOPY is only used for TX but not RX
+> 3) TCP rx zerocopy is only supported via mmap() which requires some
+> extra configurations e.g 4K MTU, driver support for header split etc.
 
-Thanks,
+RX would be my next challenge :)
 
-Rich.
+>
+> [1] https://www.youtube.com/watch?v=3D_ZfiQGWFvg0
 
-> Otherwise I think you can work around it with:
-> 
-> --- a/tcg/arm/tcg-target.h
-> +++ b/tcg/arm/tcg-target.h
-> @@ -152,7 +152,7 @@ extern bool use_neon_instructions;
->  #define TCG_TARGET_HAS_qemu_st8_i32     0
-> 
->  #define TCG_TARGET_HAS_v64              use_neon_instructions
-> -#define TCG_TARGET_HAS_v128             use_neon_instructions
-> +#define TCG_TARGET_HAS_v128             0
->  #define TCG_TARGET_HAS_v256             0
-> 
->  #define TCG_TARGET_HAS_andc_vec         1
-> 
-> though this is just a bodge that (hopefully) turns the use of v128
-> off entirely.
-> 
-> -- PMM
+Thank you for sharing!
 
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-libguestfs lets you edit virtual machines.  Supports shell scripting,
-bindings from many languages.  http://libguestfs.org
+Best regards,
+Leonardo
 
 
