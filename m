@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 689683FEDB8
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 14:24:41 +0200 (CEST)
-Received: from localhost ([::1]:59602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3A763FEDC0
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 14:27:33 +0200 (CEST)
+Received: from localhost ([::1]:37920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLlln-0007Ts-7u
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 08:24:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52706)
+	id 1mLloa-0003Xh-UB
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 08:27:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <f83df00900816476cca41bb536e4d532b297d76e@lizzy.crudebyte.com>)
- id 1mLlFp-0000pW-Dn
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 07:51:40 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:53623)
+ id 1mLlG8-0001l2-AG
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 07:51:56 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:48995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <f83df00900816476cca41bb536e4d532b297d76e@lizzy.crudebyte.com>)
- id 1mLlFn-0006qs-Gm
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 07:51:37 -0400
+ id 1mLlG6-0006ra-LT
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 07:51:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Content-Transfer-Encoding:Content-Type:
- MIME-Version:Subject:Date:From:Message-Id:References:In-Reply-To:Content-ID:
- Content-Description; bh=E0XQugDAKJtuz5puPoYs5SWOYs/FlsZ113QoE5YQUk0=; b=aGZLC
- 2Yetp3PHjYn35WBi3nRSt/feTaREHFdsGJ9leUhmitT5zBcWn80IkUCkzFOmsvQ1ClHqZO5KD4js1
- iLnqOOgxSlk8wS6RGLR/BzQxq/SW3NAHrERmmyTqt8Qg8DXSpSB3cqVx2v7/xER0R4FLoSssjFbsP
- ttjsPGMxmK9DOgWIDB9M5spn+PYy1kVo4iz/25D0KY0JswDa7ccD0WJx2ciR6YxhwSPmBbS74SjZ3
- Pk1OVWPnjeNXCC0X8qDqM94397GXatSd0cxQvpfX/Ez+nOi5cNF4eWLPBfDi2pePUmxqitJn+xa3k
- fVn4CEMFPikeGJesNjlPAiDG/JyNQ==;
-Message-Id: <cover.1630582967.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=jrx/vT+QUzUBsJuKPl621+bCaiWTm/AVkmhAnnC3ldM=; b=j8fAU
+ fnMzPuK+0d4FNp69IpAjqNRgWpEOcvMv7S3SM7tZeOH5+efpQg84VZNrkV7um4ApoGeZkcXcezqRO
+ mmFz8voV7bftTWOUidvIxPbQB1ZegDLELS3HdMaTFvep7apzQp23qljTz4zcKndVAakyGh+/cp5P+
+ lKVL8a0nwHA9ax3OSp73BrZeoXujcWl0dFN+OP/TRrgtTbQdj75K+hqkC1sA3mR7sYJNc8A2aCofv
+ BULkTtCDDq0PcjW3q+cY68LybRbnhUJr1jTBZxtlYsXQxeQRVa1H3ctHF5zsfBAHELdu6u3cGc37N
+ ERh5a2ElyHbun6M9+TbJd1ArFbGUw==;
+Message-Id: <f83df00900816476cca41bb536e4d532b297d76e.1630582967.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1630582967.git.qemu_oss@crudebyte.com>
+References: <cover.1630582967.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Thu, 02 Sep 2021 13:42:47 +0200
-Subject: [PULL 0/3] 9p queue 2021-09-02
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: [PULL 3/3] 9pfs: fix crash in v9fs_walk()
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
@@ -64,32 +63,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 59a89510b62ec23dbeab8b02fa4e3526e353d8b6:
+v9fs_walk() utilizes the v9fs_co_run_in_worker({...}) macro to run the
+supplied fs driver code block on a background worker thread.
 
-  Merge remote-tracking branch 'remotes/stefanberger/tags/pull-tpm-2021-09-01-1' into staging (2021-09-02 08:51:31 +0100)
+When either the 'Twalk' client request was interrupted or if the client
+requested fid for that 'Twalk' request caused a stat error then that
+fs driver code block was left by 'break' keyword, with the intention to
+return from worker thread back to main thread as well:
 
-are available in the Git repository at:
+    v9fs_co_run_in_worker({
+        if (v9fs_request_cancelled(pdu)) {
+            err = -EINTR;
+            break;
+        }
+        err = s->ops->lstat(&s->ctx, &dpath, &fidst);
+        if (err < 0) {
+            err = -errno;
+            break;
+        }
+        ...
+    });
 
-  https://github.com/cschoenebeck/qemu.git tags/pull-9p-20210902
+However that 'break;' statement also skipped the v9fs_co_run_in_worker()
+macro's final and mandatory
 
-for you to fetch changes up to f83df00900816476cca41bb536e4d532b297d76e:
+    /* re-enter back to qemu thread */
+    qemu_coroutine_yield();
 
-  9pfs: fix crash in v9fs_walk() (2021-09-02 13:26:22 +0200)
+call and thus caused the rest of v9fs_walk() to be continued being
+executed on the worker thread instead of main thread, eventually
+leading to a crash in the transport virtio transport driver.
 
-----------------------------------------------------------------
-9pfs: misc patches
+To fix this issue and to prevent the same error from happening again by
+other users of v9fs_co_run_in_worker() in future, auto wrap the supplied
+code block into its own
 
-* Fix an occasional crash when handling 'Twalk' requests.
+    do { } while (0);
 
-* Two code cleanup patches.
+loop inside the 'v9fs_co_run_in_worker' macro definition.
 
-----------------------------------------------------------------
-Christian Schoenebeck (3):
-      hw/9pfs: avoid 'path' copy in v9fs_walk()
-      hw/9pfs: use g_autofree in v9fs_walk() where possible
-      9pfs: fix crash in v9fs_walk()
+Full discussion and backtrace:
+https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg05209.html
+https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg00174.html
 
- hw/9pfs/9p.c   | 15 +++++++--------
- hw/9pfs/coth.h |  4 +++-
- 2 files changed, 10 insertions(+), 9 deletions(-)
+Fixes: 8d6cb100731c4d28535adbf2a3c2d1f29be3fef4
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: qemu-stable@nongnu.org
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <E1mLTBg-0002Bh-2D@lizzy.crudebyte.com>
+---
+ hw/9pfs/coth.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/hw/9pfs/coth.h b/hw/9pfs/coth.h
+index c51289903d..f83c7dda7b 100644
+--- a/hw/9pfs/coth.h
++++ b/hw/9pfs/coth.h
+@@ -51,7 +51,9 @@
+          */                                                             \
+         qemu_coroutine_yield();                                         \
+         qemu_bh_delete(co_bh);                                          \
+-        code_block;                                                     \
++        do {                                                            \
++            code_block;                                                 \
++        } while (0);                                                    \
+         /* re-enter back to qemu thread */                              \
+         qemu_coroutine_yield();                                         \
+     } while (0)
+-- 
+2.20.1
+
 
