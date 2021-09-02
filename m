@@ -2,69 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13DD13FEEBB
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:34:58 +0200 (CEST)
-Received: from localhost ([::1]:35286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C760D3FEEEE
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:46:39 +0200 (CEST)
+Received: from localhost ([::1]:37488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLmro-0001J0-RN
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:34:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44928)
+	id 1mLn38-0005zK-Pp
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:46:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLmZg-0000OA-Nd
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:16:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43861)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLmYp-0007Oq-UN
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:15:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56467)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLmZd-0007i2-TR
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:16:12 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLmYo-0006sb-5l
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:15:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630588568;
+ s=mimecast20190719; t=1630588517;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7L0Ww5ZtJIWwXdTZgEvvFjlW/4+KXUyA6zkwceb3III=;
- b=LjTX6sX30knyLecF6dZIqaKJ647T3SF9uGTEE2HgC7X5FgmIDC7anIx4ArFHEYCu7d8uAx
- zEnkIizQLVGlGtFXV8gy3Ek9ds66d+6OAXpuy3SYKdiavlepAfqVnG4BgSRs80SOCRU6L1
- +B/wKC85GuFwvh+6xVmIljflOTDXz64=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-83-1O4pRCVEO8e8e5H1z57ETQ-1; Thu, 02 Sep 2021 09:16:07 -0400
-X-MC-Unique: 1O4pRCVEO8e8e5H1z57ETQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9370A10835C2;
- Thu,  2 Sep 2021 13:16:04 +0000 (UTC)
-Received: from t480s.redhat.com (unknown [10.39.193.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3125D6B541;
- Thu,  2 Sep 2021 13:16:01 +0000 (UTC)
-From: David Hildenbrand <david@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 9/9] migration/ram: Handle RAMBlocks with a
- RamDiscardManager on background snapshots
-Date: Thu,  2 Sep 2021 15:14:32 +0200
-Message-Id: <20210902131432.23103-10-david@redhat.com>
-In-Reply-To: <20210902131432.23103-1-david@redhat.com>
-References: <20210902131432.23103-1-david@redhat.com>
+ bh=HSC2mmCk9EzK+vzTm0FupuuEt/8AOL1Z8+xPWJuiMdI=;
+ b=BYklyhgzjTAbiuRXKXYviPfubEcfHuKKy9w0mcUeLQrKyT1NWwuhC+ZvxyeyhegifDZtRg
+ 1qcr02/IsPydcxzh5kENC+lhEZ8WRcimXTweQRQtiaMvHFsh5NnJbyHW7WHcgYPc1wbgLz
+ oczSp+TRXFb0Y2RqeH6zDezMhsDZD/4=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-188-Y15GxreCNJuRYU-2catKVA-1; Thu, 02 Sep 2021 09:15:16 -0400
+X-MC-Unique: Y15GxreCNJuRYU-2catKVA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ f19-20020a1c1f13000000b002e6bd83c344so684582wmf.3
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 06:15:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=HSC2mmCk9EzK+vzTm0FupuuEt/8AOL1Z8+xPWJuiMdI=;
+ b=ZjzxMCuW1EWnV7SLEb24OymlY7XoJjURBDcpzwi4iixNFpTKy0CiIuguHCxMhVLjTN
+ sijFaVtm3jNu/JbXe8fZgHSQn30kNoK3LT5shb/aZ/gkmZgVoNbXWeuU6f0puM8KZiUX
+ /h+NlnjDCCwlKRPTOALRa869kHxx1WmTdDUxq1Tiwyh+RARn7+UYVOhzrMgbmLRjxOKA
+ H86kVI+YoApbyhM3DYIpehb6EsnlhpN2Vi4sy8JyWNLGO0T/K8VNIrrLexa1wqeiOn7v
+ WU0HBo4+EW2MaHxWcuARw20MbKxSUKn+CJdWIT8Ta9pgble7memNvad/yNHBRIiNGSxi
+ Irfg==
+X-Gm-Message-State: AOAM532VGBr+YXJvWYbWmBZD7+moKhY1mraMC6WbFepeKp9RyXAm/50q
+ KkaWAa6SFKGK09cZJecSISZ1zsTmQA1NLow5nYhzyl6PXRclkIADW0BNMNTiTbBwbDaB5+t0OUY
+ YljwVY4zT1L0Nakw=
+X-Received: by 2002:a5d:6085:: with SMTP id w5mr3766432wrt.104.1630588515263; 
+ Thu, 02 Sep 2021 06:15:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwZT4p8msI6uAu8mQhOFEmVPRaPEoZjmwS4dpCPplkBWB4NC1bhOYFzgSVtJdkDJ414odcxug==
+X-Received: by 2002:a5d:6085:: with SMTP id w5mr3766393wrt.104.1630588515038; 
+ Thu, 02 Sep 2021 06:15:15 -0700 (PDT)
+Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id i5sm1462495wmq.17.2021.09.02.06.15.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Sep 2021 06:15:14 -0700 (PDT)
+Subject: Re: Guest Agent issue with 'guest-get-osinfo' command on Windows
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Konstantin Kostiuk <konstantin@daynix.com>,
+ Developers <qemu-devel@nongnu.org>
+References: <CAJ28CFSFEatxgfvUE3gvnFBVX7GrqMwk0+t1foFfNzDu7bwv3A@mail.gmail.com>
+ <b09b85ed-1c7a-72fc-b4fa-7930f8c44c9f@redhat.com>
+Message-ID: <de8cdbfe-446c-e777-7190-0961a30d0abe@redhat.com>
+Date: Thu, 2 Sep 2021 15:15:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <b09b85ed-1c7a-72fc-b4fa-7930f8c44c9f@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.225, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,109 +99,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- teawater <teawaterz@linux.alibaba.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, "Richard W.M. Jones" <rjones@redhat.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Tomas Golembiovsky <tgolembi@redhat.com>, Yan Vugenfirer <yan@daynix.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already don't ever migrate memory that corresponds to discarded ranges
-as managed by a RamDiscardManager responsible for the mapped memory region
-of the RAMBlock.
+Forgot to Cc Richard & Daniel.
 
-virtio-mem uses this mechanism to logically unplug parts of a RAMBlock.
-Right now, we still populate zeropages for the whole usable part of the
-RAMBlock, which is undesired because:
-
-1. Even populating the shared zeropage will result in memory getting
-   consumed for page tables.
-2. Memory backends without a shared zeropage (like hugetlbfs and shmem)
-   will populate an actual, fresh page, resulting in an unintended
-   memory consumption.
-
-Discarded ("logically unplugged") parts have to remain discarded. As
-these pages are never part of the migration stream, there is no need to
-track modifications via userfaultfd WP reliably for these parts.
-
-Further, any writes to these ranges by the VM are invalid and the
-behavior is undefined.
-
-Note that Linux only supports userfaultfd WP on private anonymous memory
-for now, which usually results in the shared zeropage getting populated.
-The issue will become more relevant once userfaultfd WP supports shmem
-and hugetlb.
-
-Acked-by: Peter Xu <peterx@redhat.com>
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- migration/ram.c | 37 +++++++++++++++++++++++++++++++++++--
- 1 file changed, 35 insertions(+), 2 deletions(-)
-
-diff --git a/migration/ram.c b/migration/ram.c
-index de47650c90..2f7ceb84b8 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1650,6 +1650,16 @@ static inline void populate_range(RAMBlock *block, ram_addr_t offset,
-     }
- }
- 
-+static inline int populate_section(MemoryRegionSection *section, void *opaque)
-+{
-+    const hwaddr size = int128_get64(section->size);
-+    hwaddr offset = section->offset_within_region;
-+    RAMBlock *block = section->mr->ram_block;
-+
-+    populate_range(block, offset, size);
-+    return 0;
-+}
-+
- /*
-  * ram_block_populate_pages: populate memory in the RAM block by reading
-  *   an integer from the beginning of each page.
-@@ -1659,9 +1669,32 @@ static inline void populate_range(RAMBlock *block, ram_addr_t offset,
-  *
-  * @block: RAM block to populate
-  */
--static void ram_block_populate_pages(RAMBlock *block)
-+static void ram_block_populate_pages(RAMBlock *rb)
- {
--    populate_range(block, 0, block->used_length);
-+    /*
-+     * Skip populating all pages that fall into a discarded range as managed by
-+     * a RamDiscardManager responsible for the mapped memory region of the
-+     * RAMBlock. Such discarded ("logically unplugged") parts of a RAMBlock
-+     * must not get populated automatically. We don't have to track
-+     * modifications via userfaultfd WP reliably, because these pages will
-+     * not be part of the migration stream either way -- see
-+     * ramblock_dirty_bitmap_exclude_discarded_pages().
-+     *
-+     * Note: The result is only stable while migrating (precopy/postcopy).
-+     */
-+    if (rb->mr && memory_region_has_ram_discard_manager(rb->mr)) {
-+        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(rb->mr);
-+        MemoryRegionSection section = {
-+            .mr = rb->mr,
-+            .offset_within_region = 0,
-+            .size = rb->mr->size,
-+        };
-+
-+        ram_discard_manager_replay_populated(rdm, &section,
-+                                             populate_section, NULL);
-+    } else {
-+        populate_range(rb, 0, rb->used_length);
-+    }
- }
- 
- /*
--- 
-2.31.1
+On 9/2/21 3:11 PM, Philippe Mathieu-Daudé wrote:
+> On 9/2/21 2:36 PM, Konstantin Kostiuk wrote:
+>> Hi Team,
+>>
+>> We have several bugs related to 'guest-get-osinfo' command in Windows
+>> Guest Agent:
+>> https://bugzilla.redhat.com/show_bug.cgi?id=1998919
+>> <https://bugzilla.redhat.com/show_bug.cgi?id=1998919>
+>> https://bugzilla.redhat.com/show_bug.cgi?id=1972070
+>> <https://bugzilla.redhat.com/show_bug.cgi?id=1972070>
+>>
+>> This command returns the following data:
+>> {
+>> "name": "Microsoft Windows",
+>> "kernel-release": "20344",
+>> "version": "N/A",
+>> "variant": "server",
+>> "pretty-name": "Windows Server 2022 Datacenter",
+>> "version-id": "N/A",
+>> "variant-id": "server",
+>> "kernel-version": "10.0",
+>> "machine": "x86_64",
+>> "id": "mswindows"
+>> }
+>>
+>> The problem is with "version" and "pretty-name". Windows Server
+>> 2016/2019/2022 and Windows 11 have the same MajorVersion
+>> ("kernel-version") = 10, so to get pretty-name the guest agent uses a
+>> conversion matrix between Windows build and name
+>> (https://github.com/qemu/qemu/blob/59a89510b62ec23dbeab8b02fa4e3526e353d8b6/qga/commands-win32.c#L2170
+>> <https://github.com/qemu/qemu/blob/59a89510b62ec23dbeab8b02fa4e3526e353d8b6/qga/commands-win32.c#L2170>).
+>>
+>> This solution has several problems: need to update the conversion matrix
+>> for each Windows build, one Windows name can have different build
+>> numbers. For example, Windows Server 2022 (preview) build number is
+>> 20344, Windows Server 2022 build number is 20348.
+>>
+>> There are two possible solutions:
+>> 1. Use build number range instead of one number. Known implementation
+>> issue: Microsoft provides a table
+>> (https://docs.microsoft.com/en-Us/windows-server/get-started/windows-server-release-info
+>> <https://docs.microsoft.com/en-Us/windows-server/get-started/windows-server-release-info>)
+>> only with stable build numbers. So, we exactly don't know the build
+>> number range.
+> 
+> Sounds good, start with low=high limit then if someone reports
+> out-of-range we adapt the limit.
+> 
+> BTW instead of burying this in C, I'd store this information in a JSON
+> file to ease updates.
+> 
+>> 2. We can read this string from the registry
+>> (HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion). Known
+>> implementation issues: ProductName value is localized (in a Russian
+>> version of Windows, the word "Microsoft' is translated), so we should
+>> ignore it. ReleaseId value does not equal to Windows Server version (for
+>> Windows Server 2019, ReleaseId is 1809)
+> 
+> Could this work?
+> 
+>   if ReleaseId:
+>     return ProductName[ReleaseId];
+>   else:
+>     return ProductName[release_id_by_buildnumber(BuildNumber)];
+> 
+>> In conclusion, I have the next questions:
+>> What solution we should implement to get the Windows release name?
+>> Does someone know how end-users use this information? Should it be
+>> English only or it can be localized? Should we have exactly the same
+>> output as now?
+>> What should we do with the 'Standard' server edition? Currently, the
+>> guest agent always returns 'Datacenter'.
+>>
+>> Best wishes,
+>> Kostiantyn Kostiuk
+> 
 
 
