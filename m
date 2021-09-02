@@ -2,105 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 149D93FF7D7
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 01:29:41 +0200 (CEST)
-Received: from localhost ([::1]:36742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5773FF80B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 01:51:02 +0200 (CEST)
+Received: from localhost ([::1]:44534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLw9M-0002Ns-2W
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 19:29:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54348)
+	id 1mLwU1-0000dJ-7C
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 19:51:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=8724dbd3c=alistair.francis@opensource.wdc.com>)
- id 1mLw5d-0005aS-Pq
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:25:49 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:52038)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=8724dbd3c=alistair.francis@opensource.wdc.com>)
- id 1mLw5b-00059g-2W
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:25:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1630625147; x=1662161147;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=rShATVOyZt9SnfwqKRn0y8UZ0rHTTM6iAVUUXimZzFU=;
- b=JwEm3OE4HFv0OgClRqZTibBWESV7/b9Bx4gV5rhcT2vc0cx65KzK2H/X
- jXGrOhDY5eRmJTxkUf1fnYTUyy6R0puvh0itclv9UaTfvTF4X69IatnZp
- Db/ZVYVX4jbiG/hNZKqR79gi46eKCRtG9NCY8VKe90CTehZ5cDiRvwqry
- Tiy7HrIcMORwBRCN5AckYRe98mKA1dDwDDrrvwAwyRixYS+DCd0yJc9aL
- H4gKvWAWcSnVdrT5uEA4K6Qf+TM2qo3yuNamhw+BYh+nCA8YuHTOdNj6m
- 2xi/2wGVtz8LOP36KiqKgFzkBZBgh2jvrEH6kv5B8yPHra7MkpO+j8m/N w==;
-X-IronPort-AV: E=Sophos;i="5.85,263,1624291200"; d="scan'208";a="179628325"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 03 Sep 2021 07:25:46 +0800
-IronPort-SDR: iBK602wISFvcMrq+KMQh9bhki49PBJ3Kqc7OvWufAgYODoBvax7iK5BAKzAhU1FU6+oyDavLDl
- 9yKjIAWjg7Oqy1PdRYRPE1b/X5AtkjARAG17+MSjuIm13sBiWaDducMpI0knpKLamMQ9lBzD46
- XEVMYJwO3SNSjBwz48kSM4J6DjL6OJ5IUfVSvwubamx5VtXWyl+W0WeD/TL4yTVt1MVcEMLCni
- dKjCs2rug/DrLNalCg2kN0MzwRLSBB0wJP3rX1WIxYlzLZyD99WjH4OzAmgReDF2LloJZvMTiI
- 3DvjXe3NXJseYWC7pT13oOWI
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2021 16:02:30 -0700
-IronPort-SDR: EtjINgYXSpWsshjUuQmP0pKZ2fiI8EQtHenMKDl7ixlP20d5WLyi1/QoSvWtj4dO8BQHWCtMH5
- D1EYmQGn2lygLoDVcb88Hm4soNbV8SAB444JJqBS1cXGO2YTdbgH5PtgZFVCDqzYP9ZNtnXQRz
- OVbMSij+dW4dti/Ot2tk5lzbRys+G5LbOq8oYZlkfxtAMAVcABaoZmgunxnnrHK03u/PQJOABq
- AqYkba2rxtYtQcWOijbNUxfQZba21hWYg5ohnXfwN2Lv0yzKuD+fIDs/omWFZ1fdguJfQVm5nC
- DAs=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Sep 2021 16:25:46 -0700
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4H0xqs3r5yz1RvlT
- for <qemu-devel@nongnu.org>; Thu,  2 Sep 2021 16:25:45 -0700 (PDT)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1630625144; x=1633217145; bh=rShATVOyZt9SnfwqKR
- n0y8UZ0rHTTM6iAVUUXimZzFU=; b=fqKXGeALMC++GrKEV6SNH5k1PcBq8wzgSK
- qe52J4hLHa+lYYMpB032LuhnPaxOYakUAvQdtrrHJuYqcLLxcXmq0XA1iZaWlG/+
- eeVXowb/y547ohCQU7j3LHt6+YQRa5ImJEdyvhihva+iLMBtTGNJfPcv15sktJCb
- QzkWC52MJEEUnKkEjVYlkk9u184wat3TibR0fT16kAQ9Rl4UsxgeLD8NLS+ZPDKg
- bHmhjlXsUL6vjKqISuoVzB2rDZo9po2uqJ+f5tiO2pCiH22UeYkg/ikmB9mFrveR
- v3ot6n6Tq8e3dmibAPKkESStAXhe0BjY9kfJaaQnFBFQnO8JPaMQ==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 40jvczu_02HS for <qemu-devel@nongnu.org>;
- Thu,  2 Sep 2021 16:25:44 -0700 (PDT)
-Received: from toolbox.alistair23.me (unknown [10.225.165.17])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4H0xqm6R1Gz1RvlP;
- Thu,  2 Sep 2021 16:25:40 -0700 (PDT)
-From: Alistair Francis <alistair.francis@opensource.wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Cc: bmeng.cn@gmail.com, palmer@dabbelt.com, alistair.francis@wdc.com,
- alistair23@gmail.com
-Subject: [PATCH v2 2/2] sifive_u: Connect the SiFive PWM device
-Date: Fri,  3 Sep 2021 09:25:34 +1000
-Message-Id: <da274fb1833ecf9ea3a0dc343439aa4d4b3c4d76.1630625094.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1630625094.git.alistair.francis@wdc.com>
-References: <cover.1630625094.git.alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwQu-0006Mp-BH
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:47:48 -0400
+Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:39582)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwQr-0002nr-Kw
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:47:48 -0400
+Received: by mail-io1-xd36.google.com with SMTP id m11so4721587ioo.6
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 16:47:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wq5bFd+X1Ny61RgVjbDXx8QTirvbYGi7rnP/4rwxW2I=;
+ b=ttew/Hlz+nzGxlsxw6YjmBfCNxyJvqYDS+Ozprq2cQnZ2gznu5UfEm4/D4t2EqVeJc
+ 9KHdO/IEWXSALOpg87SA7FBEOUljbMlnP/TTFw0R8k6thpZd6RvxRo2mzfRDm2y7+Gi/
+ xnQJTwMKMrDsOc2UUflv62tIPRQ8GxjNkgTns4PUFFy3/MnsSfF0R2Fzny4tbzqODfo8
+ zV0QYfp4V/7CAyjrqDBdIyN/lOXV0W2PjMu4F2slr4YxeBVFWDP6Vzb+halCSM1zCKFb
+ qtLIGsLXFGxCk4dhLMtcK/+rwp2N7jro77JRjT5yGTIH7cg9Sg8IJPinG0766Tt88sFV
+ h0tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wq5bFd+X1Ny61RgVjbDXx8QTirvbYGi7rnP/4rwxW2I=;
+ b=EgkfgZetw4OomtMo9rjm505EZLucMA7E0uUyQxE5dZOtbI1WozQaDzCxociIo8vLT7
+ jLmvId400qqbKy37m3IhUIBLEg4aVd4Utl4Mg6mpPlhsaHU3cSnGYidCSol5NUIuGT65
+ ftRtHstZWswT4fja9ewmGxkZZR6RZGm3jfLy9AbdAbfIRvDKAwlON4k/ybSlvGqHuKf4
+ wKjnlXgdCMxdF0v81aDQdAmRY823BNX4v9+sPDhX951XQXqJJ8gEBr0Eegkyij6IltaS
+ Xqyo5f+LxH2zh9QFtF1lNsVZ4HhVxfIIwIXrsZv28QM6fCO5/G/BqoNtgp4Cl+3MPJqI
+ foXA==
+X-Gm-Message-State: AOAM531GLCOGqRQFHqIye0s02c5TJnlqbjOP6C46OzZxpoDg1aPcA3B1
+ vQQKES4VeP4ViDCOjntdac7DSrueTH+UKA==
+X-Google-Smtp-Source: ABdhPJxBrcpTKB0Pm2FE99hmS7z2dU5+IiJbjus0+NS6fBA5NO70DEUFWZyOtkC4n21Q3PTOnX339A==
+X-Received: by 2002:a5e:8e4c:: with SMTP id r12mr734418ioo.73.1630626463267;
+ Thu, 02 Sep 2021 16:47:43 -0700 (PDT)
+Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
+ [50.253.99.174])
+ by smtp.gmail.com with ESMTPSA id u10sm1740502ilg.15.2021.09.02.16.47.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Sep 2021 16:47:41 -0700 (PDT)
+From: imp@bsdimp.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/43] bsd-user updates to run hello world
+Date: Thu,  2 Sep 2021 17:46:46 -0600
+Message-Id: <20210902234729.76141-1-imp@bsdimp.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.71.154.45;
- envelope-from=prvs=8724dbd3c=alistair.francis@opensource.wdc.com;
- helo=esa6.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd36.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -113,204 +80,242 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kevans@freebsd.org, Warner Losh <imp@bsdimp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
+From: Warner Losh <imp@bsdimp.com>
 
-Connect the SiFive PWM device and expose it via the device tree.
+This series of patches gets me to the point that I can run "Hello World" on i386
+and x86_64. This is for static binaries only, that are relatively small, but
+it's better than the 100% instant mmap failre that is the current state of all
+things bsd-user in upstream qemu. Future patch sets will refine this, add
+the missing system calls, fix bugs preventing more sophisticated programms
+from running and add a bunch of new architecture support.
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- include/hw/riscv/sifive_u.h | 14 +++++++++-
- hw/riscv/sifive_u.c         | 55 ++++++++++++++++++++++++++++++++++++-
- hw/timer/sifive_pwm.c       |  1 +
- hw/riscv/Kconfig            |  1 +
- 4 files changed, 69 insertions(+), 2 deletions(-)
+There's three large themes in these patches, though the changes that
+represent them are interrelated making it hard to separate out further.
+1. Reorganization to support multiple OS and architectures (though I've only
+   tested FreeBSD, other BSDs might not even compile yet).
+2. Diff reduction with the bsd-user fork for several files. These diffs include
+   changes that borrowed from linux-user as well as changes to make things work
+   on FreeBSD. The records keeping when this was done, however, was poor at
+   best, so many of the specific borrowings are going unacknowledged here, apart
+   from this general ack. These diffs also include some minor code shuffling.
+   Some of the changes are done specifically to make it easier to rebase
+   the bsd-user fork's changes when these land in the tree (a number of changes
+   have been pushed there to make this more possible).
+3. Filling in the missing pieces to make things work. There's many changes to
+   elfload to make it load things in the right places, to find the interpreter
+   better, etc. There's changes to mmap.c to make the mappings work better and
+   there's changes to main.c that were inspired, at least, by now-ancient changes
+   to linux-user's main.c.
 
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index 2656b39808..0d010c7309 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -27,6 +27,7 @@
- #include "hw/misc/sifive_u_otp.h"
- #include "hw/misc/sifive_u_prci.h"
- #include "hw/ssi/sifive_spi.h"
-+#include "hw/timer/sifive_pwm.h"
-=20
- #define TYPE_RISCV_U_SOC "riscv.sifive.u.soc"
- #define RISCV_U_SOC(obj) \
-@@ -49,6 +50,7 @@ typedef struct SiFiveUSoCState {
-     SiFiveSPIState spi0;
-     SiFiveSPIState spi2;
-     CadenceGEMState gem;
-+    SiFiveUPwmState pwm[2];
-=20
-     uint32_t serial;
-     char *cpu_type;
-@@ -92,7 +94,9 @@ enum {
-     SIFIVE_U_DEV_FLASH0,
-     SIFIVE_U_DEV_DRAM,
-     SIFIVE_U_DEV_GEM,
--    SIFIVE_U_DEV_GEM_MGMT
-+    SIFIVE_U_DEV_GEM_MGMT,
-+    SIFIVE_U_DEV_PWM0,
-+    SIFIVE_U_DEV_PWM1
- };
-=20
- enum {
-@@ -126,6 +130,14 @@ enum {
-     SIFIVE_U_PDMA_IRQ5 =3D 28,
-     SIFIVE_U_PDMA_IRQ6 =3D 29,
-     SIFIVE_U_PDMA_IRQ7 =3D 30,
-+    SIFIVE_U_DEV_PWM0_0 =3D 42,
-+    SIFIVE_U_DEV_PWM0_1 =3D 43,
-+    SIFIVE_U_DEV_PWM0_2 =3D 44,
-+    SIFIVE_U_DEV_PWM0_3 =3D 45,
-+    SIFIVE_U_DEV_PWM1_0 =3D 46,
-+    SIFIVE_U_DEV_PWM1_1 =3D 47,
-+    SIFIVE_U_DEV_PWM1_2 =3D 48,
-+    SIFIVE_U_DEV_PWM1_3 =3D 49,
-     SIFIVE_U_QSPI0_IRQ =3D 51,
-     SIFIVE_U_GEM_IRQ =3D 53
- };
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 6cc1a62b0f..ed2e75df36 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -17,6 +17,7 @@
-  * 7) DMA (Direct Memory Access Controller)
-  * 8) SPI0 connected to an SPI flash
-  * 9) SPI2 connected to an SD card
-+ * 10) PWM0 and PWM1
-  *
-  * This board currently generates devicetree dynamically that indicates =
-at least
-  * two harts and up to five harts.
-@@ -75,6 +76,8 @@ static const MemMapEntry sifive_u_memmap[] =3D {
-     [SIFIVE_U_DEV_PRCI] =3D     { 0x10000000,     0x1000 },
-     [SIFIVE_U_DEV_UART0] =3D    { 0x10010000,     0x1000 },
-     [SIFIVE_U_DEV_UART1] =3D    { 0x10011000,     0x1000 },
-+    [SIFIVE_U_DEV_PWM0] =3D     { 0x10020000,     0x1000 },
-+    [SIFIVE_U_DEV_PWM1] =3D     { 0x10021000,     0x1000 },
-     [SIFIVE_U_DEV_QSPI0] =3D    { 0x10040000,     0x1000 },
-     [SIFIVE_U_DEV_QSPI2] =3D    { 0x10050000,     0x1000 },
-     [SIFIVE_U_DEV_GPIO] =3D     { 0x10060000,     0x1000 },
-@@ -441,6 +444,38 @@ static void create_fdt(SiFiveUState *s, const MemMap=
-Entry *memmap,
-     qemu_fdt_setprop_cell(fdt, nodename, "reg", 0x0);
-     g_free(nodename);
-=20
-+    nodename =3D g_strdup_printf("/soc/pwm@%lx",
-+        (long)memmap[SIFIVE_U_DEV_PWM0].base);
-+    qemu_fdt_add_subnode(fdt, nodename);
-+    qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,pwm0");
-+    qemu_fdt_setprop_cells(fdt, nodename, "reg",
-+        0x0, memmap[SIFIVE_U_DEV_PWM0].base,
-+        0x0, memmap[SIFIVE_U_DEV_PWM0].size);
-+    qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandl=
-e);
-+    qemu_fdt_setprop_cells(fdt, nodename, "interrupts",
-+                           SIFIVE_U_DEV_PWM0_0, SIFIVE_U_DEV_PWM0_1,
-+                           SIFIVE_U_DEV_PWM0_2, SIFIVE_U_DEV_PWM0_3);
-+    qemu_fdt_setprop_cells(fdt, nodename, "clocks",
-+                           prci_phandle, PRCI_CLK_TLCLK);
-+    qemu_fdt_setprop_cell(fdt, nodename, "#pwm-cells", 0);
-+    g_free(nodename);
-+
-+    nodename =3D g_strdup_printf("/soc/pwm@%lx",
-+        (long)memmap[SIFIVE_U_DEV_PWM1].base);
-+    qemu_fdt_add_subnode(fdt, nodename);
-+    qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,pwm0");
-+    qemu_fdt_setprop_cells(fdt, nodename, "reg",
-+        0x0, memmap[SIFIVE_U_DEV_PWM1].base,
-+        0x0, memmap[SIFIVE_U_DEV_PWM1].size);
-+    qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandl=
-e);
-+    qemu_fdt_setprop_cells(fdt, nodename, "interrupts",
-+                           SIFIVE_U_DEV_PWM1_0, SIFIVE_U_DEV_PWM1_1,
-+                           SIFIVE_U_DEV_PWM1_2, SIFIVE_U_DEV_PWM1_3);
-+    qemu_fdt_setprop_cells(fdt, nodename, "clocks",
-+                           prci_phandle, PRCI_CLK_TLCLK);
-+    qemu_fdt_setprop_cell(fdt, nodename, "#pwm-cells", 0);
-+    g_free(nodename);
-+
-     nodename =3D g_strdup_printf("/soc/serial@%lx",
-         (long)memmap[SIFIVE_U_DEV_UART1].base);
-     qemu_fdt_add_subnode(fdt, nodename);
-@@ -765,6 +800,8 @@ static void sifive_u_soc_instance_init(Object *obj)
-     object_initialize_child(obj, "pdma", &s->dma, TYPE_SIFIVE_PDMA);
-     object_initialize_child(obj, "spi0", &s->spi0, TYPE_SIFIVE_SPI);
-     object_initialize_child(obj, "spi2", &s->spi2, TYPE_SIFIVE_SPI);
-+    object_initialize_child(obj, "pwm0", &s->pwm[0], TYPE_SIFIVE_PWM);
-+    object_initialize_child(obj, "pwm1", &s->pwm[1], TYPE_SIFIVE_PWM);
- }
-=20
- static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-@@ -777,7 +814,7 @@ static void sifive_u_soc_realize(DeviceState *dev, Er=
-ror **errp)
-     MemoryRegion *l2lim_mem =3D g_new(MemoryRegion, 1);
-     char *plic_hart_config;
-     size_t plic_hart_config_len;
--    int i;
-+    int i, j;
-     NICInfo *nd =3D &nd_table[0];
-=20
-     qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-harts", ms->smp.cpus -=
- 1);
-@@ -904,6 +941,22 @@ static void sifive_u_soc_realize(DeviceState *dev, E=
-rror **errp)
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->gem), 0,
-                        qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_U_GEM_IR=
-Q));
-=20
-+    /* PWM */
-+    for (i =3D 0; i < 2; i++) {
-+        if (!sysbus_realize(SYS_BUS_DEVICE(&s->pwm[i]), errp)) {
-+            return;
-+        }
-+        sysbus_mmio_map(SYS_BUS_DEVICE(&s->pwm[i]), 0,
-+                                memmap[SIFIVE_U_DEV_PWM0].base + (0x1000=
- * i));
-+
-+        /* Connect PWM interrupts to the PLIC */
-+        for (j =3D 0; j < SIFIVE_PWM_IRQS; j++) {
-+            sysbus_connect_irq(SYS_BUS_DEVICE(&s->pwm[i]), j,
-+                               qdev_get_gpio_in(DEVICE(s->plic),
-+                                        SIFIVE_U_DEV_PWM0_0 + (i * 4) + =
-j));
-+        }
-+    }
-+
-     create_unimplemented_device("riscv.sifive.u.gem-mgmt",
-         memmap[SIFIVE_U_DEV_GEM_MGMT].base, memmap[SIFIVE_U_DEV_GEM_MGMT=
-].size);
-=20
-diff --git a/hw/timer/sifive_pwm.c b/hw/timer/sifive_pwm.c
-index 61a97f9b46..3b533d4484 100644
---- a/hw/timer/sifive_pwm.c
-+++ b/hw/timer/sifive_pwm.c
-@@ -25,6 +25,7 @@
-  */
-=20
- #include "qemu/osdep.h"
-+#include "trace.h"
- #include "hw/irq.h"
- #include "hw/timer/sifive_pwm.h"
- #include "hw/qdev-properties.h"
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index ff75add6f3..d56c339ef6 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -69,6 +69,7 @@ config SIFIVE_U
-     select SIFIVE_UART
-     select SIFIVE_U_OTP
-     select SIFIVE_U_PRCI
-+    select SIFIVE_PWM
-     select SSI_M25P80
-     select SSI_SD
-     select UNIMP
---=20
-2.31.1
+I ran checkpatch.pl on this, and there's 350-odd errors it identifies (the vast
+majoirty come from BSD's fetish for tabs), so there will need to be a V2 to fix
+this at the very least. In addition, the change set is big (about +~4.5k/-~2.5k
+lines), so I anticipate some iteration as well just based on its sheer
+size. I've tried to keep each set small to make it easy to review in isolation,
+but I've also allowed some interrelated ones to get a little bigger than I'd
+normally like. I've not done the customary documentation of the expected
+checkpatch.pl output because it is large, and because I wanted to get review
+of the other parts rolling to get this project unstuck. Future versions of the
+patch will document the expected output.
+
+In addition, I noticed a number of places where I could modernize to make the
+code match things like linux-user better. I've resisted the urge to do these at
+this time, since it would complicate merging the other ~30k lines of diff that
+remains after this batch. Future batches should generally be smaller once this
+one has landed since they are, by and large, either a bunch of new files to
+support armv7, aarch64, riscv64, mips, mipsel, mips64, ppc, ppc64 and ppc64le,
+or are adding system calls, which can be done individually or small groups. I've
+removed sparc and sparc64 support as they've been removed from FreeBSD and
+have been near totally busted for years.
+
+Stacey Son did the bulk of this work originally, but since I had to move things
+around so much and/or retool that work in non-trivial ways, I've kept myself as
+author, and added his signed-off-by line. I'm unsure of the qemu standard
+practice for this, but am happy to learn if this is too far outside its current
+mainstream. For a while Sean Bruno did the merges from upstream, and he's
+credited using his signed-off-by in appropriate places, though for this patch
+set there's only a few. I've tried to ensure that others who have work in
+individual patches that I've aggregated together also are reflected in their
+signed-off-by. Given the chaotic stat of the upstream repo for its early
+history, this may be the best that can be reconstructed at this late date. Most
+of these files are 'foundational' so have existed from the earliest days when
+record keeping wasn't quite what I'd wish for in hindsight. There was only
+really one change that I could easily cherry-pick (Colin's), so I did that.
+
+v2: rejected patches dropped
+    Use suggested glibc routines
+    Updated to be closer to qemu style
+    Disable bsd-user on netbsd and openbsd since they don't compile
+    fold together a couple of related changes
+    [[ tagged the review-by and acked-by from last series, but by hand...
+      I think I got them all... ]]
+
+v3: Fix a bug in refactoring load_elf_sections and is_target_elf_binary
+    Fix spelling errors in commit messages
+    drop copy_cpu() patch until we use that function
+    reword a few commit messages to make them clearer
+    fix return value of setup_sigtramp to be 0 after #ifdef elimination
+    Add patch to initialize random state and implement --seed
+    Fix a boatload of style issues.
+    Rebase to tip of master
+
+NOTE: checkpatch.pl will have several warning about line length > 80 and
+admonishment to not use architecture specific defines. The slightly long lines
+look a lot better than wrapping and the arch specific defines are basically
+required (one could wrap them, and I plan to in the future once I've pruned the
+obsolete ones in a future patch set: there's so many that errors would crop up
+if I were to do it now).
+
+Warner
+
+Colin Percival (1):
+  bsd-user: Add '-0 argv0' option to bsd-user/main.c
+
+Warner Losh (42):
+  bsd-user: remove sparc and sparc64
+  bsd-user: add copyright header to elfload.c
+  bsd-user: Add Stacey's copyright to main.c
+  bsd-user: add license to bsdload.c
+  bsd-user: style nits: bsdload.c whitespace to qemu standard
+  bsd-user: Remove all non-x86 code from elfload.c
+  bsd-user: move arch specific defines out of elfload.c
+  bsd-user: pass the bsd_param into loader_exec
+  bsd-user: Fix calculation of size to allocate
+  bsd-user: implement path searching
+  bsd-user: Eliminate elf personality
+  bsd-user: remove a.out support
+  bsd-user: TARGET_NGROUPS unused in this file, remove
+  bsd-user: elfload: simplify bswap a bit.
+  bsd-user: assume pthreads and support of __thread
+  bsd-user: add host-os.h
+  bsd-user: Include host-os.h from main
+  bsd-user: save the path to the qemu emulator
+  bsd-user: start to move target CPU functions to target_arch*
+  bsd-user: Move per-cpu code into target_arch_cpu.h
+  bsd-user: pull in target_arch_thread.h update target_arch_elf.h
+  bsd-user: Include more things in qemu.h
+  bsd-user: define max args in terms of pages
+  bsd-user: Create target specific vmparam.h
+  bsd-user: Add system independent stack, data and text limiting
+  bsd-user: *BSD specific siginfo defintions
+  bsd-user: Implement --seed and initialize random state
+  bsd-user: Move stack initializtion into a per-os file.
+  bsd-user: Add architecture specific signal tramp code
+  bsd-user: elf cleanup
+  bsd-user: Remove dead #ifdefs from elfload.c
+  bsd-user: Rewrite target system call definintion glue
+  bsd-user: Make cpu_model and cpu_type visible to all of main.c
+  bsd-user: update debugging in mmap.c
+  bsd-user: Add target_arch_reg to describe a target's register set
+  bsd-user: Add target_os_user.h to capture the user/kernel structures
+  bsd-user: add stubbed out core dump support
+  bsd-user: elfload.c style catch up patch
+  bsd-user: Refactor load_elf_sections and is_target_elf_binary
+  bsd-user: move qemu_log to later in the file
+  bsd-user: Implement interlock for atomic operations
+  bsd-user: Update mapping to handle reserved and starting conditions
+
+ bsd-user/bsd-mman.h                           |  121 --
+ bsd-user/bsdload.c                            |  104 +-
+ bsd-user/elfcore.c                            |   10 +
+ bsd-user/elfload.c                            | 1469 +++++------------
+ bsd-user/freebsd/host-os.h                    |   25 +
+ bsd-user/freebsd/target_os_elf.h              |  137 ++
+ bsd-user/freebsd/target_os_siginfo.h          |  145 ++
+ bsd-user/freebsd/target_os_signal.h           |   78 +
+ bsd-user/freebsd/target_os_stack.h            |  181 ++
+ bsd-user/freebsd/target_os_thread.h           |   25 +
+ bsd-user/freebsd/target_os_user.h             |  427 +++++
+ bsd-user/freebsd/target_os_vmparam.h          |   38 +
+ .../target_syscall.h => i386/target_arch.h}   |   27 +-
+ bsd-user/i386/target_arch_cpu.c               |   76 +
+ bsd-user/i386/target_arch_cpu.h               |  209 +++
+ bsd-user/i386/target_arch_elf.h               |   35 +
+ bsd-user/i386/target_arch_reg.h               |   82 +
+ bsd-user/i386/target_arch_signal.h            |   94 ++
+ bsd-user/i386/target_arch_sigtramp.h          |   29 +
+ bsd-user/i386/target_arch_thread.h            |   47 +
+ bsd-user/i386/target_arch_vmparam.h           |   46 +
+ bsd-user/main.c                               |  836 ++--------
+ bsd-user/mmap.c                               |  472 +++++-
+ bsd-user/netbsd/host-os.h                     |   25 +
+ bsd-user/netbsd/target_os_elf.h               |  146 ++
+ bsd-user/netbsd/target_os_siginfo.h           |   82 +
+ bsd-user/netbsd/target_os_signal.h            |   69 +
+ bsd-user/netbsd/target_os_stack.h             |   56 +
+ bsd-user/netbsd/target_os_thread.h            |   25 +
+ bsd-user/openbsd/host-os.h                    |   25 +
+ bsd-user/openbsd/target_os_elf.h              |  146 ++
+ bsd-user/openbsd/target_os_siginfo.h          |   82 +
+ bsd-user/openbsd/target_os_signal.h           |   69 +
+ bsd-user/openbsd/target_os_stack.h            |   56 +
+ bsd-user/openbsd/target_os_thread.h           |   25 +
+ bsd-user/qemu.h                               |   63 +-
+ bsd-user/sparc/target_arch_sysarch.h          |   52 -
+ bsd-user/sparc64/target_arch_sysarch.h        |   52 -
+ bsd-user/syscall.c                            |   11 -
+ bsd-user/syscall_defs.h                       |  255 +--
+ .../target_syscall.h => x86_64/target_arch.h} |   28 +-
+ bsd-user/x86_64/target_arch_cpu.c             |   76 +
+ bsd-user/x86_64/target_arch_cpu.h             |  247 +++
+ bsd-user/x86_64/target_arch_elf.h             |   35 +
+ bsd-user/x86_64/target_arch_reg.h             |   92 ++
+ bsd-user/x86_64/target_arch_signal.h          |   94 ++
+ bsd-user/x86_64/target_arch_sigtramp.h        |   29 +
+ bsd-user/x86_64/target_arch_thread.h          |   40 +
+ bsd-user/x86_64/target_arch_vmparam.h         |   46 +
+ configure                                     |    7 +-
+ meson.build                                   |    7 +-
+ slirp                                         |    2 +-
+ 52 files changed, 4389 insertions(+), 2266 deletions(-)
+ delete mode 100644 bsd-user/bsd-mman.h
+ create mode 100644 bsd-user/elfcore.c
+ create mode 100644 bsd-user/freebsd/host-os.h
+ create mode 100644 bsd-user/freebsd/target_os_elf.h
+ create mode 100644 bsd-user/freebsd/target_os_siginfo.h
+ create mode 100644 bsd-user/freebsd/target_os_signal.h
+ create mode 100644 bsd-user/freebsd/target_os_stack.h
+ create mode 100644 bsd-user/freebsd/target_os_thread.h
+ create mode 100644 bsd-user/freebsd/target_os_user.h
+ create mode 100644 bsd-user/freebsd/target_os_vmparam.h
+ rename bsd-user/{sparc/target_syscall.h => i386/target_arch.h} (60%)
+ create mode 100644 bsd-user/i386/target_arch_cpu.c
+ create mode 100644 bsd-user/i386/target_arch_cpu.h
+ create mode 100644 bsd-user/i386/target_arch_elf.h
+ create mode 100644 bsd-user/i386/target_arch_reg.h
+ create mode 100644 bsd-user/i386/target_arch_signal.h
+ create mode 100644 bsd-user/i386/target_arch_sigtramp.h
+ create mode 100644 bsd-user/i386/target_arch_thread.h
+ create mode 100644 bsd-user/i386/target_arch_vmparam.h
+ create mode 100644 bsd-user/netbsd/host-os.h
+ create mode 100644 bsd-user/netbsd/target_os_elf.h
+ create mode 100644 bsd-user/netbsd/target_os_siginfo.h
+ create mode 100644 bsd-user/netbsd/target_os_signal.h
+ create mode 100644 bsd-user/netbsd/target_os_stack.h
+ create mode 100644 bsd-user/netbsd/target_os_thread.h
+ create mode 100644 bsd-user/openbsd/host-os.h
+ create mode 100644 bsd-user/openbsd/target_os_elf.h
+ create mode 100644 bsd-user/openbsd/target_os_siginfo.h
+ create mode 100644 bsd-user/openbsd/target_os_signal.h
+ create mode 100644 bsd-user/openbsd/target_os_stack.h
+ create mode 100644 bsd-user/openbsd/target_os_thread.h
+ delete mode 100644 bsd-user/sparc/target_arch_sysarch.h
+ delete mode 100644 bsd-user/sparc64/target_arch_sysarch.h
+ rename bsd-user/{sparc64/target_syscall.h => x86_64/target_arch.h} (59%)
+ create mode 100644 bsd-user/x86_64/target_arch_cpu.c
+ create mode 100644 bsd-user/x86_64/target_arch_cpu.h
+ create mode 100644 bsd-user/x86_64/target_arch_elf.h
+ create mode 100644 bsd-user/x86_64/target_arch_reg.h
+ create mode 100644 bsd-user/x86_64/target_arch_signal.h
+ create mode 100644 bsd-user/x86_64/target_arch_sigtramp.h
+ create mode 100644 bsd-user/x86_64/target_arch_thread.h
+ create mode 100644 bsd-user/x86_64/target_arch_vmparam.h
+
+-- 
+2.32.0
 
 
