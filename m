@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 056B13FECA6
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 13:07:08 +0200 (CEST)
-Received: from localhost ([::1]:56464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CED513FECC0
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 13:15:13 +0200 (CEST)
+Received: from localhost ([::1]:48202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLkYk-0002PV-WA
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 07:07:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43566)
+	id 1mLkga-0000Mr-TI
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 07:15:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mLkVY-0006uA-0O; Thu, 02 Sep 2021 07:03:48 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2478)
+ id 1mLkVa-0006zA-G1; Thu, 02 Sep 2021 07:03:50 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:3127)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mLkVU-0003c6-76; Thu, 02 Sep 2021 07:03:47 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4H0dH43Wdpzbl83;
- Thu,  2 Sep 2021 18:59:44 +0800 (CST)
+ id 1mLkVV-0003e1-Pb; Thu, 02 Sep 2021 07:03:50 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.54])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4H0dGk6GHsz8xfN;
+ Thu,  2 Sep 2021 18:59:26 +0800 (CST)
 Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Thu, 2 Sep 2021 19:03:40 +0800
+ 15.1.2176.2; Thu, 2 Sep 2021 19:03:41 +0800
 Received: from DESKTOP-TMVL5KK.china.huawei.com (10.174.187.128) by
  dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Thu, 2 Sep 2021 19:03:39 +0800
+ 15.1.2308.8; Thu, 2 Sep 2021 19:03:40 +0800
 From: Yanan Wang <wangyanan55@huawei.com>
 To: Eduardo Habkost <ehabkost@redhat.com>, Marcel Apfelbaum
  <marcel.apfelbaum@gmail.com>, <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, 
  <qemu-ppc@nongnu.org>, <qemu-s390x@nongnu.org>
-Subject: [PATCH v8 06/14] machine: Prefer cores over sockets in smp parsing
- since 6.2
-Date: Thu, 2 Sep 2021 19:03:22 +0800
-Message-ID: <20210902110330.18036-7-wangyanan55@huawei.com>
+Subject: [PATCH v8 07/14] machine: Use ms instead of global current_machine in
+ sanity-check
+Date: Thu, 2 Sep 2021 19:03:23 +0800
+Message-ID: <20210902110330.18036-8-wangyanan55@huawei.com>
 X-Mailer: git-send-email 2.8.4.windows.1
 In-Reply-To: <20210902110330.18036-1-wangyanan55@huawei.com>
 References: <20210902110330.18036-1-wangyanan55@huawei.com>
@@ -45,12 +45,12 @@ X-Originating-IP: [10.174.187.128]
 X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
  dggpemm500023.china.huawei.com (7.185.36.83)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangyanan55@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) RCVD_IN_DNSWL_MED=-2.3,
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=wangyanan55@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,245 +77,32 @@ Cc: Peter
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the real SMP hardware topology world, it's much more likely that
-we have high cores-per-socket counts and few sockets totally. While
-the current preference of sockets over cores in smp parsing results
-in a virtual cpu topology with low cores-per-sockets counts and a
-large number of sockets, which is just contrary to the real world.
+In the sanity-check of smp_cpus and max_cpus against mc in function
+machine_set_smp(), we are now using ms->smp.max_cpus for the check
+but using current_machine->smp.max_cpus in the error message.
+Tweak this by uniformly using the local ms.
 
-Given that it is better to make the virtual cpu topology be more
-reflective of the real world and also for the sake of compatibility,
-we start to prefer cores over sockets over threads in smp parsing
-since machine type 6.2 for different arches.
-
-In this patch, a boolean "smp_prefer_sockets" is added, and we only
-enable the old preference on older machines and enable the new one
-since type 6.2 for all arches by using the machine compat mechanism.
-
-Suggested-by: Daniel P. Berrange <berrange@redhat.com>
 Signed-off-by: Yanan Wang <wangyanan55@huawei.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Acked-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Andrew Jones <drjones@redhat.com>
 Reviewed-by: Pankaj Gupta <pankaj.gupta@ionos.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
- hw/arm/virt.c              |  1 +
- hw/core/machine.c          | 35 ++++++++++++++++++++++++++---------
- hw/i386/pc.c               | 35 ++++++++++++++++++++++++++---------
- hw/i386/pc_piix.c          |  1 +
- hw/i386/pc_q35.c           |  1 +
- hw/ppc/spapr.c             |  1 +
- hw/s390x/s390-virtio-ccw.c |  1 +
- include/hw/boards.h        |  1 +
- qemu-options.hx            |  3 ++-
- 9 files changed, 60 insertions(+), 19 deletions(-)
+ hw/core/machine.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 73e9c6bb7c..ad244f0ff1 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2793,6 +2793,7 @@ static void virt_machine_6_1_options(MachineClass *mc)
- {
-     virt_machine_6_2_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
-+    mc->smp_prefer_sockets = true;
- }
- DEFINE_VIRT_MACHINE(6, 1)
- 
 diff --git a/hw/core/machine.c b/hw/core/machine.c
-index f1b30b3101..0df597f99c 100644
+index 0df597f99c..1ad5dac3e8 100644
 --- a/hw/core/machine.c
 +++ b/hw/core/machine.c
-@@ -748,6 +748,7 @@ void machine_set_cpu_numa_node(MachineState *machine,
- 
- static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
- {
-+    MachineClass *mc = MACHINE_GET_CLASS(ms);
-     unsigned cpus    = config->has_cpus ? config->cpus : 0;
-     unsigned sockets = config->has_sockets ? config->sockets : 0;
-     unsigned cores   = config->has_cores ? config->cores : 0;
-@@ -759,7 +760,7 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-         return;
+@@ -881,7 +881,7 @@ static void machine_set_smp(Object *obj, Visitor *v, const char *name,
+     } else if (ms->smp.max_cpus > mc->max_cpus) {
+         error_setg(errp, "Invalid SMP CPUs %d. The max CPUs "
+                    "supported by machine '%s' is %d",
+-                   current_machine->smp.max_cpus,
++                   ms->smp.max_cpus,
+                    mc->name, mc->max_cpus);
      }
  
--    /* compute missing values, prefer sockets over cores over threads */
-+    /* compute missing values based on the provided ones */
-     if (cpus == 0 && maxcpus == 0) {
-         sockets = sockets > 0 ? sockets : 1;
-         cores = cores > 0 ? cores : 1;
-@@ -767,14 +768,30 @@ static void smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
-     } else {
-         maxcpus = maxcpus > 0 ? maxcpus : cpus;
- 
--        if (sockets == 0) {
--            cores = cores > 0 ? cores : 1;
--            threads = threads > 0 ? threads : 1;
--            sockets = maxcpus / (cores * threads);
--        } else if (cores == 0) {
--            threads = threads > 0 ? threads : 1;
--            cores = maxcpus / (sockets * threads);
--        } else if (threads == 0) {
-+        if (mc->smp_prefer_sockets) {
-+            /* prefer sockets over cores before 6.2 */
-+            if (sockets == 0) {
-+                cores = cores > 0 ? cores : 1;
-+                threads = threads > 0 ? threads : 1;
-+                sockets = maxcpus / (cores * threads);
-+            } else if (cores == 0) {
-+                threads = threads > 0 ? threads : 1;
-+                cores = maxcpus / (sockets * threads);
-+            }
-+        } else {
-+            /* prefer cores over sockets since 6.2 */
-+            if (cores == 0) {
-+                sockets = sockets > 0 ? sockets : 1;
-+                threads = threads > 0 ? threads : 1;
-+                cores = maxcpus / (sockets * threads);
-+            } else if (sockets == 0) {
-+                threads = threads > 0 ? threads : 1;
-+                sockets = maxcpus / (cores * threads);
-+            }
-+        }
-+
-+        /* try to calculate omitted threads at last */
-+        if (threads == 0) {
-             threads = maxcpus / (sockets * cores);
-         }
-     }
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 19dbe28d12..c79d9b87c1 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -716,6 +716,7 @@ void pc_acpi_smi_interrupt(void *opaque, int irq, int level)
-  */
- static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **errp)
- {
-+    MachineClass *mc = MACHINE_GET_CLASS(ms);
-     unsigned cpus    = config->has_cpus ? config->cpus : 0;
-     unsigned sockets = config->has_sockets ? config->sockets : 0;
-     unsigned dies    = config->has_dies ? config->dies : 0;
-@@ -726,7 +727,7 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
-     /* directly default dies to 1 if it's omitted */
-     dies = dies > 0 ? dies : 1;
- 
--    /* compute missing values, prefer sockets over cores over threads */
-+    /* compute missing values based on the provided ones */
-     if (cpus == 0 && maxcpus == 0) {
-         sockets = sockets > 0 ? sockets : 1;
-         cores = cores > 0 ? cores : 1;
-@@ -734,14 +735,30 @@ static void pc_smp_parse(MachineState *ms, SMPConfiguration *config, Error **err
-     } else {
-         maxcpus = maxcpus > 0 ? maxcpus : cpus;
- 
--        if (sockets == 0) {
--            cores = cores > 0 ? cores : 1;
--            threads = threads > 0 ? threads : 1;
--            sockets = maxcpus / (dies * cores * threads);
--        } else if (cores == 0) {
--            threads = threads > 0 ? threads : 1;
--            cores = maxcpus / (sockets * dies * threads);
--        } else if (threads == 0) {
-+        if (mc->smp_prefer_sockets) {
-+            /* prefer sockets over cores before 6.2 */
-+            if (sockets == 0) {
-+                cores = cores > 0 ? cores : 1;
-+                threads = threads > 0 ? threads : 1;
-+                sockets = maxcpus / (dies * cores * threads);
-+            } else if (cores == 0) {
-+                threads = threads > 0 ? threads : 1;
-+                cores = maxcpus / (sockets * dies * threads);
-+            }
-+        } else {
-+            /* prefer cores over sockets since 6.2 */
-+            if (cores == 0) {
-+                sockets = sockets > 0 ? sockets : 1;
-+                threads = threads > 0 ? threads : 1;
-+                cores = maxcpus / (sockets * dies * threads);
-+            } else if (sockets == 0) {
-+                threads = threads > 0 ? threads : 1;
-+                sockets = maxcpus / (dies * cores * threads);
-+            }
-+        }
-+
-+        /* try to calculate omitted threads at last */
-+        if (threads == 0) {
-             threads = maxcpus / (sockets * dies * cores);
-         }
-     }
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index c5da7739ce..077644ee9c 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -431,6 +431,7 @@ static void pc_i440fx_6_1_machine_options(MachineClass *m)
-     m->is_default = false;
-     compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
-     compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
-+    m->smp_prefer_sockets = true;
- }
- 
- DEFINE_I440FX_MACHINE(v6_1, "pc-i440fx-6.1", NULL,
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 565fadce54..c762df5818 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -371,6 +371,7 @@ static void pc_q35_6_1_machine_options(MachineClass *m)
-     m->alias = NULL;
-     compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
-     compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
-+    m->smp_prefer_sockets = true;
- }
- 
- DEFINE_Q35_MACHINE(v6_1, "pc-q35-6.1", NULL,
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index d39fd4e644..a481fade51 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4702,6 +4702,7 @@ static void spapr_machine_6_1_class_options(MachineClass *mc)
- {
-     spapr_machine_6_2_class_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
-+    mc->smp_prefer_sockets = true;
- }
- 
- DEFINE_SPAPR_MACHINE(6_1, "6.1", false);
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 4d25278cf2..b40e647883 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -809,6 +809,7 @@ static void ccw_machine_6_1_class_options(MachineClass *mc)
- {
-     ccw_machine_6_2_class_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_6_1, hw_compat_6_1_len);
-+    mc->smp_prefer_sockets = true;
- }
- DEFINE_CCW_MACHINE(6_1, "6.1", false);
- 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 463a5514f9..2ae039b74f 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -247,6 +247,7 @@ struct MachineClass {
-     bool nvdimm_supported;
-     bool numa_mem_supported;
-     bool auto_enable_numa;
-+    bool smp_prefer_sockets;
-     const char *default_ram_id;
- 
-     HotplugHandler *(*get_hotplug_handler)(MachineState *machine,
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 06f819177e..451d2cd817 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -238,7 +238,8 @@ SRST
-     Historically preference was given to the coarsest topology parameters
-     when computing missing values (ie sockets preferred over cores, which
-     were preferred over threads), however, this behaviour is considered
--    liable to change.
-+    liable to change. Prior to 6.2 the preference was sockets over cores
-+    over threads. Since 6.2 the preference is cores over sockets over threads.
- ERST
- 
- DEF("numa", HAS_ARG, QEMU_OPTION_numa,
 -- 
 2.19.1
 
