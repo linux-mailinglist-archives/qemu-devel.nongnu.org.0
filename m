@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C0B3FEEF3
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:48:13 +0200 (CEST)
-Received: from localhost ([::1]:40274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13DD13FEEBB
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:34:58 +0200 (CEST)
+Received: from localhost ([::1]:35286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLn4e-0007wI-JX
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:48:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44908)
+	id 1mLmro-0001J0-RN
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:34:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLmZZ-0008U1-3k
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:16:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29606)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLmZg-0000OA-Nd
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:16:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLmZX-0007dF-LC
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:16:04 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLmZd-0007i2-TR
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:16:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630588563;
+ s=mimecast20190719; t=1630588568;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8b35ZIinybLtLOoP8O99AfG1rOqf0tc1DYwfIDvwWrY=;
- b=EAB20yVu7/cPiaH/HHQMmezHl7xfYTnaHYZ9u+UwqIWnTVg6X5mA2FNHUCCHVmnYIyhwbI
- tcJ/5NDgkB+mw0BafyzNmGT2j/KISmWQxCwtuZYl6zoUJIMP+tgJ3Hg2d+MO+ohbVP1M5Y
- g9UsahTGgXSMM+FAw0Om7YaKKteImT4=
+ bh=7L0Ww5ZtJIWwXdTZgEvvFjlW/4+KXUyA6zkwceb3III=;
+ b=LjTX6sX30knyLecF6dZIqaKJ647T3SF9uGTEE2HgC7X5FgmIDC7anIx4ArFHEYCu7d8uAx
+ zEnkIizQLVGlGtFXV8gy3Ek9ds66d+6OAXpuy3SYKdiavlepAfqVnG4BgSRs80SOCRU6L1
+ +B/wKC85GuFwvh+6xVmIljflOTDXz64=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-WukEggKIOqO4zbtg3wJe3A-1; Thu, 02 Sep 2021 09:16:02 -0400
-X-MC-Unique: WukEggKIOqO4zbtg3wJe3A-1
+ us-mta-83-1O4pRCVEO8e8e5H1z57ETQ-1; Thu, 02 Sep 2021 09:16:07 -0400
+X-MC-Unique: 1O4pRCVEO8e8e5H1z57ETQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C622D189C440;
- Thu,  2 Sep 2021 13:16:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9370A10835C2;
+ Thu,  2 Sep 2021 13:16:04 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.193.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 32B366B541;
- Thu,  2 Sep 2021 13:15:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3125D6B541;
+ Thu,  2 Sep 2021 13:16:01 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 8/9] migration/ram: Factor out populating pages readable in
- ram_block_populate_pages()
-Date: Thu,  2 Sep 2021 15:14:31 +0200
-Message-Id: <20210902131432.23103-9-david@redhat.com>
+Subject: [PATCH v4 9/9] migration/ram: Handle RAMBlocks with a
+ RamDiscardManager on background snapshots
+Date: Thu,  2 Sep 2021 15:14:32 +0200
+Message-Id: <20210902131432.23103-10-david@redhat.com>
 In-Reply-To: <20210902131432.23103-1-david@redhat.com>
 References: <20210902131432.23103-1-david@redhat.com>
 MIME-Version: 1.0
@@ -91,51 +91,91 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's factor out prefaulting/populating to make further changes easier to
-review. While at it, use the actual page size of the ramblock, which
-defaults to qemu_real_host_page_size for anonymous memory.
+We already don't ever migrate memory that corresponds to discarded ranges
+as managed by a RamDiscardManager responsible for the mapped memory region
+of the RAMBlock.
 
+virtio-mem uses this mechanism to logically unplug parts of a RAMBlock.
+Right now, we still populate zeropages for the whole usable part of the
+RAMBlock, which is undesired because:
+
+1. Even populating the shared zeropage will result in memory getting
+   consumed for page tables.
+2. Memory backends without a shared zeropage (like hugetlbfs and shmem)
+   will populate an actual, fresh page, resulting in an unintended
+   memory consumption.
+
+Discarded ("logically unplugged") parts have to remain discarded. As
+these pages are never part of the migration stream, there is no need to
+track modifications via userfaultfd WP reliably for these parts.
+
+Further, any writes to these ranges by the VM are invalid and the
+behavior is undefined.
+
+Note that Linux only supports userfaultfd WP on private anonymous memory
+for now, which usually results in the shared zeropage getting populated.
+The issue will become more relevant once userfaultfd WP supports shmem
+and hugetlb.
+
+Acked-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- migration/ram.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+ migration/ram.c | 37 +++++++++++++++++++++++++++++++++++--
+ 1 file changed, 35 insertions(+), 2 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index e1c158dc92..de47650c90 100644
+index de47650c90..2f7ceb84b8 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -1639,6 +1639,17 @@ out:
-     return ret;
+@@ -1650,6 +1650,16 @@ static inline void populate_range(RAMBlock *block, ram_addr_t offset,
+     }
  }
  
-+static inline void populate_range(RAMBlock *block, ram_addr_t offset,
-+                                  ram_addr_t size)
++static inline int populate_section(MemoryRegionSection *section, void *opaque)
 +{
-+    for (; offset < size; offset += block->page_size) {
-+        char tmp = *((char *)block->host + offset);
++    const hwaddr size = int128_get64(section->size);
++    hwaddr offset = section->offset_within_region;
++    RAMBlock *block = section->mr->ram_block;
 +
-+        /* Don't optimize the read out */
-+        asm volatile("" : "+r" (tmp));
-+    }
++    populate_range(block, offset, size);
++    return 0;
 +}
 +
  /*
   * ram_block_populate_pages: populate memory in the RAM block by reading
   *   an integer from the beginning of each page.
-@@ -1650,15 +1661,7 @@ out:
+@@ -1659,9 +1669,32 @@ static inline void populate_range(RAMBlock *block, ram_addr_t offset,
+  *
+  * @block: RAM block to populate
   */
- static void ram_block_populate_pages(RAMBlock *block)
+-static void ram_block_populate_pages(RAMBlock *block)
++static void ram_block_populate_pages(RAMBlock *rb)
  {
--    char *ptr = (char *) block->host;
--
--    for (ram_addr_t offset = 0; offset < block->used_length;
--            offset += qemu_real_host_page_size) {
--        char tmp = *(ptr + offset);
--
--        /* Don't optimize the read out */
--        asm volatile("" : "+r" (tmp));
--    }
-+    populate_range(block, 0, block->used_length);
+-    populate_range(block, 0, block->used_length);
++    /*
++     * Skip populating all pages that fall into a discarded range as managed by
++     * a RamDiscardManager responsible for the mapped memory region of the
++     * RAMBlock. Such discarded ("logically unplugged") parts of a RAMBlock
++     * must not get populated automatically. We don't have to track
++     * modifications via userfaultfd WP reliably, because these pages will
++     * not be part of the migration stream either way -- see
++     * ramblock_dirty_bitmap_exclude_discarded_pages().
++     *
++     * Note: The result is only stable while migrating (precopy/postcopy).
++     */
++    if (rb->mr && memory_region_has_ram_discard_manager(rb->mr)) {
++        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(rb->mr);
++        MemoryRegionSection section = {
++            .mr = rb->mr,
++            .offset_within_region = 0,
++            .size = rb->mr->size,
++        };
++
++        ram_discard_manager_replay_populated(rdm, &section,
++                                             populate_section, NULL);
++    } else {
++        populate_range(rb, 0, rb->used_length);
++    }
  }
  
  /*
