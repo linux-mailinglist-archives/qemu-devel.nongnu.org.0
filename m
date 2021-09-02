@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A80903FE80A
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 05:33:41 +0200 (CEST)
-Received: from localhost ([::1]:56080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44B1A3FE800
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 05:30:09 +0200 (CEST)
+Received: from localhost ([::1]:50076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLdTw-0000cK-PL
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 23:33:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50332)
+	id 1mLdQW-0004k3-A0
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 23:30:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mLdLV-0001Vw-Fc; Wed, 01 Sep 2021 23:24:57 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:45465 helo=ozlabs.org)
+ id 1mLdLV-0001Vx-G3; Wed, 01 Sep 2021 23:24:57 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:45157)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mLdLJ-0008N7-HM; Wed, 01 Sep 2021 23:24:57 -0400
+ id 1mLdLJ-0008N6-Hm; Wed, 01 Sep 2021 23:24:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1630553072;
- bh=aP968+tJ6957u5BHY0OhzWZdvia4RdEmOg0sdGYrXCc=;
+ bh=19LHykAV4vy4m0ZwydJDio0l4ncV/WPwoAp6b2X6z4w=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jYzus3Nn+ef4MRgNBjm5aGpnTFVNU1cpAm/AOS9WqHDFpkgxB0N1wzW7a4dkE9bl2
- ShTm2Nn39Z8R+WimYWloAw8g248plwJ71/GLNrpA+Y2ydUR9mwXpQnHNfLPg4qfxT4
- jKGqdZqaikGKxoIubEZmwcTo7mcHxvesmMT3e2Jo=
+ b=HFabUXrDftsUfX0EHrDuOsXcIBsVg1hvX0eToVnrcXBVtI2qrnCRbTYO8KXYmnOJ6
+ bwMVd6+i/irKNzyh6K+DlpBj3ndH2shUcty4ii+ezfTzFQG+wk3lHKhf54c+0ItwBe
+ lhVy6JmdYUIWfBPVxz0MEiEscz0cRYd4UcC27uRY=
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4H0R9r0QxJz9t0J; Thu,  2 Sep 2021 13:24:31 +1000 (AEST)
-Date: Thu, 2 Sep 2021 11:34:01 +1000
+ id 4H0R9r0gRzz9sXk; Thu,  2 Sep 2021 13:24:32 +1000 (AEST)
+Date: Thu, 2 Sep 2021 11:36:04 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 2/8] ppc/spapr: Add a POWER10 DD2 CPU
-Message-ID: <YTAqCY8s3TlmQdZP@yekko>
+Subject: Re: [PATCH 3/8] ppc/pnv: Add a comment on the
+ "primary-topology-index" property
+Message-ID: <YTAqhIE2Rrf0IqxO@yekko>
 References: <20210901094153.227671-1-clg@kaod.org>
- <20210901094153.227671-3-clg@kaod.org>
+ <20210901094153.227671-4-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HMGvEBcLSfwCIeeK"
+ protocol="application/pgp-signature"; boundary="aQOxIXzrwcNtYX4K"
 Content-Disposition: inline
-In-Reply-To: <20210901094153.227671-3-clg@kaod.org>
+In-Reply-To: <20210901094153.227671-4-clg@kaod.org>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -63,33 +64,48 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---HMGvEBcLSfwCIeeK
+--aQOxIXzrwcNtYX4K
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 01, 2021 at 11:41:47AM +0200, C=E9dric Le Goater wrote:
+On Wed, Sep 01, 2021 at 11:41:48AM +0200, C=E9dric Le Goater wrote:
+> On P10, the chip id is calculated from the "Primary topology table
+> index". See skiboot commits for more information [1].
+>=20
+> This information is extracted from the hdata on real systems which
+> QEMU needs to emulate. Add this property for all machines even if it
+> is only used on POWER10.
+>=20
+> [1] https://github.com/open-power/skiboot/commit/2ce3f083f399
+>     https://github.com/open-power/skiboot/commit/a2d4d7f9e14a
+>=20
 > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
 Applied to ppc-for-6.2, thanks.
 
 > ---
->  hw/ppc/spapr_cpu_core.c | 1 +
->  1 file changed, 1 insertion(+)
+>  hw/ppc/pnv_xscom.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 >=20
-> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-> index 4f316a6f9d31..58e7341cb784 100644
-> --- a/hw/ppc/spapr_cpu_core.c
-> +++ b/hw/ppc/spapr_cpu_core.c
-> @@ -382,6 +382,7 @@ static const TypeInfo spapr_cpu_core_type_infos[] =3D=
- {
->      DEFINE_SPAPR_CPU_CORE_TYPE("power9_v1.0"),
->      DEFINE_SPAPR_CPU_CORE_TYPE("power9_v2.0"),
->      DEFINE_SPAPR_CPU_CORE_TYPE("power10_v1.0"),
-> +    DEFINE_SPAPR_CPU_CORE_TYPE("power10_v2.0"),
->  #ifdef CONFIG_KVM
->      DEFINE_SPAPR_CPU_CORE_TYPE("host"),
->  #endif
+> diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
+> index faa488e3117a..9ce018dbc279 100644
+> --- a/hw/ppc/pnv_xscom.c
+> +++ b/hw/ppc/pnv_xscom.c
+> @@ -284,6 +284,10 @@ int pnv_dt_xscom(PnvChip *chip, void *fdt, int root_=
+offset,
+>      _FDT(xscom_offset);
+>      g_free(name);
+>      _FDT((fdt_setprop_cell(fdt, xscom_offset, "ibm,chip-id", chip->chip_=
+id)));
+> +    /*
+> +     * On P10, the xscom bus id has been deprecated and the chip id is
+> +     * calculated from the "Primary topology table index". See skiboot.
+> +     */
+>      _FDT((fdt_setprop_cell(fdt, xscom_offset, "ibm,primary-topology-inde=
+x",
+>                             chip->chip_id)));
+>      _FDT((fdt_setprop_cell(fdt, xscom_offset, "#address-cells", 1)));
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -97,25 +113,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---HMGvEBcLSfwCIeeK
+--aQOxIXzrwcNtYX4K
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEwKgkACgkQbDjKyiDZ
-s5LLyBAAyJggwwxxDay/4zGQ4s6xgnWLhO+Dw1wxirdWJCZdRCB1/ngzYyu3U4mi
-jKIfllacMHpMS5sBxe6BU+XZ+FvyyLiAnnPHTMLwRq45BwuP8KjVPUWoc6L19sLv
-YR7bYceylICxh2SaAFkKGcZ5DBspwPB95/ctda3ao+1IMg/oR/ergso7Y3Ulc987
-6GTRADJAr5b3GE6ljQ1urSfVOV+eWfNehWKz8RZRCjCysYE3yMI4plWYDLCcKBmO
-ofyfzVuTYPjjstTWDCqSvlTVMLDxJXO2mpZTCaIhFcqamFZM0RGIEXBhiJ4O1UtZ
-YiriNTf88D+L/iHIG/MP4J9RSfPeoEd0BYK11cuK9EDLO+TZhdPSIlebWFsdPKRk
-FEaihc/qLybK48qbiQ7/EHHEPjAOlDFEhbCImnUwIRU9XX4th+lujZ2nXWkFtIZz
-hKMTHWlBRALCM3ZmqIx9VWF5LcExLhlvmLzkBgO7vA9cDTVKus5LGzT6BnmV49i9
-B6yr5IUDH++IvtyjF8eeuQ379LDRQ7lhjN8Pb50nax2S61ik8Tr5PB6WgWuiW/8H
-GkVXPvhhmle9ihgRgd1cN9Jl4x3AKhb0cjnFHPenYBBemnCgAXwbydN3iWRu4yaM
-HUpuICkgfUMIqR6LunmGZ30H4/U5m5ibBr2yXkllcwkU5bQkwxY=
-=H01S
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEwKoQACgkQbDjKyiDZ
+s5L5nw/+NZ6eCIC0GXJVhtmXF6GKyVMmIiEXfC1zB3xDaeWJlk+0RotTEo0kmD1A
+dRE5zfzu2VOumlQnywVGImv1EO6yHBiRtSFCJVy58Btyumf9Jfw97OZMWcmsP0nD
+OH/epznBxuY0WWRLV4DICn/3GoN818qYYnWG8JvuuNKRpal8l37ywizs5z3UaHa8
+qX3R+ezS3rrWJbMufEX74XLoonFpy4Es+MhI0fqMeKp5V5s8WEjCouecDHr59OZd
+jFGmI2RAQtY2X3aG2jS+DShvoRTpvuKamw2Ky3q5Ky8WEoJSiPx5nxQeZsVW8CvR
+nYrtNXfZJnJCwNMf1lnT0IT0JL6UkRatxq7plu7WWQYw+60/BqoxJMt6R9O3iBHj
+h0nIo8SqmOdH/2VUzn5zLT9f3Z5CH1IApuJHzVXT+ujhuEg5DxozUEISZvyyBMDL
+t4QMkz7vL9YHjUlIFl6mMqASnd6QbePBsyfZ5T6q/8m3S/J2JA5yI/YweLFIjv45
+4DiNZ+sBChpUDeqMYldyMTBGw6AMXfl+fLf0Frn3K2dXjurdyPaS6x6v9JQh5JTL
+vvbqBWtSpFypFzH6uoIxoF33BfrGNBey+4zlzx7nDV8cvMwsLbyObZucmyHM3P0M
++2pWqyavvuRtjhxZABZ2h27kP4cOGhQUpSxGvZRUtY+5EocN/TI=
+=IFsF
 -----END PGP SIGNATURE-----
 
---HMGvEBcLSfwCIeeK--
+--aQOxIXzrwcNtYX4K--
 
