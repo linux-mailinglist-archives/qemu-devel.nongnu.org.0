@@ -2,52 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3A763FEDC0
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 14:27:33 +0200 (CEST)
-Received: from localhost ([::1]:37920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C27623FEDB4
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 14:22:46 +0200 (CEST)
+Received: from localhost ([::1]:55292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLloa-0003Xh-UB
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 08:27:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52824)
+	id 1mLljx-0004eu-Rg
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 08:22:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <f83df00900816476cca41bb536e4d532b297d76e@lizzy.crudebyte.com>)
- id 1mLlG8-0001l2-AG
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 07:51:56 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:48995)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mLlQv-0006aT-0C
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:03:05 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:8134)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <f83df00900816476cca41bb536e4d532b297d76e@lizzy.crudebyte.com>)
- id 1mLlG6-0006ra-LT
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 07:51:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=jrx/vT+QUzUBsJuKPl621+bCaiWTm/AVkmhAnnC3ldM=; b=j8fAU
- fnMzPuK+0d4FNp69IpAjqNRgWpEOcvMv7S3SM7tZeOH5+efpQg84VZNrkV7um4ApoGeZkcXcezqRO
- mmFz8voV7bftTWOUidvIxPbQB1ZegDLELS3HdMaTFvep7apzQp23qljTz4zcKndVAakyGh+/cp5P+
- lKVL8a0nwHA9ax3OSp73BrZeoXujcWl0dFN+OP/TRrgtTbQdj75K+hqkC1sA3mR7sYJNc8A2aCofv
- BULkTtCDDq0PcjW3q+cY68LybRbnhUJr1jTBZxtlYsXQxeQRVa1H3ctHF5zsfBAHELdu6u3cGc37N
- ERh5a2ElyHbun6M9+TbJd1ArFbGUw==;
-Message-Id: <f83df00900816476cca41bb536e4d532b297d76e.1630582967.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1630582967.git.qemu_oss@crudebyte.com>
-References: <cover.1630582967.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Thu, 02 Sep 2021 13:42:47 +0200
-Subject: [PULL 3/3] 9pfs: fix crash in v9fs_walk()
-To: qemu-devel@nongnu.org,
-    Peter Maydell <peter.maydell@linaro.org>
-Cc: Greg Kurz <groug@kaod.org>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=f83df00900816476cca41bb536e4d532b297d76e@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
+ id 1mLlQs-0008P2-Ry
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:03:04 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 182BYLax054140; Thu, 2 Sep 2021 08:02:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=qr8sWA6IxA0JXHWS2Gr5TE+VpbC9BwK80IBuhFTaYfQ=;
+ b=oFNL7CDxUpdPSRbDK3aDOYV33pCufU+Fd4tVGrclNiKZBxT50DcqmAKxtX1mDjkXp+rY
+ j7n36WuV4NBbVWKcuJNGxmRf5l2knFzP6xKEZ9yhMzZLxiUXteWDd023kty6aTjbnLd+
+ Ky+IkcE2sO9kOzra62NuN4DBrxdTG5dbhazXjhjsJBAwyh0JOMu4YWm31dcJVBeIWfhx
+ RfJr3nHRP6gH8XfSs7QzUam368IpINl0Gf+aneYcntfYuy41Lr+9Cy3oZgEMn7ZeY6Th
+ FXoQQ1pv3ByfqtQm2fm6MzPsAKAgEr86RGq0TTWAXekIkQLdngegyhb2ZUXDVQx1IZri aQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3atwsd8um5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 02 Sep 2021 08:02:59 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 182BZeFw063254;
+ Thu, 2 Sep 2021 08:02:58 -0400
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3atwsd8uka-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 02 Sep 2021 08:02:58 -0400
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 182BunZw018907;
+ Thu, 2 Sep 2021 12:02:57 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma01wdc.us.ibm.com with ESMTP id 3atdxcshba-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 02 Sep 2021 12:02:57 +0000
+Received: from b03ledav006.gho.boulder.ibm.com
+ (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 182C2tTb14549286
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 2 Sep 2021 12:02:55 GMT
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 4ACF5C6075;
+ Thu,  2 Sep 2021 12:02:55 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DF0ACC6088;
+ Thu,  2 Sep 2021 12:02:49 +0000 (GMT)
+Received: from [9.65.84.185] (unknown [9.65.84.185])
+ by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu,  2 Sep 2021 12:02:49 +0000 (GMT)
+Subject: Re: [PATCH v3 0/2] [RESEND] x86/sev: Measured Linux SEV guest with
+ kernel/initrd/cmdline
+To: qemu-devel@nongnu.org
+References: <20210825073538.959525-1-dovmurik@linux.ibm.com>
+From: Dov Murik <dovmurik@linux.ibm.com>
+Message-ID: <fa9ceb69-74f3-a2ad-51db-b9d6b12dc15f@linux.ibm.com>
+Date: Thu, 2 Sep 2021 15:02:48 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <20210825073538.959525-1-dovmurik@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: deW7OGyjbckX5FlAdRj3wPjNcbLqZqCy
+X-Proofpoint-ORIG-GUID: G0933MVsZ_SHb7NLYXeu3GapX2U6P4O2
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
+ definitions=2021-09-02_04:2021-09-02,
+ 2021-09-02 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 lowpriorityscore=0
+ suspectscore=0 spamscore=0 malwarescore=0 phishscore=0 impostorscore=0
+ clxscore=1015 priorityscore=1501 mlxlogscore=999 adultscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2108310000
+ definitions=main-2109020072
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=dovmurik@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.225,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,77 +115,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Hubertus Franke <frankeh@us.ibm.com>,
+ Tobin Feldman-Fitzthum <tobin@linux.ibm.com>, Jim Cadden <jcadden@ibm.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Dov Murik <dovmurik@linux.ibm.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v9fs_walk() utilizes the v9fs_co_run_in_worker({...}) macro to run the
-supplied fs driver code block on a background worker thread.
+ping
 
-When either the 'Twalk' client request was interrupted or if the client
-requested fid for that 'Twalk' request caused a stat error then that
-fs driver code block was left by 'break' keyword, with the intention to
-return from worker thread back to main thread as well:
+All (2) patches of the series have R-b.
 
-    v9fs_co_run_in_worker({
-        if (v9fs_request_cancelled(pdu)) {
-            err = -EINTR;
-            break;
-        }
-        err = s->ops->lstat(&s->ctx, &dpath, &fidst);
-        if (err < 0) {
-            err = -errno;
-            break;
-        }
-        ...
-    });
+Thanks,
+-Dov
 
-However that 'break;' statement also skipped the v9fs_co_run_in_worker()
-macro's final and mandatory
 
-    /* re-enter back to qemu thread */
-    qemu_coroutine_yield();
-
-call and thus caused the rest of v9fs_walk() to be continued being
-executed on the worker thread instead of main thread, eventually
-leading to a crash in the transport virtio transport driver.
-
-To fix this issue and to prevent the same error from happening again by
-other users of v9fs_co_run_in_worker() in future, auto wrap the supplied
-code block into its own
-
-    do { } while (0);
-
-loop inside the 'v9fs_co_run_in_worker' macro definition.
-
-Full discussion and backtrace:
-https://lists.gnu.org/archive/html/qemu-devel/2021-08/msg05209.html
-https://lists.gnu.org/archive/html/qemu-devel/2021-09/msg00174.html
-
-Fixes: 8d6cb100731c4d28535adbf2a3c2d1f29be3fef4
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: qemu-stable@nongnu.org
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <E1mLTBg-0002Bh-2D@lizzy.crudebyte.com>
----
- hw/9pfs/coth.h | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/hw/9pfs/coth.h b/hw/9pfs/coth.h
-index c51289903d..f83c7dda7b 100644
---- a/hw/9pfs/coth.h
-+++ b/hw/9pfs/coth.h
-@@ -51,7 +51,9 @@
-          */                                                             \
-         qemu_coroutine_yield();                                         \
-         qemu_bh_delete(co_bh);                                          \
--        code_block;                                                     \
-+        do {                                                            \
-+            code_block;                                                 \
-+        } while (0);                                                    \
-         /* re-enter back to qemu thread */                              \
-         qemu_coroutine_yield();                                         \
-     } while (0)
--- 
-2.20.1
-
+On 25/08/2021 10:35, Dov Murik wrote:
+> (Resending for QEMU 6.2; no code changes since the last round.)
+> 
+> Currently booting with -kernel/-initrd/-append is not supported in SEV
+> confidential guests, because the content of these blobs is not measured
+> and therefore not trusted by the SEV guest.
+> 
+> However, in some cases the kernel, initrd, and cmdline are not secret
+> but should not be modified by the host.  In such a case, we want to
+> verify inside the trusted VM that the kernel, initrd, and cmdline are
+> indeed the ones expected by the Guest Owner, and only if that is the
+> case go on and boot them up (removing the need for grub inside OVMF in
+> that mode).
+> 
+> To support that, OVMF adds a special area for hashes of
+> kernel/initrd/cmdline; that area is expected to be filled by QEMU and
+> encrypted as part of the initial SEV guest launch.  This in turn makes
+> the hashes part of the PSP measured content, and OVMF can trust these
+> inputs if they match the hashes.
+> 
+> This series adds an SEV function to generate the table of hashes for
+> OVMF and encrypt it (patch 1/2), and calls this function if SEV is
+> enabled when the kernel/initrd/cmdline are prepared (patch 2/2).
+> 
+> Corresponding OVMF support [1] is already available in edk2 (patch series
+> "Measured SEV boot with kernel/initrd/cmdline").
+> 
+> [1] https://edk2.groups.io/g/devel/message/78250
+> 
+> ---
+> 
+> v3: https://lore.kernel.org/qemu-devel/20210624102040.2015280-1-dovmurik@linux.ibm.com/
+> v3 changes:
+>  - initrd hash is now mandatory; if no -initrd is passed, calculate the
+>    hash of the empty buffer.  This is now aligned with the OVMF
+>    behaviour which verifies the empty initrd (correctly).
+>  - make SevHashTable entries fixed: 3 entries for cmdline, initrd, and kernel.
+>  - in sev_add_kernel_loader_hashes: first calculate all the hashes, only then
+>    fill-in the hashes table in the guest's memory.
+>  - Use g_assert_not_reached in sev-stub.c.
+>  - Use QEMU_PACKED attribute for structs.
+>  - Use QemuUUID type for guids.
+>  - in sev_add_kernel_loader_hashes: use ARRAY_SIZE(iov) instead of literal 2.
+> 
+> v2: https://lore.kernel.org/qemu-devel/20210621190553.1763020-1-dovmurik@linux.ibm.com/
+> v2 changes:
+>  - Extract main functionality to sev.c (with empty stub in sev-stub.c)
+>  - Use sev_enabled() instead of machine->cgs->ready to detect SEV guest
+>  - Coding style changes
+> 
+> v1: https://lore.kernel.org/qemu-devel/20210525065931.1628554-1-dovmurik@linux.ibm.com/
+> 
+> Dov Murik (2):
+>   sev/i386: Introduce sev_add_kernel_loader_hashes for measured linux
+>     boot
+>   x86/sev: generate SEV kernel loader hashes in x86_load_linux
+> 
+>  target/i386/sev_i386.h |  12 ++++
+>  hw/i386/x86.c          |  25 +++++++-
+>  target/i386/sev-stub.c |   5 ++
+>  target/i386/sev.c      | 137 +++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 178 insertions(+), 1 deletion(-)
+> 
+> 
+> base-commit: f9baca549e44791be0dd98de15add3d8452a8af0
+> 
 
