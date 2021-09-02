@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FDE43FEEFA
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:50:37 +0200 (CEST)
-Received: from localhost ([::1]:46402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C0B3FEEF3
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:48:13 +0200 (CEST)
+Received: from localhost ([::1]:40274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLn6y-0003Yz-Nn
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:50:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44888)
+	id 1mLn4e-0007wI-JX
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:48:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLmZW-0008Ki-JT
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:16:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36116)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLmZZ-0008U1-3k
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:16:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLmZT-0007ZZ-AE
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:16:02 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLmZX-0007dF-LC
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:16:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630588558;
+ s=mimecast20190719; t=1630588563;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a/2hkVjyNEsIm3ZK2v55DqIK6eNo6TsQ/fA/eegGpuc=;
- b=ZP7JJbuy1SYzU28XzWMjWoVboRWMbVryXoLCGWTCYSoibQhGT4i3+fwQYMW9d4lClZoVt0
- yiN/aku+KayDvO+Hkbi5foc0o3iAyHETW/ILB8uLFuZLr4a6MfWXotfyBxmVZgEbG5swY1
- b3M7cMrsNkYMOVMxPXKNN5hFwHsY8aI=
+ bh=8b35ZIinybLtLOoP8O99AfG1rOqf0tc1DYwfIDvwWrY=;
+ b=EAB20yVu7/cPiaH/HHQMmezHl7xfYTnaHYZ9u+UwqIWnTVg6X5mA2FNHUCCHVmnYIyhwbI
+ tcJ/5NDgkB+mw0BafyzNmGT2j/KISmWQxCwtuZYl6zoUJIMP+tgJ3Hg2d+MO+ohbVP1M5Y
+ g9UsahTGgXSMM+FAw0Om7YaKKteImT4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-516-y47JLsm5MK2-YB6HY5DWAQ-1; Thu, 02 Sep 2021 09:15:57 -0400
-X-MC-Unique: y47JLsm5MK2-YB6HY5DWAQ-1
+ us-mta-145-WukEggKIOqO4zbtg3wJe3A-1; Thu, 02 Sep 2021 09:16:02 -0400
+X-MC-Unique: WukEggKIOqO4zbtg3wJe3A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8993107ACCA;
- Thu,  2 Sep 2021 13:15:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C622D189C440;
+ Thu,  2 Sep 2021 13:16:00 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.193.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 131666ACE5;
- Thu,  2 Sep 2021 13:15:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 32B366B541;
+ Thu,  2 Sep 2021 13:15:57 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 7/9] migration: Simplify alignment and alignment checks
-Date: Thu,  2 Sep 2021 15:14:30 +0200
-Message-Id: <20210902131432.23103-8-david@redhat.com>
+Subject: [PATCH v4 8/9] migration/ram: Factor out populating pages readable in
+ ram_block_populate_pages()
+Date: Thu,  2 Sep 2021 15:14:31 +0200
+Message-Id: <20210902131432.23103-9-david@redhat.com>
 In-Reply-To: <20210902131432.23103-1-david@redhat.com>
 References: <20210902131432.23103-1-david@redhat.com>
 MIME-Version: 1.0
@@ -55,7 +56,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -90,94 +91,54 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's use QEMU_ALIGN_DOWN() and friends to make the code a bit easier to
-read.
+Let's factor out prefaulting/populating to make further changes easier to
+review. While at it, use the actual page size of the ramblock, which
+defaults to qemu_real_host_page_size for anonymous memory.
 
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- migration/migration.c    | 6 +++---
- migration/postcopy-ram.c | 9 ++++-----
- migration/ram.c          | 2 +-
- 3 files changed, 8 insertions(+), 9 deletions(-)
+ migration/ram.c | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index bb909781b7..ae97c2c461 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -391,7 +391,7 @@ int migrate_send_rp_message_req_pages(MigrationIncomingState *mis,
- int migrate_send_rp_req_pages(MigrationIncomingState *mis,
-                               RAMBlock *rb, ram_addr_t start, uint64_t haddr)
- {
--    void *aligned = (void *)(uintptr_t)(haddr & (-qemu_ram_pagesize(rb)));
-+    void *aligned = (void *)QEMU_ALIGN_DOWN(haddr, qemu_ram_pagesize(rb));
-     bool received = false;
- 
-     WITH_QEMU_LOCK_GUARD(&mis->page_request_mutex) {
-@@ -2619,8 +2619,8 @@ static void migrate_handle_rp_req_pages(MigrationState *ms, const char* rbname,
-      * Since we currently insist on matching page sizes, just sanity check
-      * we're being asked for whole host pages.
-      */
--    if (start & (our_host_ps - 1) ||
--       (len & (our_host_ps - 1))) {
-+    if (!QEMU_IS_ALIGNED(start, our_host_ps) ||
-+        !QEMU_IS_ALIGNED(len, our_host_ps)) {
-         error_report("%s: Misaligned page request, start: " RAM_ADDR_FMT
-                      " len: %zd", __func__, start, len);
-         mark_source_rp_bad(ms);
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index 39e3e057b4..3f0a1f7aa6 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -402,7 +402,7 @@ bool postcopy_ram_supported_by_host(MigrationIncomingState *mis)
-                      strerror(errno));
-         goto out;
-     }
--    g_assert(((size_t)testarea & (pagesize - 1)) == 0);
-+    g_assert(QEMU_PTR_IS_ALIGNED(testarea, pagesize));
- 
-     reg_struct.range.start = (uintptr_t)testarea;
-     reg_struct.range.len = pagesize;
-@@ -660,7 +660,7 @@ int postcopy_wake_shared(struct PostCopyFD *pcfd,
-     struct uffdio_range range;
-     int ret;
-     trace_postcopy_wake_shared(client_addr, qemu_ram_get_idstr(rb));
--    range.start = client_addr & ~(pagesize - 1);
-+    range.start = QEMU_ALIGN_DOWN(client_addr, pagesize);
-     range.len = pagesize;
-     ret = ioctl(pcfd->fd, UFFDIO_WAKE, &range);
-     if (ret) {
-@@ -702,8 +702,7 @@ static int postcopy_request_page(MigrationIncomingState *mis, RAMBlock *rb,
- int postcopy_request_shared_page(struct PostCopyFD *pcfd, RAMBlock *rb,
-                                  uint64_t client_addr, uint64_t rb_offset)
- {
--    size_t pagesize = qemu_ram_pagesize(rb);
--    uint64_t aligned_rbo = rb_offset & ~(pagesize - 1);
-+    uint64_t aligned_rbo = QEMU_ALIGN_DOWN(rb_offset, qemu_ram_pagesize(rb));
-     MigrationIncomingState *mis = migration_incoming_get_current();
- 
-     trace_postcopy_request_shared_page(pcfd->idstr, qemu_ram_get_idstr(rb),
-@@ -993,7 +992,7 @@ static void *postcopy_ram_fault_thread(void *opaque)
-                 break;
-             }
- 
--            rb_offset &= ~(qemu_ram_pagesize(rb) - 1);
-+            rb_offset = QEMU_ALIGN_DOWN(rb_offset, qemu_ram_pagesize(rb));
-             trace_postcopy_ram_fault_thread_request(msg.arg.pagefault.address,
-                                                 qemu_ram_get_idstr(rb),
-                                                 rb_offset,
 diff --git a/migration/ram.c b/migration/ram.c
-index e8abe10ddb..e1c158dc92 100644
+index e1c158dc92..de47650c90 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -811,7 +811,7 @@ static void migration_clear_memory_region_dirty_bitmap(RAMBlock *rb,
-     assert(shift >= 6);
- 
-     size = 1ULL << (TARGET_PAGE_BITS + shift);
--    start = (((ram_addr_t)page) << TARGET_PAGE_BITS) & (-size);
-+    start = QEMU_ALIGN_DOWN((ram_addr_t)page << TARGET_PAGE_BITS, size);
-     trace_migration_bitmap_clear_dirty(rb->idstr, start, size, page);
-     memory_region_clear_dirty_bitmap(rb->mr, start, size);
+@@ -1639,6 +1639,17 @@ out:
+     return ret;
  }
+ 
++static inline void populate_range(RAMBlock *block, ram_addr_t offset,
++                                  ram_addr_t size)
++{
++    for (; offset < size; offset += block->page_size) {
++        char tmp = *((char *)block->host + offset);
++
++        /* Don't optimize the read out */
++        asm volatile("" : "+r" (tmp));
++    }
++}
++
+ /*
+  * ram_block_populate_pages: populate memory in the RAM block by reading
+  *   an integer from the beginning of each page.
+@@ -1650,15 +1661,7 @@ out:
+  */
+ static void ram_block_populate_pages(RAMBlock *block)
+ {
+-    char *ptr = (char *) block->host;
+-
+-    for (ram_addr_t offset = 0; offset < block->used_length;
+-            offset += qemu_real_host_page_size) {
+-        char tmp = *(ptr + offset);
+-
+-        /* Don't optimize the read out */
+-        asm volatile("" : "+r" (tmp));
+-    }
++    populate_range(block, 0, block->used_length);
+ }
+ 
+ /*
 -- 
 2.31.1
 
