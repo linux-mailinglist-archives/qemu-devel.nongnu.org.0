@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF633FF05F
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 17:41:09 +0200 (CEST)
-Received: from localhost ([::1]:56476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD2B73FF06C
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 17:44:43 +0200 (CEST)
+Received: from localhost ([::1]:34658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLopw-0001iK-Mp
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 11:41:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47538)
+	id 1mLotO-0006VY-QG
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 11:44:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mLoUS-0005M8-Qv; Thu, 02 Sep 2021 11:18:59 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:35519)
+ id 1mLoUS-0005M9-Qx; Thu, 02 Sep 2021 11:19:01 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:46843)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mLoUC-0002lK-Qt; Thu, 02 Sep 2021 11:18:53 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id i6so3539249wrv.2;
- Thu, 02 Sep 2021 08:18:39 -0700 (PDT)
+ id 1mLoUI-0002ql-Fy; Thu, 02 Sep 2021 11:18:53 -0400
+Received: by mail-wr1-x434.google.com with SMTP id x6so3503385wrv.13;
+ Thu, 02 Sep 2021 08:18:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0GktKoVpj+qe0HiWbp4icgBh99dDEcJX34VsG2pZhco=;
- b=Is/bp5Fh3XIA6hA/dzYmAetUcNvoZbT2PMTJXGQenLZN+cEr8VtGUCBay42eDTze3D
- tozqjRYDGa+pvoWsszXjMC44TDjVW/DQ7RVegAPyGORPmSITzcbmFDQeIEXn0HPn8dTX
- /U/pe7aZ5r0VIsEOt1aP52anoSIYLNoIvT0SumWrSTHg+LuNZtDynarj1+o4iLhrF3Fd
- ghRIaQgQ4IEId94u70SN7rVMr7bpy5Cax5wQetz7Pg9VoPxDIMDbm9DAbnsMgSjMYcSl
- aBOM62R7gqMKq5F1pzyNNWWrZTNAHf1veMpmOS1eqWdgfVBX6ygwimJigWGVENkwEPkz
- /OZQ==
+ bh=oW3Bx/jZHjrRjkjqV/XQakbdfMLoBTULf12/vibH6+0=;
+ b=QU5qFe/i6VEoDMLVb8219jT/WtLTbQVyXNjZ+cedE0IXhZ/2ceBCu/K+3FWm9DzyYV
+ mFVagGw+zjYAohDrlOvqkLyylUda6Gn1cFWe2AU7qKZu4EdyAwuMGf4d45zI2fgJz7+0
+ 3zeOWtZUHZtpsfctIKwBu/u87R3XYppWiJWnm/bF1ar5pXunuK1Vfqa5UtGTHcqTmtKE
+ t7rqj9NemiYOGJmryDvnJB5Ept1r85a/ZOhLPZ92+bvoGY7937uSjNTjzZ6If1wVOaTE
+ +EfT4l7awhYYa5xRVbUdlZwAPsT66W/er1r/OEiWgH9nKTOqOaT67l2nQy/xtJL4RSzs
+ YljA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0GktKoVpj+qe0HiWbp4icgBh99dDEcJX34VsG2pZhco=;
- b=In509hwIg4ergtYncWm5RcON6CHdT2UX0emCt9E+3PEBJ3kr9OJ7BI0Qo5W6QowYTK
- cNg0alb1M1sWon4hgJ1YzwstVb1oWXmyl+JJABtSJm4fgkGbPWPv6xh7JfvePtubgfnH
- 7JLcZLkv5/xQ8CuOeHUwF0L2T0Y1EqmzLgoUxwiK1rZA3+LktgZFsYagdw/ZV/2NkUun
- YeRSYs6Ns9n3iCAWwAY8YFZgKs8yUwyHnFxJ/wtCOIvlCIxG/T6cWzNk6q4OPFhkzUFz
- PeBHDso3HLiSrVUoiWYWT2HyHQrDvBKzHGyUDjprhOMzR9tvZACq3P9Ih3uazRlrRftY
- bECA==
-X-Gm-Message-State: AOAM531lQs+hEcr0CK18zKEpKRTvWVKhF2aZ65cc31n34eJe8V2KjCbl
- Izy3gIqgpRQDXcCb3rpfmnZtWVgBBqM=
-X-Google-Smtp-Source: ABdhPJxF98exm7cfOJwkqDLOJqQCS6DDPr9eL3M6OveGJ6xGChb/WGy6cZX+lWoxEhy/T1+Z2Xnkhw==
-X-Received: by 2002:adf:fb8d:: with SMTP id a13mr4524803wrr.164.1630595918275; 
- Thu, 02 Sep 2021 08:18:38 -0700 (PDT)
+ bh=oW3Bx/jZHjrRjkjqV/XQakbdfMLoBTULf12/vibH6+0=;
+ b=YuqHiBIyTXS3tqYxGNxhIu6ItdyXNcaGFn3xH5i+w84mB777/WgBcNBeieZgV/VTDB
+ RdNoLs8o6uf7+yZg3/sQycWv9wO8/JU3MiVKJL3Y2syUgDTkL8ix+ZjhjmZTQHvtZcFM
+ 6Agw4XAEjLicIIEoWJW60rrtX5Cslr4NeuXdNMx8Lw06+Qdxu/tDNyB1inmQlxIb8lHD
+ 9wy6lWBBeIaX+zZ6lbe2GKt9E0Gc8S1TeWcCDi9Pw53he5BRJKCNAfigvwVHPVcDL7OJ
+ fRYmiKh8RBSKM856dpD9SynXD8lc/BiUg/zeY5cgiMWvhbZtMIKZvcbsenDMIfM4vCXd
+ WkCw==
+X-Gm-Message-State: AOAM5335mf9obfJWycFK52vcNsvPy2LeYPN5k1qb5zvezfzPo4A0eV3r
+ 7vaJSMUyX3bz04k7OBiCzgY/E2ISDHE=
+X-Google-Smtp-Source: ABdhPJybEEYGgmzrncqPIMBrrmG4v326knpnDTKtu8KRXXp1XjQri0YIUz9e2bk93vsqIIz//ycB8w==
+X-Received: by 2002:adf:d4c2:: with SMTP id w2mr4509687wrk.235.1630595923879; 
+ Thu, 02 Sep 2021 08:18:43 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- c14sm2124839wrr.58.2021.09.02.08.18.36
+ y1sm2000763wmq.43.2021.09.02.08.18.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 08:18:37 -0700 (PDT)
+ Thu, 02 Sep 2021 08:18:43 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 15/24] target/nios2: Restrict cpu_exec_interrupt() handler to
- sysemu
-Date: Thu,  2 Sep 2021 17:17:06 +0200
-Message-Id: <20210902151715.383678-16-f4bug@amsat.org>
+Subject: [PATCH 16/24] target/openrisc: Restrict cpu_exec_interrupt() handler
+ to sysemu
+Date: Thu,  2 Sep 2021 17:17:07 +0200
+Message-Id: <20210902151715.383678-17-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210902151715.383678-1-f4bug@amsat.org>
 References: <20210902151715.383678-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,42 +105,95 @@ Restrict cpu_exec_interrupt() and its callees to sysemu.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/nios2/cpu.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ target/openrisc/cpu.h       | 5 +++--
+ target/openrisc/cpu.c       | 2 +-
+ target/openrisc/interrupt.c | 2 --
+ target/openrisc/meson.build | 6 ++++--
+ 4 files changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-index 5e37defef80..947bb09bc1e 100644
---- a/target/nios2/cpu.c
-+++ b/target/nios2/cpu.c
-@@ -127,6 +127,7 @@ static void nios2_cpu_realizefn(DeviceState *dev, Error **errp)
-     ncc->parent_realize(dev, errp);
- }
+diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
+index 82cbaeb4f84..be6df81a810 100644
+--- a/target/openrisc/cpu.h
++++ b/target/openrisc/cpu.h
+@@ -312,8 +312,6 @@ struct OpenRISCCPU {
  
-+#ifndef CONFIG_USER_ONLY
- static bool nios2_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
- {
-     Nios2CPU *cpu = NIOS2_CPU(cs);
-@@ -140,7 +141,7 @@ static bool nios2_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-     }
-     return false;
- }
--
-+#endif /* !CONFIG_USER_ONLY */
  
- static void nios2_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
- {
-@@ -219,10 +220,10 @@ static const struct SysemuCPUOps nios2_sysemu_ops = {
+ void cpu_openrisc_list(void);
+-void openrisc_cpu_do_interrupt(CPUState *cpu);
+-bool openrisc_cpu_exec_interrupt(CPUState *cpu, int int_req);
+ void openrisc_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+ hwaddr openrisc_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ int openrisc_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+@@ -331,6 +329,9 @@ int print_insn_or1k(bfd_vma addr, disassemble_info *info);
+ #ifndef CONFIG_USER_ONLY
+ extern const VMStateDescription vmstate_openrisc_cpu;
  
- static const struct TCGCPUOps nios2_tcg_ops = {
-     .initialize = nios2_tcg_init,
--    .cpu_exec_interrupt = nios2_cpu_exec_interrupt,
-     .tlb_fill = nios2_cpu_tlb_fill,
++void openrisc_cpu_do_interrupt(CPUState *cpu);
++bool openrisc_cpu_exec_interrupt(CPUState *cpu, int int_req);
++
+ /* hw/openrisc_pic.c */
+ void cpu_openrisc_pic_init(OpenRISCCPU *cpu);
+ 
+diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
+index bd34e429ecb..27cb04152f9 100644
+--- a/target/openrisc/cpu.c
++++ b/target/openrisc/cpu.c
+@@ -186,10 +186,10 @@ static const struct SysemuCPUOps openrisc_sysemu_ops = {
+ 
+ static const struct TCGCPUOps openrisc_tcg_ops = {
+     .initialize = openrisc_translate_init,
+-    .cpu_exec_interrupt = openrisc_cpu_exec_interrupt,
+     .tlb_fill = openrisc_cpu_tlb_fill,
  
  #ifndef CONFIG_USER_ONLY
-+    .cpu_exec_interrupt = nios2_cpu_exec_interrupt,
-     .do_interrupt = nios2_cpu_do_interrupt,
-     .do_unaligned_access = nios2_cpu_do_unaligned_access,
++    .cpu_exec_interrupt = openrisc_cpu_exec_interrupt,
+     .do_interrupt = openrisc_cpu_do_interrupt,
  #endif /* !CONFIG_USER_ONLY */
+ };
+diff --git a/target/openrisc/interrupt.c b/target/openrisc/interrupt.c
+index 3eab771dcda..19223e3f25b 100644
+--- a/target/openrisc/interrupt.c
++++ b/target/openrisc/interrupt.c
+@@ -28,7 +28,6 @@
+ 
+ void openrisc_cpu_do_interrupt(CPUState *cs)
+ {
+-#ifndef CONFIG_USER_ONLY
+     OpenRISCCPU *cpu = OPENRISC_CPU(cs);
+     CPUOpenRISCState *env = &cpu->env;
+     int exception = cs->exception_index;
+@@ -96,7 +95,6 @@ void openrisc_cpu_do_interrupt(CPUState *cs)
+     } else {
+         cpu_abort(cs, "Unhandled exception 0x%x\n", exception);
+     }
+-#endif
+ 
+     cs->exception_index = -1;
+ }
+diff --git a/target/openrisc/meson.build b/target/openrisc/meson.build
+index 9774a583065..e445dec4a00 100644
+--- a/target/openrisc/meson.build
++++ b/target/openrisc/meson.build
+@@ -9,7 +9,6 @@
+   'exception_helper.c',
+   'fpu_helper.c',
+   'gdbstub.c',
+-  'interrupt.c',
+   'interrupt_helper.c',
+   'mmu.c',
+   'sys_helper.c',
+@@ -17,7 +16,10 @@
+ ))
+ 
+ openrisc_softmmu_ss = ss.source_set()
+-openrisc_softmmu_ss.add(files('machine.c'))
++openrisc_softmmu_ss.add(files(
++  'interrupt.c',
++  'machine.c',
++))
+ 
+ target_arch += {'openrisc': openrisc_ss}
+ target_softmmu_arch += {'openrisc': openrisc_softmmu_ss}
 -- 
 2.31.1
 
