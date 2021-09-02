@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C52B3FF4FE
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 22:35:13 +0200 (CEST)
-Received: from localhost ([::1]:44728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC66D3FF504
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 22:36:55 +0200 (CEST)
+Received: from localhost ([::1]:51076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLtQW-0004Q0-AS
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 16:35:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42318)
+	id 1mLtSB-0000Ki-1y
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 16:36:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mLtIG-0006Wj-Sg
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 16:26:41 -0400
-Received: from mail-vs1-xe2e.google.com ([2607:f8b0:4864:20::e2e]:38884)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mLtIk-0007N4-VM
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 16:27:11 -0400
+Received: from mail-vs1-xe2e.google.com ([2607:f8b0:4864:20::e2e]:45013)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mLtID-000701-VH
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 16:26:40 -0400
-Received: by mail-vs1-xe2e.google.com with SMTP id a25so2629001vso.5
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 13:26:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mLtIh-0007Mk-MU
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 16:27:10 -0400
+Received: by mail-vs1-xe2e.google.com with SMTP id n63so2625503vsc.11
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 13:27:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cATzV+cgXA9fNf6+6osb5t9LIw0lqjY+rzeij2NRDf0=;
- b=DRVhSzZsPNOUVAwAQdU3ZfJkRqxYT5ooUQ0xzAZbyEd5BK+RK8v4wCu1oazuQetzeR
- xCsnZ3/Tn/Q1qs6Y6RjEN2j+Inu7kXf5lvv3ecHK3eluC3dclp8eTrdoWZUD1ZZ5HY3q
- mgLX0DoKZIp6IaFpDB2MuNMeVpUBIYPQseC7MZpACC/GQO7xt/SyPOAkBlcD5Y1dkfDS
- sMLRJes9UD7G88UbrMPPUp+h2GNHDHARzwGxHboygmkVk34LRMsZhM33VWYmiKT9rJgB
- Fe0R3FCb71AJcJZyu90zwFG+cCNzsRKj9/dMNgORreiL6Ske6HZOfYtqG/K0kFnvkzq/
- bp/Q==
+ :cc; bh=/sVmxSajWjmvQFNeYbztXOm0im/4xVGH/4yffdaVa2o=;
+ b=IQQ94W6z8/5NeuHYKaXJA7RYxibVGpYbasMkLkmGZJL3M+x3Xa5il3RwL6ueiFAM/e
+ KZfjBSJkhzWt5Kam+dauac+KhHY5NbhN7GOwm2XjxnfuwlwYar9d6+Jz1EPfV8C73l6Z
+ uA45tOQXvh9FlplZau1rLO0tZ2T9gndnL+IsEx8FsgwN0PY68d4exPaH8AviLW9cMyP+
+ q96MfUxmR6BNfADaAFSggezGnEa4No1M7MPzdaVs5SVhUfszpmfjYXYuloCzhC905SUp
+ vochMfcUBcnTQIfEw8XypsyDGVsrpLtiR61MuRT+EgvuTFEjZq9YJzHOzXJRolWHFWYd
+ QivA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=cATzV+cgXA9fNf6+6osb5t9LIw0lqjY+rzeij2NRDf0=;
- b=ZpekGeI/ryQIgSuOHveoV14QXLH1ACpkrlH+lf5gzDnFu+wzwhlvrbn+17Y5TxPF/A
- YnQFfZ7aWxwC9nHyTe3RKz+Aa94yLVAraPQNqTFeOW+ZXCo6DtfkvqVLRocEBlVTIV6n
- eeVtAHiSgNIAvJOXlMEGp9aX+HyrEwC2P2LRrjGPrSiwiVtZUnSkVbsfPYkKzfpN67sb
- zjhsLRap+3IpRy3mBE9HkcjMbZK32O7WO9cGQu52hURAhjXHT6RkKkwJPU6Bl88o/zoH
- 9jVJ5OoOCAOTsiocJTk6uvwLUpvrwqPqHldPpjIjVXzx7N107AnLF1N53s0Tat+pRmNN
- Cpfg==
-X-Gm-Message-State: AOAM530/+RCdrqotYHIbKCiHO/2CPGllIqB4ZzNiDlgy/5wfn5tEoKP2
- eOBhVSj2tNYmkAtaM/Gyz2SIaK68zSQPA/PJbf074Qtm49i5yij9
-X-Google-Smtp-Source: ABdhPJzCQnrZJVyyLjW6ViZm56nxlRoiIb9JOyCCs4FBdQe8rdlDPfVruz1UYu6Sr4ILLM1CDWpjyMkVVqOuUH+hdpo=
-X-Received: by 2002:a67:2dc6:: with SMTP id t189mr3914121vst.49.1630614396994; 
- Thu, 02 Sep 2021 13:26:36 -0700 (PDT)
+ bh=/sVmxSajWjmvQFNeYbztXOm0im/4xVGH/4yffdaVa2o=;
+ b=s8GqmrWocRDoFo2rJUJ1zjWV8nnnFG09RFzdsjRb7N32+bUJ9TpNJig3UtNrjbRl8N
+ TxriFXL4iZu+Ii3L6O4rlRR8TgRfT633E5iEYLewq6K2wxPCH7loqIYVbE0G37bSk6nz
+ 4djPbk3S3K8a4MO/XtAwsoBWdZkOJsbBmtJaV5lmZXd9xJWQ4p1UOzEccrgNnQQTjON1
+ AUFaP/mKMue32rCNXzZ0VmoM6BHpnmFOWjvXBW8gmBxb8euFF5F35a1BjLaE5BGQUc8f
+ X0exKQdnuicV4M439CVIL0MAEAkRizF8Ru8sPEllh5xq0jeFXhoQHkzPJHd7gNRriEBt
+ bNeg==
+X-Gm-Message-State: AOAM5301fg33yNQNJBILWvknEF1xwT9ovblpjSwIKDKmfzZLBvoBO25U
+ VPY3ft609BQ6VYnevyDuqG/lF2BuBRKrLOfyr3PqXQ==
+X-Google-Smtp-Source: ABdhPJxpZYsqFeZuO5Bb4wHZN2UzYcIlZFXJ6eJ9hB59qiuprKLJ0+5UlydVmDR8GTbO2mXPmmHsyx4b3VO6XLhELQQ=
+X-Received: by 2002:a05:6102:5a:: with SMTP id
+ k26mr4349500vsp.26.1630614426851; 
+ Thu, 02 Sep 2021 13:27:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210902151715.383678-1-f4bug@amsat.org>
- <20210902151715.383678-22-f4bug@amsat.org>
-In-Reply-To: <20210902151715.383678-22-f4bug@amsat.org>
+ <20210902151715.383678-23-f4bug@amsat.org>
+In-Reply-To: <20210902151715.383678-23-f4bug@amsat.org>
 From: Warner Losh <imp@bsdimp.com>
-Date: Thu, 2 Sep 2021 14:26:26 -0600
-Message-ID: <CANCZdfqpxrTgYz5Ff5TshQ9ro6486XX4M0EL=RSHrUQyHpGd1A@mail.gmail.com>
-Subject: Re: [PATCH 21/24] target/rx: Restrict cpu_exec_interrupt() handler to
- sysemu
+Date: Thu, 2 Sep 2021 14:26:55 -0600
+Message-ID: <CANCZdfr3refw4KEqgd0npRHeZVs92N5G45MpJ5vc6BjpV0koAw@mail.gmail.com>
+Subject: Re: [PATCH 22/24] target/xtensa: Restrict cpu_exec_interrupt()
+ handler to sysemu
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="000000000000e61b4605cb08ff52"
+Content-Type: multipart/alternative; boundary="000000000000ada9bf05cb090178"
 Received-SPF: none client-ip=2607:f8b0:4864:20::e2e;
  envelope-from=wlosh@bsdimp.com; helo=mail-vs1-xe2e.google.com
 X-Spam_score_int: -18
@@ -94,7 +95,7 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e61b4605cb08ff52
+--000000000000ada9bf05cb090178
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -106,78 +107,88 @@ wrote:
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  target/rx/cpu.h    | 2 ++
->  target/rx/cpu.c    | 2 +-
->  target/rx/helper.c | 4 ++++
->  3 files changed, 7 insertions(+), 1 deletion(-)
+>  target/xtensa/cpu.h        | 4 ++--
+>  target/xtensa/cpu.c        | 2 +-
+>  target/xtensa/exc_helper.c | 7 ++-----
+>  3 files changed, 5 insertions(+), 8 deletions(-)
 >
 
 Reviewed-by: Warner Losh <imp@bsdimp.com>
 
 
 
-> diff --git a/target/rx/cpu.h b/target/rx/cpu.h
-> index 0b4b998c7be..faa3606f52f 100644
-> --- a/target/rx/cpu.h
-> +++ b/target/rx/cpu.h
-> @@ -124,8 +124,10 @@ typedef RXCPU ArchCPU;
->  #define CPU_RESOLVING_TYPE TYPE_RX_CPU
->
->  const char *rx_crname(uint8_t cr);
+> diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
+> index 1e0cb1535ca..cbb720e7cca 100644
+> --- a/target/xtensa/cpu.h
+> +++ b/target/xtensa/cpu.h
+> @@ -566,14 +566,14 @@ struct XtensaCPU {
+>  bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>                           MMUAccessType access_type, int mmu_idx,
+>                           bool probe, uintptr_t retaddr);
 > +#ifndef CONFIG_USER_ONLY
->  void rx_cpu_do_interrupt(CPUState *cpu);
->  bool rx_cpu_exec_interrupt(CPUState *cpu, int int_req);
-> +#endif /* !CONFIG_USER_ONLY */
->  void rx_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
->  int rx_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
->  int rx_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
-> diff --git a/target/rx/cpu.c b/target/rx/cpu.c
-> index 96cc96e514f..25a4aa2976d 100644
-> --- a/target/rx/cpu.c
-> +++ b/target/rx/cpu.c
-> @@ -186,10 +186,10 @@ static const struct SysemuCPUOps rx_sysemu_ops =3D =
-{
->  static const struct TCGCPUOps rx_tcg_ops =3D {
->      .initialize =3D rx_translate_init,
->      .synchronize_from_tb =3D rx_cpu_synchronize_from_tb,
-> -    .cpu_exec_interrupt =3D rx_cpu_exec_interrupt,
->      .tlb_fill =3D rx_cpu_tlb_fill,
+>  void xtensa_cpu_do_interrupt(CPUState *cpu);
+>  bool xtensa_cpu_exec_interrupt(CPUState *cpu, int interrupt_request);
+> -#ifndef CONFIG_USER_ONLY
+>  void xtensa_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+> vaddr addr,
+>                                        unsigned size, MMUAccessType
+> access_type,
+>                                        int mmu_idx, MemTxAttrs attrs,
+>                                        MemTxResult response, uintptr_t
+> retaddr);
+> -#endif /* !CONFIG_USER_ONLY */
+> +#endif
+>  void xtensa_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+>  hwaddr xtensa_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+>  void xtensa_count_regs(const XtensaConfig *config,
+> diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
+> index 58ec3a08622..c1cbd03595e 100644
+> --- a/target/xtensa/cpu.c
+> +++ b/target/xtensa/cpu.c
+> @@ -192,11 +192,11 @@ static const struct SysemuCPUOps xtensa_sysemu_ops =
+=3D
+> {
+>
+>  static const struct TCGCPUOps xtensa_tcg_ops =3D {
+>      .initialize =3D xtensa_translate_init,
+> -    .cpu_exec_interrupt =3D xtensa_cpu_exec_interrupt,
+>      .tlb_fill =3D xtensa_cpu_tlb_fill,
+>      .debug_excp_handler =3D xtensa_breakpoint_handler,
 >
 >  #ifndef CONFIG_USER_ONLY
-> +    .cpu_exec_interrupt =3D rx_cpu_exec_interrupt,
->      .do_interrupt =3D rx_cpu_do_interrupt,
->  #endif /* !CONFIG_USER_ONLY */
->  };
-> diff --git a/target/rx/helper.c b/target/rx/helper.c
-> index db6b07e3890..f34945e7e2c 100644
-> --- a/target/rx/helper.c
-> +++ b/target/rx/helper.c
-> @@ -40,6 +40,8 @@ void rx_cpu_unpack_psw(CPURXState *env, uint32_t psw,
-> int rte)
->      env->psw_c =3D FIELD_EX32(psw, PSW, C);
+> +    .cpu_exec_interrupt =3D xtensa_cpu_exec_interrupt,
+>      .do_interrupt =3D xtensa_cpu_do_interrupt,
+>      .do_transaction_failed =3D xtensa_cpu_do_transaction_failed,
+>      .do_unaligned_access =3D xtensa_cpu_do_unaligned_access,
+> diff --git a/target/xtensa/exc_helper.c b/target/xtensa/exc_helper.c
+> index 10e75ab070d..9bc7f50d355 100644
+> --- a/target/xtensa/exc_helper.c
+> +++ b/target/xtensa/exc_helper.c
+> @@ -255,11 +255,6 @@ void xtensa_cpu_do_interrupt(CPUState *cs)
+>      }
+>      check_interrupts(env);
 >  }
+> -#else
+> -void xtensa_cpu_do_interrupt(CPUState *cs)
+> -{
+> -}
+> -#endif
 >
-> +#ifndef CONFIG_USER_ONLY
-> +
->  #define INT_FLAGS (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIR)
->  void rx_cpu_do_interrupt(CPUState *cs)
+>  bool xtensa_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
 >  {
-> @@ -142,6 +144,8 @@ bool rx_cpu_exec_interrupt(CPUState *cs, int
+> @@ -270,3 +265,5 @@ bool xtensa_cpu_exec_interrupt(CPUState *cs, int
 > interrupt_request)
+>      }
 >      return false;
 >  }
->
-> +#endif /* !CONFIG_USER_ONLY */
 > +
->  hwaddr rx_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
->  {
->      return addr;
+> +#endif /* !CONFIG_USER_ONLY */
 > --
 > 2.31.1
 >
 >
 
---000000000000e61b4605cb08ff52
+--000000000000ada9bf05cb090178
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -191,79 +202,95 @@ g</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
 t.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
 ---<br>
-=C2=A0target/rx/cpu.h=C2=A0 =C2=A0 | 2 ++<br>
-=C2=A0target/rx/cpu.c=C2=A0 =C2=A0 | 2 +-<br>
-=C2=A0target/rx/helper.c | 4 ++++<br>
-=C2=A03 files changed, 7 insertions(+), 1 deletion(-)<br></blockquote><div>=
-<br></div><div>Reviewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.co=
-m" target=3D"_blank">imp@bsdimp.com</a>&gt;</div><div class=3D"gmail-yj6qo =
-gmail-ajU" style=3D"outline:none;padding:10px 0px;width:22px;margin:2px 0px=
- 0px"><br class=3D"gmail-Apple-interchange-newline"></div><div>=C2=A0</div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex">
-diff --git a/target/rx/cpu.h b/target/rx/cpu.h<br>
-index 0b4b998c7be..faa3606f52f 100644<br>
---- a/target/rx/cpu.h<br>
-+++ b/target/rx/cpu.h<br>
-@@ -124,8 +124,10 @@ typedef RXCPU ArchCPU;<br>
-=C2=A0#define CPU_RESOLVING_TYPE TYPE_RX_CPU<br>
-<br>
-=C2=A0const char *rx_crname(uint8_t cr);<br>
+=C2=A0target/xtensa/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 4 ++--<br>
+=C2=A0target/xtensa/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+=C2=A0target/xtensa/exc_helper.c | 7 ++-----<br>
+=C2=A03 files changed, 5 insertions(+), 8 deletions(-)<br></blockquote><div=
+><br></div><div>Reviewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.c=
+om" target=3D"_blank">imp@bsdimp.com</a>&gt;</div><div class=3D"gmail-yj6qo=
+ gmail-ajU" style=3D"outline:none;padding:10px 0px;width:22px;margin:2px 0p=
+x 0px"><br class=3D"gmail-Apple-interchange-newline"></div><div>=C2=A0</div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">
+diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h<br>
+index 1e0cb1535ca..cbb720e7cca 100644<br>
+--- a/target/xtensa/cpu.h<br>
++++ b/target/xtensa/cpu.h<br>
+@@ -566,14 +566,14 @@ struct XtensaCPU {<br>
+=C2=A0bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 MMUAccessType access_type, int mmu_idx,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 bool probe, uintptr_t retaddr);<br>
 +#ifndef CONFIG_USER_ONLY<br>
-=C2=A0void rx_cpu_do_interrupt(CPUState *cpu);<br>
-=C2=A0bool rx_cpu_exec_interrupt(CPUState *cpu, int int_req);<br>
-+#endif /* !CONFIG_USER_ONLY */<br>
-=C2=A0void rx_cpu_dump_state(CPUState *cpu, FILE *f, int flags);<br>
-=C2=A0int rx_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg)=
-;<br>
-=C2=A0int rx_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);<=
-br>
-diff --git a/target/rx/cpu.c b/target/rx/cpu.c<br>
-index 96cc96e514f..25a4aa2976d 100644<br>
---- a/target/rx/cpu.c<br>
-+++ b/target/rx/cpu.c<br>
-@@ -186,10 +186,10 @@ static const struct SysemuCPUOps rx_sysemu_ops =3D {<=
-br>
-=C2=A0static const struct TCGCPUOps rx_tcg_ops =3D {<br>
-=C2=A0 =C2=A0 =C2=A0.initialize =3D rx_translate_init,<br>
-=C2=A0 =C2=A0 =C2=A0.synchronize_from_tb =3D rx_cpu_synchronize_from_tb,<br=
->
--=C2=A0 =C2=A0 .cpu_exec_interrupt =3D rx_cpu_exec_interrupt,<br>
-=C2=A0 =C2=A0 =C2=A0.tlb_fill =3D rx_cpu_tlb_fill,<br>
+=C2=A0void xtensa_cpu_do_interrupt(CPUState *cpu);<br>
+=C2=A0bool xtensa_cpu_exec_interrupt(CPUState *cpu, int interrupt_request);=
+<br>
+-#ifndef CONFIG_USER_ONLY<br>
+=C2=A0void xtensa_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr, =
+vaddr addr,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned =
+size, MMUAccessType access_type,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int mmu_i=
+dx, MemTxAttrs attrs,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MemTxResu=
+lt response, uintptr_t retaddr);<br>
+-#endif /* !CONFIG_USER_ONLY */<br>
++#endif<br>
+=C2=A0void xtensa_cpu_dump_state(CPUState *cpu, FILE *f, int flags);<br>
+=C2=A0hwaddr xtensa_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);<br>
+=C2=A0void xtensa_count_regs(const XtensaConfig *config,<br>
+diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c<br>
+index 58ec3a08622..c1cbd03595e 100644<br>
+--- a/target/xtensa/cpu.c<br>
++++ b/target/xtensa/cpu.c<br>
+@@ -192,11 +192,11 @@ static const struct SysemuCPUOps xtensa_sysemu_ops =
+=3D {<br>
+<br>
+=C2=A0static const struct TCGCPUOps xtensa_tcg_ops =3D {<br>
+=C2=A0 =C2=A0 =C2=A0.initialize =3D xtensa_translate_init,<br>
+-=C2=A0 =C2=A0 .cpu_exec_interrupt =3D xtensa_cpu_exec_interrupt,<br>
+=C2=A0 =C2=A0 =C2=A0.tlb_fill =3D xtensa_cpu_tlb_fill,<br>
+=C2=A0 =C2=A0 =C2=A0.debug_excp_handler =3D xtensa_breakpoint_handler,<br>
 <br>
 =C2=A0#ifndef CONFIG_USER_ONLY<br>
-+=C2=A0 =C2=A0 .cpu_exec_interrupt =3D rx_cpu_exec_interrupt,<br>
-=C2=A0 =C2=A0 =C2=A0.do_interrupt =3D rx_cpu_do_interrupt,<br>
-=C2=A0#endif /* !CONFIG_USER_ONLY */<br>
-=C2=A0};<br>
-diff --git a/target/rx/helper.c b/target/rx/helper.c<br>
-index db6b07e3890..f34945e7e2c 100644<br>
---- a/target/rx/helper.c<br>
-+++ b/target/rx/helper.c<br>
-@@ -40,6 +40,8 @@ void rx_cpu_unpack_psw(CPURXState *env, uint32_t psw, int=
- rte)<br>
-=C2=A0 =C2=A0 =C2=A0env-&gt;psw_c =3D FIELD_EX32(psw, PSW, C);<br>
++=C2=A0 =C2=A0 .cpu_exec_interrupt =3D xtensa_cpu_exec_interrupt,<br>
+=C2=A0 =C2=A0 =C2=A0.do_interrupt =3D xtensa_cpu_do_interrupt,<br>
+=C2=A0 =C2=A0 =C2=A0.do_transaction_failed =3D xtensa_cpu_do_transaction_fa=
+iled,<br>
+=C2=A0 =C2=A0 =C2=A0.do_unaligned_access =3D xtensa_cpu_do_unaligned_access=
+,<br>
+diff --git a/target/xtensa/exc_helper.c b/target/xtensa/exc_helper.c<br>
+index 10e75ab070d..9bc7f50d355 100644<br>
+--- a/target/xtensa/exc_helper.c<br>
++++ b/target/xtensa/exc_helper.c<br>
+@@ -255,11 +255,6 @@ void xtensa_cpu_do_interrupt(CPUState *cs)<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0check_interrupts(env);<br>
 =C2=A0}<br>
+-#else<br>
+-void xtensa_cpu_do_interrupt(CPUState *cs)<br>
+-{<br>
+-}<br>
+-#endif<br>
 <br>
-+#ifndef CONFIG_USER_ONLY<br>
-+<br>
-=C2=A0#define INT_FLAGS (CPU_INTERRUPT_HARD | CPU_INTERRUPT_FIR)<br>
-=C2=A0void rx_cpu_do_interrupt(CPUState *cs)<br>
+=C2=A0bool xtensa_cpu_exec_interrupt(CPUState *cs, int interrupt_request)<b=
+r>
 =C2=A0{<br>
-@@ -142,6 +144,8 @@ bool rx_cpu_exec_interrupt(CPUState *cs, int interrupt_=
-request)<br>
+@@ -270,3 +265,5 @@ bool xtensa_cpu_exec_interrupt(CPUState *cs, int interr=
+upt_request)<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
 =C2=A0 =C2=A0 =C2=A0return false;<br>
 =C2=A0}<br>
-<br>
-+#endif /* !CONFIG_USER_ONLY */<br>
 +<br>
-=C2=A0hwaddr rx_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0return addr;<br>
++#endif /* !CONFIG_USER_ONLY */<br>
 -- <br>
 2.31.1<br>
 <br>
 </blockquote></div></div>
 
---000000000000e61b4605cb08ff52--
+--000000000000ada9bf05cb090178--
 
