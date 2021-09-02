@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C786A3FF4A3
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 22:12:19 +0200 (CEST)
-Received: from localhost ([::1]:41216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB0AB3FF4A4
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 22:12:25 +0200 (CEST)
+Received: from localhost ([::1]:41878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLt4L-0005G4-Ms
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 16:12:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38578)
+	id 1mLt4S-0005iM-U9
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 16:12:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mLt26-00036G-CW
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 16:09:58 -0400
-Received: from mail-ua1-x92a.google.com ([2607:f8b0:4864:20::92a]:36468)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mLt2n-0003ek-T4
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 16:10:41 -0400
+Received: from mail-vk1-xa2e.google.com ([2607:f8b0:4864:20::a2e]:44880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mLt23-0000xS-G1
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 16:09:58 -0400
-Received: by mail-ua1-x92a.google.com with SMTP id x23so1576203uav.3
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 13:09:54 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mLt2m-0001ed-8D
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 16:10:41 -0400
+Received: by mail-vk1-xa2e.google.com with SMTP id g34so1042637vkd.11
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 13:10:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yy/dcYFGhKpu0ptaayrsqN44d0c/Beh6cldZRRjkueo=;
- b=LAWjq4VjLaMEZLOYnO/2vAI5sTFiOgEwDOOMTHHjQ+i3iFx5K3nBw4Xj1zaSbq80Ka
- hZOq595bqGDGMLAfW+/TREThUJs/cOJhxnuctnCQ1wZfIjIPIawR3tijX5SiPmbO247g
- kkCXFxG49IBOa9HDRksTrqPK8rDI3xkLjbzrRO3cqgXdcqsLd2GFapRJ6ABb49atdxeZ
- CKM6JX1ObcTOuY0B9yscIQW0p13uVlRqzY/FfGV8XtexDzWEGHqTinmH2Q63M9M9SKhw
- 9VaSZvtO4tdYN0HEa2Nci2y/2n3PcIaRlCsHjlukt6FPai9xWH6odrwTPe4BaWu0pwWt
- nY+g==
+ :cc; bh=AHe4522IvlU++xhQ5FRHNL4wmzwCPCJqUo4g+BE8kYM=;
+ b=PctWUBQ6ROSfiTyCHxx7AlVuS7hUma2vnT8YhXpUin1ypn8+EdHlDs9I3yyLmZ3Ue4
+ TkHqfW2EoRFxzrqubLGI7B8MoIMg6QokfMVGQZ3m6lAgSoGeWpnaiwYmbiHDNhjBaXax
+ 85z2X/XId9IkNczs7r81outUKqtO/tzByO+rX7bkCRLwuqR72lmqq9LpozOL3ghLfXg4
+ DRh3hSjsVlfm7fPesVW7EdqKCaWPkdOBirbYBWs6cjh4wMnd/ttQ4/A2xnxpaLVNNhI3
+ CBQXsyqJs9eujaseNe+wfc/8gW677mab1r05KZNJuGfCl/6JvRYO13ITt5kYnzuPfTfT
+ 8oVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=yy/dcYFGhKpu0ptaayrsqN44d0c/Beh6cldZRRjkueo=;
- b=HTjfTXMgr5yZ3PktW5qMTGZ089l4kcWPhWyrzxAYVjWxhyHLnnHrkT8R7GVPjuW6R0
- UEc7LDFWCoZywZa1J3cArvnePAsbw+4fDVOZMpKzWJTRNrpeQ9Sl+qF9TGrXUnu4OYce
- KYu+7fF7ZgejPFM36dc3iK8vYrXgJCexUaxMdjrCH7actsjKYHb+c+fB+3PS2g3kuOD8
- Q5LASByHs8A3thjdncK/0HNh8i240yVxzrFXdBuzBQEfEzJnSETbGRNDze288TZXs9MT
- c43IV652rzKhSy0g9N7vQ2R2yfTVRFuKAc6xelPuIEPjgNrAFfRdKUjKVHvHzksQJ+iU
- QJAA==
-X-Gm-Message-State: AOAM531ISvYyUOUAA+n+9xdk8qzoFWowJ7Wsn1dAiU0NLFdyyzhPyR7J
- oIWKrV1os9Kk1cSnBXByxzt1zMqH0Vv3rbOskOuJpQ==
-X-Google-Smtp-Source: ABdhPJwusm2ibjguQg+1Na4VfwKxEG65kNOFcGOyaci9y44319h7E8Zd9ICQKkQ7ZDu8Q30CaprVyzSWCLlhwkTlXr4=
-X-Received: by 2002:ab0:3413:: with SMTP id z19mr24593uap.39.1630613393374;
- Thu, 02 Sep 2021 13:09:53 -0700 (PDT)
+ bh=AHe4522IvlU++xhQ5FRHNL4wmzwCPCJqUo4g+BE8kYM=;
+ b=TONnVxbfEW5Fn/ro0F99xU9w1PRfD/1qXjiTMUSCF8TiYGDrq/fWr/7zUyZz/9LjTd
+ IP2DekIj+NdFzmbPS6Tw6q6Ndg8pfnAqs56lBjOp2t4QguxqdVSt4kVSaK/yGCkliyOM
+ d5G9RLqUexVhEw8O3LaPd4/ap6XDtWAtOhr1rYsHj4urEYhi17/f0fHbUNE6G83Ug3hq
+ +aML36/+G6H4reR33SE2j1pbSzGbvkfV+TzINth4YEcpEAMOOzu2TmVFhx4HJCop+tSO
+ yJ/Vd3vUcPsPkCtiP2/da4pqNpYLVG4bL2i1IdjoVswFsyLR1X/l15Z4CkNMTQJkJ6bn
+ qevg==
+X-Gm-Message-State: AOAM530fdjLDwBeKGXZLKTC/k5o6Li6/gwl7yqDxluugYua7Qbvedr2o
+ vFycNBduhaPYeSJ678Vf+9iG/rxdSZ6gIZcL9lKNDA==
+X-Google-Smtp-Source: ABdhPJwF0IgOucoNeiH17eu4mFPr51VtE3mA2tx6hJmF796xAEsCsKroMcrlREtCYN9TqMe9Rvgw/+kpRck8LkElNxk=
+X-Received: by 2002:a1f:1bcf:: with SMTP id b198mr3511241vkb.25.1630613438332; 
+ Thu, 02 Sep 2021 13:10:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210902151715.383678-1-f4bug@amsat.org>
- <20210902151715.383678-2-f4bug@amsat.org>
-In-Reply-To: <20210902151715.383678-2-f4bug@amsat.org>
+ <20210902151715.383678-3-f4bug@amsat.org>
+In-Reply-To: <20210902151715.383678-3-f4bug@amsat.org>
 From: Warner Losh <imp@bsdimp.com>
-Date: Thu, 2 Sep 2021 14:09:42 -0600
-Message-ID: <CANCZdfrHrQQkiXmBc62X0b36n726iDCwvLfYXQrker7knhhD0g@mail.gmail.com>
-Subject: Re: [PATCH 01/24] target/xtensa: Restrict do_transaction_failed() to
- sysemu
+Date: Thu, 2 Sep 2021 14:10:27 -0600
+Message-ID: <CANCZdfo=ULeEvZ9vPGuhRb7vgH8TZ+OavcaR9h1ZiNyNh1+nHA@mail.gmail.com>
+Subject: Re: [PATCH 02/24] target/i386: Restrict sysemu-only fpu_helper helpers
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="000000000000140ed505cb08c417"
-Received-SPF: none client-ip=2607:f8b0:4864:20::92a;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92a.google.com
+Content-Type: multipart/alternative; boundary="000000000000c214d605cb08c6bf"
+Received-SPF: none client-ip=2607:f8b0:4864:20::a2e;
+ envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa2e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,7 +93,7 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000140ed505cb08c417
+--000000000000c214d605cb08c6bf
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -102,8 +101,8 @@ On Thu, Sep 2, 2021 at 9:17 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
 >
 wrote:
 
-> The do_transaction_failed() is restricted to system emulation since
-> commit cbc183d2d9f ("cpu: move cc->transaction_failed to tcg_ops").
+> Restrict some sysemu-only fpu_helper helpers (see commit
+> 83a3d9c7402: "i386: separate fpu_helper sysemu-only parts").
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 >
@@ -112,36 +111,34 @@ Reviewed-by: Warner Losh <imp@bsdimp.com>
 
 
 > ---
->  target/xtensa/cpu.h | 2 ++
->  1 file changed, 2 insertions(+)
+>  target/i386/cpu.h | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
-> index 2345cb59c79..1e0cb1535ca 100644
-> --- a/target/xtensa/cpu.h
-> +++ b/target/xtensa/cpu.h
-> @@ -568,10 +568,12 @@ bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr
-> address, int size,
->                           bool probe, uintptr_t retaddr);
->  void xtensa_cpu_do_interrupt(CPUState *cpu);
->  bool xtensa_cpu_exec_interrupt(CPUState *cpu, int interrupt_request);
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index 6c50d3ab4f1..c241bc183d2 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -1833,11 +1833,14 @@ void x86_cpu_list(void);
+>  int cpu_x86_support_mca_broadcast(CPUX86State *env);
+>
+>  int cpu_get_pic_interrupt(CPUX86State *s);
+> +
 > +#ifndef CONFIG_USER_ONLY
->  void xtensa_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-> vaddr addr,
->                                        unsigned size, MMUAccessType
-> access_type,
->                                        int mmu_idx, MemTxAttrs attrs,
->                                        MemTxResult response, uintptr_t
-> retaddr);
-> +#endif /* !CONFIG_USER_ONLY */
->  void xtensa_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
->  hwaddr xtensa_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
->  void xtensa_count_regs(const XtensaConfig *config,
+>  /* MSDOS compatibility mode FPU exception support */
+>  void x86_register_ferr_irq(qemu_irq irq);
+>  void fpu_check_raise_ferr_irq(CPUX86State *s);
+>  void cpu_set_ignne(void);
+>  void cpu_clear_ignne(void);
+> +#endif
+>
+>  /* mpx_helper.c */
+>  void cpu_sync_bndcs_hflags(CPUX86State *env);
 > --
 > 2.31.1
 >
 >
 
---000000000000140ed505cb08c417
+--000000000000c214d605cb08c6bf
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -150,9 +147,8 @@ Content-Transfer-Encoding: quoted-printable
 pe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.or=
 g</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
 :0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->The do_transaction_failed() is restricted to system emulation since<br>
-commit cbc183d2d9f (&quot;cpu: move cc-&gt;transaction_failed to tcg_ops&qu=
-ot;).<br>
+>Restrict some sysemu-only fpu_helper helpers (see commit<br>
+83a3d9c7402: &quot;i386: separate fpu_helper sysemu-only parts&quot;).<br>
 <br>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
 t.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br></blockquote><div><br><=
@@ -161,40 +157,32 @@ p@bsdimp.com</a>&gt;</div><div>=C2=A0</div><blockquote class=3D"gmail_quote=
 " style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
 padding-left:1ex">
 ---<br>
-=C2=A0target/xtensa/cpu.h | 2 ++<br>
-=C2=A01 file changed, 2 insertions(+)<br>
+=C2=A0target/i386/cpu.h | 3 +++<br>
+=C2=A01 file changed, 3 insertions(+)<br>
 <br>
-diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h<br>
-index 2345cb59c79..1e0cb1535ca 100644<br>
---- a/target/xtensa/cpu.h<br>
-+++ b/target/xtensa/cpu.h<br>
-@@ -568,10 +568,12 @@ bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address,=
- int size,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 bool probe, uintptr_t retaddr);<br>
-=C2=A0void xtensa_cpu_do_interrupt(CPUState *cpu);<br>
-=C2=A0bool xtensa_cpu_exec_interrupt(CPUState *cpu, int interrupt_request);=
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h<br>
+index 6c50d3ab4f1..c241bc183d2 100644<br>
+--- a/target/i386/cpu.h<br>
++++ b/target/i386/cpu.h<br>
+@@ -1833,11 +1833,14 @@ void x86_cpu_list(void);<br>
+=C2=A0int cpu_x86_support_mca_broadcast(CPUX86State *env);<br>
 <br>
+=C2=A0int cpu_get_pic_interrupt(CPUX86State *s);<br>
++<br>
 +#ifndef CONFIG_USER_ONLY<br>
-=C2=A0void xtensa_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr, =
-vaddr addr,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned =
-size, MMUAccessType access_type,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int mmu_i=
-dx, MemTxAttrs attrs,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MemTxResu=
-lt response, uintptr_t retaddr);<br>
-+#endif /* !CONFIG_USER_ONLY */<br>
-=C2=A0void xtensa_cpu_dump_state(CPUState *cpu, FILE *f, int flags);<br>
-=C2=A0hwaddr xtensa_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);<br>
-=C2=A0void xtensa_count_regs(const XtensaConfig *config,<br>
+=C2=A0/* MSDOS compatibility mode FPU exception support */<br>
+=C2=A0void x86_register_ferr_irq(qemu_irq irq);<br>
+=C2=A0void fpu_check_raise_ferr_irq(CPUX86State *s);<br>
+=C2=A0void cpu_set_ignne(void);<br>
+=C2=A0void cpu_clear_ignne(void);<br>
++#endif<br>
+<br>
+=C2=A0/* mpx_helper.c */<br>
+=C2=A0void cpu_sync_bndcs_hflags(CPUX86State *env);<br>
 -- <br>
 2.31.1<br>
 <br>
 </blockquote></div></div>
 
---000000000000140ed505cb08c417--
+--000000000000c214d605cb08c6bf--
 
