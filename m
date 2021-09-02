@@ -2,58 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 152063FEE96
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:23:00 +0200 (CEST)
-Received: from localhost ([::1]:57704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20B8A3FEEDC
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:42:50 +0200 (CEST)
+Received: from localhost ([::1]:58110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLmgF-00039S-4M
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:22:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42618)
+	id 1mLmzR-0000cR-6a
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:42:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mLmTT-000691-Ru; Thu, 02 Sep 2021 09:09:48 -0400
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:53513)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mLmTq-00078C-Qf
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:10:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54897)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mLmTO-0001zS-Nh; Thu, 02 Sep 2021 09:09:47 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.92])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 4A33FBC11240;
- Thu,  2 Sep 2021 15:09:40 +0200 (CEST)
-Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Thu, 2 Sep
- 2021 15:09:38 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G004a8223cf2-5d74-4671-a5c8-dedbc68350c1,
- 0F69C8711EE098B745CC44F7BEC1CAFBB1DDDEDC) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-Subject: [PATCH v2 20/20] pnv/xive2: Add support for 8bits thread id
-Date: Thu, 2 Sep 2021 15:09:28 +0200
-Message-ID: <20210902130928.528803-21-clg@kaod.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210902130928.528803-1-clg@kaod.org>
-References: <20210902130928.528803-1-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1mLmTi-0002JK-FN
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:10:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630588200;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8cAiDyoB4+HKkYi84yijqxsz8tfdiOFxslWDuiiZyjY=;
+ b=XV9f0OCWkO9xlGduYZdYqkUAD0HzzjaziNkgHhaFKOwrJTZU1HRoMxw4niQxH1ROV6VAWs
+ Q/yRDrqOQ16AzxwrQi+38tocQZoPp5R1YVcGIYZZXOn5Nt4kBKIN13AodqPHt9J+Te2DP7
+ E1jlfYT0YyFdq0ZCSmu4ZfEhaJm5NKo=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-453-MTzZjVo_Ozif3uwjkuUXzw-1; Thu, 02 Sep 2021 09:09:59 -0400
+X-MC-Unique: MTzZjVo_Ozif3uwjkuUXzw-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ q15-20020a17090622cf00b005c42d287e6aso886455eja.18
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 06:09:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=8cAiDyoB4+HKkYi84yijqxsz8tfdiOFxslWDuiiZyjY=;
+ b=eyTA8Ds+QV44z3w+zkHnk3LPCKaiGKCch2yGxeSthB0gNnmfDmmeNVve+LJfO7Ycu2
+ +J83p70cJ1Po0mcHZwhdkH11ufrJo/LaSsjIb8uWws4tNnTJ6mpBOz3YxWRVeXx65qBR
+ b0hfX4GV9l+RHQdQV9iuG8CITa6AyuDFVLRm0mkuNsXWnLr6rAxGAvyuN6zWJYrcgIsv
+ l+UT4+dLQWlqaw3/nbBGoXdBHCVQI+JBbGA/sNiHnKYgi0mRXzhvVmVlzs0bIcz3lPsw
+ yDZgR1cKIwF9iMDyj0+kSZ1gCH9rRreC2jvpiyvFX/u9Hwy4qGVTdCjFXKKstWziilK7
+ CS9w==
+X-Gm-Message-State: AOAM530Nq0r1/yUQJbvfCOK0BsEuJrjshtUU5pr/dbhKooPQhuXhAsMA
+ QFjaGheWGoKRqRhx61N8rTCKQHgtCDo4KbOOxd5yQnlwEdGjRhGsIpdsmIAukjw7dLJqOeAgfeP
+ mtRHM36CdOk/nBD4=
+X-Received: by 2002:a17:906:b84a:: with SMTP id
+ ga10mr3840559ejb.143.1630588198237; 
+ Thu, 02 Sep 2021 06:09:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwiXRV7SOESuCm2GNRabgH55/hTvQpzD+UHcBFx3LlIUv5grUC37cUSuw6mAPX93AM9Xls61g==
+X-Received: by 2002:a17:906:b84a:: with SMTP id
+ ga10mr3840548ejb.143.1630588198071; 
+ Thu, 02 Sep 2021 06:09:58 -0700 (PDT)
+Received: from steredhat (host-79-51-2-59.retail.telecomitalia.it.
+ [79.51.2.59])
+ by smtp.gmail.com with ESMTPSA id ck4sm1169796edb.67.2021.09.02.06.09.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Sep 2021 06:09:57 -0700 (PDT)
+Date: Thu, 2 Sep 2021 15:09:54 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [RFC PATCH 3/3] hw/virtio: Have virtqueue_get_avail_bytes() pass
+ caches arg to callees
+Message-ID: <20210902130954.sdzkzfyeflc6sc4s@steredhat>
+References: <20210826172658.2116840-1-philmd@redhat.com>
+ <20210826172658.2116840-4-philmd@redhat.com>
+ <20210901155538.vbtxakrtbjwon3pt@steredhat>
+ <YTC/savtIjlbzFsO@stefanha-x1.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <YTC/savtIjlbzFsO@stefanha-x1.localdomain>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 22344b89-c22b-40e6-9776-3c86e5aadea7
-X-Ovh-Tracer-Id: 14777154804900072355
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddvhedgieduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffojghfgggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheehfeegjeeitdfffeetjeduveejueefuefgtdefueelueetveeliefhhffgtdelnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,61 +103,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: CÃ©dric Le Goater <clg@kaod.org>
----
- include/hw/ppc/xive2.h | 1 +
- hw/intc/pnv_xive2.c    | 5 +++++
- hw/intc/xive2.c        | 3 ++-
- 3 files changed, 8 insertions(+), 1 deletion(-)
+On Thu, Sep 02, 2021 at 01:12:33PM +0100, Stefan Hajnoczi wrote:
+>On Wed, Sep 01, 2021 at 05:55:38PM +0200, Stefano Garzarella wrote:
+>> On Thu, Aug 26, 2021 at 07:26:58PM +0200, Philippe Mathieu-Daudé wrote:
+>> > Both virtqueue_packed_get_avail_bytes() and
+>> > virtqueue_split_get_avail_bytes() access the region cache, but
+>> > their caller also does. Simplify by having virtqueue_get_avail_bytes
+>> > calling both with RCU lock held, and passing the caches as argument.
+>> >
+>> > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> > ---
+>> > RFC because I'm not sure this is safe enough
+>>
+>> It seems safe to me.
+>>
+>> While reviewing I saw that vring_get_region_caches() has
+>> /* Called within rcu_read_lock().  */ comment, but it seems to me 
+>> that we
+>> call that function in places where we haven't acquired it, which shouldn't
+>> be a problem, but should we remove that comment?
+>
+>Do you have specific examples? That sounds worrying because the caller
+>can't do much with the returned pointer if it was fetched outside the
+>RCU read lock.
+>
 
-diff --git a/include/hw/ppc/xive2.h b/include/hw/ppc/xive2.h
-index 88c3e393162d..001388ccea7a 100644
---- a/include/hw/ppc/xive2.h
-+++ b/include/hw/ppc/xive2.h
-@@ -31,6 +31,7 @@ OBJECT_DECLARE_TYPE(Xive2Router, Xive2RouterClass, XIVE2_ROUTER);
- 
- #define XIVE2_GEN1_TIMA_OS      0x00000001
- #define XIVE2_VP_SAVE_RESTORE   0x00000002
-+#define XIVE2_THREADID_8BITS    0x00000004
- 
- typedef struct Xive2RouterClass {
-     SysBusDeviceClass parent;
-diff --git a/hw/intc/pnv_xive2.c b/hw/intc/pnv_xive2.c
-index 6f0a63cd3d2f..5aaccaf78934 100644
---- a/hw/intc/pnv_xive2.c
-+++ b/hw/intc/pnv_xive2.c
-@@ -438,6 +438,11 @@ static uint32_t pnv_xive2_get_config(Xive2Router *xrtr)
-         cfg |= XIVE2_VP_SAVE_RESTORE;
-     }
- 
-+    if (GETFIELD(CQ_XIVE_CFG_HYP_HARD_RANGE,
-+              xive->cq_regs[CQ_XIVE_CFG >> 3]) == CQ_XIVE_CFG_THREADID_8BITS) {
-+        cfg |= XIVE2_THREADID_8BITS;
-+    }
-+
-     return cfg;
- }
- 
-diff --git a/hw/intc/xive2.c b/hw/intc/xive2.c
-index 978a0e3972e1..6b46f7021b46 100644
---- a/hw/intc/xive2.c
-+++ b/hw/intc/xive2.c
-@@ -458,7 +458,8 @@ static uint32_t xive2_tctx_hw_cam_line(XivePresenter *xptr, XiveTCTX *tctx)
-     CPUPPCState *env = &POWERPC_CPU(tctx->cs)->env;
-     uint32_t pir = env->spr_cb[SPR_PIR].default_value;
-     uint8_t blk = xive2_router_get_block_id(xrtr);
--    uint8_t tid_shift = 7;
-+    uint8_t tid_shift =
-+        xive2_router_get_config(xrtr) & XIVE2_THREADID_8BITS ? 8 : 7;
-     uint8_t tid_mask = (1 << tid_shift) - 1;
- 
-     return xive2_nvp_cam_line(blk, 1 << tid_shift | (pir & tid_mask));
--- 
-2.31.1
+One was the virtqueue_get_avail_bytes(), but Phil is fixing it in this 
+patch.
+
+Should we fix it in a separate patch to backport to stable branches?
+
+Other suspicious places seem to be these:
+- virtqueue_packed_fill_desc()
+- virtqueue_packed_drop_all()
+
+Stefano
 
 
