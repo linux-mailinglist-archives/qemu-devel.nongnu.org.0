@@ -2,103 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B81213FE83A
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 06:01:59 +0200 (CEST)
-Received: from localhost ([::1]:50318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F35EA3FE8AE
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 07:20:59 +0200 (CEST)
+Received: from localhost ([::1]:58792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLdvK-0000Lb-0m
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 00:01:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56372)
+	id 1mLf9m-0002DF-5y
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 01:20:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36302)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1mLdtK-0007on-IC; Wed, 01 Sep 2021 23:59:54 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58544
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1mLdtI-0004ou-UD; Wed, 01 Sep 2021 23:59:54 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 1823YH6j083252; Wed, 1 Sep 2021 23:59:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=P3x8qRg12EutrLbJnmhXDR9YbTBhEcsq2/2+9LHCKy4=;
- b=Jl+UxZgxrumksktD6ciAdwi8GT8ByVncaczUb0Fggn1i26Ojhchghi7D3Q7AmfFjXs4D
- 1lKkG2MuDXhA4Cx3FXYnmwk+HDMuUHX9TBEuXxIVk5gne/2I/8o/9h4ZM1msvnI/mmoz
- RV6irE+tp0KmVMyXVzlOnyNksrvV/w1gCTPSqxS5CKP1GsxrUzSvfHrpyEhaK+HxzddC
- 4WgXmq5Zd4DgWGbe5uXKHUCFsSyU4UuOkjFQgJEzAxJzRpVd7bQOm669bCwVqyAcCFbk
- 8p9Jh+qBMMc3y99ifqV4Ktl2oXyBCUKk3CX2+2DBvh2idB+chALN6pNzUobeI/9hgLzn Rw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3atprjgdu0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Sep 2021 23:59:49 -0400
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1823vHVr170803;
- Wed, 1 Sep 2021 23:59:49 -0400
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3atprjgdtq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Sep 2021 23:59:49 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1823ulmI030150;
- Thu, 2 Sep 2021 03:59:47 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com
- (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
- by ppma03ams.nl.ibm.com with ESMTP id 3atdxcca9j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Sep 2021 03:59:47 +0000
-Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
- [9.149.105.61])
- by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 1823thd949414544
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 2 Sep 2021 03:55:43 GMT
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6355211C052;
- Thu,  2 Sep 2021 03:59:44 +0000 (GMT)
-Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AC8D711C04C;
- Thu,  2 Sep 2021 03:59:43 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.76.20])
- by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu,  2 Sep 2021 03:59:43 +0000 (GMT)
-Date: Thu, 2 Sep 2021 05:59:41 +0200
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] s390x: Replace PAGE_SIZE, PAGE_SHIFT and PAGE_MASK
-Message-ID: <20210902055941.62b59594.pasic@linux.ibm.com>
-In-Reply-To: <20210901125800.611183-1-thuth@redhat.com>
-References: <20210901125800.611183-1-thuth@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-Content-Type: text/plain; charset=US-ASCII
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: ClNnfbT2jwnayy28Y_nh2m84EiWSsIOs
-X-Proofpoint-GUID: 97D_V09YlJNlam7zS8Fk_DqLGFRLGCEs
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mLf8W-0001R7-Sx; Thu, 02 Sep 2021 01:19:40 -0400
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:44807)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mLf8V-0005ZZ-4e; Thu, 02 Sep 2021 01:19:40 -0400
+Received: by mail-io1-xd34.google.com with SMTP id g9so920664ioq.11;
+ Wed, 01 Sep 2021 22:19:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kkaUL69H9dhMTpvuFyDJwthvyJoDxIwcEHhsFYy+H5A=;
+ b=kKnbKtPamjzDTpWeEl4zxGZctbVNlAA9NW0RscRg2HkQSIRIS20ovantkuG1Eitb9i
+ PjtP8MB0s1i67p4V19cMD7d30lUbwDNDnYkJpZjfLmxDeOFBUKwVVzrz0KgyrqDyBBeK
+ lepxma+jEJasqiqKKNPtoHNmsHa/lMRFVikLk/xiAfUcizhzkwzuiYY8qQLrCbMMzT1x
+ p6/zzWsjJQLTXx877E+p4lQ0g+v8osGl1yoBI1pOszwqKltTGoGYN7hXy0QarM/pD/NI
+ J38iTb99LEJW1kF+LAFTFEJLtw+GfO6YgFwvT6bSer3J3XvLjk4pj9xy/LZN+5SlwuHl
+ sFFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kkaUL69H9dhMTpvuFyDJwthvyJoDxIwcEHhsFYy+H5A=;
+ b=CZ0b2eoPj7bxdyjUuRKt/CYEvklPEswnKlH5l5XfxdynPAhwEP7eqTHUT8ceLUmD6J
+ gZcgqifPOXAWY9zg8AszM6XZHbyKVG4eJZf8O1yfAkYzyvliit+ymGiCVMFWaXgYq76F
+ 3D4dlqXs3PdCEF3lkmatUDLVfHrRNc+xnrwhkczr0r8p+lh4taYqcuHdWEXsJZ+EZK1O
+ pKomkoeeXqQR9hmSqUspIVupOjRoIU99rQmkQevohNPo/lLbhG91TEbAMttXr1M17DFq
+ UXm0Rzd4GJd6ewAxfS4SLcXk3wVOnOqQhXcWcqu1NnEAtFgU4pu4ix6OUCtsy2Q/BQ0c
+ EIww==
+X-Gm-Message-State: AOAM533YYkV5t64OlkjBklSRmadumPBfSbXtFmXEfhgHa5I/uzgOAjo2
+ jY/1Zr19rFtAmmJuTE/S+Xo2zKMki/gv/d8sOt4=
+X-Google-Smtp-Source: ABdhPJxFfhOLv4FG8S6Q3ZX8tXRPhDG9h4jVSFsXTVdEP2H1A9R0IqkDoNorrsVYjtBDtUqBs6WlsxSWCumWT0Gg/Rc=
+X-Received: by 2002:a02:90d0:: with SMTP id c16mr1310562jag.106.1630559977539; 
+ Wed, 01 Sep 2021 22:19:37 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-09-02_01:2021-09-01,
- 2021-09-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015
- mlxscore=0 adultscore=0 spamscore=0 bulkscore=0 suspectscore=0
- phishscore=0 impostorscore=0 priorityscore=1501 mlxlogscore=999
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2108310000 definitions=main-2109020020
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <28c908de60b9b04fa20e63d113885c98586053f3.1630543194.git.alistair.francis@wdc.com>
+ <CAEUhbmU793C3a+7heXuG+=JiiVK47Q5F1pCzrEOTOD3=WTH=SA@mail.gmail.com>
+In-Reply-To: <CAEUhbmU793C3a+7heXuG+=JiiVK47Q5F1pCzrEOTOD3=WTH=SA@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 2 Sep 2021 15:19:11 +1000
+Message-ID: <CAKmqyKNMM7PbX_wF32fmOc-7g9_9MAE42LLCEmL7X0sGmwPiNA@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] target/riscv: Update the ePMP CSR address
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,25 +76,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Farman <farman@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@opensource.wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed,  1 Sep 2021 14:58:00 +0200
-Thomas Huth <thuth@redhat.com> wrote:
+On Thu, Sep 2, 2021 at 11:57 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> On Thu, Sep 2, 2021 at 8:40 AM Alistair Francis
+> <alistair.francis@opensource.wdc.com> wrote:
+> >
+> > From: Alistair Francis <alistair.francis@wdc.com>
+> >
+> > Update the ePMP CSRs to match the 0.9.3 ePMP spec
+> > https://github.com/riscv/riscv-tee/blob/61455747230a26002d741f64879dd78cc9689323/Smepmp/Smepmp.pdf
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  target/riscv/cpu_bits.h | 4 ++--
+> >  target/riscv/cpu.c      | 1 +
+> >  2 files changed, 3 insertions(+), 2 deletions(-)
+> >
+>
+> Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
-> The PAGE_SIZE macro is causing trouble on Alpine Linux since it
-> clashes with a macro from a system header there. We already have
-> the TARGET_PAGE_SIZE, TARGET_PAGE_MASK and TARGET_PAGE_BITS macros
-> in QEMU anyway, so let's simply replace the PAGE_SIZE, PAGE_MASK
-> and PAGE_SHIFT macro with their TARGET_* counterparts.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/572
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+Thanks!
 
-Reviewed-by: Halil Pasic <pasic@linux.ibm.com>
+Applied to riscv-to-apply.next
+
+Alistair
 
