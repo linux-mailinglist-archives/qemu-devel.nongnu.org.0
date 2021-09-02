@@ -2,65 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C87D3FEDE2
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 14:38:02 +0200 (CEST)
-Received: from localhost ([::1]:48176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E21913FEDEF
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 14:44:25 +0200 (CEST)
+Received: from localhost ([::1]:56126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLlyj-00038B-6o
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 08:38:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34512)
+	id 1mLm4u-0000Bw-W4
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 08:44:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1mLlx2-0001gh-FC
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:36:17 -0400
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:35394)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <konstantin@daynix.com>)
- id 1mLlx0-0005Ov-GU
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:36:16 -0400
-Received: by mail-yb1-xb31.google.com with SMTP id z5so3537239ybj.2
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 05:36:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=8pcWUZ3Ndl2FCE9Y6MCBRM/4I2NcxdYkIcEl0VaPf7I=;
- b=Pg68SVUFvm8wBrG2eKr8vaYJC50sIg1GDZgSmlbzeGFSTuT5lLz/a4DkiCGKKqzDAQ
- 0OoJcWFkRPCRy0sg32ZGBOAnNVOFRx98+EJdeaktyXily2doz1+Y/7JnZDYW88iObBhL
- I/zbonDh4KgHs1K0xuaRyw+prX/7EqgY24XM3MZcuhC0niDb8PSMZIrGU8mZBxE+Kt3x
- 7qgZLNcKIICCWAgLb1G+GIN5RYZWhJ3Wv5VItu50zJz3Yczkvja6THojtDSJLBHA2zXI
- QWAKwroctUOwk4oXlTogJX6r7wpY/KVApD9p6Kp/mbdfdz4b35yiBqhpx30wL6rtMzqZ
- z23A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=8pcWUZ3Ndl2FCE9Y6MCBRM/4I2NcxdYkIcEl0VaPf7I=;
- b=qDa5SnkB5QNlPbKh1aOJaFjXdjsvnfgRunLVxYGAUKmGv9G8bdiDIT7tysVavWPoQ4
- EhtLu5/v3CC+LPMyFxkyrPGWm+kAjmHln5cQhXIzlc2vkz+rq0hs9o4UFvqGlxsp/zPt
- jZiA93KUKf0ncMi+xEK2MgNxDQe6YEvVJ8/8tfmA5D/HgLHxCTk4oqr7+FAnUiVktrKR
- DB1B86j5OEwl1p2D79jjw1C80MGj7B4cwFPP1QFmx/xCXgWunw8OuUzLaXQ6sgayPvKh
- ta7ZjApulsyIIh2zgB/4I91AQMMLDd6UOGlkczuzGq4wwh/MTml5EFGMkfsfAO5L5nuE
- 8OjQ==
-X-Gm-Message-State: AOAM531dql7X9pC74TGYwLvA+fpgYGkoGUuld2uvzZm7G55brfopdMIH
- yMBXelBBYG10LUKrRq4Ag5cwAUR+TEi8bVS792G7IDfjriItQPTY
-X-Google-Smtp-Source: ABdhPJyJm7wHgLUTln48xLK2vinHnd5UAYgucagjNKldp5G7KcfNAtF957Pzc4FeCaf0STbQay0HsnFoU5OcBDHyWrY=
-X-Received: by 2002:a25:80d4:: with SMTP id c20mr4102059ybm.345.1630586172004; 
- Thu, 02 Sep 2021 05:36:12 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
+ id 1mLm2G-0005mi-R4
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:41:40 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:35970 helo=loongson.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <gaosong@loongson.cn>) id 1mLm2C-00061R-PB
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:41:40 -0400
+Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxYctjxjBha2YCAA--.7003S2;
+ Thu, 02 Sep 2021 20:41:07 +0800 (CST)
+From: Song Gao <gaosong@loongson.cn>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 00/21] Add LoongArch linux-user emulation support
+Date: Thu,  2 Sep 2021 20:40:46 +0800
+Message-Id: <1630586467-22463-1-git-send-email-gaosong@loongson.cn>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-From: Konstantin Kostiuk <konstantin@daynix.com>
-Date: Thu, 2 Sep 2021 15:36:01 +0300
-Message-ID: <CAJ28CFSFEatxgfvUE3gvnFBVX7GrqMwk0+t1foFfNzDu7bwv3A@mail.gmail.com>
-Subject: Guest Agent issue with 'guest-get-osinfo' command on Windows
-To: Developers <qemu-devel@nongnu.org>
-Content-Type: multipart/alternative; boundary="0000000000008ef4cd05cb026d5d"
-Received-SPF: none client-ip=2607:f8b0:4864:20::b31;
- envelope-from=konstantin@daynix.com; helo=mail-yb1-xb31.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9AxYctjxjBha2YCAA--.7003S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3Xr45Jw4rXF4fZFy5tF4UCFg_yoWxtw15pr
+ W7ur15Kw48GrZ7Jr4vqa45Xrn5Xa17Gr4293WSq3s5CrWIvryfZF1kK3sxKFy3X3W0gry0
+ qFnYkw1UWF4UXaUanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
+X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
+Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
+ helo=loongson.cn
+X-Spam_score_int: 0
+X-Spam_score: -0.0
+X-Spam_bar: /
+X-Spam_report: (-0.0 / 5.0 requ) SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,128 +55,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Michael Roth <michael.roth@amd.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Tomas Golembiovsky <tgolembi@redhat.com>, Yan Vugenfirer <yan@daynix.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Cc: peter.maydell@linaro.org, yangxiaojuan@loongson.cn, david@redhat.com,
+ bin.meng@windriver.com, mark.cave-ayland@ilande.co.uk,
+ aleksandar.rikalo@syrmia.com, jcmvbkbc@gmail.com, tsimpson@quicinc.com,
+ alistair.francis@wdc.com, edgar.iglesias@gmail.com, chenhuacai@gmail.com,
+ philmd@redhat.com, atar4qemu@gmail.com, thuth@redhat.com, ehabkost@redhat.com,
+ richard.henderson@linaro.org, groug@kaod.org, maobibo@loongson.cn,
+ mrolnik@gmail.com, shorne@gmail.com, alex.bennee@linaro.org,
+ david@gibson.dropbear.id.au, kbastian@mail.uni-paderborn.de, crwulff@gmail.com,
+ laurent@vivier.eu, palmer@dabbelt.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000008ef4cd05cb026d5d
-Content-Type: text/plain; charset="UTF-8"
+Hi,
 
-Hi Team,
+We tested some basic system commands using LoongArch clfs system.
+and supported 'make check-tcg'. Of course. this series only support linux-user emulation.
+ 
 
-We have several bugs related to 'guest-get-osinfo' command in Windows Guest
-Agent:
-https://bugzilla.redhat.com/show_bug.cgi?id=1998919
-https://bugzilla.redhat.com/show_bug.cgi?id=1972070
+Changes for v4:
+  * Update README，add LoongArch linux-user emulation Introduction.
+  * Add 'make check-tcg' support(patch 20).
+  * Add binfmt config(patch 21).
+  * Fix bugs when running loongarch basic commands. 
 
-This command returns the following data:
-{
-"name": "Microsoft Windows",
-"kernel-release": "20344",
-"version": "N/A",
-"variant": "server",
-"pretty-name": "Windows Server 2022 Datacenter",
-"version-id": "N/A",
-"variant-id": "server",
-"kernel-version": "10.0",
-"machine": "x86_64",
-"id": "mswindows"
-}
 
-The problem is with "version" and "pretty-name". Windows Server
-2016/2019/2022 and Windows 11 have the same MajorVersion ("kernel-version")
-= 10, so to get pretty-name the guest agent uses a conversion matrix
-between Windows build and name (
-https://github.com/qemu/qemu/blob/59a89510b62ec23dbeab8b02fa4e3526e353d8b6/qga/commands-win32.c#L2170
-).
+Changes for v3:
+  * Split trans.inc.c.
+  * Remove csr registers.
+  * Delete patchs 2, 4, 5.
+  * Follow Richard's code review comments [1].
+  * Follow Richard's riscv patches [2].
 
-This solution has several problems: need to update the conversion matrix
-for each Windows build, one Windows name can have different build numbers.
-For example, Windows Server 2022 (preview) build number is 20344, Windows
-Server 2022 build number is 20348.
+    [1]: https://patchew.org/QEMU/1626861198-6133-1-git-send-email-gaosong@loongson.cn/
+    [2]: https://patchew.org/QEMU/20210823195529.560295-1-richard.henderson@linaro.org/
 
-There are two possible solutions:
-1. Use build number range instead of one number. Known implementation
-issue: Microsoft provides a table (
-https://docs.microsoft.com/en-Us/windows-server/get-started/windows-server-release-info)
-only with stable build numbers. So, we exactly don't know the build number
-range.
 
-2. We can read this string from the registry
-(HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion). Known
-implementation issues: ProductName value is localized (in a Russian version
-of Windows, the word "Microsoft' is translated), so we should ignore it.
-ReleaseId value does not equal to Windows Server version (for Windows
-Server 2019, ReleaseId is 1809)
+Changes for v2:
+  * Patch 1, remove unnecessary introduction;
+  * Patch 3, follow the ARM/AVR pattern to add new CPU features;
+  * Patch 6, remove decode_lsx(); 
+  * Patches 7-18, delete opcode definition, modify translation function;
+  * Patches 20-22, split V1 patch20 to V2 patch20-22.
 
-In conclusion, I have the next questions:
-What solution we should implement to get the Windows release name?
-Does someone know how end-users use this information? Should it be English
-only or it can be localized? Should we have exactly the same output as now?
-What should we do with the 'Standard' server edition? Currently, the guest
-agent always returns 'Datacenter'.
+V3: https://patchew.org/QEMU/1630048494-2143-1-git-send-email-gaosong@loongson.cn/
+V2: https://patchew.org/QEMU/1626861198-6133-1-git-send-email-gaosong@loongson.cn/
+V1: https://patchew.org/QEMU/1624881885-31692-1-git-send-email-gaosong@loongson.cn/
 
-Best wishes,
-Kostiantyn Kostiuk
+Please review!
 
---0000000000008ef4cd05cb026d5d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thanks.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div>Hi Team,<br></div><div><br></div><di=
-v>We have several bugs related to &#39;guest-get-osinfo&#39; command in Win=
-dows Guest Agent: <br></div><div><a href=3D"https://bugzilla.redhat.com/sho=
-w_bug.cgi?id=3D1998919" target=3D"_blank">https://bugzilla.redhat.com/show_=
-bug.cgi?id=3D1998919</a></div><div><a href=3D"https://bugzilla.redhat.com/s=
-how_bug.cgi?id=3D1972070" target=3D"_blank">https://bugzilla.redhat.com/sho=
-w_bug.cgi?id=3D1972070</a></div><div><br></div><div>This command returns th=
-e following data:</div><div>{</div><div>&quot;name&quot;: &quot;Microsoft W=
-indows&quot;,</div><div>&quot;kernel-release&quot;: &quot;20344&quot;,</div=
-><div>&quot;version&quot;: &quot;N/A&quot;,</div><div>&quot;variant&quot;: =
-&quot;server&quot;, <br></div><div>&quot;pretty-name&quot;: &quot;Windows S=
-erver 2022 Datacenter&quot;,</div><div>&quot;version-id&quot;: &quot;N/A&qu=
-ot;,</div><div>&quot;variant-id&quot;: &quot;server&quot;,</div><div>&quot;=
-kernel-version&quot;: &quot;10.0&quot;,</div><div>&quot;machine&quot;: &quo=
-t;x86_64&quot;,</div><div>&quot;id&quot;: &quot;mswindows&quot;</div><div>}=
-</div><div><br></div><div>The
- problem is with &quot;version&quot; and &quot;pretty-name&quot;. Windows S=
-erver=20
-2016/2019/2022 and Windows 11 have the same MajorVersion=20
-(&quot;kernel-version&quot;) =3D 10, so to get pretty-name the guest agent =
-uses a=20
-conversion matrix between Windows build and name (<a href=3D"https://github=
-.com/qemu/qemu/blob/59a89510b62ec23dbeab8b02fa4e3526e353d8b6/qga/commands-w=
-in32.c#L2170">https://github.com/qemu/qemu/blob/59a89510b62ec23dbeab8b02fa4=
-e3526e353d8b6/qga/commands-win32.c#L2170</a>).<br></div><div><br></div><div=
-><span lang=3D"en"><span><span>This solution has several problems</span></s=
-pan></span>:
- need to update the conversion matrix for each Windows build, one=20
-Windows name can have different build numbers. For example, Windows=20
-Server 2022 (preview) build number is 20344, Windows Server 2022 build numb=
-er is 20348.</div><div><br></div><div>There are two possible solutions:</di=
-v><div>1. Use build number range instead of one number. Known implementatio=
-n issue: Microsoft provides a table (<a href=3D"https://docs.microsoft.com/=
-en-Us/windows-server/get-started/windows-server-release-info" target=3D"_bl=
-ank">https://docs.microsoft.com/en-Us/windows-server/get-started/windows-se=
-rver-release-info</a>) only with stable build numbers. So, we exactly don&#=
-39;t know the build number range.</div><div><br></div><div>2. We can read t=
-his string from the registry (HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows
- NT\CurrentVersion). Known implementation issues: ProductName value is loca=
-lized (in a Russian version of Windows, the word &quot;Microsoft&#39; is tr=
-anslated), so we should ignore it. ReleaseId value does not equal to=20
-Windows Server version (for Windows Server 2019, ReleaseId is 1809)</div><d=
-iv><br></div><div>In conclusion, I have the next questions: <br></div><div>=
-What solution we should implement to get the Windows release name?</div><di=
-v>Does someone know how end-users use this information? Should it be Englis=
-h only or it can be localized? Should we have exactly the same output as no=
-w? <br></div><div>What should we do with the &#39;Standard&#39; server edit=
-ion? Currently, the guest agent always returns &#39;Datacenter&#39;.</div><=
-div><br></div><div><div dir=3D"ltr"><div dir=3D"ltr"><div>Best wishes,</div=
-><div>Kostiantyn Kostiuk</div></div></div></div></div></div>
 
---0000000000008ef4cd05cb026d5d--
+Song Gao (21):
+  target/loongarch: Add README
+  target/loongarch: Add core definition
+  target/loongarch: Add main translation routines
+  target/loongarch: Add fixed point arithmetic instruction translation
+  target/loongarch: Add fixed point shift instruction translation
+  target/loongarch: Add fixed point bit instruction translation
+  target/loongarch: Add fixed point load/store instruction translation
+  target/loongarch: Add fixed point atomic instruction translation
+  target/loongarch: Add fixed point extra instruction translation
+  target/loongarch: Add floating point arithmetic instruction
+    translation
+  target/loongarch: Add floating point comparison instruction
+    translation
+  target/loongarch: Add floating point conversion instruction
+    translation
+  target/loongarch: Add floating point move instruction translation
+  target/loongarch: Add floating point load/store instruction
+    translation
+  target/loongarch: Add branch instruction translation
+  target/loongarch: Add disassembler
+  LoongArch Linux User Emulation
+  default-configs: Add loongarch linux-user support
+  target/loongarch: Add target build suport
+  target/loongarch: 'make check-tcg' support
+  scripts: add loongarch64 binfmt config
+
+ MAINTAINERS                                 |    6 +
+ configs/targets/loongarch64-linux-user.mak  |    3 +
+ disas/loongarch.c                           | 2511 +++++++++++++++++++++++++++
+ disas/meson.build                           |    1 +
+ include/disas/dis-asm.h                     |    2 +
+ include/elf.h                               |    2 +
+ linux-user/elfload.c                        |   58 +
+ linux-user/loongarch64/cpu_loop.c           |  108 ++
+ linux-user/loongarch64/signal.c             |  178 ++
+ linux-user/loongarch64/sockbits.h           |    1 +
+ linux-user/loongarch64/syscall_nr.h         |  290 ++++
+ linux-user/loongarch64/target_cpu.h         |   35 +
+ linux-user/loongarch64/target_elf.h         |   14 +
+ linux-user/loongarch64/target_errno_defs.h  |    7 +
+ linux-user/loongarch64/target_fcntl.h       |   12 +
+ linux-user/loongarch64/target_signal.h      |   28 +
+ linux-user/loongarch64/target_structs.h     |   49 +
+ linux-user/loongarch64/target_syscall.h     |   46 +
+ linux-user/loongarch64/termbits.h           |  229 +++
+ linux-user/syscall_defs.h                   |   10 +-
+ meson.build                                 |    1 +
+ scripts/qemu-binfmt-conf.sh                 |    6 +-
+ target/loongarch/README                     |   76 +
+ target/loongarch/cpu-param.h                |   19 +
+ target/loongarch/cpu.c                      |  286 +++
+ target/loongarch/cpu.h                      |  145 ++
+ target/loongarch/fpu_helper.c               |  947 ++++++++++
+ target/loongarch/helper.h                   |  102 ++
+ target/loongarch/insn_trans/trans_arith.c   |  332 ++++
+ target/loongarch/insn_trans/trans_atomic.c  |  134 ++
+ target/loongarch/insn_trans/trans_bit.c     |  269 +++
+ target/loongarch/insn_trans/trans_branch.c  |   84 +
+ target/loongarch/insn_trans/trans_extra.c   |   88 +
+ target/loongarch/insn_trans/trans_farith.c  |   79 +
+ target/loongarch/insn_trans/trans_fcmp.c    |  279 +++
+ target/loongarch/insn_trans/trans_fcnv.c    |   36 +
+ target/loongarch/insn_trans/trans_fmemory.c |  143 ++
+ target/loongarch/insn_trans/trans_fmov.c    |  159 ++
+ target/loongarch/insn_trans/trans_memory.c  |  263 +++
+ target/loongarch/insn_trans/trans_shift.c   |  154 ++
+ target/loongarch/insns.decode               |  480 +++++
+ target/loongarch/internals.h                |   24 +
+ target/loongarch/meson.build                |   18 +
+ target/loongarch/op_helper.c                |   85 +
+ target/loongarch/translate.c                |  309 ++++
+ target/loongarch/translate.h                |   54 +
+ target/meson.build                          |    1 +
+ tests/tcg/configure.sh                      |    1 +
+ 48 files changed, 8159 insertions(+), 5 deletions(-)
+ create mode 100644 configs/targets/loongarch64-linux-user.mak
+ create mode 100644 disas/loongarch.c
+ create mode 100644 linux-user/loongarch64/cpu_loop.c
+ create mode 100644 linux-user/loongarch64/signal.c
+ create mode 100644 linux-user/loongarch64/sockbits.h
+ create mode 100644 linux-user/loongarch64/syscall_nr.h
+ create mode 100644 linux-user/loongarch64/target_cpu.h
+ create mode 100644 linux-user/loongarch64/target_elf.h
+ create mode 100644 linux-user/loongarch64/target_errno_defs.h
+ create mode 100644 linux-user/loongarch64/target_fcntl.h
+ create mode 100644 linux-user/loongarch64/target_signal.h
+ create mode 100644 linux-user/loongarch64/target_structs.h
+ create mode 100644 linux-user/loongarch64/target_syscall.h
+ create mode 100644 linux-user/loongarch64/termbits.h
+ create mode 100644 target/loongarch/README
+ create mode 100644 target/loongarch/cpu-param.h
+ create mode 100644 target/loongarch/cpu.c
+ create mode 100644 target/loongarch/cpu.h
+ create mode 100644 target/loongarch/fpu_helper.c
+ create mode 100644 target/loongarch/helper.h
+ create mode 100644 target/loongarch/insn_trans/trans_arith.c
+ create mode 100644 target/loongarch/insn_trans/trans_atomic.c
+ create mode 100644 target/loongarch/insn_trans/trans_bit.c
+ create mode 100644 target/loongarch/insn_trans/trans_branch.c
+ create mode 100644 target/loongarch/insn_trans/trans_extra.c
+ create mode 100644 target/loongarch/insn_trans/trans_farith.c
+ create mode 100644 target/loongarch/insn_trans/trans_fcmp.c
+ create mode 100644 target/loongarch/insn_trans/trans_fcnv.c
+ create mode 100644 target/loongarch/insn_trans/trans_fmemory.c
+ create mode 100644 target/loongarch/insn_trans/trans_fmov.c
+ create mode 100644 target/loongarch/insn_trans/trans_memory.c
+ create mode 100644 target/loongarch/insn_trans/trans_shift.c
+ create mode 100644 target/loongarch/insns.decode
+ create mode 100644 target/loongarch/internals.h
+ create mode 100644 target/loongarch/meson.build
+ create mode 100644 target/loongarch/op_helper.c
+ create mode 100644 target/loongarch/translate.c
+ create mode 100644 target/loongarch/translate.h
+
+-- 
+1.8.3.1
+
 
