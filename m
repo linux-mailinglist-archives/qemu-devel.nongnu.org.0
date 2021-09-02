@@ -2,77 +2,140 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E17263FEB20
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 11:21:51 +0200 (CEST)
-Received: from localhost ([::1]:54306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 589623FEB55
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 11:30:57 +0200 (CEST)
+Received: from localhost ([::1]:59268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLiur-0001b4-Mj
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 05:21:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50770)
+	id 1mLj3f-0005BF-UF
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 05:30:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mLitv-0000oR-GB
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:20:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40188)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mLj1k-0004L8-PT; Thu, 02 Sep 2021 05:28:56 -0400
+Received: from mail-am6eur05on2099.outbound.protection.outlook.com
+ ([40.107.22.99]:22305 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mLits-0008VZ-0J
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:20:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630574446;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5lkbW3TADK/i/niaC6Ob18IaT6y+gN0RwnotWDANRMc=;
- b=JNAfjQdW1HbiD+uFB20Cb2I8xP2X+zdXKRwelEa4k2gFNL+sUtqlhRzf/uVgZAi+QQbgP7
- ny30b2TMnLSVcRcm0us8NN83J7i1p1QJulm2KVBedMh+bp+kyMW8u9NtE76h1x2xqzn4pl
- 5/WsCDxeTPd1uIcWZVPs0r0L4/7/0WA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-207-kG_lGUbfOJ-nTPP1ntIjqw-1; Thu, 02 Sep 2021 05:20:45 -0400
-X-MC-Unique: kG_lGUbfOJ-nTPP1ntIjqw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A795110866A4;
- Thu,  2 Sep 2021 09:20:43 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.141])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A73373DA0;
- Thu,  2 Sep 2021 09:20:12 +0000 (UTC)
-Date: Thu, 2 Sep 2021 10:20:10 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Leonardo Bras Soares Passos <leobras@redhat.com>
-Subject: Re: [PATCH v1 3/3] migration: multifd: Enable zerocopy
-Message-ID: <YTCXSoETM7UfeMQE@redhat.com>
-References: <20210831110238.299458-1-leobras@redhat.com>
- <20210831110238.299458-4-leobras@redhat.com>
- <YS4rulGV9eueB04H@redhat.com>
- <CAJ6HWG5cH_33GDTo_v=8zZDZMJNf4k5+Y79Pt1A_7LmxXBx9bQ@mail.gmail.com>
- <YTCJRSue5NQ8qzPn@redhat.com>
- <CAJ6HWG45Xb2uc3OdJctL7SFxmrH0ZhDwQMBDAmS1TuDgiCrCMA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1mLj1h-0006nm-UM; Thu, 02 Sep 2021 05:28:55 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VdzfVlmCtLatfGtHUOhxfNd3dz+/mA7a1SC4oSleDfR/fPZdf0pe7b07cYS5coVn/Y16gAsMyiiXXTeudRN/6zciIRc6kdDoPOZjlpUlwAVMYyCrhL6eyVUVI6vr8ihWzgqXtBwW1nvFUnGpPimRDxtuVq4SaduBlN9e3RIQAB/SlKzSDkmlv5DvIjA9NlfSz7ORXCQSUGph7zOOE6WC24YTJHyZwkT/6ovxK6RPwb2wmsbjIO5b+byTDc7mVVqJ1Pf1yTUkIQrLoXOk0zfd7SVcLpkhb/3ichgXV8OLVs+rbUDbKTz8HZiNqu8h7/KUbR+ghMbnbIZwCoTPff+rwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=E7kkx5ezq0KuXiUiqmHPc7ewZEBQkIHaElc7ejx7g00=;
+ b=Ey1aqlxBwr/i6gg9w4nD5+b4czzuN+1Erj3Pi3GT4n4wNmRoHW4xEboHWgTZ3yNZYdSXmkn5IB9rtHVwGP9nOVq7phpZdbMAiR174DoGQQdSDGOV93Jaw/J8qNKDMg/InV3vEPjwDo6DEKOFPTKDAOuLBFk1UI8cdFoQYK44Jwl757FCAb0eGbTn1x4n7yDjXU0xYephLcqOQvY6y1Qfo24/GmHHZnN+dIgc+eJ4/Y5+OC/6ScDqC1e3cZo9pd5yW8jb/ZIN9C2RobM9YeS70GnTZkdQc9uGkWVJx97U9LvBWDcYe8NL1fTFSISoJn/npclQm7B+TAEtL8BnfF0HpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=E7kkx5ezq0KuXiUiqmHPc7ewZEBQkIHaElc7ejx7g00=;
+ b=gRACNBXU71258lhkL868gms+CZ1HfJRB2ZE7RxziLXaqKSM10/3d54zUcmFEWd5npZROVvtMZOxw8p8CDkw9vk/9lYFLLgOLeE7ygdHluRJC+O1/FwMUsVu2ExtCH55nfkxOsJ8ZsDRS/rIddnNJeXY+DNVOv8w4oW6DJItwlH0=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM7PR08MB5335.eurprd08.prod.outlook.com (2603:10a6:20b:101::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.21; Thu, 2 Sep
+ 2021 09:28:50 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::2817:53b3:f8b4:fe22%8]) with mapi id 15.20.4478.019; Thu, 2 Sep 2021
+ 09:28:50 +0000
+Subject: Re: [PATCH RFC 0/8] blockdev-replace
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, ehabkost@redhat.com, berrange@redhat.com,
+ pbonzini@redhat.com, armbru@redhat.com, eblake@redhat.com,
+ mreitz@redhat.com, kwolf@redhat.com, den@openvz.org,
+ nshirokovskiy@virtuozzo.com, yur@virtuozzo.com, dim@virtuozzo.com,
+ igor@virtuozzo.com, pkrempa@redhat.com, libvir-list@redhat.com,
+ stefanha@redhat.com
+References: <20210802185416.50877-1-vsementsov@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <96926fb9-0d5b-a7fb-87b1-764073d46521@virtuozzo.com>
+Date: Thu, 2 Sep 2021 12:28:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <20210802185416.50877-1-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM8P190CA0007.EURP190.PROD.OUTLOOK.COM
+ (2603:10a6:20b:219::12) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <CAJ6HWG45Xb2uc3OdJctL7SFxmrH0ZhDwQMBDAmS1TuDgiCrCMA@mail.gmail.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.196) by
+ AM8P190CA0007.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:219::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4478.19 via Frontend Transport; Thu, 2 Sep 2021 09:28:48 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 666a4024-7b7b-4bb4-8564-08d96df4125c
+X-MS-TrafficTypeDiagnostic: AM7PR08MB5335:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5335DC6CE4850EA3C8FD9AC4C1CE9@AM7PR08MB5335.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 26D8Ut8vux0LV7IV2ffki85Is2iKp54s3COMZpdIOhZBnnS2nk9WEltIcUN348lgZiWI5usQ1fYka/3fo/6gzjZLIK1w82VUIzf61ZRcKWpEuw4gCalMxszm5V+GxH51Gjc1LRfwXz80h/I7oPlHdB/+Ji5+EMERIFTvsQZ7nB5c+rpWgmdmXkH+9NMybjmJ9YK44Cz024F3uu5HqANX14A1j+OU898y99I4mCLuxlkqbT6VzoY53T3tAvVNRFnCzKo1N3GGmNdrtloYRWCFp4JGwKhdccCIm7EbGPkrB2VuGw+V7Fv6upwuUm9pLx2hg2qWmsIzH/kJLGIv67C+vgLXPoBvEhdSYs0HflOQAZrZEZRr444UxdRHQ9qcDHMIo0l7KFweLB+GpM9wNFYDxRs58dRsjgjrdRb9P4q25/nta6ySTldga5MNFqBeQsPo5wnCt7myZMYtjDou6p5R2990pxtb8ntmB68l3Fpm3DoWRwL9YDH1Nw/1kG+sZIIrpny9gt0/ZULJQV88S8pVfZBQB49ntt/tnXxPJ1cGI6dxcjw3sUxBH3oYKRVEUrFUXeb+HTORBxlPaln0xdqIy6fP54L27d4rBISbuC1deoDax5yZ/8oQNXSAEoN+V9A5ZH3YvBWVj2NV6GpgPXP9uUW186+4iyWlZ5q0DhH54bDSw3i1Y5rNr5srJGZS3Gix4hL4AxV8uNOFf5sn9y4OejnIF66uLBb8wwwuexfLibLGbz2bju5eZdZBx9j0mCit44xLSpjegmHmMsawcEgpHg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39850400004)(136003)(396003)(376002)(366004)(346002)(31696002)(2906002)(6486002)(86362001)(36756003)(66476007)(66946007)(8676002)(66556008)(26005)(6916009)(2616005)(956004)(7416002)(316002)(5660300002)(52116002)(16576012)(8936002)(83380400001)(4326008)(31686004)(478600001)(186003)(38350700002)(38100700002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QVZsK05LN2laNTJtQW9LMWRoSlVKaU91MWJKVkgxblIvTkxSK09sOElzSHpJ?=
+ =?utf-8?B?UmhVR2tMUS91U1VBY3drb0hzV1FlNXNIYjVramxJeUV5RlQ4ZDB4Tml2U3hY?=
+ =?utf-8?B?QiszMkthSjBNU2pVTFg4Y2I5bUtHRGxOM2hpNWppQlVSLzQwZGlIT2ppVkox?=
+ =?utf-8?B?V2FBYnpYRWpJVk5oeFdmR1RPQUpxTjR0SGZ3eUljSzhNMzcyTUpEVXhscUxD?=
+ =?utf-8?B?SU9yTTEzV3ZSSTl4ZCt3aXh0ZDNnNjdxWkFKSDdHd0ZESXQ3ays0YTZ5bUFr?=
+ =?utf-8?B?ZFFpRDkvRGZuVmhodkJZNDhKVkdNNDZtRjRiajJCRVJ2d1Zzb3dvd1E5TGtY?=
+ =?utf-8?B?dm1XSWRZY3NIdWd0VkZBM3VlWS8yVUJIZXRqSnZuU001WVUzVXBLR0FVM0Z0?=
+ =?utf-8?B?RldlK1hGRDFSaS9WVjVWR3VlZzBIZHNhaE1KOXBzeElpVTd0MmIrcU1tU1Nn?=
+ =?utf-8?B?MjI5UVhIL1lOVGxaZ3RwblVlTHJYUDhoZ05wMWUwNHRiTWhWb0NtL2tVTk41?=
+ =?utf-8?B?RGFQQXBMRmNGOGJQck1MVGpIbE9YUytoelJPMjdJWTVWdkNUNXNubER5d2NE?=
+ =?utf-8?B?THZOcm5idG54WDlXQUpyeTdTeXBFNzdlWU9palRsT1NFNGt2MzZsZi9Nb2s0?=
+ =?utf-8?B?bU1rNlAxcWg1Zm1aeU9ZR3l1L1hRZlVlTk94MmhKNHE5M1ZrNjkwUVNxNHJo?=
+ =?utf-8?B?dnRIRXFMbElsQ0c2Ty9MbmhMb0lJSkVGYXNHREVpd0dQdkFsYXRwdFphYVdB?=
+ =?utf-8?B?TjFCZzVuVDk0Qm93b0RjWmQ1dzllOG80TURScTdvUFYvdW5ZakJPKzk3SHFz?=
+ =?utf-8?B?RjREV2xxTmZIMEdKWXEzMEx5UDJrUGxHZitTZFNBT01wQ2dDSmxaT1BQd1hE?=
+ =?utf-8?B?cytCVlc5OTZHb2UzaWxqM0RwY0E5Z04xNVV1NE5nVmdwQzlGZEFrcFhzekJ1?=
+ =?utf-8?B?aWdCYWNRV2lHaUxWK29EbUFUNE5aeXpLb20xV1VtbmNQZW1jakdoNVlPaG4w?=
+ =?utf-8?B?d0VnK2RrSTRndGgyaW44MVVrSVRtR011dHR3OUhzMU1NaUttR0RBSjFWOGxJ?=
+ =?utf-8?B?aTA2UDRiNlV1NlBKc21GVmMrdmNYN1hTNDhPQ1lSQlpRUTJXMEFFTFhRazVL?=
+ =?utf-8?B?NkhuN1pJeHQ4aUhQaEhIYzlYYVpidnJYMWRXOXgrM05uNC9URFkxZWxDQk9R?=
+ =?utf-8?B?RlZBbDh5b1dGQUtaTzg2SHA1TXl2N2xRcE5CbGZ6OGJzN3dMOWdpT255YmtF?=
+ =?utf-8?B?SE11L2twUy9Oa3dNa3JONnM1L1pQazFXT0w3M3Y4V0RBZkJXTG9yL1FqaGpS?=
+ =?utf-8?B?ZlczM3lWNjdidWhVbStTckF2Q3J1eWZBZWd5clJUN3dIamJsOHRZYXI5S3Ay?=
+ =?utf-8?B?UlduelduNHlUTTJLRzdzS2NkbzZycVpaTjlBZnBBKzF6aE5MNmszV3RDa3VE?=
+ =?utf-8?B?VW5SRmw4c29oODlUdTRpcXFBRHZVcUR4ajhOV2g2ZlNVTHcvOE54cEZSWjZQ?=
+ =?utf-8?B?UTZyL2t3Mzh0QXluZ3lGR0tUTmdkWmI5WFJCZGFnMEZoamcvVmYzZ3hvOVBI?=
+ =?utf-8?B?LzJFWldmemJQbXlBWk56cW9MR2VXT21VeXJRc0E5QXF6QjJRMHVWa2tSTFNW?=
+ =?utf-8?B?aTdpMFYreVlROXE3WTV4RHBUVGx5RHZxWDR5cGc4RGF3RjZRSVRZcjlsNXRw?=
+ =?utf-8?B?UWQ1UkNTL0xwYkJiTDkzQ1pSeGlnSUFNb1ZLZ0w4ekpnaVJVeWh4UWswSXBH?=
+ =?utf-8?Q?neuiBo4mykPn1ZQrZe0jQ/pmYOmlDWHBXQwddlJ?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 666a4024-7b7b-4bb4-8564-08d96df4125c
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2021 09:28:49.9665 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tBgNtyt5GxP40rjp4mEbVt2F/06/joF7RAAx8Q+QNXPszMlSnsZVBkMk1hoYkM4+czEwrY5ifSh83mFZvYoHU5VhQVBxvGqOtRjTn0HCQG0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5335
+Received-SPF: pass client-ip=40.107.22.99;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-1.029, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,162 +149,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 02, 2021 at 05:52:15AM -0300, Leonardo Bras Soares Passos wrote:
-> On Thu, Sep 2, 2021 at 5:21 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > On Thu, Sep 02, 2021 at 04:22:55AM -0300, Leonardo Bras Soares Passos wrote:
-> > > Hello Daniel, thanks for the feedback !
-> > >
-> > > On Tue, Aug 31, 2021 at 10:17 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > > >
-> > > > On Tue, Aug 31, 2021 at 08:02:39AM -0300, Leonardo Bras wrote:
-> > > > > Call qio_channel_set_zerocopy(true) in the start of every multifd thread.
-> > > > >
-> > > > > Change the send_write() interface of multifd, allowing it to pass down
-> > > > > flags for qio_channel_write*().
-> > > > >
-> > > > > Pass down MSG_ZEROCOPY flag for sending memory pages, while keeping the
-> > > > > other data being sent at the default copying approach.
-> > > > >
-> > > > > Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> > > > > ---
-> > > > >  migration/multifd-zlib.c | 7 ++++---
-> > > > >  migration/multifd-zstd.c | 7 ++++---
-> > > > >  migration/multifd.c      | 9 ++++++---
-> > > > >  migration/multifd.h      | 3 ++-
-> > > > >  4 files changed, 16 insertions(+), 10 deletions(-)
-> > > >
-> > > > > @@ -675,7 +676,8 @@ static void *multifd_send_thread(void *opaque)
-> > > > >              }
-> > > > >
-> > > > >              if (used) {
-> > > > > -                ret = multifd_send_state->ops->send_write(p, used, &local_err);
-> > > > > +                ret = multifd_send_state->ops->send_write(p, used, MSG_ZEROCOPY,
-> > > > > +                                                          &local_err);
-> > > >
-> > > > I don't think it is valid to unconditionally enable this feature due to the
-> > > > resource usage implications
-> > > >
-> > > > https://www.kernel.org/doc/html/v5.4/networking/msg_zerocopy.html
-> > > >
-> > > >   "A zerocopy failure will return -1 with errno ENOBUFS. This happens
-> > > >    if the socket option was not set, the socket exceeds its optmem
-> > > >    limit or the user exceeds its ulimit on locked pages."
-> > >
-> > > You are correct, I unfortunately missed this part in the docs :(
-> > >
-> > > > The limit on locked pages is something that looks very likely to be
-> > > > exceeded unless you happen to be running a QEMU config that already
-> > > > implies locked memory (eg PCI assignment)
-> > >
-> > > Do you mean the limit an user has on locking memory?
-> >
-> > Yes, by default limit QEMU sees will be something very small.
-> >
-> > > If so, that makes sense. I remember I needed to set the upper limit of locked
-> > > memory for the user before using it, or adding a capability to qemu before.
-> > >
-> > > Maybe an option would be trying to mlock all guest memory before setting
-> > > zerocopy=on in qemu code. If it fails, we can print an error message and fall
-> > > back to not using zerocopy (following the idea of a new io_async_writev()
-> > > I told you in the previous mail).
-> >
-> > Currently ability to lock memory is something that has to be configured
-> > when QEMU starts, and it requires libvirt to grant suitable permissions
-> > to QEMU. Memory locking is generally undesirable because it prevents
-> > memory overcommit. Or rather if you are allowing memory overcommit, then
-> > allowing memory locking is a way to kill your entire host.
+ping
+
+02.08.2021 21:54, Vladimir Sementsov-Ogievskiy wrote:
+> Hi all!
 > 
-> You mean it's gonna consume too much memory, or something else?
-
-Essentially yes. 
-
-> > I don't think we can unconditionally grant ability to lock arbitrary
-> > guest RAM at startup, just to satisfy a possible desire to use zerocopy
-> > migration later. Granting it at runtime feels questionable as you now
-> > need to track and predict how much locked memory you've allowed, and
-> > also have possible problems with revokation.
+> As a continuation of "Qemu block filter insertion/removal API"
+> discussion, here is my proposal of blockdev-replace.
 > 
-> (I am really new to this, so please forgive me if I am asking dumb or
-> overly basic questions)
+> The realization allows:
 > 
-> What does revokation means in this context?
-> You give the process hability to lock n MB of memory, and then you take it?
-> Why would that happen? Is Locked memory a limited resource?
-
-Consider a VM host with 64 GB of RAM and 64 GB of swap, and an
-overcommit ratio of 1.5. ie we'll run VMs with 64*1.5 GB of RAM
-total.
-
-So we can run 3 VMs each with 32 GB of RAM, giving 96 GB of usage
-which exceeds physical RAM. Most of the time this may well be fine
-as the VMs don't concurrently need their full RAM allocation, and
-worst case they'll get pushed to swap as the kernel re-shares
-memory in respose to load. So perhaps each VM only needs 20 GB
-resident at any time, but over time one VM can burst upto 32 GB
-and then 12 GB of it get swapped out later when inactive.
-
-But now consider if we allowed 2 of the VMs to lock memory for
-purposes of migration. Those 2 VMs can now pin 64 GB of memory
-in the worst case, leaving no free memory for the 3rd VM or
-for the OS. This will likely take down the entire host, regardless
-of swap availability.
-
-IOW, if you are overcomitting RAM you have to be extremely
-careful about allowing any VM to lock memory. If you do decide
-to allow memory locking, you need to make sure that the worst
-case locked memory amount still leaves enough unlocked memory
-for the OS to be able to effectively manage the overcommit
-load via swap.  We definitely can't grant memory locking to
-VMs at startup in this scenario, and if we grant it at runtime,
-we need to be able to revoke it again later.
-
-These overcommit numbers are a bit more extreme that you'd 
-usually do in real world, but it illustrates the genreal
-problem. Also bear in mind that QEMU has memory overhead
-beyond the guest RAM block, which varies over time, making
-accounting quite hard. We have to also assume that QEMU
-could have been compromised by a guest breakout, so we
-can't assume that migration will play nice - we have to
-assume the worst case possible, given the process ulimits.
-
-
-> > Overall the memory locking needs look like a significant constraint that
-> > will affect ability to use this feature.
-> >
+> - replace children of different parents: BDS, block devices, block
+>    exports
 > 
-> I Agree, there is a lot to take in account.
-> In any way, those constraints could be checked at the same function as
-> the setsockopt() right?
+> - automatically replace all parents of specific BDS, excluding creating
+>    loops (like bdrv_replace_node())
+> 
+> - do several replacements in one transaction
+> 
+> It's an untested draft, so you may go to patch 8, to look at QAPI
+> addition.
+> 
+> Vladimir Sementsov-Ogievskiy (8):
+>    block-backend: blk_root(): drop const specifier on return type
+>    block: add BlockParentClass class
+>    block: realize BlockParentClass for BlockDriverState
+>    block/export: realize BlockParentClass functionality
+>    qdev: improve find_device_state() to distinguish simple not found case
+>    qdev: realize BlockParentClass
+>    block: improve bdrv_replace_node_noperm()
+>    qapi: add blockdev-replace command
+> 
+>   qapi/block-core.json           |  78 ++++++++++++++++
+>   include/block/block-parent.h   |  32 +++++++
+>   include/sysemu/block-backend.h |   2 +-
+>   block.c                        | 158 ++++++++++++++++++++++++++++++++-
+>   block/block-backend.c          |   2 +-
+>   block/block-parent.c           |  66 ++++++++++++++
+>   block/export/export.c          |  44 +++++++++
+>   softmmu/qdev-monitor.c         |  90 +++++++++++++++----
+>   block/meson.build              |   1 +
+>   9 files changed, 453 insertions(+), 20 deletions(-)
+>   create mode 100644 include/block/block-parent.h
+>   create mode 100644 block/block-parent.c
+> 
 
-QEMU could possibly check its ulimits to see if it is possible, but it
-would be safer to require a migration capability to be explicitly set
-by the mgmt app to opt-in to zerocopy.
 
-> (Setting up configs to improve the chance of zerocopy would probably only
-> happen at/before qemu starting, right?)
-
-Usually, but you can change ulimits on the fly for a process. I'm just
-not sure of semantics if you reduce limits and existing usage exceeds
-the reduced value.
-
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Best regards,
+Vladimir
 
