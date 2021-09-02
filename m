@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CFA53FEC1E
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 12:27:43 +0200 (CEST)
-Received: from localhost ([::1]:59382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF84C3FEC2F
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 12:32:59 +0200 (CEST)
+Received: from localhost ([::1]:47330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLjwc-0005W4-35
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 06:27:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34666)
+	id 1mLk1j-0000Ge-0g
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 06:32:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mLjrg-0005ja-3r
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 06:22:36 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57638
+ id 1mLjrl-0005y3-E0
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 06:22:41 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:57644
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mLjrd-0001Rr-Jh
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 06:22:34 -0400
+ id 1mLjrh-0001Vc-Vr
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 06:22:41 -0400
 Received: from host86-133-17-27.range86-133.btcentralplus.com ([86.133.17.27]
  helo=kentang.home) by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mLjrC-0000t5-MI; Thu, 02 Sep 2021 11:22:11 +0100
+ id 1mLjrH-0000t5-UQ; Thu, 02 Sep 2021 11:22:16 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Thu,  2 Sep 2021 11:21:59 +0100
-Message-Id: <20210902102205.7554-4-mark.cave-ayland@ilande.co.uk>
+Date: Thu,  2 Sep 2021 11:22:00 +0100
+Message-Id: <20210902102205.7554-5-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210902102205.7554-1-mark.cave-ayland@ilande.co.uk>
 References: <20210902102205.7554-1-mark.cave-ayland@ilande.co.uk>
@@ -37,17 +37,17 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.133.17.27
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 3/9] escc: introduce escc_soft_reset_chn() for software
+Subject: [PATCH v2 4/9] escc: introduce escc_hard_reset_chn() for hardware
  reset
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
  envelope-from=mark.cave-ayland@ilande.co.uk;
  helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,24 +64,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This new software reset function is to be called when the appropriate channel
-software reset bit is written to register WR9. Its initial implementation is
+This new hardware reset function is to be called for both channels when the
+hardware reset bit is written to register WR9. Its initial implementation is
 the same as the existing escc_reset_chn() function used for device reset.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/char/escc.c | 38 ++++++++++++++++++++++++++++++++++++--
- 1 file changed, 36 insertions(+), 2 deletions(-)
+ hw/char/escc.c | 37 ++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 36 insertions(+), 1 deletion(-)
 
 diff --git a/hw/char/escc.c b/hw/char/escc.c
-index b0d3b92dc1..935ec1aef6 100644
+index 935ec1aef6..691086d97d 100644
 --- a/hw/char/escc.c
 +++ b/hw/char/escc.c
-@@ -297,6 +297,40 @@ static void escc_reset_chn(ESCCChannelState *s)
+@@ -331,6 +331,40 @@ static void escc_soft_reset_chn(ESCCChannelState *s)
      clear_queue(s);
  }
  
-+static void escc_soft_reset_chn(ESCCChannelState *s)
++static void escc_hard_reset_chn(ESCCChannelState *s)
 +{
 +    int i;
 +
@@ -118,19 +118,16 @@ index b0d3b92dc1..935ec1aef6 100644
  static void escc_reset(DeviceState *d)
  {
      ESCCState *s = ESCC(d);
-@@ -547,10 +581,10 @@ static void escc_mem_write(void *opaque, hwaddr addr,
-             default:
-                 break;
-             case MINTR_RST_B:
--                escc_reset_chn(&serial->chn[0]);
-+                escc_soft_reset_chn(&serial->chn[0]);
-                 return;
-             case MINTR_RST_A:
--                escc_reset_chn(&serial->chn[1]);
-+                escc_soft_reset_chn(&serial->chn[1]);
+@@ -587,7 +621,8 @@ static void escc_mem_write(void *opaque, hwaddr addr,
+                 escc_soft_reset_chn(&serial->chn[1]);
                  return;
              case MINTR_RST_ALL:
-                 escc_reset(DEVICE(serial));
+-                escc_reset(DEVICE(serial));
++                escc_hard_reset_chn(&serial->chn[0]);
++                escc_hard_reset_chn(&serial->chn[1]);
+                 return;
+             }
+             break;
 -- 
 2.20.1
 
