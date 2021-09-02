@@ -2,45 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3960D3FEDAE
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 14:21:21 +0200 (CEST)
-Received: from localhost ([::1]:51104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE01E3FEDB6
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 14:24:03 +0200 (CEST)
+Received: from localhost ([::1]:58264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLlia-0001nQ-0G
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 08:21:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52762)
+	id 1mLllD-0006cV-0z
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 08:24:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <97b1d8fdf6c923203968f44805e25dc92b11a317@lizzy.crudebyte.com>)
- id 1mLlFz-0001Fu-QV
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 07:51:47 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:51075)
+ (envelope-from <869605b5a076e231ae36c54866f348b9bdf18f76@lizzy.crudebyte.com>)
+ id 1mLlG1-0001Jd-0L
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 07:51:49 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:42771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <97b1d8fdf6c923203968f44805e25dc92b11a317@lizzy.crudebyte.com>)
- id 1mLlFs-0006rE-Sf
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 07:51:47 -0400
+ (envelope-from <869605b5a076e231ae36c54866f348b9bdf18f76@lizzy.crudebyte.com>)
+ id 1mLlFz-0006rN-Jy
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 07:51:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=huvXyPhyEyRe/ipDmgg8quhEL+BftkN51cGEvm9v/o4=; b=LI6Fw
- ED8ehxO8CF1t4eLraVU4AMmflOIjQW1xigmnCdQRSA33kQdC2mLe+gVYmcWIhjFvjTuv8koAA91y2
- Bn17or/zgiU8ahcI+q1ynkIeavLPhYFtG8U8THTYLRoY/iOKvJP+wrJ7rsZ1U/rU2EH1nXehQyzI6
- L7ytA+JSoa03s7TjrnZwWBlh551VnXrEhosa8ctJeGN9mNziUnE0y+J81hUJM3wH+e+W+zd2952kd
- mg9M+ScfyQyrfUlMzXXLwzNRIiVIKv98QK1RX+7nNoY2VL4T6x1bYvn84te1DMrltmgonufF15FXC
- rx/gTEbhpz5KZLKo5JwvkBaiTEjxA==;
-Message-Id: <97b1d8fdf6c923203968f44805e25dc92b11a317.1630582967.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Subject:Date:From:References:In-Reply-To:Message-Id:Content-ID:
+ Content-Description; bh=vpZWw6ZlQwcnUcbRmtdHMKDNn5le3pMtNva+I+AC6Jo=; b=ibZK/
+ lZ/snVynIi5VNbX8BH5wGBZiGmWYfkjJE6OmO+s2z88w8HFHr0UPTQHFK9E1swcWplSET+3B/Im0E
+ Sz7nNSmNQYCnrZf36DM4zk9wNUukfSkkgDn3xHVkLjVItU747YS86V3c+xnn99o/H5qDSlnGVfHum
+ to4DjnUooBe0qLrKaKi8MTjDymNEMncMyWvYa9fXKHJR7sRas9yCHc3zi/6JumZXwhlVKYnykg5N4
+ rRBk9kR5NhL57z01BGR4vl0un0D8FJGToFWppf86WYCmzvHxReT+dULAhp83MXklBY0uRBqjmIFQ0
+ 7+drEAd4X8gKsXaElZZhaEvnd7EDQ==;
+Message-Id: <869605b5a076e231ae36c54866f348b9bdf18f76.1630582967.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1630582967.git.qemu_oss@crudebyte.com>
 References: <cover.1630582967.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Thu, 02 Sep 2021 13:42:47 +0200
-Subject: [PULL 1/3] hw/9pfs: avoid 'path' copy in v9fs_walk()
+Subject: [PULL 2/3] hw/9pfs: use g_autofree in v9fs_walk() where possible
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=97b1d8fdf6c923203968f44805e25dc92b11a317@lizzy.crudebyte.com;
+ envelope-from=869605b5a076e231ae36c54866f348b9bdf18f76@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -63,60 +66,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The v9fs_walk() function resolves all client submitted path nodes to the
-local 'pathes' array. Using a separate string scalar variable 'path'
-inside the background worker thread loop and copying that local 'path'
-string scalar variable subsequently to the 'pathes' array (at the end of
-each loop iteration) is not necessary.
-
-Instead simply resolve each path directly to the 'pathes' array and
-don't use the string scalar variable 'path' inside the fs worker thread
-loop at all.
-
-The only advantage of the 'path' scalar was that in case of an error
-the respective 'pathes' element would not be filled. Right now this is
-not an issue as the v9fs_walk() function returns as soon as any error
-occurs.
-
 Suggested-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <7dacbecf25b2c9b4a0ce12d689a8a535f09a31e3.1629208359.git.qemu_oss@crudebyte.com>
+Message-Id: <b51670d2a39399535a035f6bc77c3cbeed85edae.1629208359.git.qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/9pfs/9p.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 2815257f42..4d642ab12a 100644
+index 4d642ab12a..c857b31321 100644
 --- a/hw/9pfs/9p.c
 +++ b/hw/9pfs/9p.c
-@@ -1787,7 +1787,8 @@ static void coroutine_fn v9fs_walk(void *opaque)
-                 strcmp("..", wnames[name_idx].data))
-             {
-                 err = s->ops->name_to_path(&s->ctx, &dpath,
--                                        wnames[name_idx].data, &path);
-+                                           wnames[name_idx].data,
-+                                           &pathes[name_idx]);
-                 if (err < 0) {
-                     err = -errno;
-                     break;
-@@ -1796,14 +1797,13 @@ static void coroutine_fn v9fs_walk(void *opaque)
-                     err = -EINTR;
-                     break;
-                 }
--                err = s->ops->lstat(&s->ctx, &path, &stbuf);
-+                err = s->ops->lstat(&s->ctx, &pathes[name_idx], &stbuf);
-                 if (err < 0) {
-                     err = -errno;
-                     break;
-                 }
-                 stbufs[name_idx] = stbuf;
--                v9fs_path_copy(&dpath, &path);
--                v9fs_path_copy(&pathes[name_idx], &path);
-+                v9fs_path_copy(&dpath, &pathes[name_idx]);
-             }
+@@ -1703,11 +1703,12 @@ static bool same_stat_id(const struct stat *a, const struct stat *b)
+ static void coroutine_fn v9fs_walk(void *opaque)
+ {
+     int name_idx;
+-    V9fsQID *qids = NULL;
++    g_autofree V9fsQID *qids = NULL;
+     int i, err = 0;
+     V9fsPath dpath, path, *pathes = NULL;
+     uint16_t nwnames;
+-    struct stat stbuf, fidst, *stbufs = NULL;
++    struct stat stbuf, fidst;
++    g_autofree struct stat *stbufs = NULL;
+     size_t offset = 7;
+     int32_t fid, newfid;
+     V9fsString *wnames = NULL;
+@@ -1872,8 +1873,6 @@ out_nofid:
+             v9fs_path_free(&pathes[name_idx]);
          }
-     });
+         g_free(wnames);
+-        g_free(qids);
+-        g_free(stbufs);
+         g_free(pathes);
+     }
+ }
 -- 
 2.20.1
 
