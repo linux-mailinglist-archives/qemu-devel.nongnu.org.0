@@ -2,62 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B26BD3FEB9A
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 11:53:20 +0200 (CEST)
-Received: from localhost ([::1]:54114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 526BB3FEB9B
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 11:54:49 +0200 (CEST)
+Received: from localhost ([::1]:56528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLjPL-0006uN-Ri
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 05:53:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56262)
+	id 1mLjQm-00004z-DK
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 05:54:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mLjIh-0006OQ-EZ
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:46:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36244)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1mLjLL-0001wT-VA
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:49:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50568)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mLjIe-0004ZN-Lz
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:46:27 -0400
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1mLjLJ-0006mQ-Rr
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:49:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630575984;
+ s=mimecast20190719; t=1630576147;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vqf6YJK41I9hsdt1ZGLXngnfr0RWByRwTCE2raw2NEg=;
- b=Y2t2YKYD8hVtKP9a39pzasH8IVApXKi01IpqDdTGOxe970RhqtKPPbO/t9OWTLdT/NJ6GX
- UImLruldEfWof6Lte2OxL1OKV/17bstqSeqIKR9DorIDabg6dBbXFGOlEwgATbkI1nPMLF
- r5xHAffxrido8LtcAaYA+HKumrmgwvg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-TRG6WUn0MnaIcLvNPvxijA-1; Thu, 02 Sep 2021 05:46:22 -0400
-X-MC-Unique: TRG6WUn0MnaIcLvNPvxijA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BF4984A5E4;
- Thu,  2 Sep 2021 09:46:21 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C95255DEB8;
- Thu,  2 Sep 2021 09:46:16 +0000 (UTC)
-Date: Thu, 2 Sep 2021 10:46:15 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3 00/11] block/nvme: Rework error reporting
-Message-ID: <YTCdZ59BmlyIKip0@stefanha-x1.localdomain>
-References: <20210902070025.197072-1-philmd@redhat.com>
+ bh=XYKR0QCT+xyLYJouFIh61OgGuM1goY5Mu5WjCxkoSAQ=;
+ b=VfbSasyndQMd345GE7i0NIBxz6F/WZ0DAG9dCWsoOOZ+xAiNYYeMZfSILz37PA6pwnkIc/
+ X3YHRMfToKickRWwKPAE1/SngbDeOP/nyarcQhJKsFy18vd0nyP13KI0F9MM0aDGK28L8n
+ soalEJviz2N9eNm5uddswripfzGmzW0=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-251--K9aUMb4PdeSTUZbc17M7A-1; Thu, 02 Sep 2021 05:48:56 -0400
+X-MC-Unique: -K9aUMb4PdeSTUZbc17M7A-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ v2-20020a2e2f02000000b001dc7ee2a7b8so427970ljv.20
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 02:48:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=XYKR0QCT+xyLYJouFIh61OgGuM1goY5Mu5WjCxkoSAQ=;
+ b=mMYPCzOt0cyK0a2InETiHQo/ft3KJAKlY0zIXK3SWy8hmTXNiTxyWXmcz6nCQulz0l
+ VX7ZnBG60fGrB9+lJeKFU+IskvM/tBumNihxYbxw6J3WqiZj9DXuEl1nGlNKVd4z910T
+ RHHxFlozOHxZuDaK0M8NNv5xTS2gNL2s/wBcmCXL2nZllaWrFzS4FypYYSFjW3cgtG4d
+ jUogMA7DrD+1+iSdcplG4m0kutkO+u4iVfPG2u+iiMztINN7YB7tITiPZZNPQSBt5B2N
+ wRLtdngO4isNobqIxujx8XQHtQaE+0nzOcrDB6pzzXzp+QBNqabURx4aHj5KNiCROl7l
+ VZ0Q==
+X-Gm-Message-State: AOAM533QwfpfLn6o9JBHE0AuAhaT06SbseJpRK6Zd+3UzF/lwRT8hPoL
+ eor8Z4R62Ty7H+dUO9wNALvyrje2vOqtMzw2bnbEJo8IJc/Kz3flghCuSKKvRjmpO33+RRYFEtu
+ omiikmTvSTE1L2E3F8wimJcpWop+rPsg=
+X-Received: by 2002:ac2:46fb:: with SMTP id q27mr1990514lfo.595.1630576135331; 
+ Thu, 02 Sep 2021 02:48:55 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzbbNknCMsR4siHPmQ8C2gi3ADYySthntyMd/FPU2xNC11UJ2GwPjW//+qCJXsai9mZjo7iEW+kK53/lDD5V5c=
+X-Received: by 2002:ac2:46fb:: with SMTP id q27mr1990488lfo.595.1630576134968; 
+ Thu, 02 Sep 2021 02:48:54 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210902070025.197072-1-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <20210831110238.299458-1-leobras@redhat.com>
+ <20210831110238.299458-4-leobras@redhat.com>
+ <YS4rulGV9eueB04H@redhat.com>
+ <CAJ6HWG5cH_33GDTo_v=8zZDZMJNf4k5+Y79Pt1A_7LmxXBx9bQ@mail.gmail.com>
+ <YTCJRSue5NQ8qzPn@redhat.com>
+ <CAJ6HWG45Xb2uc3OdJctL7SFxmrH0ZhDwQMBDAmS1TuDgiCrCMA@mail.gmail.com>
+ <YTCXSoETM7UfeMQE@redhat.com>
+In-Reply-To: <YTCXSoETM7UfeMQE@redhat.com>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Thu, 2 Sep 2021 06:49:06 -0300
+Message-ID: <CAJ6HWG7wLtEDY-X6wxdH9zG14NOdOCQ1YX0YBxTFEnbhJy6ozw@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] migration: multifd: Enable zerocopy
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="hFVi6TGVKcqwDSb5"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lsoaresp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -78,87 +96,225 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Auger Eric <eric.auger@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---hFVi6TGVKcqwDSb5
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Sep 2, 2021 at 6:20 AM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+> wrote:
+>
+> On Thu, Sep 02, 2021 at 05:52:15AM -0300, Leonardo Bras Soares Passos wro=
+te:
+> > On Thu, Sep 2, 2021 at 5:21 AM Daniel P. Berrang=C3=A9 <berrange@redhat=
+.com> wrote:
+> > >
+> > > On Thu, Sep 02, 2021 at 04:22:55AM -0300, Leonardo Bras Soares Passos=
+ wrote:
+> > > > Hello Daniel, thanks for the feedback !
+> > > >
+> > > > On Tue, Aug 31, 2021 at 10:17 AM Daniel P. Berrang=C3=A9 <berrange@=
+redhat.com> wrote:
+> > > > >
+> > > > > On Tue, Aug 31, 2021 at 08:02:39AM -0300, Leonardo Bras wrote:
+> > > > > > Call qio_channel_set_zerocopy(true) in the start of every multi=
+fd thread.
+> > > > > >
+> > > > > > Change the send_write() interface of multifd, allowing it to pa=
+ss down
+> > > > > > flags for qio_channel_write*().
+> > > > > >
+> > > > > > Pass down MSG_ZEROCOPY flag for sending memory pages, while kee=
+ping the
+> > > > > > other data being sent at the default copying approach.
+> > > > > >
+> > > > > > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> > > > > > ---
+> > > > > >  migration/multifd-zlib.c | 7 ++++---
+> > > > > >  migration/multifd-zstd.c | 7 ++++---
+> > > > > >  migration/multifd.c      | 9 ++++++---
+> > > > > >  migration/multifd.h      | 3 ++-
+> > > > > >  4 files changed, 16 insertions(+), 10 deletions(-)
+> > > > >
+> > > > > > @@ -675,7 +676,8 @@ static void *multifd_send_thread(void *opaq=
+ue)
+> > > > > >              }
+> > > > > >
+> > > > > >              if (used) {
+> > > > > > -                ret =3D multifd_send_state->ops->send_write(p,=
+ used, &local_err);
+> > > > > > +                ret =3D multifd_send_state->ops->send_write(p,=
+ used, MSG_ZEROCOPY,
+> > > > > > +                                                          &loc=
+al_err);
+> > > > >
+> > > > > I don't think it is valid to unconditionally enable this feature =
+due to the
+> > > > > resource usage implications
+> > > > >
+> > > > > https://www.kernel.org/doc/html/v5.4/networking/msg_zerocopy.html
+> > > > >
+> > > > >   "A zerocopy failure will return -1 with errno ENOBUFS. This hap=
+pens
+> > > > >    if the socket option was not set, the socket exceeds its optme=
+m
+> > > > >    limit or the user exceeds its ulimit on locked pages."
+> > > >
+> > > > You are correct, I unfortunately missed this part in the docs :(
+> > > >
+> > > > > The limit on locked pages is something that looks very likely to =
+be
+> > > > > exceeded unless you happen to be running a QEMU config that alrea=
+dy
+> > > > > implies locked memory (eg PCI assignment)
+> > > >
+> > > > Do you mean the limit an user has on locking memory?
+> > >
+> > > Yes, by default limit QEMU sees will be something very small.
+> > >
+> > > > If so, that makes sense. I remember I needed to set the upper limit=
+ of locked
+> > > > memory for the user before using it, or adding a capability to qemu=
+ before.
+> > > >
+> > > > Maybe an option would be trying to mlock all guest memory before se=
+tting
+> > > > zerocopy=3Don in qemu code. If it fails, we can print an error mess=
+age and fall
+> > > > back to not using zerocopy (following the idea of a new io_async_wr=
+itev()
+> > > > I told you in the previous mail).
+> > >
+> > > Currently ability to lock memory is something that has to be configur=
+ed
+> > > when QEMU starts, and it requires libvirt to grant suitable permissio=
+ns
+> > > to QEMU. Memory locking is generally undesirable because it prevents
+> > > memory overcommit. Or rather if you are allowing memory overcommit, t=
+hen
+> > > allowing memory locking is a way to kill your entire host.
+> >
+> > You mean it's gonna consume too much memory, or something else?
+>
+> Essentially yes.
 
-On Thu, Sep 02, 2021 at 09:00:14AM +0200, Philippe Mathieu-Daud=E9 wrote:
-> (Series fully reviewed)
->=20
-> Hi,
->=20
-> This series contains various patches sent last year with
-> review comments addressed, few more cleanups, and a new
-> patch which remove the spurious "VFIO_MAP_DMA failed: No
-> space left on device" now poping up since commit 15a730e7a.
-> (it is the expected behavior, which is why we retry the
-> same call after flushing the DMA mappings).
->=20
-> Since v2:
-> - qemu_vfio_find_[fixed/temp]_iova retun bool (Klaus)
-> - Add Klaus's R-b
->=20
-> Since v1:
-> - Addressed Klaus review comments (cleaner Error* handling)
-> - Add Klaus's R-b
->=20
+Well, maybe we can check for available memory before doing that,
+but maybe it's too much effort.
+
+>
+> > > I don't think we can unconditionally grant ability to lock arbitrary
+> > > guest RAM at startup, just to satisfy a possible desire to use zeroco=
+py
+> > > migration later. Granting it at runtime feels questionable as you now
+> > > need to track and predict how much locked memory you've allowed, and
+> > > also have possible problems with revokation.
+> >
+> > (I am really new to this, so please forgive me if I am asking dumb or
+> > overly basic questions)
+> >
+> > What does revokation means in this context?
+> > You give the process hability to lock n MB of memory, and then you take=
+ it?
+> > Why would that happen? Is Locked memory a limited resource?
+>
+> Consider a VM host with 64 GB of RAM and 64 GB of swap, and an
+> overcommit ratio of 1.5. ie we'll run VMs with 64*1.5 GB of RAM
+> total.
+>
+> So we can run 3 VMs each with 32 GB of RAM, giving 96 GB of usage
+> which exceeds physical RAM. Most of the time this may well be fine
+> as the VMs don't concurrently need their full RAM allocation, and
+> worst case they'll get pushed to swap as the kernel re-shares
+> memory in respose to load. So perhaps each VM only needs 20 GB
+> resident at any time, but over time one VM can burst upto 32 GB
+> and then 12 GB of it get swapped out later when inactive.
+>
+> But now consider if we allowed 2 of the VMs to lock memory for
+> purposes of migration. Those 2 VMs can now pin 64 GB of memory
+> in the worst case, leaving no free memory for the 3rd VM or
+> for the OS. This will likely take down the entire host, regardless
+> of swap availability.
+>
+> IOW, if you are overcomitting RAM you have to be extremely
+> careful about allowing any VM to lock memory. If you do decide
+> to allow memory locking, you need to make sure that the worst
+> case locked memory amount still leaves enough unlocked memory
+> for the OS to be able to effectively manage the overcommit
+> load via swap.  We definitely can't grant memory locking to
+> VMs at startup in this scenario, and if we grant it at runtime,
+> we need to be able to revoke it again later.
+>
+> These overcommit numbers are a bit more extreme that you'd
+> usually do in real world, but it illustrates the genreal
+> problem. Also bear in mind that QEMU has memory overhead
+> beyond the guest RAM block, which varies over time, making
+> accounting quite hard. We have to also assume that QEMU
+> could have been compromised by a guest breakout, so we
+> can't assume that migration will play nice - we have to
+> assume the worst case possible, given the process ulimits.
+>
+
+Yeah, that makes sense. Thanks for this illustration and elucidation !
+
+I assume there is no way of asking the OS to lock memory, and if there is
+no space available, it fails and rolls back the locking.
+
+If there was, the VM2 would fail the locking and we could achieve
+MSG_ZEROCOPY at least in VM1.
+
+But thinking in a better way, if both could lock the required memory, and l=
+ittle
+was available to VM3,  it could experience major slowdown, as would the
+host OS. Yeah, that would be complex.
+
+>
+> > > Overall the memory locking needs look like a significant constraint t=
+hat
+> > > will affect ability to use this feature.
+> > >
+> >
+> > I Agree, there is a lot to take in account.
+> > In any way, those constraints could be checked at the same function as
+> > the setsockopt() right?
+>
+> QEMU could possibly check its ulimits to see if it is possible, but it
+> would be safer to require a migration capability to be explicitly set
+> by the mgmt app to opt-in to zerocopy.
+
+Yeah, that would make sense. Let the mgmt app check system resources
+and choose where to request zerocopy.  It also has access to knowing if
+that process has enough memory locked.
+
+>
+> > (Setting up configs to improve the chance of zerocopy would probably on=
+ly
+> > happen at/before qemu starting, right?)
+>
+> Usually, but you can change ulimits on the fly for a process. I'm just
+> not sure of semantics if you reduce limits and existing usage exceeds
+> the reduced value.
+
+Yeah, that's a good question.
+
+>
 > Regards,
->=20
-> Phil.
->=20
-> Philippe Mathieu-Daud=E9 (11):
->   block/nvme: Use safer trace format string
->   util/vfio-helpers: Let qemu_vfio_verify_mappings() use error_report()
->   util/vfio-helpers: Replace qemu_mutex_lock() calls with
->     QEMU_LOCK_GUARD
->   util/vfio-helpers: Remove unreachable code in qemu_vfio_dma_map()
->   block/nvme: Have nvme_create_queue_pair() report errors consistently
->   util/vfio-helpers: Pass Error handle to qemu_vfio_dma_map()
->   util/vfio-helpers: Extract qemu_vfio_water_mark_reached()
->   util/vfio-helpers: Use error_setg in qemu_vfio_find_[fixed/temp]_iova
->   util/vfio-helpers: Simplify qemu_vfio_dma_map() returning directly
->   util/vfio-helpers: Let qemu_vfio_do_mapping() propagate Error
->   block/nvme: Only report VFIO error on failed retry
->=20
->  include/qemu/vfio-helpers.h |  2 +-
->  block/nvme.c                | 29 +++++++----
->  util/vfio-helpers.c         | 99 ++++++++++++++++++++-----------------
->  block/trace-events          |  2 +-
->  4 files changed, 76 insertions(+), 56 deletions(-)
->=20
-> --=20
-> 2.31.1
->=20
->=20
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
 
-Thanks, applied to my block tree:
-https://gitlab.com/stefanha/qemu/commits/block
-
-Stefan
-
---hFVi6TGVKcqwDSb5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmEwnWcACgkQnKSrs4Gr
-c8gzYAf/f04hWqPa7l+pmDbCLgYclbh3E9BiDZrOYCdHdYxpS7V9ePf+MnIsQYha
-Jprtrv8FD0u8nzKYW0wpeWnFcGl6FjJgbX+rdBINIHbhoX5NQxf61pibmHyzGviV
-UMDK/iwtmXyZRmatVY/f2FJh3si4tN6kukxFeMvLJaiAGN7RPalIrZCMDMOjHJuY
-/vOcbr0p7Ads82Y8xUAlz9hdNU+8Gvpj4GdGh5H8maMrnTp//RopefDi0dfYmDrY
-2pR/0igQGzV+bYRvuao/EIsdkiNKzQ/Uo9ydEv1ozitRGBKifAMA2ErtBPBMWpVl
-3oRTeYJc8SYRdNN/YWbpL2fjqG/Y4g==
-=lryr
------END PGP SIGNATURE-----
-
---hFVi6TGVKcqwDSb5--
+Best regards,
+Leonardo Bras
 
 
