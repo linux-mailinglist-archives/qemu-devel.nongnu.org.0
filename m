@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F27A3FEE30
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 14:58:09 +0200 (CEST)
-Received: from localhost ([::1]:45486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFF8B3FEE27
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 14:55:35 +0200 (CEST)
+Received: from localhost ([::1]:36712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLmIC-0005Wo-Eq
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 08:58:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35768)
+	id 1mLmFi-00084z-ON
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 08:55:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <gaosong@loongson.cn>)
- id 1mLm2p-0006Uu-LT
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:42:15 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:36584 helo=loongson.cn)
+ id 1mLm31-00078b-5P
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:42:27 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:36684 helo=loongson.cn)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <gaosong@loongson.cn>) id 1mLm2m-00067J-OA
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:42:14 -0400
+ (envelope-from <gaosong@loongson.cn>) id 1mLm2w-00069p-IE
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:42:26 -0400
 Received: from kvm-dev1.localdomain (unknown [10.2.5.134])
- by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxYctjxjBha2YCAA--.7003S22; 
+ by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxYctjxjBha2YCAA--.7003S23; 
  Thu, 02 Sep 2021 20:41:40 +0800 (CST)
 From: Song Gao <gaosong@loongson.cn>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 20/21] target/loongarch: 'make check-tcg' support
-Date: Thu,  2 Sep 2021 20:41:06 +0800
-Message-Id: <1630586467-22463-21-git-send-email-gaosong@loongson.cn>
+Subject: [PATCH v4 21/21] scripts: add loongarch64 binfmt config
+Date: Thu,  2 Sep 2021 20:41:07 +0800
+Message-Id: <1630586467-22463-22-git-send-email-gaosong@loongson.cn>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1630586467-22463-1-git-send-email-gaosong@loongson.cn>
 References: <1630586467-22463-1-git-send-email-gaosong@loongson.cn>
-X-CM-TRANSID: AQAAf9AxYctjxjBha2YCAA--.7003S22
-X-Coremail-Antispam: 1UD129KBjvdXoWrZry3XrykGr13Kr13Zw1UWrg_yoW3uFb_A3
- WSkr4kCF4Yyr1xGF18WFn5Kr1Fg3y7Zw1SgF1DZF13X3y2qan8ta1xAFsxuF15Zw13urnI
- qa95Aw4I9w18AjkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
- 9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUUUUUUU
+X-CM-TRANSID: AQAAf9AxYctjxjBha2YCAA--.7003S23
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zw4xZF4DWw4DJFWxuF1xXwb_yoW8Wr1Upr
+ 15A3W8CF4jg3WUA3WkXw13Gr1DJrn0kas7Xr43tr1UAF15tw1rZr1fJr1UJ3WDJF48JF1j
+ 9F95Ja1DJF4IkF7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDU0xBIdaVrnUUvcSsGvfC2KfnxnUUI43ZEXa7xR_UUUUUUUUU==
 X-CM-SenderInfo: 5jdr20tqj6z05rqj20fqof0/
 Received-SPF: pass client-ip=114.242.206.163; envelope-from=gaosong@loongson.cn;
  helo=loongson.cn
@@ -67,26 +67,36 @@ Cc: peter.maydell@linaro.org, yangxiaojuan@loongson.cn, david@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch support 'make check-tcg' after install cross-tools.
-
 Signed-off-by: Song Gao <gaosong@loongson.cn>
 Signed-off-by: XiaoJuan Yang <yangxiaojuan@loongson.cn>
 ---
- tests/tcg/configure.sh | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/qemu-binfmt-conf.sh | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index 1f985cc..d8f677d 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -51,6 +51,7 @@ fi
- : ${cross_cc_cflags_armeb="-mbig-endian"}
- : ${cross_cc_hexagon="hexagon-unknown-linux-musl-clang"}
- : ${cross_cc_cflags_hexagon="-mv67 -O2 -static"}
-+: ${cross_cc_loongarch64="loongarch64-unknown-linux-gnu-gcc"}
- : ${cross_cc_hppa="hppa-linux-gnu-gcc"}
- : ${cross_cc_i386="i686-linux-gnu-gcc"}
- : ${cross_cc_cflags_i386="-m32"}
+diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+index 7de996d..5575bdd 100755
+--- a/scripts/qemu-binfmt-conf.sh
++++ b/scripts/qemu-binfmt-conf.sh
+@@ -4,7 +4,7 @@
+ qemu_target_list="i386 i486 alpha arm armeb sparc sparc32plus sparc64 \
+ ppc ppc64 ppc64le m68k mips mipsel mipsn32 mipsn32el mips64 mips64el \
+ sh4 sh4eb s390x aarch64 aarch64_be hppa riscv32 riscv64 xtensa xtensaeb \
+-microblaze microblazeel or1k x86_64 hexagon"
++microblaze microblazeel or1k x86_64 hexagon loongarch64"
+ 
+ i386_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x03\x00'
+ i386_mask='\xff\xff\xff\xff\xff\xfe\xfe\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
+@@ -140,6 +140,10 @@ hexagon_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x
+ hexagon_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
+ hexagon_family=hexagon
+ 
++loongarch64_magic='\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x02\x01'
++loongarch64_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
++loongarch64_family=loongarch
++
+ qemu_get_family() {
+     cpu=${HOST_ARCH:-$(uname -m)}
+     case "$cpu" in
 -- 
 1.8.3.1
 
