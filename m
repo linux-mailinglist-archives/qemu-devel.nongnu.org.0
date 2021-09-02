@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F04713FF3BB
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 21:02:50 +0200 (CEST)
-Received: from localhost ([::1]:34440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C453FF436
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 21:32:02 +0200 (CEST)
+Received: from localhost ([::1]:48350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLrz7-0002o9-JB
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 15:02:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41640)
+	id 1mLsRM-0005XT-P1
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 15:32:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3LhUxYQYKCi0LaJdNaPXXPUN.LXVZNVd-MNeNUWXWPWd.XaP@flex--crauer.bounces.google.com>)
- id 1mLrH9-0003o2-Cj
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 14:17:23 -0400
-Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:48720)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mLsQE-0004Ox-80
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 15:30:50 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45822)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3LhUxYQYKCi0LaJdNaPXXPUN.LXVZNVd-MNeNUWXWPWd.XaP@flex--crauer.bounces.google.com>)
- id 1mLrH7-0006oc-L5
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 14:17:23 -0400
-Received: by mail-yb1-xb4a.google.com with SMTP id
- 131-20020a251489000000b0059bdeb10a84so3589577ybu.15
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 11:17:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=date:message-id:mime-version:subject:from:to:cc;
- bh=IifeVj0x5s3FD5lYsHnRcERM60TJI4LyuUoaF7MmBt8=;
- b=cPFuQpQYC529a0tZBaKy2lFQwUk9WXQ/2/GJaQt7JLEDw0a8xMCOXlEpjC/dmXEbIW
- HIRKDNeaNPVEGpkW50LaJxxCF1Sg4mpFL7dg3u8x+j1nN6/9scWyYm/yGEzNdOHbiVRB
- 59ERNg0zHJ31bUMzEJ8JoIoRewHkQ2zefnAVpGf6t2WV6Psjj9L9rx7jBGIQz+dZjEnm
- bIED244bLXFSqDzfHbmNVEW0r+CLYvVSDKkez/OfDaBBwrZA1vsBE9wt0zxBbNYcBlAJ
- +R5VuyOuaDJVQmpjYghVOJ6cwjn8XkRSnqt7Bs5Y9q6WFcASQASbZnd9PjgQJBCX34pZ
- 9KoA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mLsQ8-0002VJ-Qv
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 15:30:47 -0400
+Received: by mail-wr1-x433.google.com with SMTP id n5so4661756wro.12
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 12:30:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LDgYTaZPd7fIgaqSd2LJvUg0u8gA8KQxliFRygtGFJM=;
+ b=u4183SyGPMqn86XxNfKuH4///StAm8zYgLSkagvy3+3NQqzs0Hq5HvxQ/9p1oJsRlI
+ yHHOxUvIIYxPA28/w0W0k38GBAYEQs4SGN86V34p+AxgB+d/b0p85AFdoYrzrIVxNcZv
+ Hr7vgVgBlBo/OUX0uBsum6+wSSD6FCNRtLNGj73/qRV70qc6KD0nguSn0i+Ix+XGZIfv
+ U7XreJiBWcctM5BYAL28J8kJKtf445JbSZckDmliqwcckBI0JKMtUE5t1U70JhoD85EM
+ 5VPcod/1YBtuxKcIMqyW9cPRkglMRKus7ZhdI/5tRfGi+ORwtD1zHxz9RlOuCYSHH7+W
+ dt4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
- bh=IifeVj0x5s3FD5lYsHnRcERM60TJI4LyuUoaF7MmBt8=;
- b=Nf6wpefvx8/SNrSj0BsyRTulsWdKyRLr2g4yznE942p9zj04p/eIm8c5deve8KNMX6
- FPbqjRNa5n3tDJEVAq4J3hdI76QN4DBSKvle2+HH9ppWc+paxAur1lQGrw34xYjyPFuo
- Kt4/FsTF7mbPVHFX645XG4/KBXYB2GiyrHzV9jFC9QL3SL5bWb+jHw7nSfgWAHLtdSQr
- zlatSWnJfgCzzo+jLvXxozQEzzkosd+u4eJpwpzpDUwqjidMkuy9ZxPbpEeZMzpsg4gD
- 2KgtXY77NPQXdhDED14qaFbbc+N6CyA1QLRZVndFV/2KwhlVsZNNwXlutcMUYpoqhP18
- 5ayg==
-X-Gm-Message-State: AOAM532gkxLriUTQjyz9wSuTNxdN38IhDBUdnYuGn6PxDQI6DndnXXMT
- EI0lT+TmiGhu9kuRziE3crLAZHKXML8=
-X-Google-Smtp-Source: ABdhPJxY3ggxamkATlGanAKpijTkRLrOamH9XX2R6qf358PlGhZHjiQIs7Yzx4e4sobamSIs2WUAEXTViTQ=
-X-Received: from corumba.svl.corp.google.com
- ([2620:15c:2a3:200:b6aa:448:925a:1d1a])
- (user=crauer job=sendgmr) by 2002:a25:af87:: with SMTP id
- g7mr6209593ybh.256.1630606638735; 
- Thu, 02 Sep 2021 11:17:18 -0700 (PDT)
-Date: Thu,  2 Sep 2021 11:16:42 -0700
-Message-Id: <20210902181642.315792-1-crauer@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.33.0.153.gba50c8fa24-goog
-Subject: [PATCH] hw/arm: Add support for kudo-bmc board.
-From: Chris Rauer <crauer@google.com>
-To: peter.maydell@linaro.org
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, hskinnemoen@google.com, 
- kfting@nuvoton.com, Chris Rauer <crauer@google.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LDgYTaZPd7fIgaqSd2LJvUg0u8gA8KQxliFRygtGFJM=;
+ b=g8bHZ5+W5OQ4JnkJwmuddMYyDHOSKytaDXuTGDL/I9A9qTQcahiDjbKd+5uQoPRujs
+ yJoGZj+8e0PDCnhshRF48mAHLGwqThof9TFmAaj5IvR7CS9TeJ+K2oF24pQEXs88LDnP
+ zNAWPiylycwe43PLj8uAG3vAtHDRAzyvUakuE6DFL8MsW4QjWcvaK0Hlz60cjoxNiSGC
+ iUrYhjrM2cq4ddHc/epr6KKFemxXWk4ox7msPfW4PrUoddC+HL3I/FQ380eAWCoqu7O7
+ 1tjOukjQK2d78iIBAZPeGMTWoj2XAS+J/v3TozbvOzBWyyV/m39whm5vIHsrnUwygxn+
+ NUJQ==
+X-Gm-Message-State: AOAM530evv6Ny4ziE8sLKD+76goHWdSHFG+2TqUp/qpWr6KQLGXrnLzI
+ 0BxJ7X0JGZhCob5agYZqGbIrswgW8RNzJgIGp3CGhQ==
+X-Google-Smtp-Source: ABdhPJyQfCzkwyyrliDvYajmeKmpp2OabBqoFFAnRSaLSZE+7h8IbEenJ9/rORrvv6/bds/k1t48FnxPZih/ix3by6c=
+X-Received: by 2002:adf:b748:: with SMTP id n8mr5614986wre.133.1630611041455; 
+ Thu, 02 Sep 2021 12:30:41 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210808013406.223506-1-linux@roeck-us.net>
+ <CAFEAcA8+o69ztRaaMvqh+zNaFs_6reSHX_ijknay6_0VePSE2w@mail.gmail.com>
+ <a34c10d4-fc90-0186-3214-c3c5e77b4eea@roeck-us.net>
+In-Reply-To: <a34c10d4-fc90-0186-3214-c3c5e77b4eea@roeck-us.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 2 Sep 2021 20:29:52 +0100
+Message-ID: <CAFEAcA_cAp6kWTE6Lpx6QF1zfTYfQXiOPgdfkztS3iuJkRB0xQ@mail.gmail.com>
+Subject: Re: [PATCH] hw/ssi: imx_spi: Improve chip select handling
+To: Guenter Roeck <linux@roeck-us.net>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b4a;
- envelope-from=3LhUxYQYKCi0LaJdNaPXXPUN.LXVZNVd-MNeNUWXWPWd.XaP@flex--crauer.bounces.google.com;
- helo=mail-yb1-xb4a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 02 Sep 2021 14:59:56 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,98 +78,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-kudo-bmc is a board supported by OpenBMC.
-https://github.com/openbmc/openbmc/tree/master/meta-fii/meta-kudo
+On Thu, 2 Sept 2021 at 17:09, Guenter Roeck <linux@roeck-us.net> wrote:
+>
+> On 9/2/21 8:58 AM, Peter Maydell wrote:
+> > On Sun, 8 Aug 2021 at 02:34, Guenter Roeck <linux@roeck-us.net> wrote:
+> >>
+> >> The control register does not really have a means to deselect
+> >> all chip selects directly. As result, CS is effectively never
+> >> deselected, and connected flash chips fail to perform read
+> >> operations since they don't get the expected chip select signals
+> >> to reset their state machine.
+> >>
+> >> Normally and per controller documentation one would assume that
+> >> chip select should be set whenever a transfer starts (XCH is
+> >> set or the tx fifo is written into), and that it should be disabled
+> >> whenever a transfer is complete. However, that does not work in
+> >> practice: attempts to implement this approach resulted in failures,
+> >> presumably because a single transaction can be split into multiple
+> >> transfers.
+> >>
+> >> At the same time, there is no explicit signal from the host indicating
+> >> if chip select should be active or not. In the absence of such a direct
+> >> signal, use the burst length written into the control register to
+> >> determine if an access is ongoing or not. Disable all chip selects
+> >> if the burst length field in the configuration register is set to 0,
+> >> and (re-)enable chip select if a transfer is started. This is possible
+> >> because the Linux driver clears the burst length field whenever it
+> >> prepares the controller for the next transfer.
+> >> This solution  is less than perfect since it effectively only disables
+> >> chip select when initiating the next transfer, but it does work with
+> >> Linux and should otherwise do no harm.
+> >>
+> >> Stop complaining if the burst length field is set to a value of 0,
+> >> since that is done by Linux for every transfer.
+> >>
+> >> With this patch, a command line parameter such as "-drive
+> >> file=flash.sabre,format=raw,if=mtd" can be used to instantiate the
+> >> flash chip in the sabrelite emulation. Without this patch, the
+> >> flash instantiates, but it only reads zeroes.
+> >>
+> >> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> >> ---
+> >> I am not entirely happy with this solution, but it is the best I was
+> >> able to come up with. If anyone has a better idea, I'll be happy
+> >> to give it a try.
+> >>
+> >>   hw/ssi/imx_spi.c | 17 +++++++----------
+> >>   1 file changed, 7 insertions(+), 10 deletions(-)
+> >>
+> >> diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
+> >> index 189423bb3a..7a093156bd 100644
+> >> --- a/hw/ssi/imx_spi.c
+> >> +++ b/hw/ssi/imx_spi.c
+> >> @@ -167,6 +167,8 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+> >>       DPRINTF("Begin: TX Fifo Size = %d, RX Fifo Size = %d\n",
+> >>               fifo32_num_used(&s->tx_fifo), fifo32_num_used(&s->rx_fifo));
+> >>
+> >> +    qemu_set_irq(s->cs_lines[imx_spi_selected_channel(s)], 0);
+> >> +
+> >>       while (!fifo32_is_empty(&s->tx_fifo)) {
+> >>           int tx_burst = 0;
+> >>
+> >> @@ -385,13 +387,6 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
+> >>       case ECSPI_CONREG:
+> >>           s->regs[ECSPI_CONREG] = value;
+> >>
+> >> -        burst = EXTRACT(s->regs[ECSPI_CONREG], ECSPI_CONREG_BURST_LENGTH) + 1;
+> >> -        if (burst % 8) {
+> >> -            qemu_log_mask(LOG_UNIMP,
+> >> -                          "[%s]%s: burst length %d not supported: rounding up to next multiple of 8\n",
+> >> -                          TYPE_IMX_SPI, __func__, burst);
+> >> -        }
+> >
+> > Why has this log message been removed ?
+>
+> What I wanted to do is:
+>
+> "Stop complaining if the burst length field is set to a value of 0,
+>   since that is done by Linux for every transfer."
+>
+> What I did instead is to remove the message entirely.
+>
+> How about the rest of the patch ? Is it worth a resend with the message
+> restored (except for burst size == 0), or is it not acceptable anyway ?
 
-Tested: Booted kudo firmware.
-Signed-off-by: Chris Rauer <crauer@google.com>
----
- docs/system/arm/nuvoton.rst |  1 +
- hw/arm/npcm7xx_boards.c     | 34 ++++++++++++++++++++++++++++++++++
- 2 files changed, 35 insertions(+)
+I did the easy bit of the code review because answering this
+question is probably a multiple-hour job...this is still on my
+todo list, but I'm hoping somebody who understands the MIX
+SPI device gets to it first.
 
-diff --git a/docs/system/arm/nuvoton.rst b/docs/system/arm/nuvoton.rst
-index 69f57c2886..adf497e679 100644
---- a/docs/system/arm/nuvoton.rst
-+++ b/docs/system/arm/nuvoton.rst
-@@ -20,6 +20,7 @@ Hyperscale applications. The following machines are based on this chip :
- 
- - ``quanta-gbs-bmc``    Quanta GBS server BMC
- - ``quanta-gsj``        Quanta GSJ server BMC
-+- ``kudo-bmc``          Fii USA Kudo server BMC
- 
- There are also two more SoCs, NPCM710 and NPCM705, which are single-core
- variants of NPCM750 and NPCM730, respectively. These are currently not
-diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-index e5a3243995..c80f442adb 100644
---- a/hw/arm/npcm7xx_boards.c
-+++ b/hw/arm/npcm7xx_boards.c
-@@ -31,6 +31,7 @@
- #define NPCM750_EVB_POWER_ON_STRAPS 0x00001ff7
- #define QUANTA_GSJ_POWER_ON_STRAPS 0x00001fff
- #define QUANTA_GBS_POWER_ON_STRAPS 0x000017ff
-+#define KUDO_BMC_POWER_ON_STRAPS 0x00001fff
- 
- static const char npcm7xx_default_bootrom[] = "npcm7xx_bootrom.bin";
- 
-@@ -357,6 +358,23 @@ static void quanta_gbs_init(MachineState *machine)
-     npcm7xx_load_kernel(machine, soc);
- }
- 
-+static void kudo_bmc_init(MachineState *machine)
-+{
-+    NPCM7xxState *soc;
-+
-+    soc = npcm7xx_create_soc(machine, KUDO_BMC_POWER_ON_STRAPS);
-+    npcm7xx_connect_dram(soc, machine->ram);
-+    qdev_realize(DEVICE(soc), NULL, &error_fatal);
-+
-+    npcm7xx_load_bootrom(machine, soc);
-+    npcm7xx_connect_flash(&soc->fiu[0], 0, "mx66u51235f",
-+                          drive_get(IF_MTD, 0, 0));
-+    npcm7xx_connect_flash(&soc->fiu[1], 0, "mx66u51235f",
-+                          drive_get(IF_MTD, 3, 0));
-+
-+    npcm7xx_load_kernel(machine, soc);
-+}
-+
- static void npcm7xx_set_soc_type(NPCM7xxMachineClass *nmc, const char *type)
- {
-     NPCM7xxClass *sc = NPCM7XX_CLASS(object_class_by_name(type));
-@@ -417,6 +435,18 @@ static void gbs_bmc_machine_class_init(ObjectClass *oc, void *data)
-     mc->default_ram_size = 1 * GiB;
- }
- 
-+static void kudo_bmc_machine_class_init(ObjectClass *oc, void *data)
-+{
-+    NPCM7xxMachineClass *nmc = NPCM7XX_MACHINE_CLASS(oc);
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+
-+    npcm7xx_set_soc_type(nmc, TYPE_NPCM730);
-+
-+    mc->desc = "Kudo BMC (Cortex A9)";
-+    mc->init = kudo_bmc_init;
-+    mc->default_ram_size = 1 * GiB;
-+};
-+
- static const TypeInfo npcm7xx_machine_types[] = {
-     {
-         .name           = TYPE_NPCM7XX_MACHINE,
-@@ -437,6 +467,10 @@ static const TypeInfo npcm7xx_machine_types[] = {
-         .name           = MACHINE_TYPE_NAME("quanta-gbs-bmc"),
-         .parent         = TYPE_NPCM7XX_MACHINE,
-         .class_init     = gbs_bmc_machine_class_init,
-+    }, {
-+        .name           = MACHINE_TYPE_NAME("kudo-bmc"),
-+        .parent         = TYPE_NPCM7XX_MACHINE,
-+        .class_init     = kudo_bmc_machine_class_init,
-     },
- };
- 
--- 
-2.33.0.153.gba50c8fa24-goog
-
+-- PMM
 
