@@ -2,88 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C65003FEAD8
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 10:53:17 +0200 (CEST)
-Received: from localhost ([::1]:42200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E17263FEB20
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 11:21:51 +0200 (CEST)
+Received: from localhost ([::1]:54306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLiTE-0000Lr-SV
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 04:53:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44310)
+	id 1mLiur-0001b4-Mj
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 05:21:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mLiSA-0007z4-Ls
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 04:52:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53622)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mLitv-0000oR-GB
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:20:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mLiS8-0000mN-42
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 04:52:10 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mLits-0008VZ-0J
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:20:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630572727;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1630574446;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=q0J5u/QKKBww+5039buzbi0Cvy5uw5Y2n4lAUj/+qGE=;
- b=JtZtKRz5glcJwSO/EMT0qOPXpWnxrYiFCrKxllk7iSgW73Q8bCq+3Vzj2g4wmI/Pl+G3kZ
- futTqyFbKIS0UbxjpR0AU9AqvHU5h/Kw2KFloQgMGdyp+PYYzm2hhiLlQa0kkoPus8CTko
- s6kQqbujHDRCtc7LXPpbn/wrVUlQBkQ=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-WbFCvWQ5P9OKavnNTjW4FQ-1; Thu, 02 Sep 2021 04:52:06 -0400
-X-MC-Unique: WbFCvWQ5P9OKavnNTjW4FQ-1
-Received: by mail-lj1-f200.google.com with SMTP id
- w28-20020a2e161c000000b001ba14fc0cd4so374472ljd.10
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 01:52:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=q0J5u/QKKBww+5039buzbi0Cvy5uw5Y2n4lAUj/+qGE=;
- b=t+xC4jPr2L5+38HcSq4y1zx6SH8aERWkQjLhWXToHM+4YbWBMQVHsjc5M8tpvWfuxe
- /akTLQtQ+V8K5io5BRXSBSMpaNptLWi77+hDws4eOY9sy59LUR/rFzStjE15+JAeaeO5
- aRazxAmAB3zUlq6A60/j1eAis5u2XFZfhJXKKWjuxKXR1shxPEhEV9Lp3MAIeRZCTQjD
- UVbB5DI3URffJox14gkupre70V+uU4KbsqngxB9jru0GW+pkoNrooXxsgPmv+JZAsCLS
- e8v3CsU/s/lCompXLJ3RrX2CrcLONgijM7kqbnNXwMw90bJvDMadeiSb6iL4CRrQJSl1
- DUqQ==
-X-Gm-Message-State: AOAM530ichHcGnj50E+ZOAQOh/9MUVnkk6lUFkVHW+YFlbjg/wySaUMl
- 7G1Vlce1HvHvubF7hH4Dpfd1L2gfMh1gAn8ScPNl81Ju3Bt7DzZbHUp1+2rsx8Mr9O7OlmgMSU6
- AeTclZxjZL5OYiX4KiZ8TxFVIonKoNRc=
-X-Received: by 2002:a05:6512:16a0:: with SMTP id
- bu32mr1821249lfb.322.1630572724828; 
- Thu, 02 Sep 2021 01:52:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy+GG56rQlthIZAkvU5ebE3ZX5o38m+r3OuP3nVzo/cY5dUHISt7UKoTw3EUWzLb/QxeIuRdrgcxpQeHDLl9Vo=
-X-Received: by 2002:a05:6512:16a0:: with SMTP id
- bu32mr1821218lfb.322.1630572724434; 
- Thu, 02 Sep 2021 01:52:04 -0700 (PDT)
-MIME-Version: 1.0
+ bh=5lkbW3TADK/i/niaC6Ob18IaT6y+gN0RwnotWDANRMc=;
+ b=JNAfjQdW1HbiD+uFB20Cb2I8xP2X+zdXKRwelEa4k2gFNL+sUtqlhRzf/uVgZAi+QQbgP7
+ ny30b2TMnLSVcRcm0us8NN83J7i1p1QJulm2KVBedMh+bp+kyMW8u9NtE76h1x2xqzn4pl
+ 5/WsCDxeTPd1uIcWZVPs0r0L4/7/0WA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-207-kG_lGUbfOJ-nTPP1ntIjqw-1; Thu, 02 Sep 2021 05:20:45 -0400
+X-MC-Unique: kG_lGUbfOJ-nTPP1ntIjqw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A795110866A4;
+ Thu,  2 Sep 2021 09:20:43 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.141])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3A73373DA0;
+ Thu,  2 Sep 2021 09:20:12 +0000 (UTC)
+Date: Thu, 2 Sep 2021 10:20:10 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Leonardo Bras Soares Passos <leobras@redhat.com>
+Subject: Re: [PATCH v1 3/3] migration: multifd: Enable zerocopy
+Message-ID: <YTCXSoETM7UfeMQE@redhat.com>
 References: <20210831110238.299458-1-leobras@redhat.com>
  <20210831110238.299458-4-leobras@redhat.com>
  <YS4rulGV9eueB04H@redhat.com>
  <CAJ6HWG5cH_33GDTo_v=8zZDZMJNf4k5+Y79Pt1A_7LmxXBx9bQ@mail.gmail.com>
  <YTCJRSue5NQ8qzPn@redhat.com>
-In-Reply-To: <YTCJRSue5NQ8qzPn@redhat.com>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Thu, 2 Sep 2021 05:52:15 -0300
-Message-ID: <CAJ6HWG45Xb2uc3OdJctL7SFxmrH0ZhDwQMBDAmS1TuDgiCrCMA@mail.gmail.com>
-Subject: Re: [PATCH v1 3/3] migration: multifd: Enable zerocopy
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+ <CAJ6HWG45Xb2uc3OdJctL7SFxmrH0ZhDwQMBDAmS1TuDgiCrCMA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJ6HWG45Xb2uc3OdJctL7SFxmrH0ZhDwQMBDAmS1TuDgiCrCMA@mail.gmail.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,155 +86,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
  John G Johnson <john.g.johnson@oracle.com>,
  Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
  Juan Quintela <quintela@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
  qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
  Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 2, 2021 at 5:21 AM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
-> wrote:
->
-> On Thu, Sep 02, 2021 at 04:22:55AM -0300, Leonardo Bras Soares Passos wro=
-te:
-> > Hello Daniel, thanks for the feedback !
+On Thu, Sep 02, 2021 at 05:52:15AM -0300, Leonardo Bras Soares Passos wrote:
+> On Thu, Sep 2, 2021 at 5:21 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
 > >
-> > On Tue, Aug 31, 2021 at 10:17 AM Daniel P. Berrang=C3=A9 <berrange@redh=
-at.com> wrote:
+> > On Thu, Sep 02, 2021 at 04:22:55AM -0300, Leonardo Bras Soares Passos wrote:
+> > > Hello Daniel, thanks for the feedback !
 > > >
-> > > On Tue, Aug 31, 2021 at 08:02:39AM -0300, Leonardo Bras wrote:
-> > > > Call qio_channel_set_zerocopy(true) in the start of every multifd t=
-hread.
+> > > On Tue, Aug 31, 2021 at 10:17 AM Daniel P. Berrangé <berrange@redhat.com> wrote:
 > > > >
-> > > > Change the send_write() interface of multifd, allowing it to pass d=
-own
-> > > > flags for qio_channel_write*().
+> > > > On Tue, Aug 31, 2021 at 08:02:39AM -0300, Leonardo Bras wrote:
+> > > > > Call qio_channel_set_zerocopy(true) in the start of every multifd thread.
+> > > > >
+> > > > > Change the send_write() interface of multifd, allowing it to pass down
+> > > > > flags for qio_channel_write*().
+> > > > >
+> > > > > Pass down MSG_ZEROCOPY flag for sending memory pages, while keeping the
+> > > > > other data being sent at the default copying approach.
+> > > > >
+> > > > > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> > > > > ---
+> > > > >  migration/multifd-zlib.c | 7 ++++---
+> > > > >  migration/multifd-zstd.c | 7 ++++---
+> > > > >  migration/multifd.c      | 9 ++++++---
+> > > > >  migration/multifd.h      | 3 ++-
+> > > > >  4 files changed, 16 insertions(+), 10 deletions(-)
 > > > >
-> > > > Pass down MSG_ZEROCOPY flag for sending memory pages, while keeping=
- the
-> > > > other data being sent at the default copying approach.
+> > > > > @@ -675,7 +676,8 @@ static void *multifd_send_thread(void *opaque)
+> > > > >              }
+> > > > >
+> > > > >              if (used) {
+> > > > > -                ret = multifd_send_state->ops->send_write(p, used, &local_err);
+> > > > > +                ret = multifd_send_state->ops->send_write(p, used, MSG_ZEROCOPY,
+> > > > > +                                                          &local_err);
 > > > >
-> > > > Signed-off-by: Leonardo Bras <leobras@redhat.com>
-> > > > ---
-> > > >  migration/multifd-zlib.c | 7 ++++---
-> > > >  migration/multifd-zstd.c | 7 ++++---
-> > > >  migration/multifd.c      | 9 ++++++---
-> > > >  migration/multifd.h      | 3 ++-
-> > > >  4 files changed, 16 insertions(+), 10 deletions(-)
-> > >
-> > > > @@ -675,7 +676,8 @@ static void *multifd_send_thread(void *opaque)
-> > > >              }
+> > > > I don't think it is valid to unconditionally enable this feature due to the
+> > > > resource usage implications
 > > > >
-> > > >              if (used) {
-> > > > -                ret =3D multifd_send_state->ops->send_write(p, use=
-d, &local_err);
-> > > > +                ret =3D multifd_send_state->ops->send_write(p, use=
-d, MSG_ZEROCOPY,
-> > > > +                                                          &local_e=
-rr);
+> > > > https://www.kernel.org/doc/html/v5.4/networking/msg_zerocopy.html
+> > > >
+> > > >   "A zerocopy failure will return -1 with errno ENOBUFS. This happens
+> > > >    if the socket option was not set, the socket exceeds its optmem
+> > > >    limit or the user exceeds its ulimit on locked pages."
 > > >
-> > > I don't think it is valid to unconditionally enable this feature due =
-to the
-> > > resource usage implications
+> > > You are correct, I unfortunately missed this part in the docs :(
 > > >
-> > > https://www.kernel.org/doc/html/v5.4/networking/msg_zerocopy.html
+> > > > The limit on locked pages is something that looks very likely to be
+> > > > exceeded unless you happen to be running a QEMU config that already
+> > > > implies locked memory (eg PCI assignment)
 > > >
-> > >   "A zerocopy failure will return -1 with errno ENOBUFS. This happens
-> > >    if the socket option was not set, the socket exceeds its optmem
-> > >    limit or the user exceeds its ulimit on locked pages."
+> > > Do you mean the limit an user has on locking memory?
 > >
-> > You are correct, I unfortunately missed this part in the docs :(
+> > Yes, by default limit QEMU sees will be something very small.
 > >
-> > > The limit on locked pages is something that looks very likely to be
-> > > exceeded unless you happen to be running a QEMU config that already
-> > > implies locked memory (eg PCI assignment)
+> > > If so, that makes sense. I remember I needed to set the upper limit of locked
+> > > memory for the user before using it, or adding a capability to qemu before.
+> > >
+> > > Maybe an option would be trying to mlock all guest memory before setting
+> > > zerocopy=on in qemu code. If it fails, we can print an error message and fall
+> > > back to not using zerocopy (following the idea of a new io_async_writev()
+> > > I told you in the previous mail).
 > >
-> > Do you mean the limit an user has on locking memory?
->
-> Yes, by default limit QEMU sees will be something very small.
->
-> > If so, that makes sense. I remember I needed to set the upper limit of =
-locked
-> > memory for the user before using it, or adding a capability to qemu bef=
-ore.
+> > Currently ability to lock memory is something that has to be configured
+> > when QEMU starts, and it requires libvirt to grant suitable permissions
+> > to QEMU. Memory locking is generally undesirable because it prevents
+> > memory overcommit. Or rather if you are allowing memory overcommit, then
+> > allowing memory locking is a way to kill your entire host.
+> 
+> You mean it's gonna consume too much memory, or something else?
+
+Essentially yes. 
+
+> > I don't think we can unconditionally grant ability to lock arbitrary
+> > guest RAM at startup, just to satisfy a possible desire to use zerocopy
+> > migration later. Granting it at runtime feels questionable as you now
+> > need to track and predict how much locked memory you've allowed, and
+> > also have possible problems with revokation.
+> 
+> (I am really new to this, so please forgive me if I am asking dumb or
+> overly basic questions)
+> 
+> What does revokation means in this context?
+> You give the process hability to lock n MB of memory, and then you take it?
+> Why would that happen? Is Locked memory a limited resource?
+
+Consider a VM host with 64 GB of RAM and 64 GB of swap, and an
+overcommit ratio of 1.5. ie we'll run VMs with 64*1.5 GB of RAM
+total.
+
+So we can run 3 VMs each with 32 GB of RAM, giving 96 GB of usage
+which exceeds physical RAM. Most of the time this may well be fine
+as the VMs don't concurrently need their full RAM allocation, and
+worst case they'll get pushed to swap as the kernel re-shares
+memory in respose to load. So perhaps each VM only needs 20 GB
+resident at any time, but over time one VM can burst upto 32 GB
+and then 12 GB of it get swapped out later when inactive.
+
+But now consider if we allowed 2 of the VMs to lock memory for
+purposes of migration. Those 2 VMs can now pin 64 GB of memory
+in the worst case, leaving no free memory for the 3rd VM or
+for the OS. This will likely take down the entire host, regardless
+of swap availability.
+
+IOW, if you are overcomitting RAM you have to be extremely
+careful about allowing any VM to lock memory. If you do decide
+to allow memory locking, you need to make sure that the worst
+case locked memory amount still leaves enough unlocked memory
+for the OS to be able to effectively manage the overcommit
+load via swap.  We definitely can't grant memory locking to
+VMs at startup in this scenario, and if we grant it at runtime,
+we need to be able to revoke it again later.
+
+These overcommit numbers are a bit more extreme that you'd 
+usually do in real world, but it illustrates the genreal
+problem. Also bear in mind that QEMU has memory overhead
+beyond the guest RAM block, which varies over time, making
+accounting quite hard. We have to also assume that QEMU
+could have been compromised by a guest breakout, so we
+can't assume that migration will play nice - we have to
+assume the worst case possible, given the process ulimits.
+
+
+> > Overall the memory locking needs look like a significant constraint that
+> > will affect ability to use this feature.
 > >
-> > Maybe an option would be trying to mlock all guest memory before settin=
-g
-> > zerocopy=3Don in qemu code. If it fails, we can print an error message =
-and fall
-> > back to not using zerocopy (following the idea of a new io_async_writev=
-()
-> > I told you in the previous mail).
->
-> Currently ability to lock memory is something that has to be configured
-> when QEMU starts, and it requires libvirt to grant suitable permissions
-> to QEMU. Memory locking is generally undesirable because it prevents
-> memory overcommit. Or rather if you are allowing memory overcommit, then
-> allowing memory locking is a way to kill your entire host.
+> 
+> I Agree, there is a lot to take in account.
+> In any way, those constraints could be checked at the same function as
+> the setsockopt() right?
 
-You mean it's gonna consume too much memory, or something else?
+QEMU could possibly check its ulimits to see if it is possible, but it
+would be safer to require a migration capability to be explicitly set
+by the mgmt app to opt-in to zerocopy.
 
->
-> I don't think we can unconditionally grant ability to lock arbitrary
-> guest RAM at startup, just to satisfy a possible desire to use zerocopy
-> migration later. Granting it at runtime feels questionable as you now
-> need to track and predict how much locked memory you've allowed, and
-> also have possible problems with revokation.
+> (Setting up configs to improve the chance of zerocopy would probably only
+> happen at/before qemu starting, right?)
 
-(I am really new to this, so please forgive me if I am asking dumb or
-overly basic questions)
+Usually, but you can change ulimits on the fly for a process. I'm just
+not sure of semantics if you reduce limits and existing usage exceeds
+the reduced value.
 
-What does revokation means in this context?
-You give the process hability to lock n MB of memory, and then you take it?
-Why would that happen? Is Locked memory a limited resource?
-
->
-> Possibly you could unconditionally grant ability to lock a small amount
-> of guest RAM at startup, but how small can it be, while still making a
-> useful difference to migration. It would imply we also need to be very
-> careful with migration to avoid having too large an amount of outstanding
-> zerocopy requests to exceed the limit.
-
-Yeah, having to decide on a value that would be ok to lock is very
-complex, given we can migrate with multifd, which can make this value grow
-a lot. Except if we only allow a few of those fds to really use zerocopy.
-
->
-> IOW, the only clear place in which we can use zerocopy, is where we are
-> already forced to accept the penalty of locked memory at startup. eg when
-> the guest is using huge pages and no overcommit, or possibly when the gue=
-st
-> is using PCI device assignment,
-
-It would be something already, given that those scenarios are the ones with
-the largest number of pages to migrate. But I understand we could give it a=
- try
-on other scenarios.
-
-> though in the latter I can't remember if
-> we allow entire of guest RAM to be locked or not.
-
-If I recall correctly on a previous discussion, this was the case at least =
-for
-PCI passthrough.
-
->
-> Overall the memory locking needs look like a significant constraint that
-> will affect ability to use this feature.
->
-
-I Agree, there is a lot to take in account.
-In any way, those constraints could be checked at the same function as
-the setsockopt() right?
-(Setting up configs to improve the chance of zerocopy would probably only
-happen at/before qemu starting, right?)
-
-Best regards,
-Leonardo
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
