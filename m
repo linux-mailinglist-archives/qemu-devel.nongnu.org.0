@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D75D73FF1D2
+	by mail.lfdr.de (Postfix) with ESMTPS id E25033FF1D4
 	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 18:53:05 +0200 (CEST)
-Received: from localhost ([::1]:60222 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:60174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLpxY-0004bG-G3
+	id 1mLpxY-0004Zz-AH
 	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 12:53:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49570)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLpvQ-0001r2-OK
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 12:50:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40084)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLpvU-0001ro-In
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 12:50:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60208)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLpvM-0000GG-Tb
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 12:50:52 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLpvR-0000KH-VG
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 12:50:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630601448;
+ s=mimecast20190719; t=1630601452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/eGHUQIvX/JArvB4+KJ+gL18UNLlwL1F2ZTEfqh6Mms=;
- b=SuFeVcpU7a/AtapXrO/jgjhH1FPTrkDNIsXRe4suRZdYoVkb3ueKt9eJKbqb3K52YZ45Tj
- PeBYOms6DK8bLWFshSY8TElMt4o8Tv57FIXglkOvdV5qnfpC/Z0CkPzL3XBBz/MWOCiqz2
- ZeBmlw/Kw1mzuwLGl4Am3o1yYodG+Mk=
+ bh=VN2G/4wJSGOaP1i/981uZGnXCojQFUj+WUAJBtOHkIY=;
+ b=VJDZdsSaDTIp0DUcQTZHWkHy6kry6e1nlF+LVtk/sUocMGlodknSGNT9NezZu40+qmofOC
+ ahKWiZTKWeYZ4Q1JFPCtxU09sGI6CRhkBvNWrp2Y9+Q5lCEbis4s4jRSa8B+5lEHGhfC23
+ ukgCKAt9GA9n04wMV5ooVVm9Lb6ADX0=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-585-nWCKUwssPcy1iQL1eiiXVQ-1; Thu, 02 Sep 2021 12:50:47 -0400
-X-MC-Unique: nWCKUwssPcy1iQL1eiiXVQ-1
+ us-mta-34-AkvlXLCDPhW4fcgCSD2k9A-1; Thu, 02 Sep 2021 12:50:51 -0400
+X-MC-Unique: AkvlXLCDPhW4fcgCSD2k9A-1
 Received: by mail-wr1-f70.google.com with SMTP id
- v18-20020adfe2920000b029013bbfb19640so747612wri.17
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 09:50:47 -0700 (PDT)
+ h6-20020a5d4fc6000000b00157503046afso749772wrw.3
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 09:50:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/eGHUQIvX/JArvB4+KJ+gL18UNLlwL1F2ZTEfqh6Mms=;
- b=D2LfKM2MLO7dI/2WbgBIejM4okTeZPRFh30kX9UHiMjtITb/kCCqzsvyVhj6SCToc+
- WbSe7mfsiMwjOAUzfz07mv8Tv8amxlqXX+sL1RbgMjOncauBPpNJu+WB82OB6s8QMUjz
- 2fhshg3wWRVmHNh+zUWJzGcRiP1ZrDUk4najL6gh4L78Scn3BcN4G9UT4ygFPs2zg2Z+
- fPMlUj0fO54+4tyVfjl6vVV9dgdrEjcZx+gMoVAethXCE5sMkEkm7oCnL5Rzp+nUCh4q
- hG98KhO83HzZT0AiW0mgiKz6x79gGPpVnWm2QaIqaGEUJTrjCrSSzPiXkaDoYWUL+1S/
- Aftw==
-X-Gm-Message-State: AOAM532+FAbHZo1y4DwK9jrvXBqFUdaquD3SGK+wQ1jkXGg+1cM7GW3y
- bZmD0oboFYs0kHyNDOEZb5xSgR7qarLuar7bIUK5D7lOeJrvU0AALW1lZRK3m+5lbLCbi9+N/9a
- fvuY3ioyLFWoRTR31+U1gb5OlqEHrrtvhUxmtiWS2yHTEw7qP+6y/W1u7zV4F28ds
-X-Received: by 2002:a5d:4564:: with SMTP id a4mr4751622wrc.81.1630601445950;
- Thu, 02 Sep 2021 09:50:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyUN/r+OzlPsXuR7hUMv5dVYJDYJQg9pcwlQiunXkOKzRqH6E1GuQIemVsqaKxx27E2RfvbTw==
-X-Received: by 2002:a5d:4564:: with SMTP id a4mr4751600wrc.81.1630601445779;
- Thu, 02 Sep 2021 09:50:45 -0700 (PDT)
+ bh=VN2G/4wJSGOaP1i/981uZGnXCojQFUj+WUAJBtOHkIY=;
+ b=PnrAYT/aD6fIrWk000VfFHFM4aSNsQzxvSiyZ4tYld4Wb2ouTB4RHS0BO3qUVWSsJ0
+ 5Ci2eW8ikQIEr5O06gMtil+MHVL0sco3jQNxp8J/88RFAslJwjmedq4DGcNYY/iDKZ19
+ edaNwxewVI64vH0bd1fd/r7EMdWg2xqqFRrsQMsInhL7VklskTcNcXU5JbteS6mCmwTe
+ ToNR1QXoHgYN1/2TtKO7ymtA4E57FHEnuvPCikiQMvAF/LwnfyKTd4IGmCQClfadtwF8
+ UxAAfx5bf68mWUfRlo19/jxKhjsjbcZotyk79RLIUl4VZpxBAWT6f5bYHUeqoCkab/wX
+ qrEw==
+X-Gm-Message-State: AOAM530WqQ28bD94WxYLylPm4TLyjr1T9pf6bhdeKGRA2ifR1nT1kVb9
+ BLJYdz8lJGFWf8o6yCaICIP/6c81HljndeSo7pxAb46KkMQcbVWbo2GXFM8yUpo7vb8JR8EeEi2
+ lpb0CQdsFoYN39U8iMQE3RlfECgwU9oclcel05o+cYlMsSA50r4Cvr1Gzccdvwjbk
+X-Received: by 2002:adf:910b:: with SMTP id j11mr5126814wrj.114.1630601450260; 
+ Thu, 02 Sep 2021 09:50:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwea8iZWd3qA+Endbq2SjCFcM8b7KRnOUYgTlw5Dootfy65if7i4AgBT9x2JXBQc1DO38984A==
+X-Received: by 2002:adf:910b:: with SMTP id j11mr5126787wrj.114.1630601450033; 
+ Thu, 02 Sep 2021 09:50:50 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- j20sm2238091wrb.5.2021.09.02.09.50.45
+ w29sm2347646wra.88.2021.09.02.09.50.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 09:50:45 -0700 (PDT)
+ Thu, 02 Sep 2021 09:50:49 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/5] hw/virtio: Document virtio_queue_packed_empty_rcu is
- called within RCU
-Date: Thu,  2 Sep 2021 18:50:35 +0200
-Message-Id: <20210902165039.432786-2-philmd@redhat.com>
+Subject: [PATCH v2 2/5] hw/virtio: Comment virtqueue_flush() must be called
+ with RCU read lock
+Date: Thu,  2 Sep 2021 18:50:36 +0200
+Message-Id: <20210902165039.432786-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210902165039.432786-1-philmd@redhat.com>
 References: <20210902165039.432786-1-philmd@redhat.com>
@@ -74,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -103,30 +103,44 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While virtio_queue_packed_empty_rcu() uses the '_rcu' suffix,
-it is not obvious it is called within rcu_read_lock(). All other
-functions from this file called with the RCU locked have a comment
-describing it. Document this one similarly for consistency.
-
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reported-by: Stefano Garzarella <sgarzare@redhat.com>
+Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/virtio/virtio.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/hw/virtio/virtio.h | 7 +++++++
+ hw/virtio/virtio.c         | 1 +
+ 2 files changed, 8 insertions(+)
 
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index 8bab9cfb750..c1c5f6e53c8 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -186,6 +186,13 @@ void virtio_delete_queue(VirtQueue *vq);
+ 
+ void virtqueue_push(VirtQueue *vq, const VirtQueueElement *elem,
+                     unsigned int len);
++/**
++ * virtqueue_flush:
++ * @vq: The #VirtQueue
++ * @count: Number of elements to flush
++ *
++ * Must be called within RCU critical section.
++ */
+ void virtqueue_flush(VirtQueue *vq, unsigned int count);
+ void virtqueue_detach_element(VirtQueue *vq, const VirtQueueElement *elem,
+                               unsigned int len);
 diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 874377f37a7..a5214bca612 100644
+index a5214bca612..b37344bb5e1 100644
 --- a/hw/virtio/virtio.c
 +++ b/hw/virtio/virtio.c
-@@ -634,6 +634,7 @@ static int virtio_queue_split_empty(VirtQueue *vq)
-     return empty;
+@@ -898,6 +898,7 @@ static void virtqueue_packed_flush(VirtQueue *vq, unsigned int count)
+     }
  }
  
 +/* Called within rcu_read_lock().  */
- static int virtio_queue_packed_empty_rcu(VirtQueue *vq)
+ void virtqueue_flush(VirtQueue *vq, unsigned int count)
  {
-     struct VRingPackedDesc desc;
+     if (virtio_device_disabled(vq->vdev)) {
 -- 
 2.31.1
 
