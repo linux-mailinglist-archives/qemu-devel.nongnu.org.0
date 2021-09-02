@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76CEA3FF72B
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 00:30:56 +0200 (CEST)
-Received: from localhost ([::1]:58470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF163FF732
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 00:33:54 +0200 (CEST)
+Received: from localhost ([::1]:60892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLvEV-0001gL-12
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 18:30:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43680)
+	id 1mLvHN-0003Ta-CN
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 18:33:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mLvCk-0000xJ-Df
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 18:29:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53577)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mLvFo-0002bG-CX
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 18:32:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mLvCg-0001eV-RS
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 18:29:04 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mLvFm-0003jb-LZ
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 18:32:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630621741;
+ s=mimecast20190719; t=1630621933;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=MXenLShhbpbrev+DODHcVws/lPM1MZ2LWxJ/FMz+Phg=;
- b=YY3TL/eC+D1EWGKPWyUlS9nYet4e0wNdpZCqyO9Q7P17eFt8A87jwEuQDS2kqF3P2UMfq6
- l8iKdyg6kzffTX8yaM9xq2eD3zQbuF9T3BvH2pBSRtU+rUWyPqwOVOi/kD11OBdqvqW6jB
- Vx/Dj5thSr1RKCYkefD2tOaGMKit2M0=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-2Vb_uOsaOlGlv-W0QIxqxA-1; Thu, 02 Sep 2021 18:29:00 -0400
-X-MC-Unique: 2Vb_uOsaOlGlv-W0QIxqxA-1
-Received: by mail-qk1-f199.google.com with SMTP id
- 70-20020a370b49000000b003d2f5f0dcc6so4315065qkl.9
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 15:29:00 -0700 (PDT)
+ bh=woHEkYXKErzTnLVb7/IWm+2BKsh7foBVIuL2PT+GTzI=;
+ b=GwpwXC8DkATHEHJ48IX0/bQip4IMXhHk8RoDIpB0h51A48trcb2A+DBOjHlLOTtV7HuDm+
+ RBlA4Sf8mEY+Z8q4owWicURC9+Rd0ejYDO4HHMg9/jj1ZgZOy4e5gDIDqUNRLhTWBAh9F5
+ giocegUslu1cmvzejF0prPRfoWKe9Ig=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-233-5-s4GxkiNdmjxlXtaPasVw-1; Thu, 02 Sep 2021 18:32:12 -0400
+X-MC-Unique: 5-s4GxkiNdmjxlXtaPasVw-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ n19-20020ac81e13000000b0029f679691eeso3618832qtl.20
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 15:32:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=MXenLShhbpbrev+DODHcVws/lPM1MZ2LWxJ/FMz+Phg=;
- b=Hwr+TwkPLfpCDvBcD+qYlm/EG/RC+Tvd1Vzx1uOmBgyJ2+J/nSGYqP5WCv0l38Hx2s
- 6nv7kjgLXqq1wlTFrjffV95VJCOgfH9R9l8Uqd5E5ydjAv40dyztBjudFwVu5RfyrP+s
- 9txZKuJyNmdwiL4gkXeMZAaXIH0zUOJihlK9QJWpVY3xbamX3sr7Q4l4xmQ11JBRMuS2
- FMZYZj8Yw6oOY53fc5ko15b1SsSbiAkv/S+73szv+0xSTVpkEbOVjwXkpgMXmZbDulSG
- idp0LINlGb9NiFkY5/ywHVlRkZ1uKKNVcE0co4hbPGnmOKTcgarVmvACjW+Gs5rOh6z8
- lF6g==
-X-Gm-Message-State: AOAM533MkQY2l8gMybrnVw+P6OI0jRpDTgR9eE9ho+JkAwFvp0X5Sl/K
- 1SDY4Kb3hF5qj0CBbK2BGPjdEP+mvHDucvjQ2Bwqs8OFWtuc2ZVQqkK08iuvyBxEX0w0v1uDbha
- 7faygBnSeEfjNSkE=
-X-Received: by 2002:ac8:118a:: with SMTP id d10mr698911qtj.101.1630621739752; 
- Thu, 02 Sep 2021 15:28:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzzWhxJikmkDjVdIJi3srKGW7WfykoODi2Qq2XSB1kUg24fLKdP0PvXOXZo0f+YsDCVVJXbFA==
-X-Received: by 2002:ac8:118a:: with SMTP id d10mr698890qtj.101.1630621739489; 
- Thu, 02 Sep 2021 15:28:59 -0700 (PDT)
+ bh=woHEkYXKErzTnLVb7/IWm+2BKsh7foBVIuL2PT+GTzI=;
+ b=a8ER1h8vwJ1NIAYdVIDXnKXLK9niqPWRkeoRx/c5RSwQbJ8bwkfYkkR4oPORRr/kIi
+ mX9xBLZ0vW3W+dkrYU1mh9MbBtqBku/PAjN0MFTLS6O178CivLiKyrqTYO2VhhzIv9Wo
+ S0qlZU5l29tw4bXT1XJz1/HR9PaZgKHetLaQ1T7TmCZc/+XyxqwHuttfiP0Ewwzs2s5W
+ HTJ/aWrDzzMHXNt10NMDoyia7rO/ef/FgIrWaEWTEWDM/VGoiDoh4cygxnrqRThaQAUB
+ G1Ir9vCMzj9Mo6kC5Wj3OhUJqQfXwjbuFK7kSNed+qtE/CjdqfMqf6yOnYLkO1szpR4V
+ +RDQ==
+X-Gm-Message-State: AOAM533PZk1kDWSdi44zlSWvKyDrar/J52gxET9/wQdkgXWpoU68p9DL
+ ahzeq3qGlaORHm4knfLtahQ4TXiSYd3ZrJmp9XrphhSKPKFPYDf40Q7fl6w8Pw7ZkklPlloS2BM
+ Jsrl7RkwOm2yAnuM=
+X-Received: by 2002:ae9:ed53:: with SMTP id c80mr426701qkg.402.1630621932372; 
+ Thu, 02 Sep 2021 15:32:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJybC/yHB0Uv6NqXBZBvWvXCWsxZBJVxl9lYvKVOGYFV+lOBEypGeDLa+NkYwGmEoyhBujv6yg==
+X-Received: by 2002:ae9:ed53:: with SMTP id c80mr426679qkg.402.1630621932181; 
+ Thu, 02 Sep 2021 15:32:12 -0700 (PDT)
 Received: from t490s ([2607:fea8:56a3:500::ad7f])
- by smtp.gmail.com with ESMTPSA id t188sm2609677qkf.22.2021.09.02.15.28.58
+ by smtp.gmail.com with ESMTPSA id w129sm2607368qkb.61.2021.09.02.15.32.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 15:28:58 -0700 (PDT)
-Date: Thu, 2 Sep 2021 18:28:56 -0400
+ Thu, 02 Sep 2021 15:32:11 -0700 (PDT)
+Date: Thu, 2 Sep 2021 18:32:10 -0400
 From: Peter Xu <peterx@redhat.com>
 To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v4 8/9] migration/ram: Factor out populating pages
- readable in ram_block_populate_pages()
-Message-ID: <YTFQKKPK3evHAMWN@t490s>
+Subject: Re: [PATCH v4 7/9] migration: Simplify alignment and alignment checks
+Message-ID: <YTFQ6vzTCFTwK3tz@t490s>
 References: <20210902131432.23103-1-david@redhat.com>
- <20210902131432.23103-9-david@redhat.com>
+ <20210902131432.23103-8-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210902131432.23103-9-david@redhat.com>
+In-Reply-To: <20210902131432.23103-8-david@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -105,45 +104,23 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 02, 2021 at 03:14:31PM +0200, David Hildenbrand wrote:
-> Let's factor out prefaulting/populating to make further changes easier to
-> review. While at it, use the actual page size of the ramblock, which
-> defaults to qemu_real_host_page_size for anonymous memory.
-> 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  migration/ram.c | 21 ++++++++++++---------
->  1 file changed, 12 insertions(+), 9 deletions(-)
-> 
-> diff --git a/migration/ram.c b/migration/ram.c
-> index e1c158dc92..de47650c90 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -1639,6 +1639,17 @@ out:
->      return ret;
->  }
->  
-> +static inline void populate_range(RAMBlock *block, ram_addr_t offset,
-> +                                  ram_addr_t size)
-> +{
-> +    for (; offset < size; offset += block->page_size) {
-> +        char tmp = *((char *)block->host + offset);
-> +
-> +        /* Don't optimize the read out */
-> +        asm volatile("" : "+r" (tmp));
-> +    }
-> +}
+On Thu, Sep 02, 2021 at 03:14:30PM +0200, David Hildenbrand wrote:
+> diff --git a/migration/migration.c b/migration/migration.c
+> index bb909781b7..ae97c2c461 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -391,7 +391,7 @@ int migrate_send_rp_message_req_pages(MigrationIncomingState *mis,
+>  int migrate_send_rp_req_pages(MigrationIncomingState *mis,
+>                                RAMBlock *rb, ram_addr_t start, uint64_t haddr)
+>  {
+> -    void *aligned = (void *)(uintptr_t)(haddr & (-qemu_ram_pagesize(rb)));
+> +    void *aligned = (void *)QEMU_ALIGN_DOWN(haddr, qemu_ram_pagesize(rb));
 
-If to make it a common function, make it populate_range_read()?
+Is uintptr_t still needed?  I thought it would generate a warning otherwise but
+not sure.
 
-Just to identify from RW, as we'll fill the holes with zero pages only, not
-doing page allocations yet, so not a complete "populate".
-
-That'll be good enough for live snapshot as uffd-wp works for zero pages,
-however I'm just afraid it may stop working for some new users of it when zero
-pages won't suffice.
-
-Maybe some comment would help too?
+Also, maybe ROUND_DOWN() is better?  QEMU_ALIGN_DOWN is the slow version for
+arbitrary numbers.
 
 -- 
 Peter Xu
