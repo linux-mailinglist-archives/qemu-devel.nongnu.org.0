@@ -2,40 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE01E3FEDB6
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 14:24:03 +0200 (CEST)
-Received: from localhost ([::1]:58264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 689683FEDB8
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 14:24:41 +0200 (CEST)
+Received: from localhost ([::1]:59602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLllD-0006cV-0z
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 08:24:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52774)
+	id 1mLlln-0007Ts-7u
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 08:24:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <869605b5a076e231ae36c54866f348b9bdf18f76@lizzy.crudebyte.com>)
- id 1mLlG1-0001Jd-0L
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 07:51:49 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:42771)
+ (envelope-from <f83df00900816476cca41bb536e4d532b297d76e@lizzy.crudebyte.com>)
+ id 1mLlFp-0000pW-Dn
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 07:51:40 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:53623)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <869605b5a076e231ae36c54866f348b9bdf18f76@lizzy.crudebyte.com>)
- id 1mLlFz-0006rN-Jy
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 07:51:48 -0400
+ (envelope-from <f83df00900816476cca41bb536e4d532b297d76e@lizzy.crudebyte.com>)
+ id 1mLlFn-0006qs-Gm
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 07:51:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Content-Transfer-Encoding:Content-Type:
- MIME-Version:Subject:Date:From:References:In-Reply-To:Message-Id:Content-ID:
- Content-Description; bh=vpZWw6ZlQwcnUcbRmtdHMKDNn5le3pMtNva+I+AC6Jo=; b=ibZK/
- lZ/snVynIi5VNbX8BH5wGBZiGmWYfkjJE6OmO+s2z88w8HFHr0UPTQHFK9E1swcWplSET+3B/Im0E
- Sz7nNSmNQYCnrZf36DM4zk9wNUukfSkkgDn3xHVkLjVItU747YS86V3c+xnn99o/H5qDSlnGVfHum
- to4DjnUooBe0qLrKaKi8MTjDymNEMncMyWvYa9fXKHJR7sRas9yCHc3zi/6JumZXwhlVKYnykg5N4
- rRBk9kR5NhL57z01BGR4vl0un0D8FJGToFWppf86WYCmzvHxReT+dULAhp83MXklBY0uRBqjmIFQ0
- 7+drEAd4X8gKsXaElZZhaEvnd7EDQ==;
-Message-Id: <869605b5a076e231ae36c54866f348b9bdf18f76.1630582967.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1630582967.git.qemu_oss@crudebyte.com>
-References: <cover.1630582967.git.qemu_oss@crudebyte.com>
+ MIME-Version:Subject:Date:From:Message-Id:References:In-Reply-To:Content-ID:
+ Content-Description; bh=E0XQugDAKJtuz5puPoYs5SWOYs/FlsZ113QoE5YQUk0=; b=aGZLC
+ 2Yetp3PHjYn35WBi3nRSt/feTaREHFdsGJ9leUhmitT5zBcWn80IkUCkzFOmsvQ1ClHqZO5KD4js1
+ iLnqOOgxSlk8wS6RGLR/BzQxq/SW3NAHrERmmyTqt8Qg8DXSpSB3cqVx2v7/xER0R4FLoSssjFbsP
+ ttjsPGMxmK9DOgWIDB9M5spn+PYy1kVo4iz/25D0KY0JswDa7ccD0WJx2ciR6YxhwSPmBbS74SjZ3
+ Pk1OVWPnjeNXCC0X8qDqM94397GXatSd0cxQvpfX/Ez+nOi5cNF4eWLPBfDi2pePUmxqitJn+xa3k
+ fVn4CEMFPikeGJesNjlPAiDG/JyNQ==;
+Message-Id: <cover.1630582967.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Thu, 02 Sep 2021 13:42:47 +0200
-Subject: [PULL 2/3] hw/9pfs: use g_autofree in v9fs_walk() where possible
+Subject: [PULL 0/3] 9p queue 2021-09-02
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -43,7 +41,7 @@ To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=869605b5a076e231ae36c54866f348b9bdf18f76@lizzy.crudebyte.com;
+ envelope-from=f83df00900816476cca41bb536e4d532b297d76e@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -66,44 +64,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Suggested-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <b51670d2a39399535a035f6bc77c3cbeed85edae.1629208359.git.qemu_oss@crudebyte.com>
----
- hw/9pfs/9p.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+The following changes since commit 59a89510b62ec23dbeab8b02fa4e3526e353d8b6:
 
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 4d642ab12a..c857b31321 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -1703,11 +1703,12 @@ static bool same_stat_id(const struct stat *a, const struct stat *b)
- static void coroutine_fn v9fs_walk(void *opaque)
- {
-     int name_idx;
--    V9fsQID *qids = NULL;
-+    g_autofree V9fsQID *qids = NULL;
-     int i, err = 0;
-     V9fsPath dpath, path, *pathes = NULL;
-     uint16_t nwnames;
--    struct stat stbuf, fidst, *stbufs = NULL;
-+    struct stat stbuf, fidst;
-+    g_autofree struct stat *stbufs = NULL;
-     size_t offset = 7;
-     int32_t fid, newfid;
-     V9fsString *wnames = NULL;
-@@ -1872,8 +1873,6 @@ out_nofid:
-             v9fs_path_free(&pathes[name_idx]);
-         }
-         g_free(wnames);
--        g_free(qids);
--        g_free(stbufs);
-         g_free(pathes);
-     }
- }
--- 
-2.20.1
+  Merge remote-tracking branch 'remotes/stefanberger/tags/pull-tpm-2021-09-01-1' into staging (2021-09-02 08:51:31 +0100)
 
+are available in the Git repository at:
+
+  https://github.com/cschoenebeck/qemu.git tags/pull-9p-20210902
+
+for you to fetch changes up to f83df00900816476cca41bb536e4d532b297d76e:
+
+  9pfs: fix crash in v9fs_walk() (2021-09-02 13:26:22 +0200)
+
+----------------------------------------------------------------
+9pfs: misc patches
+
+* Fix an occasional crash when handling 'Twalk' requests.
+
+* Two code cleanup patches.
+
+----------------------------------------------------------------
+Christian Schoenebeck (3):
+      hw/9pfs: avoid 'path' copy in v9fs_walk()
+      hw/9pfs: use g_autofree in v9fs_walk() where possible
+      9pfs: fix crash in v9fs_walk()
+
+ hw/9pfs/9p.c   | 15 +++++++--------
+ hw/9pfs/coth.h |  4 +++-
+ 2 files changed, 10 insertions(+), 9 deletions(-)
 
