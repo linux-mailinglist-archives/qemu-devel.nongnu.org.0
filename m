@@ -2,92 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0DC43FEC21
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 12:28:55 +0200 (CEST)
-Received: from localhost ([::1]:34322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 807823FEC30
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 12:33:34 +0200 (CEST)
+Received: from localhost ([::1]:48116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLjxm-0007c2-QS
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 06:28:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35402)
+	id 1mLk2H-0000pE-Ku
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 06:33:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLjtl-0002zF-5E
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 06:24:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49264)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1mLjuo-00048W-M5
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 06:25:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLjth-0003Ad-AP
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 06:24:44 -0400
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1mLjuj-00047x-17
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 06:25:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630578280;
+ s=mimecast20190719; t=1630578337;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FcW6tk//vWUq5OGy1EaoTC/0Mw8+XRKa3O7s8dnhtQQ=;
- b=UzkJ1IGu5HnhIqe/R7kh/lEIsuXz15wynB6siCmQfBoUzPI7I8GJJO8Ic28o7lQ+KZMZQ1
- YDSuJwdSRHxcQGhDL+subF5wDoUIRMgDKUXJQn25+WKo6Hx4yOoo9Y3hihUzNVitRXTjFh
- hY6P/FAU3q1uLB9DqC2HfkWYPdBXcgI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-166-8Nl-3rrUNfeOr_YMK5r83w-1; Thu, 02 Sep 2021 06:24:37 -0400
-X-MC-Unique: 8Nl-3rrUNfeOr_YMK5r83w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- j135-20020a1c238d000000b002e87aa95b5aso800826wmj.4
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 03:24:37 -0700 (PDT)
+ bh=TfYS4ivhA3yziO9AvNX+ZwIzCWdlGRAtKUoj9Lh81fw=;
+ b=P9rEv723+CYeu0u7A4PGh/4YwnR9Zji+gJA874zIQOd5L4Qn5G6vmPG0ixy0NDS6WzgKxp
+ 3xXIrah+kcHsfpkuzDLV8FhIGIgDQOoX7hob70WH63ZBkvGf/nikjOi9j/J2Ri6y+Weovl
+ 3ojLjNHgQyvNypt7rmYj2X9NRV8FWXk=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-425--SbIrQ4oOYO49T8O7MEzmA-1; Thu, 02 Sep 2021 06:25:36 -0400
+X-MC-Unique: -SbIrQ4oOYO49T8O7MEzmA-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ p11-20020a2ea40b000000b001d68cffb055so474755ljn.6
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 03:25:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FcW6tk//vWUq5OGy1EaoTC/0Mw8+XRKa3O7s8dnhtQQ=;
- b=X1hDvH9sR3cs40CVw/0JuW0ZSbdOUAu3dSZDqk5h4uIWSlBrqkrf8avCfKWQ/BYlYv
- kuTknLWMCdCma1nWvpD0Kxb/nWdBS7RbsS2rm0VpdlAM1oCWtCl0PDAmoQ64tiAIAibF
- lum9/nk/jW9grBNk1Lqjny9wS82F6HzWVPkrS2ikIgsdbKJoUvLfs/SGeMf0ex7jyL9N
- MA2CDMocITVK4y6HXO/o0bPhjbLqCHKG2ItVUiajID59wNmV7VOydy+Mr0LTQpBrMRCX
- 343NcmKkjxP5AhlFT/WnV0qNXqsswhwzxJ8oKxCx8GTWkwSJmftLX7SFkOcH/9xX7Al9
- qmCQ==
-X-Gm-Message-State: AOAM531/rN8UZdOeH490mbWr64++jT51xYLFCW/7QurrKkOTU+wRETB4
- OGSE66nS0LJOwaH9ZKD9G90294yIjsM8DDI3X6FYP4pnXPNXPSntiXsFEa+mX1fUnaTCagK2e2S
- 84rNDNI35TFzHEQA=
-X-Received: by 2002:a05:6000:188d:: with SMTP id
- a13mr2835593wri.99.1630578276349; 
- Thu, 02 Sep 2021 03:24:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwnTTlwjUIvSYpDNJ3dlkzE8JdpY5NU7wnZV7UbK0Z51pQn7A7owXadfG1fcVnutdhIdFPkxA==
-X-Received: by 2002:a05:6000:188d:: with SMTP id
- a13mr2835567wri.99.1630578276065; 
- Thu, 02 Sep 2021 03:24:36 -0700 (PDT)
-Received: from [192.168.1.36] (163.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id i5sm1118635wmq.17.2021.09.02.03.24.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Sep 2021 03:24:35 -0700 (PDT)
-Subject: Re: [PATCH] coroutine: resize pool periodically instead of limiting
- size
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20210901160923.525651-1-stefanha@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <629ed7db-64bc-b64f-6454-1167c21111ee@redhat.com>
-Date: Thu, 2 Sep 2021 12:24:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=TfYS4ivhA3yziO9AvNX+ZwIzCWdlGRAtKUoj9Lh81fw=;
+ b=N8XdQKn7iArTXAYHbAphNo7aIAx+1NAHqjrsZH1HFQccUFq5WXYCzDja1aKw8S2I9H
+ Gr+ScPnqcAjxQjWfhQ41yAC6b91ZABXHfImcEyyae+kRuqo3AbjKQqymQopg/zpcXFEn
+ 7+/0g8zq6yIdKaJz53+1N+65Gd9p92OqOSV4HTI5uM9iCRyBX+avGt1wljNeKCuwMcqT
+ Y0UV4bTbcLFL/2dIC3S6dCgyflMaSJnSrriNuBg8wXTT0LSY9LZ89GK87Of7+Sd3nPZ9
+ NMpnGOZaXdKhHYwby0M5yH8LmLDd9RLI2BUGEvkx42ZOiPJrvf7dyxbwGkkNSzUDjyeW
+ tMzg==
+X-Gm-Message-State: AOAM531U6m840KrkUYlBK6x58RFQrFQjtp5Hv5cr+9c6a6MtH5hln5QQ
+ u+XW4xm9o/jfcORBIwn+7d2Efg3ycCeBEpFq2NbI1MQLngv3bz2Jg6rhFn7AP4DtPTlxYN0/ykt
+ 7pT6WH5XL7Y9CCzWN3I/brg1k4XdCKdg=
+X-Received: by 2002:a05:651c:10a2:: with SMTP id
+ k2mr1915222ljn.262.1630578335201; 
+ Thu, 02 Sep 2021 03:25:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzxjpN6Jx7EesXpxLMghTm/E7SO8kVPY7G4JMPH2Hovs3cL+XhB4T0tFSTI+nyvVZD6vIJrv5HSRKCt0iUaLK8=
+X-Received: by 2002:a05:651c:10a2:: with SMTP id
+ k2mr1915190ljn.262.1630578334701; 
+ Thu, 02 Sep 2021 03:25:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210901160923.525651-1-stefanha@redhat.com>
+References: <20210831110238.299458-1-leobras@redhat.com>
+ <20210831110238.299458-4-leobras@redhat.com>
+ <YS4rulGV9eueB04H@redhat.com>
+ <CAJ6HWG5cH_33GDTo_v=8zZDZMJNf4k5+Y79Pt1A_7LmxXBx9bQ@mail.gmail.com>
+ <YTCJRSue5NQ8qzPn@redhat.com>
+ <CAJ6HWG45Xb2uc3OdJctL7SFxmrH0ZhDwQMBDAmS1TuDgiCrCMA@mail.gmail.com>
+ <YTCXSoETM7UfeMQE@redhat.com>
+ <CAJ6HWG7wLtEDY-X6wxdH9zG14NOdOCQ1YX0YBxTFEnbhJy6ozw@mail.gmail.com>
+ <YTCgZnhwUCrPp1lP@redhat.com>
+In-Reply-To: <YTCgZnhwUCrPp1lP@redhat.com>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Thu, 2 Sep 2021 07:25:46 -0300
+Message-ID: <CAJ6HWG4o2bkukJWXjjAyBjoAvRGiNr_7Sc5dQJQsmqufrrn3rQ@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] migration: multifd: Enable zerocopy
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lsoaresp@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.029,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,85 +100,207 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Tingting Mao <timao@redhat.com>,
- Honghao Wang <wanghonghao@bytedance.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Daniele Buono <dbuono@linux.vnet.ibm.com>, Serge Guelton <sguelton@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/1/21 6:09 PM, Stefan Hajnoczi wrote:
-> It was reported that enabling SafeStack reduces IOPS significantly
-> (>25%) with the following fio benchmark on virtio-blk using a NVMe host
-> block device:
-> 
->   # fio --rw=randrw --bs=4k --iodepth=64 --runtime=1m --direct=1 \
-> 	--filename=/dev/vdb --name=job1 --ioengine=libaio --thread \
-> 	--group_reporting --numjobs=16 --time_based \
->         --output=/tmp/fio_result
-> 
-> Serge Guelton and I found that SafeStack is not really at fault, it just
-> increases the cost of coroutine creation. This fio workload exhausts the
-> coroutine pool and coroutine creation becomes a bottleneck. Previous
-> work by Honghao Wang also pointed to excessive coroutine creation.
-> 
-> Creating new coroutines is expensive due to allocating new stacks with
-> mmap(2) and mprotect(2). Currently there are thread-local and global
-> pools that recycle old Coroutine objects and their stacks but the
-> hardcoded size limit of 64 for thread-local pools and 128 for the global
-> pool is insufficient for the fio benchmark shown above.
-> 
-> This patch changes the coroutine pool algorithm to a simple thread-local
-> pool without a size limit. Threads periodically shrink the pool down to
-> a size sufficient for the maximum observed number of coroutines.
-> 
-> This is a very simple algorithm. Fancier things could be done like
-> keeping a minimum number of coroutines around to avoid latency when a
-> new coroutine is created after a long period of inactivity. Another
-> thought is to stop the timer when the pool size is zero for power saving
-> on threads that aren't using coroutines. However, I'd rather not add
-> bells and whistles unless they are really necessary.
-> 
-> The global pool is removed by this patch. It can help to hide the fact
-> that local pools are easily exhausted, but it's doesn't fix the root
-> cause. I don't think there is a need for a global pool because QEMU's
-> threads are long-lived, so let's keep things simple.
-> 
-> Performance of the above fio benchmark is as follows:
-> 
->       Before   After
-> IOPS     60k     97k
-> 
-> Memory usage varies over time as needed by the workload:
-> 
->             VSZ (KB)             RSS (KB)
-> Before fio  4705248              843128
-> During fio  5747668 (+ ~100 MB)  849280
-> After fio   4694996 (- ~100 MB)  845184
-> 
-> This confirms that coroutines are indeed being freed when no longer
-> needed.
-> 
-> Thanks to Serge Guelton for working on identifying the bottleneck with
-> me!
-> 
-> Reported-by: Tingting Mao <timao@redhat.com>
-> Cc: Serge Guelton <sguelton@redhat.com>
-> Cc: Honghao Wang <wanghonghao@bytedance.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Daniele Buono <dbuono@linux.vnet.ibm.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  include/qemu/coroutine-pool-timer.h | 36 +++++++++++++++++
->  include/qemu/coroutine.h            |  7 ++++
->  iothread.c                          |  6 +++
->  util/coroutine-pool-timer.c         | 35 ++++++++++++++++
->  util/main-loop.c                    |  5 +++
->  util/qemu-coroutine.c               | 62 ++++++++++++++---------------
->  util/meson.build                    |  1 +
->  7 files changed, 119 insertions(+), 33 deletions(-)
->  create mode 100644 include/qemu/coroutine-pool-timer.h
->  create mode 100644 util/coroutine-pool-timer.c
+On Thu, Sep 2, 2021 at 6:59 AM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+> wrote:
+>
+> On Thu, Sep 02, 2021 at 06:49:06AM -0300, Leonardo Bras Soares Passos wro=
+te:
+> > On Thu, Sep 2, 2021 at 6:20 AM Daniel P. Berrang=C3=A9 <berrange@redhat=
+.com> wrote:
+> > >
+> > > On Thu, Sep 02, 2021 at 05:52:15AM -0300, Leonardo Bras Soares Passos=
+ wrote:
+> > > > On Thu, Sep 2, 2021 at 5:21 AM Daniel P. Berrang=C3=A9 <berrange@re=
+dhat.com> wrote:
+> > > > >
+> > > > > On Thu, Sep 02, 2021 at 04:22:55AM -0300, Leonardo Bras Soares Pa=
+ssos wrote:
+> > > > > > Hello Daniel, thanks for the feedback !
+> > > > > >
+> > > > > > On Tue, Aug 31, 2021 at 10:17 AM Daniel P. Berrang=C3=A9 <berra=
+nge@redhat.com> wrote:
+> > > > > > >
+> > > > > > > On Tue, Aug 31, 2021 at 08:02:39AM -0300, Leonardo Bras wrote=
+:
+> > > > > > > > Call qio_channel_set_zerocopy(true) in the start of every m=
+ultifd thread.
+> > > > > > > >
+> > > > > > > > Change the send_write() interface of multifd, allowing it t=
+o pass down
+> > > > > > > > flags for qio_channel_write*().
+> > > > > > > >
+> > > > > > > > Pass down MSG_ZEROCOPY flag for sending memory pages, while=
+ keeping the
+> > > > > > > > other data being sent at the default copying approach.
+> > > > > > > >
+> > > > > > > > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> > > > > > > > ---
+> > > > > > > >  migration/multifd-zlib.c | 7 ++++---
+> > > > > > > >  migration/multifd-zstd.c | 7 ++++---
+> > > > > > > >  migration/multifd.c      | 9 ++++++---
+> > > > > > > >  migration/multifd.h      | 3 ++-
+> > > > > > > >  4 files changed, 16 insertions(+), 10 deletions(-)
+> > > > > > >
+> > > > > > > > @@ -675,7 +676,8 @@ static void *multifd_send_thread(void *=
+opaque)
+> > > > > > > >              }
+> > > > > > > >
+> > > > > > > >              if (used) {
+> > > > > > > > -                ret =3D multifd_send_state->ops->send_writ=
+e(p, used, &local_err);
+> > > > > > > > +                ret =3D multifd_send_state->ops->send_writ=
+e(p, used, MSG_ZEROCOPY,
+> > > > > > > > +                                                          =
+&local_err);
+> > > > > > >
+> > > > > > > I don't think it is valid to unconditionally enable this feat=
+ure due to the
+> > > > > > > resource usage implications
+> > > > > > >
+> > > > > > > https://www.kernel.org/doc/html/v5.4/networking/msg_zerocopy.=
+html
+> > > > > > >
+> > > > > > >   "A zerocopy failure will return -1 with errno ENOBUFS. This=
+ happens
+> > > > > > >    if the socket option was not set, the socket exceeds its o=
+ptmem
+> > > > > > >    limit or the user exceeds its ulimit on locked pages."
+> > > > > >
+> > > > > > You are correct, I unfortunately missed this part in the docs :=
+(
+> > > > > >
+> > > > > > > The limit on locked pages is something that looks very likely=
+ to be
+> > > > > > > exceeded unless you happen to be running a QEMU config that a=
+lready
+> > > > > > > implies locked memory (eg PCI assignment)
+> > > > > >
+> > > > > > Do you mean the limit an user has on locking memory?
+> > > > >
+> > > > > Yes, by default limit QEMU sees will be something very small.
+> > > > >
+> > > > > > If so, that makes sense. I remember I needed to set the upper l=
+imit of locked
+> > > > > > memory for the user before using it, or adding a capability to =
+qemu before.
+> > > > > >
+> > > > > > Maybe an option would be trying to mlock all guest memory befor=
+e setting
+> > > > > > zerocopy=3Don in qemu code. If it fails, we can print an error =
+message and fall
+> > > > > > back to not using zerocopy (following the idea of a new io_asyn=
+c_writev()
+> > > > > > I told you in the previous mail).
+> > > > >
+> > > > > Currently ability to lock memory is something that has to be conf=
+igured
+> > > > > when QEMU starts, and it requires libvirt to grant suitable permi=
+ssions
+> > > > > to QEMU. Memory locking is generally undesirable because it preve=
+nts
+> > > > > memory overcommit. Or rather if you are allowing memory overcommi=
+t, then
+> > > > > allowing memory locking is a way to kill your entire host.
+> > > >
+> > > > You mean it's gonna consume too much memory, or something else?
+> > >
+> > > Essentially yes.
+> >
+> > Well, maybe we can check for available memory before doing that,
+> > but maybe it's too much effort.
+>
+> From a mgmt app POV, we assume QEMU is untrustworthy, so the mgmt
+> app needs to enforce policy based on the worst case that the
+> VM configuration allows for.
+>
+> Checking current available memory is not viable, because even
+> if you see 10 GB free, QEMU can't know if that free memory is
+> there to satisfy other VMs's worst case needs, or its own. QEMU
+> needs to be explicitly told whether its OK to use locked memory,
+> and an enforcement policy applied to it.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+Yeah, it makes sense to let the mgmt app deal with that and enable/disable
+the MSG_ZEROCOPY on migration whenever it sees fit.
+
+
+>
+>
+> > > Consider a VM host with 64 GB of RAM and 64 GB of swap, and an
+> > > overcommit ratio of 1.5. ie we'll run VMs with 64*1.5 GB of RAM
+> > > total.
+> > >
+> > > So we can run 3 VMs each with 32 GB of RAM, giving 96 GB of usage
+> > > which exceeds physical RAM. Most of the time this may well be fine
+> > > as the VMs don't concurrently need their full RAM allocation, and
+> > > worst case they'll get pushed to swap as the kernel re-shares
+> > > memory in respose to load. So perhaps each VM only needs 20 GB
+> > > resident at any time, but over time one VM can burst upto 32 GB
+> > > and then 12 GB of it get swapped out later when inactive.
+> > >
+> > > But now consider if we allowed 2 of the VMs to lock memory for
+> > > purposes of migration. Those 2 VMs can now pin 64 GB of memory
+> > > in the worst case, leaving no free memory for the 3rd VM or
+> > > for the OS. This will likely take down the entire host, regardless
+> > > of swap availability.
+> > >
+> > > IOW, if you are overcomitting RAM you have to be extremely
+> > > careful about allowing any VM to lock memory. If you do decide
+> > > to allow memory locking, you need to make sure that the worst
+> > > case locked memory amount still leaves enough unlocked memory
+> > > for the OS to be able to effectively manage the overcommit
+> > > load via swap.  We definitely can't grant memory locking to
+> > > VMs at startup in this scenario, and if we grant it at runtime,
+> > > we need to be able to revoke it again later.
+> > >
+> > > These overcommit numbers are a bit more extreme that you'd
+> > > usually do in real world, but it illustrates the genreal
+> > > problem. Also bear in mind that QEMU has memory overhead
+> > > beyond the guest RAM block, which varies over time, making
+> > > accounting quite hard. We have to also assume that QEMU
+> > > could have been compromised by a guest breakout, so we
+> > > can't assume that migration will play nice - we have to
+> > > assume the worst case possible, given the process ulimits.
+> > >
+> >
+> > Yeah, that makes sense. Thanks for this illustration and elucidation !
+> >
+> > I assume there is no way of asking the OS to lock memory, and if there =
+is
+> > no space available, it fails and rolls back the locking.
+>
+> Yes & no. On most Linux configs though it ends up being no, because
+> instead of getting a nice failure, when host memory pressure occurs,
+> the OOM Killer wakes up and just culls processes.
+
+oh, right the OOM Killer :)
+
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
+
+Thanks!
+
+Best regards,
+Leonardo
 
 
