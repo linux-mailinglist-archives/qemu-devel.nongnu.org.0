@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED1E33FEB5E
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 11:40:05 +0200 (CEST)
-Received: from localhost ([::1]:47944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A0953FEB5A
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 11:37:41 +0200 (CEST)
+Received: from localhost ([::1]:39074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLjCW-00008n-M8
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 05:40:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54384)
+	id 1mLjAC-0002Sx-64
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 05:37:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1mLj9I-0002cN-O2
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:36:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50888)
+ id 1mLj8J-0001h6-Tn
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:35:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40060)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1mLj9H-0005FD-0p
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:36:44 -0400
+ id 1mLj8I-0004PJ-9J
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:35:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630575402;
+ s=mimecast20190719; t=1630575340;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mQvQsY+7GTKZG9iGQ2AT0h6SFz4fTB8TgjuB331b6LE=;
- b=I1W5CyCUH/wF8mHjVIw3LTtjqMUOkM67ctirTjlssoBqyBIwULWmb0kfvPpw0eVFmDz5JP
- yMv6GmDkaToJqP6VfRTKPBHsFfxPcZnbXoKvOpjKDcR5w5acNlnI9MTQdwnpCgfwlhxqJw
- OgodgIw0JqLf/++OPbk7K1kaSJyzaP4=
+ bh=Z1tIU2YHphnYuT9wydQ/esWuZWRJ4ptwamQw8mUHyLs=;
+ b=MNsFbzXY3WppM62tFIwnNcBAmDxYf62tgHY/aL4Kwb95V3vwuUlHLOIFk3/YfwxQTI2SZM
+ LGaAk8Tz4yrUDScf7vDeUd6i3MAIkjXK3lANE6Cl9+jCtwRoVinPXaIGZ7oMbPgI9ZOiF1
+ EGRP9SLeBRhcNEkyjBJrND1vW9JTczo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-t1Z6qGpYOkOAj6KZL8lYzQ-1; Thu, 02 Sep 2021 05:35:36 -0400
-X-MC-Unique: t1Z6qGpYOkOAj6KZL8lYzQ-1
+ us-mta-499-BQUyOU5RMfu_vF_eSp2N5w-1; Thu, 02 Sep 2021 05:35:39 -0400
+X-MC-Unique: BQUyOU5RMfu_vF_eSp2N5w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5DF0101371C
- for <qemu-devel@nongnu.org>; Thu,  2 Sep 2021 09:35:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1984E801AE3
+ for <qemu-devel@nongnu.org>; Thu,  2 Sep 2021 09:35:38 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.194.92])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EFF266A05B;
- Thu,  2 Sep 2021 09:35:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2174377F33;
+ Thu,  2 Sep 2021 09:35:35 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/8] i386: Add 6.2 machine types
-Date: Thu,  2 Sep 2021 11:35:23 +0200
-Message-Id: <20210902093530.345756-2-vkuznets@redhat.com>
+Subject: [PATCH v2 2/8] i386: docs: Briefly describe KVM PV features
+Date: Thu,  2 Sep 2021 11:35:24 +0200
+Message-Id: <20210902093530.345756-3-vkuznets@redhat.com>
 In-Reply-To: <20210902093530.345756-1-vkuznets@redhat.com>
 References: <20210902093530.345756-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -85,138 +85,114 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce 6.2 machine types and the required infrastructure for adding
-compat properties to pre-6.2 machine types.
+KVM PV features don't seem to be documented anywhere, in particular, the
+fact that some of the features are enabled by default and some are not can
+only be figured out from the code.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- hw/core/machine.c    |  3 +++
- hw/i386/pc.c         |  3 +++
- hw/i386/pc_piix.c    | 14 +++++++++++++-
- hw/i386/pc_q35.c     | 13 ++++++++++++-
- include/hw/boards.h  |  3 +++
- include/hw/i386/pc.h |  3 +++
- 6 files changed, 37 insertions(+), 2 deletions(-)
+ docs/kvm-pv.txt | 92 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 92 insertions(+)
+ create mode 100644 docs/kvm-pv.txt
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 54e040587dd3..9d0d1194e1ef 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -46,6 +46,9 @@ GlobalProperty hw_compat_6_0[] = {
- };
- const size_t hw_compat_6_0_len = G_N_ELEMENTS(hw_compat_6_0);
- 
-+GlobalProperty hw_compat_6_1[] = {};
-+const size_t hw_compat_6_1_len = G_N_ELEMENTS(hw_compat_6_1);
+diff --git a/docs/kvm-pv.txt b/docs/kvm-pv.txt
+new file mode 100644
+index 000000000000..84ad7fa60f8d
+--- /dev/null
++++ b/docs/kvm-pv.txt
+@@ -0,0 +1,92 @@
++KVM paravirtualized features
++============================
 +
- GlobalProperty hw_compat_5_2[] = {
-     { "ICH9-LPC", "smm-compat", "on"},
-     { "PIIX4_PM", "smm-compat", "on"},
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 102b22394689..1276bfeee456 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -93,6 +93,9 @@
- #include "trace.h"
- #include CONFIG_DEVICES
- 
-+GlobalProperty pc_compat_6_1[] = {};
-+const size_t pc_compat_6_1_len = G_N_ELEMENTS(pc_compat_6_1);
 +
- GlobalProperty pc_compat_6_0[] = {
-     { "qemu64" "-" TYPE_X86_CPU, "family", "6" },
-     { "qemu64" "-" TYPE_X86_CPU, "model", "6" },
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 1bc30167acc0..c5da7739cef7 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -412,7 +412,7 @@ static void pc_i440fx_machine_options(MachineClass *m)
-     machine_class_allow_dynamic_sysbus_dev(m, TYPE_VMBUS_BRIDGE);
- }
- 
--static void pc_i440fx_6_1_machine_options(MachineClass *m)
-+static void pc_i440fx_6_2_machine_options(MachineClass *m)
- {
-     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_i440fx_machine_options(m);
-@@ -421,6 +421,18 @@ static void pc_i440fx_6_1_machine_options(MachineClass *m)
-     pcmc->default_cpu_version = 1;
- }
- 
-+DEFINE_I440FX_MACHINE(v6_2, "pc-i440fx-6.2", NULL,
-+                      pc_i440fx_6_2_machine_options);
++1. Description
++===============
++In some cases when implementing a hardware interface in software is slow, KVM
++implements its own paravirtualized interfaces.
 +
-+static void pc_i440fx_6_1_machine_options(MachineClass *m)
-+{
-+    pc_i440fx_6_2_machine_options(m);
-+    m->alias = NULL;
-+    m->is_default = false;
-+    compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
-+    compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
-+}
++2. Setup
++=========
++KVM PV features are represented as CPU flags. The following features are enabled
++by default for any CPU model when KVM is enabled:
++  kvmclock
++  kvm-nopiodelay
++  kvm-asyncpf
++  kvm-steal-time
++  kvm-pv-eoi
++  kvmclock-stable-bit
 +
- DEFINE_I440FX_MACHINE(v6_1, "pc-i440fx-6.1", NULL,
-                       pc_i440fx_6_1_machine_options);
- 
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index eeb0b185b118..565fadce540c 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -354,7 +354,7 @@ static void pc_q35_machine_options(MachineClass *m)
-     m->max_cpus = 288;
- }
- 
--static void pc_q35_6_1_machine_options(MachineClass *m)
-+static void pc_q35_6_2_machine_options(MachineClass *m)
- {
-     PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
-     pc_q35_machine_options(m);
-@@ -362,6 +362,17 @@ static void pc_q35_6_1_machine_options(MachineClass *m)
-     pcmc->default_cpu_version = 1;
- }
- 
-+DEFINE_Q35_MACHINE(v6_2, "pc-q35-6.2", NULL,
-+                   pc_q35_6_2_machine_options);
++'kvm-msi-ext-dest-id' feature is enabled by default in x2apic mode with split
++irqchip (e.g. "-machine ...,kernel-irqchip=split -cpu ...,x2apic").
 +
-+static void pc_q35_6_1_machine_options(MachineClass *m)
-+{
-+    pc_q35_6_2_machine_options(m);
-+    m->alias = NULL;
-+    compat_props_add(m->compat_props, hw_compat_6_1, hw_compat_6_1_len);
-+    compat_props_add(m->compat_props, pc_compat_6_1, pc_compat_6_1_len);
-+}
++Note: when cpu model 'host' is used, QEMU passes through all KVM PV features
++exposed by KVM to the guest.
 +
- DEFINE_Q35_MACHINE(v6_1, "pc-q35-6.1", NULL,
-                    pc_q35_6_1_machine_options);
- 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index accd6eff35ab..463a5514f97d 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -353,6 +353,9 @@ struct MachineState {
-     } \
-     type_init(machine_initfn##_register_types)
- 
-+extern GlobalProperty hw_compat_6_1[];
-+extern const size_t hw_compat_6_1_len;
++3. Existing features
++====================
 +
- extern GlobalProperty hw_compat_6_0[];
- extern const size_t hw_compat_6_0_len;
- 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 88dffe751724..97b4ab79b534 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -196,6 +196,9 @@ void pc_system_parse_ovmf_flash(uint8_t *flash_ptr, size_t flash_size);
- void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
-                        const CPUArchIdList *apic_ids, GArray *entry);
- 
-+extern GlobalProperty pc_compat_6_1[];
-+extern const size_t pc_compat_6_1_len;
++3.1. kvmclock
++================
++This feature exposes KVM specific PV clocksource to the guest.
 +
- extern GlobalProperty pc_compat_6_0[];
- extern const size_t pc_compat_6_0_len;
- 
++3.2. kvm-nopiodelay
++===================
++The guest doesn't need to perform delays on PIO operations.
++
++3.3. kvm-mmu
++============
++This feature is deprecated.
++
++3.4. kvm-asyncpf
++================
++Enables asynchronous page fault mechanism. Note: since Linux-5.10 the feature is
++deprecated and not enabled by KVM. Use "kvm-asyncpf-int" instead.
++
++3.5. kvm-steal-time
++===================
++Enables stolen (when guest vCPU is not running) time accounting.
++
++3.6. kvm-pv-eoi
++===============
++Enables paravirtualized end-of-interrupt signaling.
++
++3.7. kvm-pv-unhalt
++==================
++Enables paravirtualized spinlocks support.
++
++3.8. kvm-pv-tlb-flush
++=====================
++Enables paravirtualized TLB flush mechanism.
++
++3.9. kvm-pv-ipi
++===============
++Enables paravirtualized IPI mechanism.
++
++3.10. kvm-poll-control
++======================
++Enables host-side polling on HLT control from the guest.
++
++3.11. kvm-pv-sched-yield
++========================
++Enables paravirtualized sched yield feature.
++
++3.12. kvm-asyncpf-int
++=====================
++Enables interrupt based asynchronous page fault mechanism.
++
++3.13. kvm-msi-ext-dest-id
++=========================
++Support 'Extended Destination ID' for external interrupts. The feature allows
++to use up to 32768 CPUs without IRQ remapping (but other limits may apply making
++the number of supported vCPUs for a given configuration lower).
++
++3.14. kvmclock-stable-bit
++=========================
++Tells the guest that guest visible TSC value can be fully trusted for kvmclock
++computations and no warps are expected.
++
++4. Useful links
++================
++Please refer to Documentation/virt/kvm in Linux for additional detail.
 -- 
 2.31.1
 
