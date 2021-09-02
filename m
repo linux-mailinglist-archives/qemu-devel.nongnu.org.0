@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 091C43FE9BB
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 09:08:09 +0200 (CEST)
-Received: from localhost ([::1]:41994 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D90083FE9C2
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 09:09:43 +0200 (CEST)
+Received: from localhost ([::1]:46396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLgpU-0004Rw-3A
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 03:08:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53160)
+	id 1mLgr0-0007VE-VN
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 03:09:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLgid-0000gw-Bw
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 03:01:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50906)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLgii-0000kn-LY
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 03:01:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLgib-0008FZ-V2
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 03:01:03 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLgig-0008Lb-OS
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 03:01:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630566061;
+ s=mimecast20190719; t=1630566066;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=arguNxflA2S+jzgAEya6eTJ5GHl9dYzb/Yt+fBA14Bw=;
- b=Tv/9TN9NJGLh480VUVDtWMA2+8hGYhQXl2D38u0Ugr289XCd53FSq3R6Rdfg4vz0Y1nRSy
- q1yh9X82a09GvoN9ei9JTzXmgju+0wrVwpEWZNqnMSc5PWNfE1lCHPpFF40MfX1fvTN3qS
- wR8udDMouyLLYv33WaFuDRgP8eUu00E=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-36-nCo348xuOx6loWDIbv-dXw-1; Thu, 02 Sep 2021 03:01:00 -0400
-X-MC-Unique: nCo348xuOx6loWDIbv-dXw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- h1-20020adffd41000000b0015931e17ccfso209064wrs.18
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 00:01:00 -0700 (PDT)
+ bh=0uOWhp+saqCNjYYeu2/7aRiyZ5BV70RG+ybspQ5dAak=;
+ b=ewaTWZtUNOLrO4qqtkvZB5t2rX3VGyLMSIKQYvIEvlRj0Q+DPMIqne6bmqYA0b86SJBnoF
+ lr09AfjILXxNZepEEbSkJrn3PGsBZc0ySvnzgvWlLeNMDagSfDxNvqrdUSIS/RoiOKHQ/6
+ hTDSGma0qnTumWgBQ2xFk9PBP3YDgzQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-2-5xrTkssoM4Kv3emRi-uAcQ-1; Thu, 02 Sep 2021 03:01:05 -0400
+X-MC-Unique: 5xrTkssoM4Kv3emRi-uAcQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ h1-20020a05600c350100b002e751bf6733so337042wmq.8
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 00:01:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=arguNxflA2S+jzgAEya6eTJ5GHl9dYzb/Yt+fBA14Bw=;
- b=VIA24AGBMWpkI6GOUyT+lB+Tf3uN67ThkLyBzmBiaQTp7tw3SeCUUB1seIxNaVP7y1
- iGKDIVQHCHTY4FppZT5SohJci05mX7HB5QssqSGxO0xEvknwokqBu9Zq7saqRC0R24KN
- 7z4KZU1LkKFmyaiJS/Ov71kk9IJnA9YeGos9uU00GqFnFEAH+aSo3rFRq7OfacniaU6Y
- V9w15KbdITr9BnsNcdbtx96F5JsIDzcaDAUOImKVQNv6ZxD+sIGCAKhJj2LbUS/NZyAv
- emUiE/h84eEOckGDHGEemtWUaA2A8XY4TD4KFnKF2mcKRYnTXTZeeiPtbQAK8y4e4f1G
- 3E/A==
-X-Gm-Message-State: AOAM532x9jrb9x7O/UX28nQtIbWP1GtEIuQtEkv8u1q0yi/btr7oh+XB
- fMJb7NGDk93mhhR/i9PiO1aFiW8zYLFIrhMzIG7EA5uF1stWLywW1KjDSGq/nkbyRWmSWxIKQzk
- 0/t6XO0Iv0h4DeWIyOfb9GoQCsJVgSPUiYYD33CMtXospTPXgNNfWCYmDxL4yND/y
-X-Received: by 2002:adf:d1a4:: with SMTP id w4mr1776968wrc.233.1630566058939; 
- Thu, 02 Sep 2021 00:00:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwce3M7LpyeIDl7aBBNIHUUHA094XTA5fvajruqoP7By1cxn/DNw3jIgN5FiCaS/c9LeIrCjg==
-X-Received: by 2002:adf:d1a4:: with SMTP id w4mr1776935wrc.233.1630566058742; 
- Thu, 02 Sep 2021 00:00:58 -0700 (PDT)
+ bh=0uOWhp+saqCNjYYeu2/7aRiyZ5BV70RG+ybspQ5dAak=;
+ b=nKAK7edVDhvBBVyKGMLqJ18K0dx7j7RnN1igzFkcpkFKKokv1pimNzDLnjWQs/ry5y
+ vKjkDqJfHdNyeRAufRMydDUofoy1a6VQcZcVn5ev75HcIsYZKtlmUVW1oFGlBUe5NUmW
+ jE1azuw0THpU5/tDa6SHJcJgKCEJaMGfd+w3vYga3smsPWVGsKMlDNfAYpaRP8yxO75f
+ XSPzfyIUZKXdZVCf2yMnNQbXEIO5Q078MyYYR0A/f40s/zjT1+J+cY5ZsVv1GEb1hkKx
+ q2iDqGrum9ugdSf/xJH5jmUhyLrtYJCur5t/9m3eV29KZbp9nYi+AdxLQ2HMjwY45eV4
+ WZkA==
+X-Gm-Message-State: AOAM533+lLOZkjEaS1BnW9c4JK1jsvSf8UASp6OCdeKGrXoaG55oI4ya
+ WQ/QE4y0LkvQCwuP/M7EgqCI4luXp+6efI0NPk3z6rOlYrHCwHR+G5vf1yOYML3V8s3jijQfTMl
+ hryLVzhjPpc5CP3N6MfjGX1eAkBOFjIhTn3okFUWFwQEeOCB5roqqgYJOnHSe/lC+
+X-Received: by 2002:a1c:4686:: with SMTP id t128mr1478497wma.183.1630566063790; 
+ Thu, 02 Sep 2021 00:01:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx7uRnvl5NMiCgo8fd31zdmpgDUNAKhX/1UQ81e7SxZUCKxXZXSyeA8FZuRhep03yUFE+Oi4g==
+X-Received: by 2002:a1c:4686:: with SMTP id t128mr1478470wma.183.1630566063545; 
+ Thu, 02 Sep 2021 00:01:03 -0700 (PDT)
 Received: from x1w.redhat.com (163.red-83-52-55.dynamicip.rima-tde.net.
  [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id j20sm820512wrb.5.2021.09.02.00.00.57
+ by smtp.gmail.com with ESMTPSA id w9sm748568wmc.19.2021.09.02.00.01.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 00:00:58 -0700 (PDT)
+ Thu, 02 Sep 2021 00:01:03 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 07/11] util/vfio-helpers: Extract
- qemu_vfio_water_mark_reached()
-Date: Thu,  2 Sep 2021 09:00:21 +0200
-Message-Id: <20210902070025.197072-8-philmd@redhat.com>
+Subject: [PATCH v3 08/11] util/vfio-helpers: Use error_setg in
+ qemu_vfio_find_[fixed/temp]_iova
+Date: Thu,  2 Sep 2021 09:00:22 +0200
+Message-Id: <20210902070025.197072-9-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210902070025.197072-1-philmd@redhat.com>
 References: <20210902070025.197072-1-philmd@redhat.com>
@@ -76,11 +76,11 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -103,51 +103,88 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extract qemu_vfio_water_mark_reached() for readability,
-and have it provide an error hint it its Error* handle.
+Both qemu_vfio_find_fixed_iova() and qemu_vfio_find_temp_iova()
+return an errno which is unused (or overwritten). Have them propagate
+eventual errors to callers, returning a boolean (which is what the
+Error API recommends, see commit e3fe3988d78 "error: Document Error
+API usage rules" for rationale).
 
 Suggested-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- util/vfio-helpers.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ util/vfio-helpers.c | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
 
 diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-index 77cdec845d9..306b5a83e48 100644
+index 306b5a83e48..b93a3d35787 100644
 --- a/util/vfio-helpers.c
 +++ b/util/vfio-helpers.c
-@@ -721,6 +721,21 @@ qemu_vfio_find_temp_iova(QEMUVFIOState *s, size_t size, uint64_t *iova)
-     return -ENOMEM;
+@@ -677,8 +677,8 @@ static bool qemu_vfio_verify_mappings(QEMUVFIOState *s)
+     return true;
  }
  
-+/**
-+ * qemu_vfio_water_mark_reached:
-+ *
-+ * Returns %true if high watermark has been reached, %false otherwise.
-+ */
-+static bool qemu_vfio_water_mark_reached(QEMUVFIOState *s, size_t size,
-+                                         Error **errp)
-+{
-+    if (s->high_water_mark - s->low_water_mark + 1 < size) {
-+        error_setg(errp, "iova exhausted (water mark reached)");
-+        return true;
-+    }
-+    return false;
-+}
+-static int
+-qemu_vfio_find_fixed_iova(QEMUVFIOState *s, size_t size, uint64_t *iova)
++static bool qemu_vfio_find_fixed_iova(QEMUVFIOState *s, size_t size,
++                                      uint64_t *iova, Error **errp)
+ {
+     int i;
+ 
+@@ -693,14 +693,16 @@ qemu_vfio_find_fixed_iova(QEMUVFIOState *s, size_t size, uint64_t *iova)
+             s->usable_iova_ranges[i].end - s->low_water_mark + 1 == 0) {
+             *iova = s->low_water_mark;
+             s->low_water_mark += size;
+-            return 0;
++            return true;
+         }
+     }
+-    return -ENOMEM;
++    error_setg(errp, "fixed iova range not found");
 +
- /* Map [host, host + size) area into a contiguous IOVA address space, and store
-  * the result in @iova if not NULL. The caller need to make sure the area is
-  * aligned to page size, and mustn't overlap with existing mapping areas (split
-@@ -742,7 +757,7 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, size_t size,
-     if (mapping) {
-         iova0 = mapping->iova + ((uint8_t *)host - (uint8_t *)mapping->host);
-     } else {
--        if (s->high_water_mark - s->low_water_mark + 1 < size) {
-+        if (qemu_vfio_water_mark_reached(s, size, errp)) {
-             ret = -ENOMEM;
++    return false;
+ }
+ 
+-static int
+-qemu_vfio_find_temp_iova(QEMUVFIOState *s, size_t size, uint64_t *iova)
++static bool qemu_vfio_find_temp_iova(QEMUVFIOState *s, size_t size,
++                                     uint64_t *iova, Error **errp)
+ {
+     int i;
+ 
+@@ -715,10 +717,12 @@ qemu_vfio_find_temp_iova(QEMUVFIOState *s, size_t size, uint64_t *iova)
+             s->high_water_mark - s->usable_iova_ranges[i].start + 1 == 0) {
+             *iova = s->high_water_mark - size;
+             s->high_water_mark = *iova;
+-            return 0;
++            return true;
+         }
+     }
+-    return -ENOMEM;
++    error_setg(errp, "temporary iova range not found");
++
++    return false;
+ }
+ 
+ /**
+@@ -762,7 +766,7 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, size_t size,
              goto out;
          }
+         if (!temporary) {
+-            if (qemu_vfio_find_fixed_iova(s, size, &iova0)) {
++            if (!qemu_vfio_find_fixed_iova(s, size, &iova0, errp)) {
+                 ret = -ENOMEM;
+                 goto out;
+             }
+@@ -776,7 +780,7 @@ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, size_t size,
+             }
+             qemu_vfio_dump_mappings(s);
+         } else {
+-            if (qemu_vfio_find_temp_iova(s, size, &iova0)) {
++            if (!qemu_vfio_find_temp_iova(s, size, &iova0, errp)) {
+                 ret = -ENOMEM;
+                 goto out;
+             }
 -- 
 2.31.1
 
