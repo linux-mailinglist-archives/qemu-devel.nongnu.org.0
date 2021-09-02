@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CB413FEE85
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:15:42 +0200 (CEST)
-Received: from localhost ([::1]:36246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 363253FEE46
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:03:56 +0200 (CEST)
+Received: from localhost ([::1]:59776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLmZB-0005U5-Ir
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:15:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37878)
+	id 1mLmNm-0007i4-1X
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:03:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mLm9w-0005Ad-St
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:49:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29858)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mLm9r-00073B-9V
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mLm9u-00058n-P9
  for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:49:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20018)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mLm9s-00073h-BA
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:49:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630586970;
+ s=mimecast20190719; t=1630586971;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=peS/IAyxam/Jeuo5krFHpggifKYax0ZYDXwVRIFU8hk=;
- b=JDyA0A90utlU9xh8KOC2agoKwjntUmj+IM4WsRDah6asMF/Cm63Wug4N5rHy+Qe1nXypwa
- wnzmXyMb8srggKZD1hY1/VNSIqfjhv3Eo2V+cpV7f9LcwlJUPtBdPI5QaVbtbHZtVFrfyp
- rB0aAcA79ymxSU30RFzgaX1OtIA24SY=
+ bh=6rqA3K9F3FH10/7wD1F+o+9rwIXYOs1faRHBea7/k5M=;
+ b=SW4byJSUlW2NRNu7xeyQxcza4rUdbLq5s7rwJTwLpWhcIHom9oSQxVsI2/23E5eV3e6Bms
+ iacVL6r7Jbvrq4LZ4gqixz8snYjcfRZy6bzAqFQcMNKh/Q+eRCc7RyZ5PkM1HJ3IdG4SuT
+ /Mvj9MBokormt0ZzdwEv6QoB6wXRfYY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-4ffcMFh_PzKvHVeoBeDh_w-1; Thu, 02 Sep 2021 08:49:29 -0400
-X-MC-Unique: 4ffcMFh_PzKvHVeoBeDh_w-1
+ us-mta-518-_xjFe40CO5yi5l7rmeo7FA-1; Thu, 02 Sep 2021 08:49:30 -0400
+X-MC-Unique: _xjFe40CO5yi5l7rmeo7FA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30A37107ACC7;
- Thu,  2 Sep 2021 12:49:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C82E1083E8F;
+ Thu,  2 Sep 2021 12:49:29 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.194.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4E40410016F2;
- Thu,  2 Sep 2021 12:49:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8535610016F2;
+ Thu,  2 Sep 2021 12:49:28 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 07/13] meson.build: Fix the check for a usable libfdt
-Date: Thu,  2 Sep 2021 14:49:05 +0200
-Message-Id: <20210902124911.822423-8-thuth@redhat.com>
+Subject: [PULL 08/13] meson.build: Don't use internal libfdt if the user
+ requested the system libfdt
+Date: Thu,  2 Sep 2021 14:49:06 +0200
+Message-Id: <20210902124911.822423-9-thuth@redhat.com>
 In-Reply-To: <20210902124911.822423-1-thuth@redhat.com>
 References: <20210902124911.822423-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -80,42 +81,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The check for libfdt currently has a flaw: If there is a system libfdt, the
-meson.build code initialized the fdt variable with fdt = cc.find_library(...).
-However, if this libfdt is too old and there is no internal dtc module
-available, it continues with "fdt" pointing to the old and unusable version.
-The check later in the file that tries to detect whether libfdt is necessary
-then fails to trigger:
+If the users ran configure with --enable-libfdt=system, they likely did
+that on purpose. We should not silently fall back to the internal libfdt
+if the system libfdt is not usable, but report the problem with a proper
+message instead.
 
- if not fdt.found() and fdt_required.length() > 0
-  error('fdt not available but required by targets ' + ', '.join(fdt_required))
- endif
-
-The build fails then during compilation instead, which is of course bad
-since this is quite confusing and already wasted quite some time of the user.
-Thus if libfdt is not usable, we should unset the "fdt" variable immediately
-again, so that the build already fails during the configuration phase.
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/255
-Message-Id: <20210827120901.150276-2-thuth@redhat.com>
+Message-Id: <20210827120901.150276-3-thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- meson.build | 1 +
- 1 file changed, 1 insertion(+)
+ meson.build | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/meson.build b/meson.build
-index bf63784812..6f7177428e 100644
+index 6f7177428e..ecfdce921c 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1916,6 +1916,7 @@ if have_system
+@@ -1912,6 +1912,8 @@ if have_system
+        int main(void) { fdt_check_full(NULL, 0); return 0; }''',
+          dependencies: fdt)
+       fdt_opt = 'system'
++    elif fdt_opt == 'system'
++       error('system libfdt requested, but it is too old (1.5.1 or newer required)')
+     elif have_internal
        fdt_opt = 'internal'
      else
-       fdt_opt = 'disabled'
-+      fdt = not_found
-     endif
-   endif
-   if fdt_opt == 'internal'
 -- 
 2.27.0
 
