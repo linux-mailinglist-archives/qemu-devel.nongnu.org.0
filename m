@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A0953FEB5A
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 11:37:41 +0200 (CEST)
-Received: from localhost ([::1]:39074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B5433FEB7B
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 11:43:31 +0200 (CEST)
+Received: from localhost ([::1]:55154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLjAC-0002Sx-64
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 05:37:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54046)
+	id 1mLjFq-0005EH-4t
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 05:43:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1mLj8J-0001h6-Tn
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:35:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40060)
+ id 1mLj9c-00036h-KK
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:37:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1mLj8I-0004PJ-9J
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:35:43 -0400
+ id 1mLj9a-0005WY-Fo
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:37:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630575340;
+ s=mimecast20190719; t=1630575421;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z1tIU2YHphnYuT9wydQ/esWuZWRJ4ptwamQw8mUHyLs=;
- b=MNsFbzXY3WppM62tFIwnNcBAmDxYf62tgHY/aL4Kwb95V3vwuUlHLOIFk3/YfwxQTI2SZM
- LGaAk8Tz4yrUDScf7vDeUd6i3MAIkjXK3lANE6Cl9+jCtwRoVinPXaIGZ7oMbPgI9ZOiF1
- EGRP9SLeBRhcNEkyjBJrND1vW9JTczo=
+ bh=v9/ZYQwj0B6fy8iyO01/7uPNuPFArn6nhEp3Z2uEx1Q=;
+ b=Q00d+RDWA5rs+736ZddcBaty7njqMMly8JmAUmc6GTxUEgBUY9fvgogjR7ItRoOmXnGjTj
+ AF3M3PO+/PEL6njnkRxYzVfnA8xQhpJZhoi3yHtG2jqmxw1+ZxB82Vdf9jGstGDr++VzR5
+ fpfdWvjq2AzCy7mMN8kMgO8c0JrvPg0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-BQUyOU5RMfu_vF_eSp2N5w-1; Thu, 02 Sep 2021 05:35:39 -0400
-X-MC-Unique: BQUyOU5RMfu_vF_eSp2N5w-1
+ us-mta-386-46Eufp4ANmq5raRN9ewP0w-1; Thu, 02 Sep 2021 05:35:40 -0400
+X-MC-Unique: 46Eufp4ANmq5raRN9ewP0w-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1984E801AE3
- for <qemu-devel@nongnu.org>; Thu,  2 Sep 2021 09:35:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 205BC8B5862
+ for <qemu-devel@nongnu.org>; Thu,  2 Sep 2021 09:35:40 +0000 (UTC)
 Received: from vitty.brq.redhat.com (unknown [10.40.194.92])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2174377F33;
- Thu,  2 Sep 2021 09:35:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 64AD517A98;
+ Thu,  2 Sep 2021 09:35:38 +0000 (UTC)
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/8] i386: docs: Briefly describe KVM PV features
-Date: Thu,  2 Sep 2021 11:35:24 +0200
-Message-Id: <20210902093530.345756-3-vkuznets@redhat.com>
+Subject: [PATCH v2 3/8] i386: Support KVM_CAP_ENFORCE_PV_FEATURE_CPUID
+Date: Thu,  2 Sep 2021 11:35:25 +0200
+Message-Id: <20210902093530.345756-4-vkuznets@redhat.com>
 In-Reply-To: <20210902093530.345756-1-vkuznets@redhat.com>
 References: <20210902093530.345756-1-vkuznets@redhat.com>
 MIME-Version: 1.0
@@ -57,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vkuznets@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -85,114 +85,91 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM PV features don't seem to be documented anywhere, in particular, the
-fact that some of the features are enabled by default and some are not can
-only be figured out from the code.
+By default, KVM allows the guest to use all currently supported PV features
+even when they were not announced in guest visible CPUIDs. Introduce a new
+"kvm-pv-enforce-cpuid" flag to limit the supported feature set to the
+exposed features. The feature is supported by Linux >= 5.10 and is not
+enabled by default in QEMU.
 
 Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
- docs/kvm-pv.txt | 92 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 92 insertions(+)
- create mode 100644 docs/kvm-pv.txt
+ docs/kvm-pv.txt       | 13 ++++++++++++-
+ target/i386/cpu.c     |  2 ++
+ target/i386/cpu.h     |  3 +++
+ target/i386/kvm/kvm.c | 10 ++++++++++
+ 4 files changed, 27 insertions(+), 1 deletion(-)
 
 diff --git a/docs/kvm-pv.txt b/docs/kvm-pv.txt
-new file mode 100644
-index 000000000000..84ad7fa60f8d
---- /dev/null
+index 84ad7fa60f8d..d1aac533feea 100644
+--- a/docs/kvm-pv.txt
 +++ b/docs/kvm-pv.txt
-@@ -0,0 +1,92 @@
-+KVM paravirtualized features
-+============================
-+
-+
-+1. Description
-+===============
-+In some cases when implementing a hardware interface in software is slow, KVM
-+implements its own paravirtualized interfaces.
-+
-+2. Setup
-+=========
-+KVM PV features are represented as CPU flags. The following features are enabled
-+by default for any CPU model when KVM is enabled:
-+  kvmclock
-+  kvm-nopiodelay
-+  kvm-asyncpf
-+  kvm-steal-time
-+  kvm-pv-eoi
-+  kvmclock-stable-bit
-+
-+'kvm-msi-ext-dest-id' feature is enabled by default in x2apic mode with split
-+irqchip (e.g. "-machine ...,kernel-irqchip=split -cpu ...,x2apic").
-+
-+Note: when cpu model 'host' is used, QEMU passes through all KVM PV features
-+exposed by KVM to the guest.
-+
-+3. Existing features
-+====================
-+
-+3.1. kvmclock
-+================
-+This feature exposes KVM specific PV clocksource to the guest.
-+
-+3.2. kvm-nopiodelay
-+===================
-+The guest doesn't need to perform delays on PIO operations.
-+
-+3.3. kvm-mmu
-+============
-+This feature is deprecated.
-+
-+3.4. kvm-asyncpf
-+================
-+Enables asynchronous page fault mechanism. Note: since Linux-5.10 the feature is
-+deprecated and not enabled by KVM. Use "kvm-asyncpf-int" instead.
-+
-+3.5. kvm-steal-time
-+===================
-+Enables stolen (when guest vCPU is not running) time accounting.
-+
-+3.6. kvm-pv-eoi
-+===============
-+Enables paravirtualized end-of-interrupt signaling.
-+
-+3.7. kvm-pv-unhalt
-+==================
-+Enables paravirtualized spinlocks support.
-+
-+3.8. kvm-pv-tlb-flush
-+=====================
-+Enables paravirtualized TLB flush mechanism.
-+
-+3.9. kvm-pv-ipi
-+===============
-+Enables paravirtualized IPI mechanism.
-+
-+3.10. kvm-poll-control
-+======================
-+Enables host-side polling on HLT control from the guest.
-+
-+3.11. kvm-pv-sched-yield
-+========================
-+Enables paravirtualized sched yield feature.
-+
-+3.12. kvm-asyncpf-int
-+=====================
-+Enables interrupt based asynchronous page fault mechanism.
-+
-+3.13. kvm-msi-ext-dest-id
+@@ -87,6 +87,17 @@ the number of supported vCPUs for a given configuration lower).
+ Tells the guest that guest visible TSC value can be fully trusted for kvmclock
+ computations and no warps are expected.
+ 
+-4. Useful links
++4. Supplementary features
 +=========================
-+Support 'Extended Destination ID' for external interrupts. The feature allows
-+to use up to 32768 CPUs without IRQ remapping (but other limits may apply making
-+the number of supported vCPUs for a given configuration lower).
 +
-+3.14. kvmclock-stable-bit
++4.1. kvm-pv-enforce-cpuid
 +=========================
-+Tells the guest that guest visible TSC value can be fully trusted for kvmclock
-+computations and no warps are expected.
++By default, KVM allows the guest to use all currently supported PV features even
++when they were not announced in guest visible CPUIDs. 'kvm-pv-enforce-cpuid'
++feature alters this behavior and limits the supported feature set to the
++exposed features only.
 +
-+4. Useful links
-+================
-+Please refer to Documentation/virt/kvm in Linux for additional detail.
++
++5. Useful links
+ ================
+ Please refer to Documentation/virt/kvm in Linux for additional detail.
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 97e250e8760d..a70038f172d9 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6691,6 +6691,8 @@ static Property x86_cpu_properties[] = {
+     DEFINE_PROP_BOOL("l3-cache", X86CPU, enable_l3_cache, true),
+     DEFINE_PROP_BOOL("kvm-no-smi-migration", X86CPU, kvm_no_smi_migration,
+                      false),
++    DEFINE_PROP_BOOL("kvm-pv-enforce-cpuid", X86CPU, kvm_pv_enforce_cpuid,
++                     false),
+     DEFINE_PROP_BOOL("vmware-cpuid-freq", X86CPU, vmware_cpuid_freq, true),
+     DEFINE_PROP_BOOL("tcg-cpuid", X86CPU, expose_tcg, true),
+     DEFINE_PROP_BOOL("x-migrate-smi-count", X86CPU, migrate_smi_count,
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 6c50d3ab4f1d..20273a8069dd 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1782,6 +1782,9 @@ struct X86CPU {
+     /* Stop SMI delivery for migration compatibility with old machines */
+     bool kvm_no_smi_migration;
+ 
++    /* Forcefully disable KVM PV features not exposed in guest CPUIDs */
++    bool kvm_pv_enforce_cpuid;
++
+     /* Number of physical address bits supported */
+     uint32_t phys_bits;
+ 
+diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+index 500d2e0e686f..49f97f345069 100644
+--- a/target/i386/kvm/kvm.c
++++ b/target/i386/kvm/kvm.c
+@@ -1629,6 +1629,16 @@ int kvm_arch_init_vcpu(CPUState *cs)
+ 
+     cpu_x86_cpuid(env, 0, 0, &limit, &unused, &unused, &unused);
+ 
++    if (cpu->kvm_pv_enforce_cpuid) {
++        r = kvm_vcpu_enable_cap(cs, KVM_CAP_ENFORCE_PV_FEATURE_CPUID, 0, 1);
++        if (r < 0) {
++            fprintf(stderr,
++                    "failed to enable KVM_CAP_ENFORCE_PV_FEATURE_CPUID: %s",
++                    strerror(-r));
++            abort();
++        }
++    }
++
+     for (i = 0; i <= limit; i++) {
+         if (cpuid_i == KVM_MAX_CPUID_ENTRIES) {
+             fprintf(stderr, "unsupported level value: 0x%x\n", limit);
 -- 
 2.31.1
 
