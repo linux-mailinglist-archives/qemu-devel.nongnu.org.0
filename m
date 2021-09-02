@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1213E3FF81F
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 01:53:55 +0200 (CEST)
-Received: from localhost ([::1]:54022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B08C33FF82F
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 01:59:40 +0200 (CEST)
+Received: from localhost ([::1]:43308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLwWo-0006yp-31
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 19:53:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58806)
+	id 1mLwcN-0001uB-Kh
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 19:59:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwRG-0006zM-Q8
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:48:11 -0400
-Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:43816)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwRN-00077R-6D
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:48:18 -0400
+Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:33761)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwRB-00032i-9E
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:48:10 -0400
-Received: by mail-io1-xd33.google.com with SMTP id n24so4707072ion.10
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 16:48:04 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwRH-00035Y-Mv
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:48:16 -0400
+Received: by mail-il1-x12a.google.com with SMTP id z2so3602893iln.0
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 16:48:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=1C7WC69Qm3Hi0TgjWm2T6XOWF+NQsXtgxG8lA2GcPis=;
- b=SxIwFvASxF088Y8aloLe++miXfbvrk+8OInTaH2Kl1qoU0ePd58ptnrKaTjXzLUfTl
- LXP/vs+f7pMYKn8YBcYObm4XuDWez0sIxwjQydRPK49TuH95rIW3+58I+91w7pL0YQKa
- ivgEucQlhHHKmJpKaprplwy4Bz5CaTnB1KOjLPNHMuG3wZtYz6ZZSYiASAj7lmfbIvpT
- 5XyK3+bd7qhug/L1ofYFi17kUbEflUCExl7aHmSZkqthfXSuwKws/ZLvDTLjAWLytnEp
- aXSDax5NXsK++211CqR9jZg3j1nNCUw69AvkTyPtfQmGRPNAy+dFsS8NHYKjfH6LhpTX
- WW0w==
+ bh=X2p/e1htj00qkiwcmr48C3gV7/8UQNz8zbvcvP452XY=;
+ b=TU/2pewGnZz+hLCwdxyATfrgBKcx/VyWDD0NbxRAg0r3pSjIoPLyz2aI7zn32EK8Ev
+ K8kAQ9JxXtUMl30WNQ7PRcY/B/VHzAmrccZqNBxxLnP1o/wp29RivqgT4awyWHJc51RH
+ q+98Dig2JV7p5xbCMdzyuFMaX/Yq/DErPeohP2txhVZDYU8tOK9gqGtP+XCJqQ7srOBM
+ asVsBpVj71inIKKrXJO+UNDofwQ5UfXz0eZBn1LlrnTkFlJgtvJoAlvueRiWkKILuSh3
+ toa1EL4DwGX52i09w/5XO8QLX2yUm1PYf4kspxHN1AnUZtPNXtsbcgKa89MbShuCS6xc
+ GGWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1C7WC69Qm3Hi0TgjWm2T6XOWF+NQsXtgxG8lA2GcPis=;
- b=IqG6Z3ETEguvcyLnJS8b80CxxhTwCp0CGxnOdRBsR7NWyDIv7twLRePvzpNc3hS5jl
- osvkYu/3YR31UFkH7vE7iajPWGCe32bxve3DjL8dqv8wMX+yYYjtXFl9DxByIFaTVLkg
- lm29QMOw4wTBXVK6ozvZAbts8pSpjJl9R1h4FjOqw25MshD1To2IyrYxCjSKBoYAJazU
- sTA8nJfxe5UTQHvgYEtJDOQuwdfipmyxrcEbCKsL9Bw/13UKdUwrNzG/EHfnAZIWnNfj
- xY0sjvJx9vbQBAFbF3mnPr3KsV7MfNGbZ/h41svclNxNMw9bPIXYCw+FZ+OmnpevMXE4
- ZreQ==
-X-Gm-Message-State: AOAM532rH0cGHtqkzhpBDYM6AATQtpbmNASZiZ4PWe6LUNeXyYAbaS+j
- 4zNSOPgeqYNQGCaMpWWxeL7tXDryyIj97w==
-X-Google-Smtp-Source: ABdhPJx6T31WrabXaqfV/oQVkSKq1f6VAN9Cs3YetBXjIU/4G9qUOUUPDSWQIKtOF1oZbUM39+vSpA==
-X-Received: by 2002:a02:cb0c:: with SMTP id j12mr264110jap.83.1630626483232;
- Thu, 02 Sep 2021 16:48:03 -0700 (PDT)
+ bh=X2p/e1htj00qkiwcmr48C3gV7/8UQNz8zbvcvP452XY=;
+ b=a8PG8Z7V1V2OLeF8AeX5DyVeP2E1mAHzVFrn9i3zPjcBvIyFCOidLX63iQQe7fiAOf
+ ZlnN1NvMDROiWMamzAw/G3s5Gx8BQG+fNwQPktwhPE3GWt858SBX18vrS1PoN+/yhUHF
+ I39SSLZziZGg3O/ky+IJwPVJXCcJwnZhGKipYB3OcHpOL/lriExZcMeHKmIWLusbB+XY
+ VSJFijKArZR5gZfrBl3nq9hErHve6kdQx6cKFAPjX83fR+KsrVCQmuN4QBW0ueNoH7aq
+ pXE8yfZQ3h3Bg7+5F2PSHmERCuwaRwglpuVflN3cnjx5cjEpp9xaWEvTg/FKX5hMPu85
+ 6wbA==
+X-Gm-Message-State: AOAM5306E6nGAPIuXfTzPPijLvihPoP3xw36oH+HSzFBmFBGeUKilozu
+ mqXh2jjZoXQ68DqJ8CnyCVn71cuaGeBGQw==
+X-Google-Smtp-Source: ABdhPJw649MozY507cFFOYcU/0ur/xEOx6KjENUZ1lE3aoIkG3mIduMafx0nQ2RwifoZ8GpodLdcPA==
+X-Received: by 2002:a05:6e02:1aa5:: with SMTP id
+ l5mr472045ilv.271.1630626488941; 
+ Thu, 02 Sep 2021 16:48:08 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id u10sm1740502ilg.15.2021.09.02.16.48.02
+ by smtp.gmail.com with ESMTPSA id u10sm1740502ilg.15.2021.09.02.16.48.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 16:48:02 -0700 (PDT)
+ Thu, 02 Sep 2021 16:48:08 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 20/43] bsd-user: Move per-cpu code into target_arch_cpu.h
-Date: Thu,  2 Sep 2021 17:47:06 -0600
-Message-Id: <20210902234729.76141-21-imp@bsdimp.com>
+Subject: [PATCH v3 26/43] bsd-user: *BSD specific siginfo defintions
+Date: Thu,  2 Sep 2021 17:47:12 -0600
+Message-Id: <20210902234729.76141-27-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210902234729.76141-1-imp@bsdimp.com>
 References: <20210902234729.76141-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d33;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd33.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::12a;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x12a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -81,49 +82,285 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org, Warner Losh <imp@FreeBSD.org>,
- Warner Losh <imp@bsdimp.com>, Stacey Son <sson@FreeBSD.org>
+Cc: kevans@freebsd.org, Richard Henderson <richard.henderson@linaro.org>,
+ Warner Losh <imp@FreeBSD.org>, Warner Losh <imp@bsdimp.com>,
+ Stacey Son <sson@FreeBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@FreeBSD.org>
 
-Move cpu_loop() into target_cpu_loop(), and put that in
-target_arch_cpu.h for each architecture.
+Add FreeBSD, NetBSD and OpenBSD values for the various signal info types
+and defines to decode different signals to discover more information
+about the specific signal types.
 
 Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/i386/target_arch_cpu.c   |   1 +
- bsd-user/i386/target_arch_cpu.h   | 209 ++++++++++++++++++++
- bsd-user/main.c                   | 317 ++----------------------------
- bsd-user/qemu.h                   |   1 +
- bsd-user/x86_64/target_arch_cpu.c |   1 +
- bsd-user/x86_64/target_arch_cpu.h | 247 +++++++++++++++++++++++
- 6 files changed, 473 insertions(+), 303 deletions(-)
- create mode 100644 bsd-user/i386/target_arch_cpu.h
- create mode 100644 bsd-user/x86_64/target_arch_cpu.h
+ bsd-user/freebsd/target_os_siginfo.h | 145 +++++++++++++++++++++++++++
+ bsd-user/freebsd/target_os_signal.h  |  78 ++++++++++++++
+ bsd-user/i386/target_arch_signal.h   |  94 +++++++++++++++++
+ bsd-user/netbsd/target_os_siginfo.h  |  82 +++++++++++++++
+ bsd-user/netbsd/target_os_signal.h   |  69 +++++++++++++
+ bsd-user/openbsd/target_os_siginfo.h |  82 +++++++++++++++
+ bsd-user/openbsd/target_os_signal.h  |  69 +++++++++++++
+ bsd-user/qemu.h                      |   1 +
+ bsd-user/syscall_defs.h              |  10 --
+ bsd-user/x86_64/target_arch_signal.h |  94 +++++++++++++++++
+ 10 files changed, 714 insertions(+), 10 deletions(-)
+ create mode 100644 bsd-user/freebsd/target_os_siginfo.h
+ create mode 100644 bsd-user/freebsd/target_os_signal.h
+ create mode 100644 bsd-user/i386/target_arch_signal.h
+ create mode 100644 bsd-user/netbsd/target_os_siginfo.h
+ create mode 100644 bsd-user/netbsd/target_os_signal.h
+ create mode 100644 bsd-user/openbsd/target_os_siginfo.h
+ create mode 100644 bsd-user/openbsd/target_os_signal.h
+ create mode 100644 bsd-user/x86_64/target_arch_signal.h
 
-diff --git a/bsd-user/i386/target_arch_cpu.c b/bsd-user/i386/target_arch_cpu.c
-index 7f2f755a11..71998e5ba5 100644
---- a/bsd-user/i386/target_arch_cpu.c
-+++ b/bsd-user/i386/target_arch_cpu.c
-@@ -1,6 +1,7 @@
- /*
-  *  i386 cpu related code
-  *
-+ * Copyright (c) 2013 Stacey Son <sson@FreeBSD.org>
-  *
-  *  This program is free software; you can redistribute it and/or modify
-  *  it under the terms of the GNU General Public License as published by
-diff --git a/bsd-user/i386/target_arch_cpu.h b/bsd-user/i386/target_arch_cpu.h
+diff --git a/bsd-user/freebsd/target_os_siginfo.h b/bsd-user/freebsd/target_os_siginfo.h
 new file mode 100644
-index 0000000000..978e8066af
+index 0000000000..84944faa4d
 --- /dev/null
-+++ b/bsd-user/i386/target_arch_cpu.h
-@@ -0,0 +1,209 @@
++++ b/bsd-user/freebsd/target_os_siginfo.h
+@@ -0,0 +1,145 @@
 +/*
-+ *  i386 cpu init and loop
++ *  FreeBSD siginfo related definitions
++ *
++ *  Copyright (c) 2013 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++#ifndef _TARGET_OS_SIGINFO_H_
++#define _TARGET_OS_SIGINFO_H_
++
++#define TARGET_NSIG         128
++#define TARGET_NSIG_BPW     (sizeof(uint32_t) * 8)
++#define TARGET_NSIG_WORDS   (TARGET_NSIG / TARGET_NSIG_BPW)
++
++/* this struct defines a stack used during syscall handling */
++typedef struct target_sigaltstack {
++    abi_long    ss_sp;
++    abi_ulong   ss_size;
++    abi_long    ss_flags;
++} target_stack_t;
++
++typedef struct {
++    uint32_t __bits[TARGET_NSIG_WORDS];
++} target_sigset_t;
++
++struct target_sigaction {
++    abi_ulong   _sa_handler;
++    int32_t     sa_flags;
++    target_sigset_t sa_mask;
++};
++
++typedef union target_sigval {
++    int32_t sival_int;
++    abi_ulong sival_ptr;
++    int32_t sigval_int;
++    abi_ulong sigval_ptr;
++} target_sigval_t;
++
++typedef struct target_siginfo {
++    int32_t si_signo;   /* signal number */
++    int32_t si_errno;   /* errno association */
++    int32_t si_code;    /* signal code */
++    int32_t si_pid;     /* sending process */
++    int32_t si_uid;     /* sender's ruid */
++    int32_t si_status;  /* exit value */
++    abi_ulong si_addr;  /* faulting instruction */
++    union target_sigval si_value;   /* signal value */
++    union {
++        struct {
++            int32_t _trapno;    /* machine specific trap code */
++        } _fault;
++
++        /* POSIX.1b timers */
++        struct {
++            int32_t _timerid;
++            int32_t _overrun;
++        } _timer;
++
++        struct {
++            int32_t _mqd;
++        } _mesgp;
++
++        /* SIGPOLL */
++        struct {
++            int _band;  /* POLL_IN, POLL_OUT, POLL_MSG */
++        } _poll;
++
++        struct {
++            abi_long __spare1__;
++            int32_t  __spare2_[7];
++        } __spare__;
++    } _reason;
++} target_siginfo_t;
++
++struct target_sigevent {
++    abi_int sigev_notify;
++    abi_int sigev_signo;
++    target_sigval_t sigev_value;
++    union {
++        abi_int _threadid;
++
++        /*
++         * The kernel (and thus QEMU) never looks at these;
++         * they're only used as part of the ABI between a
++         * userspace program and libc.
++         */
++        struct {
++            abi_ulong _function;
++            abi_ulong _attribute;
++        } _sigev_thread;
++        abi_ushort _kevent_flags;
++        abi_long _pad[8];
++    } _sigev_un;
++};
++
++#define target_si_signo     si_signo
++#define target_si_code      si_code
++#define target_si_errno     si_errno
++#define target_si_addr      si_addr
++
++/* SIGILL si_codes */
++#define TARGET_ILL_ILLOPC   (1) /* Illegal opcode. */
++#define TARGET_ILL_ILLOPN   (2) /* Illegal operand. */
++#define TARGET_ILL_ILLADR   (3) /* Illegal addressing mode. */
++#define TARGET_ILL_ILLTRP   (4) /* Illegal trap. */
++#define TARGET_ILL_PRVOPC   (5) /* Privileged opcode. */
++#define TARGET_ILL_PRVREG   (6) /* Privileged register. */
++#define TARGET_ILL_COPROC   (7) /* Coprocessor error. */
++#define TARGET_ILL_BADSTK   (8) /* Internal stack error. */
++
++/* SIGSEGV si_codes */
++#define TARGET_SEGV_MAPERR  (1) /* address not mapped to object */
++#define TARGET_SEGV_ACCERR  (2) /* invalid permissions for mapped object */
++
++/* SIGTRAP si_codes */
++#define TARGET_TRAP_BRKPT   (1) /* process beakpoint */
++#define TARGET_TRAP_TRACE   (2) /* process trace trap */
++
++/* SIGBUS si_codes */
++#define TARGET_BUS_ADRALN   (1)
++#define TARGET_BUS_ADRERR   (2)
++#define TARGET_BUS_OBJERR   (3)
++
++/* SIGFPE codes */
++#define TARGET_FPE_INTOVF   (1) /* Integer overflow. */
++#define TARGET_FPE_INTDIV   (2) /* Integer divide by zero. */
++#define TARGET_FPE_FLTDIV   (3) /* Floating point divide by zero. */
++#define TARGET_FPE_FLTOVF   (4) /* Floating point overflow. */
++#define TARGET_FPE_FLTUND   (5) /* Floating point underflow. */
++#define TARGET_FPE_FLTRES   (6) /* Floating point inexact result. */
++#define TARGET_FPE_FLTINV   (7) /* Invalid floating point operation. */
++#define TARGET_FPE_FLTSUB   (8) /* Subscript out of range. */
++
++#endif /* !_TARGET_OS_SIGINFO_H_ */
+diff --git a/bsd-user/freebsd/target_os_signal.h b/bsd-user/freebsd/target_os_signal.h
+new file mode 100644
+index 0000000000..3ed454e086
+--- /dev/null
++++ b/bsd-user/freebsd/target_os_signal.h
+@@ -0,0 +1,78 @@
++#ifndef _TARGET_OS_SIGNAL_H_
++#define _TARGET_OS_SIGNAL_H_
++
++#include "target_os_siginfo.h"
++#include "target_arch_signal.h"
++
++/* Compare to sys/signal.h */
++#define TARGET_SIGHUP  1       /* hangup */
++#define TARGET_SIGINT  2       /* interrupt */
++#define TARGET_SIGQUIT 3       /* quit */
++#define TARGET_SIGILL  4       /* illegal instruction (not reset when caught) */
++#define TARGET_SIGTRAP 5       /* trace trap (not reset when caught) */
++#define TARGET_SIGABRT 6       /* abort() */
++#define TARGET_SIGIOT  SIGABRT /* compatibility */
++#define TARGET_SIGEMT  7       /* EMT instruction */
++#define TARGET_SIGFPE  8       /* floating point exception */
++#define TARGET_SIGKILL 9       /* kill (cannot be caught or ignored) */
++#define TARGET_SIGBUS  10      /* bus error */
++#define TARGET_SIGSEGV 11      /* segmentation violation */
++#define TARGET_SIGSYS  12      /* bad argument to system call */
++#define TARGET_SIGPIPE 13      /* write on a pipe with no one to read it */
++#define TARGET_SIGALRM 14      /* alarm clock */
++#define TARGET_SIGTERM 15      /* software termination signal from kill */
++#define TARGET_SIGURG  16      /* urgent condition on IO channel */
++#define TARGET_SIGSTOP 17      /* sendable stop signal not from tty */
++#define TARGET_SIGTSTP 18      /* stop signal from tty */
++#define TARGET_SIGCONT 19      /* continue a stopped process */
++#define TARGET_SIGCHLD 20      /* to parent on child stop or exit */
++#define TARGET_SIGTTIN 21      /* to readers pgrp upon background tty read */
++#define TARGET_SIGTTOU 22      /* like TTIN for output if(tp->t_local&LTOSTOP)*/
++#define TARGET_SIGIO   23      /* input/output possible signal */
++#define TARGET_SIGXCPU 24      /* exceeded CPU time limit */
++#define TARGET_SIGXFSZ 25      /* exceeded file size limit */
++#define TARGET_SIGVTALRM 26    /* virtual time alarm */
++#define TARGET_SIGPROF 27      /* profiling time alarm */
++#define TARGET_SIGWINCH 28     /* window size changes */
++#define TARGET_SIGINFO  29     /* information request */
++#define TARGET_SIGUSR1 30      /* user defined signal 1 */
++#define TARGET_SIGUSR2 31      /* user defined signal 2 */
++#define TARGET_SIGTHR 32       /* reserved by thread library */
++#define TARGET_SIGLWP SIGTHR   /* compatibility */
++#define TARGET_SIGLIBRT 33     /* reserved by the real-time library */
++#define TARGET_SIGRTMIN 65
++#define TARGET_SIGRTMAX 126
++
++/*
++ * Language spec says we must list exactly one parameter, even though we
++ * actually supply three.  Ugh!
++ */
++#define TARGET_SIG_DFL      ((abi_long)0)   /* default signal handling */
++#define TARGET_SIG_IGN      ((abi_long)1)   /* ignore signal */
++#define TARGET_SIG_ERR      ((abi_long)-1)  /* error return from signal */
++
++#define TARGET_SA_ONSTACK   0x0001  /* take signal on signal stack */
++#define TARGET_SA_RESTART   0x0002  /* restart system on signal return */
++#define TARGET_SA_RESETHAND 0x0004  /* reset to SIG_DFL when taking signal */
++#define TARGET_SA_NODEFER   0x0010  /* don't mask the signal we're delivering */
++#define TARGET_SA_NOCLDWAIT 0x0020  /* don't create zombies (assign to pid 1) */
++#define TARGET_SA_USERTRAMP 0x0100  /* do not bounce off kernel's sigtramp */
++#define TARGET_SA_NOCLDSTOP 0x0008  /* do not generate SIGCHLD on child stop */
++#define TARGET_SA_SIGINFO   0x0040  /* generate siginfo_t */
++
++/*
++ * Flags for sigprocmask:
++ */
++#define TARGET_SIG_BLOCK        1   /* block specified signal set */
++#define TARGET_SIG_UNBLOCK      2   /* unblock specified signal set */
++#define TARGET_SIG_SETMASK      3   /* set specified signal set */
++
++#define TARGET_BADSIG           SIG_ERR
++
++/*
++ * sigaltstack control
++ */
++#define TARGET_SS_ONSTACK 0x0001  /* take signals on alternate stack */
++#define TARGET_SS_DISABLE 0x0004  /* disable taking signals on alternate stack*/
++
++#endif /* !_TARGET_OS_SIGNAL_H_ */
+diff --git a/bsd-user/i386/target_arch_signal.h b/bsd-user/i386/target_arch_signal.h
+new file mode 100644
+index 0000000000..9812c6b034
+--- /dev/null
++++ b/bsd-user/i386/target_arch_signal.h
+@@ -0,0 +1,94 @@
++/*
++ *  i386 dependent signal definitions
 + *
 + *
 + *  This program is free software; you can redistribute it and/or modify
@@ -139,599 +376,457 @@ index 0000000000..978e8066af
 + *  You should have received a copy of the GNU General Public License
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
++#ifndef TARGET_ARCH_SIGNAL_H
++#define TARGET_ARCH_SIGNAL_H
 +
-+#ifndef _TARGET_ARCH_CPU_H_
-+#define _TARGET_ARCH_CPU_H_
++#include "cpu.h"
 +
-+#include "target_arch.h"
++/* Size of the signal trampolin code placed on the stack. */
++#define TARGET_SZSIGCODE    0
 +
-+#define TARGET_DEFAULT_CPU_MODEL "qemu32"
++/* compare to  x86/include/_limits.h */
++#define TARGET_MINSIGSTKSZ  (512 * 4)               /* min sig stack size */
++#define TARGET_SIGSTKSZ     (MINSIGSTKSZ + 32768)   /* recommended size */
 +
-+#define TARGET_CPU_RESET(cpu)
++#define TARGET_MC_GET_CLEAR_RET 0x0001
 +
-+static inline void target_cpu_init(CPUX86State *env,
-+        struct target_pt_regs *regs)
++struct target_sigcontext {
++    /* to be added */
++};
++
++typedef struct target_mcontext {
++} target_mcontext_t;
++
++typedef struct target_ucontext {
++    target_sigset_t   uc_sigmask;
++    target_mcontext_t uc_mcontext;
++    abi_ulong         uc_link;
++    target_stack_t    uc_stack;
++    int32_t           uc_flags;
++    int32_t         __spare__[4];
++} target_ucontext_t;
++
++struct target_sigframe {
++    abi_ulong   sf_signum;
++    abi_ulong   sf_siginfo;    /* code or pointer to sf_si */
++    abi_ulong   sf_ucontext;   /* points to sf_uc */
++    abi_ulong   sf_addr;       /* undocumented 4th arg */
++    target_ucontext_t   sf_uc; /* = *sf_uncontext */
++    target_siginfo_t    sf_si; /* = *sf_siginfo (SA_SIGINFO case)*/
++    uint32_t    __spare__[2];
++};
++
++/*
++ * Compare to i386/i386/machdep.c sendsig()
++ * Assumes that target stack frame memory is locked.
++ */
++static inline abi_long set_sigtramp_args(CPUX86State *regs,
++        int sig, struct target_sigframe *frame, abi_ulong frame_addr,
++        struct target_sigaction *ka)
 +{
-+    uint64_t *gdt_table;
-+
-+    env->cr[0] = CR0_PG_MASK | CR0_WP_MASK | CR0_PE_MASK;
-+    env->hflags |= HF_PE_MASK | HF_CPL_MASK;
-+    if (env->features[FEAT_1_EDX] & CPUID_SSE) {
-+        env->cr[4] |= CR4_OSFXSR_MASK;
-+        env->hflags |= HF_OSFXSR_MASK;
-+    }
-+
-+    /* flags setup : we activate the IRQs by default as in user mode */
-+    env->eflags |= IF_MASK;
-+
-+    /* register setup */
-+    env->regs[R_EAX] = regs->eax;
-+    env->regs[R_EBX] = regs->ebx;
-+    env->regs[R_ECX] = regs->ecx;
-+    env->regs[R_EDX] = regs->edx;
-+    env->regs[R_ESI] = regs->esi;
-+    env->regs[R_EDI] = regs->edi;
-+    env->regs[R_EBP] = regs->ebp;
-+    env->regs[R_ESP] = regs->esp;
-+    env->eip = regs->eip;
-+
-+    /* interrupt setup */
-+    env->idt.limit = 255;
-+
-+    env->idt.base = target_mmap(0, sizeof(uint64_t) * (env->idt.limit + 1),
-+        PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
-+    bsd_i386_set_idt_base(env->idt.base);
-+    bsd_i386_set_idt(0, 0);
-+    bsd_i386_set_idt(1, 0);
-+    bsd_i386_set_idt(2, 0);
-+    bsd_i386_set_idt(3, 3);
-+    bsd_i386_set_idt(4, 3);
-+    bsd_i386_set_idt(5, 0);
-+    bsd_i386_set_idt(6, 0);
-+    bsd_i386_set_idt(7, 0);
-+    bsd_i386_set_idt(8, 0);
-+    bsd_i386_set_idt(9, 0);
-+    bsd_i386_set_idt(10, 0);
-+    bsd_i386_set_idt(11, 0);
-+    bsd_i386_set_idt(12, 0);
-+    bsd_i386_set_idt(13, 0);
-+    bsd_i386_set_idt(14, 0);
-+    bsd_i386_set_idt(15, 0);
-+    bsd_i386_set_idt(16, 0);
-+    bsd_i386_set_idt(17, 0);
-+    bsd_i386_set_idt(18, 0);
-+    bsd_i386_set_idt(19, 0);
-+    bsd_i386_set_idt(0x80, 3);
-+
-+    /* segment setup */
-+    env->gdt.base = target_mmap(0, sizeof(uint64_t) * TARGET_GDT_ENTRIES,
-+            PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
-+    env->gdt.limit = sizeof(uint64_t) * TARGET_GDT_ENTRIES - 1;
-+    gdt_table = g2h_untagged(env->gdt.base);
-+
-+    bsd_i386_write_dt(&gdt_table[__USER_CS >> 3], 0, 0xfffff,
-+            DESC_G_MASK | DESC_B_MASK | DESC_P_MASK | DESC_S_MASK |
-+            (3 << DESC_DPL_SHIFT) | (0xa << DESC_TYPE_SHIFT));
-+
-+    bsd_i386_write_dt(&gdt_table[__USER_DS >> 3], 0, 0xfffff,
-+            DESC_G_MASK | DESC_B_MASK | DESC_P_MASK | DESC_S_MASK |
-+            (3 << DESC_DPL_SHIFT) | (0x2 << DESC_TYPE_SHIFT));
-+
-+    cpu_x86_load_seg(env, R_CS, __USER_CS);
-+    cpu_x86_load_seg(env, R_SS, __USER_DS);
-+    cpu_x86_load_seg(env, R_DS, __USER_DS);
-+    cpu_x86_load_seg(env, R_ES, __USER_DS);
-+    cpu_x86_load_seg(env, R_FS, __USER_DS);
-+    cpu_x86_load_seg(env, R_GS, __USER_DS);
-+    /* This hack makes Wine work... */
-+    env->segs[R_FS].selector = 0;
++    /* XXX return -TARGET_EOPNOTSUPP; */
++    return 0;
 +}
 +
-+static inline void target_cpu_loop(CPUX86State *env)
++/* Compare to i386/i386/machdep.c get_mcontext() */
++static inline abi_long get_mcontext(CPUX86State *regs,
++        target_mcontext_t *mcp, int flags)
 +{
-+    CPUState *cs = env_cpu(env);
-+    int trapnr;
-+    abi_ulong pc;
-+    /* target_siginfo_t info; */
-+
-+    for (;;) {
-+        cpu_exec_start(cs);
-+        trapnr = cpu_exec(cs);
-+        cpu_exec_end(cs);
-+        process_queued_cpu_work(cs);
-+
-+        switch (trapnr) {
-+        case 0x80:
-+            /* syscall from int $0x80 */
-+            if (bsd_type == target_freebsd) {
-+                abi_ulong params = (abi_ulong) env->regs[R_ESP] +
-+                    sizeof(int32_t);
-+                int32_t syscall_nr = env->regs[R_EAX];
-+                int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8;
-+
-+                if (syscall_nr == TARGET_FREEBSD_NR_syscall) {
-+                    get_user_s32(syscall_nr, params);
-+                    params += sizeof(int32_t);
-+                } else if (syscall_nr == TARGET_FREEBSD_NR___syscall) {
-+                    get_user_s32(syscall_nr, params);
-+                    params += sizeof(int64_t);
-+                }
-+                get_user_s32(arg1, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg2, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg3, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg4, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg5, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg6, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg7, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg8, params);
-+                env->regs[R_EAX] = do_freebsd_syscall(env,
-+                                                      syscall_nr,
-+                                                      arg1,
-+                                                      arg2,
-+                                                      arg3,
-+                                                      arg4,
-+                                                      arg5,
-+                                                      arg6,
-+                                                      arg7,
-+                                                      arg8);
-+            } else { /* if (bsd_type == target_openbsd) */
-+                env->regs[R_EAX] = do_openbsd_syscall(env,
-+                                                      env->regs[R_EAX],
-+                                                      env->regs[R_EBX],
-+                                                      env->regs[R_ECX],
-+                                                      env->regs[R_EDX],
-+                                                      env->regs[R_ESI],
-+                                                      env->regs[R_EDI],
-+                                                      env->regs[R_EBP]);
-+            }
-+            if (((abi_ulong)env->regs[R_EAX]) >= (abi_ulong)(-515)) {
-+                env->regs[R_EAX] = -env->regs[R_EAX];
-+                env->eflags |= CC_C;
-+            } else {
-+                env->eflags &= ~CC_C;
-+            }
-+            break;
-+
-+        case EXCP_INTERRUPT:
-+            /* just indicate that signals should be handled asap */
-+            break;
-+
-+        case EXCP_ATOMIC:
-+            cpu_exec_step_atomic(cs);
-+            break;
-+
-+        default:
-+            pc = env->segs[R_CS].base + env->eip;
-+            fprintf(stderr, "qemu: 0x%08lx: unhandled CPU exception 0x%x - "
-+                    "aborting\n", (long)pc, trapnr);
-+            abort();
-+        }
-+        process_pending_signals(env);
-+    }
++    /* XXX */
++    return -TARGET_EOPNOTSUPP;
 +}
 +
-+static inline void target_cpu_clone_regs(CPUX86State *env, target_ulong newsp)
++/* Compare to i386/i386/machdep.c set_mcontext() */
++static inline abi_long set_mcontext(CPUX86State *regs,
++        target_mcontext_t *mcp, int srflag)
 +{
-+    if (newsp) {
-+        env->regs[R_ESP] = newsp;
-+    }
-+    env->regs[R_EAX] = 0;
++    /* XXX */
++    return -TARGET_EOPNOTSUPP;
 +}
 +
-+static inline void target_cpu_reset(CPUArchState *cpu)
++static inline abi_long get_ucontext_sigreturn(CPUX86State *regs,
++                        abi_ulong target_sf, abi_ulong *target_uc)
 +{
-+    cpu_reset(env_cpu(cpu));
++    /* XXX */
++    *target_uc = 0;
++    return -TARGET_EOPNOTSUPP;
 +}
 +
-+#endif /* ! _TARGET_ARCH_CPU_H_ */
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index f7c75df64d..3d4ed202a0 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -42,6 +42,7 @@
- #include "trace/control.h"
- 
- #include "host-os.h"
-+#include "target_arch_cpu.h"
- 
- #include <sys/sysctl.h>
- 
-@@ -83,178 +84,11 @@ void fork_end(int child)
-     }
- }
- 
--#ifdef TARGET_I386
--/***********************************************************/
--/* CPUX86 core interface */
--
--static void write_dt(void *ptr, unsigned long addr, unsigned long limit,
--                     int flags)
--{
--    unsigned int e1, e2;
--    uint32_t *p;
--    e1 = (addr << 16) | (limit & 0xffff);
--    e2 = ((addr >> 16) & 0xff) | (addr & 0xff000000) | (limit & 0x000f0000);
--    e2 |= flags;
--    p = ptr;
--    p[0] = tswap32(e1);
--    p[1] = tswap32(e2);
--}
--
--static uint64_t *idt_table;
--#ifdef TARGET_X86_64
--static void set_gate64(void *ptr, unsigned int type, unsigned int dpl,
--                       uint64_t addr, unsigned int sel)
--{
--    uint32_t *p, e1, e2;
--    e1 = (addr & 0xffff) | (sel << 16);
--    e2 = (addr & 0xffff0000) | 0x8000 | (dpl << 13) | (type << 8);
--    p = ptr;
--    p[0] = tswap32(e1);
--    p[1] = tswap32(e2);
--    p[2] = tswap32(addr >> 32);
--    p[3] = 0;
--}
--/* only dpl matters as we do only user space emulation */
--static void set_idt(int n, unsigned int dpl)
--{
--    set_gate64(idt_table + n * 2, 0, dpl, 0, 0);
--}
--#else
--static void set_gate(void *ptr, unsigned int type, unsigned int dpl,
--                     uint32_t addr, unsigned int sel)
-+void cpu_loop(CPUArchState *env)
- {
--    uint32_t *p, e1, e2;
--    e1 = (addr & 0xffff) | (sel << 16);
--    e2 = (addr & 0xffff0000) | 0x8000 | (dpl << 13) | (type << 8);
--    p = ptr;
--    p[0] = tswap32(e1);
--    p[1] = tswap32(e2);
-+    target_cpu_loop(env);
- }
- 
--/* only dpl matters as we do only user space emulation */
--static void set_idt(int n, unsigned int dpl)
--{
--    set_gate(idt_table + n, 0, dpl, 0, 0);
--}
--#endif
--
--void cpu_loop(CPUX86State *env)
--{
--    CPUState *cs = env_cpu(env);
--    int trapnr;
--    abi_ulong pc;
--    /* target_siginfo_t info; */
--
--    for (;;) {
--        cpu_exec_start(cs);
--        trapnr = cpu_exec(cs);
--        cpu_exec_end(cs);
--        process_queued_cpu_work(cs);
--
--        switch (trapnr) {
--        case 0x80:
--            /* syscall from int $0x80 */
--            if (bsd_type == target_freebsd) {
--                abi_ulong params = (abi_ulong) env->regs[R_ESP] +
--                    sizeof(int32_t);
--                int32_t syscall_nr = env->regs[R_EAX];
--                int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8;
--
--                if (syscall_nr == TARGET_FREEBSD_NR_syscall) {
--                    get_user_s32(syscall_nr, params);
--                    params += sizeof(int32_t);
--                } else if (syscall_nr == TARGET_FREEBSD_NR___syscall) {
--                    get_user_s32(syscall_nr, params);
--                    params += sizeof(int64_t);
--                }
--                get_user_s32(arg1, params);
--                params += sizeof(int32_t);
--                get_user_s32(arg2, params);
--                params += sizeof(int32_t);
--                get_user_s32(arg3, params);
--                params += sizeof(int32_t);
--                get_user_s32(arg4, params);
--                params += sizeof(int32_t);
--                get_user_s32(arg5, params);
--                params += sizeof(int32_t);
--                get_user_s32(arg6, params);
--                params += sizeof(int32_t);
--                get_user_s32(arg7, params);
--                params += sizeof(int32_t);
--                get_user_s32(arg8, params);
--                env->regs[R_EAX] = do_freebsd_syscall(env,
--                                                      syscall_nr,
--                                                      arg1,
--                                                      arg2,
--                                                      arg3,
--                                                      arg4,
--                                                      arg5,
--                                                      arg6,
--                                                      arg7,
--                                                      arg8);
--            } else { /* if (bsd_type == target_openbsd) */
--                env->regs[R_EAX] = do_openbsd_syscall(env,
--                                                      env->regs[R_EAX],
--                                                      env->regs[R_EBX],
--                                                      env->regs[R_ECX],
--                                                      env->regs[R_EDX],
--                                                      env->regs[R_ESI],
--                                                      env->regs[R_EDI],
--                                                      env->regs[R_EBP]);
--            }
--            if (((abi_ulong)env->regs[R_EAX]) >= (abi_ulong)(-515)) {
--                env->regs[R_EAX] = -env->regs[R_EAX];
--                env->eflags |= CC_C;
--            } else {
--                env->eflags &= ~CC_C;
--            }
--            break;
--#ifndef TARGET_ABI32
--        case EXCP_SYSCALL:
--            /* syscall from syscall instruction */
--            if (bsd_type == target_freebsd) {
--                env->regs[R_EAX] = do_freebsd_syscall(env,
--                                                      env->regs[R_EAX],
--                                                      env->regs[R_EDI],
--                                                      env->regs[R_ESI],
--                                                      env->regs[R_EDX],
--                                                      env->regs[R_ECX],
--                                                      env->regs[8],
--                                                      env->regs[9], 0, 0);
--            } else { /* if (bsd_type == target_openbsd) */
--                env->regs[R_EAX] = do_openbsd_syscall(env,
--                                                      env->regs[R_EAX],
--                                                      env->regs[R_EDI],
--                                                      env->regs[R_ESI],
--                                                      env->regs[R_EDX],
--                                                      env->regs[10],
--                                                      env->regs[8],
--                                                      env->regs[9]);
--            }
--            env->eip = env->exception_next_eip;
--            if (((abi_ulong)env->regs[R_EAX]) >= (abi_ulong)(-515)) {
--                env->regs[R_EAX] = -env->regs[R_EAX];
--                env->eflags |= CC_C;
--            } else {
--                env->eflags &= ~CC_C;
--            }
--            break;
--#endif
--        case EXCP_INTERRUPT:
--            /* just indicate that signals should be handled asap */
--            break;
--        default:
--            pc = env->segs[R_CS].base + env->eip;
--            fprintf(stderr,
--                    "qemu: 0x%08lx: unhandled CPU exception 0x%x - aborting\n",
--                    (long)pc, trapnr);
--            abort();
--        }
--        process_pending_signals(env);
--    }
--}
--#endif
--
- static void usage(void)
- {
-     printf("qemu-" TARGET_NAME " version " QEMU_FULL_VERSION
-@@ -353,7 +187,7 @@ int main(int argc, char **argv)
-     struct target_pt_regs regs1, *regs = &regs1;
-     struct image_info info1, *info = &info1;
-     struct bsd_binprm bprm;
--    TaskState ts1, *ts = &ts1;
-+    TaskState *ts;
-     CPUArchState *env;
-     CPUState *cpu;
-     int optind, rv;
-@@ -521,18 +355,11 @@ int main(int argc, char **argv)
-     init_paths(interp_prefix);
- 
-     if (cpu_model == NULL) {
--#if defined(TARGET_I386)
--#ifdef TARGET_X86_64
--        cpu_model = "qemu64";
--#else
--        cpu_model = "qemu32";
--#endif
--#else
--        cpu_model = "any";
--#endif
-+        cpu_model = TARGET_DEFAULT_CPU_MODEL;
-     }
- 
-     cpu_type = parse_cpu_option(cpu_model);
++#endif /* TARGET_ARCH_SIGNAL_H */
+diff --git a/bsd-user/netbsd/target_os_siginfo.h b/bsd-user/netbsd/target_os_siginfo.h
+new file mode 100644
+index 0000000000..667c19cc7c
+--- /dev/null
++++ b/bsd-user/netbsd/target_os_siginfo.h
+@@ -0,0 +1,82 @@
++#ifndef _TARGET_OS_SIGINFO_H_
++#define _TARGET_OS_SIGINFO_H_
 +
-     /* init tcg before creating CPUs and to get qemu_host_page_size */
-     {
-         AccelClass *ac = ACCEL_GET_CLASS(current_accel());
-@@ -587,6 +414,13 @@ int main(int argc, char **argv)
-         qemu_log("entry       0x" TARGET_ABI_FMT_lx "\n", info->entry);
-     }
- 
-+    /* build Task State */
-+    ts = g_new0(TaskState, 1);
-+    init_task_state(ts);
-+    ts->info = info;
-+    ts->bprm = &bprm;
-+    cpu->opaque = ts;
++#define TARGET_NSIG     32  /* counting 0; could be 33 (mask is 1-32) */
++#define TARGET_NSIG_BPW     (sizeof(uint32_t) * 8)
++#define TARGET_NSIG_WORDS   (TARGET_NSIG / TARGET_NSIG_BPW)
 +
-     target_set_brk(info->brk);
-     syscall_init();
-     signal_init();
-@@ -598,130 +432,7 @@ int main(int argc, char **argv)
-      */
-     tcg_prologue_init(tcg_ctx);
- 
--    /* build Task State */
--    memset(ts, 0, sizeof(TaskState));
--    init_task_state(ts);
--    ts->info = info;
--    cpu->opaque = ts;
--
--#if defined(TARGET_I386)
--    env->cr[0] = CR0_PG_MASK | CR0_WP_MASK | CR0_PE_MASK;
--    env->hflags |= HF_PE_MASK | HF_CPL_MASK;
--    if (env->features[FEAT_1_EDX] & CPUID_SSE) {
--        env->cr[4] |= CR4_OSFXSR_MASK;
--        env->hflags |= HF_OSFXSR_MASK;
--    }
--#ifndef TARGET_ABI32
--    /* enable 64 bit mode if possible */
--    if (!(env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM)) {
--        fprintf(stderr, "The selected x86 CPU does not support 64 bit mode\n");
--        exit(1);
--    }
--    env->cr[4] |= CR4_PAE_MASK;
--    env->efer |= MSR_EFER_LMA | MSR_EFER_LME;
--    env->hflags |= HF_LMA_MASK;
--#endif
--
--    /* flags setup : we activate the IRQs by default as in user mode */
--    env->eflags |= IF_MASK;
--
--    /* linux register setup */
--#ifndef TARGET_ABI32
--    env->regs[R_EAX] = regs->rax;
--    env->regs[R_EBX] = regs->rbx;
--    env->regs[R_ECX] = regs->rcx;
--    env->regs[R_EDX] = regs->rdx;
--    env->regs[R_ESI] = regs->rsi;
--    env->regs[R_EDI] = regs->rdi;
--    env->regs[R_EBP] = regs->rbp;
--    env->regs[R_ESP] = regs->rsp;
--    env->eip = regs->rip;
--#else
--    env->regs[R_EAX] = regs->eax;
--    env->regs[R_EBX] = regs->ebx;
--    env->regs[R_ECX] = regs->ecx;
--    env->regs[R_EDX] = regs->edx;
--    env->regs[R_ESI] = regs->esi;
--    env->regs[R_EDI] = regs->edi;
--    env->regs[R_EBP] = regs->ebp;
--    env->regs[R_ESP] = regs->esp;
--    env->eip = regs->eip;
--#endif
--
--    /* linux interrupt setup */
--#ifndef TARGET_ABI32
--    env->idt.limit = 511;
--#else
--    env->idt.limit = 255;
--#endif
--    env->idt.base = target_mmap(0, sizeof(uint64_t) * (env->idt.limit + 1),
--                                PROT_READ | PROT_WRITE,
--                                MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
--    idt_table = g2h_untagged(env->idt.base);
--    set_idt(0, 0);
--    set_idt(1, 0);
--    set_idt(2, 0);
--    set_idt(3, 3);
--    set_idt(4, 3);
--    set_idt(5, 0);
--    set_idt(6, 0);
--    set_idt(7, 0);
--    set_idt(8, 0);
--    set_idt(9, 0);
--    set_idt(10, 0);
--    set_idt(11, 0);
--    set_idt(12, 0);
--    set_idt(13, 0);
--    set_idt(14, 0);
--    set_idt(15, 0);
--    set_idt(16, 0);
--    set_idt(17, 0);
--    set_idt(18, 0);
--    set_idt(19, 0);
--    set_idt(0x80, 3);
--
--    /* linux segment setup */
--    {
--        uint64_t *gdt_table;
--        env->gdt.base = target_mmap(0, sizeof(uint64_t) * TARGET_GDT_ENTRIES,
--                                    PROT_READ | PROT_WRITE,
--                                    MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
--        env->gdt.limit = sizeof(uint64_t) * TARGET_GDT_ENTRIES - 1;
--        gdt_table = g2h_untagged(env->gdt.base);
--#ifdef TARGET_ABI32
--        write_dt(&gdt_table[__USER_CS >> 3], 0, 0xfffff,
--                 DESC_G_MASK | DESC_B_MASK | DESC_P_MASK | DESC_S_MASK |
--                 (3 << DESC_DPL_SHIFT) | (0xa << DESC_TYPE_SHIFT));
--#else
--        /* 64 bit code segment */
--        write_dt(&gdt_table[__USER_CS >> 3], 0, 0xfffff,
--                 DESC_G_MASK | DESC_B_MASK | DESC_P_MASK | DESC_S_MASK |
--                 DESC_L_MASK |
--                 (3 << DESC_DPL_SHIFT) | (0xa << DESC_TYPE_SHIFT));
--#endif
--        write_dt(&gdt_table[__USER_DS >> 3], 0, 0xfffff,
--                 DESC_G_MASK | DESC_B_MASK | DESC_P_MASK | DESC_S_MASK |
--                 (3 << DESC_DPL_SHIFT) | (0x2 << DESC_TYPE_SHIFT));
--    }
--
--    cpu_x86_load_seg(env, R_CS, __USER_CS);
--    cpu_x86_load_seg(env, R_SS, __USER_DS);
--#ifdef TARGET_ABI32
--    cpu_x86_load_seg(env, R_DS, __USER_DS);
--    cpu_x86_load_seg(env, R_ES, __USER_DS);
--    cpu_x86_load_seg(env, R_FS, __USER_DS);
--    cpu_x86_load_seg(env, R_GS, __USER_DS);
--    /* This hack makes Wine work... */
--    env->segs[R_FS].selector = 0;
--#else
--    cpu_x86_load_seg(env, R_DS, 0);
--    cpu_x86_load_seg(env, R_ES, 0);
--    cpu_x86_load_seg(env, R_FS, 0);
--    cpu_x86_load_seg(env, R_GS, 0);
--#endif
--#else
--#error unsupported target CPU
--#endif
-+    target_cpu_init(env, regs);
- 
-     if (gdbstub) {
-         gdbserver_start(gdbstub);
++/* this struct defines a stack used during syscall handling */
++typedef struct target_sigaltstack {
++    abi_long    ss_sp;
++    abi_ulong   ss_size;
++    abi_long    ss_flags;
++} target_stack_t;
++
++typedef struct {
++    uint32_t __bits[TARGET_NSIG_WORDS];
++} target_sigset_t
++
++struct target_sigaction {
++    abi_ulong   _sa_handler;
++    int32_t     sa_flags;
++    target_sigset_t sa_mask;
++};
++
++/* Compare to sys/siginfo.h */
++typedef union target_sigval {
++    int         sival_int;
++    abi_ulong   sival_ptr;
++} target_sigval_t;
++
++struct target_ksiginfo {
++    int32_t     _signo;
++    int32_t     _code;
++    int32_t     _errno;
++#if TARGET_ABI_BITS == 64
++    int32_t     _pad;
++#endif
++    union {
++        struct {
++            int32_t             _pid;
++            int32_t             _uid;
++            target_sigval_t    _value;
++        } _rt;
++
++        struct {
++            int32_t             _pid;
++            int32_t             _uid;
++            int32_t             _struct;
++            /* clock_t          _utime; */
++            /* clock_t          _stime; */
++        } _child;
++
++        struct {
++            abi_ulong           _addr;
++            int32_t             _trap;
++        } _fault;
++
++        struct {
++            long                _band;
++            int                 _fd;
++        } _poll;
++    } _reason;
++};
++
++typedef union target_siginfo {
++    int8_t     si_pad[128];
++    struct     target_ksiginfo  _info;
++} target_siginfo_t;
++
++#define target_si_signo     _info._signo
++#define target_si_code      _info._code
++#define target_si_errno     _info._errno
++#define target_si_addr      _info._reason._fault._addr
++
++#define TARGET_SEGV_MAPERR  1
++#define TARGET_SEGV_ACCERR  2
++
++#define TARGET_TRAP_BRKPT   1
++#define TARGET_TRAP_TRACE   2
++
++
++#endif /* ! _TARGET_OS_SIGINFO_H_ */
+diff --git a/bsd-user/netbsd/target_os_signal.h b/bsd-user/netbsd/target_os_signal.h
+new file mode 100644
+index 0000000000..a373922f7e
+--- /dev/null
++++ b/bsd-user/netbsd/target_os_signal.h
+@@ -0,0 +1,69 @@
++#ifndef _TARGET_OS_SIGNAL_H_
++#define _TARGET_OS_SIGNAL_H_
++
++#include "target_os_siginfo.h"
++#include "target_arch_signal.h"
++
++#define TARGET_SIGHUP  1       /* hangup */
++#define TARGET_SIGINT  2       /* interrupt */
++#define TARGET_SIGQUIT 3       /* quit */
++#define TARGET_SIGILL  4       /* illegal instruction (not reset when caught) */
++#define TARGET_SIGTRAP 5       /* trace trap (not reset when caught) */
++#define TARGET_SIGABRT 6       /* abort() */
++#define TARGET_SIGIOT  SIGABRT /* compatibility */
++#define TARGET_SIGEMT  7       /* EMT instruction */
++#define TARGET_SIGFPE  8       /* floating point exception */
++#define TARGET_SIGKILL 9       /* kill (cannot be caught or ignored) */
++#define TARGET_SIGBUS  10      /* bus error */
++#define TARGET_SIGSEGV 11      /* segmentation violation */
++#define TARGET_SIGSYS  12      /* bad argument to system call */
++#define TARGET_SIGPIPE 13      /* write on a pipe with no one to read it */
++#define TARGET_SIGALRM 14      /* alarm clock */
++#define TARGET_SIGTERM 15      /* software termination signal from kill */
++#define TARGET_SIGURG  16      /* urgent condition on IO channel */
++#define TARGET_SIGSTOP 17      /* sendable stop signal not from tty */
++#define TARGET_SIGTSTP 18      /* stop signal from tty */
++#define TARGET_SIGCONT 19      /* continue a stopped process */
++#define TARGET_SIGCHLD 20      /* to parent on child stop or exit */
++#define TARGET_SIGTTIN 21      /* to readers pgrp upon background tty read */
++#define TARGET_SIGTTOU 22      /* like TTIN for out if (tp->t_local&LTOSTOP) */
++#define TARGET_SIGIO   23      /* input/output possible signal */
++#define TARGET_SIGXCPU 24      /* exceeded CPU time limit */
++#define TARGET_SIGXFSZ 25      /* exceeded file size limit */
++#define TARGET_SIGVTALRM 26    /* virtual time alarm */
++#define TARGET_SIGPROF   27    /* profiling time alarm */
++#define TARGET_SIGWINCH  28    /* window size changes */
++#define TARGET_SIGINFO   29    /* information request */
++#define TARGET_SIGUSR1   30    /* user defined signal 1 */
++#define TARGET_SIGUSR2   31    /* user defined signal 2 */
++
++/*
++ * Language spec says we must list exactly one parameter, even though we
++ * actually supply three.  Ugh!
++ */
++#define TARGET_SIG_DFL         ((void (*)(int))0)
++#define TARGET_SIG_IGN         ((void (*)(int))1)
++#define TARGET_SIG_ERR         ((void (*)(int))-1)
++
++#define TARGET_SA_ONSTACK   0x0001  /* take signal on signal stack */
++#define TARGET_SA_RESTART   0x0002  /* restart system on signal return */
++#define TARGET_SA_RESETHAND 0x0004  /* reset to SIG_DFL when taking signal */
++#define TARGET_SA_NODEFER   0x0010  /* don't mask the signal we're delivering */
++#define TARGET_SA_NOCLDWAIT 0x0020  /* don't create zombies (assign to pid 1) */
++#define TARGET_SA_USERTRAMP 0x0100  /* do not bounce off kernel's sigtramp */
++#define TARGET_SA_NOCLDSTOP 0x0008  /* do not generate SIGCHLD on child stop */
++#define TARGET_SA_SIGINFO   0x0040  /* generate siginfo_t */
++
++/*
++ * Flags for sigprocmask:
++ */
++#define TARGET_SIG_BLOCK       1       /* block specified signal set */
++#define TARGET_SIG_UNBLOCK     2       /* unblock specified signal set */
++#define TARGET_SIG_SETMASK     3       /* set specified signal set */
++
++#define TARGET_BADSIG       SIG_ERR
++
++#define TARGET_SS_ONSTACK 0x0001 /* take signals on alternate stack */
++#define TARGET_SS_DISABLE 0x0004 /* disable taking signals on alternate stack */
++
++#endif /* !_TARGET_OS_SIGNAL_H_ */
+diff --git a/bsd-user/openbsd/target_os_siginfo.h b/bsd-user/openbsd/target_os_siginfo.h
+new file mode 100644
+index 0000000000..baf646a5ab
+--- /dev/null
++++ b/bsd-user/openbsd/target_os_siginfo.h
+@@ -0,0 +1,82 @@
++#ifndef _TARGET_OS_SIGINFO_H_
++#define _TARGET_OS_SIGINFO_H_
++
++#define TARGET_NSIG     32   /* counting 0; could be 33 (mask is 1-32) */
++#define TARGET_NSIG_BPW     (sizeof(uint32_t) * 8)
++#define TARGET_NSIG_WORDS   (TARGET_NSIG / TARGET_NSIG_BPW)
++
++/* this struct defines a stack used during syscall handling */
++typedef struct target_sigaltstack {
++    abi_long    ss_sp;
++    abi_ulong   ss_size;
++    abi_long    ss_flags;
++} target_stack_t;
++
++typedef struct {
++    uint32_t __bits[TARGET_NSIG_WORDS];
++} target_sigset_t
++
++struct target_sigaction {
++    abi_ulong   _sa_handler;
++    int32_t     sa_flags;
++    target_sigset_t sa_mask;
++};
++
++/* Compare to sys/siginfo.h */
++typedef union target_sigval {
++    int         sival_int;
++    abi_ulong   sival_ptr;
++} target_sigval_t;
++
++struct target_ksiginfo {
++    int32_t     _signo;
++    int32_t     _code;
++    int32_t     _errno;
++#if TARGET_ABI_BITS == 64
++    int32_t     _pad;
++#endif
++    union {
++        struct {
++            int32_t             _pid;
++            int32_t             _uid;
++            target_sigval_t    _value;
++        } _rt;
++
++        struct {
++            int32_t             _pid;
++            int32_t             _uid;
++            int32_t             _struct;
++            /* clock_t          _utime; */
++            /* clock_t          _stime; */
++        } _child;
++
++        struct {
++            abi_ulong           _addr;
++            int32_t             _trap;
++        } _fault;
++
++        struct {
++            long                _band;
++            int                 _fd;
++        } _poll;
++    } _reason;
++};
++
++typedef union target_siginfo {
++    int8_t     si_pad[128];
++    struct     target_ksiginfo  _info;
++} target_siginfo_t;
++
++#define target_si_signo     _info._signo
++#define target_si_code      _info._code
++#define target_si_errno     _info._errno
++#define target_si_addr      _info._reason._fault._addr
++
++#define TARGET_SEGV_MAPERR  1
++#define TARGET_SEGV_ACCERR  2
++
++#define TARGET_TRAP_BRKPT   1
++#define TARGET_TRAP_TRACE   2
++
++
++#endif /* ! _TARGET_OS_SIGINFO_H_ */
+diff --git a/bsd-user/openbsd/target_os_signal.h b/bsd-user/openbsd/target_os_signal.h
+new file mode 100644
+index 0000000000..a373922f7e
+--- /dev/null
++++ b/bsd-user/openbsd/target_os_signal.h
+@@ -0,0 +1,69 @@
++#ifndef _TARGET_OS_SIGNAL_H_
++#define _TARGET_OS_SIGNAL_H_
++
++#include "target_os_siginfo.h"
++#include "target_arch_signal.h"
++
++#define TARGET_SIGHUP  1       /* hangup */
++#define TARGET_SIGINT  2       /* interrupt */
++#define TARGET_SIGQUIT 3       /* quit */
++#define TARGET_SIGILL  4       /* illegal instruction (not reset when caught) */
++#define TARGET_SIGTRAP 5       /* trace trap (not reset when caught) */
++#define TARGET_SIGABRT 6       /* abort() */
++#define TARGET_SIGIOT  SIGABRT /* compatibility */
++#define TARGET_SIGEMT  7       /* EMT instruction */
++#define TARGET_SIGFPE  8       /* floating point exception */
++#define TARGET_SIGKILL 9       /* kill (cannot be caught or ignored) */
++#define TARGET_SIGBUS  10      /* bus error */
++#define TARGET_SIGSEGV 11      /* segmentation violation */
++#define TARGET_SIGSYS  12      /* bad argument to system call */
++#define TARGET_SIGPIPE 13      /* write on a pipe with no one to read it */
++#define TARGET_SIGALRM 14      /* alarm clock */
++#define TARGET_SIGTERM 15      /* software termination signal from kill */
++#define TARGET_SIGURG  16      /* urgent condition on IO channel */
++#define TARGET_SIGSTOP 17      /* sendable stop signal not from tty */
++#define TARGET_SIGTSTP 18      /* stop signal from tty */
++#define TARGET_SIGCONT 19      /* continue a stopped process */
++#define TARGET_SIGCHLD 20      /* to parent on child stop or exit */
++#define TARGET_SIGTTIN 21      /* to readers pgrp upon background tty read */
++#define TARGET_SIGTTOU 22      /* like TTIN for out if (tp->t_local&LTOSTOP) */
++#define TARGET_SIGIO   23      /* input/output possible signal */
++#define TARGET_SIGXCPU 24      /* exceeded CPU time limit */
++#define TARGET_SIGXFSZ 25      /* exceeded file size limit */
++#define TARGET_SIGVTALRM 26    /* virtual time alarm */
++#define TARGET_SIGPROF   27    /* profiling time alarm */
++#define TARGET_SIGWINCH  28    /* window size changes */
++#define TARGET_SIGINFO   29    /* information request */
++#define TARGET_SIGUSR1   30    /* user defined signal 1 */
++#define TARGET_SIGUSR2   31    /* user defined signal 2 */
++
++/*
++ * Language spec says we must list exactly one parameter, even though we
++ * actually supply three.  Ugh!
++ */
++#define TARGET_SIG_DFL         ((void (*)(int))0)
++#define TARGET_SIG_IGN         ((void (*)(int))1)
++#define TARGET_SIG_ERR         ((void (*)(int))-1)
++
++#define TARGET_SA_ONSTACK   0x0001  /* take signal on signal stack */
++#define TARGET_SA_RESTART   0x0002  /* restart system on signal return */
++#define TARGET_SA_RESETHAND 0x0004  /* reset to SIG_DFL when taking signal */
++#define TARGET_SA_NODEFER   0x0010  /* don't mask the signal we're delivering */
++#define TARGET_SA_NOCLDWAIT 0x0020  /* don't create zombies (assign to pid 1) */
++#define TARGET_SA_USERTRAMP 0x0100  /* do not bounce off kernel's sigtramp */
++#define TARGET_SA_NOCLDSTOP 0x0008  /* do not generate SIGCHLD on child stop */
++#define TARGET_SA_SIGINFO   0x0040  /* generate siginfo_t */
++
++/*
++ * Flags for sigprocmask:
++ */
++#define TARGET_SIG_BLOCK       1       /* block specified signal set */
++#define TARGET_SIG_UNBLOCK     2       /* unblock specified signal set */
++#define TARGET_SIG_SETMASK     3       /* set specified signal set */
++
++#define TARGET_BADSIG       SIG_ERR
++
++#define TARGET_SS_ONSTACK 0x0001 /* take signals on alternate stack */
++#define TARGET_SS_DISABLE 0x0004 /* disable taking signals on alternate stack */
++
++#endif /* !_TARGET_OS_SIGNAL_H_ */
 diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index 6c4ec61d76..5e4cbb40d4 100644
+index 21efa7d777..3e3bd96cff 100644
 --- a/bsd-user/qemu.h
 +++ b/bsd-user/qemu.h
-@@ -82,6 +82,7 @@ typedef struct TaskState {
-     pid_t ts_tid;     /* tid (or pid) of this task */
+@@ -42,6 +42,7 @@ extern enum BSDType bsd_type;
+ #include "syscall_defs.h"
+ #include "target_syscall.h"
+ #include "target_os_vmparam.h"
++#include "target_os_signal.h"
+ #include "exec/gdbstub.h"
  
-     struct TaskState *next;
-+    struct bsd_binprm *bprm;
-     int used; /* non zero if used */
-     struct image_info *info;
- 
-diff --git a/bsd-user/x86_64/target_arch_cpu.c b/bsd-user/x86_64/target_arch_cpu.c
-index a2c5b176a4..db822e54c6 100644
---- a/bsd-user/x86_64/target_arch_cpu.c
-+++ b/bsd-user/x86_64/target_arch_cpu.c
-@@ -1,6 +1,7 @@
  /*
-  *  x86_64 cpu related code
-  *
-+ * Copyright (c) 2013 Stacey Son <sson@FreeBSD.org>
-  *
-  *  This program is free software; you can redistribute it and/or modify
-  *  it under the terms of the GNU General Public License as published by
-diff --git a/bsd-user/x86_64/target_arch_cpu.h b/bsd-user/x86_64/target_arch_cpu.h
+diff --git a/bsd-user/syscall_defs.h b/bsd-user/syscall_defs.h
+index 207ddeecbf..eb7d1da9b0 100644
+--- a/bsd-user/syscall_defs.h
++++ b/bsd-user/syscall_defs.h
+@@ -37,8 +37,6 @@
+  *      @(#)signal.h    8.2 (Berkeley) 1/21/94
+  */
+ 
+-#define TARGET_NSIG     32              /* counting 0; could be 33 (mask is 1-32) */
+-
+ #define TARGET_SIGHUP  1       /* hangup */
+ #define TARGET_SIGINT  2       /* interrupt */
+ #define TARGET_SIGQUIT 3       /* quit */
+@@ -72,14 +70,6 @@
+ #define TARGET_SIGUSR1 30       /* user defined signal 1 */
+ #define TARGET_SIGUSR2 31       /* user defined signal 2 */
+ 
+-/*
+- * Language spec says we must list exactly one parameter, even though we
+- * actually supply three.  Ugh!
+- */
+-#define TARGET_SIG_DFL         (void (*)(int))0
+-#define TARGET_SIG_IGN         (void (*)(int))1
+-#define TARGET_SIG_ERR         (void (*)(int))-1
+-
+ #define TARGET_SA_ONSTACK       0x0001  /* take signal on signal stack */
+ #define TARGET_SA_RESTART       0x0002  /* restart system on signal return */
+ #define TARGET_SA_RESETHAND     0x0004  /* reset to SIG_DFL when taking signal */
+diff --git a/bsd-user/x86_64/target_arch_signal.h b/bsd-user/x86_64/target_arch_signal.h
 new file mode 100644
-index 0000000000..5f5ee602f9
+index 0000000000..4c1ff0e5ba
 --- /dev/null
-+++ b/bsd-user/x86_64/target_arch_cpu.h
-@@ -0,0 +1,247 @@
++++ b/bsd-user/x86_64/target_arch_signal.h
+@@ -0,0 +1,94 @@
 +/*
-+ *  x86_64 cpu init and loop
++ *  x86_64 signal definitions
 + *
 + *
 + *  This program is free software; you can redistribute it and/or modify
@@ -747,236 +842,83 @@ index 0000000000..5f5ee602f9
 + *  You should have received a copy of the GNU General Public License
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
++#ifndef _TARGET_ARCH_SIGNAL_H_
++#define _TARGET_ARCH_SIGNAL_H_
 +
-+#ifndef _TARGET_ARCH_CPU_H_
-+#define _TARGET_ARCH_CPU_H_
++#include "cpu.h"
 +
-+#include "target_arch.h"
++/* Size of the signal trampolin code placed on the stack. */
++#define TARGET_SZSIGCODE    0
 +
-+#define TARGET_DEFAULT_CPU_MODEL "qemu64"
++/* compare to  x86/include/_limits.h */
++#define TARGET_MINSIGSTKSZ  (512 * 4)               /* min sig stack size */
++#define TARGET_SIGSTKSZ     (MINSIGSTKSZ + 32768)   /* recommended size */
 +
-+#define TARGET_CPU_RESET(cpu)
++#define TARGET_MC_GET_CLEAR_RET 0x0001
 +
-+static inline void target_cpu_init(CPUX86State *env,
-+        struct target_pt_regs *regs)
++struct target_sigcontext {
++    /* to be added */
++};
++
++typedef struct target_mcontext {
++} target_mcontext_t;
++
++typedef struct target_ucontext {
++    target_sigset_t   uc_sigmask;
++    target_mcontext_t uc_mcontext;
++    abi_ulong         uc_link;
++    target_stack_t    uc_stack;
++    int32_t           uc_flags;
++    int32_t         __spare__[4];
++} target_ucontext_t;
++
++struct target_sigframe {
++    abi_ulong   sf_signum;
++    abi_ulong   sf_siginfo;    /* code or pointer to sf_si */
++    abi_ulong   sf_ucontext;   /* points to sf_uc */
++    abi_ulong   sf_addr;       /* undocumented 4th arg */
++    target_ucontext_t   sf_uc; /* = *sf_uncontext */
++    target_siginfo_t    sf_si; /* = *sf_siginfo (SA_SIGINFO case)*/
++    uint32_t    __spare__[2];
++};
++
++/*
++ * Compare to amd64/amd64/machdep.c sendsig()
++ * Assumes that target stack frame memory is locked.
++ */
++static inline abi_long set_sigtramp_args(CPUX86State *regs,
++        int sig, struct target_sigframe *frame, abi_ulong frame_addr,
++        struct target_sigaction *ka)
 +{
-+    uint64_t *gdt_table;
-+
-+    env->cr[0] = CR0_PG_MASK | CR0_WP_MASK | CR0_PE_MASK;
-+    env->hflags |= HF_PE_MASK | HF_CPL_MASK;
-+    if (env->features[FEAT_1_EDX] & CPUID_SSE) {
-+        env->cr[4] |= CR4_OSFXSR_MASK;
-+        env->hflags |= HF_OSFXSR_MASK;
-+    }
-+
-+    /* enable 64 bit mode if possible */
-+    if (!(env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM)) {
-+        fprintf(stderr, "The selected x86 CPU does not support 64 bit mode\n");
-+        exit(1);
-+    }
-+    env->cr[4] |= CR4_PAE_MASK;
-+    env->efer |= MSR_EFER_LMA | MSR_EFER_LME;
-+    env->hflags |= HF_LMA_MASK;
-+
-+    /* flags setup : we activate the IRQs by default as in user mode */
-+    env->eflags |= IF_MASK;
-+
-+    /* register setup */
-+    env->regs[R_EAX] = regs->rax;
-+    env->regs[R_EBX] = regs->rbx;
-+    env->regs[R_ECX] = regs->rcx;
-+    env->regs[R_EDX] = regs->rdx;
-+    env->regs[R_ESI] = regs->rsi;
-+    env->regs[R_EDI] = regs->rdi;
-+    env->regs[R_EBP] = regs->rbp;
-+    env->regs[R_ESP] = regs->rsp;
-+    env->eip = regs->rip;
-+
-+    /* interrupt setup */
-+    env->idt.limit = 511;
-+
-+    env->idt.base = target_mmap(0, sizeof(uint64_t) * (env->idt.limit + 1),
-+        PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
-+    bsd_x86_64_set_idt_base(env->idt.base);
-+    bsd_x86_64_set_idt(0, 0);
-+    bsd_x86_64_set_idt(1, 0);
-+    bsd_x86_64_set_idt(2, 0);
-+    bsd_x86_64_set_idt(3, 3);
-+    bsd_x86_64_set_idt(4, 3);
-+    bsd_x86_64_set_idt(5, 0);
-+    bsd_x86_64_set_idt(6, 0);
-+    bsd_x86_64_set_idt(7, 0);
-+    bsd_x86_64_set_idt(8, 0);
-+    bsd_x86_64_set_idt(9, 0);
-+    bsd_x86_64_set_idt(10, 0);
-+    bsd_x86_64_set_idt(11, 0);
-+    bsd_x86_64_set_idt(12, 0);
-+    bsd_x86_64_set_idt(13, 0);
-+    bsd_x86_64_set_idt(14, 0);
-+    bsd_x86_64_set_idt(15, 0);
-+    bsd_x86_64_set_idt(16, 0);
-+    bsd_x86_64_set_idt(17, 0);
-+    bsd_x86_64_set_idt(18, 0);
-+    bsd_x86_64_set_idt(19, 0);
-+    bsd_x86_64_set_idt(0x80, 3);
-+
-+    /* segment setup */
-+    env->gdt.base = target_mmap(0, sizeof(uint64_t) * TARGET_GDT_ENTRIES,
-+            PROT_READ | PROT_WRITE, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
-+    env->gdt.limit = sizeof(uint64_t) * TARGET_GDT_ENTRIES - 1;
-+    gdt_table = g2h_untagged(env->gdt.base);
-+
-+    /* 64 bit code segment */
-+    bsd_x86_64_write_dt(&gdt_table[__USER_CS >> 3], 0, 0xfffff,
-+            DESC_G_MASK | DESC_B_MASK | DESC_P_MASK | DESC_S_MASK | DESC_L_MASK
-+            | (3 << DESC_DPL_SHIFT) | (0xa << DESC_TYPE_SHIFT));
-+
-+    bsd_x86_64_write_dt(&gdt_table[__USER_DS >> 3], 0, 0xfffff,
-+            DESC_G_MASK | DESC_B_MASK | DESC_P_MASK | DESC_S_MASK |
-+            (3 << DESC_DPL_SHIFT) | (0x2 << DESC_TYPE_SHIFT));
-+
-+    cpu_x86_load_seg(env, R_CS, __USER_CS);
-+    cpu_x86_load_seg(env, R_SS, __USER_DS);
-+    cpu_x86_load_seg(env, R_DS, 0);
-+    cpu_x86_load_seg(env, R_ES, 0);
-+    cpu_x86_load_seg(env, R_FS, 0);
-+    cpu_x86_load_seg(env, R_GS, 0);
++    /* XXX return -TARGET_EOPNOTSUPP; */
++    return 0;
 +}
 +
-+static inline void target_cpu_loop(CPUX86State *env)
++/* Compare to amd64/amd64/machdep.c get_mcontext() */
++static inline abi_long get_mcontext(CPUX86State *regs,
++                target_mcontext_t *mcp, int flags)
 +{
-+    CPUState *cs = env_cpu(env);
-+    int trapnr;
-+    abi_ulong pc;
-+    /* target_siginfo_t info; */
-+
-+    for (;;) {
-+        cpu_exec_start(cs);
-+        trapnr = cpu_exec(cs);
-+        cpu_exec_end(cs);
-+        process_queued_cpu_work(cs);
-+
-+        switch (trapnr) {
-+        case 0x80:
-+            /* syscall from int $0x80 */
-+            if (bsd_type == target_freebsd) {
-+                abi_ulong params = (abi_ulong) env->regs[R_ESP] +
-+                    sizeof(int32_t);
-+                int32_t syscall_nr = env->regs[R_EAX];
-+                int32_t arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8;
-+
-+                if (syscall_nr == TARGET_FREEBSD_NR_syscall) {
-+                    get_user_s32(syscall_nr, params);
-+                    params += sizeof(int32_t);
-+                } else if (syscall_nr == TARGET_FREEBSD_NR___syscall) {
-+                    get_user_s32(syscall_nr, params);
-+                    params += sizeof(int64_t);
-+                }
-+                get_user_s32(arg1, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg2, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg3, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg4, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg5, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg6, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg7, params);
-+                params += sizeof(int32_t);
-+                get_user_s32(arg8, params);
-+                env->regs[R_EAX] = do_freebsd_syscall(env,
-+                                                      syscall_nr,
-+                                                      arg1,
-+                                                      arg2,
-+                                                      arg3,
-+                                                      arg4,
-+                                                      arg5,
-+                                                      arg6,
-+                                                      arg7,
-+                                                      arg8);
-+            } else { /* if (bsd_type == target_openbsd) */
-+                env->regs[R_EAX] = do_openbsd_syscall(env,
-+                                                      env->regs[R_EAX],
-+                                                      env->regs[R_EBX],
-+                                                      env->regs[R_ECX],
-+                                                      env->regs[R_EDX],
-+                                                      env->regs[R_ESI],
-+                                                      env->regs[R_EDI],
-+                                                      env->regs[R_EBP]);
-+            }
-+            if (((abi_ulong)env->regs[R_EAX]) >= (abi_ulong)(-515)) {
-+                env->regs[R_EAX] = -env->regs[R_EAX];
-+                env->eflags |= CC_C;
-+            } else {
-+                env->eflags &= ~CC_C;
-+            }
-+            break;
-+
-+        case EXCP_SYSCALL:
-+            /* syscall from syscall instruction */
-+            if (bsd_type == target_freebsd) {
-+                env->regs[R_EAX] = do_freebsd_syscall(env,
-+                                                      env->regs[R_EAX],
-+                                                      env->regs[R_EDI],
-+                                                      env->regs[R_ESI],
-+                                                      env->regs[R_EDX],
-+                                                      env->regs[R_ECX],
-+                                                      env->regs[8],
-+                                                      env->regs[9], 0, 0);
-+            } else { /* if (bsd_type == target_openbsd) */
-+                env->regs[R_EAX] = do_openbsd_syscall(env,
-+                                                      env->regs[R_EAX],
-+                                                      env->regs[R_EDI],
-+                                                      env->regs[R_ESI],
-+                                                      env->regs[R_EDX],
-+                                                      env->regs[10],
-+                                                      env->regs[8],
-+                                                      env->regs[9]);
-+            }
-+            env->eip = env->exception_next_eip;
-+            if (((abi_ulong)env->regs[R_EAX]) >= (abi_ulong)(-515)) {
-+                env->regs[R_EAX] = -env->regs[R_EAX];
-+                env->eflags |= CC_C;
-+            } else {
-+                env->eflags &= ~CC_C;
-+            }
-+            break;
-+
-+        case EXCP_INTERRUPT:
-+            /* just indicate that signals should be handled asap */
-+            break;
-+
-+        case EXCP_ATOMIC:
-+            cpu_exec_step_atomic(cs);
-+            break;
-+
-+        default:
-+            pc = env->segs[R_CS].base + env->eip;
-+            fprintf(stderr, "qemu: 0x%08lx: unhandled CPU exception 0x%x - "
-+                    "aborting\n", (long)pc, trapnr);
-+            abort();
-+        }
-+        process_pending_signals(env);
-+    }
++    /* XXX */
++    return -TARGET_EOPNOTSUPP;
 +}
 +
-+static inline void target_cpu_clone_regs(CPUX86State *env, target_ulong newsp)
++/* Compare to amd64/amd64/machdep.c set_mcontext() */
++static inline abi_long set_mcontext(CPUX86State *regs,
++        target_mcontext_t *mcp, int srflag)
 +{
-+    if (newsp) {
-+        env->regs[R_ESP] = newsp;
-+    }
-+    env->regs[R_EAX] = 0;
++    /* XXX */
++    return -TARGET_EOPNOTSUPP;
 +}
 +
-+static inline void target_cpu_reset(CPUArchState *cpu)
++static inline abi_long get_ucontext_sigreturn(CPUX86State *regs,
++        abi_ulong target_sf, abi_ulong *target_uc)
 +{
-+    cpu_reset(env_cpu(cpu));
++    /* XXX */
++    *target_uc = 0;
++    return -TARGET_EOPNOTSUPP;
 +}
 +
-+#endif /* ! _TARGET_ARCH_CPU_H_ */
++#endif /* !TARGET_ARCH_SIGNAL_H_ */
 -- 
 2.32.0
 
