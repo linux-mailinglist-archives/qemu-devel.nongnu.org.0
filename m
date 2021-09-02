@@ -2,50 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21AB43FEF38
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 16:13:26 +0200 (CEST)
-Received: from localhost ([::1]:56024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FFFA3FEF33
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 16:11:10 +0200 (CEST)
+Received: from localhost ([::1]:51096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLnT3-0004za-6f
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 10:13:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52656)
+	id 1mLnQr-0001Py-Br
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 10:11:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuxiating@huawei.com>)
- id 1mLlFm-0000gy-1L
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 07:51:34 -0400
-Received: from szxga02-in.huawei.com ([45.249.212.188]:3129)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuxiating@huawei.com>)
- id 1mLlFi-0006uF-E3
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 07:51:33 -0400
-Received: from dggeme762-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4H0fKg29klz8xQ8;
- Thu,  2 Sep 2021 19:47:03 +0800 (CST)
-Received: from huawei.com (10.174.185.176) by dggeme762-chm.china.huawei.com
- (10.3.19.108) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.8; Thu, 2 Sep
- 2021 19:51:18 +0800
-From: yuxiating <yuxiating@huawei.com>
-To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [PATCH] migration: initialise compression_counters for a new migration
-Date: Thu, 2 Sep 2021 19:51:17 +0800
-Message-ID: <20210902115117.5633-1-yuxiating@huawei.com>
-X-Mailer: git-send-email 2.24.0.windows.2
+ (Exim 4.90_1) (envelope-from <weijunji@bytedance.com>)
+ id 1mLmRN-00011y-EO
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:07:37 -0400
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:40715)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <weijunji@bytedance.com>)
+ id 1mLmRI-000196-U6
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:07:34 -0400
+Received: by mail-pj1-x1032.google.com with SMTP id
+ n13-20020a17090a4e0d00b0017946980d8dso1394718pjh.5
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 06:07:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tlu2B2vMPrU3SXKIjOqJEI0aXPDLkRUxkJa7dAhyKjE=;
+ b=pJuJJ6DXaRoCGXEw0dTDnSqDqH5w9GOq7eyjMqiQoJ4UtD/SMxEOAzwaol/qLcSzN3
+ 62Y0YYENk/Yn09udevOJiC/qWipZuYHIkkRPTBveAM9WRp1wUOD5MonDQT0Gd9FNajUp
+ IBGlc+oRIv+WH0pjZ9Q6wERiGcB3ZmuwiZgzTzx151SRIhd14p+FDh0HIVclMSiaj+ae
+ Sn+AKhC2X07ToOZ8a02tfSvR2lTUxGIY3zVtmh3u3VqBbh0R+e/DDnc87/fRV86BQkv9
+ U2ETMXIFkz8eKxt4iivTi8vF7XKiiE0gDtiXZp3puoh/wDg3ms8j110l+ab5WewPsnrs
+ INzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=tlu2B2vMPrU3SXKIjOqJEI0aXPDLkRUxkJa7dAhyKjE=;
+ b=bkuXH6kURbOqpWAt2Om9Xcit7N579Kz15vrefKJ00ReWC8DhOy5YKGTffeocg448S6
+ /W96gA3UdUmrvmeiSsWg6NlSmPbu7vipymfRxOVnxO+wXq0FkovgmzTwDjaaYwZt1DOC
+ m5k+J+luGdKJpD3oA4tk+bHsZgvNc50giw5qfa6mvToieuv28uFaCl1/K+f9wNkVWn1w
+ 4/eaXEe2bSVbNdDNmnhYPRCRh8jqXURxlMsuLDBo4PRq6dE4IK6/zMw5kWCuJ0LwZHxX
+ snNcESY/JJ9sGA56j/4S/b2hwHF01CTJbZ7Cafje2nn1MizHUvHoPBbdLlk3IbOzcXhP
+ K63A==
+X-Gm-Message-State: AOAM532hpRsQlkzJMOD7MCpcaHHojQcI+tamgpC7vqYYMHT08NZSVCV8
+ F4IZZY3uvagJcww7ESw4bzxQIg==
+X-Google-Smtp-Source: ABdhPJwzBbMxoJ3vXfsWbjXb5S1vXV4ArrFBAb8yGGbduSb1HZou/OYm2WgHnTGNK0wHWsDZ0yB3IA==
+X-Received: by 2002:a17:90a:4a05:: with SMTP id
+ e5mr3765653pjh.58.1630588049596; 
+ Thu, 02 Sep 2021 06:07:29 -0700 (PDT)
+Received: from C02FR1DUMD6V.bytedance.net ([139.177.225.225])
+ by smtp.gmail.com with ESMTPSA id d6sm2307415pfa.135.2021.09.02.06.07.24
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 02 Sep 2021 06:07:28 -0700 (PDT)
+From: Junji Wei <weijunji@bytedance.com>
+To: dledford@redhat.com, jgg@ziepe.ca, mst@redhat.com, jasowang@redhat.com,
+ yuval.shaia.ml@gmail.com, marcel.apfelbaum@gmail.com, cohuck@redhat.com,
+ hare@suse.de
+Subject: [RFC 0/5] VirtIO RDMA
+Date: Thu,  2 Sep 2021 21:06:20 +0800
+Message-Id: <20210902130625.25277-1-weijunji@bytedance.com>
+X-Mailer: git-send-email 2.30.1 (Apple Git-130)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.185.176]
-X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
- dggeme762-chm.china.huawei.com (10.3.19.108)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188; envelope-from=yuxiating@huawei.com;
- helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=weijunji@bytedance.com; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Thu, 02 Sep 2021 10:08:37 -0400
@@ -60,36 +85,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, eric.fangyi@huawei.com
+Cc: linux-rdma@vger.kernel.org, qemu-devel@nongnu.org,
+ virtualization@lists.linux-foundation.org, xieyongji@bytedance.com,
+ chaiwen.cc@bytedance.com, weijunji@bytedance.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the compression migration fails or is canceled, the query for the value of
-compression_counters during the next compression migration is wrong.
+Hi all,
 
-Signed-off-by: yuxiating <yuxiating@huawei.com>
----
- migration/migration.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+This RFC aims to reopen the discussion of Virtio RDMA.
+Now this is based on Yuval Shaia's RFC "VirtIO RDMA"
+which implemented a frame for Virtio RDMA and a simple
+control path (Not sure if Yuval Shaia has any further
+plan for it).
 
-diff --git a/migration/migration.c b/migration/migration.c
-index bb909781b7..f20bc560e5 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -2252,10 +2252,11 @@ static bool migrate_prepare(MigrationState *s, bool blk, bool blk_inc,
- 
-     migrate_init(s);
-     /*
--     * set ram_counters memory to zero for a
-+     * set ram_counters compression_counters memory to zero for a
-      * new migration
-      */
-     memset(&ram_counters, 0, sizeof(ram_counters));
-+    memset(&compression_counters, 0, sizeof(compression_counters));
- 
-     return true;
- }
+We try to extend this work and implement a simple
+data-path and a completed control path. Now this can
+work with SEND, RECV and REG_MR in kernel. There is a
+simple test module in this patch that can communicate
+with ibv_rc_pingpong in rdma-core.
+
+During doing this work, we have found some problems and
+would like to ask for some suggestions from community:
+1. Each qp need two VQ, but qemu default only support 1024 VQ.
+   I think it is possible to multiplex the VQ, since the
+   cmd_post_send carry the qpn in request.
+
+2. The virtio-rdma device's gid should equal to host rdma
+   device's gid. This means that we cannot use gid cache in
+   rdma subsystem. And theoretically the gid should also equal
+   to the device's netdev's ip address, how can we deal with
+   this conflict.
+
+3. How to support DMA mr? The verbs in host cannot support it.
+   And it seems hard to ping whole guest physical memory in qemu.
+
+4. The FRMR api need to set key of MR through IB_WR_REG_MR.
+   But it is impossible to change a key of mr using uverbs.
+   In our implementation, we change the key of WR while post_send,
+   but this means the MR can only work with SEND and RECV since we
+   cannot change the key in the remote. The final solution may be to
+   implement an urdma device based on rxe in qemu, through this we
+   can get full control of MR.
+
+5. The GSI is not supported now. And we think it's a problem that
+   when the host receive a GSI package, it doesn't know which
+   device it belongs to.
+
+Any further thoughts will be greatly welcomed. And we noticed that
+there seems to be no existing work for virtio-rdma spec, we are
+happy to start it from this RFC.
+
+How to test with test module:
+
+1. Set test module's SERVER_ADDR and SERVER_PORT
+2. Build kernel and qemu
+3. Build rdmacm-mux in qemu/contrib and run it in backend
+4. Boot kernel with qemu with following args using libvirt
+<interface type='bridge'>
+  <mac address='00:16:3e:5d:aa:a8'/>
+  <source bridge='virbr0'/>
+  <target dev='vnet1'/>
+  <model type='virtio'/>
+  <alias name='net0'/>
+  <address type='pci' domain='0x0000' bus='0x00' slot='0x02'
+   function='0x0' multifunction='on'/>
+</interface>
+
+<qemu:commandline>
+  <qemu:arg value='-chardev'/>
+  <qemu:arg value='socket,path=/var/run/rdmacm-mux-rxe0-1,id=mads'/>
+  <qemu:arg value='-device'/>
+  <qemu:arg value='virtio-rdma-pci,disable-legacy=on,addr=2.1,
+   ibdev=rxe0,netdev=bridge0,mad-chardev=mads'/>
+  <qemu:arg value='-object'/>
+  <qemu:arg value='memory-backend-ram,id=mb1,size=1G,share'/>
+  <qemu:arg value='-numa'/>
+  <qemu:arg value='node,memdev=mb1'/>
+</qemu:commandline>
+
+Note that virtio-net and virtio-rdma should be in same slot's
+function 0 and function 1.
+
+5. Run "ibv_rc_pingpong -g 1 -n 500 -s 20480" as server
+6. Run "insmod virtio_rdma_rc_pingping_client.ko" in guest
+
+One note regarding the patchset.
+We know it's not standard to collaps patches from two repos. But in
+order to display the whole work of Virtio RDMA, we still did it.
+
+Thanks.
+
+patch1: RDMA/virtio-rdma Introduce a new core cap prot (linux)
+patch2: RDMA/virtio-rdma: VirtIO RDMA driver (linux)
+        The main patch of virtio-rdma driver in linux kernel
+patch3: RDMA/virtio-rdma: VirtIO RDMA test module (linux)
+        A test module
+patch4: virtio-net: Move some virtio-net-pci decl to include/hw/virtio (qemu)
+        Patch from Yuval Shaia
+patch5: hw/virtio-rdma: VirtIO rdma device (qemu)
+        The main patch of virtio-rdma device in linux kernel
 -- 
-2.24.0.windows.2
+2.11.0
 
 
