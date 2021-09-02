@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F24313FF843
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 02:09:30 +0200 (CEST)
-Received: from localhost ([::1]:38804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9C23FF85B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 02:25:48 +0200 (CEST)
+Received: from localhost ([::1]:46284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLwlt-0001lw-VN
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 20:09:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58832)
+	id 1mLx1f-0002N9-GW
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 20:25:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwRJ-00074H-IM
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:48:14 -0400
-Received: from mail-il1-x12b.google.com ([2607:f8b0:4864:20::12b]:47005)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwRN-00077U-5p
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:48:18 -0400
+Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129]:38758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwRH-00035s-4A
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:48:13 -0400
-Received: by mail-il1-x12b.google.com with SMTP id r6so3544255ilt.13
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 16:48:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwRI-00037J-U8
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:48:16 -0400
+Received: by mail-il1-x129.google.com with SMTP id g8so3582692ilc.5
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 16:48:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uSyVlG03IYdBoQBPQevMhSvwngS6ne+tRsYrRAa7d30=;
- b=RbTQCrHYkNHjDDx6VLgr0OLcPi/EnkeeTlRgjqfWOB+XZA3gF4MAcpcwdxinP+txDb
- DPnBNytALoO7YAIP3+eQFXPWpymmpTtsDEv9swaaqqdM6hg0GIr7I22Xyfespc9h3nVV
- ca/p/obLonbXX2S6fH1p7jTq0HZtFYrtKp9EETOL0X0GWutubqFRrsABjdTdmQOdN1Ug
- Yz1Kxpn9LyRpWrtCKk4G23yRDDGNIwzTkqWZnTOHP31we4fEe4I21utWC1gwuGoyZcdM
- QvW3+eA0CmexX4V3Gzi7tLU6hV8cuUrs1dQbH/pDV8vGxuCmx93bkyYPZKOIwssSf0M7
- eg/A==
+ bh=p8wFbjVq5zO3wyTMiSXNG8FjHa8BNCmoaasDs0yUEaU=;
+ b=1p9pX16SiTP/jI7J3H3MFcRcnlGP53oaxpG704i/lwHnvbtvwpfIIDgXGbEr63zOPc
+ d/y0DA/h29qfAbC2bZGmcsLLdUKz/wVBtQtcBaeU/YtGytpJ6ZaDGFyLe4gg/ccTEDAc
+ KWieJ0YrOUWiV8izkxEukalWePZWlhDwlHpzXk3d8ANR7YyiK7FP/GFzxriXm7LMGPll
+ jlM7ezdhxNjiU8u+BCmtxiLWVFRKbyVHd7OI2NAfBX0GYjNKef3NbM1hsEaawfzc6hrc
+ a2Mj94C4WXyPF2eUKW32MjAP5KrWmDh/W+C0thZV/03phtrfmauIeA7idl3oOKyyvFxg
+ 7pJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=uSyVlG03IYdBoQBPQevMhSvwngS6ne+tRsYrRAa7d30=;
- b=HAyRR+glD89o/b8k+mimU4ej+KB0GSIBa1Yv2FqMIEgOmJ+u2W0UXB9l2+Bn/4ai6s
- w7H9YeX9K0IrbPlPvQj3Ry+jGG9BynHSEs8J9WfnurhDzpwiFuX9vzoTYvOWqruBXg1K
- QKh/exOu63hB9jq2oushtFIFKNbxee83WZqRHgAr31j6Z2uUkT1+xf/zYTBucgWVNMIE
- bgawAevpa6J4X5NfGFO4anJik4L0i9CWDa6mgZoA4504tbmC7JLgqAVogFdogE0tSMb9
- GHlcioDGSwfuIWB07GND+xMN9mz/Gz1x1Eq/Fq2Zbp6TZ96dJvTI1d68I6y592YcDbuj
- QREQ==
-X-Gm-Message-State: AOAM530uOjLqFxHJ4ylXEe9EFleMhw5i+OLl4myWFNIvb85vedFMK7uh
- prAdbfbl26jOPq1ZkYbyPO/lOqxpIRM/iA==
-X-Google-Smtp-Source: ABdhPJxN3IIrQPwKdn6IoYf7pn6GVhzHvsYc6YOIX4GxxKriZH9CVqC0wu32VQKUzc/EmYfY7JlfeQ==
-X-Received: by 2002:a92:6606:: with SMTP id a6mr565851ilc.182.1630626489622;
- Thu, 02 Sep 2021 16:48:09 -0700 (PDT)
+ bh=p8wFbjVq5zO3wyTMiSXNG8FjHa8BNCmoaasDs0yUEaU=;
+ b=DsQ17Cshtt3g8Vq4ylVSPFjmqjgKBozwKQbb28EKILsqEGRUfMGV1TXbMx1iX032xE
+ FbVjMfRusq0seGiRs84ZmRYceexMRFf60Hv6Rrp5KvFghHHlVEEO5mw8YrFtlfu+V66q
+ 31xOuzvK5+kjBT6+tQLMNoOVhLwsT7dV1MGskxtk+jnRBq5F4d9s2J62ltofma1HKWnQ
+ S1nf5aDIu6r6/KYQdsgUPw/eJJO4rpTZyS+tw4DQTRMYaHT5fgSp5Xr1M9WQ8YAeKoUJ
+ JHP3JaG9DIEPwFy+bqQn4qVNVEsS1lrcnxRnVBXMDukFC8ksesyy3TPHlY51kBVqXe6m
+ 33LQ==
+X-Gm-Message-State: AOAM533BbTL0Quq8rPzw0CoaVuD2l7yx0uGOU78n3fVhj/lwnFUWn4Hq
+ GzjU5Ek/xHddFvbHo+E4OfIOnC3I4WhnVQ==
+X-Google-Smtp-Source: ABdhPJzRpydjm2i7sIBiBV4uNJs5vdTgQTsdXoQTffe+rq6uKA+ygAtdjdUM7lda8co0AptEdAeEFg==
+X-Received: by 2002:a05:6e02:1d1a:: with SMTP id
+ i26mr524768ila.96.1630626490492; 
+ Thu, 02 Sep 2021 16:48:10 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
  by smtp.gmail.com with ESMTPSA id u10sm1740502ilg.15.2021.09.02.16.48.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 16:48:09 -0700 (PDT)
+ Thu, 02 Sep 2021 16:48:10 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 27/43] bsd-user: Implement --seed and initialize random
- state
-Date: Thu,  2 Sep 2021 17:47:13 -0600
-Message-Id: <20210902234729.76141-28-imp@bsdimp.com>
+Subject: [PATCH v3 28/43] bsd-user: Move stack initializtion into a per-os
+ file.
+Date: Thu,  2 Sep 2021 17:47:14 -0600
+Message-Id: <20210902234729.76141-29-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210902234729.76141-1-imp@bsdimp.com>
 References: <20210902234729.76141-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::12b;
- envelope-from=imp@bsdimp.com; helo=mail-il1-x12b.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::129;
+ envelope-from=imp@bsdimp.com; helo=mail-il1-x129.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -82,73 +83,340 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org, Warner Losh <imp@FreeBSD.org>,
- Warner Losh <imp@bsdimp.com>
+Cc: kevans@freebsd.org, Richard Henderson <richard.henderson@linaro.org>,
+ Warner Losh <imp@FreeBSD.org>, Warner Losh <imp@bsdimp.com>,
+ Stacey Son <sson@FreeBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@FreeBSD.org>
 
-Copy --seed implementation (translated from linux-user's newer command
-line scheme to the older one bsd-user still uses). Initialize the
-randomness with the glibc if a specific seed is specified or use the
-qcrypto library if not.
+Move all of the stack initialization into target_os_stack.h. Each BSD
+sets up processes a little differently.
 
+Signed-off-by: Stacey Son <sson@FreeBSD.org>
 Signed-off-by: Warner Losh <imp@bsdimp.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/main.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ bsd-user/freebsd/target_os_stack.h | 181 +++++++++++++++++++++++++++++
+ bsd-user/netbsd/target_os_stack.h  |  56 +++++++++
+ bsd-user/openbsd/target_os_stack.h |  56 +++++++++
+ 3 files changed, 293 insertions(+)
+ create mode 100644 bsd-user/freebsd/target_os_stack.h
+ create mode 100644 bsd-user/netbsd/target_os_stack.h
+ create mode 100644 bsd-user/openbsd/target_os_stack.h
 
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index 19bf3a09a7..71fd9d5aba 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -45,6 +45,8 @@
- #include "qemu/cutils.h"
- #include "exec/log.h"
- #include "trace/control.h"
-+#include "crypto/init.h"
+diff --git a/bsd-user/freebsd/target_os_stack.h b/bsd-user/freebsd/target_os_stack.h
+new file mode 100644
+index 0000000000..1bb1a2bf56
+--- /dev/null
++++ b/bsd-user/freebsd/target_os_stack.h
+@@ -0,0 +1,181 @@
++/*
++ *  FreeBSD setup_initial_stack() implementation.
++ *
++ *  Copyright (c) 2013-14 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef _TARGET_OS_STACK_H_
++#define _TARGET_OS_STACK_H_
++
++#include <sys/param.h>
++#include "target_arch_sigtramp.h"
 +#include "qemu/guest-random.h"
- 
- #include "host-os.h"
- #include "target_arch_cpu.h"
-@@ -203,6 +205,7 @@ int main(int argc, char **argv)
-     const char *cpu_type;
-     const char *log_file = NULL;
-     const char *log_mask = NULL;
-+    const char *seed_optarg = NULL;
-     struct target_pt_regs regs1, *regs = &regs1;
-     struct image_info info1, *info = &info1;
-     struct bsd_binprm bprm;
-@@ -331,6 +334,8 @@ int main(int argc, char **argv)
-                 usage();
-             }
-             optind++;
-+        } else if (!strcmp(r, "seed")) {
-+            seed_optarg = optarg;
-         } else if (!strcmp(r, "singlestep")) {
-             singlestep = 1;
-         } else if (!strcmp(r, "strace")) {
-@@ -403,6 +408,19 @@ int main(int argc, char **argv)
-     target_environ = envlist_to_environ(envlist, NULL);
-     envlist_free(envlist);
- 
-+    {
-+        Error *err = NULL;
-+        if (seed_optarg != NULL) {
-+            qemu_guest_random_seed_main(seed_optarg, &err);
-+        } else {
-+            qcrypto_init(&err);
-+        }
-+        if (err) {
-+            error_reportf_err(err, "cannot initialize crypto: ");
-+            exit(1);
++
++/*
++ * The inital FreeBSD stack is as follows:
++ * (see kern/kern_exec.c exec_copyout_strings() )
++ *
++ *  Hi Address -> char **ps_argvstr  (struct ps_strings for ps, w, etc.)
++ *                unsigned ps_nargvstr
++ *                char **ps_envstr
++ *  PS_STRINGS -> unsigned ps_nenvstr
++ *
++ *                machine dependent sigcode (sv_sigcode of size
++ *                                           sv_szsigcode)
++ *
++ *                execpath          (absolute image path for rtld)
++ *
++ *                SSP Canary        (sizeof(long) * 8)
++ *
++ *                page sizes array  (usually sizeof(u_long) )
++ *
++ *  "destp" ->    argv, env strings (up to 262144 bytes)
++ */
++static inline int setup_initial_stack(struct bsd_binprm *bprm,
++        abi_ulong *ret_addr, abi_ulong *stringp)
++{
++    int i;
++    abi_ulong stack_hi_addr;
++    size_t execpath_len, stringspace;
++    abi_ulong destp, argvp, envp, p;
++    struct target_ps_strings ps_strs;
++    char canary[sizeof(abi_long) * 8];
++
++    stack_hi_addr = p = target_stkbas + target_stksiz;
++
++    /* Save some space for ps_strings. */
++    p -= sizeof(struct target_ps_strings);
++
++    /* Add machine depedent sigcode. */
++    p -= TARGET_SZSIGCODE;
++    if (setup_sigtramp(p, (unsigned)offsetof(struct target_sigframe, sf_uc),
++            TARGET_FREEBSD_NR_sigreturn)) {
++        errno = EFAULT;
++        return -1;
++    }
++    if (bprm->fullpath) {
++        execpath_len = strlen(bprm->fullpath) + 1;
++        p -= roundup(execpath_len, sizeof(abi_ulong));
++        if (memcpy_to_target(p, bprm->fullpath, execpath_len)) {
++            errno = EFAULT;
++            return -1;
 +        }
 +    }
++    /* Add canary for SSP. */
++    qemu_guest_getrandom_nofail(canary, sizeof(canary));
++    p -= roundup(sizeof(canary), sizeof(abi_ulong));
++    if (memcpy_to_target(p, canary, sizeof(canary))) {
++        errno = EFAULT;
++        return -1;
++    }
++    /* Add page sizes array. */
++    p -= sizeof(abi_ulong);
++    if (put_user_ual(TARGET_PAGE_SIZE, p)) {
++        errno = EFAULT;
++        return -1;
++    }
++    /*
++     * Deviate from FreeBSD stack layout: force stack to new page here
++     * so that signal trampoline is not sharing the page with user stack
++     * frames. This is actively harmful in qemu as it marks pages with
++     * code it translated as read-only, which is somewhat problematic
++     * for user trying to use the stack as intended.
++     */
++    p = rounddown(p, TARGET_PAGE_SIZE);
 +
-     /*
-      * Now that page sizes are configured we can do
-      * proper page alignment for guest_base.
++    /* Calculate the string space needed */
++    stringspace = 0;
++    for (i = 0; i < bprm->argc; ++i) {
++        stringspace += strlen(bprm->argv[i]) + 1;
++    }
++    for (i = 0; i < bprm->envc; ++i) {
++        stringspace += strlen(bprm->envp[i]) + 1;
++    }
++    if (stringspace > TARGET_ARG_MAX) {
++        errno = ENOMEM;
++        return -1;
++    }
++    /* Make room for the argv and envp strings */
++    destp = rounddown(p - stringspace, sizeof(abi_ulong));
++    p = argvp = destp - (bprm->argc + bprm->envc + 2) * sizeof(abi_ulong);
++    /* Remember the strings pointer */
++    if (stringp) {
++        *stringp = destp;
++    }
++    /*
++     * Add argv strings.  Note that the argv[] vectors are added by
++     * loader_build_argptr()
++     */
++    /* XXX need to make room for auxargs */
++    ps_strs.ps_argvstr = tswapl(argvp);
++    ps_strs.ps_nargvstr = tswap32(bprm->argc);
++    for (i = 0; i < bprm->argc; ++i) {
++        size_t len = strlen(bprm->argv[i]) + 1;
++
++        if (memcpy_to_target(destp, bprm->argv[i], len)) {
++            errno = EFAULT;
++            return -1;
++        }
++        if (put_user_ual(destp, argvp)) {
++            errno = EFAULT;
++            return -1;
++        }
++        argvp += sizeof(abi_ulong);
++        destp += len;
++    }
++    if (put_user_ual(0, argvp)) {
++        errno = EFAULT;
++        return -1;
++    }
++    /*
++     * Add env strings. Note that the envp[] vectors are added by
++     * loader_build_argptr().
++     */
++    envp = argvp + sizeof(abi_ulong);
++    ps_strs.ps_envstr = tswapl(envp);
++    ps_strs.ps_nenvstr = tswap32(bprm->envc);
++    for (i = 0; i < bprm->envc; ++i) {
++        size_t len = strlen(bprm->envp[i]) + 1;
++
++        if (memcpy_to_target(destp, bprm->envp[i], len)) {
++            errno = EFAULT;
++            return -1;
++        }
++        if (put_user_ual(destp, envp)) {
++            errno = EFAULT;
++            return -1;
++        }
++        envp += sizeof(abi_ulong);
++        destp += len;
++    }
++    if (put_user_ual(0, envp)) {
++        errno = EFAULT;
++        return -1;
++    }
++    if (memcpy_to_target(stack_hi_addr - sizeof(ps_strs), &ps_strs,
++                sizeof(ps_strs))) {
++        errno = EFAULT;
++        return -1;
++    }
++
++    if (ret_addr) {
++        *ret_addr = p;
++    }
++
++    return 0;
++ }
++
++#endif /* !_TARGET_OS_STACK_H_ */
+diff --git a/bsd-user/netbsd/target_os_stack.h b/bsd-user/netbsd/target_os_stack.h
+new file mode 100644
+index 0000000000..503279c1a9
+--- /dev/null
++++ b/bsd-user/netbsd/target_os_stack.h
+@@ -0,0 +1,56 @@
++/*
++ *  NetBSD setup_initial_stack() implementation.
++ *
++ *  Copyright (c) 2013-14 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef _TARGET_OS_STACK_H_
++#define _TARGET_OS_STACK_H_
++
++#include "target_arch_sigtramp.h"
++
++static inline int setup_initial_stack(struct bsd_binprm *bprm, abi_ulong *p,
++    abi_ulong *stringp)
++{
++    int i;
++    abi_ulong stack_base;
++
++    stack_base = (target_stkbas + target_stksiz) -
++                  MAX_ARG_PAGES * TARGET_PAGE_SIZE;
++    if (p) {
++        *p = stack_base;
++    }
++    if (stringp) {
++        *stringp = stack_base;
++    }
++
++    for (i = 0; i < MAX_ARG_PAGES; i++) {
++        if (bprm->page[i]) {
++            info->rss++;
++            if (!memcpy_to_target(stack_base, bprm->page[i],
++                        TARGET_PAGE_SIZE)) {
++                errno = EFAULT;
++                return -1;
++            }
++            g_free(bprm->page[i]);
++        }
++        stack_base += TARGET_PAGE_SIZE;
++    }
++
++    return 0;
++}
++
++#endif /* !_TARGET_OS_STACK_H_ */
+diff --git a/bsd-user/openbsd/target_os_stack.h b/bsd-user/openbsd/target_os_stack.h
+new file mode 100644
+index 0000000000..4b37955d3b
+--- /dev/null
++++ b/bsd-user/openbsd/target_os_stack.h
+@@ -0,0 +1,56 @@
++/*
++ *  OpenBSD setup_initial_stack() implementation.
++ *
++ *  Copyright (c) 2013-14 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef _TARGET_OS_STACK_H_
++#define _TARGET_OS_STACK_H_
++
++#include "target_arch_sigtramp.h"
++
++static inline int setup_initial_stack(struct bsd_binprm *bprm, abi_ulong *p,
++    abi_ulong *stringp)
++{
++    int i;
++    abi_ulong stack_base;
++
++    stack_base = (target_stkbas + target_stksiz) -
++                  MAX_ARG_PAGES * TARGET_PAGE_SIZE;
++    if (p) {
++        *p = stack_base;
++    }
++    if (stringp) {
++        *stringp = stack_base;
++    }
++
++    for (i = 0; i < MAX_ARG_PAGES; i++) {
++        if (bprm->page[i]) {
++            info->rss++;
++            if (!memcpy_to_target(stack_base, bprm->page[i],
++                        TARGET_PAGE_SIZE)) {
++                errno = EFAULT;
++                return -1;
++            }
++            g_free(bprm->page[i]);
++        }
++        stack_base += TARGET_PAGE_SIZE;
++    }
++
++    return 0;
++}
++
++#endif /* !_TARGET_OS_STACK_H_ */
 -- 
 2.32.0
 
