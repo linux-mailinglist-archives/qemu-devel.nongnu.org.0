@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B3773FEFE0
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 17:10:17 +0200 (CEST)
-Received: from localhost ([::1]:38572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6071D3FEFE4
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 17:11:18 +0200 (CEST)
+Received: from localhost ([::1]:41946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLoM4-0000ZX-JR
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 11:10:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44462)
+	id 1mLoN3-0002tQ-DU
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 11:11:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mLoKM-0007m8-3D
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 11:08:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48171)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1mLoKK-0002oh-1X
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 11:08:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630595306;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WRwrw1EGldqtZ74VFQMnq3iBfJtSEKHMJEiDpfBthgo=;
- b=X36VcU9LpkuH6clZkj1dzhsl02v2ejh00uq0GqDE9lREvnrEBnsDaUbYNm8Oko+/qbh+9U
- ohirFgEkM30wjlPtPHOsgCK9UkYn+w25DNks/snGAqcGKupPyS1QlbNxpXhijap8eW/VuS
- Apetm06sxGo/cXATRzdV3sseStDfTic=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-6a26dvelP9C_VlXG8udydw-1; Thu, 02 Sep 2021 11:08:25 -0400
-X-MC-Unique: 6a26dvelP9C_VlXG8udydw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75092DF8A3
- for <qemu-devel@nongnu.org>; Thu,  2 Sep 2021 15:08:24 +0000 (UTC)
-Received: from localhost (unknown [10.39.194.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 550C317A98;
- Thu,  2 Sep 2021 15:08:20 +0000 (UTC)
-Date: Thu, 2 Sep 2021 16:08:19 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Subject: Re: [RFC PATCH 3/3] hw/virtio: Have virtqueue_get_avail_bytes() pass
- caches arg to callees
-Message-ID: <YTDo42fZ9gjGoMLT@stefanha-x1.localdomain>
-References: <20210826172658.2116840-1-philmd@redhat.com>
- <20210826172658.2116840-4-philmd@redhat.com>
- <20210901155538.vbtxakrtbjwon3pt@steredhat>
- <YTC/savtIjlbzFsO@stefanha-x1.localdomain>
- <20210902130954.sdzkzfyeflc6sc4s@steredhat>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mLoL5-0000Ou-Nt
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 11:09:15 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:39851)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mLoL3-0003Nr-Va
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 11:09:15 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ u26-20020a05600c441a00b002f66b2d8603so1704279wmn.4
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 08:09:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+ZrYWryMji2cS8E64N0cPJbqxFDojNEZjXg9qTOb2Ak=;
+ b=nXFqTXM9ihSZBu0zD65VODxbub3LqUOwkYTd2cNBnWfZ8Y/pm+ervd/YsAcuV14oK6
+ bnumdarpLBRJQFzvVjYIz3AdQbqt1T8lRSev4qS0dS+Db5mu05zXWKDWpuM2F9Wqy2/M
+ W5oX1v6KBpHXyPWWYpU+MLLF7e3UMxj9rfhwmNzAUO1cnt9eQlIGZTKrqzRwqBbYGx+/
+ LCfSjPCScMQ74euT8NfvH8v53/FAtkh+UzR2/xHYN4r+InSNr31QN6IQAaxrerV5JEC8
+ 9JG5PM5iMftNWmnuvkK68Y15at4q1oIL4h8FzTSXBba5njvNDqbqVmF5eIcKqEzxBKu6
+ FZWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+ZrYWryMji2cS8E64N0cPJbqxFDojNEZjXg9qTOb2Ak=;
+ b=Yllux1PY6gOU+rcagPsE9WtjVu4ssKa2yAByUMPfckUxL3ewWuPdXGU4QjIiav91Ba
+ E2rR8NM3+FcNisd4Q8gs692pxhAXckILcCzcUexPHLnARue3lyuMtW+T8BQIi5KrN6t1
+ E+ScA6RROw1ZmYnBMHbqte0auNLjkS17YJ67riUs7UxahO4VfkdPKW0o2oG3faHwJPrl
+ jAYyE6oXcrYPBZrk8LNoY7ipHLazWu058nACZs3NFxwSw5BDDIfo1lv85VlFeh1km0p4
+ 23VdFScnDuK6Ul6WOPhVylJugtt1hwOHK/jEFqlM56wXOU431RSdNELTTvplym+M0mZH
+ on/A==
+X-Gm-Message-State: AOAM532tgDEKd+5TG6/H3zWqffqQt1UrU9t5AEURPCYXYFgOZof+Jwts
+ 5lY00J9kZtOKDUmFNzLqGlfo0mmKTL4vxw==
+X-Google-Smtp-Source: ABdhPJzTVoT2XiBtlvap25I+lSskBjuo9bS9hbCgPO9ZM5VnrekZDL2vIxboOlrnaZWDMbliMEE7XQ==
+X-Received: by 2002:a7b:c408:: with SMTP id k8mr3704357wmi.184.1630595352061; 
+ Thu, 02 Sep 2021 08:09:12 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id c24sm2107842wrb.57.2021.09.02.08.09.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Sep 2021 08:09:11 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 0/4] target/arm: Use TCG vector ops for MVE
+Date: Thu,  2 Sep 2021 16:09:06 +0100
+Message-Id: <20210902150910.15748-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210902130954.sdzkzfyeflc6sc4s@steredhat>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="mKBTNy0hubPC6LuJ"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,82 +82,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---mKBTNy0hubPC6LuJ
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This patchset uses the TCG vector ops for some MVE
+instructions. We can only do this when we know that none
+of the MVE lanes are predicated, ie when neither tail
+predication nor VPT predication nor ECI partial insn
+execution are happening.
 
-On Thu, Sep 02, 2021 at 03:09:54PM +0200, Stefano Garzarella wrote:
-> On Thu, Sep 02, 2021 at 01:12:33PM +0100, Stefan Hajnoczi wrote:
-> > On Wed, Sep 01, 2021 at 05:55:38PM +0200, Stefano Garzarella wrote:
-> > > On Thu, Aug 26, 2021 at 07:26:58PM +0200, Philippe Mathieu-Daud=E9 wr=
-ote:
-> > > > Both virtqueue_packed_get_avail_bytes() and
-> > > > virtqueue_split_get_avail_bytes() access the region cache, but
-> > > > their caller also does. Simplify by having virtqueue_get_avail_byte=
-s
-> > > > calling both with RCU lock held, and passing the caches as argument=
-.
-> > > >
-> > > > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> > > > ---
-> > > > RFC because I'm not sure this is safe enough
-> > >=20
-> > > It seems safe to me.
-> > >=20
-> > > While reviewing I saw that vring_get_region_caches() has
-> > > /* Called within rcu_read_lock().  */ comment, but it seems to me
-> > > that we
-> > > call that function in places where we haven't acquired it, which shou=
-ldn't
-> > > be a problem, but should we remove that comment?
-> >=20
-> > Do you have specific examples? That sounds worrying because the caller
-> > can't do much with the returned pointer if it was fetched outside the
-> > RCU read lock.
-> >=20
->=20
-> One was the virtqueue_get_avail_bytes(), but Phil is fixing it in this
-> patch.
->=20
-> Should we fix it in a separate patch to backport to stable branches?
->=20
-> Other suspicious places seem to be these:
-> - virtqueue_packed_fill_desc()
+Patch 1 adds a TB flag so we can track whether we can
+safely assume that the insn operates on the entire vector,
+and patches 2, 3, 4 use that to vectorize some simple
+cases (bitwise logic ops, integer add, sub, mul, min, max,
+abs and neg).
 
-This seems to be safe in practice: only
-hw/net/virtio-net.c:virtio_net_receive_rcu() calls it via
-virtqueue_flush(). virtqueue_flush() needs a doc comment indicating that
-it must be called under the RCU read lock though.
+This small initial patchset is intended as a check that
+the general structure for handling this makes sense;
+there are almost certainly other places we could improve
+the codegen for the non-predicated case.
 
-> - virtqueue_packed_drop_all()
+Richard: if you have time to scan through the MVE insns
+and suggest which ones would benefit from a vectorized
+version that would be very helpful...
 
-This looks broken.
+thanks
+-- PMM
 
-Stefan
+Peter Maydell (4):
+  target/arm: Add TB flag for "MVE insns not predicated"
+  target/arm: Optimize MVE logic ops
+  target/arm: Optimize MVE arithmetic ops
+  target/arm: Optimize MVE VNEG, VABS
 
---mKBTNy0hubPC6LuJ
-Content-Type: application/pgp-signature; name="signature.asc"
+ target/arm/cpu.h              |   4 +-
+ target/arm/translate.h        |   2 +
+ target/arm/helper.c           |  23 ++++++++
+ target/arm/translate-m-nocp.c |   8 +++
+ target/arm/translate-mve.c    | 102 ++++++++++++++++++++++------------
+ target/arm/translate-vfp.c    |   3 +
+ target/arm/translate.c        |   4 ++
+ 7 files changed, 110 insertions(+), 36 deletions(-)
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmEw6OMACgkQnKSrs4Gr
-c8jFvAgAr8oEP6UD8/0/DulxzynSV+MBl54zxtYNWGcRVwRYsrJWE2LWviWR33bI
-yBVAVsakBjRSJouiVnxFNfSaWONdAJ0PfjDl/DtgmYR8aFwHuVZIQLEHITfx47Qh
-V3/m5Peu45Jtv1TwuYNmbxZxOiR93UL0VTyIG5/+BROg6PHrEYidVgnFNDPgLFRT
-+fMq7Mvzc4hVfC6XBOz7zYk0OIfVyERmeVH6wKk4lwUSlrBh78vMu0AbXH9Iv3JJ
-XgbZj6sRKhzKV/EIuGcWJK8QwVwaUEg7Wygj9tWeuhlZiRtm3NVQuPxGKflwZ/Rq
-jE4dlCGAytG+640DxilnEKQzHj4zAA==
-=f4+A
------END PGP SIGNATURE-----
-
---mKBTNy0hubPC6LuJ--
+-- 
+2.20.1
 
 
