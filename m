@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33C453FF436
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 21:32:02 +0200 (CEST)
-Received: from localhost ([::1]:48350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39CAA3FF43B
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 21:33:33 +0200 (CEST)
+Received: from localhost ([::1]:50958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLsRM-0005XT-P1
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 15:32:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56010)
+	id 1mLsSq-0007HH-At
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 15:33:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLsQE-0004Ox-80
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 15:30:50 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:45822)
+ id 1mLsRS-0006OI-Ba
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 15:32:06 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:39669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mLsQ8-0002VJ-Qv
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 15:30:47 -0400
-Received: by mail-wr1-x433.google.com with SMTP id n5so4661756wro.12
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 12:30:42 -0700 (PDT)
+ id 1mLsRQ-0003ln-NQ
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 15:32:06 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id z4so4693880wrr.6
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 12:32:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LDgYTaZPd7fIgaqSd2LJvUg0u8gA8KQxliFRygtGFJM=;
- b=u4183SyGPMqn86XxNfKuH4///StAm8zYgLSkagvy3+3NQqzs0Hq5HvxQ/9p1oJsRlI
- yHHOxUvIIYxPA28/w0W0k38GBAYEQs4SGN86V34p+AxgB+d/b0p85AFdoYrzrIVxNcZv
- Hr7vgVgBlBo/OUX0uBsum6+wSSD6FCNRtLNGj73/qRV70qc6KD0nguSn0i+Ix+XGZIfv
- U7XreJiBWcctM5BYAL28J8kJKtf445JbSZckDmliqwcckBI0JKMtUE5t1U70JhoD85EM
- 5VPcod/1YBtuxKcIMqyW9cPRkglMRKus7ZhdI/5tRfGi+ORwtD1zHxz9RlOuCYSHH7+W
- dt4g==
+ :cc; bh=0u3nbYfpuw+uj8yqgjN6v07UGrpFZchrMpPQM/WdZF4=;
+ b=Bx0UzQrnvNcou0Xct41l+rytoG7ieDDtkj2FIZj/WfAhNXOdb3P94kxqmg/6pL6hfV
+ clWlq6bnidxVRPfp6bvZ8YPYsJeg5dyicPA+fI5vj2kaOShQF5XLYDTB+KEb9MvAoq1W
+ Yx5PKrCPGQdOmdkJuij2wgf2uPBSPGKSy9jFfdTIE2mkZOtmXPZ9S78eUXvTDgRO+TEC
+ 5DH9jjDcvI9UvxlAg87ZZ+Xs4+yz6etG3tME8WB8jsHMj4BBp0xoTosiKcq1idVzjMJg
+ XVyCN9xR7q3c8ewaA30T2e+eOWIcLdl7Q0NYo9kvcQvIzcGcGdWrUMCL8YRYfvvasBzT
+ L1fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=LDgYTaZPd7fIgaqSd2LJvUg0u8gA8KQxliFRygtGFJM=;
- b=g8bHZ5+W5OQ4JnkJwmuddMYyDHOSKytaDXuTGDL/I9A9qTQcahiDjbKd+5uQoPRujs
- yJoGZj+8e0PDCnhshRF48mAHLGwqThof9TFmAaj5IvR7CS9TeJ+K2oF24pQEXs88LDnP
- zNAWPiylycwe43PLj8uAG3vAtHDRAzyvUakuE6DFL8MsW4QjWcvaK0Hlz60cjoxNiSGC
- iUrYhjrM2cq4ddHc/epr6KKFemxXWk4ox7msPfW4PrUoddC+HL3I/FQ380eAWCoqu7O7
- 1tjOukjQK2d78iIBAZPeGMTWoj2XAS+J/v3TozbvOzBWyyV/m39whm5vIHsrnUwygxn+
- NUJQ==
-X-Gm-Message-State: AOAM530evv6Ny4ziE8sLKD+76goHWdSHFG+2TqUp/qpWr6KQLGXrnLzI
- 0BxJ7X0JGZhCob5agYZqGbIrswgW8RNzJgIGp3CGhQ==
-X-Google-Smtp-Source: ABdhPJyQfCzkwyyrliDvYajmeKmpp2OabBqoFFAnRSaLSZE+7h8IbEenJ9/rORrvv6/bds/k1t48FnxPZih/ix3by6c=
-X-Received: by 2002:adf:b748:: with SMTP id n8mr5614986wre.133.1630611041455; 
- Thu, 02 Sep 2021 12:30:41 -0700 (PDT)
+ bh=0u3nbYfpuw+uj8yqgjN6v07UGrpFZchrMpPQM/WdZF4=;
+ b=S5H52Xs+ENm9YLO97CWUN2Zf77w4X9OxK9w4gDCfjC6Ljmuy2zs2724qnEyLSRIILR
+ ImfHHEEiLJP9eK+Tnz7NHApsJi3tx3J5fMe4dKPMM9ETcK4LKWZrZg2APZXWnD1+Mdot
+ sEpCHgcng29fKw32NPim8DSJu6GxA7O0/MiMnDo4KmH7W+2VCBI6eiuY/rtgK7NRifpH
+ XzmhOiWTDRIiCphY5moFZ3QVSVwOdOtqhNw9VzItVozTPzJERmIlzeXAqbhqSKqqQNog
+ WervlEjMX4J8P/jc2qPkbXRfW7lnoNgVE3qUSUSVFg8qylgYgRMmy/ehQHwhNaCPnYql
+ 7Qvw==
+X-Gm-Message-State: AOAM530PvWn6hCmJzzQCffl9I701lZ0T8DndK3gHknhhJC8ZLpC2mHKr
+ eoD18Ge+H1KyMNSNnBqdS1rXpUk9g+5tL4P15biCRulcguk=
+X-Google-Smtp-Source: ABdhPJxRvn9dBE25jV+fgJ5lX4mt3GldudzhtcAQ5DS7JvXqpVbBJ3oWMkgyMnHGnt7vwQcKWWwAuZRVakSLGZod9uA=
+X-Received: by 2002:adf:b748:: with SMTP id n8mr5620671wre.133.1630611123236; 
+ Thu, 02 Sep 2021 12:32:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210808013406.223506-1-linux@roeck-us.net>
- <CAFEAcA8+o69ztRaaMvqh+zNaFs_6reSHX_ijknay6_0VePSE2w@mail.gmail.com>
- <a34c10d4-fc90-0186-3214-c3c5e77b4eea@roeck-us.net>
-In-Reply-To: <a34c10d4-fc90-0186-3214-c3c5e77b4eea@roeck-us.net>
+References: <20210902102205.7554-1-mark.cave-ayland@ilande.co.uk>
+ <20210902102205.7554-5-mark.cave-ayland@ilande.co.uk>
+ <CAFEAcA9hr6r-QpGQL_JmDrcCHJkTJdD8ZWKYuf8U+2VA0jSCPw@mail.gmail.com>
+ <fa9b6c97-7d76-f613-4005-9662283b9d85@ilande.co.uk>
+In-Reply-To: <fa9b6c97-7d76-f613-4005-9662283b9d85@ilande.co.uk>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 2 Sep 2021 20:29:52 +0100
-Message-ID: <CAFEAcA_cAp6kWTE6Lpx6QF1zfTYfQXiOPgdfkztS3iuJkRB0xQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/ssi: imx_spi: Improve chip select handling
-To: Guenter Roeck <linux@roeck-us.net>
+Date: Thu, 2 Sep 2021 20:31:14 +0100
+Message-ID: <CAFEAcA_g5jVFRp4Kwne6hk7wn0YbmhcFLaxnLoRd0N3ua+j8vQ@mail.gmail.com>
+Subject: Re: [PATCH v2 4/9] escc: introduce escc_hard_reset_chn() for hardware
+ reset
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,100 +80,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2 Sept 2021 at 17:09, Guenter Roeck <linux@roeck-us.net> wrote:
+On Thu, 2 Sept 2021 at 18:46, Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
 >
-> On 9/2/21 8:58 AM, Peter Maydell wrote:
-> > On Sun, 8 Aug 2021 at 02:34, Guenter Roeck <linux@roeck-us.net> wrote:
+> On 02/09/2021 16:42, Peter Maydell wrote:
+>
+> > On Thu, 2 Sept 2021 at 11:33, Mark Cave-Ayland
+> > <mark.cave-ayland@ilande.co.uk> wrote:
 > >>
-> >> The control register does not really have a means to deselect
-> >> all chip selects directly. As result, CS is effectively never
-> >> deselected, and connected flash chips fail to perform read
-> >> operations since they don't get the expected chip select signals
-> >> to reset their state machine.
+> >> This new hardware reset function is to be called for both channels when the
+> >> hardware reset bit is written to register WR9. Its initial implementation is
+> >> the same as the existing escc_reset_chn() function used for device reset.
 > >>
-> >> Normally and per controller documentation one would assume that
-> >> chip select should be set whenever a transfer starts (XCH is
-> >> set or the tx fifo is written into), and that it should be disabled
-> >> whenever a transfer is complete. However, that does not work in
-> >> practice: attempts to implement this approach resulted in failures,
-> >> presumably because a single transaction can be split into multiple
-> >> transfers.
-> >>
-> >> At the same time, there is no explicit signal from the host indicating
-> >> if chip select should be active or not. In the absence of such a direct
-> >> signal, use the burst length written into the control register to
-> >> determine if an access is ongoing or not. Disable all chip selects
-> >> if the burst length field in the configuration register is set to 0,
-> >> and (re-)enable chip select if a transfer is started. This is possible
-> >> because the Linux driver clears the burst length field whenever it
-> >> prepares the controller for the next transfer.
-> >> This solution  is less than perfect since it effectively only disables
-> >> chip select when initiating the next transfer, but it does work with
-> >> Linux and should otherwise do no harm.
-> >>
-> >> Stop complaining if the burst length field is set to a value of 0,
-> >> since that is done by Linux for every transfer.
-> >>
-> >> With this patch, a command line parameter such as "-drive
-> >> file=flash.sabre,format=raw,if=mtd" can be used to instantiate the
-> >> flash chip in the sabrelite emulation. Without this patch, the
-> >> flash instantiates, but it only reads zeroes.
-> >>
-> >> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> >> ---
-> >> I am not entirely happy with this solution, but it is the best I was
-> >> able to come up with. If anyone has a better idea, I'll be happy
-> >> to give it a try.
-> >>
-> >>   hw/ssi/imx_spi.c | 17 +++++++----------
-> >>   1 file changed, 7 insertions(+), 10 deletions(-)
-> >>
-> >> diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-> >> index 189423bb3a..7a093156bd 100644
-> >> --- a/hw/ssi/imx_spi.c
-> >> +++ b/hw/ssi/imx_spi.c
-> >> @@ -167,6 +167,8 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
-> >>       DPRINTF("Begin: TX Fifo Size = %d, RX Fifo Size = %d\n",
-> >>               fifo32_num_used(&s->tx_fifo), fifo32_num_used(&s->rx_fifo));
-> >>
-> >> +    qemu_set_irq(s->cs_lines[imx_spi_selected_channel(s)], 0);
-> >> +
-> >>       while (!fifo32_is_empty(&s->tx_fifo)) {
-> >>           int tx_burst = 0;
-> >>
-> >> @@ -385,13 +387,6 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
-> >>       case ECSPI_CONREG:
-> >>           s->regs[ECSPI_CONREG] = value;
-> >>
-> >> -        burst = EXTRACT(s->regs[ECSPI_CONREG], ECSPI_CONREG_BURST_LENGTH) + 1;
-> >> -        if (burst % 8) {
-> >> -            qemu_log_mask(LOG_UNIMP,
-> >> -                          "[%s]%s: burst length %d not supported: rounding up to next multiple of 8\n",
-> >> -                          TYPE_IMX_SPI, __func__, burst);
-> >> -        }
+> >> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > >
-> > Why has this log message been removed ?
+> >
+> > The datasheet says the only differences between hard and soft
+> > reset are for registers W9, W10, W11 and W14. I wasn't expecting
+> > the functions to be completely separated out like this.
 >
-> What I wanted to do is:
->
-> "Stop complaining if the burst length field is set to a value of 0,
->   since that is done by Linux for every transfer."
->
-> What I did instead is to remove the message entirely.
->
-> How about the rest of the patch ? Is it worth a resend with the message
-> restored (except for burst size == 0), or is it not acceptable anyway ?
+> I did consider doing it that way, but felt having the 2 separate functions was the
+> easiest to read against the tables in the datasheet. What do you think would be the
+> best way to organise the reset functions?
 
-I did the easy bit of the code review because answering this
-question is probably a multiple-hour job...this is still on my
-todo list, but I'm hoping somebody who understands the MIX
-SPI device gets to it first.
+I think having the hard-reset be "call the soft-reset and then
+clear/set the handful of bits that hard-reset touches and
+soft-reset doesn't" is probably clearer overall.
 
 -- PMM
 
