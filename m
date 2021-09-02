@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027483FF0E9
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 18:14:39 +0200 (CEST)
-Received: from localhost ([::1]:49020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C91513FF124
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 18:19:03 +0200 (CEST)
+Received: from localhost ([::1]:56148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLpMM-0004nc-3n
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 12:14:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33594)
+	id 1mLpQc-0001ic-JS
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 12:19:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1mLpHF-000886-6q; Thu, 02 Sep 2021 12:09:21 -0400
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:35734)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mLpNe-0006qJ-82; Thu, 02 Sep 2021 12:15:58 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
- id 1mLpHC-00033V-H7; Thu, 02 Sep 2021 12:09:20 -0400
-Received: by mail-ot1-x32e.google.com with SMTP id
- q11-20020a9d4b0b000000b0051acbdb2869so3171709otf.2; 
- Thu, 02 Sep 2021 09:09:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mLpNZ-0000Ia-Nf; Thu, 02 Sep 2021 12:15:55 -0400
+Received: by mail-wr1-x434.google.com with SMTP id z4so3826552wrr.6;
+ Thu, 02 Sep 2021 09:15:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=VL+3LJFKjgxTJRGBbjVAI41TWq2pj4MCAtAdzBuX17U=;
- b=Qv0A0zDzRGZ/6KV5+fM93iFaRl7wgDn120ywb2lGAOH/X9byUqOfrzQML815xRB6Jb
- H60Odcr6gsrPsjhR26+gZw+qQd5D724IR3OpQUgaqJILevOzrTMzb2IION9tRsdhuGYN
- RI4Hr1uNzKxk9Y71Z5TzeFfpchyORV/kgzNz4Yl9KPvDwzqafmrenvCzmrLEnHnXpgDB
- z7wJiXwTQeTsVyavRC/nhmnMSyxMHa6EYWIJj0fbhz5eNUGZMnt9QS1FaqRPYMCaECmg
- O2/+zlkducFYKSHcPAr+pI4D1Rk8dVDcJZZfRKQxwNIDO2Mt5Z2+Xj5oy9mJ4YdPqpII
- Cjwg==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Cx9tmtcMe/yqb/L4FxX6s6fgCGjzmE2xzXTNn5n4WRY=;
+ b=mcdkcgUkPmIymlgoHwDrJpvE9KHw9dvSG2MlkuM7+LMu3zkIYpqtCeCGgcISYDoKCb
+ 8696YyJt2CPh12bbX7QpwDA8IAMyJN7taR/RiiyUq4y4j+fSACZ5oqQ08yGPg+QlMR0S
+ hitbbr51iTLrvFSzYtCDWEBhD9WU3oObbn7IgCnxkcpgU8/Bpb/PRbBi6oyJFhSCPB/4
+ T4eJ4wL0xOuOcg0FizPKZv0AhuncICKZC1qKdxIbn5OpaC/dbV050AWnqohvIXKAkBb9
+ MuFoocUeCUvdcKKf//7Z32DJC9YmwC2EKSjtLp0AMfq+R5Wwnd7FM6PpEyUZ4hvUxjzc
+ 2tig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VL+3LJFKjgxTJRGBbjVAI41TWq2pj4MCAtAdzBuX17U=;
- b=WO/Ph5OMeZVqCU4htrqyslInNhLRIFLM7NzBgK5SRUDsbKqagy2+NHGzKfl54C0mWE
- BSZoiNEkDO+IEXS+HJtPqDCJLXsQUZ5MR2ucR2pP6wM8R6tqMD/pp+6Bcy2myJZ3jjeA
- 5Hh9JgWFQzMDz535InebjWqp0ay+fUdZTGnabKzWUQGMhDZZz93BwxMTObiVQLCQ1hTB
- oZiMZjC2Lr0hdFbLQCQrH+sFPJ1l44DfzlxG6332EwjsztuyhvtQHaRN99SZSIvGqEZa
- j59jHamXP+hrTB8PzZ9zfTi2/Z80QzI9XM1c60DcAHrm2R41oTGStHJqahdeUTOqdv3D
- Orgw==
-X-Gm-Message-State: AOAM532XHy3hE5/HRE9PrGltLyDnB9SFpsBdzc/afcXGKFOSKsDME4Oc
- Fvh0wpEagd9s3/urG3W/4BhYRtRGfOQ=
-X-Google-Smtp-Source: ABdhPJwUs7AAVAtDRBeYrFLo4Tfa/OAzVH0zvLkYuXi1NAsQkJyRQWTJcYMcGl2ZCQkOLNAYn1RW4A==
-X-Received: by 2002:a9d:d35:: with SMTP id 50mr3225495oti.22.1630598955631;
- Thu, 02 Sep 2021 09:09:15 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=Cx9tmtcMe/yqb/L4FxX6s6fgCGjzmE2xzXTNn5n4WRY=;
+ b=DXVoPzIcuSZ8svWYZ71oCNmkkE8YFGS6Ql8UG0F1m980QACOlF2LkRJSTrYgsATY+C
+ eN4C3GgiIPfNPndMqZrdYwhjexLkj4h8JV0Z7tChmoUJ004GgZ28DIKV6olzbRnIFycx
+ D9kI7TN0AoZsKgAi+a6SPoQ1dNFFgULABYk5iTMwYJ3UJE1eAIcaIVgyVJTIG6fhBcT/
+ nv0Nx8mXc59fT9mG/05qsdWyQpvEdXHCnca7eRuVGSGv3Rm1hjptISRMamhG2IPlYVv4
+ qe5xvbB7okGGixRYT2OEEofFaQoACuxkzqRqBWTW2NR9cmVIG+SR3ZFHTZGRu4cKJY4z
+ lFmg==
+X-Gm-Message-State: AOAM532jRYte2o8MdJAmhqnzwBNTEKpTgVTuSJEaAzSqBrQ1A5AExH4r
+ rq0UyEQyURbrF3mSLxPRWOh7UYWQ47w=
+X-Google-Smtp-Source: ABdhPJwMW19l1RT5uyseQGoPrvV+9UXH/fieGpgiPEuYOlcUopWj6VFIU2AjhhvSZ8tr8ff4GeIa0w==
+X-Received: by 2002:adf:8144:: with SMTP id 62mr4741623wrm.144.1630599347027; 
+ Thu, 02 Sep 2021 09:15:47 -0700 (PDT)
+Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- b24sm448637oic.33.2021.09.02.09.09.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Sep 2021 09:09:14 -0700 (PDT)
-Subject: Re: [PATCH] hw/ssi: imx_spi: Improve chip select handling
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210808013406.223506-1-linux@roeck-us.net>
- <CAFEAcA8+o69ztRaaMvqh+zNaFs_6reSHX_ijknay6_0VePSE2w@mail.gmail.com>
-From: Guenter Roeck <linux@roeck-us.net>
-Message-ID: <a34c10d4-fc90-0186-3214-c3c5e77b4eea@roeck-us.net>
-Date: Thu, 2 Sep 2021 09:09:13 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ j18sm2355853wrd.56.2021.09.02.09.15.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Sep 2021 09:15:45 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/30] accel: Move has_work() from SysemuCPUOps to
+ AccelOpsClass
+Date: Thu,  2 Sep 2021 18:15:13 +0200
+Message-Id: <20210902161543.417092-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8+o69ztRaaMvqh+zNaFs_6reSHX_ijknay6_0VePSE2w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32e;
- envelope-from=groeck7@gmail.com; helo=mail-ot1-x32e.google.com
-X-Spam_score_int: -34
-X-Spam_score: -3.5
-X-Spam_bar: ---
-X-Spam_report: (-3.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-2.225,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,104 +82,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
+ kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Laurent Vivier <laurent@vivier.eu>, Max Filippov <jcmvbkbc@gmail.com>,
+ Taylor Simpson <tsimpson@quicinc.com>, haxm-team@intel.com,
+ Colin Xu <colin.xu@intel.com>, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Stafford Horne <shorne@gmail.com>, Marek Vasut <marex@denx.de>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Paul Durrant <paul@xen.org>,
+ Kamil Rytarowski <kamil@netbsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Claudio Fontana <cfontana@suse.de>, Anthony Perard <anthony.perard@citrix.com>,
+ xen-devel@lists.xenproject.org, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Cameron Esfahani <dirty@apple.com>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ Michael Rolnik <mrolnik@gmail.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ qemu-ppc@nongnu.org, Wenchao Wang <wenchao.wang@intel.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/2/21 8:58 AM, Peter Maydell wrote:
-> On Sun, 8 Aug 2021 at 02:34, Guenter Roeck <linux@roeck-us.net> wrote:
->>
->> The control register does not really have a means to deselect
->> all chip selects directly. As result, CS is effectively never
->> deselected, and connected flash chips fail to perform read
->> operations since they don't get the expected chip select signals
->> to reset their state machine.
->>
->> Normally and per controller documentation one would assume that
->> chip select should be set whenever a transfer starts (XCH is
->> set or the tx fifo is written into), and that it should be disabled
->> whenever a transfer is complete. However, that does not work in
->> practice: attempts to implement this approach resulted in failures,
->> presumably because a single transaction can be split into multiple
->> transfers.
->>
->> At the same time, there is no explicit signal from the host indicating
->> if chip select should be active or not. In the absence of such a direct
->> signal, use the burst length written into the control register to
->> determine if an access is ongoing or not. Disable all chip selects
->> if the burst length field in the configuration register is set to 0,
->> and (re-)enable chip select if a transfer is started. This is possible
->> because the Linux driver clears the burst length field whenever it
->> prepares the controller for the next transfer.
->> This solution  is less than perfect since it effectively only disables
->> chip select when initiating the next transfer, but it does work with
->> Linux and should otherwise do no harm.
->>
->> Stop complaining if the burst length field is set to a value of 0,
->> since that is done by Linux for every transfer.
->>
->> With this patch, a command line parameter such as "-drive
->> file=flash.sabre,format=raw,if=mtd" can be used to instantiate the
->> flash chip in the sabrelite emulation. Without this patch, the
->> flash instantiates, but it only reads zeroes.
->>
->> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
->> ---
->> I am not entirely happy with this solution, but it is the best I was
->> able to come up with. If anyone has a better idea, I'll be happy
->> to give it a try.
->>
->>   hw/ssi/imx_spi.c | 17 +++++++----------
->>   1 file changed, 7 insertions(+), 10 deletions(-)
->>
->> diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
->> index 189423bb3a..7a093156bd 100644
->> --- a/hw/ssi/imx_spi.c
->> +++ b/hw/ssi/imx_spi.c
->> @@ -167,6 +167,8 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
->>       DPRINTF("Begin: TX Fifo Size = %d, RX Fifo Size = %d\n",
->>               fifo32_num_used(&s->tx_fifo), fifo32_num_used(&s->rx_fifo));
->>
->> +    qemu_set_irq(s->cs_lines[imx_spi_selected_channel(s)], 0);
->> +
->>       while (!fifo32_is_empty(&s->tx_fifo)) {
->>           int tx_burst = 0;
->>
->> @@ -385,13 +387,6 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
->>       case ECSPI_CONREG:
->>           s->regs[ECSPI_CONREG] = value;
->>
->> -        burst = EXTRACT(s->regs[ECSPI_CONREG], ECSPI_CONREG_BURST_LENGTH) + 1;
->> -        if (burst % 8) {
->> -            qemu_log_mask(LOG_UNIMP,
->> -                          "[%s]%s: burst length %d not supported: rounding up to next multiple of 8\n",
->> -                          TYPE_IMX_SPI, __func__, burst);
->> -        }
-> 
-> Why has this log message been removed ?
-
-What I wanted to do is:
-
-"Stop complaining if the burst length field is set to a value of 0,
-  since that is done by Linux for every transfer."
-
-What I did instead is to remove the message entirely.
-
-How about the rest of the patch ? Is it worth a resend with the message
-restored (except for burst size == 0), or is it not acceptable anyway ?
-
-Thanks,
-Guenter
-
-> 
->>           if (!imx_spi_is_enabled(s)) {
->>               /* device is disabled, so this is a soft reset */
->>               imx_spi_soft_reset(s);
-> 
-> thanks
-> -- PMM
-> 
-
+Hi,=0D
+=0D
+CPU has_work() is a per-accelerator handler. This series=0D
+- explicit the KVM / WHPX implementations=0D
+- moves TCG implementations in AccelOpsClass=0D
+- explicit missing implementations (returning 'false').=0D
+=0D
+Since v2:=0D
+- Full rewrite, no more RFC.=0D
+=0D
+Supersedes: <20210304222323.1954755-1-f4bug@amsat.org>=0D
+"cpu: Move CPUClass::has_work() to TCGCPUOps"=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (30):=0D
+  accel/tcg: Restrict cpu_handle_halt() to sysemu=0D
+  hw/core: Restrict cpu_has_work() to sysemu=0D
+  hw/core: Un-inline cpu_has_work()=0D
+  sysemu: Introduce AccelOpsClass::has_work()=0D
+  accel/kvm: Implement AccelOpsClass::has_work()=0D
+  accel/whpx: Implement AccelOpsClass::has_work()=0D
+  accel/tcg: Implement AccelOpsClass::has_work() as stub=0D
+  target/alpha: Restrict has_work() handler to sysemu and TCG=0D
+  target/arm: Restrict has_work() handler to sysemu and TCG=0D
+  target/avr: Restrict has_work() handler to sysemu and TCG=0D
+  target/cris: Restrict has_work() handler to sysemu and TCG=0D
+  target/hexagon: Remove unused has_work() handler=0D
+  target/hppa: Restrict has_work() handler to sysemu and TCG=0D
+  target/i386: Restrict has_work() handler to sysemu and TCG=0D
+  target/m68k: Restrict has_work() handler to sysemu and TCG=0D
+  target/microblaze: Restrict has_work() handler to sysemu and TCG=0D
+  target/mips: Restrict has_work() handler to sysemu and TCG=0D
+  target/nios2: Restrict has_work() handler to sysemu and TCG=0D
+  target/openrisc: Restrict has_work() handler to sysemu and TCG=0D
+  target/ppc: Restrict has_work() handler to sysemu and TCG=0D
+  target/ppc: Introduce PowerPCCPUClass::has_work()=0D
+  target/ppc: Simplify has_work() handlers=0D
+  target/riscv: Restrict has_work() handler to sysemu and TCG=0D
+  target/rx: Restrict has_work() handler to sysemu and TCG=0D
+  target/s390x: Restrict has_work() handler to sysemu and TCG=0D
+  target/sh4: Restrict has_work() handler to sysemu and TCG=0D
+  target/sparc: Restrict has_work() handler to sysemu and TCG=0D
+  target/tricore: Restrict has_work() handler to sysemu and TCG=0D
+  target/xtensa: Restrict has_work() handler to sysemu and TCG=0D
+  accel: Add missing AccelOpsClass::has_work() and drop SysemuCPUOps one=0D
+=0D
+ include/hw/core/cpu.h             |  28 +--=0D
+ include/hw/core/tcg-cpu-ops.h     |   4 +=0D
+ include/sysemu/accel-ops.h        |   5 +=0D
+ target/ppc/cpu-qom.h              |   3 +=0D
+ accel/hvf/hvf-accel-ops.c         |   6 +=0D
+ accel/kvm/kvm-accel-ops.c         |   6 +=0D
+ accel/qtest/qtest.c               |   6 +=0D
+ accel/tcg/cpu-exec.c              |   8 +-=0D
+ accel/tcg/tcg-accel-ops.c         |  12 ++=0D
+ accel/xen/xen-all.c               |   6 +=0D
+ hw/core/cpu-common.c              |   6 -=0D
+ softmmu/cpus.c                    |  10 +-=0D
+ target/alpha/cpu.c                |   4 +-=0D
+ target/arm/cpu.c                  |   7 +-=0D
+ target/avr/cpu.c                  |   4 +-=0D
+ target/cris/cpu.c                 |   4 +-=0D
+ target/hexagon/cpu.c              |   6 -=0D
+ target/hppa/cpu.c                 |   4 +-=0D
+ target/i386/cpu.c                 |   6 -=0D
+ target/i386/hax/hax-accel-ops.c   |   6 +=0D
+ target/i386/nvmm/nvmm-accel-ops.c |   6 +=0D
+ target/i386/tcg/tcg-cpu.c         |   8 +-=0D
+ target/i386/whpx/whpx-accel-ops.c |   6 +=0D
+ target/m68k/cpu.c                 |   4 +-=0D
+ target/microblaze/cpu.c           |  10 +-=0D
+ target/mips/cpu.c                 |   4 +-=0D
+ target/nios2/cpu.c                |   4 +-=0D
+ target/openrisc/cpu.c             |   4 +-=0D
+ target/ppc/cpu_init.c             | 324 +++++++++++++++---------------=0D
+ target/riscv/cpu.c                |   8 +-=0D
+ target/rx/cpu.c                   |   4 +-=0D
+ target/s390x/cpu.c                |   4 +-=0D
+ target/sh4/cpu.c                  |   7 +-=0D
+ target/sparc/cpu.c                |   4 +-=0D
+ target/tricore/cpu.c              |   6 +-=0D
+ target/xtensa/cpu.c               |  16 +-=0D
+ 36 files changed, 321 insertions(+), 239 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
