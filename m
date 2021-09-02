@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CF9E3FE9A1
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 09:02:25 +0200 (CEST)
-Received: from localhost ([::1]:53768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51ABA3FE9A7
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 09:03:25 +0200 (CEST)
+Received: from localhost ([::1]:56342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLgjt-0001dS-4T
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 03:02:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52678)
+	id 1mLgku-0003Ly-CZ
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 03:03:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mLgh0-0007li-3b
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 02:59:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21586)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLgiB-0000T7-4e
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 03:00:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
- id 1mLggw-0006oi-O2
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 02:59:20 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mLgi8-0007pu-5N
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 03:00:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630565956;
+ s=mimecast20190719; t=1630566030;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0ADNp+MCOhKpmtZUPNZlyxPjlMmWnQ0gaJud9s3DhNQ=;
- b=Jet+CISetjPtMkce32qwCwDaoMVUoTn9+f/xnd7SMo/qOW28CZ58IC5z7TpFpJKp7pLeIV
- SJLDoSpyrHwfPSDi4VH0XA7oWfR0rejiRVIgC3wS8dJLqKz/6tg+7c5Xkq8SWdF6xudZ3f
- siJ43nDKg5l4Um4tL8hC41nyGR/38sU=
-Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
- [209.85.208.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-122-_82gLDMvNBeYGL3Ug27S8g-1; Thu, 02 Sep 2021 02:59:16 -0400
-X-MC-Unique: _82gLDMvNBeYGL3Ug27S8g-1
-Received: by mail-lj1-f199.google.com with SMTP id
- y6-20020a05651c154600b001c30dac7e87so271477ljp.8
- for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 23:59:15 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=G11yS83SYPSi71JWCodPXBqZwp3R/qnqULwsrrlwKIU=;
+ b=STGIYIRV4itFRH9x8OY9HNXj8kmglxC3tSqQxXheLkkRhK8Xtl26kIZUB5+mq2+Jtdrhgf
+ XTzzmlomjfDkigk5PbrUzqZDLUc7dY6fJWYFaqlBxZws7zqYulZ5wrkPZff39HwBAl+TgW
+ aNHhCVsVCWAsTTkEdsujLZwwUjssqlQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-323-7-ipZpv7N324rn9HDTX6zg-1; Thu, 02 Sep 2021 03:00:29 -0400
+X-MC-Unique: 7-ipZpv7N324rn9HDTX6zg-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ z16-20020adfdf90000000b00159083b5966so206771wrl.23
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 00:00:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0ADNp+MCOhKpmtZUPNZlyxPjlMmWnQ0gaJud9s3DhNQ=;
- b=hdw8YNei1ci8HuufWe/z7KebYs9Nwptn5ON2N/ZFLqkVbMxKZAqC54CHaGCxqBrQKS
- 8evqpJD+R98TeVgHOsJZGv4rA9ERqqw4TqUQCM8eUvA+YrspNnO4qdMOMJt1DeLN9oHE
- nF65ATcBwD108r5X/Um2uXjqegDrZMAoQPTXIFJXIHo4CL//ttD7Oaf3avF3zgdOUC4x
- 5A82Z+SErxkONzThf8zgzwt56UPIMH71Z5GJtYEtxqMkP3tOju5Nd8KwGiP9dvoPYSIW
- ElmjNbXdeY/g/2l0NKF8PG13/XOlNNwoLKGWP5U0ucMFu9hdWTVxrJ521LYcTZ7Yvvr+
- 8m/g==
-X-Gm-Message-State: AOAM533KYvaiRhFtHQfgjplUd1grMzVnSFxKKu2c8KEu2IRyWfc6mTvo
- A1gnY0S+ICv1ivr24aucsNFNHos5bidWiGMBS+nNqe/5Z6go8bDig2JumXf6DceErHnLL4TWtlk
- jMMqdMCK+/y5+6AKDmp8Ze7WbsbMoMk0=
-X-Received: by 2002:a2e:b4a1:: with SMTP id q1mr1264442ljm.221.1630565954532; 
- Wed, 01 Sep 2021 23:59:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxVxPVlD61gQINhEapzpnCVCrCOQO7erVKRYzolDxvCBJMJ7+DrZkq+7EVzOjh6Uiq0ViIRupvlbPhrfPXXs/c=
-X-Received: by 2002:a2e:b4a1:: with SMTP id q1mr1264409ljm.221.1630565954084; 
- Wed, 01 Sep 2021 23:59:14 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=7z+jkYJuV71NjqPJKVRZAnSidnNf9jpxe0FKFvfdYws=;
+ b=Uv6fW2VX4+oXhZPam7x8FRKf9peDPcOK+7usR5kKymzGe02/eZ/XuoIT4BnHOpz1NW
+ CseQKDcERClaq1Yd+JNEV8aDErw8SOuICi4cvoUhapdB9UY4wyYtOHxhpQ1GF0kYPUYT
+ 0TsGv45KfaUM8b85yknVwmo5zkQsV53SuZj0XnjmUd456bIPdIq+gtvwDPOn+oS32MH+
+ qbuwEoH5ry3ivYavCivxQDXm6ZFY7T2wVedYFBbgUh7EoXXxqGK3b1oozMBftzqAzwex
+ x+t30AzDhTPffQC9k9AaAkiTlsZ+SB1S/IpmfdHwBNqvR/wa6Ahw+PrOcq12xdbDZlKH
+ e7AQ==
+X-Gm-Message-State: AOAM531Bwx5wubLrM1R5DQ8E6zFz6WxQWnxfWCTwCp2cmtuQEDbB0Khc
+ 8ZjgSqVD2gh4KN7IQaSxsHQmzCTYoHMShB7D+5CB3voB+u/2wQnK+r48swwitEP1blOPh+UqxZr
+ Vt8X1Ldof1lYXcPYP3IaWFN9+WxSu93MqMUXNPq2uXTlLs+xLynAtF8Jsze9Y0bVA
+X-Received: by 2002:adf:9d4b:: with SMTP id o11mr1889590wre.29.1630566027749; 
+ Thu, 02 Sep 2021 00:00:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyM+tJEloLn5Go7pbCsDxbmr25/0pDenaf5hrDCvlfm4gKTqb/O4n87cIWtzUtJTKdVItOYkg==
+X-Received: by 2002:adf:9d4b:: with SMTP id o11mr1889538wre.29.1630566027335; 
+ Thu, 02 Sep 2021 00:00:27 -0700 (PDT)
+Received: from x1w.redhat.com (163.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id 17sm743356wmj.20.2021.09.02.00.00.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Sep 2021 00:00:26 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 00/11] block/nvme: Rework error reporting
+Date: Thu,  2 Sep 2021 09:00:14 +0200
+Message-Id: <20210902070025.197072-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20210831110238.299458-1-leobras@redhat.com>
- <20210831110238.299458-3-leobras@redhat.com>
- <YS4nPfEBCy9IC3rd@redhat.com> <YS6QmOrN4qr055vR@t490s>
-In-Reply-To: <YS6QmOrN4qr055vR@t490s>
-From: Leonardo Bras Soares Passos <leobras@redhat.com>
-Date: Thu, 2 Sep 2021 03:59:25 -0300
-Message-ID: <CAJ6HWG72311UK9Nvh+JDw-zo1Days0u8N_QHbeGGdfKR+hALCA@mail.gmail.com>
-Subject: Re: [PATCH v1 2/3] io: Add zerocopy and errqueue
-To: Peter Xu <peterx@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -77,7 +78,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,100 +91,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Fam Zheng <fam@euphon.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Auger Eric <eric.auger@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thanks for this feedback Peter!
-
-I ended up reading/replying the e-mails in thread order, so I may have
-been redundant
-with your argument, sorry about that.
-
-I will add my comments inline, but I will add references to the
-previous mail I sent
-Daniel, so please read it too.
-
-On Tue, Aug 31, 2021 at 5:27 PM Peter Xu <peterx@redhat.com> wrote:
-[snip]
-> >
-> > I can't see how we can introduce MSG_ZEROCOPY in any seemless
-> > way. The buffer lifetime requirements imply need for an API
-> > design that is fundamentally different for asynchronous usage,
-> > with a callback to notify when the write has finished/failed.
->
-> Regarding buffer reuse - it indeed has a very deep implication on the buffer
-> being available and it's not obvious at all.  Just to mention that the initial
-> user of this work will make sure all zero copy buffers will be guest pages only
-> (as it's only used in multi-fd), so they should always be there during the
-> process.
-
-Thanks for pointing that out, what's what I had in mind at the time.
-
->
-> I think asking for a complete design still makes sense.
-
-Agree, since I am touching QIOChannel, it makes sense to make it work for
-other code that uses it too, not only our case.
-
->  E.g., for precopy
-> before we flush device states and completes the migration, we may want to at
-> least have a final ack on all the zero-copies of guest pages to guarantee they
-> are flushed.
->
-> IOW, we need to make sure the last piece of migration stream lands after the
-> guest pages so that the dest VM will always contain the latest page data when
-> dest VM starts.  So far I don't see how current code guaranteed that.
->
-> In short, we may just want to at least having a way to make sure all zero
-> copied buffers are finished using and they're sent after some function returns
-> (e.g., qio_channel_flush()).  That may require us to do some accounting on when
-> we called sendmsg(MSG_ZEROCOPY), meanwhile we should need to read out the
-> ee_data field within SO_EE_ORIGIN_ZEROCOPY msg when we do recvmsg() for the
-> error queue and keep those information somewhere too.
-
-Yeah, that's correct.
-I haven't fully studied what the returned data represents, but I
-suppose this could be
-a way to fix that. In my previous reply to Daniel I pointed out a way
-we may achieve
-a flush behavior with poll() too, but it could be a little hacky.
-
->
-> Some other side notes that reached my mind..
->
-> The qio_channel_writev_full() may not be suitable for async operations, as the
-> name "full" implies synchronous to me.  So maybe we can add a new helper for
-> zero copy on the channel?
->
-> We may also want a new QIOChannelFeature as QIO_CHANNEL_FEATURE_ZEROCOPY, then
-> we fail qio_channel_writv_zerocopy() (or whatever name we come up with) if that
-> bit is not set in qio channel features.
-
-I also suggested something like that, but I thought it could be good if we could
-fall back to io_writev() if we didn't have the zerocopy feature (or
-the async feature).
-
-What do you think?
-
->
-> Thanks,
->
-> --
-> Peter Xu
->
-
-I really appreciate your suggestions, thanks Peter!
-
-Best regards,
-Leonardo
+(Series fully reviewed)=0D
+=0D
+Hi,=0D
+=0D
+This series contains various patches sent last year with=0D
+review comments addressed, few more cleanups, and a new=0D
+patch which remove the spurious "VFIO_MAP_DMA failed: No=0D
+space left on device" now poping up since commit 15a730e7a.=0D
+(it is the expected behavior, which is why we retry the=0D
+same call after flushing the DMA mappings).=0D
+=0D
+Since v2:=0D
+- qemu_vfio_find_[fixed/temp]_iova retun bool (Klaus)=0D
+- Add Klaus's R-b=0D
+=0D
+Since v1:=0D
+- Addressed Klaus review comments (cleaner Error* handling)=0D
+- Add Klaus's R-b=0D
+=0D
+Regards,=0D
+=0D
+Phil.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (11):=0D
+  block/nvme: Use safer trace format string=0D
+  util/vfio-helpers: Let qemu_vfio_verify_mappings() use error_report()=0D
+  util/vfio-helpers: Replace qemu_mutex_lock() calls with=0D
+    QEMU_LOCK_GUARD=0D
+  util/vfio-helpers: Remove unreachable code in qemu_vfio_dma_map()=0D
+  block/nvme: Have nvme_create_queue_pair() report errors consistently=0D
+  util/vfio-helpers: Pass Error handle to qemu_vfio_dma_map()=0D
+  util/vfio-helpers: Extract qemu_vfio_water_mark_reached()=0D
+  util/vfio-helpers: Use error_setg in qemu_vfio_find_[fixed/temp]_iova=0D
+  util/vfio-helpers: Simplify qemu_vfio_dma_map() returning directly=0D
+  util/vfio-helpers: Let qemu_vfio_do_mapping() propagate Error=0D
+  block/nvme: Only report VFIO error on failed retry=0D
+=0D
+ include/qemu/vfio-helpers.h |  2 +-=0D
+ block/nvme.c                | 29 +++++++----=0D
+ util/vfio-helpers.c         | 99 ++++++++++++++++++++-----------------=0D
+ block/trace-events          |  2 +-=0D
+ 4 files changed, 76 insertions(+), 56 deletions(-)=0D
+=0D
+--=20=0D
+2.31.1=0D
+=0D
 
 
