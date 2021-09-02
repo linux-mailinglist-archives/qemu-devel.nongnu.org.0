@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE663FED87
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 14:11:25 +0200 (CEST)
-Received: from localhost ([::1]:58058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48CD23FED7F
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 14:08:54 +0200 (CEST)
+Received: from localhost ([::1]:49820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLlYy-0003qf-Fg
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 08:11:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50424)
+	id 1mLlWX-0006QN-8X
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 08:08:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mLl0z-00015V-If
+ id 1mLl10-00018u-Qj
  for qemu-devel@nongnu.org; Thu, 02 Sep 2021 07:36:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55205)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mLl0x-00051z-W3
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 07:36:17 -0400
+ id 1mLl0z-000523-9j
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 07:36:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630582575;
+ s=mimecast20190719; t=1630582576;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3VLUJbvcmSiVB3yjWRU37IAij7geppr70LiGoenbNYE=;
- b=PERH4ixOiyoGwmUapP6XBBGHANDn4n05G+gFhNJmQUGfzBB9BRszIuks2aFYaaA0aYCgTN
- mJG3mS0wGWjACKxqqmL5g3/9V1eVWzYcvCApHlQl+0gJkgvXbkP0om21bidm2O+JdQyXmY
- O2ZJqV94eZXifM4LDxJQ1o1HAT+yoas=
+ bh=ZSamMur5JOOUiPLvlQUGfnSNZu1DQE0BcQMygBDBxr4=;
+ b=IXddkeT3E7a1hkkqrMTyiNblx1Cl6ZCacIUDcKSjWmChVMLrSEnCBE3to3lfAI5ftbTkLG
+ IjWfijagv8TEzU4UTz7PbpRVLid87PsUTbO4DaMlOBdlLUrycO/nA52pIZxVjqfnq82vcq
+ YE+6zuRSDJxvXQZSf8YnazE5SjXtv+g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-91-I8T72AfAP4OXAKSnvzrgYA-1; Thu, 02 Sep 2021 07:36:14 -0400
-X-MC-Unique: I8T72AfAP4OXAKSnvzrgYA-1
+ us-mta-494-vg6uFYLMMTqQEEBwMD7_TQ-1; Thu, 02 Sep 2021 07:36:15 -0400
+X-MC-Unique: vg6uFYLMMTqQEEBwMD7_TQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E7521009446
- for <qemu-devel@nongnu.org>; Thu,  2 Sep 2021 11:36:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAA4180292A;
+ Thu,  2 Sep 2021 11:36:14 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
  (dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2D2286A8F8;
- Thu,  2 Sep 2021 11:36:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A4FBA6A8F8;
+ Thu,  2 Sep 2021 11:36:13 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 14/15] tests: migration-test: use qtest_has_accel() API
-Date: Thu,  2 Sep 2021 07:35:50 -0400
-Message-Id: <20210902113551.461632-15-imammedo@redhat.com>
+Subject: [PATCH v2 15/15] tests: bios-tables-test: use qtest_has_accel() API
+ to register TCG only tests
+Date: Thu,  2 Sep 2021 07:35:51 -0400
+Message-Id: <20210902113551.461632-16-imammedo@redhat.com>
 In-Reply-To: <20210902113551.461632-1-imammedo@redhat.com>
 References: <20210902113551.461632-1-imammedo@redhat.com>
 MIME-Version: 1.0
@@ -58,7 +59,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -79,63 +80,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, pbonzini@redhat.com, Thomas Huth <thuth@redhat.com>,
- dgilbert@redhat.com, mst@redhat.com
+Cc: lvivier@redhat.com, thuth@redhat.com, f4bug@amsat.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+ .. only if TCG is available
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Suggested-by: Thomas Huth <thuth@redhat.com>
 ---
-CC: dgilbert@redhat.com
-CC: pbonzini@redhat.com
+v2:
+  - fix rebase conflict aftr dropping IORT test case
+
 CC: thuth@redhat.com
 CC: lvivier@redhat.com
+CC: f4bug@amsat.org
 ---
- tests/qtest/migration-test.c | 15 ++++-----------
- 1 file changed, 4 insertions(+), 11 deletions(-)
+ tests/qtest/bios-tables-test.c | 28 +++++++++++++---------------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index cc5e83d98a..7b42f6fd90 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -1420,6 +1420,7 @@ static bool kvm_dirty_ring_supported(void)
- int main(int argc, char **argv)
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 068fcfd623..f6a77e9b5f 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -722,13 +722,6 @@ static void test_acpi_one(const char *params, test_data *data)
+     char *args;
+     bool use_uefi = data->uefi_fl1 && data->uefi_fl2;
+ 
+-#ifndef CONFIG_TCG
+-    if (data->tcg_only) {
+-        g_test_skip("TCG disabled, skipping ACPI tcg_only test");
+-        return;
+-    }
+-#endif /* CONFIG_TCG */
+-
+     args = test_acpi_create_args(data, params, use_uefi);
+     data->qts = qtest_init(args);
+     test_acpi_load_tables(data, use_uefi);
+@@ -1541,6 +1534,7 @@ int main(int argc, char *argv[])
  {
-     char template[] = "/tmp/migration-test-XXXXXX";
-+    const bool has_kvm = qtest_has_accel("kvm");
+     const char *arch = qtest_get_arch();
+     const bool has_kvm = qtest_has_accel("kvm");
++    const bool has_tcg = qtest_has_accel("tcg");
      int ret;
  
      g_test_init(&argc, &argv, NULL);
-@@ -1434,8 +1435,7 @@ int main(int argc, char **argv)
-      * some reason)
-      */
-     if (g_str_equal(qtest_get_arch(), "ppc64") &&
--        (access("/sys/module/kvm_hv", F_OK) ||
--         access("/dev/kvm", R_OK | W_OK))) {
-+        (!has_kvm || access("/sys/module/kvm_hv", F_OK))) {
-         g_test_message("Skipping test: kvm_hv not available");
-         return g_test_run();
+@@ -1584,7 +1578,6 @@ int main(int argc, char *argv[])
+         qtest_add_func("acpi/q35/smm-compat-nosmm",
+                        test_acpi_q35_tcg_smm_compat_nosmm);
+         qtest_add_func("acpi/q35/nohpet", test_acpi_q35_tcg_nohpet);
+-        qtest_add_func("acpi/q35/ivrs", test_acpi_q35_tcg_ivrs);
+         qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
+         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
+         qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
+@@ -1594,19 +1587,24 @@ int main(int argc, char *argv[])
+         qtest_add_func("acpi/microvm/rtc", test_acpi_microvm_rtc_tcg);
+         qtest_add_func("acpi/microvm/ioapic2", test_acpi_microvm_ioapic2_tcg);
+         qtest_add_func("acpi/microvm/oem-fields", test_acpi_oem_fields_microvm);
+-        if (strcmp(arch, "x86_64") == 0) {
+-            qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
++        if (has_tcg) {
++            qtest_add_func("acpi/q35/ivrs", test_acpi_q35_tcg_ivrs);
++            if (strcmp(arch, "x86_64") == 0) {
++                qtest_add_func("acpi/microvm/pcie", test_acpi_microvm_pcie_tcg);
++            }
+         }
+         if (has_kvm) {
+             qtest_add_func("acpi/q35/kvm/xapic", test_acpi_q35_kvm_xapic);
+             qtest_add_func("acpi/q35/kvm/dmar", test_acpi_q35_kvm_dmar);
+         }
+     } else if (strcmp(arch, "aarch64") == 0) {
+-        qtest_add_func("acpi/virt", test_acpi_virt_tcg);
+-        qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
+-        qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
+-        qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
+-        qtest_add_func("acpi/virt/oem-fields", test_acpi_oem_fields_virt);
++        if (has_tcg) {
++            qtest_add_func("acpi/virt", test_acpi_virt_tcg);
++            qtest_add_func("acpi/virt/numamem", test_acpi_virt_tcg_numamem);
++            qtest_add_func("acpi/virt/memhp", test_acpi_virt_tcg_memhp);
++            qtest_add_func("acpi/virt/pxb", test_acpi_virt_tcg_pxb);
++            qtest_add_func("acpi/virt/oem-fields", test_acpi_oem_fields_virt);
++        }
      }
-@@ -1444,16 +1444,9 @@ int main(int argc, char **argv)
-      * Similar to ppc64, s390x seems to be touchy with TCG, so disable it
-      * there until the problems are resolved
-      */
--    if (g_str_equal(qtest_get_arch(), "s390x")) {
--#if defined(HOST_S390X)
--        if (access("/dev/kvm", R_OK | W_OK)) {
--            g_test_message("Skipping test: kvm not available");
--            return g_test_run();
--        }
--#else
--        g_test_message("Skipping test: Need s390x host to work properly");
-+    if (g_str_equal(qtest_get_arch(), "s390x") && !has_kvm) {
-+        g_test_message("Skipping test: s390x host with KVM is required");
-         return g_test_run();
--#endif
-     }
- 
-     tmpfs = mkdtemp(template);
+     ret = g_test_run();
+     boot_sector_cleanup(disk);
 -- 
 2.27.0
 
