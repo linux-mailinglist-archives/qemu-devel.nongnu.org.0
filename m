@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E3B3FEF08
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:57:19 +0200 (CEST)
-Received: from localhost ([::1]:36066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B283FEF0B
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:59:00 +0200 (CEST)
+Received: from localhost ([::1]:39652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLnDS-00078o-QT
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:57:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53054)
+	id 1mLnF5-00019P-T6
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:58:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mLnBg-0004pI-MB
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:55:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44217)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1mLnBd-0006x1-Vq
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:55:28 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630590924;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vD0coD+6uunZIho/vV3f/6WUDRvVstXAuPIxYof5Z7o=;
- b=ZV8Op6uO0SoaQ355UcIheIq3kxsBOMjGYE2HOhR5qv4y1jca9GAL08i86oKuZ2PNBhFnUz
- VIOo35BLy+jsuyBcFd7n+2v/rzIvfsRNIzl6OfYTpn76dw56LirinS2XQbcnRVwEtsP21D
- cVUB3WkboGRexZWbiX+WMsSBLpr3UMQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-39-J000XcwmNBajvzHyhI3elQ-1; Thu, 02 Sep 2021 09:55:22 -0400
-X-MC-Unique: J000XcwmNBajvzHyhI3elQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 182C0104FB69;
- Thu,  2 Sep 2021 13:55:21 +0000 (UTC)
-Received: from localhost (unknown [10.39.192.185])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 005E45D9C6;
- Thu,  2 Sep 2021 13:55:09 +0000 (UTC)
-Date: Thu, 2 Sep 2021 14:55:09 +0100
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: Guest Agent issue with 'guest-get-osinfo' command on Windows
-Message-ID: <20210902135509.GU26415@redhat.com>
-References: <CAJ28CFSFEatxgfvUE3gvnFBVX7GrqMwk0+t1foFfNzDu7bwv3A@mail.gmail.com>
- <YTDTc9NC9k7hJjpx@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mLnDt-0008EE-1F
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:57:45 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:44763)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mLnDr-0000VE-B0
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:57:44 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ l7-20020a1c2507000000b002e6be5d86b3so1436689wml.3
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 06:57:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=niJbbBEVVjv1HYyiQgf55NZI6kxJF7vfycI9AkaRR0c=;
+ b=ZXvIKJV2aKpEB6Hu5CWgoMy5xHHXYv9DqHuNu0UNsy7Str1DLUGMfAhS6yTWNx76ji
+ 43YdR9OAI89FL14TJb4/NRPjNJro3XLDUaYzxTXSA7iKvienDWLbemuli0aUQeREKF0n
+ JIILSoNR1jnitRSoHfUptkRuJOtmuPc6JuhtyWY9WDyupEXhAKNx5AX5E8TQkqdBqHZn
+ 7953VLZl35DvrhEN9Grv6LPynRi7gs6VtUiA/NydtUh2eix3CIzwGk34l+SDpAhje89c
+ kl0renA3SBMpOriSvsuS0sRcd5NMhBQxTLusLxkxk2/3B/imF0cCW04kfny+puzul8EO
+ b/ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=niJbbBEVVjv1HYyiQgf55NZI6kxJF7vfycI9AkaRR0c=;
+ b=PL9YhOIy28/068miPJoVcOjz7eflb3pT9PR3zXER9LnwTUTu2iTTAS6Nv7T6jGZpYP
+ VFEVs9yj7AgnZbYLisK82uZxRpub30jEx/aZKGQhMg9aYXYgqP2+PTWjAAoCaSCSuAhq
+ OYflEywNF16VMoh6Fky2HyzVP+n42+q33KwCdIYuJp3H7FXzT36XPwTQ5MIs7g/3rmkG
+ u3Fuzk73sQwLg0k4Lgv8tWnX7+AjLFu/zDpBZ06LWqeuxGSKpa0Bgaq+NBKEBj52HSvJ
+ ZIsd3jyshfzxqxrPHm9nH76tFLDma6WPFDlK9dmFUGRcxxlXgMNxSFTGCjC3SKCqxkBB
+ daCQ==
+X-Gm-Message-State: AOAM532BMhwDbGH/f6LLyZNKGX/8KeiXC9O57rz4/rugq2f7b7NhW3/5
+ r5hSfflIUfQLWyVgePWvDmeYiMGe2hA13JAb1l5P1Q==
+X-Google-Smtp-Source: ABdhPJy9vS1rYV1QK8v5IoSHnEtJOuSTr7uwb7q9dtlkV70KXCIDPr+biKMy7vOT+VUkwEa4yvJ06J1FQZzjrxvDCAk=
+X-Received: by 2002:a1c:f30b:: with SMTP id q11mr3323716wmq.91.1630591061675; 
+ Thu, 02 Sep 2021 06:57:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YTDTc9NC9k7hJjpx@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=rjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20210901151619.689075-1-hreitz@redhat.com>
+In-Reply-To: <20210901151619.689075-1-hreitz@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 2 Sep 2021 14:56:53 +0100
+Message-ID: <CAFEAcA-rCN5pmp34LY_v-Xk277e1OHnNj3Lm7+ztU29epvrwHA@mail.gmail.com>
+Subject: Re: [PULL 00/56] Block patches
+To: Hanna Reitz <hreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,147 +79,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Michael Roth <michael.roth@amd.com>, Developers <qemu-devel@nongnu.org>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Tomas Golembiovsky <tgolembi@redhat.com>, Yan Vugenfirer <yan@daynix.com>,
- Konstantin Kostiuk <konstantin@daynix.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 02, 2021 at 02:36:51PM +0100, Daniel P. Berrangé wrote:
-> On Thu, Sep 02, 2021 at 03:36:01PM +0300, Konstantin Kostiuk wrote:
-> > Hi Team,
-> > 
-> > We have several bugs related to 'guest-get-osinfo' command in Windows Guest
-> > Agent:
-> > https://bugzilla.redhat.com/show_bug.cgi?id=1998919
-> > https://bugzilla.redhat.com/show_bug.cgi?id=1972070
-> > 
-> > This command returns the following data:
-> > {
-> > "name": "Microsoft Windows",
-> > "kernel-release": "20344",
-> > "version": "N/A",
-> > "variant": "server",
-> > "pretty-name": "Windows Server 2022 Datacenter",
-> > "version-id": "N/A",
-> > "variant-id": "server",
-> > "kernel-version": "10.0",
-> > "machine": "x86_64",
-> > "id": "mswindows"
-> > }
-> > 
-> > The problem is with "version" and "pretty-name". Windows Server
-> > 2016/2019/2022 and Windows 11 have the same MajorVersion ("kernel-version")
-> 
-> Yes, this is a long standing issue with version mapping Windows
-> guests, to which no one has ever come up with a nice solution
-> that I know of.
-> 
-> In libosinfo database, we just report the kernel version as the
-> OS version, and accept the fact that there's a clash in version
-> between various Windows products.
-> 
->   https://gitlab.com/libosinfo/osinfo-db/-/blob/master/data/os/microsoft.com/win-2k19.xml.in
-> 
->   https://gitlab.com/libosinfo/osinfo-db/-/blob/master/data/os/microsoft.com/win-10.xml.in
-> 
-> Apps that need to distinguish simply have to look at the
-> product name, even if this causes localization pain.
-> 
-> Similarly in libguestfs, the virt-inspector tool just reports
-> the kernel version, and product name from the registry:
-> 
-> # virt-inspector -d win2k8r2
-> <?xml version="1.0"?>
-> <operatingsystems>
->   <operatingsystem>
->     <root>/dev/sda2</root>
->     <name>windows</name>
->     <arch>x86_64</arch>
->     <distro>windows</distro>
->     <product_name>Windows Server 2008 R2 Standard</product_name>
->     <product_variant>Server</product_variant>
->     <major_version>6</major_version>
->     <minor_version>1</minor_version>
-> 
-> 
-> # virt-inspector -d win10x64
-> <?xml version="1.0"?>
-> <operatingsystems>
->   <operatingsystem>
->     <root>/dev/sda2</root>
->     <name>windows</name>
->     <arch>x86_64</arch>
->     <distro>windows</distro>
->     <product_name>Windows 10 Pro</product_name>
->     <product_variant>Client</product_variant>
->     <major_version>10</major_version>
->     <minor_version>0</minor_version>
->     <windows_systemroot>/Windows</windows_systemroot>
->     <windows_current_control_set>ControlSet001</windows_current_control_set>
->     <hostname>DESKTOP-GR8HTR3</hostname>
->     <osinfo>win10</osinfo>
+On Wed, 1 Sept 2021 at 16:16, Hanna Reitz <hreitz@redhat.com> wrote:
+>
+> The following changes since commit ec397e90d21269037280633b6058d1f280e276=
+67:
+>
+>   Merge remote-tracking branch 'remotes/alistair/tags/pull-riscv-to-apply=
+-20210901-2' into staging (2021-09-01 08:33:02 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/XanClic/qemu.git tags/pull-block-2021-09-01
+>
+> for you to fetch changes up to ebd979c74e2b8a7275090475df36dde4ab858320:
+>
+>   block/file-win32: add reopen handlers (2021-09-01 14:38:08 +0200)
+>
+>
+> **Note:** I=E2=80=99ve signed the pull request tag with my new GPG key, w=
+hich I
+> have uploaded here:
+>
+>   https://xanclic.moe/A1FA40D098019CDF
+>
+> Included in that key should be the signature I made with my old key
+> (F407DB0061D5CF40), and I hope that=E2=80=99s sufficient to establish a
+> reasonable level of trust.
+>
+> (I=E2=80=99ve also tried uploading this key to several keyservers, but it
+> appears to me that keyservers are kind of a thing of the past now,
+> especially when it comes to uploading keys with signatures on them...)
+>
+> ----------------------------------------------------------------
+> Block patches:
+> - Make the backup-top filter driver available for user-created block
+>   nodes (i.e. via blockdev-add)
+> - Allow running iotests with gdb or valgrind being attached to qemu
+>   instances
+> - Fix the raw format driver's permissions: There is no metadata, so we
+>   only need WRITE or RESIZE when the parent needs it
+> - Basic reopen implementation for win32 files (file-win32.c) so that
+>   qemu-img commit can work
+> - uclibc/musl build fix for the FUSE export code
+> - Some iotests delinting
+> - block-hmp-cmds.c refactoring
+>
 
-We actually try to turn it into a libosinfo compatible short string as
-you can see from Dan's second example above and this code:
 
-  https://github.com/libguestfs/libguestfs/blob/master/lib/inspect-osinfo.c
+Applied, thanks.
 
-Which is I think what every tool should return.  libosinfo is the only
-project that attempts to classify a broad range of OSes and is
-constantly being updated.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
+for any user-visible changes.
 
-> > This solution has several problems: need to update the conversion matrix
-> > for each Windows build, one Windows name can have different build numbers.
-> > For example, Windows Server 2022 (preview) build number is 20344, Windows
-> > Server 2022 build number is 20348.
-> > 
-> > There are two possible solutions:
-> > 1. Use build number range instead of one number. Known implementation
-> > issue: Microsoft provides a table (
-> > https://docs.microsoft.com/en-Us/windows-server/get-started/windows-server-release-info)
-> > only with stable build numbers. So, we exactly don't know the build number
-> > range.
-> 
-> Yep, this looks troublesome when considering non-GA releases.
-> 
-> > 2. We can read this string from the registry
-> > (HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion). Known
-> > implementation issues: ProductName value is localized (in a Russian version
-> > of Windows, the word "Microsoft' is translated), so we should ignore it.
-> > ReleaseId value does not equal to Windows Server version (for Windows
-> > Server 2019, ReleaseId is 1809)
-> 
-> This reg key is what libguestfs reports IIUC
-> 
-> https://github.com/libguestfs/libguestfs/blob/master/daemon/inspect_fs_windows.ml#L227
-> 
-> > In conclusion, I have the next questions:
-> > What solution we should implement to get the Windows release name?
-> > Does someone know how end-users use this information? Should it be English
-> > only or it can be localized? Should we have exactly the same output as now?
-> > What should we do with the 'Standard' server edition? Currently, the guest
-> > agent always returns 'Datacenter'.
-> 
-> This is equiv ot libguestfs' "product variant" data,w hich it gets
-> from InstallationType registry key
-> 
->   https://github.com/libguestfs/libguestfs/blob/master/daemon/inspect_fs_windows.ml#L259
-> 
-> Personally I think there's value in having consistent treatment of this
-> info across qemu guest agent and libguestfs / libosinfo.
-
-Agree.
-
-Rich.
-
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-virt-builder quickly builds VMs from scratch
-http://libguestfs.org/virt-builder.1.html
-
+-- PMM
 
