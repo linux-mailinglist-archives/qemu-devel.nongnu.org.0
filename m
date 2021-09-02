@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD48C3FEB91
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 11:49:37 +0200 (CEST)
-Received: from localhost ([::1]:45434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD3FE3FEB7A
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 11:43:12 +0200 (CEST)
+Received: from localhost ([::1]:54890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLjLk-00011l-NW
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 05:49:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55128)
+	id 1mLjFX-00053D-Ty
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 05:43:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLjD0-000283-RN
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLjD0-00028J-TX
  for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:40:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53877)
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:60800)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLjCw-0008Gr-1h
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1mLjCx-0008Im-RG
  for qemu-devel@nongnu.org; Thu, 02 Sep 2021 05:40:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630575628;
+ s=mimecast20190719; t=1630575631;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QRfQpHE4nZw0UlJHCBb1/Xg9MB/mofhaARaIflvlpbk=;
- b=Xs8S/Ny3mxE3ESeEbpfBDoY6G0oYlZnnTCtIRbaaFO/Pt6t0Z6RSz9ak83DqpCIA5CvN2K
- ZKzQCgYAr4m/0azEnvgJ2fvTdcKZEQCF5NoFAWbH0pK6Mjsgj9yawtt60g5i4urUiviJiw
- PA5kZ1SPe/Wd3XARmcLY5+L2YC751zE=
+ bh=eIoSV2XvZaVQChmCu4JJ9shFsJvKu7OIDT0fBbhKbkY=;
+ b=d+tbpdRfbsCbFOizFMjZWIHfy8Swmrz6G2pT0Rr3c6HQVGETPsbQWv1J+/LwBHnYg1L3NY
+ zgRmNMaKY3JMQ8yaBBBinjd3ar6FpH+TaDASwT8pz4IAEOrMyVD9w1UVbLHsse1/Yu3DHC
+ jqjT/mFtepggmWl1Z7CzeNnKzatoEnE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-V0H_SdjGPye1hcqg6UEqXg-1; Thu, 02 Sep 2021 05:40:27 -0400
-X-MC-Unique: V0H_SdjGPye1hcqg6UEqXg-1
+ us-mta-230-0p1URKvEMZmKtpYKaF0FBQ-1; Thu, 02 Sep 2021 05:40:29 -0400
+X-MC-Unique: 0p1URKvEMZmKtpYKaF0FBQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B283188E3C9;
- Thu,  2 Sep 2021 09:40:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 030C0824FA7;
+ Thu,  2 Sep 2021 09:40:29 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.237])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C5EE660BD9;
- Thu,  2 Sep 2021 09:40:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C889F69CAD;
+ Thu,  2 Sep 2021 09:40:27 +0000 (UTC)
 From: Hanna Reitz <hreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v4 3/5] migrate-bitmaps-test: Fix pylint warnings
-Date: Thu,  2 Sep 2021 11:40:15 +0200
-Message-Id: <20210902094017.32902-4-hreitz@redhat.com>
+Subject: [PATCH v4 4/5] mirror-top-perms: Fix AbnormalShutdown path
+Date: Thu,  2 Sep 2021 11:40:16 +0200
+Message-Id: <20210902094017.32902-5-hreitz@redhat.com>
 In-Reply-To: <20210902094017.32902-1-hreitz@redhat.com>
 References: <20210902094017.32902-1-hreitz@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,155 +82,29 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are a couple of things pylint takes issue with:
-- The "time" import is unused
-- The import order (iotests should come last)
-- get_bitmap_hash() doesn't use @self and so should be a function
-- Semicolons at the end of some lines
-- Parentheses after "if"
-- Some lines are too long (80 characters instead of 79)
-- inject_test_case()'s @name parameter shadows a top-level @name
-  variable
-- "lambda self: mc(self)" were equivalent to just "mc", but in
-  inject_test_case(), it is not equivalent, so add a comment and disable
-  the warning locally
-- Always put two empty lines after a function
-- f'exec: cat > /dev/null' does not need to be an f-string
-
-Fix them.
+The AbnormalShutdown exception class is not in qemu.machine, but in
+qemu.machine.machine.  (qemu.machine.AbnormalShutdown was enough for
+Python to find it in order to run this test, but pylint complains about
+it.)
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 ---
- tests/qemu-iotests/tests/migrate-bitmaps-test | 43 +++++++++++--------
- 1 file changed, 25 insertions(+), 18 deletions(-)
+ tests/qemu-iotests/tests/mirror-top-perms | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/tests/migrate-bitmaps-test b/tests/qemu-iotests/tests/migrate-bitmaps-test
-index a5c7bc83e0..dc431c35b3 100755
---- a/tests/qemu-iotests/tests/migrate-bitmaps-test
-+++ b/tests/qemu-iotests/tests/migrate-bitmaps-test
-@@ -20,11 +20,10 @@
- #
- 
- import os
--import iotests
--import time
- import itertools
- import operator
- import re
-+import iotests
- from iotests import qemu_img, qemu_img_create, Timeout
- 
- 
-@@ -37,6 +36,12 @@ mig_cmd = 'exec: cat > ' + mig_file
- incoming_cmd = 'exec: cat ' + mig_file
- 
- 
-+def get_bitmap_hash(vm):
-+    result = vm.qmp('x-debug-block-dirty-bitmap-sha256',
-+                    node='drive0', name='bitmap0')
-+    return result['return']['sha256']
-+
-+
- class TestDirtyBitmapMigration(iotests.QMPTestCase):
+diff --git a/tests/qemu-iotests/tests/mirror-top-perms b/tests/qemu-iotests/tests/mirror-top-perms
+index 451a0666f8..2fc8dd66e0 100755
+--- a/tests/qemu-iotests/tests/mirror-top-perms
++++ b/tests/qemu-iotests/tests/mirror-top-perms
+@@ -47,7 +47,7 @@ class TestMirrorTopPerms(iotests.QMPTestCase):
      def tearDown(self):
-         self.vm_a.shutdown()
-@@ -62,21 +67,16 @@ class TestDirtyBitmapMigration(iotests.QMPTestCase):
-             params['persistent'] = True
+         try:
+             self.vm.shutdown()
+-        except qemu.machine.AbnormalShutdown:
++        except qemu.machine.machine.AbnormalShutdown:
+             pass
  
-         result = vm.qmp('block-dirty-bitmap-add', **params)
--        self.assert_qmp(result, 'return', {});
--
--    def get_bitmap_hash(self, vm):
--        result = vm.qmp('x-debug-block-dirty-bitmap-sha256',
--                        node='drive0', name='bitmap0')
--        return result['return']['sha256']
-+        self.assert_qmp(result, 'return', {})
- 
-     def check_bitmap(self, vm, sha256):
-         result = vm.qmp('x-debug-block-dirty-bitmap-sha256',
-                         node='drive0', name='bitmap0')
-         if sha256:
--            self.assert_qmp(result, 'return/sha256', sha256);
-+            self.assert_qmp(result, 'return/sha256', sha256)
-         else:
-             self.assert_qmp(result, 'error/desc',
--                            "Dirty bitmap 'bitmap0' not found");
-+                            "Dirty bitmap 'bitmap0' not found")
- 
-     def do_test_migration_resume_source(self, persistent, migrate_bitmaps):
-         granularity = 512
-@@ -97,7 +97,7 @@ class TestDirtyBitmapMigration(iotests.QMPTestCase):
-         self.add_bitmap(self.vm_a, granularity, persistent)
-         for r in regions:
-             self.vm_a.hmp_qemu_io('drive0', 'write %d %d' % r)
--        sha256 = self.get_bitmap_hash(self.vm_a)
-+        sha256 = get_bitmap_hash(self.vm_a)
- 
-         result = self.vm_a.qmp('migrate', uri=mig_cmd)
-         while True:
-@@ -106,7 +106,7 @@ class TestDirtyBitmapMigration(iotests.QMPTestCase):
-                 break
-         while True:
-             result = self.vm_a.qmp('query-status')
--            if (result['return']['status'] == 'postmigrate'):
-+            if result['return']['status'] == 'postmigrate':
-                 break
- 
-         # test that bitmap is still here
-@@ -164,7 +164,7 @@ class TestDirtyBitmapMigration(iotests.QMPTestCase):
-         self.add_bitmap(self.vm_a, granularity, persistent)
-         for r in regions:
-             self.vm_a.hmp_qemu_io('drive0', 'write %d %d' % r)
--        sha256 = self.get_bitmap_hash(self.vm_a)
-+        sha256 = get_bitmap_hash(self.vm_a)
- 
-         if pre_shutdown:
-             self.vm_a.shutdown()
-@@ -214,16 +214,22 @@ class TestDirtyBitmapMigration(iotests.QMPTestCase):
-             self.check_bitmap(self.vm_b, sha256 if persistent else False)
- 
- 
--def inject_test_case(klass, name, method, *args, **kwargs):
-+def inject_test_case(klass, suffix, method, *args, **kwargs):
-     mc = operator.methodcaller(method, *args, **kwargs)
--    setattr(klass, 'test_' + method + name, lambda self: mc(self))
-+    # We want to add a function attribute to `klass`, so that it is
-+    # correctly converted to a method on instantiation.  The
-+    # methodcaller object `mc` is a callable, not a function, so we
-+    # need the lambda to turn it into a function.
-+    # pylint: disable=unnecessary-lambda
-+    setattr(klass, 'test_' + method + suffix, lambda self: mc(self))
-+
- 
- for cmb in list(itertools.product((True, False), repeat=5)):
-     name = ('_' if cmb[0] else '_not_') + 'persistent_'
-     name += ('_' if cmb[1] else '_not_') + 'migbitmap_'
-     name += '_online' if cmb[2] else '_offline'
-     name += '_shared' if cmb[3] else '_nonshared'
--    if (cmb[4]):
-+    if cmb[4]:
-         name += '__pre_shutdown'
- 
-     inject_test_case(TestDirtyBitmapMigration, name, 'do_test_migration',
-@@ -270,7 +276,8 @@ class TestDirtyBitmapBackingMigration(iotests.QMPTestCase):
-         self.assert_qmp(result, 'return', {})
- 
-         # Check that the bitmaps are there
--        for node in self.vm.qmp('query-named-block-nodes', flat=True)['return']:
-+        nodes = self.vm.qmp('query-named-block-nodes', flat=True)['return']
-+        for node in nodes:
-             if 'node0' in node['node-name']:
-                 self.assert_qmp(node, 'dirty-bitmaps[0]/name', 'bmap0')
- 
-@@ -287,7 +294,7 @@ class TestDirtyBitmapBackingMigration(iotests.QMPTestCase):
-         """
-         Continue the source after migration.
-         """
--        result = self.vm.qmp('migrate', uri=f'exec: cat > /dev/null')
-+        result = self.vm.qmp('migrate', uri='exec: cat > /dev/null')
-         self.assert_qmp(result, 'return', {})
- 
-         with Timeout(10, 'Migration timeout'):
+         if self.vm_b is not None:
 -- 
 2.31.1
 
