@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAE703FEEF4
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:48:56 +0200 (CEST)
-Received: from localhost ([::1]:41844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7659F3FEEC0
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:36:03 +0200 (CEST)
+Received: from localhost ([::1]:37156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLn5L-0000Xw-Ov
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:48:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44780)
+	id 1mLmss-0002dK-HR
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:36:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLmZG-0007mI-Cd
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:15:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31281)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLmZJ-0007nZ-KG
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:15:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52821)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLmZE-0007Mp-Nj
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:15:46 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLmZH-0007Pm-Ti
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:15:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630588543;
+ s=mimecast20190719; t=1630588547;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D8kfjj2auJUTWsrYRa4bhrmtWiFLuI/ch0INa0gWGHg=;
- b=ZMvXDudz7zmgTI4ftvTSZWZO39RlV04pQ1SC372vPwReGURugjfs7MTpxDyr2vbGee47PL
- NoTZaoNkVDxPSJiKuEd/4EXdkc9GacmS/oyDkHLAC58/wLOHCwjhtsy7Dlo6wrgBON92b3
- uYHhcQMSj6HjDi9naU3iH7hN3ImRP0o=
+ bh=ammzp5HEMj2PYR/a64zT0dGaB6yoir4SZ4vp5twhGAo=;
+ b=VmcLH7C2pO4DkglYPRPA9sCtGTGVoYVpEwiUEB7ao8UKWaQJts41+kNQupK7dpDyaHmYrc
+ RuNls2Jwyz6GxvusvLije6Q6RdIIHVvnXehyhSPpW+bN+ogs7/FRPySDJrKmctGt/WA6Nj
+ 6fQiM6nzU1m32pAYVjJvGgCEyvgVSE8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-296-A6sHGzoWMkyENLIO5rD6lg-1; Thu, 02 Sep 2021 09:15:42 -0400
-X-MC-Unique: A6sHGzoWMkyENLIO5rD6lg-1
+ us-mta-304-tRQuAmJTNX64nOecy50EXg-1; Thu, 02 Sep 2021 09:15:46 -0400
+X-MC-Unique: tRQuAmJTNX64nOecy50EXg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75824800471;
- Thu,  2 Sep 2021 13:15:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41E67CC621;
+ Thu,  2 Sep 2021 13:15:45 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.193.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 40AB96A8F8;
- Thu,  2 Sep 2021 13:15:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C1F846ACE5;
+ Thu,  2 Sep 2021 13:15:41 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/9] migration/ram: Don't passs RAMState to
- migration_clear_memory_region_dirty_bitmap_*()
-Date: Thu,  2 Sep 2021 15:14:26 +0200
-Message-Id: <20210902131432.23103-4-david@redhat.com>
+Subject: [PATCH v4 4/9] migration/ram: Handle RAMBlocks with a
+ RamDiscardManager on the migration source
+Date: Thu,  2 Sep 2021 15:14:27 +0200
+Message-Id: <20210902131432.23103-5-david@redhat.com>
 In-Reply-To: <20210902131432.23103-1-david@redhat.com>
 References: <20210902131432.23103-1-david@redhat.com>
 MIME-Version: 1.0
@@ -54,8 +54,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -91,67 +91,152 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The parameter is unused, let's drop it.
+We don't want to migrate memory that corresponds to discarded ranges as
+managed by a RamDiscardManager responsible for the mapped memory region of
+the RAMBlock. The content of these pages is essentially stale and
+without any guarantees for the VM ("logically unplugged").
+
+Depending on the underlying memory type, even reading memory might populate
+memory on the source, resulting in an undesired memory consumption. Of
+course, on the destination, even writing a zeropage consumes memory,
+which we also want to avoid (similar to free page hinting).
+
+Currently, virtio-mem tries achieving that goal (not migrating "unplugged"
+memory that was discarded) by going via qemu_guest_free_page_hint() - but
+it's hackish and incomplete.
+
+For example, background snapshots still end up reading all memory, as
+they don't do bitmap syncs. Postcopy recovery code will re-add
+previously cleared bits to the dirty bitmap and migrate them.
+
+Let's consult the RamDiscardManager after setting up our dirty bitmap
+initially and when postcopy recovery code reinitializes it: clear
+corresponding bits in the dirty bitmaps (e.g., of the RAMBlock and inside
+KVM). It's important to fixup the dirty bitmap *after* our initial bitmap
+sync, such that the corresponding dirty bits in KVM are actually cleared.
+
+As colo is incompatible with discarding of RAM and inhibits it, we don't
+have to bother.
+
+Note: if a misbehaving guest would use discarded ranges after migration
+started we would still migrate that memory: however, then we already
+populated that memory on the migration source.
 
 Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- migration/ram.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+ migration/ram.c | 77 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 77 insertions(+)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index 7a43bfd7af..bb908822d5 100644
+index bb908822d5..3be969f749 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -789,8 +789,7 @@ unsigned long migration_bitmap_find_dirty(RAMState *rs, RAMBlock *rb,
-     return find_next_bit(bitmap, size, start);
+@@ -858,6 +858,60 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
+     return ret;
  }
  
--static void migration_clear_memory_region_dirty_bitmap(RAMState *rs,
--                                                       RAMBlock *rb,
-+static void migration_clear_memory_region_dirty_bitmap(RAMBlock *rb,
-                                                        unsigned long page)
++static void dirty_bitmap_clear_section(MemoryRegionSection *section,
++                                       void *opaque)
++{
++    const hwaddr offset = section->offset_within_region;
++    const hwaddr size = int128_get64(section->size);
++    const unsigned long start = offset >> TARGET_PAGE_BITS;
++    const unsigned long npages = size >> TARGET_PAGE_BITS;
++    RAMBlock *rb = section->mr->ram_block;
++    uint64_t *cleared_bits = opaque;
++
++    /*
++     * We don't grab ram_state->bitmap_mutex because we expect to run
++     * only when starting migration or during postcopy recovery where
++     * we don't have concurrent access.
++     */
++    if (!migration_in_postcopy() && !migrate_background_snapshot()) {
++        migration_clear_memory_region_dirty_bitmap_range(rb, start, npages);
++    }
++    *cleared_bits += bitmap_count_one_with_offset(rb->bmap, start, npages);
++    bitmap_clear(rb->bmap, start, npages);
++}
++
++/*
++ * Exclude all dirty pages from migration that fall into a discarded range as
++ * managed by a RamDiscardManager responsible for the mapped memory region of
++ * the RAMBlock. Clear the corresponding bits in the dirty bitmaps.
++ *
++ * Discarded pages ("logically unplugged") have undefined content and must
++ * not get migrated, because even reading these pages for migration might
++ * result in undesired behavior.
++ *
++ * Returns the number of cleared bits in the RAMBlock dirty bitmap.
++ *
++ * Note: The result is only stable while migrating (precopy/postcopy).
++ */
++static uint64_t ramblock_dirty_bitmap_clear_discarded_pages(RAMBlock *rb)
++{
++    uint64_t cleared_bits = 0;
++
++    if (rb->mr && rb->bmap && memory_region_has_ram_discard_manager(rb->mr)) {
++        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(rb->mr);
++        MemoryRegionSection section = {
++            .mr = rb->mr,
++            .offset_within_region = 0,
++            .size = int128_make64(qemu_ram_get_used_length(rb)),
++        };
++
++        ram_discard_manager_replay_discarded(rdm, &section,
++                                             dirty_bitmap_clear_section,
++                                             &cleared_bits);
++    }
++    return cleared_bits;
++}
++
+ /* Called with RCU critical section */
+ static void ramblock_sync_dirty_bitmap(RAMState *rs, RAMBlock *rb)
  {
-     uint8_t shift;
-@@ -818,8 +817,7 @@ static void migration_clear_memory_region_dirty_bitmap(RAMState *rs,
- }
- 
- static void
--migration_clear_memory_region_dirty_bitmap_range(RAMState *rs,
--                                                 RAMBlock *rb,
-+migration_clear_memory_region_dirty_bitmap_range(RAMBlock *rb,
-                                                  unsigned long start,
-                                                  unsigned long npages)
- {
-@@ -832,7 +830,7 @@ migration_clear_memory_region_dirty_bitmap_range(RAMState *rs,
-      * exclusive.
-      */
-     for (i = chunk_start; i < chunk_end; i += chunk_pages) {
--        migration_clear_memory_region_dirty_bitmap(rs, rb, i);
-+        migration_clear_memory_region_dirty_bitmap(rb, i);
+@@ -2668,6 +2722,19 @@ static void ram_list_init_bitmaps(void)
      }
  }
  
-@@ -850,7 +848,7 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
-      * the page in the chunk we clear the remote dirty bitmap for all.
-      * Clearing it earlier won't be a problem, but too late will.
-      */
--    migration_clear_memory_region_dirty_bitmap(rs, rb, page);
-+    migration_clear_memory_region_dirty_bitmap(rb, page);
++static void migration_bitmap_clear_discarded_pages(RAMState *rs)
++{
++    unsigned long pages;
++    RAMBlock *rb;
++
++    RCU_READ_LOCK_GUARD();
++
++    RAMBLOCK_FOREACH_NOT_IGNORED(rb) {
++            pages = ramblock_dirty_bitmap_clear_discarded_pages(rb);
++            rs->migration_dirty_pages -= pages;
++    }
++}
++
+ static void ram_init_bitmaps(RAMState *rs)
+ {
+     /* For memory_global_dirty_log_start below.  */
+@@ -2684,6 +2751,12 @@ static void ram_init_bitmaps(RAMState *rs)
+     }
+     qemu_mutex_unlock_ramlist();
+     qemu_mutex_unlock_iothread();
++
++    /*
++     * After an eventual first bitmap sync, fixup the initial bitmap
++     * containing all 1s to exclude any discarded pages from migration.
++     */
++    migration_bitmap_clear_discarded_pages(rs);
+ }
  
-     ret = test_and_clear_bit(page, rb->bmap);
-     if (ret) {
-@@ -2777,8 +2775,7 @@ void qemu_guest_free_page_hint(void *addr, size_t len)
-          * are initially set. Otherwise those skipped pages will be sent in
-          * the next round after syncing from the memory region bitmap.
-          */
--        migration_clear_memory_region_dirty_bitmap_range(ram_state, block,
--                                                         start, npages);
-+        migration_clear_memory_region_dirty_bitmap_range(block, start, npages);
-         ram_state->migration_dirty_pages -=
-                       bitmap_count_one_with_offset(block->bmap, start, npages);
-         bitmap_clear(block->bmap, start, npages);
+ static int ram_init_all(RAMState **rsp)
+@@ -4112,6 +4185,10 @@ int ram_dirty_bitmap_reload(MigrationState *s, RAMBlock *block)
+      */
+     bitmap_complement(block->bmap, block->bmap, nbits);
+ 
++    /* Clear dirty bits of discarded ranges that we don't want to migrate. */
++    ramblock_dirty_bitmap_clear_discarded_pages(block);
++
++    /* We'll recalculate migration_dirty_pages in ram_state_resume_prepare(). */
+     trace_ram_dirty_bitmap_reload_complete(block->idstr);
+ 
+     /*
 -- 
 2.31.1
 
