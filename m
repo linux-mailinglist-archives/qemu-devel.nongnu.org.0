@@ -2,86 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B2BF3FF007
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 17:21:39 +0200 (CEST)
-Received: from localhost ([::1]:60208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF823FF006
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 17:21:28 +0200 (CEST)
+Received: from localhost ([::1]:59204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLoX4-0007dC-G9
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 11:21:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46722)
+	id 1mLoWt-0006z8-7n
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 11:21:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mLoSU-0002iF-HD
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 11:16:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42590)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mLoSS-0000vC-1J
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 11:16:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630595795;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=P+xP+wLYOPrkRCNRBb2x5tHhjBwlMaOVmyphk+jfNrg=;
- b=a+J346XXWvvRZVzUn8Hvha4+lDd3O9ld8B7mEAjh2/+NX7wULkelClNrBRNLVLFXJk5i1c
- D6qpyUiuyrg3NXOXgyArPJJ0G651uH2O5D1Af3gH3N894hJir/mqD65hHA6s/LL4/ARVgG
- CdnL83QGXStTF8ScNoMya5sm18D6rhY=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-535-IicKuZIaP7ae3EzmO02Jrw-1; Thu, 02 Sep 2021 11:16:28 -0400
-X-MC-Unique: IicKuZIaP7ae3EzmO02Jrw-1
-Received: by mail-ed1-f71.google.com with SMTP id
- s15-20020a056402520f00b003cad788f1f6so1103895edd.22
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 08:16:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mLoSz-0003eW-PU; Thu, 02 Sep 2021 11:17:25 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:37691)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mLoSu-0001fc-RO; Thu, 02 Sep 2021 11:17:25 -0400
+Received: by mail-wm1-x329.google.com with SMTP id
+ c8-20020a7bc008000000b002e6e462e95fso1738529wmb.2; 
+ Thu, 02 Sep 2021 08:17:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=4eZcQfjo6daqlbAor/uYuTvA42Z9JFJfSgBOZq18QIs=;
+ b=L63IPhXw4PzQkbxuYksp2EzJTg4WchwSU+JvZhA9AsC+IbRUc4NdDSFMJegTPkGLIf
+ wvUMyB4cu9D5e+FEGJr4OiEUnQAy43lGsJ0MGCFodxgDfu600RoLwrMTJXgdS6WKKNIA
+ leVDElIEAX03R//WZcoSlYsM4rFALjNnrWSucS616DmtBUqErg1xuJqTFa7oP4+UrqGz
+ 3ZUxPBuovGosiW+VK8OyeteydIIxpnIoUifjqeKDgRf4kNCHPqK4jj+2lWgqxbu/F3W+
+ GsnxEZfElJSUz9NWSitncAb3pupKIInFfgtDFNZOm6CmadmAR0wSZYA57QgOHPtpfEmb
+ J9OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=P+xP+wLYOPrkRCNRBb2x5tHhjBwlMaOVmyphk+jfNrg=;
- b=iXKhE8pnLV3gvjhJDqCLZWdFcaI7wxd85+UJMacmaY/dwc2DgsxsUCuP3k3Txqm2uT
- kw/R/Sz2+vG3bH4KR8HvMGNZ4XGd1Qicmrx/4KxjrGIMJOFFrALP8Cxmwp3USJqAAst9
- m1hjf7iL7RYtxJP9v3pzvYjowiV72vHk9E9la9VeZaXCcG6BBS4eo/ClaZetD2/AdYfH
- 0wbrMpd4EKCKJUCSUduBzjbq9Abi6JMuNMmSleQPNGOOncExDOwLKmslmYwu9iYZBiuS
- MqZcbS3Pt81SC7Nq7l+Rx/mc9MMoJPJXVlIzqIPlErqw1zg5cgK3d+H+1en0X45vuRtd
- 9k4Q==
-X-Gm-Message-State: AOAM533wZ5jBi8TodaeCm1WBUQdvp6a2FwLMpa7i6xRDpTeknRi+WVcR
- rs00TpQtmSdACyAO5jrxTD2It6cLBg2DHW9+yGvNWipEQ17MBRPEFJ31seE3xjz7bA4PbyeSFpo
- ta/LdMOdP5X+CxO4=
-X-Received: by 2002:a05:6402:2909:: with SMTP id
- ee9mr3940296edb.377.1630595787581; 
- Thu, 02 Sep 2021 08:16:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxvdswIUfKGCpx598o8TrM8YiJqz9vjAp7AEL9/nn4zRuT+kpCK9mYHSHPKCJI7JCs7p2TIFQ==
-X-Received: by 2002:a05:6402:2909:: with SMTP id
- ee9mr3940266edb.377.1630595787408; 
- Thu, 02 Sep 2021 08:16:27 -0700 (PDT)
-Received: from redhat.com ([2.55.140.175])
- by smtp.gmail.com with ESMTPSA id bx11sm1366868ejb.107.2021.09.02.08.16.24
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=4eZcQfjo6daqlbAor/uYuTvA42Z9JFJfSgBOZq18QIs=;
+ b=bZa1b2FwGExs57rR11WxA2RnAFA7OpZG25dmfLn4T496pIL6JkIHSuOUQPNP0YXwMe
+ MBAvOCW2nEnKrKdLi6Eiv3NU19LUuPi4l5JYQ+0BN7PkBeAhLdZNVJAQk1Et8XBjFTDq
+ kBUE/B2EWXqj6KJiQ3BNhCtpdpPCy+7QM9KO+QlxqJQivMaPI5BahJVsTGaNEfTj5LhY
+ hHNNDsN6Lr77iSqqWjlha3IUkX8FPXm18vrzxvGzIK1w0rJxsWlqannlQmGysvJNj47e
+ iMxOuBOpYQh24TmmWyCx7bcuLuGr78S/16wt89+/drDW7bZoBWiTAgY4GytOIGdw6Vvw
+ TrmQ==
+X-Gm-Message-State: AOAM531UAIBaHO6m4XSc7IWvh4h5bMN1Pmt9fmG4YGfytgJ81DJd2ntU
+ RUxYVOhvXEKMS/Fqdv7KSnMgGCFU820=
+X-Google-Smtp-Source: ABdhPJynzI94JS159esXSJ7wnYUeczPuH5hXbVdHuQTy7zVttUjZc/UCjYfJNy4L5YGlMw3HQGQSLQ==
+X-Received: by 2002:a1c:7417:: with SMTP id p23mr3747384wmc.144.1630595837484; 
+ Thu, 02 Sep 2021 08:17:17 -0700 (PDT)
+Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id
+ l17sm2213415wrz.35.2021.09.02.08.17.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 08:16:26 -0700 (PDT)
-Date: Thu, 2 Sep 2021 11:16:22 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Junji Wei <weijunji@bytedance.com>
-Subject: Re: [RFC 5/5] hw/virtio-rdma: VirtIO rdma device
-Message-ID: <20210902111601-mutt-send-email-mst@kernel.org>
-References: <20210902130625.25277-1-weijunji@bytedance.com>
- <20210902130625.25277-6-weijunji@bytedance.com>
+ Thu, 02 Sep 2021 08:17:16 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/24] accel/tcg: Restrict TCGCPUOps::cpu_exec_interrupt() to
+ sysemu
+Date: Thu,  2 Sep 2021 17:16:51 +0200
+Message-Id: <20210902151715.383678-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210902130625.25277-6-weijunji@bytedance.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,28 +83,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, xieyongji@bytedance.com, linux-rdma@vger.kernel.org,
- jasowang@redhat.com, cohuck@redhat.com, yuval.shaia.ml@gmail.com,
- virtualization@lists.linux-foundation.org, jgg@ziepe.ca, dledford@redhat.com,
- chaiwen.cc@bytedance.com, hare@suse.de
+Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Warner Losh <imp@bsdimp.com>,
+ Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ qemu-ppc@nongnu.org, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Kyle Evans <kevans@freebsd.org>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-riscv@nongnu.org, Chris Wulff <crwulff@gmail.com>,
+ Laurent Vivier <laurent@vivier.eu>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 02, 2021 at 09:06:25PM +0800, Junji Wei wrote:
-> diff --git a/include/standard-headers/linux/virtio_ids.h b/include/standard-headers/linux/virtio_ids.h
-> index b052355ac7..4c2151bffb 100644
-> --- a/include/standard-headers/linux/virtio_ids.h
-> +++ b/include/standard-headers/linux/virtio_ids.h
-> @@ -48,5 +48,6 @@
->  #define VIRTIO_ID_FS           26 /* virtio filesystem */
->  #define VIRTIO_ID_PMEM         27 /* virtio pmem */
->  #define VIRTIO_ID_MAC80211_HWSIM 29 /* virtio mac80211-hwsim */
-> +#define VIRTIO_ID_RDMA         30 /* virtio rdma */
-
-You can start by registering this with the virtio TC.
-
->  #endif /* _LINUX_VIRTIO_IDS_H */
-> -- 
-> 2.11.0
-
+Hi,=0D
+=0D
+The TCGCPUOps::cpu_exec_interrupt() handler is specific to system=0D
+emulation. This series remove it from user-mode.=0D
+To do so we have to deal with a x86-hack first, then we restrict=0D
+each target handler (one target at a time) and finally we restrict=0D
+the prototype, simplifying cpu_handle_interrupt().=0D
+=0D
+As a bonus we can remove the cpu_get_pic_interrupt() stubs from=0D
+bsd/linux-user.=0D
+=0D
+Please review,=0D
+=0D
+Phil.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (24):=0D
+  target/xtensa: Restrict do_transaction_failed() to sysemu=0D
+  target/i386: Restrict sysemu-only fpu_helper helpers=0D
+  target/i386: Simplify TARGET_X86_64 #ifdef'ry=0D
+  accel/tcg: Rename user-mode do_interrupt hack as fake_user_exception=0D
+  accel/tcg: Assert most of cpu_handle_interrupt() is sysemu-specific=0D
+  target/alpha: Restrict cpu_exec_interrupt() handler to sysemu=0D
+  target/arm: Restrict cpu_exec_interrupt() handler to sysemu=0D
+  target/avr: Restrict cpu_exec_interrupt() handler to sysemu=0D
+  target/cris: Restrict cpu_exec_interrupt() handler to sysemu=0D
+  target/hppa: Restrict cpu_exec_interrupt() handler to sysemu=0D
+  target/i386: Restrict cpu_exec_interrupt() handler to sysemu=0D
+  target/m68k: Restrict cpu_exec_interrupt() handler to sysemu=0D
+  target/microblaze: Restrict cpu_exec_interrupt() handler to sysemu=0D
+  target/mips: Restrict cpu_exec_interrupt() handler to sysemu=0D
+  target/nios2: Restrict cpu_exec_interrupt() handler to sysemu=0D
+  target/openrisc: Restrict cpu_exec_interrupt() handler to sysemu=0D
+  target/ppc: Restrict cpu_exec_interrupt() handler to sysemu=0D
+  target/riscv: Restrict cpu_exec_interrupt() handler to sysemu=0D
+  target/sh4: Restrict cpu_exec_interrupt() handler to sysemu=0D
+  target/sparc: Restrict cpu_exec_interrupt() handler to sysemu=0D
+  target/rx: Restrict cpu_exec_interrupt() handler to sysemu=0D
+  target/xtensa: Restrict cpu_exec_interrupt() handler to sysemu=0D
+  accel/tcg: Restrict TCGCPUOps::cpu_exec_interrupt() to sysemu=0D
+  user: Remove cpu_get_pic_interrupt() stubs=0D
+=0D
+ include/hw/core/tcg-cpu-ops.h       | 26 ++++++++++++++++----------=0D
+ target/alpha/cpu.h                  |  2 +-=0D
+ target/arm/cpu.h                    |  3 +--=0D
+ target/avr/cpu.h                    |  2 ++=0D
+ target/cris/cpu.h                   |  2 +-=0D
+ target/hppa/cpu.h                   |  4 ++--=0D
+ target/i386/cpu.h                   |  3 +++=0D
+ target/i386/tcg/helper-tcg.h        |  2 ++=0D
+ target/m68k/cpu.h                   |  2 ++=0D
+ target/microblaze/cpu.h             |  2 ++=0D
+ target/mips/tcg/tcg-internal.h      |  5 +++--=0D
+ target/openrisc/cpu.h               |  5 +++--=0D
+ target/ppc/cpu.h                    |  4 ++--=0D
+ target/riscv/cpu.h                  |  2 +-=0D
+ target/rx/cpu.h                     |  2 ++=0D
+ target/sh4/cpu.h                    |  4 ++--=0D
+ target/xtensa/cpu.h                 |  2 ++=0D
+ accel/tcg/cpu-exec.c                | 14 +++++++++-----=0D
+ bsd-user/main.c                     |  7 -------=0D
+ linux-user/main.c                   |  7 -------=0D
+ target/alpha/cpu.c                  |  2 +-=0D
+ target/alpha/helper.c               |  5 ++---=0D
+ target/arm/cpu.c                    |  7 +++++--=0D
+ target/arm/cpu_tcg.c                |  6 +++---=0D
+ target/avr/cpu.c                    |  2 +-=0D
+ target/avr/helper.c                 |  2 ++=0D
+ target/cris/cpu.c                   |  4 ++--=0D
+ target/cris/helper.c                | 17 ++---------------=0D
+ target/hppa/cpu.c                   |  2 +-=0D
+ target/hppa/int_helper.c            |  7 ++-----=0D
+ target/i386/tcg/seg_helper.c        | 14 +++-----------=0D
+ target/i386/tcg/tcg-cpu.c           |  8 +++++---=0D
+ target/m68k/cpu.c                   |  2 +-=0D
+ target/m68k/op_helper.c             | 16 +++-------------=0D
+ target/microblaze/cpu.c             |  2 +-=0D
+ target/microblaze/helper.c          | 13 ++-----------=0D
+ target/mips/cpu.c                   |  2 +-=0D
+ target/mips/tcg/exception.c         | 18 ------------------=0D
+ target/mips/tcg/sysemu/tlb_helper.c | 18 ++++++++++++++++++=0D
+ target/mips/tcg/user/tlb_helper.c   |  5 -----=0D
+ target/nios2/cpu.c                  |  5 +++--=0D
+ target/openrisc/cpu.c               |  2 +-=0D
+ target/openrisc/interrupt.c         |  2 --=0D
+ target/ppc/cpu_init.c               |  2 +-=0D
+ target/ppc/excp_helper.c            | 21 +++------------------=0D
+ target/riscv/cpu.c                  |  2 +-=0D
+ target/riscv/cpu_helper.c           |  5 -----=0D
+ target/rx/cpu.c                     |  2 +-=0D
+ target/rx/helper.c                  |  4 ++++=0D
+ target/sh4/cpu.c                    |  2 +-=0D
+ target/sh4/helper.c                 |  9 ++-------=0D
+ target/sparc/cpu.c                  |  4 +++-=0D
+ target/xtensa/cpu.c                 |  2 +-=0D
+ target/xtensa/exc_helper.c          |  7 ++-----=0D
+ target/openrisc/meson.build         |  6 ++++--=0D
+ 55 files changed, 138 insertions(+), 189 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
 
