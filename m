@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E50DE3FE75E
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 04:03:05 +0200 (CEST)
-Received: from localhost ([::1]:39336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 911703FE78A
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 04:20:07 +0200 (CEST)
+Received: from localhost ([::1]:42754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLc4H-0007tI-1n
-	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 22:03:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37938)
+	id 1mLcKk-0002cU-7D
+	for lists+qemu-devel@lfdr.de; Wed, 01 Sep 2021 22:20:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Chunming.Li@verisilicon.com>)
- id 1mLc1N-00066K-W2; Wed, 01 Sep 2021 22:00:06 -0400
-Received: from shasxm06.verisilicon.com ([101.89.135.45]:44979
- helo=shasxm03.verisilicon.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <Chunming.Li@verisilicon.com>)
- id 1mLc1I-0003GN-Ch; Wed, 01 Sep 2021 22:00:05 -0400
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-DKIM-Signature: v=1; a=rsa-sha256; d=Verisilicon.com; s=default;
- c=simple/simple; t=1630547991; h=from:subject:to:date:message-id;
- bh=dqP4xDILD4RlEIe8PAWldrFhFOY5GPR/ru7lXyb/y2g=;
- b=M6MQhoZDU32+kw+CBkwmcRGWrsBRO2wqFm4nPjNrMlYrtkhdJow6rFHUclahLBGIcGNSnFt6K6m
- mVxMKAfrxce+6XZxIb+k/uUKlz7on5VllJpw0Pk7j09a9A20rQf1zf1eDNHlaxWgIKF+fN7NqHcbr
- ewb66cKjuMyqvaZe8q4=
-Received: from SHASXM03.verisilicon.com ([fe80::938:4dda:a2f9:38aa]) by
- SHASXM06.verisilicon.com ([fe80::59a8:ce34:dc14:ddda%16]) with mapi id
- 14.03.0408.000; Thu, 2 Sep 2021 09:59:49 +0800
-From: "Li, Chunming" <Chunming.Li@verisilicon.com>
-To: "eric.auger@redhat.com" <eric.auger@redhat.com>, chunming
- <chunming_li1234@163.com>, "peter.maydell@linaro.org"
- <peter.maydell@linaro.org>
-Subject: RE: [PATCH v5 2/4] hw/arm/smmuv3: Update implementation of CFGI
- commands based on device SID
-Thread-Topic: [PATCH v5 2/4] hw/arm/smmuv3: Update implementation of CFGI
- commands based on device SID
-Thread-Index: AQHXmYiL/0cbYTmcuECUrKpz/1W8zauNKEKAgAGelYD//9MNgIABZHPw
-Date: Thu, 2 Sep 2021 01:59:48 +0000
-Message-ID: <49C79B700B5D8F45B8EF0861B4EF3B3B011430A511@SHASXM03.verisilicon.com>
-References: <1629878922-173270-1-git-send-email-chunming_li1234@163.com>
- <1629878922-173270-3-git-send-email-chunming_li1234@163.com>
- <7089ce3e-2b15-7cf3-86d9-231c69794138@redhat.com>
- <49C79B700B5D8F45B8EF0861B4EF3B3B0114302B8C@SHASXM03.verisilicon.com>
- <1bdba252-d63d-15cb-7365-4fbc666cd075@redhat.com>
-In-Reply-To: <1bdba252-d63d-15cb-7365-4fbc666cd075@redhat.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.10.44.42]
-x-tm-as-product-ver: SMEX-11.0.0.4179-8.100.1062-25628.004
-x-tm-as-result: No--20.203400-0.000000-31
-x-tm-as-user-approved-sender: Yes
-x-tm-as-user-blocked-sender: No
+ (Exim 4.90_1) (envelope-from <jiaduo19920301@gmail.com>)
+ id 1mLcIp-0001tq-Kz
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 22:18:08 -0400
+Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:39560)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jiaduo19920301@gmail.com>)
+ id 1mLcIn-00074a-Dd
+ for qemu-devel@nongnu.org; Wed, 01 Sep 2021 22:18:07 -0400
+Received: by mail-io1-xd2f.google.com with SMTP id m11so550369ioo.6
+ for <qemu-devel@nongnu.org>; Wed, 01 Sep 2021 19:18:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5lPlNL7uXV7Ov2jZ7Hvwn51OMoT3RzHXmcPgnTs9bYE=;
+ b=Z8PiFVCNFSKKR9IdEtbuTp9Iss5T3pV9kTewD6ckkNR8iHzqWdfavko9VrTrMjV6bc
+ FNS1jDeAcSjmBiBd4Hk+q9DF9J9UXYl8NVJ3Q0+eFvVGmTiQvnNaKCUy+F0u+4EWtzIu
+ CstjLaVJfWQmW4/S8tCRXurIF4Mvlm4uzbVFzVdFnQFSc213kJcsJEOO8KjtDmPOOEgH
+ IN/zl9PVlw/+vsiDUXEMHOwenWzriOXoWakmQzSHzHfr2nfGmdOX0YdPdrL0gIWVpF/M
+ kUwgYHL/Ki8k7/z70BYtn0bcmm2x4jAv2kuKjF+daE8Ri8dwzJbZojThJHaKKyT2ddUA
+ YKgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5lPlNL7uXV7Ov2jZ7Hvwn51OMoT3RzHXmcPgnTs9bYE=;
+ b=IUIkLQL+CTUScUwx1gQcF8peK1VS/q2macFwoCf+sw2UjZLboFKKGNXu16M6FbWBK/
+ aCTL7PPBujvSlqZ3wl22++yD1TxOPQje0W84y9gEe+b4Qhz1a59dtJZIcPS7CP3jMHhp
+ +7lgZ/s+wtA9BrqUTxLMeMoxgH+dw3bo6mnuqC6ERKdyCOAlDIn8kPDPm7yf6aclLOx3
+ Y5RfAEQnuiWe3DNW39jqLiS5rk2ZxcNG1jlMGJzhdVELvWsYUk3zoebX2h/hgGF0xhKQ
+ 1JXmWDP1H2GlQMpOonn/25xTh7op1Z/4pOWnf/i1exwRhMa/6WGJzgc76azNr3l8MP66
+ x9Rg==
+X-Gm-Message-State: AOAM5317s6wKREolKckp5UiN8owflsxm2Vwb0Sl0uq8TnSO7Dyz/Re5n
+ v8jqk6N9Anokj3P5iTlOaA2MDk2kL/a7Ii6x3no=
+X-Google-Smtp-Source: ABdhPJzlzhVyNF1xFoTFf1+d5j8pN0PG2geP1w1iQkicTOfRRStOtZAG26ySyYVYObiIJEAFiI37+HuswJe7HG6c7ZU=
+X-Received: by 2002:a5d:9b99:: with SMTP id r25mr796389iom.104.1630549083700; 
+ Wed, 01 Sep 2021 19:18:03 -0700 (PDT)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=101.89.135.45;
- envelope-from=Chunming.Li@verisilicon.com; helo=shasxm03.verisilicon.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+References: <CALUzjTYPpo680Ub6CCx7-N2o=Q6Q6Kh=DLNCcUq-1F0JbCThOw@mail.gmail.com>
+ <CAFEAcA89Dua-t14v3DH-LFG+4UDtU81PuaTOruLTQJw+T25eiA@mail.gmail.com>
+In-Reply-To: <CAFEAcA89Dua-t14v3DH-LFG+4UDtU81PuaTOruLTQJw+T25eiA@mail.gmail.com>
+From: Duo jia <jiaduo19920301@gmail.com>
+Date: Thu, 2 Sep 2021 10:17:52 +0800
+Message-ID: <CALUzjTY56_A3mMtvWGFTyyZAKshWSeUfcHWJFFxYSm7P7BuNAQ@mail.gmail.com>
+Subject: =?UTF-8?Q?Re=3A_How_does_qemu_detect_the_completion_of_interrupt?=
+ =?UTF-8?Q?_execution=EF=BC=9F?=
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000ec420205caf9ca14"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
+ envelope-from=jiaduo19920301@gmail.com; helo=mail-io1-xd2f.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,130 +79,295 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Liu, Renwei" <Renwei.Liu@verisilicon.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Wen,
- Jianxian" <Jianxian.Wen@verisilicon.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGksDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogRXJpYyBBdWdlciBb
-bWFpbHRvOmVyaWMuYXVnZXJAcmVkaGF0LmNvbV0NCj4gU2VudDogV2VkbmVzZGF5LCBTZXB0ZW1i
-ZXIgMDEsIDIwMjEgODowNSBQTQ0KPiBUbzogTGksIENodW5taW5nOyBjaHVubWluZzsgcGV0ZXIu
-bWF5ZGVsbEBsaW5hcm8ub3JnDQo+IENjOiBxZW11LWFybUBub25nbnUub3JnOyBxZW11LWRldmVs
-QG5vbmdudS5vcmc7IFdlbiwgSmlhbnhpYW47IExpdSwNCj4gUmVud2VpDQo+IFN1YmplY3Q6IFJl
-OiBbUEFUQ0ggdjUgMi80XSBody9hcm0vc21tdXYzOiBVcGRhdGUgaW1wbGVtZW50YXRpb24gb2YN
-Cj4gQ0ZHSSBjb21tYW5kcyBiYXNlZCBvbiBkZXZpY2UgU0lEDQo+IA0KPiBIaSwNCj4gDQo+IE9u
-IDkvMS8yMSA4OjUxIEFNLCBMaSwgQ2h1bm1pbmcgd3JvdGU6DQo+ID4NCj4gPj4gLS0tLS1Pcmln
-aW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4gRnJvbTogRXJpYyBBdWdlciBbbWFpbHRvOmVyaWMuYXVn
-ZXJAcmVkaGF0LmNvbV0NCj4gPj4gU2VudDogVHVlc2RheSwgQXVndXN0IDMxLCAyMDIxIDEwOjAy
-IFBNDQo+ID4+IFRvOiBjaHVubWluZzsgcGV0ZXIubWF5ZGVsbEBsaW5hcm8ub3JnDQo+ID4+IENj
-OiBxZW11LWFybUBub25nbnUub3JnOyBxZW11LWRldmVsQG5vbmdudS5vcmc7IFdlbiwgSmlhbnhp
-YW47IExpdSwNCj4gPj4gUmVud2VpOyBMaSwgQ2h1bm1pbmcNCj4gPj4gU3ViamVjdDogUmU6IFtQ
-QVRDSCB2NSAyLzRdIGh3L2FybS9zbW11djM6IFVwZGF0ZSBpbXBsZW1lbnRhdGlvbiBvZg0KPiA+
-PiBDRkdJIGNvbW1hbmRzIGJhc2VkIG9uIGRldmljZSBTSUQNCj4gPj4NCj4gPj4gSGkgQ2h1bm1p
-bmcNCj4gPj4NCj4gPj4gT24gOC8yNS8yMSAxMDowOCBBTSwgY2h1bm1pbmcgd3JvdGU6DQo+ID4+
-PiBGcm9tOiBjaHVubWluZyA8Y2h1bm1pbmcubGlAdmVyaXNpbGljb24uY29tPg0KPiA+Pj4NCj4g
-Pj4+IFJlcGxhY2UgInNtbXV2M19mbHVzaF9jb25maWciIHdpdGggImdfaGFzaF90YWJsZV9mb3Jl
-YWNoX3JlbW92ZSIuDQo+ID4+IHRoaXMgcmVwbGFjZW1lbnQgbWF5IGhhdmUgYSBwb3RlbnRpYWwg
-bmVnYXRpdmUgaW1wYWN0IG9uIHRoZQ0KPiA+PiBwZXJmb3JtYW5jZQ0KPiA+PiBmb3IgUENJZSBz
-dXBwb3J0LCB3aGljaCBpcyB0aGUgbWFpbiB1c2UgY2FzZTogYSB1bmlxdWUNCj4gPj4gZ19oYXNo
-X3RhYmxlX3JlbW92ZSgpIGlzIHJlcGxhY2VkIGJ5IGFuIGl0ZXJhdGlvbiBvdmVyIGFsbCB0aGUN
-Cj4gY29uZmlnDQo+ID4+IGhhc2gga2V5cy4NCj4gPj4NCj4gPj4gSSB3b25kZXIgaWYgeW91IGNv
-dWxkbid0IGp1c3QgYWRhcHQgc21tdV9pb21tdV9tcigpIGFuZCBpdCBjYXNlIHRoaXMNCj4gPj4g
-bGF0dGVyIHJldHVybnMgTlVMTCBmb3IgdGhlIGN1cnJlbnQgUENJZSBzZWFyY2gsIGxvb2sgdXAg
-aW4gdGhlDQo+ID4+IHBsYXRmb3JtDQo+ID4+IGRldmljZSBsaXN0Og0KPiA+Pg0KPiA+PiBwZXJp
-X3NkZXZfbGlzdD8NCj4gPiBJIHRoaW5rIHRoZXJlIGFyZSAyIHNjZW5lczoNCj4gPiAJMS4gIFBD
-SWUgZGV2aWNlcyBzaGFyZSBzYW1lIFNJRCB3aXRoIHBlcmlwaGVyYWwgZGV2aWNlcy4NCj4gPiAg
-ICAgICAyLiAgTXVsdGkgcGVyaXBoZXJhbCBkZXZpY2VzIHNoYXJlIHNhbWUgU0lELg0KPiA+IElm
-IHdlIHNlYXJjaCBQQ0llIDFzdCB0aGVuIHNlYXJjaCBwZXJpX3NkZXZfbGlzdCwgdGhlcmUgYXJl
-IDINCj4gcHJvYmxlbXM6DQo+ID4gICAgICAgMS4gIFRoZSBjb2RlIGlzIGNvbXBsZXguDQo+ID4g
-ICAgICAgMi4gIFdlIG1heSBuZWVkIHRvIHNlYXJjaCBwZXJpX3NkZXZfbGlzdCBtdWx0aSB0aW1l
-cy4gSXQgbWF5DQo+IGhhcyBwZXJmb3JtYW5jZSBpbXBhY3QuDQo+IHdoeSBtdWx0aXBsZSB0aW1l
-cz8gMXN0IHlvdSBsb29rIGZvciBhIFBDSWUgUklEIGFuZCB0aGVuIHlvdSBsb29rIGZvcg0KPiBw
-bGF0Zm9ybSBkZXZpY2VzPyBTdGlsbCBJIGFtIGR1YmlvdXMgYWJvdXQgdGhlIGR1cGxpY2F0ZSBz
-dHJlYW1pZCBjYXNlLg0KPiB3aGF0IEkgd2FudGVkIHRvIGVtcGhhc2l6ZSBpcyBhdCB0aGUgbW9t
-ZW50IEkgZG8gbm90IGhhdmUgYSBjbGVhciB2aWV3DQo+IGFib3V0IHlvdXIgdXNlIGNhc2UgYW5k
-IEkgZG9uJ3Qgd2FudCB0byBkZWdyYWRlIHRoZSBwZXJmIG9mIHRoZSBtYWluDQo+IHVzZQ0KPiBj
-YXNlIHRvIHN1cHBvcnQgYSB5ZXQgdG8gYmUgZGVmaW5lZCBvbmUgOy0pDQoNClllcywgeW91IGFy
-ZSByaWdodC4gSSBhZ3JlZSB3aXRoIHlvdSBhZnRlciByZS1jaGVja2luZyB0aGUgY29kZS4NCkkg
-d2lsbCB1cGRhdGUgaXQgaW4gbmV4dCB2ZXJzaW9uLg0KDQo+ID4NCj4gPiBUaGUgQ0ZHSSBjb21t
-YW5kcyBhcmUgb25seSBjYWxsZWQgd2hlbiB0aGUgU01NVSBkZXZpY2UgaXMgcmVtb3ZlZC4NCj4g
-PiBTbyB3ZSB0aGluayB0aGVyZSBpcyBubyBiaWcgcGVyZm9ybWFuY2UgaW1wYWN0Lg0KPiANCj4g
-TmV2ZXJ0aGVsZXNzIEkgdGhpbmsgdGhpcyBpcyBub3QgYSBtYWpvciBpc3N1ZSBpbmRlZWQuDQo+
-IA0KPiBUaGFua3MNCj4gDQo+IEVyaWMNCj4gPg0KPiA+PiBUaGFua3MNCj4gPj4NCj4gPj4gRXJp
-Yw0KPiA+Pg0KPiA+Pg0KPiA+Pg0KPiA+Pj4gInNtbXVfaW9tbXVfbXIiIGZ1bmN0aW9uIGNhbid0
-IGdldCBNUiBhY2NvcmRpbmcgdG8gU0lEIGZvciBub24NCj4gPj4gUENJL1BDSWUgZGV2aWNlcy4N
-Cj4gPj4+IFNpZ25lZC1vZmYtYnk6IGNodW5taW5nIDxjaHVubWluZy5saUB2ZXJpc2lsaWNvbi5j
-b20+DQo+ID4+PiAtLS0NCj4gPj4+ICBody9hcm0vc21tdXYzLmMgICAgICAgICAgICAgIHwgMzUg
-KysrKysrKysrKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gLS0NCj4gPj4gLQ0KPiA+Pj4gIGlu
-Y2x1ZGUvaHcvYXJtL3NtbXUtY29tbW9uLmggfCAgNSArKysrLQ0KPiA+Pj4gIDIgZmlsZXMgY2hh
-bmdlZCwgMTQgaW5zZXJ0aW9ucygrKSwgMjYgZGVsZXRpb25zKC0pDQo+ID4+Pg0KPiA+Pj4gZGlm
-ZiAtLWdpdCBhL2h3L2FybS9zbW11djMuYyBiL2h3L2FybS9zbW11djMuYw0KPiA+Pj4gaW5kZXgg
-MTFkN2ZlODQyMy4uOWYzZjEzZmI4ZSAxMDA2NDQNCj4gPj4+IC0tLSBhL2h3L2FybS9zbW11djMu
-Yw0KPiA+Pj4gKysrIGIvaHcvYXJtL3NtbXV2My5jDQo+ID4+PiBAQCAtNjEzLDE0ICs2MTMsNiBA
-QCBzdGF0aWMgU01NVVRyYW5zQ2ZnDQo+ID4+ICpzbW11djNfZ2V0X2NvbmZpZyhTTU1VRGV2aWNl
-ICpzZGV2LCBTTU1VRXZlbnRJbmZvICpldmVudCkNCj4gPj4+ICAgICAgcmV0dXJuIGNmZzsNCj4g
-Pj4+ICB9DQo+ID4+Pg0KPiA+Pj4gLXN0YXRpYyB2b2lkIHNtbXV2M19mbHVzaF9jb25maWcoU01N
-VURldmljZSAqc2RldikNCj4gPj4+IC17DQo+ID4+PiAtICAgIFNNTVV2M1N0YXRlICpzID0gc2Rl
-di0+c21tdTsNCj4gPj4+IC0gICAgU01NVVN0YXRlICpiYyA9ICZzLT5zbW11X3N0YXRlOw0KPiA+
-Pj4gLQ0KPiA+Pj4gLSAgICB0cmFjZV9zbW11djNfY29uZmlnX2NhY2hlX2ludihzbW11X2dldF9z
-aWQoc2RldikpOw0KPiA+Pj4gLSAgICBnX2hhc2hfdGFibGVfcmVtb3ZlKGJjLT5jb25maWdzLCBz
-ZGV2KTsNCj4gPj4+IC19DQo+ID4+Pg0KPiA+Pj4gIHN0YXRpYyBJT01NVVRMQkVudHJ5IHNtbXV2
-M190cmFuc2xhdGUoSU9NTVVNZW1vcnlSZWdpb24gKm1yLA0KPiBod2FkZHINCj4gPj4gYWRkciwN
-Cj4gPj4+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIElPTU1VQWNjZXNz
-RmxhZ3MgZmxhZywgaW50DQo+ID4+IGlvbW11X2lkeCkNCj4gPj4+IEBAIC05NjQsMjIgKzk1Niwx
-OCBAQCBzdGF0aWMgaW50IHNtbXV2M19jbWRxX2NvbnN1bWUoU01NVXYzU3RhdGUNCj4gKnMpDQo+
-ID4+PiAgICAgICAgICBjYXNlIFNNTVVfQ01EX0NGR0lfU1RFOg0KPiA+Pj4gICAgICAgICAgew0K
-PiA+Pj4gICAgICAgICAgICAgIHVpbnQzMl90IHNpZCA9IENNRF9TSUQoJmNtZCk7DQo+ID4+PiAt
-ICAgICAgICAgICAgSU9NTVVNZW1vcnlSZWdpb24gKm1yID0gc21tdV9pb21tdV9tcihicywgc2lk
-KTsNCj4gPj4+IC0gICAgICAgICAgICBTTU1VRGV2aWNlICpzZGV2Ow0KPiA+Pj4gKyAgICAgICAg
-ICAgIFNNTVVTSURSYW5nZSBzaWRfcmFuZ2U7DQo+ID4+Pg0KPiA+Pj4gICAgICAgICAgICAgIGlm
-IChDTURfU1NFQygmY21kKSkgew0KPiA+Pj4gICAgICAgICAgICAgICAgICBjbWRfZXJyb3IgPSBT
-TU1VX0NFUlJPUl9JTEw7DQo+ID4+PiAgICAgICAgICAgICAgICAgIGJyZWFrOw0KPiA+Pj4gICAg
-ICAgICAgICAgIH0NCj4gPj4+DQo+ID4+PiAtICAgICAgICAgICAgaWYgKCFtcikgew0KPiA+Pj4g
-LSAgICAgICAgICAgICAgICBicmVhazsNCj4gPj4+IC0gICAgICAgICAgICB9DQo+ID4+PiAtDQo+
-ID4+PiArICAgICAgICAgICAgc2lkX3JhbmdlLnN0YXJ0ID0gc2lkOw0KPiA+Pj4gKyAgICAgICAg
-ICAgIHNpZF9yYW5nZS5lbmQgPSBzaWQ7DQo+ID4+PiAgICAgICAgICAgICAgdHJhY2Vfc21tdXYz
-X2NtZHFfY2ZnaV9zdGUoc2lkKTsNCj4gPj4+IC0gICAgICAgICAgICBzZGV2ID0gY29udGFpbmVy
-X29mKG1yLCBTTU1VRGV2aWNlLCBpb21tdSk7DQo+ID4+PiAtICAgICAgICAgICAgc21tdXYzX2Zs
-dXNoX2NvbmZpZyhzZGV2KTsNCj4gPj4+IC0NCj4gPj4+ICsgICAgICAgICAgICBnX2hhc2hfdGFi
-bGVfZm9yZWFjaF9yZW1vdmUoYnMtPmNvbmZpZ3MsDQo+ID4+IHNtbXV2M19pbnZhbGlkYXRlX3N0
-ZSwNCj4gPj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgJnNpZF9y
-YW5nZSk7DQo+ID4+PiAgICAgICAgICAgICAgYnJlYWs7DQo+ID4+PiAgICAgICAgICB9DQo+ID4+
-PiAgICAgICAgICBjYXNlIFNNTVVfQ01EX0NGR0lfU1RFX1JBTkdFOiAvKiBzYW1lIGFzIFNNTVVf
-Q01EX0NGR0lfQUxMDQo+ID4+ICovDQo+ID4+PiBAQCAtMTAwNiwyMSArOTk0LDE4IEBAIHN0YXRp
-YyBpbnQgc21tdXYzX2NtZHFfY29uc3VtZShTTU1VdjNTdGF0ZQ0KPiAqcykNCj4gPj4+ICAgICAg
-ICAgIGNhc2UgU01NVV9DTURfQ0ZHSV9DRF9BTEw6DQo+ID4+PiAgICAgICAgICB7DQo+ID4+PiAg
-ICAgICAgICAgICAgdWludDMyX3Qgc2lkID0gQ01EX1NJRCgmY21kKTsNCj4gPj4+IC0gICAgICAg
-ICAgICBJT01NVU1lbW9yeVJlZ2lvbiAqbXIgPSBzbW11X2lvbW11X21yKGJzLCBzaWQpOw0KPiA+
-Pj4gLSAgICAgICAgICAgIFNNTVVEZXZpY2UgKnNkZXY7DQo+ID4+PiArICAgICAgICAgICAgU01N
-VVNJRFJhbmdlIHNpZF9yYW5nZTsNCj4gPj4+DQo+ID4+PiAgICAgICAgICAgICAgaWYgKENNRF9T
-U0VDKCZjbWQpKSB7DQo+ID4+PiAgICAgICAgICAgICAgICAgIGNtZF9lcnJvciA9IFNNTVVfQ0VS
-Uk9SX0lMTDsNCj4gPj4+ICAgICAgICAgICAgICAgICAgYnJlYWs7DQo+ID4+PiAgICAgICAgICAg
-ICAgfQ0KPiA+Pj4NCj4gPj4+IC0gICAgICAgICAgICBpZiAoIW1yKSB7DQo+ID4+PiAtICAgICAg
-ICAgICAgICAgIGJyZWFrOw0KPiA+Pj4gLSAgICAgICAgICAgIH0NCj4gPj4+IC0NCj4gPj4+ICsg
-ICAgICAgICAgICBzaWRfcmFuZ2Uuc3RhcnQgPSBzaWQ7DQo+ID4+PiArICAgICAgICAgICAgc2lk
-X3JhbmdlLmVuZCA9IHNpZDsNCj4gPj4+ICAgICAgICAgICAgICB0cmFjZV9zbW11djNfY21kcV9j
-ZmdpX2NkKHNpZCk7DQo+ID4+PiAtICAgICAgICAgICAgc2RldiA9IGNvbnRhaW5lcl9vZihtciwg
-U01NVURldmljZSwgaW9tbXUpOw0KPiA+Pj4gLSAgICAgICAgICAgIHNtbXV2M19mbHVzaF9jb25m
-aWcoc2Rldik7DQo+ID4+PiArICAgICAgICAgICAgZ19oYXNoX3RhYmxlX2ZvcmVhY2hfcmVtb3Zl
-KGJzLT5jb25maWdzLA0KPiA+PiBzbW11djNfaW52YWxpZGF0ZV9zdGUsDQo+ID4+PiArICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICZzaWRfcmFuZ2UpOw0KPiA+Pj4gICAg
-ICAgICAgICAgIGJyZWFrOw0KPiA+Pj4gICAgICAgICAgfQ0KPiA+Pj4gICAgICAgICAgY2FzZSBT
-TU1VX0NNRF9UTEJJX05IX0FTSUQ6DQo+ID4+PiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9ody9hcm0v
-c21tdS1jb21tb24uaCBiL2luY2x1ZGUvaHcvYXJtL3NtbXUtDQo+ID4+IGNvbW1vbi5oDQo+ID4+
-PiBpbmRleCA5NWNkMTJhNGI1Li5kMDE2NDU1ZDgwIDEwMDY0NA0KPiA+Pj4gLS0tIGEvaW5jbHVk
-ZS9ody9hcm0vc21tdS1jb21tb24uaA0KPiA+Pj4gKysrIGIvaW5jbHVkZS9ody9hcm0vc21tdS1j
-b21tb24uaA0KPiA+Pj4gQEAgLTE1OSw3ICsxNTksMTAgQEAgaW50IHNtbXVfcHR3KFNNTVVUcmFu
-c0NmZyAqY2ZnLCBkbWFfYWRkcl90DQo+IGlvdmEsDQo+ID4+IElPTU1VQWNjZXNzRmxhZ3MgcGVy
-bSwNCj4gPj4+ICAgKi8NCj4gPj4+ICBTTU1VVHJhbnNUYWJsZUluZm8gKnNlbGVjdF90dChTTU1V
-VHJhbnNDZmcgKmNmZywgZG1hX2FkZHJfdCBpb3ZhKTsNCj4gPj4+DQo+ID4+PiAtLyogUmV0dXJu
-IHRoZSBpb21tdSBtciBhc3NvY2lhdGVkIHRvIEBzaWQsIG9yIE5VTEwgaWYgbm9uZSAqLw0KPiA+
-Pj4gKy8qKg0KPiA+Pj4gKyAqIFJldHVybiB0aGUgaW9tbXUgbXIgYXNzb2NpYXRlZCB0byBAc2lk
-LCBvciBOVUxMIGlmIG5vbmUNCj4gPj4+ICsgKiBPbmx5IGZvciBQQ0kgZGV2aWNlLCBjaGVjayBz
-bW11X2ZpbmRfcGVyaV9zZGV2IGZvciBub24gUENJL1BDSWUNCj4gPj4gZGV2aWNlDQo+ID4+PiAr
-ICovDQo+ID4+PiAgSU9NTVVNZW1vcnlSZWdpb24gKnNtbXVfaW9tbXVfbXIoU01NVVN0YXRlICpz
-LCB1aW50MzJfdCBzaWQpOw0KPiA+Pj4NCj4gPj4+ICAjZGVmaW5lIFNNTVVfSU9UTEJfTUFYX1NJ
-WkUgMjU2DQoNCg==
+--000000000000ec420205caf9ca14
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+  Hi,
+   thank you for your response.
+   As you say
+
+>  "
+> *End of interrupt handling is entirely dependent on what the*
+> *guest hardware being emulated is. Usually the guest software*
+> *will indicate "interrupt handled" back to the interrupt*
+> *controller (perhaps by writing a register; depends on the*
+> *interrupt controller), and the interrupt controller will*
+> *then look at what the next highest priority pending interrupt*
+> *is and signal that back to the CPU, or do nothing if there's*
+> *no new interrupt. So the second interrupt will automatically*
+> *be taken and handled once the first one has finished,*
+> *as a result of this interrupt controller and guest OS**interaction*."
+
+I agree with that. I has try some method, But Still have some problems.
+
+Q1:
+My guest(target) cpu seem don't have a  * "interrupt handled" , *And I
+don't know How/When to program the  "* interrupt controller"   *to check
+the second interrupt when the first over.
+
+Q2:
+Also I found the new problem(maybe bug) , when first interrupt  not over,
+the second interrupt may occure, this case Interrupt nesting =EF=BC=8Cif I =
+check
+Interrupt flag in the code=EF=BC=8Cthe second interrupt losed=E3=80=82
+
+I don't know the interrupt mechanism of qemu very well. If you have any
+suggestions, I am very happy to receive them.
+
+this is my code=EF=BC=9A
+
+/* set irq for device */
+> static void stm8_cpu_set_irq(void *opaque, int irq, int level)
+> {
+>     //printf("%s\n",__func__);
+>     STM8CPU *cpu =3D opaque;
+>     CPUSTM8State *env =3D &cpu->env;
+>     CPUState *cs =3D CPU(cpu);
+>     uint64_t mask =3D (1ull << irq);
+>
+>     //printf("irq:%d , level:%d\n",irq,level);
+>     if (level) {
+>         env->intsrc |=3D mask;
+>         cpu_interrupt(cs, CPU_INTERRUPT_HARD);
+>     } else {
+>         env->intsrc &=3D ~mask;
+>         if (env->intsrc =3D=3D 0) {
+>             cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
+>         }
+>     }
+> }
+>
+
+bool stm8_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+> {
+>     //printf("%s\n",__func__);
+>     CPUClass *cpu_cc =3D CPU_GET_CLASS(cs);
+>     STM8CPU *cpu =3D STM8_CPU(cs);
+>     CPUSTM8State *env =3D &cpu->env;
+>     int idx =3D -1;
+>
+>     /* Check interrupt */
+>     if (!cpu_interrupts_enabled(env)){
+>         qemu_log_mask(LOG_GUEST_ERROR,"[CPU] cpu_interrupts_enabled =3D
+> false.\n");
+>         //return false;
+>     }
+>     if (interrupt_request & CPU_INTERRUPT_RESET)
+>     {
+>         idx =3D 0;
+>         cs->interrupt_request &=3D ~CPU_INTERRUPT_RESET;
+>     }
+>     if (interrupt_request & CPU_INTERRUPT_HARD) {
+>         if(env->intsrc !=3D 0){
+>             idx =3D ctz32(env->intsrc);
+>             env->intsrc &=3D ~(1<<idx);
+>
+>             cs->interrupt_request &=3D ~CPU_INTERRUPT_HARD;
+>             /* Map interrupt */
+>             idx =3D EXCP_INT(idx);
+>         }
+>     }
+>     if (idx >=3D 0) {
+>         cs->exception_index =3D idx;
+>         cpu_cc->do_interrupt(cs);
+>         return true;
+>     }
+>     return false;
+> }
+>
+
+
+
+
+
+Peter Maydell <peter.maydell@linaro.org> =E4=BA=8E2021=E5=B9=B48=E6=9C=886=
+=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=886:16=E5=86=99=E9=81=93=EF=BC=
+=9A
+
+> On Fri, 6 Aug 2021 at 07:24, Duo jia <jiaduo19920301@gmail.com> wrote:
+> > I am simulating a device. When an interrupt occurs, another interrupt
+> > comes, and the second interrupt will not be triggered because the
+> > first interrupt has not yet finished.
+> >
+> > I want to know whether qemu can detect whether the interrupt has been
+> > executed, will there be a callback here?
+> > Or how can I deal with this situation?
+>
+> End of interrupt handling is entirely dependent on what the
+> guest hardware being emulated is. Usually the guest software
+> will indicate "interrupt handled" back to the interrupt
+> controller (perhaps by writing a register; depends on the
+> interrupt controller), and the interrupt controller will
+> then look at what the next highest priority pending interrupt
+> is and signal that back to the CPU, or do nothing if there's
+> no new interrupt. So the second interrupt will automatically
+> be taken and handled once the first one has finished,
+> as a result of this interrupt controller and guest OS
+> interaction.
+>
+> The original device usually doesn't get told when this
+> happens, and it doesn't need to know. For example, one common
+> form of device interrupt is level-triggered. Here the device
+> has some condition (perhaps "FIFO full") that causes an
+> interrupt. So it raises its outbound IRQ line when the FIFO
+> is full, and it doesn't lower it again until whatever the
+> device specification says is the condition (eg when the
+> guest reads from the FIFO, or if the guest writes to some
+> 'clear interrupt' register on the device). It's the job of
+> the guest software to make sure that when it gets an interrupt
+> from the device that it handles it such that the device has
+> been satisfied and lowered the interrupt.
+>
+> More rarely, some devices are specified to pulse their interrupt
+> line when a condition occurs.
+>
+> In summary, you need to look at the specification of the device
+> you're emulating to find out when and how it is supposed to
+> raise or lower its interrupt line. ("I didn't get a second
+> interrupt" bugs might also be caused by bugs in the interrupt
+> controller or in the guest software device driver -- if you're
+> just using an existing known-to-work QEMU interrupt controller
+> model and a known-to-work device driver and OS, then the
+> bug is very likely in your device model. If you're also
+> writing the OS device driver at the same time then the bug
+> could be there instead.)
+>
+> -- PMM
+>
+
+--000000000000ec420205caf9ca14
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">=C2=A0 Hi,<div>=C2=A0 =C2=A0thank you for your response.</=
+div><div>=C2=A0 =C2=A0As you say</div><span class=3D"gmail-im" style=3D"col=
+or:rgb(80,0,80)"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0&q=
+uot;<i>End of interrupt handling is entirely dependent on what the<br></i><=
+i>guest hardware being emulated is. Usually the guest software<br></i><i>wi=
+ll indicate &quot;interrupt handled&quot; back to the interrupt<br></i><i>c=
+ontroller (perhaps by writing a register; depends on the<br></i><i>interrup=
+t controller), and the interrupt controller will<br></i><i>then look at wha=
+t the next highest priority pending interrupt<br></i><i>is and signal that =
+back to the CPU, or do nothing if there&#39;s<br></i><i>no new interrupt. S=
+o the second interrupt will automatically<br></i><i>be taken and handled on=
+ce the first one has finished,<br></i><i>as a result of this interrupt cont=
+roller and guest OS<br></i><i>interaction</i>.&quot;</blockquote><div><i></=
+i></div></span><div>I agree with that. I has try some method, But=C2=A0Stil=
+l have some problems.</div><div><br></div><div>Q1:</div><div>My guest(targe=
+t) cpu seem don&#39;t have a=C2=A0=C2=A0<i>=C2=A0&quot;interrupt handled&qu=
+ot;=C2=A0,=C2=A0</i>And<i>=C2=A0</i>I don&#39;t know=C2=A0How/When to progr=
+am the=C2=A0 &quot;<i>=C2=A0interrupt controller&quot;=C2=A0 =C2=A0</i>to c=
+heck the second interrupt when the first over.</div><div><br></div><div>Q2:=
+</div><div>Also I found the new problem(maybe bug) , when first interrupt=
+=C2=A0 not over, the second interrupt may occure, this case=C2=A0Interrupt =
+nesting =EF=BC=8Cif I check Interrupt flag in the code=EF=BC=8Cthe second i=
+nterrupt losed=E3=80=82</div><div><br></div><div>I don&#39;t know the inter=
+rupt mechanism of qemu very well. If you have any suggestions, I am very ha=
+ppy to receive them.<br></div><div><br></div><div>this is my code=EF=BC=9A<=
+/div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">/* se=
+t irq for device */<br>static void stm8_cpu_set_irq(void *opaque, int irq, =
+int level)<br>{<br>=C2=A0 =C2=A0 //printf(&quot;%s\n&quot;,__func__);<br>=
+=C2=A0 =C2=A0 STM8CPU *cpu =3D opaque;<br>=C2=A0 =C2=A0 CPUSTM8State *env =
+=3D &amp;cpu-&gt;env;<br>=C2=A0 =C2=A0 CPUState *cs =3D CPU(cpu);<br>=C2=A0=
+ =C2=A0 uint64_t mask =3D (1ull &lt;&lt; irq);<br><br>=C2=A0 =C2=A0 //print=
+f(&quot;irq:%d , level:%d\n&quot;,irq,level);<br>=C2=A0 =C2=A0 if (level) {=
+<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;intsrc |=3D mask;<br>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 cpu_interrupt(cs, CPU_INTERRUPT_HARD);<br>=C2=A0 =C2=A0 } els=
+e {<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;intsrc &amp;=3D ~mask;<br>=C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 if (env-&gt;intsrc =3D=3D 0) {<br>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);<br>=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>=C2=A0 =C2=A0 }<br>}<br></blockquote><div>=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">bool stm8_cpu_e=
+xec_interrupt(CPUState *cs, int interrupt_request)<br>{<br>=C2=A0 =C2=A0 //=
+printf(&quot;%s\n&quot;,__func__);<br>=C2=A0 =C2=A0 CPUClass *cpu_cc =3D CP=
+U_GET_CLASS(cs);<br>=C2=A0 =C2=A0 STM8CPU *cpu =3D STM8_CPU(cs);<br>=C2=A0 =
+=C2=A0 CPUSTM8State *env =3D &amp;cpu-&gt;env;<br>=C2=A0 =C2=A0 int idx =3D=
+ -1;<br><br>=C2=A0 =C2=A0 /* Check interrupt */<br>=C2=A0 =C2=A0 if (!cpu_i=
+nterrupts_enabled(env)){<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(LOG_G=
+UEST_ERROR,&quot;[CPU] cpu_interrupts_enabled =3D false.\n&quot;);<br>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 //return false;=C2=A0<br>=C2=A0 =C2=A0 }<br>=C2=A0=
+ =C2=A0 if (interrupt_request &amp; CPU_INTERRUPT_RESET)<br>=C2=A0 =C2=A0 {=
+<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 idx =3D 0;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 c=
+s-&gt;interrupt_request &amp;=3D ~CPU_INTERRUPT_RESET;<br>=C2=A0 =C2=A0 }<b=
+r>=C2=A0 =C2=A0 if (interrupt_request &amp; CPU_INTERRUPT_HARD) {<br>=C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 if(env-&gt;intsrc !=3D 0){<br>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 idx =3D ctz32(env-&gt;intsrc);<br>=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 env-&gt;intsrc &amp;=3D ~(1&lt;&lt;idx);<br><br>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cs-&gt;interrupt_request &amp;=3D ~C=
+PU_INTERRUPT_HARD;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Map inte=
+rrupt */<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 idx =3D EXCP_INT(idx)=
+;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>=C2=A0 =C2=A0 }<br>=C2=A0 =C2=A0 if (=
+idx &gt;=3D 0) {<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 cs-&gt;exception_index =3D =
+idx;<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_cc-&gt;do_interrupt(cs);<br>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 return true;<br>=C2=A0 =C2=A0 }<br>=C2=A0 =C2=A0 retur=
+n false;<br>}<br></blockquote><div>=C2=A0</div><div><br></div><div><br></di=
+v><div><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
+mail_attr">Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org" ta=
+rget=3D"_blank">peter.maydell@linaro.org</a>&gt; =E4=BA=8E2021=E5=B9=B48=E6=
+=9C=886=E6=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=886:16=E5=86=99=E9=81=93=
+=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri=
+, 6 Aug 2021 at 07:24, Duo jia &lt;<a href=3D"mailto:jiaduo19920301@gmail.c=
+om" target=3D"_blank">jiaduo19920301@gmail.com</a>&gt; wrote:<br>
+&gt; I am simulating a device. When an interrupt occurs, another interrupt<=
+br>
+&gt; comes, and the second interrupt will not be triggered because the<br>
+&gt; first interrupt has not yet finished.<br>
+&gt;<br>
+&gt; I want to know whether qemu can detect whether the interrupt has been<=
+br>
+&gt; executed, will there be a callback here?<br>
+&gt; Or how can I deal with this situation?<br>
+<br>
+End of interrupt handling is entirely dependent on what the<br>
+guest hardware being emulated is. Usually the guest software<br>
+will indicate &quot;interrupt handled&quot; back to the interrupt<br>
+controller (perhaps by writing a register; depends on the<br>
+interrupt controller), and the interrupt controller will<br>
+then look at what the next highest priority pending interrupt<br>
+is and signal that back to the CPU, or do nothing if there&#39;s<br>
+no new interrupt. So the second interrupt will automatically<br>
+be taken and handled once the first one has finished,<br>
+as a result of this interrupt controller and guest OS<br>
+interaction.<br>
+<br>
+The original device usually doesn&#39;t get told when this<br>
+happens, and it doesn&#39;t need to know. For example, one common<br>
+form of device interrupt is level-triggered. Here the device<br>
+has some condition (perhaps &quot;FIFO full&quot;) that causes an<br>
+interrupt. So it raises its outbound IRQ line when the FIFO<br>
+is full, and it doesn&#39;t lower it again until whatever the<br>
+device specification says is the condition (eg when the<br>
+guest reads from the FIFO, or if the guest writes to some<br>
+&#39;clear interrupt&#39; register on the device). It&#39;s the job of<br>
+the guest software to make sure that when it gets an interrupt<br>
+from the device that it handles it such that the device has<br>
+been satisfied and lowered the interrupt.<br>
+<br>
+More rarely, some devices are specified to pulse their interrupt<br>
+line when a condition occurs.<br>
+<br>
+In summary, you need to look at the specification of the device<br>
+you&#39;re emulating to find out when and how it is supposed to<br>
+raise or lower its interrupt line. (&quot;I didn&#39;t get a second<br>
+interrupt&quot; bugs might also be caused by bugs in the interrupt<br>
+controller or in the guest software device driver -- if you&#39;re<br>
+just using an existing known-to-work QEMU interrupt controller<br>
+model and a known-to-work device driver and OS, then the<br>
+bug is very likely in your device model. If you&#39;re also<br>
+writing the OS device driver at the same time then the bug<br>
+could be there instead.)<br>
+<br>
+-- PMM<br>
+</blockquote></div></div>
+
+--000000000000ec420205caf9ca14--
 
