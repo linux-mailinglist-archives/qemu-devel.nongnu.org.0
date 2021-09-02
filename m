@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 814503FF160
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 18:28:40 +0200 (CEST)
-Received: from localhost ([::1]:57842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C78723FF1B5
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 18:41:57 +0200 (CEST)
+Received: from localhost ([::1]:39328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLpZv-0004xw-Ff
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 12:28:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36744)
+	id 1mLpmm-0006PJ-Tb
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 12:41:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mLpPB-00013t-5E; Thu, 02 Sep 2021 12:17:34 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:44570)
+ id 1mLpPP-0001eB-Ji; Thu, 02 Sep 2021 12:17:48 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:34426)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mLpP9-0001xn-IJ; Thu, 02 Sep 2021 12:17:32 -0400
+ id 1mLpPH-00025c-5d; Thu, 02 Sep 2021 12:17:47 -0400
 Received: by mail-wm1-x336.google.com with SMTP id
- l7-20020a1c2507000000b002e6be5d86b3so1746327wml.3; 
- Thu, 02 Sep 2021 09:17:28 -0700 (PDT)
+ v20-20020a1cf714000000b002e71f4d2026so1426051wmh.1; 
+ Thu, 02 Sep 2021 09:17:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DdBo63POokH5fIMDIDGd3vZfaCJQwybOZKNS3BGh4nM=;
- b=SdUILgJd3l3KkosL5d+GJCCbjxa1kuvIi2eQH+QhbRZsxGZZeyT8B45EfAvb4vDqID
- Hvz12f+uLhG2sxeYjZh1eHobRoGFGmx8Vwc0IlXnnkf2IX5bx+BVhSr1cY3Ej8rlB7KC
- YO8ak4ncoqL6BecyY/e6YiTBs4ooYjlzwmmJGuU0TYXlpRik+gmohfcoQGfINeBVNh7H
- gfydQO5CesTCgYv9jzBSAmfhKaEn9YTmVKuXA9R7D2QLLI+i2p5DKESCrSigkULnbdYP
- q+rTwC0UOLH6fDszBS6ixFPljdENz9/dOQt5v2rlttm82OpvBLF+yYDt5s7Pj/jtLcYS
- Xgng==
+ bh=oNTRH1yoq5af/chfn9I/5bXkTQKwubTn8iozem9IGSY=;
+ b=PGBnfVPTt2uYSxX6RQU1qsSKDWiS62QWAFvPTZETHVyL2OfFEKZZM3g5e9WJ1/HCKp
+ vwU/HD/XAeJVS5v2+My/H3taQ/5KpM2mCEqjy9lZxh2Z/pp5+KxKPIJb09S1d7E1zVbI
+ 3ZIcYz0tlufyP3eqE0RuxgxTothAxpq4vYSqZmx2K/VGuOwYk4ulhhYY34CvxwPWhOkc
+ X6DZRjwitqLAQZOFu87Nxe9lRc1tqhLGZ8hROluYOSSfODd35hNP9l0+ra9n37CT0CeZ
+ tWoQvZtrbSLJKAVJXRMVVda3fXJ9XRtlNf90jVOb68ZvlGwL1VX/T67Jlue0hgDZL0Fm
+ SNZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=DdBo63POokH5fIMDIDGd3vZfaCJQwybOZKNS3BGh4nM=;
- b=uDdKFqHeoGxl3aqN4ptgMORFXpR81d+C4bk65WAyOOYFDLYrRgfBIXedODy2kspwTL
- t8CMt81xTtCTw85Jr+MM7kZWIRag/aUfYqHU6oqJELeokkY7JnJ+U7MVgoOQv1QJd703
- JGx5DMdAfd304Ycmk6LIeCl1fnoZqGUhZDnmFigZrKlUgSXcNAYjWK1TL3HARzYHjyZz
- jYehs9jf2YSNJ95bBlBUwDBWfrwfPRU/p4TnNCFDKBZ1yh+zrSmbx39uRwPq3F1qO/pl
- oyZONHDZAZVuOe+uDwa/L9MGhySXTobwl4I2pyNEpQGmGEHh9h13caM4LNxnGo8mZHLt
- aOug==
-X-Gm-Message-State: AOAM531uVrOtBQyuY0EEXeOSHJC35oMX+n2ygupYQLDcqnUgBgAIx4L9
- YqrFdOwNMTRMqUXEEZSnh4EYJWnbLbI=
-X-Google-Smtp-Source: ABdhPJxeXOWsxsq5sHAGX+bjrNwp1kbgUUARJY9Fvv8rdRD0ZNZFO5Z6zZ0qv0LrIPXbrhuPF3RRHw==
-X-Received: by 2002:a1c:a50c:: with SMTP id o12mr4082621wme.4.1630599447661;
- Thu, 02 Sep 2021 09:17:27 -0700 (PDT)
+ bh=oNTRH1yoq5af/chfn9I/5bXkTQKwubTn8iozem9IGSY=;
+ b=jsH8qUw5KCvNY95M0o8mpIusTf6IaVYfkIAqJqd1pyuw+flPHgJ5mBqQZrUeASQt96
+ v9nyc0//CSci55x1eECTYOH82AkJzwHREJdZvMyH69Iq2aKECGQAMb7bCj0mtuEIWSjd
+ N4nTGA566folz+zORryA+khM2Ru963GrdwrEen3dKhgqT9bwgC/LROyD0HL6ZEkmRQhX
+ 27+CCQV3eFMK5TX2PoEP0dMrcVO4zONfMIVbUKq+9K7iYuHUzMW1VcMSJ5A4/kmM9ZZ2
+ crwNpnY0gFLbLoBknN0/7eVh54ITmaKX48P0mjhXnlYxBnP743kJdKrY/nhuFLAeiSrX
+ C4JA==
+X-Gm-Message-State: AOAM530dPCn2miS/c+dHWyxlOqEFDGsANNUKRtJqtMzV47jLCZcejpyX
+ apm80MO/hAPIZP140AKWxygvHQUoVmA=
+X-Google-Smtp-Source: ABdhPJxVc9r0FTKCTOqW8xIIldm9t05NRFuFTf+Kzcn3sLsTdbmtacHYR3pfbO5B7AXHWSOEzXQpFQ==
+X-Received: by 2002:a05:600c:19ca:: with SMTP id
+ u10mr3821810wmq.178.1630599453691; 
+ Thu, 02 Sep 2021 09:17:33 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- f18sm2080257wmc.6.2021.09.02.09.17.24
+ z17sm2350022wrh.66.2021.09.02.09.17.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 09:17:26 -0700 (PDT)
+ Thu, 02 Sep 2021 09:17:33 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 16/30] target/microblaze: Restrict has_work() handler to
- sysemu and TCG
-Date: Thu,  2 Sep 2021 18:15:29 +0200
-Message-Id: <20210902161543.417092-17-f4bug@amsat.org>
+Subject: [PATCH v3 17/30] target/mips: Restrict has_work() handler to sysemu
+ and TCG
+Date: Thu,  2 Sep 2021 18:15:30 +0200
+Message-Id: <20210902161543.417092-18-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210902161543.417092-1-f4bug@amsat.org>
 References: <20210902161543.417092-1-f4bug@amsat.org>
@@ -119,56 +120,45 @@ Restrict has_work() to TCG sysemu.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/microblaze/cpu.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ target/mips/cpu.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index 15db277925f..74fbb5d201a 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -92,12 +92,15 @@ static void mb_cpu_synchronize_from_tb(CPUState *cs,
-     cpu->env.iflags = tb->flags & IFLAGS_TB_MASK;
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index 00e0c55d0e4..3639c03f8ea 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -128,6 +128,7 @@ static void mips_cpu_set_pc(CPUState *cs, vaddr value)
+     mips_env_set_pc(&cpu->env, value);
  }
  
-+#ifndef CONFIG_USER_ONLY
-+
-+#ifdef CONFIG_TCG
- static bool mb_cpu_has_work(CPUState *cs)
++#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
+ static bool mips_cpu_has_work(CPUState *cs)
  {
-     return cs->interrupt_request & (CPU_INTERRUPT_HARD | CPU_INTERRUPT_NMI);
- }
-+#endif /* CONFIG_TCG */
- 
--#ifndef CONFIG_USER_ONLY
- static void mb_cpu_ns_axi_dp(void *opaque, int irq, int level)
- {
-     MicroBlazeCPU *cpu = opaque;
-@@ -142,7 +145,7 @@ static void microblaze_cpu_set_irq(void *opaque, int irq, int level)
-         cpu_reset_interrupt(cs, type);
+     MIPSCPU *cpu = MIPS_CPU(cs);
+@@ -172,6 +173,7 @@ static bool mips_cpu_has_work(CPUState *cs)
      }
+     return has_work;
  }
--#endif
-+#endif /* !CONFIG_USER_ONLY */
++#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
  
- static void mb_cpu_reset(DeviceState *dev)
- {
-@@ -368,6 +371,7 @@ static const struct TCGCPUOps mb_tcg_ops = {
-     .tlb_fill = mb_cpu_tlb_fill,
+ #include "cpu-defs.c.inc"
  
- #ifndef CONFIG_USER_ONLY
-+    .has_work = mb_cpu_has_work,
-     .cpu_exec_interrupt = mb_cpu_exec_interrupt,
-     .do_interrupt = mb_cpu_do_interrupt,
-     .do_transaction_failed = mb_cpu_transaction_failed,
-@@ -386,8 +390,6 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
-     device_class_set_parent_reset(dc, mb_cpu_reset, &mcc->parent_reset);
+@@ -542,6 +544,7 @@ static const struct TCGCPUOps mips_tcg_ops = {
+     .tlb_fill = mips_cpu_tlb_fill,
  
-     cc->class_by_name = mb_cpu_class_by_name;
--    cc->has_work = mb_cpu_has_work;
--
-     cc->dump_state = mb_cpu_dump_state;
-     cc->set_pc = mb_cpu_set_pc;
-     cc->gdb_read_register = mb_cpu_gdb_read_register;
+ #if !defined(CONFIG_USER_ONLY)
++    .has_work = mips_cpu_has_work,
+     .cpu_exec_interrupt = mips_cpu_exec_interrupt,
+     .do_interrupt = mips_cpu_do_interrupt,
+     .do_transaction_failed = mips_cpu_do_transaction_failed,
+@@ -563,7 +566,6 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
+     device_class_set_props(dc, mips_cpu_properties);
+ 
+     cc->class_by_name = mips_cpu_class_by_name;
+-    cc->has_work = mips_cpu_has_work;
+     cc->dump_state = mips_cpu_dump_state;
+     cc->set_pc = mips_cpu_set_pc;
+     cc->gdb_read_register = mips_cpu_gdb_read_register;
 -- 
 2.31.1
 
