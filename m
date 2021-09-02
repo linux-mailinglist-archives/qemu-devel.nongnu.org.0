@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A224C3FEA93
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 10:24:12 +0200 (CEST)
-Received: from localhost ([::1]:55754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B6DD3FEA9B
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 10:27:28 +0200 (CEST)
+Received: from localhost ([::1]:58758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLi15-0006AT-Oi
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 04:24:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39120)
+	id 1mLi4F-0008LD-9S
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 04:27:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Chunming.Li@verisilicon.com>)
- id 1mLhzs-0004jZ-Kp; Thu, 02 Sep 2021 04:22:56 -0400
-Received: from shasxm06.verisilicon.com ([101.89.135.45]:38966
- helo=shasxm03.verisilicon.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <Chunming.Li@verisilicon.com>)
- id 1mLhzo-000145-6a; Thu, 02 Sep 2021 04:22:56 -0400
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-DKIM-Signature: v=1; a=rsa-sha256; d=Verisilicon.com; s=default;
- c=simple/simple; t=1630570956; h=from:subject:to:date:message-id;
- bh=JH+eS1+5nPzt44tC2P2v+oBHI6VF2slSudUy++qBXUk=;
- b=BbiBwVcYcL8RFUebgkiPHdNHwCGex4+7aJxaE9UUSjS/xeN8xR5JMo6w6L9qAdFWYGzwrWbB9TV
- cmf6krzVXXsSzwS2tyOA4vQBhKaS15nMpCxo25JnzF3uJYXKAFu9x82Uui4DhiY3aRI2nwsu9kakn
- 6kHAvBYLhFfHhqPkzPQ=
-Received: from SHASXM03.verisilicon.com ([fe80::938:4dda:a2f9:38aa]) by
- SHASXM06.verisilicon.com ([fe80::59a8:ce34:dc14:ddda%16]) with mapi id
- 14.03.0408.000; Thu, 2 Sep 2021 16:22:35 +0800
-From: "Li, Chunming" <Chunming.Li@verisilicon.com>
-To: "eric.auger@redhat.com" <eric.auger@redhat.com>, chunming
- <chunming_li1234@163.com>, "peter.maydell@linaro.org"
- <peter.maydell@linaro.org>
-Subject: RE: [PATCH v5 4/4] hw/arm/virt: Add PL330 DMA controller and
- connect with SMMU v3
-Thread-Topic: [PATCH v5 4/4] hw/arm/virt: Add PL330 DMA controller and
- connect with SMMU v3
-Thread-Index: AQHXmYiKQKNGfrqCp066qhYu9h3Z3quNMgKAgAGVfHD//7XkgIABypiQ//+b7wCAAI6ccA==
-Date: Thu, 2 Sep 2021 08:22:34 +0000
-Message-ID: <49C79B700B5D8F45B8EF0861B4EF3B3B011430A757@SHASXM03.verisilicon.com>
-References: <1629878922-173270-1-git-send-email-chunming_li1234@163.com>
- <1629878922-173270-5-git-send-email-chunming_li1234@163.com>
- <756203c3-76ec-62ea-beca-91a245059536@redhat.com>
- <49C79B700B5D8F45B8EF0861B4EF3B3B0114302BA7@SHASXM03.verisilicon.com>
- <4ba6223c-f239-ccd2-e4a8-eb912dd4fb58@redhat.com>
- <49C79B700B5D8F45B8EF0861B4EF3B3B011430A69F@SHASXM03.verisilicon.com>
- <19a5f05e-1984-095f-67de-a10f0acca947@redhat.com>
-In-Reply-To: <19a5f05e-1984-095f-67de-a10f0acca947@redhat.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.10.44.42]
-x-tm-as-product-ver: SMEX-11.0.0.4179-8.100.1062-25628.004
-x-tm-as-result: No--29.991700-0.000000-31
-x-tm-as-user-approved-sender: Yes
-x-tm-as-user-blocked-sender: No
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1mLi2r-00073T-Uc
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 04:26:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48288)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1mLi2p-0003iN-S3
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 04:26:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630571159;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EhR0MKDl0ymk1iI+myy91ULcM3jOYC1j0v9WizRUeS4=;
+ b=CzbKZjDgcUrP5/eaZXARo/BoQeVFk3YnWl0fq7N4gn/CSd0x6wOFm76pKfId9baD4ChsZk
+ JmevJP6g8c7DY1uqMuvbWew/BmCA8YgKMy3mjaDGtyxxdAK3F7OXtNxH8hsxjEQ1FucfTk
+ tmVaZdiG04W9zB1e7nESr6F45xPRVD0=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-557-3UseXp2AMTq0ciuxXitDqw-1; Thu, 02 Sep 2021 04:25:56 -0400
+X-MC-Unique: 3UseXp2AMTq0ciuxXitDqw-1
+Received: by mail-lj1-f197.google.com with SMTP id
+ a38-20020a05651c212600b001ca48d59b47so343230ljq.22
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 01:25:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EhR0MKDl0ymk1iI+myy91ULcM3jOYC1j0v9WizRUeS4=;
+ b=p4pmbPeTwsh1cfwxFQ4JHwm9gjeDCZY76Yv52yqKxFkc02pl9KizUVY0qFFpzXBXLA
+ FVgXA8NhtbcYlvd/h8gco6GAxsf3ck4lDZVikImpVhmlaYe6EC6ZPMVhpmKT1T6lcFvF
+ ijwz6kbjN0/2jhyA0+anB8NI5IkQeUaFoGc5SXgDiRgZmugiUa+QZNCbsOhFLKTTZiaA
+ yeymuP0870lhrpwvHKHkx5icXvlTPTv8g24pwCFc27KpJ5P6kOevrFJIUgOpcqRL7Wgt
+ 3y/bndWOJew2qWVpf/j8kY3I3VPjfhI++oeS7sIPBArAkveofAyHVWoTBbbC4oURgDrg
+ 3BGA==
+X-Gm-Message-State: AOAM532FPAruvO4Wk6jBguECogTjGP8kP/ED5O9INXjyZiGkGFrQxhvU
+ 85ifvdQkIYHYpA67ks+WIWitrmSbTmXtcLEIwCETzzsJWTClsxOgpv6SLEDec32VYKghZhlHMtg
+ 6FfpM51tzyICSPieQCChhbvSB66ju4VI=
+X-Received: by 2002:a2e:7a12:: with SMTP id v18mr1546823ljc.204.1630571153360; 
+ Thu, 02 Sep 2021 01:25:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx9QARmK8uftctJDZIzC3wl2PtupFZKCtg5dUxpRq5OG+CtPh7F3LEW3sp8C545j6ooABlsZKncUeNnta8TnFs=
+X-Received: by 2002:a2e:7a12:: with SMTP id v18mr1546789ljc.204.1630571152837; 
+ Thu, 02 Sep 2021 01:25:52 -0700 (PDT)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=101.89.135.45;
- envelope-from=Chunming.Li@verisilicon.com; helo=shasxm03.verisilicon.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+References: <20210831110238.299458-1-leobras@redhat.com>
+ <20210831110238.299458-2-leobras@redhat.com>
+ <20210901205405.f3dc4vpqinfy7gkx@redhat.com>
+In-Reply-To: <20210901205405.f3dc4vpqinfy7gkx@redhat.com>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Thu, 2 Sep 2021 05:26:04 -0300
+Message-ID: <CAJ6HWG6qNjvcV5CKMSGKjZTXenguiAwN4gt528oSxkv5BqrCDw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/3] io: Enable write flags for QIOChannel
+To: Eric Blake <eblake@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lsoaresp@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,253 +90,255 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Liu, Renwei" <Renwei.Liu@verisilicon.com>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "Wen,
- Jianxian" <Jianxian.Wen@verisilicon.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGksDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogRXJpYyBBdWdlciBb
-bWFpbHRvOmVyaWMuYXVnZXJAcmVkaGF0LmNvbV0NCj4gU2VudDogVGh1cnNkYXksIFNlcHRlbWJl
-ciAwMiwgMjAyMSAzOjQ2IFBNDQo+IFRvOiBMaSwgQ2h1bm1pbmc7IGNodW5taW5nOyBwZXRlci5t
-YXlkZWxsQGxpbmFyby5vcmcNCj4gQ2M6IHFlbXUtYXJtQG5vbmdudS5vcmc7IHFlbXUtZGV2ZWxA
-bm9uZ251Lm9yZzsgV2VuLCBKaWFueGlhbjsgTGl1LA0KPiBSZW53ZWkNCj4gU3ViamVjdDogUmU6
-IFtQQVRDSCB2NSA0LzRdIGh3L2FybS92aXJ0OiBBZGQgUEwzMzAgRE1BIGNvbnRyb2xsZXIgYW5k
-DQo+IGNvbm5lY3Qgd2l0aCBTTU1VIHYzDQo+IA0KPiBIaSwNCj4gDQo+IE9uIDkvMi8yMSA4OjQ2
-IEFNLCBMaSwgQ2h1bm1pbmcgd3JvdGU6DQo+ID4gSGksDQo+ID4NCj4gPj4gLS0tLS1PcmlnaW5h
-bCBNZXNzYWdlLS0tLS0NCj4gPj4gRnJvbTogRXJpYyBBdWdlciBbbWFpbHRvOmVyaWMuYXVnZXJA
-cmVkaGF0LmNvbV0NCj4gPj4gU2VudDogV2VkbmVzZGF5LCBTZXB0ZW1iZXIgMDEsIDIwMjEgNjoy
-MyBQTQ0KPiA+PiBUbzogTGksIENodW5taW5nOyBjaHVubWluZzsgcGV0ZXIubWF5ZGVsbEBsaW5h
-cm8ub3JnDQo+ID4+IENjOiBxZW11LWFybUBub25nbnUub3JnOyBxZW11LWRldmVsQG5vbmdudS5v
-cmc7IFdlbiwgSmlhbnhpYW47IExpdSwNCj4gPj4gUmVud2VpDQo+ID4+IFN1YmplY3Q6IFJlOiBb
-UEFUQ0ggdjUgNC80XSBody9hcm0vdmlydDogQWRkIFBMMzMwIERNQSBjb250cm9sbGVyDQo+IGFu
-ZA0KPiA+PiBjb25uZWN0IHdpdGggU01NVSB2Mw0KPiA+Pg0KPiA+PiBIaSwNCj4gPj4NCj4gPj4g
-T24gOS8xLzIxIDg6NTMgQU0sIExpLCBDaHVubWluZyB3cm90ZToNCj4gPj4+PiAtLS0tLU9yaWdp
-bmFsIE1lc3NhZ2UtLS0tLQ0KPiA+Pj4+IEZyb206IEVyaWMgQXVnZXIgW21haWx0bzplcmljLmF1
-Z2VyQHJlZGhhdC5jb21dDQo+ID4+Pj4gU2VudDogVHVlc2RheSwgQXVndXN0IDMxLCAyMDIxIDEw
-OjM3IFBNDQo+ID4+Pj4gVG86IGNodW5taW5nOyBwZXRlci5tYXlkZWxsQGxpbmFyby5vcmcNCj4g
-Pj4+PiBDYzogcWVtdS1hcm1Abm9uZ251Lm9yZzsgcWVtdS1kZXZlbEBub25nbnUub3JnOyBXZW4s
-IEppYW54aWFuOw0KPiBMaXUsDQo+ID4+Pj4gUmVud2VpOyBMaSwgQ2h1bm1pbmcNCj4gPj4+PiBT
-dWJqZWN0OiBSZTogW1BBVENIIHY1IDQvNF0gaHcvYXJtL3ZpcnQ6IEFkZCBQTDMzMCBETUEgY29u
-dHJvbGxlcg0KPiA+PiBhbmQNCj4gPj4+PiBjb25uZWN0IHdpdGggU01NVSB2Mw0KPiA+Pj4+DQo+
-ID4+Pj4gSGkgQ2h1bm1pbmcsDQo+ID4+Pj4NCj4gPj4+PiBPbiA4LzI1LzIxIDEwOjA4IEFNLCBj
-aHVubWluZyB3cm90ZToNCj4gPj4+Pj4gRnJvbTogY2h1bm1pbmcgPGNodW5taW5nLmxpQHZlcmlz
-aWxpY29uLmNvbT4NCj4gPj4+Pj4NCj4gPj4+Pj4gQWRkIFBMMzMwIERNQSBjb250cm9sbGVyIHRv
-IHRlc3QgU01NVSB2MyBjb25uZWN0aW9uIGFuZCBmdW5jdGlvbi4NCj4gPj4+Pj4gVGhlIGRlZmF1
-bHQgU0lEIGZvciBQTDMzMCBpcyAxIGJ1dCB3ZSB0ZXN0IG90aGVyIHZhbHVlcywgaXQgd29ya3MN
-Cj4gPj4+PiB3ZWxsLg0KPiA+Pj4+IElzIGl0IGp1c3QgYSBwYXRjaCBmb3IgdGVzdGluZyBvciB3
-b3VsZCB5b3Ugd2FudCB0aGlzIHRvIGJlDQo+IGFwcGxpZWQNCj4gPj4+PiB1cHN0cmVhbSB0b28/
-DQo+ID4+PiBJIHdhbnQgdGhpcyB0byBiZSBhcHBsaWVkIHVwc3RyZWFtLg0KPiA+PiBUaGVuIEkg
-dGhpbmsgeW91IG5lZWQgdG8gYnJpbmcgYSBwcm9wZXIgbW90aXZhdGlvbiBiZWhpbmQgYWRkaW5n
-IHRoZQ0KPiA+PiBQTDMzMCBpbiBtYWNodmlydCBiZXNpZGVzIGEgdGVzdGluZyBwdXJwb3NlLg0K
-PiA+Pj4+IFRoaXMgc3RhdGljIFNJRCBhbGxvY2F0aW9uIG1heSBub3Qgd29yayBpbiBnZW5lcmFs
-IGFzIGl0IG1heQ0KPiBjb2xsaWRlDQo+ID4+Pj4gd2l0aCBQQ0llIFJJRCBzcGFjZT8NCj4gPj4+
-IEkgdGhpbmsgU01NVSBzdXBwb3J0IGRpZmZlcmVudCBkZXZpY2VzIGNvbm5lY3RlZCB3aXRoIDEg
-U01NVSBhbmQNCj4gPj4gc2hhcmUgc2FtZQ0KPiA+Pj4gU0lELCBldmVuIG9uZSBpcyBQQ0llIGRl
-dmljZSBhbmQgYW5vdGhlciBvbmUgaXMgcGVyaXBoZXJhbCBwbGF0Zm9ybQ0KPiA+PiBkZXZpY2Uu
-DQo+ID4+PiBUaGV5IGNhbiBzaGFyZSAxIFNNTVUgcGFnZSB0YWJsZSBhbmQgZ2V0IHJpZ2h0IGRh
-dGEgdHJhbnNsYXRpb24uDQo+ID4+IEluZGVlZCBJIGNhbm5vdCBmaW5kIGFueSBzdGF0ZW1lbnQg
-dGhhdCBhIHN0cmVhbWlkIGNvdWxkbid0IGJlIHVzZWQNCj4gYnkNCj4gPj4gbW9yZSB0aGFuIDEg
-ZGV2aWNlIGJlaGluZyB0aGUgc2FtZSBzbW11LiBIb3dldmVyIHRoZSAyIGRldmljZXMgd291bGQN
-Cj4gYmUNCj4gPj4gYXNzb2NpYXRlZCB0byB0aGUgc2FtZSBjb250ZXh0Lg0KPiA+PiBJIHRoaW5r
-IHRoaXMga2luZCBvZiBtYXBwaW5nIHdvdWxkIGJlIHJlYWxseSBwbGF0Zm9ybSBzcGVjaWZpYyBh
-bmQNCj4gaW4NCj4gPj4gZ2VuZXJhbCBpdCBkb2VzIG5vdCBtYWtlIHNlbnNlIHRvIG1lLiB3aGF0
-IHRoZSBwb2ludCB1c2luZyB0aGUgc2FtZQ0KPiA+PiBjb250ZXh0IGZvciB0aGUgUEwzMzAgYW5k
-IGEgdmlydGlvLW5ldC1wY2kgZGV2aWNlIGZvciBpbnN0YW5jZQ0KPiA+Pj4+IE15IGZlZWxpbmcg
-aXMgaWYgd2Ugd2FudCB0byBlbmFibGUgcGxhdGZvcm0gZGV2aWNlIHN1cHBvcnQgaW4gdGhlDQo+
-ID4+Pj4gU01NVXYzDQo+ID4+Pj4gdGhpcyBzaG91bGQgd29yayBmb3IgYWxsIHBsYXRmb3JtIGRl
-dmljZXMgZG9pbmcgRE1BIGFjY2Vzc2VzIGFuZA0KPiBub3QNCj4gPj4+PiBvbmx5IGZvciB0aGlz
-IFBMMzMwLg0KPiA+Pj4gWWVzLCB0aGVzZSBwYXRjaGVzIGNvdWxkIHN1cHBvcnQgb3RoZXIgcGxh
-dGZvcm0gZGV2aWNlcyBjb25uZWN0ZWQNCj4gPj4gd2l0aCBTTU1VdjMuDQo+ID4+PiBUaGV5IG9u
-bHkgc2hvdWxkIGZvbGxvdyBQTDMzMCBleGFtcGxlIHRvIGNvbm5lY3QgdGhlaXIgbWVtb3J5DQo+
-IHJlZ2lvbg0KPiA+PiB3aXRoIFNNTVV2Mw0KPiA+Pj4gcGVyaXBoZXJhbCBJT01NVSBtZW1vcnkg
-cmVnaW9uLg0KPiA+Pj4NCj4gPj4+PiBJIGd1ZXNzIHRoaXMgc2hvdWxkIHdvcmsgd2l0aCB2aXJ0
-aW8gcGxhdGZvcm0gZGV2aWNlcyBhbmQgVkZJTw0KPiA+PiBwbGF0Zm9ybQ0KPiA+Pj4+IGRldmlj
-ZXMuIEhvdyB3b3VsZCB5b3UgZXh0ZW5kIHRoYXQgd29yayB0byB0aG9zZSBkZXZpY2VzPw0KPiA+
-Pj4gSSBkaWRuJ3QgZ2V0IHlvdXIgcG9pbnQuDQo+ID4+PiBJIHRoaW5rIHZpcnRpbyBwbGF0Zm9y
-bSBkZXZpY2Ugc2hvdWxkIGJlIExpbnV4IGtlcm5lbCBTVyBwYXJ0Lg0KPiA+Pj4gVGhlc2UgcGF0
-Y2hlcyBmaXhlZCB0aGUgSFcgcGxhdGZvcm0gZGV2aWNlcyBjb25uZWN0aW9uIHdpdGggU01NVXYz
-Lg0KPiA+Pj4gQ291bGQgeW91IGhlbHAgdG8gbGlzdCBvbmUgdmlydGlvIHBsYXRmb3JtIGRldmlj
-ZSB0aGVuIEkgY2FuIGNoZWNrPw0KPiA+PiBBZnRlciB0aGlzIHNlcmllcyB5b3Ugd291bGQgZ2V0
-IGEgc2luZ2xlIHBsYXRmb3JtIGRldmljZSBjb25uZWN0ZWQNCj4gdG8NCj4gPj4gdGhlIFNNTVUs
-IHRoZSBQTDMzMC4gV2hhdCBpcyB0aGUgYWN0dWFsIHVzZSBjYXNlPw0KPiA+IFRoZSBhY3R1YWwg
-dXNlIGNhc2UgaXMgdGhpczoNCj4gPiAxLiBXZSB3aWxsIGhhdmUgYSBTb0Mgd2hpY2ggaGFzIFNN
-TVV2MyBjb25uZWN0ZWQgd2l0aCBvdXIgb3duZWQNCj4gcGxhdGZvcm0NCj4gPiAgICBWaWRlbyBF
-bmNvZGVyL0RlY29kZXIgYW5kIG90aGVyIElQcw0KPiA+IDIuIFdlIHBsYW4gdG8gdXNlIFNNTVV2
-MyBzdGFnZSAxIGZvciBjb250aW51b3VzIG1lbW9yeSBhbGxvY2F0aW9uDQo+ID4gICAgYW5kIHN0
-YWdlIDIgZm9yIG1lbW9yeSBwcm90ZWN0aW9uDQo+ID4gMy4gV2UgYXJlIGRldmVsb3Bpbmcgb3Vy
-IG93biBJUCBRRU1VIG1vZGVscyBub3cNCj4gPiA0LiBUaGVzZSBtb2RlbHMgd2lsbCBiZSBjb25u
-ZWN0ZWQgd2l0aCBTTU1VdjMgaW4gUUVNVQ0KPiA+IDUuIFdlIHdpbGwgdXNlIHRoZSBRRU1VIGJv
-YXJkIHRvIGRldmVsb3BtZW50IElQIGRyaXZlciBhbmQgZW5zdXJlIHRoZQ0KPiBkcml2ZXINCj4g
-PiAgICBjYW4gd29yayB3ZWxsIHdpdGggTGludXggU01NVSBhbmQgSU9NTVUgZnJhbWV3b3JrDQo+
-IEkgc2VlIGFuZCBJIHVuZGVyc3RhbmQgeW91ciB1c2UgY2FzZSBmb3Igc3lzdGVtIG1vZGVsaW5n
-IHB1cnBvc2UuDQo+IA0KPiBUaGlzIHJhaXNlcyBmZXcgcXVlc3Rpb25zL2NvbW1lbnRzIHRob3Vn
-aC4NCj4gLSBzdXBwb3J0aW5nIHBsYXRmb3JtIGRldmljZSBwcm90ZWN0aW9uIGZyb20gdGhlIHZJ
-T01NVS9BUk0gbWFrZXMgc2Vuc2UNCj4gdG8gbWUgZ2xvYmFsbHkuIEJ1dCBhYm92ZSB1c2UgY2Fz
-ZSBkb2VzIG5vdCBqdXN0aWZ5ICh0byBtZSkgdGhlDQo+IGludHJvZHVjdGlvbiBvZiBQTDMzMCBp
-biBtYWNodmlydCBiZWNhdXNlIGl0IHdvdWxkIGJlIGp1c3QgZm9yIHRlc3RpbmcNCj4gcHVycG9z
-ZS4gUGV0ZXIgbWF5IHZhbGlkYXRlL2ludmFsaWRhdGUgdGhvdWdoLiBJbnN0ZWFkIEkgdGhpbmsg
-eW91DQo+IHNob3VsZCB0cnkgdG8gaWxsdXN0cmF0ZSB0aGlzIGZlYXR1cmUgd2l0aCBETUEgY2Fw
-YWJsZSBwbGF0Zm9ybSBkZXZpY2VzDQo+IHN1Y2ggdmlydGlvLW5ldCBhbmQgdmlydGlvLWJsb2Nr
-IHN5c2J1cyBkZXZpY2VzIGFzIGEgY291bnRlcnBhcnQgb2YNCj4gdGhlaXIgUENJZSBmbGF2b3Vy
-Lg0KDQpUaGFua3MgZm9yIHlvdXIgc3VnZ2VzdGlvbi4gSSB3aWxsIHRyeSB2aXJ0aW8tbmV0IGFu
-ZCB2aXJ0aW8tYmxvY2sgc3lzYnVzIA0KZGV2aWNlcyBpbiBuZXh0IHN0ZXAuDQpCdXQgSSBob3Bl
-IHRvIGtlZXAgUEwzMzAgYmVjYXVzZSBpdCdzIG5vdCBqdXN0IGZvciB0ZXN0aW5nIHB1cnBvc2Uu
-IA0KSXQncyBhIGdvb2QgZXhhbXBsZSB0byBzaG93IGhvdyB0byBjb25uZWN0IHBsYXRmb3JtIGRl
-dmljZXMgd2l0aCBTTU1VdjMgYmFzZWQNCm9uIHRoaXMgcGF0Y2guDQpJIGFzc3VtZSBvdGhlciBk
-ZXZlbG9wZXIgbWF5IGhhdmUgc2FtZSByZXF1aXJlbWVudC4NCg0KPiA+DQo+ID4+IEJ5IHRoZSB3
-YXkgd2hhdCBhYm91dCB0aGUgdmlydGlvLWlvbW11IHdoaWNoIGlzIGFsc28gc3VwcG9ydGVkIGlu
-IERUDQo+ID4+IG1vZGUgYXQgdGhlIG1vbWVudD8NCj4gPj4NCj4gPj4gQmVzaWRlcyBJIG1lYW50
-IHZpcnRpby1uZXQtcGNpIGFuZCB2aXJ0aW8tYmxvY2stcGNpIGFyZSBwcm90ZWN0ZWQgYnkNCj4g
-Pj4gdGhlDQo+ID4+IFNNTVUuIFdoYXQgZG9lcyBoYXBwZW4gd2l0aCB0aGVpciB2aXJ0aW8tbmV0
-LWRldmljZSBhbmQNCj4gPj4gdmlydGlvLWJsb2NrLWRldmljZSBzeXNidXMgZGV2aWNlIGNvdW50
-ZXJwYXJ0cz8gVGhlbiBwb3NzaWJseSB5b3UNCj4gY2FuDQo+ID4+IGFzc2lnbiBhIFZGSU8gcGxh
-dGZvcm0gZGV2aWNlLiBZb3UgbWF5IHdhbnQgdGhpcyBsYXR0ZXIgdG8gcHJvdGVjdGVkDQo+IGJ5
-DQo+ID4+IHRoZSBTTU1VLiBIb3cgd291bGQgeW91IGhhbmRsZSB0aGF0IGNhc2UgKFNNTVUgaXMg
-bm90IHlldCBpbnRlZ3JhdGVkDQo+ID4+IHdpdGggVkZJTyBidXQgdGhlIHZpcnRpby1pb21tdSBp
-cykuDQo+ID4gSSBnZXQgeW91ciBwb2ludCBidXQgSSBjYW5ub3QgZ2l2ZSB5b3UgYSBjbGVhciBh
-bnN3ZXIgbm93LiBJIGRpZG4ndA0KPiBjb25zaWRlcg0KPiA+IHZpcnRpby1pb21tdSBiZWZvcmUg
-YmVjYXVzZSBvdXIgY3VycmVudCB1c2UgY2FzZSBkb2Vzbid0IG5lZWQgdmlydGlvLQ0KPiBpb21t
-dS4NCj4gDQo+IEkgdGhpbmsgeW91IG5lZWQgdG8gaGF2ZSBjb25zaXN0ZW5jeSBpbiB0aGUgbWFj
-aHZpcnQgdG9wb2xvZ3k6IHdpdGgNCj4gY3VycmVudCBzZXJpZXMgdGhlIFBMMzMwIHdvdWxkIGJl
-IHByb3RlY3RlZCB3aXRoIHZTTU1VdjMgYW5kIG5vdCB3aXRoDQo+IHZpcnRpby1pb21tdSB3aGlj
-aCBkb2VzIG5vdCBzZWVtIGFjY2VwdGFibGUgdG8gbWUuIEVpdGhlciB3ZSBuZWVkIHRvDQo+IGRl
-dmlzZSBhIHdheSB0byBpbmRpdmlkdWFsbHkgc3BlY2lmeSB3aGljaCBzeXNidXMgZGV2aWNlIGlz
-IHByb3RlY3RlZA0KPiBhbmQgcG90ZW50aWFsbHkgYWxzbyBzcGVjaWZ5IGl0cyBzdHJlYW1pZCBv
-ciBhbGwvbm9uZSBvZiB0aGVtIGFyZS4NCj4gDQo+IFRoYW5rcw0KPiANCj4gRXJpYw0KDQpUaGFu
-a3MgZm9yIHlvdXIgc3VnZ2VzdGlvbi4gSSBjcmVhdGVkIGEgdjYgcGF0Y2ggZml4ZWQgeW91ciBv
-dGhlciBmZWVkYmFjay4NCkxldCB1cyBjb250aW51ZSB0aGUgdmlydGlvLWlvbW11IGRpc2N1c3Np
-b24gYW5kIEkgd2lsbCB0cnkgaXQgaW4gbmV4dCBzdGVwLg0KDQo+ID4NCj4gPj4gVGhhbmtzDQo+
-ID4+DQo+ID4+IEVyaWMNCj4gPj4+PiBUaGFua3MNCj4gPj4+Pg0KPiA+Pj4+IEVyaWMNCj4gPj4+
-Pj4gU2lnbmVkLW9mZi1ieTogY2h1bm1pbmcgPGNodW5taW5nLmxpQHZlcmlzaWxpY29uLmNvbT4N
-Cj4gPj4+Pj4gLS0tDQo+ID4+Pj4+ICBody9hcm0vdmlydC5jICAgICAgICAgfCA5Mg0KPiA+Pj4+
-ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0NCj4gPj4+Pj4gIGlu
-Y2x1ZGUvaHcvYXJtL3ZpcnQuaCB8ICAxICsNCj4gPj4+Pj4gIDIgZmlsZXMgY2hhbmdlZCwgOTIg
-aW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiA+Pj4+Pg0KPiA+Pj4+PiBkaWZmIC0tZ2l0
-IGEvaHcvYXJtL3ZpcnQuYyBiL2h3L2FybS92aXJ0LmMNCj4gPj4+Pj4gaW5kZXggYzNmZDMwZTA3
-MS4uODE4MGU0YTMzMSAxMDA2NDQNCj4gPj4+Pj4gLS0tIGEvaHcvYXJtL3ZpcnQuYw0KPiA+Pj4+
-PiArKysgYi9ody9hcm0vdmlydC5jDQo+ID4+Pj4+IEBAIC0xNDMsNiArMTQzLDcgQEAgc3RhdGlj
-IGNvbnN0IE1lbU1hcEVudHJ5IGJhc2VfbWVtbWFwW10gPSB7DQo+ID4+Pj4+ICAgICAgW1ZJUlRf
-R0lDX1JFRElTVF0gPSAgICAgICAgIHsgMHgwODBBMDAwMCwgMHgwMEY2MDAwMCB9LA0KPiA+Pj4+
-PiAgICAgIFtWSVJUX1VBUlRdID0gICAgICAgICAgICAgICB7IDB4MDkwMDAwMDAsIDB4MDAwMDEw
-MDAgfSwNCj4gPj4+Pj4gICAgICBbVklSVF9SVENdID0gICAgICAgICAgICAgICAgeyAweDA5MDEw
-MDAwLCAweDAwMDAxMDAwIH0sDQo+ID4+Pj4+ICsgICAgW1ZJUlRfRE1BXSA9ICAgICAgICAgICAg
-ICAgIHsgMHgwOTAxMTAwMCwgMHgwMDAwMTAwMCB9LA0KPiA+Pj4+PiAgICAgIFtWSVJUX0ZXX0NG
-R10gPSAgICAgICAgICAgICB7IDB4MDkwMjAwMDAsIDB4MDAwMDAwMTggfSwNCj4gPj4+Pj4gICAg
-ICBbVklSVF9HUElPXSA9ICAgICAgICAgICAgICAgeyAweDA5MDMwMDAwLCAweDAwMDAxMDAwIH0s
-DQo+ID4+Pj4+ICAgICAgW1ZJUlRfU0VDVVJFX1VBUlRdID0gICAgICAgIHsgMHgwOTA0MDAwMCwg
-MHgwMDAwMTAwMCB9LA0KPiA+Pj4+PiBAQCAtMTg4LDYgKzE4OSw3IEBAIHN0YXRpYyBjb25zdCBp
-bnQgYTE1aXJxbWFwW10gPSB7DQo+ID4+Pj4+ICAgICAgW1ZJUlRfR1BJT10gPSA3LA0KPiA+Pj4+
-PiAgICAgIFtWSVJUX1NFQ1VSRV9VQVJUXSA9IDgsDQo+ID4+Pj4+ICAgICAgW1ZJUlRfQUNQSV9H
-RURdID0gOSwNCj4gPj4+Pj4gKyAgICBbVklSVF9ETUFdID0gMTAsDQo+ID4+Pj4+ICAgICAgW1ZJ
-UlRfTU1JT10gPSAxNiwgLyogLi4udG8gMTYgKyBOVU1fVklSVElPX1RSQU5TUE9SVFMgLSAxICov
-DQo+ID4+Pj4+ICAgICAgW1ZJUlRfR0lDX1YyTV0gPSA0OCwgLyogLi4udG8gNDggKyBOVU1fR0lD
-VjJNX1NQSVMgLSAxICovDQo+ID4+Pj4+ICAgICAgW1ZJUlRfU01NVV0gPSA3NCwgICAgLyogLi4u
-dG8gNzQgKyBOVU1fU01NVV9JUlFTIC0gMSAqLw0KPiA+Pj4+PiBAQCAtMjA1LDcgKzIwNyw3IEBA
-IHN0YXRpYyBjb25zdCBjaGFyICp2YWxpZF9jcHVzW10gPSB7DQo+ID4+Pj4+ICB9Ow0KPiA+Pj4+
-Pg0KPiA+Pj4+PiAgc3RhdGljIGNvbnN0IHVpbnQxNl90IHNtbXV2M19zaWRtYXBbXSA9IHsNCj4g
-Pj4+Pj4gLQ0KPiA+Pj4+PiArICAgIFtWSVJUX0RNQV0gPSAxLA0KPiA+Pj4+PiAgfTsNCj4gPj4+
-Pj4NCj4gPj4+Pj4gIHN0YXRpYyBib29sIGNwdV90eXBlX3ZhbGlkKGNvbnN0IGNoYXIgKmNwdSkN
-Cj4gPj4+Pj4gQEAgLTc5Myw2ICs3OTUsOTIgQEAgc3RhdGljIHZvaWQgY3JlYXRlX3VhcnQoY29u
-c3QNCj4gVmlydE1hY2hpbmVTdGF0ZQ0KPiA+Pj4+ICp2bXMsIGludCB1YXJ0LA0KPiA+Pj4+PiAg
-ICAgIGdfZnJlZShub2RlbmFtZSk7DQo+ID4+Pj4+ICB9DQo+ID4+Pj4+DQo+ID4+Pj4+ICtzdGF0
-aWMgdm9pZCBjcmVhdGVfZG1hKGNvbnN0IFZpcnRNYWNoaW5lU3RhdGUgKnZtcykNCj4gPj4+Pj4g
-K3sNCj4gPj4+Pj4gKyAgICBpbnQgaTsNCj4gPj4+Pj4gKyAgICBjaGFyICpub2RlbmFtZTsNCj4g
-Pj4+Pj4gKyAgICBod2FkZHIgYmFzZSA9IHZtcy0+bWVtbWFwW1ZJUlRfRE1BXS5iYXNlOw0KPiA+
-Pj4+PiArICAgIGh3YWRkciBzaXplID0gdm1zLT5tZW1tYXBbVklSVF9ETUFdLnNpemU7DQo+ID4+
-Pj4+ICsgICAgaW50IGlycSA9IHZtcy0+aXJxbWFwW1ZJUlRfRE1BXTsNCj4gPj4+Pj4gKyAgICBp
-bnQgc2lkID0gdm1zLT5zaWRtYXBbVklSVF9ETUFdOw0KPiA+Pj4+PiArICAgIGNvbnN0IGNoYXIg
-Y29tcGF0W10gPSAiYXJtLHBsMzMwXDBhcm0scHJpbWVjZWxsIjsNCj4gPj4+Pj4gKyAgICBjb25z
-dCBjaGFyIGlycV9uYW1lc1tdID0NCj4gPj4+PiAiYWJvcnRcMGRtYTBcMGRtYTFcMGRtYTJcMGRt
-YTNcMGRtYTRcMGRtYTVcMGRtYTZcMGRtYTciOw0KPiA+Pj4+PiArICAgIERldmljZVN0YXRlICpk
-ZXY7DQo+ID4+Pj4+ICsgICAgTWFjaGluZVN0YXRlICptcyA9IE1BQ0hJTkUodm1zKTsNCj4gPj4+
-Pj4gKyAgICBTeXNCdXNEZXZpY2UgKmJ1c2RldjsNCj4gPj4+Pj4gKyAgICBEZXZpY2VTdGF0ZSAq
-c21tdXYzX2RldjsNCj4gPj4+Pj4gKyAgICBTTU1VU3RhdGUgKnNtbXV2M19zeXM7DQo+ID4+Pj4+
-ICsgICAgT2JqZWN0ICpzbW11djNfbWVtb3J5Ow0KPiA+Pj4+PiArDQo+ID4+Pj4+ICsgICAgZGV2
-ID0gcWRldl9uZXcoInBsMzMwIik7DQo+ID4+Pj4+ICsNCj4gPj4+Pj4gKyAgICBpZiAodm1zLT5p
-b21tdSA9PSBWSVJUX0lPTU1VX1NNTVVWMyAmJiB2bXMtPmlvbW11X3BoYW5kbGUpIHsNCj4gPj4+
-Pj4gKyAgICAgICAgc21tdXYzX2RldiA9IHZtcy0+c21tdXYzOw0KPiA+Pj4+PiArICAgICAgICBz
-bW11djNfc3lzID0gQVJNX1NNTVUoc21tdXYzX2Rldik7DQo+ID4+Pj4+ICsgICAgICAgIGdfYXV0
-b2ZyZWUgY2hhciAqbWVtbmFtZSA9IGdfc3RyZHVwX3ByaW50ZigiJXMtcGVyaS0NCj4gPj4gJWRb
-MF0iLA0KPiA+Pj4+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgc21tdXYzX3N5cy0NCj4gPj4+Pj4gbXJ0eXBlbmFtZSwNCj4gPj4+Pj4gKyAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNpZCk7DQo+ID4+
-Pj4+ICsNCj4gPj4+Pj4gKyAgICAgICAgc21tdXYzX21lbW9yeSA9DQo+ID4+IG9iamVjdF9wcm9w
-ZXJ0eV9nZXRfbGluayhPQkpFQ1Qoc21tdXYzX2RldiksDQo+ID4+Pj4+ICsgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIG1lbW5hbWUsICZlcnJvcl9hYm9ydCk7DQo+ID4+Pj4+ICsNCj4g
-Pj4+Pj4gKyAgICAgICAgb2JqZWN0X3Byb3BlcnR5X3NldF9saW5rKE9CSkVDVChkZXYpLCAibWVt
-b3J5IiwNCj4gPj4+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE9CSkVDVChz
-bW11djNfbWVtb3J5KSwNCj4gPj4+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICZlcnJvcl9mYXRhbCk7DQo+ID4+Pj4+ICsgICAgfSBlbHNlIHsNCj4gPj4+Pj4gKyAgICAgICAg
-b2JqZWN0X3Byb3BlcnR5X3NldF9saW5rKE9CSkVDVChkZXYpLCAibWVtb3J5IiwNCj4gPj4+Pj4g
-KyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIE9CSkVDVChnZXRfc3lzdGVtX21lbW9y
-eSgpKSwNCj4gPj4+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICZlcnJvcl9m
-YXRhbCk7DQo+ID4+Pj4+ICsgICAgfQ0KPiA+Pj4+PiArDQo+ID4+Pj4+ICsgICAgcWRldl9wcm9w
-X3NldF91aW50OChkZXYsICJudW1fY2hubHMiLCAgOCk7DQo+ID4+Pj4+ICsgICAgcWRldl9wcm9w
-X3NldF91aW50OChkZXYsICJudW1fcGVyaXBoX3JlcSIsICA0KTsNCj4gPj4+Pj4gKyAgICBxZGV2
-X3Byb3Bfc2V0X3VpbnQ4KGRldiwgIm51bV9ldmVudHMiLCAgMTYpOw0KPiA+Pj4+PiArICAgIHFk
-ZXZfcHJvcF9zZXRfdWludDgoZGV2LCAiZGF0YV93aWR0aCIsICA2NCk7DQo+ID4+Pj4+ICsgICAg
-cWRldl9wcm9wX3NldF91aW50OChkZXYsICJ3cl9jYXAiLCAgOCk7DQo+ID4+Pj4+ICsgICAgcWRl
-dl9wcm9wX3NldF91aW50OChkZXYsICJ3cl9xX2RlcCIsICAxNik7DQo+ID4+Pj4+ICsgICAgcWRl
-dl9wcm9wX3NldF91aW50OChkZXYsICJyZF9jYXAiLCAgOCk7DQo+ID4+Pj4+ICsgICAgcWRldl9w
-cm9wX3NldF91aW50OChkZXYsICJyZF9xX2RlcCIsICAxNik7DQo+ID4+Pj4+ICsgICAgcWRldl9w
-cm9wX3NldF91aW50MTYoZGV2LCAiZGF0YV9idWZmZXJfZGVwIiwgIDI1Nik7DQo+ID4+Pj4+ICsN
-Cj4gPj4+Pj4gKyAgICBidXNkZXYgPSBTWVNfQlVTX0RFVklDRShkZXYpOw0KPiA+Pj4+PiArICAg
-IHN5c2J1c19yZWFsaXplX2FuZF91bnJlZihidXNkZXYsICZlcnJvcl9mYXRhbCk7DQo+ID4+Pj4+
-ICsgICAgc3lzYnVzX21taW9fbWFwKGJ1c2RldiwgMCwgYmFzZSk7DQo+ID4+Pj4+ICsNCj4gPj4+
-Pj4gKyAgICBmb3IgKGkgPSAwOyBpIDwgOTsgKytpKSB7DQo+ID4+Pj4+ICsgICAgICAgIHN5c2J1
-c19jb25uZWN0X2lycShidXNkZXYsIGksIHFkZXZfZ2V0X2dwaW9faW4odm1zLT5naWMsDQo+ID4+
-IGlycQ0KPiA+Pj4+ICsgaSkpOw0KPiA+Pj4+PiArICAgIH0NCj4gPj4+Pj4gKw0KPiA+Pj4+PiAr
-ICAgIG5vZGVuYW1lID0gZ19zdHJkdXBfcHJpbnRmKCIvcGwzMzBAJSIgUFJJeDY0LCBiYXNlKTsN
-Cj4gPj4+Pj4gKyAgICBxZW11X2ZkdF9hZGRfc3Vibm9kZShtcy0+ZmR0LCBub2RlbmFtZSk7DQo+
-ID4+Pj4+ICsgICAgcWVtdV9mZHRfc2V0cHJvcChtcy0+ZmR0LCBub2RlbmFtZSwgImNvbXBhdGli
-bGUiLCBjb21wYXQsDQo+ID4+Pj4gc2l6ZW9mKGNvbXBhdCkpOw0KPiA+Pj4+PiArICAgIHFlbXVf
-ZmR0X3NldHByb3Bfc2l6ZWRfY2VsbHMobXMtPmZkdCwgbm9kZW5hbWUsICJyZWciLA0KPiA+Pj4+
-PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgMiwgYmFzZSwgMiwgc2l6ZSk7DQo+
-ID4+Pj4+ICsgICAgcWVtdV9mZHRfc2V0cHJvcF9jZWxscyhtcy0+ZmR0LCBub2RlbmFtZSwgImlu
-dGVycnVwdHMiLA0KPiA+Pj4+PiArICAgICAgICAgICAgICAgICAgICBHSUNfRkRUX0lSUV9UWVBF
-X1NQSSwgaXJxLA0KPiA+Pj4+IEdJQ19GRFRfSVJRX0ZMQUdTX0xFVkVMX0hJLA0KPiA+Pj4+PiAr
-ICAgICAgICAgICAgICAgICAgICBHSUNfRkRUX0lSUV9UWVBFX1NQSSwgaXJxICsgMSwNCj4gPj4+
-PiBHSUNfRkRUX0lSUV9GTEFHU19MRVZFTF9ISSwNCj4gPj4+Pj4gKyAgICAgICAgICAgICAgICAg
-ICAgR0lDX0ZEVF9JUlFfVFlQRV9TUEksIGlycSArIDIsDQo+ID4+Pj4gR0lDX0ZEVF9JUlFfRkxB
-R1NfTEVWRUxfSEksDQo+ID4+Pj4+ICsgICAgICAgICAgICAgICAgICAgIEdJQ19GRFRfSVJRX1RZ
-UEVfU1BJLCBpcnEgKyAzLA0KPiA+Pj4+IEdJQ19GRFRfSVJRX0ZMQUdTX0xFVkVMX0hJLA0KPiA+
-Pj4+PiArICAgICAgICAgICAgICAgICAgICBHSUNfRkRUX0lSUV9UWVBFX1NQSSwgaXJxICsgNCwN
-Cj4gPj4+PiBHSUNfRkRUX0lSUV9GTEFHU19MRVZFTF9ISSwNCj4gPj4+Pj4gKyAgICAgICAgICAg
-ICAgICAgICAgR0lDX0ZEVF9JUlFfVFlQRV9TUEksIGlycSArIDUsDQo+ID4+Pj4gR0lDX0ZEVF9J
-UlFfRkxBR1NfTEVWRUxfSEksDQo+ID4+Pj4+ICsgICAgICAgICAgICAgICAgICAgIEdJQ19GRFRf
-SVJRX1RZUEVfU1BJLCBpcnEgKyA2LA0KPiA+Pj4+IEdJQ19GRFRfSVJRX0ZMQUdTX0xFVkVMX0hJ
-LA0KPiA+Pj4+PiArICAgICAgICAgICAgICAgICAgICBHSUNfRkRUX0lSUV9UWVBFX1NQSSwgaXJx
-ICsgNywNCj4gPj4+PiBHSUNfRkRUX0lSUV9GTEFHU19MRVZFTF9ISSwNCj4gPj4+Pj4gKyAgICAg
-ICAgICAgICAgICAgICAgR0lDX0ZEVF9JUlFfVFlQRV9TUEksIGlycSArIDgsDQo+ID4+Pj4gR0lD
-X0ZEVF9JUlFfRkxBR1NfTEVWRUxfSEkpOw0KPiA+Pj4+PiArDQo+ID4+Pj4+ICsgICAgcWVtdV9m
-ZHRfc2V0cHJvcChtcy0+ZmR0LCBub2RlbmFtZSwgImludGVycnVwdC1uYW1lcyIsDQo+ID4+Pj4g
-aXJxX25hbWVzLA0KPiA+Pj4+PiArICAgICAgICAgICAgICAgICAgICAgc2l6ZW9mKGlycV9uYW1l
-cykpOw0KPiA+Pj4+PiArDQo+ID4+Pj4+ICsgICAgcWVtdV9mZHRfc2V0cHJvcF9jZWxsKG1zLT5m
-ZHQsIG5vZGVuYW1lLCAiY2xvY2tzIiwgdm1zLQ0KPiA+Pj4+PiBjbG9ja19waGFuZGxlKTsNCj4g
-Pj4+Pj4gKyAgICBxZW11X2ZkdF9zZXRwcm9wX3N0cmluZyhtcy0+ZmR0LCBub2RlbmFtZSwgImNs
-b2NrLW5hbWVzIiwNCj4gPj4+PiAiYXBiX3BjbGsiKTsNCj4gPj4+Pj4gKw0KPiA+Pj4+PiArICAg
-IGlmICh2bXMtPmlvbW11ID09IFZJUlRfSU9NTVVfU01NVVYzICYmIHZtcy0+aW9tbXVfcGhhbmRs
-ZSkgew0KPiA+Pj4+PiArICAgICAgICBxZW11X2ZkdF9zZXRwcm9wX2NlbGxzKG1zLT5mZHQsIG5v
-ZGVuYW1lLCAiaW9tbXVzIiwNCj4gPj4+Pj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICB2bXMtPmlvbW11X3BoYW5kbGUsIHNpZCk7DQo+ID4+Pj4+ICsgICAgICAgIHFlbXVfZmR0X3Nl
-dHByb3AobXMtPmZkdCwgbm9kZW5hbWUsICJkbWEtY29oZXJlbnQiLA0KPiBOVUxMLA0KPiA+Pj4+
-IDApOw0KPiA+Pj4+PiArICAgIH0NCj4gPj4+Pj4gKw0KPiA+Pj4+PiArICAgIGdfZnJlZShub2Rl
-bmFtZSk7DQo+ID4+Pj4+ICt9DQo+ID4+Pj4+ICBzdGF0aWMgdm9pZCBjcmVhdGVfcnRjKGNvbnN0
-IFZpcnRNYWNoaW5lU3RhdGUgKnZtcykNCj4gPj4+Pj4gIHsNCj4gPj4+Pj4gICAgICBjaGFyICpu
-b2RlbmFtZTsNCj4gPj4+Pj4gQEAgLTIwODEsNiArMjE2OSw4IEBAIHN0YXRpYyB2b2lkIG1hY2h2
-aXJ0X2luaXQoTWFjaGluZVN0YXRlDQo+ID4+Pj4gKm1hY2hpbmUpDQo+ID4+Pj4+ICAgICAgY3Jl
-YXRlX3BjaWUodm1zKTsNCj4gPj4+Pj4NCj4gPj4+Pj4gKyAgICBjcmVhdGVfZG1hKHZtcyk7DQo+
-ID4+Pj4+ICsNCj4gPj4+Pj4gICAgICBpZiAoaGFzX2dlZCAmJiBhYXJjaDY0ICYmIGZpcm13YXJl
-X2xvYWRlZCAmJg0KPiA+Pj4+IHZpcnRfaXNfYWNwaV9lbmFibGVkKHZtcykpIHsNCj4gPj4+Pj4g
-ICAgICAgICAgdm1zLT5hY3BpX2RldiA9IGNyZWF0ZV9hY3BpX2dlZCh2bXMpOw0KPiA+Pj4+PiAg
-ICAgIH0gZWxzZSB7DQo+ID4+Pj4+IGRpZmYgLS1naXQgYS9pbmNsdWRlL2h3L2FybS92aXJ0Lmgg
-Yi9pbmNsdWRlL2h3L2FybS92aXJ0LmgNCj4gPj4+Pj4gaW5kZXggZDM0MDJhNDNkZC4uZjMwN2Iy
-NjU4NyAxMDA2NDQNCj4gPj4+Pj4gLS0tIGEvaW5jbHVkZS9ody9hcm0vdmlydC5oDQo+ID4+Pj4+
-ICsrKyBiL2luY2x1ZGUvaHcvYXJtL3ZpcnQuaA0KPiA+Pj4+PiBAQCAtNzIsNiArNzIsNyBAQCBl
-bnVtIHsNCj4gPj4+Pj4gICAgICBWSVJUX1VBUlQsDQo+ID4+Pj4+ICAgICAgVklSVF9NTUlPLA0K
-PiA+Pj4+PiAgICAgIFZJUlRfUlRDLA0KPiA+Pj4+PiArICAgIFZJUlRfRE1BLA0KPiA+Pj4+PiAg
-ICAgIFZJUlRfRldfQ0ZHLA0KPiA+Pj4+PiAgICAgIFZJUlRfUENJRSwNCj4gPj4+Pj4gICAgICBW
-SVJUX1BDSUVfTU1JTywNCg0K
+Thanks for the feedback Eric!
+
+On Wed, Sep 1, 2021 at 5:54 PM Eric Blake <eblake@redhat.com> wrote:
+>
+> On Tue, Aug 31, 2021 at 08:02:37AM -0300, Leonardo Bras wrote:
+> > Some syscalls used for writting, such as sendmsg(), accept flags that
+> > can modify their behavior, even allowing the usage of features such as
+> > MSG_ZEROCOPY.
+> >
+> > Change qio_channel_write*() interface to allow passing down flags,
+> > allowing a more flexible use of IOChannel.
+> >
+> > At first, it's use is enabled for QIOChannelSocket, but can be easily
+> > extended to any other QIOChannel implementation.
+>
+> As a followup to this patch, I wonder if we can also get performance
+> improvements by implementing MSG_MORE, and using that in preference to
+> corking/uncorking to better indicate that back-to-back short messages
+> may behave better when grouped together over the wire.  At least the
+> NBD code could make use of it (going off of my experience with the
+> libnbd project demonstrating a performance boost when we added
+> MSG_MORE support there).
+
+That's interesting!
+We could use this patchset for testing that out, as I believe it's easy
+to add those flags to the sendmsg() we want to have it enabled.
+
+>
+> >
+> > Signed-off-by: Leonardo Bras <leobras@redhat.com>
+> > ---
+> >  chardev/char-io.c                   |  2 +-
+> >  hw/remote/mpqemu-link.c             |  2 +-
+> >  include/io/channel.h                | 56 ++++++++++++++++++++---------
+> >  io/channel-buffer.c                 |  1 +
+> >  io/channel-command.c                |  1 +
+> >  io/channel-file.c                   |  1 +
+> >  io/channel-socket.c                 |  4 ++-
+> >  io/channel-tls.c                    |  1 +
+> >  io/channel-websock.c                |  1 +
+> >  io/channel.c                        | 53 ++++++++++++++-------------
+> >  migration/rdma.c                    |  1 +
+> >  scsi/pr-manager-helper.c            |  2 +-
+> >  tests/unit/test-io-channel-socket.c |  1 +
+> >  13 files changed, 81 insertions(+), 45 deletions(-)
+> >
+> > diff --git a/chardev/char-io.c b/chardev/char-io.c
+> > index 8ced184160..4ea7b1ee2a 100644
+> > --- a/chardev/char-io.c
+> > +++ b/chardev/char-io.c
+> > @@ -122,7 +122,7 @@ int io_channel_send_full(QIOChannel *ioc,
+> >
+> >          ret = qio_channel_writev_full(
+> >              ioc, &iov, 1,
+> > -            fds, nfds, NULL);
+> > +            fds, 0, nfds, NULL);
+>
+> 0 before nfds here...
+
+Good catch! I will fix that for v2!
+
+>
+> >          if (ret == QIO_CHANNEL_ERR_BLOCK) {
+> >              if (offset) {
+> >                  return offset;
+> > diff --git a/hw/remote/mpqemu-link.c b/hw/remote/mpqemu-link.c
+> > index 7e841820e5..0d13321ef0 100644
+> > --- a/hw/remote/mpqemu-link.c
+> > +++ b/hw/remote/mpqemu-link.c
+> > @@ -69,7 +69,7 @@ bool mpqemu_msg_send(MPQemuMsg *msg, QIOChannel *ioc, Error **errp)
+> >      }
+> >
+> >      if (!qio_channel_writev_full_all(ioc, send, G_N_ELEMENTS(send),
+> > -                                    fds, nfds, errp)) {
+> > +                                     fds, nfds, 0, errp)) {
+>
+> Thanks for fixing the broken indentation.
+
+I kept questioning myself if I was breaking something here :)
+
+>
+> ...but after nfds here, so one is wrong; up to this point in a linear
+> review, I can't tell which was intended...
+>
+> > +++ b/include/io/channel.h
+> > @@ -104,6 +104,7 @@ struct QIOChannelClass {
+> >                           size_t niov,
+> >                           int *fds,
+> >                           size_t nfds,
+> > +                         int flags,
+> >                           Error **errp);
+>
+> ...and finally I see that in general, you wanted to add the argument
+> after.  Looks like the change to char-io.c is buggy.
+
+Yeap!
+
+>
+> (You can use scripts/git.orderfile as a way to force your patch to
+> list the .h file first, to make it easier for linear review).
+
+Nice tip! just added to my qemu gitconfig :)
+
+>
+> >      ssize_t (*io_readv)(QIOChannel *ioc,
+> >                          const struct iovec *iov,
+> > @@ -260,6 +261,7 @@ ssize_t qio_channel_writev_full(QIOChannel *ioc,
+> >                                  size_t niov,
+> >                                  int *fds,
+> >                                  size_t nfds,
+> > +                                int flags,
+> >                                  Error **errp);
+> >
+> >  /**
+> > @@ -325,6 +327,7 @@ int qio_channel_readv_all(QIOChannel *ioc,
+> >   * @ioc: the channel object
+> >   * @iov: the array of memory regions to write data from
+> >   * @niov: the length of the @iov array
+> > + * @flags: optional sending flags
+> >   * @errp: pointer to a NULL-initialized error object
+> >   *
+> >   * Write data to the IO channel, reading it from the
+> > @@ -339,10 +342,14 @@ int qio_channel_readv_all(QIOChannel *ioc,
+> >   *
+> >   * Returns: 0 if all bytes were written, or -1 on error
+> >   */
+> > -int qio_channel_writev_all(QIOChannel *ioc,
+> > -                           const struct iovec *iov,
+> > -                           size_t niov,
+> > -                           Error **erp);
+> > +int qio_channel_writev_all_flags(QIOChannel *ioc,
+> > +                                 const struct iovec *iov,
+> > +                                 size_t niov,
+> > +                                 int flags,
+> > +                                 Error **errp);
+>
+> You changed the function name here, but not in the comment beforehand.
+>
+
+Will fix this for v2, thanks !
+
+> > +
+> > +#define qio_channel_writev_all(ioc, iov, niov, errp) \
+> > +    qio_channel_writev_all_flags(ioc, iov, niov, 0, errp)
+>
+> In most cases, you were merely adding a new function to minimize churn
+> to existing callers while making the old name a macro,...
+>
+> > @@ -853,6 +876,7 @@ int qio_channel_writev_full_all(QIOChannel *ioc,
+> >                                  const struct iovec *iov,
+> >                                  size_t niov,
+> >                                  int *fds, size_t nfds,
+> > +                                int flags,
+> >                                  Error **errp);
+>
+> ...but this one you changed in-place.  Any reason?  It might be nice
+> to mention how you chose which functions to wrap (to minimize churn to
+> existing clients) vs. modify signatures.
+
+It's the first one I did change, TBH.
+It just had a few uses. mostly in the same file scope, and a single
+use on mpqemu-link.c,
+so I thought it would be ok to just change it.
+
+But yeah, it makes sense to also add a macro to this one as well, and
+create another function to keep them all looking the same.
+
+>
+> >
+> >  #endif /* QIO_CHANNEL_H */
+> > diff --git a/io/channel-buffer.c b/io/channel-buffer.c
+> > index baa4e2b089..bf52011be2 100644
+> > --- a/io/channel-buffer.c
+> > +++ b/io/channel-buffer.c
+> > @@ -81,6 +81,7 @@ static ssize_t qio_channel_buffer_writev(QIOChannel *ioc,
+> >                                           size_t niov,
+> >                                           int *fds,
+> >                                           size_t nfds,
+> > +                                         int flags,
+> >                                           Error **errp)
+> >  {
+> >      QIOChannelBuffer *bioc = QIO_CHANNEL_BUFFER(ioc);
+>
+> Would it be wise to check that flags only contains values we can honor
+> in this (and all other) implementations of qio backends?  Do we need
+> some way for a backend to advertise to the core qio code which flags
+> it is willing to accept?
+
+That's a good idea, maybe we can do as you suggest below, choose a set of
+features we are willing to support and then translate it depending on the
+implementation. Then this would only be testing for a mask.
+
+>
+> > +++ b/io/channel-socket.c
+> > @@ -525,6 +525,7 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+> >                                           size_t niov,
+> >                                           int *fds,
+> >                                           size_t nfds,
+> > +                                         int flags,
+> >                                           Error **errp)
+> >  {
+> >      QIOChannelSocket *sioc = QIO_CHANNEL_SOCKET(ioc);
+> > @@ -558,7 +559,7 @@ static ssize_t qio_channel_socket_writev(QIOChannel *ioc,
+> >      }
+> >
+> >   retry:
+> > -    ret = sendmsg(sioc->fd, &msg, 0);
+> > +    ret = sendmsg(sioc->fd, &msg, flags);
+>
+> Because of this line, we are forcing our use of flags to be exactly
+> the same set of MSG_* flags understood by sendmsg(), which feels a bit
+> fragile.  Wouldn't it be safer to define our own set of QIO_MSG_
+> flags, and map those into whatever flag values the underlying backends
+> can support?  After all, one thing I learned on libnbd is that
+> MSG_MORE is not universally portable, but the goal of qio is to
+> abstract away things so that the rest of the code doesn't have to do
+> #ifdef tests everywhere, but instead let the qio code deal with it
+> (whether to ignore an unsupported flag because it is only an
+> optimization hint, or to return an error because we depend on the
+> behavior change the flag would cause if supported, or...).  And that
+> goes back to my question of whether backends should have a way to
+> inform the qio core which flags they can support.
+
+I think you are correct and  having our own QIO_MSG_* would make
+sense here. This could allow us to filter incorrect flags easily, and also
+have well documented what each implementation supports, by their own
+masks.
+
+Thanks!
+
+Leonardo Bras
+
+>
+> --
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3266
+> Virtualization:  qemu.org | libvirt.org
+>
+
 
