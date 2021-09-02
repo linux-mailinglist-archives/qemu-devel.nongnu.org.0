@@ -2,90 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30AF83FEE6A
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:09:06 +0200 (CEST)
-Received: from localhost ([::1]:47956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B12913FEEBA
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:34:43 +0200 (CEST)
+Received: from localhost ([::1]:34758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLmSn-0002fr-7O
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:09:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39840)
+	id 1mLmra-0000tv-Ms
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:34:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1mLmJp-0003Ea-AU
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:59:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55456)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mLmTa-0006WB-B6
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:09:54 -0400
+Received: from 1.mo52.mail-out.ovh.net ([178.32.96.117]:42530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1mLmJn-0008Tv-74
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:59:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630587586;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AujG2AosQEjNAAL5/EBUtj+phujArHcpCPX16gbG9lM=;
- b=YNU/OyUxFz9+0jGo54X9jQGhOYGDjbOo6I56zqZVXlIivU6xOjoEjhomdIDuF56qdL+xUP
- 1d6qz/kJ7qK7z3yk9SkjyfrXI/lX590k4BeEipDr33kW7QyXW5ucJBMfhZL0/CpLs5wpNm
- 6Mgfolbzd0BmBrzi3GJjwijhC+99yXA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-0DtC9icxPSGsWrBWX5NCIA-1; Thu, 02 Sep 2021 08:59:44 -0400
-X-MC-Unique: 0DtC9icxPSGsWrBWX5NCIA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- c2-20020a7bc8420000b0290238db573ab7so968810wml.5
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 05:59:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=AujG2AosQEjNAAL5/EBUtj+phujArHcpCPX16gbG9lM=;
- b=rz/7m6ghISGIvgRUmGkMZNyDeQ8zN1qPrMdPCjB3MQk1PS1mGT2RntfsDtZoeZ97Mv
- mBdkaHWtlso16kPnF8iXyuINwBkEwivgrRW+B60ckDTQm6fAA9ZsIExmWs5BV8DeSO19
- ftEuZZ/nj+5qqLetTe0DOG/pkNeB1SkzJRJowxKE9/2PKLck/Eoa7jU2JZcegyBsMH1D
- SRatDaNvUkELYh4cwmRJzoWY/YCgltnli9vH78NsLlngXspQ1AH0/8/nwHra6ViS8JMf
- QfzVy9nqmogFqzIxdHXok0qy5HzFLCfoQasby7nSfG7vZJtNg22DIt3mvDOm5SUm9OK+
- lggw==
-X-Gm-Message-State: AOAM5327yvfLQSSQyPjOkDMrHyCzK54ua0wYGdfkjeffZhJW2RTibRCc
- UBz3XwKcofMp9qxEqg+ftY0uWZICNBsFvXJfGZ1VSIPrgScRyLgPCmLWhI4B6/tWdlRRis6SYGE
- V/80GL3TsxI4IwtM=
-X-Received: by 2002:adf:f884:: with SMTP id u4mr3481156wrp.411.1630587582924; 
- Thu, 02 Sep 2021 05:59:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxb+Zr2GRAwcuyx2sEYaWjZPoO6f5NYPEPPIVLU40PyXUHaJv6UTa7MVgYs+4hWqmCxYawcBA==
-X-Received: by 2002:adf:f884:: with SMTP id u4mr3481125wrp.411.1630587582658; 
- Thu, 02 Sep 2021 05:59:42 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id q14sm1791556wrc.31.2021.09.02.05.59.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Sep 2021 05:59:42 -0700 (PDT)
-Subject: Re: [PATCH v2 06/35] acpi: build_tpm2: use
- acpi_init_table()/acpi_table_composed() instead of build_header()
-To: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org
-References: <20210708154617.1538485-1-imammedo@redhat.com>
- <20210708154617.1538485-7-imammedo@redhat.com>
-From: Eric Auger <eauger@redhat.com>
-Message-ID: <e6b532c0-9094-220d-ff7d-4732833ec6fc@redhat.com>
-Date: Thu, 2 Sep 2021 14:59:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mLmTP-0001sV-IA
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:09:52 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.48])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id F1B8B295DFF;
+ Thu,  2 Sep 2021 15:09:31 +0200 (CEST)
+Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Thu, 2 Sep
+ 2021 15:09:30 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G0043a54f248-b5cc-4643-a9d0-950a90857438,
+ 0F69C8711EE098B745CC44F7BEC1CAFBB1DDDEDC) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
+Subject: [PATCH v2 00/20] ppc/pnv: Extend the powernv10 machine
+Date: Thu, 2 Sep 2021 15:09:08 +0200
+Message-ID: <20210902130928.528803-1-clg@kaod.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <20210708154617.1538485-7-imammedo@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eauger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eauger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.225, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 116f98ff-1d20-4301-90d9-98170d628d98
+X-Ovh-Tracer-Id: 14774903004202699683
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddvhedgiedtucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffogggtgfhisehtkeertdertdejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedvuedtvdeikeekuefhkedujeejgffggffhtefglefgveevfeeghfdvgedtleevnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
+ helo=1.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,63 +64,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Berger <stefanb@linux.ibm.com>, mst@redhat.com,
- stefanb@linux.vnet.ibm.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Igor,
+Hi,
 
-On 7/8/21 5:45 PM, Igor Mammedov wrote:
-> it replaces error-prone pointer arithmetic for build_header() API,
-> with 2 calls to start and finish table creation,
-> which hides offsets magic from API user.
-> 
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Tested-by: Stefan Berger <stefanb@linux.ibm.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+This series adds the minimum set of models (XIVE2, PHB5) to boot a
+baremetal POWER10 machine using the OpenPOWER firmware images.
 
-Eric
+The major change is the support for the interrupt controller of the
+POWER10 processor. XIVE2 is very much like XIVE but the register
+interface, the different MMIO regions, the XIVE internal descriptors
+have gone through a major cleanup. It was easier to duplicate the
+models then to try to adapt the current models. XIVE2 adds some new
+set of features. Not all are modeled here but we add the
+"Address-based trigger" mode which is activated by default on the
+PHB5. When using ABT, the PHB5 offloads all interrupt management on
+the IC, this to improve latency.
 
-> ---
-> CC: stefanb@linux.vnet.ibm.com
-> ---
->  hw/acpi/aml-build.c | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
-> 
-> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> index 176d086b25..057c64fb48 100644
-> --- a/hw/acpi/aml-build.c
-> +++ b/hw/acpi/aml-build.c
-> @@ -2103,13 +2103,14 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
->                  const char *oem_id, const char *oem_table_id)
->  {
->      uint8_t start_method_params[12] = {};
-> -    unsigned log_addr_offset, tpm2_start;
-> +    unsigned log_addr_offset;
->      uint64_t control_area_start_address;
->      TPMIf *tpmif = tpm_find();
->      uint32_t start_method;
-> +    AcpiTable table = { .sig = "TPM2", .rev = 4,
-> +                        .oem_id = oem_id, .oem_table_id = oem_table_id };
->  
-> -    tpm2_start = table_data->len;
-> -    acpi_data_push(table_data, sizeof(AcpiTableHeader));
-> +    acpi_init_table(&table, table_data);
->  
->      /* Platform Class */
->      build_append_int_noprefix(table_data, TPM2_ACPI_CLASS_CLIENT, 2);
-> @@ -2147,9 +2148,7 @@ void build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog,
->      bios_linker_loader_add_pointer(linker, ACPI_BUILD_TABLE_FILE,
->                                     log_addr_offset, 8,
->                                     ACPI_BUILD_TPMLOG_FILE, 0);
-> -    build_header(linker, table_data,
-> -                 (void *)(table_data->data + tpm2_start),
-> -                 "TPM2", table_data->len - tpm2_start, 4, oem_id, oem_table_id);
-> +    acpi_table_composed(linker, &table);
->  }
->  #endif
->  
-> 
+Thanks,
+
+C.
+
+Changes in v2:
+
+  - Most comments on v1 have been addressed independently and merged
+    in ppc-for-6.2.
+
+Cédric Le Goater (20):
+  docs/system: ppc: Update the URL for OpenPOWER firmware images
+  ppc/pnv: Add an assert when calculating the RAM distribution on chips
+  ppc/xive2: Introduce a XIVE2 core framework
+  ppc/xive2: Introduce a presenter matching routine
+  ppc/pnv: Add a XIVE2 controller to the POWER10 chip
+  ppc/pnv: Add a OCC model for POWER10
+  ppc/pnv: Add POWER10 quads
+  ppc/pnv: Add model for POWER10 PHB5 PCIe Host bridge
+  ppc/pnv: Add a HOMER model to POWER10
+  ppc/psi: Add support for StoreEOI and 64k ESB pages (POWER10)
+  ppc/xive2: Add support for notification injection on ESB pages
+  ppc/xive: Add support for PQ state bits offload
+  ppc/pnv: Add support for PQ offload on PHB5
+  ppc/pnv: Add support for PHB5 "Address-based trigger" mode
+  pnv/xive2: Introduce new capability bits
+  ppc/pnv: add XIVE Gen2 TIMA support
+  pnv/xive2: Add support XIVE2 P9-compat mode (or Gen1)
+  xive2: Add a get_config() handler for the router configuration
+  pnv/xive2: Add support for automatic save&restore
+  pnv/xive2: Add support for 8bits thread id
+
+ docs/system/ppc/powernv.rst         |    3 +-
+ hw/intc/pnv_xive2_regs.h            |  442 ++++++
+ include/hw/pci-host/pnv_phb4.h      |   11 +
+ include/hw/pci-host/pnv_phb4_regs.h |    3 +
+ include/hw/ppc/pnv.h                |   39 +
+ include/hw/ppc/pnv_homer.h          |    3 +
+ include/hw/ppc/pnv_occ.h            |    2 +
+ include/hw/ppc/pnv_xive.h           |   71 +
+ include/hw/ppc/pnv_xscom.h          |   15 +
+ include/hw/ppc/xive.h               |   10 +-
+ include/hw/ppc/xive2.h              |  109 ++
+ include/hw/ppc/xive2_regs.h         |  210 +++
+ hw/intc/pnv_xive.c                  |   37 +-
+ hw/intc/pnv_xive2.c                 | 2127 +++++++++++++++++++++++++++
+ hw/intc/spapr_xive.c                |   25 +
+ hw/intc/xive.c                      |   77 +-
+ hw/intc/xive2.c                     | 1017 +++++++++++++
+ hw/pci-host/pnv_phb4.c              |   87 +-
+ hw/pci-host/pnv_phb4_pec.c          |   44 +
+ hw/ppc/pnv.c                        |  267 +++-
+ hw/ppc/pnv_homer.c                  |   64 +
+ hw/ppc/pnv_occ.c                    |   16 +
+ hw/ppc/pnv_psi.c                    |   38 +-
+ hw/intc/meson.build                 |    4 +-
+ hw/pci-host/trace-events            |    2 +
+ 25 files changed, 4680 insertions(+), 43 deletions(-)
+ create mode 100644 hw/intc/pnv_xive2_regs.h
+ create mode 100644 include/hw/ppc/xive2.h
+ create mode 100644 include/hw/ppc/xive2_regs.h
+ create mode 100644 hw/intc/pnv_xive2.c
+ create mode 100644 hw/intc/xive2.c
+
+-- 
+2.31.1
 
 
