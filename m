@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94D83FF80E
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 01:51:12 +0200 (CEST)
-Received: from localhost ([::1]:45368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C7AA3FF827
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 01:58:12 +0200 (CEST)
+Received: from localhost ([::1]:36566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLwUB-0001Ct-VT
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 19:51:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58572)
+	id 1mLwax-0005qO-GZ
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 19:58:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwR0-0006Sp-Nr
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:47:54 -0400
-Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:43805)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwR1-0006W2-MK
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:47:55 -0400
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:33450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwQy-0002sC-NR
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:47:54 -0400
-Received: by mail-io1-xd29.google.com with SMTP id n24so4706595ion.10
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwQy-0002tD-Fi
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:47:55 -0400
+Received: by mail-io1-xd2e.google.com with SMTP id f6so4773079iox.0
  for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 16:47:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aHS6Rdb0mnIzaMMDe+TiCha8i0FkDadRF9jxmF4Q8IQ=;
- b=rqe5GrB07n12rj+WIRNC4a9i8vX/oDoaoc5kvxWR40CHnbLAGnli3pcJBUaV+pKL6r
- rOeK8ko7KJjqdYF9rcQbxiIt2RHEgXrqK6lc7NeOO+5cfvFGxlPoiw558HqLZ4sss8nQ
- loOOsYzB54IHNYbjmN6HDRExGvx0QGImfZeaEmwUoLUjk2cEm7b32bC0n71zR4N7zv1e
- tRXPrAFDQYzB/tIY9iUMyhUuhtZ1FMU4dnEoZs9Gc4rIFK+VkDbVL2V2kvrEZE6k517r
- fUY1hd87t8yM8LTxWWFsfNN1m9+mCHYZLGEjGmjwtCy9bc2uH/0yxGV4ksMX3iP+vFMs
- aBZg==
+ bh=ylt7WV1TVCXXr9QQoMDNZUNuolzJegHkE/e8RkVXe1g=;
+ b=MU5fcEVyyt5uitzwvPtBFo/P18dyH3fCpaKxUJcDN2uwFIyQTv6ERwbAtUqUUb7OBv
+ Gi9XkoH35194A1APMQCptn7LcmQnvVmHOiPwgbvE7RFxmXONI+SpGqtm3nSgBiMkDE95
+ XWV5vK16va7FkzaZtiXztvGUXkTjFgHxUcjLa6eSXQ/Me71yCmn7APWRm2IWz3C6KnIS
+ a/NlqPfjdSGCLvg9E55hcfscxdXS2xEM/CUO7u2ZjU95u46pC+0wcBcDyP+/iLKiBM5T
+ qtQo/i4URE5MJuDtVpwfBDzBaybAYI8lmFqyCM/IypQYPyxuGMIcLPIexGUPL9OSrGXR
+ k15g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aHS6Rdb0mnIzaMMDe+TiCha8i0FkDadRF9jxmF4Q8IQ=;
- b=mli83b1pm6HVetxnwoXtmMYow8rqqpIWl5gw74V3v481XwFuhWQvbEKYBy1hQkTo6V
- JHUVcmLHdxiWss/G07N0vWhplsDs+1nAHguJysBZ1YNrP4U+kShGCOlWx5WDa16Kh/pT
- lOplU8hqDMI0ZqMdzmiYQFtNljkzlnNdGekWnj3oi3Vr1n2jo8ehAE36QcsobV+X3flO
- hy/HRKXMD3V5XUqErNX0u98ndemB6J4wScC3bdnGMir1EJYsd+DxxDhUg/JZfOq9fF/z
- 76VExKoIMUffH0DyIiuGcB/PC1zZT+gIMlRcEgfGdV+qN7NlM8hO3okiZ3i0Cwl2qolh
- f/VQ==
-X-Gm-Message-State: AOAM532gStHzZAU0jONqRiOuWOB6X2gyGfnAvJRQazpIQGQOJGV7z3sS
- pnf+kBo49SObF9wlelHn272YlvpgI6TfQQ==
-X-Google-Smtp-Source: ABdhPJwq6rbCv+DgwLMRPS28wZ1uEAK1v3iuLmcZD1uDRbkveYkPKdIqrOQjP/oAUCETzoJFX0RE7g==
-X-Received: by 2002:a5e:c802:: with SMTP id y2mr732225iol.162.1630626470303;
- Thu, 02 Sep 2021 16:47:50 -0700 (PDT)
+ bh=ylt7WV1TVCXXr9QQoMDNZUNuolzJegHkE/e8RkVXe1g=;
+ b=ZA2qzf0vebIsB0BBzf9xlubJvjLtJj8nFdGbElRwSTY9lfFT8NPGJsd2LhTIGmrMUX
+ 7R1/ryUroM8ngz+dqQaUbd4vSwsY/6CiLe/1+3FPp5Dz3q2Hs61BfF7bFmuEhgg5emLy
+ +FHApNIjCw8SkNWwsdVx8u9MaqeJxwyWDbSEO+4v9KMrGibR6t+TZjCKUSwiVys3T3zx
+ rRearCaC+VIQtzHFmJwTUdAC1JLgIHpCW8kr6ozSswyiR/BBTvb9nmcqU3i97wOQV63/
+ pnDE8Xq/3TMj3Oe+4FXTVPExDKI69yvgBmnEP9dsHZ/EhaKjLo9YnhQQE4O5FXzOrMGr
+ JlDg==
+X-Gm-Message-State: AOAM530XFbL51n2QQKXAbmK4To2eFjlOxI3vIRWhI+/M6kuTGktUxzBv
+ 5DeqiD8sRCEsKphHarRvagRzbTU53kC06A==
+X-Google-Smtp-Source: ABdhPJzjhj6tzYunUKZuQDZjbnhXP6dkgPOrQ2zFS5IfkuOboOB3eXfYm097XY7veHYELDe891dqQA==
+X-Received: by 2002:a6b:710f:: with SMTP id q15mr739800iog.77.1630626471168;
+ Thu, 02 Sep 2021 16:47:51 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id u10sm1740502ilg.15.2021.09.02.16.47.49
+ by smtp.gmail.com with ESMTPSA id u10sm1740502ilg.15.2021.09.02.16.47.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Sep 2021 16:47:49 -0700 (PDT)
+ Thu, 02 Sep 2021 16:47:50 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/43] bsd-user: Remove all non-x86 code from elfload.c
-Date: Thu,  2 Sep 2021 17:46:52 -0600
-Message-Id: <20210902234729.76141-7-imp@bsdimp.com>
+Subject: [PATCH v3 07/43] bsd-user: move arch specific defines out of elfload.c
+Date: Thu,  2 Sep 2021 17:46:53 -0600
+Message-Id: <20210902234729.76141-8-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210902234729.76141-1-imp@bsdimp.com>
 References: <20210902234729.76141-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d29;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd29.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd2e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,402 +88,287 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@bsdimp.com>
 
-bsd-user only builds x86 at the moment. Remove all non x86 code from
-elfload.c. We'll move the x86 code to {i386,x86_64}/target_arch_elf.h
-and bring it that support code from the forked bsd-user when the time
-comes.
+Move the architecture specific defines to target_arch_elf.h and delete
+them from elfload.c. Only retain ifdefs appropriate for i386 and x86_64.
+Add the copyright/license comments, and guard ifdefs.
 
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/elfload.c | 347 +--------------------------------------------
- 1 file changed, 2 insertions(+), 345 deletions(-)
+ bsd-user/elfload.c                | 81 +------------------------------
+ bsd-user/i386/target_arch_elf.h   | 81 +++++++++++++++++++++++++++++++
+ bsd-user/x86_64/target_arch_elf.h | 67 +++++++++++++++++++++++++
+ slirp                             |  2 +-
+ 4 files changed, 151 insertions(+), 80 deletions(-)
+ create mode 100644 bsd-user/i386/target_arch_elf.h
+ create mode 100644 bsd-user/x86_64/target_arch_elf.h
 
 diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
-index ae62f3aab3..fffa24f041 100644
+index fffa24f041..639673f5b7 100644
 --- a/bsd-user/elfload.c
 +++ b/bsd-user/elfload.c
-@@ -23,15 +23,6 @@
+@@ -23,6 +23,8 @@
  #include "disas/disas.h"
  #include "qemu/path.h"
  
--#ifdef _ARCH_PPC64
--#undef ARCH_DLINFO
--#undef ELF_PLATFORM
--#undef ELF_HWCAP
--#undef ELF_CLASS
--#undef ELF_DATA
--#undef ELF_ARCH
--#endif
--
++#include "target_arch_elf.h"
++
  /* from personality.h */
  
  /*
-@@ -144,7 +135,7 @@ static inline void init_thread(struct target_pt_regs *regs, struct image_info *i
-     }
- }
- 
--#else
-+#else /* !TARGET_X86_64 */
- 
- #define ELF_START_MMAP 0x80000000
- 
-@@ -174,343 +165,13 @@ static inline void init_thread(struct target_pt_regs *regs, struct image_info *i
-        A value of 0 tells we have no such handler.  */
-     regs->edx = 0;
- }
--#endif
--
--#define USE_ELF_CORE_DUMP
--#define ELF_EXEC_PAGESIZE       4096
--
--#endif
--
--#ifdef TARGET_ARM
--
--#define ELF_START_MMAP 0x80000000
--
--#define elf_check_arch(x) ((x) == EM_ARM)
--
--#define ELF_CLASS       ELFCLASS32
--#ifdef TARGET_WORDS_BIGENDIAN
--#define ELF_DATA        ELFDATA2MSB
--#else
--#define ELF_DATA        ELFDATA2LSB
--#endif
--#define ELF_ARCH        EM_ARM
--
--static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
--{
--    abi_long stack = infop->start_stack;
--    memset(regs, 0, sizeof(*regs));
--    regs->ARM_cpsr = 0x10;
--    if (infop->entry & 1)
--        regs->ARM_cpsr |= CPSR_T;
--    regs->ARM_pc = infop->entry & 0xfffffffe;
--    regs->ARM_sp = infop->start_stack;
--    /* FIXME - what to for failure of get_user()? */
--    get_user_ual(regs->ARM_r2, stack + 8); /* envp */
--    get_user_ual(regs->ARM_r1, stack + 4); /* envp */
--    /* XXX: it seems that r0 is zeroed after ! */
--    regs->ARM_r0 = 0;
--    /* For uClinux PIC binaries.  */
--    /* XXX: Linux does this only on ARM with no MMU (do we care ?) */
--    regs->ARM_r10 = infop->start_data;
--}
--
--#define USE_ELF_CORE_DUMP
--#define ELF_EXEC_PAGESIZE       4096
--
--enum
--{
--  ARM_HWCAP_ARM_SWP       = 1 << 0,
--  ARM_HWCAP_ARM_HALF      = 1 << 1,
--  ARM_HWCAP_ARM_THUMB     = 1 << 2,
--  ARM_HWCAP_ARM_26BIT     = 1 << 3,
--  ARM_HWCAP_ARM_FAST_MULT = 1 << 4,
--  ARM_HWCAP_ARM_FPA       = 1 << 5,
--  ARM_HWCAP_ARM_VFP       = 1 << 6,
--  ARM_HWCAP_ARM_EDSP      = 1 << 7,
--};
--
--#define ELF_HWCAP (ARM_HWCAP_ARM_SWP | ARM_HWCAP_ARM_HALF              \
--                    | ARM_HWCAP_ARM_THUMB | ARM_HWCAP_ARM_FAST_MULT     \
--                    | ARM_HWCAP_ARM_FPA | ARM_HWCAP_ARM_VFP)
--
--#endif
--
--#ifdef TARGET_SPARC
--#ifdef TARGET_SPARC64
--
--#define ELF_START_MMAP 0x80000000
--
--#ifndef TARGET_ABI32
--#define elf_check_arch(x) ((x) == EM_SPARCV9 || (x) == EM_SPARC32PLUS)
--#else
--#define elf_check_arch(x) ((x) == EM_SPARC32PLUS || (x) == EM_SPARC)
--#endif
--
--#define ELF_CLASS   ELFCLASS64
--#define ELF_DATA    ELFDATA2MSB
--#define ELF_ARCH    EM_SPARCV9
--
--#define STACK_BIAS              2047
--
--static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
--{
--#ifndef TARGET_ABI32
--    regs->tstate = 0;
--#endif
--    regs->pc = infop->entry;
--    regs->npc = regs->pc + 4;
--    regs->y = 0;
--#ifdef TARGET_ABI32
--    regs->u_regs[14] = infop->start_stack - 16 * 4;
--#else
--    if (personality(infop->personality) == PER_LINUX32)
--        regs->u_regs[14] = infop->start_stack - 16 * 4;
--    else {
--        regs->u_regs[14] = infop->start_stack - 16 * 8 - STACK_BIAS;
--        if (bsd_type == target_freebsd) {
--            regs->u_regs[8] = infop->start_stack;
--            regs->u_regs[11] = infop->start_stack;
--        }
--    }
--#endif
--}
--
--#else
--#define ELF_START_MMAP 0x80000000
--
--#define elf_check_arch(x) ((x) == EM_SPARC)
--
--#define ELF_CLASS   ELFCLASS32
--#define ELF_DATA    ELFDATA2MSB
--#define ELF_ARCH    EM_SPARC
--
--static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
--{
--    regs->psr = 0;
--    regs->pc = infop->entry;
--    regs->npc = regs->pc + 4;
--    regs->y = 0;
--    regs->u_regs[14] = infop->start_stack - 16 * 4;
--}
--
--#endif
--#endif
--
--#ifdef TARGET_PPC
--
--#define ELF_START_MMAP 0x80000000
--
--#if defined(TARGET_PPC64) && !defined(TARGET_ABI32)
--
--#define elf_check_arch(x) ((x) == EM_PPC64)
--
--#define ELF_CLASS       ELFCLASS64
--
--#else
--
--#define elf_check_arch(x) ((x) == EM_PPC)
--
--#define ELF_CLASS       ELFCLASS32
--
--#endif
--
--#ifdef TARGET_WORDS_BIGENDIAN
--#define ELF_DATA        ELFDATA2MSB
--#else
--#define ELF_DATA        ELFDATA2LSB
--#endif
--#define ELF_ARCH        EM_PPC
--
--/*
-- * We need to put in some extra aux table entries to tell glibc what
-- * the cache block size is, so it can use the dcbz instruction safely.
-- */
--#define AT_DCACHEBSIZE          19
--#define AT_ICACHEBSIZE          20
--#define AT_UCACHEBSIZE          21
--/* A special ignored type value for PPC, for glibc compatibility.  */
--#define AT_IGNOREPPC            22
--/*
-- * The requirements here are:
-- * - keep the final alignment of sp (sp & 0xf)
-- * - make sure the 32-bit value at the first 16 byte aligned position of
-- *   AUXV is greater than 16 for glibc compatibility.
-- *   AT_IGNOREPPC is used for that.
-- * - for compatibility with glibc ARCH_DLINFO must always be defined on PPC,
-- *   even if DLINFO_ARCH_ITEMS goes to zero or is undefined.
-- */
--#define DLINFO_ARCH_ITEMS       5
--#define ARCH_DLINFO                                                     \
--do {                                                                    \
--        NEW_AUX_ENT(AT_DCACHEBSIZE, 0x20);                              \
--        NEW_AUX_ENT(AT_ICACHEBSIZE, 0x20);                              \
--        NEW_AUX_ENT(AT_UCACHEBSIZE, 0);                                 \
--        /*                                                              \
--         * Now handle glibc compatibility.                              \
--         */                                                             \
--        NEW_AUX_ENT(AT_IGNOREPPC, AT_IGNOREPPC);                        \
--        NEW_AUX_ENT(AT_IGNOREPPC, AT_IGNOREPPC);                        \
-- } while (0)
--
--static inline void init_thread(struct target_pt_regs *_regs, struct image_info *infop)
--{
--    abi_ulong pos = infop->start_stack;
--    abi_ulong tmp;
--#if defined(TARGET_PPC64) && !defined(TARGET_ABI32)
--    abi_ulong entry, toc;
--#endif
--
--    _regs->gpr[1] = infop->start_stack;
--#if defined(TARGET_PPC64) && !defined(TARGET_ABI32)
--    get_user_u64(entry, infop->entry);
--    entry += infop->load_addr;
--    get_user_u64(toc, infop->entry + 8);
--    toc += infop->load_addr;
--    _regs->gpr[2] = toc;
--    infop->entry = entry;
--#endif
--    _regs->nip = infop->entry;
--    /* Note that isn't exactly what regular kernel does
--     * but this is what the ABI wants and is needed to allow
--     * execution of PPC BSD programs.
--     */
--    /* FIXME - what to for failure of get_user()? */
--    get_user_ual(_regs->gpr[3], pos);
--    pos += sizeof(abi_ulong);
--    _regs->gpr[4] = pos;
--    for (tmp = 1; tmp != 0; pos += sizeof(abi_ulong)) {
--        get_user_ual(tmp, pos);
--    }
--    _regs->gpr[5] = pos;
--}
-+#endif /* !TARGET_X86_64 */
- 
- #define USE_ELF_CORE_DUMP
- #define ELF_EXEC_PAGESIZE       4096
- 
+@@ -93,85 +95,6 @@ enum {
+ #define ELIBBAD 80
  #endif
  
--#ifdef TARGET_MIPS
+-#ifdef TARGET_I386
 -
--#define ELF_START_MMAP 0x80000000
+-#define ELF_PLATFORM get_elf_platform()
 -
--#define elf_check_arch(x) ((x) == EM_MIPS)
--
--#ifdef TARGET_MIPS64
--#define ELF_CLASS   ELFCLASS64
--#else
--#define ELF_CLASS   ELFCLASS32
--#endif
--#ifdef TARGET_WORDS_BIGENDIAN
--#define ELF_DATA        ELFDATA2MSB
--#else
--#define ELF_DATA        ELFDATA2LSB
--#endif
--#define ELF_ARCH    EM_MIPS
--
--static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
+-static const char *get_elf_platform(void)
 -{
--    regs->cp0_status = 2 << CP0St_KSU;
--    regs->cp0_epc = infop->entry;
--    regs->regs[29] = infop->start_stack;
+-    static char elf_platform[] = "i386";
+-    int family = object_property_get_int(OBJECT(thread_cpu), "family", NULL);
+-    if (family > 6)
+-        family = 6;
+-    if (family >= 3)
+-        elf_platform[1] = '0' + family;
+-    return elf_platform;
 -}
 -
--#define USE_ELF_CORE_DUMP
--#define ELF_EXEC_PAGESIZE        4096
+-#define ELF_HWCAP get_elf_hwcap()
 -
--#endif /* TARGET_MIPS */
--
--#ifdef TARGET_SH4
--
--#define ELF_START_MMAP 0x80000000
--
--#define elf_check_arch(x) ((x) == EM_SH)
--
--#define ELF_CLASS ELFCLASS32
--#define ELF_DATA  ELFDATA2LSB
--#define ELF_ARCH  EM_SH
--
--static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
+-static uint32_t get_elf_hwcap(void)
 -{
--  /* Check other registers XXXXX */
--  regs->pc = infop->entry;
--  regs->regs[15] = infop->start_stack;
+-    X86CPU *cpu = X86_CPU(thread_cpu);
+-
+-    return cpu->env.features[FEAT_1_EDX];
 -}
 -
--#define USE_ELF_CORE_DUMP
--#define ELF_EXEC_PAGESIZE        4096
--
--#endif
--
--#ifdef TARGET_CRIS
--
--#define ELF_START_MMAP 0x80000000
--
--#define elf_check_arch(x) ((x) == EM_CRIS)
--
--#define ELF_CLASS ELFCLASS32
--#define ELF_DATA  ELFDATA2LSB
--#define ELF_ARCH  EM_CRIS
--
--static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
--{
--  regs->erp = infop->entry;
--}
--
--#define USE_ELF_CORE_DUMP
--#define ELF_EXEC_PAGESIZE        8192
--
--#endif
--
--#ifdef TARGET_M68K
--
--#define ELF_START_MMAP 0x80000000
--
--#define elf_check_arch(x) ((x) == EM_68K)
--
--#define ELF_CLASS       ELFCLASS32
--#define ELF_DATA        ELFDATA2MSB
--#define ELF_ARCH        EM_68K
--
--/* ??? Does this need to do anything?
--#define ELF_PLAT_INIT(_r) */
--
--static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
--{
--    regs->usp = infop->start_stack;
--    regs->sr = 0;
--    regs->pc = infop->entry;
--}
--
--#define USE_ELF_CORE_DUMP
--#define ELF_EXEC_PAGESIZE       8192
--
--#endif
--
--#ifdef TARGET_ALPHA
--
--#define ELF_START_MMAP (0x30000000000ULL)
--
--#define elf_check_arch(x) ((x) == ELF_ARCH)
+-#ifdef TARGET_X86_64
+-#define ELF_START_MMAP 0x2aaaaab000ULL
+-#define elf_check_arch(x) (((x) == ELF_ARCH))
 -
 -#define ELF_CLASS      ELFCLASS64
--#define ELF_DATA       ELFDATA2MSB
--#define ELF_ARCH       EM_ALPHA
+-#define ELF_DATA       ELFDATA2LSB
+-#define ELF_ARCH       EM_X86_64
 -
 -static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
 -{
--    regs->pc = infop->entry;
--    regs->ps = 8;
--    regs->usp = infop->start_stack;
--    regs->unique = infop->start_data; /* ? */
--    printf("Set unique value to " TARGET_FMT_lx " (" TARGET_FMT_lx ")\n",
--           regs->unique, infop->start_data);
+-    regs->rax = 0;
+-    regs->rsp = infop->start_stack;
+-    regs->rip = infop->entry;
+-    if (bsd_type == target_freebsd) {
+-        regs->rdi = infop->start_stack;
+-    }
 -}
 -
--#define USE_ELF_CORE_DUMP
--#define ELF_EXEC_PAGESIZE        8192
+-#else /* !TARGET_X86_64 */
 -
--#endif /* TARGET_ALPHA */
+-#define ELF_START_MMAP 0x80000000
+-
+-/*
+- * This is used to ensure we don't load something for the wrong architecture.
+- */
+-#define elf_check_arch(x) (((x) == EM_386) || ((x) == EM_486))
+-
+-/*
+- * These are used to set parameters in the core dumps.
+- */
+-#define ELF_CLASS       ELFCLASS32
+-#define ELF_DATA        ELFDATA2LSB
+-#define ELF_ARCH        EM_386
+-
+-static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
+-{
+-    regs->esp = infop->start_stack;
+-    regs->eip = infop->entry;
+-
+-    /* SVR4/i386 ABI (pages 3-31, 3-32) says that when the program
+-       starts %edx contains a pointer to a function which might be
+-       registered using `atexit'.  This provides a mean for the
+-       dynamic linker to call DT_FINI functions for shared libraries
+-       that have been loaded before the code runs.
+-
+-       A value of 0 tells we have no such handler.  */
+-    regs->edx = 0;
+-}
+-#endif /* !TARGET_X86_64 */
+-
+-#define USE_ELF_CORE_DUMP
+-#define ELF_EXEC_PAGESIZE       4096
+-
+-#endif
 -
  #ifndef ELF_PLATFORM
  #define ELF_PLATFORM (NULL)
  #endif
-@@ -1119,10 +780,6 @@ static void load_symbols(struct elfhdr *hdr, int fd)
-             }
-             continue;
-         }
--#if defined(TARGET_ARM) || defined(TARGET_MIPS)
--        /* The bottom address bit marks a Thumb or MIPS16 symbol.  */
--        syms[i].st_value &= ~(target_ulong)1;
--#endif
-         i++;
-     }
- 
+diff --git a/bsd-user/i386/target_arch_elf.h b/bsd-user/i386/target_arch_elf.h
+new file mode 100644
+index 0000000000..84f61bd930
+--- /dev/null
++++ b/bsd-user/i386/target_arch_elf.h
+@@ -0,0 +1,81 @@
++/*
++ *  i386 ELF definitions
++ *
++ *  Copyright (c) 2013 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++#ifndef _TARGET_ARCH_ELF_H_
++#define _TARGET_ARCH_ELF_H_
++
++#define ELF_PLATFORM get_elf_platform()
++
++static const char *get_elf_platform(void)
++{
++    static char elf_platform[] = "i386";
++    int family = object_property_get_int(OBJECT(thread_cpu), "family", NULL);
++    if (family > 6) {
++        family = 6;
++    }
++    if (family >= 3) {
++        elf_platform[1] = '0' + family;
++    }
++    return elf_platform;
++}
++
++#define ELF_HWCAP get_elf_hwcap()
++
++static uint32_t get_elf_hwcap(void)
++{
++    X86CPU *cpu = X86_CPU(thread_cpu);
++
++    return cpu->env.features[FEAT_1_EDX];
++}
++
++#define ELF_START_MMAP 0x80000000
++
++/*
++ * This is used to ensure we don't load something for the wrong architecture.
++ */
++#define elf_check_arch(x) (((x) == EM_386) || ((x) == EM_486))
++
++/*
++ * These are used to set parameters in the core dumps.
++ */
++#define ELF_CLASS       ELFCLASS32
++#define ELF_DATA        ELFDATA2LSB
++#define ELF_ARCH        EM_386
++
++static inline void init_thread(struct target_pt_regs *regs,
++                               struct image_info *infop)
++{
++    regs->esp = infop->start_stack;
++    regs->eip = infop->entry;
++
++    /*
++     * SVR4/i386 ABI (pages 3-31, 3-32) says that when the program
++     * starts %edx contains a pointer to a function which might be
++     * registered using `atexit'.  This provides a mean for the
++     * dynamic linker to call DT_FINI functions for shared libraries
++     * that have been loaded before the code runs.
++     *
++     * A value of 0 tells we have no such handler.
++     */
++    regs->edx = 0;
++}
++
++#define USE_ELF_CORE_DUMP
++#define ELF_EXEC_PAGESIZE       4096
++
++#endif /* _TARGET_ARCH_ELF_H_ */
+diff --git a/bsd-user/x86_64/target_arch_elf.h b/bsd-user/x86_64/target_arch_elf.h
+new file mode 100644
+index 0000000000..e7c8aa2755
+--- /dev/null
++++ b/bsd-user/x86_64/target_arch_elf.h
+@@ -0,0 +1,67 @@
++/*
++ *  x86_64 ELF definitions
++ *
++ *  Copyright (c) 2013 Stacey D. Son
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++#ifndef _TARGET_ARCH_ELF_H_
++#define _TARGET_ARCH_ELF_H_
++
++#define ELF_PLATFORM get_elf_platform()
++
++static const char *get_elf_platform(void)
++{
++    static char elf_platform[] = "i386";
++    int family = object_property_get_int(OBJECT(thread_cpu), "family", NULL);
++    if (family > 6) {
++        family = 6;
++    }
++    if (family >= 3) {
++        elf_platform[1] = '0' + family;
++    }
++    return elf_platform;
++}
++
++#define ELF_HWCAP get_elf_hwcap()
++
++static uint32_t get_elf_hwcap(void)
++{
++    X86CPU *cpu = X86_CPU(thread_cpu);
++
++    return cpu->env.features[FEAT_1_EDX];
++}
++
++#define ELF_START_MMAP 0x2aaaaab000ULL
++#define elf_check_arch(x) (((x) == ELF_ARCH))
++
++#define ELF_CLASS      ELFCLASS64
++#define ELF_DATA       ELFDATA2LSB
++#define ELF_ARCH       EM_X86_64
++
++static inline void init_thread(struct target_pt_regs *regs,
++                               struct image_info *infop)
++{
++    regs->rax = 0;
++    regs->rsp = infop->start_stack;
++    regs->rip = infop->entry;
++    if (bsd_type == target_freebsd) {
++        regs->rdi = infop->start_stack;
++    }
++}
++
++#define USE_ELF_CORE_DUMP
++#define ELF_EXEC_PAGESIZE       4096
++
++#endif /* _TARGET_ARCH_ELF_H_ */
+diff --git a/slirp b/slirp
+index a88d9ace23..8f43a99191 160000
+--- a/slirp
++++ b/slirp
+@@ -1 +1 @@
+-Subproject commit a88d9ace234a24ce1c17189642ef9104799425e0
++Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
 -- 
 2.32.0
 
