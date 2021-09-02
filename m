@@ -2,63 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E785A3FE941
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 08:33:34 +0200 (CEST)
-Received: from localhost ([::1]:48592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6728C3FE95B
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 08:38:46 +0200 (CEST)
+Received: from localhost ([::1]:55206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLgI2-0002oc-1y
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 02:33:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46892)
+	id 1mLgN3-0007UC-DE
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 02:38:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mLgDZ-000772-0x
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 02:28:57 -0400
-Received: from 9.mo548.mail-out.ovh.net ([46.105.48.137]:54665)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mLgIQ-0004Zq-GH; Thu, 02 Sep 2021 02:33:58 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:59409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mLgDV-0005mg-Nn
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 02:28:56 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.148])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 8185B200D8;
- Thu,  2 Sep 2021 06:28:50 +0000 (UTC)
-Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Thu, 2 Sep
- 2021 08:28:50 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R006b2248e6d-33a3-45ac-84cb-e4eb55990bf1,
- 0F69C8711EE098B745CC44F7BEC1CAFBB1DDDEDC) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1mLgIM-0001as-Do; Thu, 02 Sep 2021 02:33:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=gibson.dropbear.id.au; s=201602; t=1630564427;
+ bh=4tyTeKwoKjXKvhwQIwhVdvRNGxya25AV2gwHobgYFyc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Bc6QzLAHPxsr4onsmcJFY7MqtwQpXWVQoZAfVb65P3mqO1vwcU5jIeg1FfKQW3Pkl
+ AJ6lORSidYZ+aP3H+owvXwcFOZ21+zclsZq5XunHI+Yq7X1IhIAui0MGQog9VUFisK
+ Lw3SNsQ+LT4KixsCZxPAqYXuSaXAg57n6EdrGr2E=
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4H0WNC6kRZz9sW5; Thu,  2 Sep 2021 16:33:47 +1000 (AEST)
+Date: Thu, 2 Sep 2021 16:33:14 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
 Subject: Re: [PATCH 5/8] ppc/pnv: Add an assert when calculating the RAM
  distribution on chips
-To: David Gibson <david@gibson.dropbear.id.au>
+Message-ID: <YTBwKg4G/6IfPip7@yekko>
 References: <20210901094153.227671-1-clg@kaod.org>
  <20210901094153.227671-6-clg@kaod.org> <YTAq3pj2Chwzk6km@yekko>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <62d0de2e-bb8a-6bba-aa2b-029474c47d11@kaod.org>
-Date: Thu, 2 Sep 2021 08:28:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ <62d0de2e-bb8a-6bba-aa2b-029474c47d11@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <YTAq3pj2Chwzk6km@yekko>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: a28e676a-a16f-4157-8f3d-ddb5029e6ad5
-X-Ovh-Tracer-Id: 8007963087848573920
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddvgedguddtlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefheenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeglefgjeevheeifeffudeuhedvveeftdeliedukeejgeeviefgieefhfdtffeftdenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepghhrohhugheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=46.105.48.137; envelope-from=clg@kaod.org;
- helo=9.mo548.mail-out.ovh.net
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.029,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="k6sVBurpploFim1h"
+Content-Disposition: inline
+In-Reply-To: <62d0de2e-bb8a-6bba-aa2b-029474c47d11@kaod.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,19 +64,52 @@ Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/2/21 3:37 AM, David Gibson wrote:
-> On Wed, Sep 01, 2021 at 11:41:50AM +0200, Cédric Le Goater wrote:
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
-> 
-> Uh.. I thought the proposed assert was about making it clear there
-> wouldn't be a divide by zero, which would want > 1, not < 2.
 
-This is very wrong :) How did I come with this ? 
+--k6sVBurpploFim1h
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I will keep it for the next round of powernv10. Are you ready for a v2 ? 
+On Thu, Sep 02, 2021 at 08:28:49AM +0200, C=E9dric Le Goater wrote:
+> On 9/2/21 3:37 AM, David Gibson wrote:
+> > On Wed, Sep 01, 2021 at 11:41:50AM +0200, C=E9dric Le Goater wrote:
+> >> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> >=20
+> > Uh.. I thought the proposed assert was about making it clear there
+> > wouldn't be a divide by zero, which would want > 1, not < 2.
+>=20
+> This is very wrong :) How did I come with this ?=20
+>=20
+> I will keep it for the next round of powernv10. Are you ready for a
+> v2 ?
 
+Ready enough.
 
-Thanks, 
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-C.
+--k6sVBurpploFim1h
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEwcCgACgkQbDjKyiDZ
+s5IbLA//dYVLlINMVkfQKuOj8zpFRagIlRcxs2VILaghDrqdJB6dgmquaWjNvrZY
+b/8AFvbiTZxgkcKSflkINPU45qrgTfdkuEzQTBJa5k9uDwuxDGrvHhzCtGAZpVF4
+M5zzD7KuQWJnmmsm1df6H7mFnifuZsffJ+T2W7yFypv9ICVMUa1uuYYvIpnoXTLo
+cA2cpjcQADSjGIXd2GDhdcM9go7pHbvOeNOfB493lZICsfAGcmJ115LrYtCzrf5T
+ZhGw82opncwE8KfXsjoHy5fRGSG28qCgEMVqQinOWkVLR2THbFc0lnFTsqaDI5nO
+nLQShdL1Tek3V7gG0YQJP5KX4ugTbeXiG8Cc+0QbhF+Ipq16EGtAZKcXbL1HFV3f
+EuSMmA5K3CDuuSDLLwlcQj4e0DO6oxTcWVlEQu9sooch24X2YTbljV6RMOaa/Hbe
+qHi8R+2j/8SmDypYk7Y3Dq5lVyCky+7jAi21uhhzAdl3bCJr1NrQyHjQLhTvt9ju
+q7Lw760ndJwf3SNkRNDdwpHRm9WOBOow28fmyEUo5fEh11XJmH4Fj3DtJ7T07gSI
+HqCecn8oK3QUGK9zHoJtajAgtVT3XcZknS7mGMBuQ40Z7LrWpQsWwhM7jF4Yb4yX
+pKBm8KCGoMLG+Eso8Pz4NTJp9CRDYW9BSKqzbHNaRS4M+MRR5cA=
+=2WG4
+-----END PGP SIGNATURE-----
+
+--k6sVBurpploFim1h--
 
