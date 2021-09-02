@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED773FED2E
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 13:52:52 +0200 (CEST)
-Received: from localhost ([::1]:33836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8451C3FED09
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 13:35:00 +0200 (CEST)
+Received: from localhost ([::1]:58910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLlH0-0001CB-RF
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 07:52:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47474)
+	id 1mLkzj-0003dP-Hy
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 07:34:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=872ab4b15=Anup.Patel@wdc.com>)
- id 1mLkrJ-00014l-6s; Thu, 02 Sep 2021 07:26:17 -0400
-Received: from esa1.hgst.iphmx.com ([68.232.141.245]:26481)
+ id 1mLkrL-00015H-5B; Thu, 02 Sep 2021 07:26:19 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:39860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <prvs=872ab4b15=Anup.Patel@wdc.com>)
- id 1mLkrH-0002rW-Bf; Thu, 02 Sep 2021 07:26:16 -0400
+ id 1mLkrI-0002sH-CD; Thu, 02 Sep 2021 07:26:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1630581975; x=1662117975;
+ t=1630581976; x=1662117976;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:content-transfer-encoding:mime-version;
- bh=FZl1UEpT6i3T+rgvbAK7DzWOG3I/vdiIJgCA/8ZsP/Q=;
- b=IyUHscMMJacXQSyJQwc3iLLUKk5pIt3JO51ZjdAUYAKDyDno/kuHmiu3
- 0jKyScKnsJViS0NuunXWJKpvymgIl4nWo4rpNfaI/wHr1EleiBfDzVB+/
- vuAoUgr35ui7lBCfjFxVK4SLzaiKlD8R2p5Z+BqzEVD8EtK6y76kI5Dxk
- XTa+s/1Bvq+54Gn0unqBhGkEI9AOhGbP7RqvqJVhYd4RiRPruH+bvCx+O
- J321B66aASYnS/kVI+71oSghNuccSDbzUZskXS9TO8khadWMpiXAPayqO
- GFDxhC8C8JEhRgt40YLv7XK2TPUrYJ1jVymDFW3CUqMF8C+Rge+Sf2AY8 g==;
-X-IronPort-AV: E=Sophos;i="5.84,372,1620662400"; d="scan'208";a="290644580"
-Received: from mail-bn8nam11lp2171.outbound.protection.outlook.com (HELO
- NAM11-BN8-obe.outbound.protection.outlook.com) ([104.47.58.171])
- by ob1.hgst.iphmx.com with ESMTP; 02 Sep 2021 19:26:11 +0800
+ bh=UkxCuGUhsMhhbBJJgukw7DDSCE+VpActSfaDRb2M8Ew=;
+ b=KT9KN6CsVSV/yNnj8eRsxC3TQlPzNGUQUS8iQGjFq4Iclss1gJe3HHbl
+ aJL9FUzRPaeoN0TDbWFFR5TVs1ltEl+2niMdr1yaJU0Jg0KvJ8p16Mjue
+ 9yON70fGq4RSzgWSZaD2bfE1tFS4eIXZiWb+N48ooWbTshGFS5UbCJlbz
+ z3t1NZVnuKzAY0HzFB3QPQRV2dnZSGFWXZyLEwVFwkB90dkNjSAiVEhEX
+ rO2svkK+o8vhtREHJpCwwdhm92GyHiEIbmQv8vUjToxpUNwWX8KP+mEFm
+ zouEc+W0w3jY3RqkcjNwMINuX8lwHXxL9e+tnSvx73OSwRrUrV5AxoxZ+ Q==;
+X-IronPort-AV: E=Sophos;i="5.84,372,1620662400"; d="scan'208";a="179039146"
+Received: from mail-co1nam11lp2177.outbound.protection.outlook.com (HELO
+ NAM11-CO1-obe.outbound.protection.outlook.com) ([104.47.56.177])
+ by ob1.hgst.iphmx.com with ESMTP; 02 Sep 2021 19:26:14 +0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X7SmmrmC6BE4wcN1cQ2fw/LSeMB39i/8S0EybV7hVlOiQ7vN5xNOeEXy2mJ0hXzp/+bUP7pVC/z/7t1W2+v40d+OhH6/epbDM+OZ1ScYfDbsegQJBeRWRbmJjpeYga7o4+s1PM4tJgU09C4Ceg9YHWwHVXcdJm8Q3a8wqMflQRcyod3KLJ5FEbft48m2iRQchoKs2OXWgWm5iMuOcoB9po+9EOYzqy7fmXqjpKCG+MKFstbN/pgQRXmOqwAOmCVvMeodvNKjYGKPUWoBtO8f29glLaPzs9lnhQdMTnWCmfa0RCdygj4DEo3ybrjNwRdDklQb/7cv4kZZx3lTLNyLJg==
+ b=Hwql7lrz1Lzl+p9mNcIQ/bpC+nJizm9bsEMTkGxexIvpuWsfagcPWVt0DOtBn5Bge7bsD50de+/XjDIK0Qlh9HJgpeLDW2do1MLfEdQe75JDsAT0KWAQ71IkJdMagpbdeun3JI2hFN+lNjiiZ8HCXLfN7TC9GSv4GmtyFMkXkAzko/qzUcDwUPozMZhqg7DgeXHM4VvbjzcgEYsspXmqzOP6EhPtG1SixYOkkt6ndvBDFEuDHKTyMAFUuQijKhs4wW/9xMw7Xt1NYAUALvp3qAAR3+iIESMIgzNTJKU8VHI8C3i1TdCl89tN5BH+10JLSO1aGNn9H0YtUjyUT5azew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=9bmbeJpIOQf5heS+F91fOw6HLCeSijBMPBBaRphCHP8=;
- b=d9zat+EyjZ4WOQ8oBgd3uhg8tu8i/qg/zJnI0ihO+ySvzMqFWl3KmDLcdRsffzG+5H/Cz3nZ4UCS5BVPBNTe2U8uzVoXcdXRW/a8iO0Vf8sHQlHLuAZxVpFgg/ZvaM6iv0tWgn6QmWmOexV97fcVqvukIMhtMf4+gfy3CUPjIETcnrh6ColWltLVWyAhRBAaiMD7jjvefNtV4MhVixziYf6dVsLM+FZeZoq4fMu3c4DpXhoL8xBMK3saH8tcwlqJlua1ehw9m8rExPzbgKzJnBqBzwYIYybfXyBc2MQp/mjfAR7aQQnmc+m3y3qRDjEt5FzQ+180g45MXCYHfm5sRQ==
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1TQIguzy30T339/hVi9tBCjiJcpk19MNE6RBZmgkbfY=;
+ b=l0MD3WS8VcWGJBGinMdsf1nSqDVXkaPhxaBWJCcbR5L61WHiug0dt9hfDkoJrEq7Q8bHsmgnG37DjylDAxA1VqN46YgC/oGpjbFw8al0sHnwPi8HXvm/N+wygaJzA0ZBlLIqY4q1b7QS863Xe/9oRsJ3R+75JJQvQfQCB/lIvPJ8ObnkwvoBpxq9Ey0ssWB6nJawykNIt/kvOliFFvL5BO5vnfInvSw7eMhrcvWllwFgD7Sxx0dIzwduFnxUhoKDY93hoFLn55uiHHRWKHzQJtDU9gQmb33huTIhWs5Lf0VR6DtZ1l5DOHvf7k12u3LaQW445jBVj2b/rY+gxtwJfg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
  header.d=wdc.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9bmbeJpIOQf5heS+F91fOw6HLCeSijBMPBBaRphCHP8=;
- b=n1aVUJtegPl8UdLHFXnMEv3AI7VSJ0IfkhGtiU8Ejpe26D1/pwaCHIsd0cRp5KfvXCdYgtrVIk0wk5GYMRjv/BUffRYcJtiOCD9l5oUq/vTfj18DFWhT6cJsO7y5QZxuMPfXKxNACbKeHpSUH+ULGqRI87RoJnKV62i4ueLJfYY=
+ bh=1TQIguzy30T339/hVi9tBCjiJcpk19MNE6RBZmgkbfY=;
+ b=O2cQiY7540nzrf3FL0w4YIsod3+zgdpwtvAvTww0JCMKQu1ejhdEVAkgGSlfEiNL7+xfZxdTgwTqyN8L0RTqXsrHHEF2x1DrrvZJ3mI3mZO5nyWhSC2bHyK/xmR3q5mUiEp+OS/Psm4pfnznYej3r9L6QDVbh0mU1Qrg+RoIRkA=
 Authentication-Results: linaro.org; dkim=none (message not signed)
  header.d=none;linaro.org; dmarc=none action=none header.from=wdc.com;
 Received: from CO6PR04MB7812.namprd04.prod.outlook.com (2603:10b6:303:138::6)
- by CO6PR04MB7841.namprd04.prod.outlook.com (2603:10b6:5:358::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19; Thu, 2 Sep
- 2021 11:26:10 +0000
+ by CO6PR04MB8361.namprd04.prod.outlook.com (2603:10b6:303:140::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.23; Thu, 2 Sep
+ 2021 11:26:13 +0000
 Received: from CO6PR04MB7812.namprd04.prod.outlook.com
  ([fe80::e035:6de1:cb5a:fe26]) by CO6PR04MB7812.namprd04.prod.outlook.com
  ([fe80::e035:6de1:cb5a:fe26%6]) with mapi id 15.20.4478.019; Thu, 2 Sep 2021
- 11:26:10 +0000
+ 11:26:13 +0000
 From: Anup Patel <anup.patel@wdc.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>
-Subject: [PATCH v2 07/22] target/riscv: Add defines for AIA CSRs
-Date: Thu,  2 Sep 2021 16:55:05 +0530
-Message-Id: <20210902112520.475901-8-anup.patel@wdc.com>
+Subject: [PATCH v2 08/22] target/riscv: Allow AIA device emulation to set ireg
+ rmw callback
+Date: Thu,  2 Sep 2021 16:55:06 +0530
+Message-Id: <20210902112520.475901-9-anup.patel@wdc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210902112520.475901-1-anup.patel@wdc.com>
 References: <20210902112520.475901-1-anup.patel@wdc.com>
@@ -79,58 +80,58 @@ MIME-Version: 1.0
 Received: from wdc.com (122.167.220.163) by
  MA1PR01CA0182.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:d::8) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4478.19 via Frontend Transport; Thu, 2 Sep 2021 11:26:06 +0000
+ 15.20.4478.19 via Frontend Transport; Thu, 2 Sep 2021 11:26:10 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 22053c6d-b7b7-4bda-72bf-08d96e0476a4
-X-MS-TrafficTypeDiagnostic: CO6PR04MB7841:
+X-MS-Office365-Filtering-Correlation-Id: 0464715a-1bea-408f-0cfb-08d96e04787f
+X-MS-TrafficTypeDiagnostic: CO6PR04MB8361:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CO6PR04MB7841D14465F8E68B4072E3678DCE9@CO6PR04MB7841.namprd04.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <CO6PR04MB83611E94D3387660A0588B638DCE9@CO6PR04MB8361.namprd04.prod.outlook.com>
 WDCIPOUTBOUND: EOP-TRUE
-X-MS-Oob-TLC-OOBClassifiers: OLM:298;
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LMo1ca5TkyJDCZdwaizhlfSK245OhT5DcSY1XgAKOORd9ps1Tx1TmK+jhFWzOBYub5hQgwPSA5Wgp80VgEJb9qUG3qRxrRO5OFTAVTf7bvU8LrIpFVgmWJ26mJpW0BuOHD2qnpix1IwJm+uapdla9hyCzIuti0/M9+yuJBp1u50qySyU7DEATyVlwAAflJyqGirTJRgw0ipFldjLbnukWtdCRhBLg5VkH/4F3k+fq7h6mXfOTpoXH42TCRZ3IUVa7Opx9Bh2IU24MNH5v1uXiK0pdbnOGx8oVAWk8w4xs1pLMiznrbriwqrr487PfXqvJ9nV0cIWhigQktJ1KRCNa5Z1uQslG0Vfr43CckBsxSSQiDBRMiMbKF+CeTrjEoYpt1bR2zQGWpstMXwCtfSRifCSe6qbwymEheZvRJq6VVpJzoLdWNYlMg6nLYugV5JyC1YkOUXy9Rk1baDB57jcezmMYetl0Oj6X/b0Po6T0987Om+NulSsEuRQGlmv0m3xmJ2cZxpSiEpBrxB+iuodIc3n0RQgHCTCRR7T/49UCVkbmwFMYLEYbmvcufG5afhOwH9Qtt3kUVFOkd6eoiNmbJaLXFDgN2R1JtOSuPiIhjOo2+sKEr1j69Zwp70cWxzUziYqL/RoLeU4zcdcCuB/wh0xK+R+S6j9JmDi/+/14DPU3FSh0uMZIQ3R6CwYLd9kCp0DOfR6xPjOzFvd+xob4g==
+X-Microsoft-Antispam-Message-Info: neO2Hcvsf1Dt884fbn3Ccl2UgJOwyovfIop+2WgNUjo1Ki4JIH8yhjks2wrIRqom8JRxILT/VJRJhDA0afTJT03GcJGp6Jveq2CBGWRwlMarVlARvXSQ09e4w6fs1qn6VJGY+HoINWZTG3WMpm+GxIV8qHX1xubYpHYTrL61/i8cOvprB31/j+uORg5oQ8JOfCPCm9dHM2rhlIVW9KGJsTsXVmQoFnP27Yc4P6z+IREqv5cuF4x3bwI/6aVNcX4Kr9GNyFqJ8WXB2GI6iMbKuTBFNmmY9U5FgzO7mgPpR0rdg4Pn1deXz//YxWAQJ/PBpwLa/ykmxiWng7etmQc/gDlEdXMujWintQ1rphW9BK9UMGLC4WQRyv69fNlh0pfPl9daxhs2amm9i9xZcuEG2ZC0RHtHQKNmWli7clN6/xae+XtFjLrPm6XGP+/HPJowV4sKo8dVZDpo907YxdKoGftW6kinNUQKll+7KeszaqzFxNmGaoBsiVuWmGngKh7fQuP4S1Ywlb05QR59q8qVzGU6tjCzBFri+KAlWYWfm+PgAJ7yCBmodrzAGYvfQyhd1OoLg83fNzFS4Sotu8psrmtsM4Q2M58agjzGCYsj9FBmLtaT4rLjktdI8B6iDxddyHRr6Xvk+nYVTWA1hBHbm6TDqhygQ0nN/Y2hhss+cVlu5aPdfkJe6O6Eoa7H8BDtQh9UPWFPgwA9TdH2q97gtA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CO6PR04MB7812.namprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(346002)(396003)(366004)(376002)(136003)(38100700002)(83380400001)(52116002)(110136005)(44832011)(4326008)(38350700002)(8936002)(8676002)(2616005)(66946007)(5660300002)(36756003)(54906003)(316002)(66556008)(8886007)(66476007)(1076003)(2906002)(7696005)(55016002)(478600001)(26005)(186003)(956004)(86362001);
+ SFS:(4636009)(376002)(39860400002)(396003)(136003)(366004)(346002)(55016002)(186003)(1076003)(7696005)(86362001)(6666004)(52116002)(8886007)(36756003)(956004)(2616005)(83380400001)(110136005)(316002)(66946007)(66476007)(66556008)(26005)(54906003)(478600001)(2906002)(5660300002)(8676002)(38100700002)(38350700002)(44832011)(8936002)(4326008);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/EtHuxXby61DXCmls6MAcFtR2NbGhDK/VeW7hYs1YSWTUbs8w0hCYPA/2Baf?=
- =?us-ascii?Q?riMOZlrjLWXEdFkOXVX35a+HLqFflApae4aEm6iLG1e7UlHGRpm/LCM6reaY?=
- =?us-ascii?Q?aI1u7UqvbbzvevvRK+Fszdn4HK1Z8NOa02Bu927BqQ+KQZKUG8EvK5YGlnQa?=
- =?us-ascii?Q?dEpSi8jNEsgE96GrGE1AgGOvT0CTpRSOi2UV8YsI6UbfxAr2LP67Ma1QTpd4?=
- =?us-ascii?Q?Pn1QMtWEh0khFxU48IL8A3bIaCDyx4b+r1bq9BHGkQmJ8FmaDrSxi+XUaeHP?=
- =?us-ascii?Q?Spxp+bIGUdEx2XPYkLZTFiLKH16LFsb5UiXEUdV899Ub+iL4tJj4VQmca0jk?=
- =?us-ascii?Q?hrNjZbtHmhqL9lCongRlubRiP6nvkddeFVALL/FxIu5jegTA9QU6rBBCcNiR?=
- =?us-ascii?Q?dyt5cSg98P/R8X80ajZcGZBPjo1DO0sFD976OwSg9El6vVDkHtdPQV0dFW/C?=
- =?us-ascii?Q?l1hw6doiz9eUE+0MFWobIt04U+ZOnTQXzwAk3Pg4bWdJ7X7fVTnRu/X4muMv?=
- =?us-ascii?Q?c75dRTBRU6LfRJPecK72afscZYvBWBSVQlbwgY3VEf7vGqcT13UGNLU+1eaC?=
- =?us-ascii?Q?3atyfedLG+c5A6mfTPqtH9PQ3/TMjRHaH2yOJWKBXEFI+Nh3KASvwEeOXP3I?=
- =?us-ascii?Q?bY+yg6hixdBTtRO+7OeOk/IR68NS9ANjKFrHUF1X8p0XXmKacVZd2ZiYnzeT?=
- =?us-ascii?Q?FtYOpCFEz0aP4yZ//a7xZtanx4A8ATO4mYmHPBSYHqmmnhdTPcNKRRHT4BMt?=
- =?us-ascii?Q?Xwi3vLKrwDmkoq1lHZGLJ/UeEvRJdDSRScKmRXHhntBjhlJbv3V2DlY8a273?=
- =?us-ascii?Q?+YKK9lNkGp/KsgCoI7fCZREi3kPqnflIOyFbbne98d/5RC2qX3ZSbAbAA1ig?=
- =?us-ascii?Q?wM89sBLm6f7rO6U+e/2DI0aEOro2cAP7qIitI6YyQ3c8PbuhlOWKrhZ8H9a1?=
- =?us-ascii?Q?frrGrB/Cr6GzgEjOJRmaExoZLvgF7NPk9fYj4I+e1rkysgq9I513Kdx3TCeU?=
- =?us-ascii?Q?Jmrei1uDJhzZN207LbpuzYvJYxwadLSFlyFzkZx6GsOnFXZweRQYSiWFrYha?=
- =?us-ascii?Q?oJRxIMcjry7n1lihEY3shtgtP6HYiPfLvjWKO+2xsC0WM9cBDmcHGV78K1Up?=
- =?us-ascii?Q?LH/aWZtOJSA/vEBcS48iSiQWCuDfua7U5gHCzbCCMgFdYkyI1rGWlMcjb9NL?=
- =?us-ascii?Q?AwLc6Px8aGF+BAWa8m7ps9WjiZ6kBlRpJ/6lqom99dByQB9/l0W0F7ZLYace?=
- =?us-ascii?Q?uzJ+eAqk6lCTurPKCIm5cYebVdiV4LyiKhYziGuh8LQnvQ2i+YRj6/RsbEWP?=
- =?us-ascii?Q?xI/dDLSLcd/Fa8i7jk8c1nBh?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EMDvgJKPGfstLUFBhWqpE7mLhizfNn4vFAkgKKp/NNw1na5CEGQJG2ew80PP?=
+ =?us-ascii?Q?U+FDcHOSMUXq9FDk1vfotU0WHJajOkA9zStisUazXIHq8GIVDWL3obIhLYKL?=
+ =?us-ascii?Q?JstYBd2MQekUaKWxdBkrGAMP/y0D0FZ6OD26M+MpE46XYg+JsO+zj1SbdK2s?=
+ =?us-ascii?Q?8cMSgwkg6gPZ4yfmfJDKVL78G5fLQlPd4aS72wtIQEapEZ4J1lHdgw4pYrpA?=
+ =?us-ascii?Q?CF36/82MPmj5RWthcjRX74s4lXe3eKMNIz0XSuc0DPoV7g77ZoaiWHpK4QN4?=
+ =?us-ascii?Q?Gv4JesuWl1d3zFPx0RS5Da+OZcmVwM0uAWFZqCwXsYQv0uUcuX+8gGAhH95x?=
+ =?us-ascii?Q?IeSny+r8gndVwdg/hsaQEDhGcw/s7lY/+G0Zp6jQ659gmrSctcg0jGNn+wHS?=
+ =?us-ascii?Q?6HuyVHESSY1FKtu++n8+fEXhC15ccIe64Cmarl/rTTjUXIjVAluGVyOlpeX/?=
+ =?us-ascii?Q?nEhTNO/bIP++BHF7X1gRPuA2aEDkbhRFytxruzaUosctRhGdoS1Khzxy4p0o?=
+ =?us-ascii?Q?sAXk3EMMtkfDX5tqSDug5C+9Y4gAPDXYg2zUuSszSOL+urJB/X6Rbz1TnuBL?=
+ =?us-ascii?Q?fnlWOOowXrasg2vZ5EuwMjN0K9L5mIxftSkn6PP3ZvVti4IsqaMfHt/H9GEI?=
+ =?us-ascii?Q?CauJsNVNFK8fs4qKTlQFFvzFTMUJQyGE7JJH2+Ux/i+MUNXdfn+2P2LYukhe?=
+ =?us-ascii?Q?JvoEKwIvXU8a5FDVAeGJYSGCUmVcAdd3O3cqKYvg2OnIaf41sOBqwmaIBxic?=
+ =?us-ascii?Q?Q7SPUtjRV1/mnk/3RPOGwoEpK1lT42X0nOOTZDuwDMEUl1gIfVeIviErP7jU?=
+ =?us-ascii?Q?TjwZ31K33xdqslVj7qxhFsY67h1AMCWQoE/FIn+sAS644zXRFhd0oj0s3LZ7?=
+ =?us-ascii?Q?SO3dkLJefQmV8aoH1xxlnOxQYIjW8tTpVF005i1dzB9QmKaY0issv9eIUp+0?=
+ =?us-ascii?Q?v76ED7gqtpxtcr2T/0/P2+iZKKHLRTtiNJoizVIfg6apMjmXGf/mheIE/uly?=
+ =?us-ascii?Q?gBBKNwvvwepVU0tODiyuyS+TT3aM2ZmapEPJSq8s7BvchuP7MegmUqkRtw5E?=
+ =?us-ascii?Q?cjJHf7tU6/AIMkaGvReOLU2BSRG+pFxDi8XcQMiDMPGSCO/oiR5qaB7ya40Q?=
+ =?us-ascii?Q?nN6PslswgpBHFOM/aQnFEvRm7bVaQf7tdNbGTvKySoO4td0chAC4wCcd3AbR?=
+ =?us-ascii?Q?3qN27Hsk8+JRokmP5M6YWcP8iPXoRuRUZolprnLo4Eeb86mIbVcpjhlsf4fI?=
+ =?us-ascii?Q?MwNjlAJnOxO8zyZP+q5KYhr6krEKt6DGB9fxiwJDIcq/zG6dmzgiQ56uTSUn?=
+ =?us-ascii?Q?NbAEzv8jMiUVujx5XGCpDcca?=
 X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 22053c6d-b7b7-4bda-72bf-08d96e0476a4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0464715a-1bea-408f-0cfb-08d96e04787f
 X-MS-Exchange-CrossTenant-AuthSource: CO6PR04MB7812.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2021 11:26:10.0293 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2021 11:26:13.3030 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: b61c8803-16f3-4c35-9b17-6f65f441df86
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Bzjnew/iUrAsxum2Oj1tGY7igly1SJJtWqDGiE5Fg0/6Xfcsvkmkk1WWdDYioWex9yIu8EtVrs9G8ApglWEDVA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR04MB7841
-Received-SPF: pass client-ip=68.232.141.245;
- envelope-from=prvs=872ab4b15=Anup.Patel@wdc.com; helo=esa1.hgst.iphmx.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: V5Gcgmfcr05moRjEW6x/xVvvtkmR2kP8Y04VC4MeJphCuJeVFJaZrwGzVgnXNICElRfHWX9tsb1Xm5KkQgD0Zw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR04MB8361
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=872ab4b15=Anup.Patel@wdc.com; helo=esa5.hgst.iphmx.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -155,172 +156,78 @@ Cc: Atish Patra <atish.patra@wdc.com>, Anup Patel <anup.patel@wdc.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The RISC-V AIA specification extends RISC-V local interrupts and
-introduces new CSRs. This patch adds defines for the new AIA CSRs.
+The AIA device emulation (such as AIA IMSIC) should be able to set
+(or provide) AIA ireg read-modify-write callback for each privilege
+level of a RISC-V HART.
 
 Signed-off-by: Anup Patel <anup.patel@wdc.com>
 ---
- target/riscv/cpu_bits.h | 128 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 128 insertions(+)
+ target/riscv/cpu.h        | 19 +++++++++++++++++++
+ target/riscv/cpu_helper.c | 14 ++++++++++++++
+ 2 files changed, 33 insertions(+)
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index a1958dbd6a..c31c1dde27 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -160,6 +160,31 @@
- #define CSR_MTVAL           0x343
- #define CSR_MIP             0x344
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 2cde2df7be..c5cdd26de4 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -239,6 +239,18 @@ struct CPURISCVState {
+     uint64_t (*rdtime_fn)(uint32_t);
+     uint32_t rdtime_fn_arg;
  
-+/* Machine-Level Window to Indirectly Accessed Registers (AIA) */
-+#define CSR_MISELECT        0x350
-+#define CSR_MIREG           0x351
++    /* machine specific AIA ireg read-modify-write callback */
++#define AIA_MAKE_IREG(__isel, __priv, __virt, __vgein) \
++    ((((__vgein) & 0x3f) << 24) | (((__virt) & 0x1) << 20) | \
++     (((__priv) & 0x3) << 16) | (__isel & 0xffff))
++#define AIA_IREG_ISEL(__ireg)                  ((__ireg) & 0xffff)
++#define AIA_IREG_PRIV(__ireg)                  (((__ireg) >> 16) & 0x3)
++#define AIA_IREG_VIRT(__ireg)                  (((__ireg) >> 20) & 0x1)
++#define AIA_IREG_VGEIN(__ireg)                 (((__ireg) >> 24) & 0x3f)
++    int (*aia_ireg_rmw_fn[4])(void *arg, target_ulong reg,
++        target_ulong *val, target_ulong new_val, target_ulong write_mask);
++    void *aia_ireg_rmw_fn_arg[4];
 +
-+/* Machine-Level Interrupts (AIA) */
-+#define CSR_MTOPI           0xfb0
-+
-+/* Machine-Level IMSIC Interface (AIA) */
-+#define CSR_MSETEIPNUM      0x358
-+#define CSR_MCLREIPNUM      0x359
-+#define CSR_MSETEIENUM      0x35a
-+#define CSR_MCLREIENUM      0x35b
-+#define CSR_MTOPEI          0x35d
-+
-+/* Virtual Interrupts for Supervisor Level (AIA) */
-+#define CSR_MVIEN           0x308
-+#define CSR_MVIP            0x309
-+
-+/* Machine-Level High-Half CSRs (AIA) */
-+#define CSR_MIDELEGH        0x313
-+#define CSR_MIEH            0x314
-+#define CSR_MVIENH          0x318
-+#define CSR_MVIPH           0x319
-+#define CSR_MIPH            0x354
-+
- /* Supervisor Trap Setup */
- #define CSR_SSTATUS         0x100
- #define CSR_SEDELEG         0x102
-@@ -179,6 +204,24 @@
- #define CSR_SPTBR           0x180
- #define CSR_SATP            0x180
- 
-+/* Supervisor-Level Window to Indirectly Accessed Registers (AIA) */
-+#define CSR_SISELECT        0x150
-+#define CSR_SIREG           0x151
-+
-+/* Supervisor-Level Interrupts (AIA) */
-+#define CSR_STOPI           0xdb0
-+
-+/* Supervisor-Level IMSIC Interface (AIA) */
-+#define CSR_SSETEIPNUM      0x158
-+#define CSR_SCLREIPNUM      0x159
-+#define CSR_SSETEIENUM      0x15a
-+#define CSR_SCLREIENUM      0x15b
-+#define CSR_STOPEI          0x15d
-+
-+/* Supervisor-Level High-Half CSRs (AIA) */
-+#define CSR_SIEH            0x114
-+#define CSR_SIPH            0x154
-+
- /* Hpervisor CSRs */
- #define CSR_HSTATUS         0x600
- #define CSR_HEDELEG         0x602
-@@ -209,6 +252,35 @@
- #define CSR_MTINST          0x34a
- #define CSR_MTVAL2          0x34b
- 
-+/* Virtual Interrupts and Interrupt Priorities (H-extension with AIA) */
-+#define CSR_HVIEN           0x608
-+#define CSR_HVICTL          0x609
-+#define CSR_HVIPRIO1        0x646
-+#define CSR_HVIPRIO2        0x647
-+
-+/* VS-Level Window to Indirectly Accessed Registers (H-extension with AIA) */
-+#define CSR_VSISELECT       0x250
-+#define CSR_VSIREG          0x251
-+
-+/* VS-Level Interrupts (H-extension with AIA) */
-+#define CSR_VSTOPI          0xeb0
-+
-+/* VS-Level IMSIC Interface (H-extension with AIA) */
-+#define CSR_VSSETEIPNUM     0x258
-+#define CSR_VSCLREIPNUM     0x259
-+#define CSR_VSSETEIENUM     0x25a
-+#define CSR_VSCLREIENUM     0x25b
-+#define CSR_VSTOPEI         0x25d
-+
-+/* Hypervisor and VS-Level High-Half CSRs (H-extension with AIA) */
-+#define CSR_HIDELEGH        0x613
-+#define CSR_HVIENH          0x618
-+#define CSR_HVIPH           0x655
-+#define CSR_HVIPRIO1H       0x656
-+#define CSR_HVIPRIO2H       0x657
-+#define CSR_VSIEH           0x214
-+#define CSR_VSIPH           0x254
-+
- /* Enhanced Physical Memory Protection (ePMP) */
- #define CSR_MSECCFG         0x390
- #define CSR_MSECCFGH        0x391
-@@ -535,4 +607,60 @@ typedef enum RISCVException {
- #define MIE_UTIE                           (1 << IRQ_U_TIMER)
- #define MIE_SSIE                           (1 << IRQ_S_SOFT)
- #define MIE_USIE                           (1 << IRQ_U_SOFT)
-+
-+/* MISELECT, SISELECT, and VSISELECT bits (AIA) */
-+#define ISELECT_IPRIO0                     0x30
-+#define ISELECT_IPRIO15                    0x3f
-+#define ISELECT_IMSIC_EIDELIVERY           0x70
-+#define ISELECT_IMSIC_EITHRESHOLD          0x72
-+#define ISELECT_IMSIC_EIP0                 0x80
-+#define ISELECT_IMSIC_EIP63                0xbf
-+#define ISELECT_IMSIC_EIE0                 0xc0
-+#define ISELECT_IMSIC_EIE63                0xff
-+#define ISELECT_IMSIC_FIRST                ISELECT_IMSIC_EIDELIVERY
-+#define ISELECT_IMSIC_LAST                 ISELECT_IMSIC_EIE63
-+#define ISELECT_MASK                       0x1ff
-+
-+/* Dummy [M|S|VS]ISELECT value for emulating [M|S|VS]TOPEI CSRs */
-+#define ISELECT_IMSIC_TOPEI                (ISELECT_MASK + 1)
-+
-+/* IMSIC bits (AIA) */
-+#define IMSIC_TOPEI_IID_SHIFT              16
-+#define IMSIC_TOPEI_IID_MASK               0x7ff
-+#define IMSIC_TOPEI_IPRIO_MASK             0x7ff
-+#define IMSIC_EIPx_BITS                    32
-+#define IMSIC_EIEx_BITS                    32
-+
-+/* MTOPI and STOPI bits (AIA) */
-+#define TOPI_IID_SHIFT                     16
-+#define TOPI_IID_MASK                      0xfff
-+#define TOPI_IPRIO_MASK                    0xff
-+
-+/* Interrupt priority bits (AIA) */
-+#define IPRIO_IRQ_BITS                     8
-+#define IPRIO_MMAXIPRIO                    255
-+#define IPRIO_DEFAULT_MMAXIPRIO            15
-+#define IPRIO_DEFAULT_VS                   (IPRIO_DEFAULT_MMAXIPRIO - 4)
-+#define IPRIO_DEFAULT_SGEXT                (IPRIO_DEFAULT_MMAXIPRIO - 5)
-+#define IPRIO_DEFAULT_S                    (IPRIO_DEFAULT_MMAXIPRIO - 6)
-+#define IPRIO_DEFAULT_M                    (IPRIO_DEFAULT_MMAXIPRIO - 7)
-+#define IPRIO_DEFAULT_U(_i)                (((_i) >> 4) & 0x3)
-+#define IPRIO_DEFAULT_L(_i)                ((_i) & 0xf)
-+#define IPRIO_DEFAULT_16_23(_i)            \
-+    (IPRIO_DEFAULT_MMAXIPRIO - (IPRIO_DEFAULT_L(_i) >> 1))
-+#define IPRIO_DEFAULT_24_31(_i)            \
-+    (IPRIO_DEFAULT_MMAXIPRIO - (4 + (IPRIO_DEFAULT_L(_i) >> 1)))
-+#define IPRIO_DEFAULT_32_47(_i)            \
-+    (IPRIO_DEFAULT_MMAXIPRIO - (IPRIO_DEFAULT_L(_i) >> 2))
-+#define IPRIO_DEFAULT_48_63(_i)            \
-+    (IPRIO_DEFAULT_MMAXIPRIO - (8 + (IPRIO_DEFAULT_L(_i) >> 2)))
-+
-+/* HVICTL bits (AIA) */
-+#define HVICTL_VTI                         0x40000000
-+#define HVICTL_IID                         0x0fff0000
-+#define HVICTL_IPRIOM                      0x00000100
-+#define HVICTL_IPRIO                       0x000000ff
-+#define HVICTL_VALID_MASK                  \
-+    (HVICTL_VTI | HVICTL_IID | HVICTL_IPRIOM | HVICTL_IPRIO)
-+
+     /* True if in debugger mode.  */
+     bool debugger;
  #endif
+@@ -379,6 +391,13 @@ uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value);
+ #define BOOL_TO_MASK(x) (-!!(x)) /* helper for riscv_cpu_update_mip value */
+ void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(uint32_t),
+                              uint32_t arg);
++void riscv_cpu_set_aia_ireg_rmw_fn(CPURISCVState *env, uint32_t priv,
++                                   int (*rmw_fn)(void *arg,
++                                                 target_ulong reg,
++                                                 target_ulong *val,
++                                                 target_ulong new_val,
++                                                 target_ulong write_mask),
++                                   void *rmw_fn_arg);
+ #endif
+ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv);
+ 
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index ee316db594..fcc8bbd1b3 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -288,6 +288,20 @@ void riscv_cpu_set_rdtime_fn(CPURISCVState *env, uint64_t (*fn)(uint32_t),
+     env->rdtime_fn_arg = arg;
+ }
+ 
++void riscv_cpu_set_aia_ireg_rmw_fn(CPURISCVState *env, uint32_t priv,
++                                   int (*rmw_fn)(void *arg,
++                                                 target_ulong reg,
++                                                 target_ulong *val,
++                                                 target_ulong new_val,
++                                                 target_ulong write_mask),
++                                   void *rmw_fn_arg)
++{
++    if (priv <= PRV_M) {
++        env->aia_ireg_rmw_fn[priv] = rmw_fn;
++        env->aia_ireg_rmw_fn_arg[priv] = rmw_fn_arg;
++    }
++}
++
+ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
+ {
+     if (newpriv > PRV_M) {
 -- 
 2.25.1
 
