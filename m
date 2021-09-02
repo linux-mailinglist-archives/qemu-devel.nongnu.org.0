@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93BE93FEE51
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:06:44 +0200 (CEST)
-Received: from localhost ([::1]:39088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71D363FEE45
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:03:42 +0200 (CEST)
+Received: from localhost ([::1]:59060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLmQV-0004tQ-JF
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:06:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37752)
+	id 1mLmNZ-0007Al-7X
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:03:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mLm9q-00056H-28
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:49:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58340)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mLm9q-00056l-PP
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:49:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mLm9l-000723-7r
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:49:28 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mLm9o-00072g-55
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 08:49:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630586964;
+ s=mimecast20190719; t=1630586967;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jZoEtknywEr55vZIll6RtNUrJPiXr8V7DhCpfJfCvRk=;
- b=Zk3cEY9Dx5vXwI90fNholsweaSqlWHqDCeJw+Cv0li24Hdg1y+lITp+jpOg4K/JHqc5Ffs
- YP3u+MGNzkNcqk3C+F9EFPjptKZ8wxTHT30bOO5Qe1RLIKzkf8ww4HQP0ExAFh000qysuZ
- uHfty5AZZ8RldquPfeNmX2mMxpr4VV8=
+ bh=kvSGLmDQoJCOY+GW0INvLdpixURESMkqGYcc41wCcOM=;
+ b=fhj4uHXPVHfUezIe578kERUzvGMiA9M9eC+hPk//iEwbkVUn4EU7SXJCys4TUqth30PrGV
+ DsIbphdChL4czj30gmXQsNfAhSQd5WvxctqtHAW+v0GjcnaQgtCxAav8fHwboRUO+4lbNJ
+ ihQifYI5dJfZkQr7wTlXcZ844uILKAE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-9EG5wXiLMMCnfjhkjGIVmw-1; Thu, 02 Sep 2021 08:49:22 -0400
-X-MC-Unique: 9EG5wXiLMMCnfjhkjGIVmw-1
+ us-mta-509-Wf1k3AamN-GcJV5q6M1Ydw-1; Thu, 02 Sep 2021 08:49:24 -0400
+X-MC-Unique: Wf1k3AamN-GcJV5q6M1Ydw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10E231940926;
- Thu,  2 Sep 2021 12:49:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B6EF107ACCD;
+ Thu,  2 Sep 2021 12:49:23 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.194.85])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2F16010016F2;
- Thu,  2 Sep 2021 12:49:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6836510016F2;
+ Thu,  2 Sep 2021 12:49:22 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 02/13] libqtest: check for g_setenv() failure
-Date: Thu,  2 Sep 2021 14:49:00 +0200
-Message-Id: <20210902124911.822423-3-thuth@redhat.com>
+Subject: [PULL 03/13] gitlab-ci: Merge "build-disabled" with
+ "build-without-default-features"
+Date: Thu,  2 Sep 2021 14:49:01 +0200
+Message-Id: <20210902124911.822423-4-thuth@redhat.com>
 In-Reply-To: <20210902124911.822423-1-thuth@redhat.com>
 References: <20210902124911.822423-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -54,9 +55,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -80,39 +81,138 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+Both jobs are testing more or less the same thing (building QEMU with
+features disabled), so we are wasting precious CI cycles here by doing
+this twice. Merge the jobs by using --without-default-features by default
+and just adding some additional --disable-... switches which are not
+covered by the generic switch (yet). And while we're at it, also test
+compilation with "--disable-fdt" (which forces us to change the list
+of targets in this job, though, since some targets do not work without
+fdt).
 
-g_setenv() can fail; check for it when starting a QEMU process
-when we set the QEMU_AUDIO_DRV environment variable.
-
-Because this happens after fork() reporting an exact message
-via printf() is a bad idea; just exit(1), as we already do
-for the case of execlp() failure.
-
-Fixes: Coverity CID 1460117
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210820163750.9106-1-peter.maydell@linaro.org>
+Message-Id: <20210730143809.717079-2-thuth@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/libqtest.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ .gitlab-ci.d/buildtest.yml | 97 +++++---------------------------------
+ 1 file changed, 13 insertions(+), 84 deletions(-)
 
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 825b13a44c..73f6b977a6 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -301,7 +301,9 @@ QTestState *qtest_init_without_qmp_handshake(const char *extra_args)
-     s->expected_status = 0;
-     s->qemu_pid = fork();
-     if (s->qemu_pid == 0) {
--        g_setenv("QEMU_AUDIO_DRV", "none", true);
-+        if (!g_setenv("QEMU_AUDIO_DRV", "none", true)) {
-+            exit(1);
-+        }
-         execlp("/bin/sh", "sh", "-c", command, NULL);
-         exit(1);
-     }
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index 903ee65f32..f390f98044 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -202,85 +202,6 @@ acceptance-system-opensuse:
+     MAKE_CHECK_ARGS: check-acceptance
+ 
+ 
+-build-disabled:
+-  extends: .native_build_job_template
+-  needs:
+-    job: amd64-fedora-container
+-  variables:
+-    IMAGE: fedora
+-    CONFIGURE_ARGS:
+-      --disable-attr
+-      --disable-auth-pam
+-      --disable-avx2
+-      --disable-bochs
+-      --disable-brlapi
+-      --disable-bzip2
+-      --disable-cap-ng
+-      --disable-capstone
+-      --disable-cloop
+-      --disable-coroutine-pool
+-      --disable-curl
+-      --disable-curses
+-      --disable-dmg
+-      --disable-docs
+-      --disable-gcrypt
+-      --disable-glusterfs
+-      --disable-gnutls
+-      --disable-gtk
+-      --disable-guest-agent
+-      --disable-iconv
+-      --disable-keyring
+-      --disable-kvm
+-      --disable-libiscsi
+-      --disable-libpmem
+-      --disable-libssh
+-      --disable-libudev
+-      --disable-libusb
+-      --disable-libxml2
+-      --disable-linux-aio
+-      --disable-live-block-migration
+-      --disable-lzo
+-      --disable-malloc-trim
+-      --disable-mpath
+-      --disable-nettle
+-      --disable-numa
+-      --disable-opengl
+-      --disable-parallels
+-      --disable-pie
+-      --disable-qcow1
+-      --disable-qed
+-      --disable-qom-cast-debug
+-      --disable-rbd
+-      --disable-rdma
+-      --disable-replication
+-      --disable-sdl
+-      --disable-seccomp
+-      --disable-slirp
+-      --disable-smartcard
+-      --disable-snappy
+-      --disable-sparse
+-      --disable-spice
+-      --disable-strip
+-      --disable-tpm
+-      --disable-usb-redir
+-      --disable-vdi
+-      --disable-vhost-crypto
+-      --disable-vhost-net
+-      --disable-vhost-scsi
+-      --disable-vhost-kernel
+-      --disable-vhost-user
+-      --disable-vhost-vdpa
+-      --disable-vhost-vsock
+-      --disable-virglrenderer
+-      --disable-vnc
+-      --disable-vte
+-      --disable-vvfat
+-      --disable-xen
+-      --disable-zstd
+-    TARGETS: arm-softmmu i386-softmmu ppc64-softmmu mips64-softmmu
+-      s390x-softmmu i386-linux-user
+-    MAKE_CHECK_ARGS: check-qtest SPEED=slow
+-
+ # This jobs explicitly disable TCG (--disable-tcg), KVM is detected by
+ # the configure script. The container doesn't contain Xen headers so
+ # Xen accelerator is not detected / selected. As result it build the
+@@ -649,12 +570,20 @@ build-without-default-devices:
+ build-without-default-features:
+   extends: .native_build_job_template
+   needs:
+-    job: amd64-debian-container
++    job: amd64-fedora-container
+   variables:
+-    IMAGE: debian-amd64
+-    CONFIGURE_ARGS: --without-default-features --disable-user
+-        --target-list-exclude=arm-softmmu,i386-softmmu,mipsel-softmmu,mips64-softmmu,ppc-softmmu
+-    MAKE_CHECK_ARGS: check-unit
++    IMAGE: fedora
++    CONFIGURE_ARGS:
++      --without-default-features
++      --disable-capstone
++      --disable-fdt
++      --disable-pie
++      --disable-qom-cast-debug
++      --disable-slirp
++      --disable-strip
++    TARGETS: avr-softmmu i386-softmmu mips64-softmmu s390x-softmmu sh4-softmmu
++      sparc64-softmmu hexagon-linux-user i386-linux-user s390x-linux-user
++    MAKE_CHECK_ARGS: check-unit check-qtest SPEED=slow
+ 
+ build-libvhost-user:
+   stage: build
 -- 
 2.27.0
 
