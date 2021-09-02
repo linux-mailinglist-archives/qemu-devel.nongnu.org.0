@@ -2,84 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4E043FE9E3
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 09:18:34 +0200 (CEST)
-Received: from localhost ([::1]:58562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 600AC3FE9EB
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 09:20:53 +0200 (CEST)
+Received: from localhost ([::1]:60896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLgzZ-0007X5-4f
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 03:18:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54286)
+	id 1mLh1o-0000xd-EL
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 03:20:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1mLgp5-0004Qy-EC
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 03:07:43 -0400
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:35859)
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1mLgpg-0005w8-Ea
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 03:08:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:57303)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>) id 1mLgp0-0005Fw-Ma
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 03:07:43 -0400
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.west.internal (Postfix) with ESMTP id 5DBDA3200A40;
- Thu,  2 Sep 2021 03:07:35 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 02 Sep 2021 03:07:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=GiSn5cOfS1H1CSeuWtjTTprskL4
- XKHEzOMkTdifJUuk=; b=AJO4rKiZouwta8JZlqByUVSPlv94iF4FZjOv/EAKD0E
- awBKDD/8PO73Q8eHbK7DiwcJYZ579RUoeIkNDN9Jpg4KMiQ3+8VXLnXbiHmYK1ak
- ynKkv80Y+b3RnPbnWpLxOoMbAyJ1aBDmDvaIOa+44hFZ1qH1rfKYUi/CK3G/kfE8
- y7QTGCvXC+iUlXef4aGVGaeGExpgNOU11e/Nlw04Y/t3T3u3tIEBGnATY+ufDp9g
- k1llAJFksWUjWLexvXhjoa2SQ52nyHgsMi6kLyjHrVM3UJ1X43+A2JwcWe+7E6Tr
- oZF8pA3Uv8kXzkl8th6q2ljl/zYkAis28AEf1Fxjp2g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=GiSn5c
- OfS1H1CSeuWtjTTprskL4XKHEzOMkTdifJUuk=; b=ma+rNw6hy+K1AnNkRU7PqR
- vwk0+amenWZJrB3xThzhnDFEKkeFgICoNQrwQFE6wqTiigcolJ2h1IzRlhiKtQrR
- tXIBypkZfrVz62+2k5vACJUH7AHJ7pilbOQP2x7B3bpvCSjEkVXzABqAcnF/71Xq
- aTeU/iexAP39gWZVTqd3sR2hRWnrUpB9lyudwaL2vuiR06vOwHnDwNVBRbLMkqZY
- PZK9Vwi9YzT1j6A8xdmau8SfStUPiYKj6UpKM80auJ8/5OAII0HjrmBKtmzYXMir
- 8jhPYfU14/JU3Bgf9uPNDgxnRafJTRt0yyQE4bJTrMYef4lOfaKZr97cFWYwOysA
- ==
-X-ME-Sender: <xms:NngwYV07gVxN6tMl8zIR-V8zfaIPKC737F1Na2-J4hyhQUm739SnQQ>
- <xme:NngwYcHwDSY_NbtxS1dY1jtWHH58p_67xarH6Jy5fhfciTvchXCYx7gmAUWt-WXFe
- JvQC6_xF2VqB1N27r8>
-X-ME-Received: <xmr:NngwYV5AiQGdXccP_u2dkPO7iKq6juUtm6Ei2byNDpnBX6kITEodCzv4dRit6jh9yTHC3Pr5E4Kk6YjDzt2ETzNizGaQIhbuRH1zv49YICzkjmLYQQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddruddvgedgudduiecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
- shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
- htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
- ffeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepih
- htshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:NngwYS1I0BZXaWTjxudL49sLA157vUrebrJIHOLagT84sFcRJk0srg>
- <xmx:NngwYYHtRqNAE1T7DDWVyCaGWflM8CEVPT4fsIbHqhCEXOfGw9ltlA>
- <xmx:NngwYT-iZ5CuOUIPa_aYqy2jDkOw_lG60WhTLGFLuo9aA7nStjsqBg>
- <xmx:NngwYSNMhcqjdMS7ygE0jEZ-q7IRylk1Y5oRNhyZOyYBq5eSqjQ5cw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 2 Sep 2021 03:07:33 -0400 (EDT)
-Date: Thu, 2 Sep 2021 09:07:31 +0200
-From: Klaus Jensen <its@irrelevant.dk>
-To: Duo jia <jiaduo19920301@gmail.com>
-Subject: Re: How to comminicate between two QOM model?
-Message-ID: <YTB4MyTaZT94Lxae@apples.localdomain>
-References: <CALUzjTaGXLk2SMCAm=yyWKHT4DtkwXih_jct7cx5qU-8E3iDrw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <lsoaresp@redhat.com>)
+ id 1mLgpX-0005hV-Qe
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 03:08:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630566491;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bW0A2/G9p0b//5mia/PUWMiunBKngulqBe+qRpBNjqo=;
+ b=boppKqAl/EbQlk3haW8Q1SC92DibWl6cE1KPk1O3kiav0DPcKXRzRrJwMdtKq4gtibvkpg
+ 3GUVQtw00vmh4xSlQZLNvQ+JzLP3MFZOE0itf6kjUo3kbSkwQy7Cwkpi8iobyBIsgaimI5
+ fpttF4m4ecZNsW6n3cCk4S+n0X+OfLE=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-500-TPCYgIFcP5KzVHyOki71sg-1; Thu, 02 Sep 2021 03:07:30 -0400
+X-MC-Unique: TPCYgIFcP5KzVHyOki71sg-1
+Received: by mail-lf1-f72.google.com with SMTP id
+ d4-20020ac241c4000000b003d8c755d4e0so441313lfi.13
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 00:07:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=bW0A2/G9p0b//5mia/PUWMiunBKngulqBe+qRpBNjqo=;
+ b=sSrK/toPl835jqULQ7VndSWh2WrFGDUD6BllB9uKs+ZVS4AwAjxBFqV+1Jf/6LHoKE
+ LGa5ZyiZ6k2FLEH7q36sLuxqB/VKEqXqKOd7MEVeEtr9BqKdqw8+vS2vvxTSjt0X5SOI
+ 9Ca8dNaCBKG9z3PG3t6Z5KLxDSJzt8PfuZilIwl6mhE2dNMHyb0xsjBsphaMS/B8puSi
+ vMZetLBZ+hztZxmu7l15nhn6A6dyTN0anLRopyh/eW3CLBpjRXp343s+rgIVzY0jq8gV
+ FKJ7W8EbXlVevlr9wkT6nfQh94DS5VdWX1pphguBRfjVBLjxV+6zeVB2g+N5KPbe0XEO
+ qVGA==
+X-Gm-Message-State: AOAM533OajCYJ6iaAqRYat+gXR1rszBV+kGfkKu5f3qvwn9v+eZuiYw0
+ CBDzPnGlrXNAXTeDc7ba8PV/NvKS6oQ2g+oDG4NbzeCvkwE6ZEvD48eFBGqIzPrP9GPcTN1Dvfb
+ sEdmDgNEW6DGN+1zcGnNM6StlmtW8oyQ=
+X-Received: by 2002:a05:6512:2291:: with SMTP id
+ f17mr1523030lfu.489.1630566448663; 
+ Thu, 02 Sep 2021 00:07:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxt1mczgTg6IJ0Go7oOKJAkdMhxV5ZEEc39iQUIIFoqxJ3LUSKTVkJmSuWGi+hsXUrwlkaOeMU7l3/6lue9SCQ=
+X-Received: by 2002:a05:6512:2291:: with SMTP id
+ f17mr1522993lfu.489.1630566448193; 
+ Thu, 02 Sep 2021 00:07:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="cqwbERZyoYaja5ld"
-Content-Disposition: inline
-In-Reply-To: <CALUzjTaGXLk2SMCAm=yyWKHT4DtkwXih_jct7cx5qU-8E3iDrw@mail.gmail.com>
-Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
- helo=wout5-smtp.messagingengine.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210831110238.299458-1-leobras@redhat.com>
+ <20210831110238.299458-3-leobras@redhat.com>
+ <YS4nPfEBCy9IC3rd@redhat.com> <YS6QmOrN4qr055vR@t490s>
+ <YS8+8EKboNvsB0zP@redhat.com>
+In-Reply-To: <YS8+8EKboNvsB0zP@redhat.com>
+From: Leonardo Bras Soares Passos <leobras@redhat.com>
+Date: Thu, 2 Sep 2021 04:07:39 -0300
+Message-ID: <CAJ6HWG6tSSYwesTyitPmiSDTMuiqkk4YeBzptni+46GPU9zKow@mail.gmail.com>
+Subject: Re: [PATCH v1 2/3] io: Add zerocopy and errqueue
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lsoaresp@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lsoaresp@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,47 +95,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello Daniel,.
+A few more comments:
 
---cqwbERZyoYaja5ld
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Sep 1, 2021 at 5:51 AM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+> wrote:
+>
+> On Tue, Aug 31, 2021 at 04:27:04PM -0400, Peter Xu wrote:
+> > On Tue, Aug 31, 2021 at 01:57:33PM +0100, Daniel P. Berrang=C3=A9 wrote=
+:
+> > > On Tue, Aug 31, 2021 at 08:02:38AM -0300, Leonardo Bras wrote:
+> > > > MSG_ZEROCOPY is a feature that enables copy avoidance in TCP/UDP so=
+cket
+> > > > send calls. It does so by avoiding copying user data into kernel bu=
+ffers.
+> > > >
+> > > > To make it work, three steps are needed:
+> > > > 1 - A setsockopt() system call, enabling SO_ZEROCOPY
+> > > > 2 - Passing down the MSG_ZEROCOPY flag for each send*() syscall
+> > > > 3 - Process the socket's error queue, dealing with any error
+> > >
+> > > AFAICT, this is missing the single most critical aspect of MSG_ZEROCO=
+PY.
+> > >
+> > > It is non-obvious, but setting the MSG_ZEROCOPY flag turns sendmsg()
+> > > from a synchronous call to an asynchronous call.
+> > >
+> > > It is forbidden to overwrite/reuse/free the buffer passed to sendmsg
+> > > until an asynchronous completion notification has been received from
+> > > the socket error queue. These notifications are not required to
+> > > arrive in-order, even for a TCP stream, because the kernel hangs on
+> > > to the buffer if a re-transmit is needed.
+> > >
+> > > https://www.kernel.org/doc/html/v5.4/networking/msg_zerocopy.html
+> > >
+> > >   "Page pinning also changes system call semantics. It temporarily
+> > >    shares the buffer between process and network stack. Unlike with
+> > >    copying, the process cannot immediately overwrite the buffer
+> > >    after system call return without possibly modifying the data in
+> > >    flight. Kernel integrity is not affected, but a buggy program
+> > >    can possibly corrupt its own data stream."
+> > >
+> > > AFAICT, the design added in this patch does not provide any way
+> > > to honour these requirements around buffer lifetime.
+> > >
+> > > I can't see how we can introduce MSG_ZEROCOPY in any seemless
+> > > way. The buffer lifetime requirements imply need for an API
+> > > design that is fundamentally different for asynchronous usage,
+> > > with a callback to notify when the write has finished/failed.
+> >
+> > Regarding buffer reuse - it indeed has a very deep implication on the b=
+uffer
+> > being available and it's not obvious at all.  Just to mention that the =
+initial
+> > user of this work will make sure all zero copy buffers will be guest pa=
+ges only
+> > (as it's only used in multi-fd), so they should always be there during =
+the
+> > process.
+>
+> That is not the case when migration is using TLS, because the buffers
+> transmitted are the ciphertext buffer, not the plaintext guest page.
 
-On Sep  2 14:40, Duo jia wrote:
-> HI,
-> I has two QOM model=EF=BC=8CA and B=EF=BC=8C When A=E2=80=98s register ch=
-anged=EF=BC=8CB=E2=80=99s register will
-> should also be change .
->=20
-> I dont konw  how to change B's reg in A device .
+That makes sense.
+I am still working my way on Migration code, and I ended up not
+knowing that part.
 
-There are a couple of ways you can "plumb" devices and objects together.
-For devices you can use a qdev bus if you have a strict parent/child
-relationship between A and B. Or you can use a "link" property to
-manually wire up the devices/objects. Or use can use object composition
-(device A creates a child object B).
+I think we can work on KTLS for this case, and implement something
+'like zerocopy' for this. I added more details in the previous mail I sent =
+you.
 
-But I think it depends a lot on what you are actually modeling and you
-are not sharing a lot of information on that ;)
 
---cqwbERZyoYaja5ld
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+> > In short, we may just want to at least having a way to make sure all ze=
+ro
+> > copied buffers are finished using and they're sent after some function =
+returns
+> > (e.g., qio_channel_flush()).  That may require us to do some accounting=
+ on when
+> > we called sendmsg(MSG_ZEROCOPY), meanwhile we should need to read out t=
+he
+> > ee_data field within SO_EE_ORIGIN_ZEROCOPY msg when we do recvmsg() for=
+ the
+> > error queue and keep those information somewhere too.
+> >
+> > Some other side notes that reached my mind..
+> >
+> > The qio_channel_writev_full() may not be suitable for async operations,=
+ as the
+> > name "full" implies synchronous to me.  So maybe we can add a new helpe=
+r for
+> > zero copy on the channel?
+>
+> All the APIs that exist today are fundamentally only suitable for sync
+> operations. Supporting async correctly will definitely a brand new APIs
+> separate from what exists today.
 
------BEGIN PGP SIGNATURE-----
+That's a great, I was thinking on implementing this as an optional method f=
+or
+QIOChannel, more details in the previous mail :).
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmEweDEACgkQTeGvMW1P
-DenLQQf9EiSKHi12I2gEKYiLekDgaZ1bRI9mDzQqTUb2qiYOoPMmfQsHVrtEZDS5
-lVGR+w1IQ7Sqw6vRMeAmlzyRjUb26NeIBoIB9Pj2TjufnM8eQnXHrqcNXiIlUAVK
-YbO9bYfVDj/dh3MfrLt3D/xdFbe/aJPqQIisP3Gk8NM8x458/Ce2vA8Xr5Hb+r+k
-ECF/IbyHkrfmXtUpLaqwOOgeXi5RHywM/5C0jdKw0403PvzpdwwubSP/v9wQDlsb
-8MCYxi5O6xOyhKSlu+xX4NfYCwGZQRp9Bt9g8J3+gJ3KRqibW0my+Gh4sZtl6rNX
-DOPUSkj3ubkcpgm52NSoAvy0nE4cEA==
-=nha8
------END PGP SIGNATURE-----
+(sorry, I ended up reading/replying the mails in thread order)
 
---cqwbERZyoYaja5ld--
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
+>
+
+Best regards,
+Leonardo Bras
+
 
