@@ -2,115 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 624233FE8D4
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 07:42:46 +0200 (CEST)
-Received: from localhost ([::1]:39672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9A4A3FE8DC
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 07:46:16 +0200 (CEST)
+Received: from localhost ([::1]:42294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLfUq-00010I-To
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 01:42:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38988)
+	id 1mLfYF-0002ug-W7
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 01:46:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>)
- id 1mLfSQ-0007we-D4; Thu, 02 Sep 2021 01:40:14 -0400
-Received: from mail-dm6nam11on2077.outbound.protection.outlook.com
- ([40.107.223.77]:30558 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mLfWb-0001p7-RD
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 01:44:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>)
- id 1mLfSK-0006Uo-4R; Thu, 02 Sep 2021 01:40:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CgNEHPdNETmf5eR6HNC+axV8SdfIGoTq92MDZ/qas4G/KycCUeUST1ux/8Ui3TzOJpohp7E4OPMoj0R4EIVcxPZ8JIwX5WKFqXYdoNUgB846ukzMuBajF3eDmM5oBDjNLcE1emtEVJh5c9nKy3gnS+piCwtbFiCanPxljHxw6XLPh+okIBxFwEBYLwptnQBQoTBUv9h28d4teUpdW4JWfVBJaj0M6r294B2UbuvxUrCpR2BwJlJxvRUAhgrZFl1elgNd7sDEPWTz1Pv4xO4p0R9mG33wCUXjzeKh/xTxQ0cA65MPOt+jA4YjoKY892jwPcG24M84z7sVKl1HSiJ+MQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N8NWpBEe934PROtXsv59MPCnHWBlA8L7Zw1eJl3nL0c=;
- b=LmKU2T+vjuRzy9Rk+JQVZeu7AvKwPL4DBN6UwXYcoU/GQpp8yqHNSn6S0ZSDrQpxnlopZNEOVQ08qsWU8DKXMVGhih+3y1F/GE1of+FcDpDvsAb6NwxjUC1VkupabSvC52TU3FsR5pTRsLoN5z6cJOhff1ICNcC7Ix/hg6Z4vaouJPtCQGtl18PnnNXjTlK2L5kg+ivZckzWWF362ZkirsPqy6SSWWnKwbCGc3E9KhZ1s7wy3tgZJm/Rt39HY0pSk4pxftv/fyRVBYNQPQdkEfWoNXmOUjA2BUqPDZ6tg2Ia7Cp1B6zHQBskpfWOcacclyWqMZJNd3hCbmyJvW1SLw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=gmail.com smtp.mailfrom=xilinx.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=N8NWpBEe934PROtXsv59MPCnHWBlA8L7Zw1eJl3nL0c=;
- b=sEMyPMCln3hckEo/PTTNrlr0Eek1NG/XA3NZs5vDpHWXbxpPK80XmKa/DfBUbVYCACBoNLZlSnLwWMSt8eA4IZfuCu1Xgn3b5pApWLh9eOYu0WpVnNBOQWKSAnjLXr1Wq4srh/y9Y2HhA8k7j8WB+YeiL6Qfgl9tWzChkuZG9T0=
-Received: from SA9PR13CA0033.namprd13.prod.outlook.com (2603:10b6:806:22::8)
- by BYAPR02MB4582.namprd02.prod.outlook.com (2603:10b6:a03:58::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4457.23; Thu, 2 Sep
- 2021 05:40:02 +0000
-Received: from SN1NAM02FT0038.eop-nam02.prod.protection.outlook.com
- (2603:10b6:806:22:cafe::80) by SA9PR13CA0033.outlook.office365.com
- (2603:10b6:806:22::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.4 via Frontend
- Transport; Thu, 2 Sep 2021 05:40:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=pass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- SN1NAM02FT0038.mail.protection.outlook.com (10.97.5.7) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4478.19 via Frontend Transport; Thu, 2 Sep 2021 05:40:01 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.14; Wed, 1 Sep 2021 22:40:00 -0700
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.2176.14 via Frontend Transport; Wed, 1 Sep 2021 22:40:00 -0700
-Received: from [10.71.116.242] (port=54989 helo=localhost)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <edgar@xilinx.com>)
- id 1mLfSB-000AhN-MD; Wed, 01 Sep 2021 22:40:00 -0700
-Date: Thu, 2 Sep 2021 07:39:58 +0200
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH v3 0/6] hw/arm: xilinx_zynq: Fix upstream U-Boot boot
- failure
-Message-ID: <20210902053958.GJ6340@toto>
-References: <20210901124521.30599-1-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1mLfWY-0001hv-CI
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 01:44:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630561468;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XcgUQYPh6/HS6KpUPwbUwRnWz2A1p3G6f3gcfyD28gg=;
+ b=hMUinwhsvCAcKgSOTTepJaVzfxzLsMSOaFLlCeOU31ARqMmrFT8NTcnfGFjECKcYoeAAQL
+ 6UTEfOZsD3UOas1NEu0cxneMIcBxr4QjkKy6y8GLPAjgbnyyF8I1d9THQ13/SrVLJffJI3
+ +8XdcfjzsNRL+ANVCD9dUNRl+ldG1zU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-231-pr1btKl2N8uKb4d_gfISWw-1; Thu, 02 Sep 2021 01:44:27 -0400
+X-MC-Unique: pr1btKl2N8uKb4d_gfISWw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87248501E0;
+ Thu,  2 Sep 2021 05:44:25 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-13-161.pek2.redhat.com
+ [10.72.13.161])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8F3C25C1D0;
+ Thu,  2 Sep 2021 05:44:18 +0000 (UTC)
+From: Jason Wang <jasowang@redhat.com>
+To: mst@redhat.com,
+	jasowang@redhat.com
+Subject: [PATCH] virtio-net: fix use after unmap/free for sg
+Date: Thu,  2 Sep 2021 13:44:12 +0800
+Message-Id: <20210902054412.36615-1-jasowang@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20210901124521.30599-1-bmeng.cn@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0896fbb1-f1c1-42aa-4d24-08d96dd41bd7
-X-MS-TrafficTypeDiagnostic: BYAPR02MB4582:
-X-Microsoft-Antispam-PRVS: <BYAPR02MB458239F1F54547683CAA4474C2CE9@BYAPR02MB4582.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: AqexTXcuN+1OKUDOeig+cbIi+BKwuVYwzKHs/ApzqIRO2GstmmxA3Te7SWP+wNjgevOFhJNQanYyG+wofaBD1YrW6O4EAMF3ZDSxQA7C3Wj8pjccRpyMvDupDIuyb3bIY67NOSH+c142E3D9ZaOLl60j30e4G5Co4TXNV2V/+BbGB7ZZuyhU10X+qIpb9Z73V4LHHo7EFc/EtiEuwkuZl9mZek7ZcuwkjpFP+vlTgmKd+TQg60I7xzBkvxt60raXfqcF6xZEthLwBExdtmU8EjHEcrZISCULdHr8yaIJ4GzwPfPa9AeN5ZVsNwnP+Hjs3F/d4OC6Kbr/13SzhahpHi12cOpOZiP9w04AdVTsoByG18N/3TZXInl4L7bLbwd205hnKIhW9qmxPg3UVLYEdxFT9FLD6w8/Nye02qHssxL0jPINTsLVJsYMcigqMBcPkUuwq7Ig7TyDo+NBXVnbKNDLK9ZSoGlw9mWW5pTKz5/2BiK+0bWO/2ECgR4o9PlyfdwudWEb5EXZJrBYlZU5Q9WmDJMf4GHScdg62DxpDojtQUtHnqmfpZrVbxCEoMd72reGJZlQMX9FUE4hQcYF1JAptw3zeR9UFAqBpZLXmlVD1gkELDRsc8rEFCE5MAIKxZuZ6r/bHss2rgAb2D3vuWbZfy1GCzrHQzkS78in6BagpkalxgDN9KMC/7RaHRELruzq9nxs7oXOWbnMUqXNHw==
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(7916004)(4636009)(346002)(376002)(396003)(39860400002)(136003)(46966006)(36840700001)(9686003)(5660300002)(8936002)(7636003)(4326008)(82740400003)(356005)(47076005)(36860700001)(9786002)(26005)(36906005)(70206006)(478600001)(2906002)(82310400003)(33716001)(1076003)(83380400001)(8676002)(6916009)(426003)(54906003)(186003)(316002)(70586007)(33656002)(336012);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2021 05:40:01.6415 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0896fbb1-f1c1-42aa-4d24-08d96dd41bd7
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT0038.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4582
-Received-SPF: pass client-ip=40.107.223.77; envelope-from=edgar@xilinx.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -123,42 +77,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, qemu-arm@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: mcascell@redhat.com, Alexander Bulekov <alxndr@bu.edu>,
+ qemu-devel@nongnu.org, qemu-stable@nongnu.org, darren.kenny@oracle.com,
+ pj.pandit@yahoo.co.in
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 01, 2021 at 08:45:15PM +0800, Bin Meng wrote:
-> As of today, when booting upstream U-Boot for Xilinx Zynq, the UART
-> does not receive anything. Debugging shows that the UART input clock
-> frequency is zero which prevents the UART from receiving anything as.
-> per the logic in uart_receive().
-> 
-> Note the U-Boot can still output data to the UART tx fifo, which should
-> not happen, as the design seems to prevent the data transmission when
-> clock is not enabled but somehow it only applies to the Rx side.
-> 
-> For anyone who is interested to give a try, here is the U-Boot defconfig:
-> $ make xilinx_zynq_virt_defconfig
-> 
-> and QEMU commands to test U-Boot:
-> $ qemu-system-arm -M xilinx-zynq-a9 -m 1G -display none -serial null -serial stdio \
->     -device loader,file=u-boot-dtb.bin,addr=0x4000000,cpu-num=0
-> 
-> Note U-Boot used to boot properly in QEMU 4.2.0 which is the QEMU
-> version used in current U-Boot's CI testing. The UART clock changes
-> were introduced by the following 3 commits:
-> 
-> 38867cb7ec90 ("hw/misc/zynq_slcr: add clock generation for uarts")
-> b636db306e06 ("hw/char/cadence_uart: add clock support")
-> 5b49a34c6800 ("hw/arm/xilinx_zynq: connect uart clocks to slcr")
+When mergeable buffer is enabled, we try to set the num_buffers after
+the virtqueue elem has been unmapped. This will lead several issues,
+E.g a use after free when the descriptor has an address which belongs
+to the non direct access region. In this case we use bounce buffer
+that is allocated during address_space_map() and freed during
+address_space_unmap().
 
-Thanks Bin,
+Fixing this by storing the elems temporarily in an array and delay the
+unmap after we set the the num_buffers.
 
-On the entire series:
+This addresses CVE-2021-3748.
 
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Fixes: fbe78f4f55c6 ("virtio-net support")
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
+ hw/net/virtio-net.c | 39 ++++++++++++++++++++++++++++++++-------
+ 1 file changed, 32 insertions(+), 7 deletions(-)
+
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 16d20cdee5..f205331dcf 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -1746,10 +1746,13 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
+     VirtIONet *n = qemu_get_nic_opaque(nc);
+     VirtIONetQueue *q = virtio_net_get_subqueue(nc);
+     VirtIODevice *vdev = VIRTIO_DEVICE(n);
++    VirtQueueElement *elems[VIRTQUEUE_MAX_SIZE];
++    size_t lens[VIRTQUEUE_MAX_SIZE];
+     struct iovec mhdr_sg[VIRTQUEUE_MAX_SIZE];
+     struct virtio_net_hdr_mrg_rxbuf mhdr;
+     unsigned mhdr_cnt = 0;
+-    size_t offset, i, guest_offset;
++    size_t offset, i, guest_offset, j;
++    ssize_t err;
+ 
+     if (!virtio_net_can_receive(nc)) {
+         return -1;
+@@ -1780,6 +1783,12 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
+ 
+         total = 0;
+ 
++        if (i == VIRTQUEUE_MAX_SIZE) {
++            virtio_error(vdev, "virtio-net unexpected long buffer chain");
++            err = size;
++            goto err;
++        }
++
+         elem = virtqueue_pop(q->rx_vq, sizeof(VirtQueueElement));
+         if (!elem) {
+             if (i) {
+@@ -1791,7 +1800,8 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
+                              n->guest_hdr_len, n->host_hdr_len,
+                              vdev->guest_features);
+             }
+-            return -1;
++            err = -1;
++            goto err;
+         }
+ 
+         if (elem->in_num < 1) {
+@@ -1799,7 +1809,8 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
+                          "virtio-net receive queue contains no in buffers");
+             virtqueue_detach_element(q->rx_vq, elem, 0);
+             g_free(elem);
+-            return -1;
++            err = -1;
++            goto err;
+         }
+ 
+         sg = elem->in_sg;
+@@ -1836,12 +1847,13 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
+         if (!n->mergeable_rx_bufs && offset < size) {
+             virtqueue_unpop(q->rx_vq, elem, total);
+             g_free(elem);
+-            return size;
++            err = size;
++            goto err;
+         }
+ 
+-        /* signal other side */
+-        virtqueue_fill(q->rx_vq, elem, total, i++);
+-        g_free(elem);
++        elems[i] = elem;
++        lens[i] = total;
++        i++;
+     }
+ 
+     if (mhdr_cnt) {
+@@ -1851,10 +1863,23 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
+                      &mhdr.num_buffers, sizeof mhdr.num_buffers);
+     }
+ 
++    for (j = 0; j < i; j++) {
++        /* signal other side */
++        virtqueue_fill(q->rx_vq, elems[j], lens[j], j);
++        g_free(elems[j]);
++    }
++
+     virtqueue_flush(q->rx_vq, i);
+     virtio_notify(vdev, q->rx_vq);
+ 
+     return size;
++
++err:
++    for (j = 0; j < i; j++) {
++        g_free(elems[j]);
++    }
++
++    return err;
+ }
+ 
+ static ssize_t virtio_net_do_receive(NetClientState *nc, const uint8_t *buf,
+-- 
+2.25.1
+
 
