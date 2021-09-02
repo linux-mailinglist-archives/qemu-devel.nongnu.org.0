@@ -2,67 +2,132 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5948B3FF509
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 22:38:53 +0200 (CEST)
-Received: from localhost ([::1]:54974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 005C23FF562
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 23:11:12 +0200 (CEST)
+Received: from localhost ([::1]:40706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLtU4-0003FF-Eh
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 16:38:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42636)
+	id 1mLtzL-0005rk-I5
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 17:11:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mLtJk-0002MV-OF
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 16:28:12 -0400
-Received: from mail-ua1-x931.google.com ([2607:f8b0:4864:20::931]:38665)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mLtJh-00088y-Nl
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 16:28:12 -0400
-Received: by mail-ua1-x931.google.com with SMTP id s4so1589294uar.5
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 13:28:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IXs4nJs4COlMewLGKj8MReIetgZVSeTYTHEcqZse/qQ=;
- b=XHeayma8ok14I3d4JnNJOfDsI490aC4PaNrShe7GKHdZuFwssrOQf3hjRFGgUJL93L
- yUwk+eZoeU0geczbPsOYLCdJmo1NKVJbrmav7DnQEKNr0QCQu3pbckAiRHXVNf9NNERd
- ZLOwxm+FxUQPJNLdJR09PzEIMAtysE/DMBK25fvW3T6YiS53X14H8NNEQZr3nfEHs7nM
- jydS6yr3a6yUFS4YhF5aVeca80NF30RtsfHiTshdIE31cRpcxRyd8Lm3xm8UehqRqVSA
- z51r3Kv1c+lgW8ofeDN/zOXi2ueAEfOrb2elu/6DEim4+ZOOwTFe5DrXx2WYaHDQtKTQ
- fsug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IXs4nJs4COlMewLGKj8MReIetgZVSeTYTHEcqZse/qQ=;
- b=Omq+LM4w+rai5fU1qFOJcKlbbSnsA92nYiMe1J+pZ8CM+N4VdGgcoja3ryHoiWHwf4
- lTtNZn5//vRozbKDSLTqf7uHN4/8TfO0qIweu5fCqdHoJNW0QpZxe1eOcEu/tXYEe7JJ
- EM4Y2u5CwsjHOaOEIlCCpgoERJLBL34HuFPi171RQ1JycqT4gGuRHOXWdl1SV2XEgOsf
- XUZbR1lCtQqETJpJ0kfR01/3gZyNYb379kLsl/NsTxWPXKqe5Hh/g6RsLkJqQi0+PpjI
- 65c1xKb/g6miVKJJ/nJ/MX5lyhDwhTuXXSdg8NaiwAQjuEGe2CRK0uKv1PTp26+7WnRv
- b7iw==
-X-Gm-Message-State: AOAM5302h0h2EaR0B+Dq3F8EDzsmHPmMqPWOTSxv8GWZ7iQU7GnHqCh0
- a4rw3qDCVs99mOKTr/aBiLZDG80B8lceCz93aj9kNQ==
-X-Google-Smtp-Source: ABdhPJzwgC+RxKewBIDM1E4RXSapxrezGAqu4jfoRGSQudgckUFwJH24LFIGMwKib/Nzbl39duxWYzE6rh7sB0ZgIaI=
-X-Received: by 2002:a9f:2a87:: with SMTP id z7mr95147uai.11.1630614488604;
- Thu, 02 Sep 2021 13:28:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
+ id 1mLtwF-00030M-3o; Thu, 02 Sep 2021 17:07:59 -0400
+Received: from mail-dm3nam07on2135.outbound.protection.outlook.com
+ ([40.107.95.135]:23808 helo=NAM02-DM3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <luis.pires@eldorado.org.br>)
+ id 1mLtw8-0001j8-Cu; Thu, 02 Sep 2021 17:07:58 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kTIn4ZBwd5WE0WAycpo8L9RALa0D2pZYf+O1pW3KuIK+QW0pMoOq/xgxA95PdTkbXAUfxVw+LtRyZFrcBUvxlErUs1jh98kXaMy4hoA9Ag9Y+KtIAm/Itki6PKaBDMiGXrFbwENU5Iop1lnKAK+xCbs0KXheQTlXWFvx6FCmIhM0EDPk6kAGM7bSBPLvY0aohKk5hbfRaURYoYpiGMWsEOq9qwz5h6Xdx9KKMmHK7bOBAtsRetN6Yz9FbR1+yjNOSs5pKLZ/UFLRrztYFkwoJzpCtNFWaBQfeLkxH29isg0VaaxFmY6Vvmpe3EOlmsvHdR7TkjZWMm4OzoUioC0HBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=bU8mxW9AjE1BV9GAsFliaycfF6AA6gTgzeOyMNvm2g4=;
+ b=HBHf2yUoIC03ymNLvH9NHK4fMyClqcSl6KSkBmCI1alCaEB7oeH37bR1bLndYTV+CD3zwi/7zSie0PAIcRNjFv1ls/iBDJm9xesopK7JabQPms9SDGNMDGfwgo15PI8tzcgMgNwkNwQ0kyLXW4dH2x3ZbkTgfVj0q5FhOpjmI13gU242uvaTKyhEAjYocvNvXThb/TYK8stJHNKcCHf6YsnidzekjchlgpHU3ZNBKh3DlSzz/PMgE6khmoFrtjRPOa6pglX8N+T7XEOiV3EsV860Uuk090ZfROGntYVlzCjX6t8+fbsDZQC8afYgMWm5aTFG6qooSVzsIWurVXIUsw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=eldorado.org.br; dmarc=pass action=none
+ header.from=eldorado.org.br; dkim=pass header.d=eldorado.org.br; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=eldorado.org.br;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bU8mxW9AjE1BV9GAsFliaycfF6AA6gTgzeOyMNvm2g4=;
+ b=jGvmlDOGNexVE5J0N9jywRAH8A8mviqCo/pdBvyPaIHkCq00blejkWYnyU2dqdzbg/UTvxU/STHh9CGxn8mq6zNrmf6IG1ZrwcA0hPA8pr6bhOCBlt33qU8pp6DR3XMvN0mO8y5hhCqrpS231ccO8a6khoMgGWH+1GqvAVZfRdrT0G2WnDwIjbMMKM9tLF2lCEKQ8rtllBuZzNU189WYgzU8mkBIIVtLi1xLgapaHMMwQYdF9W7FpxWnikzrms8iNN9niUsovk3df/uj/QT3fuxHVIztUeZU/pN4xX4v7YXpxPTvQ8kadA0KxuU1/tTANyXASs4LmIdL3v6BYdOhDw==
+Received: from CP2PR80MB3668.lamprd80.prod.outlook.com (2603:10d6:102:31::10)
+ by CP0PR80MB4850.lamprd80.prod.outlook.com (2603:10d6:103:21::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.21; Thu, 2 Sep
+ 2021 21:07:46 +0000
+Received: from CP2PR80MB3668.lamprd80.prod.outlook.com
+ ([fe80::9c41:722:8b7b:8a76]) by CP2PR80MB3668.lamprd80.prod.outlook.com
+ ([fe80::9c41:722:8b7b:8a76%5]) with mapi id 15.20.4457.026; Thu, 2 Sep 2021
+ 21:07:46 +0000
+From: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>
+To: Richard Henderson <richard.henderson@linaro.org>, "qemu-devel@nongnu.org"
+ <qemu-devel@nongnu.org>, "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>
+Subject: RE: [PATCH v2 03/19] host-utils: move checks out of divu128/divs128
+Thread-Topic: [PATCH v2 03/19] host-utils: move checks out of divu128/divs128
+Thread-Index: AQHXnodMPzkRIkTsU0mDla07y7Xn4quN3FWAgANeUDA=
+Date: Thu, 2 Sep 2021 21:07:46 +0000
+Message-ID: <CP2PR80MB36686B0030807BB340C2FAE3DACE9@CP2PR80MB3668.lamprd80.prod.outlook.com>
+References: <20210831164007.297781-1-luis.pires@eldorado.org.br>
+ <20210831164007.297781-4-luis.pires@eldorado.org.br>
+ <984687eb-4d74-38e4-70ef-b8c527fe828b@linaro.org>
+In-Reply-To: <984687eb-4d74-38e4-70ef-b8c527fe828b@linaro.org>
+Accept-Language: pt-BR, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none; linaro.org; dmarc=none action=none header.from=eldorado.org.br; 
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2e3e1c5d-720a-4fb6-490e-08d96e55b6b9
+x-ms-traffictypediagnostic: CP0PR80MB4850:
+x-microsoft-antispam-prvs: <CP0PR80MB4850AAB1DEB501C51B1E811CDACE9@CP0PR80MB4850.lamprd80.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7219;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: c5TDXURz3ebUurTrkSQLSouzMpDr+CN+6Uuh6CPO1hSzzoX+QlIkjGbSOwCalEgVSh8bv8ZK5tV7zXn52M2+F36mJV+LQE5h2oaxYQsWq00/qbNelzTfXMkFERBpKflrXW8dCx7hvxE0VCqfxQpmx7SRE867mX1QCobGf37KdLrpsIg/aFKeZP6UXOlF3Oq7JNaR/VB3XTxCXTojpCUgYTyrgF2ETBmc21eREyxY89xnb2v88EmK6e+9bejDyNYcvzmr1XHVkcBJnbQ3ehdaRBGxa0Q88fIoRJTyDD9EbW1mHFGFczwhPODqtM1YW3zwuc3CG5xnxOw/S1NT7NtJxCiQt2jozoX2uCj3/GOXvhFHQsMPBFiGK/P001LIMkDv5vfryKBEkYEF7NpioySWTxezsC5xQ8mlHzx0swbg9CpVvbWiVKVf+dr3VhdExMNO4CFCTBxiSK+d7QtFS3iBXHNoDA+T6jqamEpoJODOYDSQ1jz3Pyt6RHeg/dYT0a9jQWmjqwHkmYe/oHvgkh2nSYChCUBOXC4jx3yAc1678ubjQIICNEqOi/hl75XkxAR348gKfEWAMzjujvoQbSqqoiI9Q3A//oej7J5FI0CxppxbMYk/pOOXdwoVpF2+DT/51cYpx4BI/HvEflQFulyCEgTEUdXwmj5YvBjl8KxWaO7+i1KpSlzLZPbJ9HGGyINruAxfiWeGrNfyZHQOLcFbdAtFGkO/QiUAkk/f3fuG9FPiSCUbvgv4WOOfDStnp18SA+lGZtSmhfEYCSJIP/OilLgnJnVqEUh7RTA9EgqTFzw=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CP2PR80MB3668.lamprd80.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(54906003)(2906002)(55016002)(9686003)(508600001)(52536014)(7696005)(110136005)(316002)(4326008)(5660300002)(33656002)(86362001)(71200400001)(66946007)(76116006)(66476007)(66556008)(64756008)(66446008)(8936002)(38100700002)(186003)(38070700005)(26005)(6506007)(122000001)(8676002);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?TnJ6UDZTZWdkQ1BIT0RBSFVuTEc3b1RUR0hMTmc1WGJBSm0rVkp5N2dzU09U?=
+ =?utf-8?B?K09xNm5zWEZhbFRySUdzYmIrSllWYmh6ZVhHVEJKaTF1S0hoNkR6RHc0RzlF?=
+ =?utf-8?B?bHY2MCsrU25xR2hEUGl0UVJrSk9UUGRJTUJCNy9Sa29Cd1BhQ25TZTFvSmxp?=
+ =?utf-8?B?SzhLSTZzbG1ORm9ZMDZkVTBQVndmMzdIejRyRjdSb3Z6TGVsSlpib0FaY0pW?=
+ =?utf-8?B?RmgrdXo0dVhkblMwZTViL0R2M3dyR25DcmswWklNb2RoTllLZDlPNkRpQkRI?=
+ =?utf-8?B?cnFTbUpOT1BBNVNsR3dUT2NCTjh1MGZ1UXg3WVdaYS9Palc0VFlnUkpRQkFo?=
+ =?utf-8?B?YWIzL01Cenk1dTBwQ0N1Unlsb1RndGtOYVFOMGs1aVNELzQ5YTBMbjBhOG5Y?=
+ =?utf-8?B?WE9GV1lacFpXR0p3T2t2Mkl1Y0tBWm1CTDJITUQwZy9lYjhtd2FYR2pkRitG?=
+ =?utf-8?B?U01wVmFGRXdEa0Y4cFRPVjhITWttWDBFaTRvSzUvSHY1ZWIveTNwMjJpVnFl?=
+ =?utf-8?B?N1o1OUh0aUVUN2txQTVSYnQzeVVzRWdBejhabVkycEVEVHhVMEx1NkdqOEhh?=
+ =?utf-8?B?MWFLNlY0ZlBkVklCenNGTllyU2VKTFo0YkNIdnFQSDRtVmZ6S0FXWXFjRWNv?=
+ =?utf-8?B?VUlsMlJ6eVB0SFdJbFZYcmYycFdRK1k4WW4zdlhOZW9mZ2JuRHBCVjltOUJQ?=
+ =?utf-8?B?VjhVaG5zMzBSRU1aeVBDSTJxS0dvQXBGdUovUW1PK1hrTzNwbnNkN0xFT1hs?=
+ =?utf-8?B?dUhLcFN4ZjB6NG9GRHZIWGZzaUFCS0hodFBQM1ZRc1NaMGFjdG9uOENCL1Na?=
+ =?utf-8?B?R2crd2Q4UmRGQnNZS0NSY3lQWU4zY3Q4dEV3N3BxV0JNUkwyM0NkWFk3ZVJC?=
+ =?utf-8?B?bUN6b0F1MHdTWUNFcFNpVTZBZFRsYzlCMXdqN3Q4UUJtUnFiZ1p2dUdBYmxx?=
+ =?utf-8?B?cUhaa3pHcnJBU09JM0U5M1hMMnViekJUWGpib0Vxb0l0NmRURk5sRjAwZFg2?=
+ =?utf-8?B?czF3UERuaXhYZjQ5WnFsV01Bdm5CV1NaaU1zWitUR3Y2bFRBUDNYT0h5ckZk?=
+ =?utf-8?B?Zkt1ZnltNmJLWm8yYklzMXp2dnhyZUhpWlR5RTdhRGdpN0V1REtNMEtQeVFl?=
+ =?utf-8?B?eklIRC9KcEwySUg5bnVUQnVETFlRN1dPSzc3S2w0YnczejNlSVo0VGlFbFAy?=
+ =?utf-8?B?YXBPTFVrd09lMHFhYmJVcXV0MTRDNFlVM1U0NjNiQlVKODRIeEdPYW5SeXMy?=
+ =?utf-8?B?NXU5U2J0ZitMcjNrZ3FFa2VIY3dvSnArMGdtemdDUWJIU1NLeENsQUpCOURp?=
+ =?utf-8?B?aHpyVkppWDZxOUNmcVFsWUJxZXZ5cmFJdG5HcVVZM1FNVGhGcFpLRUNzb0Q4?=
+ =?utf-8?B?YldjRUo4WEo0Z1c2cll0ZCtHVmVjc3F1OUdpS2ZFS25xdGhzMEhjSE0xZGdS?=
+ =?utf-8?B?SndnK2YydjFFZEVQVEpYMmQ0Y2xnZ0xzR3B5WHdNeHFnOHBiaDQ0ajJDZlF2?=
+ =?utf-8?B?REZBdWJ3K1dvN25UUjUrSERIRjk3Nm5BdXoxekR6MWh4QlNMZzRzQVVxRTA4?=
+ =?utf-8?B?ZHNYbEpibHNLb2tYV2hyRE9FU3hKalA4aE9qcGRxeFV3MGNtS0ZrMElnQWYv?=
+ =?utf-8?B?RktKQ1JMM1JaUVJVM1dMMzNzZi9KOVZUZTR2LzhhMjg5VXZ5c2xoY0cxdERx?=
+ =?utf-8?B?M2hWZXEram1qMC9qSVlrdWNmckdlb2gzcW9FUnZEbDdZOFFXMkZoUjhlcklK?=
+ =?utf-8?Q?Rb7iSgVxvVUSfcGVXlwdojLc5g02abXHQf231gU?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20210902151715.383678-1-f4bug@amsat.org>
- <20210902151715.383678-25-f4bug@amsat.org>
-In-Reply-To: <20210902151715.383678-25-f4bug@amsat.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Thu, 2 Sep 2021 14:27:57 -0600
-Message-ID: <CANCZdfrF3j+J2L_3KfbRNMF3r9+Fz3BUGYnbuRuvLyjF1HEJbw@mail.gmail.com>
-Subject: Re: [PATCH 24/24] user: Remove cpu_get_pic_interrupt() stubs
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="0000000000005bf1b905cb0905f7"
-Received-SPF: none client-ip=2607:f8b0:4864:20::931;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x931.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+X-OriginatorOrg: eldorado.org.br
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CP2PR80MB3668.lamprd80.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e3e1c5d-720a-4fb6-490e-08d96e55b6b9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Sep 2021 21:07:46.6017 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: b9397c69-e827-4afc-a365-ab275e41638f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rJik5CjEczFfYpnbWTFbqkQfPZGSdiO2XQDcmf715FKtGuXNJf/sG75Khe+UhVwBa5E7bAqenAMxbmNvXeXh0Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CP0PR80MB4850
+Received-SPF: pass client-ip=40.107.95.135;
+ envelope-from=luis.pires@eldorado.org.br;
+ helo=NAM02-DM3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -1
+X-Spam_score: -0.2
+X-Spam_bar: /
+X-Spam_report: (-0.2 / 5.0 requ) BAYES_20=-0.001, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,194 +140,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>, Max Filippov <jcmvbkbc@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Marek Vasut <marex@denx.de>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-ppc <qemu-ppc@nongnu.org>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Kyle Evans <kevans@freebsd.org>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- qemu-arm <qemu-arm@nongnu.org>, Michael Rolnik <mrolnik@gmail.com>,
- Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
- qemu-riscv@nongnu.org, Chris Wulff <crwulff@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>, Palmer Dabbelt <palmer@dabbelt.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: "groug@kaod.org" <groug@kaod.org>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000005bf1b905cb0905f7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Sep 2, 2021 at 9:19 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
->
-wrote:
-
-> cpu_get_pic_interrupt() is now unreachable from user-mode,
-> delete the unnecessary stubs.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  target/i386/cpu.h | 2 +-
->  bsd-user/main.c   | 7 -------
->  linux-user/main.c | 7 -------
->  3 files changed, 1 insertion(+), 15 deletions(-)
->
-
-Reviewed-by: Warner Losh <imp@bsdimp.com>
-
-
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index c241bc183d2..c7cc65e92d5 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -1832,9 +1832,9 @@ int x86_cpu_gdb_write_register(CPUState *cpu,
-> uint8_t *buf, int reg);
->  void x86_cpu_list(void);
->  int cpu_x86_support_mca_broadcast(CPUX86State *env);
->
-> +#ifndef CONFIG_USER_ONLY
->  int cpu_get_pic_interrupt(CPUX86State *s);
->
-> -#ifndef CONFIG_USER_ONLY
->  /* MSDOS compatibility mode FPU exception support */
->  void x86_register_ferr_irq(qemu_irq irq);
->  void fpu_check_raise_ferr_irq(CPUX86State *s);
-> diff --git a/bsd-user/main.c b/bsd-user/main.c
-> index fe66204b6b7..e358c38c353 100644
-> --- a/bsd-user/main.c
-> +++ b/bsd-user/main.c
-> @@ -66,13 +66,6 @@ void gemu_log(const char *fmt, ...)
->      va_end(ap);
->  }
->
-> -#if defined(TARGET_I386)
-> -int cpu_get_pic_interrupt(CPUX86State *env)
-> -{
-> -    return -1;
-> -}
-> -#endif
-> -
->  void fork_start(void)
->  {
->  }
->
-
-Love it, but either you or I will have to rebase based on which of us lands
-in the tree first :).
-For me, the rebase will be easy though.
-
-
-> diff --git a/linux-user/main.c b/linux-user/main.c
-> index 37ed50d98e2..f5c0a82427b 100644
-> --- a/linux-user/main.c
-> +++ b/linux-user/main.c
-> @@ -120,13 +120,6 @@ const char *qemu_uname_release;
->     by remapping the process stack directly at the right place */
->  unsigned long guest_stack_size =3D 8 * 1024 * 1024UL;
->
-> -#if defined(TARGET_I386)
-> -int cpu_get_pic_interrupt(CPUX86State *env)
-> -{
-> -    return -1;
-> -}
-> -#endif
-> -
->  /***********************************************************/
->  /* Helper routines for implementing atomic operations.  */
->
-> --
-> 2.31.1
->
->
-
---0000000000005bf1b905cb0905f7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 2, 2021 at 9:19 AM Philip=
-pe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.or=
-g</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->cpu_get_pic_interrupt() is now unreachable from user-mode,<br>
-delete the unnecessary stubs.<br>
-<br>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
-t.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
----<br>
-=C2=A0target/i386/cpu.h | 2 +-<br>
-=C2=A0bsd-user/main.c=C2=A0 =C2=A0| 7 -------<br>
-=C2=A0linux-user/main.c | 7 -------<br>
-=C2=A03 files changed, 1 insertion(+), 15 deletions(-)<br></blockquote><div=
-><div><br></div><div>Reviewed-by: Warner Losh &lt;<a href=3D"mailto:imp@bsd=
-imp.com" target=3D"_blank">imp@bsdimp.com</a>&gt;</div></div><div>=C2=A0</d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h<br>
-index c241bc183d2..c7cc65e92d5 100644<br>
---- a/target/i386/cpu.h<br>
-+++ b/target/i386/cpu.h<br>
-@@ -1832,9 +1832,9 @@ int x86_cpu_gdb_write_register(CPUState *cpu, uint8_t=
- *buf, int reg);<br>
-=C2=A0void x86_cpu_list(void);<br>
-=C2=A0int cpu_x86_support_mca_broadcast(CPUX86State *env);<br>
-<br>
-+#ifndef CONFIG_USER_ONLY<br>
-=C2=A0int cpu_get_pic_interrupt(CPUX86State *s);<br>
-<br>
--#ifndef CONFIG_USER_ONLY<br>
-=C2=A0/* MSDOS compatibility mode FPU exception support */<br>
-=C2=A0void x86_register_ferr_irq(qemu_irq irq);<br>
-=C2=A0void fpu_check_raise_ferr_irq(CPUX86State *s);<br>
-diff --git a/bsd-user/main.c b/bsd-user/main.c<br>
-index fe66204b6b7..e358c38c353 100644<br>
---- a/bsd-user/main.c<br>
-+++ b/bsd-user/main.c<br>
-@@ -66,13 +66,6 @@ void gemu_log(const char *fmt, ...)<br>
-=C2=A0 =C2=A0 =C2=A0va_end(ap);<br>
-=C2=A0}<br>
-<br>
--#if defined(TARGET_I386)<br>
--int cpu_get_pic_interrupt(CPUX86State *env)<br>
--{<br>
--=C2=A0 =C2=A0 return -1;<br>
--}<br>
--#endif<br>
--<br>
-=C2=A0void fork_start(void)<br>
-=C2=A0{<br>
-=C2=A0}<br></blockquote><div><br></div><div>Love it, but either you or I wi=
-ll have to rebase based on which of us lands in the tree first :).</div><di=
-v>For me, the rebase will be easy though.</div><div>=C2=A0</div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">
-diff --git a/linux-user/main.c b/linux-user/main.c<br>
-index 37ed50d98e2..f5c0a82427b 100644<br>
---- a/linux-user/main.c<br>
-+++ b/linux-user/main.c<br>
-@@ -120,13 +120,6 @@ const char *qemu_uname_release;<br>
-=C2=A0 =C2=A0 by remapping the process stack directly at the right place */=
-<br>
-=C2=A0unsigned long guest_stack_size =3D 8 * 1024 * 1024UL;<br>
-<br>
--#if defined(TARGET_I386)<br>
--int cpu_get_pic_interrupt(CPUX86State *env)<br>
--{<br>
--=C2=A0 =C2=A0 return -1;<br>
--}<br>
--#endif<br>
--<br>
-=C2=A0/***********************************************************/<br>
-=C2=A0/* Helper routines for implementing atomic operations.=C2=A0 */<br>
-<br>
--- <br>
-2.31.1<br>
-<br>
-</blockquote></div></div>
-
---0000000000005bf1b905cb0905f7--
+RnJvbTogUmljaGFyZCBIZW5kZXJzb24gPHJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmc+DQo+
+ID4gLXN0YXRpYyBpbmxpbmUgaW50IGRpdnMxMjgoaW50NjRfdCAqcGxvdywgaW50NjRfdCAqcGhp
+Z2gsIGludDY0X3QNCj4gPiBkaXZpc29yKQ0KPiA+ICtzdGF0aWMgaW5saW5lIHZvaWQgZGl2czEy
+OChpbnQ2NF90ICpwbG93LCBpbnQ2NF90ICpwaGlnaCwgaW50NjRfdA0KPiA+ICtkaXZpc29yKQ0K
+PiA+ICAgew0KPiA+IC0gICAgaWYgKGRpdmlzb3IgPT0gMCkgew0KPiA+IC0gICAgICAgIHJldHVy
+biAxOw0KPiA+IC0gICAgfSBlbHNlIHsNCj4gPiAtICAgICAgICBfX2ludDEyOF90IGRpdmlkZW5k
+ID0gKChfX2ludDEyOF90KSpwaGlnaCA8PCA2NCkgfCAqcGxvdzsNCj4gPiAtICAgICAgICBfX2lu
+dDEyOF90IHJlc3VsdCA9IGRpdmlkZW5kIC8gZGl2aXNvcjsNCj4gPiAtICAgICAgICAqcGxvdyA9
+IHJlc3VsdDsNCj4gPiAtICAgICAgICAqcGhpZ2ggPSBkaXZpZGVuZCAlIGRpdmlzb3I7DQo+ID4g
+LSAgICAgICAgcmV0dXJuIHJlc3VsdCAhPSAqcGxvdzsNCj4gPiAtICAgIH0NCj4gPiArICAgIF9f
+aW50MTI4X3QgZGl2aWRlbmQgPSAoKF9faW50MTI4X3QpKnBoaWdoIDw8IDY0KSB8ICpwbG93Ow0K
+Pg0KPiBUaGlzIGlzIGluY29ycmVjdCwgYmVmb3JlIGFuZCBhZnRlcjogKnBsb3cgbXVzdCBiZSB6
+ZXJvLWV4dGVuZGVkIGhlcmUuDQoNClRoaXMgd2lsbCBubyBsb25nZXIgYmUgYSBwcm9ibGVtIGFm
+dGVyIHBhdGNoIDQsIHdoZW4gcGxvdyBpcyBjaGFuZ2VkIHRvIGJlIHVpbnQ2NF90KiwgYnV0IEkg
+Y2FuIGZpeCBpdCBoZXJlLCB0b28uDQoNCj4gPiBAQCAtOTcsMTMgKzEwMSwxMSBAQCBpbnQgZGl2
+dTEyOCh1aW50NjRfdCAqcGxvdywgdWludDY0X3QgKnBoaWdoLCB1aW50NjRfdA0KPiBkaXZpc29y
+KQ0KPiA+ICAgICAgIHVpbnQ2NF90IGNhcnJ5ID0gMDsNCj4gPg0KPiA+ICAgICAgIGlmIChkaXZp
+c29yID09IDApIHsNCj4gPiAtICAgICAgICByZXR1cm4gMTsNCj4gPiArICAgICAgICAvKiBpbnRl
+bnRpb25hbGx5IGNhdXNlIGEgZGl2aXNpb24gYnkgMCAqLw0KPiA+ICsgICAgICAgICpwbG93ID0g
+MSAvIGRpdmlzb3I7DQo+ID4gICAgICAgfSBlbHNlIGlmIChkaGkgPT0gMCkgew0KPiA+ICAgICAg
+ICAgICAqcGxvdyAgPSBkbG8gLyBkaXZpc29yOw0KPiA+ICAgICAgICAgICAqcGhpZ2ggPSBkbG8g
+JSBkaXZpc29yOw0KPiANCj4gTGV0J3Mgbm90IGRvIHR3byB1bmRlZmluZWQgdGhpbmdzIGFuZCBs
+ZWF2ZSAqcGhpZ2ggdW5pbml0aWFsaXplZCAoZS5nLiByaXNjdiBob3N0LA0KPiB3aGVyZSBkaXYt
+YnktemVybyBkb2VzIG5vdCB0cmFwKS4gIEp1c3QgZm9sZCB0aGUgZGl2LWJ5LXplcm8gY2FzZSBp
+bnRvIHRoZSBkaGkgPT0gMA0KPiBjYXNlLg0KDQpXaWxsIGRvLg0KDQotLQ0KTHVpcyBQaXJlcw0K
+SW5zdGl0dXRvIGRlIFBlc3F1aXNhcyBFTERPUkFETw0KQXZpc28gTGVnYWwgLSBEaXNjbGFpbWVy
+IDxodHRwczovL3d3dy5lbGRvcmFkby5vcmcuYnIvZGlzY2xhaW1lci5odG1sPg0K
 
