@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7659F3FEEC0
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:36:03 +0200 (CEST)
-Received: from localhost ([::1]:37156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61BFA3FEEE1
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Sep 2021 15:44:00 +0200 (CEST)
+Received: from localhost ([::1]:33112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLmss-0002dK-HR
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:36:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44800)
+	id 1mLn0Z-000323-Fm
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 09:43:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLmZJ-0007nZ-KG
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:15:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52821)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLmZN-0007q3-Dg
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:15:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLmZH-0007Pm-Ti
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:15:49 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mLmZL-0007Sr-TA
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 09:15:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630588547;
+ s=mimecast20190719; t=1630588551;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ammzp5HEMj2PYR/a64zT0dGaB6yoir4SZ4vp5twhGAo=;
- b=VmcLH7C2pO4DkglYPRPA9sCtGTGVoYVpEwiUEB7ao8UKWaQJts41+kNQupK7dpDyaHmYrc
- RuNls2Jwyz6GxvusvLije6Q6RdIIHVvnXehyhSPpW+bN+ogs7/FRPySDJrKmctGt/WA6Nj
- 6fQiM6nzU1m32pAYVjJvGgCEyvgVSE8=
+ bh=MQNWaH8RlrrO5hzyddQ6ESB1VHn9VpoGXV3gKxmJawE=;
+ b=C8vLk9VBkLhd6WkL4zf2Vmwvinl7J/cBlNQ3OygCtI4FUfwq2ns4BrJ2+iFQFOtQ4zKsh0
+ /rTTQgSw8Nta447tPtlXxkAhsXZfO+Jn930MBcpckpZUoT27cxyHh+R9JHpQ0Ch/RhUSk1
+ YeZB2CAcqdCketFiOGcO5NJXOAnxc5M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-tRQuAmJTNX64nOecy50EXg-1; Thu, 02 Sep 2021 09:15:46 -0400
-X-MC-Unique: tRQuAmJTNX64nOecy50EXg-1
+ us-mta-166-O_Y_Qim4O8udQ05hLAh2WA-1; Thu, 02 Sep 2021 09:15:50 -0400
+X-MC-Unique: O_Y_Qim4O8udQ05hLAh2WA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41E67CC621;
- Thu,  2 Sep 2021 13:15:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BF3A8145E6;
+ Thu,  2 Sep 2021 13:15:49 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.193.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C1F846ACE5;
- Thu,  2 Sep 2021 13:15:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9C0F46ACE5;
+ Thu,  2 Sep 2021 13:15:45 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 4/9] migration/ram: Handle RAMBlocks with a
- RamDiscardManager on the migration source
-Date: Thu,  2 Sep 2021 15:14:27 +0200
-Message-Id: <20210902131432.23103-5-david@redhat.com>
+Subject: [PATCH v4 5/9] virtio-mem: Drop precopy notifier
+Date: Thu,  2 Sep 2021 15:14:28 +0200
+Message-Id: <20210902131432.23103-6-david@redhat.com>
 In-Reply-To: <20210902131432.23103-1-david@redhat.com>
 References: <20210902131432.23103-1-david@redhat.com>
 MIME-Version: 1.0
@@ -58,11 +57,11 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.39, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,152 +90,96 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We don't want to migrate memory that corresponds to discarded ranges as
-managed by a RamDiscardManager responsible for the mapped memory region of
-the RAMBlock. The content of these pages is essentially stale and
-without any guarantees for the VM ("logically unplugged").
+Migration code now properly handles RAMBlocks which are indirectly managed
+by a RamDiscardManager. No need for manual handling via the free page
+optimization interface, let's get rid of it.
 
-Depending on the underlying memory type, even reading memory might populate
-memory on the source, resulting in an undesired memory consumption. Of
-course, on the destination, even writing a zeropage consumes memory,
-which we also want to avoid (similar to free page hinting).
-
-Currently, virtio-mem tries achieving that goal (not migrating "unplugged"
-memory that was discarded) by going via qemu_guest_free_page_hint() - but
-it's hackish and incomplete.
-
-For example, background snapshots still end up reading all memory, as
-they don't do bitmap syncs. Postcopy recovery code will re-add
-previously cleared bits to the dirty bitmap and migrate them.
-
-Let's consult the RamDiscardManager after setting up our dirty bitmap
-initially and when postcopy recovery code reinitializes it: clear
-corresponding bits in the dirty bitmaps (e.g., of the RAMBlock and inside
-KVM). It's important to fixup the dirty bitmap *after* our initial bitmap
-sync, such that the corresponding dirty bits in KVM are actually cleared.
-
-As colo is incompatible with discarding of RAM and inhibits it, we don't
-have to bother.
-
-Note: if a misbehaving guest would use discarded ranges after migration
-started we would still migrate that memory: however, then we already
-populated that memory on the migration source.
-
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Acked-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- migration/ram.c | 77 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 77 insertions(+)
+ hw/virtio/virtio-mem.c         | 34 ----------------------------------
+ include/hw/virtio/virtio-mem.h |  3 ---
+ 2 files changed, 37 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index bb908822d5..3be969f749 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -858,6 +858,60 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
-     return ret;
- }
- 
-+static void dirty_bitmap_clear_section(MemoryRegionSection *section,
-+                                       void *opaque)
-+{
-+    const hwaddr offset = section->offset_within_region;
-+    const hwaddr size = int128_get64(section->size);
-+    const unsigned long start = offset >> TARGET_PAGE_BITS;
-+    const unsigned long npages = size >> TARGET_PAGE_BITS;
-+    RAMBlock *rb = section->mr->ram_block;
-+    uint64_t *cleared_bits = opaque;
-+
-+    /*
-+     * We don't grab ram_state->bitmap_mutex because we expect to run
-+     * only when starting migration or during postcopy recovery where
-+     * we don't have concurrent access.
-+     */
-+    if (!migration_in_postcopy() && !migrate_background_snapshot()) {
-+        migration_clear_memory_region_dirty_bitmap_range(rb, start, npages);
-+    }
-+    *cleared_bits += bitmap_count_one_with_offset(rb->bmap, start, npages);
-+    bitmap_clear(rb->bmap, start, npages);
-+}
-+
-+/*
-+ * Exclude all dirty pages from migration that fall into a discarded range as
-+ * managed by a RamDiscardManager responsible for the mapped memory region of
-+ * the RAMBlock. Clear the corresponding bits in the dirty bitmaps.
-+ *
-+ * Discarded pages ("logically unplugged") have undefined content and must
-+ * not get migrated, because even reading these pages for migration might
-+ * result in undesired behavior.
-+ *
-+ * Returns the number of cleared bits in the RAMBlock dirty bitmap.
-+ *
-+ * Note: The result is only stable while migrating (precopy/postcopy).
-+ */
-+static uint64_t ramblock_dirty_bitmap_clear_discarded_pages(RAMBlock *rb)
-+{
-+    uint64_t cleared_bits = 0;
-+
-+    if (rb->mr && rb->bmap && memory_region_has_ram_discard_manager(rb->mr)) {
-+        RamDiscardManager *rdm = memory_region_get_ram_discard_manager(rb->mr);
-+        MemoryRegionSection section = {
-+            .mr = rb->mr,
-+            .offset_within_region = 0,
-+            .size = int128_make64(qemu_ram_get_used_length(rb)),
-+        };
-+
-+        ram_discard_manager_replay_discarded(rdm, &section,
-+                                             dirty_bitmap_clear_section,
-+                                             &cleared_bits);
-+    }
-+    return cleared_bits;
-+}
-+
- /* Called with RCU critical section */
- static void ramblock_sync_dirty_bitmap(RAMState *rs, RAMBlock *rb)
- {
-@@ -2668,6 +2722,19 @@ static void ram_list_init_bitmaps(void)
-     }
- }
- 
-+static void migration_bitmap_clear_discarded_pages(RAMState *rs)
-+{
-+    unsigned long pages;
-+    RAMBlock *rb;
-+
-+    RCU_READ_LOCK_GUARD();
-+
-+    RAMBLOCK_FOREACH_NOT_IGNORED(rb) {
-+            pages = ramblock_dirty_bitmap_clear_discarded_pages(rb);
-+            rs->migration_dirty_pages -= pages;
-+    }
-+}
-+
- static void ram_init_bitmaps(RAMState *rs)
- {
-     /* For memory_global_dirty_log_start below.  */
-@@ -2684,6 +2751,12 @@ static void ram_init_bitmaps(RAMState *rs)
-     }
-     qemu_mutex_unlock_ramlist();
-     qemu_mutex_unlock_iothread();
-+
-+    /*
-+     * After an eventual first bitmap sync, fixup the initial bitmap
-+     * containing all 1s to exclude any discarded pages from migration.
-+     */
-+    migration_bitmap_clear_discarded_pages(rs);
- }
- 
- static int ram_init_all(RAMState **rsp)
-@@ -4112,6 +4185,10 @@ int ram_dirty_bitmap_reload(MigrationState *s, RAMBlock *block)
-      */
-     bitmap_complement(block->bmap, block->bmap, nbits);
- 
-+    /* Clear dirty bits of discarded ranges that we don't want to migrate. */
-+    ramblock_dirty_bitmap_clear_discarded_pages(block);
-+
-+    /* We'll recalculate migration_dirty_pages in ram_state_resume_prepare(). */
-     trace_ram_dirty_bitmap_reload_complete(block->idstr);
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index 284096ec5f..d5a578142b 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -776,7 +776,6 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+     host_memory_backend_set_mapped(vmem->memdev, true);
+     vmstate_register_ram(&vmem->memdev->mr, DEVICE(vmem));
+     qemu_register_reset(virtio_mem_system_reset, vmem);
+-    precopy_add_notifier(&vmem->precopy_notifier);
  
      /*
+      * Set ourselves as RamDiscardManager before the plug handler maps the
+@@ -796,7 +795,6 @@ static void virtio_mem_device_unrealize(DeviceState *dev)
+      * found via an address space anymore. Unset ourselves.
+      */
+     memory_region_set_ram_discard_manager(&vmem->memdev->mr, NULL);
+-    precopy_remove_notifier(&vmem->precopy_notifier);
+     qemu_unregister_reset(virtio_mem_system_reset, vmem);
+     vmstate_unregister_ram(&vmem->memdev->mr, DEVICE(vmem));
+     host_memory_backend_set_mapped(vmem->memdev, false);
+@@ -1089,43 +1087,11 @@ static void virtio_mem_set_block_size(Object *obj, Visitor *v, const char *name,
+     vmem->block_size = value;
+ }
+ 
+-static int virtio_mem_precopy_exclude_range_cb(const VirtIOMEM *vmem, void *arg,
+-                                               uint64_t offset, uint64_t size)
+-{
+-    void * const host = qemu_ram_get_host_addr(vmem->memdev->mr.ram_block);
+-
+-    qemu_guest_free_page_hint(host + offset, size);
+-    return 0;
+-}
+-
+-static void virtio_mem_precopy_exclude_unplugged(VirtIOMEM *vmem)
+-{
+-    virtio_mem_for_each_unplugged_range(vmem, NULL,
+-                                        virtio_mem_precopy_exclude_range_cb);
+-}
+-
+-static int virtio_mem_precopy_notify(NotifierWithReturn *n, void *data)
+-{
+-    VirtIOMEM *vmem = container_of(n, VirtIOMEM, precopy_notifier);
+-    PrecopyNotifyData *pnd = data;
+-
+-    switch (pnd->reason) {
+-    case PRECOPY_NOTIFY_AFTER_BITMAP_SYNC:
+-        virtio_mem_precopy_exclude_unplugged(vmem);
+-        break;
+-    default:
+-        break;
+-    }
+-
+-    return 0;
+-}
+-
+ static void virtio_mem_instance_init(Object *obj)
+ {
+     VirtIOMEM *vmem = VIRTIO_MEM(obj);
+ 
+     notifier_list_init(&vmem->size_change_notifiers);
+-    vmem->precopy_notifier.notify = virtio_mem_precopy_notify;
+     QLIST_INIT(&vmem->rdl_list);
+ 
+     object_property_add(obj, VIRTIO_MEM_SIZE_PROP, "size", virtio_mem_get_size,
+diff --git a/include/hw/virtio/virtio-mem.h b/include/hw/virtio/virtio-mem.h
+index 9a6e348fa2..a5dd6a493b 100644
+--- a/include/hw/virtio/virtio-mem.h
++++ b/include/hw/virtio/virtio-mem.h
+@@ -65,9 +65,6 @@ struct VirtIOMEM {
+     /* notifiers to notify when "size" changes */
+     NotifierList size_change_notifiers;
+ 
+-    /* don't migrate unplugged memory */
+-    NotifierWithReturn precopy_notifier;
+-
+     /* listeners to notify on plug/unplug activity. */
+     QLIST_HEAD(, RamDiscardListener) rdl_list;
+ };
 -- 
 2.31.1
 
