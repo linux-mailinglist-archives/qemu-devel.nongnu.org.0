@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4204A3FF81D
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 01:53:45 +0200 (CEST)
-Received: from localhost ([::1]:53296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94D83FF80E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 01:51:12 +0200 (CEST)
+Received: from localhost ([::1]:45368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLwWe-0006VY-87
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 19:53:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58540)
+	id 1mLwUB-0001Ct-VT
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 19:51:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwQy-0006Py-HC
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:47:52 -0400
-Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:34371)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwR0-0006Sp-Nr
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:47:54 -0400
+Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:43805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwQw-0002rr-Ol
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:47:52 -0400
-Received: by mail-io1-xd33.google.com with SMTP id y18so4751212ioc.1
- for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 16:47:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imp@bsdimp.com>) id 1mLwQy-0002sC-NR
+ for qemu-devel@nongnu.org; Thu, 02 Sep 2021 19:47:54 -0400
+Received: by mail-io1-xd29.google.com with SMTP id n24so4706595ion.10
+ for <qemu-devel@nongnu.org>; Thu, 02 Sep 2021 16:47:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=okxKdJbOUcfEuQyncikhmmKgqqr7aQZgUfGvRlvwHSo=;
- b=UZ6S+RbMrNqWRoRYrUWyxEqjbVSOOP/5xIS+dRipD1liz04qH8Nxkw9LN7kl8fEFfn
- eFTjFLvJFngPr/85PTmR4qzRaqZxSC00BVR9uUE9QKXCJsYMf3tY1RRJAtSaJaCWtMsx
- gFiWir/nZ1xUAjGQGMk9xrHlBjKk8xvbbEbtLtd83plfCAr6VQZu5X1T6sixmfOaNIMn
- mAhOrgdqOFgw4GZjGmAQSNG3ZVLOlxLvNVg4m8qMIOJ/918MyH1T38QOtA2SbLrAkJ8F
- zH+2bN1n/YEPdXfbs2hqv9HkudIcqqrywxLlWIrt5TU5ka9suQQozNFQ9zUSqrg6XLDn
- 9Lrg==
+ bh=aHS6Rdb0mnIzaMMDe+TiCha8i0FkDadRF9jxmF4Q8IQ=;
+ b=rqe5GrB07n12rj+WIRNC4a9i8vX/oDoaoc5kvxWR40CHnbLAGnli3pcJBUaV+pKL6r
+ rOeK8ko7KJjqdYF9rcQbxiIt2RHEgXrqK6lc7NeOO+5cfvFGxlPoiw558HqLZ4sss8nQ
+ loOOsYzB54IHNYbjmN6HDRExGvx0QGImfZeaEmwUoLUjk2cEm7b32bC0n71zR4N7zv1e
+ tRXPrAFDQYzB/tIY9iUMyhUuhtZ1FMU4dnEoZs9Gc4rIFK+VkDbVL2V2kvrEZE6k517r
+ fUY1hd87t8yM8LTxWWFsfNN1m9+mCHYZLGEjGmjwtCy9bc2uH/0yxGV4ksMX3iP+vFMs
+ aBZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=okxKdJbOUcfEuQyncikhmmKgqqr7aQZgUfGvRlvwHSo=;
- b=VfkkIrexw16ghDbi51InHE9lgwRgJx0ob0U4dnMq7tHeyn0U5yBcgXWe2ZOEYV2VIZ
- iCHxzsKVTXRr+NmXGEZ9/l3uvEb7dfo878u2VwfhaN1EvY9/5zKMMaOEZ2By8e894qnp
- XJ6d6fzO/ZmUr0heNt6UxEA2USZE3BS6LWmPHXsV3BpCS6FJzhpSSE//+ovDSkoekCas
- 8Mn/7soZ57zB2m4u4P21eafigpPJeHD9f47jxTovhF3ZcLX90lFBko0EDN8kyAEzHZRg
- jZoXIj5c2T2QPUt83FjcCFC09wEw15/Ehvq3eJ8xbJmsgp39tTga+gk/Bu000dh9mOaH
- yqZg==
-X-Gm-Message-State: AOAM532K8Jw3IVkXZqlgvOhN9U5nfJJLyqZsombb5+7jxiP7AFYL+DRI
- uOHo5VjeP540IW5fsurtf78OVdJxAH6oAQ==
-X-Google-Smtp-Source: ABdhPJzrSKv1CueKm97uaDAeag2bY8K3w4E69bAIe0SrqkXycm578buTWUr5CU1OTWKWbqI3+prWkA==
-X-Received: by 2002:a6b:f203:: with SMTP id q3mr757644ioh.32.1630626469559;
- Thu, 02 Sep 2021 16:47:49 -0700 (PDT)
+ bh=aHS6Rdb0mnIzaMMDe+TiCha8i0FkDadRF9jxmF4Q8IQ=;
+ b=mli83b1pm6HVetxnwoXtmMYow8rqqpIWl5gw74V3v481XwFuhWQvbEKYBy1hQkTo6V
+ JHUVcmLHdxiWss/G07N0vWhplsDs+1nAHguJysBZ1YNrP4U+kShGCOlWx5WDa16Kh/pT
+ lOplU8hqDMI0ZqMdzmiYQFtNljkzlnNdGekWnj3oi3Vr1n2jo8ehAE36QcsobV+X3flO
+ hy/HRKXMD3V5XUqErNX0u98ndemB6J4wScC3bdnGMir1EJYsd+DxxDhUg/JZfOq9fF/z
+ 76VExKoIMUffH0DyIiuGcB/PC1zZT+gIMlRcEgfGdV+qN7NlM8hO3okiZ3i0Cwl2qolh
+ f/VQ==
+X-Gm-Message-State: AOAM532gStHzZAU0jONqRiOuWOB6X2gyGfnAvJRQazpIQGQOJGV7z3sS
+ pnf+kBo49SObF9wlelHn272YlvpgI6TfQQ==
+X-Google-Smtp-Source: ABdhPJwq6rbCv+DgwLMRPS28wZ1uEAK1v3iuLmcZD1uDRbkveYkPKdIqrOQjP/oAUCETzoJFX0RE7g==
+X-Received: by 2002:a5e:c802:: with SMTP id y2mr732225iol.162.1630626470303;
+ Thu, 02 Sep 2021 16:47:50 -0700 (PDT)
 Received: from dune.bsdimp.com (50-253-99-174-static.hfc.comcastbusiness.net.
  [50.253.99.174])
- by smtp.gmail.com with ESMTPSA id u10sm1740502ilg.15.2021.09.02.16.47.48
+ by smtp.gmail.com with ESMTPSA id u10sm1740502ilg.15.2021.09.02.16.47.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 02 Sep 2021 16:47:49 -0700 (PDT)
 From: imp@bsdimp.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 05/43] bsd-user: style nits: bsdload.c whitespace to qemu
- standard
-Date: Thu,  2 Sep 2021 17:46:51 -0600
-Message-Id: <20210902234729.76141-6-imp@bsdimp.com>
+Subject: [PATCH v3 06/43] bsd-user: Remove all non-x86 code from elfload.c
+Date: Thu,  2 Sep 2021 17:46:52 -0600
+Message-Id: <20210902234729.76141-7-imp@bsdimp.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210902234729.76141-1-imp@bsdimp.com>
 References: <20210902234729.76141-1-imp@bsdimp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::d33;
- envelope-from=imp@bsdimp.com; helo=mail-io1-xd33.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=imp@bsdimp.com; helo=mail-io1-xd29.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,34 +88,402 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Warner Losh <imp@bsdimp.com>
 
+bsd-user only builds x86 at the moment. Remove all non x86 code from
+elfload.c. We'll move the x86 code to {i386,x86_64}/target_arch_elf.h
+and bring it that support code from the forked bsd-user when the time
+comes.
+
 Signed-off-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- bsd-user/bsdload.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ bsd-user/elfload.c | 347 +--------------------------------------------
+ 1 file changed, 2 insertions(+), 345 deletions(-)
 
-diff --git a/bsd-user/bsdload.c b/bsd-user/bsdload.c
-index 0ade58b9e2..ec71c5e923 100644
---- a/bsd-user/bsdload.c
-+++ b/bsd-user/bsdload.c
-@@ -140,7 +140,7 @@ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
+diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
+index ae62f3aab3..fffa24f041 100644
+--- a/bsd-user/elfload.c
++++ b/bsd-user/elfload.c
+@@ -23,15 +23,6 @@
+ #include "disas/disas.h"
+ #include "qemu/path.h"
+ 
+-#ifdef _ARCH_PPC64
+-#undef ARCH_DLINFO
+-#undef ELF_PLATFORM
+-#undef ELF_HWCAP
+-#undef ELF_CLASS
+-#undef ELF_DATA
+-#undef ELF_ARCH
+-#endif
+-
+ /* from personality.h */
+ 
+ /*
+@@ -144,7 +135,7 @@ static inline void init_thread(struct target_pt_regs *regs, struct image_info *i
+     }
  }
  
- int loader_exec(const char *filename, char **argv, char **envp,
--             struct target_pt_regs *regs, struct image_info *infop)
-+                struct target_pt_regs *regs, struct image_info *infop)
- {
-     struct bsd_binprm bprm;
-     int retval;
-@@ -148,7 +148,7 @@ int loader_exec(const char *filename, char **argv, char **envp,
+-#else
++#else /* !TARGET_X86_64 */
  
-     bprm.p = TARGET_PAGE_SIZE * MAX_ARG_PAGES - sizeof(unsigned int);
-     for (i = 0 ; i < MAX_ARG_PAGES ; i++) {     /* clear page-table */
--            bprm.page[i] = NULL;
-+        bprm.page[i] = NULL;
+ #define ELF_START_MMAP 0x80000000
+ 
+@@ -174,343 +165,13 @@ static inline void init_thread(struct target_pt_regs *regs, struct image_info *i
+        A value of 0 tells we have no such handler.  */
+     regs->edx = 0;
+ }
+-#endif
+-
+-#define USE_ELF_CORE_DUMP
+-#define ELF_EXEC_PAGESIZE       4096
+-
+-#endif
+-
+-#ifdef TARGET_ARM
+-
+-#define ELF_START_MMAP 0x80000000
+-
+-#define elf_check_arch(x) ((x) == EM_ARM)
+-
+-#define ELF_CLASS       ELFCLASS32
+-#ifdef TARGET_WORDS_BIGENDIAN
+-#define ELF_DATA        ELFDATA2MSB
+-#else
+-#define ELF_DATA        ELFDATA2LSB
+-#endif
+-#define ELF_ARCH        EM_ARM
+-
+-static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
+-{
+-    abi_long stack = infop->start_stack;
+-    memset(regs, 0, sizeof(*regs));
+-    regs->ARM_cpsr = 0x10;
+-    if (infop->entry & 1)
+-        regs->ARM_cpsr |= CPSR_T;
+-    regs->ARM_pc = infop->entry & 0xfffffffe;
+-    regs->ARM_sp = infop->start_stack;
+-    /* FIXME - what to for failure of get_user()? */
+-    get_user_ual(regs->ARM_r2, stack + 8); /* envp */
+-    get_user_ual(regs->ARM_r1, stack + 4); /* envp */
+-    /* XXX: it seems that r0 is zeroed after ! */
+-    regs->ARM_r0 = 0;
+-    /* For uClinux PIC binaries.  */
+-    /* XXX: Linux does this only on ARM with no MMU (do we care ?) */
+-    regs->ARM_r10 = infop->start_data;
+-}
+-
+-#define USE_ELF_CORE_DUMP
+-#define ELF_EXEC_PAGESIZE       4096
+-
+-enum
+-{
+-  ARM_HWCAP_ARM_SWP       = 1 << 0,
+-  ARM_HWCAP_ARM_HALF      = 1 << 1,
+-  ARM_HWCAP_ARM_THUMB     = 1 << 2,
+-  ARM_HWCAP_ARM_26BIT     = 1 << 3,
+-  ARM_HWCAP_ARM_FAST_MULT = 1 << 4,
+-  ARM_HWCAP_ARM_FPA       = 1 << 5,
+-  ARM_HWCAP_ARM_VFP       = 1 << 6,
+-  ARM_HWCAP_ARM_EDSP      = 1 << 7,
+-};
+-
+-#define ELF_HWCAP (ARM_HWCAP_ARM_SWP | ARM_HWCAP_ARM_HALF              \
+-                    | ARM_HWCAP_ARM_THUMB | ARM_HWCAP_ARM_FAST_MULT     \
+-                    | ARM_HWCAP_ARM_FPA | ARM_HWCAP_ARM_VFP)
+-
+-#endif
+-
+-#ifdef TARGET_SPARC
+-#ifdef TARGET_SPARC64
+-
+-#define ELF_START_MMAP 0x80000000
+-
+-#ifndef TARGET_ABI32
+-#define elf_check_arch(x) ((x) == EM_SPARCV9 || (x) == EM_SPARC32PLUS)
+-#else
+-#define elf_check_arch(x) ((x) == EM_SPARC32PLUS || (x) == EM_SPARC)
+-#endif
+-
+-#define ELF_CLASS   ELFCLASS64
+-#define ELF_DATA    ELFDATA2MSB
+-#define ELF_ARCH    EM_SPARCV9
+-
+-#define STACK_BIAS              2047
+-
+-static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
+-{
+-#ifndef TARGET_ABI32
+-    regs->tstate = 0;
+-#endif
+-    regs->pc = infop->entry;
+-    regs->npc = regs->pc + 4;
+-    regs->y = 0;
+-#ifdef TARGET_ABI32
+-    regs->u_regs[14] = infop->start_stack - 16 * 4;
+-#else
+-    if (personality(infop->personality) == PER_LINUX32)
+-        regs->u_regs[14] = infop->start_stack - 16 * 4;
+-    else {
+-        regs->u_regs[14] = infop->start_stack - 16 * 8 - STACK_BIAS;
+-        if (bsd_type == target_freebsd) {
+-            regs->u_regs[8] = infop->start_stack;
+-            regs->u_regs[11] = infop->start_stack;
+-        }
+-    }
+-#endif
+-}
+-
+-#else
+-#define ELF_START_MMAP 0x80000000
+-
+-#define elf_check_arch(x) ((x) == EM_SPARC)
+-
+-#define ELF_CLASS   ELFCLASS32
+-#define ELF_DATA    ELFDATA2MSB
+-#define ELF_ARCH    EM_SPARC
+-
+-static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
+-{
+-    regs->psr = 0;
+-    regs->pc = infop->entry;
+-    regs->npc = regs->pc + 4;
+-    regs->y = 0;
+-    regs->u_regs[14] = infop->start_stack - 16 * 4;
+-}
+-
+-#endif
+-#endif
+-
+-#ifdef TARGET_PPC
+-
+-#define ELF_START_MMAP 0x80000000
+-
+-#if defined(TARGET_PPC64) && !defined(TARGET_ABI32)
+-
+-#define elf_check_arch(x) ((x) == EM_PPC64)
+-
+-#define ELF_CLASS       ELFCLASS64
+-
+-#else
+-
+-#define elf_check_arch(x) ((x) == EM_PPC)
+-
+-#define ELF_CLASS       ELFCLASS32
+-
+-#endif
+-
+-#ifdef TARGET_WORDS_BIGENDIAN
+-#define ELF_DATA        ELFDATA2MSB
+-#else
+-#define ELF_DATA        ELFDATA2LSB
+-#endif
+-#define ELF_ARCH        EM_PPC
+-
+-/*
+- * We need to put in some extra aux table entries to tell glibc what
+- * the cache block size is, so it can use the dcbz instruction safely.
+- */
+-#define AT_DCACHEBSIZE          19
+-#define AT_ICACHEBSIZE          20
+-#define AT_UCACHEBSIZE          21
+-/* A special ignored type value for PPC, for glibc compatibility.  */
+-#define AT_IGNOREPPC            22
+-/*
+- * The requirements here are:
+- * - keep the final alignment of sp (sp & 0xf)
+- * - make sure the 32-bit value at the first 16 byte aligned position of
+- *   AUXV is greater than 16 for glibc compatibility.
+- *   AT_IGNOREPPC is used for that.
+- * - for compatibility with glibc ARCH_DLINFO must always be defined on PPC,
+- *   even if DLINFO_ARCH_ITEMS goes to zero or is undefined.
+- */
+-#define DLINFO_ARCH_ITEMS       5
+-#define ARCH_DLINFO                                                     \
+-do {                                                                    \
+-        NEW_AUX_ENT(AT_DCACHEBSIZE, 0x20);                              \
+-        NEW_AUX_ENT(AT_ICACHEBSIZE, 0x20);                              \
+-        NEW_AUX_ENT(AT_UCACHEBSIZE, 0);                                 \
+-        /*                                                              \
+-         * Now handle glibc compatibility.                              \
+-         */                                                             \
+-        NEW_AUX_ENT(AT_IGNOREPPC, AT_IGNOREPPC);                        \
+-        NEW_AUX_ENT(AT_IGNOREPPC, AT_IGNOREPPC);                        \
+- } while (0)
+-
+-static inline void init_thread(struct target_pt_regs *_regs, struct image_info *infop)
+-{
+-    abi_ulong pos = infop->start_stack;
+-    abi_ulong tmp;
+-#if defined(TARGET_PPC64) && !defined(TARGET_ABI32)
+-    abi_ulong entry, toc;
+-#endif
+-
+-    _regs->gpr[1] = infop->start_stack;
+-#if defined(TARGET_PPC64) && !defined(TARGET_ABI32)
+-    get_user_u64(entry, infop->entry);
+-    entry += infop->load_addr;
+-    get_user_u64(toc, infop->entry + 8);
+-    toc += infop->load_addr;
+-    _regs->gpr[2] = toc;
+-    infop->entry = entry;
+-#endif
+-    _regs->nip = infop->entry;
+-    /* Note that isn't exactly what regular kernel does
+-     * but this is what the ABI wants and is needed to allow
+-     * execution of PPC BSD programs.
+-     */
+-    /* FIXME - what to for failure of get_user()? */
+-    get_user_ual(_regs->gpr[3], pos);
+-    pos += sizeof(abi_ulong);
+-    _regs->gpr[4] = pos;
+-    for (tmp = 1; tmp != 0; pos += sizeof(abi_ulong)) {
+-        get_user_ual(tmp, pos);
+-    }
+-    _regs->gpr[5] = pos;
+-}
++#endif /* !TARGET_X86_64 */
+ 
+ #define USE_ELF_CORE_DUMP
+ #define ELF_EXEC_PAGESIZE       4096
+ 
+ #endif
+ 
+-#ifdef TARGET_MIPS
+-
+-#define ELF_START_MMAP 0x80000000
+-
+-#define elf_check_arch(x) ((x) == EM_MIPS)
+-
+-#ifdef TARGET_MIPS64
+-#define ELF_CLASS   ELFCLASS64
+-#else
+-#define ELF_CLASS   ELFCLASS32
+-#endif
+-#ifdef TARGET_WORDS_BIGENDIAN
+-#define ELF_DATA        ELFDATA2MSB
+-#else
+-#define ELF_DATA        ELFDATA2LSB
+-#endif
+-#define ELF_ARCH    EM_MIPS
+-
+-static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
+-{
+-    regs->cp0_status = 2 << CP0St_KSU;
+-    regs->cp0_epc = infop->entry;
+-    regs->regs[29] = infop->start_stack;
+-}
+-
+-#define USE_ELF_CORE_DUMP
+-#define ELF_EXEC_PAGESIZE        4096
+-
+-#endif /* TARGET_MIPS */
+-
+-#ifdef TARGET_SH4
+-
+-#define ELF_START_MMAP 0x80000000
+-
+-#define elf_check_arch(x) ((x) == EM_SH)
+-
+-#define ELF_CLASS ELFCLASS32
+-#define ELF_DATA  ELFDATA2LSB
+-#define ELF_ARCH  EM_SH
+-
+-static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
+-{
+-  /* Check other registers XXXXX */
+-  regs->pc = infop->entry;
+-  regs->regs[15] = infop->start_stack;
+-}
+-
+-#define USE_ELF_CORE_DUMP
+-#define ELF_EXEC_PAGESIZE        4096
+-
+-#endif
+-
+-#ifdef TARGET_CRIS
+-
+-#define ELF_START_MMAP 0x80000000
+-
+-#define elf_check_arch(x) ((x) == EM_CRIS)
+-
+-#define ELF_CLASS ELFCLASS32
+-#define ELF_DATA  ELFDATA2LSB
+-#define ELF_ARCH  EM_CRIS
+-
+-static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
+-{
+-  regs->erp = infop->entry;
+-}
+-
+-#define USE_ELF_CORE_DUMP
+-#define ELF_EXEC_PAGESIZE        8192
+-
+-#endif
+-
+-#ifdef TARGET_M68K
+-
+-#define ELF_START_MMAP 0x80000000
+-
+-#define elf_check_arch(x) ((x) == EM_68K)
+-
+-#define ELF_CLASS       ELFCLASS32
+-#define ELF_DATA        ELFDATA2MSB
+-#define ELF_ARCH        EM_68K
+-
+-/* ??? Does this need to do anything?
+-#define ELF_PLAT_INIT(_r) */
+-
+-static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
+-{
+-    regs->usp = infop->start_stack;
+-    regs->sr = 0;
+-    regs->pc = infop->entry;
+-}
+-
+-#define USE_ELF_CORE_DUMP
+-#define ELF_EXEC_PAGESIZE       8192
+-
+-#endif
+-
+-#ifdef TARGET_ALPHA
+-
+-#define ELF_START_MMAP (0x30000000000ULL)
+-
+-#define elf_check_arch(x) ((x) == ELF_ARCH)
+-
+-#define ELF_CLASS      ELFCLASS64
+-#define ELF_DATA       ELFDATA2MSB
+-#define ELF_ARCH       EM_ALPHA
+-
+-static inline void init_thread(struct target_pt_regs *regs, struct image_info *infop)
+-{
+-    regs->pc = infop->entry;
+-    regs->ps = 8;
+-    regs->usp = infop->start_stack;
+-    regs->unique = infop->start_data; /* ? */
+-    printf("Set unique value to " TARGET_FMT_lx " (" TARGET_FMT_lx ")\n",
+-           regs->unique, infop->start_data);
+-}
+-
+-#define USE_ELF_CORE_DUMP
+-#define ELF_EXEC_PAGESIZE        8192
+-
+-#endif /* TARGET_ALPHA */
+-
+ #ifndef ELF_PLATFORM
+ #define ELF_PLATFORM (NULL)
+ #endif
+@@ -1119,10 +780,6 @@ static void load_symbols(struct elfhdr *hdr, int fd)
+             }
+             continue;
+         }
+-#if defined(TARGET_ARM) || defined(TARGET_MIPS)
+-        /* The bottom address bit marks a Thumb or MIPS16 symbol.  */
+-        syms[i].st_value &= ~(target_ulong)1;
+-#endif
+         i++;
      }
-     retval = open(filename, O_RDONLY);
-     if (retval < 0) {
+ 
 -- 
 2.32.0
 
