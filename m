@@ -2,60 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D82993FFD56
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 11:41:16 +0200 (CEST)
-Received: from localhost ([::1]:59114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 981933FFD69
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 11:45:58 +0200 (CEST)
+Received: from localhost ([::1]:35628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM5hD-0005Vc-VS
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 05:41:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49612)
+	id 1mM5ll-0000a3-KL
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 05:45:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1mM5cq-0006iY-48
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:36:44 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2529)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mM5kn-0008F5-UK
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:44:57 -0400
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:28539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1mM5co-0006oj-3K
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:36:43 -0400
-Received: from dggemv704-chm.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4H1CMs4jJqzYwyJ;
- Fri,  3 Sep 2021 17:35:53 +0800 (CST)
-Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- dggemv704-chm.china.huawei.com (10.3.19.47) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2176.2; Fri, 3 Sep 2021 17:36:38 +0800
-Received: from DESKTOP-6NKE0BC.china.huawei.com (10.174.185.210) by
- dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.8; Fri, 3 Sep 2021 17:36:37 +0800
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-To: Alex Williamson <alex.williamson@redhat.com>, Eric Auger
- <eric.auger@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>, "open
- list:All patches CC here" <qemu-devel@nongnu.org>
-Subject: [PATCH 2/2] vfio/common: Add trace point when a MMIO RAM section less
- than PAGE_SIZE
-Date: Fri, 3 Sep 2021 17:36:11 +0800
-Message-ID: <20210903093611.1159-3-jiangkunkun@huawei.com>
-X-Mailer: git-send-email 2.26.2.windows.1
-In-Reply-To: <20210903093611.1159-1-jiangkunkun@huawei.com>
-References: <20210903093611.1159-1-jiangkunkun@huawei.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mM5kl-0005Uo-Gq
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:44:57 -0400
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-339-0275xLpvOM-CksMqM6oAIg-1; Fri, 03 Sep 2021 05:44:03 -0400
+X-MC-Unique: 0275xLpvOM-CksMqM6oAIg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8706107ACC7;
+ Fri,  3 Sep 2021 09:44:01 +0000 (UTC)
+Received: from bahia.lan (unknown [10.39.192.89])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9571A19C79;
+ Fri,  3 Sep 2021 09:44:00 +0000 (UTC)
+Date: Fri, 3 Sep 2021 11:43:59 +0200
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v2 01/20] docs/system: ppc: Update the URL for OpenPOWER
+ firmware images
+Message-ID: <20210903114359.42d5200b@bahia.lan>
+In-Reply-To: <20210902130928.528803-2-clg@kaod.org>
+References: <20210902130928.528803-1-clg@kaod.org>
+ <20210902130928.528803-2-clg@kaod.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.185.210]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggema765-chm.china.huawei.com (10.1.198.207)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=jiangkunkun@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: 1
+X-Spam_score: 0.1
+X-Spam_bar: /
+X-Spam_report: (0.1 / 5.0 requ) BAYES_00=-1.9, PDS_OTHER_BAD_TLD=2,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,46 +65,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wanghaibin.wang@huawei.com, Kunkun Jiang <jiangkunkun@huawei.com>,
- tangnianyao@huawei.com, ganqixin@huawei.com
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The MSI-X structures of some devices and other non-MSI-X structures
-are in the same BAR. They may share one host page, especially in the
-case of large page granularity, suck as 64K.
+On Thu, 2 Sep 2021 15:09:09 +0200
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-For example, MSIX-Table size of 82599 NIC is 0x30 and the offset in
-Bar 3(size 64KB) is 0x0. If host page size is 64KB.
-vfio_listenerregion_add() will be called to map the remaining range
-(0x30-0xffff). And it will return early at
-'int128_ge((int128_make64(iova), llend))' and hasn't any message.
-Let's add a trace point to informed users like 5c08600547c did.
+> This also fixes a small skiboot/skiroot typo and removes the links to
+> the specific POWER8 and POWER9 images since the firmware images can be
+> used to run all machines.
+>=20
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
+>=20
 
-Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
----
- hw/vfio/common.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 8728d4d5c2..2fc6213c0f 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -892,6 +892,13 @@ static void vfio_listener_region_add(MemoryListener *listener,
-     llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask));
- 
-     if (int128_ge(int128_make64(iova), llend)) {
-+        if (memory_region_is_ram_device(section->mr)) {
-+            trace_vfio_listener_region_add_no_dma_map(
-+                memory_region_name(section->mr),
-+                section->offset_within_address_space,
-+                int128_getlo(section->size),
-+                qemu_real_host_page_size);
-+        }
-         return;
-     }
-     end = int128_get64(int128_sub(llend, int128_one()));
--- 
-2.23.0
+>  v2: fixed URL
+>=20
+>  docs/system/ppc/powernv.rst | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>=20
+> diff --git a/docs/system/ppc/powernv.rst b/docs/system/ppc/powernv.rst
+> index 4c4cdea527e2..86186b7d2cb7 100644
+> --- a/docs/system/ppc/powernv.rst
+> +++ b/docs/system/ppc/powernv.rst
+> @@ -53,8 +53,7 @@ initramfs ``skiroot``. Source code can be found on GitH=
+ub:
+> =20
+>    https://github.com/open-power.
+> =20
+> -Prebuilt images of ``skiboot`` and ``skiboot`` are made available on the=
+ `OpenPOWER <https://openpower.xyz/job/openpower/job/openpower-op-build/>`_=
+_ site. To boot a POWER9 machine, use the `witherspoon <https://openpower.x=
+yz/job/openpower/job/openpower-op-build/label=3Dslave,target=3Dwitherspoon/=
+lastSuccessfulBuild/>`__ images. For POWER8, use
+> -the `palmetto <https://openpower.xyz/job/openpower/job/openpower-op-buil=
+d/label=3Dslave,target=3Dpalmetto/lastSuccessfulBuild/>`__ images.
+> +Prebuilt images of ``skiboot`` and ``skiroot`` are made available on the=
+ `OpenPOWER <https://github.com/open-power/op-build/releases/>`__ site.
+> =20
+>  QEMU includes a prebuilt image of ``skiboot`` which is updated when a
+>  more recent version is required by the models.
 
 
