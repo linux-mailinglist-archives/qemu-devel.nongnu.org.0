@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AAB23FFF5B
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:47:02 +0200 (CEST)
-Received: from localhost ([::1]:60628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E30FD3FFF20
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:25:42 +0200 (CEST)
+Received: from localhost ([::1]:41932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM7ev-00035V-4H
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:47:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43784)
+	id 1mM7KI-0003lz-04
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:25:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74f-0000l8-MF
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44026)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74j-0000t6-W2
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74c-00023V-UC
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:33 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74i-00026V-45
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630667370;
+ s=mimecast20190719; t=1630667375;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1TRLuEzHEF/4g6uAMMisPruZyA4xzKhXkVqPhmG3sbs=;
- b=aGfRIL2442+7+Q8sPvWQSeR678VaGFP3O4nd/Ht2Jw4mbQIGoETLxkx7jWryDhCH1F1rQz
- HfrzdXIViJCufz7vmNAk7ZrVC94iJr5jdmDiGQYIhC5s1vYAmyZvONOGwkyP7k2CWLT2jp
- df+xVV+17nHsgyvTWtwZhWoKQQnEYqQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-QhLcD8nNPm6H4OLYbWyl4w-1; Fri, 03 Sep 2021 07:09:29 -0400
-X-MC-Unique: QhLcD8nNPm6H4OLYbWyl4w-1
-Received: by mail-wm1-f72.google.com with SMTP id
- b126-20020a1c8084000000b002f152a868a2so1707929wmd.1
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 04:09:28 -0700 (PDT)
+ bh=IGLIaIG1oc/f/hK8LLmc1ZCw3aRo0zL/iFOeAMJ8CLs=;
+ b=Qky2GCJAuUP8ghHUYVQd6jR4K6hnU6vn1qZ6GzzY7rMOE3J06M+ZUhPqWzRRff4nuKBXJG
+ t5kd5xhWULM0G8j94RwWQoIfVaycj/mD3GiqzCeayUdpwG8wde4XRwm4hjuF6rcZAGZyyC
+ AvMJpdAsKbqW+1vGAhxEDy9gmUPmeZQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-476-02f3_0d8OF2X6zxxFkRkzw-1; Fri, 03 Sep 2021 07:09:34 -0400
+X-MC-Unique: 02f3_0d8OF2X6zxxFkRkzw-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ h15-20020adff18f000000b001574654fbc2so1461184wro.10
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 04:09:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=1TRLuEzHEF/4g6uAMMisPruZyA4xzKhXkVqPhmG3sbs=;
- b=lddYwR+ppjzsR3zsip3Gok6xbj/3UV3JntuVSaemGzmFfBKBzC4668AUY1FaOmbR0E
- MGWASW0IGDXlNAXYiYIVHVTdLiU271ICMRrx7KI0S6BHXJxDYyzc6C9WyyCFYwySobC9
- 4NFaY3dzqtHuni43JVvCn4jevov6ANFNY7jGqboXHToadx98ChnTxr+BF08nAIBaW8RV
- vCvHlPzpfrJViTShMBJHd+NVqVFnIfMhaCpkf9nJm8MMV/JsIq9lFfwI8zU7hQ8BBoeT
- SjTz3TJdYTKC6yKCU/12O6AGqSwQKuw/7jjWymZ014TV6EThBin4mg4ZoFH1cHdG0QQC
- ucTA==
-X-Gm-Message-State: AOAM533l+xSroDkHdDuH7SixALUdhzZ3y+YRNvzf/55X+IkRqcBiyQac
- UqJ+9KJJlDj/6z/ivcBIpX9TJvqLD0LidwgvLtYvogL9evoCZNXfoqbbB3EyXoe0URaTrNA52EN
- EJw+1QXuU66/Qp3SLUn6akMuV8yUSRzM1x1gpqwvGfDJnFSiartPXPHCwPoUsHzzE
-X-Received: by 2002:adf:eac3:: with SMTP id o3mr3437748wrn.60.1630667367374;
- Fri, 03 Sep 2021 04:09:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx66CtwoDGpHiwwHLDTWFbbSa3lc4biNGGpcp8z6UWY/Npax4D9p0PpnTBANuSDcT5pc6KZ7g==
-X-Received: by 2002:adf:eac3:: with SMTP id o3mr3437691wrn.60.1630667367173;
- Fri, 03 Sep 2021 04:09:27 -0700 (PDT)
+ bh=IGLIaIG1oc/f/hK8LLmc1ZCw3aRo0zL/iFOeAMJ8CLs=;
+ b=TSbth/HsNEfX1ow0wyMggXa+98eJo26xlYHiByR/29Fmz0kCSaQb+3yQ5fFHqnBpmG
+ SykQwiq2UNExcoG9cxUOU9kfxPmB9erzCFy8dG79JqwNSed7LnmS1u1PYxBVyqfkqKtj
+ upUdwXBIqSHC0REIxuwH0Rr0L+IuH+UAtALbBVQV0jkRK5N9b6wEHaeE6YEoHwkO4BvC
+ t/OFwpQwDoQ3V/IoFtFoXe/Evifg1wanaXGwhSEy4CAg54h4EOBkou0Mk+RYZWylWeZb
+ fhP2My+cQJZRj6CYPiwmU1ViWkSa88BG50OfNcRVtbqmQOZQck/Iw8TGmKYcUPWZF7KZ
+ DJdw==
+X-Gm-Message-State: AOAM5339wuWl+LJ9lxyMKbjTLhpYorq/pwR6MiZ5/a186DMq2JlBqjG8
+ 5JZMbZWv58gKR8h457Y/neuAqQNOb8ghrE2QsRCnGIjJbf+e7qz89qccR8UmRqCTioTyBBPnQxE
+ zSUGaQYK3NM3uo+PAGOtIfV0IOF074kbFE4l43PLua7Q7fQCmOMVeBbg9/hl8HL9m
+X-Received: by 2002:adf:fd51:: with SMTP id h17mr3315355wrs.178.1630667372995; 
+ Fri, 03 Sep 2021 04:09:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzOCmSQ+xc0Q2SgMJRIjaynE2wUiaPQJusQW9eaFrqniAzajXkn5CbXrHEgNUg6VJYO5+nq6Q==
+X-Received: by 2002:adf:fd51:: with SMTP id h17mr3315291wrs.178.1630667372803; 
+ Fri, 03 Sep 2021 04:09:32 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- q195sm4179375wme.37.2021.09.03.04.09.25
+ z19sm4806706wma.0.2021.09.03.04.09.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 04:09:26 -0700 (PDT)
+ Fri, 03 Sep 2021 04:09:32 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 25/28] target/arm: Replace g_memdup() by g_memdup2_qemu()
-Date: Fri,  3 Sep 2021 13:06:59 +0200
-Message-Id: <20210903110702.588291-26-philmd@redhat.com>
+Subject: [PATCH 26/28] target/ppc: Replace g_memdup() by g_memdup2_qemu()
+Date: Fri,  3 Sep 2021 13:07:00 +0200
+Message-Id: <20210903110702.588291-27-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903110702.588291-1-philmd@redhat.com>
 References: <20210903110702.588291-1-philmd@redhat.com>
@@ -75,13 +75,13 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -134,34 +134,23 @@ Replace g_memdup() by the safer g_memdup2_qemu() wrapper.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- target/arm/helper.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ target/ppc/mmu-hash64.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index a7ae78146d4..f3aeff399b9 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -6242,8 +6242,9 @@ static void define_arm_vh_e2h_redirects_aliases(ARMCPU *cpu)
+diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+index 19832c4b46f..2ee6025a406 100644
+--- a/target/ppc/mmu-hash64.c
++++ b/target/ppc/mmu-hash64.c
+@@ -1122,7 +1122,8 @@ void ppc_hash64_init(PowerPCCPU *cpu)
+         return;
+     }
  
-         /* Create alias before redirection so we dup the right data. */
-         if (a->new_key) {
--            ARMCPRegInfo *new_reg = g_memdup(src_reg, sizeof(ARMCPRegInfo));
--            uint32_t *new_key = g_memdup(&a->new_key, sizeof(uint32_t));
-+            ARMCPRegInfo *new_reg = g_memdup2_qemu(src_reg,
-+                                                   sizeof(ARMCPRegInfo));
-+            uint32_t *new_key = g_memdup2_qemu(&a->new_key, sizeof(uint32_t));
-             bool ok;
+-    cpu->hash64_opts = g_memdup(pcc->hash64_opts, sizeof(*cpu->hash64_opts));
++    cpu->hash64_opts = g_memdup2_qemu(pcc->hash64_opts,
++                                      sizeof(*cpu->hash64_opts));
+ }
  
-             new_reg->name = a->new_name;
-@@ -8818,7 +8819,7 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
-      * add a single reginfo struct to the hash table.
-      */
-     uint32_t *key = g_new(uint32_t, 1);
--    ARMCPRegInfo *r2 = g_memdup(r, sizeof(ARMCPRegInfo));
-+    ARMCPRegInfo *r2 = g_memdup2_qemu(r, sizeof(ARMCPRegInfo));
-     int is64 = (r->type & ARM_CP_64BIT) ? 1 : 0;
-     int ns = (secstate & ARM_CP_SECSTATE_NS) ? 1 : 0;
- 
+ void ppc_hash64_finalize(PowerPCCPU *cpu)
 -- 
 2.31.1
 
