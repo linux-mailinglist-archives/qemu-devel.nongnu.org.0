@@ -2,73 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFCA33FF9AE
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 06:46:28 +0200 (CEST)
-Received: from localhost ([::1]:52280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EADC3FFA88
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 08:44:28 +0200 (CEST)
+Received: from localhost ([::1]:58830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM15v-0007Op-EH
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 00:46:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54152)
+	id 1mM2w6-0003iV-UY
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 02:44:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mM14O-0006jZ-KV
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 00:44:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:38902)
+ (Exim 4.90_1) (envelope-from <jingqi.liu@intel.com>)
+ id 1mM2uF-0002Sv-FP
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 02:42:32 -0400
+Received: from mga02.intel.com ([134.134.136.20]:17897)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1mM14J-00036e-L9
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 00:44:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630644286;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Uvhh1xAWbY8PClyav/O6viFe0r1hNIQALndx4pju0B0=;
- b=ZxJ0H4EuO1vb6bM0MlOQ8bkgUys5WenWuqwVeqzciFg007LfK9RUpkFH2wbqkoESzvlnw7
- M0nToAyo+cRvdBzjvv0m47DNeGSTM0MGNdbkToSCnJYdiazzleuOeZg2FVolqlZBJpWuxv
- ETsaHdXsjLOOoGj6feRsih8IPJ57pEI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-31-JgpmoRW2PmK3OIpu-cEHiw-1; Fri, 03 Sep 2021 00:44:44 -0400
-X-MC-Unique: JgpmoRW2PmK3OIpu-cEHiw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84A2518766D6;
- Fri,  3 Sep 2021 04:44:43 +0000 (UTC)
-Received: from sirius.home.kraxel.org (unknown [10.39.192.91])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0896D100164A;
- Fri,  3 Sep 2021 04:44:32 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7D3B718000A3; Fri,  3 Sep 2021 06:44:30 +0200 (CEST)
-Date: Fri, 3 Sep 2021 06:44:30 +0200
-From: "kraxel@redhat.com" <kraxel@redhat.com>
-To: VintagePC <vintagepc404@protonmail.com>
-Subject: Re: USB-MSD non-functional after merging v5.1 to v6.x (seems to be
- internal USB stack issue?)
-Message-ID: <20210903044430.6h5xvq7tlhrkbxfx@sirius.home.kraxel.org>
-References: <HiU5xYXWuIPVg8tuVKzH1LTrKtKSBr01C6h_-uUbJ720IWY8SO1Bna1_-ak0HWraabqIa-hkGUoxeG2aQn6v7WAy1gnDxq9b_tklE0dGRYc=@protonmail.com>
- <20210902062232.uau63uq53akr6snr@sirius.home.kraxel.org>
- <vAlTpwWpoR91zKfyUom-_cFnqJA3-xN8UGC9BiCUBK3pVgcjE18OC6e_jfWca_POVxFm-kCa73O6g2Da5FLhDZXwOoY6aq8vZU31NRIAcYc=@protonmail.com>
- <utXX9E4xF79uuQWasw0gE1nMa9D3uG6GXEyHgPcpYUyH4mNwhjnU8JjGVRYBAxIjr_1R7gS-nKrg0V0bMm_nR6Y9EMYGr7ro_7ixYyJ2584=@protonmail.com>
+ (Exim 4.90_1) (envelope-from <jingqi.liu@intel.com>)
+ id 1mM2uC-00025E-KU
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 02:42:31 -0400
+X-IronPort-AV: E=McAfee;i="6200,9189,10095"; a="206565061"
+X-IronPort-AV: E=Sophos;i="5.85,264,1624345200"; d="scan'208";a="206565061"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2021 23:42:24 -0700
+X-IronPort-AV: E=Sophos;i="5.85,264,1624345200"; d="scan'208";a="533745463"
+Received: from jingqili-mobl.ccr.corp.intel.com (HELO [10.254.209.186])
+ ([10.254.209.186])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 02 Sep 2021 23:42:21 -0700
+Subject: Re: [PATCH v3] hw/i386/acpi-build: Get NUMA information from struct
+ NumaState
+To: "imammedo@redhat.com" <imammedo@redhat.com>,
+ "mst@redhat.com" <mst@redhat.com>,
+ "marcel.apfelbaum@gmail.com" <marcel.apfelbaum@gmail.com>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "ehabkost@redhat.com" <ehabkost@redhat.com>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>
+References: <20210823011254.28506-1-jingqi.liu@intel.com>
+From: "Liu, Jingqi" <jingqi.liu@intel.com>
+Message-ID: <4793c8f3-31ba-9aa6-3ffd-db2ff4c1ea26@intel.com>
+Date: Fri, 3 Sep 2021 14:42:19 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <utXX9E4xF79uuQWasw0gE1nMa9D3uG6GXEyHgPcpYUyH4mNwhjnU8JjGVRYBAxIjr_1R7gS-nKrg0V0bMm_nR6Y9EMYGr7ro_7ixYyJ2584=@protonmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210823011254.28506-1-jingqi.liu@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=134.134.136.20; envelope-from=jingqi.liu@intel.com;
+ helo=mga02.intel.com
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.225,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,27 +67,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+Hi Igor,
 
-> At some point during implementation of the STM USB stack must have run
-> into the same problem with the communications choking during MSD init.
-> And at the time (which involved a LOT of wireshark comparisons with a
-> real USB drive on the host and on the DCW2 Rpi2 stack) I'd added the
-> QEMU_PACKED directive to the usb_msd_csw struct.
+Any comments ?
 
-> Thoughts?
+Thanks,
+Jingqi
 
-Send a patch adding the QEMU_PACKED,
-that should indeed be the correct fix.
-
-thanks,
-  Gerd
-
+On 8/23/2021 9:12 AM, Liu, Jingqi wrote:
+> Since commits aa57020774b ("numa: move numa global variable
+> nb_numa_nodes into MachineState") and 7e721e7b10e ("numa: move
+> numa global variable numa_info into MachineState"), we can get
+> NUMA information completely from MachineState::numa_state.
+> 
+> Remove PCMachineState::numa_nodes and PCMachineState::node_mem,
+> since they are just copied from MachineState::numa_state.
+> 
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Jingqi Liu <jingqi.liu@intel.com>
+> ---
+>   hw/i386/acpi-build.c | 12 +++++++-----
+>   hw/i386/pc.c         |  9 ---------
+>   include/hw/i386/pc.h |  4 ----
+>   3 files changed, 7 insertions(+), 18 deletions(-)
+> 
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 17836149fe..e3c9ad011e 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -1902,6 +1902,8 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+>       X86MachineState *x86ms = X86_MACHINE(machine);
+>       const CPUArchIdList *apic_ids = mc->possible_cpu_arch_ids(machine);
+>       PCMachineState *pcms = PC_MACHINE(machine);
+> +    int nb_numa_nodes = machine->numa_state->num_nodes;
+> +    NodeInfo *numa_info = machine->numa_state->nodes;
+>       ram_addr_t hotplugabble_address_space_size =
+>           object_property_get_int(OBJECT(pcms), PC_MACHINE_DEVMEM_REGION_SIZE,
+>                                   NULL);
+> @@ -1945,9 +1947,9 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+>       next_base = 0;
+>       numa_start = table_data->len;
+>   
+> -    for (i = 1; i < pcms->numa_nodes + 1; ++i) {
+> +    for (i = 1; i < nb_numa_nodes + 1; ++i) {
+>           mem_base = next_base;
+> -        mem_len = pcms->node_mem[i - 1];
+> +        mem_len = numa_info[i - 1].node_mem;
+>           next_base = mem_base + mem_len;
+>   
+>           /* Cut out the 640K hole */
+> @@ -1995,7 +1997,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+>       }
+>   
+>       slots = (table_data->len - numa_start) / sizeof *numamem;
+> -    for (; slots < pcms->numa_nodes + 2; slots++) {
+> +    for (; slots < nb_numa_nodes + 2; slots++) {
+>           numamem = acpi_data_push(table_data, sizeof *numamem);
+>           build_srat_memory(numamem, 0, 0, 0, MEM_AFFINITY_NOFLAGS);
+>       }
+> @@ -2011,7 +2013,7 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+>       if (hotplugabble_address_space_size) {
+>           numamem = acpi_data_push(table_data, sizeof *numamem);
+>           build_srat_memory(numamem, machine->device_memory->base,
+> -                          hotplugabble_address_space_size, pcms->numa_nodes - 1,
+> +                          hotplugabble_address_space_size, nb_numa_nodes - 1,
+>                             MEM_AFFINITY_HOTPLUGGABLE | MEM_AFFINITY_ENABLED);
+>       }
+>   
+> @@ -2513,7 +2515,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+>           }
+>       }
+>   #endif
+> -    if (pcms->numa_nodes) {
+> +    if (machine->numa_state->num_nodes) {
+>           acpi_add_table(table_offsets, tables_blob);
+>           build_srat(tables_blob, tables->linker, machine);
+>           if (machine->numa_state->have_numa_distance) {
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index c2b9d62a35..adbc348488 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -800,18 +800,9 @@ void pc_machine_done(Notifier *notifier, void *data)
+>   
+>   void pc_guest_info_init(PCMachineState *pcms)
+>   {
+> -    int i;
+> -    MachineState *ms = MACHINE(pcms);
+>       X86MachineState *x86ms = X86_MACHINE(pcms);
+>   
+>       x86ms->apic_xrupt_override = true;
+> -    pcms->numa_nodes = ms->numa_state->num_nodes;
+> -    pcms->node_mem = g_malloc0(pcms->numa_nodes *
+> -                                    sizeof *pcms->node_mem);
+> -    for (i = 0; i < ms->numa_state->num_nodes; i++) {
+> -        pcms->node_mem[i] = ms->numa_state->nodes[i].node_mem;
+> -    }
+> -
+>       pcms->machine_done.notify = pc_machine_done;
+>       qemu_add_machine_init_done_notifier(&pcms->machine_done);
+>   }
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index 88dffe7517..31b334e0a4 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -47,10 +47,6 @@ typedef struct PCMachineState {
+>       bool default_bus_bypass_iommu;
+>       uint64_t max_fw_size;
+>   
+> -    /* NUMA information: */
+> -    uint64_t numa_nodes;
+> -    uint64_t *node_mem;
+> -
+>       /* ACPI Memory hotplug IO base address */
+>       hwaddr memhp_io_base;
+>   } PCMachineState;
+> 
 
