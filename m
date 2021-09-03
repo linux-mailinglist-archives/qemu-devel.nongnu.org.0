@@ -2,58 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0CDB3FF8FA
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 04:57:05 +0200 (CEST)
-Received: from localhost ([::1]:33398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB15E3FF920
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 05:34:35 +0200 (CEST)
+Received: from localhost ([::1]:46136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mLzO4-00068U-BP
-	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 22:57:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36518)
+	id 1mLzyL-0007wM-Uk
+	for lists+qemu-devel@lfdr.de; Thu, 02 Sep 2021 23:34:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vintagepc404@protonmail.com>)
- id 1mLzMd-0005K3-9l
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 22:55:35 -0400
-Received: from mail-40140.protonmail.ch ([185.70.40.140]:63745)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vintagepc404@protonmail.com>)
- id 1mLzMb-0004SH-29
- for qemu-devel@nongnu.org; Thu, 02 Sep 2021 22:55:34 -0400
-Date: Fri, 03 Sep 2021 02:55:27 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
- s=protonmail; t=1630637728;
- bh=vRKBmFyI6wUefWdfOJKM5/8Qd1QzIh6HgFxgEQBoHKk=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=VGN+Q69TxCbNrmYpNJqaVScemapAAoMAtrrFJpbRmV0IAk+cyKVofx946Od8ILnOL
- Zrv8BJLFH5X6wYwIChcAij0vgpcvlwQCZzg2d1sjRnerkog57W6bNx/Y3sO7913yoO
- SHwcHFBwdX1BXcOaEUM994dpMvZAFt7F3QB43PUE=
-To: "kraxel@redhat.com" <kraxel@redhat.com>
-From: VintagePC <vintagepc404@protonmail.com>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "marcandre.lureau@redhat.com" <marcandre.lureau@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>
-Subject: Re: USB-MSD non-functional after merging v5.1 to v6.x (seems to be
- internal USB stack issue?)
-Message-ID: <utXX9E4xF79uuQWasw0gE1nMa9D3uG6GXEyHgPcpYUyH4mNwhjnU8JjGVRYBAxIjr_1R7gS-nKrg0V0bMm_nR6Y9EMYGr7ro_7ixYyJ2584=@protonmail.com>
-In-Reply-To: <vAlTpwWpoR91zKfyUom-_cFnqJA3-xN8UGC9BiCUBK3pVgcjE18OC6e_jfWca_POVxFm-kCa73O6g2Da5FLhDZXwOoY6aq8vZU31NRIAcYc=@protonmail.com>
-References: <HiU5xYXWuIPVg8tuVKzH1LTrKtKSBr01C6h_-uUbJ720IWY8SO1Bna1_-ak0HWraabqIa-hkGUoxeG2aQn6v7WAy1gnDxq9b_tklE0dGRYc=@protonmail.com>
- <20210902062232.uau63uq53akr6snr@sirius.home.kraxel.org>
- <vAlTpwWpoR91zKfyUom-_cFnqJA3-xN8UGC9BiCUBK3pVgcjE18OC6e_jfWca_POVxFm-kCa73O6g2Da5FLhDZXwOoY6aq8vZU31NRIAcYc=@protonmail.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mLzwv-0007AI-OI; Thu, 02 Sep 2021 23:33:05 -0400
+Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:34672)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1mLzwu-00023T-8P; Thu, 02 Sep 2021 23:33:05 -0400
+Received: by mail-io1-xd35.google.com with SMTP id y18so5223812ioc.1;
+ Thu, 02 Sep 2021 20:32:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=pf0Q68togFfaME1zOoQmIqokI9mZ61b85mqndOKje2k=;
+ b=KyL6GnSXMG23cZCZE0s688oAm3nsdxez5r0ExuZGdqDG4/9PsmMpSb26z/azFk5Ir3
+ HgsI357IPCAJ3FbOrkF8Tex+4DNzDaptZ7Xn7IWAg6A4Rd0aBDtHq+p3Fean5llmnUPb
+ zp+JEnkPS/Yojo7VuVcVexPNwjfx6dMS+SOr0JVwAkqUfHa7se9Df4Poip+z3S/iFFqn
+ BX9fDp5fMFBo/CRzH4spTFlOGUMD55X5ZsMF1k7EEFoFU/uMYFEa5/fK/3cjdS+UcGyw
+ Zr6HkCXz+XBkupfN1TovyDfMljtSpIQTLgmVxZ5YSVANHA+4J6tXnXGBNrK1iqRj5vdc
+ ZANg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=pf0Q68togFfaME1zOoQmIqokI9mZ61b85mqndOKje2k=;
+ b=LLhndlfUeaFfhTHgOicsRZdn6kkF7Uqqf8cXNuRKpgNlSvnsqFIynSeSML8lKeu7Wq
+ Y8qXuARUCnkcblC4weE4yVjyvmwYElR4Ar6lm/YUAroNdwN5pBgy+C3SBL5W90nX8uwc
+ Tv7IaRq/ekCQCqCXcib2vz4EQTsPCJ8s4Mdmy9NbfOKCJBoqiH65r/LGtYr3dDw8noD8
+ 169MFO6is0FlhHEnWIwmPAVVplbpBR3oGclHjccXUrFh8K3pV53A5RrGYmzBUIbf7Lu6
+ VW3LKMdps75kqHiuDrqLK8axVej4C2prab07h6AhKIkIuTy4/0I43BUTwbRyISAxHahE
+ 4tyA==
+X-Gm-Message-State: AOAM53072ikZoEFyE/IouwZLoOWrdKjFyoMUMjh2O2OHmr1jf0o7YD3g
+ qYEJoJ7IayCR3MgeGMZvCQw/6WlzxjxGPl/pO6g=
+X-Google-Smtp-Source: ABdhPJy3DVxVN8If7pgwgLL9JbP5cI0rvm9DSwNyWpTL/mERZUtfPWlfpP2+Fe1Mh1H0fX2aRyJyemdBqg0KUslsEJE=
+X-Received: by 2002:a05:6602:3c5:: with SMTP id
+ g5mr1354682iov.42.1630639979163; 
+ Thu, 02 Sep 2021 20:32:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=185.70.40.140;
- envelope-from=vintagepc404@protonmail.com; helo=mail-40140.protonmail.ch
-X-Spam_score_int: -15
-X-Spam_score: -1.6
+References: <20210902112520.475901-1-anup.patel@wdc.com>
+ <20210902112520.475901-2-anup.patel@wdc.com>
+In-Reply-To: <20210902112520.475901-2-anup.patel@wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 3 Sep 2021 13:32:33 +1000
+Message-ID: <CAKmqyKNNCj_Q_s2TAPbP-G+eXnGGzZbe=OwnjvZvWMFOHzDpCA@mail.gmail.com>
+Subject: Re: [PATCH v2 01/22] target/riscv: Fix trap cause for RV32 HS-mode
+ CSR access from RV64 HS-mode
+To: Anup Patel <anup.patel@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- FREEMAIL_REPLYTO_END_DIGIT=0.25, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,52 +78,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: VintagePC <vintagepc404@protonmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup@brainfault.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Well... the plot thickens. I have found the smoking gun.
+On Thu, Sep 2, 2021 at 9:36 PM Anup Patel <anup.patel@wdc.com> wrote:
+>
+> We should be returning illegal instruction trap when RV64 HS-mode tries
+> to access RV32 HS-mode CSR.
+>
+> Fixes: d6f20dacea51 ("target/riscv: Fix 32-bit HS mode access permissions")
+> Signed-off-by: Anup Patel <anup.patel@wdc.com>
 
-At some point during implementation of the STM USB stack must have run into=
- the same problem with the communications choking during MSD init. And at t=
-he time (which involved a LOT of wireshark comparisons with a real USB driv=
-e on the host and on the DCW2 Rpi2 stack) I'd added the QEMU_PACKED directi=
-ve to the usb_msd_csw struct.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-Naturally, when the definitions were relocated to a header, that was lost w=
-hen resolving the merge conflict because I wasn't paying attention. (D'oh!)
+Alistair
 
-So while it's working again... the question still remains why I had to make=
- this tweak in the first place - so I dug further:
-
-I just re-compared with the MSD setup of a real drive on the PC. The status=
- section of the MSD is only a single byte for the real drive but is 4 bytes=
- in the packet received by the guest without the PACKED directive. Wireshar=
-k also cannot decode this "oversize" packet properly, which seems to furthe=
-r suggest  that this may indeed be an actual bug in the MSD implementation =
-- naturally it would only manifest on systems/compilers where the data alig=
-nment precipitates this problem.
-
-Further code inspection suggests this originates with the following line in=
- usb-storage.c:
-> len =3D MIN(sizeof(s->csw), p->iov.size);
-specifically, if the iov.size is > than the MSD CSW. And that's where my kn=
-owledge of the QEMU USB system ends and I defer to those more knowledgeable=
-. I'm guessing this might mean that things are fine if the receiving endpoi=
-nt configures itself to exactly the expected CSW size - but breaks if the e=
-ndpoint is configured with a larger receive buffer. At least for ARM kernel=
- being run this isn't custom code and is part of the generic HAL and USB st=
-ack STM offers - so I have a hard time believing this is an unusual practic=
-e.
-
-I even went so far as to eliminate dev-storage from the picture entirely an=
-d use USB-host to connect a real physical USB drive with the simulated plat=
-form - and again, the wireshark capture reveals that the CSW packet size is=
- a single byte as the "correct" behaviour regardless of how the device sets=
- up its receive buffers.
-
-Thoughts?
-
-~ VintagePC
-
+> ---
+>  target/riscv/csr.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 50a2c3a3b4..1f13d1042d 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -181,7 +181,7 @@ static RISCVException hmode(CPURISCVState *env, int csrno)
+>  static RISCVException hmode32(CPURISCVState *env, int csrno)
+>  {
+>      if (!riscv_cpu_is_32bit(env)) {
+> -        if (riscv_cpu_virt_enabled(env)) {
+> +        if (!riscv_cpu_virt_enabled(env)) {
+>              return RISCV_EXCP_ILLEGAL_INST;
+>          } else {
+>              return RISCV_EXCP_VIRT_INSTRUCTION_FAULT;
+> --
+> 2.25.1
+>
+>
 
