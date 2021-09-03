@@ -2,79 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3F533FFB3B
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 09:42:59 +0200 (CEST)
-Received: from localhost ([::1]:48646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52F1B3FFB42
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 09:46:53 +0200 (CEST)
+Received: from localhost ([::1]:51042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM3ql-0004jw-27
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 03:42:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55044)
+	id 1mM3uW-0006YL-De
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 03:46:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <weijunji@bytedance.com>)
- id 1mM3py-00045L-TE
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 03:42:11 -0400
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:45629)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <weijunji@bytedance.com>)
- id 1mM3pu-0003LV-FA
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 03:42:08 -0400
-Received: by mail-pj1-x1036.google.com with SMTP id
- f11-20020a17090aa78b00b0018e98a7cddaso3342839pjq.4
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 00:42:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=nXREGH7UcssxsGls4TpqN/3My2ILjgwwjSnTKo7Ckl4=;
- b=KiXEQsXdfuZJShCri4LUNWJ9o+nCGc+6qCDmPFb67nPxAkxIsZ/yUP1bHvd6wnlSEv
- rTozjTwxXQHPdTlHIYLC2ZFsdmdCTCzktNnQ7aXNdDi5978cszU/V78KWGnYsk/b5WlE
- fHmJcxv/sXp5/rtlqW8K5VOg+uXnmWmkBVpRgU1OmlsUUu5BEBNIiWwKxOmJ2/DN45xN
- lvb3bpM8pVjWIAhf+PIuwiWQ1M5HI0AGpyU0yrFCB7Lmf8sL+ywxZLuKL/Zb0xxSQboT
- wh6Oa0M9LM/zi2RzjgzLTdU4TokBi1SL9YQKFYmSIMkDKELGEhw/XZz3yiIVkjrYv0DS
- dveA==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mM3tG-0005dI-0H
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 03:45:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29451)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mM3t6-0005nK-Dd
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 03:45:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630655121;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DVYbHmeU9jl+c4bxopH6ycdQWQoW1mnrq3s116PxjPc=;
+ b=YDouL3dWqWxLLEa7dmEF+ctkMdYNME3Hp+08FDUaIvQ20LBm6XirjCiQj4fwV0nisXzenF
+ wituXPtdHRJtgtzeq+Ds58v82yxizib3eLmBltoErLOoXI0ZMo5FHvWvdHbwVFzqRIaspn
+ HdqURBj1g/A3HoRmtcbKPQDF0DP18Yo=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-485-SFIs0KQ6N9CSBCp_0EYU-w-1; Fri, 03 Sep 2021 03:45:18 -0400
+X-MC-Unique: SFIs0KQ6N9CSBCp_0EYU-w-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ b126-20020a1c8084000000b002f152a868a2so1520337wmd.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 00:45:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=nXREGH7UcssxsGls4TpqN/3My2ILjgwwjSnTKo7Ckl4=;
- b=L5sWwllC6EhZkyi52tpj33b0/vieaGVEA67Pm/2ubwBLrkM08ccutwXk9hSU9L/8OR
- cBrLKrcs0c4WkxJ8BhdLHH0bKPH5StGGft0Bp5v5OHFRD61i8xXWMDY+6o518l5mdRaW
- l1ek+3GO5x5jN0l9ZAobnxB6VjvK5UkWcZ410fCqnjDx+5PeSvWr46DTLjKqNWzRvD7X
- CVbI1JzQs/8b3CY8KjCAXY6YDP2LA+tVUiCRdsEU+NP9Qq5iEtKNA1/1YZEdNLD1FV5y
- 58SFe2vgzNViPx6Fe5vUaOFAqvsRokFvA6+LJjCam297XOpOAr62HTyxaYqITf8+dUdE
- MrMA==
-X-Gm-Message-State: AOAM533tgC8VA8pj3aGc0NGFwCOeYpRHFoZpnO0nOslLDxUwJAwZyc0+
- b6T2TGklunEyGi3aRXXeZ4Gbzw==
-X-Google-Smtp-Source: ABdhPJx9jFfBu+nlD8vhSJGr3W8ucdz7n747tSwepSc5EQ6/yAYK1sNLaqT1nRm3XypVmOJ/vRgOqQ==
-X-Received: by 2002:a17:90a:c89:: with SMTP id
- v9mr2482459pja.175.1630654924349; 
- Fri, 03 Sep 2021 00:42:04 -0700 (PDT)
-Received: from smtpclient.apple ([139.177.225.225])
- by smtp.gmail.com with ESMTPSA id u24sm4656287pfm.81.2021.09.03.00.41.59
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 03 Sep 2021 00:42:03 -0700 (PDT)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.80.0.2.43\))
-Subject: Re: [RFC 0/5] VirtIO RDMA
-From: =?utf-8?B?6a2P5L+K5ZCJ?= <weijunji@bytedance.com>
-In-Reply-To: <CACGkMEsz4HQKpaw3P=ODXvN2AuqO+_YE0UHpzOFk5GbzX13V4A@mail.gmail.com>
-Date: Fri, 3 Sep 2021 15:41:57 +0800
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=DVYbHmeU9jl+c4bxopH6ycdQWQoW1mnrq3s116PxjPc=;
+ b=pfA3jE6KMU4J2R9TF+ICdgUV29M4UJM/8KK5TiZPNtmONZ9B+s1dXoHngA0y2g+ri7
+ a6xCn1bW7PuJvU2Ppmg4yG6Sp7NqUtLL1k7SBFKTayheUQqMhUxQryllujjQqkIDRzMT
+ E46AHctZbah9EYyGgOn/+6KSdYGYW7RLx1RbZx17uXHfmtDkikhBkiY0f3ei28DvtL6L
+ JnGT0ggNXGMc5Op1PHI0dcI5F7anjhMdG4u7uwM/XeawcnJklY/b1bvT/Qtj5pKEB6rC
+ AB5Q6NUeal/sQ7QH1HCAnz58iahfMM2njiKjysqmDk8hq0DhNjmudl9tWlN/plsAgTUd
+ 4rMg==
+X-Gm-Message-State: AOAM533QxsUJcu4vCg+TzuHNYrObfcBvX6cdf0FtrgrZmKCGIhzoHz0k
+ RBCXq0J+bsDc/odonvXxocqWayWnjZ548I5CpwLgK8j8fRQy/WS7knZrCeqCiJA7gtRH8UDn1zf
+ pkBl9IbIri47JhhQ=
+X-Received: by 2002:a05:600c:4ca2:: with SMTP id
+ g34mr7037614wmp.46.1630655117288; 
+ Fri, 03 Sep 2021 00:45:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzmnso23puXpcW0IWmHHsU38Gq9dc5TnUvU1ddfAyEVYdmMRVpAsb8f0DW+j2QdVmJahg22vA==
+X-Received: by 2002:a05:600c:4ca2:: with SMTP id
+ g34mr7037584wmp.46.1630655117041; 
+ Fri, 03 Sep 2021 00:45:17 -0700 (PDT)
+Received: from [192.168.3.132] (p4ff23e05.dip0.t-ipconnect.de. [79.242.62.5])
+ by smtp.gmail.com with ESMTPSA id
+ t23sm4215282wrb.71.2021.09.03.00.45.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Sep 2021 00:45:16 -0700 (PDT)
+Subject: Re: [PATCH v4 8/9] migration/ram: Factor out populating pages
+ readable in ram_block_populate_pages()
+To: Peter Xu <peterx@redhat.com>
+References: <20210902131432.23103-1-david@redhat.com>
+ <20210902131432.23103-9-david@redhat.com> <YTFQKKPK3evHAMWN@t490s>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+Message-ID: <bcdb8e57-7032-f5c4-469c-f423cce923ab@redhat.com>
+Date: Fri, 3 Sep 2021 09:45:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <YTFQKKPK3evHAMWN@t490s>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Message-Id: <4ED3B57F-A9D1-4A61-AA1D-94D14A932012@bytedance.com>
-References: <20210902130625.25277-1-weijunji@bytedance.com>
- <CACGkMEsz4HQKpaw3P=ODXvN2AuqO+_YE0UHpzOFk5GbzX13V4A@mail.gmail.com>
-To: Jason Wang <jasowang@redhat.com>
-X-Mailer: Apple Mail (2.3654.80.0.2.43)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=weijunji@bytedance.com; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -53
+X-Spam_score: -5.4
+X-Spam_bar: -----
+X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.225, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,41 +102,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>,
- linux-rdma@vger.kernel.org, Yongji Xie <xieyongji@bytedance.com>,
- Cornelia Huck <cohuck@redhat.com>, yuval.shaia.ml@gmail.com,
- virtualization <virtualization@lists.linux-foundation.org>, jgg@ziepe.ca,
- dledford@redhat.com, =?utf-8?B?5p+056iz?= <chaiwen.cc@bytedance.com>,
- Hannes Reinecke <hare@suse.de>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Marek Kedzierski <mkedzier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-> On Sep 3, 2021, at 8:57 AM, Jason Wang <jasowang@redhat.com> wrote:
+On 03.09.21 00:28, Peter Xu wrote:
+> On Thu, Sep 02, 2021 at 03:14:31PM +0200, David Hildenbrand wrote:
+>> Let's factor out prefaulting/populating to make further changes easier to
+>> review. While at it, use the actual page size of the ramblock, which
+>> defaults to qemu_real_host_page_size for anonymous memory.
+>>
+>> Signed-off-by: David Hildenbrand <david@redhat.com>
+>> ---
+>>   migration/ram.c | 21 ++++++++++++---------
+>>   1 file changed, 12 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/migration/ram.c b/migration/ram.c
+>> index e1c158dc92..de47650c90 100644
+>> --- a/migration/ram.c
+>> +++ b/migration/ram.c
+>> @@ -1639,6 +1639,17 @@ out:
+>>       return ret;
+>>   }
+>>   
+>> +static inline void populate_range(RAMBlock *block, ram_addr_t offset,
+>> +                                  ram_addr_t size)
+>> +{
+>> +    for (; offset < size; offset += block->page_size) {
+>> +        char tmp = *((char *)block->host + offset);
+>> +
+>> +        /* Don't optimize the read out */
+>> +        asm volatile("" : "+r" (tmp));
+>> +    }
+>> +}
 > 
-> On Thu, Sep 2, 2021 at 9:07 PM Junji Wei <weijunji@bytedance.com> wrote:
->> 
->> Hi all,
->> 
->> This RFC aims to reopen the discussion of Virtio RDMA.
->> Now this is based on Yuval Shaia's RFC "VirtIO RDMA"
->> which implemented a frame for Virtio RDMA and a simple
->> control path (Not sure if Yuval Shaia has any further
->> plan for it).
->> 
->> We try to extend this work and implement a simple
->> data-path and a completed control path. Now this can
->> work with SEND, RECV and REG_MR in kernel. There is a
->> simple test module in this patch that can communicate
->> with ibv_rc_pingpong in rdma-core.
->> 
->> During doing this work, we have found some problems and
->> would like to ask for some suggestions from community:
+> If to make it a common function, make it populate_range_read()?
+
+Indeed, makes sense.
+
 > 
-> I think it would be beneficial if you can post a spec patch.
+> Just to identify from RW, as we'll fill the holes with zero pages only, not
+> doing page allocations yet, so not a complete "populate".
 
-Ok, I will do it.
+Well, depending on the actual memory backend ...
 
-Thanks
+> 
+> That'll be good enough for live snapshot as uffd-wp works for zero pages,
+> however I'm just afraid it may stop working for some new users of it when zero
+> pages won't suffice.
+
+I thought about that as well. But snapshots/migration will read all 
+memory either way and consume real memory when there is no shared zero 
+page. So it's just shifting the point in time when we allocate all these 
+pages I guess.
+
+> 
+> Maybe some comment would help too?
+>
+Yes, will do, thanks!
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
