@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 549BF400160
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 16:42:21 +0200 (CEST)
-Received: from localhost ([::1]:48302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3112640018B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 16:53:15 +0200 (CEST)
+Received: from localhost ([::1]:51486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMAOa-0003as-E4
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 10:42:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36952)
+	id 1mMAZ8-0006PI-26
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 10:53:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mMAFM-0004Os-Sp
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 10:32:52 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:52076)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mMAY2-0005Wj-ML
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 10:52:06 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:33499)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1mMAFL-0005j6-CK
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 10:32:48 -0400
-Received: by mail-wm1-x329.google.com with SMTP id u15so3652842wmj.1
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 07:32:45 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mMAY0-0004qU-78
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 10:52:06 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id
+ 192-20020a1c04c9000000b002f7a4ab0a49so3139725wme.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 07:52:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=fY5SdPSeZ+nzP/hRNCu8jlFl6ZP6Y10Sub0ilphjxgs=;
- b=eyDOK78gtwil10Bk1rn1CGTdZwVLTfjjB4us3m1an2HQcZW/OeAEWM6Tm34Z0RwpIf
- Dl6PuHM1qpKQWDL5Q8BHHqd7XQzUw/3Kx6OtjhOJ8fAFOwh7VUg1FbUxB43B1Tnnk0vi
- IeSqP2KN6553JREKkD0w8BSVPNqZUZr6smTmUOoQqCAaBHP2uhScV0w3c4caiAnkhFwG
- iKXYSA2V/v2NivcxJBbmpR9eCct2AxelZt88ShgTdtewrwadFCSSBuqlmBZdohI9ci0s
- eWt++nbdfexM6y3miHsqdp+6wpF08PSYfaO1sR5bVnAfG53xg5rSmDFhgpoyi/OspbMi
- UY0A==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5roshyboZ+kdsi0TGTdaUsmAx+q/9fSdGUMKEh7BkIM=;
+ b=JHhKAcmYF47Y4Zonh+3Ic2E52jmIY7yQ7YS/5pVoOCN0SCGL5IaVl+WYbF52f753fi
+ 7RdBNREcUOgEgyTi/khjpHQ98p9Ohzcmz7vGl9Ub6ruDkTgNIoivEoARo30Q2EIDHayt
+ TV2lLzrhg59cCRcvO7oqToI/7jodNZS3PfET86Pn9Hrwq/zDvk4aSlVDeSW0sHL2+LOu
+ /w5EB7sonBQw5xbRbxHNJroAAvifsRWC79WZvn1DQFyMnTQluRPvxr/0DemcHHAFDqcy
+ E/jn74kSM+epierYJYgUU2YP/zItaC+Pzdp+82NJC6aJRPlloWb6IDlyiYgVnAb5+3cU
+ c+xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=fY5SdPSeZ+nzP/hRNCu8jlFl6ZP6Y10Sub0ilphjxgs=;
- b=Uawb6V4nnPwSCxmrCA/13Tk7q34UxfkvoaOzQaNXVXXxHCgAOeSR7nw3dx78F6U8ZD
- hQ6Vo2TYIFb+aOa4M18W5UfOFnp99OQpRx5fuePBKuxDzzb0gxqDB+VjOfhkD5T/j3IO
- Xg3K/DBjUkVDTeip+HWn2PI8wKFbmyFFY01a04LkCd9+++daYy4Cvwc+pkhDmL/Jm/GX
- 5Tmw47XX5r+bvICJ4u7FzvV+epU96P4yQOK7dkxltVSxfg5MJNDQBmtTOuj/RrqkoU+7
- sqpeR8AkDb4+D5FkgGlxaKtSp5GgkzoxvDak23A19hoFrKEJd+8Mzorxt8F97FhqtJLh
- 7drw==
-X-Gm-Message-State: AOAM530RRKjWlDMr1O35eT7Q9VsrIMbS05fmmKpNy+jVWLeIbhyoxAOY
- ji89nsXDShDn/aiFtdsabD6l2w==
-X-Google-Smtp-Source: ABdhPJxgrFg5rYzOvaLpVzk047FXn6ycaJ/KfqJpYe+noodOmTPNPigvJM7vXpvJD7eTP0ksJz317g==
-X-Received: by 2002:a1c:3b8a:: with SMTP id i132mr682400wma.145.1630679564993; 
- Fri, 03 Sep 2021 07:32:44 -0700 (PDT)
-Received: from localhost.localdomain (19.11.114.78.rev.sfr.net. [78.114.11.19])
- by smtp.gmail.com with ESMTPSA id z2sm4314843wma.45.2021.09.03.07.32.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 07:32:44 -0700 (PDT)
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: eric.auger@redhat.com
-Subject: [PATCH v2 8/8] docs: Add '-device virtio-iommu' entry
-Date: Fri,  3 Sep 2021 16:32:09 +0200
-Message-Id: <20210903143208.2434284-9-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210903143208.2434284-1-jean-philippe@linaro.org>
-References: <20210903143208.2434284-1-jean-philippe@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5roshyboZ+kdsi0TGTdaUsmAx+q/9fSdGUMKEh7BkIM=;
+ b=r6PQn0sR8vAyTbrN0ZheNRutFGF9W2E+QvlQBsKGgbXOaK8eXawHwNJdiJNB2NFpFq
+ NWwboKiuipfAiK4RhGkxaVxvcyyxKK2G8eOowb4b3WnZZmN2VIpP/ER8MlNDYuRgxi71
+ tCWVQxK1bApR4+ZmC0gu1E4mjoVV03W90sBqYtY7vBhTSOn4FH36VLgKf3TOs9iTH1c3
+ KNMgupBW5e7KE3U5lANFiYmuksHn/Dh7wzn2R+BFzUgPwdIhG0I+r1csG2uIw2gZT7P3
+ 5BGuYu3gUSBKNWivYu+3qnI9bYz4EsakfG/w+uer+5qtyrUxGbb3LA+UXUdk6zVdyo/i
+ njSA==
+X-Gm-Message-State: AOAM5325nGkrAd6tUojLgJuPouJpyjzDaxJ71959r3cLw3CRlpi86Gn8
+ BXjVb3xB7itJOfAnP0WGqY7GMNKl8TLJzwfrtK4Arg==
+X-Google-Smtp-Source: ABdhPJw2OgOkeuETz9SfH2yt7kDRqeYlxnQQFAOR+Y+xULk3QO6ALq2S0iFER6UWZWNThsnmC3Lqy3k3eLiRdbjzTFs=
+X-Received: by 2002:a7b:c246:: with SMTP id b6mr8696159wmj.37.1630680722660;
+ Fri, 03 Sep 2021 07:52:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: 13
-X-Spam_score: 1.3
-X-Spam_bar: +
-X-Spam_report: (1.3 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210902181642.315792-1-crauer@google.com>
+In-Reply-To: <20210902181642.315792-1-crauer@google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 3 Sep 2021 15:51:14 +0100
+Message-ID: <CAFEAcA-wG4FW_ddfpj+CH22OwGbaqjmYoi2FQdBUHdrDnfSvjA@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm: Add support for kudo-bmc board.
+To: Chris Rauer <crauer@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,38 +77,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
- richard.henderson@linaro.org, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
- Jean-Philippe Brucker <jean-philippe@linaro.org>, qemu-arm@nongnu.org,
- pbonzini@redhat.com, imammedo@redhat.com
+Cc: CS20 KFTing <kfting@nuvoton.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Havard Skinnemoen <hskinnemoen@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Document the virtio-iommu device for qemu-system-x86_64. In particular
-note the lack of interrupt remapping, which may be an important
-limitation on x86.
+On Thu, 2 Sept 2021 at 19:17, Chris Rauer <crauer@google.com> wrote:
+>
+> kudo-bmc is a board supported by OpenBMC.
+> https://github.com/openbmc/openbmc/tree/master/meta-fii/meta-kudo
+>
+> Tested: Booted kudo firmware.
+> Signed-off-by: Chris Rauer <crauer@google.com>
 
-Suggested-by: Eric Auger <eric.auger@redhat.com>
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
----
- qemu-options.hx | 3 +++
- 1 file changed, 3 insertions(+)
+> +static void kudo_bmc_machine_class_init(ObjectClass *oc, void *data)
+> +{
+> +    NPCM7xxMachineClass *nmc = NPCM7XX_MACHINE_CLASS(oc);
+> +    MachineClass *mc = MACHINE_CLASS(oc);
+> +
+> +    npcm7xx_set_soc_type(nmc, TYPE_NPCM730);
+> +
+> +    mc->desc = "Kudo BMC (Cortex A9)";
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 83aa59a920..9a1906a748 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -976,6 +976,9 @@ SRST
-     Please also refer to the wiki page for general scenarios of VT-d
-     emulation in QEMU: https://wiki.qemu.org/Features/VT-d.
- 
-+``-device virtio-iommu``
-+    Enable a paravirtual IOMMU, that manages DMA isolation and remapping
-+    for all PCI devices, but does not support interrupt remapping.
- ERST
- 
- DEF("name", HAS_ARG, QEMU_OPTION_name,
--- 
-2.33.0
+"Cortex-A9" should be hyphenated; see commit f548f20176c.
 
+> +    mc->init = kudo_bmc_init;
+> +    mc->default_ram_size = 1 * GiB;
+> +};
+
+-- PMM
 
