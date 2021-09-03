@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BF043FFF74
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:52:53 +0200 (CEST)
-Received: from localhost ([::1]:48228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2616F3FFF45
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:36:05 +0200 (CEST)
+Received: from localhost ([::1]:41730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM7kZ-0005dS-Ii
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:52:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47050)
+	id 1mM7UK-0006MW-6N
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:36:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mM7Dl-0001Ae-4A
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:18:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40464)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mM7Di-0007Fm-2x
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:18:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630667933;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d9H6Y/x3aFTcQdkDCU9IR24Ruj76cNc11pNOs8U9ZeE=;
- b=Za/QDRAPbwAsBoMAwOS/DwwdTJv5UUi7gTufGGV6+TfsOF7pZcecfKw2BRq/jor9NzNeC6
- xaRMbCeT+ldjjivmk9pqbdG21z0HfxPTgrxKzax+2lUB+/7qQ4PYFg2aHcnpHUQ4euYN28
- c/ZgdnZHJWOcPBbeSP4666pbmE4B5e8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-H8poPZlMOuixug7-bAsqBw-1; Fri, 03 Sep 2021 07:18:51 -0400
-X-MC-Unique: H8poPZlMOuixug7-bAsqBw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0970501E1;
- Fri,  3 Sep 2021 11:18:48 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.241])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F03210016F4;
- Fri,  3 Sep 2021 11:18:19 +0000 (UTC)
-Date: Fri, 3 Sep 2021 12:18:16 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 03/28] qapi: Replace g_memdup() by g_memdup2_qemu()
-Message-ID: <YTIEeO5udKWuqE6H@redhat.com>
-References: <20210903110702.588291-1-philmd@redhat.com>
- <20210903110702.588291-4-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mM7F5-0002j4-ML
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:20:19 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44937)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mM7F2-0008Cw-Ti
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:20:19 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id g18so7717877wrc.11
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 04:20:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=/rKgeH7MI2pBgM0dR8PZMOcDrjdgk/9otCuZnAdGY3g=;
+ b=wYqOH8YCm8rySRIzOY0mS03lf87qcKgvbtK+Edt+rJB9fpshqKz5/uA3ToBVr+F24z
+ JsLr3819gZVNib5AloyRWz6prW+CCK/4sLKrVu4xyiIPpmjbXKYf0gp5bvpiY7lO1v/M
+ LWIqkcfK8GrQ5G4ffgd+oRG9I26to0sMppHZ1wfGEOQyr+XKlVSNoy2ovS0JSuRRIRk3
+ J6tHb/Lo+XD5PTQYRTkUtiZ1xA3EnhspRtVzCZyTMHSI8sCP5ofvWDVuB5DVFdg0EVYv
+ Gzbd5gejoEkTNq7jxfzdS+qv7RDtIXeZTPWAUh88gKKfC63UgBfEwt9cKAs9mS8TWvGV
+ p0pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/rKgeH7MI2pBgM0dR8PZMOcDrjdgk/9otCuZnAdGY3g=;
+ b=MJhOw879U4CFXaYfRwMQQMOXCPEfPG9692ckja3h/bTyEqNpl+hTJYPRul6J4zBv/1
+ r5cep5IRbIkrTFIA0HKv7jhqUdWQjb6pwTbOFSxX7QlCohjW3Fo8oRiu2IdJbG0d3l+q
+ ZznyBIhSrUkHnGpZ03KCdyPcAvVr5XcTE1J87A2Z3U/5eccVx9uRKyQ1DcCDyQrP6UtA
+ P2H5ecf5xFRK0a9/oS/gz/IRbqLfYWLiksIOteeGecw906OJR0C/8iX4r8Es/M4FuaaG
+ FArwDYKZ1v2/I/vWV+ikIYMaeU6LNXbK3NFe+BCPwwCSv8R+ToLVnW+GN4kCJXczeaYR
+ wfng==
+X-Gm-Message-State: AOAM531FV+ZLphv6QkIfVos571lPt+KhLvdCz6oK9/01ujfI5iBFpcSJ
+ 5c8EWSjxJV9Uxja11H/3SnCauo043zOFNzILSTquWA==
+X-Google-Smtp-Source: ABdhPJxSPh5i16Zop68sa1a8B2GPLmcOEbi1ELKdZd9/+Z2df6c85Gh0YFK4tsoqmVKA5RECu9r7c2sGDJ6tA4L8eEM=
+X-Received: by 2002:a5d:6cae:: with SMTP id a14mr3353739wra.275.1630668015090; 
+ Fri, 03 Sep 2021 04:20:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210903110702.588291-4-philmd@redhat.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
+References: <CALUzjTYPpo680Ub6CCx7-N2o=Q6Q6Kh=DLNCcUq-1F0JbCThOw@mail.gmail.com>
+ <CAFEAcA89Dua-t14v3DH-LFG+4UDtU81PuaTOruLTQJw+T25eiA@mail.gmail.com>
+ <CALUzjTY56_A3mMtvWGFTyyZAKshWSeUfcHWJFFxYSm7P7BuNAQ@mail.gmail.com>
+ <CAFEAcA_Zvw1V5=8OxUXerb3zg=C6AGLfQgZ5k1kCY5NGT-CdHw@mail.gmail.com>
+ <CALUzjTa1ZNFFjdo6eCy13TCrqAibYLMzJ7JqjY5+GwpukhfMAQ@mail.gmail.com>
+ <CAFEAcA_EAx858BpONn+7+wCCxwCOsUm42gUMP0LW5JZwd5AkCA@mail.gmail.com>
+ <CALUzjTaDo94110xX7bAr4B5y_XEXqoFH==88hsgffau0rNgZAw@mail.gmail.com>
+In-Reply-To: <CALUzjTaDo94110xX7bAr4B5y_XEXqoFH==88hsgffau0rNgZAw@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 3 Sep 2021 12:19:26 +0100
+Message-ID: <CAFEAcA-8iXVQtjv3akpwz==D6wvY7JDvKbpP5QgrLGdxBNLJeg@mail.gmail.com>
+Subject: =?UTF-8?Q?Re=3A_How_does_qemu_detect_the_completion_of_interrupt?=
+ =?UTF-8?Q?_execution=EF=BC=9F?=
+To: Duo jia <jiaduo19920301@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,55 +85,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Alexandre Iooss <erdnaxe@crans.org>, Eric Blake <eblake@redhat.com>,
- qemu-block@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
- John Snow <jsnow@redhat.com>, Helge Deller <deller@gmx.de>,
- David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Michael Roth <michael.roth@amd.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Richard Henderson <richard.henderson@linaro.org>,
- Greg Kurz <groug@kaod.org>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Laurent Vivier <laurent@vivier.eu>, Zhang Chen <chen.zhang@intel.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 03, 2021 at 01:06:37PM +0200, Philippe Mathieu-Daudé wrote:
-> Per https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-now/5538
-> 
->   The old API took the size of the memory to duplicate as a guint,
->   whereas most memory functions take memory sizes as a gsize. This
->   made it easy to accidentally pass a gsize to g_memdup(). For large
->   values, that would lead to a silent truncation of the size from 64
->   to 32 bits, and result in a heap area being returned which is
->   significantly smaller than what the caller expects. This can likely
->   be exploited in various modules to cause a heap buffer overflow.
-> 
-> Replace g_memdup() by the safer g_memdup2_qemu() wrapper.
+On Fri, 3 Sept 2021 at 11:54, Duo jia <jiaduo19920301@gmail.com> wrote:
+>
+> I do some support on STM8 arch, the reference manual link is:
+>>
+>> https://www.st.com/resource/en/reference_manual/cd00218714-stm8l050j3-st=
+m8l051f3-stm8l052c6-stm8l052r8-mcus-and-stm8l151l152-stm8l162-stm8al31-stm8=
+al3l-lines-stmicroelectronics.pdf
+>
+> I don't kown when to check the "PENDING" because I can't get the when int=
+errrupt exec over.
+> Is there a similar implementation in qemu=EF=BC=9F
 
-This and all following patches should directly use "g_memdup2"
-rather than the wrapper which is supposed to remain "secret"
-in the glib-compat.h header.
+Thanks for the link. Looking at that spec, the condition
+for "interrupt execution has finished" is "the guest executes an
+IRET instruction". However, you don't need to do anything special
+at that point (beyond making the IRET instruction do the things
+it should do with restoring registers).
 
+If you look at the diagram, the check you need to make
+is "do the I1:I0 bits for this pending interrupt specify a
+higher priority than the values in CCR.I1 and I0?". That is
+how you determine "interrupt has higher priority than current one"
+to know whether to actually take the interrupt.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+On interrupt entry the CCR bits are set from the ITC_SPRx registers,
+which means that taking an interrupt automatically sets the CPU
+priority such that the interrupt cannot be nested. And
+finishing the execution of the interrupt routine will automatically
+allow a pending second interrupt to be taken immediately, because
+the IRET instruction restores the old values of CCR.I1,I0, and
+those old values then mean that the CPU is at a priority that
+permits the pending interrupt to be taken.
 
+thanks
+-- PMM
 
