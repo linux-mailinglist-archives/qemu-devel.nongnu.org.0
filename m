@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 732714002E0
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 18:04:37 +0200 (CEST)
-Received: from localhost ([::1]:47090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E86B4002F8
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 18:08:08 +0200 (CEST)
+Received: from localhost ([::1]:55856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMBgC-0006h5-Fu
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 12:04:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58068)
+	id 1mMBjb-0004hX-GV
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 12:08:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mMBXq-0001P6-DD
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:55:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27468)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mMBXw-0001kH-IN
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:56:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mMBXo-0000eP-GX
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:55:58 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mMBXu-0000jX-Qs
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:56:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630684555;
+ s=mimecast20190719; t=1630684562;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ch4WEy/V4uQyl1wtK/EuX1zIoN7+7TlM+yYOWkAUt4Q=;
- b=giCh4ykqANZeXi8BTD/URjBdJJJv8tOl1LWb63YWdt7zBJ1YLNrODXhmuxQQXMPLj18XDV
- L0JYPFerP2fZt4GSl8C9nuPhRvnaDbtKKKwaN/Bx97//yhdv73flMOL85nnxdkh2ruu12F
- SrPhMWiEB0rNLNhPw1Q1AOusv/FFDas=
+ bh=kziqgMymkMLtY5poKAOZZqOtzjY64iw5zYUWpNorWmw=;
+ b=Mpv2wDRrNCermvkv8AbVWJD81xynIqr0DKDRSu8HSiLqMfQvve1VqyoCrmb+aNbxgfXJPq
+ nrUNZ0CKdlzjCS5zDdhs0vcBzFdR+HplIxzWV7Eum+qoEIaTG1DoTUsoj+7Qymsqq8duY8
+ GeI43VfCw7oAJFZNk8T6ExF513bgz+8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-P1ti5JsqNYGwbGgT7PwtyA-1; Fri, 03 Sep 2021 11:55:54 -0400
-X-MC-Unique: P1ti5JsqNYGwbGgT7PwtyA-1
+ us-mta-132-R18D_EbFMwCs_3RK1YmW8A-1; Fri, 03 Sep 2021 11:55:58 -0400
+X-MC-Unique: R18D_EbFMwCs_3RK1YmW8A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BB49107ACC7;
- Fri,  3 Sep 2021 15:55:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00D598015C7;
+ Fri,  3 Sep 2021 15:55:56 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.193.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 67C1C60916;
- Fri,  3 Sep 2021 15:55:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D673C60916;
+ Fri,  3 Sep 2021 15:55:53 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/13] hw/s390x/s390-skeys: use memory mapping to detect
- which storage keys to migrate
-Date: Fri,  3 Sep 2021 17:55:10 +0200
-Message-Id: <20210903155514.44772-10-david@redhat.com>
+Subject: [PATCH v3 10/13] hw/s390x/s390-skeys: use memory mapping to detect
+ which storage keys to dump
+Date: Fri,  3 Sep 2021 17:55:11 +0200
+Message-Id: <20210903155514.44772-11-david@redhat.com>
 In-Reply-To: <20210903155514.44772-1-david@redhat.com>
 References: <20210903155514.44772-1-david@redhat.com>
 MIME-Version: 1.0
@@ -87,129 +87,90 @@ Cc: "Jason J . Herne" <jjherne@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's use the guest_phys_blocks API to get physical memory regions
-that are well defined inside our physical address space and migrate the
-storage keys of these.
-
-This is a preparation for having memory besides initial ram defined in
-the guest physical address space, for example, via memory devices. We
-get rid of the ms->ram_size dependency.
-
-Please note that we will usually have very little (--> 1) physical
-ranges. With virtio-mem might have significantly more ranges in the
-future. If that turns out to be a problem (e.g., total memory
-footprint of the list), we could look into a memory mapping
-API that avoids creation of a list and instead triggers a callback for
-each range.
+Handle it similar to migration. Assert that we're holding the BQL, to
+make sure we don't see concurrent modifications.
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/s390x/s390-skeys.c | 70 ++++++++++++++++++++++++++-----------------
- 1 file changed, 43 insertions(+), 27 deletions(-)
+ hw/s390x/s390-skeys.c | 50 ++++++++++++++++++++++++++-----------------
+ 1 file changed, 30 insertions(+), 20 deletions(-)
 
 diff --git a/hw/s390x/s390-skeys.c b/hw/s390x/s390-skeys.c
-index 9a8d60d1d9..250685a95a 100644
+index 250685a95a..56a47fe180 100644
 --- a/hw/s390x/s390-skeys.c
 +++ b/hw/s390x/s390-skeys.c
-@@ -17,6 +17,7 @@
- #include "qapi/qapi-commands-misc-target.h"
- #include "qapi/qmp/qdict.h"
- #include "qemu/error-report.h"
-+#include "sysemu/memory_mapping.h"
- #include "sysemu/kvm.h"
- #include "migration/qemu-file-types.h"
- #include "migration/register.h"
-@@ -257,10 +258,9 @@ static void s390_storage_keys_save(QEMUFile *f, void *opaque)
+@@ -110,11 +110,10 @@ void qmp_dump_skeys(const char *filename, Error **errp)
  {
-     S390SKeysState *ss = S390_SKEYS(opaque);
+     S390SKeysState *ss = s390_get_skeys_device();
      S390SKeysClass *skeyclass = S390_SKEYS_GET_CLASS(ss);
 -    MachineState *ms = MACHINE(qdev_get_machine());
--    uint64_t pages_left = ms->ram_size / TARGET_PAGE_SIZE;
--    uint64_t read_count, eos = S390_SKEYS_SAVE_FLAG_EOS;
--    vaddr cur_gfn = 0;
+-    const uint64_t total_count = ms->ram_size / TARGET_PAGE_SIZE;
+-    uint64_t handled_count = 0, cur_count;
 +    GuestPhysBlockList guest_phys_blocks;
 +    GuestPhysBlock *block;
 +    uint64_t pages, gfn;
-     int error = 0;
+     Error *lerr = NULL;
+-    vaddr cur_gfn = 0;
      uint8_t *buf;
- 
-@@ -274,36 +274,52 @@ static void s390_storage_keys_save(QEMUFile *f, void *opaque)
-         goto end_stream;
+     int ret;
+     int fd;
+@@ -145,28 +144,39 @@ void qmp_dump_skeys(const char *filename, Error **errp)
+         goto out;
      }
  
--    /* We only support initial memory. Standby memory is not handled yet. */
--    qemu_put_be64(f, (cur_gfn * TARGET_PAGE_SIZE) | S390_SKEYS_SAVE_FLAG_SKEYS);
--    qemu_put_be64(f, pages_left);
--
--    while (pages_left) {
--        read_count = MIN(pages_left, S390_SKEYS_BUFFER_SIZE);
--
--        if (!error) {
--            error = skeyclass->get_skeys(ss, cur_gfn, read_count, buf);
--            if (error) {
--                /*
--                 * If error: we want to fill the stream with valid data instead
--                 * of stopping early so we pad the stream with 0x00 values and
--                 * use S390_SKEYS_SAVE_FLAG_ERROR to indicate failure to the
--                 * reading side.
--                 */
--                error_report("S390_GET_KEYS error %d", error);
--                memset(buf, 0, S390_SKEYS_BUFFER_SIZE);
--                eos = S390_SKEYS_SAVE_FLAG_ERROR;
+-    /* we'll only dump initial memory for now */
+-    while (handled_count < total_count) {
+-        /* Calculate how many keys to ask for & handle overflow case */
+-        cur_count = MIN(total_count - handled_count, S390_SKEYS_BUFFER_SIZE);
++    assert(qemu_mutex_iothread_locked());
 +    guest_phys_blocks_init(&guest_phys_blocks);
 +    guest_phys_blocks_append(&guest_phys_blocks);
-+
-+    /* Send each contiguous physical memory range separately. */
+ 
+-        ret = skeyclass->get_skeys(ss, cur_gfn, cur_count, buf);
+-        if (ret < 0) {
+-            error_setg(errp, "get_keys error %d", ret);
+-            goto out_free;
+-        }
 +    QTAILQ_FOREACH(block, &guest_phys_blocks.head, next) {
 +        assert(QEMU_IS_ALIGNED(block->target_start, TARGET_PAGE_SIZE));
 +        assert(QEMU_IS_ALIGNED(block->target_end, TARGET_PAGE_SIZE));
-+
+ 
+-        /* write keys to stream */
+-        write_keys(f, buf, cur_gfn, cur_count, &lerr);
+-        if (lerr) {
+-            goto out_free;
+-        }
 +        gfn = block->target_start / TARGET_PAGE_SIZE;
 +        pages = (block->target_end - block->target_start) / TARGET_PAGE_SIZE;
-+        qemu_put_be64(f, block->target_start | S390_SKEYS_SAVE_FLAG_SKEYS);
-+        qemu_put_be64(f, pages);
-+
+ 
+-        cur_gfn += cur_count;
+-        handled_count += cur_count;
 +        while (pages) {
 +            const uint64_t cur_pages = MIN(pages, S390_SKEYS_BUFFER_SIZE);
 +
-+            if (!error) {
-+                error = skeyclass->get_skeys(ss, gfn, cur_pages, buf);
-+                if (error) {
-+                    /*
-+                     * Create a valid stream with all 0x00 and indicate
-+                     * S390_SKEYS_SAVE_FLAG_ERROR to the destination.
-+                     */
-+                    error_report("S390_GET_KEYS error %d", error);
-+                    memset(buf, 0, S390_SKEYS_BUFFER_SIZE);
-+                }
-             }
++            ret = skeyclass->get_skeys(ss, gfn, cur_pages, buf);
++            if (ret < 0) {
++                error_setg_errno(errp, -ret, "get_keys error");
++                goto out_free;
++            }
 +
-+            qemu_put_buffer(f, buf, cur_pages);
++            /* write keys to stream */
++            write_keys(f, buf, gfn, cur_pages, &lerr);
++            if (lerr) {
++                goto out_free;
++            }
++
 +            gfn += cur_pages;
 +            pages -= cur_pages;
-         }
- 
--        qemu_put_buffer(f, buf, read_count);
--        cur_gfn += read_count;
--        pages_left -= read_count;
-+        if (error) {
-+            break;
 +        }
      }
  
+ out_free:
 +    guest_phys_blocks_free(&guest_phys_blocks);
+     error_propagate(errp, lerr);
      g_free(buf);
- end_stream:
--    qemu_put_be64(f, eos);
-+    if (error) {
-+        qemu_put_be64(f, S390_SKEYS_SAVE_FLAG_ERROR);
-+    } else {
-+        qemu_put_be64(f, S390_SKEYS_SAVE_FLAG_EOS);
-+    }
- }
- 
- static int s390_storage_keys_load(QEMUFile *f, void *opaque, int version_id)
+ out:
 -- 
 2.31.1
 
