@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B4F6400471
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 20:00:37 +0200 (CEST)
-Received: from localhost ([::1]:59114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C973140046E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:59:52 +0200 (CEST)
+Received: from localhost ([::1]:58160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMDUS-000071-8m
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 14:00:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51366)
+	id 1mMDTj-0007tx-Pq
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:59:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDGP-0008FM-Uc
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:46:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22046)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDH9-0000t6-K9
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:46:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29343)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDGN-00016w-Dl
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:46:05 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDH5-0001pO-JB
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:46:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630691162;
+ s=mimecast20190719; t=1630691207;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vuT0E6Tl+Ny+4npFTuPZzaTG6opZzVO57bTMu99Gkj8=;
- b=TcTMoLN/LjT5OgqSmYz1GXrPFd3k8kB56DCaD1RqIbiv8mGUUaKeY+4O9duMu8DoLOsutj
- 4d3Hm1HWXYF85yese0q1g61p0sldcUXmy4MhyjQ6gJj4vUwFHpZNOZZkid635NokiWFBG5
- 8n1i6zLeRgZpOYqLvNFLzVNoXswO91s=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-7w84aotjO26uBoPBsuhvkA-1; Fri, 03 Sep 2021 13:46:01 -0400
-X-MC-Unique: 7w84aotjO26uBoPBsuhvkA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- y188-20020a1c7dc5000000b002e80e0b2f87so60565wmc.1
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 10:46:01 -0700 (PDT)
+ bh=RC7jHm0YE2K1GdbYZ8il6kV9I4tGJG8Mj2QiHey69tU=;
+ b=bTs5roZhdbu7tae5mzlU+PPfr6h54CG0GiNmBkJLAtda1iGdXMtXDa5G4RvxIgkYx8Uxm+
+ B0t7MKfXAVuSvjt3TYZDkCRA0L6tN3cPBqkv3Sd6A7JKINlzGoqrkaTd4ROntXTmP4Wndj
+ C03VcPD6/jCITZhPAj8wSnp0Kxw98tI=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-554-mLZJkXjYN_6JYx4RUKueEw-1; Fri, 03 Sep 2021 13:46:46 -0400
+X-MC-Unique: mLZJkXjYN_6JYx4RUKueEw-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ b8-20020a5d5508000000b001574e8e9237so1817566wrv.16
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 10:46:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vuT0E6Tl+Ny+4npFTuPZzaTG6opZzVO57bTMu99Gkj8=;
- b=ZnYf0w4y217eF4RHN7n3Fng8CvCpOHcEcrDJcN7tMsdfQ9XbcqR39UtAoxc9QLv0r4
- u112T8YAo0Com++8cdmuTNkFPW9LyJxIQ5dZBGkLr5klO8IfFdUq38PSWC0Wd/gmI1KZ
- +cSAp9TFbLNCEkyZymIpb/rtUwyoaFcTLS7dVpnqGaFAQJqId6zPoH836XKmIRRVRTHU
- kb/vK6EpJWEZjQU0feBmjAzxT3bVBu9r4SKEv3pPaaHG2nX6IvlcCoMA9A/ybTn8McxQ
- 4DqUwS3RaJiMg2uQEEUwAo2ECvEEdQs6UzpEEZRo6W0UPaeUvCTN7ApqExUAMZyDk6w+
- bdWw==
-X-Gm-Message-State: AOAM5308XpCk6KykJyKCrskhRHTpShXgDUID+InhXaZ897t7xBIxXval
- td8hQi4HTfVtiXIlB9Kl1++y49YOt0HfDu95b+y//R8DQ1yrvBY8jCBRH53UZZ3Vzo7PpLVK8w+
- MWYyf7CZTzGUMjlmEBxwv80eyoxP55TAm51TH9RvG6VG7vHS4MSLcCCZbnjTyZ52W
-X-Received: by 2002:a7b:c351:: with SMTP id l17mr36847wmj.120.1630691160225;
- Fri, 03 Sep 2021 10:46:00 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzOfy7GndEJXUQXcty/5RLx6EqPg62DeFtIgRu/L1L+w+fM59AGQmNYo6tvuwvhSAu/jq0T8g==
-X-Received: by 2002:a7b:c351:: with SMTP id l17mr36811wmj.120.1630691159937;
- Fri, 03 Sep 2021 10:45:59 -0700 (PDT)
+ bh=RC7jHm0YE2K1GdbYZ8il6kV9I4tGJG8Mj2QiHey69tU=;
+ b=uK4xFXQvlIBi3dAxc/+E6eYUj0bUa4OEXdTj9pLjIFIruzUWfSjPzP0W7RbPCFnQyu
+ /AXex5XBRFdPn5VqsNg1a9yA1tvUwKuQp3OkNZKIj87U+RfbykAZapvc8hC+EZSTR94W
+ IM2N0cXEfEkWIDCRjY0tpUoNujNSK8xILGsEQG/GyPnAdu7c80xyL0zDJaNjGsnmeh3K
+ SLu1qiJIy4ncYLGq1pO6/QEfV9OJ8bLr4qcO4zv92F6iV2ppPDWxUW2ddVBRQWleNeac
+ o2Szh1gpOUoaSiDYk6btoi6VgTkrtMhTWKnv4mQV/TxIsRwqhHA/v/PTe7NaEjJAdTc6
+ kTYg==
+X-Gm-Message-State: AOAM533k0eROk+GgFlCDBGJ4dojT2WutgUx/VB4dGXK3jePSiKC3jwW/
+ lkV3EZR0Et3f/RJrjK0LFV6R6ol8/i6rXRWFQ/zftOebCHbyjo+ZpQtVX8JLwjSTyqf/hu5CivQ
+ 6Pnki7DpfLx5yS8qFsdkkKRdI3yIoJo1AtrErhooe/CeX+U/MjV3UAhg0VI64CTdl
+X-Received: by 2002:adf:df08:: with SMTP id y8mr295592wrl.124.1630691204712;
+ Fri, 03 Sep 2021 10:46:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyEqlLCvDbe8I1c0cYqTm2SctcTai282wCFFigi8GMIfzPOHrQq6E8hmfp7BS2oQrCH6lRkbQ==
+X-Received: by 2002:adf:df08:: with SMTP id y8mr295545wrl.124.1630691204405;
+ Fri, 03 Sep 2021 10:46:44 -0700 (PDT)
 Received: from x1w.. (21.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id l7sm39739wmj.9.2021.09.03.10.45.58
+ by smtp.gmail.com with ESMTPSA id z2sm18833wma.45.2021.09.03.10.46.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 10:45:59 -0700 (PDT)
+ Fri, 03 Sep 2021 10:46:44 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/28] hw/acpi: Replace g_memdup() by g_memdup2()
-Date: Fri,  3 Sep 2021 19:44:51 +0200
-Message-Id: <20210903174510.751630-10-philmd@redhat.com>
+Subject: [PATCH v3 17/28] hw/rdma: Replace g_memdup() by g_memdup2()
+Date: Fri,  3 Sep 2021 19:44:59 +0200
+Message-Id: <20210903174510.751630-18-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903174510.751630-1-philmd@redhat.com>
 References: <20210903174510.751630-1-philmd@redhat.com>
@@ -125,37 +125,22 @@ Replace g_memdup() by the safer g_memdup2() wrapper.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/acpi/core.c       | 3 ++-
- hw/i386/acpi-build.c | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ hw/rdma/rdma_utils.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-index 1e004d0078d..50ee821aae5 100644
---- a/hw/acpi/core.c
-+++ b/hw/acpi/core.c
-@@ -637,7 +637,8 @@ void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
-         suspend[3] = 1 | ((!disable_s3) << 7);
-         suspend[4] = s4_val | ((!disable_s4) << 7);
- 
--        fw_cfg_add_file(fw_cfg, "etc/system-states", g_memdup(suspend, 6), 6);
-+        fw_cfg_add_file(fw_cfg, "etc/system-states",
-+                        g_memdup2(suspend, 6), 6);
-     }
+diff --git a/hw/rdma/rdma_utils.c b/hw/rdma/rdma_utils.c
+index 98df58f6897..6d6b8286b69 100644
+--- a/hw/rdma/rdma_utils.c
++++ b/hw/rdma/rdma_utils.c
+@@ -71,7 +71,7 @@ void rdma_protected_gqueue_append_int64(RdmaProtectedGQueue *list,
+                                         int64_t value)
+ {
+     qemu_mutex_lock(&list->lock);
+-    g_queue_push_tail(list->list, g_memdup(&value, sizeof(value)));
++    g_queue_push_tail(list->list, g_memdup2(&value, sizeof(value)));
+     qemu_mutex_unlock(&list->lock);
  }
  
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index aa269914b49..dd5c06c8cd5 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -2785,7 +2785,7 @@ void acpi_setup(void)
-          */
-         unsigned rsdp_size = acpi_data_len(tables.rsdp);
- 
--        build_state->rsdp = g_memdup(tables.rsdp->data, rsdp_size);
-+        build_state->rsdp = g_memdup2(tables.rsdp->data, rsdp_size);
-         fw_cfg_add_file_callback(x86ms->fw_cfg, ACPI_BUILD_RSDP_FILE,
-                                  acpi_build_update, NULL, build_state,
-                                  build_state->rsdp, rsdp_size, true);
 -- 
 2.31.1
 
