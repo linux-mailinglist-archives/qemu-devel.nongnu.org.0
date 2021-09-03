@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D7D4003C9
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:04:11 +0200 (CEST)
-Received: from localhost ([::1]:38170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89D084003CE
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:05:37 +0200 (CEST)
+Received: from localhost ([::1]:41868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMCbq-0001ht-59
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:04:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43244)
+	id 1mMCdE-0004Jx-If
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:05:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mMCYy-0007Gb-7T
+ id 1mMCYy-0007HA-92
  for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:01:12 -0400
-Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f]:35700)
+Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:46979)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mMCYv-0004yK-8k
+ id 1mMCYv-0004z4-8o
  for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:01:11 -0400
-Received: by mail-lf1-x12f.google.com with SMTP id k13so13015312lfv.2
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 10:01:07 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id t19so12967610lfe.13
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 10:01:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=vrull-eu.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=j+eo2a3+3myLnHE4B8I++F5ynYQrK1PPLcRLgdMmulw=;
- b=Zj4/Jen5HC3yz0fzSqNBs+bkgxd/PzGd89EU9c4WlgMJUrzluDP7BluxgL32aNGmBm
- bGRnkT7wY6Z7rprSosvMUqX07w5MRtLvs+wKlQoiGSCjNHX/MzuqX6k66H2aJ/k8vqAa
- j7WwFYfmGbXDl/BH68HrZ7H5SCnHXZBECSL7+bGowvwiDplDNi0kfjo5b7XNiETEyrRU
- RApMmdkyn3szIOBdQ7A72fVyIsadpMDSso0sw4eYxrKlqKVxndxUgf53TzDVwkGmI/O8
- x2XEH0xjwDTE2fUJyJOV3n9v3G+6vJG+IdPU6rzLTkZg+oY9zSMwl6Q5QoAT6b1i/6nt
- zVdA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=gw4LvlnxnnY6EO7Y13J17phqBUMt7B/+5TuFjvc41YA=;
+ b=HlXsjpi3wJFwDqWVolQAC7/Q+8Qqf9yltQ+pCIN35IrvwYkxKselHnKw559B6DIXjA
+ R+soXKPqgO2NT2xbV2Ihg8tgVElguN9zHhVSNZ9/btdhzlORkLDJd0Yd22JLMdPSFsHx
+ tJ7yuq/328V2EvlEv9Oy0UOCrx9OGu9i3pTiPVYziHbpy/2shAeWcgs1WyWxEPhXSPqY
+ 9aTAR1hMrrJ3PXuk2e7itktKSChksWsYCgn9rDsXhyU0mZFWZU7sgT6CHURlrEu5oPK4
+ cTae43NMjxrBE5L4cBBG7BBEjQKRLbNfJHHefDnJ3f4L/gVljPn3hCDkZj3Eg1RFB7Bj
+ yTDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=j+eo2a3+3myLnHE4B8I++F5ynYQrK1PPLcRLgdMmulw=;
- b=HWAvAqZ1NTl4J/9l+PLELUM1HSuMMbvM2DHpCrM+nDVUIVNn1ERbsIG2TyDcPrtfW3
- +E2Zx9k0Byo7LS1swFmtAb97CrrFcbDfvUpUX4nRyHTaJAb0Y6vv4jsoQA7LBo2/pOlo
- /7rFOUsLtxzgYNSNt6pnDVTbaBDaHxKoFV88DMl/PteKEBmz/y+Bi7b29yX1CEPHE6Xx
- ygNTshFrPQCv6rICfGxZB1b2+5dUlcWE/ZyTGJUVpqMmRRkZ1n1My9IG16J+0s3xXi2a
- SnlJmqnmbANGspEle/Ffv3zwX1k9CIfRz76uIK6G8kvC/dwx53xlLZzgt6zZq1I3atzz
- febQ==
-X-Gm-Message-State: AOAM532+5BkkKe+OoGNlkf32g99DymSXrD79pGnx8xi4R/urzV1II4Z9
- 99ZLdD3jQNBTwYjmoQoE560H8lWLIcK6dWzrxb8=
-X-Google-Smtp-Source: ABdhPJwOReYUF/28Ux4ABWeJ7xi8Alsb0M1BPpVXVkEpcqf4Ir4BbhQwT3VTAzeLrVUbePO3LuEF6A==
-X-Received: by 2002:a05:6512:a8f:: with SMTP id
- m15mr3377750lfu.635.1630688464961; 
- Fri, 03 Sep 2021 10:01:04 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=gw4LvlnxnnY6EO7Y13J17phqBUMt7B/+5TuFjvc41YA=;
+ b=NMzdVKy9mI+YQeNN/RZH8DDdEI2ujKBw4fAskvbf3Y3frOKyjaqrqh5SnRp3OASbjA
+ hSLv0YXvMA4jk/W7Dwoyw3ogwhIZVmfrW5wdm5Jvsg3zt1O/bbiLb5o3sq/SDwABBNL1
+ WqZiGScppLNNWhRCjqidYztLANZ2J/kprFftTFjm8NCCecDZXdSVp72iWgeuQMAFge1r
+ 61CBeLHf1ytCrOE+d8W4kXl2xnVR/YrkK/02dUi3fiJ/ePjNtcUGDcIiX/hcQs/7bIJE
+ QLCJpqs+M+691R1M82O5bFXf0E4pWNsJn6nbxR+pU7R5ocsIMl9y8JOWISq+piDJ7T81
+ qYaA==
+X-Gm-Message-State: AOAM530MoUh5cfrRjmXfaPhtQIItNKzjgflFoyF/eqCm7DlApyyBWiYl
+ 2mjQYmcvv9lMAp9EfQfRDg9cIsBQBl7LTBm6xvQ=
+X-Google-Smtp-Source: ABdhPJwu3awEr901GQ6OXdcHMaQkKIey8RFnxVgZDXvsG8fNSRozc6iFdnx8jz+33q0T4PmnYCCXaw==
+X-Received: by 2002:ac2:4d10:: with SMTP id r16mr3050772lfi.546.1630688465846; 
+ Fri, 03 Sep 2021 10:01:05 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
- by smtp.gmail.com with ESMTPSA id c3sm628401ljj.77.2021.09.03.10.01.03
+ by smtp.gmail.com with ESMTPSA id c3sm628401ljj.77.2021.09.03.10.01.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 10:01:04 -0700 (PDT)
+ Fri, 03 Sep 2021 10:01:05 -0700 (PDT)
 From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 00/14] target/riscv: Update QEmu for Zb[abcs] 1.0.0
-Date: Fri,  3 Sep 2021 19:00:46 +0200
-Message-Id: <20210903170100.2529121-1-philipp.tomsich@vrull.eu>
+Subject: [PATCH v9 01/14] target/riscv: Add x-zba, x-zbb,
+ x-zbc and x-zbs properties
+Date: Fri,  3 Sep 2021 19:00:47 +0200
+Message-Id: <20210903170100.2529121-2-philipp.tomsich@vrull.eu>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210903170100.2529121-1-philipp.tomsich@vrull.eu>
+References: <20210903170100.2529121-1-philipp.tomsich@vrull.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x12f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::133;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x133.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,126 +90,59 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The bitmanipulation ISA extensions will be ratified as individual
+small extension packages instead of a large B-extension.  The first
+new instructions through the door (these have completed public review)
+are Zb[abcs].
 
-The Zb[abcs] extensions have complete public review and are nearing
-ratifications. These individual extensions are one part of what was
-previously though of as the "BitManip" (B) extension, leaving the
-final details of future Zb* extensions open as they will undergo
-further public discourse.
+This adds new 'x-zba', 'x-zbb', 'x-zbc' and 'x-zbs' properties for
+these in target/riscv/cpu.[ch].
 
-This series updates the earlier support for the B extension by
- - removing those instructions that are not included in Zb[abcs]
- - splitting this into 4 separate extensions that can be independently
-   enabled: Zba (addressing), Zbb (basic bit-manip), Zbc (carryless
-   multiplication), Zbs (single-bit operations)
- - update the to the 1.0.0 version (e.g. w-forms of rev8 and Zbs
-   instructions are not included in Zb[abcs])
+Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+---
 
-For the latest version of the public review speicifcaiton
-(incorporating some editorial fixes and corrections from the review
-period), refer to:
-  https://github.com/riscv/riscv-bitmanip/releases/download/1.0.0/bitmanip-1.0.0-31-g2af7256.pdf
-
-
-Changes in v9:
-- Retested with CF3 and SPEC2017 (size=test only).
-- Rebased to 8880cc4362.
-- Update gen_add_uw() to use a temporary instead of messing with
-  arg1 (fixes a regression after rebase on CF3 and SPEC2017).
-- Rebased to 8880cc4362.
-- Rebased to 8880cc4362.
-- Picked up Alistair's Reviewed-by, after patman had failed to catch
-  it for v8.
-- Rebased to 8880cc4362.
-- Fixes a whitespace-at-the-end-of-line warning for the rev8 comment
-  in insn32.decode
-- Rebased to 8880cc4362.
-
-Changes in v8:
-- Optimize orc.b further by reordering the shift/and, updating the
-  comment to reflect that we put the truth-value into the LSB, and
-  putting the (now only) constant in a temporary
-- Fold the final bitwise-not into the second and, using and andc.
-
-Changes in v7:
-- Free TCG temporary in gen_orc_b().
-
-Changes in v6:
-- Move gen_clmulh to trans_rvb.c.inc, as per Richard H's request.
-- Fixed orc.b (now passes SPEC w/ optimized string functions) by
-  adding the missing final negation.
-
-Changes in v5:
-- Introduce gen_clmulh (as suggested by Richard H) and use to simplify
-  trans_clmulh().
-
-Changes in v4:
-- Drop rewrite of slli.uw (to match formal specification), as it would
-  remove an optimization.
-- Change orc.b to implementation suggested by Richard Henderson
-- reorder trans_rev8* functions to be sequential
-- rename rev8 to rev8_32 in decoder
-- Renamed RV32 variant to zext_h_32.
-- Reordered trans_zext_h_{32,64} to be next to each other.
+(no changes since v3)
 
 Changes in v3:
 - Split off removal of 'x-b' property and 'ext_b' field into a separate
   patch to ensure bisectability.
-- The changes to the Zba instructions (i.e. the REQUIRE_ZBA macro
-  and its use for qualifying the Zba instructions) are moved into
-  a separate commit.
-- Instead of defining a new decoding format, we treat slli.uw as if it
-  had a 7bit-wide field for shamt (the 7th bit is reserved for RV128)
-  and check for validity of the encoding in C code.
-- Remove the W-form instructions from Zbs in a separate commit.
-- Remove shift-one instructions in a separate commit.
-- The changes to the Zbs instructions (i.e. the REQUIRE_ZBS macro) and
-  its use for qualifying the Zba instructions) are moved into a
-  separate commit.
-- This adds the Zbc instructions as a spearate commit.
-- Uses a helper for clmul/clmulr instead of inlining the calculation of
-  the result (addressing a comment from Richard Henderson).
-- The changes to the Zbb instructions (i.e. use the REQUIRE_ZBB macro)
-  are now in a separate commit.
-- Moved orc.b and gorc/gorci changes into separate commit.
-- Using the simpler orc.b implementation suggested by Richard Henderson
-- Moved the REQUIRE_32BIT macro into a separate commit.
-- rev8-addition & grevi*-removal moved to a separate commit
-- Moved zext.h-addition & pack*-removal to a separate commit.
-- Removing RVB moved into a separate commit at the tail-end of the series.
 
-Changes in v2:
-- Fix missing ';' from last-minute whitespace cleanups.
+ target/riscv/cpu.c | 4 ++++
+ target/riscv/cpu.h | 4 ++++
+ 2 files changed, 8 insertions(+)
 
-Philipp Tomsich (14):
-  target/riscv: Add x-zba, x-zbb, x-zbc and x-zbs properties
-  target/riscv: Reassign instructions to the Zba-extension
-  target/riscv: slli.uw is only a valid encoding if shamt first in 64
-    bits
-  target/riscv: Remove the W-form instructions from Zbs
-  target/riscv: Remove shift-one instructions (proposed Zbo in pre-0.93
-    draft-B)
-  target/riscv: Reassign instructions to the Zbs-extension
-  target/riscv: Add instructions of the Zbc-extension
-  target/riscv: Reassign instructions to the Zbb-extension
-  target/riscv: Add orc.b instruction for Zbb, removing gorc/gorci
-  target/riscv: Add a REQUIRE_32BIT macro
-  target/riscv: Add rev8 instruction, removing grev/grevi
-  target/riscv: Add zext.h instructions to Zbb, removing
-    pack/packu/packh
-  target/riscv: Remove RVB (replaced by Zb[abcs]
-  disas/riscv: Add Zb[abcs] instructions
-
- disas/riscv.c                           | 157 ++++++++-
- target/riscv/bitmanip_helper.c          |  65 +---
- target/riscv/cpu.c                      |  30 +-
- target/riscv/cpu.h                      |   7 +-
- target/riscv/helper.h                   |   6 +-
- target/riscv/insn32.decode              | 115 +++----
- target/riscv/insn_trans/trans_rvb.c.inc | 421 ++++++++----------------
- target/riscv/translate.c                |   6 +
- 8 files changed, 371 insertions(+), 436 deletions(-)
-
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 1a2b03d579..ceb7e01810 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -587,6 +587,10 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
+     /* This is experimental so mark with 'x-' */
+     DEFINE_PROP_BOOL("x-b", RISCVCPU, cfg.ext_b, false),
++    DEFINE_PROP_BOOL("x-zba", RISCVCPU, cfg.ext_zba, false),
++    DEFINE_PROP_BOOL("x-zbb", RISCVCPU, cfg.ext_zbb, false),
++    DEFINE_PROP_BOOL("x-zbc", RISCVCPU, cfg.ext_zbc, false),
++    DEFINE_PROP_BOOL("x-zbs", RISCVCPU, cfg.ext_zbs, false),
+     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
+     DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
+     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index bf1c899c00..7c4cd8ea89 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -293,6 +293,10 @@ struct RISCVCPU {
+         bool ext_u;
+         bool ext_h;
+         bool ext_v;
++        bool ext_zba;
++        bool ext_zbb;
++        bool ext_zbc;
++        bool ext_zbs;
+         bool ext_counters;
+         bool ext_ifencei;
+         bool ext_icsr;
 -- 
 2.25.1
 
