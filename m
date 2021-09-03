@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91AF13FFF21
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:25:46 +0200 (CEST)
-Received: from localhost ([::1]:42270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F753FFEDF
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:21:07 +0200 (CEST)
+Received: from localhost ([::1]:54680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM7KL-00040c-LO
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:25:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42940)
+	id 1mM7Fp-0001m2-Sg
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:21:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM73D-0005sL-UL
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:08:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40781)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM73I-000699-Hv
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:08:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM739-0000iw-PL
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:08:03 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM73F-0000nR-R2
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:08:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630667279;
+ s=mimecast20190719; t=1630667285;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jdbGO9h9jnqrOlFY+xUPTR+ImPF+i+blj+6DLU+L+so=;
- b=Kps/7ugDjxtyTCdW8xTjS1hPapwN//3dW7TJZaSHIOGdoeGpnV+bozJ3Z/T+TVp8IIaopN
- inj2grkGyDXjNjJoG8Hh5p1IrYiXg8NFMZNxLG5onWRc6zQiZlyY1zNsO0WyhhiPBgBY8N
- X+Am8CikF9Iy7wqaJ42ycSfr2lB6F1I=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-519-jhywmdGRPLStobP4eiDbww-1; Fri, 03 Sep 2021 07:07:58 -0400
-X-MC-Unique: jhywmdGRPLStobP4eiDbww-1
-Received: by mail-wm1-f69.google.com with SMTP id
- f19-20020a1c1f13000000b002e6bd83c344so1844847wmf.3
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 04:07:58 -0700 (PDT)
+ bh=TAjmPmjyX5Sum8VvmviC+qTvvfAZSwR9odfcOrS4BTU=;
+ b=fGWajPIQC9tuAdXAIqx+ktyRe3mBJ/NE7UDXeJOzEV2W7oTOcP3DN2u7mQlmwAtDEoMGoy
+ C2shAeNZjmVfKhBt0khh1v6PaGc7EKtYyp4IMkrI3DSoSXVjBAV57sDh2W/bvNu00P4joG
+ kh2pZcDdqHKRUCoGmq8bbqyFPreDm+g=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-235-GzbssvOLNye_azlku01kfA-1; Fri, 03 Sep 2021 07:08:04 -0400
+X-MC-Unique: GzbssvOLNye_azlku01kfA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ j1-20020adff541000000b001593715d384so1464089wrp.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 04:08:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jdbGO9h9jnqrOlFY+xUPTR+ImPF+i+blj+6DLU+L+so=;
- b=AFZbHCT5B4QhSGb/SbefJCpI9S19zhTqiffldjaV/i5EBgY0K86Qa+7DUaBpYfakx9
- BfHdkWeJA999xCm8NALqrO7Ys2CNEeLuh7cxgyjkCc4BlTkgRRuHep0igCMv+wQkz/E9
- tPErcF/u79LxpXEgP/6+up3X6SMOvCwUW/Vm3uKj5NawXk20WYxZqgpWsAHTp0sb0Pe9
- ewOpgZNWLBJ1pjXd+DUG+l/LOeq36O/QzxntyBqC8t6xF9bzT0Xg1ua+GdemduYW5z7H
- B78rNaFqrKrpWNnWvEmvVZ9rZbEuRS47jpdwKTuDw0bmWNpES//0cm8nUg8r9XqORbBy
- uIzA==
-X-Gm-Message-State: AOAM533mkjMjq/lumZ1FsixEsgZX/xWeWD0nHmXe8FNKOCzrTwo4tlLW
- RH8XyF6HdlhYVSJeg4gJ1YINUq1fZA3SLuSGRbO1JgAnjX9Law+bSKreHk8iRTxsbk2M3W9FfIc
- Q8gvN1HKVDS7ZkoW72aabrYVXLld0kd6yE+wnLgw/Q7QrXxNR0i3kO2U/+IvRYSSa
-X-Received: by 2002:a05:600c:230c:: with SMTP id
- 12mr2762197wmo.41.1630667276931; 
- Fri, 03 Sep 2021 04:07:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyaAweBFiZwGaMpvEF57j+Ip2CFlgT7mOREgnEpdZoNjDiORDuB5ABI4Md7tnxGgAvNN6sfhA==
-X-Received: by 2002:a05:600c:230c:: with SMTP id
- 12mr2762155wmo.41.1630667276703; 
- Fri, 03 Sep 2021 04:07:56 -0700 (PDT)
+ bh=TAjmPmjyX5Sum8VvmviC+qTvvfAZSwR9odfcOrS4BTU=;
+ b=B5Ka6QMEJwApc2f6gBlynK//e+zrzCT1Ni7ND9r5rMNR2DcywQJvVaSGJEWpiR/yIQ
+ Md5wdRWZibEo6U7v/SsYUI395KJmF2bFI9bdD2kbeLqEjGghNfin4D1eOdJ64cSAq5uh
+ +M+ANkczdCZWOBJTCw+wx88g5DH6hSWWAahKlNSMcp+PD+3s8nfwNeFa5jVHAnBTvitk
+ bmBODyaSJFog0zYKd8QYgs2hj2StULvAY2/d2YKabgO2HJkfaF6Qi0lua5dzg0VKhVNg
+ SjxxpjR1okHYs9NBun139PB2LOjYV7MyhU1pnZ6RIAOK//iaqgHrKCJgels8K5cYXFjp
+ FqZA==
+X-Gm-Message-State: AOAM532T53V99BjjAu4Is3u1TvXgHKkqUH0i/8pzH5ItEJqY8hEAG4DC
+ X1mvTtlwbHcFTL4stYpiELTJ4tuDCwX5SO7OEhmMcCfht7QLEJ51PB699KSY4mij/Mjh1qIvNue
+ pQ5YKJ7yG3Bi/LBBjxC6ufCTZYuzP/1EVB2a8RnxyTQhMtfi8vv53dlliA6c+0djd
+X-Received: by 2002:adf:e809:: with SMTP id o9mr3379850wrm.425.1630667282777; 
+ Fri, 03 Sep 2021 04:08:02 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxsmF09EK4NrKvycxeBcaS8cKieqRtT6B1h254T7rl6pFmdlrTvZWeo11IMse515sDwDeakbw==
+X-Received: by 2002:adf:e809:: with SMTP id o9mr3379776wrm.425.1630667282465; 
+ Fri, 03 Sep 2021 04:08:02 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- l124sm4039567wml.8.2021.09.03.04.07.54
+ m1sm3842996wmq.10.2021.09.03.04.08.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 04:07:56 -0700 (PDT)
+ Fri, 03 Sep 2021 04:08:01 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/28] hw/acpi: Replace g_memdup() by g_memdup2_qemu()
-Date: Fri,  3 Sep 2021 13:06:43 +0200
-Message-Id: <20210903110702.588291-10-philmd@redhat.com>
+Subject: [PATCH 10/28] hw/core/machine: Replace g_memdup() by g_memdup2_qemu()
+Date: Fri,  3 Sep 2021 13:06:44 +0200
+Message-Id: <20210903110702.588291-11-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903110702.588291-1-philmd@redhat.com>
 References: <20210903110702.588291-1-philmd@redhat.com>
@@ -77,11 +75,11 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -136,37 +134,24 @@ Replace g_memdup() by the safer g_memdup2_qemu() wrapper.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/acpi/core.c       | 3 ++-
- hw/i386/acpi-build.c | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ hw/core/machine.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-index 1e004d0078d..9dd2cf09a0b 100644
---- a/hw/acpi/core.c
-+++ b/hw/acpi/core.c
-@@ -637,7 +637,8 @@ void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
-         suspend[3] = 1 | ((!disable_s3) << 7);
-         suspend[4] = s4_val | ((!disable_s4) << 7);
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 067f42b528f..0808a681360 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -615,8 +615,8 @@ HotpluggableCPUList *machine_query_hotpluggable_cpus(MachineState *machine)
  
--        fw_cfg_add_file(fw_cfg, "etc/system-states", g_memdup(suspend, 6), 6);
-+        fw_cfg_add_file(fw_cfg, "etc/system-states",
-+                        g_memdup2_qemu(suspend, 6), 6);
-     }
- }
+         cpu_item->type = g_strdup(machine->possible_cpus->cpus[i].type);
+         cpu_item->vcpus_count = machine->possible_cpus->cpus[i].vcpus_count;
+-        cpu_item->props = g_memdup(&machine->possible_cpus->cpus[i].props,
+-                                   sizeof(*cpu_item->props));
++        cpu_item->props = g_memdup2_qemu(&machine->possible_cpus->cpus[i].props,
++                                         sizeof(*cpu_item->props));
  
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index aa269914b49..54494ca1f65 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -2785,7 +2785,7 @@ void acpi_setup(void)
-          */
-         unsigned rsdp_size = acpi_data_len(tables.rsdp);
- 
--        build_state->rsdp = g_memdup(tables.rsdp->data, rsdp_size);
-+        build_state->rsdp = g_memdup2_qemu(tables.rsdp->data, rsdp_size);
-         fw_cfg_add_file_callback(x86ms->fw_cfg, ACPI_BUILD_RSDP_FILE,
-                                  acpi_build_update, NULL, build_state,
-                                  build_state->rsdp, rsdp_size, true);
+         cpu = machine->possible_cpus->cpus[i].cpu;
+         if (cpu) {
 -- 
 2.31.1
 
