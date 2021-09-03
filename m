@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2687A3FFF5A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:45:10 +0200 (CEST)
-Received: from localhost ([::1]:58816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C24E73FFF6D
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:49:53 +0200 (CEST)
+Received: from localhost ([::1]:38534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM7d6-0001mt-Mh
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:45:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49766)
+	id 1mM7hg-0007UG-DX
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:49:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mM7RC-0002Cn-D4
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:32:50 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59842
+ id 1mM7RG-0002Uo-VW
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:32:55 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59850
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mM7RA-0005r3-Qf
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:32:50 -0400
+ id 1mM7RF-0005t2-5S
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:32:54 -0400
 Received: from host86-140-11-91.range86-140.btcentralplus.com ([86.140.11.91]
  helo=kentang.home) by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mM7Qk-0009kl-L3; Fri, 03 Sep 2021 12:32:26 +0100
+ id 1mM7Qo-0009kl-SK; Fri, 03 Sep 2021 12:32:31 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Fri,  3 Sep 2021 12:32:18 +0100
-Message-Id: <20210903113223.19551-5-mark.cave-ayland@ilande.co.uk>
+Date: Fri,  3 Sep 2021 12:32:19 +0100
+Message-Id: <20210903113223.19551-6-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210903113223.19551-1-mark.cave-ayland@ilande.co.uk>
 References: <20210903113223.19551-1-mark.cave-ayland@ilande.co.uk>
@@ -37,8 +37,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.140.11.91
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 4/9] escc: introduce escc_hard_reset_chn() for hardware
- reset
+Subject: [PATCH v3 5/9] escc: implement soft reset as described in the
+ datasheet
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,87 +64,123 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This new hardware reset function is to be called for both channels when the
-hardware reset bit is written to register WR9. Its initial implementation is
-the same as the existing escc_reset_chn() function used for device reset.
-
-Add a new trace event when the guest initiates a hard reset via the WR9 register
-to help diagnose guest reset issues.
+The software reset differs from a device reset in that it only changes the contents
+of specific registers. Remove the code that resets all the registers to zero during
+soft reset and implement the default values listed in the table in the "Z85C30 Reset"
+section.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/char/escc.c       | 38 +++++++++++++++++++++++++++++++++++++-
- hw/char/trace-events |  1 +
- 2 files changed, 38 insertions(+), 1 deletion(-)
+ hw/char/escc.c | 48 +++++++++++++++++++++++++++++++-----------------
+ 1 file changed, 31 insertions(+), 17 deletions(-)
 
 diff --git a/hw/char/escc.c b/hw/char/escc.c
-index 697f15f383..806f593738 100644
+index 806f593738..d5c7136e97 100644
 --- a/hw/char/escc.c
 +++ b/hw/char/escc.c
-@@ -331,6 +331,40 @@ static void escc_soft_reset_chn(ESCCChannelState *s)
-     clear_queue(s);
- }
+@@ -86,9 +86,11 @@
+ #define W_INTR    1
+ #define INTR_INTALL    0x01
+ #define INTR_TXINT     0x02
++#define INTR_PAR_SPEC  0x04
+ #define INTR_RXMODEMSK 0x18
+ #define INTR_RXINT1ST  0x08
+ #define INTR_RXINTALL  0x10
++#define INTR_WTRQ_TXRX 0x20
+ #define W_IVEC    2
+ #define W_RXCTRL  3
+ #define RXCTRL_RXEN    0x01
+@@ -105,6 +107,7 @@
+ #define TXCTRL1_CLK64X 0xc0
+ #define TXCTRL1_CLKMSK 0xc0
+ #define W_TXCTRL2 5
++#define TXCTRL2_TXCRC  0x01
+ #define TXCTRL2_TXEN   0x08
+ #define TXCTRL2_BITMSK 0x60
+ #define TXCTRL2_5BITS  0x00
+@@ -116,16 +119,24 @@
+ #define W_TXBUF   8
+ #define W_MINTR   9
+ #define MINTR_STATUSHI 0x10
++#define MINTR_SOFTIACK 0x20
+ #define MINTR_RST_MASK 0xc0
+ #define MINTR_RST_B    0x40
+ #define MINTR_RST_A    0x80
+ #define MINTR_RST_ALL  0xc0
+ #define W_MISC1  10
++#define MISC1_ENC_MASK 0x60
+ #define W_CLOCK  11
+ #define CLOCK_TRXC     0x08
+ #define W_BRGLO  12
+ #define W_BRGHI  13
+ #define W_MISC2  14
++#define MISC2_BRG_EN   0x01
++#define MISC2_BRG_SRC  0x02
++#define MISC2_LCL_LOOP 0x10
++#define MISC2_PLLCMD0  0x20
++#define MISC2_PLLCMD1  0x40
++#define MISC2_PLLCMD2  0x80
+ #define MISC2_PLLDIS   0x30
+ #define W_EXTINT 15
+ #define EXTINT_DCD     0x08
+@@ -170,6 +181,7 @@
+ #define R_RXBUF   8
+ #define R_RXCTRL  9
+ #define R_MISC   10
++#define MISC_2CLKMISS  0x40
+ #define R_MISC1  11
+ #define R_BRGLO  12
+ #define R_BRGHI  13
+@@ -299,30 +311,32 @@ static void escc_reset_chn(ESCCChannelState *s)
  
-+static void escc_hard_reset_chn(ESCCChannelState *s)
-+{
-+    int i;
-+
-+    s->reg = 0;
-+    for (i = 0; i < ESCC_SERIAL_REGS; i++) {
-+        s->rregs[i] = 0;
-+        s->wregs[i] = 0;
-+    }
-+    /* 1X divisor, 1 stop bit, no parity */
-+    s->wregs[W_TXCTRL1] = TXCTRL1_1STOP;
-+    s->wregs[W_MINTR] = MINTR_RST_ALL;
-+    /* Synch mode tx clock = TRxC */
-+    s->wregs[W_CLOCK] = CLOCK_TRXC;
-+    /* PLL disabled */
-+    s->wregs[W_MISC2] = MISC2_PLLDIS;
-+    /* Enable most interrupts */
-+    s->wregs[W_EXTINT] = EXTINT_DCD | EXTINT_SYNCINT | EXTINT_CTSINT |
-+                         EXTINT_TXUNDRN | EXTINT_BRKINT;
-+    if (s->disabled) {
-+        s->rregs[R_STATUS] = STATUS_TXEMPTY | STATUS_DCD | STATUS_SYNC |
-+                             STATUS_CTS | STATUS_TXUNDRN;
-+    } else {
-+        s->rregs[R_STATUS] = STATUS_TXEMPTY | STATUS_TXUNDRN;
-+    }
-+    s->rregs[R_SPEC] = SPEC_BITS8 | SPEC_ALLSENT;
-+
-+    s->rx = s->tx = 0;
-+    s->rxint = s->txint = 0;
-+    s->rxint_under_svc = s->txint_under_svc = 0;
-+    s->e0_mode = s->led_mode = s->caps_lock_mode = s->num_lock_mode = 0;
-+    clear_queue(s);
-+}
-+
- static void escc_reset(DeviceState *d)
+ static void escc_soft_reset_chn(ESCCChannelState *s)
  {
-     ESCCState *s = ESCC(d);
-@@ -589,7 +623,9 @@ static void escc_mem_write(void *opaque, hwaddr addr,
-                 escc_soft_reset_chn(&serial->chn[1]);
-                 return;
-             case MINTR_RST_ALL:
--                escc_reset(DEVICE(serial));
-+                trace_escc_hard_reset();
-+                escc_hard_reset_chn(&serial->chn[0]);
-+                escc_hard_reset_chn(&serial->chn[1]);
-                 return;
-             }
-             break;
-diff --git a/hw/char/trace-events b/hw/char/trace-events
-index 073f98ebe8..b774832af4 100644
---- a/hw/char/trace-events
-+++ b/hw/char/trace-events
-@@ -36,6 +36,7 @@ grlib_apbuart_writel_unknown(uint64_t addr, uint32_t value) "addr 0x%"PRIx64" va
- grlib_apbuart_readl_unknown(uint64_t addr) "addr 0x%"PRIx64
+-    int i;
+-
+     s->reg = 0;
+-    for (i = 0; i < ESCC_SERIAL_REGS; i++) {
+-        s->rregs[i] = 0;
+-        s->wregs[i] = 0;
+-    }
+-    /* 1X divisor, 1 stop bit, no parity */
+-    s->wregs[W_TXCTRL1] = TXCTRL1_1STOP;
+-    s->wregs[W_MINTR] = MINTR_RST_ALL;
+-    /* Synch mode tx clock = TRxC */
+-    s->wregs[W_CLOCK] = CLOCK_TRXC;
++    s->wregs[W_CMD] = 0;
++    s->wregs[W_INTR] &= INTR_PAR_SPEC | INTR_WTRQ_TXRX;
++    s->wregs[W_RXCTRL] &= ~RXCTRL_RXEN;
++    /* 1 stop bit */
++    s->wregs[W_TXCTRL1] |= TXCTRL1_1STOP;
++    s->wregs[W_TXCTRL2] &= TXCTRL2_TXCRC | TXCTRL2_8BITS;
++    s->wregs[W_MINTR] &= ~MINTR_SOFTIACK;
++    s->wregs[W_MISC1] &= MISC1_ENC_MASK;
+     /* PLL disabled */
+-    s->wregs[W_MISC2] = MISC2_PLLDIS;
++    s->wregs[W_MISC2] &= MISC2_BRG_EN | MISC2_BRG_SRC |
++                         MISC2_PLLCMD1 | MISC2_PLLCMD2;
++    s->wregs[W_MISC2] |= MISC2_PLLCMD0;
+     /* Enable most interrupts */
+     s->wregs[W_EXTINT] = EXTINT_DCD | EXTINT_SYNCINT | EXTINT_CTSINT |
+                          EXTINT_TXUNDRN | EXTINT_BRKINT;
++
++    s->rregs[R_STATUS] &= STATUS_DCD | STATUS_SYNC | STATUS_CTS | STATUS_BRK;
++    s->rregs[R_STATUS] |= STATUS_TXEMPTY | STATUS_TXUNDRN;
+     if (s->disabled) {
+-        s->rregs[R_STATUS] = STATUS_TXEMPTY | STATUS_DCD | STATUS_SYNC |
+-                             STATUS_CTS | STATUS_TXUNDRN;
+-    } else {
+-        s->rregs[R_STATUS] = STATUS_TXEMPTY | STATUS_TXUNDRN;
++        s->rregs[R_STATUS] |= STATUS_DCD | STATUS_SYNC | STATUS_CTS;
+     }
+-    s->rregs[R_SPEC] = SPEC_BITS8 | SPEC_ALLSENT;
++    s->rregs[R_SPEC] &= SPEC_ALLSENT;
++    s->rregs[R_SPEC] |= SPEC_BITS8;
++    s->rregs[R_INTR] = 0;
++    s->rregs[R_MISC] &= MISC_2CLKMISS;
  
- # escc.c
-+escc_hard_reset(void) "hard reset"
- escc_soft_reset_chn(char channel) "soft reset channel %c"
- escc_put_queue(char channel, int b) "channel %c put: 0x%02x"
- escc_get_queue(char channel, int val) "channel %c get 0x%02x"
+     s->rx = s->tx = 0;
+     s->rxint = s->txint = 0;
 -- 
 2.20.1
 
