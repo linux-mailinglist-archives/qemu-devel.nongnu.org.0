@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199A43FFD28
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 11:31:55 +0200 (CEST)
-Received: from localhost ([::1]:60112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CCBC3FFD11
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 11:28:06 +0200 (CEST)
+Received: from localhost ([::1]:50072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM5YA-0003N0-4M
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 05:31:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44902)
+	id 1mM5UT-0004st-JN
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 05:28:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mM5EV-0002WI-MN
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:11:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40032)
+ id 1mM5Eb-0002nL-8U
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:11:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32508)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mM5ET-0003QK-Sx
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:11:35 -0400
+ id 1mM5EZ-0003Vx-Nf
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:11:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630660293;
+ s=mimecast20190719; t=1630660299;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mzLf0auC+j4eXJaf7dJ/qxEgaQwsUXek6YlR7iaIGaY=;
- b=WW9knFUeJIPAJP8p3pCkyu+b+aEGNgITn+TnDqwhy6O0s38Aw3Yr5OHiMkwyYTpLKXbcXr
- jYsCvL9olhqodaUNcYlDEGcpYfA2u2Yg88zit2OtxoEsvtrE96a/hkOn6ZNyoNtOyJgn+Y
- 0WTlIN7SbSj8WDELEq249461gypiFto=
+ bh=EHTcEK48zuoDSC0sxFEgTWCHyi1if47tYVQvwiOkPMQ=;
+ b=GjKmUyAO7bpkqCcKKU06lQG+FgdSaCYX6YzVdsgNJwtXBLVs+PMMKxe2wodZ5SJ2DVzGAt
+ Y4FiJ7kZGGE8hmiWXdx66up8YG3Xgx2e4VCtOXCXgqcq0CCXVqf/fs0PnyCZBa5X19DfQe
+ nOetrWyR4iInsKctZ7irtZbZblsKofo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219--1NOy3i1MWuj4vnSWOZxTA-1; Fri, 03 Sep 2021 05:11:32 -0400
-X-MC-Unique: -1NOy3i1MWuj4vnSWOZxTA-1
+ us-mta-535-1wzik7f1ODapUtYS4bCzqA-1; Fri, 03 Sep 2021 05:11:38 -0400
+X-MC-Unique: 1wzik7f1ODapUtYS4bCzqA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39498835DE0;
- Fri,  3 Sep 2021 09:11:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE1DB1854E20;
+ Fri,  3 Sep 2021 09:11:36 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-13-217.pek2.redhat.com
  [10.72.13.217])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DEBF260BF1;
- Fri,  3 Sep 2021 09:11:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BCE2A60BF1;
+ Fri,  3 Sep 2021 09:11:31 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: mst@redhat.com,
 	jasowang@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PATCH V2 10/21] vhost-vdpa: fix the wrong assertion in
- vhost_vdpa_init()
-Date: Fri,  3 Sep 2021 17:10:20 +0800
-Message-Id: <20210903091031.47303-11-jasowang@redhat.com>
+Subject: [PATCH V2 11/21] vhost-vdpa: remove the unncessary queue_index
+ assignment
+Date: Fri,  3 Sep 2021 17:10:21 +0800
+Message-Id: <20210903091031.47303-12-jasowang@redhat.com>
 In-Reply-To: <20210903091031.47303-1-jasowang@redhat.com>
 References: <20210903091031.47303-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -87,32 +87,28 @@ Cc: lulu@redhat.com, gdawar@xilinx.com, eperezma@redhat.com, elic@nvidia.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vhost_vdpa_add() can fail for various reasons, so the assertion of the
-succeed is wrong. Instead, we should free the NetClientState and
-propagate the error to the caller
+The queue_index of NetClientState should be assigned in set_netdev()
+afterwards, so trying to net_vhost_vdpa_init() is meaningless. This
+patch removes this.
 
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/vhost-vdpa.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ net/vhost-vdpa.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 99327d17b4..d02cad9855 100644
+index d02cad9855..912686457c 100644
 --- a/net/vhost-vdpa.c
 +++ b/net/vhost-vdpa.c
-@@ -173,7 +173,10 @@ static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
-     }
-     s->vhost_vdpa.device_fd = vdpa_device_fd;
-     ret = vhost_vdpa_add(nc, (void *)&s->vhost_vdpa);
--    assert(s->vhost_net);
-+    if (ret) {
-+        qemu_close(vdpa_device_fd);
-+        qemu_del_net_client(nc);
-+    }
-     return ret;
- }
- 
+@@ -165,7 +165,6 @@ static int net_vhost_vdpa_init(NetClientState *peer, const char *device,
+     assert(name);
+     nc = qemu_new_net_client(&net_vhost_vdpa_info, peer, device, name);
+     snprintf(nc->info_str, sizeof(nc->info_str), TYPE_VHOST_VDPA);
+-    nc->queue_index = 0;
+     s = DO_UPCAST(VhostVDPAState, nc, nc);
+     vdpa_device_fd = qemu_open_old(vhostdev, O_RDWR);
+     if (vdpa_device_fd == -1) {
 -- 
 2.25.1
 
