@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA4F0400710
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 22:47:37 +0200 (CEST)
-Received: from localhost ([::1]:34552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 144AD400727
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 22:54:44 +0200 (CEST)
+Received: from localhost ([::1]:57786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMG64-0006oL-NV
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 16:47:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52738)
+	id 1mMGCx-0005XQ-4L
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 16:54:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mMFqw-0002yx-Ai; Fri, 03 Sep 2021 16:31:58 -0400
-Received: from mail-qv1-xf30.google.com ([2607:f8b0:4864:20::f30]:39716)
+ id 1mMFqx-00030i-4m; Fri, 03 Sep 2021 16:31:59 -0400
+Received: from mail-qt1-x82d.google.com ([2607:f8b0:4864:20::82d]:34354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mMFqu-0001jt-H7; Fri, 03 Sep 2021 16:31:58 -0400
-Received: by mail-qv1-xf30.google.com with SMTP id dt3so367258qvb.6;
- Fri, 03 Sep 2021 13:31:54 -0700 (PDT)
+ id 1mMFqv-0001l8-9O; Fri, 03 Sep 2021 16:31:58 -0400
+Received: by mail-qt1-x82d.google.com with SMTP id 2so299202qtw.1;
+ Fri, 03 Sep 2021 13:31:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=n5657r1c1ytpRQ2DAcGa9/0aAphGsPfcwntR/5Sbm+0=;
- b=bcPCmIxETFQ2iCMVCkl91wyLo1BxulM2JZEBB4nhwJdz90tBvQyUBzB0WiHF+s6Rbt
- 1MT9xla8ApLdPS+r5RobTw+vBaiT6ummwon7EkJdoEW7qFrhHHsFfVxWcoTOmJ9Sw9cj
- UlmahFjvW6Z/U37u2yo5pQ0y0Zrgqy+JIwFMsZ9dlXLcdkMXYFtEVYPA3e19v/fZkmrs
- ZeZMRJuJNcmuPC3lOYioiA+Hve73MiGl9w2P9spFiMb0e892td7IaRkcKQfvE9SR/jmM
- 4LKvIhUSIrvLhSM7xukpE82VjTbCXaIPkgj5I7TsFb0Xi/0l4CsorjwTWAbQkE6PFNru
- UVtA==
+ bh=uqcSlIEE8XrqdIcGnOwQvr9HriWwUwyJcTcJyqHtZqE=;
+ b=IuL90r8alo+/+C0xjXLq66TJ5RQHSmBdE7lMHNBXfQmn18mSk3ijwAkcI9cJxvs5Oq
+ /r3NsluVl1StOnZSbi5AS4Na3nj2EDUqL4YH8PoOBixUAEFfytN7bKfgD9aY9AVuhe7+
+ 92a2IXEdyeEbLUNn8fAda6MyesXlk4jOoql+gTgQlAdFqaP019HTBTimzOCYyU7WiyeS
+ p0CY616uZ1RQjl7XFCTRGoG/Ef74J999ErKn3P/aoW/Qs4GWEZEEPs7FHNLeHUjyvf6S
+ Aja1L47Nf9IkVYBaAHeT1Hn5KCqH++RJECotYDWtjJc07RewOG2Uq6fw4K9M5Uy2XpAM
+ IVMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=n5657r1c1ytpRQ2DAcGa9/0aAphGsPfcwntR/5Sbm+0=;
- b=Gn6y8XVlhT1KevXDDdPpGGeZDLIkwk8nczgZnNUPANiMvnP7KDcMz6uhbVHs5n29Me
- TxlMsSC2X/+78kxPG4kdm+lWsOlCuuq4iAwo/LusRhk3JKsrgdO9I0GrJs0ljOjp0elU
- CwBUI+Ih9RntOTCLNKl/A73gfy9hODbC7Sgw9fABkAD/AVg8jDgjxWITu+nA0STQ9f12
- bSsrpRv1fbZJXfDzjygATasNnQpvZI2wZHkUnAAHKF2ctPnDRYuawpZPF77v3uCOBzYE
- Xyn5Ie9jbGuwPdZpW46QkH2oD3rNzOVu5zPXGxITpWxGxgBvMtt1YMzJLvae7eq/ZDD4
- uxQw==
-X-Gm-Message-State: AOAM532en1PLFaXjA4UnXlAX7408ze24VRdiKLX1muGJKo+E7bHAJIJ8
- p7+aaFXmQJ33iWHhTgnjKg5xUTiqbLY=
-X-Google-Smtp-Source: ABdhPJwNT+bTJZLMqzO+kw9cCZBivpY2D9D74DrHgawD4Z/EvaWEMeNFBQJ4xkwLF79/oVOoZPhTwQ==
-X-Received: by 2002:a0c:f08f:: with SMTP id g15mr909891qvk.67.1630701113792;
- Fri, 03 Sep 2021 13:31:53 -0700 (PDT)
+ bh=uqcSlIEE8XrqdIcGnOwQvr9HriWwUwyJcTcJyqHtZqE=;
+ b=Mf/2Uf5Buid12CnU4VlG3Yxwq1MsLURzwf1M15er7zasSoLJSIKaCyFibmsEYjSYwU
+ yYFatQSEAzQbSCrQ+FLs30hT36bX0V3yLHcHOUg7txH2iQRoHB4ANbyJkSIREKARzaO5
+ X5NRqZLrD3mZSzRoB5sKXp3Ef0Br3poCPA8FRrE7DlFEx2CQrR5b4KXS3+FcHbaGEIAz
+ u5Vfs9VisaEjb+q104YUTjG+xGNXTfvbNDqeevHX9bzUHhBI7YbkNOgkA/so0KpK6Zcl
+ Nq7pSLZAiu7dColrSj3uyIdFo4aRPmyTK8DQlGA4kvDEgfuvouOSWxSgTfGGnS7ZK+jB
+ QZOw==
+X-Gm-Message-State: AOAM531mxFtxtf/BYrVQ1BExq3YDTVofL3Y2SQ3+CnNYyjyxBBqYvSTx
+ 26BL5p3J6FUEXk1KUG6zO2E7iu+xOcM=
+X-Google-Smtp-Source: ABdhPJzV1k0OTcBLsUXqJnRM2wuLYZpQLoilxcqFFWEqLsOqvkeZ9MhHtkOzN+qbGt6ujKc6DCoiow==
+X-Received: by 2002:ac8:44b4:: with SMTP id a20mr824970qto.166.1630701115933; 
+ Fri, 03 Sep 2021 13:31:55 -0700 (PDT)
 Received: from rekt.COMFAST ([179.247.136.122])
- by smtp.gmail.com with ESMTPSA id z6sm285613qtq.78.2021.09.03.13.31.51
+ by smtp.gmail.com with ESMTPSA id z6sm285613qtq.78.2021.09.03.13.31.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 13:31:53 -0700 (PDT)
+ Fri, 03 Sep 2021 13:31:55 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 10/15] target/ppc/excp_helper.c: EBB handling adjustments
-Date: Fri,  3 Sep 2021 17:31:11 -0300
-Message-Id: <20210903203116.80628-11-danielhb413@gmail.com>
+Subject: [PATCH v3 11/15] target/ppc/power8_pmu.c: enable PMC1 counter
+ negative overflow
+Date: Fri,  3 Sep 2021 17:31:12 -0300
+Message-Id: <20210903203116.80628-12-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903203116.80628-1-danielhb413@gmail.com>
 References: <20210903203116.80628-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f30;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf30.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82d;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82d.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -87,79 +88,177 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current logic is only considering event-based exceptions triggered
-by the performance monitor. This is true now, but we might want to add
-support for external event-based exceptions in the future.
+This patch starts the counter negative EBB support by enabling PMC1
+counter negative overflow when PMC1 is counting cycles.
 
-Let's make it a bit easier to do so by adding the bit logic that would
-happen in case we were dealing with an external event-based exception.
+A counter negative overflow happens when a performance monitor counter
+reaches the value 0x80000000. When that happens, if counter negative
+condition events are enabled in that counter, a performance monitor
+alert is triggered. For PMC1, this condition is enabled by MMCR0_PMC1CE.
 
-While we're at it, add a few comments explaining why we're setting and
-clearing BESCR bits.
+Cycle counting is done by calculating elapsed time between the time
+the PMU started to run and when the PMU is shut down. Our clock is
+fixed in 1Ghz, so 1 cycle equals 1 nanoseconds. The same idea is used to
+predict a counter negative overflow: calculate the amount of nanoseconds
+for the timer to reach 0x80000000, start a timer with it and trigger the
+performance monitor alert. If event-based exceptions are enabled (bit
+MMCR0_EBE), we'll go ahead and fire a PPC_INTERRUPT_PMC.
+
+A new function 'start_cycle_count_session' was added to encapsulate the
+most common steps of cycle calculation: redefine base time and start
+overflow timers. This will avoid code repetition in the next patches.
+
+Counter overflow for the remaining counters will be added shortly.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/excp_helper.c | 45 ++++++++++++++++++++++++++++++++++------
- 1 file changed, 39 insertions(+), 6 deletions(-)
+ target/ppc/cpu.h        |  1 +
+ target/ppc/power8_pmu.c | 99 +++++++++++++++++++++++++++++++++--------
+ 2 files changed, 82 insertions(+), 18 deletions(-)
 
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index d20447f171..6d16c986af 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -822,14 +822,47 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-                   "is not implemented yet !\n");
-         break;
-     case POWERPC_EXCP_EBB:       /* Event-based branch exception             */
--        if ((env->spr[SPR_BESCR] & BESCR_GE) &&
--            (env->spr[SPR_BESCR] & BESCR_PME)) {
-+        if (env->spr[SPR_BESCR] & BESCR_GE) {
-             target_ulong nip;
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 780eab6f92..ba93b30ae2 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -354,6 +354,7 @@ typedef struct ppc_v3_pate_t {
+ #define MMCR0_UREG_MASK (MMCR0_FC | MMCR0_PMAO | MMCR0_PMAE)
+ #define MMCR0_FC14 PPC_BIT(58) /* MMCR0 Freeze Counters 1-4 bit */
+ #define MMCR0_FC56 PPC_BIT(59) /* MMCR0 Freeze Counters 5-6 bit */
++#define MMCR0_PMC1CE PPC_BIT(48) /* MMCR0 PMC1 Condition Enabled */
  
--            env->spr[SPR_BESCR] &= ~BESCR_GE;   /* Clear GE */
--            env->spr[SPR_BESCR] |= BESCR_PMEO;  /* Set PMEO */
--            env->spr[SPR_EBBRR] = env->nip;     /* Save NIP for rfebb insn */
--            nip = env->spr[SPR_EBBHR];          /* EBB handler */
-+            /*
-+             * If we have Performance Monitor Event-Based exception
-+             * enabled (BESCR_PME) and a Performance Monitor alert
-+             * occurred (MMCR0_PMAO), clear BESCR_PME and set BESCR_PMEO
-+             * (Performance Monitor Event-Based Exception Occurred).
-+             *
-+             * Software is responsible for clearing both BESCR_PMEO and
-+             * MMCR0_PMAO after the event has been handled.
-+             */
-+            if ((env->spr[SPR_BESCR] & BESCR_PME) &&
-+                (env->spr[SPR_POWER_MMCR0] & MMCR0_PMAO)) {
-+                env->spr[SPR_BESCR] &= ~BESCR_PME;
-+                env->spr[SPR_BESCR] |= BESCR_PMEO;
-+            }
+ #define MMCR1_EVT_SIZE 8
+ /* extract64() does a right shift before extracting */
+diff --git a/target/ppc/power8_pmu.c b/target/ppc/power8_pmu.c
+index aa5df6f51f..b2224d363a 100644
+--- a/target/ppc/power8_pmu.c
++++ b/target/ppc/power8_pmu.c
+@@ -33,6 +33,8 @@ static void update_PMC_PM_CYC(CPUPPCState *env, int sprn,
+     env->spr[sprn] += time_delta;
+ }
+ 
++#define COUNTER_NEGATIVE_VAL 0x80000000
 +
-+            /*
-+             * In the case of External Event-Based exceptions, do a
-+             * similar logic with BESCR_EE and BESCR_EEO. BESCR_EEO must
-+             * also be cleared by software.
-+             *
-+             * PowerISA 3.1 considers that we'll not have BESCR_PMEO and
-+             * BESCR_EEO set at the same time. We can check for BESCR_PMEO
-+             * being not set in step above to see if this exception was
-+             * trigged by an external event.
-+             */
-+            if (env->spr[SPR_BESCR] & BESCR_EE &&
-+                !(env->spr[SPR_BESCR] & BESCR_PMEO)) {
-+                env->spr[SPR_BESCR] &= ~BESCR_EE;
-+                env->spr[SPR_BESCR] |= BESCR_EEO;
-+            }
+ static uint8_t get_PMC_event(CPUPPCState *env, int sprn)
+ {
+     uint8_t evt_extr = 0;
+@@ -117,30 +119,91 @@ static void update_cycles_PMCs(CPUPPCState *env)
+     }
+ }
+ 
++static int64_t get_CYC_timeout(CPUPPCState *env, int sprn)
++{
++    int64_t remaining_cyc;
 +
-+            /*
-+             * Clear BESCR_GE, save NIP for 'rfebb' and point the
-+             * execution to the event handler (SPR_EBBHR) address.
-+             */
-+            env->spr[SPR_BESCR] &= ~BESCR_GE;
-+            env->spr[SPR_EBBRR] = env->nip;
-+            nip = env->spr[SPR_EBBHR];
-             powerpc_set_excp_state(cpu, nip, env->msr);
++    if (env->spr[sprn] >= COUNTER_NEGATIVE_VAL) {
++        return 0;
++    }
++
++    remaining_cyc = COUNTER_NEGATIVE_VAL - env->spr[sprn];
++    return remaining_cyc;
++}
++
++static bool counter_negative_cond_enabled(uint64_t mmcr0)
++{
++    return mmcr0 & MMCR0_PMC1CE;
++}
++
++/*
++ * A cycle count session consists of the basic operations we
++ * need to do to support PM_CYC events: redefine a new base_time
++ * to be used to calculate PMC values and start overflow timers.
++ */
++static void start_cycle_count_session(CPUPPCState *env)
++{
++    uint64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++    uint64_t timeout;
++
++    env->pmu_base_time = now;
++
++    /*
++     * Always delete existing overflow timers when starting a
++     * new cycle counting session.
++     */
++    timer_del(env->pmu_intr_timers[0]);
++
++    if (!counter_negative_cond_enabled(env->spr[SPR_POWER_MMCR0])) {
++        return;
++    }
++
++    if (!pmc_is_running(env, SPR_POWER_PMC1)) {
++        return;
++    }
++
++    if (!(env->spr[SPR_POWER_MMCR0] & MMCR0_PMC1CE)) {
++        return;
++    }
++
++    switch (get_PMC_event(env, SPR_POWER_PMC1)) {
++    case 0xF0:
++    case 0x1E:
++        timeout = get_CYC_timeout(env, SPR_POWER_PMC1);
++        break;
++    default:
++        return;
++    }
++
++    timer_mod(env->pmu_intr_timers[0], now + timeout);
++}
++
+ static void cpu_ppc_pmu_timer_cb(void *opaque)
+ {
+     PowerPCCPU *cpu = opaque;
+     CPUPPCState *env = &cpu->env;
+-    uint64_t mmcr0;
+-
+-    mmcr0 = env->spr[SPR_POWER_MMCR0];
+-    if (env->spr[SPR_POWER_MMCR0] & MMCR0_EBE) {
+-        /* freeeze counters if needed */
+-        if (mmcr0 & MMCR0_FCECE) {
+-            mmcr0 &= ~MMCR0_FCECE;
+-            mmcr0 |= MMCR0_FC;
+-        }
+ 
+-        /* Clear PMAE and set PMAO */
+-        if (mmcr0 & MMCR0_PMAE) {
+-            mmcr0 &= ~MMCR0_PMAE;
+-            mmcr0 |= MMCR0_PMAO;
+-        }
+-        env->spr[SPR_POWER_MMCR0] = mmcr0;
++    if (!(env->spr[SPR_POWER_MMCR0] & MMCR0_EBE)) {
++        return;
++    }
+ 
+-        /* Fire the PMC hardware exception */
+-        ppc_set_irq(cpu, PPC_INTERRUPT_PMC, 1);
++    if (env->spr[SPR_POWER_MMCR0] & MMCR0_FCECE) {
++        env->spr[SPR_POWER_MMCR0] &= ~MMCR0_FCECE;
++        env->spr[SPR_POWER_MMCR0] |= MMCR0_FC;
++
++        /* Changing MMCR0_FC demands a new hflags compute */
++        hreg_compute_hflags(env);
++    }
++
++    update_cycles_PMCs(env);
++
++    if (env->spr[SPR_POWER_MMCR0] & MMCR0_PMAE) {
++        env->spr[SPR_POWER_MMCR0] &= ~MMCR0_PMAE;
++        env->spr[SPR_POWER_MMCR0] |= MMCR0_PMAO;
+     }
++
++    /* Fire the PMC hardware exception */
++    ppc_set_irq(cpu, PPC_INTERRUPT_PMC, 1);
+ }
+ 
+ void cpu_ppc_pmu_timer_init(CPUPPCState *env)
+@@ -184,7 +247,7 @@ void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
+         if (!curr_FC) {
+             update_cycles_PMCs(env);
+         } else {
+-            env->pmu_base_time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++            start_cycle_count_session(env);
          }
-         /*
+     }
+ }
 -- 
 2.31.1
 
