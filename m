@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 378B8400462
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:55:07 +0200 (CEST)
-Received: from localhost ([::1]:43256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 796DE40045A
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:54:02 +0200 (CEST)
+Received: from localhost ([::1]:39518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMDP8-0006QK-91
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:55:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51048)
+	id 1mMDO5-0003wU-EN
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:54:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDFv-00078w-2x
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:45:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52140)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDFz-0007EV-Tn
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:45:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37139)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDFr-0000g1-MF
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:45:34 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDFx-0000ke-0S
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:45:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630691131;
+ s=mimecast20190719; t=1630691136;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6axIh+16/DTX2QUR6MOtSJVf4S/aGvlneoKk63wKfEE=;
- b=FgbEut2wMqtxgHKoW/P00o3g/+3BL3HUBsTz2xhK2AKJX3IHLMKH82wTtN7zPPRiBe10pr
- CM3VmyL8Kgamh6tVQgcKvJVXzOgsd1CSa29ig/WjyVA0nmTlloCPSyVh128zMX1U/9LBFr
- kmuuaP4uXROSAMHmv+Rxg2ChxbM+pe8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-dFNzCPq-N82joKsGvASIKA-1; Fri, 03 Sep 2021 13:45:30 -0400
-X-MC-Unique: dFNzCPq-N82joKsGvASIKA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- x125-20020a1c3183000000b002e73f079eefso71540wmx.0
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 10:45:30 -0700 (PDT)
+ bh=CXCzW8bCYFLnmDpFGRYWy7aRyivvYc+p/NDbg6+FNF8=;
+ b=BfCvZ4cOTUnYP59S8h/fPo++62aztVa1nEUvsMxeKFuZsx4ZWab2yRiI1i7fpL8hk5Kxkh
+ PzG79ihjmVL8y4XSfPkuZYKlOeqfYZbKMpwi1P/NF7ADMHB8KZQ84gpToz7IbhGihxQfjU
+ efiOi49W8E8gSNTdIr9qoTgBSWM5zGU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-459-yD27k5_lOhK1do0wT62m4g-1; Fri, 03 Sep 2021 13:45:35 -0400
+X-MC-Unique: yD27k5_lOhK1do0wT62m4g-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ s197-20020a1ca9ce000000b002e72ba822dcso45280wme.6
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 10:45:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6axIh+16/DTX2QUR6MOtSJVf4S/aGvlneoKk63wKfEE=;
- b=bqjbIsTe9a7zWPJD4HxI8bX6BBZWXcOUjD3kZx5VkbK+gp8doPRowRgqSD5GSa6oXs
- nV5yfQa5VyQhCy+PRL8NGxdSicqySunlXFCbYdHoLs7TbYERRZJyjA1RR9Es7dD7wJ0P
- qp9BJf70YgxjQ5OzEoyV+lpbO0EUQAcWyKcEm99Q44/btod5BzEnBhOVwG9xaLCY1KtY
- WPs0Zt9vA88wC7c0PSMhCsMIyGoM7abpowpHmwJry6VBcT3IPBXyfS8OTOVthHy43if8
- 0CHsjG4tndc7ZmX3pWW7ZsWipHDKoa7IUv22WwmRibXBHom70i9lJTOIrX0EZ+4jieJ/
- P9zw==
-X-Gm-Message-State: AOAM53066/QrawbWJYzZonCclLKhaZ6pIfRE79HjKiCCYaIOZvnbHc9y
- +jRfP7TlSI/37kbR0cRzFFk4La5vQyjT2xcXad6IUwFAnWusQ/wZLD/ZITjIDP/xcYDGWx0aMuI
- DR9DTabXyXbpPf7r/Cd42TWmziM0K/ze9TR+seONe917FjG9HCvjaijBRIPlpeu0x
-X-Received: by 2002:a05:600c:2d45:: with SMTP id
- a5mr10837wmg.125.1630691128716; 
- Fri, 03 Sep 2021 10:45:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyNMVrdhYVGK1jkicnt3+7vy1RAmeuPQL5fiuXrJeBt3IjcZ9OjyziVqH2ju+hi1oi9j6AhKw==
-X-Received: by 2002:a05:600c:2d45:: with SMTP id
- a5mr10802wmg.125.1630691128471; 
- Fri, 03 Sep 2021 10:45:28 -0700 (PDT)
+ bh=CXCzW8bCYFLnmDpFGRYWy7aRyivvYc+p/NDbg6+FNF8=;
+ b=nvOHhYLO9UrmlPSKMuNUVaiTG8N7M8Ca+EgmC9vUa4qCM/SPIaE9YotdvH+3jaKcYi
+ EpGMirge5iWKwwFEaMn2Xg4Kne8uj9bgUEYJ9Dm7FsjSqCa0cnt/lgrHSKVWc1W0+xT4
+ EoOYt9K18XdDQwA2XCqpNc6vJm18tamV+Yqj+BbL5T9MOgpd+YC6DguqE63n6ZqOqpLx
+ 0rOxbq9fkwzj5fCUmMsF4gAwWPJ6ExHPZJpxHjZ3Qw/220mSTfXDRELIbrzm/QDZFDIK
+ IUz0vlhAQSwfysb0GC3td9b8x7dxHVSh0jWZ6XbUNoyegxE8rWiMC60pEIDiM0sjsZIL
+ W4vQ==
+X-Gm-Message-State: AOAM5315merOOj+/OwhkIhodHXSHsnH5c795aALjjY9xw1wU1VMMYmjx
+ shfr+MLvMQRLbAh9zRRsh6MC0SE5O63Aqx+sbi5mwx90i7kTQrKeq/rcEErnDd/fm9pYJh/XmeB
+ Ss370n63wva9oVQOy1ru/VJB6UMotFi5Q5I3nhtI1vVVqMm4j1b+hNKhSS4XLKs4L
+X-Received: by 2002:adf:c54a:: with SMTP id s10mr238944wrf.405.1630691134114; 
+ Fri, 03 Sep 2021 10:45:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy+zMZZBdsiCnPGLNZOqOowTX12oFIDz5c69PhgosuOGX74PNQuE1lnRJ5RJkQ6708CDi+C5g==
+X-Received: by 2002:adf:c54a:: with SMTP id s10mr238902wrf.405.1630691133892; 
+ Fri, 03 Sep 2021 10:45:33 -0700 (PDT)
 Received: from x1w.. (21.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id s13sm56649wmc.47.2021.09.03.10.45.27
+ by smtp.gmail.com with ESMTPSA id i20sm67976wml.37.2021.09.03.10.45.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 10:45:28 -0700 (PDT)
+ Fri, 03 Sep 2021 10:45:33 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 03/28] qapi: Replace g_memdup() by g_memdup2()
-Date: Fri,  3 Sep 2021 19:44:45 +0200
-Message-Id: <20210903174510.751630-4-philmd@redhat.com>
+Subject: [PATCH v3 04/28] accel/tcg: Replace g_memdup() by g_memdup2()
+Date: Fri,  3 Sep 2021 19:44:46 +0200
+Message-Id: <20210903174510.751630-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903174510.751630-1-philmd@redhat.com>
 References: <20210903174510.751630-1-philmd@redhat.com>
@@ -127,96 +125,47 @@ Replace g_memdup() by the safer g_memdup2() wrapper.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- qapi/qapi-clone-visitor.c | 16 ++++++++--------
- qapi/qapi-visit-core.c    |  6 ++++--
- 2 files changed, 12 insertions(+), 10 deletions(-)
+ accel/tcg/cputlb.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/qapi/qapi-clone-visitor.c b/qapi/qapi-clone-visitor.c
-index c45c5caa3b8..b014119d368 100644
---- a/qapi/qapi-clone-visitor.c
-+++ b/qapi/qapi-clone-visitor.c
-@@ -37,7 +37,7 @@ static bool qapi_clone_start_struct(Visitor *v, const char *name, void **obj,
-         return true;
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index b1e5471f949..08951f0683e 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -826,7 +826,7 @@ void tlb_flush_range_by_mmuidx(CPUState *cpu, target_ulong addr,
+         tlb_flush_range_by_mmuidx_async_0(cpu, d);
+     } else {
+         /* Otherwise allocate a structure, freed by the worker.  */
+-        TLBFlushRangeData *p = g_memdup(&d, sizeof(d));
++        TLBFlushRangeData *p = g_memdup2(&d, sizeof(d));
+         async_run_on_cpu(cpu, tlb_flush_range_by_mmuidx_async_1,
+                          RUN_ON_CPU_HOST_PTR(p));
+     }
+@@ -868,7 +868,7 @@ void tlb_flush_range_by_mmuidx_all_cpus(CPUState *src_cpu,
+     /* Allocate a separate data block for each destination cpu.  */
+     CPU_FOREACH(dst_cpu) {
+         if (dst_cpu != src_cpu) {
+-            TLBFlushRangeData *p = g_memdup(&d, sizeof(d));
++            TLBFlushRangeData *p = g_memdup2(&d, sizeof(d));
+             async_run_on_cpu(dst_cpu,
+                              tlb_flush_range_by_mmuidx_async_1,
+                              RUN_ON_CPU_HOST_PTR(p));
+@@ -918,13 +918,13 @@ void tlb_flush_range_by_mmuidx_all_cpus_synced(CPUState *src_cpu,
+     /* Allocate a separate data block for each destination cpu.  */
+     CPU_FOREACH(dst_cpu) {
+         if (dst_cpu != src_cpu) {
+-            p = g_memdup(&d, sizeof(d));
++            p = g_memdup2(&d, sizeof(d));
+             async_run_on_cpu(dst_cpu, tlb_flush_range_by_mmuidx_async_1,
+                              RUN_ON_CPU_HOST_PTR(p));
+         }
      }
  
--    *obj = g_memdup(*obj, size);
-+    *obj = g_memdup2(*obj, size);
-     qcv->depth++;
-     return true;
+-    p = g_memdup(&d, sizeof(d));
++    p = g_memdup2(&d, sizeof(d));
+     async_safe_run_on_cpu(src_cpu, tlb_flush_range_by_mmuidx_async_1,
+                           RUN_ON_CPU_HOST_PTR(p));
  }
-@@ -65,8 +65,8 @@ static GenericList *qapi_clone_next_list(Visitor *v, GenericList *tail,
-     QapiCloneVisitor *qcv = to_qcv(v);
- 
-     assert(qcv->depth);
--    /* Unshare the tail of the list cloned by g_memdup() */
--    tail->next = g_memdup(tail->next, size);
-+    /* Unshare the tail of the list cloned by g_memdup2() */
-+    tail->next = g_memdup2(tail->next, size);
-     return tail->next;
- }
- 
-@@ -83,7 +83,7 @@ static bool qapi_clone_type_int64(Visitor *v, const char *name, int64_t *obj,
-     QapiCloneVisitor *qcv = to_qcv(v);
- 
-     assert(qcv->depth);
--    /* Value was already cloned by g_memdup() */
-+    /* Value was already cloned by g_memdup2() */
-     return true;
- }
- 
-@@ -93,7 +93,7 @@ static bool qapi_clone_type_uint64(Visitor *v, const char *name,
-     QapiCloneVisitor *qcv = to_qcv(v);
- 
-     assert(qcv->depth);
--    /* Value was already cloned by g_memdup() */
-+    /* Value was already cloned by g_memdup2() */
-     return true;
- }
- 
-@@ -103,7 +103,7 @@ static bool qapi_clone_type_bool(Visitor *v, const char *name, bool *obj,
-     QapiCloneVisitor *qcv = to_qcv(v);
- 
-     assert(qcv->depth);
--    /* Value was already cloned by g_memdup() */
-+    /* Value was already cloned by g_memdup2() */
-     return true;
- }
- 
-@@ -114,7 +114,7 @@ static bool qapi_clone_type_str(Visitor *v, const char *name, char **obj,
- 
-     assert(qcv->depth);
-     /*
--     * Pointer was already cloned by g_memdup; create fresh copy.
-+     * Pointer was already cloned by g_memdup2; create fresh copy.
-      * Note that as long as qobject-output-visitor accepts NULL instead of
-      * "", then we must do likewise. However, we want to obey the
-      * input visitor semantics of never producing NULL when the empty
-@@ -130,7 +130,7 @@ static bool qapi_clone_type_number(Visitor *v, const char *name, double *obj,
-     QapiCloneVisitor *qcv = to_qcv(v);
- 
-     assert(qcv->depth);
--    /* Value was already cloned by g_memdup() */
-+    /* Value was already cloned by g_memdup2() */
-     return true;
- }
- 
-diff --git a/qapi/qapi-visit-core.c b/qapi/qapi-visit-core.c
-index a641adec51e..ebabe63b6ea 100644
---- a/qapi/qapi-visit-core.c
-+++ b/qapi/qapi-visit-core.c
-@@ -413,8 +413,10 @@ bool visit_type_enum(Visitor *v, const char *name, int *obj,
-     case VISITOR_OUTPUT:
-         return output_type_enum(v, name, obj, lookup, errp);
-     case VISITOR_CLONE:
--        /* nothing further to do, scalar value was already copied by
--         * g_memdup() during visit_start_*() */
-+        /*
-+         * nothing further to do, scalar value was already copied by
-+         * g_memdup2() during visit_start_*()
-+         */
-         return true;
-     case VISITOR_DEALLOC:
-         /* nothing to deallocate for a scalar */
 -- 
 2.31.1
 
