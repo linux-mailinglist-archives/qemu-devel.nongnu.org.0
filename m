@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF3603FFEC5
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:14:14 +0200 (CEST)
-Received: from localhost ([::1]:40234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6D173FFEBC
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:11:58 +0200 (CEST)
+Received: from localhost ([::1]:33652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM79B-0000DW-RK
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:14:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42632)
+	id 1mM76z-0004EG-SZ
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:11:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM72k-000565-Ub
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:07:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34717)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM72p-0005GC-NH
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:07:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM72h-0000B0-P4
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:07:34 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM72n-0000It-IZ
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:07:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630667251;
+ s=mimecast20190719; t=1630667257;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YRPx8k5aASvYP1xf6/9soHjF4TaI9K/GxMLKkwWKabI=;
- b=cRs8otB9zwvwNsebMCRJ9sn295kK0l+hblhfe8ywFoqFJOebI4mi+02XBCuItr14yPEbMY
- 0haEFfwg/2cRlRcq7WasZDcBtt5Hqw7InBEuSqHrGJ2kEzp+Lk1q/axO/WkTjsxJldK4wj
- kPPxqdcNaFHA/xbmhr7v6BSB9Moytt4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-walzWl42Mo6VqyC03e9x5Q-1; Fri, 03 Sep 2021 07:07:30 -0400
-X-MC-Unique: walzWl42Mo6VqyC03e9x5Q-1
-Received: by mail-wm1-f72.google.com with SMTP id
- c2-20020a7bc8420000b0290238db573ab7so2517792wml.5
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 04:07:30 -0700 (PDT)
+ bh=FZHOag7nyoHENtq9LgEUpVfsjfcHne0EwT0c8I8en8s=;
+ b=CY21na76qJ/M4LaKX2ShO4OLJlII9GtO9kWqFiYSYWXDTLRdAguZy/uymVjeyXc8uwuyg5
+ ZF9d5a284c9Zf5uB6Ywe33+y/Y3I9g97c9PXfj+/+Yr6JxWjrzBynNI14N9jh4R101DuyD
+ HmyBye6AxHGlAiejdrQan8c4nhBwvcU=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-446-9X848af9MoW8zDjFw1st-A-1; Fri, 03 Sep 2021 07:07:36 -0400
+X-MC-Unique: 9X848af9MoW8zDjFw1st-A-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ t15-20020a5d42cf000000b001565f9c9ee8so1457956wrr.2
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 04:07:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YRPx8k5aASvYP1xf6/9soHjF4TaI9K/GxMLKkwWKabI=;
- b=X9kdsYu9E2rNCNv4AQRwVUbJjL59LauiuABhEaTmsSSHMVk4L/dJ1sQfSxBCscFHyI
- uDkjlTkQpnAKIvcPBKz0ucNmM1yjRmnBhWyWGguF6pTNgiFZNuCo0UkpiixI9+8d724c
- WkxavLwXTvhL0xxQcKkqEM/L2ylU70eXE/G4dXW8LXzzwYHcxLa9/uD6GS62iBRqr0fe
- 05umpxtBGRmqgvgTpT0ULxkUPZUVPHEEhUFeerBYoNO/Za0VpruoLc/gLd9BkE5vyH23
- S8YIxY1h3bdbIN5ZU1gHCyt4azwi/UY8Nxce4qp7lVBBNriu1NDVEUR0JMoRB6q9glE5
- uFwQ==
-X-Gm-Message-State: AOAM533b9O6XbWZgVyQyv+F7YgDOMLDlArYvgkdg383xHm9x8yic2ZY0
- mQBp7P21zA7nLY0z/o7T28uyadI9XUaglglFA3JxvsWtMxeM6XuEJkYyGHA0VfQFxTkP2D/j0TK
- 8riOyi3i+OCT6vrxcthfk05WgQ8br1wR3Qc5o+dWYIYu8PHFdPD2bZ7KiRge6p6wl
-X-Received: by 2002:a05:6000:92:: with SMTP id
- m18mr3355304wrx.293.1630667248845; 
- Fri, 03 Sep 2021 04:07:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxlwFkOP0MVQF4y1XJ9fLv0qg256KT5I44ftRi9235B9/2W1BEuHyhR7G5P4RskcOmyCVOd6Q==
-X-Received: by 2002:a05:6000:92:: with SMTP id
- m18mr3355251wrx.293.1630667248603; 
- Fri, 03 Sep 2021 04:07:28 -0700 (PDT)
+ bh=FZHOag7nyoHENtq9LgEUpVfsjfcHne0EwT0c8I8en8s=;
+ b=MZ+Pp5OreW7/3i/Wr8wAT86mMTblcEDyaHcIDXonSGxAarpYMzd7TSg4Hrv9fgIC0O
+ 0zcjuhs4i87NXo8gXK752RB9TosIvMyAZiDruS1dLwzb27QXrHaIfjvXLTt7ADdi7Yfv
+ t1qFdQudJENchBIP//p1LoSQmyB7fyZq+0iESCMCehPcUnvXsUHHvy2bRiw/Zp1hoxVB
+ 2Y/yv3uAqFvyGbiAwindYRrmELNI8d1EEbxlaQj1NBs7j78AlXpHcWTRCKQaAbovQAb/
+ DmLTQZDx4Rl+0pWT9H1TV2+pOpo7bzR9kXC6tZCh2XoAwQlio/MZw62I0fj4kzFIAb1F
+ dVsA==
+X-Gm-Message-State: AOAM533FsoaHVWvwtMwVz85c9O+SYGZ/eveFWSPXelBVpEDe92P7E/D1
+ oLOGS6Hhnif3SdONfTZjgxWshfiHK6zVvVR58NZpbM2X451UUsaUK1myyGUXbVwv5N99fExxymt
+ n/Duxvhss92vfpoDGWVpBHZ1Zq3pyeeqLPsf5iK5cmWHDXuFSTOR2xZ3ubLiBUBss
+X-Received: by 2002:a05:6000:18c2:: with SMTP id
+ w2mr3345307wrq.282.1630667254435; 
+ Fri, 03 Sep 2021 04:07:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyoB5TMIuInAl2n/PRtQj2iipmUHWUxT2HqaGZ7Zes9XsQggaJR678emY6uLRnPMCNKGATEww==
+X-Received: by 2002:a05:6000:18c2:: with SMTP id
+ w2mr3345238wrq.282.1630667254198; 
+ Fri, 03 Sep 2021 04:07:34 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- f5sm4032824wmb.47.2021.09.03.04.07.26
+ w1sm3983986wmc.19.2021.09.03.04.07.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 04:07:28 -0700 (PDT)
+ Fri, 03 Sep 2021 04:07:33 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/28] accel/tcg: Replace g_memdup() by g_memdup2_qemu()
-Date: Fri,  3 Sep 2021 13:06:38 +0200
-Message-Id: <20210903110702.588291-5-philmd@redhat.com>
+Subject: [PATCH 05/28] block/qcow2-bitmap: Replace g_memdup() by
+ g_memdup2_qemu()
+Date: Fri,  3 Sep 2021 13:06:39 +0200
+Message-Id: <20210903110702.588291-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903110702.588291-1-philmd@redhat.com>
 References: <20210903110702.588291-1-philmd@redhat.com>
@@ -75,13 +76,13 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -136,47 +137,22 @@ Replace g_memdup() by the safer g_memdup2_qemu() wrapper.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- accel/tcg/cputlb.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ block/qcow2-bitmap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index b1e5471f949..1d5069a30d1 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -826,7 +826,7 @@ void tlb_flush_range_by_mmuidx(CPUState *cpu, target_ulong addr,
-         tlb_flush_range_by_mmuidx_async_0(cpu, d);
-     } else {
-         /* Otherwise allocate a structure, freed by the worker.  */
--        TLBFlushRangeData *p = g_memdup(&d, sizeof(d));
-+        TLBFlushRangeData *p = g_memdup2_qemu(&d, sizeof(d));
-         async_run_on_cpu(cpu, tlb_flush_range_by_mmuidx_async_1,
-                          RUN_ON_CPU_HOST_PTR(p));
-     }
-@@ -868,7 +868,7 @@ void tlb_flush_range_by_mmuidx_all_cpus(CPUState *src_cpu,
-     /* Allocate a separate data block for each destination cpu.  */
-     CPU_FOREACH(dst_cpu) {
-         if (dst_cpu != src_cpu) {
--            TLBFlushRangeData *p = g_memdup(&d, sizeof(d));
-+            TLBFlushRangeData *p = g_memdup2_qemu(&d, sizeof(d));
-             async_run_on_cpu(dst_cpu,
-                              tlb_flush_range_by_mmuidx_async_1,
-                              RUN_ON_CPU_HOST_PTR(p));
-@@ -918,13 +918,13 @@ void tlb_flush_range_by_mmuidx_all_cpus_synced(CPUState *src_cpu,
-     /* Allocate a separate data block for each destination cpu.  */
-     CPU_FOREACH(dst_cpu) {
-         if (dst_cpu != src_cpu) {
--            p = g_memdup(&d, sizeof(d));
-+            p = g_memdup2_qemu(&d, sizeof(d));
-             async_run_on_cpu(dst_cpu, tlb_flush_range_by_mmuidx_async_1,
-                              RUN_ON_CPU_HOST_PTR(p));
-         }
-     }
- 
--    p = g_memdup(&d, sizeof(d));
-+    p = g_memdup2_qemu(&d, sizeof(d));
-     async_safe_run_on_cpu(src_cpu, tlb_flush_range_by_mmuidx_async_1,
-                           RUN_ON_CPU_HOST_PTR(p));
- }
+diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
+index 8fb47315515..ec303acb46b 100644
+--- a/block/qcow2-bitmap.c
++++ b/block/qcow2-bitmap.c
+@@ -1599,7 +1599,7 @@ bool qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs,
+                            name);
+                 goto fail;
+             }
+-            tb = g_memdup(&bm->table, sizeof(bm->table));
++            tb = g_memdup2_qemu(&bm->table, sizeof(bm->table));
+             bm->table.offset = 0;
+             bm->table.size = 0;
+             QSIMPLEQ_INSERT_TAIL(&drop_tables, tb, entry);
 -- 
 2.31.1
 
