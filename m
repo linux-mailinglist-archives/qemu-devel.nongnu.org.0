@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0345C3FFF27
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:26:42 +0200 (CEST)
-Received: from localhost ([::1]:43992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A933FFF31
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:29:16 +0200 (CEST)
+Received: from localhost ([::1]:53136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM7LF-0005ER-26
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:26:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43438)
+	id 1mM7Nh-0002te-Ry
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:29:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM747-0008Fu-Gp
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:08:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24720)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74D-0000DP-AY
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30985)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM744-0001ko-JU
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:08:59 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74A-0001nd-6V
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630667335;
+ s=mimecast20190719; t=1630667341;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e+/T5ni6234ihtWfiY6ChgUlClrUNMBebZZu1LShGeE=;
- b=fKhf/V9o0yCw71rie0qZw6rMPtGwZsaatLEdvrYZu4Mo2D2PjvCz30sKbIeFNadFNwLD4E
- dD8SWv4mFtvfJzC/SO23B3bWHHfpVXaHDoOvudVJqiRxlZXvXjdWcJBuYRY1O/nEJ29DCr
- QjEO7fIDhPGQ91gpto7qsjl54S9rIto=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-O6IP0hhMP36GlzqelxMUaA-1; Fri, 03 Sep 2021 07:08:55 -0400
-X-MC-Unique: O6IP0hhMP36GlzqelxMUaA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- c4-20020a1c9a04000000b002e864b7edd1so1766993wme.6
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 04:08:54 -0700 (PDT)
+ bh=6LOA6vxWsxNeyRV6PCApiN2cj9fcdeFYW29H3LS1FGk=;
+ b=XOmt4Cha/bbgxq0+mjtpUiQwXx3Ax70QpMsFDB4Qv4OdQZEeDQBI8dbgPwyn8+bKM+IWoK
+ bWO8I+1oeOQfol/pyv4XEg6C6AUPrMxZT6R2GMtTSys+wWJmBL0Y/Xkp5mTyhBJkjJsde+
+ FjXqtgEov9L6BJO0MkpKrjylYrn3Oys=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-552-PSt42AH5MrSgLmHo19z8uA-1; Fri, 03 Sep 2021 07:09:00 -0400
+X-MC-Unique: PSt42AH5MrSgLmHo19z8uA-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ h15-20020adff18f000000b001574654fbc2so1460632wro.10
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 04:09:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=e+/T5ni6234ihtWfiY6ChgUlClrUNMBebZZu1LShGeE=;
- b=gov4BDcOUqH+ktFKEWxeVNGu+1D8KD4ieySZghNA6i/baVWUiw8Xj8FaOfGQcq4kdu
- 8bIfJW5uMJb47KGy5ePV3Dh46nd82+EPVkwi18/3/J8jhjacsoaPWiz0HLwpCm6NUCeO
- 2ZhmRGJlEB8lvsX9HMxKsBHKbUx1Anb3GC6JKqfjlyI703lNypbJqULgA8jvPsDo2nlF
- sVex6PDcKhyW46Vlafwy2zNaxEnCWtXJDlaJZZ7uVuoPXmBoWbk27k+xlubBgz7ek5MN
- GPc78/+/TTsI2X9xaIBlqpuslLK/p54ctrFM3VDRq0nIk2l26styN6KINLE0sSRVIoo7
- dAXA==
-X-Gm-Message-State: AOAM533IFskoMwV4HpXqF0Tlqir+N3iA1D+H6hUXMZNXPxyt7b3La6ff
- 96Dn3mDHuDH4+bIcfSlkxwqi9hP0GVdXOau5eLspHfgx+D4bq2pAflCXAiz7oqIr/ai4VLCGOGA
- R2OpFWR07aDmhlzo9qa/jM7qOjwvWfjsXiEAzvxqAAeVILxNktMokl964refV/Ub/
-X-Received: by 2002:adf:816f:: with SMTP id 102mr3412396wrm.368.1630667333585; 
- Fri, 03 Sep 2021 04:08:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwKVIhqhQclBigb+uSRWXSSmTSWnWM8sjZh3FL9BO89jaiUDjU5xH1NQtxLg8HHW+REZ68Nfw==
-X-Received: by 2002:adf:816f:: with SMTP id 102mr3412332wrm.368.1630667333320; 
- Fri, 03 Sep 2021 04:08:53 -0700 (PDT)
+ bh=6LOA6vxWsxNeyRV6PCApiN2cj9fcdeFYW29H3LS1FGk=;
+ b=tu6ESsX+6u2MAMeT7TESbmWA41tGV7McJc/5a4h9804lrETzioWEtYjLVPRRHt47hM
+ hP4jhrJmZ7aZxWhNROVxfMORtWSjJnOd9xoyVAHGPxhonNTIzhFYi2Td6ylG6AjBuEq2
+ 5ikcyQaTVr3PIM1NV457Mo4fuaisrO6RIuJM06YHO7JvMXBconza3mEu6kvxKZF0QJxa
+ 01OO4S2eAmV2HBsqLT4/V8m8xbxWylhO9lDUbn0nsvqb7F4MIVfRH61dxWovhUJQa8he
+ AWbnpAR5zzLJpzGo9P/DL1wNTvs9PH/N1FGU43wVgXPFjlHdYcZ1t8ANBQnoRNHrOrpI
+ oSTg==
+X-Gm-Message-State: AOAM531TJbbD2iRvfvBwqDHMRPEOIqCOqdsuc8Vu+6KTlWZPSQB+hqeL
+ +ogIeamTx44IPyjzvg4VAtXK5/tlHyZ0mx0i7K7pURpmzovupCCgkcgXGm2c7rX1mmJG+tYF01B
+ /P2wCm31w9fcNwkzKSzn3CMtxl9IcR1NNA1QjTrLbUaMtLsESvNKF5/1gZqKWzr37
+X-Received: by 2002:adf:c54a:: with SMTP id s10mr3382759wrf.405.1630667339158; 
+ Fri, 03 Sep 2021 04:08:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxzopBsfgspfdDlrpZUpsr41FgOxa6kgWftrebygxzUBuKUb/fPiR/qlP4CZMfiKI3MKwkKmA==
+X-Received: by 2002:adf:c54a:: with SMTP id s10mr3382702wrf.405.1630667338948; 
+ Fri, 03 Sep 2021 04:08:58 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- h16sm4386547wre.52.2021.09.03.04.08.51
+ e2sm4370145wra.40.2021.09.03.04.08.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 04:08:52 -0700 (PDT)
+ Fri, 03 Sep 2021 04:08:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 19/28] hw/virtio: Replace g_memdup() by g_memdup2_qemu()
-Date: Fri,  3 Sep 2021 13:06:53 +0200
-Message-Id: <20210903110702.588291-20-philmd@redhat.com>
+Subject: [PATCH 20/28] net/colo: Replace g_memdup() by g_memdup2_qemu()
+Date: Fri,  3 Sep 2021 13:06:54 +0200
+Message-Id: <20210903110702.588291-21-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903110702.588291-1-philmd@redhat.com>
 References: <20210903110702.588291-1-philmd@redhat.com>
@@ -130,58 +130,38 @@ Per https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-no
   significantly smaller than what the caller expects. This can likely
   be exploited in various modules to cause a heap buffer overflow.
 
+packet_new() is called from packet_enqueue() with size being 32-bit
+(of type SocketReadState::packet_len).
+
 Replace g_memdup() by the safer g_memdup2_qemu() wrapper.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-Should we check in_num/out_num in range?
----
- hw/net/virtio-net.c       | 3 ++-
- hw/virtio/virtio-crypto.c | 7 ++++---
- 2 files changed, 6 insertions(+), 4 deletions(-)
+ net/colo.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 16d20cdee52..8fa23d5f941 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -1449,7 +1449,8 @@ static void virtio_net_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
-         }
+diff --git a/net/colo.c b/net/colo.c
+index 3a3e6e89a0c..cfe37b19eac 100644
+--- a/net/colo.c
++++ b/net/colo.c
+@@ -159,7 +159,7 @@ Packet *packet_new(const void *data, int size, int vnet_hdr_len)
+ {
+     Packet *pkt = g_slice_new0(Packet);
  
-         iov_cnt = elem->out_num;
--        iov2 = iov = g_memdup(elem->out_sg, sizeof(struct iovec) * elem->out_num);
-+        iov2 = iov = g_memdup2_qemu(elem->out_sg,
-+                                    sizeof(struct iovec) * elem->out_num);
-         s = iov_to_buf(iov, iov_cnt, 0, &ctrl, sizeof(ctrl));
-         iov_discard_front(&iov, &iov_cnt, sizeof(ctrl));
-         if (s != sizeof(ctrl)) {
-diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
-index 54f9bbb789c..43c1a39e469 100644
---- a/hw/virtio/virtio-crypto.c
-+++ b/hw/virtio/virtio-crypto.c
-@@ -242,7 +242,8 @@ static void virtio_crypto_handle_ctrl(VirtIODevice *vdev, VirtQueue *vq)
-         }
+-    pkt->data = g_memdup(data, size);
++    pkt->data = g_memdup2_qemu(data, size);
+     pkt->size = size;
+     pkt->creation_ms = qemu_clock_get_ms(QEMU_CLOCK_HOST);
+     pkt->vnet_hdr_len = vnet_hdr_len;
+@@ -214,7 +214,7 @@ Connection *connection_get(GHashTable *connection_track_table,
+     Connection *conn = g_hash_table_lookup(connection_track_table, key);
  
-         out_num = elem->out_num;
--        out_iov_copy = g_memdup(elem->out_sg, sizeof(out_iov[0]) * out_num);
-+        out_iov_copy = g_memdup2_qemu(elem->out_sg,
-+                                      sizeof(out_iov[0]) * out_num);
-         out_iov = out_iov_copy;
+     if (conn == NULL) {
+-        ConnectionKey *new_key = g_memdup(key, sizeof(*key));
++        ConnectionKey *new_key = g_memdup2_qemu(key, sizeof(*key));
  
-         in_num = elem->in_num;
-@@ -605,11 +606,11 @@ virtio_crypto_handle_request(VirtIOCryptoReq *request)
-     }
+         conn = connection_new(key);
  
-     out_num = elem->out_num;
--    out_iov_copy = g_memdup(elem->out_sg, sizeof(out_iov[0]) * out_num);
-+    out_iov_copy = g_memdup2_qemu(elem->out_sg, sizeof(out_iov[0]) * out_num);
-     out_iov = out_iov_copy;
- 
-     in_num = elem->in_num;
--    in_iov_copy = g_memdup(elem->in_sg, sizeof(in_iov[0]) * in_num);
-+    in_iov_copy = g_memdup2_qemu(elem->in_sg, sizeof(in_iov[0]) * in_num);
-     in_iov = in_iov_copy;
- 
-     if (unlikely(iov_to_buf(out_iov, out_num, 0, &req, sizeof(req))
 -- 
 2.31.1
 
