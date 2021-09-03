@@ -2,58 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC4BB3FFD6C
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 11:47:38 +0200 (CEST)
-Received: from localhost ([::1]:38206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2CB43FFD95
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 11:55:36 +0200 (CEST)
+Received: from localhost ([::1]:41684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM5nN-0002Pv-Rz
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 05:47:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51664)
+	id 1mM5v5-00050n-8h
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 05:55:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mM5m0-0001Ne-Qr
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:46:14 -0400
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:43155)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mM5u3-00047v-5R
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:54:31 -0400
+Received: from smtpout1.mo3005.mail-out.ovh.net ([79.137.123.220]:40255
+ helo=smtpout1.3005.mail-out.ovh.net)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1mM5lz-0006ma-EB
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:46:12 -0400
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-darIF3AuO8-HZkN2iB6bpg-1; Fri, 03 Sep 2021 05:46:07 -0400
-X-MC-Unique: darIF3AuO8-HZkN2iB6bpg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BBAA107ACC7;
- Fri,  3 Sep 2021 09:46:06 +0000 (UTC)
-Received: from bahia.lan (unknown [10.39.192.89])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9363B179B3;
- Fri,  3 Sep 2021 09:46:05 +0000 (UTC)
-Date: Fri, 3 Sep 2021 11:46:04 +0200
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH v2 02/20] ppc/pnv: Add an assert when calculating the
- RAM distribution on chips
-Message-ID: <20210903114604.2f54da87@bahia.lan>
-In-Reply-To: <20210902130928.528803-3-clg@kaod.org>
-References: <20210902130928.528803-1-clg@kaod.org>
- <20210902130928.528803-3-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mM5ty-0005gE-3E
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:54:28 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.103])
+ by mo3005.mail-out.ovh.net (Postfix) with ESMTPS id EFAC313FB3C;
+ Fri,  3 Sep 2021 09:54:21 +0000 (UTC)
+Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Fri, 3 Sep
+ 2021 11:54:21 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R0038e25f25f-7c1f-4452-8104-f8dcf1ff71f5,
+ 15E2C03324B5D6AD2543493448FEC157D625CB40) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PATCH v2 0/1] hw/arm/aspeed: Add Fuji machine type
+To: <pdel@fb.com>
+References: <20210903082027.704397-1-pdel@fb.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <f380c5b5-a472-d41e-7821-4155113bdbc0@kaod.org>
+Date: Fri, 3 Sep 2021 11:54:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: 0
-X-Spam_score: -0.0
-X-Spam_bar: /
-X-Spam_report: (-0.0 / 5.0 requ) RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+In-Reply-To: <20210903082027.704397-1-pdel@fb.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: b27a03e1-99de-43e4-add6-9292f5df6288
+X-Ovh-Tracer-Id: 17351524940819434403
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddvjedgvdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefuvfhfhffkffgfgggjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefggeehhfdtkefhteeghfeghefgudfhteevteeltefgffevhfeggeffhfevleelfeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehpuggvlhesfhgsrdgtohhm
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout1.3005.mail-out.ovh.net
+X-Spam_score_int: -40
+X-Spam_score: -4.1
+X-Spam_bar: ----
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.225,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,40 +70,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: patrick@stwcx.xyz, qemu-arm@nongnu.org, joel@jms.id.au,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2 Sep 2021 15:09:10 +0200
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On 9/3/21 10:20 AM, pdel@fb.com wrote:
+> From: Peter Delevoryas <pdel@fb.com>
+> 
+> v2:
+>   - Added supported i2c devices (lm75, tmp75, tmp422, 24c64, 24c02)
+>   - Switched flash model to mx66l1g45g (128MB)
+>   - Completely separated fuji class definition from ast2600-evb
+>   - Removed image acceptance test
+> 
+> Link: https://github.com/peterdelevoryas/qemu/tree/aspeed-next
+> 
+> I investigated the boot issues pointed out in the previous submission a
+> little, let me know if any of these are blockers for this patch:
+> 
+>>> Is the Fuji using the Aspeed RTC ?
+>>>
+>>> hwclock: ioctl(RTC_RD_TIME) to /dev/rtc0 to read the time failed: Invalid argument
+> 
+> I don't understand exactly what's going on here, but running "hwclock --get"
+> and "hwclock --set --date 2021-01-01" both seem to work fine after booting,
+> so I think the Aspeed RTC is setup correctly and working. As far as I know
+> Fuji uses it, but I'm not really sure.
 
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> ---
->=20
+QEMU doesn't model the SoC RTC. Something to add on the TODO list.
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+>>>
+>>> That's a weird MMIO range for the ADC ?
+>>>
+>>> [   42.856022] aspeed_adc: probe of 1e6e9100.adc failed with error -110
+> 
+> I think there's 2 ADC's in the DTS, one at 1e6e9000 and one at 1e6e9100, but
+> I don't see explicit support for the Aspeed ADC in hw/adc/, and I'm not sure
+> that any of the existing emulators would work.
 
->  v2: fixed assert value ...
->=20
->  hw/ppc/pnv.c | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 03c86508d2f7..71e45515f136 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -723,6 +723,8 @@ static uint64_t pnv_chip_get_ram_size(PnvMachineState=
- *pnv, int chip_id)
->          return QEMU_ALIGN_DOWN(ram_per_chip, 1 * MiB);
->      }
-> =20
-> +    assert(pnv->num_chips > 1);
-> +
->      ram_per_chip =3D (machine->ram_size - 1 * GiB) / (pnv->num_chips - 1=
-);
->      return chip_id =3D=3D 0 ? 1 * GiB : QEMU_ALIGN_DOWN(ram_per_chip, 1 =
-* MiB);
->  }
+The ADC model is not merged yet. It's aging in the aspeed-6.2 branch. 
+ 
+The Ast2600 has indeed 2 ADCs. We missed that in QEMU.
+
+>>>
+>>> And that's unexected :
+>>>
+>>> Error: unable to disable the 2nd watchdog: FMC_WDT2=0xFFFFFFFF
+> 
+> So, this is an OpenBMC script trying to disable the alternate boot watchdog
+> by writing 0x0 to 0x1e620064 (Aspeed SMC 0x64). It checks the register after
+> attempting to write it and prints this error message if the lowest bit is
+> not cleared. Since the Aspeed SMC is not simulating this register, I don't
+> think aspeed_smc_write() does anything, and aspeed_smc_read() returns -1. I
+> also testetd changing -1 to 0xdeadbeef locally to confirm.
+
+I see. QEMU is also missing support. 
+
+> https://github.com/facebook/openbmc/blob/helium/common/recipes-utils/openbmc-utils/files/aspeed-g6/disable_watchdog.sh
+> 
+> Let me know if there's anything else I should look into. I'm still planning
+> on submitting an image acceptance test for this too, but as a separate
+> patch.
+
+yes. 
+
+> I've also included a boot log at the end of this cover letter for
+> reference.
+
+Thanks
+
+C. 
+
+ 
+> Thanks,
+> Peter
+> 
+> Peter Delevoryas (1):
+>   hw/arm/aspeed: Add Fuji machine type
+> 
+>  hw/arm/aspeed.c | 112 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 112 insertions(+)
+> 
 
 
