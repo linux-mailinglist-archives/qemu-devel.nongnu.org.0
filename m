@@ -2,82 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E225F400272
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 17:37:28 +0200 (CEST)
-Received: from localhost ([::1]:36316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81E52400276
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 17:39:31 +0200 (CEST)
+Received: from localhost ([::1]:38446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMBFw-0004Pf-1y
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 11:37:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52684)
+	id 1mMBHu-00067b-Jb
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 11:39:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMBEs-0003XP-MD
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:36:22 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:55236)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMBEq-0000bk-4N
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:36:22 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id g138so3772414wmg.4
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 08:36:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=yJoWkIFRm9a51JgRLNbr/EXUc+eFEA96SZjYN+aZuR8=;
- b=Tyvy3ALiYtqZ7quWoaIiIkMFTIPHzgDLYG7oTLZ7QALx5TvZiB/JcQyvH0+a8VW7OT
- QEFyPSWNMMLe12cytOo7QCRKQrDZY0M80btpRz75cZBGbfqaqzYoSzWDL5LkvgesQ019
- EtDDR7bO64pp8BShF14jTwJZcMJ3+YYNQRi8GiozmY32n6PeMhlNG6Snf/bMwFQBXYCG
- SC8O2RIvYzeXZS2gU9BtqvVNb7Zo64VpvOyub4nftzdN4ndCXpfvHZOgOSG1gLNEaCdF
- q67uwLBOIzpz/Mrsa/+SZC0IbdydiYwrtHvgWwSdVUWxjtJCe58Gm2CvhY7t31T6Epvz
- 9wuQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMBGz-0005RD-SX
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:38:33 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47095)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMBGx-0002R7-Fs
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:38:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630683509;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=DpvGPodUqzAwySzW1P1//vFtQok8MYmKbF2y9o9SvwA=;
+ b=dHNvoWTZAsseOH4ui+N67m/RVvL7VY28+vka4cmjnBbK3Fbo/zWB36iDHCLK8Hfd4xXOxB
+ VG00+jBg8yHc1ry5TqkwU/WliLOgkmdZBiVicRRN4SMVsT/PBr/QGdc14K/q+Mn+sEXyXz
+ /F4/qDoLzxeEBDEdAhW/7fOewQgcBnI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-71-EcsRdRVXODmBX_hsDDB7AQ-1; Fri, 03 Sep 2021 11:38:27 -0400
+X-MC-Unique: EcsRdRVXODmBX_hsDDB7AQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ n16-20020a1c7210000000b002ea2ed60dc6so1956895wmc.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 08:38:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=yJoWkIFRm9a51JgRLNbr/EXUc+eFEA96SZjYN+aZuR8=;
- b=fGwBrl8QZaIQc14ezePsuApJTsSogsvb8Go9jNWNi+a9C7PCUkZII3gxO06FYkS8CJ
- oyfGXRpdTUsjbQZ8txDick8xrLwmziYPshE1w6jd7Bv/8SUj83Kgst+sEyIVEJzirKn+
- 5OA0w9HroH4iQSwcwMlCcf3ShZDo7VdTTZcmSRsJ5VpfLXv1wew4PTOcFEvYz1DLnrj1
- 0I2JiA6LkOw4wa8RDASv73mkV6oMTdaMWoX0bo4j3DQWjpT/D6I5bR8cShlHdUbuJUFl
- uzGlLM3fGCBJc8KVAUrN+EGD9sOvkWnQLics2aZ4DR+ZmZ6bSq41qaBGEyEFqk8hwpYN
- iRxQ==
-X-Gm-Message-State: AOAM531c2cSTXSGiTD0/oVBZ6K04M6mwa+VYtSPPqD2JpgoX7wExdnBy
- /7WUBTWhwYTxmY71CPKG9K5Q9/ZM6gSqQxXYSAg=
-X-Google-Smtp-Source: ABdhPJw4JWhH7Ib4teChPYXPL0TwYzcz5RpU99qtrkzph6SgR3Byp+JSfaejTU2ABaVoO+7vNPPoEw==
-X-Received: by 2002:a05:600c:898:: with SMTP id
- l24mr1034153wmp.90.1630683378503; 
- Fri, 03 Sep 2021 08:36:18 -0700 (PDT)
-Received: from [192.168.8.107] (190.red-2-142-216.dynamicip.rima-tde.net.
- [2.142.216.190])
- by smtp.gmail.com with ESMTPSA id r12sm5344839wrv.96.2021.09.03.08.36.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Sep 2021 08:36:18 -0700 (PDT)
-Subject: Re: [PATCH 0/4] target/arm: Use TCG vector ops for MVE
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210902150910.15748-1-peter.maydell@linaro.org>
- <3209af2a-7611-b385-aa7c-6203f442d05b@linaro.org>
- <CAFEAcA_uq6bWPQxvPz5AWEwcZdg7V0tybvxNtwNaQeOyT9ChYw@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <afa6d71a-b710-a7ad-43ee-a3764ce85553@linaro.org>
-Date: Fri, 3 Sep 2021 17:36:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ bh=DpvGPodUqzAwySzW1P1//vFtQok8MYmKbF2y9o9SvwA=;
+ b=hkqs2/OOEM8ZIVyFpchZiQxdeSqbTnvVxMoyXfvQ0+sQiULeriWmZ4smZwEjDi6GV3
+ igc6tnwqImvzESeZjd0PFJENVBBb0v4NAUJtEtwvQ3IZVPxQDenAcRrXp1vz/68MqOwG
+ Bcemy+J2nOHE8UntiCQEQO9+GZLh71AvpEpaOhZc9ePJXNrZSOt80r6/M61kNG++NcbA
+ 7j3xhnWVLQbp0DLtTvlvDvaF1fUsQbbX+WURsDjan/+NT4iFNwkyWnaQiPcR8nrlwEze
+ 7CVhleiDS7RH+F+sj1A+Peu8Gmj485njX449inWfNdYBljiuMRPgUWrAi1dGECA7yU4u
+ Ogfw==
+X-Gm-Message-State: AOAM533gtXSMyQliuSYh0OQJ3AQTvFfidgPuzjuOsxAwpNB3Ah+XPX+/
+ Ky0zYbuaw0dJ0HF0IKW/Bq7PeAJUYBPiwTSZMAGt9edCgHnO8mhRUSCFcC8+7cO4JV0IVlzrVxp
+ 7NqQh9jK00kiWOhfhMJOvBRSVUdAoANNrOOTIyBv2djZWGH+eACKbUwUYX1eSkMtb
+X-Received: by 2002:a05:600c:295:: with SMTP id
+ 21mr1029727wmk.37.1630683506139; 
+ Fri, 03 Sep 2021 08:38:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyGsUpHSYREAxrTLacfKrjl+3DWt9mS5TtTtEeIk298GOGIbYFuX1cQH5cGqSlKYKltKrzyOg==
+X-Received: by 2002:a05:600c:295:: with SMTP id
+ 21mr1029702wmk.37.1630683505897; 
+ Fri, 03 Sep 2021 08:38:25 -0700 (PDT)
+Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
+ by smtp.gmail.com with ESMTPSA id
+ x11sm4961374wro.83.2021.09.03.08.38.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Sep 2021 08:38:25 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [RFC PATCH] physmem: Do not allow unprivileged device map privileged
+ memory
+Date: Fri,  3 Sep 2021 17:38:20 +0200
+Message-Id: <20210903153820.686913-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_uq6bWPQxvPz5AWEwcZdg7V0tybvxNtwNaQeOyT9ChYw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.888,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,35 +95,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: David Hildenbrand <david@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Peter Xu <peterx@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/3/21 5:20 PM, Peter Maydell wrote:
-> On Fri, 3 Sept 2021 at 16:14, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> On 9/2/21 5:09 PM, Peter Maydell wrote:
->>> Richard: if you have time to scan through the MVE insns
->>> and suggest which ones would benefit from a vectorized
->>> version that would be very helpful...
->>
->> VDUP
->> VMOVL (into shifts or and)
->> VMVN (which seems to have gotten separated from the rest of the do_1op)
->> VSHL
->> VSHR
->> VSLI
->> VSRI
->>
->> I think that's about all.
-> 
-> I guess also VMOV (immediate) (vector) ?
+Since commits cc05c43ad94..42874d3a8c6 ("memory: Define API for
+MemoryRegionOps to take attrs and return status") the Memory API
+returns a zero (MEMTX_OK) response meaning success, anything else
+indicating a failure.
 
-Oh right, yes.  I skipped VMOV because I remembered that the register version is an alias 
-for VORR.  Am I correct that there is no mve insn corresponding to the NEON VLD1 (single 
-element to all lanes)?
+In commits c874dc4f5e8..2f7b009c2e7 ("Make address_space_map() take
+a MemTxAttrs argument") we updated the AddressSpace and FlatView
+APIs but forgot to check the returned value by the FlatView from
+the MemoryRegion.
 
+Adjust that now, only returning a non-NULL address if the transaction
+succeeded with the requested memory attributes.
 
-r~
+Reported-by: Gerd Hoffmann <kraxel@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+RFC because this could become a security issue in a core component,
+    however currently all callers pass MEMTXATTRS_UNSPECIFIED.
+---
+ include/exec/memory.h |  3 ++-
+ softmmu/physmem.c     | 16 ++++++++++------
+ 2 files changed, 12 insertions(+), 7 deletions(-)
+
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index c3d417d317f..488d2ecdd09 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -2706,7 +2706,8 @@ bool address_space_access_valid(AddressSpace *as, hwaddr addr, hwaddr len,
+  *
+  * May map a subset of the requested range, given by and returned in @plen.
+  * May return %NULL and set *@plen to zero(0), if resources needed to perform
+- * the mapping are exhausted.
++ * the mapping are exhausted or if the physical memory region is not accessible
++ * for the requested memory attributes.
+  * Use only for reads OR writes - not for read-modify-write operations.
+  * Use cpu_register_map_client() to know when retrying the map operation is
+  * likely to succeed.
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index 23e77cb7715..802c339f6d2 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -3188,15 +3188,19 @@ void *address_space_map(AddressSpace *as,
+         /* Avoid unbounded allocations */
+         l = MIN(l, TARGET_PAGE_SIZE);
+         bounce.buffer = qemu_memalign(TARGET_PAGE_SIZE, l);
++
++        if (!is_write) {
++            if (flatview_read(fv, addr, attrs, bounce.buffer, l) != MEMTX_OK) {
++                qemu_vfree(bounce.buffer);
++                *plen = 0;
++                return NULL;
++            }
++        }
++
+         bounce.addr = addr;
+         bounce.len = l;
+-
+-        memory_region_ref(mr);
+         bounce.mr = mr;
+-        if (!is_write) {
+-            flatview_read(fv, addr, MEMTXATTRS_UNSPECIFIED,
+-                               bounce.buffer, l);
+-        }
++        memory_region_ref(mr);
+ 
+         *plen = l;
+         return bounce.buffer;
+-- 
+2.31.1
+
 
