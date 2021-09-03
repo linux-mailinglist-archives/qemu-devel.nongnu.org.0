@@ -2,52 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E3B83FFF7A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:57:42 +0200 (CEST)
-Received: from localhost ([::1]:36330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CBCE3FFF7D
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:59:47 +0200 (CEST)
+Received: from localhost ([::1]:44764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM7pF-000845-D8
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:57:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49872)
+	id 1mM7rF-0005KU-1G
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:59:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mM7RS-0002dE-Q5
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:33:07 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59872
- helo=mail.default.ilande.bv.iomart.io)
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mM7Wd-0005Fs-29
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:38:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50969)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mM7RR-0005yj-DT
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:33:06 -0400
-Received: from host86-140-11-91.range86-140.btcentralplus.com ([86.140.11.91]
- helo=kentang.home) by mail.default.ilande.bv.iomart.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mM7R1-0009kl-Pp; Fri, 03 Sep 2021 12:32:43 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: qemu-devel@nongnu.org,
-	laurent@vivier.eu
-Date: Fri,  3 Sep 2021 12:32:23 +0100
-Message-Id: <20210903113223.19551-10-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210903113223.19551-1-mark.cave-ayland@ilande.co.uk>
-References: <20210903113223.19551-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
+ id 1mM7WM-0008WT-Vs
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:38:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630669089;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=csKFDYtmzTtAFzYO9ldkN7ZN87u3W2BvkvQrnK0mLCo=;
+ b=R5BfiEOwAVuNXqNT7HX1w2501STCD3ktCkZ0PnvajOcwk4mwC7t26gW6iTGScRfxU39bTG
+ dQ3QPA8VSF844FpzAjajnPLlHxRbW5/4oC6SvMpaikAe2YqgZ7b1wpKurIk2EwnjdDVPZN
+ ipmwIsNcO2D7xS1wpAr9ZBcxSzItQos=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-272-ytnSyFExOz2CTxLfnCCOgw-1; Fri, 03 Sep 2021 07:38:07 -0400
+X-MC-Unique: ytnSyFExOz2CTxLfnCCOgw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E457A835DE0;
+ Fri,  3 Sep 2021 11:38:06 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.39.193.161])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F3AFE1B5C2;
+ Fri,  3 Sep 2021 11:38:01 +0000 (UTC)
+From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2] include/block.h: remove outdated comment
+Date: Fri,  3 Sep 2021 13:38:00 +0200
+Message-Id: <20210903113800.59970-1-eesposit@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.140.11.91
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 9/9] escc: fix STATUS_SYNC bit in R_STATUS register
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.bv.iomart.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eesposit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,50 +74,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After an SDLC "Enter hunt" command has been sent the STATUS_SYNC bit should remain
-high until the flag byte has been detected. Whilst the ESCC device doesn't yet
-implement SDLC mode, without this change the active low STATUS_SYNC is constantly
-asserted causing the MacOS OpenTransport extension to hang on startup as it thinks
-it is constantly receiving LocalTalk responses during its initial negotiation
-phase.
+There are a couple of errors in bdrv_drained_begin header comment:
+- block_job_pause does not exist anymore, it has been replaced
+  with job_pause in b15de82867
+- job_pause is automatically invoked as a .drained_begin callback
+  (child_job_drained_begin) by the child_job BdrvChildClass struct
+  in blockjob.c. So no additional pause should be required.
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- hw/char/escc.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+v2:
++ add "block jobs" to the external request sources
 
-diff --git a/hw/char/escc.c b/hw/char/escc.c
-index 9283ed70a6..0fce4f6324 100644
---- a/hw/char/escc.c
-+++ b/hw/char/escc.c
-@@ -94,6 +94,7 @@
- #define W_IVEC    2
- #define W_RXCTRL  3
- #define RXCTRL_RXEN    0x01
-+#define RXCTRL_HUNT    0x10
- #define W_TXCTRL1 4
- #define TXCTRL1_PAREN  0x01
- #define TXCTRL1_PAREV  0x02
-@@ -561,7 +562,13 @@ static void escc_mem_write(void *opaque, hwaddr addr,
-                 break;
-             }
-             break;
--        case W_INTR ... W_RXCTRL:
-+        case W_RXCTRL:
-+            s->wregs[s->reg] = val;
-+            if (val & RXCTRL_HUNT) {
-+                s->rregs[R_STATUS] |= STATUS_SYNC;
-+            }
-+            break;
-+        case W_INTR ... W_IVEC:
-         case W_SYNC1 ... W_TXBUF:
-         case W_MISC1 ... W_CLOCK:
-         case W_MISC2 ... W_EXTINT:
+ include/block/block.h | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/include/block/block.h b/include/block/block.h
+index 3477290f9a..de40758e71 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -749,9 +749,7 @@ bool bdrv_drain_poll(BlockDriverState *bs, bool recursive,
+  * bdrv_drained_begin:
+  *
+  * Begin a quiesced section for exclusive access to the BDS, by disabling
+- * external request sources including NBD server and device model. Note that
+- * this doesn't block timers or coroutines from submitting more requests, which
+- * means block_job_pause is still necessary.
++ * external request sources including NBD server, block jobs, and device model.
+  *
+  * This function can be recursive.
+  */
 -- 
-2.20.1
+2.31.1
 
 
