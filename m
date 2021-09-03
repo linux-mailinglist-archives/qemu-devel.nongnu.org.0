@@ -2,90 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBF46400407
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:21:38 +0200 (CEST)
-Received: from localhost ([::1]:52052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D299400412
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:23:40 +0200 (CEST)
+Received: from localhost ([::1]:59748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMCsj-0005qp-PY
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:21:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45286)
+	id 1mMCuh-0002YF-7c
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:23:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMChR-0006d6-7A
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:09:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60257)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mMChn-0007JG-IW
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:10:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47538)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMChM-0004JF-8l
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:09:56 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mMChZ-0004VG-HY
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:10:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630688990;
+ s=mimecast20190719; t=1630689005;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/Yk5Mkmp0VM67dSuNmhQd5hRlbMvQIpshO5Xo/MC910=;
- b=R6NRMW++nZEmFONw55/wyEXgJdl6VmZVj6AUtLsdvgWZQIQBYiChEEf8f9aDGZyX9HtVaS
- uGbdmfI+7I5Qf+bms8gosi6pplc+jQnMUXLntf2ml8xg8qJ/n9HLhfL0bOwkTePuKC8U2j
- Mpp2kk22S6Z0IfhA6PPLQfRVmlPM/ro=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-GQ8E7S9-NxugchAVwATTfQ-1; Fri, 03 Sep 2021 13:09:47 -0400
-X-MC-Unique: GQ8E7S9-NxugchAVwATTfQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- e33-20020a05600c4ba100b002f8993a54f8so47wmp.7
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 10:09:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/Yk5Mkmp0VM67dSuNmhQd5hRlbMvQIpshO5Xo/MC910=;
- b=ohDcwB0GEzCRPw7oijHc0JR3SK8t6hMlr+WyRmkhkrnlbyJjZMao6ljsbnBEFkV2ca
- CNu7l9qSPXFs1VoMOyNWqw/BPNN9z1lUIenpnO7d0ZQVZ1cl50AbKGG6pXCDY62ACIdP
- GY5/V06YhWQka3KSCQLsCdnz8YLIiWXSpx2wAiNk0FRX80U8agHsjd2iRyQ/PbT2fVwp
- CZDw3efpIiczrShaTvOOrEPO7HuTJR67VpfQ7s1babMGMt5FD7EFEEAa1PUQmcfL0Goo
- gI7GQ7+TpsUdbxAZXO7YHvS69pticuGooh1JBHYubIss3LCL/1U5RlOHUdKOA1WYHjjP
- vz+Q==
-X-Gm-Message-State: AOAM5328dlPG3K+a8G30cnew98/32URLFQFmaNPFi+7ZVZyAreH3TzZw
- VQp5UOsMT1fGWwT2WrIj3LxdDgTp0Ids1k+IeJHqPzYv/ROMdSBObJ/gDCYjJ2/kvYZGMmSNzgw
- 8SE9vvSyFYyZd4qQ=
-X-Received: by 2002:a7b:c38a:: with SMTP id s10mr1411809wmj.109.1630688985970; 
- Fri, 03 Sep 2021 10:09:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxpbAQHdT9zR4RPEuaMvGZxwRW3QkWRVP/v4TWPWl150WcntDG9aCoCOcXSxUtBNtTANxXHCA==
-X-Received: by 2002:a7b:c38a:: with SMTP id s10mr1411736wmj.109.1630688985659; 
- Fri, 03 Sep 2021 10:09:45 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id o7sm4356404wmq.36.2021.09.03.10.09.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Sep 2021 10:09:44 -0700 (PDT)
-Subject: Re: [PATCH 02/28] glib-compat: Introduce g_memdup2() wrapper
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210903110702.588291-1-philmd@redhat.com>
- <20210903110702.588291-3-philmd@redhat.com> <YTIEDKAgWGRt/I6y@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3b9a88eb-f921-56c5-96ff-4a5fc77c190b@redhat.com>
-Date: Fri, 3 Sep 2021 19:09:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=yh7gYRZ+91KwwtoelgNpjz/Nj+BasikYSqp98wQ++1o=;
+ b=A/+h/TyFRSTMU2lax9x3EVMPc+dobLz2M260iPmWf+oUKC41mDLEWQPmTvtPEhI8hi7rX0
+ b2Fm5x2HTqlX3yEBa+JhsuIlz8OtyXVAXiCPQux80TkhHYAOC905b18XkTrt79teyTXZYr
+ fyeOvAO9vC4dObXUCEfnb8xN1YA8i3c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-582-TJnwtfolOkiOGl9Cqw6aww-1; Fri, 03 Sep 2021 13:10:01 -0400
+X-MC-Unique: TJnwtfolOkiOGl9Cqw6aww-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FC80501E0
+ for <qemu-devel@nongnu.org>; Fri,  3 Sep 2021 17:10:01 +0000 (UTC)
+Received: from redhat.com (ovpn-113-81.phx2.redhat.com [10.3.113.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CC9865C1C5;
+ Fri,  3 Sep 2021 17:09:57 +0000 (UTC)
+Date: Fri, 3 Sep 2021 12:09:56 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2 1/5] configure: Add the possibility to read options
+ from meson_options.txt
+Message-ID: <20210903170956.jowgucp7yaeku3xv@redhat.com>
+References: <20210903081358.956267-1-thuth@redhat.com>
+ <20210903081358.956267-2-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YTIEDKAgWGRt/I6y@redhat.com>
+In-Reply-To: <20210903081358.956267-2-thuth@redhat.com>
+User-Agent: NeoMutt/20210205-739-420e15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.888, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,112 +78,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Alexandre Iooss <erdnaxe@crans.org>, Eric Blake <eblake@redhat.com>,
- qemu-block@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
- John Snow <jsnow@redhat.com>, Helge Deller <deller@gmx.de>,
- David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
- Michael Roth <michael.roth@amd.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, Richard Henderson <richard.henderson@linaro.org>,
- Greg Kurz <groug@kaod.org>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
- Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Laurent Vivier <laurent@vivier.eu>, Zhang Chen <chen.zhang@intel.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/3/21 1:16 PM, Daniel P. Berrangé wrote:
-> On Fri, Sep 03, 2021 at 01:06:36PM +0200, Philippe Mathieu-Daudé wrote:
->> When experimenting raising GLIB_VERSION_MIN_REQUIRED to 2.68
->> (Fedora 34 provides GLib 2.68.1) we get:
->>
->>   hw/virtio/virtio-crypto.c:245:24: error: 'g_memdup' is deprecated: Use 'g_memdup2' instead [-Werror,-Wdeprecated-declarations]
->>   ...
->>
->> g_memdup() has been updated by g_memdup2() to fix eventual security
->> issues (size argument is 32-bit and could be truncated / wrapping).
->> GLib recommends to copy their static inline version of g_memdup2():
->> https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-now/5538
->>
->> Our glib-compat.h provides a comment explaining how to deal with
->> these deprecated declarations (see commit e71e8cc0355
->> "glib: enforce the minimum required version and warn about old APIs").
->>
->> Following this comment suggestion, implement the g_memdup2_qemu()
->> wrapper to g_memdup2(), and use the safer equivalent inlined when
->> we are using pre-2.68 GLib.
->>
->> Reported-by: Eric Blake <eblake@redhat.com>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  include/glib-compat.h | 36 ++++++++++++++++++++++++++++++++++++
->>  1 file changed, 36 insertions(+)
->>
->> diff --git a/include/glib-compat.h b/include/glib-compat.h
->> index 9e95c888f54..6577d9ab393 100644
->> --- a/include/glib-compat.h
->> +++ b/include/glib-compat.h
->> @@ -68,6 +68,42 @@
->>   * without generating warnings.
->>   */
->>  
->> +/*
->> + * g_memdup2_qemu:
->> + * @mem: (nullable): the memory to copy.
->> + * @byte_size: the number of bytes to copy.
->> + *
->> + * Allocates @byte_size bytes of memory, and copies @byte_size bytes into it
->> + * from @mem. If @mem is %NULL it returns %NULL.
->> + *
->> + * This replaces g_memdup(), which was prone to integer overflows when
->> + * converting the argument from a #gsize to a #guint.
->> + *
->> + * This static inline version is a backport of the new public API from
->> + * GLib 2.68, kept internal to GLib for backport to older stable releases.
->> + * See https://gitlab.gnome.org/GNOME/glib/-/issues/2319.
->> + *
->> + * Returns: (nullable): a pointer to the newly-allocated copy of the memory,
->> + *          or %NULL if @mem is %NULL.
->> + */
->> +static inline gpointer g_memdup2_qemu(gconstpointer mem, gsize byte_size)
->> +{
->> +#if GLIB_CHECK_VERSION(2, 68, 0)
->> +    return g_memdup2(mem, byte_size);
->> +#else
->> +    gpointer new_mem;
->> +
->> +    if (mem && byte_size != 0) {
->> +        new_mem = g_malloc(byte_size);
->> +        memcpy(new_mem, mem, byte_size);
->> +    } else {
->> +        new_mem = NULL;
->> +    }
->> +
->> +    return new_mem;
->> +#endif
->> +}
+On Fri, Sep 03, 2021 at 10:13:54AM +0200, Thomas Huth wrote:
+> To avoid double maintenance between the configure script and
+> meson_options.txt, add some simple logic in the configure script
+> to read the options from meson_options.txt.
 > 
-> Close, but you missed the final piece of the puzzle
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  configure | 24 +++++++++++++++++++++++-
+>  1 file changed, 23 insertions(+), 1 deletion(-)
 > 
->    #define g_memdup2(a) g_memdup2_qemu(a)
+> diff --git a/configure b/configure
+> index 9a79a004d7..528e9c80c5 100755
+> --- a/configure
+> +++ b/configure
+> @@ -836,6 +836,8 @@ fi
+>  
+>  werror=""
+>  
+> +meson_options=""
+> +
+>  for opt do
+>    optarg=$(expr "x$opt" : 'x[^=]*=\(.*\)')
+>    case "$opt" in
+> @@ -1581,6 +1583,26 @@ for opt do
+>    ;;
+>    --disable-slirp-smbd) slirp_smbd=no
+>    ;;
+> +  --enable-*)
+> +      arg=$(printf %s\\n "$opt" | sed -e "s/--enable-//" -e "s/-/_/g")
 
-Doh :/
+Sorry for not pointing this out earlier, but if an annoying user
+passes:
 
-> Such that in all following patches you can use the normal "g_memdup2"
-> API. This means when we later update min glib, we just delete the
-> compat code here, and the callers don't need updates.
+./configure --'enable-my bad opt'
 
-Painful rebase in perspective...
+this results in $arg being set to 'my bad opt'...
+
+> +      if ! grep -q "option('$arg', type[ ]*: 'feature'" \
+> +                $source_path/meson_options.txt; then
+> +          printf "ERROR: unknown option %s\n" "$opt"
+> +          printf "Try '%s --help' for more information\n" "$0"
+> +          exit 1
+> +      fi
+> +      meson_options="$meson_options -D$arg=enabled"
+
+...and that breaks $meson_options.  Other odd arguments, such as
+"--enable-my.*arg" could mess with the grep above.  I don't know if we
+care about users that go to such lengths to shoot themselves in the
+foot, so it's probably not worth trying to guarantee that $opt
+consists only of [a-zA-Z0-9_-].
+
+> +  ;;
+> +  --disable-*)
+> +      arg=$(printf %s\\n "$opt" | sed -e "s/--disable-//" -e "s/-/_/g")
+
+Whatever we decide above, we should repeat here (including the
+decision to leave as-is).
+
+> +      if ! grep -q "option('$arg', type[ ]*: 'feature'" \
+> +                $source_path/meson_options.txt; then
+> +          printf "ERROR: unknown option %s\n" "$opt"
+> +          printf "Try '%s --help' for more information\n" "$0"
+> +          exit 1
+> +      fi
+> +      meson_options="$meson_options -D$arg=disabled"
+> +  ;;
+>    *)
+>        echo "ERROR: unknown option $opt"
+>        echo "Try '$0 --help' for more information"
+> @@ -5211,7 +5233,7 @@ if test "$skip_meson" = no; then
+>          -Dvhost_user_blk_server=$vhost_user_blk_server -Dmultiprocess=$multiprocess \
+>          -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi -Dbpf=$bpf\
+>          $(if test "$default_feature" = no; then echo "-Dauto_features=disabled"; fi) \
+> -	-Dtcg_interpreter=$tcg_interpreter \
+> +        -Dtcg_interpreter=$tcg_interpreter $meson_options \
+>          $cross_arg \
+>          "$PWD" "$source_path"
+
+Unless we thing super-robustness is mandatory, I'm okay with:
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
