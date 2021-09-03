@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E9D400262
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 17:34:02 +0200 (CEST)
-Received: from localhost ([::1]:56230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E225F400272
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 17:37:28 +0200 (CEST)
+Received: from localhost ([::1]:36316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMBCb-00075O-Mn
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 11:34:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51016)
+	id 1mMBFw-0004Pf-1y
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 11:37:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mMB9r-0004AP-Mi
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:31:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38837)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mMB9p-0004PL-R5
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:31:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630683068;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=CzPb8MlbLx41oQqysfJ8QyV0MvR1gCZguZRQ8mTaaK4=;
- b=cerqXlKcOvHEbWr9RPnfwYboKkLk/4G/V0Q4BehAHj9ChgaCTrotff+dXUZzwtFAFnkuC+
- RSUTrVvJyd0/VeLzpUS9r6M26FeE1CTmH0ZsCRwTNBNsOkNhWjhHiosobGoDeW1lZ27Zpo
- PXj9E9hxtjio1eNTJa9s+jXK6pCdgFI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-uJrZ-_7SOISk6KCCwMLCZQ-1; Fri, 03 Sep 2021 11:31:02 -0400
-X-MC-Unique: uJrZ-_7SOISk6KCCwMLCZQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DC9384A5E1;
- Fri,  3 Sep 2021 15:31:01 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.241])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A27195D9D3;
- Fri,  3 Sep 2021 15:30:50 +0000 (UTC)
-Date: Fri, 3 Sep 2021 16:30:48 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Michael Roth <michael.roth@amd.com>
-Subject: Re: [RFC PATCH v2 12/12] i386/sev: update query-sev QAPI format to
- handle SEV-SNP
-Message-ID: <YTI/qB4uk477/lQP@redhat.com>
-References: <20210826222627.3556-1-michael.roth@amd.com>
- <20210826222627.3556-13-michael.roth@amd.com>
- <87tuj4qt71.fsf@dusky.pond.sub.org>
- <20210903151316.zveiegbo42o2gttq@amd.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mMBEs-0003XP-MD
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:36:22 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:55236)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mMBEq-0000bk-4N
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:36:22 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id g138so3772414wmg.4
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 08:36:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=yJoWkIFRm9a51JgRLNbr/EXUc+eFEA96SZjYN+aZuR8=;
+ b=Tyvy3ALiYtqZ7quWoaIiIkMFTIPHzgDLYG7oTLZ7QALx5TvZiB/JcQyvH0+a8VW7OT
+ QEFyPSWNMMLe12cytOo7QCRKQrDZY0M80btpRz75cZBGbfqaqzYoSzWDL5LkvgesQ019
+ EtDDR7bO64pp8BShF14jTwJZcMJ3+YYNQRi8GiozmY32n6PeMhlNG6Snf/bMwFQBXYCG
+ SC8O2RIvYzeXZS2gU9BtqvVNb7Zo64VpvOyub4nftzdN4ndCXpfvHZOgOSG1gLNEaCdF
+ q67uwLBOIzpz/Mrsa/+SZC0IbdydiYwrtHvgWwSdVUWxjtJCe58Gm2CvhY7t31T6Epvz
+ 9wuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=yJoWkIFRm9a51JgRLNbr/EXUc+eFEA96SZjYN+aZuR8=;
+ b=fGwBrl8QZaIQc14ezePsuApJTsSogsvb8Go9jNWNi+a9C7PCUkZII3gxO06FYkS8CJ
+ oyfGXRpdTUsjbQZ8txDick8xrLwmziYPshE1w6jd7Bv/8SUj83Kgst+sEyIVEJzirKn+
+ 5OA0w9HroH4iQSwcwMlCcf3ShZDo7VdTTZcmSRsJ5VpfLXv1wew4PTOcFEvYz1DLnrj1
+ 0I2JiA6LkOw4wa8RDASv73mkV6oMTdaMWoX0bo4j3DQWjpT/D6I5bR8cShlHdUbuJUFl
+ uzGlLM3fGCBJc8KVAUrN+EGD9sOvkWnQLics2aZ4DR+ZmZ6bSq41qaBGEyEFqk8hwpYN
+ iRxQ==
+X-Gm-Message-State: AOAM531c2cSTXSGiTD0/oVBZ6K04M6mwa+VYtSPPqD2JpgoX7wExdnBy
+ /7WUBTWhwYTxmY71CPKG9K5Q9/ZM6gSqQxXYSAg=
+X-Google-Smtp-Source: ABdhPJw4JWhH7Ib4teChPYXPL0TwYzcz5RpU99qtrkzph6SgR3Byp+JSfaejTU2ABaVoO+7vNPPoEw==
+X-Received: by 2002:a05:600c:898:: with SMTP id
+ l24mr1034153wmp.90.1630683378503; 
+ Fri, 03 Sep 2021 08:36:18 -0700 (PDT)
+Received: from [192.168.8.107] (190.red-2-142-216.dynamicip.rima-tde.net.
+ [2.142.216.190])
+ by smtp.gmail.com with ESMTPSA id r12sm5344839wrv.96.2021.09.03.08.36.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Sep 2021 08:36:18 -0700 (PDT)
+Subject: Re: [PATCH 0/4] target/arm: Use TCG vector ops for MVE
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210902150910.15748-1-peter.maydell@linaro.org>
+ <3209af2a-7611-b385-aa7c-6203f442d05b@linaro.org>
+ <CAFEAcA_uq6bWPQxvPz5AWEwcZdg7V0tybvxNtwNaQeOyT9ChYw@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <afa6d71a-b710-a7ad-43ee-a3764ce85553@linaro.org>
+Date: Fri, 3 Sep 2021 17:36:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210903151316.zveiegbo42o2gttq@amd.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+In-Reply-To: <CAFEAcA_uq6bWPQxvPz5AWEwcZdg7V0tybvxNtwNaQeOyT9ChYw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.888,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,99 +90,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, "Michael S . Tsirkin" <mst@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, Dov Murik <dovmurik@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eric Blake <eblake@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 03, 2021 at 10:13:16AM -0500, Michael Roth wrote:
-> On Wed, Sep 01, 2021 at 04:14:10PM +0200, Markus Armbruster wrote:
-> > Michael Roth <michael.roth@amd.com> writes:
-> > 
-> > > Most of the current 'query-sev' command is relevant to both legacy
-> > > SEV/SEV-ES guests and SEV-SNP guests, with 2 exceptions:
-> > >
-> > >   - 'policy' is a 64-bit field for SEV-SNP, not 32-bit, and
-> > >     the meaning of the bit positions has changed
-> > >   - 'handle' is not relevant to SEV-SNP
-> > >
-> > > To address this, this patch adds a new 'sev-type' field that can be
-> > > used as a discriminator to select between SEV and SEV-SNP-specific
-> > > fields/formats without breaking compatibility for existing management
-> > > tools (so long as management tools that add support for launching
-> > > SEV-SNP guest update their handling of query-sev appropriately).
-> > 
-> > Technically a compatibility break: query-sev can now return an object
-> > that whose member @policy has different meaning, and also lacks @handle.
-> > 
-> > Matrix:
-> > 
-> >                             Old mgmt app    New mgmt app
-> >     Old QEMU, SEV/SEV-ES       good            good(1)
-> >     New QEMU, SEV/SEV-ES       good(2)         good
-> >     New QEMU, SEV-SNP           bad(3)         good
-> > 
-> > Notes:
-> > 
-> > (1) As long as the management application can cope with absent member
-> > @sev-type.
-> > 
-> > (2) As long as the management application ignores unknown member
-> > @sev-type.
-> > 
-> > (3) Management application may choke on missing member @handle, or
-> > worse, misinterpret member @policy.  Can only happen when something
-> > other than the management application created the SEV-SNP guest (or the
-> > user somehow made the management application create one even though it
-> > doesn't know how, say with CLI option passthrough, but that's always
-> > fragile, and I wouldn't worry about it here).
-> > 
-> > I think (1) and (2) are reasonable.  (3) is an issue for management
-> > applications that support attaching to existing guests.  Thoughts?
+On 9/3/21 5:20 PM, Peter Maydell wrote:
+> On Fri, 3 Sept 2021 at 16:14, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> On 9/2/21 5:09 PM, Peter Maydell wrote:
+>>> Richard: if you have time to scan through the MVE insns
+>>> and suggest which ones would benefit from a vectorized
+>>> version that would be very helpful...
+>>
+>> VDUP
+>> VMOVL (into shifts or and)
+>> VMVN (which seems to have gotten separated from the rest of the do_1op)
+>> VSHL
+>> VSHR
+>> VSLI
+>> VSRI
+>>
+>> I think that's about all.
 > 
-> Hmm... yah I hadn't considering 'old mgmt' trying to interact with a SNP
-> guest started through some other means.
-> 
-> Don't really see an alternative other than introducing a new
-> 'query-sev-snp', but that would still leave 'old mgmt' broken, since
-> it might still call do weird stuff like try to interpret the SNP policy
-> as an SEV/SEV-ES and end up with some very unexpected results. So if I
-> did go this route, I would need to have QMP begin returning an error if
-> query-sev is run against an SNP guest. But currently for non-SEV guests
-> it already does:
-> 
->   error_setg(errp, "SEV feature is not available")
-> 
-> so 'old mgmt' should be able to handle the error just fine.
-> 
-> Would that approach be reasonable?
+> I guess also VMOV (immediate) (vector) ?
 
-This ties into the question I've just sent in my other mail.
+Oh right, yes.  I skipped VMOV because I remembered that the register version is an alias 
+for VORR.  Am I correct that there is no mve insn corresponding to the NEON VLD1 (single 
+element to all lanes)?
 
-If the hardware strictly requires that guest are created in SEV-SNP
-mode only, and will not support SEV/SEV-ES mode, then we need to
-ensure "query-sev" reports the feature as not-available, so that
-existing mgmt apps don't try to use SEV/SEV-ES.
 
-If the SEV-SNP hardware is functionally back-compatible with a gues
-configured in SEV/SEV-ES mode, then we souldn't need a new command,
-just augment th eexisting command with additional field(s), to
-indicate existance of SEV-SNP features.
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+r~
 
