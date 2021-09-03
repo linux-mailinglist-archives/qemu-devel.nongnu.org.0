@@ -2,49 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A79E03FFBA5
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 10:17:06 +0200 (CEST)
-Received: from localhost ([::1]:43548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3914C3FFBB1
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 10:18:04 +0200 (CEST)
+Received: from localhost ([::1]:46604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM4Nl-0005Om-3R
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 04:17:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33296)
+	id 1mM4Oh-0007S7-9T
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 04:18:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mM4L2-0002eI-NJ
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 04:14:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:31670)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mM4L4-0002eo-6h
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 04:14:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52797)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mM4Ky-0005ND-AS
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 04:14:15 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mM4L0-0005Nl-FN
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 04:14:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1630656851;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=eMrbLRRNlrIB6+OD6pWTwlgo81s3pYPSUc1CRfUUm9k=;
- b=im57y7iuIpRQ+rhRGQD+WV8VB1gHnW/Y8R5IUOS6KpQyRZJrwLkGVpksy/gWGzvjo4irHS
- fjQltJ5nZHKGmRBtVhv9bjmdP9jW4HCJ2VNkN/qpeU7kkrU+Na/lcXGcMuSjMl7QO5XSNK
- Gg37L6kMxGyYn5/mVmngrMWbJZPGSAo=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gucglQp54SBiDE3lKFO8gNB3cPulnWiHPh6yAJ9iM8o=;
+ b=EAlwQ/imHIm/cOYdE/ZXioPNf7B9Hu/TXGePZenmuAG2Q8ehUMekXuL5AQw3RPukU7BgdC
+ /l/JNQMSavRh7ZAD9iEnFdoyNPrqJYnV5ODmGxqHk2/MmOz8++XJs+W6C7sC0+x13Uost+
+ cjxUCc+Lj06ntwYfDnoA3eJQDtXcXAs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-yfRZYbIrPgm-wPV4L-cYyA-1; Fri, 03 Sep 2021 04:14:09 -0400
-X-MC-Unique: yfRZYbIrPgm-wPV4L-cYyA-1
+ us-mta-501-5Q_vHVQlNlORrUIHt3t3RQ-1; Fri, 03 Sep 2021 04:14:11 -0400
+X-MC-Unique: 5Q_vHVQlNlORrUIHt3t3RQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59A6BFC82
- for <qemu-devel@nongnu.org>; Fri,  3 Sep 2021 08:14:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC5D6107ACCA
+ for <qemu-devel@nongnu.org>; Fri,  3 Sep 2021 08:14:09 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.32])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 39CF25C261;
- Fri,  3 Sep 2021 08:14:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B79F25F706;
+ Fri,  3 Sep 2021 08:14:08 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 0/5] Use meson_options.txt in the configure script
-Date: Fri,  3 Sep 2021 10:13:53 +0200
-Message-Id: <20210903081358.956267-1-thuth@redhat.com>
+Subject: [PATCH v2 1/5] configure: Add the possibility to read options from
+ meson_options.txt
+Date: Fri,  3 Sep 2021 10:13:54 +0200
+Message-Id: <20210903081358.956267-2-thuth@redhat.com>
+In-Reply-To: <20210903081358.956267-1-thuth@redhat.com>
+References: <20210903081358.956267-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
@@ -53,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -79,36 +83,64 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's cumbersome to maintain the build options twice, one time in the
-configure script and one time in meson_options.txt. Thus let's add some
-logic to the configure script to look at the meson_options.txt file
-instead of handling every option twice.
+To avoid double maintenance between the configure script and
+meson_options.txt, add some simple logic in the configure script
+to read the options from meson_options.txt.
 
-Note: Unlike Paolo's earlier version (which can bee found on
-https://patchew.org/QEMU/20210107140039.467969-1-pbonzini@redhat.com/ ),
-this version only uses some lines of shell code to parse meson_options.txt
-instead of adding an additional Python or Perl script. It's likely not
-as robust as Paolo's version, but it's way smaller and has a way nicer
-diffstat.
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ configure | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
 
-v2:
- - Improved shell code according to the suggestions of Eric
- - Split the vnc change into a separate patch
- - Add a comment to meson_options.txt in the new final patch
-
-Thomas Huth (5):
-  configure: Add the possibility to read options from meson_options.txt
-  meson_options.txt: Switch the default value for the vnc option to
-    'auto'
-  configure: Remove options that can be handled via meson_options.txt
-    instead
-  configure: Get help text from meson_options.txt
-  meson_options.txt: Document that "configure" reads this file, too
-
- configure         | 435 +++++++---------------------------------------
- meson_options.txt |   8 +-
- 2 files changed, 65 insertions(+), 378 deletions(-)
-
+diff --git a/configure b/configure
+index 9a79a004d7..528e9c80c5 100755
+--- a/configure
++++ b/configure
+@@ -836,6 +836,8 @@ fi
+ 
+ werror=""
+ 
++meson_options=""
++
+ for opt do
+   optarg=$(expr "x$opt" : 'x[^=]*=\(.*\)')
+   case "$opt" in
+@@ -1581,6 +1583,26 @@ for opt do
+   ;;
+   --disable-slirp-smbd) slirp_smbd=no
+   ;;
++  --enable-*)
++      arg=$(printf %s\\n "$opt" | sed -e "s/--enable-//" -e "s/-/_/g")
++      if ! grep -q "option('$arg', type[ ]*: 'feature'" \
++                $source_path/meson_options.txt; then
++          printf "ERROR: unknown option %s\n" "$opt"
++          printf "Try '%s --help' for more information\n" "$0"
++          exit 1
++      fi
++      meson_options="$meson_options -D$arg=enabled"
++  ;;
++  --disable-*)
++      arg=$(printf %s\\n "$opt" | sed -e "s/--disable-//" -e "s/-/_/g")
++      if ! grep -q "option('$arg', type[ ]*: 'feature'" \
++                $source_path/meson_options.txt; then
++          printf "ERROR: unknown option %s\n" "$opt"
++          printf "Try '%s --help' for more information\n" "$0"
++          exit 1
++      fi
++      meson_options="$meson_options -D$arg=disabled"
++  ;;
+   *)
+       echo "ERROR: unknown option $opt"
+       echo "Try '$0 --help' for more information"
+@@ -5211,7 +5233,7 @@ if test "$skip_meson" = no; then
+         -Dvhost_user_blk_server=$vhost_user_blk_server -Dmultiprocess=$multiprocess \
+         -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi -Dbpf=$bpf\
+         $(if test "$default_feature" = no; then echo "-Dauto_features=disabled"; fi) \
+-	-Dtcg_interpreter=$tcg_interpreter \
++        -Dtcg_interpreter=$tcg_interpreter $meson_options \
+         $cross_arg \
+         "$PWD" "$source_path"
+ 
 -- 
 2.27.0
 
