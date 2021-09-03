@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9DF540033E
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 18:26:41 +0200 (CEST)
-Received: from localhost ([::1]:38528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B134840035B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 18:32:55 +0200 (CEST)
+Received: from localhost ([::1]:44794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMC1Y-0006NC-R2
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 12:26:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34280)
+	id 1mMC7a-0002dI-Nr
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 12:32:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mMBs1-0002rW-CX
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:16:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35553)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mMBrx-0000nc-Pn
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:16:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630685804;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DVpX7asYtOBpub3evycVS0OWTVq9Kr9E8PraeXs3XCQ=;
- b=ak9ei3XEJmHxyqvQkt0uTtYP/Exmma7MO+yocJtLhFxAwlLTB1rrs8mReCCjZNoK7l/pAN
- O4f0fesLrUva8tqsmXHPP9xeak5gk3kNlO2X6qXtWL0LdojGnTemKT6FfRVQRQiKAvu28F
- qY38zsEAXNvVY0DeMXiWeVnbXtg/MTI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-O9Y5aT-NO_u0iP8U9x5p9g-1; Fri, 03 Sep 2021 12:16:42 -0400
-X-MC-Unique: O9Y5aT-NO_u0iP8U9x5p9g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF7E6100670C;
- Fri,  3 Sep 2021 16:16:35 +0000 (UTC)
-Received: from redhat.com (ovpn-113-81.phx2.redhat.com [10.3.113.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 658A169CBB;
- Fri,  3 Sep 2021 16:16:35 +0000 (UTC)
-Date: Fri, 3 Sep 2021 11:16:33 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v6 1/5] block/nbd: nbd_channel_error() shutdown channel
- unconditionally
-Message-ID: <20210903161633.6ribvygzdvtqpfu5@redhat.com>
-References: <20210902103805.25686-1-vsementsov@virtuozzo.com>
- <20210902103805.25686-2-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mMC6B-0001jg-Av
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:31:27 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:34591)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mMC64-0004vP-VF
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:31:26 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id
+ v20-20020a1cf714000000b002e71f4d2026so3272305wmh.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 09:31:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=u+Xq4il5jd5b595/8MACDNSYxD9s2ZibEjBKSZDccig=;
+ b=VwDqrLKZm9vN1OHFJKqhmUpzJSRY/6fl19I7CtRByOYdkdiXNR9oDjpwpz3y4VyBYZ
+ d4lK66SbHHlf4iSd++GgLduL9aWe3CPhk6usvSKS1sY84hbqmrelIdqutF1c0X5LCKLn
+ xG+D4B1jtynQ8Mvle9DkhJ2TvmxamU2N3sf2xtRPSi/Uq27V2KIIo7tvckO6RZJdtDs0
+ XCq9+9VsRoEHkO4l0xjSk1Eho+ROw261NOKqqCT/vFX4jSbBykBfONxMfsTOtUf/A7el
+ 8dgvL50dFh2gHN+T47pWEE2nmgisFBFUzLDqdO8j4BZVRtoVnsmHtxH3cj1X1kG4yp3h
+ +j8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=u+Xq4il5jd5b595/8MACDNSYxD9s2ZibEjBKSZDccig=;
+ b=aAYFrzJPG88Gu6flJulsojtkq4qoWzhqi1IaKulbvYUBcxX/n8GvWK27xAWTpimdXj
+ 2CsJ+Z/hAkeyI/XD5WNuRzoz+7XS5KrJP/K3H7QukH7l4BWHe/3DfkFumWm7I9Z/Qaf9
+ llHxDWvk5JzH7qWOzgVZjnlgZTNjfE2q3x4COnijEO8s5g/R1FuZd5f/xklDj0oxYNgu
+ j3XUymaV+8p1u8KDT0WVjo7rV/wnuzlFlfMqsbwHDhHFSXr8CBB9HV+Q5onsENz36yDh
+ Jp+5WU229+8xRY/RvRjDs35pWcaYzzWLSpGnMg93ec8Sfwdwa3gY4vQp+y4A6WJ5KKFD
+ hppw==
+X-Gm-Message-State: AOAM530+dnfGIwAAD/Tn1PiTwkjNrAtyh+s2w/g0yKHqnPXdvbIKaRWM
+ 1spma6CMfoGoOmsxMH1uF6ndJvlnlq8rDXVic5SFLQ==
+X-Google-Smtp-Source: ABdhPJyeWwmdf9NmlDh2fIC2euI6Q7BsgYzYYDvcxLk6BjumkWtai7EbZoL4Wx5OnYP540WhrICM9faqgK0lO7tLWK8=
+X-Received: by 2002:a7b:c246:: with SMTP id b6mr9175396wmj.37.1630686678633;
+ Fri, 03 Sep 2021 09:31:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210902103805.25686-2-vsementsov@virtuozzo.com>
-User-Agent: NeoMutt/20210205-739-420e15
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210902150910.15748-1-peter.maydell@linaro.org>
+ <20210902150910.15748-2-peter.maydell@linaro.org>
+ <76cd3594-f864-232c-8687-19a1d44ff07e@linaro.org>
+ <CAFEAcA8EoyaCSzA1vL_SHY50T6Fxjm420_pYgXx1_+E-nV-MBA@mail.gmail.com>
+ <906c738e-904c-99ba-b6ab-2556e9262c87@linaro.org>
+In-Reply-To: <906c738e-904c-99ba-b6ab-2556e9262c87@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 3 Sep 2021 17:30:29 +0100
+Message-ID: <CAFEAcA8-wj4TEQ+VKhVk8JuUW3xKA2NuJ2AnU=2ZTDdMfieuGA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] target/arm: Add TB flag for "MVE insns not predicated"
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,59 +81,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, hreitz@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, rkagan@virtuozzo.com
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Sep 02, 2021 at 01:38:01PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> Don't rely on connection being totally broken in case of -EIO. More
-> safe and correct just shutdown the channel anyway, as we change the
-> state and going to reconnect.
+On Fri, 3 Sept 2021 at 16:28, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 9/3/21 4:17 PM, Peter Maydell wrote:
+> > I don't really understand what you mean here. What's the difference
+> > between ending the TB now and translating a few more insns in
+> > this TB before we end it?
+>
+>    VCMP (pred now on or off)
+>    B    label
+>
+> The code we emit for B uses goto_tb.
+>
+> When goto_tb is unlinked (e.g. first execute), we exit with a code that causes the current
+> cpu state to be evaluated, the new TB created, and the link filled in.  This makes
+> permanent the cpu state we evaluated, and thus the state change across goto_tb must be
+> constant.  This is fine for B, since only the PC changes and to a known destination.
+>
+> So we have two choices: end the TB immediately after the VCMP, or set another flag to
+> cause gen_goto_tb to fall back to goto_ptr.
 
-If you don't mind me tweaking grammar, I propose:
+Ah, I see, and when we end after the VCMP then we use UPDATE_NOCHAIN
+which causes us to use lookup_and_goto_ptr instead of goto_tb.
 
-Safer and more correct is to just shut down the channel anyway, since
-we change the state and plan on reconnecting.
+I was wondering if this is also a problem for the flags like s->v7m_lspact,
+which we currently handle in about this way -- set from a TB flag, but
+then updated for the rest of the TB. Let me try to write out the rules:
 
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> ---
->  block/nbd.c | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/block/nbd.c b/block/nbd.c
-> index f6ff1c4fb4..d88f4b954c 100644
-> --- a/block/nbd.c
-> +++ b/block/nbd.c
-> @@ -129,15 +129,16 @@ static bool nbd_client_connected(BDRVNBDState *s)
->  
->  static void nbd_channel_error(BDRVNBDState *s, int ret)
->  {
-> +    if (nbd_client_connected(s)) {
-> +        qio_channel_shutdown(s->ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
-> +    }
-> +
->      if (ret == -EIO) {
->          if (nbd_client_connected(s)) {
->              s->state = s->reconnect_delay ? NBD_CLIENT_CONNECTING_WAIT :
->                                              NBD_CLIENT_CONNECTING_NOWAIT;
->          }
->      } else {
-> -        if (nbd_client_connected(s)) {
-> -            qio_channel_shutdown(s->ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
-> -        }
->          s->state = NBD_CLIENT_QUIT;
->      }
->  }
-> -- 
-> 2.29.2
-> 
+ * if you do something that changes the TB flag, and you know for
+   definite the new state, and this change happens and is the same
+   for every exit from the TB, then you can just update the flag
+   and keep going in this TB. (This is why lspact etc are OK)
+ * if you don't know for definite the new state, because it might
+   not have happened, eg a helper function condition changes
+   something, then you must end the TB immediately (in a way that
+   doesn't use goto_tb). This is true both for "I couldn't figure
+   out the new state, it's too hard" and "the new state depends on
+   some runtime data such that different executions of the same TB
+   might end up with different values for the flag"
+ * it's not good enough to say "well, I can pessimistically always
+   assume mve_no_pred", because of the goto_tb issue. You have to
+   be sure of the exact value that a TB flags calculation after
+   the insn will get.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+So I think that pretty much everywhere in my current patch that is setting
+s->mve_no_pred = false needs instead to just end the TB. That seems mostly
+straightforward, but there are some tricky cases:
 
+ * WLSTP. The code generated for this insn has two exits. The change
+   to ltpsize happens on only one of those, which is currently
+   handled by gen_jmp_tb(). I think we are OK to just leave the
+   code as it is, because the value we pass to LTPSIZE is
+   constant (encoded in the instruction), and so the new value
+   of MVE_NO_PRED is always the same on that exit from the TB
+   for all executions
+ * gen_update_fp_context() -- this function gets called for pretty
+   much every FP/MVE insn (as part of vfp_access_check), and it
+   can in rare cases update the FPSCR.LTPSIZE and the VPR. I guess
+   this means we really do need to end the TB
+   if (MVE && s->v7m_new_fp_ctxt_needed) (ie the comment in
+   gen_update_fp_context "We don't need to arrange to end the TB,
+   because [we don't cache FPSCR in TB flags]" is no longer true).
+   That seems likely to be painful because some of the insns that
+   do a vfp_access_check do complicated things with the TB exits
+   (eg WLSTP, LETP) that are going to override a naive setting of
+   is_jmp in gen_update_fp_context()...
+ * gen_preserve_fp_state() is similar to gen_update_fp_context()
+
+thanks
+-- PMM
 
