@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79FCE3FFF7F
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 14:00:55 +0200 (CEST)
-Received: from localhost ([::1]:46012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2687A3FFF5A
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:45:10 +0200 (CEST)
+Received: from localhost ([::1]:58816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM7sM-0006ED-Gy
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 08:00:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49754)
+	id 1mM7d6-0001mt-Mh
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:45:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mM7R8-0001yw-GL
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:32:46 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59834
+ id 1mM7RC-0002Cn-D4
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:32:50 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59842
  helo=mail.default.ilande.bv.iomart.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mM7R6-0005pA-Ur
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:32:46 -0400
+ id 1mM7RA-0005r3-Qf
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:32:50 -0400
 Received: from host86-140-11-91.range86-140.btcentralplus.com ([86.140.11.91]
  helo=kentang.home) by mail.default.ilande.bv.iomart.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1mM7Qg-0009kl-Ei; Fri, 03 Sep 2021 12:32:22 +0100
+ id 1mM7Qk-0009kl-L3; Fri, 03 Sep 2021 12:32:26 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	laurent@vivier.eu
-Date: Fri,  3 Sep 2021 12:32:17 +0100
-Message-Id: <20210903113223.19551-4-mark.cave-ayland@ilande.co.uk>
+Date: Fri,  3 Sep 2021 12:32:18 +0100
+Message-Id: <20210903113223.19551-5-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210903113223.19551-1-mark.cave-ayland@ilande.co.uk>
 References: <20210903113223.19551-1-mark.cave-ayland@ilande.co.uk>
@@ -37,7 +37,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.140.11.91
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v3 3/9] escc: introduce escc_soft_reset_chn() for software
+Subject: [PATCH v3 4/9] escc: introduce escc_hard_reset_chn() for hardware
  reset
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
@@ -64,28 +64,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This new software reset function is to be called when the appropriate channel
-software reset bit is written to register WR9. Its initial implementation is
+This new hardware reset function is to be called for both channels when the
+hardware reset bit is written to register WR9. Its initial implementation is
 the same as the existing escc_reset_chn() function used for device reset.
 
-Add a new trace event when the guest initiates a soft reset via the WR9 register
+Add a new trace event when the guest initiates a hard reset via the WR9 register
 to help diagnose guest reset issues.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/char/escc.c       | 40 ++++++++++++++++++++++++++++++++++++++--
+ hw/char/escc.c       | 38 +++++++++++++++++++++++++++++++++++++-
  hw/char/trace-events |  1 +
- 2 files changed, 39 insertions(+), 2 deletions(-)
+ 2 files changed, 38 insertions(+), 1 deletion(-)
 
 diff --git a/hw/char/escc.c b/hw/char/escc.c
-index b0d3b92dc1..697f15f383 100644
+index 697f15f383..806f593738 100644
 --- a/hw/char/escc.c
 +++ b/hw/char/escc.c
-@@ -297,6 +297,40 @@ static void escc_reset_chn(ESCCChannelState *s)
+@@ -331,6 +331,40 @@ static void escc_soft_reset_chn(ESCCChannelState *s)
      clear_queue(s);
  }
  
-+static void escc_soft_reset_chn(ESCCChannelState *s)
++static void escc_hard_reset_chn(ESCCChannelState *s)
 +{
 +    int i;
 +
@@ -122,33 +122,29 @@ index b0d3b92dc1..697f15f383 100644
  static void escc_reset(DeviceState *d)
  {
      ESCCState *s = ESCC(d);
-@@ -547,10 +581,12 @@ static void escc_mem_write(void *opaque, hwaddr addr,
-             default:
-                 break;
-             case MINTR_RST_B:
--                escc_reset_chn(&serial->chn[0]);
-+                trace_escc_soft_reset_chn(CHN_C(&serial->chn[0]));
-+                escc_soft_reset_chn(&serial->chn[0]);
-                 return;
-             case MINTR_RST_A:
--                escc_reset_chn(&serial->chn[1]);
-+                trace_escc_soft_reset_chn(CHN_C(&serial->chn[1]));
-+                escc_soft_reset_chn(&serial->chn[1]);
+@@ -589,7 +623,9 @@ static void escc_mem_write(void *opaque, hwaddr addr,
+                 escc_soft_reset_chn(&serial->chn[1]);
                  return;
              case MINTR_RST_ALL:
-                 escc_reset(DEVICE(serial));
+-                escc_reset(DEVICE(serial));
++                trace_escc_hard_reset();
++                escc_hard_reset_chn(&serial->chn[0]);
++                escc_hard_reset_chn(&serial->chn[1]);
+                 return;
+             }
+             break;
 diff --git a/hw/char/trace-events b/hw/char/trace-events
-index 1436fb462d..073f98ebe8 100644
+index 073f98ebe8..b774832af4 100644
 --- a/hw/char/trace-events
 +++ b/hw/char/trace-events
 @@ -36,6 +36,7 @@ grlib_apbuart_writel_unknown(uint64_t addr, uint32_t value) "addr 0x%"PRIx64" va
  grlib_apbuart_readl_unknown(uint64_t addr) "addr 0x%"PRIx64
  
  # escc.c
-+escc_soft_reset_chn(char channel) "soft reset channel %c"
++escc_hard_reset(void) "hard reset"
+ escc_soft_reset_chn(char channel) "soft reset channel %c"
  escc_put_queue(char channel, int b) "channel %c put: 0x%02x"
  escc_get_queue(char channel, int val) "channel %c get 0x%02x"
- escc_update_irq(int irq) "IRQ = %d"
 -- 
 2.20.1
 
