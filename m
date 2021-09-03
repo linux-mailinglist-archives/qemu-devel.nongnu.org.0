@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9273240034A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 18:29:32 +0200 (CEST)
-Received: from localhost ([::1]:42076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A27844002E1
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 18:04:41 +0200 (CEST)
+Received: from localhost ([::1]:47382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMC4I-0000Rw-G1
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 12:29:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36934)
+	id 1mMBgG-0006sf-Li
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 12:04:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mMC29-0007Gz-Ok; Fri, 03 Sep 2021 12:27:17 -0400
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:39553)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mMC28-0001QW-7p; Fri, 03 Sep 2021 12:27:17 -0400
-Received: by mail-wr1-x42d.google.com with SMTP id z4so8991204wrr.6;
- Fri, 03 Sep 2021 09:27:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xbF6RpD9Jef5bcQtzhPmcAPpIO9sDkBA3EFd3DffmBU=;
- b=G7eWQEqku73Bzvw8R0KK1QnreGLb/vpi1xws+D9vGi7eUiGGeIYJlJiIdMOO3gcch/
- WoMYJ06eKAascVnrhU82JltFc3Ys9d6YKkde3j+Yi2rtgtxjIX7FppQnmBLcYuHMMG62
- vajShNiF5HIynf9IKRclfF4UJWsR9HwDLz9qP44denc4nTdnpviG6cPVoVWkxg8UKZDX
- zDM0E0hC2ge+DwpFqjeCv5Gka+qTLU3Y8dzUYRfKFY2UV5wWJr9oGbKxSeUtc1Wb7nBd
- qtII7gdxqLxVKJqsSTcwOyJDSyH1zFnSB3/7FC+ihzosit4gzTSLZRebz7DPSmmfCxjf
- isNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xbF6RpD9Jef5bcQtzhPmcAPpIO9sDkBA3EFd3DffmBU=;
- b=px38O3/19rbRtKQsx5kxmRNS76AE0lVoFYtnc3IzqPLt6UseFH8iNMR3w5SV4RC2zQ
- 7q7VCCmoZ437BwJ/C5abDZQJ4XdfCs2cN1GwLc4i34TnttELsNXXUA7Vft2Vx7msFGZ+
- nkTmw2ywTt/zr5bLekjJeY2QroZgt6qfSjjV1zDIcyNVkuqIx7m8rtfSNBXzZVKS9ZJg
- Y4dGw+EEREBpmB7tXdrn/ZyeP2zjQy3t7siV1qZcu2azH5ZDQoB342DKct1pIW7RzRoo
- Mfd66rpjI3OKL0g9nM94zJErTIsWwJnDqSt8vVFovkT0TJciJ7BrHjdH8h74gpZo1koD
- j1aQ==
-X-Gm-Message-State: AOAM53115DAzI2oubM0e8YAm5qHkCyiaGpAjksMieuczomS/EVT+51XY
- 2U2U7iOnht4hbbTONUx1JDSepIHLE88=
-X-Google-Smtp-Source: ABdhPJzUL9Ra3kmLvlWGRM+E1q99IEyf+BU24zcetlR+D/VE8q6g13z1jX43ECM4imybNGknjO+KdQ==
-X-Received: by 2002:a5d:554e:: with SMTP id g14mr5218336wrw.48.1630686433223; 
- Fri, 03 Sep 2021 09:27:13 -0700 (PDT)
-Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
- [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id o7sm4280144wmq.36.2021.09.03.09.27.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Sep 2021 09:27:12 -0700 (PDT)
-Subject: Re: [PATCH 2/4] target/arm: Optimize MVE logic ops
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210902150910.15748-1-peter.maydell@linaro.org>
- <20210902150910.15748-3-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <0501929b-43f0-d29f-ae7e-59bbe2b9f2cd@amsat.org>
-Date: Thu, 2 Sep 2021 18:19:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mMBXn-0001Em-FQ
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:55:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43716)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mMBXl-0000bh-Ic
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:55:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630684552;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sJRre9HqBe5jVQoBJN5DZZs8BrPrBSiUxOtaejPnI/k=;
+ b=QvMRGDlvVWkg9fGiMQNg4Ed0OUYw9SGvw7ZJJEcMJTeqMezLv8QwHEdn7DiIG80qZXRNX/
+ wS6Rlyhkk9Su9xjlw8VQcaeHQKcYKNNsz/D59V5JSsTxbbfh1KMT38FGz/9C4Ar48MDEw1
+ i9UJPjVECb25s+y/WWl2xc1jmS5O/Kc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-590-Zz0SSBeOPRWSaCMq9qlftQ-1; Fri, 03 Sep 2021 11:55:50 -0400
+X-MC-Unique: Zz0SSBeOPRWSaCMq9qlftQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5E70188E3C1;
+ Fri,  3 Sep 2021 15:55:48 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.193.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 541D760861;
+ Fri,  3 Sep 2021 15:55:46 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 07/13] s390x/mmu_helper: move address validation into
+ mmu_translate*()
+Date: Fri,  3 Sep 2021 17:55:08 +0200
+Message-Id: <20210903155514.44772-8-david@redhat.com>
+In-Reply-To: <20210903155514.44772-1-david@redhat.com>
+References: <20210903155514.44772-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210902150910.15748-3-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_24_48=1.34,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.888,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,17 +77,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Jason J . Herne" <jjherne@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
+ Janosch Frank <frankja@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Claudio Imbrenda <imbrenda@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/2/21 5:09 PM, Peter Maydell wrote:
-> When not predicating, implement the MVE bitwise logical insns
-> directly using TCG vector operations.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  target/arm/translate-mve.c | 41 ++++++++++++++++++++++++--------------
->  1 file changed, 26 insertions(+), 15 deletions(-)
+Let's move address validation into mmu_translate() and
+mmu_translate_real(). This allows for checking whether an absolute
+address is valid before looking up the storage key. We can now get rid of
+the ram_size check.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Interestingly, we're already handling LOAD REAL ADDRESS wrong, because
+a) We're not supposed to touch storage keys
+b) We're not supposed to convert to an absolute address
+
+Let's use a fake, negative MMUAccessType to teach mmu_translate() to
+fix that handling and to not perform address validation.
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+---
+ target/s390x/mmu_helper.c      | 36 ++++++++++++++++++++--------------
+ target/s390x/s390x-internal.h  |  2 ++
+ target/s390x/tcg/excp_helper.c | 13 ------------
+ target/s390x/tcg/mem_helper.c  |  2 +-
+ 4 files changed, 24 insertions(+), 29 deletions(-)
+
+diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
+index ca25dadb5b..de6df928d2 100644
+--- a/target/s390x/mmu_helper.c
++++ b/target/s390x/mmu_helper.c
+@@ -301,14 +301,13 @@ static void mmu_handle_skey(target_ulong addr, int rw, int *flags)
+ {
+     static S390SKeysClass *skeyclass;
+     static S390SKeysState *ss;
+-    MachineState *ms = MACHINE(qdev_get_machine());
+     uint8_t key;
+     int rc;
+ 
+-    if (unlikely(addr >= ms->ram_size)) {
+-        return;
+-    }
+-
++    /*
++     * We expect to be called with an absolute address that has already been
++     * validated, such that we can reliably use it to lookup the storage key.
++     */
+     if (unlikely(!ss)) {
+         ss = s390_get_skeys_device();
+         skeyclass = S390_SKEYS_GET_CLASS(ss);
+@@ -370,7 +369,7 @@ static void mmu_handle_skey(target_ulong addr, int rw, int *flags)
+ /**
+  * Translate a virtual (logical) address into a physical (absolute) address.
+  * @param vaddr  the virtual address
+- * @param rw     0 = read, 1 = write, 2 = code fetch
++ * @param rw     0 = read, 1 = write, 2 = code fetch, < 0 = load real address
+  * @param asc    address space control (one of the PSW_ASC_* modes)
+  * @param raddr  the translated address is stored to this pointer
+  * @param flags  the PAGE_READ/WRITE/EXEC flags are stored to this pointer
+@@ -449,10 +448,17 @@ int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
+     }
+ 
+ nodat:
+-    /* Convert real address -> absolute address */
+-    *raddr = mmu_real2abs(env, *raddr);
++    if (rw >= 0) {
++        /* Convert real address -> absolute address */
++        *raddr = mmu_real2abs(env, *raddr);
+ 
+-    mmu_handle_skey(*raddr, rw, flags);
++        if (!mmu_absolute_addr_valid(*raddr, rw == MMU_DATA_STORE)) {
++            *tec = 0; /* unused */
++            return PGM_ADDRESSING;
++        }
++
++        mmu_handle_skey(*raddr, rw, flags);
++    }
+     return 0;
+ }
+ 
+@@ -473,12 +479,6 @@ static int translate_pages(S390CPU *cpu, vaddr addr, int nr_pages,
+         if (ret) {
+             return ret;
+         }
+-        if (!address_space_access_valid(&address_space_memory, pages[i],
+-                                        TARGET_PAGE_SIZE, is_write,
+-                                        MEMTXATTRS_UNSPECIFIED)) {
+-            *tec = 0; /* unused */
+-            return PGM_ADDRESSING;
+-        }
+         addr += TARGET_PAGE_SIZE;
+     }
+ 
+@@ -588,6 +588,12 @@ int mmu_translate_real(CPUS390XState *env, target_ulong raddr, int rw,
+ 
+     *addr = mmu_real2abs(env, raddr & TARGET_PAGE_MASK);
+ 
++    if (!mmu_absolute_addr_valid(*addr, rw == MMU_DATA_STORE)) {
++        /* unused */
++        *tec = 0;
++        return PGM_ADDRESSING;
++    }
++
+     mmu_handle_skey(*addr, rw, flags);
+     return 0;
+ }
+diff --git a/target/s390x/s390x-internal.h b/target/s390x/s390x-internal.h
+index d246d26b04..7a6aa4dacc 100644
+--- a/target/s390x/s390x-internal.h
++++ b/target/s390x/s390x-internal.h
+@@ -374,6 +374,8 @@ void probe_write_access(CPUS390XState *env, uint64_t addr, uint64_t len,
+ 
+ /* mmu_helper.c */
+ bool mmu_absolute_addr_valid(target_ulong addr, bool is_write);
++/* Special access mode only valid for mmu_translate() */
++#define MMU_S390_LRA        -1
+ int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
+                   target_ulong *raddr, int *flags, uint64_t *tec);
+ int mmu_translate_real(CPUS390XState *env, target_ulong raddr, int rw,
+diff --git a/target/s390x/tcg/excp_helper.c b/target/s390x/tcg/excp_helper.c
+index a61917d04f..3d6662a53c 100644
+--- a/target/s390x/tcg/excp_helper.c
++++ b/target/s390x/tcg/excp_helper.c
+@@ -150,19 +150,6 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+         g_assert_not_reached();
+     }
+ 
+-    /* check out of RAM access */
+-    if (!excp &&
+-        !address_space_access_valid(&address_space_memory, raddr,
+-                                    TARGET_PAGE_SIZE, access_type,
+-                                    MEMTXATTRS_UNSPECIFIED)) {
+-        MachineState *ms = MACHINE(qdev_get_machine());
+-        qemu_log_mask(CPU_LOG_MMU,
+-                      "%s: raddr %" PRIx64 " > ram_size %" PRIx64 "\n",
+-                      __func__, (uint64_t)raddr, (uint64_t)ms->ram_size);
+-        excp = PGM_ADDRESSING;
+-        tec = 0; /* unused */
+-    }
+-
+     env->tlb_fill_exc = excp;
+     env->tlb_fill_tec = tec;
+ 
+diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
+index a44a107374..4f9f3e1f63 100644
+--- a/target/s390x/tcg/mem_helper.c
++++ b/target/s390x/tcg/mem_helper.c
+@@ -2455,7 +2455,7 @@ uint64_t HELPER(lra)(CPUS390XState *env, uint64_t addr)
+         tcg_s390_program_interrupt(env, PGM_SPECIAL_OP, GETPC());
+     }
+ 
+-    exc = mmu_translate(env, addr, 0, asc, &ret, &flags, &tec);
++    exc = mmu_translate(env, addr, MMU_S390_LRA, asc, &ret, &flags, &tec);
+     if (exc) {
+         cc = 3;
+         ret = exc | 0x80000000;
+-- 
+2.31.1
+
 
