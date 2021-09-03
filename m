@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 975E64007B5
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 00:00:37 +0200 (CEST)
-Received: from localhost ([::1]:43166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC02A4007B1
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 23:58:36 +0200 (CEST)
+Received: from localhost ([::1]:39932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMHEi-0006Xh-Nd
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 18:00:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36772)
+	id 1mMHCl-0004JH-VT
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 17:58:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1mMHBD-0001Sj-A9
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 17:57:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36781)
+ id 1mMHBe-0002Bt-LH
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 17:57:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1mMHBB-00065b-Kw
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 17:56:59 -0400
+ id 1mMHBc-0006R0-OV
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 17:57:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630706217;
+ s=mimecast20190719; t=1630706243;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1VNjH+WM2xAwI/FTgQJkB7OHmBa+/Rj4l+3kjgXLg3Y=;
- b=idB/hIRTlauId2/00zL4iI1i+xWCbGSx1XymieqVVrDj15+mzK2rwBp9/Qad/C1qMTldGp
- u9CHD1NXo6u3zKFGnMAMDFYcX3keLZra3QUN66dxJwwMrYQ0RvERLfjEkRyoWgaK9wSuan
- 3a+7p4dlM4o76caPgQ5wYSgdKrPGCAY=
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
- [209.85.167.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-ohdsc4ToPeiHN1Nt14cU4Q-1; Fri, 03 Sep 2021 17:56:56 -0400
-X-MC-Unique: ohdsc4ToPeiHN1Nt14cU4Q-1
-Received: by mail-oi1-f197.google.com with SMTP id
- u23-20020acaab17000000b0026857819b52so374136oie.1
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 14:56:55 -0700 (PDT)
+ bh=+ZiPNkLP4AxNprlGp0ONu7ka2XY8qGQABOo8MXR+3tk=;
+ b=UKpSo2LPD2P8dXr71NG+6At8FGemwzQHXWwJNNmg+Rvd2xWD4Zkk7imo5QhftsC7flspYG
+ 6DydxtWkhvV/2qlt+USKPVShQRq3kAwbW5keKj8q+to39i1s/ismKvBhty00nXKScFu5Hy
+ fn+rnhplTC4whDHR4XssOg+9rOtn/zY=
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com
+ [209.85.167.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-131-vmqZGs5BOJWecoOGk2b4VQ-1; Fri, 03 Sep 2021 17:57:22 -0400
+X-MC-Unique: vmqZGs5BOJWecoOGk2b4VQ-1
+Received: by mail-oi1-f199.google.com with SMTP id
+ n26-20020a05680803ba00b002695053b627so369779oie.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 14:57:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
  :references:organization:mime-version:content-transfer-encoding;
- bh=1VNjH+WM2xAwI/FTgQJkB7OHmBa+/Rj4l+3kjgXLg3Y=;
- b=JdOZ70W6ji9B4gxdYmSfHyDrGchnK2l/hvL4iCThnFYrDSm98I5kZX3jaLfbrGWJJt
- kQetuSChrb30HeiL4NNz+Y8fPJGxyXZ3atKTypIyXyAOOMjB3nPB2Rp3L2jCyonNA/rC
- 1N/VGB16JfAbx6oOPZZrUh5LFMX+w5WCMuAucmMl5oFsTzUJFTDyMMyN0Wj+swagJ10b
- P+6Ezc9BiAOxrXBrC+ewXthVTdAiAFObKV8LLNp2+CQft6Vk9V6aAaBi+Tx1YOAKLl3g
- Wa/JbuLXNIXf672isweZo3RU239Rl5CpHqqJDBvc7ibkmnXCii07vovEbkyCbBeaddoR
- /wng==
-X-Gm-Message-State: AOAM532OWk+JWCe8f+vTQmwKRfvRtsvMRmm/6WrlC02H4ayRoQV69J2p
- V/qXSJwQzDxrDaG0PL4RMR2BiShx74pRYxUsSpRQqrSDRMdZ7+n+N5ShPZmEqYbyxfsqPJfU4qY
- k7V02zm6wch6ctXc=
-X-Received: by 2002:a05:6830:12d7:: with SMTP id
- a23mr1004526otq.102.1630706215290; 
- Fri, 03 Sep 2021 14:56:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwnFbD3jS+ol6X94ve13c76yzFrTt1mMyO/HUKL5TG+KfnILmeU3KVakhyNz3Tv6GsJ2+RHnw==
-X-Received: by 2002:a05:6830:12d7:: with SMTP id
- a23mr1004513otq.102.1630706215059; 
- Fri, 03 Sep 2021 14:56:55 -0700 (PDT)
+ bh=+ZiPNkLP4AxNprlGp0ONu7ka2XY8qGQABOo8MXR+3tk=;
+ b=g7WoWmDInUm11fIlkjWtEBoqywMQNl6/oIykrbZpKX0df4z3JYyRTVz/uaJtuajNiA
+ 3d35vl7F5Fp6OwMB1BAiN30RXOg7RGOb1RYt2npvW1bkUeh8krlXKfrXqv8P3YM5bWJZ
+ lLzFyJZsXssEiOcHIBPUHJvbrUXo+0JHY0qM14zJ43wIqAcRulGJsAitLo1Pgy5QKcJ2
+ 5hYfR3Sp5J0XnfGWzemkZqaEpjSsnkIBxhK0+x5dsrjxLU9dL89SevY6LsPndDMRhSJR
+ reCTLyefDyEYUP6/+x5fwdokqlxvuZMUm9blHs8XOeHZFrT5JhMKqLYv3ycu8g+bwGWt
+ 3DSA==
+X-Gm-Message-State: AOAM531fHc6SJZzSzEhA4uE4omvPpAqgJqDi06JrBrf0DHQBUZotgs+A
+ DLb4hX4lzqfV6JPvj4SLXOmCl8pWK+ieOKIwr5ydkeKRGr34NcTL8hrics3hlDV49aniuOzt0Bc
+ HFPjj37A/Fan+Uu8=
+X-Received: by 2002:a05:6830:1395:: with SMTP id
+ d21mr1017276otq.166.1630706241514; 
+ Fri, 03 Sep 2021 14:57:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy8Y7WGuKZTgisi20CkKw+CnuIeANQjgRt3rIOIkxhYD6JKBQFVD0Taw3XbQjr7ai+z+pOMVA==
+X-Received: by 2002:a05:6830:1395:: with SMTP id
+ d21mr1017265otq.166.1630706241248; 
+ Fri, 03 Sep 2021 14:57:21 -0700 (PDT)
 Received: from redhat.com ([198.99.80.109])
- by smtp.gmail.com with ESMTPSA id o26sm129523otk.77.2021.09.03.14.56.54
+ by smtp.gmail.com with ESMTPSA id 21sm136672oij.39.2021.09.03.14.57.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 14:56:54 -0700 (PDT)
-Date: Fri, 3 Sep 2021 15:56:53 -0600
+ Fri, 03 Sep 2021 14:57:21 -0700 (PDT)
+Date: Fri, 3 Sep 2021 15:57:19 -0600
 From: Alex Williamson <alex.williamson@redhat.com>
 To: "Longpeng(Mike)" <longpeng2@huawei.com>
-Subject: Re: [PATCH 3/5] vfio: defer to enable msix in migration resume phase
-Message-ID: <20210903155653.789bdeb0.alex.williamson@redhat.com>
-In-Reply-To: <20210825075620.2607-4-longpeng2@huawei.com>
+Subject: Re: [PATCH 4/5] kvm: irqchip: support defer to commit the route
+Message-ID: <20210903155719.7a95d8be.alex.williamson@redhat.com>
+In-Reply-To: <20210825075620.2607-5-longpeng2@huawei.com>
 References: <20210825075620.2607-1-longpeng2@huawei.com>
- <20210825075620.2607-4-longpeng2@huawei.com>
+ <20210825075620.2607-5-longpeng2@huawei.com>
 Organization: Red Hat
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -78,7 +78,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
@@ -105,138 +105,150 @@ Cc: mst@redhat.com, qemu-devel@nongnu.org, arei.gonglei@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 25 Aug 2021 15:56:18 +0800
+On Wed, 25 Aug 2021 15:56:19 +0800
 "Longpeng(Mike)" <longpeng2@huawei.com> wrote:
 
-> The vf's unmasked msix vectors will be enable one by one in
-> migraiton resume phase, VFIO_DEVICE_SET_IRQS will be called
-> for each vector, it's a bit expensive if the vf has more
-> vectors.
-> 
-> We can call VFIO_DEVICE_SET_IRQS once outside the loop of set
-> vector notifiers to reduce the cost.
-> 
-> The test VM has 128 vcpus and 8 VF (with 65 vectors enabled),
-> we mesure the cost of the vfio_msix_enable for each one, and
-> we can see 10% costs can be reduced.
-> 
->         Origin          Apply this patch
-
-Original?
-
-> 1st     8               4
-> 2nd     15              11
-> 3rd     22              18
-> 4th     24              25
-> 5th     36              33
-> 6th     44              40
-> 7th     51              47
-> 8th     58              54
-> Total   258ms           232ms
-
-If the values here are ms for execution of vfio_msix_enable() per VF,
-why are the values increasing per VF?  Do we have 65 vectors per VF or
-do we have 65 vectors total, weighted towards to higher VFs?
-This doesn't make sense without the data from the last patch in the
-series.
-
+> The kvm_irqchip_commit_routes() is relatively expensive, so
+> provide the users a choice to commit the route immediately
+> or not when they add msi/msix route.
 > 
 > Signed-off-by: Longpeng(Mike) <longpeng2@huawei.com>
 > ---
->  hw/vfio/pci.c | 22 ++++++++++++++++++++++
->  hw/vfio/pci.h |  1 +
->  2 files changed, 23 insertions(+)
+>  accel/kvm/kvm-all.c    | 10 +++++++---
+>  accel/stubs/kvm-stub.c |  3 ++-
+>  hw/misc/ivshmem.c      |  2 +-
+>  hw/vfio/pci.c          |  2 +-
+>  hw/virtio/virtio-pci.c |  2 +-
+>  include/sysemu/kvm.h   |  4 +++-
+>  target/i386/kvm/kvm.c  |  2 +-
+>  7 files changed, 16 insertions(+), 9 deletions(-)
 > 
+> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> index 0125c17..1f788a2 100644
+> --- a/accel/kvm/kvm-all.c
+> +++ b/accel/kvm/kvm-all.c
+> @@ -1950,7 +1950,8 @@ int kvm_irqchip_send_msi(KVMState *s, MSIMessage msg)
+>      return kvm_set_irq(s, route->kroute.gsi, 1);
+>  }
+>  
+> -int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
+> +int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev,
+> +                              bool defer_commit)
+>  {
+>      struct kvm_irq_routing_entry kroute = {};
+>      int virq;
+> @@ -1993,7 +1994,9 @@ int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
+>  
+>      kvm_add_routing_entry(s, &kroute);
+>      kvm_arch_add_msi_route_post(&kroute, vector, dev);
+> -    kvm_irqchip_commit_routes(s);
+> +    if (!defer_commit) {
+> +        kvm_irqchip_commit_routes(s);
+> +    }
+
+
+Personally I'd rather rename the function to
+kvm_irqchip_add_deferred_msi_route() and kvm_irqchip_add_msi_route()
+becomes a wrapper appending kvm_irqchip_commit_routes() to that.
+Thanks,
+
+Alex
+
+>  
+>      return virq;
+>  }
+> @@ -2151,7 +2154,8 @@ int kvm_irqchip_send_msi(KVMState *s, MSIMessage msg)
+>      abort();
+>  }
+>  
+> -int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
+> +int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev,
+> +                              bool defer_commit)
+>  {
+>      return -ENOSYS;
+>  }
+> diff --git a/accel/stubs/kvm-stub.c b/accel/stubs/kvm-stub.c
+> index 5b1d00a..d5caaca 100644
+> --- a/accel/stubs/kvm-stub.c
+> +++ b/accel/stubs/kvm-stub.c
+> @@ -81,7 +81,8 @@ int kvm_on_sigbus(int code, void *addr)
+>  }
+>  
+>  #ifndef CONFIG_USER_ONLY
+> -int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev)
+> +int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev,
+> +                              bool defer_commit)
+>  {
+>      return -ENOSYS;
+>  }
+> diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
+> index 1ba4a98..98b14cc 100644
+> --- a/hw/misc/ivshmem.c
+> +++ b/hw/misc/ivshmem.c
+> @@ -429,7 +429,7 @@ static void ivshmem_add_kvm_msi_virq(IVShmemState *s, int vector,
+>      IVSHMEM_DPRINTF("ivshmem_add_kvm_msi_virq vector:%d\n", vector);
+>      assert(!s->msi_vectors[vector].pdev);
+>  
+> -    ret = kvm_irqchip_add_msi_route(kvm_state, vector, pdev);
+> +    ret = kvm_irqchip_add_msi_route(kvm_state, vector, pdev, false);
+>      if (ret < 0) {
+>          error_setg(errp, "kvm_irqchip_add_msi_route failed");
+>          return;
 > diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 7cc43fe..ca37fb7 100644
+> index ca37fb7..3ab67d6 100644
 > --- a/hw/vfio/pci.c
 > +++ b/hw/vfio/pci.c
-> @@ -372,6 +372,10 @@ static int vfio_enable_vectors(VFIOPCIDevice *vdev, bool msix)
->      int ret = 0, i, argsz;
->      int32_t *fds;
+> @@ -427,7 +427,7 @@ static void vfio_add_kvm_msi_virq(VFIOPCIDevice *vdev, VFIOMSIVector *vector,
+>          return;
+>      }
 >  
-> +    if (!vdev->nr_vectors) {
-> +        return 0;
-> +    }
-
-How would this occur?  Via the new call below?  But then we'd leave
-vfio_msix_enabled() with MSI-X DISABLED???
-
-> +
->      argsz = sizeof(*irq_set) + (vdev->nr_vectors * sizeof(*fds));
+> -    virq = kvm_irqchip_add_msi_route(kvm_state, vector_n, &vdev->pdev);
+> +    virq = kvm_irqchip_add_msi_route(kvm_state, vector_n, &vdev->pdev, false);
+>      if (virq < 0) {
+>          event_notifier_cleanup(&vector->kvm_interrupt);
+>          return;
+> diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+> index 433060a..7e2d021 100644
+> --- a/hw/virtio/virtio-pci.c
+> +++ b/hw/virtio/virtio-pci.c
+> @@ -684,7 +684,7 @@ static int kvm_virtio_pci_vq_vector_use(VirtIOPCIProxy *proxy,
+>      int ret;
 >  
->      irq_set = g_malloc0(argsz);
-> @@ -495,6 +499,11 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
+>      if (irqfd->users == 0) {
+> -        ret = kvm_irqchip_add_msi_route(kvm_state, vector, &proxy->pci_dev);
+> +        ret = kvm_irqchip_add_msi_route(kvm_state, vector, &proxy->pci_dev, false);
+>          if (ret < 0) {
+>              return ret;
 >          }
->      }
->  
-> +    if (vdev->defer_add_virq) {
-> +        vdev->nr_vectors = MAX(vdev->nr_vectors, nr + 1);
-> +        goto clear_pending;
-> +    }
-
-This is a really ugly use of 'goto' to simply jump around code you'd
-like to skip rather than reformat the function with branches to
-conditionalize that code.  Gotos for consolidated error paths, retries,
-hard to break loops are ok, not this.
-
-
-> +
->      /*
->       * We don't want to have the host allocate all possible MSI vectors
->       * for a device if they're not in use, so we shutdown and incrementally
-> @@ -524,6 +533,7 @@ static int vfio_msix_vector_do_use(PCIDevice *pdev, unsigned int nr,
->          }
->      }
->  
-> +clear_pending:
->      /* Disable PBA emulation when nothing more is pending. */
->      clear_bit(nr, vdev->msix->pending);
->      if (find_first_bit(vdev->msix->pending,
-> @@ -608,6 +618,16 @@ static void vfio_msix_enable(VFIOPCIDevice *vdev)
->      if (msix_set_vector_notifiers(pdev, vfio_msix_vector_use,
->                                    vfio_msix_vector_release, NULL)) {
->          error_report("vfio: msix_set_vector_notifiers failed");
-> +        return;
-> +    }
-> +
-> +    if (!pdev->msix_function_masked && vdev->defer_add_virq) {
-> +        int ret;
-> +        vfio_disable_irqindex(&vdev->vbasedev, VFIO_PCI_MSIX_IRQ_INDEX);
-> +        ret = vfio_enable_vectors(vdev, true);
-> +        if (ret) {
-> +            error_report("vfio: failed to enable vectors, %d", ret);
-> +        }
->      }
->  
->      trace_vfio_msix_enable(vdev->vbasedev.name);
-> @@ -2456,7 +2476,9 @@ static int vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
->      if (msi_enabled(pdev)) {
->          vfio_msi_enable(vdev);
->      } else if (msix_enabled(pdev)) {
-> +        vdev->defer_add_virq = true;
->          vfio_msix_enable(vdev);
-> +        vdev->defer_add_virq = false;
-
-
-Ick.  Why is this a special case for vfio_msix_enable()?  Wouldn't we
-prefer to always batch vector-use work while we're in the process of
-enabling MSI-X?  
-
->      }
->  
->      return ret;
-> diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-> index 6477751..4235c83 100644
-> --- a/hw/vfio/pci.h
-> +++ b/hw/vfio/pci.h
-> @@ -171,6 +171,7 @@ struct VFIOPCIDevice {
->      bool no_kvm_ioeventfd;
->      bool no_vfio_ioeventfd;
->      bool enable_ramfb;
-> +    bool defer_add_virq;
->      VFIODisplay *dpy;
->      Notifier irqchip_change_notifier;
->  };
+> diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
+> index a1ab1ee..1932dc0 100644
+> --- a/include/sysemu/kvm.h
+> +++ b/include/sysemu/kvm.h
+> @@ -473,9 +473,11 @@ void kvm_init_cpu_signals(CPUState *cpu);
+>   *          message.
+>   * @dev:    Owner PCI device to add the route. If @dev is specified
+>   *          as @NULL, an empty MSI message will be inited.
+> + * @defer_commit:   Defer to commit new route to the KVM core.
+>   * @return: virq (>=0) when success, errno (<0) when failed.
+>   */
+> -int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev);
+> +int kvm_irqchip_add_msi_route(KVMState *s, int vector, PCIDevice *dev,
+> +                              bool defer_commit);
+>  int kvm_irqchip_update_msi_route(KVMState *s, int virq, MSIMessage msg,
+>                                   PCIDevice *dev);
+>  void kvm_irqchip_commit_routes(KVMState *s);
+> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
+> index e69abe4..896406b 100644
+> --- a/target/i386/kvm/kvm.c
+> +++ b/target/i386/kvm/kvm.c
+> @@ -4724,7 +4724,7 @@ void kvm_arch_init_irq_routing(KVMState *s)
+>          /* If the ioapic is in QEMU and the lapics are in KVM, reserve
+>             MSI routes for signaling interrupts to the local apics. */
+>          for (i = 0; i < IOAPIC_NUM_PINS; i++) {
+> -            if (kvm_irqchip_add_msi_route(s, 0, NULL) < 0) {
+> +            if (kvm_irqchip_add_msi_route(s, 0, NULL, false) < 0) {
+>                  error_report("Could not enable split IRQ mode.");
+>                  exit(1);
+>              }
 
 
