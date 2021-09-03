@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 498873FFF40
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:34:27 +0200 (CEST)
-Received: from localhost ([::1]:37848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAE543FFF3F
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:34:01 +0200 (CEST)
+Received: from localhost ([::1]:35828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM7Sk-0003kQ-9q
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:34:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43556)
+	id 1mM7SK-0002IE-OC
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:34:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74L-0000V6-KR
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58622)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74O-0000XO-DX
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74J-0001sn-Hr
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:12 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74L-0001uC-DI
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630667350;
+ s=mimecast20190719; t=1630667352;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mHnJ0cVcteOlyXY2WQSoPOrlbaqqNkIp409L2/nVF/Q=;
- b=WhHJfzPW255vqVa4J6JhM4F/4+KRMSrbTn76eXL3oZkgssip+q1sw7DiT/g82B7C9egVyg
- IvoqgBrQl7lhx0hs5KeQ5h1zp0DWH3p5k7YrmwET+qhkMgJemrJtY0izMeuXZOh0QGp5Jh
- ZhbkwZNbaQ9mUpYXytkdLv6aC1NmU7M=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-85-8Kn_zo9PMJWY-0bRxLgReg-1; Fri, 03 Sep 2021 07:09:07 -0400
-X-MC-Unique: 8Kn_zo9PMJWY-0bRxLgReg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- v2-20020a7bcb420000b02902e6b108fcf1so2513277wmj.8
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 04:09:06 -0700 (PDT)
+ bh=oWlYVXKgef7rt8tFGoGOU02/9c4fFsb6XOBLj2EPez0=;
+ b=S9iy7IFmkrDOr2aQH+yXD8EUGJo7AkU78rqyKiliCq2Un5E7rxrZFd7AHhLFsIeTCT1O68
+ KuCXPthuyD4p9pCcs4Kzvn+GHkeDi3T7JXwfyCwyCy7GyWPMF3w2ePnG1Ut0TgapNxsefq
+ /t2QlVWxL9ygl+uDbStZGtPONw5e5EA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-520-Zd7oiGPlOkSJor0WpQSUSA-1; Fri, 03 Sep 2021 07:09:11 -0400
+X-MC-Unique: Zd7oiGPlOkSJor0WpQSUSA-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ p10-20020adfce0a000000b001572d05c970so1457964wrn.21
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 04:09:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mHnJ0cVcteOlyXY2WQSoPOrlbaqqNkIp409L2/nVF/Q=;
- b=uXwZOIY9xW3vMLqLCW68XPiZnERqqzYqNpircezBiIHVSDD5CfNr2Cpt1yJT587QsK
- fzCnUQlqtZeCdSsEHJBNgodm1KPs30JSZqYvqnHlMRawPwOIJzL8N1vddpcQy0Iibicf
- k93eoSSvfASCJg0C1OtBG3ruNKvB/xn08Lrs+i4ABrXD9FZwD66dob9INX6vU1OYgT2f
- oq7zIey4mDc+i7/KH7ROTKByUidB7q2Zuy/Nf8TfydlJPZa2ZPyY6D/ORdUmAtAMjDgA
- FGnuL03hdXMoedjkn3J8L/+gJfsYtwQWomfxf6NK+99l4095mKsehnWohLyVMm4EeSGS
- 5wGA==
-X-Gm-Message-State: AOAM533zWjr0RX3nT02m1VZ3V0N3Dcwwc4XD+Oj7ZgD273C1edP5Ji2I
- MJ5jh3DqnYlO64hHj1d7ux7/QkkRtuJiV7iTd3dDOc0Xdw1bp9InF408jPw/H+08Q1feRK630qH
- ZmiSOpkO2EEzlUre5TnIL2NfRQmnkA1anGKPiM2XBwMjrJTI6pRypOPhzD0taElRh
-X-Received: by 2002:a05:600c:2210:: with SMTP id
- z16mr7583429wml.70.1630667344786; 
- Fri, 03 Sep 2021 04:09:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyzXN5Abat+u5GhU97+T79No5Nl13oW/wgdhYam21QjGlUyuHjSwW1tSLBF2QoToAE6kZSvQQ==
-X-Received: by 2002:a05:600c:2210:: with SMTP id
- z16mr7583359wml.70.1630667344397; 
- Fri, 03 Sep 2021 04:09:04 -0700 (PDT)
+ bh=oWlYVXKgef7rt8tFGoGOU02/9c4fFsb6XOBLj2EPez0=;
+ b=oGPpvPNNRKc+ZYWxSWKGbvqPbGEDia6znUsrk+aS37qxp7BNkXUuMGLkfmm9AF8yJC
+ avHJ2ALbxEkUZd1OLQMs7sd/4pt3kJP3iFX5lOXfc07uXPnYltixBsuTkeV8SpPtJvAT
+ BFzX/kRWMEkXCoQzYE7I+LC2nCYC+QR13dGU9B43b2zXEK2MjUlToKvFGo+lXYu2az2B
+ Ffvpj6PyVNamTC8Mg9Tch4qMlnPzFweGPDSatcAo2ngbNiBLcANiZbd7iDA6W/PVcBSk
+ IY9tfUsMUiWRWPehBacG9hiTCHIqT++ShvC9OGDkfcPgRxVb9MqLM/bAHdkfnDWjoJEL
+ Ctyw==
+X-Gm-Message-State: AOAM533+1QEknbbiXGRNkXc/+STmI+O1PRYYm2QHcnhqP36toLpu0wtu
+ 2tKQMn3B3EBDGs0xmtZmJL0aQyKETkKtkWd01nbnWeOzL2R6mI3M3F1z7dAdLmrwLHlY1q6g82w
+ EpUokDQgMFgfvjx+nInDsF2maTLKmBc8k5XnV0KW+MvPNWxL3X3ppaZXQ5cmGlxvH
+X-Received: by 2002:adf:fb44:: with SMTP id c4mr3357071wrs.179.1630667350293; 
+ Fri, 03 Sep 2021 04:09:10 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz04LeqfAek5qhgfGuBb6P5Xc3NkLACwF2mysEtZwYjLBQ5+2iNJmq5HKQGBR6hLi9iuqmVyA==
+X-Received: by 2002:adf:fb44:: with SMTP id c4mr3356996wrs.179.1630667349988; 
+ Fri, 03 Sep 2021 04:09:09 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- q13sm3880071wmj.46.2021.09.03.04.09.02
+ o21sm4479970wms.32.2021.09.03.04.09.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 04:09:04 -0700 (PDT)
+ Fri, 03 Sep 2021 04:09:09 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 21/28] ui/clipboard: Replace g_memdup() by g_memdup2_qemu()
-Date: Fri,  3 Sep 2021 13:06:55 +0200
-Message-Id: <20210903110702.588291-22-philmd@redhat.com>
+Subject: [RFC PATCH 22/28] linux-user: Replace g_memdup() by g_memdup2_qemu()
+Date: Fri,  3 Sep 2021 13:06:56 +0200
+Message-Id: <20210903110702.588291-23-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903110702.588291-1-philmd@redhat.com>
 References: <20210903110702.588291-1-philmd@redhat.com>
@@ -75,7 +73,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -136,24 +134,40 @@ Replace g_memdup() by the safer g_memdup2_qemu() wrapper.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-TODO: audit qemu_clipboard_set_data() calls
----
- ui/clipboard.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+do_open_by_handle_at() doesn't check:
 
-diff --git a/ui/clipboard.c b/ui/clipboard.c
-index d7b008d62a0..0e12a55d3e5 100644
---- a/ui/clipboard.c
-+++ b/ui/clipboard.c
-@@ -123,7 +123,7 @@ void qemu_clipboard_set_data(QemuClipboardPeer *peer,
+    size + sizeof(struct file_handle) < 4GiB
+---
+ linux-user/syscall.c | 2 +-
+ linux-user/uaccess.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index ccd3892b2df..e127927f0b9 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -7665,7 +7665,7 @@ static abi_long do_open_by_handle_at(abi_long mount_fd, abi_long handle,
+         return -TARGET_EFAULT;
      }
  
-     g_free(info->types[type].data);
--    info->types[type].data = g_memdup(data, size);
-+    info->types[type].data = g_memdup2_qemu(data, size);
-     info->types[type].size = size;
-     info->types[type].available = true;
+-    fh = g_memdup(target_fh, total_size);
++    fh = g_memdup2_qemu(target_fh, total_size);
+     fh->handle_bytes = size;
+     fh->handle_type = tswap32(target_fh->handle_type);
  
+diff --git a/linux-user/uaccess.c b/linux-user/uaccess.c
+index 6a5b029607c..80992e2e233 100644
+--- a/linux-user/uaccess.c
++++ b/linux-user/uaccess.c
+@@ -15,7 +15,7 @@ void *lock_user(int type, abi_ulong guest_addr, ssize_t len, bool copy)
+     host_addr = g2h_untagged(guest_addr);
+ #ifdef DEBUG_REMAP
+     if (copy) {
+-        host_addr = g_memdup(host_addr, len);
++        host_addr = g_memdup2_qemu(host_addr, len);
+     } else {
+         host_addr = g_malloc0(len);
+     }
 -- 
 2.31.1
 
