@@ -2,88 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2FAB40074A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 23:09:51 +0200 (CEST)
-Received: from localhost ([::1]:46946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C34F400753
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 23:13:38 +0200 (CEST)
+Received: from localhost ([::1]:56420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMGRb-0002X0-2a
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 17:09:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57490)
+	id 1mMGVF-0000um-4V
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 17:13:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mMGKd-0007PL-2B
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 17:02:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56423)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mMGKa-0001mT-5y
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 17:02:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630702954;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6ouBlstdag8VA9kw0/WzlMkfTNQqLHD+2ir55Bzylu4=;
- b=TC20Q5BVKS1sZZ2TyEoVTv/A0ZkUH5U69qhLUMCDuNFL7VIttC5Tx/dbEMAmACpbYT2rlM
- fe/bNgzsnv8nsJDZV45rL0j9Gyl3r1GXeYXp1X9t72KsH0XooY4W4x5H3FTZzKFomaTfm6
- 8uuPZjpbmFpoHEcDwU66y1N7nDkqsJ0=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-137-mR4WoTvkM7KVrXlhHbzpKg-1; Fri, 03 Sep 2021 17:02:32 -0400
-X-MC-Unique: mR4WoTvkM7KVrXlhHbzpKg-1
-Received: by mail-qk1-f200.google.com with SMTP id
- p23-20020a05620a22f700b003d5ac11ac5cso1073359qki.15
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 14:02:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mMGRG-0002wf-EU
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 17:09:30 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:42806)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mMGRE-0007Up-Q0
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 17:09:30 -0400
+Received: by mail-wr1-x436.google.com with SMTP id q11so453939wrr.9
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 14:09:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=CKcIzD33qBNeDPZDAeW9DI/mcYmGACzSR1xegh9QXSk=;
+ b=MJwGDDLUR/+g4APyl8+iJNufTWjIPXui5Kzv9hwZ7sM4ee9DrdhiJQt8dkhV1xHyuW
+ VzH8ITcUoDMB3GR/mn2iaAPWVxMRtZhPd/JXwFStlu3pV1W1lfsYYpWNs/FuODDtQyvM
+ sj7rDe4dWxrhUbHfB+B6xvdU9RyLNO5LyPAjEpWHfG3xbcGwhFr9ohoG4H8zhwYkIGuj
+ wXiWO95ckYPqEQmuckdLTS3PDnEBXqwms35UyRKgh9hUgiaBjJ2BVORL6GsTeJ73UGVx
+ d3ZY/RnhUJxxs9F1KIpVE/PXdgzyvjrHagNWqqWdHBtJ13golbTQofqa/1m9catFa2BM
+ 4O4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=6ouBlstdag8VA9kw0/WzlMkfTNQqLHD+2ir55Bzylu4=;
- b=Cvfxey8ujxD8yeBdYBUxIXlq7/97y06fzHf5yuGY+jcWjI2NRlbeDpeg5ifmLoc73S
- YvPGG33rJMe98P512UMdtmlVy1TDT04E3jpHBoi702ZLQFX5zbMWU3jMyhi2FCdn85pm
- BcZBkZX1RjOeMOF7oJgrWVU0vIps+5lAMtWGCQyiDs4TGDnEjx0oM9yTmVVyeN0pxa3W
- obqbSNKtHJMIwenM0/Lz+Dj5/7SKxpNAvo7zJA0vOE2LIOVzysS0sVKi6RTsi5Sc56Uy
- NOf7sgnlaOlirshoVyyRDm5PcYaLD89SvPdaPP0N9cRn9NURq6KOU4eReC8J9g4wgPet
- KxbA==
-X-Gm-Message-State: AOAM5335RSGWJ2le7dKpGkWjrpLCQdm8nrltPHGERHGHvsPOSeECIpd3
- h70rYPCAEjN228ldi7DYjCntDY1TQbAbGY59cWk8RRv1Xkoldx8Mnguu2MTbIRd0RoaN1+Rx67m
- 37tuKR+SFZnJeMQU=
-X-Received: by 2002:a05:620a:15a6:: with SMTP id
- f6mr798936qkk.246.1630702951800; 
- Fri, 03 Sep 2021 14:02:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzvtsu/vaOEByMSr5GljKu/0Qr5GIS9FKN34PHvU7mmVp4bjeKP5Xgkl2c5CWp4pa2pufBSZA==
-X-Received: by 2002:a05:620a:15a6:: with SMTP id
- f6mr798920qkk.246.1630702951550; 
- Fri, 03 Sep 2021 14:02:31 -0700 (PDT)
-Received: from t490s ([2607:fea8:56a3:500::ad7f])
- by smtp.gmail.com with ESMTPSA id i16sm322785qtq.52.2021.09.03.14.02.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 14:02:30 -0700 (PDT)
-Date: Fri, 3 Sep 2021 17:02:29 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [RFC PATCH] physmem: Do not allow unprivileged device map
- privileged memory
-Message-ID: <YTKNZcSh0+EN/dzY@t490s>
-References: <20210903153820.686913-1-philmd@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CKcIzD33qBNeDPZDAeW9DI/mcYmGACzSR1xegh9QXSk=;
+ b=cGlSt0rTxASc16DAwdpS6PFQzEAJQ/qhJ8ZEaXibuXctiFOfVSQngjKwf8bKrom9vg
+ mmPnJ32xIb74ORiw5I1mYYuEqGiBkW4hxnBPmAT+s32Eq8rEMf1epoYo0buyxi1V9Lob
+ LIakU1K03o4Uy9VhoPi8OJKkdWQVPH0APAg4SQi6TKQpowbX4cD8fBUrIb6g+wSl3i/j
+ tKvo6OJhj6/CSxgQKxi4VSp9lH2bjZhqQxgztMBLdsyxMSkq/A86CAaNd2UyhZs1Ruzx
+ H/pu0eV9yWLkkwW1hrwY7L0cOybQTxmSSC1NWID5JjQmVb4VE505zDEbQ9z8iw3wavSP
+ j8ZQ==
+X-Gm-Message-State: AOAM531ZdmaDFiHsxCbFeS4O4JdMtM4oQHq69/s9wiCtoAnTv/ePbdga
+ OLhWeSM5XcT1nnZpGuuaDtyOOw==
+X-Google-Smtp-Source: ABdhPJzgriFwRW1fLFrkKWjb0iVgEgdfuyRZK0Xw8+2wSk49Q7zYYpp2kstResCHLoLtXrOkyE+ItA==
+X-Received: by 2002:a05:6000:160c:: with SMTP id
+ u12mr989850wrb.100.1630703365819; 
+ Fri, 03 Sep 2021 14:09:25 -0700 (PDT)
+Received: from [192.168.8.107] (190.red-2-142-216.dynamicip.rima-tde.net.
+ [2.142.216.190])
+ by smtp.gmail.com with ESMTPSA id 19sm398374wmo.39.2021.09.03.14.09.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Sep 2021 14:09:25 -0700 (PDT)
+Subject: Re: [PATCH v2 04/19] host-utils: add 128-bit quotient support to
+ divu128/divs128
+To: Luis Fernando Fujita Pires <luis.pires@eldorado.org.br>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>
+References: <20210831164007.297781-1-luis.pires@eldorado.org.br>
+ <20210831164007.297781-5-luis.pires@eldorado.org.br>
+ <c6a29b77-1187-a06b-6c2e-ede5dc8a1037@linaro.org>
+ <CP2PR80MB36682CDF56098C1E9DE99437DACE9@CP2PR80MB3668.lamprd80.prod.outlook.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3bcc33e9-7076-e3ba-df86-1950cd1caa36@linaro.org>
+Date: Fri, 3 Sep 2021 23:09:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210903153820.686913-1-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+In-Reply-To: <CP2PR80MB36682CDF56098C1E9DE99437DACE9@CP2PR80MB3668.lamprd80.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.888,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,111 +94,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "groug@kaod.org" <groug@kaod.org>,
+ "david@gibson.dropbear.id.au" <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 03, 2021 at 05:38:20PM +0200, Philippe Mathieu-Daudé wrote:
-> Since commits cc05c43ad94..42874d3a8c6 ("memory: Define API for
-> MemoryRegionOps to take attrs and return status") the Memory API
-> returns a zero (MEMTX_OK) response meaning success, anything else
-> indicating a failure.
+On 9/2/21 11:07 PM, Luis Fernando Fujita Pires wrote:
+> From: Richard Henderson <richard.henderson@linaro.org>
+>> Hmm.  I'll note that we have a better divmod primitive in tree, but we aren't
+>> using it
+>> here: udiv_qrnnd in include/fpu/softfloat-macros.h.
 > 
-> In commits c874dc4f5e8..2f7b009c2e7 ("Make address_space_map() take
-> a MemTxAttrs argument") we updated the AddressSpace and FlatView
-> APIs but forgot to check the returned value by the FlatView from
-> the MemoryRegion.
-> 
-> Adjust that now, only returning a non-NULL address if the transaction
-> succeeded with the requested memory attributes.
-> 
-> Reported-by: Gerd Hoffmann <kraxel@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
-> RFC because this could become a security issue in a core component,
->     however currently all callers pass MEMTXATTRS_UNSPECIFIED.
+> Good to know! I'll change to a (much simpler) implementation using udiv_qrnnd.
+> Any pointers on what would be a good place to put udiv_qrnnd, so it can be used by softloat.c and host-utils.c? Would host-utils.h be ok?
 
-Could you share more on the implications?
+Yeah, that should be fine.
 
-MEMTXATTRS_UNSPECIFIED shouldn't be the only factor to fail flatview_read(), or
-is it?  I think the change looks mostly right, but I've no knowledge on the
-context of the problems..
+Note that udiv_qrnnd requires that the divisor be normalization, i.e. the msb of the 
+denominator must be set.  So:
 
-> ---
->  include/exec/memory.h |  3 ++-
->  softmmu/physmem.c     | 16 ++++++++++------
->  2 files changed, 12 insertions(+), 7 deletions(-)
-> 
-> diff --git a/include/exec/memory.h b/include/exec/memory.h
-> index c3d417d317f..488d2ecdd09 100644
-> --- a/include/exec/memory.h
-> +++ b/include/exec/memory.h
-> @@ -2706,7 +2706,8 @@ bool address_space_access_valid(AddressSpace *as, hwaddr addr, hwaddr len,
->   *
->   * May map a subset of the requested range, given by and returned in @plen.
->   * May return %NULL and set *@plen to zero(0), if resources needed to perform
-> - * the mapping are exhausted.
-> + * the mapping are exhausted or if the physical memory region is not accessible
-> + * for the requested memory attributes.
->   * Use only for reads OR writes - not for read-modify-write operations.
->   * Use cpu_register_map_client() to know when retrying the map operation is
->   * likely to succeed.
+     int sh = clz64(den);
+     uint64_t q, r;
 
-You didn't touch up the comments above address_space_map() in physmem.c, but
-instead maybe we can just remove the .c one and only keep the .h one; there's
-some duplication and .h should be the most to reference.
+     q = udiv_qrnnd(&r, num_hi, num_lo, den << sh);
+     q <<= sh;
+     r >>= sh;
 
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 23e77cb7715..802c339f6d2 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -3188,15 +3188,19 @@ void *address_space_map(AddressSpace *as,
->          /* Avoid unbounded allocations */
->          l = MIN(l, TARGET_PAGE_SIZE);
->          bounce.buffer = qemu_memalign(TARGET_PAGE_SIZE, l);
-> +
-> +        if (!is_write) {
-> +            if (flatview_read(fv, addr, attrs, bounce.buffer, l) != MEMTX_OK) {
-> +                qemu_vfree(bounce.buffer);
-> +                *plen = 0;
+IIRC.  You'll probably want to have a look at gmp source, from which this comes for best 
+practice in implementing a larger division.
 
-Maybe also:
 
-                   qatomic_mb_set(&bounce.in_use, false);
-
-?
-
-(I'm wondering whether atomic is needed here if we only have one buffer anyway
- and we're with bql; a different matter anyway)
-
-> +                return NULL;
-> +            }
-> +        }
-> +
->          bounce.addr = addr;
->          bounce.len = l;
-> -
-> -        memory_region_ref(mr);
-
-This line move seems to be unnecessary.
-
->          bounce.mr = mr;
-> -        if (!is_write) {
-> -            flatview_read(fv, addr, MEMTXATTRS_UNSPECIFIED,
-> -                               bounce.buffer, l);
-> -        }
-> +        memory_region_ref(mr);
->  
->          *plen = l;
->          return bounce.buffer;
-> -- 
-> 2.31.1
-> 
-
--- 
-Peter Xu
-
+r~
 
