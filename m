@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E30FD3FFF20
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:25:42 +0200 (CEST)
-Received: from localhost ([::1]:41932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 006E03FFF2E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:28:37 +0200 (CEST)
+Received: from localhost ([::1]:50468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM7KI-0003lz-04
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:25:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43868)
+	id 1mM7N6-00016g-1g
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:28:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74j-0000t6-W2
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27296)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74q-0001JC-Sa
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30312)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74i-00026V-45
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:37 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74n-0002AQ-GT
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630667375;
+ s=mimecast20190719; t=1630667380;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IGLIaIG1oc/f/hK8LLmc1ZCw3aRo0zL/iFOeAMJ8CLs=;
- b=Qky2GCJAuUP8ghHUYVQd6jR4K6hnU6vn1qZ6GzzY7rMOE3J06M+ZUhPqWzRRff4nuKBXJG
- t5kd5xhWULM0G8j94RwWQoIfVaycj/mD3GiqzCeayUdpwG8wde4XRwm4hjuF6rcZAGZyyC
- AvMJpdAsKbqW+1vGAhxEDy9gmUPmeZQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-476-02f3_0d8OF2X6zxxFkRkzw-1; Fri, 03 Sep 2021 07:09:34 -0400
-X-MC-Unique: 02f3_0d8OF2X6zxxFkRkzw-1
-Received: by mail-wr1-f69.google.com with SMTP id
- h15-20020adff18f000000b001574654fbc2so1461184wro.10
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 04:09:34 -0700 (PDT)
+ bh=jqD7iyLbQ9DTFxBdziDoBhccB1nGTykeUMkgqm25WoQ=;
+ b=Vb21pMcHoSPZwry1LiOn0Orkon7uiqaGUrrT92zfiMsVyMjmiKQAK+VCxdvwF3XafNMOQF
+ oMieNzoA+o1GMs8irZkEKd/oczv8G+JTM1qbRm77Re1MMFzhP4Y5BntTh2p9wCiW6h2/qD
+ B6D+F5yISnyHOe47MEcxFOUYp4fJMEE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-199-LGqMSfsENzqjm6UEG7Ethw-1; Fri, 03 Sep 2021 07:09:40 -0400
+X-MC-Unique: LGqMSfsENzqjm6UEG7Ethw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ b126-20020a1c8084000000b002f152a868a2so1708074wmd.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 04:09:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=IGLIaIG1oc/f/hK8LLmc1ZCw3aRo0zL/iFOeAMJ8CLs=;
- b=TSbth/HsNEfX1ow0wyMggXa+98eJo26xlYHiByR/29Fmz0kCSaQb+3yQ5fFHqnBpmG
- SykQwiq2UNExcoG9cxUOU9kfxPmB9erzCFy8dG79JqwNSed7LnmS1u1PYxBVyqfkqKtj
- upUdwXBIqSHC0REIxuwH0Rr0L+IuH+UAtALbBVQV0jkRK5N9b6wEHaeE6YEoHwkO4BvC
- t/OFwpQwDoQ3V/IoFtFoXe/Evifg1wanaXGwhSEy4CAg54h4EOBkou0Mk+RYZWylWeZb
- fhP2My+cQJZRj6CYPiwmU1ViWkSa88BG50OfNcRVtbqmQOZQck/Iw8TGmKYcUPWZF7KZ
- DJdw==
-X-Gm-Message-State: AOAM5339wuWl+LJ9lxyMKbjTLhpYorq/pwR6MiZ5/a186DMq2JlBqjG8
- 5JZMbZWv58gKR8h457Y/neuAqQNOb8ghrE2QsRCnGIjJbf+e7qz89qccR8UmRqCTioTyBBPnQxE
- zSUGaQYK3NM3uo+PAGOtIfV0IOF074kbFE4l43PLua7Q7fQCmOMVeBbg9/hl8HL9m
-X-Received: by 2002:adf:fd51:: with SMTP id h17mr3315355wrs.178.1630667372995; 
- Fri, 03 Sep 2021 04:09:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzOCmSQ+xc0Q2SgMJRIjaynE2wUiaPQJusQW9eaFrqniAzajXkn5CbXrHEgNUg6VJYO5+nq6Q==
-X-Received: by 2002:adf:fd51:: with SMTP id h17mr3315291wrs.178.1630667372803; 
- Fri, 03 Sep 2021 04:09:32 -0700 (PDT)
+ bh=jqD7iyLbQ9DTFxBdziDoBhccB1nGTykeUMkgqm25WoQ=;
+ b=pib1O/7I0xhOkYCoaKE4/R8WIigjPWIO6+iFMezNgHtrvMAUuwB3g+JEBwj9n+7JF2
+ gEYDjAuDNE6GEDcrgqVMVA47WNAtdXd2L/W0WnG8uuJC4FOrdh2p/qvEh6eCuDavUUoB
+ /oNjBo12Nd06JiH9vRaoilWmCiyHY1N+qMLjNnY9julUvGniuOV74qie9wR6a80WRhnJ
+ Jgd2fKU41vzHEgBUAyuzcU0JCHPLCDhl4e8qeFkGWY/7pV3HnRGNI95Sz9V6dCbLlpk7
+ gIS5v3QQPbiXLMYUItxHWdXc3nieCHD9Bq5wmCqnLmFPhbjQMTkhe8oW8NGozALBhcMF
+ fMvQ==
+X-Gm-Message-State: AOAM532tdRkj4U9L9jjHRNy8+s9cfTn4JV0OXSxHO1lK+lbT1dP2F/ps
+ flm9J+fvcfCLGuWCeaJkzOH3ah7INIxIVQEb44AhQd/wGKKLi8BdtCYMneKVyIhaBkiS557adnl
+ ZtbdUYw2sn4OsHO79ChXX8MWarNCLtTg6Kf+3gBTc7tQQZb2T29EX2EHHcV2NNE+0
+X-Received: by 2002:adf:f9cb:: with SMTP id w11mr3532015wrr.382.1630667378688; 
+ Fri, 03 Sep 2021 04:09:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzMOvBdWerfmwLS6/8RuY/Oazm/1aA8TyZs75/crfM2ZbilJZTIPESof8HJh+OnE/0lMkkuSw==
+X-Received: by 2002:adf:f9cb:: with SMTP id w11mr3531951wrr.382.1630667378445; 
+ Fri, 03 Sep 2021 04:09:38 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- z19sm4806706wma.0.2021.09.03.04.09.30
+ t23sm4712670wrb.71.2021.09.03.04.09.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 04:09:32 -0700 (PDT)
+ Fri, 03 Sep 2021 04:09:38 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 26/28] target/ppc: Replace g_memdup() by g_memdup2_qemu()
-Date: Fri,  3 Sep 2021 13:07:00 +0200
-Message-Id: <20210903110702.588291-27-philmd@redhat.com>
+Subject: [PATCH 27/28] contrib: Replace g_memdup() by g_memdup2_qemu()
+Date: Fri,  3 Sep 2021 13:07:01 +0200
+Message-Id: <20210903110702.588291-28-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903110702.588291-1-philmd@redhat.com>
 References: <20210903110702.588291-1-philmd@redhat.com>
@@ -73,13 +73,13 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -134,23 +134,58 @@ Replace g_memdup() by the safer g_memdup2_qemu() wrapper.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- target/ppc/mmu-hash64.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ contrib/plugins/lockstep.c |  2 +-
+ contrib/rdmacm-mux/main.c  | 10 +++++-----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index 19832c4b46f..2ee6025a406 100644
---- a/target/ppc/mmu-hash64.c
-+++ b/target/ppc/mmu-hash64.c
-@@ -1122,7 +1122,8 @@ void ppc_hash64_init(PowerPCCPU *cpu)
-         return;
+diff --git a/contrib/plugins/lockstep.c b/contrib/plugins/lockstep.c
+index 7fd35eb6692..119a8054b3f 100644
+--- a/contrib/plugins/lockstep.c
++++ b/contrib/plugins/lockstep.c
+@@ -130,7 +130,7 @@ static void report_divergance(ExecState *us, ExecState *them)
+         }
+     }
+     divergence_log = g_slist_prepend(divergence_log,
+-                                     g_memdup(&divrec, sizeof(divrec)));
++                                     g_memdup2_qemu(&divrec, sizeof(divrec)));
+ 
+     /* Output short log entry of going out of sync... */
+     if (verbose || divrec.distance == 1 || diverged) {
+diff --git a/contrib/rdmacm-mux/main.c b/contrib/rdmacm-mux/main.c
+index 771ca01e03f..d447d50f538 100644
+--- a/contrib/rdmacm-mux/main.c
++++ b/contrib/rdmacm-mux/main.c
+@@ -227,8 +227,8 @@ static RdmaCmMuxErrCode add_fd_ifid_pair(int fd, __be64 gid_ifid)
+                            RDMACM_MUX_ERR_CODE_EACCES;
      }
  
--    cpu->hash64_opts = g_memdup(pcc->hash64_opts, sizeof(*cpu->hash64_opts));
-+    cpu->hash64_opts = g_memdup2_qemu(pcc->hash64_opts,
-+                                      sizeof(*cpu->hash64_opts));
+-    g_hash_table_insert(server.umad_agent.gid2fd, g_memdup(&gid_ifid,
+-                        sizeof(gid_ifid)), g_memdup(&fd, sizeof(fd)));
++    g_hash_table_insert(server.umad_agent.gid2fd, g_memdup2_qemu(&gid_ifid,
++                        sizeof(gid_ifid)), g_memdup2_qemu(&fd, sizeof(fd)));
+ 
+     pthread_rwlock_unlock(&server.lock);
+ 
+@@ -250,7 +250,7 @@ static RdmaCmMuxErrCode delete_fd_ifid_pair(int fd, __be64 gid_ifid)
+         return RDMACM_MUX_ERR_CODE_ENOTFOUND;
+     }
+ 
+-    g_hash_table_remove(server.umad_agent.gid2fd, g_memdup(&gid_ifid,
++    g_hash_table_remove(server.umad_agent.gid2fd, g_memdup2_qemu(&gid_ifid,
+                         sizeof(gid_ifid)));
+     pthread_rwlock_unlock(&server.lock);
+ 
+@@ -267,8 +267,8 @@ static void hash_tbl_save_fd_comm_id_pair(int fd, uint32_t comm_id,
+ 
+     pthread_rwlock_wrlock(&server.lock);
+     g_hash_table_insert(server.umad_agent.commid2fd,
+-                        g_memdup(&comm_id, sizeof(comm_id)),
+-                        g_memdup(&fde, sizeof(fde)));
++                        g_memdup2_qemu(&comm_id, sizeof(comm_id)),
++                        g_memdup2_qemu(&fde, sizeof(fde)));
+     pthread_rwlock_unlock(&server.lock);
  }
  
- void ppc_hash64_finalize(PowerPCCPU *cpu)
 -- 
 2.31.1
 
