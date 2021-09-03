@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E0B64004A9
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 20:12:04 +0200 (CEST)
-Received: from localhost ([::1]:39210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C1B94004B9
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 20:16:17 +0200 (CEST)
+Received: from localhost ([::1]:49062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMDfX-0008P4-KN
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 14:12:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52328)
+	id 1mMDjc-0006T8-G1
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 14:16:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDHk-0001P1-10
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:47:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29921)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDHn-0001Pz-Vy
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:47:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDHh-0002LB-6q
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:47:27 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDHk-0002Pr-VR
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:47:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630691243;
+ s=mimecast20190719; t=1630691248;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HfBgU8tXBhRtj+0DsLha9N1gD6ohGgwq/9K/iXISLUs=;
- b=NkOypPddGVL624tO6W65wIrMl/rmTmUViikmVCHHPvWXdbbohm0Sp9+w3uos3V1z+QRcMq
- ZgPqZqFEuQL2+FKuBPe2qXCoyphQ9+pSEHQVioRasvPqQJPipd/mSkzf9GqUi29BJvHdrm
- qKja2RikYKl146ajP/QwF5kU8yF+HrY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-2hD8PajvMCun3l7ygiFc4g-1; Fri, 03 Sep 2021 13:47:22 -0400
-X-MC-Unique: 2hD8PajvMCun3l7ygiFc4g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- j33-20020a05600c48a100b002e879427915so2142464wmp.5
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 10:47:22 -0700 (PDT)
+ bh=YK/6tC4z9KDPJlWm5GSX2+ZhH64J9HoZElqQqFMEcSI=;
+ b=QPHWWv01eUprPDVa+QNEL01vLyT6kBHCfobGSx7VokIujoL7PaqYPJOGiOMIA5TMRK9UeC
+ SYL/iKuStg2uK3r+JDM6j76SPeUpOnw3j+SH2OLtjRD5KYqK+6Xw4rwaqk0FWUU/98TpOu
+ sMpOpVlsD7kizLg8LXmCOkY/fmBIZWk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-429-5cqkPzvGMCGMBdwjr2UuiQ-1; Fri, 03 Sep 2021 13:47:27 -0400
+X-MC-Unique: 5cqkPzvGMCGMBdwjr2UuiQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ p10-20020a5d68ca000000b001552bf8b9daso1809890wrw.22
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 10:47:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=HfBgU8tXBhRtj+0DsLha9N1gD6ohGgwq/9K/iXISLUs=;
- b=FAxg+C8uMvp4MtKyoDlE6tmfQRpuHJBam6ebhXfbb/uLHz9W71xQ1adAi1sNtOFkD8
- 5P8VAdLwFJo1zg75z+zXsEer0UUbwiniAfotH/tosnW3WjeNhDko3sOne/fQAinQFZGQ
- jlnLBFSbWs/lh67+VuGLRtCbSMSm2tiub63chKLklQZPnAjrBIsxCvPs/mei3kZLK0bk
- AbILnI+vh/7OE1AI7rBmTyAtANNgj2fQLxlsg1TJhPfN6ey5nmbOU+Z3K6bBl7UbzFei
- bt4CeRvmhycrZZNXwZZxAgkEifsyBulmBK3cbp/YIy5TCbgR8ApjT4wx8mjfk+hcX/bZ
- sXWw==
-X-Gm-Message-State: AOAM531nzEovK1Jt/Zs1D3DVpqU46tx7bcvFSciSqYXCtFIwBtOcfu/B
- IYUto7W1EVZncCPEx3LhkzZbeWzDDSnhNsSpnRB5vpEJfFC6btU/Zs5y3LD+TwbJ4qmPtGX0YFa
- TSZBAxHF/2cUdovYuq0o2cz8bHNPUQrhUKHS4QRSOMbANdWW+9sdlVH1XwqiuH/6M
-X-Received: by 2002:a1c:202:: with SMTP id 2mr41005wmc.122.1630691240998;
- Fri, 03 Sep 2021 10:47:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyMs/PNrg4oydY+FJfacdcvMKH3UGlm4Oxp7CQHpTUjCRFpxUEYkzL86VHtd72hJ35d4steCQ==
-X-Received: by 2002:a1c:202:: with SMTP id 2mr40964wmc.122.1630691240736;
- Fri, 03 Sep 2021 10:47:20 -0700 (PDT)
+ bh=YK/6tC4z9KDPJlWm5GSX2+ZhH64J9HoZElqQqFMEcSI=;
+ b=K5OLP0M09msXfqouU9rQ2nyP2FDjFzDBXn1MWcI7JIE9dL+KlBHkSZNRPUPSCxe4Yt
+ cqbyolpEBKCzCK8n459A8xEXOi1Xwi8rsjeGCtQKe/W+wlJ1FtDrdnFheooICYLqLKN/
+ bLWc0ZIsRSWBGv4uvFRJewGUJcUrluijrO27i0RFuPiUWIIV+mKmwGknkmQOq3SHbn2H
+ EzB2yrVAusXumTRG+JmaoV4NyolXuSBFE6n4eXjtIDT/AKnO9JH9wmwzicK4E/r8m5v1
+ q5HYGbRVbk6knPzoN9cVqpurifBkyqdFPXcvZ5viDeT1OwiXdDQgyh47kw21ziNVUqqV
+ WA8A==
+X-Gm-Message-State: AOAM531biROeu5S0Qb1sAgo/EERyvPiCKgDIRXPB7RGYjMQ8vow4u3EB
+ xGMOtyEM1+Xw3x+Xc5d+8wvwFVDWxOEadPge7Wh9fqneltZvOfDBJNkR2I+k0or/virCaiKP5vP
+ IXN+/+Tnr44SvY7PZnavAsEcpAkkqvjdwy+DkgrXl1EzBIThIyw3CRQ5wGTVch08l
+X-Received: by 2002:a5d:504f:: with SMTP id h15mr276252wrt.69.1630691245963;
+ Fri, 03 Sep 2021 10:47:25 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwXfGOTKjppiBCawGGdQaZ88W6PQt2FRP6ODEJORPoMNo4hmgz2Z0r5JxVkEK3PuVgwPOQpMw==
+X-Received: by 2002:a5d:504f:: with SMTP id h15mr276215wrt.69.1630691245679;
+ Fri, 03 Sep 2021 10:47:25 -0700 (PDT)
 Received: from x1w.. (21.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id b4sm5373991wrp.33.2021.09.03.10.47.19
+ by smtp.gmail.com with ESMTPSA id l2sm129077wmi.1.2021.09.03.10.47.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 10:47:20 -0700 (PDT)
+ Fri, 03 Sep 2021 10:47:25 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 24/28] tests/qtest: Replace g_memdup() by g_memdup2()
-Date: Fri,  3 Sep 2021 19:45:06 +0200
-Message-Id: <20210903174510.751630-25-philmd@redhat.com>
+Subject: [PATCH v3 25/28] target/arm: Replace g_memdup() by g_memdup2()
+Date: Fri,  3 Sep 2021 19:45:07 +0200
+Message-Id: <20210903174510.751630-26-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903174510.751630-1-philmd@redhat.com>
 References: <20210903174510.751630-1-philmd@redhat.com>
@@ -72,7 +72,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -125,47 +125,33 @@ Replace g_memdup() by the safer g_memdup2() wrapper.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/qtest/libqos/ahci.c   | 6 +++---
- tests/qtest/libqos/qgraph.c | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ target/arm/helper.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qtest/libqos/ahci.c b/tests/qtest/libqos/ahci.c
-index fba3e7a954e..eaa2096512e 100644
---- a/tests/qtest/libqos/ahci.c
-+++ b/tests/qtest/libqos/ahci.c
-@@ -639,8 +639,8 @@ void ahci_exec(AHCIQState *ahci, uint8_t port,
-     AHCIOpts *opts;
-     uint64_t buffer_in;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index a7ae78146d4..96ff81fe68e 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -6242,8 +6242,8 @@ static void define_arm_vh_e2h_redirects_aliases(ARMCPU *cpu)
  
--    opts = g_memdup((opts_in == NULL ? &default_opts : opts_in),
--                    sizeof(AHCIOpts));
-+    opts = g_memdup2((opts_in == NULL ? &default_opts : opts_in),
-+                     sizeof(AHCIOpts));
+         /* Create alias before redirection so we dup the right data. */
+         if (a->new_key) {
+-            ARMCPRegInfo *new_reg = g_memdup(src_reg, sizeof(ARMCPRegInfo));
+-            uint32_t *new_key = g_memdup(&a->new_key, sizeof(uint32_t));
++            ARMCPRegInfo *new_reg = g_memdup2(src_reg, sizeof(ARMCPRegInfo));
++            uint32_t *new_key = g_memdup2(&a->new_key, sizeof(uint32_t));
+             bool ok;
  
-     buffer_in = opts->buffer;
+             new_reg->name = a->new_name;
+@@ -8818,7 +8818,7 @@ static void add_cpreg_to_hashtable(ARMCPU *cpu, const ARMCPRegInfo *r,
+      * add a single reginfo struct to the hash table.
+      */
+     uint32_t *key = g_new(uint32_t, 1);
+-    ARMCPRegInfo *r2 = g_memdup(r, sizeof(ARMCPRegInfo));
++    ARMCPRegInfo *r2 = g_memdup2(r, sizeof(ARMCPRegInfo));
+     int is64 = (r->type & ARM_CP_64BIT) ? 1 : 0;
+     int ns = (secstate & ARM_CP_SECSTATE_NS) ? 1 : 0;
  
-@@ -860,7 +860,7 @@ AHCICommand *ahci_command_create(uint8_t command_name)
-     g_assert(!props->ncq || props->lba48);
- 
-     /* Defaults and book-keeping */
--    cmd->props = g_memdup(props, sizeof(AHCICommandProp));
-+    cmd->props = g_memdup2(props, sizeof(AHCICommandProp));
-     cmd->name = command_name;
-     cmd->xbytes = props->size;
-     cmd->prd_size = 4096;
-diff --git a/tests/qtest/libqos/qgraph.c b/tests/qtest/libqos/qgraph.c
-index d1dc4919305..109ff04e1e8 100644
---- a/tests/qtest/libqos/qgraph.c
-+++ b/tests/qtest/libqos/qgraph.c
-@@ -93,7 +93,7 @@ static void add_edge(const char *source, const char *dest,
-     edge->type = type;
-     edge->dest = g_strdup(dest);
-     edge->edge_name = g_strdup(opts->edge_name ?: dest);
--    edge->arg = g_memdup(opts->arg, opts->size_arg);
-+    edge->arg = g_memdup2(opts->arg, opts->size_arg);
- 
-     edge->before_cmd_line =
-         opts->before_cmd_line ? g_strconcat(" ", opts->before_cmd_line, NULL) : NULL;
 -- 
 2.31.1
 
