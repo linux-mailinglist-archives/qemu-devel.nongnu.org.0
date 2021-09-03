@@ -2,106 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDA104006DF
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 22:44:24 +0200 (CEST)
-Received: from localhost ([::1]:55586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0217400731
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 22:58:18 +0200 (CEST)
+Received: from localhost ([::1]:41006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMG2x-00014z-JT
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 16:44:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53486)
+	id 1mMGGP-0004m4-Tt
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 16:58:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mMFvo-0005Up-0Q
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 16:37:03 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:37168)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mMFwY-0006bB-OS
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 16:37:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30018)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mMFvm-0005yl-IQ
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 16:36:59 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 183KXUlu151746; Fri, 3 Sep 2021 16:36:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=SHCF9kaKpBdG1ELzfbO6UQiT/emEledCkG3c7e0G4yA=;
- b=UBGc+gdMga2Q3xBg5eho0So7JJ0/JxpBBNbwY93RJQWQ0u91AvgQgFS1ilpqsB6DJh2b
- /tVtEEYb2BnL7VdGIuApKnulNqXbQ8M1Z4XRXpANUQt3IbDSL1ILdID9gtK7XM3bYVaI
- 6zz1V4ReAXpZXQpOfGnibjhw80DhpPEZZbg9tXILeWY3Odt9Mb+0BCM0Vnt0hcsbCNGR
- gmARt8Shrios9Jmiu8kd56je8B0t0y/mZiVerT3xGnX2UxfwsntSiX4JCyGRgDRLjBrV
- qAbPRmoPNKY1WE+S0XlUKxzL6KXw79i1JpdSj0sVPt8awbmIX5RwaA3az3COpX0bnN7X MA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3autt1g2q3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Sep 2021 16:36:52 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 183KapER167337;
- Fri, 3 Sep 2021 16:36:51 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3autt1g2px-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Sep 2021 16:36:51 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 183KYUBZ030503;
- Fri, 3 Sep 2021 20:36:51 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma03dal.us.ibm.com with ESMTP id 3au6pn3dsr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 03 Sep 2021 20:36:51 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 183Kan7Y16122318
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 3 Sep 2021 20:36:49 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BE363C6055;
- Fri,  3 Sep 2021 20:36:49 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F10A3C6057;
- Fri,  3 Sep 2021 20:36:45 +0000 (GMT)
-Received: from [9.65.84.185] (unknown [9.65.84.185])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri,  3 Sep 2021 20:36:45 +0000 (GMT)
-Subject: Re: [RFC PATCH v2 02/12] linux-header: add the SNP specific command
-To: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org
-References: <20210826222627.3556-1-michael.roth@amd.com>
- <20210826222627.3556-3-michael.roth@amd.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-Message-ID: <b398a4b5-cd8a-c6e8-d30a-ddac3de97393@linux.ibm.com>
-Date: Fri, 3 Sep 2021 23:36:43 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mMFwU-0006ZE-5w
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 16:37:45 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630701461;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aw9m4qqc4U8mAFeDmeoRz2rwOvkqdWRlOxWeniWugMk=;
+ b=jS4bG9r63XtMfcSRfYbOlZQwWwJ7UOYcfBG9hc6dFouIfMMSxPF68d1tmTU3dU0UkpIRtJ
+ OQ5vQSHkXqFfk2ftmqu79oMxQzfzafOs5xQD5QyHoqDR0C36D+ufD41CAxdk68Ls3NCqtg
+ AKRa7c7AmN29xMG+SPFqht1NFVyz1J4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-60-PeOdw3ZbOXm9yRFhAFMvAw-1; Fri, 03 Sep 2021 16:37:37 -0400
+X-MC-Unique: PeOdw3ZbOXm9yRFhAFMvAw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EDBF84A5E1;
+ Fri,  3 Sep 2021 20:37:35 +0000 (UTC)
+Received: from redhat.com (ovpn-113-81.phx2.redhat.com [10.3.113.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1380F77F35;
+ Fri,  3 Sep 2021 20:37:21 +0000 (UTC)
+Date: Fri, 3 Sep 2021 15:37:19 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v3 02/28] glib-compat: Introduce g_memdup2() wrapper
+Message-ID: <20210903203719.gsfqid3levceqjs6@redhat.com>
+References: <20210903174510.751630-1-philmd@redhat.com>
+ <20210903174510.751630-3-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210826222627.3556-3-michael.roth@amd.com>
+In-Reply-To: <20210903174510.751630-3-philmd@redhat.com>
+User-Agent: NeoMutt/20210205-739-420e15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: mv4rXzHxpvVj471UBfqO_ZHKG3nWjqcU
-X-Proofpoint-ORIG-GUID: MLxWan5IU_6v2k7l-dB3QGyGuhRuQo2E
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-09-03_07:2021-09-03,
- 2021-09-03 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0
- clxscore=1015 lowpriorityscore=0 bulkscore=0 adultscore=0 mlxscore=0
- mlxlogscore=999 priorityscore=1501 impostorscore=0 spamscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2108310000 definitions=main-2109030119
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -28
-X-Spam_score: -2.9
-X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.888,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,44 +79,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Eric Blake <eblake@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Brijesh Singh <brijesh.singh@amd.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Michael,
-
-On 27/08/2021 1:26, Michael Roth wrote:
-> From: Brijesh Singh <brijesh.singh@amd.com>
+On Fri, Sep 03, 2021 at 07:44:44PM +0200, Philippe Mathieu-Daudé wrote:
+> When experimenting raising GLIB_VERSION_MIN_REQUIRED to 2.68
+> (Fedora 34 provides GLib 2.68.1) we get:
 > 
-> Sync the kvm.h with the kernel to include the SNP specific commands.
+>   hw/virtio/virtio-crypto.c:245:24: error: 'g_memdup' is deprecated: Use 'g_memdup2' instead [-Werror,-Wdeprecated-declarations]
+>   ...
 > 
-> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
-> Signed-off-by: Michael Roth <michael.roth@amd.com>
+> g_memdup() has been updated by g_memdup2() to fix eventual security
+> issues (size argument is 32-bit and could be truncated / wrapping).
+> GLib recommends to copy their static inline version of g_memdup2():
+> https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-now/5538
+> 
+> Our glib-compat.h provides a comment explaining how to deal with
+> these deprecated declarations (see commit e71e8cc0355
+> "glib: enforce the minimum required version and warn about old APIs").
+> 
+> Following this comment suggestion, implement the g_memdup2_qemu()
+> wrapper to g_memdup2(), and use the safer equivalent inlined when
+> we are using pre-2.68 GLib.
+> 
+> Reported-by: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  linux-headers/linux/kvm.h | 50 +++++++++++++++++++++++++++++++++++++++
->  1 file changed, 50 insertions(+)
-> 
+>  include/glib-compat.h | 37 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 37 insertions(+)
 
-In previous review round I commented:
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-------
-What about psp-sev.h ? I see that kernel patch "[PATCH Part2 RFC v4
-11/40] crypto:ccp: Define the SEV-SNP commands" adds some new PSP return
-codes.
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
-The QEMU user-friendly string list sev_fw_errlist (in sev.c) should be
-updated accordingly.
--------
-
-
--Dov
 
