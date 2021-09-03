@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC063FFCB5
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 11:07:19 +0200 (CEST)
-Received: from localhost ([::1]:38480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7AD53FFCC2
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 11:10:42 +0200 (CEST)
+Received: from localhost ([::1]:46938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM5AK-0000TI-IK
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 05:07:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43224)
+	id 1mM5De-00066j-2T
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 05:10:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mM56x-0005wk-GE
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:03:47 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44928)
+ id 1mM56y-0005ym-Ip
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:03:48 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:44710)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mM56u-0005Tp-S6
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:03:46 -0400
-Received: by mail-wr1-x432.google.com with SMTP id g18so7173606wrc.11
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 02:03:43 -0700 (PDT)
+ id 1mM56v-0005U5-BN
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:03:48 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ l7-20020a1c2507000000b002e6be5d86b3so3085103wml.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 02:03:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VNXssv77lGW/gLcDBRUS1rbizfNSPc1VEJe0DYgf3K4=;
- b=obOk9DtjZ+4s/F/b1VzAbcb8/hlf0Y0AA4ivix7rFvKn9szRw/mgzAJleA3dvd1dIv
- 7U8jOzuPnmh22FqP5ju7U5vAuf+bL3poq5goJP9tabdEIw1AsPjh4uo7i6oSRv9Ra6LT
- gB/cBDfs082oN4TZzRGA8ht4WTJ9VJITxEtPULxu5xKfQzA8QqAR83aRUtEAsvRdgWDf
- tpGoiZZDB72eIfTmKrYin5eO9lEO2Em6bbvQSM2V/bPXItmFzJbZSe0ahXYrNye6ltZH
- 2eMEd+s9WPrebUTBU2siZuqbiq3XR+Y6v99bKoWQO+IeMHnOKdu2eZoKqZhMRbhjYQmn
- KqFg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=6pTYsL1Hep9qUvvKYQw3eO5QWV8nz4ZZRsJUYLQf+Cw=;
+ b=YUC7Fc2s3ATPv+tGHaSsck5CdaSX6/TE5v9dcgXQP8FbjFXGsznNMXAMK9wuuNcvBi
+ 8MfDuk/Tb2ml32Zo8YskASjUA8qN0FhOVTcxYfMvGPLXMAQ6JqPSGXiB7omrxSIP4Bl3
+ OJUGKX/CNXPBMv5TzEJRrfWFD4WlIB2+MMvbL28LXsAo5PToxIsf6it8QZ0QOkcghOAJ
+ MLwfK9Xkf5I5vRdI7mjnovmlgVeUIP7HrDl4Xa5T5Ilviw6oSUwRJ4fCkwIfsIptD8sF
+ KYKpwnyaHEbEFOy+oiY/TfX2Qn2rD21L2Yr+UzYiukFdXiUAGSo/vBY7x5i585Ru9prO
+ +J8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=VNXssv77lGW/gLcDBRUS1rbizfNSPc1VEJe0DYgf3K4=;
- b=Xc9E46DMwcPzYReJlkBGHOV7a+Bby/UwnqHH5Qabz3vPP18sW4bgBA1YWMWW+RcyYX
- uTfWfGZ/PsQwKwsJ8LhCf2ZBro+lMcVRB2ZHmsDpQlWNsCJTRaup9J7FM7Ot8DslTsur
- zK24TPMyBC8tOG4w2palRxjtO6Fr6qpN4DgSUrkgDYlV5FqI2C9/AmWwVzu+qHOMFAIt
- wo+p/dYw6lH4nkUVThondWGoRtYrn5PTrwh8xWaL+LuGXkFZJisEZEKpGiF2ed37vvAi
- R0puL0dQyrOdGKVlQwgO9GtykzULUbX09mro0FEAA/W7wsxmtjF91I6S9bkqVOtWI2VN
- D5pQ==
-X-Gm-Message-State: AOAM530BH41pv6Y9VCUdNG+cTz+PsqOUUAvonTyQFEwWgKKE5sDQCYWw
- KPIZBj2FR/xXW4aQ6qELC9Rbyg==
-X-Google-Smtp-Source: ABdhPJysVGijuJB8Z+GbCAMQYQYHe4IzN6+mjTiygmG6bY/+xaySdk0pEYyFeRI6makqWg/cSe27QQ==
-X-Received: by 2002:adf:e74a:: with SMTP id c10mr2811718wrn.350.1630659822019; 
- Fri, 03 Sep 2021 02:03:42 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=6pTYsL1Hep9qUvvKYQw3eO5QWV8nz4ZZRsJUYLQf+Cw=;
+ b=RmCWHoZri0S31KJ1F9h5ZgQJ0hq8nTzPBxLP4aPOMzcBiGVW20Bp6TN2oHmnKyv8a3
+ 4IWN8T0o0wcAcyBeuAOQQndxR+BE0QqhnREa4y53NzzA7q5vZvL9ujr5FyM/ugv6ocO8
+ a5/14tXao5K+29VCkvr0scxvB2RJol9qNwv22IAH6fx1oYLw/cYXleDAiaBps+c59M+T
+ fPc48b4mQQaujDZuzcN0htoU9Cx3rZC9HoT8G4Je+sx9VRWknZVP95aBWd2v7YtU1tzk
+ RWiboXoP/ruT1LR0gCTsVHzb+msiMIBEEk2DuUjsr+BF2fE32TTad7WOm/TBVMJpA7yX
+ ekIA==
+X-Gm-Message-State: AOAM531qvllayLwMNtUZ57SnIkSM0fTZ4b++1fmwy+N0DIzgWb2p3ySP
+ HOW6RhDQ6XNW9CBtfT3F1LlYgQ==
+X-Google-Smtp-Source: ABdhPJzA6ykm2PVboVuWfVhfF5YjhW8xt9U7MWcV+WVUKVJJm6h4WkZVK7wX8e7kJPHRWPNT6vna6g==
+X-Received: by 2002:a05:600c:3641:: with SMTP id
+ y1mr7220019wmq.181.1630659823158; 
+ Fri, 03 Sep 2021 02:03:43 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 129sm3748736wmz.26.2021.09.03.02.03.40
+ by smtp.gmail.com with ESMTPSA id c14sm4189740wrr.58.2021.09.03.02.03.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 03 Sep 2021 02:03:40 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E3DE11FF96;
+ by zen.linaroharston (Postfix) with ESMTP id EEE0C1FF98;
  Fri,  3 Sep 2021 10:03:39 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 00/22] testing and plugin updates
-Date: Fri,  3 Sep 2021 10:03:17 +0100
-Message-Id: <20210903090339.1074887-1-alex.bennee@linaro.org>
+Subject: [PULL 01/22] plugins/execlog: removed unintended "s" at the end of
+ log lines.
+Date: Fri,  3 Sep 2021 10:03:18 +0100
+Message-Id: <20210903090339.1074887-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210903090339.1074887-1-alex.bennee@linaro.org>
+References: <20210903090339.1074887-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,92 +89,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Alexandre Iooss <erdnaxe@crans.org>,
+ Mahmoud Mandour <ma.mandourr@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 079b1252e9de384385c9da910262312ec2e574c8:
+From: Mahmoud Mandour <ma.mandourr@gmail.com>
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210901' into staging (2021-09-01 17:45:38 +0100)
+Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20210803151428.125323-1-ma.mandourr@gmail.com>
+Message-Id: <20210806141015.2487502-2-alex.bennee@linaro.org>
+Cc: qemu-stable@nongnu.org
 
-are available in the Git repository at:
-
-  https://github.com/stsquad/qemu.git tags/pull-for-6.2-020921-1
-
-for you to fetch changes up to a35af836d103f781d2fea437129732c16ba64b25:
-
-  docs/devel: be consistent about example plugin names (2021-09-02 11:29:34 +0100)
-
-----------------------------------------------------------------
-Testing and plugin updates:
-
-  - fix typo in execlog plugin
-  - clean-up and document gitlab FOO_RUNNER_AVAILABLE vars
-  - fix plugin build issue on OSX and modules
-  - add multi-core support to cache modelling plugin
-  - clean-ups for plugin arg=FOO handling
-
-----------------------------------------------------------------
-Alex Bennée (1):
-      plugins: sort exported symbol list
-
-Mahmoud Mandour (17):
-      plugins/execlog: removed unintended "s" at the end of log lines.
-      plugins/cache: supported multicore cache modelling
-      docs/devel/tcg-plugins: added cores arg to cache plugin
-      plugins: allow plugin arguments to be passed directly
-      plugins/api: added a boolean parsing plugin api
-      plugins/hotpages: introduce sortby arg and parsed bool args correctly
-      plugins/hotblocks: Added correct boolean argument parsing
-      plugins/lockstep: make socket path not positional & parse bool arg
-      plugins/hwprofile: adapt to the new plugin arguments scheme
-      plugins/howvec: adapting to the new argument passing scheme
-      docs/tcg-plugins: new passing parameters scheme for cache docs
-      tests/plugins/bb: adapt to the new arg passing scheme
-      tests/plugins/insn: made arg inline not positional and parse it as bool
-      tests/plugins/mem: introduce "track" arg and make args not positional
-      tests/plugins/syscalls: adhere to new arg-passing scheme
-      docs/deprecated: deprecate passing plugin args through `arg=`
-      docs/devel: be consistent about example plugin names
-
-Paolo Bonzini (1):
-      plugins: do not limit exported symbols if modules are active
-
-Thomas Huth (3):
-      gitlab-ci: Merge "build-disabled" with "build-without-default-features"
-      gitlab-ci: Remove superfluous "dnf install" statement
-      gitlab-ci: Fix ..._RUNNER_AVAILABLE variables and document them
-
- docs/about/deprecated.rst                |  12 +++
- docs/devel/ci-jobs.rst                   |  11 ++
- docs/devel/tcg-plugins.rst               |  68 +++++++-----
- configure                                |   5 +-
- include/qemu/qemu-plugin.h               |  13 +++
- contrib/plugins/cache.c                  | 176 +++++++++++++++++++++++--------
- contrib/plugins/execlog.c                |   2 +-
- contrib/plugins/hotblocks.c              |  14 ++-
- contrib/plugins/hotpages.c               |  30 ++++--
- contrib/plugins/howvec.c                 |  27 +++--
- contrib/plugins/hwprofile.c              |  39 ++++---
- contrib/plugins/lockstep.c               |  31 ++++--
- linux-user/main.c                        |   2 +-
- plugins/api.c                            |   5 +
- plugins/loader.c                         |  24 ++++-
- tests/plugin/bb.c                        |  15 ++-
- tests/plugin/insn.c                      |  14 ++-
- tests/plugin/mem.c                       |  47 +++++----
- tests/plugin/syscall.c                   |  23 ++--
- .gitlab-ci.d/buildtest.yml               |  99 +++--------------
- .gitlab-ci.d/custom-runners.yml          |  12 +--
- plugins/meson.build                      |  14 +--
- plugins/qemu-plugins.symbols             |  49 ++++-----
- qemu-options.hx                          |   9 +-
- tests/tcg/i386/Makefile.softmmu-target   |   2 +-
- tests/tcg/i386/Makefile.target           |   2 +-
- tests/tcg/x86_64/Makefile.softmmu-target |   2 +-
- 27 files changed, 467 insertions(+), 280 deletions(-)
-
+diff --git a/contrib/plugins/execlog.c b/contrib/plugins/execlog.c
+index 2de9f0d7d4..a5275dcc15 100644
+--- a/contrib/plugins/execlog.c
++++ b/contrib/plugins/execlog.c
+@@ -67,7 +67,7 @@ static void vcpu_insn_exec(unsigned int cpu_index, void *udata)
+     /* Print previous instruction in cache */
+     if (s->len) {
+         qemu_plugin_outs(s->str);
+-        qemu_plugin_outs("s\n");
++        qemu_plugin_outs("\n");
+     }
+ 
+     /* Store new instruction in cache */
 -- 
 2.30.2
 
