@@ -2,68 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 172C63FFFAD
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 14:21:27 +0200 (CEST)
-Received: from localhost ([::1]:58086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 426D43FFF99
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 14:13:41 +0200 (CEST)
+Received: from localhost ([::1]:47212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM8CE-0002VV-4g
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 08:21:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58804)
+	id 1mM84h-00036s-SB
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 08:13:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mM80F-0004mQ-J5
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 08:09:03 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37666)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mM80D-000888-OW
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 08:09:03 -0400
-Received: by mail-wr1-x431.google.com with SMTP id v10so7917874wrd.4
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 05:09:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YNUA35scmRz44wy1b0yJMqLDlBcu9KvJh28xgeE+Ar8=;
- b=ZCDRG75dqdX0+Yf0Wp+y0C86cjZvCbrQEH2oVh2r6367BMYo66Wfg2KKpgsveoxsKl
- 0tOPbUOMTDj3jIxEXRzp2tGyiCD1uKObBDZ/Y9FREzlfm+M2MAltU2dS8oQRiFekZ1G1
- YsElzwvdUk01rQOBEYxPdm9XYEsYmq5z+9lmGvtwAUPEA/0kk78bvkfXSGTrasrVYygn
- kBWmzd+j3iVEm3LyR5f+RlAPFg4o4TYdbOkW5Kbd8HLiB9pFpNj1x7EhvFWxbLrxFAPF
- HDeYiXEl8uXDK+8gsAe+o4LtGS2Sz0xzhtzs9BEq6B3OrMMIiZA4p6spfdE556HHs1uv
- DXrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YNUA35scmRz44wy1b0yJMqLDlBcu9KvJh28xgeE+Ar8=;
- b=gbeCoys8jBZoMLbLWMiBeCdZMttDKMENqFzzNLv+Ya6FkxZ5GqPsv/oIpLiQpleaf1
- E3c7rwAoBfSOVhahL0FY3ya8I+ga+q0bs/GtZ1EfuhU9CxJ9rQQwCF2JvIryXZ73xh1g
- 0nUBDAwSH9ZMwh6hXX3CG1xX2ph9z1H4/BNhCv4+jdBZRr4tKbif/ZPcdZhzVdPMjHme
- WSmKFhTQrhr4ulZu0cPmnW3/gmSEQ3e1V7XBBuctm08a++OOQWEJ3kA3kYj1/wswDqgJ
- loYfGkog/cHFI91y9kGqqkjslol907Dj9f25kjY3lBTGfzs3/tiWM6/erAOSrMTZe9z6
- wZGQ==
-X-Gm-Message-State: AOAM5326/wzrNaXO3e0rqfOggLL7g2tyTh+fOE6F3lJ+NWwEvXW8YRDt
- GvgUFvA9gkcvMYENA4TCEQ8YlvP5y936BtPzTTt+uQ==
-X-Google-Smtp-Source: ABdhPJwsDjn+VkRxDq53FxES0P4obicCUU1Xh/ZdyEaJfLcyWwHuSL62AqUely6VYiJWWTkljNPF3AaXrrbCXS6vkN4=
-X-Received: by 2002:adf:fb91:: with SMTP id a17mr3557733wrr.376.1630670940101; 
- Fri, 03 Sep 2021 05:09:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mM80u-0006AL-Kz; Fri, 03 Sep 2021 08:09:44 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:47603)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mM80f-0008LZ-Nk; Fri, 03 Sep 2021 08:09:44 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.171])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 29906BC3AC12;
+ Fri,  3 Sep 2021 14:09:25 +0200 (CEST)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Fri, 3 Sep
+ 2021 14:09:24 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R0067530df98-ca36-4ee1-94f9-442b572c1736,
+ 15E2C03324B5D6AD2543493448FEC157D625CB40) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 129.41.46.1
+Subject: Re: [PATCH v2 0/1] hw/arm/aspeed: Add Fuji machine type
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+To: <pdel@fb.com>
+References: <20210903082027.704397-1-pdel@fb.com>
+ <f380c5b5-a472-d41e-7821-4155113bdbc0@kaod.org>
+Message-ID: <c7d6e268-19a8-5b75-1310-6c943050a1ac@kaod.org>
+Date: Fri, 3 Sep 2021 14:09:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <cover.1630582967.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1630582967.git.qemu_oss@crudebyte.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Sep 2021 13:08:11 +0100
-Message-ID: <CAFEAcA_wooFNOKedfUN1nkb+yQ23kzj1bmY5Y5UYSkS7tMHEaA@mail.gmail.com>
-Subject: Re: [PULL 0/3] 9p queue 2021-09-02
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <f380c5b5-a472-d41e-7821-4155113bdbc0@kaod.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: a1a9d4db-3d0b-4649-bcd1-61585ee1a10b
+X-Ovh-Tracer-Id: 1185854079196171171
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddvjedggeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefuhffvfhfkffgfgggjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeiveehgedvfeejgfdvudevkefgjeevtdehueeiffduieeuudeufffgteetkeekgeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepphguvghlsehfsgdrtghomh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.888,
+ SPF_PASS=-0.001, T_SPF_HELO_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,38 +69,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>
+Cc: patrick@stwcx.xyz, qemu-arm@nongnu.org, joel@jms.id.au,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2 Sept 2021 at 12:50, Christian Schoenebeck
-<qemu_oss@crudebyte.com> wrote:
->
-> The following changes since commit 59a89510b62ec23dbeab8b02fa4e3526e353d8b6:
->
->   Merge remote-tracking branch 'remotes/stefanberger/tags/pull-tpm-2021-09-01-1' into staging (2021-09-02 08:51:31 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20210902
->
-> for you to fetch changes up to f83df00900816476cca41bb536e4d532b297d76e:
->
->   9pfs: fix crash in v9fs_walk() (2021-09-02 13:26:22 +0200)
->
-> ----------------------------------------------------------------
-> 9pfs: misc patches
->
-> * Fix an occasional crash when handling 'Twalk' requests.
->
-> * Two code cleanup patches.
->
+>>>> Is the Fuji using the Aspeed RTC ?
+>>>>
+>>>> hwclock: ioctl(RTC_RD_TIME) to /dev/rtc0 to read the time failed: Invalid argument
+>>
+>> I don't understand exactly what's going on here, but running "hwclock --get"
+>> and "hwclock --set --date 2021-01-01" both seem to work fine after booting,
+>> so I think the Aspeed RTC is setup correctly and working. As far as I know
+>> Fuji uses it, but I'm not really sure.
+> 
+> QEMU doesn't model the SoC RTC. Something to add on the TODO list.
 
+Joel made me notice that we had a model for it :) The time is 
+not initialized at reset and that might be the issue we are 
+seeing in Linux.
 
-Applied, thanks.
+Thanks,
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
-for any user-visible changes.
-
--- PMM
+C.
 
