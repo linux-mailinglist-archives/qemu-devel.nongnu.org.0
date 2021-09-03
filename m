@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFE1D400591
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 21:11:44 +0200 (CEST)
-Received: from localhost ([::1]:60802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73D5D4005B4
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 21:17:03 +0200 (CEST)
+Received: from localhost ([::1]:49064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMEbF-000510-3h
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 15:11:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37756)
+	id 1mMEgQ-00082M-F4
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 15:17:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mMEXt-0002kT-2A
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 15:08:16 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:35329)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mMEYp-0003VZ-5J
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 15:09:11 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:43921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mMEXq-0000kq-Rm
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 15:08:12 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id i6so116086wrv.2
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 12:08:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=vrull-eu.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=mmx0YDYLjxu3FFFZlXNS/SOVUaz9ecdAKQGM19plsbY=;
- b=frf3UsKCzTruXmVXa5di7nq90++ZEDieHDUw7qmpRZPNtsvVOSRr8HKAPtnN1bCUd6
- rHX/bBeXc6B2X3k8sEFYIGklJUx5e5btvnTU/LnKYQmwOTp1MnM5CZPVwos5n1DeeCo6
- af1SE4D28Aa0s0a8yCZr14uk34PdXEeMiQhgDMKcWifMIbjXNWQ2rk9q4VahzZezDgDc
- 8ixufkBC5kU0vPPLsS3MeyZOE957SFWFTfpafBhukS1Bw9dQqHLOEkCpSlHWZKMy44Lc
- 8MIJf2QHzjui585ISQVDPM9tM3K7/tziZDI+pS/VELoPAkHdrqE4LzgbTyKkGRvtkz6K
- HToA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mMEYb-0001Kl-0A
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 15:09:10 -0400
+Received: by mail-wr1-x435.google.com with SMTP id b6so86974wrh.10
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 12:08:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=bNawZA+iiFWKHVH1C9qcUdpIzLY56k93AuR3hOCtsAQ=;
+ b=blyy2Qcq3ys7NOCvDyC8LIH2WNtvRXNUBgIwD/R7GSOUVE9wYVoYzHJGPK69ZYwCjA
+ /S+Qc9/SdTZlxmOIBExVgufjoLdFU4+jgy3FXzLa4+tyhGho9wBXZlcoEIVwOUJFCD3F
+ mgy63j0TY1qxnocUld0trkmVqpIKL6cVxSttgmPwtQl51Hg/RP9gK747OSfHVrizYbwd
+ Micckh16om7iN2OIXLNXwMa3zoWgNLx3sBg5GepSQ4b151h1FUxRi90O3ywDB1/4Zeef
+ /aU+BgTBjwOp+y3dNUFgFNT0evBnmbIcdE1aMrJjbf676wCa7Jm/8Lc4P/eQjyPluN1U
+ eAGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=mmx0YDYLjxu3FFFZlXNS/SOVUaz9ecdAKQGM19plsbY=;
- b=EGXchEdgW/hDSgaAzQwy27oWCJdSaILkfKTWwtXzH/4ucq9xB5CU9XZblfw6lE8PyR
- cO0SCk5Zz35PZb4FSwuEwnJpWzXffN2ptXHmSxxW+ZAdwYIf3s5w8oBgG6DeSCfUKXEW
- QPHIRuapB+jWBtGtaAMjHJJXoC+wiUsvREZ50fpV5qcMjLc1rTj/90WnRzEW5ps6mImR
- rUtbqxFoCg/g8hnWoEwLHO2r60T41MH9K1kSo4ohFZ4TYp3LS/axVC9xJVfigZLwL1XK
- msvfmSjkITEff23ie4RHi9/hIV2Zfglr99q8uEeUTkai7V/3G8me8jUqcA4ELbheCsHl
- y2IA==
-X-Gm-Message-State: AOAM5328OkeVsh6SjW70Iw79UzOzvSO38KEyV5IdRsCs22jSdqbheVJN
- 2R+4+SI37Va2nRXxlHX+5hr78+CG07oy4+zS3Umr7wyBEg7Wv8bZ534=
-X-Google-Smtp-Source: ABdhPJwkiV0y6S4V0Up8vID99Eicxqmfv7J8/yim0PCLI6h4qiPuAEhRbWUhDQ4eXh8AyBw5ZDn6n1AM7GIlqJGkA68=
-X-Received: by 2002:adf:c10b:: with SMTP id r11mr598912wre.326.1630696088565; 
- Fri, 03 Sep 2021 12:08:08 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bNawZA+iiFWKHVH1C9qcUdpIzLY56k93AuR3hOCtsAQ=;
+ b=Y71njyVUkvD84gEPRlAIq+RYoLKnB05p23Y/oAptvXVe1jgt1Pw1oyJKsdRKAY1SIY
+ IHUSXaYgDRiZVoxKA4HP0G3zr5lq80jcgE5bUsAnpCO304NcgsMx1XuzEjO9qcpD4h49
+ ddMhYOkVqNAQND4rJ+fKt+nIpi/EHMUaiEUMpdzHSc6/Rb5lA5EbUYJQCts2uyMJ+jjk
+ V37mhWkw3/Bj+rsWobDT/Q0zBRlfUgDkvpS1PVcpvPSP9Kk8z9VZscYOn1zXpfFG2H6w
+ WuL4/1a07gTbzc27ywNVUzgXrDdDVFBS9Z7gyNu6oLtbECVwh/sA8cw6+AKF5S1JsuVG
+ 7m6A==
+X-Gm-Message-State: AOAM533UDjimxfuXUJmJMAvCatDWiolMX3Z2ezbbLf5a2XmsAwWFebe4
+ WV6ZykRqJzX/ZN7K3SMb/2LCpA==
+X-Google-Smtp-Source: ABdhPJwGy4Hl0Kp/sF6gZVGlrWRB35x93Jy2sQjV6NpFST12HsjPqu1badXhKkBnspeVECad2SVmOQ==
+X-Received: by 2002:a05:6000:23a:: with SMTP id
+ l26mr543312wrz.369.1630696132260; 
+ Fri, 03 Sep 2021 12:08:52 -0700 (PDT)
+Received: from [192.168.8.107] (190.red-2-142-216.dynamicip.rima-tde.net.
+ [2.142.216.190])
+ by smtp.gmail.com with ESMTPSA id d24sm166620wmb.35.2021.09.03.12.08.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Sep 2021 12:08:51 -0700 (PDT)
+Subject: Re: [PATCH 05/24] accel/tcg: Assert most of cpu_handle_interrupt() is
+ sysemu-specific
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210902151715.383678-1-f4bug@amsat.org>
+ <20210902151715.383678-6-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3ce44beb-77a0-30dc-d4fa-9c47865e86e9@linaro.org>
+Date: Fri, 3 Sep 2021 21:08:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210903170100.2529121-1-philipp.tomsich@vrull.eu>
- <20210903170100.2529121-4-philipp.tomsich@vrull.eu>
- <2970e9a3-f210-8d30-b875-4c8bc15ca3c1@linaro.org>
-In-Reply-To: <2970e9a3-f210-8d30-b875-4c8bc15ca3c1@linaro.org>
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Date: Fri, 3 Sep 2021 22:07:57 +0300
-Message-ID: <CAAeLtUB88X+RwXgUP_pKnN8Q4vUVvYn2jyriXf6FFEJZVz8FEQ@mail.gmail.com>
-Subject: Re: [PATCH v9 03/14] target/riscv: slli.uw is only a valid encoding
- if shamt first in 64 bits
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: multipart/alternative; boundary="000000000000188b6505cb1c0521"
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-wr1-x42f.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+In-Reply-To: <20210902151715.383678-6-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Spam_report: (-1.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.888,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,79 +90,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kito Cheng <kito.cheng@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Warner Losh <imp@bsdimp.com>,
+ Marek Vasut <marex@denx.de>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ qemu-ppc@nongnu.org, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Kyle Evans <kevans@freebsd.org>,
+ Greg Kurz <groug@kaod.org>, qemu-arm@nongnu.org,
+ Michael Rolnik <mrolnik@gmail.com>, Stafford Horne <shorne@gmail.com>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-riscv@nongnu.org,
+ Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000188b6505cb1c0521
-Content-Type: text/plain; charset="UTF-8"
+On 9/2/21 5:16 PM, Philippe Mathieu-Daudé wrote:
+> To prove TCGCPUOps::cpu_exec_interrupt() is limited to system
+> emulation, start by asserting it is not called under user emulation.
+> 
+> Suggested-by: Richard Henderson<richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
+> ---
+>   accel/tcg/cpu-exec.c | 3 +++
+>   1 file changed, 3 insertions(+)
 
-On Fri, 3 Sept 2021 at 21:45, Richard Henderson <
-richard.henderson@linaro.org> wrote:
+Eh, sure, I guess.  I meant this merely as a diagnostic aid.
 
-> On 9/3/21 7:00 PM, Philipp Tomsich wrote:
-> > @@ -652,5 +652,15 @@ static bool trans_slli_uw(DisasContext *ctx,
-> arg_slli_uw *a)
-> >   {
-> >       REQUIRE_64BIT(ctx);
-> >       REQUIRE_ZBA(ctx);
-> > +
-> > +    /*
-> > +     * The shamt field is only 6 bits for RV64 (with the 7th bit
-> > +     * remaining reserved for RV128).  If the reserved bit is set
-> > +     * on RV64, the encoding is illegal.
-> > +     */
-> > +    if (a->shamt >= TARGET_LONG_BITS) {
-> > +        return false;
-> > +    }
-> > +
-> >       return gen_shift_imm_fn(ctx, a, EXT_NONE, gen_slli_uw);
->
-> As previously stated, drop this patch.
-> It is done correctly inside gen_shift_imm_fn.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-
-Good catch: I just looked through the changed translate.c and this does
-address the slli.uw case.  I won't be able to retest this tonight, though.
-I'll send the updated series as soon as possible, though.
-
---000000000000188b6505cb1c0521
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, 3 Sept 2021 at 21:45, Richard=
- Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.hend=
-erson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">On 9/3/21 7:00 PM, Philipp Tomsich wrote:<br>
-&gt; @@ -652,5 +652,15 @@ static bool trans_slli_uw(DisasContext *ctx, arg_=
-slli_uw *a)<br>
-&gt;=C2=A0 =C2=A0{<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0REQUIRE_64BIT(ctx);<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0REQUIRE_ZBA(ctx);<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 /*<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* The shamt field is only 6 bits for RV64 (with t=
-he 7th bit<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* remaining reserved for RV128).=C2=A0 If the res=
-erved bit is set<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0* on RV64, the encoding is illegal.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0*/<br>
-&gt; +=C2=A0 =C2=A0 if (a-&gt;shamt &gt;=3D TARGET_LONG_BITS) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
-&gt; +=C2=A0 =C2=A0 }<br>
-&gt; +<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return gen_shift_imm_fn(ctx, a, EXT_NONE, ge=
-n_slli_uw);<br>
-<br>
-As previously stated, drop this patch.<br>
-It is done correctly inside gen_shift_imm_fn.</blockquote><div><br></div><d=
-iv>Good catch: I just looked through the changed translate.c and this does<=
-/div><div>address the slli.uw case.=C2=A0 I won&#39;t be able to retest thi=
-s tonight, though.</div><div>I&#39;ll send the updated series as soon as po=
-ssible, though.</div></div></div>
-
---000000000000188b6505cb1c0521--
+r~
 
