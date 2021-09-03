@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 972924000F2
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 16:04:10 +0200 (CEST)
-Received: from localhost ([::1]:33902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6870F400124
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 16:20:57 +0200 (CEST)
+Received: from localhost ([::1]:44488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM9nd-00070i-O8
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 10:04:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57370)
+	id 1mMA3r-0006Ti-Vm
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 10:20:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mM9kG-0004DK-2v
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 10:00:44 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33684)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mMA1d-0004c6-Ov
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 10:18:37 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:36570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mM9kE-0007Ic-4M
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 10:00:39 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id b10so8442211wru.0
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 07:00:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mMA1b-0002gc-Va
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 10:18:37 -0400
+Received: by mail-wm1-x332.google.com with SMTP id
+ 79-20020a1c0452000000b002e6cf79e572so3904002wme.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 07:18:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=0YHsIeQBNfTspHsS60tynElfn/DxUFuqDQKkZn1YRZk=;
- b=z00klYt/3eVSSMe9vwYnewKuuf0QGtV0PQHn5C0R6P9xEZIX5HQAGQHpYGhGrwJWai
- tFGLxfjuiqRAtsTQJ+gbAEfbv8ConWndlCgGhIxAa+2Wgg0/LQsmXweT2bgtLejKEP7O
- qJlbymmsKTCkAaL0CZ4WtxoH/ax4d6wIL7HVMWDEHmU1G++Z0+vgO6o4HzIxnCb0N61w
- ufozKe+B53Neef1QuGQMHf+I3bqwsei2LXvbyH9oFrJbohh5DMDDdi3Vr+1+Iq9LV6U0
- 1B6AJgoCrx0VRqkD5QNj1xLiNQ4rdzQGZb58na1GJINNzAZOppY9rIkOvqdqSXXLSLCs
- eepQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DNOO28MNYdnbyE/lnSORo4hFz6wy6QGqsVHy1LaC8Ts=;
+ b=L/x+X6S6smAi7Tt5aL2moZS9Qs816VN/SefnR1iCMQx5jXrwpxV8w+FSEv9bYMKzhd
+ eAl+mZ0V/a8frB2vsCcxvsTbFzWq83pwNyDpf+sX1zYntO+qKWPFEG/ES0IXgrzeFxuF
+ bGKtp105QbA4tEODeEskvBy+zIuHyzyNKA/sLDajcjMoYsmXHir5ZkJXVuR3xQ8+xvoi
+ sRflvZzhDDboxW/ATg+6IOUDgT+oUXer+uUkBCAu2+DNy+uUC2VZuj7iuQogAc5vfzwy
+ 5JgALRIyEVLa8D2J8SWzFG0+l/b0J2X28k5clx2sdfR1LxaifBIoPqnA4mY5StxJjrie
+ kBrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0YHsIeQBNfTspHsS60tynElfn/DxUFuqDQKkZn1YRZk=;
- b=HdSLPnevf4BFuT9rHCjoOBI8It0pPHmvrVZItwj8cPvgfT1h6BHjh2J9u5q9fJUUts
- 7GvLlK6JXyVhnGCpgA/HHmXdN6Z3JYGFrZwdGVC8HGWZZ5R/8qULAepx/ybUvRt9iIBf
- Kr+QtoKHWBabj5sER+rMTHLB0TM8oYBcr+6Yz7fWUcd9AHabMbtLYSuWOTLF0AkjZFVv
- W16gxP4TCSAHxLDMfcpCJIlR/0gj2Bv+YoINggnWG05PngZwL9WfoEHh9fPs+3mMT8av
- nHOMgd//Nix2rw7LIff4bA2QU44m3ob3Og+0hKAVIluxUJ9S1NjB9b5g3uFOrMWAwbwT
- AUHA==
-X-Gm-Message-State: AOAM530cQgwB4Y/2RK/93X9TTdJgRBvWEwUd6SS9y7OASkCoOmmPNijJ
- A8dZ1GOMDzH44thwCVRIjPr6a3/xzDVAZKs6T9I=
-X-Google-Smtp-Source: ABdhPJzGp82KpycShWUqIjxq1+DKLKib8BIsIx+TjdMEY6dlRPDAuVksTsvD6MJhtI9X1+8y6YsKyw==
-X-Received: by 2002:adf:c109:: with SMTP id r9mr4303008wre.184.1630677636757; 
- Fri, 03 Sep 2021 07:00:36 -0700 (PDT)
-Received: from [192.168.8.107] (190.red-2-142-216.dynamicip.rima-tde.net.
- [2.142.216.190])
- by smtp.gmail.com with ESMTPSA id g11sm4789497wrx.30.2021.09.03.07.00.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Sep 2021 07:00:36 -0700 (PDT)
-Subject: Re: [PATCH 4/4] target/arm: Optimize MVE VNEG, VABS
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210902150910.15748-1-peter.maydell@linaro.org>
- <20210902150910.15748-5-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c2fa411b-5fec-3cf4-16b5-94c9b3b082e1@linaro.org>
-Date: Fri, 3 Sep 2021 16:00:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DNOO28MNYdnbyE/lnSORo4hFz6wy6QGqsVHy1LaC8Ts=;
+ b=JsTE6clKsOrDruKPo+NkbLiWftPySyFuWsNRfjVTw/TS+Aog/+Y1efbd2YNNl6qMb4
+ zOKB0CXVnRIzAn6FkWbyT1nA6oB9Dnf6sD/LSn5AFknh1JqwCMzpBcY93xQ5ZINqQiu2
+ HSIKQ6ByGEKRJUilSoOufLT6cXcWalLlWGu7cicNCWYPXbmjxer2cM30M6zAfrVSi/wY
+ c5aScTW6LwlmilI0K6EsPJc2TgLopfMVdCB912HmQPJTZJ4DHzkmdgCxia8cLTiXTMhQ
+ 1GogdB4jURwmz+JAd68i9kQ0ZrDzP4yoCHI+1m7aztzh9rxWBkY6R1kBGAGmUgoR/A0c
+ 1KPw==
+X-Gm-Message-State: AOAM533ZjZpdToPJRBJyjIJdOKNLcSpUUa5sjh0+kl6PSmdw1paSiSLP
+ uX7SRvMczHN1nGmJUbNxdJQBILYPtMZ3/qsibhbeAg==
+X-Google-Smtp-Source: ABdhPJxVX5SwUbStp8MwgQJ3TV37jfvb9mCVBG48AwxoNgaupr0jtyFXf8ZHv2+0pOunKc6DTYReb5x9z96V1bIRjp4=
+X-Received: by 2002:a7b:c246:: with SMTP id b6mr8532919wmj.37.1630678714550;
+ Fri, 03 Sep 2021 07:18:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210902150910.15748-5-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.888,
+References: <20210902150910.15748-1-peter.maydell@linaro.org>
+ <20210902150910.15748-2-peter.maydell@linaro.org>
+ <76cd3594-f864-232c-8687-19a1d44ff07e@linaro.org>
+In-Reply-To: <76cd3594-f864-232c-8687-19a1d44ff07e@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 3 Sep 2021 15:17:45 +0100
+Message-ID: <CAFEAcA8EoyaCSzA1vL_SHY50T6Fxjm420_pYgXx1_+E-nV-MBA@mail.gmail.com>
+Subject: Re: [PATCH 1/4] target/arm: Add TB flag for "MVE insns not predicated"
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,19 +79,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/2/21 5:09 PM, Peter Maydell wrote:
-> Optimize the MVE VNEG and VABS insns by using TCG
-> vector ops when possible.
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
->   target/arm/translate-mve.c | 32 ++++++++++++++++++++++----------
->   1 file changed, 22 insertions(+), 10 deletions(-)
+On Fri, 3 Sept 2021 at 14:58, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 9/2/21 5:09 PM, Peter Maydell wrote:
+> > Our current codegen for MVE always calls out to helper functions,
+> > because some byte lanes might be predicated. The common case is
+> > that in fact there is no predication active and all lanes should
+> > be updated together, so we can produce better code by detecting
+> > that and using the TCG generic vector infrastructure.
+> >
+> > Add a TB flag that is set when we can guarantee that there
+> > is no active MVE predication, and a bool in the DisasContext.
+> > Subsequent patches will use this flag to generate improved
+> > code for some instructions.
+> >
+> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > ---
+> > Another of those awkward-to-review patches where the interesting
+> > question is "did I miss anywhere where we set v7m.vpr to non-0
+> > or v7m.ltpsize to non-4 while in the middle of a TB ?" ...
+> >
+> > I've left the TB flag as non-cached because there seemed to
+> > be an irritatingly large set of places where we'd have to do
+> > an hflags recomputation.
+>
+> Indeed, non-cached seems like the right option.
+>
+> > +static bool mve_no_predication(CPUARMState *env)
+> > +{
+> > +    /*
+> > +     * Return true if there is definitely no predication of MVE
+> > +     * instructions for any reason. (Returning false even if there
+> > +     * isn't any predication is OK; generated code will just be
+> > +     * a little worse.)
+> > +     * We do not account here for partial insn execution due to
+> > +     * ECI bits as those are already in the TB flags elsewhere.
+> > +     */
+>
+> I think you should go ahead and include that here, as it makes the test self-contained,
+> and avoids you having to do this:
+>
+> > +        dc->mve_no_pred = EX_TBFLAG_M32(tb_flags, MVE_NO_PRED) && dc->eci == 0;
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Yeah. I think I was initially thinking that I wanted the MVE_NO_PRED
+flag to be cached in hflags, in which case you have to do the combination
+with ECI here because the ECI/condexec bits are not cached. But if we're
+happy for MVE_NO_PRED to be not cached then we can happily combine with
+ECI directly in mve_no_predication().
 
-r~
+> > +    /* VLLDM or VLSTM helpers might have updated vpr or ltpsize */
+> > +    s->mve_no_pred = false;
+>
+> For a moment I was thinking that this was ok, just finish the rest of the TB and resync
+> naturally, letting the end of the TB use the helpers.  But then I thought about goto_tb.
+> If you have this potentially variable condition, you can't chain the links between this TB
+> and the next.
+
+I don't really understand what you mean here. What's the difference
+between ending the TB now and translating a few more insns in
+this TB before we end it?
+
+thanks
+-- PMM
 
