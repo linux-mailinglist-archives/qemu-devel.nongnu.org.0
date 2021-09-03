@@ -2,91 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA73C3FFC42
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 10:48:44 +0200 (CEST)
-Received: from localhost ([::1]:58090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AC063FFCB5
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 11:07:19 +0200 (CEST)
+Received: from localhost ([::1]:38480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM4sN-00024f-B9
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 04:48:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39972)
+	id 1mM5AK-0000TI-IK
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 05:07:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mM4rP-0001Oq-KM
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 04:47:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48676)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mM4rL-0000Eg-Sd
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 04:47:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630658858;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TT2FlCdZfZeJu9yMO3tVsoUHgXAAgENQ/JeNdH5gv5k=;
- b=YGfGC31r5oWxIdvYoyXyiQ3OpQBwc4+op/1MNlumVFtZP8xpmZOA+SOUu+42viZArD5wWu
- 5FkDpPLvjcrYZt9C83z2SyQRXbJnjHKiMxvU8EQfKYfppAvzBzc2fBpJ1hmCejox6pOonR
- udSa78I1DJUo/oYstbMbtkgO2CiQtEc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-398-1b_RNnO7OM6WIFy0gU71KQ-1; Fri, 03 Sep 2021 04:47:37 -0400
-X-MC-Unique: 1b_RNnO7OM6WIFy0gU71KQ-1
-Received: by mail-wm1-f70.google.com with SMTP id
- z18-20020a1c7e120000b02902e69f6fa2e0so1646427wmc.9
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 01:47:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mM56x-0005wk-GE
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:03:47 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44928)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mM56u-0005Tp-S6
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:03:46 -0400
+Received: by mail-wr1-x432.google.com with SMTP id g18so7173606wrc.11
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 02:03:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VNXssv77lGW/gLcDBRUS1rbizfNSPc1VEJe0DYgf3K4=;
+ b=obOk9DtjZ+4s/F/b1VzAbcb8/hlf0Y0AA4ivix7rFvKn9szRw/mgzAJleA3dvd1dIv
+ 7U8jOzuPnmh22FqP5ju7U5vAuf+bL3poq5goJP9tabdEIw1AsPjh4uo7i6oSRv9Ra6LT
+ gB/cBDfs082oN4TZzRGA8ht4WTJ9VJITxEtPULxu5xKfQzA8QqAR83aRUtEAsvRdgWDf
+ tpGoiZZDB72eIfTmKrYin5eO9lEO2Em6bbvQSM2V/bPXItmFzJbZSe0ahXYrNye6ltZH
+ 2eMEd+s9WPrebUTBU2siZuqbiq3XR+Y6v99bKoWQO+IeMHnOKdu2eZoKqZhMRbhjYQmn
+ KqFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:organization:subject
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=TT2FlCdZfZeJu9yMO3tVsoUHgXAAgENQ/JeNdH5gv5k=;
- b=noD0uUBvzpxcmr2NaBi9ObCz3d2uGqfem/W/bfogXuZ4KRzHRW1LREK1STS9COVYe1
- wAxNLimeBhKzPrOV0oFnySVX0/IX8zYYbLMPng+dkXBTNp6OFOptI88b2kBCognz1RSu
- 23+HWGddnspuuxJujuiiDfNU1MvOlf3/KDI7e7k+2ufEQBb7ssnTiP7izJ0OXxzuUH8O
- zF9rEbnvCcCS+ApwcSEzcED+YfWNVEz1zgoyAbNovfeyysHZS8SLfU+UqNmkda0mF6r9
- QgULQ90TraLGAkkzK1dVGWFoKmGOAy6Fp/eumpYpcv7bwCGuqyqFR2LczM+FquZ6mqV2
- YQdg==
-X-Gm-Message-State: AOAM531DXR2m1QxTScIoFFFvYOKPPsjW6oYGFXEF/uZhw/7VgVviI2Mp
- tTc+Eh3VITWhUkxYdZ+28DbHc6G0iwLYnp5pZnpXEF5Fho3Dh0TVclBIU5SbdCIujmknst85GRj
- qqBpd+lQy9ujAtZg=
-X-Received: by 2002:a1c:158:: with SMTP id 85mr7171244wmb.187.1630658856261;
- Fri, 03 Sep 2021 01:47:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwyZuuusUBLdsI639p98KoY6UTk+Le3nd7Qrk7ffrJnGPrQYCg7Nn+wAoL2dtiwYFARFRpO6Q==
-X-Received: by 2002:a1c:158:: with SMTP id 85mr7171220wmb.187.1630658856042;
- Fri, 03 Sep 2021 01:47:36 -0700 (PDT)
-Received: from [192.168.3.132] (p4ff23e05.dip0.t-ipconnect.de. [79.242.62.5])
- by smtp.gmail.com with ESMTPSA id
- b24sm3559718wmj.43.2021.09.03.01.47.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Sep 2021 01:47:35 -0700 (PDT)
-To: Peter Xu <peterx@redhat.com>
-References: <20210902131432.23103-1-david@redhat.com>
- <20210902131432.23103-8-david@redhat.com> <YTFQ6vzTCFTwK3tz@t490s>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-Subject: Re: [PATCH v4 7/9] migration: Simplify alignment and alignment checks
-Message-ID: <8985fca4-e15c-95a7-2c45-74353a3a19fa@redhat.com>
-Date: Fri, 3 Sep 2021 10:47:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VNXssv77lGW/gLcDBRUS1rbizfNSPc1VEJe0DYgf3K4=;
+ b=Xc9E46DMwcPzYReJlkBGHOV7a+Bby/UwnqHH5Qabz3vPP18sW4bgBA1YWMWW+RcyYX
+ uTfWfGZ/PsQwKwsJ8LhCf2ZBro+lMcVRB2ZHmsDpQlWNsCJTRaup9J7FM7Ot8DslTsur
+ zK24TPMyBC8tOG4w2palRxjtO6Fr6qpN4DgSUrkgDYlV5FqI2C9/AmWwVzu+qHOMFAIt
+ wo+p/dYw6lH4nkUVThondWGoRtYrn5PTrwh8xWaL+LuGXkFZJisEZEKpGiF2ed37vvAi
+ R0puL0dQyrOdGKVlQwgO9GtykzULUbX09mro0FEAA/W7wsxmtjF91I6S9bkqVOtWI2VN
+ D5pQ==
+X-Gm-Message-State: AOAM530BH41pv6Y9VCUdNG+cTz+PsqOUUAvonTyQFEwWgKKE5sDQCYWw
+ KPIZBj2FR/xXW4aQ6qELC9Rbyg==
+X-Google-Smtp-Source: ABdhPJysVGijuJB8Z+GbCAMQYQYHe4IzN6+mjTiygmG6bY/+xaySdk0pEYyFeRI6makqWg/cSe27QQ==
+X-Received: by 2002:adf:e74a:: with SMTP id c10mr2811718wrn.350.1630659822019; 
+ Fri, 03 Sep 2021 02:03:42 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id 129sm3748736wmz.26.2021.09.03.02.03.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Sep 2021 02:03:40 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E3DE11FF96;
+ Fri,  3 Sep 2021 10:03:39 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL 00/22] testing and plugin updates
+Date: Fri,  3 Sep 2021 10:03:17 +0100
+Message-Id: <20210903090339.1074887-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <YTFQ6vzTCFTwK3tz@t490s>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -53
-X-Spam_score: -5.4
-X-Spam_bar: -----
-X-Spam_report: (-5.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.225, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,62 +84,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
- qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03.09.21 00:32, Peter Xu wrote:
-> On Thu, Sep 02, 2021 at 03:14:30PM +0200, David Hildenbrand wrote:
->> diff --git a/migration/migration.c b/migration/migration.c
->> index bb909781b7..ae97c2c461 100644
->> --- a/migration/migration.c
->> +++ b/migration/migration.c
->> @@ -391,7 +391,7 @@ int migrate_send_rp_message_req_pages(MigrationIncomingState *mis,
->>   int migrate_send_rp_req_pages(MigrationIncomingState *mis,
->>                                 RAMBlock *rb, ram_addr_t start, uint64_t haddr)
->>   {
->> -    void *aligned = (void *)(uintptr_t)(haddr & (-qemu_ram_pagesize(rb)));
->> +    void *aligned = (void *)QEMU_ALIGN_DOWN(haddr, qemu_ram_pagesize(rb));
-> 
-> Is uintptr_t still needed?  I thought it would generate a warning otherwise but
-> not sure.
+The following changes since commit 079b1252e9de384385c9da910262312ec2e574c8:
 
-It doesn't in my setup, but maybe it will on 32bit archs ...
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210901' into staging (2021-09-01 17:45:38 +0100)
 
-I discussed this with Phil in
+are available in the Git repository at:
 
-https://lkml.kernel.org/r/2c8d80ad-f171-7d5f-3235-92f02fa174b3@redhat.com
+  https://github.com/stsquad/qemu.git tags/pull-for-6.2-020921-1
 
-Maybe
+for you to fetch changes up to a35af836d103f781d2fea437129732c16ba64b25:
 
-QEMU_ALIGN_PTR_DOWN((void *)haddr, qemu_ram_pagesize(rb)));
+  docs/devel: be consistent about example plugin names (2021-09-02 11:29:34 +0100)
 
-Is really what we want.
+----------------------------------------------------------------
+Testing and plugin updates:
 
-> 
-> Also, maybe ROUND_DOWN() is better?  QEMU_ALIGN_DOWN is the slow version for
-> arbitrary numbers.
+  - fix typo in execlog plugin
+  - clean-up and document gitlab FOO_RUNNER_AVAILABLE vars
+  - fix plugin build issue on OSX and modules
+  - add multi-core support to cache modelling plugin
+  - clean-ups for plugin arg=FOO handling
 
-We do have exactly 2 direct users of ROUND_DOWN() in the tree (well, we 
-do have some more for ROUND_UP) :)
+----------------------------------------------------------------
+Alex Bennée (1):
+      plugins: sort exported symbol list
 
-QEMU_ALIGN_DOWN vs. QEMU_ALIGN_DOWN is much easier to map and understand 
-IMHO, and there is usually little need to optimize.
+Mahmoud Mandour (17):
+      plugins/execlog: removed unintended "s" at the end of log lines.
+      plugins/cache: supported multicore cache modelling
+      docs/devel/tcg-plugins: added cores arg to cache plugin
+      plugins: allow plugin arguments to be passed directly
+      plugins/api: added a boolean parsing plugin api
+      plugins/hotpages: introduce sortby arg and parsed bool args correctly
+      plugins/hotblocks: Added correct boolean argument parsing
+      plugins/lockstep: make socket path not positional & parse bool arg
+      plugins/hwprofile: adapt to the new plugin arguments scheme
+      plugins/howvec: adapting to the new argument passing scheme
+      docs/tcg-plugins: new passing parameters scheme for cache docs
+      tests/plugins/bb: adapt to the new arg passing scheme
+      tests/plugins/insn: made arg inline not positional and parse it as bool
+      tests/plugins/mem: introduce "track" arg and make args not positional
+      tests/plugins/syscalls: adhere to new arg-passing scheme
+      docs/deprecated: deprecate passing plugin args through `arg=`
+      docs/devel: be consistent about example plugin names
 
-I actually do wonder how much of a difference it actually makes on 
-modern CPUs ...
+Paolo Bonzini (1):
+      plugins: do not limit exported symbols if modules are active
+
+Thomas Huth (3):
+      gitlab-ci: Merge "build-disabled" with "build-without-default-features"
+      gitlab-ci: Remove superfluous "dnf install" statement
+      gitlab-ci: Fix ..._RUNNER_AVAILABLE variables and document them
+
+ docs/about/deprecated.rst                |  12 +++
+ docs/devel/ci-jobs.rst                   |  11 ++
+ docs/devel/tcg-plugins.rst               |  68 +++++++-----
+ configure                                |   5 +-
+ include/qemu/qemu-plugin.h               |  13 +++
+ contrib/plugins/cache.c                  | 176 +++++++++++++++++++++++--------
+ contrib/plugins/execlog.c                |   2 +-
+ contrib/plugins/hotblocks.c              |  14 ++-
+ contrib/plugins/hotpages.c               |  30 ++++--
+ contrib/plugins/howvec.c                 |  27 +++--
+ contrib/plugins/hwprofile.c              |  39 ++++---
+ contrib/plugins/lockstep.c               |  31 ++++--
+ linux-user/main.c                        |   2 +-
+ plugins/api.c                            |   5 +
+ plugins/loader.c                         |  24 ++++-
+ tests/plugin/bb.c                        |  15 ++-
+ tests/plugin/insn.c                      |  14 ++-
+ tests/plugin/mem.c                       |  47 +++++----
+ tests/plugin/syscall.c                   |  23 ++--
+ .gitlab-ci.d/buildtest.yml               |  99 +++--------------
+ .gitlab-ci.d/custom-runners.yml          |  12 +--
+ plugins/meson.build                      |  14 +--
+ plugins/qemu-plugins.symbols             |  49 ++++-----
+ qemu-options.hx                          |   9 +-
+ tests/tcg/i386/Makefile.softmmu-target   |   2 +-
+ tests/tcg/i386/Makefile.target           |   2 +-
+ tests/tcg/x86_64/Makefile.softmmu-target |   2 +-
+ 27 files changed, 467 insertions(+), 280 deletions(-)
 
 -- 
-Thanks,
-
-David / dhildenb
+2.30.2
 
 
