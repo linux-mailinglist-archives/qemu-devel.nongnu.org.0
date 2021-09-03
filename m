@@ -2,82 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFCC13FFBCC
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 10:22:31 +0200 (CEST)
-Received: from localhost ([::1]:60764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 084BB3FFBD8
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 10:24:04 +0200 (CEST)
+Received: from localhost ([::1]:36894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM4T0-0000JY-Tt
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 04:22:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34616)
+	id 1mM4UV-0003EE-3K
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 04:24:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=8880d40211=pdel@fb.com>)
- id 1mM4RN-0007JU-4s
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 04:20:49 -0400
-Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:29910)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1mM4TM-0001zG-Jm; Fri, 03 Sep 2021 04:22:52 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2106)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=8880d40211=pdel@fb.com>)
- id 1mM4RK-0002Rz-UG
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 04:20:48 -0400
-Received: from pps.filterd (m0148460.ppops.net [127.0.0.1])
- by mx0a-00082601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 18385LbV016039
- for <qemu-devel@nongnu.org>; Fri, 3 Sep 2021 01:20:44 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=facebook;
- bh=Vq5iCSx8Id6qY8McT9OYDl8gCzivphjvXnwXJWN8h6c=;
- b=NV6zreEigTXR2L3J5l4QZE1iMsd7QtbUwMWrG88xMYJ7IGXVFECnHls2xb5AKP/AYPgl
- dNsvEbguKjDmUMxIUL1CSajpogWQB7yAZVa/Xdlv708A7eYC+tN9tvTtiQrxPZkoMYFM
- piizcOZOW0k9cieDrySl8y3aTkVIoBaJ36s= 
-Received: from mail.thefacebook.com ([163.114.132.120])
- by mx0a-00082601.pphosted.com with ESMTP id 3aubk023h5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 01:20:44 -0700
-Received: from intmgw001.05.prn6.facebook.com (2620:10d:c085:208::11) by
- mail.thefacebook.com (2620:10d:c085:11d::5) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.14; Fri, 3 Sep 2021 01:20:43 -0700
-Received: by devvm660.prn0.facebook.com (Postfix, from userid 385188)
- id 9910A18C838B; Fri,  3 Sep 2021 01:20:42 -0700 (PDT)
-From: <pdel@fb.com>
-To: 
-CC: <clg@kaod.org>, <joel@jms.id.au>, <qemu-devel@nongnu.org>,
- <qemu-arm@nongnu.org>, <patrick@stwcx.xyz>, Peter Delevoryas <pdel@fb.com>
-Subject: [PATCH v2 1/1] hw/arm/aspeed: Add Fuji machine type
-Date: Fri, 3 Sep 2021 01:20:27 -0700
-Message-ID: <20210903082027.704397-2-pdel@fb.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210903082027.704397-1-pdel@fb.com>
-References: <20210903082027.704397-1-pdel@fb.com>
-X-FB-Internal: Safe
-Content-Type: text/plain
-X-FB-Source: Intern
-X-Proofpoint-ORIG-GUID: Y_zfydOSjD7e08tIGHu2dMiIHtC1nw8b
-X-Proofpoint-GUID: Y_zfydOSjD7e08tIGHu2dMiIHtC1nw8b
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1mM4TI-0003xS-CV; Fri, 03 Sep 2021 04:22:51 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4H19fl6CMCzbgFy;
+ Fri,  3 Sep 2021 16:18:39 +0800 (CST)
+Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.2176.2; Fri, 3 Sep 2021 16:22:36 +0800
+Received: from [10.174.185.210] (10.174.185.210) by
+ dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.8; Fri, 3 Sep 2021 16:22:35 +0800
+Subject: Re: [RFC v9 14/29] vfio: Introduce helpers to DMA map/unmap a RAM
+ section
+To: Eric Auger <eric.auger@redhat.com>, <eric.auger.pro@gmail.com>,
+ <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <alex.williamson@redhat.com>
+References: <20210411120912.15770-1-eric.auger@redhat.com>
+ <20210411120912.15770-15-eric.auger@redhat.com>
+From: Kunkun Jiang <jiangkunkun@huawei.com>
+Message-ID: <5aee6351-33b6-9e16-23b3-9a74666a749c@huawei.com>
+Date: Fri, 3 Sep 2021 16:22:24 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-09-03_02:2021-09-03,
- 2021-09-03 signatures=0
-X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0
- bulkscore=0
- impostorscore=0 priorityscore=1501 mlxscore=0 adultscore=0
- lowpriorityscore=0 malwarescore=0 clxscore=1015 suspectscore=0 spamscore=0
- mlxlogscore=999 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2108310000 definitions=main-2109030049
-X-FB-Internal: deliver
-Received-SPF: pass client-ip=67.231.153.30;
- envelope-from=prvs=8880d40211=pdel@fb.com; helo=mx0b-00082601.pphosted.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210411120912.15770-15-eric.auger@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Originating-IP: [10.174.185.210]
+X-ClientProxiedBy: dggeme720-chm.china.huawei.com (10.1.199.116) To
+ dggema765-chm.china.huawei.com (10.1.198.207)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=jiangkunkun@huawei.com; helo=szxga02-in.huawei.com
+X-Spam_score_int: -63
+X-Spam_score: -6.4
+X-Spam_bar: ------
+X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.225,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,198 +68,309 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, jacob.jun.pan@linux.intel.com,
+ jean-philippe@linaro.org, tn@semihalf.com, chenxiang66@hisilicon.com,
+ shameerali.kolothum.thodi@huawei.com, nicoleotsuka@gmail.com,
+ vivek.gautam@arm.com, vdumpa@nvidia.com, yi.l.liu@intel.com, peterx@redhat.com,
+ zhangfei.gao@gmail.com, yuzenghui@huawei.com, wanghaibin.wang@huawei.com,
+ zhukeqian1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Delevoryas <pdel@fb.com>
+Hi Eric,
 
-This adds a new machine type "fuji-bmc" based on the following device tree:
+On 2021/4/11 20:08, Eric Auger wrote:
+> Let's introduce two helpers that allow to DMA map/unmap a RAM
+> section. Those helpers will be called for nested stage setup in
+> another call site. Also the vfio_listener_region_add/del()
+> structure may be clearer.
+>
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>
+> ---
+>
+> v8 -> v9
+> - rebase on top of
+>    1eb7f642750c ("vfio: Support host translation granule size")
+>
+> v5 -> v6:
+> - add Error **
+> ---
+>   hw/vfio/common.c     | 199 +++++++++++++++++++++++++------------------
+>   hw/vfio/trace-events |   4 +-
+>   2 files changed, 119 insertions(+), 84 deletions(-)
+>
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index a8f835328e..0cd7ef2139 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -662,13 +662,126 @@ hostwin_from_range(VFIOContainer *container, hwaddr iova, hwaddr end)
+>       return NULL;
+>   }
+>   
+> +static int vfio_dma_map_ram_section(VFIOContainer *container,
+> +                                    MemoryRegionSection *section, Error **err)
+> +{
+> +    VFIOHostDMAWindow *hostwin;
+> +    Int128 llend, llsize;
+> +    hwaddr iova, end;
+> +    void *vaddr;
+> +    int ret;
+> +
+> +    assert(memory_region_is_ram(section->mr));
+> +
+> +    iova = TARGET_PAGE_ALIGN(section->offset_within_address_space);
+> +    llend = int128_make64(section->offset_within_address_space);
+> +    llend = int128_add(llend, section->size);
+> +    llend = int128_and(llend, int128_exts64(TARGET_PAGE_MASK));
+Is there any special meaning for using TRAGET_PAGE_ALIGN here?
+REAL_HOST_PAGE_ALIGN is used in vfio_listener_region_add.
 
-https://github.com/torvalds/linux/blob/master/arch/arm/boot/dts/aspeed-bmc-=
-facebook-fuji.dts
+And I think a check should be added here if using REAL_HOST_PAGE_ALIGN.
+> if (int128_ge(int128_make64(iova), llend)) {
+>      return;
+> }
 
-Most of the i2c devices are not there, they're added here:
+It will cause an error log or 'assert(r ==a )' of int128_get64 by calling
+vfio_prereg_listener_region_add in some scenarios. Some devices' BAR
+may map MSI-X structures and others in one host page.
 
-https://github.com/facebook/openbmc/blob/helium/meta-facebook/meta-fuji/rec=
-ipes-utils/openbmc-utils/files/setup_i2c.sh
+By the way, is this set of patch to be updated after "/dev/iommu" is
+sent out?
 
-I tested this by building a Fuji image from Facebook's OpenBMC repo,
-booting, and ssh'ing from host-to-guest.
+Thanks,
+Kunkun Jiang
 
-git clone https://github.com/facebook/openbmc
-cd openbmc
-./sync_yocto.sh
-source openbmc-init-build-env fuji build-fuji
-bitbake fuji-image
-dd if=3D/dev/zero of=3D/tmp/fuji.mtd bs=3D1M count=3D128
-dd if=3D./tmp/deploy/images/fuji/flash-fuji of=3D/tmp/fuji.mtd \
-    bs=3D1k conv=3Dnotrunc
+> +    end = int128_get64(int128_sub(llend, int128_one()));
+> +
+> +    vaddr = memory_region_get_ram_ptr(section->mr) +
+> +            section->offset_within_region +
+> +            (iova - section->offset_within_address_space);
+> +
+> +    hostwin = hostwin_from_range(container, iova, end);
+> +    if (!hostwin) {
+> +        error_setg(err, "Container %p can't map guest IOVA region"
+> +                   " 0x%"HWADDR_PRIx"..0x%"HWADDR_PRIx, container, iova, end);
+> +        return -EFAULT;
+> +    }
+> +
+> +    trace_vfio_dma_map_ram(iova, end, vaddr);
+> +
+> +    llsize = int128_sub(llend, int128_make64(iova));
+> +
+> +    if (memory_region_is_ram_device(section->mr)) {
+> +        hwaddr pgmask = (1ULL << ctz64(hostwin->iova_pgsizes)) - 1;
+> +
+> +        if ((iova & pgmask) || (int128_get64(llsize) & pgmask)) {
+> +            trace_vfio_listener_region_add_no_dma_map(
+> +                memory_region_name(section->mr),
+> +                section->offset_within_address_space,
+> +                int128_getlo(section->size),
+> +                pgmask + 1);
+> +            return 0;
+> +        }
+> +    }
+> +
+> +    ret = vfio_dma_map(container, iova, int128_get64(llsize),
+> +                       vaddr, section->readonly);
+> +    if (ret) {
+> +        error_setg(err, "vfio_dma_map(%p, 0x%"HWADDR_PRIx", "
+> +                   "0x%"HWADDR_PRIx", %p) = %d (%m)",
+> +                   container, iova, int128_get64(llsize), vaddr, ret);
+> +        if (memory_region_is_ram_device(section->mr)) {
+> +            /* Allow unexpected mappings not to be fatal for RAM devices */
+> +            error_report_err(*err);
+> +            return 0;
+> +        }
+> +        return ret;
+> +    }
+> +    return 0;
+> +}
+> +
+> +static void vfio_dma_unmap_ram_section(VFIOContainer *container,
+> +                                       MemoryRegionSection *section)
+> +{
+> +    Int128 llend, llsize;
+> +    hwaddr iova, end;
+> +    bool try_unmap = true;
+> +    int ret;
+> +
+> +    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
+> +    llend = int128_make64(section->offset_within_address_space);
+> +    llend = int128_add(llend, section->size);
+> +    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask));
+> +
+> +    if (int128_ge(int128_make64(iova), llend)) {
+> +        return;
+> +    }
+> +    end = int128_get64(int128_sub(llend, int128_one()));
+> +
+> +    llsize = int128_sub(llend, int128_make64(iova));
+> +
+> +    trace_vfio_dma_unmap_ram(iova, end);
+> +
+> +    if (memory_region_is_ram_device(section->mr)) {
+> +        hwaddr pgmask;
+> +        VFIOHostDMAWindow *hostwin = hostwin_from_range(container, iova, end);
+> +
+> +        assert(hostwin); /* or region_add() would have failed */
+> +
+> +        pgmask = (1ULL << ctz64(hostwin->iova_pgsizes)) - 1;
+> +        try_unmap = !((iova & pgmask) || (int128_get64(llsize) & pgmask));
+> +    }
+> +
+> +    if (try_unmap) {
+> +        if (int128_eq(llsize, int128_2_64())) {
+> +            /* The unmap ioctl doesn't accept a full 64-bit span. */
+> +            llsize = int128_rshift(llsize, 1);
+> +            ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
+> +            if (ret) {
+> +                error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
+> +                             "0x%"HWADDR_PRIx") = %d (%m)",
+> +                             container, iova, int128_get64(llsize), ret);
+> +            }
+> +            iova += int128_get64(llsize);
+> +        }
+> +        ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
+> +        if (ret) {
+> +            error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
+> +                         "0x%"HWADDR_PRIx") = %d (%m)",
+> +                         container, iova, int128_get64(llsize), ret);
+> +        }
+> +    }
+> +}
+> +
+>   static void vfio_listener_region_add(MemoryListener *listener,
+>                                        MemoryRegionSection *section)
+>   {
+>       VFIOContainer *container = container_of(listener, VFIOContainer, listener);
+>       hwaddr iova, end;
+> -    Int128 llend, llsize;
+> -    void *vaddr;
+> +    Int128 llend;
+>       int ret;
+>       VFIOHostDMAWindow *hostwin;
+>       Error *err = NULL;
+> @@ -814,39 +927,7 @@ static void vfio_listener_region_add(MemoryListener *listener,
+>       }
+>   
+>       /* Here we assume that memory_region_is_ram(section->mr)==true */
+> -
+> -    vaddr = memory_region_get_ram_ptr(section->mr) +
+> -            section->offset_within_region +
+> -            (iova - section->offset_within_address_space);
+> -
+> -    trace_vfio_listener_region_add_ram(iova, end, vaddr);
+> -
+> -    llsize = int128_sub(llend, int128_make64(iova));
+> -
+> -    if (memory_region_is_ram_device(section->mr)) {
+> -        hwaddr pgmask = (1ULL << ctz64(hostwin->iova_pgsizes)) - 1;
+> -
+> -        if ((iova & pgmask) || (int128_get64(llsize) & pgmask)) {
+> -            trace_vfio_listener_region_add_no_dma_map(
+> -                memory_region_name(section->mr),
+> -                section->offset_within_address_space,
+> -                int128_getlo(section->size),
+> -                pgmask + 1);
+> -            return;
+> -        }
+> -    }
+> -
+> -    ret = vfio_dma_map(container, iova, int128_get64(llsize),
+> -                       vaddr, section->readonly);
+> -    if (ret) {
+> -        error_setg(&err, "vfio_dma_map(%p, 0x%"HWADDR_PRIx", "
+> -                   "0x%"HWADDR_PRIx", %p) = %d (%m)",
+> -                   container, iova, int128_get64(llsize), vaddr, ret);
+> -        if (memory_region_is_ram_device(section->mr)) {
+> -            /* Allow unexpected mappings not to be fatal for RAM devices */
+> -            error_report_err(err);
+> -            return;
+> -        }
+> +    if (vfio_dma_map_ram_section(container, section, &err)) {
+>           goto fail;
+>       }
+>   
+> @@ -880,10 +961,6 @@ static void vfio_listener_region_del(MemoryListener *listener,
+>                                        MemoryRegionSection *section)
+>   {
+>       VFIOContainer *container = container_of(listener, VFIOContainer, listener);
+> -    hwaddr iova, end;
+> -    Int128 llend, llsize;
+> -    int ret;
+> -    bool try_unmap = true;
+>   
+>       if (vfio_listener_skipped_section(section)) {
+>           trace_vfio_listener_region_del_skip(
+> @@ -923,49 +1000,7 @@ static void vfio_listener_region_del(MemoryListener *listener,
+>            */
+>       }
+>   
+> -    iova = REAL_HOST_PAGE_ALIGN(section->offset_within_address_space);
+> -    llend = int128_make64(section->offset_within_address_space);
+> -    llend = int128_add(llend, section->size);
+> -    llend = int128_and(llend, int128_exts64(qemu_real_host_page_mask));
+> -
+> -    if (int128_ge(int128_make64(iova), llend)) {
+> -        return;
+> -    }
+> -    end = int128_get64(int128_sub(llend, int128_one()));
+> -
+> -    llsize = int128_sub(llend, int128_make64(iova));
+> -
+> -    trace_vfio_listener_region_del(iova, end);
+> -
+> -    if (memory_region_is_ram_device(section->mr)) {
+> -        hwaddr pgmask;
+> -        VFIOHostDMAWindow *hostwin = hostwin_from_range(container, iova, end);
+> -
+> -        assert(hostwin); /* or region_add() would have failed */
+> -
+> -        pgmask = (1ULL << ctz64(hostwin->iova_pgsizes)) - 1;
+> -        try_unmap = !((iova & pgmask) || (int128_get64(llsize) & pgmask));
+> -    }
+> -
+> -    if (try_unmap) {
+> -        if (int128_eq(llsize, int128_2_64())) {
+> -            /* The unmap ioctl doesn't accept a full 64-bit span. */
+> -            llsize = int128_rshift(llsize, 1);
+> -            ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
+> -            if (ret) {
+> -                error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
+> -                             "0x%"HWADDR_PRIx") = %d (%m)",
+> -                             container, iova, int128_get64(llsize), ret);
+> -            }
+> -            iova += int128_get64(llsize);
+> -        }
+> -        ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
+> -        if (ret) {
+> -            error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
+> -                         "0x%"HWADDR_PRIx") = %d (%m)",
+> -                         container, iova, int128_get64(llsize), ret);
+> -        }
+> -    }
+> +    vfio_dma_unmap_ram_section(container, section);
+>   
+>       memory_region_unref(section->mr);
+>   
+> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+> index 2a41326c0f..936d29d150 100644
+> --- a/hw/vfio/trace-events
+> +++ b/hw/vfio/trace-events
+> @@ -99,10 +99,10 @@ vfio_iommu_map_notify(const char *op, uint64_t iova_start, uint64_t iova_end) "i
+>   vfio_listener_region_add_skip(uint64_t start, uint64_t end) "SKIPPING region_add 0x%"PRIx64" - 0x%"PRIx64
+>   vfio_spapr_group_attach(int groupfd, int tablefd) "Attached groupfd %d to liobn fd %d"
+>   vfio_listener_region_add_iommu(uint64_t start, uint64_t end) "region_add [iommu] 0x%"PRIx64" - 0x%"PRIx64
+> -vfio_listener_region_add_ram(uint64_t iova_start, uint64_t iova_end, void *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64" [%p]"
+> +vfio_dma_map_ram(uint64_t iova_start, uint64_t iova_end, void *vaddr) "region_add [ram] 0x%"PRIx64" - 0x%"PRIx64" [%p]"
+>   vfio_listener_region_add_no_dma_map(const char *name, uint64_t iova, uint64_t size, uint64_t page_size) "Region \"%s\" 0x%"PRIx64" size=0x%"PRIx64" is not aligned to 0x%"PRIx64" and cannot be mapped for DMA"
+>   vfio_listener_region_del_skip(uint64_t start, uint64_t end) "SKIPPING region_del 0x%"PRIx64" - 0x%"PRIx64
+> -vfio_listener_region_del(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
+> +vfio_dma_unmap_ram(uint64_t start, uint64_t end) "region_del 0x%"PRIx64" - 0x%"PRIx64
+>   vfio_disconnect_container(int fd) "close container->fd=%d"
+>   vfio_connect_existing_container(int groupid, int container_fd) "group=%d existing container fd=%d"
+>   vfio_connect_new_container(int groupid, int container_fd) "group=%d new container fd=%d"
 
-git clone --branch aspeed-next https://github.com/peterdelevoryas/qemu
-cd qemu
-./configure --target-list=3Darm-softmmu --disable-vnc
-make -j $(nproc)
-./build/arm-softmmu/qemu-system-arm \
-    -machine fuji-bmc \
-    -drive file=3D/tmp/fuji.mtd,format=3Draw,if=3Dmtd \
-    -serial stdio \
-    -nic user,hostfwd=3D::2222-:22
-sshpass -p 0penBmc ssh root@localhost -p 2222
-
-Signed-off-by: Peter Delevoryas <pdel@fb.com>
----
- hw/arm/aspeed.c | 112 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 112 insertions(+)
-
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 7a9459340c..cc2d721ac7 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -159,6 +159,10 @@ struct AspeedMachineState {
- #define RAINIER_BMC_HW_STRAP1 0x00000000
- #define RAINIER_BMC_HW_STRAP2 0x00000000
-=20
-+/* Fuji hardware value */
-+#define FUJI_BMC_HW_STRAP1    0x00000000
-+#define FUJI_BMC_HW_STRAP2    0x00000000
-+
- /*
-  * The max ram region is for firmwares that scan the address space
-  * with load/store to guess how much RAM the SoC has.
-@@ -772,6 +776,90 @@ static void rainier_bmc_i2c_init(AspeedMachineState *b=
-mc)
-     aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 15), 0x50, 64 * KiB);
- }
-=20
-+static void get_pca9548_channels(I2CBus *bus, uint8_t mux_addr, I2CBus **c=
-hannels) {
-+    I2CSlave *mux =3D i2c_slave_create_simple(bus, "pca9548", mux_addr);
-+    for (int i =3D 0; i < 8; i++) {
-+        channels[i] =3D pca954x_i2c_get_bus(mux, i);
-+    }
-+}
-+
-+#define TYPE_LM75 TYPE_TMP105
-+#define TYPE_TMP75 TYPE_TMP105
-+#define TYPE_TMP422 "tmp422"
-+
-+static void fuji_bmc_i2c_init(AspeedMachineState *bmc)
-+{
-+    AspeedSoCState *soc =3D &bmc->soc;
-+    I2CBus *i2c[144] =3D {};
-+
-+    for (int i =3D 0; i < 16; i++) {
-+        i2c[i] =3D aspeed_i2c_get_bus(&soc->i2c, i);
-+    }
-+    I2CBus *i2c180 =3D i2c[2];
-+    I2CBus *i2c480 =3D i2c[8];
-+    I2CBus *i2c600 =3D i2c[11];
-+
-+    get_pca9548_channels(i2c180, 0x70, &i2c[16]);
-+    get_pca9548_channels(i2c480, 0x70, &i2c[24]);
-+    // NOTE: The device tree skips [32, 40) in the alias numbering, so we =
-do
-+    // the same here.
-+    get_pca9548_channels(i2c600, 0x77, &i2c[40]);
-+    get_pca9548_channels(i2c[24], 0x71, &i2c[48]);
-+    get_pca9548_channels(i2c[25], 0x72, &i2c[56]);
-+    get_pca9548_channels(i2c[26], 0x76, &i2c[64]);
-+    get_pca9548_channels(i2c[27], 0x76, &i2c[72]);
-+    for (int i =3D 0; i < 8; i++) {
-+        get_pca9548_channels(i2c[40 + i], 0x76, &i2c[80 + i * 8]);
-+    }
-+
-+    i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4c);
-+    i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4d);
-+
-+    aspeed_eeprom_init(i2c[19], 0x52, 64 * KiB);
-+    aspeed_eeprom_init(i2c[20], 0x50, 2 * KiB);
-+    aspeed_eeprom_init(i2c[22], 0x52, 2 * KiB);
-+
-+    i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x48);
-+    i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x49);
-+    i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x4a);
-+    i2c_slave_create_simple(i2c[3], TYPE_TMP422, 0x4c);
-+
-+    aspeed_eeprom_init(i2c[8], 0x51, 64 * KiB);
-+    i2c_slave_create_simple(i2c[8], TYPE_LM75, 0x4a);
-+
-+    i2c_slave_create_simple(i2c[50], TYPE_LM75, 0x4c);
-+    aspeed_eeprom_init(i2c[50], 0x52, 64 * KiB);
-+    i2c_slave_create_simple(i2c[51], TYPE_TMP75, 0x48);
-+    i2c_slave_create_simple(i2c[52], TYPE_TMP75, 0x49);
-+
-+    i2c_slave_create_simple(i2c[59], TYPE_TMP75, 0x48);
-+    i2c_slave_create_simple(i2c[60], TYPE_TMP75, 0x49);
-+
-+    aspeed_eeprom_init(i2c[65], 0x53, 64 * KiB);
-+    i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x49);
-+    i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x48);
-+    aspeed_eeprom_init(i2c[68], 0x52, 64 * KiB);
-+    aspeed_eeprom_init(i2c[69], 0x52, 64 * KiB);
-+    aspeed_eeprom_init(i2c[70], 0x52, 64 * KiB);
-+    aspeed_eeprom_init(i2c[71], 0x52, 64 * KiB);
-+
-+    aspeed_eeprom_init(i2c[73], 0x53, 64 * KiB);
-+    i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x49);
-+    i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x48);
-+    aspeed_eeprom_init(i2c[76], 0x52, 64 * KiB);
-+    aspeed_eeprom_init(i2c[77], 0x52, 64 * KiB);
-+    aspeed_eeprom_init(i2c[78], 0x52, 64 * KiB);
-+    aspeed_eeprom_init(i2c[79], 0x52, 64 * KiB);
-+    aspeed_eeprom_init(i2c[28], 0x50, 2 * KiB);
-+
-+    for (int i =3D 0; i < 8; i++) {
-+        aspeed_eeprom_init(i2c[81 + i * 8], 0x56, 64 * KiB);
-+        i2c_slave_create_simple(i2c[82 + i * 8], TYPE_TMP75, 0x48);
-+        i2c_slave_create_simple(i2c[83 + i * 8], TYPE_TMP75, 0x4b);
-+        i2c_slave_create_simple(i2c[84 + i * 8], TYPE_TMP75, 0x4a);
-+    }
-+}
-+
- static bool aspeed_get_mmio_exec(Object *obj, Error **errp)
- {
-     return ASPEED_MACHINE(obj)->mmio_exec;
-@@ -1070,6 +1158,26 @@ static void aspeed_machine_rainier_class_init(Object=
-Class *oc, void *data)
-         aspeed_soc_num_cpus(amc->soc_name);
- };
-=20
-+static void aspeed_machine_fuji_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc =3D MACHINE_CLASS(oc);
-+    AspeedMachineClass *amc =3D ASPEED_MACHINE_CLASS(oc);
-+
-+    mc->desc =3D "Facebook Fuji BMC (Cortex-A7)";
-+    amc->soc_name =3D "ast2600-a3";
-+    amc->hw_strap1 =3D FUJI_BMC_HW_STRAP1;
-+    amc->hw_strap2 =3D FUJI_BMC_HW_STRAP2;
-+    amc->fmc_model =3D "mx66l1g45g";
-+    amc->spi_model =3D "mx66l1g45g";
-+    amc->num_cs =3D 2;
-+    amc->macs_mask =3D ASPEED_MAC3_ON;
-+    amc->i2c_init =3D fuji_bmc_i2c_init;
-+    amc->uart_default =3D ASPEED_DEV_UART1;
-+    mc->default_ram_size =3D 2 * GiB;
-+    mc->default_cpus =3D mc->min_cpus =3D mc->max_cpus =3D
-+        aspeed_soc_num_cpus(amc->soc_name);
-+};
-+
- static const TypeInfo aspeed_machine_types[] =3D {
-     {
-         .name          =3D MACHINE_TYPE_NAME("palmetto-bmc"),
-@@ -1119,6 +1227,10 @@ static const TypeInfo aspeed_machine_types[] =3D {
-         .name          =3D MACHINE_TYPE_NAME("rainier-bmc"),
-         .parent        =3D TYPE_ASPEED_MACHINE,
-         .class_init    =3D aspeed_machine_rainier_class_init,
-+    }, {
-+        .name          =3D MACHINE_TYPE_NAME("fuji-bmc"),
-+        .parent        =3D TYPE_ASPEED_MACHINE,
-+        .class_init    =3D aspeed_machine_fuji_class_init,
-     }, {
-         .name          =3D TYPE_ASPEED_MACHINE,
-         .parent        =3D TYPE_MACHINE,
---=20
-2.30.2
 
 
