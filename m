@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7473400320
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 18:19:41 +0200 (CEST)
-Received: from localhost ([::1]:54378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0B46400321
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 18:19:49 +0200 (CEST)
+Received: from localhost ([::1]:54818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMBum-0006GZ-TQ
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 12:19:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60330)
+	id 1mMBuv-0006Y0-1w
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 12:19:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60376)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMBi9-0004ja-H3
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:06:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53391)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMBiH-0004vB-R8
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:06:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56324)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMBi7-0000gv-Pq
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:06:37 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMBiF-0000nr-C9
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:06:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630685195;
+ s=mimecast20190719; t=1630685202;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Iw9k0Bp351OSq0GNnrA6pD6+12eNcWfk/Y1LfqMHJS0=;
- b=CupUxF8No4St+6RjxDLXE/QGK44Jwn93sKXl7C08Yjv9OmzwarwJv5HLbQqCkUoP9XUduf
- o1NDPlvu2s0gmOTDaxrc5/Z2a3Clg/eWl6iqq6H2AAa68+Y212pIQYQlSlY+l1+kS72qxs
- 0Beo010ULApTjIXCoEwwujDqjJ5/Ji8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-535-xr2tkX1lOfaL58J_Dqq5CQ-1; Fri, 03 Sep 2021 12:06:34 -0400
-X-MC-Unique: xr2tkX1lOfaL58J_Dqq5CQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- r17-20020adfda510000b02901526f76d738so1749079wrl.0
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 09:06:33 -0700 (PDT)
+ bh=XHKyr01gvCx97VAfaYZAMWFLuahjopao8xNghsdJ+1c=;
+ b=GC5MqMzfaAjY/GZdn/hWygvNLKnF6LKm47i+HPU3w5az/866vB5xNpTCD7lWM2p0/0mjnm
+ ESt6xtimcHFNdGX64twbH9XCRjpZoeuJgjTk48X0HNyJ7ifs0Aj3O7rovZnZCfUIIcBNzl
+ 3AeQU0oF4Xrk22hrqpEoPGVbYzao0uk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-400-AW46sMKiOyqYs1WL3E075g-1; Fri, 03 Sep 2021 12:06:40 -0400
+X-MC-Unique: AW46sMKiOyqYs1WL3E075g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ h1-20020a05600c350100b002e751bf6733so2130227wmq.8
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 09:06:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Iw9k0Bp351OSq0GNnrA6pD6+12eNcWfk/Y1LfqMHJS0=;
- b=cvBMx8lslQeQp3e4vZZFhZYw+PqFY/5V/wy/NoaJeCgoUc8kJOi7Q9nllYhHOZC/Gh
- 3ItMZxaRIOaecIQMqPDMiFFOtSyReklbTWQ+aug0FVIO5DhZCtWdHFpGaUD98+BqT7Yz
- JsVT3kCBZq8iongp//aOH0jpghziGkyB42UaIupH1ZGHSpfQjFBm7OMRbvsKNxFx2gXw
- GZt2tYTeF5yrfntUcw/5lSvDmZL4MwmkSj5p2DNnZ1S25z8liM/IoqkKCB9Fs6c0XUvH
- /GXTpYrwuxJXPxPERLhIMXnIyOpreeAlBlwtpPIm5mieM4bQa1SmVAmBOHpBDRrmnT9s
- dbiA==
-X-Gm-Message-State: AOAM532rayePjJOuzXiOtlvg1M5R7XxmrSyIBTpcYnJcBwdujH5f+vAc
- TdcfvJr7T6+4T95x3vTCqeNjHm6EQIn09S/N2rE/nI4RhfzOL1r9db2/K9m57yKQQZVOi6LWwHp
- kUEAVIzEyN1pJTtKZ0tvjcB7BuOpwHxdrIZhTWLrEIMqhhbcc+qs3Q1qrWU7iK8Z3
-X-Received: by 2002:a5d:63d2:: with SMTP id c18mr5051209wrw.240.1630685190936; 
- Fri, 03 Sep 2021 09:06:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxSQbt3qV2bzmAvywjF0y1oNeSuwfb+9gpQUEYW05q0H3vHX32DqHb0mSW7j/sLCTvvrkdahg==
-X-Received: by 2002:a5d:63d2:: with SMTP id c18mr5051172wrw.240.1630685190651; 
- Fri, 03 Sep 2021 09:06:30 -0700 (PDT)
+ bh=XHKyr01gvCx97VAfaYZAMWFLuahjopao8xNghsdJ+1c=;
+ b=equKSE3yzMuraLelNCCH6sh+/9eH9r78/x16/EohmbVDwAuuTHniNEy098kFiUzQ7R
+ hwC4ddZv1Xpyk0rHIz0paAKxe9OZ0XPyf8DjM5P2IwEU7lHkoLKXcZ4cgiTqtSvzFlC/
+ 2ihYPsG4S7/c7VSQaCt4xk8r301dow3TKwg3c7KkJsWXooJ5C+DJc3HMTclO4NYm5SJN
+ NvnMVTImcIzch3nixlMtiiGvr5JMgA1cDWxaTY8Zo0cit96cKpg076e5xRDfEchvmrMb
+ mKSB16SZloSAKwL/f2MEUT28VTQNGIGZrLzPb5ACHT5Nb6T7hKj7eS8f+6e3uEIWnpLg
+ 2rOQ==
+X-Gm-Message-State: AOAM532pcmmp9EsP7X0j6I+7o1WhAK4OizS2C9XsL1PyDjpSeF/rJPrJ
+ aeRWZBXKU72mBjIVZq8tUo0qhMIyhcymEkPWtdzDLcbbELBNAsw9NpNYM/7J+dpyd83leAYAvGF
+ XLJhfSTCM6jvN7sDv5DY3XSQrtbcGZg9lUYt53a8PWSxK7fIbVr/xe09TUYwjRykF
+X-Received: by 2002:adf:eb4a:: with SMTP id u10mr4966556wrn.11.1630685199117; 
+ Fri, 03 Sep 2021 09:06:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzEtBcypaANIpk24VNzSMdqsmFYCjA6xLEra1WnI+b7ZOi+mRtmxlas4iwjphY4vBQL+5gncQ==
+X-Received: by 2002:adf:eb4a:: with SMTP id u10mr4966508wrn.11.1630685198835; 
+ Fri, 03 Sep 2021 09:06:38 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- z2sm4500133wma.45.2021.09.03.09.06.28
+ u26sm5665419wrd.32.2021.09.03.09.06.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 09:06:30 -0700 (PDT)
+ Fri, 03 Sep 2021 09:06:38 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 1/2] memory: Split mtree_info() as mtree_info_flatview() +
- mtree_info_as()
-Date: Fri,  3 Sep 2021 18:06:18 +0200
-Message-Id: <20210903160619.699632-2-philmd@redhat.com>
+Subject: [PATCH v6 2/2] memory: Have 'info mtree' remove duplicated Address
+ Space information
+Date: Fri,  3 Sep 2021 18:06:19 +0200
+Message-Id: <20210903160619.699632-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903160619.699632-1-philmd@redhat.com>
 References: <20210903160619.699632-1-philmd@redhat.com>
@@ -74,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -103,128 +103,238 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While mtree_info() handles both ASes and flatviews cases,
-the two cases share basically no code. Split mtree_info()
-as mtree_info_flatview() + mtree_info_as() to simplify.
+Per Peter Maydell [*]:
+
+  'info mtree' monitor command was designed on the assumption that
+  there's really only one or two interesting address spaces, and
+  with more recent developments that's just not the case any more.
+
+Similarly about how the FlatView are sorted using a GHashTable,
+sort the AddressSpace objects to remove the duplications (AS
+using the same root MemoryRegion).
+
+This drastically reduces the output of 'info mtree' on some boards.
+
+Before:
+
+  $ (echo info mtree; echo q) \
+    | qemu-system-aarch64 -S -monitor stdio -M raspi3b \
+    | wc -l
+  423
+
+After:
+
+  $ (echo info mtree; echo q) \
+    | qemu-system-aarch64 -S -monitor stdio -M raspi3b \
+    | wc -l
+  106
+
+  (qemu) info mtree
+  address-space: I/O
+    0000000000000000-000000000000ffff (prio 0, i/o): io
+
+  address-space: cpu-memory-0
+  address-space: cpu-memory-1
+  address-space: cpu-memory-2
+  address-space: cpu-memory-3
+  address-space: cpu-secure-memory-0
+  address-space: cpu-secure-memory-1
+  address-space: cpu-secure-memory-2
+  address-space: cpu-secure-memory-3
+  address-space: memory
+    0000000000000000-ffffffffffffffff (prio 0, i/o): system
+      0000000000000000-000000003fffffff (prio 0, ram): ram
+      000000003f000000-000000003fffffff (prio 1, i/o): bcm2835-peripherals
+        000000003f003000-000000003f00301f (prio 0, i/o): bcm2835-sys-timer
+        000000003f004000-000000003f004fff (prio -1000, i/o): bcm2835-txp
+        000000003f006000-000000003f006fff (prio 0, i/o): mphi
+        000000003f007000-000000003f007fff (prio 0, i/o): bcm2835-dma
+        000000003f00b200-000000003f00b3ff (prio 0, i/o): bcm2835-ic
+        000000003f00b400-000000003f00b43f (prio -1000, i/o): bcm2835-sp804
+        000000003f00b800-000000003f00bbff (prio 0, i/o): bcm2835-mbox
+        000000003f100000-000000003f1001ff (prio 0, i/o): bcm2835-powermgt
+        000000003f101000-000000003f102fff (prio 0, i/o): bcm2835-cprman
+        000000003f104000-000000003f10400f (prio 0, i/o): bcm2835-rng
+        000000003f200000-000000003f200fff (prio 0, i/o): bcm2835_gpio
+        000000003f201000-000000003f201fff (prio 0, i/o): pl011
+        000000003f202000-000000003f202fff (prio 0, i/o): bcm2835-sdhost
+        000000003f203000-000000003f2030ff (prio -1000, i/o): bcm2835-i2s
+        000000003f204000-000000003f20401f (prio -1000, i/o): bcm2835-spi0
+        000000003f205000-000000003f20501f (prio -1000, i/o): bcm2835-i2c0
+        000000003f20f000-000000003f20f07f (prio -1000, i/o): bcm2835-otp
+        000000003f212000-000000003f212007 (prio 0, i/o): bcm2835-thermal
+        000000003f214000-000000003f2140ff (prio -1000, i/o): bcm2835-spis
+        000000003f215000-000000003f2150ff (prio 0, i/o): bcm2835-aux
+        000000003f300000-000000003f3000ff (prio 0, i/o): sdhci
+        000000003f600000-000000003f6000ff (prio -1000, i/o): bcm2835-smi
+        000000003f804000-000000003f80401f (prio -1000, i/o): bcm2835-i2c1
+        000000003f805000-000000003f80501f (prio -1000, i/o): bcm2835-i2c2
+        000000003f900000-000000003f907fff (prio -1000, i/o): bcm2835-dbus
+        000000003f910000-000000003f917fff (prio -1000, i/o): bcm2835-ave0
+        000000003f980000-000000003f990fff (prio 0, i/o): dwc2
+          000000003f980000-000000003f980fff (prio 0, i/o): dwc2-io
+          000000003f981000-000000003f990fff (prio 0, i/o): dwc2-fifo
+        000000003fc00000-000000003fc00fff (prio -1000, i/o): bcm2835-v3d
+        000000003fe00000-000000003fe000ff (prio -1000, i/o): bcm2835-sdramc
+        000000003fe05000-000000003fe050ff (prio 0, i/o): bcm2835-dma-chan15
+      0000000040000000-00000000400000ff (prio 0, i/o): bcm2836-control
+
+  address-space: bcm2835-dma-memory
+  address-space: bcm2835-fb-memory
+  address-space: bcm2835-property-memory
+  address-space: dwc2
+    0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
+      0000000000000000-000000003fffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      0000000040000000-000000007fffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
+      0000000080000000-00000000bfffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+      00000000c0000000-00000000ffffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
+
+  address-space: bcm2835-mbox-memory
+    0000000000000000-000000000000008f (prio 0, i/o): bcm2835-mbox
+      0000000000000010-000000000000001f (prio 0, i/o): bcm2835-fb
+      0000000000000080-000000000000008f (prio 0, i/o): bcm2835-property
+
+  memory-region: ram
+    0000000000000000-000000003fffffff (prio 0, ram): ram
+
+  memory-region: bcm2835-peripherals
+    000000003f000000-000000003fffffff (prio 1, i/o): bcm2835-peripherals
+      000000003f003000-000000003f00301f (prio 0, i/o): bcm2835-sys-timer
+      000000003f004000-000000003f004fff (prio -1000, i/o): bcm2835-txp
+      000000003f006000-000000003f006fff (prio 0, i/o): mphi
+      000000003f007000-000000003f007fff (prio 0, i/o): bcm2835-dma
+      000000003f00b200-000000003f00b3ff (prio 0, i/o): bcm2835-ic
+      000000003f00b400-000000003f00b43f (prio -1000, i/o): bcm2835-sp804
+      000000003f00b800-000000003f00bbff (prio 0, i/o): bcm2835-mbox
+      000000003f100000-000000003f1001ff (prio 0, i/o): bcm2835-powermgt
+      000000003f101000-000000003f102fff (prio 0, i/o): bcm2835-cprman
+      000000003f104000-000000003f10400f (prio 0, i/o): bcm2835-rng
+      000000003f200000-000000003f200fff (prio 0, i/o): bcm2835_gpio
+      000000003f201000-000000003f201fff (prio 0, i/o): pl011
+      000000003f202000-000000003f202fff (prio 0, i/o): bcm2835-sdhost
+      000000003f203000-000000003f2030ff (prio -1000, i/o): bcm2835-i2s
+      000000003f204000-000000003f20401f (prio -1000, i/o): bcm2835-spi0
+      000000003f205000-000000003f20501f (prio -1000, i/o): bcm2835-i2c0
+      000000003f20f000-000000003f20f07f (prio -1000, i/o): bcm2835-otp
+      000000003f212000-000000003f212007 (prio 0, i/o): bcm2835-thermal
+      000000003f214000-000000003f2140ff (prio -1000, i/o): bcm2835-spis
+      000000003f215000-000000003f2150ff (prio 0, i/o): bcm2835-aux
+      000000003f300000-000000003f3000ff (prio 0, i/o): sdhci
+      000000003f600000-000000003f6000ff (prio -1000, i/o): bcm2835-smi
+      000000003f804000-000000003f80401f (prio -1000, i/o): bcm2835-i2c1
+      000000003f805000-000000003f80501f (prio -1000, i/o): bcm2835-i2c2
+      000000003f900000-000000003f907fff (prio -1000, i/o): bcm2835-dbus
+      000000003f910000-000000003f917fff (prio -1000, i/o): bcm2835-ave0
+      000000003f980000-000000003f990fff (prio 0, i/o): dwc2
+        000000003f980000-000000003f980fff (prio 0, i/o): dwc2-io
+        000000003f981000-000000003f990fff (prio 0, i/o): dwc2-fifo
+      000000003fc00000-000000003fc00fff (prio -1000, i/o): bcm2835-v3d
+      000000003fe00000-000000003fe000ff (prio -1000, i/o): bcm2835-sdramc
+      000000003fe05000-000000003fe050ff (prio 0, i/o): bcm2835-dma-chan15
+
+  (qemu) q
+
+[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg829821.html
 
 Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- softmmu/memory.c | 87 ++++++++++++++++++++++++++----------------------
- 1 file changed, 48 insertions(+), 39 deletions(-)
+checkpatch warning (81 chars):
+
+  WARNING: line over 80 characters
+  #86: FILE: softmmu/memory.c:3348:
+  +                                  address_space_compare_name);
+---
+ softmmu/memory.c | 62 +++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 59 insertions(+), 3 deletions(-)
 
 diff --git a/softmmu/memory.c b/softmmu/memory.c
-index bfedaf9c4df..5be7d5e7412 100644
+index 5be7d5e7412..8311b33ce6a 100644
 --- a/softmmu/memory.c
 +++ b/softmmu/memory.c
-@@ -3246,50 +3246,50 @@ static gboolean mtree_info_flatview_free(gpointer key, gpointer value,
-     return true;
+@@ -3284,20 +3284,76 @@ static void mtree_info_flatview(bool dispatch_tree, bool owner)
+     g_hash_table_unref(views);
  }
  
--void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
-+static void mtree_info_flatview(bool dispatch_tree, bool owner)
++struct AddressSpaceInfo {
++    MemoryRegionListHead *ml_head;
++    bool owner;
++    bool disabled;
++};
++
++/* Returns negative value if a < b; zero if a = b; positive value if a > b. */
++static gint address_space_compare_name(gconstpointer a, gconstpointer b)
 +{
-+    struct FlatViewInfo fvi = {
-+        .counter = 0,
-+        .dispatch_tree = dispatch_tree,
-+        .owner = owner,
-+    };
-+    AddressSpace *as;
-+    FlatView *view;
-+    GArray *fv_address_spaces;
-+    GHashTable *views = g_hash_table_new(g_direct_hash, g_direct_equal);
-+    AccelClass *ac = ACCEL_GET_CLASS(current_accel());
++    const AddressSpace *as_a = a;
++    const AddressSpace *as_b = b;
 +
-+    if (ac->has_memory) {
-+        fvi.ac = ac;
-+    }
++    return g_strcmp0(as_a->name, as_b->name);
++}
++static void mtree_print_as_name(gpointer data, gpointer user_data)
++{
++    AddressSpace *as = data;
 +
-+    /* Gather all FVs in one table */
-+    QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
-+        view = address_space_get_flatview(as);
-+
-+        fv_address_spaces = g_hash_table_lookup(views, view);
-+        if (!fv_address_spaces) {
-+            fv_address_spaces = g_array_new(false, false, sizeof(as));
-+            g_hash_table_insert(views, view, fv_address_spaces);
-+        }
-+
-+        g_array_append_val(fv_address_spaces, as);
-+    }
-+
-+    /* Print */
-+    g_hash_table_foreach(views, mtree_print_flatview, &fvi);
-+
-+    /* Free */
-+    g_hash_table_foreach_remove(views, mtree_info_flatview_free, 0);
-+    g_hash_table_unref(views);
++    qemu_printf("address-space: %s\n", as->name);
 +}
 +
-+static void mtree_info_as(bool dispatch_tree, bool owner, bool disabled)
++static void mtree_print_as(gpointer key, gpointer value, gpointer user_data)
++{
++    MemoryRegion *mr = key;
++    GSList *as_same_root_mr_list = value;
++    struct AddressSpaceInfo *asi = user_data;
++
++    g_slist_foreach(as_same_root_mr_list, mtree_print_as_name, NULL);
++    mtree_print_mr(mr, 1, 0, asi->ml_head, asi->owner, asi->disabled);
++    qemu_printf("\n");
++}
++
++static gboolean mtree_info_as_free(gpointer key, gpointer value,
++                                   gpointer user_data)
++{
++    GSList *as_same_root_mr_list = value;
++
++    g_slist_free(as_same_root_mr_list);
++
++    return true;
++}
++
+ static void mtree_info_as(bool dispatch_tree, bool owner, bool disabled)
  {
      MemoryRegionListHead ml_head;
      MemoryRegionList *ml, *ml2;
      AddressSpace *as;
++    GHashTable *views = g_hash_table_new(g_direct_hash, g_direct_equal);
++    GSList *as_same_root_mr_list;
++    struct AddressSpaceInfo asi = {
++        .ml_head = &ml_head,
++        .owner = owner,
++        .disabled = disabled,
++    };
  
--    if (flatview) {
--        FlatView *view;
--        struct FlatViewInfo fvi = {
--            .counter = 0,
--            .dispatch_tree = dispatch_tree,
--            .owner = owner,
--        };
--        GArray *fv_address_spaces;
--        GHashTable *views = g_hash_table_new(g_direct_hash, g_direct_equal);
--        AccelClass *ac = ACCEL_GET_CLASS(current_accel());
--
--        if (ac->has_memory) {
--            fvi.ac = ac;
--        }
--
--        /* Gather all FVs in one table */
--        QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
--            view = address_space_get_flatview(as);
--
--            fv_address_spaces = g_hash_table_lookup(views, view);
--            if (!fv_address_spaces) {
--                fv_address_spaces = g_array_new(false, false, sizeof(as));
--                g_hash_table_insert(views, view, fv_address_spaces);
--            }
--
--            g_array_append_val(fv_address_spaces, as);
--        }
--
--        /* Print */
--        g_hash_table_foreach(views, mtree_print_flatview, &fvi);
--
--        /* Free */
--        g_hash_table_foreach_remove(views, mtree_info_flatview_free, 0);
--        g_hash_table_unref(views);
--
--        return;
--    }
--
      QTAILQ_INIT(&ml_head);
  
      QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
-@@ -3310,6 +3310,15 @@ void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
+-        qemu_printf("address-space: %s\n", as->name);
+-        mtree_print_mr(as->root, 1, 0, &ml_head, owner, disabled);
+-        qemu_printf("\n");
++        /* Create hashtable, key=AS root MR, value = list of AS */
++        as_same_root_mr_list = g_hash_table_lookup(views, as->root);
++        as_same_root_mr_list = g_slist_insert_sorted(as_same_root_mr_list, as,
++                                                     address_space_compare_name);
++        g_hash_table_insert(views, as->root, as_same_root_mr_list);
      }
- }
  
-+void mtree_info(bool flatview, bool dispatch_tree, bool owner, bool disabled)
-+{
-+    if (flatview) {
-+        mtree_info_flatview(dispatch_tree, owner);
-+    } else {
-+        mtree_info_as(dispatch_tree, owner, disabled);
-+    }
-+}
++    /* print address spaces */
++    g_hash_table_foreach(views, mtree_print_as, &asi);
++    g_hash_table_foreach_remove(views, mtree_info_as_free, 0);
++    g_hash_table_unref(views);
 +
- void memory_region_init_ram(MemoryRegion *mr,
-                             Object *owner,
-                             const char *name,
+     /* print aliased regions */
+     QTAILQ_FOREACH(ml, &ml_head, mrqueue) {
+         qemu_printf("memory-region: %s\n", memory_region_name(ml->mr));
 -- 
 2.31.1
 
