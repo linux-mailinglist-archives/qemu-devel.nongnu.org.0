@@ -2,67 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC2B3FFF50
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:40:29 +0200 (CEST)
-Received: from localhost ([::1]:50032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22AAB3FFF79
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:57:12 +0200 (CEST)
+Received: from localhost ([::1]:34998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM7YZ-0003m8-Ry
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:40:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47964)
+	id 1mM7ol-0007BJ-49
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:57:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mM7Gs-0006B6-5S; Fri, 03 Sep 2021 07:22:12 -0400
-Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:43591)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mM7Gq-0000m6-FC; Fri, 03 Sep 2021 07:22:09 -0400
-Received: by mail-yb1-xb2f.google.com with SMTP id c6so9442021ybm.10;
- Fri, 03 Sep 2021 04:22:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bdc/aer7CnHAZL6SZ9ZTPxe+DW7b/QwSSaUzlUawc48=;
- b=dZ6rl9EAnFukbeQOriYeCMShMdD2Zj9hUjjupbjj64wMBEZrTYqjRqyFU0g5F2IZsp
- ZQf3I8u5tEhQMyvkhhWDIH+W3qGuY+659+3qaViWF0dsqAgaKkpnvWmjhLmJsfCTtAU1
- 7VCefQcpfQ0cNjgjmdJ/TPbRBqirWFBXwZA0YgJk92djUE+eFHj90TJAJJaA0QWV6hmS
- i7ChR4MWogqYZHaLiIHry/AVNnzQLbY2IP0N+u7SEcUcyTXWar0uWRuAmIx8NimaLdu4
- yCvzvnLsGNoakqeFDcKn8i6lFJIlGwmwgCvF9wyZKPjz+okIxTquqrPHXxzBeIsKLwkP
- 1HXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bdc/aer7CnHAZL6SZ9ZTPxe+DW7b/QwSSaUzlUawc48=;
- b=lRYbPmkpj7nD6Tn01WkhN9nEW2A/QA+6OdKhGC3TdTdEb51uXaPM0TmI5sax/gEHUk
- jIBJtzl+zva9fP2mQ5tNr5/OzTeVtmWfZ9saGtVC1LNgFXrQNL/x1T6ADa5xRlGLcNfl
- IQPECOTAzj4xNF9S/zTPrPR/3C+6qVfAKf+Y6ZOqS1FoQ7JtgTmqLeZnRS7foS5lwmYm
- QnWer8zSx+UZRLAFVRCpXHLZ63OcE9CqcCAnbaibwI4JivSrRMnWZD5dWpeqsPH3bqHL
- RuR0s1yJUzXk1bYqD8O0m+CvHm90BpqVBt2U3w1eZlh8UQ94j8FiuYHZWuukL2i2gmCw
- XevQ==
-X-Gm-Message-State: AOAM532etFbUyX/gwMkzwefZ9qPcg/FNkvIyHW2WQ8U/yEmMwlyD/big
- Y8XXO69lHFJu4xZXBOJ30C1TMqkNKMtAeVDzR/8=
-X-Google-Smtp-Source: ABdhPJz5taiTiyTXUY0UjnKaFlDFFx+HGf7FbPg2OqV4J0Wo49SPZmj0VuZlBWaahqPKKGUfMsg2bCnl3aNlHY67hVc=
-X-Received: by 2002:a25:80d4:: with SMTP id c20mr3990284ybm.345.1630668126232; 
- Fri, 03 Sep 2021 04:22:06 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mM7Qz-0001tP-V9
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:32:38 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:59816
+ helo=mail.default.ilande.bv.iomart.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mM7Qx-0005iy-7b
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:32:37 -0400
+Received: from host86-140-11-91.range86-140.btcentralplus.com ([86.140.11.91]
+ helo=kentang.home) by mail.default.ilande.bv.iomart.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1mM7QT-0009kl-GS; Fri, 03 Sep 2021 12:32:09 +0100
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: qemu-devel@nongnu.org,
+	laurent@vivier.eu
+Date: Fri,  3 Sep 2021 12:32:14 +0100
+Message-Id: <20210903113223.19551-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <bc35567c2e79645579ee66f34f86cf5120710a76.1630651786.git.alistair.francis@wdc.com>
- <6aef8a640e38e52b8790fc34a9b9b3b0f3a88a43.1630651786.git.alistair.francis@wdc.com>
-In-Reply-To: <6aef8a640e38e52b8790fc34a9b9b3b0f3a88a43.1630651786.git.alistair.francis@wdc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 3 Sep 2021 19:21:55 +0800
-Message-ID: <CAEUhbmUsYTmkERFvxa-TdM87P_TMr0rCuGq_ae7GSzN95s=4VA@mail.gmail.com>
-Subject: Re: [PATCH v1 2/3] hw/riscv/sifive_u: Use the PLIC config helper
- function
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.140.11.91
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH v3 0/9] escc: fix reset and R_STATUS when SDLC mode is enabled
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.bv.iomart.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.bv.iomart.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,108 +58,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 3, 2021 at 2:50 PM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  include/hw/riscv/virt.h |  1 -
->  hw/riscv/sifive_u.c     | 36 +++++++++++++++++++++++-------------
->  2 files changed, 23 insertions(+), 14 deletions(-)
->
-> diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-> index 349fee1f89..e95fd15298 100644
-> --- a/include/hw/riscv/virt.h
-> +++ b/include/hw/riscv/virt.h
-> @@ -71,7 +71,6 @@ enum {
->      VIRTIO_NDEV = 0x35 /* Arbitrary maximum number of interrupts */
->  };
->
-> -#define VIRT_PLIC_HART_CONFIG "MS"
+Here are another set of ESCC fixes from my attempts to boot MacOS on the q800
+machine.
 
-This does not belong to this patch.
+Patch 1 fixes up the formatting so that the remainder of the patchset keeps
+checkpatch happy.
 
->  #define VIRT_PLIC_NUM_SOURCES 127
->  #define VIRT_PLIC_NUM_PRIORITIES 7
->  #define VIRT_PLIC_PRIORITY_BASE 0x04
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 6cc1a62b0f..9c51b4d052 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -738,6 +738,28 @@ static void sifive_u_machine_init_register_types(void)
->
->  type_init(sifive_u_machine_init_register_types)
->
-> +/*
-> + * Return the per-socket PLIC hart topology configuration string
-> + * (caller must free with g_free())
-> + */
-> +static char *riscv_plic_hart_config_string(int hart_count)
+Patches 2-8 rework the reset handling so that the QEMU device reset is separate
+from the ESCC in-built hardware and software reset as defined in the datasheet.
+The aim here is two-fold: allow QEMU's device reset to place the ESCC device in
+a known state (although we assume all registers are zeroed whilst their values are
+undefined according to the datasheet) and ensure that the reset commands sent by
+the MacOS OpenTransport extension on boot don't re-assert the active low
+STATUS_SYNC bit in R_STATUS.
 
-I think we can create a common helper for all RISC-V machines to use.
-The common helper generates the PLIC config string based on misa
-feature bit RVS. If RVS is set then the corresponding hart string is
-"MS", otherwise "M".
+Finally patch 9 is the real fix: when entering SDLC mode using an "Enter hunt"
+command the STATUS_SYNC bit in R_STATUS must remain high until the flag byte
+is detected. Without this fix the active low STATUS_SYNC is continually asserted
+causing the MacOS OpenTransport extension to hang on startup as it believes it is
+constantly receiving LocalTalk traffic during its initial negotiation phase.
 
-> +{
-> +    g_autofree const char **vals = g_new(const char *, hart_count + 1);
-> +    int i;
-> +
-> +    for (i = 0; i < hart_count; i++) {
-> +        if (i == 0) {
-> +            vals[i] = "M";
-> +        } else {
-> +            vals[i] = "MS";
-> +        }
-> +    }
-> +    vals[i] = NULL;
-> +
-> +    /* g_strjoinv() obliges us to cast away const here */
-> +    return g_strjoinv(",", (char **)vals);
-> +}
-> +
->  static void sifive_u_soc_instance_init(Object *obj)
->  {
->      SiFiveUSoCState *s = RISCV_U_SOC(obj);
-> @@ -776,7 +798,6 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
->      MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
->      MemoryRegion *l2lim_mem = g_new(MemoryRegion, 1);
->      char *plic_hart_config;
-> -    size_t plic_hart_config_len;
->      int i;
->      NICInfo *nd = &nd_table[0];
->
-> @@ -817,18 +838,7 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
->                                  l2lim_mem);
->
->      /* create PLIC hart topology configuration string */
-> -    plic_hart_config_len = (strlen(SIFIVE_U_PLIC_HART_CONFIG) + 1) *
-> -                           ms->smp.cpus;
-> -    plic_hart_config = g_malloc0(plic_hart_config_len);
-> -    for (i = 0; i < ms->smp.cpus; i++) {
-> -        if (i != 0) {
-> -            strncat(plic_hart_config, "," SIFIVE_U_PLIC_HART_CONFIG,
-> -                    plic_hart_config_len);
-> -        } else {
-> -            strncat(plic_hart_config, "M", plic_hart_config_len);
-> -        }
-> -        plic_hart_config_len -= (strlen(SIFIVE_U_PLIC_HART_CONFIG) + 1);
-> -    }
-> +    plic_hart_config = riscv_plic_hart_config_string(ms->smp.cpus);
->
->      /* MMIO */
->      s->plic = sifive_plic_create(memmap[SIFIVE_U_DEV_PLIC].base,
+NOTE: this patchset currently fails CI because it exposed a bug that OpenBIOS
+doesn't send ESCC channel reset commands before attempting to configure and use
+the serial port. Those patches have just been posted to the OpenBIOS mailing list
+here: https://mail.coreboot.org/hyperkitty/list/openbios@openbios.org/thread/PQCW5RDIDIEUYBVAHNIY3OMHCEVYYWPU/.
 
-Regards,
-Bin
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+
+
+v3:
+- Rebase onto master
+- Rework hard reset to call soft reset first as suggested by Peter
+- Fix a couple of bugs in escc_soft_reset_chn()
+- Add trace events for soft reset and hard reset
+
+v2:
+- Rebase onto master
+- Rewrite cover letter to cover new reset changes
+- Change reset to separate out QEMU device reset, soft reset and hard reset
+  (ensuring register values are updated as specified in the datasheet)
+- Add R-B tags from Peter
+
+Mark Cave-Ayland (9):
+  escc: checkpatch fixes
+  escc: reset register values to zero in escc_reset()
+  escc: introduce escc_soft_reset_chn() for software reset
+  escc: introduce escc_hard_reset_chn() for hardware reset
+  escc: implement soft reset as described in the datasheet
+  escc: implement hard reset as described in the datasheet
+  escc: remove register changes from escc_reset_chn()
+  escc: re-use escc_reset_chn() for soft reset
+  escc: fix STATUS_SYNC bit in R_STATUS register
+
+ hw/char/escc.c       | 263 +++++++++++++++++++++++++++++--------------
+ hw/char/trace-events |   2 +
+ 2 files changed, 181 insertions(+), 84 deletions(-)
+
+-- 
+2.20.1
+
 
