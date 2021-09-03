@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F524003F2
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:11:07 +0200 (CEST)
-Received: from localhost ([::1]:57620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E52D24003FB
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:16:29 +0200 (CEST)
+Received: from localhost ([::1]:41086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMCiY-0006vx-4k
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:11:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43380)
+	id 1mMCnk-0006mj-KY
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:16:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mMCZ6-0007bA-5h
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:01:20 -0400
-Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:43851)
+ id 1mMCZ7-0007cV-0g
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:01:21 -0400
+Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134]:43857)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mMCZ3-00058M-Pp
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:01:19 -0400
-Received: by mail-lf1-x12e.google.com with SMTP id h16so10126343lfk.10
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 10:01:17 -0700 (PDT)
+ id 1mMCZ4-00059A-S4
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:01:20 -0400
+Received: by mail-lf1-x134.google.com with SMTP id h16so10126466lfk.10
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 10:01:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=vrull-eu.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pY58uScBbn/vSWM6Uw5kG51iB+LRATIh/xl8JG0DaRA=;
- b=ahmDkkeINGHZRhtOSJaxmtnfG/Eb1s8ItCxdPaNTZDhRTbpMk6/sVkpD4um23fGZ7i
- an39U54QzO9duMEMsY0/PAa8ABIXjbEMSTZ0n4aT6Z9HtKsESdO9fHabCnn3xYI2Tbvq
- oJc+t8pnG1ctxchLNfpWuXM4bhdox0NofV0mcN7Itm+Lo+y4ZV7jf3FGOV0xPYPmw9Lt
- tFP4qcwuZPiJ2ug5r+NJfhItpI1QSuAE9f5upyYSbwUJZY8OaNVLXPE/6yYS8HdxbVvE
- alR5brBAgICzgcmWpexfn7vOgGdH/D9sPoNIKym2axhIbxvmEC7paIVYtzRWvSUQIT/d
- obBw==
+ bh=Wqsox9YYOmlgC9q1wk77cPlvcrhfgMZHFkpAaB6PE3A=;
+ b=0hYjte02UaHZs4XvtRHo6gqIw0e5vhMTDoHFrE6rZ0h+ZYIeYWg0OdFFt9HjL7cghe
+ R6uKh9DLunoagEw7klyrFp8uJsgwRChlrgLRetuzqkCDKLnIr92seSd/qXG0ypC58Rl9
+ yMadWv7q0iL2VnvURg4FFds5nP11O2Mosud3JPXq1YSnHzfC4lVctLk3xrFNXFzcuekB
+ onq7d2HkTo9v2j6pcfPWilA1d6zcSbH5fz8iOFX29xq7/tpGC6vWr1YrTbo+iyW59sqW
+ 3as9DulGUegegzk4Sw+tSIXLzXbjhKMawvmEQtMpmlzaFXH/neLV0/GLMV0dXMCykG82
+ j9Qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pY58uScBbn/vSWM6Uw5kG51iB+LRATIh/xl8JG0DaRA=;
- b=Fxv7mgh2VGkv/UgxsFc94zIJWRLuujmQL//Q+tWpRNbs0IBNq2VUrXzJqTpP3gsjDO
- 2ZqFA1z8dgZSuLNjTjufi9tURZRQ8BGnjMbOOiBgUpH4iVhn75xwLYmxJgvZBL0vV9K9
- JTCFeG+G2296ublueFkPKn98X6B+XwHZpY2qBwzMFHoRmD+j4qoC0txfe0Fp4sEqfjlz
- cdwnhdUeVte+HgR+GBXbeJ21TlgIkGy40omc2Iu1mR7jo+q8vUjvv6jHR2eWKiiNlZuM
- gtNm7XDDmVxWyxXSdU3AK94v7w9nWYvZMvTalzM0qNxwwZiYih6Co9hOWkOomiy65SiH
- JgDQ==
-X-Gm-Message-State: AOAM533CwXBmKs1PD6eIBOUQlN0LR5jdGq2zSUHKHnQfN25D5GwHa6zy
- IyPK7mTEi+cJS6US7+PMNCOx+5AK5qwU2IUy0Oo=
-X-Google-Smtp-Source: ABdhPJyQq/EZff+KZsDGGTASxvZb7A77qZMc6qTmC6IzcOjgW7f0cV76KC/qSN1nchcrpTowOjd37A==
-X-Received: by 2002:ac2:51d9:: with SMTP id u25mr3587686lfm.541.1630688474822; 
- Fri, 03 Sep 2021 10:01:14 -0700 (PDT)
+ bh=Wqsox9YYOmlgC9q1wk77cPlvcrhfgMZHFkpAaB6PE3A=;
+ b=KkVyAZ6EhvKhKdJHcNrzoWCqtthukElzb9fnSK1z1Z3evrnuIUdWPTFyuX1xw0nQkx
+ +xj7JRxlB2IaRKcI+9w1a7LurLJ8E/afN06gbs05Dp9EUT6XuHh2xcdXcWFDgPD9yQx3
+ BfQZj6uOXKcLstgLTDQJ1D4VkbddanWnGpd4X5Jn8B2rHkCj8OjUZ+FVmv4mJnWrmACc
+ o0aFmaxkuahjRA2oPFB8cbXlK83XWGVwqgeokgkiAJn29Yygt8kuwnx81ud0PWkpivJc
+ o9SSgzDdKxUW0ZhXTGm6fEVJJyEG6rjvB0IJivZcpKTDCWoxQdQ8165xqO6BhnGxuZB+
+ N7Iw==
+X-Gm-Message-State: AOAM531I54zUFp4gqzc+1YM1J5z0/kSzDvqTtUaj+asWyRoaDCGy0APu
+ rAB/w6ZJYhwaY3sSwN0V5UmQhXjUVIpRBCI4l5s=
+X-Google-Smtp-Source: ABdhPJzE/gPuOmT/bgJRqvWVLsgiPaWLOlbMh52FWfoQv1+Zv5PonpCtxhoxBWy8k/Sje/uoXqgWeQ==
+X-Received: by 2002:a05:6512:2202:: with SMTP id
+ h2mr3594288lfu.494.1630688475573; 
+ Fri, 03 Sep 2021 10:01:15 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
  by smtp.gmail.com with ESMTPSA id c3sm628401ljj.77.2021.09.03.10.01.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 10:01:14 -0700 (PDT)
+ Fri, 03 Sep 2021 10:01:15 -0700 (PDT)
 From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 12/14] target/riscv: Add zext.h instructions to Zbb,
- removing pack/packu/packh
-Date: Fri,  3 Sep 2021 19:00:58 +0200
-Message-Id: <20210903170100.2529121-13-philipp.tomsich@vrull.eu>
+Subject: [PATCH v9 13/14] target/riscv: Remove RVB (replaced by Zb[abcs]
+Date: Fri,  3 Sep 2021 19:00:59 +0200
+Message-Id: <20210903170100.2529121-14-philipp.tomsich@vrull.eu>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210903170100.2529121-1-philipp.tomsich@vrull.eu>
 References: <20210903170100.2529121-1-philipp.tomsich@vrull.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x12e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::134;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x134.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,179 +90,130 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 1.0.0 version of Zbb does not contain pack/packu/packh. However, a
-zext.h instruction is provided (built on pack/packh from pre-0.93
-draft-B) is available.
+With everything classified as Zb[abcs] and pre-0.93 draft-B
+instructions that are not part of Zb[abcs] removed, we can remove the
+remaining support code for RVB.
 
-This commit adds zext.h and removes the pack* instructions.
-
-Note that the encodings for zext.h are different between RV32 and
-RV64, which is handled through REQUIRE_32BIT.
+Note that RVB has been retired for good and misa.B will neither mean
+'some' or 'all of' Zb*:
+  https://lists.riscv.org/g/tech-bitmanip/message/532
 
 Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
 
-Changes in v9:
-- Rebased to 8880cc4362.
-
-Changes in v4:
-- Renamed RV32 variant to zext_h_32.
-- Reordered trans_zext_h_{32,64} to be next to each other.
+(no changes since v3)
 
 Changes in v3:
-- Moved zext.h-addition & pack*-removal to a separate commit.
+- Removing RVB moved into a separate commit at the tail-end of the series.
 
- target/riscv/insn32.decode              | 12 ++--
- target/riscv/insn_trans/trans_rvb.c.inc | 86 ++++---------------------
- 2 files changed, 21 insertions(+), 77 deletions(-)
+ target/riscv/cpu.c         | 26 --------------------------
+ target/riscv/cpu.h         |  3 ---
+ target/riscv/insn32.decode |  4 ----
+ 3 files changed, 33 deletions(-)
 
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index ceb7e01810..3a56836f1c 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -127,11 +127,6 @@ static void set_priv_version(CPURISCVState *env, int priv_ver)
+     env->priv_ver = priv_ver;
+ }
+ 
+-static void set_bext_version(CPURISCVState *env, int bext_ver)
+-{
+-    env->bext_ver = bext_ver;
+-}
+-
+ static void set_vext_version(CPURISCVState *env, int vext_ver)
+ {
+     env->vext_ver = vext_ver;
+@@ -496,25 +491,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+         if (cpu->cfg.ext_h) {
+             target_misa |= RVH;
+         }
+-        if (cpu->cfg.ext_b) {
+-            int bext_version = BEXT_VERSION_0_93_0;
+-            target_misa |= RVB;
+-
+-            if (cpu->cfg.bext_spec) {
+-                if (!g_strcmp0(cpu->cfg.bext_spec, "v0.93")) {
+-                    bext_version = BEXT_VERSION_0_93_0;
+-                } else {
+-                    error_setg(errp,
+-                           "Unsupported bitmanip spec version '%s'",
+-                           cpu->cfg.bext_spec);
+-                    return;
+-                }
+-            } else {
+-                qemu_log("bitmanip version is not specified, "
+-                         "use the default value v0.93\n");
+-            }
+-            set_bext_version(env, bext_version);
+-        }
+         if (cpu->cfg.ext_v) {
+             int vext_version = VEXT_VERSION_0_07_1;
+             target_misa |= RVV;
+@@ -586,7 +562,6 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
+     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
+     /* This is experimental so mark with 'x-' */
+-    DEFINE_PROP_BOOL("x-b", RISCVCPU, cfg.ext_b, false),
+     DEFINE_PROP_BOOL("x-zba", RISCVCPU, cfg.ext_zba, false),
+     DEFINE_PROP_BOOL("x-zbb", RISCVCPU, cfg.ext_zbb, false),
+     DEFINE_PROP_BOOL("x-zbc", RISCVCPU, cfg.ext_zbc, false),
+@@ -597,7 +572,6 @@ static Property riscv_cpu_properties[] = {
+     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
+     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
+     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
+-    DEFINE_PROP_STRING("bext_spec", RISCVCPU, cfg.bext_spec),
+     DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
+     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
+     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 7c4cd8ea89..77e8b06106 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -67,7 +67,6 @@
+ #define RVS RV('S')
+ #define RVU RV('U')
+ #define RVH RV('H')
+-#define RVB RV('B')
+ 
+ /* S extension denotes that Supervisor mode exists, however it is possible
+    to have a core that support S mode but does not have an MMU and there
+@@ -83,7 +82,6 @@ enum {
+ #define PRIV_VERSION_1_10_0 0x00011000
+ #define PRIV_VERSION_1_11_0 0x00011100
+ 
+-#define BEXT_VERSION_0_93_0 0x00009300
+ #define VEXT_VERSION_0_07_1 0x00000701
+ 
+ enum {
+@@ -288,7 +286,6 @@ struct RISCVCPU {
+         bool ext_f;
+         bool ext_d;
+         bool ext_c;
+-        bool ext_b;
+         bool ext_s;
+         bool ext_u;
+         bool ext_h;
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 901a66c0f5..affb99b3e6 100644
+index affb99b3e6..2f251dac1b 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -692,6 +692,9 @@ rori       01100 ............ 101 ..... 0010011 @sh
- sext_b     011000 000100 ..... 001 ..... 0010011 @r2
- sext_h     011000 000101 ..... 001 ..... 0010011 @r2
- xnor       0100000 .......... 100 ..... 0110011 @r
-+# The encoding for zext.h differs between RV32 and RV64.
-+# zext_h_32 denotes the RV32 variant.
-+zext_h_32  0000100 00000 ..... 100 ..... 0110011 @r2
+@@ -712,10 +712,6 @@ rorw       0110000 .......... 101 ..... 0111011 @r
+ # instruction, so we use different handler functions to differentiate.
+ zext_h_64  0000100 00000 ..... 100 ..... 0111011 @r2
  
- # *** RV64 Zbb Standard Extension (in addition to RV32 Zbb) ***
- clzw       0110000 00000 ..... 001 ..... 0011011 @r2
-@@ -704,15 +707,14 @@ rev8_64    011010 111000 ..... 101 ..... 0010011 @r2
- rolw       0110000 .......... 001 ..... 0111011 @r
- roriw      0110000 .......... 101 ..... 0011011 @sh5
- rorw       0110000 .......... 101 ..... 0111011 @r
-+# The encoding for zext.h differs between RV32 and RV64.
-+# When executing on RV64, the encoding used in RV32 is an illegal
-+# instruction, so we use different handler functions to differentiate.
-+zext_h_64  0000100 00000 ..... 100 ..... 0111011 @r2
- 
- # *** RV32B Standard Extension ***
--pack       0000100 .......... 100 ..... 0110011 @r
--packu      0100100 .......... 100 ..... 0110011 @r
--packh      0000100 .......... 111 ..... 0110011 @r
- 
- # *** RV64B Standard Extension (in addition to RV32B) ***
--packw      0000100 .......... 100 ..... 0111011 @r
--packuw     0100100 .......... 100 ..... 0111011 @r
- 
+-# *** RV32B Standard Extension ***
+-
+-# *** RV64B Standard Extension (in addition to RV32B) ***
+-
  # *** RV32 Zbc Standard Extension ***
  clmul      0000101 .......... 001 ..... 0110011 @r
-diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index 55251a52a5..f412c2a9ce 100644
---- a/target/riscv/insn_trans/trans_rvb.c.inc
-+++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -88,47 +88,6 @@ static bool trans_xnor(DisasContext *ctx, arg_xnor *a)
-     return gen_arith(ctx, a, EXT_NONE, tcg_gen_eqv_tl);
- }
- 
--static void gen_pack(TCGv ret, TCGv arg1, TCGv arg2)
--{
--    tcg_gen_deposit_tl(ret, arg1, arg2,
--                       TARGET_LONG_BITS / 2,
--                       TARGET_LONG_BITS / 2);
--}
--
--static bool trans_pack(DisasContext *ctx, arg_pack *a)
--{
--    REQUIRE_EXT(ctx, RVB);
--    return gen_arith(ctx, a, EXT_NONE, gen_pack);
--}
--
--static void gen_packu(TCGv ret, TCGv arg1, TCGv arg2)
--{
--    TCGv t = tcg_temp_new();
--    tcg_gen_shri_tl(t, arg1, TARGET_LONG_BITS / 2);
--    tcg_gen_deposit_tl(ret, arg2, t, 0, TARGET_LONG_BITS / 2);
--    tcg_temp_free(t);
--}
--
--static bool trans_packu(DisasContext *ctx, arg_packu *a)
--{
--    REQUIRE_EXT(ctx, RVB);
--    return gen_arith(ctx, a, EXT_NONE, gen_packu);
--}
--
--static void gen_packh(TCGv ret, TCGv arg1, TCGv arg2)
--{
--    TCGv t = tcg_temp_new();
--    tcg_gen_ext8u_tl(t, arg2);
--    tcg_gen_deposit_tl(ret, arg1, t, 8, TARGET_LONG_BITS - 8);
--    tcg_temp_free(t);
--}
--
--static bool trans_packh(DisasContext *ctx, arg_packh *a)
--{
--    REQUIRE_EXT(ctx, RVB);
--    return gen_arith(ctx, a, EXT_NONE, gen_packh);
--}
--
- static bool trans_min(DisasContext *ctx, arg_min *a)
- {
-     REQUIRE_ZBB(ctx);
-@@ -336,6 +295,20 @@ GEN_TRANS_SHADD(1)
- GEN_TRANS_SHADD(2)
- GEN_TRANS_SHADD(3)
- 
-+static bool trans_zext_h_32(DisasContext *ctx, arg_zext_h_32 *a)
-+{
-+    REQUIRE_32BIT(ctx);
-+    REQUIRE_ZBB(ctx);
-+    return gen_unary(ctx, a, EXT_NONE, tcg_gen_ext16u_tl);
-+}
-+
-+static bool trans_zext_h_64(DisasContext *ctx, arg_zext_h_64 *a)
-+{
-+    REQUIRE_64BIT(ctx);
-+    REQUIRE_ZBB(ctx);
-+    return gen_unary(ctx, a, EXT_NONE, tcg_gen_ext16u_tl);
-+}
-+
- static void gen_clzw(TCGv ret, TCGv arg1)
- {
-     tcg_gen_clzi_tl(ret, ret, 64);
-@@ -370,37 +343,6 @@ static bool trans_cpopw(DisasContext *ctx, arg_cpopw *a)
-     return gen_unary(ctx, a, EXT_ZERO, tcg_gen_ctpop_tl);
- }
- 
--static void gen_packw(TCGv ret, TCGv arg1, TCGv arg2)
--{
--    TCGv t = tcg_temp_new();
--    tcg_gen_ext16s_tl(t, arg2);
--    tcg_gen_deposit_tl(ret, arg1, t, 16, 48);
--    tcg_temp_free(t);
--}
--
--static bool trans_packw(DisasContext *ctx, arg_packw *a)
--{
--    REQUIRE_64BIT(ctx);
--    REQUIRE_EXT(ctx, RVB);
--    return gen_arith(ctx, a, EXT_NONE, gen_packw);
--}
--
--static void gen_packuw(TCGv ret, TCGv arg1, TCGv arg2)
--{
--    TCGv t = tcg_temp_new();
--    tcg_gen_shri_tl(t, arg1, 16);
--    tcg_gen_deposit_tl(ret, arg2, t, 0, 16);
--    tcg_gen_ext32s_tl(ret, ret);
--    tcg_temp_free(t);
--}
--
--static bool trans_packuw(DisasContext *ctx, arg_packuw *a)
--{
--    REQUIRE_64BIT(ctx);
--    REQUIRE_EXT(ctx, RVB);
--    return gen_arith(ctx, a, EXT_NONE, gen_packuw);
--}
--
- static void gen_rorw(TCGv ret, TCGv arg1, TCGv arg2)
- {
-     TCGv_i32 t1 = tcg_temp_new_i32();
+ clmulh     0000101 .......... 011 ..... 0110011 @r
 -- 
 2.25.1
 
