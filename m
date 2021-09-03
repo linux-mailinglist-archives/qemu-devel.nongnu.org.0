@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F07974006EE
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 22:46:06 +0200 (CEST)
-Received: from localhost ([::1]:59014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DD0C40071C
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 22:50:29 +0200 (CEST)
+Received: from localhost ([::1]:44276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMG4b-0003qm-V7
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 16:46:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52602)
+	id 1mMG8q-0004sG-6D
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 16:50:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mMFqk-0002O0-Fw; Fri, 03 Sep 2021 16:31:46 -0400
-Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:34480)
+ id 1mMFqy-00036a-Jv; Fri, 03 Sep 2021 16:32:00 -0400
+Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:43687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1mMFqi-0001Yv-2r; Fri, 03 Sep 2021 16:31:46 -0400
-Received: by mail-qk1-x736.google.com with SMTP id a66so358520qkc.1;
- Fri, 03 Sep 2021 13:31:43 -0700 (PDT)
+ id 1mMFqk-0001ce-2Z; Fri, 03 Sep 2021 16:32:00 -0400
+Received: by mail-qk1-x731.google.com with SMTP id ay33so319991qkb.10;
+ Fri, 03 Sep 2021 13:31:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hpwQ7cw40k9HY/zRh2e0TCaBJdtAYmJpO4wld8jPCmo=;
- b=SINNUzjEZU4dJxIgYaW7/5qxNo90Wl+M1o0J7r0f79yF9AOjhIpw5khUsBMsLFQEC4
- mTNG4bb7UbihwtvIqk+0BuO8JjiLuvJ9y79joehn68rquSjb+8PNY5i7QprIqrjDsuFQ
- YBQqr5e6IBnreLWi7fdj2q0YcZL+uSK/Eke3KnNClalxdxxcPtfNN0sthm6G7M/8dtjl
- Wk+brEyjXTZq90xEl6nPeJVIpYs3o9weFAtWv8zPXdrRkDMj3/BFwdcD2Gle3iVCCG02
- v3QoDbFZUghwT80mcy9cHPuYUBw52nkiWW88mtSrLJjwQrkFLNfpaVMIbqQDoZT6fR14
- EE8Q==
+ bh=6lTTss7SrrwB0A6Ku+sNQ+prO68WOJFHlGNwO7JiDZo=;
+ b=HPyaKqJy9rMEzs3iN7NK8Yn3Nnjd2envY7e0bsCrzl8Qwcg7IjrNXqC7PlTSsPPtfl
+ rhH6GHsqgZJjgFmb9XXMxWpLYz81Ys0XlAhXjkQorjDkF0NwAMGU9IAUulX/+6iQMuwP
+ H9e6y5byDkrD8p1t1Vi/uPGdKBzxwJH+NXdlUAWzHfWkLRzPZ3l7Oa+bNb9b5IaZsH8s
+ ejnKPoIWawIgEnxXNIFLH17eIiPZWCVoowTw/4O1xu6U8I1dAoUPtm58PYx3JXtZvwuS
+ vnGhX6lf3OHlMy7TShhUcoxsLTAbJU8quXcvQyu8gRox8uleW8fWlS2GSnQotK6CxM3l
+ 9KbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hpwQ7cw40k9HY/zRh2e0TCaBJdtAYmJpO4wld8jPCmo=;
- b=Rsh6mJJHbRqoJnU40mNYfkbHSgdhE2JhMu5PsdpzrFW0U75qISBIf81Fzze+R6TPcu
- 52XG7RIyJtcB84lK4VHNRiw6tHudX7zZUnLQkQ/KT+b9DtJHdk/2PDt+Y1dpXsYBqUsY
- 89MVPEImMYQ7wWPLbenfA2LZtK3MXEMGIr0Tp/GnhCt0aE+JQ9Ifahk9XPVBEPyCOIpr
- +APVbivZDJdNbrbN/7r//fc9vu85ayUd/2hplZ8NfxzZ2rDvjtJOBV7jhBa3QaWMQx11
- 9k1cNErn97+7u6JiCue9K2pPnkT6Zk/e1VkNbWk8Zu6WFdh+IJCbivh5SN4M5+t6tDkd
- 5KfA==
-X-Gm-Message-State: AOAM531Fp3JjHGsr+uSNP1a2yXzqhx8I6lvbFsg3JFTwMCPG4vJnSWpg
- XX4Lv6/qGZHYqHgTXJu+pOfY0787t+8=
-X-Google-Smtp-Source: ABdhPJxr7nUfmLgxNrhuwCaOpZqtMHu2+WFtBJxFeAN16Xx69ukfx9YvuSUKvxS3oS+2TG+fE2pwmg==
-X-Received: by 2002:a05:620a:4cf:: with SMTP id
- 15mr675158qks.316.1630701102646; 
- Fri, 03 Sep 2021 13:31:42 -0700 (PDT)
+ bh=6lTTss7SrrwB0A6Ku+sNQ+prO68WOJFHlGNwO7JiDZo=;
+ b=r7IX/WEZlo/miJba/Pg1MrBPxkN+axrxfE3d+n5E8exOunKu5QwwkBtk0kiKLuMH06
+ 6lWeybMmd521zP9LRyq9P+JjCCszf2jw5tpn/LIcHTdUPx7QiEdU6Dr8gDPS5jzbSliG
+ pgOk9PD1x2804znBW5MBtw41pWaH2XsjMFHljqkbJR36OpOsSvahl/NLAbX9avt16pLr
+ zNfNWSkqEWJfQxhHY6KLv175ayX9fMghTLfoGYmHqyrwdXoaccf4x5SCQEqUE+04dheQ
+ WcOXKxITzMVZGki7zVj6MIEB2ZFLfyRYG7vahfw4TIUpgodXZk1Ji7764aA3dTIn9m2x
+ Auqw==
+X-Gm-Message-State: AOAM5338tO6enW3spiIbBYLmBlDz0gsdWwMztECyXZ2v9atLWR0ChnGR
+ 6Cx1x/NrrR3L77afzKqIJFM9OK5jU0c=
+X-Google-Smtp-Source: ABdhPJwzk3lQ8lFZBY1TB3kDq/ZrztVEguWrME6/A2EGEM3jLNZQStPaP++QaH5pUukOuz1Bmnlfxw==
+X-Received: by 2002:a05:620a:38d:: with SMTP id
+ q13mr652640qkm.87.1630701104789; 
+ Fri, 03 Sep 2021 13:31:44 -0700 (PDT)
 Received: from rekt.COMFAST ([179.247.136.122])
- by smtp.gmail.com with ESMTPSA id z6sm285613qtq.78.2021.09.03.13.31.40
+ by smtp.gmail.com with ESMTPSA id z6sm285613qtq.78.2021.09.03.13.31.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 13:31:42 -0700 (PDT)
+ Fri, 03 Sep 2021 13:31:44 -0700 (PDT)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 05/15] target/ppc: PMU: add instruction counting
-Date: Fri,  3 Sep 2021 17:31:06 -0300
-Message-Id: <20210903203116.80628-6-danielhb413@gmail.com>
+Subject: [PATCH v3 06/15] target/ppc/power8_pmu.c: add PM_RUN_INST_CMPL (0xFA)
+ event
+Date: Fri,  3 Sep 2021 17:31:07 -0300
+Message-Id: <20210903203116.80628-7-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903203116.80628-1-danielhb413@gmail.com>
 References: <20210903203116.80628-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x736.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::731;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x731.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -88,286 +89,144 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The PMU is already counting cycles by calculating time elapsed in
-nanoseconds. Counting instructions is a different matter and requires
-another approach.
+PM_RUN_INST_CMPL, instructions completed with the run latch set, is
+the architected PowerISA v3.1 event defined with PMC4SEL = 0xFA.
 
-This patch adds the capability of counting completed instructions
-(Perf event PM_INST_CMPL) by counting the amount of instructions
-translated in each translation block right before exiting it.
-
-A new pmu_count_insns() helper in translation.c was added to do that.
-After verifying that the PMU is running (MMCR0_FC bit not set), call
-helper_insns_inc(). This new helper from power8_pmu.c will add the
-instructions to the relevant counters. It'll also be responsible for
-triggering counter negative overflows later on.
+Implement it by checking for the CTRL RUN bit before incrementing the
+counter. To make this work properly we also need to force a new
+translation block each time SPR_CTRL is written.
 
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- target/ppc/cpu.h         |  1 +
- target/ppc/helper.h      |  1 +
- target/ppc/helper_regs.c |  3 ++
- target/ppc/power8_pmu.c  | 70 ++++++++++++++++++++++++++++++++++++----
- target/ppc/translate.c   | 46 ++++++++++++++++++++++++++
- 5 files changed, 114 insertions(+), 7 deletions(-)
+ target/ppc/cpu.h        |  3 +++
+ target/ppc/cpu_init.c   |  2 +-
+ target/ppc/power8_pmu.c | 27 ++++++++++++++++++++-------
+ target/ppc/spr_tcg.h    |  1 +
+ target/ppc/translate.c  | 12 ++++++++++++
+ 5 files changed, 37 insertions(+), 8 deletions(-)
 
 diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 74698a3600..4d4886ac74 100644
+index 4d4886ac74..76b462c3c8 100644
 --- a/target/ppc/cpu.h
 +++ b/target/ppc/cpu.h
-@@ -628,6 +628,7 @@ enum {
-     HFLAGS_FP = 13,  /* MSR_FP */
-     HFLAGS_PR = 14,  /* MSR_PR */
-     HFLAGS_PMCCCLEAR = 15, /* PMU MMCR0 PMCC equal to 0b00 */
-+    HFLAGS_MMCR0FC = 16, /* MMCR0 FC bit */
-     HFLAGS_VSX = 23, /* MSR_VSX if cpu has VSX */
-     HFLAGS_VR = 25,  /* MSR_VR if cpu has VRE */
+@@ -363,6 +363,9 @@ typedef struct ppc_v3_pate_t {
+ #define MMCR1_PMC4SEL_START 56
+ #define MMCR1_PMC4EVT_EXTR (64 - MMCR1_PMC4SEL_START - MMCR1_EVT_SIZE)
  
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index 5122632784..47dbbe6da1 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -21,6 +21,7 @@ DEF_HELPER_1(hrfid, void, env)
- DEF_HELPER_2(store_lpcr, void, env, tl)
- DEF_HELPER_2(store_pcr, void, env, tl)
- DEF_HELPER_2(store_mmcr0, void, env, tl)
-+DEF_HELPER_2(insns_inc, void, env, i32)
- #endif
- DEF_HELPER_1(check_tlb_flush_local, void, env)
- DEF_HELPER_1(check_tlb_flush_global, void, env)
-diff --git a/target/ppc/helper_regs.c b/target/ppc/helper_regs.c
-index 4c1d9575ac..27d139edd8 100644
---- a/target/ppc/helper_regs.c
-+++ b/target/ppc/helper_regs.c
-@@ -109,6 +109,9 @@ static uint32_t hreg_compute_hflags_value(CPUPPCState *env)
-     if (((env->spr[SPR_POWER_MMCR0] & MMCR0_PMCC) >> 18) == 0) {
-         hflags |= 1 << HFLAGS_PMCCCLEAR;
-     }
-+    if (env->spr[SPR_POWER_MMCR0] & MMCR0_FC) {
-+        hflags |= 1 << HFLAGS_MMCR0FC;
-+    }
- 
- #ifndef CONFIG_USER_ONLY
-     if (!env->has_hv_mode || (msr & (1ull << MSR_HV))) {
++/* PMU uses CTRL_RUN to sample PM_RUN_INST_CMPL */
++#define CTRL_RUN PPC_BIT(63)
++
+ /* LPCR bits */
+ #define LPCR_VPM0         PPC_BIT(0)
+ #define LPCR_VPM1         PPC_BIT(1)
+diff --git a/target/ppc/cpu_init.c b/target/ppc/cpu_init.c
+index 07c79745ba..0013cba5ff 100644
+--- a/target/ppc/cpu_init.c
++++ b/target/ppc/cpu_init.c
+@@ -6748,7 +6748,7 @@ static void register_book3s_ctrl_sprs(CPUPPCState *env)
+ {
+     spr_register(env, SPR_CTRL, "SPR_CTRL",
+                  SPR_NOACCESS, SPR_NOACCESS,
+-                 SPR_NOACCESS, &spr_write_generic,
++                 SPR_NOACCESS, &spr_write_CTRL,
+                  0x00000000);
+     spr_register(env, SPR_UCTRL, "SPR_UCTRL",
+                  &spr_read_ureg, SPR_NOACCESS,
 diff --git a/target/ppc/power8_pmu.c b/target/ppc/power8_pmu.c
-index 3f7b305f4f..9769c0ff35 100644
+index 9769c0ff35..f584480fde 100644
 --- a/target/ppc/power8_pmu.c
 +++ b/target/ppc/power8_pmu.c
-@@ -31,10 +31,13 @@ static void update_PMC_PM_CYC(CPUPPCState *env, int sprn,
-     env->spr[sprn] += time_delta;
+@@ -133,17 +133,15 @@ void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
+     }
  }
  
--static void update_programmable_PMC_reg(CPUPPCState *env, int sprn,
--                                        uint64_t time_delta)
-+static uint8_t get_PMC_event(CPUPPCState *env, int sprn)
+-static bool pmc_counting_insns(CPUPPCState *env, int sprn)
++static bool pmc_counting_insns(CPUPPCState *env, int sprn,
++                               uint8_t event)
  {
--    uint8_t event, evt_extr;
-+    uint8_t evt_extr = 0;
-+
-+    if (env->spr[SPR_POWER_MMCR1] == 0) {
-+        return 0;
-+    }
+     bool ret = false;
+-    uint8_t event;
  
-     switch (sprn) {
-     case SPR_POWER_PMC1:
-@@ -50,10 +53,16 @@ static void update_programmable_PMC_reg(CPUPPCState *env, int sprn,
-         evt_extr = MMCR1_PMC4EVT_EXTR;
-         break;
-     default:
--        return;
-+        return 0;
+     if (sprn == SPR_POWER_PMC5) {
+         return true;
      }
  
--    event = extract64(env->spr[SPR_POWER_MMCR1], evt_extr, MMCR1_EVT_SIZE);
-+    return extract64(env->spr[SPR_POWER_MMCR1], evt_extr, MMCR1_EVT_SIZE);
-+}
-+
-+static void update_programmable_PMC_reg(CPUPPCState *env, int sprn,
-+                                        uint64_t time_delta)
-+{
-+    uint8_t event = get_PMC_event(env, sprn);
- 
+-    event = get_PMC_event(env, sprn);
+-
      /*
-      * MMCR0_PMC1SEL = 0xF0 is the architected PowerISA v3.1 event
-@@ -99,8 +108,9 @@ void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
- 
-     env->spr[SPR_POWER_MMCR0] = value;
- 
--    /* MMCR0 writes can change HFLAGS_PMCCCLEAR */
--    if ((curr_value & MMCR0_PMCC) != (value & MMCR0_PMCC)) {
-+    /* MMCR0 writes can change HFLAGS_PMCCCLEAR and HFLAGS_MMCR0FC */
-+    if (((curr_value & MMCR0_PMCC) != (value & MMCR0_PMCC)) ||
-+        (curr_FC != new_FC)) {
-         hreg_compute_hflags(env);
+      * Event 0x2 is an implementation-dependent event that IBM
+      * POWER chips implement (at least since POWER8) that is
+@@ -158,8 +156,15 @@ static bool pmc_counting_insns(CPUPPCState *env, int sprn)
+         return event == 0x2 || event == 0xFE;
+     case SPR_POWER_PMC2:
+     case SPR_POWER_PMC3:
+-    case SPR_POWER_PMC4:
+         return event == 0x2;
++    case SPR_POWER_PMC4:
++        /*
++         * Event 0xFA is the "instructions completed with run latch
++         * set" event. Consider it as instruction counting event.
++         * The caller is responsible for handling it separately
++         * from PM_INST_CMPL.
++         */
++        return event == 0x2 || event == 0xFA;
+     default:
+         break;
      }
+@@ -173,8 +178,16 @@ void helper_insns_inc(CPUPPCState *env, uint32_t num_insns)
+     int sprn;
  
-@@ -123,4 +133,50 @@ void helper_store_mmcr0(CPUPPCState *env, target_ulong value)
+     for (sprn = SPR_POWER_PMC1; sprn <= SPR_POWER_PMC5; sprn++) {
+-        if (pmc_counting_insns(env, sprn)) {
+-            env->spr[sprn] += num_insns;
++        uint8_t event = get_PMC_event(env, sprn);
++
++        if (pmc_counting_insns(env, sprn, event)) {
++            if (sprn == SPR_POWER_PMC4 && event == 0xFA) {
++                if (env->spr[SPR_CTRL] & CTRL_RUN) {
++                    env->spr[SPR_POWER_PMC4] += num_insns;
++                }
++            } else {
++                env->spr[sprn] += num_insns;
++            }
+         }
      }
  }
- 
-+static bool pmc_counting_insns(CPUPPCState *env, int sprn)
-+{
-+    bool ret = false;
-+    uint8_t event;
-+
-+    if (sprn == SPR_POWER_PMC5) {
-+        return true;
-+    }
-+
-+    event = get_PMC_event(env, sprn);
-+
-+    /*
-+     * Event 0x2 is an implementation-dependent event that IBM
-+     * POWER chips implement (at least since POWER8) that is
-+     * equivalent to PM_INST_CMPL. Let's support this event on
-+     * all programmable PMCs.
-+     *
-+     * Event 0xFE is the PowerISA v3.1 architected event to
-+     * sample PM_INST_CMPL using PMC1.
-+     */
-+    switch (sprn) {
-+    case SPR_POWER_PMC1:
-+        return event == 0x2 || event == 0xFE;
-+    case SPR_POWER_PMC2:
-+    case SPR_POWER_PMC3:
-+    case SPR_POWER_PMC4:
-+        return event == 0x2;
-+    default:
-+        break;
-+    }
-+
-+    return ret;
-+}
-+
-+/* This helper assumes that the PMC is running. */
-+void helper_insns_inc(CPUPPCState *env, uint32_t num_insns)
-+{
-+    int sprn;
-+
-+    for (sprn = SPR_POWER_PMC1; sprn <= SPR_POWER_PMC5; sprn++) {
-+        if (pmc_counting_insns(env, sprn)) {
-+            env->spr[sprn] += num_insns;
-+        }
-+    }
-+}
-+
- #endif /* defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY) */
+diff --git a/target/ppc/spr_tcg.h b/target/ppc/spr_tcg.h
+index 51fbc081de..5e6ed36eb1 100644
+--- a/target/ppc/spr_tcg.h
++++ b/target/ppc/spr_tcg.h
+@@ -26,6 +26,7 @@ void spr_noaccess(DisasContext *ctx, int gprn, int sprn);
+ void spr_read_generic(DisasContext *ctx, int gprn, int sprn);
+ void spr_write_generic(DisasContext *ctx, int sprn, int gprn);
+ void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn);
++void spr_write_CTRL(DisasContext *ctx, int sprn, int gprn);
+ void spr_read_xer(DisasContext *ctx, int gprn, int sprn);
+ void spr_write_xer(DisasContext *ctx, int sprn, int gprn);
+ void spr_read_lr(DisasContext *ctx, int gprn, int sprn);
 diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index c3e2e3d329..b7235a2be0 100644
+index b7235a2be0..866b1d2b34 100644
 --- a/target/ppc/translate.c
 +++ b/target/ppc/translate.c
-@@ -176,6 +176,7 @@ struct DisasContext {
-     bool tm_enabled;
-     bool gtse;
-     bool pmcc_clear;
-+    bool pmu_frozen;
-     ppc_spr_t *spr_cb; /* Needed to check rights for mfspr/mtspr */
-     int singlestep_enabled;
-     uint32_t flags;
-@@ -411,6 +412,12 @@ void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn)
-      */
-     gen_icount_io_start(ctx);
-     gen_helper_store_mmcr0(cpu_env, cpu_gpr[gprn]);
+@@ -402,6 +402,18 @@ void spr_write_generic(DisasContext *ctx, int sprn, int gprn)
+     spr_store_dump_spr(sprn);
+ }
+ 
++void spr_write_CTRL(DisasContext *ctx, int sprn, int gprn)
++{
++    spr_write_generic(ctx, sprn, gprn);
 +
 +    /*
-+     * End the translation block because MMCR0 writes can change
-+     * ctx->pmu_frozen.
++     * Write in SPR_CTRL must force a new translation block,
++     * allowing the PMU to calculate the run latch events with
++     * more accuracy.
 +     */
 +    ctx->base.is_jmp = DISAS_EXIT_UPDATE;
- }
- #else
++}
++
+ #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
  void spr_write_MMCR0(DisasContext *ctx, int sprn, int gprn)
-@@ -4407,6 +4414,22 @@ static inline void gen_update_cfar(DisasContext *ctx, target_ulong nip)
- #endif
- }
- 
-+#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
-+static void pmu_count_insns(DisasContext *ctx)
-+{
-+    /* Do not bother calling the helper if the PMU is frozen */
-+    if (ctx->pmu_frozen) {
-+        return;
-+    }
-+
-+    gen_helper_insns_inc(cpu_env, tcg_constant_i32(ctx->base.num_insns));
-+}
-+#else
-+static void pmu_count_insns(DisasContext *ctx)
-+{
-+    return;
-+}
-+#endif
- static inline bool use_goto_tb(DisasContext *ctx, target_ulong dest)
  {
-     return translator_use_goto_tb(&ctx->base, dest);
-@@ -4421,9 +4444,17 @@ static void gen_lookup_and_goto_ptr(DisasContext *ctx)
-         } else if (sse & (CPU_SINGLE_STEP | CPU_BRANCH_STEP)) {
-             gen_helper_raise_exception(cpu_env, tcg_constant_i32(gen_prep_dbgex(ctx)));
-         } else {
-+            pmu_count_insns(ctx);
-             tcg_gen_exit_tb(NULL, 0);
-         }
-     } else {
-+        /*
-+         * tcg_gen_lookup_and_goto_ptr will exit the TB if
-+         * CF_NO_GOTO_PTR is set. Count insns now.
-+         */
-+        if (ctx->base.tb->flags & CF_NO_GOTO_PTR) {
-+            pmu_count_insns(ctx);
-+        }
-         tcg_gen_lookup_and_goto_ptr();
-     }
- }
-@@ -4435,6 +4466,8 @@ static void gen_goto_tb(DisasContext *ctx, int n, target_ulong dest)
-         dest = (uint32_t) dest;
-     }
-     if (use_goto_tb(ctx, dest)) {
-+        pmu_count_insns(ctx);
-+
-         tcg_gen_goto_tb(n);
-         tcg_gen_movi_tl(cpu_nip, dest & ~3);
-         tcg_gen_exit_tb(ctx->base.tb, n);
-@@ -8648,6 +8681,7 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->tm_enabled = (hflags >> HFLAGS_TM) & 1;
-     ctx->gtse = (hflags >> HFLAGS_GTSE) & 1;
-     ctx->pmcc_clear = (hflags >> HFLAGS_PMCCCLEAR) & 1;
-+    ctx->pmu_frozen = (hflags >> HFLAGS_MMCR0FC) & 1;
- 
-     ctx->singlestep_enabled = 0;
-     if ((hflags >> HFLAGS_SE) & 1) {
-@@ -8767,6 +8801,8 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-     switch (is_jmp) {
-     case DISAS_TOO_MANY:
-         if (use_goto_tb(ctx, nip)) {
-+            pmu_count_insns(ctx);
-+
-             tcg_gen_goto_tb(0);
-             gen_update_nip(ctx, nip);
-             tcg_gen_exit_tb(ctx->base.tb, 0);
-@@ -8777,6 +8813,14 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-         gen_update_nip(ctx, nip);
-         /* fall through */
-     case DISAS_CHAIN:
-+        /*
-+         * tcg_gen_lookup_and_goto_ptr will exit the TB if
-+         * CF_NO_GOTO_PTR is set. Count insns now.
-+         */
-+        if (ctx->base.tb->flags & CF_NO_GOTO_PTR) {
-+            pmu_count_insns(ctx);
-+        }
-+
-         tcg_gen_lookup_and_goto_ptr();
-         break;
- 
-@@ -8784,6 +8828,8 @@ static void ppc_tr_tb_stop(DisasContextBase *dcbase, CPUState *cs)
-         gen_update_nip(ctx, nip);
-         /* fall through */
-     case DISAS_EXIT:
-+        pmu_count_insns(ctx);
-+
-         tcg_gen_exit_tb(NULL, 0);
-         break;
- 
 -- 
 2.31.1
 
