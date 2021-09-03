@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6702C3FFD32
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 11:34:45 +0200 (CEST)
-Received: from localhost ([::1]:41332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA2ED3FFCF1
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 11:20:20 +0200 (CEST)
+Received: from localhost ([::1]:52758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM5au-0001cg-6H
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 05:34:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45192)
+	id 1mM5Mx-0004O2-PM
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 05:20:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mM5F9-000417-Vv
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:12:16 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:35584)
+ id 1mM57K-0006YL-P1
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:04:12 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mM5F8-0003zK-0J
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:12:15 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- z9-20020a7bc149000000b002e8861aff59so3314171wmi.0
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 02:12:13 -0700 (PDT)
+ id 1mM57F-0005lS-Co
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:04:06 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id g18so7174978wrc.11
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 02:04:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MwNqOLSs/h4JpB6SVAu+PmQQX3OyOVghXZoT0dCYuZo=;
- b=r/xX7dI2LKz71yY4ubyTkV2/Tws3xi9hkxxNsGm2N42ZVbTr8sqDX245dJZKGwcT91
- Rd7q+8dCsvgQx39MY3750HAN2yqUdk2LnTpi7jkMr4cmuW1txlIscl2zHN5u16EccRrp
- kt/XpIqRN/5w6f2Zmwj7iiaS2khpzPO+PoY7oGuf+HwOeZDinROsIErGJqXNXab3Gzm+
- ZZQW6F09Kler1BpTIaERsXSZ0cR9xL6ZEltZjEqx+RCt0vS9Iu6MvFmfvJaFau1yBE5J
- P4cnqscV4VtjmkeLPcAy0anFKrhwkNCN+VhTIGfDmw85G/FoaDXchWEW/fnyzU55XZci
- 9nFg==
+ bh=P0i71SO0mUfOxacGplPpPt2MK0kYjZTuvRy4ItPlDSU=;
+ b=YLuv6o8Q6q86KhnHPd4gpYOdVjBAoVIwsG89SLENecGj4DYUgAJ8neNjKnayOQvtKL
+ q0qAvzfj8bRrr6+bR2pkhvYBGJxnxtS1yIinImUwxgZxqe3qjLbZKf1YgFySQjmZQLtL
+ xKA7SlJh78XHtB0udg2goZb39EFpUbX7EqZHOnVi3ikfbkHA7VQsog7yzwcKtUn2Jp9K
+ H3xqchSiZYrhvX8S0zF0ddJOt24+i1Da1So9wlmwu+cV5QU5E6s1PfM9F0aMxrWYCQPW
+ MjawGKTqoBJPUaWKZA04SlwzPCanDFQwG5LGZnrGOoYremBo5ZuUOO59RJ9IjTTxNxYj
+ BDrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MwNqOLSs/h4JpB6SVAu+PmQQX3OyOVghXZoT0dCYuZo=;
- b=J3IVLu8ZGi/njiaC8YATFdsAAI++bz0w6XwpzROORO4jSShrBaNJ0YZt4sVXTrRej5
- ILbEHXxgisBakClLJDbcX8uYPAnjAn7HayKyb1Qmgrs44IcAsrgvemKqInVc0QvFU1Ji
- U497syZwktjPiziIh2Bh3kwwKoXwbq8shE5ki9LanCd7AwUm+MUw4/a7JIjxicZNQ0Pf
- 0aoq4FeERVSSxZNQZdkIR+qWyMkbpv0OVxUeNQCpIbFXZvKIgFeLvr/GY4rsdOpspmMw
- LmEn6cyacD+ewqBilJnL/uY+OqIj7s2BarVRX2xLWEtmkJJa399NNZ9AzAWFAvYnEgJE
- 3uyw==
-X-Gm-Message-State: AOAM533Jzj7pqcJ2i6IwGOO7lu8sn3AhoO0G1zSE1ONZJ+nXEE7Tby5j
- RFA9N/w/xa4/jywBg7Jz5yrr0A==
-X-Google-Smtp-Source: ABdhPJzNGqqp0kf9nbDoAzTw9/9tPKM1r5m7V5VtfPlZ5H9iCZN01ddOtZpKhcdGCR6GpRW0cPyJSg==
-X-Received: by 2002:a7b:c442:: with SMTP id l2mr7346299wmi.131.1630660332619; 
- Fri, 03 Sep 2021 02:12:12 -0700 (PDT)
+ bh=P0i71SO0mUfOxacGplPpPt2MK0kYjZTuvRy4ItPlDSU=;
+ b=BWtZWkxIgQxcCbLNyOj1HaCeFdH7nMWsXArL+DukGmYK9coO+RwTIuPZ81UcQV/dP/
+ cOkJI4s6NJyRzPpg32AKnbSzAjSfIX81dEPbOsHoDilF+VKT2IRB75Edf1miSEdf6Go3
+ hKUlT8AV/yzbOhxQeRdWfaeSmzcyJ3R5e8UMRpjiSVaSbizQqUA5XXeRpANOGZaIbbzD
+ usN/AkS3GmCxJg2EYWRwngoBURrtIlPBPeJgFSpUPIyLcBDwi0El9bp95o27996VfWFh
+ J9C0Vp34SM8IYTSNNo8q2FHzZwfLENXafXaUw2Aq+kCfEbA2CYD0skkb7tNTsSYM6NJA
+ GaSQ==
+X-Gm-Message-State: AOAM533g/1ABiWQ/dycBnIDuFG/YFP3BP36ButbDZOZxw+sqTxkQ3IL7
+ fr5/L/7KIPhf6iDT3lRYDwRJFA==
+X-Google-Smtp-Source: ABdhPJxCe10EgH5FGr7MuKkOf41eKw005FZlmnyh7LsdHKi8Fgo115NmfKUbkPqE7I/3g2+wCsu7XA==
+X-Received: by 2002:a05:6000:1091:: with SMTP id
+ y17mr2729359wrw.202.1630659843986; 
+ Fri, 03 Sep 2021 02:04:03 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h15sm1209356wrc.19.2021.09.03.02.12.05
+ by smtp.gmail.com with ESMTPSA id l2sm3876051wmi.1.2021.09.03.02.03.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 02:12:10 -0700 (PDT)
+ Fri, 03 Sep 2021 02:03:57 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2B1ED1FFAF;
+ by zen.linaroharston (Postfix) with ESMTP id 360151FFB1;
  Fri,  3 Sep 2021 10:03:41 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 16/22] docs/tcg-plugins: new passing parameters scheme for
- cache docs
-Date: Fri,  3 Sep 2021 10:03:33 +0100
-Message-Id: <20210903090339.1074887-17-alex.bennee@linaro.org>
+Subject: [PULL 17/22] tests/plugins/bb: adapt to the new arg passing scheme
+Date: Fri,  3 Sep 2021 10:03:34 +0100
+Message-Id: <20210903090339.1074887-18-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210903090339.1074887-1-alex.bennee@linaro.org>
 References: <20210903090339.1074887-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,56 +98,34 @@ From: Mahmoud Mandour <ma.mandourr@gmail.com>
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210730135817.17816-9-ma.mandourr@gmail.com>
+Message-Id: <20210730135817.17816-10-ma.mandourr@gmail.com>
 
-diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-index 7b1dece024..fcc460bf7b 100644
---- a/docs/devel/tcg-plugins.rst
-+++ b/docs/devel/tcg-plugins.rst
-@@ -389,34 +389,34 @@ will report the following::
+diff --git a/tests/plugin/bb.c b/tests/plugin/bb.c
+index de09bdde4e..7d470a1011 100644
+--- a/tests/plugin/bb.c
++++ b/tests/plugin/bb.c
+@@ -104,10 +104,17 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
  
- The plugin has a number of arguments, all of them are optional:
- 
--  * arg="limit=N"
-+  * limit=N
- 
-   Print top N icache and dcache thrashing instructions along with their
-   address, number of misses, and its disassembly. (default: 32)
- 
--  * arg="icachesize=N"
--  * arg="iblksize=B"
--  * arg="iassoc=A"
-+  * icachesize=N
-+  * iblksize=B
-+  * iassoc=A
- 
-   Instruction cache configuration arguments. They specify the cache size, block
-   size, and associativity of the instruction cache, respectively.
-   (default: N = 16384, B = 64, A = 8)
- 
--  * arg="dcachesize=N"
--  * arg="dblksize=B"
--  * arg="dassoc=A"
-+  * dcachesize=N
-+  * dblksize=B
-+  * dassoc=A
- 
-   Data cache configuration arguments. They specify the cache size, block size,
-   and associativity of the data cache, respectively.
-   (default: N = 16384, B = 64, A = 8)
- 
--  * arg="evict=POLICY"
-+  * evict=POLICY
- 
-   Sets the eviction policy to POLICY. Available policies are: :code:`lru`,
-   :code:`fifo`, and :code:`rand`. The plugin will use the specified policy for
-   both instruction and data caches. (default: POLICY = :code:`lru`)
- 
--  * arg="cores=N"
-+  * cores=N
- 
-   Sets the number of cores for which we maintain separate icache and dcache.
-   (default: for linux-user, N = 1, for full system emulation: N = cores
+     for (i = 0; i < argc; i++) {
+         char *opt = argv[i];
+-        if (g_strcmp0(opt, "inline") == 0) {
+-            do_inline = true;
+-        } else if (g_strcmp0(opt, "idle") == 0) {
+-            idle_report = true;
++        g_autofree char **tokens = g_strsplit(opt, "=", 2);
++        if (g_strcmp0(tokens[0], "inline") == 0) {
++            if (!qemu_plugin_bool_parse(tokens[0], tokens[1], &do_inline)) {
++                fprintf(stderr, "boolean argument parsing failed: %s\n", opt);
++                return -1;
++            }
++        } else if (g_strcmp0(tokens[0], "idle") == 0) {
++            if (!qemu_plugin_bool_parse(tokens[0], tokens[1], &idle_report)) {
++                fprintf(stderr, "boolean argument parsing failed: %s\n", opt);
++                return -1;
++            }
+         } else {
+             fprintf(stderr, "option parsing failed: %s\n", opt);
+             return -1;
 -- 
 2.30.2
 
