@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34C5A3FFF75
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:53:07 +0200 (CEST)
-Received: from localhost ([::1]:49474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BF043FFF74
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:52:53 +0200 (CEST)
+Received: from localhost ([::1]:48228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM7ko-0006RU-8J
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:53:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46496)
+	id 1mM7kZ-0005dS-Ii
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:52:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mM7CF-0007fq-HB
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:17:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49789)
+ id 1mM7Dl-0001Ae-4A
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:18:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mM7CC-0006Km-MT
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:17:22 -0400
+ id 1mM7Di-0007Fm-2x
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:18:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630667839;
+ s=mimecast20190719; t=1630667933;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fH4orEAi1LMmKIlXzvrN15sR0XgUwy7e9wcO4+jWOtI=;
- b=i3eXXfjKagDWLCjqd1cSM2+qH79XmmbBZILe9oXLcmMTiMP87YJ1bvcJsklU2flNjXcxcQ
- BXJ/hfZyI2adgnNt1nhOpybaeKlC0Si0kkbD8w9qGjNM+ujtb9E2l7AmOuVXqB9JTEKHkZ
- Q841YMzHJD6oexCpS7xK9qIEGE1TktQ=
+ bh=d9H6Y/x3aFTcQdkDCU9IR24Ruj76cNc11pNOs8U9ZeE=;
+ b=Za/QDRAPbwAsBoMAwOS/DwwdTJv5UUi7gTufGGV6+TfsOF7pZcecfKw2BRq/jor9NzNeC6
+ xaRMbCeT+ldjjivmk9pqbdG21z0HfxPTgrxKzax+2lUB+/7qQ4PYFg2aHcnpHUQ4euYN28
+ c/ZgdnZHJWOcPBbeSP4666pbmE4B5e8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-HsxRonmDMQOsc8su8Mn70A-1; Fri, 03 Sep 2021 07:17:06 -0400
-X-MC-Unique: HsxRonmDMQOsc8su8Mn70A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-391-H8poPZlMOuixug7-bAsqBw-1; Fri, 03 Sep 2021 07:18:51 -0400
+X-MC-Unique: H8poPZlMOuixug7-bAsqBw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35D9C84A5E0;
- Fri,  3 Sep 2021 11:17:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0970501E1;
+ Fri,  3 Sep 2021 11:18:48 +0000 (UTC)
 Received: from redhat.com (unknown [10.39.193.241])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C5F2960BF1;
- Fri,  3 Sep 2021 11:16:31 +0000 (UTC)
-Date: Fri, 3 Sep 2021 12:16:28 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F03210016F4;
+ Fri,  3 Sep 2021 11:18:19 +0000 (UTC)
+Date: Fri, 3 Sep 2021 12:18:16 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH 02/28] glib-compat: Introduce g_memdup2() wrapper
-Message-ID: <YTIEDKAgWGRt/I6y@redhat.com>
+Subject: Re: [PATCH 03/28] qapi: Replace g_memdup() by g_memdup2_qemu()
+Message-ID: <YTIEeO5udKWuqE6H@redhat.com>
 References: <20210903110702.588291-1-philmd@redhat.com>
- <20210903110702.588291-3-philmd@redhat.com>
+ <20210903110702.588291-4-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210903110702.588291-3-philmd@redhat.com>
+In-Reply-To: <20210903110702.588291-4-philmd@redhat.com>
 User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -61,7 +61,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
@@ -69,7 +69,7 @@ X-Spam_bar: -
 X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,84 +108,23 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 03, 2021 at 01:06:36PM +0200, Philippe Mathieu-Daudé wrote:
-> When experimenting raising GLIB_VERSION_MIN_REQUIRED to 2.68
-> (Fedora 34 provides GLib 2.68.1) we get:
+On Fri, Sep 03, 2021 at 01:06:37PM +0200, Philippe Mathieu-Daudé wrote:
+> Per https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-now/5538
 > 
->   hw/virtio/virtio-crypto.c:245:24: error: 'g_memdup' is deprecated: Use 'g_memdup2' instead [-Werror,-Wdeprecated-declarations]
->   ...
+>   The old API took the size of the memory to duplicate as a guint,
+>   whereas most memory functions take memory sizes as a gsize. This
+>   made it easy to accidentally pass a gsize to g_memdup(). For large
+>   values, that would lead to a silent truncation of the size from 64
+>   to 32 bits, and result in a heap area being returned which is
+>   significantly smaller than what the caller expects. This can likely
+>   be exploited in various modules to cause a heap buffer overflow.
 > 
-> g_memdup() has been updated by g_memdup2() to fix eventual security
-> issues (size argument is 32-bit and could be truncated / wrapping).
-> GLib recommends to copy their static inline version of g_memdup2():
-> https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-now/5538
-> 
-> Our glib-compat.h provides a comment explaining how to deal with
-> these deprecated declarations (see commit e71e8cc0355
-> "glib: enforce the minimum required version and warn about old APIs").
-> 
-> Following this comment suggestion, implement the g_memdup2_qemu()
-> wrapper to g_memdup2(), and use the safer equivalent inlined when
-> we are using pre-2.68 GLib.
-> 
-> Reported-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  include/glib-compat.h | 36 ++++++++++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
-> 
-> diff --git a/include/glib-compat.h b/include/glib-compat.h
-> index 9e95c888f54..6577d9ab393 100644
-> --- a/include/glib-compat.h
-> +++ b/include/glib-compat.h
-> @@ -68,6 +68,42 @@
->   * without generating warnings.
->   */
->  
-> +/*
-> + * g_memdup2_qemu:
-> + * @mem: (nullable): the memory to copy.
-> + * @byte_size: the number of bytes to copy.
-> + *
-> + * Allocates @byte_size bytes of memory, and copies @byte_size bytes into it
-> + * from @mem. If @mem is %NULL it returns %NULL.
-> + *
-> + * This replaces g_memdup(), which was prone to integer overflows when
-> + * converting the argument from a #gsize to a #guint.
-> + *
-> + * This static inline version is a backport of the new public API from
-> + * GLib 2.68, kept internal to GLib for backport to older stable releases.
-> + * See https://gitlab.gnome.org/GNOME/glib/-/issues/2319.
-> + *
-> + * Returns: (nullable): a pointer to the newly-allocated copy of the memory,
-> + *          or %NULL if @mem is %NULL.
-> + */
-> +static inline gpointer g_memdup2_qemu(gconstpointer mem, gsize byte_size)
-> +{
-> +#if GLIB_CHECK_VERSION(2, 68, 0)
-> +    return g_memdup2(mem, byte_size);
-> +#else
-> +    gpointer new_mem;
-> +
-> +    if (mem && byte_size != 0) {
-> +        new_mem = g_malloc(byte_size);
-> +        memcpy(new_mem, mem, byte_size);
-> +    } else {
-> +        new_mem = NULL;
-> +    }
-> +
-> +    return new_mem;
-> +#endif
-> +}
+> Replace g_memdup() by the safer g_memdup2_qemu() wrapper.
 
-Close, but you missed the final piece of the puzzle
+This and all following patches should directly use "g_memdup2"
+rather than the wrapper which is supposed to remain "secret"
+in the glib-compat.h header.
 
-   #define g_memdup2(a) g_memdup2_qemu(a)
-
-
-Such that in all following patches you can use the normal "g_memdup2"
-API. This means when we later update min glib, we just delete the
-compat code here, and the callers don't need updates.
 
 Regards,
 Daniel
