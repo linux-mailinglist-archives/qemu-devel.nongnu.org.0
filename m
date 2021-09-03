@@ -2,89 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39826400397
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 18:41:16 +0200 (CEST)
-Received: from localhost ([::1]:50780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F00524003AE
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 18:51:33 +0200 (CEST)
+Received: from localhost ([::1]:54362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMCFf-0007Bj-Ar
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 12:41:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40132)
+	id 1mMCPc-0001aL-I6
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 12:51:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mMCEd-0006Qj-8v
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:40:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31434)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mMCEZ-0003zF-8G
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:40:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630687205;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6pO7DSPpASwbyNf4G45pF/nMHpJ3FwzuOhKgTjWCjas=;
- b=XN0XcHLHLrsBnYGmtW2cvpQjPt8cfwvGM1QVWR+BBjS7PBNg5KwavyV6anfKHMJ7zH8EBj
- u0xQYWV7qhx9G6K3lbPlf+l5oh+YJXvCHwkd4up8oBqCBA6o6K2tDR1ZIyuq3WAWQBwbf0
- foXNjCKT3aSv4TKBud2U8GMRw/2M69o=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-X1XEu6_QNlOTdsUy-iSfQg-1; Fri, 03 Sep 2021 12:40:02 -0400
-X-MC-Unique: X1XEu6_QNlOTdsUy-iSfQg-1
-Received: by mail-qv1-f71.google.com with SMTP id
- et12-20020a056214176c00b0037279a2ce4cso6198196qvb.13
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 09:40:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mMCOm-0000oB-1n
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:50:40 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:37557)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1mMCOj-0004Ux-H3
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:50:39 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ c8-20020a7bc008000000b002e6e462e95fso4208477wmb.2
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 09:50:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=SeJTMDTeJW0uClhHQj7BWgw+eUgrrbiXK00taAPCI0U=;
+ b=ZVW8cj1DA3VhE+mOA6dJlkS1pQ/FduEoFcHzNpeGk+a2GyFJ+k3Ywq6LBvKpB0vLHx
+ pcws1dzFSXLA/HaAvYaulKfrvJ9jgQ/fJ4oESGKcJmSzXN1mRKiMj1oFl7K5peKeTV2k
+ 7Onxfi3tkz2EpXSIJaBJwMhC/CKpzQ+HBzofIQD8dU+x90SISosz+LoXy49Pn/Zg/Tv8
+ qoLT7GKYNMZZ736kOlrbQlchgiBUZO+j622/vNC0IuOAMHu7e9bhFn2motQ/AbrxYvJk
+ mq8A7teD36cavnzlX3k9SMkUXTZ//OFz5BZ0ZzLZZP4n2fy1l1PN83ppueWdsIn0jGl/
+ NKEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=6pO7DSPpASwbyNf4G45pF/nMHpJ3FwzuOhKgTjWCjas=;
- b=KKK54IsJ7cDjbBH8EXCo1FSbHK4T1fRljiu6X2GsC41tOqHA9/CEPhudNQWysA/TKd
- 2vR3cjukfARtq1h0SC8kKm+K4U5Th8B2DXQDP7aqP/QHBDWy/YmanSxKcNlwdIn5cp0e
- n/7vUIcQwZt2x2nfk5e4myHBnA8DO494xztCG4i4y/GRwFsieWZBvmW8dMGcJjl93y4k
- er4dQCgxiZgIhTqH3lrIjvJAXMfiVf7TAUlCrua52MZ4RnctBkn7wBxEWfvLgjmAGyNn
- RJnt7aIeY3XDxFEoKvgI0QRN5xF7nbRdlTHLm/Th7i2sq6HLnFRs8BxmJOsKEACKFtNn
- NUMg==
-X-Gm-Message-State: AOAM530SdQTKAoR3d7bVcfgBU6DhzbBlmdQqiziMGy0/bjdptvwcXoFn
- e+2vYLfEG58c8dBpsaIFPras2HXhw77XGYOxyEvxmxKo2yEawcySAjZGjv9iJIsB8ZypR++6g/C
- +0/YEOCylANWs0cw=
-X-Received: by 2002:a05:6214:23cc:: with SMTP id
- hr12mr4701478qvb.56.1630687202021; 
- Fri, 03 Sep 2021 09:40:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxXhRCgSmnW9duzaZTH9IoK5pBUlftIhw58U6R5AYCd9t0Iii7IHokdaov+HjiBVGABVTnkFw==
-X-Received: by 2002:a05:6214:23cc:: with SMTP id
- hr12mr4701463qvb.56.1630687201770; 
- Fri, 03 Sep 2021 09:40:01 -0700 (PDT)
-Received: from t490s ([2607:fea8:56a3:500::ad7f])
- by smtp.gmail.com with ESMTPSA id u13sm4167224qki.38.2021.09.03.09.40.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 09:40:01 -0700 (PDT)
-Date: Fri, 3 Sep 2021 12:39:59 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v6 2/2] memory: Have 'info mtree' remove duplicated
- Address Space information
-Message-ID: <YTJP34IFfGAJ4oDp@t490s>
-References: <20210903160619.699632-1-philmd@redhat.com>
- <20210903160619.699632-3-philmd@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=SeJTMDTeJW0uClhHQj7BWgw+eUgrrbiXK00taAPCI0U=;
+ b=rztiW5epVIT/qabw+yc8Taz2MS+4wTraD9GdbyfO5mr+1uS3QAr6DERGet9DT7Jjlh
+ JStDYRxt7ERZzg3sWHZZCLRKs3sxB/uShCh9pyQgZAOrQSFv7t8Wijdh5NLIN9yiN6tv
+ 4WiXBHEVJ1HOw5axykufRlLJyJWwtccUVcvehZ14vMf6Qv56qIbnXFsq88J7eJf7ygqB
+ 8TjJ0Vl9noZzy7Q07ZP8cxMIND1qloYEL76SjTryrpa4tOrAJKS5/hJ9XALe2uYPTvzq
+ a6GNm9CIzlglfm591+lNnvC5dSkqJ2WAa1tDlCZRP9MskJbBJFUE4v5TBrmUGTH7fUBq
+ LASg==
+X-Gm-Message-State: AOAM530vOucmjrw1f8h0ARQ2tMj9pE0FQcH4Zw3HBADO0UX8nIYU6gEH
+ DL80linco+cqpPzUKyj+EzdieyC9m4s0j78HAlxIqg==
+X-Google-Smtp-Source: ABdhPJyWYq3VGYWs+oJzt1p1WzfqFLpWOFPvV+MXHbzILYfNE2RyP0TMdQrbMgiZBvrQYlXbvh521bW8rumhc51OIec=
+X-Received: by 2002:a05:600c:4fcd:: with SMTP id
+ o13mr1395642wmq.32.1630687835342; 
+ Fri, 03 Sep 2021 09:50:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210903160619.699632-3-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20210902124911.822423-1-thuth@redhat.com>
+ <CAFEAcA89mGzirJWyzH+-c3WtH3G=XYV0MqRfBK+5SnA+Hob-eA@mail.gmail.com>
+ <3090f5dd-d03d-bd2a-ce4d-ff0d796d9c5f@redhat.com> <87v93hpqdj.fsf@linaro.org>
+In-Reply-To: <87v93hpqdj.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 3 Sep 2021 17:49:46 +0100
+Message-ID: <CAFEAcA9eWukPg87mBCA-UfGuy6i-HdOyjnOpYF1eRsbCHfUjvg@mail.gmail.com>
+Subject: Re: [PULL 00/13] Testing, build system and misc patches
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,158 +82,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 03, 2021 at 06:06:19PM +0200, Philippe Mathieu-Daudé wrote:
-> Per Peter Maydell [*]:
-> 
->   'info mtree' monitor command was designed on the assumption that
->   there's really only one or two interesting address spaces, and
->   with more recent developments that's just not the case any more.
-> 
-> Similarly about how the FlatView are sorted using a GHashTable,
-> sort the AddressSpace objects to remove the duplications (AS
-> using the same root MemoryRegion).
-> 
-> This drastically reduces the output of 'info mtree' on some boards.
-> 
-> Before:
-> 
->   $ (echo info mtree; echo q) \
->     | qemu-system-aarch64 -S -monitor stdio -M raspi3b \
->     | wc -l
->   423
-> 
-> After:
-> 
->   $ (echo info mtree; echo q) \
->     | qemu-system-aarch64 -S -monitor stdio -M raspi3b \
->     | wc -l
->   106
-> 
->   (qemu) info mtree
->   address-space: I/O
->     0000000000000000-000000000000ffff (prio 0, i/o): io
-> 
->   address-space: cpu-memory-0
->   address-space: cpu-memory-1
->   address-space: cpu-memory-2
->   address-space: cpu-memory-3
->   address-space: cpu-secure-memory-0
->   address-space: cpu-secure-memory-1
->   address-space: cpu-secure-memory-2
->   address-space: cpu-secure-memory-3
->   address-space: memory
->     0000000000000000-ffffffffffffffff (prio 0, i/o): system
->       0000000000000000-000000003fffffff (prio 0, ram): ram
->       000000003f000000-000000003fffffff (prio 1, i/o): bcm2835-peripherals
->         000000003f003000-000000003f00301f (prio 0, i/o): bcm2835-sys-timer
->         000000003f004000-000000003f004fff (prio -1000, i/o): bcm2835-txp
->         000000003f006000-000000003f006fff (prio 0, i/o): mphi
->         000000003f007000-000000003f007fff (prio 0, i/o): bcm2835-dma
->         000000003f00b200-000000003f00b3ff (prio 0, i/o): bcm2835-ic
->         000000003f00b400-000000003f00b43f (prio -1000, i/o): bcm2835-sp804
->         000000003f00b800-000000003f00bbff (prio 0, i/o): bcm2835-mbox
->         000000003f100000-000000003f1001ff (prio 0, i/o): bcm2835-powermgt
->         000000003f101000-000000003f102fff (prio 0, i/o): bcm2835-cprman
->         000000003f104000-000000003f10400f (prio 0, i/o): bcm2835-rng
->         000000003f200000-000000003f200fff (prio 0, i/o): bcm2835_gpio
->         000000003f201000-000000003f201fff (prio 0, i/o): pl011
->         000000003f202000-000000003f202fff (prio 0, i/o): bcm2835-sdhost
->         000000003f203000-000000003f2030ff (prio -1000, i/o): bcm2835-i2s
->         000000003f204000-000000003f20401f (prio -1000, i/o): bcm2835-spi0
->         000000003f205000-000000003f20501f (prio -1000, i/o): bcm2835-i2c0
->         000000003f20f000-000000003f20f07f (prio -1000, i/o): bcm2835-otp
->         000000003f212000-000000003f212007 (prio 0, i/o): bcm2835-thermal
->         000000003f214000-000000003f2140ff (prio -1000, i/o): bcm2835-spis
->         000000003f215000-000000003f2150ff (prio 0, i/o): bcm2835-aux
->         000000003f300000-000000003f3000ff (prio 0, i/o): sdhci
->         000000003f600000-000000003f6000ff (prio -1000, i/o): bcm2835-smi
->         000000003f804000-000000003f80401f (prio -1000, i/o): bcm2835-i2c1
->         000000003f805000-000000003f80501f (prio -1000, i/o): bcm2835-i2c2
->         000000003f900000-000000003f907fff (prio -1000, i/o): bcm2835-dbus
->         000000003f910000-000000003f917fff (prio -1000, i/o): bcm2835-ave0
->         000000003f980000-000000003f990fff (prio 0, i/o): dwc2
->           000000003f980000-000000003f980fff (prio 0, i/o): dwc2-io
->           000000003f981000-000000003f990fff (prio 0, i/o): dwc2-fifo
->         000000003fc00000-000000003fc00fff (prio -1000, i/o): bcm2835-v3d
->         000000003fe00000-000000003fe000ff (prio -1000, i/o): bcm2835-sdramc
->         000000003fe05000-000000003fe050ff (prio 0, i/o): bcm2835-dma-chan15
->       0000000040000000-00000000400000ff (prio 0, i/o): bcm2836-control
-> 
->   address-space: bcm2835-dma-memory
->   address-space: bcm2835-fb-memory
->   address-space: bcm2835-property-memory
->   address-space: dwc2
->     0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
->       0000000000000000-000000003fffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
->       0000000040000000-000000007fffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
->       000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
->       0000000080000000-00000000bfffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
->       00000000c0000000-00000000ffffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-> 
->   address-space: bcm2835-mbox-memory
->     0000000000000000-000000000000008f (prio 0, i/o): bcm2835-mbox
->       0000000000000010-000000000000001f (prio 0, i/o): bcm2835-fb
->       0000000000000080-000000000000008f (prio 0, i/o): bcm2835-property
-> 
->   memory-region: ram
->     0000000000000000-000000003fffffff (prio 0, ram): ram
-> 
->   memory-region: bcm2835-peripherals
->     000000003f000000-000000003fffffff (prio 1, i/o): bcm2835-peripherals
->       000000003f003000-000000003f00301f (prio 0, i/o): bcm2835-sys-timer
->       000000003f004000-000000003f004fff (prio -1000, i/o): bcm2835-txp
->       000000003f006000-000000003f006fff (prio 0, i/o): mphi
->       000000003f007000-000000003f007fff (prio 0, i/o): bcm2835-dma
->       000000003f00b200-000000003f00b3ff (prio 0, i/o): bcm2835-ic
->       000000003f00b400-000000003f00b43f (prio -1000, i/o): bcm2835-sp804
->       000000003f00b800-000000003f00bbff (prio 0, i/o): bcm2835-mbox
->       000000003f100000-000000003f1001ff (prio 0, i/o): bcm2835-powermgt
->       000000003f101000-000000003f102fff (prio 0, i/o): bcm2835-cprman
->       000000003f104000-000000003f10400f (prio 0, i/o): bcm2835-rng
->       000000003f200000-000000003f200fff (prio 0, i/o): bcm2835_gpio
->       000000003f201000-000000003f201fff (prio 0, i/o): pl011
->       000000003f202000-000000003f202fff (prio 0, i/o): bcm2835-sdhost
->       000000003f203000-000000003f2030ff (prio -1000, i/o): bcm2835-i2s
->       000000003f204000-000000003f20401f (prio -1000, i/o): bcm2835-spi0
->       000000003f205000-000000003f20501f (prio -1000, i/o): bcm2835-i2c0
->       000000003f20f000-000000003f20f07f (prio -1000, i/o): bcm2835-otp
->       000000003f212000-000000003f212007 (prio 0, i/o): bcm2835-thermal
->       000000003f214000-000000003f2140ff (prio -1000, i/o): bcm2835-spis
->       000000003f215000-000000003f2150ff (prio 0, i/o): bcm2835-aux
->       000000003f300000-000000003f3000ff (prio 0, i/o): sdhci
->       000000003f600000-000000003f6000ff (prio -1000, i/o): bcm2835-smi
->       000000003f804000-000000003f80401f (prio -1000, i/o): bcm2835-i2c1
->       000000003f805000-000000003f80501f (prio -1000, i/o): bcm2835-i2c2
->       000000003f900000-000000003f907fff (prio -1000, i/o): bcm2835-dbus
->       000000003f910000-000000003f917fff (prio -1000, i/o): bcm2835-ave0
->       000000003f980000-000000003f990fff (prio 0, i/o): dwc2
->         000000003f980000-000000003f980fff (prio 0, i/o): dwc2-io
->         000000003f981000-000000003f990fff (prio 0, i/o): dwc2-fifo
->       000000003fc00000-000000003fc00fff (prio -1000, i/o): bcm2835-v3d
->       000000003fe00000-000000003fe000ff (prio -1000, i/o): bcm2835-sdramc
->       000000003fe05000-000000003fe050ff (prio 0, i/o): bcm2835-dma-chan15
-> 
->   (qemu) q
-> 
-> [*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg829821.html
-> 
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: David Hildenbrand <david@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Fri, 3 Sept 2021 at 17:37, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+> Thomas Huth <thuth@redhat.com> writes:
+> > On 03/09/2021 15.22, Peter Maydell wrote:
+> >> This provokes a new warning from meson on a linux-static build:
+> >> Run-time dependency appleframeworks found: NO (tried framework)
+> >> Library rt found: YES
+> >> Found pkg-config: /usr/bin/pkg-config (0.29.1)
+> >> WARNING: Static library 'gbm' not found for dependency 'gbm', may not
+> >> be statically linked
+> >> Run-time dependency gbm found: YES 20.0.8
+> >> Dependency libpng found: YES 1.6.34 (cached)
+> >> Dependency libjpeg found: YES unknown (cached)
+> >> If we're building statically and we can't find a static
+> >> library then (a) we shouldn't print a WARNING and
+> >> (b) we shouldn't then conclude that we've found gdm.
+> >
+> > Hmmm, no clue what's wrong here, since I basically did declare it like
+> > all other libraries are declared, too (so this problem should have
+> > shown up somewhere else already?)... Paolo, do you have any ideas
+> > what's going on here?
+>
+> In attempting to replicate I found all the dynamic libs blow up:
 
-Thanks Phil.
+>   WARNING: Static library 'xkbcommon' not found for dependency 'xkbcommon=
+', may not be statically l
+>   Run-time dependency xkbcommon found: YES 1.0.3
 
-Reviewed-by: Peter Xu <peterx@redhat.com>
+I do vaguely recall complaining about new meson warnings for
+static library detection in the past as well:
+https://lore.kernel.org/qemu-devel/CAFEAcA8chPqS0keyGv0vBgNgacnMo95gA3LZDU2=
+QfmteQ=3D4UZg@mail.gmail.com/
+https://lore.kernel.org/qemu-devel/CAFEAcA_-cNmt-sY3nqnGkpUqET86M6-82rf-Uv3=
+QkwCR14kYsw@mail.gmail.com/
+https://lore.kernel.org/qemu-devel/CAFEAcA8xHxCGhh2hibsdCxZrYRRU+xcwVsa85O7=
+KL9BsmW7ohw@mail.gmail.com/
 
--- 
-Peter Xu
+> So is this a general problem with static libs. BTW I didn't catch this
+> because I only build user with --static as I thought system --static was
+> flakey anyway.
 
+I'm not doing a system build in this case... Looking at some of
+those older threads, it looks like part of the answer is that
+for dependencies that we don't need for linux-user mode we should
+guard the test with some suitable if condition so we don't create
+the dependency unless we're going to use it, eg the brlapi check
+uses "if not get_option('brlapi').auto() or have_system", rbd
+has a similar thing involving have_block, etc.
+
+But I think there is an underlying meson bug here which that kind of
+use of an if is merely working around: if we ask for a static library
+it should not give us a dynamic library.
+
+-- PMM
 
