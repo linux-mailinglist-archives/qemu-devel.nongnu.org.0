@@ -2,83 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40FDC3FFBED
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 10:27:34 +0200 (CEST)
-Received: from localhost ([::1]:39960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 380F03FFC1B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 10:34:44 +0200 (CEST)
+Received: from localhost ([::1]:48132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM4Xt-0005Q2-C7
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 04:27:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35536)
+	id 1mM4eo-0002ws-0a
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 04:34:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mM4Wi-0004AY-Jg
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 04:26:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:55077)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mM4Wf-0006wn-EM
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 04:26:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630657576;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=njXAmUNkTQGGNbQrrTXwxRh73sqsWE4MIm1Hn/v0Vcs=;
- b=gqk6xyTXuJebvNUjIAFzUSo4Vj2dxU/tlXGWxpmB4G8SwrytvC06YGjmjgg8NhCJy0bGdU
- Oss8/N1xDBfFEY66P5Cyirb4UZlTo/XOjOSWjeWPVHYfw89GgbBbZKHQu2DmdFpyyHBWXK
- WGun6jtlTeCjgx5Gcuv8L5jEZUwsVXE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-52-NrRldgM-M22n7IOfEKLsOQ-1; Fri, 03 Sep 2021 04:26:15 -0400
-X-MC-Unique: NrRldgM-M22n7IOfEKLsOQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- f17-20020a05600c155100b002f05f30ff03so2350362wmg.3
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 01:26:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jiaduo19920301@gmail.com>)
+ id 1mM4dN-0001oR-KF
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 04:33:13 -0400
+Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:38643)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jiaduo19920301@gmail.com>)
+ id 1mM4dL-0004Pv-Qq
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 04:33:13 -0400
+Received: by mail-io1-xd30.google.com with SMTP id a13so5806036iol.5
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 01:33:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=56+vhST0mVRiWtgFOZketR3hM2FPJPSWoMnY7/YzSHA=;
+ b=pwiI5Fs/wX3TgqkP84rXNzHwe3A47fxUP76ozUgCVuri4Sm5BYamkH1hTSvra7+bOu
+ e7/S+47bGiyJLmyTPEV04yJ2oCf5oaKKKLXLb3cG9SkT1BoPB0SU2KT9WzrBAiqX3Yay
+ RqkUStgfxAMcoNSf3ifHrhxZ6K/Hh9CKXpvo09amllP6Ad+dvey1JjBt6M+ZihVRJ0qs
+ mZ4dux1dynd/MVJ66daAlNUtwjCzy7xGT1SSBXgYCBRng9gb7IXUFr9rv6XxurK/U3nk
+ 79llGZn9Au9WX+EloL0zjPPk7PGUKYUY/1PN85Z7XszQhP8sBprtqos9FX9IHCOaP0lk
+ 4BPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=njXAmUNkTQGGNbQrrTXwxRh73sqsWE4MIm1Hn/v0Vcs=;
- b=FKmKH8+0idK0hXUh/hCMc69QldOcNu/+QfgE7IZpAqSi9p+nIbr4FT+Wa3+jU8l5GN
- 1uT6S8oZzQwF7gtLlJDG41BsT+oKSNUR3u/vX2tf6KX37Sk6TaTAKed6yJ9044TZ25QY
- 7wCLy25NjboB6IdqQSWH+c4hP4S7LU8G+oq1Y769bGOY0dcOd2d75PdplTpPZZZ1oqwT
- JtxRGxk4c//BX1bu3JDKkhTUQwlQyOH4aL/i+kwVdwkMFtcWhUg2daLdykVUp3KzJ9oH
- NWGTGtS3d6QOKgoB6Ke9UKFJHwxOf6WP8K7aeqad0rsBx00cFq97ItfkzVporl6NGqUk
- l6Yg==
-X-Gm-Message-State: AOAM530EW6xo0SlExlsKES2XnbRoiY1jbcOWcomTBbJ1rIRIB5C2GTmx
- EO491lJkYTrpppGXritxwztxmkbSA619xfDo5YSnnRPepjJMU6FVWTlQgNuKg+8W1+0ngFl6J4W
- LllHxdOBqq+CvhiY=
-X-Received: by 2002:a7b:c4d2:: with SMTP id g18mr2072210wmk.135.1630657573974; 
- Fri, 03 Sep 2021 01:26:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw5UeNvya8mucV/949e4tWfVmNpfJ5XbFbSl2sUSaL94J/cCejJMtYAumvOF47DUSe+wvCF1w==
-X-Received: by 2002:a7b:c4d2:: with SMTP id g18mr2072157wmk.135.1630657573620; 
- Fri, 03 Sep 2021 01:26:13 -0700 (PDT)
-Received: from redhat.com ([2a03:c5c0:207f:7f47:ccd3:7600:6a2d:c5a])
- by smtp.gmail.com with ESMTPSA id l35sm3339758wms.40.2021.09.03.01.26.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 01:26:13 -0700 (PDT)
-Date: Fri, 3 Sep 2021 04:26:04 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jonah Palmer <jonah.palmer@oracle.com>
-Subject: Re: [PATCH v6 2/6] qmp: add QMP command x-debug-virtio-status
-Message-ID: <20210903042456-mutt-send-email-mst@kernel.org>
-References: <1626086137-16292-1-git-send-email-jonah.palmer@oracle.com>
- <1626086137-16292-3-git-send-email-jonah.palmer@oracle.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=56+vhST0mVRiWtgFOZketR3hM2FPJPSWoMnY7/YzSHA=;
+ b=FP9B9GCm/iZEzE0Ut505RvCOsRyCXYkNCW+SS8+DHAUwBoty0P0PF1c6hrg2aUMDh/
+ lEyrUK2m012XzqoO+e8Vry7CAq2ELOU/bugp9TkQT1qq19R78UDggKMP4xGKWRVRIDxm
+ 9cQJHBcGIeob8v5vYUCSCRfMW7c0GEprgUGb9TEXVkMAQufmNZPgtkilr8AO7qVbnEx7
+ r+uc2y9YAPxDgSz5VjfF7IK5vbKmnyUTbgwPzmZJSWgnNOcnElLXOwP3/guCCyxX+ijQ
+ VH9AEKWQ92Ew8U9stVxgiAIQ/2RhlRBJWaHdgnHC5EHTa9hkn7wTHTjptYBfjeBv8aGs
+ tG5g==
+X-Gm-Message-State: AOAM531Q5R58LwKV+2pZS909wDsa7aX+ChhcgW5yrny6fzfVFw+AD7Dz
+ 2DrN11XoGGeyfMbDtylx7QUEwwKNu6EzcSXoX8Q=
+X-Google-Smtp-Source: ABdhPJz1uyktnoeop3WlcbLV5/BMtUCqunuSMwd+afpfcBgcSnVKdSt5WQ8p3gZTPqykcv9q+ZeFMhcSrdNcP1NCtEo=
+X-Received: by 2002:a05:6638:381e:: with SMTP id
+ i30mr1695145jav.9.1630657989922; 
+ Fri, 03 Sep 2021 01:33:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1626086137-16292-3-git-send-email-jonah.palmer@oracle.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.39,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <CALUzjTYPpo680Ub6CCx7-N2o=Q6Q6Kh=DLNCcUq-1F0JbCThOw@mail.gmail.com>
+ <CAFEAcA89Dua-t14v3DH-LFG+4UDtU81PuaTOruLTQJw+T25eiA@mail.gmail.com>
+ <CALUzjTY56_A3mMtvWGFTyyZAKshWSeUfcHWJFFxYSm7P7BuNAQ@mail.gmail.com>
+ <CAFEAcA_Zvw1V5=8OxUXerb3zg=C6AGLfQgZ5k1kCY5NGT-CdHw@mail.gmail.com>
+In-Reply-To: <CAFEAcA_Zvw1V5=8OxUXerb3zg=C6AGLfQgZ5k1kCY5NGT-CdHw@mail.gmail.com>
+From: Duo jia <jiaduo19920301@gmail.com>
+Date: Fri, 3 Sep 2021 16:32:59 +0800
+Message-ID: <CALUzjTa1ZNFFjdo6eCy13TCrqAibYLMzJ7JqjY5+GwpukhfMAQ@mail.gmail.com>
+Subject: =?UTF-8?Q?Re=3A_How_does_qemu_detect_the_completion_of_interrupt?=
+ =?UTF-8?Q?_execution=EF=BC=9F?=
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000003d525905cb132698"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
+ envelope-from=jiaduo19920301@gmail.com; helo=mail-io1-xd30.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,198 +82,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, thuth@redhat.com, qemu-block@nongnu.org,
- amit@kernel.org, michael.roth@amd.com, jasowang@redhat.com, david@redhat.com,
- dgilbert@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com,
- dmitrii.stepanov@cloud.ionos.com, kraxel@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com, si-wei.liu@oracle.com, marcandre.lureau@redhat.com,
- joao.m.martins@oracle.com, mreitz@redhat.com, armbru@redhat.com,
- laurent@vivier.eu
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jul 12, 2021 at 06:35:33AM -0400, Jonah Palmer wrote:
-> From: Laurent Vivier <lvivier@redhat.com>
-> 
-> This new command shows the status of a VirtIODevice
-> (features, endianness and number of virtqueues)
-> 
-> Next patch will improve output by decoding feature bits.
-> 
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> Signed-off-by: Jonah Palmer <jonah.palmer@oracle.com>
+--0000000000003d525905cb132698
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Do we want to also decode the device status?
-E.g. does it have driver, need reset, etc etc?
+I understand the hardware=EF=BC=8Cbut How to achieve this function with qem=
+u=EF=BC=9F=EF=BC=8C
 
-Also, the internal broken flag?
+For example, this interrupt is not allowed to be nested. When the new
+interrupt comes, how can I detect that the interrupt is executing?
 
+Peter Maydell <peter.maydell@linaro.org> =E4=BA=8E2021=E5=B9=B49=E6=9C=882=
+=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=883:43=E5=86=99=E9=81=93=EF=BC=
+=9A
 
-> ---
->  hw/virtio/virtio-stub.c |  5 ++++
->  hw/virtio/virtio.c      | 50 ++++++++++++++++++++++++++++++++
->  qapi/virtio.json        | 76 +++++++++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 131 insertions(+)
-> 
-> diff --git a/hw/virtio/virtio-stub.c b/hw/virtio/virtio-stub.c
-> index d4a88f5..ddb592f 100644
-> --- a/hw/virtio/virtio-stub.c
-> +++ b/hw/virtio/virtio-stub.c
-> @@ -12,3 +12,8 @@ VirtioInfoList *qmp_x_debug_query_virtio(Error **errp)
->  {
->      return qmp_virtio_unsupported(errp);
->  }
-> +
-> +VirtioStatus *qmp_x_debug_virtio_status(const char* path, Error **errp)
-> +{
-> +    return qmp_virtio_unsupported(errp);
-> +}
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index f3fc1bb..222330a 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -3896,6 +3896,56 @@ VirtioInfoList *qmp_x_debug_query_virtio(Error **errp)
->      return list;
->  }
->  
-> +static VirtIODevice *virtio_device_find(const char *path)
-> +{
-> +    VirtIODevice *vdev;
-> +
-> +    QTAILQ_FOREACH(vdev, &virtio_list, next) {
-> +        DeviceState *dev = DEVICE(vdev);
-> +
-> +        if (strcmp(dev->canonical_path, path) != 0) {
-> +            continue;
-> +        }
-> +        return vdev;
-> +    }
-> +
-> +    return NULL;
-> +}
-> +
-> +VirtioStatus *qmp_x_debug_virtio_status(const char* path, Error **errp)
-> +{
-> +    VirtIODevice *vdev;
-> +    VirtioStatus *status;
-> +
-> +    vdev = virtio_device_find(path);
-> +    if (vdev == NULL) {
-> +        error_setg(errp, "Path %s is not a VirtIO device", path);
-> +        return NULL;
-> +    }
-> +
-> +    status = g_new0(VirtioStatus, 1);
-> +    status->guest_features = vdev->guest_features;
-> +    status->host_features = vdev->host_features;
-> +    status->backend_features = vdev->backend_features;
-> +    status->device_id = vdev->device_id;
-> +
-> +    switch (vdev->device_endian) {
-> +    case VIRTIO_DEVICE_ENDIAN_LITTLE:
-> +        status->device_endian = VIRTIO_STATUS_ENDIANNESS_LITTLE;
-> +        break;
-> +    case VIRTIO_DEVICE_ENDIAN_BIG:
-> +        status->device_endian = VIRTIO_STATUS_ENDIANNESS_BIG;
-> +        break;
-> +    default:
-> +        status->device_endian = VIRTIO_STATUS_ENDIANNESS_UNKNOWN;
-> +        break;
-> +    }
-> +
-> +    status->num_vqs = virtio_get_num_queues(vdev);
-> +
-> +    return status;
-> +}
-> +
->  static const TypeInfo virtio_device_info = {
->      .name = TYPE_VIRTIO_DEVICE,
->      .parent = TYPE_DEVICE,
-> diff --git a/qapi/virtio.json b/qapi/virtio.json
-> index 804adbe..4bd09c9 100644
-> --- a/qapi/virtio.json
-> +++ b/qapi/virtio.json
-> @@ -70,3 +70,79 @@
->  ##
->  
->  { 'command': 'x-debug-query-virtio', 'returns': ['VirtioInfo'] }
-> +
-> +##
-> +# @VirtioStatusEndianness:
-> +#
-> +# Enumeration of endianness for VirtioDevice
-> +#
-> +# Since: 6.1
-> +##
-> +{ 'enum': 'VirtioStatusEndianness',
-> +  'data': [ 'unknown', 'little', 'big' ]
-> +}
-> +
-> +##
-> +# @VirtioStatus:
-> +#
-> +# @device-id: VirtIODevice status
-> +#
-> +# @device-endian: VirtIODevice device_endian
-> +#
-> +# @guest-features: VirtIODevice guest_features
-> +#
-> +# @host-features: VirtIODevice host_features
-> +#
-> +# @backend-features: VirtIODevice backend_features
-> +#
-> +# @num-vqs: number of VirtIODevice queues
-> +#
-> +# Since: 6.1
-> +#
-> +##
-> +
-> +{ 'struct': 'VirtioStatus',
-> +  'data': {
-> +    'device-id': 'int',
-> +    'device-endian': 'VirtioStatusEndianness',
-> +    'guest-features': 'uint64',
-> +    'host-features': 'uint64',
-> +    'backend-features': 'uint64',
-> +    'num-vqs': 'uint16'
-> +  }
-> +}
-> +
-> +##
-> +# @x-debug-virtio-status:
-> +#
-> +# Return the status of virtio device
-> +#
-> +# @path: QOBject path of the VirtIODevice
-> +#
-> +# Returns: status of the VirtIODevice
-> +#
-> +# Since: 6.1
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "x-debug-virtio-status",
-> +#      "arguments": {
-> +#          "path": "/machine/peripheral-anon/device[3]/virtio-backend"
-> +#      }
-> +#   }
-> +# <- { "return": {
-> +#          "backend-features": 0,
-> +#          "guest-features": 5111807911,
-> +#          "num-vqs": 3,
-> +#          "host-features": 6337593319,
-> +#          "device-endian": "little",
-> +#          "device-id": 1
-> +#      }
-> +#    }
-> +#
-> +##
-> +
-> +{ 'command': 'x-debug-virtio-status',
-> +  'data': { 'path': 'str' },
-> +  'returns': 'VirtioStatus'
-> +}
-> -- 
-> 1.8.3.1
+> On Thu, 2 Sept 2021 at 03:18, Duo jia <jiaduo19920301@gmail.com> wrote:
+> >
+> >   Hi,
+> >    thank you for your response.
+> >    As you say
+> >>
+> >>  "End of interrupt handling is entirely dependent on what the
+> >> guest hardware being emulated is. Usually the guest software
+> >> will indicate "interrupt handled" back to the interrupt
+> >> controller (perhaps by writing a register; depends on the
+> >> interrupt controller), and the interrupt controller will
+> >> then look at what the next highest priority pending interrupt
+> >> is and signal that back to the CPU, or do nothing if there's
+> >> no new interrupt. So the second interrupt will automatically
+> >> be taken and handled once the first one has finished,
+> >> as a result of this interrupt controller and guest OS
+> >> interaction."
+> >
+> > I agree with that. I has try some method, But Still have some problems.
+> >
+> > Q1:
+> > My guest(target) cpu seem don't have a   "interrupt handled" , And I
+> don't know How/When to program the  " interrupt controller"   to check th=
+e
+> second interrupt when the first over.
+>
+> There is always some way for the CPU to tell the system
+> that an interrupt has been dealt with. You don't say what
+> architecture you're working on, so it's impossible to
+> be more specific. But I think it is very likely that you
+> have misunderstood how the hardware works. Typically
+> you don't need to program the interrupt controller to
+> check for a second interrupt -- the hw specification
+> says that it does that automatically.
+>
+> > Also I found the new problem(maybe bug) , when first interrupt
+> > not over, the second interrupt may occur
+>
+> Whether this is permitted or not depends upon the
+> specification of the hardware. Some interrupt controllers
+> never allow preemption of interrupts like this. Some
+> do. Some allow it but only if the guest has programmed
+> it to permit it (eg by setting priority registers).
+> As always, you need to look at what the hardware
+> specification says each component in the system must do
+> (and at how they interact with each other).
+>
+> thanks
+> -- PMM
+>
 
+--0000000000003d525905cb132698
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I understand the hardware=EF=BC=8Cbut=C2=A0How to achieve =
+this function with qemu=EF=BC=9F=EF=BC=8C<div><br></div><div>For example, t=
+his interrupt is not allowed to be nested. When the new interrupt comes, ho=
+w can I detect that the interrupt is executing?<br></div></div><br><div cla=
+ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Peter Maydell &lt;=
+<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt=
+; =E4=BA=8E2021=E5=B9=B49=E6=9C=882=E6=97=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=
+=8D=883:43=E5=86=99=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">On Thu, 2 Sept 2021 at 03:18, Duo jia &lt;<a href=3D"=
+mailto:jiaduo19920301@gmail.com" target=3D"_blank">jiaduo19920301@gmail.com=
+</a>&gt; wrote:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0Hi,<br>
+&gt;=C2=A0 =C2=A0 thank you for your response.<br>
+&gt;=C2=A0 =C2=A0 As you say<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 &quot;End of interrupt handling is entirely dependent on wha=
+t the<br>
+&gt;&gt; guest hardware being emulated is. Usually the guest software<br>
+&gt;&gt; will indicate &quot;interrupt handled&quot; back to the interrupt<=
+br>
+&gt;&gt; controller (perhaps by writing a register; depends on the<br>
+&gt;&gt; interrupt controller), and the interrupt controller will<br>
+&gt;&gt; then look at what the next highest priority pending interrupt<br>
+&gt;&gt; is and signal that back to the CPU, or do nothing if there&#39;s<b=
+r>
+&gt;&gt; no new interrupt. So the second interrupt will automatically<br>
+&gt;&gt; be taken and handled once the first one has finished,<br>
+&gt;&gt; as a result of this interrupt controller and guest OS<br>
+&gt;&gt; interaction.&quot;<br>
+&gt;<br>
+&gt; I agree with that. I has try some method, But Still have some problems=
+.<br>
+&gt;<br>
+&gt; Q1:<br>
+&gt; My guest(target) cpu seem don&#39;t have a=C2=A0 =C2=A0&quot;interrupt=
+ handled&quot; , And I don&#39;t know How/When to program the=C2=A0 &quot; =
+interrupt controller&quot;=C2=A0 =C2=A0to check the second interrupt when t=
+he first over.<br>
+<br>
+There is always some way for the CPU to tell the system<br>
+that an interrupt has been dealt with. You don&#39;t say what<br>
+architecture you&#39;re working on, so it&#39;s impossible to<br>
+be more specific. But I think it is very likely that you<br>
+have misunderstood how the hardware works. Typically<br>
+you don&#39;t need to program the interrupt controller to<br>
+check for a second interrupt -- the hw specification<br>
+says that it does that automatically.<br>
+<br>
+&gt; Also I found the new problem(maybe bug) , when first interrupt<br>
+&gt; not over, the second interrupt may occur<br>
+<br>
+Whether this is permitted or not depends upon the<br>
+specification of the hardware. Some interrupt controllers<br>
+never allow preemption of interrupts like this. Some<br>
+do. Some allow it but only if the guest has programmed<br>
+it to permit it (eg by setting priority registers).<br>
+As always, you need to look at what the hardware<br>
+specification says each component in the system must do<br>
+(and at how they interact with each other).<br>
+<br>
+thanks<br>
+-- PMM<br>
+</blockquote></div>
+
+--0000000000003d525905cb132698--
 
