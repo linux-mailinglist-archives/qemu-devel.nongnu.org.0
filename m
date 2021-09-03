@@ -2,55 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D54400406
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:21:36 +0200 (CEST)
-Received: from localhost ([::1]:51940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A372E40040A
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:22:47 +0200 (CEST)
+Received: from localhost ([::1]:56038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMCsh-0005jH-J5
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:21:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47298)
+	id 1mMCtq-0008VT-NQ
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:22:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mMCq9-0003al-4n
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:18:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51422)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mMCrU-0005gX-2j
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:20:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23770)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mMCq6-0003Ft-R2
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:18:56 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mMCrS-0004L7-H9
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:20:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630689533;
+ s=mimecast20190719; t=1630689617;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=spKXXGv3q1guBvy/I+xaInR2dmqrYF45DOy3hfTTOp4=;
- b=QM3fJOEzNQF2a2VzlfEiDLQKERnjpggIsHyx35SxJcp3JFJMPH33552IhvBv61jX3InoA1
- zVNbotYy/7gP0QIM+5HJXt82wclwq6CW5C4cmpyhUz/J1jgeDhKrW4dvdhSiaZLtqGMfa6
- r1Ne1PuPV9TiJv8KNuib6afj2jeXkfc=
+ bh=IyVcbt2DLjjnm8f2DP3MXgG6g41ne9VWIH1CMxdRyM4=;
+ b=csP2Iry9S0e6gsIo7z0Zdibh3BJ3ZilxR8Th+mOrFuMz8jBqU3Ha7dvS58hQiS8lAlOFOu
+ va0sKrEVMqth+UKDOCfNg6XqNf43pVmX0IpaFmRElOq4f4uDuQ1OKvTqwY1sR2uMaXWo1K
+ fx6P/Q0zj6oQ0VyAF+oWdj/vanCJ8a0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-Vxiq6UVEPHC1Ic1nXADZFA-1; Fri, 03 Sep 2021 13:18:52 -0400
-X-MC-Unique: Vxiq6UVEPHC1Ic1nXADZFA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-91-Epd5Tjk8PbWMn3T0pRGi0g-1; Fri, 03 Sep 2021 13:20:16 -0400
+X-MC-Unique: Epd5Tjk8PbWMn3T0pRGi0g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 192C19250D
- for <qemu-devel@nongnu.org>; Fri,  3 Sep 2021 17:18:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2968814315
+ for <qemu-devel@nongnu.org>; Fri,  3 Sep 2021 17:20:15 +0000 (UTC)
 Received: from redhat.com (ovpn-113-81.phx2.redhat.com [10.3.113.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BE7C77883E;
- Fri,  3 Sep 2021 17:18:08 +0000 (UTC)
-Date: Fri, 3 Sep 2021 12:18:07 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CABCE10013D7;
+ Fri,  3 Sep 2021 17:20:07 +0000 (UTC)
+Date: Fri, 3 Sep 2021 12:20:06 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 2/5] meson_options.txt: Switch the default value for
- the vnc option to 'auto'
-Message-ID: <20210903171807.ty6u4nzkuj4gzxk5@redhat.com>
+Subject: Re: [PATCH v2 4/5] configure: Get help text from meson_options.txt
+Message-ID: <20210903172006.wnxgkdlasainghtl@redhat.com>
 References: <20210903081358.956267-1-thuth@redhat.com>
- <20210903081358.956267-3-thuth@redhat.com>
+ <20210903081358.956267-5-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210903081358.956267-3-thuth@redhat.com>
+In-Reply-To: <20210903081358.956267-5-thuth@redhat.com>
 User-Agent: NeoMutt/20210205-739-420e15
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,37 +82,46 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 03, 2021 at 10:13:55AM +0200, Thomas Huth wrote:
-> There is no reason why VNC should always be enabled and not be set to
-> the default value. We already switched the setting in the "configure"
-> script in commit 3a6a1256d4 ("configure: Allow vnc to get disabled with
-> --without-default-features"), so let's do that in meson_options.txt now,
-> too.
+On Fri, Sep 03, 2021 at 10:13:57AM +0200, Thomas Huth wrote:
+> It's cumbersome to maintain the option help texts twice, once in the
+> "configure" script and once in meson_options.txt. So let's add some logic to
+> the configure script to read most of the help texts from meson_options.txt.
 > 
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  meson_options.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  configure | 95 ++++++++++++++++++-------------------------------------
+>  1 file changed, 31 insertions(+), 64 deletions(-)
+> 
+
+> +
+> +# Read remaining options and help text from meson_options.txt:
+> +current_feature=""
+> +while read first rest ; do
+> +    case "$first" in
+> +    option*)
+> +        case "$rest" in
+> +        *type*:*"'feature'"*)
+> +            current_feature=${first%\'*}
+> +            current_feature=${current_feature#*\'}
+> +        ;;
+> +        *)
+> +            current_feature=""
+> +        ;;
+> +        esac
+> +    ;;
+> +    description:)
+> +        if [ -n "$current_feature" ]; then
+> +            rest=${rest%\'*}
+> +            printf "  %-15s %s\n" "$current_feature" "${rest#\'}"
+> +        fi
+> +    ;;
+> +    *)
+> +        current_feature=""
+> +    ;;
+> +    esac
+> +done < "$source_path/meson_options.txt" | sort
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
-
-> 
-> diff --git a/meson_options.txt b/meson_options.txt
-> index a9a9b8f4c6..2c89e79e8b 100644
-> --- a/meson_options.txt
-> +++ b/meson_options.txt
-> @@ -120,7 +120,7 @@ option('usb_redir', type : 'feature', value : 'auto',
->         description: 'libusbredir support')
->  option('virglrenderer', type : 'feature', value : 'auto',
->         description: 'virgl rendering support')
-> -option('vnc', type : 'feature', value : 'enabled',
-> +option('vnc', type : 'feature', value : 'auto',
->         description: 'VNC server')
->  option('vnc_jpeg', type : 'feature', value : 'auto',
->         description: 'JPEG lossy compression for VNC server')
-> -- 
-> 2.27.0
-> 
 
 -- 
 Eric Blake, Principal Software Engineer
