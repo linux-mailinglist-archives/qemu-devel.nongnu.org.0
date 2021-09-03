@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7AD53FFCC2
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 11:10:42 +0200 (CEST)
-Received: from localhost ([::1]:46938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AC113FFCB6
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 11:07:22 +0200 (CEST)
+Received: from localhost ([::1]:38822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM5De-00066j-2T
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 05:10:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43254)
+	id 1mM5AP-0000i0-LJ
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 05:07:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mM56y-0005ym-Ip
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:03:48 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:44710)
+ id 1mM570-000633-Ui
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:03:50 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:45928)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mM56v-0005U5-BN
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:03:48 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- l7-20020a1c2507000000b002e6be5d86b3so3085103wml.3
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 02:03:44 -0700 (PDT)
+ id 1mM56x-0005WW-EO
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:03:50 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id n5so7154867wro.12
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 02:03:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6pTYsL1Hep9qUvvKYQw3eO5QWV8nz4ZZRsJUYLQf+Cw=;
- b=YUC7Fc2s3ATPv+tGHaSsck5CdaSX6/TE5v9dcgXQP8FbjFXGsznNMXAMK9wuuNcvBi
- 8MfDuk/Tb2ml32Zo8YskASjUA8qN0FhOVTcxYfMvGPLXMAQ6JqPSGXiB7omrxSIP4Bl3
- OJUGKX/CNXPBMv5TzEJRrfWFD4WlIB2+MMvbL28LXsAo5PToxIsf6it8QZ0QOkcghOAJ
- MLwfK9Xkf5I5vRdI7mjnovmlgVeUIP7HrDl4Xa5T5Ilviw6oSUwRJ4fCkwIfsIptD8sF
- KYKpwnyaHEbEFOy+oiY/TfX2Qn2rD21L2Yr+UzYiukFdXiUAGSo/vBY7x5i585Ru9prO
- +J8A==
+ bh=GPJMbPb/00tFTVR36+R0IPNgIkKT7YfEwaVVfGYX3DQ=;
+ b=T/l5pdG85Xf30+CSIQbxDgQg8GO1ItpCkKx6PyZ2A0DkTOCWPKws70Rs7ACEJ6/4l3
+ moqd2V0pa5u2/xhG+KQ2Ud6LStPcc0WbpGrk63B/ESTaePUl/iDsZ++JUSdvbTiZSD7Y
+ hSX0WW7prwp06xHjs6YRsb3+k8eSx1aBhfYsVxSo1T1dUG3fb7mcf85tVRmBLku4AEW6
+ HcE6ENGqBikn+QSNadpA8V47T4tBqR3bO5aQ4ylBbi9V851pGBK09bNElOOqe254ogZ8
+ as09rAHVvgnykP4T3L0CVMDo1eY/CLXoBwiEY8PboPeYBy6+raNPlExNcuwZTWeTn2lH
+ YCNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6pTYsL1Hep9qUvvKYQw3eO5QWV8nz4ZZRsJUYLQf+Cw=;
- b=RmCWHoZri0S31KJ1F9h5ZgQJ0hq8nTzPBxLP4aPOMzcBiGVW20Bp6TN2oHmnKyv8a3
- 4IWN8T0o0wcAcyBeuAOQQndxR+BE0QqhnREa4y53NzzA7q5vZvL9ujr5FyM/ugv6ocO8
- a5/14tXao5K+29VCkvr0scxvB2RJol9qNwv22IAH6fx1oYLw/cYXleDAiaBps+c59M+T
- fPc48b4mQQaujDZuzcN0htoU9Cx3rZC9HoT8G4Je+sx9VRWknZVP95aBWd2v7YtU1tzk
- RWiboXoP/ruT1LR0gCTsVHzb+msiMIBEEk2DuUjsr+BF2fE32TTad7WOm/TBVMJpA7yX
- ekIA==
-X-Gm-Message-State: AOAM531qvllayLwMNtUZ57SnIkSM0fTZ4b++1fmwy+N0DIzgWb2p3ySP
- HOW6RhDQ6XNW9CBtfT3F1LlYgQ==
-X-Google-Smtp-Source: ABdhPJzA6ykm2PVboVuWfVhfF5YjhW8xt9U7MWcV+WVUKVJJm6h4WkZVK7wX8e7kJPHRWPNT6vna6g==
-X-Received: by 2002:a05:600c:3641:: with SMTP id
- y1mr7220019wmq.181.1630659823158; 
- Fri, 03 Sep 2021 02:03:43 -0700 (PDT)
+ bh=GPJMbPb/00tFTVR36+R0IPNgIkKT7YfEwaVVfGYX3DQ=;
+ b=A05nXAmkJlmBIaugNubC0IOv+ESjCULfDVUI6vL64TAKLOBbjVKKc/pI61Qkg8Mlxl
+ oDigCeEe4Cmy9N6UDMpO3TVCnNG6kG/1SOJkxnaA4REyrs7d8FTojKZykmriKsym/i5Z
+ uWGQHAq/AkYMqNa0NgCteosZmrcjxNpPw4JIPyoZmMjp3hW0wJqCNO4MXWxqeSuCIk/k
+ YpSffZTGkjbHkQVWxH8Ut7DTIk0WGwwWctLI39Rbsi6licGv1R8nsWF2A/Y+dXzZUHGb
+ GZO4zMW+LyST/WIHVYWWkcQ5Rjr83f4/uijsI5oTpgNGcINJG9HONeb+T+N9fBXFnB4k
+ Qw+w==
+X-Gm-Message-State: AOAM532hcOVnFjVq6Om3IGRIvhcHaevNHVyqRmw4DsKYWHuXbrfa18xn
+ rsPhGzG7DcYqzwBJKwEGKyeaHQ==
+X-Google-Smtp-Source: ABdhPJy8eWAqJVEbZC2XCTsgdQLLCwPlUQAXxJQP/H5epTveMhRFBeNuIthII/n+V15dG/1X0ktf2g==
+X-Received: by 2002:a05:6000:1627:: with SMTP id
+ v7mr2861866wrb.54.1630659825962; 
+ Fri, 03 Sep 2021 02:03:45 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c14sm4189740wrr.58.2021.09.03.02.03.40
+ by smtp.gmail.com with ESMTPSA id o10sm4518062wrc.16.2021.09.03.02.03.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 03 Sep 2021 02:03:40 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EEE0C1FF98;
- Fri,  3 Sep 2021 10:03:39 +0100 (BST)
+ by zen.linaroharston (Postfix) with ESMTP id 10E631FF99;
+ Fri,  3 Sep 2021 10:03:40 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 01/22] plugins/execlog: removed unintended "s" at the end of
- log lines.
-Date: Fri,  3 Sep 2021 10:03:18 +0100
-Message-Id: <20210903090339.1074887-2-alex.bennee@linaro.org>
+Subject: [PULL 02/22] gitlab-ci: Merge "build-disabled" with
+ "build-without-default-features"
+Date: Fri,  3 Sep 2021 10:03:19 +0100
+Message-Id: <20210903090339.1074887-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210903090339.1074887-1-alex.bennee@linaro.org>
 References: <20210903090339.1074887-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,34 +88,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexandre Iooss <erdnaxe@crans.org>,
- Mahmoud Mandour <ma.mandourr@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mahmoud Mandour <ma.mandourr@gmail.com>
+From: Thomas Huth <thuth@redhat.com>
 
-Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
+Both jobs are testing more or less the same thing (building QEMU with
+features disabled), so we are wasting precious CI cycles here by doing
+this twice. Merge the jobs by using --without-default-features by default
+and just adding some additional --disable-... switches which are not
+covered by the generic switch (yet). And while we're at it, also test
+compilation with "--disable-fdt" (which forces us to change the list
+of targets in this job, though, since some targets do not work without
+fdt).
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Message-Id: <20210730143809.717079-2-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210803151428.125323-1-ma.mandourr@gmail.com>
-Message-Id: <20210806141015.2487502-2-alex.bennee@linaro.org>
-Cc: qemu-stable@nongnu.org
+Message-Id: <20210806141015.2487502-3-alex.bennee@linaro.org>
 
-diff --git a/contrib/plugins/execlog.c b/contrib/plugins/execlog.c
-index 2de9f0d7d4..a5275dcc15 100644
---- a/contrib/plugins/execlog.c
-+++ b/contrib/plugins/execlog.c
-@@ -67,7 +67,7 @@ static void vcpu_insn_exec(unsigned int cpu_index, void *udata)
-     /* Print previous instruction in cache */
-     if (s->len) {
-         qemu_plugin_outs(s->str);
--        qemu_plugin_outs("s\n");
-+        qemu_plugin_outs("\n");
-     }
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index 903ee65f32..f390f98044 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -202,85 +202,6 @@ acceptance-system-opensuse:
+     MAKE_CHECK_ARGS: check-acceptance
  
-     /* Store new instruction in cache */
+ 
+-build-disabled:
+-  extends: .native_build_job_template
+-  needs:
+-    job: amd64-fedora-container
+-  variables:
+-    IMAGE: fedora
+-    CONFIGURE_ARGS:
+-      --disable-attr
+-      --disable-auth-pam
+-      --disable-avx2
+-      --disable-bochs
+-      --disable-brlapi
+-      --disable-bzip2
+-      --disable-cap-ng
+-      --disable-capstone
+-      --disable-cloop
+-      --disable-coroutine-pool
+-      --disable-curl
+-      --disable-curses
+-      --disable-dmg
+-      --disable-docs
+-      --disable-gcrypt
+-      --disable-glusterfs
+-      --disable-gnutls
+-      --disable-gtk
+-      --disable-guest-agent
+-      --disable-iconv
+-      --disable-keyring
+-      --disable-kvm
+-      --disable-libiscsi
+-      --disable-libpmem
+-      --disable-libssh
+-      --disable-libudev
+-      --disable-libusb
+-      --disable-libxml2
+-      --disable-linux-aio
+-      --disable-live-block-migration
+-      --disable-lzo
+-      --disable-malloc-trim
+-      --disable-mpath
+-      --disable-nettle
+-      --disable-numa
+-      --disable-opengl
+-      --disable-parallels
+-      --disable-pie
+-      --disable-qcow1
+-      --disable-qed
+-      --disable-qom-cast-debug
+-      --disable-rbd
+-      --disable-rdma
+-      --disable-replication
+-      --disable-sdl
+-      --disable-seccomp
+-      --disable-slirp
+-      --disable-smartcard
+-      --disable-snappy
+-      --disable-sparse
+-      --disable-spice
+-      --disable-strip
+-      --disable-tpm
+-      --disable-usb-redir
+-      --disable-vdi
+-      --disable-vhost-crypto
+-      --disable-vhost-net
+-      --disable-vhost-scsi
+-      --disable-vhost-kernel
+-      --disable-vhost-user
+-      --disable-vhost-vdpa
+-      --disable-vhost-vsock
+-      --disable-virglrenderer
+-      --disable-vnc
+-      --disable-vte
+-      --disable-vvfat
+-      --disable-xen
+-      --disable-zstd
+-    TARGETS: arm-softmmu i386-softmmu ppc64-softmmu mips64-softmmu
+-      s390x-softmmu i386-linux-user
+-    MAKE_CHECK_ARGS: check-qtest SPEED=slow
+-
+ # This jobs explicitly disable TCG (--disable-tcg), KVM is detected by
+ # the configure script. The container doesn't contain Xen headers so
+ # Xen accelerator is not detected / selected. As result it build the
+@@ -649,12 +570,20 @@ build-without-default-devices:
+ build-without-default-features:
+   extends: .native_build_job_template
+   needs:
+-    job: amd64-debian-container
++    job: amd64-fedora-container
+   variables:
+-    IMAGE: debian-amd64
+-    CONFIGURE_ARGS: --without-default-features --disable-user
+-        --target-list-exclude=arm-softmmu,i386-softmmu,mipsel-softmmu,mips64-softmmu,ppc-softmmu
+-    MAKE_CHECK_ARGS: check-unit
++    IMAGE: fedora
++    CONFIGURE_ARGS:
++      --without-default-features
++      --disable-capstone
++      --disable-fdt
++      --disable-pie
++      --disable-qom-cast-debug
++      --disable-slirp
++      --disable-strip
++    TARGETS: avr-softmmu i386-softmmu mips64-softmmu s390x-softmmu sh4-softmmu
++      sparc64-softmmu hexagon-linux-user i386-linux-user s390x-linux-user
++    MAKE_CHECK_ARGS: check-unit check-qtest SPEED=slow
+ 
+ build-libvhost-user:
+   stage: build
 -- 
 2.30.2
 
