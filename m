@@ -2,60 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D6C03FFB30
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 09:39:41 +0200 (CEST)
-Received: from localhost ([::1]:45806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3F533FFB3B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 09:42:59 +0200 (CEST)
+Received: from localhost ([::1]:48646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM3nX-0002fa-Rf
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 03:39:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54226)
+	id 1mM3ql-0004jw-27
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 03:42:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mM3mM-0001mb-9L; Fri, 03 Sep 2021 03:38:26 -0400
-Received: from szxga08-in.huawei.com ([45.249.212.255]:2856)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangyanan55@huawei.com>)
- id 1mM3mJ-0008MP-ML; Fri, 03 Sep 2021 03:38:26 -0400
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
- by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4H18lG5BPzz1DG2L;
- Fri,  3 Sep 2021 15:37:30 +0800 (CST)
-Received: from dggpemm500023.china.huawei.com (7.185.36.83) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2176.2; Fri, 3 Sep 2021 15:38:14 +0800
-Received: from [10.174.187.128] (10.174.187.128) by
- dggpemm500023.china.huawei.com (7.185.36.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.8; Fri, 3 Sep 2021 15:38:14 +0800
-Subject: Re: [PATCH v6 0/5] hw/arm/virt: Introduce cpu topology support
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210824122016.144364-1-wangyanan55@huawei.com>
- <CAFEAcA99urPQ4ZnmZrOG4JvL-sO-=kTGXF5Fuz-FoVHV6+J=pg@mail.gmail.com>
- <77ee3e41-e985-74f8-8510-1c47903689a8@huawei.com>
- <CAFEAcA9n10wZY5vO1ZpwO-P3u=dV2G4J8j3xtSjzfA5YX0oouQ@mail.gmail.com>
-From: "wangyanan (Y)" <wangyanan55@huawei.com>
-Message-ID: <342f66ab-5c03-4aa3-b398-1e02926d86f7@huawei.com>
-Date: Fri, 3 Sep 2021 15:38:13 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9n10wZY5vO1ZpwO-P3u=dV2G4J8j3xtSjzfA5YX0oouQ@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+ (Exim 4.90_1) (envelope-from <weijunji@bytedance.com>)
+ id 1mM3py-00045L-TE
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 03:42:11 -0400
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:45629)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <weijunji@bytedance.com>)
+ id 1mM3pu-0003LV-FA
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 03:42:08 -0400
+Received: by mail-pj1-x1036.google.com with SMTP id
+ f11-20020a17090aa78b00b0018e98a7cddaso3342839pjq.4
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 00:42:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=nXREGH7UcssxsGls4TpqN/3My2ILjgwwjSnTKo7Ckl4=;
+ b=KiXEQsXdfuZJShCri4LUNWJ9o+nCGc+6qCDmPFb67nPxAkxIsZ/yUP1bHvd6wnlSEv
+ rTozjTwxXQHPdTlHIYLC2ZFsdmdCTCzktNnQ7aXNdDi5978cszU/V78KWGnYsk/b5WlE
+ fHmJcxv/sXp5/rtlqW8K5VOg+uXnmWmkBVpRgU1OmlsUUu5BEBNIiWwKxOmJ2/DN45xN
+ lvb3bpM8pVjWIAhf+PIuwiWQ1M5HI0AGpyU0yrFCB7Lmf8sL+ywxZLuKL/Zb0xxSQboT
+ wh6Oa0M9LM/zi2RzjgzLTdU4TokBi1SL9YQKFYmSIMkDKELGEhw/XZz3yiIVkjrYv0DS
+ dveA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=nXREGH7UcssxsGls4TpqN/3My2ILjgwwjSnTKo7Ckl4=;
+ b=L5sWwllC6EhZkyi52tpj33b0/vieaGVEA67Pm/2ubwBLrkM08ccutwXk9hSU9L/8OR
+ cBrLKrcs0c4WkxJ8BhdLHH0bKPH5StGGft0Bp5v5OHFRD61i8xXWMDY+6o518l5mdRaW
+ l1ek+3GO5x5jN0l9ZAobnxB6VjvK5UkWcZ410fCqnjDx+5PeSvWr46DTLjKqNWzRvD7X
+ CVbI1JzQs/8b3CY8KjCAXY6YDP2LA+tVUiCRdsEU+NP9Qq5iEtKNA1/1YZEdNLD1FV5y
+ 58SFe2vgzNViPx6Fe5vUaOFAqvsRokFvA6+LJjCam297XOpOAr62HTyxaYqITf8+dUdE
+ MrMA==
+X-Gm-Message-State: AOAM533tgC8VA8pj3aGc0NGFwCOeYpRHFoZpnO0nOslLDxUwJAwZyc0+
+ b6T2TGklunEyGi3aRXXeZ4Gbzw==
+X-Google-Smtp-Source: ABdhPJx9jFfBu+nlD8vhSJGr3W8ucdz7n747tSwepSc5EQ6/yAYK1sNLaqT1nRm3XypVmOJ/vRgOqQ==
+X-Received: by 2002:a17:90a:c89:: with SMTP id
+ v9mr2482459pja.175.1630654924349; 
+ Fri, 03 Sep 2021 00:42:04 -0700 (PDT)
+Received: from smtpclient.apple ([139.177.225.225])
+ by smtp.gmail.com with ESMTPSA id u24sm4656287pfm.81.2021.09.03.00.41.59
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 03 Sep 2021 00:42:03 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.80.0.2.43\))
+Subject: Re: [RFC 0/5] VirtIO RDMA
+From: =?utf-8?B?6a2P5L+K5ZCJ?= <weijunji@bytedance.com>
+In-Reply-To: <CACGkMEsz4HQKpaw3P=ODXvN2AuqO+_YE0UHpzOFk5GbzX13V4A@mail.gmail.com>
+Date: Fri, 3 Sep 2021 15:41:57 +0800
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [10.174.187.128]
-X-ClientProxiedBy: dggeme717-chm.china.huawei.com (10.1.199.113) To
- dggpemm500023.china.huawei.com (7.185.36.83)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.255;
- envelope-from=wangyanan55@huawei.com; helo=szxga08-in.huawei.com
-X-Spam_score_int: -63
-X-Spam_score: -6.4
-X-Spam_bar: ------
-X-Spam_report: (-6.4 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.225,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Message-Id: <4ED3B57F-A9D1-4A61-AA1D-94D14A932012@bytedance.com>
+References: <20210902130625.25277-1-weijunji@bytedance.com>
+ <CACGkMEsz4HQKpaw3P=ODXvN2AuqO+_YE0UHpzOFk5GbzX13V4A@mail.gmail.com>
+To: Jason Wang <jasowang@redhat.com>
+X-Mailer: Apple Mail (2.3654.80.0.2.43)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=weijunji@bytedance.com; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,57 +87,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Igor Mammedov <imammedo@redhat.com>, wanghaibin.wang@huawei.com,
- Salil Mehta <salil.mehta@huawei.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel <qemu-devel@nongnu.org>, mst <mst@redhat.com>,
+ linux-rdma@vger.kernel.org, Yongji Xie <xieyongji@bytedance.com>,
+ Cornelia Huck <cohuck@redhat.com>, yuval.shaia.ml@gmail.com,
+ virtualization <virtualization@lists.linux-foundation.org>, jgg@ziepe.ca,
+ dledford@redhat.com, =?utf-8?B?5p+056iz?= <chaiwen.cc@bytedance.com>,
+ Hannes Reinecke <hare@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2021/9/3 15:25, Peter Maydell wrote:
-> On Fri, 3 Sept 2021 at 08:05, wangyanan (Y) <wangyanan55@huawei.com> wrote:
->>
->> On 2021/9/2 23:56, Peter Maydell wrote:
->>> On Tue, 24 Aug 2021 at 13:20, Yanan Wang <wangyanan55@huawei.com> wrote:
->>>> This new version is based on patch series [1] which introduces some
->>>> fix and improvement for smp parsing.
->>>>
->>>> Description:
->>>> Once the view of an accurate virtual cpu topology is provided to guest,
->>>> with a well-designed vCPU pinning to the pCPU we may get a huge benefit,
->>>> e.g., the scheduling performance improvement. See Dario Faggioli's
->>>> research and the related performance tests in [2] for reference.
->>>>
->>>> This patch series introduces cpu topology support for ARM platform.
->>>> Both cpu-map in DT and ACPI PPTT table are introduced to store the
->>>> topology information. And we only describe the topology information
->>>> to 6.2 and newer virt machines, considering compatibility.
->>>>
->>>> patches not yet reviewed: #1 and #3.
->>>>
->>>> [1] https://lore.kernel.org/qemu-devel/20210823122804.7692-1-wangyanan55@huawei.com/
->>>> [2] https://kvmforum2020.sched.com/event/eE1y/virtual-topology-for-virtual-machines
->>>> -friend-or-foe-dario-faggioli-suse
->>> Hi; this series doesn't apply to current head-of-git. Is it
->>> intended to be based on some other series ?
->>>
->> Yes, it was based on the -smp parsing changes in [1] which hasn't been
->> picked yet. Given that [1] somehow affects the topology parsing results
->> which we will describe to guest, I think it may be better that [1] can be
->> merged first and then this series follows.
-> OK. I'll ignore this for now; please resend once that other series
-> has been accepted.
-Got it.
+> On Sep 3, 2021, at 8:57 AM, Jason Wang <jasowang@redhat.com> wrote:
+> 
+> On Thu, Sep 2, 2021 at 9:07 PM Junji Wei <weijunji@bytedance.com> wrote:
+>> 
+>> Hi all,
+>> 
+>> This RFC aims to reopen the discussion of Virtio RDMA.
+>> Now this is based on Yuval Shaia's RFC "VirtIO RDMA"
+>> which implemented a frame for Virtio RDMA and a simple
+>> control path (Not sure if Yuval Shaia has any further
+>> plan for it).
+>> 
+>> We try to extend this work and implement a simple
+>> data-path and a completed control path. Now this can
+>> work with SEND, RECV and REG_MR in kernel. There is a
+>> simple test module in this patch that can communicate
+>> with ibv_rc_pingpong in rdma-core.
+>> 
+>> During doing this work, we have found some problems and
+>> would like to ask for some suggestions from community:
+> 
+> I think it would be beneficial if you can post a spec patch.
 
-Thanks,
-Yanan
-> thanks
-> -- PMM
->
-> .
+Ok, I will do it.
+
+Thanks
 
 
