@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02D67400670
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 22:18:04 +0200 (CEST)
-Received: from localhost ([::1]:36744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17CB3400675
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 22:19:30 +0200 (CEST)
+Received: from localhost ([::1]:38568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMFdS-00070A-NC
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 16:18:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49364)
+	id 1mMFer-0008Dn-4Z
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 16:19:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMFaZ-0004RX-TM
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 16:15:08 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37560)
+ id 1mMFbQ-0005Ky-JH
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 16:15:56 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:46758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMFaX-0004Mm-4l
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 16:15:03 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id v10so316078wrd.4
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 13:15:00 -0700 (PDT)
+ id 1mMFbO-00058k-1m
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 16:15:56 -0400
+Received: by mail-wm1-x334.google.com with SMTP id
+ m25-20020a7bcb99000000b002e751bcb5dbso281283wmi.5
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 13:15:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4eHHYFkoRaMsvUTt4qW8qWzKOCRjBx/Npk4Tb094AvQ=;
- b=cLO22hnYLpEg/1RD0FCiO3YdVJ9j79J1/7mkf4AG2YXIXe2aFGD359ZxjySxf7C/iF
- tzfinMqq37GvKuJlfgORv3JQsLRcmYumsBYo2QPaZMoawXGhFMbSYBGnHCvKL0IbQik1
- 45MV1RijIs6tVAHVpo7wuxRVTGnn6P3tAg9pOxmHYSpWbVd9DiYxU9bQGzq/RI9TejCi
- IuFmIe0QtC8F7fLOeMyaxPg7y3lcT3EAD/GnAD/B9pA4KX7M04jhATDZ7A8/fr7gbEdx
- fOoED7iAFaPcN+AM1JnCIYtXX45hgsKvOLuQ5XpA+AqILLfo9hIxUKs545+6dSzo6DRU
- 0nsw==
+ bh=OIdER+ntU5pnE+dAq/LvT2j6xOcRVpXDcpqShg7WpU0=;
+ b=uxvnHzNv132fzgkc218/R0lqQKuK+t8JtxKc9v7MGrkKPRxDYU93G8sAz5OB0Qa73S
+ HE9cI2H2Z0CH+z6tU7HILrt73xJLER1ScmOcHWVCSynT7na5DZ8aQUWZ73RzZS1vzDMQ
+ vqeZlVUhDraI2JH+QdE7CnrbM86ihr8OahFggiYzaiiPqr9S9Cooveeavxo3806rUBCc
+ wAmH4n70qiWJfcK+7NmYB575D8ru3ANLV2HDRDh0a+ujAxTAi2JXNetHl39JI8em8dQt
+ /MjpEL+5e1BeWhbg4mKgjTybiTcJ5pJVRqEATLrqAPvRDkDzcFl9morqxai4fdjaAREV
+ wsLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=4eHHYFkoRaMsvUTt4qW8qWzKOCRjBx/Npk4Tb094AvQ=;
- b=r3Il9ugC/KZVn7hQYd24TQfayKTOLIedn6voy11eBCoCM4UfKgfhXuJ3A7qoIUXECu
- Oc2jr7M3qpGx+enZj+uDCgur4ORkB7Pdkt7p85CQ4rySdovMSJgrU+s0BwA9D1/kHMIY
- TkAlGIW/UGv9X6UblnNiLbp5o3twihg0D94NKo5pEpTH6DKcTcP/i4XwR3WkVtwi99//
- grLxsVGwi+5LAQziG2csw+ANLP8AGCaFBjwS4VGlpBETtsNQ69T8T17of/2hN1ijwt4p
- 4Ys0lWxkHSJH00impJWq8DxNrpUbFLswII37vbgfUugoIo05vgaPf73AeU7/VcfxEqUu
- xUUQ==
-X-Gm-Message-State: AOAM532y2wQilgAe3vVjlWOK2U54knv93FLTxQxAcCRe6gDJWlq4tylt
- xYjags41qiQb9nR1G7yGmniKxA==
-X-Google-Smtp-Source: ABdhPJyHZZGXFXfUxy0q9drjOdzklbpmSyqwplr6BLWUGT4wjUUKjoKaSTakGLOyf3y9u9KCe6dQnw==
-X-Received: by 2002:a5d:6cc9:: with SMTP id c9mr814056wrc.12.1630700099566;
- Fri, 03 Sep 2021 13:14:59 -0700 (PDT)
+ bh=OIdER+ntU5pnE+dAq/LvT2j6xOcRVpXDcpqShg7WpU0=;
+ b=om/ORGCQdzSvoJNAWjfPQswPvQOt8+PJGDtf8McHgGczdp7knA/u7Fsl5jKAABu92Y
+ AZUiep2j6EaXM/q+Juru6dFw+lAhckrq6f17O/DEEXrT7KpUk08pyK0uNoy5u+IKKCn4
+ e2NJG5dC4WDwYf+5oHRI+nqX5vqBuzmbMrw3QHcb1VBmQ5a0+2yKyLE6nbigsCvvAmMz
+ S/0w88dtbAbsErHlx4XhYUBrVb40/itVgJ6lD6QEQ2nUDuGEGXnNftmPbH8Yl+bcp/Ao
+ VTfGZo89Rg+5kkKUotmpR/l0RUuo7RC44BKlWJZOmGkPTadgKCxXwntAwK9oZ3TdCet6
+ xaWw==
+X-Gm-Message-State: AOAM530H3TY5jwtisy9Lew8RQtNLQGovsowh46zGEnBUFXy8A3TkR72f
+ MVSkwPac508tYRU0eBXzPNZycQ==
+X-Google-Smtp-Source: ABdhPJyMWwBTg93pyBo5sv0A6QW1ur9FJeS4HTsMD79+WiDYC0sQ7drSYJ0pDX3u+yQQ7riYEaCIGg==
+X-Received: by 2002:a7b:cc16:: with SMTP id f22mr461323wmh.99.1630700151552;
+ Fri, 03 Sep 2021 13:15:51 -0700 (PDT)
 Received: from [192.168.8.107] (190.red-2-142-216.dynamicip.rima-tde.net.
  [2.142.216.190])
- by smtp.gmail.com with ESMTPSA id l124sm343991wml.8.2021.09.03.13.14.54
+ by smtp.gmail.com with ESMTPSA id m4sm353497wml.28.2021.09.03.13.15.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Sep 2021 13:14:59 -0700 (PDT)
-Subject: Re: [PATCH v3 04/30] sysemu: Introduce AccelOpsClass::has_work()
+ Fri, 03 Sep 2021 13:15:51 -0700 (PDT)
+Subject: Re: [PATCH v3 05/30] accel/kvm: Implement AccelOpsClass::has_work()
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210902161543.417092-1-f4bug@amsat.org>
- <20210902161543.417092-5-f4bug@amsat.org>
+ <20210902161543.417092-6-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <d97a0dbf-842c-5d90-e4d9-c2faa5d618cc@linaro.org>
-Date: Fri, 3 Sep 2021 22:14:52 +0200
+Message-ID: <27a1a7f4-10f3-e089-6f37-4eed9542a6c6@linaro.org>
+Date: Fri, 3 Sep 2021 22:15:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210902161543.417092-5-f4bug@amsat.org>
+In-Reply-To: <20210902161543.417092-6-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -118,14 +119,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/2/21 6:15 PM, Philippe Mathieu-Daudé wrote:
-> Introduce an accelerator-specific has_work() handler.
-> Eventually call it from cpu_has_work().
+> Implement KVM has_work() handler in AccelOpsClass and
+> remove it from cpu_thread_is_idle() since cpu_has_work()
+> is already called.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   include/sysemu/accel-ops.h | 5 +++++
->   softmmu/cpus.c             | 3 +++
->   2 files changed, 8 insertions(+)
+>   accel/kvm/kvm-accel-ops.c | 6 ++++++
+>   softmmu/cpus.c            | 2 +-
+>   2 files changed, 7 insertions(+), 1 deletion(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
