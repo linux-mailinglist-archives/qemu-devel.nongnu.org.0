@@ -2,71 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0217400731
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 22:58:18 +0200 (CEST)
-Received: from localhost ([::1]:41006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B2FC400715
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 22:48:46 +0200 (CEST)
+Received: from localhost ([::1]:39376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMGGP-0004m4-Tt
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 16:58:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53572)
+	id 1mMG7B-0001bX-Ix
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 16:48:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mMFwY-0006bB-OS
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 16:37:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30018)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mMFwU-0006ZE-5w
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 16:37:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630701461;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aw9m4qqc4U8mAFeDmeoRz2rwOvkqdWRlOxWeniWugMk=;
- b=jS4bG9r63XtMfcSRfYbOlZQwWwJ7UOYcfBG9hc6dFouIfMMSxPF68d1tmTU3dU0UkpIRtJ
- OQ5vQSHkXqFfk2ftmqu79oMxQzfzafOs5xQD5QyHoqDR0C36D+ufD41CAxdk68Ls3NCqtg
- AKRa7c7AmN29xMG+SPFqht1NFVyz1J4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-PeOdw3ZbOXm9yRFhAFMvAw-1; Fri, 03 Sep 2021 16:37:37 -0400
-X-MC-Unique: PeOdw3ZbOXm9yRFhAFMvAw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4EDBF84A5E1;
- Fri,  3 Sep 2021 20:37:35 +0000 (UTC)
-Received: from redhat.com (ovpn-113-81.phx2.redhat.com [10.3.113.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1380F77F35;
- Fri,  3 Sep 2021 20:37:21 +0000 (UTC)
-Date: Fri, 3 Sep 2021 15:37:19 -0500
-From: Eric Blake <eblake@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3 02/28] glib-compat: Introduce g_memdup2() wrapper
-Message-ID: <20210903203719.gsfqid3levceqjs6@redhat.com>
-References: <20210903174510.751630-1-philmd@redhat.com>
- <20210903174510.751630-3-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mMFx1-0007i6-Cw; Fri, 03 Sep 2021 16:38:15 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:36858)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mMFww-0006uL-2g; Fri, 03 Sep 2021 16:38:15 -0400
+Received: by mail-wr1-x429.google.com with SMTP id q14so390007wrp.3;
+ Fri, 03 Sep 2021 13:38:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=fNIhsoAMPvZrQEmEvDEa/ofLQCAFlDFx6OPwYJbakLA=;
+ b=OL7bcNknLzAqSVlHwkuNrFgmHEdJJTT0ywZpM33E+WzKRYLTjn/SmGnREPXGBif/IU
+ PqPcK3SjLG5eogScB3jtfBXh29opHuqZSJGeNZd9Ke+t/AT5Cr5VwhVWY6Gtra5FS44y
+ zIqcsHP71yoBrqPd/tqJ/b53dF7tqywgJ6KeJPrt2jdTFotMdIWIPMYLMJAvvMhlNjSQ
+ H2ILUDze/pO7mpdvET5jz2pXK4k5IhHgCgzK6c3TFxwQ/zgNvWS7KYfj6KO8XO/AjwPO
+ FYIYxhtgYZeXyzLZ3F3EqMh3ogFwJ5iW7yzCb/zV+nhXKNxtMozTPxiBRByP9xmArzZh
+ 7eKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fNIhsoAMPvZrQEmEvDEa/ofLQCAFlDFx6OPwYJbakLA=;
+ b=SNPnymXfzFruJ0DqWf1J/cdiXqJ9A7iYKsIOnA6ugpOxJGTsvnBE6yDeT25vjfX4B8
+ V9NsNDe96g3ORk5DfGX1CU77CDFGN1TlL094S8F61FPYf1iP0bU2Hc+OGRIn8lqZnW4Q
+ APWqVpTFYMGEkejdVG+Eumsap+1MNwyWasZpTmuoTJ15lsYuETx9dmkBhuSpgRplZz1e
+ xtM1guPAaeOP5OHFmmof3OezHQt3AxUWy6PfpbE98cZeA28COfjwzshwKsordK0Wyf23
+ 6R6FF0v/xiffFNwPVbHex05Dc6hgqFyxjmWdWkSHHm2CDDNxqIh/ej6ajMKbeDOUbnCc
+ r7aQ==
+X-Gm-Message-State: AOAM531nfpNyujhu1aVQMrU2YQi554UyrrmDYJOUXsco82IrWlSpe9RD
+ GLGXpg5m9oAfMoB78WoPrEM=
+X-Google-Smtp-Source: ABdhPJz6x+pWgErAspkEq96cAfi2JjZZYOWbgKHTQiSSXfqb5WO1BMDSjMrLjiY2+IXe9aaRofWxVQ==
+X-Received: by 2002:adf:80e5:: with SMTP id 92mr881885wrl.300.1630701486851;
+ Fri, 03 Sep 2021 13:38:06 -0700 (PDT)
+Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.21])
+ by smtp.gmail.com with ESMTPSA id d8sm283071wrv.20.2021.09.03.13.38.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Sep 2021 13:38:06 -0700 (PDT)
+Subject: Re: [PATCH v3 21/30] target/ppc: Introduce PowerPCCPUClass::has_work()
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20210902161543.417092-1-f4bug@amsat.org>
+ <20210902161543.417092-22-f4bug@amsat.org> <YTFxZb1Vg5pWVW9p@yekko>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <1d8ea9ea-dda0-bf0e-a2c8-13d36c891d9c@amsat.org>
+Date: Fri, 3 Sep 2021 22:38:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210903174510.751630-3-philmd@redhat.com>
-User-Agent: NeoMutt/20210205-739-420e15
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <YTFxZb1Vg5pWVW9p@yekko>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.888,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,53 +87,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
- John Snow <jsnow@redhat.com>, David Hildenbrand <david@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Daniel P . Berrange" <berrange@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Chris Wulff <crwulff@gmail.com>,
+ kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Max Filippov <jcmvbkbc@gmail.com>, Taylor Simpson <tsimpson@quicinc.com>,
+ haxm-team@intel.com, Colin Xu <colin.xu@intel.com>,
+ Sunil Muthuswamy <sunilmut@microsoft.com>, Marek Vasut <marex@denx.de>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Paul Durrant <paul@xen.org>,
+ Kamil Rytarowski <kamil@netbsd.org>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Claudio Fontana <cfontana@suse.de>, Anthony Perard <anthony.perard@citrix.com>,
+ xen-devel@lists.xenproject.org, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Cameron Esfahani <dirty@apple.com>, qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ Michael Rolnik <mrolnik@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-ppc@nongnu.org, Stafford Horne <shorne@gmail.com>, qemu-riscv@nongnu.org,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Laurent Vivier <laurent@vivier.eu>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Wenchao Wang <wenchao.wang@intel.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 03, 2021 at 07:44:44PM +0200, Philippe Mathieu-DaudÃ© wrote:
-> When experimenting raising GLIB_VERSION_MIN_REQUIRED to 2.68
-> (Fedora 34 provides GLib 2.68.1) we get:
+On 9/3/21 2:50 AM, David Gibson wrote:
+> On Thu, Sep 02, 2021 at 06:15:34PM +0200, Philippe Mathieu-Daudé wrote:
+>> Each POWER cpu has its own has_work() implementation. Instead of
+>> overloading CPUClass on each PowerPCCPUClass init, register the
+>> generic ppc_cpu_has_work() handler, and have it call the POWER
+>> specific has_work().
 > 
->   hw/virtio/virtio-crypto.c:245:24: error: 'g_memdup' is deprecated: Use 'g_memdup2' instead [-Werror,-Wdeprecated-declarations]
->   ...
+> I don't quite see the rationale for introducing a second layer of
+> indirection here.  What's wrong with switching the base has_work for
+> each cpu variant?
 > 
-> g_memdup() has been updated by g_memdup2() to fix eventual security
-> issues (size argument is 32-bit and could be truncated / wrapping).
-> GLib recommends to copy their static inline version of g_memdup2():
-> https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-now/5538
-> 
-> Our glib-compat.h provides a comment explaining how to deal with
-> these deprecated declarations (see commit e71e8cc0355
-> "glib: enforce the minimum required version and warn about old APIs").
-> 
-> Following this comment suggestion, implement the g_memdup2_qemu()
-> wrapper to g_memdup2(), and use the safer equivalent inlined when
-> we are using pre-2.68 GLib.
-> 
-> Reported-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Philippe Mathieu-DaudÃ© <philmd@redhat.com>
-> ---
->  include/glib-compat.h | 37 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 37 insertions(+)
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>  target/ppc/cpu-qom.h  |  3 +++
+>>  target/ppc/cpu_init.c | 26 ++++++++++++++++++--------
+>>  2 files changed, 21 insertions(+), 8 deletions(-)
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+>> @@ -8796,6 +8800,12 @@ static bool ppc_cpu_has_work(CPUState *cs)
+>>      PowerPCCPU *cpu = POWERPC_CPU(cs);
+>>      CPUPPCState *env = &cpu->env;
+>>  
+>> +    if (cs->halted) {
+>> +        PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+Maybe I should have kept the 'if (cs->halted)' for the next patch,
+simply dispatch here, then in the next patch the code simplification
+is more apparent. I thought this approach would involve less #ifdef'ry
+but haven't checked the other way around. Will do now.
 
+>> +        return pcc->has_work(cs);
+>> +    }
+>> +
+>>      return msr_ee && (cs->interrupt_request & CPU_INTERRUPT_HARD);
+>>  }
+>>  #endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
+> 
 
