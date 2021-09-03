@@ -2,67 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F60400259
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 17:30:38 +0200 (CEST)
-Received: from localhost ([::1]:48970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96AD2400257
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 17:30:35 +0200 (CEST)
+Received: from localhost ([::1]:48906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMB9J-0001rP-3Q
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 11:30:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50212)
+	id 1mMB9G-0001oi-AM
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 11:30:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mMB6w-0008GU-Dn
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:28:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38988)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mMB6s-0001sJ-Tq
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:28:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630682885;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=3LR7REeezVsIp3SNM2nZhl+ZtoLMOZo4uM0Zo8Y4Lwo=;
- b=EwvGx8ViMRezWnX2ce0l2vAZeblkoRnZuXM3Oy6yiEpWggVOPWKie3v4y8OU62hR3g3weM
- 9p9hDHG6E7f5fgdK0XJQAO/tNz0tbSmXS9Dgf/6z/Q58IjwbAq2cFMunRHDjVjhBmkZPvf
- skVun5TqpshADmRNc0jmqo3oiQX02GM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-359-lwRSrDa-PteO7D9H_m_qzw-1; Fri, 03 Sep 2021 11:28:04 -0400
-X-MC-Unique: lwRSrDa-PteO7D9H_m_qzw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1015784A5E1;
- Fri,  3 Sep 2021 15:28:03 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.241])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BAD65D9D3;
- Fri,  3 Sep 2021 15:27:59 +0000 (UTC)
-Date: Fri, 3 Sep 2021 16:27:56 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Michael Roth <michael.roth@amd.com>
-Subject: Re: [RFC PATCH v2 12/12] i386/sev: update query-sev QAPI format to
- handle SEV-SNP
-Message-ID: <YTI+/A/ejS/tlYMf@redhat.com>
-References: <20210826222627.3556-1-michael.roth@amd.com>
- <20210826222627.3556-13-michael.roth@amd.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mMB7J-0000Jg-2c
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:28:33 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51889)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mMB7H-0002D2-Ap
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:28:32 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id u15so3771326wmj.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 08:28:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=V+zN+8J6jP0DGFMja2o+XrL5hYnhM1z0E3lRgqpMKrw=;
+ b=i+L2gbwUNp/JXqReYec8oQ0BoHDT4YyCzdvDqp7ARF1r1AsAnsXWKiuuJcI/13kbwS
+ K2a2nem1AGA13QAqL1VILdQm6VW+ovPH/BaOClKQQ9iZffWXtQM7T1K3eZC7y6yDCUBo
+ JpbIdNQGuA+ZWwISt+WVs83yCnKGPw7dukkd4a5BmsCltQRXtp6rJkHgqCsUt5Ep5Fsn
+ 0jzM7fj+qnnXzK44tdPwcyhtzh/KA0CH0BLygNBNFxnioAhAwNtUoYdxydq3yPW2LMNM
+ RorfNtsRFMdnTw718OuGdQAd4Kzh9yYnTEGLIf+7VuuE5cXE0BzOaIN2QJNItznxu0hF
+ EMxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=V+zN+8J6jP0DGFMja2o+XrL5hYnhM1z0E3lRgqpMKrw=;
+ b=fzIChQtxkgMoctA6y8HJLWz1SfcDkra7Fki7aH3PYaxZR8WdKfjyEmlLgAuqR3OcG2
+ aSa4m+FGqnz18L9dSZ7Am9YKhAtYWFxUO79TyoXiNdEh8kNN5AAuMqovZhy3xgphPZ3B
+ saIgAFbPDkEEEYQuo43Urji6WSMbnt0VkI/Cir1k7FzcggLjrh/+kQXm2or9tm7ikYQT
+ fYfPFhPepsYvvaeyeIAC2S13vRCcLgevrRNrF8WDvj1AukMkQVBnHeX1wDs5WpYH4/q2
+ U0v2gmIbn4cgYZvtmgpcmbcQ+1xOklgsFsqCnqB5Qh2jntmE/KEGq+YAsNGCeWucqCWZ
+ sHQQ==
+X-Gm-Message-State: AOAM532V3Z69f+6w4uImWgc4XpcPruMsQFjv4kIy8ND/dhu0Ok9eyz45
+ woOOovV9PAiH5x97FAplC2B2bIMhR3TLDrebn0E=
+X-Google-Smtp-Source: ABdhPJxpBpZcVr9L/59ZNYoAjQGCowDCkasAXAztM74DNlg/74CQqX1SOkupYQ0PJ58To3OKLS3DAA==
+X-Received: by 2002:a1c:f31a:: with SMTP id q26mr947518wmq.159.1630682909267; 
+ Fri, 03 Sep 2021 08:28:29 -0700 (PDT)
+Received: from [192.168.8.107] (190.red-2-142-216.dynamicip.rima-tde.net.
+ [2.142.216.190])
+ by smtp.gmail.com with ESMTPSA id n4sm5840736wro.81.2021.09.03.08.28.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Sep 2021 08:28:28 -0700 (PDT)
+Subject: Re: [PATCH 1/4] target/arm: Add TB flag for "MVE insns not predicated"
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210902150910.15748-1-peter.maydell@linaro.org>
+ <20210902150910.15748-2-peter.maydell@linaro.org>
+ <76cd3594-f864-232c-8687-19a1d44ff07e@linaro.org>
+ <CAFEAcA8EoyaCSzA1vL_SHY50T6Fxjm420_pYgXx1_+E-nV-MBA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <906c738e-904c-99ba-b6ab-2556e9262c87@linaro.org>
+Date: Fri, 3 Sep 2021 17:28:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210826222627.3556-13-michael.roth@amd.com>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+In-Reply-To: <CAFEAcA8EoyaCSzA1vL_SHY50T6Fxjm420_pYgXx1_+E-nV-MBA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.888,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,259 +90,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, "Michael S . Tsirkin" <mst@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- James Bottomley <jejb@linux.ibm.com>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Aug 26, 2021 at 05:26:27PM -0500, Michael Roth wrote:
-> Most of the current 'query-sev' command is relevant to both legacy
-> SEV/SEV-ES guests and SEV-SNP guests, with 2 exceptions:
-> 
->   - 'policy' is a 64-bit field for SEV-SNP, not 32-bit, and
->     the meaning of the bit positions has changed
->   - 'handle' is not relevant to SEV-SNP
+On 9/3/21 4:17 PM, Peter Maydell wrote:
+> I don't really understand what you mean here. What's the difference
+> between ending the TB now and translating a few more insns in
+> this TB before we end it?
 
-If the host supports SEV-SNP guests, is it still possible for mgmt
-app to create guests using the  "legacy" SEV/SEV-ES approach ? ie
-is the hardware backwards compatible, or is it strictly required
-to always create SEV-SNP guests when the hardware is capable ?
+   VCMP (pred now on or off)
+   B    label
 
-The code here seems to imply a non-backwards compatible approach,
-mandating use of SEV-SNP guests on such capable kernel/hardware.
+The code we emit for B uses goto_tb.
 
-> To address this, this patch adds a new 'sev-type' field that can be
-> used as a discriminator to select between SEV and SEV-SNP-specific
-> fields/formats without breaking compatibility for existing management
-> tools (so long as management tools that add support for launching
-> SEV-SNP guest update their handling of query-sev appropriately).
-> 
-> The corresponding HMP command has also been fixed up similarly.
-> 
-> Signed-off-by: Michael Roth <michael.roth@amd.com>
-> ---
->  qapi/misc-target.json  | 71 +++++++++++++++++++++++++++++++++---------
->  target/i386/monitor.c  | 29 +++++++++++++----
->  target/i386/sev.c      | 22 +++++++------
->  target/i386/sev_i386.h |  3 ++
->  4 files changed, 95 insertions(+), 30 deletions(-)
-> 
-> diff --git a/qapi/misc-target.json b/qapi/misc-target.json
-> index 3b05ad3dbf..80f994ff9b 100644
-> --- a/qapi/misc-target.json
-> +++ b/qapi/misc-target.json
-> @@ -81,6 +81,49 @@
->             'send-update', 'receive-update' ],
->    'if': 'TARGET_I386' }
->  
-> +##
-> +# @SevGuestType:
-> +#
-> +# An enumeration indicating the type of SEV guest being run.
-> +#
-> +# @sev:     The guest is a legacy SEV or SEV-ES guest.
-> +# @sev-snp: The guest is an SEV-SNP guest.
-> +#
-> +# Since: 6.2
-> +##
-> +{ 'enum': 'SevGuestType',
-> +  'data': [ 'sev', 'sev-snp' ],
-> +  'if': 'TARGET_I386' }
-> +
-> +##
-> +# @SevGuestInfo:
-> +#
-> +# Information specific to legacy SEV/SEV-ES guests.
-> +#
-> +# @policy: SEV policy value
-> +#
-> +# @handle: SEV firmware handle
-> +#
-> +# Since: 2.12
-> +##
-> +{ 'struct': 'SevGuestInfo',
-> +  'data': { 'policy': 'uint32',
-> +            'handle': 'uint32' },
-> +  'if': 'TARGET_I386' }
-> +
-> +##
-> +# @SevSnpGuestInfo:
-> +#
-> +# Information specific to SEV-SNP guests.
-> +#
-> +# @policy: SEV-SNP policy value
-> +#
-> +# Since: 6.2
-> +##
-> +{ 'struct': 'SevSnpGuestInfo',
-> +  'data': { 'policy': 'uint64' },
-> +  'if': 'TARGET_I386' }
-> +
->  ##
->  # @SevInfo:
->  #
-> @@ -94,25 +137,25 @@
->  #
->  # @build-id: SEV FW build id
->  #
-> -# @policy: SEV policy value
-> -#
->  # @state: SEV guest state
->  #
-> -# @handle: SEV firmware handle
-> +# @sev-type: Type of SEV guest being run
->  #
->  # Since: 2.12
->  ##
-> -{ 'struct': 'SevInfo',
-> -    'data': { 'enabled': 'bool',
-> -              'api-major': 'uint8',
-> -              'api-minor' : 'uint8',
-> -              'build-id' : 'uint8',
-> -              'policy' : 'uint32',
-> -              'state' : 'SevState',
-> -              'handle' : 'uint32'
-> -            },
-> -  'if': 'TARGET_I386'
-> -}
-> +{ 'union': 'SevInfo',
-> +  'base': { 'enabled': 'bool',
-> +            'api-major': 'uint8',
-> +            'api-minor' : 'uint8',
-> +            'build-id' : 'uint8',
-> +            'state' : 'SevState',
-> +            'sev-type' : 'SevGuestType' },
-> +  'discriminator': 'sev-type',
-> +  'data': {
-> +      'sev': 'SevGuestInfo',
-> +      'sev-snp': 'SevSnpGuestInfo' },
-> +  'if': 'TARGET_I386' }
-> +
->  
->  ##
->  # @query-sev:
-> diff --git a/target/i386/monitor.c b/target/i386/monitor.c
-> index 119211f0b0..85a8bc2bef 100644
-> --- a/target/i386/monitor.c
-> +++ b/target/i386/monitor.c
-> @@ -692,20 +692,37 @@ void hmp_info_sev(Monitor *mon, const QDict *qdict)
->  {
->      SevInfo *info = sev_get_info();
->  
-> -    if (info && info->enabled) {
-> -        monitor_printf(mon, "handle: %d\n", info->handle);
-> +    if (!info || !info->enabled) {
-> +        monitor_printf(mon, "SEV is not enabled\n");
-> +        goto out;
-> +    }
-> +
-> +    if (sev_snp_enabled()) {
->          monitor_printf(mon, "state: %s\n", SevState_str(info->state));
->          monitor_printf(mon, "build: %d\n", info->build_id);
->          monitor_printf(mon, "api version: %d.%d\n",
->                         info->api_major, info->api_minor);
->          monitor_printf(mon, "debug: %s\n",
-> -                       info->policy & SEV_POLICY_NODBG ? "off" : "on");
-> -        monitor_printf(mon, "key-sharing: %s\n",
-> -                       info->policy & SEV_POLICY_NOKS ? "off" : "on");
-> +                       info->u.sev_snp.policy & SEV_SNP_POLICY_DBG ? "on"
-> +                                                                   : "off");
-> +        monitor_printf(mon, "SMT allowed: %s\n",
-> +                       info->u.sev_snp.policy & SEV_SNP_POLICY_SMT ? "on"
-> +                                                                   : "off");
-> +        monitor_printf(mon, "SEV type: %s\n", SevGuestType_str(info->sev_type));
->      } else {
-> -        monitor_printf(mon, "SEV is not enabled\n");
-> +        monitor_printf(mon, "handle: %d\n", info->u.sev.handle);
-> +        monitor_printf(mon, "state: %s\n", SevState_str(info->state));
-> +        monitor_printf(mon, "build: %d\n", info->build_id);
-> +        monitor_printf(mon, "api version: %d.%d\n",
-> +                       info->api_major, info->api_minor);
-> +        monitor_printf(mon, "debug: %s\n",
-> +                       info->u.sev.policy & SEV_POLICY_NODBG ? "off" : "on");
-> +        monitor_printf(mon, "key-sharing: %s\n",
-> +                       info->u.sev.policy & SEV_POLICY_NOKS ? "off" : "on");
-> +        monitor_printf(mon, "SEV type: %s\n", SevGuestType_str(info->sev_type));
->      }
->  
-> +out:
->      qapi_free_SevInfo(info);
->  }
->  
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index 72a6146295..fac2755e68 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -704,25 +704,27 @@ sev_get_info(void)
->  {
->      SevInfo *info;
->      SevCommonState *sev_common = SEV_COMMON(MACHINE(qdev_get_machine())->cgs);
-> -    SevGuestState *sev_guest =
-> -        (SevGuestState *)object_dynamic_cast(OBJECT(sev_common),
-> -                                             TYPE_SEV_GUEST);
->  
->      info = g_new0(SevInfo, 1);
->      info->enabled = sev_enabled();
->  
->      if (info->enabled) {
-> -        if (sev_guest) {
-> -            info->handle = sev_guest->handle;
-> -        }
->          info->api_major = sev_common->api_major;
->          info->api_minor = sev_common->api_minor;
->          info->build_id = sev_common->build_id;
->          info->state = sev_common->state;
-> -        /* we only report the lower 32-bits of policy for SNP, ok for now... */
-> -        info->policy =
-> -            (uint32_t)object_property_get_uint(OBJECT(sev_common),
-> -                                               "policy", NULL);
-> +
-> +        if (sev_snp_enabled()) {
-> +            info->sev_type = SEV_GUEST_TYPE_SEV_SNP;
-> +            info->u.sev_snp.policy =
-> +                object_property_get_uint(OBJECT(sev_common), "policy", NULL);
-> +        } else {
-> +            info->sev_type = SEV_GUEST_TYPE_SEV;
-> +            info->u.sev.handle = SEV_GUEST(sev_common)->handle;
-> +            info->u.sev.policy =
-> +                (uint32_t)object_property_get_uint(OBJECT(sev_common),
-> +                                                   "policy", NULL);
-> +        }
->      }
->  
->      return info;
-> diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
-> index e0e1a599be..948d8f1079 100644
-> --- a/target/i386/sev_i386.h
-> +++ b/target/i386/sev_i386.h
-> @@ -28,6 +28,9 @@
->  #define SEV_POLICY_DOMAIN       0x10
->  #define SEV_POLICY_SEV          0x20
->  
-> +#define SEV_SNP_POLICY_SMT      0x10000
-> +#define SEV_SNP_POLICY_DBG      0x80000
-> +
->  extern bool sev_es_enabled(void);
->  extern bool sev_snp_enabled(void);
->  extern uint64_t sev_get_me_mask(void);
-> -- 
-> 2.25.1
-> 
+When goto_tb is unlinked (e.g. first execute), we exit with a code that causes the current 
+cpu state to be evaluated, the new TB created, and the link filled in.  This makes 
+permanent the cpu state we evaluated, and thus the state change across goto_tb must be 
+constant.  This is fine for B, since only the PC changes and to a known destination.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+So we have two choices: end the TB immediately after the VCMP, or set another flag to 
+cause gen_goto_tb to fall back to goto_ptr.
 
+But I sorta think that it's just easier to end after VCMP.
+
+
+r~
 
