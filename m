@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36A933FFF31
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:29:16 +0200 (CEST)
-Received: from localhost ([::1]:53136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 498873FFF40
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:34:27 +0200 (CEST)
+Received: from localhost ([::1]:37848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM7Nh-0002te-Ry
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:29:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43498)
+	id 1mM7Sk-0003kQ-9q
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:34:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74D-0000DP-AY
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30985)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74L-0000V6-KR
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58622)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74A-0001nd-6V
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:05 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74J-0001sn-Hr
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630667341;
+ s=mimecast20190719; t=1630667350;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6LOA6vxWsxNeyRV6PCApiN2cj9fcdeFYW29H3LS1FGk=;
- b=XOmt4Cha/bbgxq0+mjtpUiQwXx3Ax70QpMsFDB4Qv4OdQZEeDQBI8dbgPwyn8+bKM+IWoK
- bWO8I+1oeOQfol/pyv4XEg6C6AUPrMxZT6R2GMtTSys+wWJmBL0Y/Xkp5mTyhBJkjJsde+
- FjXqtgEov9L6BJO0MkpKrjylYrn3Oys=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-552-PSt42AH5MrSgLmHo19z8uA-1; Fri, 03 Sep 2021 07:09:00 -0400
-X-MC-Unique: PSt42AH5MrSgLmHo19z8uA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- h15-20020adff18f000000b001574654fbc2so1460632wro.10
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 04:09:00 -0700 (PDT)
+ bh=mHnJ0cVcteOlyXY2WQSoPOrlbaqqNkIp409L2/nVF/Q=;
+ b=WhHJfzPW255vqVa4J6JhM4F/4+KRMSrbTn76eXL3oZkgssip+q1sw7DiT/g82B7C9egVyg
+ IvoqgBrQl7lhx0hs5KeQ5h1zp0DWH3p5k7YrmwET+qhkMgJemrJtY0izMeuXZOh0QGp5Jh
+ ZhbkwZNbaQ9mUpYXytkdLv6aC1NmU7M=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-85-8Kn_zo9PMJWY-0bRxLgReg-1; Fri, 03 Sep 2021 07:09:07 -0400
+X-MC-Unique: 8Kn_zo9PMJWY-0bRxLgReg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ v2-20020a7bcb420000b02902e6b108fcf1so2513277wmj.8
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 04:09:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6LOA6vxWsxNeyRV6PCApiN2cj9fcdeFYW29H3LS1FGk=;
- b=tu6ESsX+6u2MAMeT7TESbmWA41tGV7McJc/5a4h9804lrETzioWEtYjLVPRRHt47hM
- hP4jhrJmZ7aZxWhNROVxfMORtWSjJnOd9xoyVAHGPxhonNTIzhFYi2Td6ylG6AjBuEq2
- 5ikcyQaTVr3PIM1NV457Mo4fuaisrO6RIuJM06YHO7JvMXBconza3mEu6kvxKZF0QJxa
- 01OO4S2eAmV2HBsqLT4/V8m8xbxWylhO9lDUbn0nsvqb7F4MIVfRH61dxWovhUJQa8he
- AWbnpAR5zzLJpzGo9P/DL1wNTvs9PH/N1FGU43wVgXPFjlHdYcZ1t8ANBQnoRNHrOrpI
- oSTg==
-X-Gm-Message-State: AOAM531TJbbD2iRvfvBwqDHMRPEOIqCOqdsuc8Vu+6KTlWZPSQB+hqeL
- +ogIeamTx44IPyjzvg4VAtXK5/tlHyZ0mx0i7K7pURpmzovupCCgkcgXGm2c7rX1mmJG+tYF01B
- /P2wCm31w9fcNwkzKSzn3CMtxl9IcR1NNA1QjTrLbUaMtLsESvNKF5/1gZqKWzr37
-X-Received: by 2002:adf:c54a:: with SMTP id s10mr3382759wrf.405.1630667339158; 
- Fri, 03 Sep 2021 04:08:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxzopBsfgspfdDlrpZUpsr41FgOxa6kgWftrebygxzUBuKUb/fPiR/qlP4CZMfiKI3MKwkKmA==
-X-Received: by 2002:adf:c54a:: with SMTP id s10mr3382702wrf.405.1630667338948; 
- Fri, 03 Sep 2021 04:08:58 -0700 (PDT)
+ bh=mHnJ0cVcteOlyXY2WQSoPOrlbaqqNkIp409L2/nVF/Q=;
+ b=uXwZOIY9xW3vMLqLCW68XPiZnERqqzYqNpircezBiIHVSDD5CfNr2Cpt1yJT587QsK
+ fzCnUQlqtZeCdSsEHJBNgodm1KPs30JSZqYvqnHlMRawPwOIJzL8N1vddpcQy0Iibicf
+ k93eoSSvfASCJg0C1OtBG3ruNKvB/xn08Lrs+i4ABrXD9FZwD66dob9INX6vU1OYgT2f
+ oq7zIey4mDc+i7/KH7ROTKByUidB7q2Zuy/Nf8TfydlJPZa2ZPyY6D/ORdUmAtAMjDgA
+ FGnuL03hdXMoedjkn3J8L/+gJfsYtwQWomfxf6NK+99l4095mKsehnWohLyVMm4EeSGS
+ 5wGA==
+X-Gm-Message-State: AOAM533zWjr0RX3nT02m1VZ3V0N3Dcwwc4XD+Oj7ZgD273C1edP5Ji2I
+ MJ5jh3DqnYlO64hHj1d7ux7/QkkRtuJiV7iTd3dDOc0Xdw1bp9InF408jPw/H+08Q1feRK630qH
+ ZmiSOpkO2EEzlUre5TnIL2NfRQmnkA1anGKPiM2XBwMjrJTI6pRypOPhzD0taElRh
+X-Received: by 2002:a05:600c:2210:: with SMTP id
+ z16mr7583429wml.70.1630667344786; 
+ Fri, 03 Sep 2021 04:09:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyzXN5Abat+u5GhU97+T79No5Nl13oW/wgdhYam21QjGlUyuHjSwW1tSLBF2QoToAE6kZSvQQ==
+X-Received: by 2002:a05:600c:2210:: with SMTP id
+ z16mr7583359wml.70.1630667344397; 
+ Fri, 03 Sep 2021 04:09:04 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- e2sm4370145wra.40.2021.09.03.04.08.57
+ q13sm3880071wmj.46.2021.09.03.04.09.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 04:08:58 -0700 (PDT)
+ Fri, 03 Sep 2021 04:09:04 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 20/28] net/colo: Replace g_memdup() by g_memdup2_qemu()
-Date: Fri,  3 Sep 2021 13:06:54 +0200
-Message-Id: <20210903110702.588291-21-philmd@redhat.com>
+Subject: [RFC PATCH 21/28] ui/clipboard: Replace g_memdup() by g_memdup2_qemu()
+Date: Fri,  3 Sep 2021 13:06:55 +0200
+Message-Id: <20210903110702.588291-22-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903110702.588291-1-philmd@redhat.com>
 References: <20210903110702.588291-1-philmd@redhat.com>
@@ -73,15 +75,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -130,37 +132,27 @@ Per https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-no
   significantly smaller than what the caller expects. This can likely
   be exploited in various modules to cause a heap buffer overflow.
 
-packet_new() is called from packet_enqueue() with size being 32-bit
-(of type SocketReadState::packet_len).
-
 Replace g_memdup() by the safer g_memdup2_qemu() wrapper.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- net/colo.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+TODO: audit qemu_clipboard_set_data() calls
+---
+ ui/clipboard.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/net/colo.c b/net/colo.c
-index 3a3e6e89a0c..cfe37b19eac 100644
---- a/net/colo.c
-+++ b/net/colo.c
-@@ -159,7 +159,7 @@ Packet *packet_new(const void *data, int size, int vnet_hdr_len)
- {
-     Packet *pkt = g_slice_new0(Packet);
+diff --git a/ui/clipboard.c b/ui/clipboard.c
+index d7b008d62a0..0e12a55d3e5 100644
+--- a/ui/clipboard.c
++++ b/ui/clipboard.c
+@@ -123,7 +123,7 @@ void qemu_clipboard_set_data(QemuClipboardPeer *peer,
+     }
  
--    pkt->data = g_memdup(data, size);
-+    pkt->data = g_memdup2_qemu(data, size);
-     pkt->size = size;
-     pkt->creation_ms = qemu_clock_get_ms(QEMU_CLOCK_HOST);
-     pkt->vnet_hdr_len = vnet_hdr_len;
-@@ -214,7 +214,7 @@ Connection *connection_get(GHashTable *connection_track_table,
-     Connection *conn = g_hash_table_lookup(connection_track_table, key);
- 
-     if (conn == NULL) {
--        ConnectionKey *new_key = g_memdup(key, sizeof(*key));
-+        ConnectionKey *new_key = g_memdup2_qemu(key, sizeof(*key));
- 
-         conn = connection_new(key);
+     g_free(info->types[type].data);
+-    info->types[type].data = g_memdup(data, size);
++    info->types[type].data = g_memdup2_qemu(data, size);
+     info->types[type].size = size;
+     info->types[type].available = true;
  
 -- 
 2.31.1
