@@ -2,61 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE4B4002FE
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 18:12:12 +0200 (CEST)
-Received: from localhost ([::1]:38238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30590400306
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 18:14:52 +0200 (CEST)
+Received: from localhost ([::1]:45790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMBnX-0003im-Ll
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 12:12:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59228)
+	id 1mMBq7-0000LI-10
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 12:14:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mMBdJ-0004L5-Ds
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:01:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32750)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mMBet-0007Bu-N4
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:03:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54082)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1mMBdH-0005FH-9u
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:01:37 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mMBep-0006Q2-A5
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:03:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630684894;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=ybHw7U4g3iVRZxIp5kFJ8XRmPMWIYv/Oqv8Fl2TUX8o=;
- b=NYZzEOjlU3Fwxl/z0vi6mpys/wLJ51NjIg8yZzE1/n6egZvdFxF4pnqpOOS9mtvb8qeJA3
- Ib4Z2E6GBwokvWo1zR6wIueq+oH7E0/GryK9W3qz9nijIfsg9CZ1KiaRjeubGchnh9I0fS
- mxsrJINgWC4m1PM9fiL/hahgfiPfa2Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-320-gofoRV0fOo-HWvDl8q6ZYg-1; Fri, 03 Sep 2021 12:01:30 -0400
-X-MC-Unique: gofoRV0fOo-HWvDl8q6ZYg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7D01DF8A5;
- Fri,  3 Sep 2021 16:01:28 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.241])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 52B7D19C59;
- Fri,  3 Sep 2021 16:01:21 +0000 (UTC)
-Date: Fri, 3 Sep 2021 17:01:18 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [RFC PATCH v2 12/12] i386/sev: update query-sev QAPI format to
- handle SEV-SNP
-Message-ID: <YTJGzrnqO9vzUqNq@redhat.com>
-References: <20210826222627.3556-1-michael.roth@amd.com>
- <20210826222627.3556-13-michael.roth@amd.com>
- <87tuj4qt71.fsf@dusky.pond.sub.org>
+ s=mimecast20190719; t=1630684990;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=nfl5cANcb13xzAB4QtzWnMS9ZhzuUogRQzvHhQGjLV0=;
+ b=Cdts5owLvs9wKSSYsSrHyB6QlO16VK73vPBsz5JvVhdcav82nhLY+VbaJcw70Ol/oLFqQS
+ 0vS9MU83Js5hdoVR3qtpVjVv9638MYRjIOY3q4ls1uT7yf0uIDAXG8BvzPcwNdJMinzNdT
+ uB9WMdwvFeySszprNti05AwE00H3gXY=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-504-RPJAEw40M1mRE_ppEbW5rA-1; Fri, 03 Sep 2021 12:03:09 -0400
+X-MC-Unique: RPJAEw40M1mRE_ppEbW5rA-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ b8-20020a0562141148b02902f1474ce8b7so6098575qvt.20
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 09:03:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=nfl5cANcb13xzAB4QtzWnMS9ZhzuUogRQzvHhQGjLV0=;
+ b=WrljDqG+Sz1YIYI0wJzE1u2i5RWMyfPdYf9jTO7LNydZYZcgdg3ynj5egrULwfdFDm
+ wnGg7/6dE/MjdGYx1XC3a2LPf2kp4Kj1aG6hrJC18ykN0tCxrUHw0Lc0XLF//q4ThOj5
+ iHwSTuINiNiZurheJGyTjmHx8a1x+3la6Y0QlBOTxm0Pe/AhkGwIc6ZV35SGt2V2IcIF
+ cIgl2pO+B05FWDq18kjlh/iHBZcLhfLuEFFSZUl4ByXDtT9ssMVzUs1gcZY5PVhqdHey
+ XvBn63OAqvbT24HRoOGlZiCx5gJume96ieQwhYrTND9+s4U40H7L3wXzpuhfqIAj5tkn
+ XMgQ==
+X-Gm-Message-State: AOAM533ZDPM5AU1JcO7H3CdpPlqvSWGaYePfMb3NMZ3oSAydCKt2oxPq
+ h3bG7HWu0oArAOz4qPAw9v3E1EnRtaExk14WTbeVJFXCzBt46dOE6ehbQaJ2iZITsENH5gf/rUX
+ J3a6e4m0PIKCIbbA=
+X-Received: by 2002:a0c:cb03:: with SMTP id o3mr4455911qvk.36.1630684989015;
+ Fri, 03 Sep 2021 09:03:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwTS1XPHK2w6+XjLrjRtqiYS7bKAawOirh1IO664j6ZfDNFJYPkG9VRUzajU62ApSa92vTNVg==
+X-Received: by 2002:a0c:cb03:: with SMTP id o3mr4455891qvk.36.1630684988792;
+ Fri, 03 Sep 2021 09:03:08 -0700 (PDT)
+Received: from t490s ([2607:fea8:56a3:500::ad7f])
+ by smtp.gmail.com with ESMTPSA id o7sm3254413qtw.87.2021.09.03.09.03.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Sep 2021 09:03:08 -0700 (PDT)
+Date: Fri, 3 Sep 2021 12:03:06 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH 4/4] vl: Prioritize realizations of devices
+Message-ID: <YTJHOnZNyYUkGV9O@t490s>
+References: <87h7fdg12w.fsf@dusky.pond.sub.org> <YSa7H3wGUHgccCrU@t490s>
+ <YScPg0cYYGxxTz+b@xz-m1.local> <87y28oy6rm.fsf@dusky.pond.sub.org>
+ <20210826133629.2ddd3b88@redhat.com> <YSean3PIkslbTHeU@t490s>
+ <YS0rXQXwqKjhr4TA@t490s> <20210902102616.1b596104@redhat.com>
+ <YTDVh9/MVAfCdkeu@t490s> <20210903150005.58afaf10@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210903150005.58afaf10@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87tuj4qt71.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/2.0.7 (2021-05-04)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -77,80 +95,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, "Michael S . Tsirkin" <mst@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, Michael Roth <michael.roth@amd.com>,
- James Bottomley <jejb@linux.ibm.com>, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Dov Murik <dovmurik@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Sep 01, 2021 at 04:14:10PM +0200, Markus Armbruster wrote:
-> Michael Roth <michael.roth@amd.com> writes:
-> 
-> > Most of the current 'query-sev' command is relevant to both legacy
-> > SEV/SEV-ES guests and SEV-SNP guests, with 2 exceptions:
-> >
-> >   - 'policy' is a 64-bit field for SEV-SNP, not 32-bit, and
-> >     the meaning of the bit positions has changed
-> >   - 'handle' is not relevant to SEV-SNP
-> >
-> > To address this, this patch adds a new 'sev-type' field that can be
-> > used as a discriminator to select between SEV and SEV-SNP-specific
-> > fields/formats without breaking compatibility for existing management
-> > tools (so long as management tools that add support for launching
-> > SEV-SNP guest update their handling of query-sev appropriately).
-> 
-> Technically a compatibility break: query-sev can now return an object
-> that whose member @policy has different meaning, and also lacks @handle.
-> 
-> Matrix:
-> 
->                             Old mgmt app    New mgmt app
->     Old QEMU, SEV/SEV-ES       good            good(1)
->     New QEMU, SEV/SEV-ES       good(2)         good
->     New QEMU, SEV-SNP           bad(3)         good
-> 
-> Notes:
-> 
-> (1) As long as the management application can cope with absent member
-> @sev-type.
-> 
-> (2) As long as the management application ignores unknown member
-> @sev-type.
-> 
-> (3) Management application may choke on missing member @handle, or
-> worse, misinterpret member @policy.  Can only happen when something
-> other than the management application created the SEV-SNP guest (or the
-> user somehow made the management application create one even though it
-> doesn't know how, say with CLI option passthrough, but that's always
-> fragile, and I wouldn't worry about it here).
-> 
-> I think (1) and (2) are reasonable.  (3) is an issue for management
-> applications that support attaching to existing guests.  Thoughts?
+On Fri, Sep 03, 2021 at 03:00:05PM +0200, Igor Mammedov wrote:
+> PS:
+> Another, albeit machine depended approach to resolve IOMMU ordering problem
+> can be adding to a specific machine  pre_plug hook, an IOMMU handling.
+> Which is called during IOMMU realize time and check if existing buses
+> without bypass enabled (iommu managed) have any children. And if they
+> have devices attached, error out telling user to reorder '-device iommu'
+> before affected devices/bus.
+> It should cover mixed IOMMU+bypass case and doesn't require fixing
+> vfio-pci address space initialization nor defining any priorities
+> for PCI devices.
 
-IIUC you can only reach scenario (3) if you have created a guest
-using '-object sev-snp-guest', which is a new feature introduced
-in patch 2.
+This sounds appealing among the approaches.
 
-IOW, scenario (3)  old mgmt app + new QEMU + sev-snp guest does
-not exist as a combination. Thus the (bad) field is actually (n/a)
+Does it need to be a pre_plug hook?  I thought we might just need a flag in the
+pci device classes showing that it should be after vIOMMUs, then in vIOMMU
+realize functions we walk pci bus to make sure no such device exist?
 
-So I believe this proposed change is acceptable in all scenarios
-with existing deployed usage, as well as all newly introduced
-scenarios.
+We could have a base vIOMMU class, then that could be in the realize() of the
+common class.
 
-Regards,
-Daniel
+> 
+> (but I think it's more a hack compared earlier suggested
+> address space initialization at reset time, and it would need to be
+> done for every affected machine)
+
+Agreed.
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Peter Xu
 
 
