@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB48A4002C0
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 17:57:53 +0200 (CEST)
-Received: from localhost ([::1]:58822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 924F24002C6
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 17:59:47 +0200 (CEST)
+Received: from localhost ([::1]:38688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMBZg-0003kr-VX
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 11:57:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57908)
+	id 1mMBbW-0000g5-LE
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 11:59:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mMBXh-0000t3-Kr
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:55:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46717)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mMBXk-00014M-JM
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:55:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26750)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mMBXg-0000Ub-3P
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:55:49 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mMBXi-0000Yn-Su
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 11:55:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630684547;
+ s=mimecast20190719; t=1630684550;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hjNWqno5cH2/vA9rO21bPb9HAnn1vYcvSEX3uK7XI20=;
- b=IAYuub+NietijGjhRX0ve6s6rw6sw3pms0UD7pF8/SpyR/vVbtimensD17Q9UPnADKbPK8
- c9DSE0Q80q6RZZ2FVCAp4AxdbLnJw5KT/Aks5LPTGqgn3vuSuypZrH2rYOgV9Jx4SDq1Cm
- YlKLLQTNSOxopP3v7IacOkUtkiqSJlU=
+ bh=wiY5CmPNZqXMtJWZ/fgLd7xkq85LpX5IToi2MNmjMHg=;
+ b=KzeUChuNu46vXeoQRUFfljbVC4njTFApC314nt6S+6GgNgy2OhFvnBPIN6X+PpN0igEyNX
+ It5VAjFwLUk1VrRpC5tehV789I0deyzv4mZDu7HOtwXjcoYh0DIxBVyIQtGdT45MpGvkMY
+ 6rgdpQ+EGLODfIuJoqNtmcrR0EhvKKg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-vNcFJahNMGG2JGK2u83XpQ-1; Fri, 03 Sep 2021 11:55:44 -0400
-X-MC-Unique: vNcFJahNMGG2JGK2u83XpQ-1
+ us-mta-121-oftW6oCOMYyR8pIrsJ1vKw-1; Fri, 03 Sep 2021 11:55:47 -0400
+X-MC-Unique: oftW6oCOMYyR8pIrsJ1vKw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFC7F6D4E0;
- Fri,  3 Sep 2021 15:55:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E57CC188E3C9;
+ Fri,  3 Sep 2021 15:55:45 +0000 (UTC)
 Received: from t480s.redhat.com (unknown [10.39.193.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 57B0660861;
- Fri,  3 Sep 2021 15:55:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5A9B860861;
+ Fri,  3 Sep 2021 15:55:43 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 05/13] s390x/mmu_helper: no need to pass access type to
- mmu_translate_asce()
-Date: Fri,  3 Sep 2021 17:55:06 +0200
-Message-Id: <20210903155514.44772-6-david@redhat.com>
+Subject: [PATCH v3 06/13] s390x/mmu_helper: fixup mmu_translate() documentation
+Date: Fri,  3 Sep 2021 17:55:07 +0200
+Message-Id: <20210903155514.44772-7-david@redhat.com>
 In-Reply-To: <20210903155514.44772-1-david@redhat.com>
 References: <20210903155514.44772-1-david@redhat.com>
 MIME-Version: 1.0
@@ -87,37 +86,28 @@ Cc: "Jason J . Herne" <jjherne@linux.ibm.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The access type is unused since commit 81d7e3bc45 ("s390x/mmu: Inject
-DAT exceptions from a single place").
+Looks like we forgot to adjust documentation of one parameter.
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/mmu_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/s390x/mmu_helper.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/target/s390x/mmu_helper.c b/target/s390x/mmu_helper.c
-index 0620b1803e..167f1b1455 100644
+index 167f1b1455..ca25dadb5b 100644
 --- a/target/s390x/mmu_helper.c
 +++ b/target/s390x/mmu_helper.c
-@@ -125,7 +125,7 @@ static inline bool read_table_entry(CPUS390XState *env, hwaddr gaddr,
- 
- static int mmu_translate_asce(CPUS390XState *env, target_ulong vaddr,
-                               uint64_t asc, uint64_t asce, target_ulong *raddr,
--                              int *flags, int rw)
-+                              int *flags)
- {
-     const bool edat1 = (env->cregs[0] & CR0_EDAT) &&
-                        s390_has_feat(S390_FEAT_EDAT);
-@@ -428,7 +428,7 @@ int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
-     }
- 
-     /* perform the DAT translation */
--    r = mmu_translate_asce(env, vaddr, asc, asce, raddr, flags, rw);
-+    r = mmu_translate_asce(env, vaddr, asc, asce, raddr, flags);
-     if (unlikely(r)) {
-         return r;
-     }
+@@ -374,7 +374,8 @@ static void mmu_handle_skey(target_ulong addr, int rw, int *flags)
+  * @param asc    address space control (one of the PSW_ASC_* modes)
+  * @param raddr  the translated address is stored to this pointer
+  * @param flags  the PAGE_READ/WRITE/EXEC flags are stored to this pointer
+- * @param exc    true = inject a program check if a fault occurred
++ * @param tec    the translation exception code if stored to this pointer if
++ *               there is an exception to raise
+  * @return       0 = success, != 0, the exception to raise
+  */
+ int mmu_translate(CPUS390XState *env, target_ulong vaddr, int rw, uint64_t asc,
 -- 
 2.31.1
 
