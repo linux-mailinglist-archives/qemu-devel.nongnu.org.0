@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E5DE3FFCF8
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 11:21:46 +0200 (CEST)
-Received: from localhost ([::1]:56078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47FA13FFCFF
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 11:24:40 +0200 (CEST)
+Received: from localhost ([::1]:36106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM5OL-0006fi-Bc
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 05:21:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45182)
+	id 1mM5R8-0003tU-V2
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 05:24:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mM5F9-0003zR-K5
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:12:15 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:37403)
+ id 1mM5F2-0003XP-A6
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:12:08 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:46024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1mM5F7-0003yg-2P
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:12:15 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- c8-20020a7bc008000000b002e6e462e95fso3301843wmb.2
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 02:12:12 -0700 (PDT)
+ id 1mM5F0-0003sg-FQ
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:12:07 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id n5so7187860wro.12
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 02:12:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=z7c3CQhXYMZaS6qp/bjoVLss0w/WAp6ZgK2nwF/t3WI=;
- b=KTLImDIKVzpe7xpzpS2F9Sb8sf0oMAY6L/FfiA9dGkXv771kpiJONuyRyp2RWuPtdR
- 49b8nPohP5TpLJFLr7aTvAy7ONdy+QOKAiogAQTt3JxJx6woZqQ8lmb4uMG9u5p4/wAz
- glUZfFJgXczhRTpXM8Jk6xVXOAaDLuH3fVogJ6ghi2aJmt5q+zeRXe41orMxwbOOpVSc
- jNGsIeNUPPUG3EC5lleYPXJjwYy1T2BIq03OXWAPX1n5ahTY0/U6+dH4oj1pd0LMWngj
- jNY5fmYIQDdX8Z8Q46KTfM2uyq9sEW/yFUhsgeNp5+9PoSkAwJN7J9PVmgszw9nObtOU
- QYsw==
+ bh=4Gz/8308YhmTTLG+j1+k+Mkb0OBIL4Jjcw0DjoEOP9c=;
+ b=yo5tq5YGNM5/GhAh6J9lSHN0KYvWibyWFnQI93pIIuY7rnYW2MfNo26mivKjoXlJu2
+ vKMKkLvJkpfOq3gB1/h/+MbHV673SPZioAMSNQmiqnV8AwXckAIKL8nvGn+/IMJjSCda
+ dG9PcGuZvbc8RlQ05y3TGOl1BcjrK94jKTw980zLjHdrYLMD9l6X4HV2KuNfpIZ12ypI
+ nWc5sdLOw1LJt3ynvi7GW+ZfBGbJiT84cEk5MtZbLYOoqPTlr+CvENbvwcPOmWDlItk9
+ wD19qGN27s1ynJHjnQppzqU2dAl4R06UCIyj3tRrVra6OsfcjteWq3VvDMZkz8RE5GCK
+ 8kKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=z7c3CQhXYMZaS6qp/bjoVLss0w/WAp6ZgK2nwF/t3WI=;
- b=bf37dZB6V9vhMuMWwBPbOnk9CUKdiVXYF0OktI5/OCWB04kLKd7n81NyAZgtvZSyQA
- 5E3DyQBVxL7cEN2LBfJgueQU9bImdejzPipprYML2mVD7YMkDesNBftJ7YwQ7zqfSJJB
- vJ3z/oJgNgPi+wiGAjQ9QByrBLOimz/orMAn/RnUDfw6UiM0UYf9OtYORVTtIZr4qdPY
- aWxEm5T7EokELIAfc+3lrryGvcwXBt4HCTX43BbNesMkE1Ua3VN3cPWvsZc60lHIhOEl
- pH36eG+7Xuug9uoAdO7KdHBgKrdN0eX1q6aN2Rcam+iM6tKwvZa74vcg7fHE239SSGBd
- vzCA==
-X-Gm-Message-State: AOAM530EZDOssxQE375mKQOqwtdBnqmQlmodgu7aBWn6bG6UgRRNPfNL
- CRUjvNqsgTv5Z+LhOWHPnPzmqQ==
-X-Google-Smtp-Source: ABdhPJycqMHB6oVvdAFj+BlwLwkOW/tvam4HYLi1i3J4hSc/rMyCQZJFn27UghX7AXq6TmDNBnNYag==
-X-Received: by 2002:a7b:c94f:: with SMTP id i15mr2276916wml.58.1630660331738; 
- Fri, 03 Sep 2021 02:12:11 -0700 (PDT)
+ bh=4Gz/8308YhmTTLG+j1+k+Mkb0OBIL4Jjcw0DjoEOP9c=;
+ b=XAgG3fkqhtWnWTeGO2AhQZ2wWkh/Z8iGuLEd9XAVnkk5HMwSrlFov9k5RUSFjkqLq8
+ LOdOlKSHpuNerH0Ivg50cX9TXYkimRVc+jEfUjBtet8fzCypP5o8ujajrLGDRFbP2kUQ
+ /Hyqbx2OHNXfRIFXLI3P2eZkfiOD1RS0xqvo8D/VIDz/ySwpyGrjEU0Ean5qIh+3UQ2Q
+ cYilPLeB6lBPCQngGU2G6L9z3hftmjTsY42lIu1tngKbwOQ5R64QbN/HFM/l168b2sCP
+ e0cTsHrq/fJw4AHdFCZjmom/YQF7ZV33Zwvfd41ObAqERZOiTiFo6HXkpNSeKjuodMPz
+ FFQw==
+X-Gm-Message-State: AOAM533hcBRgLzHcq3A8l1j2H6FnOI9NsAbXtLt5/IXrSxIbJksd8q8F
+ cYtcelqBDVgd7YNUwJPRRgBzdw==
+X-Google-Smtp-Source: ABdhPJwqDGRkjWB4xXlM7zbgy2a3wxstHDYsCzsJ5VKbfLqfAmoM9hDVjowf04IZdbc+nFdCnTE3jw==
+X-Received: by 2002:adf:d0cf:: with SMTP id z15mr2855587wrh.356.1630660324585; 
+ Fri, 03 Sep 2021 02:12:04 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x11sm4117905wro.83.2021.09.03.02.12.05
+ by smtp.gmail.com with ESMTPSA id v62sm3797316wme.21.2021.09.03.02.12.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 02:12:10 -0700 (PDT)
+ Fri, 03 Sep 2021 02:12:03 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8E1141FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 992731FFB8;
  Fri,  3 Sep 2021 10:03:41 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 21/22] docs/deprecated: deprecate passing plugin args through
- `arg=`
-Date: Fri,  3 Sep 2021 10:03:38 +0100
-Message-Id: <20210903090339.1074887-22-alex.bennee@linaro.org>
+Subject: [PULL 22/22] docs/devel: be consistent about example plugin names
+Date: Fri,  3 Sep 2021 10:03:39 +0100
+Message-Id: <20210903090339.1074887-23-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210903090339.1074887-1-alex.bennee@linaro.org>
 References: <20210903090339.1074887-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,7 +86,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "reviewer:Incompatible changes" <libvir-list@redhat.com>,
+Cc: Alexandre Iooss <erdnaxe@crans.org>,
  Mahmoud Mandour <ma.mandourr@gmail.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -96,35 +94,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mahmoud Mandour <ma.mandourr@gmail.com>
 
+Some plugins were prefixed with `.c`, some were not. Since the name is
+essentially the full-name of the plugin file, it's logical to include
+the extension.
+
 Signed-off-by: Mahmoud Mandour <ma.mandourr@gmail.com>
-Message-Id: <20210802134414.52037-1-ma.mandourr@gmail.com>
+Message-Id: <20210830121534.656559-1-ma.mandourr@gmail.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-[AJB: fixed up move of deprecated.rst]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index 1e1a5e96ad..6e88a84bba 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -139,6 +139,18 @@ The ``-no-quit`` is a synonym for ``-display ...,window-close=off`` which
- should be used instead.
+diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
+index fcc460bf7b..dac5101a3c 100644
+--- a/docs/devel/tcg-plugins.rst
++++ b/docs/devel/tcg-plugins.rst
+@@ -301,7 +301,7 @@ which will eventually report::
+     previously @ 0x000000ffd08098/5 (809900593 insns)
+     previously @ 0x000000ffd080c0/1 (809900588 insns)
  
+-- contrib/plugins/hwprofile
++- contrib/plugins/hwprofile.c
  
-+Plugin argument passing through ``arg=<string>`` (since 6.1)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+Passing TCG plugins arguments through ``arg=`` is redundant is makes the
-+command-line less readable, especially when the argument itself consist of a
-+name and a value, e.g. ``-plugin plugin_name,arg="arg_name=arg_value"``.
-+Therefore, the usage of ``arg`` is redundant. Single-word arguments are treated
-+as short-form boolean values, and passed to plugins as ``arg_name=on``.
-+However, short-form booleans are deprecated and full explicit ``arg_name=on``
-+form is preferred.
-+
-+
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
+ The hwprofile tool can only be used with system emulation and allows
+ the user to see what hardware is accessed how often. It has a number of options:
+@@ -360,7 +360,7 @@ which will output an execution trace following this structure::
+   0, 0xd34, 0xf9c8f000, "bl #0x10c8"
+   0, 0x10c8, 0xfff96c43, "ldr r3, [r0, #0x44]", load, 0x200000e4, RAM
  
+-- contrib/plugins/cache
++- contrib/plugins/cache.c
+ 
+ Cache modelling plugin that measures the performance of a given cache
+ configuration when a given working set is run::
 -- 
 2.30.2
 
