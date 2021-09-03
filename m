@@ -2,86 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 408F43FFF4B
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:38:29 +0200 (CEST)
-Received: from localhost ([::1]:49306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34C5A3FFF75
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:53:07 +0200 (CEST)
+Received: from localhost ([::1]:49474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM7We-0003Hq-7m
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:38:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44114)
+	id 1mM7ko-0006RU-8J
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:53:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74z-0001aC-5P
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36154)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mM7CF-0007fq-HB
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:17:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:49789)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM74t-0002Do-UN
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:09:51 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mM7CC-0006Km-MT
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:17:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630667386;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1630667839;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i6HJ8MqhTy0s+GzLLhKT2UPzz5+277m7r3JgXnumMB8=;
- b=dj1cw4F4RIxxspQuGotaecoHDO+GCg1YjTub3Qnt2FkapFfXup0YFoKKMTquM00A5D1PFs
- D8WZYASnx3ZJCiZgBx8U57RPQj6zO+iUlUCuxuzTOKqsmLGDhbIzdg8HWOmpl7uITVP0Dj
- +yUX+ItTlgoBCaQFlFMRXPcGvm74Wkw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-RwHkYFLSPGu-hvnkWJXPbQ-1; Fri, 03 Sep 2021 07:09:46 -0400
-X-MC-Unique: RwHkYFLSPGu-hvnkWJXPbQ-1
-Received: by mail-wr1-f72.google.com with SMTP id
- y13-20020adfe6cd000000b00159694c711dso262741wrm.17
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 04:09:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=i6HJ8MqhTy0s+GzLLhKT2UPzz5+277m7r3JgXnumMB8=;
- b=d48kx1OZooPRlGEtIK1c8sfP3GwNFIfBV4vZDgBR8J8MuxAuURcjNRN5KkyWQTCchw
- tY7Va1NNE1c1W6uTDQ5tIE4rQx+niu7hDpyPn1RX/idnW7JWzcTW3I83shNQtHguRLrs
- PntknPZBgg6N6OXTg5ic6S5N/dA5M2IZrQAMf6NA5w+DpUZIsUbtaI+2hvNwvI6Cp0LE
- yXCfxf8EWxgwxvZxhuXF/vKjAezAuA1dWEGOLAa/QksYO60pZHQI5d164qs+RCcp4YOY
- fPByeIdqRHhBwDLLlRyEfsLS96BiQI/g3k5bepUu9B6GPp+3DCEgn6G01Xt08RfpNAmU
- YZ6g==
-X-Gm-Message-State: AOAM530/09W/xzsm7+h5rPEH/Xw8y+K+uLJvbpuCyDPjpN9YRRoqtiBU
- tjPQ6sAuq4T1BkUnuTO2m15dZJ+nWBYPV7qZrIgWlDcbeITuoyO72u18v+l1YQbd3Bzf7MFxJ4P
- 52FGb4raujUlZydUWy2Rgc9bzvsRv9Dd2PUGfb4zOfpBVPnOGEpUmTRTdLodHnUpt
-X-Received: by 2002:adf:d1a8:: with SMTP id w8mr3454915wrc.306.1630667384674; 
- Fri, 03 Sep 2021 04:09:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzTWWNvgUfXwGCxUu6tWBFBNL+R3tBdmQts4xFcP/prwWKpnKH5frCHZXk2WgxNT0N9oeyPWA==
-X-Received: by 2002:adf:d1a8:: with SMTP id w8mr3454844wrc.306.1630667384303; 
- Fri, 03 Sep 2021 04:09:44 -0700 (PDT)
-Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id
- t14sm3887073wmi.12.2021.09.03.04.09.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 04:09:43 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 28/28] checkpatch: Do not allow deprecated g_memdup()
-Date: Fri,  3 Sep 2021 13:07:02 +0200
-Message-Id: <20210903110702.588291-29-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210903110702.588291-1-philmd@redhat.com>
+ bh=fH4orEAi1LMmKIlXzvrN15sR0XgUwy7e9wcO4+jWOtI=;
+ b=i3eXXfjKagDWLCjqd1cSM2+qH79XmmbBZILe9oXLcmMTiMP87YJ1bvcJsklU2flNjXcxcQ
+ BXJ/hfZyI2adgnNt1nhOpybaeKlC0Si0kkbD8w9qGjNM+ujtb9E2l7AmOuVXqB9JTEKHkZ
+ Q841YMzHJD6oexCpS7xK9qIEGE1TktQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-20-HsxRonmDMQOsc8su8Mn70A-1; Fri, 03 Sep 2021 07:17:06 -0400
+X-MC-Unique: HsxRonmDMQOsc8su8Mn70A-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 35D9C84A5E0;
+ Fri,  3 Sep 2021 11:17:03 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.193.241])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C5F2960BF1;
+ Fri,  3 Sep 2021 11:16:31 +0000 (UTC)
+Date: Fri, 3 Sep 2021 12:16:28 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 02/28] glib-compat: Introduce g_memdup2() wrapper
+Message-ID: <YTIEDKAgWGRt/I6y@redhat.com>
 References: <20210903110702.588291-1-philmd@redhat.com>
+ <20210903110702.588291-3-philmd@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210903110702.588291-3-philmd@redhat.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,60 +82,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  Li Zhijian <lizhijian@cn.fujitsu.com>, "Michael S. Tsirkin" <mst@redhat.com>,
  Jason Wang <jasowang@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, Peter Xu <peterx@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Alexandre Iooss <erdnaxe@crans.org>,
- Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org,
- Zhang Chen <chen.zhang@intel.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Helge Deller <deller@gmx.de>, David Hildenbrand <david@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- "Gonglei \(Arei\)" <arei.gonglei@huawei.com>, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Alexandre Iooss <erdnaxe@crans.org>, Eric Blake <eblake@redhat.com>,
+ qemu-block@nongnu.org, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ John Snow <jsnow@redhat.com>, Helge Deller <deller@gmx.de>,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Gonglei \(Arei\)" <arei.gonglei@huawei.com>,
+ Michael Roth <michael.roth@amd.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Richard Henderson <richard.henderson@linaro.org>,
+ Greg Kurz <groug@kaod.org>, Yuval Shaia <yuval.shaia.ml@gmail.com>,
  Alex Williamson <alex.williamson@redhat.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
  David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Laurent Vivier <laurent@vivier.eu>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Laurent Vivier <laurent@vivier.eu>, Zhang Chen <chen.zhang@intel.com>,
  Hanna Reitz <hreitz@redhat.com>, qemu-ppc@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>
+ Paolo Bonzini <pbonzini@redhat.com>, Mahmoud Mandour <ma.mandourr@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-g_memdup() is insecure and as been deprecated in GLib 2.68.
-QEMU provides the safely equivalent g_memdup2_qemu() wrapper.
+On Fri, Sep 03, 2021 at 01:06:36PM +0200, Philippe Mathieu-Daudé wrote:
+> When experimenting raising GLIB_VERSION_MIN_REQUIRED to 2.68
+> (Fedora 34 provides GLib 2.68.1) we get:
+> 
+>   hw/virtio/virtio-crypto.c:245:24: error: 'g_memdup' is deprecated: Use 'g_memdup2' instead [-Werror,-Wdeprecated-declarations]
+>   ...
+> 
+> g_memdup() has been updated by g_memdup2() to fix eventual security
+> issues (size argument is 32-bit and could be truncated / wrapping).
+> GLib recommends to copy their static inline version of g_memdup2():
+> https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-now/5538
+> 
+> Our glib-compat.h provides a comment explaining how to deal with
+> these deprecated declarations (see commit e71e8cc0355
+> "glib: enforce the minimum required version and warn about old APIs").
+> 
+> Following this comment suggestion, implement the g_memdup2_qemu()
+> wrapper to g_memdup2(), and use the safer equivalent inlined when
+> we are using pre-2.68 GLib.
+> 
+> Reported-by: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  include/glib-compat.h | 36 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+> 
+> diff --git a/include/glib-compat.h b/include/glib-compat.h
+> index 9e95c888f54..6577d9ab393 100644
+> --- a/include/glib-compat.h
+> +++ b/include/glib-compat.h
+> @@ -68,6 +68,42 @@
+>   * without generating warnings.
+>   */
+>  
+> +/*
+> + * g_memdup2_qemu:
+> + * @mem: (nullable): the memory to copy.
+> + * @byte_size: the number of bytes to copy.
+> + *
+> + * Allocates @byte_size bytes of memory, and copies @byte_size bytes into it
+> + * from @mem. If @mem is %NULL it returns %NULL.
+> + *
+> + * This replaces g_memdup(), which was prone to integer overflows when
+> + * converting the argument from a #gsize to a #guint.
+> + *
+> + * This static inline version is a backport of the new public API from
+> + * GLib 2.68, kept internal to GLib for backport to older stable releases.
+> + * See https://gitlab.gnome.org/GNOME/glib/-/issues/2319.
+> + *
+> + * Returns: (nullable): a pointer to the newly-allocated copy of the memory,
+> + *          or %NULL if @mem is %NULL.
+> + */
+> +static inline gpointer g_memdup2_qemu(gconstpointer mem, gsize byte_size)
+> +{
+> +#if GLIB_CHECK_VERSION(2, 68, 0)
+> +    return g_memdup2(mem, byte_size);
+> +#else
+> +    gpointer new_mem;
+> +
+> +    if (mem && byte_size != 0) {
+> +        new_mem = g_malloc(byte_size);
+> +        memcpy(new_mem, mem, byte_size);
+> +    } else {
+> +        new_mem = NULL;
+> +    }
+> +
+> +    return new_mem;
+> +#endif
+> +}
 
-Do not allow more g_memdup() calls in the repository, provide
-a hint to use g_memdup2_qemu().
+Close, but you missed the final piece of the puzzle
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- scripts/checkpatch.pl | 5 +++++
- 1 file changed, 5 insertions(+)
+   #define g_memdup2(a) g_memdup2_qemu(a)
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index cb8eff233e0..4ce9d753492 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -2850,6 +2850,11 @@ sub process {
- 			WARN("consider using g_path_get_$1() in preference to g_strdup($1())\n" . $herecurr);
- 		}
- 
-+# enforce g_memdup2_qemu() over g_memdup()
-+		if ($line =~ /\bg_memdup\s*\(/) {
-+			ERROR("use g_memdup2_qemu() instead of unsafe g_memdup()\n" . $herecurr);
-+		}
-+
- # recommend qemu_strto* over strto* for numeric conversions
- 		if ($line =~ /\b(strto[^kd].*?)\s*\(/) {
- 			ERROR("consider using qemu_$1 in preference to $1\n" . $herecurr);
+
+Such that in all following patches you can use the normal "g_memdup2"
+API. This means when we later update min glib, we just delete the
+compat code here, and the callers don't need updates.
+
+Regards,
+Daniel
 -- 
-2.31.1
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
