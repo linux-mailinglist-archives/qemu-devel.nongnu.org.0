@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A372E40040A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:22:47 +0200 (CEST)
-Received: from localhost ([::1]:56038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C5C400415
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:27:07 +0200 (CEST)
+Received: from localhost ([::1]:34566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMCtq-0008VT-NQ
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:22:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47520)
+	id 1mMCy2-0004hk-Ip
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:27:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mMCrU-0005gX-2j
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:20:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23770)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mMCx7-00042f-Sh
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:26:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mMCrS-0004L7-H9
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:20:19 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mMCx6-0001H6-HH
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:26:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630689617;
+ s=mimecast20190719; t=1630689967;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=IyVcbt2DLjjnm8f2DP3MXgG6g41ne9VWIH1CMxdRyM4=;
- b=csP2Iry9S0e6gsIo7z0Zdibh3BJ3ZilxR8Th+mOrFuMz8jBqU3Ha7dvS58hQiS8lAlOFOu
- va0sKrEVMqth+UKDOCfNg6XqNf43pVmX0IpaFmRElOq4f4uDuQ1OKvTqwY1sR2uMaXWo1K
- fx6P/Q0zj6oQ0VyAF+oWdj/vanCJ8a0=
+ bh=geTlWbdTo2F7GvDM0Y0jfdkQ3nWjiwAOYKq1guelMus=;
+ b=hiCXbC9iwMLMyQgcSM16NEFGWGrC+pYgziTPqudDj748Sbs6hgiZaNP3pY/FQM5oOLuci/
+ svFtIhaAFG3zNWV9ktzCEVIN3VpOgitoyk0a0ologBM+Kedam7tdVZF72jslbgms20XSmj
+ 2VnRBGExyTE99m4NW5E6VcTGv8B5bVA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-91-Epd5Tjk8PbWMn3T0pRGi0g-1; Fri, 03 Sep 2021 13:20:16 -0400
-X-MC-Unique: Epd5Tjk8PbWMn3T0pRGi0g-1
+ us-mta-198-tf7SLhWkNHidPZkQO7vc4g-1; Fri, 03 Sep 2021 13:26:06 -0400
+X-MC-Unique: tf7SLhWkNHidPZkQO7vc4g-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2968814315
- for <qemu-devel@nongnu.org>; Fri,  3 Sep 2021 17:20:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B38AC80198A
+ for <qemu-devel@nongnu.org>; Fri,  3 Sep 2021 17:26:05 +0000 (UTC)
 Received: from redhat.com (ovpn-113-81.phx2.redhat.com [10.3.113.81])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CABCE10013D7;
- Fri,  3 Sep 2021 17:20:07 +0000 (UTC)
-Date: Fri, 3 Sep 2021 12:20:06 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 81DDF10013D7;
+ Fri,  3 Sep 2021 17:26:01 +0000 (UTC)
+Date: Fri, 3 Sep 2021 12:25:59 -0500
 From: Eric Blake <eblake@redhat.com>
 To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 4/5] configure: Get help text from meson_options.txt
-Message-ID: <20210903172006.wnxgkdlasainghtl@redhat.com>
+Subject: Re: [PATCH v2 5/5] meson_options.txt: Document that "configure"
+ reads this file, too
+Message-ID: <20210903172559.leqdpsyradnkshbx@redhat.com>
 References: <20210903081358.956267-1-thuth@redhat.com>
- <20210903081358.956267-5-thuth@redhat.com>
+ <20210903081358.956267-6-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210903081358.956267-5-thuth@redhat.com>
+In-Reply-To: <20210903081358.956267-6-thuth@redhat.com>
 User-Agent: NeoMutt/20210205-739-420e15
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
@@ -56,7 +57,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -82,44 +83,31 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 03, 2021 at 10:13:57AM +0200, Thomas Huth wrote:
-> It's cumbersome to maintain the option help texts twice, once in the
-> "configure" script and once in meson_options.txt. So let's add some logic to
-> the configure script to read most of the help texts from meson_options.txt.
+On Fri, Sep 03, 2021 at 10:13:58AM +0200, Thomas Huth wrote:
+> Add a comment that meson_options.txt is also parsed by the configure
+> script and that the options need a certain layout for this to succeed.
 > 
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  configure | 95 ++++++++++++++++++-------------------------------------
->  1 file changed, 31 insertions(+), 64 deletions(-)
+>  meson_options.txt | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
+> diff --git a/meson_options.txt b/meson_options.txt
+> index 2c89e79e8b..86b3c03c7d 100644
+> --- a/meson_options.txt
+> +++ b/meson_options.txt
+> @@ -1,3 +1,9 @@
 
+Huh - we don't have any copyright header in this file.  Oh well, not your fault.
+
+> +# Note: This file is also parsed by "configure" to automatically handle the
+> +# 'feature' options for its --enable-* and --disable-* parameters. To be able
+> +# to use this automation, make sure that the corresponding options() have their
+> +# "type: 'feature'" in the very first line, and their "description:" in their
+> +# second line.
 > +
-> +# Read remaining options and help text from meson_options.txt:
-> +current_feature=""
-> +while read first rest ; do
-> +    case "$first" in
-> +    option*)
-> +        case "$rest" in
-> +        *type*:*"'feature'"*)
-> +            current_feature=${first%\'*}
-> +            current_feature=${current_feature#*\'}
-> +        ;;
-> +        *)
-> +            current_feature=""
-> +        ;;
-> +        esac
-> +    ;;
-> +    description:)
-> +        if [ -n "$current_feature" ]; then
-> +            rest=${rest%\'*}
-> +            printf "  %-15s %s\n" "$current_feature" "${rest#\'}"
-> +        fi
-> +    ;;
-> +    *)
-> +        current_feature=""
-> +    ;;
-> +    esac
-> +done < "$source_path/meson_options.txt" | sort
+>  option('qemu_suffix', type : 'string', value: 'qemu',
+>         description: 'Suffix for QEMU data/modules/config directories (can be empty)')
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
