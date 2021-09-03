@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B46400321
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 18:19:49 +0200 (CEST)
-Received: from localhost ([::1]:54818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91AE040032C
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 18:22:00 +0200 (CEST)
+Received: from localhost ([::1]:58366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMBuv-0006Y0-1w
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 12:19:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60376)
+	id 1mMBx1-0000X3-N6
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 12:21:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMBiH-0004vB-R8
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:06:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56324)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mMBkH-00089B-Q4
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:08:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMBiF-0000nr-C9
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:06:45 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1mMBkF-0002i1-Nb
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:08:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630685202;
+ s=mimecast20190719; t=1630685326;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XHKyr01gvCx97VAfaYZAMWFLuahjopao8xNghsdJ+1c=;
- b=GC5MqMzfaAjY/GZdn/hWygvNLKnF6LKm47i+HPU3w5az/866vB5xNpTCD7lWM2p0/0mjnm
- ESt6xtimcHFNdGX64twbH9XCRjpZoeuJgjTk48X0HNyJ7ifs0Aj3O7rovZnZCfUIIcBNzl
- 3AeQU0oF4Xrk22hrqpEoPGVbYzao0uk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-AW46sMKiOyqYs1WL3E075g-1; Fri, 03 Sep 2021 12:06:40 -0400
-X-MC-Unique: AW46sMKiOyqYs1WL3E075g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- h1-20020a05600c350100b002e751bf6733so2130227wmq.8
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 09:06:40 -0700 (PDT)
+ bh=xCxLym6MF4mXatqdavQGtSEUMvj4MY/e9ttKXXYBLxk=;
+ b=fHJE1mM0AdJr9mRlsROcG9h5yFO4Jc63UsrCCDf7fQxTKNWnOEO0cG83G/OEuUny0djlbQ
+ A+FZBK9iXmWJHIvJaFL9KxrJB+BGL7BcFVaUscvb9TL6CEPUwBARIrg3uUFqOCM7tU5/L2
+ eBzohkDNfL4MVnUW8+fhJ2+OVVlWqKQ=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-108-C0qVJdXsO1CCjQNtyli4JA-1; Fri, 03 Sep 2021 12:08:45 -0400
+X-MC-Unique: C0qVJdXsO1CCjQNtyli4JA-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ i7-20020a056214030700b0036b565ee6c0so6165657qvu.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 09:08:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=XHKyr01gvCx97VAfaYZAMWFLuahjopao8xNghsdJ+1c=;
- b=equKSE3yzMuraLelNCCH6sh+/9eH9r78/x16/EohmbVDwAuuTHniNEy098kFiUzQ7R
- hwC4ddZv1Xpyk0rHIz0paAKxe9OZ0XPyf8DjM5P2IwEU7lHkoLKXcZ4cgiTqtSvzFlC/
- 2ihYPsG4S7/c7VSQaCt4xk8r301dow3TKwg3c7KkJsWXooJ5C+DJc3HMTclO4NYm5SJN
- NvnMVTImcIzch3nixlMtiiGvr5JMgA1cDWxaTY8Zo0cit96cKpg076e5xRDfEchvmrMb
- mKSB16SZloSAKwL/f2MEUT28VTQNGIGZrLzPb5ACHT5Nb6T7hKj7eS8f+6e3uEIWnpLg
- 2rOQ==
-X-Gm-Message-State: AOAM532pcmmp9EsP7X0j6I+7o1WhAK4OizS2C9XsL1PyDjpSeF/rJPrJ
- aeRWZBXKU72mBjIVZq8tUo0qhMIyhcymEkPWtdzDLcbbELBNAsw9NpNYM/7J+dpyd83leAYAvGF
- XLJhfSTCM6jvN7sDv5DY3XSQrtbcGZg9lUYt53a8PWSxK7fIbVr/xe09TUYwjRykF
-X-Received: by 2002:adf:eb4a:: with SMTP id u10mr4966556wrn.11.1630685199117; 
- Fri, 03 Sep 2021 09:06:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzEtBcypaANIpk24VNzSMdqsmFYCjA6xLEra1WnI+b7ZOi+mRtmxlas4iwjphY4vBQL+5gncQ==
-X-Received: by 2002:adf:eb4a:: with SMTP id u10mr4966508wrn.11.1630685198835; 
- Fri, 03 Sep 2021 09:06:38 -0700 (PDT)
-Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
- by smtp.gmail.com with ESMTPSA id
- u26sm5665419wrd.32.2021.09.03.09.06.35
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=xCxLym6MF4mXatqdavQGtSEUMvj4MY/e9ttKXXYBLxk=;
+ b=aphJySMu5ceYEIK6olXMq9hLcXbkeSgdJa/J9BSAKKH8kSLDwMqeKpxuUvBEpnRauR
+ SCEW2jxBuVMyCr3/PT62cP7BN531Cq+nitOR9mveQnxszNvqKYHMGGqDjUI+5+8GeCA5
+ ByGcSpObpFkoJRtzjMkVb/Lj4UPtIf7uMiqzc4zOIl7Q/bad2WcK5yFW1qj0MpBaFoiv
+ n80yHcBYmkPhsuzbFeHf5GNMiLaJHY35PDWggozH1cacstJFlxMiGCKANX2ZYYnPeHXm
+ tjsfubQZmJoA2rE+8C9JnzFRWX0q8EAUhFs1vCwFINbNmxD5AqJOKgs20Zsd1WS0lnIe
+ kadA==
+X-Gm-Message-State: AOAM532EghnfoUqxzeD8BnEYHtdYyqYiAGousKavKZ8Cz4BNgf438mC4
+ d36neImNfVyFhk+55qRNTjjfnP5W9unjtIuL7cg4VztcoIEjywsqTI13oBDn0AxewNbCyIRUxEU
+ QuBMeN0oS8QMLlG0=
+X-Received: by 2002:a05:6214:1268:: with SMTP id
+ r8mr4450836qvv.5.1630685324659; 
+ Fri, 03 Sep 2021 09:08:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx5nwHpUiTqKJxiJ4ZsJP+cSRNpdTGnDn9AD/PpklJBnoCtZv0HyHErFhHcvqj9qKac3oOBLw==
+X-Received: by 2002:a05:6214:1268:: with SMTP id
+ r8mr4450794qvv.5.1630685324353; 
+ Fri, 03 Sep 2021 09:08:44 -0700 (PDT)
+Received: from t490s ([2607:fea8:56a3:500::ad7f])
+ by smtp.gmail.com with ESMTPSA id 102sm3439741qtc.62.2021.09.03.09.08.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 09:06:38 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 2/2] memory: Have 'info mtree' remove duplicated Address
- Space information
-Date: Fri,  3 Sep 2021 18:06:19 +0200
-Message-Id: <20210903160619.699632-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210903160619.699632-1-philmd@redhat.com>
-References: <20210903160619.699632-1-philmd@redhat.com>
+ Fri, 03 Sep 2021 09:08:43 -0700 (PDT)
+Date: Fri, 3 Sep 2021 12:08:42 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 0/2] dump-guest-memory: Add blocker for migration
+Message-ID: <YTJIiul41GYw9imW@t490s>
+References: <20210824152721.79747-1-peterx@redhat.com>
+ <87zgt66jtn.fsf@dusky.pond.sub.org> <YSa3BAyTZJ/L0Few@t490s>
+ <87fsuobkax.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
+In-Reply-To: <87fsuobkax.fsf@dusky.pond.sub.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -95,247 +95,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Peter Xu <peterx@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Andrew Jones <drjones@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ David Gibson <dgibson@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per Peter Maydell [*]:
+On Wed, Sep 01, 2021 at 01:35:18PM +0200, Markus Armbruster wrote:
+> Peter Xu <peterx@redhat.com> writes:
+> 
+> > Markus,
+> >
+> > On Wed, Aug 25, 2021 at 09:54:12AM +0200, Markus Armbruster wrote:
+> >> Peter Xu <peterx@redhat.com> writes:
+> >> 
+> >> > Both dump-guest-memory and live migration have vm state cached internally.
+> >> > Allowing them to happen together means the vm state can be messed up.  Simply
+> >> > block live migration for dump-guest-memory.
+> >> >
+> >> > One trivial thing to mention is we should still allow dump-guest-memory even if
+> >> > -only-migratable is specified, because that flag should majorly be used to
+> >> > guarantee not adding devices that will block migration by accident.  Dump guest
+> >> > memory is not like that - it'll only block for the seconds when it's dumping.
+> >> 
+> >> I recently ran into a similarly unusual use of migration blockers:
+> >> 
+> >>     Subject: -only-migrate and the two different uses of migration blockers
+> >>      (was: spapr_events: Sure we may ignore migrate_add_blocker() failure?)
+> >>     Date: Mon, 19 Jul 2021 13:00:20 +0200 (5 weeks, 1 day, 20 hours ago)
+> >>     Message-ID: <87sg0amuuz.fsf_-_@dusky.pond.sub.org>
+> >> 
+> >>     We appear to use migration blockers in two ways:
+> >> 
+> >>     (1) Prevent migration for an indefinite time, typically due to use of
+> >>     some feature that isn't compatible with migration.
+> >> 
+> >>     (2) Delay migration for a short time.
+> >> 
+> >>     Option -only-migrate is designed for (1).  It interferes with (2).
+> >> 
+> >>     Example for (1): device "x-pci-proxy-dev" doesn't support migration.  It
+> >>     adds a migration blocker on realize, and deletes it on unrealize.  With
+> >>     -only-migrate, device realize fails.  Works as designed.
+> >> 
+> >>     Example for (2): spapr_mce_req_event() makes an effort to prevent
+> >>     migration degrate the reporting of FWNMIs.  It adds a migration blocker
+> >>     when it receives one, and deletes it when it's done handling it.  This
+> >>     is a best effort; if migration is already in progress by the time FWNMI
+> >>     is received, we simply carry on, and that's okay.  However, option
+> >>     -only-migrate sabotages the best effort entirely.
+> >> 
+> >>     While this isn't exactly terrible, it may be a weakness in our thinking
+> >>     and our infrastructure.  I'm bringing it up so the people in charge are
+> >>     aware :)
+> >> 
+> >> https://lists.nongnu.org/archive/html/qemu-devel/2021-07/msg04723.html
+> >> 
+> >> Downthread there, Dave Gilbert opined
+> >> 
+> >>     It almost feels like they need a way to temporarily hold off
+> >>     'completion' of migratio - i.e. the phase where we stop the CPU and
+> >>     write the device data;  mind you you'd also probably want it to stop
+> >>     cold-migrates/snapshots?
+> >
+> > Yeah, maybe spapr_mce_req_event() can be another candidate of the internal
+> > version of migration_add_blocker().
+> >
+> > I can add a patch to replace it if anyone likes me to.
+> >
+> > Both cold and live snapshot should have checked migration blockers, I think.
+> > E.g., cold snapshot has:
+> >
+> > bool save_snapshot(const char *name, bool overwrite, const char *vmstate,
+> >                   bool has_devices, strList *devices, Error **errp)
+> > {
+> >     [...]
+> >     if (migration_is_blocked(errp)) {
+> >         return false;
+> >     }
+> >     [...]
+> > }
+> >
+> > While the live snapshot shares similar code in migrate_prepare().
+> >
+> > So looks safe that nothing wrong should happen within add/del pair of blockers.
+> >
+> > However I do see that it's possible we'll allow the add_blocker to succeed even
+> > if during cold snapshot, because migration_is_idle() in migration_add_blocker()
+> > only checks migration state, not RUN_STATE_SAVE_VM.  So I'm wondering whether
+> > we'd like one more patch to cover that too, like:
+> >
+> > ---8<---
+> >
+> > diff --git a/migration/migration.c b/migration/migration.c
+> > index 41429680c2..9c602a4ac1 100644
+> > --- a/migration/migration.c
+> > +++ b/migration/migration.c
+> > @@ -2055,15 +2055,16 @@ void migrate_init(MigrationState *s)
+> >  
+> >  int migrate_add_blocker_internal(Error *reason, Error **errp)
+> >  {
+> > -    if (migration_is_idle()) {
+> > -        migration_blockers = g_slist_prepend(migration_blockers, reason);
+> > -        return 0;
+> > +    /* Snapshots are similar to migrations, so check RUN_STATE_SAVE_VM too. */
+> > +    if (runstate_check(RUN_STATE_SAVE_VM) || !migration_is_idle()) {
+> > +        error_propagate_prepend(errp, error_copy(reason),
+> > +                                "disallowing migration blocker "
+> > +                                "(migration in progress) for: ");
+> > +        return -EBUSY;
+> >      }
+> >  
+> > -    error_propagate_prepend(errp, error_copy(reason),
+> > -                            "disallowing migration blocker "
+> > -                            "(migration in progress) for: ");
+> > -    return -EBUSY;
+> > +    migration_blockers = g_slist_prepend(migration_blockers, reason);
+> > +    return 0;
+> >  }
+> >  
+> >  int migrate_add_blocker(Error *reason, Error **errp)
+> > ---8<---
+> >
+> > It'll by accident also cover guest dump which also sets RUN_STATE_SAVE_VM, but
+> > I think that's ok.
+> >
+> > Thanks,
+> 
+> I delayed answering this in the hope of finding the time to think.  No
+> luck.  This is a quick answer, hopefully better than nothing and not too
+> confused.
+> 
+> "Snapshot should honor migration blockers" feels like an independent
+> issue.  I can't comment on it, because I haven't done my thinking there.
 
-  'info mtree' monitor command was designed on the assumption that
-  there's really only one or two interesting address spaces, and
-  with more recent developments that's just not the case any more.
+Yes it's independent, but I do think they're similar to live migration.  Let's
+wait for Dave or Juan to chim in.
 
-Similarly about how the FlatView are sorted using a GHashTable,
-sort the AddressSpace objects to remove the duplications (AS
-using the same root MemoryRegion).
+> 
+> I'm not sure you fully got Dave's suggestion to "temporarily hold off
+> 'completion'".  Let me explain (Dave, please correct misunderstandings,
+> if any).
+> 
+> Migration blockers and migration are mutually exclusive: you can't
+> migrate while such blockers are in effect (trying to immediately fails),
+> and you can't add such blockers while migration is in progress.
+> 
+> The temporary blockers Dave suggested do not block migration, only its
+> *completion* phase.  This makes sense *only* for short-lived blockers.
+> If such temporary blockers are in effect when migration is ready to
+> enter its completion phase, that entry is delayed until the temporary
+> blockers are gone.  If you try to add a temporary blocker while
+> migration is in its completion phase, the add blocks until migration
+> exists its completion phase.
 
-This drastically reduces the output of 'info mtree' on some boards.
+I see, that sounds like what a mutex would do (which we'll hold during
+completion phase of migration), and it looks reasonable.
 
-Before:
+But I think it's not a blocker of not having a bigger protection - so far my
+approach should be blocking the whole migration.  To be explicit:
 
-  $ (echo info mtree; echo q) \
-    | qemu-system-aarch64 -S -monitor stdio -M raspi3b \
-    | wc -l
-  423
+  - If we dump-guest-memory during migration (not only completion phase,
+    anytime after it starts), it fails dump-guest-mem.
 
-After:
+  - If we try to live migrate during guest-dump-memory, it fails migration.
 
-  $ (echo info mtree; echo q) \
-    | qemu-system-aarch64 -S -monitor stdio -M raspi3b \
-    | wc -l
-  106
+So basically that's a "bigger mutex".  We may want to shrink it further, but
+IMHO it can also be done on top (and we need some more work to do to justify
+everything will still be okay).
 
-  (qemu) info mtree
-  address-space: I/O
-    0000000000000000-000000000000ffff (prio 0, i/o): io
+It shouldn't be in a rush, imo, and it should be low priority because we don't
+really have those two collide each other, not to mention when dump-guest-memory
+during completing of migration.
 
-  address-space: cpu-memory-0
-  address-space: cpu-memory-1
-  address-space: cpu-memory-2
-  address-space: cpu-memory-3
-  address-space: cpu-secure-memory-0
-  address-space: cpu-secure-memory-1
-  address-space: cpu-secure-memory-2
-  address-space: cpu-secure-memory-3
-  address-space: memory
-    0000000000000000-ffffffffffffffff (prio 0, i/o): system
-      0000000000000000-000000003fffffff (prio 0, ram): ram
-      000000003f000000-000000003fffffff (prio 1, i/o): bcm2835-peripherals
-        000000003f003000-000000003f00301f (prio 0, i/o): bcm2835-sys-timer
-        000000003f004000-000000003f004fff (prio -1000, i/o): bcm2835-txp
-        000000003f006000-000000003f006fff (prio 0, i/o): mphi
-        000000003f007000-000000003f007fff (prio 0, i/o): bcm2835-dma
-        000000003f00b200-000000003f00b3ff (prio 0, i/o): bcm2835-ic
-        000000003f00b400-000000003f00b43f (prio -1000, i/o): bcm2835-sp804
-        000000003f00b800-000000003f00bbff (prio 0, i/o): bcm2835-mbox
-        000000003f100000-000000003f1001ff (prio 0, i/o): bcm2835-powermgt
-        000000003f101000-000000003f102fff (prio 0, i/o): bcm2835-cprman
-        000000003f104000-000000003f10400f (prio 0, i/o): bcm2835-rng
-        000000003f200000-000000003f200fff (prio 0, i/o): bcm2835_gpio
-        000000003f201000-000000003f201fff (prio 0, i/o): pl011
-        000000003f202000-000000003f202fff (prio 0, i/o): bcm2835-sdhost
-        000000003f203000-000000003f2030ff (prio -1000, i/o): bcm2835-i2s
-        000000003f204000-000000003f20401f (prio -1000, i/o): bcm2835-spi0
-        000000003f205000-000000003f20501f (prio -1000, i/o): bcm2835-i2c0
-        000000003f20f000-000000003f20f07f (prio -1000, i/o): bcm2835-otp
-        000000003f212000-000000003f212007 (prio 0, i/o): bcm2835-thermal
-        000000003f214000-000000003f2140ff (prio -1000, i/o): bcm2835-spis
-        000000003f215000-000000003f2150ff (prio 0, i/o): bcm2835-aux
-        000000003f300000-000000003f3000ff (prio 0, i/o): sdhci
-        000000003f600000-000000003f6000ff (prio -1000, i/o): bcm2835-smi
-        000000003f804000-000000003f80401f (prio -1000, i/o): bcm2835-i2c1
-        000000003f805000-000000003f80501f (prio -1000, i/o): bcm2835-i2c2
-        000000003f900000-000000003f907fff (prio -1000, i/o): bcm2835-dbus
-        000000003f910000-000000003f917fff (prio -1000, i/o): bcm2835-ave0
-        000000003f980000-000000003f990fff (prio 0, i/o): dwc2
-          000000003f980000-000000003f980fff (prio 0, i/o): dwc2-io
-          000000003f981000-000000003f990fff (prio 0, i/o): dwc2-fifo
-        000000003fc00000-000000003fc00fff (prio -1000, i/o): bcm2835-v3d
-        000000003fe00000-000000003fe000ff (prio -1000, i/o): bcm2835-sdramc
-        000000003fe05000-000000003fe050ff (prio 0, i/o): bcm2835-dma-chan15
-      0000000040000000-00000000400000ff (prio 0, i/o): bcm2836-control
+Thanks,
 
-  address-space: bcm2835-dma-memory
-  address-space: bcm2835-fb-memory
-  address-space: bcm2835-property-memory
-  address-space: dwc2
-    0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
-      0000000000000000-000000003fffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      0000000040000000-000000007fffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
-      0000000080000000-00000000bfffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      00000000c0000000-00000000ffffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-
-  address-space: bcm2835-mbox-memory
-    0000000000000000-000000000000008f (prio 0, i/o): bcm2835-mbox
-      0000000000000010-000000000000001f (prio 0, i/o): bcm2835-fb
-      0000000000000080-000000000000008f (prio 0, i/o): bcm2835-property
-
-  memory-region: ram
-    0000000000000000-000000003fffffff (prio 0, ram): ram
-
-  memory-region: bcm2835-peripherals
-    000000003f000000-000000003fffffff (prio 1, i/o): bcm2835-peripherals
-      000000003f003000-000000003f00301f (prio 0, i/o): bcm2835-sys-timer
-      000000003f004000-000000003f004fff (prio -1000, i/o): bcm2835-txp
-      000000003f006000-000000003f006fff (prio 0, i/o): mphi
-      000000003f007000-000000003f007fff (prio 0, i/o): bcm2835-dma
-      000000003f00b200-000000003f00b3ff (prio 0, i/o): bcm2835-ic
-      000000003f00b400-000000003f00b43f (prio -1000, i/o): bcm2835-sp804
-      000000003f00b800-000000003f00bbff (prio 0, i/o): bcm2835-mbox
-      000000003f100000-000000003f1001ff (prio 0, i/o): bcm2835-powermgt
-      000000003f101000-000000003f102fff (prio 0, i/o): bcm2835-cprman
-      000000003f104000-000000003f10400f (prio 0, i/o): bcm2835-rng
-      000000003f200000-000000003f200fff (prio 0, i/o): bcm2835_gpio
-      000000003f201000-000000003f201fff (prio 0, i/o): pl011
-      000000003f202000-000000003f202fff (prio 0, i/o): bcm2835-sdhost
-      000000003f203000-000000003f2030ff (prio -1000, i/o): bcm2835-i2s
-      000000003f204000-000000003f20401f (prio -1000, i/o): bcm2835-spi0
-      000000003f205000-000000003f20501f (prio -1000, i/o): bcm2835-i2c0
-      000000003f20f000-000000003f20f07f (prio -1000, i/o): bcm2835-otp
-      000000003f212000-000000003f212007 (prio 0, i/o): bcm2835-thermal
-      000000003f214000-000000003f2140ff (prio -1000, i/o): bcm2835-spis
-      000000003f215000-000000003f2150ff (prio 0, i/o): bcm2835-aux
-      000000003f300000-000000003f3000ff (prio 0, i/o): sdhci
-      000000003f600000-000000003f6000ff (prio -1000, i/o): bcm2835-smi
-      000000003f804000-000000003f80401f (prio -1000, i/o): bcm2835-i2c1
-      000000003f805000-000000003f80501f (prio -1000, i/o): bcm2835-i2c2
-      000000003f900000-000000003f907fff (prio -1000, i/o): bcm2835-dbus
-      000000003f910000-000000003f917fff (prio -1000, i/o): bcm2835-ave0
-      000000003f980000-000000003f990fff (prio 0, i/o): dwc2
-        000000003f980000-000000003f980fff (prio 0, i/o): dwc2-io
-        000000003f981000-000000003f990fff (prio 0, i/o): dwc2-fifo
-      000000003fc00000-000000003fc00fff (prio -1000, i/o): bcm2835-v3d
-      000000003fe00000-000000003fe000ff (prio -1000, i/o): bcm2835-sdramc
-      000000003fe05000-000000003fe050ff (prio 0, i/o): bcm2835-dma-chan15
-
-  (qemu) q
-
-[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg829821.html
-
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-checkpatch warning (81 chars):
-
-  WARNING: line over 80 characters
-  #86: FILE: softmmu/memory.c:3348:
-  +                                  address_space_compare_name);
----
- softmmu/memory.c | 62 +++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 59 insertions(+), 3 deletions(-)
-
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 5be7d5e7412..8311b33ce6a 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -3284,20 +3284,76 @@ static void mtree_info_flatview(bool dispatch_tree, bool owner)
-     g_hash_table_unref(views);
- }
- 
-+struct AddressSpaceInfo {
-+    MemoryRegionListHead *ml_head;
-+    bool owner;
-+    bool disabled;
-+};
-+
-+/* Returns negative value if a < b; zero if a = b; positive value if a > b. */
-+static gint address_space_compare_name(gconstpointer a, gconstpointer b)
-+{
-+    const AddressSpace *as_a = a;
-+    const AddressSpace *as_b = b;
-+
-+    return g_strcmp0(as_a->name, as_b->name);
-+}
-+static void mtree_print_as_name(gpointer data, gpointer user_data)
-+{
-+    AddressSpace *as = data;
-+
-+    qemu_printf("address-space: %s\n", as->name);
-+}
-+
-+static void mtree_print_as(gpointer key, gpointer value, gpointer user_data)
-+{
-+    MemoryRegion *mr = key;
-+    GSList *as_same_root_mr_list = value;
-+    struct AddressSpaceInfo *asi = user_data;
-+
-+    g_slist_foreach(as_same_root_mr_list, mtree_print_as_name, NULL);
-+    mtree_print_mr(mr, 1, 0, asi->ml_head, asi->owner, asi->disabled);
-+    qemu_printf("\n");
-+}
-+
-+static gboolean mtree_info_as_free(gpointer key, gpointer value,
-+                                   gpointer user_data)
-+{
-+    GSList *as_same_root_mr_list = value;
-+
-+    g_slist_free(as_same_root_mr_list);
-+
-+    return true;
-+}
-+
- static void mtree_info_as(bool dispatch_tree, bool owner, bool disabled)
- {
-     MemoryRegionListHead ml_head;
-     MemoryRegionList *ml, *ml2;
-     AddressSpace *as;
-+    GHashTable *views = g_hash_table_new(g_direct_hash, g_direct_equal);
-+    GSList *as_same_root_mr_list;
-+    struct AddressSpaceInfo asi = {
-+        .ml_head = &ml_head,
-+        .owner = owner,
-+        .disabled = disabled,
-+    };
- 
-     QTAILQ_INIT(&ml_head);
- 
-     QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
--        qemu_printf("address-space: %s\n", as->name);
--        mtree_print_mr(as->root, 1, 0, &ml_head, owner, disabled);
--        qemu_printf("\n");
-+        /* Create hashtable, key=AS root MR, value = list of AS */
-+        as_same_root_mr_list = g_hash_table_lookup(views, as->root);
-+        as_same_root_mr_list = g_slist_insert_sorted(as_same_root_mr_list, as,
-+                                                     address_space_compare_name);
-+        g_hash_table_insert(views, as->root, as_same_root_mr_list);
-     }
- 
-+    /* print address spaces */
-+    g_hash_table_foreach(views, mtree_print_as, &asi);
-+    g_hash_table_foreach_remove(views, mtree_info_as_free, 0);
-+    g_hash_table_unref(views);
-+
-     /* print aliased regions */
-     QTAILQ_FOREACH(ml, &ml_head, mrqueue) {
-         qemu_printf("memory-region: %s\n", memory_region_name(ml->mr));
 -- 
-2.31.1
+Peter Xu
 
 
