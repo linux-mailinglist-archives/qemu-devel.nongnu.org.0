@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C058F400460
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:54:36 +0200 (CEST)
-Received: from localhost ([::1]:41768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B4F6400471
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 20:00:37 +0200 (CEST)
+Received: from localhost ([::1]:59114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMDOd-0005Qj-Rf
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:54:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51312)
+	id 1mMDUS-000071-8m
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 14:00:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDGM-00087k-5s
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:46:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24219)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDGP-0008FM-Uc
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:46:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:22046)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDGI-00013I-1h
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:46:01 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDGN-00016w-Dl
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:46:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630691157;
+ s=mimecast20190719; t=1630691162;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6osDXRphDo8TIq2I2JrJLj4Iq8ymwMld3GU8FS2XmwE=;
- b=h7FHLJBjnRkDuPIleL5LeoeRYVjchRYaPXWh18QyYDa+j/IZzB4NbVxbQ3jn280eytLAzE
- kGcsOhawObVEqKoqjrYqSqNxGRzhn0iQUR3hqNIWQN8EbQsIJ8klaDGT0MmqCr3Ta4uGpt
- xoAChLf2zuir8MZODrUyUhrfQMNOBgs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-5AWaDLZiP8mR0KVTopsJhQ-1; Fri, 03 Sep 2021 13:45:56 -0400
-X-MC-Unique: 5AWaDLZiP8mR0KVTopsJhQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- c4-20020a1c9a04000000b002e864b7edd1so2138654wme.6
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 10:45:56 -0700 (PDT)
+ bh=vuT0E6Tl+Ny+4npFTuPZzaTG6opZzVO57bTMu99Gkj8=;
+ b=TcTMoLN/LjT5OgqSmYz1GXrPFd3k8kB56DCaD1RqIbiv8mGUUaKeY+4O9duMu8DoLOsutj
+ 4d3Hm1HWXYF85yese0q1g61p0sldcUXmy4MhyjQ6gJj4vUwFHpZNOZZkid635NokiWFBG5
+ 8n1i6zLeRgZpOYqLvNFLzVNoXswO91s=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-204-7w84aotjO26uBoPBsuhvkA-1; Fri, 03 Sep 2021 13:46:01 -0400
+X-MC-Unique: 7w84aotjO26uBoPBsuhvkA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ y188-20020a1c7dc5000000b002e80e0b2f87so60565wmc.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 10:46:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6osDXRphDo8TIq2I2JrJLj4Iq8ymwMld3GU8FS2XmwE=;
- b=RueDoMGA+FiyDz1Zwjztw44IREzQwu+vUCBsZGkYP+McPHwjT3AEXanunhgW8jirp3
- WFmRmi+xxPm3E5oTNTkLLKG0ilZlvrASo4NtFmHaeP/EVCwl8OYmLTErfSVmk/s+riHQ
- VH3f8kjdNQmrHsUIfe5q9Bt9pPT2UrxORBDXxKknEgVLlycTL/6GmFntK2jFLzlk1cV8
- gTnvejp7q3JotiuGVh9frKm6Dfm9AQ8JCQLlycPPt/FflvlQnJ6HYXUhM9cpA5pn39Yi
- 7hLH/M0OhDhTuBUImJxzM4OXEMHHMUbqMQqiMPD0SxBdi8NXWJn8dAnQ3Se889/HPKCK
- vVXg==
-X-Gm-Message-State: AOAM533mgB5Da0ZPpPKS9R5yoE8vz5n6ChrvWIVJoFS/PpJ5mLD5CZ31
- WlJcbM5EDqkarCbF6GDnM7dt/SWe4ZgIaV614Vxhui4oTbb73pTtq6l9uP5LKyPO5hrukQgMQEA
- Di/kVI7ScBpUhBMDJlDiSvakAPwTJPG7Qa+4XU5g463vDngX1T/CdA1nAYFnLqM+k
-X-Received: by 2002:a7b:cb09:: with SMTP id u9mr19281wmj.63.1630691155033;
- Fri, 03 Sep 2021 10:45:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzvICEoePWDdVv201fWjAJYQJgNTljhMxvLXfLqfqFtkx3so0aowhDnNuia6XImhOtdvl/Mqw==
-X-Received: by 2002:a7b:cb09:: with SMTP id u9mr19251wmj.63.1630691154811;
- Fri, 03 Sep 2021 10:45:54 -0700 (PDT)
+ bh=vuT0E6Tl+Ny+4npFTuPZzaTG6opZzVO57bTMu99Gkj8=;
+ b=ZnYf0w4y217eF4RHN7n3Fng8CvCpOHcEcrDJcN7tMsdfQ9XbcqR39UtAoxc9QLv0r4
+ u112T8YAo0Com++8cdmuTNkFPW9LyJxIQ5dZBGkLr5klO8IfFdUq38PSWC0Wd/gmI1KZ
+ +cSAp9TFbLNCEkyZymIpb/rtUwyoaFcTLS7dVpnqGaFAQJqId6zPoH836XKmIRRVRTHU
+ kb/vK6EpJWEZjQU0feBmjAzxT3bVBu9r4SKEv3pPaaHG2nX6IvlcCoMA9A/ybTn8McxQ
+ 4DqUwS3RaJiMg2uQEEUwAo2ECvEEdQs6UzpEEZRo6W0UPaeUvCTN7ApqExUAMZyDk6w+
+ bdWw==
+X-Gm-Message-State: AOAM5308XpCk6KykJyKCrskhRHTpShXgDUID+InhXaZ897t7xBIxXval
+ td8hQi4HTfVtiXIlB9Kl1++y49YOt0HfDu95b+y//R8DQ1yrvBY8jCBRH53UZZ3Vzo7PpLVK8w+
+ MWYyf7CZTzGUMjlmEBxwv80eyoxP55TAm51TH9RvG6VG7vHS4MSLcCCZbnjTyZ52W
+X-Received: by 2002:a7b:c351:: with SMTP id l17mr36847wmj.120.1630691160225;
+ Fri, 03 Sep 2021 10:46:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzOfy7GndEJXUQXcty/5RLx6EqPg62DeFtIgRu/L1L+w+fM59AGQmNYo6tvuwvhSAu/jq0T8g==
+X-Received: by 2002:a7b:c351:: with SMTP id l17mr36811wmj.120.1630691159937;
+ Fri, 03 Sep 2021 10:45:59 -0700 (PDT)
 Received: from x1w.. (21.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id j18sm5524762wrd.56.2021.09.03.10.45.53
+ by smtp.gmail.com with ESMTPSA id l7sm39739wmj.9.2021.09.03.10.45.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 10:45:54 -0700 (PDT)
+ Fri, 03 Sep 2021 10:45:59 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/28] hw/acpi: Avoid truncating acpi_data_len() to 32-bit
-Date: Fri,  3 Sep 2021 19:44:50 +0200
-Message-Id: <20210903174510.751630-9-philmd@redhat.com>
+Subject: [PATCH v3 09/28] hw/acpi: Replace g_memdup() by g_memdup2()
+Date: Fri,  3 Sep 2021 19:44:51 +0200
+Message-Id: <20210903174510.751630-10-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903174510.751630-1-philmd@redhat.com>
 References: <20210903174510.751630-1-philmd@redhat.com>
@@ -72,7 +72,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -12
 X-Spam_score: -1.3
@@ -111,52 +111,51 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-acpi_data_len() returns an unsigned type, which might be bigger
-than 32-bit (although it is unlikely such value is returned).
-Hold the returned value in an 'unsigned' type to avoid unlikely
-size truncation.
+Per https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-now/5538
+
+  The old API took the size of the memory to duplicate as a guint,
+  whereas most memory functions take memory sizes as a gsize. This
+  made it easy to accidentally pass a gsize to g_memdup(). For large
+  values, that would lead to a silent truncation of the size from 64
+  to 32 bits, and result in a heap area being returned which is
+  significantly smaller than what the caller expects. This can likely
+  be exploited in various modules to cause a heap buffer overflow.
+
+Replace g_memdup() by the safer g_memdup2() wrapper.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/arm/virt-acpi-build.c | 2 +-
- hw/i386/acpi-build.c     | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ hw/acpi/core.c       | 3 ++-
+ hw/i386/acpi-build.c | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 037cc1fd82c..95543d43e2a 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -885,7 +885,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
+diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+index 1e004d0078d..50ee821aae5 100644
+--- a/hw/acpi/core.c
++++ b/hw/acpi/core.c
+@@ -637,7 +637,8 @@ void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
+         suspend[3] = 1 | ((!disable_s3) << 7);
+         suspend[4] = s4_val | ((!disable_s4) << 7);
  
- static void acpi_ram_update(MemoryRegion *mr, GArray *data)
- {
--    uint32_t size = acpi_data_len(data);
-+    unsigned size = acpi_data_len(data);
+-        fw_cfg_add_file(fw_cfg, "etc/system-states", g_memdup(suspend, 6), 6);
++        fw_cfg_add_file(fw_cfg, "etc/system-states",
++                        g_memdup2(suspend, 6), 6);
+     }
+ }
  
-     /* Make sure RAM size is correct - in case it got changed
-      * e.g. by migration */
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index a33ac8b91e1..aa269914b49 100644
+index aa269914b49..dd5c06c8cd5 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -2660,7 +2660,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
- 
- static void acpi_ram_update(MemoryRegion *mr, GArray *data)
- {
--    uint32_t size = acpi_data_len(data);
-+    unsigned size = acpi_data_len(data);
- 
-     /* Make sure RAM size is correct - in case it got changed e.g. by migration */
-     memory_region_ram_resize(mr, size, &error_abort);
-@@ -2783,7 +2783,7 @@ void acpi_setup(void)
-          * Though RSDP is small, its contents isn't immutable, so
-          * we'll update it along with the rest of tables on guest access.
+@@ -2785,7 +2785,7 @@ void acpi_setup(void)
           */
--        uint32_t rsdp_size = acpi_data_len(tables.rsdp);
-+        unsigned rsdp_size = acpi_data_len(tables.rsdp);
+         unsigned rsdp_size = acpi_data_len(tables.rsdp);
  
-         build_state->rsdp = g_memdup(tables.rsdp->data, rsdp_size);
+-        build_state->rsdp = g_memdup(tables.rsdp->data, rsdp_size);
++        build_state->rsdp = g_memdup2(tables.rsdp->data, rsdp_size);
          fw_cfg_add_file_callback(x86ms->fw_cfg, ACPI_BUILD_RSDP_FILE,
+                                  acpi_build_update, NULL, build_state,
+                                  build_state->rsdp, rsdp_size, true);
 -- 
 2.31.1
 
