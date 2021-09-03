@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 443CF4000B5
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 15:43:30 +0200 (CEST)
-Received: from localhost ([::1]:34722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 344B94000C8
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 15:52:42 +0200 (CEST)
+Received: from localhost ([::1]:51750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM9Td-0004yk-9x
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 09:43:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52924)
+	id 1mM9cX-00087x-Ab
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 09:52:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mM9NF-0004N5-Li
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 09:36:53 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45969)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mM9bK-0007Pr-2b
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 09:51:26 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:36454)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mM9NE-0008EW-2P
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 09:36:53 -0400
-Received: by mail-wr1-x435.google.com with SMTP id n5so8268705wro.12
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 06:36:51 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1mM9bH-0000xN-FZ
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 09:51:25 -0400
+Received: by mail-wr1-x431.google.com with SMTP id q14so8347648wrp.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 06:51:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=6uYm9dvURbdqGk6y1HEudEZ5V6aTFEaAQiwc4RNrGaE=;
- b=Y5RnRUVvqJeZaopnYC6lW7C6n17uBO6dKKM8HTGd5CMUynEjgg4bxPOLsi7+t0F1pV
- N/3LqmEC+eKAnDIuQ1iloE/Y+CDvcTZ/M6EcSo2nhNFcjoPtjE1mCn3KMzJhkZXdtZ2X
- XWUMoMOcJ7AKMY+u0igT7wSzhdTEeI6Dw+zmWM+jvFc6dim60ngZYfpLfLQ4eX+Dkx/+
- nlv6gAc6TUzPjDHPSVni+BlpSZvrKYum7TnILyuEDLiDU3hDfXu+Hpn2bbZ6Yi/q7eF6
- asclIMO58i5gpGNYG5zRv32o56MHYGu7/OV815O7yOK2MJ+I3dZry7jdov8GVd//26Do
- dv8g==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=xjY2rzmssdHUf/lTCNx1TG0MASmPiWa8QjadY1+HQRU=;
+ b=EZKHmGSB/JsdX5g7oiDc7z/ibfExZYjtccble0fMJlD8sBfZVvWzqRvgvTEEZcwPCI
+ +ss5JhoMGa8vWwvAO437cRXHA2FeKOXhAUcgc+IjuGK15ylU83fzEEgmHb9WJEhrxLb3
+ 1yD/KiSZ+8djFokTa+PJCdMpQls3nBoJD3JE7V8Sji3yGdmB5tZlSB6tQBI+cv9nzAXT
+ yjU4/QIfu/5I6PLmO63ZEUScT70Z+ZTybyPFAwKMM/iBJ0TK9mmIe/KLl4tflS+/S3dW
+ EMWjCaPnA1tYTbnBruz0K1iG4yHH4hj+Qn7jB8KX1mCn8zJERwolu22WE0olRZ7NPKZ7
+ Z4PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6uYm9dvURbdqGk6y1HEudEZ5V6aTFEaAQiwc4RNrGaE=;
- b=WClTGtYQW2am66SoBK1GpkbT+fC8YXX50DWiP9NnNiaK3JFIvoP4XJ4UCP475qXStc
- 1QKbw9Ynp1UYt0xERfAZ+a0qpvpGkAvm1U2wKYjL6sH8ToroH+xUxhvERscZQYf9cEY2
- iMpwVM/3AfD8DXEc8un7yfTYGW//4uW7L4+XGL9iBGCW9assWUns3N3lMnH61lLjrtgq
- uENmJIzlvN7NgeLkDv2NIzq7yyQTmaVRouoL2y8IazjNJDoGmNloNivDUbG/cg1aBZDC
- mZk1EcuSKFvm28XI2bnodtPOAnanItlLmLFB0ijjJSt5IBKqzaTje1HELBN2klCk3MFd
- xEtA==
-X-Gm-Message-State: AOAM530zX1HYWK4mCbuVjkYyaDtIsToGTBnXeZuCclRz0Fq69n1BatNT
- CICQx4iytxW7BpnoV4N4gcQpS7DLsBgYI24g9C8=
-X-Google-Smtp-Source: ABdhPJzpK7YH4JieREvo6J72iFjU2ku9rmMhrYu8rESGwbOHxhLT7Bh2glGz+kOGL9Ea5MPIYv9XSg==
-X-Received: by 2002:a5d:61c1:: with SMTP id q1mr4251258wrv.87.1630676210001;
- Fri, 03 Sep 2021 06:36:50 -0700 (PDT)
-Received: from [192.168.8.107] (190.red-2-142-216.dynamicip.rima-tde.net.
- [2.142.216.190])
- by smtp.gmail.com with ESMTPSA id x9sm4131378wmi.30.2021.09.03.06.36.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Sep 2021 06:36:49 -0700 (PDT)
-Subject: Re: proposed schedule for 6.2 release
-To: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <CAFEAcA-W+cgapSFJ5+s8G-4VZiTWn-8pX_-ANJ+bWtTcH2Oziw@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1883f66e-4c05-b5bb-5fcf-7bf7c53de126@linaro.org>
-Date: Fri, 3 Sep 2021 15:36:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=xjY2rzmssdHUf/lTCNx1TG0MASmPiWa8QjadY1+HQRU=;
+ b=ogGiS6Vvghvaqa4T1GOFdJYjkeS7lunrklbiqvEG6tz8b2blrLhTkVqrYn0QHXJ74/
+ 4zQ7c/LHaOF0TIZxgTPbQvvRIovtAKmDNVM0z/8yhe/PCXLDk82l9TViKMH2kK0WXfC6
+ rMZjLw5jYaLRowX0Jhnj0SeJ3RrLjgqr5Yd0go1jaNQeS65tr2nwTOIJBjSm6Ow4TKGK
+ h8AjRLuN18tQVQlIfEeeC6jy70rsrMOAxDYrJ9lL+8kCQcprOKoXC/DvUHG0SGRpzNxp
+ 6iOE2y5r99booLIPBrUwFZTLWUmL5839gUUK8UGvglZnXRW0OeP0EnIoxjvq6lZgpKtz
+ 8KrA==
+X-Gm-Message-State: AOAM531J6qg85AH7grUXEvTZQWd7h7yI0D9kVu+i8Ih1Iz6o8RpPo1gY
+ 2AauDZWVS6rl+tv5KfXHiDcK4Q==
+X-Google-Smtp-Source: ABdhPJwf04G4g21oJ+gtrOt7uo5+ogTuWofXMpGH6zmjaBCaEWnpTR4L/32Op3lF+IQByMnGLK8v1g==
+X-Received: by 2002:a5d:6e84:: with SMTP id k4mr4233769wrz.426.1630677081368; 
+ Fri, 03 Sep 2021 06:51:21 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i5sm4019237wrc.86.2021.09.03.06.51.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Sep 2021 06:51:19 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DA1071FF96;
+ Fri,  3 Sep 2021 14:51:18 +0100 (BST)
+References: <20210706234932.356913-1-richard.henderson@linaro.org>
+ <CAFEAcA-xg=QEUqsBGqFAHiMVi2vBG_BSoC5nGbzdcpyHb_+Dhw@mail.gmail.com>
+User-agent: mu4e 1.7.0; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH v2 00/36] linux-user: Signal trampolines and vdsos
+Date: Fri, 03 Sep 2021 14:39:30 +0100
+In-reply-to: <CAFEAcA-xg=QEUqsBGqFAHiMVi2vBG_BSoC5nGbzdcpyHb_+Dhw@mail.gmail.com>
+Message-ID: <87zgstpy21.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-W+cgapSFJ5+s8G-4VZiTWn-8pX_-ANJ+bWtTcH2Oziw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.888,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_XBL=0.375, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,28 +87,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/2/21 12:36 PM, Peter Maydell wrote:
-> Draft schedule for 6.2. This is just starting from "don't want
-> a possibly-late release to get too close to xmas holiday season"
-> and working backwards.
-> 
-> 2021-11-02 Soft feature freeze. Only bug fixes after this point.
->             All feature changes must be already in a sub maintainer
->             tree and all pull requests from submaintainers must have
->             been sent to the list by this date.
-> 2021-11-09 Hard feature freeze. Tag rc0
-> 2021-11-16 Tag rc1
-> 2021-11-23 Tag rc2
-> 2021-11-30 Tag rc3
-> 2021-12-07 Release; or tag rc4 if needed
-> 2021-12-14 Release if we needed an rc4
 
-Looks plausible.  There's the US thanksgiving holiday on the 26th, but I would hope that 
-the number of merges required for rc3 would already be low.
+Peter Maydell <peter.maydell@linaro.org> writes:
+
+> On Wed, 7 Jul 2021 at 00:51, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Supercedes: <20210619034329.532318-1-richard.henderson@linaro.org>
+>> ("[PATCH 00/12] linux-user: Load a vdso for x86_64 and hppa")
+>>
+>> Supercedes: <20210618192951.125651-1-richard.henderson@linaro.org>
+>> ("[PATCH v2 00/23] linux-user: Move signal trampolines to new page")
+>>
+>> Changes for v2:
+>>   * Add vdsos for aarch64, arm, i386, riscv.
+>>   * Drop setup_sigtramp for any target with a vdso.
+>>   * Drop arm v1 signal support.
+>>   * Simplify ppc encode_trampoline.
+>
+> I'm not planning to review this series, but a general comment:
+> I'm not really enthusiastic about the "vdso binaries checked into
+> git and the build mechanism is a random makefile that has to be
+> run by hand in the right environment" setup (and distros that
+> like to build everything from source probably won't be keen
+> either).
+
+AIUI the vdso's are really pretty simple stubs more in line with our
+stub launchers we currently have scattered around in our sources as hex
+bytes. They are a bit bigger but not by much.
+
+> At a minimum the handling of the cross-environment
+> stuff should be more automated and reproducible like 'make check-tcg'.
+> It would be useful also to get input from the Debian folks on
+> how they'd want to see the build-from-source requirements/setup
+> working...
+
+In Debian they require cross compilers so they can build the various
+blobs we use. However those blobs are packaged as "noarch" blobs and
+only built on x86 where all the cross compilers are functional. This is
+the reason you can't do a full build of QEMU packages on non-x86
+platforms and why you need:
+
+  apt build-dep -yy -a arm64 --arch-only qemu
+
+so it doesn't barf trying to find cross compilers that haven't been
+built for the host arch. So far my attempts to suggest the distros just
+simply package all cross compilers on all supported host architectures
+have been rebuffed on the basis it does tend to explode the build matrix
+a bit.
+
+The check-tcg compiler logic could be used to build the vdso's but it is
+currently optional so if we can't run them you don't get any tests. I
+suspect we still need to package the binary vdso blobs but use the
+check-tcg machinery to rebuild them when we can.
+
+>
+> -- PMM
 
 
-r~
+--=20
+Alex Benn=C3=A9e
 
