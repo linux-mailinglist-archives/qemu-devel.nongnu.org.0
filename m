@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796DE40045A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:54:02 +0200 (CEST)
-Received: from localhost ([::1]:39518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0B17400468
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:57:13 +0200 (CEST)
+Received: from localhost ([::1]:49206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMDO5-0003wU-EN
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:54:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51090)
+	id 1mMDRA-00021S-PZ
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:57:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDFz-0007EV-Tn
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:45:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37139)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDG4-0007Os-MO
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:45:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDFx-0000ke-0S
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:45:39 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDG2-0000ot-9x
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:45:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630691136;
+ s=mimecast20190719; t=1630691141;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CXCzW8bCYFLnmDpFGRYWy7aRyivvYc+p/NDbg6+FNF8=;
- b=BfCvZ4cOTUnYP59S8h/fPo++62aztVa1nEUvsMxeKFuZsx4ZWab2yRiI1i7fpL8hk5Kxkh
- PzG79ihjmVL8y4XSfPkuZYKlOeqfYZbKMpwi1P/NF7ADMHB8KZQ84gpToz7IbhGihxQfjU
- efiOi49W8E8gSNTdIr9qoTgBSWM5zGU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-yD27k5_lOhK1do0wT62m4g-1; Fri, 03 Sep 2021 13:45:35 -0400
-X-MC-Unique: yD27k5_lOhK1do0wT62m4g-1
-Received: by mail-wm1-f70.google.com with SMTP id
- s197-20020a1ca9ce000000b002e72ba822dcso45280wme.6
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 10:45:35 -0700 (PDT)
+ bh=rgz4N5sK9eNw2u+qkgd75rHPsNPlAqGemaTOb2TEMto=;
+ b=cJERTV2/4zRXVgv4Ix3Aw16xrEdZe0LYqEmbtHtLqnZ9RzRzA0h0WQLlLZ+clEQrTMQa4c
+ VW0mi83qV8rq5evqvio+HyDy7LgKTSZPGG4jT68VqlOyJ0gDrag3MERQj66oDaMA8TX5OY
+ 7iYAaGqBtOMeVJrMUCAk11jn2xPcr9E=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-475-CuOQ5eB-MTmrTO2f-kkhqg-1; Fri, 03 Sep 2021 13:45:40 -0400
+X-MC-Unique: CuOQ5eB-MTmrTO2f-kkhqg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ q14-20020a5d574e000000b00157b0978ddeso1818735wrw.5
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 10:45:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CXCzW8bCYFLnmDpFGRYWy7aRyivvYc+p/NDbg6+FNF8=;
- b=nvOHhYLO9UrmlPSKMuNUVaiTG8N7M8Ca+EgmC9vUa4qCM/SPIaE9YotdvH+3jaKcYi
- EpGMirge5iWKwwFEaMn2Xg4Kne8uj9bgUEYJ9Dm7FsjSqCa0cnt/lgrHSKVWc1W0+xT4
- EoOYt9K18XdDQwA2XCqpNc6vJm18tamV+Yqj+BbL5T9MOgpd+YC6DguqE63n6ZqOqpLx
- 0rOxbq9fkwzj5fCUmMsF4gAwWPJ6ExHPZJpxHjZ3Qw/220mSTfXDRELIbrzm/QDZFDIK
- IUz0vlhAQSwfysb0GC3td9b8x7dxHVSh0jWZ6XbUNoyegxE8rWiMC60pEIDiM0sjsZIL
- W4vQ==
-X-Gm-Message-State: AOAM5315merOOj+/OwhkIhodHXSHsnH5c795aALjjY9xw1wU1VMMYmjx
- shfr+MLvMQRLbAh9zRRsh6MC0SE5O63Aqx+sbi5mwx90i7kTQrKeq/rcEErnDd/fm9pYJh/XmeB
- Ss370n63wva9oVQOy1ru/VJB6UMotFi5Q5I3nhtI1vVVqMm4j1b+hNKhSS4XLKs4L
-X-Received: by 2002:adf:c54a:: with SMTP id s10mr238944wrf.405.1630691134114; 
- Fri, 03 Sep 2021 10:45:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy+zMZZBdsiCnPGLNZOqOowTX12oFIDz5c69PhgosuOGX74PNQuE1lnRJ5RJkQ6708CDi+C5g==
-X-Received: by 2002:adf:c54a:: with SMTP id s10mr238902wrf.405.1630691133892; 
- Fri, 03 Sep 2021 10:45:33 -0700 (PDT)
+ bh=rgz4N5sK9eNw2u+qkgd75rHPsNPlAqGemaTOb2TEMto=;
+ b=sfnK7mKDy+bA7tQ+cMDqnM8tSOINGCzNgTN9U6PPWxb8rwPE76wzth8Qu3qOhx7o/q
+ umUUEOv3SbAvRAnohCQCGwMP71kdBYYHSLCtOb6GxB2lRyuo7SLYIj+V9pN1QASOT+Y7
+ og6Bib7DDQWE2UdWBdJvTUiBnP1sia2d7puJcA5aYp5ruMB+m3dvlQvBxUaQ6tUC80KC
+ 4Vdgtei4Y2WKiRd7O0XIDTXpOnnd+cGqsZFZKoKq+2LxPupkJWpk8Nby0dodszsyuTTU
+ R5SODN6LdYk3k9nr7IsNhQvjkXLgXP0MNQJPzExkSFYqDoQ7fLkYfmPOY+6p7bjCFXBu
+ 9O9w==
+X-Gm-Message-State: AOAM532TBs0LrtXVyzu73nZ3ngnnwF0DHCaQ4eUedTHax/m8DYRNwmwc
+ fXgSAb165MKIbLG+i4ApcnrIGe6YkE0geCh5psuGnmnrKzKeABMPRstAQ44dY/KTizJTFO32Dso
+ NJmlX8KWJdnDpBDEwTyKmZfgBRkumhDwgHc6r/Asf+tBtP38KFeGg/3RNYU7bEoCo
+X-Received: by 2002:adf:8b03:: with SMTP id n3mr230487wra.439.1630691139081;
+ Fri, 03 Sep 2021 10:45:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxxUQTFn0pSH3mqIPJn6NS/lwalYBnLzKRBcQ/Zv+2L76UepAxA9zqa3bf6N2J0MuiLIjUr4A==
+X-Received: by 2002:adf:8b03:: with SMTP id n3mr230452wra.439.1630691138896;
+ Fri, 03 Sep 2021 10:45:38 -0700 (PDT)
 Received: from x1w.. (21.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id i20sm67976wml.37.2021.09.03.10.45.32
+ by smtp.gmail.com with ESMTPSA id d24sm23436wmb.35.2021.09.03.10.45.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 10:45:33 -0700 (PDT)
+ Fri, 03 Sep 2021 10:45:38 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 04/28] accel/tcg: Replace g_memdup() by g_memdup2()
-Date: Fri,  3 Sep 2021 19:44:46 +0200
-Message-Id: <20210903174510.751630-5-philmd@redhat.com>
+Subject: [PATCH v3 05/28] block/qcow2-bitmap: Replace g_memdup() by g_memdup2()
+Date: Fri,  3 Sep 2021 19:44:47 +0200
+Message-Id: <20210903174510.751630-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903174510.751630-1-philmd@redhat.com>
 References: <20210903174510.751630-1-philmd@redhat.com>
@@ -125,47 +125,22 @@ Replace g_memdup() by the safer g_memdup2() wrapper.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- accel/tcg/cputlb.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ block/qcow2-bitmap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index b1e5471f949..08951f0683e 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -826,7 +826,7 @@ void tlb_flush_range_by_mmuidx(CPUState *cpu, target_ulong addr,
-         tlb_flush_range_by_mmuidx_async_0(cpu, d);
-     } else {
-         /* Otherwise allocate a structure, freed by the worker.  */
--        TLBFlushRangeData *p = g_memdup(&d, sizeof(d));
-+        TLBFlushRangeData *p = g_memdup2(&d, sizeof(d));
-         async_run_on_cpu(cpu, tlb_flush_range_by_mmuidx_async_1,
-                          RUN_ON_CPU_HOST_PTR(p));
-     }
-@@ -868,7 +868,7 @@ void tlb_flush_range_by_mmuidx_all_cpus(CPUState *src_cpu,
-     /* Allocate a separate data block for each destination cpu.  */
-     CPU_FOREACH(dst_cpu) {
-         if (dst_cpu != src_cpu) {
--            TLBFlushRangeData *p = g_memdup(&d, sizeof(d));
-+            TLBFlushRangeData *p = g_memdup2(&d, sizeof(d));
-             async_run_on_cpu(dst_cpu,
-                              tlb_flush_range_by_mmuidx_async_1,
-                              RUN_ON_CPU_HOST_PTR(p));
-@@ -918,13 +918,13 @@ void tlb_flush_range_by_mmuidx_all_cpus_synced(CPUState *src_cpu,
-     /* Allocate a separate data block for each destination cpu.  */
-     CPU_FOREACH(dst_cpu) {
-         if (dst_cpu != src_cpu) {
--            p = g_memdup(&d, sizeof(d));
-+            p = g_memdup2(&d, sizeof(d));
-             async_run_on_cpu(dst_cpu, tlb_flush_range_by_mmuidx_async_1,
-                              RUN_ON_CPU_HOST_PTR(p));
-         }
-     }
- 
--    p = g_memdup(&d, sizeof(d));
-+    p = g_memdup2(&d, sizeof(d));
-     async_safe_run_on_cpu(src_cpu, tlb_flush_range_by_mmuidx_async_1,
-                           RUN_ON_CPU_HOST_PTR(p));
- }
+diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
+index 8fb47315515..218a0dc712a 100644
+--- a/block/qcow2-bitmap.c
++++ b/block/qcow2-bitmap.c
+@@ -1599,7 +1599,7 @@ bool qcow2_store_persistent_dirty_bitmaps(BlockDriverState *bs,
+                            name);
+                 goto fail;
+             }
+-            tb = g_memdup(&bm->table, sizeof(bm->table));
++            tb = g_memdup2(&bm->table, sizeof(bm->table));
+             bm->table.offset = 0;
+             bm->table.size = 0;
+             QSIMPLEQ_INSERT_TAIL(&drop_tables, tb, entry);
 -- 
 2.31.1
 
