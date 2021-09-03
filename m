@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89D084003CE
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:05:37 +0200 (CEST)
-Received: from localhost ([::1]:41868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBF804003CA
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:04:11 +0200 (CEST)
+Received: from localhost ([::1]:38198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMCdE-0004Jx-If
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:05:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43248)
+	id 1mMCbq-0001j2-UN
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:04:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mMCYy-0007HA-92
+ id 1mMCYy-0007Ik-Um
  for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:01:12 -0400
-Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:46979)
+Received: from mail-lf1-x12d.google.com ([2a00:1450:4864:20::12d]:39653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mMCYv-0004z4-8o
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:01:11 -0400
-Received: by mail-lf1-x133.google.com with SMTP id t19so12967610lfe.13
+ id 1mMCYv-0004z5-8k
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:01:12 -0400
+Received: by mail-lf1-x12d.google.com with SMTP id m28so13013108lfj.6
  for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 10:01:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=vrull-eu.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=gw4LvlnxnnY6EO7Y13J17phqBUMt7B/+5TuFjvc41YA=;
- b=HlXsjpi3wJFwDqWVolQAC7/Q+8Qqf9yltQ+pCIN35IrvwYkxKselHnKw559B6DIXjA
- R+soXKPqgO2NT2xbV2Ihg8tgVElguN9zHhVSNZ9/btdhzlORkLDJd0Yd22JLMdPSFsHx
- tJ7yuq/328V2EvlEv9Oy0UOCrx9OGu9i3pTiPVYziHbpy/2shAeWcgs1WyWxEPhXSPqY
- 9aTAR1hMrrJ3PXuk2e7itktKSChksWsYCgn9rDsXhyU0mZFWZU7sgT6CHURlrEu5oPK4
- cTae43NMjxrBE5L4cBBG7BBEjQKRLbNfJHHefDnJ3f4L/gVljPn3hCDkZj3Eg1RFB7Bj
- yTDA==
+ bh=JfntyVVXMEu7zVQPLwpnP4WZtNnfaQJsxSeK0jAz7GY=;
+ b=MI6Q2lUuztLMsTJRna09PB09GEaif4JqijODE5L3uWYlY/ol+mOx77it0boEhNJgnk
+ T2STQb0289SgIthppGzTYcWKeK3SGbzYu7EZirwnxpbfuELwy3jb+Tj/Mdl1vFLNqC9N
+ 404BZv5QAcZzLNCBdl75qUVcfkmhHAtoN051ssbxE0qk2uovnOcCPHSfeNzNUVxKRrlb
+ R7cgok3AD7a9ECj1XDvmPbqZlmnmaQDYgqWzaVuKygwVt6A7M8I5KDNSyoklPnV/izgX
+ fOWshYWInxPPNwfCVAznElif4mEYT7MisJ+cLxXqRHIigR7Sw04YYhPRKB2fvrHwm/iG
+ tYnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=gw4LvlnxnnY6EO7Y13J17phqBUMt7B/+5TuFjvc41YA=;
- b=NMzdVKy9mI+YQeNN/RZH8DDdEI2ujKBw4fAskvbf3Y3frOKyjaqrqh5SnRp3OASbjA
- hSLv0YXvMA4jk/W7Dwoyw3ogwhIZVmfrW5wdm5Jvsg3zt1O/bbiLb5o3sq/SDwABBNL1
- WqZiGScppLNNWhRCjqidYztLANZ2J/kprFftTFjm8NCCecDZXdSVp72iWgeuQMAFge1r
- 61CBeLHf1ytCrOE+d8W4kXl2xnVR/YrkK/02dUi3fiJ/ePjNtcUGDcIiX/hcQs/7bIJE
- QLCJpqs+M+691R1M82O5bFXf0E4pWNsJn6nbxR+pU7R5ocsIMl9y8JOWISq+piDJ7T81
- qYaA==
-X-Gm-Message-State: AOAM530MoUh5cfrRjmXfaPhtQIItNKzjgflFoyF/eqCm7DlApyyBWiYl
- 2mjQYmcvv9lMAp9EfQfRDg9cIsBQBl7LTBm6xvQ=
-X-Google-Smtp-Source: ABdhPJwu3awEr901GQ6OXdcHMaQkKIey8RFnxVgZDXvsG8fNSRozc6iFdnx8jz+33q0T4PmnYCCXaw==
-X-Received: by 2002:ac2:4d10:: with SMTP id r16mr3050772lfi.546.1630688465846; 
- Fri, 03 Sep 2021 10:01:05 -0700 (PDT)
+ bh=JfntyVVXMEu7zVQPLwpnP4WZtNnfaQJsxSeK0jAz7GY=;
+ b=qCrkX8rlhxU3L9KyZIyNMIVZYaaAQqU5oJJtKi0hQIIB8qexbgSzgvu7ZOx1ZRpeeO
+ 2LJ6r7I1B6Lwq+s+6jUiMcO6L/Y2k1A180GJy8y4bEzlK8NI6joRIq6WK9hTE8VvXoAK
+ FTLpGFRlqj38zI5gIF34yW51bZsY4JQLs8xdHNpFZLoTaTO2NqQtme6sL++R/6XwI5vj
+ jq12YXpEM79pDQRf7zmyoQG/jduIBTtFse7dLhn6Vr+6bFa9Liex0NgqnHb6zrGp21kD
+ zIcfHidlMlOchNHqxGj1/XEv21jbdTVBHazHUjab944/hZ7y8g2h+D4GISWqC/jMZ1gV
+ PITg==
+X-Gm-Message-State: AOAM530SMKACweG9viBgmTUNwEuBgOBFEBwZSyxx061nTCV37nHTKAed
+ Erne43KsRH5iJ4g1LhTxsE5mqpRTlBOzA2mM19o=
+X-Google-Smtp-Source: ABdhPJzyFgeBqi/WtQcVkGF90DVoBIeFszrjxJM2ojo98bX0wZD5bVYO8s/MdG2wUYOQhqP696SK6Q==
+X-Received: by 2002:ac2:5c46:: with SMTP id s6mr3536508lfp.78.1630688466603;
+ Fri, 03 Sep 2021 10:01:06 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
- by smtp.gmail.com with ESMTPSA id c3sm628401ljj.77.2021.09.03.10.01.05
+ by smtp.gmail.com with ESMTPSA id c3sm628401ljj.77.2021.09.03.10.01.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 10:01:05 -0700 (PDT)
+ Fri, 03 Sep 2021 10:01:06 -0700 (PDT)
 From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 01/14] target/riscv: Add x-zba, x-zbb,
- x-zbc and x-zbs properties
-Date: Fri,  3 Sep 2021 19:00:47 +0200
-Message-Id: <20210903170100.2529121-2-philipp.tomsich@vrull.eu>
+Subject: [PATCH v9 02/14] target/riscv: Reassign instructions to the
+ Zba-extension
+Date: Fri,  3 Sep 2021 19:00:48 +0200
+Message-Id: <20210903170100.2529121-3-philipp.tomsich@vrull.eu>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210903170100.2529121-1-philipp.tomsich@vrull.eu>
 References: <20210903170100.2529121-1-philipp.tomsich@vrull.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::133;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x133.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12d;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x12d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,59 +90,156 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The bitmanipulation ISA extensions will be ratified as individual
-small extension packages instead of a large B-extension.  The first
-new instructions through the door (these have completed public review)
-are Zb[abcs].
-
-This adds new 'x-zba', 'x-zbb', 'x-zbc' and 'x-zbs' properties for
-these in target/riscv/cpu.[ch].
+The following instructions are part of Zba:
+ - add.uw (RV64 only)
+ - sh[123]add (RV32 and RV64)
+ - sh[123]add.uw (RV64-only)
+ - slli.uw (RV64-only)
 
 Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+fix add_uw -- deserves note
+
 ---
 
-(no changes since v3)
+Changes in v9:
+- Rebased to 8880cc4362.
+- Update gen_add_uw() to use a temporary instead of messing with
+  arg1 (fixes a regression after rebase on CF3 and SPEC2017).
 
 Changes in v3:
-- Split off removal of 'x-b' property and 'ext_b' field into a separate
-  patch to ensure bisectability.
+- The changes to the Zba instructions (i.e. the REQUIRE_ZBA macro
+  and its use for qualifying the Zba instructions) are moved into
+  a separate commit.
 
- target/riscv/cpu.c | 4 ++++
- target/riscv/cpu.h | 4 ++++
- 2 files changed, 8 insertions(+)
+ target/riscv/insn32.decode              | 20 ++++++++++++--------
+ target/riscv/insn_trans/trans_rvb.c.inc | 22 +++++++++++++++-------
+ 2 files changed, 27 insertions(+), 15 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 1a2b03d579..ceb7e01810 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -587,6 +587,10 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
-     /* This is experimental so mark with 'x-' */
-     DEFINE_PROP_BOOL("x-b", RISCVCPU, cfg.ext_b, false),
-+    DEFINE_PROP_BOOL("x-zba", RISCVCPU, cfg.ext_zba, false),
-+    DEFINE_PROP_BOOL("x-zbb", RISCVCPU, cfg.ext_zbb, false),
-+    DEFINE_PROP_BOOL("x-zbc", RISCVCPU, cfg.ext_zbc, false),
-+    DEFINE_PROP_BOOL("x-zbs", RISCVCPU, cfg.ext_zbs, false),
-     DEFINE_PROP_BOOL("x-h", RISCVCPU, cfg.ext_h, false),
-     DEFINE_PROP_BOOL("x-v", RISCVCPU, cfg.ext_v, false),
-     DEFINE_PROP_BOOL("Counters", RISCVCPU, cfg.ext_counters, true),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index bf1c899c00..7c4cd8ea89 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -293,6 +293,10 @@ struct RISCVCPU {
-         bool ext_u;
-         bool ext_h;
-         bool ext_v;
-+        bool ext_zba;
-+        bool ext_zbb;
-+        bool ext_zbc;
-+        bool ext_zbs;
-         bool ext_counters;
-         bool ext_ifencei;
-         bool ext_icsr;
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index 2cd921d51c..86f1166dab 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -660,6 +660,18 @@ vamomaxd_v      10100 . . ..... ..... 111 ..... 0101111 @r_wdvm
+ vamominud_v     11000 . . ..... ..... 111 ..... 0101111 @r_wdvm
+ vamomaxud_v     11100 . . ..... ..... 111 ..... 0101111 @r_wdvm
+ 
++# *** RV32 Zba Standard Extension ***
++sh1add     0010000 .......... 010 ..... 0110011 @r
++sh2add     0010000 .......... 100 ..... 0110011 @r
++sh3add     0010000 .......... 110 ..... 0110011 @r
++
++# *** RV64 Zba Standard Extension (in addition to RV32 Zba) ***
++add_uw     0000100 .......... 000 ..... 0111011 @r
++sh1add_uw  0010000 .......... 010 ..... 0111011 @r
++sh2add_uw  0010000 .......... 100 ..... 0111011 @r
++sh3add_uw  0010000 .......... 110 ..... 0111011 @r
++slli_uw    00001 ............ 001 ..... 0011011 @sh
++
+ # *** RV32B Standard Extension ***
+ clz        011000 000000 ..... 001 ..... 0010011 @r2
+ ctz        011000 000001 ..... 001 ..... 0010011 @r2
+@@ -687,9 +699,6 @@ ror        0110000 .......... 101 ..... 0110011 @r
+ rol        0110000 .......... 001 ..... 0110011 @r
+ grev       0110100 .......... 101 ..... 0110011 @r
+ gorc       0010100 .......... 101 ..... 0110011 @r
+-sh1add     0010000 .......... 010 ..... 0110011 @r
+-sh2add     0010000 .......... 100 ..... 0110011 @r
+-sh3add     0010000 .......... 110 ..... 0110011 @r
+ 
+ bseti      00101. ........... 001 ..... 0010011 @sh
+ bclri      01001. ........... 001 ..... 0010011 @sh
+@@ -718,10 +727,6 @@ rorw       0110000 .......... 101 ..... 0111011 @r
+ rolw       0110000 .......... 001 ..... 0111011 @r
+ grevw      0110100 .......... 101 ..... 0111011 @r
+ gorcw      0010100 .......... 101 ..... 0111011 @r
+-sh1add_uw  0010000 .......... 010 ..... 0111011 @r
+-sh2add_uw  0010000 .......... 100 ..... 0111011 @r
+-sh3add_uw  0010000 .......... 110 ..... 0111011 @r
+-add_uw     0000100 .......... 000 ..... 0111011 @r
+ 
+ bsetiw     0010100 .......... 001 ..... 0011011 @sh5
+ bclriw     0100100 .......... 001 ..... 0011011 @sh5
+@@ -732,4 +737,3 @@ roriw      0110000 .......... 101 ..... 0011011 @sh5
+ greviw     0110100 .......... 101 ..... 0011011 @sh5
+ gorciw     0010100 .......... 101 ..... 0011011 @sh5
+ 
+-slli_uw    00001. ........... 001 ..... 0011011 @sh
+diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
+index b72e76255c..91da7c5853 100644
+--- a/target/riscv/insn_trans/trans_rvb.c.inc
++++ b/target/riscv/insn_trans/trans_rvb.c.inc
+@@ -1,8 +1,9 @@
+ /*
+- * RISC-V translation routines for the RVB Standard Extension.
++ * RISC-V translation routines for the RVB draft and Zba Standard Extension.
+  *
+  * Copyright (c) 2020 Kito Cheng, kito.cheng@sifive.com
+  * Copyright (c) 2020 Frank Chang, frank.chang@sifive.com
++ * Copyright (c) 2021 Philipp Tomsich, philipp.tomsich@vrull.eu
+  *
+  * This program is free software; you can redistribute it and/or modify it
+  * under the terms and conditions of the GNU General Public License,
+@@ -17,6 +18,11 @@
+  * this program.  If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
++#define REQUIRE_ZBA(ctx) do {                    \
++    if (!RISCV_CPU(ctx->cs)->cfg.ext_zba) {      \
++        return false;                            \
++    }                                            \
++} while (0)
+ 
+ static void gen_clz(TCGv ret, TCGv arg1)
+ {
+@@ -339,7 +345,7 @@ GEN_SHADD(3)
+ #define GEN_TRANS_SHADD(SHAMT)                                             \
+ static bool trans_sh##SHAMT##add(DisasContext *ctx, arg_sh##SHAMT##add *a) \
+ {                                                                          \
+-    REQUIRE_EXT(ctx, RVB);                                                 \
++    REQUIRE_ZBA(ctx);                                                      \
+     return gen_arith(ctx, a, EXT_NONE, gen_sh##SHAMT##add);                \
+ }
+ 
+@@ -614,7 +620,7 @@ static bool trans_sh##SHAMT##add_uw(DisasContext *ctx,        \
+                                     arg_sh##SHAMT##add_uw *a) \
+ {                                                             \
+     REQUIRE_64BIT(ctx);                                       \
+-    REQUIRE_EXT(ctx, RVB);                                    \
++    REQUIRE_ZBA(ctx);                                         \
+     return gen_arith(ctx, a, EXT_NONE, gen_sh##SHAMT##add_uw);  \
+ }
+ 
+@@ -624,14 +630,16 @@ GEN_TRANS_SHADD_UW(3)
+ 
+ static void gen_add_uw(TCGv ret, TCGv arg1, TCGv arg2)
+ {
+-    tcg_gen_ext32u_tl(arg1, arg1);
+-    tcg_gen_add_tl(ret, arg1, arg2);
++    TCGv t = tcg_temp_new();
++    tcg_gen_ext32u_tl(t, arg1);
++    tcg_gen_add_tl(ret, t, arg2);
++    tcg_temp_free(t);
+ }
+ 
+ static bool trans_add_uw(DisasContext *ctx, arg_add_uw *a)
+ {
+     REQUIRE_64BIT(ctx);
+-    REQUIRE_EXT(ctx, RVB);
++    REQUIRE_ZBA(ctx);
+     return gen_arith(ctx, a, EXT_NONE, gen_add_uw);
+ }
+ 
+@@ -643,6 +651,6 @@ static void gen_slli_uw(TCGv dest, TCGv src, target_long shamt)
+ static bool trans_slli_uw(DisasContext *ctx, arg_slli_uw *a)
+ {
+     REQUIRE_64BIT(ctx);
+-    REQUIRE_EXT(ctx, RVB);
++    REQUIRE_ZBA(ctx);
+     return gen_shift_imm_fn(ctx, a, EXT_NONE, gen_slli_uw);
+ }
 -- 
 2.25.1
 
