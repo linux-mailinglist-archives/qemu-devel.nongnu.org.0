@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA6F3FFF29
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:27:05 +0200 (CEST)
-Received: from localhost ([::1]:44494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E3E3FFEDB
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 13:19:46 +0200 (CEST)
+Received: from localhost ([::1]:51994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM7Lc-0005Xs-LQ
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:27:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43110)
+	id 1mM7EY-0008Hm-1A
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 07:19:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM73U-0006YR-2h
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:08:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30927)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM73m-000763-0w
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:08:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM73S-0000yD-HU
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:08:19 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mM73W-00011F-HU
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 07:08:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630667297;
+ s=mimecast20190719; t=1630667302;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DAHpDs712oI1Di1eaFqrdG2Typ24HrNYG4qVZsBh0cw=;
- b=OTAWoo+/Lv1PaK9hp39LKj+kMmwwqL/xm1cRRo7o69GgIpqIMNYFcJZU6k1VWu+91g6g2e
- P7nPvPHNuDn+OZr6h7lQMYNhr2mK3lRXzZxv8QzMxTCtnkVlrluB2vOcjmZN0SXgceX4+k
- ARYaZ9D3bpFt0Rgt68nbjbQD2DCUv9U=
+ bh=9Eu7asELFex4yFplfKK/zMZmk6Z93QlAJxAwuUJzsvI=;
+ b=D7Yd4U7f8sAv6wB8Wr8KjQ/bE0P1zo5K/6sTjHGdP54z30+geJkrrOHjg+y4zJWb4uTLiv
+ +wqR0+ntlTEbs5FkLmrCXNr4b7YUBm6kZlCKcZA/oGnMOixcyMmrxCdGy8EluCNBZiY+7I
+ QPXkv1XUdkm+lrxl2WKTiy3bOR7qaVk=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-229-e5tTtPj0NmicydQWid-7mQ-1; Fri, 03 Sep 2021 07:08:15 -0400
-X-MC-Unique: e5tTtPj0NmicydQWid-7mQ-1
+ us-mta-34-dF8gWug_PlqDrXfcdfwong-1; Fri, 03 Sep 2021 07:08:21 -0400
+X-MC-Unique: dF8gWug_PlqDrXfcdfwong-1
 Received: by mail-wm1-f69.google.com with SMTP id
- m16-20020a7bca50000000b002ee5287d4bfso1833281wml.7
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 04:08:15 -0700 (PDT)
+ n16-20020a1c7210000000b002ea2ed60dc6so1719559wmc.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 04:08:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DAHpDs712oI1Di1eaFqrdG2Typ24HrNYG4qVZsBh0cw=;
- b=MmqQna9mpvo4KFNCL2gupaOtgs0lUCClgmMSfrp4yPcqGaW51xyKVHmTF8geOKHoqm
- kxL4jUZYPeD/Jo8Tq/FpzeSDmeGCTFgizicLQh6BbkBPTQy4QqFhtD6FaeIUFj0BXEWD
- 1VkjU5XftOvlnKnOii6ne/jP/4B9fpdhPj8zj4q2QWTRCbOQf5muJHVnPqEaiEUqzDw7
- 1tW/CfP9URqzi0eFtOLaJzJoJ9iv8Zy/sziDQSffryhwxNlLH+pZ3K1Yqw1VD/LbIlYL
- UU4zaAasx5A+mHoZ33Y9/yIUnDu3y/oROvPF1N/SVzS0iP0WrRB/ow2KYkDl9HzNWszz
- ny0A==
-X-Gm-Message-State: AOAM533BDlH54kkXO8vbVYu1gm+QcEv9f/BDA/inZlHJfl5YeEJl0xlX
- pZi5f/ZsNN6LC6Ts2vI350UGB5hgcx1fom2OLasGzlQy1AzYtc/OVS+Zhag8axyx49AYE/78vGy
- IvZHzgLbWqsXyidJuiSRgwGuNmmONlu848EFenwgoHPGbx2AUFUNTmQBivrXsgCTi
-X-Received: by 2002:adf:db83:: with SMTP id u3mr3485719wri.363.1630667293760; 
- Fri, 03 Sep 2021 04:08:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxhSQcK5FJTs0sGhQbUmpLfHDCygADufnlCA9XiiEfi1zCH7QtVMSqQu/dZo926/mNxJx5weg==
-X-Received: by 2002:adf:db83:: with SMTP id u3mr3485647wri.363.1630667293467; 
- Fri, 03 Sep 2021 04:08:13 -0700 (PDT)
+ bh=9Eu7asELFex4yFplfKK/zMZmk6Z93QlAJxAwuUJzsvI=;
+ b=IYnj8ZaFh0MgXX/GOJcW3oCD2rDELe10YsUmgW4ssBlKlnQejk6RRkJ8SGE4e0I3hM
+ wHJ0SR4pw3PWHuICuE8oDpg3/F8h2YfQhAJ3OLd59RGZsnhJrmBrGHg6eE3+0FBzIRg7
+ /ovZc3eVErp8BOqNjHdG7GCwtkVi5mk4Mv00cGLNCtBeASls2u8T+uNBg1qj9qaZ+pWD
+ r2qBBb2/vVstk8S6fu68J1yfklwZNCeb9AlUC46uuSvEiPsj7HWApNtkTeeNnde9WAd7
+ j8KeoeU6b08llsuE5e8X9E2+1jbfcYvo+ECUiAKfqCSd0bPXHce9bW3p2ilLIdudiEBn
+ wq8A==
+X-Gm-Message-State: AOAM531KkvS1/eMDaPEtxn3aXFEq53EDWfeCGxWUnuyTb5WZU1Au5DFS
+ RD19Q25f+Y+wzgKOmGAXLszTu+l4HVUKBxpUD7X5BuqaRO/Bpg5dx+viyqBJo6PE3XzmmNMsCfc
+ EViWepTNUQEdBhQOmBEK5ZZSdB5xwyWthPj8uEiDJo2S5szgNdt77XlUtIp1IdYyt
+X-Received: by 2002:a1c:3102:: with SMTP id x2mr7947491wmx.122.1630667299740; 
+ Fri, 03 Sep 2021 04:08:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzlUaVFt+tJT5LaJ3kyuGO1VaY8TUngaLwcpu0pipKrSkdlOz7rImuHU2SzJPLLISqxx4e5tQ==
+X-Received: by 2002:a1c:3102:: with SMTP id x2mr7947440wmx.122.1630667299523; 
+ Fri, 03 Sep 2021 04:08:19 -0700 (PDT)
 Received: from x1w.. (163.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.163])
  by smtp.gmail.com with ESMTPSA id
- y21sm4191900wmc.11.2021.09.03.04.08.11
+ d7sm4401782wrs.39.2021.09.03.04.08.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 04:08:13 -0700 (PDT)
+ Fri, 03 Sep 2021 04:08:19 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/28] hw/i386/multiboot: Replace g_memdup() by
- g_memdup2_qemu()
-Date: Fri,  3 Sep 2021 13:06:46 +0200
-Message-Id: <20210903110702.588291-13-philmd@redhat.com>
+Subject: [PATCH 13/28] hw/net/eepro100: Replace g_memdup() by g_memdup2_qemu()
+Date: Fri,  3 Sep 2021 13:06:47 +0200
+Message-Id: <20210903110702.588291-14-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903110702.588291-1-philmd@redhat.com>
 References: <20210903110702.588291-1-philmd@redhat.com>
@@ -74,15 +73,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -135,22 +133,22 @@ Replace g_memdup() by the safer g_memdup2_qemu() wrapper.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/i386/multiboot.c | 2 +-
+ hw/net/eepro100.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/i386/multiboot.c b/hw/i386/multiboot.c
-index 9e7d69d4705..f536e3c8c96 100644
---- a/hw/i386/multiboot.c
-+++ b/hw/i386/multiboot.c
-@@ -387,7 +387,7 @@ int load_multiboot(FWCfgState *fw_cfg,
-     mb_debug("           mb_mods_count = %d", mbs.mb_mods_count);
+diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
+index 16e95ef9cc9..ed2bc54c052 100644
+--- a/hw/net/eepro100.c
++++ b/hw/net/eepro100.c
+@@ -1872,7 +1872,7 @@ static void e100_nic_realize(PCIDevice *pci_dev, Error **errp)
  
-     /* save bootinfo off the stack */
--    mb_bootinfo_data = g_memdup(bootinfo, sizeof(bootinfo));
-+    mb_bootinfo_data = g_memdup2_qemu(bootinfo, sizeof(bootinfo));
+     qemu_register_reset(nic_reset, s);
  
-     /* Pass variables to option rom */
-     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ENTRY, mh_entry_addr);
+-    s->vmstate = g_memdup(&vmstate_eepro100, sizeof(vmstate_eepro100));
++    s->vmstate = g_memdup2_qemu(&vmstate_eepro100, sizeof(vmstate_eepro100));
+     s->vmstate->name = qemu_get_queue(s->nic)->model;
+     vmstate_register(VMSTATE_IF(&pci_dev->qdev), VMSTATE_INSTANCE_ID_ANY,
+                      s->vmstate, s);
 -- 
 2.31.1
 
