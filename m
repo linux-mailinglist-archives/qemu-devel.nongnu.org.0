@@ -2,90 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1535C400126
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 16:21:57 +0200 (CEST)
-Received: from localhost ([::1]:46734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B524240014E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 16:34:28 +0200 (CEST)
+Received: from localhost ([::1]:56726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMA4o-00083L-6y
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 10:21:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33788)
+	id 1mMAGx-00071h-Fe
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 10:34:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mMA2d-0005nV-NL
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 10:19:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:52467)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mMA2a-0003Jt-E0
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 10:19:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630678774;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fQA+nKNyXhCe+wIVvo332z7LLSIna/DvTxL7WAd4IuE=;
- b=hH2E1B+ARpl9KO70wkSUxP3Y+LQUMLwP+6rxbjvBWVaE/IaFN/nzV6ZvvyCS5yNF/c740I
- XGHysRw7kdquxFAypEPx8SBpOTQonRy6NCY57sXr3qi0fbtFmTl93hBQJEzIfZAONiry4i
- KXSmbiAAGmPO3dIvTEtLp7FQwkhz9u0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-246-UG3F5bbQP8yJzv09R1vyxg-1; Fri, 03 Sep 2021 10:19:27 -0400
-X-MC-Unique: UG3F5bbQP8yJzv09R1vyxg-1
-Received: by mail-wm1-f71.google.com with SMTP id
- a201-20020a1c7fd2000000b002e748bf0544so2737902wmd.2
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 07:19:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mMAFF-0004EA-FU
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 10:32:41 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:55959)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1mMAFC-0005Yb-Kr
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 10:32:41 -0400
+Received: by mail-wm1-x329.google.com with SMTP id g135so3638771wme.5
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 07:32:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wCmSGUagquqiKpr5H6LCLK5h69XDNubxlm2zXBcPFl0=;
+ b=ps07xr1oG2cKa292IgBKezled1nYH1hT5Hwx+/4EiZfSWtbgHtcvTQh761jivh7tmx
+ zmqxI2ofqFcTZwLRwxSVmfRpELzWgoV1ceAjm3Gz2da22H8lq9gm+2TY0WpAm+rretHb
+ 9mS+yf2qJaG5azCCcwGME6UCW7UROatve7M2NtyJn/Jtd78D6K9r5Bqt2rXve75wDkue
+ ZwoK4m61h/gXlHzgHoVJtsFdmPS5aAFhcEbzsBI9MrKdsuQv/c+KcaVq0T6srurfaSfG
+ IhhUe9QCcJI7MUlDTDQ4j05FfQqn1Klo5AFhfdV6cjvyCmB8RWMrFdOJtlDH25oBXXDM
+ avyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=fQA+nKNyXhCe+wIVvo332z7LLSIna/DvTxL7WAd4IuE=;
- b=XajuZ4QmpSNNRXEqwYnxxz1au+miccgJJpv4FCta3K/ylR01IkDHGQ/vycfAn28lN3
- KEPdfdcpV+MdvApwe0hTrcvzHQ/CbHy9YAt8B3tnpXRWSkMJQwl4N9sL4vTdYE1HFO5o
- lo2kLhNszoEevJCquwfeqjDQaCE/WrpEa+HKXoYrQV1a59rGFxmL9naYTC3I25zGlgM9
- 6yWMK/VNEyezLKJykSpFf+UT3kc5xF/oimKhYa6ggdyfmvUjHGENovQ7Hx+ggZk6rz3k
- GP/a0HZQWmzIwCNiMfWj/oYaTdjgC1FaNKNMntwytajyh64sdwQ/twXGZchqu+QnGZa+
- 2ZCw==
-X-Gm-Message-State: AOAM532LUSejOVm076EOdsIY57J0hB81JggK/0oUzbmRjY9wzndd987G
- 3ij0V/xORMiyhGCeUqJsWB1VJbT6+VkV5o6m2sTHzvz8BJ8qT4nXvnbuVg8NY5O62Jo9/OxXwbS
- 2YDNjvcJb2+2VQ01w5FUbROebkyZGE2LTAo91tGCf3FBF2AyaizlPN4bTlB0hOT8=
-X-Received: by 2002:adf:fb44:: with SMTP id c4mr4388541wrs.179.1630678766156; 
- Fri, 03 Sep 2021 07:19:26 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz0cDmN0lIpY0QLdsTkjgHaNdU/rLd77Si4C98AHBk7Fi0s1Rb09UAzRn9ZHt1CZIlSITKWoQ==
-X-Received: by 2002:adf:fb44:: with SMTP id c4mr4388514wrs.179.1630678765922; 
- Fri, 03 Sep 2021 07:19:25 -0700 (PDT)
-Received: from thuth.remote.csb (pd9575948.dip0.t-ipconnect.de. [217.87.89.72])
- by smtp.gmail.com with ESMTPSA id p5sm5303355wrd.25.2021.09.03.07.19.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Sep 2021 07:19:25 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20210902124911.822423-1-thuth@redhat.com>
- <CAFEAcA89mGzirJWyzH+-c3WtH3G=XYV0MqRfBK+5SnA+Hob-eA@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PULL 00/13] Testing, build system and misc patches
-Message-ID: <3090f5dd-d03d-bd2a-ce4d-ff0d796d9c5f@redhat.com>
-Date: Fri, 3 Sep 2021 16:19:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ bh=wCmSGUagquqiKpr5H6LCLK5h69XDNubxlm2zXBcPFl0=;
+ b=uH5Xj6ykdQmlWNFFa51oqJ+a+fgBwPMyCwfJZaZDraiO7otXLbGl75Izr+ZZaEBQ/L
+ y5Yl5iJUhtuC1oNJ7A4pwjq+XFz4QzSk5YdvYAWs6uq6dcwpSShFHZ+/6Bm36fhA9fu6
+ UvEXbUAGGoCrb/zC9smc7AjzMUcvNFcscU3HCZ9QNPda4VHK29DJs3wH9g4wwAiBZic4
+ QUWwinJLyaolRoaCnG3QHQYzdMwPNchgT78TC6OV9MqQTVjSatPCkDjd8GJ50VwJl8dX
+ Afrj0rR8B2WUqtOBy6wJd7GNu7jnNGeC4oZ3kOnKQ0GIdQy/6Ib5yU1tZu8iTu5VXQpv
+ iLCg==
+X-Gm-Message-State: AOAM53236bFm2WwxobLDyL5quLfBvo8ZA5RNGufXrG9Kzqyh0WDSVaZA
+ SEjKZBV1VMltbcOh0Vduvb0HgA==
+X-Google-Smtp-Source: ABdhPJxIk2UFfpPkRdnjJaqFeYLtPPxQayhhldBNwrIvjWKxvUaC+ZP5X8PiF00jh0sxnH5WIoX/ww==
+X-Received: by 2002:a05:600c:3213:: with SMTP id
+ r19mr8551815wmp.11.1630679555026; 
+ Fri, 03 Sep 2021 07:32:35 -0700 (PDT)
+Received: from localhost.localdomain (19.11.114.78.rev.sfr.net. [78.114.11.19])
+ by smtp.gmail.com with ESMTPSA id z2sm4314843wma.45.2021.09.03.07.32.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Sep 2021 07:32:34 -0700 (PDT)
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: eric.auger@redhat.com
+Subject: [PATCH v2 0/8] virtio-iommu: Add ACPI support
+Date: Fri,  3 Sep 2021 16:32:01 +0200
+Message-Id: <20210903143208.2434284-1-jean-philippe@linaro.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA89mGzirJWyzH+-c3WtH3G=XYV0MqRfBK+5SnA+Hob-eA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.888, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,55 +81,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, mst@redhat.com,
+ richard.henderson@linaro.org, qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, qemu-arm@nongnu.org,
+ pbonzini@redhat.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/09/2021 15.22, Peter Maydell wrote:
-> On Thu, 2 Sept 2021 at 13:49, Thomas Huth <thuth@redhat.com> wrote:
->>
->>   Hi Peter,
->>
->> the following changes since commit 59a89510b62ec23dbeab8b02fa4e3526e353d8b6:
->>
->>    Merge remote-tracking branch 'remotes/stefanberger/tags/pull-tpm-2021-09-01-1' into staging (2021-09-02 08:51:31 +0100)
->>
->> are available in the Git repository at:
->>
->>    https://gitlab.com/thuth/qemu.git tags/pull-request-2021-09-02
->>
->> for you to fetch changes up to c72dc94b74fb1686decc0ca4c2b05e5bf2e5b74b:
->>
->>    softmmu/vl: Deprecate the -sdl and -curses option (2021-09-02 14:43:58 +0200)
->>
->> ----------------------------------------------------------------
->> * Add definitions of terms for CI/testing
->> * Fix g_setenv problem discovered by Coverity
->> * Gitlab CI improvements
->> * Build system improvements (configure script + meson.build)
->> * Removal of the show-fixed-bugs.sh script
->> * Clean up of the sdl and curses options
->>
-> 
-> This provokes a new warning from meson on a linux-static build:
-> 
-> Run-time dependency appleframeworks found: NO (tried framework)
-> Library rt found: YES
-> Found pkg-config: /usr/bin/pkg-config (0.29.1)
-> WARNING: Static library 'gbm' not found for dependency 'gbm', may not
-> be statically linked
-> Run-time dependency gbm found: YES 20.0.8
-> Dependency libpng found: YES 1.6.34 (cached)
-> Dependency libjpeg found: YES unknown (cached)
-> 
-> If we're building statically and we can't find a static
-> library then (a) we shouldn't print a WARNING and
-> (b) we shouldn't then conclude that we've found gdm.
+Allow instantiating a virtio-iommu device on ACPI systems by adding a
+Virtual I/O Translation table (VIOT). Enable x86 support for VIOT.
 
-Hmmm, no clue what's wrong here, since I basically did declare it like all 
-other libraries are declared, too (so this problem should have shown up 
-somewhere else already?)... Paolo, do you have any ideas what's going on here?
+Changes since [v1]:
+* Patch 2, use build_append_int_noprefix() to generate the ACPI table.
+* Patch 7, check that only one IOMMU is instantiated on x86.
+* Added patch 5 that rejects multiple instantations of virtio-iommu on
+  Arm. It's not crucial to the series but it matches the check added to
+  x86 and is very simple.
+* Added patch 8 documenting that interrupt remapping is not supported.
 
-  Thomas
+There is an important caveat at the moment: when virtio-iommu is
+instantiated, device DMA faults until the guest configures the IOMMU.
+Firmware is therefore unable to access storage devices and load the
+bootloader and OS. Upcoming patches will align virtio-iommu with other
+vIOMMUs and let DMA bypass the IOMMU during boot. In the meantime there
+are several ways to circumvent the problem:
+* Use plain old virtio-blk as storage, without enabling the
+  'iommu_platform' property. DMA from the device bypasses the IOMMU.
+* Place the storage device behind a PCI bus that bypasses the IOMMU,
+  using the new 'bypass_iommu' bridge property.
+  See docs/bypass-iommu.txt
+* Use non-PCI storage devices, for example virtio-blk-device on the
+  arm64 virt machine.
+
+You can find a description of the VIOT table, which will be included in next
+ACPI version, here: https://jpbrucker.net/virtio-iommu/viot/viot-v9.pdf
+
+[v1] https://lore.kernel.org/qemu-devel/20210810084505.2257983-1-jean-philippe@linaro.org/
+
+Eric Auger (1):
+  pc: Allow instantiating a virtio-iommu device
+
+Jean-Philippe Brucker (7):
+  acpi: Add VIOT structure definitions
+  hw/acpi: Add VIOT table
+  hw/arm/virt-acpi-build: Add VIOT table for virtio-iommu
+  hw/arm/virt: Remove device tree restriction for virtio-iommu
+  hw/arm/virt: Reject instantiation of multiple IOMMUs
+  pc: Add VIOT table for virtio-iommu
+  docs: Add '-device virtio-iommu' entry
+
+ hw/acpi/Kconfig              |   4 ++
+ hw/arm/Kconfig               |   1 +
+ hw/i386/Kconfig              |   1 +
+ hw/acpi/viot.h               |  13 ++++
+ include/hw/acpi/acpi-defs.h  |  60 +++++++++++++++++++
+ include/hw/i386/pc.h         |   2 +
+ hw/acpi/viot.c               | 112 +++++++++++++++++++++++++++++++++++
+ hw/arm/virt-acpi-build.c     |   7 +++
+ hw/arm/virt.c                |  15 +++--
+ hw/i386/acpi-build.c         |   5 ++
+ hw/i386/pc.c                 |  28 ++++++++-
+ hw/virtio/virtio-iommu-pci.c |   7 ---
+ hw/acpi/meson.build          |   1 +
+ qemu-options.hx              |   3 +
+ 14 files changed, 243 insertions(+), 16 deletions(-)
+ create mode 100644 hw/acpi/viot.h
+ create mode 100644 hw/acpi/viot.c
+
+-- 
+2.33.0
 
 
