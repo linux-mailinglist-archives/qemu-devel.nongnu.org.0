@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57AF3400467
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:57:04 +0200 (CEST)
-Received: from localhost ([::1]:48442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E9B400455
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:52:35 +0200 (CEST)
+Received: from localhost ([::1]:34790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMDR1-0001U7-BD
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:57:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50952)
+	id 1mMDMg-0000pG-8v
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:52:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDFm-00072l-PB
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:45:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37016)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDFp-00074g-Tr
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:45:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:46618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDFi-0000Wd-Gw
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:45:26 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMDFm-0000bw-IN
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:45:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630691120;
+ s=mimecast20190719; t=1630691125;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K59TWFNfhgS3efbWdzQjx6xmDgV9ebFReZvuleU1Sck=;
- b=Nr+bJgHh9BeBU8We15v74E73D9PlWpIhUYiJU5nUApjLx1AbiEGRhMLssNT6ypFpU+1CQT
- 1V92Op9JpIQOLxe/GRW9SKILEQgxlaAYXh1OpMyA4L2DDd4/4gWgIyzUH4RfcecQCFBq/M
- irO8niW13SscFe2wLUasduqAHbBW4iM=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-8UDDxnyCPVaM2WGSyNf1cA-1; Fri, 03 Sep 2021 13:45:19 -0400
-X-MC-Unique: 8UDDxnyCPVaM2WGSyNf1cA-1
-Received: by mail-wm1-f71.google.com with SMTP id
- r4-20020a1c4404000000b002e728beb9fbso39293wma.9
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 10:45:19 -0700 (PDT)
+ bh=z+3KRRg2uaRwQMu7zo1tfHiyUXSW+kC4va1y4Yzkd4M=;
+ b=AeGfbhhcRLFXMdgvKOamN5LnvwxlE9fjwcSWWV+JaggOcSodVWA9lAxX0+4q3/Dgl97N3K
+ ws9/B9m7lezB9lLlSi5E0LtOZKdloHk4NSd6T2a9ancIZP7iucRpIg8/2PwrMVm3FGJAM+
+ BI+8qA7n1wi5/VqH3L1s/uvIeNTsmnc=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-52-nYc256crMoSt3oa22HU-LQ-1; Fri, 03 Sep 2021 13:45:25 -0400
+X-MC-Unique: nYc256crMoSt3oa22HU-LQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ z15-20020adff74f000000b001577d70c98dso1812473wrp.12
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 10:45:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=K59TWFNfhgS3efbWdzQjx6xmDgV9ebFReZvuleU1Sck=;
- b=j2ohByN3HiMiflsKVLcCKUS5bePy8cXUkLG3qHN7ttW3codOZyx/S09ovijC3ejHL+
- lnijBZ3svjxq/f9XJDmu5F4ZE6aNM5gpUMRpVWrPfBSRkTiQ6nrNTJmpnM42EiF3hj48
- EAFp3rCHA71OYtkN3HtRaDo1MJoJ8FxbUS9gjaoDtOpMAdVp8P4jYNhyRISK19MvYJEH
- JIQWKD3vQ4C6JSXczPGjT97ZcM7LFHKX+fBUx5xgVJSFMy9jcluc/O5w7CyLiBmxezr1
- kunahMtx0WmgwWc4X3DrWfoNK6Oh0nx/1EfjD7tFg7/652lD27wgmh7wbCDiI+zwkOL3
- SVpQ==
-X-Gm-Message-State: AOAM530pFtbMA2BUzylXKhMUypFEU9V7Nl2gbuO5lX6EkRZHrMqSOLIa
- gE6AMi2Mz5nZ0YVeTUkdF9u0DW9FsI/BzWO8CHk3PVE9KeoiUlQULFmQUwzH7WaHxQjWZEGAYxg
- 49Md7SHWla+V9DR05y3K3GYu2p20StcrlVNcuoqp30x5vl/41lh1AZQ7M3nkEEMEt
-X-Received: by 2002:a7b:c94c:: with SMTP id i12mr11438wml.111.1630691118503;
- Fri, 03 Sep 2021 10:45:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyIAy0aMS0kUWMR83r4KtnfjVtz7omyPlHG7oTsDgfA6VHWB/zFqHhD8/3CJcD+7S6W6bdAiA==
-X-Received: by 2002:a7b:c94c:: with SMTP id i12mr11389wml.111.1630691118170;
- Fri, 03 Sep 2021 10:45:18 -0700 (PDT)
+ bh=z+3KRRg2uaRwQMu7zo1tfHiyUXSW+kC4va1y4Yzkd4M=;
+ b=Tv6pyBFICryn4qM/fbSoyjVgBrfYv7w85B0hm9LWLalH2cSoJ/oChayLkb2dWPVDos
+ jWVs9mTIsaeMVm7QGD9A9u9nFgXCgB5VfJM0W3amZdgbPAemXju/JCJNZlY7Tvmndv7r
+ CQVOYO3MqkkAsVAsIR48CUbNUSozwybml2momfmhm/XMeJkzxEHosS6SVERbzEuquTD7
+ LABsPWFr+yblDpV7WwrbGxnJkkDV/ZoumfFGYuYvlzKd+s/YmfmVVtq/nBdV9ZO5+5xn
+ cN8cGlN3Cuys9pmGpKOwkCttMYmqX0hUIL0ZGA3ifpjgQaVQzJ8PYDbEuJiv1LW90MCM
+ FhlA==
+X-Gm-Message-State: AOAM5309rzLxq8/Dx7SpbkqKOdWH/X02KTpr9inYqTGr/J/1NmEoFueZ
+ y0yeMiE9u7yo4ZuAF5VC2keGt9kth8pdKR6+iSVp8QO4cHOqfppq3znJd4EzxVCsPOWWHlK74K6
+ WjS6GMqp+FotHaBdb3z2L7XHqbzjU51dFK2LnDo7rBFj5d50LX/px0zYzS/+UKCny
+X-Received: by 2002:a05:6000:1248:: with SMTP id
+ j8mr259718wrx.97.1630691123512; 
+ Fri, 03 Sep 2021 10:45:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwAd4ov263AdIcGb50qRWsXji+kwJKPaDVVsyveQ7SCPXa4DXFf0YhGBziR2uIR5zxzjPHgzg==
+X-Received: by 2002:a05:6000:1248:: with SMTP id
+ j8mr259679wrx.97.1630691123294; 
+ Fri, 03 Sep 2021 10:45:23 -0700 (PDT)
 Received: from x1w.. (21.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id h16sm5224136wre.52.2021.09.03.10.45.16
+ by smtp.gmail.com with ESMTPSA id p5sm5783883wrd.25.2021.09.03.10.45.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 10:45:17 -0700 (PDT)
+ Fri, 03 Sep 2021 10:45:22 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/28] hw/hyperv/vmbus: Remove unused vmbus_load/save_req()
-Date: Fri,  3 Sep 2021 19:44:43 +0200
-Message-Id: <20210903174510.751630-2-philmd@redhat.com>
+Subject: [PATCH v3 02/28] glib-compat: Introduce g_memdup2() wrapper
+Date: Fri,  3 Sep 2021 19:44:44 +0200
+Message-Id: <20210903174510.751630-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210903174510.751630-1-philmd@redhat.com>
 References: <20210903174510.751630-1-philmd@redhat.com>
@@ -72,13 +74,13 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -111,97 +113,79 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-vmbus_save_req() and vmbus_load_req() are not used.
-Remove them to avoid maintaining dead code.
+When experimenting raising GLIB_VERSION_MIN_REQUIRED to 2.68
+(Fedora 34 provides GLib 2.68.1) we get:
 
+  hw/virtio/virtio-crypto.c:245:24: error: 'g_memdup' is deprecated: Use 'g_memdup2' instead [-Werror,-Wdeprecated-declarations]
+  ...
+
+g_memdup() has been updated by g_memdup2() to fix eventual security
+issues (size argument is 32-bit and could be truncated / wrapping).
+GLib recommends to copy their static inline version of g_memdup2():
+https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-now/5538
+
+Our glib-compat.h provides a comment explaining how to deal with
+these deprecated declarations (see commit e71e8cc0355
+"glib: enforce the minimum required version and warn about old APIs").
+
+Following this comment suggestion, implement the g_memdup2_qemu()
+wrapper to g_memdup2(), and use the safer equivalent inlined when
+we are using pre-2.68 GLib.
+
+Reported-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/hyperv/vmbus.h |  3 --
- hw/hyperv/vmbus.c         | 59 ---------------------------------------
- 2 files changed, 62 deletions(-)
+ include/glib-compat.h | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
-diff --git a/include/hw/hyperv/vmbus.h b/include/hw/hyperv/vmbus.h
-index f98bea3888d..8ea660dd8e6 100644
---- a/include/hw/hyperv/vmbus.h
-+++ b/include/hw/hyperv/vmbus.h
-@@ -223,7 +223,4 @@ int vmbus_map_sgl(VMBusChanReq *req, DMADirection dir, struct iovec *iov,
- void vmbus_unmap_sgl(VMBusChanReq *req, DMADirection dir, struct iovec *iov,
-                      unsigned iov_cnt, size_t accessed);
+diff --git a/include/glib-compat.h b/include/glib-compat.h
+index 9e95c888f54..8d01a8c01fb 100644
+--- a/include/glib-compat.h
++++ b/include/glib-compat.h
+@@ -68,6 +68,43 @@
+  * without generating warnings.
+  */
  
--void vmbus_save_req(QEMUFile *f, VMBusChanReq *req);
--void *vmbus_load_req(QEMUFile *f, VMBusDevice *dev, uint32_t size);
--
- #endif
-diff --git a/hw/hyperv/vmbus.c b/hw/hyperv/vmbus.c
-index c9887d5a7bc..18d3c3b9240 100644
---- a/hw/hyperv/vmbus.c
-+++ b/hw/hyperv/vmbus.c
-@@ -1311,65 +1311,6 @@ static const VMStateDescription vmstate_vmbus_chan_req = {
-     }
- };
- 
--void vmbus_save_req(QEMUFile *f, VMBusChanReq *req)
--{
--    VMBusChanReqSave req_save;
--
--    req_save.chan_idx = req->chan->subchan_idx;
--    req_save.pkt_type = req->pkt_type;
--    req_save.msglen = req->msglen;
--    req_save.msg = req->msg;
--    req_save.transaction_id = req->transaction_id;
--    req_save.need_comp = req->need_comp;
--    req_save.num = req->sgl.nsg;
--    req_save.sgl = g_memdup(req->sgl.sg,
--                            req_save.num * sizeof(ScatterGatherEntry));
--
--    vmstate_save_state(f, &vmstate_vmbus_chan_req, &req_save, NULL);
--
--    g_free(req_save.sgl);
--}
--
--void *vmbus_load_req(QEMUFile *f, VMBusDevice *dev, uint32_t size)
--{
--    VMBusChanReqSave req_save;
--    VMBusChanReq *req = NULL;
--    VMBusChannel *chan = NULL;
--    uint32_t i;
--
--    vmstate_load_state(f, &vmstate_vmbus_chan_req, &req_save, 0);
--
--    if (req_save.chan_idx >= dev->num_channels) {
--        error_report("%s: %u(chan_idx) > %u(num_channels)", __func__,
--                     req_save.chan_idx, dev->num_channels);
--        goto out;
--    }
--    chan = &dev->channels[req_save.chan_idx];
--
--    if (vmbus_channel_reserve(chan, 0, req_save.msglen)) {
--        goto out;
--    }
--
--    req = vmbus_alloc_req(chan, size, req_save.pkt_type, req_save.msglen,
--                          req_save.transaction_id, req_save.need_comp);
--    if (req_save.msglen) {
--        memcpy(req->msg, req_save.msg, req_save.msglen);
--    }
--
--    for (i = 0; i < req_save.num; i++) {
--        qemu_sglist_add(&req->sgl, req_save.sgl[i].base, req_save.sgl[i].len);
--    }
--
--out:
--    if (req_save.msglen) {
--        g_free(req_save.msg);
--    }
--    if (req_save.num) {
--        g_free(req_save.sgl);
--    }
--    return req;
--}
--
- static void channel_event_cb(EventNotifier *e)
- {
-     VMBusChannel *chan = container_of(e, VMBusChannel, notifier);
++/*
++ * g_memdup2_qemu:
++ * @mem: (nullable): the memory to copy.
++ * @byte_size: the number of bytes to copy.
++ *
++ * Allocates @byte_size bytes of memory, and copies @byte_size bytes into it
++ * from @mem. If @mem is %NULL it returns %NULL.
++ *
++ * This replaces g_memdup(), which was prone to integer overflows when
++ * converting the argument from a #gsize to a #guint.
++ *
++ * This static inline version is a backport of the new public API from
++ * GLib 2.68, kept internal to GLib for backport to older stable releases.
++ * See https://gitlab.gnome.org/GNOME/glib/-/issues/2319.
++ *
++ * Returns: (nullable): a pointer to the newly-allocated copy of the memory,
++ *          or %NULL if @mem is %NULL.
++ */
++static inline gpointer g_memdup2_qemu(gconstpointer mem, gsize byte_size)
++{
++#if GLIB_CHECK_VERSION(2, 68, 0)
++    return g_memdup2(mem, byte_size);
++#else
++    gpointer new_mem;
++
++    if (mem && byte_size != 0) {
++        new_mem = g_malloc(byte_size);
++        memcpy(new_mem, mem, byte_size);
++    } else {
++        new_mem = NULL;
++    }
++
++    return new_mem;
++#endif
++}
++#define g_memdup2(m, s) g_memdup2_qemu(m, s)
++
+ #if defined(G_OS_UNIX)
+ /*
+  * Note: The fallback implementation is not MT-safe, and it returns a copy of
 -- 
 2.31.1
 
