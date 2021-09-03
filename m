@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2CB43FFD95
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 11:55:36 +0200 (CEST)
-Received: from localhost ([::1]:41684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 120613FFDE5
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 12:06:29 +0200 (CEST)
+Received: from localhost ([::1]:45826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mM5v5-00050n-8h
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 05:55:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53202)
+	id 1mM65b-0000D9-OL
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 06:06:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mM5u3-00047v-5R
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:54:31 -0400
-Received: from smtpout1.mo3005.mail-out.ovh.net ([79.137.123.220]:40255
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mM64c-0007eq-V2; Fri, 03 Sep 2021 06:05:27 -0400
+Received: from smtpout1.mo3005.mail-out.ovh.net ([79.137.123.220]:51957
  helo=smtpout1.3005.mail-out.ovh.net)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mM5ty-0005gE-3E
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 05:54:28 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.103])
- by mo3005.mail-out.ovh.net (Postfix) with ESMTPS id EFAC313FB3C;
- Fri,  3 Sep 2021 09:54:21 +0000 (UTC)
-Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mM64Y-0006v9-UI; Fri, 03 Sep 2021 06:05:26 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.12])
+ by mo3005.mail-out.ovh.net (Postfix) with ESMTPS id 3B81F13B14A;
+ Fri,  3 Sep 2021 10:05:19 +0000 (UTC)
+Received: from kaod.org (37.59.142.106) by DAG4EX1.mxp5.local (172.16.2.31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Fri, 3 Sep
- 2021 11:54:21 +0200
+ 2021 12:05:18 +0200
 Authentication-Results: garm.ovh; auth=pass
- (GARM-100R0038e25f25f-7c1f-4452-8104-f8dcf1ff71f5,
+ (GARM-106R006b11aba30-37c1-4464-9246-a4cf447f7d89,
  15E2C03324B5D6AD2543493448FEC157D625CB40) smtp.auth=clg@kaod.org
 X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PATCH v2 0/1] hw/arm/aspeed: Add Fuji machine type
+Subject: Re: [PATCH v2 1/1] hw/arm/aspeed: Add Fuji machine type
 To: <pdel@fb.com>
 References: <20210903082027.704397-1-pdel@fb.com>
+ <20210903082027.704397-2-pdel@fb.com>
 From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <f380c5b5-a472-d41e-7821-4155113bdbc0@kaod.org>
-Date: Fri, 3 Sep 2021 11:54:21 +0200
+Message-ID: <a1a6e3e2-c9d1-07f4-32b2-b0be58037b9d@kaod.org>
+Date: Fri, 3 Sep 2021 12:05:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210903082027.704397-1-pdel@fb.com>
+In-Reply-To: <20210903082027.704397-2-pdel@fb.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.106]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
  (172.16.2.31)
-X-Ovh-Tracer-GUID: b27a03e1-99de-43e4-add6-9292f5df6288
-X-Ovh-Tracer-Id: 17351524940819434403
+X-Ovh-Tracer-GUID: c599e954-9b10-4959-ae84-41d69ec978ac
+X-Ovh-Tracer-Id: 17536735475283954537
 X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddvjedgvdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefuvfhfhffkffgfgggjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefggeehhfdtkefhteeghfeghefgudfhteevteeltefgffevhfeggeffhfevleelfeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehpuggvlhesfhgsrdgtohhm
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddvjedgvdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheeutdehgefhvdehtdeuleetgedvfeeukedtfeeihfffffeiuddutdduhffgvedtnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepphguvghlsehfsgdrtghomh
 Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
  helo=smtpout1.3005.mail-out.ovh.net
 X-Spam_score_int: -40
@@ -70,87 +71,203 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: patrick@stwcx.xyz, qemu-arm@nongnu.org, joel@jms.id.au,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jeffery <andrew@aj.id.au>,
+ qemu-devel@nongnu.org, patrick@stwcx.xyz, qemu-arm@nongnu.org, joel@jms.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/3/21 10:20 AM, pdel@fb.com wrote:
 > From: Peter Delevoryas <pdel@fb.com>
 > 
-> v2:
->   - Added supported i2c devices (lm75, tmp75, tmp422, 24c64, 24c02)
->   - Switched flash model to mx66l1g45g (128MB)
->   - Completely separated fuji class definition from ast2600-evb
->   - Removed image acceptance test
+> This adds a new machine type "fuji-bmc" based on the following device tree:
 > 
-> Link: https://github.com/peterdelevoryas/qemu/tree/aspeed-next
+> https://github.com/torvalds/linux/blob/master/arch/arm/boot/dts/aspeed-bmc-facebook-fuji.dts
 > 
-> I investigated the boot issues pointed out in the previous submission a
-> little, let me know if any of these are blockers for this patch:
+> Most of the i2c devices are not there, they're added here:
 > 
->>> Is the Fuji using the Aspeed RTC ?
->>>
->>> hwclock: ioctl(RTC_RD_TIME) to /dev/rtc0 to read the time failed: Invalid argument
+> https://github.com/facebook/openbmc/blob/helium/meta-facebook/meta-fuji/recipes-utils/openbmc-utils/files/setup_i2c.sh
 > 
-> I don't understand exactly what's going on here, but running "hwclock --get"
-> and "hwclock --set --date 2021-01-01" both seem to work fine after booting,
-> so I think the Aspeed RTC is setup correctly and working. As far as I know
-> Fuji uses it, but I'm not really sure.
-
-QEMU doesn't model the SoC RTC. Something to add on the TODO list.
-
->>>
->>> That's a weird MMIO range for the ADC ?
->>>
->>> [   42.856022] aspeed_adc: probe of 1e6e9100.adc failed with error -110
+> I tested this by building a Fuji image from Facebook's OpenBMC repo,
+> booting, and ssh'ing from host-to-guest.
 > 
-> I think there's 2 ADC's in the DTS, one at 1e6e9000 and one at 1e6e9100, but
-> I don't see explicit support for the Aspeed ADC in hw/adc/, and I'm not sure
-> that any of the existing emulators would work.
-
-The ADC model is not merged yet. It's aging in the aspeed-6.2 branch. 
- 
-The Ast2600 has indeed 2 ADCs. We missed that in QEMU.
-
->>>
->>> And that's unexected :
->>>
->>> Error: unable to disable the 2nd watchdog: FMC_WDT2=0xFFFFFFFF
+> git clone https://github.com/facebook/openbmc
+> cd openbmc
+> ./sync_yocto.sh
+> source openbmc-init-build-env fuji build-fuji
+> bitbake fuji-image
+> dd if=/dev/zero of=/tmp/fuji.mtd bs=1M count=128
+> dd if=./tmp/deploy/images/fuji/flash-fuji of=/tmp/fuji.mtd \
+>     bs=1k conv=notrunc
 > 
-> So, this is an OpenBMC script trying to disable the alternate boot watchdog
-> by writing 0x0 to 0x1e620064 (Aspeed SMC 0x64). It checks the register after
-> attempting to write it and prints this error message if the lowest bit is
-> not cleared. Since the Aspeed SMC is not simulating this register, I don't
-> think aspeed_smc_write() does anything, and aspeed_smc_read() returns -1. I
-> also testetd changing -1 to 0xdeadbeef locally to confirm.
-
-I see. QEMU is also missing support. 
-
-> https://github.com/facebook/openbmc/blob/helium/common/recipes-utils/openbmc-utils/files/aspeed-g6/disable_watchdog.sh
+> git clone --branch aspeed-next https://github.com/peterdelevoryas/qemu
+> cd qemu
+> ./configure --target-list=arm-softmmu --disable-vnc
+> make -j $(nproc)
+> ./build/arm-softmmu/qemu-system-arm \
+>     -machine fuji-bmc \
+>     -drive file=/tmp/fuji.mtd,format=raw,if=mtd \
+>     -serial stdio \
+>     -nic user,hostfwd=::2222-:22
+> sshpass -p 0penBmc ssh root@localhost -p 2222
 > 
-> Let me know if there's anything else I should look into. I'm still planning
-> on submitting an image acceptance test for this too, but as a separate
-> patch.
+> Signed-off-by: Peter Delevoryas <pdel@fb.com>
 
-yes. 
+Looks good.
 
-> I've also included a boot log at the end of this cover letter for
-> reference.
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 
-Thanks
+Thanks,
 
-C. 
+C.
 
- 
-> Thanks,
-> Peter
-> 
-> Peter Delevoryas (1):
->   hw/arm/aspeed: Add Fuji machine type
-> 
+> ---
 >  hw/arm/aspeed.c | 112 ++++++++++++++++++++++++++++++++++++++++++++++++
 >  1 file changed, 112 insertions(+)
+> 
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index 7a9459340c..cc2d721ac7 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -159,6 +159,10 @@ struct AspeedMachineState {
+>  #define RAINIER_BMC_HW_STRAP1 0x00000000
+>  #define RAINIER_BMC_HW_STRAP2 0x00000000
+>  
+> +/* Fuji hardware value */
+> +#define FUJI_BMC_HW_STRAP1    0x00000000
+> +#define FUJI_BMC_HW_STRAP2    0x00000000
+> +
+>  /*
+>   * The max ram region is for firmwares that scan the address space
+>   * with load/store to guess how much RAM the SoC has.
+> @@ -772,6 +776,90 @@ static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
+>      aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 15), 0x50, 64 * KiB);
+>  }
+>  
+> +static void get_pca9548_channels(I2CBus *bus, uint8_t mux_addr, I2CBus **channels) {
+> +    I2CSlave *mux = i2c_slave_create_simple(bus, "pca9548", mux_addr);
+> +    for (int i = 0; i < 8; i++) {
+> +        channels[i] = pca954x_i2c_get_bus(mux, i);
+> +    }
+> +}
+> +
+> +#define TYPE_LM75 TYPE_TMP105
+> +#define TYPE_TMP75 TYPE_TMP105
+> +#define TYPE_TMP422 "tmp422"
+> +
+> +static void fuji_bmc_i2c_init(AspeedMachineState *bmc)
+> +{
+> +    AspeedSoCState *soc = &bmc->soc;
+> +    I2CBus *i2c[144] = {};
+> +
+> +    for (int i = 0; i < 16; i++) {
+> +        i2c[i] = aspeed_i2c_get_bus(&soc->i2c, i);
+> +    }
+> +    I2CBus *i2c180 = i2c[2];
+> +    I2CBus *i2c480 = i2c[8];
+> +    I2CBus *i2c600 = i2c[11];
+> +
+> +    get_pca9548_channels(i2c180, 0x70, &i2c[16]);
+> +    get_pca9548_channels(i2c480, 0x70, &i2c[24]);
+> +    // NOTE: The device tree skips [32, 40) in the alias numbering, so we do
+> +    // the same here.
+> +    get_pca9548_channels(i2c600, 0x77, &i2c[40]);
+> +    get_pca9548_channels(i2c[24], 0x71, &i2c[48]);
+> +    get_pca9548_channels(i2c[25], 0x72, &i2c[56]);
+> +    get_pca9548_channels(i2c[26], 0x76, &i2c[64]);
+> +    get_pca9548_channels(i2c[27], 0x76, &i2c[72]);
+> +    for (int i = 0; i < 8; i++) {
+> +        get_pca9548_channels(i2c[40 + i], 0x76, &i2c[80 + i * 8]);
+> +    }
+> +
+> +    i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4c);
+> +    i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4d);
+> +
+> +    aspeed_eeprom_init(i2c[19], 0x52, 64 * KiB);
+> +    aspeed_eeprom_init(i2c[20], 0x50, 2 * KiB);
+> +    aspeed_eeprom_init(i2c[22], 0x52, 2 * KiB);
+> +
+> +    i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x48);
+> +    i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x49);
+> +    i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x4a);
+> +    i2c_slave_create_simple(i2c[3], TYPE_TMP422, 0x4c);
+> +
+> +    aspeed_eeprom_init(i2c[8], 0x51, 64 * KiB);
+> +    i2c_slave_create_simple(i2c[8], TYPE_LM75, 0x4a);
+> +
+> +    i2c_slave_create_simple(i2c[50], TYPE_LM75, 0x4c);
+> +    aspeed_eeprom_init(i2c[50], 0x52, 64 * KiB);
+> +    i2c_slave_create_simple(i2c[51], TYPE_TMP75, 0x48);
+> +    i2c_slave_create_simple(i2c[52], TYPE_TMP75, 0x49);
+> +
+> +    i2c_slave_create_simple(i2c[59], TYPE_TMP75, 0x48);
+> +    i2c_slave_create_simple(i2c[60], TYPE_TMP75, 0x49);
+> +
+> +    aspeed_eeprom_init(i2c[65], 0x53, 64 * KiB);
+> +    i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x49);
+> +    i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x48);
+> +    aspeed_eeprom_init(i2c[68], 0x52, 64 * KiB);
+> +    aspeed_eeprom_init(i2c[69], 0x52, 64 * KiB);
+> +    aspeed_eeprom_init(i2c[70], 0x52, 64 * KiB);
+> +    aspeed_eeprom_init(i2c[71], 0x52, 64 * KiB);
+> +
+> +    aspeed_eeprom_init(i2c[73], 0x53, 64 * KiB);
+> +    i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x49);
+> +    i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x48);
+> +    aspeed_eeprom_init(i2c[76], 0x52, 64 * KiB);
+> +    aspeed_eeprom_init(i2c[77], 0x52, 64 * KiB);
+> +    aspeed_eeprom_init(i2c[78], 0x52, 64 * KiB);
+> +    aspeed_eeprom_init(i2c[79], 0x52, 64 * KiB);
+> +    aspeed_eeprom_init(i2c[28], 0x50, 2 * KiB);
+> +
+> +    for (int i = 0; i < 8; i++) {
+> +        aspeed_eeprom_init(i2c[81 + i * 8], 0x56, 64 * KiB);
+> +        i2c_slave_create_simple(i2c[82 + i * 8], TYPE_TMP75, 0x48);
+> +        i2c_slave_create_simple(i2c[83 + i * 8], TYPE_TMP75, 0x4b);
+> +        i2c_slave_create_simple(i2c[84 + i * 8], TYPE_TMP75, 0x4a);
+> +    }
+> +}
+> +
+>  static bool aspeed_get_mmio_exec(Object *obj, Error **errp)
+>  {
+>      return ASPEED_MACHINE(obj)->mmio_exec;
+> @@ -1070,6 +1158,26 @@ static void aspeed_machine_rainier_class_init(ObjectClass *oc, void *data)
+>          aspeed_soc_num_cpus(amc->soc_name);
+>  };
+>  
+> +static void aspeed_machine_fuji_class_init(ObjectClass *oc, void *data)
+> +{
+> +    MachineClass *mc = MACHINE_CLASS(oc);
+> +    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
+> +
+> +    mc->desc = "Facebook Fuji BMC (Cortex-A7)";
+> +    amc->soc_name = "ast2600-a3";
+> +    amc->hw_strap1 = FUJI_BMC_HW_STRAP1;
+> +    amc->hw_strap2 = FUJI_BMC_HW_STRAP2;
+> +    amc->fmc_model = "mx66l1g45g";
+> +    amc->spi_model = "mx66l1g45g";
+> +    amc->num_cs = 2;
+> +    amc->macs_mask = ASPEED_MAC3_ON;
+> +    amc->i2c_init = fuji_bmc_i2c_init;
+> +    amc->uart_default = ASPEED_DEV_UART1;
+> +    mc->default_ram_size = 2 * GiB;
+> +    mc->default_cpus = mc->min_cpus = mc->max_cpus =
+> +        aspeed_soc_num_cpus(amc->soc_name);
+> +};
+> +
+>  static const TypeInfo aspeed_machine_types[] = {
+>      {
+>          .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
+> @@ -1119,6 +1227,10 @@ static const TypeInfo aspeed_machine_types[] = {
+>          .name          = MACHINE_TYPE_NAME("rainier-bmc"),
+>          .parent        = TYPE_ASPEED_MACHINE,
+>          .class_init    = aspeed_machine_rainier_class_init,
+> +    }, {
+> +        .name          = MACHINE_TYPE_NAME("fuji-bmc"),
+> +        .parent        = TYPE_ASPEED_MACHINE,
+> +        .class_init    = aspeed_machine_fuji_class_init,
+>      }, {
+>          .name          = TYPE_ASPEED_MACHINE,
+>          .parent        = TYPE_MACHINE,
 > 
 
 
