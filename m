@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFA524003BD
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 18:56:03 +0200 (CEST)
-Received: from localhost ([::1]:58720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D7D4003C9
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 19:04:11 +0200 (CEST)
+Received: from localhost ([::1]:38170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMCTy-0004YR-J5
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 12:56:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41978)
+	id 1mMCbq-0001ht-59
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 13:04:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1mMCRl-0003Rj-9H
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:53:45 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:34465)
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1mMCYy-0007Gb-7T
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:01:12 -0400
+Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f]:35700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1mMCRj-0006zA-Bv
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 12:53:44 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id m9so9116028wrb.1
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 09:53:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=40dCSG4nQjF2G54fatAtYT5IbaBrhy8rI1gzcFMx808=;
- b=BgH78wmeOwnUpvFwyy5hCQvELLdW0FFTZujE9fHM8GgzgHfkk9heyYuB51S6FLbGY/
- cx8OP1B281+P8pzxW1aQiVrp9jrkmk11XaTOVxkwJZk3QNgTC10Z6o/ZtfFkrTB5b3Ug
- AqBovnK04t5OEjAIog77ho+NsAhbjxr7g+83/s98KppnjK4RivUhk0/lQUWah/9kNhL5
- Kxf8W7N+7kF3etxS72fPVm0twgF8moI9KfOuQGtZuEcuREQvUIV7hZG1E3XPazSC1qKA
- sZStzOS6dd7Vw89fO5pn3+x4ai2amXWCchwmI5FkdZG2I0iY/nqtFsn6FKmkXYOv+9Xl
- 9y4Q==
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1mMCYv-0004yK-8k
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 13:01:11 -0400
+Received: by mail-lf1-x12f.google.com with SMTP id k13so13015312lfv.2
+ for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 10:01:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vrull-eu.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=j+eo2a3+3myLnHE4B8I++F5ynYQrK1PPLcRLgdMmulw=;
+ b=Zj4/Jen5HC3yz0fzSqNBs+bkgxd/PzGd89EU9c4WlgMJUrzluDP7BluxgL32aNGmBm
+ bGRnkT7wY6Z7rprSosvMUqX07w5MRtLvs+wKlQoiGSCjNHX/MzuqX6k66H2aJ/k8vqAa
+ j7WwFYfmGbXDl/BH68HrZ7H5SCnHXZBECSL7+bGowvwiDplDNi0kfjo5b7XNiETEyrRU
+ RApMmdkyn3szIOBdQ7A72fVyIsadpMDSso0sw4eYxrKlqKVxndxUgf53TzDVwkGmI/O8
+ x2XEH0xjwDTE2fUJyJOV3n9v3G+6vJG+IdPU6rzLTkZg+oY9zSMwl6Q5QoAT6b1i/6nt
+ zVdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=40dCSG4nQjF2G54fatAtYT5IbaBrhy8rI1gzcFMx808=;
- b=Hwyvgjkq48TBGysCC1QFtIaiAiJl6qauv3c6dQeSvyaPVBD0v97WvDSHHm6jDhHdMl
- ui6VxgYAe07Nf8BEmmT26rPdUF6tc1A25PWPcQoBkJRntjB0m79hFsOJy42mwMroKl0j
- mC/vXVangLzsSGGgEv5N7BzmZqIA2xkchwYgJ5tqKaSWveOAbgL7bYhoP8QXVNNxkBla
- Xp0CQ2TckA6q1r7+CpwM+MeWFYQ1m/gWnSWXrqMRRAkPlyBNv+QiKBwD+hDjbK0ENJEC
- 8U1RzrGoiyUpmk0YFvfIDjmsgk7e6c8S0UqyC8c7RMYQYliENGSB8fe4rOSfUZa6CGK4
- M3cQ==
-X-Gm-Message-State: AOAM5333wSbzlh2huEqmIEJbYSKKRTNFqqrw3ysM/grS71tbDOqwIOAu
- rqdO3FJIjZnMp4ivcsP/nFWOYdBXq3YbImvT1p1Uqg==
-X-Google-Smtp-Source: ABdhPJz5iEJ1PsPeVr0geXO/R01r+5CpJvCr6DzAgHetYxMOUB7ESzBvAS/6e1ecJ2K77YXy3bAqTWYbJUZ3OYMANGQ=
-X-Received: by 2002:a05:6000:1627:: with SMTP id
- v7mr5222332wrb.195.1630688020049; 
- Fri, 03 Sep 2021 09:53:40 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=j+eo2a3+3myLnHE4B8I++F5ynYQrK1PPLcRLgdMmulw=;
+ b=HWAvAqZ1NTl4J/9l+PLELUM1HSuMMbvM2DHpCrM+nDVUIVNn1ERbsIG2TyDcPrtfW3
+ +E2Zx9k0Byo7LS1swFmtAb97CrrFcbDfvUpUX4nRyHTaJAb0Y6vv4jsoQA7LBo2/pOlo
+ /7rFOUsLtxzgYNSNt6pnDVTbaBDaHxKoFV88DMl/PteKEBmz/y+Bi7b29yX1CEPHE6Xx
+ ygNTshFrPQCv6rICfGxZB1b2+5dUlcWE/ZyTGJUVpqMmRRkZ1n1My9IG16J+0s3xXi2a
+ SnlJmqnmbANGspEle/Ffv3zwX1k9CIfRz76uIK6G8kvC/dwx53xlLZzgt6zZq1I3atzz
+ febQ==
+X-Gm-Message-State: AOAM532+5BkkKe+OoGNlkf32g99DymSXrD79pGnx8xi4R/urzV1II4Z9
+ 99ZLdD3jQNBTwYjmoQoE560H8lWLIcK6dWzrxb8=
+X-Google-Smtp-Source: ABdhPJwOReYUF/28Ux4ABWeJ7xi8Alsb0M1BPpVXVkEpcqf4Ir4BbhQwT3VTAzeLrVUbePO3LuEF6A==
+X-Received: by 2002:a05:6512:a8f:: with SMTP id
+ m15mr3377750lfu.635.1630688464961; 
+ Fri, 03 Sep 2021 10:01:04 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
+ by smtp.gmail.com with ESMTPSA id c3sm628401ljj.77.2021.09.03.10.01.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Sep 2021 10:01:04 -0700 (PDT)
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v9 00/14] target/riscv: Update QEmu for Zb[abcs] 1.0.0
+Date: Fri,  3 Sep 2021 19:00:46 +0200
+Message-Id: <20210903170100.2529121-1-philipp.tomsich@vrull.eu>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210902212015.1303865-1-dje@google.com>
- <875yvi2sh2.fsf@dusky.pond.sub.org>
-In-Reply-To: <875yvi2sh2.fsf@dusky.pond.sub.org>
-From: Doug Evans <dje@google.com>
-Date: Fri, 3 Sep 2021 09:53:02 -0700
-Message-ID: <CADPb22TrHzujCONPAqdTcOYWNw2YtdKn+vPnitL7eU2hJJNDNg@mail.gmail.com>
-Subject: Re: [PATCH] net: Add "info neighbors" command
-To: Markus Armbruster <armbru@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, 
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Jason Wang <jasowang@redhat.com>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000002d311305cb1a24de"
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=dje@google.com; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x12f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,132 +81,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Kito Cheng <kito.cheng@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Philipp Tomsich <philipp.tomsich@vrull.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002d311305cb1a24de
-Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Sep 3, 2021 at 6:08 AM Markus Armbruster <armbru@redhat.com> wrote:
+The Zb[abcs] extensions have complete public review and are nearing
+ratifications. These individual extensions are one part of what was
+previously though of as the "BitManip" (B) extension, leaving the
+final details of future Zb* extensions open as they will undergo
+further public discourse.
 
-> Doug Evans <dje@google.com> writes:
->
-> > This command dumps the ARP and NDP tables maintained within slirp.
-> > One use-case for it is showing the guest's IPv6 address(es).
-> >
-> > Signed-off-by: Doug Evans <dje@google.com>
-> > ---
-> >  hmp-commands-info.hx               | 15 +++++++
-> >  include/net/slirp.h                |  1 +
-> >  net/slirp.c                        | 15 +++++++
-> >  tests/acceptance/info_neighbors.py | 69 ++++++++++++++++++++++++++++++
-> >  4 files changed, 100 insertions(+)
-> >  create mode 100644 tests/acceptance/info_neighbors.py
->
-> Standard request for new HMP commands without corresponding QMP
-> commands: please state in the commit message why the QMP command is not
-> worthwhile.
->
-> HMP commands without a QMP equivalent are okay if their functionality
-> makes no sense in QMP, or is of use only for human users.
->
-> Example for "makes no sense in QMP": setting the current CPU, because a
-> QMP monitor doesn't have a current CPU.
->
-> Examples for "is of use only for human users": HMP command "help", the
-> integrated pocket calculator.
->
-> Debugging commands are kind of borderline.  Debugging is commonly a
-> human activity, where HMP is just fine.  However, humans create tools to
-> assist with their activities, and then QMP is useful.  While I wouldn't
-> encourage HMP-only for the debugging use case, I wouldn't veto it.
->
+This series updates the earlier support for the B extension by
+ - removing those instructions that are not included in Zb[abcs]
+ - splitting this into 4 separate extensions that can be independently
+   enabled: Zba (addressing), Zbb (basic bit-manip), Zbc (carryless
+   multiplication), Zbs (single-bit operations)
+ - update the to the 1.0.0 version (e.g. w-forms of rev8 and Zbs
+   instructions are not included in Zb[abcs])
+
+For the latest version of the public review speicifcaiton
+(incorporating some editorial fixes and corrections from the review
+period), refer to:
+  https://github.com/riscv/riscv-bitmanip/releases/download/1.0.0/bitmanip-1.0.0-31-g2af7256.pdf
 
 
-Mostly I was following what I saw for "info usernet".
-I don't see a difference between "info neighbors" and "info usernet" so I
-went with that.
-Both draw their data from libslirp.
+Changes in v9:
+- Retested with CF3 and SPEC2017 (size=test only).
+- Rebased to 8880cc4362.
+- Update gen_add_uw() to use a temporary instead of messing with
+  arg1 (fixes a regression after rebase on CF3 and SPEC2017).
+- Rebased to 8880cc4362.
+- Rebased to 8880cc4362.
+- Picked up Alistair's Reviewed-by, after patman had failed to catch
+  it for v8.
+- Rebased to 8880cc4362.
+- Fixes a whitespace-at-the-end-of-line warning for the rev8 comment
+  in insn32.decode
+- Rebased to 8880cc4362.
 
-I'm happy to add QMP support if necessary.
-Note that there is code that parses "info usernet" output, e.g.,
-get_info_usernet_hostfwd_port for python.
+Changes in v8:
+- Optimize orc.b further by reordering the shift/and, updating the
+  comment to reflect that we put the truth-value into the LSB, and
+  putting the (now only) constant in a temporary
+- Fold the final bitwise-not into the second and, using and andc.
 
-Presumably we don't want to print text in slirp only to parse it in qemu,
-right?
-That'll change the qemu/slirp interface.
-OTOH, to what extent does libslirp want to export a more formal API for
-this, vs just text?
+Changes in v7:
+- Free TCG temporary in gen_orc_b().
 
---0000000000002d311305cb1a24de
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Changes in v6:
+- Move gen_clmulh to trans_rvb.c.inc, as per Richard H's request.
+- Fixed orc.b (now passes SPEC w/ optimized string functions) by
+  adding the missing final negation.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">On Fri, Sep 3, 2021 at 6:08 AM Markus Armbruster &lt;<a href=
-=3D"mailto:armbru@redhat.com">armbru@redhat.com</a>&gt; wrote:<br></div></d=
-iv><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">Doug Evans &lt;<a href=3D"mailto:dje@google.com" target=3D"_blank">dje=
-@google.com</a>&gt; writes:<br>
-<br>
-&gt; This command dumps the ARP and NDP tables maintained within slirp.<br>
-&gt; One use-case for it is showing the guest&#39;s IPv6 address(es).<br>
-&gt;<br>
-&gt; Signed-off-by: Doug Evans &lt;<a href=3D"mailto:dje@google.com" target=
-=3D"_blank">dje@google.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 hmp-commands-info.hx=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0| 15 +++++++<br>
-&gt;=C2=A0 include/net/slirp.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 1 +<br>
-&gt;=C2=A0 net/slirp.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 15 +++++++<br>
-&gt;=C2=A0 tests/acceptance/info_neighbors.py | 69 ++++++++++++++++++++++++=
-++++++<br>
-&gt;=C2=A0 4 files changed, 100 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 tests/acceptance/info_neighbors.py<br>
-<br>
-Standard request for new HMP commands without corresponding QMP<br>
-commands: please state in the commit message why the QMP command is not<br>
-worthwhile.<br>
-<br>
-HMP commands without a QMP equivalent are okay if their functionality<br>
-makes no sense in QMP, or is of use only for human users.<br>
-<br>
-Example for &quot;makes no sense in QMP&quot;: setting the current CPU, bec=
-ause a<br>
-QMP monitor doesn&#39;t have a current CPU.<br>
-<br>
-Examples for &quot;is of use only for human users&quot;: HMP command &quot;=
-help&quot;, the<br>
-integrated pocket calculator.<br>
-<br>
-Debugging commands are kind of borderline.=C2=A0 Debugging is commonly a<br=
->
-human activity, where HMP is just fine.=C2=A0 However, humans create tools =
-to<br>
-assist with their activities, and then QMP is useful.=C2=A0 While I wouldn&=
-#39;t<br>
-encourage HMP-only for the debugging use case, I wouldn&#39;t veto it.<br><=
-/blockquote><div><br></div><div><br></div><div class=3D"gmail_default" styl=
-e=3D"font-size:small">Mostly I was following what I saw for &quot;info user=
-net&quot;.</div><div class=3D"gmail_default" style=3D"font-size:small">I do=
-n&#39;t see a difference between &quot;info neighbors&quot; and &quot;info =
-usernet&quot; so I went with that.</div><div class=3D"gmail_default" style=
-=3D"font-size:small">Both draw their data from libslirp.</div><div class=3D=
-"gmail_default" style=3D"font-size:small"><br></div><div class=3D"gmail_def=
-ault" style=3D"font-size:small">I&#39;m happy to add QMP support if necessa=
-ry.</div><div class=3D"gmail_default" style=3D"font-size:small">Note that t=
-here is code that parses &quot;info usernet&quot; output, e.g., get_info_us=
-ernet_hostfwd_port for python.</div><div class=3D"gmail_default" style=3D"f=
-ont-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:s=
-mall">Presumably we don&#39;t want to print text in slirp only to parse it =
-in qemu, right?</div><div class=3D"gmail_default" style=3D"font-size:small"=
->That&#39;ll change the qemu/slirp interface.</div><div class=3D"gmail_defa=
-ult" style=3D"font-size:small">OTOH, to what extent does libslirp want to e=
-xport a more formal API for this, vs just text?</div><div class=3D"gmail_de=
-fault" style=3D"font-size:small"><br></div></div></div>
+Changes in v5:
+- Introduce gen_clmulh (as suggested by Richard H) and use to simplify
+  trans_clmulh().
 
---0000000000002d311305cb1a24de--
+Changes in v4:
+- Drop rewrite of slli.uw (to match formal specification), as it would
+  remove an optimization.
+- Change orc.b to implementation suggested by Richard Henderson
+- reorder trans_rev8* functions to be sequential
+- rename rev8 to rev8_32 in decoder
+- Renamed RV32 variant to zext_h_32.
+- Reordered trans_zext_h_{32,64} to be next to each other.
+
+Changes in v3:
+- Split off removal of 'x-b' property and 'ext_b' field into a separate
+  patch to ensure bisectability.
+- The changes to the Zba instructions (i.e. the REQUIRE_ZBA macro
+  and its use for qualifying the Zba instructions) are moved into
+  a separate commit.
+- Instead of defining a new decoding format, we treat slli.uw as if it
+  had a 7bit-wide field for shamt (the 7th bit is reserved for RV128)
+  and check for validity of the encoding in C code.
+- Remove the W-form instructions from Zbs in a separate commit.
+- Remove shift-one instructions in a separate commit.
+- The changes to the Zbs instructions (i.e. the REQUIRE_ZBS macro) and
+  its use for qualifying the Zba instructions) are moved into a
+  separate commit.
+- This adds the Zbc instructions as a spearate commit.
+- Uses a helper for clmul/clmulr instead of inlining the calculation of
+  the result (addressing a comment from Richard Henderson).
+- The changes to the Zbb instructions (i.e. use the REQUIRE_ZBB macro)
+  are now in a separate commit.
+- Moved orc.b and gorc/gorci changes into separate commit.
+- Using the simpler orc.b implementation suggested by Richard Henderson
+- Moved the REQUIRE_32BIT macro into a separate commit.
+- rev8-addition & grevi*-removal moved to a separate commit
+- Moved zext.h-addition & pack*-removal to a separate commit.
+- Removing RVB moved into a separate commit at the tail-end of the series.
+
+Changes in v2:
+- Fix missing ';' from last-minute whitespace cleanups.
+
+Philipp Tomsich (14):
+  target/riscv: Add x-zba, x-zbb, x-zbc and x-zbs properties
+  target/riscv: Reassign instructions to the Zba-extension
+  target/riscv: slli.uw is only a valid encoding if shamt first in 64
+    bits
+  target/riscv: Remove the W-form instructions from Zbs
+  target/riscv: Remove shift-one instructions (proposed Zbo in pre-0.93
+    draft-B)
+  target/riscv: Reassign instructions to the Zbs-extension
+  target/riscv: Add instructions of the Zbc-extension
+  target/riscv: Reassign instructions to the Zbb-extension
+  target/riscv: Add orc.b instruction for Zbb, removing gorc/gorci
+  target/riscv: Add a REQUIRE_32BIT macro
+  target/riscv: Add rev8 instruction, removing grev/grevi
+  target/riscv: Add zext.h instructions to Zbb, removing
+    pack/packu/packh
+  target/riscv: Remove RVB (replaced by Zb[abcs]
+  disas/riscv: Add Zb[abcs] instructions
+
+ disas/riscv.c                           | 157 ++++++++-
+ target/riscv/bitmanip_helper.c          |  65 +---
+ target/riscv/cpu.c                      |  30 +-
+ target/riscv/cpu.h                      |   7 +-
+ target/riscv/helper.h                   |   6 +-
+ target/riscv/insn32.decode              | 115 +++----
+ target/riscv/insn_trans/trans_rvb.c.inc | 421 ++++++++----------------
+ target/riscv/translate.c                |   6 +
+ 8 files changed, 371 insertions(+), 436 deletions(-)
+
+-- 
+2.25.1
+
 
