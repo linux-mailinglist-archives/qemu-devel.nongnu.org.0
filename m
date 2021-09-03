@@ -2,82 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7323A40054A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 20:48:06 +0200 (CEST)
-Received: from localhost ([::1]:36060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 998B840054B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Sep 2021 20:48:57 +0200 (CEST)
+Received: from localhost ([::1]:38590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMEEP-0003uU-H1
-	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 14:48:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33852)
+	id 1mMEFE-0005bA-OU
+	for lists+qemu-devel@lfdr.de; Fri, 03 Sep 2021 14:48:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMEBZ-0002EV-Cs
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 14:45:11 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:33628)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMEBX-00077d-Vn
- for qemu-devel@nongnu.org; Fri, 03 Sep 2021 14:45:09 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- 192-20020a1c04c9000000b002f7a4ab0a49so160950wme.0
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 11:45:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QqyGEOjpS2yvzbpizUa4Nh8HGB4jFsQ6dENzWQ0NCPE=;
- b=h1CxKbH7ZWfu0fOOx2zbVhHT1cqFmuw7nXYWDM0GTbUi0LlO8/LdZRUMPoVHZHQ1y1
- KAD/wsX0JvKYTPF1CaH2wBSKPq/T4I8sUsPShagMgfdF0XFC/7zgx/qhTndi0bnFgZcr
- dZizTNQq8ix336QypV7AbbhZoWNsX0jsx9Q9lCnHv8R9GMdT5ubnI1uvdG8yooug8ESd
- OpBD2xu2CroUEuqeqERCgyBzLP4HVGiX45VKTGuYY63pzd6Dy5/g4AYKF3F7oGvPjBBL
- i89YsvVIxvYQ9mSfvG4sUZ39h5wuo8a7x2hrGlTcLErG5NvT9YpeM7m9h/GrbxaiZZPq
- Eudg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QqyGEOjpS2yvzbpizUa4Nh8HGB4jFsQ6dENzWQ0NCPE=;
- b=LbUCTZgx21Hod+Z5Bj1x1BDYf79GbNkz5jY37TDyUXRi19B0wvBdVdwFpv2lGO+cAt
- 0GqqB8DigDdnqYbcbONZhSS4QMqKFdyPwNH4aGwR4kmLiUmf0JIFRg8R8kBT0uQdFk/q
- qZhQ9aM1WueiX7FYji+xcTnYOwGqn3t2Vo/65W/9pv2Uw43qc9cn/ShUeMvrfyNBKGyO
- EOGyMsrE4bGS3odOnLYhlOwzzH2IQfpkoY10tj4OWJyRJdcmmTbh5Btr35no8LC3KS2I
- RxpFGtNbBdRtCvECf9/g8cVSC/mqx7/cwsb4sPV8R0atugaXl3xDx4Esugr36y7EZlpC
- l3WA==
-X-Gm-Message-State: AOAM532QX/OOCVwPl/tjmDP1Oa5rT8Ln50b9tiDua1UtQXlBpIyPcqR1
- t07COUw6+pXbDT72OOXjhLku4Q==
-X-Google-Smtp-Source: ABdhPJw6gzpPXK22Mt9sQTQEwZWF7fGtdAN4VHS2SLkDyOkS4be2ck+d7LHo/uINg52AMSHnDUP0sg==
-X-Received: by 2002:a7b:ca57:: with SMTP id m23mr202598wml.121.1630694704962; 
- Fri, 03 Sep 2021 11:45:04 -0700 (PDT)
-Received: from [192.168.8.107] (190.red-2-142-216.dynamicip.rima-tde.net.
- [2.142.216.190])
- by smtp.gmail.com with ESMTPSA id u27sm62416wru.2.2021.09.03.11.45.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Sep 2021 11:45:04 -0700 (PDT)
-Subject: Re: [PATCH v9 03/14] target/riscv: slli.uw is only a valid encoding
- if shamt first in 64 bits
-To: Philipp Tomsich <philipp.tomsich@vrull.eu>, qemu-devel@nongnu.org
-References: <20210903170100.2529121-1-philipp.tomsich@vrull.eu>
- <20210903170100.2529121-4-philipp.tomsich@vrull.eu>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2970e9a3-f210-8d30-b875-4c8bc15ca3c1@linaro.org>
-Date: Fri, 3 Sep 2021 20:45:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mMEDx-00049B-7W
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 14:47:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58701)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1mMEDt-0000it-GD
+ for qemu-devel@nongnu.org; Fri, 03 Sep 2021 14:47:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630694852;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EYZsbV4wUWyqDWxSzL4dBSSn9Os4+GIjd4Vt7ksqvJU=;
+ b=XykWfKRpyArT8tKiio8m3bRoR9vzf1JSyuJGnHmpJVT3X7az8OruPTrd7T1gyL+76HXDLG
+ 3InbFtqFlpkH2V7fBb/ToKg/Oglo18F2F/oi5jDC7+uB3HVTV4ERDT07ZonpJqUJGq+wnE
+ olLdfhTEQGaSql9glcxx6PRx7Eymgeo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-602-Lgdu3WH5NBKG2pHw1lX9DA-1; Fri, 03 Sep 2021 14:47:29 -0400
+X-MC-Unique: Lgdu3WH5NBKG2pHw1lX9DA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B4CB3800FF3;
+ Fri,  3 Sep 2021 18:47:28 +0000 (UTC)
+Received: from redhat.com (ovpn-113-81.phx2.redhat.com [10.3.113.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0AC7E10016F5;
+ Fri,  3 Sep 2021 18:47:27 +0000 (UTC)
+Date: Fri, 3 Sep 2021 13:47:26 -0500
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v2] block: drop BLK_PERM_GRAPH_MOD
+Message-ID: <20210903184726.rsz35o4jz6bzddbi@redhat.com>
+References: <20210902093754.2352-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210903170100.2529121-4-philipp.tomsich@vrull.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.888,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210902093754.2352-1-vsementsov@virtuozzo.com>
+User-Agent: NeoMutt/20210205-739-420e15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,31 +76,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kito Cheng <kito.cheng@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: kwolf@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ armbru@redhat.com, qemu-devel@nongnu.org, hreitz@redhat.com, crosa@redhat.com,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/3/21 7:00 PM, Philipp Tomsich wrote:
-> @@ -652,5 +652,15 @@ static bool trans_slli_uw(DisasContext *ctx, arg_slli_uw *a)
->   {
->       REQUIRE_64BIT(ctx);
->       REQUIRE_ZBA(ctx);
+On Thu, Sep 02, 2021 at 12:37:54PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> First, this permission never protected a node from being changed, as
+> generic child-replacing functions don't check it.
+> 
+> Second, it's a strange thing: it presents a permission of parent node
+> to change its child. But generally, children are replaced by different
+> mechanisms, like jobs or qmp commands, not by nodes.
+> 
+> Graph-mod permission is hard to understand. All other permissions
+> describe operations which done by parent node on its child: read,
+> write, resize. Graph modification operations are something completely
+> different.
+> 
+> The only place where BLK_PERM_GRAPH_MOD is used as "perm" (not shared
+> perm) is mirror_start_job, for s->target. Still modern code should use
+> bdrv_freeze_backing_chain() to protect from graph modification, if we
+> don't do it somewhere it may be considered as a bug. So, it's a bit
+> risky to drop GRAPH_MOD, and analyzing of possible loss of protection
+> is hard. But one day we should do it, let's do it now.
+> 
+> One more bit of information is that locking the corresponding byte in
+> file-posix doesn't make sense at all.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+> 
+> v2: fix grammar
+> 
+>  qapi/block-core.json          |  7 ++-----
+>  include/block/block.h         |  9 +++++----
+>  block.c                       |  7 +------
+>  block/commit.c                |  1 -
+>  block/mirror.c                | 15 +++------------
+>  hw/block/block.c              |  3 +--
+>  scripts/render_block_graph.py |  1 -
+>  tests/qemu-iotests/273.out    |  4 ----
+>  8 files changed, 12 insertions(+), 35 deletions(-)
+> 
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 06674c25c9..6fa2c4ab82 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -1825,14 +1825,11 @@
+>  #
+>  # @resize: This permission is required to change the size of a block node.
+>  #
+> -# @graph-mod: This permission is required to change the node that this
+> -#             BdrvChild points to.
+> -#
+
+Do we need to mention that graph-mod was removed in 6.2?
+
+>  # Since: 4.0
+>  ##
+>  { 'enum': 'BlockPermission',
+> -  'data': [ 'consistent-read', 'write', 'write-unchanged', 'resize',
+> -            'graph-mod' ] }
+> +  'data': [ 'consistent-read', 'write', 'write-unchanged', 'resize' ] }
 > +
-> +    /*
-> +     * The shamt field is only 6 bits for RV64 (with the 7th bit
-> +     * remaining reserved for RV128).  If the reserved bit is set
-> +     * on RV64, the encoding is illegal.
-> +     */
-> +    if (a->shamt >= TARGET_LONG_BITS) {
-> +        return false;
-> +    }
-> +
->       return gen_shift_imm_fn(ctx, a, EXT_NONE, gen_slli_uw);
+>  ##
+>  # @XDbgBlockGraphEdge:
+>  #
 
-As previously stated, drop this patch.
-It is done correctly inside gen_shift_imm_fn.
+Otherwise the patch makes sense to me, but I'd rather that Kevin chime in.
 
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
-r~
 
