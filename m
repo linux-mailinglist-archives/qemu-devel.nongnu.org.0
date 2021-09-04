@@ -2,52 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B3EE4009DC
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 07:42:15 +0200 (CEST)
-Received: from localhost ([::1]:50112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 936594009DF
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 07:47:34 +0200 (CEST)
+Received: from localhost ([::1]:57068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMORR-000395-JL
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 01:42:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49616)
+	id 1mMOWb-00083O-HH
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 01:47:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mMOM2-0000Hq-Tn; Sat, 04 Sep 2021 01:36:40 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:46111 helo=ozlabs.org)
+ id 1mMOM4-0000Hx-6y; Sat, 04 Sep 2021 01:36:40 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:36469)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mMOM0-0000Xg-TU; Sat, 04 Sep 2021 01:36:38 -0400
+ id 1mMOM1-0000Xh-F2; Sat, 04 Sep 2021 01:36:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1630733791;
- bh=hODncbRxZb+5J14YcZnIgq6EXW9tP5Fmu8R04Gf2lsE=;
+ bh=b8GPa793HERvIHCyvlk/12UCg5YhByIk5mVGZuLF3sQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=eULuJIkwjFK1cuIpwPcSOeBngDp84uxzYSVQKOLf3dvQj+dUDJeY2pm+7wFEf+Boz
- BMXLliSV61bFVXVzXEEwACAGilcGPpuDq3MbFV9ViPDCLisCOeVwfpZlp2hSH7G+lf
- L6tn5RqPNyygvXd9SsKukwE64RtqbKEw8jEJHYs0=
+ b=LHKek/mygRyt4s24Y0qV7/H061t6m7+6mYapj9niHVq7JY2ojeWk2Hzvyuzc9bwNf
+ nmAog/NZRJu2hBXM6Dyu059XRQm4zZziPztLFEMmdnO/1dpIhQo0Hi63pm127aHRz4
+ h1/Qk6Z8kkz8z4GX435VYmjsOALCyQnmqOs3JTQA=
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4H1k1C5wJfz9sW5; Sat,  4 Sep 2021 15:36:31 +1000 (AEST)
-Date: Sat, 4 Sep 2021 13:38:36 +1000
+ id 4H1k1C6THvz9sVq; Sat,  4 Sep 2021 15:36:31 +1000 (AEST)
+Date: Sat, 4 Sep 2021 13:38:58 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3 16/28] hw/ppc/spapr_pci: Replace g_memdup() by
- g_memdup2()
-Message-ID: <YTLqPHswPmg0yFQW@yekko>
+Subject: Re: [PATCH v3 26/28] target/ppc: Replace g_memdup() by g_memdup2()
+Message-ID: <YTLqUuBIxiR3i8cy@yekko>
 References: <20210903174510.751630-1-philmd@redhat.com>
- <20210903174510.751630-17-philmd@redhat.com>
+ <20210903174510.751630-27-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="M3+GtE8/tO4A26e2"
+ protocol="application/pgp-signature"; boundary="ob9WBRFeUsoNiH0e"
 Content-Disposition: inline
-In-Reply-To: <20210903174510.751630-17-philmd@redhat.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210903174510.751630-27-philmd@redhat.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,12 +75,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---M3+GtE8/tO4A26e2
+--ob9WBRFeUsoNiH0e
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 03, 2021 at 07:44:58PM +0200, Philippe Mathieu-Daud=E9 wrote:
+On Fri, Sep 03, 2021 at 07:45:08PM +0200, Philippe Mathieu-Daud=E9 wrote:
 > Per https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-mem=
 dup2-now/5538
 >=20
@@ -98,32 +96,27 @@ dup2-now/5538
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
-Acked-by: David Gibson <david@gibson.dropber.id.au>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  hw/ppc/spapr_pci.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+>  target/ppc/mmu-hash64.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> index 7430bd63142..8e36cffab79 100644
-> --- a/hw/ppc/spapr_pci.c
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -2201,10 +2201,9 @@ static int spapr_pci_post_load(void *opaque, int v=
-ersion_id)
->      int i;
-> =20
->      for (i =3D 0; i < sphb->msi_devs_num; ++i) {
-> -        key =3D g_memdup(&sphb->msi_devs[i].key,
-> -                       sizeof(sphb->msi_devs[i].key));
-> -        value =3D g_memdup(&sphb->msi_devs[i].value,
-> -                         sizeof(sphb->msi_devs[i].value));
-> +        key =3D g_memdup2(&sphb->msi_devs[i].key, sizeof(sphb->msi_devs[=
-i].key));
-> +        value =3D g_memdup2(&sphb->msi_devs[i].value,
-> +                          sizeof(sphb->msi_devs[i].value));
->          g_hash_table_insert(sphb->msi, key, value);
+> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+> index 19832c4b46f..bc6f8748acb 100644
+> --- a/target/ppc/mmu-hash64.c
+> +++ b/target/ppc/mmu-hash64.c
+> @@ -1122,7 +1122,7 @@ void ppc_hash64_init(PowerPCCPU *cpu)
+>          return;
 >      }
->      g_free(sphb->msi_devs);
+> =20
+> -    cpu->hash64_opts =3D g_memdup(pcc->hash64_opts, sizeof(*cpu->hash64_=
+opts));
+> +    cpu->hash64_opts =3D g_memdup2(pcc->hash64_opts, sizeof(*cpu->hash64=
+_opts));
+>  }
+> =20
+>  void ppc_hash64_finalize(PowerPCCPU *cpu)
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -131,25 +124,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---M3+GtE8/tO4A26e2
+--ob9WBRFeUsoNiH0e
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEy6jwACgkQbDjKyiDZ
-s5J7ixAAsneh6qhvTS9tA+ZAoRedPtcXclRP5xkl0BUJ4PHYARVO2BgOPK5GsxCF
-qFmwoX5ipNASF9PAlheCrIUVzLOGxWqGqbDdA9xQjbzZGOaK34GJrGFwI9EBX3Bm
-Goro0bp9j4ns5d1igU7MyIpY73yPTXwRYdNQea7p4FD6LdLnOteJTImbesKHJEFG
-BFoOPsihbl0LFOeT5B5pX6xmuN5oNBc3ylARXZ79S/pCQuP4o8P0OveSnUAEODGd
-WooYtcEgbQl5moe+1qZ3vKL+WqLubg4OJjHjeD5XOgHNvaf7XnJwHciBw/QGDm3F
-xh9k9JeojX8Jd0VpvCt7et7nt82BkzPFn8c6VdcLw5Pk6fNh//AMvgJ8PxpSrr5V
-8SRs/MkJlh07s8hbQLWo7KSrs9ecb9m1PSykWaHryiYA06rKpw6ePHkvrb7WpcQi
-A83F6P7d92oe/HM9nxJfZCoxClphDzShw1zjXlwZZ7xXVIOO4xopziLYc/ZKIeeO
-4wATZtriWub27Mqk04N4gc2wsMed1mljBMPrg5HjzG+6GTbyrn4L98deosxmjx68
-XUkI7AT1Gd38TVHUxkdOoEdiuOIT98SnEc1de5loknay1+NPFMNLi2onlzYfaRhT
-j9qva+td5VLYjgtlveTBM7983yDGr3pgjayAjtHkPDzUTtd9kXA=
-=ub2z
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEy6lIACgkQbDjKyiDZ
+s5LsSQ/+JGfVEGFpFsxv2JGweo6VeaL7sWpvURLQ6ka79BwX72635jgsNsnCPPRL
+m2rc7dUHV8+yY+j1JVtDCHWjFiPbMS6Z6dvtbb7XxLiRr7I8PstXjW0u/ntTwXXw
+qYsdpiG6UovB/z3vKapZcjjGx8zH8KWg0mblVull7pF+XszljV/Tr5dWY/+Ty6X8
+e9MH0fwkUMzGn9xTpCzAY7OpgB8NTjkXAmcUjrBoF6QsWuvHrjEVrKWh8qn80RU0
+DFiO+juUwWNYCOp7Fst74QnpQhHNqombifg7eDZvkVjkBFcrvROCVC+sSQp4j4iD
+0dHqgSzKCfUxORACVQOsXjvuxtv8AxByi7x2CUG9lFYc1Z094NxtzCU90AsqfVXX
+0qA6pbBAAGuTckGQqNcB2ajaMRNZIUr4Nlmed8p/TCIvDKgplQ7G1z5gaxs6Ph+k
+eHJvvBjN2ghG19LgHwLkXWEKQ2jJpPDSqDq0flQvxeCvlmTmPlM+zDuPKAMmVPqc
+MMJOe+vsYddCu/qYEydHetG/l7+etilrSgafAmOMlcKn8/EijXj6aa0ksoS5nbe8
+ajFS8RXEJqHwZ+WHiyY2/+PNqWZ9ZIFpq7KUX8VG4wBJ2XWXeeqHHvzCYNMIKE/i
+oiEl9LWYFFtaX3JZCI8wrKdkFCz5zbUFDLIgoJ0NZgZXtyK8IZI=
+=cExo
 -----END PGP SIGNATURE-----
 
---M3+GtE8/tO4A26e2--
+--ob9WBRFeUsoNiH0e--
 
