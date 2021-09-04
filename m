@@ -2,56 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04FCC4009DD
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 07:42:19 +0200 (CEST)
-Received: from localhost ([::1]:50126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 531C24009C1
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 06:27:35 +0200 (CEST)
+Received: from localhost ([::1]:34312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMORV-00039k-U8
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 01:42:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49618)
+	id 1mMNHB-0005T5-Sf
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 00:27:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mMOM3-0000Ht-1J; Sat, 04 Sep 2021 01:36:40 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:48553)
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mMNFj-00046a-St
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 00:26:03 -0400
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:37570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mMOM0-0000Xj-Cz; Sat, 04 Sep 2021 01:36:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=gibson.dropbear.id.au; s=201602; t=1630733791;
- bh=pQxs7NKk/eiQzbg9CgWII/Eh6qZct/+d6BNBzyGOcyM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FRltF1AFhRLM6kHCvuuivUFxO+EgvdZCij1QMeBfY81i2Z6OUKmhrQI8zMyjrlgpj
- +y3YlSiMnCCyqqdjbGvTwj2uhbNm4hejVhioSPRafJVbAx812+Dph77ScrdcNlRaua
- kdThksTmFqeAaBbDSvWKLGvHJYn3jJQkinnkjBDs=
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4H1k1C6mTGz9sXk; Sat,  4 Sep 2021 15:36:31 +1000 (AEST)
-Date: Sat, 4 Sep 2021 13:53:34 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v7 5/7] qapi/qdev.json: add DEVICE_UNPLUG_GUEST_ERROR
- QAPI event
-Message-ID: <YTLtvn5ywJce0iqE@yekko>
-References: <20210825004835.472919-1-danielhb413@gmail.com>
- <20210825004835.472919-6-danielhb413@gmail.com>
- <87tuj4a0wx.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
+ id 1mMNFg-00084B-KA
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 00:26:03 -0400
+Received: from loganberry.canonical.com (loganberry.canonical.com
+ [91.189.90.37])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 4CFC540519
+ for <qemu-devel@nongnu.org>; Sat,  4 Sep 2021 04:25:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
+ s=20210803; t=1630729548;
+ bh=tm7XuJrNziC5/0PTzyoyXIkxnGwSpX7u084FsZW3JhU=;
+ h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
+ Message-Id:Subject;
+ b=NRszFQCunsQQerTkzx8GqCg4NsOxkLvSuG9VNnQQXiddc5mEz2IGK/1esHilffs45
+ OPkfNoZR6QZge9bpbAxvyz2h+bOi99vc0jqLKfBT+4+9VU4ajr6jgWYKlu8eVfYMLQ
+ WIba2Kcv3I6xNKw8qupHGE1ZlDBwPS8tct8GqK7ebAUNb5WPp2U4IbClI8lwEufv+2
+ EA1p8eXN2Dj8zVaTJMbAKB9bmEugqwYJkASNw1W3PGOGw+cunXuXnUXMP2cwbK6BX4
+ bpysBfWLFuDkRxdmkwAGqA0HSVE8LK8f/tTzNH+u+Fd8KlhrQ2nxU97rNTu/KCb24N
+ 81LxbOTHTSE1Q==
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id F36BF2E81DF
+ for <qemu-devel@nongnu.org>; Sat,  4 Sep 2021 04:25:43 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="gyNYQ9pA2V/pMnDi"
-Content-Disposition: inline
-In-Reply-To: <87tuj4a0wx.fsf@dusky.pond.sub.org>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 04 Sep 2021 04:17:17 -0000
+From: Launchpad Bug Tracker <1770417@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Expired; importance=Wishlist; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor paelzer th-huth vdrok
+X-Launchpad-Bug-Reporter: Vladyslav Drok (vdrok)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <152596210054.26788.14569755785770428905.malonedeb@chaenomeles.canonical.com>
+Message-Id: <163072903798.31763.16827496024186824490.malone@loganberry.canonical.com>
+Subject: [Bug 1770417] Re: Qemu can not parse long fqdns during drive-mirror
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e03bf5183af335943ccf1ef70ad0534f46a635c6"; Instance="production"
+X-Launchpad-Hash: 4918117c345c0e16a9901d7800b7b95d5639d860
+Received-SPF: pass client-ip=185.125.188.251;
+ envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,126 +85,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, groug@kaod.org
+Reply-To: Bug 1770417 <1770417@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+[Expired for QEMU because there has been no activity for 60 days.]
 
---gyNYQ9pA2V/pMnDi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Sep 01, 2021 at 03:19:26PM +0200, Markus Armbruster wrote:
-> Daniel Henrique Barboza <danielhb413@gmail.com> writes:
->=20
-> > At this moment we only provide one event to report a hotunplug error,
-> > MEM_UNPLUG_ERROR. As of Linux kernel 5.12 and QEMU 6.0.0, the pseries
-> > machine is now able to report unplug errors for other device types, such
-> > as CPUs.
-> >
-> > Instead of creating a (device_type)_UNPLUG_ERROR for each new device,
-> > create a generic DEVICE_UNPLUG_GUEST_ERROR event that can be used by all
-> > guest side unplug errors in the future. This event has a similar API as
-> > the existing DEVICE_DELETED event, always providing the QOM path of the
-> > device and dev->id if there's any.
-> >
-> > With this new generic event, MEM_UNPLUG_ERROR is now marked as deprecat=
-ed.
-> >
-> > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> > ---
->=20
-> [...]
->=20
-> > diff --git a/qapi/qdev.json b/qapi/qdev.json
-> > index 0e9cb2ae88..8b1a1dd43b 100644
-> > --- a/qapi/qdev.json
-> > +++ b/qapi/qdev.json
-> > @@ -84,7 +84,9 @@
-> >  #        This command merely requests that the guest begin the hot rem=
-oval
-> >  #        process.  Completion of the device removal process is signale=
-d with a
-> >  #        DEVICE_DELETED event. Guest reset will automatically complete=
- removal
-> > -#        for all devices.
-> > +#        for all devices.  If a guest-side error in the hot removal pr=
-ocess is
-> > +#        detected, the device will not be removed and a DEVICE_UNPLUG_=
-GUEST_ERROR
-> > +#        event is sent.  Some errors cannot be detected.
-> >  #
-> >  # Since: 0.14
-> >  #
-> > @@ -124,3 +126,27 @@
-> >  ##
-> >  { 'event': 'DEVICE_DELETED',
-> >    'data': { '*device': 'str', 'path': 'str' } }
-> > +
-> > +##
-> > +# @DEVICE_UNPLUG_GUEST_ERROR:
-> > +#
-> > +# Emitted when a device hot unplug fails due to an internal guest
-> > +# error.
->=20
-> Suggest to scratch "internal".
-
-I'd suggest s/internal guest/guest reported/.  "guest error" is a bit
-vague, this doesn't neccessarily indicate a bug in the guest.  The key
-point is that we're reporting this event because the guest performed
-some explicit action to tell us something went wrong with the plug
-attempt.
-
->=20
-> > +#
-> > +# @device: the device's ID if it has one
-> > +#
-> > +# @path: the device's QOM path
-> > +#
-> > +# Since: 6.2
-> > +#
-> > +# Example:
-> > +#
-> > +# <- { "event": "DEVICE_UNPLUG_GUEST_ERROR"
-> > +#      "data": { "device": "core1",
-> > +#                "path": "/machine/peripheral/core1" },
-> > +#      },
-> > +#      "timestamp": { "seconds": 1615570772, "microseconds": 202844 } }
-> > +#
-> > +##
-> > +{ 'event': 'DEVICE_UNPLUG_GUEST_ERROR',
-> > +  'data': { '*device': 'str', 'path': 'str' } }
->=20
-> [...]
->=20
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
 
 --=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1770417
 
---gyNYQ9pA2V/pMnDi
-Content-Type: application/pgp-signature; name="signature.asc"
+Title:
+  Qemu can not parse long fqdns during drive-mirror
 
------BEGIN PGP SIGNATURE-----
+Status in QEMU:
+  Expired
+Status in qemu package in Ubuntu:
+  Expired
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEy7bwACgkQbDjKyiDZ
-s5I0Aw//TlFdgGd2YHnAn8Fz78SoD1giPKk7mrXQPkidKNr5jL3qU3tIpIh7EFW9
-NLbK8WMA1jXbMIK3KFhABLNnJ9BVYhqDjZGJX4k49Cc1Kl/OsJvMoazD4aqipclG
-+PUmoly1hyozGABNayf8WU0uhpqM6vwUUdO4FwVMnBJQUcFVDeazi29uvZx+gJi/
-5OnLoGMyKd13hDheSZjCBJ19CBqHb3AC8K0AHqNtfBPEaCTfP4UpiDrmxb6LR6ZI
-gzR93Qxcme+wv8PsbUWN/4+bdUIH29ILGfmM7O0hxl3ijok9Xd7nV2nMx2n+GvBQ
-OHFieU9eKPYXMi2J/eWUFajSTlfB1PIdWgdl79BCIl4jwzGnlAPuktRF2eGAUS5F
-Xh4HSt7kYVRKQclNXdoDBItqZP9lV8LC7ieW9H8spP+sVNrMevneTQcA6/nbmOse
-JYnn0n4Mhw//xmT1jQCzHaBmXizGPHf3IfPCOxMiHWbhpvPKFBzVkf3D5MZ1EB1p
-ygLk6Djlrr+YDuEN4zjm6Z7YInS/sY8kUuUiq5gg0RfHpd8cmdTarjMB5hMdooQg
-f+E2fGkXAThpLKOhimqgkvl/4j0JIhCraujZh77kGZlHSziX8u+rCbb1I96HQ+8d
-55thpkbHAiufOOpsgZ8G3CrCDo4UT6hJKwA3gkAWPSZmZbPth8k=
-=6jN2
------END PGP SIGNATURE-----
+Bug description:
+  During migration of an openstack booted instance, I got the following
+  error:
 
---gyNYQ9pA2V/pMnDi--
+  Apr 12 10:55:22 cmp1 libvirtd[4133]: 2018-04-12 10:55:22.133+0000:
+  4139: error : qemuMonitorJSONCheckError:392 : internal error: unable
+  to execute QEMU command 'drive-mirror': error parsing address
+  'cmp0.sandriichenko-deploy-heat-virtual-mcp-pike-ovs-76.bud-
+  mk.local:49153'
+
+  A bit more info in libvirt bug
+  https://bugzilla.redhat.com/show_bug.cgi?id=3D1568939
+
+  To reproduce it with qemu only, I followed the guide at
+  https://github.com/qemu/qemu/blob/master/docs/interop/live-block-
+  operations.rst#id21. On dest and source compute nodes, I launched an
+  instance:
+
+  qemu-system-x86_64 -display none -nodefconfig -M q35 -nodefaults -m
+  512 -blockdev node-name=3Dnode-
+  TargetDisk,driver=3Dqcow2,file.driver=3Dfile,file.node-
+  name=3Dfile,file.filename=3D./test-instance-mirror.qcow2 -device virtio-
+  blk,drive=3Dnode-TargetDisk,id=3Dvirtio0 -S -monitor stdio -qmp
+  unix:./qmp-sock,server,nowait -incoming tcp:localhost:6666
+
+  Then on dest node I launched nbd server:
+
+  (qemu) nbd_server_start cmp0:49153
+  (qemu) nbd_server_add -w node-TargetDisk
+
+  On the source node:
+
+  (qemu) drive_mirror -n  node-TargetDisk nbd:cmp0.vdrok-deploy-heat-virtua=
+l-mcp-pike-ovs-foobarbuzz.bud-mk.local:49153:exportname=3Dnode-TargetDisk
+  error parsing address 'cmp0.vdrok-deploy-heat-virtual-mcp-pike-ovs-foobar=
+buzz.bud-mk.local:49153'
+
+  When using short host name instead of FQDN address seems to be parsed
+  fine:
+
+  (qemu) drive_mirror -n  node-TargetDisk nbd:cmp0:49153:exportname=3Dnode-=
+TargetDisk qcow2
+  Image is not in qcow2 format
+
+  (not sure why it is not a qcow2 format, as I have qcow2 image with raw
+  backing file, but this is unrelated)
+
+  QEMU version is 2.11.1 from bionic
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1770417/+subscriptions
+
 
