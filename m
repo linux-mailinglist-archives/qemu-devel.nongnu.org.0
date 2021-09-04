@@ -2,81 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 598324009C2
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 06:27:35 +0200 (CEST)
-Received: from localhost ([::1]:34328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03E044009DB
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 07:34:58 +0200 (CEST)
+Received: from localhost ([::1]:41576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMNHB-0005TY-Tg
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 00:27:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44548)
+	id 1mMOKP-0005aM-KW
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 01:34:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mMNFi-00046O-QR
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 00:26:02 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:37712)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mMOIu-0004fm-ER; Sat, 04 Sep 2021 01:33:24 -0400
+Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:56035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mMNFf-00086b-Ok
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 00:26:02 -0400
-Received: from loganberry.canonical.com (loganberry.canonical.com
- [91.189.90.37])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id F15DA3F66A
- for <qemu-devel@nongnu.org>; Sat,  4 Sep 2021 04:25:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1630729551;
- bh=bRzlGgVIYU62GxcDOHFRI/mzcoxgZEbpkDkRnaYzz0E=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=tD9/DlMcdpsSGPobjRKCNX5AFtRqUZIuY6DSH8bI5ixNVvHmTgEir67rJn6BV8hMe
- cYY58GrluDZzmsR+O3rRS+m96ENLqPp1Sv9cnCKBDkxqu9sxxrgBd4rQ42Pxj+UXlW
- wCUIDQ6SxsQwb1DMHfx9sf4j6mXT9NnsE2l4/GkNlfrXj5Id49tqLZSLf5xIfGtcSw
- zYkpBgbLJ3ZXFBKjyIvPA484uiU1NEhqpbGO9Omcq2cKa4y5Z32QAC5T3GL+PGzzvS
- wxDWWUpNSDvcGyddwFKxzvvIelzpyMD8y8eN0XVNQkqoWgj2lbzqI3jF+kpwHTEXpy
- wkAm7THLyqo5Q==
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A279B2E8230
- for <qemu-devel@nongnu.org>; Sat,  4 Sep 2021 04:25:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1mMOIs-0006DH-Go; Sat, 04 Sep 2021 01:33:24 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.227])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 3617C20315;
+ Sat,  4 Sep 2021 05:33:18 +0000 (UTC)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Sat, 4 Sep
+ 2021 07:33:17 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R004d44cfab8-69ed-4264-bd9c-342457a1ca47,
+ 12F33BBF2EAE4A57CD4144620F2B5145EB8D9997) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PULL 00/14] aspeed queue
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, Peter Maydell
+ <peter.maydell@linaro.org>
+References: <20210903194108.131403-1-clg@kaod.org>
+ <beab1f50-d8f5-b3d3-5612-15e5f74eb961@amsat.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <9ef56813-94f9-a1cb-aba5-9d2e2a081d23@kaod.org>
+Date: Sat, 4 Sep 2021 07:33:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <beab1f50-d8f5-b3d3-5612-15e5f74eb961@amsat.org>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 04 Sep 2021 04:17:18 -0000
-From: Launchpad Bug Tracker <1770417@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
- status=Expired; importance=Wishlist; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor paelzer th-huth vdrok
-X-Launchpad-Bug-Reporter: Vladyslav Drok (vdrok)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <152596210054.26788.14569755785770428905.malonedeb@chaenomeles.canonical.com>
-Message-Id: <163072903906.31763.11278134413182764259.malone@loganberry.canonical.com>
-Subject: [Bug 1770417] Re: Qemu can not parse long fqdns during drive-mirror
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e03bf5183af335943ccf1ef70ad0534f46a635c6"; Instance="production"
-X-Launchpad-Hash: 037c2764e7c59c20dcd1068a49ba48861f65c071
-Received-SPF: pass client-ip=185.125.188.251;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: d5175dd3-171f-432e-ae07-a768ff8ec92f
+X-Ovh-Tracer-Id: 368732219768408937
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddvkedgleegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheeutdehgefhvdehtdeuleetgedvfeeukedtfeeihfffffeiuddutdduhffgvedtnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepfhegsghughesrghmshgrthdrohhrgh
+Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
+ helo=5.mo548.mail-out.ovh.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.888,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,79 +71,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1770417 <1770417@bugs.launchpad.net>
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, Peter Delevoryas <pdel@fb.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for qemu (Ubuntu) because there has been no activity for 60
-days.]
+On 9/3/21 10:41 PM, Philippe Mathieu-Daudé wrote:
+> Hi Peter,
+> 
+> On 9/3/21 9:40 PM, Cédric Le Goater wrote:
+>> The following changes since commit 8880cc4362fde4ecdac0b2092318893118206fcf:
+>>
+>>   Merge remote-tracking branch 'remotes/cschoenebeck/tags/pull-9p-20210902' into staging (2021-09-03 08:27:38 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://github.com/legoater/qemu/ tags/pull-aspeed-20210903
+>>
+>> for you to fetch changes up to 907796622b2a6b945c87641d94e254ac898b96ae:
+>>
+>>   hw/arm/aspeed: Add Fuji machine type (2021-09-03 18:43:16 +0200)
+>>
+>> ----------------------------------------------------------------
+>> Aspeed patches :
+>>
+>> * MAC enablement fixes (Guenter)
+>> * Watchdog  and pca9552 fixes (Andrew)
+>> * GPIO fixes (Joel)
+>> * AST2600A3 SoC and DPS310 models (Joel)
+>> * New Fuji BMC machine (Peter)
+>>
+>> ----------------------------------------------------------------
+> 
+>> Peter Delevoryas (3):
+>>       hw/arm/aspeed: Initialize AST2600 UART clock selection registers
+>>       hw/arm/aspeed: Allow machine to set UART default
+>>       hw/arm/aspeed: Add Fuji machine type
+> 
+> I have a pending question with the last patch, do you mind holding
+> this PR until it is resolved with Cédric and the patch author please?
+> 
+> Thanks,
+> 
+> Phil.
+> 
 
-** Changed in: qemu (Ubuntu)
-       Status: Incomplete =3D> Expired
+I guess we can drop the following from the commit log : 
 
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1770417
+	git clone https://github.com/facebook/openbmc
+	cd openbmc
+	./sync_yocto.sh
+	source openbmc-init-build-env fuji build-fuji
+	bitbake fuji-image
+	dd if=/dev/zero of=/tmp/fuji.mtd bs=1M count=128
+	dd if=./tmp/deploy/images/fuji/flash-fuji of=/tmp/fuji.mtd \
+	    bs=1k conv=notrunc
+	
+	git clone --branch aspeed-next https://github.com/peterdelevoryas/qemu
+	cd qemu
+	./configure --target-list=arm-softmmu --disable-vnc
+	make -j $(nproc)
+	./build/arm-softmmu/qemu-system-arm \
+	    -machine fuji-bmc \
+	    -drive file=/tmp/fuji.mtd,format=raw,if=mtd \
+	    -serial stdio \
+	    -nic user,hostfwd=::2222-:22
+	sshpass -p 0penBmc ssh root@localhost -p 2222
 
-Title:
-  Qemu can not parse long fqdns during drive-mirror
 
-Status in QEMU:
-  Expired
-Status in qemu package in Ubuntu:
-  Expired
+Thanks,
 
-Bug description:
-  During migration of an openstack booted instance, I got the following
-  error:
-
-  Apr 12 10:55:22 cmp1 libvirtd[4133]: 2018-04-12 10:55:22.133+0000:
-  4139: error : qemuMonitorJSONCheckError:392 : internal error: unable
-  to execute QEMU command 'drive-mirror': error parsing address
-  'cmp0.sandriichenko-deploy-heat-virtual-mcp-pike-ovs-76.bud-
-  mk.local:49153'
-
-  A bit more info in libvirt bug
-  https://bugzilla.redhat.com/show_bug.cgi?id=3D1568939
-
-  To reproduce it with qemu only, I followed the guide at
-  https://github.com/qemu/qemu/blob/master/docs/interop/live-block-
-  operations.rst#id21. On dest and source compute nodes, I launched an
-  instance:
-
-  qemu-system-x86_64 -display none -nodefconfig -M q35 -nodefaults -m
-  512 -blockdev node-name=3Dnode-
-  TargetDisk,driver=3Dqcow2,file.driver=3Dfile,file.node-
-  name=3Dfile,file.filename=3D./test-instance-mirror.qcow2 -device virtio-
-  blk,drive=3Dnode-TargetDisk,id=3Dvirtio0 -S -monitor stdio -qmp
-  unix:./qmp-sock,server,nowait -incoming tcp:localhost:6666
-
-  Then on dest node I launched nbd server:
-
-  (qemu) nbd_server_start cmp0:49153
-  (qemu) nbd_server_add -w node-TargetDisk
-
-  On the source node:
-
-  (qemu) drive_mirror -n  node-TargetDisk nbd:cmp0.vdrok-deploy-heat-virtua=
-l-mcp-pike-ovs-foobarbuzz.bud-mk.local:49153:exportname=3Dnode-TargetDisk
-  error parsing address 'cmp0.vdrok-deploy-heat-virtual-mcp-pike-ovs-foobar=
-buzz.bud-mk.local:49153'
-
-  When using short host name instead of FQDN address seems to be parsed
-  fine:
-
-  (qemu) drive_mirror -n  node-TargetDisk nbd:cmp0:49153:exportname=3Dnode-=
-TargetDisk qcow2
-  Image is not in qcow2 format
-
-  (not sure why it is not a qcow2 format, as I have qcow2 image with raw
-  backing file, but this is unrelated)
-
-  QEMU version is 2.11.1 from bionic
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1770417/+subscriptions
-
+C.
 
