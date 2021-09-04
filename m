@@ -2,62 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E044009DB
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 07:34:58 +0200 (CEST)
-Received: from localhost ([::1]:41576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7FBA4009DE
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 07:43:22 +0200 (CEST)
+Received: from localhost ([::1]:52868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMOKP-0005aM-KW
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 01:34:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49336)
+	id 1mMOSY-00056k-1F
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 01:43:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mMOIu-0004fm-ER; Sat, 04 Sep 2021 01:33:24 -0400
-Received: from 5.mo548.mail-out.ovh.net ([188.165.49.213]:56035)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mMOQX-0003nK-JL
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 01:41:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1mMOIs-0006DH-Go; Sat, 04 Sep 2021 01:33:24 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.227])
- by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 3617C20315;
- Sat,  4 Sep 2021 05:33:18 +0000 (UTC)
-Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Sat, 4 Sep
- 2021 07:33:17 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R004d44cfab8-69ed-4264-bd9c-342457a1ca47,
- 12F33BBF2EAE4A57CD4144620F2B5145EB8D9997) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PULL 00/14] aspeed queue
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, Peter Maydell
- <peter.maydell@linaro.org>
-References: <20210903194108.131403-1-clg@kaod.org>
- <beab1f50-d8f5-b3d3-5612-15e5f74eb961@amsat.org>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <9ef56813-94f9-a1cb-aba5-9d2e2a081d23@kaod.org>
-Date: Sat, 4 Sep 2021 07:33:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mMOQT-0004XG-Sa
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 01:41:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630734072;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ac4IZznXIIekHXyKDyfeq0raxaGzSOJKAI/SPx1u11s=;
+ b=IDBZZ9Em8AE/QwNQbs1TFIwTFZ8uoy3TKiYBxm6/ULB6NuovX/bXzuDhKUEvQOBLUd0cLh
+ UUPS5QyVeda182HLmu0c3m/Ihb216It4zHeYGQ6jUekPyoK81dFbDh9rgfsLfZdISsQBUc
+ gl+sNApLcr/vZEq4Pr3JqH6Wu3F4cEQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-440-PfMgkH46PamlrxMPoBbwcg-1; Sat, 04 Sep 2021 01:41:10 -0400
+X-MC-Unique: PfMgkH46PamlrxMPoBbwcg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42160107ACE4;
+ Sat,  4 Sep 2021 05:41:09 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
+ [10.36.112.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 84A4E19D9D;
+ Sat,  4 Sep 2021 05:41:05 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 11E8D1138606; Sat,  4 Sep 2021 07:41:04 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [RFC PATCH v2 12/12] i386/sev: update query-sev QAPI format to
+ handle SEV-SNP
+References: <20210826222627.3556-1-michael.roth@amd.com>
+ <20210826222627.3556-13-michael.roth@amd.com>
+ <87tuj4qt71.fsf@dusky.pond.sub.org> <YTJGzrnqO9vzUqNq@redhat.com>
+Date: Sat, 04 Sep 2021 07:41:04 +0200
+In-Reply-To: <YTJGzrnqO9vzUqNq@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Fri, 3 Sep 2021 17:01:18 +0100")
+Message-ID: <87zgssrj7z.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <beab1f50-d8f5-b3d3-5612-15e5f74eb961@amsat.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: d5175dd3-171f-432e-ae07-a768ff8ec92f
-X-Ovh-Tracer-Id: 368732219768408937
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddruddvkedgleegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheeutdehgefhvdehtdeuleetgedvfeeukedtfeeihfffffeiuddutdduhffgvedtnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepfhegsghughesrghmshgrthdrohhrgh
-Received-SPF: pass client-ip=188.165.49.213; envelope-from=clg@kaod.org;
- helo=5.mo548.mail-out.ovh.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.888,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,76 +81,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, Peter Delevoryas <pdel@fb.com>,
- qemu-devel@nongnu.org
+Cc: Tom Lendacky <thomas.lendacky@amd.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ kvm@vger.kernel.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ James Bottomley <jejb@linux.ibm.com>, qemu-devel@nongnu.org,
+ Eric Blake <eblake@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Dov Murik <dovmurik@linux.ibm.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/3/21 10:41 PM, Philippe Mathieu-Daudé wrote:
-> Hi Peter,
-> 
-> On 9/3/21 9:40 PM, Cédric Le Goater wrote:
->> The following changes since commit 8880cc4362fde4ecdac0b2092318893118206fcf:
->>
->>   Merge remote-tracking branch 'remotes/cschoenebeck/tags/pull-9p-20210902' into staging (2021-09-03 08:27:38 +0100)
->>
->> are available in the Git repository at:
->>
->>   https://github.com/legoater/qemu/ tags/pull-aspeed-20210903
->>
->> for you to fetch changes up to 907796622b2a6b945c87641d94e254ac898b96ae:
->>
->>   hw/arm/aspeed: Add Fuji machine type (2021-09-03 18:43:16 +0200)
->>
->> ----------------------------------------------------------------
->> Aspeed patches :
->>
->> * MAC enablement fixes (Guenter)
->> * Watchdog  and pca9552 fixes (Andrew)
->> * GPIO fixes (Joel)
->> * AST2600A3 SoC and DPS310 models (Joel)
->> * New Fuji BMC machine (Peter)
->>
->> ----------------------------------------------------------------
-> 
->> Peter Delevoryas (3):
->>       hw/arm/aspeed: Initialize AST2600 UART clock selection registers
->>       hw/arm/aspeed: Allow machine to set UART default
->>       hw/arm/aspeed: Add Fuji machine type
-> 
-> I have a pending question with the last patch, do you mind holding
-> this PR until it is resolved with Cédric and the patch author please?
-> 
-> Thanks,
-> 
-> Phil.
-> 
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-I guess we can drop the following from the commit log : 
+> On Wed, Sep 01, 2021 at 04:14:10PM +0200, Markus Armbruster wrote:
+>> Michael Roth <michael.roth@amd.com> writes:
+>>=20
+>> > Most of the current 'query-sev' command is relevant to both legacy
+>> > SEV/SEV-ES guests and SEV-SNP guests, with 2 exceptions:
+>> >
+>> >   - 'policy' is a 64-bit field for SEV-SNP, not 32-bit, and
+>> >     the meaning of the bit positions has changed
+>> >   - 'handle' is not relevant to SEV-SNP
+>> >
+>> > To address this, this patch adds a new 'sev-type' field that can be
+>> > used as a discriminator to select between SEV and SEV-SNP-specific
+>> > fields/formats without breaking compatibility for existing management
+>> > tools (so long as management tools that add support for launching
+>> > SEV-SNP guest update their handling of query-sev appropriately).
+>>=20
+>> Technically a compatibility break: query-sev can now return an object
+>> that whose member @policy has different meaning, and also lacks @handle.
+>>=20
+>> Matrix:
+>>=20
+>>                             Old mgmt app    New mgmt app
+>>     Old QEMU, SEV/SEV-ES       good            good(1)
+>>     New QEMU, SEV/SEV-ES       good(2)         good
+>>     New QEMU, SEV-SNP           bad(3)         good
+>>=20
+>> Notes:
+>>=20
+>> (1) As long as the management application can cope with absent member
+>> @sev-type.
+>>=20
+>> (2) As long as the management application ignores unknown member
+>> @sev-type.
+>>=20
+>> (3) Management application may choke on missing member @handle, or
+>> worse, misinterpret member @policy.  Can only happen when something
+>> other than the management application created the SEV-SNP guest (or the
+>> user somehow made the management application create one even though it
+>> doesn't know how, say with CLI option passthrough, but that's always
+>> fragile, and I wouldn't worry about it here).
+>>=20
+>> I think (1) and (2) are reasonable.  (3) is an issue for management
+>> applications that support attaching to existing guests.  Thoughts?
+>
+> IIUC you can only reach scenario (3) if you have created a guest
+> using '-object sev-snp-guest', which is a new feature introduced
+> in patch 2.
+>
+> IOW, scenario (3)  old mgmt app + new QEMU + sev-snp guest does
+> not exist as a combination. Thus the (bad) field is actually (n/a)
+>
+> So I believe this proposed change is acceptable in all scenarios
+> with existing deployed usage, as well as all newly introduced
+> scenarios.
 
-	git clone https://github.com/facebook/openbmc
-	cd openbmc
-	./sync_yocto.sh
-	source openbmc-init-build-env fuji build-fuji
-	bitbake fuji-image
-	dd if=/dev/zero of=/tmp/fuji.mtd bs=1M count=128
-	dd if=./tmp/deploy/images/fuji/flash-fuji of=/tmp/fuji.mtd \
-	    bs=1k conv=notrunc
-	
-	git clone --branch aspeed-next https://github.com/peterdelevoryas/qemu
-	cd qemu
-	./configure --target-list=arm-softmmu --disable-vnc
-	make -j $(nproc)
-	./build/arm-softmmu/qemu-system-arm \
-	    -machine fuji-bmc \
-	    -drive file=/tmp/fuji.mtd,format=raw,if=mtd \
-	    -serial stdio \
-	    -nic user,hostfwd=::2222-:22
-	sshpass -p 0penBmc ssh root@localhost -p 2222
+Let's work this into the commit message.
 
-
-Thanks,
-
-C.
 
