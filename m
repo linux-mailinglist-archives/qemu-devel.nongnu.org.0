@@ -2,70 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25843400C82
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 20:22:19 +0200 (CEST)
-Received: from localhost ([::1]:40942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D33D8400CD3
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 21:28:04 +0200 (CEST)
+Received: from localhost ([::1]:34264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMaIz-0004OE-NI
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 14:22:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37818)
+	id 1mMbKd-0007kf-Fw
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 15:28:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mMaHy-0003Dy-4m
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 14:21:14 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:36558)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mMaHw-0003Vw-G6
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 14:21:13 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id q14so3434113wrp.3
- for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 11:21:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=59PS+9AJl0m+ismL9V+60CgDo0dZC1G3fF5A1sMCVps=;
- b=G3qjlMGUHeK1TNpB100Qj6onOc42J1bC23ZYUFM1wOEJS8mJCfbfvVVKoj9R42X7jl
- mIDX1epAkDvTWsUd79Fr4vn6QbUeXihReVUD6KTBemZXPeGZE1mQyPWdbxKPQTUSezAD
- GBqZTJnRqUqs9orKVnDFY1Sc0QsfPQvPNiWWTXObR/8Of5N3DoYXSFpyzWpyjdP6KGW4
- tLDv/Mb9QU2HOvHWc5N479jlGRhHeM4JQCmAZUcqMajwXEErSLB6Y7KrnBfaO+itVYtA
- wr3s/45+H1l4ImsMrDtRuGYkRn5LJjZ9txBX548+fKg2jIRCggm6d57BaM7nwYJORTmm
- yRjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=59PS+9AJl0m+ismL9V+60CgDo0dZC1G3fF5A1sMCVps=;
- b=FtaUV1Epcjsx/JA+JMpc1AVQK5+miZeMPEamZy1rxjI4KLcOEsqlMCkkPcvgzpwIr/
- QTC+sVauVHf8Q1ly8sWrzrBoh0egKozqk5YpFKIfFYp4EX/n2ncg8xNizfMXb4V/GX1J
- 9SF/EERlvKqBFZl8g9AOL/XT6OvqAgtUe4HVn0xP7r6Xfn3KTwh3QduCaEGWU3XamzgI
- uvzOynBzTfKspLNl3FlhNSYzid2JZE4z/g6kDxOzrSRIJBrI6k/9NaPAAThgko0297/i
- TbE3wLKIY99lR42DWpsCHJgj18ZohBL0D1CJXYswMXkPlS6qEbpQ2C+YLNx35rMCAK/c
- x+JA==
-X-Gm-Message-State: AOAM531Oozjo65mc1xXPVqn7P9iFUR+tnpbmtgGEBEOuoecyTmk4ICE5
- NpT7xGtOQyBdaqgRCb+RROqf3FmudUrtE5vSomiN9w==
-X-Google-Smtp-Source: ABdhPJw+xtKjvCrZ9sviMk7dnCYC9bVviZSIDp/S5qJgI+ZDF7Bclg28JmFNhmimnKtMzNaygZZrBzNBp57OJnh1sOw=
-X-Received: by 2002:adf:fb91:: with SMTP id a17mr4805411wrr.376.1630779669064; 
- Sat, 04 Sep 2021 11:21:09 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <adam@l4re.org>) id 1mMbJV-0006u5-A3
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 15:26:53 -0400
+Received: from os.inf.tu-dresden.de ([141.76.48.99]:56560)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <adam@l4re.org>) id 1mMbJT-0007Z2-EH
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 15:26:53 -0400
+Received: from erwin.inf.tu-dresden.de ([141.76.48.80]
+ helo=os.inf.tu-dresden.de)
+ by os.inf.tu-dresden.de with esmtps (TLS1.3:TLS_AES_256_GCM_SHA384:256) (Exim
+ 4.94.2) id 1mMbJP-0003I8-Hi; Sat, 04 Sep 2021 21:26:47 +0200
+Date: Sat, 4 Sep 2021 21:26:45 +0200
+From: Adam Lackorzynski <adam@l4re.org>
+To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Subject: arm: Launching EFI-enabled arm32 Linux
+Message-ID: <YTPIdbUCmwagL5/D@os.inf.tu-dresden.de>
 MIME-Version: 1.0
-References: <20210903090339.1074887-1-alex.bennee@linaro.org>
-In-Reply-To: <20210903090339.1074887-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 4 Sep 2021 19:20:20 +0100
-Message-ID: <CAFEAcA8kTOq4AdCQjUenaNy2sr98QW+NYm0Y4O4oNHYmnBOJZw@mail.gmail.com>
-Subject: Re: [PULL 00/22] testing and plugin updates
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+User-Agent: Mutt/2.0.5 (2021-01-21)
+Received-SPF: none client-ip=141.76.48.99; envelope-from=adam@l4re.org;
+ helo=os.inf.tu-dresden.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,42 +49,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 3 Sept 2021 at 10:03, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> The following changes since commit 079b1252e9de384385c9da910262312ec2e574=
-c8:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-202=
-10901' into staging (2021-09-01 17:45:38 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/stsquad/qemu.git tags/pull-for-6.2-020921-1
->
-> for you to fetch changes up to a35af836d103f781d2fea437129732c16ba64b25:
->
->   docs/devel: be consistent about example plugin names (2021-09-02 11:29:=
-34 +0100)
->
-> ----------------------------------------------------------------
-> Testing and plugin updates:
->
->   - fix typo in execlog plugin
->   - clean-up and document gitlab FOO_RUNNER_AVAILABLE vars
->   - fix plugin build issue on OSX and modules
->   - add multi-core support to cache modelling plugin
->   - clean-ups for plugin arg=3DFOO handling
+Hi,
+
+while trying to launch an EFI-enabled arm32 Linux binary (zImage) I
+noticed I get an undefined instruction exception on the first
+instruction. Now this is a bit special because Linux uses a nop
+instruction there that also is a PE file signature ('MZ') such that the
+CPU runs over it and the file is still recognized as a PE binary. Linux
+uses 0x13105a4d (tstne r0, #0x4d000) as the instruction (see also
+arch/arm/boot/compressed/head.S and efi-header.S in Linux).
+However, QEMU's instruction decoder will only recognize TST with bits
+12-15 being 0, which this instruction is not fullfilling, and thus the
+undef exception. I guess other CPU implementations will allow this
+encoding. So while investigating I was doing the following to make Linux
+proceed. I also believe this was working in a previous version of QEMU.
+
+diff --git a/target/arm/a32.decode b/target/arm/a32.decode
+index fcd8cd4f7d..222553750e 100644
+--- a/target/arm/a32.decode
++++ b/target/arm/a32.decode
+@@ -127,7 +127,7 @@ ADD_rri          .... 001 0100 . .... .... ............       @s_rri_rot
+ ADC_rri          .... 001 0101 . .... .... ............       @s_rri_rot
+ SBC_rri          .... 001 0110 . .... .... ............       @s_rri_rot
+ RSC_rri          .... 001 0111 . .... .... ............       @s_rri_rot
+-TST_xri          .... 001 1000 1 .... 0000 ............       @S_xri_rot
++TST_xri          .... 001 1000 1 .... ---- ............       @S_xri_rot
+ TEQ_xri          .... 001 1001 1 .... 0000 ............       @S_xri_rot
+ CMP_xri          .... 001 1010 1 .... 0000 ............       @S_xri_rot
+ CMN_xri          .... 001 1011 1 .... 0000 ............       @S_xri_rot
 
 
-Applied, thanks.
+Any thoughts on this?
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
-for any user-visible changes.
 
--- PMM
+
+Adam
 
