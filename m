@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E0C400D41
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 23:59:13 +0200 (CEST)
-Received: from localhost ([::1]:54116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73FC0400D21
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 23:41:06 +0200 (CEST)
+Received: from localhost ([::1]:46044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMdgu-0007B8-CK
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 17:59:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35768)
+	id 1mMdPN-0005rq-EN
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 17:41:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdNP-0002rC-Ex
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:39:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54223)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdKu-0004bw-LB
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:36:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdNN-0002bV-TY
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:39:03 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdKt-0000xL-0H
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:36:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630791541;
+ s=mimecast20190719; t=1630791386;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=yIKxpWcU56OqvhkLWqT8KFXeISWeq1cxadhweZ1jVpE=;
- b=bCylt6pkYt1zr4qhg8uahVSOrAvRJ12a7AAMClqd9rC2LmhZsfCBXZlm7Dp7C+tR3zndAy
- yIemgbvCbZdf4addIUqm/HOw/HtQwPppgdOHxhSJje+beuX9Sisjt+1oaQZAPKFX25Yf3t
- CAV1UaBT1oX59vmRWxDXH+EAEtPNjeo=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-551-L7o2qHxcOwiRcHVxNa4qQA-1; Sat, 04 Sep 2021 17:36:21 -0400
-X-MC-Unique: L7o2qHxcOwiRcHVxNa4qQA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- b15-20020a05640202cf00b003cd5efcd633so1506539edx.9
- for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 14:36:21 -0700 (PDT)
+ bh=a99C9crsAiO4p+uk+bJauItmwvIN3BCi69tD3HDwFvQ=;
+ b=OQqR66vQEQYXs6j/bEQImDhiflhqUcWWalqErolSkTFuDqC8uzxo9qzwjFSEH3JT442//k
+ 7dgqkWB7E0KtnDw3aMMafXMhHf6vOVFQlVdPAo3hGJuqnc6jnPNRUPQU/3WICxeGwZh6fk
+ SA7Kd55/wINCk4e3VndbYy1v8QjVPFg=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-563-RVBLBSW4Msmi6rw2ixstiw-1; Sat, 04 Sep 2021 17:36:24 -0400
+X-MC-Unique: RVBLBSW4Msmi6rw2ixstiw-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ v19-20020a170906b013b02905b2f1bbf8f3so865168ejy.6
+ for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 14:36:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=yIKxpWcU56OqvhkLWqT8KFXeISWeq1cxadhweZ1jVpE=;
- b=U8DPaj990CneSnm36iLBklJ2OQtkccc0JJlRdJMeO4Mz3Goz39NjUUXShBK/RNcH3C
- yVojy5Ej6sDs2dZRkD7NWGYzGkNwyANFYwrGczt7qKDFYDsV+d2jBu5wel4/bi9+8B5u
- 8QXejGGhrBGi6/mSSvpnMV1//O6ByBmgOXAk8ABkyQHrjibIVRq87g0KMg+yzDby+gt+
- aGwLSGrJeWgt1iEOTJZRj2UqdMA9au594r5qD53aHQ7Xjk6/Q4CTmBQAYSaLq7C4hlEQ
- KH3Xc6d7Ixdzxc9reSYlHGwkjmCZBwKh7vIzAh4fVpECG+4Mb+mYVAeRwK6mcBNoXOmH
- dd9w==
-X-Gm-Message-State: AOAM530KZk8LHYkNYc2Xa0p66eBnUwVforhzWs7rONuDdp9+RPr5UnFO
- xbN0n9wHwScmPFBojPyLn62Eq0i/5ibPa77XkpJ/aFMHAcHIE85inmnzdelFKYunK7qOO5OvKtX
- RztoESf/NJlL1cRaN2BBEN96JTe0ElV7hol9ekoT5bpKrT/J2bvgNSHz8shY5
-X-Received: by 2002:a17:906:c05a:: with SMTP id
- bm26mr5884893ejb.498.1630791380408; 
- Sat, 04 Sep 2021 14:36:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxEUIMeYFQt+8syoq9RN3R3S+F9Em4X02SywKKnahKk3nIlT5Qjh5hGwZIcTTS7vIPYXNbGaQ==
-X-Received: by 2002:a17:906:c05a:: with SMTP id
- bm26mr5884884ejb.498.1630791380237; 
- Sat, 04 Sep 2021 14:36:20 -0700 (PDT)
+ bh=a99C9crsAiO4p+uk+bJauItmwvIN3BCi69tD3HDwFvQ=;
+ b=NlNCGB8cWtVxwl16JzO42YIory4mrVPD3LAdL/6j42CVLHSNt3mbmjV58u6+E/wQ3h
+ vuHXRu4PfvRwkE+kGTsUD6KMd9vA/wRnI8td4oPbpZbd2/Y5xSGk/c1Cus7eVFUZyZg6
+ ib4JnE1TCoxP1mmfWSJv0/B+jdG6dny9GtatkNf8JUnP4BBuW/xhzJc2af/Qmg+c2Ceq
+ ohHVjRt6Qj2fI/DWlAwBqmK3bun5armKbypKAx6DI7eOPdX19FdwxYH5x1sUvzPPeEFm
+ o79GPWPpbxHJxtYNaRQs9qu+xdTfnHdeE4GymaAEAcrFVnYebD9cOih3ZOdVVeVkC4CK
+ R50w==
+X-Gm-Message-State: AOAM532XdIDvAi36gh1gBLWDGyuvoZzWP+RIpdUpC1D6/WVaDB4JHCyQ
+ tniLrXJGlk+vaN5WaUuzei7dOzoQ8R4GN9q+ZS/sWvr5IpRRAwd/CE0C8FWbsjBvtvOu5S2/CCi
+ kqNZAs70pp8a4uDAGV/XMfCKNYzoic7iLYeph262yPBPm+sy6FmoyBTtD1/Qp
+X-Received: by 2002:a17:906:63ca:: with SMTP id
+ u10mr5938636ejk.411.1630791383318; 
+ Sat, 04 Sep 2021 14:36:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyY7C9JlnQTEoKqamNmCq/fdEAKdIatXHvpdnZ/N5CW+lRjbcpVH9e3IKTpcagpkVEZ8R9ZUg==
+X-Received: by 2002:a17:906:63ca:: with SMTP id
+ u10mr5938620ejk.411.1630791383169; 
+ Sat, 04 Sep 2021 14:36:23 -0700 (PDT)
 Received: from redhat.com ([2.55.150.176])
- by smtp.gmail.com with ESMTPSA id f10sm1537816ejc.51.2021.09.04.14.36.19
+ by smtp.gmail.com with ESMTPSA id i7sm1541051ejx.73.2021.09.04.14.36.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Sep 2021 14:36:19 -0700 (PDT)
-Date: Sat, 4 Sep 2021 17:36:18 -0400
+ Sat, 04 Sep 2021 14:36:22 -0700 (PDT)
+Date: Sat, 4 Sep 2021 17:36:20 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/35] vhost-user: add missing space in error message
-Message-ID: <20210904213506.486886-9-mst@redhat.com>
+Subject: [PULL 09/35] acpi: Delete broken ACPI_GED_X86 macro
+Message-ID: <20210904213506.486886-10-mst@redhat.com>
 References: <20210904213506.486886-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210904213506.486886-1-mst@redhat.com>
@@ -95,37 +95,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Alyssa Ross <hi@alyssa.is>
+Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alyssa Ross <hi@alyssa.is>
+From: Eduardo Habkost <ehabkost@redhat.com>
 
-This would previously give error messages like
+The macro never worked and never will, because the
+AcpiGedX86State type never existed.
 
-> Received unexpected msg type.Expected 0 received 1
-
-Signed-off-by: Alyssa Ross <hi@alyssa.is>
-Message-Id: <20210806143926.315725-1-hi@alyssa.is>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Message-Id: <20210805193431.307761-2-ehabkost@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vhost-user.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/hw/acpi/generic_event_device.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index a4eb6cde7e..360d9bc040 100644
---- a/hw/virtio/vhost-user.c
-+++ b/hw/virtio/vhost-user.c
-@@ -429,7 +429,7 @@ static int process_message_reply(struct vhost_dev *dev,
-     }
+diff --git a/include/hw/acpi/generic_event_device.h b/include/hw/acpi/generic_event_device.h
+index 6bed92e8fc..d49217c445 100644
+--- a/include/hw/acpi/generic_event_device.h
++++ b/include/hw/acpi/generic_event_device.h
+@@ -70,8 +70,6 @@
+ OBJECT_DECLARE_SIMPLE_TYPE(AcpiGedState, ACPI_GED)
  
-     if (msg_reply.hdr.request != msg->hdr.request) {
--        error_report("Received unexpected msg type."
-+        error_report("Received unexpected msg type. "
-                      "Expected %d received %d",
-                      msg->hdr.request, msg_reply.hdr.request);
-         return -1;
+ #define TYPE_ACPI_GED_X86 "acpi-ged-x86"
+-#define ACPI_GED_X86(obj) \
+-    OBJECT_CHECK(AcpiGedX86State, (obj), TYPE_ACPI_GED_X86)
+ 
+ #define ACPI_GED_EVT_SEL_OFFSET    0x0
+ #define ACPI_GED_EVT_SEL_LEN       0x4
 -- 
 MST
 
