@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D89B400D38
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 23:51:30 +0200 (CEST)
-Received: from localhost ([::1]:60112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B69E400D3D
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 23:54:51 +0200 (CEST)
+Received: from localhost ([::1]:41280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMdZR-0000S2-JL
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 17:51:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35592)
+	id 1mMdcg-0006oM-LK
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 17:54:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdLx-0007By-3v
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:37:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37808)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdM0-0007Og-1M
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:37:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30308)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdLv-0001jC-JM
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:37:32 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdLy-0001l1-IS
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:37:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630791451;
+ s=mimecast20190719; t=1630791453;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=wdEHFLO28MnHxnuu6NlFDZP5KdwfTCWh4jlJfZEIZpk=;
- b=Tv5DuVqrMoeY7vHxLaddvlnAKxBXi+wXdf+Mt5895kK0rea2W/Q0lqr0TMr1O0IzMQllmD
- N/UzO4OflH5C2ht8WUwV9SeZVa98PDtBBpS+lh7+GYCj14X2x0qaACi7R/NpyMeXRAUg57
- tZMfhOwTKyo0BWnoO8bgtfusl7YMpZs=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-ZpcWh4BHO2u0nS3wnwnZ8Q-1; Sat, 04 Sep 2021 17:37:29 -0400
-X-MC-Unique: ZpcWh4BHO2u0nS3wnwnZ8Q-1
-Received: by mail-ed1-f71.google.com with SMTP id
- s25-20020a50d499000000b003c1a8573042so1492056edi.11
- for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 14:37:29 -0700 (PDT)
+ bh=zCB7vIb7x0G7L9EN7GtILOvYbJbo5hiB2KP6eTMzDhg=;
+ b=LNEAdwUIuOchtAomrGcEW+fl19HBFSa64lPKeEXQGikrbvpTHKyWEqOz+yhTQ2BG5b8kuU
+ o8+aky8E6FAUo3WNOZBUnNWhBvw29GdCKam+o0TzgOMjoN8cr9mMZKBxNkw3CDzg11WoRy
+ efwNuyBb3N4w9RjrOnE7nCTK5E/p25o=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-144-36_xIl4OOfSSGiBtOWx8gg-1; Sat, 04 Sep 2021 17:37:32 -0400
+X-MC-Unique: 36_xIl4OOfSSGiBtOWx8gg-1
+Received: by mail-ed1-f69.google.com with SMTP id
+ g17-20020a056402425100b003cd5ba2852fso1509671edb.1
+ for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 14:37:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=wdEHFLO28MnHxnuu6NlFDZP5KdwfTCWh4jlJfZEIZpk=;
- b=EXY84Lvff+betrEY3cff9oe+e7uijzjOc9usxn9KSPyz0Ky3EwyP6W/WtCtOt2/zeE
- IuSImNh+6mhCy5WzI3URdCDEVpo7jgORSVp8JVP/QvPMMhbcofCnsNWf9GnJwquHgPhY
- xZ11ORKE4pSlb2mTvzAvugiYQCGoOLgJlnf6yug+jA3x6pukPcKG98Vs0bJcFeuCH5AC
- aP3tGOEQ7J3OTI8XkMtythylsunTci9sTwQsuAXv3sRnsgSBsorhSpTakXRV5BLzY+Tw
- YJW76l7PwWNX2s4fB5cGWbGzD42sH/fAQ5PzaqAsZ441fx/J6c9ojJNsfcccGcQGhjm1
- fvMw==
-X-Gm-Message-State: AOAM532MHXHyp9enAeLSdP3SoJp7r21V2IcCZH0R8a3orD79WnkVBNjQ
- RZQfPyP+WyUWtsZQH93UTVSvb6cmvYYohehKlVSCzZ2GdKjcDhvqcfsiIqoHt/vVv548P/+2YxZ
- wa1LqDUajiEAwSc65Xy1uvHCr0YeNcBSLKPyELxbHQAzKQx8Lf+RfgfZA9VAE
-X-Received: by 2002:a05:6402:26d2:: with SMTP id
- x18mr5878514edd.195.1630791448397; 
- Sat, 04 Sep 2021 14:37:28 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzZ9wYBmp5/Wa1npVBRpfY3Tsr26a+wrnu9mSZHb71kpq8ob3OhyP7N/y4SkQnhkHCUuWiVOg==
-X-Received: by 2002:a05:6402:26d2:: with SMTP id
- x18mr5878502edd.195.1630791448186; 
- Sat, 04 Sep 2021 14:37:28 -0700 (PDT)
+ bh=zCB7vIb7x0G7L9EN7GtILOvYbJbo5hiB2KP6eTMzDhg=;
+ b=W+WRahnuEse3WcBdlkgGxqwhOuZ59LvuuQxpJxqVbGzczN1JGWDWARLZwRTB3SUqzX
+ V/YqZ5CVToE72lJlnHJbhyqcFHw48NZ73H5WL9/8tKqsWO4B4vayD+CzaXpK2jFe7+P4
+ W3VZOa3MowB2PIyEh5wXUuINQKtoNN/JlpUKmaM1kM7qs3guHBdSYxSb5+TyUaQqzMMz
+ s158DVobDugFv/XNSApLyiDCz7kMcWdRruv+dctGrCmJGe+70dLqcfcoivdMQLFpiVmt
+ nIN2AWo8f6CNY6abcpYOZx/KXDxjDAr77cP+jCn/Yt4F3ujbcYPM++aDgWJzCyfVSg9X
+ JK4Q==
+X-Gm-Message-State: AOAM533FshBqHLjSE21R9dk0qdBkb9mT5dpvpxsYL1l0OKSTcS+qCFk1
+ oTyAczcFI5lI2Y3jHHzVwkm0vnMs50yfiSyfDjhvrhPeio5iRx/3DKmhm3Lm1zTK269FiGhhbwi
+ ZHFQlrKy4GYuiBuVUu4MXwXJw1+VyCoh6MdIF/AliO99HCvXRp6sAN7NlmHyX
+X-Received: by 2002:a17:907:2677:: with SMTP id
+ ci23mr5788541ejc.429.1630791451338; 
+ Sat, 04 Sep 2021 14:37:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyYipNLk8sxvZlwfjYEwHMRV9QGtoGJh2soKCkwqAc509hFYc6GPClXJqI21NLO9qCI/aXd/A==
+X-Received: by 2002:a17:907:2677:: with SMTP id
+ ci23mr5788524ejc.429.1630791451144; 
+ Sat, 04 Sep 2021 14:37:31 -0700 (PDT)
 Received: from redhat.com ([2.55.150.176])
- by smtp.gmail.com with ESMTPSA id cn16sm1898786edb.87.2021.09.04.14.37.27
+ by smtp.gmail.com with ESMTPSA id d16sm1912186edu.8.2021.09.04.14.37.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Sep 2021 14:37:27 -0700 (PDT)
-Date: Sat, 4 Sep 2021 17:37:25 -0400
+ Sat, 04 Sep 2021 14:37:30 -0700 (PDT)
+Date: Sat, 4 Sep 2021 17:37:28 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/35] vhost-vdpa: remove the unnecessary check in
- vhost_vdpa_add()
-Message-ID: <20210904213506.486886-31-mst@redhat.com>
+Subject: [PULL 31/35] vhost-vdpa: don't cleanup twice in vhost_vdpa_add()
+Message-ID: <20210904213506.486886-32-mst@redhat.com>
 References: <20210904213506.486886-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210904213506.486886-1-mst@redhat.com>
@@ -96,39 +95,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jason Wang <jasowang@redhat.com>
 
-The VhostVDPAState is just allocated by qemu_new_net_client() via
-g_malloc0() in net_vhost_vdpa_init(). So s->vhost_net is NULL for
-sure, let's remove this unnecessary check in vhost_vdpa_add().
+The previous vhost_net_cleanup is sufficient for freeing, calling
+vhost_vdpa_del() in this case will lead an extra round of free. Note
+that this kind of "double free" is safe since vhost_dev_cleanup() zero
+the whole structure.
 
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20210903091031.47303-7-jasowang@redhat.com>
+Message-Id: <20210903091031.47303-8-jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- net/vhost-vdpa.c | 4 ----
- 1 file changed, 4 deletions(-)
+ net/vhost-vdpa.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
 diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 395117debd..5c09cacd5a 100644
+index 5c09cacd5a..3213e69d63 100644
 --- a/net/vhost-vdpa.c
 +++ b/net/vhost-vdpa.c
-@@ -111,10 +111,6 @@ static int vhost_vdpa_add(NetClientState *ncs, void *be)
-         error_report("failed to init vhost_net for queue");
-         goto err;
-     }
+@@ -81,16 +81,6 @@ static int vhost_vdpa_net_check_device_id(struct vhost_net *net)
+     return ret;
+ }
+ 
+-static void vhost_vdpa_del(NetClientState *ncs)
+-{
+-    VhostVDPAState *s;
+-    assert(ncs->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
+-    s = DO_UPCAST(VhostVDPAState, nc, ncs);
 -    if (s->vhost_net) {
 -        vhost_net_cleanup(s->vhost_net);
--        g_free(s->vhost_net);
 -    }
-     s->vhost_net = net;
-     ret = vhost_vdpa_net_check_device_id(net);
-     if (ret) {
+-}
+-
+ static int vhost_vdpa_add(NetClientState *ncs, void *be)
+ {
+     VhostNetOptions options;
+@@ -121,7 +111,6 @@ err:
+     if (net) {
+         vhost_net_cleanup(net);
+     }
+-    vhost_vdpa_del(ncs);
+     return -1;
+ }
+ 
 -- 
 MST
 
