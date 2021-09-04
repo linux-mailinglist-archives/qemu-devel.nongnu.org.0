@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06146400D29
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 23:44:09 +0200 (CEST)
-Received: from localhost ([::1]:60274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C8B400D25
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 23:42:53 +0200 (CEST)
+Received: from localhost ([::1]:54672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMdSK-00074B-26
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 17:44:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35420)
+	id 1mMdR6-0003Je-LC
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 17:42:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdLR-0005lW-E2
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:37:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27652)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdLU-0005qP-QG
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:37:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124]:50720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdLP-0001Hm-N9
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:37:00 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdLT-0001La-E7
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:37:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630791419;
+ s=mimecast20190719; t=1630791422;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vFrxzlGUYuvipK0lYqredbuf7giybAcrOV0JeHM2q0Y=;
- b=a8xlgAL8yoS53X7QP9IfXOyhGWrujxFNDzvG3cfaG//NEIt5GiY4r2jvG/MZjYTt+u5iEZ
- JzwWOAUCQ7HHeExZtIxwYJfNdHpXp07uT77o2NN1fVLk68eQgytc6Bb3Uv05zLz3VKLjWS
- m4iwh/zWiGDVgYBpo0XqwTzmDpzq/OU=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-370-s0RaldS5OiCSgCtLEA74vw-1; Sat, 04 Sep 2021 17:36:58 -0400
-X-MC-Unique: s0RaldS5OiCSgCtLEA74vw-1
-Received: by mail-ed1-f72.google.com with SMTP id
- b15-20020a05640202cf00b003cd5efcd633so1507130edx.9
- for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 14:36:58 -0700 (PDT)
+ bh=sSh2M0iEYArsKdnCzWuCUKGerGJG9NoNb7thnyEYSpU=;
+ b=Ad3Q1TUNX/Rfj1olEL86AoYmhdmEQ29EC0TcRAty2qCYGdcIXplcbckcn6KM/qoJlD1lyl
+ jJrB4wZzIxs/rI1n5vPwyJnP1hO6OVRsOFQtb+lLpzFBcCxLasFmQyOtGHpmZfn72pkmBn
+ OwFIxy4PnPH1JIddhNbj/1+4oTHfJzQ=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-7-JgBb9cyfO0a7wRdTSX9UiA-1; Sat, 04 Sep 2021 17:37:01 -0400
+X-MC-Unique: JgBb9cyfO0a7wRdTSX9UiA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ c25-20020a170906529900b005c56c92caa2so844793ejm.19
+ for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 14:37:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=vFrxzlGUYuvipK0lYqredbuf7giybAcrOV0JeHM2q0Y=;
- b=mucyfOZb6As63TeYGAVkS/mFlJMWyco4I3adij/fDxjIgdCgVh969GRyEb4fAJwtMH
- g9CjVbO4QkW1e6FPR7cAbcN5XD3f94vNh8v83zEKbbyXSwBWrqm+7sT5wBaGHrYRq9Vh
- Rq4/cGRHrKZ+CakIUNgPDvN2vZMxJ6yhrthzvbtr+4aphRivx7SZ7JxMVHXlomsrtA8t
- BJ07scgJTxhAJu/0n38s/F8y3yF8cbKLTaCWD1Jdau3isPT/Wf2La8ec+49fsV8wmDIu
- X98WefsdIV5Aaf4nUnnnk5x4R5pdauMwlFUeSYFHbZpp1xFYPIrACoiMvcfAecn/O3S2
- WUMg==
-X-Gm-Message-State: AOAM530gmbNVCZcbJ2wo8Xnve8S+gcEUsAWeWSxy0E17RUOM4YzjuJHw
- U+9aJtMa1A/6i6oU27SFT4afp+82cOpNRX0iROxxhUMkRkWnKXKiH5jKyKzaedoHy4eHgpxcRCm
- EhuTvVfLzckI/6v2Ek0nb1h9qzlT59lJ1WEuSDij1q++UQf3hP7s6X/vtN/P+
-X-Received: by 2002:a17:906:988a:: with SMTP id
- zc10mr6024740ejb.256.1630791416751; 
- Sat, 04 Sep 2021 14:36:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwnkjeDJtYLNSbNsguEmH4lDJgtevTGyMucaNvRFDuibG/oIX+9utyOZcAZbhmIDPA6F7rAGg==
-X-Received: by 2002:a17:906:988a:: with SMTP id
- zc10mr6024723ejb.256.1630791416559; 
- Sat, 04 Sep 2021 14:36:56 -0700 (PDT)
+ bh=sSh2M0iEYArsKdnCzWuCUKGerGJG9NoNb7thnyEYSpU=;
+ b=gYiCYskbh2CFauqjAIzNOYgunXFynbbhn2SDHIpPNUNcxGrXjZju4YV0jEJ31By1OV
+ bKnNa1Ib0PqWZBsTWMyemzETromjzqA/N41P0sBqzgFyPMATcEJ9aMRxugkARa3hta2h
+ DrLu2VjAD3HDIRlbxMMsNuSyDRbm9zHBED6bQizHzL+EJY0tNHUmmX/mcFC3+Fkrfl1N
+ /sd3D5Wc97Bxc0KOCTznSXegCLmJ4nqL5dWedIVgY4BxZA67AUO3ThRH7gOiBImdYzKa
+ vvTljpoCNzAp7JKV6psX6u8iTgAThXadiQtoZMdxJtKLFrJrXzuJ/6fPkQ9slVpy9Er3
+ M3sA==
+X-Gm-Message-State: AOAM531A6EstVMYBogYgd4qn8vLiLDACzlV6FPgW/Zn6OuNiP0SMpMCW
+ +p7uPmv4h3TiXjcoHAXLkGNswQQEqv8/hXpQBi0Tsgvw4FO4OAwUQ5XQJ2kK2N4wJCHg+i1Eyhf
+ DxFQUBMKksH1yIbdZ5l4Fhj89rdgb/UrC77WwyEOLCHfzm/JBxdu9lAhgY14H
+X-Received: by 2002:a17:907:7704:: with SMTP id
+ kw4mr5995646ejc.23.1630791420092; 
+ Sat, 04 Sep 2021 14:37:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyWlhNZCS6UKfacvE0RZUaDf4AAYsR6T0Pv3JKjCo9+FGJNCq6u8QkJzjHdjqLvIpioRvMFkg==
+X-Received: by 2002:a17:907:7704:: with SMTP id
+ kw4mr5995626ejc.23.1630791419874; 
+ Sat, 04 Sep 2021 14:36:59 -0700 (PDT)
 Received: from redhat.com ([2.55.150.176])
- by smtp.gmail.com with ESMTPSA id d6sm1900829edx.0.2021.09.04.14.36.54
+ by smtp.gmail.com with ESMTPSA id e22sm1924047edu.35.2021.09.04.14.36.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Sep 2021 14:36:56 -0700 (PDT)
-Date: Sat, 4 Sep 2021 17:36:53 -0400
+ Sat, 04 Sep 2021 14:36:59 -0700 (PDT)
+Date: Sat, 4 Sep 2021 17:36:56 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/35] MAINTAINERS: Added myself as a reviewer for acpi/smbios
- subsystem
-Message-ID: <20210904213506.486886-20-mst@redhat.com>
+Subject: [PULL 20/35] hw/virtio: Document virtio_queue_packed_empty_rcu is
+ called within RCU
+Message-ID: <20210904213506.486886-21-mst@redhat.com>
 References: <20210904213506.486886-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210904213506.486886-1-mst@redhat.com>
@@ -78,14 +78,14 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,41 +99,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Igor Mammedov <imammedo@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ani Sinha <ani@anisinha.ca>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-I have developed an interest in this space and hopefully can lend some
-helping hand to Igor and Michael in reviewing simpler patches.
+While virtio_queue_packed_empty_rcu() uses the '_rcu' suffix,
+it is not obvious it is called within rcu_read_lock(). All other
+functions from this file called with the RCU locked have a comment
+describing it. Document this one similarly for consistency.
 
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20210825031949.919376-4-ani@anisinha.ca>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210826172658.2116840-2-philmd@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- MAINTAINERS | 1 +
+ hw/virtio/virtio.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 5d923a6544..6c20634d63 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1751,6 +1751,7 @@ F: docs/specs/*pci*
- ACPI/SMBIOS
- M: Michael S. Tsirkin <mst@redhat.com>
- M: Igor Mammedov <imammedo@redhat.com>
-+R: Ani Sinha <ani@anisinha.ca>
- S: Supported
- F: include/hw/acpi/*
- F: include/hw/firmware/smbios.h
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 874377f37a..a5214bca61 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -634,6 +634,7 @@ static int virtio_queue_split_empty(VirtQueue *vq)
+     return empty;
+ }
+ 
++/* Called within rcu_read_lock().  */
+ static int virtio_queue_packed_empty_rcu(VirtQueue *vq)
+ {
+     struct VRingPackedDesc desc;
 -- 
 MST
 
