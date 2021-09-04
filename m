@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCB5F400A8D
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 13:20:05 +0200 (CEST)
-Received: from localhost ([::1]:37514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FEA0400B37
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 13:51:09 +0200 (CEST)
+Received: from localhost ([::1]:53782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMTiO-0002OD-Gn
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 07:20:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33890)
+	id 1mMUCR-0006ql-TE
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 07:51:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMTgF-0001cj-Jl
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 07:17:52 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:43527)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMTgD-0001lm-C4
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 07:17:51 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id b6so2334443wrh.10
- for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 04:17:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=y2RiIz8uQxIlOzWY/wt5L676U+x7QqWwkEWImj1nPak=;
- b=FNZ8EQ+QQ9w8AZIXtVIN9RDkrBRZgu6Psu5vxNsfg1stAXV+NFzakcgGLl2w3WDNNE
- LJYoCYej6Jl3TeIRQSpKeVYSpsBiJAdvE5JOoMt+l5gdUKbtn2T7pgOQY8BDI9vOIlJP
- n6AC+U9+fJRSKSm+o7bSRZH5LhIxQoUJ9QlnkPF6k0Hf+SSFRgKfolsEYtl8IUFMao8e
- jF48J5BzC35VsYxuw1MPbXW4BPwuEMb6ladfIJAt/dWAiJtMRHqhIAzX6H8qdP3INKrr
- b5WYKYJLlfzmcBXy/EZVI4BFqZNarnt1VABcJ6REOwlPdkDmnNt2SoMb9RINJ0ydLYnh
- Yssw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=y2RiIz8uQxIlOzWY/wt5L676U+x7QqWwkEWImj1nPak=;
- b=WYA+tgvaPnN0hGaNZeFsOlpDrZPLPCixFrr2To9gSSuW4UaWa4420xJCXSMinBf7uO
- gaxBTXMXpHlsqUgSr827SslZLe0exT8yk0/7T21pqSi2NgJOcVULEtgqJyz/zVck0Qdf
- t2IYFqXnfXpcRycxmcxIW3yIHeadYFiqg5wckkhDQYxkjUvORDi5iR/fJxlLydi5QS2F
- JbV/MgIhTIp9PyXWycid+MVpE2MvpzCHphPZq2akbaM5LtGxKQHY2OIAKup95zb7cJDM
- F31uQtAxAjwGm+SEXgeglQk4uBP/mIYj0XURruKN497XWt96SFr3vHsYxYCkuzkitmby
- VEBQ==
-X-Gm-Message-State: AOAM5327c+o+pvo/Je1aQqUDICv+hejfAeFpj5hwn11CtJwJzNhHQqU0
- ikCTWS1sie5uBj46lrplpL99cA==
-X-Google-Smtp-Source: ABdhPJzMPTrnhoB8bldQdGyOkb1A7gk4Bph+nirgP6oh9JbooTXMmVGjdEDl5wcwq+UNEo6clFv2AQ==
-X-Received: by 2002:a5d:6cab:: with SMTP id a11mr3543703wra.287.1630754267100; 
- Sat, 04 Sep 2021 04:17:47 -0700 (PDT)
-Received: from [192.168.8.107] (246.red-2-142-218.dynamicip.rima-tde.net.
- [2.142.218.246])
- by smtp.gmail.com with ESMTPSA id l15sm1871914wrv.84.2021.09.04.04.17.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 04 Sep 2021 04:17:46 -0700 (PDT)
-Subject: Re: [PATCH v4 05/21] target/loongarch: Add fixed point shift
- instruction translation
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <1630586467-22463-1-git-send-email-gaosong@loongson.cn>
- <1630586467-22463-6-git-send-email-gaosong@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <644fdd1c-b2ab-de7c-8e22-4f0157515696@linaro.org>
-Date: Sat, 4 Sep 2021 13:17:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mMUAt-0005v1-9Y
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 07:49:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43676)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mMUAq-0001AK-2Y
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 07:49:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630756166;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=2tAzhPOCAhWjsrW7D57RnbhzD1dl7rb/Aql2by1d+Gc=;
+ b=CWlTjW16GJBXiviebFkMvP4c8w+vR9tyO6gTQ2uZKnGx0vD8rXCHD3Zwdwxn3DlYaDItAM
+ WHGd/l+c1STRVMEYOoXaRQoywvWOnovwYYhKQk12jJ5EtMhMkiNXCWjy4eitKrc6ePrnM3
+ vwGiEtU0HRWU4M5eMyR2+atNvK/HmWQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-482-hz2q3udJPw2ZKODlaY4n0Q-1; Sat, 04 Sep 2021 07:49:24 -0400
+X-MC-Unique: hz2q3udJPw2ZKODlaY4n0Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6CA4100670B;
+ Sat,  4 Sep 2021 11:49:23 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
+ [10.36.112.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 722656A91D;
+ Sat,  4 Sep 2021 11:49:23 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B4A591138606; Sat,  4 Sep 2021 13:49:21 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v7 5/7] qapi/qdev.json: add DEVICE_UNPLUG_GUEST_ERROR
+ QAPI event
+References: <20210825004835.472919-1-danielhb413@gmail.com>
+ <20210825004835.472919-6-danielhb413@gmail.com>
+ <87tuj4a0wx.fsf@dusky.pond.sub.org> <YTLtvn5ywJce0iqE@yekko>
+Date: Sat, 04 Sep 2021 13:49:21 +0200
+In-Reply-To: <YTLtvn5ywJce0iqE@yekko> (David Gibson's message of "Sat, 4 Sep
+ 2021 13:53:34 +1000")
+Message-ID: <874kb0pnlq.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <1630586467-22463-6-git-send-email-gaosong@loongson.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -58
-X-Spam_score: -5.9
-X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.832,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,41 +82,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, yangxiaojuan@loongson.cn, david@redhat.com,
- bin.meng@windriver.com, mark.cave-ayland@ilande.co.uk,
- aleksandar.rikalo@syrmia.com, jcmvbkbc@gmail.com, tsimpson@quicinc.com,
- alistair.francis@wdc.com, edgar.iglesias@gmail.com, chenhuacai@gmail.com,
- philmd@redhat.com, atar4qemu@gmail.com, thuth@redhat.com, ehabkost@redhat.com,
- groug@kaod.org, maobibo@loongson.cn, mrolnik@gmail.com, shorne@gmail.com,
- alex.bennee@linaro.org, david@gibson.dropbear.id.au,
- kbastian@mail.uni-paderborn.de, crwulff@gmail.com, laurent@vivier.eu,
- palmer@dabbelt.com, pbonzini@redhat.com, aurelien@aurel32.net
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/2/21 2:40 PM, Song Gao wrote:
-> +static bool gen_r2_ui6(DisasContext *ctx, arg_slli_d *a,
-> +                       void(*func)(TCGv, TCGv, TCGv))
-> +{
-> +    TCGv dest = gpr_dst(ctx, a->rd);
-> +    TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
-> +    TCGv src2 = tcg_constant_tl(a->ui6);
-> +
-> +    TCGv t0 = temp_new(ctx);
-> +
-> +    tcg_gen_andi_tl(t0, src2, 0x7f);
+David Gibson <david@gibson.dropbear.id.au> writes:
 
-0x3f.
+> On Wed, Sep 01, 2021 at 03:19:26PM +0200, Markus Armbruster wrote:
+>> Daniel Henrique Barboza <danielhb413@gmail.com> writes:
+>> 
+>> > At this moment we only provide one event to report a hotunplug error,
+>> > MEM_UNPLUG_ERROR. As of Linux kernel 5.12 and QEMU 6.0.0, the pseries
+>> > machine is now able to report unplug errors for other device types, such
+>> > as CPUs.
+>> >
+>> > Instead of creating a (device_type)_UNPLUG_ERROR for each new device,
+>> > create a generic DEVICE_UNPLUG_GUEST_ERROR event that can be used by all
+>> > guest side unplug errors in the future. This event has a similar API as
+>> > the existing DEVICE_DELETED event, always providing the QOM path of the
+>> > device and dev->id if there's any.
+>> >
+>> > With this new generic event, MEM_UNPLUG_ERROR is now marked as deprecated.
+>> >
+>> > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> > ---
+>> 
+>> [...]
+>> 
+>> > diff --git a/qapi/qdev.json b/qapi/qdev.json
+>> > index 0e9cb2ae88..8b1a1dd43b 100644
+>> > --- a/qapi/qdev.json
+>> > +++ b/qapi/qdev.json
+>> > @@ -84,7 +84,9 @@
+>> >  #        This command merely requests that the guest begin the hot removal
+>> >  #        process.  Completion of the device removal process is signaled with a
+>> >  #        DEVICE_DELETED event. Guest reset will automatically complete removal
+>> > -#        for all devices.
+>> > +#        for all devices.  If a guest-side error in the hot removal process is
+>> > +#        detected, the device will not be removed and a DEVICE_UNPLUG_GUEST_ERROR
+>> > +#        event is sent.  Some errors cannot be detected.
+>> >  #
+>> >  # Since: 0.14
+>> >  #
+>> > @@ -124,3 +126,27 @@
+>> >  ##
+>> >  { 'event': 'DEVICE_DELETED',
+>> >    'data': { '*device': 'str', 'path': 'str' } }
+>> > +
+>> > +##
+>> > +# @DEVICE_UNPLUG_GUEST_ERROR:
+>> > +#
+>> > +# Emitted when a device hot unplug fails due to an internal guest
+>> > +# error.
+>> 
+>> Suggest to scratch "internal".
+>
+> I'd suggest s/internal guest/guest reported/.  "guest error" is a bit
+> vague, this doesn't neccessarily indicate a bug in the guest.  The key
+> point is that we're reporting this event because the guest performed
+> some explicit action to tell us something went wrong with the plug
+> attempt.
 
-That said, these shouldn't require masking, because they've just come from the decoder as 
-5 and 6-bit operands.
+Yes, that's better.
 
-You should prefer to use the tcg_gen_* functions that take integers:
+[...]
 
-     void (*func)(TCGv, TCGv, target_long)
-
-passing tcg_gen_shli_tl, etc.  It will make all of these simpler.
-
-
-r~
 
