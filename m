@@ -2,127 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35594400C25
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 18:40:37 +0200 (CEST)
-Received: from localhost ([::1]:41316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3DE8400C3B
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 19:14:10 +0200 (CEST)
+Received: from localhost ([::1]:36450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMYia-0002te-7m
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 12:40:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53160)
+	id 1mMZF3-0003XL-6n
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 13:14:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mMYTn-0002zs-Ln; Sat, 04 Sep 2021 12:25:24 -0400
-Received: from mail-vi1eur05on2095.outbound.protection.outlook.com
- ([40.107.21.95]:18546 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mMYTm-0007GP-1X; Sat, 04 Sep 2021 12:25:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jKYxJgVHMowtPN38b/QTSY8p4ERd3gRoqsFSwuqEvp+RVxqVqowzV+/FXZNT1yvS9Ln0gqtVyyWOJ46WWsy1v+lrbysHnv3fpeVEAODuDMYE29BcjvAa6MJY7XrgXHkQfJBZ4M6GN0QSiEaOtAB0BtUPpf3wokxLi3I70uZ3ojJ32AnI6mw4VszgM1CQUpibr4rOc2E0aSbESV6E1W4MphKKA5+jzNeCi/Izjy/50gdkRve2B7oOQm8r68QQvBskgzmvpPyXNOR4VnseNjMfkncpSwWJJfVMC9cFJi5Vtdmwksczn6tgeSIlFA2X6S6zDh6X0idUItZpS83GXyrD/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=LMaBfg8VvlNM9Ib/8Ou/neYhEZLhouR0GN9AA8FciwY=;
- b=fp0R/jQpNOE4Ifhpcp528+vASaZYMyhEXxfHQdPjNiZnjZEJJlJDfH4yYJuQpuB1oWhyYy0zxQVkmjzC75DAf0qevOey18NjlLOw3lYX/wmRPzO0/DVjUGIgKXY6M6ZjlFAHtY/1yeQp5RVLEHzgE/LpiVHS0oG1+idKR11yJWRtR7rBiK7J+4ozNkgvJbAon3YjZlScPO9cX6cQ4babOWync6641mqcG4doPNLa9w5o+6XgOW/LObNfrPn3PaUEHtqTLntaOYftFilxsQj/WXWN7sowDe39eWUVFLtN2+VtDdhLxV6dkfJJeSAl0q1IVAjI7hTSeicWQ8BvyyWUyg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LMaBfg8VvlNM9Ib/8Ou/neYhEZLhouR0GN9AA8FciwY=;
- b=O/pBgPWaRUI+gHgW+Z8vj+9sDzQQUfF9kvO5bDvpmUgg0eQvpDmm09Z8i8w8p5rEeMUKptyhjD/RDSnmHzfWu1nkEfjDBnVYRPdNG0PlV2DZd6rzD/D3trGnW2DV2Z/P/zSvz9YSC3kc7ytK0z7EiLW9/+8Ua1L7iEeFBMVRNwY=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6904.eurprd08.prod.outlook.com (2603:10a6:20b:394::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.20; Sat, 4 Sep
- 2021 16:25:05 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::2817:53b3:f8b4:fe22%8]) with mapi id 15.20.4478.024; Sat, 4 Sep 2021
- 16:25:05 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, vsementsov@virtuozzo.com, hreitz@redhat.com,
- kwolf@redhat.com
-Subject: [PATCH v7 11/11] qcow2: use reqlist_mark_req_invalid()
-Date: Sat,  4 Sep 2021 19:24:28 +0300
-Message-Id: <20210904162428.222008-12-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210904162428.222008-1-vsementsov@virtuozzo.com>
-References: <20210904162428.222008-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: HE1PR05CA0275.eurprd05.prod.outlook.com
- (2603:10a6:3:fc::27) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1mMZEB-0002gb-Ql; Sat, 04 Sep 2021 13:13:15 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:34528)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <groeck7@gmail.com>)
+ id 1mMZE9-0005qP-L5; Sat, 04 Sep 2021 13:13:15 -0400
+Received: by mail-oi1-x236.google.com with SMTP id p2so3297283oif.1;
+ Sat, 04 Sep 2021 10:13:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:to:cc:references:from:subject:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TUSynKinh2aqtLM+qwXcGSQBrw5nhE2brZQkIAMZaxM=;
+ b=e5zTGVif6XdOz07tLFhQcaExBlRAlzFNUFCuAYflfQNro0wrq2FSN0ae9S4FK9n16O
+ F8LUGLBvqcNsp5lPGNgkXZn554ceG1XwU6BlVX7mFSNuEqEJ20r/PFnu6xkv/7FdpqMJ
+ JUkiSwSaqWp+J4WrL5Jz9Fkgm/tN9vZyzikwk/iEVyd8yBZxI+e/+7+QcvAUhHttUswV
+ QWc/bhOv/B4xQ6InwkiAXxEj6M9QFa9rTAWtOmIlD0OrqI/b3KZA1985RMXNoxH50Saz
+ VYjixJbaWgHLFYkdwQCk8Nw+yBOlZVRGTHf9cRUQtZ7Xsz2To4P0tg0U4H6yJZGQIIm4
+ pSeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:to:cc:references:from:subject:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TUSynKinh2aqtLM+qwXcGSQBrw5nhE2brZQkIAMZaxM=;
+ b=CU78/wHUz09lPB3Ec74GZlm54kNa++J86tHYFssaoG91i/lmU2Dy2qhOZXCT5E8SHr
+ CNhKwcgy4zCzTtrqiQc6FEDZXZXN6OrrcvsPeRHrGpFfbORZ8B7I9PSLOaEqPTNSWOu3
+ WYCmomwDIt9hKJ5e7WBefPuKUIipVl8E/xalufCEudAhJ+pdguvKRY7BpvfAAEnveJTV
+ 1JjNV4CwGO1V/UVKYzN3iKEouVY1DdDyQ9Osx2tNJNlD9z8RiPEG98nUl9rTCfsT4xPC
+ u46Lp4G00IPAnB3mLQlvOQ6PmqQFfTEZF+usaxuYiBObPUPT+OBUyrc0RLF6uk6N7J8H
+ IEaQ==
+X-Gm-Message-State: AOAM532FwXdJJn5/hUytrsqI7mmZw3JQAu/xzBeoOGUnLb7v3j/bl+Qn
+ zigGaUdjojdy2/W+N+lyhIsWGL8D1ow=
+X-Google-Smtp-Source: ABdhPJwiNY12izUrUqpoyupyBh77ZJtTx4CQQo7Wn2CbuLyY1SGh1aUGPkLhSOca1f4gw5gmC2DptA==
+X-Received: by 2002:a05:6808:220e:: with SMTP id
+ bd14mr3175413oib.41.1630775590978; 
+ Sat, 04 Sep 2021 10:13:10 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+ by smtp.gmail.com with ESMTPSA id
+ w9sm616070oti.35.2021.09.04.10.13.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 04 Sep 2021 10:13:10 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210808013406.223506-1-linux@roeck-us.net>
+ <CAFEAcA8+o69ztRaaMvqh+zNaFs_6reSHX_ijknay6_0VePSE2w@mail.gmail.com>
+ <a34c10d4-fc90-0186-3214-c3c5e77b4eea@roeck-us.net>
+ <CAFEAcA_cAp6kWTE6Lpx6QF1zfTYfQXiOPgdfkztS3iuJkRB0xQ@mail.gmail.com>
+From: Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH] hw/ssi: imx_spi: Improve chip select handling
+Message-ID: <b5e43e87-c1bd-3265-298e-346413a22a82@roeck-us.net>
+Date: Sat, 4 Sep 2021 10:13:08 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (185.215.60.196) by
- HE1PR05CA0275.eurprd05.prod.outlook.com (2603:10a6:3:fc::27) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4478.17 via Frontend Transport; Sat, 4 Sep 2021 16:25:04 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 082fc503-e653-4414-7e0b-08d96fc08dea
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6904:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB69044560DBF68EBD64FDDCA9C1D09@AS8PR08MB6904.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:626;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Yc/oA9l7xkGHtc/HaVw3Gq/A16rwvUezRfokFyRniD+0vsqSjFlZ8Yyp0BGBr/8VP+mhPhvKdyvubLVRDdLFsRWmigDt+nSRnRg+NGQU5yUNgPvWq/CoTbGklmWENoWJiGPDUNQkq3Qs7GDwr+Xtkb2U6g/xvrt47QKdDhBTKByRy8YNVyzS6k41AbNrGHrHohIJ0q88Du4rg9AcOXcX9WjLwg1K2DaPO4prqq3DETOSbfUVD2xTfssAXyapIDmU5hHwjtopDDScLX0BOwX9hhOoQTJYxHnUzZK0C6eJQzcY6HfJNSjELLl4bLwDwEES3Rle6jwnRbfoJLDm7nt1hFsUGzyo01i9FRSPh3HuwAuasEXP3lW5RyvbcYo1NTraNu6XLNWkNOZ8sqOA4l715dJgSUjynuEHShQZnS35ZMxEZtTFFXnSCPnvveY6b+O2O+BMYf9lti/XaG9huzXeMAbmHyMjTlmY35Awl7+sWrT06lb7YucFjdtoVqGPgt1snCS0R8cdX1UsimX+B+hARTL33u1a4Tj71M0x1FSnQzw08HahoWw8KuUdBrEc6k5YHfyVTuSIT4XpFeoFVsUUqpkknOVEeR4PQyi15xdl+KK0IO700ZEwo4+SadmLmJmLE61mnVeTZK4MkuLSYtpsukIEXAOG1VgMV8G4ets9bNZqNvgQeUvTiSVNObCiIj0eUyOpsaYAEEh/S+gsx7ElCw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(136003)(376002)(39840400004)(396003)(366004)(6486002)(66946007)(8936002)(52116002)(6666004)(83380400001)(478600001)(4326008)(38350700002)(186003)(38100700002)(5660300002)(2906002)(1076003)(8676002)(6506007)(86362001)(6916009)(6512007)(66556008)(36756003)(26005)(2616005)(956004)(316002)(66476007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dYOHVUo4olKKLp51S7yo0EbfPiIEEzqYReWP1KxiRN/imcIAuP3I13MVj7zQ?=
- =?us-ascii?Q?2yhIgLLxPEyPyS57I2+Rt7ZqthtaP7xzYmjycMoV02hMCzeQM7ZbBBkW9n5q?=
- =?us-ascii?Q?BBKUf0bkGIKma1/T8wlrQvIPvSa3nzFX3sTl3cgXl9/sh1QV3hGuQ7i410Oi?=
- =?us-ascii?Q?4S9VvWPvrIeY/19pPPIJwyWLcr+8MmhBh5K3Ezz4soRjLjvGxqvgKgkHaz7u?=
- =?us-ascii?Q?rgD5S7QjR5BEB4vcYqW2w3Npwo7QU1j4dJod9E+t82wnYaA3bj9lQvSymsHN?=
- =?us-ascii?Q?rg8xMBBNJ7UfUroDHVQXDY7OrUx440ghhqN4rhnYOL6kkMLY+8z00MtZyxl1?=
- =?us-ascii?Q?LP3T1aVQ0zAMA2bYPklVSPwZV5c8+9o/pYAJlxTmbr8EHYKBmMHhXh8/6AWx?=
- =?us-ascii?Q?Yt+4pthmxsY5K4a3hUr2dR0Y6RUXeHckjZnmaysty0EDZcm34uGjoTMtDuWD?=
- =?us-ascii?Q?5SKPmWhUAXmNa2E8637DuX7igHzKZzmqOcaJLrd666CWryddrnW8CfJ/dGyK?=
- =?us-ascii?Q?vNs8pTXOH7nwl0KE3QOxHOqJqOWYIgtW/9rhHLsPaiNvN1elUQJv0wk5hITi?=
- =?us-ascii?Q?xxGnBRIrpzxPmz/WS8JLcQa4Z7mYCEXM8+hl3cInPlVmEXYYKoleeabjUinK?=
- =?us-ascii?Q?5YOAIFS0d+6VmWJ5MDpeo6OsldQRn8m6eBTv50GREgtEn89eVMKirFZbtwms?=
- =?us-ascii?Q?nIk6DUM560c+3XgxjlCVDA4WD73vnSLSGlh9cchyFm3/ibkEdHHtcCxt0qMr?=
- =?us-ascii?Q?u42Ysbz71V071cCjMeEGWwTpqOKSDO7xn64mRLA50ensToANq+ZTjio2YYoN?=
- =?us-ascii?Q?2XWzbc2Y73A+0aZ5ADL9KtNj39F1J7sVGeEtaBT5qj3Zb5tW7yI3tZ1fbczS?=
- =?us-ascii?Q?OndcOXybPogx9aMzytGy5y7qpyTQU/BXFXa0GAWr7BX6gq8VQGPrN1SJzipn?=
- =?us-ascii?Q?i5brJKOQClzMnViTkbziEggReUh21QXy4ycmoUq8Qo4RnGlnawZiBsSJK6Vt?=
- =?us-ascii?Q?R26NkTbN9uRTkIbSe+lbLayU/7MAtugWtSfPy9cLeJCkp6jlOuO8+Mfb9YXr?=
- =?us-ascii?Q?SRygAfzSofh63dsGkRjTpUlS1um/st0qtS0iD7a5zAJLQrOt0fHb2T44QTVq?=
- =?us-ascii?Q?IOsq+65a2o7kDg+jeoCAp1vTl1HouW56n7+zfK/uyUfV9E1dvPczg5bGub+K?=
- =?us-ascii?Q?ZFqJhkzYvLNuJro10o49w6EE1zxIomBupLTq9E//aXReshb4JzICeJavMvVI?=
- =?us-ascii?Q?YmDG0dzmZCIKAA+BNfY08/KTxIXcs6C4Sokvq3eDieKF0K4dkY+fpP+9vSmb?=
- =?us-ascii?Q?s1s1Eu/IGVwAkaBvEI5QF4KJ?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 082fc503-e653-4414-7e0b-08d96fc08dea
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2021 16:25:05.6538 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EZY2CrU4M1Ry4rLCE1N5qlL85iEJ5QtF9Vxj8wqd2BWJWvKJzn41LrWdqNHGY7kJZyJhXl/E6dMMzQd55Xn1kAGr/Zaq0MFWVBZZXigBqkg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6904
-Received-SPF: pass client-ip=40.107.21.95;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <CAFEAcA_cAp6kWTE6Lpx6QF1zfTYfQXiOPgdfkztS3iuJkRB0xQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=groeck7@gmail.com; helo=mail-oi1-x236.google.com
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_ENVFROM_END_DIGIT=0.25,
+ FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.832,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -136,71 +91,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of small critical sections which wants only to remove a
-request from the list let's use new atomic interface. And don't forget
-to call reqlist_free_invalid_reqs() when we are in a critical section
-anyway, to not overflow the RAM with invalid requests.
+On 9/2/21 12:29 PM, Peter Maydell wrote:
+> On Thu, 2 Sept 2021 at 17:09, Guenter Roeck <linux@roeck-us.net> wrote:
+>>
+>> On 9/2/21 8:58 AM, Peter Maydell wrote:
+>>> On Sun, 8 Aug 2021 at 02:34, Guenter Roeck <linux@roeck-us.net> wrote:
+>>>>
+>>>> The control register does not really have a means to deselect
+>>>> all chip selects directly. As result, CS is effectively never
+>>>> deselected, and connected flash chips fail to perform read
+>>>> operations since they don't get the expected chip select signals
+>>>> to reset their state machine.
+>>>>
+>>>> Normally and per controller documentation one would assume that
+>>>> chip select should be set whenever a transfer starts (XCH is
+>>>> set or the tx fifo is written into), and that it should be disabled
+>>>> whenever a transfer is complete. However, that does not work in
+>>>> practice: attempts to implement this approach resulted in failures,
+>>>> presumably because a single transaction can be split into multiple
+>>>> transfers.
+>>>>
+>>>> At the same time, there is no explicit signal from the host indicating
+>>>> if chip select should be active or not. In the absence of such a direct
+>>>> signal, use the burst length written into the control register to
+>>>> determine if an access is ongoing or not. Disable all chip selects
+>>>> if the burst length field in the configuration register is set to 0,
+>>>> and (re-)enable chip select if a transfer is started. This is possible
+>>>> because the Linux driver clears the burst length field whenever it
+>>>> prepares the controller for the next transfer.
+>>>> This solution  is less than perfect since it effectively only disables
+>>>> chip select when initiating the next transfer, but it does work with
+>>>> Linux and should otherwise do no harm.
+>>>>
+>>>> Stop complaining if the burst length field is set to a value of 0,
+>>>> since that is done by Linux for every transfer.
+>>>>
+>>>> With this patch, a command line parameter such as "-drive
+>>>> file=flash.sabre,format=raw,if=mtd" can be used to instantiate the
+>>>> flash chip in the sabrelite emulation. Without this patch, the
+>>>> flash instantiates, but it only reads zeroes.
+>>>>
+>>>> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+>>>> ---
+>>>> I am not entirely happy with this solution, but it is the best I was
+>>>> able to come up with. If anyone has a better idea, I'll be happy
+>>>> to give it a try.
+>>>>
+>>>>    hw/ssi/imx_spi.c | 17 +++++++----------
+>>>>    1 file changed, 7 insertions(+), 10 deletions(-)
+>>>>
+>>>> diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
+>>>> index 189423bb3a..7a093156bd 100644
+>>>> --- a/hw/ssi/imx_spi.c
+>>>> +++ b/hw/ssi/imx_spi.c
+>>>> @@ -167,6 +167,8 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+>>>>        DPRINTF("Begin: TX Fifo Size = %d, RX Fifo Size = %d\n",
+>>>>                fifo32_num_used(&s->tx_fifo), fifo32_num_used(&s->rx_fifo));
+>>>>
+>>>> +    qemu_set_irq(s->cs_lines[imx_spi_selected_channel(s)], 0);
+>>>> +
+>>>>        while (!fifo32_is_empty(&s->tx_fifo)) {
+>>>>            int tx_burst = 0;
+>>>>
+>>>> @@ -385,13 +387,6 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
+>>>>        case ECSPI_CONREG:
+>>>>            s->regs[ECSPI_CONREG] = value;
+>>>>
+>>>> -        burst = EXTRACT(s->regs[ECSPI_CONREG], ECSPI_CONREG_BURST_LENGTH) + 1;
+>>>> -        if (burst % 8) {
+>>>> -            qemu_log_mask(LOG_UNIMP,
+>>>> -                          "[%s]%s: burst length %d not supported: rounding up to next multiple of 8\n",
+>>>> -                          TYPE_IMX_SPI, __func__, burst);
+>>>> -        }
+>>>
+>>> Why has this log message been removed ?
+>>
+>> What I wanted to do is:
+>>
+>> "Stop complaining if the burst length field is set to a value of 0,
+>>    since that is done by Linux for every transfer."
+>>
+>> What I did instead is to remove the message entirely.
+>>
+>> How about the rest of the patch ? Is it worth a resend with the message
+>> restored (except for burst size == 0), or is it not acceptable anyway ?
+> 
+> I did the easy bit of the code review because answering this
+> question is probably a multiple-hour job...this is still on my
+> todo list, but I'm hoping somebody who understands the MIX
+> SPI device gets to it first.
+> 
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- block/qcow2.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Makes sense. Of course, it would be even better if someone can explain
+how this works on real hardware.
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index aefe6558b6..f2094c1ecc 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -2306,9 +2306,7 @@ static coroutine_fn int qcow2_co_preadv_task(BlockDriverState *bs,
-     }
- 
-     if (req) {
--        WITH_QEMU_LOCK_GUARD(&s->lock) {
--            reqlist_free_req(req);
--        }
-+        reqlist_mark_req_invalid(req);
-     }
- 
-     return ret;
-@@ -2348,6 +2346,7 @@ static coroutine_fn int qcow2_co_preadv_part(BlockDriverState *bs,
-         }
- 
-         qemu_co_mutex_lock(&s->lock);
-+        reqlist_free_invalid_reqs(&s->guest_reqs);
-         ret = qcow2_get_host_offset(bs, offset, &cur_bytes,
-                                     &host_offset, &type, &req);
-         qemu_co_mutex_unlock(&s->lock);
-@@ -2769,6 +2768,8 @@ static void qcow2_close(BlockDriverState *bs)
- 
-     qcow2_refcount_close(bs);
-     qcow2_free_snapshots(bs);
-+
-+    reqlist_free_invalid_reqs(&s->guest_reqs);
- }
- 
- static void coroutine_fn qcow2_co_invalidate_cache(BlockDriverState *bs,
-@@ -4619,6 +4620,7 @@ qcow2_co_pwritev_compressed_task(BlockDriverState *bs,
-     }
- 
-     qemu_co_mutex_lock(&s->lock);
-+    reqlist_free_invalid_reqs(&s->guest_reqs);
-     ret = qcow2_alloc_compressed_cluster_offset(bs, offset, out_len,
-                                                 &cluster_offset, &req);
-     if (ret < 0) {
-@@ -4641,9 +4643,7 @@ success:
-     ret = 0;
- fail:
-     if (req) {
--        WITH_QEMU_LOCK_GUARD(&s->lock) {
--            reqlist_free_req(req);
--        }
-+        reqlist_mark_req_invalid(req);
-     }
-     qemu_vfree(buf);
-     g_free(out_buf);
--- 
-2.29.2
+In this context, it would be useful to know if real SPI flash chips
+reset their state to idle under some conditions which are not covered
+by the current code in hw/block/m25p80.c. Maybe the real problem is
+as simple as that code setting data_read_loop when it should not,
+or that it doesn't reset that flag when it should (unless I am missing
+something, the flag is currently only reset by disabling chip select).
 
+Thanks,
+Guenter
 
