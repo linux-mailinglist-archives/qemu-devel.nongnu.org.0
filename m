@@ -2,89 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A3BC4009E5
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 07:49:19 +0200 (CEST)
-Received: from localhost ([::1]:59960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DD334009F8
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 08:11:24 +0200 (CEST)
+Received: from localhost ([::1]:34884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMOYI-0001cy-O2
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 01:49:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50528)
+	id 1mMOte-0004zW-Sa
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 02:11:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mMOXM-0000Sc-8a
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 01:48:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37877)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mMOrX-0003hj-IQ
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 02:09:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mMOXJ-000219-Dj
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 01:48:20 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mMOrU-0002j4-AB
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 02:09:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630734496;
+ s=mimecast20190719; t=1630735746;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8hRp8M0ry3uyMaz+vHwTVKodJnJrMSesJkGEZ8k0+/A=;
- b=QaxhxMfn5KQIEiiNLE4VXLh5jSBWzeO+nYcQI1D7ry19H0kiocxPo7Xnd4wcxlsKOUHQKm
- CGVSOaoGEpgxHezqpAfzulYTCMtj+hdeMY2+i/PK0KOXUdAK9+NQVvqKaaTD13awKGAai3
- m4HYUKx3pAOEcv9whsRkHt3UEnN7IBc=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-f42vrriBMVWEkdWUnNaBAw-1; Sat, 04 Sep 2021 01:48:13 -0400
-X-MC-Unique: f42vrriBMVWEkdWUnNaBAw-1
-Received: by mail-wm1-f70.google.com with SMTP id
- 5-20020a1c00050000b02902e67111d9f0so318829wma.4
- for <qemu-devel@nongnu.org>; Fri, 03 Sep 2021 22:48:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8hRp8M0ry3uyMaz+vHwTVKodJnJrMSesJkGEZ8k0+/A=;
- b=e/TltwrEudckdmxp3ljfYYAJCeGbmcbp1U92AVqcwMVC8BJqefB87AL2CgzaekwV7l
- tuX/xTIwAIKAq7PKYLhXruWfYYERBRFywcne724v+kLX2qpXl1HOTNhCbnV2fUFcqjpF
- ESkoo59oqcgY7QG9V0z6fY9VJ3cE6i4m8AB7gvvr1PrFZuYvQe3gUCAaB/IeUzVZy1kD
- LrD8h8jQBKl//jkkBGUM0VSU2hdS4nd64cJBnEIh40hGnJKNdvQNvo/e3C5OFP1NjtxS
- o4yOKEZuZglvQcvwhCECGzZK0Kjw3aWou1kcFkcHWOc24ZpXkEOPKLLIO/lYeAUXg+6K
- y0dQ==
-X-Gm-Message-State: AOAM533UyUksLGy9B7hxmWvfRfpnZBcW4cf1xl+Vm8SVXcErPdpQIH67
- /BTOhN3qXrA6qyDaoGEi/xWNzD91UuxkPf8Rkchmfug0AnzS5ZWs6hXavaxpJiHr5dJBuZIQE77
- m4alDZLH+qie9Xhw=
-X-Received: by 2002:a1c:98d8:: with SMTP id a207mr1734210wme.16.1630734492180; 
- Fri, 03 Sep 2021 22:48:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy7SbwVqlpaqBnuJovWY4OfkX5ETC5xMInXEX1AwbFf+MumwbO5ed3GRaw06ZSGAwiQHZ1+Iw==
-X-Received: by 2002:a1c:98d8:: with SMTP id a207mr1734170wme.16.1630734491803; 
- Fri, 03 Sep 2021 22:48:11 -0700 (PDT)
-Received: from thuth.remote.csb (pd9575809.dip0.t-ipconnect.de. [217.87.88.9])
- by smtp.gmail.com with ESMTPSA id
- h16sm1181315wre.52.2021.09.03.22.48.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Sep 2021 22:48:11 -0700 (PDT)
-Subject: Re: [PATCH v3 24/28] tests/qtest: Replace g_memdup() by g_memdup2()
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210903174510.751630-1-philmd@redhat.com>
- <20210903174510.751630-25-philmd@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <98c0ca0f-137a-7392-ebda-a8d1b7743892@redhat.com>
-Date: Sat, 4 Sep 2021 07:48:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+ bh=e5je8kmK3pp5SosMyAC5s2OriUCA/MvNT+V+JR+UlRU=;
+ b=IA+ofRxoiCuDANIdUiGePqQpAI0VJbLejBmertGeyfmye0oy/qmjgIR0Ww1ZKwRyo/jF/6
+ VUJNE6LqnOC/52ZcKfKeD+0MOGhs9d0CeuxQ6oAqYoGutPzhWdFma8ZabtTn+lfY5iGjGY
+ ZwpOL9YUlL7dFsktnVjGmbQdwOhPDFo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-355-Mjz2KT0INkKZjx1LKSNVpA-1; Sat, 04 Sep 2021 02:09:05 -0400
+X-MC-Unique: Mjz2KT0INkKZjx1LKSNVpA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFD38802CBE;
+ Sat,  4 Sep 2021 06:09:03 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
+ [10.36.112.13])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 11FD76091B;
+ Sat,  4 Sep 2021 06:08:55 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 9E0521138606; Sat,  4 Sep 2021 08:08:53 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v2 3/3] monitor: allow VNC related QMP and HMP commands
+ to take a display ID
+References: <20210901151748.1712048-1-s.reiter@proxmox.com>
+ <20210901151748.1712048-4-s.reiter@proxmox.com>
+ <20210903190221.6hik7knycpj6xeqs@redhat.com>
+Date: Sat, 04 Sep 2021 08:08:53 +0200
+In-Reply-To: <20210903190221.6hik7knycpj6xeqs@redhat.com> (Eric Blake's
+ message of "Fri, 3 Sep 2021 14:02:21 -0500")
+Message-ID: <87pmtorhxm.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210903174510.751630-25-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) DKIMWL_WL_HIGH=-0.392, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.888,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,80 +84,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-block@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- John Snow <jsnow@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
- Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Daniel P . Berrange" <berrange@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>,
+ Stefan Reiter <s.reiter@proxmox.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/09/2021 19.45, Philippe Mathieu-Daudé wrote:
-> Per https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-memdup2-now/5538
-> 
->    The old API took the size of the memory to duplicate as a guint,
->    whereas most memory functions take memory sizes as a gsize. This
->    made it easy to accidentally pass a gsize to g_memdup(). For large
->    values, that would lead to a silent truncation of the size from 64
->    to 32 bits, and result in a heap area being returned which is
->    significantly smaller than what the caller expects. This can likely
->    be exploited in various modules to cause a heap buffer overflow.
-> 
-> Replace g_memdup() by the safer g_memdup2() wrapper.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->   tests/qtest/libqos/ahci.c   | 6 +++---
->   tests/qtest/libqos/qgraph.c | 2 +-
->   2 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/tests/qtest/libqos/ahci.c b/tests/qtest/libqos/ahci.c
-> index fba3e7a954e..eaa2096512e 100644
-> --- a/tests/qtest/libqos/ahci.c
-> +++ b/tests/qtest/libqos/ahci.c
-> @@ -639,8 +639,8 @@ void ahci_exec(AHCIQState *ahci, uint8_t port,
->       AHCIOpts *opts;
->       uint64_t buffer_in;
->   
-> -    opts = g_memdup((opts_in == NULL ? &default_opts : opts_in),
-> -                    sizeof(AHCIOpts));
-> +    opts = g_memdup2((opts_in == NULL ? &default_opts : opts_in),
-> +                     sizeof(AHCIOpts));
->   
->       buffer_in = opts->buffer;
->   
-> @@ -860,7 +860,7 @@ AHCICommand *ahci_command_create(uint8_t command_name)
->       g_assert(!props->ncq || props->lba48);
->   
->       /* Defaults and book-keeping */
-> -    cmd->props = g_memdup(props, sizeof(AHCICommandProp));
-> +    cmd->props = g_memdup2(props, sizeof(AHCICommandProp));
->       cmd->name = command_name;
->       cmd->xbytes = props->size;
->       cmd->prd_size = 4096;
-> diff --git a/tests/qtest/libqos/qgraph.c b/tests/qtest/libqos/qgraph.c
-> index d1dc4919305..109ff04e1e8 100644
-> --- a/tests/qtest/libqos/qgraph.c
-> +++ b/tests/qtest/libqos/qgraph.c
-> @@ -93,7 +93,7 @@ static void add_edge(const char *source, const char *dest,
->       edge->type = type;
->       edge->dest = g_strdup(dest);
->       edge->edge_name = g_strdup(opts->edge_name ?: dest);
-> -    edge->arg = g_memdup(opts->arg, opts->size_arg);
-> +    edge->arg = g_memdup2(opts->arg, opts->size_arg);
->   
->       edge->before_cmd_line =
->           opts->before_cmd_line ? g_strconcat(" ", opts->before_cmd_line, NULL) : NULL;
-> 
+Eric Blake <eblake@redhat.com> writes:
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+> On Wed, Sep 01, 2021 at 05:17:48PM +0200, Stefan Reiter wrote:
+>> It is possible to specify more than one VNC server on the command line,
+>> either with an explicit ID or the auto-generated ones =C3=A0 la "default=
+",
+>> "vnc2", "vnc3", ...
+>>=20
+>> It is not possible to change the password on one of these extra VNC
+>> displays though. Fix this by adding a "display" parameter to the
+>> "set_password" and "expire_password" QMP and HMP commands.
+>>=20
+>> For HMP, the display is specified using the "-d" value flag.
+>>=20
+>> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+>> ---
+>
+> QMP review:
+>
+>> +++ b/qapi/ui.json
+>> @@ -25,6 +25,9 @@
+>>  #             'disconnect' to disconnect existing clients
+>>  #             'keep' to maintain existing clients
+>>  #
+>> +# @display: In case of VNC, the id of the display where the password
+>> +#           should be changed. Defaults to the first.
+>> +#
+>>  # Returns: - Nothing on success
+>>  #          - If Spice is not enabled, DeviceNotFound
+>>  #
+>> @@ -38,7 +41,8 @@
+>>  #
+>>  ##
+>>  { 'command': 'set_password',
+>> -  'data': {'protocol': 'str', 'password': 'str', '*connected': 'str'} }
+>> +  'data': {'protocol': 'str', 'password': 'str', '*connected': 'str',
+>
+> Pre-existing, but given the documentation that protocol is either
+> 'vnc' or 'spice', this feels like set_password should take a
+> discriminated union type with 'protocol' as an enum type,...
+>
+>> +           '*display': 'str'} }
+>
+> ...so that you only add the optional 'display' member to 'vnc'.  This
+> would keep the status quo of rejecting it as invalid when protocol is
+> 'spice', and make it easier to introspect that no other protocols are
+> supported.
+>
+> Markus may have better advice on whether cleaning this up is worth it.
+
+Changing @protocol from str to enum is straightforward, and backward
+compatible.  qmp_set_password() becomes simpler (we lose a failure
+mode).  If we ever add another protocol, introspection will show it.  It
+also reflects CONFIG_VNC and CONFIG_SPICE, which is perhaps less useful
+than it was before modularization, but still nice.  Yes, please.
+
+Same for @connected.
+
+We may have more 'str' parameters that should be enum elsewhere.  I'm
+not demanding you hunt them down :)
+
+Adding the new parameter only to the protocol that actually supports it
+is more complicated.  Untested:
+
+    { 'command': 'set_password', 'boxed': true,
+      'data': 'SetPasswordOptions' }
+
+    { 'union': 'SetPasswordOptions',
+      'base': { 'protocol: 'PasswordProtocol',
+                'connected': 'FailDisconnectKeep' },
+      'discriminator': protocol',
+      'data': {
+          'vnc': 'SetPasswordOptionsVnc' } }
+
+    { 'enum': 'PasswordProtocol'
+      'data': [ { 'name': 'vnc', 'if': 'CONFIG_VNC' },
+                { 'name': 'spice', 'if': 'CONFIG_SPICE } ] }
+
+    { 'enum': 'FailDisconnectKeep',
+      'data': [ 'fail', 'disconnect', 'keep' ] }
+
+    { 'struct': 'SetPasswordOptionsVnc',
+      'data': { '*display': 'str } }
+
+Advangages are similar: qmp_set_password() doesn't have to reject
+@display for protocols other than 'vnc', and introspection is more
+accurate.  Please give it a try.
+
+>> =20
+>>  ##
+>>  # @expire_password:
+>> @@ -54,6 +58,9 @@
+>>  #        - '+INT' where INT is the number of seconds from now (integer)
+>>  #        - 'INT' where INT is the absolute time in seconds
+>>  #
+>> +# @display: In case of VNC, the id of the display where the password
+>> +#           should be set to expire. Defaults to the first.
+>> +#
+>>  # Returns: - Nothing on success
+>>  #          - If @protocol is 'spice' and Spice is not active, DeviceNot=
+Found
+>>  #
+>> @@ -71,7 +78,8 @@
+>>  # <- { "return": {} }
+>>  #
+>>  ##
+>> -{ 'command': 'expire_password', 'data': {'protocol': 'str', 'time': 'st=
+r'} }
+>> +{ 'command': 'expire_password',
+>> +  'data': {'protocol': 'str', 'time': 'str', '*display': 'str'} }
+>
+> This would benefit from the same treatment, if we decide to use a QAPI
+> enum type and discriminated union.
+
+Either both or neither.
 
 
