@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB17400A02
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 08:27:58 +0200 (CEST)
-Received: from localhost ([::1]:44502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD283400A67
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 10:49:41 +0200 (CEST)
+Received: from localhost ([::1]:41364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMP9g-0003zD-TS
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 02:27:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53240)
+	id 1mMRMq-0006ve-DR
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 04:49:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mMP8K-0002Mt-9S
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 02:26:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44575)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mMP8E-0000d6-L4
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 02:26:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630736785;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MFtXcKj6NLvC8J8MjxdxGldTm+tu2Gsm79OBAzahgvs=;
- b=IHPEiMNqXpHiI5VZe/coUDB5E/m1/KJYsZe29wtU4BAHl8mvQd6ja/Rr2sYX56aJK6bZyX
- uqkew+cQtHSZMFHHkmK79XZD2oOwVTX1qdXnxIIdY+bW857tIV4uGzvOa2X3mCr2kCbQia
- /kZQ2MHLcIrD/KgaKzkHe1kqTHNF1OE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-OCpn8PjENJSMK2jRSd-KhQ-1; Sat, 04 Sep 2021 02:26:22 -0400
-X-MC-Unique: OCpn8PjENJSMK2jRSd-KhQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F6AF512B;
- Sat,  4 Sep 2021 06:26:21 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
- [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 834B519D9D;
- Sat,  4 Sep 2021 06:26:13 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9EE041138606; Sat,  4 Sep 2021 08:26:11 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Doug Evans <dje@google.com>
-Subject: Re: [PATCH] net: Add "info neighbors" command
-References: <20210902212015.1303865-1-dje@google.com>
- <875yvi2sh2.fsf@dusky.pond.sub.org>
- <CADPb22TrHzujCONPAqdTcOYWNw2YtdKn+vPnitL7eU2hJJNDNg@mail.gmail.com>
-Date: Sat, 04 Sep 2021 08:26:11 +0200
-In-Reply-To: <CADPb22TrHzujCONPAqdTcOYWNw2YtdKn+vPnitL7eU2hJJNDNg@mail.gmail.com>
- (Doug Evans's message of "Fri, 3 Sep 2021 09:53:02 -0700")
-Message-ID: <87lf4crh4s.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mMRLO-0005vP-Ms
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 04:48:10 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:45701)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mMRLM-00048x-Vx
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 04:48:10 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ j17-20020a05600c1c1100b002e754875260so996137wms.4
+ for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 01:48:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=RwpaIr0VaGOmrO7H/BpqEfJujkfEODrddNk1vEw2cJc=;
+ b=SPupqHPwn8oCDxbOXhppz3oml+ijAp5grfFUT42aBB4k8L3tDucgUi85oMzWNa0TkT
+ XPKOWB/QekkSsl18a84GyV1kEHIaZiq0766ZPtjQLv5Jbxmw2upMkMRmx0Iw/cixBEE+
+ nRTgBbqkEEqNuNwGRMIg3TyT4qIFT/00xhuPDDJb1EHv4OyhFlc3CooQTxWnc5pxmYRC
+ oDyUzKtpv4gLpYsT/MgH+fuuMDZvqpNh/p5YX/RbxLEUPII7FIHgShkmRxOccBG8hMFB
+ nLZGxLDdOMjz3emYZiQaHiTBHPgO+T7kgfyC7sXOKD9d+5fFtd812te6xQ5xNu+D/0r6
+ DiFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RwpaIr0VaGOmrO7H/BpqEfJujkfEODrddNk1vEw2cJc=;
+ b=HnoFLdAKHobDaYJuUmcGu1Ciz32XGL1UUcLBYq885SEGrcOQqyqfCFa5mJ0uolCIhX
+ OTvYebhBEcGsDg+x6LWjKR2dE/4iOCvyuK+m/1lW4n1tinQyKJ4Nj/t7NC1mB9JOc0L+
+ Ph0Ns7nKsOh+oZz7z3dLFdoLMkbMYKiZl6Zuu5TZEl1iUsBB3AMYiB/8TUpkwRDJ8dTW
+ yPZrqUJSEWRJU6GV81RbKM/3Rx18SKXi9SC6+3ut4+Jv2jryKCpn62cLTbK2pBsWG0fe
+ KDXKnT/8XZTl/qK8g/Ms9EuewFTkJfosf/ki575sgymMv8A18ViYZ2u3iPjJT/qp+WSk
+ t3LA==
+X-Gm-Message-State: AOAM531wLR3Cm2bos3IPOgc7BEeXM+HWJBWIIAXnaYz5Rpaz2q5qkVE5
+ U7u4xZiRt/IIiY8tm6zbL6Eurg==
+X-Google-Smtp-Source: ABdhPJyOqAsPrkha36ZyWIjHq1Jx7C7gK+Z6HZr13DptO3/idP4B2QtYW17p6eisMwB8+q4bT8muwQ==
+X-Received: by 2002:a1c:a903:: with SMTP id s3mr2271244wme.171.1630745287012; 
+ Sat, 04 Sep 2021 01:48:07 -0700 (PDT)
+Received: from [192.168.8.107] (246.red-2-142-218.dynamicip.rima-tde.net.
+ [2.142.218.246])
+ by smtp.gmail.com with ESMTPSA id k1sm1582893wrz.61.2021.09.04.01.48.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 04 Sep 2021 01:48:06 -0700 (PDT)
+Subject: Re: [PATCH 1/4] qdev: Support marking individual buses as 'full'
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210903151435.22379-1-peter.maydell@linaro.org>
+ <20210903151435.22379-2-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <b6ef1f44-294a-ed87-97e9-b94592a1cf06@linaro.org>
+Date: Sat, 4 Sep 2021 10:48:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+In-Reply-To: <20210903151435.22379-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.392,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.888,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,87 +90,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Doug Evans <dje@google.com> writes:
+On 9/3/21 5:14 PM, Peter Maydell wrote:
+> By default, QEMU will allow devices to be plugged into a bus up to
+> the bus class's device count limit.  If the user creates a device on
+> the command line or via the monitor and doesn't explicitly specify
+> the bus to plug it in, QEMU will plug it into the first non-full bus
+> that it finds.
+> 
+> This is fine in most cases, but some machines have multiple buses of
+> a given type, some of which are dedicated to on-board devices and
+> some of which have an externally exposed connector for user-pluggable
+> devices. One example is I2C buses.
+> 
+> Provide a new function qbus_mark_full() so that a machine model can
+> mark this kind of "internal only" bus as 'full' after it has created
+> all the devices that should be plugged into that bus. The "find a
+> non-full bus" algorithm will then skip the internal-only bus when
+> looking for a place to plug in user-created devices.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   include/hw/qdev-core.h | 24 ++++++++++++++++++++++++
+>   softmmu/qdev-monitor.c |  7 ++++++-
+>   2 files changed, 30 insertions(+), 1 deletion(-)
 
-> On Fri, Sep 3, 2021 at 6:08 AM Markus Armbruster <armbru@redhat.com> wrot=
-e:
->
->> Doug Evans <dje@google.com> writes:
->>
->> > This command dumps the ARP and NDP tables maintained within slirp.
->> > One use-case for it is showing the guest's IPv6 address(es).
->> >
->> > Signed-off-by: Doug Evans <dje@google.com>
->> > ---
->> >  hmp-commands-info.hx               | 15 +++++++
->> >  include/net/slirp.h                |  1 +
->> >  net/slirp.c                        | 15 +++++++
->> >  tests/acceptance/info_neighbors.py | 69 +++++++++++++++++++++++++++++=
-+
->> >  4 files changed, 100 insertions(+)
->> >  create mode 100644 tests/acceptance/info_neighbors.py
->>
->> Standard request for new HMP commands without corresponding QMP
->> commands: please state in the commit message why the QMP command is not
->> worthwhile.
->>
->> HMP commands without a QMP equivalent are okay if their functionality
->> makes no sense in QMP, or is of use only for human users.
->>
->> Example for "makes no sense in QMP": setting the current CPU, because a
->> QMP monitor doesn't have a current CPU.
->>
->> Examples for "is of use only for human users": HMP command "help", the
->> integrated pocket calculator.
->>
->> Debugging commands are kind of borderline.  Debugging is commonly a
->> human activity, where HMP is just fine.  However, humans create tools to
->> assist with their activities, and then QMP is useful.  While I wouldn't
->> encourage HMP-only for the debugging use case, I wouldn't veto it.
->>
->
->
-> Mostly I was following what I saw for "info usernet".
-> I don't see a difference between "info neighbors" and "info usernet" so I
-> went with that.
-> Both draw their data from libslirp.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-I see.
-
-> I'm happy to add QMP support if necessary.
-> Note that there is code that parses "info usernet" output, e.g.,
-> get_info_usernet_hostfwd_port for python.
-
-Demonstrates "is of use only for human users" is wrong.
-
-> Presumably we don't want to print text in slirp only to parse it in qemu,
-> right?
-
-Yes, we'd prefer not to parse.
-
-As long as libslirp can only give us text, we need to parse it
-somewhere.
-
-We can parse it right in QEMU, or punt the job to whatever uses QEMU.
-The latter can get away with parsing just the part they need.  But we
-may end up with multiple parsers.
-
-
-> That'll change the qemu/slirp interface.
-> OTOH, to what extent does libslirp want to export a more formal API for
-> this, vs just text?
-
-This is a question for Samuel or Marc-Andr=C3=A9.
-
-If the answer is "no", then HMP only (so we don't have to parse in QEMU)
-is fair, I think.  The commit message should explain this.
-
+r~
 
