@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58DF6400CF8
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 22:48:41 +0200 (CEST)
-Received: from localhost ([::1]:52248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20695400CFA
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 22:51:11 +0200 (CEST)
+Received: from localhost ([::1]:57976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMcae-000303-FN
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 16:48:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54398)
+	id 1mMcd4-0006qu-6N
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 16:51:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mMcNz-0005ym-Tc
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:35 -0400
-Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:44932)
+ id 1mMcO1-00063U-Pm
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:37 -0400
+Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133]:35545)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mMcNu-0002yI-LX
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:33 -0400
-Received: by mail-lf1-x12e.google.com with SMTP id s10so5313122lfr.11
- for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 13:35:29 -0700 (PDT)
+ id 1mMcNw-0002yh-Bo
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:37 -0400
+Received: by mail-lf1-x133.google.com with SMTP id k13so5373012lfv.2
+ for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 13:35:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=vrull-eu.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Byfy05ziqCgv95xzCHpZBdafCiVDPBMWHY7L07p6tOg=;
- b=IuJ5xOAo3xQ4vHxt+7XoITWSmrE1rw5A4svYZzLDkCUYzhUODGTfFTAz1Qp8fbdH87
- opWyaPhXUIWMjf0yqTKuSStRW74RNM6acdefiWbzxQ1gWB1fUDvZ9OLq5QdOilxvKCT4
- paC6wmlE+kfG0xZFkRxCMLRLGo7yAMtkyblFSNzYYeINikVKBxVDRMlu21jxCfXd03YT
- +KBvUUcTVP0iVnOyhKZVAFwKVsf9bTkkY7v3vWdyDWV3q8zvqCSem8Y+Lzi5cTHxBDFr
- d4k4OiZnwDesMxZ6o0/nB/ydefpTrLCUXYcdtkrdUpoftV1467J4XWmf7KRX08JBiQRW
- 7AKg==
+ bh=D/PR4KybwFYEcV2Wqnr+C/gdpOXd3FlzLBUedNaXmFM=;
+ b=J+X/OahdSKDmlKCEWR/TbTgfBCz49yTUB3GB2+N1w0fRMVPXSWnV8pPeLE7u5hTIQ1
+ Pz2FEHcpQma7WjOcVSVl5S7yiHv2elk+EckG9pv3dTa+BTa6V6kEUdOnSp2SFUdxW1+8
+ l95CWOD53llgBoL/FDlYOHMHW7TpRbUh4IWX8uDxktD4rRBbMVOAb41nTz6vfJrBQA+R
+ yUw4TH3ibZjpW2NpbURwLwbEimfTf7eDBoCKfc2laT8+Ssbp1xP4RmzJuHUcwD2JwtWG
+ 8wWDlY8ypcgmaSzTDev6ic5GZkqR7YvYP/k4pDHKnwqgk8zFyEQsWNiFUnwL1/AwrsA7
+ Lyvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Byfy05ziqCgv95xzCHpZBdafCiVDPBMWHY7L07p6tOg=;
- b=MMgbUYcMcyfxsjbBp+z0HhtdGy1pGndU4QkRNyvT8DWQ9PVoIs8ZD2yI5raXLigS7+
- o1zbIihrieJa1vtZBml8U6uQaVTuDkT/n+eJToZOOzy9yi5+Awz6ujMDWdiG8DMNw29O
- +ZA+vdqmQN1fH4eEEAAdIiYTKGHFqZIMDrSER22igJ6bCvMgAO3/rjf2bDjmpTjqR61I
- /HIc4odIU1SztSCtLgvDr5vdZGRTqEAwIEA3RZX4/IHbWIGKa79JkFPcrNFKwSAMrJGz
- WgBjTBLIJHn8SxBrfOe7gIj9ZoXeOKblhvTPavn8YhHtrKobfqWolTmcxHbaphT1k12/
- eWpw==
-X-Gm-Message-State: AOAM533BRX6oTMOQpdz3e/WzVszY87cP2raWjkqpUOrXTQTl7rmIKz0a
- A1EHx6XjSC49U2DaPU3dv8V/9urG7W1MIdc5qCQ=
-X-Google-Smtp-Source: ABdhPJyRkWet1Fgf/TONTPwzOZaTNd9nhNVaK1csyc+LWhVNUmDj7gVQWQnbKSl/k0oOrL9KCyUgSw==
-X-Received: by 2002:a19:7406:: with SMTP id v6mr3979018lfe.669.1630787728545; 
- Sat, 04 Sep 2021 13:35:28 -0700 (PDT)
+ bh=D/PR4KybwFYEcV2Wqnr+C/gdpOXd3FlzLBUedNaXmFM=;
+ b=l6Lo2kRBlpgBMLvOL+FTt7MYLQN/L+h15caKTi55E7oPSQFfnJg51L0kJeOY0ATv/R
+ EiTcK0yHQgNi24tSEFhmjE0aWshW9g4w1cUmPRFkO7266BRaxIM2LFmt5VaxGlLfIdh9
+ xKWDE5jtNfHI1uWrQGnUrMpgvgxLKmLkYXt2Jo3+FBP6ZPDFNThLfkJ+IdkUH6w4/eeJ
+ V0bgfl6463oaMklKUqxEK0+GQ2p5ij3+lRNzWz7tzU05YO+TDO5ZjmneokdqYci7Zyiw
+ JCiWelJyerh/vHbVDOHY6vmQ5dztFTJdeacADd/EX2tzk5H72SMjQNAiKSDeGoMx2s6/
+ fpTA==
+X-Gm-Message-State: AOAM5302CmpzGxjLfyTS35lcqDlplIPEGTYR1JtYzpOaWkBz40mcx4Pk
+ SX59zR2KCJgc4ZSr2Ffq3Xs2/3emgbgIPEbMNhY=
+X-Google-Smtp-Source: ABdhPJzQzOBT4KsyvoF+N2KDWnPnERHW5N5hgVsnWtgyq6gWqslnvkZ6K3VY5M/BeJlLeKBDYHX28w==
+X-Received: by 2002:ac2:4d17:: with SMTP id r23mr4207127lfi.234.1630787729254; 
+ Sat, 04 Sep 2021 13:35:29 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
  by smtp.gmail.com with ESMTPSA id v15sm326304lfq.142.2021.09.04.13.35.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Sep 2021 13:35:28 -0700 (PDT)
+ Sat, 04 Sep 2021 13:35:29 -0700 (PDT)
 From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 12/16] target/riscv: Add a REQUIRE_32BIT macro
-Date: Sat,  4 Sep 2021 22:35:11 +0200
-Message-Id: <20210904203516.2570119-13-philipp.tomsich@vrull.eu>
+Subject: [PATCH v10 13/16] target/riscv: Add rev8 instruction,
+ removing grev/grevi
+Date: Sat,  4 Sep 2021 22:35:12 +0200
+Message-Id: <20210904203516.2570119-14-philipp.tomsich@vrull.eu>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210904203516.2570119-1-philipp.tomsich@vrull.eu>
 References: <20210904203516.2570119-1-philipp.tomsich@vrull.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x12e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::133;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x133.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -89,40 +90,210 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the changes to Zb[abcs], there's some encodings that are
-different in RV64 and RV32 (e.g., for rev8 and zext.h). For these,
-we'll need a helper macro allowing us to select on RV32, as well.
+The 1.0.0 version of Zbb does not contain grev/grevi.  Instead, a
+rev8 instruction (equivalent to the rev8 pseudo-instruction built on
+grevi from pre-0.93 draft-B) is available.
+
+This commit adds the new rev8 instruction and removes grev/grevi.
+
+Note that there is no W-form of this instruction (both a
+sign-extending and zero-extending 32-bit version can easily be
+synthesized by following rev8 with either a srai or srli instruction
+on RV64) and that the opcode encodings for rev8 in RV32 and RV64 are
+different.
 
 Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
 
-(no changes since v3)
+(no changes since v9)
+
+Changes in v9:
+- Rebased to 8880cc4362.
+- Fixes a whitespace-at-the-end-of-line warning for the rev8 comment
+  in insn32.decode
+
+Changes in v4:
+- reorder trans_rev8* functions to be sequential
+- rename rev8 to rev8_32 in decoder
 
 Changes in v3:
-- Moved the REQUIRE_32BIT macro into a separate commit.
+- rev8-addition & grevi*-removal moved to a separate commit
 
- target/riscv/translate.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ target/riscv/bitmanip_helper.c          | 40 -------------------------
+ target/riscv/helper.h                   |  2 --
+ target/riscv/insn32.decode              | 12 ++++----
+ target/riscv/insn_trans/trans_rvb.c.inc | 40 +++++--------------------
+ 4 files changed, 15 insertions(+), 79 deletions(-)
 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index e356fc6c46..7562b2f87c 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -337,6 +337,12 @@ EX_SH(12)
-     }                              \
- } while (0)
+diff --git a/target/riscv/bitmanip_helper.c b/target/riscv/bitmanip_helper.c
+index bb48388fcd..f1b5e5549f 100644
+--- a/target/riscv/bitmanip_helper.c
++++ b/target/riscv/bitmanip_helper.c
+@@ -24,46 +24,6 @@
+ #include "exec/helper-proto.h"
+ #include "tcg/tcg.h"
  
-+#define REQUIRE_32BIT(ctx) do { \
-+    if (!is_32bit(ctx)) {       \
-+        return false;           \
-+    }                           \
-+} while (0)
-+
- #define REQUIRE_64BIT(ctx) do { \
-     if (is_32bit(ctx)) {        \
-         return false;           \
+-static const uint64_t adjacent_masks[] = {
+-    dup_const(MO_8, 0x55),
+-    dup_const(MO_8, 0x33),
+-    dup_const(MO_8, 0x0f),
+-    dup_const(MO_16, 0xff),
+-    dup_const(MO_32, 0xffff),
+-    UINT32_MAX
+-};
+-
+-static inline target_ulong do_swap(target_ulong x, uint64_t mask, int shift)
+-{
+-    return ((x & mask) << shift) | ((x & ~mask) >> shift);
+-}
+-
+-static target_ulong do_grev(target_ulong rs1,
+-                            target_ulong rs2,
+-                            int bits)
+-{
+-    target_ulong x = rs1;
+-    int i, shift;
+-
+-    for (i = 0, shift = 1; shift < bits; i++, shift <<= 1) {
+-        if (rs2 & shift) {
+-            x = do_swap(x, adjacent_masks[i], shift);
+-        }
+-    }
+-
+-    return x;
+-}
+-
+-target_ulong HELPER(grev)(target_ulong rs1, target_ulong rs2)
+-{
+-    return do_grev(rs1, rs2, TARGET_LONG_BITS);
+-}
+-
+-target_ulong HELPER(grevw)(target_ulong rs1, target_ulong rs2)
+-{
+-    return do_grev(rs1, rs2, 32);
+-}
+-
+ target_ulong HELPER(clmul)(target_ulong rs1, target_ulong rs2)
+ {
+     target_ulong result = 0;
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index a9bda2c8ac..c7a5376227 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -59,8 +59,6 @@ DEF_HELPER_FLAGS_2(fcvt_d_lu, TCG_CALL_NO_RWG, i64, env, tl)
+ DEF_HELPER_FLAGS_1(fclass_d, TCG_CALL_NO_RWG_SE, tl, i64)
+ 
+ /* Bitmanip */
+-DEF_HELPER_FLAGS_2(grev, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+-DEF_HELPER_FLAGS_2(grevw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ DEF_HELPER_FLAGS_2(clmul, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ DEF_HELPER_FLAGS_2(clmulr, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ 
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index 59202196dc..901a66c0f5 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -683,6 +683,9 @@ min        0000101 .......... 100 ..... 0110011 @r
+ minu       0000101 .......... 101 ..... 0110011 @r
+ orc_b      001010 000111 ..... 101 ..... 0010011 @r2
+ orn        0100000 .......... 110 ..... 0110011 @r
++# The encoding for rev8 differs between RV32 and RV64.
++# rev8_32 denotes the RV32 variant.
++rev8_32    011010 011000 ..... 101 ..... 0010011 @r2
+ rol        0110000 .......... 001 ..... 0110011 @r
+ ror        0110000 .......... 101 ..... 0110011 @r
+ rori       01100 ............ 101 ..... 0010011 @sh
+@@ -694,6 +697,10 @@ xnor       0100000 .......... 100 ..... 0110011 @r
+ clzw       0110000 00000 ..... 001 ..... 0011011 @r2
+ ctzw       0110000 00001 ..... 001 ..... 0011011 @r2
+ cpopw      0110000 00010 ..... 001 ..... 0011011 @r2
++# The encoding for rev8 differs between RV32 and RV64.
++# When executing on RV64, the encoding used in RV32 is an illegal
++# instruction, so we use different handler functions to differentiate.
++rev8_64    011010 111000 ..... 101 ..... 0010011 @r2
+ rolw       0110000 .......... 001 ..... 0111011 @r
+ roriw      0110000 .......... 101 ..... 0011011 @sh5
+ rorw       0110000 .......... 101 ..... 0111011 @r
+@@ -702,15 +709,10 @@ rorw       0110000 .......... 101 ..... 0111011 @r
+ pack       0000100 .......... 100 ..... 0110011 @r
+ packu      0100100 .......... 100 ..... 0110011 @r
+ packh      0000100 .......... 111 ..... 0110011 @r
+-grev       0110100 .......... 101 ..... 0110011 @r
+-grevi      01101. ........... 101 ..... 0010011 @sh
+ 
+ # *** RV64B Standard Extension (in addition to RV32B) ***
+ packw      0000100 .......... 100 ..... 0111011 @r
+ packuw     0100100 .......... 100 ..... 0111011 @r
+-grevw      0110100 .......... 101 ..... 0111011 @r
+-
+-greviw     0110100 .......... 101 ..... 0011011 @sh5
+ 
+ # *** RV32 Zbc Standard Extension ***
+ clmul      0000101 .......... 001 ..... 0110011 @r
+diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
+index 05102d54b5..6fd1a020b3 100644
+--- a/target/riscv/insn_trans/trans_rvb.c.inc
++++ b/target/riscv/insn_trans/trans_rvb.c.inc
+@@ -273,26 +273,18 @@ static bool trans_rol(DisasContext *ctx, arg_rol *a)
+     return gen_shift(ctx, a, EXT_NONE, tcg_gen_rotl_tl);
+ }
+ 
+-static bool trans_grev(DisasContext *ctx, arg_grev *a)
++static bool trans_rev8_32(DisasContext *ctx, arg_rev8_32 *a)
+ {
+-    REQUIRE_EXT(ctx, RVB);
+-    return gen_shift(ctx, a, EXT_NONE, gen_helper_grev);
+-}
+-
+-static void gen_grevi(TCGv dest, TCGv src, target_long shamt)
+-{
+-    if (shamt == TARGET_LONG_BITS - 8) {
+-        /* rev8, byte swaps */
+-        tcg_gen_bswap_tl(dest, src);
+-    } else {
+-        gen_helper_grev(dest, src, tcg_constant_tl(shamt));
+-    }
++    REQUIRE_32BIT(ctx);
++    REQUIRE_ZBB(ctx);
++    return gen_unary(ctx, a, EXT_NONE, tcg_gen_bswap_tl);
+ }
+ 
+-static bool trans_grevi(DisasContext *ctx, arg_grevi *a)
++static bool trans_rev8_64(DisasContext *ctx, arg_rev8_64 *a)
+ {
+-    REQUIRE_EXT(ctx, RVB);
+-    return gen_shift_imm_fn(ctx, a, EXT_NONE, gen_grevi);
++    REQUIRE_64BIT(ctx);
++    REQUIRE_ZBB(ctx);
++    return gen_unary(ctx, a, EXT_NONE, tcg_gen_bswap_tl);
+ }
+ 
+ static void gen_orc_b(TCGv ret, TCGv source1)
+@@ -471,22 +463,6 @@ static bool trans_rolw(DisasContext *ctx, arg_rolw *a)
+     return gen_shift(ctx, a, EXT_NONE, gen_rolw);
+ }
+ 
+-static bool trans_grevw(DisasContext *ctx, arg_grevw *a)
+-{
+-    REQUIRE_64BIT(ctx);
+-    REQUIRE_EXT(ctx, RVB);
+-    ctx->w = true;
+-    return gen_shift(ctx, a, EXT_ZERO, gen_helper_grev);
+-}
+-
+-static bool trans_greviw(DisasContext *ctx, arg_greviw *a)
+-{
+-    REQUIRE_64BIT(ctx);
+-    REQUIRE_EXT(ctx, RVB);
+-    ctx->w = true;
+-    return gen_shift_imm_tl(ctx, a, EXT_ZERO, gen_helper_grev);
+-}
+-
+ #define GEN_SHADD_UW(SHAMT)                                       \
+ static void gen_sh##SHAMT##add_uw(TCGv ret, TCGv arg1, TCGv arg2) \
+ {                                                                 \
 -- 
 2.25.1
 
