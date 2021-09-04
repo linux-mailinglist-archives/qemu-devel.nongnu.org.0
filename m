@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 437E9400C24
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 18:38:51 +0200 (CEST)
-Received: from localhost ([::1]:37860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35594400C25
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 18:40:37 +0200 (CEST)
+Received: from localhost ([::1]:41316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMYgs-0000Td-Bp
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 12:38:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53146)
+	id 1mMYia-0002te-7m
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 12:40:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mMYTl-0002yX-Dy; Sat, 04 Sep 2021 12:25:19 -0400
+ id 1mMYTn-0002zs-Ln; Sat, 04 Sep 2021 12:25:24 -0400
 Received: from mail-vi1eur05on2095.outbound.protection.outlook.com
  ([40.107.21.95]:18546 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1mMYTj-0007GP-QG; Sat, 04 Sep 2021 12:25:17 -0400
+ id 1mMYTm-0007GP-1X; Sat, 04 Sep 2021 12:25:19 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eJHkxYeSPCABShQMrlpoSqkrC0FdbJtSvHjarYs5lC8gIgQ6ohLiB8bdhVLzXFJQA5duRF8QlQrL5Eof4r0Kk7ITCXNduzf2rBx39BPgdJEfTgGCTVEamDUgh+a3bWf6UEHMwQ13iHbdPqzCof0OWmCzMCV8LfmMQ/vJBWj8J1iAYufJzzxxMuOc7p+vE3/29XntVUbr2DDXCCUiNOAI56P50yXbXvtoBdzXvnZFBNnU0jkO6o68dJ71Z5OIcMjDOqFmQB7EW6vk/wu6QSoNQk2D+BixQoXFTBPIAcISAhqZuguAuN/L0W9U6rq5hoAo9wOknyJOOOr2ja9oIcHdwA==
+ b=jKYxJgVHMowtPN38b/QTSY8p4ERd3gRoqsFSwuqEvp+RVxqVqowzV+/FXZNT1yvS9Ln0gqtVyyWOJ46WWsy1v+lrbysHnv3fpeVEAODuDMYE29BcjvAa6MJY7XrgXHkQfJBZ4M6GN0QSiEaOtAB0BtUPpf3wokxLi3I70uZ3ojJ32AnI6mw4VszgM1CQUpibr4rOc2E0aSbESV6E1W4MphKKA5+jzNeCi/Izjy/50gdkRve2B7oOQm8r68QQvBskgzmvpPyXNOR4VnseNjMfkncpSwWJJfVMC9cFJi5Vtdmwksczn6tgeSIlFA2X6S6zDh6X0idUItZpS83GXyrD/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=BQIqyLQHn7c8zKqpQ8Z3De+R/cykjR0/AQ7Zv4NG0/0=;
- b=jFKUo8oL83McIw7eIAZoz1vL82YnJYraUEu+ZkcykPdm2CicfaiLJBNC8MLhyMLjn7WRAdOyAE676i52gOhnIYnZQC7yN9AKTjyx/oFepJG3fUU65d6c9wRxxVwXK16G1JgnrIoFcib9CC7NVdGdD5BwB1ZO1tocrFKJVzKElSEmjT0JHrKu+mlYQHRAMsW7zN0JL8QzU8hc3hWa47/p/RUPPpKYUShAzy/QQON97Ms304PAGd8HuXbbMa7ERR9DYVesy/SWJyPpv8WYzBUAIlHCaGNBg4NkKJQvjeuYSQaFpQSusb/Y1Imstx5u4ab0CJg7StmBc3KaXTy+acsCaQ==
+ bh=LMaBfg8VvlNM9Ib/8Ou/neYhEZLhouR0GN9AA8FciwY=;
+ b=fp0R/jQpNOE4Ifhpcp528+vASaZYMyhEXxfHQdPjNiZnjZEJJlJDfH4yYJuQpuB1oWhyYy0zxQVkmjzC75DAf0qevOey18NjlLOw3lYX/wmRPzO0/DVjUGIgKXY6M6ZjlFAHtY/1yeQp5RVLEHzgE/LpiVHS0oG1+idKR11yJWRtR7rBiK7J+4ozNkgvJbAon3YjZlScPO9cX6cQ4babOWync6641mqcG4doPNLa9w5o+6XgOW/LObNfrPn3PaUEHtqTLntaOYftFilxsQj/WXWN7sowDe39eWUVFLtN2+VtDdhLxV6dkfJJeSAl0q1IVAjI7hTSeicWQ8BvyyWUyg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BQIqyLQHn7c8zKqpQ8Z3De+R/cykjR0/AQ7Zv4NG0/0=;
- b=itb1+2FZGoCoQtxbwbkseBrTwEOj8jN/vVtNC1YGKOPuCU7nsKPC2Hauy29NBD4wpVLR76slGfhS0LuvHuXy8pNOGaJxCRRo50IvCDWd83yMk/QOplb89Aqy2kzgvW5JnyyaP+gUga2sUJDdOrVqBCCdInILzrlkrtLmIcn4LXY=
+ bh=LMaBfg8VvlNM9Ib/8Ou/neYhEZLhouR0GN9AA8FciwY=;
+ b=O/pBgPWaRUI+gHgW+Z8vj+9sDzQQUfF9kvO5bDvpmUgg0eQvpDmm09Z8i8w8p5rEeMUKptyhjD/RDSnmHzfWu1nkEfjDBnVYRPdNG0PlV2DZd6rzD/D3trGnW2DV2Z/P/zSvz9YSC3kc7ytK0z7EiLW9/+8Ua1L7iEeFBMVRNwY=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB6904.eurprd08.prod.outlook.com (2603:10a6:20b:394::23)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.20; Sat, 4 Sep
- 2021 16:25:04 +0000
+ 2021 16:25:05 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::2817:53b3:f8b4:fe22%8]) with mapi id 15.20.4478.024; Sat, 4 Sep 2021
- 16:25:04 +0000
+ 16:25:05 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, vsementsov@virtuozzo.com, hreitz@redhat.com,
  kwolf@redhat.com
-Subject: [PATCH v7 10/11] block/reqlist: implement reqlist_mark_req_invalid()
-Date: Sat,  4 Sep 2021 19:24:27 +0300
-Message-Id: <20210904162428.222008-11-vsementsov@virtuozzo.com>
+Subject: [PATCH v7 11/11] qcow2: use reqlist_mark_req_invalid()
+Date: Sat,  4 Sep 2021 19:24:28 +0300
+Message-Id: <20210904162428.222008-12-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210904162428.222008-1-vsementsov@virtuozzo.com>
 References: <20210904162428.222008-1-vsementsov@virtuozzo.com>
@@ -64,54 +64,54 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.196) by
  HE1PR05CA0275.eurprd05.prod.outlook.com (2603:10a6:3:fc::27) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4478.17 via Frontend Transport; Sat, 4 Sep 2021 16:25:03 +0000
+ 15.20.4478.17 via Frontend Transport; Sat, 4 Sep 2021 16:25:04 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 852aa6e4-2aef-4dbb-2012-08d96fc08d3f
+X-MS-Office365-Filtering-Correlation-Id: 082fc503-e653-4414-7e0b-08d96fc08dea
 X-MS-TrafficTypeDiagnostic: AS8PR08MB6904:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6904C2DFAFE2691B95A7E25EC1D09@AS8PR08MB6904.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-Microsoft-Antispam-PRVS: <AS8PR08MB69044560DBF68EBD64FDDCA9C1D09@AS8PR08MB6904.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:626;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: sQQjyr1W4Cl4gACG4IKbwzZ0zKYmonSFa5zzLNz+/deBlN+VJ38Yg5rSZct/i2i/TutMgaRPgf5Uvo48mxNKhXaSp2KwaRF3UD1wLBLwbWv1y2awluJpxrGdWkcxJYLyQfopt+MPYrsL+qBIA60PqgGgS8pVTpNmBsBMvE7/xnGzIyU8bROz8yMrewsOMEOIvaj3xNvCl3lbtNXbkqrtR/g9e5WnQqAliHVJLPoOw8QHXu2WBU2HWVoJortmc4x3eEC1naul5YLyB6HQ3VdwNOshAXJsGRLfdm788UHGqc39tsHvaKxUgrb8R9p4y5KsoR5Ok4v394u+sn2jYD3VCPAdv3VK2hslzAP98PODSUyCidPYP1/9AUkE7CtO+1RdM7MORdOJ0oAKvZkYzOHGObqpQl1BE/BAR1suM1GwdCZ9O0S+/BRSw2SaBa79Wzk9/Lvb+swZpEFFGnjcWZhiE98uYId9mpHiqebEBaedjVC48/QdC/3Fpeaytb5HaZHLoyU8F+zLtCXBvzEx5mH7RLnkGEF4jQBfEVtPElom+/tzfY5AELD0Pxt8MOr576BrX4ekhK1SuIL9kx1+rqf0LlB7IpxRgx65zi9SL9Ud2NsVSFL/2zwhFvxRzcunXuj8AQlLEBg0fM12Szs1DaVCbbEob7zlocPjJ0NMN/OckPfQ1dhirSvywV83yMLO1Ivo7Hc85VruAYI0tc4b/vk5Mw==
+X-Microsoft-Antispam-Message-Info: Yc/oA9l7xkGHtc/HaVw3Gq/A16rwvUezRfokFyRniD+0vsqSjFlZ8Yyp0BGBr/8VP+mhPhvKdyvubLVRDdLFsRWmigDt+nSRnRg+NGQU5yUNgPvWq/CoTbGklmWENoWJiGPDUNQkq3Qs7GDwr+Xtkb2U6g/xvrt47QKdDhBTKByRy8YNVyzS6k41AbNrGHrHohIJ0q88Du4rg9AcOXcX9WjLwg1K2DaPO4prqq3DETOSbfUVD2xTfssAXyapIDmU5hHwjtopDDScLX0BOwX9hhOoQTJYxHnUzZK0C6eJQzcY6HfJNSjELLl4bLwDwEES3Rle6jwnRbfoJLDm7nt1hFsUGzyo01i9FRSPh3HuwAuasEXP3lW5RyvbcYo1NTraNu6XLNWkNOZ8sqOA4l715dJgSUjynuEHShQZnS35ZMxEZtTFFXnSCPnvveY6b+O2O+BMYf9lti/XaG9huzXeMAbmHyMjTlmY35Awl7+sWrT06lb7YucFjdtoVqGPgt1snCS0R8cdX1UsimX+B+hARTL33u1a4Tj71M0x1FSnQzw08HahoWw8KuUdBrEc6k5YHfyVTuSIT4XpFeoFVsUUqpkknOVEeR4PQyi15xdl+KK0IO700ZEwo4+SadmLmJmLE61mnVeTZK4MkuLSYtpsukIEXAOG1VgMV8G4ets9bNZqNvgQeUvTiSVNObCiIj0eUyOpsaYAEEh/S+gsx7ElCw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(346002)(136003)(376002)(39840400004)(396003)(366004)(6486002)(66946007)(8936002)(52116002)(6666004)(83380400001)(478600001)(4326008)(38350700002)(186003)(38100700002)(5660300002)(2906002)(1076003)(8676002)(6506007)(86362001)(6916009)(6512007)(66556008)(36756003)(26005)(2616005)(956004)(316002)(66476007);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?WxnqpQt5fwqlATgqh9tiElh3AGee903LbGw0jhAodRmf6LGmxlQ+hXcJpkD2?=
- =?us-ascii?Q?9RZG6LgWCKmyXCNn0dAi4wKQ/1eLCfsKEsjMnkyF9vJWFyXWvOguRJD58d/W?=
- =?us-ascii?Q?0CCYE90qN7pl8ntUUKX6kRz4D01pVLSkzbZKMcf1amKi002tcjWjbzyv3HYH?=
- =?us-ascii?Q?B9ZjV8qLcv70AxI+pxol3Rx+GC+M5ZIEJbf1Cky06eN02Gkdvx8pW3b6JIGM?=
- =?us-ascii?Q?P6q/1kIIjEW1QkNFfpBFG18uAEikjdEYDIaWUji1L3TXyxio817V9I/kXCwF?=
- =?us-ascii?Q?e52bxhd6fmvq30DSkIQ0QCxp6cj06fklJ7B1wIfDCHHueh39GnQ93sCGA4qq?=
- =?us-ascii?Q?L4EfJJqveIyhQusXbBeLJyPj3EYaTlwNJeSsS++a0IDX24SNdCOBp9x6SlQe?=
- =?us-ascii?Q?JFbpM0ftLRUTuCe96kwa7tUgo6j5ISOeKtvUfCupAs5DD4Fb7ffGgk2qSixR?=
- =?us-ascii?Q?JCEPCIrc65nPqGtF0yTtMJme6EEvVVxOP2blfjlHa1lQGBxxC1+S+NhPEePX?=
- =?us-ascii?Q?hE5bRJRMrjPn8Lls5N7084AX4dQ5VweG+etr4KfFEIlX8DwuTCS+vlvBme/u?=
- =?us-ascii?Q?ddEsaSmFK0YQrfrutLPqnmjchagg8W914yKhhPlJ8Ny6PNunvWM/RVs5eNs4?=
- =?us-ascii?Q?3w/1LRdXuiujJmA06HlOOM5FeMify6BL+PTUCShNfuvq4zHR+k+ftIEqMe1n?=
- =?us-ascii?Q?LYm5zQh001M7/NEnamqSzWX0MpelIHz60OVxwVz87r+DRwX1u3aMJMQxsqaQ?=
- =?us-ascii?Q?N5LO6QwAs0byZN6+KWm81H4y/ZSv/2VJjmvSzc+V05Lk3sibsZjXRUvg3Vgn?=
- =?us-ascii?Q?cNubWHwiP1CM9yigb07E6xuTf1v+xtPhf749raYsn8HIaltzpj4Y2pBU7wfX?=
- =?us-ascii?Q?FP61w0YODGZ3st6NF+KPPi4Zwjfl1n/+WxlxgZfkOq3PjdW6pIBoj/ckrbuE?=
- =?us-ascii?Q?OaBGHxrY4Nw8ou+Ec7SWfIEK4odE2Y09vWWMqQRk4It2qdXU14aq/Vnx90QV?=
- =?us-ascii?Q?ck7Jyr5RHvKx9xoIlSzS11ODK1E3mfa4VzkcOz1mA8jCtoT6fT46tLeqUnxl?=
- =?us-ascii?Q?ex2Pdhgb5Y+MFwvcBpOjUKHBjdtGkzANbG5/8+OG6S4Uk803yawLJcnnl18P?=
- =?us-ascii?Q?LksKrDJ0vQ8Wa6aCmPupdfWEyATjf5hWC34yOgzkEn1RS1faMb5Lq7Vaq6jj?=
- =?us-ascii?Q?gsDxrvQuLjZnUIL1eF131q8qo4ROcOLBveBQwTlFBrLMahGj/ECvLGh5FFlJ?=
- =?us-ascii?Q?ni176mcUdKY9deCpK+g2OEUXeF5EnkZlQu0LNRpixqF/bssN72JI/M/KFCbZ?=
- =?us-ascii?Q?Isebf/jFOuUFUKSMqc5gSO3y?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?dYOHVUo4olKKLp51S7yo0EbfPiIEEzqYReWP1KxiRN/imcIAuP3I13MVj7zQ?=
+ =?us-ascii?Q?2yhIgLLxPEyPyS57I2+Rt7ZqthtaP7xzYmjycMoV02hMCzeQM7ZbBBkW9n5q?=
+ =?us-ascii?Q?BBKUf0bkGIKma1/T8wlrQvIPvSa3nzFX3sTl3cgXl9/sh1QV3hGuQ7i410Oi?=
+ =?us-ascii?Q?4S9VvWPvrIeY/19pPPIJwyWLcr+8MmhBh5K3Ezz4soRjLjvGxqvgKgkHaz7u?=
+ =?us-ascii?Q?rgD5S7QjR5BEB4vcYqW2w3Npwo7QU1j4dJod9E+t82wnYaA3bj9lQvSymsHN?=
+ =?us-ascii?Q?rg8xMBBNJ7UfUroDHVQXDY7OrUx440ghhqN4rhnYOL6kkMLY+8z00MtZyxl1?=
+ =?us-ascii?Q?LP3T1aVQ0zAMA2bYPklVSPwZV5c8+9o/pYAJlxTmbr8EHYKBmMHhXh8/6AWx?=
+ =?us-ascii?Q?Yt+4pthmxsY5K4a3hUr2dR0Y6RUXeHckjZnmaysty0EDZcm34uGjoTMtDuWD?=
+ =?us-ascii?Q?5SKPmWhUAXmNa2E8637DuX7igHzKZzmqOcaJLrd666CWryddrnW8CfJ/dGyK?=
+ =?us-ascii?Q?vNs8pTXOH7nwl0KE3QOxHOqJqOWYIgtW/9rhHLsPaiNvN1elUQJv0wk5hITi?=
+ =?us-ascii?Q?xxGnBRIrpzxPmz/WS8JLcQa4Z7mYCEXM8+hl3cInPlVmEXYYKoleeabjUinK?=
+ =?us-ascii?Q?5YOAIFS0d+6VmWJ5MDpeo6OsldQRn8m6eBTv50GREgtEn89eVMKirFZbtwms?=
+ =?us-ascii?Q?nIk6DUM560c+3XgxjlCVDA4WD73vnSLSGlh9cchyFm3/ibkEdHHtcCxt0qMr?=
+ =?us-ascii?Q?u42Ysbz71V071cCjMeEGWwTpqOKSDO7xn64mRLA50ensToANq+ZTjio2YYoN?=
+ =?us-ascii?Q?2XWzbc2Y73A+0aZ5ADL9KtNj39F1J7sVGeEtaBT5qj3Zb5tW7yI3tZ1fbczS?=
+ =?us-ascii?Q?OndcOXybPogx9aMzytGy5y7qpyTQU/BXFXa0GAWr7BX6gq8VQGPrN1SJzipn?=
+ =?us-ascii?Q?i5brJKOQClzMnViTkbziEggReUh21QXy4ycmoUq8Qo4RnGlnawZiBsSJK6Vt?=
+ =?us-ascii?Q?R26NkTbN9uRTkIbSe+lbLayU/7MAtugWtSfPy9cLeJCkp6jlOuO8+Mfb9YXr?=
+ =?us-ascii?Q?SRygAfzSofh63dsGkRjTpUlS1um/st0qtS0iD7a5zAJLQrOt0fHb2T44QTVq?=
+ =?us-ascii?Q?IOsq+65a2o7kDg+jeoCAp1vTl1HouW56n7+zfK/uyUfV9E1dvPczg5bGub+K?=
+ =?us-ascii?Q?ZFqJhkzYvLNuJro10o49w6EE1zxIomBupLTq9E//aXReshb4JzICeJavMvVI?=
+ =?us-ascii?Q?YmDG0dzmZCIKAA+BNfY08/KTxIXcs6C4Sokvq3eDieKF0K4dkY+fpP+9vSmb?=
+ =?us-ascii?Q?s1s1Eu/IGVwAkaBvEI5QF4KJ?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 852aa6e4-2aef-4dbb-2012-08d96fc08d3f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 082fc503-e653-4414-7e0b-08d96fc08dea
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2021 16:25:04.5954 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2021 16:25:05.6538 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VN+JYkdnU841Q+bp6pJXL+GM9EwZGZNiUQ3jauerJ+JkIIe4IUphd+eU8+eMfMMjm5kJLmwAROlxIUrsF/T+dKmwalfKD+fsGfuyZh0845c=
+X-MS-Exchange-CrossTenant-UserPrincipalName: EZY2CrU4M1Ry4rLCE1N5qlL85iEJ5QtF9Vxj8wqd2BWJWvKJzn41LrWdqNHGY7kJZyJhXl/E6dMMzQd55Xn1kAGr/Zaq0MFWVBZZXigBqkg=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6904
 Received-SPF: pass client-ip=40.107.21.95;
  envelope-from=vsementsov@virtuozzo.com;
@@ -139,105 +139,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We do lock qcow2 s->lock only to remove request from the reqlist.
-That's quite inefficient. Let's implement atomic operation to avoid
-extra critical section.
-
-So new interface is:
-
-1. Instead of reqlist_free_req() user may call atomic
-   reqlist_mark_req_invalid().
-
-2. At some moment under mutex user calls reqlist_free_invalid_reqs() to
-   free RAM.
+Instead of small critical sections which wants only to remove a
+request from the list let's use new atomic interface. And don't forget
+to call reqlist_free_invalid_reqs() when we are in a critical section
+anyway, to not overflow the RAM with invalid requests.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/reqlist.h | 13 +++++++++++++
- block/reqlist.c         | 23 ++++++++++++++++++++++-
- 2 files changed, 35 insertions(+), 1 deletion(-)
+ block/qcow2.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/include/block/reqlist.h b/include/block/reqlist.h
-index 32dc87666f..24d6d93a6e 100644
---- a/include/block/reqlist.h
-+++ b/include/block/reqlist.h
-@@ -26,6 +26,7 @@
- typedef struct BlockReq {
-     int64_t offset;
-     int64_t bytes;
-+    bool valid;
- 
-     CoQueue wait_queue; /* coroutines blocked on this req */
-     QLIST_ENTRY(BlockReq) list;
-@@ -84,4 +85,16 @@ static inline void reqlist_free_req(BlockReq *req)
+diff --git a/block/qcow2.c b/block/qcow2.c
+index aefe6558b6..f2094c1ecc 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -2306,9 +2306,7 @@ static coroutine_fn int qcow2_co_preadv_task(BlockDriverState *bs,
      }
- }
  
-+/*
-+ * Invalid request will be ignored when searching for conflicts.
-+ * The function modifies .valid atomically and intended for use when we
-+ * want to avoid using mutex.
-+ * If you use this function don't forget to also call
-+ * reqlist_free_invalid_reqs() sometimes, so that list doesn't grow endlessly.
-+ */
-+void reqlist_mark_req_invalid(BlockReq *req);
-+
-+/* Remove all invalid requests to free RAM space */
-+void reqlist_free_invalid_reqs(BlockReqList *reqs);
-+
- #endif /* REQLIST_H */
-diff --git a/block/reqlist.c b/block/reqlist.c
-index c580752db7..641307d80d 100644
---- a/block/reqlist.c
-+++ b/block/reqlist.c
-@@ -14,6 +14,8 @@
+     if (req) {
+-        WITH_QEMU_LOCK_GUARD(&s->lock) {
+-            reqlist_free_req(req);
+-        }
++        reqlist_mark_req_invalid(req);
+     }
  
- #include "qemu/osdep.h"
- 
-+#include "qemu/atomic.h"
-+
- #include "block/reqlist.h"
- 
- void reqlist_init_req(BlockReqList *reqs, BlockReq *req, int64_t offset,
-@@ -22,6 +24,7 @@ void reqlist_init_req(BlockReqList *reqs, BlockReq *req, int64_t offset,
-     *req = (BlockReq) {
-         .offset = offset,
-         .bytes = bytes,
-+        .valid = true,
-     };
-     qemu_co_queue_init(&req->wait_queue);
-     QLIST_INSERT_HEAD(reqs, req, list);
-@@ -33,7 +36,9 @@ BlockReq *reqlist_find_conflict(BlockReqList *reqs, int64_t offset,
-     BlockReq *r;
- 
-     QLIST_FOREACH(r, reqs, list) {
--        if (offset + bytes > r->offset && offset < r->offset + r->bytes) {
-+        if (r->valid &&
-+            offset + bytes > r->offset && offset < r->offset + r->bytes)
-+        {
-             return r;
+     return ret;
+@@ -2348,6 +2346,7 @@ static coroutine_fn int qcow2_co_preadv_part(BlockDriverState *bs,
          }
-     }
-@@ -72,3 +77,19 @@ void coroutine_fn reqlist_remove_req(BlockReq *req)
-     QLIST_REMOVE(req, list);
-     qemu_co_queue_restart_all(&req->wait_queue);
+ 
+         qemu_co_mutex_lock(&s->lock);
++        reqlist_free_invalid_reqs(&s->guest_reqs);
+         ret = qcow2_get_host_offset(bs, offset, &cur_bytes,
+                                     &host_offset, &type, &req);
+         qemu_co_mutex_unlock(&s->lock);
+@@ -2769,6 +2768,8 @@ static void qcow2_close(BlockDriverState *bs)
+ 
+     qcow2_refcount_close(bs);
+     qcow2_free_snapshots(bs);
++
++    reqlist_free_invalid_reqs(&s->guest_reqs);
  }
-+
-+void reqlist_mark_req_invalid(BlockReq *req)
-+{
-+    qatomic_set(&req->valid, false);
-+}
-+
-+void reqlist_free_invalid_reqs(BlockReqList *reqs)
-+{
-+    BlockReq *r, *next;
-+
-+    QLIST_FOREACH_SAFE(r, reqs, list, next) {
-+        if (!r->valid) {
-+            reqlist_free_req(r);
-+        }
-+    }
-+}
+ 
+ static void coroutine_fn qcow2_co_invalidate_cache(BlockDriverState *bs,
+@@ -4619,6 +4620,7 @@ qcow2_co_pwritev_compressed_task(BlockDriverState *bs,
+     }
+ 
+     qemu_co_mutex_lock(&s->lock);
++    reqlist_free_invalid_reqs(&s->guest_reqs);
+     ret = qcow2_alloc_compressed_cluster_offset(bs, offset, out_len,
+                                                 &cluster_offset, &req);
+     if (ret < 0) {
+@@ -4641,9 +4643,7 @@ success:
+     ret = 0;
+ fail:
+     if (req) {
+-        WITH_QEMU_LOCK_GUARD(&s->lock) {
+-            reqlist_free_req(req);
+-        }
++        reqlist_mark_req_invalid(req);
+     }
+     qemu_vfree(buf);
+     g_free(out_buf);
 -- 
 2.29.2
 
