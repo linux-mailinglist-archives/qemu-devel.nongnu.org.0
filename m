@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13415400A77
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 11:46:29 +0200 (CEST)
-Received: from localhost ([::1]:41584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB5B9400A78
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 11:46:59 +0200 (CEST)
+Received: from localhost ([::1]:43802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMSFn-0004Oh-G8
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 05:46:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50766)
+	id 1mMSGJ-0005se-03
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 05:46:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMSDw-0003XW-Bb
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 05:44:32 -0400
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:41782)
+ id 1mMSEo-0004Dc-8x
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 05:45:27 -0400
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:44737)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMSDu-0001J7-Li
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 05:44:31 -0400
-Received: by mail-wr1-x431.google.com with SMTP id u9so2079335wrg.8
- for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 02:44:30 -0700 (PDT)
+ id 1mMSEl-00025x-Vf
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 05:45:26 -0400
+Received: by mail-wr1-x435.google.com with SMTP id d6so1457580wrc.11
+ for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 02:45:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JrGTCcVfn6BEeZv8S++wadMUoGu2Hy/uy1IDS7ct5i8=;
- b=ZroJMAQ9j4h53A+xud/kyJCEtxJe3P+MQ541ayrX8ZCH1WnPlfEKnZSuO0KgGdkpeH
- 9gdz35YJOkF7uysmXg74PiTzgDgyUfgdvnwCj4mxA0G/u/VypHHSb4HZ08rxFZUbvVhN
- zrFPD4p8wicr0zpg9hPVmb/vhuL17QMyTs1mVDI6EHKnXN+sd5Xsnl72TfpJ0jP6iOUs
- ddaFBId7qYlLCqJON4A8KwNG5TEhOwF9mGkZnTHZQ+JhIW4huguJa0WiIZHPCFmEIC+H
- dcAuz0B8FYG/+XsAlA3V91uj15jJwYn08McJaxwRpj9bl7Ra9iNhXIvIybj92dnI9wBQ
- 4ySA==
+ bh=q2o87UtM5jD/uBhuqR6VpL68dRwcycdg94bvq9ekm3I=;
+ b=iq5pqLOfc/5AkV8UU6zjd6zNSv6+aa24Lb2kcQKpmx98R2CHZQl6l8D8ZgqXZ4IU3P
+ rPQ7sKlbnuNqsYIpnkY1XQvuZ4oeFlJ4u6jHDHGAMYizKTH/YRDqPLcmfOeDkA0KoiBJ
+ liKVEplz9eqgK+mVPVQWiWoZQY2/pYNgozVJ0BAS+i2ew74j3xJgBNpIHIPPnANs6crr
+ U6Nu/7tYDRGi/zNmECW07mi8t++n6EZcJagU0z5DmoDSOGTiIUtTSrtEDRMULBh64aJn
+ YTgk6KCuLzAe0aPCMbflG0cm3sB9AZuBQ9JynFslGb7nTxkkFkGvR4WbkiQddAMW6+SF
+ EL0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=JrGTCcVfn6BEeZv8S++wadMUoGu2Hy/uy1IDS7ct5i8=;
- b=QE6MydFJBYL2DU+vyTeGyCgy8P0uexXwZ4R2cui7zUTaqS55C3o3/fgVUWLbLz0yz0
- Aw6oNip/LWjrUX1E7ynoiWSriMswT5ftiojNk0gGdBQ+kBuu1UlVS1sT69xZBe9hboe5
- TFsX8TfY2CN8p8d+HFbIW+ese1cbJf/Ou4ZUrhUqZYz62TLlQuqUora+LdooaE8y4tOr
- iC1vOalnLJLZhjXI3h65Wr9kEfd1sxMqspeBPUd75KdH8yihgn6+Lv0nYUKsygrTK2S1
- Ut1XvkjtgxlrMlA1Ov4eSRBet/c6uPF/TTjQtzBMth+2c8UZxmT4nGxOFp7BxuWs2ago
- eedQ==
-X-Gm-Message-State: AOAM5323UyAOmMTaGf3j6TWXr6k7/6VthiwfNWk0BAJpxj2k4qLTYgaF
- vhuXqMVeSQxtE3XMqQGR9zDAig==
-X-Google-Smtp-Source: ABdhPJyqo002PYYQAgFRmSEYpiLG/9/nO53ato3IqW9DA2Qc8/ZswxIR6BIDj3YrI4IA9nkNOH+M3Q==
-X-Received: by 2002:a5d:5490:: with SMTP id h16mr3222888wrv.170.1630748668902; 
- Sat, 04 Sep 2021 02:44:28 -0700 (PDT)
+ bh=q2o87UtM5jD/uBhuqR6VpL68dRwcycdg94bvq9ekm3I=;
+ b=LwaBVE9X2LJfvBsN0w/1QfclOFUcsM4AUQEI3RbDVjMh+MzNIE/NUSHzzIQn+KXahO
+ fHG5PAjCqD8/Qj/RIVQ6RZCW5TOFeOdcYaKKalgwyasrynHR+AIa2NfjJ9Yk9HBp63dz
+ JgHOyosFvFJtv2EnFLv2fXv+cjtDjwfmhTWGndgvgQEjurpHVN1bQK19uMMsjavw5r0L
+ 3XsT4y3smJFGl/8o1gZaNw25rOC5ooKeLMPbZXpFaSDAWU2IGPrIbYu8opx4LQSV/MOf
+ WrE+GeArGx7jrs4ONxhgtgCbrQSt6uA5/i/BDA+HVtpSTQYpQ8jh6Cqvjvf8lh96KMCU
+ 50kQ==
+X-Gm-Message-State: AOAM531rxoAuN3ediUs5M+8MXHf9Gpe1x/w5u6JyhIOBgZmD5A5VhfVp
+ EV6Io4oL6B6Go0ZNlTYMIg0bdg==
+X-Google-Smtp-Source: ABdhPJwFoW5Ym/DtuE16dkkwDB7n7F2jBgsSvEZtqf91jZiPt4A+doTUjoBi/gexTXuzJtl3OxhhbQ==
+X-Received: by 2002:adf:9f51:: with SMTP id f17mr3191494wrg.301.1630748722662; 
+ Sat, 04 Sep 2021 02:45:22 -0700 (PDT)
 Received: from [192.168.8.107] (246.red-2-142-218.dynamicip.rima-tde.net.
  [2.142.218.246])
- by smtp.gmail.com with ESMTPSA id d9sm2038254wrb.36.2021.09.04.02.44.13
+ by smtp.gmail.com with ESMTPSA id b4sm1722818wrp.33.2021.09.04.02.45.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 04 Sep 2021 02:44:28 -0700 (PDT)
-Subject: Re: [PATCH v4 02/21] target/loongarch: Add core definition
+ Sat, 04 Sep 2021 02:45:22 -0700 (PDT)
+Subject: Re: [PATCH v4 03/21] target/loongarch: Add main translation routines
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <1630586467-22463-1-git-send-email-gaosong@loongson.cn>
- <1630586467-22463-3-git-send-email-gaosong@loongson.cn>
+ <1630586467-22463-4-git-send-email-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b86c8179-27df-b7e2-8d47-1aa2629097c3@linaro.org>
-Date: Sat, 4 Sep 2021 11:44:10 +0200
+Message-ID: <7002891b-8d82-af4f-e62f-293b7fc8ea6a@linaro.org>
+Date: Sat, 4 Sep 2021 11:45:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <1630586467-22463-3-git-send-email-gaosong@loongson.cn>
+In-Reply-To: <1630586467-22463-4-git-send-email-gaosong@loongson.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -101,51 +101,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/2/21 2:40 PM, Song Gao wrote:
-> +#define FCSR0_M1    0x1f         /* FCSR1 mask, Enables */
-> +#define FCSR0_M2    0x1f1f0000   /* FCSR2 mask, Cause and Flags */
-> +#define FCSR0_M3    0x300        /* FCSR3 mask, Round Mode */
-> +#define FCSR0_RM    8            /* Round Mode bit num on fcsr0 */
-> +#define GET_FP_CAUSE(reg)        (((reg) >> 24) & 0x1f)
-> +#define GET_FP_ENABLE(reg)       (reg & 0x1f)
-> +#define GET_FP_FLAGS(reg)        (((reg) >> 16) & 0x1f)
-> +#define SET_FP_CAUSE(reg, v)      do { (reg) = ((reg) & ~(0x1f << 24)) | \
-> +                                               ((v & 0x1f) << 24);       \
-> +                                     } while (0)
-> +#define SET_FP_ENABLE(reg, v)     do { (reg) = ((reg) & ~(0x1f) | (v & 0x1f); \
-> +                                     } while (0)
-> +#define SET_FP_FLAGS(reg, v)      do { (reg) = ((reg) & ~(0x1f << 16)) | \
-> +                                               ((v & 0x1f) << 16);       \
-> +                                     } while (0)
-> +#define UPDATE_FP_FLAGS(reg, v)   do { (reg) |= ((v & 0x1f) << 16); } while (0)
-
-Better to use "hw/registerfields.h":
-
-FIELD(FCSR, ENABLES, 0, 5)
-FIELD(FCSR, RM, 8, 2)
-FIELD(FCSR, FLAGS, 16, 5)
-FIELD(FCSR, CAUSE, 24, 5)
-
-Then e.g.
-
-#define GET_FP_CAUSE(REG)    FIELD_EX32(REG, FCSR, CAUSE)
-#define SET_FP_CAUSE(REG, V) FIELD_DP32(REG, FCSR, CAUSE, V)
-
-#define UPDATE_FP_FLAGS(REG, V) \
-     do {
-         (REG) |= FIELD_DP32(0, FCSR, FLAGS, V);
-     } while (0)
-
-> +static inline void cpu_get_tb_cpu_state(CPULoongArchState *env,
-> +                                        target_ulong *pc,
-> +                                        target_ulong *cs_base,
-> +                                        uint32_t *flags)
+> +static inline bool use_goto_tb(DisasContext *ctx, target_ulong dest)
 > +{
-> +    *pc = env->pc;
-> +    *cs_base = 0;
+> +    return true;
 > +}
 
-Missing *flags = 0.
-
+This is unused.  Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
