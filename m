@@ -2,42 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 936594009DF
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 07:47:34 +0200 (CEST)
-Received: from localhost ([::1]:57068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04FCC4009DD
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 07:42:19 +0200 (CEST)
+Received: from localhost ([::1]:50126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMOWb-00083O-HH
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 01:47:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49628)
+	id 1mMORV-00039k-U8
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 01:42:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mMOM4-0000Hx-6y; Sat, 04 Sep 2021 01:36:40 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:36469)
+ id 1mMOM3-0000Ht-1J; Sat, 04 Sep 2021 01:36:40 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:48553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1mMOM1-0000Xh-F2; Sat, 04 Sep 2021 01:36:39 -0400
+ id 1mMOM0-0000Xj-Cz; Sat, 04 Sep 2021 01:36:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=gibson.dropbear.id.au; s=201602; t=1630733791;
- bh=b8GPa793HERvIHCyvlk/12UCg5YhByIk5mVGZuLF3sQ=;
+ bh=pQxs7NKk/eiQzbg9CgWII/Eh6qZct/+d6BNBzyGOcyM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=LHKek/mygRyt4s24Y0qV7/H061t6m7+6mYapj9niHVq7JY2ojeWk2Hzvyuzc9bwNf
- nmAog/NZRJu2hBXM6Dyu059XRQm4zZziPztLFEMmdnO/1dpIhQo0Hi63pm127aHRz4
- h1/Qk6Z8kkz8z4GX435VYmjsOALCyQnmqOs3JTQA=
+ b=FRltF1AFhRLM6kHCvuuivUFxO+EgvdZCij1QMeBfY81i2Z6OUKmhrQI8zMyjrlgpj
+ +y3YlSiMnCCyqqdjbGvTwj2uhbNm4hejVhioSPRafJVbAx812+Dph77ScrdcNlRaua
+ kdThksTmFqeAaBbDSvWKLGvHJYn3jJQkinnkjBDs=
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4H1k1C6THvz9sVq; Sat,  4 Sep 2021 15:36:31 +1000 (AEST)
-Date: Sat, 4 Sep 2021 13:38:58 +1000
+ id 4H1k1C6mTGz9sXk; Sat,  4 Sep 2021 15:36:31 +1000 (AEST)
+Date: Sat, 4 Sep 2021 13:53:34 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v3 26/28] target/ppc: Replace g_memdup() by g_memdup2()
-Message-ID: <YTLqUuBIxiR3i8cy@yekko>
-References: <20210903174510.751630-1-philmd@redhat.com>
- <20210903174510.751630-27-philmd@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v7 5/7] qapi/qdev.json: add DEVICE_UNPLUG_GUEST_ERROR
+ QAPI event
+Message-ID: <YTLtvn5ywJce0iqE@yekko>
+References: <20210825004835.472919-1-danielhb413@gmail.com>
+ <20210825004835.472919-6-danielhb413@gmail.com>
+ <87tuj4a0wx.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ob9WBRFeUsoNiH0e"
+ protocol="application/pgp-signature"; boundary="gyNYQ9pA2V/pMnDi"
 Content-Disposition: inline
-In-Reply-To: <20210903174510.751630-27-philmd@redhat.com>
+In-Reply-To: <87tuj4a0wx.fsf@dusky.pond.sub.org>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -58,65 +60,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-block@nongnu.org, Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Daniel P . Berrange" <berrange@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---ob9WBRFeUsoNiH0e
-Content-Type: text/plain; charset=iso-8859-1
+--gyNYQ9pA2V/pMnDi
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 03, 2021 at 07:45:08PM +0200, Philippe Mathieu-Daud=E9 wrote:
-> Per https://discourse.gnome.org/t/port-your-module-from-g-memdup-to-g-mem=
-dup2-now/5538
+On Wed, Sep 01, 2021 at 03:19:26PM +0200, Markus Armbruster wrote:
+> Daniel Henrique Barboza <danielhb413@gmail.com> writes:
 >=20
->   The old API took the size of the memory to duplicate as a guint,
->   whereas most memory functions take memory sizes as a gsize. This
->   made it easy to accidentally pass a gsize to g_memdup(). For large
->   values, that would lead to a silent truncation of the size from 64
->   to 32 bits, and result in a heap area being returned which is
->   significantly smaller than what the caller expects. This can likely
->   be exploited in various modules to cause a heap buffer overflow.
+> > At this moment we only provide one event to report a hotunplug error,
+> > MEM_UNPLUG_ERROR. As of Linux kernel 5.12 and QEMU 6.0.0, the pseries
+> > machine is now able to report unplug errors for other device types, such
+> > as CPUs.
+> >
+> > Instead of creating a (device_type)_UNPLUG_ERROR for each new device,
+> > create a generic DEVICE_UNPLUG_GUEST_ERROR event that can be used by all
+> > guest side unplug errors in the future. This event has a similar API as
+> > the existing DEVICE_DELETED event, always providing the QOM path of the
+> > device and dev->id if there's any.
+> >
+> > With this new generic event, MEM_UNPLUG_ERROR is now marked as deprecat=
+ed.
+> >
+> > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> > ---
 >=20
-> Replace g_memdup() by the safer g_memdup2() wrapper.
+> [...]
 >=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> > diff --git a/qapi/qdev.json b/qapi/qdev.json
+> > index 0e9cb2ae88..8b1a1dd43b 100644
+> > --- a/qapi/qdev.json
+> > +++ b/qapi/qdev.json
+> > @@ -84,7 +84,9 @@
+> >  #        This command merely requests that the guest begin the hot rem=
+oval
+> >  #        process.  Completion of the device removal process is signale=
+d with a
+> >  #        DEVICE_DELETED event. Guest reset will automatically complete=
+ removal
+> > -#        for all devices.
+> > +#        for all devices.  If a guest-side error in the hot removal pr=
+ocess is
+> > +#        detected, the device will not be removed and a DEVICE_UNPLUG_=
+GUEST_ERROR
+> > +#        event is sent.  Some errors cannot be detected.
+> >  #
+> >  # Since: 0.14
+> >  #
+> > @@ -124,3 +126,27 @@
+> >  ##
+> >  { 'event': 'DEVICE_DELETED',
+> >    'data': { '*device': 'str', 'path': 'str' } }
+> > +
+> > +##
+> > +# @DEVICE_UNPLUG_GUEST_ERROR:
+> > +#
+> > +# Emitted when a device hot unplug fails due to an internal guest
+> > +# error.
+>=20
+> Suggest to scratch "internal".
 
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+I'd suggest s/internal guest/guest reported/.  "guest error" is a bit
+vague, this doesn't neccessarily indicate a bug in the guest.  The key
+point is that we're reporting this event because the guest performed
+some explicit action to tell us something went wrong with the plug
+attempt.
 
-> ---
->  target/ppc/mmu-hash64.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-> index 19832c4b46f..bc6f8748acb 100644
-> --- a/target/ppc/mmu-hash64.c
-> +++ b/target/ppc/mmu-hash64.c
-> @@ -1122,7 +1122,7 @@ void ppc_hash64_init(PowerPCCPU *cpu)
->          return;
->      }
-> =20
-> -    cpu->hash64_opts =3D g_memdup(pcc->hash64_opts, sizeof(*cpu->hash64_=
-opts));
-> +    cpu->hash64_opts =3D g_memdup2(pcc->hash64_opts, sizeof(*cpu->hash64=
-_opts));
->  }
-> =20
->  void ppc_hash64_finalize(PowerPCCPU *cpu)
+> > +#
+> > +# @device: the device's ID if it has one
+> > +#
+> > +# @path: the device's QOM path
+> > +#
+> > +# Since: 6.2
+> > +#
+> > +# Example:
+> > +#
+> > +# <- { "event": "DEVICE_UNPLUG_GUEST_ERROR"
+> > +#      "data": { "device": "core1",
+> > +#                "path": "/machine/peripheral/core1" },
+> > +#      },
+> > +#      "timestamp": { "seconds": 1615570772, "microseconds": 202844 } }
+> > +#
+> > +##
+> > +{ 'event': 'DEVICE_UNPLUG_GUEST_ERROR',
+> > +  'data': { '*device': 'str', 'path': 'str' } }
+>=20
+> [...]
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -124,25 +161,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---ob9WBRFeUsoNiH0e
+--gyNYQ9pA2V/pMnDi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEy6lIACgkQbDjKyiDZ
-s5LsSQ/+JGfVEGFpFsxv2JGweo6VeaL7sWpvURLQ6ka79BwX72635jgsNsnCPPRL
-m2rc7dUHV8+yY+j1JVtDCHWjFiPbMS6Z6dvtbb7XxLiRr7I8PstXjW0u/ntTwXXw
-qYsdpiG6UovB/z3vKapZcjjGx8zH8KWg0mblVull7pF+XszljV/Tr5dWY/+Ty6X8
-e9MH0fwkUMzGn9xTpCzAY7OpgB8NTjkXAmcUjrBoF6QsWuvHrjEVrKWh8qn80RU0
-DFiO+juUwWNYCOp7Fst74QnpQhHNqombifg7eDZvkVjkBFcrvROCVC+sSQp4j4iD
-0dHqgSzKCfUxORACVQOsXjvuxtv8AxByi7x2CUG9lFYc1Z094NxtzCU90AsqfVXX
-0qA6pbBAAGuTckGQqNcB2ajaMRNZIUr4Nlmed8p/TCIvDKgplQ7G1z5gaxs6Ph+k
-eHJvvBjN2ghG19LgHwLkXWEKQ2jJpPDSqDq0flQvxeCvlmTmPlM+zDuPKAMmVPqc
-MMJOe+vsYddCu/qYEydHetG/l7+etilrSgafAmOMlcKn8/EijXj6aa0ksoS5nbe8
-ajFS8RXEJqHwZ+WHiyY2/+PNqWZ9ZIFpq7KUX8VG4wBJ2XWXeeqHHvzCYNMIKE/i
-oiEl9LWYFFtaX3JZCI8wrKdkFCz5zbUFDLIgoJ0NZgZXtyK8IZI=
-=cExo
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmEy7bwACgkQbDjKyiDZ
+s5I0Aw//TlFdgGd2YHnAn8Fz78SoD1giPKk7mrXQPkidKNr5jL3qU3tIpIh7EFW9
+NLbK8WMA1jXbMIK3KFhABLNnJ9BVYhqDjZGJX4k49Cc1Kl/OsJvMoazD4aqipclG
++PUmoly1hyozGABNayf8WU0uhpqM6vwUUdO4FwVMnBJQUcFVDeazi29uvZx+gJi/
+5OnLoGMyKd13hDheSZjCBJ19CBqHb3AC8K0AHqNtfBPEaCTfP4UpiDrmxb6LR6ZI
+gzR93Qxcme+wv8PsbUWN/4+bdUIH29ILGfmM7O0hxl3ijok9Xd7nV2nMx2n+GvBQ
+OHFieU9eKPYXMi2J/eWUFajSTlfB1PIdWgdl79BCIl4jwzGnlAPuktRF2eGAUS5F
+Xh4HSt7kYVRKQclNXdoDBItqZP9lV8LC7ieW9H8spP+sVNrMevneTQcA6/nbmOse
+JYnn0n4Mhw//xmT1jQCzHaBmXizGPHf3IfPCOxMiHWbhpvPKFBzVkf3D5MZ1EB1p
+ygLk6Djlrr+YDuEN4zjm6Z7YInS/sY8kUuUiq5gg0RfHpd8cmdTarjMB5hMdooQg
+f+E2fGkXAThpLKOhimqgkvl/4j0JIhCraujZh77kGZlHSziX8u+rCbb1I96HQ+8d
+55thpkbHAiufOOpsgZ8G3CrCDo4UT6hJKwA3gkAWPSZmZbPth8k=
+=6jN2
 -----END PGP SIGNATURE-----
 
---ob9WBRFeUsoNiH0e--
+--gyNYQ9pA2V/pMnDi--
 
