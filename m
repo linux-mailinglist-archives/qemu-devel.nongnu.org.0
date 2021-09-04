@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78681400D2D
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 23:46:36 +0200 (CEST)
-Received: from localhost ([::1]:40468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06146400D29
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 23:44:09 +0200 (CEST)
+Received: from localhost ([::1]:60274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMdUh-0004DC-IC
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 17:46:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35398)
+	id 1mMdSK-00074B-26
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 17:44:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdLP-0005l3-EC
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:37:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47570)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdLR-0005lW-E2
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:37:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27652)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdLM-0001Fs-W7
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:36:59 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdLP-0001Hm-N9
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:37:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630791416;
+ s=mimecast20190719; t=1630791419;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I6hzXvSZcmKkCiwpFrjVYwk3ML2ZhCV+5LcXx5Zj5FA=;
- b=gHruwHixl0Gm2LmmP9zaz+BYH5Giuq4g4ysFo9wTYX8vEKfDISsQob34fak+vtIO/08kx+
- bHYnq3Y/+t4l4LMTaEAzQiAfb0Y8np9BPUyX/YGjFiHPliH9iX2+hEL69Ie+LyVqE1f+et
- tYd2ChRwPdLCcF9W6uzg7ktaxDOaWOE=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-hro8X2MYOaaQRUg4THX_Iw-1; Sat, 04 Sep 2021 17:36:54 -0400
-X-MC-Unique: hro8X2MYOaaQRUg4THX_Iw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- s25-20020a50d499000000b003c1a8573042so1491528edi.11
- for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 14:36:54 -0700 (PDT)
+ bh=vFrxzlGUYuvipK0lYqredbuf7giybAcrOV0JeHM2q0Y=;
+ b=a8xlgAL8yoS53X7QP9IfXOyhGWrujxFNDzvG3cfaG//NEIt5GiY4r2jvG/MZjYTt+u5iEZ
+ JzwWOAUCQ7HHeExZtIxwYJfNdHpXp07uT77o2NN1fVLk68eQgytc6Bb3Uv05zLz3VKLjWS
+ m4iwh/zWiGDVgYBpo0XqwTzmDpzq/OU=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-370-s0RaldS5OiCSgCtLEA74vw-1; Sat, 04 Sep 2021 17:36:58 -0400
+X-MC-Unique: s0RaldS5OiCSgCtLEA74vw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ b15-20020a05640202cf00b003cd5efcd633so1507130edx.9
+ for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 14:36:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=I6hzXvSZcmKkCiwpFrjVYwk3ML2ZhCV+5LcXx5Zj5FA=;
- b=sizvdFAhuqcp7dFOAg0ff2xSYkhigAztWop1NMEVVl9kRer3N9ijnq4jL4t5Ay5TmI
- f/W0lN009K8JXnNeDX1wU0IZg8BkddZNjismSOnVv+YUihL/w2/p1jArV2XMPLHQ4LXs
- 4mVHqIoOoLVm1DzqPZ5pJOkqKIShNa7h1IdgayhL8LCvPYy7U2qGgduCyDhbSoCLcDB7
- D6AZz+lcAtCecQZXlxGA640Xu1QNfgZy11MEomdevFySqeAsYurzpi0+CQCLugyLk4Qt
- U9gbb2Fcd3PYriveSOgwQs3iH4bVJ9VBuyhet6/zm7dB3Ik0m/CivpX9vo6R2ZVTC9oZ
- SyVA==
-X-Gm-Message-State: AOAM533d21cIi0pUHWsboh461+bwpgPOaMXiUMz2dTRgFxSE4CmJMUe9
- XVKonRNpXJhunmad2AmT35hTk6sDUdUmOMdRq5dxbsZ5jSc6QedDyp4Cxwzb2hO2UxKcZ8/zF+u
- uCyoyoWYkbrg+hg7dWvdeyId6WxzrdGD1lBZcRmy6kkLjQbJZr99xtoILFmkn
-X-Received: by 2002:a17:906:3fd7:: with SMTP id
- k23mr5852978ejj.176.1630791413432; 
- Sat, 04 Sep 2021 14:36:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyAyygnQ4Efnaro8v8OKthQ/z7GBUDh8tca08RnJeSPWY85GWWg35kt9b+AprTbE9wDMsmzCg==
-X-Received: by 2002:a17:906:3fd7:: with SMTP id
- k23mr5852955ejj.176.1630791413245; 
- Sat, 04 Sep 2021 14:36:53 -0700 (PDT)
+ bh=vFrxzlGUYuvipK0lYqredbuf7giybAcrOV0JeHM2q0Y=;
+ b=mucyfOZb6As63TeYGAVkS/mFlJMWyco4I3adij/fDxjIgdCgVh969GRyEb4fAJwtMH
+ g9CjVbO4QkW1e6FPR7cAbcN5XD3f94vNh8v83zEKbbyXSwBWrqm+7sT5wBaGHrYRq9Vh
+ Rq4/cGRHrKZ+CakIUNgPDvN2vZMxJ6yhrthzvbtr+4aphRivx7SZ7JxMVHXlomsrtA8t
+ BJ07scgJTxhAJu/0n38s/F8y3yF8cbKLTaCWD1Jdau3isPT/Wf2La8ec+49fsV8wmDIu
+ X98WefsdIV5Aaf4nUnnnk5x4R5pdauMwlFUeSYFHbZpp1xFYPIrACoiMvcfAecn/O3S2
+ WUMg==
+X-Gm-Message-State: AOAM530gmbNVCZcbJ2wo8Xnve8S+gcEUsAWeWSxy0E17RUOM4YzjuJHw
+ U+9aJtMa1A/6i6oU27SFT4afp+82cOpNRX0iROxxhUMkRkWnKXKiH5jKyKzaedoHy4eHgpxcRCm
+ EhuTvVfLzckI/6v2Ek0nb1h9qzlT59lJ1WEuSDij1q++UQf3hP7s6X/vtN/P+
+X-Received: by 2002:a17:906:988a:: with SMTP id
+ zc10mr6024740ejb.256.1630791416751; 
+ Sat, 04 Sep 2021 14:36:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwnkjeDJtYLNSbNsguEmH4lDJgtevTGyMucaNvRFDuibG/oIX+9utyOZcAZbhmIDPA6F7rAGg==
+X-Received: by 2002:a17:906:988a:: with SMTP id
+ zc10mr6024723ejb.256.1630791416559; 
+ Sat, 04 Sep 2021 14:36:56 -0700 (PDT)
 Received: from redhat.com ([2.55.150.176])
- by smtp.gmail.com with ESMTPSA id x9sm1886607edj.95.2021.09.04.14.36.51
+ by smtp.gmail.com with ESMTPSA id d6sm1900829edx.0.2021.09.04.14.36.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Sep 2021 14:36:52 -0700 (PDT)
-Date: Sat, 4 Sep 2021 17:36:50 -0400
+ Sat, 04 Sep 2021 14:36:56 -0700 (PDT)
+Date: Sat, 4 Sep 2021 17:36:53 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/35] hw/acpi: use existing references to pci device struct
- within functions
-Message-ID: <20210904213506.486886-19-mst@redhat.com>
+Subject: [PULL 19/35] MAINTAINERS: Added myself as a reviewer for acpi/smbios
+ subsystem
+Message-ID: <20210904213506.486886-20-mst@redhat.com>
 References: <20210904213506.486886-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210904213506.486886-1-mst@redhat.com>
@@ -78,7 +78,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -99,51 +99,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>, Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ani Sinha <ani@anisinha.ca>
 
-There is no need to use fresh typecasts to get references to pci device structs
-when there is an existing reference to pci device struct. Use existing reference.
-Minor cleanup.
+I have developed an interest in this space and hopefully can lend some
+helping hand to Igor and Michael in reviewing simpler patches.
 
 Signed-off-by: Ani Sinha <ani@anisinha.ca>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210825031949.919376-3-ani@anisinha.ca>
+Acked-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20210825031949.919376-4-ani@anisinha.ca>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/acpi/pcihp.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index f4d706e47d..f610a25d2e 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -283,7 +283,7 @@ void acpi_pcihp_device_pre_plug_cb(HotplugHandler *hotplug_dev,
- 
-     /* Only hotplugged devices need the hotplug capability. */
-     if (dev->hotplugged &&
--        acpi_pcihp_get_bsel(pci_get_bus(PCI_DEVICE(dev))) < 0) {
-+        acpi_pcihp_get_bsel(pci_get_bus(pdev)) < 0) {
-         error_setg(errp, "Unsupported bus. Bus doesn't have property '"
-                    ACPI_PCIHP_PROP_BSEL "' set");
-         return;
-@@ -363,8 +363,8 @@ void acpi_pcihp_device_unplug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
- {
-     PCIDevice *pdev = PCI_DEVICE(dev);
- 
--    trace_acpi_pci_unplug(PCI_SLOT(PCI_DEVICE(dev)->devfn),
--                          acpi_pcihp_get_bsel(pci_get_bus(PCI_DEVICE(dev))));
-+    trace_acpi_pci_unplug(PCI_SLOT(pdev->devfn),
-+                          acpi_pcihp_get_bsel(pci_get_bus(pdev)));
- 
-     /*
-      * clean up acpi-index so it could reused by another device
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5d923a6544..6c20634d63 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1751,6 +1751,7 @@ F: docs/specs/*pci*
+ ACPI/SMBIOS
+ M: Michael S. Tsirkin <mst@redhat.com>
+ M: Igor Mammedov <imammedo@redhat.com>
++R: Ani Sinha <ani@anisinha.ca>
+ S: Supported
+ F: include/hw/acpi/*
+ F: include/hw/firmware/smbios.h
 -- 
 MST
 
