@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 531C24009C1
+	by mail.lfdr.de (Postfix) with ESMTPS id 598324009C2
 	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 06:27:35 +0200 (CEST)
-Received: from localhost ([::1]:34312 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:34328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMNHB-0005T5-Sf
+	id 1mMNHB-0005TY-Tg
 	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 00:27:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44558)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mMNFj-00046a-St
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 00:26:03 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:37570)
+ id 1mMNFi-00046O-QR
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 00:26:02 -0400
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:37712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mMNFg-00084B-KA
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 00:26:03 -0400
+ id 1mMNFf-00086b-Ok
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 00:26:02 -0400
 Received: from loganberry.canonical.com (loganberry.canonical.com
  [91.189.90.37])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 4CFC540519
- for <qemu-devel@nongnu.org>; Sat,  4 Sep 2021 04:25:48 +0000 (UTC)
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id F15DA3F66A
+ for <qemu-devel@nongnu.org>; Sat,  4 Sep 2021 04:25:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1630729548;
- bh=tm7XuJrNziC5/0PTzyoyXIkxnGwSpX7u084FsZW3JhU=;
+ s=20210803; t=1630729551;
+ bh=bRzlGgVIYU62GxcDOHFRI/mzcoxgZEbpkDkRnaYzz0E=;
  h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
  Message-Id:Subject;
- b=NRszFQCunsQQerTkzx8GqCg4NsOxkLvSuG9VNnQQXiddc5mEz2IGK/1esHilffs45
- OPkfNoZR6QZge9bpbAxvyz2h+bOi99vc0jqLKfBT+4+9VU4ajr6jgWYKlu8eVfYMLQ
- WIba2Kcv3I6xNKw8qupHGE1ZlDBwPS8tct8GqK7ebAUNb5WPp2U4IbClI8lwEufv+2
- EA1p8eXN2Dj8zVaTJMbAKB9bmEugqwYJkASNw1W3PGOGw+cunXuXnUXMP2cwbK6BX4
- bpysBfWLFuDkRxdmkwAGqA0HSVE8LK8f/tTzNH+u+Fd8KlhrQ2nxU97rNTu/KCb24N
- 81LxbOTHTSE1Q==
+ b=tD9/DlMcdpsSGPobjRKCNX5AFtRqUZIuY6DSH8bI5ixNVvHmTgEir67rJn6BV8hMe
+ cYY58GrluDZzmsR+O3rRS+m96ENLqPp1Sv9cnCKBDkxqu9sxxrgBd4rQ42Pxj+UXlW
+ wCUIDQ6SxsQwb1DMHfx9sf4j6mXT9NnsE2l4/GkNlfrXj5Id49tqLZSLf5xIfGtcSw
+ zYkpBgbLJ3ZXFBKjyIvPA484uiU1NEhqpbGO9Omcq2cKa4y5Z32QAC5T3GL+PGzzvS
+ wxDWWUpNSDvcGyddwFKxzvvIelzpyMD8y8eN0XVNQkqoWgj2lbzqI3jF+kpwHTEXpy
+ wkAm7THLyqo5Q==
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id F36BF2E81DF
- for <qemu-devel@nongnu.org>; Sat,  4 Sep 2021 04:25:43 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A279B2E8230
+ for <qemu-devel@nongnu.org>; Sat,  4 Sep 2021 04:25:45 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 04 Sep 2021 04:17:17 -0000
+Date: Sat, 04 Sep 2021 04:17:18 -0000
 From: Launchpad Bug Tracker <1770417@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -57,14 +57,14 @@ X-Launchpad-Bug-Commenters: janitor paelzer th-huth vdrok
 X-Launchpad-Bug-Reporter: Vladyslav Drok (vdrok)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
 References: <152596210054.26788.14569755785770428905.malonedeb@chaenomeles.canonical.com>
-Message-Id: <163072903798.31763.16827496024186824490.malone@loganberry.canonical.com>
+Message-Id: <163072903906.31763.11278134413182764259.malone@loganberry.canonical.com>
 Subject: [Bug 1770417] Re: Qemu can not parse long fqdns during drive-mirror
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e03bf5183af335943ccf1ef70ad0534f46a635c6"; Instance="production"
-X-Launchpad-Hash: 4918117c345c0e16a9901d7800b7b95d5639d860
+X-Launchpad-Hash: 037c2764e7c59c20dcd1068a49ba48861f65c071
 Received-SPF: pass client-ip=185.125.188.251;
  envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
 X-Spam_score_int: -42
@@ -89,9 +89,10 @@ Reply-To: Bug 1770417 <1770417@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+[Expired for qemu (Ubuntu) because there has been no activity for 60
+days.]
 
-** Changed in: qemu
+** Changed in: qemu (Ubuntu)
        Status: Incomplete =3D> Expired
 
 --=20
