@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B70F400D30
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 23:48:33 +0200 (CEST)
-Received: from localhost ([::1]:48462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA1A9400D23
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 23:42:16 +0200 (CEST)
+Received: from localhost ([::1]:51544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMdWa-0001A2-J0
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 17:48:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35348)
+	id 1mMdQW-0001C9-06
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 17:42:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdL8-0005GX-FQ
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:36:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38720)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdLC-0005St-6W
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:36:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdL6-00016u-Cl
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:36:42 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdLA-00018P-LN
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:36:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630791399;
+ s=mimecast20190719; t=1630791402;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=pfB4Y9HSTQVin+i7dr55RoRMesM0x0vA9aYgJNYKXbs=;
- b=Lqfo4p0In378R5XYjl0+dJejAM4rNR/zi319/J2iQNq0b3e6MmLDyoZ+RKSql0GnNWb8MH
- 3ZmmSGLEg6XRU3k5J9nsKcDM4ABbgw6p1PDdsCYbe+JvPD4WVf4IvFZuGk9qmvhwxNRb7D
- Q8RFtFdAiiDSczguL48t6PtmWvF+h20=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-_xWYaAWBOSiXo9H-j-339g-1; Sat, 04 Sep 2021 17:36:38 -0400
-X-MC-Unique: _xWYaAWBOSiXo9H-j-339g-1
-Received: by mail-ej1-f71.google.com with SMTP id
- m18-20020a170906849200b005c701c9b87cso862062ejx.8
- for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 14:36:38 -0700 (PDT)
+ bh=xjmYjxZE9lLfwg0tVzBHYCGbkvW274evNrtxFcpgMnM=;
+ b=dLPXaikmGUMzu0DMxU6mIC2TnQir1flQy6I/YU5+VgAMr2/iz1CmFS6k5deDYBBT/NWkHx
+ vpcUufpua5TMdSW3U5FiIWGlENtXPU9OixKH8fD2Y40Vu8vOhS3rrDZx0PGR5JhjyFIAsU
+ NBLAMJJQOwCWJsHxOZmRpNT0hUVpKx4=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-582-DlpemcnYO8mBI2c0xZPkxg-1; Sat, 04 Sep 2021 17:36:41 -0400
+X-MC-Unique: DlpemcnYO8mBI2c0xZPkxg-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ q15-20020a17090622cf00b005c42d287e6aso841749eja.18
+ for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 14:36:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=pfB4Y9HSTQVin+i7dr55RoRMesM0x0vA9aYgJNYKXbs=;
- b=SgRbp63KJhQFysPw45j6BNdH1w1WVRWfwNzLqCxrWiXzRhNUJeZojwmkR9SBOFZayV
- LpmOYxyFrfnnlkQaIfzb2aKJkQs7upqv9gkwh8q4QeyGK7Pyj2qn5Troqwvjqqa2VOz0
- LZeDXSFL76SNcsALbS1DXc7yPVO1USCpzZZykaUWbziaQWjmkWxu81CopI8+Zck7jJPt
- aZGGZQUAF+4qgsp7U8LAHnkDdh5Cmgzz/ee9VqAeaPxvCJbT6DLM3otFq/4Sw4Issg7X
- iHtAkVd4NLf1j9Rr7jkEZHIVGRPn9O2L0n7O/1zlMKHnnADhi48I1ysWPugBxOwPMWw+
- AfKQ==
-X-Gm-Message-State: AOAM530bRp9zAsvKL1YyMHRiGFtptUrf4GPPvrCslLSFwfPPJ8JpKqoH
- z737C4/rAaB/0OuqY8gku7RMZe9/EZ9lOV452G5QsSGxCRYkR2qWlW0XXd6LRHIVRupEUb3T00y
- DMXiDu5lnnbX6Px9NnCCeeqPsNfWW/CZ0RfZUlZnwK9x/C3k4SKp7tFo0cuSL
-X-Received: by 2002:a50:9a84:: with SMTP id p4mr5963708edb.189.1630791396989; 
- Sat, 04 Sep 2021 14:36:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxzcPIJJ5BqzOY9+w03uWscaL5Wonqz2qjvYryPngN7Eitm/NUJIvvjjKiVdvKmgF4w8F0ZdQ==
-X-Received: by 2002:a50:9a84:: with SMTP id p4mr5963691edb.189.1630791396750; 
- Sat, 04 Sep 2021 14:36:36 -0700 (PDT)
+ bh=xjmYjxZE9lLfwg0tVzBHYCGbkvW274evNrtxFcpgMnM=;
+ b=aVr7aCcL35+EG7P+wBLju5+SdFdG5FtYW54K5Ampj/frsfmdz1eY7H2Z4dfd1+iwCm
+ Sj4daG36SSW3SbrszQePsE9iCO6BNs+euAGnqsaAUwSXZSNm9YL2d1Gz34i7mipb5vUs
+ ZpCG55tvCADrxTG1FEENECwejeAf342YoKDDjt4zk/GN0rM8bJqF4QqPn6HVAgWQa5V5
+ D3V3bZtbWxJqvvOn3peEyQ5baIdk9kGIJcWfQ615Y+qIzwxwsoCW7HlfWYepYGkalckw
+ DueDFN6SDmR4YfuuL4qCkwFubWgIri9XX/5dI22fQi0erJF574EB+buTeCsI506f0wI2
+ Rxzg==
+X-Gm-Message-State: AOAM5315IFEksNQHLuIH5DU9/YK6TAM3+Xr2GOdg/A9rNT6B+/aS/sMQ
+ cVSRahvnmbccZgeeJqdmjFSB2IkaywF2jCwumgy8R4X37lORHaj3lgXIGadWh7jI8sL8o/fFYAk
+ +EVAPBHBs7K4i2GLmX0Jh28f2keKtUmoSl9NCv3bKMQTeyEpqT83sK12ZiVqy
+X-Received: by 2002:a05:6402:2032:: with SMTP id
+ ay18mr5922492edb.364.1630791400017; 
+ Sat, 04 Sep 2021 14:36:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzyGnp9GfQAUtemjZtKWjIfWiKDyH+L/VggMK4PX/cPUvgYhagCIKEJeM9tkbKOvN5LEzV0JA==
+X-Received: by 2002:a05:6402:2032:: with SMTP id
+ ay18mr5922474edb.364.1630791399748; 
+ Sat, 04 Sep 2021 14:36:39 -0700 (PDT)
 Received: from redhat.com ([2.55.150.176])
- by smtp.gmail.com with ESMTPSA id f26sm1888071eds.90.2021.09.04.14.36.35
+ by smtp.gmail.com with ESMTPSA id lb12sm1523638ejc.28.2021.09.04.14.36.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Sep 2021 14:36:36 -0700 (PDT)
-Date: Sat, 4 Sep 2021 17:36:34 -0400
+ Sat, 04 Sep 2021 14:36:39 -0700 (PDT)
+Date: Sat, 4 Sep 2021 17:36:36 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/35] virtio-bus: introduce iommu_enabled()
-Message-ID: <20210904213506.486886-14-mst@redhat.com>
+Subject: [PULL 14/35] virtio-pci: implement iommu_enabled()
+Message-ID: <20210904213506.486886-15-mst@redhat.com>
 References: <20210904213506.486886-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210904213506.486886-1-mst@redhat.com>
@@ -72,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -99,63 +101,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jason Wang <jasowang@redhat.com>
 
-This patch introduce a new method for the virtio-bus for the transport
-to report whether or not the IOMMU is enabled for the device.
+This patch implements the PCI transport version of iommu_enabled. This
+is done by comparing the address space returned by
+pci_device_iommu_address_space() against address_space_memory.
+
+Note that an ideal approach is to use pci_device_iommu_address_space()
+in get_dma_as(), but it might not work well since the IOMMU could be
+initialized after the virtio-pci device is initialized.
 
 Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20210804034803.1644-2-jasowang@redhat.com>
+Message-Id: <20210804034803.1644-3-jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/virtio-bus.h |  4 +++-
- hw/virtio/virtio-bus.c         | 14 ++++++++++++++
- 2 files changed, 17 insertions(+), 1 deletion(-)
+ hw/virtio/virtio-pci.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/include/hw/virtio/virtio-bus.h b/include/hw/virtio/virtio-bus.h
-index ef8abe49c5..7ab8c9dab0 100644
---- a/include/hw/virtio/virtio-bus.h
-+++ b/include/hw/virtio/virtio-bus.h
-@@ -93,6 +93,7 @@ struct VirtioBusClass {
-      */
-     bool has_variable_vring_alignment;
-     AddressSpace *(*get_dma_as)(DeviceState *d);
-+    bool (*iommu_enabled)(DeviceState *d);
- };
- 
- struct VirtioBusState {
-@@ -154,5 +155,6 @@ void virtio_bus_release_ioeventfd(VirtioBusState *bus);
- int virtio_bus_set_host_notifier(VirtioBusState *bus, int n, bool assign);
- /* Tell the bus that the ioeventfd handler is no longer required. */
- void virtio_bus_cleanup_host_notifier(VirtioBusState *bus, int n);
--
-+/* Whether the IOMMU is enabled for this device */
-+bool virtio_bus_device_iommu_enabled(VirtIODevice *vdev);
- #endif /* VIRTIO_BUS_H */
-diff --git a/hw/virtio/virtio-bus.c b/hw/virtio/virtio-bus.c
-index 859978d248..d23db98c56 100644
---- a/hw/virtio/virtio-bus.c
-+++ b/hw/virtio/virtio-bus.c
-@@ -325,6 +325,20 @@ static char *virtio_bus_get_fw_dev_path(DeviceState *dev)
-     return NULL;
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 433060ac02..6e16e2705c 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1121,6 +1121,19 @@ static AddressSpace *virtio_pci_get_dma_as(DeviceState *d)
+     return pci_get_address_space(dev);
  }
  
-+bool virtio_bus_device_iommu_enabled(VirtIODevice *vdev)
++static bool virtio_pci_iommu_enabled(DeviceState *d)
 +{
-+    DeviceState *qdev = DEVICE(vdev);
-+    BusState *qbus = BUS(qdev_get_parent_bus(qdev));
-+    VirtioBusState *bus = VIRTIO_BUS(qbus);
-+    VirtioBusClass *klass = VIRTIO_BUS_GET_CLASS(bus);
++    VirtIOPCIProxy *proxy = VIRTIO_PCI(d);
++    PCIDevice *dev = &proxy->pci_dev;
++    AddressSpace *dma_as = pci_device_iommu_address_space(dev);
 +
-+    if (!klass->iommu_enabled) {
++    if (dma_as == &address_space_memory) {
 +        return false;
 +    }
 +
-+    return klass->iommu_enabled(qbus->parent);
++    return true;
 +}
 +
- static void virtio_bus_class_init(ObjectClass *klass, void *data)
+ static bool virtio_pci_queue_enabled(DeviceState *d, int n)
  {
-     BusClass *bus_class = BUS_CLASS(klass);
+     VirtIOPCIProxy *proxy = VIRTIO_PCI(d);
+@@ -2202,6 +2215,7 @@ static void virtio_pci_bus_class_init(ObjectClass *klass, void *data)
+     k->ioeventfd_enabled = virtio_pci_ioeventfd_enabled;
+     k->ioeventfd_assign = virtio_pci_ioeventfd_assign;
+     k->get_dma_as = virtio_pci_get_dma_as;
++    k->iommu_enabled = virtio_pci_iommu_enabled;
+     k->queue_enabled = virtio_pci_queue_enabled;
+ }
+ 
 -- 
 MST
 
