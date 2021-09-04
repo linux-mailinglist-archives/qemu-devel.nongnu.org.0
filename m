@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B10400CEE
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 22:42:45 +0200 (CEST)
-Received: from localhost ([::1]:37130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D7EC400CF4
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 22:46:49 +0200 (CEST)
+Received: from localhost ([::1]:45070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMcUt-00010z-RH
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 16:42:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54328)
+	id 1mMcYp-0006Nk-SK
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 16:46:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mMcNs-0005uc-LR
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:28 -0400
-Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a]:43758)
+ id 1mMcNv-0005wO-UX
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:32 -0400
+Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b]:42523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mMcNq-0002uN-RP
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:28 -0400
-Received: by mail-lj1-x22a.google.com with SMTP id j12so4281330ljg.10
+ id 1mMcNs-0002v6-2f
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:30 -0400
+Received: by mail-lf1-x12b.google.com with SMTP id t12so5327109lfg.9
  for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 13:35:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=vrull-eu.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dNAhHJK3IazavmuHWJ2dYAB2ul4aGgSASJVaHSi/TkM=;
- b=eJVmCXw0YN4diMxI8sC5SbHejLSCY/HZBPsaXcA+LpLNwnSsWGufVo6hcyXGDJ7FAg
- jMeMug6SKw97LSG76pGFl39Ikl7pO0Kxz28XgtDZDcnxEIwoYLbwUSz+IiUkN4Icf8CK
- oTaS+yQCaVcI97qRhQxGftfr1DE4w6ajSoUW8VLqrFh3QhjZoMK9SJ1UUAjtc9uapQBB
- rWKXOsT1144WqeY/Mb5Lg6gGtyyB2kwDQTq1fgc113Gz53wm05RfnhtSJ77N884a9+WC
- jV9kJTH+2yMC+MMxsCyRGZduFTs0fGAiZP6wVz/uYwk8LOl4C8vgeO6XQAcPrWnJthk3
- nOGw==
+ bh=5dHAXq//g/AqUfLb7JWz95lR0xnkPOlYHD2HKpaX/Pk=;
+ b=ElNqW9k1Xz27aYl7NKdM4PDP/Ee5fYsIMJfp13B3DVeXCDrINcyI1omfL1IzcJ/Xp0
+ SbtaWLTKWyQYwFi3558rgsbYENU7YTH//YycJWFb3XCdQgxUuR6EVNuEQxUcSZ5u0LL3
+ NVlMVMFcKXwOlSnceWYCFkxFx1eJnpLquKY8turwgCS5dROuCHrwuERjf8CJnHVvvei6
+ c99B3uPWaBX2MfRJ43lVitAYGKLD9LdpgeN5cPr5U+srmD+MOGhu9K1MozdLO3aAS29l
+ NpBfqLU6/62uhAMv7Zgbd24QSZP39s4cr7H7HVKjwesiVXpW/uHDQ3ENV3vgwd4/Aaca
+ 1RmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dNAhHJK3IazavmuHWJ2dYAB2ul4aGgSASJVaHSi/TkM=;
- b=nV8plgkfgievMeMwWFd6ew7ylnZL8jgXivdrIa1G6Bnz4192+OHPlGIVqu5agkleCG
- nzeXkm02uvCjTTdX5xx+3S0mkjTzwGD4UiGhHhhU/KSr+kY1ySrWXI/Ccnojea9PSxeG
- Z9aEiWcklLNH0pUErP1RK67MD8YC/VpyBjmV3wlV5/tkWB0+sRnpAWV/Po/BhAaAxZVK
- Gir3wJ76L3/CgMG2WdLjbQm6KXynvS/S4YWbvbvW8ZQLVXBB9inJDg6IgXHPD1c8L7QP
- 9QABIUc69aMdKvsL0zMqlkAUEJDzi7KeUqJWhkkpb/GKwdEK8RuSExqQw+ii7PUgdNHk
- Pxzw==
-X-Gm-Message-State: AOAM532fxw45QaJP0+q/dqyfPA9T/PkfAa2xCxexy4KNWbtJImZUWqC+
- OK7g2yhtqiqqAHg8YqGBk2brjrp3HZcvKrWzLKI=
-X-Google-Smtp-Source: ABdhPJyXImGykL6E13B1vbhZ6hVFaViD+3hk+9iiSC0OMb87bsKxTeFF14fWIJKDuQmAtLXpfb3vXw==
-X-Received: by 2002:a2e:8e39:: with SMTP id r25mr4005743ljk.272.1630787724872; 
- Sat, 04 Sep 2021 13:35:24 -0700 (PDT)
+ bh=5dHAXq//g/AqUfLb7JWz95lR0xnkPOlYHD2HKpaX/Pk=;
+ b=K3sqJT4A29cBeLADzRreosFzXoHli9IWcRLdTsnsGh26t2rEM5EZBCfTvp4+9xpPH6
+ ELAudIiIy4SwZ8YALffDOecd3aYpJ2fLEBASRGfqMlz/Xb983/nguzcJ7Rn2t/XjDqty
+ aihukI8mxknaLz+CWqjohvQczhsEyMoC+yF8Ps9Ge2J4WFhUTTJs5XTdgwU7ojLU1V5C
+ 6nAAJFzpQAjpsvPfm1h5aNs1DdMN5d+k75bxgj3hEfinIb852mvuMjSL6lAK6AzaHZhO
+ 4XPZ44/QCCOiDZnfWljwIOeIKAaJ9eF9+clqCVwkc1OM8y/TMtw0HHiC1L5Gk50Du4w9
+ PkDw==
+X-Gm-Message-State: AOAM530bE2BrMrgc6L3AxQx7gG0f1RU1RFvB6p9aVHbAq7jckIWrfn0j
+ MgTlDWp1cF6R4ajr0po9Gr6vjhCExXEViosj4FE=
+X-Google-Smtp-Source: ABdhPJyBD1rNyw6EGoVbYYMUKX7kbeZw/YbrUINepVzuHyRzOMvsz/meYarh3hfstGv702BVEySZ/g==
+X-Received: by 2002:a05:6512:13a3:: with SMTP id
+ p35mr3812062lfa.272.1630787725677; 
+ Sat, 04 Sep 2021 13:35:25 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
- by smtp.gmail.com with ESMTPSA id v15sm326304lfq.142.2021.09.04.13.35.24
+ by smtp.gmail.com with ESMTPSA id v15sm326304lfq.142.2021.09.04.13.35.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Sep 2021 13:35:24 -0700 (PDT)
+ Sat, 04 Sep 2021 13:35:25 -0700 (PDT)
 From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 07/16] target/riscv: Remove shift-one instructions
- (proposed Zbo in pre-0.93 draft-B)
-Date: Sat,  4 Sep 2021 22:35:06 +0200
-Message-Id: <20210904203516.2570119-8-philipp.tomsich@vrull.eu>
+Subject: [PATCH v10 08/16] target/riscv: Reassign instructions to the
+ Zbs-extension
+Date: Sat,  4 Sep 2021 22:35:07 +0200
+Message-Id: <20210904203516.2570119-9-philipp.tomsich@vrull.eu>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210904203516.2570119-1-philipp.tomsich@vrull.eu>
 References: <20210904203516.2570119-1-philipp.tomsich@vrull.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lj1-x22a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::12b;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x12b.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,10 +91,9 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Zb[abcs] ratification package does not include the proposed
-shift-one instructions. There currently is no clear plan to whether
-these (or variants of them) will be ratified as Zbo (or a different
-extension) or what the timeframe for such a decision could be.
+The following instructions are part of Zbs:
+ - b{set,clr,ext,inv}
+ - b{set,clr,ext,inv}i
 
 Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
@@ -103,138 +103,144 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 (no changes since v3)
 
 Changes in v3:
-- Remove shift-one instructions in a separate commit.
+- The changes to the Zbs instructions (i.e. the REQUIRE_ZBS macro) and
+  its use for qualifying the Zba instructions) are moved into a
+  separate commit.
 
- target/riscv/insn32.decode              |  8 ---
- target/riscv/insn_trans/trans_rvb.c.inc | 70 -------------------------
- 2 files changed, 78 deletions(-)
+ target/riscv/insn32.decode              | 17 +++++++++--------
+ target/riscv/insn_trans/trans_rvb.c.inc | 25 +++++++++++++++----------
+ 2 files changed, 24 insertions(+), 18 deletions(-)
 
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index b499691a9e..e0f6e315a2 100644
+index e0f6e315a2..35a3563ff4 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -693,8 +693,6 @@ bset       0010100 .......... 001 ..... 0110011 @r
- bclr       0100100 .......... 001 ..... 0110011 @r
- binv       0110100 .......... 001 ..... 0110011 @r
- bext       0100100 .......... 101 ..... 0110011 @r
--slo        0010000 .......... 001 ..... 0110011 @r
--sro        0010000 .......... 101 ..... 0110011 @r
+@@ -689,19 +689,11 @@ min        0000101 .......... 100 ..... 0110011 @r
+ minu       0000101 .......... 101 ..... 0110011 @r
+ max        0000101 .......... 110 ..... 0110011 @r
+ maxu       0000101 .......... 111 ..... 0110011 @r
+-bset       0010100 .......... 001 ..... 0110011 @r
+-bclr       0100100 .......... 001 ..... 0110011 @r
+-binv       0110100 .......... 001 ..... 0110011 @r
+-bext       0100100 .......... 101 ..... 0110011 @r
  ror        0110000 .......... 101 ..... 0110011 @r
  rol        0110000 .......... 001 ..... 0110011 @r
  grev       0110100 .......... 101 ..... 0110011 @r
-@@ -704,8 +702,6 @@ bseti      00101. ........... 001 ..... 0010011 @sh
- bclri      01001. ........... 001 ..... 0010011 @sh
- binvi      01101. ........... 001 ..... 0010011 @sh
- bexti      01001. ........... 101 ..... 0010011 @sh
--sloi       00100. ........... 001 ..... 0010011 @sh
--sroi       00100. ........... 101 ..... 0010011 @sh
+ gorc       0010100 .......... 101 ..... 0110011 @r
+ 
+-bseti      00101. ........... 001 ..... 0010011 @sh
+-bclri      01001. ........... 001 ..... 0010011 @sh
+-binvi      01101. ........... 001 ..... 0010011 @sh
+-bexti      01001. ........... 101 ..... 0010011 @sh
  rori       01100. ........... 101 ..... 0010011 @sh
  grevi      01101. ........... 101 ..... 0010011 @sh
  gorci      00101. ........... 101 ..... 0010011 @sh
-@@ -717,15 +713,11 @@ cpopw      0110000 00010 ..... 001 ..... 0011011 @r2
- 
- packw      0000100 .......... 100 ..... 0111011 @r
- packuw     0100100 .......... 100 ..... 0111011 @r
--slow       0010000 .......... 001 ..... 0111011 @r
--srow       0010000 .......... 101 ..... 0111011 @r
- rorw       0110000 .......... 101 ..... 0111011 @r
- rolw       0110000 .......... 001 ..... 0111011 @r
- grevw      0110100 .......... 101 ..... 0111011 @r
- gorcw      0010100 .......... 101 ..... 0111011 @r
- 
--sloiw      0010000 .......... 001 ..... 0011011 @sh5
--sroiw      0010000 .......... 101 ..... 0011011 @sh5
- roriw      0110000 .......... 101 ..... 0011011 @sh5
+@@ -722,3 +714,12 @@ roriw      0110000 .......... 101 ..... 0011011 @sh5
  greviw     0110100 .......... 101 ..... 0011011 @sh5
  gorciw     0010100 .......... 101 ..... 0011011 @sh5
+ 
++# *** RV32 Zbs Standard Extension ***
++bclr       0100100 .......... 001 ..... 0110011 @r
++bclri      01001. ........... 001 ..... 0010011 @sh
++bext       0100100 .......... 101 ..... 0110011 @r
++bexti      01001. ........... 101 ..... 0010011 @sh
++binv       0110100 .......... 001 ..... 0110011 @r
++binvi      01101. ........... 001 ..... 0010011 @sh
++bset       0010100 .......... 001 ..... 0110011 @r
++bseti      00101. ........... 001 ..... 0010011 @sh
 diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index ca92920efd..9891c4912a 100644
+index 9891c4912a..2c2e4bc3d7 100644
 --- a/target/riscv/insn_trans/trans_rvb.c.inc
 +++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -237,44 +237,6 @@ static bool trans_bexti(DisasContext *ctx, arg_bexti *a)
+@@ -1,5 +1,5 @@
+ /*
+- * RISC-V translation routines for the RVB draft and Zba Standard Extension.
++ * RISC-V translation routines for the RVB draft Zb[as] Standard Extension.
+  *
+  * Copyright (c) 2020 Kito Cheng, kito.cheng@sifive.com
+  * Copyright (c) 2020 Frank Chang, frank.chang@sifive.com
+@@ -24,11 +24,16 @@
+     }                                            \
+ } while (0)
+ 
++#define REQUIRE_ZBS(ctx) do {                    \
++    if (!RISCV_CPU(ctx->cs)->cfg.ext_zbs) {      \
++        return false;                            \
++    }                                            \
++} while (0)
++
+ static void gen_clz(TCGv ret, TCGv arg1)
+ {
+     tcg_gen_clzi_tl(ret, arg1, TARGET_LONG_BITS);
+ }
+-
+ static bool trans_clz(DisasContext *ctx, arg_clz *a)
+ {
+     REQUIRE_EXT(ctx, RVB);
+@@ -165,13 +170,13 @@ static void gen_bset(TCGv ret, TCGv arg1, TCGv shamt)
+ 
+ static bool trans_bset(DisasContext *ctx, arg_bset *a)
+ {
+-    REQUIRE_EXT(ctx, RVB);
++    REQUIRE_ZBS(ctx);
+     return gen_shift(ctx, a, EXT_NONE, gen_bset);
+ }
+ 
+ static bool trans_bseti(DisasContext *ctx, arg_bseti *a)
+ {
+-    REQUIRE_EXT(ctx, RVB);
++    REQUIRE_ZBS(ctx);
+     return gen_shift_imm_tl(ctx, a, EXT_NONE, gen_bset);
+ }
+ 
+@@ -187,13 +192,13 @@ static void gen_bclr(TCGv ret, TCGv arg1, TCGv shamt)
+ 
+ static bool trans_bclr(DisasContext *ctx, arg_bclr *a)
+ {
+-    REQUIRE_EXT(ctx, RVB);
++    REQUIRE_ZBS(ctx);
+     return gen_shift(ctx, a, EXT_NONE, gen_bclr);
+ }
+ 
+ static bool trans_bclri(DisasContext *ctx, arg_bclri *a)
+ {
+-    REQUIRE_EXT(ctx, RVB);
++    REQUIRE_ZBS(ctx);
+     return gen_shift_imm_tl(ctx, a, EXT_NONE, gen_bclr);
+ }
+ 
+@@ -209,13 +214,13 @@ static void gen_binv(TCGv ret, TCGv arg1, TCGv shamt)
+ 
+ static bool trans_binv(DisasContext *ctx, arg_binv *a)
+ {
+-    REQUIRE_EXT(ctx, RVB);
++    REQUIRE_ZBS(ctx);
+     return gen_shift(ctx, a, EXT_NONE, gen_binv);
+ }
+ 
+ static bool trans_binvi(DisasContext *ctx, arg_binvi *a)
+ {
+-    REQUIRE_EXT(ctx, RVB);
++    REQUIRE_ZBS(ctx);
+     return gen_shift_imm_tl(ctx, a, EXT_NONE, gen_binv);
+ }
+ 
+@@ -227,13 +232,13 @@ static void gen_bext(TCGv ret, TCGv arg1, TCGv shamt)
+ 
+ static bool trans_bext(DisasContext *ctx, arg_bext *a)
+ {
+-    REQUIRE_EXT(ctx, RVB);
++    REQUIRE_ZBS(ctx);
+     return gen_shift(ctx, a, EXT_NONE, gen_bext);
+ }
+ 
+ static bool trans_bexti(DisasContext *ctx, arg_bexti *a)
+ {
+-    REQUIRE_EXT(ctx, RVB);
++    REQUIRE_ZBS(ctx);
      return gen_shift_imm_tl(ctx, a, EXT_NONE, gen_bext);
  }
  
--static void gen_slo(TCGv ret, TCGv arg1, TCGv arg2)
--{
--    tcg_gen_not_tl(ret, arg1);
--    tcg_gen_shl_tl(ret, ret, arg2);
--    tcg_gen_not_tl(ret, ret);
--}
--
--static bool trans_slo(DisasContext *ctx, arg_slo *a)
--{
--    REQUIRE_EXT(ctx, RVB);
--    return gen_shift(ctx, a, EXT_NONE, gen_slo);
--}
--
--static bool trans_sloi(DisasContext *ctx, arg_sloi *a)
--{
--    REQUIRE_EXT(ctx, RVB);
--    return gen_shift_imm_tl(ctx, a, EXT_NONE, gen_slo);
--}
--
--static void gen_sro(TCGv ret, TCGv arg1, TCGv arg2)
--{
--    tcg_gen_not_tl(ret, arg1);
--    tcg_gen_shr_tl(ret, ret, arg2);
--    tcg_gen_not_tl(ret, ret);
--}
--
--static bool trans_sro(DisasContext *ctx, arg_sro *a)
--{
--    REQUIRE_EXT(ctx, RVB);
--    return gen_shift(ctx, a, EXT_ZERO, gen_sro);
--}
--
--static bool trans_sroi(DisasContext *ctx, arg_sroi *a)
--{
--    REQUIRE_EXT(ctx, RVB);
--    return gen_shift_imm_tl(ctx, a, EXT_ZERO, gen_sro);
--}
--
- static bool trans_ror(DisasContext *ctx, arg_ror *a)
- {
-     REQUIRE_EXT(ctx, RVB);
-@@ -420,38 +382,6 @@ static bool trans_packuw(DisasContext *ctx, arg_packuw *a)
-     return gen_arith(ctx, a, EXT_NONE, gen_packuw);
- }
- 
--static bool trans_slow(DisasContext *ctx, arg_slow *a)
--{
--    REQUIRE_64BIT(ctx);
--    REQUIRE_EXT(ctx, RVB);
--    ctx->w = true;
--    return gen_shift(ctx, a, EXT_NONE, gen_slo);
--}
--
--static bool trans_sloiw(DisasContext *ctx, arg_sloiw *a)
--{
--    REQUIRE_64BIT(ctx);
--    REQUIRE_EXT(ctx, RVB);
--    ctx->w = true;
--    return gen_shift_imm_tl(ctx, a, EXT_NONE, gen_slo);
--}
--
--static bool trans_srow(DisasContext *ctx, arg_srow *a)
--{
--    REQUIRE_64BIT(ctx);
--    REQUIRE_EXT(ctx, RVB);
--    ctx->w = true;
--    return gen_shift(ctx, a, EXT_ZERO, gen_sro);
--}
--
--static bool trans_sroiw(DisasContext *ctx, arg_sroiw *a)
--{
--    REQUIRE_64BIT(ctx);
--    REQUIRE_EXT(ctx, RVB);
--    ctx->w = true;
--    return gen_shift_imm_tl(ctx, a, EXT_ZERO, gen_sro);
--}
--
- static void gen_rorw(TCGv ret, TCGv arg1, TCGv arg2)
- {
-     TCGv_i32 t1 = tcg_temp_new_i32();
 -- 
 2.25.1
 
