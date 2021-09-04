@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D7EC400CF4
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 22:46:49 +0200 (CEST)
-Received: from localhost ([::1]:45070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC3D9400CE9
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 22:37:47 +0200 (CEST)
+Received: from localhost ([::1]:52108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMcYp-0006Nk-SK
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 16:46:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54362)
+	id 1mMcQ6-0000Uz-SU
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 16:37:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mMcNv-0005wO-UX
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:32 -0400
-Received: from mail-lf1-x12b.google.com ([2a00:1450:4864:20::12b]:42523)
+ id 1mMcNx-0005yK-T6
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:34 -0400
+Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a]:37815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mMcNs-0002v6-2f
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:30 -0400
-Received: by mail-lf1-x12b.google.com with SMTP id t12so5327109lfg.9
- for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 13:35:26 -0700 (PDT)
+ id 1mMcNs-0002vO-3d
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:32 -0400
+Received: by mail-lj1-x22a.google.com with SMTP id d16so4324357ljq.4
+ for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 13:35:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=vrull-eu.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5dHAXq//g/AqUfLb7JWz95lR0xnkPOlYHD2HKpaX/Pk=;
- b=ElNqW9k1Xz27aYl7NKdM4PDP/Ee5fYsIMJfp13B3DVeXCDrINcyI1omfL1IzcJ/Xp0
- SbtaWLTKWyQYwFi3558rgsbYENU7YTH//YycJWFb3XCdQgxUuR6EVNuEQxUcSZ5u0LL3
- NVlMVMFcKXwOlSnceWYCFkxFx1eJnpLquKY8turwgCS5dROuCHrwuERjf8CJnHVvvei6
- c99B3uPWaBX2MfRJ43lVitAYGKLD9LdpgeN5cPr5U+srmD+MOGhu9K1MozdLO3aAS29l
- NpBfqLU6/62uhAMv7Zgbd24QSZP39s4cr7H7HVKjwesiVXpW/uHDQ3ENV3vgwd4/Aaca
- 1RmA==
+ bh=WcllxiSS2dB+eZB/WvyabHiUfcZ1OcW7LvrCtQ/c+3U=;
+ b=eNi1/dzxd1ZyfxU2kJb1SUz5a+6zB0wbd/ft1r0eWCqqpg9trgfaOEFz6qP6lM2lh9
+ sQoGwUA95Qpbu0KX8uuYaE+CnhG/edWItHzoeXPrcv1CPlI94A2a8N6YsIjFJXf8dO+K
+ wJH1+yXOx8y4puSpFE7c+6J4u1lg+eHP0B+TLlmtjgfXsRiMmMwTZe4/NRHZ0DQ2XHZT
+ gPzFvAQ/BWFc+tJ+OLHUVJWHHQP6/yT3cNt36oYjUJ4q3RTL7nNlkCVdJtYzvfuINu9R
+ NlqJi3HsUXFwHiRhp8EF6cte1syk+ALOuZHC5PUsKynrkPf8av7hUkk9Frn7RKNirbvf
+ fXxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5dHAXq//g/AqUfLb7JWz95lR0xnkPOlYHD2HKpaX/Pk=;
- b=K3sqJT4A29cBeLADzRreosFzXoHli9IWcRLdTsnsGh26t2rEM5EZBCfTvp4+9xpPH6
- ELAudIiIy4SwZ8YALffDOecd3aYpJ2fLEBASRGfqMlz/Xb983/nguzcJ7Rn2t/XjDqty
- aihukI8mxknaLz+CWqjohvQczhsEyMoC+yF8Ps9Ge2J4WFhUTTJs5XTdgwU7ojLU1V5C
- 6nAAJFzpQAjpsvPfm1h5aNs1DdMN5d+k75bxgj3hEfinIb852mvuMjSL6lAK6AzaHZhO
- 4XPZ44/QCCOiDZnfWljwIOeIKAaJ9eF9+clqCVwkc1OM8y/TMtw0HHiC1L5Gk50Du4w9
- PkDw==
-X-Gm-Message-State: AOAM530bE2BrMrgc6L3AxQx7gG0f1RU1RFvB6p9aVHbAq7jckIWrfn0j
- MgTlDWp1cF6R4ajr0po9Gr6vjhCExXEViosj4FE=
-X-Google-Smtp-Source: ABdhPJyBD1rNyw6EGoVbYYMUKX7kbeZw/YbrUINepVzuHyRzOMvsz/meYarh3hfstGv702BVEySZ/g==
-X-Received: by 2002:a05:6512:13a3:: with SMTP id
- p35mr3812062lfa.272.1630787725677; 
- Sat, 04 Sep 2021 13:35:25 -0700 (PDT)
+ bh=WcllxiSS2dB+eZB/WvyabHiUfcZ1OcW7LvrCtQ/c+3U=;
+ b=Ma/ftvQnalLUw4Rv5oqG5ACihsGBuMRdux3MyVm5PeZLyZclbYDqm1aGjCnVS5lElE
+ 2UzI+M8+P3uwCZX7H4xaPwy44LYOSsQq7bJI6c76FQSfBFWgNymGCcdkHuCy0lMoFkYG
+ jPv60SjYIgUdDdE/mqDhWdFGn8l2DcrIhhnysVEztmyI6l2ardVxm9hyjh18cROEYel0
+ 1a8p7qPG4aU0LHAwnRetBbtT7/53m3VzwFvtbzcrhR1Ni2XH4vKLNbqUu2CVzrOWg2sx
+ pPQJGqxFAhz8dP2Gzps63RQMoAzHJzEPRVt6NmL9/5ewq+OzpESD+hQK6PIrK6FVjnTW
+ G4bw==
+X-Gm-Message-State: AOAM533eZswH8HFUCSeTxqFgkDKPUNUW8dxyrszBr0n+w+N/w2RD3rqo
+ 66Ra9fmj94HB/vYppQSVHr5a2QcQaWBSNvmq93E=
+X-Google-Smtp-Source: ABdhPJwYiRi51HltoHzp7+AwMTnNHZd55zAsf7crIVWU7mhAOsHAEC+g2JwxB6q6uESKpqz+bE4i/A==
+X-Received: by 2002:a2e:2a46:: with SMTP id q67mr4153839ljq.286.1630787726423; 
+ Sat, 04 Sep 2021 13:35:26 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
  by smtp.gmail.com with ESMTPSA id v15sm326304lfq.142.2021.09.04.13.35.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Sep 2021 13:35:25 -0700 (PDT)
+ Sat, 04 Sep 2021 13:35:26 -0700 (PDT)
 From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 08/16] target/riscv: Reassign instructions to the
- Zbs-extension
-Date: Sat,  4 Sep 2021 22:35:07 +0200
-Message-Id: <20210904203516.2570119-9-philipp.tomsich@vrull.eu>
+Subject: [PATCH v10 09/16] target/riscv: Add instructions of the Zbc-extension
+Date: Sat,  4 Sep 2021 22:35:08 +0200
+Message-Id: <20210904203516.2570119-10-philipp.tomsich@vrull.eu>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210904203516.2570119-1-philipp.tomsich@vrull.eu>
 References: <20210904203516.2570119-1-philipp.tomsich@vrull.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::12b;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x12b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lj1-x22a.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,156 +89,166 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following instructions are part of Zbs:
- - b{set,clr,ext,inv}
- - b{set,clr,ext,inv}i
+The following instructions are part of Zbc:
+ - clmul
+ - clmulh
+ - clmulr
+
+Note that these instructions were already defined in the pre-0.93 and
+the 0.93 draft-B proposals, but had not been omitted in the earlier
+addition of draft-B to QEmu.
 
 Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
 
-(no changes since v3)
+(no changes since v9)
+
+Changes in v9:
+- Rebased to 8880cc4362.
+
+Changes in v6:
+- Move gen_clmulh to trans_rvb.c.inc, as per Richard H's request.
+
+Changes in v5:
+- Introduce gen_clmulh (as suggested by Richard H) and use to simplify
+  trans_clmulh().
 
 Changes in v3:
-- The changes to the Zbs instructions (i.e. the REQUIRE_ZBS macro) and
-  its use for qualifying the Zba instructions) are moved into a
-  separate commit.
+- This adds the Zbc instructions as a spearate commit.
+- Uses a helper for clmul/clmulr instead of inlining the calculation of
+  the result (addressing a comment from Richard Henderson).
 
- target/riscv/insn32.decode              | 17 +++++++++--------
- target/riscv/insn_trans/trans_rvb.c.inc | 25 +++++++++++++++----------
- 2 files changed, 24 insertions(+), 18 deletions(-)
+ target/riscv/bitmanip_helper.c          | 27 +++++++++++++++++++++
+ target/riscv/helper.h                   |  2 ++
+ target/riscv/insn32.decode              |  5 ++++
+ target/riscv/insn_trans/trans_rvb.c.inc | 32 ++++++++++++++++++++++++-
+ 4 files changed, 65 insertions(+), 1 deletion(-)
 
+diff --git a/target/riscv/bitmanip_helper.c b/target/riscv/bitmanip_helper.c
+index 5b2f795d03..73be5a81c7 100644
+--- a/target/riscv/bitmanip_helper.c
++++ b/target/riscv/bitmanip_helper.c
+@@ -3,6 +3,7 @@
+  *
+  * Copyright (c) 2020 Kito Cheng, kito.cheng@sifive.com
+  * Copyright (c) 2020 Frank Chang, frank.chang@sifive.com
++ * Copyright (c) 2021 Philipp Tomsich, philipp.tomsich@vrull.eu
+  *
+  * This program is free software; you can redistribute it and/or modify it
+  * under the terms and conditions of the GNU General Public License,
+@@ -88,3 +89,29 @@ target_ulong HELPER(gorcw)(target_ulong rs1, target_ulong rs2)
+ {
+     return do_gorc(rs1, rs2, 32);
+ }
++
++target_ulong HELPER(clmul)(target_ulong rs1, target_ulong rs2)
++{
++    target_ulong result = 0;
++
++    for (int i = 0; i < TARGET_LONG_BITS; i++) {
++        if ((rs2 >> i) & 1) {
++            result ^= (rs1 << i);
++        }
++    }
++
++    return result;
++}
++
++target_ulong HELPER(clmulr)(target_ulong rs1, target_ulong rs2)
++{
++    target_ulong result = 0;
++
++    for (int i = 0; i < TARGET_LONG_BITS; i++) {
++        if ((rs2 >> i) & 1) {
++            result ^= (rs1 >> (TARGET_LONG_BITS - i - 1));
++        }
++    }
++
++    return result;
++}
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index 460eee9988..8a318a2dbc 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -63,6 +63,8 @@ DEF_HELPER_FLAGS_2(grev, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ DEF_HELPER_FLAGS_2(grevw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ DEF_HELPER_FLAGS_2(gorc, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ DEF_HELPER_FLAGS_2(gorcw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(clmul, TCG_CALL_NO_RWG_SE, tl, tl, tl)
++DEF_HELPER_FLAGS_2(clmulr, TCG_CALL_NO_RWG_SE, tl, tl, tl)
+ 
+ /* Special functions */
+ DEF_HELPER_2(csrr, tl, env, int)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index e0f6e315a2..35a3563ff4 100644
+index 35a3563ff4..1658bb4217 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -689,19 +689,11 @@ min        0000101 .......... 100 ..... 0110011 @r
- minu       0000101 .......... 101 ..... 0110011 @r
- max        0000101 .......... 110 ..... 0110011 @r
- maxu       0000101 .......... 111 ..... 0110011 @r
--bset       0010100 .......... 001 ..... 0110011 @r
--bclr       0100100 .......... 001 ..... 0110011 @r
--binv       0110100 .......... 001 ..... 0110011 @r
--bext       0100100 .......... 101 ..... 0110011 @r
- ror        0110000 .......... 101 ..... 0110011 @r
- rol        0110000 .......... 001 ..... 0110011 @r
- grev       0110100 .......... 101 ..... 0110011 @r
- gorc       0010100 .......... 101 ..... 0110011 @r
- 
--bseti      00101. ........... 001 ..... 0010011 @sh
--bclri      01001. ........... 001 ..... 0010011 @sh
--binvi      01101. ........... 001 ..... 0010011 @sh
--bexti      01001. ........... 101 ..... 0010011 @sh
- rori       01100. ........... 101 ..... 0010011 @sh
- grevi      01101. ........... 101 ..... 0010011 @sh
- gorci      00101. ........... 101 ..... 0010011 @sh
-@@ -722,3 +714,12 @@ roriw      0110000 .......... 101 ..... 0011011 @sh5
+@@ -714,6 +714,11 @@ roriw      0110000 .......... 101 ..... 0011011 @sh5
  greviw     0110100 .......... 101 ..... 0011011 @sh5
  gorciw     0010100 .......... 101 ..... 0011011 @sh5
  
-+# *** RV32 Zbs Standard Extension ***
-+bclr       0100100 .......... 001 ..... 0110011 @r
-+bclri      01001. ........... 001 ..... 0010011 @sh
-+bext       0100100 .......... 101 ..... 0110011 @r
-+bexti      01001. ........... 101 ..... 0010011 @sh
-+binv       0110100 .......... 001 ..... 0110011 @r
-+binvi      01101. ........... 001 ..... 0010011 @sh
-+bset       0010100 .......... 001 ..... 0110011 @r
-+bseti      00101. ........... 001 ..... 0010011 @sh
++# *** RV32 Zbc Standard Extension ***
++clmul      0000101 .......... 001 ..... 0110011 @r
++clmulh     0000101 .......... 011 ..... 0110011 @r
++clmulr     0000101 .......... 010 ..... 0110011 @r
++
+ # *** RV32 Zbs Standard Extension ***
+ bclr       0100100 .......... 001 ..... 0110011 @r
+ bclri      01001. ........... 001 ..... 0010011 @sh
 diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index 9891c4912a..2c2e4bc3d7 100644
+index 2c2e4bc3d7..bc98f289b3 100644
 --- a/target/riscv/insn_trans/trans_rvb.c.inc
 +++ b/target/riscv/insn_trans/trans_rvb.c.inc
 @@ -1,5 +1,5 @@
  /*
-- * RISC-V translation routines for the RVB draft and Zba Standard Extension.
-+ * RISC-V translation routines for the RVB draft Zb[as] Standard Extension.
+- * RISC-V translation routines for the RVB draft Zb[as] Standard Extension.
++ * RISC-V translation routines for the Zb[acs] Standard Extension.
   *
   * Copyright (c) 2020 Kito Cheng, kito.cheng@sifive.com
   * Copyright (c) 2020 Frank Chang, frank.chang@sifive.com
-@@ -24,11 +24,16 @@
+@@ -24,6 +24,12 @@
      }                                            \
  } while (0)
  
-+#define REQUIRE_ZBS(ctx) do {                    \
-+    if (!RISCV_CPU(ctx->cs)->cfg.ext_zbs) {      \
++#define REQUIRE_ZBC(ctx) do {                    \
++    if (!RISCV_CPU(ctx->cs)->cfg.ext_zbc) {      \
 +        return false;                            \
 +    }                                            \
 +} while (0)
 +
- static void gen_clz(TCGv ret, TCGv arg1)
- {
-     tcg_gen_clzi_tl(ret, arg1, TARGET_LONG_BITS);
+ #define REQUIRE_ZBS(ctx) do {                    \
+     if (!RISCV_CPU(ctx->cs)->cfg.ext_zbs) {      \
+         return false;                            \
+@@ -535,3 +541,27 @@ static bool trans_slli_uw(DisasContext *ctx, arg_slli_uw *a)
+     REQUIRE_ZBA(ctx);
+     return gen_shift_imm_fn(ctx, a, EXT_NONE, gen_slli_uw);
  }
--
- static bool trans_clz(DisasContext *ctx, arg_clz *a)
- {
-     REQUIRE_EXT(ctx, RVB);
-@@ -165,13 +170,13 @@ static void gen_bset(TCGv ret, TCGv arg1, TCGv shamt)
- 
- static bool trans_bset(DisasContext *ctx, arg_bset *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBS(ctx);
-     return gen_shift(ctx, a, EXT_NONE, gen_bset);
- }
- 
- static bool trans_bseti(DisasContext *ctx, arg_bseti *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBS(ctx);
-     return gen_shift_imm_tl(ctx, a, EXT_NONE, gen_bset);
- }
- 
-@@ -187,13 +192,13 @@ static void gen_bclr(TCGv ret, TCGv arg1, TCGv shamt)
- 
- static bool trans_bclr(DisasContext *ctx, arg_bclr *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBS(ctx);
-     return gen_shift(ctx, a, EXT_NONE, gen_bclr);
- }
- 
- static bool trans_bclri(DisasContext *ctx, arg_bclri *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBS(ctx);
-     return gen_shift_imm_tl(ctx, a, EXT_NONE, gen_bclr);
- }
- 
-@@ -209,13 +214,13 @@ static void gen_binv(TCGv ret, TCGv arg1, TCGv shamt)
- 
- static bool trans_binv(DisasContext *ctx, arg_binv *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBS(ctx);
-     return gen_shift(ctx, a, EXT_NONE, gen_binv);
- }
- 
- static bool trans_binvi(DisasContext *ctx, arg_binvi *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBS(ctx);
-     return gen_shift_imm_tl(ctx, a, EXT_NONE, gen_binv);
- }
- 
-@@ -227,13 +232,13 @@ static void gen_bext(TCGv ret, TCGv arg1, TCGv shamt)
- 
- static bool trans_bext(DisasContext *ctx, arg_bext *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBS(ctx);
-     return gen_shift(ctx, a, EXT_NONE, gen_bext);
- }
- 
- static bool trans_bexti(DisasContext *ctx, arg_bexti *a)
- {
--    REQUIRE_EXT(ctx, RVB);
-+    REQUIRE_ZBS(ctx);
-     return gen_shift_imm_tl(ctx, a, EXT_NONE, gen_bext);
- }
- 
++
++static bool trans_clmul(DisasContext *ctx, arg_clmul *a)
++{
++    REQUIRE_ZBC(ctx);
++    return gen_arith(ctx, a, EXT_NONE, gen_helper_clmul);
++}
++
++static void gen_clmulh(TCGv dst, TCGv src1, TCGv src2)
++{
++     gen_helper_clmulr(dst, src1, src2);
++     tcg_gen_shri_tl(dst, dst, 1);
++}
++
++static bool trans_clmulh(DisasContext *ctx, arg_clmulr *a)
++{
++    REQUIRE_ZBC(ctx);
++    return gen_arith(ctx, a, EXT_NONE, gen_clmulh);
++}
++
++static bool trans_clmulr(DisasContext *ctx, arg_clmulh *a)
++{
++    REQUIRE_ZBC(ctx);
++    return gen_arith(ctx, a, EXT_NONE, gen_helper_clmulr);
++}
 -- 
 2.25.1
 
