@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD334009F8
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 08:11:24 +0200 (CEST)
-Received: from localhost ([::1]:34884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DB17400A02
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 08:27:58 +0200 (CEST)
+Received: from localhost ([::1]:44502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMOte-0004zW-Sa
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 02:11:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51830)
+	id 1mMP9g-0003zD-TS
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 02:27:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mMOrX-0003hj-IQ
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 02:09:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48603)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mMP8K-0002Mt-9S
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 02:26:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44575)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mMOrU-0002j4-AB
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 02:09:10 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1mMP8E-0000d6-L4
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 02:26:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630735746;
+ s=mimecast20190719; t=1630736785;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=e5je8kmK3pp5SosMyAC5s2OriUCA/MvNT+V+JR+UlRU=;
- b=IA+ofRxoiCuDANIdUiGePqQpAI0VJbLejBmertGeyfmye0oy/qmjgIR0Ww1ZKwRyo/jF/6
- VUJNE6LqnOC/52ZcKfKeD+0MOGhs9d0CeuxQ6oAqYoGutPzhWdFma8ZabtTn+lfY5iGjGY
- ZwpOL9YUlL7dFsktnVjGmbQdwOhPDFo=
+ bh=MFtXcKj6NLvC8J8MjxdxGldTm+tu2Gsm79OBAzahgvs=;
+ b=IHPEiMNqXpHiI5VZe/coUDB5E/m1/KJYsZe29wtU4BAHl8mvQd6ja/Rr2sYX56aJK6bZyX
+ uqkew+cQtHSZMFHHkmK79XZD2oOwVTX1qdXnxIIdY+bW857tIV4uGzvOa2X3mCr2kCbQia
+ /kZQ2MHLcIrD/KgaKzkHe1kqTHNF1OE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-Mjz2KT0INkKZjx1LKSNVpA-1; Sat, 04 Sep 2021 02:09:05 -0400
-X-MC-Unique: Mjz2KT0INkKZjx1LKSNVpA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-460-OCpn8PjENJSMK2jRSd-KhQ-1; Sat, 04 Sep 2021 02:26:22 -0400
+X-MC-Unique: OCpn8PjENJSMK2jRSd-KhQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFD38802CBE;
- Sat,  4 Sep 2021 06:09:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F6AF512B;
+ Sat,  4 Sep 2021 06:26:21 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-13.ams2.redhat.com
  [10.36.112.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 11FD76091B;
- Sat,  4 Sep 2021 06:08:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 834B519D9D;
+ Sat,  4 Sep 2021 06:26:13 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9E0521138606; Sat,  4 Sep 2021 08:08:53 +0200 (CEST)
+ id 9EE041138606; Sat,  4 Sep 2021 08:26:11 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v2 3/3] monitor: allow VNC related QMP and HMP commands
- to take a display ID
-References: <20210901151748.1712048-1-s.reiter@proxmox.com>
- <20210901151748.1712048-4-s.reiter@proxmox.com>
- <20210903190221.6hik7knycpj6xeqs@redhat.com>
-Date: Sat, 04 Sep 2021 08:08:53 +0200
-In-Reply-To: <20210903190221.6hik7knycpj6xeqs@redhat.com> (Eric Blake's
- message of "Fri, 3 Sep 2021 14:02:21 -0500")
-Message-ID: <87pmtorhxm.fsf@dusky.pond.sub.org>
+To: Doug Evans <dje@google.com>
+Subject: Re: [PATCH] net: Add "info neighbors" command
+References: <20210902212015.1303865-1-dje@google.com>
+ <875yvi2sh2.fsf@dusky.pond.sub.org>
+ <CADPb22TrHzujCONPAqdTcOYWNw2YtdKn+vPnitL7eU2hJJNDNg@mail.gmail.com>
+Date: Sat, 04 Sep 2021 08:26:11 +0200
+In-Reply-To: <CADPb22TrHzujCONPAqdTcOYWNw2YtdKn+vPnitL7eU2hJJNDNg@mail.gmail.com>
+ (Doug Evans's message of "Fri, 3 Sep 2021 09:53:02 -0700")
+Message-ID: <87lf4crh4s.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.2 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -84,130 +83,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wolfgang Bumiller <w.bumiller@proxmox.com>,
- Stefan Reiter <s.reiter@proxmox.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>
+Cc: Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9_Lureau?= <marcandre.lureau@redhat.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+Doug Evans <dje@google.com> writes:
 
-> On Wed, Sep 01, 2021 at 05:17:48PM +0200, Stefan Reiter wrote:
->> It is possible to specify more than one VNC server on the command line,
->> either with an explicit ID or the auto-generated ones =C3=A0 la "default=
-",
->> "vnc2", "vnc3", ...
->>=20
->> It is not possible to change the password on one of these extra VNC
->> displays though. Fix this by adding a "display" parameter to the
->> "set_password" and "expire_password" QMP and HMP commands.
->>=20
->> For HMP, the display is specified using the "-d" value flag.
->>=20
->> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
->> ---
+> On Fri, Sep 3, 2021 at 6:08 AM Markus Armbruster <armbru@redhat.com> wrot=
+e:
 >
-> QMP review:
+>> Doug Evans <dje@google.com> writes:
+>>
+>> > This command dumps the ARP and NDP tables maintained within slirp.
+>> > One use-case for it is showing the guest's IPv6 address(es).
+>> >
+>> > Signed-off-by: Doug Evans <dje@google.com>
+>> > ---
+>> >  hmp-commands-info.hx               | 15 +++++++
+>> >  include/net/slirp.h                |  1 +
+>> >  net/slirp.c                        | 15 +++++++
+>> >  tests/acceptance/info_neighbors.py | 69 +++++++++++++++++++++++++++++=
++
+>> >  4 files changed, 100 insertions(+)
+>> >  create mode 100644 tests/acceptance/info_neighbors.py
+>>
+>> Standard request for new HMP commands without corresponding QMP
+>> commands: please state in the commit message why the QMP command is not
+>> worthwhile.
+>>
+>> HMP commands without a QMP equivalent are okay if their functionality
+>> makes no sense in QMP, or is of use only for human users.
+>>
+>> Example for "makes no sense in QMP": setting the current CPU, because a
+>> QMP monitor doesn't have a current CPU.
+>>
+>> Examples for "is of use only for human users": HMP command "help", the
+>> integrated pocket calculator.
+>>
+>> Debugging commands are kind of borderline.  Debugging is commonly a
+>> human activity, where HMP is just fine.  However, humans create tools to
+>> assist with their activities, and then QMP is useful.  While I wouldn't
+>> encourage HMP-only for the debugging use case, I wouldn't veto it.
+>>
 >
->> +++ b/qapi/ui.json
->> @@ -25,6 +25,9 @@
->>  #             'disconnect' to disconnect existing clients
->>  #             'keep' to maintain existing clients
->>  #
->> +# @display: In case of VNC, the id of the display where the password
->> +#           should be changed. Defaults to the first.
->> +#
->>  # Returns: - Nothing on success
->>  #          - If Spice is not enabled, DeviceNotFound
->>  #
->> @@ -38,7 +41,8 @@
->>  #
->>  ##
->>  { 'command': 'set_password',
->> -  'data': {'protocol': 'str', 'password': 'str', '*connected': 'str'} }
->> +  'data': {'protocol': 'str', 'password': 'str', '*connected': 'str',
 >
-> Pre-existing, but given the documentation that protocol is either
-> 'vnc' or 'spice', this feels like set_password should take a
-> discriminated union type with 'protocol' as an enum type,...
->
->> +           '*display': 'str'} }
->
-> ...so that you only add the optional 'display' member to 'vnc'.  This
-> would keep the status quo of rejecting it as invalid when protocol is
-> 'spice', and make it easier to introspect that no other protocols are
-> supported.
->
-> Markus may have better advice on whether cleaning this up is worth it.
+> Mostly I was following what I saw for "info usernet".
+> I don't see a difference between "info neighbors" and "info usernet" so I
+> went with that.
+> Both draw their data from libslirp.
 
-Changing @protocol from str to enum is straightforward, and backward
-compatible.  qmp_set_password() becomes simpler (we lose a failure
-mode).  If we ever add another protocol, introspection will show it.  It
-also reflects CONFIG_VNC and CONFIG_SPICE, which is perhaps less useful
-than it was before modularization, but still nice.  Yes, please.
+I see.
 
-Same for @connected.
+> I'm happy to add QMP support if necessary.
+> Note that there is code that parses "info usernet" output, e.g.,
+> get_info_usernet_hostfwd_port for python.
 
-We may have more 'str' parameters that should be enum elsewhere.  I'm
-not demanding you hunt them down :)
+Demonstrates "is of use only for human users" is wrong.
 
-Adding the new parameter only to the protocol that actually supports it
-is more complicated.  Untested:
+> Presumably we don't want to print text in slirp only to parse it in qemu,
+> right?
 
-    { 'command': 'set_password', 'boxed': true,
-      'data': 'SetPasswordOptions' }
+Yes, we'd prefer not to parse.
 
-    { 'union': 'SetPasswordOptions',
-      'base': { 'protocol: 'PasswordProtocol',
-                'connected': 'FailDisconnectKeep' },
-      'discriminator': protocol',
-      'data': {
-          'vnc': 'SetPasswordOptionsVnc' } }
+As long as libslirp can only give us text, we need to parse it
+somewhere.
 
-    { 'enum': 'PasswordProtocol'
-      'data': [ { 'name': 'vnc', 'if': 'CONFIG_VNC' },
-                { 'name': 'spice', 'if': 'CONFIG_SPICE } ] }
+We can parse it right in QEMU, or punt the job to whatever uses QEMU.
+The latter can get away with parsing just the part they need.  But we
+may end up with multiple parsers.
 
-    { 'enum': 'FailDisconnectKeep',
-      'data': [ 'fail', 'disconnect', 'keep' ] }
 
-    { 'struct': 'SetPasswordOptionsVnc',
-      'data': { '*display': 'str } }
+> That'll change the qemu/slirp interface.
+> OTOH, to what extent does libslirp want to export a more formal API for
+> this, vs just text?
 
-Advangages are similar: qmp_set_password() doesn't have to reject
-@display for protocols other than 'vnc', and introspection is more
-accurate.  Please give it a try.
+This is a question for Samuel or Marc-Andr=C3=A9.
 
->> =20
->>  ##
->>  # @expire_password:
->> @@ -54,6 +58,9 @@
->>  #        - '+INT' where INT is the number of seconds from now (integer)
->>  #        - 'INT' where INT is the absolute time in seconds
->>  #
->> +# @display: In case of VNC, the id of the display where the password
->> +#           should be set to expire. Defaults to the first.
->> +#
->>  # Returns: - Nothing on success
->>  #          - If @protocol is 'spice' and Spice is not active, DeviceNot=
-Found
->>  #
->> @@ -71,7 +78,8 @@
->>  # <- { "return": {} }
->>  #
->>  ##
->> -{ 'command': 'expire_password', 'data': {'protocol': 'str', 'time': 'st=
-r'} }
->> +{ 'command': 'expire_password',
->> +  'data': {'protocol': 'str', 'time': 'str', '*display': 'str'} }
->
-> This would benefit from the same treatment, if we decide to use a QAPI
-> enum type and discriminated union.
-
-Either both or neither.
+If the answer is "no", then HMP only (so we don't have to parse in QEMU)
+is fair, I think.  The commit message should explain this.
 
 
