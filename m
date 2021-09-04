@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88601400BEF
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 17:38:08 +0200 (CEST)
-Received: from localhost ([::1]:36618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEC71400C03
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 18:11:49 +0200 (CEST)
+Received: from localhost ([::1]:54296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMXk7-0005vW-3r
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 11:38:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43798)
+	id 1mMYGh-0004bw-Kf
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 12:11:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1mMXgG-0002fi-Qm
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 11:34:08 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:44873)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <anup@brainfault.org>)
- id 1mMXgE-0005dH-Er
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 11:34:08 -0400
-Received: by mail-wm1-x331.google.com with SMTP id
- l7-20020a1c2507000000b002e6be5d86b3so1593668wml.3
- for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 08:34:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=brainfault-org.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HVh+9RvnGn7NIBk54PLky8vsQeCLZfudzFHWpOrO1vE=;
- b=FS8PK/RvTbCsTHX8MiIBLaBf1ecwP8zBAXJEcIEwhlD321GMCRXdD7ACLeOinQwwSi
- +i29loS7ohImyNWpDmyUz9cJCYdE5LcU+ZBC8lgp2CvnhUfet4tL28QUttLx9o6e9+//
- ziD4CayGN46cE6b68PgiBlKWmdeRsWRX7LFD4fYEo+CHmQiEtIG1q8IlfRtGgGOyG+ex
- rLRaPAxPgi+M9fUs1xJxEoo4AcjHRk2Xqq529bGrOnSMCAASzesM2Feq35uuYkj6Oeth
- VCFTEfFFeqUl0hPUZDmaKrGY8Ddxvi8E7wxLNG9NS3rJj8pdaK6f85b0FWhqf7itdy7v
- RIAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HVh+9RvnGn7NIBk54PLky8vsQeCLZfudzFHWpOrO1vE=;
- b=auuf/vvVlpLMoQpTBooM24qZGTfPMsyC1zWd5hhd6Q9lk48N326lAimaCPcG6CZUbB
- KLJHaqwePSPItflSoHojgKQoiFk4Y0LV6prqPhLn2eS8+bm6txda9K7oXqYJvkggNPi1
- 8d/Zof0fbzzwN1g97MPYhSLRf7M4TagYo7vUVhJy1prZE1aBJaClSLLzepOhe1frK4Ic
- LTgOv1Y3KY3hixJ4hq6qrV2rljoW8rNeHDZLylTxSV2/owYYoNKOtLF1nxW3GOpwAeBV
- ci0vzbWZS7yZhhdWXNTK8/87AnN3A4yFELjmZPd6wrAaoalMXfEefX33ok3MfKh+TAKr
- m5MQ==
-X-Gm-Message-State: AOAM530AHE02R5+hOhvy0ooi4HXUOtgy0gM9lrPAar5xfrWSEfyxQaBQ
- 9TWNcaHr42Kohsijsyv35w6+dowPV1VUC1Xm0mdapg==
-X-Google-Smtp-Source: ABdhPJwOvZQx3qr95Fj8PAO2LxJXrIgAH1NgbJi4/yIUAdREb51Ppyw4izkXFjXDl7YXvm5kYMKDdJzhFkk3TcEtM0k=
-X-Received: by 2002:a1c:730a:: with SMTP id d10mr3692163wmb.59.1630769643702; 
- Sat, 04 Sep 2021 08:34:03 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mMYEi-00036s-Sh
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 12:09:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59015)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1mMYEf-0002Pb-AM
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 12:09:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630771778;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TrjunxheI+QtwzihawHkcFaKWENUXfOUii8Af8nI5Zo=;
+ b=JQGAL0kk0QFWt6Gs07YhMmWxSoVAkAviLhMFZkIcfXQ/QUEbFscPxdfqR4IzNGBZeJYyEz
+ Yw3Nn0uhNVBLZ1WK8NLTA9+UW/gb5pd09MVvndQ8JPnWhC45PUia+4OLo8+PhHBCl7pJ4r
+ kpyIbI/+oZP6WTWpIfgfrtayZi/3cXA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-421-bG7jRQr-PBS5Psc_zRJYNA-1; Sat, 04 Sep 2021 12:09:37 -0400
+X-MC-Unique: bG7jRQr-PBS5Psc_zRJYNA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3E661005D52;
+ Sat,  4 Sep 2021 16:09:35 +0000 (UTC)
+Received: from t480s.redhat.com (unknown [10.39.192.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 199AF60C9D;
+ Sat,  4 Sep 2021 16:09:14 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 0/9] migration/ram: Optimize for virtio-mem via
+ RamDiscardManager
+Date: Sat,  4 Sep 2021 18:09:04 +0200
+Message-Id: <20210904160913.17785-1-david@redhat.com>
 MIME-Version: 1.0
-References: <20210902112520.475901-1-anup.patel@wdc.com>
- <CAEUhbmUXxacAcojk+nExh-KjrdAyuEBG0U0P_fu=m3JY4Z2Ttw@mail.gmail.com>
-In-Reply-To: <CAEUhbmUXxacAcojk+nExh-KjrdAyuEBG0U0P_fu=m3JY4Z2Ttw@mail.gmail.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Sat, 4 Sep 2021 21:03:52 +0530
-Message-ID: <CAAhSdy0PLeTGf=aiLC9B97JVG+St5Bj_OChMhBfMG2ZfsOKVaA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/22] QEMU RISC-V AIA support
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: none client-ip=2a00:1450:4864:20::331;
- envelope-from=anup@brainfault.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,61 +74,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Anup Patel <anup.patel@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+ Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Marek Kedzierski <mkedzier@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ teawater <teawaterz@linux.alibaba.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Sep 4, 2021 at 7:21 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Thu, Sep 2, 2021 at 7:26 PM Anup Patel <anup.patel@wdc.com> wrote:
-> >
-> > The advanced interrupt architecture (AIA) extends the per-HART local
-> > interrupt support. Along with this, it also adds IMSIC (MSI contrllor)
-> > and Advanced PLIC (wired interrupt controller).
-> >
-> > The latest AIA draft specification can be found here:
-> > https://github.com/riscv/riscv-aia/releases/download/0.2-draft.24/riscv-interrupts-024.pdf
-> >
-> > This series adds RISC-V AIA support in QEMU which includes emulating all
-> > AIA local CSRs, APLIC, and IMSIC. Only AIA local interrupt filtering is
-> > not implemented because we don't have any local interrupt greater than 12.
-> >
-> > To enable AIA in QEMU, use one of the following:
-> > 1) Only AIA local interrupt CSRs: Pass "x-aia=true" as CPU paramenter
-> >    in the QEMU command-line
-> > 2) Only APLIC for virt machine: Pass "aia=aplic" as machine parameter
-> >    in the QEMU command-line
-> > 3) Both APLIC and IMSIC for virt machine: Pass "aia=aplic-imsic" as
-> >    machine parameter in the QEMU command-line
-> > 4) Both APLIC and IMSIC with 2 guest files for virt machine: Pass
-> >    "aia=aplic-imsic,aia-guests=2" as machine parameter in the QEMU
-> >    command-line
-> >
-> > To test series, we require OpenSBI and Linux with AIA support which can
-> > be found in riscv_aia_v1 branch at:
-> > https://github.com/avpatel/opensbi.git
-> > https://github.com/avpatel/linux.git
-> >
-> > Changes since v1:
-> >  - Revamped whole series and created more granular patches
-> >  - Added HGEIE and HGEIP CSR emulation for H-extension
-> >  - Added APLIC emulation
-> >  - Added IMSIC emulation
-> >
->
-> Where is v1 of this series? It seems I cannot find it on the ML.
+virtio-mem exposes a dynamic amount of memory within RAMBlocks by
+coordinating with the VM. Memory within a RAMBlock can either get
+plugged and consequently used by the VM, or unplugged and consequently no
+longer used by the VM. Logical unplug is realized by discarding the
+physical memory backing for virtual memory ranges, similar to memory
+ballooning.
 
-The v1 series was pretty basic and only implemented AIA local interrupt
-CSRs.
+However, important difference to virtio-balloon are:
 
-Here's the link:
-https://patchew.org/QEMU/20210514143242.377645-1-anup.patel@wdc.com/
+a) A virtio-mem device only operates on its assigned memory region /
+   RAMBlock ("device memory")
+b) Initially, all device memory is logically unplugged
+c) Virtual machines will never accidentally reuse memory that is currently
+   logically unplugged. The spec defines most accesses to unplugged memory
+   as "undefined behavior" -- except reading unplugged memory, which is
+   currently expected to work, but that will change in the future.
+d) The (un)plug granularity is in the range of megabytes -- "memory blocks"
+e) The state (plugged/unplugged) of a memory block is always known and
+   properly tracked.
 
-Regards,
-Anup
+Whenever memory blocks within the RAMBlock get (un)plugged, changes are
+communicated via the RamDiscardManager to other QEMU subsystems, most
+prominently vfio which updates the DMA mapping accordingly. "Unplugging"
+corresponds to "discarding" and "plugging" corresponds to "populating".
+
+While migrating (precopy/postcopy) that state of such memory blocks cannot
+change, as virtio-mem will reject any guest requests that would change
+the state of blocks with "busy". We don't want to migrate such logically
+unplugged memory, because it can result in an unintended memory consumption
+both, on the source (when reading memory from some memory backends) and on
+the destination (when writing memory). Further, migration time can be
+heavily reduced when skipping logically unplugged blocks and we avoid
+populating unnecessary page tables in Linux.
+
+Right now, virtio-mem reuses the free page hinting infrastructure during
+precopy to exclude all logically unplugged ("discarded") parts from the
+migration stream. However, there are some scenarios that are not handled
+properly and need fixing. Further, there are some ugly corner cases in
+postcopy code and background snapshotting code that similarly have to
+handle such special RAMBlocks.
+
+Let's reuse the RamDiscardManager infrastructure to essentially handle
+precopy, postcopy and background snapshots cleanly, which means:
+
+a) In precopy code, fixing up the initial dirty bitmaps (in the RAMBlock
+   and e.g., KVM) to exclude discarded ranges.
+b) In postcopy code, placing a zeropage when requested to handle a page
+   falling into a discarded range -- because the source will never send it.
+   Further, fix up the dirty bitmap when overwriting it in recovery mode.
+c) In background snapshot code, never populating discarded ranges, not even
+   with the shared zeropage, to avoid unintended memory consumption,
+   especially in the future with hugetlb and shmem.
+
+Detail: When realizing a virtio-mem devices, it will register the RAM
+        for migration via vmstate_register_ram(). Further, it will
+        set itself as the RamDiscardManager for the corresponding memory
+        region of the RAMBlock via memory_region_set_ram_discard_manager().
+        Last but not least, memory device code will actually map the
+        memory region into guest physical address space. So migration
+        code can always properly identify such RAMBlocks.
+
+Tested with precopy/postcopy on shmem, where even reading unpopulated
+memory ranges will populate actual memory and not the shared zeropage.
+Tested with background snapshots on anonymous memory, because other
+backends are not supported yet with upstream Linux.
+
+Idealy, this should all go via the migration tree.
+
+v4 -> v5:
+- "migration/postcopy: Handle RAMBlocks with a RamDiscardManager on the
+   destination"
+-- Use ROUND_DOWN and fix compile warning on 32 bit
+-- Use int128_make64() instead of wrongly int128_get64()
+- "migration: Simplify alignment and alignment checks"
+-- Use ROUND_DOWN where possible instead of QEMU_ALIGN_DOWN and fix
+   compilation warning on 32 bit
+- "migration/ram: Factor out populating pages readable in
+   ram_block_populate_pages()"
+-- Rename functions, add a comment.
+- "migration/ram: Handle RAMBlocks with a RamDiscardManager on background
+   snapshots"
+-- Adjust to changed function names
+
+v3 -> v4:
+- Added ACKs
+- "migration/postcopy: Handle RAMBlocks with a RamDiscardManager on the
+   destination"
+-- Use QEMU_ALIGN_DOWN() to align to ram pagesize
+- "migration: Simplify alignment and alignment checks"
+-- Added
+- "migration/ram: Factor out populating pages readable in
+   ram_block_populate_pages()"
+-- Added
+- "migration/ram: Handle RAMBlocks with a RamDiscardManager on background
+   snapshots"
+-- Simplified due to factored out code
+
+v2 -> v3:
+- "migration/ram: Don't passs RAMState to
+   migration_clear_memory_region_dirty_bitmap_*()"
+-- Added to make the next patch easier to implement
+- "migration/ram: Handle RAMBlocks with a RamDiscardManager on the migration
+   source"
+-- Fixup the dirty bitmaps only initially and during postcopy recovery,
+   not after every bitmap sync. Also properly clear the dirty bitmaps e.g.,
+   in KVM. [Peter]
+- "migration/postcopy: Handle RAMBlocks with a RamDiscardManager on the
+   destination"
+-- Take care of proper host-page alignment [Peter]
+
+v1 -> v2:
+- "migration/ram: Handle RAMBlocks with a RamDiscardManager on the
+   migration source"
+-- Added a note how it interacts with the clear_bmap and what we might want
+   to further optimize in the future when synchronizing bitmaps.
+
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Xu <peterx@redhat.com>
+Cc: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Cc: Marek Kedzierski <mkedzier@redhat.com>
+Cc: Wei Yang <richard.weiyang@linux.alibaba.com>
+Cc: teawater <teawaterz@linux.alibaba.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>
+Cc: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
+Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+David Hildenbrand (9):
+  memory: Introduce replay_discarded callback for RamDiscardManager
+  virtio-mem: Implement replay_discarded RamDiscardManager callback
+  migration/ram: Don't passs RAMState to
+    migration_clear_memory_region_dirty_bitmap_*()
+  migration/ram: Handle RAMBlocks with a RamDiscardManager on the
+    migration source
+  virtio-mem: Drop precopy notifier
+  migration/postcopy: Handle RAMBlocks with a RamDiscardManager on the
+    destination
+  migration: Simplify alignment and alignment checks
+  migration/ram: Factor out populating pages readable in
+    ram_block_populate_pages()
+  migration/ram: Handle RAMBlocks with a RamDiscardManager on background
+    snapshots
+
+ hw/virtio/virtio-mem.c         |  92 ++++++++++-------
+ include/exec/memory.h          |  21 ++++
+ include/hw/virtio/virtio-mem.h |   3 -
+ migration/migration.c          |   6 +-
+ migration/postcopy-ram.c       |  40 ++++++--
+ migration/ram.c                | 180 +++++++++++++++++++++++++++++----
+ migration/ram.h                |   1 +
+ softmmu/memory.c               |  11 ++
+ 8 files changed, 284 insertions(+), 70 deletions(-)
+
+-- 
+2.31.1
+
 
