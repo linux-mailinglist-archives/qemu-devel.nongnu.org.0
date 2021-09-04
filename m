@@ -2,88 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 791C4400CD8
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 21:58:57 +0200 (CEST)
-Received: from localhost ([::1]:57372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF8A2400CE8
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 22:37:44 +0200 (CEST)
+Received: from localhost ([::1]:51888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMboW-0007zv-3u
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 15:58:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50416)
+	id 1mMcQ3-0000La-PG
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 16:37:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMbnh-0007K6-NM
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 15:58:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53602)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMbnd-0003Fk-EW
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 15:58:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630785479;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=InjSmOBcekPKvx1doXW3Mu8Detiw2KUTDa6Y5JbEswo=;
- b=OT+qNccrR8hM51dkjPi6V73AQtZ+MTxCbcgJGxRWgsXDaYYm2sui7usSdBxDfoDrn7FMFf
- D5k0F8e8O/fsOeVdJhtAoEHHBDnszP/7TOyaoKRQ6scetQRf1LKhCeexrIWeW0JnXqCG/X
- hXR3Gl80BDxQ8wzRlSUKYdUobTM54j4=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-SBPprqyTN8CxXpweXyS-jQ-1; Sat, 04 Sep 2021 15:57:58 -0400
-X-MC-Unique: SBPprqyTN8CxXpweXyS-jQ-1
-Received: by mail-ed1-f69.google.com with SMTP id
- y10-20020a056402270a00b003c8adc4d40cso1254209edd.15
- for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 12:57:58 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1mMcNq-0005t5-Gj
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:26 -0400
+Received: from mail-lj1-x22c.google.com ([2a00:1450:4864:20::22c]:37816)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1mMcNn-0002pv-Ss
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:25 -0400
+Received: by mail-lj1-x22c.google.com with SMTP id d16so4324168ljq.4
+ for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 13:35:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=vrull-eu.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wYiLU0omQb8zc4O/0M0QZzZRlbsZchts4pRIajeol2U=;
+ b=DsTbXGazDyi94g1Ktyc8avkgagC6+/95WNcZF5KGJ6nDF0wVDz5t3enfm5tRLXlscP
+ EquwmK0xjz4FpCuHB8f/HOFBbB/L1v8+66FtWqLVSeo9Io+Btx8/1lkqMiSzffdzVMWd
+ LEyaJ1YZYcNGEBlw/TJPV4MFcqJvlsmRENaPiWVq4ekLeR6o5yOaJAGtccvteM60Cx/C
+ LhCvqzUvfzpDPN1VWHlXlZNrbMZwcVNIDls7EMnmvPmsr3GBmiKGHiGofzMIApurNtQV
+ IsghTlj/oIGTIKwnndjFqn+aY5qU2o2rVsNlIh/H89U7iqSsMG4IXmonUqK2L0M5KKML
+ RFJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=InjSmOBcekPKvx1doXW3Mu8Detiw2KUTDa6Y5JbEswo=;
- b=RFmYArzsEYCKA2FBmhp/2uMJF12IrvJgYZF7wQoDJItXHDfoyc5azBbZ0ExCLa0lCY
- /s2KIwT/iobf3FwGsk+945Dlay96gpkd8yAlv/iSteVXBQDdX+odUxztFzv2wDfCRx3S
- osMxAP2HGgBR3k/jP46Omx0jK5f7dJ8jo8uE8OwVh5ryFPUfU+/sNuAYoc6gkRV5GJzM
- 2Vjh2NInYB0nVig2riix0ZQ5YcBUx5c/RNzJvJ3wV6Anlgyyb87jpfR/mGasX8jZGxWr
- euyPLRhlMkj7GwbA9MmXRugDi1nxT9yTOxkWLhlxsAdlZUwSPhobgTXp17bxqBsfzDLW
- X3HQ==
-X-Gm-Message-State: AOAM533HGAoqPZac92zVW2dWDYkVlMUDPTgxCQgEKeWNtfW172rhqS8k
- /r37Yj+tcRJFWpRanHczIkfLWsDYSh+I2Wal/3OqOoOWB7/qigmtxalCHNYkCzI0oO0IzV95IlS
- 0EBswdjWXWXnjfB8=
-X-Received: by 2002:a17:906:1299:: with SMTP id
- k25mr5575025ejb.139.1630785477169; 
- Sat, 04 Sep 2021 12:57:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzxytignMoUaWNnYgLoOHwDOQJvshY6Cfsbm7+nzeChHB3YBQsHAS7bB8efLfi29c1bpcsLSQ==
-X-Received: by 2002:a17:906:1299:: with SMTP id
- k25mr5575012ejb.139.1630785476950; 
- Sat, 04 Sep 2021 12:57:56 -0700 (PDT)
-Received: from redhat.com ([2.55.150.176])
- by smtp.gmail.com with ESMTPSA id cb22sm1833075edb.5.2021.09.04.12.57.55
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wYiLU0omQb8zc4O/0M0QZzZRlbsZchts4pRIajeol2U=;
+ b=EdlRPXfWbBDIgKxt+3Z/cZ7PtIAO2c6NY81yqZGlnFu28Q0g/7wlaxGi2lyYgB1Z9R
+ 2ehVFzWe6Je4duk3TkuHltY7twXzIJ9roIT4SoucDBVMlwA/Dhfpzav7pRgGvGvESahQ
+ q94yHUU9boIriVco7L2fym3E6Z4NQNW8TWksReHwOihKeGDbuw/itnu5C0hxexBgiwf6
+ DniwAY99Yr23XAawQGZb5i4N8fy2ld88GPsPscyAq1NTCsU0EgcSU08bxV3olZLXGh27
+ TI5AIhh5fQYYwA6lYSLbWs7KkSvkht3oiA2BYg9RAnaovYmai2lrFSRvbzHJBblFLQ+Y
+ 64Kw==
+X-Gm-Message-State: AOAM531tIFXtOSRl4C0XzcTvpA6Gc0xXd0d4+/iszqjSx6/TtOdR+nFH
+ mIBPSKzjojFpMn9RfRiaCmGDzDmMrbZha/1OCu0=
+X-Google-Smtp-Source: ABdhPJwCZmL0HG8ZKwxfGYq8mUR7bGyGIVT2LfX0SanI1YYl/6c/1huCOhvZzjqjBM6q0xwzpYZ1DA==
+X-Received: by 2002:a2e:8504:: with SMTP id j4mr4021821lji.352.1630787719568; 
+ Sat, 04 Sep 2021 13:35:19 -0700 (PDT)
+Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
+ by smtp.gmail.com with ESMTPSA id v15sm326304lfq.142.2021.09.04.13.35.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Sep 2021 12:57:56 -0700 (PDT)
-Date: Sat, 4 Sep 2021 15:57:52 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v2 01/35] acpi: add helper routines to initialize ACPI
- tables
-Message-ID: <20210904155529-mutt-send-email-mst@kernel.org>
-References: <20210708154617.1538485-1-imammedo@redhat.com>
- <20210708154617.1538485-2-imammedo@redhat.com>
- <03839787-0664-afcb-28fb-e95830138815@redhat.com>
- <20210903091221.407cc17e@redhat.com>
+ Sat, 04 Sep 2021 13:35:19 -0700 (PDT)
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v10 00/16] target/riscv: Update QEmu for Zb[abcs] 1.0.0
+Date: Sat,  4 Sep 2021 22:34:59 +0200
+Message-Id: <20210904203516.2570119-1-philipp.tomsich@vrull.eu>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210903091221.407cc17e@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::22c;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lj1-x22c.google.com
+X-Spam_score_int: 0
+X-Spam_score: 0.0
+X-Spam_bar: /
+X-Spam_report: (0.0 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,180 +80,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eauger@redhat.com>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Kito Cheng <kito.cheng@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Philipp Tomsich <philipp.tomsich@vrull.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Sep 03, 2021 at 09:12:21AM +0200, Igor Mammedov wrote:
-> On Thu, 2 Sep 2021 14:56:00 +0200
-> Eric Auger <eauger@redhat.com> wrote:
-> 
-> > Hi Igor,
-> > 
-> > On 7/8/21 5:45 PM, Igor Mammedov wrote:
-> > > Patch introduces acpi_init_table()/acpi_table_composed() API
-> > > that hides pointer/offset arithmetic from user as opposed
-> > > to build_header(), to prevent errors caused by it [1].
-> > > 
-> > >  acpi_init_table():
-> > >      initializes table header and keeps track of
-> > >      table data/offsets
-> > >  acpi_table_composed():
-> > >      sets actual table length and tells bios loader
-> > >      where table is for the later initialization on
-> > >      guest side.  
-> > might be worth to put those comments in the code as doc comments since
-> > "_composed" terminology is not self-explanatory?
-> 
-> I'll add doc comments as suggested.
-> A better idea how to name function is welcome as well?
 
-Aren't these a pair? acpi_init_table is called before you
-start composing it, acpi_table_composed after it's composed?
+The Zb[abcs] extensions have complete public review and are nearing
+ratifications. These individual extensions are one part of what was
+previously though of as the "BitManip" (B) extension, leaving the
+final details of future Zb* extensions open as they will undergo
+further public discourse.
 
-Then one of the classical pairs will work well, e.g.
-acpi_table_begin / acpi_table_end or maybe
-acpi_table_compose_begin / acpi_table_compose_end .
+This series updates the earlier support for the B extension by
+ - removing those instructions that are not included in Zb[abcs]
+ - splitting this into 4 separate extensions that can be independently
+   enabled: Zba (addressing), Zbb (basic bit-manip), Zbc (carryless
+   multiplication), Zbs (single-bit operations)
+ - update the to the 1.0.0 version (e.g. w-forms of rev8 and Zbs
+   instructions are not included in Zb[abcs])
+
+For the latest version of the public review speicifcaiton
+(incorporating some editorial fixes and corrections from the review
+period), refer to:
+  https://github.com/riscv/riscv-bitmanip/releases/download/1.0.0/bitmanip-1.0.0-31-g2af7256.pdf
 
 
-> 
-> > > 1) commits
-> > >    bb9feea43179 x86: acpi: use offset instead of pointer when using build_header()
-> > >    4d027afeb3a9 Virt: ACPI: fix qemu assert due to re-assigned table data address
-> > > 
-> > > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > > ---
-> > >  include/hw/acpi/aml-build.h | 14 +++++++++
-> > >  hw/acpi/aml-build.c         | 58 +++++++++++++++++++++++++++++++++++++
-> > >  2 files changed, 72 insertions(+)
-> > > 
-> > > diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-> > > index 471266d739..d590660bd2 100644
-> > > --- a/include/hw/acpi/aml-build.h
-> > > +++ b/include/hw/acpi/aml-build.h
-> > > @@ -413,6 +413,20 @@ Aml *aml_concatenate(Aml *source1, Aml *source2, Aml *target);
-> > >  Aml *aml_object_type(Aml *object);
-> > >  
-> > >  void build_append_int_noprefix(GArray *table, uint64_t value, int size);
-> > > +
-> > > +typedef struct AcpiTable {
-> > > +    const char *sig;
-> > > +    const uint8_t rev;
-> > > +    const char *oem_id;
-> > > +    const char *oem_table_id;
-> > > +    /* private vars tracking table state */
-> > > +    GArray *array;
-> > > +    unsigned table_offset;
-> > > +} AcpiTable;
-> > > +
-> > > +void acpi_init_table(AcpiTable *desc, GArray *array);
-> > > +void acpi_table_composed(BIOSLinker *linker, AcpiTable *table);
-> > > +
-> > >  void
-> > >  build_header(BIOSLinker *linker, GArray *table_data,
-> > >               AcpiTableHeader *h, const char *sig, int len, uint8_t rev,
-> > > diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> > > index d5103e6d7b..c598010144 100644
-> > > --- a/hw/acpi/aml-build.c
-> > > +++ b/hw/acpi/aml-build.c
-> > > @@ -52,6 +52,19 @@ static void build_append_byte(GArray *array, uint8_t val)
-> > >      g_array_append_val(array, val);
-> > >  }
-> > >  
-> > > +static void build_append_padded_str(GArray *array, const char *str,
-> > > +                                    size_t maxlen, char pad)
-> > > +{
-> > > +    size_t i;
-> > > +    size_t len = strlen(str);
-> > > +
-> > > +    g_assert(len <= maxlen);
-> > > +    g_array_append_vals(array, str, len);
-> > > +    for (i = maxlen - len; i > 0; i--) {
-> > > +        g_array_append_val(array, pad);
-> > > +    }
-> > > +}
-> > > +
-> > >  static void build_append_array(GArray *array, GArray *val)
-> > >  {
-> > >      g_array_append_vals(array, val->data, val->len);
-> > > @@ -1692,6 +1705,51 @@ Aml *aml_object_type(Aml *object)
-> > >      return var;
-> > >  }
-> > >  
-> > > +void acpi_init_table(AcpiTable *desc, GArray *array)
-> > > +{
-> > > +
-> > > +    desc->array = array;
-> > > +    desc->table_offset = array->len;
-> > > +
-> > > +    /*
-> > > +     * ACPI spec 1.0b
-> > > +     * 5.2.3 System Description Table Header
-> > > +     */
-> > > +    g_assert(strlen(desc->sig) == 4);
-> > > +    g_array_append_vals(array, desc->sig, 4); /* Signature */  
-> > build_append_padded_str?
-> 
-> it will do the job even if it's a bit of overkill,
-> signature must be 4 characters long so there is nothing to pad here
-> (at least till this day).
-> Using padded variant may confuse reader in the future,
-> so I'd prefer to keep this line as is.
-> 
-> 
-> > > +    build_append_int_noprefix(array, 0, 4); /* Length */
-> > > +    build_append_int_noprefix(array, desc->rev, 1); /* Revision */
-> > > +    build_append_int_noprefix(array, 0, 1); /* Checksum */
-> > > +    build_append_padded_str(array, desc->oem_id, 6, ' '); /* OEMID */
-> > > +    /* OEM Table ID */
-> > > +    build_append_padded_str(array, desc->oem_table_id, 8, ' ');
-> > > +    build_append_int_noprefix(array, 1, 4); /* OEM Revision */
-> > > +    g_array_append_vals(array, ACPI_BUILD_APPNAME8, 4); /* Creator ID */
-> 
-> here we potentially can reuse build_append_padded_str() if we
-> remove padding in ACPI_BUILD_APPNAME8, but that should wait till
-> refactoring is complete (to avoid breaking incremental refactoring)
-> 
-> > > +    build_append_int_noprefix(array, 1, 4); /* Creator Revision */
-> > > +}
-> > > +
-> > > +void acpi_table_composed(BIOSLinker *linker, AcpiTable *desc)
-> > > +{
-> > > +    /*
-> > > +     * ACPI spec 1.0b
-> > > +     * 5.2.3 System Description Table Header
-> > > +     * Table 5-2 DESCRIPTION_HEADER Fields
-> > > +     */
-> > > +    const unsigned checksum_offset = 9;
-> > > +    uint32_t table_len = desc->array->len - desc->table_offset;
-> > > +    uint32_t table_len_le = cpu_to_le32(table_len);
-> > > +    gchar *len_ptr = &desc->array->data[desc->table_offset + 4];
-> > > +
-> > > +    /* patch "Length" field that has been reserved by acpi_init_table()
-> > > +     * to the actual length, i.e. accumulated table length from
-> > > +     * acpi_init_table() till acpi_table_composed()
-> > > +     */
-> > > +    memcpy(len_ptr, &table_len_le, sizeof table_len_le);  
-> > can't you use a garray/build_append function instead to be homogeneous
-> > with the rest of the code?
-> those are for inserting/adding _new_ values, and won't work here,
-> here we are patching value in place, comment above was supposed
-> to clarify that (I guess it wasn't sufficient),
-> Care to suggest a better comment?
-> 
-> > > +
-> > > +    bios_linker_loader_add_checksum(linker, ACPI_BUILD_TABLE_FILE,
-> > > +        desc->table_offset, table_len, desc->table_offset + checksum_offset);
-> > > +}
-> > > +
-> > >  void
-> > >  build_header(BIOSLinker *linker, GArray *table_data,
-> > >               AcpiTableHeader *h, const char *sig, int len, uint8_t rev,
-> > >   
-> > 
-> > Thanks
-> > 
-> > Eric
-> > 
+Changes in v10:
+- New patch, introducing a temporary in gen_add_uw
+- New patch, fixing regressions in gen_clzw (discovered with x264_r)
+- New patch, fixing correctness for gen_clzw, when called on a register 
+  with undefined (as in: not properly sign-extended) upper bits.
+- Retested with CF3 and SPEC2017 (size=test, size=ref); addressing new
+  regressions (due to bugs in gen_clzw) from testing with SPEC2017 using
+  different optimization levels
+- Split off gen_add_uw() fix into a separate patch, as requested.
+
+Changes in v9:
+- Retested with CF3 and SPEC2017 (size=test only).
+- Rebased to 8880cc4362.
+- Update gen_add_uw() to use a temporary instead of messing with
+  arg1 (fixes a regression after rebase on CF3 and SPEC2017).
+- Rebased to 8880cc4362.
+- Picked up Alistair's Reviewed-by, after patman had failed to catch
+  it for v8.
+- Rebased to 8880cc4362.
+- Fixes a whitespace-at-the-end-of-line warning for the rev8 comment
+  in insn32.decode
+- Rebased to 8880cc4362.
+
+Changes in v8:
+- Optimize orc.b further by reordering the shift/and, updating the
+  comment to reflect that we put the truth-value into the LSB, and
+  putting the (now only) constant in a temporary
+- Fold the final bitwise-not into the second and, using and andc.
+
+Changes in v7:
+- Free TCG temporary in gen_orc_b().
+
+Changes in v6:
+- Move gen_clmulh to trans_rvb.c.inc, as per Richard H's request.
+- Fixed orc.b (now passes SPEC w/ optimized string functions) by
+  adding the missing final negation.
+
+Changes in v5:
+- Introduce gen_clmulh (as suggested by Richard H) and use to simplify
+  trans_clmulh().
+
+Changes in v4:
+- Drop rewrite of slli.uw (to match formal specification), as it would
+  remove an optimization.
+- Change orc.b to implementation suggested by Richard Henderson
+- reorder trans_rev8* functions to be sequential
+- rename rev8 to rev8_32 in decoder
+- Renamed RV32 variant to zext_h_32.
+- Reordered trans_zext_h_{32,64} to be next to each other.
+
+Changes in v3:
+- Split off removal of 'x-b' property and 'ext_b' field into a separate
+  patch to ensure bisectability.
+- The changes to the Zba instructions (i.e. the REQUIRE_ZBA macro
+  and its use for qualifying the Zba instructions) are moved into
+  a separate commit.
+- Remove the W-form instructions from Zbs in a separate commit.
+- Remove shift-one instructions in a separate commit.
+- The changes to the Zbs instructions (i.e. the REQUIRE_ZBS macro) and
+  its use for qualifying the Zba instructions) are moved into a
+  separate commit.
+- This adds the Zbc instructions as a spearate commit.
+- Uses a helper for clmul/clmulr instead of inlining the calculation of
+  the result (addressing a comment from Richard Henderson).
+- The changes to the Zbb instructions (i.e. use the REQUIRE_ZBB macro)
+  are now in a separate commit.
+- Moved orc.b and gorc/gorci changes into separate commit.
+- Using the simpler orc.b implementation suggested by Richard Henderson
+- Moved the REQUIRE_32BIT macro into a separate commit.
+- rev8-addition & grevi*-removal moved to a separate commit
+- Moved zext.h-addition & pack*-removal to a separate commit.
+- Removing RVB moved into a separate commit at the tail-end of the series.
+
+Changes in v2:
+- Fix missing ';' from last-minute whitespace cleanups.
+
+Philipp Tomsich (16):
+  target/riscv: Introduce temporary in gen_add_uw()
+  target/riscv: fix clzw implementation to operate on arg1
+  target/riscv: clwz must ignore high bits (use shift-left & changed
+    logic)
+  target/riscv: Add x-zba, x-zbb, x-zbc and x-zbs properties
+  target/riscv: Reassign instructions to the Zba-extension
+  target/riscv: Remove the W-form instructions from Zbs
+  target/riscv: Remove shift-one instructions (proposed Zbo in pre-0.93
+    draft-B)
+  target/riscv: Reassign instructions to the Zbs-extension
+  target/riscv: Add instructions of the Zbc-extension
+  target/riscv: Reassign instructions to the Zbb-extension
+  target/riscv: Add orc.b instruction for Zbb, removing gorc/gorci
+  target/riscv: Add a REQUIRE_32BIT macro
+  target/riscv: Add rev8 instruction, removing grev/grevi
+  target/riscv: Add zext.h instructions to Zbb, removing
+    pack/packu/packh
+  target/riscv: Remove RVB (replaced by Zb[abcs])
+  disas/riscv: Add Zb[abcs] instructions
+
+ disas/riscv.c                           | 157 ++++++++-
+ target/riscv/bitmanip_helper.c          |  65 +---
+ target/riscv/cpu.c                      |  30 +-
+ target/riscv/cpu.h                      |   7 +-
+ target/riscv/helper.h                   |   6 +-
+ target/riscv/insn32.decode              | 115 +++----
+ target/riscv/insn_trans/trans_rvb.c.inc | 417 ++++++++----------------
+ target/riscv/translate.c                |   6 +
+ 8 files changed, 365 insertions(+), 438 deletions(-)
+
+-- 
+2.25.1
 
 
