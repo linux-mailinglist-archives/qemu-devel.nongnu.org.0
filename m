@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B69E400D3D
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 23:54:51 +0200 (CEST)
-Received: from localhost ([::1]:41280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D6F2400D3E
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 23:56:05 +0200 (CEST)
+Received: from localhost ([::1]:44628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMdcg-0006oM-LK
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 17:54:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35604)
+	id 1mMdds-0000lv-Jq
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 17:56:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdM0-0007Og-1M
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:37:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30308)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdPM-0007vy-6i
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:41:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdLy-0001l1-IS
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:37:35 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdPK-0003w9-Lf
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:41:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630791453;
+ s=mimecast20190719; t=1630791661;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=zCB7vIb7x0G7L9EN7GtILOvYbJbo5hiB2KP6eTMzDhg=;
- b=LNEAdwUIuOchtAomrGcEW+fl19HBFSa64lPKeEXQGikrbvpTHKyWEqOz+yhTQ2BG5b8kuU
- o8+aky8E6FAUo3WNOZBUnNWhBvw29GdCKam+o0TzgOMjoN8cr9mMZKBxNkw3CDzg11WoRy
- efwNuyBb3N4w9RjrOnE7nCTK5E/p25o=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-144-36_xIl4OOfSSGiBtOWx8gg-1; Sat, 04 Sep 2021 17:37:32 -0400
-X-MC-Unique: 36_xIl4OOfSSGiBtOWx8gg-1
-Received: by mail-ed1-f69.google.com with SMTP id
- g17-20020a056402425100b003cd5ba2852fso1509671edb.1
- for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 14:37:32 -0700 (PDT)
+ bh=LSmn8hNZpZJAtKWf/4Rp7i0Ir0780EOu5ZSFZW4+a58=;
+ b=PL1oxMY8EDYkRux6c5WJkn9qy4cSiKG5FvgCLa+m5Rm0IhbAAOuqqN9rfjziAQFEO9Kk7O
+ 3kmcEGBzaVWks64LfePBZWzijgNqZQsSnK8d7wDXOz8YlrpehgseNj7tLS2HoYEiago1iV
+ eZ+uojvugewLnkCF5BHJbyD+W/IqAs0=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-257-LO2V2c0WOXGmSOeYseLRUg-1; Sat, 04 Sep 2021 17:37:35 -0400
+X-MC-Unique: LO2V2c0WOXGmSOeYseLRUg-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ b8-20020a056402350800b003c5e3d4e2a7so1509667edd.2
+ for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 14:37:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=zCB7vIb7x0G7L9EN7GtILOvYbJbo5hiB2KP6eTMzDhg=;
- b=W+WRahnuEse3WcBdlkgGxqwhOuZ59LvuuQxpJxqVbGzczN1JGWDWARLZwRTB3SUqzX
- V/YqZ5CVToE72lJlnHJbhyqcFHw48NZ73H5WL9/8tKqsWO4B4vayD+CzaXpK2jFe7+P4
- W3VZOa3MowB2PIyEh5wXUuINQKtoNN/JlpUKmaM1kM7qs3guHBdSYxSb5+TyUaQqzMMz
- s158DVobDugFv/XNSApLyiDCz7kMcWdRruv+dctGrCmJGe+70dLqcfcoivdMQLFpiVmt
- nIN2AWo8f6CNY6abcpYOZx/KXDxjDAr77cP+jCn/Yt4F3ujbcYPM++aDgWJzCyfVSg9X
- JK4Q==
-X-Gm-Message-State: AOAM533FshBqHLjSE21R9dk0qdBkb9mT5dpvpxsYL1l0OKSTcS+qCFk1
- oTyAczcFI5lI2Y3jHHzVwkm0vnMs50yfiSyfDjhvrhPeio5iRx/3DKmhm3Lm1zTK269FiGhhbwi
- ZHFQlrKy4GYuiBuVUu4MXwXJw1+VyCoh6MdIF/AliO99HCvXRp6sAN7NlmHyX
-X-Received: by 2002:a17:907:2677:: with SMTP id
- ci23mr5788541ejc.429.1630791451338; 
- Sat, 04 Sep 2021 14:37:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyYipNLk8sxvZlwfjYEwHMRV9QGtoGJh2soKCkwqAc509hFYc6GPClXJqI21NLO9qCI/aXd/A==
-X-Received: by 2002:a17:907:2677:: with SMTP id
- ci23mr5788524ejc.429.1630791451144; 
- Sat, 04 Sep 2021 14:37:31 -0700 (PDT)
+ bh=LSmn8hNZpZJAtKWf/4Rp7i0Ir0780EOu5ZSFZW4+a58=;
+ b=X+On4zFXhNJ6758H4jhNH2Om5vgSW0gxh++BvSAI0MQB8Op6BjllGXPIRE00hOrrAe
+ OY99rywcN1/8bckT5iKM3LCiLBgzpzmKmKvOJcDFjLSVb5zpngPobt4mrbMiFSAbMIpS
+ D4Pj0DkJ+eAXMVbqQjf7HD+EiBlKCLA8Yb/9dZqRHt5hlMErWJcky6C9USvKFbM9UBdQ
+ OIrfE+WinwsRZgswN0mGin3vg2Xt6McgN+n52IsZyvXM2FotHRtMXbUr6TuOVi9pAifZ
+ kBvTlPfXJmrDqDrogs+/BToBFdVpi5pVdGfkCYf84o095DajOb+UvSGP60nzVOlFxBy1
+ 1MSw==
+X-Gm-Message-State: AOAM5329wKxLnOyGfjWsKIqGCI3g3Xut3D8EHKnEcfpdUI5uUL6RmDMP
+ zAQ5DM0fcdq23kU01kn7TimVihXcyuIzLPlTUffAFD5G4faX40F8BustahYxTpKAB1NNEcegvy8
+ 4zlkh7YEQ7fE/PWGrYZ6kCZsEECehQQ0Me0VumPLiL67CCW8IaMXOG/HxG3yk
+X-Received: by 2002:a17:906:249a:: with SMTP id
+ e26mr5824143ejb.221.1630791453956; 
+ Sat, 04 Sep 2021 14:37:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwynrE6bKvk9B/TAo8J6DOXCKEB9sm3UuyT/1J3bwmjIhNBx9MU6luzjiqXjlSj2ajju8YsHA==
+X-Received: by 2002:a17:906:249a:: with SMTP id
+ e26mr5824130ejb.221.1630791453799; 
+ Sat, 04 Sep 2021 14:37:33 -0700 (PDT)
 Received: from redhat.com ([2.55.150.176])
- by smtp.gmail.com with ESMTPSA id d16sm1912186edu.8.2021.09.04.14.37.29
+ by smtp.gmail.com with ESMTPSA id e7sm1965300edk.3.2021.09.04.14.37.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Sep 2021 14:37:30 -0700 (PDT)
-Date: Sat, 4 Sep 2021 17:37:28 -0400
+ Sat, 04 Sep 2021 14:37:33 -0700 (PDT)
+Date: Sat, 4 Sep 2021 17:37:31 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/35] vhost-vdpa: don't cleanup twice in vhost_vdpa_add()
-Message-ID: <20210904213506.486886-32-mst@redhat.com>
+Subject: [PULL 32/35] vhost-vdpa: fix leaking of vhost_net in vhost_vdpa_add()
+Message-ID: <20210904213506.486886-33-mst@redhat.com>
 References: <20210904213506.486886-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210904213506.486886-1-mst@redhat.com>
@@ -74,7 +74,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -102,49 +102,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jason Wang <jasowang@redhat.com>
 
-The previous vhost_net_cleanup is sufficient for freeing, calling
-vhost_vdpa_del() in this case will lead an extra round of free. Note
-that this kind of "double free" is safe since vhost_dev_cleanup() zero
-the whole structure.
-
+Fixes: 1e0a84ea49b68 ("vhost-vdpa: introduce vhost-vdpa net client")
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20210903091031.47303-8-jasowang@redhat.com>
+Message-Id: <20210903091031.47303-9-jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- net/vhost-vdpa.c | 11 -----------
- 1 file changed, 11 deletions(-)
+ net/vhost-vdpa.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-index 5c09cacd5a..3213e69d63 100644
+index 3213e69d63..b43df00a85 100644
 --- a/net/vhost-vdpa.c
 +++ b/net/vhost-vdpa.c
-@@ -81,16 +81,6 @@ static int vhost_vdpa_net_check_device_id(struct vhost_net *net)
-     return ret;
- }
- 
--static void vhost_vdpa_del(NetClientState *ncs)
--{
--    VhostVDPAState *s;
--    assert(ncs->info->type == NET_CLIENT_DRIVER_VHOST_VDPA);
--    s = DO_UPCAST(VhostVDPAState, nc, ncs);
--    if (s->vhost_net) {
--        vhost_net_cleanup(s->vhost_net);
--    }
--}
--
- static int vhost_vdpa_add(NetClientState *ncs, void *be)
- {
-     VhostNetOptions options;
-@@ -121,7 +111,6 @@ err:
+@@ -110,6 +110,7 @@ static int vhost_vdpa_add(NetClientState *ncs, void *be)
+ err:
      if (net) {
          vhost_net_cleanup(net);
++        g_free(net);
      }
--    vhost_vdpa_del(ncs);
      return -1;
  }
- 
 -- 
 MST
 
