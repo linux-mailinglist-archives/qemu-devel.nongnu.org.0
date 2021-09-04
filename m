@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07221400DA6
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 02:08:17 +0200 (CEST)
-Received: from localhost ([::1]:55902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE32400DA5
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 02:07:37 +0200 (CEST)
+Received: from localhost ([::1]:53334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMfho-0004te-3G
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 20:08:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47586)
+	id 1mMfhA-0003Cl-CL
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 20:07:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mMfXD-0008FI-O4
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 19:57:19 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:38873)
+ id 1mMfXL-0008P1-0h
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 19:57:27 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mMfXC-0008Hc-4g
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 19:57:19 -0400
-Received: by mail-wr1-x435.google.com with SMTP id u16so4053959wrn.5
- for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 16:57:17 -0700 (PDT)
+ id 1mMfXI-0008LH-ET
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 19:57:25 -0400
+Received: by mail-wr1-x432.google.com with SMTP id n5so4029627wro.12
+ for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 16:57:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=N+NN7MUp81y6VS+L5YAPM+yHuTskNuvr3OHs0wj0LLY=;
- b=apFOtQou0JAltbc5UjR6buWuyhK+sKx/jKhsd5/Hqy+28LwqdnK42IyfopgCznlnq4
- aFcnm23wfgrDyIt/rD+Boi8lx9XxuR6b3lOyrLkqoQmnWHmzLJKNQsDibguKgx1G9JW9
- Hs5befKhdN8pbpx3hogL/b97FaHb2zt7Ah0TDLku1VCbaaKIHdmcCeLTOds725vcRZqX
- UI+noNbrcnH4SJTuApENvsl5KNs/tW0+abew/6U2LdmIvtNhRWREmBbcs/WdwLvzOUpg
- k/SPH8Nk5iibWP6Ho5xVGQH88R2GbjvSLNULgflsEPi2vHIPQUs32OJG4xsiHCFXnJuq
- qxEA==
+ bh=UtJq3N+o/FB/vJogkj3xMiVffE8zdE5GfFgTZhZFv9U=;
+ b=HWv43/txbtJKq05lxWF+BOLIB0+ibtEKxhnu4bvWJXVTqr/V1BvAxsjoDdHRAHrUqN
+ TzkoLoazP/f4SIp0zfilcYhQ+kAVSt8phPs5pLbmyhEBaLKqbMnrtOEI/UDzBp0qVdr7
+ mnAuSqRywbnLoW+8PEaI9sVe7iCZVoxnC2hfcl8iLerXJBHqvISayySSO5+NaRU6W6QE
+ g1GsRDcRTfQ7bAKBN0soVnW9eUGGyXsRfmFOAVQjwvgLKWPovZsH8aeTk5yCl6ORT/vE
+ fJuxw3t6xunvJqnbX2J8QkQYiW8W/1YpypclUWCGy7HyWFxa2f/t6eJQQudUvjMSY1mD
+ RKGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=N+NN7MUp81y6VS+L5YAPM+yHuTskNuvr3OHs0wj0LLY=;
- b=WPcZ/IgwfwgXrTpORd67e6eO2hlxYJayb91FLuofYxVphNAce+qVVpw4upINRRADQK
- 5OOTEjv+IbV+Uqj8B6MVef90/M20fHQgraEWpSE90XwMHJb41paacbVz9yTQanb+1oI/
- uxf/sZ3C5gXnspMPKdwlGh1SZo8a6IBvAkueFgB/Ly/0eP6Ue/q1iwG0OVAyNpmZTdvw
- S7cgMquL7WbVW47l0Dl9ncbtFEPyVK+NHScI0+Vhfe4OnyNUXkBTEd6w7VtBZM/zWcdP
- fCekfVwukomP1HnMDocZS0fwgXDwy6U1dJSJxVcAlNA7lMa+3hQXMuwz4KZPLI2AT+fk
- QiSg==
-X-Gm-Message-State: AOAM532yNSP9k75+CS5LxSMXoq5wz7236igaJX10asmLH5AYLRictGJB
- fMqOwhV48/Z4AqpURnhXnMR86PRvBCs=
-X-Google-Smtp-Source: ABdhPJyvWTFPlTZd+GgoSoudIyJeUY7QUpIzGO/siqVWlfGZ7HgmNLUoVCVKKmzJhNgjE5dGdLwVCA==
-X-Received: by 2002:a5d:67c3:: with SMTP id n3mr5994964wrw.201.1630799836698; 
- Sat, 04 Sep 2021 16:57:16 -0700 (PDT)
+ bh=UtJq3N+o/FB/vJogkj3xMiVffE8zdE5GfFgTZhZFv9U=;
+ b=sdytyfEZb4N7CBwGxrrzSiz1diO9MeedpPMKwzuiaWVO5eEzK1tm6BAMnzNZm2AjT0
+ fI+YxUllUQLBKFOV20mBZ2/ybg8kcuGBOzMuMUAuvAWifN6IjjIcYCDKpYog3wSVzHVW
+ q2oxeGTKtgGzMDtH98xd3JQcjeODfiBLwfz7oQ26Zi4T2Qut1eQTkyt6a8q8yCRR9bBp
+ CnJl4zPz/LQ9KH0kUZcB65dLdCTKoPBDNSgXH7focVvp6SbWzyWTeRhmmAUWQ0m2099s
+ r7YmVzlcGqousOnFF/OzBOB/9F8sD8SjxvefV/GOPBh94Ui1kYC9TI9bRJmJhhzKsesO
+ mqKw==
+X-Gm-Message-State: AOAM532r+m2qZG6SodV1MdocwBODOJYgVVjZEyIIOfBhS9MVU7ODpcO9
+ qGKJtG73lrYheAqhy5zbTrxzk0gvHow=
+X-Google-Smtp-Source: ABdhPJwwL9NDxUZIDEFOsizg0m9BEPjX0/BwpNCUDsynMy9WIE+WZldToWx1SMs2zm9Aw8U+71VXCA==
+X-Received: by 2002:a5d:6781:: with SMTP id v1mr5836550wru.249.1630799842956; 
+ Sat, 04 Sep 2021 16:57:22 -0700 (PDT)
 Received: from x1w.. (21.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id f20sm3113680wml.38.2021.09.04.16.57.15
+ by smtp.gmail.com with ESMTPSA id t14sm3131396wmi.12.2021.09.04.16.57.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Sep 2021 16:57:16 -0700 (PDT)
+ Sat, 04 Sep 2021 16:57:22 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 18/24] target/riscv: Restrict cpu_exec_interrupt() handler
- to sysemu
-Date: Sun,  5 Sep 2021 01:55:36 +0200
-Message-Id: <20210904235542.1092641-19-f4bug@amsat.org>
+Subject: [PATCH v2 19/24] target/sh4: Restrict cpu_exec_interrupt() handler to
+ sysemu
+Date: Sun,  5 Sep 2021 01:55:37 +0200
+Message-Id: <20210904235542.1092641-20-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210904235542.1092641-1-f4bug@amsat.org>
 References: <20210904235542.1092641-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,76 +97,83 @@ Reviewed-by: Warner Losh <imp@bsdimp.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/riscv/cpu.h        | 2 +-
- target/riscv/cpu.c        | 2 +-
- target/riscv/cpu_helper.c | 5 -----
- 3 files changed, 2 insertions(+), 7 deletions(-)
+ target/sh4/cpu.h    | 4 ++--
+ target/sh4/cpu.c    | 2 +-
+ target/sh4/helper.c | 9 ++-------
+ 3 files changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index bf1c899c00b..e735e53e26c 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -334,7 +334,6 @@ int riscv_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
-                                int cpuid, void *opaque);
- int riscv_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
--bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
- bool riscv_cpu_fp_enabled(CPURISCVState *env);
- bool riscv_cpu_virt_enabled(CPURISCVState *env);
- void riscv_cpu_set_virt_enabled(CPURISCVState *env, bool enable);
-@@ -362,6 +361,7 @@ void riscv_cpu_list(void);
- #define cpu_mmu_index riscv_cpu_mmu_index
+diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
+index 01c43440822..017a7702140 100644
+--- a/target/sh4/cpu.h
++++ b/target/sh4/cpu.h
+@@ -204,8 +204,6 @@ struct SuperHCPU {
+ };
+ 
+ 
+-void superh_cpu_do_interrupt(CPUState *cpu);
+-bool superh_cpu_exec_interrupt(CPUState *cpu, int int_req);
+ void superh_cpu_dump_state(CPUState *cpu, FILE *f, int flags);
+ hwaddr superh_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ int superh_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
+@@ -223,6 +221,8 @@ bool superh_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+ 
+ void sh4_cpu_list(void);
+ #if !defined(CONFIG_USER_ONLY)
++void superh_cpu_do_interrupt(CPUState *cpu);
++bool superh_cpu_exec_interrupt(CPUState *cpu, int int_req);
+ void cpu_sh4_invalidate_tlb(CPUSH4State *s);
+ uint32_t cpu_sh4_read_mmaped_itlb_addr(CPUSH4State *s,
+                                        hwaddr addr);
+diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
+index 83269229421..2047742d03c 100644
+--- a/target/sh4/cpu.c
++++ b/target/sh4/cpu.c
+@@ -236,10 +236,10 @@ static const struct SysemuCPUOps sh4_sysemu_ops = {
+ static const struct TCGCPUOps superh_tcg_ops = {
+     .initialize = sh4_translate_init,
+     .synchronize_from_tb = superh_cpu_synchronize_from_tb,
+-    .cpu_exec_interrupt = superh_cpu_exec_interrupt,
+     .tlb_fill = superh_cpu_tlb_fill,
  
  #ifndef CONFIG_USER_ONLY
-+bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
- void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env);
- int riscv_cpu_claim_interrupts(RISCVCPU *cpu, uint32_t interrupts);
- uint32_t riscv_cpu_update_mip(RISCVCPU *cpu, uint32_t mask, uint32_t value);
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 1a2b03d579c..13575c14085 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -644,10 +644,10 @@ static const struct SysemuCPUOps riscv_sysemu_ops = {
- static const struct TCGCPUOps riscv_tcg_ops = {
-     .initialize = riscv_translate_init,
-     .synchronize_from_tb = riscv_cpu_synchronize_from_tb,
--    .cpu_exec_interrupt = riscv_cpu_exec_interrupt,
-     .tlb_fill = riscv_cpu_tlb_fill,
++    .cpu_exec_interrupt = superh_cpu_exec_interrupt,
+     .do_interrupt = superh_cpu_do_interrupt,
+     .do_unaligned_access = superh_cpu_do_unaligned_access,
+     .io_recompile_replay_branch = superh_io_recompile_replay_branch,
+diff --git a/target/sh4/helper.c b/target/sh4/helper.c
+index 2d622081e85..53cb9c3b631 100644
+--- a/target/sh4/helper.c
++++ b/target/sh4/helper.c
+@@ -45,11 +45,6 @@
  
- #ifndef CONFIG_USER_ONLY
-+    .cpu_exec_interrupt = riscv_cpu_exec_interrupt,
-     .do_interrupt = riscv_cpu_do_interrupt,
-     .do_transaction_failed = riscv_cpu_do_transaction_failed,
-     .do_unaligned_access = riscv_cpu_do_unaligned_access,
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 968cb8046f4..701858d670c 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -75,11 +75,9 @@ static int riscv_cpu_local_irq_pending(CPURISCVState *env)
-         return RISCV_EXCP_NONE; /* indicates no pending interrupt */
-     }
- }
--#endif
+ #if defined(CONFIG_USER_ONLY)
  
- bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+-void superh_cpu_do_interrupt(CPUState *cs)
+-{
+-    cs->exception_index = -1;
+-}
+-
+ int cpu_sh4_is_cached(CPUSH4State *env, target_ulong addr)
  {
--#if !defined(CONFIG_USER_ONLY)
-     if (interrupt_request & CPU_INTERRUPT_HARD) {
-         RISCVCPU *cpu = RISCV_CPU(cs);
-         CPURISCVState *env = &cpu->env;
-@@ -90,12 +88,9 @@ bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-             return true;
-         }
-     }
+     /* For user mode, only U0 area is cacheable. */
+@@ -784,8 +779,6 @@ int cpu_sh4_is_cached(CPUSH4State * env, target_ulong addr)
+     return 0;
+ }
+ 
 -#endif
+-
+ bool superh_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ {
+     if (interrupt_request & CPU_INTERRUPT_HARD) {
+@@ -803,6 +796,8 @@ bool superh_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
      return false;
  }
  
--#if !defined(CONFIG_USER_ONLY)
--
- /* Return true is floating point support is currently enabled */
- bool riscv_cpu_fp_enabled(CPURISCVState *env)
- {
++#endif /* !CONFIG_USER_ONLY */
++
+ bool superh_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+                          MMUAccessType access_type, int mmu_idx,
+                          bool probe, uintptr_t retaddr)
 -- 
 2.31.1
 
