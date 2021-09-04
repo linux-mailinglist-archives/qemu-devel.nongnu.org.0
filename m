@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A148400CFC
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 22:52:59 +0200 (CEST)
-Received: from localhost ([::1]:35092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58DF6400CF8
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 22:48:41 +0200 (CEST)
+Received: from localhost ([::1]:52248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMceo-00024m-Df
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 16:52:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54438)
+	id 1mMcae-000303-FN
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 16:48:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mMcO1-00062l-F8
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:37 -0400
-Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f]:43763)
+ id 1mMcNz-0005ym-Tc
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:35 -0400
+Received: from mail-lf1-x12e.google.com ([2a00:1450:4864:20::12e]:44932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mMcNu-0002wk-Lg
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:37 -0400
-Received: by mail-lj1-x22f.google.com with SMTP id j12so4281421ljg.10
+ id 1mMcNu-0002yI-LX
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:33 -0400
+Received: by mail-lf1-x12e.google.com with SMTP id s10so5313122lfr.11
  for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 13:35:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=vrull-eu.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=v4VcAVXJzGGU2TMu3jud4IEwDYHesVs5Hu5Ag5Q3z2s=;
- b=SXniiKomAedgZGmENymnGJvrmtipPksBCY1wbP/H7FInlRZGA7fRpL75pYGJLtIODt
- gpemkhInMm6LwLObeLvd6nmqCMx09c1o+/a5TtdtuzBfxVz5PccNtnNKHB/5Ag1xed4B
- aNa5V2F5e7dg68Kgtt8JweQuS9OZ+PC4X9/i3DSqPcrUErxw8OQizULUeJnzY+IL0okQ
- jYCuoK3uM57LIKpqXvkITfCBfiFTK5ZXU9W/7J4jAf2cbY8Q9SIWHau61E+G674kcB9D
- wkdZFsvIitgGMwI2E396oN87xWY7guA9B+Si53BD1yZi2jlU2yjReEQ4a5mVfGaC1/fh
- Rgaw==
+ bh=Byfy05ziqCgv95xzCHpZBdafCiVDPBMWHY7L07p6tOg=;
+ b=IuJ5xOAo3xQ4vHxt+7XoITWSmrE1rw5A4svYZzLDkCUYzhUODGTfFTAz1Qp8fbdH87
+ opWyaPhXUIWMjf0yqTKuSStRW74RNM6acdefiWbzxQ1gWB1fUDvZ9OLq5QdOilxvKCT4
+ paC6wmlE+kfG0xZFkRxCMLRLGo7yAMtkyblFSNzYYeINikVKBxVDRMlu21jxCfXd03YT
+ +KBvUUcTVP0iVnOyhKZVAFwKVsf9bTkkY7v3vWdyDWV3q8zvqCSem8Y+Lzi5cTHxBDFr
+ d4k4OiZnwDesMxZ6o0/nB/ydefpTrLCUXYcdtkrdUpoftV1467J4XWmf7KRX08JBiQRW
+ 7AKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=v4VcAVXJzGGU2TMu3jud4IEwDYHesVs5Hu5Ag5Q3z2s=;
- b=jb7OXij8sKkYyhmrvsr7ljkb39Fu5dTbj0j0E0SoH9IdsLvlzvXunC1ePPile7SGU5
- ZvmU7KSZMOLW7gBTFGW9klT/MSUSwkF6lcH9T3x2AE/1dzyuzAHQzsufCElp6WAaNW0T
- Q52ROZa8iZNdivgg8uTdfcDpxyqEpX4EMtynmQp8ijZU0uB2S1js1FOywDxjr1C72hAP
- DUzBLjBlI6/29Lb9ktwqbZg2oniAoUyFKRYMCnedex9APTbrRuNk6oU3x9aAdV5mhrHz
- yARDDeBMJf5Pf0czO6/2y3Iwi3gWMjLH8cTaEFEGbV8pLkACv/yISD3ZPeSWKIwhUjbB
- ZPuw==
-X-Gm-Message-State: AOAM532qwNNVIV6N0gtlzBhE9UNIHgbjXZdSOrPbBLuxItXwmtm63jwm
- mBGaYfTpAvbWImJCzLrkZ9lGHqtyVH35ifaGTYs=
-X-Google-Smtp-Source: ABdhPJzsKvR8l33J1TVvu1y8rRKkK8JpViqRAmF4Od3YHtGJSf3YetaiBOCwKY/TkVqecP8ESQr/nQ==
-X-Received: by 2002:a2e:a788:: with SMTP id c8mr4094346ljf.116.1630787727841; 
- Sat, 04 Sep 2021 13:35:27 -0700 (PDT)
+ bh=Byfy05ziqCgv95xzCHpZBdafCiVDPBMWHY7L07p6tOg=;
+ b=MMgbUYcMcyfxsjbBp+z0HhtdGy1pGndU4QkRNyvT8DWQ9PVoIs8ZD2yI5raXLigS7+
+ o1zbIihrieJa1vtZBml8U6uQaVTuDkT/n+eJToZOOzy9yi5+Awz6ujMDWdiG8DMNw29O
+ +ZA+vdqmQN1fH4eEEAAdIiYTKGHFqZIMDrSER22igJ6bCvMgAO3/rjf2bDjmpTjqR61I
+ /HIc4odIU1SztSCtLgvDr5vdZGRTqEAwIEA3RZX4/IHbWIGKa79JkFPcrNFKwSAMrJGz
+ WgBjTBLIJHn8SxBrfOe7gIj9ZoXeOKblhvTPavn8YhHtrKobfqWolTmcxHbaphT1k12/
+ eWpw==
+X-Gm-Message-State: AOAM533BRX6oTMOQpdz3e/WzVszY87cP2raWjkqpUOrXTQTl7rmIKz0a
+ A1EHx6XjSC49U2DaPU3dv8V/9urG7W1MIdc5qCQ=
+X-Google-Smtp-Source: ABdhPJyRkWet1Fgf/TONTPwzOZaTNd9nhNVaK1csyc+LWhVNUmDj7gVQWQnbKSl/k0oOrL9KCyUgSw==
+X-Received: by 2002:a19:7406:: with SMTP id v6mr3979018lfe.669.1630787728545; 
+ Sat, 04 Sep 2021 13:35:28 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
- by smtp.gmail.com with ESMTPSA id v15sm326304lfq.142.2021.09.04.13.35.27
+ by smtp.gmail.com with ESMTPSA id v15sm326304lfq.142.2021.09.04.13.35.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Sep 2021 13:35:27 -0700 (PDT)
+ Sat, 04 Sep 2021 13:35:28 -0700 (PDT)
 From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 11/16] target/riscv: Add orc.b instruction for Zbb,
- removing gorc/gorci
-Date: Sat,  4 Sep 2021 22:35:10 +0200
-Message-Id: <20210904203516.2570119-12-philipp.tomsich@vrull.eu>
+Subject: [PATCH v10 12/16] target/riscv: Add a REQUIRE_32BIT macro
+Date: Sat,  4 Sep 2021 22:35:11 +0200
+Message-Id: <20210904203516.2570119-13-philipp.tomsich@vrull.eu>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210904203516.2570119-1-philipp.tomsich@vrull.eu>
 References: <20210904203516.2570119-1-philipp.tomsich@vrull.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lj1-x22f.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
+Received-SPF: pass client-ip=2a00:1450:4864:20::12e;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x12e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,194 +89,40 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The 1.0.0 version of Zbb does not contain gorc/gorci.  Instead, a
-orc.b instruction (equivalent to the orc.b pseudo-instruction built on
-gorci from pre-0.93 draft-B) is available, mainly targeting
-string-processing workloads.
-
-This commit adds the new orc.b instruction and removed gorc/gorci.
+With the changes to Zb[abcs], there's some encodings that are
+different in RV64 and RV32 (e.g., for rev8 and zext.h). For these,
+we'll need a helper macro allowing us to select on RV32, as well.
 
 Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
 ---
 
-(no changes since v9)
-
-Changes in v9:
-- Picked up Alistair's Reviewed-by, after patman had failed to catch
-  it for v8.
-
-Changes in v8:
-- Optimize orc.b further by reordering the shift/and, updating the
-  comment to reflect that we put the truth-value into the LSB, and
-  putting the (now only) constant in a temporary
-- Fold the final bitwise-not into the second and, using and andc.
-
-Changes in v7:
-- Free TCG temporary in gen_orc_b().
-
-Changes in v6:
-- Fixed orc.b (now passes SPEC w/ optimized string functions) by
-  adding the missing final negation.
-
-Changes in v4:
-- Change orc.b to implementation suggested by Richard Henderson
+(no changes since v3)
 
 Changes in v3:
-- Moved orc.b and gorc/gorci changes into separate commit.
-- Using the simpler orc.b implementation suggested by Richard Henderson
+- Moved the REQUIRE_32BIT macro into a separate commit.
 
- target/riscv/bitmanip_helper.c          | 26 -----------------
- target/riscv/helper.h                   |  2 --
- target/riscv/insn32.decode              |  6 +---
- target/riscv/insn_trans/trans_rvb.c.inc | 39 +++++++++++--------------
- 4 files changed, 18 insertions(+), 55 deletions(-)
+ target/riscv/translate.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/target/riscv/bitmanip_helper.c b/target/riscv/bitmanip_helper.c
-index 73be5a81c7..bb48388fcd 100644
---- a/target/riscv/bitmanip_helper.c
-+++ b/target/riscv/bitmanip_helper.c
-@@ -64,32 +64,6 @@ target_ulong HELPER(grevw)(target_ulong rs1, target_ulong rs2)
-     return do_grev(rs1, rs2, 32);
- }
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index e356fc6c46..7562b2f87c 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -337,6 +337,12 @@ EX_SH(12)
+     }                              \
+ } while (0)
  
--static target_ulong do_gorc(target_ulong rs1,
--                            target_ulong rs2,
--                            int bits)
--{
--    target_ulong x = rs1;
--    int i, shift;
--
--    for (i = 0, shift = 1; shift < bits; i++, shift <<= 1) {
--        if (rs2 & shift) {
--            x |= do_swap(x, adjacent_masks[i], shift);
--        }
--    }
--
--    return x;
--}
--
--target_ulong HELPER(gorc)(target_ulong rs1, target_ulong rs2)
--{
--    return do_gorc(rs1, rs2, TARGET_LONG_BITS);
--}
--
--target_ulong HELPER(gorcw)(target_ulong rs1, target_ulong rs2)
--{
--    return do_gorc(rs1, rs2, 32);
--}
--
- target_ulong HELPER(clmul)(target_ulong rs1, target_ulong rs2)
- {
-     target_ulong result = 0;
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 8a318a2dbc..a9bda2c8ac 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -61,8 +61,6 @@ DEF_HELPER_FLAGS_1(fclass_d, TCG_CALL_NO_RWG_SE, tl, i64)
- /* Bitmanip */
- DEF_HELPER_FLAGS_2(grev, TCG_CALL_NO_RWG_SE, tl, tl, tl)
- DEF_HELPER_FLAGS_2(grevw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(gorc, TCG_CALL_NO_RWG_SE, tl, tl, tl)
--DEF_HELPER_FLAGS_2(gorcw, TCG_CALL_NO_RWG_SE, tl, tl, tl)
- DEF_HELPER_FLAGS_2(clmul, TCG_CALL_NO_RWG_SE, tl, tl, tl)
- DEF_HELPER_FLAGS_2(clmulr, TCG_CALL_NO_RWG_SE, tl, tl, tl)
- 
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index a509cfee11..59202196dc 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -681,6 +681,7 @@ max        0000101 .......... 110 ..... 0110011 @r
- maxu       0000101 .......... 111 ..... 0110011 @r
- min        0000101 .......... 100 ..... 0110011 @r
- minu       0000101 .......... 101 ..... 0110011 @r
-+orc_b      001010 000111 ..... 101 ..... 0010011 @r2
- orn        0100000 .......... 110 ..... 0110011 @r
- rol        0110000 .......... 001 ..... 0110011 @r
- ror        0110000 .......... 101 ..... 0110011 @r
-@@ -702,19 +703,14 @@ pack       0000100 .......... 100 ..... 0110011 @r
- packu      0100100 .......... 100 ..... 0110011 @r
- packh      0000100 .......... 111 ..... 0110011 @r
- grev       0110100 .......... 101 ..... 0110011 @r
--gorc       0010100 .......... 101 ..... 0110011 @r
--
- grevi      01101. ........... 101 ..... 0010011 @sh
--gorci      00101. ........... 101 ..... 0010011 @sh
- 
- # *** RV64B Standard Extension (in addition to RV32B) ***
- packw      0000100 .......... 100 ..... 0111011 @r
- packuw     0100100 .......... 100 ..... 0111011 @r
- grevw      0110100 .......... 101 ..... 0111011 @r
--gorcw      0010100 .......... 101 ..... 0111011 @r
- 
- greviw     0110100 .......... 101 ..... 0011011 @sh5
--gorciw     0010100 .......... 101 ..... 0011011 @sh5
- 
- # *** RV32 Zbc Standard Extension ***
- clmul      0000101 .......... 001 ..... 0110011 @r
-diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index 9768271639..05102d54b5 100644
---- a/target/riscv/insn_trans/trans_rvb.c.inc
-+++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -295,16 +295,27 @@ static bool trans_grevi(DisasContext *ctx, arg_grevi *a)
-     return gen_shift_imm_fn(ctx, a, EXT_NONE, gen_grevi);
- }
- 
--static bool trans_gorc(DisasContext *ctx, arg_gorc *a)
-+static void gen_orc_b(TCGv ret, TCGv source1)
- {
--    REQUIRE_EXT(ctx, RVB);
--    return gen_shift(ctx, a, EXT_ZERO, gen_helper_gorc);
-+    TCGv  tmp = tcg_temp_new();
-+    TCGv  ones = tcg_constant_tl(dup_const(MO_8, 0x01));
++#define REQUIRE_32BIT(ctx) do { \
++    if (!is_32bit(ctx)) {       \
++        return false;           \
++    }                           \
++} while (0)
 +
-+    /* Set lsb in each byte if the byte was zero. */
-+    tcg_gen_sub_tl(tmp, source1, ones);
-+    tcg_gen_andc_tl(tmp, tmp, source1);
-+    tcg_gen_shri_tl(tmp, tmp, 7);
-+    tcg_gen_andc_tl(tmp, ones, tmp);
-+
-+    /* Replicate the lsb of each byte across the byte. */
-+    tcg_gen_muli_tl(ret, tmp, 0xff);
-+
-+    tcg_temp_free(tmp);
- }
- 
--static bool trans_gorci(DisasContext *ctx, arg_gorci *a)
-+static bool trans_orc_b(DisasContext *ctx, arg_orc_b *a)
- {
--    REQUIRE_EXT(ctx, RVB);
--    return gen_shift_imm_tl(ctx, a, EXT_ZERO, gen_helper_gorc);
-+    REQUIRE_ZBB(ctx);
-+    return gen_unary(ctx, a, EXT_ZERO, gen_orc_b);
- }
- 
- #define GEN_SHADD(SHAMT)                                       \
-@@ -476,22 +487,6 @@ static bool trans_greviw(DisasContext *ctx, arg_greviw *a)
-     return gen_shift_imm_tl(ctx, a, EXT_ZERO, gen_helper_grev);
- }
- 
--static bool trans_gorcw(DisasContext *ctx, arg_gorcw *a)
--{
--    REQUIRE_64BIT(ctx);
--    REQUIRE_EXT(ctx, RVB);
--    ctx->w = true;
--    return gen_shift(ctx, a, EXT_ZERO, gen_helper_gorc);
--}
--
--static bool trans_gorciw(DisasContext *ctx, arg_gorciw *a)
--{
--    REQUIRE_64BIT(ctx);
--    REQUIRE_EXT(ctx, RVB);
--    ctx->w = true;
--    return gen_shift_imm_tl(ctx, a, EXT_ZERO, gen_helper_gorc);
--}
--
- #define GEN_SHADD_UW(SHAMT)                                       \
- static void gen_sh##SHAMT##add_uw(TCGv ret, TCGv arg1, TCGv arg2) \
- {                                                                 \
+ #define REQUIRE_64BIT(ctx) do { \
+     if (is_32bit(ctx)) {        \
+         return false;           \
 -- 
 2.25.1
 
