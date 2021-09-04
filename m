@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F261400D80
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 01:14:41 +0200 (CEST)
-Received: from localhost ([::1]:53950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A489400D83
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 01:21:04 +0200 (CEST)
+Received: from localhost ([::1]:57534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMerw-0005ei-HU
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 19:14:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43504)
+	id 1mMey7-0008Km-5L
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 19:21:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMeoh-0001jO-8U
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 19:11:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20739)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mMeof-0002qF-1e
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 19:11:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630797076;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KVY5s7Ej5sbjg7B8ruPNuC3GirHMa+aQnRQ8uX+CC4Q=;
- b=b5FwyIrUn3cJlBtkGQpKY5KkdKIKCAaKhkz4VMqHzD6KKi/74USLzllMQacuzeyuraqpKs
- 1YR5LgoAcV1vaIERLFdrOBRBX9F7uiVHvaEWuKl7g4+slCufmZLjVi8xBIEFaEir9T0eP/
- M/U4j/3Z0j4x4hf02hNU1vz3G+M6Th8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-266-2ndmBxD8O-WYdeTD1SJ-wQ-1; Sat, 04 Sep 2021 19:11:14 -0400
-X-MC-Unique: 2ndmBxD8O-WYdeTD1SJ-wQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r4-20020a1c4404000000b002e728beb9fbso1758092wma.9
- for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 16:11:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mMewE-0007KG-NN; Sat, 04 Sep 2021 19:19:06 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:36700)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1mMewC-0007xD-MT; Sat, 04 Sep 2021 19:19:06 -0400
+Received: by mail-wr1-x429.google.com with SMTP id q14so4001496wrp.3;
+ Sat, 04 Sep 2021 16:19:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=8wMxiQoHn4ehUrvgm5Kkh8sm/Pfpy7iIFY/tgRVb0vk=;
+ b=CQqL83kKXrVBVaJn4rTUsbIZ5SaZpyzKlRbjsi+tP74k8NJRxJ/LuJ1Ul2RcqKz5ro
+ KkecadYl0LyGTpsZBtt6ouw9/dZgccANpKAVLwYF392Z+RMPgoQr601KxOMTNOT4KHce
+ nvMY6qEsV1TBatg5OYGV3xCfl42EuoXSlZ3SaG6XASJKHVMh3ler4E3KymYQ1cWhR18D
+ /0w2P0efU9iQ1yxkacVQHqu+aB6ln9ZIYV8ynlHfBzh0zCoUwvE0NMunrL9tf7iCsjBx
+ gBnHWoadCQqfAUnV2VB81XAcb4ZGGIsDKDPyQV0F9wpj16nPaHL+tiscuNWZrt2D6pV/
+ RDtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KVY5s7Ej5sbjg7B8ruPNuC3GirHMa+aQnRQ8uX+CC4Q=;
- b=gaV582Hpwqssg7THnZ+Rv2Kzkqodtv8Lifn85KykL3cvERvEVAPbTeAYhRXTMFEFbP
- QpXWam5/FvcAVuJOQCBAKnw8LraD+PQJlgCbgyo/GOnAnfbctseiJB0QOV2FpGdG3ENU
- vL0h+tZlXUiYUqjx/WM69hG9H63oJY+Mk1hsOE5IyjyhapeplHXVRDa8R9Ban2Yvbych
- EVotwn0y5rGjpHxLQl8H9yKB6lGXO7x6Oe5GWwnbYdKjrqvk3ovKnPrzw9VfsbP3jq/e
- pdALqQz9XJr8nwUbhekJaoVSbnOHMPwq4dhZ8/tTBeXaZN4qKbvAUDRPiYTRoweT8GZU
- h3Ig==
-X-Gm-Message-State: AOAM532pmrH7PDc/uCDeKV3Ou4xpzVm5w3YLeKDocmWh9FP+cdWK6ryK
- 8pq6XS/zc80VBQ4lgHwJi7QNyUISn48g8wRxTV8GzHE36jTaIpKvMe8h8w7jYD189+rvbw0lL8g
- lsZRVka3dFTIVCVUAhOuSH9Ytq0B9laC3QY18TDh+bxMdpMi9zPfjNSEj4oBn1dkZ
-X-Received: by 2002:adf:cf0b:: with SMTP id o11mr5716919wrj.72.1630797072938; 
- Sat, 04 Sep 2021 16:11:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzaRj7AFyygdWRYmK9p3SbTRBJeHrGZZjzkjH+3Q/PQ9MF4d5ssledTuMOgq05g8xMhNwJPFg==
-X-Received: by 2002:adf:cf0b:: with SMTP id o11mr5716890wrj.72.1630797072630; 
- Sat, 04 Sep 2021 16:11:12 -0700 (PDT)
-Received: from x1w.. (21.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id u17sm3023554wmm.33.2021.09.04.16.11.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Sep 2021 16:11:12 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 2/2] memory: Have 'info mtree' remove duplicated Address
- Space information
-Date: Sun,  5 Sep 2021 01:11:01 +0200
-Message-Id: <20210904231101.1071929-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210904231101.1071929-1-philmd@redhat.com>
-References: <20210904231101.1071929-1-philmd@redhat.com>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8wMxiQoHn4ehUrvgm5Kkh8sm/Pfpy7iIFY/tgRVb0vk=;
+ b=G95xPvWod57HM1UhUx+NyGhBaYU2mL5rbI6X0aC3GLpC5ALQn2uzDeJxZS5Ge0IraH
+ gTy1A8Aw48Dwgh/Z509Vc9u75iVCkSUje+7531n0huQKRTEjWPrgNmbxuDBn7BF0+p+9
+ JdvL0Fmf27YWlQQ9GTtyv993q3qmFzMEzV2lrRu6Vjcp+sAsDiUqwuCW0qBZq0HeyrNK
+ FwvnrlAaRAgdz3gGzE4rwHlz6BL6Yqnf1kLS8KNaHxozO8mIJFvyKK0drb9jCoj/xOsu
+ UyoOR2yAG2aE3nMrja2BDE1x/LWmOKAaOZFW+/aufiKjprG1lp+WsZiR/PxPuVKICYwj
+ QHHA==
+X-Gm-Message-State: AOAM530uKOI3wWRyMNNhASNvPOM7wESvrYJDBiYfPKaGZ0g/O44GmdL1
+ 5Al3AIow4b/jEfWaeKPaz8Q=
+X-Google-Smtp-Source: ABdhPJy8MS/vlyc9hX08pZcU/1bkb13XymAWYk3J7ggjv8y8jp0z/HAfNb4pUss5R3PtHky2pz1Khw==
+X-Received: by 2002:adf:816f:: with SMTP id 102mr5684478wrm.368.1630797542712; 
+ Sat, 04 Sep 2021 16:19:02 -0700 (PDT)
+Received: from [192.168.1.36] (21.red-83-52-55.dynamicip.rima-tde.net.
+ [83.52.55.21])
+ by smtp.gmail.com with ESMTPSA id y11sm3963535wru.0.2021.09.04.16.19.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 04 Sep 2021 16:19:01 -0700 (PDT)
+Subject: Re: [PATCH] hw/ssi: imx_spi: Improve chip select handling
+To: Bin Meng <bmeng.cn@gmail.com>, Guenter Roeck <linux@roeck-us.net>
+References: <20210808013406.223506-1-linux@roeck-us.net>
+ <CAFEAcA8+o69ztRaaMvqh+zNaFs_6reSHX_ijknay6_0VePSE2w@mail.gmail.com>
+ <a34c10d4-fc90-0186-3214-c3c5e77b4eea@roeck-us.net>
+ <CAFEAcA_cAp6kWTE6Lpx6QF1zfTYfQXiOPgdfkztS3iuJkRB0xQ@mail.gmail.com>
+ <b5e43e87-c1bd-3265-298e-346413a22a82@roeck-us.net>
+ <CAEUhbmWN1=j=hPntg1j6aOv-AZNDm1UrDFB364Qqf0SAccyJew@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <c49b65a2-fa3e-c180-5fdf-a0a64cb91a32@amsat.org>
+Date: Sun, 5 Sep 2021 01:19:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAEUhbmWN1=j=hPntg1j6aOv-AZNDm1UrDFB364Qqf0SAccyJew@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -52
+X-Spam_score: -5.3
+X-Spam_bar: -----
+X-Spam_report: (-5.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-3.832,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,250 +92,153 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, Peter Xu <peterx@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per Peter Maydell [*]:
+On 9/5/21 1:06 AM, Bin Meng wrote:
+> On Sun, Sep 5, 2021 at 1:13 AM Guenter Roeck <linux@roeck-us.net> wrote:
+>>
+>> On 9/2/21 12:29 PM, Peter Maydell wrote:
+>>> On Thu, 2 Sept 2021 at 17:09, Guenter Roeck <linux@roeck-us.net> wrote:
+>>>>
+>>>> On 9/2/21 8:58 AM, Peter Maydell wrote:
+>>>>> On Sun, 8 Aug 2021 at 02:34, Guenter Roeck <linux@roeck-us.net> wrote:
+>>>>>>
+>>>>>> The control register does not really have a means to deselect
+>>>>>> all chip selects directly. As result, CS is effectively never
+>>>>>> deselected, and connected flash chips fail to perform read
+>>>>>> operations since they don't get the expected chip select signals
+>>>>>> to reset their state machine.
+>>>>>>
+>>>>>> Normally and per controller documentation one would assume that
+>>>>>> chip select should be set whenever a transfer starts (XCH is
+>>>>>> set or the tx fifo is written into), and that it should be disabled
+>>>>>> whenever a transfer is complete. However, that does not work in
+>>>>>> practice: attempts to implement this approach resulted in failures,
+>>>>>> presumably because a single transaction can be split into multiple
+>>>>>> transfers.
+>>>>>>
+>>>>>> At the same time, there is no explicit signal from the host indicating
+>>>>>> if chip select should be active or not. In the absence of such a direct
+>>>>>> signal, use the burst length written into the control register to
+>>>>>> determine if an access is ongoing or not. Disable all chip selects
+>>>>>> if the burst length field in the configuration register is set to 0,
+>>>>>> and (re-)enable chip select if a transfer is started. This is possible
+>>>>>> because the Linux driver clears the burst length field whenever it
+>>>>>> prepares the controller for the next transfer.
+>>>>>> This solution  is less than perfect since it effectively only disables
+>>>>>> chip select when initiating the next transfer, but it does work with
+>>>>>> Linux and should otherwise do no harm.
+>>>>>>
+>>>>>> Stop complaining if the burst length field is set to a value of 0,
+>>>>>> since that is done by Linux for every transfer.
+>>>>>>
+>>>>>> With this patch, a command line parameter such as "-drive
+>>>>>> file=flash.sabre,format=raw,if=mtd" can be used to instantiate the
+>>>>>> flash chip in the sabrelite emulation. Without this patch, the
+>>>>>> flash instantiates, but it only reads zeroes.
+>>>>>>
+>>>>>> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+>>>>>> ---
+>>>>>> I am not entirely happy with this solution, but it is the best I was
+>>>>>> able to come up with. If anyone has a better idea, I'll be happy
+>>>>>> to give it a try.
+>>>>>>
+>>>>>>    hw/ssi/imx_spi.c | 17 +++++++----------
+>>>>>>    1 file changed, 7 insertions(+), 10 deletions(-)
+>>>>>>
+>>>>>> diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
+>>>>>> index 189423bb3a..7a093156bd 100644
+>>>>>> --- a/hw/ssi/imx_spi.c
+>>>>>> +++ b/hw/ssi/imx_spi.c
+>>>>>> @@ -167,6 +167,8 @@ static void imx_spi_flush_txfifo(IMXSPIState *s)
+>>>>>>        DPRINTF("Begin: TX Fifo Size = %d, RX Fifo Size = %d\n",
+>>>>>>                fifo32_num_used(&s->tx_fifo), fifo32_num_used(&s->rx_fifo));
+>>>>>>
+>>>>>> +    qemu_set_irq(s->cs_lines[imx_spi_selected_channel(s)], 0);
+>>>>>> +
+>>>>>>        while (!fifo32_is_empty(&s->tx_fifo)) {
+>>>>>>            int tx_burst = 0;
+>>>>>>
+>>>>>> @@ -385,13 +387,6 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
+>>>>>>        case ECSPI_CONREG:
+>>>>>>            s->regs[ECSPI_CONREG] = value;
+>>>>>>
+>>>>>> -        burst = EXTRACT(s->regs[ECSPI_CONREG], ECSPI_CONREG_BURST_LENGTH) + 1;
+>>>>>> -        if (burst % 8) {
+>>>>>> -            qemu_log_mask(LOG_UNIMP,
+>>>>>> -                          "[%s]%s: burst length %d not supported: rounding up to next multiple of 8\n",
+>>>>>> -                          TYPE_IMX_SPI, __func__, burst);
+>>>>>> -        }
+>>>>>
+>>>>> Why has this log message been removed ?
+>>>>
+>>>> What I wanted to do is:
+>>>>
+>>>> "Stop complaining if the burst length field is set to a value of 0,
+>>>>    since that is done by Linux for every transfer."
+>>>>
+>>>> What I did instead is to remove the message entirely.
+>>>>
+>>>> How about the rest of the patch ? Is it worth a resend with the message
+>>>> restored (except for burst size == 0), or is it not acceptable anyway ?
+>>>
+>>> I did the easy bit of the code review because answering this
+>>> question is probably a multiple-hour job...this is still on my
+>>> todo list, but I'm hoping somebody who understands the MIX
+>>> SPI device gets to it first.
+>>>
+>>
+>> Makes sense. Of course, it would be even better if someone can explain
+>> how this works on real hardware.
+>>
+> 
+> I happened to notice this patch today. Better to cc people who once
+> worked on this part from "git blame" or "git log".
 
-  'info mtree' monitor command was designed on the assumption that
-  there's really only one or two interesting address spaces, and
-  with more recent developments that's just not the case any more.
+Even better if you add yourself as designated reviewer ;)
 
-Similarly about how the FlatView are sorted using a GHashTable,
-sort the AddressSpace objects to remove the duplications (AS
-using the same root MemoryRegion).
+$ ./scripts/get_maintainer.pl -f hw/ssi/imx_spi.c
+Alistair Francis <alistair@alistair23.me> (maintainer:SSI)
+Peter Maydell <peter.maydell@linaro.org> (odd fixer:i.MX31 (kzm))
+Jean-Christophe Dubois <jcd@tribudubois.net> (reviewer:SABRELITE / i.MX6)
 
-This drastically reduces the output of 'info mtree' on some boards.
+> 
+>> In this context, it would be useful to know if real SPI flash chips
+>> reset their state to idle under some conditions which are not covered
+>> by the current code in hw/block/m25p80.c. Maybe the real problem is
+>> as simple as that code setting data_read_loop when it should not,
+>> or that it doesn't reset that flag when it should (unless I am missing
+>> something, the flag is currently only reset by disabling chip select).
 
-Before:
+Plausible hypothesis.
 
-  $ (echo info mtree; echo q) \
-    | qemu-system-aarch64 -S -monitor stdio -M raspi3b \
-    | wc -l
-  423
+> One quick question, did you test this on the latest QEMU? Is that
+> Linux used for testing? There have been a number of bug fixes in
+> imx_spi recently.
 
-After:
+Coming from Guenter I'm almost sure the answer is "yes" to both questions.
 
-  $ (echo info mtree; echo q) \
-    | qemu-system-aarch64 -S -monitor stdio -M raspi3b \
-    | wc -l
-  106
+I suppose you meant these changes?
 
-  (qemu) info mtree
-  address-space: I/O
-    0000000000000000-000000000000ffff (prio 0, i/o): io
+$ git log --oneline 1da79ecc7a2..8c495d13792
+8c495d13792 hw/ssi: imx_spi: Correct tx and rx fifo endianness
+6ed924823c8 hw/ssi: imx_spi: Correct the burst length > 32 bit transfer
+logic
+24bf8ef3f53 hw/ssi: imx_spi: Round up the burst length to be multiple of 8
+50dc25932eb hw/ssi: imx_spi: Disable chip selects when controller is
+disabled
+fb116b5456c hw/ssi: imx_spi: Rework imx_spi_write() to handle block disabled
+7c87bb5333f hw/ssi: imx_spi: Rework imx_spi_read() to handle block disabled
+93722b6f6a6 hw/ssi: imx_spi: Rework imx_spi_reset() to keep CONREG
+register value
+9c431a43a62 hw/ssi: imx_spi: Remove pointless variable initialization
+3c9829e5746 hw/ssi: imx_spi: Remove imx_spi_update_irq() in imx_spi_reset()
 
-  address-space: cpu-memory-0
-  address-space: cpu-memory-1
-  address-space: cpu-memory-2
-  address-space: cpu-memory-3
-  address-space: cpu-secure-memory-0
-  address-space: cpu-secure-memory-1
-  address-space: cpu-secure-memory-2
-  address-space: cpu-secure-memory-3
-  address-space: memory
-    0000000000000000-ffffffffffffffff (prio 0, i/o): system
-      0000000000000000-000000003fffffff (prio 0, ram): ram
-      000000003f000000-000000003fffffff (prio 1, i/o): bcm2835-peripherals
-        000000003f003000-000000003f00301f (prio 0, i/o): bcm2835-sys-timer
-        000000003f004000-000000003f004fff (prio -1000, i/o): bcm2835-txp
-        000000003f006000-000000003f006fff (prio 0, i/o): mphi
-        000000003f007000-000000003f007fff (prio 0, i/o): bcm2835-dma
-        000000003f00b200-000000003f00b3ff (prio 0, i/o): bcm2835-ic
-        000000003f00b400-000000003f00b43f (prio -1000, i/o): bcm2835-sp804
-        000000003f00b800-000000003f00bbff (prio 0, i/o): bcm2835-mbox
-        000000003f100000-000000003f1001ff (prio 0, i/o): bcm2835-powermgt
-        000000003f101000-000000003f102fff (prio 0, i/o): bcm2835-cprman
-        000000003f104000-000000003f10400f (prio 0, i/o): bcm2835-rng
-        000000003f200000-000000003f200fff (prio 0, i/o): bcm2835_gpio
-        000000003f201000-000000003f201fff (prio 0, i/o): pl011
-        000000003f202000-000000003f202fff (prio 0, i/o): bcm2835-sdhost
-        000000003f203000-000000003f2030ff (prio -1000, i/o): bcm2835-i2s
-        000000003f204000-000000003f20401f (prio -1000, i/o): bcm2835-spi0
-        000000003f205000-000000003f20501f (prio -1000, i/o): bcm2835-i2c0
-        000000003f20f000-000000003f20f07f (prio -1000, i/o): bcm2835-otp
-        000000003f212000-000000003f212007 (prio 0, i/o): bcm2835-thermal
-        000000003f214000-000000003f2140ff (prio -1000, i/o): bcm2835-spis
-        000000003f215000-000000003f2150ff (prio 0, i/o): bcm2835-aux
-        000000003f300000-000000003f3000ff (prio 0, i/o): sdhci
-        000000003f600000-000000003f6000ff (prio -1000, i/o): bcm2835-smi
-        000000003f804000-000000003f80401f (prio -1000, i/o): bcm2835-i2c1
-        000000003f805000-000000003f80501f (prio -1000, i/o): bcm2835-i2c2
-        000000003f900000-000000003f907fff (prio -1000, i/o): bcm2835-dbus
-        000000003f910000-000000003f917fff (prio -1000, i/o): bcm2835-ave0
-        000000003f980000-000000003f990fff (prio 0, i/o): dwc2
-          000000003f980000-000000003f980fff (prio 0, i/o): dwc2-io
-          000000003f981000-000000003f990fff (prio 0, i/o): dwc2-fifo
-        000000003fc00000-000000003fc00fff (prio -1000, i/o): bcm2835-v3d
-        000000003fe00000-000000003fe000ff (prio -1000, i/o): bcm2835-sdramc
-        000000003fe05000-000000003fe050ff (prio 0, i/o): bcm2835-dma-chan15
-      0000000040000000-00000000400000ff (prio 0, i/o): bcm2836-control
+Regards,
 
-  address-space: bcm2835-dma-memory
-  address-space: bcm2835-fb-memory
-  address-space: bcm2835-property-memory
-  address-space: dwc2
-    0000000000000000-00000000ffffffff (prio 0, i/o): bcm2835-gpu
-      0000000000000000-000000003fffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      0000000040000000-000000007fffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      000000007e000000-000000007effffff (prio 1, i/o): alias bcm2835-peripherals @bcm2835-peripherals 0000000000000000-0000000000ffffff
-      0000000080000000-00000000bfffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-      00000000c0000000-00000000ffffffff (prio 0, ram): alias bcm2835-gpu-ram-alias[*] @ram 0000000000000000-000000003fffffff
-
-  address-space: bcm2835-mbox-memory
-    0000000000000000-000000000000008f (prio 0, i/o): bcm2835-mbox
-      0000000000000010-000000000000001f (prio 0, i/o): bcm2835-fb
-      0000000000000080-000000000000008f (prio 0, i/o): bcm2835-property
-
-  memory-region: ram
-    0000000000000000-000000003fffffff (prio 0, ram): ram
-
-  memory-region: bcm2835-peripherals
-    000000003f000000-000000003fffffff (prio 1, i/o): bcm2835-peripherals
-      000000003f003000-000000003f00301f (prio 0, i/o): bcm2835-sys-timer
-      000000003f004000-000000003f004fff (prio -1000, i/o): bcm2835-txp
-      000000003f006000-000000003f006fff (prio 0, i/o): mphi
-      000000003f007000-000000003f007fff (prio 0, i/o): bcm2835-dma
-      000000003f00b200-000000003f00b3ff (prio 0, i/o): bcm2835-ic
-      000000003f00b400-000000003f00b43f (prio -1000, i/o): bcm2835-sp804
-      000000003f00b800-000000003f00bbff (prio 0, i/o): bcm2835-mbox
-      000000003f100000-000000003f1001ff (prio 0, i/o): bcm2835-powermgt
-      000000003f101000-000000003f102fff (prio 0, i/o): bcm2835-cprman
-      000000003f104000-000000003f10400f (prio 0, i/o): bcm2835-rng
-      000000003f200000-000000003f200fff (prio 0, i/o): bcm2835_gpio
-      000000003f201000-000000003f201fff (prio 0, i/o): pl011
-      000000003f202000-000000003f202fff (prio 0, i/o): bcm2835-sdhost
-      000000003f203000-000000003f2030ff (prio -1000, i/o): bcm2835-i2s
-      000000003f204000-000000003f20401f (prio -1000, i/o): bcm2835-spi0
-      000000003f205000-000000003f20501f (prio -1000, i/o): bcm2835-i2c0
-      000000003f20f000-000000003f20f07f (prio -1000, i/o): bcm2835-otp
-      000000003f212000-000000003f212007 (prio 0, i/o): bcm2835-thermal
-      000000003f214000-000000003f2140ff (prio -1000, i/o): bcm2835-spis
-      000000003f215000-000000003f2150ff (prio 0, i/o): bcm2835-aux
-      000000003f300000-000000003f3000ff (prio 0, i/o): sdhci
-      000000003f600000-000000003f6000ff (prio -1000, i/o): bcm2835-smi
-      000000003f804000-000000003f80401f (prio -1000, i/o): bcm2835-i2c1
-      000000003f805000-000000003f80501f (prio -1000, i/o): bcm2835-i2c2
-      000000003f900000-000000003f907fff (prio -1000, i/o): bcm2835-dbus
-      000000003f910000-000000003f917fff (prio -1000, i/o): bcm2835-ave0
-      000000003f980000-000000003f990fff (prio 0, i/o): dwc2
-        000000003f980000-000000003f980fff (prio 0, i/o): dwc2-io
-        000000003f981000-000000003f990fff (prio 0, i/o): dwc2-fifo
-      000000003fc00000-000000003fc00fff (prio -1000, i/o): bcm2835-v3d
-      000000003fe00000-000000003fe000ff (prio -1000, i/o): bcm2835-sdramc
-      000000003fe05000-000000003fe050ff (prio 0, i/o): bcm2835-dma-chan15
-
-  (qemu) q
-
-[*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg829821.html
-
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-checkpatch warning (81 chars):
-
-  WARNING: line over 80 characters
-  #86: FILE: softmmu/memory.c:3348:
-  +                                  address_space_compare_name);
----
- softmmu/memory.c | 63 +++++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 60 insertions(+), 3 deletions(-)
-
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 5be7d5e7412..4d62357da64 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -3284,20 +3284,77 @@ static void mtree_info_flatview(bool dispatch_tree, bool owner)
-     g_hash_table_unref(views);
- }
- 
-+struct AddressSpaceInfo {
-+    MemoryRegionListHead *ml_head;
-+    bool owner;
-+    bool disabled;
-+};
-+
-+/* Returns negative value if a < b; zero if a = b; positive value if a > b. */
-+static gint address_space_compare_name(gconstpointer a, gconstpointer b)
-+{
-+    const AddressSpace *as_a = a;
-+    const AddressSpace *as_b = b;
-+
-+    return g_strcmp0(as_a->name, as_b->name);
-+}
-+
-+static void mtree_print_as_name(gpointer data, gpointer user_data)
-+{
-+    AddressSpace *as = data;
-+
-+    qemu_printf("address-space: %s\n", as->name);
-+}
-+
-+static void mtree_print_as(gpointer key, gpointer value, gpointer user_data)
-+{
-+    MemoryRegion *mr = key;
-+    GSList *as_same_root_mr_list = value;
-+    struct AddressSpaceInfo *asi = user_data;
-+
-+    g_slist_foreach(as_same_root_mr_list, mtree_print_as_name, NULL);
-+    mtree_print_mr(mr, 1, 0, asi->ml_head, asi->owner, asi->disabled);
-+    qemu_printf("\n");
-+}
-+
-+static gboolean mtree_info_as_free(gpointer key, gpointer value,
-+                                   gpointer user_data)
-+{
-+    GSList *as_same_root_mr_list = value;
-+
-+    g_slist_free(as_same_root_mr_list);
-+
-+    return true;
-+}
-+
- static void mtree_info_as(bool dispatch_tree, bool owner, bool disabled)
- {
-     MemoryRegionListHead ml_head;
-     MemoryRegionList *ml, *ml2;
-     AddressSpace *as;
-+    GHashTable *views = g_hash_table_new(g_direct_hash, g_direct_equal);
-+    GSList *as_same_root_mr_list;
-+    struct AddressSpaceInfo asi = {
-+        .ml_head = &ml_head,
-+        .owner = owner,
-+        .disabled = disabled,
-+    };
- 
-     QTAILQ_INIT(&ml_head);
- 
-     QTAILQ_FOREACH(as, &address_spaces, address_spaces_link) {
--        qemu_printf("address-space: %s\n", as->name);
--        mtree_print_mr(as->root, 1, 0, &ml_head, owner, disabled);
--        qemu_printf("\n");
-+        /* Create hashtable, key=AS root MR, value = list of AS */
-+        as_same_root_mr_list = g_hash_table_lookup(views, as->root);
-+        as_same_root_mr_list = g_slist_insert_sorted(as_same_root_mr_list, as,
-+                                                     address_space_compare_name);
-+        g_hash_table_insert(views, as->root, as_same_root_mr_list);
-     }
- 
-+    /* print address spaces */
-+    g_hash_table_foreach(views, mtree_print_as, &asi);
-+    g_hash_table_foreach_remove(views, mtree_info_as_free, 0);
-+    g_hash_table_unref(views);
-+
-     /* print aliased regions */
-     QTAILQ_FOREACH(ml, &ml_head, mrqueue) {
-         qemu_printf("memory-region: %s\n", memory_region_name(ml->mr));
--- 
-2.31.1
-
+Phil.
 
