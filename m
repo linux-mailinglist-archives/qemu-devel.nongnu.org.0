@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57887400CFD
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 22:54:30 +0200 (CEST)
-Received: from localhost ([::1]:41304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F071A400CF7
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 22:48:37 +0200 (CEST)
+Received: from localhost ([::1]:52048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMcgH-0006Dq-E9
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 16:54:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54440)
+	id 1mMcab-0002rv-24
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 16:48:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mMcO1-00062w-K7
+ id 1mMcO1-00063P-OM
  for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:37 -0400
-Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136]:41877)
+Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132]:44936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1mMcNy-0002yz-Lc
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:37 -0400
-Received: by mail-lf1-x136.google.com with SMTP id y34so5328803lfa.8
- for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 13:35:33 -0700 (PDT)
+ id 1mMcNx-0002za-Dl
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 16:35:36 -0400
+Received: by mail-lf1-x132.google.com with SMTP id s10so5313245lfr.11
+ for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 13:35:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=vrull-eu.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Wqsox9YYOmlgC9q1wk77cPlvcrhfgMZHFkpAaB6PE3A=;
- b=owgMIb37WpVqoM+WzHyBO1czvFyUCXMwOcVXgx2AgixHQzUQytxiig3H25/+I7LRDi
- GolwG1y23QbBfRtCQUOzUQ3oJZXIm7H0+ivnkAp/u/s8MEMcUjLhVu8QszXnUc/vAkPJ
- aOh94denyCkER5d1v6c2pz9R1Us8LrmvUicu6c4+/8n8s1OHeDdVC+DIJwGdA4ssjgMA
- fGc4kJ4fybwGZEaUGHXhsPcuaDY//5I99zgqcWvSotR1/N699wBOr1up38HNKv27VscT
- 2Rss6/n+qh7Zy8pZ81dLEFuT8V9EmU2MI7Mi4JT3v6wB3AS1QBQNdVt6P8LcxIShxmvj
- aaLg==
+ bh=xjHbcU4jd4/FFyGkcPZC0fU+deSURo/V2puvaJZ+g/s=;
+ b=ogejVRzBTUAmF9qLqkHpQCoImXdLkwrpuhFmFHQqT5/QJZLINyo5iwRuVyN+RcW6MV
+ hRMtI1wh2oLi+S5P6cgX/DNTDv7PXL65Ly5TX3Gi83N5madllBIwGoBcsYLG97pLOSnx
+ bk51lQf2U5APApYMabO1X8ejqDLDP0rBrNSSnhYgRS6InT9YNsULQhIFv7sIeTaGKGUZ
+ zlpcLoQHFXPjcIyqE/CMk19wgh5WMIHo+dHuG2o/bs7R64J/mhEXPSWMUBuflaCLBuMU
+ 9PweC5dLVmuxozjzxPUQMnJUcjGyQp2WlEHfwPODl6/+noMVl2VH7ROsHpSJDFyGc1aJ
+ GUkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Wqsox9YYOmlgC9q1wk77cPlvcrhfgMZHFkpAaB6PE3A=;
- b=Q5aQevlh4L3UFOLMngjjEp3rA+8FHLbTplWkbxxHIZ0zMI3EkdbC5L0VNWwe7gwjaF
- DhSOxPEcQlygKlTxvQbUgMSd+luHz6H7TnGHY3aibbioFQoj1MlMd0TVZqIUg5N3BsOd
- lO8poUIA69geLFW67Qz/gAG/GOQ14pJtDC8utv+IqXXJR11ewlXkMmDLBwmwDs81HcU7
- To/369jqIArM+rwlO3Txoxd956J4XsUf/6VyD6CGMUXBdi2wjBQu2UUBCNQvkyglDEVJ
- KxrQr3TAtlsNqUOxY6qBWaetr56QdmNMHAan6p0nDCngkSyq3wDSFQWI87vUKGx4Z4o8
- pgKQ==
-X-Gm-Message-State: AOAM531APV+SCnhrX5/2o/+b5RzPloQ1/uYLmhXEjoezcZgWr/9kkDi2
- srgmooDtwaqZJkWbLkpXHBPQ3ne7D2PzwwKLFKA=
-X-Google-Smtp-Source: ABdhPJzSh0H2tp6eoYkArpy1olYj0YdU/4ta1aJvxFtvVwLSjnsrz3XnPz08qjoynG/sl68EkQH/1g==
-X-Received: by 2002:a05:6512:686:: with SMTP id
- t6mr3934859lfe.49.1630787730735; 
- Sat, 04 Sep 2021 13:35:30 -0700 (PDT)
+ bh=xjHbcU4jd4/FFyGkcPZC0fU+deSURo/V2puvaJZ+g/s=;
+ b=MWxBBaDRRWdRBFnLE2/JuuqFbxhVIHUZAMEJDRpfbuaKTO8NNirWvnV7RcICZx98A/
+ o1ao9B7724IKyBFIAYvk3gbPagt1ecXkMOH52rO9UpcbQMARVM8usjtuP2UO2wUysg2l
+ glYnCe4fHNq3fvx5G95f/Vnzw54LzPT+zfaaqJRgwbUd1iNOxx1qgKOcNyw99U82qGLM
+ rzB4dlpi2tYLMI4adfvUt0WNkzdVSbVP/NEUTxldwYyy1n1FE9Q8+oq1Rjw70xnMdN+3
+ U9w5FEvBSIcIlNJ9sl75Mpp688aBnFa/3obkTzQW4CEscoItqADcrKjIwgGz1ywBY/JZ
+ ONHA==
+X-Gm-Message-State: AOAM530kum7ubijpLseeTrsfuC1FI6fhhC45gyKTFgXTyJmSydKvx4zY
+ 2/x1+b7zwFIFIpIaVe0jFzICKD3ZcOQGYEkYsIo=
+X-Google-Smtp-Source: ABdhPJwwvZn7V8dw/AgGCYIqWAFEkn4Jd0gPDl4YxIPtfqZ3YFExStRUOBVyPDiWuvT+jfHZc0bw5A==
+X-Received: by 2002:a05:6512:3188:: with SMTP id
+ i8mr3879155lfe.209.1630787731442; 
+ Sat, 04 Sep 2021 13:35:31 -0700 (PDT)
 Received: from localhost.localdomain ([2a01:4f9:3a:1e26::2])
  by smtp.gmail.com with ESMTPSA id v15sm326304lfq.142.2021.09.04.13.35.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Sep 2021 13:35:30 -0700 (PDT)
+ Sat, 04 Sep 2021 13:35:31 -0700 (PDT)
 From: Philipp Tomsich <philipp.tomsich@vrull.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v10 15/16] target/riscv: Remove RVB (replaced by Zb[abcs])
-Date: Sat,  4 Sep 2021 22:35:14 +0200
-Message-Id: <20210904203516.2570119-16-philipp.tomsich@vrull.eu>
+Subject: [PATCH v10 16/16] disas/riscv: Add Zb[abcs] instructions
+Date: Sat,  4 Sep 2021 22:35:15 +0200
+Message-Id: <20210904203516.2570119-17-philipp.tomsich@vrull.eu>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210904203516.2570119-1-philipp.tomsich@vrull.eu>
 References: <20210904203516.2570119-1-philipp.tomsich@vrull.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::136;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x136.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::132;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-lf1-x132.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,130 +90,242 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With everything classified as Zb[abcs] and pre-0.93 draft-B
-instructions that are not part of Zb[abcs] removed, we can remove the
-remaining support code for RVB.
-
-Note that RVB has been retired for good and misa.B will neither mean
-'some' or 'all of' Zb*:
-  https://lists.riscv.org/g/tech-bitmanip/message/532
+With the addition of Zb[abcs], we also need to add disassembler
+support for these new instructions.
 
 Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+
 ---
 
-(no changes since v3)
+(no changes since v2)
 
-Changes in v3:
-- Removing RVB moved into a separate commit at the tail-end of the series.
+Changes in v2:
+- Fix missing ';' from last-minute whitespace cleanups.
 
- target/riscv/cpu.c         | 26 --------------------------
- target/riscv/cpu.h         |  3 ---
- target/riscv/insn32.decode |  4 ----
- 3 files changed, 33 deletions(-)
+ disas/riscv.c | 157 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 154 insertions(+), 3 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index ceb7e01810..3a56836f1c 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -127,11 +127,6 @@ static void set_priv_version(CPURISCVState *env, int priv_ver)
-     env->priv_ver = priv_ver;
- }
+diff --git a/disas/riscv.c b/disas/riscv.c
+index 278d9be924..793ad14c27 100644
+--- a/disas/riscv.c
++++ b/disas/riscv.c
+@@ -478,6 +478,49 @@ typedef enum {
+     rv_op_fsflags = 316,
+     rv_op_fsrmi = 317,
+     rv_op_fsflagsi = 318,
++    rv_op_bseti = 319,
++    rv_op_bclri = 320,
++    rv_op_binvi = 321,
++    rv_op_bexti = 322,
++    rv_op_rori = 323,
++    rv_op_clz = 324,
++    rv_op_ctz = 325,
++    rv_op_cpop = 326,
++    rv_op_sext_h = 327,
++    rv_op_sext_b = 328,
++    rv_op_xnor = 329,
++    rv_op_orn = 330,
++    rv_op_andn = 331,
++    rv_op_rol = 332,
++    rv_op_ror = 333,
++    rv_op_sh1add = 334,
++    rv_op_sh2add = 335,
++    rv_op_sh3add = 336,
++    rv_op_sh1add_uw = 337,
++    rv_op_sh2add_uw = 338,
++    rv_op_sh3add_uw = 339,
++    rv_op_clmul = 340,
++    rv_op_clmulr = 341,
++    rv_op_clmulh = 342,
++    rv_op_min = 343,
++    rv_op_minu = 344,
++    rv_op_max = 345,
++    rv_op_maxu = 346,
++    rv_op_clzw = 347,
++    rv_op_ctzw = 348,
++    rv_op_cpopw = 349,
++    rv_op_slli_uw = 350,
++    rv_op_add_uw = 351,
++    rv_op_rolw = 352,
++    rv_op_rorw = 353,
++    rv_op_rev8 = 354,
++    rv_op_zext_h = 355,
++    rv_op_roriw = 356,
++    rv_op_orc_b = 357,
++    rv_op_bset = 358,
++    rv_op_bclr = 359,
++    rv_op_binv = 360,
++    rv_op_bext = 361,
+ } rv_op;
  
--static void set_bext_version(CPURISCVState *env, int bext_ver)
--{
--    env->bext_ver = bext_ver;
--}
--
- static void set_vext_version(CPURISCVState *env, int vext_ver)
- {
-     env->vext_ver = vext_ver;
-@@ -496,25 +491,6 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-         if (cpu->cfg.ext_h) {
-             target_misa |= RVH;
-         }
--        if (cpu->cfg.ext_b) {
--            int bext_version = BEXT_VERSION_0_93_0;
--            target_misa |= RVB;
--
--            if (cpu->cfg.bext_spec) {
--                if (!g_strcmp0(cpu->cfg.bext_spec, "v0.93")) {
--                    bext_version = BEXT_VERSION_0_93_0;
--                } else {
--                    error_setg(errp,
--                           "Unsupported bitmanip spec version '%s'",
--                           cpu->cfg.bext_spec);
--                    return;
--                }
--            } else {
--                qemu_log("bitmanip version is not specified, "
--                         "use the default value v0.93\n");
--            }
--            set_bext_version(env, bext_version);
--        }
-         if (cpu->cfg.ext_v) {
-             int vext_version = VEXT_VERSION_0_07_1;
-             target_misa |= RVV;
-@@ -586,7 +562,6 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("s", RISCVCPU, cfg.ext_s, true),
-     DEFINE_PROP_BOOL("u", RISCVCPU, cfg.ext_u, true),
-     /* This is experimental so mark with 'x-' */
--    DEFINE_PROP_BOOL("x-b", RISCVCPU, cfg.ext_b, false),
-     DEFINE_PROP_BOOL("x-zba", RISCVCPU, cfg.ext_zba, false),
-     DEFINE_PROP_BOOL("x-zbb", RISCVCPU, cfg.ext_zbb, false),
-     DEFINE_PROP_BOOL("x-zbc", RISCVCPU, cfg.ext_zbc, false),
-@@ -597,7 +572,6 @@ static Property riscv_cpu_properties[] = {
-     DEFINE_PROP_BOOL("Zifencei", RISCVCPU, cfg.ext_ifencei, true),
-     DEFINE_PROP_BOOL("Zicsr", RISCVCPU, cfg.ext_icsr, true),
-     DEFINE_PROP_STRING("priv_spec", RISCVCPU, cfg.priv_spec),
--    DEFINE_PROP_STRING("bext_spec", RISCVCPU, cfg.bext_spec),
-     DEFINE_PROP_STRING("vext_spec", RISCVCPU, cfg.vext_spec),
-     DEFINE_PROP_UINT16("vlen", RISCVCPU, cfg.vlen, 128),
-     DEFINE_PROP_UINT16("elen", RISCVCPU, cfg.elen, 64),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 7c4cd8ea89..77e8b06106 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -67,7 +67,6 @@
- #define RVS RV('S')
- #define RVU RV('U')
- #define RVH RV('H')
--#define RVB RV('B')
+ /* structures */
+@@ -1117,6 +1160,49 @@ const rv_opcode_data opcode_data[] = {
+     { "fsflags", rv_codec_i_csr, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+     { "fsrmi", rv_codec_i_csr, rv_fmt_rd_zimm, NULL, 0, 0, 0 },
+     { "fsflagsi", rv_codec_i_csr, rv_fmt_rd_zimm, NULL, 0, 0, 0 },
++    { "bseti", rv_codec_i_sh7, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
++    { "bclri", rv_codec_i_sh7, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
++    { "binvi", rv_codec_i_sh7, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
++    { "bexti", rv_codec_i_sh7, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
++    { "rori", rv_codec_i_sh7, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
++    { "clz", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "ctz", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "cpop", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "sext.h", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "sext.b", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "xnor", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "orn", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "andn", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "rol", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "ror", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "sh1add", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "sh2add", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "sh3add", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "sh1add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "sh2add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "sh3add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "clmul", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "clmulr", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "clmulh", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "min", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "minu", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "max", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "maxu", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "cpopw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "slli.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "rolw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "rorw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "rev8", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "zext.h", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "roriw", rv_codec_i_sh5, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
++    { "orc.b", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "bset", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "bclr", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "binv", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "bext", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+ };
  
- /* S extension denotes that Supervisor mode exists, however it is possible
-    to have a core that support S mode but does not have an MMU and there
-@@ -83,7 +82,6 @@ enum {
- #define PRIV_VERSION_1_10_0 0x00011000
- #define PRIV_VERSION_1_11_0 0x00011100
- 
--#define BEXT_VERSION_0_93_0 0x00009300
- #define VEXT_VERSION_0_07_1 0x00000701
- 
- enum {
-@@ -288,7 +286,6 @@ struct RISCVCPU {
-         bool ext_f;
-         bool ext_d;
-         bool ext_c;
--        bool ext_b;
-         bool ext_s;
-         bool ext_u;
-         bool ext_h;
-diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index affb99b3e6..2f251dac1b 100644
---- a/target/riscv/insn32.decode
-+++ b/target/riscv/insn32.decode
-@@ -712,10 +712,6 @@ rorw       0110000 .......... 101 ..... 0111011 @r
- # instruction, so we use different handler functions to differentiate.
- zext_h_64  0000100 00000 ..... 100 ..... 0111011 @r2
- 
--# *** RV32B Standard Extension ***
--
--# *** RV64B Standard Extension (in addition to RV32B) ***
--
- # *** RV32 Zbc Standard Extension ***
- clmul      0000101 .......... 001 ..... 0110011 @r
- clmulh     0000101 .......... 011 ..... 0110011 @r
+ /* CSR names */
+@@ -1507,7 +1593,20 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
+             case 0: op = rv_op_addi; break;
+             case 1:
+                 switch (((inst >> 27) & 0b11111)) {
+-                case 0: op = rv_op_slli; break;
++                case 0b00000: op = rv_op_slli; break;
++                case 0b00101: op = rv_op_bseti; break;
++                case 0b01001: op = rv_op_bclri; break;
++                case 0b01101: op = rv_op_binvi; break;
++                case 0b01100:
++                    switch (((inst >> 20) & 0b1111111)) {
++                    case 0b0000000: op = rv_op_clz; break;
++                    case 0b0000001: op = rv_op_ctz; break;
++                    case 0b0000010: op = rv_op_cpop; break;
++                      /* 0b0000011 */
++                    case 0b0000100: op = rv_op_sext_b; break;
++                    case 0b0000101: op = rv_op_sext_h; break;
++                    }
++                    break;
+                 }
+                 break;
+             case 2: op = rv_op_slti; break;
+@@ -1515,8 +1614,16 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
+             case 4: op = rv_op_xori; break;
+             case 5:
+                 switch (((inst >> 27) & 0b11111)) {
+-                case 0: op = rv_op_srli; break;
+-                case 8: op = rv_op_srai; break;
++                case 0b00000: op = rv_op_srli; break;
++                case 0b00101: op = rv_op_orc_b; break;
++                case 0b01000: op = rv_op_srai; break;
++                case 0b01001: op = rv_op_bexti; break;
++                case 0b01100: op = rv_op_rori; break;
++                case 0b01101:
++                    switch ((inst >> 20) & 0b1111111) {
++                    case 0b0111000: op = rv_op_rev8; break;
++                    }
++                    break;
+                 }
+                 break;
+             case 6: op = rv_op_ori; break;
+@@ -1530,12 +1637,21 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
+             case 1:
+                 switch (((inst >> 25) & 0b1111111)) {
+                 case 0: op = rv_op_slliw; break;
++                case 4: op = rv_op_slli_uw; break;
++                case 48:
++                    switch ((inst >> 20) & 0b11111) {
++                    case 0b00000: op = rv_op_clzw; break;
++                    case 0b00001: op = rv_op_ctzw; break;
++                    case 0b00010: op = rv_op_cpopw; break;
++                    }
++                    break;
+                 }
+                 break;
+             case 5:
+                 switch (((inst >> 25) & 0b1111111)) {
+                 case 0: op = rv_op_srliw; break;
+                 case 32: op = rv_op_sraiw; break;
++                case 48: op = rv_op_roriw; break;
+                 }
+                 break;
+             }
+@@ -1623,8 +1739,32 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
+             case 13: op = rv_op_divu; break;
+             case 14: op = rv_op_rem; break;
+             case 15: op = rv_op_remu; break;
++            case 36:
++                switch ((inst >> 20) & 0b11111) {
++                case 0: op = rv_op_zext_h; break;
++                }
++                break;
++            case 41: op = rv_op_clmul; break;
++            case 42: op = rv_op_clmulr; break;
++            case 43: op = rv_op_clmulh; break;
++            case 44: op = rv_op_min; break;
++            case 45: op = rv_op_minu; break;
++            case 46: op = rv_op_max; break;
++            case 47: op = rv_op_maxu; break;
++            case 130: op = rv_op_sh1add; break;
++            case 132: op = rv_op_sh2add; break;
++            case 134: op = rv_op_sh3add; break;
++            case 161: op = rv_op_bset; break;
+             case 256: op = rv_op_sub; break;
++            case 260: op = rv_op_xnor; break;
+             case 261: op = rv_op_sra; break;
++            case 262: op = rv_op_orn; break;
++            case 263: op = rv_op_andn; break;
++            case 289: op = rv_op_bclr; break;
++            case 293: op = rv_op_bext; break;
++            case 385: op = rv_op_rol; break;
++            case 386: op = rv_op_ror; break;
++            case 417: op = rv_op_binv; break;
+             }
+             break;
+         case 13: op = rv_op_lui; break;
+@@ -1638,8 +1778,19 @@ static void decode_inst_opcode(rv_decode *dec, rv_isa isa)
+             case 13: op = rv_op_divuw; break;
+             case 14: op = rv_op_remw; break;
+             case 15: op = rv_op_remuw; break;
++            case 32: op = rv_op_add_uw; break;
++            case 36:
++                switch ((inst >> 20) & 0b11111) {
++                case 0: op = rv_op_zext_h; break;
++                }
++                break;
++            case 130: op = rv_op_sh1add_uw; break;
++            case 132: op = rv_op_sh2add_uw; break;
++            case 134: op = rv_op_sh3add_uw; break;
+             case 256: op = rv_op_subw; break;
+             case 261: op = rv_op_sraw; break;
++            case 385: op = rv_op_rolw; break;
++            case 389: op = rv_op_rorw; break;
+             }
+             break;
+         case 16:
 -- 
 2.25.1
 
