@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F05B400D31
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 23:48:41 +0200 (CEST)
-Received: from localhost ([::1]:49074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7967A400D35
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Sep 2021 23:50:40 +0200 (CEST)
+Received: from localhost ([::1]:57650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMdWi-0001Yj-4O
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 17:48:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35446)
+	id 1mMdYd-0007EK-C7
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 17:50:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdLX-0005tO-79
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:37:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33522)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdLZ-0005vW-R8
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:37:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46656)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdLV-0001NA-Q5
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:37:06 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1mMdLY-0001PM-FW
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 17:37:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630791425;
+ s=mimecast20190719; t=1630791428;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DKUyiG5ulvlN8bn9hYjVPeiz0laMQTjL5M3rAODT118=;
- b=dl8JpKL4mE5h/M5doK4y4NGDXT3WbXkX+nuXrH/YJ7Zo/yWIzu0PkD5no7gqEYEtSH4EdV
- TME5hgvo6lgQSuPKzITFmSQbppu5oiP60axF9FlzNGqiMsie1UcNagwy4eNHd+EAg3Wj0D
- NaSUklycur3lso/g27e3CGvPkndkC38=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-MeWG8XIMNWSR_znHPDjJLA-1; Sat, 04 Sep 2021 17:37:04 -0400
-X-MC-Unique: MeWG8XIMNWSR_znHPDjJLA-1
-Received: by mail-ed1-f70.google.com with SMTP id
- j13-20020aa7ca4d000000b003c44c679d73so1501771edt.8
- for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 14:37:04 -0700 (PDT)
+ bh=fjJZP5VxMZRko4GDNQkgZ7w7i54b8fphWN/XvBHKOms=;
+ b=f984nkc0jAE8KbmF66aG2vHGAJlKCmo+aRGP/jWc9B2R09Y6s/ris0eAPM/xaNTJHPyTa0
+ ZVrSLaoPFyBToilUMN9uOQcxt50ePm2Jd45Q9yDAOBbTvmFFQImHAEpt1lWQuN+tKZCuFs
+ 9Nw1u0x6aRJhn8gJHRaa0UE2aL5s6MU=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-553-z8_8pSRhM2OFNZdWY7cO1A-1; Sat, 04 Sep 2021 17:37:06 -0400
+X-MC-Unique: z8_8pSRhM2OFNZdWY7cO1A-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ x6-20020a170906710600b005c980192a39so866175ejj.9
+ for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 14:37:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=DKUyiG5ulvlN8bn9hYjVPeiz0laMQTjL5M3rAODT118=;
- b=FTJkVwav7jbH6OB+87VUFOltDtyTn/+qbPLrub5nCUYe51VUP+4QdKw2+J+hCM7t8I
- vncshvOQOoFybDQA/1tjBi+8nGvtxtjmqfu0J+B/9sY4EdIbqPwOFw4PIqKPwfQF8Bkt
- 5VtiWrI5bQmR9vtLR7DT+7rgGurxcx1u4GTOTlzzxsuYzu7Gy63pgPXJkNICvVkeC/97
- 6TWNtZJrG5PSA6VBcUvkLh92+D0KxcEKz0SEUDi0erUDkXsvCWsMw5EW4/sR6SzlFIFy
- ArDeY/94Sdm/4sQp8WLY60FiVbYD50KInhOZmat4WIhM9PnmPLWGWrYjqOzGY3x3DTVS
- Rqqw==
-X-Gm-Message-State: AOAM530KUV6YiTinPTGuhgkR5lKyTe0pD3SlooocZuGLLWCzdcSuGdXX
- BxqJVHdkZvC/NqTjGoQ8SiMLduxdx3tilrxpR58dwznHD7iUAc9qIG0KXupdyyZs1KWXMThhCKx
- gMt0kxPibyFlAjy0TVlDQmLYKHQHyNguV5+aeHxxUsZbWCPrTtx07nSTOZXQt
-X-Received: by 2002:a17:906:9ac5:: with SMTP id
- ah5mr6005557ejc.224.1630791422654; 
- Sat, 04 Sep 2021 14:37:02 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzZs/laeXpFr0DvoDT3/miKSIDRJomlYg+fsr4RJXQCglVMqwYI3lt9JvRkPTYVZvEDt9WeGw==
-X-Received: by 2002:a17:906:9ac5:: with SMTP id
- ah5mr6005540ejc.224.1630791422469; 
- Sat, 04 Sep 2021 14:37:02 -0700 (PDT)
+ bh=fjJZP5VxMZRko4GDNQkgZ7w7i54b8fphWN/XvBHKOms=;
+ b=pqftAYOs90ACAXEvEeQtLXygERjiN/ZWnj578ff81ra9/9ck/9DLitA70WOHMBxTq1
+ abErs7quknVWobTcKsSLto5/34ecfRBFkcST8LWBBmnFX15MURGEEm49stxXa4KYva3N
+ /+w9jDGKQlTFqfLbwBViKfJeLzXrKR8vS7OAK2bBwC3OcJ/53v73FUSdgWaTd2B+6M95
+ RNoqcGyxvzeIQxp7Xim2skKKD7Z5ATMuzjdM/xINcSpMrTwHb7kayE2pmcCQa2SpN39X
+ 4uqrOq0FXlso+/5oqZQzdb/H5UcnMveoxlm45i2rK65qD2p34deiLTML8sZ9RLmWwMhe
+ JTDA==
+X-Gm-Message-State: AOAM5317SFSciV9UyasWJfm8dwE/+gIzm6PpoJU1gFb6lFulS509zQKo
+ 6oKoY9vt+DHXqIk6Ejb5G2B/lsQXbQ6IkQo2ABBO2n0R/1w3JrjMRqkaZ9zHdyVsPl1onGu4USP
+ lclJI2LIPuIAH8Qm1G1AtF8R9f49EOyIbJIeCI2OXVJTq3wGr5w/oE7NtLaxJ
+X-Received: by 2002:a17:906:308d:: with SMTP id
+ 13mr5853357ejv.570.1630791425300; 
+ Sat, 04 Sep 2021 14:37:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyoJ6RQ9T6qMLAtwX62/UCwV1KIvqS1vbspdImDNMkeZDGTe4NH/kVD7CxI7VNy8lvPnp/Now==
+X-Received: by 2002:a17:906:308d:: with SMTP id
+ 13mr5853344ejv.570.1630791425150; 
+ Sat, 04 Sep 2021 14:37:05 -0700 (PDT)
 Received: from redhat.com ([2.55.150.176])
- by smtp.gmail.com with ESMTPSA id b18sm1518651ejl.90.2021.09.04.14.37.01
+ by smtp.gmail.com with ESMTPSA id rl23sm1534197ejb.50.2021.09.04.14.37.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Sep 2021 14:37:02 -0700 (PDT)
-Date: Sat, 4 Sep 2021 17:37:00 -0400
+ Sat, 04 Sep 2021 14:37:04 -0700 (PDT)
+Date: Sat, 4 Sep 2021 17:37:02 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/35] hw/virtio: Remove NULL check in
- virtio_free_region_cache()
-Message-ID: <20210904213506.486886-22-mst@redhat.com>
+Subject: [PULL 22/35] hw/virtio: Add flatview update in vhost_user_cleanup()
+Message-ID: <20210904213506.486886-23-mst@redhat.com>
 References: <20210904213506.486886-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210904213506.486886-1-mst@redhat.com>
@@ -78,7 +77,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -100,48 +99,44 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+ Yuwei Zhang <zhangyuwei.9149@bytedance.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Yuwei Zhang <zhangyuwei.9149@bytedance.com>
 
-virtio_free_region_cache() is called within call_rcu(),
-always with a non-NULL argument. Ensure new code keep it
-that way by replacing the NULL check by an assertion.
-Add a comment this function is called within call_rcu().
+Qemu will crash on vhost backend unexpected exit and re-connect                                                                          │
+in some case due to access released memory.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210826172658.2116840-3-philmd@redhat.com>
+Signed-off-by: Yuwei Zhang <zhangyuwei.9149@bytedance.com>
+Message-Id: <20210830123433.45727-1-zhangyuwei.9149@bytedance.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/virtio/virtio.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ hw/virtio/vhost-user.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index a5214bca61..3a1f6c520c 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -133,12 +133,10 @@ struct VirtQueue
-     QLIST_ENTRY(VirtQueue) node;
- };
- 
-+/* Called within call_rcu().  */
- static void virtio_free_region_cache(VRingMemoryRegionCaches *caches)
- {
--    if (!caches) {
--        return;
--    }
+diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+index 360d9bc040..2c8556237f 100644
+--- a/hw/virtio/vhost-user.c
++++ b/hw/virtio/vhost-user.c
+@@ -2480,7 +2480,7 @@ void vhost_user_cleanup(VhostUserState *user)
+     if (!user->chr) {
+         return;
+     }
 -
-+    assert(caches != NULL);
-     address_space_cache_destroy(&caches->desc);
-     address_space_cache_destroy(&caches->avail);
-     address_space_cache_destroy(&caches->used);
++    memory_region_transaction_begin();
+     for (i = 0; i < VIRTIO_QUEUE_MAX; i++) {
+         if (user->notifier[i].addr) {
+             object_unparent(OBJECT(&user->notifier[i].mr));
+@@ -2488,6 +2488,7 @@ void vhost_user_cleanup(VhostUserState *user)
+             user->notifier[i].addr = NULL;
+         }
+     }
++    memory_region_transaction_commit();
+     user->chr = NULL;
+ }
+ 
 -- 
 MST
 
