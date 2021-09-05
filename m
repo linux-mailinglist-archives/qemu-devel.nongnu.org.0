@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA61400F01
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 12:11:39 +0200 (CEST)
-Received: from localhost ([::1]:38942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67C40400F02
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 12:14:37 +0200 (CEST)
+Received: from localhost ([::1]:44470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMp7i-0000vk-Dv
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 06:11:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44942)
+	id 1mMpAa-0004kf-Br
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 06:14:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMp4f-0007Ql-I2
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 06:08:30 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:41778)
+ id 1mMp80-0002RA-T2
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 06:11:59 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:50738)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMp4e-0008DV-6V
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 06:08:29 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id u9so5159223wrg.8
- for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 03:08:27 -0700 (PDT)
+ id 1mMp7z-0002iV-EM
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 06:11:56 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id m2so2416310wmm.0
+ for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 03:11:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=tup7/c1R2EZYksYtfylq9V1w0tED5T1ADiiOD8ibT4I=;
- b=Qn5wbjwST0zrIbRhTQWrOXQk5XeENJPKgkFrtC87syJJJeZgmy1z8lCPXFZmj70qtk
- FEQSYP0VovqaaMI0p7yyaQA+1LJTtu8r6j/YXivol2YlbWr3ozVmmV0BVgMHTeCDxJ0p
- rueYCK0Kj6nfTOmZ7DxFw/G00Z4z3WSZ0sugrifddwe+H2eyWJku3owO/+JbCLVYzFmy
- C0CuMegMT45fKOHFDbBfUoZK8lhxjGbIpiaYzyAzQ27D0OzR4NAFjGc5d8208WoZdeT4
- AYvHIuPhUsY5TF/FGNb1pB6Jgx12Hi856RYbuKYt0IHeTDiSc8bJucQf1N0kIk8uuGH4
- SgIQ==
+ bh=BNNac2hbHxefjDHJ7jB2ZfcMlzqi4HKCjj71ddZTHrU=;
+ b=WfWc9LEPwNa5QkIYa2bMG0XxRUPZPdzXg3rgLZpTTinvHQ3pj9iq2+MqdeoFTeFZOe
+ 0Ko7VChuT5jJ9pr6XLLo49PmndAu1+LwTB7OId3yez8RxC7yaefASRAZjUiWsYJpJyh6
+ 2zRuQSjgcZkRLVzAe56tEyc8VrhN4yCws+uFJQBKS6h1INEzO3Oc9ASQVrA0RfQCx51s
+ a0WzX29NZY577oeYhcSg+ffP1kbJG3c0UOLgLbE3/N0r1HsptUzsrADL16AChbiYDaEC
+ MRPwT3UaKTMweBtviSJncirs+Cr7j6AYPP7XajMoOZQYhT28DkPhtDIwMzr08DgJiAAl
+ d+OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=tup7/c1R2EZYksYtfylq9V1w0tED5T1ADiiOD8ibT4I=;
- b=fz7rd2a6bIeBwsZEgMZ7sJycACDhKp3dRrHvqpdNuRiarevpS2XuWOmhdhhh5i+GBK
- EyRNFQaFEphEJH09Jak8Lv9kmVFGM9P6uw9B6fGVCFzjIWBRvEn1kLrFoOL6skGv1cre
- MWvnYs3vvUWwNaxvGtm5+kSbOVNsqoaKDMfo8wMnTmKqG2MhwceTPyA+F46swKoPEWkh
- cpwzj6PPuPQ9u/ahFdyAbXA4+rSJSy0iUojJIp4INwauEzZSit+gXylXo5hV0xFP5ufd
- xpuHy0/74fkJRymzha3NChDuQAATllAgWcUYLvPArU4GJXx29Q8hklWHwYvLEvF7p5hT
- NCaw==
-X-Gm-Message-State: AOAM530A18aQVixFNiEn7/dJaDjgOBvhuih0BFrKJyS4HFhM0MNz1uNW
- vfcSfBxPFJPka6Jc/uJcnFq/0g==
-X-Google-Smtp-Source: ABdhPJza+6yJcUfRwDvxtBjjaRRs84DulB8cDrhGj1qDEvxwEhex88k927jNsFS1hbJglkKamMWDiw==
-X-Received: by 2002:a5d:6b8a:: with SMTP id n10mr7695136wrx.276.1630836506621; 
- Sun, 05 Sep 2021 03:08:26 -0700 (PDT)
+ bh=BNNac2hbHxefjDHJ7jB2ZfcMlzqi4HKCjj71ddZTHrU=;
+ b=j/DZ5M6UhLQGegCCs3sYTgVudkYQq4xvQqJtrXc+A78BrpwRvC5CDtPmM+V90rwlgl
+ mBH7QZQQr9wWhXB1BlOUYMBGpZxuJv3ic6dGBLr9ooXBqjGzY9gFhS0+0DX1uimXWIZ4
+ RK9+Fln0/TFI7D2bMfILu4KL3PXmPpznStcecIf07UGDJbEzsiW/yc0XYWm8GHOfRpGn
+ 85vqLzFTM2nQHtxfLYtWDu6BX8NbN9ufS3otqAa+VLo1QzG7uyytgLZorbYrJ6KH2xh2
+ 7QlOtgb+gzU58XOIFU2P4/uxKy52tkJF/KvdjQ/m2dBjwi6pu7KLURDPvZNSl7SbA3BH
+ 8TbQ==
+X-Gm-Message-State: AOAM530WQjVfz9uBz9bgqGs7OUwObfPo8UHxdACcw57JI4MA1Jk/fPf+
+ BaC3qW5OsBTKq1KXmcHRZ1AT/g==
+X-Google-Smtp-Source: ABdhPJx7wVGvgv2Fsb/lmUg8gOwrVcXCZK51kFw/RJWs0/DzcuShidL8hRTCJM+3u1OWNcmStDwP6Q==
+X-Received: by 2002:a1c:3bd5:: with SMTP id i204mr6662851wma.53.1630836712503; 
+ Sun, 05 Sep 2021 03:11:52 -0700 (PDT)
 Received: from [192.168.8.105] (206.red-2-143-78.dynamicip.rima-tde.net.
  [2.143.78.206])
- by smtp.gmail.com with ESMTPSA id n4sm4561346wra.37.2021.09.05.03.08.14
+ by smtp.gmail.com with ESMTPSA id f5sm4086803wmb.47.2021.09.05.03.11.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 Sep 2021 03:08:26 -0700 (PDT)
-Subject: Re: [PATCH v4 21/21] scripts: add loongarch64 binfmt config
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <1630586467-22463-1-git-send-email-gaosong@loongson.cn>
- <1630586467-22463-22-git-send-email-gaosong@loongson.cn>
+ Sun, 05 Sep 2021 03:11:52 -0700 (PDT)
+Subject: Re: [PATCH v3 10/43] bsd-user: implement path searching
+To: imp@bsdimp.com, qemu-devel@nongnu.org
+References: <20210902234729.76141-1-imp@bsdimp.com>
+ <20210902234729.76141-11-imp@bsdimp.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9bde0e87-cb30-adbe-3a7e-46fd779dc664@linaro.org>
-Date: Sun, 5 Sep 2021 12:08:07 +0200
+Message-ID: <6b49f47e-a9c4-cb44-1da6-856e6b9b7a77@linaro.org>
+Date: Sun, 5 Sep 2021 12:11:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <1630586467-22463-22-git-send-email-gaosong@loongson.cn>
+In-Reply-To: <20210902234729.76141-11-imp@bsdimp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -58
 X-Spam_score: -5.9
 X-Spam_bar: -----
@@ -88,24 +88,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, yangxiaojuan@loongson.cn, david@redhat.com,
- bin.meng@windriver.com, mark.cave-ayland@ilande.co.uk,
- aleksandar.rikalo@syrmia.com, jcmvbkbc@gmail.com, tsimpson@quicinc.com,
- alistair.francis@wdc.com, edgar.iglesias@gmail.com, chenhuacai@gmail.com,
- philmd@redhat.com, atar4qemu@gmail.com, thuth@redhat.com, ehabkost@redhat.com,
- groug@kaod.org, maobibo@loongson.cn, mrolnik@gmail.com, shorne@gmail.com,
- alex.bennee@linaro.org, david@gibson.dropbear.id.au,
- kbastian@mail.uni-paderborn.de, crwulff@gmail.com, laurent@vivier.eu,
- palmer@dabbelt.com, pbonzini@redhat.com, aurelien@aurel32.net
+Cc: kevans@freebsd.org, Stacey Son <sson@FreeBSD.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/2/21 2:41 PM, Song Gao wrote:
-> Signed-off-by: Song Gao<gaosong@loongson.cn>
-> Signed-off-by: XiaoJuan Yang<yangxiaojuan@loongson.cn>
+On 9/3/21 1:46 AM, imp@bsdimp.com wrote:
+> From: Warner Losh<imp@bsdimp.com>
+> 
+> Use the PATH to find the executable given a bare argument. We need to do
+> this so we can implement mixing native and emulated binaries (e.g.,
+> execing a x86 native binary from an emulated arm binary to optimize
+> parts of the build). By finding the binary, we will know how to exec it.
+> 
+> Signed-off-by: Stacey Son<sson@FreeBSD.org>
+> Signed-off-by: Warner Losh<imp@bsdimp.com>
 > ---
->   scripts/qemu-binfmt-conf.sh | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
+>   bsd-user/bsdload.c | 36 +++++++++++++++++++++++++++++++++++-
+>   bsd-user/qemu.h    |  3 ++-
+>   2 files changed, 37 insertions(+), 2 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
