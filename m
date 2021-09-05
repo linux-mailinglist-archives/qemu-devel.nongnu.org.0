@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72A97400EF6
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 12:08:00 +0200 (CEST)
-Received: from localhost ([::1]:32800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2106B400F00
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 12:11:28 +0200 (CEST)
+Received: from localhost ([::1]:38302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMp4B-0005BM-IE
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 06:07:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44450)
+	id 1mMp7X-0000Uv-7S
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 06:11:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMp1t-0003Xp-S6
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 06:05:38 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:42969)
+ id 1mMp2m-0004Fa-2F
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 06:06:32 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:38513)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMp1s-0005hp-8F
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 06:05:37 -0400
-Received: by mail-wm1-x330.google.com with SMTP id
- k20-20020a05600c0b5400b002e87ad6956eso2637066wmr.1
- for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 03:05:35 -0700 (PDT)
+ id 1mMp2k-0006UI-E3
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 06:06:31 -0400
+Received: by mail-wm1-x336.google.com with SMTP id
+ k5-20020a05600c1c8500b002f76c42214bso2725320wms.3
+ for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 03:06:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=y1DCHcfH4Mpa+M3QPYs/8pSEtqGSHNYGszBeOMAeSJo=;
- b=VZ9ulC4MYSGxWCbkZtgXDxIV8gcXyVPDKcP+nY9bRTmFwtqYdZV1rW0p9AGiycJ291
- F/9cLj1u5xCkpHah4sxvA7MWkLNfo1EVrTkw6RA+6pkTILG480FjQR5MpQDaZ3y9JoNT
- mxWGHZ6na+0hDepUxaKaEkN8ZXbqI3c6FPm1AZ4eg9ZDGCxPJD0HcqtmVV1W5HQzgvYf
- 2jehg7D9CzXcwjkLrvPs6D3vbr64SB52JZrNBV1QFNWzXI9zRHfmWo6NqWAB2b9hLZEO
- ccgzKxOoC6NwRUk6QMUaLkFtjwIR+XNgQ6DEZ70TAcdisd0unnybmDCETCUdVIjo4Kb7
- FLbw==
+ bh=kpHy8pFbED6Q2fbSev5Junz8h0pXQ3bHCVIdCk2Igkw=;
+ b=Wd9iA4M8nUtg0R4scvhNWynJps3z5223DrVjbT3Q/iCrOcxT15+AshZWlzggOY1Gnd
+ 2UY/bC+clI3oIbuLsekuaMqbuQUEh4gbwKH64d0e3rGx08T9AjgUyI5R3d7UpcKqQdcm
+ pSAapLR6uUxMrJHkJ3W92ZQHamT2mbkwHqgR0hiivVAHHjjm8+669OXqBCwUC9cg/agA
+ Iq8m51OEEUZS+grtO9haEPKnKXBCa1pSS94J4p9t4T6Mr5xEV7qM94mpGGk9+2IzyiQA
+ TkRBw+gQeton5jD7ZTjREOoJxOerAh81XfGUWALI0FvNOfMLo78KKTnwia2xDKtwS/jD
+ Dczg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=y1DCHcfH4Mpa+M3QPYs/8pSEtqGSHNYGszBeOMAeSJo=;
- b=ssI3Can4jNbrXG1MBYPEQcS/0Pyj5O8IgLKxhJnRx/ERjeTsBUX6JgEJtRHxw6fblJ
- S5JK0KEQb6bAOq4O+SOe8oZIN6j++sIesUXK9mducpRGretePtUoI9dIInTjVF5bpyg4
- BchWmiyCxcsqaCxyaFFdgn+ayh3pFESdEfq/AtHroLGRQCLqJRU8NWQ3CdO7oYRpVBfs
- EFr3WasxgLXpsK5PMyxfDucgja1O5/w40jQ/jjZ3Xe0pr/fHCHh9qvgX5T1r3zNuhbIk
- NAxzFK3/jYLTC8PuMW/mHGcKJd5LLWBZskc2PJH6AKiipAUMNqrIB9cvJXrMBHc76XMv
- F64A==
-X-Gm-Message-State: AOAM533mQ+N6QvfV6xUImtfeOh8UvexCM9ZPAPZkTFaGcHBGBo6NEgA9
- 5hffxNq5XwKyu67NDIUjku5cag==
-X-Google-Smtp-Source: ABdhPJxuTok/0Y1ROIE+WrRcaxPannORYqRRLUyO5UcGvRUrLcCbio2WmwgBgU2Aq0ESDolBtnO8VQ==
-X-Received: by 2002:a05:600c:295:: with SMTP id
- 21mr6460298wmk.37.1630836334657; 
- Sun, 05 Sep 2021 03:05:34 -0700 (PDT)
+ bh=kpHy8pFbED6Q2fbSev5Junz8h0pXQ3bHCVIdCk2Igkw=;
+ b=FIgjjf1pVaKJshs75wmEy5G9dRf8XIJUCNKH54yGNlQvGKnlx7+ap1dT63ZlGsacXL
+ ly8QRkskROWZS8EzqLs4pMkhGyyvGBKjtfHxQuaDekg4xHdyKIzYd+31BYNjhmcrLaSD
+ wyGd3VO+dCik62WPX7NW3FPZnDf+DPOtoWgkYxLMFtZBzJX/uVECK2A0YRFMsYdlu7Jl
+ yHK7vVKnQwVVa82zxCbQqXjbX+0nei5M0yMmgpQ9B8//4rdKSKDpr6bXBLsK7lzEiJ4P
+ s9KfwrOSRKMbCyPM4rxV6pNRt//1zC22V/gGm9z/9t4vPBqLSEAib+pQBMvccvuYMzsc
+ pfUg==
+X-Gm-Message-State: AOAM5312Cv8He5qBfiV+Z8n1IhaZdAD46+lH7f6sgUvJnwO3TlMoRdD/
+ 8j/cG3QG9+ekTeUPM4AR94LDrA==
+X-Google-Smtp-Source: ABdhPJwHyhhAJmHw4tdEwuDTQ78g8QT5lAb56zO04OiYHXqxDr5YIkFC+4nEbwPkkb4V+OVzVZy9Ow==
+X-Received: by 2002:a7b:cb44:: with SMTP id v4mr6443083wmj.169.1630836388912; 
+ Sun, 05 Sep 2021 03:06:28 -0700 (PDT)
 Received: from [192.168.8.105] (206.red-2-143-78.dynamicip.rima-tde.net.
  [2.143.78.206])
- by smtp.gmail.com with ESMTPSA id o7sm4048357wmq.36.2021.09.05.03.05.26
+ by smtp.gmail.com with ESMTPSA id w29sm4466283wra.88.2021.09.05.03.06.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 Sep 2021 03:05:34 -0700 (PDT)
-Subject: Re: [PATCH v4 19/21] target/loongarch: Add target build suport
+ Sun, 05 Sep 2021 03:06:28 -0700 (PDT)
+Subject: Re: [PATCH v4 20/21] target/loongarch: 'make check-tcg' support
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <1630586467-22463-1-git-send-email-gaosong@loongson.cn>
- <1630586467-22463-20-git-send-email-gaosong@loongson.cn>
+ <1630586467-22463-21-git-send-email-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <41c2692b-21c4-075a-efe1-b309eda2a349@linaro.org>
-Date: Sun, 5 Sep 2021 12:05:24 +0200
+Message-ID: <b1cef7a5-e5ea-3ab6-5a55-258cdd60c8b1@linaro.org>
+Date: Sun, 5 Sep 2021 12:06:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <1630586467-22463-20-git-send-email-gaosong@loongson.cn>
+In-Reply-To: <1630586467-22463-21-git-send-email-gaosong@loongson.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -58
 X-Spam_score: -5.9
 X-Spam_bar: -----
@@ -103,15 +102,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/2/21 2:41 PM, Song Gao wrote:
-> This patch add build loongarch-linux-user target support.
+> This patch support 'make check-tcg' after install cross-tools.
 > 
 > Signed-off-by: Song Gao<gaosong@loongson.cn>
 > Signed-off-by: XiaoJuan Yang<yangxiaojuan@loongson.cn>
 > ---
->   target/loongarch/meson.build | 18 ++++++++++++++++++
->   target/meson.build           |  1 +
->   2 files changed, 19 insertions(+)
->   create mode 100644 target/loongarch/meson.build
+>   tests/tcg/configure.sh | 1 +
+>   1 file changed, 1 insertion(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
