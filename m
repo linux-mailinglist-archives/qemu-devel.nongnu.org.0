@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B29CB40111C
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 20:14:25 +0200 (CEST)
-Received: from localhost ([::1]:39090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DCB4401135
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 20:51:00 +0200 (CEST)
+Received: from localhost ([::1]:54492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMweu-0007Sf-OF
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 14:14:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56586)
+	id 1mMxEF-00035Z-SF
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 14:50:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mMwe0-0006lz-QV
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 14:13:28 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:37882)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mMwdz-0007DF-3S
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 14:13:28 -0400
-Received: by mail-wm1-x334.google.com with SMTP id
- c8-20020a7bc008000000b002e6e462e95fso3353143wmb.2
- for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 11:13:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zgGrHeLSD09tq2tqoVdwArMEXdFKGo42NtBdBREhS4o=;
- b=t/dGou+4NzQVnX8EC7Xii5OhSqxn2jtpn5RfAXCPMdKcTWJJKyI1Iv8vvQoM61e1Pv
- HSLxdDbcI2qXStlEbjiqXnvmrH8is6snzDG6+GMI524qoY3AJLhLVsVy6B5qHi01ev+M
- KzyPExzUQgLstSxNLYAAn2U+v+hIKuO5CcbtGjFi3XerRYwFMSA9YDunzwQPQEL5bu4G
- ESmGsrcJpKD8yhUJwhOP6TRHI10XRorK1GjdMYtj+bb3Qyb2t9EDtrzkYvj34KPFvjKR
- P0GhsQ/esZPJ7lLuvuMRqzWKeOzj6t+gvVsFQWCmXqdF3+o8HWtav8ja7X5GqUEwuADn
- 6IYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zgGrHeLSD09tq2tqoVdwArMEXdFKGo42NtBdBREhS4o=;
- b=Cxpnk4ylaMZWKqOFh0w7r1N9OmJ/sbIYBkIg/OZrNJ+LC+rexUfz2dnEesF4k1rMDd
- W1Hh5gAUAYfomAtBg5yeH5iz7uc8SIalWaRAPcADO2nz0PTNIfDs2k9l/TqRByvHt7/g
- 78llyMMlJgf5Jh2bZwcfBCpGXTek2cDEy/OkcNUzzvwo0d5VOBSRc2yEfRwTmeZx0eQD
- e77gIWJqeh/6OOHr78Da2pylvInBxkiRzhcZHwuB5nAebMrOdXpPzz8lQ2DjbrOVDEgn
- 86O+mlLkZAlsArxIu0rsek/YTzFW3wyCND9IobsxI57Rji3dB3m9YC/BZuUnWvKqcraT
- gd+g==
-X-Gm-Message-State: AOAM533WBibNQzD5NT8CrZrOmNp/lI7QnrEh5Cu0x48NHpKDRMlnWbBf
- mb5JW5BZblHF7MnVDPT7DbSRAKGjCt1cnSzCYuK4/w==
-X-Google-Smtp-Source: ABdhPJwpHDQ8hpluW3Af+SujFO+qRHZE7UDkXDCnlyHJPlpLNDadOq0r+og3805kL/oBFK8UizjBY5DdWSed8ckJgRc=
-X-Received: by 2002:a7b:c246:: with SMTP id b6mr7971276wmj.37.1630865604816;
- Sun, 05 Sep 2021 11:13:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
+ id 1mMx3S-0000at-Rl
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 14:39:46 -0400
+Received: from mx2.freebsd.org ([2610:1c1:1:606c::19:2]:45101)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kevans@freebsd.org>)
+ id 1mMx3R-0003lj-Co
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 14:39:46 -0400
+Received: from mx1.freebsd.org (mx1.freebsd.org [IPv6:2610:1c1:1:606c::19:1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits)
+ client-signature RSA-PSS (4096 bits))
+ (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
+ by mx2.freebsd.org (Postfix) with ESMTPS id 2266B81075
+ for <qemu-devel@nongnu.org>; Sun,  5 Sep 2021 18:39:43 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+Received: from smtp.freebsd.org (smtp.freebsd.org [96.47.72.83])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+ client-signature RSA-PSS (4096 bits) client-digest SHA256)
+ (Client CN "smtp.freebsd.org", Issuer "R3" (verified OK))
+ by mx1.freebsd.org (Postfix) with ESMTPS id 4H2gLR07sPz3QB2
+ for <qemu-devel@nongnu.org>; Sun,  5 Sep 2021 18:39:43 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
+ [209.85.219.47])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (Client CN "smtp.gmail.com", Issuer "GTS CA 1O1" (verified OK))
+ (Authenticated sender: kevans)
+ by smtp.freebsd.org (Postfix) with ESMTPSA id D25FD9C08
+ for <qemu-devel@nongnu.org>; Sun,  5 Sep 2021 18:39:42 +0000 (UTC)
+ (envelope-from kevans@freebsd.org)
+Received: by mail-qv1-f47.google.com with SMTP id 93so2845460qva.7
+ for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 11:39:42 -0700 (PDT)
+X-Gm-Message-State: AOAM530NgBu7ICJZomtb827Lra4RctRD9g+m774e7666AqB3kO2kGJZW
+ uRQvFi4MsyhUAsts3SoHRXI3Z4Y6TAprTnqhCoo=
+X-Google-Smtp-Source: ABdhPJzHw/IzfWvFE8azspEuZOuG8lRGfpH9Coq+qn8MykOIofE6CUAkb2AejGizwJEgovMKGE53vWQPthJzu90b1RY=
+X-Received: by 2002:a05:6214:20a6:: with SMTP id
+ 6mr8931645qvd.31.1630867182403; 
+ Sun, 05 Sep 2021 11:39:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210905154049.7992-1-bmeng.cn@gmail.com>
- <CAFEAcA8frUy2wmQjj=Bk_GGT9O=qHzb5pjSFupc7SaEyDUvYZg@mail.gmail.com>
- <CAEUhbmVjuYhk=Ebh6VeaPtC816Dssys3g8+dwMo5rv4yHMeHSg@mail.gmail.com>
- <CAFEAcA9JDN-bGSyjqauKsjJH43TUwk7YTSN0mSvPg9obd9yCUw@mail.gmail.com>
- <CAEUhbmWh=8MntXf=TJr8g8FPB2oQJfGhw7Kqs+Tb_ZqpmXUthg@mail.gmail.com>
-In-Reply-To: <CAEUhbmWh=8MntXf=TJr8g8FPB2oQJfGhw7Kqs+Tb_ZqpmXUthg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 5 Sep 2021 19:12:35 +0100
-Message-ID: <CAFEAcA8x2rnFXao1z-751hvZ=oQWNxKm0APzwpSJA1wfxhsLSg@mail.gmail.com>
-Subject: Re: [PATCH] softmmu/memory: Validate {read,
- write}_with_attrs before calling
-To: Bin Meng <bmeng.cn@gmail.com>
+References: <20210902234729.76141-1-imp@bsdimp.com>
+ <20210902234729.76141-44-imp@bsdimp.com>
+In-Reply-To: <20210902234729.76141-44-imp@bsdimp.com>
+From: Kyle Evans <kevans@freebsd.org>
+Date: Sun, 5 Sep 2021 13:39:31 -0500
+X-Gmail-Original-Message-ID: <CACNAnaGB2DSG6GyY65avcP_Onc6G4cgdBrftzLSXKLi2i_Mh-A@mail.gmail.com>
+Message-ID: <CACNAnaGB2DSG6GyY65avcP_Onc6G4cgdBrftzLSXKLi2i_Mh-A@mail.gmail.com>
+Subject: Re: [PATCH v3 43/43] bsd-user: Update mapping to handle reserved and
+ starting conditions
+To: Warner Losh <imp@bsdimp.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2610:1c1:1:606c::19:2;
+ envelope-from=kevans@freebsd.org; helo=mx2.freebsd.org
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,34 +83,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>
+Cc: Stacey Son <sson@freebsd.org>, Kyle Evans <kevans@freebsd.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Warner Losh <imp@freebsd.org>,
+ =?UTF-8?Q?Mika=C3=ABl_Urankar?= <mikael.urankar@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 5 Sept 2021 at 18:07, Bin Meng <bmeng.cn@gmail.com> wrote:
+On Thu, Sep 2, 2021 at 6:56 PM <imp@bsdimp.com> wrote:
 >
-> On Mon, Sep 6, 2021 at 12:54 AM Peter Maydell <peter.maydell@linaro.org> wrote:
-> > I mean that before commit 62a0db942dec leaving the pointers all
-> > NULL was not allowed, and after that commit leaving the pointers all
-> > NULL was still not allowed. It's been a requirement that you
-> > provide at least one function pointer for read and one for
-> > write ever since the MemoryRegion APIs were introduced in 2012.
-> > You're proposing an API change; it might be a good one, but it
-> > isn't a 'Fixes' to anything.
+> From: Warner Losh <imp@FreeBSD.org>
 >
-> Where is the requirement documented? I don't see anything mentioned in
-> docs/devel/memory.rst
+> Update the reserved base based on what platform we're on, as well as the
+> start of the mmap range. Update routines that find va ranges to interact
+> with the reserved ranges as well as properly align the mapping (this is
+> especially important for targets whose page size does not match the
+> host's). Loop where appropriate when the initial address space offered
+> by mmap does not meet the contraints.
+>
+> This has 18e80c55bb6 from linux-user folded in to the upstream
+> bsd-user code as well.
+>
+> Signed-off-by: Mika=C3=ABl Urankar <mikael.urankar@gmail.com>
+> Signed-off-by: Stacey Son <sson@FreeBSD.org>
+> Signed-off-by: Warner Losh <imp@bsdimp.com>
+> Acked-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  bsd-user/main.c |  43 ++++-
+>  bsd-user/mmap.c | 415 ++++++++++++++++++++++++++++++++++++++++--------
+>  bsd-user/qemu.h |   5 +-
+>  3 files changed, 392 insertions(+), 71 deletions(-)
+>
 
-It's not documented, but lots of fiddly details of QEMU functions
-aren't documented...
-
-> If it's a requirement since 2012, then I agree "Fixes" can be dropped.
-> But a doc fix should be made to document the "requirement".
-
-Agreed.
-
--- PMM
+Reviewed-by: Kyle Evans <kevans@FreeBSD.org>
 
