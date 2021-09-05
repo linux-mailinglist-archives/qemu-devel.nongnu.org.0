@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B7C4010BF
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 18:03:35 +0200 (CEST)
-Received: from localhost ([::1]:44402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5357E4010C0
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 18:04:52 +0200 (CEST)
+Received: from localhost ([::1]:49096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMucI-0006AR-2m
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 12:03:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38284)
+	id 1mMudX-0000o9-Ci
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 12:04:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mMuYn-0003E9-UL
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 11:59:57 -0400
-Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:36817)
+ id 1mMubX-0006eA-VZ
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 12:02:47 -0400
+Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:46606)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mMuYm-00068J-Jy
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 11:59:57 -0400
-Received: by mail-yb1-xb33.google.com with SMTP id f15so8520135ybg.3
- for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 08:59:55 -0700 (PDT)
+ id 1mMubW-0008Le-AY
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 12:02:47 -0400
+Received: by mail-yb1-xb30.google.com with SMTP id k65so8447855yba.13
+ for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 09:02:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=TMHsumP1XrX9UuoQgf0ckY34OxQzviClAicldSz/+68=;
- b=n/gxzzxEbz7YQNUmXRxZ5vYvC/h5zSrPzHWrZktEOCNdOHeVAupV9rMoSvvzddSMvF
- EmRMeWBQkSBz8kcbNreaVxMiyXcBylhr59YYsw5rBc2vuaEYI9ROQnMNrkk8j858DXN/
- yOCrKDjUILwoictT0S6Zx3IZTUsfBSzamF11Uu635wuL3ul/uUaCVFj51/stByergAn+
- z13rD/9JHp9HPb6f4svq0FyZI9VX4tTCEyu97zefi68wd1Lxi2nGe8rLwyPgYssCZUct
- FvgfGZLZ7iTm2MSFlBpU1Pcd+yQzO3YHNwpZAEV2QVzmmusKrKF7qLaHG3FqMaZDLhG6
- yWvg==
+ bh=8JiFZyWesJ/cnZPHB6nkGV3ej4AEy8eADFUuYkjt8Uw=;
+ b=QECPM744GFmBiuQnC5SPUVkrF+xcJnkW2qlrS/xwvzj0QvvsT2B6y/WUJPTgoTRcdT
+ NhGvawegM4BUpn49SwquId+lUrEA+MgZNIJo4U2WQcofmNWTLPiPqn97MpTXwNmcAWah
+ NaVropDGlyTn/zEx5OLJtACNijOicUkMrMttvwpitetNy2ukDKrVuySHaWHi7k9VlRA4
+ arw0luW0WxFbO+tb/EUMza2ise5lbEMdhofdfD6kW8aWOAxetcKK2fprJXR3RFq5tOWh
+ +TJHu7HkP4B1RnM40IA5rHg2PVRgUWIEfFRPTxFvvXP3JqeOILEGrzgWs65NgeJ5lbv3
+ pnBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=TMHsumP1XrX9UuoQgf0ckY34OxQzviClAicldSz/+68=;
- b=LEfdC/rrpBAivgStjY/r9Lp8jStpgnspxt+3dpjDJPxtYmRybFv8zMX3LrWP4jmB6J
- EAcUnwv30u6Cyfr+RheX2Q6t0qinSZovp1zJQ28zIO6JL4JLyiRUiSwUttM5FrAIuvwM
- uNIEUlNomeAC148RQGbvOMJx/e6aOq28YEpi9k2Y98u2TqiyhbWpWieWdfQsRK7X9h8r
- 8C6rVsh5xmtcBz7stsAkyPYN0Uw6TMS6yU1VxQa7zIAPTfmguig1CKh2vPW8ilQYo/hi
- Q9753IEU7GT/Bg6QLJ3L+DiGyC1CXaTvJXIfM4bXYIEOKW/BgdolrEEDiHXZCjQZPMWq
- zKNw==
-X-Gm-Message-State: AOAM532Zrkh0Gg7gq7rMENjUV/MtiiwxXB9Xa1rrcljeci+C4oABXkPm
- dI4vd9UIGgFlDxTabREKIxuIlrgsqU/7pd9vOF4=
-X-Google-Smtp-Source: ABdhPJy4K8AqHHjyx6RwPHBHcaQePIjgagL2wk4GcR9sr4oIKZyRfiT4vA9qEQePeIqfr0uwVgU/QOLiivEPH7tfwRY=
-X-Received: by 2002:a25:80d4:: with SMTP id c20mr10596076ybm.345.1630857595131; 
- Sun, 05 Sep 2021 08:59:55 -0700 (PDT)
+ bh=8JiFZyWesJ/cnZPHB6nkGV3ej4AEy8eADFUuYkjt8Uw=;
+ b=hcE8Q8E9EDajQGMLpAJdwbcZhEOfSJ+Rp7/ZqpJ8Ql6RfYnb+VisDVUBlgCWiRBkHb
+ xYJyUm0NToEwTxs3h99Rnll7XSXe+cqyoiOLij6IcanJdXm0r/Vl6OLN2dC4eGGaBGUp
+ IivFuyz16D07YL6rWO3lTza9oXEnADiBjN+RKzkckjkH1D8Bpr3n6SsklXaKdT5N8Mw8
+ rQyfAzSBYXZGYgr4PypcGld6A3mHZjG1aOGA2V/jaF8mTCFiAtqsWImEBqPzL1KbRd1K
+ 6w8mr9kR2kRBHaKNIhsSdvJwxbjFhqsudnFz4h6pnnj+cHf0xWMhagSh452KBM5ru5mw
+ m7hw==
+X-Gm-Message-State: AOAM533N3Pewc0L/pU/B4oaqeQgA7lbar46g+9MjtLQH7RbB2CGeDklv
+ CxiK4fe0MK4T7h3c/JFK3aTXRcRn+8MISaH3ZMM=
+X-Google-Smtp-Source: ABdhPJz8u1T/JOYKVOHBOHXDh8fMw3Ov43k7Ki294VVIMjWxCCcs++H9qIP8qzFPn6qHkkshs8WcLcI/QjHe1Iy6YNk=
+X-Received: by 2002:a05:6902:120a:: with SMTP id
+ s10mr9666243ybu.293.1630857765198; 
+ Sun, 05 Sep 2021 09:02:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210904235542.1092641-1-f4bug@amsat.org>
- <20210904235542.1092641-19-f4bug@amsat.org>
-In-Reply-To: <20210904235542.1092641-19-f4bug@amsat.org>
+References: <20210905000429.1097336-1-f4bug@amsat.org>
+In-Reply-To: <20210905000429.1097336-1-f4bug@amsat.org>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 5 Sep 2021 23:59:44 +0800
-Message-ID: <CAEUhbmWa54h8GQNhczC9a+5OLXMdUwaAJYBq2+FdG1dAWO6BQQ@mail.gmail.com>
-Subject: Re: [PATCH v2 18/24] target/riscv: Restrict cpu_exec_interrupt()
- handler to sysemu
+Date: Mon, 6 Sep 2021 00:02:34 +0800
+Message-ID: <CAEUhbmW6f+i825EuX6GFhDZc3XELthdSJW4rrU_AbX8awEo3Nw@mail.gmail.com>
+Subject: Re: [PATCH] user: Mark cpu_loop() with noreturn attribute
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb33.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb30.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -80,25 +79,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
+Cc: Kyle Evans <kevans@freebsd.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Warner Losh <imp@bsdimp.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 5, 2021 at 8:06 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+On Sun, Sep 5, 2021 at 8:18 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
 > wrote:
 >
-> Restrict cpu_exec_interrupt() and its callees to sysemu.
+> cpu_loop() never exits, so mark it with QEMU_NORETURN.
 >
-> Reviewed-by: Warner Losh <imp@bsdimp.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  target/riscv/cpu.h        | 2 +-
->  target/riscv/cpu.c        | 2 +-
->  target/riscv/cpu_helper.c | 5 -----
->  3 files changed, 2 insertions(+), 7 deletions(-)
+>  bsd-user/qemu.h   | 2 +-
+>  linux-user/qemu.h | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 >
 
 Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
