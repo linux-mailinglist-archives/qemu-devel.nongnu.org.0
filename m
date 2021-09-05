@@ -2,80 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFB3F400EB7
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 10:41:05 +0200 (CEST)
-Received: from localhost ([::1]:56812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01407400EB8
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 10:52:29 +0200 (CEST)
+Received: from localhost ([::1]:34432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMni4-0001qA-JF
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 04:41:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34330)
+	id 1mMnt1-0006WD-UD
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 04:52:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMngS-00010B-Gh
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 04:39:24 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33624)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMngQ-0000jg-To
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 04:39:24 -0400
-Received: by mail-wr1-x436.google.com with SMTP id b10so5038906wru.0
- for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 01:39:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Zr5j0NGFJBIVNj98TsAO8Fi3qIacsELtevlMCVaCERE=;
- b=mORnKW3dXCIZAUfPgIHFj+mtmwlm3nfTMaCQzKb13ZdMeM1OyH2TeoBuCYASgQPYXF
- gZ4sftdnpBckC0K9tM0AchsbH7yYOYILXPTCc14AgXVepAOjmgMSZjqXZzmDWmoxQUGL
- FXFlqh1qJGcGu45KhpV6e7num/HWkeTDz/E38Evpu7WGSKnlBkC8esCLSuacErJ28hEs
- AX3owFgg1izCR5SQj7gZ/NC4BHnu4x7jAA8cuD+U8KD6lQrujQs7m+XKS3Vu68T4w2bp
- 6wOpdBFZ5BZmYG5Hu6lFUaleHH32rPOmqB8j3QJmTJUw/HacBWKbbCGEhfDywpNOEQ+F
- Kzbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Zr5j0NGFJBIVNj98TsAO8Fi3qIacsELtevlMCVaCERE=;
- b=pd9vnHMc+QooWh48LIURuZev6mTSrE5oDiHf86K7irmvDHHwOqcfwHix9GRo9kVmMD
- kImjPiWYXD8HFfelZaAhL+7gvMPC7hZ7pm2gaj/akgujXDxjTuvVWkAnIMKZUz6s2Ck2
- lFmlCYy0OIL/rnwyJlTuoC9+Ft0rLg2N/y0BvtTXhGWOlHTo53Uj/LC3qpbNqDKNPQHq
- J9rGEOFGg0tYblDqJwYGopugEFt9GogL74U4nUmP4Rxo/PnsqZl7dgzr1hYSuzKT/ejn
- DC41XIQ/Bf67rQcB8xaAYjEtDM0npsTqrkdzBGYnF5mNP/tO7Ep0LWYV7E8QIXpbt0MP
- ZbgA==
-X-Gm-Message-State: AOAM533yAGAx7WDNEGJz2xoLeIuxWtSiIrZEya+aMeb41RYBlMRUNzS5
- SMwqBjuM3NZ51CugddytwCfEjw==
-X-Google-Smtp-Source: ABdhPJyb0kxi3ktYUOiTNZf0Bp4N5lQiiKlh5WdhjvbLdFGoxzZZ2LBZ5GH05wD/I5LHEG9ThmNbpQ==
-X-Received: by 2002:adf:cf05:: with SMTP id o5mr7314468wrj.270.1630831161480; 
- Sun, 05 Sep 2021 01:39:21 -0700 (PDT)
-Received: from [192.168.8.105] (206.red-2-143-78.dynamicip.rima-tde.net.
- [2.143.78.206])
- by smtp.gmail.com with ESMTPSA id j20sm4484675wrb.5.2021.09.05.01.39.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 Sep 2021 01:39:20 -0700 (PDT)
-Subject: Re: [PATCH v4 09/21] target/loongarch: Add fixed point extra
- instruction translation
-To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
-References: <1630586467-22463-1-git-send-email-gaosong@loongson.cn>
- <1630586467-22463-10-git-send-email-gaosong@loongson.cn>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c0c11b58-8337-2a7b-b5ac-b219b0bc2332@linaro.org>
-Date: Sun, 5 Sep 2021 10:39:15 +0200
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mMns5-0005rO-JH
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 04:51:25 -0400
+Received: from smtpout2.3005.mail-out.ovh.net ([46.105.54.81]:56625)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mMns3-0002FY-Dw
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 04:51:25 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.97])
+ by mo3005.mail-out.ovh.net (Postfix) with ESMTPS id EF3BB13B207;
+ Sun,  5 Sep 2021 08:51:12 +0000 (UTC)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Sun, 5 Sep
+ 2021 10:51:12 +0200
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R004331eaad8-828d-4545-a9b1-1e56699ed50d,
+ 66A9BF958F2B7C6001B822A929017098407F6BEC) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PULL 00/14] aspeed queue
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, Peter Maydell
+ <peter.maydell@linaro.org>
+References: <20210903194108.131403-1-clg@kaod.org>
+ <beab1f50-d8f5-b3d3-5612-15e5f74eb961@amsat.org>
+ <9ef56813-94f9-a1cb-aba5-9d2e2a081d23@kaod.org>
+ <24abcdb3-e666-477b-a3e7-746326640bca@amsat.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <cb42b5f4-0484-2192-5c93-fe20bbb39ef1@kaod.org>
+Date: Sun, 5 Sep 2021 10:51:11 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <1630586467-22463-10-git-send-email-gaosong@loongson.cn>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <24abcdb3-e666-477b-a3e7-746326640bca@amsat.org>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -58
-X-Spam_score: -5.9
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: c9dcaa99-aa07-40a7-af18-1d8f4820acba
+X-Ovh-Tracer-Id: 9583660009386838889
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudefuddgtdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheeutdehgefhvdehtdeuleetgedvfeeukedtfeeihfffffeiuddutdduhffgvedtnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepfhegsghughesrghmshgrthdrohhrgh
+Received-SPF: pass client-ip=46.105.54.81; envelope-from=clg@kaod.org;
+ helo=smtpout2.3005.mail-out.ovh.net
+X-Spam_score_int: -56
+X-Spam_score: -5.7
 X-Spam_bar: -----
-X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.832,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.832,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,41 +73,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, yangxiaojuan@loongson.cn, david@redhat.com,
- bin.meng@windriver.com, mark.cave-ayland@ilande.co.uk,
- aleksandar.rikalo@syrmia.com, jcmvbkbc@gmail.com, tsimpson@quicinc.com,
- alistair.francis@wdc.com, edgar.iglesias@gmail.com, chenhuacai@gmail.com,
- philmd@redhat.com, atar4qemu@gmail.com, thuth@redhat.com, ehabkost@redhat.com,
- groug@kaod.org, maobibo@loongson.cn, mrolnik@gmail.com, shorne@gmail.com,
- alex.bennee@linaro.org, david@gibson.dropbear.id.au,
- kbastian@mail.uni-paderborn.de, crwulff@gmail.com, laurent@vivier.eu,
- palmer@dabbelt.com, pbonzini@redhat.com, aurelien@aurel32.net
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
+ Peter Delevoryas <pdel@fb.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/2/21 2:40 PM, Song Gao wrote:
-> This patch implement fixed point extra instruction translation.
+On 9/5/21 1:03 AM, Philippe Mathieu-Daudé wrote:
+> On 9/4/21 7:33 AM, Cédric Le Goater wrote:
+>> On 9/3/21 10:41 PM, Philippe Mathieu-Daudé wrote:
+>>> Hi Peter,
+>>>
+>>> On 9/3/21 9:40 PM, Cédric Le Goater wrote:
+>>>> The following changes since commit 8880cc4362fde4ecdac0b2092318893118206fcf:
+>>>>
+>>>>   Merge remote-tracking branch 'remotes/cschoenebeck/tags/pull-9p-20210902' into staging (2021-09-03 08:27:38 +0100)
+>>>>
+>>>> are available in the Git repository at:
+>>>>
+>>>>   https://github.com/legoater/qemu/ tags/pull-aspeed-20210903
+>>>>
+>>>> for you to fetch changes up to 907796622b2a6b945c87641d94e254ac898b96ae:
+>>>>
+>>>>   hw/arm/aspeed: Add Fuji machine type (2021-09-03 18:43:16 +0200)
+>>>>
+>>>> ----------------------------------------------------------------
+>>>> Aspeed patches :
+>>>>
+>>>> * MAC enablement fixes (Guenter)
+>>>> * Watchdog  and pca9552 fixes (Andrew)
+>>>> * GPIO fixes (Joel)
+>>>> * AST2600A3 SoC and DPS310 models (Joel)
+>>>> * New Fuji BMC machine (Peter)
+>>>>
+>>>> ----------------------------------------------------------------
+>>>
+>>>> Peter Delevoryas (3):
+>>>>       hw/arm/aspeed: Initialize AST2600 UART clock selection registers
+>>>>       hw/arm/aspeed: Allow machine to set UART default
+>>>>       hw/arm/aspeed: Add Fuji machine type
+>>>
+>>> I have a pending question with the last patch, do you mind holding
+>>> this PR until it is resolved with Cédric and the patch author please?
+>>>
+>>> Thanks,
+>>>
+>>> Phil.
+>>>
+>>
+>> I guess we can drop the following from the commit log : 
+>>
+>> 	git clone https://github.com/facebook/openbmc
+>> 	cd openbmc
+>> 	./sync_yocto.sh
+>> 	source openbmc-init-build-env fuji build-fuji
+>> 	bitbake fuji-image
+>> 	dd if=/dev/zero of=/tmp/fuji.mtd bs=1M count=128
+>> 	dd if=./tmp/deploy/images/fuji/flash-fuji of=/tmp/fuji.mtd \
+>> 	    bs=1k conv=notrunc
+>> 	
+>> 	git clone --branch aspeed-next https://github.com/peterdelevoryas/qemu
+>> 	cd qemu
+>> 	./configure --target-list=arm-softmmu --disable-vnc
+>> 	make -j $(nproc)
+>> 	./build/arm-softmmu/qemu-system-arm \
+>> 	    -machine fuji-bmc \
+>> 	    -drive file=/tmp/fuji.mtd,format=raw,if=mtd \
+>> 	    -serial stdio \
+>> 	    -nic user,hostfwd=::2222-:22
+>> 	sshpass -p 0penBmc ssh root@localhost -p 2222
 > 
-> This includes:
-> - CRC[C].W.{B/H/W/D}.W
-> - SYSCALL
-> - BREAK
-> - ASRT{LE/GT}.D
-> - RDTIME{L/H}.W, RDTIME.D
-> - CPUCFG
+> Sounds good. Eventually document that in docs/system/arm/aspeed.rst
+> in a follow up patch?
 > 
-> Signed-off-by: Song Gao<gaosong@loongson.cn>
-> Signed-off-by: XiaoJuan Yang<yangxiaojuan@loongson.cn>
-> ---
->   target/loongarch/helper.h                 |  4 ++
->   target/loongarch/insn_trans/trans_extra.c | 88 +++++++++++++++++++++++++++++++
->   target/loongarch/insns.decode             | 25 +++++++++
->   target/loongarch/op_helper.c              | 26 +++++++++
->   target/loongarch/translate.c              |  1 +
->   5 files changed, 144 insertions(+)
->   create mode 100644 target/loongarch/insn_trans/trans_extra.c
+> Regards,
+> 
+> Phil.
+> 
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-r~
+Peter D, 
+
+Could you please resend the "hw/arm/aspeed: Add Fuji machine type"
+patch addressing Phil's comment. I will resend a PR with the 
+update.
+
+Thanks,
+
+C. 
+
+
+
+
+
 
