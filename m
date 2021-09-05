@@ -2,42 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A47E9401020
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 16:17:35 +0200 (CEST)
-Received: from localhost ([::1]:56906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C478640101F
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 16:17:23 +0200 (CEST)
+Received: from localhost ([::1]:56750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMsxi-0003LX-Jo
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 10:17:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49074)
+	id 1mMsxW-0003FJ-G7
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 10:17:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukas.junger@greensocs.com>)
- id 1mMsqK-0003rn-VZ
+ id 1mMsqM-0003sl-C8
  for qemu-devel@nongnu.org; Sun, 05 Sep 2021 10:09:58 -0400
-Received: from beetle.greensocs.com ([5.135.226.135]:38828)
+Received: from beetle.greensocs.com ([5.135.226.135]:38840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lukas.junger@greensocs.com>)
- id 1mMsqI-000788-CN
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 10:09:55 -0400
+ id 1mMsqI-0007Av-CS
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 10:09:56 -0400
 Received: from fornax.fritz.box (b2b-109-90-5-113.unitymedia.biz
  [109.90.5.113])
- by beetle.greensocs.com (Postfix) with ESMTPSA id 425DF20787;
- Sun,  5 Sep 2021 14:09:49 +0000 (UTC)
+ by beetle.greensocs.com (Postfix) with ESMTPSA id 3765C21A87;
+ Sun,  5 Sep 2021 14:09:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
- s=mail; t=1630850989;
+ s=mail; t=1630850991;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=fY8kNs7ppq0GLwT8JV4132+OVKvLEDFzph4aJ8wV9rY=;
- b=aVxGUTWG6tFWZyoqVi2tpP3MsmezqhAVbocN7vLWhck0hpCQPZTa2N/a/NljKOuaBo8KQW
- 0FwDxrhCnGnGNEpa+ps1D1va+H3kX7lWedQoz8MJ/5VVcXi/907xy/k+pnk4OKvwbAXL9u
- b65hYq7JRNztVp0viy2gijKR4WD32EQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RQrD4edJwFtfpEOqadBwYXICxJpsNChk0HjmsBC4KqM=;
+ b=f31JP257xLtcEGT56BEr+VzI8PwdHMx8ZeacSv+26TpX+fBYNyai1SAV+uiCh7o23Lel5O
+ VpXsP7JmicSdaTjcfJ/hCHCyguv3/h6q9GFt1ZJi598NZn+ih5MsNlwJx6xDnPZZMZRdve
+ SInp0o9egmEfLR+fVPITYfe9zQPewAg=
 From: =?UTF-8?q?Lukas=20J=C3=BCnger?= <lukas.junger@greensocs.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/1] Add missing function names to symbol list
-Date: Sun,  5 Sep 2021 16:09:38 +0200
-Message-Id: <20210905140939.638928-1-lukas.junger@greensocs.com>
+Subject: [PATCH 1/1] plugins/: Add missing functions to symbol list
+Date: Sun,  5 Sep 2021 16:09:39 +0200
+Message-Id: <20210905140939.638928-2-lukas.junger@greensocs.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210905140939.638928-1-lukas.junger@greensocs.com>
+References: <20210905140939.638928-1-lukas.junger@greensocs.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -67,26 +70,36 @@ Cc: erdnaxe@crans.org, ma.mandourr@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+Some functions of the plugin API were missing in
+the symbol list. However, they are all used by
+the contributed example plugins. QEMU fails to
+load the plugin if the function symbol is not
+exported.
 
-I have been trying to use the hwprofile and cache plugin on
-qemu-system-riscv64. They failed to load with an undefined
-symbol error. It looks like some of the plugin API functions
-are missing from the symbol list, so I added them. Afterwards
-the plugins worked (eventhough the cache plugin is segfaulting
-on shutdown, but that is a separate, unrelated issue).
-
-Hope that's okay.
-
-BR,
-Lukas
-
-Lukas Jünger (1):
-  plugins/: Add missing functions to symbol list
-
+Signed-off-by: Lukas Jünger <lukas.junger@greensocs.com>
+---
  plugins/qemu-plugins.symbols | 3 +++
  1 file changed, 3 insertions(+)
 
+diff --git a/plugins/qemu-plugins.symbols b/plugins/qemu-plugins.symbols
+index 67b309ea2a..4834756ba3 100644
+--- a/plugins/qemu-plugins.symbols
++++ b/plugins/qemu-plugins.symbols
+@@ -1,11 +1,14 @@
+ {
+   qemu_plugin_bool_parse;
+   qemu_plugin_get_hwaddr;
++  qemu_plugin_hwaddr_device_name;
+   qemu_plugin_hwaddr_is_io;
++  qemu_plugin_hwaddr_phys_addr;
+   qemu_plugin_insn_data;
+   qemu_plugin_insn_disas;
+   qemu_plugin_insn_haddr;
+   qemu_plugin_insn_size;
++  qemu_plugin_insn_symbol;
+   qemu_plugin_insn_vaddr;
+   qemu_plugin_mem_is_big_endian;
+   qemu_plugin_mem_is_sign_extended;
 -- 
 2.31.1
 
