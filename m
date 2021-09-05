@@ -2,106 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7092400E81
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 09:08:57 +0200 (CEST)
-Received: from localhost ([::1]:48370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3F4400E95
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 09:32:59 +0200 (CEST)
+Received: from localhost ([::1]:60342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMmGu-0004MV-Bm
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 03:08:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54176)
+	id 1mMmeA-00053J-Cv
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 03:32:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mMmG4-0003fX-6h
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 03:08:04 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:61662)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1mMmcB-0004Ac-Ny; Sun, 05 Sep 2021 03:30:56 -0400
+Received: from hera.aquilenet.fr ([185.233.100.1]:53224)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mMmG2-0000D6-2S
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 03:08:03 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 18574QPC144992; Sun, 5 Sep 2021 03:07:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=Y6k5gW/3UAInolLEbtJFwheUeA46SrVLgCf7P722ELU=;
- b=TBncN4iSjpCYU8TVHcYJuWkO6U8VNUQGJOOe2dndaTaADtXbvggL6M6IaEP+3JW9fTrs
- ah+CbUHGOlJPWBSA/FRfqCw51Rxl4Gbl8T8Yc71fhiGyUqWs/zuMr5tXiDobjOFZ8Hfi
- LqtAfgdS1j49ia+y0gvDPFRX6l4w9BdjEbIBDorFo/YCLwYt79WaD8Dg6tML5VxFhgtv
- whuFhfUPN+65tzHNjVPrj/hYREiG3Oq/B79B5cgRII8qwftdMUJXjbp+qDYXA3BlhqPG
- qGjhgGk5stVwR8KvC+c2H5VwN88wR2ALf/Em6YX+84poCiLEnAflZeyckCh3CeDruBby og== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3avnsx2rts-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 05 Sep 2021 03:07:53 -0400
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 185752RY146150;
- Sun, 5 Sep 2021 03:07:52 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3avnsx2rth-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 05 Sep 2021 03:07:52 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 185779eD009118;
- Sun, 5 Sep 2021 07:07:51 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma01dal.us.ibm.com with ESMTP id 3av0eagqg0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 05 Sep 2021 07:07:51 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 18577o9d47710514
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 5 Sep 2021 07:07:50 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1A41FC6055;
- Sun,  5 Sep 2021 07:07:50 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 03C38C6059;
- Sun,  5 Sep 2021 07:07:45 +0000 (GMT)
-Received: from [9.65.84.185] (unknown [9.65.84.185])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Sun,  5 Sep 2021 07:07:45 +0000 (GMT)
-Subject: Re: [RFC PATCH v2 04/12] i386/sev: initialize SNP context
-To: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org
-References: <20210826222627.3556-1-michael.roth@amd.com>
- <20210826222627.3556-5-michael.roth@amd.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-Message-ID: <48bcd5d9-c5da-1ae3-4943-4c3bd9a91c7b@linux.ibm.com>
-Date: Sun, 5 Sep 2021 10:07:44 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1mMmc9-0002KY-Je; Sun, 05 Sep 2021 03:30:55 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by hera.aquilenet.fr (Postfix) with ESMTP id BF2BAAD;
+ Sun,  5 Sep 2021 09:30:50 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+ by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id HQSNkEWcVZoz; Sun,  5 Sep 2021 09:30:50 +0200 (CEST)
+Received: from begin (unknown [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id 9E4DF61;
+ Sun,  5 Sep 2021 09:30:49 +0200 (CEST)
+Received: from samy by begin with local (Exim 4.95-RC2)
+ (envelope-from <samuel.thibault@gnu.org>) id 1mMmc4-006PdP-9K;
+ Sun, 05 Sep 2021 09:30:48 +0200
+Date: Sun, 5 Sep 2021 09:30:48 +0200
+From: Samuel Thibault <samuel.thibault@gnu.org>
+To: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH] ide: Cap LBA28 capacity announcement to 2^28-1
+Message-ID: <20210905073048.p2xum6kwrvgooxre@begin>
+References: <20210824104344.3878849-1-samuel.thibault@ens-lyon.org>
 MIME-Version: 1.0
-In-Reply-To: <20210826222627.3556-5-michael.roth@amd.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: DKXvXnzlucK3YWn_Ttdvu1a7t5SQ8P9S
-X-Proofpoint-ORIG-GUID: FQVOPd9eDpQ9hXK8rFTbIBU8rsmjN6Ev
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-09-04_09:2021-09-03,
- 2021-09-04 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- bulkscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015
- priorityscore=1501 spamscore=0 adultscore=0 mlxlogscore=999 mlxscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2108310000 definitions=main-2109050047
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.832,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210824104344.3878849-1-samuel.thibault@ens-lyon.org>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
+X-Spamd-Bar: --
+Authentication-Results: hera.aquilenet.fr
+X-Rspamd-Server: hera
+X-Rspamd-Queue-Id: BF2BAAD
+X-Spamd-Result: default: False [-2.50 / 15.00]; ARC_NA(0.00)[];
+ RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
+ RCPT_COUNT_THREE(0.00)[4]; TO_DN_SOME(0.00)[];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
+ HAS_ORG_HEADER(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
+ RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
+ MID_RHS_NOT_FQDN(0.50)[]; BAYES_HAM(-3.00)[100.00%]
+Received-SPF: softfail client-ip=185.233.100.1;
+ envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,165 +73,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Eric Blake <eblake@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Dov Murik <dovmurik@linux.ibm.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: damien@zamaudio.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Michael,
+Ping?
 
-On 27/08/2021 1:26, Michael Roth wrote:
-> From: Brijesh Singh <brijesh.singh@amd.com>
+Samuel Thibault, le mar. 24 août 2021 12:43:44 +0200, a ecrit:
+> The LBA28 capacity (at offsets 60/61 of identification) is supposed to
+> express the maximum size supported by LBA28 commands. If the device is
+> larger than this, we have to cap it to 2^28-1.
 > 
-> When SEV-SNP is enabled, the KVM_SNP_INIT command is used to initialize
-> the platform. The command checks whether SNP is enabled in the KVM, if
-> enabled then it allocates a new ASID from the SNP pool and calls the
-> firmware to initialize the all the resources.
+> At least NetBSD happens to be using this value to determine whether to use
+> LBA28 or LBA48 for its commands, using LBA28 for sectors that don't need
+> LBA48. This commit thus fixes NetBSD access to disks larger than 128GiB.
 > 
-> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
-> Signed-off-by: Michael Roth <michael.roth@amd.com>
+> Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 > ---
->  target/i386/sev-stub.c |  6 ++++++
->  target/i386/sev.c      | 27 ++++++++++++++++++++++++---
->  target/i386/sev_i386.h |  1 +
->  3 files changed, 31 insertions(+), 3 deletions(-)
+>  hw/ide/core.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 > 
-> diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
-> index 0227cb5177..e4fb8e882e 100644
-> --- a/target/i386/sev-stub.c
-> +++ b/target/i386/sev-stub.c
-> @@ -81,3 +81,9 @@ sev_get_attestation_report(const char *mnonce, Error **errp)
->      error_setg(errp, "SEV is not available in this QEMU");
->      return NULL;
->  }
-> +
-> +bool
-> +sev_snp_enabled(void)
-> +{
-> +    return false;
-> +}
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index ba08b7d3ab..b8bd6ed9ea 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -614,12 +614,21 @@ sev_enabled(void)
->      return !!object_dynamic_cast(OBJECT(cgs), TYPE_SEV_COMMON);
->  }
->  
-> +bool
-> +sev_snp_enabled(void)
-> +{
-> +    ConfidentialGuestSupport *cgs = MACHINE(qdev_get_machine())->cgs;
-> +
-> +    return !!object_dynamic_cast(OBJECT(cgs), TYPE_SEV_SNP_GUEST);
-> +}
-> +
->  bool
->  sev_es_enabled(void)
+> diff --git a/hw/ide/core.c b/hw/ide/core.c
+> index fd69ca3167..e28f8aad61 100644
+> --- a/hw/ide/core.c
+> +++ b/hw/ide/core.c
+> @@ -98,8 +98,12 @@ static void put_le16(uint16_t *p, unsigned int v)
+>  static void ide_identify_size(IDEState *s)
 >  {
->      ConfidentialGuestSupport *cgs = MACHINE(qdev_get_machine())->cgs;
->  
-> -    return sev_enabled() && (SEV_GUEST(cgs)->policy & SEV_POLICY_ES);
-> +    return sev_snp_enabled() ||
-> +            (sev_enabled() && SEV_GUEST(cgs)->policy & SEV_POLICY_ES);
->  }
->  
->  uint64_t
-> @@ -1074,6 +1083,7 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
->      uint32_t ebx;
->      uint32_t host_cbitpos;
->      struct sev_user_data_status status = {};
-> +    void *init_args = NULL;
->  
->      if (!sev_common) {
->          return 0;
-> @@ -1126,7 +1136,18 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
->      sev_common->api_major = status.api_major;
->      sev_common->api_minor = status.api_minor;
-
-Not visible here in the context: the code here is using the
-SEV_PLATFORM_STATUS command to get the build_id, api_major, and api_minor.
-
-I see that SNP has a new command SNP_PLATFORM_STATUS, which fills a
-struct sev_data_snp_platform_status (hmmm, I can't find the struct's
-definition; I assume it should look like Table 38 in 8.3.2 in SNP FW ABI
-document).
-
-My questions are:
-
-1. Is it OK to call the "legacy" SEV_PLATFORM_STATUS when about to init
-an SNP guest?
-2. Do we want to save some info like installed TCB version and reported
-TCB version, and maybe other fields from SNP platform status?
-3. Should we check the state field in the platform status?
-
-
-
->  
-> -    if (sev_es_enabled()) {
-> +    if (sev_snp_enabled()) {
-> +        SevSnpGuestState *sev_snp_guest = SEV_SNP_GUEST(sev_common);
-> +        if (!kvm_kernel_irqchip_allowed()) {
-> +            error_report("%s: SEV-SNP guests require in-kernel irqchip support",
-> +                         __func__);
-
-Most errors in this function use error_setg(errp, ...).  This should follow.
-
-
-> +            goto err;
-> +        }
-> +
-> +        cmd = KVM_SEV_SNP_INIT;
-> +        init_args = (void *)&sev_snp_guest->kvm_init_conf;
-> +
-> +    } else if (sev_es_enabled()) {
->          if (!kvm_kernel_irqchip_allowed()) {
->              error_report("%s: SEV-ES guests require in-kernel irqchip support",
->                           __func__);
-
-Not part of this patch, but this error_report (and another one in the
-SEV-ES case) should be converted to error_setg similarly.  Maybe add a
-separate patch for fixing this for SEV-ES.
-
-
-
-> @@ -1145,7 +1166,7 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
->      }
->  
->      trace_kvm_sev_init();
-
-Suggestions:
-
-1. log the guest type (SEV / SEV-ES / SEV-SNP)
-2. log the SNP init flags value when initializing an SNP guest
-
-
--Dov
-
-> -    ret = sev_ioctl(sev_common->sev_fd, cmd, NULL, &fw_error);
-> +    ret = sev_ioctl(sev_common->sev_fd, cmd, init_args, &fw_error);
->      if (ret) {
->          error_setg(errp, "%s: failed to initialize ret=%d fw_error=%d '%s'",
->                     __func__, ret, fw_error, fw_error_to_str(fw_error));
-> diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
-> index ae6d840478..e0e1a599be 100644
-> --- a/target/i386/sev_i386.h
-> +++ b/target/i386/sev_i386.h
-> @@ -29,6 +29,7 @@
->  #define SEV_POLICY_SEV          0x20
->  
->  extern bool sev_es_enabled(void);
-> +extern bool sev_snp_enabled(void);
->  extern uint64_t sev_get_me_mask(void);
->  extern SevInfo *sev_get_info(void);
->  extern uint32_t sev_get_cbit_position(void);
+>      uint16_t *p = (uint16_t *)s->identify_data;
+> -    put_le16(p + 60, s->nb_sectors);
+> -    put_le16(p + 61, s->nb_sectors >> 16);
+> +    int64_t nb_sectors_lba28 = s->nb_sectors;
+> +    if (nb_sectors_lba28 >= 1 << 28) {
+> +        nb_sectors_lba28 = (1 << 28) - 1;
+> +    }
+> +    put_le16(p + 60, nb_sectors_lba28);
+> +    put_le16(p + 61, nb_sectors_lba28 >> 16);
+>      put_le16(p + 100, s->nb_sectors);
+>      put_le16(p + 101, s->nb_sectors >> 16);
+>      put_le16(p + 102, s->nb_sectors >> 32);
+> -- 
+> 2.32.0
 > 
 
