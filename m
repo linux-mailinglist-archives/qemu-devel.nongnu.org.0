@@ -2,71 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4BFE4011FE
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 00:47:20 +0200 (CEST)
-Received: from localhost ([::1]:42884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A7BE401249
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 02:58:07 +0200 (CEST)
+Received: from localhost ([::1]:41794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mN0v1-0001DD-80
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 18:47:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57436)
+	id 1mN2xa-0008N3-2j
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 20:58:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mN0st-0000Hq-4S
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 18:45:07 -0400
-Received: from mail-vk1-xa2e.google.com ([2607:f8b0:4864:20::a2e]:46948)
+ (Exim 4.90_1) (envelope-from <thierry.briot@gmail.com>)
+ id 1mN0mK-0007i1-PJ
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 18:38:20 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mN0sr-0004GU-3o
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 18:45:06 -0400
-Received: by mail-vk1-xa2e.google.com with SMTP id s71so1629644vke.13
- for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 15:45:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=izMuFldgOzJBRPVU71IqUaKcY6eBABAuTHtvzt81FmE=;
- b=Cjk6g6qpFxOAZCYU6Rrh+DATRF4Qkc0EJhh9wkXfgkeKzZWvhd+jRyMjaYPcgPF7od
- lElsiDidtENX1R/LfoypQ/AHpjgm88nv5h0n0JVtOiNQowNStWl2+0UWZAWHvAnQbMRh
- M93RWILf14oxZ0QSW3/FrkXRCbQZH6vk8NVKlURZlqEyYu16G6Q6wwvBkQhcqrQt1KdF
- iqujfkWmIajIRxwGjmykpmpQw789ah1tqcfKOyD4+YNKMtm/tfAYvK5fQf42y3eQuHwh
- RRsBHdxWN0yb9QCUrqX2+3IA/jhX1ohtpeotWmo7P/xYkqM5klVfa9gl7K7gt+GufHK3
- UEew==
+ (Exim 4.90_1) (envelope-from <thierry.briot@gmail.com>)
+ id 1mN0mI-0008Dw-Hq
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 18:38:20 -0400
+Received: by mail-wr1-x433.google.com with SMTP id q26so6030373wrc.7
+ for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 15:38:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:references:in-reply-to:subject:date:message-id
+ :mime-version:thread-index:content-language;
+ bh=IkzcMBko11xkWwrDNCp8t5KySAbV1jfWPBod9l23VCA=;
+ b=pfxNjM16Oi1dTgHz2JIsGgDgNlA/HvTVJmtI31L7Zu1Pm3i+OPkQA14nWGwDtfsjra
+ FM8hAGpI6hJuw+kMzwWs65YWPIcKOu+Q7kSqPnTMFjHACdZzBwH3FyucNf/Hv73Z0CRv
+ nRYtudsHrmwfUzlrnkN1SaHwYrp4YXcv4DcI92vG3QoQsAlqPfL9Z84aDYrbYPLRFSI9
+ dGdKFDECq7K/Ssdjo5+WcDpO5mZh6Ox+ft1hf38cAUAweixnwSXQ2g26T/SgCgn7l9hZ
+ HR2aKfjePg9VqV+HFvAvQqMz/cPmg3fLXAKbrK+1qgHXhAwwtLllonWML9gYDoTMiypP
+ zOAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=izMuFldgOzJBRPVU71IqUaKcY6eBABAuTHtvzt81FmE=;
- b=mzex5OxWvfpxFebc2DtrkbdV8Z4GMTQvaXzyir6SgYl3Cuu5WM6J8EeuYCJ03rD3UM
- pHlomCcWDNMGhDbaXogopoICvwJRcmElPUD7onLokd5XvgMJ5JaZVA/ZpL8KsZeCngl+
- ZLqFSwGbCBynigmazdj4JwZo5qgqFSd3ZqAymjWoZ3hbd2uiaGS4uw702UoELropqIeR
- 5xOpJMDfi5XqfR7BKaso6K5fcXkKQvcDKdrJFbZMaLxSVNb7aTCuVEL6KdVGFUhhGS47
- 7uUxtMJ3oTYGekuM6GTpIXcnMUmZlzWcVoGuSfb4RPRFVzrh1b4U45KJreBcDUyPKWjw
- BnFw==
-X-Gm-Message-State: AOAM532k0986OEac0YIbkjHed/ahteH9rdUQM6ZXbvVEtsxc2LKAAkzY
- t2msuquQ/WqGAI1tmZ7JASXQI+jD7kI7asi6023s+g==
-X-Google-Smtp-Source: ABdhPJwM8qBr8k8QNjEmb+S40of8omP7xQusJsupIexwBK/TDNMmDXl2xfCwdY+48lWv1CkzCbhJrf+My0cUI2oGGu4=
-X-Received: by 2002:a05:6122:d95:: with SMTP id
- bc21mr3850089vkb.23.1630881903513; 
- Sun, 05 Sep 2021 15:45:03 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:references:in-reply-to:subject:date
+ :message-id:mime-version:thread-index:content-language;
+ bh=IkzcMBko11xkWwrDNCp8t5KySAbV1jfWPBod9l23VCA=;
+ b=OuunM/6AWsXLgKPL0b+171zNMnx/upazbIY3CwnK3sdfc6BrhOm6kui5wKREXT8BCg
+ ktRchYE2dN9J/x/dOkBY0Cbq5IT2GJnR8wS0X+hbt+uiWYKU4twD3i8NgLIt2jYJKWTt
+ 58VBu0FnyFIOT8yxeZtSM+nYrABREzIBgSU88uqkUzfaQMqgv3cZo3KIUChbEZ0Ed0Vg
+ pIUtUvCgcoTNeB9opiC8QGtrHwHqBpRNjzlYtdNyU2MRtrQB/jDGGxjAGvW9hAtLqcPk
+ WQ4kHKh28Bag+dFBGZ2JcRbR9TDF0gw73RgQNZ8R1/1LyZf4SIac3VXVDpMSwrIKBitB
+ GnzQ==
+X-Gm-Message-State: AOAM5302++Lv+Ddy7OGSduO7AMvqkF1LcjAVGWDgecMMpx5n7fiChPHB
+ WChnrnCW5vWkQvos8H7zSqY=
+X-Google-Smtp-Source: ABdhPJxsPXW6tM4/eTenal1vd2pGEiOoEEguOZKyr9TCFuR0OtuPE8lIXU5Z6bmcG26UmYBMLAr86w==
+X-Received: by 2002:a5d:460a:: with SMTP id t10mr10142871wrq.147.1630881496591; 
+ Sun, 05 Sep 2021 15:38:16 -0700 (PDT)
+Received: from HYPERPC ([2a01:e0a:d:2430:6c92:a83c:a231:ff0b])
+ by smtp.gmail.com with ESMTPSA id q13sm5540291wmj.46.2021.09.05.15.38.15
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 05 Sep 2021 15:38:16 -0700 (PDT)
+From: <thierry.briot@gmail.com>
+To: "'Helge Deller'" <deller@gmx.de>,
+ "'Richard Henderson'" <richard.henderson@linaro.org>
+References: <00d401d7a230$56842630$038c7290$@gmail.com>
+ <CAFXwXrmt-u9iO_xY3y=ite1rPsvdm77w_s3Fw1G5C=fag0KP1w@mail.gmail.com>
+ <2db9d592-8115-1206-68e4-71a9fd25b45d@gmx.de>
+In-Reply-To: <2db9d592-8115-1206-68e4-71a9fd25b45d@gmx.de>
+Subject: RE: Virtualizing HP PA-RISC unix station other than B160L
+Date: Mon, 6 Sep 2021 00:38:16 +0200
+Message-ID: <019301d7a2a6$b853a7c0$28faf740$@gmail.com>
 MIME-Version: 1.0
-References: <20210902234729.76141-1-imp@bsdimp.com>
- <20210902234729.76141-34-imp@bsdimp.com>
- <CACNAnaGJnkZPyG6NEjfgj9A3sp5TxF7z6prAN_dU3fdd=wrhyA@mail.gmail.com>
-In-Reply-To: <CACNAnaGJnkZPyG6NEjfgj9A3sp5TxF7z6prAN_dU3fdd=wrhyA@mail.gmail.com>
-From: Warner Losh <imp@bsdimp.com>
-Date: Sun, 5 Sep 2021 16:44:52 -0600
-Message-ID: <CANCZdfpUVquC_8SHNke_hXf03vijZ=gWGjjf+Y4m0TsYzYUvEQ@mail.gmail.com>
-Subject: Re: [PATCH v3 33/43] bsd-user: Make cpu_model and cpu_type visible to
- all of main.c
-To: Kyle Evans <kevans@freebsd.org>
-Content-Type: multipart/alternative; boundary="00000000000087a4ad05cb47481f"
-Received-SPF: none client-ip=2607:f8b0:4864:20::a2e;
- envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa2e.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/alternative;
+ boundary="----=_NextPart_000_0194_01D7A2B7.7BDDD750"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQGUb40gNDzFkIqDggBqBagfozeKvgHOuwqzAlG9rwKr+2IZ8A==
+Content-Language: fr
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=thierry.briot@gmail.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, T_KAM_HTML_FONT_INVALID=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Sun, 05 Sep 2021 20:56:31 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,133 +89,295 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Warner Losh <imp@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, 'linux-parisc' <linux-parisc@vger.kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000087a4ad05cb47481f
-Content-Type: text/plain; charset="UTF-8"
+This is a multipart message in MIME format.
 
-On Sun, Sep 5, 2021 at 12:57 PM Kyle Evans <kevans@freebsd.org> wrote:
-
-> On Thu, Sep 2, 2021 at 6:53 PM <imp@bsdimp.com> wrote:
-> >
-> > From: Warner Losh <imp@FreeBSD.org>
-> >
-> > cpu_model and cpu_type will be used future commits, so move them from
-> > main() scoped to file scoped.
-> >
-> > Signed-off-by: Warner Losh <imp@bsdimp.com>
-> > Acked-by: Richard Henderson <richard.henderson@linaro.org>
-> > ---
-> >  bsd-user/main.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> I think we should reduce this one to just moving cpu_type. cpu_model
-> is really only used in main() to derive the appropriate cpu_type,
-> which we do use later
->
-
-Fair point. I think I'm going to drop this patch from the series (yea, back
-to 42)
-and work it out with you on the bsd-user 'blitz' branch and try again in a
-future
-patch round.
-
-Warner
-
-
-> >
-> > diff --git a/bsd-user/main.c b/bsd-user/main.c
-> > index 71fd9d5aba..50c8fdc1e2 100644
-> > --- a/bsd-user/main.c
-> > +++ b/bsd-user/main.c
-> > @@ -54,6 +54,8 @@
-> >  int singlestep;
-> >  unsigned long mmap_min_addr;
-> >  uintptr_t guest_base;
-> > +static const char *cpu_model;
-> > +static const char *cpu_type;
-> >  bool have_guest_base;
-> >  unsigned long reserved_va;
-> >
-> > @@ -201,8 +203,6 @@ static void save_proc_pathname(char *argv0)
-> >  int main(int argc, char **argv)
-> >  {
-> >      const char *filename;
-> > -    const char *cpu_model;
-> > -    const char *cpu_type;
-> >      const char *log_file = NULL;
-> >      const char *log_mask = NULL;
-> >      const char *seed_optarg = NULL;
-> > --
-> > 2.32.0
-> >
->
-
---00000000000087a4ad05cb47481f
-Content-Type: text/html; charset="UTF-8"
+------=_NextPart_000_0194_01D7A2B7.7BDDD750
+Content-Type: text/plain;
+	charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Sep 5, 2021 at 12:57 PM Kyle =
-Evans &lt;<a href=3D"mailto:kevans@freebsd.org">kevans@freebsd.org</a>&gt; =
-wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
-px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu, S=
-ep 2, 2021 at 6:53 PM &lt;<a href=3D"mailto:imp@bsdimp.com" target=3D"_blan=
-k">imp@bsdimp.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; From: Warner Losh &lt;imp@FreeBSD.org&gt;<br>
-&gt;<br>
-&gt; cpu_model and cpu_type will be used future commits, so move them from<=
-br>
-&gt; main() scoped to file scoped.<br>
-&gt;<br>
-&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
-t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
-&gt; Acked-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
-naro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 bsd-user/main.c | 4 ++--<br>
-&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-I think we should reduce this one to just moving cpu_type. cpu_model<br>
-is really only used in main() to derive the appropriate cpu_type,<br>
-which we do use later<br></blockquote><div><br></div><div>Fair point. I thi=
-nk=C2=A0I&#39;m going to drop this patch from the series (yea, back to 42)<=
-/div><div>and work it out with you on the bsd-user &#39;blitz&#39; branch a=
-nd try again in a future</div><div>patch round.</div><div><br></div><div>Wa=
-rner</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">
-&gt;<br>
-&gt; diff --git a/bsd-user/main.c b/bsd-user/main.c<br>
-&gt; index 71fd9d5aba..50c8fdc1e2 100644<br>
-&gt; --- a/bsd-user/main.c<br>
-&gt; +++ b/bsd-user/main.c<br>
-&gt; @@ -54,6 +54,8 @@<br>
-&gt;=C2=A0 int singlestep;<br>
-&gt;=C2=A0 unsigned long mmap_min_addr;<br>
-&gt;=C2=A0 uintptr_t guest_base;<br>
-&gt; +static const char *cpu_model;<br>
-&gt; +static const char *cpu_type;<br>
-&gt;=C2=A0 bool have_guest_base;<br>
-&gt;=C2=A0 unsigned long reserved_va;<br>
-&gt;<br>
-&gt; @@ -201,8 +203,6 @@ static void save_proc_pathname(char *argv0)<br>
-&gt;=C2=A0 int main(int argc, char **argv)<br>
-&gt;=C2=A0 {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 const char *filename;<br>
-&gt; -=C2=A0 =C2=A0 const char *cpu_model;<br>
-&gt; -=C2=A0 =C2=A0 const char *cpu_type;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 const char *log_file =3D NULL;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 const char *log_mask =3D NULL;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 const char *seed_optarg =3D NULL;<br>
-&gt; --<br>
-&gt; 2.32.0<br>
-&gt;<br>
-</blockquote></div></div>
+Hi everyone,
 
---00000000000087a4ad05cb47481f--
+=20
+
+Thank you for your answers.
+
+First of all, I made a mistake : the HP-UX 10.20 kernel (vmunix) is in =
+the /stand (not /boot) filesystem.
+
+I tried replacing /stand of the physical machine iso image with the =
+/stand filesytem of the emulated B160L because I supposed that drivers =
+are linked with the vmunix kernel. Maybe it's false.=20
+
+Furthermore, the /dev tree is important for dealing with the drivers.
+
+=20
+
+I will continue to search for which files are hardware related. Maybe =
+someone has done this research before ?
+
+=20
+
+Best regards,
+
+Thierry
+
+=20
+
+-----Message d'origine-----
+De : Helge Deller <deller@gmx.de>=20
+Envoy=C3=A9 : dimanche 5 septembre 2021 22:32
+=C3=80 : Richard Henderson <richard.henderson@linaro.org>; =
+thierry.briot@gmail.com
+Cc : qemu-devel@nongnu.org Developers <qemu-devel@nongnu.org>; =
+linux-parisc <linux-parisc@vger.kernel.org>
+Objet : Re: Virtualizing HP PA-RISC unix station other than B160L
+
+=20
+
+Hi Thierry,
+
+=20
+
+On 9/5/21 3:24 PM, Richard Henderson wrote:
+
+> On Sun, 5 Sep 2021, 10:30 , < =
+<mailto:thierry.briot@gmail.com%20%3cmailto:thierry.briot@gmail.com> =
+thierry.briot@gmail.com <mailto:thierry.briot@gmail.com>> wrote:
+
+> For my company (Nexter Systems, France), I am using qemu-system-hppa=20
+
+> for virtualizing HP PA-RISC workstations. That works well. You have=20
+
+> made a very good job !
+
+=20
+
+Thanks.
+
+=20
+
+> But my machines are other than B160L (for example B180L), and I have=20
+
+> to completely reinstall HP-UX on each emulated machine.
+
+> If I do an iso system disk image of my B180L, this iso isn't bootable=20
+
+> on qemu-system-hppa.
+
+>=20
+
+> Thus, my questions are :
+
+>=20
+
+> * Is it planned to emulate other HP unix workstations than B160L (for=20
+
+> example B180L) ?
+
+=20
+
+Maybe at some point a 64-bit capable system, e.g. C3000, and maybe an =
+older 32-bit system, e.g. 715/64.
+
+For the 64bit system additions to the emulated firmware and additional =
+64-bit qemu support is necessary, and for the 715/64 we need an =
+additional NCR710 SCSI driver.
+
+Both are lots of work.
+
+=20
+
+The B180L is exactly the same as the B160L, with just a faster CPU:
+
+ <https://www.openpa.net/systems/hp-visualize_b132l_b160l_b180l.html> =
+https://www.openpa.net/systems/hp-visualize_b132l_b160l_b180l.html
+
+=20
+
+> * Or, what changes should I make to my iso image to do it usable ? If=20
+
+> I replace the /boot /stand filesystem of the B180L image with the =
+B160L one,=20
+
+> I get a kernel panic at boot time.
+
+=20
+
+I don't know HP-UX so well. I could imagine that your physical machines =
+have different SCSI controller cards which are used by HP-UX, and which =
+aren't emulated in qemu yet. That's maybe why qemu can't boot your =
+already installed images.
+
+If you post the output I maybe can give more info.
+
+=20
+
+> Helge is the one that did all the hw support, I just did the CPU.
+
+> There are no real plans to do another machine. I'm not familiar with=20
+
+> the specs between the HP machines to know how much work that would be.
+
+=20
+
+There is a very good overview of the various HP machines at openPA:
+
+ <https://www.openpa.net/systems/> https://www.openpa.net/systems/
+
+=20
+
+Helge
+
+
+------=_NextPart_000_0194_01D7A2B7.7BDDD750
+Content-Type: text/html;
+	charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; charset=3Dutf-8"><meta =
+name=3DGenerator content=3D"Microsoft Word 15 (filtered =
+medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{mso-style-priority:99;
+	mso-style-link:"Texte brut Car";
+	margin:0cm;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+span.TextebrutCar
+	{mso-style-name:"Texte brut Car";
+	mso-style-priority:99;
+	mso-style-link:"Texte brut";
+	font-family:"Calibri",sans-serif;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;
+	mso-fareast-language:EN-US;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:70.85pt 70.85pt 70.85pt 70.85pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DFR =
+link=3D"#0563C1" vlink=3D"#954F72" style=3D'word-wrap:break-word'><div =
+class=3DWordSection1><p class=3DMsoPlainText>Hi =
+everyone,<o:p></o:p></p><p class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
+class=3DMsoPlainText>Thank you for your answers.<o:p></o:p></p><p =
+class=3DMsoPlainText>First of all, I made a mistake : the HP-UX 10.20 =
+kernel (vmunix) is in the /stand (not /boot) =
+filesystem.<o:p></o:p></p><p class=3DMsoPlainText>I tried replacing =
+/stand of the physical machine iso image with the /stand filesytem of =
+the emulated B160L because I supposed that drivers are linked with the =
+vmunix kernel. Maybe it's false. <o:p></o:p></p><p =
+class=3DMsoPlainText><span lang=3DIT>Furthermore, the /dev tree is =
+important for dealing with the drivers.<o:p></o:p></span></p><p =
+class=3DMsoPlainText><span lang=3DIT><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoPlainText>I will continue to search for which files are =
+hardware related. Maybe someone has done this research before =
+?<o:p></o:p></p><p class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
+class=3DMsoPlainText>Best regards,<o:p></o:p></p><p =
+class=3DMsoPlainText><span lang=3DIT>Thierry<o:p></o:p></span></p><p =
+class=3DMsoPlainText><span lang=3DIT><o:p>&nbsp;</o:p></span></p><p =
+class=3DMsoPlainText><span =
+style=3D'mso-fareast-language:FR'>-----Message =
+d'origine-----<br>De&nbsp;: Helge Deller &lt;deller@gmx.de&gt; =
+<br>Envoy=C3=A9&nbsp;: dimanche 5 septembre 2021 22:32<br>=C3=80&nbsp;: =
+Richard Henderson &lt;richard.henderson@linaro.org&gt;; =
+thierry.briot@gmail.com<br>Cc&nbsp;: qemu-devel@nongnu.org Developers =
+&lt;qemu-devel@nongnu.org&gt;; linux-parisc =
+&lt;linux-parisc@vger.kernel.org&gt;<br>Objet&nbsp;: Re: Virtualizing HP =
+PA-RISC unix station other than B160L</span></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Hi =
+Thierry,<o:p></o:p></p><p class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
+class=3DMsoPlainText>On 9/5/21 3:24 PM, Richard Henderson =
+wrote:<o:p></o:p></p><p class=3DMsoPlainText>&gt; On Sun, 5 Sep 2021, =
+10:30 , &lt;<a =
+href=3D"mailto:thierry.briot@gmail.com%20%3cmailto:thierry.briot@gmail.co=
+m"><span =
+style=3D'color:windowtext;text-decoration:none'>thierry.briot@gmail.com =
+&lt;mailto:thierry.briot@gmail.com</span></a>&gt;&gt; =
+wrote:<o:p></o:p></p><p class=3DMsoPlainText>&gt; For my company (Nexter =
+Systems, France), I am using qemu-system-hppa <o:p></o:p></p><p =
+class=3DMsoPlainText>&gt; for virtualizing HP PA-RISC workstations. That =
+works well. You have <o:p></o:p></p><p class=3DMsoPlainText>&gt; made a =
+very good job !<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
+class=3DMsoPlainText>Thanks.<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>&gt; =
+But my machines are other than B160L (for example B180L), and I have =
+<o:p></o:p></p><p class=3DMsoPlainText>&gt; to completely reinstall =
+HP-UX on each emulated machine.<o:p></o:p></p><p =
+class=3DMsoPlainText>&gt; If I do an iso system disk image of my B180L, =
+this iso isn't bootable <o:p></o:p></p><p class=3DMsoPlainText>&gt; on =
+qemu-system-hppa.<o:p></o:p></p><p =
+class=3DMsoPlainText>&gt;<o:p>&nbsp;</o:p></p><p =
+class=3DMsoPlainText>&gt; Thus, my questions are :<o:p></o:p></p><p =
+class=3DMsoPlainText>&gt;<o:p>&nbsp;</o:p></p><p =
+class=3DMsoPlainText>&gt; * Is it planned to emulate other HP unix =
+workstations than B160L (for <o:p></o:p></p><p class=3DMsoPlainText>&gt; =
+example B180L) ?<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Maybe =
+at some point a 64-bit capable system, e.g. C3000, and maybe an older =
+32-bit system, e.g. 715/64.<o:p></o:p></p><p class=3DMsoPlainText>For =
+the 64bit system additions to the emulated firmware and additional =
+64-bit qemu support is necessary, and for the 715/64 we need an =
+additional NCR710 SCSI driver.<o:p></o:p></p><p =
+class=3DMsoPlainText>Both are lots of work.<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>The =
+B180L is exactly the same as the B160L, with just a faster =
+CPU:<o:p></o:p></p><p class=3DMsoPlainText><a =
+href=3D"https://www.openpa.net/systems/hp-visualize_b132l_b160l_b180l.htm=
+l"><span =
+style=3D'color:windowtext;text-decoration:none'>https://www.openpa.net/sy=
+stems/hp-visualize_b132l_b160l_b180l.html</span></a><o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>&gt; * =
+Or, what changes should I make to my iso image to do it usable ? If =
+<o:p></o:p></p><p class=3DMsoPlainText>&gt; I replace the <s>/boot</s> =
+/stand filesystem of the B180L image with the B160L one, =
+<o:p></o:p></p><p class=3DMsoPlainText>&gt; I get a kernel panic at boot =
+time.<o:p></o:p></p><p class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
+class=3DMsoPlainText>I don't know HP-UX so well. I could imagine that =
+your physical machines have different SCSI controller cards which are =
+used by HP-UX, and which aren't emulated in qemu yet. That's maybe why =
+qemu can't boot your already installed images.<o:p></o:p></p><p =
+class=3DMsoPlainText>If you post the output I maybe can give more =
+info.<o:p></o:p></p><p class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
+class=3DMsoPlainText>&gt; Helge is the one that did all the hw support, =
+I just did the CPU.<o:p></o:p></p><p class=3DMsoPlainText>&gt; There are =
+no real plans to do another machine. I'm not familiar with =
+<o:p></o:p></p><p class=3DMsoPlainText>&gt; the specs between the HP =
+machines to know how much work that would be.<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>There =
+is a very good overview of the various HP machines at =
+openPA:<o:p></o:p></p><p class=3DMsoPlainText><a =
+href=3D"https://www.openpa.net/systems/"><span =
+style=3D'color:windowtext;text-decoration:none'>https://www.openpa.net/sy=
+stems/</span></a><o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
+class=3DMsoPlainText>Helge<o:p></o:p></p></div></body></html>
+------=_NextPart_000_0194_01D7A2B7.7BDDD750--
+
 
