@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CDC3400EF7
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 12:08:01 +0200 (CEST)
-Received: from localhost ([::1]:32854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A97400EF6
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 12:08:00 +0200 (CEST)
+Received: from localhost ([::1]:32800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMp4C-0005Cy-DX
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 06:08:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44316)
+	id 1mMp4B-0005BM-IE
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 06:07:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMp19-0003BN-Gr
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 06:04:51 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:51805)
+ id 1mMp1t-0003Xp-S6
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 06:05:38 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:42969)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMp17-000536-KA
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 06:04:51 -0400
-Received: by mail-wm1-x330.google.com with SMTP id n39so674991wms.1
- for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 03:04:49 -0700 (PDT)
+ id 1mMp1s-0005hp-8F
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 06:05:37 -0400
+Received: by mail-wm1-x330.google.com with SMTP id
+ k20-20020a05600c0b5400b002e87ad6956eso2637066wmr.1
+ for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 03:05:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=cqw+PDhQZErp3+fQqzqUUNWpchkBCBXTjyULhp9OL8A=;
- b=vm1c6MqpNXfRoz1nHbfGtwWWQL+FuBpkq91IjXoZ8vAxt7s9mgQU4e4J8jXfWwqEBS
- GFrzWUZPoIgZraokOtWkOiccuBJuyD6DGzDSiN45AnmzhgfsRnjlKvmVGaYnHkcVnI+3
- zND2BMHtTbks9u6lt671IB9r535kHSh7uXzs1Yzom/fEdJbtZexZtP7BcPphGQmfuAJG
- T0QR6/poJ4PNLNMluEMXE1UCmoe75zGNzUBu/Qa7E9YYyf50krPoJZjOM+JD2fl/eEy/
- iBywK/eu5x1r9MEISHl5qJ/akysMCUCUt8opjIruk7imhvXJo77RvapBqdqvSkph5UeK
- 4d9Q==
+ bh=y1DCHcfH4Mpa+M3QPYs/8pSEtqGSHNYGszBeOMAeSJo=;
+ b=VZ9ulC4MYSGxWCbkZtgXDxIV8gcXyVPDKcP+nY9bRTmFwtqYdZV1rW0p9AGiycJ291
+ F/9cLj1u5xCkpHah4sxvA7MWkLNfo1EVrTkw6RA+6pkTILG480FjQR5MpQDaZ3y9JoNT
+ mxWGHZ6na+0hDepUxaKaEkN8ZXbqI3c6FPm1AZ4eg9ZDGCxPJD0HcqtmVV1W5HQzgvYf
+ 2jehg7D9CzXcwjkLrvPs6D3vbr64SB52JZrNBV1QFNWzXI9zRHfmWo6NqWAB2b9hLZEO
+ ccgzKxOoC6NwRUk6QMUaLkFtjwIR+XNgQ6DEZ70TAcdisd0unnybmDCETCUdVIjo4Kb7
+ FLbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=cqw+PDhQZErp3+fQqzqUUNWpchkBCBXTjyULhp9OL8A=;
- b=M6B/mz3ihXyLnia/ZNkD48y/f6uGsRXt7OkG8EaoTyuxdRNv2zYUQ5y27+PSECZKJb
- PvhwRtgY9ll+9IV2V5mp25v5JAK65F0K+pMwivg2Wj0LDijtQ+WUICcaBIZYk1Hgziro
- DAcdpA6AK9PyUYGKV+2wO6J+mHDKAtLctsyFgwtzGz2fw7lw7T9WfymFeNKBIAk9am4d
- ungIzu+KxM5BaE3wd73VqGJHP6h4fxKgWUSoIJCCPMVtaZkjvRNddoE6brcFAisIaCtv
- /AloFA8SWDuXW84nGkqrmWanH5t5+o/oD32iMuNlC+BpgWn9EJOvGgihqmNLrNbxHql/
- iq+A==
-X-Gm-Message-State: AOAM531JHOvFVfLTR0L1Nsee4ymOzukNvFAjpvxZhK85DQ7OWiOWpb7Z
- 5G2GXJDNxcxtS/XfZxCkOBkUHQ==
-X-Google-Smtp-Source: ABdhPJzmW8DMKKpbF+h7QaipviGriYejkNmGv4xnRY10mK3vxfwPg33W/6VXeXgXvpJ1TAYkTmN9Uw==
-X-Received: by 2002:a05:600c:19d0:: with SMTP id
- u16mr1420515wmq.21.1630836287689; 
- Sun, 05 Sep 2021 03:04:47 -0700 (PDT)
+ bh=y1DCHcfH4Mpa+M3QPYs/8pSEtqGSHNYGszBeOMAeSJo=;
+ b=ssI3Can4jNbrXG1MBYPEQcS/0Pyj5O8IgLKxhJnRx/ERjeTsBUX6JgEJtRHxw6fblJ
+ S5JK0KEQb6bAOq4O+SOe8oZIN6j++sIesUXK9mducpRGretePtUoI9dIInTjVF5bpyg4
+ BchWmiyCxcsqaCxyaFFdgn+ayh3pFESdEfq/AtHroLGRQCLqJRU8NWQ3CdO7oYRpVBfs
+ EFr3WasxgLXpsK5PMyxfDucgja1O5/w40jQ/jjZ3Xe0pr/fHCHh9qvgX5T1r3zNuhbIk
+ NAxzFK3/jYLTC8PuMW/mHGcKJd5LLWBZskc2PJH6AKiipAUMNqrIB9cvJXrMBHc76XMv
+ F64A==
+X-Gm-Message-State: AOAM533mQ+N6QvfV6xUImtfeOh8UvexCM9ZPAPZkTFaGcHBGBo6NEgA9
+ 5hffxNq5XwKyu67NDIUjku5cag==
+X-Google-Smtp-Source: ABdhPJxuTok/0Y1ROIE+WrRcaxPannORYqRRLUyO5UcGvRUrLcCbio2WmwgBgU2Aq0ESDolBtnO8VQ==
+X-Received: by 2002:a05:600c:295:: with SMTP id
+ 21mr6460298wmk.37.1630836334657; 
+ Sun, 05 Sep 2021 03:05:34 -0700 (PDT)
 Received: from [192.168.8.105] (206.red-2-143-78.dynamicip.rima-tde.net.
  [2.143.78.206])
- by smtp.gmail.com with ESMTPSA id m186sm4213081wme.48.2021.09.05.03.04.42
+ by smtp.gmail.com with ESMTPSA id o7sm4048357wmq.36.2021.09.05.03.05.26
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 Sep 2021 03:04:47 -0700 (PDT)
-Subject: Re: [PATCH v4 17/21] LoongArch Linux User Emulation
+ Sun, 05 Sep 2021 03:05:34 -0700 (PDT)
+Subject: Re: [PATCH v4 19/21] target/loongarch: Add target build suport
 To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
 References: <1630586467-22463-1-git-send-email-gaosong@loongson.cn>
- <1630586467-22463-18-git-send-email-gaosong@loongson.cn>
+ <1630586467-22463-20-git-send-email-gaosong@loongson.cn>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4e47e1a7-d946-f8ec-a9a1-aadc6eeb7941@linaro.org>
-Date: Sun, 5 Sep 2021 12:04:38 +0200
+Message-ID: <41c2692b-21c4-075a-efe1-b309eda2a349@linaro.org>
+Date: Sun, 5 Sep 2021 12:05:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <1630586467-22463-18-git-send-email-gaosong@loongson.cn>
+In-Reply-To: <1630586467-22463-20-git-send-email-gaosong@loongson.cn>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -102,121 +103,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/2/21 2:41 PM, Song Gao wrote:
-> +#include "qemu/osdep.h"
-> +#include "qemu.h"
-> +#include "qemu-common.h"
-> +#include "cpu_loop-common.h"
-> +#include "elf.h"
-> +
-> +void cpu_loop(CPULoongArchState *env)
-> +{
-> +    CPUState *cs = env_cpu(env);
-> +    target_siginfo_t info;
-> +    int trapnr;
-> +    abi_long ret;
-> +
-> +    for (;;) {
-> +        cpu_exec_start(cs);
-> +        trapnr = cpu_exec(cs);
-> +        cpu_exec_end(cs);
-> +        process_queued_cpu_work(cs);
-> +
-> +        switch (trapnr) {
-> +        case EXCP_INTERRUPT:
-> +            /* just indicate that signals should be handled asap */
-> +            break;
-> +        case EXCP_SYSCALL:
-> +            env->pc += 4;
-> +            ret = do_syscall(env, env->gpr[11],
-> +                             env->gpr[4], env->gpr[5],
-> +                             env->gpr[6], env->gpr[7],
-> +                             env->gpr[8], env->gpr[9],
-> +                             -1, -1);
-> +            if (ret == -TARGET_ERESTARTSYS) {
-> +                env->pc -= 4;
-> +                break;
-> +            }
-> +            if (ret == -TARGET_QEMU_ESIGRETURN) {
-> +                /*
-> +                 * Returning from a successful sigreturn syscall.
-> +                 * Avoid clobbering register state.
-> +                 */
-> +                break;
-> +            }
-> +            env->gpr[4] = ret;
-> +            break;
-> +        case EXCP_ADE:
-> +            info.si_signo = TARGET_SIGSEGV;
-> +            info.si_errno = 0;
-> +            info.si_code = TARGET_SEGV_MAPERR;
-> +            info._sifields._sigfault._addr = env->badaddr;
-> +            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-> +            break;
-> +        case EXCP_INE:
-> +            info.si_signo = TARGET_SIGILL;
-> +            info.si_errno = 0;
-> +            info.si_code = 0;
-> +            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
+> This patch add build loongarch-linux-user target support.
+> 
+> Signed-off-by: Song Gao<gaosong@loongson.cn>
+> Signed-off-by: XiaoJuan Yang<yangxiaojuan@loongson.cn>
+> ---
+>   target/loongarch/meson.build | 18 ++++++++++++++++++
+>   target/meson.build           |  1 +
+>   2 files changed, 19 insertions(+)
+>   create mode 100644 target/loongarch/meson.build
 
-Missing _addr = pc.
-
-> +            break;
-> +        case EXCP_FPE:
-> +            info.si_signo = TARGET_SIGFPE;
-> +            info.si_errno = 0;
-> +            info.si_code = TARGET_FPE_FLTUNK;
-> +            if (GET_FP_CAUSE(env->fcsr0) & FP_INVALID) {
-> +                info.si_code = TARGET_FPE_FLTINV;
-> +            } else if (GET_FP_CAUSE(env->fcsr0) & FP_DIV0) {
-> +                info.si_code = TARGET_FPE_FLTDIV;
-> +            } else if (GET_FP_CAUSE(env->fcsr0) & FP_OVERFLOW) {
-> +                info.si_code = TARGET_FPE_FLTOVF;
-> +            } else if (GET_FP_CAUSE(env->fcsr0) & FP_UNDERFLOW) {
-> +                info.si_code = TARGET_FPE_FLTUND;
-> +            } else if (GET_FP_CAUSE(env->fcsr0) & FP_INEXACT) {
-> +                info.si_code = TARGET_FPE_FLTRES;
-> +            }
-> +            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-
-Likewise.
-
-> +        case EXCP_BREAK:
-> +            info.si_signo = TARGET_SIGTRAP;
-> +            info.si_code = TARGET_TRAP_BRKPT;
-> +            queue_signal(env, info.si_signo, QEMU_SI_FAULT, &info);
-
-Likewise.
-
-Note that there are a set of patches on list that introduce a force_sig_fault(signo, code, 
-addr) function, so that none of these parameters get missed.
-
-Missing an entry for EXCP_DEBUG, which should share code with EXCP_BREAK.
-
-> +struct sigframe {
-> +    uint32_t sf_ass[4];             /* argument save space for o32 */
-
-Surely there is no "o32" for loongarch?
-
-> +    uint32_t sf_code[2];            /* signal trampoline */
-
-Note that there are patches on-list for moving the signal trampoline off of the stack.
-
-> diff --git a/linux-user/loongarch64/termbits.h b/linux-user/loongarch64/termbits.h
-> new file mode 100644
-> index 0000000..33e74ed
-> --- /dev/null
-> +++ b/linux-user/loongarch64/termbits.h
-> @@ -0,0 +1,229 @@
-> +#ifndef LINUX_USER_LOONGARCH_TERMBITS_H
-> +#define LINUX_USER_LOONGARCH_TERMBITS_H
-> +
-> +#define TARGET_NCCS 19
-
-Surely you should be using generic/termbits.h?
-
-We will prefer not to merge a linux-user port that is not upstream, because the ABI may 
-change in between.  Can you provide a pointer to your kernel port in the meantime?
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
