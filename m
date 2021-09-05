@@ -2,61 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A10140118B
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 22:35:38 +0200 (CEST)
-Received: from localhost ([::1]:45710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4BFE4011FE
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 00:47:20 +0200 (CEST)
+Received: from localhost ([::1]:42884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMyrZ-0001LN-95
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 16:35:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42674)
+	id 1mN0v1-0001DD-80
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 18:47:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mMypy-0008NJ-3v
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 16:33:58 -0400
-Received: from 2.mo552.mail-out.ovh.net ([178.33.105.233]:45487)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1mMypv-0005U4-Dk
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 16:33:57 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.98])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id A1DB320807;
- Sun,  5 Sep 2021 20:33:51 +0000 (UTC)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Sun, 5 Sep
- 2021 22:33:49 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003a4c59a0a-bcc7-44ea-937a-a1ca2d64d17c,
- 66A9BF958F2B7C6001B822A929017098407F6BEC) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PATCH v3] hw/arm/aspeed: Add Fuji machine type
-To: <pdel@fb.com>
-References: <20210905185535.3108281-1-pdel@fb.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <2098ae0f-1d79-ecc9-78e0-3d11d36db95b@kaod.org>
-Date: Sun, 5 Sep 2021 22:33:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mN0st-0000Hq-4S
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 18:45:07 -0400
+Received: from mail-vk1-xa2e.google.com ([2607:f8b0:4864:20::a2e]:46948)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mN0sr-0004GU-3o
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 18:45:06 -0400
+Received: by mail-vk1-xa2e.google.com with SMTP id s71so1629644vke.13
+ for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 15:45:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=izMuFldgOzJBRPVU71IqUaKcY6eBABAuTHtvzt81FmE=;
+ b=Cjk6g6qpFxOAZCYU6Rrh+DATRF4Qkc0EJhh9wkXfgkeKzZWvhd+jRyMjaYPcgPF7od
+ lElsiDidtENX1R/LfoypQ/AHpjgm88nv5h0n0JVtOiNQowNStWl2+0UWZAWHvAnQbMRh
+ M93RWILf14oxZ0QSW3/FrkXRCbQZH6vk8NVKlURZlqEyYu16G6Q6wwvBkQhcqrQt1KdF
+ iqujfkWmIajIRxwGjmykpmpQw789ah1tqcfKOyD4+YNKMtm/tfAYvK5fQf42y3eQuHwh
+ RRsBHdxWN0yb9QCUrqX2+3IA/jhX1ohtpeotWmo7P/xYkqM5klVfa9gl7K7gt+GufHK3
+ UEew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=izMuFldgOzJBRPVU71IqUaKcY6eBABAuTHtvzt81FmE=;
+ b=mzex5OxWvfpxFebc2DtrkbdV8Z4GMTQvaXzyir6SgYl3Cuu5WM6J8EeuYCJ03rD3UM
+ pHlomCcWDNMGhDbaXogopoICvwJRcmElPUD7onLokd5XvgMJ5JaZVA/ZpL8KsZeCngl+
+ ZLqFSwGbCBynigmazdj4JwZo5qgqFSd3ZqAymjWoZ3hbd2uiaGS4uw702UoELropqIeR
+ 5xOpJMDfi5XqfR7BKaso6K5fcXkKQvcDKdrJFbZMaLxSVNb7aTCuVEL6KdVGFUhhGS47
+ 7uUxtMJ3oTYGekuM6GTpIXcnMUmZlzWcVoGuSfb4RPRFVzrh1b4U45KJreBcDUyPKWjw
+ BnFw==
+X-Gm-Message-State: AOAM532k0986OEac0YIbkjHed/ahteH9rdUQM6ZXbvVEtsxc2LKAAkzY
+ t2msuquQ/WqGAI1tmZ7JASXQI+jD7kI7asi6023s+g==
+X-Google-Smtp-Source: ABdhPJwM8qBr8k8QNjEmb+S40of8omP7xQusJsupIexwBK/TDNMmDXl2xfCwdY+48lWv1CkzCbhJrf+My0cUI2oGGu4=
+X-Received: by 2002:a05:6122:d95:: with SMTP id
+ bc21mr3850089vkb.23.1630881903513; 
+ Sun, 05 Sep 2021 15:45:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210905185535.3108281-1-pdel@fb.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 257b1204-d55f-40ef-b232-92a36413c41b
-X-Ovh-Tracer-Id: 3003619478739389292
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudefuddgudegkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheeutdehgefhvdehtdeuleetgedvfeeukedtfeeihfffffeiuddutdduhffgvedtnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehpuggvlhesfhgsrdgtohhm
-Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
- helo=2.mo552.mail-out.ovh.net
-X-Spam_score_int: -56
-X-Spam_score: -5.7
-X-Spam_bar: -----
-X-Spam_report: (-5.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-3.832,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210902234729.76141-1-imp@bsdimp.com>
+ <20210902234729.76141-34-imp@bsdimp.com>
+ <CACNAnaGJnkZPyG6NEjfgj9A3sp5TxF7z6prAN_dU3fdd=wrhyA@mail.gmail.com>
+In-Reply-To: <CACNAnaGJnkZPyG6NEjfgj9A3sp5TxF7z6prAN_dU3fdd=wrhyA@mail.gmail.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Sun, 5 Sep 2021 16:44:52 -0600
+Message-ID: <CANCZdfpUVquC_8SHNke_hXf03vijZ=gWGjjf+Y4m0TsYzYUvEQ@mail.gmail.com>
+Subject: Re: [PATCH v3 33/43] bsd-user: Make cpu_model and cpu_type visible to
+ all of main.c
+To: Kyle Evans <kevans@freebsd.org>
+Content-Type: multipart/alternative; boundary="00000000000087a4ad05cb47481f"
+Received-SPF: none client-ip=2607:f8b0:4864:20::a2e;
+ envelope-from=wlosh@bsdimp.com; helo=mail-vk1-xa2e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,194 +78,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, andrew@aj.id.au, f4bug@amsat.org,
- qemu-devel@nongnu.org, patrick@stwcx.xyz, qemu-arm@nongnu.org, joel@jms.id.au
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Warner Losh <imp@freebsd.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 9/5/21 8:55 PM, pdel@fb.com wrote:
-> From: Peter Delevoryas <pdel@fb.com>
-> 
-> This adds a new machine type "fuji-bmc" based on the following device tree:
-> 
-> https://github.com/torvalds/linux/blob/master/arch/arm/boot/dts/aspeed-bmc-facebook-fuji.dts
-> 
-> Most of the i2c devices are not there, they're added here:
-> 
-> https://github.com/facebook/openbmc/blob/helium/meta-facebook/meta-fuji/recipes-utils/openbmc-utils/files/setup_i2c.sh
-> 
-> I tested this by building a Fuji image from Facebook's OpenBMC repo,
-> booting, and ssh'ing from host-to-guest.
-> 
-> Signed-off-by: Peter Delevoryas <pdel@fb.com>
+--00000000000087a4ad05cb47481f
+Content-Type: text/plain; charset="UTF-8"
 
-There are a few checkpatch warnings that I fixed directly.
-Anyhow,
+On Sun, Sep 5, 2021 at 12:57 PM Kyle Evans <kevans@freebsd.org> wrote:
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+> On Thu, Sep 2, 2021 at 6:53 PM <imp@bsdimp.com> wrote:
+> >
+> > From: Warner Losh <imp@FreeBSD.org>
+> >
+> > cpu_model and cpu_type will be used future commits, so move them from
+> > main() scoped to file scoped.
+> >
+> > Signed-off-by: Warner Losh <imp@bsdimp.com>
+> > Acked-by: Richard Henderson <richard.henderson@linaro.org>
+> > ---
+> >  bsd-user/main.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> I think we should reduce this one to just moving cpu_type. cpu_model
+> is really only used in main() to derive the appropriate cpu_type,
+> which we do use later
+>
 
-I will wait a little before resending the PR :)
+Fair point. I think I'm going to drop this patch from the series (yea, back
+to 42)
+and work it out with you on the bsd-user 'blitz' branch and try again in a
+future
+patch round.
 
-I have pushed on my tree [1] the fuji machine and a few fixes for
-the ADC model. This is still WIP and if you have some ADC tests
-that come to mind, they would be welcomed.
-
-Thanks,
-
-C.
-
-[1]  https://github.com/legoater/qemu/commits/aspeed-6.2
+Warner
 
 
+> >
+> > diff --git a/bsd-user/main.c b/bsd-user/main.c
+> > index 71fd9d5aba..50c8fdc1e2 100644
+> > --- a/bsd-user/main.c
+> > +++ b/bsd-user/main.c
+> > @@ -54,6 +54,8 @@
+> >  int singlestep;
+> >  unsigned long mmap_min_addr;
+> >  uintptr_t guest_base;
+> > +static const char *cpu_model;
+> > +static const char *cpu_type;
+> >  bool have_guest_base;
+> >  unsigned long reserved_va;
+> >
+> > @@ -201,8 +203,6 @@ static void save_proc_pathname(char *argv0)
+> >  int main(int argc, char **argv)
+> >  {
+> >      const char *filename;
+> > -    const char *cpu_model;
+> > -    const char *cpu_type;
+> >      const char *log_file = NULL;
+> >      const char *log_mask = NULL;
+> >      const char *seed_optarg = NULL;
+> > --
+> > 2.32.0
+> >
+>
 
-> ---
->  hw/arm/aspeed.c | 112 ++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 112 insertions(+)
-> 
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index 7a9459340c..cc2d721ac7 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -159,6 +159,10 @@ struct AspeedMachineState {
->  #define RAINIER_BMC_HW_STRAP1 0x00000000
->  #define RAINIER_BMC_HW_STRAP2 0x00000000
->  
-> +/* Fuji hardware value */
-> +#define FUJI_BMC_HW_STRAP1    0x00000000
-> +#define FUJI_BMC_HW_STRAP2    0x00000000
-> +
->  /*
->   * The max ram region is for firmwares that scan the address space
->   * with load/store to guess how much RAM the SoC has.
-> @@ -772,6 +776,90 @@ static void rainier_bmc_i2c_init(AspeedMachineState *bmc)
->      aspeed_eeprom_init(aspeed_i2c_get_bus(&soc->i2c, 15), 0x50, 64 * KiB);
->  }
->  
-> +static void get_pca9548_channels(I2CBus *bus, uint8_t mux_addr, I2CBus **channels) {
-> +    I2CSlave *mux = i2c_slave_create_simple(bus, "pca9548", mux_addr);
-> +    for (int i = 0; i < 8; i++) {
-> +        channels[i] = pca954x_i2c_get_bus(mux, i);
-> +    }
-> +}
-> +
-> +#define TYPE_LM75 TYPE_TMP105
-> +#define TYPE_TMP75 TYPE_TMP105
-> +#define TYPE_TMP422 "tmp422"
-> +
-> +static void fuji_bmc_i2c_init(AspeedMachineState *bmc)
-> +{
-> +    AspeedSoCState *soc = &bmc->soc;
-> +    I2CBus *i2c[144] = {};
-> +
-> +    for (int i = 0; i < 16; i++) {
-> +        i2c[i] = aspeed_i2c_get_bus(&soc->i2c, i);
-> +    }
-> +    I2CBus *i2c180 = i2c[2];
-> +    I2CBus *i2c480 = i2c[8];
-> +    I2CBus *i2c600 = i2c[11];
-> +
-> +    get_pca9548_channels(i2c180, 0x70, &i2c[16]);
-> +    get_pca9548_channels(i2c480, 0x70, &i2c[24]);
-> +    // NOTE: The device tree skips [32, 40) in the alias numbering, so we do
-> +    // the same here.
-> +    get_pca9548_channels(i2c600, 0x77, &i2c[40]);
-> +    get_pca9548_channels(i2c[24], 0x71, &i2c[48]);
-> +    get_pca9548_channels(i2c[25], 0x72, &i2c[56]);
-> +    get_pca9548_channels(i2c[26], 0x76, &i2c[64]);
-> +    get_pca9548_channels(i2c[27], 0x76, &i2c[72]);
-> +    for (int i = 0; i < 8; i++) {
-> +        get_pca9548_channels(i2c[40 + i], 0x76, &i2c[80 + i * 8]);
-> +    }
-> +
-> +    i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4c);
-> +    i2c_slave_create_simple(i2c[17], TYPE_LM75, 0x4d);
-> +
-> +    aspeed_eeprom_init(i2c[19], 0x52, 64 * KiB);
-> +    aspeed_eeprom_init(i2c[20], 0x50, 2 * KiB);
-> +    aspeed_eeprom_init(i2c[22], 0x52, 2 * KiB);
-> +
-> +    i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x48);
-> +    i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x49);
-> +    i2c_slave_create_simple(i2c[3], TYPE_LM75, 0x4a);
-> +    i2c_slave_create_simple(i2c[3], TYPE_TMP422, 0x4c);
-> +
-> +    aspeed_eeprom_init(i2c[8], 0x51, 64 * KiB);
-> +    i2c_slave_create_simple(i2c[8], TYPE_LM75, 0x4a);
-> +
-> +    i2c_slave_create_simple(i2c[50], TYPE_LM75, 0x4c);
-> +    aspeed_eeprom_init(i2c[50], 0x52, 64 * KiB);
-> +    i2c_slave_create_simple(i2c[51], TYPE_TMP75, 0x48);
-> +    i2c_slave_create_simple(i2c[52], TYPE_TMP75, 0x49);
-> +
-> +    i2c_slave_create_simple(i2c[59], TYPE_TMP75, 0x48);
-> +    i2c_slave_create_simple(i2c[60], TYPE_TMP75, 0x49);
-> +
-> +    aspeed_eeprom_init(i2c[65], 0x53, 64 * KiB);
-> +    i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x49);
-> +    i2c_slave_create_simple(i2c[66], TYPE_TMP75, 0x48);
-> +    aspeed_eeprom_init(i2c[68], 0x52, 64 * KiB);
-> +    aspeed_eeprom_init(i2c[69], 0x52, 64 * KiB);
-> +    aspeed_eeprom_init(i2c[70], 0x52, 64 * KiB);
-> +    aspeed_eeprom_init(i2c[71], 0x52, 64 * KiB);
-> +
-> +    aspeed_eeprom_init(i2c[73], 0x53, 64 * KiB);
-> +    i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x49);
-> +    i2c_slave_create_simple(i2c[74], TYPE_TMP75, 0x48);
-> +    aspeed_eeprom_init(i2c[76], 0x52, 64 * KiB);
-> +    aspeed_eeprom_init(i2c[77], 0x52, 64 * KiB);
-> +    aspeed_eeprom_init(i2c[78], 0x52, 64 * KiB);
-> +    aspeed_eeprom_init(i2c[79], 0x52, 64 * KiB);
-> +    aspeed_eeprom_init(i2c[28], 0x50, 2 * KiB);
-> +
-> +    for (int i = 0; i < 8; i++) {
-> +        aspeed_eeprom_init(i2c[81 + i * 8], 0x56, 64 * KiB);
-> +        i2c_slave_create_simple(i2c[82 + i * 8], TYPE_TMP75, 0x48);
-> +        i2c_slave_create_simple(i2c[83 + i * 8], TYPE_TMP75, 0x4b);
-> +        i2c_slave_create_simple(i2c[84 + i * 8], TYPE_TMP75, 0x4a);
-> +    }
-> +}
-> +
->  static bool aspeed_get_mmio_exec(Object *obj, Error **errp)
->  {
->      return ASPEED_MACHINE(obj)->mmio_exec;
-> @@ -1070,6 +1158,26 @@ static void aspeed_machine_rainier_class_init(ObjectClass *oc, void *data)
->          aspeed_soc_num_cpus(amc->soc_name);
->  };
->  
-> +static void aspeed_machine_fuji_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc = MACHINE_CLASS(oc);
-> +    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
-> +
-> +    mc->desc = "Facebook Fuji BMC (Cortex-A7)";
-> +    amc->soc_name = "ast2600-a3";
-> +    amc->hw_strap1 = FUJI_BMC_HW_STRAP1;
-> +    amc->hw_strap2 = FUJI_BMC_HW_STRAP2;
-> +    amc->fmc_model = "mx66l1g45g";
-> +    amc->spi_model = "mx66l1g45g";
-> +    amc->num_cs = 2;
-> +    amc->macs_mask = ASPEED_MAC3_ON;
-> +    amc->i2c_init = fuji_bmc_i2c_init;
-> +    amc->uart_default = ASPEED_DEV_UART1;
-> +    mc->default_ram_size = 2 * GiB;
-> +    mc->default_cpus = mc->min_cpus = mc->max_cpus =
-> +        aspeed_soc_num_cpus(amc->soc_name);
-> +};
-> +
->  static const TypeInfo aspeed_machine_types[] = {
->      {
->          .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
-> @@ -1119,6 +1227,10 @@ static const TypeInfo aspeed_machine_types[] = {
->          .name          = MACHINE_TYPE_NAME("rainier-bmc"),
->          .parent        = TYPE_ASPEED_MACHINE,
->          .class_init    = aspeed_machine_rainier_class_init,
-> +    }, {
-> +        .name          = MACHINE_TYPE_NAME("fuji-bmc"),
-> +        .parent        = TYPE_ASPEED_MACHINE,
-> +        .class_init    = aspeed_machine_fuji_class_init,
->      }, {
->          .name          = TYPE_ASPEED_MACHINE,
->          .parent        = TYPE_MACHINE,
-> 
+--00000000000087a4ad05cb47481f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Sep 5, 2021 at 12:57 PM Kyle =
+Evans &lt;<a href=3D"mailto:kevans@freebsd.org">kevans@freebsd.org</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu, S=
+ep 2, 2021 at 6:53 PM &lt;<a href=3D"mailto:imp@bsdimp.com" target=3D"_blan=
+k">imp@bsdimp.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; From: Warner Losh &lt;imp@FreeBSD.org&gt;<br>
+&gt;<br>
+&gt; cpu_model and cpu_type will be used future commits, so move them from<=
+br>
+&gt; main() scoped to file scoped.<br>
+&gt;<br>
+&gt; Signed-off-by: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com" targe=
+t=3D"_blank">imp@bsdimp.com</a>&gt;<br>
+&gt; Acked-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@li=
+naro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 bsd-user/main.c | 4 ++--<br>
+&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+<br>
+I think we should reduce this one to just moving cpu_type. cpu_model<br>
+is really only used in main() to derive the appropriate cpu_type,<br>
+which we do use later<br></blockquote><div><br></div><div>Fair point. I thi=
+nk=C2=A0I&#39;m going to drop this patch from the series (yea, back to 42)<=
+/div><div>and work it out with you on the bsd-user &#39;blitz&#39; branch a=
+nd try again in a future</div><div>patch round.</div><div><br></div><div>Wa=
+rner</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">
+&gt;<br>
+&gt; diff --git a/bsd-user/main.c b/bsd-user/main.c<br>
+&gt; index 71fd9d5aba..50c8fdc1e2 100644<br>
+&gt; --- a/bsd-user/main.c<br>
+&gt; +++ b/bsd-user/main.c<br>
+&gt; @@ -54,6 +54,8 @@<br>
+&gt;=C2=A0 int singlestep;<br>
+&gt;=C2=A0 unsigned long mmap_min_addr;<br>
+&gt;=C2=A0 uintptr_t guest_base;<br>
+&gt; +static const char *cpu_model;<br>
+&gt; +static const char *cpu_type;<br>
+&gt;=C2=A0 bool have_guest_base;<br>
+&gt;=C2=A0 unsigned long reserved_va;<br>
+&gt;<br>
+&gt; @@ -201,8 +203,6 @@ static void save_proc_pathname(char *argv0)<br>
+&gt;=C2=A0 int main(int argc, char **argv)<br>
+&gt;=C2=A0 {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 const char *filename;<br>
+&gt; -=C2=A0 =C2=A0 const char *cpu_model;<br>
+&gt; -=C2=A0 =C2=A0 const char *cpu_type;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 const char *log_file =3D NULL;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 const char *log_mask =3D NULL;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 const char *seed_optarg =3D NULL;<br>
+&gt; --<br>
+&gt; 2.32.0<br>
+&gt;<br>
+</blockquote></div></div>
+
+--00000000000087a4ad05cb47481f--
 
