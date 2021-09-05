@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CDDA40102B
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 16:26:18 +0200 (CEST)
-Received: from localhost ([::1]:36142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D36140102C
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 16:27:31 +0200 (CEST)
+Received: from localhost ([::1]:38316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMt69-00005c-4z
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 10:26:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53204)
+	id 1mMt7K-0001f5-Nc
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 10:27:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mMt4r-0007s5-K4
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 10:24:57 -0400
-Received: from mail-ua1-x92d.google.com ([2607:f8b0:4864:20::92d]:38791)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mMt6A-0000lo-Iu
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 10:26:18 -0400
+Received: from mail-vs1-xe2e.google.com ([2607:f8b0:4864:20::e2e]:40950)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mMt4q-0002OV-6d
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 10:24:57 -0400
-Received: by mail-ua1-x92d.google.com with SMTP id s4so2306935uar.5
- for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 07:24:55 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1mMt68-0003HN-Am
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 10:26:18 -0400
+Received: by mail-vs1-xe2e.google.com with SMTP id d6so3446870vsr.7
+ for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 07:26:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iMki1WzaAxIJV+tuRfGlAaQ7qzuCZHF4lXSuNzk/JY4=;
- b=CKvvUlWHHZ/yZZPJGq9W/UKfosoGuHkpmCd+9atYPTE28r2o+fG+VAfZHsI0wlcJ5r
- O47jN0xj1JyEMQxRDZ9LJ40hG3rY9v0jnIToD/xmvnk2rrNcHxSSyISzumIy75Wan47K
- SsubXZqna3+YHjgl7oOdS47lM8TuPEiGsEWpAn5uhfnN7FSea7InYm4U7WH7jCSJv47f
- PAx1Zd/DcuxL1qgI8j+xvl9OTPyvOLt5gFDbC7QwcZiVJJVFFZFUbu/75nKMWgGIm3mv
- gMpDbQkNEhOmpjexXV7DodiYhGIVnSjg7JE26ff9Ng+PotoAsOA4dyJNAtINvASRyDoO
- 05pg==
+ :cc; bh=lEHAVO6iMj37wyWEHlCqF0IZwBelIU5qRZGxymv5ppc=;
+ b=VeDmmuXZragzVz7EVp/fGiowN4ijJL8HkyL+4LxRz5cLNU0DGbLWrRynru/AsmYBjD
+ q7pxubQsvQ9dZuI0k7nPP2jGcxJmpoYpvsQhuXO1x435cWsVPuA2KwVq1iiimEGl8jRn
+ FCU0VNe80DxGble4qoqfRKQdYBcVJZtJ1fz4/3q8xIZ68t7mdEAWfV+lvxM1XrwBw5Qf
+ +nLNoihty8S5bmVo7jxuh9xS3pUcLrTadCU/llfQBQnBbXCP/TL0Njr+8SdhlQt5TXyt
+ 8iNcf6DH9iKeAizSpSrD6zyabmYlCUv2ROHINIklTJbohNl+7pdg9PBdKfmNYcsQlwQ5
+ 5mMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=iMki1WzaAxIJV+tuRfGlAaQ7qzuCZHF4lXSuNzk/JY4=;
- b=dBJimQ9NVaAcNHclNdgJsrnG36V9vsFH9atYYhi8wBCPMS86sg7oASsMfX0bXLHOkT
- Krcx1eAaokXfrie8k25/cXfITPW4sJ6vMyU0ZEOyiWXBjZOjIe7FKud4eBYhpCo6rhry
- KWbSCIZAQpL/DJoMRVlbbufD64XVI20/2x+Vf1HpOP9PuLDV8k+h8xFl4mSq/y6QQ0KT
- +gf00kaoRCjY5qda8NQ9rsozIovBT9ofvdJWXgDvFuRYu2MspwJ7G0mXRF1+Mq8Xi89U
- 43twZEqacT8gJSD0KqmF9ISB0UwXRLFsm2q5dDA4CRkyeLJDo7eT5nzQ6AH9dgKkjXEC
- jv1w==
-X-Gm-Message-State: AOAM531lg8ZMlEEKvaDtAeqAKDJgQ9zIzPVvHhQkt/1J+mcwFzzpXPzv
- vPtk/WQ/J8EVhq/y6SYH0o14dlhnv95cHYMgpUm/MVVQy0my9w==
-X-Google-Smtp-Source: ABdhPJxR0z7TlAd+ZtraRiLagXyNOFGm4SF6A5JqC/3BKqq1j4suVHcmQADpUVyAgKsMVQ/g2QHqXVvXCzqxfQCb2AM=
-X-Received: by 2002:a9f:2a87:: with SMTP id z7mr3579923uai.11.1630851895046;
- Sun, 05 Sep 2021 07:24:55 -0700 (PDT)
+ bh=lEHAVO6iMj37wyWEHlCqF0IZwBelIU5qRZGxymv5ppc=;
+ b=ajYqlUcdCgevX0jOM55SYxzZBVqJtHZ0TX07JNS7vPvUMGSF6h4sulQ5ZhqyLutaqF
+ q9jxUn+3dAB/zr7i8L0damhbPt1l6LtddHD+P3hIvUqmtsv/2qD2XStFeyvWDVT6E+Wm
+ reeyyLSqqrYR/UXrC2AbiNvKt9L4jlKeGFTmHb9cvBgdF521jHPknBFNDzu99TBppjUX
+ JxyQ2pT7R32L8UbA3+/PTItVgfefR7JCM/s5APqK7HFRCu8gM72Amk7NrqJGpeIaQmgu
+ gfTTIHWqWafyy2eWGKsMO73RNxaBwWuj+z+JiCmK2aUlPELoqgMFyJkiwQx86sMtipWB
+ RVCA==
+X-Gm-Message-State: AOAM532zLOWHjITywe0Q3xD1L3U8qgp8NbAUNaKuqy3tlC9CUUTqvJia
+ fZ/e9CWHzYD84XdRCQ2D7utVJhYN5EOna8FJ/NzZIA==
+X-Google-Smtp-Source: ABdhPJz7AzKEOe8w6kZzKcTSfPstwmIAfgKV0ON/O2CLatCA7yt/EOEbx7FKPBTEp+wnPwsL6XgHu1+myH8pvoBrSHQ=
+X-Received: by 2002:a05:6102:1175:: with SMTP id
+ k21mr3820769vsg.42.1630851973817; 
+ Sun, 05 Sep 2021 07:26:13 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210904235542.1092641-1-f4bug@amsat.org>
- <20210904235542.1092641-2-f4bug@amsat.org>
-In-Reply-To: <20210904235542.1092641-2-f4bug@amsat.org>
+ <20210904235542.1092641-12-f4bug@amsat.org>
+In-Reply-To: <20210904235542.1092641-12-f4bug@amsat.org>
 From: Warner Losh <imp@bsdimp.com>
-Date: Sun, 5 Sep 2021 08:24:44 -0600
-Message-ID: <CANCZdfoMw04ODcSaNHsWQGkAHF=_9xE8EMAFu3xe3PwxeFDUjw@mail.gmail.com>
-Subject: Re: [PATCH v2 01/24] target/avr: Remove pointless use of
- CONFIG_USER_ONLY definition
+Date: Sun, 5 Sep 2021 08:26:03 -0600
+Message-ID: <CANCZdfo-iNJWaoOE7+fFRgKqNZ+c+oLwG0R6Qo2XGsdUjtp8kA@mail.gmail.com>
+Subject: Re: [PATCH v2 11/24] target/i386: Move x86_cpu_exec_interrupt() under
+ sysemu/ folder
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: multipart/alternative; boundary="000000000000e2cc8005cb404bb3"
-Received-SPF: none client-ip=2607:f8b0:4864:20::92d;
- envelope-from=wlosh@bsdimp.com; helo=mail-ua1-x92d.google.com
+Content-Type: multipart/alternative; boundary="00000000000094c00c05cb4050f2"
+Received-SPF: none client-ip=2607:f8b0:4864:20::e2e;
+ envelope-from=wlosh@bsdimp.com; helo=mail-vs1-xe2e.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -81,108 +82,432 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e2cc8005cb404bb3
+--00000000000094c00c05cb4050f2
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Sep 4, 2021 at 5:55 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+On Sat, Sep 4, 2021 at 5:56 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
 >
 wrote:
 
-> Commit f1c671f96cb ("target/avr: Introduce basic CPU class object")
-> added to target/avr/cpu.h:
+> Following the logic of commit 30493a030ff ("i386: split seg_helper
+> into user-only and sysemu parts"), move x86_cpu_exec_interrupt()
+> under sysemu/seg_helper.c.
 >
->   #ifdef CONFIG_USER_ONLY
->   #error "AVR 8-bit does not support user mode"
->   #endif
->
-> Remove the CONFIG_USER_ONLY definition introduced by mistake in
-> commit 78271684719 ("cpu: tcg_ops: move to tcg-cpu-ops.h, keep a
-> pointer in CPUClass").
->
-> Reported-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  target/avr/cpu.c | 3 ---
->  1 file changed, 3 deletions(-)
+> I prefer to not squash this into the previous patch because the
+> ifdef'ry removal (in previous patch) is not trivial IMO.
+> ---
+>  target/i386/tcg/seg_helper.c        | 64 ----------------------------
+>  target/i386/tcg/sysemu/seg_helper.c | 65 +++++++++++++++++++++++++++++
+>  2 files changed, 65 insertions(+), 64 deletions(-)
 >
 
 Reviewed-By: Warner Losh <imp@bsdimp.com>
 
 
 
-> diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-> index ea14175ca55..5d70e34dd54 100644
-> --- a/target/avr/cpu.c
-> +++ b/target/avr/cpu.c
-> @@ -197,10 +197,7 @@ static const struct TCGCPUOps avr_tcg_ops =3D {
->      .synchronize_from_tb =3D avr_cpu_synchronize_from_tb,
->      .cpu_exec_interrupt =3D avr_cpu_exec_interrupt,
->      .tlb_fill =3D avr_cpu_tlb_fill,
-> -
-> -#ifndef CONFIG_USER_ONLY
->      .do_interrupt =3D avr_cpu_do_interrupt,
-> -#endif /* !CONFIG_USER_ONLY */
->  };
+> diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
+> index 13c6e6ee62e..baa905a0cd6 100644
+> --- a/target/i386/tcg/seg_helper.c
+> +++ b/target/i386/tcg/seg_helper.c
+> @@ -1110,70 +1110,6 @@ void do_interrupt_x86_hardirq(CPUX86State *env, in=
+t
+> intno, int is_hw)
+>      do_interrupt_all(env_archcpu(env), intno, 0, 0, 0, is_hw);
+>  }
 >
->  static void avr_cpu_class_init(ObjectClass *oc, void *data)
+> -#ifndef CONFIG_USER_ONLY
+> -bool x86_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+> -{
+> -    X86CPU *cpu =3D X86_CPU(cs);
+> -    CPUX86State *env =3D &cpu->env;
+> -    int intno;
+> -
+> -    interrupt_request =3D x86_cpu_pending_interrupt(cs, interrupt_reques=
+t);
+> -    if (!interrupt_request) {
+> -        return false;
+> -    }
+> -
+> -    /* Don't process multiple interrupt requests in a single call.
+> -     * This is required to make icount-driven execution deterministic.
+> -     */
+> -    switch (interrupt_request) {
+> -    case CPU_INTERRUPT_POLL:
+> -        cs->interrupt_request &=3D ~CPU_INTERRUPT_POLL;
+> -        apic_poll_irq(cpu->apic_state);
+> -        break;
+> -    case CPU_INTERRUPT_SIPI:
+> -        do_cpu_sipi(cpu);
+> -        break;
+> -    case CPU_INTERRUPT_SMI:
+> -        cpu_svm_check_intercept_param(env, SVM_EXIT_SMI, 0, 0);
+> -        cs->interrupt_request &=3D ~CPU_INTERRUPT_SMI;
+> -        do_smm_enter(cpu);
+> -        break;
+> -    case CPU_INTERRUPT_NMI:
+> -        cpu_svm_check_intercept_param(env, SVM_EXIT_NMI, 0, 0);
+> -        cs->interrupt_request &=3D ~CPU_INTERRUPT_NMI;
+> -        env->hflags2 |=3D HF2_NMI_MASK;
+> -        do_interrupt_x86_hardirq(env, EXCP02_NMI, 1);
+> -        break;
+> -    case CPU_INTERRUPT_MCE:
+> -        cs->interrupt_request &=3D ~CPU_INTERRUPT_MCE;
+> -        do_interrupt_x86_hardirq(env, EXCP12_MCHK, 0);
+> -        break;
+> -    case CPU_INTERRUPT_HARD:
+> -        cpu_svm_check_intercept_param(env, SVM_EXIT_INTR, 0, 0);
+> -        cs->interrupt_request &=3D ~(CPU_INTERRUPT_HARD |
+> -                                   CPU_INTERRUPT_VIRQ);
+> -        intno =3D cpu_get_pic_interrupt(env);
+> -        qemu_log_mask(CPU_LOG_TB_IN_ASM,
+> -                      "Servicing hardware INT=3D0x%02x\n", intno);
+> -        do_interrupt_x86_hardirq(env, intno, 1);
+> -        break;
+> -    case CPU_INTERRUPT_VIRQ:
+> -        /* FIXME: this should respect TPR */
+> -        cpu_svm_check_intercept_param(env, SVM_EXIT_VINTR, 0, 0);
+> -        intno =3D x86_ldl_phys(cs, env->vm_vmcb
+> -                             + offsetof(struct vmcb, control.int_vector)=
+);
+> -        qemu_log_mask(CPU_LOG_TB_IN_ASM,
+> -                      "Servicing virtual hardware INT=3D0x%02x\n", intno=
+);
+> -        do_interrupt_x86_hardirq(env, intno, 1);
+> -        cs->interrupt_request &=3D ~CPU_INTERRUPT_VIRQ;
+> -        break;
+> -    }
+> -
+> -    /* Ensure that no TB jump will be modified as the program flow was
+> changed.  */
+> -    return true;
+> -}
+> -#endif /* CONFIG_USER_ONLY */
+> -
+>  void helper_lldt(CPUX86State *env, int selector)
+>  {
+>      SegmentCache *dt;
+> diff --git a/target/i386/tcg/sysemu/seg_helper.c
+> b/target/i386/tcg/sysemu/seg_helper.c
+> index 82c0856c417..b425b930f9d 100644
+> --- a/target/i386/tcg/sysemu/seg_helper.c
+> +++ b/target/i386/tcg/sysemu/seg_helper.c
+> @@ -125,6 +125,71 @@ void x86_cpu_do_interrupt(CPUState *cs)
+>      }
+>  }
+>
+> +bool x86_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+> +{
+> +    X86CPU *cpu =3D X86_CPU(cs);
+> +    CPUX86State *env =3D &cpu->env;
+> +    int intno;
+> +
+> +    interrupt_request =3D x86_cpu_pending_interrupt(cs, interrupt_reques=
+t);
+> +    if (!interrupt_request) {
+> +        return false;
+> +    }
+> +
+> +    /*
+> +     * Don't process multiple interrupt requests in a single call.
+> +     * This is required to make icount-driven execution deterministic.
+> +     */
+> +    switch (interrupt_request) {
+> +    case CPU_INTERRUPT_POLL:
+> +        cs->interrupt_request &=3D ~CPU_INTERRUPT_POLL;
+> +        apic_poll_irq(cpu->apic_state);
+> +        break;
+> +    case CPU_INTERRUPT_SIPI:
+> +        do_cpu_sipi(cpu);
+> +        break;
+> +    case CPU_INTERRUPT_SMI:
+> +        cpu_svm_check_intercept_param(env, SVM_EXIT_SMI, 0, 0);
+> +        cs->interrupt_request &=3D ~CPU_INTERRUPT_SMI;
+> +        do_smm_enter(cpu);
+> +        break;
+> +    case CPU_INTERRUPT_NMI:
+> +        cpu_svm_check_intercept_param(env, SVM_EXIT_NMI, 0, 0);
+> +        cs->interrupt_request &=3D ~CPU_INTERRUPT_NMI;
+> +        env->hflags2 |=3D HF2_NMI_MASK;
+> +        do_interrupt_x86_hardirq(env, EXCP02_NMI, 1);
+> +        break;
+> +    case CPU_INTERRUPT_MCE:
+> +        cs->interrupt_request &=3D ~CPU_INTERRUPT_MCE;
+> +        do_interrupt_x86_hardirq(env, EXCP12_MCHK, 0);
+> +        break;
+> +    case CPU_INTERRUPT_HARD:
+> +        cpu_svm_check_intercept_param(env, SVM_EXIT_INTR, 0, 0);
+> +        cs->interrupt_request &=3D ~(CPU_INTERRUPT_HARD |
+> +                                   CPU_INTERRUPT_VIRQ);
+> +        intno =3D cpu_get_pic_interrupt(env);
+> +        qemu_log_mask(CPU_LOG_TB_IN_ASM,
+> +                      "Servicing hardware INT=3D0x%02x\n", intno);
+> +        do_interrupt_x86_hardirq(env, intno, 1);
+> +        break;
+> +    case CPU_INTERRUPT_VIRQ:
+> +        /* FIXME: this should respect TPR */
+> +        cpu_svm_check_intercept_param(env, SVM_EXIT_VINTR, 0, 0);
+> +        intno =3D x86_ldl_phys(cs, env->vm_vmcb
+> +                             + offsetof(struct vmcb, control.int_vector)=
+);
+> +        qemu_log_mask(CPU_LOG_TB_IN_ASM,
+> +                      "Servicing virtual hardware INT=3D0x%02x\n", intno=
+);
+> +        do_interrupt_x86_hardirq(env, intno, 1);
+> +        cs->interrupt_request &=3D ~CPU_INTERRUPT_VIRQ;
+> +        break;
+> +    }
+> +
+> +    /*
+> +     * Ensure that no TB jump will be modified as the program flow was
+> changed.
+> +     */
+> +    return true;
+> +}
+> +
+>  /* check if Port I/O is allowed in TSS */
+>  void helper_check_io(CPUX86State *env, uint32_t addr, uint32_t size)
+>  {
 > --
 > 2.31.1
 >
 >
 
---000000000000e2cc8005cb404bb3
+--00000000000094c00c05cb4050f2
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Sep 4, 2021 at 5:55 PM Philip=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sat, Sep 4, 2021 at 5:56 PM Philip=
 pe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.or=
 g</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
 :0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->Commit f1c671f96cb (&quot;target/avr: Introduce basic CPU class object&quo=
-t;)<br>
-added to target/avr/cpu.h:<br>
+>Following the logic of commit 30493a030ff (&quot;i386: split seg_helper<br=
+>
+into user-only and sysemu parts&quot;), move x86_cpu_exec_interrupt()<br>
+under sysemu/seg_helper.c.<br>
 <br>
-=C2=A0 #ifdef CONFIG_USER_ONLY<br>
-=C2=A0 #error &quot;AVR 8-bit does not support user mode&quot;<br>
-=C2=A0 #endif<br>
-<br>
-Remove the CONFIG_USER_ONLY definition introduced by mistake in<br>
-commit 78271684719 (&quot;cpu: tcg_ops: move to tcg-cpu-ops.h, keep a<br>
-pointer in CPUClass&quot;).<br>
-<br>
-Reported-by: Richard Henderson &lt;<a href=3D"mailto:richard.henderson@lina=
-ro.org" target=3D"_blank">richard.henderson@linaro.org</a>&gt;<br>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
 t.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
 ---<br>
-=C2=A0target/avr/cpu.c | 3 ---<br>
-=C2=A01 file changed, 3 deletions(-)<br></blockquote><div><br></div><div><d=
-iv>Reviewed-By: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdim=
-p.com</a>&gt;</div><div><br></div></div><div>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c<br>
-index ea14175ca55..5d70e34dd54 100644<br>
---- a/target/avr/cpu.c<br>
-+++ b/target/avr/cpu.c<br>
-@@ -197,10 +197,7 @@ static const struct TCGCPUOps avr_tcg_ops =3D {<br>
-=C2=A0 =C2=A0 =C2=A0.synchronize_from_tb =3D avr_cpu_synchronize_from_tb,<b=
-r>
-=C2=A0 =C2=A0 =C2=A0.cpu_exec_interrupt =3D avr_cpu_exec_interrupt,<br>
-=C2=A0 =C2=A0 =C2=A0.tlb_fill =3D avr_cpu_tlb_fill,<br>
--<br>
--#ifndef CONFIG_USER_ONLY<br>
-=C2=A0 =C2=A0 =C2=A0.do_interrupt =3D avr_cpu_do_interrupt,<br>
--#endif /* !CONFIG_USER_ONLY */<br>
-=C2=A0};<br>
+I prefer to not squash this into the previous patch because the<br>
+ifdef&#39;ry removal (in previous patch) is not trivial IMO.<br>
+---<br>
+=C2=A0target/i386/tcg/seg_helper.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 64 --------=
+--------------------<br>
+=C2=A0target/i386/tcg/sysemu/seg_helper.c | 65 ++++++++++++++++++++++++++++=
++<br>
+=C2=A02 files changed, 65 insertions(+), 64 deletions(-)<br></blockquote><d=
+iv><br></div><div><div>Reviewed-By: Warner Losh &lt;<a href=3D"mailto:imp@b=
+sdimp.com">imp@bsdimp.com</a>&gt;</div><div><br></div></div><div>=C2=A0</di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex">
+diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c<br=
+>
+index 13c6e6ee62e..baa905a0cd6 100644<br>
+--- a/target/i386/tcg/seg_helper.c<br>
++++ b/target/i386/tcg/seg_helper.c<br>
+@@ -1110,70 +1110,6 @@ void do_interrupt_x86_hardirq(CPUX86State *env, int =
+intno, int is_hw)<br>
+=C2=A0 =C2=A0 =C2=A0do_interrupt_all(env_archcpu(env), intno, 0, 0, 0, is_h=
+w);<br>
+=C2=A0}<br>
 <br>
-=C2=A0static void avr_cpu_class_init(ObjectClass *oc, void *data)<br>
+-#ifndef CONFIG_USER_ONLY<br>
+-bool x86_cpu_exec_interrupt(CPUState *cs, int interrupt_request)<br>
+-{<br>
+-=C2=A0 =C2=A0 X86CPU *cpu =3D X86_CPU(cs);<br>
+-=C2=A0 =C2=A0 CPUX86State *env =3D &amp;cpu-&gt;env;<br>
+-=C2=A0 =C2=A0 int intno;<br>
+-<br>
+-=C2=A0 =C2=A0 interrupt_request =3D x86_cpu_pending_interrupt(cs, interrup=
+t_request);<br>
+-=C2=A0 =C2=A0 if (!interrupt_request) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 /* Don&#39;t process multiple interrupt requests in a single=
+ call.<br>
+-=C2=A0 =C2=A0 =C2=A0* This is required to make icount-driven execution det=
+erministic.<br>
+-=C2=A0 =C2=A0 =C2=A0*/<br>
+-=C2=A0 =C2=A0 switch (interrupt_request) {<br>
+-=C2=A0 =C2=A0 case CPU_INTERRUPT_POLL:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cs-&gt;interrupt_request &amp;=3D ~CPU_INTERRU=
+PT_POLL;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 apic_poll_irq(cpu-&gt;apic_state);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+-=C2=A0 =C2=A0 case CPU_INTERRUPT_SIPI:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 do_cpu_sipi(cpu);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+-=C2=A0 =C2=A0 case CPU_INTERRUPT_SMI:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_svm_check_intercept_param(env, SVM_EXIT_SM=
+I, 0, 0);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cs-&gt;interrupt_request &amp;=3D ~CPU_INTERRU=
+PT_SMI;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 do_smm_enter(cpu);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+-=C2=A0 =C2=A0 case CPU_INTERRUPT_NMI:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_svm_check_intercept_param(env, SVM_EXIT_NM=
+I, 0, 0);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cs-&gt;interrupt_request &amp;=3D ~CPU_INTERRU=
+PT_NMI;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;hflags2 |=3D HF2_NMI_MASK;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 do_interrupt_x86_hardirq(env, EXCP02_NMI, 1);<=
+br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+-=C2=A0 =C2=A0 case CPU_INTERRUPT_MCE:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cs-&gt;interrupt_request &amp;=3D ~CPU_INTERRU=
+PT_MCE;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 do_interrupt_x86_hardirq(env, EXCP12_MCHK, 0);=
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+-=C2=A0 =C2=A0 case CPU_INTERRUPT_HARD:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_svm_check_intercept_param(env, SVM_EXIT_IN=
+TR, 0, 0);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cs-&gt;interrupt_request &amp;=3D ~(CPU_INTERR=
+UPT_HARD |<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0CPU_INTERRUPT_VIRQ);<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 intno =3D cpu_get_pic_interrupt(env);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(CPU_LOG_TB_IN_ASM,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &quot;Servicing hardware INT=3D0x%02x\n&quot;, intno);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 do_interrupt_x86_hardirq(env, intno, 1);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+-=C2=A0 =C2=A0 case CPU_INTERRUPT_VIRQ:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* FIXME: this should respect TPR */<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_svm_check_intercept_param(env, SVM_EXIT_VI=
+NTR, 0, 0);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 intno =3D x86_ldl_phys(cs, env-&gt;vm_vmcb<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ offsetof(struct vmcb, control.int_vector))=
+;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(CPU_LOG_TB_IN_ASM,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &quot;Servicing virtual hardware INT=3D0x%02x\n&quot;, intno);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 do_interrupt_x86_hardirq(env, intno, 1);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cs-&gt;interrupt_request &amp;=3D ~CPU_INTERRU=
+PT_VIRQ;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
+-=C2=A0 =C2=A0 }<br>
+-<br>
+-=C2=A0 =C2=A0 /* Ensure that no TB jump will be modified as the program fl=
+ow was changed.=C2=A0 */<br>
+-=C2=A0 =C2=A0 return true;<br>
+-}<br>
+-#endif /* CONFIG_USER_ONLY */<br>
+-<br>
+=C2=A0void helper_lldt(CPUX86State *env, int selector)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0SegmentCache *dt;<br>
+diff --git a/target/i386/tcg/sysemu/seg_helper.c b/target/i386/tcg/sysemu/s=
+eg_helper.c<br>
+index 82c0856c417..b425b930f9d 100644<br>
+--- a/target/i386/tcg/sysemu/seg_helper.c<br>
++++ b/target/i386/tcg/sysemu/seg_helper.c<br>
+@@ -125,6 +125,71 @@ void x86_cpu_do_interrupt(CPUState *cs)<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0}<br>
+<br>
++bool x86_cpu_exec_interrupt(CPUState *cs, int interrupt_request)<br>
++{<br>
++=C2=A0 =C2=A0 X86CPU *cpu =3D X86_CPU(cs);<br>
++=C2=A0 =C2=A0 CPUX86State *env =3D &amp;cpu-&gt;env;<br>
++=C2=A0 =C2=A0 int intno;<br>
++<br>
++=C2=A0 =C2=A0 interrupt_request =3D x86_cpu_pending_interrupt(cs, interrup=
+t_request);<br>
++=C2=A0 =C2=A0 if (!interrupt_request) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0* Don&#39;t process multiple interrupt requests in a s=
+ingle call.<br>
++=C2=A0 =C2=A0 =C2=A0* This is required to make icount-driven execution det=
+erministic.<br>
++=C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 switch (interrupt_request) {<br>
++=C2=A0 =C2=A0 case CPU_INTERRUPT_POLL:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cs-&gt;interrupt_request &amp;=3D ~CPU_INTERRU=
+PT_POLL;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 apic_poll_irq(cpu-&gt;apic_state);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 case CPU_INTERRUPT_SIPI:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 do_cpu_sipi(cpu);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 case CPU_INTERRUPT_SMI:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_svm_check_intercept_param(env, SVM_EXIT_SM=
+I, 0, 0);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cs-&gt;interrupt_request &amp;=3D ~CPU_INTERRU=
+PT_SMI;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 do_smm_enter(cpu);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 case CPU_INTERRUPT_NMI:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_svm_check_intercept_param(env, SVM_EXIT_NM=
+I, 0, 0);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cs-&gt;interrupt_request &amp;=3D ~CPU_INTERRU=
+PT_NMI;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 env-&gt;hflags2 |=3D HF2_NMI_MASK;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 do_interrupt_x86_hardirq(env, EXCP02_NMI, 1);<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 case CPU_INTERRUPT_MCE:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cs-&gt;interrupt_request &amp;=3D ~CPU_INTERRU=
+PT_MCE;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 do_interrupt_x86_hardirq(env, EXCP12_MCHK, 0);=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 case CPU_INTERRUPT_HARD:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_svm_check_intercept_param(env, SVM_EXIT_IN=
+TR, 0, 0);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cs-&gt;interrupt_request &amp;=3D ~(CPU_INTERR=
+UPT_HARD |<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0CPU_INTERRUPT_VIRQ);<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 intno =3D cpu_get_pic_interrupt(env);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(CPU_LOG_TB_IN_ASM,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &quot;Servicing hardware INT=3D0x%02x\n&quot;, intno);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 do_interrupt_x86_hardirq(env, intno, 1);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 case CPU_INTERRUPT_VIRQ:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* FIXME: this should respect TPR */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu_svm_check_intercept_param(env, SVM_EXIT_VI=
+NTR, 0, 0);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 intno =3D x86_ldl_phys(cs, env-&gt;vm_vmcb<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0+ offsetof(struct vmcb, control.int_vector))=
+;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_log_mask(CPU_LOG_TB_IN_ASM,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &quot;Servicing virtual hardware INT=3D0x%02x\n&quot;, intno);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 do_interrupt_x86_hardirq(env, intno, 1);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cs-&gt;interrupt_request &amp;=3D ~CPU_INTERRU=
+PT_VIRQ;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0* Ensure that no TB jump will be modified as the progr=
+am flow was changed.<br>
++=C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 return true;<br>
++}<br>
++<br>
+=C2=A0/* check if Port I/O is allowed in TSS */<br>
+=C2=A0void helper_check_io(CPUX86State *env, uint32_t addr, uint32_t size)<=
+br>
+=C2=A0{<br>
 -- <br>
 2.31.1<br>
 <br>
 </blockquote></div></div>
 
---000000000000e2cc8005cb404bb3--
+--00000000000094c00c05cb4050f2--
 
