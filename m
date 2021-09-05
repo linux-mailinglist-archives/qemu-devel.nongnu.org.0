@@ -2,65 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3F4400E95
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 09:32:59 +0200 (CEST)
-Received: from localhost ([::1]:60342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CD55400EA6
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 10:05:28 +0200 (CEST)
+Received: from localhost ([::1]:56910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMmeA-00053J-Cv
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 03:32:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55986)
+	id 1mMn9b-0006OD-6o
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 04:05:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1mMmcB-0004Ac-Ny; Sun, 05 Sep 2021 03:30:56 -0400
-Received: from hera.aquilenet.fr ([185.233.100.1]:53224)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1mMmc9-0002KY-Je; Sun, 05 Sep 2021 03:30:55 -0400
-Received: from localhost (localhost [127.0.0.1])
- by hera.aquilenet.fr (Postfix) with ESMTP id BF2BAAD;
- Sun,  5 Sep 2021 09:30:50 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
-Received: from hera.aquilenet.fr ([127.0.0.1])
- by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id HQSNkEWcVZoz; Sun,  5 Sep 2021 09:30:50 +0200 (CEST)
-Received: from begin (unknown [IPv6:2a01:cb19:956:1b00:de41:a9ff:fe47:ec49])
- by hera.aquilenet.fr (Postfix) with ESMTPSA id 9E4DF61;
- Sun,  5 Sep 2021 09:30:49 +0200 (CEST)
-Received: from samy by begin with local (Exim 4.95-RC2)
- (envelope-from <samuel.thibault@gnu.org>) id 1mMmc4-006PdP-9K;
- Sun, 05 Sep 2021 09:30:48 +0200
-Date: Sun, 5 Sep 2021 09:30:48 +0200
-From: Samuel Thibault <samuel.thibault@gnu.org>
-To: qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH] ide: Cap LBA28 capacity announcement to 2^28-1
-Message-ID: <20210905073048.p2xum6kwrvgooxre@begin>
-References: <20210824104344.3878849-1-samuel.thibault@ens-lyon.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mMn8B-0004M9-FU
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 04:03:59 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:39742)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mMn86-0004qT-AB
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 04:03:58 -0400
+Received: by mail-wr1-x431.google.com with SMTP id z4so4901155wrr.6
+ for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 01:03:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ONDliamBoZzm2VL6YJKXlkz2ekKu0QeUOQxu5FK8uWY=;
+ b=fu80oLwpeK7TKEI65D1qoNioFiLvMzIoq7dQIRF+JaFxGZyhVq6xm/vDEtD7qPjDLq
+ 3reA1ABuU9bQXn6lLgHXqZzg/Y/4Kq08nduCbS8LkArs823QiQIPAWNxANNCpUM2UOZL
+ Pf3RQN2S5KYMVlfInqBx+p2PIS1RNuw2X338NdXOrrcRTkXd8T3c3XpvN++70ZeaowdV
+ Zr0NqA1k7la5NWkGCFFjF0Bemx7H3xTFnd7IDzxqyi2QAAK/eVOE782wcs+Kxel5JxOG
+ e2SdgXvzaiB7aaHyXNm0I3fTuIxRacKJZe78QdLGWTW5l4p7OxK27UwG5HurFmIvv2Os
+ +CtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ONDliamBoZzm2VL6YJKXlkz2ekKu0QeUOQxu5FK8uWY=;
+ b=NYY2ILBOqc53bki7qis4rgN5PdX6Gzv613eE+/F/56vUW4TIHBFeCI8YrMeR+BmTia
+ eVV6axVq+tVZebaEwsR+P9c/8wsZDWJdAHkfdjcYDuwMLolGhWJ+qdA6hwlDOTh1ggMA
+ X6Rni475Jy1VRrruWpLanZw448orSr66XYWjj8H8P0a+TPMFFwSPWEB4B2/raw25FbSo
+ jiSmPAzix/tdbnFUcejZChEBn9iUqmfQVnkAiq6Ub3iVJX/QuCYJZite+D6OZ7FPzqFR
+ HcY0r/k96G8Dov7tPqRAAdAFNWw8WAs4T8ooNG+zKGJMOOggT5ZpMYxbNPA+Xs0rXJGF
+ 7nJw==
+X-Gm-Message-State: AOAM531BVxGrsAQ+Gp+J3h/QOpei00ZLYhUa42JzjkmuXREqzpGeU0oT
+ AFIKS41GNm2HGmlQfEfcV5yUpQ==
+X-Google-Smtp-Source: ABdhPJxix6RhZiSMjUriDnhnPBhNWFrKjpaNcNDniUGFS0Y1kLv6g64YZDzCEH7iDt0fEMuYMOEDAg==
+X-Received: by 2002:a5d:4f02:: with SMTP id c2mr7111384wru.311.1630829032148; 
+ Sun, 05 Sep 2021 01:03:52 -0700 (PDT)
+Received: from [192.168.8.105] (206.red-2-143-78.dynamicip.rima-tde.net.
+ [2.143.78.206])
+ by smtp.gmail.com with ESMTPSA id m4sm3904664wmc.3.2021.09.05.01.03.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 05 Sep 2021 01:03:51 -0700 (PDT)
+Subject: Re: [PATCH v10 01/16] target/riscv: Introduce temporary in
+ gen_add_uw()
+To: Philipp Tomsich <philipp.tomsich@vrull.eu>, qemu-devel@nongnu.org
+References: <20210904203516.2570119-1-philipp.tomsich@vrull.eu>
+ <20210904203516.2570119-2-philipp.tomsich@vrull.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <e8f28bf0-ffbc-eb49-7d77-698aecc442fd@linaro.org>
+Date: Sun, 5 Sep 2021 10:03:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210824104344.3878849-1-samuel.thibault@ens-lyon.org>
-Organization: I am not organized
-User-Agent: NeoMutt/20170609 (1.8.3)
-X-Spamd-Bar: --
-Authentication-Results: hera.aquilenet.fr
-X-Rspamd-Server: hera
-X-Rspamd-Queue-Id: BF2BAAD
-X-Spamd-Result: default: False [-2.50 / 15.00]; ARC_NA(0.00)[];
- RCVD_VIA_SMTP_AUTH(0.00)[]; FROM_HAS_DN(0.00)[];
- RCPT_COUNT_THREE(0.00)[4]; TO_DN_SOME(0.00)[];
- TO_MATCH_ENVRCPT_ALL(0.00)[]; MIME_GOOD(-0.10)[text/plain];
- HAS_ORG_HEADER(0.00)[]; RCVD_COUNT_THREE(0.00)[3];
- RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
- MID_RHS_NOT_FQDN(0.50)[]; BAYES_HAM(-3.00)[100.00%]
-Received-SPF: softfail client-ip=185.233.100.1;
- envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+In-Reply-To: <20210904203516.2570119-2-philipp.tomsich@vrull.eu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -54
+X-Spam_score: -5.5
+X-Spam_bar: -----
+X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, NICE_REPLY_A=-3.832, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,46 +88,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: damien@zamaudio.com, qemu-block@nongnu.org
+Cc: Kito Cheng <kito.cheng@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping?
-
-Samuel Thibault, le mar. 24 août 2021 12:43:44 +0200, a ecrit:
-> The LBA28 capacity (at offsets 60/61 of identification) is supposed to
-> express the maximum size supported by LBA28 commands. If the device is
-> larger than this, we have to cap it to 2^28-1.
+On 9/4/21 10:35 PM, Philipp Tomsich wrote:
+> Following the recent changes in translate.c, gen_add_uw() causes
+> failures on CF3 and SPEC2017 due to the reuse of arg1.  Fix these
+> regressions by introducing a temporary.
 > 
-> At least NetBSD happens to be using this value to determine whether to use
-> LBA28 or LBA48 for its commands, using LBA28 for sectors that don't need
-> LBA48. This commit thus fixes NetBSD access to disks larger than 128GiB.
-> 
-> Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+> Signed-off-by: Philipp Tomsich<philipp.tomsich@vrull.eu>
 > ---
->  hw/ide/core.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
 > 
-> diff --git a/hw/ide/core.c b/hw/ide/core.c
-> index fd69ca3167..e28f8aad61 100644
-> --- a/hw/ide/core.c
-> +++ b/hw/ide/core.c
-> @@ -98,8 +98,12 @@ static void put_le16(uint16_t *p, unsigned int v)
->  static void ide_identify_size(IDEState *s)
->  {
->      uint16_t *p = (uint16_t *)s->identify_data;
-> -    put_le16(p + 60, s->nb_sectors);
-> -    put_le16(p + 61, s->nb_sectors >> 16);
-> +    int64_t nb_sectors_lba28 = s->nb_sectors;
-> +    if (nb_sectors_lba28 >= 1 << 28) {
-> +        nb_sectors_lba28 = (1 << 28) - 1;
-> +    }
-> +    put_le16(p + 60, nb_sectors_lba28);
-> +    put_le16(p + 61, nb_sectors_lba28 >> 16);
->      put_le16(p + 100, s->nb_sectors);
->      put_le16(p + 101, s->nb_sectors >> 16);
->      put_le16(p + 102, s->nb_sectors >> 32);
-> -- 
-> 2.32.0
+> Changes in v10:
+> - new patch
 > 
+>   target/riscv/insn_trans/trans_rvb.c.inc | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+
+Fixes: 191d1dafae9c ("target/riscv: Add DisasExtend to gen_arith*")
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
+
 
