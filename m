@@ -2,109 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACCEB4010F9
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 19:05:13 +0200 (CEST)
-Received: from localhost ([::1]:60366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4CA4010FA
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 19:08:47 +0200 (CEST)
+Received: from localhost ([::1]:34384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMvZw-0004VQ-QK
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 13:05:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47360)
+	id 1mMvdO-0006E7-Sh
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 13:08:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mMvYT-0003is-0y
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 13:03:41 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:28376)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mMvYQ-0008NT-8Z
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 13:03:40 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 185GdqTm118436; Sun, 5 Sep 2021 13:03:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=SyOmsZOQuVEYepmGvakJZek96LAjGvjZQFtfenL/cDE=;
- b=iRbyi9DR/FtEuYmPY/0whO0xC7/G3sDrkvgWyKo/uMYDtGhG8do+wM85w9XkS8XnfDe8
- /ben3BK6/56eOIQNuBdqLs6dR9sS3B3rftTPLFR3fOl1EuMFLRsKXqNenpTTNVkVrJA9
- pq/U+HxEa22kAQbObSEJrB/a4mVdBcVVomZBbzJVezE7hlj5PDcvv6N0hXGRBE6pu+UE
- t4lHWmBB1sDCGVVmEOyNY9E+u3wsUi1PpzWR/qUg3lbOuMVdRqRRGJp0OQY0q9e+VfWS
- +bqMqecafkVCjLHg6wsNoB2bjpeRX3uk5lAgWskUq7ei0ZmYwnGUYBHx9rLZi82dOGQH EQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3aw0k59022-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 05 Sep 2021 13:03:30 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 185H1EFG182980;
- Sun, 5 Sep 2021 13:03:30 -0400
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3aw0k5901w-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 05 Sep 2021 13:03:30 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 185GvtZj011000;
- Sun, 5 Sep 2021 17:03:29 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma03wdc.us.ibm.com with ESMTP id 3av0e92709-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 05 Sep 2021 17:03:29 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 185H3R1O17105156
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 5 Sep 2021 17:03:27 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B48D5C6065;
- Sun,  5 Sep 2021 17:03:27 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D220FC6063;
- Sun,  5 Sep 2021 17:03:23 +0000 (GMT)
-Received: from [9.65.84.185] (unknown [9.65.84.185])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Sun,  5 Sep 2021 17:03:23 +0000 (GMT)
-Subject: Re: [RFC PATCH v2 04/12] i386/sev: initialize SNP context
-To: Brijesh Singh <brijesh.singh@amd.com>, Michael Roth
- <michael.roth@amd.com>, qemu-devel@nongnu.org
-References: <20210826222627.3556-1-michael.roth@amd.com>
- <20210826222627.3556-5-michael.roth@amd.com>
- <7a35c637-eecc-7897-048d-994aeb128549@linux.ibm.com>
- <7590b96e-49ec-849e-93cc-fc0346a3bada@amd.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-Message-ID: <f85107a8-ca12-7e93-da74-9a7a67ebc1a7@linux.ibm.com>
-Date: Sun, 5 Sep 2021 20:03:21 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <7590b96e-49ec-849e-93cc-fc0346a3bada@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: aPKSAbq0lCPFa262086QdD6GI1HKGWFX
-X-Proofpoint-ORIG-GUID: PSrzOv1gAAWX-XeW6qklxkY5qxQ8CMFO
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mMvcb-0005Z3-VD
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 13:07:57 -0400
+Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:47070)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1mMvcZ-0003ZL-JY
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 13:07:57 -0400
+Received: by mail-yb1-xb2f.google.com with SMTP id k65so8660046yba.13
+ for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 10:07:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3spuEvgJoplz0vZD+t0B+fVo+GOUQTVUT/KxPtQEw9k=;
+ b=P4cD3ccdhBe6J18yXdFiwqIBpm7lWJXGvTgvdsZ8mAUbTqutfIBW5EIMrSlDPF80iY
+ eSW43Y8Cblb/KVe8q+J60KC+zGqDugS1gYxCi8TIzhIExAGk3qOwun/UeuzQ11tcL3qj
+ JzCNIa8Qc0O2vO/45Q3ZQQEeO8wD9Xt1j8Gjc3meUWW/MaebrAr+Fv6rlYQ94F3ulIlk
+ EoGVGt3q/OGU333cZFjyME8TdWZ0SV9svR/Lvl3RnHUA9tlDrImwcTmsuOaQ14RtluVl
+ san13R9h9JBX+bCy4rzYwCTYNtQmeleijBLOpHpxb+ncy9hqokPYE0gOtGjZ0onCsEUt
+ L3aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3spuEvgJoplz0vZD+t0B+fVo+GOUQTVUT/KxPtQEw9k=;
+ b=sEZbYnGOd+BWVzIBqqgLgNjqnLb47SK5YwUdRDgPu/OEj0R2BJ4aE3Pu3Bn1Pk1+3w
+ ildmKXvI0aHzUY33NxVrQjaVtDYfhakujEhWlQbr29reGO1oZXqxHEy4claMWJIv3/zZ
+ ofzepbfndR7II6akmXuMi3WDPsnaFyIoWCPtry6RzTTCKV3Srit9hjzNrCbbv0lsuG/N
+ AFg5NJni3TRoJgOMAxuLoRmLLSGzAkAUkFfHw+QucccgJudZ6SvfXkqgEB0hUXpIyEZl
+ DkeTKbqmygOLkg8DqJ7XksttvR/ywuvI9S0vcP5A13kL3ffn+cwcvkkcTMiQ5+Dlzte8
+ IcQw==
+X-Gm-Message-State: AOAM532XZ4e5tRssTFXe+mPOrLVP37paHAmhv9zmAdpy3Jvi38PfZkrk
+ zPsYGAkGFxVRB2c31YlmSZz2cmMOjJRK9rdRFUo=
+X-Google-Smtp-Source: ABdhPJzRZ/I7W/i3LucC1u7kJ6i+WySLhkhR5WNY+kAhiGNmMgeFF54s2mc4KFjDBRtVrIK9tIj3HgU7N/avlxIMLO8=
+X-Received: by 2002:a25:80d4:: with SMTP id c20mr10859906ybm.345.1630861674527; 
+ Sun, 05 Sep 2021 10:07:54 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-09-05_01:2021-09-03,
- 2021-09-05 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0
- clxscore=1015 bulkscore=0 priorityscore=1501 mlxscore=0 adultscore=0
- spamscore=0 suspectscore=0 lowpriorityscore=0 impostorscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2108310000 definitions=main-2109050117
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.832,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210905154049.7992-1-bmeng.cn@gmail.com>
+ <CAFEAcA8frUy2wmQjj=Bk_GGT9O=qHzb5pjSFupc7SaEyDUvYZg@mail.gmail.com>
+ <CAEUhbmVjuYhk=Ebh6VeaPtC816Dssys3g8+dwMo5rv4yHMeHSg@mail.gmail.com>
+ <CAFEAcA9JDN-bGSyjqauKsjJH43TUwk7YTSN0mSvPg9obd9yCUw@mail.gmail.com>
+In-Reply-To: <CAFEAcA9JDN-bGSyjqauKsjJH43TUwk7YTSN0mSvPg9obd9yCUw@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 6 Sep 2021 01:07:43 +0800
+Message-ID: <CAEUhbmWh=8MntXf=TJr8g8FPB2oQJfGhw7Kqs+Tb_ZqpmXUthg@mail.gmail.com>
+Subject: Re: [PATCH] softmmu/memory: Validate {read,
+ write}_with_attrs before calling
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -118,52 +80,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Eric Blake <eblake@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Dov Murik <dovmurik@linux.ibm.com>,
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Peter Xu <peterx@redhat.com>, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Sep 6, 2021 at 12:54 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Sun, 5 Sept 2021 at 17:49, Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > On Mon, Sep 6, 2021 at 12:29 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+> > >
+> > > On Sun, 5 Sept 2021 at 16:40, Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > >
+> > > > {read,write}_with_attrs might be missing, and the codes currently do
+> > > > not validate them before calling, which will cause segment fault.
+> > > >
+> > > > Fixes: 62a0db942dec ("memory: Remove old_mmio accessors")
+> > > > Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+> > >
+> > > This 'fixes' tag doesn't seem quite right. Before that
+> > > commit 62a0db942dec, we still required that a MemoryRegionOps
+> > > provided some form of both read and write.
+> >
+> > Did you mean before commit 62a0db942dec leaving MemoryRegionOps NULL
+> > was not allowed, but things changed so that now it's possible to have
+> > NULL MemoryRegionOps? If yes, then the commit id of "Fixes" should
+> > probably go to the changes that allowed NULL memory ops. If not, I
+> > don't think "Fixes" tag is wrong.
+>
+> I mean that before commit 62a0db942dec leaving the pointers all
+> NULL was not allowed, and after that commit leaving the pointers all
+> NULL was still not allowed. It's been a requirement that you
+> provide at least one function pointer for read and one for
+> write ever since the MemoryRegion APIs were introduced in 2012.
+> You're proposing an API change; it might be a good one, but it
+> isn't a 'Fixes' to anything.
 
+Where is the requirement documented? I don't see anything mentioned in
+docs/devel/memory.rst
 
-On 05/09/2021 17:05, Brijesh Singh wrote:
-> 
-> On 9/5/21 4:19 AM, Dov Murik wrote:
->>
->> On 27/08/2021 1:26, Michael Roth wrote:
->>> From: Brijesh Singh <brijesh.singh@amd.com>
->>>
->>> When SEV-SNP is enabled, the KVM_SNP_INIT command is used to initialize
->>> the platform. The command checks whether SNP is enabled in the KVM, if
->>> enabled then it allocates a new ASID from the SNP pool and calls the
->>> firmware to initialize the all the resources.
->>>
->>
->> From the KVM code ("[PATCH Part2 v5 24/45] KVM: SVM: Add
->> KVM_SEV_SNP_LAUNCH_START command") it seems that KVM_SNP_INIT does *not*
->> allocate the ASID; actually this is done in KVM_SEV_SNP_LAUNCH_START.
-> 
-> Actually, the KVM_SNP_INIT does allocate the ASID. If you look at the
-> driver code then in switch state, the SNP_INIT fallthrough to SEV_INIT
-> which will call sev_guest_init(). The sev_guest_init() allocates a new
-> ASID.
-> https://github.com/AMDESE/linux/blob/bb9ba49cd9b749d5551aae295c091d8757153dd7/arch/x86/kvm/svm/sev.c#L255
-> 
-> The LAUNCH_START simply binds the ASID to a guest.
+If it's a requirement since 2012, then I agree "Fixes" can be dropped.
+But a doc fix should be made to document the "requirement".
 
-OK thank you for clearing this up.  So the kernel is choosing the new
-ASID during the KVM_SNP_INIT ioctl, but doesn't "tell" the firmware
-about it.  Then later in SNP_LAUNCH_START that integer (saved in the
-kernel sev structure) is given to the firmware as an argument of the
-SNP_LAUNCH_START (binding?).  Is this description correct?
-
-
--Dov
+Regards,
+Bin
 
