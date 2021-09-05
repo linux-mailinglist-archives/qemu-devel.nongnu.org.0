@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA88F400DA8
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 02:08:35 +0200 (CEST)
-Received: from localhost ([::1]:56538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4C5F400DB1
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 02:19:05 +0200 (CEST)
+Received: from localhost ([::1]:47482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMfi6-0005KZ-Ug
-	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 20:08:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47714)
+	id 1mMfsG-0001SA-Ol
+	for lists+qemu-devel@lfdr.de; Sat, 04 Sep 2021 20:19:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mMfXm-0000gk-J0
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 19:57:54 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:52759)
+ id 1mMfeE-0000TV-LD
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 20:04:34 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:44930)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1mMfXl-0000Cu-06
- for qemu-devel@nongnu.org; Sat, 04 Sep 2021 19:57:54 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id e26so1896226wmk.2
- for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 16:57:52 -0700 (PDT)
+ id 1mMfeC-0004Da-P3
+ for qemu-devel@nongnu.org; Sat, 04 Sep 2021 20:04:34 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ l7-20020a1c2507000000b002e6be5d86b3so2125249wml.3
+ for <qemu-devel@nongnu.org>; Sat, 04 Sep 2021 17:04:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=T4pI+gOIoQYZd9V+8CX82xC3q0nWNwipfLf26DxJ+o0=;
- b=mXRnsAjuAqm/gT+4wkjZXtF0DdDaULHnPfzz1dGRo/XmpdZ5E88KhVn6uZEmVEQEUZ
- vSemyVe+m6jDSUP1DEqSBMJZJUkwDup6USpAV4OSPh+3ZqtbfvwaoFUexZ2lhxRR7CPv
- uG5OnSQei2LsvTzrVsjnnL5qj2P8AMAkbhIL+PJaQASfHRQKhNPm+N1N6PHE+E2H41Iv
- 6trQjzqS/yymzGhskZSvCQCE7xTAzOsPw1L6D4xLh7zGOUNMTBWp3+BryqfB0yZeUgBB
- EvDp8DsBRz6kRc4mUV31zWRj7i2tZpCqXursUoTEdIRcZvjFuool/hVwcRf8tPk84wfJ
- GtjA==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GbEUXgSj5zJThn7W+1y+EWJV7fbOPPsHPqX4FHh3ps4=;
+ b=S+YTa+U4FcB2U7m4g5/p8BwPo2ARiFA2SGtKGSw2XIdzewpwUeYrbvfv3pOKZXOyd5
+ NN5UDLDxjYYb7kaWLdPNL0ylw0Tz5pPZSNElvuS24AwcQb+r6b3LlVRNgIdwepfCktl6
+ poLs3PQc97sW4K2pZNsylaasOnWhY7mBQOnY4KQNcOqwaplhRgOq6NM7RhJQiaatgkwk
+ PB5raNZuCSqLvP3MkCkhnFM9GSExEVFe2bljRG0pGrCcIOAw3VjAq/yBpSiDnxTetTDF
+ 1vmlzjLKrPhAVJeQ3bZ1PVKTlT8SAsKByN7YS0lVf1r/tY0fJdWteaDaZJgPUv3ECEfJ
+ 9Fsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=T4pI+gOIoQYZd9V+8CX82xC3q0nWNwipfLf26DxJ+o0=;
- b=il55VJS4/p7GefTxE5y1ely/AA9WsPvurmuoKFd9G3o9Pcmuh4oiGVssfbMkWmPlxS
- eAkIct4dhHfPjpE4AqVyLoImoLCiIRxrup0OD+RmakfUilgrNMpJ6P7qoWVACjMGqU5Q
- 48Q4nl3YoK0R5o7mGD8rtFkGoImwBFlnpPzvY0AkaQIbxcF64pV4AGDv3nOQdrt2vqTN
- ObpsxnpO/cKkciiMY9xF1oCzI3LOnXdVu3GTGeigNIhcnbfq/6JBAq0k/sM3DK/pA2Z7
- nO/R0DgUt/Y+cnrzAlmCfAJC0qlPT4DAhqfbiUYzg2I990Vpe3vRJ0/3Bojp/cWv81o+
- mE6g==
-X-Gm-Message-State: AOAM533tZ0nt5q2v8uWAncdcFV6XYI/V9LrbeZEC67A4A6HUuN52p7nx
- VV1jecGhfyRHRVJZtSFZ1ebfZ1gFyco=
-X-Google-Smtp-Source: ABdhPJzUZm2LVbjLZmE+YuJ1P3RafsFif54wS/sGvbQfkGQARS7TzrnlKF1WlosUCwKCiU15DFWa8w==
-X-Received: by 2002:a1c:a9ce:: with SMTP id s197mr4867407wme.173.1630799871471; 
- Sat, 04 Sep 2021 16:57:51 -0700 (PDT)
+ :mime-version:content-transfer-encoding;
+ bh=GbEUXgSj5zJThn7W+1y+EWJV7fbOPPsHPqX4FHh3ps4=;
+ b=gHwlrJ1/V6KVG5hHS+kRsy623gtb5mJ7RqegdoZz2PgU2BsxsZ8m1CroQuMFI9Ojwt
+ QiWuEshkzrCdN4M4q793IRWop4fN9LJULwEniLOJUqLkT3VKGz4HuKra6T9DWA7JYxiM
+ rxcTk6N8p7RlRx2tdyLQ7Z4kHvHNdGW6sX1eWvX7jk4Vum49lOs76CKzt+UB0wzT9iIm
+ 8R/KuCRWgNjmVluC7/99k+3+i8DCc1P71egHbBlSQwhhGm+2c2F8dYMNn6d6VpVGBg1w
+ /4N0wueHKmOsGicn39vzQ3tx9yRW+fCus+6CmKiFNJzoflHp/dgcsR1zjLtdpvGWikwP
+ Ad8Q==
+X-Gm-Message-State: AOAM530ELz8Upkm6PStJS4JS+JuBRiigbA2oBZQzzoqmWAozUBOWy38h
+ iFrPzt/bM3iooLZ+eKGP8sRvMhfHhkc=
+X-Google-Smtp-Source: ABdhPJzaZvoaq7SMPHFhD+0aMk6oopU1/LjMpMq51UpaPgYZAulfNQD2VEGPckO7PRD9oQcvWOhmvg==
+X-Received: by 2002:a05:600c:414f:: with SMTP id
+ h15mr4954287wmm.124.1630800270795; 
+ Sat, 04 Sep 2021 17:04:30 -0700 (PDT)
 Received: from x1w.. (21.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id o7sm3103135wmq.36.2021.09.04.16.57.50
+ by smtp.gmail.com with ESMTPSA id n4sm3997799wro.81.2021.09.04.17.04.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Sep 2021 16:57:50 -0700 (PDT)
+ Sat, 04 Sep 2021 17:04:30 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 24/24] user: Remove cpu_get_pic_interrupt() stubs
-Date: Sun,  5 Sep 2021 01:55:42 +0200
-Message-Id: <20210904235542.1092641-25-f4bug@amsat.org>
+Subject: [PATCH] user: Mark cpu_loop() with noreturn attribute
+Date: Sun,  5 Sep 2021 02:04:29 +0200
+Message-Id: <20210905000429.1097336-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210904235542.1092641-1-f4bug@amsat.org>
-References: <20210904235542.1092641-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,75 +84,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
+Cc: Kyle Evans <kevans@freebsd.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>, Warner Losh <imp@bsdimp.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cpu_get_pic_interrupt() is now unreachable from user-mode,
-delete the unnecessary stubs.
+cpu_loop() never exits, so mark it with QEMU_NORETURN.
 
-Reviewed-by: Warner Losh <imp@bsdimp.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/i386/cpu.h | 2 +-
- bsd-user/main.c   | 7 -------
- linux-user/main.c | 7 -------
- 3 files changed, 1 insertion(+), 15 deletions(-)
+ bsd-user/qemu.h   | 2 +-
+ linux-user/qemu.h | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index c241bc183d2..c7cc65e92d5 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1832,9 +1832,9 @@ int x86_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- void x86_cpu_list(void);
- int cpu_x86_support_mca_broadcast(CPUX86State *env);
- 
-+#ifndef CONFIG_USER_ONLY
- int cpu_get_pic_interrupt(CPUX86State *s);
- 
--#ifndef CONFIG_USER_ONLY
- /* MSDOS compatibility mode FPU exception support */
- void x86_register_ferr_irq(qemu_irq irq);
- void fpu_check_raise_ferr_irq(CPUX86State *s);
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index fe66204b6b7..e358c38c353 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -66,13 +66,6 @@ void gemu_log(const char *fmt, ...)
-     va_end(ap);
- }
- 
--#if defined(TARGET_I386)
--int cpu_get_pic_interrupt(CPUX86State *env)
--{
--    return -1;
--}
--#endif
--
- void fork_start(void)
- {
- }
-diff --git a/linux-user/main.c b/linux-user/main.c
-index a6094563b6b..45bde4598d5 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -120,13 +120,6 @@ const char *qemu_uname_release;
-    by remapping the process stack directly at the right place */
- unsigned long guest_stack_size = 8 * 1024 * 1024UL;
- 
--#if defined(TARGET_I386)
--int cpu_get_pic_interrupt(CPUX86State *env)
--{
--    return -1;
--}
--#endif
--
- /***********************************************************/
- /* Helper routines for implementing atomic operations.  */
- 
+diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
+index c02e8a5ca1a..05bee7aefe5 100644
+--- a/bsd-user/qemu.h
++++ b/bsd-user/qemu.h
+@@ -155,7 +155,7 @@ abi_long do_openbsd_syscall(void *cpu_env, int num, abi_long arg1,
+                             abi_long arg5, abi_long arg6);
+ void gemu_log(const char *fmt, ...) GCC_FMT_ATTR(1, 2);
+ extern THREAD CPUState *thread_cpu;
+-void cpu_loop(CPUArchState *env);
++void QEMU_NORETURN cpu_loop(CPUArchState *env);
+ char *target_strerror(int err);
+ int get_osversion(void);
+ void fork_start(void);
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index 3b0b6b75fe8..5b2c764ae78 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -236,7 +236,7 @@ abi_long do_syscall(void *cpu_env, int num, abi_long arg1,
+                     abi_long arg5, abi_long arg6, abi_long arg7,
+                     abi_long arg8);
+ extern __thread CPUState *thread_cpu;
+-void cpu_loop(CPUArchState *env);
++void QEMU_NORETURN cpu_loop(CPUArchState *env);
+ const char *target_strerror(int err);
+ int get_osversion(void);
+ void init_qemu_uname_release(void);
 -- 
 2.31.1
 
