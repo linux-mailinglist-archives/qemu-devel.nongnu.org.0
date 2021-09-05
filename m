@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE088400EB5
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 10:31:54 +0200 (CEST)
-Received: from localhost ([::1]:51420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D09AB400EB6
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 10:36:24 +0200 (CEST)
+Received: from localhost ([::1]:53850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMnZB-0006Ap-Q8
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 04:31:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33548)
+	id 1mMndX-00080o-U3
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 04:36:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMnXK-0004eP-7F
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 04:29:58 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:36659)
+ id 1mMncQ-0007Fe-PF
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 04:35:15 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37493)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMnXI-0001D1-LJ
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 04:29:57 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- 79-20020a1c0452000000b002e6cf79e572so2633976wme.1
- for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 01:29:55 -0700 (PDT)
+ id 1mMncO-0005dx-Oj
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 04:35:14 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id v10so4975742wrd.4
+ for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 01:35:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=riKoV1Wn9kik75h4mmk0xDFWLDhViCMgiRNE7tivpU4=;
- b=r+h0Ngqn7rG/fcQzN2LtOw+VMvOWqivdSr0sHsyULrofSudSfU6TOBbp5Npv0nlrln
- miiOY3TqyDKNCZJ6USsKoUXavwXxE+acbb136Lh1iGJz7+1cxKrOqYQ8FVQfNl9MSh47
- bj6fh7xtXfozeHr1LSKoO81Q6zzRgUjrwS7CC+P0o69Gy8Csydu1B+aZOyHlNwSAZIvl
- bfHglqHrGvm3cLUlq4/dAnKBMPHpPoxdAxhL9dik5AadkJjGLnt3iM8GN8IXI9YGC4E0
- dKVPJQsftSH0WYSB5HB+/BXkle+YEAtmweblUJCOZs0uMHsZfua52Vy+6PUzh1tnT5Uu
- lqLA==
+ bh=YdwbykvsT/lmdvkQoexjq15mZDXkjtDCoquks5EoE9M=;
+ b=E6tZRcXmlNz013K6js7oEktjlT54HyYkwZDoJk8eQ63jqlCkP/0Vad8P5HqA1qLgHo
+ 7nK4g+FnYaM9J1Xz5FGrsDOwm4MzxtpjZ8e+t4Syaw0TWLdyP4GoTj3ktPtKmw8BTdTc
+ hcq+a46YV8DAgO1YvPzX72eQIGyrqp6GFrAIMxymjdIH3Kc1EwE2SGvqgBnEf42y5Gin
+ mRupLFiVb5P4EChRCHZ2yZLi2XU8/RhQAfh+vWT4K5unNLxco6JTNMkzA4UjbkvwdOgm
+ 2KS7Wu4xVestD6EFewkP28P2lVUz2jxOeeQKwODtS7ww9BK06zAfVINuRRlAUPW2NXBr
+ USAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=riKoV1Wn9kik75h4mmk0xDFWLDhViCMgiRNE7tivpU4=;
- b=Ibm463aTi3Y7ELyLihko1F3um0rlm3b4uthlhkoXmrQIWEtBiI6A74EMoPPV3vC2yr
- am2/Pax0mpc8LwvUopoYcMvXRKIeCu9MLVamNFOg3l/DsudLE3sjiKT6XhuVCFSuH4mO
- YJj0cn38zNpiQLQ7hFhQQY6BZrE2kcZlcOvdkZf5TV3vp8NBkKHAxofqvhDBmpTiF+Vb
- jkKu8i1mqRPxI1GW4Ojha/buajGghGj1XikbUT1I3rLKXiTXgYzKeucBfKX3OU21zj3s
- ePcbALnTldiw6IiO5pMphlT+Fg7vhosr1WwVzOH2YnaAx1se9fXn1KEWPVKBvp4JiWzR
- c+1w==
-X-Gm-Message-State: AOAM531YzJPMKZUDC9q2J/Qroc4+kDw21m3rNBHIpNvCi98xt+xH+EvH
- RnwCWISdYV8OFqdDBtgVTBqCtQ==
-X-Google-Smtp-Source: ABdhPJxa5EuYyt9cHVpvq/E1ArdDt0YLQhyP7oslvVhXKUDhleH5Dk7+7SBCvLj1bw9bFSIh8HoqSA==
-X-Received: by 2002:a05:600c:4999:: with SMTP id
- h25mr6150282wmp.175.1630830594214; 
- Sun, 05 Sep 2021 01:29:54 -0700 (PDT)
+ bh=YdwbykvsT/lmdvkQoexjq15mZDXkjtDCoquks5EoE9M=;
+ b=LsxcMuU74EWkFikJmaenGdPmKzs6vQje96J1VV6rrdXDimH+tjNAG0VSoLhmp2QjQ2
+ +EQ7E6bM/dSVSeTOhUxZM/cB/u985/6LykIzcaEfAS4s2LZuuOYJoaZkURLL5Imzddc0
+ GYHeX7nkXlEzk14BJ1pPUqh2+VZgWALSv8HlYlXQg+dy/tjJAOGFPDXOiou1pudUn6N0
+ UTPWKVCeTqBNqd0s15X41XrivtR8TihAv+ALPRJgc+S7RiopG9nlCNp/Xmsm9wI0txyp
+ 9e3004CZHjTu+gftmSctRSZ2bbLORYUmhMprcyZTaZBViUfZvvd9Iw9+E7pOxM7Q30/e
+ HEzA==
+X-Gm-Message-State: AOAM531PHN9yOcnW14wWOGxbmRI0hQWOqtlVXM6QyIvbnNDrgC5gMpui
+ QS6cVhNvB4tVkx8BGGORcozduw==
+X-Google-Smtp-Source: ABdhPJx+d2z0R1RqWjhou4InwTExucTIGcJUSI8+Zv1n8vp6bFV5Zj+cxbqpKm/X8gU0+x7z/9x/NA==
+X-Received: by 2002:a5d:6e84:: with SMTP id k4mr7434967wrz.426.1630830910619; 
+ Sun, 05 Sep 2021 01:35:10 -0700 (PDT)
 Received: from [192.168.8.105] (206.red-2-143-78.dynamicip.rima-tde.net.
  [2.143.78.206])
- by smtp.gmail.com with ESMTPSA id o18sm3482437wra.78.2021.09.05.01.29.52
+ by smtp.gmail.com with ESMTPSA id w20sm1681441wrg.1.2021.09.05.01.35.08
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 Sep 2021 01:29:53 -0700 (PDT)
-Subject: Re: [PATCH v2 01/24] target/avr: Remove pointless use of
- CONFIG_USER_ONLY definition
+ Sun, 05 Sep 2021 01:35:09 -0700 (PDT)
+Subject: Re: [PATCH v2 11/24] target/i386: Move x86_cpu_exec_interrupt() under
+ sysemu/ folder
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210904235542.1092641-1-f4bug@amsat.org>
- <20210904235542.1092641-2-f4bug@amsat.org>
+ <20210904235542.1092641-12-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <acd0e688-7e95-92c8-d1be-9d8bbc2b616c@linaro.org>
-Date: Sun, 5 Sep 2021 10:29:48 +0200
+Message-ID: <190f4143-d285-48d5-c496-ce493c439d60@linaro.org>
+Date: Sun, 5 Sep 2021 10:35:06 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210904235542.1092641-2-f4bug@amsat.org>
+In-Reply-To: <20210904235542.1092641-12-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -58
 X-Spam_score: -5.9
 X-Spam_bar: -----
@@ -97,22 +95,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/5/21 1:55 AM, Philippe Mathieu-Daudé wrote:
-> Commit f1c671f96cb ("target/avr: Introduce basic CPU class object")
-> added to target/avr/cpu.h:
+> Following the logic of commit 30493a030ff ("i386: split seg_helper
+> into user-only and sysemu parts"), move x86_cpu_exec_interrupt()
+> under sysemu/seg_helper.c.
 > 
->    #ifdef CONFIG_USER_ONLY
->    #error "AVR 8-bit does not support user mode"
->    #endif
-> 
-> Remove the CONFIG_USER_ONLY definition introduced by mistake in
-> commit 78271684719 ("cpu: tcg_ops: move to tcg-cpu-ops.h, keep a
-> pointer in CPUClass").
-> 
-> Reported-by: Richard Henderson<richard.henderson@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
 > ---
->   target/avr/cpu.c | 3 ---
->   1 file changed, 3 deletions(-)
+> I prefer to not squash this into the previous patch because the
+> ifdef'ry removal (in previous patch) is not trivial IMO.
+> ---
+>   target/i386/tcg/seg_helper.c        | 64 ----------------------------
+>   target/i386/tcg/sysemu/seg_helper.c | 65 +++++++++++++++++++++++++++++
+>   2 files changed, 65 insertions(+), 64 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
