@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 051C0400EA8
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 10:07:43 +0200 (CEST)
-Received: from localhost ([::1]:32960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 391CA400EAA
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 10:15:29 +0200 (CEST)
+Received: from localhost ([::1]:44490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMnBm-0000y9-4F
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 04:07:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59562)
+	id 1mMnJH-0000bN-W0
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 04:15:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMnAY-0008CP-PS
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 04:06:26 -0400
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36840)
+ id 1mMnFo-0005si-4V
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 04:11:52 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:43616)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1mMnAX-0007A2-Eq
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 04:06:26 -0400
-Received: by mail-wr1-x433.google.com with SMTP id q14so4932893wrp.3
- for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 01:06:25 -0700 (PDT)
+ id 1mMnFm-0003FI-2p
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 04:11:51 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id b6so4917506wrh.10
+ for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 01:11:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NDPMJH+s/pOyzHmbw7BfF0p7wQATXYlu60PxgPi5ic0=;
- b=heesdtxes7+6wxiRklucHOBkApuTigFB7UYlVFSyKhwCxCFKtXxe4Z4ahjwAnehxiG
- kJe4Y+7IIS+of87PSPkRY3bDwhusAuf5OafmDBYiG5uwq5TIW7SUxjryyr1weZBzT4rn
- E5d516kKTF5fPVFNFtk1wflz8NHFldZt4cfuLo/0b+2FDy+UsdqPR6lTzsGKW84OuT1s
- 0g2Nsrepkv/R/WmIUmR5XgIGny5XwUTTSQmAfs8AVwckMElSZqyXMtOq9ytn1G/BELrO
- vawKK7qx+M61p9JKw+F61FWQyHFq4WmpS9gQn8PEUObFUMi+2yjM6mRhB3KZV9BgTnnC
- rUwg==
+ bh=SD2fP0VM9vv5BuVwWwyDIqG5x8aX5WY+0NG7VDMad6U=;
+ b=E1REL/l4BfJwUSo07XWtMamvmuaykY+g+4IkkTAnF1/QAbg2pP8xrUSyz1sAYvY6p8
+ XyCFzXwc9X0cQZuUpMk2s7eXqrytWZ5ExnY8idHxX/bOqPF9xL0paEaffdAsMunI6kZv
+ Kr6IdV+pTmB9IM/5lo+A9aAcisA4/T0ZKgBvQI5t4Yhk8SemwN6VZ/SC2gvrgyMgAR54
+ 0z2oD5SXF5q3km4GfEFFbEd9oHK7sihgA4dY/45iW8KVK7AEcBcpYTOz6Q12Ms2+Urim
+ MuqgUvvUhliY3gncFnTZ0Jh+BcgJ3hg8jSLj/Ho7BEc29FscjBJJDvrcHbA++PrCMqgc
+ vsGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=NDPMJH+s/pOyzHmbw7BfF0p7wQATXYlu60PxgPi5ic0=;
- b=qk4Ywn/5ngzy8qv4/xLjFlYb3TEUC4fPCxJXdv9zra36afhy9CUAUqZLUWOIgMEYhN
- nhQwKbWo6qHbNVnfJu7/ishwc1vKBM455lVvXzNxD/YjSiz2Mm5rJUXV42jTUiD9Ucsv
- FuWKqtVNdFRnq4hbYDDdjCR9yXmdjWenUe/7jDgeDAMoAd37wY4VJCm4Po7G4Q8QPEG2
- 5vi84I+291s0Oi06eMCR3lW57zAn4tDQEpqn7UUj82Ap9udkIP3k3FcUnhQiVtrUL2Z6
- 6qWWTb+VpXac8sC8Piq0igrj0mePBK0PAEK57I0oE+ryc3SRn12ZIByNXVbGvQJDbNQ9
- 0tng==
-X-Gm-Message-State: AOAM533qlMlObv7XZWg+lYRXsGXOAiflhiPh7XCtEk61U8YdFJaTxiNn
- dmD+A0XWpk1Zt9FSOC6NSizg5Q==
-X-Google-Smtp-Source: ABdhPJyxvY9GLQbgtst208f2NeHrRkjsb8nL0BWVxyy/W3B/wMbH86oplAD6zWdyBpgvfH3m66aulg==
-X-Received: by 2002:a05:6000:352:: with SMTP id
- e18mr7192619wre.238.1630829183691; 
- Sun, 05 Sep 2021 01:06:23 -0700 (PDT)
+ bh=SD2fP0VM9vv5BuVwWwyDIqG5x8aX5WY+0NG7VDMad6U=;
+ b=dxY0mqsRe5J1nUKny1bdC9Pvd+gV8NoeumWm0AivoMlbzwkkRl7kXPjMTFPihaBD57
+ zgJXHp0hou2QGcAlqtAi9pmhB57E3h74fiZV1S1zf4jWSw5fZUyevCzEXsXz5pS0yurR
+ xbTWC2HlCI42RVE9TAFB6p8YOU95fzU25qdtWnaM4iswxWky6C9rjsfQxrzUBfN2Bytl
+ KHIgxpa342sXWwTFBQaAuqx3+p6bQ5ihax7lra9VjsRB2Y/S2wUuNg7c5+wC+yuKR2c6
+ ioFkojtpfItPKEmKBdPkjuq/kAWfhHbTyj2pDmVzTL71IIRcmg4LOCrb7ZUdShkV760I
+ ru1g==
+X-Gm-Message-State: AOAM532rfvGkMBCkfQMYB/Llm8XsxuTUUPK35JHnJegDAF+sUpFkGgqm
+ GJGYC4p+1V3P+Of4iedetrdavg==
+X-Google-Smtp-Source: ABdhPJyJTU/URCXz9ZQLEfSGad6zA2mADaOc2mHV3bgT58aL9LeLVNSWgwIVfi1BfAzprwQTvDh1Nw==
+X-Received: by 2002:adf:9f4b:: with SMTP id f11mr7432043wrg.337.1630829508314; 
+ Sun, 05 Sep 2021 01:11:48 -0700 (PDT)
 Received: from [192.168.8.105] (206.red-2-143-78.dynamicip.rima-tde.net.
  [2.143.78.206])
- by smtp.gmail.com with ESMTPSA id k1sm4257817wrz.61.2021.09.05.01.06.22
+ by smtp.gmail.com with ESMTPSA id l2sm4012303wmi.1.2021.09.05.01.11.47
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 05 Sep 2021 01:06:23 -0700 (PDT)
-Subject: Re: [PATCH v10 02/16] target/riscv: fix clzw implementation to
- operate on arg1
+ Sun, 05 Sep 2021 01:11:48 -0700 (PDT)
+Subject: Re: [PATCH v10 03/16] target/riscv: clwz must ignore high bits (use
+ shift-left & changed logic)
 To: Philipp Tomsich <philipp.tomsich@vrull.eu>, qemu-devel@nongnu.org
 References: <20210904203516.2570119-1-philipp.tomsich@vrull.eu>
- <20210904203516.2570119-3-philipp.tomsich@vrull.eu>
+ <20210904203516.2570119-4-philipp.tomsich@vrull.eu>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e0499caa-7172-1ed0-50aa-e7d601f6c5ed@linaro.org>
-Date: Sun, 5 Sep 2021 10:06:19 +0200
+Message-ID: <3e608998-3270-cf41-66b5-32158db99de0@linaro.org>
+Date: Sun, 5 Sep 2021 10:11:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210904203516.2570119-3-philipp.tomsich@vrull.eu>
+In-Reply-To: <20210904203516.2570119-4-philipp.tomsich@vrull.eu>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -58
 X-Spam_score: -5.9
 X-Spam_bar: -----
@@ -96,19 +95,41 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 9/4/21 10:35 PM, Philipp Tomsich wrote:
-> The refactored gen_clzw() uses ret as its argument, instead of arg1.
-> Fix it.
+> Assume clzw being executed on a register that is not sign-extended, such
+> as for the following sequence that uses (1ULL << 63) | 392 as the operand
+> to clzw:
+> 	bseti	a2, zero, 63
+> 	addi	a2, a2, 392
+> 	clzw    a3, a2
+> The correct result of clzw would be 23, but the current implementation
+> returns -32 (as it performs a 64bit clz, which results in 0 leading zero
+> bits, and then subtracts 32).
 > 
-> Signed-off-by: Philipp Tomsich<philipp.tomsich@vrull.eu>
+> Fix this by changing the implementation to:
+>   1. shift the original register up by 32
+>   2. performs a target-length (64bit) clz
+>   3. return 32 if no bits are set
+> 
+> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 > ---
 > 
 > Changes in v10:
-> - New patch, fixing regressions discovered with x264_r.
+> - New patch, fixing correctnes for clzw called on a register with undefined
+>    (as in: not properly sign-extended) upper bits.
 
-Fixes: 60903915050 ("target/riscv: Add DisasExtend to gen_unary")
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+But we have
+
+     return gen_unary(ctx, a, EXT_ZERO, gen_clzw);
+
+should *not* be undefined.  Ah, what's missing is
+
+     ctx->w = true;
+
+within trans_clzw to cause the extend to take effect.
+
+There are a few other "w" functions that are missing that set, though they use EXT_NONE so 
+there is no visible bug, it would probably be best to set w anyway.
 
 
 r~
-
 
