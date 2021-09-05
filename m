@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7419340109F
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 17:42:31 +0200 (CEST)
-Received: from localhost ([::1]:58508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93B7C4010BF
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 18:03:35 +0200 (CEST)
+Received: from localhost ([::1]:44402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMuHu-0004OV-4x
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 11:42:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36184)
+	id 1mMucI-0006AR-2m
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 12:03:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mMuGa-0003hI-Jk
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 11:41:08 -0400
-Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:42828)
+ id 1mMuYn-0003E9-UL
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 11:59:57 -0400
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33]:36817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1mMuGQ-0007FM-HS
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 11:41:08 -0400
-Received: by mail-pg1-x534.google.com with SMTP id q68so4139216pga.9
- for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 08:40:58 -0700 (PDT)
+ id 1mMuYm-00068J-Jy
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 11:59:57 -0400
+Received: by mail-yb1-xb33.google.com with SMTP id f15so8520135ybg.3
+ for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 08:59:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=E/draRrlsHwKNaAs29yyB8blTCojrQ8KUBKsAfXko00=;
- b=VM9U0rgjoEiHmCtiZ1m6BGGIkjMlkMcIMmYoSxY9euvzAirx3HEWx97bFFzGecmou1
- 6Ti4FhPYwk4lEiR5S1v9iHAZ1RMyz7inHbql9XODOV/llGSsG+Swc8VCVJBdbe59XmR5
- K2w4cjc0cC/pAfyYyCiJWQ+2nnmIcee+EBthKjPXaTj7+XjBGRa9zgMYWrBmHgAEC0BE
- ZMx2rptuNw51dwQpLyORng/9J0hwXd4yAr6J5YtzdPHW5OUYMWZ8BicYmLnirGjq6c29
- F/wWQlmBFeuzMaii6fdt84uH5UhuiCubI2H6ZbBbU3eJiBxHCd7rIysC/cx9unECDMLn
- v3fQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=TMHsumP1XrX9UuoQgf0ckY34OxQzviClAicldSz/+68=;
+ b=n/gxzzxEbz7YQNUmXRxZ5vYvC/h5zSrPzHWrZktEOCNdOHeVAupV9rMoSvvzddSMvF
+ EmRMeWBQkSBz8kcbNreaVxMiyXcBylhr59YYsw5rBc2vuaEYI9ROQnMNrkk8j858DXN/
+ yOCrKDjUILwoictT0S6Zx3IZTUsfBSzamF11Uu635wuL3ul/uUaCVFj51/stByergAn+
+ z13rD/9JHp9HPb6f4svq0FyZI9VX4tTCEyu97zefi68wd1Lxi2nGe8rLwyPgYssCZUct
+ FvgfGZLZ7iTm2MSFlBpU1Pcd+yQzO3YHNwpZAEV2QVzmmusKrKF7qLaHG3FqMaZDLhG6
+ yWvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=E/draRrlsHwKNaAs29yyB8blTCojrQ8KUBKsAfXko00=;
- b=inEEWjTNlcZB/chrUiyR+QG2YXA9gxisMwvuw44fNjrwW271g5HW9knL81h9+5mGdp
- o8vseiurwJ/LkvfvhaKYCbjEc0orOLylrbChYC/zpfN/PqcVa5XcQzCOOfI2NxFpSdb5
- kcFuwHIyyg2ZN4eeZvI8YAofnH04RgkSWiVie++J6VAn/wJr7DDgb4KYmlEn+vNYJyZA
- n+VljscYiSn5p8pmbPgL2QgZo7ZpAK74LVsp6aR6gugw6wJHIm00ZY2HGvZTS9K0Tauq
- g/fIUNdckGL2RvNBMbw1+SrVQNpGgcS3GFqaEznLMRBy5jUr8N2Mr589H+7u05aMdr1F
- dCwg==
-X-Gm-Message-State: AOAM530fgeiGmeypBujMw8incEnxlFfQ4rTeLMVCBDK8wNdfISH6ntrK
- LX0vWkew6wHhiYDseQNlgOw=
-X-Google-Smtp-Source: ABdhPJxGkL6OxQUJsy/A6Aslpk/JSbOVEvuFQ+1wuDmQVXPz869lTmhmWKfO8y38A/MSTuO2IUTa4A==
-X-Received: by 2002:a05:6a00:1750:b0:40c:f3b8:dc76 with SMTP id
- j16-20020a056a00175000b0040cf3b8dc76mr8022076pfc.22.1630856457112; 
- Sun, 05 Sep 2021 08:40:57 -0700 (PDT)
-Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
- [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id y4sm4916906pjw.57.2021.09.05.08.40.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 05 Sep 2021 08:40:56 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Xu <peterx@redhat.com>
-Subject: [PATCH] softmmu/memory: Validate {read,
- write}_with_attrs before calling
-Date: Sun,  5 Sep 2021 23:40:49 +0800
-Message-Id: <20210905154049.7992-1-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=TMHsumP1XrX9UuoQgf0ckY34OxQzviClAicldSz/+68=;
+ b=LEfdC/rrpBAivgStjY/r9Lp8jStpgnspxt+3dpjDJPxtYmRybFv8zMX3LrWP4jmB6J
+ EAcUnwv30u6Cyfr+RheX2Q6t0qinSZovp1zJQ28zIO6JL4JLyiRUiSwUttM5FrAIuvwM
+ uNIEUlNomeAC148RQGbvOMJx/e6aOq28YEpi9k2Y98u2TqiyhbWpWieWdfQsRK7X9h8r
+ 8C6rVsh5xmtcBz7stsAkyPYN0Uw6TMS6yU1VxQa7zIAPTfmguig1CKh2vPW8ilQYo/hi
+ Q9753IEU7GT/Bg6QLJ3L+DiGyC1CXaTvJXIfM4bXYIEOKW/BgdolrEEDiHXZCjQZPMWq
+ zKNw==
+X-Gm-Message-State: AOAM532Zrkh0Gg7gq7rMENjUV/MtiiwxXB9Xa1rrcljeci+C4oABXkPm
+ dI4vd9UIGgFlDxTabREKIxuIlrgsqU/7pd9vOF4=
+X-Google-Smtp-Source: ABdhPJy4K8AqHHjyx6RwPHBHcaQePIjgagL2wk4GcR9sr4oIKZyRfiT4vA9qEQePeIqfr0uwVgU/QOLiivEPH7tfwRY=
+X-Received: by 2002:a25:80d4:: with SMTP id c20mr10596076ybm.345.1630857595131; 
+ Sun, 05 Sep 2021 08:59:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x534.google.com
+References: <20210904235542.1092641-1-f4bug@amsat.org>
+ <20210904235542.1092641-19-f4bug@amsat.org>
+In-Reply-To: <20210904235542.1092641-19-f4bug@amsat.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sun, 5 Sep 2021 23:59:44 +0800
+Message-ID: <CAEUhbmWa54h8GQNhczC9a+5OLXMdUwaAJYBq2+FdG1dAWO6BQQ@mail.gmail.com>
+Subject: Re: [PATCH v2 18/24] target/riscv: Restrict cpu_exec_interrupt()
+ handler to sysemu
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb33.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,60 +80,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Warner Losh <imp@bsdimp.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-{read,write}_with_attrs might be missing, and the codes currently do
-not validate them before calling, which will cause segment fault.
+On Sun, Sep 5, 2021 at 8:06 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org=
+> wrote:
+>
+> Restrict cpu_exec_interrupt() and its callees to sysemu.
+>
+> Reviewed-by: Warner Losh <imp@bsdimp.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  target/riscv/cpu.h        | 2 +-
+>  target/riscv/cpu.c        | 2 +-
+>  target/riscv/cpu_helper.c | 5 -----
+>  3 files changed, 2 insertions(+), 7 deletions(-)
+>
 
-Fixes: 62a0db942dec ("memory: Remove old_mmio accessors")
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
----
-
- softmmu/memory.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index bfedaf9c4d..b97ffd4ba7 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1426,12 +1426,14 @@ static MemTxResult memory_region_dispatch_read1(MemoryRegion *mr,
-                                          mr->ops->impl.max_access_size,
-                                          memory_region_read_accessor,
-                                          mr, attrs);
--    } else {
-+    } else if (mr->ops->read_with_attrs) {
-         return access_with_adjusted_size(addr, pval, size,
-                                          mr->ops->impl.min_access_size,
-                                          mr->ops->impl.max_access_size,
-                                          memory_region_read_with_attrs_accessor,
-                                          mr, attrs);
-+    } else {
-+        return MEMTX_ERROR;
-     }
- }
- 
-@@ -1506,13 +1508,15 @@ MemTxResult memory_region_dispatch_write(MemoryRegion *mr,
-                                          mr->ops->impl.max_access_size,
-                                          memory_region_write_accessor, mr,
-                                          attrs);
--    } else {
-+    } else if (mr->ops->write_with_attrs) {
-         return
-             access_with_adjusted_size(addr, &data, size,
-                                       mr->ops->impl.min_access_size,
-                                       mr->ops->impl.max_access_size,
-                                       memory_region_write_with_attrs_accessor,
-                                       mr, attrs);
-+    } else {
-+        return MEMTX_ERROR;
-     }
- }
- 
--- 
-2.25.1
-
+Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
 
