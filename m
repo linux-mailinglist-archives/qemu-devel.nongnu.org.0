@@ -2,108 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449874010FB
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 19:11:15 +0200 (CEST)
-Received: from localhost ([::1]:36798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7323240111A
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 20:09:50 +0200 (CEST)
+Received: from localhost ([::1]:36352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMvfm-0007t1-CF
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 13:11:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48166)
+	id 1mMwaT-0005MY-08
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 14:09:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mMveL-00072D-BT
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 13:09:46 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:47440)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mMveI-0004yM-AF
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 13:09:44 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 185H3XZ8078653; Sun, 5 Sep 2021 13:09:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=7+n/rZHRyH7CtyhKb6AyYY/skow/1Nd/K7rY6sENMOM=;
- b=EqtdiRnyTNyoO+p3MdZRmCrQ62JV0SWqJCr9j0mVjJKaxfWqdkg5WbJMEfoz2ul3WQtz
- ubD4EoyZ+zZwLhCIY1fFk60yZwtSkmTJMKOi0KLqoKOvUTwNT6aGuIGLHSs7UJ4U1CkW
- gxt2Jwhxend4T3e+AvXx68JF9ZpJ2P2EhLzkh/IcUAUvtyoRzLr38BUp2Vlpm1xTHeo8
- 2ICZ6KhaI5swIuccdD2luF0iKNwnzfKjf5nsfXNMQ6iQkNRXAwqU7Sa1S0Gbn2gwBWLD
- g2cEv8wA3TyMXwNlrwQtZZOuVzpu273iN6sF/WkdUQZhueUc6yIEUj8StIKoQPw/6Y7L 6g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3avt02x2x2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 05 Sep 2021 13:09:36 -0400
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 185H4DE1082752;
- Sun, 5 Sep 2021 13:09:35 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3avt02x2wv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 05 Sep 2021 13:09:35 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 185H4540030039;
- Sun, 5 Sep 2021 17:09:35 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma05wdc.us.ibm.com with ESMTP id 3av0e9a9c2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 05 Sep 2021 17:09:35 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 185H9XTU37814764
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 5 Sep 2021 17:09:33 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BB13CC6063;
- Sun,  5 Sep 2021 17:09:33 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 15157C6059;
- Sun,  5 Sep 2021 17:09:28 +0000 (GMT)
-Received: from [9.65.84.185] (unknown [9.65.84.185])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Sun,  5 Sep 2021 17:09:28 +0000 (GMT)
-Subject: Re: [RFC PATCH v2 04/12] i386/sev: initialize SNP context
-To: Brijesh Singh <brijesh.singh@amd.com>, Michael Roth
- <michael.roth@amd.com>, qemu-devel@nongnu.org
-References: <20210826222627.3556-1-michael.roth@amd.com>
- <20210826222627.3556-5-michael.roth@amd.com>
- <48bcd5d9-c5da-1ae3-4943-4c3bd9a91c7b@linux.ibm.com>
- <c930872e-8c13-55af-f431-1c99dd277f12@amd.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-Message-ID: <43a0d7d5-442b-84fe-2a62-574fb96d6ea3@linux.ibm.com>
-Date: Sun, 5 Sep 2021 20:09:26 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ (Exim 4.90_1) (envelope-from <jiang.wang@bytedance.com>)
+ id 1mMwZa-0004hv-Oo
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 14:08:54 -0400
+Received: from mail-lj1-x22b.google.com ([2a00:1450:4864:20::22b]:38550)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jiang.wang@bytedance.com>)
+ id 1mMwZV-0003O6-B0
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 14:08:52 -0400
+Received: by mail-lj1-x22b.google.com with SMTP id g14so7281747ljk.5
+ for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 11:08:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=BugyQAIlGT7XWc0m2haGUHPh8iey5SQdcxMU37p0AqQ=;
+ b=MUnT2pw0sgeKCokdJIwj7lfZKrX7iVCBKuD5t4AqQggl4LlopmBOGvkullJo1DK+AC
+ 0cuSpkGIQd+eauQjQzXacJllt/DUR8ARtShiDYDiY4D3W4jXgiEURRx36jXW+h0/f/ri
+ 6002SmIK0rn2dWO2cbKVCoLM64sdfidmpnxs6B6+LiSZMsH+3GA21SL0JaAabQRtdsp+
+ kZPGAZcePRjBcmPS4HcdpmwYT/1BX4EpFevcpmF9ob02jgt+6U90D9Dj2MJ/8GE/i2Dt
+ V63XeaRpZa7PJqM3IxAu0Ql3WD63J8pwV3Ex8/3+eiczJCtwkmc2gy92ghegmQq/OSmA
+ ADLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=BugyQAIlGT7XWc0m2haGUHPh8iey5SQdcxMU37p0AqQ=;
+ b=kZs8L2eUSIWQw2f+etyawdLrqh8wYrZ8hzOFvlim578xmcHgiTQfJVA3NAvfETX9dM
+ wYUZlxP27DNGGEDC0eJz8XPWoA5AUeB0BDMhLaBxoN9Fyx2B/SzSo9jXCuJ5TLHViwHi
+ hleRS2UydZQzPIpysHI1ULlIKzPfBOUgERKHbRAccqGAO9Fxr0VDlC3ty8Zs55DwqE55
+ WSzTcKYc6wybXDxX5TGbrwbiQIMDyNBVLHUzVq/BweulaMb3lhUhGVnfAE4InktqJagX
+ Cq8hJI5UJGOOJUr/g5PJAtE88mfH+1LjTpjbDZzkAU3iwUaydoLYdtYiaM7h7Kl/YQ0P
+ ek1w==
+X-Gm-Message-State: AOAM531iL2UdGAvp7qErL5ZlDhkKAuACZ7PVRpTqx6Nl4gMK+S4EH1a7
+ +8LAMT72cewtmWezfhDzv0y5cR/nC1bkhZQkUQQZ0A==
+X-Google-Smtp-Source: ABdhPJxvHZxbgPu5C7fLeJdHwJMig7yzoJbiHEtbX40gDaPL0roG+vHu3ufSwuEtlcTE4lb3XLuVFa9RUmB8UoZpDts=
+X-Received: by 2002:a05:651c:1257:: with SMTP id
+ h23mr7559644ljh.49.1630865325311; 
+ Sun, 05 Sep 2021 11:08:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <c930872e-8c13-55af-f431-1c99dd277f12@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: iKpeSljVrPBvx0nb-3vw1Hs7BRryk6hM
-X-Proofpoint-GUID: M9tw5ux46rpruvkoRUn6N3vg-pvz079w
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-09-05_01:2021-09-03,
- 2021-09-05 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- mlxlogscore=999 impostorscore=0 bulkscore=0 suspectscore=0 adultscore=0
- lowpriorityscore=0 clxscore=1015 priorityscore=1501 mlxscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2108310000 definitions=main-2109050121
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -57
-X-Spam_score: -5.8
-X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.832,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+From: "Jiang Wang ." <jiang.wang@bytedance.com>
+Date: Sun, 5 Sep 2021 11:08:34 -0700
+Message-ID: <CAP_N_Z_FWCQuzxKG7uXAZRm_-X4A1m1c3Rh_FcBiDAksSbMWug@mail.gmail.com>
+Subject: Re: Re: [PATCH v4] virtio/vsock: add two more queues for datagram
+ types
+To: Stefano Garzarella <sgarzare@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22b;
+ envelope-from=jiang.wang@bytedance.com; helo=mail-lj1-x22b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,81 +75,255 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Eric Blake <eblake@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Dov Murik <dovmurik@linux.ibm.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Arseny Krasnov <arseny.krasnov@kaspersky.com>,
+ Jason Wang <jasowang@redhat.com>, qemu devel list <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Aug 9, 2021 at 3:58 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
+>
+> On Thu, Aug 05, 2021 at 12:07:02PM -0700, Jiang Wang . wrote:
+> >On Wed, Aug 4, 2021 at 1:13 AM Stefano Garzarella <sgarzare@redhat.com> wrote:
+> >>
+> >> On Tue, Aug 03, 2021 at 11:41:32PM +0000, Jiang Wang wrote:
+> >> >Datagram sockets are connectionless and unreliable.
+> >> >The sender does not know the capacity of the receiver
+> >> >and may send more packets than the receiver can handle.
+> >> >
+> >> >Add two more dedicate virtqueues for datagram sockets,
+> >> >so that it will not unfairly steal resources from
+> >> >stream and future connection-oriented sockets.
+> >> >
+> >> >Signed-off-by: Jiang Wang <jiang.wang@bytedance.com>
+> >> >---
+> >> >v1 -> v2: use qemu cmd option to control number of queues,
+> >> >       removed configuration settings for dgram.
+> >> >v2 -> v3: use ioctl to get features and decide number of
+> >> >        virt queues, instead of qemu cmd option.
+> >> >v3 -> v4: change DGRAM feature bit value to 2. Add an argument
+> >> >       in vhost_vsock_common_realize to indicate dgram is supported or not.
+> >> >
+> >> > hw/virtio/vhost-user-vsock.c                  |  2 +-
+> >> > hw/virtio/vhost-vsock-common.c                | 58 ++++++++++++++++++-
+> >> > hw/virtio/vhost-vsock.c                       |  5 +-
+> >> > include/hw/virtio/vhost-vsock-common.h        |  6 +-
+> >> > include/hw/virtio/vhost-vsock.h               |  4 ++
+> >> > include/standard-headers/linux/virtio_vsock.h |  1 +
+> >> > 6 files changed, 69 insertions(+), 7 deletions(-)
+> >> >
+> >> >diff --git a/hw/virtio/vhost-user-vsock.c b/hw/virtio/vhost-user-vsock.c
+> >> >index 6095ed7349..e9ec0e1c00 100644
+> >> >--- a/hw/virtio/vhost-user-vsock.c
+> >> >+++ b/hw/virtio/vhost-user-vsock.c
+> >> >@@ -105,7 +105,7 @@ static void vuv_device_realize(DeviceState *dev, Error **errp)
+> >> >         return;
+> >> >     }
+> >> >
+> >> >-    vhost_vsock_common_realize(vdev, "vhost-user-vsock");
+> >> >+    vhost_vsock_common_realize(vdev, "vhost-user-vsock", false);
+> >> >
+> >> >     vhost_dev_set_config_notifier(&vvc->vhost_dev, &vsock_ops);
+> >> >
+> >> >diff --git a/hw/virtio/vhost-vsock-common.c b/hw/virtio/vhost-vsock-common.c
+> >> >index 4ad6e234ad..c78536911a 100644
+> >> >--- a/hw/virtio/vhost-vsock-common.c
+> >> >+++ b/hw/virtio/vhost-vsock-common.c
+> >> >@@ -17,6 +17,8 @@
+> >> > #include "hw/virtio/vhost-vsock.h"
+> >> > #include "qemu/iov.h"
+> >> > #include "monitor/monitor.h"
+> >> >+#include <sys/ioctl.h>
+> >> >+#include <linux/vhost.h>
+> >> >
+> >> > int vhost_vsock_common_start(VirtIODevice *vdev)
+> >> > {
+> >> >@@ -196,9 +198,39 @@ int vhost_vsock_common_post_load(void *opaque, int version_id)
+> >> >     return 0;
+> >> > }
+> >> >
+> >> >-void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name)
+> >> >+static int vhost_vsock_get_max_qps(bool enable_dgram)
+> >> >+{
+> >> >+    uint64_t features;
+> >> >+    int ret;
+> >> >+    int fd = -1;
+> >> >+
+> >> >+    if (!enable_dgram)
+> >> >+        return MAX_VQS_WITHOUT_DGRAM;
+> >> >+
+> >> >+    fd = qemu_open_old("/dev/vhost-vsock", O_RDONLY);
+> >>
+> >>
+> >> As I said in the previous version, we cannot directly open
+> >> /dev/vhost-vsock, for two reasons:
+> >>
+> >>    1. this code is common with vhost-user-vsock which does not use
+> >>    /dev/vhost-vsock.
+> >>
+> >>    2. the fd may have been passed from the management layer and qemu may
+> >>    not be able to directly open /dev/vhost-vsock.
+> >>
+> >> I think is better to move this function in hw/virtio/vhost-vsock.c,
+> >> using the `vhostfd`, returning true or false if dgram is supported, then
+> >> you can use it for `enable_dgram` param ...
+> >>
+> >
+> >Yes, you are right. Now I remember you said that before but I forgot about that
+> >when I changed the code. I will fix it. Sorry about that.
+>
+> No problem :-)
+>
+> >
+> >> >+    if (fd == -1) {
+> >> >+        error_report("vhost-vsock: failed to open device. %s", strerror(errno));
+> >> >+        return -1;
+> >> >+    }
+> >> >+
+> >> >+    ret = ioctl(fd, VHOST_GET_FEATURES, &features);
+> >> >+    if (ret) {
+> >> >+        error_report("vhost-vsock: failed to read  device. %s", strerror(errno));
+> >> >+        qemu_close(fd);
+> >> >+        return ret;
+> >> >+    }
+> >> >+
+> >> >+    qemu_close(fd);
+> >> >+    if (features & (1 << VIRTIO_VSOCK_F_DGRAM))
+> >> >+        return MAX_VQS_WITH_DGRAM;
+> >> >+
+> >> >+    return MAX_VQS_WITHOUT_DGRAM;
+> >> >+}
+> >> >+
+> >> >+void vhost_vsock_common_realize(VirtIODevice *vdev, const char *name, bool enable_dgram)
+> >> > {
+> >> >     VHostVSockCommon *vvc = VHOST_VSOCK_COMMON(vdev);
+> >> >+    int nvqs = MAX_VQS_WITHOUT_DGRAM;
+> >> >
+> >> >     virtio_init(vdev, name, VIRTIO_ID_VSOCK,
+> >> >                 sizeof(struct virtio_vsock_config));
+> >> >@@ -209,12 +241,24 @@ void vhost_vsock_common_realize(VirtIODevice
+> >> >*vdev, const char *name)
+> >> >     vvc->trans_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+> >> >                                        vhost_vsock_common_handle_output);
+> >> >
+> >> >+    nvqs = vhost_vsock_get_max_qps(enable_dgram);
+> >> >+
+> >> >+    if (nvqs < 0)
+> >> >+        nvqs = MAX_VQS_WITHOUT_DGRAM;
+> >>
+> >> ... and here, if `enable_dgram` is true, you can set `nvqs =
+> >> MAX_VQS_WITH_DGRAM``
+> >>
+> >sure.
+> >
+> >> >+
+> >> >+    if (nvqs == MAX_VQS_WITH_DGRAM) {
+> >> >+        vvc->dgram_recv_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+> >> >+                                              vhost_vsock_common_handle_output);
+> >> >+        vvc->dgram_trans_vq = virtio_add_queue(vdev, VHOST_VSOCK_QUEUE_SIZE,
+> >> >+
+> >> >vhost_vsock_common_handle_output);
+> >> >+    }
+> >> >+
+> >>
+> >> I'm still concerned about compatibility with guests that don't
+> >> support
+> >> dgram, as I mentioned in the previous email.
+> >>
+> >> I need to do some testing, but my guess is it won't work if the host
+> >> (QEMU and vhost-vsock) supports it and the guest doesn't.
+> >>
+> >> I still think that we should allocate an array of queues and then decide
+> >> at runtime which one to use for events (third or fifth) after the guest
+> >> has acked the features.
+> >>
+> >Agree. I will check where the guest ack the feature. If you have any
+>
+> I'm not sure we should delete them, I think we can allocate 5 queues and
+> then use queue 3 or 5 for events in vhost_vsock_common_start(), when the
+> guest already acked the features.
+>
+
+I think I just solved most compatibility issues during migration. The
+previous error I saw was due to a bug in vhost-vsock kernel module.
+After fixing that, I did not change anything for qemu ( i.e, still the same
+version 4, btw I will fix fd issue in v5) and did a few migration tests.
+Most of them are good.
+
+There are two test cases that migration failed with "Features 0x130000002
+unsupported"error, which is due to
+SEQPACKET qemu patch (my dgram patch
+is based on seqpacket patch). Not sure if we need to
+fix it or not.  I think the compatibility is good as of now. Let me
+know if you have other concerns or more test cases to test.
+Otherwise, I will submit V5 soon.
+
+Test results:
+Left three columns are the source set-up,  right are destination set up.
+Host and Guest refers to the host and guest kernel respectively. These
+tests are not complete, and I make the src and dest kernel mostly the
+same version. But I did test one case where source kernel has dgram
+support while dest kernel does not and it is good. Btw, if the src kernel
+and dest kernel have a big difference( like 5.14 vs 4.19), then QEMU
+will show some msr errors which I guess is kind of expected.
+
+Host        QEMU        Guest            --> Host        QEMU            result
+dgram       no-dgram    no-dgram        dgram       no-dgram        Good
+dgram       no-dgram    dgram           dgram       no-dgram        Good
+dgram       dgram       no-dgram        dgram       dgram           Good
+dgram       dgram       no-dgram        dgram       no-dgram        Good
+dgram       dgram       dgram           dgram       no-dgram
+load feature error *1
+
+no-dgram    no-dgram    dgram           no-dgram    no-dgram        Good
+no-dgram    dgram       dgram           no-dgram    dgram             Good
+no-dgram    dgram       no-dgram        no-dgram    dgram           Good
+no-dgram    dgram       no-dgram        no-dgram    no-dgram        Good
+no-dgram    dgram       dgram           no-dgram    no-dgram
+load feature error *1
+
+dgram       dgram       no-dgram        no-dgram    no-dgram        Good
+
+*1 Qemu shows following error messages:
+qemu-system-x86_64: Features 0x130000002 unsupported. Allowed
+features: 0x179000000
+qemu-system-x86_64: Failed to load virtio-vhost_vsock:virtio
+qemu-system-x86_64: error while loading state for instance 0x0 of
+device '0000:00:05.0/virtio-vhost_vsock'
+qemu-system-x86_64: load of migration failed: Operation not permitted
+
+This is due to SEQPACKET feature bit.
 
 
-On 05/09/2021 16:58, Brijesh Singh wrote:
-> Hi Dov,
-> 
-> On 9/5/21 2:07 AM, Dov Murik wrote:
-> ...
->>
->>>  
->>>  uint64_t
->>> @@ -1074,6 +1083,7 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
->>>      uint32_t ebx;
->>>      uint32_t host_cbitpos;
->>>      struct sev_user_data_status status = {};
->>> +    void *init_args = NULL;
->>>  
->>>      if (!sev_common) {
->>>          return 0;
->>> @@ -1126,7 +1136,18 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
->>>      sev_common->api_major = status.api_major;
->>>      sev_common->api_minor = status.api_minor;
->> Not visible here in the context: the code here is using the
->> SEV_PLATFORM_STATUS command to get the build_id, api_major, and api_minor.
->>
->> I see that SNP has a new command SNP_PLATFORM_STATUS, which fills a
->> struct sev_data_snp_platform_status (hmmm, I can't find the struct's
->> definition; I assume it should look like Table 38 in 8.3.2 in SNP FW ABI
->> document).
-> 
-> The API version can be queries either through the SNP_PLATFORM_STATUS or
-> SEV_PLATFORM_STATUS and they both report the same info. As the
-> definition of the sev_data_platform_status is concerned it should be
-> defined in the kernel include/linux/psp-sev.h.
-> 
-> 
->> My questions are:
->>
->> 1. Is it OK to call the "legacy" SEV_PLATFORM_STATUS when about to init
->> an SNP guest?
-> 
-> Yes, the legacy platform status command can be called on the SNP
-> initialized host.
-> 
-> I choose not to new command because we only care about the verison
-> string and that is available through either of these commands (SNP or
-> SEV platform status).
-> 
->> 2. Do we want to save some info like installed TCB version and reported
->> TCB version, and maybe other fields from SNP platform status?
-> 
-> If we decide to add a new QMP (query-sev-snp) then it makes sense to
-> export those fields so that a hypervisor console can give additional
-> information; But note that for the guest, all these are available in the
-> attestation report.
-> 
+Step back and rethink about whether the event vq number should be 3 or or 5,
+now I think it does not matter. The tx and rx queues (whether 2 or 4 queues)
+belong to vhost, but event queue belongs to QEMU. The qemu code
+allocates an array  for vhost_dev.vqs only for tx and rx queues. So
+event queue is never in that array. That means we don't need to
+worry about even queue number is 3 or 5. And my tests confirmed that.
+I think for the virtio spec, we need to put event queue somewhere and
+it looks like having a relative position to tx rx queues. But for vhost kernel
+implementation, the event queue is a special case and not related to
+tx or rx queues.
 
-We have new QMP response for SNP guests (SevSnpGuestProperties, patch 3
-in this series).  I think it would make sense to add the
-installed+reported TCB versions there (read-only properties), for
-debugging/observability purposes.
+Regards,
+
+Jiang
 
 
--Dov
-
+> >pointers,
+> >just let me know. Also, could we just remove the vq allocation in common_realize
+> >and do it at a later time? Or need to delete and add again as I mentioned in the
+> >previous email?
+>
+> Instead of having 'recv_vq', 'trans_vq', 'event_vq' fields, we can have
+> an array of VirtQueue pointers and a field that indicates what the index
+> of the event queue is. (or a boolean that indicates if we are enabling
+> dgram or not).
+>
+> This should simplify the management.
+>
+> Thanks,
+> Stefano
+>
 
