@@ -2,105 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1021D400ECF
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 11:20:57 +0200 (CEST)
-Received: from localhost ([::1]:50788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9935400ED2
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 Sep 2021 11:26:25 +0200 (CEST)
+Received: from localhost ([::1]:53812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mMoKd-0002CS-M3
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 05:20:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38182)
+	id 1mMoPw-0004PE-Tk
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 05:26:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mMoJK-0000k6-W0
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 05:19:35 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:12654)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.ibm.com>)
- id 1mMoJH-0000V4-Jv
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 05:19:34 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 18593pFP180902; Sun, 5 Sep 2021 05:19:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=VaUagRGfYuln6OHi9F3vBTK9Q7yGorQLxz93AWK9BJI=;
- b=S87JFTC5RTYB4+y+nbym3ftD708/KaJ72rwjT+gy8CmLwQgDr+rxX2hcutZPvulup6j0
- vKyEiWaHvf1T0NyyG6oyGk/Aya2qtwYg48Qou1ak2oPsqaD/J+wYqZ4Ablfz/aDo31bU
- VKPyOW4cqwSXlbATkAJ80+64ggFCYWugGLa50UhN5s+ajQ9ZqTxvTbltve2wgka7V1be
- jXCIVo9cNmgjyt8aUTFylT97irn7Tyx/0iIcuKnw44KEG6Bvq/Wb5I7XBiaZ9PJwoWOK
- R+meRQqFvTW/2fACwR1H7JrpS2wnIJOt8KNuZSbe75oKcjqnzjWAsFvHoaAdxQ3PAAjP lg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3avpau42vc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 05 Sep 2021 05:19:22 -0400
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 1859DJJX014260;
- Sun, 5 Sep 2021 05:19:22 -0400
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3avpau42v2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 05 Sep 2021 05:19:22 -0400
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 1859I6Uh015384;
- Sun, 5 Sep 2021 09:19:20 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma04wdc.us.ibm.com with ESMTP id 3av0e8xhkx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 05 Sep 2021 09:19:20 +0000
-Received: from b03ledav006.gho.boulder.ibm.com
- (b03ledav006.gho.boulder.ibm.com [9.17.130.237])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 1859JJx828705110
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 5 Sep 2021 09:19:19 GMT
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5BE98C6059;
- Sun,  5 Sep 2021 09:19:19 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BE0FAC605B;
- Sun,  5 Sep 2021 09:19:13 +0000 (GMT)
-Received: from [9.65.84.185] (unknown [9.65.84.185])
- by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
- Sun,  5 Sep 2021 09:19:13 +0000 (GMT)
-Subject: Re: [RFC PATCH v2 04/12] i386/sev: initialize SNP context
-To: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org
-References: <20210826222627.3556-1-michael.roth@amd.com>
- <20210826222627.3556-5-michael.roth@amd.com>
-From: Dov Murik <dovmurik@linux.ibm.com>
-Message-ID: <7a35c637-eecc-7897-048d-994aeb128549@linux.ibm.com>
-Date: Sun, 5 Sep 2021 12:19:11 +0300
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mMoOM-0003Hy-PL
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 05:24:46 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:36852)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1mMoOJ-0004qt-IJ
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 05:24:46 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ 79-20020a1c0452000000b002e6cf79e572so2689560wme.1
+ for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 02:24:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=WDleLl2piJ/tHdRQbx+AgtG8pyAH/ltQj1w55WYzkXM=;
+ b=B72mzxszhm6ai1RkhHgOBapFgzsbQSTKsCMSB7oS8VJ15fh77j4tyU3iQ5s/P1tYiU
+ wVvjo9ONwcymRDlrPA/N+4kExps6Qic02hjYE6lYXktXJ5ylsCKZsyxYWyKWyFzX5RMt
+ aCiFHqglNznMS390n/DbFjuCP1vuLC//FL8+JoSPY2k32pcUpLCtIEIkq+i/T+U/n2ue
+ QrTcfVn/Hn0zO8Dkp/4Uj1Q7nsQYTXkwhf+riiL4oo1VKyJM5BLTWBFmTASJOfo5IQVZ
+ QIEwf8Bhmsso5w3hiSq7eltN2mzSmqL1Ny2TRI2HI1WZ9Zf4tpvdzU4Z34lvansH7l+2
+ vK5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=WDleLl2piJ/tHdRQbx+AgtG8pyAH/ltQj1w55WYzkXM=;
+ b=L+9xSedzdiny1QDNS0MY3Z5KIrP8FmXv4k0/kn0sI5id5jOHV2OMNd6LZnD7yCZPYh
+ OTs1QRo9LhCHVz2nEWWy+NsX0lPh7lC5VoEuJ9W/eCC5zaq3iAflGmUz9mI3lwZMkTyE
+ yMcWUQfYMTTkQ+5raSMVIKPC5fi31H5QQpB0yDUMlskVLsYG1CLgifvpnYR8ktA074nt
+ kdKqXyjS1adMU03SCe7wlVERB87d0rMfNeU4gsbOnl2C6T1FIopImC2m81MdjoEvrCF8
+ JJlBVS0gdtsoPGeSEJrMmpQpQLDBvpbqgzJNN6RzhjNJWE0yQqNznNGsj8y1OTO9TtEf
+ 0aTQ==
+X-Gm-Message-State: AOAM530cotB7pAVGwMC1KM1/QyfLPv5NvE55mQd2Vi1MAzsL64o7XLMF
+ MTcFKze2LFz7z1ZW2xlY7EB99w==
+X-Google-Smtp-Source: ABdhPJwpQqSCWDYVOLCAd9+7tT4OpWNOXxiSRWSs+Yl7NBVL0C0HkHqFH1M1K3h64EZkFmEurqDqkw==
+X-Received: by 2002:a05:600c:1990:: with SMTP id
+ t16mr6345158wmq.45.1630833881618; 
+ Sun, 05 Sep 2021 02:24:41 -0700 (PDT)
+Received: from [192.168.8.105] (206.red-2-143-78.dynamicip.rima-tde.net.
+ [2.143.78.206])
+ by smtp.gmail.com with ESMTPSA id s7sm4563636wra.75.2021.09.05.02.24.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 05 Sep 2021 02:24:41 -0700 (PDT)
+Subject: Re: [PATCH v4 11/21] target/loongarch: Add floating point comparison
+ instruction translation
+To: Song Gao <gaosong@loongson.cn>, qemu-devel@nongnu.org
+References: <1630586467-22463-1-git-send-email-gaosong@loongson.cn>
+ <1630586467-22463-12-git-send-email-gaosong@loongson.cn>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <9481b350-9718-d8fc-11c5-69ff6f409220@linaro.org>
+Date: Sun, 5 Sep 2021 11:24:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20210826222627.3556-5-michael.roth@amd.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <1630586467-22463-12-git-send-email-gaosong@loongson.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: e7FhgxIcvwWbkFp0eedsckz3h230O-Ru
-X-Proofpoint-ORIG-GUID: -2F54nlfcKiIIXyrQBRXDAdcictT2KWl
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391, 18.0.790
- definitions=2021-09-04_09:2021-09-03,
- 2021-09-04 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0
- malwarescore=0 spamscore=0 impostorscore=0 lowpriorityscore=0
- suspectscore=0 priorityscore=1501 bulkscore=0 adultscore=0 mlxlogscore=999
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2108310000 definitions=main-2109050063
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=dovmurik@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -57
-X-Spam_score: -5.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -58
+X-Spam_score: -5.9
 X-Spam_bar: -----
-X-Spam_report: (-5.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.832,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-5.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-3.832,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,50 +91,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S . Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Eric Blake <eblake@redhat.com>, James Bottomley <jejb@linux.ibm.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Dov Murik <dovmurik@linux.ibm.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: peter.maydell@linaro.org, yangxiaojuan@loongson.cn, david@redhat.com,
+ bin.meng@windriver.com, mark.cave-ayland@ilande.co.uk,
+ aleksandar.rikalo@syrmia.com, jcmvbkbc@gmail.com, tsimpson@quicinc.com,
+ alistair.francis@wdc.com, edgar.iglesias@gmail.com, chenhuacai@gmail.com,
+ philmd@redhat.com, atar4qemu@gmail.com, thuth@redhat.com, ehabkost@redhat.com,
+ groug@kaod.org, maobibo@loongson.cn, mrolnik@gmail.com, shorne@gmail.com,
+ alex.bennee@linaro.org, david@gibson.dropbear.id.au,
+ kbastian@mail.uni-paderborn.de, crwulff@gmail.com, laurent@vivier.eu,
+ palmer@dabbelt.com, pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 9/2/21 2:40 PM, Song Gao wrote:
+> +/* fcmp_cXXX_s */
+> +uint64_t helper_fcmp_c_s(CPULoongArchState *env, uint64_t fj,
+> +                         uint64_t fk, uint32_t flags)
+> +{
+> +    uint32_t t0, t1;
+> +    uint64_t cmp = 0;
+> +    t0 = (uint32_t)fj;
+> +    t1 = (uint32_t)fk;
+> +
+> +    if (flags) {
+> +        if (flags & FCMP_LT) {
+> +            cmp |= float32_lt_quiet(t0, t1, &env->fp_status);
+> +        }
+> +        if (flags & FCMP_EQ) {
+> +            cmp |= float32_eq_quiet(t0, t1, &env->fp_status);
+> +        }
+> +        if (flags & FCMP_GT) {
+> +            cmp |= float32_lt_quiet(t1, t0, &env->fp_status);
+> +        }
+> +        if (flags & FCMP_UN) {
+> +            cmp |= float32_unordered_quiet(t1, t0, &env->fp_status);
+> +        }
+> +    } else {
+> +        cmp = (float32_unordered_quiet(t1, t0, &env->fp_status), 0);
+> +    }
+
+This is silly, especially the form of the last.  You want
+
+     FloatRelation cmp = float32_unordered_quiet(t1, t0, &env->fp_status);
+     bool ret;
+
+     switch (cmp) {
+     case float_relation_less:
+         ret = (flags & FCMP_LT);
+         break;
+     case float_relation_equal:
+         ret = (flags & FCMP_EQ);
+         break;
+     case float_relation_greater:
+         ret = (flags & FCMP_GT);
+         break;
+     case float_relation_unordered:
+         ret = (flags & FCMP_UN);
+         break;
+     default:
+         g_assert_not_reached();
+     }
+     return ret;
+
+And of course the switch can be split out to a common subroutine for use with the other 3 
+comparison helpers.
+
+> +static bool trans_fcmp_cond_s(DisasContext *ctx, arg_fcmp_cond_s *a)
+> +{
+> +    TCGv var = tcg_temp_new();
+> +    TCGv_i32 flags = NULL;
+> +
+> +    switch (a->fcond) {
+> +    /* caf */
+> +    case  0:
+> +        flags = tcg_constant_i32(0);
+> +        gen_helper_fcmp_c_s(var, cpu_env, cpu_fpr[a->fj],
+> +                            cpu_fpr[a->fk], flags);
+> +        break;
+> +    /* saf */
+> +    case 1:
+> +        flags = tcg_constant_i32(0);
+> +        gen_helper_fcmp_s_s(var, cpu_env, cpu_fpr[a->fj],
+> +                            cpu_fpr[a->fk], flags);
+> +        break;
+
+Hmm.  Perhaps put the integer flags into a table?
+
+     fn = (a->fcond & 1 ? gen_helper_fcmp_s_s : gen_helper_fcmp_c_s);
+     flags = fcond_table[a->fcond >> 1];
+
+     fn(var, cpu_env, cpu_fpr[a->fj], cpu_fpr[a->fk],
+        tcg_constant_i32(flags));
+
+> +static bool trans_fcmp_cond_d(DisasContext *ctx, arg_fcmp_cond_d *a)
+
+You'd get to share the table with this function.
+
+> --- a/target/loongarch/translate.h
+> +++ b/target/loongarch/translate.h
+> @@ -11,6 +11,11 @@
+>   
+>   #include "exec/translator.h"
+>   
+> +#define FCMP_LT   0x0001  /* fp0 < fp1 */
+> +#define FCMP_EQ   0x0010  /* fp0 = fp1 */
+> +#define FCMP_GT   0x0100  /* fp1 < fp0 */
+> +#define FCMP_UN   0x1000  /* unordered */
+
+Hmm.  Better in internals.h?  I don't think you want to include translate.h into fpu_helper.c.
 
 
-On 27/08/2021 1:26, Michael Roth wrote:
-> From: Brijesh Singh <brijesh.singh@amd.com>
-> 
-> When SEV-SNP is enabled, the KVM_SNP_INIT command is used to initialize
-> the platform. The command checks whether SNP is enabled in the KVM, if
-> enabled then it allocates a new ASID from the SNP pool and calls the
-> firmware to initialize the all the resources.
-> 
-
-
-From the KVM code ("[PATCH Part2 v5 24/45] KVM: SVM: Add
-KVM_SEV_SNP_LAUNCH_START command") it seems that KVM_SNP_INIT does *not*
-allocate the ASID; actually this is done in KVM_SEV_SNP_LAUNCH_START.
-
-If that is indeed the case, I suggest removing this sentence here and
-adding it in the appropriate QEMU step (patch 5?).
-
--Dov
-
-
-
-> Signed-off-by: Brijesh Singh <brijesh.singh@amd.com>
-> Signed-off-by: Michael Roth <michael.roth@amd.com>
-> ---
->  target/i386/sev-stub.c |  6 ++++++
->  target/i386/sev.c      | 27 ++++++++++++++++++++++++---
->  target/i386/sev_i386.h |  1 +
->  3 files changed, 31 insertions(+), 3 deletions(-)
-> 
-
-[...]
+r~
 
