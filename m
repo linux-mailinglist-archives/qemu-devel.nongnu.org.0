@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 438FA401C35
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:23:33 +0200 (CEST)
-Received: from localhost ([::1]:46446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F356401C4D
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:30:17 +0200 (CEST)
+Received: from localhost ([::1]:40354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNEay-0006No-8l
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:23:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57538)
+	id 1mNEhU-0004rT-Cn
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:30:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEPY-00015v-Uj
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:44 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:45633)
+ id 1mNEPZ-000185-J8
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:45 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:42659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEPX-0007m7-3I
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:44 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id
- j17-20020a05600c1c1100b002e754875260so4740518wms.4
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:11:42 -0700 (PDT)
+ id 1mNEPY-0007mo-5u
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:45 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id q11so9789812wrr.9
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:11:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JwjqCRXQx9MlfSnrV5qD4bpa9qVZzm/hjGfrBWyX5Yo=;
- b=FjqrF901vZNzmpbIScc5gZOIQpA5E0mICv0LS6zIq89VX5LAlzXekWq6SyVAq6Y+ZS
- XTrVz6fzNlu4UbkCssppvxFb5HV6vQbXCfZjoJySefmWnLxOcNEzAf5McRy4oglgLZ7k
- MOmXI6JkrnWwKeC4YGROTgJ4Y0koBuxIE8kj5dkCJDUkAXXtKDxLlQpqcYf3C0XqrDu0
- ISffnqJzsScuwwC91/zSQpjAC9XN6xQc7UNbQ0F7aPzwZgF44TFzQuAAnciX8gDhrh8S
- VVkjUqTBcThjJdT9FPIR+ELG8oTgQ3BebjSBViSpBVvzQ6khemWxF6BVCW4RsQL245yf
- vmcw==
+ bh=6HvVwDW0UEsMND2Epmw+EH1l2m7EcZiok6GeyK4r1PQ=;
+ b=gttU3mzvHh+IVH8U0R7ErXogIyCrA7LGGx0Rv4K1QnM1EuUCgVkPQPiJ4UnjVUWdCJ
+ wSZM5hm4P5UcE+QqisQXP0N1bhjn3LFjiBUblgHyU6YfQav1UOjcO+YE4dj8Mg/wIAqM
+ V1bt3OiLcDt0C8dzhuYoc56r0fTYGejnjjBVR1DEnzom/3ILQvSkJWiP0fb9gdap67ff
+ 6ftOX7bWl91JJty0/VzyEpU1S3KjdKZ/QSPI/SgzuEGuDLJ/yYoXHl1cojskWPRE+A28
+ KH63JT0Xf0O1Zu8CT9uvgMn6YBsNI+mZ3Af94AUGMyvuEpFJfHhleCll6ozfVCfPErbv
+ p9Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JwjqCRXQx9MlfSnrV5qD4bpa9qVZzm/hjGfrBWyX5Yo=;
- b=Vek/2dwLaaAul2jw6EGlRef1H84DjxQMbgtMsgnCFMufx5mZZZAMHkkDfR9OejKdRx
- Buqc3tmZN7SoKC3rN1MwiwG7QMz6T8Y1l91KnzpPjfq81bx+tnR77owuZ5/4TyQTIfZv
- AVEgEr0G63l6x50duPtEKfU7TS0/A6/JZzTDZunYMSUdMzJW4XshYBpOH4DrMQfLqtT+
- wzARQsj9rd+vs7hg9lahCAEtfzkg07tiJmDAYg1bXWJnFQJoZ6qZvodiyRx267bXLJjQ
- yz2gBKjuatlfR4rdAwRFDKE5qK/1Hi++l3CrZT9Z6whGDxiMWwganB0GY7nTDOk13kr5
- wmoQ==
-X-Gm-Message-State: AOAM532M/bArJP2dGeom8QIv5ezfJAfY9QlxCFu9RlQzgo0OFkgi28gg
- 0So8PzJvtia2N6lkJ3cTxfRM/85oalc=
-X-Google-Smtp-Source: ABdhPJzxrE3C6wOXiSDgpIhY0CHlxDf5gjcqsKXTGeFRyszbyOR4iWT8UJmWFb7RksZaYeT9sKIO4g==
-X-Received: by 2002:a7b:c405:: with SMTP id k5mr11213823wmi.87.1630933901733; 
- Mon, 06 Sep 2021 06:11:41 -0700 (PDT)
+ bh=6HvVwDW0UEsMND2Epmw+EH1l2m7EcZiok6GeyK4r1PQ=;
+ b=ub9ulorsNugrtmXtB9hV2QMBxgykJzijFWxAxfjgXcYbwhxgInP/gkxV7kg9nug+Q0
+ O59wb8trDyAR5WW3UKrvHxHnKY7bS8Sj1T53seV8lXQLOONwNd4hOB7/QRwKrGgJxkgE
+ jz1GSNbyQ25pOFAYxpNimfSPam43CfzCoogwMgAnJJwZGA0d0nTloH7Wcv3W2xCgSvTm
+ O3gBo+v20vG1UHvqmomNOKzSUI5NPa0BPlFBs9SYNUu7DtKcTWMOTDpxEgxj3Xi9UBOg
+ d/nfHcLfK/h2EJmaetQ3Jl6LWqi60eizFec0HLYEauOCe/SF4nZ4qyQNvhV1KQUcj0o9
+ e1xA==
+X-Gm-Message-State: AOAM532CfMl4BSnPRdukTDH3cy+0V1sE6SFcncSg80nXpHOfYVOFBi7R
+ jEbjMGjFiLx2SIFT8DHbxJNEcBsnbyk=
+X-Google-Smtp-Source: ABdhPJzQo2EhUwPHLtDbIy6eMZaWq6VAQiZfpact4MqMtudPoCiE8em1RIj75qpVEdsPpPP/vNzHgg==
+X-Received: by 2002:a5d:40c9:: with SMTP id b9mr13174844wrq.212.1630933902811; 
+ Mon, 06 Sep 2021 06:11:42 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- k4sm7992331wrm.74.2021.09.06.06.11.40
+ k4sm7992331wrm.74.2021.09.06.06.11.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 06:11:41 -0700 (PDT)
+ Mon, 06 Sep 2021 06:11:42 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 23/36] Adjust min CPUID level to 0x12 when SGX is enabled
-Date: Mon,  6 Sep 2021 15:10:46 +0200
-Message-Id: <20210906131059.55234-24-pbonzini@redhat.com>
+Subject: [PULL 24/36] hw/i386/fw_cfg: Set SGX bits in feature control fw_cfg
+ accordingly
+Date: Mon,  6 Sep 2021 15:10:47 +0200
+Message-Id: <20210906131059.55234-25-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210906131059.55234-1-pbonzini@redhat.com>
 References: <20210906131059.55234-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,32 +92,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-SGX capabilities are enumerated through CPUID_0x12.
+Request SGX an SGX Launch Control to be enabled in FEATURE_CONTROL
+when the features are exposed to the guest. Our design is the SGX
+Launch Control bit will be unconditionally set in FEATURE_CONTROL,
+which is unlike host bios.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20210719112136.57018-16-yang.zhong@intel.com>
+Message-Id: <20210719112136.57018-17-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/i386/fw_cfg.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 3b1f9cbdf6..2774550501 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6153,6 +6153,11 @@ void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
-         if (sev_enabled()) {
-             x86_cpu_adjust_level(cpu, &env->cpuid_min_xlevel, 0x8000001F);
-         }
-+
-+        /* SGX requires CPUID[0x12] for EPC enumeration */
-+        if (env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_SGX) {
-+            x86_cpu_adjust_level(cpu, &env->cpuid_min_level, 0x12);
-+        }
+diff --git a/hw/i386/fw_cfg.c b/hw/i386/fw_cfg.c
+index 4e68d5dea4..f6d036dfbe 100644
+--- a/hw/i386/fw_cfg.c
++++ b/hw/i386/fw_cfg.c
+@@ -159,7 +159,7 @@ void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg)
+ {
+     X86CPU *cpu = X86_CPU(ms->possible_cpus->cpus[0].cpu);
+     CPUX86State *env = &cpu->env;
+-    uint32_t unused, ecx, edx;
++    uint32_t unused, ebx, ecx, edx;
+     uint64_t feature_control_bits = 0;
+     uint64_t *val;
+ 
+@@ -174,6 +174,14 @@ void fw_cfg_build_feature_control(MachineState *ms, FWCfgState *fw_cfg)
+         feature_control_bits |= FEATURE_CONTROL_LMCE;
      }
  
-     /* Set cpuid_*level* based on cpuid_min_*level, if not explicitly set */
++    cpu_x86_cpuid(env, 0x7, 0, &unused, &ebx, &ecx, &unused);
++    if (ebx & CPUID_7_0_EBX_SGX) {
++        feature_control_bits |= FEATURE_CONTROL_SGX;
++    }
++    if (ecx & CPUID_7_0_ECX_SGX_LC) {
++        feature_control_bits |= FEATURE_CONTROL_SGX_LC;
++    }
++
+     if (!feature_control_bits) {
+         return;
+     }
 -- 
 2.31.1
 
