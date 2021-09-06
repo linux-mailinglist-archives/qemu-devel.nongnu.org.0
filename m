@@ -2,86 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D53B4401A20
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 12:48:25 +0200 (CEST)
-Received: from localhost ([::1]:48498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADA44401A2C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 12:52:33 +0200 (CEST)
+Received: from localhost ([::1]:58084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNCAq-0000Tb-U5
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 06:48:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53380)
+	id 1mNCEq-000735-Q3
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 06:52:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNC6E-0004pa-QQ
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 06:43:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59104)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1mNC6D-0005nS-45
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 06:43:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630925016;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hnQjUJf863/+mR0eVjMS2XLf+nf0liaJ3GnxfaQW96o=;
- b=QjrYruLEbtV1d+G5Py21h7TXbNV7RwFmZa5OEe39fdabMjNSAqBH6w0gdzz4QGDVZq2Ll5
- ircZgq8I9NGiAZ/LKxW08HzJRh6XnJLkz8zE2zrg0QrnifA0URrIc/ENhrrxTLWfdLjAAI
- Fnb/AThUvfLt68PdTLj3MU6yCweVxZs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-2oe8JsGOMY6RoR51McHDuQ-1; Mon, 06 Sep 2021 06:43:35 -0400
-X-MC-Unique: 2oe8JsGOMY6RoR51McHDuQ-1
-Received: by mail-wm1-f69.google.com with SMTP id
- r126-20020a1c4484000000b002e8858850abso2190284wma.0
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 03:43:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mNCBy-0003Vu-Bz
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 06:49:35 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:38452)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1mNCBn-00027P-Pz
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 06:49:34 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id n27so12669288eja.5
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 03:49:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=iKyctzVGVAx+r/IQtog0pbBZcwOp3gzn2JRmZuxlSM0=;
+ b=uTpQLFu/UNmm7nZp4CHqyJQe3Vkq/lerEFnudz/55GeuLInA0th1us/nU3v/cjvxUE
+ JcgVkC183X3oX/oYPxeyQgB8M3n0qlLhnCWRUMW7svZCJLCMhVGPYdChCr8aP3ZMMi/g
+ 5MwmdlgolSbRn2qRhoZWHuTk3uVtqUQcuWYKvSyDQS7m3CJbd4OdvdmExqeXriQBWC3U
+ eDj64z2AGYCMrUcnuk0AFKNDazOZTHrj1d9G4m9kmnl08AKbIpnrd5bfyc4/Rn0B8sn+
+ kxp6RqJpKTlzE04YM3nOxeZK4C3dYoh8jCVeNax4vFV3RZEI7S7M7psX46YcGo3Lgi59
+ xP5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=hnQjUJf863/+mR0eVjMS2XLf+nf0liaJ3GnxfaQW96o=;
- b=s0AMyLhO06yepwWyNgXQ7Xd6nS1R8+8WLmQwHBZgjlld6ulJwY1v4CRDqB4Pj0vG2X
- rLQVBNQeHn0lwaNqvbNVRmkenZ9MtgE1BQYh/SlWViKoFrT2v0dAYF/y/Ij+6n162YIG
- VFO0YXpKh5GlUmxO1kqaKDI7YORpCp3e0H7+r+aYRLENseHuryXdTreyYU7TpqECNu9e
- aqqrXIK+vwXOYaMub/iuVAKci5jH0G5cGu3/epbyJhJsD6P1ummaeKMzjY7eyE4v9X/j
- zaeSG6jk8dyvHWDj0XdVNNvBdPaRuHFfO+X0NoFrlTeJxcvBvRTQkMQRKubCwsFxT+J3
- kt/A==
-X-Gm-Message-State: AOAM533A0ywLOYWbQt9oCr7Lv2CBHmHkuqlE+gpXnQiQC8XN/R9pCQiC
- 82DsaqgHiU2QGqnSeAeKZNE3EXneK4fPAzaCz/fwl7ZsW+3DMccpz5MEET47V2qY5YH5WEy8+vs
- zeE8Zi34yGs7qwHXx84UGtBtvoh/KFJ7mIagSC8bZQuY4lru1ihO1O9pBvjtRfHUg
-X-Received: by 2002:a1c:2313:: with SMTP id j19mr10432845wmj.189.1630925014235; 
- Mon, 06 Sep 2021 03:43:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzJfm5PSRAgm++47QCA949GONjrP8h2cc7vrrvhVpxUSEbp3iABDoCQXGrsno4GUyykO8PS4Q==
-X-Received: by 2002:a1c:2313:: with SMTP id j19mr10432820wmj.189.1630925013958; 
- Mon, 06 Sep 2021 03:43:33 -0700 (PDT)
-Received: from x1w.. (21.red-83-52-55.dynamicip.rima-tde.net. [83.52.55.21])
- by smtp.gmail.com with ESMTPSA id k18sm6946622wmi.25.2021.09.06.03.43.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 03:43:33 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/3] hw/virtio: Have virtqueue_get_avail_bytes() pass
- caches arg to callees
-Date: Mon,  6 Sep 2021 12:43:18 +0200
-Message-Id: <20210906104318.1569967-4-philmd@redhat.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210906104318.1569967-1-philmd@redhat.com>
-References: <20210906104318.1569967-1-philmd@redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=iKyctzVGVAx+r/IQtog0pbBZcwOp3gzn2JRmZuxlSM0=;
+ b=ObM5328busqUqKIrJx8BjgInOgkOcNmFubffTBY9T2gYhJW7oIcFxDdRjFF60SyeLD
+ 3sj+nKPBM/AimXfaKsUAAEXxTIoMw6YSj86Fn6Kml6sfAxWn4KS4veIKYwXV7kRaQ+vT
+ Kvyv8QY5QkzPuh/qrAsOvdJUsGPGjG2R/pcbzimUDrA+Dgb4uZScxmx5/2Iv2vz2HgBS
+ NJtM5vTGOp/7VeTFAxmmJ7DHJWjD8vnoGtBtxqEeHwu5/78aty063VcOYvyre8Bwnu/D
+ IW4I60ZaAKC/X6OMbSkSuHyti87T4y+SpQYVrDyTQ4N6VZkwiVgDkYbWE1CVhUd22aK7
+ iu0g==
+X-Gm-Message-State: AOAM530dRiXGRXdKWw4sdScg4qd+DuhW/7yMb1CowjAboATWSahsTP4i
+ PuEuNkAiU8qxl/FZ+MnblYy1aSdmQJOH9Arc5nYnqA==
+X-Google-Smtp-Source: ABdhPJwem4iIn4nA8kCBdMpLxAz2LcGQiFZ1PKxnkGMvv0eh0iFx/Z1bsxA/IXqsK2gm/yeK7DAImUZNI5HubjLc2SQ=
+X-Received: by 2002:a17:906:6b96:: with SMTP id
+ l22mr13163166ejr.430.1630925362044; 
+ Mon, 06 Sep 2021 03:49:22 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210904213506.486886-1-mst@redhat.com>
+ <20210904213506.486886-7-mst@redhat.com>
+ <6a9c2fde-317d-bd31-5a8c-135446b881dc@redhat.com>
+ <alpine.DEB.2.22.394.2109061531570.2070064@anisinha-lenovo>
+ <43ea19c8-fdd6-554d-5138-79b8995d22cd@redhat.com>
+In-Reply-To: <43ea19c8-fdd6-554d-5138-79b8995d22cd@redhat.com>
+From: Ani Sinha <ani@anisinha.ca>
+Date: Mon, 6 Sep 2021 16:19:11 +0530
+Message-ID: <CAARzgwzkMPwgwbbSnHGH5yLF=mbr7_z1zpKTjbVkg6rgpX4MfA@mail.gmail.com>
+Subject: Re: [PULL 06/35] hw/acpi: refactor acpi hp modules so that targets
+ can just use what they need
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2a00:1450:4864:20::62a;
+ envelope-from=ani@anisinha.ca; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,121 +82,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Igor Mammedov <imammedo@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both virtqueue_packed_get_avail_bytes() and
-virtqueue_split_get_avail_bytes() access the region cache, but
-their caller also does. Simplify by having virtqueue_get_avail_bytes
-calling both with RCU lock held, and passing the caches as argument.
+On Mon, Sep 6, 2021 at 3:54 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om> wrote:
+>
+> On 9/6/21 12:03 PM, Ani Sinha wrote:
+> > On Mon, 6 Sep 2021, Philippe Mathieu-Daud=C3=A9 wrote:
+> >> On 9/4/21 11:36 PM, Michael S. Tsirkin wrote:
+> >>> From: Ani Sinha <ani@anisinha.ca>
+> >>>
+> >>> Currently various acpi hotplug modules like cpu hotplug, memory hotpl=
+ug, pci
+> >>> hotplug, nvdimm hotplug are all pulled in when CONFIG_ACPI_X86 is tur=
+ned on.
+> >>> This brings in support for whole lot of subsystems that some targets =
+like
+> >>> mips does not need. They are added just to satisfy symbol dependencie=
+s. This
+> >>> is ugly and should be avoided. Targets should be able to pull in just=
+ what they
+> >>> need and no more. For example, mips only needs support for PIIX4 and =
+does not
+> >>> need acpi pci hotplug support or cpu hotplug support or memory hotplu=
+g support
+> >>> etc. This change is an effort to clean this up.
+> >>> In this change, new config variables are added for various acpi hotpl=
+ug
+> >>> subsystems. Targets like mips can only enable PIIX4 support and not t=
+he rest
+> >>> of all the other modules which were being previously pulled in as a p=
+art of
+> >>> CONFIG_ACPI_X86. Function stubs make sure that symbols which piix4 ne=
+eds but
+> >>> are not required by mips (for example, symbols specific to pci hotplu=
+g etc)
+> >>> are available to satisfy the dependencies.
+> >>>
+> >>> Currently, this change only addresses issues with mips malta targets.=
+ In future
+> >>> we might be able to clean up other targets which are similarly pullin=
+g in lot
+> >>> of unnecessary hotplug modules by enabling ACPI_X86.
+> >>>
+> >>> This change should also address issues such as the following:
+> >>> https://gitlab.com/qemu-project/qemu/-/issues/221
+> >>> https://gitlab.com/qemu-project/qemu/-/issues/193
+> >>
+> >> FYI per https://docs.gitlab.com/ee/administration/issue_closing_patter=
+n.html
+> >> this should have been:
+> >>
+> >> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/193
+> >> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/221
+> >>
+> >
+> > Ah my apologies. Will do this next time.
+> >
+> >> Can we close these issues manually?
+> >
+> > Since both you and I have verified that those issues gets fixed with my
+> > change, yes we can close them. I do not have a gitlab account. Should I
+> > have one? Is there special permissions needed to handle these tickets?
+>
+> Since you are listed in the MAINTAINERS file, long-term you'll
+> eventually use it anyway (i.e. to run the CI pipelines before sending
+> patches, to subscribe to the 'ACPI' label to get notifications or
+> comment ACPI-related issues).
+>
+> The process is quite straight-forward, once having an account you
+> simply request to be member of the project via the WebUI then you
+> can help triaging the issues (and closing these two).
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- hw/virtio/virtio.c | 29 ++++++++++++-----------------
- 1 file changed, 12 insertions(+), 17 deletions(-)
-
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 7d3bf9091ee..0dbfb53e51b 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -985,28 +985,23 @@ static int virtqueue_split_read_next_desc(VirtIODevice *vdev, VRingDesc *desc,
-     return VIRTQUEUE_READ_DESC_MORE;
- }
- 
-+/* Called within rcu_read_lock().  */
- static void virtqueue_split_get_avail_bytes(VirtQueue *vq,
-                             unsigned int *in_bytes, unsigned int *out_bytes,
--                            unsigned max_in_bytes, unsigned max_out_bytes)
-+                            unsigned max_in_bytes, unsigned max_out_bytes,
-+                            VRingMemoryRegionCaches *caches)
- {
-     VirtIODevice *vdev = vq->vdev;
-     unsigned int max, idx;
-     unsigned int total_bufs, in_total, out_total;
--    VRingMemoryRegionCaches *caches;
-     MemoryRegionCache indirect_desc_cache = MEMORY_REGION_CACHE_INVALID;
-     int64_t len = 0;
-     int rc;
- 
--    RCU_READ_LOCK_GUARD();
--
-     idx = vq->last_avail_idx;
-     total_bufs = in_total = out_total = 0;
- 
-     max = vq->vring.num;
--    caches = vring_get_region_caches(vq);
--    if (!caches) {
--        goto err;
--    }
- 
-     while ((rc = virtqueue_num_heads(vq, idx)) > 0) {
-         MemoryRegionCache *desc_cache = &caches->desc;
-@@ -1125,32 +1120,28 @@ static int virtqueue_packed_read_next_desc(VirtQueue *vq,
-     return VIRTQUEUE_READ_DESC_MORE;
- }
- 
-+/* Called within rcu_read_lock().  */
- static void virtqueue_packed_get_avail_bytes(VirtQueue *vq,
-                                              unsigned int *in_bytes,
-                                              unsigned int *out_bytes,
-                                              unsigned max_in_bytes,
--                                             unsigned max_out_bytes)
-+                                             unsigned max_out_bytes,
-+                                             VRingMemoryRegionCaches *caches)
- {
-     VirtIODevice *vdev = vq->vdev;
-     unsigned int max, idx;
-     unsigned int total_bufs, in_total, out_total;
-     MemoryRegionCache *desc_cache;
--    VRingMemoryRegionCaches *caches;
-     MemoryRegionCache indirect_desc_cache = MEMORY_REGION_CACHE_INVALID;
-     int64_t len = 0;
-     VRingPackedDesc desc;
-     bool wrap_counter;
- 
--    RCU_READ_LOCK_GUARD();
-     idx = vq->last_avail_idx;
-     wrap_counter = vq->last_avail_wrap_counter;
-     total_bufs = in_total = out_total = 0;
- 
-     max = vq->vring.num;
--    caches = vring_get_region_caches(vq);
--    if (!caches) {
--        goto err;
--    }
- 
-     for (;;) {
-         unsigned int num_bufs = total_bufs;
-@@ -1251,6 +1242,8 @@ void virtqueue_get_avail_bytes(VirtQueue *vq, unsigned int *in_bytes,
-     uint16_t desc_size;
-     VRingMemoryRegionCaches *caches;
- 
-+    RCU_READ_LOCK_GUARD();
-+
-     if (unlikely(!vq->vring.desc)) {
-         goto err;
-     }
-@@ -1269,10 +1262,12 @@ void virtqueue_get_avail_bytes(VirtQueue *vq, unsigned int *in_bytes,
- 
-     if (virtio_vdev_has_feature(vq->vdev, VIRTIO_F_RING_PACKED)) {
-         virtqueue_packed_get_avail_bytes(vq, in_bytes, out_bytes,
--                                         max_in_bytes, max_out_bytes);
-+                                         max_in_bytes, max_out_bytes,
-+                                         caches);
-     } else {
-         virtqueue_split_get_avail_bytes(vq, in_bytes, out_bytes,
--                                        max_in_bytes, max_out_bytes);
-+                                        max_in_bytes, max_out_bytes,
-+                                        caches);
-     }
- 
-     return;
--- 
-2.31.1
-
+Hmm. I created an account and added a comment to the tickets. However
+I am unable to close them. I requested access to the project.
 
