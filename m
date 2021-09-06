@@ -2,86 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6FCC401842
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 10:50:45 +0200 (CEST)
-Received: from localhost ([::1]:49000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 030D740188B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 11:02:33 +0200 (CEST)
+Received: from localhost ([::1]:54858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNAKw-0003PF-Q9
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 04:50:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52360)
+	id 1mNAWN-0008A3-17
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 05:02:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mNAJh-0002ik-Ka
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 04:49:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34609)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mNATh-0006t3-IR
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 04:59:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43244)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1mNAJe-0000pj-Ao
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 04:49:23 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1mNATc-0001FO-Si
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 04:59:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630918160;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BA64cONkSrozLapBBAogA0JbHMeh0Ry4mHgcwKyR1CU=;
- b=EAlsf0pD4b7kzhLqokPcuNmhVlMknZSyzRnnvyDmE8lx1zEd3aEtrYS4lYd6ktFa2ROstB
- UdicMsN4IMKhfpRB0gjt2pqpo4L6WR3Poz4cNFlZSzt0lbOuocpVTbxa/vEa/AToJWoiY3
- JKGOYPl1bWPXHASGHVhSwBjY/SY6SnQ=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-119-qB_7mn1vMbuunoug3uwNPQ-1; Mon, 06 Sep 2021 04:49:19 -0400
-X-MC-Unique: qB_7mn1vMbuunoug3uwNPQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- y11-20020aa7d50b000000b003ca1ef38cf3so3356566edq.7
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 01:49:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=BA64cONkSrozLapBBAogA0JbHMeh0Ry4mHgcwKyR1CU=;
- b=rc2r3vJCMsJleAgQafg0k5SSClC8/tFWfRIpndO5NC0tfbv/ZyemgufY14JNfPW2Dg
- R5aFywDqHwBlcNsbNGAGlSXo3H/f2PCwafW+1UEqN2GSFpMM7JqmnnB9DpipHBy2QclS
- abA7XPayZC34bnI5ahn2+EeYGBqgi0tB0/gbInslIly6Ifyf21RLCz13VqPQLjp+XsGd
- WdrDlXNx7l0A8X88a3RXjsEMsCXZjVZxmPBCNfH8dQcrdcfrSIHrk/i/RNJxUTPUTeCj
- EWAFzM1KDEyKWZTRvz6GuzO08HTo7Aq39SPmuqcPiRgIAZpeUSnV9gK0VO6MOtLjaYap
- 52Gg==
-X-Gm-Message-State: AOAM5322y4EuhhgTqrrzXv6WKUjBaXpTbKwL5sXKhklggmQP2FrJKXUm
- +2HMQCWzLWSx0Teew0baow0Vj7U1o67/81ITyQluTkUtlGlliyVDgFVzRhsxMRDeFSV7xJZlviH
- HBXkilpfdDWdBhAI=
-X-Received: by 2002:a17:906:f20a:: with SMTP id
- gt10mr12467571ejb.487.1630918158161; 
- Mon, 06 Sep 2021 01:49:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz20zZw+IDd5o/2FvHSKBzIoriXc69sJcnIqw9m7dcPplIgTgQa82c+5mKiibtU2iPgqcFtbQ==
-X-Received: by 2002:a17:906:f20a:: with SMTP id
- gt10mr12467550ejb.487.1630918157939; 
- Mon, 06 Sep 2021 01:49:17 -0700 (PDT)
-Received: from localhost (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id s18sm3587989ejh.12.2021.09.06.01.49.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 01:49:17 -0700 (PDT)
-Date: Mon, 6 Sep 2021 10:49:15 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 4/4] vl: Prioritize realizations of devices
-Message-ID: <20210906104915.7dd5c934@redhat.com>
-In-Reply-To: <YTJHOnZNyYUkGV9O@t490s>
-References: <87h7fdg12w.fsf@dusky.pond.sub.org> <YSa7H3wGUHgccCrU@t490s>
- <YScPg0cYYGxxTz+b@xz-m1.local> <87y28oy6rm.fsf@dusky.pond.sub.org>
- <20210826133629.2ddd3b88@redhat.com> <YSean3PIkslbTHeU@t490s>
- <YS0rXQXwqKjhr4TA@t490s> <20210902102616.1b596104@redhat.com>
- <YTDVh9/MVAfCdkeu@t490s> <20210903150005.58afaf10@redhat.com>
- <YTJHOnZNyYUkGV9O@t490s>
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ s=mimecast20190719; t=1630918778;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=a3EFf1422wPC0oLRbj140g6TKZM1qfUqg70QCFEyYi8=;
+ b=FecwTjbGs63uaTHSF87M4yn2LYOjIh7kt4WOizJBxO74Kvm77xW4xJsCC5G3h+KQe7zSdW
+ mCLUTEbIbxn4xj4cqmYzc4pU6uao0AGLRhN01fLOHK5meXM+L4GsI2lz09gi0DMtUcGjDM
+ 7NU+UxJ61OEPoI+iuJ3NKMHo6RZa3SM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-139-_LLxoeYGNeaEKKwTSfebbw-1; Mon, 06 Sep 2021 04:59:33 -0400
+X-MC-Unique: _LLxoeYGNeaEKKwTSfebbw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1C4F9835DE3;
+ Mon,  6 Sep 2021 08:59:32 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7BBC11001281;
+ Mon,  6 Sep 2021 08:59:30 +0000 (UTC)
+Date: Mon, 6 Sep 2021 09:59:27 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Alexander von Gluck IV <kallisti5@unixzen.com>
+Subject: Re: virtio "transitional devices"?
+Message-ID: <YTXYb3teRZa+2nUs@redhat.com>
+References: <16fad6ffd7af05706571453114a8c173@unixzen.com>
 MIME-Version: 1.0
+In-Reply-To: <16fad6ffd7af05706571453114a8c173@unixzen.com>
+User-Agent: Mutt/2.0.7 (2021-05-04)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -102,79 +78,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P . =?UTF-8?B?QmVycmFu?=
- =?UTF-8?B?Z8Op?=" <berrange@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 3 Sep 2021 12:03:06 -0400
-Peter Xu <peterx@redhat.com> wrote:
-
-> On Fri, Sep 03, 2021 at 03:00:05PM +0200, Igor Mammedov wrote:
-> > PS:
-> > Another, albeit machine depended approach to resolve IOMMU ordering problem
-> > can be adding to a specific machine  pre_plug hook, an IOMMU handling.
-> > Which is called during IOMMU realize time and check if existing buses
-> > without bypass enabled (iommu managed) have any children. And if they
-> > have devices attached, error out telling user to reorder '-device iommu'
-> > before affected devices/bus.
-> > It should cover mixed IOMMU+bypass case and doesn't require fixing
-> > vfio-pci address space initialization nor defining any priorities
-> > for PCI devices.  
+On Sun, Sep 05, 2021 at 01:47:48PM +0000, Alexander von Gluck IV wrote:
+> Could someone explain to me what virtio "transitional devices" are?
 > 
-> This sounds appealing among the approaches.
-
-That's the easy one, compared to moving address space (re)initialization
-to reset time (at least to me since vfio realize looks intimidating on
-the first glance, but its maintainer(s) probably should know enough to
-impl. change properly).
-
- 
-> Does it need to be a pre_plug hook?  I thought we might just need a flag in the
-> pci device classes showing that it should be after vIOMMUs, then in vIOMMU
-> realize functions we walk pci bus to make sure no such device exist?
+> https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01.html#x1-1020002
 > 
-> We could have a base vIOMMU class, then that could be in the realize() of the
-> common class.
+> Are "Transitional devices" pre-1.0 specification?
 
-We basically don't know if device needs IOMMU or not and can work
-with/without it just fine. In this case I'd think about IOMMU as board
-feature that morphs PCI buses (some of them) (address space, bus numers, ...).
-So I don't perceive any iommu flag as a device property at all.
+virtio devices can be exposed in upto three ways
 
-As for realize vs pre_plug, the later is the part of abstract realize
-(see: device_set_realized) and is already used by some PCI infrastructure:
-  ex: pcie_cap_slot_pre_plug_cb/spapr_pci_pre_plug
+ - Legacy - follows virtio 0.9 specification. always uses PCI
+            ID range 0x1000-0x103F
+ - Transitional - follows virtio 0.9 specification by default, but
+                  can auto-negotiate with guest for 1.0 spce. Always
+		  uses PCI ID range 0x1000-0x103F
+ - Modern - follows virtio 1.0 specification. always uses PCI
+            ID range 0x1040-0x107F
 
-It's purpose is to check pre-conditions and possibly pre-configure some
-some wiring on behalf of device's parent hot-plug handler (bus owner/machine),
-and fail cleanly if something is wrong without leaving side effects.
+With QEMU, historically devices placed on a PCI bus will always default
+to being in transitional mode, while devices placed on a PCI-E bus will
+always dfault to being in modern mode.
 
-See 0ed48fd32eb8 for boiler plate required to set up custom hot-plug handler.
-You might need only parts of it, but still it's something that's to be done
-for each affected machine type, to implement error checking at proper
-layer.
+The params disable_legacy=on|off and disable_modern=on|off can be used
+to fine tune things. 
 
-So I'd rather look into 'reset' approach and only if that doesn't
-look possible, resort to adding pre_plug/error check.
+> Haiku's virtio driver (PCI) is looking for PCIID Devices 0x1000-0x103F
 
+Makes sense if you're expecting legacy or transitional devices, only
+in 0.9 spec mode. 
 
-PS:
- yours d2321d31ff98b & c6cbc29d36f look to me like another candidate
- for pre_plug for pci deivice instead of adding dedicated hook
- just for vfio-pci to generic machine.
- 
-> > (but I think it's more a hack compared earlier suggested
-> > address space initialization at reset time, and it would need to be
-> > done for every affected machine)  
+> I've noticed qemu-6.1.0 has begun to offer PCI DeviceID  0x1040-0x107F to
+> the operating system breaking our virtio drivers.
 > 
-> Agreed.
-> 
+> Expanding our search range to 0x1040+ seems to solve the issues and gives
+> us a working virtio driver, but I feel like we should be checking for
+> other differences.
+
+Only use 0x1040-0x107F range if you support virtio 1.0.
+
+> Has something changed in recent qemu's around virtio?  I don't see anything
+> documented in the release notes.
+
+There shouldn't be changes in this regard afaik. Are you confident that
+you have had no changes in the QEMU command line you are testing with
+since previous working versions of QEMU were tested ?
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
