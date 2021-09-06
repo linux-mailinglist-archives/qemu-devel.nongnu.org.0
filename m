@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEACE401C45
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:28:40 +0200 (CEST)
-Received: from localhost ([::1]:34748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 438FA401C35
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 15:23:33 +0200 (CEST)
+Received: from localhost ([::1]:46446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNEfu-0000lv-IL
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:28:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57510)
+	id 1mNEay-0006No-8l
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 09:23:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEPX-0000zw-I1
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:43 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:36432)
+ id 1mNEPY-00015v-Uj
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:44 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:45633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1mNEPV-0007k4-DZ
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:43 -0400
-Received: by mail-wm1-x329.google.com with SMTP id
- 79-20020a1c0452000000b002e6cf79e572so4986950wme.1
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:11:40 -0700 (PDT)
+ id 1mNEPX-0007m7-3I
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 09:11:44 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id
+ j17-20020a05600c1c1100b002e754875260so4740518wms.4
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 06:11:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KOb4IPvQ1urvg2WoCHadP1b4B/KHW5IQqVRTE+ZK8/Y=;
- b=fraIjzRKVvHPHYE/rEgmwpMFkuDANPdFpMWyQy3yDwu8Jgwf8F91PM03KDqP+kOxrT
- VjzgEmN2QH5xKpco56AN+XLoj0yaS3lG/+lGXrxSfUcWyVs3RIwVoGSGWcJwVvYSxcyD
- 9v8+mksFiY42VwmbE1soGWO56vPx8+xM8QVK1RbpfsmbXxfY0VqRsw7bISw6/cTSlT3s
- L0qDGQTW3l1W/zAmr0ryuD/F/ejbPRh1WUIdpTxQE3yIgmJzCAVkAmL+E3bHqAGteFrG
- itlIgk4W1vQG5omcxsFATntCi4xMNpQG3BCHDRkiJaBNZr4d5vv5c9n/p/sz02y+/FHP
- o11w==
+ bh=JwjqCRXQx9MlfSnrV5qD4bpa9qVZzm/hjGfrBWyX5Yo=;
+ b=FjqrF901vZNzmpbIScc5gZOIQpA5E0mICv0LS6zIq89VX5LAlzXekWq6SyVAq6Y+ZS
+ XTrVz6fzNlu4UbkCssppvxFb5HV6vQbXCfZjoJySefmWnLxOcNEzAf5McRy4oglgLZ7k
+ MOmXI6JkrnWwKeC4YGROTgJ4Y0koBuxIE8kj5dkCJDUkAXXtKDxLlQpqcYf3C0XqrDu0
+ ISffnqJzsScuwwC91/zSQpjAC9XN6xQc7UNbQ0F7aPzwZgF44TFzQuAAnciX8gDhrh8S
+ VVkjUqTBcThjJdT9FPIR+ELG8oTgQ3BebjSBViSpBVvzQ6khemWxF6BVCW4RsQL245yf
+ vmcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=KOb4IPvQ1urvg2WoCHadP1b4B/KHW5IQqVRTE+ZK8/Y=;
- b=ADcOpXAxhUzMElxXj40RxvUubWygZ2l63qISvcppyAacV8M5wKJrlkqqBiX/Pi/L0D
- ya83cyKR92A/Iehre6pEDXsqY0JTVPc2jlm5dqKDI8HnB+TWSZLEmrLtmgFz13qacFX1
- h4BoSkngeBDO9XU9g1G550g+fWrFTrA2FsDXBcSuhk/7amxYFpjlKcPf8h+t6iK7INft
- 8wtse0aSqNJQkpVmKNDtTH+G/xt4hP9r3e2VGfDaOsMgHQ8phzKXV3gNyp1IQpyBihBL
- 8I3muaxoN02pAcCXFgFAvhj6G8uh5AQ+HmLviV5Tl1NHHeKgHWoumN0AuMMl16UOHu9s
- Xu/g==
-X-Gm-Message-State: AOAM530kZAG06CMskFvzLtpS21uaqFZlAmgJBHI17r0Iuxd6x6YsFU/8
- nVsNoYwtxcpIuOPPmXQflqSTg5KT8I0=
-X-Google-Smtp-Source: ABdhPJwTuOUhx1aiEbAPQycMN/vIPgO2sHqSNIi7/XyYqXBuJR/q95aRdADZaIJych+Em2bHRpb1Uw==
-X-Received: by 2002:a1c:1c2:: with SMTP id 185mr11242699wmb.11.1630933900112; 
- Mon, 06 Sep 2021 06:11:40 -0700 (PDT)
+ bh=JwjqCRXQx9MlfSnrV5qD4bpa9qVZzm/hjGfrBWyX5Yo=;
+ b=Vek/2dwLaaAul2jw6EGlRef1H84DjxQMbgtMsgnCFMufx5mZZZAMHkkDfR9OejKdRx
+ Buqc3tmZN7SoKC3rN1MwiwG7QMz6T8Y1l91KnzpPjfq81bx+tnR77owuZ5/4TyQTIfZv
+ AVEgEr0G63l6x50duPtEKfU7TS0/A6/JZzTDZunYMSUdMzJW4XshYBpOH4DrMQfLqtT+
+ wzARQsj9rd+vs7hg9lahCAEtfzkg07tiJmDAYg1bXWJnFQJoZ6qZvodiyRx267bXLJjQ
+ yz2gBKjuatlfR4rdAwRFDKE5qK/1Hi++l3CrZT9Z6whGDxiMWwganB0GY7nTDOk13kr5
+ wmoQ==
+X-Gm-Message-State: AOAM532M/bArJP2dGeom8QIv5ezfJAfY9QlxCFu9RlQzgo0OFkgi28gg
+ 0So8PzJvtia2N6lkJ3cTxfRM/85oalc=
+X-Google-Smtp-Source: ABdhPJzxrE3C6wOXiSDgpIhY0CHlxDf5gjcqsKXTGeFRyszbyOR4iWT8UJmWFb7RksZaYeT9sKIO4g==
+X-Received: by 2002:a7b:c405:: with SMTP id k5mr11213823wmi.87.1630933901733; 
+ Mon, 06 Sep 2021 06:11:41 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- k4sm7992331wrm.74.2021.09.06.06.11.38
+ k4sm7992331wrm.74.2021.09.06.06.11.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 06:11:39 -0700 (PDT)
+ Mon, 06 Sep 2021 06:11:41 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/36] i386: Propagate SGX CPUID sub-leafs to KVM
-Date: Mon,  6 Sep 2021 15:10:45 +0200
-Message-Id: <20210906131059.55234-23-pbonzini@redhat.com>
+Subject: [PULL 23/36] Adjust min CPUID level to 0x12 when SGX is enabled
+Date: Mon,  6 Sep 2021 15:10:46 +0200
+Message-Id: <20210906131059.55234-24-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210906131059.55234-1-pbonzini@redhat.com>
 References: <20210906131059.55234-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: 4
 X-Spam_score: 0.4
 X-Spam_bar: /
@@ -91,50 +91,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-The SGX sub-leafs are enumerated at CPUID 0x12.  Indices 0 and 1 are
-always present when SGX is supported, and enumerate SGX features and
-capabilities.  Indices >=2 are directly correlated with the platform's
-EPC sections.  Because the number of EPC sections is dynamic and user
-defined, the number of SGX sub-leafs is "NULL" terminated.
+SGX capabilities are enumerated through CPUID_0x12.
 
 Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 Signed-off-by: Yang Zhong <yang.zhong@intel.com>
-Message-Id: <20210719112136.57018-15-yang.zhong@intel.com>
+Message-Id: <20210719112136.57018-16-yang.zhong@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/kvm/kvm.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ target/i386/cpu.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 488926a95f..f6bbf33bc1 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -1703,6 +1703,25 @@ int kvm_arch_init_vcpu(CPUState *cs)
-             }
-             break;
-         case 0x7:
-+        case 0x12:
-+            for (j = 0; ; j++) {
-+                c->function = i;
-+                c->flags = KVM_CPUID_FLAG_SIGNIFCANT_INDEX;
-+                c->index = j;
-+                cpu_x86_cpuid(env, i, j, &c->eax, &c->ebx, &c->ecx, &c->edx);
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 3b1f9cbdf6..2774550501 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -6153,6 +6153,11 @@ void x86_cpu_expand_features(X86CPU *cpu, Error **errp)
+         if (sev_enabled()) {
+             x86_cpu_adjust_level(cpu, &env->cpuid_min_xlevel, 0x8000001F);
+         }
 +
-+                if (j > 1 && (c->eax & 0xf) != 1) {
-+                    break;
-+                }
-+
-+                if (cpuid_i == KVM_MAX_CPUID_ENTRIES) {
-+                    fprintf(stderr, "cpuid_data is full, no space for "
-+                                "cpuid(eax:0x12,ecx:0x%x)\n", j);
-+                    abort();
-+                }
-+                c = &cpuid_data.entries[cpuid_i++];
-+            }
-+            break;
-         case 0x14: {
-             uint32_t times;
++        /* SGX requires CPUID[0x12] for EPC enumeration */
++        if (env->features[FEAT_7_0_EBX] & CPUID_7_0_EBX_SGX) {
++            x86_cpu_adjust_level(cpu, &env->cpuid_min_level, 0x12);
++        }
+     }
  
+     /* Set cpuid_*level* based on cpuid_min_*level, if not explicitly set */
 -- 
 2.31.1
 
