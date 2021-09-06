@@ -2,67 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12D0A40191C
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 11:44:37 +0200 (CEST)
-Received: from localhost ([::1]:40876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC99C40194B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 11:52:24 +0200 (CEST)
+Received: from localhost ([::1]:52390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mNBB6-0004sG-5C
-	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 05:44:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37624)
+	id 1mNBId-0004R3-Fc
+	for lists+qemu-devel@lfdr.de; Mon, 06 Sep 2021 05:52:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mNB9N-0003Od-8r
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:42:49 -0400
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:40927)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1mNB9H-0004ZX-CD
- for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:42:49 -0400
-Received: by mail-wm1-x32a.google.com with SMTP id
- n14-20020a05600c3b8e00b002f8bd2f8ab6so1196792wms.5
- for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 02:42:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xc1cyGtI9IOmOP9xvAIijrJwOA0djLU8xkl+Mc34l0U=;
- b=yi/SscZUOlss+7sLNhqo60L8A6NdQ96rKEk92lzt7MQTRG5Rc6B8LXu8Y51fD2rcxo
- LZW6FuW//ug/PLYvhck2Fte+sbVvk1hM/17f3IpuiasOFCkIAzcKzDHxOXlTcOOYu6zH
- P9VwVtBg4442ZVextzSIi/oZkQ0/TrfgQjwmjUaIXbRDDPkA8z3PsWxq4+UgegGVdygj
- vIuL2YwVIrfm0edTQ/kHH8bUyXnWgqvuW6sa+QuWcZOOVgxwPLHvcFcLyjR9jpnqPRI+
- DuLRyZet7xjwoW+PZlFOIHYZgBBN3NbmJgfwtrsrKPBfmQKsKQIPvwT6ibcJpeUOu5Am
- wAqQ==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNBHW-0003cT-V5
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:51:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24565)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1mNBHU-0003GI-CQ
+ for qemu-devel@nongnu.org; Mon, 06 Sep 2021 05:51:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630921871;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3Xmaje7ga6aesLGfasGRK4f6vmhKmz2X6ft+3BV8Cls=;
+ b=G0C82LP+TPQWgWyk1GDKa0Nyd2H0PWiIXa7Ww4SXBBCscNVM63KhDDz/WOBZob7GuUmJ+2
+ e7L1VgfsXFfWL82tDJr94hNDPDJirSSNvNgloSnbIe4LHMpLt9t643zgnOyQC3dR5HdO+s
+ cxBdRbV4ChWWriITurr5Ob3nT3jU7uo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-600-XORWgSiKOCGqn2IVZboikg-1; Mon, 06 Sep 2021 05:51:07 -0400
+X-MC-Unique: XORWgSiKOCGqn2IVZboikg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ u2-20020adfdd42000000b001579f5d6779so1045852wrm.8
+ for <qemu-devel@nongnu.org>; Mon, 06 Sep 2021 02:51:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xc1cyGtI9IOmOP9xvAIijrJwOA0djLU8xkl+Mc34l0U=;
- b=p8SQv8b6gTEkXI5aG7FTiK9AlZXcrbRNH+4m6rZi2VgBA5qV0MhuHHmb6nBJlHTbPL
- tbP4WC2t4Fp+65/WHxJWnJNqXKADRtQs0eVZ6sErcL/uIGHzuZ6QdvIpnOBSv3Swwyng
- NaCR+W81iMt8LlJpkPlAG29yyrFBFr6qBsDCuxlm8JcJd7Mz3jOV/+l5ip3Osu3bNY2B
- 4vyPxjDfbOk9s058L8QNuTzHqO4JdagA3LgSfUMZQ1BpO+Xy6anwv6lZ5V/Mr7+eh34m
- Vuzaqh+KJQGplZgYvIdD6sSoy5dy8cuJWycAAd0sQkWGajuHUiTwqlJSBPnolD+TxVuw
- qIyQ==
-X-Gm-Message-State: AOAM531el57ogwHofjWt6LfE/Ks2RiiLHi8MsNqWAB/VHzi0nrdVrA9G
- ImV8VmN9UzSMNTSNS4DuAV3LMy4HWU+iN20PFg4U7Mv/0WA=
-X-Google-Smtp-Source: ABdhPJxA7saRaQq12G5xKisOm1qfhn82I20Uhj1yHax3jTmqvV1+1wU8Qkgt6ncRNr1axr53d8sakZykhmUR1gbxtZs=
-X-Received: by 2002:a7b:c246:: with SMTP id b6mr10525322wmj.37.1630921361711; 
- Mon, 06 Sep 2021 02:42:41 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3Xmaje7ga6aesLGfasGRK4f6vmhKmz2X6ft+3BV8Cls=;
+ b=Skj3DE2h0kTP9QRPBbjxzNO3KblSf+OhXxNq7rnhrT01YlrKzSYtV0gtyT6yVUKtRU
+ 0U9PP1m5PtsaoV2FpHGRrPAnORXlRhOf/tJsW58siUkkocHUbaVKYoLMVORVRv8/0UlK
+ qlc6yYVQugjpBpSFLgh+TByWyEa1sKYCssbDgR7vZcotN794tZAxOApoYuaJYhlgyDdH
+ qOcdakHhU7WgHMYm1nUAc51uphZVPmlqrMceRgKq1lS+8f9qdA6cuuCl/wxuwV0XxEGF
+ T3WHiwK9VE90vQN5BY8IiUz+1KdsbBbvkIVjXAK/a202e+XTWId6bgQ5KwwnyHLQ5SsN
+ KgEw==
+X-Gm-Message-State: AOAM531gwsFdmCMYd0MJpiKMM4NVjsnoDaRRkFTtiIp7gKbafLzulqY1
+ qK0ZOTHu4e+7lDSTDlCUEKFx8SsRfIUmKEBTOobgyLAF2MKIdny7v2U0dS64s5qtyfRNRNtfofO
+ 8wvjtvcYe4E0ocGM=
+X-Received: by 2002:a05:6000:178b:: with SMTP id
+ e11mr11933686wrg.151.1630921866741; 
+ Mon, 06 Sep 2021 02:51:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwnRZrdiJKzqLRcJ7Ynw/PpGL3nAAk67snvSRmN0rPwiAWRato5COGrCs8zqsBz+dETVG+eUA==
+X-Received: by 2002:a05:6000:178b:: with SMTP id
+ e11mr11933663wrg.151.1630921866488; 
+ Mon, 06 Sep 2021 02:51:06 -0700 (PDT)
+Received: from thuth.remote.csb (pd9e831a0.dip0.t-ipconnect.de.
+ [217.232.49.160])
+ by smtp.gmail.com with ESMTPSA id k17sm6222660wmj.0.2021.09.06.02.51.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Sep 2021 02:51:06 -0700 (PDT)
+Subject: Re: [PULL 00/13] Testing, build system and misc patches
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
+References: <20210902124911.822423-1-thuth@redhat.com>
+ <CAFEAcA89mGzirJWyzH+-c3WtH3G=XYV0MqRfBK+5SnA+Hob-eA@mail.gmail.com>
+ <3090f5dd-d03d-bd2a-ce4d-ff0d796d9c5f@redhat.com> <87v93hpqdj.fsf@linaro.org>
+ <CAFEAcA9eWukPg87mBCA-UfGuy6i-HdOyjnOpYF1eRsbCHfUjvg@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <2afbb10f-b813-e1b6-8b61-5c7874994813@redhat.com>
+Date: Mon, 6 Sep 2021 11:51:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-References: <20210904213506.486886-1-mst@redhat.com>
-In-Reply-To: <20210904213506.486886-1-mst@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 6 Sep 2021 10:41:53 +0100
-Message-ID: <CAFEAcA9gJ8mR1t3sJPfq52=vAKZnhf1N5iiR9Wa99ZTmwFFX=Q@mail.gmail.com>
-Subject: Re: [PULL 00/35] pc,pci,virtio: fixes, cleanups
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+In-Reply-To: <CAFEAcA9eWukPg87mBCA-UfGuy6i-HdOyjnOpYF1eRsbCHfUjvg@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.391,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-3.832, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,37 +103,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 4 Sept 2021 at 22:36, Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> The following changes since commit 8880cc4362fde4ecdac0b2092318893118206fcf:
->
->   Merge remote-tracking branch 'remotes/cschoenebeck/tags/pull-9p-20210902' into staging (2021-09-03 08:27:38 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
->
-> for you to fetch changes up to 499c8b4de96eecc554a03e452226f79f169a233b:
->
->   vhost-vdpa: remove the unncessary queue_index assignment (2021-09-04 17:34:05 -0400)
->
-> ----------------------------------------------------------------
-> pc,pci,virtio: fixes, cleanups
->
-> Fixes, cleanups all over the place.
->
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->
+On 03/09/2021 18.49, Peter Maydell wrote:
+> On Fri, 3 Sept 2021 at 17:37, Alex Bennée <alex.bennee@linaro.org> wrote:
+>> Thomas Huth <thuth@redhat.com> writes:
+>>> On 03/09/2021 15.22, Peter Maydell wrote:
+>>>> This provokes a new warning from meson on a linux-static build:
+>>>> Run-time dependency appleframeworks found: NO (tried framework)
+>>>> Library rt found: YES
+>>>> Found pkg-config: /usr/bin/pkg-config (0.29.1)
+>>>> WARNING: Static library 'gbm' not found for dependency 'gbm', may not
+>>>> be statically linked
+>>>> Run-time dependency gbm found: YES 20.0.8
+>>>> Dependency libpng found: YES 1.6.34 (cached)
+>>>> Dependency libjpeg found: YES unknown (cached)
+>>>> If we're building statically and we can't find a static
+>>>> library then (a) we shouldn't print a WARNING and
+>>>> (b) we shouldn't then conclude that we've found gdm.
+>>>
+>>> Hmmm, no clue what's wrong here, since I basically did declare it like
+>>> all other libraries are declared, too (so this problem should have
+>>> shown up somewhere else already?)... Paolo, do you have any ideas
+>>> what's going on here?
+>>
+>> In attempting to replicate I found all the dynamic libs blow up:
+> 
+>>    WARNING: Static library 'xkbcommon' not found for dependency 'xkbcommon', may not be statically l
+>>    Run-time dependency xkbcommon found: YES 1.0.3
+> 
+> I do vaguely recall complaining about new meson warnings for
+> static library detection in the past as well:
+> https://lore.kernel.org/qemu-devel/CAFEAcA8chPqS0keyGv0vBgNgacnMo95gA3LZDU2QfmteQ=4UZg@mail.gmail.com/
+> https://lore.kernel.org/qemu-devel/CAFEAcA_-cNmt-sY3nqnGkpUqET86M6-82rf-Uv3QkwCR14kYsw@mail.gmail.com/
+> https://lore.kernel.org/qemu-devel/CAFEAcA8xHxCGhh2hibsdCxZrYRRU+xcwVsa85O7KL9BsmW7ohw@mail.gmail.com/
+> 
+>> So is this a general problem with static libs. BTW I didn't catch this
+>> because I only build user with --static as I thought system --static was
+>> flakey anyway.
+> 
+> I'm not doing a system build in this case... Looking at some of
+> those older threads, it looks like part of the answer is that
+> for dependencies that we don't need for linux-user mode we should
+> guard the test with some suitable if condition so we don't create
+> the dependency unless we're going to use it, eg the brlapi check
+> uses "if not get_option('brlapi').auto() or have_system", rbd
+> has a similar thing involving have_block, etc.
 
+Ok, thanks, that seems to work, I'll change the patch accordingly.
 
-Applied, thanks.
+> But I think there is an underlying meson bug here which that kind of
+> use of an if is merely working around: if we ask for a static library
+> it should not give us a dynamic library.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.2
-for any user-visible changes.
+Agreed. Actually, when I run configure with "--static --disable-system" on 
+my laptop, I'm also getting some warnings:
 
--- PMM
+WARNING: Static library 'z' not found for dependency 'zlib', may not be 
+statically linked
+Run-time dependency zlib found: YES 1.2.11
+Run-time dependency appleframeworks found: NO (tried framework)
+Library rt found: YES
+WARNING: Static library 'png16' not found for dependency 'libpng', may not 
+be statically linked
+WARNING: Static library 'z' not found for dependency 'libpng', may not be 
+statically linked
+
+... and linking then later fails while running "make".
+
+Paolo, could the behavior of meson be changed to fail already the 
+configuration step in this case instead of only printing a warning?
+
+  Thomas
+
 
