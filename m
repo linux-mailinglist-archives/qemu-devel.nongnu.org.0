@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AAF5401549
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 05:44:50 +0200 (CEST)
-Received: from localhost ([::1]:57982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D57640154B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 Sep 2021 05:46:47 +0200 (CEST)
+Received: from localhost ([::1]:60784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mN5Yu-0005S4-Jm
-	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 23:44:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60310)
+	id 1mN5ao-0007Ma-CK
+	for lists+qemu-devel@lfdr.de; Sun, 05 Sep 2021 23:46:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mN5XC-0004ZT-7j
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 23:43:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51653)
+ id 1mN5Y1-00051a-4I
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 23:43:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:20872)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1mN5X8-0002Jx-07
- for qemu-devel@nongnu.org; Sun, 05 Sep 2021 23:43:01 -0400
+ id 1mN5Xz-00033f-7z
+ for qemu-devel@nongnu.org; Sun, 05 Sep 2021 23:43:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630899776;
+ s=mimecast20190719; t=1630899830;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9anmnMgKmS0rlLcvI4jjM3Awp5q8VGkdWjTIjPBCfSo=;
- b=MwZt8OmkWGF4wRBfJPt+qlj+XCiUsQwSJ/GbSGbytFuElHQ0CcaVd2PWEhvpcr6HVkBxD7
- WThVBAH9jdMauuKy+FaB1ptDFLFQur4he/1JkheOmy5mh00mwxBp3GABrU9UgE6dCo5d6t
- 9X91DWVjdN0dHYuZ0g7GP2fnC4V20io=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-597-PSTJ58SCOAmawSuM7D4R9Q-1; Sun, 05 Sep 2021 23:42:54 -0400
-X-MC-Unique: PSTJ58SCOAmawSuM7D4R9Q-1
-Received: by mail-lj1-f200.google.com with SMTP id
- m10-20020a2e97ca000000b001bb5da17f7dso2554607ljj.19
- for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 20:42:54 -0700 (PDT)
+ bh=SjkfpBaKj0jjnglKRRl6GGSxE0cP6dYruTih/z4sNL4=;
+ b=QoO0ml0DK04YN/EIaGlrl6XvvctUzNdK2xgVbklARhBBUxsGo3Aj88ntYZlArFSMq/pabz
+ bdkiXc+y0SZlMTpvlNytVKNTFVn07wDwsD0ioaZOk4HTa/AwhKFl0jPpsRJ9Zrdk9I9uSr
+ W5q81oX9fzxC/B/N8t6O1rCk+xTjpc0=
+Received: from mail-lj1-f199.google.com (mail-lj1-f199.google.com
+ [209.85.208.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-374-raN10Ux_NmieC1YEVWShLA-1; Sun, 05 Sep 2021 23:43:47 -0400
+X-MC-Unique: raN10Ux_NmieC1YEVWShLA-1
+Received: by mail-lj1-f199.google.com with SMTP id
+ v2-20020a2e5042000000b001def54ff19eso2693230ljd.2
+ for <qemu-devel@nongnu.org>; Sun, 05 Sep 2021 20:43:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9anmnMgKmS0rlLcvI4jjM3Awp5q8VGkdWjTIjPBCfSo=;
- b=hNOup3v43kKDT7wx5sqUlFY2ka10nLwlZfT+dHzO3zXs03uEFs6OVB/oH/kXJl+dcx
- 3+JXLJaAXvEjxhcdBTy/zJTlX8BaXKSxPCqiy6RNpzdiM7VAR+dtQhPgxOSPN29sVlNA
- jQIQN5q8LARIgZ1yQJ3bx/vapXEGu9+7ORRI5+air9qgkzzJ2KAFcb30kQjltvnWgZWO
- 9vcTvZ0PU+iwrdtBn1cc63afOV4axA5RxHB5lRIdFULPpQzDtAnKvGIojORWVL41JAjl
- qcn7G1VHikN7FsL+ENOg1fext1saj/fQ1GnuBeP1e3N/h2PWLetHHFa1UseYTf05QnzP
- WN+w==
-X-Gm-Message-State: AOAM53169vpn21HZ/g+DmfcQalMHS7X/lhq1HVPzDHMUGj6c/RdgqOAl
- LlGu/M/oO6gLlqId3oFXKBMitFzti5OUkKYBM9+NlXDPje+Z1e8vCOaAbOSjbJXm6whElDfhHn3
- Cek5H/SDWRDuTTSIkAubCvQKA2N/tNTg=
-X-Received: by 2002:ac2:4c0a:: with SMTP id t10mr7996277lfq.481.1630899772415; 
- Sun, 05 Sep 2021 20:42:52 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwy5BBMfh1T7PHH5nYd7cRCP0Mk+xhnOHcsjZpHDPB236NdAFvJMPE89BWopXBqq5qzcKepolOeyN4jujpq10Y=
-X-Received: by 2002:ac2:4c0a:: with SMTP id t10mr7996250lfq.481.1630899771900; 
- Sun, 05 Sep 2021 20:42:51 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=SjkfpBaKj0jjnglKRRl6GGSxE0cP6dYruTih/z4sNL4=;
+ b=QNquUJqaIik2URaD69Pe0WoBKjQBWKF4cmSKs6pR2FIq6uLvgCSH/xFYaOhW6vOGRm
+ +PoCEGHRCpWY/hR2LC5F+GnOGfd4GGQo+QJinsVx46dixKTExWs4GdV1g3p2bAeAJXD0
+ rkPI0bxjTx/b4DkEHtuDL5NM8qvNsbVaUPVop3qGUapRrCztC04UWNFcERw9ok0Bcbqw
+ NewQzfbY8Ru/mTxSVsCrBbyjsVfMbcZbDwtFAC32lBK/awVTV53txuBdlEiWRQUnPvAT
+ 6NKj+nu6hHWK9RwJ+1WOfCSrhLVQ3hmnJ/ereTDgXM2Tn+XdTmdSMaEmDAs5Yg0KL8I0
+ SDCQ==
+X-Gm-Message-State: AOAM533H+DaZrCthqKCcCKzct4wX0DO6VApmhgQ0mZbzOIIiHAwB5UTD
+ Ziv778CskxW+n5C//kplkXVRV0fRayt/om0m4QZ6dK7jmunoYCNAhDpU8nnsuKUsZ0zqbInDu7p
+ kd6svNQ8+YO3TobZJ7sZrQ0eb8As6V+E=
+X-Received: by 2002:a2e:b88a:: with SMTP id r10mr1014457ljp.362.1630899825639; 
+ Sun, 05 Sep 2021 20:43:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJweX/JdTKHL9DRLaRcP43WYsKJQc58dFI8DI8Ti29Q5ZOl/VYGEQX5cuKjUQaUYQHUHYtS9EsoTttLpA3fnkOU=
+X-Received: by 2002:a2e:b88a:: with SMTP id r10mr1014434ljp.362.1630899825295; 
+ Sun, 05 Sep 2021 20:43:45 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210903091031.47303-1-jasowang@redhat.com>
- <20210903091031.47303-19-jasowang@redhat.com>
- <20210904164144-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20210904164144-mutt-send-email-mst@kernel.org>
+ <20210903091031.47303-18-jasowang@redhat.com>
+ <20210904164002-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20210904164002-mutt-send-email-mst@kernel.org>
 From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 6 Sep 2021 11:42:41 +0800
-Message-ID: <CACGkMEsT1YNBJt-8c4sm1==1XWfmw_ay4-FYC5+xsAQeKiS-Tg@mail.gmail.com>
-Subject: Re: [PATCH V2 18/21] virito-net: use "qps" instead of "queues" when
- possible
+Date: Mon, 6 Sep 2021 11:43:34 +0800
+Message-ID: <CACGkMEu2Ny2OAU1-MD7B8x62QkB=7C5HGjdoxCcmFqPPvmPKgg@mail.gmail.com>
+Subject: Re: [PATCH V2 17/21] vhost-net: control virtqueue support
 To: "Michael S. Tsirkin" <mst@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
@@ -97,565 +98,234 @@ Cc: Cindy Lu <lulu@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Sep 5, 2021 at 4:42 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+On Sun, Sep 5, 2021 at 4:40 AM Michael S. Tsirkin <mst@redhat.com> wrote:
 >
-> On Fri, Sep 03, 2021 at 05:10:28PM +0800, Jason Wang wrote:
-> > Most of the time, "queues" really means queue pairs. So this patch
-> > switch to use "qps" to avoid confusion.
+> On Fri, Sep 03, 2021 at 05:10:27PM +0800, Jason Wang wrote:
+> > We assume there's no cvq in the past, this is not true when we need
+> > control virtqueue support for vhost-user backends. So this patch
+> > implements the control virtqueue support for vhost-net. As datapath,
+> > the control virtqueue is also required to be coupled with the
+> > NetClientState. The vhost_net_start/stop() are tweaked to accept the
+> > number of datapath queue pairs plus the the number of control
+> > virtqueue for us to start and stop the vhost device.
 > >
 > > Signed-off-by: Jason Wang <jasowang@redhat.com>
 >
-> This is far from a standard terminology, except for the people
-> like me, who's mind is permanently warped by close contact with infiniband
-> hardware. Please eschew abbreviation, just say queue_pairs.
+>
+> Fails build:
+>
+> FAILED: libcommon.fa.p/hw_net_vhost_net-stub.c.o
+> cc -Ilibcommon.fa.p -I. -Iqapi -Itrace -Iui -Iui/shader -I/usr/include/sp=
+ice-1 -I/usr/include/spice-server -I/usr/include/cacard -I/usr/include/glib=
+-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/nss3 -I/usr/include/nspr4=
+ -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/pixman-1 -I/us=
+r/include/p11-kit-1 -I/usr/include/SDL2 -I/usr/include/libpng16 -I/usr/incl=
+ude/virgl -I/usr/include/libusb-1.0 -I/usr/include/slirp -I/usr/include/gtk=
+-3.0 -I/usr/include/pango-1.0 -I/usr/include/harfbuzz -I/usr/include/freety=
+pe2 -I/usr/include/fribidi -I/usr/include/libxml2 -I/usr/include/cairo -I/u=
+sr/include/gdk-pixbuf-2.0 -I/usr/include/gio-unix-2.0 -I/usr/include/atk-1.=
+0 -I/usr/include/at-spi2-atk/2.0 -I/usr/include/dbus-1.0 -I/usr/lib64/dbus-=
+1.0/include -I/usr/include/at-spi-2.0 -I/usr/include/vte-2.91 -I/usr/includ=
+e/capstone -fdiagnostics-color=3Dauto -pipe -Wall -Winvalid-pch -Werror -st=
+d=3Dgnu11 -O2 -g -isystem /scm/qemu/linux-headers -isystem linux-headers -i=
+quote . -iquote /scm/qemu -iquote /scm/qemu/include -iquote /scm/qemu/disas=
+/libvixl -iquote /scm/qemu/tcg/i386 -pthread -U_FORTIFY_SOURCE -D_FORTIFY_S=
+OURCE=3D2 -m64 -mcx16 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_S=
+OURCE -Wstrict-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wmissi=
+ng-prototypes -fno-strict-aliasing -fno-common -fwrapv -Wold-style-declarat=
+ion -Wold-style-definition -Wtype-limits -Wformat-security -Wformat-y2k -Wi=
+nit-self -Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels =
+-Wexpansion-to-defined -Wimplicit-fallthrough=3D2 -Wno-missing-include-dirs=
+ -Wno-shift-negative-value -Wno-psabi -fstack-protector-strong -fPIC -D_DEF=
+AULT_SOURCE -D_XOPEN_SOURCE=3D600 -DNCURSES_WIDECHAR -DSTRUCT_IOVEC_DEFINED=
+ -D_REENTRANT -Wno-undef -MD -MQ libcommon.fa.p/hw_net_vhost_net-stub.c.o -=
+MF libcommon.fa.p/hw_net_vhost_net-stub.c.o.d -o libcommon.fa.p/hw_net_vhos=
+t_net-stub.c.o -c ../hw/net/vhost_net-stub.c
+> ../hw/net/vhost_net-stub.c:34:5: error: conflicting types for =E2=80=98vh=
+ost_net_start=E2=80=99
+>    34 | int vhost_net_start(VirtIODevice *dev,
+>       |     ^~~~~~~~~~~~~~~
+> In file included from ../hw/net/vhost_net-stub.c:19:
+> /scm/qemu/include/net/vhost_net.h:24:5: note: previous declaration of =E2=
+=80=98vhost_net_start=E2=80=99 was here
+>    24 | int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+>       |     ^~~~~~~~~~~~~~~
+> ../hw/net/vhost_net-stub.c:40:6: error: conflicting types for =E2=80=98vh=
+ost_net_stop=E2=80=99
+>    40 | void vhost_net_stop(VirtIODevice *dev,
+>       |      ^~~~~~~~~~~~~~
+> In file included from ../hw/net/vhost_net-stub.c:19:
+> /scm/qemu/include/net/vhost_net.h:26:6: note: previous declaration of =E2=
+=80=98vhost_net_stop=E2=80=99 was here
+>    26 | void vhost_net_stop(VirtIODevice *dev, NetClientState *ncs,
+>       |      ^~~~~~~~~~~~~~
+> ninja: build stopped: subcommand failed.
+> make[1]: *** [Makefile:156: run-ninja] Error 1
 
-Ok, I will do that in the next version.
+Will fix this.
 
 Thanks
 
 >
+>
+>
 > > ---
-> >  hw/net/vhost_net.c             |   6 +-
-> >  hw/net/virtio-net.c            | 150 ++++++++++++++++-----------------
-> >  include/hw/virtio/virtio-net.h |   4 +-
-> >  3 files changed, 80 insertions(+), 80 deletions(-)
+> >  hw/net/vhost_net.c      | 43 ++++++++++++++++++++++++++++++-----------
+> >  hw/net/virtio-net.c     |  4 ++--
+> >  include/net/vhost_net.h |  6 ++++--
+> >  3 files changed, 38 insertions(+), 15 deletions(-)
 > >
 > > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> > index 7e0b60b4d9..b40fdfa625 100644
+> > index 386ec2eaa2..7e0b60b4d9 100644
 > > --- a/hw/net/vhost_net.c
 > > +++ b/hw/net/vhost_net.c
-> > @@ -337,7 +337,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
-> >          if (i < data_qps) {
-> >              peer = qemu_get_peer(ncs, i);
-> >          } else { /* Control Virtqueue */
-> > -            peer = qemu_get_peer(ncs, n->max_queues);
-> > +            peer = qemu_get_peer(ncs, n->max_qps);
-> >          }
+> > @@ -315,11 +315,14 @@ static void vhost_net_stop_one(struct vhost_net *=
+net,
+> >  }
 > >
-> >          net = get_vhost_net(peer);
-> > @@ -362,7 +362,7 @@ int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
-> >          if (i < data_qps) {
-> >              peer = qemu_get_peer(ncs, i);
-> >          } else {
-> > -            peer = qemu_get_peer(ncs, n->max_queues);
-> > +            peer = qemu_get_peer(ncs, n->max_qps);
-> >          }
-> >          r = vhost_net_start_one(get_vhost_net(peer), dev);
+> >  int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+> > -                    int total_queues)
+> > +                    int data_qps, int cvq)
+> >  {
+> >      BusState *qbus =3D BUS(qdev_get_parent_bus(DEVICE(dev)));
+> >      VirtioBusState *vbus =3D VIRTIO_BUS(qbus);
+> >      VirtioBusClass *k =3D VIRTIO_BUS_GET_CLASS(vbus);
+> > +    int total_notifiers =3D data_qps * 2 + cvq;
+> > +    VirtIONet *n =3D VIRTIO_NET(dev);
+> > +    int nvhosts =3D data_qps + cvq;
+> >      struct vhost_net *net;
+> >      int r, e, i;
+> >      NetClientState *peer;
+> > @@ -329,9 +332,14 @@ int vhost_net_start(VirtIODevice *dev, NetClientSt=
+ate *ncs,
+> >          return -ENOSYS;
+> >      }
 > >
-> > @@ -412,7 +412,7 @@ void vhost_net_stop(VirtIODevice *dev, NetClientState *ncs,
-> >          if (i < data_qps) {
-> >              peer = qemu_get_peer(ncs, i);
-> >          } else {
-> > -            peer = qemu_get_peer(ncs, n->max_queues);
-> > +            peer = qemu_get_peer(ncs, n->max_qps);
+> > -    for (i =3D 0; i < total_queues; i++) {
+> > +    for (i =3D 0; i < nvhosts; i++) {
+> > +
+> > +        if (i < data_qps) {
+> > +            peer =3D qemu_get_peer(ncs, i);
+> > +        } else { /* Control Virtqueue */
+> > +            peer =3D qemu_get_peer(ncs, n->max_queues);
+> > +        }
+> >
+> > -        peer =3D qemu_get_peer(ncs, i);
+> >          net =3D get_vhost_net(peer);
+> >          vhost_net_set_vq_index(net, i * 2);
+> >
+> > @@ -344,14 +352,18 @@ int vhost_net_start(VirtIODevice *dev, NetClientS=
+tate *ncs,
 > >          }
+> >       }
+> >
+> > -    r =3D k->set_guest_notifiers(qbus->parent, total_queues * 2, true)=
+;
+> > +    r =3D k->set_guest_notifiers(qbus->parent, total_notifiers, true);
+> >      if (r < 0) {
+> >          error_report("Error binding guest notifier: %d", -r);
+> >          goto err;
+> >      }
+> >
+> > -    for (i =3D 0; i < total_queues; i++) {
+> > -        peer =3D qemu_get_peer(ncs, i);
+> > +    for (i =3D 0; i < nvhosts; i++) {
+> > +        if (i < data_qps) {
+> > +            peer =3D qemu_get_peer(ncs, i);
+> > +        } else {
+> > +            peer =3D qemu_get_peer(ncs, n->max_queues);
+> > +        }
+> >          r =3D vhost_net_start_one(get_vhost_net(peer), dev);
+> >
+> >          if (r < 0) {
+> > @@ -375,7 +387,7 @@ err_start:
+> >          peer =3D qemu_get_peer(ncs , i);
 > >          vhost_net_stop_one(get_vhost_net(peer), dev);
 > >      }
+> > -    e =3D k->set_guest_notifiers(qbus->parent, total_queues * 2, false=
+);
+> > +    e =3D k->set_guest_notifiers(qbus->parent, total_notifiers, false)=
+;
+> >      if (e < 0) {
+> >          fprintf(stderr, "vhost guest notifier cleanup failed: %d\n", e=
+);
+> >          fflush(stderr);
+> > @@ -385,18 +397,27 @@ err:
+> >  }
+> >
+> >  void vhost_net_stop(VirtIODevice *dev, NetClientState *ncs,
+> > -                    int total_queues)
+> > +                    int data_qps, int cvq)
+> >  {
+> >      BusState *qbus =3D BUS(qdev_get_parent_bus(DEVICE(dev)));
+> >      VirtioBusState *vbus =3D VIRTIO_BUS(qbus);
+> >      VirtioBusClass *k =3D VIRTIO_BUS_GET_CLASS(vbus);
+> > +    VirtIONet *n =3D VIRTIO_NET(dev);
+> > +    NetClientState *peer;
+> > +    int total_notifiers =3D data_qps * 2 + cvq;
+> > +    int nvhosts =3D data_qps + cvq;
+> >      int i, r;
+> >
+> > -    for (i =3D 0; i < total_queues; i++) {
+> > -        vhost_net_stop_one(get_vhost_net(ncs[i].peer), dev);
+> > +    for (i =3D 0; i < nvhosts; i++) {
+> > +        if (i < data_qps) {
+> > +            peer =3D qemu_get_peer(ncs, i);
+> > +        } else {
+> > +            peer =3D qemu_get_peer(ncs, n->max_queues);
+> > +        }
+> > +        vhost_net_stop_one(get_vhost_net(peer), dev);
+> >      }
+> >
+> > -    r =3D k->set_guest_notifiers(qbus->parent, total_queues * 2, false=
+);
+> > +    r =3D k->set_guest_notifiers(qbus->parent, total_notifiers, false)=
+;
+> >      if (r < 0) {
+> >          fprintf(stderr, "vhost guest notifier cleanup failed: %d\n", r=
+);
+> >          fflush(stderr);
 > > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > index 8fccbaa44c..0a5d9862ec 100644
+> > index 16d20cdee5..8fccbaa44c 100644
 > > --- a/hw/net/virtio-net.c
 > > +++ b/hw/net/virtio-net.c
-> > @@ -54,7 +54,7 @@
-> >  #define VIRTIO_NET_RX_QUEUE_DEFAULT_SIZE 256
-> >  #define VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE 256
-> >
-> > -/* for now, only allow larger queues; with virtio-1, guest can downsize */
-> > +/* for now, only allow larger qps; with virtio-1, guest can downsize */
-> >  #define VIRTIO_NET_RX_QUEUE_MIN_SIZE VIRTIO_NET_RX_QUEUE_DEFAULT_SIZE
-> >  #define VIRTIO_NET_TX_QUEUE_MIN_SIZE VIRTIO_NET_TX_QUEUE_DEFAULT_SIZE
-> >
-> > @@ -131,7 +131,7 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
-> >      int ret = 0;
-> >      memset(&netcfg, 0 , sizeof(struct virtio_net_config));
-> >      virtio_stw_p(vdev, &netcfg.status, n->status);
-> > -    virtio_stw_p(vdev, &netcfg.max_virtqueue_pairs, n->max_queues);
-> > +    virtio_stw_p(vdev, &netcfg.max_virtqueue_pairs, n->max_qps);
-> >      virtio_stw_p(vdev, &netcfg.mtu, n->net_conf.mtu);
-> >      memcpy(netcfg.mac, n->mac, ETH_ALEN);
-> >      virtio_stl_p(vdev, &netcfg.speed, n->net_conf.speed);
-> > @@ -243,7 +243,7 @@ static void virtio_net_vhost_status(VirtIONet *n, uint8_t status)
-> >  {
-> >      VirtIODevice *vdev = VIRTIO_DEVICE(n);
-> >      NetClientState *nc = qemu_get_queue(n->nic);
-> > -    int queues = n->multiqueue ? n->max_queues : 1;
-> > +    int qps = n->multiqueue ? n->max_qps : 1;
-> >
-> >      if (!get_vhost_net(nc->peer)) {
-> >          return;
-> > @@ -266,7 +266,7 @@ static void virtio_net_vhost_status(VirtIONet *n, uint8_t status)
-> >          /* Any packets outstanding? Purge them to avoid touching rings
-> >           * when vhost is running.
-> >           */
-> > -        for (i = 0;  i < queues; i++) {
-> > +        for (i = 0;  i < qps; i++) {
-> >              NetClientState *qnc = qemu_get_subqueue(n->nic, i);
-> >
-> >              /* Purge both directions: TX and RX. */
-> > @@ -285,14 +285,14 @@ static void virtio_net_vhost_status(VirtIONet *n, uint8_t status)
+> > @@ -285,14 +285,14 @@ static void virtio_net_vhost_status(VirtIONet *n,=
+ uint8_t status)
 > >          }
 > >
-> >          n->vhost_started = 1;
-> > -        r = vhost_net_start(vdev, n->nic->ncs, queues, 0);
-> > +        r = vhost_net_start(vdev, n->nic->ncs, qps, 0);
+> >          n->vhost_started =3D 1;
+> > -        r =3D vhost_net_start(vdev, n->nic->ncs, queues);
+> > +        r =3D vhost_net_start(vdev, n->nic->ncs, queues, 0);
 > >          if (r < 0) {
 > >              error_report("unable to start vhost net: %d: "
 > >                           "falling back on userspace virtio", -r);
-> >              n->vhost_started = 0;
+> >              n->vhost_started =3D 0;
 > >          }
 > >      } else {
-> > -        vhost_net_stop(vdev, n->nic->ncs, queues, 0);
-> > +        vhost_net_stop(vdev, n->nic->ncs, qps, 0);
-> >          n->vhost_started = 0;
+> > -        vhost_net_stop(vdev, n->nic->ncs, queues);
+> > +        vhost_net_stop(vdev, n->nic->ncs, queues, 0);
+> >          n->vhost_started =3D 0;
 > >      }
 > >  }
-> > @@ -309,11 +309,11 @@ static int virtio_net_set_vnet_endian_one(VirtIODevice *vdev,
-> >  }
+> > diff --git a/include/net/vhost_net.h b/include/net/vhost_net.h
+> > index fba40cf695..e656e38af9 100644
+> > --- a/include/net/vhost_net.h
+> > +++ b/include/net/vhost_net.h
+> > @@ -21,8 +21,10 @@ typedef struct VhostNetOptions {
+> >  uint64_t vhost_net_get_max_queues(VHostNetState *net);
+> >  struct vhost_net *vhost_net_init(VhostNetOptions *options);
 > >
-> >  static bool virtio_net_set_vnet_endian(VirtIODevice *vdev, NetClientState *ncs,
-> > -                                       int queues, bool enable)
-> > +                                       int qps, bool enable)
-> >  {
-> >      int i;
+> > -int vhost_net_start(VirtIODevice *dev, NetClientState *ncs, int total_=
+queues);
+> > -void vhost_net_stop(VirtIODevice *dev, NetClientState *ncs, int total_=
+queues);
+> > +int vhost_net_start(VirtIODevice *dev, NetClientState *ncs,
+> > +                    int data_qps, int cvq);
+> > +void vhost_net_stop(VirtIODevice *dev, NetClientState *ncs,
+> > +                    int data_qps, int cvq);
 > >
-> > -    for (i = 0; i < queues; i++) {
-> > +    for (i = 0; i < qps; i++) {
-> >          if (virtio_net_set_vnet_endian_one(vdev, ncs[i].peer, enable) < 0 &&
-> >              enable) {
-> >              while (--i >= 0) {
-> > @@ -330,7 +330,7 @@ static bool virtio_net_set_vnet_endian(VirtIODevice *vdev, NetClientState *ncs,
-> >  static void virtio_net_vnet_endian_status(VirtIONet *n, uint8_t status)
-> >  {
-> >      VirtIODevice *vdev = VIRTIO_DEVICE(n);
-> > -    int queues = n->multiqueue ? n->max_queues : 1;
-> > +    int qps = n->multiqueue ? n->max_qps : 1;
+> >  void vhost_net_cleanup(VHostNetState *net);
 > >
-> >      if (virtio_net_started(n, status)) {
-> >          /* Before using the device, we tell the network backend about the
-> > @@ -339,14 +339,14 @@ static void virtio_net_vnet_endian_status(VirtIONet *n, uint8_t status)
-> >           * virtio-net code.
-> >           */
-> >          n->needs_vnet_hdr_swap = virtio_net_set_vnet_endian(vdev, n->nic->ncs,
-> > -                                                            queues, true);
-> > +                                                            qps, true);
-> >      } else if (virtio_net_started(n, vdev->status)) {
-> >          /* After using the device, we need to reset the network backend to
-> >           * the default (guest native endianness), otherwise the guest may
-> >           * lose network connectivity if it is rebooted into a different
-> >           * endianness.
-> >           */
-> > -        virtio_net_set_vnet_endian(vdev, n->nic->ncs, queues, false);
-> > +        virtio_net_set_vnet_endian(vdev, n->nic->ncs, qps, false);
-> >      }
-> >  }
-> >
-> > @@ -368,12 +368,12 @@ static void virtio_net_set_status(struct VirtIODevice *vdev, uint8_t status)
-> >      virtio_net_vnet_endian_status(n, status);
-> >      virtio_net_vhost_status(n, status);
-> >
-> > -    for (i = 0; i < n->max_queues; i++) {
-> > +    for (i = 0; i < n->max_qps; i++) {
-> >          NetClientState *ncs = qemu_get_subqueue(n->nic, i);
-> >          bool queue_started;
-> >          q = &n->vqs[i];
-> >
-> > -        if ((!n->multiqueue && i != 0) || i >= n->curr_queues) {
-> > +        if ((!n->multiqueue && i != 0) || i >= n->curr_qps) {
-> >              queue_status = 0;
-> >          } else {
-> >              queue_status = status;
-> > @@ -540,7 +540,7 @@ static void virtio_net_reset(VirtIODevice *vdev)
-> >      n->nouni = 0;
-> >      n->nobcast = 0;
-> >      /* multiqueue is disabled by default */
-> > -    n->curr_queues = 1;
-> > +    n->curr_qps = 1;
-> >      timer_del(n->announce_timer.tm);
-> >      n->announce_timer.round = 0;
-> >      n->status &= ~VIRTIO_NET_S_ANNOUNCE;
-> > @@ -556,7 +556,7 @@ static void virtio_net_reset(VirtIODevice *vdev)
-> >      memset(n->vlans, 0, MAX_VLAN >> 3);
-> >
-> >      /* Flush any async TX */
-> > -    for (i = 0;  i < n->max_queues; i++) {
-> > +    for (i = 0;  i < n->max_qps; i++) {
-> >          NetClientState *nc = qemu_get_subqueue(n->nic, i);
-> >
-> >          if (nc->peer) {
-> > @@ -610,7 +610,7 @@ static void virtio_net_set_mrg_rx_bufs(VirtIONet *n, int mergeable_rx_bufs,
-> >              sizeof(struct virtio_net_hdr);
-> >      }
-> >
-> > -    for (i = 0; i < n->max_queues; i++) {
-> > +    for (i = 0; i < n->max_qps; i++) {
-> >          nc = qemu_get_subqueue(n->nic, i);
-> >
-> >          if (peer_has_vnet_hdr(n) &&
-> > @@ -655,7 +655,7 @@ static int peer_attach(VirtIONet *n, int index)
-> >          return 0;
-> >      }
-> >
-> > -    if (n->max_queues == 1) {
-> > +    if (n->max_qps == 1) {
-> >          return 0;
-> >      }
-> >
-> > @@ -681,7 +681,7 @@ static int peer_detach(VirtIONet *n, int index)
-> >      return tap_disable(nc->peer);
-> >  }
-> >
-> > -static void virtio_net_set_queues(VirtIONet *n)
-> > +static void virtio_net_set_qps(VirtIONet *n)
-> >  {
-> >      int i;
-> >      int r;
-> > @@ -690,8 +690,8 @@ static void virtio_net_set_queues(VirtIONet *n)
-> >          return;
-> >      }
-> >
-> > -    for (i = 0; i < n->max_queues; i++) {
-> > -        if (i < n->curr_queues) {
-> > +    for (i = 0; i < n->max_qps; i++) {
-> > +        if (i < n->curr_qps) {
-> >              r = peer_attach(n, i);
-> >              assert(!r);
-> >          } else {
-> > @@ -920,7 +920,7 @@ static void virtio_net_set_features(VirtIODevice *vdev, uint64_t features)
-> >          virtio_net_apply_guest_offloads(n);
-> >      }
-> >
-> > -    for (i = 0;  i < n->max_queues; i++) {
-> > +    for (i = 0;  i < n->max_qps; i++) {
-> >          NetClientState *nc = qemu_get_subqueue(n->nic, i);
-> >
-> >          if (!get_vhost_net(nc->peer)) {
-> > @@ -1247,7 +1247,7 @@ static uint16_t virtio_net_handle_rss(VirtIONet *n,
-> >      VirtIODevice *vdev = VIRTIO_DEVICE(n);
-> >      struct virtio_net_rss_config cfg;
-> >      size_t s, offset = 0, size_get;
-> > -    uint16_t queues, i;
-> > +    uint16_t qps, i;
-> >      struct {
-> >          uint16_t us;
-> >          uint8_t b;
-> > @@ -1289,7 +1289,7 @@ static uint16_t virtio_net_handle_rss(VirtIONet *n,
-> >      }
-> >      n->rss_data.default_queue = do_rss ?
-> >          virtio_lduw_p(vdev, &cfg.unclassified_queue) : 0;
-> > -    if (n->rss_data.default_queue >= n->max_queues) {
-> > +    if (n->rss_data.default_queue >= n->max_qps) {
-> >          err_msg = "Invalid default queue";
-> >          err_value = n->rss_data.default_queue;
-> >          goto error;
-> > @@ -1318,14 +1318,14 @@ static uint16_t virtio_net_handle_rss(VirtIONet *n,
-> >      size_get = sizeof(temp);
-> >      s = iov_to_buf(iov, iov_cnt, offset, &temp, size_get);
-> >      if (s != size_get) {
-> > -        err_msg = "Can't get queues";
-> > +        err_msg = "Can't get qps";
-> >          err_value = (uint32_t)s;
-> >          goto error;
-> >      }
-> > -    queues = do_rss ? virtio_lduw_p(vdev, &temp.us) : n->curr_queues;
-> > -    if (queues == 0 || queues > n->max_queues) {
-> > -        err_msg = "Invalid number of queues";
-> > -        err_value = queues;
-> > +    qps = do_rss ? virtio_lduw_p(vdev, &temp.us) : n->curr_qps;
-> > +    if (qps == 0 || qps > n->max_qps) {
-> > +        err_msg = "Invalid number of qps";
-> > +        err_value = qps;
-> >          goto error;
-> >      }
-> >      if (temp.b > VIRTIO_NET_RSS_MAX_KEY_SIZE) {
-> > @@ -1340,7 +1340,7 @@ static uint16_t virtio_net_handle_rss(VirtIONet *n,
-> >      }
-> >      if (!temp.b && !n->rss_data.hash_types) {
-> >          virtio_net_disable_rss(n);
-> > -        return queues;
-> > +        return qps;
-> >      }
-> >      offset += size_get;
-> >      size_get = temp.b;
-> > @@ -1373,7 +1373,7 @@ static uint16_t virtio_net_handle_rss(VirtIONet *n,
-> >      trace_virtio_net_rss_enable(n->rss_data.hash_types,
-> >                                  n->rss_data.indirections_len,
-> >                                  temp.b);
-> > -    return queues;
-> > +    return qps;
-> >  error:
-> >      trace_virtio_net_rss_error(err_msg, err_value);
-> >      virtio_net_disable_rss(n);
-> > @@ -1384,15 +1384,15 @@ static int virtio_net_handle_mq(VirtIONet *n, uint8_t cmd,
-> >                                  struct iovec *iov, unsigned int iov_cnt)
-> >  {
-> >      VirtIODevice *vdev = VIRTIO_DEVICE(n);
-> > -    uint16_t queues;
-> > +    uint16_t qps;
-> >
-> >      virtio_net_disable_rss(n);
-> >      if (cmd == VIRTIO_NET_CTRL_MQ_HASH_CONFIG) {
-> > -        queues = virtio_net_handle_rss(n, iov, iov_cnt, false);
-> > -        return queues ? VIRTIO_NET_OK : VIRTIO_NET_ERR;
-> > +        qps = virtio_net_handle_rss(n, iov, iov_cnt, false);
-> > +        return qps ? VIRTIO_NET_OK : VIRTIO_NET_ERR;
-> >      }
-> >      if (cmd == VIRTIO_NET_CTRL_MQ_RSS_CONFIG) {
-> > -        queues = virtio_net_handle_rss(n, iov, iov_cnt, true);
-> > +        qps = virtio_net_handle_rss(n, iov, iov_cnt, true);
-> >      } else if (cmd == VIRTIO_NET_CTRL_MQ_VQ_PAIRS_SET) {
-> >          struct virtio_net_ctrl_mq mq;
-> >          size_t s;
-> > @@ -1403,24 +1403,24 @@ static int virtio_net_handle_mq(VirtIONet *n, uint8_t cmd,
-> >          if (s != sizeof(mq)) {
-> >              return VIRTIO_NET_ERR;
-> >          }
-> > -        queues = virtio_lduw_p(vdev, &mq.virtqueue_pairs);
-> > +        qps = virtio_lduw_p(vdev, &mq.virtqueue_pairs);
-> >
-> >      } else {
-> >          return VIRTIO_NET_ERR;
-> >      }
-> >
-> > -    if (queues < VIRTIO_NET_CTRL_MQ_VQ_PAIRS_MIN ||
-> > -        queues > VIRTIO_NET_CTRL_MQ_VQ_PAIRS_MAX ||
-> > -        queues > n->max_queues ||
-> > +    if (qps < VIRTIO_NET_CTRL_MQ_VQ_PAIRS_MIN ||
-> > +        qps > VIRTIO_NET_CTRL_MQ_VQ_PAIRS_MAX ||
-> > +        qps > n->max_qps ||
-> >          !n->multiqueue) {
-> >          return VIRTIO_NET_ERR;
-> >      }
-> >
-> > -    n->curr_queues = queues;
-> > -    /* stop the backend before changing the number of queues to avoid handling a
-> > +    n->curr_qps = qps;
-> > +    /* stop the backend before changing the number of qps to avoid handling a
-> >       * disabled queue */
-> >      virtio_net_set_status(vdev, vdev->status);
-> > -    virtio_net_set_queues(n);
-> > +    virtio_net_set_qps(n);
-> >
-> >      return VIRTIO_NET_OK;
-> >  }
-> > @@ -1498,7 +1498,7 @@ static bool virtio_net_can_receive(NetClientState *nc)
-> >          return false;
-> >      }
-> >
-> > -    if (nc->queue_index >= n->curr_queues) {
-> > +    if (nc->queue_index >= n->curr_qps) {
-> >          return false;
-> >      }
-> >
-> > @@ -2753,11 +2753,11 @@ static void virtio_net_del_queue(VirtIONet *n, int index)
-> >      virtio_del_queue(vdev, index * 2 + 1);
-> >  }
-> >
-> > -static void virtio_net_change_num_queues(VirtIONet *n, int new_max_queues)
-> > +static void virtio_net_change_num_qps(VirtIONet *n, int new_max_qps)
-> >  {
-> >      VirtIODevice *vdev = VIRTIO_DEVICE(n);
-> >      int old_num_queues = virtio_get_num_queues(vdev);
-> > -    int new_num_queues = new_max_queues * 2 + 1;
-> > +    int new_num_queues = new_max_qps * 2 + 1;
-> >      int i;
-> >
-> >      assert(old_num_queues >= 3);
-> > @@ -2790,12 +2790,12 @@ static void virtio_net_change_num_queues(VirtIONet *n, int new_max_queues)
-> >
-> >  static void virtio_net_set_multiqueue(VirtIONet *n, int multiqueue)
-> >  {
-> > -    int max = multiqueue ? n->max_queues : 1;
-> > +    int max = multiqueue ? n->max_qps : 1;
-> >
-> >      n->multiqueue = multiqueue;
-> > -    virtio_net_change_num_queues(n, max);
-> > +    virtio_net_change_num_qps(n, max);
-> >
-> > -    virtio_net_set_queues(n);
-> > +    virtio_net_set_qps(n);
-> >  }
-> >
-> >  static int virtio_net_post_load_device(void *opaque, int version_id)
-> > @@ -2828,7 +2828,7 @@ static int virtio_net_post_load_device(void *opaque, int version_id)
-> >       */
-> >      n->saved_guest_offloads = n->curr_guest_offloads;
-> >
-> > -    virtio_net_set_queues(n);
-> > +    virtio_net_set_qps(n);
-> >
-> >      /* Find the first multicast entry in the saved MAC filter */
-> >      for (i = 0; i < n->mac_table.in_use; i++) {
-> > @@ -2841,7 +2841,7 @@ static int virtio_net_post_load_device(void *opaque, int version_id)
-> >      /* nc.link_down can't be migrated, so infer link_down according
-> >       * to link status bit in n->status */
-> >      link_down = (n->status & VIRTIO_NET_S_LINK_UP) == 0;
-> > -    for (i = 0; i < n->max_queues; i++) {
-> > +    for (i = 0; i < n->max_qps; i++) {
-> >          qemu_get_subqueue(n->nic, i)->link_down = link_down;
-> >      }
-> >
-> > @@ -2906,9 +2906,9 @@ static const VMStateDescription vmstate_virtio_net_queue_tx_waiting = {
-> >     },
-> >  };
-> >
-> > -static bool max_queues_gt_1(void *opaque, int version_id)
-> > +static bool max_qps_gt_1(void *opaque, int version_id)
-> >  {
-> > -    return VIRTIO_NET(opaque)->max_queues > 1;
-> > +    return VIRTIO_NET(opaque)->max_qps > 1;
-> >  }
-> >
-> >  static bool has_ctrl_guest_offloads(void *opaque, int version_id)
-> > @@ -2933,13 +2933,13 @@ static bool mac_table_doesnt_fit(void *opaque, int version_id)
-> >  struct VirtIONetMigTmp {
-> >      VirtIONet      *parent;
-> >      VirtIONetQueue *vqs_1;
-> > -    uint16_t        curr_queues_1;
-> > +    uint16_t        curr_qps_1;
-> >      uint8_t         has_ufo;
-> >      uint32_t        has_vnet_hdr;
-> >  };
-> >
-> >  /* The 2nd and subsequent tx_waiting flags are loaded later than
-> > - * the 1st entry in the queues and only if there's more than one
-> > + * the 1st entry in the qps and only if there's more than one
-> >   * entry.  We use the tmp mechanism to calculate a temporary
-> >   * pointer and count and also validate the count.
-> >   */
-> > @@ -2949,9 +2949,9 @@ static int virtio_net_tx_waiting_pre_save(void *opaque)
-> >      struct VirtIONetMigTmp *tmp = opaque;
-> >
-> >      tmp->vqs_1 = tmp->parent->vqs + 1;
-> > -    tmp->curr_queues_1 = tmp->parent->curr_queues - 1;
-> > -    if (tmp->parent->curr_queues == 0) {
-> > -        tmp->curr_queues_1 = 0;
-> > +    tmp->curr_qps_1 = tmp->parent->curr_qps - 1;
-> > +    if (tmp->parent->curr_qps == 0) {
-> > +        tmp->curr_qps_1 = 0;
-> >      }
-> >
-> >      return 0;
-> > @@ -2964,9 +2964,9 @@ static int virtio_net_tx_waiting_pre_load(void *opaque)
-> >      /* Reuse the pointer setup from save */
-> >      virtio_net_tx_waiting_pre_save(opaque);
-> >
-> > -    if (tmp->parent->curr_queues > tmp->parent->max_queues) {
-> > -        error_report("virtio-net: curr_queues %x > max_queues %x",
-> > -            tmp->parent->curr_queues, tmp->parent->max_queues);
-> > +    if (tmp->parent->curr_qps > tmp->parent->max_qps) {
-> > +        error_report("virtio-net: curr_qps %x > max_qps %x",
-> > +            tmp->parent->curr_qps, tmp->parent->max_qps);
-> >
-> >          return -EINVAL;
-> >      }
-> > @@ -2980,7 +2980,7 @@ static const VMStateDescription vmstate_virtio_net_tx_waiting = {
-> >      .pre_save  = virtio_net_tx_waiting_pre_save,
-> >      .fields    = (VMStateField[]) {
-> >          VMSTATE_STRUCT_VARRAY_POINTER_UINT16(vqs_1, struct VirtIONetMigTmp,
-> > -                                     curr_queues_1,
-> > +                                     curr_qps_1,
-> >                                       vmstate_virtio_net_queue_tx_waiting,
-> >                                       struct VirtIONetQueue),
-> >          VMSTATE_END_OF_LIST()
-> > @@ -3122,9 +3122,9 @@ static const VMStateDescription vmstate_virtio_net_device = {
-> >          VMSTATE_UINT8(nobcast, VirtIONet),
-> >          VMSTATE_WITH_TMP(VirtIONet, struct VirtIONetMigTmp,
-> >                           vmstate_virtio_net_has_ufo),
-> > -        VMSTATE_SINGLE_TEST(max_queues, VirtIONet, max_queues_gt_1, 0,
-> > +        VMSTATE_SINGLE_TEST(max_qps, VirtIONet, max_qps_gt_1, 0,
-> >                              vmstate_info_uint16_equal, uint16_t),
-> > -        VMSTATE_UINT16_TEST(curr_queues, VirtIONet, max_queues_gt_1),
-> > +        VMSTATE_UINT16_TEST(curr_qps, VirtIONet, max_qps_gt_1),
-> >          VMSTATE_WITH_TMP(VirtIONet, struct VirtIONetMigTmp,
-> >                           vmstate_virtio_net_tx_waiting),
-> >          VMSTATE_UINT64_TEST(curr_guest_offloads, VirtIONet,
-> > @@ -3368,16 +3368,16 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
-> >          return;
-> >      }
-> >
-> > -    n->max_queues = MAX(n->nic_conf.peers.queues, 1);
-> > -    if (n->max_queues * 2 + 1 > VIRTIO_QUEUE_MAX) {
-> > -        error_setg(errp, "Invalid number of queues (= %" PRIu32 "), "
-> > +    n->max_qps = MAX(n->nic_conf.peers.queues, 1);
-> > +    if (n->max_qps * 2 + 1 > VIRTIO_QUEUE_MAX) {
-> > +        error_setg(errp, "Invalid number of qps (= %" PRIu32 "), "
-> >                     "must be a positive integer less than %d.",
-> > -                   n->max_queues, (VIRTIO_QUEUE_MAX - 1) / 2);
-> > +                   n->max_qps, (VIRTIO_QUEUE_MAX - 1) / 2);
-> >          virtio_cleanup(vdev);
-> >          return;
-> >      }
-> > -    n->vqs = g_malloc0(sizeof(VirtIONetQueue) * n->max_queues);
-> > -    n->curr_queues = 1;
-> > +    n->vqs = g_malloc0(sizeof(VirtIONetQueue) * n->max_qps);
-> > +    n->curr_qps = 1;
-> >      n->tx_timeout = n->net_conf.txtimer;
-> >
-> >      if (n->net_conf.tx && strcmp(n->net_conf.tx, "timer")
-> > @@ -3391,7 +3391,7 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
-> >      n->net_conf.tx_queue_size = MIN(virtio_net_max_tx_queue_size(n),
-> >                                      n->net_conf.tx_queue_size);
-> >
-> > -    for (i = 0; i < n->max_queues; i++) {
-> > +    for (i = 0; i < n->max_qps; i++) {
-> >          virtio_net_add_queue(n, i);
-> >      }
-> >
-> > @@ -3415,13 +3415,13 @@ static void virtio_net_device_realize(DeviceState *dev, Error **errp)
-> >                                object_get_typename(OBJECT(dev)), dev->id, n);
-> >      }
-> >
-> > -    for (i = 0; i < n->max_queues; i++) {
-> > +    for (i = 0; i < n->max_qps; i++) {
-> >          n->nic->ncs[i].do_not_pad = true;
-> >      }
-> >
-> >      peer_test_vnet_hdr(n);
-> >      if (peer_has_vnet_hdr(n)) {
-> > -        for (i = 0; i < n->max_queues; i++) {
-> > +        for (i = 0; i < n->max_qps; i++) {
-> >              qemu_using_vnet_hdr(qemu_get_subqueue(n->nic, i)->peer, true);
-> >          }
-> >          n->host_hdr_len = sizeof(struct virtio_net_hdr);
-> > @@ -3463,7 +3463,7 @@ static void virtio_net_device_unrealize(DeviceState *dev)
-> >  {
-> >      VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-> >      VirtIONet *n = VIRTIO_NET(dev);
-> > -    int i, max_queues;
-> > +    int i, max_qps;
-> >
-> >      if (virtio_has_feature(n->host_features, VIRTIO_NET_F_RSS)) {
-> >          virtio_net_unload_ebpf(n);
-> > @@ -3485,12 +3485,12 @@ static void virtio_net_device_unrealize(DeviceState *dev)
-> >          remove_migration_state_change_notifier(&n->migration_state);
-> >      }
-> >
-> > -    max_queues = n->multiqueue ? n->max_queues : 1;
-> > -    for (i = 0; i < max_queues; i++) {
-> > +    max_qps = n->multiqueue ? n->max_qps : 1;
-> > +    for (i = 0; i < max_qps; i++) {
-> >          virtio_net_del_queue(n, i);
-> >      }
-> >      /* delete also control vq */
-> > -    virtio_del_queue(vdev, max_queues * 2);
-> > +    virtio_del_queue(vdev, max_qps * 2);
-> >      qemu_announce_timer_del(&n->announce_timer, false);
-> >      g_free(n->vqs);
-> >      qemu_del_nic(n->nic);
-> > diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
-> > index 824a69c23f..a9b6dc252e 100644
-> > --- a/include/hw/virtio/virtio-net.h
-> > +++ b/include/hw/virtio/virtio-net.h
-> > @@ -194,8 +194,8 @@ struct VirtIONet {
-> >      NICConf nic_conf;
-> >      DeviceState *qdev;
-> >      int multiqueue;
-> > -    uint16_t max_queues;
-> > -    uint16_t curr_queues;
-> > +    uint16_t max_qps;
-> > +    uint16_t curr_qps;
-> >      size_t config_size;
-> >      char *netclient_name;
-> >      char *netclient_type;
 > > --
 > > 2.25.1
 >
